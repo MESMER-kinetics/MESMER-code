@@ -1,0 +1,64 @@
+#ifndef GUARD_ReactionManager_h
+#define GUARD_ReactionManager_h
+
+//-------------------------------------------------------------------------------------------
+//
+// ReactionManager.h 
+//
+// Author: Struan Robertson 
+// Date:   11/Feb/2003
+//
+// This header file contains the declaration of the ReactionManager class. This class will 
+// contain the reactions that go to make up a system.
+//
+//-------------------------------------------------------------------------------------------
+
+#include "MoleculeManager.h"
+#include "Reaction.h"
+
+namespace mesmer
+{
+class ReactionManager
+{
+public:
+
+   // Type defs
+   typedef  size_t  size_type ;
+
+   // Default Constructor.
+   ReactionManager() { } ;
+
+   ReactionManager(MoleculeManager *pMoleculeManager) {  m_pMoleculeManager = pMoleculeManager ; } ;
+
+   // Destructor.
+   ~ReactionManager() { } ;
+
+   // Add a new reaction to the map.
+   bool addreactions(TiXmlElement* pnReacList) ;
+
+   // Remove a reaction from the map.
+   void remove() { } ;
+
+   // Total number of reaction in map.
+   size_type size() const {return m_reactions.size() ; } ;
+
+   // Find a particular reaction.
+   Reaction*       operator[](const size_type i)       { return m_reactions[i] ; } ;
+   const Reaction* operator[](const size_type i) const { return m_reactions[i] ; } ;
+   
+  //Interrogates the (virtual) connectivity matrix, returning
+  // the reaction index of the reaction (one based) connecting pProduct and pReactant
+  // if both are CollidingMolecules
+  // 0 if reactant and product are the same and are a CollidingMolecule
+  // -1 otherwise
+   int Connectivity(Molecule* pReactant, Molecule* pProduct);
+
+private:
+
+   std::vector<Reaction *> m_reactions ;
+
+   MoleculeManager        *m_pMoleculeManager ;
+} ;
+}//namespace
+
+#endif // GUARD_ReactionManager_h

@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+  <!---->Note that the thermodata is not real
+  <moleculeList>
+    <molecule id="H">
+      <atom id="a1" elementType="H"/>
+      <property dictRef="me:Energy">
+        <scalar units="kJmol-1">170</scalar>
+      </property>
+    </molecule>
+    <molecule id="SO2">
+      <atomArray>
+        <atom id="a1" elementType="O"/>
+        <atom id="a2" elementType="S"/>
+        <atom id="a3" elementType="O"/>
+        <property dictRef="me:Energy">
+          <scalar units="kJmol-1">0</scalar>
+        </property>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="2"/>
+        <bond atomRefs2="a2 a3" order="2"/>
+      </bondArray>
+    </molecule>
+    <molecule id="HSO2">
+      <atomArray>
+        <atom id="a1" elementType="S"/>
+        <atom id="a2" elementType="H"/>
+        <atom id="a3" elementType="O"/>
+        <atom id="a4" elementType="O"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a1 a3" order="2"/>
+        <bond atomRefs2="a1 a4" order="2"/>
+      </bondArray>
+      <property dictRef="me:Energy">
+        <scalar units="kJmol-1">100</scalar>
+      </property>
+    </molecule>
+    <molecule id="HOSO">
+      <atomArray>
+        <atom id="a1" elementType="O"/>
+        <atom id="a2" elementType="H"/>
+        <atom id="a3" elementType="S"/>
+        <atom id="a4" elementType="O"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a1 a3" order="1"/>
+        <bond atomRefs2="a3 a4" order="2"/>
+      </bondArray>
+      <property dictRef="me:Energy">
+        <scalar units="kJmol-1">0</scalar>
+      </property>
+    </molecule>
+    <molecule id="OH">
+      <atomArray>
+        <atom id="a1" elementType="O" spinMultiplicity="2"/>
+        <atom id="a2" elementType="H"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+      </bondArray>
+      <property dictRef="me:Energy">
+        <scalar units="kJmol-1">150</scalar>
+      </property>
+    </molecule>
+    <molecule id="SO">
+      <atomArray>
+        <atom id="a1" elementType="S"/>
+        <atom id="a2" elementType="O"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="2"/>
+      </bondArray>
+      <property dictRef="me:Energy">
+        <scalar units="kJmol-1">140</scalar>
+      </property>
+    </molecule>
+    <molecule id="TS1">
+      <atomArray>
+        <atom id="a1" elementType="S"/>
+        <atom id="a2" elementType="H"/>
+        <atom id="a3" elementType="O"/>
+        <atom id="a4" elementType="O"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a1 a3" order="2"/>
+        <bond atomRefs2="a1 a4" order="2"/>
+      </bondArray>
+    </molecule>
+    <molecule id="TS2">
+      <atomArray>
+        <atom id="a1" elementType="O"/>
+        <atom id="a2" elementType="H"/>
+        <atom id="a3" elementType="S"/>
+        <atom id="a4" elementType="O"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a1 a3" order="1"/>
+        <bond atomRefs2="a3 a4" order="2"/>
+      </bondArray>
+    </molecule>
+    <molecule id="TS4">
+      <atomArray>
+        <atom id="a1" elementType="O"/>
+        <atom id="a2" elementType="H"/>
+        <atom id="a3" elementType="S"/>
+        <atom id="a4" elementType="O"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a1 a3" order="1"/>
+        <bond atomRefs2="a3 a4" order="2"/>
+      </bondArray>
+    </molecule>
+    <molecule id="TS6">
+      <atomArray>
+        <atom id="a1" elementType="O"/>
+        <atom id="a2" elementType="H"/>
+        <atom id="a3" elementType="S"/>
+        <atom id="a4" elementType="O"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a1 a3" order="1"/>
+        <bond atomRefs2="a3 a4" order="2"/>
+      </bondArray>
+    </molecule>
+  </moleculeList>
+  <reactionList>
+    <reaction id="R1">
+      <reactant>
+        <molecule ref="H" />
+      </reactant>
+      <reactant>
+        <molecule ref="SO2" />
+      </reactant>
+      <product>
+        <molecule ref="HSO2" />
+      </product>
+      <me:transitionState>
+        <molecule ref="TS1" />
+      </me:transitionState>
+    </reaction>
+    <reaction id="R2">
+      <reactant>
+        <molecule ref="H" />
+      </reactant>
+      <reactant>
+        <molecule ref="SO2" />
+      </reactant>
+      <product>
+        <molecule ref="HOSO" />
+      </product>
+      <me:transitionState>
+        <molecule ref="TS2" />
+      </me:transitionState>]
+    </reaction>
+    <reaction id="R4">
+      <reactant>
+        <molecule ref="HSO2" />
+      </reactant>
+      <product>
+        <molecule ref="HOSO" />
+      </product>
+      <me:transitionState>
+        <molecule ref="TS4" />
+      </me:transitionState>
+    </reaction>
+    <reaction id="R4">
+      <reactant>
+        <molecule ref="HOSO" />
+      </reactant>
+      <product>
+        <molecule ref="OH" />
+      </product>
+      <product>
+        <molecule ref="SO" />
+      </product>
+      <me:transitionState>
+        <molecule ref="TS6" />
+      </me:transitionState>
+    </reaction>
+  </reactionList>
+
+</me:mesmer>
