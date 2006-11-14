@@ -1,14 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type='text/xsl' href='mesmer1.xsl'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
-  <!---->Note that the thermodata is not real
+  <!--Note that the thermodata is not real-->
+  
   <moleculeList>
     <molecule id="H">
       <atom id="a1" elementType="H"/>
       <property dictRef="me:Energy">
-        <scalar units="kJmol-1">170</scalar>
+        <scalar units="kJmol-1">165</scalar>
       </property>
     </molecule>
-    <molecule id="SO2">
+    <molecule id="SO2" me:type="modelled">
       <atomArray>
         <atom id="a1" elementType="O"/>
         <atom id="a2" elementType="S"/>
@@ -21,8 +23,16 @@
         <bond atomRefs2="a1 a2" order="2"/>
         <bond atomRefs2="a2 a3" order="2"/>
       </bondArray>
+      <property dictRef="me:rotConsts">
+        <array units="cm-1">2.016 0.345 0.295</array>
+      </property>
+      <property dictRef="me:vibFreqs">
+        <array units="cm-1">
+          518 1151 1362
+        </array>
+      </property>
     </molecule>
-    <molecule id="HSO2">
+    <molecule id="HSO2" me:type="modelled">
       <atomArray>
         <atom id="a1" elementType="S"/>
         <atom id="a2" elementType="H"/>
@@ -35,10 +45,18 @@
         <bond atomRefs2="a1 a4" order="2"/>
       </bondArray>
       <property dictRef="me:Energy">
-        <scalar units="kJmol-1">100</scalar>
+        <scalar units="kJmol-1">102</scalar>
+      </property>
+      <property dictRef="me:rotConsts">
+        <array units="cm-1">1.703 0.3 0.263</array>
+      </property>
+      <property dictRef="me:vibFreqs">
+        <array units="cm-1">
+         411 777 1027 1094 1578 2284
+        </array>
       </property>
     </molecule>
-    <molecule id="HOSO">
+    <molecule id="HOSO" me:type="modelled">
       <atomArray>
         <atom id="a1" elementType="O"/>
         <atom id="a2" elementType="H"/>
@@ -53,6 +71,14 @@
       <property dictRef="me:Energy">
         <scalar units="kJmol-1">0</scalar>
       </property>
+      <property dictRef="me:rotConsts">
+        <array units="cm-1">1.14 0.309 0.243</array>
+      </property>
+      <property dictRef="me:vibFreqs">
+        <array units="cm-1">
+          183 336 722 991 1283 3493
+        </array>
+      </property>
     </molecule>
     <molecule id="OH">
       <atomArray>
@@ -65,8 +91,16 @@
       <property dictRef="me:Energy">
         <scalar units="kJmol-1">150</scalar>
       </property>
+      <property dictRef="me:rotConsts">
+        <array units="cm-1">18.87</array>
+      </property>
+      <property dictRef="me:vibFreqs">
+        <array units="cm-1">
+          3725
+        </array>
+      </property>
     </molecule>
-    <molecule id="SO">
+    <molecule id="SO" me:type="modelled">
       <atomArray>
         <atom id="a1" elementType="S"/>
         <atom id="a2" elementType="O"/>
@@ -75,10 +109,18 @@
         <bond atomRefs2="a1 a2" order="2"/>
       </bondArray>
       <property dictRef="me:Energy">
-        <scalar units="kJmol-1">140</scalar>
+        <scalar units="kJmol-1">139</scalar>
+      </property>
+      <property dictRef="me:rotConsts">
+        <array units="cm-1">0.95</array>
+      </property>
+      <property dictRef="me:vibFreqs">
+        <array units="cm-1">
+          1396
+        </array>
       </property>
     </molecule>
-    <molecule id="TS1">
+    <molecule id="TS1" me:type="transitionState">
       <atomArray>
         <atom id="a1" elementType="S"/>
         <atom id="a2" elementType="H"/>
@@ -90,8 +132,19 @@
         <bond atomRefs2="a1 a3" order="2"/>
         <bond atomRefs2="a1 a4" order="2"/>
       </bondArray>
+      <property dictRef="me:Energy">
+        <scalar units="kJmol-1">178.6</scalar>
+      </property>
+      <property dictRef="me:rotConsts">
+        <array units="cm-1">1.22 0.321 0.275</array>
+      </property>
+      <property dictRef="me:vibFreqs">
+        <array units="cm-1">
+          347 358 517 117 1381
+        </array>
+      </property>
     </molecule>
-    <molecule id="TS2">
+    <molecule id="TS2" me:type="transitionState">
       <atomArray>
         <atom id="a1" elementType="O"/>
         <atom id="a2" elementType="H"/>
@@ -103,8 +156,19 @@
         <bond atomRefs2="a1 a3" order="1"/>
         <bond atomRefs2="a3 a4" order="2"/>
       </bondArray>
+      <property dictRef="me:Energy">
+        <scalar units="kJmol-1">199.9</scalar>
+      </property>
+      <property dictRef="me:rotConsts">
+        <array units="cm-1">1.506 0.295 0.256</array>
+      </property>
+      <property dictRef="me:vibFreqs">
+        <array units="cm-1">
+          407 639 854 1216 2191
+        </array>
+      </property>
     </molecule>
-    <molecule id="TS4">
+    <molecule id="TS4" me:type="transitionState">
       <atomArray>
         <atom id="a1" elementType="O"/>
         <atom id="a2" elementType="H"/>
@@ -116,8 +180,19 @@
         <bond atomRefs2="a1 a3" order="1"/>
         <bond atomRefs2="a3 a4" order="2"/>
       </bondArray>
+      <property dictRef="me:Energy">
+        <scalar units="kJmol-1">213.6</scalar>
+      </property>
+      <property dictRef="me:rotConsts">
+        <array units="cm-1">1.486 0.299 0.261</array>
+      </property>
+      <property dictRef="me:vibFreqs">
+        <array units="cm-1">
+          298 500 609 1218 1527
+        </array>
+      </property>
     </molecule>
-    <molecule id="TS6">
+    <molecule id="TS6" me:type="transitionState">
       <atomArray>
         <atom id="a1" elementType="O"/>
         <atom id="a2" elementType="H"/>
@@ -132,7 +207,7 @@
     </molecule>
   </moleculeList>
   <reactionList>
-    <reaction id="R1">
+    <reaction id="R1" reversible="true">
       <reactant>
         <molecule ref="H" />
       </reactant>
@@ -146,7 +221,7 @@
         <molecule ref="TS1" />
       </me:transitionState>
     </reaction>
-    <reaction id="R2">
+    <reaction id="R2" reversible="true">
       <reactant>
         <molecule ref="H" />
       </reactant>
@@ -158,9 +233,9 @@
       </product>
       <me:transitionState>
         <molecule ref="TS2" />
-      </me:transitionState>]
+      </me:transitionState>
     </reaction>
-    <reaction id="R4">
+    <reaction id="R4" reversible="true">
       <reactant>
         <molecule ref="HSO2" />
       </reactant>
@@ -171,7 +246,7 @@
         <molecule ref="TS4" />
       </me:transitionState>
     </reaction>
-    <reaction id="R4">
+    <reaction id="R6">
       <reactant>
         <molecule ref="HOSO" />
       </reactant>
