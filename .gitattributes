@@ -24,6 +24,7 @@ src/dMatrix.h -text
 src/formatfloat.cpp -text
 src/formatfloat.h -text
 src/main.cpp -text
+tinyxml/MakeLib -text
 tinyxml/Makefile -text
 tinyxml/changes.txt -text
 tinyxml/docs/annotated.html -text
