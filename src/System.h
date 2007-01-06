@@ -18,10 +18,10 @@
 #include <vector>
 #include "MoleculeManager.h"
 #include "ReactionManager.h"
-#include "tinyxml.h"
 
 namespace mesmer
 {
+
 class System
 {
 public:

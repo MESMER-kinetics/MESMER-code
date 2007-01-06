@@ -1,7 +1,10 @@
 #include "tinyxml.h"
 #include <iostream>
 #include <sstream>
+
+#ifdef _WIN32
 #include <conio.h>
+#endif
 
 #include <string>
 #include "System.h"
@@ -10,8 +13,8 @@ using namespace std;
 int main(int argc,char *argv[])
 {
   //
-  // Instantiate the System collection. This holds all information about all reaction
-  // System and all molecular data.
+  // Instantiate the System collection. This holds all information 
+  // about reaction systems and all molecular data.
   //
   mesmer::System System ;
   string filename;
@@ -50,7 +53,6 @@ int main(int argc,char *argv[])
   getch();
   #endif
   exit(0);
-
 
   return 0 ;
 }
