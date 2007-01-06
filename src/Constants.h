@@ -20,6 +20,8 @@ namespace Constants {
 
     static const double boltzmann = 0.695029 ;
 
+    static const double KCMLTOPCM = 349.757 ;
+
 }
 
 #endif // GUARD_Constants_h
