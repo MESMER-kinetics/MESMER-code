@@ -8,13 +8,14 @@
 // Author: Struan Robertson 
 // Date:   11/Feb/2003
 //
-// This header file contains the declaration of the ReactionManager class. This class will 
-// contain the reactions that go to make up a system.
+// This header file contains the declaration of the ReactionManager class.
+// This class will contain the reactions that go to make up a system.
 //
 //-------------------------------------------------------------------------------------------
 
 #include "MoleculeManager.h"
 #include "Reaction.h"
+#include "ReactionConnectivity.h"
 
 namespace mesmer
 {
@@ -25,19 +26,18 @@ public:
    // Type defs
    typedef  size_t  size_type ;
 
-   // Default Constructor.
-   ReactionManager() { } ;
-
-   ReactionManager(MoleculeManager *pMoleculeManager) {  m_pMoleculeManager = pMoleculeManager ; } ;
-
+   ReactionManager(MoleculeManager *pMoleculeManager) : m_reactions(),
+                                                        m_pMoleculeManager(pMoleculeManager), 
+                                                        m_ReactionConnectivity(),
+                                                        m_pSystemCollisionOperator(0) {} ;
    // Destructor.
-   ~ReactionManager() { } ;
+   ~ReactionManager(){} ;
 
    // Add a new reaction to the map.
    bool addreactions(TiXmlElement* pnReacList) ;
 
    // Remove a reaction from the map.
-   void remove() { } ;
+   void remove(){} ;
 
    // Total number of reaction in map.
    size_type size() const {return m_reactions.size() ; } ;
@@ -46,18 +46,32 @@ public:
    Reaction*       operator[](const size_type i)       { return m_reactions[i] ; } ;
    const Reaction* operator[](const size_type i) const { return m_reactions[i] ; } ;
    
-  //Interrogates the (virtual) connectivity matrix, returning
-  // the reaction index of the reaction (one based) connecting pProduct and pReactant
+  // Interrogates the (virtual) connectivity matrix, returning the reaction
+  // index of the reaction (one based) connecting pProduct and pReactant
   // if both are CollidingMolecules
   // 0 if reactant and product are the same and are a CollidingMolecule
   // -1 otherwise
    int Connectivity(Molecule* pReactant, Molecule* pProduct);
 
+   // Build collision operator for system.
+   void BuildSystemCollisionOperator(const double beta) ;
+
+   // Diagonalize the collision operator.
+   void diagCollisionOperator() ;
+ 
 private:
 
    std::vector<Reaction *> m_reactions ;
 
    MoleculeManager        *m_pMoleculeManager ;
+
+   CReactionConnectivity   m_ReactionConnectivity ;
+
+   dMatrix                *m_pSystemCollisionOperator ;
+
+   // Default Constructor.
+   ReactionManager() {} ;
+
 } ;
 }//namespace
 
