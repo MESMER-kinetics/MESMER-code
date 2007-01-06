@@ -6,6 +6,7 @@ Windows[!!-~]VC8/Mesmer/Mesmer.vcproj -text
 Windows[!!-~]VC8/Mesmer/pentyl.in -text
 Windows[!!-~]VC8/Mesmer/pentyl.out -text
 Windows[!!-~]VC8/Mesmer/pentyl.xml -text
+Windows[!!-~]VC8/Mesmer/pentyl_isomerization.xml -text
 src/Constants.h -text
 src/Matrix.h -text
 src/Molecule.cpp -text
