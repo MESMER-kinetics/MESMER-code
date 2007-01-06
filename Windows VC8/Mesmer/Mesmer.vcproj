@@ -181,10 +181,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\formatfloat.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\main.cpp"
 				>
 			</File>
@@ -197,7 +193,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Persistence.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Reaction.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ReactionConnectivity.cpp"
 				>
 			</File>
 			<File
@@ -243,10 +247,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\formatfloat.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Matrix.h"
 				>
 			</File>
@@ -259,7 +259,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Persistence.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Reaction.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ReactionConnectivity.h"
 				>
 			</File>
 			<File
