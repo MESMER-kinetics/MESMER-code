@@ -15,12 +15,13 @@
 #include <vector>
 #include "Molecule.h"
 #include "MoleculeManager.h"
-#include "tinyxml.h"
+#include "Persistence.h"
 
 using namespace std;
 namespace mesmer
 {
-class Reaction
+	
+class Reaction : public IPersistObject
 {
    //
    // Declare System as a friend class. Not sure that this is the best or 
@@ -39,7 +40,7 @@ public:
                               ERROR_REACTION } ;
 
    // Constructors.
-   Reaction() { } ;
+   Reaction(){} ;
 
    Reaction(MoleculeManager *pMoleculeManager);
 
@@ -73,11 +74,18 @@ public:
    // Access microcanoincal rate coeffcients. 
    void get_MicroRateCoeffs(vector<double> &kmc, int ngrn) ;
 
-private:
-  //Parse XML file for a product or a reactant and assigne to member variables
-  bool GetMolRef(TiXmlElement* pnReac,const char* molRole, int index);
+   // Reactant information:
 
-// Test the forward microcanoincal rate coeffcients. 
+   std::string get_ReactantName() const { return m_Reactant->getName() ; } ;
+   int get_NumberOfReactants()    const { return m_Reactant2 ? 2 : 1 ; } ;
+   std::string get_ProductName()  const { return m_Product->getName() ; } ;
+   int get_NumberOfProducts()     const { return m_Product2 ? 2 : 1 ; } ;
+
+private:
+   //Parse XML file for a product or a reactant and assigne to member variables
+   bool GetMolRef(TiXmlElement* pnReac,const char* molRole, int index);
+
+   // Test the forward microcanoincal rate coeffcients. 
    void testMicroRateCoeffs() ;
 
    MoleculeManager   *m_pMoleculeManager ; // Pointer to molecule manager.
@@ -85,11 +93,11 @@ private:
    //
    // Reaction composition.
    //
-   CollidingMolecule          *m_Reactant ;         // Reactant Molecule.
-   Molecule                   *m_Reactant2 ;        // Subsidiary reactant molecule.
-   TransitionState            *m_TransitionState ;  // Transition State.
-   CollidingMolecule          *m_Product ;          // Product Molecule.
-   Molecule                   *m_Product2 ;         // Subsidiary product molecule.
+   CollidingMolecule *m_Reactant ;         // Reactant Molecule.
+   Molecule          *m_Reactant2 ;        // Subsidiary reactant molecule.
+   TransitionState   *m_TransitionState ;  // Transition State.
+   CollidingMolecule *m_Product ;          // Product Molecule.
+   Molecule          *m_Product2 ;         // Subsidiary product molecule.
 
    //
    // Reaction Rate data.

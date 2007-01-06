@@ -9,19 +9,21 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include <iostream>
+#include "Persistence.h"
 #include <sstream>
 #include <math.h>
 #include "Reaction.h"
-#include "formatfloat.h"
+#include "Constants.h"
+
+using namespace Constants ;
 
 namespace mesmer
 {
-Reaction::Reaction(MoleculeManager *pMoleculeManager):
-    m_Reactant(NULL), m_Reactant2(NULL), m_Product(NULL), m_Product2(NULL)
-{
-  m_pMoleculeManager = pMoleculeManager ;
-}
+Reaction::Reaction(MoleculeManager *pMoleculeManager): m_pMoleculeManager(pMoleculeManager),
+                                                       m_Reactant(NULL), 
+                                                       m_Reactant2(NULL), 
+                                                       m_Product(NULL), 
+                                                       m_Product2(NULL) {}
 
 Reaction::~Reaction() 
 {
@@ -190,7 +192,7 @@ void Reaction::CalcMicroRateCoeffs() {
     m_TransitionState->densityOfStates(ddosTS) ;
 
     double SumOfStates  = 0.0 ;
-    int thresholdEnergy = int(m_E0*349.757) ;
+    int thresholdEnergy = int(m_E0 * KCMLTOPCM) ;
     for (i = thresholdEnergy, j = 0 ; i < MAXCELL ; ++i, ++j ) {
    
         // Integrate transition state density of states.
@@ -204,10 +206,10 @@ void Reaction::CalcMicroRateCoeffs() {
 
     // Test microcanonical rate coefficients.
 
-/* But still needed
-    if ( get_verbosity() ) 
+// Need to replace the following with XML output.
+//    if ( get_verbosity() ) 
         testMicroRateCoeffs() ;
-*/
+
     // Free work space.
 
     m_alloc.deallocate(ddosTS, MAXCELL) ;
