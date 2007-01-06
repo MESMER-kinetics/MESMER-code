@@ -14,77 +14,93 @@
 //
 //-------------------------------------------------------------------------------------------
 
+#include <stdexcept>
+
 template<class T>
 class Matrix {
 
 public:
 
-   // Type defs
+    // Type defs
 
-   typedef  size_t  size_type ;
-   typedef       T* iterator ;
-   typedef const T* const_iterator ;
-   typedef       T  value_type ;
+    typedef  size_t  size_type ;
+    typedef       T* iterator ;
+    typedef const T* const_iterator ;
+    typedef       T  value_type ;
 
-   // Constructors
+    // Constructors
 
-   explicit Matrix(size_type n, const T& a = T() ) ;
-   Matrix(const Matrix&) ; //Copy constructor
+    explicit Matrix(size_type n, const T& a = T() ) ;
+    Matrix(const Matrix&) ; //Copy constructor
 
-   // Destructor
+    // Destructor
 
-   virtual ~Matrix() { destroy() ; }
+    virtual ~Matrix() { destroy() ; }
 
-   // Operators
+    // Operators
 
-   Matrix& operator=(const Matrix& rhs) ;
-   T* operator[](const size_type i) { return m_matrix[i] ; }
-   const T* operator[](const size_type i) const { return m_matrix[i] ; }
+    Matrix& operator=(const Matrix& rhs) ;
+    T* operator[](const size_type i) { return m_matrix[i] ; }
+    const T* operator[](const size_type i) const { return m_matrix[i] ; }
 
-   // Accessors
+    // Accessors
 
-   size_type size() const { return m_msize ; }
+    size_type size() const { return m_msize ; }
+
+    // Modifiers
+
+    void resize(const size_type n) ;
 
 protected:
 
-   // Size of matrix. 
+    // Size of matrix. 
 
-   size_type m_msize ; 
+    size_type m_msize ; 
 
-   // Pointer to location of matrix. 
+    // Pointer to location of matrix. 
 
-   T **m_matrix ;
+    T **m_matrix ;
 
-   // Internal function that creates matrix.
-   
-   void create(size_type n) {
+    // Internal function that creates matrix.
 
-      m_msize = n ;
+    void create(size_type n) {
 
-      m_matrix = new T*[m_msize] ;
+        m_msize = n ;
 
-      m_matrix[0] = new T[m_msize*m_msize] ;
+        m_matrix = allocatematrix(m_msize) ;
 
-      for ( size_type i = 1 ; i < m_msize ; i++ )
-          m_matrix[i] = m_matrix[i - 1] + m_msize ;
+    }
 
-   }
+	// Internal function that allocates space for matrix.
 
-   // Internal function that destroys matrix
+    T** allocatematrix(size_type n) {
 
-   void destroy() {
+        T ** matrix = new T*[n] ;
 
-      if (m_matrix != NULL) {
-         delete[] (m_matrix[0]) ;
-         delete[] (m_matrix) ;
-      }
-   }
+        matrix[0] = new T[n*n] ;
+
+        for ( size_type i = 1 ; i < n ; i++ )
+            matrix[i] = matrix[i - 1] + n ;
+
+		return matrix ;
+
+    }
+
+    // Internal function that destroys matrix
+
+    void destroy() {
+
+        if (m_matrix != NULL) {
+            delete[] (m_matrix[0]) ;
+            delete[] (m_matrix) ;
+        }
+    }
 
 private:
 
-   // Hide default constructor - force the size of the matrix to be passed.
+    // Hide default constructor - force the size of the matrix to be passed.
 
-   Matrix() : m_msize(0), m_matrix(0) { } ;
+    Matrix() : m_msize(0), m_matrix(0) { } ;
 
 } ;
 
@@ -93,11 +109,11 @@ private:
 template<class T>
 Matrix<T>::Matrix(size_type n, const T& a) : m_msize(0), m_matrix(0) { 
 
-   create(n) ;
+    create(n) ;
 
-   for ( size_type i = 0 ; i < m_msize ; i++ )
-       for ( size_type j = 0 ; j < m_msize ; j++ )
-           m_matrix[i][j] = a ;
+    for ( size_type i = 0 ; i < m_msize ; i++ )
+        for ( size_type j = 0 ; j < m_msize ; j++ )
+            m_matrix[i][j] = a ;
 }
 
 // Copy constructor.
@@ -105,11 +121,11 @@ Matrix<T>::Matrix(size_type n, const T& a) : m_msize(0), m_matrix(0) {
 template<class T>
 Matrix<T>::Matrix(const Matrix& rhs) : m_msize(0), m_matrix(0) { 
 
-   create(rhs.m_msize) ;
+    create(rhs.m_msize) ;
 
-   for ( size_type i = 0 ; i < m_msize ; i++ )
-       for ( size_type j = 0 ; j < m_msize ; j++ )
-           m_matrix[i][j] = rhs[i][j] ;
+    for ( size_type i = 0 ; i < m_msize ; i++ )
+        for ( size_type j = 0 ; j < m_msize ; j++ )
+            m_matrix[i][j] = rhs[i][j] ;
 }
 
 // Operators
@@ -117,23 +133,46 @@ Matrix<T>::Matrix(const Matrix& rhs) : m_msize(0), m_matrix(0) {
 template<class T>
 Matrix<T>& Matrix<T>::operator=(const Matrix<T> &rhs) {
 
-   if (this != rhs) {
-      
-      // If necessary resize underlying array.
+    if (this != rhs) {
 
-      if (m_msize != rhs.m_msize) {
+        // If necessary resize underlying array.
 
-          destroy() ;
+        if (m_msize != rhs.m_msize) {
 
-          create(rhs.m_msize) ;
+            destroy() ;
 
-      }
-      
-      for ( size_type i = 0 ; i < m_msize ; i++ )
-          for ( size_type j = 0 ; j < m_msize ; j++ )
-              m_matrix[i][j] = rhs[i][j] ;
-   }
-   return *this ; 
+            create(rhs.m_msize) ;
+
+        }
+
+        for ( size_type i = 0 ; i < m_msize ; i++ )
+            for ( size_type j = 0 ; j < m_msize ; j++ )
+                m_matrix[i][j] = rhs[i][j] ;
+    }
+    return *this ; 
+}
+
+// Modifiers.
+
+template<class T>
+void Matrix<T>::resize(const size_type n){ 
+
+    if (n < 1)
+        throw domain_error("Matrix must of size one or greater") ;
+
+    T **matrix = allocatematrix(n)  ;
+
+    size_type msize = min(n, m_msize) ;
+    for ( size_type i = 0 ; i < msize ; i++ )
+        for ( size_type j = 0 ; j < msize ; j++ )
+            matrix[i][j] = m_matrix[i][j] ;
+
+    destroy() ;
+
+    m_msize = n ;
+
+    m_matrix = matrix;
+
 }
 
 #endif // GUARD_Matrix_h
