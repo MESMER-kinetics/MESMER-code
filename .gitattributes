@@ -18,6 +18,8 @@ src/Persistence.cpp -text
 src/Persistence.h -text
 src/Reaction.cpp -text
 src/Reaction.h -text
+src/ReactionConnectivity.cpp -text
+src/ReactionConnectivity.h -text
 src/ReactionManager.cpp -text
 src/ReactionManager.h -text
 src/System.cpp -text
