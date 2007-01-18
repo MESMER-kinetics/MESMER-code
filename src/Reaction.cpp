@@ -46,6 +46,7 @@ Reaction& Reaction::operator=(const Reaction& reaction) {
 //
 bool Reaction::ReadFromXML(TiXmlElement* pnReac) 
 {
+  m_pXmlEl = pnReac;
   if(GetMolRef(pnReac, "reactant",0))
   {
     GetMolRef(pnReac, "reactant",1);
@@ -206,7 +207,6 @@ void Reaction::CalcMicroRateCoeffs() {
 
     // Test microcanonical rate coefficients.
 
-// Need to replace the following with XML output.
 //    if ( get_verbosity() ) 
         testMicroRateCoeffs() ;
 
@@ -285,6 +285,8 @@ void Reaction::get_MicroRateCoeffs(vector<double> &kmc, int ngrn) {
 void Reaction::testMicroRateCoeffs() {
 
     cout << endl << "Test of microcanonical rate coefficients" << endl << endl ;
+  string comment("Microcanonical rate coefficients");
+    TiXmlElement* list = WriteMainElement( m_pXmlEl, "me:microRateList", comment );
 
     // Allocate some work space for density of states.
 
@@ -311,6 +313,12 @@ void Reaction::testMicroRateCoeffs() {
        formatFloat(cout, temp, 6, 7) ;
        formatFloat(cout, sm1,  6, 15) ;
        cout << endl ;
+ 
+       //Add to XML document
+       TiXmlElement* item = WriteElement(list, "me:microRate");
+       WriteValueElement(item, "me:T",   temp, 6);
+       WriteValueElement(item, "me:val", sm1,  6) ;
+ 
     }
 
     // Free work space.

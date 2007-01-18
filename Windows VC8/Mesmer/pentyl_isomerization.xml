@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type='text/xsl' href='mesmer1.xsl'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
   <moleculeList>
     <molecule id="n-pentyl" me:type="modelled">
@@ -44,7 +45,7 @@
           <scalar>5.93</scalar>
         </property>
         <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">230.0"</scalar>
+          <scalar units="cm-1">230.0</scalar>
         </property>
       </propertyList>
     </molecule>
@@ -132,7 +133,7 @@
           <scalar>5.93</scalar>
         </property>
         <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">230.0"</scalar>
+          <scalar units="cm-1">230.0</scalar>
         </property>
       </propertyList>
     </molecule>
@@ -185,7 +186,7 @@
           <scalar>5.93</scalar>
         </property>
         <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">230.0"</scalar>
+          <scalar units="cm-1">230.0</scalar>
         </property>
       </propertyList>
     </molecule>
@@ -228,7 +229,7 @@
 
   <reactionList>
 
-    <reaction>
+    <reaction id="R1">
       <reactant>
         <molecule ref="n-pentyl" />
       </reactant>

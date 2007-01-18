@@ -75,6 +75,7 @@ return *this ;
 //
 bool Molecule::ReadFromXML(TiXmlElement* pnMol) 
 {
+    m_pXmlEl = pnMol;
     m_Name = pnMol->Attribute("id");
     if(m_Name.empty())
     {
@@ -614,7 +615,6 @@ void ModelledMolecule::calcDensityOfStates() {
 
     calcGrainAverages() ;
 
-    // Need to replace the following with XML output.
     //    if ( get_verbosity() ) 
     testDensityOfStates() ;
 
@@ -632,6 +632,10 @@ void ModelledMolecule::testDensityOfStates() {
     double beta ;
     double pi = acos(-1.0) ;
 
+  string comment("Partition function calculation at various temperatures.\
+qtot : using analytical formula. sumc : based on cells. sumg : based on grains.");
+
+    TiXmlElement* list = WriteMainElement( m_pXmlEl, "me:densityOfStatesList", comment );
     for ( int n = 0 ; n < 29 ; ++n ) {
 
         temp = 100.0*static_cast<double>(n + 2) ;
@@ -663,6 +667,13 @@ void ModelledMolecule::testDensityOfStates() {
         formatFloat(cout, sumc,  6, 15) ;
         formatFloat(cout, sumg,  6, 15) ;
         cout << endl ;
+
+        //Add to XML document
+        TiXmlElement* item = WriteElement(list, "me:densityOfStates");
+        WriteValueElement(item, "me:T",    temp, 6);
+        WriteValueElement(item, "me:qtot", qtot, 6) ;
+        WriteValueElement(item, "me:sumc", sumc, 6) ;
+        WriteValueElement(item, "me:sumg", sumg, 6) ;
 
     }
 

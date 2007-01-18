@@ -102,6 +102,7 @@ private:
    //
    // Reaction Rate data.
    //
+   TiXmlElement      *m_pXmlEl ;           // Its XML node address
    ReactionType       m_reactiontype ;     // Type of reaction.
    double             m_E0 ;               // Reaction Threshold energy (measured from zero point of reactant).
    double             m_kfwd ;             // Forward canonical (high pressure) rate coefficient.

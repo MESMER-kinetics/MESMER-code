@@ -31,10 +31,20 @@ public:
 	// Utillity methods:
 
 	// Returns the effective content of a CML property element
-   const char* ReadProperty(TiXmlElement* pnList, const std::string& name, bool MustBeThere=true);
+  static const char* ReadProperty(TiXmlElement* pnList, const std::string& name, bool MustBeThere=true);
 
-   static void formatFloat(std::ostream& out, const double datum, const int precision, const int width);
+  static void formatFloat(std::ostream& out, const double datum, const int precision, const int width);
 
+  /// Inserts into XML document a new element /<name/>
+  TiXmlElement* WriteElement(TiXmlElement* parentElement, const std::string name);
+
+  /// Inserts into XML document a new element /<name/> containing a formatted number
+  static void WriteValueElement( TiXmlElement* parentElement, const std::string name, 
+                                 const double datum, const int precision=-1);
+
+  //Insert into XML document a new element /<name/> and gives it a timestamp attribute and comment 
+  static TiXmlElement* WriteMainElement(TiXmlElement* parentElement, const std::string name,
+                                  const std::string comment, bool replaceExisting=true);
 } ;
 
 }

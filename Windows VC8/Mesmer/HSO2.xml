@@ -6,7 +6,7 @@
   <moleculeList>
     <molecule id="H">
       <atom id="a1" elementType="H"/>
-      <property dictRef="me:Energy">
+      <property dictRef="me:ZPE">
         <scalar units="kJmol-1">165</scalar>
       </property>
     </molecule>
@@ -15,7 +15,7 @@
         <atom id="a1" elementType="O"/>
         <atom id="a2" elementType="S"/>
         <atom id="a3" elementType="O"/>
-        <property dictRef="me:Energy">
+        <property dictRef="me:ZPE">
           <scalar units="kJmol-1">0</scalar>
         </property>
       </atomArray>
@@ -44,7 +44,7 @@
         <bond atomRefs2="a1 a3" order="2"/>
         <bond atomRefs2="a1 a4" order="2"/>
       </bondArray>
-      <property dictRef="me:Energy">
+      <property dictRef="me:ZPE">
         <scalar units="kJmol-1">102</scalar>
       </property>
       <property dictRef="me:rotConsts">
@@ -68,7 +68,7 @@
         <bond atomRefs2="a1 a3" order="1"/>
         <bond atomRefs2="a3 a4" order="2"/>
       </bondArray>
-      <property dictRef="me:Energy">
+      <property dictRef="me:ZPE">
         <scalar units="kJmol-1">0</scalar>
       </property>
       <property dictRef="me:rotConsts">
@@ -88,7 +88,7 @@
       <bondArray>
         <bond atomRefs2="a1 a2" order="1"/>
       </bondArray>
-      <property dictRef="me:Energy">
+      <property dictRef="me:ZPE">
         <scalar units="kJmol-1">150</scalar>
       </property>
       <property dictRef="me:rotConsts">
@@ -108,7 +108,7 @@
       <bondArray>
         <bond atomRefs2="a1 a2" order="2"/>
       </bondArray>
-      <property dictRef="me:Energy">
+      <property dictRef="me:ZPE">
         <scalar units="kJmol-1">139</scalar>
       </property>
       <property dictRef="me:rotConsts">
@@ -132,7 +132,7 @@
         <bond atomRefs2="a1 a3" order="2"/>
         <bond atomRefs2="a1 a4" order="2"/>
       </bondArray>
-      <property dictRef="me:Energy">
+      <property dictRef="me:ZPE">
         <scalar units="kJmol-1">178.6</scalar>
       </property>
       <property dictRef="me:rotConsts">
@@ -156,7 +156,7 @@
         <bond atomRefs2="a1 a3" order="1"/>
         <bond atomRefs2="a3 a4" order="2"/>
       </bondArray>
-      <property dictRef="me:Energy">
+      <property dictRef="me:ZPE">
         <scalar units="kJmol-1">199.9</scalar>
       </property>
       <property dictRef="me:rotConsts">
@@ -180,7 +180,7 @@
         <bond atomRefs2="a1 a3" order="1"/>
         <bond atomRefs2="a3 a4" order="2"/>
       </bondArray>
-      <property dictRef="me:Energy">
+      <property dictRef="me:ZPE">
         <scalar units="kJmol-1">213.6</scalar>
       </property>
       <property dictRef="me:rotConsts">

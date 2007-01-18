@@ -41,10 +41,11 @@ namespace mesmer
         double getEpsilon(){ return m_Epsilon ; } ;
 
     protected:
-        std::string m_Name ;    // Molecule name.
-        double      m_Mass ;    // Mass.
-        double      m_Sigma ;   // Lennard-Jones sigma.
-        double      m_Epsilon ; // Lennard-Jones epsilon.
+        std::string   m_Name ;    // Molecule name.
+        TiXmlElement* m_pXmlEl ;  // Its XML node address
+        double        m_Mass ;    // Mass.
+        double        m_Sigma ;   // Lennard-Jones sigma.
+        double        m_Epsilon ; // Lennard-Jones epsilon.
 
     private:
         //   Molecule(const Molecule&) ;

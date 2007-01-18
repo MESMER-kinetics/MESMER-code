@@ -11,6 +11,7 @@
 
 #include <sstream>
 #include <iomanip>
+#include <time.h>
 #include "Persistence.h"
 
 using namespace std ;
@@ -65,4 +66,55 @@ void IPersistObject::formatFloat( ostream&     out,       // Output Stream.
 
 }
 
+void IPersistObject::WriteValueElement( TiXmlElement* parentElement, const std::string name, 
+                 const double datum, const int precision)
+{
+  ostringstream sstrdatum ;
+  if(precision>=0)
+    sstrdatum << setprecision(precision) << datum ;
+  else
+    sstrdatum << datum ;
+
+  
+  TiXmlElement* item = new TiXmlElement(name);
+  parentElement->LinkEndChild(item);
+  item->LinkEndChild(new TiXmlText(sstrdatum.str()));
 }
+
+TiXmlElement* IPersistObject::WriteElement(TiXmlElement* parentElement, const std::string name)
+{
+  TiXmlElement* item = new TiXmlElement( name );
+  parentElement->LinkEndChild(item);
+  return item;
+}
+
+TiXmlElement* IPersistObject::WriteMainElement(TiXmlElement* parentElement, 
+                        const std::string name, const std::string comment, bool replaceExisting)
+{
+  // Delete any existing element of the same name, unless explicitly asked not to.
+  if(replaceExisting)
+  {
+    TiXmlNode* pnExisting = parentElement->FirstChild(name);
+    if(pnExisting)
+      parentElement->RemoveChild(pnExisting);
+  }
+
+  // Add new element with specified name
+  TiXmlElement* pnel = new TiXmlElement( name );
+  parentElement->LinkEndChild(pnel);
+
+  // Add attribute to show when data was calculated, removing trailing 0x0a
+  time_t ltime;
+  time( &ltime );
+  string timestring(ctime(&ltime));
+  pnel->SetAttribute("calculated", timestring.erase(timestring.size()-1));
+
+  //Add explanatory comment in description element
+  TiXmlElement* pncom = new TiXmlElement("me:description");
+  pnel->LinkEndChild( pncom );
+  pncom->LinkEndChild(new TiXmlText(comment));
+
+  return pnel;
+}
+
+} //namespace
