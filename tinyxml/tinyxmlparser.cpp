@@ -840,7 +840,7 @@ TiXmlNode* TiXmlNode::Identify( const char* p, TiXmlEncoding encoding )
 	// - Everthing else is unknown to tinyxml.
 	//
 
-	const char* xmlHeader = { "<?xml" };
+	const char* xmlHeader = { "<?xml " };
 	const char* commentHeader = { "<!--" };
 	const char* dtdHeader = { "<!" };
 	const char* cdataHeader = { "<![CDATA[" };
@@ -1543,7 +1543,7 @@ const char* TiXmlDeclaration::Parse( const char* p, TiXmlParsingData* data, TiXm
 	// Find the beginning, find the end, and look for
 	// the stuff in-between.
 	TiXmlDocument* document = GetDocument();
-	if ( !p || !*p || !StringEqual( p, "<?xml", true, _encoding ) )
+	if ( !p || !*p || !StringEqual( p, "<?xml ", true, _encoding ) )
 	{
 		if ( document ) document->SetError( TIXML_ERROR_PARSING_DECLARATION, 0, 0, _encoding );
 		return 0;

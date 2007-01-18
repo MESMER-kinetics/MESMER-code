@@ -1,4 +1,5 @@
 * text=auto !eol
+/ChangeLog -text
 Windows[!!-~]VC8/MESMER.sln -text
 Windows[!!-~]VC8/Mesmer/HSO2.xml -text
 Windows[!!-~]VC8/Mesmer/Mesmer.exe -text

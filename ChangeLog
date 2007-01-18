@@ -1,0 +1,8 @@
+2007-01-18  Chris Morley  <c.morley@gaseq.co.uk>
+
+	* tinyxml/tinyxmlparser.cpp: small patch to allow xml-stylesheet
+	instuction to be passed on. See:
+	http://sourceforge.net/tracker/index.php?func=detail&aid=1618031&group_id=13559&atid=313559
+	
+	* src/main.cpp: Can specify output file with default of adding
+	out before extension on inputfile name. Added usage function and some exit codes.
