@@ -21,7 +21,7 @@ using namespace std;
 namespace mesmer
 {
 	
-class Reaction : public IPersistObject
+class Reaction
 {
    //
    // Declare System as a friend class. Not sure that this is the best or 
@@ -54,7 +54,7 @@ public:
 //   Reaction& operator=(const Reaction& reaction) ;
 
    // Initialize reaction.
-   bool ReadFromXML(TiXmlElement* pnReac) ;
+   bool Initialize(PersistPtr ppReac) ;
 
    // Modifier for reaction type.
    void put_Reactiontype(ReactionType reactiontype) ;
@@ -82,8 +82,8 @@ public:
    int get_NumberOfProducts()     const { return m_Product2 ? 2 : 1 ; } ;
 
 private:
-   //Parse XML file for a product or a reactant and assigne to member variables
-   bool GetMolRef(TiXmlElement* pnReac,const char* molRole, int index);
+   ///Read a molecule name from the XML file and look it up
+   Molecule* GetMolRef(PersistPtr pp);
 
    // Test the forward microcanoincal rate coeffcients. 
    void testMicroRateCoeffs() ;
@@ -102,7 +102,7 @@ private:
    //
    // Reaction Rate data.
    //
-   TiXmlElement      *m_pXmlEl ;           // Its XML node address
+   PersistPtr         m_ppPersist;         // Conduit for I/O
    ReactionType       m_reactiontype ;     // Type of reaction.
    double             m_E0 ;               // Reaction Threshold energy (measured from zero point of reactant).
    double             m_kfwd ;             // Forward canonical (high pressure) rate coefficient.

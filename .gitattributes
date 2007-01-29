@@ -17,7 +17,6 @@ src/Molecule.cpp -text
 src/Molecule.h -text
 src/MoleculeManager.cpp -text
 src/MoleculeManager.h -text
-src/Persistence.cpp -text
 src/Persistence.h -text
 src/Reaction.cpp -text
 src/Reaction.h -text
@@ -27,11 +26,14 @@ src/ReactionManager.cpp -text
 src/ReactionManager.h -text
 src/System.cpp -text
 src/System.h -text
+src/XMLPersist.cpp -text
+src/XMLPersist.h -text
 src/dMatrix.cpp -text
 src/dMatrix.h -text
 src/formatfloat.cpp -text
 src/formatfloat.h -text
 src/main.cpp -text
+src/util.cpp -text
 tinyxml/MakeLib -text
 tinyxml/Makefile -text
 tinyxml/changes.txt -text

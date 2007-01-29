@@ -193,10 +193,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Persistence.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Reaction.cpp"
 				>
 			</File>
@@ -230,6 +226,14 @@
 			</File>
 			<File
 				RelativePath="..\..\tinyxml\tinyxmlparser.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\util.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\XMLPersist.cpp"
 				>
 			</File>
 		</Filter>
@@ -282,9 +286,17 @@
 				RelativePath="..\..\tinyxml\tinyxml.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\src\XMLPersist.h"
+				>
+			</File>
 		</Filter>
 		<File
-			RelativePath=".\pentyl.xml"
+			RelativePath="..\..\tinyxml\docs\index.html"
+			>
+		</File>
+		<File
+			RelativePath=".\pentyl_isomerization.xml"
 			>
 		</File>
 	</Files>

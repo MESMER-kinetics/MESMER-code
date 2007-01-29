@@ -25,14 +25,14 @@ namespace mesmer
     //**************************************************
     /// Basic molecule: has name and some collision parameters.
     /// Used for bath gases and unmodelled product molecules.
-    class Molecule : public IPersistObject
+    class Molecule
     {
     public:
         Molecule() ;
         virtual ~Molecule(){} ;
 
         // Initialize Molecule.
-        virtual bool ReadFromXML(TiXmlElement* pnMol) ;
+        virtual bool Initialize(PersistPtr pp);
 
         // Get Molecule Name.
         std::string getName() { return m_Name ; } ;
@@ -41,11 +41,11 @@ namespace mesmer
         double getEpsilon(){ return m_Epsilon ; } ;
 
     protected:
-        std::string   m_Name ;    // Molecule name.
-        TiXmlElement* m_pXmlEl ;  // Its XML node address
-        double        m_Mass ;    // Mass.
-        double        m_Sigma ;   // Lennard-Jones sigma.
-        double        m_Epsilon ; // Lennard-Jones epsilon.
+        PersistPtr     m_ppPersist;  // Conduit for I/O
+        std::string    m_Name ;     // Molecule name.
+        double         m_Mass ;     // Mass.
+        double         m_Sigma ;    // Lennard-Jones sigma.
+        double         m_Epsilon ;  // Lennard-Jones epsilon.
 
     private:
         //   Molecule(const Molecule&) ;
@@ -58,7 +58,7 @@ namespace mesmer
     {
     public:
         // Initialize Molecule.
-        virtual bool ReadFromXML(TiXmlElement* pnMol) ;
+        virtual bool Initialize(PersistPtr pp);
     };
 
     //**************************************************
@@ -69,7 +69,7 @@ namespace mesmer
         ModelledMolecule();
         virtual ~ModelledMolecule();
         // Initialize Molecule.
-        virtual bool ReadFromXML(TiXmlElement* pnMol) ;
+        virtual bool Initialize(PersistPtr pp);
 
         // Get the density of states.
         void densityOfStates(double *) ;
@@ -138,7 +138,7 @@ namespace mesmer
         ~CollidingMolecule();
 
         // Initialize Molecule.
-        virtual bool ReadFromXML(TiXmlElement* pnMol) ;
+        virtual bool Initialize(PersistPtr ppp);
 
         // Initialize the Collision Operator.
         void initCollisionOperator(double beta) ;

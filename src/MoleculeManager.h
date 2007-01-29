@@ -30,7 +30,7 @@ public:
    ~MoleculeManager() { } ;
 
    // Add a new molecule to the list.
-   bool addmols(TiXmlElement* mollist) ;
+   bool addmols(PersistPtr ppMolList) ;
 
    // Find a molecule in the list.
    Molecule *find(const std::string& name) const ;

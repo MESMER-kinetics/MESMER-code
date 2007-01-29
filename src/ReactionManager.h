@@ -34,7 +34,7 @@ public:
    ~ReactionManager(){} ;
 
    // Add a new reaction to the map.
-   bool addreactions(TiXmlElement* pnReacList) ;
+   bool addreactions(PersistPtr ReacList) ;
 
    // Remove a reaction from the map.
    void remove(){} ;

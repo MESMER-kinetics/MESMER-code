@@ -1,4 +1,3 @@
-#include "tinyxml.h"
 #include <iostream>
 #include <sstream>
 
@@ -6,8 +5,10 @@
 #include <conio.h>
 #endif
 
-#include <string>
+#include "Persistence.h"
 #include "System.h"
+
+#include "XMLPersist.h"
 using namespace std;
 
 void usage();
@@ -29,23 +30,14 @@ int main(int argc,char *argv[])
   if(argc>2)
     outputfilename = argv[2];
 
-  TiXmlDocument doc( inputfilename.c_str() );
-  if ( !doc.LoadFile() )
-  {
-    cerr << "Could not load file " << inputfilename << endl;
-    return -2;
-  }
-  TiXmlElement* root = doc.RootElement();
-  if(root->ValueStr()!="me:mesmer")
-  {
-    cerr << inputfilename << " is not a MESMER file" << endl;
-    return -2;
-  }
+  //This is where the type of IO is decided.
+  //Opens the data file and checks that its root element is me:mesmer.
+  mesmer::PersistPtr ppIOPtr = mesmer::XMLPersist::Create(inputfilename, "me:mesmer");
 
   //
   // Parse input.
   // 
-  if(!System.parse(root))
+  if(!System.parse(ppIOPtr))
     return -2;
   clog << inputfilename << " successfully parsed. Now calculating..." <<endl;
   // 
@@ -62,7 +54,7 @@ int main(int argc,char *argv[])
     else
       outputfilename = inputfilename + "out";
   }
-  if(!doc.SaveFile(outputfilename))
+  if(!ppIOPtr->SaveFile(outputfilename))
   {
     cerr << "There was an error when writing " << outputfilename << endl;
     return -3;

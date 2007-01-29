@@ -32,7 +32,7 @@ public:
    //
    // Read and parse a data input file.
    //
-   bool parse(TiXmlElement* root) ;
+   bool parse(PersistPtr ppIOPtr) ;
 
    //
    // Begin calculation.

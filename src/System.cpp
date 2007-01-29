@@ -9,8 +9,8 @@
 //
 //-------------------------------------------------------------------------------------------
 #include "Persistence.h"
-#include "System.h"
 #include "Constants.h"
+#include "System.h"
 
 using namespace std ;
 using namespace Constants ;
@@ -30,46 +30,44 @@ namespace mesmer
     //
     // Parse an input data file.
     //
-    bool System::parse(TiXmlElement* root)
+    bool System::parse(PersistPtr ppIOPtr)
     {
-        TiXmlElement* mollist = root->FirstChildElement("moleculeList");
-        if(!mollist)
+        PersistPtr ppMolList = ppIOPtr->MoveTo("moleculeList");
+        if(!ppMolList)
         {
             cerr << "No molecules have been specified" << endl;
             return false;
-        }if(!m_pMoleculeManager->addmols(mollist))
+        }
+        if(!m_pMoleculeManager->addmols(ppMolList))
             return false;;
 
-        TiXmlElement* reaclist = root->FirstChildElement("reactionList");
-        if(!reaclist)
+        PersistPtr ppReacList = ppIOPtr->MoveTo("reactionList");
+        if(!ppReacList)
         {
             cerr << "No reactions have been specified" << endl;
             return false;
-        }if(!m_pReactionManager->addreactions(reaclist))
+        }if(!m_pReactionManager->addreactions(ppReacList))
             return false;
 
-        TiXmlElement* pnConditions = root->FirstChildElement("me:conditions");
-        if(!pnConditions)
+        PersistPtr ppConditions = ppIOPtr->MoveTo("me:conditions");
+        if(!ppConditions)
         {
             cerr << "No conditions have been specified" << endl;
             return false;
         }
-        TiXmlElement* pnbathGas = pnConditions->FirstChildElement("me:bathGas");
-        if(!pnbathGas || 
-            ( !(m_pBathGasMolecule = dynamic_cast<BathGasMolecule*>(m_pMoleculeManager->find(pnbathGas->GetText())))))
+        const char* Bgtxt = ppConditions->ReadValue("me:bathGas");
+        if(!Bgtxt || 
+            ( !(m_pBathGasMolecule = dynamic_cast<BathGasMolecule*>(m_pMoleculeManager->find(Bgtxt)))))
         {
             cerr << "No bath gas specified" << endl;
             return false;
         }
 
-        TiXmlElement* pnTemp = pnConditions->FirstChildElement("me:temperature");
-        TiXmlElement* pnConc = pnConditions->FirstChildElement("me:conc");
-        const char* Ttxt, *Ctxt;
-        if(!pnTemp || !(Ttxt = pnTemp->GetText()) || !pnConc || !(Ctxt = pnConc->GetText()))
-        {
-            cerr << "The bath gas temperature or concentration has not been specified" << endl;
+        const char* Ttxt = ppConditions->ReadValue("me:temperature");
+        const char* Ctxt = ppConditions->ReadValue("me:conc");
+        if(!Ttxt || !Ctxt)
             return false;
-        }
+
         istringstream Tss(Ttxt);
         Tss >> temp;
         istringstream Css(Ctxt);
@@ -120,9 +118,9 @@ namespace mesmer
             double kinf = pmolecule->matrixElement(MAXGRN-1,MAXGRN-1,kmc,MAXGRN) ;
 
             cout << endl ;
-            IPersistObject::formatFloat(cout, kinf, 6, 15) ;
+            formatFloat(cout, kinf, 6, 15) ;
 
-        }    
+        }
 
     }
 }//namespace

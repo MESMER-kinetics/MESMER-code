@@ -9,9 +9,8 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include <iostream>
-#include <sstream>
 #include <math.h>
+#include "Persistence.h"
 #include "Molecule.h"
 #include "Constants.h"
 
@@ -72,245 +71,146 @@ return *this ;
 
 //
 // Read the Molecular data from I/O stream.
-//
-bool Molecule::ReadFromXML(TiXmlElement* pnMol) 
+bool Molecule::Initialize(PersistPtr p)
 {
-    m_pXmlEl = pnMol;
-    m_Name = pnMol->Attribute("id");
-    if(m_Name.empty())
-    {
-        cerr << "A <cml:molecule> element has no valid id attribute";
-        return false;
-    }
-    return true;
+  m_ppPersist = p;
+  m_Name = m_ppPersist->ReadValue("id");
+  if(m_Name.empty())
+    return false;
+  return true;
 }
 
-bool BathGasMolecule::ReadFromXML(TiXmlElement* pnMol) 
+bool BathGasMolecule::Initialize(PersistPtr pp)
 {
-    //Read base class parameters first
-    if(!Molecule::ReadFromXML(pnMol))
-        return false;
+  //Read base class parameters first
+  if(!Molecule::Initialize(pp))
+      return false;
 
-    TiXmlElement* pnPropList = pnMol->FirstChildElement("propertyList");
-    if(pnPropList)
-    {
-        const char* txt;
+  PersistPtr ppPropList = pp->MoveTo("propertyList");
+  if(!ppPropList)
+    ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
-        txt= ReadProperty(pnPropList,"me:epsilon");
-        if(!txt)
-            return false;
-        {
-            istringstream idata(txt);
-            idata >> m_Epsilon;
-        }
+  const char* txt;
 
-        txt= ReadProperty(pnPropList,"me:sigma");
-        if(!txt)
-            return false;
-        {
-            istringstream idata(txt);
-            idata >> m_Sigma;
-        }
+  txt= ppPropList->ReadProperty("me:epsilon");
+  if(!txt)
+      return false;
+  { istringstream idata(txt); //extra block ensures idata is initiallised
+    idata >> m_Epsilon;
+  }
 
-        txt= ReadProperty(pnPropList,"me:MW");
-        if(!txt)
-            return false;
-        {
-            istringstream idata(txt);
-            idata >> m_Mass;
-        }
-    }
-    return true;
+  txt= ppPropList->ReadProperty("me:sigma");
+  if(!txt)
+      return false;
+  { istringstream idata(txt);
+    idata >> m_Sigma;
+  }
+  
+  txt= ppPropList->ReadProperty("me:MW");
+  if(!txt)
+      return false;
+  { istringstream idata(txt);
+    idata >> m_Mass;
+  }
+  return true;
+  //TODO append name of molecule to error message
 }
 
-bool ModelledMolecule::ReadFromXML(TiXmlElement* pnMol) 
+
+bool ModelledMolecule::Initialize(PersistPtr pp)
 {
-    //Read base class parameters first
-    if(!Molecule::ReadFromXML(pnMol))
-        return false;
+  //Read base class parameters first
+  if(!Molecule::Initialize(pp))
+      return false;
 
-    TiXmlElement* pnPropList = pnMol->FirstChildElement("propertyList");
-    if(pnPropList)
-    {
-        const char* txt;
+  PersistPtr ppPropList = pp->MoveTo("propertyList");
+  if(!ppPropList)
+    ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
-        txt= ReadProperty(pnPropList,"me:ZPE");
-        if(!txt)
-            return false;
-        {
-            istringstream idata(txt);
-            idata >> m_ZPE ;
-        }
-        txt= ReadProperty(pnPropList,"me:rotConsts");
-        if(!txt)
-            return false;
-        {
-            istringstream idata(txt);
-            idata >> m_MmtIntA >> m_MmtIntB >> m_MmtIntC ;
-        }
-        txt= ReadProperty(pnPropList,"me:symmetryNumber");
-        if(!txt)
-            return false;
-        {
-            istringstream idata(txt);
-            idata >> m_Sym;
-        }
+  const char* txt;
 
-        txt= ReadProperty(pnPropList,"me:vibFreqs");
-        if(!txt)
-            return false;
-        {
-            istringstream idata(txt);
-            double x ;
-            while (idata >> x)
-                m_VibFreq.push_back(x) ;
-        }
-    }
+  txt= ppPropList->ReadProperty("me:ZPE");
+  if(!txt)
+      return false;
+  {
+      istringstream idata(txt);
+      idata >> m_ZPE ;
+  }
+  txt= ppPropList->ReadProperty("me:rotConsts");
+  if(!txt)
+      return false;
+  {
+      istringstream idata(txt);
+      idata >> m_MmtIntA >> m_MmtIntB >> m_MmtIntC ;
+  }
+  txt= ppPropList->ReadProperty("me:symmetryNumber");
+  if(!txt)
+      return false;
+  {
+      istringstream idata(txt);
+      idata >> m_Sym;
+  }
 
-    //
-    // Now the Molecular data is available, calculate density of states.
-    //
-    calcDensityOfStates() ;
+  txt= ppPropList->ReadProperty("me:vibFreqs");
+  if(!txt)
+      return false;
+  {
+      istringstream idata(txt);
+      double x ;
+      while (idata >> x)
+          m_VibFreq.push_back(x) ;
+  }
 
-    return true;
+  //
+  // Now the Molecular data is available, calculate density of states.
+  //
+  calcDensityOfStates() ;
+
+  return true;
 }
 
-bool CollidingMolecule::ReadFromXML(TiXmlElement* pnMol) 
+bool CollidingMolecule::Initialize(PersistPtr pp) 
 {
-    //Read base class parameters first
-    if(!ModelledMolecule::ReadFromXML(pnMol))
-        return false;
+  //Read base class parameters first
+  if(!ModelledMolecule::Initialize(pp))
+      return false;
 
-    TiXmlElement* pnPropList = pnMol->FirstChildElement("propertyList");
-    if(pnPropList)
-    {
-        const char* txt;
+  PersistPtr ppPropList = pp->MoveTo("propertyList");
+  if(!ppPropList)
+    ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
-        txt= ReadProperty(pnPropList,"me:epsilon");
-        if(!txt)
-            return false;
-        {
-            istringstream idata(txt);
-            idata >> m_Epsilon;
-        }
+  const char* txt;
 
-        txt= ReadProperty(pnPropList,"me:sigma");
-        if(!txt)
-            return false;
-        {
-            istringstream idata(txt);
-            idata >> m_Sigma;
-        }
+  txt= ppPropList->ReadProperty("me:epsilon");
+  if(!txt)
+      return false;
+  { istringstream idata(txt); //extra block ensures idata is initiallised
+    idata >> m_Epsilon;
+  }
 
-        txt= ReadProperty(pnPropList,"me:MW");
-        if(!txt)
-            return false;
-        {
-            istringstream idata(txt);
-            idata >> m_Mass;
-        }
+  txt= ppPropList->ReadProperty("me:sigma");
+  if(!txt)
+      return false;
+  { istringstream idata(txt);
+    idata >> m_Sigma;
+  }
+  
+  txt= ppPropList->ReadProperty("me:MW");
+  if(!txt)
+      return false;
+  { istringstream idata(txt);
+    idata >> m_Mass;
+  }
 
-        txt= ReadProperty(pnPropList,"me:deltaEDown");
-        if(!txt)
-            return false;
-        {
-            istringstream idata(txt);
-            idata >> m_DeltaEdown;
-        }
-    }
-    return true;
+  txt= ppPropList->ReadProperty("me:deltaEDown");
+  if(!txt)
+    return false;
+  { istringstream idata(txt);
+    idata >> m_DeltaEdown;
+  }
+
+  return true;
 }
-/*
-m_VibFreq.clear() ;
-
-int bracket_count = 1 ;                       // When zero end of molecule.
-
-while (bracket_count > 0) {                   // Main input loop begins.
-
-//
-// Find first delinater character.
-//
-char c ;
-while (in.get(c) && c != '@' && c != '}' ) ;
-
-if (c == '}') {                                       // End of data. 
-bracket_count-- ;
-continue ;
-}
-
-string keyword ;
-while (in.get(c) && c != '{' )
-keyword += c ;
-
-if        (keyword == "Name") {                    // Molecule name.
-
-istringstream idata(collectData(in)) ;
-
-idata >> m_Name ;
-
-continue ;
-
-} else if (keyword == "Rotational constants") {
-
-istringstream idata(collectData(in)) ;
-
-idata >> m_MmtIntA >> m_MmtIntB >> m_MmtIntC ;
-
-continue ;
-
-} else if (keyword == "Symmetry number") {
-
-istringstream idata(collectData(in)) ;
-
-idata >> m_Sym ;
-
-continue ;
-
-} else if (keyword == "Vibrational frequencies") {
-
-istringstream idata(collectData(in)) ;
-
-double x ;
-
-while (idata >> x)
-m_VibFreq.push_back(x) ;
-
-} else if (keyword == "Delta Edown") {
-
-istringstream idata(collectData(in)) ;
-
-idata >> m_DeltaEdown ;
-
-continue ;
-
-} else if (keyword == "Epsilon") {
-
-istringstream idata(collectData(in)) ;
-
-idata >> m_Epsilon ;
-
-continue ;
-
-} else if (keyword == "Sigma") {
-
-istringstream idata(collectData(in)) ;
-
-idata >> m_Sigma ;
-
-continue ;
-
-} else if (keyword == "Mass") {
-
-istringstream idata(collectData(in)) ;
-
-idata >> m_Mass ;
-
-continue ;
-
-}
-
-}                                             // Main input loop ends.
-*/
 
 //
 // Get density of states.
@@ -474,7 +374,7 @@ void CollidingMolecule::diagCollisionOperator() {
 
     // Allocate space for eigenvalues.
 
-	int msize = m_egme->size() ;
+  int msize = m_egme->size() ;
     vector<double> rr(msize, 0.0) ;
 
     m_egme->diagonalize(&rr[0]) ;
@@ -635,7 +535,7 @@ void ModelledMolecule::testDensityOfStates() {
   string comment("Partition function calculation at various temperatures.\
 qtot : using analytical formula. sumc : based on cells. sumg : based on grains.");
 
-    TiXmlElement* list = WriteMainElement( m_pXmlEl, "me:densityOfStatesList", comment );
+    PersistPtr ppList = m_ppPersist->WriteMainElement("me:densityOfStatesList", comment );
     for ( int n = 0 ; n < 29 ; ++n ) {
 
         temp = 100.0*static_cast<double>(n + 2) ;
@@ -669,11 +569,11 @@ qtot : using analytical formula. sumc : based on cells. sumg : based on grains."
         cout << endl ;
 
         //Add to XML document
-        TiXmlElement* item = WriteElement(list, "me:densityOfStates");
-        WriteValueElement(item, "me:T",    temp, 6);
-        WriteValueElement(item, "me:qtot", qtot, 6) ;
-        WriteValueElement(item, "me:sumc", sumc, 6) ;
-        WriteValueElement(item, "me:sumg", sumg, 6) ;
+        PersistPtr ppItem = ppList->WriteElement("me:densityOfStates");
+        ppItem->WriteValueElement("me:T",    temp, 6);
+        ppItem->WriteValueElement("me:qtot", qtot, 6) ;
+        ppItem->WriteValueElement("me:sumc", sumc, 6) ;
+        ppItem->WriteValueElement("me:sumg", sumg, 6) ;
 
     }
 

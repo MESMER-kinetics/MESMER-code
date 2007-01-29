@@ -1,4 +1,37 @@
-2007-01-18  Chris Morley  <c.morley@gaseq.co.uk>
+2007-01-29  Chris Morley
+
+	I/O rewritten to improve code isolation and allow TinyXML
+	to be replaced if necessary. See description in Persistence.h
+	
+	* src/XMLPersist.h, src/XMLPersist.cpp added.
+	* src/Persistence.cpp removed
+	* src/util.cpp added. Contains formatFloat(), now a global
+	function.
+	
+	Extensive changes to:
+	* src/Persistence.h, (IPersistObject rename to IPersist)
+	and most other files.
+	
+2007-01-18  Chris Morley
+	
+	* src/Persistence.h, Persistence.cpp: Added output utility
+	functions WriteElement(), WriteMainElement() and 
+	WriteValueElement(). In IPersistObject at present, but maybe
+	they should be elswhere.
+	
+	* src/Molecule.h, Reaction.h: Added member variable to retain
+	object address in XML document.
+	
+	* src/Molecule.cpp(testDensityOfStates): Output also to XML
+	
+	* src/Reaction.cpp(testMicroRateCoeffs): Output also to XML
+	
+	* src/pentyl_isomerization.xml: Correct extra " typos
+	
+	* Windows VC8/Mesmer/mesmer1.xsl: Added. Provides formating when
+	XML file viewed in a browser.
+
+2007-01-18  Chris Morley
 
 	* tinyxml/tinyxmlparser.cpp: small patch to allow xml-stylesheet
 	instuction to be passed on. See:

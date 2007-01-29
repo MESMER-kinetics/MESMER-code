@@ -18,15 +18,15 @@ namespace mesmer
 //
 // Add a new molecule to the list.
 //
-bool MoleculeManager::addmols(TiXmlElement* pnMolList) {
+bool MoleculeManager::addmols(PersistPtr ppMolList) {
 
-  TiXmlElement* pnMol = pnMolList->FirstChildElement("molecule");
-  while(pnMol)
+  PersistPtr ppmol = ppMolList->MoveTo("molecule");
+  while(ppmol)
   {
     //
     // Create a new Molecule of the required type.
     //
-    const char* ptype = pnMol->Attribute("me:type");
+    const char* ptype = ppmol->ReadValue("me:type", false);//some product mols don't have type
     string moltype;
       if(ptype)
     moltype = ptype;
@@ -44,7 +44,7 @@ bool MoleculeManager::addmols(TiXmlElement* pnMolList) {
      //
      // Initialize Molecule from input stream.
      //Each molecule type has its own set of mandatory of parameters
-     if(!pmolecule->ReadFromXML(pnMol))
+     if(!pmolecule->Initialize(ppmol))
        return false;
 
      string strName = pmolecule->getName() ;
@@ -56,7 +56,7 @@ bool MoleculeManager::addmols(TiXmlElement* pnMolList) {
      //
      m_molmap[strName] = pmolecule ;
 
-     pnMol = pnMol->NextSiblingElement("molecule");
+     ppmol = ppmol->MoveTo("molecule");
   }
   return true;
 }

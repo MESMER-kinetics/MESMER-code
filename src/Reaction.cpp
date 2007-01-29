@@ -9,13 +9,13 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include "Persistence.h"
-#include <sstream>
 #include <math.h>
-#include "Reaction.h"
 #include "Constants.h"
+#include "Persistence.h"
+#include "Reaction.h"
 
 using namespace Constants ;
+using namespace std;
 
 namespace mesmer
 {
@@ -44,125 +44,115 @@ Reaction& Reaction::operator=(const Reaction& reaction) {
 //
 // Read the Molecular data from inout stream.
 //
-bool Reaction::ReadFromXML(TiXmlElement* pnReac) 
+bool Reaction::Initialize(PersistPtr ppReac) 
 {
-  m_pXmlEl = pnReac;
-  if(GetMolRef(pnReac, "reactant",0))
+  m_ppPersist = ppReac;
+
+  Molecule* pMol1,*pMol2=NULL;
+  //Read reactants
+  PersistPtr ppReactant1  = ppReac->MoveTo("reactant");
+  pMol1 = GetMolRef(ppReactant1);
+  if(!pMol1) return false;
+
+  PersistPtr ppReactant2  = ppReactant1->MoveTo("reactant");
+  if(ppReactant2)
   {
-    GetMolRef(pnReac, "reactant",1);
-    GetMolRef(pnReac, "product",0);
-    GetMolRef(pnReac, "product",1);
-    GetMolRef(pnReac, "me:transitionState",0);
-
-    TiXmlElement* pnThresh = pnReac->FirstChildElement("me:threshold");
-    if(pnThresh)
-    {
-      istringstream idata(pnThresh->GetText());
-      idata >> m_E0 ;
-    }
-
-  //Check that there is a transition state and either a modelled reactant or product
-    if((m_Reactant || m_Product) && m_TransitionState)
-        return true;
+    pMol2 = GetMolRef(ppReactant2);
+    if(!pMol2) return false;
+    m_Reactant2 = pMol2;
   }
-  cerr << "Difficulty with missing, unknown or ill-formed reactant of a reaction" << endl;
-  return false;
-
-}
-
-///Reads
-bool Reaction::GetMolRef(TiXmlElement* pnReac,const char* molRole, int index)
-{
-  const char* pRef;
-  Molecule* pMol;
-  bool isReactant = !strcmp(molRole,"reactant");
-
-  TiXmlHandle rHandle(pnReac);
-  TiXmlElement* pnMol = rHandle.FirstChildElement(molRole).ChildElement("molecule",index).ToElement();
-  if(pnMol 
-    && (pRef=pnMol->Attribute("ref")))
+  //Put the Colliding Molecule into m_Reactant, even if it is second in datafile
+  CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
+  if(pColMol)
   {
-    pMol = m_pMoleculeManager->find(pRef);
-    if(!pMol)
+    m_Reactant = pColMol;
+    m_Reactant2 = pMol2;
+  }
+  else
+  {  
+    pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
+    if(!pColMol)
     {
-      cerr << "Unknown molecule: " << pRef <<endl;
+      cerr << "Either " << pMol1->getName() << " or " 
+        << pMol2->getName() <<" has to be a modelled molecule" <<endl;
       return false;
     }
-
-    if(!strcmp(molRole,"me:transitionState"))
-    {
-      m_TransitionState = dynamic_cast<TransitionState*>(pMol);
-      return true;
-    }
-
-    CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol);
-    if(!strcmp(molRole,"reactant"))
-    {
-      if(pColMol && m_Reactant==NULL)
-        m_Reactant = pColMol;
-      else
-        m_Reactant2 = pMol;
-    }
-    else
-    {
-      if(pColMol && m_Product==NULL)
-        m_Product = pColMol;
-      else
-        m_Product2 = pMol;
-    }
-    return true;
+    m_Reactant = pColMol;
+    m_Reactant2 = pMol1;
   }
+
+  //Read products
+  pMol2=NULL;
+  PersistPtr ppProduct1  = ppReac->MoveTo("product");
+  pMol1 = GetMolRef(ppProduct1);
+  if(!pMol1) return false; //there must be at least one product
+
+  PersistPtr ppProduct2  = ppProduct1->MoveTo("product");
+  pMol2 = GetMolRef(ppProduct2);
+
+  //Put the Colliding Molecule into m_Product, even if it is second in datafile
+  pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
+  if(pColMol)
+  {
+    m_Product = pColMol;
+    m_Product2 = pMol2;
+  }
+  else
+  {  
+    pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
+    if(!pColMol)
+    {
+      cerr << "Either " << pMol1->getName() << " or " 
+        << pMol2->getName() <<" has to be a modelled molecule" <<endl;
+      return false;
+    }
+    m_Product = pColMol;
+    m_Product2 = pMol1;
+  }
+
+  //Read TransitionState
+  pMol1 = GetMolRef(ppReac->MoveTo("me:transitionState"));
+  TransitionState* pTSMol = dynamic_cast<TransitionState*>(pMol1);
+  if(!pTSMol)
+  {
+    cerr << "The molecule " << pMol1->getName() << " needs to be of transition state type" << endl;
+    return false;
+  }
+  m_TransitionState = pTSMol;
+
+  const char* pthreshtxt = ppReac->ReadValue("me:threshold",false);
+  if(pthreshtxt)
+  {
+    stringstream ss(pthreshtxt);
+    ss >> m_E0;
+  }
+
+//Check that there is a transition state and either a modelled reactant or product
+  if((m_Reactant || m_Product) && m_TransitionState)
+   return true;
+
+  cerr << "Difficulty with missing, unknown or ill-formed reactant, product or TS of a reaction" << endl;
   return false;
 }
-/*
-    int bracket_count = 1 ;                         // When zero end of reactant.
-
-    while (bracket_count > 0) {                     // Main input loop begins.
-
-       //
-       // Find first delinater character.
-       //
-       char c ;
-       while (in.get(c) && c != '@' && c != '}' ) ;
-
-       if (c == '}') {                              // End of data.
-          bracket_count-- ;
-          continue ;
-       }
-
-       string keyword ;
-       while (in.get(c) && c != '{' )
-          keyword += c ;
-
-       if        (keyword == "Reactant") {          // Reactant name.
-
-          string data = collectData(in) ;
-
-          m_Reactant = m_pMoleculeManager->find(data) ;
-
-          continue ;
-
-       } else if (keyword == "Transition State") {  // Transition State name.
-
-          string data = collectData(in) ;
-
-          m_TransitionState = m_pMoleculeManager->find(data) ;
-
-          continue ;
 
 
-       } else if (keyword == "Threshold") {         // Threshold Energy.
-
-          istringstream idata(collectData(in)) ;
-
-          idata >> m_E0 ;
-
-          continue ;
-
-       }
-
-    }                                               // Main input loop ends.
-*/
+Molecule* Reaction::GetMolRef(PersistPtr pp)
+{
+  Molecule* pMol;
+  if(!pp)
+    return NULL;
+  PersistPtr ppmol = pp->MoveTo("molecule");
+  if(!ppmol) return false;
+  const char* pRef = ppmol->ReadValue("ref");
+  if(pRef)
+    pMol = m_pMoleculeManager->find(pRef);
+  if(!pMol)
+  {
+    cerr << "Unknown molecule: " << pRef <<endl;
+    return NULL;
+  }
+  return pMol;
+}
 
 //
 // Calculate the forward microcanonical rate coefficients, using RRKM theory.
@@ -286,7 +276,7 @@ void Reaction::testMicroRateCoeffs() {
 
     cout << endl << "Test of microcanonical rate coefficients" << endl << endl ;
   string comment("Microcanonical rate coefficients");
-    TiXmlElement* list = WriteMainElement( m_pXmlEl, "me:microRateList", comment );
+    PersistPtr ppList = m_ppPersist->WriteMainElement("me:microRateList", comment );
 
     // Allocate some work space for density of states.
 
@@ -315,9 +305,9 @@ void Reaction::testMicroRateCoeffs() {
        cout << endl ;
  
        //Add to XML document
-       TiXmlElement* item = WriteElement(list, "me:microRate");
-       WriteValueElement(item, "me:T",   temp, 6);
-       WriteValueElement(item, "me:val", sm1,  6) ;
+       PersistPtr ppItem = ppList->WriteElement("me:microRate");
+       ppItem->WriteValueElement("me:T",   temp, 6);
+       ppItem->WriteValueElement("me:val", sm1,  6) ;
  
     }
 

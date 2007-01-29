@@ -20,10 +20,10 @@ namespace mesmer
 // 
 // Add a new reaction to the map.
 //
-bool ReactionManager::addreactions(TiXmlElement* pnReacList)
+bool ReactionManager::addreactions(PersistPtr ppReacList)
 {
-  TiXmlElement* pnReac = pnReacList->FirstChildElement("reaction");
-  while(pnReac)
+  PersistPtr ppReac = ppReacList->MoveTo("reaction");
+  while(ppReac)
   {
      //
      // Create a new Reaction.
@@ -33,7 +33,7 @@ bool ReactionManager::addreactions(TiXmlElement* pnReacList)
      //
      // Initialize Reaction from input stream.
      //
-     if(!preaction->ReadFromXML(pnReac))
+     if(!preaction->Initialize(ppReac))
        return false;;
 
 //     preaction->put_verbosity(true) ;
@@ -43,12 +43,12 @@ bool ReactionManager::addreactions(TiXmlElement* pnReacList)
      //
      m_reactions.push_back(preaction) ;
 
-	 //
+     //
 	 // Update connectivity table.
 	 //
 	 m_ReactionConnectivity.addreaction(preaction) ;
 
-     pnReac = pnReac->NextSiblingElement("reaction");
+     ppReac = ppReac->MoveTo("reaction");
   }
 
   m_ReactionConnectivity.printconnectivitytable() ;
