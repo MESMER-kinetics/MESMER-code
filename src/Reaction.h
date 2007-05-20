@@ -17,7 +17,6 @@
 #include "MoleculeManager.h"
 #include "Persistence.h"
 
-using namespace std;
 namespace mesmer
 {
 	
@@ -72,14 +71,13 @@ public:
    void CalcMicroRateCoeffs() ;
 
    // Access microcanoincal rate coeffcients. 
-   void get_MicroRateCoeffs(vector<double> &kmc, int ngrn) ;
+   void get_MicroRateCoeffs(std::vector<double> &kmc, int ngrn) ;
 
    // Reactant information:
 
-   std::string get_ReactantName() const { return m_Reactant->getName() ; } ;
-   int get_NumberOfReactants()    const { return m_Reactant2 ? 2 : 1 ; } ;
-   std::string get_ProductName()  const { return m_Product->getName() ; } ;
-   int get_NumberOfProducts()     const { return m_Product2 ? 2 : 1 ; } ;
+   int get_NumberOfReactants() const { return m_Reactant2 ? 2 : 1 ; } ;
+   int get_NumberOfProducts()  const { return m_Product2 ? 2 : 1 ; } ;
+   void get_unimolecularspecies(std::vector<CollidingMolecule *> &unimolecularspecies) const ;
 
 private:
    ///Read a molecule name from the XML file and look it up
@@ -111,7 +109,7 @@ private:
    //
    // Memory management.
    //
-   allocator<double>        m_alloc ;
+   std::allocator<double>        m_alloc ;
 
 } ;
 }//namespace

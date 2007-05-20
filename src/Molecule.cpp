@@ -396,7 +396,7 @@ void CollidingMolecule::diagCollisionOperator() {
 //
 // Calculate collision frequency.
 //
-double CollidingMolecule::collisionFrequency(double temp, double conc, double bthMass, double bthSigma, double bthEpsilon) {
+double CollidingMolecule::collisionFrequency(double beta, double conc, Molecule *pBathGasMolecule) {
 
 	//
 	// Lennard-Jones Collision frequency. The collision integral is calculated 
@@ -413,9 +413,14 @@ double CollidingMolecule::collisionFrequency(double temp, double conc, double bt
 	double amu = 1.6606E-27 ;
 
 	double pi = acos(-1.0) ;
+	double temp = 1.0/(boltzmann*beta) ;
 	//
 	// Calculate collision parameter averages.
 	//
+    double bthMass    = pBathGasMolecule->getMass();
+    double bthSigma   = pBathGasMolecule->getSigma();
+    double bthEpsilon = pBathGasMolecule->getEpsilon();
+
 	double mu   = amu*m_Mass*bthMass/(m_Mass + bthMass) ;
 	double eam  = sqrt(m_Epsilon*bthEpsilon) ;
 	double sam  = (m_Sigma + bthSigma)*0.5 ;

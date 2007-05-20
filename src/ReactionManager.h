@@ -28,7 +28,6 @@ public:
 
    ReactionManager(MoleculeManager *pMoleculeManager) : m_reactions(),
                                                         m_pMoleculeManager(pMoleculeManager), 
-                                                        m_ReactionConnectivity(),
                                                         m_pSystemCollisionOperator(0) {} ;
    // Destructor.
    ~ReactionManager(){} ;
@@ -54,7 +53,7 @@ public:
    int Connectivity(Molecule* pReactant, Molecule* pProduct);
 
    // Build collision operator for system.
-   void BuildSystemCollisionOperator(const double beta) ;
+   void BuildSystemCollisionOperator(const double beta, const double conc) ;
 
    // Diagonalize the collision operator.
    void diagCollisionOperator() ;
@@ -64,8 +63,6 @@ private:
    std::vector<Reaction *> m_reactions ;
 
    MoleculeManager        *m_pMoleculeManager ;
-
-   CReactionConnectivity   m_ReactionConnectivity ;
 
    dMatrix                *m_pSystemCollisionOperator ;
 

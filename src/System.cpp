@@ -55,13 +55,14 @@ namespace mesmer
             cerr << "No conditions have been specified" << endl;
             return false;
         }
-        const char* Bgtxt = ppConditions->ReadValue("me:bathGas");
-        if(!Bgtxt || 
-            ( !(m_pBathGasMolecule = dynamic_cast<BathGasMolecule*>(m_pMoleculeManager->find(Bgtxt)))))
+        const string Bgtxt = ppConditions->ReadValue("me:bathGas");
+        if(!Bgtxt.size() || !(m_pMoleculeManager->find(Bgtxt)) )
         {
             cerr << "No bath gas specified" << endl;
             return false;
-        }
+		} else {
+			m_pMoleculeManager->set_BathGasMolecule(Bgtxt) ;
+		}
 
         const char* Ttxt = ppConditions->ReadValue("me:temperature");
         const char* Ctxt = ppConditions->ReadValue("me:conc");
@@ -80,15 +81,12 @@ namespace mesmer
     //
     void System::calculate() 
     { 
-        double bthMass    = m_pBathGasMolecule->getMass();
-        double bthSigma   = m_pBathGasMolecule->getSigma();
-        double bthEpsilon = m_pBathGasMolecule->getEpsilon();
-
+		Molecule *pBathGasMolecule = m_pMoleculeManager->get_BathGasMolecule();
         double beta = 1.0/(boltzmann*temp) ;
 
         // Build collison matrix for system.
 
-        m_pReactionManager->BuildSystemCollisionOperator(beta) ;
+        m_pReactionManager->BuildSystemCollisionOperator(beta, conc) ;
 
         m_pReactionManager->diagCollisionOperator() ;
 
@@ -106,7 +104,7 @@ namespace mesmer
 
             CollidingMolecule *pmolecule = reaction->m_Reactant ;
 
-            double omega = pmolecule->collisionFrequency(temp, conc, bthMass, bthSigma, bthEpsilon) ;
+            double omega = pmolecule->collisionFrequency(temp, conc, pBathGasMolecule) ;
 
             // for (int i(0) ; i < MAXCELL ; i++) 
             //     kmc[i] /= omega ;

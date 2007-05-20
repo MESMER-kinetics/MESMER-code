@@ -197,10 +197,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\ReactionConnectivity.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\ReactionManager.cpp"
 				>
 			</File>
@@ -268,10 +264,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Reaction.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ReactionConnectivity.h"
 				>
 			</File>
 			<File

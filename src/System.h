@@ -53,7 +53,6 @@ private:
    ReactionManager *m_pReactionManager ;
 
 private:
-  BathGasMolecule* m_pBathGasMolecule;
 
   double temp;
   double conc;

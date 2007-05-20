@@ -147,8 +147,7 @@ namespace mesmer
         void diagCollisionOperator() ;
 
         // Calculate collision frequency.
-        double collisionFrequency(double temp, double conc, double bthMass, 
-            double bthSigma, double bthEpsilon) ;
+        double collisionFrequency(double temp, double conc, Molecule *pBathGasMolecule) ;
 
         // Calculate a reaction matrix element.
         double matrixElement(int eigveci, int eigvecj, std::vector<double> &k, int ndim) ;

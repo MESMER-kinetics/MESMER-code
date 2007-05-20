@@ -41,9 +41,16 @@ public:
    // Total number of molecules in the list.
    void size() const {} ;
 
+   // Accessors and Modifers for bath gas molecule.
+
+   Molecule *get_BathGasMolecule() {return m_molmap[m_BathGasMolecule]; } ;
+   void set_BathGasMolecule(const std::string &BathGasMolecule){m_BathGasMolecule = BathGasMolecule ; } ;
+
 private:
 
    std::map<std::string, Molecule*> m_molmap ;
+
+   std::string m_BathGasMolecule ;
  
 } ;
 }//namespace

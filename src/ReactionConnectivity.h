@@ -32,7 +32,7 @@ public:
 
 	void printconnectivitytable() const ;
 
-        void get_unimolecularspecies(std::vector<std::string>& species) ;
+    void get_unimolecularspecies(std::vector<std::string>& species) ;
 
 private: 
    

@@ -155,6 +155,22 @@ Molecule* Reaction::GetMolRef(PersistPtr pp)
 }
 
 //
+// Returns the unimolecular species in each reaction, i.e. for association
+// (source term) or dissociation (sink term) reaction one species is returned,
+// for an isomerization reaction two species are returned.
+//
+void Reaction::get_unimolecularspecies(vector<CollidingMolecule *> &unimolecularspecies) const
+{
+	if(m_Reactant2 == NULL){ // Possible dissociation or isomerization.
+		unimolecularspecies.push_back(m_Reactant) ;
+	}
+
+	if(m_Product2 == NULL){	// Possible association or isomerization.
+		unimolecularspecies.push_back(m_Product) ;
+	}
+}
+
+//
 // Calculate the forward microcanonical rate coefficients, using RRKM theory.
 //
 void Reaction::CalcMicroRateCoeffs() {

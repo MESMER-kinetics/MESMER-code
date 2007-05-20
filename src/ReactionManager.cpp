@@ -13,8 +13,11 @@
 #include "ReactionManager.h"
 #include "Molecule.h"
 #include "Constants.h"
+#include <algorithm>
 
 using namespace Constants ;
+using namespace std ;
+
 namespace mesmer
 {
 // 
@@ -43,15 +46,8 @@ bool ReactionManager::addreactions(PersistPtr ppReacList)
      //
      m_reactions.push_back(preaction) ;
 
-     //
-	 // Update connectivity table.
-	 //
-	 m_ReactionConnectivity.addreaction(preaction) ;
-
      ppReac = ppReac->MoveTo("reaction");
   }
-
-  m_ReactionConnectivity.printconnectivitytable() ;
 
   return true;
 }
@@ -61,39 +57,41 @@ int ReactionManager::Connectivity(Molecule* pReactant, Molecule* pProduct)
   return -1;
 }
 
-void ReactionManager::BuildSystemCollisionOperator(const double beta)
+void ReactionManager::BuildSystemCollisionOperator(const double beta, const double conc)
 {
-    // Find all the individual wells.
-    vector<string> species ;
-    m_ReactionConnectivity.get_unimolecularspecies(species)  ;
-
-    // Initialize all collision operators and find well with the lowest energy.
+    // To begin with we need to: 
+	// 1) Find all the individual wells.
+    // 2) Initialize all collision operators. 
+	// 3) Find well with the lowest energy.
+	// 4) Calculate the mean collision frequency.
 
     vector<double> zpes ;
     vector<CollidingMolecule *> isomers ;
     double minEnergy(0) ;
-    for (size_t i(0) ; i < species.size() ; i++) {
+	Molecule *pBathGasMolecule = m_pMoleculeManager->get_BathGasMolecule();
+    for (size_t i(0) ; i < size() ; i++) {
 
-        Molecule* pmolecule ;
-        try {
+		vector<CollidingMolecule *> unimolecularspecies ;
+		m_reactions[i]->get_unimolecularspecies(unimolecularspecies) ;
 
-            pmolecule = m_pMoleculeManager->find(species[i]) ;
+		for (size_t i(0) ; i < unimolecularspecies.size() ; i++) {
 
-        } catch (...) {
-            cout << "Molecule does not exist in Molecular database." << endl ;
-            exit (1) ;
-        }
-        //
-        // SHR 2/Jan/2007: The following line has a down cast which is bad news,
-        // we should review this as soon as possible.
-        //
-        CollidingMolecule* pcollidingmolecule = dynamic_cast<CollidingMolecule *>(pmolecule) ;
-        isomers.push_back(pcollidingmolecule) ;
-        pcollidingmolecule->initCollisionOperator(beta) ;
-        
-        double zpe = pcollidingmolecule->get_zpe() ;
-        zpes.push_back(zpe) ;
-        minEnergy = min(minEnergy,zpe) ;
+			CollidingMolecule *pcollidingmolecule = unimolecularspecies[i] ;
+
+			if(find(isomers.begin(),isomers.end(),pcollidingmolecule) == isomers.end()){
+				isomers.push_back(pcollidingmolecule) ;
+
+				pcollidingmolecule->initCollisionOperator(beta) ;
+	        
+				double zpe = pcollidingmolecule->get_zpe() ;
+				zpes.push_back(zpe) ;
+
+				minEnergy = min(minEnergy,zpe) ;
+
+				double omega = pcollidingmolecule->collisionFrequency(beta, conc, pBathGasMolecule) ;
+
+			}
+		}
     }
 
     // Shift all wells to the same origin and calculate the size of 
@@ -119,22 +117,29 @@ void ReactionManager::BuildSystemCollisionOperator(const double beta)
     int idx(0) ;
     for (size_t m(0) ; m < colloptrsizes.size() ; m++) {
         int colloptrsize = colloptrsizes[m] ;
-//        const dMatrix *colloptr = isomers[m]->collisionOperator() ;
 
         isomers[m]->copyCollisionOperator(m_pSystemCollisionOperator, colloptrsize, idx) ;
-
-/*      for (int i(0) ; i < colloptrsize ; i++) {
-            int ii(idx + i) ;
-            for (int j(0) ; j < colloptrsize ; j++) {
-                int jj(idx + j) ;
-                (*m_pSystemCollisionOperator)[ii][jj] = (*colloptr)[i][j] ;
-            }   
-        }    */
 
         idx += colloptrsize ;
     }
 
     // Add connecting rate coefficients.
+    for (size_t i(0) ; i < size() ; i++) {
+
+		vector<CollidingMolecule *> unimolecularspecies ;
+		m_reactions[i]->get_unimolecularspecies(unimolecularspecies) ;
+
+		if (unimolecularspecies.size() == 2){ 
+			// Isomerization
+			CollidingMolecule *reactant = unimolecularspecies[0] ; 
+
+		} else if (unimolecularspecies.size() == 1) { 
+			//Association/Dissociation
+		} else {
+			// Bimolecular reaction
+		}
+
+    }
 }
 
 void ReactionManager::diagCollisionOperator()
