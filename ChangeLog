@@ -36,6 +36,17 @@
 	* tinyxml/tinyxmlparser.cpp: small patch to allow xml-stylesheet
 	instuction to be passed on. See:
 	http://sourceforge.net/tracker/index.php?func=detail&aid=1618031&group_id=13559&atid=313559
-	
+
 	* src/main.cpp: Can specify output file with default of adding
 	out before extension on inputfile name. Added usage function and some exit codes.
+
+2007-05-20  Struan Robertson
+
+	* src/ReactionManager.cpp/.h: Altered so that it no longer uses the
+        ReactionConnectivety class.
+
+        * src/MoleculeManager.cpp/.h: Accessor methods added to locate the bath 
+        gas molecule. This is required in the calculation of bath collision 
+        frequencies. Knock on changes required to Molecule.cpp/.h and System.cpp/
+        .h
+
