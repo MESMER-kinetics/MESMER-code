@@ -45,8 +45,12 @@
 	* src/ReactionManager.cpp/.h: Altered so that it no longer uses the
         ReactionConnectivety class.
 
-        * src/MoleculeManager.cpp/.h: Accessor methods added to locate the bath 
-        gas molecule. This is required in the calculation of bath collision 
+        * src/MoleculeManager.cpp/.h: Accessor methods added to locate the bath
+        gas molecule. This is required in the calculation of bath collision
         frequencies. Knock on changes required to Molecule.cpp/.h and System.cpp/
         .h
+
+2007-05-22  Struan Robertson
+
+	* Minor update to allow collision frequency to be calculated for all isomers.
 

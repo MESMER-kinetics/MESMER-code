@@ -66,6 +66,7 @@ void ReactionManager::BuildSystemCollisionOperator(const double beta, const doub
 	// 4) Calculate the mean collision frequency.
 
     vector<double> zpes ;
+    vector<double> omegas ;
     vector<CollidingMolecule *> isomers ;
     double minEnergy(0) ;
 	Molecule *pBathGasMolecule = m_pMoleculeManager->get_BathGasMolecule();
@@ -88,8 +89,7 @@ void ReactionManager::BuildSystemCollisionOperator(const double beta, const doub
 
 				minEnergy = min(minEnergy,zpe) ;
 
-				double omega = pcollidingmolecule->collisionFrequency(beta, conc, pBathGasMolecule) ;
-
+				omegas.push_back(pcollidingmolecule->collisionFrequency(beta, conc, pBathGasMolecule)) ;
 			}
 		}
     }
@@ -99,12 +99,15 @@ void ReactionManager::BuildSystemCollisionOperator(const double beta, const doub
 
     vector<int> colloptrsizes ;
     int msize(0) ;
-    for (size_t i(0) ; i < zpes.size() ; i++) {
+	double meanomega(0.0) ;
+    for (size_t i(0) ; i < isomers.size() ; i++) {
         zpes[i] -= minEnergy ;
         int colloptrsize = MAXGRN  - int(zpes[i] * KCMLTOPCM / double(MAXCELL/MAXGRN)) ;
         msize += colloptrsize ;
         colloptrsizes.push_back(colloptrsize) ;
+		meanomega += omegas[i] ;
     }
+	meanomega /= isomers.size();
 
     cout << endl << "The size of the collision matrix is: " << msize << endl << endl ;
 
@@ -115,10 +118,10 @@ void ReactionManager::BuildSystemCollisionOperator(const double beta, const doub
     // Insert collision operators for individual wells.
 
     int idx(0) ;
-    for (size_t m(0) ; m < colloptrsizes.size() ; m++) {
+    for (size_t m(0) ; m < isomers.size() ; m++) {
         int colloptrsize = colloptrsizes[m] ;
 
-        isomers[m]->copyCollisionOperator(m_pSystemCollisionOperator, colloptrsize, idx) ;
+        isomers[m]->copyCollisionOperator(m_pSystemCollisionOperator, colloptrsize, idx, omegas[m]/meanomega) ;
 
         idx += colloptrsize ;
     }

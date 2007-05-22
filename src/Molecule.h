@@ -153,7 +153,7 @@ namespace mesmer
         double matrixElement(int eigveci, int eigvecj, std::vector<double> &k, int ndim) ;
 
         // Accessors.
-        void copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate) const ;
+        void copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
 
     protected:
         //

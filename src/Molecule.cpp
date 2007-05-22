@@ -456,7 +456,7 @@ double CollidingMolecule::matrixElement(int eigveci, int eigvecj, vector<double>
 //
 // Copy collision operator to diagonal block of system matrix.
 //
-void CollidingMolecule::copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate) const {
+void CollidingMolecule::copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const {
 
     // Find size of system matrix.
 
@@ -469,13 +469,14 @@ void CollidingMolecule::copyCollisionOperator(dMatrix *CollOptr, const int size,
         exit(1) ;
     }
 
-    // Copy collision operator to the diagonal block indicated by "locate".
+    // Copy collision operator to the diagonal block indicated by "locate" 
+	// and multiply by the reduced collision frequencey.
 
     for (int i(0) ; i < size ; i++) {
         int ii(locate + i) ;
         for (int j(0) ; j < size ; j++) {
             int jj(locate + j) ;
-            (*CollOptr)[ii][jj] = (*m_egme)[i][j] ;
+            (*CollOptr)[ii][jj] = RducdOmega * (*m_egme)[i][j] ;
         }
     }
 

@@ -81,7 +81,6 @@ namespace mesmer
     //
     void System::calculate() 
     { 
-		Molecule *pBathGasMolecule = m_pMoleculeManager->get_BathGasMolecule();
         double beta = 1.0/(boltzmann*temp) ;
 
         // Build collison matrix for system.
@@ -103,8 +102,6 @@ namespace mesmer
             reaction->get_MicroRateCoeffs(kmc, MAXGRN) ;
 
             CollidingMolecule *pmolecule = reaction->m_Reactant ;
-
-            double omega = pmolecule->collisionFrequency(temp, conc, pBathGasMolecule) ;
 
             // for (int i(0) ; i < MAXCELL ; i++) 
             //     kmc[i] /= omega ;
