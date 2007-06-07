@@ -17,10 +17,13 @@ int main(int argc,char *argv[])
   //
   // Instantiate the System collection. This holds all information 
   // about reaction systems and all molecular data.
+  // It can be accessed via a namespace variable mesmer::pSys
   //
   mesmer::System System ;
+  mesmer::pSys = &System;
+
   string inputfilename, outputfilename;
-  if(argc<1)
+  if(argc<2)
   {
     usage();
     return -1;
@@ -37,7 +40,7 @@ int main(int argc,char *argv[])
   //
   // Parse input.
   // 
-  if(!System.parse(ppIOPtr))
+  if(!ppIOPtr || !System.parse(ppIOPtr))
     return -2;
   clog << inputfilename << " successfully parsed. Now calculating..." <<endl;
   // 

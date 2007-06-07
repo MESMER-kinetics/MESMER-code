@@ -1,3 +1,34 @@
+2007-06-07  Chris Morley
+
+	* src/Molecule.h: Remove MAXCELL and MAXGRN and (unused)
+	member variables. Make calcDensityOfStates public.
+	
+	* src/System.cpp: Read <me:ModelParameters> for(at present)
+	grain sizes and set in SetGrainParams().
+	
+	* src/main.cpp: Add pSys as a global variable to System.
+	Catch a couple of input errors.
+	
+	* src/MoleculeManager.h: Add templated function 
+	GetNextMolecule() for iterating through the molecules of
+	a requested type.
+	
+	src/Reaction.h,cpp: Save and access reaction id.
+
+2007-05-22  Struan Robertson
+
+	* Minor update to allow collision frequency to be calculated for all isomers.
+
+2007-05-20  Struan Robertson
+
+	* src/ReactionManager.cpp/.h: Altered so that it no longer uses the
+        ReactionConnectivety class.
+
+        * src/MoleculeManager.cpp/.h: Accessor methods added to locate the bath
+        gas molecule. This is required in the calculation of bath collision
+        frequencies. Knock on changes required to Molecule.cpp/.h and System.cpp/
+        .h
+
 2007-01-29  Chris Morley
 
 	I/O rewritten to improve code isolation and allow TinyXML
@@ -39,18 +70,4 @@
 
 	* src/main.cpp: Can specify output file with default of adding
 	out before extension on inputfile name. Added usage function and some exit codes.
-
-2007-05-20  Struan Robertson
-
-	* src/ReactionManager.cpp/.h: Altered so that it no longer uses the
-        ReactionConnectivety class.
-
-        * src/MoleculeManager.cpp/.h: Accessor methods added to locate the bath
-        gas molecule. This is required in the calculation of bath collision
-        frequencies. Knock on changes required to Molecule.cpp/.h and System.cpp/
-        .h
-
-2007-05-22  Struan Robertson
-
-	* Minor update to allow collision frequency to be calculated for all isomers.
 

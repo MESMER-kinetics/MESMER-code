@@ -10,6 +10,7 @@
 //-------------------------------------------------------------------------------------------
 
 #include <math.h>
+#include "system.h"
 #include "Constants.h"
 #include "Persistence.h"
 #include "Reaction.h"
@@ -28,7 +29,7 @@ Reaction::Reaction(MoleculeManager *pMoleculeManager): m_pMoleculeManager(pMolec
 Reaction::~Reaction() 
 {
     // Free any memory assigned for calculating densities of states. 
-   if (m_kfmc != NULL) m_alloc.deallocate(m_kfmc, MAXCELL) ;
+   if (m_kfmc != NULL) m_alloc.deallocate(m_kfmc, pSys->MAXCell()) ;
 }
 /*
 Reaction::Reaction(const Reaction& reaction) {
@@ -47,6 +48,11 @@ Reaction& Reaction::operator=(const Reaction& reaction) {
 bool Reaction::Initialize(PersistPtr ppReac) 
 {
   m_ppPersist = ppReac;
+
+  //Read reaction ID
+  const char* id = ppReac->ReadValue("id");
+  if(id)
+    m_Name = id; //Continues if reaction id not found
 
   Molecule* pMol1,*pMol2=NULL;
   //Read reactants
@@ -179,19 +185,19 @@ void Reaction::CalcMicroRateCoeffs() {
 
     // Allocate space to hold Micro-canonical rate coefficients.
     // (Freed in destructor.)
-    m_kfmc  = m_alloc.allocate(MAXCELL) ; 
+    m_kfmc  = m_alloc.allocate(pSys->MAXCell()) ; 
 
     // Initialize microcanoincal rate coefficients.
 
     int i, j ;
-    for (i = 0 ; i < MAXCELL ; ++i ) {
+    for (i = 0 ; i < pSys->MAXCell() ; ++i ) {
         m_kfmc[i] = 0.0 ;
     }
 
     // Allocate some work space for density of states.
 
-    double *ddosTS = m_alloc.allocate(MAXCELL) ; // Transistion state density of states.
-    double *ddos   = m_alloc.allocate(MAXCELL) ; // Density of states of equilibrim molecule.
+    double *ddosTS = m_alloc.allocate(pSys->MAXCell()) ; // Transistion state density of states.
+    double *ddos   = m_alloc.allocate(pSys->MAXCell()) ; // Density of states of equilibrim molecule.
 
     // Extract densities of states from molecules.
 
@@ -200,7 +206,7 @@ void Reaction::CalcMicroRateCoeffs() {
 
     double SumOfStates  = 0.0 ;
     int thresholdEnergy = int(m_E0 * KCMLTOPCM) ;
-    for (i = thresholdEnergy, j = 0 ; i < MAXCELL ; ++i, ++j ) {
+    for (i = thresholdEnergy, j = 0 ; i < pSys->MAXCell() ; ++i, ++j ) {
    
         // Integrate transition state density of states.
 
@@ -218,8 +224,8 @@ void Reaction::CalcMicroRateCoeffs() {
 
     // Free work space.
 
-    m_alloc.deallocate(ddosTS, MAXCELL) ;
-    m_alloc.deallocate(ddos,   MAXCELL) ;
+    m_alloc.deallocate(ddosTS, pSys->MAXCell()) ;
+    m_alloc.deallocate(ddos,   pSys->MAXCell()) ;
     
 }
 
@@ -232,14 +238,14 @@ void Reaction::get_MicroRateCoeffs(vector<double> &kmc, int ngrn) {
 
     // Extract density of states of equilibrium molecule.
 
-    double *ddos = m_alloc.allocate(MAXCELL) ; 
+    double *ddos = m_alloc.allocate(pSys->MAXCell()) ; 
     m_Reactant->densityOfStates(ddos) ;
 
-    int igsz = MAXCELL/ngrn ;
+//    int igsz = pSys->MAXCell()/ngrn ;
 
     // Check that there are enough cells.
 
-    if (igsz < 1) {
+    if (pSys->igsz() < 1) {
        cout << "     ********* Not enought Cells to produce ************" << endl
             << "     ********* requested number of Grains.  ************" << endl ;
        exit(1) ;
@@ -255,7 +261,7 @@ void Reaction::get_MicroRateCoeffs(vector<double> &kmc, int ngrn) {
         // Calculate the number of states in a grain.
 
         double smt(0.0) ;
-        for (int j(0) ; j < igsz ; j++, idx1++ ) 
+        for (int j(0) ; j < pSys->igsz() ; j++, idx1++ ) 
             smt += ddos[idx1] ;
 
         // Calculate average energy of the grain if it contains sum states.
@@ -263,7 +269,7 @@ void Reaction::get_MicroRateCoeffs(vector<double> &kmc, int ngrn) {
         if ( smt > 0.0 ) {
 
             double smat(0.0) ;
-            for (int j(0) ; j < igsz ; j++, idx3++ ) 
+            for (int j(0) ; j < pSys->igsz() ; j++, idx3++ ) 
                 smat += m_kfmc[idx3] * ddos[idx3] ;
              
             kmc[idx2] = smat/smt ;
@@ -282,7 +288,7 @@ void Reaction::get_MicroRateCoeffs(vector<double> &kmc, int ngrn) {
 
     // Free work space.
 
-    m_alloc.deallocate(ddos, MAXCELL) ;
+    m_alloc.deallocate(ddos, pSys->MAXCell()) ;
 }
 
 //
@@ -296,8 +302,8 @@ void Reaction::testMicroRateCoeffs() {
 
     // Allocate some work space for density of states.
 
-    double *decll = m_alloc.allocate(MAXCELL) ;
-    double *ddos  = m_alloc.allocate(MAXCELL) ;
+    double *decll = m_alloc.allocate(pSys->MAXCell()) ;
+    double *ddos  = m_alloc.allocate(pSys->MAXCell()) ;
 
     m_Reactant->cellEnergies(decll) ;
     m_Reactant->densityOfStates(ddos) ;
@@ -310,7 +316,7 @@ void Reaction::testMicroRateCoeffs() {
        double sm1 = 0.0 ;
        double sm2 = 0.0 ;
        double tmp = 0.0 ;
-       for ( int i = 0 ; i < MAXCELL ; ++i ) {
+       for ( int i = 0 ; i < pSys->MAXCell() ; ++i ) {
            tmp  = ddos[i] * exp(-beta * decll[i]) ;
            sm1 += m_kfmc[i] * tmp ;
            sm2 +=             tmp ;
@@ -329,8 +335,8 @@ void Reaction::testMicroRateCoeffs() {
 
     // Free work space.
 
-    m_alloc.deallocate(decll, MAXCELL) ;
-    m_alloc.deallocate(ddos,  MAXCELL) ;
+    m_alloc.deallocate(decll, pSys->MAXCell()) ;
+    m_alloc.deallocate(ddos,  pSys->MAXCell()) ;
 
 }
 }//namespace

@@ -44,7 +44,10 @@ public:
    // Find a particular reaction.
    Reaction*       operator[](const size_type i)       { return m_reactions[i] ; } ;
    const Reaction* operator[](const size_type i) const { return m_reactions[i] ; } ;
-   
+
+   // Find a reaction from its id
+   Reaction* find(const std::string& id) const ;
+
   // Interrogates the (virtual) connectivity matrix, returning the reaction
   // index of the reaction (one based) connecting pProduct and pReactant
   // if both are CollidingMolecules
@@ -57,7 +60,7 @@ public:
 
    // Diagonalize the collision operator.
    void diagCollisionOperator() ;
- 
+
 private:
 
    std::vector<Reaction *> m_reactions ;

@@ -14,7 +14,8 @@ PersistPtr XMLPersist::Create(const std::string& inputfilename, const std::strin
   TiXmlDocument* pdoc = new TiXmlDocument( inputfilename.c_str() );//Deleted in destructor
   if( !pdoc->LoadFile() )
   {
-    cerr << "Could not load file " << inputfilename << endl;
+    cerr << "Could not load file " << inputfilename 
+         << "\nIt may not exist or it may not consist of well-formed XML." << endl;
     delete pdoc;
     return PersistPtr(NULL);
   }

@@ -55,6 +55,8 @@ public:
    // Initialize reaction.
    bool Initialize(PersistPtr ppReac) ;
 
+   std::string& getName() { return m_Name ; } ;
+
    // Modifier for reaction type.
    void put_Reactiontype(ReactionType reactiontype) ;
 
@@ -86,6 +88,7 @@ private:
    // Test the forward microcanoincal rate coeffcients. 
    void testMicroRateCoeffs() ;
 
+   std::string        m_Name ;             // Reaction name.
    MoleculeManager   *m_pMoleculeManager ; // Pointer to molecule manager.
 
    //

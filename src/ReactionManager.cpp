@@ -9,6 +9,7 @@
 //
 //-------------------------------------------------------------------------------------------
 
+#include "system.h"
 #include "Reaction.h"
 #include "ReactionManager.h"
 #include "Molecule.h"
@@ -79,7 +80,7 @@ void ReactionManager::BuildSystemCollisionOperator(const double beta, const doub
 
 			CollidingMolecule *pcollidingmolecule = unimolecularspecies[i] ;
 
-			if(find(isomers.begin(),isomers.end(),pcollidingmolecule) == isomers.end()){
+      if(std::find(isomers.begin(),isomers.end(),pcollidingmolecule) == isomers.end()){
 				isomers.push_back(pcollidingmolecule) ;
 
 				pcollidingmolecule->initCollisionOperator(beta) ;
@@ -102,7 +103,7 @@ void ReactionManager::BuildSystemCollisionOperator(const double beta, const doub
 	double meanomega(0.0) ;
     for (size_t i(0) ; i < isomers.size() ; i++) {
         zpes[i] -= minEnergy ;
-        int colloptrsize = MAXGRN  - int(zpes[i] * KCMLTOPCM / double(MAXCELL/MAXGRN)) ;
+        int colloptrsize = pSys->MAXGrn()  - int(zpes[i] * KCMLTOPCM / double(pSys->MAXCell()/pSys->MAXGrn())) ;
         msize += colloptrsize ;
         colloptrsizes.push_back(colloptrsize) ;
 		meanomega += omegas[i] ;

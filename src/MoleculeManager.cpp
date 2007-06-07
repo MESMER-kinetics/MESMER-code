@@ -10,6 +10,7 @@
 //-------------------------------------------------------------------------------------------
 
 #include <iostream>
+#include "system.h"
 #include "MoleculeManager.h"
 
 using namespace std ;
@@ -79,4 +80,5 @@ Molecule *MoleculeManager::find(const std::string& name) const {
 
      return it->second ; 
 }
+
 }//namespace

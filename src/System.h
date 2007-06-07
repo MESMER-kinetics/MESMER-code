@@ -39,6 +39,14 @@ public:
    //
    void calculate() ;
 
+   double igsz(){ return GrainSize; }
+   int    MAXGrn(){ return MaxGrn; }
+   int    MAXCell(){ return MaxCell; }
+   double getEMin(){ return EMin; }
+
+private:
+   bool SetGrainParams();
+
 private:
 
    // 
@@ -52,12 +60,20 @@ private:
    //
    ReactionManager *m_pReactionManager ;
 
-private:
 
   double temp;
   double conc;
 
+  double GrainSize;    //Grain size in cm-1
+  int    MaxGrn;  //The number of grains
+  int    MaxCell; //The number of cells
+  double MaxT;    //Maximum temperature for the purposes of setting the energy range
 
+  double EMin, EMax; // The absolute lowest and highest energies in the system, cm-1
 } ;
+
+//Namespace global variable for accessing the one instance of System class
+extern System* pSys;
+
 }//namespace
 #endif // GUARD_System_h

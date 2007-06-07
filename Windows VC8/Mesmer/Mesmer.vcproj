@@ -284,11 +284,15 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath="..\..\tinyxml\docs\index.html"
+			RelativePath=".\mesmer1.xsl"
 			>
 		</File>
 		<File
 			RelativePath=".\pentyl_isomerization.xml"
+			>
+		</File>
+		<File
+			RelativePath="..\..\tinyxml\docs\TinyXML.html"
 			>
 		</File>
 	</Files>
