@@ -15,13 +15,13 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include "formatfloat.h"
 
 
 namespace mesmer
 {
 
   // Global Utility methods:
-extern void formatFloat(std::ostream& out, const double datum, const int precision, const int width);
 
 class PersistPtr;
 

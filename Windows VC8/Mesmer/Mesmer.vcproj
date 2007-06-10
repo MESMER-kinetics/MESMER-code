@@ -181,6 +181,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\formatfloat.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\main.cpp"
 				>
 			</File>
@@ -244,6 +248,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\dMatrix.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\formatfloat.h"
 				>
 			</File>
 			<File

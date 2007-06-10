@@ -1,18 +1,32 @@
+
+2007-06-10  Struan Robertson
+
+	* src/ReactionManager.cpp:  Altered to invoke reaction objects to add details 
+        of reaction to collision operator.
+        
+        * src/Reaction.cpp/.h: altered to include detailed balancing and others 
+        methods for adding isomer reaction terms to the collision operator
+        
+        * Minor changes to System and Molecule classes to support the above 
+        changes.
+        
+        * Update of Linux Makefile.
+
 2007-06-07  Chris Morley
 
 	* src/Molecule.h: Remove MAXCELL and MAXGRN and (unused)
 	member variables. Make calcDensityOfStates public.
-	
+
 	* src/System.cpp: Read <me:ModelParameters> for(at present)
 	grain sizes and set in SetGrainParams().
-	
+
 	* src/main.cpp: Add pSys as a global variable to System.
 	Catch a couple of input errors.
-	
-	* src/MoleculeManager.h: Add templated function 
+
+	* src/MoleculeManager.h: Add templated function
 	GetNextMolecule() for iterating through the molecules of
 	a requested type.
-	
+
 	src/Reaction.h,cpp: Save and access reaction id.
 
 2007-05-22  Struan Robertson
@@ -52,7 +66,7 @@
 	
 	* src/Molecule.h, Reaction.h: Added member variable to retain
 	object address in XML document.
-	
+
 	* src/Molecule.cpp(testDensityOfStates): Output also to XML
 	
 	* src/Reaction.cpp(testMicroRateCoeffs): Output also to XML

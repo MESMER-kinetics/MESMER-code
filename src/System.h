@@ -22,58 +22,57 @@
 namespace mesmer
 {
 
-class System
-{
-public:
+    class System
+    {
+    public:
 
-   System() ;
-   ~System() ;
+        System() ;
+        ~System() ;
 
-   //
-   // Read and parse a data input file.
-   //
-   bool parse(PersistPtr ppIOPtr) ;
+        //
+        // Read and parse a data input file.
+        //
+        bool parse(PersistPtr ppIOPtr) ;
 
-   //
-   // Begin calculation.
-   //
-   void calculate() ;
+        //
+        // Begin calculation.
+        //
+        void calculate() ;
 
-   double igsz(){ return GrainSize; }
-   int    MAXGrn(){ return MaxGrn; }
-   int    MAXCell(){ return MaxCell; }
-   double getEMin(){ return EMin; }
+        double igsz(){ return GrainSize; }
+        int    MAXGrn(){ return MaxGrn; }
+        int    MAXCell(){ return MaxCell; }
+        double getEMin(){ return EMin; }
 
-private:
-   bool SetGrainParams();
+    private:
 
-private:
+        bool SetGrainParams();
 
-   // 
-   // Location of the molecule manager.
-   //
-   MoleculeManager *m_pMoleculeManager ;
-
-
-   //
-   // Location of the reaction maps.
-   //
-   ReactionManager *m_pReactionManager ;
+        // 
+        // Location of the molecule manager.
+        //
+        MoleculeManager *m_pMoleculeManager ;
 
 
-  double temp;
-  double conc;
+        //
+        // Location of the reaction maps.
+        //
+        ReactionManager *m_pReactionManager ;
 
-  double GrainSize;    //Grain size in cm-1
-  int    MaxGrn;  //The number of grains
-  int    MaxCell; //The number of cells
-  double MaxT;    //Maximum temperature for the purposes of setting the energy range
 
-  double EMin, EMax; // The absolute lowest and highest energies in the system, cm-1
-} ;
+        double temp;
+        double conc;
 
-//Namespace global variable for accessing the one instance of System class
-extern System* pSys;
+        double GrainSize;  //Grain size in cm-1
+        int    MaxGrn;     //The number of grains
+        int    MaxCell;    //The number of cells
+        double MaxT;       //Maximum temperature for the purposes of setting the energy range
+
+        double EMin, EMax; // The absolute lowest and highest energies in the system, cm-1
+    } ;
+
+    //Namespace global variable for accessing the one instance of System class
+    extern System* pSys;
 
 }//namespace
 #endif // GUARD_System_h

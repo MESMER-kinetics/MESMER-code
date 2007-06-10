@@ -15,7 +15,6 @@
 
 #include "MoleculeManager.h"
 #include "Reaction.h"
-#include "ReactionConnectivity.h"
 
 namespace mesmer
 {

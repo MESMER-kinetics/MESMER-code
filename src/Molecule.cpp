@@ -34,13 +34,15 @@ m_ZPE(0.0),
 //m_MaxCell(MAXCELL),
 //m_MaxGrn(MAXGRN),
 //m_GrnSz(0),
-m_cdos(NULL), 
-m_ecll(NULL) 
+m_ecll(NULL),
+m_cdos(NULL)  
 { }
 
 CollidingMolecule::CollidingMolecule():
 m_egme(NULL), 
-m_DeltaEdown(0.0) 
+m_DeltaEdown(0.0),
+m_ncolloptrsize(0),
+m_collisionFrequency(0.0)
 { }
 
 ModelledMolecule::~ModelledMolecule()
@@ -74,149 +76,144 @@ return *this ;
 // Read the Molecular data from I/O stream.
 bool Molecule::Initialize(PersistPtr p)
 {
-  m_ppPersist = p;
-  const char* id= m_ppPersist->ReadValue("id");
-  if(id)
-    m_Name = id;
-  return !m_Name.empty();
+    m_ppPersist = p;
+    const char* id= m_ppPersist->ReadValue("id");
+    if(id)
+        m_Name = id;
+    return !m_Name.empty();
 }
 
 bool BathGasMolecule::Initialize(PersistPtr pp)
 {
-  //Read base class parameters first
-  if(!Molecule::Initialize(pp))
-      return false;
+    //Read base class parameters first
+    if(!Molecule::Initialize(pp))
+        return false;
 
-  PersistPtr ppPropList = pp->MoveTo("propertyList");
-  if(!ppPropList)
-    ppPropList=pp; //Be forgiving; we can get by without a propertyList element
+    PersistPtr ppPropList = pp->MoveTo("propertyList");
+    if(!ppPropList)
+        ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
-  const char* txt;
+    const char* txt;
 
-  txt= ppPropList->ReadProperty("me:epsilon");
-  if(!txt)
-      return false;
-  { istringstream idata(txt); //extra block ensures idata is initiallised
+    txt= ppPropList->ReadProperty("me:epsilon");
+    if(!txt)
+        return false;
+    { istringstream idata(txt); //extra block ensures idata is initiallised
     idata >> m_Epsilon;
-  }
+    }
 
-  txt= ppPropList->ReadProperty("me:sigma");
-  if(!txt)
-      return false;
-  { istringstream idata(txt);
+    txt= ppPropList->ReadProperty("me:sigma");
+    if(!txt)
+        return false;
+    { istringstream idata(txt);
     idata >> m_Sigma;
-  }
-  
-  txt= ppPropList->ReadProperty("me:MW");
-  if(!txt)
-      return false;
-  { istringstream idata(txt);
+    }
+
+    txt= ppPropList->ReadProperty("me:MW");
+    if(!txt)
+        return false;
+    { istringstream idata(txt);
     idata >> m_Mass;
-  }
-  return true;
-  //TODO append name of molecule to error message
+    }
+    return true;
+    //TODO append name of molecule to error message
 }
 
 
 bool ModelledMolecule::Initialize(PersistPtr pp)
 {
-  //Read base class parameters first
-  if(!Molecule::Initialize(pp))
-      return false;
+    //Read base class parameters first
+    if(!Molecule::Initialize(pp))
+        return false;
 
-  PersistPtr ppPropList = pp->MoveTo("propertyList");
-  if(!ppPropList)
-    ppPropList=pp; //Be forgiving; we can get by without a propertyList element
+    PersistPtr ppPropList = pp->MoveTo("propertyList");
+    if(!ppPropList)
+        ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
-  const char* txt;
+    const char* txt;
 
-  txt= ppPropList->ReadProperty("me:ZPE");
-  if(!txt)
-      return false;
-  {
-      istringstream idata(txt);
-      idata >> m_ZPE ;
-  }
-  txt= ppPropList->ReadProperty("me:rotConsts");
-  if(!txt)
-      return false;
-  {
-      istringstream idata(txt);
-      idata >> m_MmtIntA >> m_MmtIntB >> m_MmtIntC ;
-  }
-  txt= ppPropList->ReadProperty("me:symmetryNumber");
-  if(!txt)
-      return false;
-  {
-      istringstream idata(txt);
-      idata >> m_Sym;
-  }
+    txt= ppPropList->ReadProperty("me:ZPE");
+    if(!txt)
+        return false;
+    {
+        istringstream idata(txt);
+        idata >> m_ZPE ;
+    }
+    txt= ppPropList->ReadProperty("me:rotConsts");
+    if(!txt)
+        return false;
+    {
+        istringstream idata(txt);
+        idata >> m_MmtIntA >> m_MmtIntB >> m_MmtIntC ;
+    }
+    txt= ppPropList->ReadProperty("me:symmetryNumber");
+    if(!txt)
+        return false;
+    {
+        istringstream idata(txt);
+        idata >> m_Sym;
+    }
 
-  txt= ppPropList->ReadProperty("me:vibFreqs");
-  if(!txt)
-      return false;
-  {
-      istringstream idata(txt);
-      double x ;
-      while (idata >> x)
-          m_VibFreq.push_back(x) ;
-  }
+    txt= ppPropList->ReadProperty("me:vibFreqs");
+    if(!txt)
+        return false;
+    {
+        istringstream idata(txt);
+        double x ;
+        while (idata >> x)
+            m_VibFreq.push_back(x) ;
+    }
 
-  //
-  // Now the Molecular data is available, calculate density of states.
-  // Can no longer be be done here because grain properties now depend on whole system
-//  calcDensityOfStates() ;
-
-  return true;
+    return true;
 }
 
 bool CollidingMolecule::Initialize(PersistPtr pp) 
 {
-  //Read base class parameters first
-  if(!ModelledMolecule::Initialize(pp))
-      return false;
+    //Read base class parameters first
+    if(!ModelledMolecule::Initialize(pp))
+        return false;
 
-  PersistPtr ppPropList = pp->MoveTo("propertyList");
-  if(!ppPropList)
-    ppPropList=pp; //Be forgiving; we can get by without a propertyList element
+    PersistPtr ppPropList = pp->MoveTo("propertyList");
+    if(!ppPropList)
+        ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
-  const char* txt;
+    const char* txt;
 
-  txt= ppPropList->ReadProperty("me:epsilon");
-  if(!txt)
-      return false;
-  { istringstream idata(txt); //extra block ensures idata is initiallised
+    txt= ppPropList->ReadProperty("me:epsilon");
+    if(!txt)
+        return false;
+    { istringstream idata(txt); //extra block ensures idata is initiallised
     idata >> m_Epsilon;
-  }
+    }
 
-  txt= ppPropList->ReadProperty("me:sigma");
-  if(!txt)
-      return false;
-  { istringstream idata(txt);
+    txt= ppPropList->ReadProperty("me:sigma");
+    if(!txt)
+        return false;
+    { istringstream idata(txt);
     idata >> m_Sigma;
-  }
-  
-  txt= ppPropList->ReadProperty("me:MW");
-  if(!txt)
-      return false;
-  { istringstream idata(txt);
+    }
+
+    txt= ppPropList->ReadProperty("me:MW");
+    if(!txt)
+        return false;
+    { istringstream idata(txt);
     idata >> m_Mass;
-  }
+    }
 
-  txt= ppPropList->ReadProperty("me:deltaEDown");
-  if(!txt)
-    return false;
-  { istringstream idata(txt);
+    txt= ppPropList->ReadProperty("me:deltaEDown");
+    if(!txt)
+        return false;
+    { istringstream idata(txt);
     idata >> m_DeltaEdown;
-  }
+    }
 
-  return true;
+    return true;
 }
 
 //
-// Get density of states.
+// Get cell density of states.
 //
-void ModelledMolecule::densityOfStates(double *ddos) {
+void ModelledMolecule::cellDensityOfStates(double *ddos) {
 
     // If density of states have not already been calcualted then do so.
 
@@ -234,11 +231,37 @@ void ModelledMolecule::cellEnergies(double *decll) {
 
     // If energies have not already been calcualted then do so.
 
-    if (!m_ecll)
+    if (!m_cdos)
         calcDensityOfStates() ;
 
     for (int i = 0 ; i < pSys->MAXCell() ; ++i )
         decll[i] = m_ecll[i] ;
+}
+
+//
+// Get grain density of states.
+//
+void ModelledMolecule::grnDensityOfStates(vector<double> &dosGrn) {
+
+    // If density of states have not already been calcualted then do so.
+
+    if (!m_cdos)
+        calcDensityOfStates() ;
+
+    dosGrn = m_gdos ;
+}
+
+//
+// Get grain energies.
+//
+void ModelledMolecule::grnEnergies(vector<double> &eGrn) {
+
+    // If energies have not already been calcualted then do so.
+
+    if (!m_cdos)
+        calcDensityOfStates() ;
+
+    eGrn = m_gdos ;
 }
 
 //-------------------------------------------------------------------------------------------
@@ -248,7 +271,26 @@ void ModelledMolecule::cellEnergies(double *decll) {
 //
 // Initialize the Collision Operator.
 //
-void CollidingMolecule::initCollisionOperator(double beta) {
+void CollidingMolecule::initCollisionOperator(double beta, double conc, Molecule *pBathGasMolecule) {
+
+    // If density of states have not already been calcualted then do so.
+
+    if (!m_cdos)
+        calcDensityOfStates() ;
+
+    // Calculate the collision frequency.
+
+    m_collisionFrequency = collisionFrequency(beta, conc, pBathGasMolecule) ;
+
+    // Calculate the collision operator.
+
+    collisionOperator(beta) ;
+}
+
+//
+// Calculate collision operator
+//
+void CollidingMolecule::collisionOperator(double beta) {
 
     //
     //     i) Determine Probabilities of Energy Transfer.
@@ -266,12 +308,11 @@ void CollidingMolecule::initCollisionOperator(double beta) {
 
     m_egme = new dMatrix(pSys->MAXGrn()) ;              // Collision operator matrix.
 
-    double *work = m_alloc.allocate(pSys->MAXGrn()) ;   // Work space.
+    vector<double> work(pSys->MAXCell(),0.0) ; // Work space.
     //
     // Initialisation and error checking.
     //
     for ( i = 0 ; i < pSys->MAXGrn() ; i++ ) {
-        work[i] = 0.0 ;
         if (m_gdos[i] <= 0.0) {
             cout << "     ********* Error: Data indicates that      ************" << endl
                 << "     ********* there is a grain with no states ************" << endl ;
@@ -361,11 +402,6 @@ void CollidingMolecule::initCollisionOperator(double beta) {
             (*m_egme)[i][j]  = (*m_egme)[j][i] ;
         }
     }
-    //
-    // Deallocate memory.
-    //
-    if (work != NULL) m_alloc.deallocate(work,pSys->MAXGrn() ) ; 
-
 }
 
 //
@@ -375,7 +411,7 @@ void CollidingMolecule::diagCollisionOperator() {
 
     // Allocate space for eigenvalues.
 
-  int msize = m_egme->size() ;
+    int msize = m_egme->size() ;
     vector<double> rr(msize, 0.0) ;
 
     m_egme->diagonalize(&rr[0]) ;
@@ -399,47 +435,47 @@ void CollidingMolecule::diagCollisionOperator() {
 //
 double CollidingMolecule::collisionFrequency(double beta, double conc, Molecule *pBathGasMolecule) {
 
-	//
-	// Lennard-Jones Collision frequency. The collision integral is calculated 
-	// using the formula of Neufeld et al., J.C.P. Vol. 57, Page 1100 (1972).
-	// CONCentration is in molec/cm^3.
-	//
+    //
+    // Lennard-Jones Collision frequency. The collision integral is calculated 
+    // using the formula of Neufeld et al., J.C.P. Vol. 57, Page 1100 (1972).
+    // CONCentration is in molec/cm^3.
+    //
 
-	double A = 1.16145 ;
-	double B = 0.14874 ;
-	double C = 0.52487 ;
-	double D = 0.77320 ;
-	double E = 2.16178 ;
-	double F = 2.43787 ;
-	double amu = 1.6606E-27 ;
+    double A = 1.16145 ;
+    double B = 0.14874 ;
+    double C = 0.52487 ;
+    double D = 0.77320 ;
+    double E = 2.16178 ;
+    double F = 2.43787 ;
+    double amu = 1.6606E-27 ;
 
-	double pi = acos(-1.0) ;
-	double temp = 1.0/(boltzmann*beta) ;
-	//
-	// Calculate collision parameter averages.
-	//
+    double pi = acos(-1.0) ;
+    double temp = 1.0/(boltzmann*beta) ;
+    //
+    // Calculate collision parameter averages.
+    //
     double bthMass    = pBathGasMolecule->getMass();
     double bthSigma   = pBathGasMolecule->getSigma();
     double bthEpsilon = pBathGasMolecule->getEpsilon();
 
-	double mu   = amu*m_Mass*bthMass/(m_Mass + bthMass) ;
-	double eam  = sqrt(m_Epsilon*bthEpsilon) ;
-	double sam  = (m_Sigma + bthSigma)*0.5 ;
-	double tstr = temp/eam ;
-	//
-	// Calculate collision integral.
-	//
-	double collFrq = A*exp(-log(tstr)*B) + C*exp(-D*tstr) + E*exp(-F*tstr) ;
-	//
-	// Calculate molecular collision frequency.
-	//
-	collFrq *= pi*sam*sam*1.e-20*sqrt(8.*1.381e-23*temp/(pi*mu)) ;
-	//
-	// Calculate overall collision frequency.
-	//
-	collFrq *= conc*1.e+06 ;
+    double mu   = amu*m_Mass*bthMass/(m_Mass + bthMass) ;
+    double eam  = sqrt(m_Epsilon*bthEpsilon) ;
+    double sam  = (m_Sigma + bthSigma)*0.5 ;
+    double tstr = temp/eam ;
+    //
+    // Calculate collision integral.
+    //
+    double collFrq = A*exp(-log(tstr)*B) + C*exp(-D*tstr) + E*exp(-F*tstr) ;
+    //
+    // Calculate molecular collision frequency.
+    //
+    collFrq *= pi*sam*sam*1.e-20*sqrt(8.*1.381e-23*temp/(pi*mu)) ;
+    //
+    // Calculate overall collision frequency.
+    //
+    collFrq *= conc*1.e+06 ;
 
-	return collFrq ;
+    return collFrq ;
 }
 
 //
@@ -471,7 +507,7 @@ void CollidingMolecule::copyCollisionOperator(dMatrix *CollOptr, const int size,
     }
 
     // Copy collision operator to the diagonal block indicated by "locate" 
-	// and multiply by the reduced collision frequencey.
+    // and multiply by the reduced collision frequencey.
 
     for (int i(0) ; i < size ; i++) {
         int ii(locate + i) ;
@@ -482,8 +518,6 @@ void CollidingMolecule::copyCollisionOperator(dMatrix *CollOptr, const int size,
     }
 
 }
-
-
 
 //-------------------------------------------------------------------------------------------
 //
@@ -539,8 +573,8 @@ void ModelledMolecule::testDensityOfStates() {
     double beta ;
     double pi = acos(-1.0) ;
 
-  string comment("Partition function calculation at various temperatures.\
-qtot : using analytical formula. sumc : based on cells. sumg : based on grains.");
+    string comment("Partition function calculation at various temperatures.\
+                   qtot : using analytical formula. sumc : based on cells. sumg : based on grains.");
 
     PersistPtr ppList = m_ppPersist->WriteMainElement("me:densityOfStatesList", comment );
     for ( int n = 0 ; n < 29 ; ++n ) {
@@ -594,7 +628,7 @@ void ModelledMolecule::calcGrainAverages() {
     m_egrn.resize(pSys->MAXGrn()) ;
     m_gdos.resize(pSys->MAXGrn()) ;
 
-//    int igsz = MAXCELL/MAXGRN ;
+    //    int igsz = MAXCELL/MAXGRN ;
 
     // Check that there are enough cells.
 

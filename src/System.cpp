@@ -129,8 +129,6 @@ namespace mesmer
         
         std::string id;
         ModelledMolecule* pmol=NULL;
-        while(m_pMoleculeManager->GetNextMolecule(id, pmol))
-          pmol->calcDensityOfStates();
 
         // Build collison matrix for system.
 
@@ -139,17 +137,16 @@ namespace mesmer
         m_pReactionManager->diagCollisionOperator() ;
 
 
-        for (size_t i=0; i < m_pReactionManager->size() ; i++) {
+
+/*        for (size_t i=0; i < m_pReactionManager->size() ; i++) {
 
             Reaction *reaction = (*m_pReactionManager)[i] ;
-
-            reaction->CalcMicroRateCoeffs() ;
 
             // Work space to hold microcanonical rates.
 
             vector<double> kmc(MaxGrn,0.0) ;
 
-            reaction->get_MicroRateCoeffs(kmc, MaxGrn) ;
+            reaction->get_MicroRateCoeffs(kmc) ;
 
             CollidingMolecule *pmolecule = reaction->m_Reactant ;
 
@@ -163,9 +160,9 @@ namespace mesmer
             double kinf = pmolecule->matrixElement(MaxGrn-1,MaxGrn-1,kmc,MaxGrn) ;
 
             cout << endl ;
-            formatFloat(cout, kinf, 6, 15) ;
+            formatFloat(cout, kinf, 6, 15) ; 
 
-        }
+        }*/
 
     }
 

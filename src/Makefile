@@ -92,12 +92,12 @@ all: ${OUTPUT}
 
 SRCS := Molecule.cpp \
 	MoleculeManager.cpp \
-	Persistence.cpp \
 	Reaction.cpp \
-	ReactionConnectivity.cpp \
 	ReactionManager.cpp \
 	System.cpp \
 	dMatrix.cpp \
+	XMLPersist.cpp \
+	formatfloat.cpp \
 	main.cpp
 
 # Add on the sources for libraries

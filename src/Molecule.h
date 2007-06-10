@@ -72,18 +72,24 @@ namespace mesmer
         virtual bool Initialize(PersistPtr pp);
 
         // Get the density of states.
-        void densityOfStates(double *) ;
+        void cellDensityOfStates(double *) ;
 
         // Get cell energies.
         void cellEnergies(double *) ;
 
+		// Get grain density of states.
+		void grnDensityOfStates(std::vector<double> &dosGrn) ;
+
+		// Get grain energies.
+		void grnEnergies(std::vector<double> &eGrn) ;
+
         // Accessors.
         double get_zpe() const { return m_ZPE ; } ;
 
+    protected:
+
         // Calculate the rovibrational density of states for 1 cm-1 cells.
         void calcDensityOfStates() ;
-
-    protected:
 
         // Calculate the average grain energy and then number of states per grain.
         void calcGrainAverages() ;
@@ -141,19 +147,22 @@ namespace mesmer
         virtual bool Initialize(PersistPtr ppp);
 
         // Initialize the Collision Operator.
-        void initCollisionOperator(double beta) ;
+        void initCollisionOperator(double temp, double conc, Molecule *pBathGasMolecule) ;
 
         // Diagonalize the Collision Operator.
         void diagCollisionOperator() ;
 
-        // Calculate collision frequency.
-        double collisionFrequency(double temp, double conc, Molecule *pBathGasMolecule) ;
-
         // Calculate a reaction matrix element.
         double matrixElement(int eigveci, int eigvecj, std::vector<double> &k, int ndim) ;
 
-        // Accessors.
         void copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
+
+        // Accessors.
+        void set_colloptrsize(int ncolloptrsize) {m_ncolloptrsize = ncolloptrsize ;} ;
+        int  get_colloptrsize() const {return m_ncolloptrsize ;} ;
+        void set_grnZpe(int grnZpe) {m_grnZpe = grnZpe ;} ;
+        int  get_grnZpe() const {return m_grnZpe ;} ;
+        double get_collisionFrequency() const { return m_collisionFrequency ;} ;
 
     protected:
         //
@@ -161,6 +170,17 @@ namespace mesmer
         // 
         dMatrix *m_egme ;        // Matrix containing the energy grained collision operator.
         double   m_DeltaEdown ;  // <Delta E down> for the exponential down model.
+
+    private:
+
+        // Calculate collision frequency.
+        double collisionFrequency(double temp, double conc, Molecule *pBathGasMolecule) ;
+        // Calculate collision operator.
+        void   collisionOperator (double temp) ;
+
+		int m_grnZpe ;                // Zero point energy expressed in grains.
+        int m_ncolloptrsize ;         // Size of the collision operator matrix.
+        double m_collisionFrequency ; // Current value of collision frequency.
     };
 
 
