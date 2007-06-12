@@ -375,14 +375,8 @@ namespace mesmer
                 // Isomerization
                 calcGrnAvrgMicroRateCoeffs() ;
 
-                // Calculate backward microcanonical rate coefficients.
-                DetailedBalance() ;
-
-                // Add microcanonical rates to diagonal of collision operator.
-                AddReactiveLoss(CollOptr, isomermap, rMeanOmega) ;
-
-                // Add off-diagonal isomer transfer rates.
-                // AddReactiveGain(CollOptr, isomermap, rMeanOmega) ;
+				// Add microcanonical rates to the collision operator.
+                AddIsomerReactionTerms(CollOptr, isomermap, rMeanOmega) ;
 
                 break;
             case ASSOCIATION :
@@ -397,114 +391,36 @@ namespace mesmer
     } 
 
     //
-    // Detail balance the microcanonical rate coefficients.
+    // Add isomer reaction terms to collision matrix.
     //
-    void Reaction::DetailedBalance() {
+    void Reaction::AddIsomerReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) {
 
-        const int ngrn = pSys->MAXGrn();
-        vector<double> krgrn(ngrn, 0.0) ;  
-        vector<double> rctDos(ngrn, 0.0) ;  
-        vector<double> pdtDos(ngrn, 0.0) ;  
+        // Locate isomers in system matrix.
 
-        m_Reactant->grnDensityOfStates(rctDos) ;
-        m_Product->grnDensityOfStates(pdtDos) ;
-
-        int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
-        for ( int i = max(0,-idx) ; i < min(ngrn,(ngrn-idx)) ; ++i ) {
-            krgrn[i] = m_kfgrn[i + idx]*rctDos[i + idx]/pdtDos[i] ;
-        }
-
-        m_krgrn = krgrn ;
-    }
-
-    //
-    // Add reactive loss terms to collision matrix.
-    //
-    void Reaction::AddReactiveLoss(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) {
-
-        // Find size of system matrix.
-
-        const int smsize = int(CollOptr->size()) ;
-
-        // Add loss term for reactant ;
-
-        const int rctLocation = isomermap[m_Reactant] ;
-        const int rctCollOpSize = m_Reactant->get_colloptrsize() ;
-
-        // Check there is enough space in system matrix.
-
-        if (rctLocation + rctCollOpSize > smsize) {
-            cout << "Error in the size of the system matrix" << endl ;
-            exit(1) ;
-        }
-
-        // Add reactive loss term to the diagonal of isomer block 
-        // and divide by the mean collision frequencey.
-
-        for (int i(0) ; i < rctCollOpSize ; i++) {
-            int ii(rctLocation + i) ;
-            (*CollOptr)[ii][ii] -= rMeanOmega * m_kfgrn[i] ;
-        }
-
-        // Add loss term for product ;
-
+		const int rctLocation = isomermap[m_Reactant] ;
         const int pdtLocation = isomermap[m_Product] ;
-        const int pdtCollOpSize = m_Product->get_colloptrsize() ;
 
-        // Check there is enough space in system matrix.
+		// Get densities of states for detailed balance.
 
-        if (pdtLocation + pdtCollOpSize > smsize) {
-            cout << "Error in the size of the system matrix" << endl ;
-            exit(1) ;
-        }
-
-        // Add reactive loss term to the diagonal of isomer block 
-        // and divide by the mean collision frequencey.
-
-        for (int i(0) ; i < pdtCollOpSize ; i++) {
-            int ii(pdtLocation + i) ;
-            (*CollOptr)[ii][ii] -= rMeanOmega * m_krgrn[i] ;
-        }
-    }
-
-    //
-    // Add reactive gain terms to collision matrix.
-    //
-    void Reaction::AddReactiveGain(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) {
-
-        // Find size of system matrix.
-
-        const int smsize = int(CollOptr->size()) ;
-
-        const int rctLocation   = isomermap[m_Reactant] ;
-        const int rctCollOpSize = m_Reactant->get_colloptrsize() ;
-        const int pdtLocation   = isomermap[m_Product] ;
-        const int pdtCollOpSize = m_Product->get_colloptrsize() ;
-
-        // Check there is enough space in system matrix.
-
-        if (rctLocation + rctCollOpSize > smsize) {
-            cout << "Error in the size of the system matrix" << endl ;
-            exit(1) ;
-        }
-
-        const int ngrn = pSys->MAXGrn();
+		const int ngrn = pSys->MAXGrn();
         vector<double> rctDos(ngrn, 0.0) ;  
         vector<double> pdtDos(ngrn, 0.0) ;  
 
         m_Reactant->grnDensityOfStates(rctDos) ;
         m_Product->grnDensityOfStates(pdtDos) ;
-
-        // Add reactive gain terms to off diagonal block 
-        // and divide by the mean collision frequencey.
 
         const int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
         for ( int i = max(0,-idx) ; i < min(ngrn,(ngrn-idx)) ; ++i ) {
-            int ii = rctLocation + i ;
-            int jj = pdtLocation + i ;
-            (*CollOptr)[ii][jj] = rMeanOmega * m_kfgrn[i + idx] * sqrt(rctDos[i + idx]/pdtDos[i]);
-            (*CollOptr)[jj][ii] = (*CollOptr)[ii][jj] ;
+            int ll = i + idx ;
+            int ii(rctLocation + ll) ;
+            int jj(pdtLocation + i) ;
+            (*CollOptr)[ii][ii] -= rMeanOmega * m_kfgrn[ll] ;                            // Forward loss reaction.
+            (*CollOptr)[jj][jj] -= rMeanOmega * m_kfgrn[ll]*rctDos[ll]/pdtDos[i] ;       // Backward loss reaction from detailed balance.
+            (*CollOptr)[ii][jj]  = rMeanOmega * m_kfgrn[ll]*sqrt(rctDos[ll]/pdtDos[i]) ; // Reactive gain.
+            (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                 // Reactive gain.
         }
+
     }
+
 
 }//namespace

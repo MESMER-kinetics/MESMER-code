@@ -1,13 +1,19 @@
 
+
+2007-06-12  Struan Robertson
+
+        * src/Reaction.cpp/.h: Isomer reaction terms reviewed and simplified, 
+        unnecessary methods and variables removed.
+
 2007-06-10  Struan Robertson
 
-	* src/ReactionManager.cpp:  Altered to invoke reaction objects to add details 
+	* src/ReactionManager.cpp:  Altered to invoke reaction objects to add details
         of reaction to collision operator.
-        
-        * src/Reaction.cpp/.h: altered to include detailed balancing and others 
+
+        * src/Reaction.cpp/.h: altered to include detailed balancing and others
         methods for adding isomer reaction terms to the collision operator
-        
-        * Minor changes to System and Molecule classes to support the above 
+
+        * Minor changes to System and Molecule classes to support the above
         changes.
         
         * Update of Linux Makefile.

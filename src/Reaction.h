@@ -97,14 +97,8 @@ namespace mesmer
         // Test the forward microcanoincal rate coeffcients. 
         void testMicroRateCoeffs() ;
 
-        // Detail balance the microcanonical rate coefficients.
-        void DetailedBalance() ;  
-
-        // Add reactive loss terms to collision matrix.
-        void AddReactiveLoss(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
-
-        // Add reactive gain terms to collision matrix.
-        void AddReactiveGain(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+        // Add isomer reaction terms to collision matrix.
+        void AddIsomerReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
 
         std::string        m_Name ;             // Reaction name.
         MoleculeManager   *m_pMoleculeManager ; // Pointer to molecule manager.
@@ -127,7 +121,6 @@ namespace mesmer
         double              m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
         std::vector<double> m_kfmc ;             // Forward microcanonical rate coefficients.
         std::vector<double> m_kfgrn ;            // Grained averaged forward microcanonical rates.
-        std::vector<double> m_krgrn ;            // Grained averaged backward microcanonical rates.
     } ;
 }//namespace
 #endif // GUARD_Reaction_h
