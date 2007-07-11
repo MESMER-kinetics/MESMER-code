@@ -136,7 +136,8 @@ void dMatrix::tqli(double *d, double *e, int n, double **z)
                 if (fabs(e[m-1])+dd == dd) break;
             }
             if (m != l) {
-	            if (iter++ == 30) fprintf(stderr, "Too many iterations in TQLI");
+	            // if (iter++ == 30) fprintf(stderr, "Too many iterations in TQLI");
+	            if (iter++ == 60) fprintf(stderr, "Too many iterations in TQLI");
                 g=(d[l]-d[l-1])/(2.0*e[l-1]);
                 r=sqrt((g*g)+1.0);
                 g=d[m-1]-d[l-1]+e[l-1]/(g + (g<0 ? -fabs(r) : fabs(r)));

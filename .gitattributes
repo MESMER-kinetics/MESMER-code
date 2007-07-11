@@ -24,6 +24,10 @@ src/ReactionConnectivity.cpp -text
 src/ReactionConnectivity.h -text
 src/ReactionManager.cpp -text
 src/ReactionManager.h -text
+src/SimpleILT.cpp -text
+src/SimpleILT.h -text
+src/SimpleRRKM.cpp -text
+src/SimpleRRKM.h -text
 src/System.cpp -text
 src/System.h -text
 src/XMLPersist.cpp -text

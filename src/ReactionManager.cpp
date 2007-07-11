@@ -82,6 +82,13 @@ namespace mesmer
             }
         }
 
+		//
+		// Find all source terms.
+		//
+        for (size_t i(0) ; i < size() ; i++) {
+
+        }
+
         //
         // Shift all wells to the same origin, calculate the size of the system collision operator,
         // calculate the mean collision frequency and initialize all collision operators. 

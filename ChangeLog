@@ -1,8 +1,16 @@
 
 
+2007-07-09  Struan Robertson
+
+        * src/Reaction.cpp/.h: Separated micro-rate calcuation code into 
+        calculator classes.
+        
+        * src/SimpleRRKM.cpp/.h and SimpleILT.ccp/.h calculator classes added to 
+        calculate micro. rate coeffs. via RKKM and ILT respectively.
+
 2007-06-12  Struan Robertson
 
-        * src/Reaction.cpp/.h: Isomer reaction terms reviewed and simplified, 
+        * src/Reaction.cpp/.h: Isomer reaction terms reviewed and simplified,
         unnecessary methods and variables removed.
 
 2007-06-10  Struan Robertson

@@ -94,6 +94,8 @@ SRCS := Molecule.cpp \
 	MoleculeManager.cpp \
 	Reaction.cpp \
 	ReactionManager.cpp \
+	SimpleRRKM.cpp \
+	SimpleILT.cpp \
 	System.cpp \
 	dMatrix.cpp \
 	XMLPersist.cpp \

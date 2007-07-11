@@ -205,6 +205,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\SimpleILT.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\SimpleRRKM.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\System.cpp"
 				>
 			</File>
@@ -276,6 +284,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ReactionManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\SimpleILT.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\SimpleRRKM.h"
 				>
 			</File>
 			<File

@@ -19,6 +19,12 @@
 
 namespace mesmer
 {
+	// Base class for Microcanonical rate calculators 
+
+	class MicroRateCalculator {
+	public: 
+		virtual void calculateMicroRateCoeffs(std::vector<double> &kfmc) = 0 ;
+	};
 
     class Reaction
     {
@@ -33,12 +39,13 @@ namespace mesmer
 
     public:
 
-        typedef enum ReactionType{ ASSOCIATION,
+		// Type of reaction.
+        typedef enum ReactionType{ ASSOCIATION, 
             DISSOCIATION,
             ISOMERIZATION,
             ERROR_REACTION } ;
 
-        typedef std::map<CollidingMolecule *, int> isomerMap ;
+		typedef std::map<CollidingMolecule *, int> isomerMap ;
 
         // Constructors.
         Reaction(){} ;
@@ -85,20 +92,20 @@ namespace mesmer
         // Read a molecule name from the XML file and look it up
         Molecule* GetMolRef(PersistPtr pp);
 
-        // Calculate the forward microcanoincal rate coeffcients. 
-        void CalcMicroRateCoeffs() ;
-
         // Grain average microcanonical rate coefficients.
         void grnAvrgMicroRateCoeffs();
 
         // Wrapper function to calculate and grain average microcanoincal rate coeffcients. 
         void calcGrnAvrgMicroRateCoeffs() ;
 
-        // Test the forward microcanoincal rate coeffcients. 
-        void testMicroRateCoeffs() ;
-
         // Add isomer reaction terms to collision matrix.
         void AddIsomerReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+
+        // Add (reversible) association reaction terms to collision matrix.
+        void AddAssocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+
+        // Add dissociation reaction terms to collision matrix.
+        void AddDissocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
 
         std::string        m_Name ;             // Reaction name.
         MoleculeManager   *m_pMoleculeManager ; // Pointer to molecule manager.
@@ -108,7 +115,6 @@ namespace mesmer
         //
         CollidingMolecule *m_Reactant ;         // Reactant Molecule.
         Molecule          *m_Reactant2 ;        // Subsidiary reactant molecule.
-        TransitionState   *m_TransitionState ;  // Transition State.
         CollidingMolecule *m_Product ;          // Product Molecule.
         Molecule          *m_Product2 ;         // Subsidiary product molecule.
 
@@ -117,10 +123,15 @@ namespace mesmer
         //
         PersistPtr          m_ppPersist;         // Conduit for I/O
         ReactionType        m_reactiontype ;     // Type of reaction.
-        double              m_E0 ;               // Reaction Threshold energy (measured from zero point of reactant).
         double              m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
         std::vector<double> m_kfmc ;             // Forward microcanonical rate coefficients.
         std::vector<double> m_kfgrn ;            // Grained averaged forward microcanonical rates.
+
+		//
+		// Point to microcanoical rate coeff. calculator.
+		//
+		MicroRateCalculator *m_pMicroRateCalculator ;
     } ;
+
 }//namespace
 #endif // GUARD_Reaction_h
