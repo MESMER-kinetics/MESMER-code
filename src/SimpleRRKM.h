@@ -16,7 +16,7 @@
 #include "Molecule.h"
 #include "MoleculeManager.h"
 #include "Persistence.h"
-#include "Reaction.h"
+#include "MicroRateCalculator.h"
 
 namespace mesmer
 {
@@ -37,8 +37,6 @@ namespace mesmer
 		  bool Initialize(PersistPtr &ppReac) ;
 
 	private:
-
-		void testMicroRateCoeffs(std::vector<double> &kfmc) const;
 
 		MoleculeManager   *m_pMoleculeManager ; // Pointer to molecule manager.
 		CollidingMolecule *m_Reactant ;         // Reactant Molecule.

@@ -189,6 +189,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\MicroRateCalculator.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Molecule.cpp"
 				>
 			</File>
@@ -264,6 +268,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Matrix.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\MicroRateCalculator.h"
 				>
 			</File>
 			<File

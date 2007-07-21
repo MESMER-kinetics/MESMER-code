@@ -30,11 +30,11 @@ namespace mesmer
 		m_Product2(NULL),
 		m_kfwd(0.0),
 		m_kfmc(NULL),
-		m_kfgrn() {}
+		m_kfgrn(),
+        m_pMicroRateCalculator(){}
 
 	Reaction::~Reaction() 
 	{
-		if(m_pMicroRateCalculator) delete m_pMicroRateCalculator;
 	}
 	/*
 	Reaction::Reaction(const Reaction& reaction) {
@@ -137,6 +137,8 @@ namespace mesmer
 		}
 
 		// Determine the method of MC rate coefficient calculation.
+
+		bool bCalculator(false) ;
 		const char* pMCRCMethodtxt = ppReac->ReadValue("me:MCRCMethod") ;
 		if(pMCRCMethodtxt)
 		{
@@ -145,28 +147,24 @@ namespace mesmer
 
 				SimpleRRKM *pSimpleRRKM = new SimpleRRKM(m_pMoleculeManager, m_Reactant) ;
 				if(pSimpleRRKM->Initialize(ppReac)){ 
-					m_pMicroRateCalculator = pSimpleRRKM ;
-					return true ;
-				} else {
-					return false;
+					m_pMicroRateCalculator = auto_ptr<MicroRateCalculator>(pSimpleRRKM) ;
+					bCalculator = true ;
 				}
 
 			} else if (strMCRCMethodtxt == "Simple ILT") {
 
 				SimpleILT *pSimpleILT = new SimpleILT(m_pMoleculeManager, m_Reactant) ;
 				if(pSimpleILT->Initialize(ppReac)){ 
-					m_pMicroRateCalculator = pSimpleILT ;
-					return true ;
-				} else {
-					return false;
+					m_pMicroRateCalculator = auto_ptr<MicroRateCalculator>(pSimpleILT) ;
+					bCalculator = true ;
 				}
 
 			} else {
 				cerr << "Unknown method for the determination of Microcanonical rate coefficients" << endl;
-				return false;
 			}
 		}
 
+		return bCalculator ;
 	}
 
 

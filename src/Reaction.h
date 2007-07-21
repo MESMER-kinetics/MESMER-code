@@ -16,16 +16,10 @@
 #include "Molecule.h"
 #include "MoleculeManager.h"
 #include "Persistence.h"
+#include "MicroRateCalculator.h"
 
 namespace mesmer
 {
-	// Base class for Microcanonical rate calculators 
-
-	class MicroRateCalculator {
-	public: 
-		virtual void calculateMicroRateCoeffs(std::vector<double> &kfmc) = 0 ;
-	};
-
     class Reaction
     {
         //
@@ -130,7 +124,7 @@ namespace mesmer
 		//
 		// Point to microcanoical rate coeff. calculator.
 		//
-		MicroRateCalculator *m_pMicroRateCalculator ;
+		std::auto_ptr<MicroRateCalculator> m_pMicroRateCalculator ;
     } ;
 
 }//namespace

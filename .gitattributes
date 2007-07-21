@@ -13,6 +13,8 @@ Windows[!!-~]VC8/Mesmer/pentyl_isomerization.xml -text
 src/Constants.h -text
 src/Makefile -text
 src/Matrix.h -text
+src/MicroRateCalculator.cpp -text
+src/MicroRateCalculator.h -text
 src/Molecule.cpp -text
 src/Molecule.h -text
 src/MoleculeManager.cpp -text

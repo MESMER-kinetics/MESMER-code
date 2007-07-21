@@ -1,11 +1,18 @@
 
+2007-07-21  Struan Robertson
+
+        * src/MicroRateCalculator.cpp/.h: Separated micro-rate calcuator base
+        class into separate file and added test method to this class.
+
+        * src/SimpleILT.cpp/.h: Added implementation of simple dissociation ILT 
+        method.
 
 2007-07-09  Struan Robertson
 
-        * src/Reaction.cpp/.h: Separated micro-rate calcuation code into 
+        * src/Reaction.cpp/.h: Separated micro-rate calcuation code into
         calculator classes.
-        
-        * src/SimpleRRKM.cpp/.h and SimpleILT.ccp/.h calculator classes added to 
+
+        * src/SimpleRRKM.cpp/.h and SimpleILT.ccp/.h calculator classes added to
         calculate micro. rate coeffs. via RKKM and ILT respectively.
 
 2007-06-12  Struan Robertson
