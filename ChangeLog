@@ -1,5 +1,10 @@
 
 2007-07-28  Chris Morley
+
+	Various xml, xsl, etc file. Display of output file has energy level
+	diagram  and collapsable data sections.
+	
+2007-07-28  Chris Morley
 	
 	* src/MicroRate.cpp, .h, src/SimpleILTx.cpp, src/SimpleRRKMx.cpp:
 	Mod of MicroRateCalulator classes to be plugin classes and to keep 

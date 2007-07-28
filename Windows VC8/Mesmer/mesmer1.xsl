@@ -3,11 +3,21 @@
 <xsl:stylesheet version="1.0"  xmlns:cml="http://www.xml-cml.org/schema"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
 
+  <xsl:include href="mesmerDiag.xsl"/>
+  
 <xsl:key name="molrefs" match="cml:molecule" use="@id"/>
 <xsl:template match="me:mesmer">
   <html>
     <head>
       <title>Mesmer datafile</title>
+      <script type="text/javascript" src="switchcontent.js" >
+        /***********************************************
+        * Switch Content script- © Dynamic Drive (www.dynamicdrive.com)
+        * This notice must stay intact for legal use. Last updated April 05th, 2007.
+        * Visit http://www.dynamicdrive.com/ for full source code
+        ***********************************************/
+      </script>
+
       <style>
         <![CDATA[
         body{margin:20px;padding:0;}
@@ -19,36 +29,64 @@
           font-weight:bold;
           text-align:center;
         }
-        h3{color:red;font-family: Arial, Helvetica, sans-serif;}
+        h3{color:teal;font-family: Arial, Helvetica, sans-serif;}
         .normal{color:black; font-size:smaller;}
+        .handcursor{cursor:hand; cursor:pointer;}
+        #header{color:black;font-family: Arial, Helvetica, sans-serif;font-weight:bold;}
         ]]>
       </style>
     </head>
     <body>
-      <h3>Molecules</h3>
-      <table class="mol">
-        <tr class="tableheader">
-          <td>Name</td>
-          <td>Energy/kJ mol<sup>-1</sup>
-        </td>
-          <td>Rotational constants/cm<sup>-1</sup>
-        </td>
-          <td>Vibrational frequencies/cm<sup>-1</sup>
-        </td>
-        </tr>
-        <xsl:apply-templates select="cml:moleculeList"/>
-      </table>
-    <h3>Reactions</h3>
-    <table>
+      <div id="header">
+        <xsl:apply-templates select="//cml:metadataList"/>
+      </div>
+      <h3 id="mols-title" class="handcursor">Molecules</h3>
+      <div id="mols" class="switchgroup3">
+        <table class="mol">
+          <tr class="tableheader">
+            <td>Name</td>
+            <td>Energy/kJ mol<sup>-1</sup>
+          </td>
+            <td>Rotational constants/cm<sup>-1</sup>
+          </td>
+            <td>Vibrational frequencies/cm<sup>-1</sup>
+          </td>
+          </tr>
+          <xsl:apply-templates select="cml:moleculeList"/>
+        </table>
+      </div>
+      <h3 id="reactions-title" class="handcursor">Reactions</h3>
+      <table id="reactions" class="switchgroup4">
       <xsl:apply-templates select="cml:reactionList"/>
     </table>
-    
-    <!--<xsl:apply-templates select="cml:reactionList" mode="diagram"/>-->
-      
+
     <!--Show the "results"-->
-    <xsl:apply-templates select="//*[@calculated]"/>
-      
-    </body>
+    <h3 id="densityOfStates-title" class="handcursor">Density of States</h3>
+    <div id="densityOfStates" class="switchgroup1">
+      <!--<xsl:apply-templates select="//*[@calculated]"/>-->
+      <xsl:apply-templates select="//me:densityOfStatesList"/>
+    </div>
+
+    <h3 id="microRates-title" class="handcursor">Microcanonical Rate Coeffficients</h3>
+    <div id="microRates" class="switchgroup2">
+      <xsl:apply-templates select="//me:microRateList"/>
+    </div>
+
+    <!--Script for expanding an contracting sections-->
+    <script type="text/javascript">
+      <![CDATA[
+        for(var i=1; i <=4; i++)
+        {
+          var mc=new switchcontent("switchgroup" + i)
+          mc.setStatus('- ','+ ')
+          mc.setPersist(true)
+          mc.init()
+        }
+      ]]>
+    </script>
+
+    <xsl:call-template name="drawDiag"/>
+  </body>
     </html>
 </xsl:template>
 
@@ -92,44 +130,8 @@
     </tr>
   </xsl:template>
 
-  <xsl:template match="cml:reactionList" mode="diagram">
-    <svg:svg xmlns:svg="http://www.w3.org/2000/svg" version="1.1"
-      width="700px" height="400px">
-      <svg:g  stroke="black" stroke-width="1">
-        <xsl:for-each select="cml:reaction">
-          <xsl:variable name="rmols" select="key('molrefs','cml:reactant/cml:molecule/@ref')"/>
-          <xsl:variable name="E" select="$rmols/cml:property[@dictRef='me:Energy']/cml:scalar"/>
-          <svg:line>
-            <xsl:attribute name="x1">
-              <xsl:number value="(position()-1)*100" />
-            </xsl:attribute>
-            <xsl:attribute name="y1">
-              <xsl:number value="200"/>
-            </xsl:attribute>
-            <xsl:attribute name="x2">
-              <xsl:number value="(position()-1)*100+ 20"/>
-            </xsl:attribute>
-            <xsl:attribute name="y2">
-              <xsl:number value="200"/>
-            </xsl:attribute>
-          </svg:line>
-          <svg:text  y="250" font-family="Verdana" font-size="15" fill="none">
-            <xsl:attribute name="x">
-              <xsl:number value="(position()-1)*100" />
-            </xsl:attribute>
-            <xsl:for-each select="cml:reactant/cml:molecule/@ref">
-              <xsl:if test="position()!=1"> + </xsl:if>
-              <xsl:value-of select="."/>
-            </xsl:for-each>
-
-          </svg:text>
-        </xsl:for-each>
-      </svg:g>
-    </svg:svg>
-  </xsl:template>
-
   <xsl:template match="me:densityOfStatesList">
-    <h3>
+    <h4>
       Density of states for
       <xsl:value-of select="../@id"/>
       <span class="normal">
@@ -137,7 +139,7 @@
         <xsl:value-of select="@calculated"/>
         )
       </span>
-    </h3>
+    </h4>
     <table>
       <tr class="tableheader">
         <td>T</td>
@@ -165,7 +167,7 @@
   </xsl:template>
 
     <xsl:template match="me:microRateList">
-    <h3>
+    <h4>
       Microcanonical rate coefficients for
       <xsl:value-of select="../@id"/>
       <span class="normal">
@@ -173,7 +175,7 @@
         <xsl:value-of select="@calculated"/>
         )
       </span>
-    </h3>
+    </h4>
     <table>
       <tr class="tableheader">
         <td>T/K</td>
@@ -192,4 +194,11 @@
     </table>
   </xsl:template>
 
-</xsl:stylesheet> 
+  <xsl:template match="cml:metadataList">
+    <xsl:value-of select="cml:metadata[@name='dc:creator']/@content"/>:
+    <xsl:value-of select="cml:metadata[@name='dc:date']/@content"/>,
+    <xsl:value-of select="cml:metadata[@name='dc:contributor']/@content"/>
+    
+  </xsl:template>
+
+  </xsl:stylesheet> 
