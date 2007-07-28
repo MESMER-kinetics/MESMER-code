@@ -10,12 +10,12 @@
 //-------------------------------------------------------------------------------------------
 
 #include <math.h>
+#include <limits>
 #include "system.h"
 #include "Constants.h"
 #include "Persistence.h"
 #include "Reaction.h"
-#include "SimpleRRKM.h"
-#include "SimpleILT.h"
+#include "MicroRate.h"
 
 using namespace Constants ;
 using namespace std;
@@ -28,13 +28,14 @@ namespace mesmer
 		m_Reactant2(NULL), 
 		m_Product(NULL), 
 		m_Product2(NULL),
+    m_TransitionState(NULL),
 		m_kfwd(0.0),
 		m_kfmc(NULL),
-		m_kfgrn(),
-        m_pMicroRateCalculator(){}
+		m_kfgrn() {}
 
 	Reaction::~Reaction() 
 	{
+		if(m_pMicroRateCalculator) delete m_pMicroRateCalculator;
 	}
 	/*
 	Reaction::Reaction(const Reaction& reaction) {
@@ -121,6 +122,45 @@ namespace mesmer
 				m_Product2 = pMol1;
 			}
 		}
+    
+    // Read the transition state (if present)
+	  PersistPtr ppTransitionState = ppReac->MoveTo("me:transitionState") ;
+	  if (ppTransitionState)
+    {
+		  PersistPtr ppmol = ppTransitionState->MoveTo("molecule");
+		  if(ppmol)
+      {
+		    const char* pRef = ppmol->ReadValue("ref");
+		    if(!pRef)
+          return false;
+			  m_TransitionState = dynamic_cast<TransitionState*>(m_pMoleculeManager->find(pRef));
+      }
+
+/* It would be better to use the ZPEs rather than threshold
+      if(m_TransitionState)
+			{
+				const char* pthreshtxt = ppReac->ReadValue("me:threshold",false);
+				if(pthreshtxt)
+				{
+					stringstream ss(pthreshtxt);
+					ss >> m_E0;
+				}
+*/
+    }
+
+    //Read in Kinetic rate parameters, if present
+    m_ActEne = std::numeric_limits<double>::quiet_NaN();//means not set
+
+    const char* pActEnetxt = ppReac->ReadValue("me:activationEnergy",false);
+    const char* pPreExptxt = ppReac->ReadValue("me:preExponential",false);
+    if (pActEnetxt && pPreExptxt)
+    {
+      stringstream s1(pActEnetxt);
+      s1 >> m_ActEne ;
+      stringstream s2(pPreExptxt);
+      s2 >> m_PreExp ;
+      return true ;
+    }
 
 		// Classify the reaction.
 
@@ -137,34 +177,19 @@ namespace mesmer
 		}
 
 		// Determine the method of MC rate coefficient calculation.
-
-		bool bCalculator(false) ;
 		const char* pMCRCMethodtxt = ppReac->ReadValue("me:MCRCMethod") ;
 		if(pMCRCMethodtxt)
 		{
-			string strMCRCMethodtxt(pMCRCMethodtxt) ;
-			if        (strMCRCMethodtxt == "Simple RRKM") {
-
-				SimpleRRKM *pSimpleRRKM = new SimpleRRKM(m_pMoleculeManager, m_Reactant) ;
-				if(pSimpleRRKM->Initialize(ppReac)){ 
-					m_pMicroRateCalculator = auto_ptr<MicroRateCalculator>(pSimpleRRKM) ;
-					bCalculator = true ;
-				}
-
-			} else if (strMCRCMethodtxt == "Simple ILT") {
-
-				SimpleILT *pSimpleILT = new SimpleILT(m_pMoleculeManager, m_Reactant) ;
-				if(pSimpleILT->Initialize(ppReac)){ 
-					m_pMicroRateCalculator = auto_ptr<MicroRateCalculator>(pSimpleILT) ;
-					bCalculator = true ;
-				}
-
-			} else {
-				cerr << "Unknown method for the determination of Microcanonical rate coefficients" << endl;
+      m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
+      if(!m_pMicroRateCalculator)
+      {
+				cerr << "Unknown method " << pMCRCMethodtxt << 
+          " for the determination of Microcanonical rate coefficients in reaction "
+          << m_Name << endl;
+				return false;
 			}
 		}
-
-		return bCalculator ;
+    return true;
 	}
 
 
@@ -215,15 +240,19 @@ namespace mesmer
 	//
 	// Calculate grain averaged microcanoincal rate coeffcients. 
 	//
-	void Reaction::calcGrnAvrgMicroRateCoeffs() {
+	bool Reaction::calcGrnAvrgMicroRateCoeffs() {
 
 		// Calculate microcanonical rate coefficients.
 		if (m_kfmc.size()==0) 
-			m_pMicroRateCalculator->calculateMicroRateCoeffs(m_kfmc) ;
-
-		// Calculate Grain averages of microcanonicla rate coefficients.
+    {
+      if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this, m_kfmc) ||
+         (pSys->TestMicroRatesEnabled() && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_kfmc, m_ppPersist)))
+        return false;
+    }
+		// Calculate Grain averages of microcanonical rate coefficients.
 		if (m_kfgrn.size()==0)
-			grnAvrgMicroRateCoeffs() ;
+			return grnAvrgMicroRateCoeffs() ;
+    return true;
 	}
 
 	//
@@ -231,7 +260,7 @@ namespace mesmer
 	// to give grain values. This code is similar to that in Molecule.cpp
 	// and this averaging should be done there. SHR 19/Sep/2004.
 	//
-	void Reaction::grnAvrgMicroRateCoeffs() {
+	bool Reaction::grnAvrgMicroRateCoeffs() {
 
 		int ngrn = pSys->MAXGrn();
 		m_kfgrn.resize(ngrn);
@@ -283,6 +312,7 @@ namespace mesmer
 				<<  "     Number of grains requested: " << ngrn << endl
 				<<  "     Number of grains produced : " << idx2 << endl ;
 		}
+    return true;
 	}
 
 	//

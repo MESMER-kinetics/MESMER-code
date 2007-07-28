@@ -1,4 +1,20 @@
 
+2007-07-28  Chris Morley
+	
+	* src/MicroRate.cpp, .h, src/SimpleILTx.cpp, src/SimpleRRKMx.cpp:
+	Mod of MicroRateCalulator classes to be plugin classes and to keep 
+	all their data in the Reaction class.
+	
+	* src/Molecule.h, .cpp: Remove diagCollisionOperator which is also
+	in ReactionManager
+	
+	* Persistence.h, XMLPersist.h,.cpp:Add ReadBoolean() and WriteAttribute
+	methods. Activate Read() and modify WriteMainElement(). More flexibilty
+	found to be necessary.
+	
+	* src.System.h,.cpp:Add ReadRange() method and use it for T, P and conc.
+	Not yet used properly in calculation.
+
 2007-07-21  Struan Robertson
 
         * src/MicroRateCalculator.cpp/.h: Separated micro-rate calcuator base

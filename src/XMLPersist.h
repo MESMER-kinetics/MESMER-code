@@ -32,12 +32,17 @@ public:
 
 ///Returns the first child element with this name, or if not found, the next sibling element with this name
   virtual PersistPtr MoveTo(const std::string& name) const;
-
+  virtual const char* Read()const;
   virtual const char* ReadValue(const std::string& name, bool MustBeThere=true) const;
   virtual const char* ReadProperty( const std::string& name, bool MustBeThere=true) const;
+  virtual bool ReadBoolean( const std::string& name)const;
+
 
   /// Inserts into XML document a new element
   virtual PersistPtr WriteElement(const std::string& name);
+
+  /// Adds an XML attribute (or equivalent)
+  virtual void WriteAttribute(const std::string& name, const std::string& value);
 
   /// Inserts into XML document a new element  containing a formatted number
   virtual void WriteValueElement(const std::string& name, 

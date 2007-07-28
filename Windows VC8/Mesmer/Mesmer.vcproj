@@ -189,7 +189,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\MicroRateCalculator.cpp"
+				RelativePath="..\..\src\MicroRate.cpp"
 				>
 			</File>
 			<File
@@ -198,6 +198,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\MoleculeManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\oberror.cpp"
 				>
 			</File>
 			<File
@@ -211,9 +215,33 @@
 			<File
 				RelativePath="..\..\src\SimpleILT.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\SimpleILTx.cpp"
+				>
 			</File>
 			<File
 				RelativePath="..\..\src\SimpleRRKM.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\SimpleRRKMx.cpp"
 				>
 			</File>
 			<File
@@ -271,15 +299,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\MicroRateCalculator.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Molecule.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\MoleculeManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\oberror.h"
 				>
 			</File>
 			<File
@@ -297,10 +325,26 @@
 			<File
 				RelativePath="..\..\src\SimpleILT.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\SimpleRRKM.h"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\System.h"
@@ -320,7 +364,7 @@
 			>
 		</File>
 		<File
-			RelativePath=".\pentyl_isomerization.xml"
+			RelativePath=".\pentyl_isomerizationJul.xml"
 			>
 		</File>
 		<File

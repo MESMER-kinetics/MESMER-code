@@ -43,6 +43,11 @@ PersistPtr XMLPersist::MoveTo(const std::string& name) const
     return PersistPtr(new XMLPersist(pnEl));
 }
 
+const char* XMLPersist::Read()const
+{
+  return pnNode->GetText();
+}
+
 ///Look first to see if there is a child element of this name.
 ///Look second for an attribute of this name.
 ///If either found, return its value. 
@@ -53,7 +58,11 @@ const char* XMLPersist::ReadValue(const std::string& name, bool MustBeThere) con
   //Look first to see if there is a child element of this name and, if so, return its vale
   TiXmlElement* pnEl = pnNode->FirstChildElement(name);
   if(pnEl)
+  {
     ptext = pnEl->GetText();
+    if(!ptext)
+      return ""; //element exists but is empty
+  }
   else
     ptext = pnNode->Attribute(name.c_str());
 
@@ -90,6 +99,20 @@ const char* XMLPersist::ReadProperty(const string& name, bool MustBeThere) const
   return NULL;
 }
 
+  /// Returns true if datatext associated with name is "1" or "true" or nothing;
+  //  returns false if datatext is something else or if element is not found.
+  bool XMLPersist::ReadBoolean( const std::string& name)const
+  {
+    const char* txt = ReadValue(name, false);
+    if(txt)
+    {
+      string s(txt);
+      return s.empty() || s=="1" || s=="yes";
+    }
+    return false;
+  }
+
+
 void XMLPersist::WriteValueElement(const std::string& name, 
                  const double datum, const int precision)
 {
@@ -112,6 +135,11 @@ PersistPtr XMLPersist::WriteElement(const std::string& name)
   return PersistPtr(new XMLPersist(item));
 }
 
+void XMLPersist::WriteAttribute(const std::string& name, const std::string& value)
+{
+  pnNode->SetAttribute(name, value);
+}
+
 PersistPtr XMLPersist::WriteMainElement( 
                         const std::string& name, const std::string& comment, bool replaceExisting)
 {
@@ -127,17 +155,17 @@ PersistPtr XMLPersist::WriteMainElement(
   TiXmlElement* pnel = new TiXmlElement( name );
   pnNode->LinkEndChild(pnel);
 
-  // Add attribute to show when data was calculated, removing trailing 0x0a
-  time_t ltime;
-  time( &ltime );
-  string timestring(ctime(&ltime));
-  pnel->SetAttribute("calculated", timestring.erase(timestring.size()-1));
+  //No timestamp or comment if comment is empty
+  if(!comment.empty())
+  {
+    // Add attribute to show when data was calculated, removing trailing 0x0a
+    pnel->SetAttribute("calculated", TimeString());
 
   //Add explanatory comment in description element
-  TiXmlElement* pncom = new TiXmlElement("me:description");
-  pnel->LinkEndChild( pncom );
-  pncom->LinkEndChild(new TiXmlText(comment));
-
+    TiXmlElement* pncom = new TiXmlElement("me:description");
+    pnel->LinkEndChild( pncom );
+    pncom->LinkEndChild(new TiXmlText(comment));
+  }
   return PersistPtr(new XMLPersist(pnel));
 }
 
@@ -145,4 +173,5 @@ bool XMLPersist::SaveFile(const std::string& outfilename)
   {
     return pnNode->GetDocument()->SaveFile(outfilename);
   }
+
 }//namespacer mesmer

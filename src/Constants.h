@@ -18,10 +18,10 @@ namespace Constants {
     // Constants in terms of wavenumbers.
     //
 
-    static const double boltzmann = 0.695029 ;
+    static const double boltzmann    = 0.695029 ;
 
-    static const double KCMLTOPCM = 349.757 ;
-
+    static const double KCMLTOPCM    = 349.757 ;
+    static const double plancksConst = 1.0/2.998e+10 ;
 }
 
 #endif // GUARD_Constants_h

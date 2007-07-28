@@ -39,15 +39,22 @@ namespace mesmer
         //
         void calculate() ;
 
-        double igsz(){ return GrainSize; }
-        int    MAXGrn(){ return MaxGrn; }
-        int    MAXCell(){ return MaxCell; }
-        double getEMin(){ return EMin; }
+        double igsz()                   { return GrainSize; }
+        int    MAXGrn()                 { return MaxGrn; }
+        int    MAXCell()                { return MaxCell; }
+        double getEMin()                { return EMin; }
+        bool   TestMicroRatesEnabled() { return bTestMicroRates; }
+
+        std::vector<double> Temperatures; //Explicit emumeration of the temperatures requested in the input
+        std::vector<double> Concentrations; //Bath gas concentrations: values for calculation. Use if Pressures is empty.
+        std::vector<double> Pressures; //Bath gas pressures: values for calculation
 
     private:
 
         bool SetGrainParams();
-
+        bool ReadRange(const std::string& name, std::vector<double>& vals,
+                       PersistPtr ppbase, bool MustBeThere=true);
+        void WriteMetadata();
         // 
         // Location of the molecule manager.
         //
@@ -59,6 +66,7 @@ namespace mesmer
         //
         ReactionManager *m_pReactionManager ;
 
+        PersistPtr m_ppIOPtr; //level in XML file under <mesemer>
 
         double temp;
         double conc;
@@ -69,6 +77,9 @@ namespace mesmer
         double MaxT;       //Maximum temperature for the purposes of setting the energy range
 
         double EMin, EMax; // The absolute lowest and highest energies in the system, cm-1
+
+        bool   bTestMicroRates;  // Whether to output microcanonical rate coefficients
+
     } ;
 
     //Namespace global variable for accessing the one instance of System class

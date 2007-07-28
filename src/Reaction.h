@@ -16,10 +16,12 @@
 #include "Molecule.h"
 #include "MoleculeManager.h"
 #include "Persistence.h"
-#include "MicroRateCalculator.h"
+#include "MicroRate.h"
 
 namespace mesmer
 {
+  class MicroRateCalculator;
+
     class Reaction
     {
         //
@@ -75,11 +77,16 @@ namespace mesmer
         // Access microcanoincal rate coeffcients. 
         void get_MicroRateCoeffs(std::vector<double> &kmc) ;
 
+        double get_PreExp() const           { return m_PreExp; }
+        double get_ActivationEnergy()const  { return m_ActEne; }
+
         // Reactant information:
 
         int get_NumberOfReactants() const { return m_Reactant2 ? 2 : 1 ; } ;
         int get_NumberOfProducts()  const { return m_Product2 ? 2 : 1 ; } ;
         void get_unimolecularspecies(std::vector<CollidingMolecule *> &unimolecularspecies) const ;
+        TransitionState* get_TransitionState() const {return m_TransitionState;}
+        PersistPtr get_PersistPtr(){return m_ppPersist;}
 
     private:
 
@@ -87,10 +94,10 @@ namespace mesmer
         Molecule* GetMolRef(PersistPtr pp);
 
         // Grain average microcanonical rate coefficients.
-        void grnAvrgMicroRateCoeffs();
+        bool grnAvrgMicroRateCoeffs();
 
         // Wrapper function to calculate and grain average microcanoincal rate coeffcients. 
-        void calcGrnAvrgMicroRateCoeffs() ;
+        bool calcGrnAvrgMicroRateCoeffs() ;
 
         // Add isomer reaction terms to collision matrix.
         void AddIsomerReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
@@ -111,20 +118,25 @@ namespace mesmer
         Molecule          *m_Reactant2 ;        // Subsidiary reactant molecule.
         CollidingMolecule *m_Product ;          // Product Molecule.
         Molecule          *m_Product2 ;         // Subsidiary product molecule.
-
+        TransitionState   *m_TransitionState;   // TransitionState
+        ReactionType        m_reactiontype ;     // Type of reaction.
         //
         // Reaction Rate data.
         //
-        PersistPtr          m_ppPersist;         // Conduit for I/O
-        ReactionType        m_reactiontype ;     // Type of reaction.
         double              m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
         std::vector<double> m_kfmc ;             // Forward microcanonical rate coefficients.
         std::vector<double> m_kfgrn ;            // Grained averaged forward microcanonical rates.
 
+        double              m_ActEne ;           // Activation Energy
+        double              m_PreExp ;           // Preexponetial factor
+
+        // I/O and control
+        PersistPtr          m_ppPersist;         // Conduit for I/O
+
 		//
 		// Point to microcanoical rate coeff. calculator.
 		//
-		std::auto_ptr<MicroRateCalculator> m_pMicroRateCalculator ;
+		MicroRateCalculator *m_pMicroRateCalculator ;
     } ;
 
 }//namespace

@@ -8,6 +8,7 @@
 // This file contains the implementation of the System class.
 //
 //-------------------------------------------------------------------------------------------
+#include <algorithm>
 #include "Persistence.h"
 #include "Constants.h"
 #include "System.h"
@@ -39,6 +40,7 @@ namespace mesmer
         MaxGrn=0;
         MaxT=0.0;
 
+        m_ppIOPtr = ppIOPtr;
         PersistPtr ppMolList = ppIOPtr->MoveTo("moleculeList");
         if(!ppMolList)
         {
@@ -71,15 +73,20 @@ namespace mesmer
 			m_pMoleculeManager->set_BathGasMolecule(Bgtxt) ;
 		}
 
-        const char* Ttxt = ppConditions->ReadValue("me:temperature");
-        const char* Ctxt = ppConditions->ReadValue("me:conc");
-        if(!Ttxt || !Ctxt)
-            return false;
+        if(!ReadRange("me:temperature", Temperatures, ppConditions))
+          return false;
 
-        istringstream Tss(Ttxt);
-        Tss >> temp;
-        istringstream Css(Ctxt);
-        Css >> conc;
+        if(!ReadRange("me:conc", Concentrations, ppConditions, false))
+          return false;
+
+        if(!ReadRange("me:pressure", Pressures, ppConditions, false))
+          return false;
+
+        if(Concentrations.size()==0 && Pressures.size()==0)
+        {
+          cerr << "It is necessary to specify at least one bath gas concentration or pressure" <<endl;
+          return false;
+        }
 
         PersistPtr ppParams = ppIOPtr->MoveTo("me:modelParameters");
         if(ppParams)
@@ -114,6 +121,12 @@ namespace mesmer
           }
         }
 
+        PersistPtr ppControl = ppIOPtr->MoveTo("me:control");
+        if(ppControl)
+        {
+          bTestMicroRates = ppControl->ReadBoolean("me:testMicroRates");
+        }
+
         return true;
     }
 
@@ -122,20 +135,45 @@ namespace mesmer
     //
     void System::calculate() 
     { 
+      if(!SetGrainParams())
+        return;
+      
+      std::string id;
+      ModelledMolecule* pmol=NULL;
+
+      WriteMetadata();
+
+      /* Needs rethink on how to do looping over T and P
+      //Outer loop is temperature
+      vector<double>::iterator Titer;
+      for(Titer=Temperatures.begin();Titer!=Temperatures.end();++Titer)
+      {
+        double beta = 1.0/(boltzmann*(*Titer)) ;
+        
+        size_t imax = !Pressures.empty() ? Pressures.size() : Concentrations.size();
+        //Inner loop is concentrations, possibly calculated from pressures if these were specified
+        //***TODO Get pressure units right. Pressures currently non-functional!
+        for(size_t i=0;i<imax;++i)
+        {
+          double conc = !Pressures.empty() ? Pressures[i]*beta : Concentrations[i];
+
+          // Build collison matrix for system.
+          m_pReactionManager->BuildSystemCollisionOperator(beta, conc) ;
+
+          m_pReactionManager->diagCollisionOperator() ;
+        }
+      }
+      */
+        temp = Temperatures[0]; //temporary statements
+        conc = Concentrations[0];
+
         double beta = 1.0/(boltzmann*temp) ;
-        
-        if(!SetGrainParams())
-          return;
-        
-        std::string id;
-        ModelledMolecule* pmol=NULL;
 
         // Build collison matrix for system.
 
         m_pReactionManager->BuildSystemCollisionOperator(beta, conc) ;
 
         m_pReactionManager->diagCollisionOperator() ;
-
 
 
 /*        for (size_t i=0; i < m_pReactionManager->size() ; i++) {
@@ -204,10 +242,10 @@ namespace mesmer
       
       //MaxT gives the option of widening the energy range
       if(MaxT==0.0) 
-        MaxT = temp;
+        MaxT = *max_element(Temperatures.begin(), Temperatures.end());
 
-      //Max energy is ** 10kT  ** above the highest well
-      EMax = EMax + 10 * boltzmann * MaxT;
+      //Max energy is ** 20kT  ** above the highest well [was 10kT]
+      EMax = EMax + 20 * boltzmann * MaxT;
       if(GrainSize==0.0)
         GrainSize = 100; //default 100cm-1
 
@@ -225,6 +263,68 @@ namespace mesmer
       GrainSize = 100;
       return true;
 */
+    }
+
+    bool System::ReadRange(const string& name, vector<double>& vals, PersistPtr ppbase, bool MustBeThere)
+    {
+      PersistPtr pp=ppbase;
+      for(;;)
+      {
+        const char* txt;
+        pp = pp->MoveTo(name);
+        if(pp)
+          txt = pp->Read(); //element may have a value
+        else //no more elements
+          break;
+        if(!txt)
+          txt = pp->ReadValue("initial"); //or use value of "initial" attribute
+        if(!txt)
+          return false;
+        vals.push_back(atof(txt));
+
+        if(txt=pp->ReadValue("increment",false))//optional attribute
+        {
+          double incr = atof(txt);
+          txt = pp->ReadValue("final"); //if have "increment" must have "final"
+          if(!txt)
+            return false;
+          for(double val=vals.back()+incr; val<=atof(txt); val+=incr)
+            vals.push_back(val);
+        }
+      }
+      if(MustBeThere && vals.size()==0)
+      {
+        cerr << "Must specify at least one value of " << name <<endl;
+        return false;
+      }
+      return true;
+    }
+
+    void System::WriteMetadata()
+    {
+      PersistPtr ppList = m_ppIOPtr->WriteMainElement("metadataList", "");
+      PersistPtr ppItem = ppList->WriteElement("metadata");
+      ppItem->WriteAttribute("name", "dc:creator");
+      ppItem->WriteAttribute("content", "Mesmer v0.1");
+
+      ppItem = ppList->WriteElement("metadata");
+      ppItem->WriteAttribute("name", "dc:description");
+      ppItem->WriteAttribute("content", 
+      "Calculation of the interaction between collisional energy transfer and chemical reaction"
+      " for dissociation, isomerization and association processes");
+
+      ppItem = ppList->WriteElement("metadata");
+      ppItem->WriteAttribute("name", "dc:date");
+      ppItem->WriteAttribute("content", IPersist::TimeString());
+
+      //The user's name should be in an environment variable attached to his account (not a System variable)
+      const char* author = getenv("MESMER_AUTHOR");
+      if(!author)
+        author = "unknown";
+      ppItem = ppList->WriteElement("metadata");
+      ppItem->WriteAttribute("name", "dc:contributor");
+      ppItem->WriteAttribute("content", author);
+
     }
 
 }//namespace

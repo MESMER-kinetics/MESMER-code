@@ -13,6 +13,8 @@ Windows[!!-~]VC8/Mesmer/pentyl_isomerization.xml -text
 src/Constants.h -text
 src/Makefile -text
 src/Matrix.h -text
+src/MicroRate.cpp -text
+src/MicroRate.h -text
 src/MicroRateCalculator.cpp -text
 src/MicroRateCalculator.h -text
 src/Molecule.cpp -text
@@ -26,10 +28,8 @@ src/ReactionConnectivity.cpp -text
 src/ReactionConnectivity.h -text
 src/ReactionManager.cpp -text
 src/ReactionManager.h -text
-src/SimpleILT.cpp -text
-src/SimpleILT.h -text
-src/SimpleRRKM.cpp -text
-src/SimpleRRKM.h -text
+src/SimpleILTx.cpp -text
+src/SimpleRRKMx.cpp -text
 src/System.cpp -text
 src/System.h -text
 src/XMLPersist.cpp -text

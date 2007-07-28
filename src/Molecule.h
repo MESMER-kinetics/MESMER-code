@@ -149,8 +149,8 @@ namespace mesmer
         // Initialize the Collision Operator.
         void initCollisionOperator(double temp, double conc, Molecule *pBathGasMolecule) ;
 
-        // Diagonalize the Collision Operator.
-        void diagCollisionOperator() ;
+        // Diagonalize the Collision Operator. See ReactionManager::diagCollisionOperator()
+//        void diagCollisionOperator() ;
 
         // Calculate a reaction matrix element.
         double matrixElement(int eigveci, int eigvecj, std::vector<double> &k, int ndim) ;

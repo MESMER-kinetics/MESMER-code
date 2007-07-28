@@ -403,11 +403,10 @@ void CollidingMolecule::collisionOperator(double beta) {
         }
     }
 }
-
+/*//
+// Diagonalize the Collision Operator. See ReactionManager::diagCollisionOperator()
 //
-// Diagonalize the Collision Operator.
-//
-void CollidingMolecule::diagCollisionOperator() {
+void CollidingMolecule::  diagCollisionOperator() {
 
     // Allocate space for eigenvalues.
 
@@ -429,7 +428,7 @@ void CollidingMolecule::diagCollisionOperator() {
     }
 
 }
-
+*/
 //
 // Calculate collision frequency.
 //
