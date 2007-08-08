@@ -42,6 +42,8 @@ src/dMatrix.h -text
 src/formatfloat.cpp -text
 src/formatfloat.h -text
 src/main.cpp -text
+src/oberror.cpp -text
+src/oberror.h -text
 src/util.cpp -text
 tinyxml/MakeLib -text
 tinyxml/Makefile -text
