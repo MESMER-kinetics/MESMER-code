@@ -83,13 +83,6 @@ namespace mesmer
         }
 
 		//
-		// Find all source terms.
-		//
-        for (size_t i(0) ; i < size() ; i++) {
-
-        }
-
-        //
         // Shift all wells to the same origin, calculate the size of the system collision operator,
         // calculate the mean collision frequency and initialize all collision operators. 
         //
@@ -113,6 +106,20 @@ namespace mesmer
         }
         meanomega /= isomers.size();
 
+		//
+		// Find all source terms.
+		//
+        Reaction::sourceMap sources ; // Maps the location of source in the system matrix.
+        for (size_t i(0) ; i < size() ; i++) {
+
+            CollidingMolecule *pseudoIsomer = m_reactions[i]->get_pseudoIsomer() ;
+
+            if(pseudoIsomer && sources.find(pseudoIsomer) == sources.end()){ // New source
+                msize++ ;
+                sources[pseudoIsomer] = msize ;
+            }
+        }
+
         cout << endl << "The size of the collision matrix is: " << msize << endl << endl ;
 
         // Allocate space for system collision operator.
@@ -135,7 +142,7 @@ namespace mesmer
         // Add connecting rate coefficients.
         for (size_t i(0) ; i < size() ; i++) {
 
-            m_reactions[i]->AddMicroRates(m_pSystemCollisionOperator,isomers,1.0/meanomega) ;
+            m_reactions[i]->AddMicroRates(m_pSystemCollisionOperator,isomers,sources,1.0/meanomega) ;
 
         }
     }

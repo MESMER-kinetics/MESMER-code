@@ -20,8 +20,6 @@
 
 namespace mesmer
 {
-  class MicroRateCalculator;
-
     class Reaction
     {
         //
@@ -35,58 +33,62 @@ namespace mesmer
 
     public:
 
-		// Type of reaction.
-        typedef enum ReactionType{ ASSOCIATION, 
+        // Type of reaction.
+        typedef enum ReactionType{ 
+            ASSOCIATION, 
             DISSOCIATION,
             ISOMERIZATION,
+            EXCHANGE,
             ERROR_REACTION } ;
 
-		typedef std::map<CollidingMolecule *, int> isomerMap ;
+            typedef std::map<CollidingMolecule *, int> isomerMap ;
+            typedef std::map<CollidingMolecule *, int> sourceMap ;
 
-        // Constructors.
-        Reaction(){} ;
+            // Constructors.
+            Reaction(){} ;
 
-        Reaction(MoleculeManager *pMoleculeManager);
+            Reaction(MoleculeManager *pMoleculeManager);
 
-        // Destructor.
-        ~Reaction() ;
+            // Destructor.
+            ~Reaction() ;
 
-        // Copy constructor.
-        //   Reaction(const Reaction& reaction) ;
+            // Copy constructor.
+            //   Reaction(const Reaction& reaction) ;
 
-        // Assignment operator.
-        //   Reaction& operator=(const Reaction& reaction) ;
+            // Assignment operator.
+            //   Reaction& operator=(const Reaction& reaction) ;
 
-        // Initialize reaction.
-        bool Initialize(PersistPtr ppReac) ;
+            // Initialize reaction.
+            bool Initialize(PersistPtr ppReac) ;
 
-        std::string& getName() { return m_Name ; } ;
+            std::string& getName() { return m_Name ; } ;
 
-        // Modifier for reaction type.
-        void put_Reactiontype(ReactionType reactiontype) ;
+            // Modifier for reaction type.
+            void put_Reactiontype(ReactionType reactiontype) ;
 
-        // Accessor for reaction type.
-        ReactionType get_Reactiontype() const { } ;
+            // Accessor for reaction type.
+            ReactionType get_Reactiontype() const {return m_reactiontype ; } ;
 
-        // Add microcanonical terms to collision operator
-        void AddMicroRates(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+            // Add microcanonical terms to collision operator
+            void AddMicroRates(dMatrix *CollOptr, isomerMap &isomermap, sourceMap &sourcemap, const double rMeanOmega) ;
 
-        // Determine the equilibrium constant.
-        void CalcEquilConst() { } ;
+            // Determine the equilibrium constant.
+            void CalcEquilConst() { } ;
 
-        // Access microcanoincal rate coeffcients. 
-        void get_MicroRateCoeffs(std::vector<double> &kmc) ;
+            // Access microcanoincal rate coeffcients. 
+            void get_MicroRateCoeffs(std::vector<double> &kmc) ;
 
-        double get_PreExp() const           { return m_PreExp; }
-        double get_ActivationEnergy()const  { return m_ActEne; }
+            double get_PreExp() const                   { return m_PreExp ; } ;
+            double get_ActivationEnergy()const          { return m_ActEne ; } ;
+			TransitionState* get_TransitionState()const { return m_TransitionState ; } ;
 
-        // Reactant information:
+            // Reactant information:
 
-        int get_NumberOfReactants() const { return m_Reactant2 ? 2 : 1 ; } ;
-        int get_NumberOfProducts()  const { return m_Product2 ? 2 : 1 ; } ;
-        void get_unimolecularspecies(std::vector<CollidingMolecule *> &unimolecularspecies) const ;
-        TransitionState* get_TransitionState() const {return m_TransitionState;}
-        PersistPtr get_PersistPtr(){return m_ppPersist;}
+            void get_unimolecularspecies(std::vector<CollidingMolecule *> &unimolecularspecies) const ;
+
+            // Get the principal source reactant (i.e. reactant not in excess) if it exists.
+
+            CollidingMolecule *get_pseudoIsomer() const ;
 
     private:
 
@@ -103,7 +105,7 @@ namespace mesmer
         void AddIsomerReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
 
         // Add (reversible) association reaction terms to collision matrix.
-        void AddAssocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+        void AddAssocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, sourceMap &sourcemap, const double rMeanOmega) ;
 
         // Add dissociation reaction terms to collision matrix.
         void AddDissocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
@@ -133,10 +135,10 @@ namespace mesmer
         // I/O and control
         PersistPtr          m_ppPersist;         // Conduit for I/O
 
-		//
-		// Point to microcanoical rate coeff. calculator.
-		//
-		MicroRateCalculator *m_pMicroRateCalculator ;
+        //
+        // Point to microcanoical rate coeff. calculator.
+        //
+        MicroRateCalculator *m_pMicroRateCalculator ;
     } ;
 
 }//namespace

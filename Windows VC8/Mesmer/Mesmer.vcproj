@@ -213,32 +213,8 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\SimpleILT.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\src\SimpleILTx.cpp"
 				>
-			</File>
-			<File
-				RelativePath="..\..\src\SimpleRRKM.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\SimpleRRKMx.cpp"
@@ -299,6 +275,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\MicroRate.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Molecule.h"
 				>
 			</File>
@@ -321,30 +301,6 @@
 			<File
 				RelativePath="..\..\src\ReactionManager.h"
 				>
-			</File>
-			<File
-				RelativePath="..\..\src\SimpleILT.h"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\src\SimpleRRKM.h"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\System.h"

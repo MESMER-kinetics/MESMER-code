@@ -21,7 +21,9 @@ namespace Constants {
     static const double boltzmann    = 0.695029 ;
 
     static const double KCMLTOPCM    = 349.757 ;
-    static const double plancksConst = 1.0/2.998e+10 ;
+
+    static const double plancksConst = 1.0/2.998e+10 ; // In wavenumber units this comes out as
+	                                                   // the reciprocal of the speed of light.
 }
 
 #endif // GUARD_Constants_h

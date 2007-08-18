@@ -31,9 +31,6 @@ m_MmtIntB(0.0),
 m_MmtIntC(0.0), 
 m_Sym(0.0), 
 m_ZPE(0.0),
-//m_MaxCell(MAXCELL),
-//m_MaxGrn(MAXGRN),
-//m_GrnSz(0),
 m_ecll(NULL),
 m_cdos(NULL)  
 { }

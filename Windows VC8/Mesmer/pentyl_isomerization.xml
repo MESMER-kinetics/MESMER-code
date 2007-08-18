@@ -238,6 +238,8 @@
         <molecule ref="2-pentyl" />
       </product>
 
+      <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+
       <me:transitionState>
         <molecule ref="n-pentyl=TS=2-pentyl" />
       </me:transitionState>
@@ -245,6 +247,26 @@
       <me:threshold>25.99</me:threshold>
     </reaction>
     
+    <reaction id="R2">
+      <reactant>
+        <molecule ref="n-pentyl" />
+      </reactant>
+
+      <me:MCRCMethod>Simple ILT</me:MCRCMethod>
+      <me:activationEnergy>32.0</me:activationEnergy>
+      <me:preExponential>8.4e+13</me:preExponential>
+    </reaction>
+
+    <reaction id="R3">
+      <reactant>
+        <molecule ref="2-pentyl" />
+      </reactant>
+
+      <me:MCRCMethod>Simple ILT</me:MCRCMethod>
+      <me:activationEnergy>31.1</me:activationEnergy>
+      <me:preExponential>5.5e+13</me:preExponential>
+    </reaction>
+
   </reactionList>
 
   <me:conditions>
@@ -256,7 +278,7 @@
   <me:modelParameters>
     <me:grainSize units="cm-1"> 100 </me:grainSize>
     <!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
-    <me:maxTemperature>6000</me:maxTemperature>
+    <me:maxTemperature>3000</me:maxTemperature>
   </me:modelParameters>
 
     </me:mesmer>

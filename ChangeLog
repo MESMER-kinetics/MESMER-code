@@ -1,3 +1,13 @@
+
+2007-08-18  Struan Robertson
+
+	* src/ReactionManager.cpp:  Added material related to association 
+        reactions together with some minor changes relating to dissociation 
+        reactions.
+
+        * Windows VC8/Mesmer/pentyl_isomerization.xml: Updated the pentyl
+        isomerization input file to include dissociation reactions.
+
 2007-08-08  Chris Morley
 
 	Add the error handling files oberror.h and oberror.cpp. These are
