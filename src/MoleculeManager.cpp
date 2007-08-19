@@ -10,7 +10,7 @@
 //-------------------------------------------------------------------------------------------
 
 #include <iostream>
-#include "system.h"
+#include "System.h"
 #include "MoleculeManager.h"
 
 using namespace std ;

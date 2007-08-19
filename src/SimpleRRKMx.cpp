@@ -5,7 +5,7 @@
 #include "Persistence.h"
 #include "Reaction.h"
 #include "Constants.h"
-#include "microrate.h"
+#include "MicroRate.h"
 
 using namespace std;
 using namespace Constants;

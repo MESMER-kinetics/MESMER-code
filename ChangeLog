@@ -1,8 +1,12 @@
 
+2007-08-19  Struan Robertson
+
+	* Minor changes relating to the Linux build.
+
 2007-08-18  Struan Robertson
 
-	* src/ReactionManager.cpp:  Added material related to association 
-        reactions together with some minor changes relating to dissociation 
+	* src/ReactionManager.cpp:  Added material related to association
+        reactions together with some minor changes relating to dissociation
         reactions.
 
         * Windows VC8/Mesmer/pentyl_isomerization.xml: Updated the pentyl

@@ -90,16 +90,19 @@ all: ${OUTPUT}
 # Source files
 #****************************************************************************
 
-SRCS := Molecule.cpp \
+SRCS := MicroRate.cpp \
+	Molecule.cpp \
 	MoleculeManager.cpp \
 	Reaction.cpp \
 	ReactionManager.cpp \
-	SimpleRRKM.cpp \
-	SimpleILT.cpp \
+	SimpleILTx.cpp \
+	SimpleRRKMx.cpp \
 	System.cpp \
-	dMatrix.cpp \
 	XMLPersist.cpp \
+	dMatrix.cpp \
 	formatfloat.cpp \
+	oberror.cpp \
+	util.cpp \
 	main.cpp
 
 # Add on the sources for libraries

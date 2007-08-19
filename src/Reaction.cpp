@@ -11,7 +11,7 @@
 
 #include <math.h>
 #include <limits>
-#include "system.h"
+#include "System.h"
 #include "Constants.h"
 #include "Reaction.h"
 

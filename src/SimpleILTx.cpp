@@ -3,7 +3,7 @@
 #include "System.h"
 #include "Reaction.h"
 #include "Constants.h"
-#include "microrate.h"
+#include "MicroRate.h"
 
 #if defined(WIN32)
 #define IsNan _isnan

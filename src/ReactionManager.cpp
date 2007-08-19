@@ -9,7 +9,7 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include "system.h"
+#include "System.h"
 #include "Reaction.h"
 #include "ReactionManager.h"
 #include "Molecule.h"

@@ -10,7 +10,7 @@
 //-------------------------------------------------------------------------------------------
 
 #include <math.h>
-#include "system.h"
+#include "System.h"
 #include "Persistence.h"
 #include "Molecule.h"
 #include "Constants.h"
