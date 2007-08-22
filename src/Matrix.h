@@ -23,10 +23,10 @@ public:
 
     // Type defs
 
-    typedef  size_t  size_type ;
-    typedef       T* iterator ;
-    typedef const T* const_iterator ;
-    typedef       T  value_type ;
+    typedef         size_t  size_type ;
+    typedef             T*  iterator ;
+    typedef const       T*  const_iterator ;
+    typedef             T   value_type ;
 
     // Constructors
 
@@ -71,7 +71,7 @@ protected:
 
     }
 
-	// Internal function that allocates space for matrix.
+  // Internal function that allocates space for matrix.
 
     T** allocatematrix(size_type n) {
 
@@ -82,7 +82,7 @@ protected:
         for ( size_type i = 1 ; i < n ; i++ )
             matrix[i] = matrix[i - 1] + n ;
 
-		return matrix ;
+    return matrix ;
 
     }
 

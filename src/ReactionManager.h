@@ -13,7 +13,6 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include "MoleculeManager.h"
 #include "Reaction.h"
 
 namespace mesmer

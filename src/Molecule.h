@@ -12,10 +12,10 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include <vector>
 #include <memory>
+#include "oberror.h"
 #include "dMatrix.h"
-#include "Persistence.h"
+#include "XMLPersist.h"
 
 namespace mesmer
 {

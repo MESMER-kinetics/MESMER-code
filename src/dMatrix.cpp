@@ -25,78 +25,78 @@
 //-------------------------------------------------------------------------------------------
 void dMatrix::tred2(double **a, int n, double *d, double *e)
 {
-	int l, k, j, i;
-	double scale, hh, h, g, f;
+  int l, k, j, i;
+  double scale, hh, h, g, f;
 
-    for (i=n;i>=2;i--) {
-        l=i-1;
-        h=scale=0.0;
-        if (l > 1) {
+  for (i=n;i>=2;i--) {
+    l=i-1;
+    h=scale=0.0;
+    if (l > 1) {
 
-            for (k=1;k<=l;k++)
-                scale += fabs(a[i-1][k-1]);
-            if (scale == 0.0)
-                e[i-1]=a[i-1][l-1];
-            else {
-                for (k=1;k<=l;k++) {
-                    a[i-1][k-1] /= scale;
-                    h += a[i-1][k-1]*a[i-1][k-1];
-                }
-                f=a[i-1][l-1];
-                g = f>0 ? -sqrt(h) : sqrt(h);
-                e[i-1]=scale*g;
-                h -= f*g;
-                a[i-1][l-1]=f-g;
-                f=0.0;
-                for (j=1;j<=l;j++) {
-                    /* Next statement can be omitted if eigenvectors not wanted */
-                    a[j-1][i-1]=a[i-1][j-1]/h;
-                    g=0.0;
-
-                    for (k=1;k<=j;k++)
-                        g += a[j-1][k-1]*a[i-1][k-1];
-
-                    for (k=j+1;k<=l;k++)
-                        g += a[k-1][j-1]*a[i-1][k-1];
-                    e[j-1]=g/h;
-                    f += e[j-1]*a[i-1][j-1];
-                }
-                hh=f/(h+h);
-                for (j=1;j<=l;j++) {
-                    f=a[i-1][j-1];
-                    e[j-1]=g=e[j-1]-hh*f;
-
-                    for (k=1;k<=j;k++)
-                        a[j-1][k-1] -= (f*e[k-1]+g*a[i-1][k-1]);
-                }
-            }
-        } else
-            e[i-1]=a[i-1][l-1];
-        d[i-1]=h;
-    }
-    /* Next statement can be omitted if eigenvectors not wanted */
-    d[0]=0.0;
-    e[0]=0.0;
-    /* Contents of this loop can be omitted if eigenvectors not
-    wanted except for statement d[i-1]=a[i-1][i-1]; */
-    for (i=1;i<=n;i++) {
-        l=i-1;
-        if (d[i-1]) {
-            for (j=1;j<=l;j++) {
-                g=0.0;
-
-                for (k=1;k<=l;k++)
-                    g += a[i-1][k-1]*a[k-1][j-1];
-
-                for (k=1;k<=l;k++)
-                    a[k-1][j-1] -= g*a[k-1][i-1];
-            }
+      for (k=1;k<=l;k++)
+          scale += fabs(a[i-1][k-1]);
+      if (scale == 0.0)
+          e[i-1]=a[i-1][l-1];
+      else {
+        for (k=1;k<=l;k++) {
+          a[i-1][k-1] /= scale;
+          h += a[i-1][k-1]*a[i-1][k-1];
         }
-        d[i-1]=a[i-1][i-1];
-        a[i-1][i-1]=1.0;
+        f=a[i-1][l-1];
+        g = f>0 ? -sqrt(h) : sqrt(h);
+        e[i-1]=scale*g;
+        h -= f*g;
+        a[i-1][l-1]=f-g;
+        f=0.0;
+        for (j=1;j<=l;j++) {
+          /* Next statement can be omitted if eigenvectors not wanted */
+          a[j-1][i-1]=a[i-1][j-1]/h;
+          g=0.0;
 
-        for (j=1;j<=l;j++) a[j-1][i-1]=a[i-1][j-1]=0.0;
+          for (k=1;k<=j;k++)
+              g += a[j-1][k-1]*a[i-1][k-1];
+
+          for (k=j+1;k<=l;k++)
+              g += a[k-1][j-1]*a[i-1][k-1];
+          e[j-1]=g/h;
+          f += e[j-1]*a[i-1][j-1];
+        }
+        hh=f/(h+h);
+        for (j=1;j<=l;j++) {
+          f=a[i-1][j-1];
+          e[j-1]=g=e[j-1]-hh*f;
+
+          for (k=1;k<=j;k++)
+            a[j-1][k-1] -= (f*e[k-1]+g*a[i-1][k-1]);
+        }
+      }
+    } else
+        e[i-1]=a[i-1][l-1];
+    d[i-1]=h;
+  }
+  /* Next statement can be omitted if eigenvectors not wanted */
+  d[0]=0.0;
+  e[0]=0.0;
+  /* Contents of this loop can be omitted if eigenvectors not
+  wanted except for statement d[i-1]=a[i-1][i-1]; */
+  for (i=1;i<=n;i++) {
+    l=i-1;
+    if (d[i-1]) {
+      for (j=1;j<=l;j++) {
+        g=0.0;
+
+        for (k=1;k<=l;k++)
+            g += a[i-1][k-1]*a[k-1][j-1];
+
+        for (k=1;k<=l;k++)
+            a[k-1][j-1] -= g*a[k-1][i-1];
+      }
     }
+    d[i-1]=a[i-1][i-1];
+    a[i-1][i-1]=1.0;
+
+    for (j=1;j<=l;j++) a[j-1][i-1]=a[i-1][j-1]=0.0;
+  }
 }
 
 //-------------------------------------------------------------------------------------------
@@ -123,82 +123,82 @@ void dMatrix::tred2(double **a, int n, double *d, double *e)
 //-------------------------------------------------------------------------------------------
 void dMatrix::tqli(double *d, double *e, int n, double **z)
 {
-    int m,l,iter,i,k;
-    double s,r,p,g,f,dd,c,b;
+  int m,l,iter,i,k;
+  double s,r,p,g,f,dd,c,b;
 
-    for (i=2;i<=n;i++) e[i-2]=e[i-1];
-    e[n-1]=0.0;
-    for (l=1;l<=n;l++) {
-        iter=0;
-        do {
-            for (m=l;m<=n-1;m++) {
-                dd=fabs(d[m-1])+fabs(d[m]);
-                if (fabs(e[m-1])+dd == dd) break;
-            }
-            if (m != l) {
-	            // if (iter++ == 30) fprintf(stderr, "Too many iterations in TQLI");
-	            if (iter++ == 60) fprintf(stderr, "Too many iterations in TQLI");
-                g=(d[l]-d[l-1])/(2.0*e[l-1]);
-                r=sqrt((g*g)+1.0);
-                g=d[m-1]-d[l-1]+e[l-1]/(g + (g<0 ? -fabs(r) : fabs(r)));
-                s=c=1.0;
-                p=0.0;
-                for (i=m-1;i>=l;i--) {
-                    f=s*e[i-1];
-                    b=c*e[i-1];
-                    if (fabs(f) >= fabs(g)) {
-                        c=g/f;
-                        r=sqrt((c*c)+1.0);
-                        e[i]=f*r;
-                        c *= (s=1.0/r);
-                    } else {
-                        s=f/g;
-                        r=sqrt((s*s)+1.0);
-                        e[i]=g*r;
-                        s *= (c=1.0/r);
-                    }
-                    g=d[i]-p;
-                    r=(d[i-1]-g)*s+2.0*c*b;
-                    p=s*r;
-                    d[i]=g+p;
-                    g=c*r-b;
-                    /* Next loop can be omitted if eigenvectors not wanted */
+  for (i=2;i<=n;i++) e[i-2]=e[i-1];
+  e[n-1]=0.0;
+  for (l=1;l<=n;l++) {
+    iter=0;
+    do {
+      for (m=l;m<=n-1;m++) {
+        dd=fabs(d[m-1])+fabs(d[m]);
+        if (fabs(e[m-1])+dd == dd) break;
+      }
+      if (m != l) {
+        // if (iter++ == 30) fprintf(stderr, "Too many iterations in TQLI");
+        if (iter++ == 60) fprintf(stderr, "Too many iterations in TQLI");
+        g=(d[l]-d[l-1])/(2.0*e[l-1]);
+        r=sqrt((g*g)+1.0);
+        g=d[m-1]-d[l-1]+e[l-1]/(g + (g<0 ? -fabs(r) : fabs(r)));
+        s=c=1.0;
+        p=0.0;
+        for (i=m-1;i>=l;i--) {
+          f=s*e[i-1];
+          b=c*e[i-1];
+          if (fabs(f) >= fabs(g)) {
+            c=g/f;
+            r=sqrt((c*c)+1.0);
+            e[i]=f*r;
+            c *= (s=1.0/r);
+          } else {
+            s=f/g;
+            r=sqrt((s*s)+1.0);
+            e[i]=g*r;
+            s *= (c=1.0/r);
+          }
+          g=d[i]-p;
+          r=(d[i-1]-g)*s+2.0*c*b;
+          p=s*r;
+          d[i]=g+p;
+          g=c*r-b;
+          /* Next loop can be omitted if eigenvectors not wanted */
 
-                    for (k=1;k<=n;k++) {
-                        f=z[k-1][i];
-                        z[k-1][i]=s*z[k-1][i-1]+c*f;
-                        z[k-1][i-1]=c*z[k-1][i-1]-s*f;
-                    }
-                }
-                d[l-1]=d[l-1]-p;
-                e[l-1]=g;
-                e[m-1]=0.0;
-            }
-        } while (m != l);
-    }
+          for (k=1;k<=n;k++) {
+            f=z[k-1][i];
+            z[k-1][i]=s*z[k-1][i-1]+c*f;
+            z[k-1][i-1]=c*z[k-1][i-1]-s*f;
+          }
+        }
+        d[l-1]=d[l-1]-p;
+        e[l-1]=g;
+        e[m-1]=0.0;
+      }
+    } while (m != l);
+  }
 
 // Order eigenvalues and eigenvectors.
 
-	for (int ii = 1; ii < n; ii++) {
-		i = ii - 1;
-		k = i;
-		p = d[i];
-		for (int j = ii; j < n; j++) {
-			if (d[j] < p) {
-				k = j;
-				p = d[j];
-			}
-		}
-		if (k!=i) {
-			d[k] = d[i];
-			d[i] = p;
-			for (int j = 0; j < n; j++) {
-				p = z[j][i];
-				z[j][i] = z[j][k];
-				z[j][k] = p;
-			}
-		}
-	}
+  for (int ii = 1; ii < n; ii++) {
+    i = ii - 1;
+    k = i;
+    p = d[i];
+    for (int j = ii; j < n; j++) {
+      if (d[j] < p) {
+        k = j;
+        p = d[j];
+      }
+    }
+    if (k!=i) {
+      d[k] = d[i];
+      d[i] = p;
+      for (int j = 0; j < n; j++) {
+        p = z[j][i];
+        z[j][i] = z[j][k];
+        z[j][k] = p;
+      }
+    }
+  }
 
 }
 
@@ -210,21 +210,21 @@ void dMatrix::tqli(double *d, double *e, int n, double **z)
 //-------------------------------------------------------------------------------------------
 double dMatrix::pythag(double a, double b)
 {
-    double p,r,s,t,u;
-    if (fabsl(a) > fabsl(b)) p = fabsl(a);
-    else p = fabsl(b);
-    if (p == (0.0l+0)) goto label_1;
-    if (fabsl(a) > fabsl(b)) r = fabsl(b);
-    else r = fabsl(a);
-    r = (r/p)*(r/p);
+  double p,r,s,t,u;
+  if (fabsl(a) > fabsl(b)) p = fabsl(a);
+  else p = fabsl(b);
+  if (p == (0.0l+0)) goto label_1;
+  if (fabsl(a) > fabsl(b)) r = fabsl(b);
+  else r = fabsl(a);
+  r = (r/p)*(r/p);
 
 label_2: t = (4.0l+0) + r;
-    if (t == (4.0l+0)) goto label_1;
-    s = r/t;
-    u = (1.0l+0) + (2.0l+0)*s;
-    p *= u;
-    r = ((s/u)*(s/u))*r;
+  if (t == (4.0l+0)) goto label_1;
+  s = r/t;
+  u = (1.0l+0) + (2.0l+0)*s;
+  p *= u;
+  r = ((s/u)*(s/u))*r;
 
-    goto label_2;
+  goto label_2;
 label_1: return(p);
 }

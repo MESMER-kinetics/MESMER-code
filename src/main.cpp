@@ -5,10 +5,8 @@
 #include <conio.h>
 #endif
 
-#include "Persistence.h"
 #include "System.h"
 
-#include "XMLPersist.h"
 using namespace std;
 
 void usage();
@@ -59,8 +57,9 @@ int main(int argc,char *argv[])
   }
   if(!ppIOPtr->SaveFile(outputfilename))
   {
-    cerr << "There was an error when writing " << outputfilename << endl;
-    return -3;
+    stringstream errorMsg;
+    errorMsg << "There was an error when writing " << outputfilename;
+    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
   }
 
 /*  #ifdef _DEBUG
@@ -75,9 +74,11 @@ int main(int argc,char *argv[])
 
 void usage()
 {
-cerr << "mesmer inputfilename [outputfilename]\n"
-     << "The default outputfilename is the input name\
- with 'out' added before the extension.\n\
-Any existing file will be overwritten." << endl;
+  stringstream errorMsg;
+  errorMsg  << "#----- mesmer inputfilename [outputfilename] -----#\n";
+  errorMsg  << "The default outputfilename is the input name\n";
+  errorMsg  << "with 'out' added before the extension.\n";
+  errorMsg  << "  Any existing file will be overwritten.";
+  obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
 }
 

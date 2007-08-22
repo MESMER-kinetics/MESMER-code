@@ -9,10 +9,7 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include <math.h>
-#include "system.h"
-#include "Constants.h"
-#include "Persistence.h"
+#include "System.h"
 #include "MicroRateCalculator.h"
 
 using namespace Constants ;

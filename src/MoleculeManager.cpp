@@ -10,7 +10,6 @@
 //-------------------------------------------------------------------------------------------
 
 #include <iostream>
-#include "System.h"
 #include "MoleculeManager.h"
 
 using namespace std ;
@@ -72,8 +71,9 @@ Molecule *MoleculeManager::find(const std::string& name) const {
      it = m_molmap.find(name) ;
 
      if (it == m_molmap.end()) {
-
-        cout << name << " is not a known Molecule." << endl ;
+        stringstream errorMsg;
+        errorMsg << name << " is not a known Molecule.";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
 
         return NULL;
      }

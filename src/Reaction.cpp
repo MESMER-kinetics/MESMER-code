@@ -1,19 +1,16 @@
 //-------------------------------------------------------------------------------------------
 //
-// Reaction.cpp 
+// Reaction.cpp
 //
-// Author: Struan Robertson 
+// Author: Struan Robertson
 // Date:   23/Feb/2003
 //
 // This file contains the implementation of the Reaction class.
 //
 //-------------------------------------------------------------------------------------------
 
-#include <math.h>
 #include <limits>
 #include "System.h"
-#include "Constants.h"
-#include "Reaction.h"
 
 using namespace Constants ;
 using namespace std;
@@ -21,416 +18,426 @@ using namespace mesmer;
 
 namespace mesmer
 {
-    Reaction::Reaction(MoleculeManager *pMoleculeManager): m_pMoleculeManager(pMoleculeManager),
-        m_Reactant(NULL), 
-        m_Reactant2(NULL), 
-        m_Product(NULL), 
-        m_Product2(NULL),
-        m_TransitionState(NULL),
-        m_kfwd(0.0),
-        m_kfmc(NULL),
-        m_kfgrn() {}
+  Reaction::Reaction(MoleculeManager *pMoleculeManager):
+            m_pMoleculeManager(pMoleculeManager),
+            m_Reactant(NULL),
+            m_Reactant2(NULL),
+            m_Product(NULL),
+            m_Product2(NULL),
+            m_TransitionState(NULL),
+            m_kfwd(0.0),
+            m_kfmc(NULL),
+            m_kfgrn()
+            {}
 
-    Reaction::~Reaction() 
+  Reaction::~Reaction()
+  {
+    if(m_pMicroRateCalculator) delete m_pMicroRateCalculator;
+  }
+
+  /*
+  Reaction::Reaction(const Reaction& reaction) {
+  // Copy constructor - define later SHR 23/Feb/2003
+  }
+
+  Reaction& Reaction::operator=(const Reaction& reaction) {
+  // Assignment operator - define later SHR 23/Feb/2003
+
+  return *this ;
+  }
+  */
+
+  //
+  // Read the Molecular data from inout stream.
+  //
+  bool Reaction::Initialize(PersistPtr ppReac)
+  {
+    m_ppPersist = ppReac;
+
+    //Read reaction ID
+    const char* id = ppReac->ReadValue("id");
+    if(id)
+        m_Name = id; //Continues if reaction id not found
+
+    Molecule* pMol1,*pMol2=NULL;
+    //Read reactants
+    PersistPtr ppReactant1  = ppReac->MoveTo("reactant");
+    pMol1 = GetMolRef(ppReactant1);
+    if(!pMol1) return false;
+
+    PersistPtr ppReactant2  = ppReactant1->MoveTo("reactant");
+    if(ppReactant2)
     {
-        if(m_pMicroRateCalculator) delete m_pMicroRateCalculator;
+      pMol2 = GetMolRef(ppReactant2);
+      if(!pMol2) return false;
+      m_Reactant2 = pMol2;
     }
-    /*
-    Reaction::Reaction(const Reaction& reaction) {
-    // Copy constructor - define later SHR 23/Feb/2003
-    }
-
-    Reaction& Reaction::operator=(const Reaction& reaction) {
-    // Assignment operator - define later SHR 23/Feb/2003
-
-    return *this ;
-    }
-    */ 
-    //
-    // Read the Molecular data from inout stream.
-    //
-    bool Reaction::Initialize(PersistPtr ppReac) 
+    //Put the Colliding Molecule into m_Reactant, even if it is second in datafile
+    CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
+    if(pColMol)
     {
-        m_ppPersist = ppReac;
-
-        //Read reaction ID
-        const char* id = ppReac->ReadValue("id");
-        if(id)
-            m_Name = id; //Continues if reaction id not found
-
-        Molecule* pMol1,*pMol2=NULL;
-        //Read reactants
-        PersistPtr ppReactant1  = ppReac->MoveTo("reactant");
-        pMol1 = GetMolRef(ppReactant1);
-        if(!pMol1) return false;
-
-        PersistPtr ppReactant2  = ppReactant1->MoveTo("reactant");
-        if(ppReactant2)
-        {
-            pMol2 = GetMolRef(ppReactant2);
-            if(!pMol2) return false;
-            m_Reactant2 = pMol2;
-        }
-        //Put the Colliding Molecule into m_Reactant, even if it is second in datafile
-        CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
-        if(pColMol)
-        {
-            m_Reactant = pColMol;
-            m_Reactant2 = pMol2;
-        }
-        else
-        {  
-            pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
-            if(!pColMol)
-            {
-                cerr << "Either " << pMol1->getName() << " or " 
-                    << pMol2->getName() <<" has to be a modelled molecule" <<endl;
-                return false;
-            }
-            m_Reactant = pColMol;
-            m_Reactant2 = pMol1;
-        }
-
-        //Read products ... if any.
-        pMol2=NULL;
-        PersistPtr ppProduct1 = ppReac->MoveTo("product");
-        if (ppProduct1) {   
-            pMol1 = GetMolRef(ppProduct1);
-
-            PersistPtr ppProduct2  = ppProduct1->MoveTo("product");
-            pMol2 = GetMolRef(ppProduct2);
-
-            //Put the Colliding Molecule into m_Product, even if it is second in datafile
-            pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
-            if(pColMol)
-            {
-                m_Product = pColMol;
-                m_Product2 = pMol2;
-            }
-            else
-            {  
-                pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
-                if(!pColMol)
-                {
-                    cerr << "Either " << pMol1->getName() << " or " 
-                        << pMol2->getName() <<" has to be a modelled molecule" <<endl;
-                    return false;
-                }
-                m_Product = pColMol;
-                m_Product2 = pMol1;
-            }
-        }
-
-        // Read the transition state (if present)
-        PersistPtr ppTransitionState = ppReac->MoveTo("me:transitionState") ;
-        if (ppTransitionState)
-        {
-            PersistPtr ppmol = ppTransitionState->MoveTo("molecule");
-            if(ppmol)
-            {
-                const char* pRef = ppmol->ReadValue("ref");
-                if(!pRef)
-                    return false;
-                m_TransitionState = dynamic_cast<TransitionState*>(m_pMoleculeManager->find(pRef));
-            }
-
-            /* It would be better to use the ZPEs rather than threshold
-            if(m_TransitionState)
-            {
-            const char* pthreshtxt = ppReac->ReadValue("me:threshold",false);
-            if(pthreshtxt)
-            {
-            stringstream ss(pthreshtxt);
-            ss >> m_E0;
-            }
-            */
-        }
-
-        //Read in Kinetic rate parameters, if present
-        m_ActEne = std::numeric_limits<double>::quiet_NaN();//means not set
-
-        const char* pActEnetxt = ppReac->ReadValue("me:activationEnergy",false);
-        const char* pPreExptxt = ppReac->ReadValue("me:preExponential",false);
-        if (pActEnetxt && pPreExptxt)
-        {
-            stringstream s1(pActEnetxt);
-            s1 >> m_ActEne ;
-            stringstream s2(pPreExptxt);
-            s2 >> m_PreExp ;
-        }
-
-        // Classify the reaction.
-
-        if (m_Reactant && m_Product && !m_Reactant2 && !m_Product2)
-            m_reactiontype = ISOMERIZATION ;  
-        else if (m_Reactant && m_Product && m_Reactant2 && !m_Product2)
-            m_reactiontype = ASSOCIATION ;  
-        else if (m_Reactant)
-            m_reactiontype = DISSOCIATION ; 
-        else {
-            m_reactiontype = ERROR_REACTION ; 
-            cerr << "Unknown combination of reactants and products" << endl ;
-            return false;
-        }
-
-        // Determine the method of MC rate coefficient calculation.
-        const char* pMCRCMethodtxt = ppReac->ReadValue("me:MCRCMethod") ;
-        if(pMCRCMethodtxt)
-        {
-            m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
-            if(!m_pMicroRateCalculator)
-            {
-                cerr << "Unknown method " << pMCRCMethodtxt << 
-                    " for the determination of Microcanonical rate coefficients in reaction "
-                    << m_Name << endl;
-                return false;
-            }
-        }
-        return true;
+      m_Reactant = pColMol;
+      m_Reactant2 = pMol2;
+    }
+    else
+    {
+      pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
+      if(!pColMol)
+      {
+        stringstream errorMsg;
+        errorMsg << "Either " << pMol1->getName() << " or "
+                 << pMol2->getName() <<" has to be a modelled molecule";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obAuditMsg);
+        return false;
+      }
+      m_Reactant = pColMol;
+      m_Reactant2 = pMol1;
     }
 
+    //Read products ... if any.
+    pMol2=NULL;
+    PersistPtr ppProduct1 = ppReac->MoveTo("product");
+    if (ppProduct1) {
+      pMol1 = GetMolRef(ppProduct1);
 
-    Molecule* Reaction::GetMolRef(PersistPtr pp)
+      PersistPtr ppProduct2  = ppProduct1->MoveTo("product");
+      pMol2 = GetMolRef(ppProduct2);
+
+      //Put the Colliding Molecule into m_Product, even if it is second in datafile
+      pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
+      if(pColMol)
+      {
+        m_Product = pColMol;
+        m_Product2 = pMol2;
+      }
+      else
+      {
+        pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
+        if(!pColMol)
+        {
+          stringstream errorMsg;
+          errorMsg << "Either " << pMol1->getName() << " or "
+                   << pMol2->getName() <<" has to be a modelled molecule";
+          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obAuditMsg);
+          return false;
+        }
+        m_Product = pColMol;
+        m_Product2 = pMol1;
+      }
+    }
+
+    // Read the transition state (if present)
+    PersistPtr ppTransitionState = ppReac->MoveTo("me:transitionState") ;
+    if (ppTransitionState)
     {
-        Molecule* pMol;
-        if(!pp)
-            return NULL;
-        PersistPtr ppmol = pp->MoveTo("molecule");
-        if(!ppmol) return false;
+      PersistPtr ppmol = ppTransitionState->MoveTo("molecule");
+      if(ppmol)
+      {
         const char* pRef = ppmol->ReadValue("ref");
-        if(pRef)
-            pMol = m_pMoleculeManager->find(pRef);
-        if(!pMol)
-        {
-            cerr << "Unknown molecule: " << pRef <<endl;
-            return NULL;
-        }
-        return pMol;
+        if(!pRef)
+            return false;
+        m_TransitionState = dynamic_cast<TransitionState*>(m_pMoleculeManager->find(pRef));
+      }
+
+      /* It would be better to use the ZPEs rather than threshold
+      if(m_TransitionState)
+      {
+      const char* pthreshtxt = ppReac->ReadValue("me:threshold",false);
+      if(pthreshtxt)
+      {
+      stringstream ss(pthreshtxt);
+      ss >> m_E0;
+      }
+      */
     }
 
-    //
-    // Returns the unimolecular species in each reaction, i.e. for association
-    // (source term) or dissociation (sink term) reaction one species is returned,
-    // for an isomerization reaction two species are returned.
-    //
-    void Reaction::get_unimolecularspecies(vector<CollidingMolecule *> &unimolecularspecies) const
+    //Read in Kinetic rate parameters, if present
+    m_ActEne = std::numeric_limits<double>::quiet_NaN();//means not set
+
+    const char* pActEnetxt = ppReac->ReadValue("me:activationEnergy",false);
+    const char* pPreExptxt = ppReac->ReadValue("me:preExponential",false);
+    if (pActEnetxt && pPreExptxt)
     {
-        if(m_Reactant2 == NULL){                // Possible dissociation or isomerization.
-            unimolecularspecies.push_back(m_Reactant) ;
-        }
-
-        if(m_Product && m_Product2 == NULL){	// Possible association or isomerization.
-            unimolecularspecies.push_back(m_Product) ;
-        }
+      stringstream s1(pActEnetxt);
+      s1 >> m_ActEne ;
+      stringstream s2(pPreExptxt);
+      s2 >> m_PreExp ;
     }
 
-	//
-	// Get the prinincipal source reactant (i.e. reactant not in excess) if it exists.
-	// (Not sure if this is a good idea, may be better to pass a Map in.)
-	//
-	CollidingMolecule *Reaction::get_pseudoIsomer() const
-	{
-        CollidingMolecule *pseudoIsomer = NULL ;
-		if(m_reactiontype == ASSOCIATION) {
-			pseudoIsomer = m_Product ;
-		}
-		return pseudoIsomer ;
-	}
+    // Classify the reaction.
 
-    //
-    // Access microcanoincal rate coeffcients. 
-    //
-    void Reaction::get_MicroRateCoeffs(std::vector<double> &kmc) {
-        calcGrnAvrgMicroRateCoeffs();
-
-        kmc = m_kfgrn ;
+    if (m_Reactant && m_Product && !m_Reactant2 && !m_Product2)
+        m_reactiontype = ISOMERIZATION ;
+    else if (m_Reactant && m_Product && m_Reactant2 && !m_Product2)
+        m_reactiontype = ASSOCIATION ;
+    else if (m_Reactant)
+        m_reactiontype = DISSOCIATION ;
+    else {
+      m_reactiontype = ERROR_REACTION ;
+      stringstream errorMsg;
+      errorMsg << "Unknown combination of reactants and products";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obAuditMsg);
+      return false;
     }
 
-    //
-    // Calculate grain averaged microcanoincal rate coeffcients. 
-    //
-    bool Reaction::calcGrnAvrgMicroRateCoeffs() {
+    // Determine the method of MC rate coefficient calculation.
+    const char* pMCRCMethodtxt = ppReac->ReadValue("me:MCRCMethod") ;
+    if(pMCRCMethodtxt)
+    {
+      m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
+      if(!m_pMicroRateCalculator)
+      {
+        stringstream errorMsg;
+        errorMsg << "Unknown method " << pMCRCMethodtxt
+                 << " for the determination of Microcanonical rate coefficients in reaction "
+                 << m_Name;
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+        return false;
+      }
+    }
+    return true;
+  }
 
-        // Calculate microcanonical rate coefficients.
-        if (m_kfmc.size()==0) 
-        {
-            if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this, m_kfmc) ||
-                (pSys->TestMicroRatesEnabled() && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_kfmc, m_ppPersist)))
-                return false;
-        }
-        // Calculate Grain averages of microcanonical rate coefficients.
-        if (m_kfgrn.size()==0)
-            return grnAvrgMicroRateCoeffs() ;
-        return true;
+
+  Molecule* Reaction::GetMolRef(PersistPtr pp)
+  {
+    Molecule* pMol;
+    if(!pp)
+        return NULL;
+    PersistPtr ppmol = pp->MoveTo("molecule");
+    if(!ppmol) return false;
+    const char* pRef = ppmol->ReadValue("ref");
+    if(pRef)
+        pMol = m_pMoleculeManager->find(pRef);
+    if(!pMol)
+    {
+      stringstream errorMsg;
+      errorMsg << "Unknown molecule: " << pRef;
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      return NULL;
+    }
+    return pMol;
+  }
+
+  //
+  // Returns the unimolecular species in each reaction, i.e. for association
+  // (source term) or dissociation (sink term) reaction one species is returned,
+  // for an isomerization reaction two species are returned.
+  //
+  void Reaction::get_unimolecularspecies(vector<CollidingMolecule *> &unimolecularspecies) const
+  {
+    if(m_Reactant2 == NULL){                // Possible dissociation or isomerization.
+        unimolecularspecies.push_back(m_Reactant) ;
     }
 
-    //
-    // Access microcanonical rate coefficients - cell values are averaged
-    // to give grain values. This code is similar to that in Molecule.cpp
-    // and this averaging should be done there. SHR 19/Sep/2004.
-    //
-    bool Reaction::grnAvrgMicroRateCoeffs() {
+    if(m_Product && m_Product2 == NULL){  // Possible association or isomerization.
+        unimolecularspecies.push_back(m_Product) ;
+    }
+  }
 
-        int ngrn = pSys->MAXGrn();
-        m_kfgrn.resize(ngrn);
+  //
+  // Get the prinincipal source reactant (i.e. reactant not in excess) if it exists.
+  // (Not sure if this is a good idea, may be better to pass a Map in.)
+  //
+  CollidingMolecule *Reaction::get_pseudoIsomer() const
+  {
+    CollidingMolecule *pseudoIsomer = NULL ;
+    if(m_reactiontype == ASSOCIATION) pseudoIsomer = m_Product ;
+    return pseudoIsomer ;
+  }
 
-        // Extract density of states of equilibrium molecule.
+  //
+  // Access microcanoincal rate coeffcients.
+  //
+  void Reaction::get_MicroRateCoeffs(std::vector<double> &kmc) {
+    calcGrnAvrgMicroRateCoeffs();
+    kmc = m_kfgrn ;
+  }
 
-        vector<double> ddos(pSys->MAXCell(),0.0) ; 
-        m_Reactant->cellDensityOfStates(&ddos[0]) ;
+  //
+  // Calculate grain averaged microcanoincal rate coeffcients.
+  //
+  bool Reaction::calcGrnAvrgMicroRateCoeffs() {
 
-        // Check that there are enough cells.
+    // Calculate microcanonical rate coefficients.
+    if (m_kfmc.size()==0)
+    {
+      if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this, m_kfmc) ||
+        (pSys->TestMicroRatesEnabled() && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_kfmc, m_ppPersist)))
+        return false;
+    }
+    // Calculate Grain averages of microcanonical rate coefficients.
+    if (m_kfgrn.size()==0)
+        return grnAvrgMicroRateCoeffs() ;
+    return true;
+  }
 
-        if (pSys->igsz() < 1) {
-            cout << "     ********* Not enought Cells to produce ************" << endl
-                << "     ********* requested number of Grains.  ************" << endl ;
-            exit(1) ;
-        }
+  //
+  // Access microcanonical rate coefficients - cell values are averaged
+  // to give grain values. This code is similar to that in Molecule.cpp
+  // and this averaging should be done there. SHR 19/Sep/2004.
+  //
+  bool Reaction::grnAvrgMicroRateCoeffs() {
 
-        int idx1 = 0 ;
-        int idx2 = 0 ;
+    int ngrn = pSys->MAXGrn();
+    m_kfgrn.resize(ngrn);
 
-        for (int i(0) ; i < ngrn ; i++ ) {
+    // Extract density of states of equilibrium molecule.
 
-            int idx3 = idx1 ;
+    vector<double> ddos(pSys->MAXCell(),0.0) ;
+    m_Reactant->cellDensityOfStates(&ddos[0]) ;
 
-            // Calculate the number of states in a grain.
+    // Check that there are enough cells.
 
-            double smt(0.0) ;
-            for (int j(0) ; j < pSys->igsz() ; j++, idx1++ ) 
-                smt += ddos[idx1] ;
-
-            // Calculate average energy of the grain if it contains sum states.
-
-            if ( smt > 0.0 ) {
-
-                double smat(0.0) ;
-                for (int j(0) ; j < pSys->igsz() ; j++, idx3++ ) 
-                    smat += m_kfmc[idx3] * ddos[idx3] ;
-
-                m_kfgrn[idx2] = smat/smt ;
-                idx2++ ;
-            }
-        }
-
-        // Issue warning if number of grains produced is less that requested.
-
-        if ( idx2 < ngrn ) {
-            cout <<  endl
-                <<  "     WARNING: Number of grains produced is less than requested" << endl
-                <<  "     Number of grains requested: " << ngrn << endl
-                <<  "     Number of grains produced : " << idx2 << endl ;
-        }
-        return true;
+    if (pSys->igsz() < 1) {
+      stringstream errorMsg;
+      errorMsg << "Not enought Cells to produce requested number of Grains.";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      exit(1) ;
     }
 
-    //
-    // Add microcanonical terms to collision operator
-    //
-	void Reaction::AddMicroRates(dMatrix *CollOptr, isomerMap &isomermap, sourceMap &sourcemap, const double rMeanOmega) {
+    int idx1 = 0 ;
+    int idx2 = 0 ;
 
-        // Calculate Microcanonical rate coefficients.
+    for (int i(0) ; i < ngrn ; i++ ) {
 
-        calcGrnAvrgMicroRateCoeffs() ;
+      int idx3 = idx1 ;
 
-        // Add microcanonical rates to the collision operator.
+      // Calculate the number of states in a grain.
 
-        switch(m_reactiontype) {
-            case ISOMERIZATION :
+      double smt(0.0) ;
+      for (int j(0) ; j < pSys->igsz() ; j++, idx1++ )
+        smt += ddos[idx1] ;
 
-                AddIsomerReactionTerms(CollOptr, isomermap, rMeanOmega) ;
+      // Calculate average energy of the grain if it contains sum states.
 
-                break;
-            case ASSOCIATION :
+      if ( smt > 0.0 ) {
 
-				AddAssocReactionTerms(CollOptr, isomermap, sourcemap, rMeanOmega) ;
+        double smat(0.0) ;
+        for (int j(0) ; j < pSys->igsz() ; j++, idx3++ )
+          smat += m_kfmc[idx3] * ddos[idx3] ;
 
-                break;
-            case DISSOCIATION :
-
-                AddDissocReactionTerms(CollOptr, isomermap, rMeanOmega) ;
-
-                break;
-            default :
-                cerr << "Unknown reaction type" << endl;
-        }
-    } 
-
-    //
-    // Add isomer reaction terms to collision matrix.
-    //
-    void Reaction::AddIsomerReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) {
-
-        // Locate isomers in system matrix.
-
-        const int rctLocation = isomermap[m_Reactant] ;
-        const int pdtLocation = isomermap[m_Product] ;
-
-        // Get densities of states for detailed balance.
-
-        const int ngrn = pSys->MAXGrn();
-        vector<double> rctDos(ngrn, 0.0) ;  
-        vector<double> pdtDos(ngrn, 0.0) ;  
-
-        m_Reactant->grnDensityOfStates(rctDos) ;
-        m_Product->grnDensityOfStates(pdtDos) ;
-
-        const int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
-        for ( int i = max(0,-idx) ; i < min(ngrn,(ngrn-idx)) ; ++i ) {
-            int ll = i + idx ;
-            int ii(rctLocation + ll) ;
-            int jj(pdtLocation + i) ;
-            (*CollOptr)[ii][ii] -= rMeanOmega * m_kfgrn[ll] ;                            // Forward loss reaction.
-            (*CollOptr)[jj][jj] -= rMeanOmega * m_kfgrn[ll]*rctDos[ll]/pdtDos[i] ;       // Backward loss reaction from detailed balance.
-            (*CollOptr)[ii][jj]  = rMeanOmega * m_kfgrn[ll]*sqrt(rctDos[ll]/pdtDos[i]) ; // Reactive gain.
-            (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                 // Reactive gain.
-        }
-
+        m_kfgrn[idx2] = smat/smt ;
+        idx2++ ;
+      }
     }
 
-    //
-    // Add (reversible) association reaction terms to collision matrix.
-    //
-	void Reaction::AddAssocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, sourceMap &sourcemap, const double rMeanOmega) {
+    // Issue warning if number of grains produced is less that requested.
+    if ( idx2 < ngrn ) {
+      stringstream errorMsg;
+      errorMsg << "Number of grains produced is less than requested" << endl
+               << "Number of grains requested: " << ngrn << endl
+               << "Number of grains produced : " << idx2 << ".";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+    }
+    return true;
+  }
 
-		// Locate isomers in system matrix.
+  //
+  // Add microcanonical terms to collision operator
+  //
+  void Reaction::AddMicroRates(dMatrix *CollOptr, isomerMap &isomermap, sourceMap &sourcemap, const double rMeanOmega) {
 
-		const int rctLocation = isomermap[m_Reactant] ;
-		const int pdtLocation = sourcemap[m_Product] ;
+    // Calculate Microcanonical rate coefficients.
 
-		// Get densities of states for detailed balance.
+    calcGrnAvrgMicroRateCoeffs() ;
 
-		const int ngrn = pSys->MAXGrn();
-		vector<double> rctDos(ngrn, 0.0) ;  
+    // Add microcanonical rates to the collision operator.
 
-		m_Reactant->grnDensityOfStates(rctDos) ;
+    switch(m_reactiontype) {
+      case ISOMERIZATION :
+        AddIsomerReactionTerms(CollOptr, isomermap, rMeanOmega) ;
+        break;
 
-		const int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
-		for ( int i = max(0,-idx) ; i < min(ngrn,(ngrn-idx)) ; ++i ) {
-			int ll = i + idx ;
-			int ii(rctLocation + ll) ;
-			int jj(pdtLocation) ;
-			(*CollOptr)[ii][ii] -= rMeanOmega * m_kfgrn[ll] ;                            // Forward loss reaction.
-//			(*CollOptr)[jj][jj] -= rMeanOmega * m_kfgrn[ll]*rctDos[ll]/pdtDos[i] ;       // Backward loss reaction from detailed balance.
-//			(*CollOptr)[ii][jj]  = rMeanOmega * m_kfgrn[ll]*sqrt(rctDos[ll]/pdtDos[i]) ; // Reactive gain.
-//			(*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                 // Reactive gain.
-		}
+      case ASSOCIATION :
+        AddAssocReactionTerms(CollOptr, isomermap, sourcemap, rMeanOmega) ;
+        break;
+
+      case DISSOCIATION :
+        AddDissocReactionTerms(CollOptr, isomermap, rMeanOmega) ;
+        break;
+
+      default :
+        stringstream errorMsg;
+        errorMsg << "Unknown reaction type";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
 
     }
+  }
 
-    //
-    // Add dissociation reaction terms to collision matrix.
-    //
-    void Reaction::AddDissocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) {
+  //
+  // Add isomer reaction terms to collision matrix.
+  //
+  void Reaction::AddIsomerReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) {
 
-        // Locate reactant in system matrix.
+    // Locate isomers in system matrix.
 
-        const int rctLocation = isomermap[m_Reactant] ;
+    const int rctLocation = isomermap[m_Reactant] ;
+    const int pdtLocation = isomermap[m_Product] ;
 
-        for ( int i = 0 ; i < m_Reactant->get_colloptrsize() ; ++i ) {
-            int ii(rctLocation + i) ;
-            (*CollOptr)[ii][ii] -= rMeanOmega * m_kfgrn[i] ;                            // Forward loss reaction.
-        }
+    // Get densities of states for detailed balance.
+
+    const int ngrn = pSys->MAXGrn();
+    vector<double> rctDos(ngrn, 0.0) ;
+    vector<double> pdtDos(ngrn, 0.0) ;
+
+    m_Reactant->grnDensityOfStates(rctDos) ;
+    m_Product->grnDensityOfStates(pdtDos) ;
+
+    const int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
+    for ( int i = max(0,-idx) ; i < min(ngrn,(ngrn-idx)) ; ++i ) {
+      int ll = i + idx ;
+      int ii(rctLocation + ll) ;
+      int jj(pdtLocation + i) ;
+      (*CollOptr)[ii][ii] -= rMeanOmega * m_kfgrn[ll] ;                            // Forward loss reaction.
+      (*CollOptr)[jj][jj] -= rMeanOmega * m_kfgrn[ll]*rctDos[ll]/pdtDos[i] ;       // Backward loss reaction from detailed balance.
+      (*CollOptr)[ii][jj]  = rMeanOmega * m_kfgrn[ll]*sqrt(rctDos[ll]/pdtDos[i]) ; // Reactive gain.
+      (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                 // Reactive gain.
     }
+  }
+
+  //
+  // Add (reversible) association reaction terms to collision matrix.
+  //
+  void Reaction::AddAssocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, sourceMap &sourcemap, const double rMeanOmega) {
+
+    // Locate isomers in system matrix.
+
+    const int rctLocation = isomermap[m_Reactant] ;
+    const int pdtLocation = sourcemap[m_Product] ;
+
+    // Get densities of states for detailed balance.
+
+    const int ngrn = pSys->MAXGrn();
+    vector<double> rctDos(ngrn, 0.0) ;
+
+    m_Reactant->grnDensityOfStates(rctDos) ;
+
+    const int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
+    for ( int i = max(0,-idx) ; i < min(ngrn,(ngrn-idx)) ; ++i ) {
+      int ll = i + idx ;
+      int ii(rctLocation + ll) ;
+      int jj(pdtLocation) ;
+      (*CollOptr)[ii][ii] -= rMeanOmega * m_kfgrn[ll] ;                            // Forward loss reaction.
+      //      (*CollOptr)[jj][jj] -= rMeanOmega * m_kfgrn[ll]*rctDos[ll]/pdtDos[i] ;       // Backward loss reaction from detailed balance.
+      //      (*CollOptr)[ii][jj]  = rMeanOmega * m_kfgrn[ll]*sqrt(rctDos[ll]/pdtDos[i]) ; // Reactive gain.
+      //      (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                 // Reactive gain.
+    }
+  }
+
+  //
+  // Add dissociation reaction terms to collision matrix.
+  //
+  void Reaction::AddDissocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) {
+
+      // Locate reactant in system matrix.
+
+      const int rctLocation = isomermap[m_Reactant] ;
+
+      for ( int i = 0 ; i < m_Reactant->get_colloptrsize() ; ++i ) {
+          int ii(rctLocation + i) ;
+          (*CollOptr)[ii][ii] -= rMeanOmega * m_kfgrn[i] ;                            // Forward loss reaction.
+      }
+  }
 
 }//namespace

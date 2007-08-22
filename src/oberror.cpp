@@ -165,9 +165,9 @@ namespace mesmer
       _messageList.pop_front();
   
     if (err.GetLevel() <= _outputLevel)
-      {
-        *_outputStream << err;
-      }
+    {
+      *_outputStream << err;
+    }
   }
 
   void OBMessageHandler::ThrowError(const std::string &method, 
@@ -175,10 +175,10 @@ namespace mesmer
                                     obMessageLevel level)
   {
     if (errorMsg.length() > 1)
-      {
-        OBError err(method, errorMsg, "", "", "", level);
-        ThrowError(err);
-      }
+    {
+      OBError err(method, errorMsg, "", "", "", level);
+      ThrowError(err);
+    }
   }
 
   std::vector<std::string> OBMessageHandler::GetMessagesOfLevel(const obMessageLevel level)
@@ -188,11 +188,11 @@ namespace mesmer
     OBError error;
 
     for (i = _messageList.begin(); i != _messageList.end(); ++i)
-      {
-        error = (*i);
-        if (error.GetLevel() == level)
-          results.push_back( error.message() );
-      }
+    {
+      error = (*i);
+      if (error.GetLevel() == level)
+        results.push_back( error.message() );
+    }
 
     return results;
   }
@@ -205,9 +205,9 @@ namespace mesmer
     _inWrapStreamBuf = cerr.rdbuf();
  
     if (_filterStreamBuf == NULL)
-      {
-        _filterStreamBuf = new(obLogBuf);
-      }
+    {
+      _filterStreamBuf = new(obLogBuf);
+    }
 
     cerr.rdbuf(_filterStreamBuf);
     return true;

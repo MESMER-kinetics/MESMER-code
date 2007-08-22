@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <time.h>
 #include "XMLPersist.h"
+#include "oberror.h"
 
 using namespace std;
 
@@ -14,8 +15,11 @@ PersistPtr XMLPersist::Create(const std::string& inputfilename, const std::strin
   TiXmlDocument* pdoc = new TiXmlDocument( inputfilename.c_str() );//Deleted in destructor
   if( !pdoc->LoadFile() )
   {
-    cerr << "Could not load file " << inputfilename 
-         << "\nIt may not exist or it may not consist of well-formed XML." << endl;
+    stringstream errorMsg;
+    errorMsg << "Could not load file " << inputfilename 
+             << "\nIt may not exist or it may not consist of well-formed XML." << endl;
+    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+
     delete pdoc;
     return PersistPtr(NULL);
   }
@@ -23,7 +27,9 @@ PersistPtr XMLPersist::Create(const std::string& inputfilename, const std::strin
   TiXmlElement* root = pdoc->RootElement();
   if(!title.empty() && root->ValueStr()!=title)
   {
-    cerr << inputfilename << " does not have a root element or title named " << title << endl;
+    stringstream errorMsg;
+    errorMsg << inputfilename << " does not have a root element or title named " << title << endl;
+    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
     delete pdoc;
     return PersistPtr(NULL);
   }
@@ -66,9 +72,11 @@ const char* XMLPersist::ReadValue(const std::string& name, bool MustBeThere) con
   else
     ptext = pnNode->Attribute(name.c_str());
 
-  if(!ptext && MustBeThere)
-    cerr << "The " << name << " element or attribute was missing or empty." << endl;
-
+  if(!ptext && MustBeThere){
+    stringstream errorMsg;
+    errorMsg << "The " << name << " element or attribute was missing or empty.";
+    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+  }
   return ptext;
 }
 
@@ -94,8 +102,11 @@ const char* XMLPersist::ReadProperty(const string& name, bool MustBeThere) const
     }
     pnProp = pnProp->NextSiblingElement();
   }
-  if(MustBeThere)
-    cerr << "Ill-formed " << name << " in the molecule "; //calling function to add name of molecule
+  if(MustBeThere){
+    stringstream errorMsg;
+    errorMsg << "Ill-formed " << name << " in the molecule ";//calling function to add name of molecule
+    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+  }
   return NULL;
 }
 

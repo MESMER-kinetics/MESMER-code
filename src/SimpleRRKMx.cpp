@@ -1,11 +1,5 @@
 #include <vector>
 #include "System.h"
-#include "Molecule.h"
-#include "MoleculeManager.h"
-#include "Persistence.h"
-#include "Reaction.h"
-#include "Constants.h"
-#include "MicroRate.h"
 
 using namespace std;
 using namespace Constants;
@@ -37,8 +31,10 @@ namespace mesmer
         TransitionState* pTS = pReact->get_TransitionState();
         if(!pTS)
         {
-            cerr << "No transition state in Simple RRKM for reaction " << pReact->getName() << endl;
-            return false;
+          stringstream errorMsg;
+          errorMsg << "No transition state in Simple RRKM for reaction " << pReact->getName();
+          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+          return false;
         }
 
         // Allocate space to hold Micro-canonical rate coefficients.

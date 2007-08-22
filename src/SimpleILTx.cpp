@@ -1,9 +1,6 @@
 #include <vector>
 #include <float.h>
 #include "System.h"
-#include "Reaction.h"
-#include "Constants.h"
-#include "MicroRate.h"
 
 #if defined(WIN32)
 #define IsNan _isnan
@@ -37,9 +34,11 @@ bool SimpleILT::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &kfmc)
   CollidingMolecule * pReactant = unimolecularspecies[0];
   if(IsNan(pReact->get_ActivationEnergy()))
   {
-    cerr << "To use SimpleILT for reaction " << pReact->getName()
-      << " the Activation Energy needs to be set." << endl;
-      return false;
+    stringstream errorMsg;
+    errorMsg << "To use SimpleILT for reaction " << pReact->getName()
+             << " the Activation Energy needs to be set.";
+    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+    return false;
   }
 
   // Allocate space to hold Micro-canonical rate coefficients.
@@ -66,7 +65,7 @@ bool SimpleILT::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &kfmc)
 
   // Calculate microcanonical rate coefficients using simple ILT expression.
 
-  	for (i = nEinf ; i < pSys->MAXCell() ; ++i ) {
+    for (i = nEinf ; i < pSys->MAXCell() ; ++i ) {
             kfmc[i] = pReact->get_PreExp()*ddos[i-nEinf] / ddos[i] ;
     }
 

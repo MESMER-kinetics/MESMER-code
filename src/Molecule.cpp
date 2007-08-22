@@ -9,11 +9,7 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include <math.h>
 #include "System.h"
-#include "Persistence.h"
-#include "Molecule.h"
-#include "Constants.h"
 
 using namespace std ;
 using namespace Constants ;
@@ -310,11 +306,12 @@ void CollidingMolecule::collisionOperator(double beta) {
     // Initialisation and error checking.
     //
     for ( i = 0 ; i < pSys->MAXGrn() ; i++ ) {
-        if (m_gdos[i] <= 0.0) {
-            cout << "     ********* Error: Data indicates that      ************" << endl
-                << "     ********* there is a grain with no states ************" << endl ;
-            exit(1) ;
-        }
+      if (m_gdos[i] <= 0.0) {
+        stringstream errorMsg;
+        errorMsg << "Data indicates that there is a grain with no states.";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError)
+        exit(1) ;
+      }
     }
     //
     // The collision operator.
@@ -350,10 +347,11 @@ void CollidingMolecule::collisionOperator(double beta) {
             sm2 += (*m_egme)[j][i] * work[j] ;
 
         if (sm1 <= 0.0) {
-            cout << "     ********* Error: Normalization Coeff.     ************" << endl
-                << "     ********* in EGME is < or equal to zero.  ************" << endl  
-                << "     i = " << i << " j = " << j                              << endl ;
-            exit(1) ;
+          stringstream errorMsg;
+          errorMsg << "Normalization coefficients in EGME is smaller than or equal to zero.";
+          errorMsg << "i = " << i << " j = " << j;
+          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+          exit(1) ;
         }
         work[i] = (1.0-sm2)/sm1 ;
     }
@@ -498,8 +496,10 @@ void CollidingMolecule::copyCollisionOperator(dMatrix *CollOptr, const int size,
     // Check there is enough space in system matrix.
 
     if (locate + size > smsize) {
-        cout << "Error in the size of the system matrix" << endl ;
-        exit(1) ;
+      stringstream errorMsg;
+      errorMsg << "Error in the size of the system matrix.";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      exit(1) ;
     }
 
     // Copy collision operator to the diagonal block indicated by "locate" 
@@ -629,9 +629,10 @@ void ModelledMolecule::calcGrainAverages() {
     // Check that there are enough cells.
 
     if (pSys->igsz() < 1) {
-        cout << "     ********* Not enought Cells to produce ************" << endl
-            << "     ********* requested number of Grains.  ************" << endl ;
-        exit(1) ;
+      stringstream errorMsg;
+      errorMsg << "Not enought Cells to produce requested number of Grains.";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      exit(1) ;
     }
 
     int idx1 = 0 ;
@@ -664,10 +665,11 @@ void ModelledMolecule::calcGrainAverages() {
     // Issue warning if number of grains produced is less that requested.
 
     if ( idx2 < pSys->MAXGrn() ) {
-        cout <<  endl
-            <<  "     WARNING: Number of grains produced is less than requested" << endl
-            <<  "     Number of grains requested: " << pSys->MAXGrn() << endl
-            <<  "     Number of grains produced : " << idx2 << endl ;
+      stringstream errorMsg;
+      errorMsg << "Number of grains produced is less than requested" << endl
+               << "Number of grains requested: " << pSys->MAXGrn() << endl
+               << "Number of grains produced : " << idx2 << ".";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
     }
 }
 }//namespace
