@@ -1,3 +1,11 @@
+2007-08-23 Chi-Hsiu Liang
+
+	1. The dependencies are reorganised for simplicity.
+	2. util.cpp deleted (conflict with formatfloat.cpp/h)
+	3. Incoporated oberror.h functions into mesmer.
+	4. Tabs are reformatted into two spaces.
+	5. Removed tailing spaces for some files.
+	6. A file source.ps provided to explain the dependencies for the current version.
 
 2007-08-19  Struan Robertson
 
