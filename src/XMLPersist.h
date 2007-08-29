@@ -24,13 +24,13 @@ public:
     return pnNode!=NULL;
   }
 
-///Makes an instance of XMLPersist. Opens the file and reads the contents.
-///If title is not empty gives an error message if the title or root element 
-///does not have this name.
+  ///Makes an instance of XMLPersist. Opens the file and reads the contents.
+  ///If title is not empty gives an error message if the title or root element 
+  ///does not have this name.
   static PersistPtr Create(const std::string& filename, const std::string& title="");
 
 
-///Returns the first child element with this name, or if not found, the next sibling element with this name
+  ///Returns the first child element with this name, or if not found, the next sibling element with this name
   virtual PersistPtr MoveTo(const std::string& name) const;
   virtual const char* Read()const;
   virtual const char* ReadValue(const std::string& name, bool MustBeThere=true) const;
