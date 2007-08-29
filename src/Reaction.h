@@ -13,6 +13,7 @@
 //-------------------------------------------------------------------------------------------
 
 #include "MoleculeManager.h"
+#include "Molecule.h"
 #include "MicroRate.h"
 
 namespace mesmer
@@ -55,7 +56,9 @@ namespace mesmer
     //   Reaction& operator=(const Reaction& reaction) ;
 
     // Initialize reaction.
-    bool Initialize(PersistPtr ppReac) ;
+    bool Initialize(System* pSys, PersistPtr ppReac) ;
+
+    System* GetSys() { return m_pSys; }
 
     std::string& getName() { return m_Name ; } ;
 
@@ -131,7 +134,7 @@ namespace mesmer
 
     // I/O and control
     PersistPtr          m_ppPersist;         // Conduit for I/O
-
+    System*             m_pSys;              // Parent's parent 
     //
     // Point to microcanoical rate coeff. calculator.
     //

@@ -1,3 +1,20 @@
+2007-08-29 Chris Morley
+
+	Make separate headers for SimpleRRKM.cpp and SimpleILT.cpp.
+	Rename x versions.
+	
+	* src/MesmerConfig.h: separate header to take all platform-
+	dependent defines.
+	
+	Remove global pSys. Add member variable m_pSys and GetSys()
+	to MoleculeManager, ReactionManager, Molecule and Reaction.
+	Pass down a pointer to the System during construction or
+	Initialization.
+	
+	* src/main.cpp: add mesmer:: to obErrorLog. Remove pSys.
+	
+	Include math.h in MicroRate.cpp and Molecule.cpp
+	
 2007-08-23 Chi-Hsiu Liang
 
 	1. The dependencies are reorganised for simplicity.

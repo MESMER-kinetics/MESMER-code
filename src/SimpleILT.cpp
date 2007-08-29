@@ -1,27 +1,11 @@
-#include <vector>
 #include <float.h>
-#include "System.h"
-
-#if defined(WIN32)
-#define IsNan _isnan
-#endif
+#include "MesmerConfig.h"
+#include "SimpleILT.h"
 
 using namespace std;
 using namespace Constants;
 namespace mesmer
 {
-class SimpleILT : public MicroRateCalculator
-{
-public:
-
-  ///Constructor which registers with the list of MicroRateCalculators in the base class
-  SimpleILT(const string& id) : MicroRateCalculator(id){}
-
-  virtual ~SimpleILT() {}
-
-  virtual bool calculateMicroRateCoeffs(Reaction* pReact, vector<double> &kfmc);
-};
-
 //************************************************************
 //Global instance, defining its id (usually the only instance)
 SimpleILT theSimpleILT("Simple ILT");
@@ -29,6 +13,8 @@ SimpleILT theSimpleILT("Simple ILT");
 
 bool SimpleILT::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &kfmc)
 {
+  System* pSys = pReact->GetSys();  
+
   vector<CollidingMolecule *> unimolecularspecies;
   pReact->get_unimolecularspecies(unimolecularspecies);
   CollidingMolecule * pReactant = unimolecularspecies[0];

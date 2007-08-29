@@ -15,10 +15,8 @@ int main(int argc,char *argv[])
   //
   // Instantiate the System collection. This holds all information 
   // about reaction systems and all molecular data.
-  // It can be accessed via a namespace variable mesmer::pSys
   //
   mesmer::System System ;
-  mesmer::pSys = &System;
 
   string inputfilename, outputfilename;
   if(argc<2)
@@ -59,7 +57,7 @@ int main(int argc,char *argv[])
   {
     stringstream errorMsg;
     errorMsg << "There was an error when writing " << outputfilename;
-    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+    mesmer::obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), mesmer::obError);
   }
 
 /*  #ifdef _DEBUG
@@ -79,6 +77,6 @@ void usage()
   errorMsg  << "The default outputfilename is the input name\n";
   errorMsg  << "with 'out' added before the extension.\n";
   errorMsg  << "  Any existing file will be overwritten.";
-  obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+  mesmer::obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), mesmer::obInfo);
 }
 

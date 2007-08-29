@@ -40,6 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				EnableIntrinsicFunctions="false"
 				AdditionalIncludeDirectories="../../src ../../tinyxml"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL"
 				MinimalRebuild="true"
@@ -213,11 +214,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\SimpleILTx.cpp"
+				RelativePath="..\..\src\SimpleILT.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\SimpleRRKMx.cpp"
+				RelativePath="..\..\src\SimpleRRKM.cpp"
 				>
 			</File>
 			<File
@@ -242,10 +243,6 @@
 			</File>
 			<File
 				RelativePath="..\..\tinyxml\tinyxmlparser.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\util.cpp"
 				>
 			</File>
 			<File
@@ -300,6 +297,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ReactionManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\SimpleILT.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\SimpleRRKM.h"
 				>
 			</File>
 			<File

@@ -1,3 +1,4 @@
+#include "math.h"
 #include "System.h"
 
 //
@@ -10,6 +11,8 @@ namespace mesmer
 
   bool MicroRateCalculator::testMicroRateCoeffs(Reaction* pReact, vector<double> &kfmc, PersistPtr ppbase) const
   {
+    System* pSys = pReact->GetSys();  
+
     vector<CollidingMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
     CollidingMolecule * pReactant = unimolecularspecies[0];

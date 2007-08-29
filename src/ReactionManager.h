@@ -17,6 +17,8 @@
 
 namespace mesmer
 {
+class System;//cannot include System.h because of circular references when compiling
+
 class ReactionManager
 {
 public:
@@ -24,11 +26,14 @@ public:
    // Type defs
    typedef  size_t  size_type ;
 
-   ReactionManager(MoleculeManager *pMoleculeManager) : m_reactions(),
+   ReactionManager(System* pSys, MoleculeManager *pMoleculeManager) : m_reactions(),
                                                         m_pMoleculeManager(pMoleculeManager), 
-                                                        m_pSystemCollisionOperator(0) {} ;
+                                                        m_pSystemCollisionOperator(0),
+                                                        m_pSys(pSys){} ;
    // Destructor.
    ~ReactionManager(){} ;
+
+   System* GetSys() { return m_pSys; }
 
    // Add a new reaction to the map.
    bool addreactions(PersistPtr ReacList) ;
@@ -66,6 +71,8 @@ private:
    MoleculeManager        *m_pMoleculeManager ;
 
    dMatrix                *m_pSystemCollisionOperator ;
+
+   System* m_pSys;
 
    // Default Constructor.
    ReactionManager() {} ;

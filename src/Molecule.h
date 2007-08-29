@@ -21,6 +21,7 @@ namespace mesmer
 {
 //    static const int MAXCELL = 50000 ;
 //    static const int MAXGRN  = 500 ;
+  class System;//cannot include System.h because of circular references
 
     //**************************************************
     /// Basic molecule: has name and some collision parameters.
@@ -32,7 +33,9 @@ namespace mesmer
         virtual ~Molecule(){} ;
 
         // Initialize Molecule.
-        virtual bool Initialize(PersistPtr pp);
+        virtual bool Initialize(System* pSys, PersistPtr pp);
+        
+        System* GetSys() { return m_pSys; }
 
         // Get Molecule Name.
         std::string getName() { return m_Name ; } ;
@@ -50,6 +53,7 @@ namespace mesmer
     private:
         //   Molecule(const Molecule&) ;
         //   Molecule& operator=(const Molecule&) ;
+      System* m_pSys;
 
     };
 
@@ -58,7 +62,7 @@ namespace mesmer
     {
     public:
         // Initialize Molecule.
-        virtual bool Initialize(PersistPtr pp);
+        virtual bool Initialize(System* pSys, PersistPtr pp);
     };
 
     //**************************************************
@@ -69,7 +73,7 @@ namespace mesmer
         ModelledMolecule();
         virtual ~ModelledMolecule();
         // Initialize Molecule.
-        virtual bool Initialize(PersistPtr pp);
+        virtual bool Initialize(System* pSys, PersistPtr pp);
 
         // Get the density of states.
         void cellDensityOfStates(double *) ;
@@ -144,7 +148,7 @@ namespace mesmer
         ~CollidingMolecule();
 
         // Initialize Molecule.
-        virtual bool Initialize(PersistPtr ppp);
+        virtual bool Initialize(System* pSys, PersistPtr ppp);
 
         // Initialize the Collision Operator.
         void initCollisionOperator(double temp, double conc, Molecule *pBathGasMolecule) ;

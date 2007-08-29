@@ -9,6 +9,7 @@
 //
 //-------------------------------------------------------------------------------------------
 
+#include <math.h>
 #include "System.h"
 
 using namespace std ;
@@ -41,8 +42,8 @@ m_collisionFrequency(0.0)
 ModelledMolecule::~ModelledMolecule()
 {
     // Free any memory assigned for calculating densities of states. 
-    if (m_cdos != NULL) m_alloc.deallocate(m_cdos,pSys->MAXCell()) ; 
-    if (m_ecll != NULL) m_alloc.deallocate(m_ecll,pSys->MAXCell()) ; 
+    if (m_cdos != NULL) m_alloc.deallocate(m_cdos, GetSys()->MAXCell()) ; 
+    if (m_ecll != NULL) m_alloc.deallocate(m_ecll, GetSys()->MAXCell()) ; 
 }
 
 CollidingMolecule::~CollidingMolecule()
@@ -67,8 +68,9 @@ return *this ;
 
 //
 // Read the Molecular data from I/O stream.
-bool Molecule::Initialize(PersistPtr p)
+bool Molecule::Initialize(System* pSys, PersistPtr p)
 {
+    m_pSys = pSys;
     m_ppPersist = p;
     const char* id= m_ppPersist->ReadValue("id");
     if(id)
@@ -76,10 +78,10 @@ bool Molecule::Initialize(PersistPtr p)
     return !m_Name.empty();
 }
 
-bool BathGasMolecule::Initialize(PersistPtr pp)
+bool BathGasMolecule::Initialize(System* pSys, PersistPtr pp)
 {
     //Read base class parameters first
-    if(!Molecule::Initialize(pp))
+    if(!Molecule::Initialize(pSys, pp))
         return false;
 
     PersistPtr ppPropList = pp->MoveTo("propertyList");
@@ -113,10 +115,10 @@ bool BathGasMolecule::Initialize(PersistPtr pp)
 }
 
 
-bool ModelledMolecule::Initialize(PersistPtr pp)
+bool ModelledMolecule::Initialize(System* pSys, PersistPtr pp)
 {
     //Read base class parameters first
-    if(!Molecule::Initialize(pp))
+    if(!Molecule::Initialize(pSys, pp))
         return false;
 
     PersistPtr ppPropList = pp->MoveTo("propertyList");
@@ -160,10 +162,10 @@ bool ModelledMolecule::Initialize(PersistPtr pp)
     return true;
 }
 
-bool CollidingMolecule::Initialize(PersistPtr pp) 
+bool CollidingMolecule::Initialize(System* pSys, PersistPtr pp) 
 {
     //Read base class parameters first
-    if(!ModelledMolecule::Initialize(pp))
+    if(!ModelledMolecule::Initialize(pSys, pp))
         return false;
 
     PersistPtr ppPropList = pp->MoveTo("propertyList");
@@ -213,7 +215,7 @@ void ModelledMolecule::cellDensityOfStates(double *ddos) {
     if (!m_cdos)
         calcDensityOfStates() ;
 
-    for (int i = 0 ; i < pSys->MAXCell() ; ++i )
+    for (int i = 0 ; i < GetSys()->MAXCell() ; ++i )
         ddos[i] = m_cdos[i] ;
 }
 
@@ -227,7 +229,7 @@ void ModelledMolecule::cellEnergies(double *decll) {
     if (!m_cdos)
         calcDensityOfStates() ;
 
-    for (int i = 0 ; i < pSys->MAXCell() ; ++i )
+    for (int i = 0 ; i < GetSys()->MAXCell() ; ++i )
         decll[i] = m_ecll[i] ;
 }
 
@@ -299,27 +301,27 @@ void CollidingMolecule::collisionOperator(double beta) {
     if (m_egme)                                 // Delete any existing matrix.
         delete m_egme ;
 
-    m_egme = new dMatrix(pSys->MAXGrn()) ;              // Collision operator matrix.
+    m_egme = new dMatrix(GetSys()->MAXGrn()) ;              // Collision operator matrix.
 
-    vector<double> work(pSys->MAXCell(),0.0) ; // Work space.
+    vector<double> work(GetSys()->MAXCell(),0.0) ; // Work space.
     //
     // Initialisation and error checking.
     //
-    for ( i = 0 ; i < pSys->MAXGrn() ; i++ ) {
+    for ( i = 0 ; i < GetSys()->MAXGrn() ; i++ ) {
       if (m_gdos[i] <= 0.0) {
         stringstream errorMsg;
         errorMsg << "Data indicates that there is a grain with no states.";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError)
-        exit(1) ;
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+        return ; //***THIS FUNCTION NEEDS AN ERROR RETURN****
       }
     }
     //
     // The collision operator.
     //
-    for ( i = 0 ; i < pSys->MAXGrn() ; i++ ) {
+    for ( i = 0 ; i < GetSys()->MAXGrn() ; i++ ) {
         double ei = m_egrn[i] ;
         double ni = m_gdos[i] ;
-        for ( j = i ; j < pSys->MAXGrn() ; j++ ) {
+        for ( j = i ; j < GetSys()->MAXGrn() ; j++ ) {
             //
             // Transfer to lower Energy -
             //
@@ -336,14 +338,14 @@ void CollidingMolecule::collisionOperator(double beta) {
     // are unity. The procedure leads to a matrix that is of upper triangular
     // form and the normalisation constants are found by back substitution.
     //
-    for ( i = pSys->MAXGrn() - 1 ; i > -1 ; i-- ) {
+    for ( i = GetSys()->MAXGrn() - 1 ; i > -1 ; i-- ) {
 
         double sm1(0.0) ;
         for ( j = 0 ; j <= i ; j++ )
             sm1 += (*m_egme)[j][i] ;
 
         double sm2(0.0) ;
-        for ( j = i + 1 ; j < pSys->MAXGrn() ; j++ )
+        for ( j = i + 1 ; j < GetSys()->MAXGrn() ; j++ )
             sm2 += (*m_egme)[j][i] * work[j] ;
 
         if (sm1 <= 0.0) {
@@ -360,20 +362,20 @@ void CollidingMolecule::collisionOperator(double beta) {
     // loss by subrtacting unity from the leading diagonal.
     //
     cout << endl << "Normalization constants" << endl << endl ;
-    for ( i = 0 ; i < pSys->MAXGrn() ; i++ ) {
+    for ( i = 0 ; i < GetSys()->MAXGrn() ; i++ ) {
         cout <<  m_egrn[i] << " " << work[i] << endl ;
         (*m_egme)[i][i] *= work[i] ;
         (*m_egme)[i][i] -= 1.0 ;
-        for ( j = i + 1 ; j < pSys->MAXGrn() ; j++ ) {
+        for ( j = i + 1 ; j < GetSys()->MAXGrn() ; j++ ) {
             (*m_egme)[j][i] *= work[j] ;
             (*m_egme)[i][j] *= work[j] ;
         }
     }
 
     cout << endl << "Column Sums" << endl << endl ;
-    for ( i = 0 ; i < pSys->MAXGrn() ; i++ ) {
+    for ( i = 0 ; i < GetSys()->MAXGrn() ; i++ ) {
         double sum(0.0) ;
-        for ( j = 0 ; j < pSys->MAXGrn() ; j++ )  
+        for ( j = 0 ; j < GetSys()->MAXGrn() ; j++ )  
             sum += (*m_egme)[j][i] ;
 
         cout << sum << endl ;
@@ -383,7 +385,7 @@ void CollidingMolecule::collisionOperator(double beta) {
     // array is over written and now contains square root of the Boltzman
     // distribution.
     //
-    for ( i = 0 ; i < pSys->MAXGrn() ; i++ ) {
+    for ( i = 0 ; i < GetSys()->MAXGrn() ; i++ ) {
         double ei = log(m_gdos[i]) - beta*m_egrn[i] + 10.0 ;
         ei = exp(ei) ;
         work[i] = sqrt(ei) ;
@@ -391,7 +393,7 @@ void CollidingMolecule::collisionOperator(double beta) {
     //
     // Symmeterisation of the collision matrix.
     //
-    for ( i = 1 ; i < pSys->MAXGrn() ; i++ ) {
+    for ( i = 1 ; i < GetSys()->MAXGrn() ; i++ ) {
         for ( j = 0 ; j < i ; j++ ) {
             (*m_egme)[j][i] *= (work[i]/work[j]) ;
             (*m_egme)[i][j]  = (*m_egme)[j][i] ;
@@ -526,8 +528,8 @@ void ModelledMolecule::calcDensityOfStates() {
 
     cout << endl << "The number of Frequencies is " << m_VibFreq.size() << endl ;
 
-    m_cdos = m_alloc.allocate(pSys->MAXCell()) ; 
-    m_ecll = m_alloc.allocate(pSys->MAXCell()) ; 
+    m_cdos = m_alloc.allocate(GetSys()->MAXCell()) ; 
+    m_ecll = m_alloc.allocate(GetSys()->MAXCell()) ; 
 
     //
     // Initialize density of states array using calculated rotational
@@ -535,7 +537,7 @@ void ModelledMolecule::calcDensityOfStates() {
     //
     double cnt = sqrt(4./(m_MmtIntA * m_MmtIntB * m_MmtIntC))/m_Sym ;
     int i ;
-    for ( i = 0 ; i < pSys->MAXCell() ; ++i ) {
+    for ( i = 0 ; i < GetSys()->MAXCell() ; ++i ) {
         m_ecll[i] = static_cast<double>(i) + 0.5 ;
         m_cdos[i]  = cnt*sqrt(m_ecll[i]) ;
     }
@@ -544,7 +546,7 @@ void ModelledMolecule::calcDensityOfStates() {
 
     for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) { 
         int iFreq = static_cast<int>(m_VibFreq[j]) ;
-        for ( i = 0 ; i < pSys->MAXCell() - iFreq ; ++i ) 
+        for ( i = 0 ; i < GetSys()->MAXCell() - iFreq ; ++i ) 
             m_cdos[i + iFreq] += m_cdos[i] ;
     }
 
@@ -581,14 +583,14 @@ void ModelledMolecule::testDensityOfStates() {
         // Calculate partition functions based on cells.
 
         double sumc  = 0.0 ;
-        for ( int i = 0 ; i < pSys->MAXCell() ; ++i ) {
+        for ( int i = 0 ; i < GetSys()->MAXCell() ; ++i ) {
             sumc += m_cdos[i]*exp(-beta*m_ecll[i]) ;
         }
 
         // Calculate partition functions based on grains.
 
         double sumg  = 0.0 ;
-        for ( int i = 0 ; i < pSys->MAXGrn() ; ++i ) {
+        for ( int i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
             sumg += m_gdos[i]*exp(-beta*m_egrn[i]) ;
         }
 
@@ -621,14 +623,14 @@ void ModelledMolecule::testDensityOfStates() {
 //
 void ModelledMolecule::calcGrainAverages() {
 
-    m_egrn.resize(pSys->MAXGrn()) ;
-    m_gdos.resize(pSys->MAXGrn()) ;
+    m_egrn.resize(GetSys()->MAXGrn()) ;
+    m_gdos.resize(GetSys()->MAXGrn()) ;
 
     //    int igsz = MAXCELL/MAXGRN ;
 
     // Check that there are enough cells.
 
-    if (pSys->igsz() < 1) {
+    if (GetSys()->igsz() < 1) {
       stringstream errorMsg;
       errorMsg << "Not enought Cells to produce requested number of Grains.";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
@@ -638,14 +640,14 @@ void ModelledMolecule::calcGrainAverages() {
     int idx1 = 0 ;
     int idx2 = 0 ;
 
-    for (int i = 0 ; i < pSys->MAXGrn() ; i++ ) {
+    for (int i = 0 ; i < GetSys()->MAXGrn() ; i++ ) {
 
         int idx3 = idx1 ;
 
         // Calculate the number of states in a grain.
 
         double smt = 0.0 ;
-        for (int j = 0 ; j < pSys->igsz() ; j++, idx1++ ) 
+        for (int j = 0 ; j < GetSys()->igsz() ; j++, idx1++ ) 
             smt += m_cdos[idx1] ;
 
         // Calculate average energy of the grain if it contains sum states.
@@ -653,7 +655,7 @@ void ModelledMolecule::calcGrainAverages() {
         if ( smt > 0.0 ) {
 
             double smat = 0.0 ;
-            for (int j = 0 ; j < pSys->igsz() ; j++, idx3++ ) 
+            for (int j = 0 ; j < GetSys()->igsz() ; j++, idx3++ ) 
                 smat += m_ecll[idx3] * m_cdos[idx3] ;
 
             m_gdos[idx2] = smt ;
@@ -664,10 +666,10 @@ void ModelledMolecule::calcGrainAverages() {
 
     // Issue warning if number of grains produced is less that requested.
 
-    if ( idx2 < pSys->MAXGrn() ) {
+    if ( idx2 < GetSys()->MAXGrn() ) {
       stringstream errorMsg;
       errorMsg << "Number of grains produced is less than requested" << endl
-               << "Number of grains requested: " << pSys->MAXGrn() << endl
+               << "Number of grains requested: " << GetSys()->MAXGrn() << endl
                << "Number of grains produced : " << idx2 << ".";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
     }

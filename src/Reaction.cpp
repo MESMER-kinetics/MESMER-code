@@ -50,8 +50,9 @@ namespace mesmer
   //
   // Read the Molecular data from inout stream.
   //
-  bool Reaction::Initialize(PersistPtr ppReac)
+  bool Reaction::Initialize(System* pSys, PersistPtr ppReac)
   {
+    m_pSys = pSys;
     m_ppPersist = ppReac;
 
     //Read reaction ID
@@ -263,7 +264,7 @@ namespace mesmer
     if (m_kfmc.size()==0)
     {
       if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this, m_kfmc) ||
-        (pSys->TestMicroRatesEnabled() && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_kfmc, m_ppPersist)))
+        (GetSys()->TestMicroRatesEnabled() && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_kfmc, m_ppPersist)))
         return false;
     }
     // Calculate Grain averages of microcanonical rate coefficients.
@@ -279,17 +280,17 @@ namespace mesmer
   //
   bool Reaction::grnAvrgMicroRateCoeffs() {
 
-    int ngrn = pSys->MAXGrn();
+    int ngrn = GetSys()->MAXGrn();
     m_kfgrn.resize(ngrn);
 
     // Extract density of states of equilibrium molecule.
 
-    vector<double> ddos(pSys->MAXCell(),0.0) ;
+    vector<double> ddos(GetSys()->MAXCell(),0.0) ;
     m_Reactant->cellDensityOfStates(&ddos[0]) ;
 
     // Check that there are enough cells.
 
-    if (pSys->igsz() < 1) {
+    if (GetSys()->igsz() < 1) {
       stringstream errorMsg;
       errorMsg << "Not enought Cells to produce requested number of Grains.";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
@@ -306,7 +307,7 @@ namespace mesmer
       // Calculate the number of states in a grain.
 
       double smt(0.0) ;
-      for (int j(0) ; j < pSys->igsz() ; j++, idx1++ )
+      for (int j(0) ; j < GetSys()->igsz() ; j++, idx1++ )
         smt += ddos[idx1] ;
 
       // Calculate average energy of the grain if it contains sum states.
@@ -314,7 +315,7 @@ namespace mesmer
       if ( smt > 0.0 ) {
 
         double smat(0.0) ;
-        for (int j(0) ; j < pSys->igsz() ; j++, idx3++ )
+        for (int j(0) ; j < GetSys()->igsz() ; j++, idx3++ )
           smat += m_kfmc[idx3] * ddos[idx3] ;
 
         m_kfgrn[idx2] = smat/smt ;
@@ -377,7 +378,7 @@ namespace mesmer
 
     // Get densities of states for detailed balance.
 
-    const int ngrn = pSys->MAXGrn();
+    const int ngrn = GetSys()->MAXGrn();
     vector<double> rctDos(ngrn, 0.0) ;
     vector<double> pdtDos(ngrn, 0.0) ;
 
@@ -408,7 +409,7 @@ namespace mesmer
 
     // Get densities of states for detailed balance.
 
-    const int ngrn = pSys->MAXGrn();
+    const int ngrn = GetSys()->MAXGrn();
     vector<double> rctDos(ngrn, 0.0) ;
 
     m_Reactant->grnDensityOfStates(rctDos) ;

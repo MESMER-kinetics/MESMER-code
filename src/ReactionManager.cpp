@@ -34,7 +34,7 @@ namespace mesmer
       //
       // Initialize Reaction from input stream.
       //
-      if(!preaction->Initialize(ppReac))
+      if(!preaction->Initialize(GetSys(), ppReac))
           return false;;
 
       //     preaction->put_verbosity(true) ;
@@ -92,8 +92,8 @@ namespace mesmer
       isomeritr->second = msize ;
 
       double zpe = isomer->get_zpe() - minEnergy ;
-      int grnZpe = int(zpe * KCMLTOPCM / pSys->igsz()) ; 
-      int colloptrsize = pSys->MAXGrn()  - grnZpe ;
+      int grnZpe = int(zpe * KCMLTOPCM / GetSys()->igsz()) ; 
+      int colloptrsize = GetSys()->MAXGrn()  - grnZpe ;
       isomer->set_grnZpe(grnZpe) ;
       isomer->set_colloptrsize(colloptrsize) ;
       msize += colloptrsize ;
