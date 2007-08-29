@@ -1,3 +1,8 @@
+2007-08-29 Chi-Hsiu Liang
+
+	Minor modifications on three header files, and merge with the 
+	current modifications.
+
 2007-08-29 Chris Morley
 
 	Make separate headers for SimpleRRKM.cpp and SimpleILT.cpp.
