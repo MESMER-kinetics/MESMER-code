@@ -20,6 +20,7 @@ General Public License for more details.
 #ifndef OB_ERROR_H
 #define OB_ERROR_H
 
+#include <iostream>
 #include <iosfwd>
 #include <sstream>
 #include <string>

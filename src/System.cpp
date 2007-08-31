@@ -157,7 +157,7 @@ namespace mesmer
       
       size_t imax = !Pressures.empty() ? Pressures.size() : Concentrations.size();
       //Inner loop is concentrations, possibly calculated from pressures if these were specified
-      //***TODO Get pressure units right. Pressures currently non-functional!
+      // TODO: Get pressure units right. Pressures currently non-functional!
       for(size_t i=0;i<imax;++i)
       {
         double conc = !Pressures.empty() ? Pressures[i]*beta : Concentrations[i];

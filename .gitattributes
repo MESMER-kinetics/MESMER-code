@@ -13,6 +13,9 @@ Windows[!!-~]VC8/Mesmer/pentyl.xml -text
 Windows[!!-~]VC8/Mesmer/pentyl_isomerization.xml -text
 Windows[!!-~]VC8/Mesmer/pentyl_isomerizationJul.xml -text
 Windows[!!-~]VC8/Mesmer/switchcontent.js -text
+bin/pentyl_isomerizationJul.xml -text
+bin/pentyl_isomerizationJulout.xml -text
+bin/test.txt -text
 src/Constants.h -text
 src/Makefile -text
 src/Matrix.h -text

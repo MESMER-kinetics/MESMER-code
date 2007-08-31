@@ -1,3 +1,13 @@
+2007-08-31 Chi-Hsiu Liang
+
+	* cygwin rules
+	* formatfloat.h includes
+	* additional Makefile commands
+	* Now compile with cywgin
+	* Updated source.ps
+	* Other minor code format adjustments (Molecule.h/cpp, MoleculeManager.cpp, etc.)
+	* Resolved some g++ compiler complaints.
+	
 2007-08-29 Chi-Hsiu Liang
 
 	Minor modifications on three header files, and merge with the 

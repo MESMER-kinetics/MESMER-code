@@ -8,10 +8,14 @@
 // EISPACK functions for diagonalizing a symmetric matrix.
 //
 //-------------------------------------------------------------------------------------------
-
 #include <math.h>
 #include <stdio.h>
 #include "dMatrix.h"
+
+#ifdef __CYGWIN__
+#define fabsl fabs
+//in cygwin there is no fabsl (consider adding library if uses cygwin)
+#endif
 
 //-------------------------------------------------------------------------------------------
 // EISPACK tred2 function.

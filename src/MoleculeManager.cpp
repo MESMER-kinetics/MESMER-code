@@ -28,8 +28,8 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
     //
     const char* ptype = ppmol->ReadValue("me:type", false);//some product mols don't have type
     string moltype;
-      if(ptype)
-    moltype = ptype;
+    if(ptype)
+      moltype = ptype;
 
     Molecule *pmolecule;
     if(moltype=="modelled")
@@ -41,22 +41,22 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
     else
       pmolecule = static_cast<Molecule*>(new Molecule);
 
-     //
-     // Initialize Molecule from input stream.
-     //Each molecule type has its own set of mandatory of parameters
-     if(!pmolecule->Initialize(GetSys(), ppmol))
-       return false;
+    //
+    // Initialize Molecule from input stream.
+    //Each molecule type has its own set of mandatory of parameters
+    if(!pmolecule->Initialize(GetSys(), ppmol))
+      return false;
 
-     string strName = pmolecule->getName() ;
+    string strName = pmolecule->getName() ;
 
-//     pmolecule->put_verbosity(true) ;
+    //pmolecule->put_verbosity(true) ;
 
-     //
-     // Add molecule to map.
-     //
-     m_molmap[strName] = pmolecule ;
+    //
+    // Add molecule to map.
+    //
+    m_molmap[strName] = pmolecule ;
 
-     ppmol = ppmol->MoveTo("molecule");
+    ppmol = ppmol->MoveTo("molecule");
   }
   return true;
 }
@@ -66,19 +66,19 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
 //
 Molecule *MoleculeManager::find(const std::string& name) const { 
 
-     map<string, Molecule*>::const_iterator it ;
+  map<string, Molecule*>::const_iterator it ;
 
-     it = m_molmap.find(name) ;
+  it = m_molmap.find(name) ;
 
-     if (it == m_molmap.end()) {
-        stringstream errorMsg;
-        errorMsg << name << " is not a known Molecule.";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+  if (it == m_molmap.end()) {
+    stringstream errorMsg;
+    errorMsg << name << " is not a known Molecule.";
+    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
 
-        return NULL;
-     }
+    return NULL;
+  }
 
-     return it->second ; 
+  return it->second ; 
 }
 
 }//namespace

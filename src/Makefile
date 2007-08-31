@@ -81,7 +81,8 @@ CXXFLAGS := ${CXXFLAGS} ${DEFS}
 # Targets of the build
 #****************************************************************************
 
-OUTPUT := mesmer
+TARGETPATH = ../bin
+OUTPUT := mesmer.out
 
 all: ${OUTPUT}
 
@@ -95,14 +96,13 @@ SRCS := MicroRate.cpp \
 	MoleculeManager.cpp \
 	Reaction.cpp \
 	ReactionManager.cpp \
-	SimpleILTx.cpp \
-	SimpleRRKMx.cpp \
+	SimpleILT.cpp \
+	SimpleRRKM.cpp \
 	System.cpp \
 	XMLPersist.cpp \
 	dMatrix.cpp \
 	formatfloat.cpp \
 	oberror.cpp \
-	util.cpp \
 	main.cpp
 
 # Add on the sources for libraries
@@ -137,3 +137,10 @@ clean:
 depend:
 	#makedepend ${INCS} ${SRCS}
 
+install:
+	make
+	cp ${OUTPUT} ${TARGETPATH}
+	
+remake:
+	-rm -f core ${OBJS} ${OUTPUT}
+	make

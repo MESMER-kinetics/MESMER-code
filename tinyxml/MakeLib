@@ -5,6 +5,8 @@
 # www.grinninglizard.com
 #
 # This is a GNU make (gmake) makefile
+#
+# usage: make -f MakeLib
 #****************************************************************************
 
 # DEBUG can be set to YES to include debugging info, or NO otherwise

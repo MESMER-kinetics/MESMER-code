@@ -61,7 +61,7 @@ const char* XMLPersist::Read()const
 const char* XMLPersist::ReadValue(const std::string& name, bool MustBeThere) const
 {
   const char* ptext=NULL;
-  //Look first to see if there is a child element of this name and, if so, return its vale
+  //Look first to see if there is a child element of this name and, if so, return its value
   TiXmlElement* pnEl = pnNode->FirstChildElement(name);
   if(pnEl)
   {

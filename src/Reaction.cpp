@@ -26,7 +26,7 @@ namespace mesmer
             m_Product2(NULL),
             m_TransitionState(NULL),
             m_kfwd(0.0),
-            m_kfmc(NULL),
+            m_kfmc(),
             m_kfgrn()
             {}
 
@@ -369,8 +369,10 @@ namespace mesmer
   //
   // Add isomer reaction terms to collision matrix.
   //
-  void Reaction::AddIsomerReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) {
-
+  void Reaction::AddIsomerReactionTerms(dMatrix *CollOptr,
+                                        isomerMap &isomermap,
+                                        const double rMeanOmega)
+  {
     // Locate isomers in system matrix.
 
     const int rctLocation = isomermap[m_Reactant] ;
@@ -400,8 +402,11 @@ namespace mesmer
   //
   // Add (reversible) association reaction terms to collision matrix.
   //
-  void Reaction::AddAssocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, sourceMap &sourcemap, const double rMeanOmega) {
-
+  void Reaction::AddAssocReactionTerms(dMatrix      *CollOptr,
+                                       isomerMap    &isomermap,
+                                       sourceMap    &sourcemap,
+                                       const double rMeanOmega)
+  {
     // Locate isomers in system matrix.
 
     const int rctLocation = isomermap[m_Reactant] ;

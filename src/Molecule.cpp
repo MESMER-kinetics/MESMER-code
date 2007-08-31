@@ -1,85 +1,84 @@
 //-------------------------------------------------------------------------------------------
 //
-// Molecule.cpp 
+// Molecule.cpp
 //
-// Author: Struan Robertson 
+// Author: Struan Robertson
 // Date:   5/Jan/2003
 //
 // This file contains the implementation of the Molecule class and its derived classes.
 //
 //-------------------------------------------------------------------------------------------
 
-#include <math.h>
 #include "System.h"
 
 using namespace std ;
 using namespace Constants ;
 namespace mesmer
 {
-    Molecule::Molecule():
-m_Mass(0.0),
-m_Sigma(0.0), 
-m_Epsilon(0.0)
-{ }
+  Molecule::Molecule():
+    m_Mass(0.0),
+    m_Sigma(0.0),
+    m_Epsilon(0.0)
+  {}
 
-ModelledMolecule::ModelledMolecule():
-m_MmtIntA(0.0), 
-m_MmtIntB(0.0), 
-m_MmtIntC(0.0), 
-m_Sym(0.0), 
-m_ZPE(0.0),
-m_ecll(NULL),
-m_cdos(NULL)  
-{ }
+  ModelledMolecule::ModelledMolecule():
+    m_MmtIntA(0.0),
+    m_MmtIntB(0.0),
+    m_MmtIntC(0.0),
+    m_Sym(0.0),
+    m_ZPE(0.0),
+    m_ecll(NULL),
+    m_cdos(NULL)
+  {}
 
-CollidingMolecule::CollidingMolecule():
-m_egme(NULL), 
-m_DeltaEdown(0.0),
-m_ncolloptrsize(0),
-m_collisionFrequency(0.0)
-{ }
+  CollidingMolecule::CollidingMolecule():
+    m_egme(NULL),
+    m_DeltaEdown(0.0),
+    m_ncolloptrsize(0),
+    m_collisionFrequency(0.0)
+  {}
 
-ModelledMolecule::~ModelledMolecule()
-{
-    // Free any memory assigned for calculating densities of states. 
-    if (m_cdos != NULL) m_alloc.deallocate(m_cdos, GetSys()->MAXCell()) ; 
-    if (m_ecll != NULL) m_alloc.deallocate(m_ecll, GetSys()->MAXCell()) ; 
-}
+  ModelledMolecule::~ModelledMolecule()
+  {
+    // Free any memory assigned for calculating densities of states.
+    if (m_cdos != NULL) m_alloc.deallocate(m_cdos, GetSys()->MAXCell()) ;
+    if (m_ecll != NULL) m_alloc.deallocate(m_ecll, GetSys()->MAXCell()) ;
+  }
 
-CollidingMolecule::~CollidingMolecule()
-{
-    if (m_egme != NULL) delete m_egme ; 
-}
+  CollidingMolecule::~CollidingMolecule()
+  {
+    if (m_egme != NULL) delete m_egme ;
+  }
 
-TransitionState::TransitionState()
-{ }
+  TransitionState::TransitionState()
+  {}
 
-/* Will need Clone() functions
-Molecule::Molecule(const Molecule& molecule) {
-// Copy constructor - define later SHR 23/Feb/2003
-}
+  /* Will need Clone() functions
+  Molecule::Molecule(const Molecule& molecule) {
+  // Copy constructor - define later SHR 23/Feb/2003
+  }
 
-Molecule& Molecule::operator=(const Molecule&) {
-// Assignment operator - define later SHR 23/Feb/2003
+  Molecule& Molecule::operator=(const Molecule&) {
+  // Assignment operator - define later SHR 23/Feb/2003
 
-return *this ;
-}
-*/
+  return *this ;
+  }
+  */
 
-//
-// Read the Molecular data from I/O stream.
-bool Molecule::Initialize(System* pSys, PersistPtr p)
-{
+  //
+  // Read the Molecular data from I/O stream.
+  bool Molecule::Initialize(System* pSys, PersistPtr p)
+  {
     m_pSys = pSys;
     m_ppPersist = p;
     const char* id= m_ppPersist->ReadValue("id");
     if(id)
         m_Name = id;
     return !m_Name.empty();
-}
+  }
 
-bool BathGasMolecule::Initialize(System* pSys, PersistPtr pp)
-{
+  bool BathGasMolecule::Initialize(System* pSys, PersistPtr pp)
+  {
     //Read base class parameters first
     if(!Molecule::Initialize(pSys, pp))
         return false;
@@ -112,11 +111,11 @@ bool BathGasMolecule::Initialize(System* pSys, PersistPtr pp)
     }
     return true;
     //TODO append name of molecule to error message
-}
+  }
 
 
-bool ModelledMolecule::Initialize(System* pSys, PersistPtr pp)
-{
+  bool ModelledMolecule::Initialize(System* pSys, PersistPtr pp)
+  {
     //Read base class parameters first
     if(!Molecule::Initialize(pSys, pp))
         return false;
@@ -145,25 +144,25 @@ bool ModelledMolecule::Initialize(System* pSys, PersistPtr pp)
     if(!txt)
         return false;
     {
-        istringstream idata(txt);
-        idata >> m_Sym;
+      istringstream idata(txt);
+      idata >> m_Sym;
     }
 
     txt= ppPropList->ReadProperty("me:vibFreqs");
     if(!txt)
         return false;
     {
-        istringstream idata(txt);
-        double x ;
-        while (idata >> x)
-            m_VibFreq.push_back(x) ;
+      istringstream idata(txt);
+      double x ;
+      while (idata >> x)
+          m_VibFreq.push_back(x) ;
     }
 
     return true;
-}
+  }
 
-bool CollidingMolecule::Initialize(System* pSys, PersistPtr pp) 
-{
+  bool CollidingMolecule::Initialize(System* pSys, PersistPtr pp)
+  {
     //Read base class parameters first
     if(!ModelledMolecule::Initialize(pSys, pp))
         return false;
@@ -203,12 +202,12 @@ bool CollidingMolecule::Initialize(System* pSys, PersistPtr pp)
     }
 
     return true;
-}
+  }
 
-//
-// Get cell density of states.
-//
-void ModelledMolecule::cellDensityOfStates(double *ddos) {
+  //
+  // Get cell density of states.
+  //
+  void ModelledMolecule::cellDensityOfStates(double *ddos) {
 
     // If density of states have not already been calcualted then do so.
 
@@ -217,12 +216,12 @@ void ModelledMolecule::cellDensityOfStates(double *ddos) {
 
     for (int i = 0 ; i < GetSys()->MAXCell() ; ++i )
         ddos[i] = m_cdos[i] ;
-}
+  }
 
-//
-// Get cell energies.
-//
-void ModelledMolecule::cellEnergies(double *decll) {
+  //
+  // Get cell energies.
+  //
+  void ModelledMolecule::cellEnergies(double *decll) {
 
     // If energies have not already been calcualted then do so.
 
@@ -231,12 +230,12 @@ void ModelledMolecule::cellEnergies(double *decll) {
 
     for (int i = 0 ; i < GetSys()->MAXCell() ; ++i )
         decll[i] = m_ecll[i] ;
-}
+  }
 
-//
-// Get grain density of states.
-//
-void ModelledMolecule::grnDensityOfStates(vector<double> &dosGrn) {
+  //
+  // Get grain density of states.
+  //
+  void ModelledMolecule::grnDensityOfStates(vector<double> &dosGrn) {
 
     // If density of states have not already been calcualted then do so.
 
@@ -244,12 +243,12 @@ void ModelledMolecule::grnDensityOfStates(vector<double> &dosGrn) {
         calcDensityOfStates() ;
 
     dosGrn = m_gdos ;
-}
+  }
 
-//
-// Get grain energies.
-//
-void ModelledMolecule::grnEnergies(vector<double> &eGrn) {
+  //
+  // Get grain energies.
+  //
+  void ModelledMolecule::grnEnergies(vector<double> &eGrn) {
 
     // If energies have not already been calcualted then do so.
 
@@ -257,16 +256,16 @@ void ModelledMolecule::grnEnergies(vector<double> &eGrn) {
         calcDensityOfStates() ;
 
     eGrn = m_gdos ;
-}
+  }
 
-//-------------------------------------------------------------------------------------------
-//
-// Methods related to the Master Equation.
+  //-------------------------------------------------------------------------------------------
+  //
+  // Methods related to the Master Equation.
 
-//
-// Initialize the Collision Operator.
-//
-void CollidingMolecule::initCollisionOperator(double beta, double conc, Molecule *pBathGasMolecule) {
+  //
+  // Initialize the Collision Operator.
+  //
+  void CollidingMolecule::initCollisionOperator(double beta, double conc, Molecule *pBathGasMolecule) {
 
     // If density of states have not already been calcualted then do so.
 
@@ -280,12 +279,12 @@ void CollidingMolecule::initCollisionOperator(double beta, double conc, Molecule
     // Calculate the collision operator.
 
     collisionOperator(beta) ;
-}
+  }
 
-//
-// Calculate collision operator
-//
-void CollidingMolecule::collisionOperator(double beta) {
+  //
+  // Calculate collision operator
+  //
+  void CollidingMolecule::collisionOperator(double beta) {
 
     //
     //     i) Determine Probabilities of Energy Transfer.
@@ -319,18 +318,18 @@ void CollidingMolecule::collisionOperator(double beta) {
     // The collision operator.
     //
     for ( i = 0 ; i < GetSys()->MAXGrn() ; i++ ) {
-        double ei = m_egrn[i] ;
-        double ni = m_gdos[i] ;
-        for ( j = i ; j < GetSys()->MAXGrn() ; j++ ) {
-            //
-            // Transfer to lower Energy -
-            //
-            (*m_egme)[i][j] = exp(-alpha*(m_egrn[j] - ei)) ;
-            //
-            // Transfer to higher Energy (via detailed balance) -
-            //
-            (*m_egme)[j][i] = (*m_egme)[i][j] * (m_gdos[j]/ni)*exp(-beta*(m_egrn[j] - ei)) ;
-        }
+      double ei = m_egrn[i] ;
+      double ni = m_gdos[i] ;
+      for ( j = i ; j < GetSys()->MAXGrn() ; j++ ) {
+        //
+        // Transfer to lower Energy -
+        //
+        (*m_egme)[i][j] = exp(-alpha*(m_egrn[j] - ei)) ;
+        //
+        // Transfer to higher Energy (via detailed balance) -
+        //
+        (*m_egme)[j][i] = (*m_egme)[i][j] * (m_gdos[j]/ni)*exp(-beta*(m_egrn[j] - ei)) ;
+      }
     }
     //
     // Normalization of Probability matrix.
@@ -340,22 +339,22 @@ void CollidingMolecule::collisionOperator(double beta) {
     //
     for ( i = GetSys()->MAXGrn() - 1 ; i > -1 ; i-- ) {
 
-        double sm1(0.0) ;
-        for ( j = 0 ; j <= i ; j++ )
-            sm1 += (*m_egme)[j][i] ;
+      double sm1(0.0) ;
+      for ( j = 0 ; j <= i ; j++ )
+          sm1 += (*m_egme)[j][i] ;
 
-        double sm2(0.0) ;
-        for ( j = i + 1 ; j < GetSys()->MAXGrn() ; j++ )
-            sm2 += (*m_egme)[j][i] * work[j] ;
+      double sm2(0.0) ;
+      for ( j = i + 1 ; j < GetSys()->MAXGrn() ; j++ )
+          sm2 += (*m_egme)[j][i] * work[j] ;
 
-        if (sm1 <= 0.0) {
-          stringstream errorMsg;
-          errorMsg << "Normalization coefficients in EGME is smaller than or equal to zero.";
-          errorMsg << "i = " << i << " j = " << j;
-          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
-          exit(1) ;
-        }
-        work[i] = (1.0-sm2)/sm1 ;
+      if (sm1 <= 0.0) {
+        stringstream errorMsg;
+        errorMsg << "Normalization coefficients in EGME is smaller than or equal to zero.";
+        errorMsg << "i = " << i << " j = " << j;
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+        exit(1) ;
+      }
+      work[i] = (1.0-sm2)/sm1 ;
     }
     //
     // Apply normalization coefficients and account for collisional
@@ -363,19 +362,19 @@ void CollidingMolecule::collisionOperator(double beta) {
     //
     cout << endl << "Normalization constants" << endl << endl ;
     for ( i = 0 ; i < GetSys()->MAXGrn() ; i++ ) {
-        cout <<  m_egrn[i] << " " << work[i] << endl ;
-        (*m_egme)[i][i] *= work[i] ;
-        (*m_egme)[i][i] -= 1.0 ;
-        for ( j = i + 1 ; j < GetSys()->MAXGrn() ; j++ ) {
-            (*m_egme)[j][i] *= work[j] ;
-            (*m_egme)[i][j] *= work[j] ;
-        }
+      cout <<  m_egrn[i] << " " << work[i] << endl ;
+      (*m_egme)[i][i] *= work[i] ;
+      (*m_egme)[i][i] -= 1.0 ;
+      for ( j = i + 1 ; j < GetSys()->MAXGrn() ; j++ ) {
+        (*m_egme)[j][i] *= work[j] ;
+        (*m_egme)[i][j] *= work[j] ;
+      }
     }
 
     cout << endl << "Column Sums" << endl << endl ;
     for ( i = 0 ; i < GetSys()->MAXGrn() ; i++ ) {
         double sum(0.0) ;
-        for ( j = 0 ; j < GetSys()->MAXGrn() ; j++ )  
+        for ( j = 0 ; j < GetSys()->MAXGrn() ; j++ )
             sum += (*m_egme)[j][i] ;
 
         cout << sum << endl ;
@@ -386,24 +385,24 @@ void CollidingMolecule::collisionOperator(double beta) {
     // distribution.
     //
     for ( i = 0 ; i < GetSys()->MAXGrn() ; i++ ) {
-        double ei = log(m_gdos[i]) - beta*m_egrn[i] + 10.0 ;
-        ei = exp(ei) ;
-        work[i] = sqrt(ei) ;
+      double ei = log(m_gdos[i]) - beta*m_egrn[i] + 10.0 ;
+      ei = exp(ei) ;
+      work[i] = sqrt(ei) ;
     }
     //
     // Symmeterisation of the collision matrix.
     //
     for ( i = 1 ; i < GetSys()->MAXGrn() ; i++ ) {
-        for ( j = 0 ; j < i ; j++ ) {
-            (*m_egme)[j][i] *= (work[i]/work[j]) ;
-            (*m_egme)[i][j]  = (*m_egme)[j][i] ;
-        }
+      for ( j = 0 ; j < i ; j++ ) {
+        (*m_egme)[j][i] *= (work[i]/work[j]) ;
+        (*m_egme)[i][j]  = (*m_egme)[j][i] ;
+      }
     }
-}
-/*//
-// Diagonalize the Collision Operator. See ReactionManager::diagCollisionOperator()
-//
-void CollidingMolecule::  diagCollisionOperator() {
+  }
+  /*//
+  // Diagonalize the Collision Operator. See ReactionManager::diagCollisionOperator()
+  //
+  void CollidingMolecule::  diagCollisionOperator() {
 
     // Allocate space for eigenvalues.
 
@@ -413,26 +412,26 @@ void CollidingMolecule::  diagCollisionOperator() {
     m_egme->diagonalize(&rr[0]) ;
 
     cout << endl ;
-    for (int i(0) ; i < msize ; i++) 
-        cout << rr[i] << endl; 
+    for (int i(0) ; i < msize ; i++)
+        cout << rr[i] << endl;
 
     cout << endl ;
     for (int i(0) ; i < msize ; i++)  {
-        formatFloat(cout, m_egrn[i],              6, 15) ;
-        formatFloat(cout, (*m_egme)[i][pSys->MAXGrn()-1], 6, 15) ;
-        formatFloat(cout, (*m_egme)[i][pSys->MAXGrn()-2], 6, 15) ;
-        cout << endl ;
+      formatFloat(cout, m_egrn[i],              6, 15) ;
+      formatFloat(cout, (*m_egme)[i][pSys->MAXGrn()-1], 6, 15) ;
+      formatFloat(cout, (*m_egme)[i][pSys->MAXGrn()-2], 6, 15) ;
+      cout << endl ;
     }
 
-}
-*/
-//
-// Calculate collision frequency.
-//
-double CollidingMolecule::collisionFrequency(double beta, double conc, Molecule *pBathGasMolecule) {
+  }
+  */
+  //
+  // Calculate collision frequency.
+  //
+  double CollidingMolecule::collisionFrequency(double beta, double conc, Molecule *pBathGasMolecule) {
 
     //
-    // Lennard-Jones Collision frequency. The collision integral is calculated 
+    // Lennard-Jones Collision frequency. The collision integral is calculated
     // using the formula of Neufeld et al., J.C.P. Vol. 57, Page 1100 (1972).
     // CONCentration is in molec/cm^3.
     //
@@ -472,24 +471,24 @@ double CollidingMolecule::collisionFrequency(double beta, double conc, Molecule 
     collFrq *= conc*1.e+06 ;
 
     return collFrq ;
-}
+  }
 
-//
-// Calculate a reaction matrix element.
-//
-double CollidingMolecule::matrixElement(int eigveci, int eigvecj, vector<double> &k, int ndim) {
+  //
+  // Calculate a reaction matrix element.
+  //
+  double CollidingMolecule::matrixElement(int eigveci, int eigvecj, vector<double> &k, int ndim) {
 
     double sum = 0.0 ;
     for (int i = 0 ; i < ndim ; i++)
         sum +=  k[i]*(*m_egme)[i][eigveci]*(*m_egme)[i][eigvecj] ;
 
     return sum ;
-}
+  }
 
-//
-// Copy collision operator to diagonal block of system matrix.
-//
-void CollidingMolecule::copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const {
+  //
+  // Copy collision operator to diagonal block of system matrix.
+  //
+  void CollidingMolecule::copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const {
 
     // Find size of system matrix.
 
@@ -504,32 +503,32 @@ void CollidingMolecule::copyCollisionOperator(dMatrix *CollOptr, const int size,
       exit(1) ;
     }
 
-    // Copy collision operator to the diagonal block indicated by "locate" 
+    // Copy collision operator to the diagonal block indicated by "locate"
     // and multiply by the reduced collision frequencey.
 
     for (int i(0) ; i < size ; i++) {
-        int ii(locate + i) ;
-        for (int j(0) ; j < size ; j++) {
-            int jj(locate + j) ;
-            (*CollOptr)[ii][jj] = RducdOmega * (*m_egme)[i][j] ;
-        }
+      int ii(locate + i) ;
+      for (int j(0) ; j < size ; j++) {
+        int jj(locate + j) ;
+        (*CollOptr)[ii][jj] = RducdOmega * (*m_egme)[i][j] ;
+      }
     }
 
-}
+  }
 
-//-------------------------------------------------------------------------------------------
-//
-// Private methods.
+  //-------------------------------------------------------------------------------------------
+  //
+  // Private methods.
 
-//
-// Calculate the rovibrational density of states.
-//
-void ModelledMolecule::calcDensityOfStates() {
+  //
+  // Calculate the rovibrational density of states.
+  //
+  void ModelledMolecule::calcDensityOfStates() {
 
     cout << endl << "The number of Frequencies is " << m_VibFreq.size() << endl ;
 
-    m_cdos = m_alloc.allocate(GetSys()->MAXCell()) ; 
-    m_ecll = m_alloc.allocate(GetSys()->MAXCell()) ; 
+    m_cdos = m_alloc.allocate(GetSys()->MAXCell()) ;
+    m_ecll = m_alloc.allocate(GetSys()->MAXCell()) ;
 
     //
     // Initialize density of states array using calculated rotational
@@ -538,32 +537,32 @@ void ModelledMolecule::calcDensityOfStates() {
     double cnt = sqrt(4./(m_MmtIntA * m_MmtIntB * m_MmtIntC))/m_Sym ;
     int i ;
     for ( i = 0 ; i < GetSys()->MAXCell() ; ++i ) {
-        m_ecll[i] = static_cast<double>(i) + 0.5 ;
-        m_cdos[i]  = cnt*sqrt(m_ecll[i]) ;
+      m_ecll[i] = static_cast<double>(i) + 0.5 ;
+      m_cdos[i]  = cnt*sqrt(m_ecll[i]) ;
     }
 
     // Implementation of the Bayer-Swinehart algorithm.
 
-    for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) { 
-        int iFreq = static_cast<int>(m_VibFreq[j]) ;
-        for ( i = 0 ; i < GetSys()->MAXCell() - iFreq ; ++i ) 
-            m_cdos[i + iFreq] += m_cdos[i] ;
+    for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) {
+      int iFreq = static_cast<int>(m_VibFreq[j]) ;
+      for ( i = 0 ; i < GetSys()->MAXCell() - iFreq ; ++i )
+          m_cdos[i + iFreq] += m_cdos[i] ;
     }
 
     // Calculate grain averages.
 
     calcGrainAverages() ;
 
-    //    if ( get_verbosity() ) 
+    //    if ( get_verbosity() )
     testDensityOfStates() ;
 
     return ;
-}
+  }
 
-//
-// Test the rovibrational density of states.
-//
-void ModelledMolecule::testDensityOfStates() {
+  //
+  // Test the rovibrational density of states.
+  //
+  void ModelledMolecule::testDensityOfStates() {
 
     cout << endl << "Test density of states: " << m_Name << endl << endl ;
 
@@ -577,51 +576,51 @@ void ModelledMolecule::testDensityOfStates() {
     PersistPtr ppList = m_ppPersist->WriteMainElement("me:densityOfStatesList", comment );
     for ( int n = 0 ; n < 29 ; ++n ) {
 
-        temp = 100.0*static_cast<double>(n + 2) ;
-        beta = 1.0/(boltzmann*temp) ;
+      temp = 100.0*static_cast<double>(n + 2) ;
+      beta = 1.0/(boltzmann*temp) ;
 
-        // Calculate partition functions based on cells.
+      // Calculate partition functions based on cells.
 
-        double sumc  = 0.0 ;
-        for ( int i = 0 ; i < GetSys()->MAXCell() ; ++i ) {
-            sumc += m_cdos[i]*exp(-beta*m_ecll[i]) ;
-        }
+      double sumc  = 0.0 ;
+      for ( int i = 0 ; i < GetSys()->MAXCell() ; ++i ) {
+        sumc += m_cdos[i]*exp(-beta*m_ecll[i]) ;
+      }
 
-        // Calculate partition functions based on grains.
+      // Calculate partition functions based on grains.
 
-        double sumg  = 0.0 ;
-        for ( int i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
-            sumg += m_gdos[i]*exp(-beta*m_egrn[i]) ;
-        }
+      double sumg  = 0.0 ;
+      for ( int i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
+        sumg += m_gdos[i]*exp(-beta*m_egrn[i]) ;
+      }
 
-        // Calculate partition functions using analytical formula.
+      // Calculate partition functions using analytical formula.
 
-        double qtot = 1.0 ;
-        for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) { 
-            qtot /= (1.0 - exp(-beta*m_VibFreq[j])) ;
-        }
-        qtot *= sqrt(pi/(m_MmtIntA * m_MmtIntB * m_MmtIntC))*(pow(beta,-1.5))/m_Sym ;
-        formatFloat(cout, temp,  6,  7) ;
-        formatFloat(cout, qtot,  6, 15) ;
-        formatFloat(cout, sumc,  6, 15) ;
-        formatFloat(cout, sumg,  6, 15) ;
-        cout << endl ;
+      double qtot = 1.0 ;
+      for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) {
+        qtot /= (1.0 - exp(-beta*m_VibFreq[j])) ;
+      }
+      qtot *= sqrt(pi/(m_MmtIntA * m_MmtIntB * m_MmtIntC))*(pow(beta,-1.5))/m_Sym ;
+      formatFloat(cout, temp,  6,  7) ;
+      formatFloat(cout, qtot,  6, 15) ;
+      formatFloat(cout, sumc,  6, 15) ;
+      formatFloat(cout, sumg,  6, 15) ;
+      cout << endl ;
 
-        //Add to XML document
-        PersistPtr ppItem = ppList->WriteElement("me:densityOfStates");
-        ppItem->WriteValueElement("me:T",    temp, 6);
-        ppItem->WriteValueElement("me:qtot", qtot, 6) ;
-        ppItem->WriteValueElement("me:sumc", sumc, 6) ;
-        ppItem->WriteValueElement("me:sumg", sumg, 6) ;
+      //Add to XML document
+      PersistPtr ppItem = ppList->WriteElement("me:densityOfStates");
+      ppItem->WriteValueElement("me:T",    temp, 6);
+      ppItem->WriteValueElement("me:qtot", qtot, 6) ;
+      ppItem->WriteValueElement("me:sumc", sumc, 6) ;
+      ppItem->WriteValueElement("me:sumg", sumg, 6) ;
 
     }
 
-}
+  }
 
-//
-// Calculate the average grain energy and then number of states per grain.
-//
-void ModelledMolecule::calcGrainAverages() {
+  //
+  // Calculate the average grain energy and then number of states per grain.
+  //
+  void ModelledMolecule::calcGrainAverages() {
 
     m_egrn.resize(GetSys()->MAXGrn()) ;
     m_gdos.resize(GetSys()->MAXGrn()) ;
@@ -642,26 +641,26 @@ void ModelledMolecule::calcGrainAverages() {
 
     for (int i = 0 ; i < GetSys()->MAXGrn() ; i++ ) {
 
-        int idx3 = idx1 ;
+      int idx3 = idx1 ;
 
-        // Calculate the number of states in a grain.
+      // Calculate the number of states in a grain.
 
-        double smt = 0.0 ;
-        for (int j = 0 ; j < GetSys()->igsz() ; j++, idx1++ ) 
-            smt += m_cdos[idx1] ;
+      double smt = 0.0 ;
+      for (int j = 0 ; j < GetSys()->igsz() ; j++, idx1++ )
+          smt += m_cdos[idx1] ;
 
-        // Calculate average energy of the grain if it contains sum states.
+      // Calculate average energy of the grain if it contains sum states.
 
-        if ( smt > 0.0 ) {
+      if ( smt > 0.0 ) {
 
-            double smat = 0.0 ;
-            for (int j = 0 ; j < GetSys()->igsz() ; j++, idx3++ ) 
-                smat += m_ecll[idx3] * m_cdos[idx3] ;
+        double smat = 0.0 ;
+        for (int j = 0 ; j < GetSys()->igsz() ; j++, idx3++ )
+            smat += m_ecll[idx3] * m_cdos[idx3] ;
 
-            m_gdos[idx2] = smt ;
-            m_egrn[idx2] = smat/smt ;
-            idx2++ ;
-        }
+        m_gdos[idx2] = smt ;
+        m_egrn[idx2] = smat/smt ;
+        idx2++ ;
+      }
     }
 
     // Issue warning if number of grains produced is less that requested.
@@ -673,5 +672,5 @@ void ModelledMolecule::calcGrainAverages() {
                << "Number of grains produced : " << idx2 << ".";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
     }
-}
+  }
 }//namespace

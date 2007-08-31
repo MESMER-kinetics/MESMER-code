@@ -2,7 +2,7 @@
 #define GUARD_XMLPersist_h
 
 #include "Persistence.h"
-#include "tinyxml.h"
+#include "../tinyxml/tinyxml.h"
 
 namespace mesmer
 {

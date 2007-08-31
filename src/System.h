@@ -15,7 +15,6 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include "Constants.h"
 #include "ReactionManager.h"
 
 namespace mesmer
