@@ -1,3 +1,9 @@
+2007-09-02 Chris Morley
+	
+	* added a partial data file for Dave's benzene system
+	(enough for the diagram) Updated the xsl files to improve
+	diagram.
+	
 2007-08-31 Chi-Hsiu Liang
 
 	* cygwin rules

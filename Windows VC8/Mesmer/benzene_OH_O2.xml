@@ -1,0 +1,1085 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type='text/xsl' href='mesmer1.xsl'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+  <moleculeList>
+    <molecule id="C6H5OH" me:type="displayed">
+      <atomArray>
+        <atom id="a1" elementType="C" x2="-7.812500" y2="2.106300"/>
+        <atom id="a2" elementType="O" x2="-7.812500" y2="2.931300"/>
+        <atom id="a3" elementType="C" x2="-7.098000" y2="1.693800"/>
+        <atom id="a4" elementType="C" x2="-7.098000" y2="0.868700"/>
+        <atom id="a5" elementType="C" x2="-7.812500" y2="0.456200"/>
+        <atom id="a6" elementType="C" x2="-8.527000" y2="0.868700"/>
+        <atom id="a7" elementType="C" x2="-8.527000" y2="1.693800"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a7" order="1"/>
+        <bond atomRefs2="a1 a3" order="2"/>
+        <bond atomRefs2="a7 a6" order="2"/>
+        <bond atomRefs2="a6 a5" order="1"/>
+        <bond atomRefs2="a5 a4" order="2"/>
+        <bond atomRefs2="a4 a3" order="1"/>
+        <bond atomRefs2="a1 a2" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">-30.0</scalar>
+          <!--NOT A REAL VALUE-->
+        </property>
+      </propertyList>
+    </molecule>
+    <molecule id="I2-t(eq)" me:type="modelled">
+      <atomArray>
+        <atom id="a1" elementType="C" x2="-5.139900" y2="-0.450000"/>
+        <atom id="a2" elementType="H" x2="-4.602400" y2="0.327000"/>
+        <atom id="a3" elementType="O" x2="-5.712800" y2="0.352100"/>
+        <atom id="a4" elementType="C" x2="-4.425400" y2="-0.862500"/>
+        <atom id="a5" elementType="H" x2="-3.710900" y2="-1.275000"/>
+        <atom id="a6" elementType="O" x2="-3.773400" y2="-0.200000"/>
+        <atom id="a7" elementType="O" spinMultiplicity="2" x2="-3.992200" y2="0.343700"/>
+        <atom id="a8" elementType="C" x2="-4.425400" y2="-1.687500"/>
+        <atom id="a9" elementType="C" x2="-5.139900" y2="-2.100000"/>
+        <atom id="a10" elementType="C" x2="-5.854300" y2="-1.687500"/>
+        <atom id="a11" elementType="C" x2="-5.854300" y2="-0.862500"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a11" order="1"/>
+        <bond atomRefs2="a1 a4" order="1"/>
+        <bond atomRefs2="a1 a3" order="1">
+          <bondStereo>H</bondStereo>
+        </bond>
+        <bond atomRefs2="a11 a10" order="2"/>
+        <bond atomRefs2="a10 a9" order="1"/>
+        <bond atomRefs2="a9 a8" order="2"/>
+        <bond atomRefs2="a8 a4" order="1"/>
+        <bond atomRefs2="a4 a6" order="1">
+          <bondStereo>W</bondStereo>
+        </bond>
+        <bond atomRefs2="a4 a5" order="1">
+          <bondStereo>H</bondStereo>
+        </bond>
+        <bond atomRefs2="a6 a7" order="1"/>
+        <bond atomRefs2="a1 a2" order="1">
+          <bondStereo>W</bondStereo>
+        </bond>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">-50.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            0.0940
+            0.0493
+            0.0335
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:electronicDegeneracy">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            60.89
+            116.33
+            211.38
+            240.07
+            355.32
+            366.14
+            428.90
+            443.10
+            500.23
+            525.27
+            570.27
+            596.85
+            709.24
+            770.56
+            827.63
+            941.70
+            943.00
+            957.62
+            972.50
+            982.40
+            1016.62
+            1083.48
+            1104.44
+            1172.60
+            1177.65
+            1191.29
+            1229.59
+            1255.86
+            1285.57
+            1343.80
+            1360.91
+            1408.15
+            1423.61
+            1631.97
+            1689.89
+            2862.89
+            2969.04
+            3127.73
+            3137.39
+            3151.22
+            3158.15
+            3692.25
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>71</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>347</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.93</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">230.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+    <molecule id="I1"  me:type="modelled">
+      <atomArray>
+        <atom id="a1" elementType="C" x2="-2.750000" y2="2.762500"/>
+        <atom id="a2" elementType="H" x2="-3.333400" y2="3.345900"/>
+        <atom id="a3" elementType="O" x2="-2.166600" y2="3.345900"/>
+        <atom id="a4" elementType="C" spinMultiplicity="2" x2="-2.035500" y2="2.350000"/>
+        <atom id="a5" elementType="C" x2="-2.035500" y2="1.525000"/>
+        <atom id="a6" elementType="C" x2="-2.750000" y2="1.112500"/>
+        <atom id="a7" elementType="C" x2="-3.464500" y2="1.525000"/>
+        <atom id="a8" elementType="C" x2="-3.464500" y2="2.350000"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a8" order="1"/>
+        <bond atomRefs2="a1 a4" order="1"/>
+        <bond atomRefs2="a8 a7" order="2"/>
+        <bond atomRefs2="a7 a6" order="1"/>
+        <bond atomRefs2="a6 a5" order="2"/>
+        <bond atomRefs2="a5 a4" order="1"/>
+        <bond atomRefs2="a1 a3" order="1"/>
+        <bond atomRefs2="a1 a2" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">0.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            0.16156
+            0.08815
+            0.06196
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <!-- number product for O2 & I1-->
+          <scalar>
+            12.0    
+          </scalar>
+        </property>
+        <property dictRef="me:electronicDegeneracy">
+        <!-- degeneracy for dos calculation-->
+        <scalar>
+          6
+        </scalar>
+      </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            108.1619
+            280.4450
+            361.4248
+            398.1712
+            441.7704
+            533.0900
+            579.7624
+            622.1831
+            705.5519
+            755.5817
+            805.6524
+            860.1034
+            948.2659
+            961.6756
+            976.0353
+            993.0585
+            1023.9017
+            1028.7840
+            1122.4795
+            1162.9043
+            1192.1406
+            1229.1689
+            1308.3522
+            1347.0292
+            1396.4783
+            1402.4655
+            1449.2051
+            1541.2711
+            1594.4693
+            2959.1173
+            3162.6691
+            3165.3266
+            3185.6211
+            3186.3331
+            3202.8043
+            3784.9254
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>71</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>347</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.93</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">230.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+    <molecule id="I2-c(ax)" me:type="modelled">
+      <atomArray>
+        <atom id="a1" elementType="C" x2="-0.468800" y2="0.160400"/>
+        <atom id="a2" elementType="H" x2="-1.052100" y2="0.743800"/>
+        <atom id="a3" elementType="O" x2="-0.135400" y2="0.962500"/>
+        <atom id="a4" elementType="H" x2="0.485300" y2="1.343800"/>
+        <atom id="a5" elementType="C" x2="0.245700" y2="-0.252100"/>
+        <atom id="a6" elementType="H" x2="0.960200" y2="-0.664600"/>
+        <atom id="a7" elementType="O" x2="0.897700" y2="0.410400"/>
+        <atom id="a8" elementType="O" spinMultiplicity="2" x2="1.085200" y2="1.016700"/>
+        <atom id="a9" elementType="C" x2="0.245700" y2="-1.077100"/>
+        <atom id="a10" elementType="C" x2="-0.468800" y2="-1.489600"/>
+        <atom id="a11" elementType="C" x2="-1.183200" y2="-1.077100"/>
+        <atom id="a12" elementType="C" x2="-1.183200" y2="-0.252100"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a12" order="1"/>
+        <bond atomRefs2="a1 a5" order="1"/>
+        <bond atomRefs2="a1 a3" order="1">
+          <bondStereo>H</bondStereo>
+        </bond>
+        <bond atomRefs2="a1 a2" order="1">
+          <bondStereo>W</bondStereo>
+        </bond>
+        <bond atomRefs2="a12 a11" order="2"/>
+        <bond atomRefs2="a11 a10" order="1"/>
+        <bond atomRefs2="a10 a9" order="2"/>
+        <bond atomRefs2="a9 a5" order="1"/>
+        <bond atomRefs2="a5 a7" order="1">
+          <bondStereo>H</bondStereo>
+        </bond>
+        <bond atomRefs2="a7 a8" order="1"/>
+        <bond atomRefs2="a5 a6" order="1">
+          <bondStereo>W</bondStereo>
+        </bond>
+        <bond atomRefs2="a3 a4" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">-45.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            0.08466
+            0.05335
+            0.03977
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:electronicDegeneracy">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            75.9303
+            165.0350
+            195.5619
+            242.3521
+            345.1430
+            384.0727
+            390.4004
+            432.0984
+            488.4649
+            504.8642
+            607.5376
+            647.6645
+            726.8431
+            783.6402
+            787.3209
+            910.9550
+            952.4046
+            970.8272
+            988.5317
+            1003.6046
+            1005.0063
+            1101.8117
+            1127.7091
+            1170.9944
+            1198.7307
+            1201.6716
+            1264.4331
+            1297.8064
+            1321.2619
+            1342.2213
+            1393.4926
+            1432.2775
+            1444.3729
+            1632.9134
+            1699.8017
+            2935.3282
+            3103.5569
+            3170.4522
+            3183.0666
+            3200.9048
+            3205.3657
+            3701.2926
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>71</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>347</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.93</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">230.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+    <molecule id="I3-c(ax)" me:type="modelled">
+      <atomArray>
+        <atom id="a1" elementType="C" x2="2.906300" y2="-1.464600"/>
+        <atom id="a2" elementType="H" x2="2.322900" y2="-0.881200"/>
+        <atom id="a3" elementType="O" x2="3.489600" y2="-0.881200"/>
+        <atom id="a4" elementType="C" x2="3.620700" y2="-1.877100"/>
+        <atom id="a5" elementType="O" x2="3.162400" y2="-2.460400"/>
+        <atom id="a6" elementType="O" x2="2.593800" y2="-2.445800"/>
+        <atom id="a7" elementType="C" x2="3.620700" y2="-2.702100"/>
+        <atom id="a8" elementType="C" x2="2.906300" y2="-3.114600"/>
+        <atom id="a9" elementType="C" spinMultiplicity="2" x2="2.191800" y2="-2.702100"/>
+        <atom id="a10" elementType="C" x2="2.191800" y2="-1.877100"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a10" order="1"/>
+        <bond atomRefs2="a1 a4" order="1"/>
+        <bond atomRefs2="a1 a3" order="1">
+          <bondStereo>H</bondStereo>
+        </bond>
+        <bond atomRefs2="a1 a2" order="1">
+          <bondStereo>W</bondStereo>
+        </bond>
+        <bond atomRefs2="a10 a9" order="1"/>
+        <bond atomRefs2="a9 a8" order="1"/>
+        <bond atomRefs2="a8 a7" order="2"/>
+        <bond atomRefs2="a7 a4" order="1"/>
+        <bond atomRefs2="a10 a6" order="1">
+          <bondStereo>H</bondStereo>
+        </bond>
+        <bond atomRefs2="a4 a5" order="1">
+          <bondStereo>H</bondStereo>
+        </bond>
+        <bond atomRefs2="a6 a5" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">-94.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            0.09236
+            0.05873
+            0.05462
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:electronicDegeneracy">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            120.1716
+            212.2183
+            297.7973
+            301.5455
+            382.0459
+            425.7459
+            486.1396
+            522.1963
+            550.3650
+            638.9020
+            679.5227
+            740.6642
+            779.8418
+            799.7350
+            854.4597
+            870.1328
+            922.6266
+            968.0461
+            972.2953
+            972.8772
+            1005.2236
+            1016.3690
+            1115.2869
+            1126.9940
+            1131.3307
+            1200.1724
+            1249.6127
+            1258.0104
+            1291.4175
+            1296.9151
+            1344.1114
+            1360.6813
+            1435.6191
+            1443.4404
+            1488.4505
+            3106.2166
+            3108.8166
+            3128.3481
+            3170.6879
+            3205.7209
+            3212.8865
+            3780.2463
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>71</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>347</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.93</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">230.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+    <molecule id="Further" me:type="displayed">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">-10.0</scalar>
+          <!--NOT A REAL VALUE-->
+        </property>
+      </propertyList>
+      </molecule>
+    <molecule id="HO2">
+      <atomArray>
+        <atom id="a1" elementType="O"/>
+        <atom id="a2" elementType="O" spinMultiplicity="2"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+      </bondArray>
+    </molecule>
+    <molecule id="O2">
+      <atomArray>
+        <atom id="a1" elementType="O"/>
+        <atom id="a2" elementType="O"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="2"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">0.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            1.44914
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <!--Combined with I1-->
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:electronicDegeneracy">
+          <!--Combined with I1-->
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            1665.4292
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>71</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>347</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.93</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">230.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+    <molecule id="TSc(2,6)" me:type="transitionState">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">6.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            0.08556
+            0.05865
+            0.05296
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:electronicDegeneracy">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            175.2134
+            221.3441
+            240.8035
+            310.7515
+            384.4898
+            440.4750
+            474.7072
+            485.2924
+            521.4126
+            607.2834
+            714.5006
+            742.3759
+            771.2534
+            826.3378
+            885.0215
+            931.7971
+            943.2257
+            972.0342
+            980.5818
+            990.4186
+            1000.7882
+            1063.2886
+            1126.3985
+            1151.7435
+            1177.6153
+            1233.0505
+            1266.4968
+            1294.4950
+            1331.9034
+            1382.9918
+            1420.8162
+            1441.6364
+            1454.4522
+            1604.2459
+            3042.1873
+            3100.8217
+            3173.3016
+            3190.2132
+            3199.8987
+            3212.6304
+            3767.6900
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>71</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>347</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.93</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">230.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+    <molecule id="TS4" me:type="transitionState">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">137.1</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            0.08804
+            0.06299
+            0.05055
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:electronicDegeneracy">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            170.3993
+            227.2057
+            281.9867
+            293.0089
+            305.8140
+            470.2123
+            490.7057
+            491.4354
+            507.7707
+            537.4385
+            728.8497
+            754.3230
+            831.7568
+            908.5731
+            933.6643
+            951.0655
+            962.8069
+            991.3533
+            994.4628
+            1058.9933
+            1112.7700
+            1132.8783
+            1160.6675
+            1164.0469
+            1202.8937
+            1238.9121
+            1274.5526
+            1296.5560
+            1306.9767
+            1336.5647
+            1404.2544
+            1448.4464
+            1517.8819
+            1521.2108
+            2993.4778
+            2996.6051
+            3066.4993
+            3179.7552
+            3193.4154
+            3203.9164
+            3724.0868
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>71</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>347</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.93</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">230.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+    <molecule id="TS1c" me:type="transitionState">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">6.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            0.06718
+            0.06060
+            0.04512
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:electronicDegeneracy">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            92.7517
+            130.6720
+            147.2542
+            205.6559
+            310.0953
+            376.3485
+            424.6651
+            447.7326
+            459.8971
+            514.6699
+            595.2830
+            656.7935
+            732.2792
+            811.0273
+            828.4260
+            935.5933
+            970.5801
+            976.8199
+            983.7083
+            997.7716
+            1033.4327
+            1090.4666
+            1130.3547
+            1176.7154
+            1189.3979
+            1236.6326
+            1312.5231
+            1350.0900
+            1368.1735
+            1407.1128
+            1426.7219
+            1472.3478
+            1532.3661
+            1663.6116
+            2918.9797
+            3172.6743
+            3180.6459
+            3192.1207
+            3196.8619
+            3204.8728
+            3790.5658
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>71</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>347</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.93</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">230.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+    <molecule id="TS1t" me:type="transitionState">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">11.1</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            0.0765
+            0.0502
+            0.0423
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:electronicDegeneracy">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            81.105
+            116.083
+            139.850
+            182.623
+            248.933
+            293.557
+            363.277
+            422.259
+            458.540
+            557.582
+            595.571
+            646.962
+            735.643
+            802.071
+            856.310
+            921.286
+            970.239
+            975.092
+            987.560
+            998.236
+            1018.742
+            1030.763
+            1145.724
+            1176.936
+            1194.400
+            1223.149
+            1339.659
+            1362.460
+            1372.381
+            1406.755
+            1447.657
+            1481.649
+            1532.707
+            1669.024
+            2965.119
+            3168.155
+            3174.083
+            3185.450
+            3196.248
+            3203.932
+            3803.008
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>71</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>347</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.93</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">230.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+    <molecule id="TS_HO2" me:type="transitionState">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">11.1</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            0.07164
+            0.04575
+            0.03574
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:electronicDegeneracy">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            65.4387
+            106.6022
+            120.9396
+            197.9660
+            223.4591
+            283.4298
+            388.5417
+            438.4467
+            469.1494
+            535.7788
+            598.3460
+            659.7515
+            743.5433
+            782.8404
+            811.1492
+            885.5261
+            953.2969
+            968.0985
+            988.9871
+            1012.3811
+            1057.7674
+            1100.3753
+            1123.4549
+            1173.5841
+            1191.9083
+            1232.5983
+            1287.9543
+            1347.8890
+            1358.3654
+            1434.8931
+            1443.2131
+            1468.9405
+            1528.5061
+            1604.7696
+            2089.7384
+            3176.0073
+            3183.5009
+            3196.6977
+            3205.6250
+            3223.6075
+            3813.0466
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>71</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>347</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.93</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">230.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+    <molecule id="TS3_HO2" me:type="transitionState">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">15.1</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            0.0720
+            0.0498
+            0.0377
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:electronicDegeneracy">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            92.87
+            106.93
+            189.78
+            223.59
+            241.53
+            321.36
+            405.04
+            459.70
+            489.77
+            544.61
+            590.47
+            668.33
+            741.50
+            810.53
+            815.42
+            929.89
+            942.15
+            960.20
+            980.49
+            995.58
+            1060.25
+            1111.01
+            1117.33
+            1165.38
+            1179.98
+            1226.24
+            1281.31
+            1335.29
+            1345.57
+            1402.24
+            1430.42
+            1454.51
+            1518.46
+            1620.88
+            2085.96
+            3128.31
+            3138.50
+            3147.83
+            3158.29
+            3163.70
+            3758.30
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>71</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>347</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.93</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">230.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+  </moleculeList>
+
+  <reactionList>
+    <reaction id="R6">
+      <me:description>Direct abstraction?</me:description>
+      <reactant>
+        <molecule ref="I1" />
+      </reactant>
+      <reactant>
+        <molecule ref="O2" />
+      </reactant>
+      <product>
+        <molecule ref="C6H5OH" />
+      </product>
+      <product>
+        <molecule ref="HO2" />
+      </product>
+      <me:transitionState>
+        <molecule ref="TS_HO2" />
+      </me:transitionState>
+    </reaction>
+
+    <reaction id="R5">
+      <me:description>Bridging</me:description>
+      <reactant>
+        <molecule ref="I2-c(ax)" />
+      </reactant>
+     <product>
+        <molecule ref="I3-c(ax)" />
+      </product>
+      <me:transitionState>
+        <molecule ref="TSc(2,6)" />
+      </me:transitionState>
+    </reaction>
+
+    <reaction id="R4">
+      <me:description>Further reaction of bridged peroxide</me:description>
+      <reactant>
+        <molecule ref="I3-c(ax)" />
+      </reactant>
+      <product>
+        <molecule ref="Further" />
+      </product>
+      <me:transitionState>
+        <molecule ref="TS4" />
+      </me:transitionState>
+    </reaction>
+
+    <reaction id="R3">
+      <me:description>Trans internal abstraction</me:description>
+      <reactant>
+        <molecule ref="I2-t(eq)" />
+      </reactant>
+      <product>
+        <molecule ref="C6H5OH" />
+      </product>
+      <product>
+        <molecule ref="HO2" />
+      </product>
+      <me:transitionState>
+        <molecule ref="TS3_HO2" />
+      </me:transitionState>
+    </reaction>
+
+    <reaction id="R1t">
+      <me:description>Trans addition</me:description>
+      <reactant>
+        <molecule ref="I1" />
+      </reactant>
+      <reactant>
+        <molecule ref="O2" />
+      </reactant>
+      <product>
+        <molecule ref="I2-t(eq)" />
+      </product>
+      <me:transitionState>
+        <molecule ref="TS1t" />
+      </me:transitionState>
+    </reaction>
+
+    <reaction id="R1c">
+      <me:description>Cis addition</me:description>
+      <reactant>
+        <molecule ref="I1" />
+      </reactant>
+      <reactant>
+        <molecule ref="O2" />
+      </reactant>
+      <product>
+        <molecule ref="I2-c(ax)" />
+      </product>
+      <me:transitionState>
+        <molecule ref="TS1c" />
+      </me:transitionState>
+    </reaction>
+  </reactionList>
+</me:mesmer>

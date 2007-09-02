@@ -127,6 +127,9 @@
           <xsl:value-of select="."/>
         </xsl:for-each>
       </td>
+      <td>
+        (Transition State <xsl:value-of select=".//me:transitionState/cml:molecule/@ref"/>)
+      </td>
     </tr>
   </xsl:template>
 
