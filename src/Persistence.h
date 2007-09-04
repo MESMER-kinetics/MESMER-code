@@ -39,37 +39,37 @@ namespace mesmer
     //Reading methods
     /// Returns an PersistPtr which can be used to read further down the input or output data
     //  (child or sibling element)
-    virtual PersistPtr MoveTo(const std::string& name)const =0;
+    virtual PersistPtr XmlMoveTo(const std::string& name)const =0;
 
     ///Returns next item from the input document. (Value of this element)
-    virtual const char* Read()const=0;
+    virtual const char* XmlRead()const=0;
 
     /// Returns the value of the datatext associated with name (Value of child element or attribute)
-    virtual const char* ReadValue(const std::string& name, bool MustBeThere=true) const=0;
+    virtual const char* XmlReadValue(const std::string& name, bool MustBeThere=true) const=0;
 
     /// Returns the data associated with name (CML property element)
-    virtual const char* ReadProperty( const std::string& name, bool MustBeThere=true)const=0;
+    virtual const char* XmlReadProperty( const std::string& name, bool MustBeThere=true)const=0;
 
     /// Returns true if datatext associated with name is "1" or "true" or nothing;
     //  returns false if datatext is something else or if element is not found.
-    virtual bool ReadBoolean( const std::string& name)const=0;
+    virtual bool XmlReadBoolean( const std::string& name)const=0;
 
     //Writing methods
     /// Inserts into XML document a new element
-    virtual PersistPtr WriteElement(const std::string& name)=0;
+    virtual PersistPtr XmlWriteElement(const std::string& name)=0;
 
     /// Adds an XML attribute (or equivalent)
-    virtual void WriteAttribute(const std::string& name, const std::string& value)=0;
+    virtual void XmlWriteAttribute(const std::string& name, const std::string& value)=0;
 
       /// Inserts into XML document a new element  containing a formatted number
-    virtual void WriteValueElement(const std::string& name,
+    virtual void XmlWriteValueElement(const std::string& name,
                                    const double datum, const int precision=-1)=0;
 
     ///Insert into XML document a new element, name, and gives it a timestamp attribute and comment (if comment not empty)
-    virtual PersistPtr WriteMainElement( const std::string& name,
+    virtual PersistPtr XmlWriteMainElement( const std::string& name,
                                     const std::string& comment, bool replaceExisting=true)=0;
 
-    virtual bool SaveFile(const std::string& outfilename)=0;
+    virtual bool XmlSaveFile(const std::string& outfilename)=0;
 
     ///Utility function to return a string with the current time and date.
     static std::string TimeString()
@@ -152,10 +152,10 @@ in main() and passed as a parameter in System::parse(). Additional instances
 of PersistPtr which point to other locations in the XML tree are generated
 during the parsing. For example, one that points to a <molecule> element
 is stored as a member variable in an instance of the Molecule class.
-These additional PersistPtrs are mainly made by the MoveTo() function,
+These additional PersistPtrs are mainly made by the XmlMoveTo() function,
 used like:
 \code
-   PersistPtr newPtr = oldPtr->MoveTo(new_element_name);
+   PersistPtr newPtr = oldPtr->XmlMoveTo(new_element_name);
 \endcode
 
 You can copy and assign to PersistPtrs in the normal way. They are also
@@ -164,12 +164,12 @@ generally to indicate non-existence of what was requested.
 
 To allow possible use of other I/O formats and to simplify the interface,
 the I/O functions are rather generalised and some of the details of the XML
-structure are ignored. So, MoveTo(new_element_name) will find both child and
-sibling elements called new_element_name; ReadValue() will return the content
+structure are ignored. So, XmlMoveTo(new_element_name) will find both child and
+sibling elements called new_element_name; XmlReadValue() will return the content
 of either a child element or an attribute.
 
 A 'top-level' XMLPersist object (wrapped as always by  a PersistPtr) can be
-made by the static XMLPersist function Create(). It contains a pointer to the
+made by the static XMLPersist function XmlCreate(). It contains a pointer to the
 TinyXml Document, and the lifetimes of the two objects are synchronised as is
 required the document being deleted in the XMLPersist destructor. Most
 'subsidiary' XMLPersist objects do not do this and are made in normal XMLPersist

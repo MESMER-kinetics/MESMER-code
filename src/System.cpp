@@ -33,7 +33,7 @@ namespace mesmer
     MaxT=0.0;
 
     m_ppIOPtr = ppIOPtr;
-    PersistPtr ppMolList = ppIOPtr->MoveTo("moleculeList");
+    PersistPtr ppMolList = ppIOPtr->XmlMoveTo("moleculeList");
     if(!ppMolList)
     {
       stringstream errorMsg;
@@ -44,7 +44,7 @@ namespace mesmer
     if(!m_pMoleculeManager->addmols(ppMolList))
       return false;;
 
-    PersistPtr ppReacList = ppIOPtr->MoveTo("reactionList");
+    PersistPtr ppReacList = ppIOPtr->XmlMoveTo("reactionList");
     if(!ppReacList)
     {
       stringstream errorMsg;
@@ -54,7 +54,7 @@ namespace mesmer
     }if(!m_pReactionManager->addreactions(ppReacList))
         return false;
 
-    PersistPtr ppConditions = ppIOPtr->MoveTo("me:conditions");
+    PersistPtr ppConditions = ppIOPtr->XmlMoveTo("me:conditions");
     if(!ppConditions)
     {
       stringstream errorMsg;
@@ -62,7 +62,7 @@ namespace mesmer
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       return false;
     }
-    const string Bgtxt = ppConditions->ReadValue("me:bathGas");
+    const string Bgtxt = ppConditions->XmlReadValue("me:bathGas");
     if(!Bgtxt.size() || !(m_pMoleculeManager->find(Bgtxt)) )
     {
       stringstream errorMsg;
@@ -90,18 +90,18 @@ namespace mesmer
       return false;
     }
     
-    PersistPtr ppParams = ppIOPtr->MoveTo("me:modelParameters");
+    PersistPtr ppParams = ppIOPtr->XmlMoveTo("me:modelParameters");
     
     if(ppParams)
     {
-      const char* txt = ppParams->ReadValue("me:grainSize",false);
+      const char* txt = ppParams->XmlReadValue("me:grainSize",false);
       if(txt)
       {
         istringstream ss(txt);
         ss >> GrainSize;
       }
       
-      txt = ppParams->ReadValue("me:numberOfGrains",false);
+      txt = ppParams->XmlReadValue("me:numberOfGrains",false);
       if(txt)
       {
         istringstream ss(txt);
@@ -109,7 +109,7 @@ namespace mesmer
       }
       
       
-      txt = ppParams->ReadValue("me:maxTemperature",false);
+      txt = ppParams->XmlReadValue("me:maxTemperature",false);
       if(txt)
       {
         istringstream ss(txt);
@@ -126,10 +126,10 @@ namespace mesmer
       }
     }
 
-    PersistPtr ppControl = ppIOPtr->MoveTo("me:control");
+    PersistPtr ppControl = ppIOPtr->XmlMoveTo("me:control");
     if(ppControl)
     {
-      bTestMicroRates = ppControl->ReadBoolean("me:testMicroRates");
+      bTestMicroRates = ppControl->XmlReadBoolean("me:testMicroRates");
     }
 
     return true;
@@ -278,21 +278,21 @@ namespace mesmer
     for(;;)
     {
       const char* txt;
-      pp = pp->MoveTo(name);
+      pp = pp->XmlMoveTo(name);
       if(pp)
-        txt = pp->Read(); //element may have a value
+        txt = pp->XmlRead(); //element may have a value
       else //no more elements
         break;
       if(!txt)
-        txt = pp->ReadValue("initial"); //or use value of "initial" attribute
+        txt = pp->XmlReadValue("initial"); //or use value of "initial" attribute
       if(!txt)
         return false;
       vals.push_back(atof(txt));
 
-      if(txt=pp->ReadValue("increment",false))//optional attribute
+      if((txt=pp->XmlReadValue("increment",false)))//optional attribute
       {
         double incr = atof(txt);
-        txt = pp->ReadValue("final"); //if have "increment" must have "final"
+        txt = pp->XmlReadValue("final"); //if have "increment" must have "final"
         if(!txt)
           return false;
         for(double val=vals.back()+incr; val<=atof(txt); val+=incr)
@@ -311,28 +311,28 @@ namespace mesmer
 
   void System::WriteMetadata()
   {
-    PersistPtr ppList = m_ppIOPtr->WriteMainElement("metadataList", "");
-    PersistPtr ppItem = ppList->WriteElement("metadata");
-    ppItem->WriteAttribute("name", "dc:creator");
-    ppItem->WriteAttribute("content", "Mesmer v0.1");
+    PersistPtr ppList = m_ppIOPtr->XmlWriteMainElement("metadataList", "");
+    PersistPtr ppItem = ppList->XmlWriteElement("metadata");
+    ppItem->XmlWriteAttribute("name", "dc:creator");
+    ppItem->XmlWriteAttribute("content", "Mesmer v0.1");
 
-    ppItem = ppList->WriteElement("metadata");
-    ppItem->WriteAttribute("name", "dc:description");
-    ppItem->WriteAttribute("content", 
+    ppItem = ppList->XmlWriteElement("metadata");
+    ppItem->XmlWriteAttribute("name", "dc:description");
+    ppItem->XmlWriteAttribute("content", 
     "Calculation of the interaction between collisional energy transfer and chemical reaction"
     " for dissociation, isomerization and association processes");
 
-    ppItem = ppList->WriteElement("metadata");
-    ppItem->WriteAttribute("name", "dc:date");
-    ppItem->WriteAttribute("content", IPersist::TimeString());
+    ppItem = ppList->XmlWriteElement("metadata");
+    ppItem->XmlWriteAttribute("name", "dc:date");
+    ppItem->XmlWriteAttribute("content", IPersist::TimeString());
 
     //The user's name should be in an environment variable attached to his account (not a System variable)
     const char* author = getenv("MESMER_AUTHOR");
     if(!author)
       author = "unknown";
-    ppItem = ppList->WriteElement("metadata");
-    ppItem->WriteAttribute("name", "dc:contributor");
-    ppItem->WriteAttribute("content", author);
+    ppItem = ppList->XmlWriteElement("metadata");
+    ppItem->XmlWriteAttribute("name", "dc:contributor");
+    ppItem->XmlWriteAttribute("content", author);
 
   }
 

@@ -10,7 +10,7 @@ using namespace std;
 
 namespace mesmer
 {
-PersistPtr XMLPersist::Create(const std::string& inputfilename, const std::string& title)
+PersistPtr XMLPersist::XmlCreate(const std::string& inputfilename, const std::string& title)
 {
   TiXmlDocument* pdoc = new TiXmlDocument( inputfilename.c_str() );//Deleted in destructor
   if( !pdoc->LoadFile() )
@@ -25,7 +25,7 @@ PersistPtr XMLPersist::Create(const std::string& inputfilename, const std::strin
   }
 
   TiXmlElement* root = pdoc->RootElement();
-  if(!title.empty() && root->ValueStr()!=title)
+  if(title.size() && root->ValueStr()!=title)
   {
     stringstream errorMsg;
     errorMsg << inputfilename << " does not have a root element or title named " << title << endl;
@@ -41,7 +41,7 @@ XMLPersist::~XMLPersist()
   delete pDocument; //doesn't matter that pDocument is usually NULL
 }
 
-PersistPtr XMLPersist::MoveTo(const std::string& name) const
+PersistPtr XMLPersist::XmlMoveTo(const std::string& name) const
 {
     TiXmlElement* pnEl = pnNode->FirstChildElement(name);
     if(!pnEl)
@@ -49,7 +49,7 @@ PersistPtr XMLPersist::MoveTo(const std::string& name) const
     return PersistPtr(new XMLPersist(pnEl));
 }
 
-const char* XMLPersist::Read()const
+const char* XMLPersist::XmlRead()const
 {
   return pnNode->GetText();
 }
@@ -58,7 +58,7 @@ const char* XMLPersist::Read()const
 ///Look second for an attribute of this name.
 ///If either found, return its value. 
 ///Otherwise return NULL. If MustBeThere is true(the default) also give an error message.
-const char* XMLPersist::ReadValue(const std::string& name, bool MustBeThere) const
+const char* XMLPersist::XmlReadValue(const std::string& name, bool MustBeThere) const
 {
   const char* ptext=NULL;
   //Look first to see if there is a child element of this name and, if so, return its value
@@ -88,7 +88,7 @@ const char* XMLPersist::ReadValue(const std::string& name, bool MustBeThere) con
 /// The property can have <array>, <string>, or anything, in place of <scalar>
 /// Returns NULL if the appropriate property is not found or if it has no content.
 
-const char* XMLPersist::ReadProperty(const string& name, bool MustBeThere) const
+const char* XMLPersist::XmlReadProperty(const string& name, bool MustBeThere) const
 {
   TiXmlElement* pnProp = pnNode->FirstChildElement("property");
   while(pnProp)
@@ -112,9 +112,9 @@ const char* XMLPersist::ReadProperty(const string& name, bool MustBeThere) const
 
   /// Returns true if datatext associated with name is "1" or "true" or nothing;
   //  returns false if datatext is something else or if element is not found.
-  bool XMLPersist::ReadBoolean( const std::string& name)const
+  bool XMLPersist::XmlReadBoolean( const std::string& name)const
   {
-    const char* txt = ReadValue(name, false);
+    const char* txt = XmlReadValue(name, false);
     if(txt)
     {
       string s(txt);
@@ -124,7 +124,7 @@ const char* XMLPersist::ReadProperty(const string& name, bool MustBeThere) const
   }
 
 
-void XMLPersist::WriteValueElement(const std::string& name, 
+void XMLPersist::XmlWriteValueElement(const std::string& name, 
                  const double datum, const int precision)
 {
   ostringstream sstrdatum ;
@@ -139,19 +139,19 @@ void XMLPersist::WriteValueElement(const std::string& name,
   item->LinkEndChild(new TiXmlText(sstrdatum.str()));
 }
 
-PersistPtr XMLPersist::WriteElement(const std::string& name)
+PersistPtr XMLPersist::XmlWriteElement(const std::string& name)
 {
   TiXmlElement* item = new TiXmlElement( name );
   pnNode->LinkEndChild(item);
   return PersistPtr(new XMLPersist(item));
 }
 
-void XMLPersist::WriteAttribute(const std::string& name, const std::string& value)
+void XMLPersist::XmlWriteAttribute(const std::string& name, const std::string& value)
 {
   pnNode->SetAttribute(name, value);
 }
 
-PersistPtr XMLPersist::WriteMainElement( 
+PersistPtr XMLPersist::XmlWriteMainElement( 
                         const std::string& name, const std::string& comment, bool replaceExisting)
 {
   // Delete any existing element of the same name, unless explicitly asked not to.
@@ -167,7 +167,7 @@ PersistPtr XMLPersist::WriteMainElement(
   pnNode->LinkEndChild(pnel);
 
   //No timestamp or comment if comment is empty
-  if(!comment.empty())
+  if(comment.size())
   {
     // Add attribute to show when data was calculated, removing trailing 0x0a
     pnel->SetAttribute("calculated", TimeString());
@@ -180,7 +180,7 @@ PersistPtr XMLPersist::WriteMainElement(
   return PersistPtr(new XMLPersist(pnel));
 }
 
-bool XMLPersist::SaveFile(const std::string& outfilename)
+bool XMLPersist::XmlSaveFile(const std::string& outfilename)
   {
     return pnNode->GetDocument()->SaveFile(outfilename);
   }

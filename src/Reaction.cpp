@@ -56,17 +56,17 @@ namespace mesmer
     m_ppPersist = ppReac;
 
     //Read reaction ID
-    const char* id = ppReac->ReadValue("id");
+    const char* id = ppReac->XmlReadValue("id");
     if(id)
         m_Name = id; //Continues if reaction id not found
 
     Molecule* pMol1,*pMol2=NULL;
     //Read reactants
-    PersistPtr ppReactant1  = ppReac->MoveTo("reactant");
+    PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
     pMol1 = GetMolRef(ppReactant1);
     if(!pMol1) return false;
 
-    PersistPtr ppReactant2  = ppReactant1->MoveTo("reactant");
+    PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
     if(ppReactant2)
     {
       pMol2 = GetMolRef(ppReactant2);
@@ -97,11 +97,11 @@ namespace mesmer
 
     //Read products ... if any.
     pMol2=NULL;
-    PersistPtr ppProduct1 = ppReac->MoveTo("product");
+    PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
     if (ppProduct1) {
       pMol1 = GetMolRef(ppProduct1);
 
-      PersistPtr ppProduct2  = ppProduct1->MoveTo("product");
+      PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
       pMol2 = GetMolRef(ppProduct2);
 
       //Put the Colliding Molecule into m_Product, even if it is second in datafile
@@ -128,13 +128,13 @@ namespace mesmer
     }
 
     // Read the transition state (if present)
-    PersistPtr ppTransitionState = ppReac->MoveTo("me:transitionState") ;
+    PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState") ;
     if (ppTransitionState)
     {
-      PersistPtr ppmol = ppTransitionState->MoveTo("molecule");
+      PersistPtr ppmol = ppTransitionState->XmlMoveTo("molecule");
       if(ppmol)
       {
-        const char* pRef = ppmol->ReadValue("ref");
+        const char* pRef = ppmol->XmlReadValue("ref");
         if(!pRef)
             return false;
         m_TransitionState = dynamic_cast<TransitionState*>(m_pMoleculeManager->find(pRef));
@@ -143,7 +143,7 @@ namespace mesmer
       /* It would be better to use the ZPEs rather than threshold
       if(m_TransitionState)
       {
-      const char* pthreshtxt = ppReac->ReadValue("me:threshold",false);
+      const char* pthreshtxt = ppReac->XmlReadValue("me:threshold",false);
       if(pthreshtxt)
       {
       stringstream ss(pthreshtxt);
@@ -155,8 +155,8 @@ namespace mesmer
     //Read in Kinetic rate parameters, if present
     m_ActEne = std::numeric_limits<double>::quiet_NaN();//means not set
 
-    const char* pActEnetxt = ppReac->ReadValue("me:activationEnergy",false);
-    const char* pPreExptxt = ppReac->ReadValue("me:preExponential",false);
+    const char* pActEnetxt = ppReac->XmlReadValue("me:activationEnergy",false);
+    const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential",false);
     if (pActEnetxt && pPreExptxt)
     {
       stringstream s1(pActEnetxt);
@@ -182,7 +182,7 @@ namespace mesmer
     }
 
     // Determine the method of MC rate coefficient calculation.
-    const char* pMCRCMethodtxt = ppReac->ReadValue("me:MCRCMethod") ;
+    const char* pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod") ;
     if(pMCRCMethodtxt)
     {
       m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
@@ -205,9 +205,9 @@ namespace mesmer
     Molecule* pMol;
     if(!pp)
         return NULL;
-    PersistPtr ppmol = pp->MoveTo("molecule");
+    PersistPtr ppmol = pp->XmlMoveTo("molecule");
     if(!ppmol) return false;
-    const char* pRef = ppmol->ReadValue("ref");
+    const char* pRef = ppmol->XmlReadValue("ref");
     if(pRef)
         pMol = m_pMoleculeManager->find(pRef);
     if(!pMol)

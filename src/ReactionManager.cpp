@@ -23,7 +23,7 @@ namespace mesmer
   //
   bool ReactionManager::addreactions(PersistPtr ppReacList)
   {
-    PersistPtr ppReac = ppReacList->MoveTo("reaction");
+    PersistPtr ppReac = ppReacList->XmlMoveTo("reaction");
     while(ppReac)
     {
       //
@@ -44,7 +44,7 @@ namespace mesmer
       //
       m_reactions.push_back(preaction) ;
 
-      ppReac = ppReac->MoveTo("reaction");
+      ppReac = ppReac->XmlMoveTo("reaction");
     }
 
     return true;

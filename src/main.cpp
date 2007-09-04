@@ -31,7 +31,7 @@ int main(int argc,char *argv[])
 
   //This is where the type of IO is decided.
   //Opens the data file and checks that its root element is me:mesmer.
-  mesmer::PersistPtr ppIOPtr = mesmer::XMLPersist::Create(inputfilename, "me:mesmer");
+  mesmer::PersistPtr ppIOPtr = mesmer::XMLPersist::XmlCreate(inputfilename, "me:mesmer");
 
   //
   // Parse input.
@@ -53,7 +53,7 @@ int main(int argc,char *argv[])
     else
       outputfilename = inputfilename + "out";
   }
-  if(!ppIOPtr->SaveFile(outputfilename))
+  if(!ppIOPtr->XmlSaveFile(outputfilename))
   {
     stringstream errorMsg;
     errorMsg << "There was an error when writing " << outputfilename;

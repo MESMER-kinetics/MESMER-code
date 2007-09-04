@@ -1,3 +1,18 @@
+2007-09-04 Chi-Hsiu Liang
+
+	* in Molecule.cpp, function void CollidingMolecule::collisionOperator(double beta):
+			vector<double> work only needs to have size GetSys()->MAXGrn()
+	* Question: 
+			In Molecule.cpp, line 388, double ei = log(m_gdos[i]) - beta*m_egrn[i] + 10.0; why adding 10.0
+			if the 10.0 power of ten will be cancelled in line 397:         (*m_egme)[j][i] *= (work[i]/work[j]);
+			Any special meaning?
+	* Removed duplicated files MicroRateCalculator.cpp & .h
+	* pre-fix function names of XML operations with Xml to remove ambiguity.
+	* added some varieties for MesmerConfig.h (not sure about platform specification rules)
+	* altered some i++, j++ to ++i, ++j for better efficiency
+	* other minor modifications
+	* Now compile with i386 RedHat Linux
+	
 2007-09-02 Chris Morley
 	
 	* added a partial data file for Dave's benzene system

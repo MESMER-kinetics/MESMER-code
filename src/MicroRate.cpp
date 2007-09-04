@@ -18,7 +18,7 @@ namespace mesmer
 
     cout << endl << "Test of microcanonical rate coefficients" << endl << endl ;
     string comment("Microcanonical rate coefficients");
-    PersistPtr ppList = ppbase->WriteMainElement("me:microRateList", comment );
+    PersistPtr ppList = ppbase->XmlWriteMainElement("me:microRateList", comment );
 
     // Allocate some work space for density of states.
 
@@ -47,9 +47,9 @@ namespace mesmer
       cout << endl ;
 
       //Add to XML document
-      PersistPtr ppItem = ppList->WriteElement("me:microRate");
-      ppItem->WriteValueElement("me:T",   Temperature, 6) ;
-      ppItem->WriteValueElement("me:val", sm1,         6) ;
+      PersistPtr ppItem = ppList->XmlWriteElement("me:microRate");
+      ppItem->XmlWriteValueElement("me:T",   Temperature, 6) ;
+      ppItem->XmlWriteValueElement("me:val", sm1,         6) ;
     }
     return true;
   }

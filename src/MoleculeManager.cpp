@@ -20,16 +20,15 @@ namespace mesmer
 //
 bool MoleculeManager::addmols(PersistPtr ppMolList) {
 
-  PersistPtr ppmol = ppMolList->MoveTo("molecule");
+  PersistPtr ppmol = ppMolList->XmlMoveTo("molecule");
   while(ppmol)
   {
     //
     // Create a new Molecule of the required type.
     //
-    const char* ptype = ppmol->ReadValue("me:type", false);//some product mols don't have type
+    const char* ptype = ppmol->XmlReadValue("me:type", false);//some product mols don't have type
     string moltype;
-    if(ptype)
-      moltype = ptype;
+    if (ptype) moltype = ptype;
 
     Molecule *pmolecule;
     if(moltype=="modelled")
@@ -56,7 +55,7 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
     //
     m_molmap[strName] = pmolecule ;
 
-    ppmol = ppmol->MoveTo("molecule");
+    ppmol = ppmol->XmlMoveTo("molecule");
   }
   return true;
 }

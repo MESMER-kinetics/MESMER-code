@@ -7,19 +7,17 @@
 
 namespace mesmer
 {
+  class SimpleILT : public MicroRateCalculator
+  {
+  public:
 
-class SimpleILT : public MicroRateCalculator
-{
-public:
+    ///Constructor which registers with the list of MicroRateCalculators in the base class
+    SimpleILT(const std::string& id) : MicroRateCalculator(id){}
 
-  ///Constructor which registers with the list of MicroRateCalculators in the base class
-  SimpleILT(const std::string& id) : MicroRateCalculator(id){}
+    virtual ~SimpleILT() {}
 
-  virtual ~SimpleILT() {}
-
-  virtual bool calculateMicroRateCoeffs(Reaction* pReact, std::vector<double> &kfmc);
-};
-
+    virtual bool calculateMicroRateCoeffs(Reaction* pReact, std::vector<double> &kfmc);
+  };
 }//namespace
 
 #endif // GUARD_SimpleILT_h

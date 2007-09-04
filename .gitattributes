@@ -23,8 +23,6 @@ src/Matrix.h -text
 src/MesmerConfig.h -text
 src/MicroRate.cpp -text
 src/MicroRate.h -text
-src/MicroRateCalculator.cpp -text
-src/MicroRateCalculator.h -text
 src/Molecule.cpp -text
 src/Molecule.h -text
 src/MoleculeManager.cpp -text

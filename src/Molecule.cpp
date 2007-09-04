@@ -71,7 +71,7 @@ namespace mesmer
   {
     m_pSys = pSys;
     m_ppPersist = p;
-    const char* id= m_ppPersist->ReadValue("id");
+    const char* id= m_ppPersist->XmlReadValue("id");
     if(id)
         m_Name = id;
     return !m_Name.empty();
@@ -83,27 +83,27 @@ namespace mesmer
     if(!Molecule::Initialize(pSys, pp))
         return false;
 
-    PersistPtr ppPropList = pp->MoveTo("propertyList");
+    PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
         ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
     const char* txt;
 
-    txt= ppPropList->ReadProperty("me:epsilon");
+    txt= ppPropList->XmlReadProperty("me:epsilon");
     if(!txt)
         return false;
     { istringstream idata(txt); //extra block ensures idata is initiallised
     idata >> m_Epsilon;
     }
 
-    txt= ppPropList->ReadProperty("me:sigma");
+    txt= ppPropList->XmlReadProperty("me:sigma");
     if(!txt)
         return false;
     { istringstream idata(txt);
     idata >> m_Sigma;
     }
 
-    txt= ppPropList->ReadProperty("me:MW");
+    txt= ppPropList->XmlReadProperty("me:MW");
     if(!txt)
         return false;
     { istringstream idata(txt);
@@ -120,27 +120,27 @@ namespace mesmer
     if(!Molecule::Initialize(pSys, pp))
         return false;
 
-    PersistPtr ppPropList = pp->MoveTo("propertyList");
+    PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
         ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
     const char* txt;
 
-    txt= ppPropList->ReadProperty("me:ZPE");
+    txt= ppPropList->XmlReadProperty("me:ZPE");
     if(!txt)
         return false;
     {
         istringstream idata(txt);
         idata >> m_ZPE ;
     }
-    txt= ppPropList->ReadProperty("me:rotConsts");
+    txt= ppPropList->XmlReadProperty("me:rotConsts");
     if(!txt)
         return false;
     {
         istringstream idata(txt);
         idata >> m_MmtIntA >> m_MmtIntB >> m_MmtIntC ;
     }
-    txt= ppPropList->ReadProperty("me:symmetryNumber");
+    txt= ppPropList->XmlReadProperty("me:symmetryNumber");
     if(!txt)
         return false;
     {
@@ -148,7 +148,7 @@ namespace mesmer
       idata >> m_Sym;
     }
 
-    txt= ppPropList->ReadProperty("me:vibFreqs");
+    txt= ppPropList->XmlReadProperty("me:vibFreqs");
     if(!txt)
         return false;
     {
@@ -167,34 +167,34 @@ namespace mesmer
     if(!ModelledMolecule::Initialize(pSys, pp))
         return false;
 
-    PersistPtr ppPropList = pp->MoveTo("propertyList");
+    PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
         ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
     const char* txt;
 
-    txt= ppPropList->ReadProperty("me:epsilon");
+    txt= ppPropList->XmlReadProperty("me:epsilon");
     if(!txt)
         return false;
     { istringstream idata(txt); //extra block ensures idata is initiallised
     idata >> m_Epsilon;
     }
 
-    txt= ppPropList->ReadProperty("me:sigma");
+    txt= ppPropList->XmlReadProperty("me:sigma");
     if(!txt)
         return false;
     { istringstream idata(txt);
     idata >> m_Sigma;
     }
 
-    txt= ppPropList->ReadProperty("me:MW");
+    txt= ppPropList->XmlReadProperty("me:MW");
     if(!txt)
         return false;
     { istringstream idata(txt);
     idata >> m_Mass;
     }
 
-    txt= ppPropList->ReadProperty("me:deltaEDown");
+    txt= ppPropList->XmlReadProperty("me:deltaEDown");
     if(!txt)
         return false;
     { istringstream idata(txt);
@@ -302,14 +302,14 @@ namespace mesmer
 
     m_egme = new dMatrix(GetSys()->MAXGrn()) ;              // Collision operator matrix.
 
-    vector<double> work(GetSys()->MAXCell(),0.0) ; // Work space.
+    vector<double> work(GetSys()->MAXGrn(),0.0) ; // Work space.
     //
     // Initialisation and error checking.
     //
-    for ( i = 0 ; i < GetSys()->MAXGrn() ; i++ ) {
+    for ( i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
       if (m_gdos[i] <= 0.0) {
         stringstream errorMsg;
-        errorMsg << "Data indicates that there is a grain with no states.";
+        errorMsg << "Data indicates that grain " << i << " of the current colliding molecule has no states.";
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
         return ; //***THIS FUNCTION NEEDS AN ERROR RETURN****
       }
@@ -317,10 +317,10 @@ namespace mesmer
     //
     // The collision operator.
     //
-    for ( i = 0 ; i < GetSys()->MAXGrn() ; i++ ) {
+    for ( i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
       double ei = m_egrn[i] ;
       double ni = m_gdos[i] ;
-      for ( j = i ; j < GetSys()->MAXGrn() ; j++ ) {
+      for ( j = i ; j < GetSys()->MAXGrn() ; ++j ) {
         //
         // Transfer to lower Energy -
         //
@@ -337,63 +337,63 @@ namespace mesmer
     // are unity. The procedure leads to a matrix that is of upper triangular
     // form and the normalisation constants are found by back substitution.
     //
-    for ( i = GetSys()->MAXGrn() - 1 ; i > -1 ; i-- ) {
+    for ( i = GetSys()->MAXGrn() - 1 ; i > -1 ; --i ) {
 
-      double sm1(0.0) ;
-      for ( j = 0 ; j <= i ; j++ )
-          sm1 += (*m_egme)[j][i] ;
+      double upperSum(0.0) ;
+      for ( j = 0 ; j <= i ; ++j )
+          upperSum += (*m_egme)[j][i] ;
 
-      double sm2(0.0) ;
-      for ( j = i + 1 ; j < GetSys()->MAXGrn() ; j++ )
-          sm2 += (*m_egme)[j][i] * work[j] ;
+      double scaledRemain(0.0) ;
+      for ( j = i + 1 ; j < GetSys()->MAXGrn() ; ++j ){
+        scaledRemain += (*m_egme)[j][i] * work[j] ;
+      }
 
-      if (sm1 <= 0.0) {
+      if (upperSum <= 0.0) {
         stringstream errorMsg;
-        errorMsg << "Normalization coefficients in EGME is smaller than or equal to zero.";
-        errorMsg << "i = " << i << " j = " << j;
+        errorMsg << "Normalization coefficients in EGME is smaller than or equal to zero:\n";
+        errorMsg << "i = " << i << ", j = " << j;
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
         exit(1) ;
       }
-      work[i] = (1.0-sm2)/sm1 ;
+      work[i] = (1.0 - scaledRemain) / upperSum ;
     }
     //
     // Apply normalization coefficients and account for collisional
     // loss by subrtacting unity from the leading diagonal.
     //
     cout << endl << "Normalization constants" << endl << endl ;
-    for ( i = 0 ; i < GetSys()->MAXGrn() ; i++ ) {
+    for ( i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
       cout <<  m_egrn[i] << " " << work[i] << endl ;
       (*m_egme)[i][i] *= work[i] ;
       (*m_egme)[i][i] -= 1.0 ;
-      for ( j = i + 1 ; j < GetSys()->MAXGrn() ; j++ ) {
+      for ( j = i + 1 ; j < GetSys()->MAXGrn() ; ++j ) {
         (*m_egme)[j][i] *= work[j] ;
         (*m_egme)[i][j] *= work[j] ;
       }
     }
 
     cout << endl << "Column Sums" << endl << endl ;
-    for ( i = 0 ; i < GetSys()->MAXGrn() ; i++ ) {
-        double sum(0.0) ;
-        for ( j = 0 ; j < GetSys()->MAXGrn() ; j++ )
-            sum += (*m_egme)[j][i] ;
-
-        cout << sum << endl ;
+    for ( i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
+        double columnSum(0.0) ;
+        for ( j = 0 ; j < GetSys()->MAXGrn() ; ++j )
+            columnSum += (*m_egme)[j][i] ;
+        cout << columnSum << endl ;
     }
     //
     // Determine the equilibrium vector for symmetrization. Note the work
     // array is over written and now contains square root of the Boltzman
     // distribution.
     //
-    for ( i = 0 ; i < GetSys()->MAXGrn() ; i++ ) {
+    for ( i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
       double ei = log(m_gdos[i]) - beta*m_egrn[i] + 10.0 ;
       ei = exp(ei) ;
       work[i] = sqrt(ei) ;
     }
     //
-    // Symmeterisation of the collision matrix.
+    // Symmetrization of the collision matrix.
     //
-    for ( i = 1 ; i < GetSys()->MAXGrn() ; i++ ) {
-      for ( j = 0 ; j < i ; j++ ) {
+    for ( i = 1 ; i < GetSys()->MAXGrn() ; ++i ) {
+      for ( j = 0 ; j < i ; ++j ) {
         (*m_egme)[j][i] *= (work[i]/work[j]) ;
         (*m_egme)[i][j]  = (*m_egme)[j][i] ;
       }
@@ -412,11 +412,11 @@ namespace mesmer
     m_egme->diagonalize(&rr[0]) ;
 
     cout << endl ;
-    for (int i(0) ; i < msize ; i++)
+    for (int i(0) ; i < msize ; ++i)
         cout << rr[i] << endl;
 
     cout << endl ;
-    for (int i(0) ; i < msize ; i++)  {
+    for (int i(0) ; i < msize ; ++i)  {
       formatFloat(cout, m_egrn[i],              6, 15) ;
       formatFloat(cout, (*m_egme)[i][pSys->MAXGrn()-1], 6, 15) ;
       formatFloat(cout, (*m_egme)[i][pSys->MAXGrn()-2], 6, 15) ;
@@ -479,7 +479,7 @@ namespace mesmer
   double CollidingMolecule::matrixElement(int eigveci, int eigvecj, vector<double> &k, int ndim) {
 
     double sum = 0.0 ;
-    for (int i = 0 ; i < ndim ; i++)
+    for (int i = 0 ; i < ndim ; ++i)
         sum +=  k[i]*(*m_egme)[i][eigveci]*(*m_egme)[i][eigvecj] ;
 
     return sum ;
@@ -488,7 +488,11 @@ namespace mesmer
   //
   // Copy collision operator to diagonal block of system matrix.
   //
-  void CollidingMolecule::copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const {
+  void CollidingMolecule::copyCollisionOperator(dMatrix *CollOptr,
+                                                const int size,
+                                                const int locate,
+                                                const double RducdOmega) const
+  {
 
     // Find size of system matrix.
 
@@ -506,9 +510,9 @@ namespace mesmer
     // Copy collision operator to the diagonal block indicated by "locate"
     // and multiply by the reduced collision frequencey.
 
-    for (int i(0) ; i < size ; i++) {
+    for (int i(0) ; i < size ; ++i) {
       int ii(locate + i) ;
-      for (int j(0) ; j < size ; j++) {
+      for (int j(0) ; j < size ; ++j) {
         int jj(locate + j) ;
         (*CollOptr)[ii][jj] = RducdOmega * (*m_egme)[i][j] ;
       }
@@ -534,11 +538,14 @@ namespace mesmer
     // Initialize density of states array using calculated rotational
     // density of state.
     //
+
+    //From inverse Laplace transform of 3-D asymmetric top rotor(needs revise for varieties)
     double cnt = sqrt(4./(m_MmtIntA * m_MmtIntB * m_MmtIntC))/m_Sym ;
+
     int i ;
     for ( i = 0 ; i < GetSys()->MAXCell() ; ++i ) {
       m_ecll[i] = static_cast<double>(i) + 0.5 ;
-      m_cdos[i]  = cnt*sqrt(m_ecll[i]) ;
+      m_cdos[i] = cnt*sqrt(m_ecll[i]) ;
     }
 
     // Implementation of the Bayer-Swinehart algorithm.
@@ -570,10 +577,9 @@ namespace mesmer
     double beta ;
     double pi = acos(-1.0) ;
 
-    string comment("Partition function calculation at various temperatures.\
-                   qtot : using analytical formula. sumc : based on cells. sumg : based on grains.");
+    string comment("Partition function calculation at various temperatures.\n qtot : using analytical formula\n sumc : based on cells\n sumg  : based on grains");
 
-    PersistPtr ppList = m_ppPersist->WriteMainElement("me:densityOfStatesList", comment );
+    PersistPtr ppList = m_ppPersist->XmlWriteMainElement("me:densityOfStatesList", comment );
     for ( int n = 0 ; n < 29 ; ++n ) {
 
       temp = 100.0*static_cast<double>(n + 2) ;
@@ -607,11 +613,11 @@ namespace mesmer
       cout << endl ;
 
       //Add to XML document
-      PersistPtr ppItem = ppList->WriteElement("me:densityOfStates");
-      ppItem->WriteValueElement("me:T",    temp, 6);
-      ppItem->WriteValueElement("me:qtot", qtot, 6) ;
-      ppItem->WriteValueElement("me:sumc", sumc, 6) ;
-      ppItem->WriteValueElement("me:sumg", sumg, 6) ;
+      PersistPtr ppItem = ppList->XmlWriteElement("me:densityOfStates");
+      ppItem->XmlWriteValueElement("me:T",    temp, 6);
+      ppItem->XmlWriteValueElement("me:qtot", qtot, 6) ;
+      ppItem->XmlWriteValueElement("me:sumc", sumc, 6) ;
+      ppItem->XmlWriteValueElement("me:sumg", sumg, 6) ;
 
     }
 
@@ -639,14 +645,14 @@ namespace mesmer
     int idx1 = 0 ;
     int idx2 = 0 ;
 
-    for (int i = 0 ; i < GetSys()->MAXGrn() ; i++ ) {
+    for (int i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
 
       int idx3 = idx1 ;
 
       // Calculate the number of states in a grain.
 
       double smt = 0.0 ;
-      for (int j = 0 ; j < GetSys()->igsz() ; j++, idx1++ )
+      for (int j = 0 ; j < GetSys()->igsz() ; ++j, ++idx1 )
           smt += m_cdos[idx1] ;
 
       // Calculate average energy of the grain if it contains sum states.
@@ -654,7 +660,7 @@ namespace mesmer
       if ( smt > 0.0 ) {
 
         double smat = 0.0 ;
-        for (int j = 0 ; j < GetSys()->igsz() ; j++, idx3++ )
+        for (int j = 0 ; j < GetSys()->igsz() ; ++j, ++idx3 )
             smat += m_ecll[idx3] * m_cdos[idx3] ;
 
         m_gdos[idx2] = smt ;

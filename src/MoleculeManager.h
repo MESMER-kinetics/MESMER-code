@@ -3,13 +3,13 @@
 
 //-------------------------------------------------------------------------------------------
 //
-// MoleculeManager.h 
+// MoleculeManager.h
 //
-// Author: Struan Robertson 
+// Author: Struan Robertson
 // Date:   11/Feb/2003
 //
 // This header file contains the declaration of the MoleculeManager class. This class holds
-// a collection of molecular specifications that may be part of a reaction. 
+// a collection of molecular specifications that may be part of a reaction.
 //
 //-------------------------------------------------------------------------------------------
 
@@ -26,25 +26,25 @@ class MoleculeManager {
 
 public:
 
-   // Default constructor.
-   MoleculeManager(System* pSys) : m_molmap(), m_pSys(pSys){ } ;
+  // Default constructor.
+  MoleculeManager(System* pSys) : m_molmap(), m_pSys(pSys){ } ;
 
-   // Default destructor.
-   ~MoleculeManager() { } ;
+  // Default destructor.
+  ~MoleculeManager() { } ;
 
-   System* GetSys() { return m_pSys; }
+  System* GetSys() { return m_pSys; }
 
-   // Add a new molecule to the list.
-   bool addmols(PersistPtr ppMolList) ;
+  // Add a new molecule to the list.
+  bool addmols(PersistPtr ppMolList) ;
 
-   // Find a molecule in the list.
-   Molecule *find(const std::string& name) const ;
+  // Find a molecule in the list.
+  Molecule *find(const std::string& name) const ;
 
-   // Remove a molecule from the list.
-   void remove() {} ;
-  
-   // Total number of molecules in the list.
-   void size() const {} ;
+  // Remove a molecule from the list.
+  void remove() {} ;
+
+  // Total number of molecules in the list.
+  void size() const {} ;
 
   /* Iterate through the molecules and return only those of a specified class.
    When id is empty, starts at beginning,
@@ -71,7 +71,7 @@ public:
       if(iter!=m_molmap.end())
         ++iter;
     }
-    
+
     for(;iter!=m_molmap.end();++iter)
     {
       pmol = dynamic_cast<T*>(iter->second);
@@ -84,17 +84,17 @@ public:
     return false;
   }
 
-   // Accessors and Modifers for bath gas molecule.
+  // Accessors and Modifers for bath gas molecule.
 
-   Molecule *get_BathGasMolecule() {return m_molmap[m_BathGasMolecule]; } ;
-   void set_BathGasMolecule(const std::string &BathGasMolecule){m_BathGasMolecule = BathGasMolecule ; } ;
+  Molecule *get_BathGasMolecule() {return m_molmap[m_BathGasMolecule]; } ;
+  void set_BathGasMolecule(const std::string &BathGasMolecule){m_BathGasMolecule = BathGasMolecule ; } ;
 
 private:
 
-   std::map<std::string, Molecule*> m_molmap ;
-   typedef std::map<std::string, Molecule*>::iterator molIter ;
-   std::string m_BathGasMolecule ;
-  System* m_pSys;
+  std::map<std::string, Molecule*>                    m_molmap ;
+  typedef std::map<std::string, Molecule*>::iterator  molIter ;
+  std::string                                         m_BathGasMolecule ;
+  System*                                             m_pSys;
 
 } ;
 }//namespace
