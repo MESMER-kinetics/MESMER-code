@@ -10,7 +10,7 @@ namespace mesmer
 
   bool MicroRateCalculator::testMicroRateCoeffs(Reaction* pReact, vector<double> &kfmc, PersistPtr ppbase) const
   {
-    System* pSys = pReact->GetSys();  
+    System* pSys = pReact->GetSys();
 
     vector<CollidingMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
@@ -22,11 +22,11 @@ namespace mesmer
 
     // Allocate some work space for density of states.
 
-    vector<double> decll(pSys->MAXCell(),0.0) ; 
-    vector<double> ddos(pSys->MAXCell(),0.0) ; 
+    vector<double> CellEne(pSys->MAXCell(),0.0) ;
+    vector<double> cellDOS(pSys->MAXCell(),0.0) ;
 
-    pReactant->cellEnergies(&decll[0]) ;
-    pReactant->cellDensityOfStates(&ddos[0]) ;
+    pReactant->cellEnergies(&CellEne[0]) ;
+    pReactant->cellDensityOfStates(&cellDOS[0]) ;
 
     for(int i = 0 ; i < 29 ; ++i)
     {
@@ -37,11 +37,11 @@ namespace mesmer
       double sm2 = 0.0 ;
       double tmp = 0.0 ;
       for ( int i = 0 ; i < pSys->MAXCell() ; ++i ) {
-        tmp  = ddos[i] * exp(-beta * decll[i]) ;
+        tmp  = cellDOS[i] * exp(-beta * CellEne[i]) ;
         sm1 += kfmc[i] * tmp ;
         sm2 +=           tmp ;
       }
-      sm1 /= sm2 ; 
+      sm1 /= sm2 ;
       formatFloat(cout, Temperature, 6,  7) ;
       formatFloat(cout, sm1,         6, 15) ;
       cout << endl ;

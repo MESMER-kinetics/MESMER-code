@@ -7,19 +7,17 @@
 
 namespace mesmer
 {
-
-class SimpleRRKM : public MicroRateCalculator
-{
-public:
-
-  ///Constructor which registers with the list of MicroRateCalculators in the base class
-  SimpleRRKM(const std::string& id) : MicroRateCalculator(id){}
-
-  virtual ~SimpleRRKM() {}
-
-  virtual bool calculateMicroRateCoeffs(Reaction* pReact, std::vector<double> &kfmc);
-};
-
+  class SimpleRRKM : public MicroRateCalculator
+  {
+  public:
+  
+    ///Constructor which registers with the list of MicroRateCalculators in the base class
+    SimpleRRKM(const std::string& id) : MicroRateCalculator(id){}
+  
+    virtual ~SimpleRRKM() {}
+  
+    virtual bool calculateMicroRateCoeffs(Reaction* pReact, std::vector<double> &kfmc);
+  };
 }//namespace
 
 #endif // GUARD_SimpleRRKM_h

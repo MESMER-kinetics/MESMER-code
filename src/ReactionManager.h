@@ -3,9 +3,9 @@
 
 //-------------------------------------------------------------------------------------------
 //
-// ReactionManager.h 
+// ReactionManager.h
 //
-// Author: Struan Robertson 
+// Author: Struan Robertson
 // Date:   11/Feb/2003
 //
 // This header file contains the declaration of the ReactionManager class.
@@ -17,70 +17,70 @@
 
 namespace mesmer
 {
-class System;//cannot include System.h because of circular references when compiling
+  class System;//cannot include System.h because of circular references when compiling
 
-class ReactionManager
-{
-public:
+  class ReactionManager
+  {
+  public:
 
-  // Type defs
-  typedef  size_t  size_type ;
+    // Type defs
+    typedef  size_t  size_type ;
 
-  ReactionManager(System* pSys, MoleculeManager *pMoleculeManager): 
-    m_reactions(),
-    m_pMoleculeManager(pMoleculeManager), 
-    m_pSystemCollisionOperator(0),
-    m_pSys(pSys)
-    {};
-   
-  // Destructor.
-  ~ReactionManager(){} ;
+    ReactionManager(System* pSys, MoleculeManager *pMoleculeManager):
+      m_reactions(),
+      m_pMoleculeManager(pMoleculeManager),
+      m_pSystemCollisionOperator(0),
+      m_pSys(pSys)
+      {};
 
-  System* GetSys() { return m_pSys; }
+    // Destructor.
+    ~ReactionManager(){} ;
 
-  // Add a new reaction to the map.
-  bool addreactions(PersistPtr ReacList) ;
+    System* GetSys() { return m_pSys; }
 
-  // Remove a reaction from the map.
-  void remove(){} ;
+    // Add a new reaction to the map.
+    bool addreactions(PersistPtr ReacList) ;
 
-  // Total number of reaction in map.
-  size_type size() const {return m_reactions.size() ; } ;
+    // Remove a reaction from the map.
+    void remove(){} ;
 
-  // Find a particular reaction.
-  Reaction*       operator[](const size_type i)       { return m_reactions[i] ; } ;
-  const Reaction* operator[](const size_type i) const { return m_reactions[i] ; } ;
+    // Total number of reaction in map.
+    size_type size() const {return m_reactions.size() ; } ;
 
-  // Find a reaction from its id
-  Reaction* find(const std::string& id) const ;
+    // Find a particular reaction.
+    Reaction*       operator[](const size_type i)       { return m_reactions[i] ; } ;
+    const Reaction* operator[](const size_type i) const { return m_reactions[i] ; } ;
 
-  // Interrogates the (virtual) connectivity matrix, returning the reaction
-  // index of the reaction (one based) connecting pProduct and pReactant
-  // if both are CollidingMolecules
-  // 0 if reactant and product are the same and are a CollidingMolecule
-  // -1 otherwise
-  int Connectivity(Molecule* pReactant, Molecule* pProduct);
+    // Find a reaction from its id
+    Reaction* find(const std::string& id) const ;
 
-  // Build collision operator for system.
-  void BuildSystemCollisionOperator(const double beta, const double conc) ;
+    // Interrogates the (virtual) connectivity matrix, returning the reaction
+    // index of the reaction (one based) connecting pProduct and pReactant
+    // if both are CollidingMolecules
+    // 0 if reactant and product are the same and are a CollidingMolecule
+    // -1 otherwise
+    int Connectivity(Molecule* pReactant, Molecule* pProduct);
 
-  // Diagonalize the collision operator.
-  void diagCollisionOperator() ;
+    // Build collision operator for system.
+    void BuildSystemCollisionOperator(const double beta, const double conc) ;
 
-private:
+    // Diagonalize the collision operator.
+    void diagCollisionOperator() ;
 
-  std::vector<Reaction *> m_reactions ;
+  private:
 
-  MoleculeManager        *m_pMoleculeManager ;
+    std::vector<Reaction *> m_reactions ;
 
-  dMatrix                *m_pSystemCollisionOperator ;
+    MoleculeManager        *m_pMoleculeManager ;
 
-  System* m_pSys;
+    dMatrix                *m_pSystemCollisionOperator ;
 
-  // Default Constructor.
-  ReactionManager() {} ;
+    System* m_pSys;
 
-} ;
+    // Default Constructor.
+    ReactionManager() {} ;
+
+  } ;
 }//namespace
 
 #endif // GUARD_ReactionManager_h

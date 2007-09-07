@@ -16,7 +16,6 @@
 #include "oberror.h"
 #include "dMatrix.h"
 #include "XMLPersist.h"
-#include "Constants.h"
 
 namespace mesmer
 {
@@ -34,7 +33,7 @@ namespace mesmer
       virtual ~Molecule(){} ;
 
       // Initialize Molecule.
-      virtual bool Initialize(System* pSys, PersistPtr pp);
+      virtual bool InitializeMolecule(System* pSys, PersistPtr pp);
 
       System* GetSys() { return m_pSys; }
 
@@ -63,7 +62,7 @@ namespace mesmer
     {
     public:
       // Initialize Molecule.
-      virtual bool Initialize(System* pSys, PersistPtr pp);
+      virtual bool InitializeMolecule(System* pSys, PersistPtr pp);
     };
 
     //**************************************************
@@ -74,7 +73,7 @@ namespace mesmer
       ModelledMolecule();
       virtual ~ModelledMolecule();
       // Initialize Molecule.
-      virtual bool Initialize(System* pSys, PersistPtr pp);
+      virtual bool InitializeMolecule(System* pSys, PersistPtr pp);
 
       // Get the density of states.
       void cellDensityOfStates(double *) ;
@@ -125,8 +124,8 @@ namespace mesmer
       //int                  m_MaxCell ;     // Maximum number of cells to use.
       //int                  m_MaxGrn  ;     // Maximum number of grains.
       //int                  m_GrnSz ;       // Grain size in cm-1.
-      double              *m_ecll ;        // Pointer to cell mid-point energy array.
-      double              *m_cdos ;        // Pointer to cell density of states array.
+      double              *m_cellEne ;        // Pointer to cell mid-point energy array.
+      double              *m_cellDOS ;        // Pointer to cell density of states array.
       std::vector<double>  m_egrn ;        // Pointer to grain average energy array.
       std::vector<double>  m_gdos ;        // Pointer to grain density of states array.
 
@@ -149,7 +148,7 @@ namespace mesmer
       ~CollidingMolecule();
 
       // Initialize Molecule.
-      virtual bool Initialize(System* pSys, PersistPtr ppp);
+      virtual bool InitializeMolecule(System* pSys, PersistPtr ppp);
 
       // Initialize the Collision Operator.
       void initCollisionOperator(double temp, double conc, Molecule *pBathGasMolecule) ;

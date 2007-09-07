@@ -32,17 +32,17 @@ void dMatrix::tred2(double **a, int n, double *d, double *e)
   int l, k, j, i;
   double scale, hh, h, g, f;
 
-  for (i=n;i>=2;i--) {
+  for (i=n;i>=2;--i) {
     l=i-1;
     h=scale=0.0;
     if (l > 1) {
 
-      for (k=1;k<=l;k++)
+      for (k=1;k<=l;++k)
           scale += fabs(a[i-1][k-1]);
       if (scale == 0.0)
           e[i-1]=a[i-1][l-1];
       else {
-        for (k=1;k<=l;k++) {
+        for (k=1;k<=l;++k) {
           a[i-1][k-1] /= scale;
           h += a[i-1][k-1]*a[i-1][k-1];
         }
@@ -52,25 +52,25 @@ void dMatrix::tred2(double **a, int n, double *d, double *e)
         h -= f*g;
         a[i-1][l-1]=f-g;
         f=0.0;
-        for (j=1;j<=l;j++) {
+        for (j=1;j<=l;++j) {
           /* Next statement can be omitted if eigenvectors not wanted */
           a[j-1][i-1]=a[i-1][j-1]/h;
           g=0.0;
 
-          for (k=1;k<=j;k++)
+          for (k=1;k<=j;++k)
               g += a[j-1][k-1]*a[i-1][k-1];
 
-          for (k=j+1;k<=l;k++)
+          for (k=j+1;k<=l;++k)
               g += a[k-1][j-1]*a[i-1][k-1];
           e[j-1]=g/h;
           f += e[j-1]*a[i-1][j-1];
         }
         hh=f/(h+h);
-        for (j=1;j<=l;j++) {
+        for (j=1;j<=l;++j) {
           f=a[i-1][j-1];
           e[j-1]=g=e[j-1]-hh*f;
 
-          for (k=1;k<=j;k++)
+          for (k=1;k<=j;++k)
             a[j-1][k-1] -= (f*e[k-1]+g*a[i-1][k-1]);
         }
       }
@@ -83,23 +83,23 @@ void dMatrix::tred2(double **a, int n, double *d, double *e)
   e[0]=0.0;
   /* Contents of this loop can be omitted if eigenvectors not
   wanted except for statement d[i-1]=a[i-1][i-1]; */
-  for (i=1;i<=n;i++) {
+  for (i=1;i<=n;++i) {
     l=i-1;
     if (d[i-1]) {
-      for (j=1;j<=l;j++) {
+      for (j=1;j<=l;++j) {
         g=0.0;
 
-        for (k=1;k<=l;k++)
+        for (k=1;k<=l;++k)
             g += a[i-1][k-1]*a[k-1][j-1];
 
-        for (k=1;k<=l;k++)
+        for (k=1;k<=l;++k)
             a[k-1][j-1] -= g*a[k-1][i-1];
       }
     }
     d[i-1]=a[i-1][i-1];
     a[i-1][i-1]=1.0;
 
-    for (j=1;j<=l;j++) a[j-1][i-1]=a[i-1][j-1]=0.0;
+    for (j=1;j<=l;++j) a[j-1][i-1]=a[i-1][j-1]=0.0;
   }
 }
 
@@ -130,12 +130,12 @@ void dMatrix::tqli(double *d, double *e, int n, double **z)
   int m,l,iter,i,k;
   double s,r,p,g,f,dd,c,b;
 
-  for (i=2;i<=n;i++) e[i-2]=e[i-1];
+  for (i=2;i<=n;++i) e[i-2]=e[i-1];
   e[n-1]=0.0;
-  for (l=1;l<=n;l++) {
+  for (l=1;l<=n;++l) {
     iter=0;
     do {
-      for (m=l;m<=n-1;m++) {
+      for (m=l;m<=n-1;++m) {
         dd=fabs(d[m-1])+fabs(d[m]);
         if (fabs(e[m-1])+dd == dd) break;
       }
@@ -147,7 +147,7 @@ void dMatrix::tqli(double *d, double *e, int n, double **z)
         g=d[m-1]-d[l-1]+e[l-1]/(g + (g<0 ? -fabs(r) : fabs(r)));
         s=c=1.0;
         p=0.0;
-        for (i=m-1;i>=l;i--) {
+        for (i=m-1;i>=l;--i) {
           f=s*e[i-1];
           b=c*e[i-1];
           if (fabs(f) >= fabs(g)) {
@@ -168,7 +168,7 @@ void dMatrix::tqli(double *d, double *e, int n, double **z)
           g=c*r-b;
           /* Next loop can be omitted if eigenvectors not wanted */
 
-          for (k=1;k<=n;k++) {
+          for (k=1;k<=n;++k) {
             f=z[k-1][i];
             z[k-1][i]=s*z[k-1][i-1]+c*f;
             z[k-1][i-1]=c*z[k-1][i-1]-s*f;
@@ -183,11 +183,11 @@ void dMatrix::tqli(double *d, double *e, int n, double **z)
 
 // Order eigenvalues and eigenvectors.
 
-  for (int ii = 1; ii < n; ii++) {
+  for (int ii = 1; ii < n; ++ii) {
     i = ii - 1;
     k = i;
     p = d[i];
-    for (int j = ii; j < n; j++) {
+    for (int j = ii; j < n; ++j) {
       if (d[j] < p) {
         k = j;
         p = d[j];
@@ -196,7 +196,7 @@ void dMatrix::tqli(double *d, double *e, int n, double **z)
     if (k!=i) {
       d[k] = d[i];
       d[i] = p;
-      for (int j = 0; j < n; j++) {
+      for (int j = 0; j < n; ++j) {
         p = z[j][i];
         z[j][i] = z[j][k];
         z[j][k] = p;

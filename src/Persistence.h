@@ -16,7 +16,6 @@
 #include <string>
 #include <sstream>
 #include <time.h>
-#include "formatfloat.h"
 
 
 namespace mesmer

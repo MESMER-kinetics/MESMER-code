@@ -27,8 +27,8 @@ namespace mesmer
     m_MmtIntC(0.0),
     m_Sym(0.0),
     m_ZPE(0.0),
-    m_ecll(NULL),
-    m_cdos(NULL)
+    m_cellEne(NULL),
+    m_cellDOS(NULL)
   {}
 
   CollidingMolecule::CollidingMolecule():
@@ -41,8 +41,8 @@ namespace mesmer
   ModelledMolecule::~ModelledMolecule()
   {
     // Free any memory assigned for calculating densities of states.
-    if (m_cdos != NULL) m_alloc.deallocate(m_cdos, GetSys()->MAXCell()) ;
-    if (m_ecll != NULL) m_alloc.deallocate(m_ecll, GetSys()->MAXCell()) ;
+    if (m_cellDOS != NULL) m_alloc.deallocate(m_cellDOS, GetSys()->MAXCell()) ;
+    if (m_cellEne != NULL) m_alloc.deallocate(m_cellEne, GetSys()->MAXCell()) ;
   }
 
   CollidingMolecule::~CollidingMolecule()
@@ -67,7 +67,7 @@ namespace mesmer
 
   //
   // Read the Molecular data from I/O stream.
-  bool Molecule::Initialize(System* pSys, PersistPtr p)
+  bool Molecule::InitializeMolecule(System* pSys, PersistPtr p)
   {
     m_pSys = pSys;
     m_ppPersist = p;
@@ -77,10 +77,10 @@ namespace mesmer
     return !m_Name.empty();
   }
 
-  bool BathGasMolecule::Initialize(System* pSys, PersistPtr pp)
+  bool BathGasMolecule::InitializeMolecule(System* pSys, PersistPtr pp)
   {
     //Read base class parameters first
-    if(!Molecule::Initialize(pSys, pp))
+    if(!Molecule::InitializeMolecule(pSys, pp))
         return false;
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
@@ -114,10 +114,10 @@ namespace mesmer
   }
 
 
-  bool ModelledMolecule::Initialize(System* pSys, PersistPtr pp)
+  bool ModelledMolecule::InitializeMolecule(System* pSys, PersistPtr pp)
   {
     //Read base class parameters first
-    if(!Molecule::Initialize(pSys, pp))
+    if(!Molecule::InitializeMolecule(pSys, pp))
         return false;
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
@@ -161,10 +161,10 @@ namespace mesmer
     return true;
   }
 
-  bool CollidingMolecule::Initialize(System* pSys, PersistPtr pp)
+  bool CollidingMolecule::InitializeMolecule(System* pSys, PersistPtr pp)
   {
     //Read base class parameters first
-    if(!ModelledMolecule::Initialize(pSys, pp))
+    if(!ModelledMolecule::InitializeMolecule(pSys, pp))
         return false;
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
@@ -207,29 +207,29 @@ namespace mesmer
   //
   // Get cell density of states.
   //
-  void ModelledMolecule::cellDensityOfStates(double *ddos) {
+  void ModelledMolecule::cellDensityOfStates(double *cellDOS) {
 
     // If density of states have not already been calcualted then do so.
 
-    if (!m_cdos)
+    if (!m_cellDOS)
         calcDensityOfStates() ;
 
     for (int i = 0 ; i < GetSys()->MAXCell() ; ++i )
-        ddos[i] = m_cdos[i] ;
+        cellDOS[i] = m_cellDOS[i] ;
   }
 
   //
   // Get cell energies.
   //
-  void ModelledMolecule::cellEnergies(double *decll) {
+  void ModelledMolecule::cellEnergies(double *CellEne) {
 
     // If energies have not already been calcualted then do so.
 
-    if (!m_cdos)
+    if (!m_cellDOS)
         calcDensityOfStates() ;
 
     for (int i = 0 ; i < GetSys()->MAXCell() ; ++i )
-        decll[i] = m_ecll[i] ;
+        CellEne[i] = m_cellEne[i] ;
   }
 
   //
@@ -239,7 +239,7 @@ namespace mesmer
 
     // If density of states have not already been calcualted then do so.
 
-    if (!m_cdos)
+    if (!m_cellDOS)
         calcDensityOfStates() ;
 
     dosGrn = m_gdos ;
@@ -252,7 +252,7 @@ namespace mesmer
 
     // If energies have not already been calcualted then do so.
 
-    if (!m_cdos)
+    if (!m_cellDOS)
         calcDensityOfStates() ;
 
     eGrn = m_gdos ;
@@ -269,7 +269,7 @@ namespace mesmer
 
     // If density of states have not already been calcualted then do so.
 
-    if (!m_cdos)
+    if (!m_cellDOS)
         calcDensityOfStates() ;
 
     // Calculate the collision frequency.
@@ -531,8 +531,8 @@ namespace mesmer
 
     cout << endl << "The number of Frequencies is " << m_VibFreq.size() << endl ;
 
-    m_cdos = m_alloc.allocate(GetSys()->MAXCell()) ;
-    m_ecll = m_alloc.allocate(GetSys()->MAXCell()) ;
+    m_cellDOS = m_alloc.allocate(GetSys()->MAXCell()) ;
+    m_cellEne = m_alloc.allocate(GetSys()->MAXCell()) ;
 
     //
     // Initialize density of states array using calculated rotational
@@ -544,8 +544,8 @@ namespace mesmer
 
     int i ;
     for ( i = 0 ; i < GetSys()->MAXCell() ; ++i ) {
-      m_ecll[i] = static_cast<double>(i) + 0.5 ;
-      m_cdos[i] = cnt*sqrt(m_ecll[i]) ;
+      m_cellEne[i] = static_cast<double>(i) + 0.5 ;
+      m_cellDOS[i] = cnt*sqrt(m_cellEne[i]) ;
     }
 
     // Implementation of the Bayer-Swinehart algorithm.
@@ -553,7 +553,7 @@ namespace mesmer
     for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) {
       int iFreq = static_cast<int>(m_VibFreq[j]) ;
       for ( i = 0 ; i < GetSys()->MAXCell() - iFreq ; ++i )
-          m_cdos[i + iFreq] += m_cdos[i] ;
+          m_cellDOS[i + iFreq] += m_cellDOS[i] ;
     }
 
     // Calculate grain averages.
@@ -589,7 +589,7 @@ namespace mesmer
 
       double sumc  = 0.0 ;
       for ( int i = 0 ; i < GetSys()->MAXCell() ; ++i ) {
-        sumc += m_cdos[i]*exp(-beta*m_ecll[i]) ;
+        sumc += m_cellDOS[i]*exp(-beta*m_cellEne[i]) ;
       }
 
       // Calculate partition functions based on grains.
@@ -635,7 +635,7 @@ namespace mesmer
 
     // Check that there are enough cells.
 
-    if (GetSys()->igsz() < 1) {
+    if (GetSys()->getGrainSize() < 1) {
       stringstream errorMsg;
       errorMsg << "Not enought Cells to produce requested number of Grains.";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
@@ -652,16 +652,16 @@ namespace mesmer
       // Calculate the number of states in a grain.
 
       double smt = 0.0 ;
-      for (int j = 0 ; j < GetSys()->igsz() ; ++j, ++idx1 )
-          smt += m_cdos[idx1] ;
+      for (int j = 0 ; j < GetSys()->getGrainSize() ; ++j, ++idx1 )
+          smt += m_cellDOS[idx1] ;
 
       // Calculate average energy of the grain if it contains sum states.
 
       if ( smt > 0.0 ) {
 
         double smat = 0.0 ;
-        for (int j = 0 ; j < GetSys()->igsz() ; ++j, ++idx3 )
-            smat += m_ecll[idx3] * m_cdos[idx3] ;
+        for (int j = 0 ; j < GetSys()->getGrainSize() ; ++j, ++idx3 )
+            smat += m_cellEne[idx3] * m_cellDOS[idx3] ;
 
         m_gdos[idx2] = smt ;
         m_egrn[idx2] = smat/smt ;

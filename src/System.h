@@ -14,8 +14,10 @@
 // is stored in the molecule manager.
 //
 //-------------------------------------------------------------------------------------------
-
+#include "MesmerConfig.h"
+#include "formatfloat.h"
 #include "ReactionManager.h"
+#include "Constants.h"
 
 namespace mesmer
 {
@@ -37,11 +39,11 @@ namespace mesmer
     //
     void calculate() ;
 
-    double igsz()                   { return GrainSize; }
+    double getGrainSize()           { return GrainSize; }
     int    MAXGrn()                 { return MaxGrn; }
     int    MAXCell()                { return MaxCell; }
     double getEMin()                { return EMin; }
-    bool   TestMicroRatesEnabled() { return bTestMicroRates; }
+    bool   TestMicroRatesEnabled()  { return bTestMicroRates; }
 
     std::vector<double> Temperatures; //Explicit emumeration of the temperatures requested in the input
     std::vector<double> Concentrations; //Bath gas concentrations: values for calculation. Use if Pressures is empty.
@@ -50,9 +52,9 @@ namespace mesmer
   private:
 
     bool SetGrainParams();
-    bool ReadRange(const std::string&    name, 
+    bool ReadRange(const std::string&    name,
                    std::vector<double>&  vals,
-                   PersistPtr            ppbase, 
+                   PersistPtr            ppbase,
                    bool                  MustBeThere=true);
     void WriteMetadata();
     //

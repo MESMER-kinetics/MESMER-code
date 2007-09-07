@@ -37,25 +37,25 @@ namespace mesmer
 
     // Allocate some work space for density of states.
 
-    vector<double> ddosTS(pSys->MAXCell(),0.0) ; // Transistion state density of states.
-    vector<double> ddos(pSys->MAXCell(),0.0) ; // Density of states of equilibrium molecule.
+    vector<double> TScellDOS(pSys->MAXCell(),0.0) ; // Transistion state density of states.
+    vector<double> cellDOS(pSys->MAXCell(),0.0) ; // Density of states of equilibrium molecule.
 
     // Extract densities of states from molecules.
 
-    pReactant->cellDensityOfStates(&ddos[0]) ;
-    pTS->cellDensityOfStates(&ddosTS[0]) ;
+    pReactant->cellDensityOfStates(&cellDOS[0]) ;
+    pTS->cellDensityOfStates(&TScellDOS[0]) ;
 
     double SumOfStates  = 0.0 ;
-    int thresholdEnergy = int((pTS->get_zpe() - pReactant->get_zpe()) * KCMLTOPCM) ;
+    int thresholdEnergy = int((pTS->get_zpe() - pReactant->get_zpe()) * KcalPerMolToPerCm) ;
     for (i = thresholdEnergy, j = 0 ; i < pSys->MAXCell() ; ++i, ++j ) {
 
         // Integrate transition state density of states.
 
-        SumOfStates += ddosTS[j] ;
+        SumOfStates += TScellDOS[j] ;
 
         // Calculate microcanonical rate coefficients using RRKM expression.
 
-        kfmc[i] = SumOfStates / (plancksConst*ddos[i]) ;
+        kfmc[i] = SumOfStates / (plancksConst*cellDOS[i]) ;
     }
     return true;
   }

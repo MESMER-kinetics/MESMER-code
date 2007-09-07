@@ -13,7 +13,6 @@
 //-------------------------------------------------------------------------------------------
 
 #include "MoleculeManager.h"
-#include "Molecule.h"
 #include "MicroRate.h"
 
 namespace mesmer
@@ -56,7 +55,7 @@ namespace mesmer
     //   Reaction& operator=(const Reaction& reaction) ;
 
     // Initialize reaction.
-    bool Initialize(System* pSys, PersistPtr ppReac) ;
+    bool InitializeReaction(System* pSys, PersistPtr ppReac) ;
 
     System* GetSys() { return m_pSys; }
 
@@ -121,7 +120,7 @@ namespace mesmer
     CollidingMolecule *m_Product ;          // Product Molecule.
     Molecule          *m_Product2 ;         // Subsidiary product molecule.
     TransitionState   *m_TransitionState;   // TransitionState
-    ReactionType        m_reactiontype ;     // Type of reaction.
+    ReactionType       m_reactiontype ;     // Type of reaction.
     //
     // Reaction Rate data.
     //

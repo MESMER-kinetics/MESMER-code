@@ -1,8 +1,8 @@
 //-------------------------------------------------------------------------------------------
 //
-// System.cpp 
+// System.cpp
 //
-// Author: Struan Robertson 
+// Author: Struan Robertson
 // Date:   11/Feb/2003
 //
 // This file contains the implementation of the System class.
@@ -32,6 +32,8 @@ namespace mesmer
     MaxGrn=0;
     MaxT=0.0;
 
+    //-------------
+    //Molecule List
     m_ppIOPtr = ppIOPtr;
     PersistPtr ppMolList = ppIOPtr->XmlMoveTo("moleculeList");
     if(!ppMolList)
@@ -44,6 +46,8 @@ namespace mesmer
     if(!m_pMoleculeManager->addmols(ppMolList))
       return false;;
 
+    //-------------
+    //Reaction List
     PersistPtr ppReacList = ppIOPtr->XmlMoveTo("reactionList");
     if(!ppReacList)
     {
@@ -51,9 +55,12 @@ namespace mesmer
       errorMsg << "No reactions have been specified";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       return false;
-    }if(!m_pReactionManager->addreactions(ppReacList))
-        return false;
+    }
+    if(!m_pReactionManager->addreactions(ppReacList))
+      return false;
 
+    //-------------
+    //Reaction Conditions
     PersistPtr ppConditions = ppIOPtr->XmlMoveTo("me:conditions");
     if(!ppConditions)
     {
@@ -72,16 +79,16 @@ namespace mesmer
     } else {
       m_pMoleculeManager->set_BathGasMolecule(Bgtxt) ;
     }
-    
+
     if(!ReadRange("me:temperature", Temperatures, ppConditions))
       return false;
-    
+
     if(!ReadRange("me:conc", Concentrations, ppConditions, false))
       return false;
-    
+
     if(!ReadRange("me:pressure", Pressures, ppConditions, false))
       return false;
-    
+
     if(Concentrations.size()==0 && Pressures.size()==0)
     {
       stringstream errorMsg;
@@ -89,9 +96,11 @@ namespace mesmer
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       return false;
     }
-    
+
+    //-------------
+    //Model Parameters
     PersistPtr ppParams = ppIOPtr->XmlMoveTo("me:modelParameters");
-    
+
     if(ppParams)
     {
       const char* txt = ppParams->XmlReadValue("me:grainSize",false);
@@ -100,22 +109,21 @@ namespace mesmer
         istringstream ss(txt);
         ss >> GrainSize;
       }
-      
+
       txt = ppParams->XmlReadValue("me:numberOfGrains",false);
       if(txt)
       {
         istringstream ss(txt);
         ss >> MaxGrn;
       }
-      
-      
+
       txt = ppParams->XmlReadValue("me:maxTemperature",false);
       if(txt)
       {
         istringstream ss(txt);
         ss >> MaxT;
       }
-      
+
       if(GrainSize!=0.0 && MaxGrn!=0)
       {
         stringstream errorMsg;
@@ -138,11 +146,11 @@ namespace mesmer
   //
   // Begin calculation.
   //
-  void System::calculate() 
-  { 
+  void System::calculate()
+  {
     if(!SetGrainParams())
       return;
-    
+
     std::string id;
     ModelledMolecule* pmol=NULL;
 
@@ -154,7 +162,7 @@ namespace mesmer
     for(Titer=Temperatures.begin();Titer!=Temperatures.end();++Titer)
     {
       double beta = 1.0/(boltzmann*(*Titer)) ;
-      
+
       size_t imax = !Pressures.empty() ? Pressures.size() : Concentrations.size();
       //Inner loop is concentrations, possibly calculated from pressures if these were specified
       // TODO: Get pressure units right. Pressures currently non-functional!
@@ -169,6 +177,7 @@ namespace mesmer
       }
     }
     */
+
     temp = Temperatures[0]; //temporary statements
     conc = Concentrations[0];
 
@@ -206,12 +215,11 @@ namespace mesmer
             formatFloat(cout, kinf, 6, 15) ; 
 
     }*/
-
   }
 
   bool System::SetGrainParams()
   {
-    /* 
+    /*
     Either grain size or number of grains can be specified, but not both.
 
     Uses the value of grain size in the datafile, if specified .
@@ -234,7 +242,7 @@ namespace mesmer
     ModelledMolecule* pmol=NULL;
     while(m_pMoleculeManager->GetNextMolecule(id, pmol))
     {
-      double zpe = pmol->get_zpe() * KCMLTOPCM ;
+      double zpe = pmol->get_zpe() * KcalPerMolToPerCm ;
       EMax = std::max(EMax, zpe);
       EMin = std::min(EMin, zpe);
     }
@@ -246,9 +254,9 @@ namespace mesmer
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       return false;
     }
-    
+
     //MaxT gives the option of widening the energy range
-    if(MaxT==0.0) 
+    if(MaxT==0.0)
       MaxT = *max_element(Temperatures.begin(), Temperatures.end());
 
     //Max energy is ** 20kT  ** above the highest well [was 10kT]
@@ -318,7 +326,7 @@ namespace mesmer
 
     ppItem = ppList->XmlWriteElement("metadata");
     ppItem->XmlWriteAttribute("name", "dc:description");
-    ppItem->XmlWriteAttribute("content", 
+    ppItem->XmlWriteAttribute("content",
     "Calculation of the interaction between collisional energy transfer and chemical reaction"
     " for dissociation, isomerization and association processes");
 

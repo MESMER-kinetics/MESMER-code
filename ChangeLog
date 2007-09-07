@@ -1,3 +1,19 @@
+  * checked for new and delete declarations
+  * reordered some dependencies
+  * Modified namings of variables:  decll -> CellEne, 
+                                    ddos -> CellDOS, 
+                                    m_cdos -> m_CellDOS, 
+                                    m_ecll -> m_CellEne,
+                                    pcollidingmolecule -> pCollidingMolecule,
+                                    KCMLTOPCM -> KcalPerMolToPerCm,
+                                    ddosTS -> TScellDOS,
+
+  * Modified naming of functions: Initialize() -> InitializeMolecule(), 
+                                  Initialize() -> InitializeReaction(),
+                                  igsz() -> getGrainSize(),
+
+  * updated source.ps
+	
 2007-09-04 Chi-Hsiu Liang
 
 	* in Molecule.cpp, function void CollidingMolecule::collisionOperator(double beta):

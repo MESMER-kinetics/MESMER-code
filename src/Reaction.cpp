@@ -50,7 +50,7 @@ namespace mesmer
   //
   // Read the Molecular data from inout stream.
   //
-  bool Reaction::Initialize(System* pSys, PersistPtr ppReac)
+  bool Reaction::InitializeReaction(System* pSys, PersistPtr ppReac)
   {
     m_pSys = pSys;
     m_ppPersist = ppReac;
@@ -60,7 +60,9 @@ namespace mesmer
     if(id)
         m_Name = id; //Continues if reaction id not found
 
-    Molecule* pMol1,*pMol2=NULL;
+    Molecule* pMol1 = NULL;
+    Molecule* pMol2 = NULL;
+
     //Read reactants
     PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
     pMol1 = GetMolRef(ppReactant1);
@@ -248,7 +250,7 @@ namespace mesmer
   }
 
   //
-  // Access microcanoincal rate coeffcients.
+  // Access microcanoincal rate coefficients.
   //
   void Reaction::get_MicroRateCoeffs(std::vector<double> &kmc) {
     calcGrnAvrgMicroRateCoeffs();
@@ -256,7 +258,7 @@ namespace mesmer
   }
 
   //
-  // Calculate grain averaged microcanoincal rate coeffcients.
+  // Calculate grain averaged microcanonical rate coefficients.
   //
   bool Reaction::calcGrnAvrgMicroRateCoeffs() {
 
@@ -285,12 +287,12 @@ namespace mesmer
 
     // Extract density of states of equilibrium molecule.
 
-    vector<double> ddos(GetSys()->MAXCell(),0.0) ;
-    m_Reactant->cellDensityOfStates(&ddos[0]) ;
+    vector<double> cellDOS(GetSys()->MAXCell(),0.0) ;
+    m_Reactant->cellDensityOfStates(&cellDOS[0]) ;
 
     // Check that there are enough cells.
 
-    if (GetSys()->igsz() < 1) {
+    if (GetSys()->getGrainSize() < 1) {
       stringstream errorMsg;
       errorMsg << "Not enought Cells to produce requested number of Grains.";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
@@ -300,23 +302,23 @@ namespace mesmer
     int idx1 = 0 ;
     int idx2 = 0 ;
 
-    for (int i(0) ; i < ngrn ; i++ ) {
+    for (int i(0) ; i < ngrn ; ++i ) {
 
       int idx3 = idx1 ;
 
       // Calculate the number of states in a grain.
 
       double smt(0.0) ;
-      for (int j(0) ; j < GetSys()->igsz() ; j++, idx1++ )
-        smt += ddos[idx1] ;
+      for (int j(0) ; j < GetSys()->getGrainSize() ; ++j, ++idx1 )
+        smt += cellDOS[idx1] ;
 
       // Calculate average energy of the grain if it contains sum states.
 
       if ( smt > 0.0 ) {
 
         double smat(0.0) ;
-        for (int j(0) ; j < GetSys()->igsz() ; j++, idx3++ )
-          smat += m_kfmc[idx3] * ddos[idx3] ;
+        for (int j(0) ; j < GetSys()->getGrainSize() ; ++j, ++idx3 )
+          smat += m_kfmc[idx3] * cellDOS[idx3] ;
 
         m_kfgrn[idx2] = smat/smt ;
         idx2++ ;
@@ -425,9 +427,9 @@ namespace mesmer
       int ii(rctLocation + ll) ;
       int jj(pdtLocation) ;
       (*CollOptr)[ii][ii] -= rMeanOmega * m_kfgrn[ll] ;                            // Forward loss reaction.
-      //      (*CollOptr)[jj][jj] -= rMeanOmega * m_kfgrn[ll]*rctDos[ll]/pdtDos[i] ;       // Backward loss reaction from detailed balance.
-      //      (*CollOptr)[ii][jj]  = rMeanOmega * m_kfgrn[ll]*sqrt(rctDos[ll]/pdtDos[i]) ; // Reactive gain.
-      //      (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                 // Reactive gain.
+      //(*CollOptr)[jj][jj] -= rMeanOmega * m_kfgrn[ll]*rctDos[ll]/pdtDos[i] ;       // Backward loss reaction from detailed balance.
+      //(*CollOptr)[ii][jj]  = rMeanOmega * m_kfgrn[ll]*sqrt(rctDos[ll]/pdtDos[i]) ; // Reactive gain.
+      //(*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                 // Reactive gain.
     }
   }
 
