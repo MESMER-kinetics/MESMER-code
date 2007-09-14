@@ -46,7 +46,7 @@ namespace mesmer
     pTS->cellDensityOfStates(&TScellDOS[0]) ;
 
     double SumOfStates  = 0.0 ;
-    int thresholdEnergy = int((pTS->get_zpe() - pReactant->get_zpe()) * KcalPerMolToPerCm) ;
+    int thresholdEnergy = int((pTS->get_zpe() - pReactant->get_zpe()) * KcalPerMolToRC) ;
     for (i = thresholdEnergy, j = 0 ; i < pSys->MAXCell() ; ++i, ++j ) {
 
         // Integrate transition state density of states.
@@ -55,7 +55,7 @@ namespace mesmer
 
         // Calculate microcanonical rate coefficients using RRKM expression.
 
-        kfmc[i] = SumOfStates / (plancksConst*cellDOS[i]) ;
+        kfmc[i] = SumOfStates * SpeedOfLight_cm / cellDOS[i];
     }
     return true;
   }

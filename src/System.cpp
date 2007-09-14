@@ -161,7 +161,7 @@ namespace mesmer
     vector<double>::iterator Titer;
     for(Titer=Temperatures.begin();Titer!=Temperatures.end();++Titer)
     {
-      double beta = 1.0/(boltzmann*(*Titer)) ;
+      double beta = 1.0/(boltzmann_RCpK*(*Titer)) ;
 
       size_t imax = !Pressures.empty() ? Pressures.size() : Concentrations.size();
       //Inner loop is concentrations, possibly calculated from pressures if these were specified
@@ -181,7 +181,7 @@ namespace mesmer
     temp = Temperatures[0]; //temporary statements
     conc = Concentrations[0];
 
-    double beta = 1.0/(boltzmann*temp) ;
+    double beta = 1.0/(boltzmann_RCpK*temp) ;
 
     // Build collison matrix for system.
 
@@ -242,7 +242,7 @@ namespace mesmer
     ModelledMolecule* pmol=NULL;
     while(m_pMoleculeManager->GetNextMolecule(id, pmol))
     {
-      double zpe = pmol->get_zpe() * KcalPerMolToPerCm ;
+      double zpe = pmol->get_zpe() * KcalPerMolToRC ;
       EMax = std::max(EMax, zpe);
       EMin = std::min(EMin, zpe);
     }
@@ -260,7 +260,7 @@ namespace mesmer
       MaxT = *max_element(Temperatures.begin(), Temperatures.end());
 
     //Max energy is ** 20kT  ** above the highest well [was 10kT]
-    EMax = EMax + 20 * boltzmann * MaxT;
+    EMax = EMax + 20 * boltzmann_RCpK * MaxT;
     if(GrainSize==0.0)
       GrainSize = 100; //default 100cm-1
 

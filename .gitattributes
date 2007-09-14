@@ -21,6 +21,9 @@ src/Constants.h -text
 src/Makefile -text
 src/Matrix.h -text
 src/MesmerConfig.h -text
+src/MesmerILT.cpp -text
+src/MesmerILT.h -text
+src/MesmerMath.h -text
 src/MicroRate.cpp -text
 src/MicroRate.h -text
 src/Molecule.cpp -text

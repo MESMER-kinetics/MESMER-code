@@ -31,7 +31,7 @@ namespace mesmer
     for(int i = 0 ; i < 29 ; ++i)
     {
       double Temperature = double(i+2)*100.0 ;
-      double beta = 1.0/(boltzmann*Temperature) ;
+      double beta = 1.0/(boltzmann_RCpK*Temperature) ;
 
       double sm1 = 0.0 ;
       double sm2 = 0.0 ;

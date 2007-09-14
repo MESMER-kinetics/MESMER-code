@@ -1,3 +1,5 @@
+_2007_09_14__16_30_42_ Chi-Hsiu Liang
+
   * checked for new and delete declarations
   * reordered some dependencies
   * Modified namings of variables:  decll -> CellEne, 
@@ -5,14 +7,17 @@
                                     m_cdos -> m_CellDOS, 
                                     m_ecll -> m_CellEne,
                                     pcollidingmolecule -> pCollidingMolecule,
-                                    KCMLTOPCM -> KcalPerMolToPerCm,
+                                    KCMLTOPCM -> KcalPerMolToRC,
                                     ddosTS -> TScellDOS,
+                                    boltzmann -> boltzmann_RCpK
+                                    pi -> M_PI
 
   * Modified naming of functions: Initialize() -> InitializeMolecule(), 
                                   Initialize() -> InitializeReaction(),
                                   igsz() -> getGrainSize(),
 
   * updated source.ps
+  * added MesmerILT.cpp, MesmerILT.h, MesmerMath.h (for Gamma function)
 	
 2007-09-04 Chi-Hsiu Liang
 

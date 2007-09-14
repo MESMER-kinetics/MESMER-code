@@ -94,7 +94,7 @@ namespace mesmer
       isomeritr->second = msize ; //set location
 
       double zpe = isomer->get_zpe() - minEnergy ;
-      int grnZpe = int(zpe * KcalPerMolToPerCm / GetSys()->getGrainSize()) ; 
+      int grnZpe = int(zpe * KcalPerMolToRC / GetSys()->getGrainSize()) ; 
       int colloptrsize = GetSys()->MAXGrn()  - grnZpe ;
       isomer->set_grnZpe(grnZpe) ;
       isomer->set_colloptrsize(colloptrsize) ;

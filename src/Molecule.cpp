@@ -444,8 +444,7 @@ namespace mesmer
     double F = 2.43787 ;
     double amu = 1.6606E-27 ;
 
-    double pi = acos(-1.0) ;
-    double temp = 1.0/(boltzmann*beta) ;
+    double temp = 1.0/(boltzmann_RCpK*beta) ;
     //
     // Calculate collision parameter averages.
     //
@@ -464,7 +463,7 @@ namespace mesmer
     //
     // Calculate molecular collision frequency.
     //
-    collFrq *= pi*sam*sam*1.e-20*sqrt(8.*1.381e-23*temp/(pi*mu)) ;
+    collFrq *= M_PI*sam*sam*1.e-20*sqrt(8.*1.381e-23*temp/(M_PI*mu)) ;
     //
     // Calculate overall collision frequency.
     //
@@ -575,7 +574,6 @@ namespace mesmer
 
     double temp ;
     double beta ;
-    double pi = acos(-1.0) ;
 
     string comment("Partition function calculation at various temperatures.\n qtot : using analytical formula\n sumc : based on cells\n sumg  : based on grains");
 
@@ -583,7 +581,7 @@ namespace mesmer
     for ( int n = 0 ; n < 29 ; ++n ) {
 
       temp = 100.0*static_cast<double>(n + 2) ;
-      beta = 1.0/(boltzmann*temp) ;
+      beta = 1.0/(boltzmann_RCpK*temp) ;
 
       // Calculate partition functions based on cells.
 
@@ -605,7 +603,7 @@ namespace mesmer
       for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) {
         qtot /= (1.0 - exp(-beta*m_VibFreq[j])) ;
       }
-      qtot *= sqrt(pi/(m_MmtIntA * m_MmtIntB * m_MmtIntC))*(pow(beta,-1.5))/m_Sym ;
+      qtot *= sqrt(M_PI/(m_MmtIntA * m_MmtIntB * m_MmtIntC))*(pow(beta,-1.5))/m_Sym ;
       formatFloat(cout, temp,  6,  7) ;
       formatFloat(cout, qtot,  6, 15) ;
       formatFloat(cout, sumc,  6, 15) ;

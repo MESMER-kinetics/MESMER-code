@@ -52,7 +52,7 @@ namespace mesmer
 
     // Conversion of EINF from kcal.mol^-1 to cm^-1
 
-    int nEinf = int(pReact->get_ActivationEnergy()*KcalPerMolToPerCm) ;
+    int nEinf = int(pReact->get_ActivationEnergy()*KcalPerMolToRC) ;
 
     // Calculate microcanonical rate coefficients using simple ILT expression.
 
