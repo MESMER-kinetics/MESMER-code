@@ -1,8 +1,7 @@
 #ifndef GUARD_MesmerConfig_h
 #define GUARD_MesmerConfig_h
 
-// Compiler specific configuration - all in this file
-
+// -------------------   Compiler specific configuration
 #ifdef __CYGWIN__
 #define IsNan isnan
 #else
@@ -31,5 +30,13 @@
 #endif //__LINUX__
 #endif //__UNIX__
 #endif //__CYGWIN__
+
+// -------------------   Precision
+
+// Mesmer High precision
+#ifndef MesmerHP
+
+#define MesmerHP long double
+#endif //MesmerHP
 
 #endif // GUARD_MesmerConfig_h

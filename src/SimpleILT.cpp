@@ -16,7 +16,7 @@ namespace mesmer
   //
 
 
-  bool SimpleILT::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &kfmc)
+  bool SimpleILT::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc)
   {
     System* pSys = pReact->GetSys();
 
@@ -33,13 +33,13 @@ namespace mesmer
     }
 
     // Allocate space to hold Micro-canonical rate coefficients.
-    kfmc.resize(pSys->MAXCell());
+    cellKfmc.resize(pSys->MAXCell());
 
     // Initialize microcanoincal rate coefficients.
 
     int i ;
     for (i = 0 ; i < pSys->MAXCell() ; ++i ) {
-        kfmc[i] = 0.0 ;
+        cellKfmc[i] = 0.0 ;
     }
 
     // Allocate some work space for density of states.
@@ -48,7 +48,7 @@ namespace mesmer
 
     // Extract densities of states from molecules.
 
-    pReactant->cellDensityOfStates(&cellDOS[0]) ;
+    pReactant->cellDensityOfStates(cellDOS) ;
 
     // Conversion of EINF from kcal.mol^-1 to cm^-1
 
@@ -57,7 +57,7 @@ namespace mesmer
     // Calculate microcanonical rate coefficients using simple ILT expression.
 
     for (i = nEinf ; i < pSys->MAXCell() ; ++i ) {
-      kfmc[i] = pReact->get_PreExp()*cellDOS[i-nEinf] / cellDOS[i] ;
+      cellKfmc[i] = pReact->get_PreExp()*cellDOS[i-nEinf] / cellDOS[i] ;
     }
 
     return true;

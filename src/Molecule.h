@@ -76,16 +76,16 @@ namespace mesmer
       virtual bool InitializeMolecule(System* pSys, PersistPtr pp);
 
       // Get the density of states.
-      void cellDensityOfStates(double *) ;
+      void cellDensityOfStates(std::vector<double> &cellDOS) ;
 
       // Get cell energies.
-      void cellEnergies(double *) ;
+      void cellEnergies(std::vector<double> &CellEne) ;
 
       // Get grain density of states.
-      void grnDensityOfStates(std::vector<double> &dosGrn) ;
+      void grnDensityOfStates(std::vector<double> &grainDOS) ;
 
       // Get grain energies.
-      void grnEnergies(std::vector<double> &eGrn) ;
+      void grnEnergies(std::vector<double> &grainEne) ;
 
       // Accessors.
       double get_zpe() const { return m_ZPE ; } ;
@@ -124,10 +124,10 @@ namespace mesmer
       //int                  m_MaxCell ;     // Maximum number of cells to use.
       //int                  m_MaxGrn  ;     // Maximum number of grains.
       //int                  m_GrnSz ;       // Grain size in cm-1.
-      double              *m_cellEne ;        // Pointer to cell mid-point energy array.
-      double              *m_cellDOS ;        // Pointer to cell density of states array.
-      std::vector<double>  m_egrn ;        // Pointer to grain average energy array.
-      std::vector<double>  m_gdos ;        // Pointer to grain density of states array.
+      std::vector<double>  m_cellEne ;         // Pointer to cell mid-point energy array.
+      std::vector<double>  m_cellDOS ;         // Pointer to cell density of states array.
+      std::vector<double>  m_grainEne ;        // Pointer to grain average energy array.
+      std::vector<double>  m_grainDOS ;        // Pointer to grain density of states array.
 
     } ;
 

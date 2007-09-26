@@ -26,8 +26,8 @@ namespace mesmer
             m_Product2(NULL),
             m_TransitionState(NULL),
             m_kfwd(0.0),
-            m_kfmc(),
-            m_kfgrn()
+            m_CellKfmc(),
+            m_GrainKfmc()
             {}
 
   Reaction::~Reaction()
@@ -254,7 +254,7 @@ namespace mesmer
   //
   void Reaction::get_MicroRateCoeffs(std::vector<double> &kmc) {
     calcGrnAvrgMicroRateCoeffs();
-    kmc = m_kfgrn ;
+    kmc = m_GrainKfmc ;
   }
 
   //
@@ -263,14 +263,14 @@ namespace mesmer
   bool Reaction::calcGrnAvrgMicroRateCoeffs() {
 
     // Calculate microcanonical rate coefficients.
-    if (m_kfmc.size()==0)
+    if (m_CellKfmc.size()==0)
     {
-      if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this, m_kfmc) ||
-        (GetSys()->TestMicroRatesEnabled() && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_kfmc, m_ppPersist)))
+      if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this, m_CellKfmc) ||
+        (GetSys()->TestMicroRatesEnabled() && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_CellKfmc, m_ppPersist)))
         return false;
     }
     // Calculate Grain averages of microcanonical rate coefficients.
-    if (m_kfgrn.size()==0)
+    if (m_GrainKfmc.size()==0)
         return grnAvrgMicroRateCoeffs() ;
     return true;
   }
@@ -283,16 +283,17 @@ namespace mesmer
   bool Reaction::grnAvrgMicroRateCoeffs() {
 
     int ngrn = GetSys()->MAXGrn();
-    m_kfgrn.resize(ngrn);
+    int currentGrainSize = GetSys()->getGrainSize();
+    m_GrainKfmc.resize(ngrn);
 
     // Extract density of states of equilibrium molecule.
 
     vector<double> cellDOS(GetSys()->MAXCell(),0.0) ;
-    m_Reactant->cellDensityOfStates(&cellDOS[0]) ;
+    m_Reactant->cellDensityOfStates(cellDOS) ;
 
     // Check that there are enough cells.
 
-    if (GetSys()->getGrainSize() < 1) {
+    if (currentGrainSize < 1) {
       stringstream errorMsg;
       errorMsg << "Not enought Cells to produce requested number of Grains.";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
@@ -302,25 +303,25 @@ namespace mesmer
     int idx1 = 0 ;
     int idx2 = 0 ;
 
-    for (int i(0) ; i < ngrn ; ++i ) {
+    for (int i = 0; i < ngrn ; ++i ) {
 
       int idx3 = idx1 ;
 
       // Calculate the number of states in a grain.
 
-      double smt(0.0) ;
-      for (int j(0) ; j < GetSys()->getGrainSize() ; ++j, ++idx1 )
+      double smt = .0 ;
+      for (int j = 0 ; j < currentGrainSize ; ++j, ++idx1 )
         smt += cellDOS[idx1] ;
 
       // Calculate average energy of the grain if it contains sum states.
 
       if ( smt > 0.0 ) {
 
-        double smat(0.0) ;
-        for (int j(0) ; j < GetSys()->getGrainSize() ; ++j, ++idx3 )
-          smat += m_kfmc[idx3] * cellDOS[idx3] ;
+        double smat = .0;
+        for (int j= 0 ; j < currentGrainSize ; ++j, ++idx3 )
+          smat += m_CellKfmc[idx3] * cellDOS[idx3] ;
 
-        m_kfgrn[idx2] = smat/smt ;
+        m_GrainKfmc[idx2] = smat/smt ;
         idx2++ ;
       }
     }
@@ -383,20 +384,20 @@ namespace mesmer
     // Get densities of states for detailed balance.
 
     const int ngrn = GetSys()->MAXGrn();
-    vector<double> rctDos(ngrn, 0.0) ;
-    vector<double> pdtDos(ngrn, 0.0) ;
+    vector<double> rctDOS(ngrn, 0.0) ;
+    vector<double> pdtDOS(ngrn, 0.0) ;
 
-    m_Reactant->grnDensityOfStates(rctDos) ;
-    m_Product->grnDensityOfStates(pdtDos) ;
+    m_Reactant->grnDensityOfStates(rctDOS) ;
+    m_Product->grnDensityOfStates(pdtDOS) ;
 
     const int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
     for ( int i = max(0,-idx) ; i < min(ngrn,(ngrn-idx)) ; ++i ) {
       int ll = i + idx ;
       int ii(rctLocation + ll) ;
       int jj(pdtLocation + i) ;
-      (*CollOptr)[ii][ii] -= rMeanOmega * m_kfgrn[ll] ;                            // Forward loss reaction.
-      (*CollOptr)[jj][jj] -= rMeanOmega * m_kfgrn[ll]*rctDos[ll]/pdtDos[i] ;       // Backward loss reaction from detailed balance.
-      (*CollOptr)[ii][jj]  = rMeanOmega * m_kfgrn[ll]*sqrt(rctDos[ll]/pdtDos[i]) ; // Reactive gain.
+      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKfmc[ll] ;                            // Forward loss reaction.
+      (*CollOptr)[jj][jj] -= rMeanOmega * m_GrainKfmc[ll]*rctDOS[ll]/pdtDOS[i] ;       // Backward loss reaction from detailed balance.
+      (*CollOptr)[ii][jj]  = rMeanOmega * m_GrainKfmc[ll]*sqrt(rctDOS[ll]/pdtDOS[i]) ; // Reactive gain.
       (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                 // Reactive gain.
     }
   }
@@ -417,18 +418,18 @@ namespace mesmer
     // Get densities of states for detailed balance.
 
     const int ngrn = GetSys()->MAXGrn();
-    vector<double> rctDos(ngrn, 0.0) ;
+    vector<double> rctDOS(ngrn, 0.0) ;
 
-    m_Reactant->grnDensityOfStates(rctDos) ;
+    m_Reactant->grnDensityOfStates(rctDOS) ;
 
     const int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
     for ( int i = max(0,-idx) ; i < min(ngrn,(ngrn-idx)) ; ++i ) {
       int ll = i + idx ;
       int ii(rctLocation + ll) ;
       int jj(pdtLocation) ;
-      (*CollOptr)[ii][ii] -= rMeanOmega * m_kfgrn[ll] ;                            // Forward loss reaction.
-      //(*CollOptr)[jj][jj] -= rMeanOmega * m_kfgrn[ll]*rctDos[ll]/pdtDos[i] ;       // Backward loss reaction from detailed balance.
-      //(*CollOptr)[ii][jj]  = rMeanOmega * m_kfgrn[ll]*sqrt(rctDos[ll]/pdtDos[i]) ; // Reactive gain.
+      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKfmc[ll] ;                            // Forward loss reaction.
+      //(*CollOptr)[jj][jj] -= rMeanOmega * m_GrainKfmc[ll]*rctDOS[ll]/pdtDOS[i] ;       // Backward loss reaction from detailed balance.
+      //(*CollOptr)[ii][jj]  = rMeanOmega * m_GrainKfmc[ll]*sqrt(rctDOS[ll]/pdtDOS[i]) ; // Reactive gain.
       //(*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                 // Reactive gain.
     }
   }
@@ -444,7 +445,7 @@ namespace mesmer
 
       for ( int i = 0 ; i < m_Reactant->get_colloptrsize() ; ++i ) {
           int ii(rctLocation + i) ;
-          (*CollOptr)[ii][ii] -= rMeanOmega * m_kfgrn[i] ;                            // Forward loss reaction.
+          (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKfmc[i] ;                            // Forward loss reaction.
       }
   }
 

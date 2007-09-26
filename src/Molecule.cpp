@@ -27,8 +27,8 @@ namespace mesmer
     m_MmtIntC(0.0),
     m_Sym(0.0),
     m_ZPE(0.0),
-    m_cellEne(NULL),
-    m_cellDOS(NULL)
+    m_cellEne(),
+    m_cellDOS()
   {}
 
   CollidingMolecule::CollidingMolecule():
@@ -41,8 +41,8 @@ namespace mesmer
   ModelledMolecule::~ModelledMolecule()
   {
     // Free any memory assigned for calculating densities of states.
-    if (m_cellDOS != NULL) m_alloc.deallocate(m_cellDOS, GetSys()->MAXCell()) ;
-    if (m_cellEne != NULL) m_alloc.deallocate(m_cellEne, GetSys()->MAXCell()) ;
+    if (m_cellDOS.size()) m_cellDOS.clear();
+    if (m_cellEne.size()) m_cellEne.clear();
   }
 
   CollidingMolecule::~CollidingMolecule()
@@ -207,11 +207,11 @@ namespace mesmer
   //
   // Get cell density of states.
   //
-  void ModelledMolecule::cellDensityOfStates(double *cellDOS) {
+  void ModelledMolecule::cellDensityOfStates(vector<double> &cellDOS) {
 
     // If density of states have not already been calcualted then do so.
 
-    if (!m_cellDOS)
+    if (!m_cellDOS.size())
         calcDensityOfStates() ;
 
     for (int i = 0 ; i < GetSys()->MAXCell() ; ++i )
@@ -221,11 +221,11 @@ namespace mesmer
   //
   // Get cell energies.
   //
-  void ModelledMolecule::cellEnergies(double *CellEne) {
+  void ModelledMolecule::cellEnergies(vector<double> &CellEne) {
 
     // If energies have not already been calcualted then do so.
 
-    if (!m_cellDOS)
+    if (!m_cellDOS.size())
         calcDensityOfStates() ;
 
     for (int i = 0 ; i < GetSys()->MAXCell() ; ++i )
@@ -235,27 +235,27 @@ namespace mesmer
   //
   // Get grain density of states.
   //
-  void ModelledMolecule::grnDensityOfStates(vector<double> &dosGrn) {
+  void ModelledMolecule::grnDensityOfStates(vector<double> &grainDOS) {
 
     // If density of states have not already been calcualted then do so.
 
-    if (!m_cellDOS)
+    if (!m_cellDOS.size())
         calcDensityOfStates() ;
 
-    dosGrn = m_gdos ;
+    grainDOS = m_grainDOS ;
   }
 
   //
   // Get grain energies.
   //
-  void ModelledMolecule::grnEnergies(vector<double> &eGrn) {
+  void ModelledMolecule::grnEnergies(vector<double> &grainEne) {
 
     // If energies have not already been calcualted then do so.
 
-    if (!m_cellDOS)
+    if (!m_cellDOS.size())
         calcDensityOfStates() ;
 
-    eGrn = m_gdos ;
+    grainEne = m_grainEne ;
   }
 
   //-------------------------------------------------------------------------------------------
@@ -269,7 +269,7 @@ namespace mesmer
 
     // If density of states have not already been calcualted then do so.
 
-    if (!m_cellDOS)
+    if (!m_cellDOS.size())
         calcDensityOfStates() ;
 
     // Calculate the collision frequency.
@@ -307,7 +307,7 @@ namespace mesmer
     // Initialisation and error checking.
     //
     for ( i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
-      if (m_gdos[i] <= 0.0) {
+      if (m_grainDOS[i] <= 0.0) {
         stringstream errorMsg;
         errorMsg << "Data indicates that grain " << i << " of the current colliding molecule has no states.";
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
@@ -318,17 +318,17 @@ namespace mesmer
     // The collision operator.
     //
     for ( i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
-      double ei = m_egrn[i] ;
-      double ni = m_gdos[i] ;
+      double ei = m_grainEne[i] ;
+      double ni = m_grainDOS[i] ;
       for ( j = i ; j < GetSys()->MAXGrn() ; ++j ) {
         //
         // Transfer to lower Energy -
         //
-        (*m_egme)[i][j] = exp(-alpha*(m_egrn[j] - ei)) ;
+        (*m_egme)[i][j] = exp(-alpha*(m_grainEne[j] - ei)) ;
         //
         // Transfer to higher Energy (via detailed balance) -
         //
-        (*m_egme)[j][i] = (*m_egme)[i][j] * (m_gdos[j]/ni)*exp(-beta*(m_egrn[j] - ei)) ;
+        (*m_egme)[j][i] = (*m_egme)[i][j] * (m_grainDOS[j]/ni)*exp(-beta*(m_grainEne[j] - ei)) ;
       }
     }
     //
@@ -363,7 +363,7 @@ namespace mesmer
     //
     cout << endl << "Normalization constants" << endl << endl ;
     for ( i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
-      cout <<  m_egrn[i] << " " << work[i] << endl ;
+      cout <<  m_grainEne[i] << " " << work[i] << endl ;
       (*m_egme)[i][i] *= work[i] ;
       (*m_egme)[i][i] -= 1.0 ;
       for ( j = i + 1 ; j < GetSys()->MAXGrn() ; ++j ) {
@@ -385,7 +385,7 @@ namespace mesmer
     // distribution.
     //
     for ( i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
-      double ei = log(m_gdos[i]) - beta*m_egrn[i] + 10.0 ;
+      double ei = log(m_grainDOS[i]) - beta*m_grainEne[i] + 10.0 ;
       ei = exp(ei) ;
       work[i] = sqrt(ei) ;
     }
@@ -417,7 +417,7 @@ namespace mesmer
 
     cout << endl ;
     for (int i(0) ; i < msize ; ++i)  {
-      formatFloat(cout, m_egrn[i],              6, 15) ;
+      formatFloat(cout, m_grainEne[i],              6, 15) ;
       formatFloat(cout, (*m_egme)[i][pSys->MAXGrn()-1], 6, 15) ;
       formatFloat(cout, (*m_egme)[i][pSys->MAXGrn()-2], 6, 15) ;
       cout << endl ;
@@ -530,29 +530,35 @@ namespace mesmer
 
     cout << endl << "The number of Frequencies is " << m_VibFreq.size() << endl ;
 
-    m_cellDOS = m_alloc.allocate(GetSys()->MAXCell()) ;
-    m_cellEne = m_alloc.allocate(GetSys()->MAXCell()) ;
+    m_cellDOS.clear(); m_cellEne.clear(); //make sure there is no residue left
 
     //
     // Initialize density of states array using calculated rotational
     // density of state.
     //
 
-    //From inverse Laplace transform of 3-D asymmetric top rotor(needs revise for varieties)
+    //From inverse Laplace transform of 3-D asymmetric top rotor(needs revise for varieties)?
     double cnt = sqrt(4./(m_MmtIntA * m_MmtIntB * m_MmtIntC))/m_Sym ;
 
-    int i ;
+    if (1)
+      cout << "cnt = " << cnt << endl;
+
+    int i ; 
     for ( i = 0 ; i < GetSys()->MAXCell() ; ++i ) {
-      m_cellEne[i] = static_cast<double>(i) + 0.5 ;
-      m_cellDOS[i] = cnt*sqrt(m_cellEne[i]) ;
+      m_cellEne.push_back(static_cast<double>(i) + 0.5);
+      m_cellDOS.push_back(cnt*sqrt(m_cellEne[i]));
     }
 
     // Implementation of the Bayer-Swinehart algorithm.
 
     for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) {
-      int iFreq = static_cast<int>(m_VibFreq[j]) ;
-      for ( i = 0 ; i < GetSys()->MAXCell() - iFreq ; ++i )
-          m_cellDOS[i + iFreq] += m_cellDOS[i] ;
+      int iFreq = static_cast<int>(m_VibFreq[j] +.5) ; 
+      // +.5 makes sure it floors to the frequency that is closer to the integer
+      // the original case has larger difference where if frequency = 392.95 it floors to 392
+      for ( i = 0 ; i < GetSys()->MAXCell() - iFreq ; ++i ){
+        m_cellDOS[i + iFreq] += m_cellDOS[i] ;
+        cout << "m_cellDOS[" << i << "] = " << m_cellDOS[i] << ", m_cellDOS[" << i + iFreq << "] = " << m_cellDOS[i + iFreq] << endl;
+      }
     }
 
     // Calculate grain averages.
@@ -594,7 +600,7 @@ namespace mesmer
 
       double sumg  = 0.0 ;
       for ( int i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
-        sumg += m_gdos[i]*exp(-beta*m_egrn[i]) ;
+        sumg += m_grainDOS[i]*exp(-beta*m_grainEne[i]) ;
       }
 
       // Calculate partition functions using analytical formula.
@@ -602,6 +608,7 @@ namespace mesmer
       double qtot = 1.0 ;
       for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) {
         qtot /= (1.0 - exp(-beta*m_VibFreq[j])) ;
+        //cout << "qtot[" << j << "] = " << qtot << endl;
       }
       qtot *= sqrt(M_PI/(m_MmtIntA * m_MmtIntB * m_MmtIntC))*(pow(beta,-1.5))/m_Sym ;
       formatFloat(cout, temp,  6,  7) ;
@@ -613,10 +620,9 @@ namespace mesmer
       //Add to XML document
       PersistPtr ppItem = ppList->XmlWriteElement("me:densityOfStates");
       ppItem->XmlWriteValueElement("me:T",    temp, 6);
-      ppItem->XmlWriteValueElement("me:qtot", qtot, 6) ;
-      ppItem->XmlWriteValueElement("me:sumc", sumc, 6) ;
-      ppItem->XmlWriteValueElement("me:sumg", sumg, 6) ;
-
+      ppItem->XmlWriteValueElement("me:qtot", qtot, 6);
+      ppItem->XmlWriteValueElement("me:sumc", sumc, 6);
+      ppItem->XmlWriteValueElement("me:sumg", sumg, 6);
     }
 
   }
@@ -626,8 +632,8 @@ namespace mesmer
   //
   void ModelledMolecule::calcGrainAverages() {
 
-    m_egrn.resize(GetSys()->MAXGrn()) ;
-    m_gdos.resize(GetSys()->MAXGrn()) ;
+    m_grainEne.resize(GetSys()->MAXGrn()) ;
+    m_grainDOS.resize(GetSys()->MAXGrn()) ;
 
     //    int igsz = MAXCELL/MAXGRN ;
 
@@ -661,8 +667,8 @@ namespace mesmer
         for (int j = 0 ; j < GetSys()->getGrainSize() ; ++j, ++idx3 )
             smat += m_cellEne[idx3] * m_cellDOS[idx3] ;
 
-        m_gdos[idx2] = smt ;
-        m_egrn[idx2] = smat/smt ;
+        m_grainDOS[idx2] = smt ;
+        m_grainEne[idx2] = smat/smt ;
         idx2++ ;
       }
     }

@@ -28,7 +28,7 @@ RANLIB := ranlib
 DEBUG_CFLAGS     := -Wall -Wno-format -g -DDEBUG
 RELEASE_CFLAGS   := -Wall -Wno-unknown-pragmas -Wno-format -O3
 
-LIBS		 := ../tinyxml/tinyxml.a
+LIBS		 := ../tinyxml/tinyxml.a ../qd/src/libqd.a
 
 DEBUG_CXXFLAGS   := ${DEBUG_CFLAGS} 
 RELEASE_CXXFLAGS := ${RELEASE_CFLAGS}

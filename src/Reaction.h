@@ -82,8 +82,10 @@ namespace mesmer
     TransitionState* get_TransitionState()const { return m_TransitionState ; } ;
 
     // Reactant information:
-
     void get_unimolecularspecies(std::vector<CollidingMolecule *> &unimolecularspecies) const ;
+    
+    // Product information:
+    
 
     // Get the principal source reactant (i.e. reactant not in excess) if it exists.
 
@@ -125,8 +127,8 @@ namespace mesmer
     // Reaction Rate data.
     //
     double              m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
-    std::vector<double> m_kfmc ;             // Forward microcanonical rate coefficients.
-    std::vector<double> m_kfgrn ;            // Grained averaged forward microcanonical rates.
+    std::vector<double> m_CellKfmc ;         // Forward microcanonical rate coefficients.
+    std::vector<double> m_GrainKfmc ;        // Grained averaged forward microcanonical rates.
 
     double              m_ActEne ;           // Activation Energy
     double              m_PreExp ;           // Preexponetial factor

@@ -8,7 +8,7 @@ namespace mesmer
   using namespace std;
   using namespace Constants ;
 
-  bool MicroRateCalculator::testMicroRateCoeffs(Reaction* pReact, vector<double> &kfmc, PersistPtr ppbase) const
+  bool MicroRateCalculator::testMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc, PersistPtr ppbase) const
   {
     System* pSys = pReact->GetSys();
 
@@ -25,8 +25,8 @@ namespace mesmer
     vector<double> CellEne(pSys->MAXCell(),0.0) ;
     vector<double> cellDOS(pSys->MAXCell(),0.0) ;
 
-    pReactant->cellEnergies(&CellEne[0]) ;
-    pReactant->cellDensityOfStates(&cellDOS[0]) ;
+    pReactant->cellEnergies(CellEne) ;
+    pReactant->cellDensityOfStates(cellDOS) ;
 
     for(int i = 0 ; i < 29 ; ++i)
     {
@@ -38,7 +38,7 @@ namespace mesmer
       double tmp = 0.0 ;
       for ( int i = 0 ; i < pSys->MAXCell() ; ++i ) {
         tmp  = cellDOS[i] * exp(-beta * CellEne[i]) ;
-        sm1 += kfmc[i] * tmp ;
+        sm1 += cellKfmc[i] * tmp ;
         sm2 +=           tmp ;
       }
       sm1 /= sm2 ;

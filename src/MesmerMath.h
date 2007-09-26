@@ -57,9 +57,7 @@ const T MesmerGamma(const T& x)
   if (x == (int) x) {
     if (x > 0.0) {
       ga = 1.0;               // use factorial
-      for (i=2;i<x;i++) {
-        ga *= i;
-      }
+      for (i=2;i<x;--i) ga *= i;
     }
     else ga = 1e308;
   }
@@ -68,12 +66,12 @@ const T MesmerGamma(const T& x)
       z = fabs(x);
       m = (int)z;
       r = 1.0;
-      for (k=1;k<=m;k++) r *= (z-k);
+      for (k=1;k<=m;++k) r *= (z-k);
       z -= m;
     }
     else z = x;
     gr = g[24];
-    for (k=23;k>=0;k--) gr = gr*z+g[k];
+    for (k=23;k>=0;--k) gr = gr*z+g[k];
     ga = 1.0/(gr*z);
     if (fabs(x) > 1.0) {
       ga *= r;

@@ -42,7 +42,7 @@
                     <scalar units="cm-1">230.0</scalar>
                 </property>
             </propertyList>
-            <me:densityOfStatesList calculated="Thu Aug 30 16:09:18 2007">
+            <me:densityOfStatesList calculated="Fri Aug 31 16:13:00 2007">
                 <me:description>Partition function calculation at various temperatures.                   qtot : using analytical formula. sumc : based on cells. sumg : based on grains.</me:description>
                 <me:densityOfStates>
                     <me:T>200</me:T>
@@ -260,7 +260,7 @@
                     <scalar units="cm-1">230.0</scalar>
                 </property>
             </propertyList>
-            <me:densityOfStatesList calculated="Thu Aug 30 16:09:20 2007">
+            <me:densityOfStatesList calculated="Fri Aug 31 16:13:03 2007">
                 <me:description>Partition function calculation at various temperatures.                   qtot : using analytical formula. sumc : based on cells. sumg : based on grains.</me:description>
                 <me:densityOfStates>
                     <me:T>200</me:T>
@@ -478,7 +478,7 @@
                     <scalar units="cm-1">230.0</scalar>
                 </property>
             </propertyList>
-            <me:densityOfStatesList calculated="Thu Aug 30 16:09:19 2007">
+            <me:densityOfStatesList calculated="Fri Aug 31 16:13:02 2007">
                 <me:description>Partition function calculation at various temperatures.                   qtot : using analytical formula. sumc : based on cells. sumg : based on grains.</me:description>
                 <me:densityOfStates>
                     <me:T>200</me:T>
@@ -703,7 +703,7 @@
             <!--Use zero point energies instead
           <me:threshold>25.99</me:threshold>-->
             <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
-            <me:microRateList calculated="Thu Aug 30 16:09:21 2007">
+            <me:microRateList calculated="Fri Aug 31 16:13:04 2007">
                 <me:description>Microcanonical rate coefficients</me:description>
                 <me:microRate>
                     <me:T>200</me:T>
@@ -847,7 +847,7 @@
     <metadataList>
         <metadata name="dc:creator" content="Mesmer v0.1" />
         <metadata name="dc:description" content="Calculation of the interaction between collisional energy transfer and chemical reaction for dissociation, isomerization and association processes" />
-        <metadata name="dc:date" content="Thu Aug 30 16:09:18 2007" />
+        <metadata name="dc:date" content="Fri Aug 31 16:13:00 2007" />
         <metadata name="dc:contributor" content="unknown" />
     </metadataList>
 </me:mesmer>

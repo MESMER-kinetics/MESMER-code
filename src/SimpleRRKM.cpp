@@ -9,7 +9,7 @@ namespace mesmer
   SimpleRRKM theSimpleRRKM("Simple RRKM");
   //************************************************************
 
-  bool SimpleRRKM::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &kfmc)
+  bool SimpleRRKM::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc)
   {
     System* pSys = pReact->GetSys();  
     vector<CollidingMolecule *> unimolecularspecies;
@@ -26,13 +26,13 @@ namespace mesmer
     }
 
     // Allocate space to hold Micro-canonical rate coefficients.
-    kfmc.resize(pSys->MAXCell());
+    cellKfmc.resize(pSys->MAXCell());
 
     // Initialize microcanoincal rate coefficients.
 
     int i, j ;
     for (i = 0 ; i < pSys->MAXCell() ; ++i ) {
-        kfmc[i] = 0.0 ;
+        cellKfmc[i] = 0.0 ;
     }
 
     // Allocate some work space for density of states.
@@ -42,8 +42,8 @@ namespace mesmer
 
     // Extract densities of states from molecules.
 
-    pReactant->cellDensityOfStates(&cellDOS[0]) ;
-    pTS->cellDensityOfStates(&TScellDOS[0]) ;
+    pReactant->cellDensityOfStates(cellDOS) ;
+    pTS->cellDensityOfStates(TScellDOS) ;
 
     double SumOfStates  = 0.0 ;
     int thresholdEnergy = int((pTS->get_zpe() - pReactant->get_zpe()) * KcalPerMolToRC) ;
@@ -55,7 +55,7 @@ namespace mesmer
 
         // Calculate microcanonical rate coefficients using RRKM expression.
 
-        kfmc[i] = SumOfStates * SpeedOfLight_cm / cellDOS[i];
+        cellKfmc[i] = SumOfStates * SpeedOfLight_cm / cellDOS[i];
     }
     return true;
   }

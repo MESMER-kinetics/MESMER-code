@@ -1,3 +1,22 @@
+_2007_09_25__10_31_44_ CHi-Hsiu Liang
+
+  * Add a ToDo file
+  * Add qd source into trunk directory
+  * Precision definitions in MesmerConfig.h
+  * More edits to MesmerILT.cpp
+  * Modified namings of variables:  kfmc -> cellKfmc
+                                    m_kfgrn -> m_GrainKfmc
+                                    m_kfmc -> m_CellKfmc
+                                    dosGrn -> grainDOS
+                                    eGrn -> grainEne
+                                    m_gdos -> m_grainDOS
+                                    m_egrn -> m_grainEne
+                                    rctDos -> rctDOS
+                                    pdtDos -> pdtDOS
+                                    
+  * change CellEne and CellDOS to vectors
+  * some other minor modifications
+  
 _2007_09_14__16_30_42_ Chi-Hsiu Liang
 
   * checked for new and delete declarations

@@ -1,0 +1,71 @@
+Installation Instructions
+=========================
+
+Platform specific installation notes appear after the 
+following generic instructions.
+
+Standard Installation Instruction
+---------------------------------
+
+To build the qd library, follow the following steps.
+
+  1. Run the configure script by typing
+
+       ./configure
+
+     The script will attempt to automatically detect various 
+     system-dependent features used during compilation (such as 
+     C++ / Fortran compiler characteristics and availability of 
+     certain system headers).
+
+     If you want to specify a particular C++ / Fortran-90 compiler 
+     and their compiler flags, you can set them as environmental 
+     variables before running configure.  For example:
+
+       CXX=icc CXXFLAGS='-O2 -mp' FC=ifort FCFLAGS='-O2 -mp' ./configure
+
+     Some variable of interests are
+
+       CXX       C++ compiler to use
+       CXXFLAGS  C++ compiler flags to use
+       FC        Fortran 90 compiler
+       FCFLAGS   Fortran 90 compiler flags to use
+       FCLIBS    Fortran 90 libraries needed to to link with C++ code
+       LDFLAGS   Linker flags
+
+     For more build options, type "./configure --help".  In particular, 
+     if you want to install to a custom path, do something like
+
+       ./configure --prefix=/custom/path
+
+  3. Type "make".  This will build the qd library.
+
+  4. Optionally, one can build and run some simple test programs.
+     To do this, type "make check".  Some programs run during this
+     phase (especially qd_test and pslq_test in tests directory) is
+     a good demonstration of how to use the qd library in C++.
+
+     There are two other programs qd_timer and quadt_test that can be
+     built inside tests directory using "make qd_timer" and "make 
+     quadt_test".  The program qd_timer times the basic operations in 
+     double-double and quad-double.  The program quadt_test is another
+     demo program that computes quadratures of various functions.
+
+  5. If you want to build some sample programs written in Fortran 90, 
+     you can type "make fortran-demo".
+
+  6. Type "make install" to install the quad-double library to
+     the location specified (through --prefix option) to the configure 
+     script (default is "/usr/local").
+
+
+Platform Specific Notes
+-----------------------
+
+Cygwin   On Windows running Cygwin, you may need to specify CXX=g++, since
+         otherwise the configure script may use CC, which is linked to 
+         gcc (C compiler, not C++ compiler).  This is caused by the fact that
+         most Windows filesystems is not case sensitive (cc and CC is the
+         same file).
+
+

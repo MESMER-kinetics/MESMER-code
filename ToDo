@@ -1,0 +1,9 @@
+_2007_09_19__09_38_18_ Chi-Hsiu Liang
+
+  * Set upper limit of EGME to 99%? of the energy under Boltzmann distribution 
+    of the largest complex or the upper limit defined previously (whichever higher).
+  * parallel computation treatment of the matrix diagonalisation processes -- 
+    degradation of matrices.
+  * update the precision of varaibles -- the double-double (dd) and quad-double (qd)
+    operations are time consuming processes; therefore, it is better to allow user
+    choosing precision on runtime, i.e. not on the compilation time.

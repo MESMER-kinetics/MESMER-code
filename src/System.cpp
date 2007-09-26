@@ -16,7 +16,7 @@ using namespace Constants ;
 
 namespace mesmer
 {
-  System::System(): m_pMoleculeManager(0), m_pReactionManager(0) {
+  System::System(): m_pMoleculeManager(0), m_pReactionManager(0){
       m_pMoleculeManager = new MoleculeManager(this) ;
       m_pReactionManager = new ReactionManager(this, m_pMoleculeManager) ;
   }
