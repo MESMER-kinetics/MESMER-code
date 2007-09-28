@@ -1,6 +1,8 @@
 * text=auto !eol
 /ChangeLog -text
+Documentation/Mesmer[!!-~]FAQ.doc -text
 Documentation/proposal.doc -text
+/README -text
 /ToDo -text
 Windows[!!-~]VC8/MESMER.sln -text
 Windows[!!-~]VC8/Mesmer/HSO2.xml -text
@@ -144,6 +146,7 @@ src/MesmerConfig.h -text
 src/MesmerILT.cpp -text
 src/MesmerILT.h -text
 src/MesmerMath.h -text
+src/MesmerPrecision.h -text
 src/MicroRate.cpp -text
 src/MicroRate.h -text
 src/Molecule.cpp -text

@@ -178,9 +178,9 @@ namespace mesmer
     private:
 
       // Calculate collision frequency.
-      double collisionFrequency(double temp, double conc, Molecule *pBathGasMolecule) ;
+      double collisionFrequency(double beta, double conc, Molecule *pBathGasMolecule) ;
       // Calculate collision operator.
-      void   collisionOperator (double temp) ;
+      void   collisionOperator (double beta) ;
 
       int    m_grnZpe ;             // Zero point energy expressed in grains.
       int    m_ncolloptrsize ;      // Size of the collision operator matrix.

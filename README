@@ -1,0 +1,29 @@
+------------------------------------------------------------------------
+* Master Equation Solver for Multi Energy-well Reactions (MESMER)
+*
+* Struan H. Robertson    Accelrys Inc.  struanr@accelrys.com
+* Chris Morley                          arcl02@dsl.pipex.com
+* Chi-Hsiu Liang         Univ. Leeds    c.liang@leeds.ac.uk
+*
+------------------------------------------------------------------------
+
+I.   Introduction
+II.  Directories and Files
+III. Installation
+
+
+Introduction
+------------
+
+Directories and Files
+---------------------
+
+Installation
+------------
+
+-- Install libraries
+QD: The installation of library qd has to be made to the system default directory, 
+which is "/usr/local" for many UNIX/Linux systems. To install qd on your platform 
+please follow the direction of the file INSTALL in the qd directory. 
+
+TINYXML: 

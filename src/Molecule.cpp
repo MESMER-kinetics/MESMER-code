@@ -8,7 +8,7 @@
 // This file contains the implementation of the Molecule class and its derived classes.
 //
 //-------------------------------------------------------------------------------------------
-
+	
 #include "System.h"
 
 using namespace std ;
@@ -291,8 +291,8 @@ namespace mesmer
     //    ii) Normalisation of Probability matrix.
     //   iii) Symmetrise Collision Matrix.
     //
-    int i, j ;
-
+    int i, j;
+		int MaximumGrain = GetSys()->MAXGrn();
     double alpha = 1.0/m_DeltaEdown ;
     //
     // Allocate memmory.
@@ -300,13 +300,12 @@ namespace mesmer
     if (m_egme)                                 // Delete any existing matrix.
         delete m_egme ;
 
-    m_egme = new dMatrix(GetSys()->MAXGrn()) ;              // Collision operator matrix.
+    m_egme = new dMatrix(MaximumGrain) ;              // Collision operator matrix.
 
-    vector<double> work(GetSys()->MAXGrn(),0.0) ; // Work space.
     //
     // Initialisation and error checking.
     //
-    for ( i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
+    for ( i = 0 ; i < MaximumGrain ; ++i ) {
       if (m_grainDOS[i] <= 0.0) {
         stringstream errorMsg;
         errorMsg << "Data indicates that grain " << i << " of the current colliding molecule has no states.";
@@ -317,10 +316,10 @@ namespace mesmer
     //
     // The collision operator.
     //
-    for ( i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
+    for ( i = 0 ; i < MaximumGrain ; ++i ) {
       double ei = m_grainEne[i] ;
       double ni = m_grainDOS[i] ;
-      for ( j = i ; j < GetSys()->MAXGrn() ; ++j ) {
+      for ( j = i ; j < MaximumGrain ; ++j ) {
         //
         // Transfer to lower Energy -
         //
@@ -331,60 +330,28 @@ namespace mesmer
         (*m_egme)[j][i] = (*m_egme)[i][j] * (m_grainDOS[j]/ni)*exp(-beta*(m_grainEne[j] - ei)) ;
       }
     }
-    //
-    // Normalization of Probability matrix.
-    // Normalising coefficients are found by using the fact that column sums
-    // are unity. The procedure leads to a matrix that is of upper triangular
-    // form and the normalisation constants are found by back substitution.
-    //
-    for ( i = GetSys()->MAXGrn() - 1 ; i > -1 ; --i ) {
 
-      double upperSum(0.0) ;
-      for ( j = 0 ; j <= i ; ++j )
-          upperSum += (*m_egme)[j][i] ;
+    //Normalisation
+    (*m_egme).normalize();
 
-      double scaledRemain(0.0) ;
-      for ( j = i + 1 ; j < GetSys()->MAXGrn() ; ++j ){
-        scaledRemain += (*m_egme)[j][i] * work[j] ;
-      }
+    //account for collisional loss by subrtacting unity from the leading diagonal.
+    for ( i = 0 ; i < MaximumGrain ; ++i ) (*m_egme)[i][i] -= 1.0 ;
 
-      if (upperSum <= 0.0) {
-        stringstream errorMsg;
-        errorMsg << "Normalization coefficients in EGME is smaller than or equal to zero:\n";
-        errorMsg << "i = " << i << ", j = " << j;
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
-        exit(1) ;
-      }
-      work[i] = (1.0 - scaledRemain) / upperSum ;
-    }
-    //
-    // Apply normalization coefficients and account for collisional
-    // loss by subrtacting unity from the leading diagonal.
-    //
-    cout << endl << "Normalization constants" << endl << endl ;
-    for ( i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
-      cout <<  m_grainEne[i] << " " << work[i] << endl ;
-      (*m_egme)[i][i] *= work[i] ;
-      (*m_egme)[i][i] -= 1.0 ;
-      for ( j = i + 1 ; j < GetSys()->MAXGrn() ; ++j ) {
-        (*m_egme)[j][i] *= work[j] ;
-        (*m_egme)[i][j] *= work[j] ;
-      }
-    }
 
     cout << endl << "Column Sums" << endl << endl ;
-    for ( i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
+    for ( i = 0 ; i < MaximumGrain ; ++i ) {
         double columnSum(0.0) ;
-        for ( j = 0 ; j < GetSys()->MAXGrn() ; ++j )
-            columnSum += (*m_egme)[j][i] ;
+        for ( j = 0 ; j < MaximumGrain ; ++j )
+            columnSum += to_double((*m_egme)[j][i]) ;
         cout << columnSum << endl ;
     }
     //
-    // Determine the equilibrium vector for symmetrization. Note the work
-    // array is over written and now contains square root of the Boltzman
-    // distribution.
+    // Determine the equilibrium vector for symmetrization. The work
+    // contains square root of the Boltzman distribution.
     //
-    for ( i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
+
+    vector<double> work(MaximumGrain,0.0) ; // Work space.
+    for ( i = 0 ; i < MaximumGrain ; ++i ) {
       double ei = log(m_grainDOS[i]) - beta*m_grainEne[i] + 10.0 ;
       ei = exp(ei) ;
       work[i] = sqrt(ei) ;
@@ -392,13 +359,14 @@ namespace mesmer
     //
     // Symmetrization of the collision matrix.
     //
-    for ( i = 1 ; i < GetSys()->MAXGrn() ; ++i ) {
+    for ( i = 1 ; i < MaximumGrain ; ++i ) {
       for ( j = 0 ; j < i ; ++j ) {
         (*m_egme)[j][i] *= (work[i]/work[j]) ;
         (*m_egme)[i][j]  = (*m_egme)[j][i] ;
       }
     }
   }
+  
   /*//
   // Diagonalize the Collision Operator. See ReactionManager::diagCollisionOperator()
   //
@@ -418,13 +386,14 @@ namespace mesmer
     cout << endl ;
     for (int i(0) ; i < msize ; ++i)  {
       formatFloat(cout, m_grainEne[i],              6, 15) ;
-      formatFloat(cout, (*m_egme)[i][pSys->MAXGrn()-1], 6, 15) ;
-      formatFloat(cout, (*m_egme)[i][pSys->MAXGrn()-2], 6, 15) ;
+      formatFloat(cout, (*m_egme)[i][MaximumGrain-1], 6, 15) ;
+      formatFloat(cout, (*m_egme)[i][MaximumGrain-2], 6, 15) ;
       cout << endl ;
     }
 
   }
   */
+  
   //
   // Calculate collision frequency.
   //
@@ -479,7 +448,7 @@ namespace mesmer
 
     double sum = 0.0 ;
     for (int i = 0 ; i < ndim ; ++i)
-        sum +=  k[i]*(*m_egme)[i][eigveci]*(*m_egme)[i][eigvecj] ;
+        sum +=  k[i]* to_double((*m_egme)[i][eigveci]*(*m_egme)[i][eigvecj]) ;
 
     return sum ;
   }
@@ -577,7 +546,7 @@ namespace mesmer
   void ModelledMolecule::testDensityOfStates() {
 
     cout << endl << "Test density of states: " << m_Name << endl << endl ;
-
+    int MaximumGrain = GetSys()->MAXGrn();
     double temp ;
     double beta ;
 
@@ -599,7 +568,7 @@ namespace mesmer
       // Calculate partition functions based on grains.
 
       double sumg  = 0.0 ;
-      for ( int i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
+      for ( int i = 0 ; i < MaximumGrain ; ++i ) {
         sumg += m_grainDOS[i]*exp(-beta*m_grainEne[i]) ;
       }
 
@@ -631,9 +600,9 @@ namespace mesmer
   // Calculate the average grain energy and then number of states per grain.
   //
   void ModelledMolecule::calcGrainAverages() {
-
-    m_grainEne.resize(GetSys()->MAXGrn()) ;
-    m_grainDOS.resize(GetSys()->MAXGrn()) ;
+    int MaximumGrain = GetSys()->MAXGrn();
+    m_grainEne.resize(MaximumGrain) ;
+    m_grainDOS.resize(MaximumGrain) ;
 
     //    int igsz = MAXCELL/MAXGRN ;
 
@@ -649,7 +618,7 @@ namespace mesmer
     int idx1 = 0 ;
     int idx2 = 0 ;
 
-    for (int i = 0 ; i < GetSys()->MAXGrn() ; ++i ) {
+    for (int i = 0 ; i < MaximumGrain ; ++i ) {
 
       int idx3 = idx1 ;
 
@@ -675,10 +644,10 @@ namespace mesmer
 
     // Issue warning if number of grains produced is less that requested.
 
-    if ( idx2 < GetSys()->MAXGrn() ) {
+    if ( idx2 < MaximumGrain ) {
       stringstream errorMsg;
       errorMsg << "Number of grains produced is less than requested" << endl
-               << "Number of grains requested: " << GetSys()->MAXGrn() << endl
+               << "Number of grains requested: " << MaximumGrain << endl
                << "Number of grains produced : " << idx2 << ".";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
     }

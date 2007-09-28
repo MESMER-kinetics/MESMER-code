@@ -48,8 +48,8 @@ public:
     size_type size() const { return m_msize ; }
 
     // Modifiers
-
     void resize(const size_type n) ;
+    void normalize();
 
 protected:
 
@@ -174,5 +174,47 @@ void Matrix<T>::resize(const size_type n){
     m_matrix = matrix;
 
 }
+
+template<class T>
+void Matrix<T>::normalize(){
+    
+    T* work = new T[m_msize] ;// Work space.
+    //
+    // Normalization of Probability matrix.
+    // Normalising coefficients are found by using the fact that column sums
+    // are unity. The procedure leads to a matrix that is of upper triangular
+    // form and the normalisation constants are found by back substitution.
+    //
+    unsigned int i, j;
+
+    for ( i = m_msize - 1 ; i >= 0 ; --i ) {
+
+      T upperSum(0.0) ;
+      for ( j = 0 ; j <= i ; ++j ) upperSum += m_matrix[j][i] ;
+
+      T scaledRemain(0.0) ;
+      for ( j = i + 1 ; j < m_msize ; ++j ) scaledRemain += m_matrix[j][i] * work[j] ;
+
+      if (upperSum <= 0.0) {
+        throw std::domain_error("Normalization coefficients in this matrix is smaller than or equal to zero") ;
+        exit(1) ;
+      }
+      work[i] = (1.0 - scaledRemain) / upperSum ;
+    }
+
+    //
+    // Apply normalization coefficients
+    //
+    for ( i = 0 ; i < m_msize ; ++i ) {
+      m_matrix[i][i] *= work[i] ;
+      for ( j = i + 1 ; j < m_msize ; ++j ) {
+        m_matrix[j][i] *= work[j] ;
+        m_matrix[i][j] *= work[j] ;
+      }
+    }
+    delete [] work;
+
+}
+
 
 #endif // GUARD_Matrix_h

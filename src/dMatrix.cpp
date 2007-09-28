@@ -12,11 +12,6 @@
 #include <stdio.h>
 #include "dMatrix.h"
 
-#ifdef __CYGWIN__
-#define fabsl fabs
-//in cygwin there is no fabsl (consider adding library if uses cygwin)
-#endif
-
 //-------------------------------------------------------------------------------------------
 // EISPACK tred2 function.
 //
@@ -27,10 +22,10 @@
 //   W H Press et al., Numerical Recipes in C, Cambridge U P,
 //   1988, pp. 373-374. 
 //-------------------------------------------------------------------------------------------
-void dMatrix::tred2(double **a, int n, double *d, double *e)
+void dMatrix::tred2(MesmerHP **a, int n, MesmerHP *d, MesmerHP *e)
 {
   int l, k, j, i;
-  double scale, hh, h, g, f;
+  MesmerHP scale, hh, h, g, f;
 
   for (i=n;i>=2;--i) {
     l=i-1;
@@ -85,7 +80,7 @@ void dMatrix::tred2(double **a, int n, double *d, double *e)
   wanted except for statement d[i-1]=a[i-1][i-1]; */
   for (i=1;i<=n;++i) {
     l=i-1;
-    if (d[i-1]) {
+    if (d[i-1] != .0) {
       for (j=1;j<=l;++j) {
         g=0.0;
 
@@ -125,10 +120,10 @@ void dMatrix::tred2(double **a, int n, double *d, double *e)
 // z returns the normalized eigenvector corresponding to d[k].
 //
 //-------------------------------------------------------------------------------------------
-void dMatrix::tqli(double *d, double *e, int n, double **z)
+void dMatrix::tqli(MesmerHP *d, MesmerHP *e, int n, MesmerHP **z)
 {
   int m,l,iter,i,k;
-  double s,r,p,g,f,dd,c,b;
+  MesmerHP s,r,p,g,f,dd,c,b;
 
   for (i=2;i<=n;++i) e[i-2]=e[i-1];
   e[n-1]=0.0;
@@ -212,20 +207,20 @@ void dMatrix::tqli(double *d, double *e, int n, double **z)
 // Finds sqrtl(a**2+b**2) without overflow or destructive underflow.
 //
 //-------------------------------------------------------------------------------------------
-double dMatrix::pythag(double a, double b)
+MesmerHP dMatrix::pythag(MesmerHP a, MesmerHP b)
 {
-  double p,r,s,t,u;
-  if (fabsl(a) > fabsl(b)) p = fabsl(a);
-  else p = fabsl(b);
-  if (p == (0.0l+0)) goto label_1;
-  if (fabsl(a) > fabsl(b)) r = fabsl(b);
-  else r = fabsl(a);
+  MesmerHP p,r,s,t,u;
+  if (fabs(a) > fabs(b)) p = fabs(a);
+  else p = fabs(b);
+  if (p == 0.) goto label_1;
+  if (fabs(a) > fabs(b)) r = fabs(b);
+  else r = fabs(a);
   r = (r/p)*(r/p);
 
-label_2: t = (4.0l+0) + r;
-  if (t == (4.0l+0)) goto label_1;
+label_2: t = 4. + r;
+  if (t == 4.) goto label_1;
   s = r/t;
-  u = (1.0l+0) + (2.0l+0)*s;
+  u = 1. + 2. *s;
   p *= u;
   r = ((s/u)*(s/u))*r;
 

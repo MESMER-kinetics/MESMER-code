@@ -31,12 +31,5 @@
 #endif //__UNIX__
 #endif //__CYGWIN__
 
-// -------------------   Precision
-
-// Mesmer High precision
-#ifndef MesmerHP
-
-#define MesmerHP long double
-#endif //MesmerHP
 
 #endif // GUARD_MesmerConfig_h

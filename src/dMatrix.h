@@ -12,16 +12,16 @@
 // Matrix and wraps calls to LAPACK functions.
 //
 //-------------------------------------------------------------------------------------------
-
+#include "MesmerPrecision.h"
 #include "Matrix.h"
 #include <string>
 
-class dMatrix : public Matrix<double> {
+class dMatrix : public Matrix<MesmerHP> {
 
 public:
 
   // Constructor
-  dMatrix(int n) : Matrix<double>(n) { } ;
+  dMatrix(int n) : Matrix<MesmerHP>(n) { } ;
 
   // Wrapped call to LAPACK routine to diagonalise matrix.
   void diagonalize(double *rr) {
@@ -30,11 +30,13 @@ public:
     size = static_cast<int>(m_msize) ;
 
     //  Allocate memory for work array
-    double *work = new double[size] ;
+    MesmerHP *work = new MesmerHP[size] ;
+    MesmerHP *rrProxy = new MesmerHP[size] ;
+    
+    tred2(m_matrix, size, rrProxy, work) ;
+    tqli(rrProxy, work, size, m_matrix) ;
 
-    tred2(m_matrix, size, rr, work) ;
-    tqli(rr, work, size, m_matrix) ;
-
+    for (int i = 0; i < size; ++i) rr[i] = to_double(rrProxy[i]);
     delete [] work ;
   }
 
@@ -43,9 +45,9 @@ private:
   //
   // EISPACK methods for diagonalizing matrix.
   //
-  void    tred2   (double **a, int n, double *d, double *e) ;
-  void    tqli    (double *d, double *e, int n, double **z) ;
-  double  pythag  (double a, double b) ;
+  void    tred2   (MesmerHP **a, int n, MesmerHP *d, MesmerHP *e) ;
+  void    tqli    (MesmerHP *d, MesmerHP *e, int n, MesmerHP **z) ;
+  MesmerHP  pythag  (MesmerHP a, MesmerHP b) ;
 
 } ;
 

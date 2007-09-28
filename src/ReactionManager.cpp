@@ -150,7 +150,7 @@ namespace mesmer
   {
     // Allocate space for eigenvalues.
     const int smsize = int(m_pSystemCollisionOperator->size()) ;
-    vector<double> rr(smsize, 0.0) ;
+    vector<double> rr(smsize, 0.0);
 
     m_pSystemCollisionOperator->diagonalize(&rr[0]) ;
 

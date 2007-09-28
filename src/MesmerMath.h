@@ -24,7 +24,7 @@ const T MesmerGamma(const T& x)
 {
   int i,k,m;
   T ga,gr,r,z;
-  
+
   static T g[] = {
      1.0,
      0.5772156649015329,
@@ -52,7 +52,7 @@ const T MesmerGamma(const T& x)
     -0.54e-14,
      0.14e-14
   };
-  
+
   if (x > 171.0) return 1e308;    // This value is an overflow flag.
   if (x == (int) x) {
     if (x > 0.0) {

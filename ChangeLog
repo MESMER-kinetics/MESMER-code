@@ -1,4 +1,14 @@
-_2007_09_25__10_31_44_ CHi-Hsiu Liang
+_2007_09_28__14_16_39_ Chi-Hsiu Liang
+
+  * QD for double-double and quad-double precisions. 
+  * Move normalization function into matrix.h
+  * Completed writing of MesmerILT.cpp but not linked and tested.
+  * Modified namings of variables:  ngrn -> MaximumGrain
+  * Add README, MesmerPrecision.h
+  * Mesmer FAQ file in documentation folder
+  * Other minor modifications
+
+_2007_09_25__10_31_44_ Chi-Hsiu Liang
 
   * Add a ToDo file
   * Add qd source into trunk directory

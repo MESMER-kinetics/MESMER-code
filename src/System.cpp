@@ -148,6 +148,8 @@ namespace mesmer
   //
   void System::calculate()
   {
+    double beta = .0;
+
     if(!SetGrainParams())
       return;
 
@@ -161,14 +163,14 @@ namespace mesmer
     vector<double>::iterator Titer;
     for(Titer=Temperatures.begin();Titer!=Temperatures.end();++Titer)
     {
-      double beta = 1.0/(boltzmann_RCpK*(*Titer)) ;
+      beta = 1.0/(boltzmann_RCpK*(*Titer)) ;
 
       size_t imax = !Pressures.empty() ? Pressures.size() : Concentrations.size();
       //Inner loop is concentrations, possibly calculated from pressures if these were specified
       // TODO: Get pressure units right. Pressures currently non-functional!
       for(size_t i=0;i<imax;++i)
       {
-        double conc = !Pressures.empty() ? Pressures[i]*beta : Concentrations[i];
+        conc = !Pressures.empty() ? Pressures[i]*beta : Concentrations[i];
 
         // Build collison matrix for system.
         m_pReactionManager->BuildSystemCollisionOperator(beta, conc) ;
@@ -181,7 +183,7 @@ namespace mesmer
     temp = Temperatures[0]; //temporary statements
     conc = Concentrations[0];
 
-    double beta = 1.0/(boltzmann_RCpK*temp) ;
+    beta = 1.0/(boltzmann_RCpK*temp) ;
 
     // Build collison matrix for system.
 

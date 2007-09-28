@@ -282,9 +282,9 @@ namespace mesmer
   //
   bool Reaction::grnAvrgMicroRateCoeffs() {
 
-    int ngrn = GetSys()->MAXGrn();
-    int currentGrainSize = GetSys()->getGrainSize();
-    m_GrainKfmc.resize(ngrn);
+    int MaximumGrain = GetSys()->MAXGrn();
+    double currentGrainSize = GetSys()->getGrainSize();
+    m_GrainKfmc.resize(MaximumGrain);
 
     // Extract density of states of equilibrium molecule.
 
@@ -303,7 +303,7 @@ namespace mesmer
     int idx1 = 0 ;
     int idx2 = 0 ;
 
-    for (int i = 0; i < ngrn ; ++i ) {
+    for (int i = 0; i < MaximumGrain ; ++i ) {
 
       int idx3 = idx1 ;
 
@@ -327,10 +327,10 @@ namespace mesmer
     }
 
     // Issue warning if number of grains produced is less that requested.
-    if ( idx2 < ngrn ) {
+    if ( idx2 < MaximumGrain ) {
       stringstream errorMsg;
       errorMsg << "Number of grains produced is less than requested" << endl
-               << "Number of grains requested: " << ngrn << endl
+               << "Number of grains requested: " << MaximumGrain << endl
                << "Number of grains produced : " << idx2 << ".";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
     }
@@ -383,15 +383,15 @@ namespace mesmer
 
     // Get densities of states for detailed balance.
 
-    const int ngrn = GetSys()->MAXGrn();
-    vector<double> rctDOS(ngrn, 0.0) ;
-    vector<double> pdtDOS(ngrn, 0.0) ;
+    const int MaximumGrain = GetSys()->MAXGrn();
+    vector<double> rctDOS(MaximumGrain, 0.0) ;
+    vector<double> pdtDOS(MaximumGrain, 0.0) ;
 
     m_Reactant->grnDensityOfStates(rctDOS) ;
     m_Product->grnDensityOfStates(pdtDOS) ;
 
     const int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
-    for ( int i = max(0,-idx) ; i < min(ngrn,(ngrn-idx)) ; ++i ) {
+    for ( int i = max(0,-idx) ; i < min(MaximumGrain,(MaximumGrain-idx)) ; ++i ) {
       int ll = i + idx ;
       int ii(rctLocation + ll) ;
       int jj(pdtLocation + i) ;
@@ -417,13 +417,13 @@ namespace mesmer
 
     // Get densities of states for detailed balance.
 
-    const int ngrn = GetSys()->MAXGrn();
-    vector<double> rctDOS(ngrn, 0.0) ;
+    const int MaximumGrain = GetSys()->MAXGrn();
+    vector<double> rctDOS(MaximumGrain, 0.0) ;
 
     m_Reactant->grnDensityOfStates(rctDOS) ;
 
     const int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
-    for ( int i = max(0,-idx) ; i < min(ngrn,(ngrn-idx)) ; ++i ) {
+    for ( int i = max(0,-idx) ; i < min(MaximumGrain,(MaximumGrain-idx)) ; ++i ) {
       int ll = i + idx ;
       int ii(rctLocation + ll) ;
       int jj(pdtLocation) ;

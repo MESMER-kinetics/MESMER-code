@@ -31,16 +31,23 @@ namespace mesmer
   {
 
     //-----------------
-    //additional variables
-    System* pSys    = pReact->GetSys();
-    double _ninf    = .0;
-    int MaximumCell = pSys->MAXCell();
+    //starting variables block
+    System* pSys        = pReact->GetSys();
+    MesmerHP _ninf        = -0.25; // constraint: _ninf > -1.5
+    double _ainf        = 2.03e-12;
+    double _tinf        = 300.;  // default temperature
+    double _einf        = pReact->get_ActivationEnergy();
+    int MaximumCell     = pSys->MAXCell();
+    double C_prime      = 3.24331e+20; // pow((2 * pi / (h * h)), 1.5)  not sure??
     //-----------------
 
     vector<CollidingMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
     CollidingMolecule * pReactant = unimolecularspecies[0];
-    if(IsNan(pReact->get_ActivationEnergy()))
+    CollidingMolecule * pProduct  = unimolecularspecies[1]; //not sure about this _2007_09_26__15_38_30_ Chi-Hsiu Liang
+
+  int activationEnergy = 0;
+  if(IsNan(_einf))
     {
       stringstream errorMsg;
       errorMsg << "To use MesmerILT for reaction " << pReact->getName()
@@ -48,80 +55,47 @@ namespace mesmer
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       return false;
     }
-
+    else{
+      // Conversion of EINF from kcal.mol^-1 to cm^-1
+      activationEnergy = int(_einf * KcalPerMolToRC) ;
+    }
+    
     // Allocate space to hold Micro-canonical rate coefficients.
-    cellKfmc.resize(MaximumCell);
-
-    // Initialize microcanoincal rate coefficients.
-    for (int i = 0 ; i < MaximumCell ; ++i ) cellKfmc[i] = 0.0 ;
+    cellKfmc.resize(MaximumCell); // no needs to initialize
 
     // Allocate some work space for density of states and extract densities of states from molecules.
-    vector<double> cellDOS(MaximumCell,0.0) ; // Density of states of equilibrim molecule.
-    pReactant->cellDensityOfStates(cellDOS) ;
+    vector<double> rctCellDOS(MaximumCell,0.0) ; // Cell density of states of reactant molecule.
+    vector<double> pdtCellDOS(MaximumCell,0.0) ; // Cell density of states of product molecule.
+    pReactant->cellDensityOfStates(rctCellDOS) ;
+    pProduct->cellDensityOfStates(pdtCellDOS) ;
 
-    // Conversion of EINF from kcal.mol^-1 to cm^-1
-    int activationEnergy = int(pReact->get_ActivationEnergy() * KcalPerMolToRC) ;
-
-    // Calculate microcanonical rate coefficients using ILT expression.
-    for (int i = activationEnergy ; i < MaximumCell ; ++i ) {
-      cellKfmc[i] = pReact->get_PreExp() * cellDOS[i - activationEnergy] / cellDOS[i] ;
-    }
-
-    //-----------------
-    //starting block
-    double C_prime = 3.24331e+20; // powl((2 * pi / (h * h)), 1.5)  not sure??
-    double pwr     = _ninf + .5;
-    //-----------------
-
-
-    double _gamma = (long double) MesmerGamma(_ninf + 1.5);
+    double _gamma = (MesmerHP) MesmerGamma(_ninf + 1.5);
     long double _ant = _ainf * C_prime * (edg_a * edg_b / edg_c) * powl( ( ma * mb / mc), 1.5 ) / _gamma;
-    _ant /= (powl((tinf * boltzmann_RCpK), _ninf));
+    _ant /= (powl((_tinf * boltzmann_RCpK), _ninf));
 
 
     vector<double> work1(MaximumCell);
-    vector<double> KCell(MaximumCell);
     vector<double> conv (MaximumCell);
 
+    double pwr     = _ninf + .5;
     for (int i = 0; i < MaximumCell; ++i) {
-      work1[i] = powl(m_cellEne[i], _ninf + .5);
-      KCell[i] = cellDOS[i];
+      work1[i] = powl(m_cellEne[i], pwr);
+      cellKfmc[i] = rctCellDOS[i];
     }
 
+    //convolution
     for (int i = 0; i < MaximumCell; ++i){
       conv[i] = 0.;
       for (int j = 1; j <= i; ++j)
-        conv[i] += work1[j] * KCell[i + 1 - j];
+        conv[i] += work1[j] * cellKfmc[i + 1 - j];
     }
 
-    for (int i = 0; i < activationEnergy; ++i)  KCell[i] = 0.;
+    for (int i = 0; i < activationEnergy; ++i)  cellKfmc[i] = 0.;
 
     for (int i = 0; i < (MaximumCell - activationEnergy); ++i){
-      KCell[i + activationEnergy] = _ant * conv[i] / tnr[i + activationEnergy];
+      cellKfmc[i + activationEnergy] = _ant * conv[i] / pdtCellDOS[i + activationEnergy];
     }
-
-    int idx1 = 0; int idx2 = 0;
-    for (int i = 0; i < ngrn; ++i) {
-      int idx3 = idx1;
-      smt = 0.;
-      for (int j = 0; j < gsz; ++j) {
-        ++idx1;
-        smt += tnr[idx1];
-      }
-      if (smt > .0) {
-        ++idx2;
-        tn2r[idx2] = smt;
-        smat = 0.;
-        for (j = 0; j < gsz; ++j) {
-          ++idx3;
-          smat += (KCell[idx3]*tnr[idx3])/smt;
-        }
-        kgrn[idx2] = smat;
-      }
-    }
-
 
     return true;
   }
-
 }//namespace
