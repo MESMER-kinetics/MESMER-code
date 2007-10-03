@@ -10,6 +10,8 @@
 //-------------------------------------------------------------------------------------------
 #include <algorithm>
 #include "System.h"
+#include "TimeCounter.h"
+
 
 using namespace std ;
 using namespace Constants ;
@@ -148,7 +150,8 @@ namespace mesmer
   //
   void System::calculate()
   {
-    double beta = .0;
+    double beta = .0; 
+    TimeCount events; string thisEvent;
 
     if(!SetGrainParams())
       return;
@@ -185,11 +188,28 @@ namespace mesmer
 
     beta = 1.0/(boltzmann_RCpK*temp) ;
 
-    // Build collison matrix for system.
+    string precisionMethod;
+    switch(precisionTag)
+    {
+      case 4000:   precisionMethod = "Double";              break;
+      case 1000:   precisionMethod = "Double-double";       break;
+      case 2000:   precisionMethod = "Quad-double";         break;
+      case 3000:   precisionMethod = "Dynamic precision";   break;
+    }
 
+    cout << "Precision: " << precisionMethod << endl;
+    
+    // Build collison matrix for system.
+    thisEvent = "Build Collison Matrix";
+    cout << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
     m_pReactionManager->BuildSystemCollisionOperator(beta, conc) ;
 
+    thisEvent = "Diagonlize Collision Operator";
+    cout << endl << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
     m_pReactionManager->diagCollisionOperator() ;
+    
+    thisEvent = "Finish Calculation";
+    cout << endl << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
 
 
     /*      for (size_t i=0; i < m_pReactionManager->size() ; i++) {
@@ -217,6 +237,8 @@ namespace mesmer
             formatFloat(cout, kinf, 6, 15) ; 
 
     }*/
+    
+    cout << events << endl;
   }
 
   bool System::SetGrainParams()

@@ -166,6 +166,7 @@ src/SimpleRRKM.cpp -text
 src/SimpleRRKM.h -text
 src/System.cpp -text
 src/System.h -text
+src/TimeCounter.h -text
 src/XMLPersist.cpp -text
 src/XMLPersist.h -text
 src/dMatrix.cpp -text

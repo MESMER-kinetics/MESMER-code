@@ -36,7 +36,13 @@ public:
     tred2(m_matrix, size, rrProxy, work) ;
     tqli(rrProxy, work, size, m_matrix) ;
 
-    for (int i = 0; i < size; ++i) rr[i] = to_double(rrProxy[i]);
+    for (int i = 0; i < size; ++i){
+#if defined (USE_QD) || defined(USE_DD)  //GUARD_USE_QD_USE_DD
+      rr[i] = to_double(rrProxy[i]);
+#else  //GUARD_USE_QD_USE_DD
+      rr[i] = rrProxy[i];
+#endif  //GUARD_USE_QD_USE_DD
+    }
     delete [] work ;
   }
 

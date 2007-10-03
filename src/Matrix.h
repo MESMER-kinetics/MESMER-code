@@ -24,9 +24,9 @@ public:
     // Type defs
 
     typedef         size_t  size_type ;
-    typedef             T*  iterator ;
-    typedef const       T*  const_iterator ;
-    typedef             T   value_type ;
+    //typedef             T*  iterator ;
+    //typedef const       T*  const_iterator ;
+    //typedef             T   value_type ;
 
     // Constructors
 
@@ -185,15 +185,16 @@ void Matrix<T>::normalize(){
     // are unity. The procedure leads to a matrix that is of upper triangular
     // form and the normalisation constants are found by back substitution.
     //
-    unsigned int i, j;
+    
+    int i, j; //int makes sure the comparison to negative numbers meaningful (i >=0)
 
-    for ( i = m_msize - 1 ; i >= 0 ; --i ) {
+    for ( i = (int)m_msize - 1 ; i >= 0 ; --i ) {
 
       T upperSum(0.0) ;
       for ( j = 0 ; j <= i ; ++j ) upperSum += m_matrix[j][i] ;
 
       T scaledRemain(0.0) ;
-      for ( j = i + 1 ; j < m_msize ; ++j ) scaledRemain += m_matrix[j][i] * work[j] ;
+      for ( j = i + 1 ; j < (int)m_msize ; ++j ) scaledRemain += m_matrix[j][i] * work[j] ;
 
       if (upperSum <= 0.0) {
         throw std::domain_error("Normalization coefficients in this matrix is smaller than or equal to zero") ;
@@ -205,9 +206,9 @@ void Matrix<T>::normalize(){
     //
     // Apply normalization coefficients
     //
-    for ( i = 0 ; i < m_msize ; ++i ) {
+    for ( i = 0 ; i < (int)m_msize ; ++i ) {
       m_matrix[i][i] *= work[i] ;
-      for ( j = i + 1 ; j < m_msize ; ++j ) {
+      for ( j = i + 1 ; j < (int)m_msize ; ++j ) {
         m_matrix[j][i] *= work[j] ;
         m_matrix[i][j] *= work[j] ;
       }

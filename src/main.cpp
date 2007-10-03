@@ -13,7 +13,7 @@ void usage();
 int main(int argc,char *argv[])
 {
   //
-  // Instantiate the System collection. This holds all information 
+  // Instantiate the System collection. This holds all information
   // about reaction systems and all molecular data.
   //
   mesmer::System System ;
@@ -35,16 +35,17 @@ int main(int argc,char *argv[])
 
   //
   // Parse input.
-  // 
+  //
   if(!ppIOPtr || !System.parse(ppIOPtr))
     return -2;
   clog << inputfilename << " successfully parsed. Now calculating..." <<endl;
-  // 
+  //
   // Begin calculation.
   //
+
   System.calculate() ;
 
-  // Save XML doc to a new file   
+  // Save XML doc to a new file
   if(outputfilename.empty())
   {
     string::size_type pos = inputfilename.rfind('.');

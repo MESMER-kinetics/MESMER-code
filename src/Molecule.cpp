@@ -1,4 +1,3 @@
-//-------------------------------------------------------------------------------------------
 //
 // Molecule.cpp
 //
@@ -332,7 +331,7 @@ namespace mesmer
     }
 
     //Normalisation
-    (*m_egme).normalize();
+    m_egme->normalize();
 
     //account for collisional loss by subrtacting unity from the leading diagonal.
     for ( i = 0 ; i < MaximumGrain ; ++i ) (*m_egme)[i][i] -= 1.0 ;
@@ -341,8 +340,13 @@ namespace mesmer
     cout << endl << "Column Sums" << endl << endl ;
     for ( i = 0 ; i < MaximumGrain ; ++i ) {
         double columnSum(0.0) ;
-        for ( j = 0 ; j < MaximumGrain ; ++j )
+        for ( j = 0 ; j < MaximumGrain ; ++j ){
+#if defined (USE_QD) || defined(USE_DD)  //GUARD_USE_QD_USE_DD
             columnSum += to_double((*m_egme)[j][i]) ;
+#else  //GUARD_USE_QD_USE_DD
+            columnSum += (*m_egme)[j][i] ;
+#endif  //GUARD_USE_QD_USE_DD
+        }
         cout << columnSum << endl ;
     }
     //
@@ -447,9 +451,13 @@ namespace mesmer
   double CollidingMolecule::matrixElement(int eigveci, int eigvecj, vector<double> &k, int ndim) {
 
     double sum = 0.0 ;
-    for (int i = 0 ; i < ndim ; ++i)
+    for (int i = 0 ; i < ndim ; ++i){
+#if defined (USE_QD) || defined(USE_DD)  //GUARD_USE_QD_USE_DD
         sum +=  k[i]* to_double((*m_egme)[i][eigveci]*(*m_egme)[i][eigvecj]) ;
-
+#else  //GUARD_USE_QD_USE_DD
+        sum +=  k[i]* (*m_egme)[i][eigveci]*(*m_egme)[i][eigvecj] ;
+#endif  //GUARD_USE_QD_USE_DD
+    }
     return sum ;
   }
 
@@ -509,9 +517,6 @@ namespace mesmer
     //From inverse Laplace transform of 3-D asymmetric top rotor(needs revise for varieties)?
     double cnt = sqrt(4./(m_MmtIntA * m_MmtIntB * m_MmtIntC))/m_Sym ;
 
-    if (1)
-      cout << "cnt = " << cnt << endl;
-
     int i ; 
     for ( i = 0 ; i < GetSys()->MAXCell() ; ++i ) {
       m_cellEne.push_back(static_cast<double>(i) + 0.5);
@@ -526,7 +531,6 @@ namespace mesmer
       // the original case has larger difference where if frequency = 392.95 it floors to 392
       for ( i = 0 ; i < GetSys()->MAXCell() - iFreq ; ++i ){
         m_cellDOS[i + iFreq] += m_cellDOS[i] ;
-        cout << "m_cellDOS[" << i << "] = " << m_cellDOS[i] << ", m_cellDOS[" << i + iFreq << "] = " << m_cellDOS[i + iFreq] << endl;
       }
     }
 

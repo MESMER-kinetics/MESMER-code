@@ -1,3 +1,13 @@
+_2007_10_03__10_42_44_ Chi-Hsiu Liang
+
+  * Added selection of QD/DD/CXSC (CXSC not yet implemented/tested, but has linked)
+  * Removed the error from the previous commit in Matrix.h
+  * Added TimeCount header for time measuring and stamping
+    TimeCount can be accessed through several functions listed in TimeCount.h to be used by anyone uses Mesmer.
+    Examples are also listed.
+  * Commented out some unused type definitions in matrix.h
+  * Some other minor modifications
+  
 _2007_09_28__14_16_39_ Chi-Hsiu Liang
 
   * QD for double-double and quad-double precisions. 

@@ -28,7 +28,7 @@ RANLIB := ranlib
 DEBUG_CFLAGS     := -Wall -Wno-format -g -DDEBUG
 RELEASE_CFLAGS   := -Wall -Wno-unknown-pragmas -Wno-format -O3
 
-LIBS		 := ../tinyxml/tinyxml.a -lqd
+LIBS		 := ../tinyxml/tinyxml.a -L/usr/cxsc/lib -lqd -lcxsc
 
 DEBUG_CXXFLAGS   := ${DEBUG_CFLAGS} 
 RELEASE_CXXFLAGS := ${RELEASE_CFLAGS}
@@ -67,7 +67,7 @@ endif
 #****************************************************************************
 
 #INCS := -I/usr/include/g++-2 -I/usr/local/include
-INCS := -I../tinyxml/
+INCS := -I../tinyxml/ -I/usr/cxsc/include
 
 
 #****************************************************************************
