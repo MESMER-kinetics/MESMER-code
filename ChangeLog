@@ -1,3 +1,12 @@
+_2007_10_03__11_06_49_ Chi-Hsiu Liang
+
+  * Added the CXSC library source code folder
+    Sorry, forgot to add CXSC library code for everyone. Please install it in your own computer, e.g. /usr/cxsc , etc..
+    Usage (in UNIX/Linux/Mac?):
+    Type the following command in command line mode under the directory of cxsc.
+    ./install_cxsc
+  * variable declarations in MesmerPrecision.h
+  
 _2007_10_03__10_42_44_ Chi-Hsiu Liang
 
   * Added selection of QD/DD/CXSC (CXSC not yet implemented/tested, but has linked)

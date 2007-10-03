@@ -9,26 +9,34 @@
 //#define USE_CXSC
 //--------------------------------------------------
 
+//---------------------
+//variable definition
+#define varUseDouble              1000
+#define varUseDoubleDouble        2000
+#define varUseQuadDouble          3000
+#define varUseCXSCDynamic         4000
+//---------------------
+
+
 #if defined USE_DD
 #include <qd/dd_real.h>
 #define MesmerPrecisionMethod dd_real
-#define precisionTag 1000
+#define precisionTag varUseDoubleDouble
 
 #elif defined USE_QD
 #include <qd/qd_real.h>
 #define MesmerPrecisionMethod qd_real
-#define precisionTag 2000
-
+#define precisionTag varUseQuadDouble
 
 #elif defined USE_CXSC
 #include <l_real.h>
 #define MesmerPrecisionMethod l_real
 using namespace cxsc;
-#define precisionTag 3000
+#define precisionTag varUseCXSCDynamic
 
 #else
 #define MesmerPrecisionMethod double
-#define precisionTag 4000
+#define precisionTag varUseDouble
 #endif
 
 // ------------- Mesmer High precision ----------------

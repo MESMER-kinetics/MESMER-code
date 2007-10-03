@@ -1,0 +1,134 @@
+
+                     Installing C-XSC (CToolbox included)
+                     ===================================
+
+Note: the formerly separated CToolbox routines are now part of C-XSC itself.
+Thus only one library libcxsc.a or libcxsc.so will be created by this 
+installation process.   
+  
+The C-XSC release 2.2.1 works on
+   - Linux with GNU C++ compiler gcc 3.2/3.3/3.3.2/3.4/4.0.0/4.0.2/4.1.0
+   - Linux with Intel C++ compiler Version 7.1/8.0/8.1
+   - x86_64 systems (AMD64 architectur, e.g. AMD Opteron) with
+     Linux and GNU C++ compiler (64 bit code)
+   - ia64 systems (e.g. Intel Itanium) with GNU C++-compiler
+     and Intel-Compiler (64 bit)
+   - MS Windows with MS Visual Studio 2005 Compiler (Express Edition)
+     URL: http://msdn.microsoft.com/vstudio/express/visualc/download/
+     --> For convenience please use the pre-compiled special edition of 
+         C-XSC with an installer program from 
+         URL: http://www.math.uni-wuppertal.de/~xsc/
+   - MS Windows with Cygwin
+   - Mac OS/X systems ("Darwin") with G4 prozessors (32 bit)  
+   - SUN Solaris with SUN Forte Developer 7 C++ 5.4 /
+                      SUN ONE Studio8 C++ 5.5 /
+                      SUN Studio 9 C++ 5.6 /
+		      SUN Studio 10 C++ 5.7
+   - SUN Solaris with gcc 3.2/3.3/3.3.2/3.4/4.0.0/4.0.2 
+     (probably not all configuration options are supported with your
+     solaris-system; if you have problems test "software emulation (soft)"
+     and "static library (static)" or use the SUN Compiler)
+
+Important:
+----------
+Do not use C-XSC with "gcc version 3.3 20030226 (prerelease) (SuSE Linux)"
+from the SuSE Linux 8.2 distribution. This compiler version has serious 
+bugs. If you use SuSE Linux 8.2 please update your compiler with
+the rpm-packages from SuSE: http://sdb.suse.de/en/sdb/html/gcc33_release.html
+
+Maybe with gcc version 3.0.1 you get an internal compiler error 
+(segmentation fault). In this case please use a newer version of gcc. 
+ 
+ 
+Installation:
+=============
+
+   1. Unpack the sources cxsc-2-2-1.tar.gz : 
+           gunzip cxsc-2-2-1.tar.gz
+           tar xvf cxsc-2-2-1.tar
+     
+      If you use cygwin do not unpack the sources in your home directory,
+      use another directory e.g. c:\tmp
+  
+      This creates a directory ./cxsc with all the necessary files and
+      subdirectories.
+
+            cxsc                (includes: README, install, changelog)
+              |
+              +-- docu          (documentation)
+              |
+              +-- examples      (some small examples)
+	      |
+	      +-- CToolbox      (C-XSC Toolbox Modules and Programs)
+	      |
+	      +-- benchmark     (a simple benchmark program)
+	      |
+	      +-- scripts       (some scripts, e.g. for RPM packages)
+              |
+              +-- win32         (some files for MS Visual C++ compiler)
+              |
+              +-- src           (C++ source code of C-XSC)
+                   |
+                   +-- fi_lib   (C source code, elementary functions)
+                   |
+                   +-- rts      (C source code, run time system)
+
+   2. Compile all sources:
+
+           cd ./cxsc; 
+           ./install_cxsc
+      
+      For configuration please answer the questions from the install
+      script. After that the script creates the library libcxsc.a and
+      all program examples from the toolbox library (without any 
+      optimization of the code). 
+      Also a test program is compiled and started.   
+  
+
+Using C-XSC (including CToolbox)
+================================
+
+When you compile and link code using C-XSC routines (or CToolbox routines), 
+you have to define the C-XSC include path and the C-XSC library path 
+and you have to link the library  libcxsc.a:
+
+     g++ -I<include path> -L<library path> prog.cpp -lcxsc -o prog
+
+Depending on the actual choice of some parameters during the installation
+process further libraries have to be linked (e.g. -lm or -lm9x). 
+
+Using a makefile is described in the file Makefile.example in the 
+examples subdirectory. Also some sample programs can be found in this 
+subdirectory.
+
+Since C-XSC Version 2.1 the C-XSC routines and the CToolbox routines
+are available in the common library libcxsc.a (or the corresponding
+dynamic link library libcxsc.so, respectively).
+ 
+
+Uninstalling C-XSC
+==================
+
+To uninstall C-XSC, simply type
+   cd $(PREFIX)/cxsc      # $(PREFIX) is the installation prefix
+                          #   defined in the file Makefile
+   gmake uninstall      
+
+This undoes the effect of gmake install, which is implicitly executed
+by install_cxsc. Note that the source tree is not removed. 
+So all sources are still available. 
+
+
+Questions, Suggestions, Problems, Solutions are welcome:
+========================================================
+
+     Wissenschaftliches Rechnen/Softwaretechnologie
+     Fachbereich C (Mathematik und Naturwissenschaften)
+     Bergische Universitaet Wuppertal
+     Gaussstrasse 20
+     D-42097 Wuppertal
+
+e-mail: xsc@math.uni-wuppertal.de
+
+C-XSC-Homepage: http://www.math.uni-wuppertal.de/~xsc/
+             or http://www.xsc.de/

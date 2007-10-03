@@ -188,17 +188,19 @@ namespace mesmer
 
     beta = 1.0/(boltzmann_RCpK*temp) ;
 
+    //---------------
+    //About precision
     string precisionMethod;
     switch(precisionTag)
     {
-      case 4000:   precisionMethod = "Double";              break;
-      case 1000:   precisionMethod = "Double-double";       break;
-      case 2000:   precisionMethod = "Quad-double";         break;
-      case 3000:   precisionMethod = "Dynamic precision";   break;
+      case varUseDouble:         precisionMethod = "Double";              break;
+      case varUseDoubleDouble:   precisionMethod = "Double-double";       break;
+      case varUseQuadDouble:     precisionMethod = "Quad-double";         break;
+      case varUseCXSCDynamic:    precisionMethod = "Dynamic precision";   break;
     }
-
     cout << "Precision: " << precisionMethod << endl;
-    
+    //---------------
+  
     // Build collison matrix for system.
     thisEvent = "Build Collison Matrix";
     cout << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
