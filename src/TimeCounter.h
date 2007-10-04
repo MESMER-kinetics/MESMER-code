@@ -2,6 +2,7 @@
 #define GUARD_TimeCounter_h
 //Time count header of Mesmer
 //This header must be be p_thread safe and parallel computing safe
+#include <sstream>
 #include <iostream>
 #include <time.h>
 #include <vector>
@@ -11,14 +12,21 @@
 //
 //    Variable decalaration
 //    \code
-//    TimeCount events;
-//    string thisEvent;
+//    TimeCount events; unsigned int timeElapsed;
+//    std::string thisEvent;
 //    \endcode
 //
 //    Time stamping
 //    \code
 //    thisEvent = "Build Collison Matrix";
 //    cout << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
+//    \endcode
+//    
+//    OR
+//    
+//    \code
+//    thisEvent = "Build Collison Matrix";
+//    std::cout << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed) << " -- Time elapsed: " << timeElapsed << " seconds.\n";
 //    \endcode
 //
 //    Time stamp dumping
@@ -28,12 +36,11 @@
 //
 //------------------------
 
-using namespace std;
 
 template<typename T>
-string toString(T t)
+std::string toString(T t)
 {
-  ostringstream s; s << t; return s.str();
+  std::ostringstream s; s << t; return s.str();
 }
 
 namespace mesmer
@@ -42,74 +49,25 @@ namespace mesmer
   {
     public:
       time_t timeStamp;
-      string stampName;
-      EventObj(const time_t& tt, const string& name):timeStamp(tt), stampName(name){}
+      std::string stampName;
+      EventObj(const time_t& tt, const std::string& name):timeStamp(tt), stampName(name){}
   };
 
   class TimeCount
   {
     private:
 
-      vector<EventObj> TimeMap;
-      typedef vector<EventObj>::iterator TimeIter;
+      std::vector<EventObj> TimeMap;
+      typedef std::vector<EventObj>::iterator TimeIter;
 
     public:
 
-      string setTimeStamp(const string& timeStampName)
-      {
-        time_t tnow; time(&tnow);
-        EventObj thisEvent(tnow, timeStampName);
-        TimeMap.push_back(thisEvent);
-        struct tm* timeinfo; timeinfo = localtime (&tnow);
-        char buffer [20]; strftime (buffer,20,"%Y%m%d_%H%M%S", timeinfo);
-        string myTime(buffer);
-        if (TimeMap.size() > 1)
-        {
-          unsigned long seconds = TimeMap[TimeMap.size()-1].timeStamp - TimeMap[TimeMap.size()-2].timeStamp;
-          myTime += " -- Time elapsed: "; myTime += toString(seconds); myTime += " seconds.";
-        }
-        return myTime;
-      }
-
-      string getTimeStamp(const string& timeStampName)
-      {
-        time_t tStamp;
-        TimeIter curTimeIter = TimeMap.begin();
-        while(curTimeIter != TimeMap.end()){
-          if (curTimeIter->stampName == timeStampName)
-          {
-            tStamp = curTimeIter->timeStamp;
-            break;
-          }
-        }
-        if (curTimeIter == TimeMap.end()){
-          string ErrTime = "xxxxxxxx_xxxxxx";
-          return ErrTime;
-        }
-
-        struct tm* timeinfo; timeinfo = localtime (&tStamp);
-        char buffer [20]; strftime (buffer,20,"%Y%m%d_%H%M%S", timeinfo);
-        string myTime(buffer); return myTime;
-      }
-
-      friend ostream& operator <<(ostream &os, TimeCount& MTC);
+      std::string setTimeStamp(const std::string& timeStampName);
+      std::string TimeCount::setTimeStamp(const std::string& timeStampName, unsigned int &timeElapsed);
+      std::string getTimeStamp(const std::string& timeStampName);
+      std::string TimeCount::getTimeStamp(const std::string& timeStampName, unsigned int &timeElapsed);
+      friend std::ostream& operator<<(std::ostream& os, TimeCount& MTC);
   };
-
-  ostream& operator<< (ostream &os, TimeCount& MTC) //function to dump all the time stamps
-  {
-    os << "\nTime stamps:\n";
-
-    for (TimeCount::TimeIter curTimeIter = MTC.TimeMap.begin(); curTimeIter != MTC.TimeMap.end(); ++curTimeIter)
-    {
-      time_t tStamp; tStamp = curTimeIter->timeStamp;
-      struct tm* timeinfo; timeinfo = gmtime(&tStamp);
-      char buffer [20]; strftime (buffer,20,"%Y%m%d_%H%M%S", timeinfo); string myTime(buffer);
-      os << myTime << " -- " << curTimeIter->stampName << endl;
-    }
-    return os;
-  }
-
-
 };
 
 //---------------------------------------------------------------------------------------------------------

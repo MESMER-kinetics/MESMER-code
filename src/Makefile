@@ -103,6 +103,7 @@ SRCS := MicroRate.cpp \
 	dMatrix.cpp \
 	formatfloat.cpp \
 	oberror.cpp \
+	TimeCounter.cpp \
 	main.cpp
 
 # Add on the sources for libraries

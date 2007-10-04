@@ -10,7 +10,6 @@
 //-------------------------------------------------------------------------------------------
 #include <algorithm>
 #include "System.h"
-#include "TimeCounter.h"
 
 
 using namespace std ;
@@ -151,7 +150,7 @@ namespace mesmer
   void System::calculate()
   {
     double beta = .0; 
-    TimeCount events; string thisEvent;
+    TimeCount events; string thisEvent; unsigned int timeElapsed;
 
     if(!SetGrainParams())
       return;
@@ -207,11 +206,11 @@ namespace mesmer
     m_pReactionManager->BuildSystemCollisionOperator(beta, conc) ;
 
     thisEvent = "Diagonlize Collision Operator";
-    cout << endl << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
+    cout << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
     m_pReactionManager->diagCollisionOperator() ;
     
     thisEvent = "Finish Calculation";
-    cout << endl << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
+    cout << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
 
 
     /*      for (size_t i=0; i < m_pReactionManager->size() ; i++) {

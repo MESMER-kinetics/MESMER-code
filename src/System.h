@@ -18,10 +18,10 @@
 #include "formatfloat.h"
 #include "ReactionManager.h"
 #include "Constants.h"
+#include "TimeCounter.h"
 
 namespace mesmer
 {
-
   class System
   {
   public:

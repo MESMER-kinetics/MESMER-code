@@ -1,3 +1,12 @@
+_2007_10_04__11_59_35_ Chi-Hsiu Liang
+
+  * Updated "Mesmer FAQ.doc"
+  * Updated source.ps
+  * modified main.cpp so that the output filename is date stamped.
+  * added TimeCounter.cpp
+  * Modified TimeCounter.h
+    Time stamp can now be applied to occasions where proper. Please check TimeCounter.h for usage.
+
 _2007_10_03__11_06_49_ Chi-Hsiu Liang
 
   * Added the CXSC library source code folder
