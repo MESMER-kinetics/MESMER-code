@@ -198,6 +198,9 @@ namespace mesmer
       case varUseCXSCDynamic:    precisionMethod = "Dynamic precision";   break;
     }
     cout << "Precision: " << precisionMethod << endl;
+#if defined (USE_CXSC)
+    stagprec = 1; //default precision set in single
+#endif
     //---------------
   
     // Build collison matrix for system.

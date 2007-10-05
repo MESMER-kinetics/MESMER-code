@@ -16,6 +16,10 @@
 #include "Matrix.h"
 #include <string>
 
+#if defined USE_CXSC
+#define fabs abs
+#endif
+
 class dMatrix : public Matrix<MesmerHP> {
 
 public:
@@ -39,7 +43,9 @@ public:
     for (int i = 0; i < size; ++i){
 #if defined (USE_QD) || defined(USE_DD)  //GUARD_USE_QD_USE_DD
       rr[i] = to_double(rrProxy[i]);
-#else  //GUARD_USE_QD_USE_DD
+#elif defined (USE_CXSC)
+      rr[i] = _double(_real(rrProxy[i]));
+#else
       rr[i] = rrProxy[i];
 #endif  //GUARD_USE_QD_USE_DD
     }

@@ -1,3 +1,7 @@
+_2007_10_05__08_54_43_ Chi-Hsiu Liang
+
+  * Modify dMatrix to template (several functions have to be rewritten to template as well!?)
+
 _2007_09_19__09_38_18_ Chi-Hsiu Liang
 
   * Set upper limit of EGME to 99%? of the energy under Boltzmann distribution 

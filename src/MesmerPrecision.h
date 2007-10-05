@@ -29,7 +29,7 @@
 #define precisionTag varUseQuadDouble
 
 #elif defined USE_CXSC
-#include <l_real.h>
+#include <l_rmath.hpp>
 #define MesmerPrecisionMethod l_real
 using namespace cxsc;
 #define precisionTag varUseCXSCDynamic
