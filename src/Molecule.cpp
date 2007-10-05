@@ -343,8 +343,6 @@ namespace mesmer
         for ( j = 0 ; j < MaximumGrain ; ++j ){
 #if defined (USE_QD) || defined(USE_DD)  //GUARD_USE_QD_USE_DD
             columnSum += to_double((*m_egme)[j][i]) ;
-#elif defined (USE_CXSC)
-            columnSum += _double(_real((*m_egme)[j][i])) ;
 #else
             columnSum += (*m_egme)[j][i] ;
 #endif  //GUARD_USE_QD_USE_DD
@@ -456,8 +454,6 @@ namespace mesmer
     for (int i = 0 ; i < ndim ; ++i){
 #if defined (USE_QD) || defined(USE_DD)  //GUARD_USE_QD_USE_DD
         sum +=  k[i]* to_double((*m_egme)[i][eigveci]*(*m_egme)[i][eigvecj]) ;
-#elif defined (USE_CXSC)
-        sum +=  k[i]* _double(_real((*m_egme)[i][eigveci]*(*m_egme)[i][eigvecj])) ;
 #else
         sum +=  k[i]* (*m_egme)[i][eigveci]*(*m_egme)[i][eigvecj] ;
 #endif  //GUARD_USE_QD_USE_DD

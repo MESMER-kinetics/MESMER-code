@@ -6,7 +6,6 @@
 #define USE_DOUBLE
 //#define USE_DD
 //#define USE_QD
-//#define USE_CXSC
 //--------------------------------------------------
 
 //---------------------
@@ -14,7 +13,6 @@
 #define varUseDouble              1000
 #define varUseDoubleDouble        2000
 #define varUseQuadDouble          3000
-#define varUseCXSCDynamic         4000
 //---------------------
 
 
@@ -27,12 +25,6 @@
 #include <qd/qd_real.h>
 #define MesmerPrecisionMethod qd_real
 #define precisionTag varUseQuadDouble
-
-#elif defined USE_CXSC
-#include <l_rmath.hpp>
-#define MesmerPrecisionMethod l_real
-using namespace cxsc;
-#define precisionTag varUseCXSCDynamic
 
 #else
 #define MesmerPrecisionMethod double
