@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iomanip>
 #include <time.h>
+#include "TimeCounter.h"
 #include "XMLPersist.h"
 #include "oberror.h"
 
@@ -169,8 +170,17 @@ PersistPtr XMLPersist::XmlWriteMainElement(
   //No timestamp or comment if comment is empty
   if(comment.size())
   {
+    //----------------------------------------
+    TimeCount events;
+    std::string thisEvent, timeString;
+    thisEvent = "Record data calculated";
+    timeString = events.setTimeStamp(thisEvent);
+    cout << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
+    pnel->SetAttribute("content", timeString);
+    //----------------------------------------
+
     // Add attribute to show when data was calculated, removing trailing 0x0a
-    pnel->SetAttribute("calculated", TimeString());
+    //pnel->SetAttribute("calculated", TimeString());
 
   //Add explanatory comment in description element
     TiXmlElement* pncom = new TiXmlElement("me:description");

@@ -71,13 +71,13 @@ namespace mesmer
     virtual bool XmlSaveFile(const std::string& outfilename)=0;
 
     ///Utility function to return a string with the current time and date.
-    static std::string TimeString()
-    {
-      time_t ltime;
-      time( &ltime );
-      std::string timestring(ctime(&ltime));
-      return timestring.erase(timestring.size()-1);
-    }
+    //static std::string TimeString()
+    //{
+    //  time_t ltime;
+    //  time( &ltime );
+    //  std::string timestring(ctime(&ltime));
+    //  return timestring.erase(timestring.size()-1);
+    //}
 
   } ;
 

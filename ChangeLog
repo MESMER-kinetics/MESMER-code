@@ -1,3 +1,13 @@
+_2007_10_08__13_38_55_ Chi-Hsiu Liang
+
+  * Removed QD/DD/double flags in files: dMatrix.h, Molecule.cpp
+  * Modified platform specific definition checks: MesmerConfig.h
+  * Commented out TimeString()
+  * use ctime instead of time.h
+  * Writes new style time stamp in xml files
+  * Now checks with compilation in VC++
+  * Updated source.ps
+
 _2007_10_05__14_00_29_ Chi-Hsiu Liang
 
   * Removed CXSC

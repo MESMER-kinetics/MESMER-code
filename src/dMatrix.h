@@ -37,11 +37,7 @@ public:
     tqli(rrProxy, work, size, m_matrix) ;
 
     for (int i = 0; i < size; ++i){
-#if defined (USE_QD) || defined(USE_DD)  //GUARD_USE_QD_USE_DD
       rr[i] = to_double(rrProxy[i]);
-#else
-      rr[i] = rrProxy[i];
-#endif  //GUARD_USE_QD_USE_DD
     }
     delete [] work ;
   }

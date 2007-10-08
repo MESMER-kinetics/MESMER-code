@@ -38,5 +38,10 @@
 // ----------------------------------------------------
 
 
+inline double to_double(const double &a) {
+  return a;
+}
+
+
 #endif // GUARD_MesmerPrecision_h
 

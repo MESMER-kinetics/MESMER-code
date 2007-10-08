@@ -150,7 +150,7 @@ namespace mesmer
   void System::calculate()
   {
     double beta = .0; 
-    TimeCount events; string thisEvent; unsigned int timeElapsed;
+    TimeCount events; string thisEvent; unsigned int timeElapsed =0;
 
     if(!SetGrainParams())
       return;
@@ -356,7 +356,15 @@ namespace mesmer
 
     ppItem = ppList->XmlWriteElement("metadata");
     ppItem->XmlWriteAttribute("name", "dc:date");
-    ppItem->XmlWriteAttribute("content", IPersist::TimeString());
+
+    //----------------------------------------
+    TimeCount events;
+    std::string thisEvent, timeString;
+    thisEvent = "Write XML attribute";
+    timeString = events.setTimeStamp(thisEvent);
+    cout << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
+    ppItem->XmlWriteAttribute("content", timeString);
+    //----------------------------------------
 
     //The user's name should be in an environment variable attached to his account (not a System variable)
     const char* author = getenv("MESMER_AUTHOR");

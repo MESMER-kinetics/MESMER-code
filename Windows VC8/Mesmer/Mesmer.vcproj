@@ -17,7 +17,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(ProjectDir)$(ConfigurationName)"
+			OutputDirectory="..\Mesmer"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
@@ -226,6 +226,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\TimeCounter.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\tinyxml\tinyxml.cpp"
 				>
 				<FileConfiguration
@@ -272,6 +276,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\MesmerConfig.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\MesmerMath.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\MesmerPrecision.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\MicroRate.h"
 				>
 			</File>
@@ -309,6 +325,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\System.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\TimeCounter.h"
 				>
 			</File>
 			<File

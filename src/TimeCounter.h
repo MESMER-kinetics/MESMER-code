@@ -4,7 +4,7 @@
 //This header must be be p_thread safe and parallel computing safe
 #include <sstream>
 #include <iostream>
-#include <time.h>
+#include <ctime>
 #include <vector>
 
 //------------------------
@@ -63,9 +63,9 @@ namespace mesmer
     public:
 
       std::string setTimeStamp(const std::string& timeStampName);
-      std::string TimeCount::setTimeStamp(const std::string& timeStampName, unsigned int &timeElapsed);
+      std::string setTimeStamp(const std::string& timeStampName, unsigned int &timeElapsed);
       std::string getTimeStamp(const std::string& timeStampName);
-      std::string TimeCount::getTimeStamp(const std::string& timeStampName, unsigned int &timeElapsed);
+      std::string getTimeStamp(const std::string& timeStampName, unsigned int &timeElapsed);
       friend std::ostream& operator<<(std::ostream& os, TimeCount& MTC);
   };
 };
