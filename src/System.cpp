@@ -149,7 +149,7 @@ namespace mesmer
   //
   void System::calculate()
   {
-    double beta = .0; 
+    double beta = .0;
     TimeCount events; string thisEvent; unsigned int timeElapsed =0;
 
     if(!SetGrainParams())
@@ -198,7 +198,7 @@ namespace mesmer
     }
     cout << "Precision: " << precisionMethod << endl;
     //---------------
-  
+
     // Build collison matrix for system.
     thisEvent = "Build Collison Matrix";
     cout << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
@@ -207,7 +207,7 @@ namespace mesmer
     thisEvent = "Diagonlize Collision Operator";
     cout << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
     m_pReactionManager->diagCollisionOperator() ;
-    
+
     thisEvent = "Finish Calculation";
     cout << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
 
@@ -224,7 +224,7 @@ namespace mesmer
 
             CollidingMolecule *pmolecule = reaction->m_Reactant ;
 
-            // for (int i(0) ; i < MAXCELL ; i++) 
+            // for (int i(0) ; i < MAXCELL ; i++)
             //     kmc[i] /= omega ;
 
             pmolecule->diagCollisionOperator() ;
@@ -234,10 +234,10 @@ namespace mesmer
             double kinf = pmolecule->matrixElement(MaxGrn-1,MaxGrn-1,kmc,MaxGrn) ;
 
             cout << endl ;
-            formatFloat(cout, kinf, 6, 15) ; 
+            formatFloat(cout, kinf, 6, 15) ;
 
     }*/
-    
+
     cout << events << endl;
   }
 

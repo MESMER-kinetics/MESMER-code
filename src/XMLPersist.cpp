@@ -17,7 +17,7 @@ PersistPtr XMLPersist::XmlCreate(const std::string& inputfilename, const std::st
   if( !pdoc->LoadFile() )
   {
     stringstream errorMsg;
-    errorMsg << "Could not load file " << inputfilename 
+    errorMsg << "Could not load file " << inputfilename
              << "\nIt may not exist or it may not consist of well-formed XML." << endl;
     obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
 
@@ -57,7 +57,7 @@ const char* XMLPersist::XmlRead()const
 
 ///Look first to see if there is a child element of this name.
 ///Look second for an attribute of this name.
-///If either found, return its value. 
+///If either found, return its value.
 ///Otherwise return NULL. If MustBeThere is true(the default) also give an error message.
 const char* XMLPersist::XmlReadValue(const std::string& name, bool MustBeThere) const
 {
@@ -82,7 +82,7 @@ const char* XMLPersist::XmlReadValue(const std::string& name, bool MustBeThere) 
 }
 
 /// Returns the effective content of an CML <property> element
-/// Looks for child elements pnList of the form: 
+/// Looks for child elements pnList of the form:
 /// <property dictRef="name">
 ///     <scalar> content </scalar>
 /// </property>
@@ -125,7 +125,7 @@ const char* XMLPersist::XmlReadProperty(const string& name, bool MustBeThere) co
   }
 
 
-void XMLPersist::XmlWriteValueElement(const std::string& name, 
+void XMLPersist::XmlWriteValueElement(const std::string& name,
                  const double datum, const int precision)
 {
   ostringstream sstrdatum ;
@@ -134,7 +134,7 @@ void XMLPersist::XmlWriteValueElement(const std::string& name,
   else
     sstrdatum << datum ;
 
-  
+
   TiXmlElement* item = new TiXmlElement(name);
   pnNode->LinkEndChild(item);
   item->LinkEndChild(new TiXmlText(sstrdatum.str()));
@@ -152,7 +152,7 @@ void XMLPersist::XmlWriteAttribute(const std::string& name, const std::string& v
   pnNode->SetAttribute(name, value);
 }
 
-PersistPtr XMLPersist::XmlWriteMainElement( 
+PersistPtr XMLPersist::XmlWriteMainElement(
                         const std::string& name, const std::string& comment, bool replaceExisting)
 {
   // Delete any existing element of the same name, unless explicitly asked not to.
@@ -173,16 +173,13 @@ PersistPtr XMLPersist::XmlWriteMainElement(
     //----------------------------------------
     TimeCount events;
     std::string thisEvent, timeString;
-    thisEvent = "Record data calculated";
+    thisEvent = "Record calculated data";
     timeString = events.setTimeStamp(thisEvent);
-    cout << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
-    pnel->SetAttribute("content", timeString);
+    cout << thisEvent << " at " << timeString << endl;
+    pnel->SetAttribute("calculated", timeString);
     //----------------------------------------
 
-    // Add attribute to show when data was calculated, removing trailing 0x0a
-    //pnel->SetAttribute("calculated", TimeString());
-
-  //Add explanatory comment in description element
+    //Add explanatory comment in description element
     TiXmlElement* pncom = new TiXmlElement("me:description");
     pnel->LinkEndChild( pncom );
     pncom->LinkEndChild(new TiXmlText(comment));
