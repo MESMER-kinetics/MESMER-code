@@ -19,14 +19,6 @@ namespace mesmer
 {
   class Reaction
   {
-    //
-    // Declare System as a friend class. Not sure that this is the best or
-    // most OOP way to go as it clearly defeats the point of encapsulation
-    // but the System needs to know a lot about the reactions it is
-    // combining. Review latter. SHR 2/Apr/2003.
-    //
-
-    friend class System ;
 
   public:
 
@@ -55,9 +47,7 @@ namespace mesmer
     //   Reaction& operator=(const Reaction& reaction) ;
 
     // Initialize reaction.
-    bool InitializeReaction(System* pSys, PersistPtr ppReac) ;
-
-    System* GetSys() { return m_pSys; }
+    bool InitializeReaction(PersistPtr ppReac) ;
 
     std::string& getName() { return m_Name ; } ;
 
@@ -68,13 +58,13 @@ namespace mesmer
     ReactionType get_Reactiontype() const {return m_reactiontype ; } ;
 
     // Add microcanonical terms to collision operator
-    void AddMicroRates(dMatrix *CollOptr, isomerMap &isomermap, sourceMap &sourcemap, const double rMeanOmega) ;
+    void AddMicroRates(dMatrix *CollOptr, isomerMap &isomermap, sourceMap &sourcemap, const double rMeanOmega, const MesmerEnv &mEnv) ;
 
     // Determine the equilibrium constant.
     void CalcEquilConst() { } ;
 
     // Access microcanoincal rate coeffcients.
-    void get_MicroRateCoeffs(std::vector<double> &kmc) ;
+    void get_MicroRateCoeffs(std::vector<double> &kmc, const MesmerEnv &mEnv) ;
 
     double get_PreExp() const                   { return m_PreExp ; } ;
     double get_ActivationEnergy()const          { return m_ActEne ; } ;
@@ -91,22 +81,23 @@ namespace mesmer
 
     CollidingMolecule *get_pseudoIsomer() const ;
 
+
   private:
 
     // Read a molecule name from the XML file and look it up
     Molecule* GetMolRef(PersistPtr pp);
 
     // Grain average microcanonical rate coefficients.
-    bool grnAvrgMicroRateCoeffs();
+    bool grnAvrgMicroRateCoeffs(const MesmerEnv &mEnv);
 
     // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
-    bool calcGrnAvrgMicroRateCoeffs() ;
+    bool calcGrnAvrgMicroRateCoeffs(const MesmerEnv &mEnv) ;
 
     // Add isomer reaction terms to collision matrix.
-    void AddIsomerReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+    void AddIsomerReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega, const MesmerEnv &mEnv) ;
 
     // Add (reversible) association reaction terms to collision matrix.
-    void AddAssocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, sourceMap &sourcemap, const double rMeanOmega) ;
+    void AddAssocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, sourceMap &sourcemap, const double rMeanOmega, const MesmerEnv &mEnv) ;
 
     // Add dissociation reaction terms to collision matrix.
     void AddDissocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
@@ -135,7 +126,6 @@ namespace mesmer
 
     // I/O and control
     PersistPtr          m_ppPersist;         // Conduit for I/O
-    System*             m_pSys;              // Parent's parent 
     //
     // Point to microcanoical rate coeff. calculator.
     //

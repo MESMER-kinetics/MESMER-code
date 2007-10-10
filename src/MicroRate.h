@@ -2,7 +2,7 @@
 #define GUARD_MicroRate_h
 
 #include <map>
-#include "oberror.h"
+#include "XMLPersist.h"
 
 namespace mesmer
 {
@@ -31,8 +31,8 @@ namespace mesmer
       return (pos==get_Map().end()) ? NULL : pos->second;
     }
 
-    virtual bool calculateMicroRateCoeffs(Reaction* pReact, std::vector<double> &cellKfmc) = 0 ;
-    virtual bool testMicroRateCoeffs(Reaction* pReact, std::vector<double> &cellKfmc, PersistPtr ppbase) const;
+    virtual bool calculateMicroRateCoeffs(Reaction* pReact, std::vector<double> &cellKfmc, const MesmerEnv &mEnv) = 0 ;
+    virtual bool testMicroRateCoeffs(Reaction* pReact, std::vector<double> &cellKfmc, PersistPtr ppbase, const MesmerEnv &mEnv) const;
 
   private:
     /// Returns a reference to the map of MicroRateCalculator classes

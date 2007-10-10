@@ -1,17 +1,15 @@
-#include "System.h"
-
+#include "Reaction.h"
 //
 // Test the forward microcanonical rate coefficients.
 //
+using namespace std;
+using namespace Constants ;
+
 namespace mesmer
 {
-  using namespace std;
-  using namespace Constants ;
 
-  bool MicroRateCalculator::testMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc, PersistPtr ppbase) const
+  bool MicroRateCalculator::testMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc, PersistPtr ppbase, const MesmerEnv &mEnv) const
   {
-    System* pSys = pReact->GetSys();
-
     vector<CollidingMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
     CollidingMolecule * pReactant = unimolecularspecies[0];
@@ -22,11 +20,11 @@ namespace mesmer
 
     // Allocate some work space for density of states.
 
-    vector<double> CellEne(pSys->MAXCell(),0.0) ;
-    vector<double> cellDOS(pSys->MAXCell(),0.0) ;
+    vector<double> CellEne(mEnv.MaxCell,0.0) ;
+    vector<double> cellDOS(mEnv.MaxCell,0.0) ;
 
-    pReactant->cellEnergies(CellEne) ;
-    pReactant->cellDensityOfStates(cellDOS) ;
+    pReactant->cellEnergies(CellEne, mEnv) ;
+    pReactant->cellDensityOfStates(cellDOS, mEnv) ;
 
     for(int i = 0 ; i < 29 ; ++i)
     {
@@ -36,7 +34,7 @@ namespace mesmer
       double sm1 = 0.0 ;
       double sm2 = 0.0 ;
       double tmp = 0.0 ;
-      for ( int i = 0 ; i < pSys->MAXCell() ; ++i ) {
+      for ( int i = 0 ; i < mEnv.MaxCell ; ++i ) {
         tmp  = cellDOS[i] * exp(-beta * CellEne[i]) ;
         sm1 += cellKfmc[i] * tmp ;
         sm2 +=           tmp ;

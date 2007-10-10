@@ -2,7 +2,7 @@
 #define GUARD_formatfloat_h
 
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
 namespace mesmer
 {

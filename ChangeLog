@@ -1,3 +1,21 @@
+_2007_10_10__08_20_39_ Chi-Hsiu Liang
+
+  * removed pSys, GetSys() and m_pSys
+  *-----------------------------------------
+  * About MesmerEnv
+  * added `MesmerEnv.h' and `MesmerEnv.cpp'
+  * moved environmental variables from `System.h' to `MesmerEnv.h'
+  * environmental variables are now included in a variable instance mEnv
+  * mEnv is a public member of System, lives and dies with System object
+  * mEnv is passed down to functions in const, instead of passing whole system
+  * New instance of System can be threaded safely with all variables self-contained. e.g. vector of systems
+  *-----------------------------------------
+  * replace <math.h> by <cmath> (for several math function auto-conversions)
+  * renamed `System' variable in main.cpp to _sys
+  * reorganised file dependencies
+  * updated source.ps
+  * removed ReactionConnectivity.cpp/h
+ 
 _2007_10_08__13_38_55_ Chi-Hsiu Liang
 
   * Removed QD/DD/double flags in files: dMatrix.h, Molecule.cpp

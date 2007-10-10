@@ -1,6 +1,5 @@
 #include <float.h>
 #include "MesmerILT.h"
-#include "MesmerMath.h"
 
 using namespace std;
 using namespace Constants;
@@ -27,17 +26,15 @@ namespace mesmer
   //PES
 
 
-  bool MesmerILT::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc)
+  bool MesmerILT::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc, const MesmerEnv &mEnv)
   {
-
     //-----------------
     //starting variables block
-    System* pSys        = pReact->GetSys();
     MesmerHP _ninf        = -0.25; // constraint: _ninf > -1.5
     double _ainf        = 2.03e-12;
     double _tinf        = 300.;  // default temperature
     double _einf        = pReact->get_ActivationEnergy();
-    int MaximumCell     = pSys->MAXCell();
+    int MaximumCell     = mEnv.MaxCell;
     double C_prime      = 3.24331e+20; // pow((2 * pi / (h * h)), 1.5)  not sure??
     //-----------------
 
@@ -66,8 +63,8 @@ namespace mesmer
     // Allocate some work space for density of states and extract densities of states from molecules.
     vector<double> rctCellDOS(MaximumCell,0.0) ; // Cell density of states of reactant molecule.
     vector<double> pdtCellDOS(MaximumCell,0.0) ; // Cell density of states of product molecule.
-    pReactant->cellDensityOfStates(rctCellDOS) ;
-    pProduct->cellDensityOfStates(pdtCellDOS) ;
+    pReactant->cellDensityOfStates(rctCellDOS, mEnv) ;
+    pProduct->cellDensityOfStates(pdtCellDOS, mEnv) ;
 
     double _gamma = (MesmerHP) MesmerGamma(_ninf + 1.5);
     long double _ant = _ainf * C_prime * (edg_a * edg_b / edg_c) * powl( ( ma * mb / mc), 1.5 ) / _gamma;

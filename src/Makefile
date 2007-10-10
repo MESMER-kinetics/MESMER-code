@@ -104,6 +104,7 @@ SRCS := MicroRate.cpp \
 	formatfloat.cpp \
 	oberror.cpp \
 	TimeCounter.cpp \
+	MesmerEnv.cpp \
 	main.cpp
 
 # Add on the sources for libraries

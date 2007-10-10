@@ -1,5 +1,6 @@
 #include "SimpleRRKM.h"
 
+
 using namespace std;
 using namespace Constants;
 namespace mesmer
@@ -9,9 +10,8 @@ namespace mesmer
   SimpleRRKM theSimpleRRKM("Simple RRKM");
   //************************************************************
 
-  bool SimpleRRKM::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc)
+  bool SimpleRRKM::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc, const MesmerEnv &mEnv)
   {
-    System* pSys = pReact->GetSys();  
     vector<CollidingMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
     CollidingMolecule * pReactant = unimolecularspecies[0];
@@ -26,28 +26,28 @@ namespace mesmer
     }
 
     // Allocate space to hold Micro-canonical rate coefficients.
-    cellKfmc.resize(pSys->MAXCell());
+    cellKfmc.resize(mEnv.MaxCell);
 
     // Initialize microcanoincal rate coefficients.
 
     int i, j ;
-    for (i = 0 ; i < pSys->MAXCell() ; ++i ) {
+    for (i = 0 ; i < mEnv.MaxCell ; ++i ) {
         cellKfmc[i] = 0.0 ;
     }
 
     // Allocate some work space for density of states.
 
-    vector<double> TScellDOS(pSys->MAXCell(),0.0) ; // Transistion state density of states.
-    vector<double> cellDOS(pSys->MAXCell(),0.0) ; // Density of states of equilibrium molecule.
+    vector<double> TScellDOS(mEnv.MaxCell,0.0) ; // Transistion state density of states.
+    vector<double> cellDOS(mEnv.MaxCell,0.0) ; // Density of states of equilibrium molecule.
 
     // Extract densities of states from molecules.
 
-    pReactant->cellDensityOfStates(cellDOS) ;
-    pTS->cellDensityOfStates(TScellDOS) ;
+    pReactant->cellDensityOfStates(cellDOS, mEnv) ;
+    pTS->cellDensityOfStates(TScellDOS, mEnv) ;
 
     double SumOfStates  = 0.0 ;
     int thresholdEnergy = int((pTS->get_zpe() - pReactant->get_zpe()) * KcalPerMolToRC) ;
-    for (i = thresholdEnergy, j = 0 ; i < pSys->MAXCell() ; ++i, ++j ) {
+    for (i = thresholdEnergy, j = 0 ; i < mEnv.MaxCell ; ++i, ++j ) {
 
         // Integrate transition state density of states.
 

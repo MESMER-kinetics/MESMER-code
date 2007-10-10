@@ -15,10 +15,7 @@
 //
 //-------------------------------------------------------------------------------------------
 #include "MesmerConfig.h"
-#include "formatfloat.h"
 #include "ReactionManager.h"
-#include "Constants.h"
-#include "TimeCounter.h"
 
 namespace mesmer
 {
@@ -29,63 +26,38 @@ namespace mesmer
     System() ;
     ~System() ;
 
-    //
     // Read and parse a data input file.
-    //
     bool parse(PersistPtr ppIOPtr) ;
 
-    //
     // Begin calculation.
-    //
     void calculate() ;
 
-    double getGrainSize()           { return GrainSize; }
-    int    MAXGrn()                 { return MaxGrn; }
-    int    MAXCell()                { return MaxCell; }
-    double getEMin()                { return EMin; }
-    bool   TestMicroRatesEnabled()  { return bTestMicroRates; }
 
-    std::vector<double> Temperatures; //Explicit emumeration of the temperatures requested in the input
+    std::vector<double> Temperatures;   //Explicit emumeration of the temperatures requested in the input
     std::vector<double> Concentrations; //Bath gas concentrations: values for calculation. Use if Pressures is empty.
-    std::vector<double> Pressures; //Bath gas pressures: values for calculation
+    std::vector<double> Pressures;      //Bath gas pressures: values for calculation
+
+    //stores environmental variables
+    MesmerEnv mEnv;
 
   private:
+
+    // Location of the molecule manager.
+    MoleculeManager *m_pMoleculeManager ;
+
+    // Location of the reaction maps.
+    ReactionManager *m_pReactionManager ;
 
     bool SetGrainParams();
     bool ReadRange(const std::string&    name,
                    std::vector<double>&  vals,
                    PersistPtr            ppbase,
                    bool                  MustBeThere=true);
+
     void WriteMetadata();
-    //
-    // Location of the molecule manager.
-    //
-    MoleculeManager *m_pMoleculeManager ;
 
-
-    //
-    // Location of the reaction maps.
-    //
-    ReactionManager *m_pReactionManager ;
-
-    PersistPtr m_ppIOPtr; //level in XML file under <mesemer>
-
-    double temp;
-    double conc;
-
-    double GrainSize;  //Grain size in cm-1
-    int    MaxGrn;     //The number of grains
-    int    MaxCell;    //The number of cells
-    double MaxT;       //Maximum temperature for the purposes of setting the energy range
-
-    double EMin, EMax; // The absolute lowest and highest energies in the system, cm-1
-
-    bool   bTestMicroRates;  // Whether to output microcanonical rate coefficients
-
+    // level in XML file under <mesemer>
+    PersistPtr m_ppIOPtr;
   } ;
-
-  //Namespace global variable for accessing the one instance of System class
-  extern System* pSys;
-
 }//namespace
 #endif // GUARD_System_h

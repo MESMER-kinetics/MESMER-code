@@ -18,8 +18,8 @@ using namespace Constants ;
 namespace mesmer
 {
   System::System(): m_pMoleculeManager(0), m_pReactionManager(0){
-      m_pMoleculeManager = new MoleculeManager(this) ;
-      m_pReactionManager = new ReactionManager(this, m_pMoleculeManager) ;
+      m_pMoleculeManager = new MoleculeManager() ;
+      m_pReactionManager = new ReactionManager(m_pMoleculeManager) ;
   }
 
   System::~System() { }
@@ -29,10 +29,6 @@ namespace mesmer
   //
   bool System::parse(PersistPtr ppIOPtr)
   {
-    GrainSize=0.0;
-    MaxGrn=0;
-    MaxT=0.0;
-
     //-------------
     //Molecule List
     m_ppIOPtr = ppIOPtr;
@@ -45,7 +41,7 @@ namespace mesmer
       return false;
     }
     if(!m_pMoleculeManager->addmols(ppMolList))
-      return false;;
+      return false;
 
     //-------------
     //Reaction List
@@ -108,37 +104,37 @@ namespace mesmer
       if(txt)
       {
         istringstream ss(txt);
-        ss >> GrainSize;
+        ss >> mEnv.GrainSize;
       }
 
       txt = ppParams->XmlReadValue("me:numberOfGrains",false);
       if(txt)
       {
         istringstream ss(txt);
-        ss >> MaxGrn;
+        ss >> mEnv.MaxGrn;
       }
 
       txt = ppParams->XmlReadValue("me:maxTemperature",false);
       if(txt)
       {
         istringstream ss(txt);
-        ss >> MaxT;
+        ss >> mEnv.MaxT;
       }
 
-      if(GrainSize!=0.0 && MaxGrn!=0)
+      if(mEnv.GrainSize!=0.0 && mEnv.MaxGrn!=0)
       {
         stringstream errorMsg;
         errorMsg << "No method is provided to specify me:grainSize and me:numberOfGrains.\n"
                  << "me:numberOfGrains has been ignored";
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-        MaxGrn=0;
+        mEnv.MaxGrn=0;
       }
     }
 
     PersistPtr ppControl = ppIOPtr->XmlMoveTo("me:control");
     if(ppControl)
     {
-      bTestMicroRates = ppControl->XmlReadBoolean("me:testMicroRates");
+      mEnv.microRateEnabled = ppControl->XmlReadBoolean("me:testMicroRates");
     }
 
     return true;
@@ -156,7 +152,7 @@ namespace mesmer
       return;
 
     std::string id;
-    ModelledMolecule* pmol=NULL;
+    ModelledMolecule* pmol = NULL;
 
     WriteMetadata();
 
@@ -172,20 +168,20 @@ namespace mesmer
       // TODO: Get pressure units right. Pressures currently non-functional!
       for(size_t i=0;i<imax;++i)
       {
-        conc = !Pressures.empty() ? Pressures[i]*beta : Concentrations[i];
+        mEnv.conc = !Pressures.empty() ? Pressures[i]*beta : Concentrations[i];
 
         // Build collison matrix for system.
-        m_pReactionManager->BuildSystemCollisionOperator(beta, conc) ;
+        m_pReactionManager->BuildSystemCollisionOperator(beta, mEnv) ;
 
         m_pReactionManager->diagCollisionOperator() ;
       }
     }
     */
 
-    temp = Temperatures[0]; //temporary statements
-    conc = Concentrations[0];
+    mEnv.temp = Temperatures[0]; //temporary statements
+    mEnv.conc = Concentrations[0];
 
-    beta = 1.0/(boltzmann_RCpK*temp) ;
+    beta = 1.0/(boltzmann_RCpK* mEnv.temp) ;
 
     //---------------
     //About precision
@@ -202,7 +198,7 @@ namespace mesmer
     // Build collison matrix for system.
     thisEvent = "Build Collison Matrix";
     cout << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
-    m_pReactionManager->BuildSystemCollisionOperator(beta, conc) ;
+    m_pReactionManager->BuildSystemCollisionOperator(beta, mEnv) ;
 
     thisEvent = "Diagonlize Collision Operator";
     cout << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
@@ -212,30 +208,30 @@ namespace mesmer
     cout << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
 
 
-    /*      for (size_t i=0; i < m_pReactionManager->size() ; i++) {
+    /*
+    for (size_t i=0; i < m_pReactionManager->size() ; i++) {
 
-            Reaction *reaction = (*m_pReactionManager)[i] ;
+    Reaction *reaction = (*m_pReactionManager)[i] ;
 
-            // Work space to hold microcanonical rates.
+    // Work space to hold microcanonical rates.
 
-            vector<double> kmc(MaxGrn,0.0) ;
+    vector<double> kmc(mEnv.MaxGrn,0.0) ;
 
-            reaction->get_MicroRateCoeffs(kmc) ;
+    reaction->get_MicroRateCoeffs(kmc, mEnv) ;
 
-            CollidingMolecule *pmolecule = reaction->m_Reactant ;
+    CollidingMolecule *pmolecule = reaction->m_Reactant ;
 
-            // for (int i(0) ; i < MAXCELL ; i++)
-            //     kmc[i] /= omega ;
+    // for (int i(0) ; i < MAXCELL ; i++)
+    //     kmc[i] /= omega ;
 
-            pmolecule->diagCollisionOperator() ;
+    pmolecule->diagCollisionOperator() ;
 
-            // Calculate matrix elements
+    // Calculate matrix elements
 
-            double kinf = pmolecule->matrixElement(MaxGrn-1,MaxGrn-1,kmc,MaxGrn) ;
+    double kinf = pmolecule->matrixElement(mEnv.MaxGrn-1,mEnv.MaxGrn-1,kmc,mEnv.MaxGrn) ;
 
-            cout << endl ;
-            formatFloat(cout, kinf, 6, 15) ;
-
+    cout << endl ;
+    formatFloat(cout, kinf, 6, 15) ;
     }*/
 
     cout << events << endl;
@@ -244,34 +240,36 @@ namespace mesmer
   bool System::SetGrainParams()
   {
     /*
-    Either grain size or number of grains can be specified, but not both.
+    Grain size and number of grain:
 
-    Uses the value of grain size in the datafile, if specified .
-    If grain size is not specified but number of grains is,
-    use a grain size to fit the energy range.
-    If neither is specified, the grain size is set to 100cm-1
-    and the number of grains set so that the energy range is sufficient.
+      - Either grain size or number of grains can be specified, but not both.
 
-    The required total energy domain extends from the lowest zero point energy
-    of the lowest molecule to 10kT above the highest. <me:maxTemperature>
-    is used, if specified in the data file.
-    But if the input energy of the system is higher, should this be used?
+      - Uses the value of grain size in the datafile, if specified.
+
+      - If grain size is not specified but number of grains is, use a grain size to fit the energy range.
+        If neither is specified, the grain size is set to 100cm-1 and the number of grains set so that
+        the energy range is sufficient.
+
+    Energy Range:
+
+      - The required total energy domain extends from the lowest zero point energy of the lowest molecule
+        to 10kT above the highest. <me:maxTemperature> is used, if specified in the data file.
+        But, if the input energy of the system is higher, should this be used?
     */
 
     //Calculate the energy range covering all modelled molecules
-    const double BIG =1e100;
-    EMax=0.0;
-    EMin=BIG;
-    std::string id;
-    ModelledMolecule* pmol=NULL;
+    const double BIG = 1e100;
+    mEnv.EMax = 0.0; mEnv.EMin = BIG;
+
+    std::string id; ModelledMolecule* pmol = NULL;
     while(m_pMoleculeManager->GetNextMolecule(id, pmol))
     {
       double zpe = pmol->get_zpe() * KcalPerMolToRC ;
-      EMax = std::max(EMax, zpe);
-      EMin = std::min(EMin, zpe);
+      mEnv.EMax = std::max(mEnv.EMax, zpe);
+      mEnv.EMin = std::min(mEnv.EMin, zpe);
     }
 
-    if(EMin==BIG || EMax==0.0)
+    if(mEnv.EMin==BIG || mEnv.EMax==0.0)
     {
       stringstream errorMsg;
       errorMsg << "The modelled molecules do not cover an appropriate energy range";
@@ -279,27 +277,35 @@ namespace mesmer
       return false;
     }
 
-    //MaxT gives the option of widening the energy range
-    if(MaxT==0.0)
-      MaxT = *max_element(Temperatures.begin(), Temperatures.end());
+    //mEnv.MaxT gives the option of widening the energy range
+    if(mEnv.MaxT <= 0.0){
+      mEnv.MaxT = *max_element(Temperatures.begin(), Temperatures.end());
+      stringstream errorMsg;
+      errorMsg << "Maximum Temperature was invalid. Reset Maximum Temperature.";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+    }
 
     //Max energy is ** 20kT  ** above the highest well [was 10kT]
-    EMax = EMax + 20 * boltzmann_RCpK * MaxT;
-    if(GrainSize==0.0)
-      GrainSize = 100; //default 100cm-1
+    mEnv.EMax = mEnv.EMax + 20 * boltzmann_RCpK * mEnv.MaxT;
+    if(mEnv.GrainSize <= 0.0){
+      mEnv.GrainSize = 100.; //default 100cm-1
+      stringstream errorMsg;
+      errorMsg << "Grain size was invalid. Reset grain size to default: 100";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+    }
 
-    if(MaxGrn==0)
-      MaxGrn = (int)((EMax-EMin)/GrainSize + 0.5);
+    if(mEnv.MaxGrn <= 0)
+      mEnv.MaxGrn = (int)((mEnv.EMax-mEnv.EMin)/mEnv.GrainSize + 0.5);
     else
-      GrainSize = (EMax-EMin)/MaxGrn;
+      mEnv.GrainSize = (mEnv.EMax-mEnv.EMin)/mEnv.MaxGrn;
 
-    MaxCell = (int)(GrainSize * MaxGrn + 0.5);
+    mEnv.MaxCell = (int)(mEnv.GrainSize * mEnv.MaxGrn + 0.5);
     return true;
     /*
      //Hardwired
-     MaxCell=50000;
-     MaxGrn =500;
-     GrainSize = 100;
+     mEnv.MaxCell=50000;
+     mEnv.MaxGrn =500;
+     mEnv.GrainSize = 100;
      return true;
     */
   }
@@ -373,7 +379,6 @@ namespace mesmer
     ppItem = ppList->XmlWriteElement("metadata");
     ppItem->XmlWriteAttribute("name", "dc:contributor");
     ppItem->XmlWriteAttribute("content", author);
-
   }
 
 }//namespace

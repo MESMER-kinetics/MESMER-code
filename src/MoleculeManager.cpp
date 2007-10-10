@@ -43,7 +43,7 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
     //
     // Initialize Molecule from input stream.
     //Each molecule type has its own set of mandatory of parameters
-    if(!pmolecule->InitializeMolecule(GetSys(), ppmol)){
+    if(!pmolecule->InitializeMolecule(ppmol)){
     	delete pmolecule;
       return false;
     }

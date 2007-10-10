@@ -8,9 +8,8 @@
 // This file contains the implementation of the Reaction class.
 //
 //-------------------------------------------------------------------------------------------
-
 #include <limits>
-#include "System.h"
+#include "Reaction.h"
 
 using namespace Constants ;
 using namespace std;
@@ -50,9 +49,8 @@ namespace mesmer
   //
   // Read the Molecular data from inout stream.
   //
-  bool Reaction::InitializeReaction(System* pSys, PersistPtr ppReac)
+  bool Reaction::InitializeReaction(PersistPtr ppReac)
   {
-    m_pSys = pSys;
     m_ppPersist = ppReac;
 
     //Read reaction ID
@@ -252,26 +250,26 @@ namespace mesmer
   //
   // Access microcanoincal rate coefficients.
   //
-  void Reaction::get_MicroRateCoeffs(std::vector<double> &kmc) {
-    calcGrnAvrgMicroRateCoeffs();
+  void Reaction::get_MicroRateCoeffs(std::vector<double> &kmc, const MesmerEnv &mEnv) {
+    calcGrnAvrgMicroRateCoeffs(mEnv);
     kmc = m_GrainKfmc ;
   }
 
   //
   // Calculate grain averaged microcanonical rate coefficients.
   //
-  bool Reaction::calcGrnAvrgMicroRateCoeffs() {
+  bool Reaction::calcGrnAvrgMicroRateCoeffs(const MesmerEnv &mEnv) {
 
     // Calculate microcanonical rate coefficients.
     if (m_CellKfmc.size()==0)
     {
-      if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this, m_CellKfmc) ||
-        (GetSys()->TestMicroRatesEnabled() && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_CellKfmc, m_ppPersist)))
+      if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this, m_CellKfmc, mEnv) ||
+        (mEnv.microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_CellKfmc, m_ppPersist, mEnv)))
         return false;
     }
     // Calculate Grain averages of microcanonical rate coefficients.
     if (m_GrainKfmc.size()==0)
-        return grnAvrgMicroRateCoeffs() ;
+        return grnAvrgMicroRateCoeffs(mEnv) ;
     return true;
   }
 
@@ -280,16 +278,16 @@ namespace mesmer
   // to give grain values. This code is similar to that in Molecule.cpp
   // and this averaging should be done there. SHR 19/Sep/2004.
   //
-  bool Reaction::grnAvrgMicroRateCoeffs() {
+  bool Reaction::grnAvrgMicroRateCoeffs(const MesmerEnv &mEnv) {
 
-    int MaximumGrain = GetSys()->MAXGrn();
-    double currentGrainSize = GetSys()->getGrainSize();
+    int MaximumGrain = mEnv.MaxGrn;
+    double currentGrainSize = mEnv.GrainSize;
     m_GrainKfmc.resize(MaximumGrain);
 
     // Extract density of states of equilibrium molecule.
 
-    vector<double> cellDOS(GetSys()->MAXCell(),0.0) ;
-    m_Reactant->cellDensityOfStates(cellDOS) ;
+    vector<double> cellDOS(mEnv.MaxCell,0.0) ;
+    m_Reactant->cellDensityOfStates(cellDOS, mEnv) ;
 
     // Check that there are enough cells.
 
@@ -340,21 +338,26 @@ namespace mesmer
   //
   // Add microcanonical terms to collision operator
   //
-  void Reaction::AddMicroRates(dMatrix *CollOptr, isomerMap &isomermap, sourceMap &sourcemap, const double rMeanOmega) {
+  void Reaction::AddMicroRates(dMatrix *CollOptr, 
+                               isomerMap &isomermap, 
+                               sourceMap &sourcemap, 
+                               const double rMeanOmega, 
+                               const MesmerEnv &mEnv)
+  {
 
     // Calculate Microcanonical rate coefficients.
 
-    calcGrnAvrgMicroRateCoeffs() ;
+    calcGrnAvrgMicroRateCoeffs(mEnv) ;
 
     // Add microcanonical rates to the collision operator.
 
     switch(m_reactiontype) {
       case ISOMERIZATION :
-        AddIsomerReactionTerms(CollOptr, isomermap, rMeanOmega) ;
+        AddIsomerReactionTerms(CollOptr, isomermap, rMeanOmega, mEnv) ;
         break;
 
       case ASSOCIATION :
-        AddAssocReactionTerms(CollOptr, isomermap, sourcemap, rMeanOmega) ;
+        AddAssocReactionTerms(CollOptr, isomermap, sourcemap, rMeanOmega, mEnv) ;
         break;
 
       case DISSOCIATION :
@@ -374,7 +377,8 @@ namespace mesmer
   //
   void Reaction::AddIsomerReactionTerms(dMatrix *CollOptr,
                                         isomerMap &isomermap,
-                                        const double rMeanOmega)
+                                        const double rMeanOmega,
+                                        const MesmerEnv &mEnv)
   {
     // Locate isomers in system matrix.
 
@@ -383,12 +387,12 @@ namespace mesmer
 
     // Get densities of states for detailed balance.
 
-    const int MaximumGrain = GetSys()->MAXGrn();
+    const int MaximumGrain = mEnv.MaxGrn;
     vector<double> rctDOS(MaximumGrain, 0.0) ;
     vector<double> pdtDOS(MaximumGrain, 0.0) ;
 
-    m_Reactant->grnDensityOfStates(rctDOS) ;
-    m_Product->grnDensityOfStates(pdtDOS) ;
+    m_Reactant->grnDensityOfStates(rctDOS, mEnv) ;
+    m_Product->grnDensityOfStates(pdtDOS, mEnv) ;
 
     const int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
     for ( int i = max(0,-idx) ; i < min(MaximumGrain,(MaximumGrain-idx)) ; ++i ) {
@@ -408,7 +412,8 @@ namespace mesmer
   void Reaction::AddAssocReactionTerms(dMatrix      *CollOptr,
                                        isomerMap    &isomermap,
                                        sourceMap    &sourcemap,
-                                       const double rMeanOmega)
+                                       const double rMeanOmega,
+                                       const MesmerEnv &mEnv)
   {
     // Locate isomers in system matrix.
 
@@ -417,10 +422,10 @@ namespace mesmer
 
     // Get densities of states for detailed balance.
 
-    const int MaximumGrain = GetSys()->MAXGrn();
+    const int MaximumGrain = mEnv.MaxGrn;
     vector<double> rctDOS(MaximumGrain, 0.0) ;
 
-    m_Reactant->grnDensityOfStates(rctDOS) ;
+    m_Reactant->grnDensityOfStates(rctDOS, mEnv) ;
 
     const int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
     for ( int i = max(0,-idx) ; i < min(MaximumGrain,(MaximumGrain-idx)) ; ++i ) {

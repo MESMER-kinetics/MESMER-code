@@ -13,15 +13,16 @@
 //-------------------------------------------------------------------------------------------
 
 #include <memory>
-#include "oberror.h"
 #include "dMatrix.h"
 #include "XMLPersist.h"
+#include "MesmerEnv.h"
+#include "MesmerMath.h"
+#include "formatfloat.h"
 
 namespace mesmer
 {
   //static const int MAXCELL = 50000 ;
   //static const int MAXGRN  = 500 ;
-  class System;//cannot include System.h because of circular references
 
     //**************************************************
     /// Basic molecule: has name and some collision parameters.
@@ -33,9 +34,7 @@ namespace mesmer
       virtual ~Molecule(){} ;
 
       // Initialize Molecule.
-      virtual bool InitializeMolecule(System* pSys, PersistPtr pp);
-
-      System* GetSys() { return m_pSys; }
+      virtual bool InitializeMolecule(PersistPtr pp);
 
       // Get Molecule Name.
       std::string getName() { return m_Name ; } ;
@@ -53,8 +52,6 @@ namespace mesmer
     private:
       //Molecule(const Molecule&) ;
       //Molecule& operator=(const Molecule&) ;
-      System* m_pSys;
-
     };
 
     //**************************************************
@@ -62,7 +59,7 @@ namespace mesmer
     {
     public:
       // Initialize Molecule.
-      virtual bool InitializeMolecule(System* pSys, PersistPtr pp);
+      virtual bool InitializeMolecule(PersistPtr pp);
     };
 
     //**************************************************
@@ -73,19 +70,19 @@ namespace mesmer
       ModelledMolecule();
       virtual ~ModelledMolecule();
       // Initialize Molecule.
-      virtual bool InitializeMolecule(System* pSys, PersistPtr pp);
+      virtual bool InitializeMolecule(PersistPtr pp);
 
       // Get the density of states.
-      void cellDensityOfStates(std::vector<double> &cellDOS) ;
+      void cellDensityOfStates(std::vector<double> &cellDOS, const MesmerEnv &mEnv) ;
 
       // Get cell energies.
-      void cellEnergies(std::vector<double> &CellEne) ;
+      void cellEnergies(std::vector<double> &CellEne, const MesmerEnv &mEnv) ;
 
       // Get grain density of states.
-      void grnDensityOfStates(std::vector<double> &grainDOS) ;
+      void grnDensityOfStates(std::vector<double> &grainDOS, const MesmerEnv &mEnv) ;
 
       // Get grain energies.
-      void grnEnergies(std::vector<double> &grainEne) ;
+      void grnEnergies(std::vector<double> &grainEne, const MesmerEnv &mEnv) ;
 
       // Accessors.
       double get_zpe() const { return m_ZPE ; } ;
@@ -93,13 +90,13 @@ namespace mesmer
     protected:
 
       // Calculate the rovibrational density of states for 1 cm-1 cells.
-      void calcDensityOfStates() ;
+      void calcDensityOfStates(const MesmerEnv &mEnv) ;
 
       // Calculate the average grain energy and then number of states per grain.
-      void calcGrainAverages() ;
+      void calcGrainAverages(const MesmerEnv &mEnv) ;
 
       // Test the rovibrational density of states.
-      void testDensityOfStates() ;
+      void testDensityOfStates(const MesmerEnv &mEnv) ;
 
       //
       // Memory management.
@@ -148,10 +145,10 @@ namespace mesmer
       ~CollidingMolecule();
 
       // Initialize Molecule.
-      virtual bool InitializeMolecule(System* pSys, PersistPtr ppp);
+      virtual bool InitializeMolecule(PersistPtr ppp);
 
       // Initialize the Collision Operator.
-      void initCollisionOperator(double temp, double conc, Molecule *pBathGasMolecule) ;
+      void initCollisionOperator(double temp, Molecule *pBathGasMolecule, const MesmerEnv &mEnv) ;
 
       // Diagonalize the Collision Operator. See ReactionManager::diagCollisionOperator()
       //void diagCollisionOperator() ;
@@ -178,9 +175,9 @@ namespace mesmer
     private:
 
       // Calculate collision frequency.
-      double collisionFrequency(double beta, double conc, Molecule *pBathGasMolecule) ;
+      double collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule) ;
       // Calculate collision operator.
-      void   collisionOperator (double beta) ;
+      void   collisionOperator (double beta, const MesmerEnv &mEnv) ;
 
       int    m_grnZpe ;             // Zero point energy expressed in grains.
       int    m_ncolloptrsize ;      // Size of the collision operator matrix.

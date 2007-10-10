@@ -10,8 +10,7 @@
 //-------------------------------------------------------------------------------------------
 
 #include <algorithm>
-#include "System.h"
-
+#include "ReactionManager.h"
 
 using namespace Constants ;
 using namespace std ;
@@ -34,7 +33,7 @@ namespace mesmer
       //
       // Initialize Reaction from input stream.
       //
-      if(!preaction->InitializeReaction(GetSys(), ppReac)){
+      if(!preaction->InitializeReaction(ppReac)){
         delete preaction;
         return false;
       }
@@ -57,7 +56,7 @@ namespace mesmer
     return -1;
   }
 
-  void ReactionManager::BuildSystemCollisionOperator(const double beta, const double conc)
+  void ReactionManager::BuildSystemCollisionOperator(const double beta, const MesmerEnv &mEnv)
   {
     // 
     // Find all the unique wells and lowest zero point energy.
@@ -94,13 +93,13 @@ namespace mesmer
       isomeritr->second = msize ; //set location
 
       double zpe = isomer->get_zpe() - minEnergy ;
-      int grnZpe = int(zpe * KcalPerMolToRC / GetSys()->getGrainSize()) ; 
-      int colloptrsize = GetSys()->MAXGrn()  - grnZpe ;
+      int grnZpe = int(zpe * KcalPerMolToRC / mEnv.GrainSize) ; 
+      int colloptrsize = mEnv.MaxGrn  - grnZpe ;
       isomer->set_grnZpe(grnZpe) ;
       isomer->set_colloptrsize(colloptrsize) ;
       msize += colloptrsize ;
 
-      isomer->initCollisionOperator(beta, conc, pBathGasMolecule) ;
+      isomer->initCollisionOperator(beta, pBathGasMolecule, mEnv) ;
       meanomega += isomer->get_collisionFrequency() ;
     }
     meanomega /= isomers.size();
@@ -141,7 +140,7 @@ namespace mesmer
     // Add connecting rate coefficients.
     for (size_t i(0) ; i < size() ; ++i) {
 
-        m_reactions[i]->AddMicroRates(m_pSystemCollisionOperator,isomers,sources,1.0/meanomega) ;
+        m_reactions[i]->AddMicroRates(m_pSystemCollisionOperator,isomers,sources,1.0/meanomega, mEnv) ;
 
     }
   }

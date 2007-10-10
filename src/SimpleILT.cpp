@@ -16,10 +16,8 @@ namespace mesmer
   //
 
 
-  bool SimpleILT::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc)
+  bool SimpleILT::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc, const MesmerEnv &mEnv)
   {
-    System* pSys = pReact->GetSys();
-
     vector<CollidingMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
     CollidingMolecule * pReactant = unimolecularspecies[0];
@@ -33,22 +31,22 @@ namespace mesmer
     }
 
     // Allocate space to hold Micro-canonical rate coefficients.
-    cellKfmc.resize(pSys->MAXCell());
+    cellKfmc.resize(mEnv.MaxCell);
 
     // Initialize microcanoincal rate coefficients.
 
     int i ;
-    for (i = 0 ; i < pSys->MAXCell() ; ++i ) {
+    for (i = 0 ; i < mEnv.MaxCell ; ++i ) {
         cellKfmc[i] = 0.0 ;
     }
 
     // Allocate some work space for density of states.
 
-    vector<double> cellDOS(pSys->MAXCell(),0.0) ; // Density of states of equilibrim molecule.
+    vector<double> cellDOS(mEnv.MaxCell,0.0) ; // Density of states of equilibrim molecule.
 
     // Extract densities of states from molecules.
 
-    pReactant->cellDensityOfStates(cellDOS) ;
+    pReactant->cellDensityOfStates(cellDOS, mEnv) ;
 
     // Conversion of EINF from kcal.mol^-1 to cm^-1
 
@@ -56,7 +54,7 @@ namespace mesmer
 
     // Calculate microcanonical rate coefficients using simple ILT expression.
 
-    for (i = nEinf ; i < pSys->MAXCell() ; ++i ) {
+    for (i = nEinf ; i < mEnv.MaxCell ; ++i ) {
       cellKfmc[i] = pReact->get_PreExp()*cellDOS[i-nEinf] / cellDOS[i] ;
     }
 

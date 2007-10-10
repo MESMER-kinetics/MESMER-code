@@ -19,20 +19,15 @@
 
 namespace mesmer
 {
-
-class System;//cannot include System.h because of circular references when compiling
-
 class MoleculeManager {
 
 public:
 
   // Default constructor.
-  MoleculeManager(System* pSys) : m_molmap(), m_pSys(pSys){ } ;
+  MoleculeManager() : m_molmap() { } ;
 
   // Default destructor.
   ~MoleculeManager() { } ;
-
-  System* GetSys() { return m_pSys; }
 
   // Add a new molecule to the list.
   bool addmols(PersistPtr ppMolList) ;
@@ -94,8 +89,6 @@ private:
   std::map<std::string, Molecule*>                    m_molmap ;
   typedef std::map<std::string, Molecule*>::iterator  molIter ;
   std::string                                         m_BathGasMolecule ;
-  System*                                             m_pSys;
-
 } ;
 }//namespace
 #endif // GUARD_MoleculeManager_h

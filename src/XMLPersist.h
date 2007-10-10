@@ -1,7 +1,9 @@
 #ifndef GUARD_XMLPersist_h
 #define GUARD_XMLPersist_h
 
+#include "oberror.h"
 #include "Persistence.h"
+#include "TimeCounter.h"
 #include "../tinyxml/tinyxml.h"
 
 namespace mesmer
@@ -25,7 +27,7 @@ public:
   }
 
   ///Makes an instance of XMLPersist. Opens the file and reads the contents.
-  ///If title is not empty gives an error message if the title or root element 
+  ///If title is not empty gives an error message if the title or root element
   ///does not have this name.
   static PersistPtr XmlCreate(const std::string& filename, const std::string& title="");
 
@@ -45,10 +47,10 @@ public:
   virtual void XmlWriteAttribute(const std::string& name, const std::string& value);
 
   /// Inserts into XML document a new element  containing a formatted number
-  virtual void XmlWriteValueElement(const std::string& name, 
+  virtual void XmlWriteValueElement(const std::string& name,
                                  const double datum, const int precision=-1);
 
-  ///Insert into XML document a new element, name, and gives it a timestamp attribute and comment 
+  ///Insert into XML document a new element, name, and gives it a timestamp attribute and comment
   virtual PersistPtr XmlWriteMainElement( const std::string& name,
                                   const std::string& comment, bool replaceExisting=true);
 

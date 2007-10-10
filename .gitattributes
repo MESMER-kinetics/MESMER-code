@@ -142,6 +142,8 @@ src/Constants.h -text
 src/Makefile -text
 src/Matrix.h -text
 src/MesmerConfig.h -text
+src/MesmerEnv.cpp -text
+src/MesmerEnv.h -text
 src/MesmerILT.cpp -text
 src/MesmerILT.h -text
 src/MesmerMath.h -text
@@ -155,8 +157,6 @@ src/MoleculeManager.h -text
 src/Persistence.h -text
 src/Reaction.cpp -text
 src/Reaction.h -text
-src/ReactionConnectivity.cpp -text
-src/ReactionConnectivity.h -text
 src/ReactionManager.cpp -text
 src/ReactionManager.h -text
 src/SimpleILT.cpp -text

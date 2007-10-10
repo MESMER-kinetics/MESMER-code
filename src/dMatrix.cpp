@@ -8,7 +8,7 @@
 // EISPACK functions for diagonalizing a symmetric matrix.
 //
 //-------------------------------------------------------------------------------------------
-#include <math.h>
+#include <cmath>
 #include <stdio.h>
 #include "dMatrix.h"
 

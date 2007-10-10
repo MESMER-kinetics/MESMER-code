@@ -13,11 +13,8 @@
 // NOTE: Returns 1e308 if argument is a negative integer or 0,
 //      or if argument exceeds 171.
 //
-#include <math.h>
-
-#ifndef M_PI
-#define M_PI acos(-1.)
-#endif //M_PI
+#include <cmath>
+#include "Constants.h"
 
 template <class T>
 const T MesmerGamma(const T& x)

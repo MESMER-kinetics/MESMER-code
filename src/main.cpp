@@ -16,16 +16,14 @@ int main(int argc,char *argv[])
   // Instantiate the System collection. This holds all information
   // about reaction systems and all molecular data.
   //
-  mesmer::System System ;
-  mesmer::TimeCount events; std::string thisEvent;
+  mesmer::System _sys ;
 
+  mesmer::TimeCount events; std::string thisEvent; unsigned int timeElapsed; 
+
+  //-------------------------------
+  // process command line arguments
   std::string inputfilename, outputfilename;
-  if(argc<2)
-  {
-    usage();
-    return -1;
-  }
-
+  if(argc<2) {usage(); return -1;}
   inputfilename = argv[1];
   if (argc > 2) outputfilename = argv[2];
 
@@ -33,24 +31,23 @@ int main(int argc,char *argv[])
   //Opens the data file and checks that its root element is me:mesmer.
   mesmer::PersistPtr ppIOPtr = mesmer::XMLPersist::XmlCreate(inputfilename, "me:mesmer");
 
-  //
-  // Parse input.
-  //
+  //------------
+  // Parse input
   thisEvent = "Parse input xml file";
-  unsigned int timeElapsed;
   std::string parseTimeStamp = events.setTimeStamp(thisEvent);
   std::cout << thisEvent << " at " << parseTimeStamp << std::endl;
-  if(!ppIOPtr || !System.parse(ppIOPtr))
+  if(!ppIOPtr || !_sys.parse(ppIOPtr))
     return -2;
+
+  //------------------
+  // Begin calculation
   std::clog << inputfilename << " successfully parsed. Now calculating..." << std::endl;
-  //
-  // Begin calculation.
-  //
 
   thisEvent = "Calculate EGME";
   std::cout << thisEvent << " at " << events.setTimeStamp(thisEvent) << std::endl;
-  System.calculate() ;
+  _sys.calculate() ;
 
+  //--------------------------------
   // Save XML document to a new file
   thisEvent = "Save XML document to a new file";
   std::string saveTimeStamp = events.setTimeStamp(thisEvent, timeElapsed);

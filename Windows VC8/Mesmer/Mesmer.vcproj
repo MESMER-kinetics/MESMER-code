@@ -190,6 +190,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\MesmerEnv.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\MicroRate.cpp"
 				>
 			</File>
@@ -277,6 +281,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\MesmerConfig.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\MesmerEnv.h"
 				>
 			</File>
 			<File

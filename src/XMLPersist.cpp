@@ -3,9 +3,7 @@
 #include <sstream>
 #include <iomanip>
 #include <time.h>
-#include "TimeCounter.h"
 #include "XMLPersist.h"
-#include "oberror.h"
 
 using namespace std;
 
