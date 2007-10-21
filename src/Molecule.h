@@ -67,8 +67,10 @@ namespace mesmer
     class ModelledMolecule : public Molecule
     {
     public:
+
       ModelledMolecule();
       virtual ~ModelledMolecule();
+
       // Initialize Molecule.
       virtual bool InitializeMolecule(PersistPtr pp);
 
@@ -84,8 +86,12 @@ namespace mesmer
       // Get grain energies.
       void grnEnergies(std::vector<double> &grainEne, const MesmerEnv &mEnv) ;
 
+	  // Get Grain Boltzmann distribution.
+
+	  void grnBoltzDist(std::vector<double> &grainBoltzDist, const MesmerEnv &mEnv) ;
+
       // Accessors.
-      double get_zpe() const { return m_ZPE ; } ;
+      double get_zpe() const { return m_ZPE ; };
 
     protected:
 

@@ -1,3 +1,11 @@
+
+
+2007-10-21  Struan Robertson
+
+	* Molecule.cpp: Added method to calculate Bolzmann distribution.
+	* Reaction.cpp: Added material to assocation reaction section. Note
+          need a method to calcualte equilibrium constant.
+
 _2007_10_10__08_20_39_ Chi-Hsiu Liang
 
   * removed pSys, GetSys() and m_pSys

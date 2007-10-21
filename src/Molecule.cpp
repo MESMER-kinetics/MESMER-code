@@ -11,6 +11,7 @@
 
 using namespace std ;
 using namespace Constants ;
+
 namespace mesmer
 {
   Molecule::Molecule():
@@ -254,6 +255,39 @@ namespace mesmer
 
     grainEne = m_grainEne ;
   }
+
+  //
+  // Get Grain Boltzmann distribution.
+  //
+  void ModelledMolecule::grnBoltzDist(vector<double> &grainBoltzDist, const MesmerEnv &mEnv) {
+
+      // If energies have not already been calcualted then do so.
+
+      if (!m_cellDOS.size())
+          calcDensityOfStates(mEnv) ;
+
+      int MaximumGrain = mEnv.MaxGrn ;
+      double beta = 1.0/( boltzmann_RCpK * mEnv.temp ) ;
+
+      // Calculate the Boltzmann distribution.
+      // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
+
+      int i ;
+      double prtfn(0.0) ;
+      for (i = 0; i < MaximumGrain; i++) {
+          double tmp = log(m_grainDOS[i]) - beta*m_grainEne[i] + 10.0 ; 
+          tmp = exp(tmp) ;
+          prtfn += tmp ;
+          grainBoltzDist[i] = tmp ;
+      }
+
+      // Normalize the Boltzmann distribution.
+
+      for (i = 0; i < MaximumGrain; i++) {
+          grainBoltzDist[i] /= prtfn ;
+      }
+  }
+
 
   //-------------------------------------------------------------------------------------------
   //

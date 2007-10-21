@@ -380,30 +380,30 @@ namespace mesmer
                                         const double rMeanOmega,
                                         const MesmerEnv &mEnv)
   {
-    // Locate isomers in system matrix.
+	  // Locate isomers in system matrix.
 
-    const int rctLocation = isomermap[m_Reactant] ;
-    const int pdtLocation = isomermap[m_Product] ;
+	  const int rctLocation = isomermap[m_Reactant] ;
+	  const int pdtLocation = isomermap[m_Product] ;
 
-    // Get densities of states for detailed balance.
+	  // Get densities of states for detailed balance.
 
-    const int MaximumGrain = mEnv.MaxGrn;
-    vector<double> rctDOS(MaximumGrain, 0.0) ;
-    vector<double> pdtDOS(MaximumGrain, 0.0) ;
+	  const int MaximumGrain = mEnv.MaxGrn;
+	  vector<double> rctDOS(MaximumGrain, 0.0) ;
+	  vector<double> pdtDOS(MaximumGrain, 0.0) ;
 
-    m_Reactant->grnDensityOfStates(rctDOS, mEnv) ;
-    m_Product->grnDensityOfStates(pdtDOS, mEnv) ;
+	  m_Reactant->grnDensityOfStates(rctDOS, mEnv) ;
+	  m_Product->grnDensityOfStates(pdtDOS, mEnv) ;
 
-    const int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
-    for ( int i = max(0,-idx) ; i < min(MaximumGrain,(MaximumGrain-idx)) ; ++i ) {
-      int ll = i + idx ;
-      int ii(rctLocation + ll) ;
-      int jj(pdtLocation + i) ;
-      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKfmc[ll] ;                            // Forward loss reaction.
-      (*CollOptr)[jj][jj] -= rMeanOmega * m_GrainKfmc[ll]*rctDOS[ll]/pdtDOS[i] ;       // Backward loss reaction from detailed balance.
-      (*CollOptr)[ii][jj]  = rMeanOmega * m_GrainKfmc[ll]*sqrt(rctDOS[ll]/pdtDOS[i]) ; // Reactive gain.
-      (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                 // Reactive gain.
-    }
+	  const int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
+	  for ( int i = max(0,-idx) ; i < min(MaximumGrain,(MaximumGrain-idx)) ; ++i ) {
+		  int ll = i + idx ;
+		  int ii(rctLocation + ll) ;
+		  int jj(pdtLocation + i) ;
+		  (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKfmc[ll] ;                            // Forward loss reaction.
+		  (*CollOptr)[jj][jj] -= rMeanOmega * m_GrainKfmc[ll]*rctDOS[ll]/pdtDOS[i] ;       // Backward loss reaction from detailed balance.
+		  (*CollOptr)[ii][jj]  = rMeanOmega * m_GrainKfmc[ll]*sqrt(rctDOS[ll]/pdtDOS[i]) ; // Reactive gain.
+		  (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                     // Reactive gain.
+	  }
   }
 
   //
@@ -415,28 +415,34 @@ namespace mesmer
                                        const double rMeanOmega,
                                        const MesmerEnv &mEnv)
   {
-    // Locate isomers in system matrix.
+	  // Locate isomers in system matrix.
 
-    const int rctLocation = isomermap[m_Reactant] ;
-    const int pdtLocation = sourcemap[m_Product] ;
+	  const int rctLocation = isomermap[m_Reactant] ;
+	  const int pdtLocation = sourcemap[m_Product] ;
 
-    // Get densities of states for detailed balance.
+	  // Get equilibrium constant.
 
-    const int MaximumGrain = mEnv.MaxGrn;
-    vector<double> rctDOS(MaximumGrain, 0.0) ;
+	  double Keq(1.0) ;
 
-    m_Reactant->grnDensityOfStates(rctDOS, mEnv) ;
+	  // Get Boltzmann distribution for detailed balance.
 
-    const int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
-    for ( int i = max(0,-idx) ; i < min(MaximumGrain,(MaximumGrain-idx)) ; ++i ) {
-      int ll = i + idx ;
-      int ii(rctLocation + ll) ;
-      int jj(pdtLocation) ;
-      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKfmc[ll] ;                            // Forward loss reaction.
-      //(*CollOptr)[jj][jj] -= rMeanOmega * m_GrainKfmc[ll]*rctDOS[ll]/pdtDOS[i] ;       // Backward loss reaction from detailed balance.
-      //(*CollOptr)[ii][jj]  = rMeanOmega * m_GrainKfmc[ll]*sqrt(rctDOS[ll]/pdtDOS[i]) ; // Reactive gain.
-      //(*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                 // Reactive gain.
-    }
+	  const int MaximumGrain = mEnv.MaxGrn ;
+	  vector<double> rctBoltz(MaximumGrain, 0.0) ;
+
+	  m_Reactant->grnBoltzDist(rctBoltz, mEnv) ;
+
+	  int jj(pdtLocation) ;
+      double DissRateCoeff(0.0) ;
+	  const int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
+	  for ( int i = max(0,-idx) ; i < min(MaximumGrain,(MaximumGrain-idx)) ; ++i ) {
+		  int ll = i + idx ;
+		  int ii(rctLocation + ll) ;
+		  (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKfmc[ll] ;                        // Forward loss reaction.
+		  (*CollOptr)[ii][jj]  = rMeanOmega * m_GrainKfmc[ll]*sqrt(rctBoltz[ll]/Keq) ; // Reactive gain.
+		  (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                 // Reactive gain.
+		  DissRateCoeff       += m_GrainKfmc[ll]*rctBoltz[ll] ;
+	  }
+	  (*CollOptr)[jj][jj] -= DissRateCoeff/Keq ;       // Backward loss reaction from detailed balance.
   }
 
   //
