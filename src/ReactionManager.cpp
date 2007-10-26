@@ -1,8 +1,8 @@
 //-------------------------------------------------------------------------------------------
 //
-// ReactionManager.cpp 
+// ReactionManager.cpp
 //
-// Author: Struan Robertson 
+// Author: Struan Robertson
 // Date:   11/Feb/2003
 //
 // This file contains the implementation of the ReactionManager class.
@@ -17,7 +17,7 @@ using namespace std ;
 
 namespace mesmer
 {
-  // 
+  //
   // Add a new reaction to the map.
   //
   bool ReactionManager::addreactions(PersistPtr ppReacList)
@@ -58,7 +58,7 @@ namespace mesmer
 
   void ReactionManager::BuildSystemCollisionOperator(const double beta, const MesmerEnv &mEnv)
   {
-    // 
+    //
     // Find all the unique wells and lowest zero point energy.
     //
     Reaction::isomerMap isomers ; // Maps the location of reactant collision operator in the system matrix.
@@ -82,7 +82,7 @@ namespace mesmer
 
     //
     // Shift all wells to the same origin, calculate the size of the system collision operator,
-    // calculate the mean collision frequency and initialize all collision operators. 
+    // calculate the mean collision frequency and initialize all collision operators.
     //
     int msize(0) ;
     double meanomega(0.0) ;
@@ -93,7 +93,7 @@ namespace mesmer
       isomeritr->second = msize ; //set location
 
       double zpe = isomer->get_zpe() - minEnergy ;
-      int grnZpe = int(zpe * KcalPerMolToRC / mEnv.GrainSize) ; 
+      int grnZpe = int(zpe * KcalPerMolToRC / mEnv.GrainSize) ;
       int colloptrsize = mEnv.MaxGrn  - grnZpe ;
       isomer->set_grnZpe(grnZpe) ;
       isomer->set_colloptrsize(colloptrsize) ;
@@ -158,7 +158,7 @@ namespace mesmer
     cout << endl ;
 
     for (int i = smsize-10 ; i < smsize; ++i) {
-      formatFloat(cout, rr[i], 6, 15) ; 
+      formatFloat(cout, rr[i], 6, 15) ;
       cout << endl ;
     }
 

@@ -24,10 +24,10 @@ class MoleculeManager {
 public:
 
   // Default constructor.
-  MoleculeManager() : m_molmap() { } ;
+  MoleculeManager() : m_molmap(), m_BathGasMolecule() { } ;
 
   // Default destructor.
-  ~MoleculeManager() { } ;
+  ~MoleculeManager();
 
   // Add a new molecule to the list.
   bool addmols(PersistPtr ppMolList) ;

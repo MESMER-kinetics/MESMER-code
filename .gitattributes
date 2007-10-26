@@ -146,6 +146,7 @@ src/MesmerEnv.cpp -text
 src/MesmerEnv.h -text
 src/MesmerILT.cpp -text
 src/MesmerILT.h -text
+src/MesmerMath.cpp -text
 src/MesmerMath.h -text
 src/MesmerPrecision.h -text
 src/MicroRate.cpp -text

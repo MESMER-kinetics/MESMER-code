@@ -92,6 +92,8 @@ all: ${OUTPUT}
 #****************************************************************************
 
 SRCS := MicroRate.cpp \
+	MesmerILT.cpp \
+	MesmerMath.cpp \
 	Molecule.cpp \
 	MoleculeManager.cpp \
 	Reaction.cpp \

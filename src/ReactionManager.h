@@ -71,7 +71,7 @@ namespace mesmer
     dMatrix                *m_pSystemCollisionOperator ;
 
     // Default Constructor.
-    ReactionManager() {} ;
+    //ReactionManager() {} ;
 
   } ;
 }//namespace

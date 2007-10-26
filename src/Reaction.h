@@ -33,12 +33,12 @@ namespace mesmer
     typedef std::map<CollidingMolecule *, int> sourceMap ;
 
     // Constructors.
-    Reaction(){} ;
+    Reaction();
 
     Reaction(MoleculeManager *pMoleculeManager);
 
     // Destructor.
-    ~Reaction() ;
+    ~Reaction();
 
     // Copy constructor.
     //   Reaction(const Reaction& reaction) ;
@@ -58,7 +58,11 @@ namespace mesmer
     ReactionType get_Reactiontype() const {return m_reactiontype ; } ;
 
     // Add microcanonical terms to collision operator
-    void AddMicroRates(dMatrix *CollOptr, isomerMap &isomermap, sourceMap &sourcemap, const double rMeanOmega, const MesmerEnv &mEnv) ;
+    void AddMicroRates(dMatrix *CollOptr,
+                       isomerMap &isomermap,
+                       sourceMap &sourcemap,
+                       const double rMeanOmega,
+                       const MesmerEnv &mEnv);
 
     // Determine the equilibrium constant.
     void CalcEquilConst() { } ;
@@ -73,9 +77,9 @@ namespace mesmer
 
     // Reactant information:
     void get_unimolecularspecies(std::vector<CollidingMolecule *> &unimolecularspecies) const ;
-    
+
     // Product information:
-    
+    void get_bi_molecularspecies(std::vector<CollidingMolecule *> &bi_molecularspecies) const;
 
     // Get the principal source reactant (i.e. reactant not in excess) if it exists.
 
@@ -108,12 +112,12 @@ namespace mesmer
     //
     // Reaction composition.
     //
-    CollidingMolecule *m_Reactant ;         // Reactant Molecule.
-    Molecule          *m_Reactant2 ;        // Subsidiary reactant molecule.
-    CollidingMolecule *m_Product ;          // Product Molecule.
-    Molecule          *m_Product2 ;         // Subsidiary product molecule.
-    TransitionState   *m_TransitionState;   // TransitionState
-    ReactionType       m_reactiontype ;     // Type of reaction.
+    CollidingMolecule *m_rct1 ;              // Reactant Molecule.
+    Molecule          *m_rct2 ;              // Subsidiary reactant molecule.
+    CollidingMolecule *m_pdt1 ;              // Product Molecule.
+    Molecule          *m_pdt2 ;              // Subsidiary product molecule.
+    TransitionState   *m_TransitionState;    // TransitionState
+    ReactionType       m_reactiontype ;      // Type of reaction.
     //
     // Reaction Rate data.
     //

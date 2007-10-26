@@ -10,10 +10,10 @@ namespace mesmer
   class Reaction;
 
   /** Abstract base class for Microcanonical rate calculators
-  The derived concrete classes are plugin classes: 
-  -- New classes can be added without changing any of the existing code. 
-  They have a single global instance, the constructor of which registers 
-  the class with the base class. Subsequently, a pointer to the class is 
+  The derived concrete classes are plugin classes:
+  -- New classes can be added without changing any of the existing code.
+  They have a single global instance, the constructor of which registers
+  the class with the base class. Subsequently, a pointer to the class is
   obtained by supplying the id (a string) to the Find function.
   **/
   class MicroRateCalculator

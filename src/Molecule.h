@@ -41,13 +41,15 @@ namespace mesmer
       double getMass(){ return m_Mass ; } ;
       double getSigma(){ return m_Sigma ; } ;
       double getEpsilon(){ return m_Epsilon ; } ;
+      int get_SpinMultiplicity() const { return m_SpinMultiplicity; }
 
     protected:
-      PersistPtr     m_ppPersist;  // Conduit for I/O
-      std::string    m_Name ;     // Molecule name.
-      double         m_Mass ;     // Mass.
-      double         m_Sigma ;    // Lennard-Jones sigma.
-      double         m_Epsilon ;  // Lennard-Jones epsilon.
+      PersistPtr     m_ppPersist;         // Conduit for I/O
+      std::string    m_Name ;             // Molecule name.
+      double         m_Mass ;             // Mass.
+      double         m_Sigma ;            // Lennard-Jones sigma.
+      double         m_Epsilon ;          // Lennard-Jones epsilon.
+      int            m_SpinMultiplicity ; // spin multiplicity
 
     private:
       //Molecule(const Molecule&) ;
@@ -86,12 +88,12 @@ namespace mesmer
       // Get grain energies.
       void grnEnergies(std::vector<double> &grainEne, const MesmerEnv &mEnv) ;
 
-	  // Get Grain Boltzmann distribution.
+      // Get Grain Boltzmann distribution.
 
-	  void grnBoltzDist(std::vector<double> &grainBoltzDist, const MesmerEnv &mEnv) ;
+      void grnBoltzDist(std::vector<double> &grainBoltzDist, const MesmerEnv &mEnv) ;
 
       // Accessors.
-      double get_zpe() const { return m_ZPE ; };
+      double get_zpe() const { return m_ZPE ; }
 
     protected:
 
@@ -113,12 +115,12 @@ namespace mesmer
       //
       // Molecular properties.
       //
-      std::vector<double> m_VibFreq ;     // Values of vibrational frequencies.
-      double              m_MmtIntA ;     // Moment of inertia A.
-      double              m_MmtIntB ;     // Moment of inertia B.
-      double              m_MmtIntC ;     // Moment of inertia C.
-      double              m_Sym ;         // Rotational symmetry number.
-      double              m_ZPE ;         // Zero Point Energy.
+      std::vector<double> m_VibFreq ;          // Values of vibrational frequencies.
+      double              m_MmtIntA ;          // Moment of inertia A.
+      double              m_MmtIntB ;          // Moment of inertia B.
+      double              m_MmtIntC ;          // Moment of inertia C.
+      double              m_Sym ;              // Rotational symmetry number.
+      double              m_ZPE ;              // Zero Point Energy.
 
       //
       // Cell and grain averages.  Note: raw array used for efficiency,

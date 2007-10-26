@@ -14,7 +14,9 @@
 //      or if argument exceeds 171.
 //
 #include <cmath>
+#include <vector>
 #include "Constants.h"
+#include "oberror.h"
 
 template <class T>
 const T MesmerGamma(const T& x)
@@ -77,5 +79,11 @@ const T MesmerGamma(const T& x)
   }
   return ga;
 }
+
+
+//convolutes rovibrational DOSs
+void DOSconvolution(const std::vector<double> &f1,
+                    const std::vector<double> &f2,
+                    std::vector<double> &conv);
 
 #endif // GUARD_MesmerMath_h

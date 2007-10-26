@@ -19,10 +19,10 @@ namespace mesmer
 {
   Reaction::Reaction(MoleculeManager *pMoleculeManager):
             m_pMoleculeManager(pMoleculeManager),
-            m_Reactant(NULL),
-            m_Reactant2(NULL),
-            m_Product(NULL),
-            m_Product2(NULL),
+            m_rct1(NULL),
+            m_rct2(NULL),
+            m_pdt1(NULL),
+            m_pdt2(NULL),
             m_TransitionState(NULL),
             m_kfwd(0.0),
             m_CellKfmc(),
@@ -71,14 +71,15 @@ namespace mesmer
     {
       pMol2 = GetMolRef(ppReactant2);
       if(!pMol2) return false;
-      m_Reactant2 = pMol2;
+      m_rct2 = pMol2;
     }
-    //Put the Colliding Molecule into m_Reactant, even if it is second in datafile
+
+    //Put the Colliding Molecule into m_rct1, even if it is second in datafile
     CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
     if(pColMol)
     {
-      m_Reactant = pColMol;
-      m_Reactant2 = pMol2;
+      m_rct1  = pColMol;
+      m_rct2 = pMol2;
     }
     else
     {
@@ -91,8 +92,8 @@ namespace mesmer
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obAuditMsg);
         return false;
       }
-      m_Reactant = pColMol;
-      m_Reactant2 = pMol1;
+      m_rct1  = pColMol;
+      m_rct2 = pMol1;
     }
 
     //Read products ... if any.
@@ -104,12 +105,12 @@ namespace mesmer
       PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
       pMol2 = GetMolRef(ppProduct2);
 
-      //Put the Colliding Molecule into m_Product, even if it is second in datafile
+      //Put the Colliding Molecule into m_pdt1, even if it is second in datafile
       pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
       if(pColMol)
       {
-        m_Product = pColMol;
-        m_Product2 = pMol2;
+        m_pdt1 = pColMol;
+        m_pdt2 = pMol2;
       }
       else
       {
@@ -122,8 +123,8 @@ namespace mesmer
           obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obAuditMsg);
           return false;
         }
-        m_Product = pColMol;
-        m_Product2 = pMol1;
+        m_pdt1 = pColMol;
+        m_pdt2 = pMol1;
       }
     }
 
@@ -159,26 +160,23 @@ namespace mesmer
     const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential",false);
     if (pActEnetxt && pPreExptxt)
     {
-      stringstream s1(pActEnetxt);
-      s1 >> m_ActEne ;
-      stringstream s2(pPreExptxt);
-      s2 >> m_PreExp ;
+      stringstream s1(pActEnetxt); s1 >> m_ActEne ;
+      stringstream s2(pPreExptxt); s2 >> m_PreExp ;
     }
 
     // Classify the reaction.
 
-    if (m_Reactant && m_Product && !m_Reactant2 && !m_Product2)
+    if (m_rct1 && m_pdt1 && !m_rct2 && !m_pdt2)
         m_reactiontype = ISOMERIZATION ;
-    else if (m_Reactant && m_Product && m_Reactant2 && !m_Product2)
+    else if (m_rct1 && m_pdt1 && m_rct2 && !m_pdt2)
         m_reactiontype = ASSOCIATION ;
-    else if (m_Reactant)
+    else if (m_rct1)
         m_reactiontype = DISSOCIATION ;
     else {
-      m_reactiontype = ERROR_REACTION ;
-      stringstream errorMsg;
-      errorMsg << "Unknown combination of reactants and products";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obAuditMsg);
-      return false;
+        m_reactiontype = ERROR_REACTION ;
+        stringstream errorMsg; errorMsg << "Unknown combination of reactants and products";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obAuditMsg);
+        return false;
     }
 
     // Determine the method of MC rate coefficient calculation.
@@ -227,12 +225,24 @@ namespace mesmer
   //
   void Reaction::get_unimolecularspecies(vector<CollidingMolecule *> &unimolecularspecies) const
   {
-    if(m_Reactant2 == NULL){                // Possible dissociation or isomerization.
-        unimolecularspecies.push_back(m_Reactant) ;
+    if(m_rct2 == NULL){                // Possible dissociation or isomerization.
+        unimolecularspecies.push_back(m_rct1) ;
     }
 
-    if(m_Product && m_Product2 == NULL){  // Possible association or isomerization.
-        unimolecularspecies.push_back(m_Product) ;
+    if(m_pdt1 && m_pdt2 == NULL){  // Possible association or isomerization.
+        unimolecularspecies.push_back(m_pdt1) ;
+    }
+  }
+
+  void Reaction::get_bi_molecularspecies(std::vector<CollidingMolecule *> &bi_molecularspecies) const
+  {
+    if(m_rct2 == NULL){                // Possible dissociation or isomerization.
+      //there is no association happens
+    }
+
+    if(m_pdt1 && m_pdt2 == NULL){  // Possible association or isomerization.
+      bi_molecularspecies.push_back(m_rct1) ;
+      bi_molecularspecies.push_back(dynamic_cast<CollidingMolecule*>(m_rct2)) ;//get it bigger and shrink later
     }
   }
 
@@ -243,7 +253,7 @@ namespace mesmer
   CollidingMolecule *Reaction::get_pseudoIsomer() const
   {
     CollidingMolecule *pseudoIsomer = NULL ;
-    if(m_reactiontype == ASSOCIATION) pseudoIsomer = m_Product ;
+    if(m_reactiontype == ASSOCIATION) pseudoIsomer = m_pdt1 ;
     return pseudoIsomer ;
   }
 
@@ -287,7 +297,7 @@ namespace mesmer
     // Extract density of states of equilibrium molecule.
 
     vector<double> cellDOS(mEnv.MaxCell,0.0) ;
-    m_Reactant->cellDensityOfStates(cellDOS, mEnv) ;
+    m_rct1->cellDensityOfStates(cellDOS, mEnv) ;
 
     // Check that there are enough cells.
 
@@ -338,10 +348,10 @@ namespace mesmer
   //
   // Add microcanonical terms to collision operator
   //
-  void Reaction::AddMicroRates(dMatrix *CollOptr, 
-                               isomerMap &isomermap, 
-                               sourceMap &sourcemap, 
-                               const double rMeanOmega, 
+  void Reaction::AddMicroRates(dMatrix *CollOptr,
+                               isomerMap &isomermap,
+                               sourceMap &sourcemap,
+                               const double rMeanOmega,
                                const MesmerEnv &mEnv)
   {
 
@@ -380,34 +390,32 @@ namespace mesmer
                                         const double rMeanOmega,
                                         const MesmerEnv &mEnv)
   {
-	  // Locate isomers in system matrix.
+    // Locate isomers in system matrix.
+    const int rctLocation = isomermap[m_rct1] ;
+    const int pdtLocation = isomermap[m_pdt1] ;
 
-	  const int rctLocation = isomermap[m_Reactant] ;
-	  const int pdtLocation = isomermap[m_Product] ;
+    // Get densities of states for detailed balance.
+    const int MaximumGrain = mEnv.MaxGrn;
+    vector<double> rctDOS(MaximumGrain, 0.0) ;
+    vector<double> pdtDOS(MaximumGrain, 0.0) ;
 
-	  // Get densities of states for detailed balance.
+    m_rct1->grnDensityOfStates(rctDOS, mEnv) ;
+    m_pdt1->grnDensityOfStates(pdtDOS, mEnv) ;
 
-	  const int MaximumGrain = mEnv.MaxGrn;
-	  vector<double> rctDOS(MaximumGrain, 0.0) ;
-	  vector<double> pdtDOS(MaximumGrain, 0.0) ;
-
-	  m_Reactant->grnDensityOfStates(rctDOS, mEnv) ;
-	  m_Product->grnDensityOfStates(pdtDOS, mEnv) ;
-
-	  const int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
-	  for ( int i = max(0,-idx) ; i < min(MaximumGrain,(MaximumGrain-idx)) ; ++i ) {
-		  int ll = i + idx ;
-		  int ii(rctLocation + ll) ;
-		  int jj(pdtLocation + i) ;
-		  (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKfmc[ll] ;                            // Forward loss reaction.
-		  (*CollOptr)[jj][jj] -= rMeanOmega * m_GrainKfmc[ll]*rctDOS[ll]/pdtDOS[i] ;       // Backward loss reaction from detailed balance.
-		  (*CollOptr)[ii][jj]  = rMeanOmega * m_GrainKfmc[ll]*sqrt(rctDOS[ll]/pdtDOS[i]) ; // Reactive gain.
-		  (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                     // Reactive gain.
-	  }
+    const int idx = m_pdt1->get_grnZpe() - m_rct1->get_grnZpe() ;
+    for ( int i = max(0,-idx) ; i < min(MaximumGrain,(MaximumGrain-idx)) ; ++i ) {
+      int ll = i + idx ;
+      int ii(rctLocation + ll) ;
+      int jj(pdtLocation + i) ;
+      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKfmc[ll] ;                            // Forward loss reaction.
+      (*CollOptr)[jj][jj] -= rMeanOmega * m_GrainKfmc[ll]*rctDOS[ll]/pdtDOS[i] ;       // Backward loss reaction from detailed balance.
+      (*CollOptr)[ii][jj]  = rMeanOmega * m_GrainKfmc[ll]*sqrt(rctDOS[ll]/pdtDOS[i]) ; // Reactive gain.
+      (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                     // Reactive gain.
+    }
   }
 
   //
-  // Add (reversible) association reaction terms to collision matrix.
+  // Add (REVERSIBLE) association reaction terms to collision matrix.
   //
   void Reaction::AddAssocReactionTerms(dMatrix      *CollOptr,
                                        isomerMap    &isomermap,
@@ -415,34 +423,31 @@ namespace mesmer
                                        const double rMeanOmega,
                                        const MesmerEnv &mEnv)
   {
-	  // Locate isomers in system matrix.
+    // Locate isomers in system matrix.
+    const int rctLocation = isomermap[m_rct1] ;
+    const int pdtLocation = sourcemap[m_pdt1] ;
 
-	  const int rctLocation = isomermap[m_Reactant] ;
-	  const int pdtLocation = sourcemap[m_Product] ;
+    // Get equilibrium constant.
+    double Keq(1.0) ;
 
-	  // Get equilibrium constant.
+    // Get Boltzmann distribution for detailed balance.
+    const int MaximumGrain = mEnv.MaxGrn ;
+    vector<double> rctBoltz(MaximumGrain, 0.0) ;
 
-	  double Keq(1.0) ;
+    m_rct1->grnBoltzDist(rctBoltz, mEnv) ;
 
-	  // Get Boltzmann distribution for detailed balance.
-
-	  const int MaximumGrain = mEnv.MaxGrn ;
-	  vector<double> rctBoltz(MaximumGrain, 0.0) ;
-
-	  m_Reactant->grnBoltzDist(rctBoltz, mEnv) ;
-
-	  int jj(pdtLocation) ;
-      double DissRateCoeff(0.0) ;
-	  const int idx = m_Product->get_grnZpe() - m_Reactant->get_grnZpe() ;
-	  for ( int i = max(0,-idx) ; i < min(MaximumGrain,(MaximumGrain-idx)) ; ++i ) {
-		  int ll = i + idx ;
-		  int ii(rctLocation + ll) ;
-		  (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKfmc[ll] ;                        // Forward loss reaction.
-		  (*CollOptr)[ii][jj]  = rMeanOmega * m_GrainKfmc[ll]*sqrt(rctBoltz[ll]/Keq) ; // Reactive gain.
-		  (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                 // Reactive gain.
-		  DissRateCoeff       += m_GrainKfmc[ll]*rctBoltz[ll] ;
-	  }
-	  (*CollOptr)[jj][jj] -= DissRateCoeff/Keq ;       // Backward loss reaction from detailed balance.
+    int jj(pdtLocation) ;
+    double DissRateCoeff(0.0) ;
+    const int idx = m_pdt1->get_grnZpe() - m_rct1->get_grnZpe() ;
+    for ( int i = max(0,-idx) ; i < min(MaximumGrain,(MaximumGrain-idx)) ; ++i ) {
+      int ll = i + idx ;
+      int ii(rctLocation + ll) ;
+      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKfmc[ll] ;                        // Forward loss reaction.
+      (*CollOptr)[ii][jj]  = rMeanOmega * m_GrainKfmc[ll]*sqrt(rctBoltz[ll]/Keq) ; // Reactive gain.
+      (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                 // Reactive gain.
+      DissRateCoeff       += m_GrainKfmc[ll]*rctBoltz[ll] ;
+    }
+    (*CollOptr)[jj][jj] -= DissRateCoeff/Keq ;       // Backward loss reaction from detailed balance.
   }
 
   //
@@ -451,10 +456,9 @@ namespace mesmer
   void Reaction::AddDissocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) {
 
       // Locate reactant in system matrix.
+      const int rctLocation = isomermap[m_rct1] ;
 
-      const int rctLocation = isomermap[m_Reactant] ;
-
-      for ( int i = 0 ; i < m_Reactant->get_colloptrsize() ; ++i ) {
+      for ( int i = 0 ; i < m_rct1->get_colloptrsize() ; ++i ) {
           int ii(rctLocation + i) ;
           (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKfmc[i] ;                            // Forward loss reaction.
       }

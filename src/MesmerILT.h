@@ -1,8 +1,6 @@
 #ifndef GUARD_SimpleILT_h
 #define GUARD_SimpleILT_h
 
-#include <vector>
-#include <string>
 #include "System.h"
 
 namespace mesmer

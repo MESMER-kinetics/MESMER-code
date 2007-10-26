@@ -168,7 +168,7 @@ sibling elements called new_element_name; XmlReadValue() will return the content
 of either a child element or an attribute.
 
 A 'top-level' XMLPersist object (wrapped as always by  a PersistPtr) can be
-made by the static XMLPersist function XmlCreate(). It contains a pointer to the
+made by the static XMLPersist function XmlLoad(). It contains a pointer to the
 TinyXml Document, and the lifetimes of the two objects are synchronised as is
 required the document being deleted in the XMLPersist destructor. Most
 'subsidiary' XMLPersist objects do not do this and are made in normal XMLPersist

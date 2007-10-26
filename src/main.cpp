@@ -18,7 +18,7 @@ int main(int argc,char *argv[])
   //
   mesmer::System _sys ;
 
-  mesmer::TimeCount events; std::string thisEvent; unsigned int timeElapsed; 
+  mesmer::TimeCount events; std::string thisEvent; unsigned int timeElapsed;
 
   //-------------------------------
   // process command line arguments
@@ -29,7 +29,7 @@ int main(int argc,char *argv[])
 
   //This is where the type of IO is decided.
   //Opens the data file and checks that its root element is me:mesmer.
-  mesmer::PersistPtr ppIOPtr = mesmer::XMLPersist::XmlCreate(inputfilename, "me:mesmer");
+  mesmer::PersistPtr ppIOPtr = mesmer::XMLPersist::XmlLoad(inputfilename, "me:mesmer");
 
   //------------
   // Parse input

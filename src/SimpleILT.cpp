@@ -1,4 +1,3 @@
-#include <float.h>
 #include "SimpleILT.h"
 
 using namespace std;

@@ -42,7 +42,6 @@ namespace mesmer
     }
     if(!m_pMoleculeManager->addmols(ppMolList))
       return false;
-
     //-------------
     //Reaction List
     PersistPtr ppReacList = ppIOPtr->XmlMoveTo("reactionList");
@@ -219,7 +218,7 @@ namespace mesmer
 
     reaction->get_MicroRateCoeffs(kmc, mEnv) ;
 
-    CollidingMolecule *pmolecule = reaction->m_Reactant ;
+    CollidingMolecule *pmolecule = reaction->m_rct1 ;
 
     // for (int i(0) ; i < MAXCELL ; i++)
     //     kmc[i] /= omega ;
@@ -281,7 +280,7 @@ namespace mesmer
     if(mEnv.MaxT <= 0.0){
       mEnv.MaxT = *max_element(Temperatures.begin(), Temperatures.end());
       stringstream errorMsg;
-      errorMsg << "Maximum Temperature was invalid. Reset Maximum Temperature.";
+      errorMsg << "Maximum Temperature was invalid. Reset Maximum Temperature, me:maxTemperature, to remove this warning.";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
     }
 

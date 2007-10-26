@@ -17,7 +17,8 @@ namespace mesmer
   Molecule::Molecule():
     m_Mass(0.0),
     m_Sigma(0.0),
-    m_Epsilon(0.0)
+    m_Epsilon(0.0),
+    m_SpinMultiplicity(1)
   {}
 
   ModelledMolecule::ModelledMolecule():
@@ -107,6 +108,7 @@ namespace mesmer
     { istringstream idata(txt);
     idata >> m_Mass;
     }
+
     return true;
     //TODO append name of molecule to error message
   }
@@ -156,6 +158,12 @@ namespace mesmer
           m_VibFreq.push_back(x) ;
     }
 
+//    txt= ppPropList->XmlReadProperty("me:spinMultiplicity");
+//    if(!txt)
+//        return false;
+//    { istringstream idata(txt);
+//    idata >> m_SpinMultiplicity;
+//    }
     return true;
   }
 
@@ -222,7 +230,6 @@ namespace mesmer
   void ModelledMolecule::cellEnergies(vector<double> &CellEne, const MesmerEnv &mEnv) {
 
     // If energies have not already been calcualted then do so.
-
     if (!m_cellDOS.size())
         calcDensityOfStates(mEnv) ;
 
@@ -261,7 +268,7 @@ namespace mesmer
   //
   void ModelledMolecule::grnBoltzDist(vector<double> &grainBoltzDist, const MesmerEnv &mEnv) {
 
-      // If energies have not already been calcualted then do so.
+      // If energies have not already been calculated then do so.
 
       if (!m_cellDOS.size())
           calcDensityOfStates(mEnv) ;
@@ -275,7 +282,7 @@ namespace mesmer
       int i ;
       double prtfn(0.0) ;
       for (i = 0; i < MaximumGrain; i++) {
-          double tmp = log(m_grainDOS[i]) - beta*m_grainEne[i] + 10.0 ; 
+          double tmp = log(m_grainDOS[i]) - beta*m_grainEne[i] + 10.0 ;
           tmp = exp(tmp) ;
           prtfn += tmp ;
           grainBoltzDist[i] = tmp ;
@@ -398,7 +405,7 @@ namespace mesmer
       }
     }
   }
-  
+
   /*//
   // Diagonalize the Collision Operator. See ReactionManager::diagCollisionOperator()
   //
@@ -425,7 +432,7 @@ namespace mesmer
 
   }
   */
-  
+
   //
   // Calculate collision frequency.
   //
@@ -539,10 +546,10 @@ namespace mesmer
     // density of state.
     //
 
-    //From inverse Laplace transform of 3-D asymmetric top rotor(needs revise for varieties)?
+    //From inverse Laplace transform of 3-D asymmetric top rotor(needs revise for varieties)? CHL
     double cnt = sqrt(4./(m_MmtIntA * m_MmtIntB * m_MmtIntC))/m_Sym ;
 
-    int i ; 
+    int i ;
     for ( i = 0 ; i < mEnv.MaxCell ; ++i ) {
       m_cellEne.push_back(static_cast<double>(i) + 0.5);
       m_cellDOS.push_back(cnt*sqrt(m_cellEne[i]));
@@ -551,7 +558,7 @@ namespace mesmer
     // Implementation of the Bayer-Swinehart algorithm.
 
     for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) {
-      int iFreq = static_cast<int>(m_VibFreq[j] +.5) ; 
+      int iFreq = static_cast<int>(m_VibFreq[j] +.5) ;
       // +.5 makes sure it floors to the frequency that is closer to the integer
       // the original case has larger difference where if frequency = 392.95 it floors to 392
       for ( i = 0 ; i < mEnv.MaxCell - iFreq ; ++i ){

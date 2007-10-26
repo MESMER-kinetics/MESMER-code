@@ -1,8 +1,8 @@
 //-------------------------------------------------------------------------------------------
 //
-// MoleculeManager.cpp 
+// MoleculeManager.cpp
 //
-// Author: Struan Robertson 
+// Author: Struan Robertson
 // Date:   11/Feb/2003
 //
 // This file contains the implementation of the MoleculeManager class.
@@ -65,7 +65,7 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
 //
 // Find a molecule in the list.
 //
-Molecule *MoleculeManager::find(const std::string& name) const { 
+Molecule *MoleculeManager::find(const std::string& name) const {
 
   map<string, Molecule*>::const_iterator it ;
 
@@ -79,7 +79,7 @@ Molecule *MoleculeManager::find(const std::string& name) const {
     return NULL;
   }
 
-  return it->second ; 
+  return it->second ;
 }
 
 }//namespace

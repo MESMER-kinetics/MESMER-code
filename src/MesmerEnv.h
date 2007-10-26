@@ -3,17 +3,8 @@
 
 namespace mesmer
 {
-  class MesmerEnv
+  struct MesmerEnv
   {
-  public:
-    //
-    // Declare System as a friend class. Not sure that this is the best or
-    // most OOP way to go as it clearly defeats the point of encapsulation
-    // but the System needs to know a lot about the reactions it is
-    // combining. Review latter. SHR 2/Apr/2003.
-    //
-    friend class System ;
-   
     MesmerEnv();
 
     double temp;

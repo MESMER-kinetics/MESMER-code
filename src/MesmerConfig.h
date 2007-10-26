@@ -1,6 +1,8 @@
 #ifndef GUARD_MesmerConfig_h
 #define GUARD_MesmerConfig_h
 
+#include <float.h>
+
 // -------------------   Compiler specific configuration
 #if defined (CYGWIN) // Platform definition 
 #define IsNan isnan

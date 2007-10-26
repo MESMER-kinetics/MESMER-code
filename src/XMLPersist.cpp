@@ -9,7 +9,7 @@ using namespace std;
 
 namespace mesmer
 {
-PersistPtr XMLPersist::XmlCreate(const std::string& inputfilename, const std::string& title)
+PersistPtr XMLPersist::XmlLoad(const std::string& inputfilename, const std::string& title)
 {
   TiXmlDocument* pdoc = new TiXmlDocument( inputfilename.c_str() );//Deleted in destructor
   if( !pdoc->LoadFile() )
@@ -27,7 +27,7 @@ PersistPtr XMLPersist::XmlCreate(const std::string& inputfilename, const std::st
   if(title.size() && root->ValueStr()!=title)
   {
     stringstream errorMsg;
-    errorMsg << inputfilename << " does not have a root element or title named " << title << endl;
+    errorMsg << inputfilename << " does not have a required root element named " << title << endl;
     obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
     delete pdoc;
     return PersistPtr(NULL);
@@ -38,6 +38,7 @@ PersistPtr XMLPersist::XmlCreate(const std::string& inputfilename, const std::st
 XMLPersist::~XMLPersist()
 {
   delete pDocument; //doesn't matter that pDocument is usually NULL
+  //shall we delete pnNode as well?? CHL
 }
 
 PersistPtr XMLPersist::XmlMoveTo(const std::string& name) const
