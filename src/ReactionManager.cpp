@@ -8,8 +8,6 @@
 // This file contains the implementation of the ReactionManager class.
 //
 //-------------------------------------------------------------------------------------------
-
-#include <algorithm>
 #include "ReactionManager.h"
 
 using namespace Constants ;

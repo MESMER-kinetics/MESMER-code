@@ -23,9 +23,8 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
   PersistPtr ppmol = ppMolList->XmlMoveTo("molecule");
   while(ppmol)
   {
-    //
+    //-------------
     // Create a new Molecule of the required type.
-    //
     const char* ptype = ppmol->XmlReadValue("me:type", false);//some product mols don't have type
     string moltype;
     if (ptype) moltype = ptype;
@@ -40,9 +39,9 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
     else
       pmolecule = static_cast<Molecule*>(new Molecule);
 
-    //
+    //-------------
     // Initialize Molecule from input stream.
-    //Each molecule type has its own set of mandatory of parameters
+    // Each molecule type has its own set of mandatory parameters
     if(!pmolecule->InitializeMolecule(ppmol)){
     	delete pmolecule;
       return false;
@@ -52,9 +51,8 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
 
     //pmolecule->put_verbosity(true) ;
 
-    //
+    //-------------
     // Add molecule to map.
-    //
     m_molmap[strName] = pmolecule ;
 
     ppmol = ppmol->XmlMoveTo("molecule");

@@ -137,8 +137,12 @@ namespace mesmer
     if(!txt)
         return false;
     {
-        istringstream idata(txt);
-        idata >> m_MmtIntA >> m_MmtIntB >> m_MmtIntC ;
+      istringstream idata(txt); 
+      std::vector<double> mIner(3);
+      idata >> mIner[0] >> mIner[1] >> mIner[2];
+      mIner[0] = abs(mIner[0]); mIner[1] = abs(mIner[1]); mIner[2] = abs(mIner[2]);
+      std::sort(mIner.begin(), mIner.end());
+      m_MmtIntA = mIner[2]; m_MmtIntB = mIner[1]; m_MmtIntC = mIner[0];
     }
     txt= ppPropList->XmlReadProperty("me:symmetryNumber");
     if(!txt)
@@ -266,8 +270,8 @@ namespace mesmer
   //
   // Get Grain Boltzmann distribution.
   //
-  void ModelledMolecule::grnBoltzDist(vector<double> &grainBoltzDist, const MesmerEnv &mEnv) {
-
+  void ModelledMolecule::grnBoltzDist(vector<double> &grainBoltzDist, const MesmerEnv &mEnv)
+  {
       // If energies have not already been calculated then do so.
 
       if (!m_cellDOS.size())
@@ -295,7 +299,20 @@ namespace mesmer
       }
   }
 
-
+  bool ModelledMolecule::get_mmtsInt(std::vector<double> &mmtsInt)
+  {
+    mmtsInt.clear();
+    if (1){
+      mmtsInt.push_back(m_MmtIntA);
+      mmtsInt.push_back(m_MmtIntB);
+      mmtsInt.push_back(m_MmtIntC);
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+    
   //-------------------------------------------------------------------------------------------
   //
   // Methods related to the Master Equation.
@@ -303,8 +320,8 @@ namespace mesmer
   //
   // Initialize the Collision Operator.
   //
-  void CollidingMolecule::initCollisionOperator(double beta, Molecule *pBathGasMolecule, const MesmerEnv &mEnv) {
-
+  void CollidingMolecule::initCollisionOperator(double beta, Molecule *pBathGasMolecule, const MesmerEnv &mEnv)
+  {
     // If density of states have not already been calcualted then do so.
 
     if (!m_cellDOS.size())
@@ -322,15 +339,15 @@ namespace mesmer
   //
   // Calculate collision operator
   //
-  void CollidingMolecule::collisionOperator(double beta, const MesmerEnv &mEnv) {
-
+  void CollidingMolecule::collisionOperator(double beta, const MesmerEnv &mEnv)
+  {
     //
     //     i) Determine Probabilities of Energy Transfer.
     //    ii) Normalisation of Probability matrix.
     //   iii) Symmetrise Collision Matrix.
     //
     int i, j;
-		int MaximumGrain = mEnv.MaxGrn;
+    int MaximumGrain = mEnv.MaxGrn;
     double alpha = 1.0/m_DeltaEdown ;
     //
     // Allocate memmory.
@@ -436,8 +453,8 @@ namespace mesmer
   //
   // Calculate collision frequency.
   //
-  double CollidingMolecule::collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule) {
-
+  double CollidingMolecule::collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule)
+  {
     //
     // Lennard-Jones Collision frequency. The collision integral is calculated
     // using the formula of Neufeld et al., J.C.P. Vol. 57, Page 1100 (1972).
@@ -483,8 +500,8 @@ namespace mesmer
   //
   // Calculate a reaction matrix element.
   //
-  double CollidingMolecule::matrixElement(int eigveci, int eigvecj, vector<double> &k, int ndim) {
-
+  double CollidingMolecule::matrixElement(int eigveci, int eigvecj, vector<double> &k, int ndim)
+  {
     double sum = 0.0 ;
     for (int i = 0 ; i < ndim ; ++i){
       sum +=  k[i]* to_double((*m_egme)[i][eigveci]*(*m_egme)[i][eigvecj]) ;
@@ -501,7 +518,6 @@ namespace mesmer
                                                 const int locate,
                                                 const double RducdOmega) const
   {
-
     // Find size of system matrix.
 
     int smsize = CollOptr->size() ;
@@ -525,7 +541,6 @@ namespace mesmer
         (*CollOptr)[ii][jj] = RducdOmega * (*m_egme)[i][j] ;
       }
     }
-
   }
 
   //-------------------------------------------------------------------------------------------
@@ -535,8 +550,8 @@ namespace mesmer
   //
   // Calculate the rovibrational density of states.
   //
-  void ModelledMolecule::calcDensityOfStates(const MesmerEnv &mEnv) {
-
+  void ModelledMolecule::calcDensityOfStates(const MesmerEnv &mEnv)
+  {
     cout << endl << "The number of Frequencies is " << m_VibFreq.size() << endl ;
 
     m_cellDOS.clear(); m_cellEne.clear(); //make sure there is no residue left
@@ -579,8 +594,8 @@ namespace mesmer
   //
   // Test the rovibrational density of states.
   //
-  void ModelledMolecule::testDensityOfStates(const MesmerEnv &mEnv) {
-
+  void ModelledMolecule::testDensityOfStates(const MesmerEnv &mEnv)
+  {
     cout << endl << "Test density of states: " << m_Name << endl << endl ;
     int MaximumGrain = mEnv.MaxGrn;
     double temp ;
@@ -635,7 +650,8 @@ namespace mesmer
   //
   // Calculate the average grain energy and then number of states per grain.
   //
-  void ModelledMolecule::calcGrainAverages(const MesmerEnv &mEnv) {
+  void ModelledMolecule::calcGrainAverages(const MesmerEnv &mEnv)
+  {
     int MaximumGrain = mEnv.MaxGrn;
     m_grainEne.resize(MaximumGrain) ;
     m_grainDOS.resize(MaximumGrain) ;

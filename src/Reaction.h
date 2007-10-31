@@ -82,7 +82,6 @@ namespace mesmer
     void get_bi_molecularspecies(std::vector<CollidingMolecule *> &bi_molecularspecies) const;
 
     // Get the principal source reactant (i.e. reactant not in excess) if it exists.
-
     CollidingMolecule *get_pseudoIsomer() const ;
 
 

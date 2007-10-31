@@ -1,12 +1,24 @@
+_2007_10_31__12_28_58_ Chi-Hsiu Liang
+
+A thought on calculating the density of states from ILT of the product of partition functions of two rotors. 
+May well this function should like MicroRateCalculator having an individual class for other uses? e.g. Cross
+usage of different methods.
+
+_2007_10_26__08_36_03_ Chi-Hsiu Liang
+
+  * Get general form of functions to calculate density of states of reactant(s) and product(s), also
+    provide a plugin method to allow users to specify the way of counting rovibrational density of
+    states of molecules.
+
 _2007_10_05__08_54_43_ Chi-Hsiu Liang
 
   * Modify dMatrix to template (several functions have to be rewritten to template as well!?)
 
 _2007_09_19__09_38_18_ Chi-Hsiu Liang
 
-  * Set upper limit of EGME to 99%? of the energy under Boltzmann distribution 
+  * Set upper limit of EGME to 99%? of the energy under Boltzmann distribution
     of the largest complex or the upper limit defined previously (whichever higher).
-  * parallel computation treatment of the matrix diagonalisation processes -- 
+  * parallel computation treatment of the matrix diagonalisation processes --
     degradation of matrices.
   * update the precision of varaibles -- the double-double (dd) and quad-double (qd)
     operations are time consuming processes; therefore, it is better to allow user

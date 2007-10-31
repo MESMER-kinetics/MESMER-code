@@ -13,6 +13,7 @@
 // NOTE: Returns 1e308 if argument is a negative integer or 0,
 //      or if argument exceeds 171.
 //
+#include <algorithm>
 #include <cmath>
 #include <vector>
 #include "Constants.h"

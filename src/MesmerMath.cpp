@@ -9,7 +9,7 @@ void DOSconvolution(const std::vector<double> &f1,
   for (unsigned int i = 0; i < f1.size(); ++i){
     conv[i] = 0.;
     for (unsigned int j = 0; j <= i; ++j)
-      conv[i] += f1[j] * f2[i + 1 - j];
+      conv[i] += f1[j] * f2[i - j];
   }
 }
 

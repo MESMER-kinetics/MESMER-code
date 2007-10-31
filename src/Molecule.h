@@ -89,11 +89,15 @@ namespace mesmer
       void grnEnergies(std::vector<double> &grainEne, const MesmerEnv &mEnv) ;
 
       // Get Grain Boltzmann distribution.
-
       void grnBoltzDist(std::vector<double> &grainBoltzDist, const MesmerEnv &mEnv) ;
 
       // Accessors.
       double get_zpe() const { return m_ZPE ; }
+
+      // Get moments of inertia
+      bool get_mmtsInt(std::vector<double> &mmtsInt);
+        
+      double get_Sym(void){return m_Sym;}
 
     protected:
 
@@ -144,6 +148,7 @@ namespace mesmer
         TransitionState();
 
     };
+
     //**************************************************
     ///For most molecules
     class CollidingMolecule : public ModelledMolecule

@@ -8,7 +8,6 @@
 // This file contains the implementation of the System class.
 //
 //-------------------------------------------------------------------------------------------
-#include <algorithm>
 #include "System.h"
 
 

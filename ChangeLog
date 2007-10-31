@@ -1,4 +1,27 @@
+_2007_10_31__15_47_13_ Chi-Hsiu Liang
 
+  * Added lines to sort rotational constants
+  * Added a function countDimerCellDOS() to deal with convolution of DOS for two rotors (not complete)
+  * Some other minor modifications
+ 
+_2007_10_26__13_54_21_ Chi-Hsiu Liang
+
+  * removed parenthesis after constructor of Reaction (looks like more than a declaration)
+  * commented out default constructor of ReactionManager (if do nothing let the compiler choose what to do)
+  * Modified naming of function:  XmlLoad() -> XmlCreate()
+  * Modified class MesmerEnv to struct
+  * Modified MesmerILT.cpp
+  * Put convolution in MesmerMath.h
+  * Added m_SpinMultiplicity as a member of Molecule
+  * Modified namings of variables: m_Reactant -> m_rct1
+                                   m_Reactant1 -> m_rct2
+                                   m_Product -> m_pdt1
+                                   m_Product1 -> m_pdt2
+  * Added Reaction::get_bi_molecularspecies()
+  * Added MesmerMath.cpp
+  * Compiled MesmerILT.cpp (some variables and DOS formulations are not complete)
+  * Updated source.ps
+  * Some other minor modifications
 
 2007-10-21  Struan Robertson
 

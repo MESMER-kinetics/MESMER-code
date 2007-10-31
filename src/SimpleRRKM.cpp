@@ -60,4 +60,7 @@ namespace mesmer
     return true;
   }
 
+  bool SimpleRRKM::countDimerCellDOS(ModelledMolecule* mol1, ModelledMolecule* mol2, std::vector<double> &dimerCellDOS, const MesmerEnv &mEnv){return true;}
+
+
 }//namespace

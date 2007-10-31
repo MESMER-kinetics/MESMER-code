@@ -1,0 +1,93 @@
+
+
+%inclusion file
+% Essential packages
+\usepackage[perpage,para,symbol*]{footmisc}
+\setfnsymbol{bringhurst}
+\usepackage{caption}
+\usepackage{lscape} 
+\usepackage{rotating}
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{url} % typeset URL's reasonably
+\usepackage{ucs}
+\usepackage[usenames]{color}
+\usepackage{bm}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{calc}
+\usepackage{multirow}
+\usepackage{picins}
+\usepackage{hhline}
+\usepackage{ifthen}
+\usepackage{syntonly}
+\usepackage{mathrsfs}
+\usepackage[T1]{fontenc}
+\usepackage[T1]{pbsi}
+\usepackage{calligra}
+\usepackage{amsfonts}
+%\usepackage{mathptm}
+\usepackage{eucal}
+\usepackage{amsmath}
+\usepackage{epsfig}
+\usepackage{glossary}
+\usepackage{nomencl}
+\makeglossary
+%\input{symbols}
+\usepackage{booktabs}
+
+% NATBIB
+\usepackage[numbers,sort&compress]{natbib}
+\bibpunct{[}{]}{;}{s}{,}{,}
+
+% Define margins of document
+\sloppy
+\usepackage{geometry}
+\geometry{verbose,a4paper,tmargin=25mm,bmargin=25mm,lmargin=40mm,rmargin=25mm}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\definecolor{myDarkBlue}{rgb}{0.1,0,0.55} 
+
+%--------------------------------------------------------------------
+% with this we ensure that the chapter and section headings are in lowercase.
+
+\renewcommand{\sectionmark}[1]{%
+\markright{\thesection\ #1}}
+
+\fancyhf{} % delete current header and footer
+\fancyhead[LE,RO]{\bfseries\thepage}
+\fancyhead[LO]{\bfseries\rightmark}
+\fancyhead[RE]{\bfseries\leftmark}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\addtolength{\headheight}{12.5pt} % space for the rule
+\fancypagestyle{plain}{%
+\fancyhead{} % get rid of headers on plain pages
+\renewcommand{\headrulewidth}{0pt} % and the line
+}
+%--------------------------------------------------------------------
+\newenvironment{myquote}{\rule{1ex}{1ex}\hspace{\stretch{1}}\begin{quotation}\begin{itshape}\begin{small}}{\end{small}\end{itshape}\end{quotation}\hspace{\stretch{1}}\rule{1ex}{1ex}}
+
+% Set overall spacing
+\usepackage{setspace}
+\onehalfspacing
+
+\DeclareCaptionFont{em}{\em}
+\DeclareCaptionFont{singlespacing}{\singlespacing}
+\DeclareCaptionFont{onehalfspacing}{\onehalfspacing}
+\DeclareCaptionFont{doublespacing}{\doublespacing}
+\captionsetup{font={onehalfspacing,footnotesize,em},labelfont=bf}
+
+%--------------------------------------------------------------------
+\newif\ifarticle
+\begingroup
+\makeatletter
+\@ifclassloaded{article}{\global\articletrue}{\global\articlefalse}
+\endgroup
+%--------------------------------------------------------------------
+
+
+\def\mathbi#1{\textbf{\em #1}}

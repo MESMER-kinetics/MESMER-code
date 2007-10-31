@@ -1,7 +1,11 @@
 * text=auto !eol
 /ChangeLog -text
 Documentation/Mesmer[!!-~]FAQ.doc -text
+Documentation/Mesmer.tex -text
+Documentation/inclusion.tex -text
+Documentation/mybib.bib -text
 Documentation/proposal.doc -text
+Documentation/proposal.tex -text
 /README -text
 /ToDo -text
 Windows[!!-~]VC8/MESMER.sln -text
