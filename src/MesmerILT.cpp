@@ -121,97 +121,99 @@ namespace mesmer
   }
 
   // provide a function to define particular counts of the convoluted DOS of two molecules
-  bool MesmerILT::countDimerCellDOS(ModelledMolecule* p_mol1, ModelledMolecule* p_mol2, std::vector<double> &dimerCellDOS, const MesmerEnv &mEnv){
+  bool MesmerILT::countDimerCellDOS(ModelledMolecule* p_mol1, ModelledMolecule* p_mol2, vector<double> &dimerCellDOS, const MesmerEnv &mEnv){
     //----------
     // Differetiating the rotors
     // <three types of rotors: (0) non-rotor (1) 2-D linear, (2) 3-D symmetric top, (3) 3-D asymmetric top>
     // hence there are 9 combinations for convolution:
     // 0-1, 0-2, 0-3, 1-1, 1-2, 1-3, 2-2, 2-3, 3-3
     // where the first three convolutions are trivial
+    //
 
-    vector<double> mmtsInt1; p_mol1->get_mmtsInt(mmtsInt1);
-    vector<double> mmtsInt2; p_mol2->get_mmtsInt(mmtsInt2);
+    vector<double> rotCs1; p_mol1->get_rotConsts(rotCs1);
+    vector<double> rotCs2; p_mol2->get_rotConsts(rotCs2);
+    vector<double> mol1CellEne(mEnv.MaxCell,0.0);
+    p_mol1->cellEnergies(mol1CellEne, mEnv) ;
 
     int rotor1Type = 0, rotor2Type = 0;
     double I1 = 0., I2 = 0.,                                            //for 2-D linear rotors
-           I1A = 0., I2A = 0., I1C = 0., I2C = 0.,                      //for 3-D symmetric top rotors
-           I1X = 0., I2X = 0., I1Y = 0., I2Y = 0., I1Z = 0., I2Z = 0.,  //for 3-D asymmetric top rotors
+           I1X = 0., I2X = 0., I1Y = 0., I2Y = 0., I1Z = 0., I2Z = 0.,  //for 3-D symmetric/asymmetric/spherical top rotors
            s1 = p_mol1->get_Sym(), s2 = p_mol2->get_Sym(),
            q1 = static_cast<double>(p_mol1->get_SpinMultiplicity()),
            q2 = static_cast<double>(p_mol2->get_SpinMultiplicity());
 
     /*All moments of intertia are sorted so that the largest one is in the head, smallest one is in the tail*/
 
-    //---------------------- Rotor classifications ----------------------
+    //---------------------- Rotor classification ----------------------
     //
     //Rotor 1 classification
-    if      (mmtsInt1[0] == mmtsInt1[1] && mmtsInt1[1] == mmtsInt1[2]){
-      if (mmtsInt1[0] == 0.)                                           rotor1Type = -8; // not a rotor
+    if      (rotCs1[0] == rotCs1[1] && rotCs1[1] == rotCs1[2]){
+      if (rotCs1[0] == 0.)                                       rotor1Type = -4; // not a rotor
       else{
-        I1X = mmtsInt1[0]; I1Y = mmtsInt1[1]; I1Z = mmtsInt1[2];       rotor1Type =  4;
+        I1X = rotCs1[0]; I1Y = rotCs1[1]; I1Z = rotCs1[2];       rotor1Type =  2;
         // spherical top (treat as 3-D asymmetric top)
       }
     }
-    else if (mmtsInt1[0] == mmtsInt1[1] && mmtsInt1[1] != mmtsInt1[2]){
-      if (mmtsInt1[2] == 0.){
-        I1 = mmtsInt1[0];                                              rotor1Type =  0; // 2-D linear
+    else if (rotCs1[0] == rotCs1[1] && rotCs1[1] != rotCs1[2]){
+      if (rotCs1[2] == 0.){
+        I1 = rotCs1[0];                                          rotor1Type =  0; // 2-D linear
       }
       else{
-        I1A = mmtsInt1[0]; I1C = mmtsInt1[2];                          rotor1Type =  1; // 3-D symmetric top 1
+        I1X = rotCs1[0]; I1Y = rotCs1[0]; I1Z = rotCs1[2];       rotor1Type =  2; // 3-D symmetric top 1
       }
     }
-    else if (mmtsInt1[0] != mmtsInt1[1] && mmtsInt1[1] == mmtsInt1[2]){
-      if (mmtsInt1[1] == 0.){
-        I1 = mmtsInt1[0];                                              rotor1Type =  0; // 2-D linear
+    else if (rotCs1[0] != rotCs1[1] && rotCs1[1] == rotCs1[2]){
+      if (rotCs1[1] == 0.){
+        I1 = rotCs1[0];                                          rotor1Type =  0; // 2-D linear
       }
       else{
-        I1A = mmtsInt1[2]; I1C = mmtsInt1[0];                          rotor1Type =  1; // 3-D symmetric top 2
+        I1X = rotCs1[2]; I1Y = rotCs1[2]; I1Z = rotCs1[0];       rotor1Type =  2; // 3-D symmetric top 2
       }
     }
     else{
-      I1X = mmtsInt1[0]; I1Y = mmtsInt1[1]; I1Z = mmtsInt1[2];         rotor1Type =  4; // 3-D asymmetric top
+      I1X = rotCs1[0]; I1Y = rotCs1[1]; I1Z = rotCs1[2];         rotor1Type =  2; // 3-D asymmetric top
     }
 
     //----------------------
     //Rotor 2 classification
-    if      (mmtsInt1[0] == mmtsInt2[1] && mmtsInt2[1] == mmtsInt2[2]){
-      if (mmtsInt1[0] == 0.)                                           rotor2Type = -8; // not a rotor
+    if      (rotCs1[0] == rotCs2[1] && rotCs2[1] == rotCs2[2]){
+      if (rotCs1[0] == 0.)                                       rotor2Type = -4; // not a rotor
       else{
-        I2X = mmtsInt2[0]; I2Y = mmtsInt2[1]; I2Z = mmtsInt2[2];       rotor1Type =  4;
+        I2X = rotCs2[0]; I2Y = rotCs2[1]; I2Z = rotCs2[2];       rotor1Type =  2;
         // spherical top (treat as 3-D asymmetric top)
       }
     }
-    else if (mmtsInt2[0] == mmtsInt2[1] && mmtsInt2[1] != mmtsInt2[2]){
-      if (mmtsInt2[2] == 0.){
-        I2 = mmtsInt2[0];                                              rotor2Type =  0; // 2-D linear
+    else if (rotCs2[0] == rotCs2[1] && rotCs2[1] != rotCs2[2]){
+      if (rotCs2[2] == 0.){
+        I2 = rotCs2[0];                                          rotor2Type =  0; // 2-D linear
       }
       else{
-        I2A = mmtsInt1[0]; I2C = mmtsInt2[2];                          rotor2Type =  1; // 3-D symmetric top 1
+        I2X = rotCs1[0]; I2Y = rotCs1[0]; I2Z = rotCs2[2];       rotor2Type =  2; // 3-D symmetric top 1
       }
     }
-    else if (mmtsInt2[0] != mmtsInt2[1] && mmtsInt2[1] == mmtsInt2[2]){
-      if (mmtsInt2[1] == 0.){
-        I2 = mmtsInt2[0];                                              rotor2Type =  0; // 2-D linear
+    else if (rotCs2[0] != rotCs2[1] && rotCs2[1] == rotCs2[2]){
+      if (rotCs2[1] == 0.){
+        I2 = rotCs2[0];                                          rotor2Type =  0; // 2-D linear
       }
       else{
-        I2A = mmtsInt2[2]; I2C = mmtsInt2[0];                          rotor2Type =  1; // 3-D symmetric top 2
+        I2X = rotCs2[2]; I2Y = rotCs2[2]; I2Z = rotCs2[0];       rotor2Type =  2; // 3-D symmetric top 2
       }
     }
     else{
-      I2X = mmtsInt2[0]; I2Y = mmtsInt2[1]; I2Z = mmtsInt2[2];         rotor2Type =  4; // 3-D asymmetric top
+      I2X = rotCs2[0]; I2Y = rotCs2[1]; I2Z = rotCs2[2];         rotor2Type =  2; // 3-D asymmetric top
     }
     //
     //---------------------- Rotor classifications ----------------------
 
     int rotorType = rotor1Type + rotor2Type;
 
-    if      (rotorType == -16) return false;             // both not rotors
+    if      (rotorType == -8) return false;             // both not rotors
 
     double cnt = q1 * q2 / (s1 * s2);
 
     //------------------------------------------------------------------------------
     //Density of states from ILT of the product of partition functions of two rotors
-    
+
     if      (rotorType <  0 && rotor1Type < rotor2Type){ // only p_mol2 a rotor
       p_mol2->cellDensityOfStates(dimerCellDOS, mEnv);
       return true;
@@ -224,45 +226,30 @@ namespace mesmer
     //-------------
     else if (rotorType == 0){                            // both 2-D linear
       cnt /= (I1 * I2);
+      for (int i = 0; i < mEnv.MaxCell; ++i) dimerCellDOS[i] = cnt * mol1CellEne[i];
     }
 
     //-------------
-    else if (rotorType == 1 && rotor1Type < rotor2Type){ // 2-D linear vs symmetric top
-      return true;
+    else if (rotorType == 2 && rotor1Type < rotor2Type){ // 2-D linear vs 3-D symmetric/asymmetric/spherical top
+      cnt *= (4./(3.* I1 * sqrt(I2X * I2Y * I2Z)));
+      for (int i = 0; i < mEnv.MaxCell; ++i) dimerCellDOS[i] = cnt * pow(mol1CellEne[i], 1.5);
     }
-    else if (rotorType == 1 && rotor1Type > rotor2Type){ // 3-D symmetric top vs 2-D linear
-      return true;
-    }
-
-    //-------------
-    else if (rotorType == 2){                            // both 3-D symmetric top
-      return true;
+    else if (rotorType == 2 && rotor1Type > rotor2Type){ // 3-D symmetric/asymmetric/spherical top vs 2-D linear
+      cnt *= (4./(3.* I2 * sqrt(I1X * I1Y * I1Z)));
+      for (int i = 0; i < mEnv.MaxCell; ++i) dimerCellDOS[i] = cnt * pow(mol1CellEne[i], 1.5);
     }
 
     //-------------
-    else if (rotorType == 4 && rotor1Type < rotor2Type){ // 2-D linear vs 3-D asymmetric top
-      return true;
-    }
-    else if (rotorType == 4 && rotor1Type > rotor2Type){ // 3-D asymmetric top vs 2-D linear
-      return true;
+    else if (rotorType == 4){                            // both 3-D symmetric/asymmetric/spherical top
+      cnt *= (M_PI /(2. * sqrt(I1X * I1Y * I1Z * I2X * I2Y * I2Z)));
+      for (int i = 0; i < mEnv.MaxCell; ++i) dimerCellDOS[i] = cnt * (mol1CellEne[i] * mol1CellEne[i]);
     }
 
-    //-------------
-    else if (rotorType == 5 && rotor1Type < rotor2Type){ // 3-D symmetric top vs 3-D asymmetric top
-      return true;
-    }
-    else if (rotorType == 5 && rotor1Type < rotor2Type){ // 3-D asymmetric top vs 3-D symmetric top
-      return true;
-    }
+    //-----------------------------------------------------------------------------------------------------
+    // convolution of vibrational DOS onto rotational DOS -- loop through all frequencies of both molecules
+    
 
-    //-------------
-    else if (rotorType == 8){                            // both 3-D asymmetric top
-      return true;
-    }
-
-
-
-    return false;
+    return true;
   }
 
 }//namespace

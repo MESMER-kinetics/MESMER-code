@@ -1,3 +1,8 @@
+_2007_11_01__18_14_46_ Chi-Hsiu Liang
+
+  * Modified MesmerILT.cpp
+  * renamed variables: m_MmtIntA, m_MmtIntB, m_MmtIntC to m_RotCstA, m_RotCstB, m_RotCstC respectively.
+
 _2007_10_31__15_47_13_ Chi-Hsiu Liang
 
   * Added lines to sort rotational constants

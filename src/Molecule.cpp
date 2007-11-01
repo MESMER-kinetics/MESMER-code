@@ -22,9 +22,9 @@ namespace mesmer
   {}
 
   ModelledMolecule::ModelledMolecule():
-    m_MmtIntA(0.0),
-    m_MmtIntB(0.0),
-    m_MmtIntC(0.0),
+    m_RotCstA(0.0),
+    m_RotCstB(0.0),
+    m_RotCstC(0.0),
     m_Sym(0.0),
     m_ZPE(0.0),
     m_cellEne(),
@@ -137,12 +137,12 @@ namespace mesmer
     if(!txt)
         return false;
     {
-      istringstream idata(txt); 
+      istringstream idata(txt);
       std::vector<double> mIner(3);
       idata >> mIner[0] >> mIner[1] >> mIner[2];
       mIner[0] = abs(mIner[0]); mIner[1] = abs(mIner[1]); mIner[2] = abs(mIner[2]);
       std::sort(mIner.begin(), mIner.end());
-      m_MmtIntA = mIner[2]; m_MmtIntB = mIner[1]; m_MmtIntC = mIner[0];
+      m_RotCstA = mIner[2]; m_RotCstB = mIner[1]; m_RotCstC = mIner[0];
     }
     txt= ppPropList->XmlReadProperty("me:symmetryNumber");
     if(!txt)
@@ -299,20 +299,20 @@ namespace mesmer
       }
   }
 
-  bool ModelledMolecule::get_mmtsInt(std::vector<double> &mmtsInt)
+  bool ModelledMolecule::get_rotConsts(std::vector<double> &mmtsInt)
   {
     mmtsInt.clear();
     if (1){
-      mmtsInt.push_back(m_MmtIntA);
-      mmtsInt.push_back(m_MmtIntB);
-      mmtsInt.push_back(m_MmtIntC);
+      mmtsInt.push_back(m_RotCstA);
+      mmtsInt.push_back(m_RotCstB);
+      mmtsInt.push_back(m_RotCstC);
       return true;
     }
     else{
       return false;
     }
   }
-    
+
   //-------------------------------------------------------------------------------------------
   //
   // Methods related to the Master Equation.
@@ -562,7 +562,7 @@ namespace mesmer
     //
 
     //From inverse Laplace transform of 3-D asymmetric top rotor(needs revise for varieties)? CHL
-    double cnt = sqrt(4./(m_MmtIntA * m_MmtIntB * m_MmtIntC))/m_Sym ;
+    double cnt = sqrt(4./(m_RotCstA * m_RotCstB * m_RotCstC))/m_Sym ;
 
     int i ;
     for ( i = 0 ; i < mEnv.MaxCell ; ++i ) {
@@ -630,7 +630,7 @@ namespace mesmer
         qtot /= (1.0 - exp(-beta*m_VibFreq[j])) ;
         //cout << "qtot[" << j << "] = " << qtot << endl;
       }
-      qtot *= sqrt(M_PI/(m_MmtIntA * m_MmtIntB * m_MmtIntC))*(pow(beta,-1.5))/m_Sym ;
+      qtot *= sqrt(M_PI/(m_RotCstA * m_RotCstB * m_RotCstC))*(pow(beta,-1.5))/m_Sym ;
       formatFloat(cout, temp,  6,  7) ;
       formatFloat(cout, qtot,  6, 15) ;
       formatFloat(cout, sumc,  6, 15) ;

@@ -95,7 +95,7 @@ namespace mesmer
       double get_zpe() const { return m_ZPE ; }
 
       // Get moments of inertia
-      bool get_mmtsInt(std::vector<double> &mmtsInt);
+      bool get_rotConsts(std::vector<double> &mmtsInt);
         
       double get_Sym(void){return m_Sym;}
 
@@ -120,9 +120,9 @@ namespace mesmer
       // Molecular properties.
       //
       std::vector<double> m_VibFreq ;          // Values of vibrational frequencies.
-      double              m_MmtIntA ;          // Moment of inertia A.
-      double              m_MmtIntB ;          // Moment of inertia B.
-      double              m_MmtIntC ;          // Moment of inertia C.
+      double              m_RotCstA ;          // Moment of inertia A.
+      double              m_RotCstB ;          // Moment of inertia B.
+      double              m_RotCstC ;          // Moment of inertia C.
       double              m_Sym ;              // Rotational symmetry number.
       double              m_ZPE ;              // Zero Point Energy.
 

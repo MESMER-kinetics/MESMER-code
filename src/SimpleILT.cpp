@@ -11,7 +11,7 @@ namespace mesmer
 
   //-----
   //short note for variables:
-  //dh00: 
+  //dh00:
   //
 
 
