@@ -8,7 +8,10 @@ using namespace Constants ;
 namespace mesmer
 {
 
-  bool MicroRateCalculator::testMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc, PersistPtr ppbase, const MesmerEnv &mEnv) const
+  bool MicroRateCalculator::testMicroRateCoeffs(Reaction*         pReact, 
+                                                vector<double> &cellKfmc, 
+                                                PersistPtr        ppbase, 
+                                                const MesmerEnv    &mEnv) const
   {
     vector<CollidingMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
@@ -31,9 +34,8 @@ namespace mesmer
       double Temperature = double(i+2)*100.0 ;
       double beta = 1.0/(boltzmann_RCpK*Temperature) ;
 
-      double sm1 = 0.0 ;
-      double sm2 = 0.0 ;
-      double tmp = 0.0 ;
+      double sm1 = 0.0, sm2 = 0.0, tmp = 0.0;
+      
       for ( int i = 0 ; i < mEnv.MaxCell ; ++i ) {
         tmp  = cellDOS[i] * exp(-beta * CellEne[i]) ;
         sm1 += cellKfmc[i] * tmp ;

@@ -110,11 +110,12 @@ namespace mesmer
       work[i] = pow(pdt1CellEne[i], pwr);
     }
 
-    DOSconvolution(conv, work, pdt1CellDOS);
+    DOSconvolution(work, pdt1CellDOS, conv);
 
     for (int i = 0; i < activ_ene; ++i)  cellKfmc[i] = 0.;
     for (int i = 0; i < (mEnv.MaxCell - activ_ene); ++i){
       cellKfmc[i + activ_ene] = _ant * conv[i] / rctsCellDOS[i + activ_ene];
+      cout << "cellKfmc[" << i + activ_ene << " = " << cellKfmc[i + activ_ene] << endl;
     }
 
     return true;
@@ -130,12 +131,11 @@ namespace mesmer
     // where the first three convolutions are trivial
     //
 
-    vector<double> rotCs1; p_mol1->get_rotConsts(rotCs1);
-    vector<double> rotCs2; p_mol2->get_rotConsts(rotCs2);
+    vector<double> rotCs1; int rotor1Type = p_mol1->get_rotConsts(rotCs1);
+    vector<double> rotCs2; int rotor2Type = p_mol2->get_rotConsts(rotCs2);
     vector<double> mol1CellEne(mEnv.MaxCell,0.0);
     p_mol1->cellEnergies(mol1CellEne, mEnv) ;
 
-    int rotor1Type = 0, rotor2Type = 0;
     double I1 = 0., I2 = 0.,                                            //for 2-D linear rotors
            I1X = 0., I2X = 0., I1Y = 0., I2Y = 0., I1Z = 0., I2Z = 0.,  //for 3-D symmetric/asymmetric/spherical top rotors
            s1 = p_mol1->get_Sym(), s2 = p_mol2->get_Sym(),
@@ -144,25 +144,14 @@ namespace mesmer
 
     /*All rotational constants are sorted --- the largest one at the head, smallest one at the tail*/
 
-    //---------------------- Rotor classification ----------------------
-    if      ((rotCs1[0] + rotCs1[1] + rotCs1[2]) == 0.){
-                                                         rotor1Type = -4; // not a rotor
-    }
-    else if ((rotCs1[0] * rotCs1[1] * rotCs1[2]) == 0.){
-      I1 = rotCs1[0];                                    rotor1Type =  0; // 2-D linear
-    }
-    else{
-      I1X = rotCs1[0]; I1Y = rotCs1[1]; I1Z = rotCs1[2]; rotor1Type =  2; // 3-D symmetric/asymmetric/spherical top
-    }
-    if      ((rotCs2[0] + rotCs2[1] + rotCs2[2]) == 0.){
-                                                         rotor2Type = -4; // not a rotor
-    }
-    else if ((rotCs2[0] * rotCs2[1] * rotCs2[2]) == 0.){
-      I2 = rotCs2[0];                                    rotor2Type =  0; // 2-D linear
-    }
-    else{
-      I2X = rotCs2[0]; I2Y = rotCs2[1]; I2Z = rotCs2[2]; rotor2Type =  2; // 3-D symmetric/asymmetric/spherical top
-    }
+
+    //---------------------- Assign rotational constants ----------------------
+    if      (rotor1Type == -4){}
+    else if (rotor1Type ==  0){ I1 = rotCs1[0]; }// 2-D linear
+    else                      { I1X = rotCs1[0]; I1Y = rotCs1[1]; I1Z = rotCs1[2];}// 3-D symmetric/asymmetric/spherical top
+    if      (rotor2Type == -4){}
+    else if (rotor2Type ==  0){ I2 = rotCs2[0]; }// 2-D linear
+    else                      { I2X = rotCs2[0]; I2Y = rotCs1[1]; I2Z = rotCs2[2];}// 3-D symmetric/asymmetric/spherical top
 
     //------------------------------------------------------------------------------
     //Density of states from ILT of the product of partition functions of two rotors

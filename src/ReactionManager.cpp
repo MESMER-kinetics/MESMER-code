@@ -116,7 +116,7 @@ namespace mesmer
       }
     }
 
-    cout << endl << "The size of the collision matrix is: " << msize << endl << endl ;
+    cout << endl << "Size of the collision matrix: " << msize << endl << endl ;
 
     // Allocate space for system collision operator.
 

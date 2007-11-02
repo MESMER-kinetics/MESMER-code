@@ -273,6 +273,7 @@ namespace mesmer
     // Calculate microcanonical rate coefficients.
     if (m_CellKfmc.size()==0)
     {
+      cout << "_2007_11_02__17_10_54_" << endl;
       if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this, m_CellKfmc, mEnv) ||
         (mEnv.microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_CellKfmc, m_ppPersist, mEnv)))
         return false;

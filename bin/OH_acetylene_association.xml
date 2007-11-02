@@ -181,7 +181,7 @@
             <!--Use zero point energies instead
           <me:threshold>25.99</me:threshold>-->
             <me:MCRCMethod>Mesmer ILT</me:MCRCMethod>
-            <me:activationEnergy>7.00e-12</me:activationEnergy>
+            <me:activationEnergy>5.375</me:activationEnergy>
             <me:preExponential>7.00e-12</me:preExponential>
         </reaction>
     </reactionList>

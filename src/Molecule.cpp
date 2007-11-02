@@ -335,24 +335,18 @@ namespace mesmer
       }
   }
 
-  bool ModelledMolecule::get_rotConsts(std::vector<double> &mmtsInt)
+  int ModelledMolecule::get_rotConsts(std::vector<double> &mmtsInt)
   {
     mmtsInt.clear();
-    if (mmtsInt.size()){
-      mmtsInt.push_back(m_RotCstA);
-      mmtsInt.push_back(m_RotCstB);
-      mmtsInt.push_back(m_RotCstC);
-      return true;
-    }
-    else{
-      stringstream errorMsg;
-      errorMsg << "Rotational constants not specified, 0.0 returned";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-      mmtsInt.push_back(0.);
-      mmtsInt.push_back(0.);
-      mmtsInt.push_back(0.);
-      return true;
-    }
+    mmtsInt.push_back(m_RotCstA);
+    mmtsInt.push_back(m_RotCstB);
+    mmtsInt.push_back(m_RotCstC);
+    /* now the classification of rotors is simplified to only three following types. 3-D rotors may have other
+    attributes different from one another but in ILT they are treated as the same type. The function return values 
+    are temporary shorthand representations. */
+    if      ((mmtsInt[0] + mmtsInt[1] + mmtsInt[2]) == 0.) return -4; // not a rotor
+    else if ((mmtsInt[0] * mmtsInt[1] * mmtsInt[2]) == 0.) return  0; // 2-D linear
+    else                                                   return  2; // 3-D symmetric/asymmetric/spherical top
   }
 
   //-------------------------------------------------------------------------------------------
@@ -598,14 +592,33 @@ namespace mesmer
     // density of state.
     //
 
-    //From inverse Laplace transform of 3-D asymmetric top rotor
-    double cnt = sqrt(4./(m_RotCstA * m_RotCstB * m_RotCstC))/m_Sym ;
-
-    int i ;
-    for ( i = 0 ; i < mEnv.MaxCell ; ++i ) {
-      m_cellEne.push_back(static_cast<double>(i) + 0.5);
-      m_cellDOS.push_back(cnt*sqrt(m_cellEne[i]));
+    //From inverse Laplace transform of rotors
+    vector<double> rotConst; int rotorType = get_rotConsts(rotConst);
+    double cnt = 0.;
+    
+    switch (rotorType){
+      case 2: //3-D symmetric/asymmetric/spherical top
+        cnt = sqrt(4./(rotConst[0] * rotConst[1] * rotConst[2]))/m_Sym ;
+        for (int i = 0 ; i < mEnv.MaxCell ; ++i ) {
+          m_cellEne.push_back(static_cast<double>(i) + 0.5);
+          m_cellDOS.push_back(cnt*sqrt(m_cellEne[i]));
+        }
+        break;
+      case 0: //2-D linear
+        cnt = 1./ (rotConst[0] * m_Sym);
+        for (int i = 0 ; i < mEnv.MaxCell ; ++i ){
+          m_cellEne.push_back(static_cast<double>(i) + 0.5);
+          m_cellDOS.push_back(cnt);
+        }
+        break;
+      default:
+        cnt = 0.;
+        for (int i = 0 ; i < mEnv.MaxCell ; ++i ){
+          m_cellEne.push_back(static_cast<double>(i) + 0.5);
+          m_cellDOS.push_back(cnt);
+        }
     }
+
 
     // Implementation of the Bayer-Swinehart algorithm.
 
@@ -613,7 +626,7 @@ namespace mesmer
       int iFreq = static_cast<int>(m_VibFreq[j] +.5) ;
       // +.5 makes sure it floors to the frequency that is closer to the integer
       // the original case has larger difference where if frequency = 392.95 it floors to 392
-      for ( i = 0 ; i < mEnv.MaxCell - iFreq ; ++i ){
+      for (int i = 0 ; i < mEnv.MaxCell - iFreq ; ++i ){
         m_cellDOS[i + iFreq] += m_cellDOS[i] ;
       }
     }
@@ -663,11 +676,25 @@ namespace mesmer
       // Calculate partition functions using analytical formula.
 
       double qtot = 1.0 ;
-      for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) {
-        qtot /= (1.0 - exp(-beta*m_VibFreq[j])) ;
-        //cout << "qtot[" << j << "] = " << qtot << endl;
+      
+      vector<double> rotConst; int rotorType = get_rotConsts(rotConst);
+      
+      switch(rotorType){
+        case 2:
+          for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) {
+            qtot /= (1.0 - exp(-beta*m_VibFreq[j])) ;
+          }
+          qtot *= sqrt(M_PI/(rotConst[0] * rotConst[1] * rotConst[2]))*(pow(beta,-1.5))/m_Sym ;
+          break;
+        case 0:
+          for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) {
+            qtot /= (1.0 - exp(-beta*m_VibFreq[j])) ;
+          }
+          qtot *= rotConst[0] / (m_Sym*beta) ;
+          break;
+        default:
+          qtot = 0.;
       }
-      qtot *= sqrt(M_PI/(m_RotCstA * m_RotCstB * m_RotCstC))*(pow(beta,-1.5))/m_Sym ;
       formatFloat(cout, temp,  6,  7) ;
       formatFloat(cout, qtot,  6, 15) ;
       formatFloat(cout, sumc,  6, 15) ;

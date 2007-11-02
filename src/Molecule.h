@@ -95,7 +95,7 @@ namespace mesmer
       double get_zpe() const { return m_ZPE ; }
 
       // Get moments of inertia
-      bool get_rotConsts(std::vector<double> &mmtsInt);
+      int get_rotConsts(std::vector<double> &mmtsInt);
 
       double get_Sym(void){return m_Sym;}
 
