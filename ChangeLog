@@ -1,3 +1,11 @@
+_2007_11_02__15_08_13_ Chi-Hsiu Liang
+
+  * modified MesmerILT.cpp --- now it is a working (testing not complete) version of ILT, but need to modify
+    ModelledMolecule::calcDensityOfStates() to account for 2-D linear rotors & non-rotors.
+  * Added some error reporting for InitializeMolecule()
+  * Added get_VibFreq() in Molecule.h
+  * other minor modifications
+
 _2007_11_01__18_14_46_ Chi-Hsiu Liang
 
   * Modified MesmerILT.cpp
@@ -8,7 +16,7 @@ _2007_10_31__15_47_13_ Chi-Hsiu Liang
   * Added lines to sort rotational constants
   * Added a function countDimerCellDOS() to deal with convolution of DOS for two rotors (not complete)
   * Some other minor modifications
- 
+
 _2007_10_26__13_54_21_ Chi-Hsiu Liang
 
   * removed parenthesis after constructor of Reaction (looks like more than a declaration)
@@ -51,7 +59,7 @@ _2007_10_10__08_20_39_ Chi-Hsiu Liang
   * reorganised file dependencies
   * updated source.ps
   * removed ReactionConnectivity.cpp/h
- 
+
 _2007_10_08__13_38_55_ Chi-Hsiu Liang
 
   * Removed QD/DD/double flags in files: dMatrix.h, Molecule.cpp
@@ -88,7 +96,7 @@ _2007_10_03__11_06_49_ Chi-Hsiu Liang
     Type the following command in command line mode under the directory of cxsc.
     ./install_cxsc
   * variable declarations in MesmerPrecision.h
-  
+
 _2007_10_03__10_42_44_ Chi-Hsiu Liang
 
   * Added selection of QD/DD/CXSC (CXSC not yet implemented/tested, but has linked)
@@ -98,10 +106,10 @@ _2007_10_03__10_42_44_ Chi-Hsiu Liang
     Examples are also listed.
   * Commented out some unused type definitions in matrix.h
   * Some other minor modifications
-  
+
 _2007_09_28__14_16_39_ Chi-Hsiu Liang
 
-  * QD for double-double and quad-double precisions. 
+  * QD for double-double and quad-double precisions.
   * Move normalization function into matrix.h
   * Completed writing of MesmerILT.cpp but not linked and tested.
   * Modified namings of variables:  ngrn -> MaximumGrain
@@ -124,17 +132,17 @@ _2007_09_25__10_31_44_ Chi-Hsiu Liang
                                     m_egrn -> m_grainEne
                                     rctDos -> rctDOS
                                     pdtDos -> pdtDOS
-                                    
+
   * change CellEne and CellDOS to vectors
   * some other minor modifications
-  
+
 _2007_09_14__16_30_42_ Chi-Hsiu Liang
 
   * checked for new and delete declarations
   * reordered some dependencies
-  * Modified namings of variables:  decll -> CellEne, 
-                                    ddos -> CellDOS, 
-                                    m_cdos -> m_CellDOS, 
+  * Modified namings of variables:  decll -> CellEne,
+                                    ddos -> CellDOS,
+                                    m_cdos -> m_CellDOS,
                                     m_ecll -> m_CellEne,
                                     pcollidingmolecule -> pCollidingMolecule,
                                     KCMLTOPCM -> KcalPerMolToRC,
@@ -142,18 +150,18 @@ _2007_09_14__16_30_42_ Chi-Hsiu Liang
                                     boltzmann -> boltzmann_RCpK
                                     pi -> M_PI
 
-  * Modified naming of functions: Initialize() -> InitializeMolecule(), 
+  * Modified naming of functions: Initialize() -> InitializeMolecule(),
                                   Initialize() -> InitializeReaction(),
                                   igsz() -> getGrainSize(),
 
   * updated source.ps
   * added MesmerILT.cpp, MesmerILT.h, MesmerMath.h (for Gamma function)
-	
+
 2007-09-04 Chi-Hsiu Liang
 
 	* in Molecule.cpp, function void CollidingMolecule::collisionOperator(double beta):
 			vector<double> work only needs to have size GetSys()->MAXGrn()
-	* Question: 
+	* Question:
 			In Molecule.cpp, line 388, double ei = log(m_gdos[i]) - beta*m_egrn[i] + 10.0; why adding 10.0
 			if the 10.0 power of ten will be cancelled in line 397:         (*m_egme)[j][i] *= (work[i]/work[j]);
 			Any special meaning?
@@ -163,13 +171,13 @@ _2007_09_14__16_30_42_ Chi-Hsiu Liang
 	* altered some i++, j++ to ++i, ++j for better efficiency
 	* other minor modifications
 	* Now compile with i386 RedHat Linux
-	
+
 2007-09-02 Chris Morley
-	
+
 	* added a partial data file for Dave's benzene system
 	(enough for the diagram) Updated the xsl files to improve
 	diagram.
-	
+
 2007-08-31 Chi-Hsiu Liang
 
 	* cygwin rules
@@ -179,10 +187,10 @@ _2007_09_14__16_30_42_ Chi-Hsiu Liang
 	* Updated source.ps
 	* Other minor code format adjustments (Molecule.h/cpp, MoleculeManager.cpp, etc.)
 	* Resolved some g++ compiler complaints.
-	
+
 2007-08-29 Chi-Hsiu Liang
 
-	Minor modifications on three header files, and merge with the 
+	Minor modifications on three header files, and merge with the
 	current modifications.
 	Update the dependency tree.
 
@@ -190,19 +198,19 @@ _2007_09_14__16_30_42_ Chi-Hsiu Liang
 
 	Make separate headers for SimpleRRKM.cpp and SimpleILT.cpp.
 	Rename x versions.
-	
+
 	* src/MesmerConfig.h: separate header to take all platform-
 	dependent defines.
-	
+
 	Remove global pSys. Add member variable m_pSys and GetSys()
 	to MoleculeManager, ReactionManager, Molecule and Reaction.
 	Pass down a pointer to the System during construction or
 	Initialization.
-	
+
 	* src/main.cpp: add mesmer:: to obErrorLog. Remove pSys.
-	
+
 	Include math.h in MicroRate.cpp and Molecule.cpp
-	
+
 2007-08-23 Chi-Hsiu Liang
 
 	1. The dependencies are reorganised for simplicity.
@@ -234,20 +242,20 @@ _2007_09_14__16_30_42_ Chi-Hsiu Liang
 
 	Various xml, xsl, etc file. Display of output file has energy level
 	diagram  and collapsable data sections.
-	
+
 2007-07-28  Chris Morley
-	
+
 	* src/MicroRate.cpp, .h, src/SimpleILTx.cpp, src/SimpleRRKMx.cpp:
-	Mod of MicroRateCalulator classes to be plugin classes and to keep 
+	Mod of MicroRateCalulator classes to be plugin classes and to keep
 	all their data in the Reaction class.
-	
+
 	* src/Molecule.h, .cpp: Remove diagCollisionOperator which is also
 	in ReactionManager
-	
+
 	* Persistence.h, XMLPersist.h,.cpp:Add ReadBoolean() and WriteAttribute
 	methods. Activate Read() and modify WriteMainElement(). More flexibilty
 	found to be necessary.
-	
+
 	* src.System.h,.cpp:Add ReadRange() method and use it for T, P and conc.
 	Not yet used properly in calculation.
 
@@ -256,7 +264,7 @@ _2007_09_14__16_30_42_ Chi-Hsiu Liang
         * src/MicroRateCalculator.cpp/.h: Separated micro-rate calcuator base
         class into separate file and added test method to this class.
 
-        * src/SimpleILT.cpp/.h: Added implementation of simple dissociation ILT 
+        * src/SimpleILT.cpp/.h: Added implementation of simple dissociation ILT
         method.
 
 2007-07-09  Struan Robertson
@@ -282,7 +290,7 @@ _2007_09_14__16_30_42_ Chi-Hsiu Liang
 
         * Minor changes to System and Molecule classes to support the above
         changes.
-        
+
         * Update of Linux Makefile.
 
 2007-06-07  Chris Morley
@@ -320,32 +328,32 @@ _2007_09_14__16_30_42_ Chi-Hsiu Liang
 
 	I/O rewritten to improve code isolation and allow TinyXML
 	to be replaced if necessary. See description in Persistence.h
-	
+
 	* src/XMLPersist.h, src/XMLPersist.cpp added.
 	* src/Persistence.cpp removed
 	* src/util.cpp added. Contains formatFloat(), now a global
 	function.
-	
+
 	Extensive changes to:
 	* src/Persistence.h, (IPersistObject rename to IPersist)
 	and most other files.
-	
+
 2007-01-18  Chris Morley
-	
+
 	* src/Persistence.h, Persistence.cpp: Added output utility
-	functions WriteElement(), WriteMainElement() and 
+	functions WriteElement(), WriteMainElement() and
 	WriteValueElement(). In IPersistObject at present, but maybe
 	they should be elswhere.
-	
+
 	* src/Molecule.h, Reaction.h: Added member variable to retain
 	object address in XML document.
 
 	* src/Molecule.cpp(testDensityOfStates): Output also to XML
-	
+
 	* src/Reaction.cpp(testMicroRateCoeffs): Output also to XML
-	
+
 	* src/pentyl_isomerization.xml: Correct extra " typos
-	
+
 	* Windows VC8/Mesmer/mesmer1.xsl: Added. Provides formating when
 	XML file viewed in a browser.
 

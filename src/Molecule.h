@@ -96,8 +96,13 @@ namespace mesmer
 
       // Get moments of inertia
       bool get_rotConsts(std::vector<double> &mmtsInt);
-        
+
       double get_Sym(void){return m_Sym;}
+
+      void get_VibFreq(std::vector<double>& vibFreq){
+        vibFreq.clear();
+        vibFreq = m_VibFreq;
+      }
 
     protected:
 

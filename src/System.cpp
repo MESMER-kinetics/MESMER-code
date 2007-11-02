@@ -39,6 +39,7 @@ namespace mesmer
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       return false;
     }
+
     if(!m_pMoleculeManager->addmols(ppMolList))
       return false;
     //-------------

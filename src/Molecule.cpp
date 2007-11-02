@@ -79,8 +79,12 @@ namespace mesmer
   bool BathGasMolecule::InitializeMolecule(PersistPtr pp)
   {
     //Read base class parameters first
-    if(!Molecule::InitializeMolecule(pp))
-        return false;
+    if(!Molecule::InitializeMolecule(pp)){
+      stringstream errorMsg;
+      errorMsg << "InitializeMolecule failed for Molecule before constructing BathGasMolecule.";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      return false;
+    }
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
@@ -89,25 +93,31 @@ namespace mesmer
     const char* txt;
 
     txt= ppPropList->XmlReadProperty("me:epsilon");
-    if(!txt)
-        return false;
-    { istringstream idata(txt); //extra block ensures idata is initiallised
-    idata >> m_Epsilon;
+    if(!txt){
+      stringstream errorMsg;
+      errorMsg << "BathGasMolecule::Cannot find argument me:epsilon";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      return false;
     }
+    else { istringstream idata(txt); idata >> m_Epsilon; } //extra block ensures idata is initiallised
 
     txt= ppPropList->XmlReadProperty("me:sigma");
-    if(!txt)
-        return false;
-    { istringstream idata(txt);
-    idata >> m_Sigma;
+    if(!txt){
+      stringstream errorMsg;
+      errorMsg << "BathGasMolecule::Cannot find argument me:sigma";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      return false;
     }
+    else { istringstream idata(txt); idata >> m_Sigma; }
 
     txt= ppPropList->XmlReadProperty("me:MW");
-    if(!txt)
-        return false;
-    { istringstream idata(txt);
-    idata >> m_Mass;
+    if(!txt){
+      stringstream errorMsg;
+      errorMsg << "BathGasMolecule::Cannot find argument me:MW";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      return false;
     }
+    else { istringstream idata(txt); idata >> m_Mass; }
 
     return true;
     //TODO append name of molecule to error message
@@ -117,8 +127,12 @@ namespace mesmer
   bool ModelledMolecule::InitializeMolecule(PersistPtr pp)
   {
     //Read base class parameters first
-    if(!Molecule::InitializeMolecule(pp))
-        return false;
+    if(!Molecule::InitializeMolecule(pp)){
+      stringstream errorMsg;
+      errorMsg << "InitializeMolecule failed for Molecule before constructing ModelledMolecule.";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      return false;
+    }
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
@@ -127,40 +141,52 @@ namespace mesmer
     const char* txt;
 
     txt= ppPropList->XmlReadProperty("me:ZPE");
-    if(!txt)
-        return false;
-    {
-        istringstream idata(txt);
-        idata >> m_ZPE ;
+    if(!txt){
+      stringstream errorMsg;
+      errorMsg << "ModelledMolecule::Cannot find argument me:ZPE";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      return false;
     }
+    else { istringstream idata(txt); idata >> m_ZPE ; }
+
     txt= ppPropList->XmlReadProperty("me:rotConsts");
-    if(!txt)
-        return false;
-    {
+    if(!txt){
+      stringstream errorMsg;
+      errorMsg << "ModelledMolecule::Cannot find argument me:rotConsts";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      return false;
+    }
+    else {
       istringstream idata(txt);
-      std::vector<double> mIner(3);
-      idata >> mIner[0] >> mIner[1] >> mIner[2];
-      mIner[0] = abs(mIner[0]); mIner[1] = abs(mIner[1]); mIner[2] = abs(mIner[2]);
-      std::sort(mIner.begin(), mIner.end());
-      m_RotCstA = mIner[2]; m_RotCstB = mIner[1]; m_RotCstC = mIner[0];
+      std::vector<double> rCnst(3);
+      idata >> rCnst[0]
+            >> rCnst[1]
+            >> rCnst[2];
+      rCnst[0] = abs(rCnst[0]);
+      rCnst[1] = abs(rCnst[1]);
+      rCnst[2] = abs(rCnst[2]);
+      std::sort(rCnst.begin(), rCnst.end());
+      m_RotCstA = rCnst[2];
+      m_RotCstB = rCnst[1];
+      m_RotCstC = rCnst[0];
     }
     txt= ppPropList->XmlReadProperty("me:symmetryNumber");
-    if(!txt)
-        return false;
-    {
-      istringstream idata(txt);
-      idata >> m_Sym;
+    if(!txt){
+      stringstream errorMsg;
+      errorMsg << "ModelledMolecule::Cannot find argument me:symmetryNumber";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      return false;
     }
+    else { istringstream idata(txt); idata >> m_Sym; }
 
     txt= ppPropList->XmlReadProperty("me:vibFreqs");
-    if(!txt)
-        return false;
-    {
-      istringstream idata(txt);
-      double x ;
-      while (idata >> x)
-          m_VibFreq.push_back(x) ;
+    if(!txt){
+      stringstream errorMsg;
+      errorMsg << "ModelledMolecule::Cannot find argument me:vibFreqs";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      return false;
     }
+    else { istringstream idata(txt); double x; while (idata >> x) m_VibFreq.push_back(x); }
 
 //    txt= ppPropList->XmlReadProperty("me:spinMultiplicity");
 //    if(!txt)
@@ -174,8 +200,12 @@ namespace mesmer
   bool CollidingMolecule::InitializeMolecule(PersistPtr pp)
   {
     //Read base class parameters first
-    if(!ModelledMolecule::InitializeMolecule(pp))
-        return false;
+    if(!ModelledMolecule::InitializeMolecule(pp)){
+      stringstream errorMsg;
+      errorMsg << "InitializeMolecule failed for ModelledMolecule before constructing CollidingMolecule.";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      return false;
+    }
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
@@ -184,32 +214,38 @@ namespace mesmer
     const char* txt;
 
     txt= ppPropList->XmlReadProperty("me:epsilon");
-    if(!txt)
-        return false;
-    { istringstream idata(txt); //extra block ensures idata is initiallised
-    idata >> m_Epsilon;
+    if(!txt){
+      stringstream errorMsg;
+      errorMsg << "CollidingMolecule::me:epsilon not assigned for this molecule";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
+    else { istringstream idata(txt); idata >> m_Epsilon; } //extra block ensures idata is initiallised
 
     txt= ppPropList->XmlReadProperty("me:sigma");
-    if(!txt)
-        return false;
-    { istringstream idata(txt);
-    idata >> m_Sigma;
+    if(!txt){
+      stringstream errorMsg;
+      errorMsg << "CollidingMolecule::me:sigma not assigned for this molecule";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
+    else { istringstream idata(txt); idata >> m_Sigma; }
 
     txt= ppPropList->XmlReadProperty("me:MW");
-    if(!txt)
-        return false;
-    { istringstream idata(txt);
-    idata >> m_Mass;
+    if(!txt){
+      stringstream errorMsg;
+      errorMsg << "CollidingMolecule::Cannot find argument me:MW";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      return false;
     }
+    else { istringstream idata(txt); idata >> m_Mass; }
 
     txt= ppPropList->XmlReadProperty("me:deltaEDown");
-    if(!txt)
-        return false;
-    { istringstream idata(txt);
-    idata >> m_DeltaEdown;
+    if(!txt){
+      stringstream errorMsg;
+      errorMsg << "CollidingMolecule::Cannot find argument me:deltaEDown";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      return false;
     }
+    else { istringstream idata(txt); idata >> m_DeltaEdown; }
 
     return true;
   }
@@ -302,14 +338,20 @@ namespace mesmer
   bool ModelledMolecule::get_rotConsts(std::vector<double> &mmtsInt)
   {
     mmtsInt.clear();
-    if (1){
+    if (mmtsInt.size()){
       mmtsInt.push_back(m_RotCstA);
       mmtsInt.push_back(m_RotCstB);
       mmtsInt.push_back(m_RotCstC);
       return true;
     }
     else{
-      return false;
+      stringstream errorMsg;
+      errorMsg << "Rotational constants not specified, 0.0 returned";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      mmtsInt.push_back(0.);
+      mmtsInt.push_back(0.);
+      mmtsInt.push_back(0.);
+      return true;
     }
   }
 
@@ -467,34 +509,29 @@ namespace mesmer
     double D = 0.77320 ;
     double E = 2.16178 ;
     double F = 2.43787 ;
-    double amu = 1.6606E-27 ;
 
     double temp = 1.0/(boltzmann_RCpK*beta) ;
-    //
+
     // Calculate collision parameter averages.
-    //
     double bthMass    = pBathGasMolecule->getMass();
     double bthSigma   = pBathGasMolecule->getSigma();
     double bthEpsilon = pBathGasMolecule->getEpsilon();
 
-    double mu   = amu*m_Mass*bthMass/(m_Mass + bthMass) ;
-    double eam  = sqrt(m_Epsilon*bthEpsilon) ;
-    double sam  = (m_Sigma + bthSigma)*0.5 ;
+    double mu   = amu * m_Mass * bthMass/(m_Mass + bthMass) ;
+    double eam  = sqrt(m_Epsilon * bthEpsilon) ;
+    double sam  = (m_Sigma + bthSigma) * 0.5;
     double tstr = temp/eam ;
-    //
-    // Calculate collision integral.
-    //
-    double collFrq = A*exp(-log(tstr)*B) + C*exp(-D*tstr) + E*exp(-F*tstr) ;
-    //
-    // Calculate molecular collision frequency.
-    //
-    collFrq *= M_PI*sam*sam*1.e-20*sqrt(8.*1.381e-23*temp/(M_PI*mu)) ;
-    //
-    // Calculate overall collision frequency.
-    //
-    collFrq *= conc*1.e+06 ;
 
-    return collFrq ;
+    // Calculate collision integral.
+    double collFrq = A * exp(-log(tstr) * B) + C * exp(-D * tstr) + E * exp(-F * tstr) ;
+
+    // Calculate molecular collision frequency.
+    collFrq *= M_PI * sam * sam * 1.e-20 * sqrt(8. * 1.381e-23 * temp/(M_PI * mu)) ;
+
+    // Calculate overall collision frequency.
+    collFrq *= conc * 1.e+06 ;
+
+    return collFrq;
   }
 
   //
@@ -552,7 +589,7 @@ namespace mesmer
   //
   void ModelledMolecule::calcDensityOfStates(const MesmerEnv &mEnv)
   {
-    cout << endl << "The number of Frequencies is " << m_VibFreq.size() << endl ;
+    cout << endl << "Number of frequencies: " << m_VibFreq.size() << endl ;
 
     m_cellDOS.clear(); m_cellEne.clear(); //make sure there is no residue left
 
@@ -561,7 +598,7 @@ namespace mesmer
     // density of state.
     //
 
-    //From inverse Laplace transform of 3-D asymmetric top rotor(needs revise for varieties)? CHL
+    //From inverse Laplace transform of 3-D asymmetric top rotor
     double cnt = sqrt(4./(m_RotCstA * m_RotCstB * m_RotCstC))/m_Sym ;
 
     int i ;

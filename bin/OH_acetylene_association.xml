@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type='text/xsl' href='mesmer1.xsl'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+    <moleculeList>
+        <molecule id="OH_acetylene_adduct" me:type="modelled">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="C" />
+                <atom id="a3" elementType="O" />
+                <atom id="a4" elementType="H" />
+                <atom id="a5" elementType="H" />
+                <atom id="a6" elementType="H" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="2" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a3 a4" order="1" />
+                <bond atomRefs2="a1 a5" order="1" />
+                <bond atomRefs2="a2 a6" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kcal/mol">0.0</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">0.32031 0.36452 2.64058</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">464.0 474.0 567.0 770.0 848.0 1099.0 1244.0 1354.0 1667.0 3101.0 3300.0 3797.0</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar>43</scalar>
+                </property>
+                <property dictRef="me:epsilon">
+                    <scalar>250.0</scalar>
+                </property>
+                <property dictRef="me:sigma">
+                    <scalar>5.0</scalar>
+                </property>
+                <property dictRef="me:deltaEDown">
+                    <scalar units="cm-1">250.0</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>2</scalar>
+                </property>
+            </propertyList>
+        </molecule>
+        <molecule id="TS_1a" me:type="transitionState">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="C" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="H" />
+                <atom id="a5" elementType="O" />
+                <atom id="a6" elementType="H" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="3" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a2 a4" order="1" />
+                <bond atomRefs2="a5 a6" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kcal/mol">137.2</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">0.33065 0.39313 2.06178</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1.0</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">332.0 807.0 903.0 1010.0 1098.0 1158.0 1306.0 1407.0 1988.0 3127.0 3167.0</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar>43</scalar>
+                </property>
+                <property dictRef="me:deltaEDown">
+                    <scalar units="cm-1">250.0</scalar>
+                </property>
+            </propertyList>
+        </molecule>
+        <molecule id="OH" me:type="modelled">
+            <atomarray>
+                <atom id="a1" elementType="O" />
+                <atom id="a2" elementType="H" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kcal/mol">40.0</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">19.2438</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">3722.0</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar>17</scalar>
+                </property>
+                <property dictRef="me:deltaEDown">
+                    <scalar units="cm-1">250.0</scalar>
+                </property>
+            </propertyList>
+        </molecule>
+        <molecule id="acetylene" me:type="modelled">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="C" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="H" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="3" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a2 a4" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kcal/mol">130.7</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">1.19205</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">664.0 664.0 766.0 766.0 2066.0 3408.0 3509.0</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar>17</scalar>
+                </property>
+                <property dictRef="me:deltaEDown">
+                    <scalar units="cm-1">250.0</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>2</scalar>
+                </property>
+            </propertyList>
+        </molecule>
+        <molecule id="N_2" me:type="bathGas">
+            <atom elementType="N_2" />
+            <propertyList>
+                <property dictRef="me:epsilon">
+                    <scalar>48.0</scalar>
+                </property>
+                <property dictRef="me:sigma">
+                    <scalar>3.90</scalar>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar>28.0</scalar>
+                </property>
+            </propertyList>
+        </molecule>
+    </moleculeList>
+    <reactionList>
+        <reaction id="R1">
+            <reactant>
+                <molecule ref="acetylene" />
+            </reactant>
+            <reactant>
+                <molecule ref="OH" />
+            </reactant>
+            <product>
+                <molecule ref="OH_acetylene_adduct" />
+            </product>
+            <me:transitionState>
+                <molecule ref="TS_1a" />
+            </me:transitionState>
+            <!--Use zero point energies instead
+          <me:threshold>25.99</me:threshold>-->
+            <me:MCRCMethod>Mesmer ILT</me:MCRCMethod>
+            <me:activationEnergy>7.00e-12</me:activationEnergy>
+            <me:preExponential>7.00e-12</me:preExponential>
+        </reaction>
+    </reactionList>
+    <me:conditions>
+        <me:bathGas>N_2</me:bathGas>
+        <me:conc>1000</me:conc>
+        <!--Three ways to input temperatures at which calcs are to be done-->
+        <me:temperature units="K">298</me:temperature>
+        <me:temperature initial="100" increment="50" final="500" />
+        <me:temperature increment="200" final="3000">2200</me:temperature>
+    </me:conditions>
+    <me:modelParameters>
+        <!--Specify grain size directly...-->
+        <me:grainSize units="cm-1">20</me:grainSize>
+        <!--...or by the total number of grains
+        <me:numberOfGrains> 500 </me:numberOfGrains>-->
+        <!--Specify increased energy range 
+        <me:maxTemperature>6000</me:maxTemperature>-->
+    </me:modelParameters>
+    <me:control>
+        <me:testMicroRates />
+        <me:eigenvalues>10</me:eigenvalues>
+    </me:control>
+</me:mesmer>

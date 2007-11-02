@@ -35,6 +35,7 @@ namespace Constants {
   static const double AvogadroC               = 6.0221367e+23;
   static const double pascalPerAtm            = 1.01325e+05;
   static const double idealGasC               = 8.31451l;
+  static const double amu                     = 1.6606E-27;
 }
 
 #endif // GUARD_Constants_h

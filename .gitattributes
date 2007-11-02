@@ -1,6 +1,7 @@
 * text=auto !eol
 /ChangeLog -text
 Documentation/Mesmer[!!-~]FAQ.doc -text
+Documentation/Mesmer.dvi -text
 Documentation/Mesmer.tex -text
 Documentation/inclusion.tex -text
 Documentation/mybib.bib -text
@@ -21,6 +22,7 @@ Windows[!!-~]VC8/Mesmer/pentyl.xml -text
 Windows[!!-~]VC8/Mesmer/pentyl_isomerization.xml -text
 Windows[!!-~]VC8/Mesmer/pentyl_isomerizationJul.xml -text
 Windows[!!-~]VC8/Mesmer/switchcontent.js -text
+bin/OH_acetylene_association.xml -text
 bin/pentyl_isomerizationJul.xml -text
 qd/AUTHORS -text
 qd/COPYING -text

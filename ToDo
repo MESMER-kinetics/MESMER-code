@@ -1,7 +1,14 @@
+//---------------- ToDo list and ideas -----------------
+// Add or remove whenever you think it is proper
+
+_2007_11_02__15_11_43_ Chi-Hsiu Liang
+
+  * Provide users a plugin class to calculate all DOS.
+
 _2007_10_31__12_28_58_ Chi-Hsiu Liang
 
-A thought on calculating the density of states from ILT of the product of partition functions of two rotors. 
-May well this function should like MicroRateCalculator having an individual class for other uses? e.g. Cross
+A thought on calculating the density of states from ILT of the product of partition functions of two rotors (namely,
+the DOS of the reactants). May well this function should like MicroRateCalculator having an individual class for other uses? e.g. Cross
 usage of different methods.
 
 _2007_10_26__08_36_03_ Chi-Hsiu Liang
