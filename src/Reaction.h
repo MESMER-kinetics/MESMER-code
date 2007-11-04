@@ -88,9 +88,12 @@ namespace mesmer
   private:
 
     // Read a molecule name from the XML file and look it up
-    Molecule* GetMolRef(PersistPtr pp);
+    ModelledMolecule* GetMolRef(PersistPtr pp);
 
-    // Grain average microcanonical rate coefficients.
+	// Calculate reaction equilibrium constant.
+	double calcEquilibriumConstant(const MesmerEnv &mEnv) ;
+
+	// Grain average microcanonical rate coefficients.
     bool grnAvrgMicroRateCoeffs(const MesmerEnv &mEnv);
 
     // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
@@ -112,14 +115,16 @@ namespace mesmer
     // Reaction composition.
     //
     CollidingMolecule *m_rct1 ;              // Reactant Molecule.
-    Molecule          *m_rct2 ;              // Subsidiary reactant molecule.
+    ModelledMolecule  *m_rct2 ;              // Subsidiary reactant molecule.
     CollidingMolecule *m_pdt1 ;              // Product Molecule.
-    Molecule          *m_pdt2 ;              // Subsidiary product molecule.
+    ModelledMolecule  *m_pdt2 ;              // Subsidiary product molecule.
     TransitionState   *m_TransitionState;    // TransitionState
     ReactionType       m_reactiontype ;      // Type of reaction.
-    //
+
+	//
     // Reaction Rate data.
     //
+	double              m_HeatOfReaction ;   // The heat of reaction corrected for zero point energies.
     double              m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
     std::vector<double> m_CellKfmc ;         // Forward microcanonical rate coefficients.
     std::vector<double> m_GrainKfmc ;        // Grained averaged forward microcanonical rates.
@@ -129,6 +134,7 @@ namespace mesmer
 
     // I/O and control
     PersistPtr          m_ppPersist;         // Conduit for I/O
+
     //
     // Point to microcanoical rate coeff. calculator.
     //

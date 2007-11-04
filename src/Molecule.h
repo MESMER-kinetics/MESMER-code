@@ -21,9 +21,6 @@
 
 namespace mesmer
 {
-  //static const int MAXCELL = 50000 ;
-  //static const int MAXGRN  = 500 ;
-
     //**************************************************
     /// Basic molecule: has name and some collision parameters.
     /// Used for bath gases and unmodelled product molecules.
@@ -91,6 +88,9 @@ namespace mesmer
       // Get Grain Boltzmann distribution.
       void grnBoltzDist(std::vector<double> &grainBoltzDist, const MesmerEnv &mEnv) ;
 
+	  // Get Grain canonical partition function.
+	  double grnCanPrtnFn(const MesmerEnv &mEnv) ;
+
       // Accessors.
       double get_zpe() const { return m_ZPE ; }
 
@@ -135,9 +135,6 @@ namespace mesmer
       // Cell and grain averages.  Note: raw array used for efficiency,
       // but need to test validity of this. SHR 5/Jan/03.
       //
-      //int                  m_MaxCell ;     // Maximum number of cells to use.
-      //int                  m_MaxGrn  ;     // Maximum number of grains.
-      //int                  m_GrnSz ;       // Grain size in cm-1.
       std::vector<double>  m_cellEne ;         // Pointer to cell mid-point energy array.
       std::vector<double>  m_cellDOS ;         // Pointer to cell density of states array.
       std::vector<double>  m_grainEne ;        // Pointer to grain average energy array.

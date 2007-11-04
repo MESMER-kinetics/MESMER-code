@@ -1,3 +1,11 @@
+
+2007-10-21  Struan Robertson
+
+	* Molecule.cpp/Reaction.cpp: Added methods to calcualte equilibrium 
+        constant.
+        * Reaction.cpp: Altered secondary reactant and product to be 
+        ModelledMolecule.
+
 _2007_11_02__16_40_03_ Chi-Hsiu Liang
 
   * modified the way of classifying rotors

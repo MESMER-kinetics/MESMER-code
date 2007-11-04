@@ -295,7 +295,7 @@ namespace mesmer
   //
   void ModelledMolecule::grnEnergies(vector<double> &grainEne, const MesmerEnv &mEnv) {
 
-    // If energies have not already been calcualted then do so.
+    // If energies have not already been calculated then do so.
 
     if (!m_cellDOS.size())
         calcDensityOfStates(mEnv) ;
@@ -333,6 +333,37 @@ namespace mesmer
       for (i = 0; i < MaximumGrain; i++) {
           grainBoltzDist[i] /= prtfn ;
       }
+  }
+
+  //
+  // Get Grain canonical partition function.
+  //
+  double ModelledMolecule::grnCanPrtnFn(const MesmerEnv &mEnv) {
+
+	  if (!m_cellDOS.size())
+		  calcDensityOfStates(mEnv) ;
+
+      double CanPrtnFn(0.0) ;
+
+      // Calculate the ro-vibrational partition function based on the grain
+      // densities of states, and not the molecular properties, for consistency.
+
+      int MaximumGrain = mEnv.MaxGrn ;
+      double beta = 1.0/( boltzmann_RCpK * mEnv.temp ) ;
+
+      for (int i = 0; i < MaximumGrain; i++) {
+          double tmp = log(m_grainDOS[i]) - beta*m_grainEne[i];
+          tmp = exp(tmp) ;
+          CanPrtnFn += tmp ;
+      }
+
+	  // Electronic partition function.
+
+	  CanPrtnFn *= double(m_SpinMultiplicity) ;
+
+	  // Translational partition function.
+
+      return CanPrtnFn ;
   }
 
   int ModelledMolecule::get_rotConsts(std::vector<double> &mmtsInt)
