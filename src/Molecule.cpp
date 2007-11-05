@@ -340,8 +340,8 @@ namespace mesmer
   //
   double ModelledMolecule::grnCanPrtnFn(const MesmerEnv &mEnv) {
 
-	  if (!m_cellDOS.size())
-		  calcDensityOfStates(mEnv) ;
+    if (!m_cellDOS.size())
+      calcDensityOfStates(mEnv) ;
 
       double CanPrtnFn(0.0) ;
 
@@ -352,18 +352,16 @@ namespace mesmer
       double beta = 1.0/( boltzmann_RCpK * mEnv.temp ) ;
 
       for (int i = 0; i < MaximumGrain; i++) {
-          double tmp = log(m_grainDOS[i]) - beta*m_grainEne[i];
-          tmp = exp(tmp) ;
-          CanPrtnFn += tmp ;
+        double tmp = log(m_grainDOS[i]) - beta*m_grainEne[i];
+        tmp = exp(tmp) ;
+        CanPrtnFn += tmp ;
       }
 
-	  // Electronic partition function.
+    // Electronic partition function.
+    CanPrtnFn *= double(m_SpinMultiplicity) ;
 
-	  CanPrtnFn *= double(m_SpinMultiplicity) ;
-
-	  // Translational partition function.
-
-      return CanPrtnFn ;
+    // Translational partition function.
+    return CanPrtnFn ;
   }
 
   int ModelledMolecule::get_rotConsts(std::vector<double> &mmtsInt)
@@ -462,11 +460,11 @@ namespace mesmer
 
     cout << endl << "Column Sums" << endl << endl ;
     for ( i = 0 ; i < MaximumGrain ; ++i ) {
-        double columnSum(0.0) ;
-        for ( j = 0 ; j < MaximumGrain ; ++j ){
-          columnSum += to_double((*m_egme)[j][i]) ;
-        }
-        cout << columnSum << endl ;
+      double columnSum(0.0) ;
+      for ( j = 0 ; j < MaximumGrain ; ++j ){
+        columnSum += to_double((*m_egme)[j][i]) ;
+      }
+      cout << columnSum << endl ;
     }
     //
     // Determine the equilibrium vector for symmetrization. The work
@@ -781,7 +779,7 @@ namespace mesmer
 
         double smat = 0.0 ;
         for (int j = 0 ; j < mEnv.GrainSize ; ++j, ++idx3 )
-            smat += m_cellEne[idx3] * m_cellDOS[idx3] ;
+          smat += m_cellEne[idx3] * m_cellDOS[idx3] ;
 
         m_grainDOS[idx2] = smt ;
         m_grainEne[idx2] = smat/smt ;
