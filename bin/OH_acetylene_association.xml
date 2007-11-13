@@ -94,7 +94,7 @@
             </bondarray>
             <propertyList>
                 <property dictRef="me:ZPE">
-                    <scalar units="kcal/mol">40.0</scalar>
+                    <scalar units="kcal/mol">0.0</scalar>
                 </property>
                 <property dictRef="me:rotConsts">
                     <array units="cm-1">19.2438</array>

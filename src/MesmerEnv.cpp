@@ -1,7 +1,8 @@
 #include "MesmerEnv.h"
 
 namespace mesmer{
-  MesmerEnv::MesmerEnv():temp(.0),
+  MesmerEnv::MesmerEnv():
+    beta(1.), // not sure what value to initialize. CHL
     conc(.0),
     GrainSize(100.),
     MaxGrn(0),

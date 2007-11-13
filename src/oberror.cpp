@@ -136,7 +136,7 @@ namespace mesmer
   **/
 
   OBMessageHandler::OBMessageHandler() :
-    _outputLevel(obWarning), _outputStream(&clog), _logging(true), _maxEntries(100)
+    _outputLevel(obInfo), _outputStream(&clog), _logging(true), _maxEntries(100)
   {
     _messageCount[0] = _messageCount[1] = _messageCount[2] = 0;
     _messageCount[3] = _messageCount[4] = 0;

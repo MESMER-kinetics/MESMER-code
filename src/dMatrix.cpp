@@ -22,6 +22,8 @@
 //   W H Press et al., Numerical Recipes in C, Cambridge U P,
 //   1988, pp. 373-374. 
 //-------------------------------------------------------------------------------------------
+namespace mesmer
+{
 void dMatrix::tred2(MesmerHP **a, int n, MesmerHP *d, MesmerHP *e)
 {
   int l, k, j, i;
@@ -227,3 +229,5 @@ label_2: t = 4. + r;
   goto label_2;
 label_1: return(p);
 }
+
+}//namespacer mesmer

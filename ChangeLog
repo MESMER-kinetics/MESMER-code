@@ -1,3 +1,17 @@
+_2007_11_13__11_17_57_ Chi-Hsiu Liang
+
+  * modified the starting position of iteration in AddAssocReactionTerms() (consider revising)
+  * Added a new class pairedMoleucles
+  * privatise protected member variables in Molecule.h & setup accessors/mutators for these variables
+  * rearranged the order initializing a molecule in classes
+  * Changed temp into beta
+  * include dMartix and Matrix into namespace mesmer
+  * removed some typecast warnings in VC compiler
+  * removed m_alloc
+  * Add lines in bool MoleculeManager::addmols() preventing user from inputting duplicated molecules
+  * Modified oberror report level from obWarning to obInfo. 
+  * moved m_SpinMultiplicity to ModelledMolecule
+  * some other minor modifications
 
 2007-10-21  Struan Robertson
 

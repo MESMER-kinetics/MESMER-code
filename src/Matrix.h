@@ -14,8 +14,14 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include <stdexcept>
+//#include <stdexcept>
+#include <sstream>
+#include "oberror.h"
 
+using namespace std;
+
+namespace mesmer
+{
 template<class T>
 class Matrix {
 
@@ -157,8 +163,11 @@ Matrix<T>& Matrix<T>::operator=(const Matrix<T> &rhs) {
 template<class T>
 void Matrix<T>::resize(const size_type n){
 
-    if (n < 1)
-        throw std::domain_error("Matrix must of size one or greater") ;
+    if (n < 1){
+      stringstream errorMsg;
+      errorMsg << "Matrix must of size one or greater";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
 
     T **matrix = allocatematrix(n)  ;
 
@@ -197,7 +206,9 @@ void Matrix<T>::normalize(){
       for ( j = i + 1 ; j < (int)m_msize ; ++j ) scaledRemain += m_matrix[j][i] * work[j] ;
 
       if (upperSum <= 0.0) {
-        throw std::domain_error("Normalization coefficients in this matrix is smaller than or equal to zero") ;
+        stringstream errorMsg;
+        errorMsg << "Normalization coefficients in this matrix is smaller than or equal to zero";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
         exit(1) ;
       }
       work[i] = (1.0 - scaledRemain) / upperSum ;
@@ -216,6 +227,6 @@ void Matrix<T>::normalize(){
     delete [] work;
 
 }
-
+}//namespacer mesmer
 
 #endif // GUARD_Matrix_h

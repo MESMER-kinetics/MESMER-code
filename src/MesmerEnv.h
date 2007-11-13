@@ -7,7 +7,7 @@ namespace mesmer
   {
     MesmerEnv();
 
-    double temp;
+    double beta;
     double conc;
 
     double GrainSize;  //Grain size in cm-1

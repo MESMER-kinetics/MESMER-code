@@ -50,7 +50,7 @@ namespace mesmer
     MesmerHP _ninf        = -0.25; // constraint: _ninf > -1.5
     double   _ainf        = p_reaction->get_PreExp();
     double   _einf        = p_reaction->get_ActivationEnergy();
-    double   _tinf        = mEnv.temp;
+    double   _tinf        = 1. / (boltzmann_RCpK * mEnv.beta);
     double   C_prime      = 3.24331e+20; // pow((2 * pi / (h * h)), 1.5)  not sure?? CHL
     //-----------------
 
@@ -60,13 +60,13 @@ namespace mesmer
     p_reaction->get_bi_molecularspecies(bi_molecularspecies);
 
     CollidingMolecule * p_pdt1 = unimolecularspecies[0];
-    ModelledMolecule * p_rct1 = static_cast<ModelledMolecule *>(bi_molecularspecies[0]);
-    ModelledMolecule * p_rct2 = static_cast<ModelledMolecule *>(bi_molecularspecies[1]); //not sure about this _2007_10_18__12_48_34_ CHL
+    CollidingMolecule * p_rct1 = bi_molecularspecies[0];
+    ModelledMolecule * p_rct2 = static_cast<ModelledMolecule *>(bi_molecularspecies[1]);
 
     // Get molecular specific values
-    double edg_a = static_cast<double>(p_pdt1->get_SpinMultiplicity());
-    double edg_b = static_cast<double>(p_rct1->get_SpinMultiplicity());
-    double edg_c = static_cast<double>(p_rct2->get_SpinMultiplicity());
+    double edg_a = static_cast<double>(p_pdt1->getSpinMultiplicity());
+    double edg_b = static_cast<double>(p_rct1->getSpinMultiplicity());
+    double edg_c = static_cast<double>(p_rct2->getSpinMultiplicity());
     double ma = p_pdt1->getMass();
     double mb = p_rct1->getMass();
     double mc = p_rct2->getMass();
@@ -115,7 +115,7 @@ namespace mesmer
     for (int i = 0; i < activ_ene; ++i)  cellKfmc[i] = 0.;
     for (int i = 0; i < (mEnv.MaxCell - activ_ene); ++i){
       cellKfmc[i + activ_ene] = _ant * conv[i] / rctsCellDOS[i + activ_ene];
-      cout << "cellKfmc[" << i + activ_ene << " = " << cellKfmc[i + activ_ene] << endl;
+      //cout << "cellKfmc[" << i + activ_ene << "] = " << cellKfmc[i + activ_ene] << endl;
     }
 
     return true;
@@ -139,18 +139,18 @@ namespace mesmer
     double I1 = 0., I2 = 0.,                                            //for 2-D linear rotors
            I1X = 0., I2X = 0., I1Y = 0., I2Y = 0., I1Z = 0., I2Z = 0.,  //for 3-D symmetric/asymmetric/spherical top rotors
            s1 = p_mol1->get_Sym(), s2 = p_mol2->get_Sym(),
-           q1 = static_cast<double>(p_mol1->get_SpinMultiplicity()),
-           q2 = static_cast<double>(p_mol2->get_SpinMultiplicity());
+           q1 = static_cast<double>(p_mol1->getSpinMultiplicity()),
+           q2 = static_cast<double>(p_mol2->getSpinMultiplicity());
 
     /*All rotational constants are sorted --- the largest one at the head, smallest one at the tail*/
 
 
     //---------------------- Assign rotational constants ----------------------
-    if      (rotor1Type == -4){}
-    else if (rotor1Type ==  0){ I1 = rotCs1[0]; }// 2-D linear
+    if      (rotor1Type == -4){}                                                   // non-rotor
+    else if (rotor1Type ==  0){ I1 = rotCs1[0]; }                                  // 2-D linear
     else                      { I1X = rotCs1[0]; I1Y = rotCs1[1]; I1Z = rotCs1[2];}// 3-D symmetric/asymmetric/spherical top
-    if      (rotor2Type == -4){}
-    else if (rotor2Type ==  0){ I2 = rotCs2[0]; }// 2-D linear
+    if      (rotor2Type == -4){}                                                   // non-rotor
+    else if (rotor2Type ==  0){ I2 = rotCs2[0]; }                                  // 2-D linear
     else                      { I2X = rotCs2[0]; I2Y = rotCs1[1]; I2Z = rotCs2[2];}// 3-D symmetric/asymmetric/spherical top
 
     //------------------------------------------------------------------------------
@@ -189,13 +189,13 @@ namespace mesmer
     // convolution of vibrational DOS onto rotational DOS -- loop through all frequencies of both molecules
     vector<double> vfMol1; p_mol1->get_VibFreq(vfMol1);
     vector<double> vfMol2; p_mol2->get_VibFreq(vfMol2);
-    for (int i = 0; i < vfMol1.size(); ++i){
+    for (int i = 0; i < int(vfMol1.size()); ++i){
       int nFreq = static_cast<int>(vfMol1[i] + 0.5);
       for (int j = 0; j < (mEnv.MaxCell - nFreq); ++j){
         dimerCellDOS[nFreq + j] += dimerCellDOS[j];
       }
     }
-    for (int i = 0; i < vfMol2.size(); ++i){
+    for (int i = 0; i < int(vfMol2.size()); ++i){
       int nFreq = static_cast<int>(vfMol2[i] + 0.5);
       for (int j = 0; j < (mEnv.MaxCell - nFreq); ++j){
         dimerCellDOS[nFreq + j] += dimerCellDOS[j];

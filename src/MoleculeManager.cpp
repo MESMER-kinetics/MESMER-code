@@ -42,12 +42,20 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
     //-------------
     // Initialize Molecule from input stream.
     // Each molecule type has its own set of mandatory parameters
-    if(!pmolecule->InitializeMolecule(ppmol)){
+    if(!pmolecule->InitializeMolecule(ppmol) && (pmolecule->getName()).empty()){
     	delete pmolecule;
       return false;
     }
 
     string strName = pmolecule->getName() ;
+    //check if the molecule exists in m_molmap
+    map<string, Molecule*>::const_iterator it ;
+    it = m_molmap.find(strName) ;
+    if (it != m_molmap.end()) {
+      stringstream errorMsg;
+      errorMsg << "Molecule " << strName << " already defined. Check input file to remove duplicates.";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+    }
 
     //pmolecule->put_verbosity(true) ;
 

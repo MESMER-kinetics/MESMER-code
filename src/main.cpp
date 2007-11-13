@@ -7,8 +7,12 @@
 
 #include "System.h"
 
+using namespace std ;
+using namespace Constants ;
+using namespace mesmer ;
+
 void usage();
-bool hasNoAlpha(std::string& kick_it);
+bool hasNoAlpha(string& kick_it);
 
 int main(int argc,char *argv[])
 {
@@ -16,47 +20,61 @@ int main(int argc,char *argv[])
   // Instantiate the System collection. This holds all information
   // about reaction systems and all molecular data.
   //
-  mesmer::System _sys ;
+  System _sys ;
 
-  mesmer::TimeCount events; std::string thisEvent; unsigned int timeElapsed;
+  TimeCount events; unsigned int timeElapsed;
 
   //-------------------------------
   // process command line arguments
-  std::string inputfilename, outputfilename;
+  string inputfilename, outputfilename;
   if(argc<2) {usage(); return -1;}
   inputfilename = argv[1];
   if (argc > 2) outputfilename = argv[2];
 
   //This is where the type of IO is decided.
   //Opens the data file and checks that its root element is me:mesmer.
-  mesmer::PersistPtr ppIOPtr = mesmer::XMLPersist::XmlLoad(inputfilename, "me:mesmer");
+  PersistPtr ppIOPtr = XMLPersist::XmlLoad(inputfilename, "me:mesmer");
 
   //------------
   // Parse input
-  thisEvent = "Parse input xml file";
-  std::string parseTimeStamp = events.setTimeStamp(thisEvent);
-  std::cout << thisEvent << " at " << parseTimeStamp << std::endl;
+    {
+      stringstream errorMsg;
+      string thisEvent = "Parse input xml file";
+      string parseTimeStamp = events.setTimeStamp(thisEvent);
+      errorMsg << thisEvent << " at " << parseTimeStamp << endl;
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
+
   if(!ppIOPtr || !_sys.parse(ppIOPtr))
     return -2;
 
   //------------------
   // Begin calculation
-  std::clog << inputfilename << " successfully parsed. Now calculating..." << std::endl;
+  {
+    stringstream errorMsg;
+    string thisEvent = "Calculate EGME";
+    errorMsg << inputfilename << " successfully parsed. " << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
+    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+  }
 
-  thisEvent = "Calculate EGME";
-  std::cout << thisEvent << " at " << events.setTimeStamp(thisEvent) << std::endl;
   _sys.calculate() ;
 
   //--------------------------------
   // Save XML document to a new file
-  thisEvent = "Save XML document to a new file";
-  std::string saveTimeStamp = events.setTimeStamp(thisEvent, timeElapsed);
-  std::cout << thisEvent << " at " << saveTimeStamp  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
+  string saveTimeStamp(0);
+  {
+    stringstream errorMsg;
+    string thisEvent = "Save XML document to a new file";
+    saveTimeStamp = events.setTimeStamp(thisEvent, timeElapsed);
+    errorMsg << thisEvent << " at " << saveTimeStamp  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
+    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+  }
+
   if(outputfilename.empty())
   {
-    std::vector<std::string> subStrings;
-    std::string::iterator anchor = inputfilename.begin();
-    std::string thisString;
+    vector<string> subStrings;
+    string::iterator anchor = inputfilename.begin();
+    string thisString;
     //populate the string vector
     while(1){
       if (anchor == inputfilename.end()){
@@ -78,13 +96,13 @@ int main(int argc,char *argv[])
 
     //analyse the string vector
     outputfilename = subStrings[0] + '.'; // no need to check the first sub-string
-    std::string fromTimeStamp;
+    string fromTimeStamp;
     for (unsigned int i = 1; i < subStrings.size(); ++i){
       if (i == (subStrings.size() - 1)){//check the file extension
         if (!subStrings[i].compare("xml") && !subStrings[i].compare("XML")){
-          std::stringstream errorMsg;
+          stringstream errorMsg;
           errorMsg << "The file extension of the filename has to be XML\nCannot recognise: " << inputfilename;
-          mesmer::obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), mesmer::obError);
+          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
         }
         else{
           if (fromTimeStamp.size()){
@@ -108,14 +126,14 @@ int main(int argc,char *argv[])
   }
   if(!ppIOPtr->XmlSaveFile(outputfilename))
   {
-    std::stringstream errorMsg;
+    stringstream errorMsg;
     errorMsg << "There was an error when writing " << outputfilename;
-    mesmer::obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), mesmer::obError);
+    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
   }
 
 /*  #ifdef _DEBUG
   //CM keep window open
-  std::cout << "Press any key to finish" <<std::endl;
+  cout << "Press any key to finish" <<endl;
   getch();
   #endif
 */
@@ -123,8 +141,8 @@ int main(int argc,char *argv[])
   return 0 ;
 }
 
-bool hasNoAlpha(std::string& kick_it){
-  std::string::iterator anchor = kick_it.begin();
+bool hasNoAlpha(string& kick_it){
+  string::iterator anchor = kick_it.begin();
   while(1){
     if (anchor == kick_it.end()){
       return true; //break if reaches the end of kick_it
@@ -138,11 +156,11 @@ bool hasNoAlpha(std::string& kick_it){
 
 void usage()
 {
-  std::stringstream errorMsg;
+  stringstream errorMsg;
   errorMsg  << "#----- mesmer inputfilename [outputfilename] -----#\n";
   errorMsg  << "The default outputfilename is the input name\n";
   errorMsg  << "with 'out' added before the extension.\n";
   errorMsg  << "  Any existing file will be overwritten.";
-  mesmer::obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), mesmer::obInfo);
+  obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
 }
 

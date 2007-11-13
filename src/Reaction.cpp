@@ -17,22 +17,23 @@ using namespace mesmer;
 
 namespace mesmer
 {
-  Reaction::Reaction(MoleculeManager *pMoleculeManager): m_Name(),
-      m_pMoleculeManager(pMoleculeManager),
-      m_rct1(NULL),
-      m_rct2(NULL),
-      m_pdt1(NULL),
-      m_pdt2(NULL),
-      m_TransitionState(NULL),
-      m_reactiontype(ERROR_REACTION), 
-      m_HeatOfReaction(0.0),
-      m_kfwd(0.0),
-      m_CellKfmc(),
-      m_GrainKfmc(),
-      m_ActEne(0.0),
-      m_PreExp(0.0),
-      m_ppPersist(),
-      m_pMicroRateCalculator(NULL)
+  Reaction::Reaction(MoleculeManager *pMoleculeManager):
+    m_Name(),
+    m_pMoleculeManager(pMoleculeManager),
+    m_rct1(NULL),
+    m_rct2(NULL),
+    m_pdt1(NULL),
+    m_pdt2(NULL),
+    m_TransitionState(NULL),
+    m_reactiontype(ERROR_REACTION),
+    m_HeatOfReaction(0.0),
+    m_kfwd(0.0),
+    m_CellKfmc(),
+    m_GrainKfmc(),
+    m_ActEne(0.0),
+    m_PreExp(0.0),
+    m_ppPersist(),
+    m_pMicroRateCalculator(NULL)
   {}
 
   Reaction::~Reaction(){}
@@ -156,11 +157,18 @@ namespace mesmer
       */
     }
 
-    // Read the heat of reaction (if present). 
+    // Read the heat of reaction (if present).
     const char* pHeatRxntxt = ppReac->XmlReadValue("me:HeatOfReaction",false);
     if (pHeatRxntxt){
-      stringstream s1(pHeatRxntxt); 
+      stringstream s1(pHeatRxntxt);
       s1 >> m_HeatOfReaction ;
+    }
+    else{ // calculate HeatOfReaction
+      double zpe_pdt1 = (m_pdt1 == NULL) ? 0. : m_pdt1->get_zpe();
+      double zpe_pdt2 = (m_pdt2 == NULL) ? 0. : m_pdt2->get_zpe();
+      double zpe_rct1 = (m_rct1 == NULL) ? 0. : m_rct1->get_zpe();
+      double zpe_rct2 = (m_rct2 == NULL) ? 0. : m_rct2->get_zpe();
+      m_HeatOfReaction = zpe_pdt1 + zpe_pdt2 - zpe_rct1 - zpe_rct2;
     }
 
     //Read in Kinetic rate parameters, if present
@@ -177,7 +185,7 @@ namespace mesmer
     // Classify the reaction.
 
     if (m_rct1 && m_pdt1 && !m_rct2 && !m_pdt2)
-        m_reactiontype = ISOMERIZATION ;
+      m_reactiontype = ISOMERIZATION ;
     else if (m_rct1 && m_pdt1 && m_rct2 && !m_pdt2)
       m_reactiontype = ASSOCIATION ;
     else if (m_rct1)
@@ -216,12 +224,12 @@ namespace mesmer
     if(!pp)
         return NULL;
     PersistPtr ppmol = pp->XmlMoveTo("molecule");
-    if(!ppmol) 
+    if(!ppmol)
       return NULL;
 
     const char* pRef = ppmol->XmlReadValue("ref");
-    if(pRef)    // SHR 4/Nov/2007: Is the following down cast necessary?  
-      pMol = dynamic_cast<ModelledMolecule*>(m_pMoleculeManager->find(pRef)) ; 
+    if(pRef)    // SHR 4/Nov/2007: Is the following down cast necessary?
+      pMol = dynamic_cast<ModelledMolecule*>(m_pMoleculeManager->find(pRef)) ;
 
     if(!pMol)
     {
@@ -245,18 +253,19 @@ namespace mesmer
       unimolecularspecies.push_back(m_rct1) ;
     }
 
-    if(m_pdt1 && m_pdt2 == NULL){  // Possible association or isomerization.
+    if(m_pdt1 && m_pdt2 == NULL){      // Possible association or isomerization.
       unimolecularspecies.push_back(m_pdt1) ;
     }
   }
 
+  // Returns the bi-molecular speices (reactants) for association reaction.
   void Reaction::get_bi_molecularspecies(std::vector<CollidingMolecule *> &bi_molecularspecies) const
   {
     if(m_rct2 == NULL){                // Possible dissociation or isomerization.
-      //there is no association happens
+      // no re-association happens
     }
 
-    if(m_pdt1 && m_pdt2 == NULL){  // Possible association or isomerization.
+    if(m_pdt1 && m_pdt2 == NULL && m_rct2){      // Possible association
       bi_molecularspecies.push_back(m_rct1) ;
       bi_molecularspecies.push_back(dynamic_cast<CollidingMolecule*>(m_rct2)) ;//get it bigger and shrink later
     }
@@ -290,22 +299,17 @@ namespace mesmer
 
     // Calculate the equilibrium constant.
 
-    double beta = 1.0/( boltzmann_RCpK * mEnv.temp ) ;
+    double beta = mEnv.beta ;
 
-    if      ( m_rct2 && m_pdt2 )               // Exchange reaction.
-      Keq = (Qpdt1*Qpdt2)/(Qrct1*Qrct2) ;
-    else if ( m_rct2 && !m_pdt2 )              // Assocations reaction.
-      Keq = Qpdt1/(Qrct1*Qrct2) ;
-    else if ( !m_rct2 && m_pdt2 )              // Dissociation reaction.
-      Keq = (Qpdt1*Qpdt2)/Qrct1 ;
-    else if (!m_rct2 && !m_pdt2 )              // Isomerization reaction.
-      Keq = Qpdt1/Qrct1 ;
-    else {
+    if      ( m_rct2 &&  m_pdt2 ) Keq = (Qpdt1*Qpdt2)/(Qrct1*Qrct2) ;     // Exchange reaction.
+    else if ( m_rct2 && !m_pdt2 ) Keq =  Qpdt1/(Qrct1*Qrct2) ;            // Assocations reaction.
+    else if (!m_rct2 &&  m_pdt2 ) Keq = (Qpdt1*Qpdt2)/Qrct1 ;             // Dissociation reaction.
+    else if (!m_rct2 && !m_pdt2 ) Keq =  Qpdt1/Qrct1 ;                    // Isomerization reaction.
+    else { //no chance to get here
       stringstream errorMsg;
-      errorMsg << "Error: calculating equilibrium constant for reaction," << endl 
-          << "unknown reactant/product combination" << endl;
+      errorMsg << "Error: calculating equilibrium constant for reaction," << endl
+               << "unknown reactant/product combination" << endl;
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-      throw std::domain_error(errorMsg.str()) ; ;
     }
 
     Keq *= exp(-beta*m_HeatOfReaction) ;
@@ -329,7 +333,6 @@ namespace mesmer
     // Calculate microcanonical rate coefficients.
     if (m_CellKfmc.size()==0)
     {
-      cout << "_2007_11_02__17_10_54_" << endl;
       if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this, m_CellKfmc, mEnv) ||
         (mEnv.microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_CellKfmc, m_ppPersist, mEnv)))
         return false;
@@ -442,10 +445,10 @@ namespace mesmer
   //
   // Add isomer reaction terms to collision matrix.
   //
-  void Reaction::AddIsomerReactionTerms(dMatrix *CollOptr,
-      isomerMap &isomermap,
-      const double rMeanOmega,
-      const MesmerEnv &mEnv)
+  void Reaction::AddIsomerReactionTerms(dMatrix         *CollOptr,
+                                        isomerMap       &isomermap,
+                                        const double    rMeanOmega,
+                                        const MesmerEnv &mEnv)
   {
     // Locate isomers in system matrix.
     const int rctLocation = isomermap[m_rct1] ;
@@ -474,14 +477,14 @@ namespace mesmer
   //
   // Add (REVERSIBLE) association reaction terms to collision matrix.
   //
-  void Reaction::AddAssocReactionTerms(dMatrix      *CollOptr,
-      isomerMap    &isomermap,
-      sourceMap    &sourcemap,
-      const double rMeanOmega,
-      const MesmerEnv &mEnv)
+  void Reaction::AddAssocReactionTerms(dMatrix         *CollOptr,
+                                       isomerMap       &isomermap,
+                                       sourceMap       &sourcemap,
+                                       const double    rMeanOmega,
+                                       const MesmerEnv &mEnv)
   {
     // Locate isomers in system matrix.
-    const int rctLocation = isomermap[m_rct1] ;
+    const int rctStart    = isomermap[m_rct1] ;
     const int pdtLocation = sourcemap[m_pdt1] ;
 
     // Get equilibrium constant.
@@ -492,19 +495,28 @@ namespace mesmer
     vector<double> rctBoltz(MaximumGrain, 0.0) ;
 
     m_rct1->grnBoltzDist(rctBoltz, mEnv) ;
+    //cout << "_2007_11_06__16_52_41_" << endl;
 
-    int jj(pdtLocation) ;
+    int pL(pdtLocation) ;
     double DissRateCoeff(0.0) ;
-    const int idx = m_pdt1->get_grnZpe() - m_rct1->get_grnZpe() ;
+    //cout << "_2007_11_07__16_06_35_ MaximumGrain = " << MaximumGrain << endl;
+    const int idx = int(m_HeatOfReaction / mEnv.GrainSize); //any possible leak? need to test.
+    //the same number of atoms on reactants and product
     for ( int i = max(0,-idx) ; i < min(MaximumGrain,(MaximumGrain-idx)) ; ++i ) {
-      int ll = i + idx ;
-      int ii(rctLocation + ll) ;
-      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKfmc[ll] ;                        // Forward loss reaction.
-      (*CollOptr)[ii][jj]  = rMeanOmega * m_GrainKfmc[ll]*sqrt(rctBoltz[ll]/Keq) ; // Reactive gain.
-      (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                 // Reactive gain.
-      DissRateCoeff       += m_GrainKfmc[ll]*rctBoltz[ll] ;
+      int pG = m_rct1->get_grnZpe() + max(0,idx);
+      //cout << "_2007_11_07__16_06_46_ idx = " << idx << ", m_HeatOfReaction = " << m_HeatOfReaction << ", m_rct1->get_grnZpe() = " << m_rct1->get_grnZpe() << endl;
+      /*for well-dependent grain vector one should count from grnZpe (related with the minimum of all wells) of
+      that specific isomer*/
+      int ll = i + idx ; int rL(rctStart + ll) ;
+      //cout << "_2007_11_07__16_06_46_ i = " << i << ", pG = " << pG << ", rL = " << rL << ", ll = " << ll << endl;
+      (*CollOptr)[rL][rL] -= rMeanOmega * m_GrainKfmc[pG] ;                        // Forward loss reaction.
+      (*CollOptr)[rL][pL]  = rMeanOmega * m_GrainKfmc[pG]*sqrt(rctBoltz[pG]/Keq) ; // Reactive gain.
+      (*CollOptr)[pL][rL]  = (*CollOptr)[rL][pL] ;                                 // Reactive gain.
+      DissRateCoeff       += m_GrainKfmc[pG]*rctBoltz[pG] ;
     }
-    (*CollOptr)[jj][jj] -= DissRateCoeff/Keq ;       // Backward loss reaction from detailed balance.
+    (*CollOptr)[pL][pL] -= DissRateCoeff/Keq ;       // Backward loss reaction from detailed balance.
+
+    //cout << "_2007_11_06__16_57_29_ something wrong before this point" << endl;
   }
 
   //

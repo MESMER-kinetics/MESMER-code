@@ -172,9 +172,13 @@ PersistPtr XMLPersist::XmlWriteMainElement(
     //----------------------------------------
     TimeCount events;
     std::string thisEvent, timeString;
-    thisEvent = "Record calculated data";
-    timeString = events.setTimeStamp(thisEvent);
-    cout << thisEvent << " at " << timeString << endl;
+    {
+      stringstream errorMsg;
+      thisEvent = "Record calculated data";
+      timeString = events.setTimeStamp(thisEvent);
+      errorMsg << thisEvent << " at " << timeString << endl;
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
     pnel->SetAttribute("calculated", timeString);
     //----------------------------------------
 

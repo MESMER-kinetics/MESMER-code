@@ -145,7 +145,7 @@ namespace mesmer
   void System::calculate()
   {
     double beta = .0;
-    TimeCount events; string thisEvent; unsigned int timeElapsed =0;
+    TimeCount events; unsigned int timeElapsed =0;
 
     if(!SetGrainParams())
       return;
@@ -177,10 +177,8 @@ namespace mesmer
     }
     */
 
-    mEnv.temp = Temperatures[0]; //temporary statements
+    mEnv.beta = 1.0 / (boltzmann_RCpK * Temperatures[0]) ; //temporary statements
     mEnv.conc = Concentrations[0];
-
-    beta = 1.0/(boltzmann_RCpK* mEnv.temp) ;
 
     //---------------
     //About precision
@@ -195,17 +193,28 @@ namespace mesmer
     //---------------
 
     // Build collison matrix for system.
-    thisEvent = "Build Collison Matrix";
-    cout << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
+    {
+      stringstream errorMsg;
+      string thisEvent = "Build Collison Matrix";
+      errorMsg << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
     m_pReactionManager->BuildSystemCollisionOperator(beta, mEnv) ;
 
-    thisEvent = "Diagonlize Collision Operator";
-    cout << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
+    {
+      stringstream errorMsg;
+      string thisEvent = "Diagonlize Collision Operator";
+      errorMsg << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
     m_pReactionManager->diagCollisionOperator() ;
 
-    thisEvent = "Finish Calculation";
-    cout << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
-
+    {
+      stringstream errorMsg;
+      string thisEvent = "Finish Calculation";
+      errorMsg << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
 
     /*
     for (size_t i=0; i < m_pReactionManager->size() ; i++) {
@@ -279,9 +288,9 @@ namespace mesmer
     //mEnv.MaxT gives the option of widening the energy range
     if(mEnv.MaxT <= 0.0){
       mEnv.MaxT = *max_element(Temperatures.begin(), Temperatures.end());
-      stringstream errorMsg;
-      errorMsg << "Maximum Temperature was invalid. Reset Maximum Temperature, me:maxTemperature, to remove this warning.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+//      stringstream errorMsg;
+//      errorMsg << "Maximum Temperature was not set. Reset Maximum Temperature, me:maxTemperature to remove this message.";
+//      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
     //Max energy is ** 20kT  ** above the highest well [was 10kT]
@@ -364,10 +373,14 @@ namespace mesmer
 
     //----------------------------------------
     TimeCount events;
-    std::string thisEvent, timeString;
-    thisEvent = "Write XML attribute";
-    timeString = events.setTimeStamp(thisEvent);
-    cout << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
+    string thisEvent, timeString;
+    {
+      stringstream errorMsg;
+      thisEvent = "Write XML attribute";
+      timeString = events.setTimeStamp(thisEvent);
+      errorMsg << thisEvent << " at " << timeString << endl;
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
     ppItem->XmlWriteAttribute("content", timeString);
     //----------------------------------------
 

@@ -16,6 +16,8 @@
 #include "Matrix.h"
 #include <string>
 
+namespace mesmer
+{
 class dMatrix : public Matrix<MesmerHP> {
 
 public:
@@ -52,6 +54,8 @@ private:
   MesmerHP  pythag  (MesmerHP a, MesmerHP b) ;
 
 } ;
+
+}//namespacer mesmer
 
 
 #endif // GUARD_dMatrix_h

@@ -60,7 +60,7 @@ namespace mesmer
     // Find all the unique wells and lowest zero point energy.
     //
     Reaction::isomerMap isomers ; // Maps the location of reactant collision operator in the system matrix.
-    double minEnergy(0) ;
+    double minEnergy(0) ; //this is the minimum of ZPE amongst all wells
     Molecule *pBathGasMolecule = m_pMoleculeManager->get_BathGasMolecule();
     for (size_t i(0) ; i < size() ; ++i) {
 
@@ -72,7 +72,7 @@ namespace mesmer
         CollidingMolecule *pCollidingMolecule = unimolecularspecies[i] ;
 
         if(isomers.find(pCollidingMolecule) == isomers.end()){ // New isomer
-          isomers[pCollidingMolecule] = 0 ; //initialize location
+          isomers[pCollidingMolecule] = 0 ; //initialize to a trivial location
           minEnergy = min(minEnergy,pCollidingMolecule->get_zpe()) ;
         }
       }
@@ -82,7 +82,7 @@ namespace mesmer
     // Shift all wells to the same origin, calculate the size of the system collision operator,
     // calculate the mean collision frequency and initialize all collision operators.
     //
-    int msize(0) ;
+    int msize(0) ; // size of the collision matrix
     double meanomega(0.0) ;
     Reaction::isomerMap::iterator isomeritr = isomers.begin() ;
     for (; isomeritr != isomers.end() ; ++isomeritr) {
@@ -90,10 +90,11 @@ namespace mesmer
       CollidingMolecule *isomer = isomeritr->first ;
       isomeritr->second = msize ; //set location
 
-      double zpe = isomer->get_zpe() - minEnergy ;
-      int grnZpe = int(zpe * KcalPerMolToRC / mEnv.GrainSize) ;
+      double zpe = isomer->get_zpe() - minEnergy ; // cell zpe related with the minimum of all wells
+      int grnZpe = int(zpe * KcalPerMolToRC / mEnv.GrainSize) ; //convert to grain
+      //cout << "_2007_11_09__14_10_21_ grnZpe = " << grnZpe << ", zpe = " << zpe << ", minEnergy = " << minEnergy << endl;
+      isomer->set_grnZpe(grnZpe) ; //set grain ZPE (related with the minimum of all wells)
       int colloptrsize = mEnv.MaxGrn  - grnZpe ;
-      isomer->set_grnZpe(grnZpe) ;
       isomer->set_colloptrsize(colloptrsize) ;
       msize += colloptrsize ;
 
@@ -113,7 +114,7 @@ namespace mesmer
       if(pseudoIsomer && sources.find(pseudoIsomer) == sources.end()){ // New source
         ++msize ;
         sources[pseudoIsomer] = msize ;
-      }
+      } // what happens if one species is both source and isomer? Does it occupy two locations in the collision matrix? CHL
     }
 
     cout << endl << "Size of the collision matrix: " << msize << endl << endl ;
@@ -123,7 +124,6 @@ namespace mesmer
     m_pSystemCollisionOperator = new dMatrix(msize) ;
 
     // Insert collision operators for individual wells.
-
     for (isomeritr = isomers.begin() ; isomeritr != isomers.end() ; ++isomeritr) {
 
       CollidingMolecule *isomer = isomeritr->first ;
@@ -131,7 +131,7 @@ namespace mesmer
       double omega = isomer->get_collisionFrequency() ;
       int idx = isomeritr->second ;
 
-      isomer->copyCollisionOperator(m_pSystemCollisionOperator, colloptrsize, idx, omega/meanomega) ;
+      isomer->copyCollisionOperator(m_pSystemCollisionOperator, colloptrsize, idx, omega/meanomega, mEnv) ;
 
     }
 
