@@ -1,3 +1,17 @@
+_2007_11_15__18_37_45_ Chi-Hsiu Liang
+
+  * Added a new class SuperMolecule (originally pairedMoleucles)
+    Note: This new class is derived from CollidingMolecule; in addition, it includes two pointers to CollidingMolecule and 
+          ModelledMolecule respectively. This class takes the position of the source terms, any of which composed of two
+          reactant molecules in an association reaction. All SuperMolecule(s) go into sources.
+  * Added a new member SuperMolecule* m_srct in Reaction to represent the reactants.
+  * Added int return values for get_unimolecularspecies and get_bi_molecularspecies (to differntiate reactions on the fly)
+  * Errors, warnings and progress information all report to oberror.
+  * rearranged the order of variables/functions in Molecule.h
+  * Other minor modifications
+  * Note: Need to solve initialization of some pointers here. Later develop plugin to calculate density of states etc of 
+          whatever.
+
 _2007_11_13__11_17_57_ Chi-Hsiu Liang
 
   * modified the starting position of iteration in AddAssocReactionTerms() (consider revising)

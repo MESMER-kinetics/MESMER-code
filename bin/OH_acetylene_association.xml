@@ -167,10 +167,10 @@
     <reactionList>
         <reaction id="R1">
             <reactant>
-                <molecule ref="acetylene" />
+                <molecule ref="OH" />
             </reactant>
             <reactant>
-                <molecule ref="OH" />
+                <molecule ref="acetylene" />
             </reactant>
             <product>
                 <molecule ref="OH_acetylene_adduct" />

@@ -25,6 +25,16 @@ namespace mesmer
   /// Used for bath gases and unmodelled product molecules.
   class Molecule
   {
+    int            m_flag;              // count the errors during initialization
+    PersistPtr     m_ppPersist;         // Conduit for I/O
+    std::string    m_Name ;             // Molecule name.
+    double         m_Mass ;             // Mass.
+    double         m_Sigma ;            // Lennard-Jones sigma.
+    double         m_Epsilon ;          // Lennard-Jones epsilon.
+
+    //Molecule(const Molecule&) ;
+    //Molecule& operator=(const Molecule&) ;
+
   public:
     Molecule() ;
     virtual ~Molecule(){} ;
@@ -44,17 +54,6 @@ namespace mesmer
     void   setMass(double value)           { m_Mass = value; } ;
     void   setSigma(double value)          { m_Sigma = value; } ;
     void   setEpsilon(double value)        { m_Epsilon = value; } ;
-
-  private:
-    int            m_flag;              // count the errors during initialization
-    PersistPtr     m_ppPersist;         // Conduit for I/O
-    std::string    m_Name ;             // Molecule name.
-    double         m_Mass ;             // Mass.
-    double         m_Sigma ;            // Lennard-Jones sigma.
-    double         m_Epsilon ;          // Lennard-Jones epsilon.
-
-    //Molecule(const Molecule&) ;
-    //Molecule& operator=(const Molecule&) ;
   };
 
   //**************************************************
@@ -69,8 +68,29 @@ namespace mesmer
   ///Molecule with multiple energy states. Probably not instantiated itself
   class ModelledMolecule : public Molecule
   {
-  public:
+    //
+    // Molecular properties.
+    //
+    double              m_RotCstA ;          // Moment of inertia A.
+    double              m_RotCstB ;          // Moment of inertia B.
+    double              m_RotCstC ;          // Moment of inertia C.
+    double              m_Sym ;              // Rotational symmetry number.
+    double              m_ZPE ;              // Zero Point Energy. (Kcal/Mol)
+    int                 m_SpinMultiplicity ; // spin multiplicity
+    int                 m_grnZpe ;           // Zero point energy expressed in grains.
+    std::vector<double> m_VibFreq ;          // Values of vibrational frequencies.
 
+  public:
+    //
+    // Cell and grain averages.  Note: raw array used for efficiency,
+    // but need to test validity of this. SHR 5/Jan/03.
+    //
+    std::vector<double>  m_cellEne ;         // Cell mid-point energy array.
+    std::vector<double>  m_cellDOS ;         // Cell density of states array.
+    std::vector<double>  m_grainEne ;        // Grain average energy array.
+    std::vector<double>  m_grainDOS ;        // Grain density of states array.
+
+    //----------------
     ModelledMolecule();
     virtual ~ModelledMolecule();
 
@@ -97,11 +117,12 @@ namespace mesmer
 
     // Accessors.
     double get_zpe() const { return m_ZPE ; }
-
-    // Get moments of inertia
-    int get_rotConsts(std::vector<double> &mmtsInt);
-
+    void set_zpe(double value) { m_ZPE = value; }
     double get_Sym(void){return m_Sym;}
+    int  get_rotConsts(std::vector<double> &mmtsInt);
+    void set_grnZpe(int grnZpe) {m_grnZpe = grnZpe ;} ;
+    int  get_grnZpe() const {return m_grnZpe ;} ;
+
 
     void get_VibFreq(std::vector<double>& vibFreq){
       vibFreq.clear();
@@ -110,6 +131,7 @@ namespace mesmer
 
     int getSpinMultiplicity() const        { return m_SpinMultiplicity; }
     void   setSpinMultiplicity(int value)  { m_SpinMultiplicity = value; }
+
 
   protected:
 
@@ -121,29 +143,6 @@ namespace mesmer
 
     // Test the rovibrational density of states.
     void testDensityOfStates(const MesmerEnv &mEnv) ;
-
-  private:
-    //
-    // Molecular properties.
-    //
-    std::vector<double> m_VibFreq ;          // Values of vibrational frequencies.
-    double              m_RotCstA ;          // Moment of inertia A.
-    double              m_RotCstB ;          // Moment of inertia B.
-    double              m_RotCstC ;          // Moment of inertia C.
-    double              m_Sym ;              // Rotational symmetry number.
-    double              m_ZPE ;              // Zero Point Energy.
-    int                 m_SpinMultiplicity ; // spin multiplicity
-
-  public:
-    //
-    // Cell and grain averages.  Note: raw array used for efficiency,
-    // but need to test validity of this. SHR 5/Jan/03.
-    //
-    std::vector<double>  m_cellEne ;         // Cell mid-point energy array.
-    std::vector<double>  m_cellDOS ;         // Cell density of states array.
-    std::vector<double>  m_grainEne ;        // Grain average energy array.
-    std::vector<double>  m_grainDOS ;        // Grain density of states array.
-
   } ;
 
   //**************************************************
@@ -160,6 +159,23 @@ namespace mesmer
   ///For most molecules
   class CollidingMolecule : public ModelledMolecule
   {
+
+    //-------------------------------
+    // Variables:
+    // Collision operator properties.
+    //
+    double              m_DeltaEdown ;         // <Delta E down> for the exponential down model.
+    double              m_collisionFrequency ; // Current value of collision frequency.
+    int                 m_ncolloptrsize ;      // Size of the collision operator matrix.
+    dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
+
+    //-------------------------------
+    // Calculate collision frequency.
+    double collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule) ;
+    // Calculate collision operator.
+    bool   collisionOperator (double beta, const MesmerEnv &mEnv) ;
+
+
   public:
     CollidingMolecule();
     ~CollidingMolecule();
@@ -179,51 +195,34 @@ namespace mesmer
     void copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate, const double RducdOmega, const MesmerEnv &mEnv) const ;
 
     // Accessors.
+    double get_collisionFrequency() const { return m_collisionFrequency ;} ;
     void set_colloptrsize(int ncolloptrsize) {m_ncolloptrsize = ncolloptrsize ;} ;
     int  get_colloptrsize() const {return m_ncolloptrsize ;} ;
-    void set_grnZpe(int grnZpe) {m_grnZpe = grnZpe ;} ;
-    int  get_grnZpe() const {return m_grnZpe ;} ;
-    double get_collisionFrequency() const { return m_collisionFrequency ;} ;
-
-  private:
-    //
-    // Collision operator properties.
-    //
-    dMatrix *m_egme ;        // Matrix containing the energy grained collision operator.
-    double   m_DeltaEdown ;  // <Delta E down> for the exponential down model.
-
-    // Calculate collision frequency.
-    double collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule) ;
-    // Calculate collision operator.
-    bool   collisionOperator (double beta, const MesmerEnv &mEnv) ;
-
-    int    m_grnZpe ;             // Zero point energy expressed in grains.
-    int    m_ncolloptrsize ;      // Size of the collision operator matrix.
-    double m_collisionFrequency ; // Current value of collision frequency.
   };
 
   // class representing pair of molecules participating one association reaction
   // this class should account for their density of states as a convolution
-  class PairedMolecules
+  class SuperMolecule : public CollidingMolecule
   {
+    CollidingMolecule* m_mol1;
+    ModelledMolecule*  m_mol2;
+
   public:
-    PairedMolecules();
-    ~PairedMolecules();
+    SuperMolecule();
+    SuperMolecule(double zpe, CollidingMolecule* mol1p, ModelledMolecule* mol2p);
+    ~SuperMolecule();
 
-  private:
-    //pointers to two independent molecules participating one association reaction
-    std::string    m_Name ;             // Molecule pair name.
-    double         m_Mass ;             // Mass.
-
-    ModelledMolecule* p_mol1;
-    ModelledMolecule* p_mol2;
-
-    double               m_ZPE ;             // Zero Point Energy.
-    std::vector<double>  m_VibFreq ;         // Values of vibrational frequencies.
-    std::vector<double>  m_cellEne ;         // Pointer to cell mid-point energy array.
-    std::vector<double>  m_cellDOS ;         // Pointer to cell density of states array.
-    std::vector<double>  m_grainEne ;        // Pointer to grain average energy array.
-    std::vector<double>  m_grainDOS ;        // Pointer to grain density of states array.
+    // Accessors.
+    void setMembers(CollidingMolecule* mol1p, ModelledMolecule* mol2p){
+      m_mol1 = mol1p;
+      m_mol2 = mol2p;
+    }
+    bool getMembers(CollidingMolecule* mol1p, ModelledMolecule* mol2p){
+      if (!m_mol1 || !m_mol2) return false;
+      mol1p = m_mol1;
+      mol2p = m_mol2;
+      return true;
+    }
 
   };
 

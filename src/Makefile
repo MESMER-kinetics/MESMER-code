@@ -148,3 +148,4 @@ install:
 remake:
 	-rm -f core ${OBJS} ${OUTPUT}
 	make
+	cp ${OUTPUT} ${TARGETPATH}

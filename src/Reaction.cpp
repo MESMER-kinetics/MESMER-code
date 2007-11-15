@@ -20,6 +20,7 @@ namespace mesmer
   Reaction::Reaction(MoleculeManager *pMoleculeManager):
     m_Name(),
     m_pMoleculeManager(pMoleculeManager),
+    m_srct(NULL),
     m_rct1(NULL),
     m_rct2(NULL),
     m_pdt1(NULL),
@@ -56,11 +57,15 @@ namespace mesmer
   bool Reaction::InitializeReaction(PersistPtr ppReac)
   {
     m_ppPersist = ppReac;
+    stringstream errorMsg;
 
     //Read reaction ID
     const char* id = ppReac->XmlReadValue("id");
-    if(id)
-        m_Name = id; //Continues if reaction id not found
+    if(id) m_Name = id; //Continues if reaction id not found
+    else{
+      errorMsg << "Reaction ID not found\n";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
 
     ModelledMolecule* pMol1(NULL) ;
     ModelledMolecule* pMol2(NULL) ;
@@ -70,6 +75,7 @@ namespace mesmer
     pMol1 = GetMolRef(ppReactant1);
     if(!pMol1) return false;
 
+
     PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
     if(ppReactant2)
     {
@@ -78,27 +84,38 @@ namespace mesmer
       m_rct2 = pMol2;
     }
 
-    //Put the Colliding Molecule into m_rct1, even if it is second in datafile
+    // Create a SuperMolecule from reactants
+    SuperMolecule* pSMol;
+
+    //Put the CollidingMolecule into m_rct1, even if it is second in datafile
     CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
     if(pColMol)
     {
-      m_rct1  = pColMol;
+      m_rct1 = pColMol;
       m_rct2 = pMol2;
+      if (pMol1 && pMol2){
+        m_srct = pSMol;
+        m_srct->setMembers(m_rct1, m_rct2);
+      }
     }
     else
     {
       pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
       if(!pColMol)
       {
-        stringstream errorMsg;
         errorMsg << "Either " << pMol1->getName() << " or "
             << pMol2->getName() <<" has to be a modelled molecule";
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obAuditMsg);
         return false;
       }
-      m_rct1  = pColMol;
+      m_rct1 = pColMol;
       m_rct2 = pMol1;
+      if (pMol1 && pMol2) {
+        m_srct = pSMol;
+        m_srct->setMembers(m_rct1, m_rct2);
+      }
     }
+
 
     //Read products ... if any.
     pMol2=NULL;
@@ -164,11 +181,15 @@ namespace mesmer
       s1 >> m_HeatOfReaction ;
     }
     else{ // calculate HeatOfReaction
-      double zpe_pdt1 = (m_pdt1 == NULL) ? 0. : m_pdt1->get_zpe();
-      double zpe_pdt2 = (m_pdt2 == NULL) ? 0. : m_pdt2->get_zpe();
-      double zpe_rct1 = (m_rct1 == NULL) ? 0. : m_rct1->get_zpe();
-      double zpe_rct2 = (m_rct2 == NULL) ? 0. : m_rct2->get_zpe();
+      double zpe_pdt1 = m_pdt1 ? m_pdt1->get_zpe() : 0.;
+      double zpe_pdt2 = m_pdt2 ? m_pdt2->get_zpe() : 0.;
+      double zpe_rct1 = m_rct1 ? m_rct1->get_zpe() : 0.;
+      double zpe_rct2 = m_rct2 ? m_rct2->get_zpe() : 0.;
       m_HeatOfReaction = zpe_pdt1 + zpe_pdt2 - zpe_rct1 - zpe_rct2;
+      stringstream errorMsg;
+      errorMsg << "_2007_11_14__10_39_23_ zpe_pdt1 = " << zpe_pdt1 << ", zpe_pdt2 = " << zpe_pdt2 << ", zpe_rct1 = " << zpe_rct1 << ", zpe_rct2 = " << zpe_rct2 << endl;;
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      m_srct->set_zpe(zpe_pdt1+zpe_pdt2);
     }
 
     //Read in Kinetic rate parameters, if present
@@ -193,7 +214,7 @@ namespace mesmer
     else {
       m_reactiontype = ERROR_REACTION ;
       stringstream errorMsg; errorMsg << "Unknown combination of reactants and products";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obAuditMsg);
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       return false;
     }
 
@@ -208,7 +229,7 @@ namespace mesmer
         errorMsg << "Unknown method " << pMCRCMethodtxt
           << " for the determination of Microcanonical rate coefficients in reaction "
           << m_Name;
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
         return false;
       }
     }
@@ -247,28 +268,55 @@ namespace mesmer
   // (source term) or dissociation (sink term) reaction one species is returned,
   // for an isomerization reaction two species are returned.
   //
-  void Reaction::get_unimolecularspecies(vector<CollidingMolecule *> &unimolecularspecies) const
+  int Reaction::get_unimolecularspecies(vector<CollidingMolecule *> &unimolecularspecies) const
   {
-    if(m_rct2 == NULL){                // Possible dissociation or isomerization.
-      unimolecularspecies.push_back(m_rct1) ;
-    }
+    int flag(0);
+    if (m_rct1){
+      if(!m_rct2){                // Possible dissociation or isomerization.
+        unimolecularspecies.push_back(m_rct1) ;
+        flag += 1;
+      }
 
-    if(m_pdt1 && m_pdt2 == NULL){      // Possible association or isomerization.
-      unimolecularspecies.push_back(m_pdt1) ;
+      if(m_pdt1 && !m_pdt2){      // Possible association or isomerization.
+        unimolecularspecies.push_back(m_pdt1) ;
+        flag += 2;
+      }
     }
+    else{
+      //no reactants
+    }
+    // return values:
+    // 0: no reactants (therefore no products) --> EORROR reaction
+    // 1: one reactant, two products (dissociation)
+    // 2: two reactants, one product (association)
+    // 3: one reactant, one product (isomerization)
+    return flag;
   }
 
   // Returns the bi-molecular speices (reactants) for association reaction.
-  void Reaction::get_bi_molecularspecies(std::vector<CollidingMolecule *> &bi_molecularspecies) const
+  int Reaction::get_bi_molecularspecies(SuperMolecule* bi_mol) const
   {
-    if(m_rct2 == NULL){                // Possible dissociation or isomerization.
-      // no re-association happens
-    }
+    int flag(0);
+    if (m_rct1){
+      if(!m_rct2){                // Possible dissociation or isomerization.
+        flag += 1;
+      }
 
-    if(m_pdt1 && m_pdt2 == NULL && m_rct2){      // Possible association
-      bi_molecularspecies.push_back(m_rct1) ;
-      bi_molecularspecies.push_back(dynamic_cast<CollidingMolecule*>(m_rct2)) ;//get it bigger and shrink later
+      if(m_pdt1 && !m_pdt2){      // Possible association or isomerization.
+        flag += 2;
+      }
     }
+    else{
+      //no reactants
+    }
+    // return values:
+    // 0: no reactants (therefore no products) --> EORROR reaction
+    // 1: one reactant, two products (dissociation)
+    // 2: two reactants, one product (association)
+    // 3: one reactant, one product (isomerization)
+    if(flag == 2) bi_mol = m_srct ;
+
+    return flag;
   }
 
   //
@@ -484,39 +532,54 @@ namespace mesmer
                                        const MesmerEnv &mEnv)
   {
     // Locate isomers in system matrix.
-    const int rctStart    = isomermap[m_rct1] ;
-    const int pdtLocation = sourcemap[m_pdt1] ;
+    const int pdtLoc  = isomermap[m_pdt1] ;
+    const int srcLoc  = sourcemap[m_srct] ;
 
     // Get equilibrium constant.
     double Keq = calcEquilibriumConstant(mEnv) ;
 
     // Get Boltzmann distribution for detailed balance.
     const int MaximumGrain = mEnv.MaxGrn ;
-    vector<double> rctBoltz(MaximumGrain, 0.0) ;
+    vector<double> srcBoltz(MaximumGrain, 0.0) ;
+    m_srct->grnBoltzDist(srcBoltz, mEnv) ;
 
-    m_rct1->grnBoltzDist(rctBoltz, mEnv) ;
-    //cout << "_2007_11_06__16_52_41_" << endl;
+    obErrorLog.ThrowError(__FUNCTION__, "_2007_11_14__10_52_13_", obInfo);
 
-    int pL(pdtLocation) ;
+    int sL(srcLoc) ;
     double DissRateCoeff(0.0) ;
-    //cout << "_2007_11_07__16_06_35_ MaximumGrain = " << MaximumGrain << endl;
+
+    {stringstream errorMsg;
+    errorMsg << "_2007_11_07__16_06_35_ MaximumGrain = " << MaximumGrain << endl;
+    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+
     const int idx = int(m_HeatOfReaction / mEnv.GrainSize); //any possible leak? need to test.
     //the same number of atoms on reactants and product
     for ( int i = max(0,-idx) ; i < min(MaximumGrain,(MaximumGrain-idx)) ; ++i ) {
-      int pG = m_rct1->get_grnZpe() + max(0,idx);
-      //cout << "_2007_11_07__16_06_46_ idx = " << idx << ", m_HeatOfReaction = " << m_HeatOfReaction << ", m_rct1->get_grnZpe() = " << m_rct1->get_grnZpe() << endl;
+      int sG = m_srct->get_grnZpe() + max(0,idx);
+
+      {stringstream errorMsg;
+      errorMsg << "_2007_11_07__16_06_46_ idx = " << idx << ", m_HeatOfReaction = " << m_HeatOfReaction << ", m_srct->get_grnZpe() = " << m_srct->get_grnZpe() << endl;
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+
       /*for well-dependent grain vector one should count from grnZpe (related with the minimum of all wells) of
       that specific isomer*/
-      int ll = i + idx ; int rL(rctStart + ll) ;
-      //cout << "_2007_11_07__16_06_46_ i = " << i << ", pG = " << pG << ", rL = " << rL << ", ll = " << ll << endl;
-      (*CollOptr)[rL][rL] -= rMeanOmega * m_GrainKfmc[pG] ;                        // Forward loss reaction.
-      (*CollOptr)[rL][pL]  = rMeanOmega * m_GrainKfmc[pG]*sqrt(rctBoltz[pG]/Keq) ; // Reactive gain.
-      (*CollOptr)[pL][rL]  = (*CollOptr)[rL][pL] ;                                 // Reactive gain.
-      DissRateCoeff       += m_GrainKfmc[pG]*rctBoltz[pG] ;
-    }
-    (*CollOptr)[pL][pL] -= DissRateCoeff/Keq ;       // Backward loss reaction from detailed balance.
+      int ll = i + idx ; int pL(pdtLoc + ll) ;
 
-    //cout << "_2007_11_06__16_57_29_ something wrong before this point" << endl;
+      {stringstream errorMsg;
+      errorMsg << "_2007_11_07__16_06_46_ i = " << i << ", sG = " << sG << ", pL = " << pL << ", ll = " << ll << endl;
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+
+      (*CollOptr)[pL][pL] -= rMeanOmega * m_GrainKfmc[sG] ;                        // Forward loss reaction.
+      (*CollOptr)[pL][sL]  = rMeanOmega * m_GrainKfmc[sG]*sqrt(srcBoltz[sG]/Keq) ; // Reactive gain.
+      (*CollOptr)[sL][pL]  = (*CollOptr)[pL][sL] ;                                 // Reactive gain.
+      DissRateCoeff       += m_GrainKfmc[sG]*srcBoltz[sG] ;
+    }
+    (*CollOptr)[sL][sL] -= DissRateCoeff/Keq ;       // Backward loss reaction from detailed balance.
+
+    {stringstream errorMsg;
+    errorMsg << "_2007_11_06__16_57_29_ something wrong before this point" << endl;
+    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+
   }
 
   //

@@ -36,7 +36,7 @@ namespace mesmer
     virtual bool testMicroRateCoeffs(Reaction* pReact, std::vector<double> &cellKfmc, PersistPtr ppbase, const MesmerEnv &mEnv) const;
 
     // provide a function to define particular counts of the convoluted DOS of two molecules
-    virtual bool countDimerCellDOS(ModelledMolecule* mol1, ModelledMolecule* mol2, std::vector<double> &dimerCellDOS, const MesmerEnv &mEnv) = 0; // convolutes the DOS of two molecules
+    virtual bool countDimerCellDOS(SuperMolecule* rcts, const MesmerEnv &mEnv) = 0; // convolutes the DOS of two molecules
 
   private:
     /// Returns a reference to the map of MicroRateCalculator classes

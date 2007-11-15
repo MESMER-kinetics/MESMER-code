@@ -54,7 +54,7 @@ namespace mesmer
 
     if (_method.length() != 0)
       {
-        tmp += " in " + _method + string("\n  ");
+        tmp += " in " + _method + string("\n");
       }
     tmp += _errorMsg + "\n";
     if (_explanation.size() != 0)

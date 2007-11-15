@@ -86,9 +86,10 @@ public:
 
 private:
 
-  std::map<std::string, Molecule*>                    m_molmap ;
-  typedef std::map<std::string, Molecule*>::iterator  molIter ;
-  std::string                                         m_BathGasMolecule ;
+  std::map<std::string, Molecule*>                          m_molmap ;
+  typedef std::map<std::string, Molecule*>::iterator        molIter ;
+  typedef std::map<std::string, Molecule*>::const_iterator  constMolIter ;
+  std::string                                               m_BathGasMolecule ;
 } ;
 }//namespace
 #endif // GUARD_MoleculeManager_h

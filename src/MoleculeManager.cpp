@@ -49,7 +49,7 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
 
     string strName = pmolecule->getName() ;
     //check if the molecule exists in m_molmap
-    map<string, Molecule*>::const_iterator it ;
+    constMolIter it ;
     it = m_molmap.find(strName) ;
     if (it != m_molmap.end()) {
       stringstream errorMsg;
@@ -73,7 +73,7 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
 //
 Molecule *MoleculeManager::find(const std::string& name) const {
 
-  map<string, Molecule*>::const_iterator it ;
+  constMolIter it ;
 
   it = m_molmap.find(name) ;
 

@@ -19,7 +19,7 @@ namespace mesmer
     virtual bool calculateMicroRateCoeffs(Reaction* pReact, std::vector<double> &cellKfmc, const MesmerEnv &mEnv);
       
     // provide a function to define particular counts of the convoluted DOS of two molecules
-    bool countDimerCellDOS(ModelledMolecule* mol1, ModelledMolecule* mol2, std::vector<double> &dimerCellDOS, const MesmerEnv &mEnv);
+    bool countDimerCellDOS(SuperMolecule* rcts, const MesmerEnv &mEnv);
 
   };
 }//namespace

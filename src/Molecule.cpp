@@ -16,6 +16,8 @@ namespace mesmer
 {
   Molecule::Molecule():
     m_flag(0),
+    m_ppPersist(NULL),
+    m_Name(),
     m_Mass(0.0),
     m_Sigma(0.0),
     m_Epsilon(0.0)
@@ -28,23 +30,30 @@ namespace mesmer
     m_Sym(0.0),
     m_ZPE(0.0),
     m_SpinMultiplicity(1),
+    m_grnZpe(0),
+    m_VibFreq(),
     m_cellEne(),
-    m_cellDOS()
-  {}
-
-  CollidingMolecule::CollidingMolecule():
-    m_egme(NULL),
-    m_DeltaEdown(0.0),
-    m_ncolloptrsize(0),
-    m_collisionFrequency(0.0)
+    m_cellDOS(),
+    m_grainEne(),
+    m_grainDOS()
   {}
 
   ModelledMolecule::~ModelledMolecule()
   {
     // Free any memory assigned for calculating densities of states.
+    if (m_cellDOS.size()) m_grainDOS.clear();
+    if (m_cellEne.size()) m_grainEne.clear();
     if (m_cellDOS.size()) m_cellDOS.clear();
     if (m_cellEne.size()) m_cellEne.clear();
+    if (m_cellDOS.size()) m_VibFreq.clear();
   }
+
+  CollidingMolecule::CollidingMolecule():
+    m_DeltaEdown(0.0),
+    m_collisionFrequency(0.0),
+    m_ncolloptrsize(0),
+    m_egme(NULL)
+  {}
 
   CollidingMolecule::~CollidingMolecule()
   {
@@ -52,6 +61,19 @@ namespace mesmer
   }
 
   TransitionState::TransitionState()
+  {}
+
+  SuperMolecule::SuperMolecule():
+    m_mol1(NULL),
+    m_mol2(NULL)
+  {}
+
+  SuperMolecule::SuperMolecule(double zpe, CollidingMolecule* mol1p, ModelledMolecule* mol2p):
+    m_mol1(mol1p),
+    m_mol2(mol2p)
+  {}
+
+  SuperMolecule::~SuperMolecule()
   {}
 
   /* Will need Clone() functions
@@ -120,7 +142,6 @@ namespace mesmer
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       return false;
     }
-
     return true;
   }
 
@@ -132,7 +153,7 @@ namespace mesmer
     PersistPtr oldpp = pp;
 
     if(!Molecule::InitializeMolecule(pp)){
-      errorMsg << "InitializeMolecule failed for Molecule " << getName() << " before constructing ModelledMolecule.";
+      errorMsg << "InitializeMolecule for Molecule " << getName() << " before constructing ModelledMolecule with errors.";
     }
 
     pp = oldpp;

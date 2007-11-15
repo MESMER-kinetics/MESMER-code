@@ -55,13 +55,19 @@ namespace mesmer
     //-----------------
 
     vector<CollidingMolecule *> unimolecularspecies;
-    vector<CollidingMolecule *> bi_molecularspecies;
+    SuperMolecule*              bi_molecularspecies;
     p_reaction->get_unimolecularspecies(unimolecularspecies);
-    p_reaction->get_bi_molecularspecies(bi_molecularspecies);
+    if (p_reaction->get_bi_molecularspecies(bi_molecularspecies)){
+      stringstream errorMsg;
+      errorMsg << "Not a valid bi_molecularspecies";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      return false;
+    }
 
-    CollidingMolecule * p_pdt1 = unimolecularspecies[0];
-    CollidingMolecule * p_rct1 = bi_molecularspecies[0];
-    ModelledMolecule * p_rct2 = static_cast<ModelledMolecule *>(bi_molecularspecies[1]);
+    CollidingMolecule * p_pdt1 = static_cast<CollidingMolecule *>(unimolecularspecies[0]);
+    CollidingMolecule * p_rct1;
+    ModelledMolecule  * p_rct2;
+    bi_molecularspecies->getMembers(p_rct1, p_rct2);
 
     // Get molecular specific values
     double edg_a = static_cast<double>(p_pdt1->getSpinMultiplicity());
@@ -79,7 +85,7 @@ namespace mesmer
     p_pdt1->cellEnergies       (pdt1CellEne, mEnv) ;
 
     // Convolution of reactant vibrational DOS onto rotational DOS
-    countDimerCellDOS(p_rct1, p_rct2, rctsCellDOS, mEnv);
+    countDimerCellDOS(bi_molecularspecies, mEnv);
 
     // Allocate space to hold Micro-canonical rate coefficients.
     cellKfmc.resize(mEnv.MaxCell); // no need to initialize
@@ -122,7 +128,7 @@ namespace mesmer
   }
 
   // provide a function to define particular counts of the convoluted DOS of two molecules
-  bool MesmerILT::countDimerCellDOS(ModelledMolecule* p_mol1, ModelledMolecule* p_mol2, vector<double> &dimerCellDOS, const MesmerEnv &mEnv){
+  bool MesmerILT::countDimerCellDOS(SuperMolecule* rcts, const MesmerEnv &mEnv){
     //----------
     // Differetiating the rotors
     // <three types of rotors: (0) non-rotor (1) 2-D linear, (2) 3-D symmetric top, (3) 3-D asymmetric top>
@@ -130,10 +136,13 @@ namespace mesmer
     // 0-1, 0-2, 0-3, 1-1, 1-2, 1-3, 2-2, 2-3, 3-3
     // where the first three convolutions are trivial
     //
-
+    CollidingMolecule* p_mol1;
+    ModelledMolecule * p_mol2;
+    rcts->getMembers(p_mol1, p_mol2);
     vector<double> rotCs1; int rotor1Type = p_mol1->get_rotConsts(rotCs1);
     vector<double> rotCs2; int rotor2Type = p_mol2->get_rotConsts(rotCs2);
-    vector<double> mol1CellEne(mEnv.MaxCell,0.0);
+    vector<double> mol1CellEne = p_mol1->m_cellEne;
+    vector<double> dimerCellDOS = rcts->m_cellDOS;
     p_mol1->cellEnergies(mol1CellEne, mEnv) ;
 
     double I1 = 0., I2 = 0.,                                            //for 2-D linear rotors
@@ -158,6 +167,7 @@ namespace mesmer
     int rotorType = rotor1Type + rotor2Type;
     if      (rotorType == -8) return false;              // both not rotors
     double cnt = q1 * q2 / (s1 * s2);
+
 
     if      (rotorType <  0 && rotor1Type < rotor2Type){ // only p_mol2 a rotor
       p_mol2->cellDensityOfStates(dimerCellDOS, mEnv);

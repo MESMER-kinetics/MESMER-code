@@ -62,19 +62,28 @@ namespace mesmer
     Reaction::isomerMap isomers ; // Maps the location of reactant collision operator in the system matrix.
     double minEnergy(0) ; //this is the minimum of ZPE amongst all wells
     Molecule *pBathGasMolecule = m_pMoleculeManager->get_BathGasMolecule();
+
+    // populate isomerMap with unimolecular species
     for (size_t i(0) ; i < size() ; ++i) {
 
-      vector<CollidingMolecule *> unimolecularspecies ;
-      m_reactions[i]->get_unimolecularspecies(unimolecularspecies) ;
+      vector<CollidingMolecule *> unimolecules ;
 
-      for (size_t i(0) ; i < unimolecularspecies.size() ; ++i) {
+      int flag1 = m_reactions[i]->get_unimolecularspecies(unimolecules) ;
 
-        CollidingMolecule *pCollidingMolecule = unimolecularspecies[i] ;
-
-        if(isomers.find(pCollidingMolecule) == isomers.end()){ // New isomer
-          isomers[pCollidingMolecule] = 0 ; //initialize to a trivial location
-          minEnergy = min(minEnergy,pCollidingMolecule->get_zpe()) ;
+      if (flag1 > 0){ // association, dissociation or isomerization
+        for (size_t i(0) ; i < unimolecules.size() ; ++i) {
+          CollidingMolecule *pCollidingMolecule = unimolecules[i] ;
+          if(isomers.find(pCollidingMolecule) == isomers.end()){ // New isomer
+            isomers[pCollidingMolecule] = 0 ; //initialize to a trivial location
+            minEnergy = min(minEnergy, pCollidingMolecule->get_zpe()) ;
+          }
         }
+      }
+      else{
+        stringstream errorMsg;
+        // Does this kind of reaction ever exist? CHL
+        errorMsg << "Reaction " << m_reactions[i]->getName() << " is invalid without any product and reactant." << endl;
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
       }
     }
 
@@ -90,9 +99,13 @@ namespace mesmer
       CollidingMolecule *isomer = isomeritr->first ;
       isomeritr->second = msize ; //set location
 
-      double zpe = isomer->get_zpe() - minEnergy ; // cell zpe related with the minimum of all wells
+      double zpe = (isomer->get_zpe()) - minEnergy ; // cell zpe related with the minimum of all wells
       int grnZpe = int(zpe * KcalPerMolToRC / mEnv.GrainSize) ; //convert to grain
-      //cout << "_2007_11_09__14_10_21_ grnZpe = " << grnZpe << ", zpe = " << zpe << ", minEnergy = " << minEnergy << endl;
+
+      {stringstream errorMsg;
+      errorMsg << "_2007_11_09__14_10_21_ grnZpe = " << grnZpe << ", zpe = " << zpe << ", minEnergy = " << minEnergy << endl;
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+
       isomer->set_grnZpe(grnZpe) ; //set grain ZPE (related with the minimum of all wells)
       int colloptrsize = mEnv.MaxGrn  - grnZpe ;
       isomer->set_colloptrsize(colloptrsize) ;
@@ -104,17 +117,18 @@ namespace mesmer
     meanomega /= isomers.size();
 
     //
-    // Find all source terms.
+    // Find all source terms. Note: A source term is probably the only deficient reactant that initiates the whole process
+    // of reactions in the master equation. In this case we think there may be more than one source terms. CHL
     //
     Reaction::sourceMap sources ; // Maps the location of source in the system matrix.
     for (size_t i(0) ; i < size() ; ++i) {
 
-      CollidingMolecule *pseudoIsomer = m_reactions[i]->get_pseudoIsomer() ;
-
-      if(pseudoIsomer && sources.find(pseudoIsomer) == sources.end()){ // New source
+      SuperMolecule *pSuperMolecule = new SuperMolecule;
+      if (m_reactions[i]->get_bi_molecularspecies(pSuperMolecule) == 2 &&
+          sources.find(pSuperMolecule) == sources.end()){ // New source
         ++msize ;
-        sources[pseudoIsomer] = msize ;
-      } // what happens if one species is both source and isomer? Does it occupy two locations in the collision matrix? CHL
+        sources[pSuperMolecule] = msize ;
+      }
     }
 
     cout << endl << "Size of the collision matrix: " << msize << endl << endl ;
@@ -137,9 +151,7 @@ namespace mesmer
 
     // Add connecting rate coefficients.
     for (size_t i(0) ; i < size() ; ++i) {
-
         m_reactions[i]->AddMicroRates(m_pSystemCollisionOperator,isomers,sources,1.0/meanomega, mEnv) ;
-
     }
   }
 

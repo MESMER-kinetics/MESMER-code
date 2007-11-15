@@ -29,8 +29,8 @@ namespace mesmer
                               EXCHANGE,
                               ERROR_REACTION } ;
 
-    typedef std::map<CollidingMolecule *, int> isomerMap ;
-    typedef std::map<CollidingMolecule *, int> sourceMap ;
+    typedef std::map<CollidingMolecule*, int> isomerMap ;
+    typedef std::map<SuperMolecule*    , int> sourceMap ;
 
     // Constructors.
     Reaction();
@@ -76,10 +76,10 @@ namespace mesmer
     TransitionState* get_TransitionState()const { return m_TransitionState ; } ;
 
     // Reactant information:
-    void get_unimolecularspecies(std::vector<CollidingMolecule *> &unimolecularspecies) const ;
+    int get_unimolecularspecies(std::vector<CollidingMolecule *> &unimolecularspecies) const ;
 
     // Product information:
-    void get_bi_molecularspecies(std::vector<CollidingMolecule *> &bi_molecularspecies) const;
+    int get_bi_molecularspecies(SuperMolecule* bi_mol) const;
 
     // Get the principal source reactant (i.e. reactant not in excess) if it exists.
     CollidingMolecule *get_pseudoIsomer() const ;
@@ -92,7 +92,7 @@ namespace mesmer
 
     // Calculate reaction equilibrium constant.
     double calcEquilibriumConstant(const MesmerEnv &mEnv) ;
-    
+
     // Grain average microcanonical rate coefficients.
     bool grnAvrgMicroRateCoeffs(const MesmerEnv &mEnv);
 
@@ -114,6 +114,7 @@ namespace mesmer
     //
     // Reaction composition.
     //
+    SuperMolecule     *m_srct ;              // Reactant molecules as a super-reactant
     CollidingMolecule *m_rct1 ;              // Reactant Molecule.
     ModelledMolecule  *m_rct2 ;              // Subsidiary reactant molecule.
     CollidingMolecule *m_pdt1 ;              // Product Molecule.

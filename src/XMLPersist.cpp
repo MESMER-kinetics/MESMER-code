@@ -102,11 +102,6 @@ const char* XMLPersist::XmlReadProperty(const string& name, bool MustBeThere) co
     }
     pnProp = pnProp->NextSiblingElement();
   }
-  if(MustBeThere){
-    stringstream errorMsg;
-    errorMsg << "Ill-formed " << name << " in the molecule ";//calling function to add name of molecule
-    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-  }
   return NULL;
 }
 

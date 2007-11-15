@@ -204,7 +204,7 @@ namespace mesmer
     {
       stringstream errorMsg;
       string thisEvent = "Diagonlize Collision Operator";
-      errorMsg << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
+      errorMsg << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     m_pReactionManager->diagCollisionOperator() ;

@@ -1,5 +1,6 @@
 * text=auto !eol
 /ChangeLog -text
+Documentation/FAQ.tex -text
 Documentation/Mesmer[!!-~]FAQ.doc -text
 Documentation/Mesmer.dvi -text
 Documentation/Mesmer.tex -text
