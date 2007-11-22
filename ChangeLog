@@ -1,3 +1,35 @@
+_2007_11_22__10_57_55_ Chi-Hsiu Liang
+
+  * modified some tags in bin/pentyl_isomerizationJul.xml
+                          bin/OH_acetylene_association.xml
+                          Windows VC8/Mesmer/pentyl_isomerization.xml
+                          Windows VC8/Mesmer/pentyl_isomerizationJul.xml
+
+  * modified function names: cellEnergies() -> getCellEnergies 
+                             cellDensityOfStates -> getCellDensityOfStates
+    for the fact that these two functions only performs get functionality. Note: Result credibility should check before
+    execution.
+  * Added files ClassicalRotor.cpp/h, DensityOfStates.cpp/h
+  * Moved counterDimerDOS() to a plugin class DensityOfStatesCalculator (DensityOfStates.h)
+  * modified the original ModelledMolecule::calcDensityOfStates() so that it governs the calculation of DOS in both 
+    ModelledMolecule and SuperMolecule
+  * m_VibFreq temporarily become a public variable (if necessary will add accessors and privatize it later)
+  * Added DensityOfStatesCalculator *m_pDensityOfStatesCalculator ; in ModelledMolecule.
+  * Added functions to get individual member of participant Molecules in SuperMolecule
+  * Important: Now all isomers have to be specified `colliding' instead of being only `modelled' in xml. 
+               Both second reactant/product are ModelledMolecule. Please read MoleculeManager.cpp 
+               line 33 to line 44.
+  * Important: Added a tag me:DOSCMethod in each molecular element of XML input. 
+               This makes it possible to use different methods to calculate the DOS in different species.
+  * Added a new function addSuperMol() in MoleculeManager
+  * rearranged the variable definition and function declaration order in Reaction.h
+  * Add bool return to BuildSystemCollisionOperator()
+  * Add another test file Windows VC8\Mesmer\OH_acetylene_association.xml
+  
+  To do Next: 1. Debug
+              2. Add an element in xml file for SuperMolecule.
+              3. Test systems.
+              
 _2007_11_15__18_37_45_ Chi-Hsiu Liang
 
   * Added a new class SuperMolecule (originally pairedMoleucles)

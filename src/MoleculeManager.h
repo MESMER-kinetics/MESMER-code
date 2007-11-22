@@ -32,6 +32,9 @@ public:
   // Add a new molecule to the list.
   bool addmols(PersistPtr ppMolList) ;
 
+  // Returns a newly created reference to the source term
+  SuperMolecule* MoleculeManager::addSuperMol();
+
   // Find a molecule in the list.
   Molecule *find(const std::string& name) const ;
 

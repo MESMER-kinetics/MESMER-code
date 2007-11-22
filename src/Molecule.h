@@ -14,9 +14,9 @@
 
 #include <memory>
 #include "XMLPersist.h"
-#include "MesmerEnv.h"
 #include "MesmerMath.h"
 #include "formatfloat.h"
+#include "DensityOfStates.h"
 
 namespace mesmer
 {
@@ -50,6 +50,7 @@ namespace mesmer
     double getSigma() const                { return m_Sigma ; } ;
     double getEpsilon() const              { return m_Epsilon ; } ;
 
+    void   setName(string name)            { m_Name = name; } ;
     void   setFlag(bool value)             { if (value) ++m_flag; } ;
     void   setMass(double value)           { m_Mass = value; } ;
     void   setSigma(double value)          { m_Sigma = value; } ;
@@ -78,17 +79,19 @@ namespace mesmer
     double              m_ZPE ;              // Zero Point Energy. (Kcal/Mol)
     int                 m_SpinMultiplicity ; // spin multiplicity
     int                 m_grnZpe ;           // Zero point energy expressed in grains.
-    std::vector<double> m_VibFreq ;          // Values of vibrational frequencies.
+    DensityOfStatesCalculator *m_pDensityOfStatesCalculator ;
+
 
   public:
+    std::vector<double> m_VibFreq ;          // Values of vibrational frequencies.
     //
     // Cell and grain averages.  Note: raw array used for efficiency,
     // but need to test validity of this. SHR 5/Jan/03.
     //
-    std::vector<double>  m_cellEne ;         // Cell mid-point energy array.
-    std::vector<double>  m_cellDOS ;         // Cell density of states array.
-    std::vector<double>  m_grainEne ;        // Grain average energy array.
-    std::vector<double>  m_grainDOS ;        // Grain density of states array.
+    std::vector<double> m_cellEne ;          // Cell mid-point energy array.
+    std::vector<double> m_cellDOS ;          // Cell density of states array.
+    std::vector<double> m_grainEne ;         // Grain average energy array.
+    std::vector<double> m_grainDOS ;         // Grain density of states array.
 
     //----------------
     ModelledMolecule();
@@ -98,10 +101,10 @@ namespace mesmer
     virtual bool InitializeMolecule(PersistPtr pp);
 
     // Get the density of states.
-    void cellDensityOfStates(std::vector<double> &cellDOS, const MesmerEnv &mEnv) ;
+    void getCellDensityOfStates(std::vector<double> &cellDOS, const MesmerEnv &mEnv) ;
 
     // Get cell energies.
-    void cellEnergies(std::vector<double> &CellEne, const MesmerEnv &mEnv) ;
+    void getCellEnergies(std::vector<double> &CellEne, const MesmerEnv &mEnv) ;
 
     // Get grain density of states.
     void grnDensityOfStates(std::vector<double> &grainDOS, const MesmerEnv &mEnv) ;
@@ -115,6 +118,9 @@ namespace mesmer
     // Get Grain canonical partition function.
     double grnCanPrtnFn(const MesmerEnv &mEnv) ;
 
+    // Calculate Density of states
+    bool calcDensityOfStates(const MesmerEnv &mEnv);
+
     // Accessors.
     double get_zpe() const { return m_ZPE ; }
     void set_zpe(double value) { m_ZPE = value; }
@@ -123,20 +129,16 @@ namespace mesmer
     void set_grnZpe(int grnZpe) {m_grnZpe = grnZpe ;} ;
     int  get_grnZpe() const {return m_grnZpe ;} ;
 
-
     void get_VibFreq(std::vector<double>& vibFreq){
       vibFreq.clear();
-      vibFreq = m_VibFreq;
+      vibFreq.assign(m_VibFreq.begin(), m_VibFreq.end());
     }
+
+    DensityOfStatesCalculator* get_DensityOfStatesCalculator(){return m_pDensityOfStatesCalculator;}
+    void set_DensityOfStatesCalculator(DensityOfStatesCalculator* value){m_pDensityOfStatesCalculator = value;}
 
     int getSpinMultiplicity() const        { return m_SpinMultiplicity; }
     void   setSpinMultiplicity(int value)  { m_SpinMultiplicity = value; }
-
-
-  protected:
-
-    // Calculate the rovibrational density of states for 1 cm-1 cells.
-    void calcDensityOfStates(const MesmerEnv &mEnv) ;
 
     // Calculate the average grain energy and then number of states per grain.
     void calcGrainAverages(const MesmerEnv &mEnv) ;
@@ -175,7 +177,6 @@ namespace mesmer
     // Calculate collision operator.
     bool   collisionOperator (double beta, const MesmerEnv &mEnv) ;
 
-
   public:
     CollidingMolecule();
     ~CollidingMolecule();
@@ -204,25 +205,33 @@ namespace mesmer
   // this class should account for their density of states as a convolution
   class SuperMolecule : public CollidingMolecule
   {
+  public:
     CollidingMolecule* m_mol1;
     ModelledMolecule*  m_mol2;
 
-  public:
     SuperMolecule();
     SuperMolecule(double zpe, CollidingMolecule* mol1p, ModelledMolecule* mol2p);
     ~SuperMolecule();
 
+    // Initialize SuperMolecule.
+    virtual bool InitializeMolecule(string name);
+
     // Accessors.
+
+    // set composing member of the SuperMolecule, also copy necessary properties
     void setMembers(CollidingMolecule* mol1p, ModelledMolecule* mol2p){
       m_mol1 = mol1p;
       m_mol2 = mol2p;
+      m_VibFreq.assign(m_mol1->m_VibFreq.begin(), m_mol1->m_VibFreq.end());
+      for (size_t i(0); i < m_mol2->m_VibFreq.size(); ++i)
+        m_VibFreq.push_back(m_mol2->m_VibFreq[i]);
+      set_zpe(m_mol1->get_zpe() + m_mol2->get_zpe());
+      setSpinMultiplicity(m_mol1->getSpinMultiplicity() + m_mol2->getSpinMultiplicity());
+      set_DensityOfStatesCalculator(m_mol1->get_DensityOfStatesCalculator());
     }
-    bool getMembers(CollidingMolecule* mol1p, ModelledMolecule* mol2p){
-      if (!m_mol1 || !m_mol2) return false;
-      mol1p = m_mol1;
-      mol2p = m_mol2;
-      return true;
-    }
+    
+    CollidingMolecule* getMember1(){ return m_mol1;}
+    ModelledMolecule * getMember2(){ return m_mol2;}
 
   };
 

@@ -54,7 +54,7 @@ namespace mesmer
     return -1;
   }
 
-  void ReactionManager::BuildSystemCollisionOperator(const double beta, const MesmerEnv &mEnv)
+  bool ReactionManager::BuildSystemCollisionOperator(const double beta, const MesmerEnv &mEnv)
   {
     //
     // Find all the unique wells and lowest zero point energy.
@@ -102,14 +102,13 @@ namespace mesmer
       double zpe = (isomer->get_zpe()) - minEnergy ; // cell zpe related with the minimum of all wells
       int grnZpe = int(zpe * KcalPerMolToRC / mEnv.GrainSize) ; //convert to grain
 
-      {stringstream errorMsg;
-      errorMsg << "_2007_11_09__14_10_21_ grnZpe = " << grnZpe << ", zpe = " << zpe << ", minEnergy = " << minEnergy << endl;
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
-
       isomer->set_grnZpe(grnZpe) ; //set grain ZPE (related with the minimum of all wells)
       int colloptrsize = mEnv.MaxGrn  - grnZpe ;
       isomer->set_colloptrsize(colloptrsize) ;
       msize += colloptrsize ;
+
+      if (!isomer->m_cellDOS.size())
+        isomer->calcDensityOfStates(mEnv);
 
       isomer->initCollisionOperator(beta, pBathGasMolecule, mEnv) ;
       meanomega += isomer->get_collisionFrequency() ;
@@ -153,6 +152,8 @@ namespace mesmer
     for (size_t i(0) ; i < size() ; ++i) {
         m_reactions[i]->AddMicroRates(m_pSystemCollisionOperator,isomers,sources,1.0/meanomega, mEnv) ;
     }
+
+    return true;
   }
 
   void ReactionManager::diagCollisionOperator()

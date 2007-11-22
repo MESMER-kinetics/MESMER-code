@@ -57,7 +57,7 @@ namespace mesmer
     int Connectivity(Molecule* pReactant, Molecule* pProduct);
 
     // Build collision operator for system.
-    void BuildSystemCollisionOperator(const double beta, const MesmerEnv &mEnv) ;
+    bool BuildSystemCollisionOperator(const double beta, const MesmerEnv &mEnv) ;
 
     // Diagonalize the collision operator.
     void diagCollisionOperator() ;

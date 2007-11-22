@@ -92,6 +92,8 @@ all: ${OUTPUT}
 #****************************************************************************
 
 SRCS := MicroRate.cpp \
+  ClassicalRotor.cpp \
+  DensityOfStates.cpp \
 	MesmerILT.cpp \
 	MesmerMath.cpp \
 	Molecule.cpp \

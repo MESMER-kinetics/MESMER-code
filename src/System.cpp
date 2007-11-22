@@ -150,8 +150,8 @@ namespace mesmer
     if(!SetGrainParams())
       return;
 
-    std::string id;
-    ModelledMolecule* pmol = NULL;
+    //std::string id;
+    //ModelledMolecule* pmol = NULL;
 
     WriteMetadata();
 
@@ -199,7 +199,12 @@ namespace mesmer
       errorMsg << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
-    m_pReactionManager->BuildSystemCollisionOperator(beta, mEnv) ;
+
+    if (!m_pReactionManager->BuildSystemCollisionOperator(beta, mEnv)){
+        stringstream errorMsg;
+        errorMsg << "Failed building system collison operator.";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+    }
 
     {
       stringstream errorMsg;

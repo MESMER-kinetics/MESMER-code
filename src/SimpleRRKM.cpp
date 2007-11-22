@@ -42,8 +42,8 @@ namespace mesmer
 
     // Extract densities of states from molecules.
 
-    pReactant->cellDensityOfStates(cellDOS, mEnv) ;
-    pTS->cellDensityOfStates(TScellDOS, mEnv) ;
+    pReactant->getCellDensityOfStates(cellDOS, mEnv) ;
+    pTS->getCellDensityOfStates(TScellDOS, mEnv) ;
 
     double SumOfStates  = 0.0 ;
     int thresholdEnergy = int((pTS->get_zpe() - pReactant->get_zpe()) * KcalPerMolToRC) ;
@@ -59,8 +59,5 @@ namespace mesmer
     }
     return true;
   }
-
-  bool SimpleRRKM::countDimerCellDOS(SuperMolecule* rcts, const MesmerEnv &mEnv){return true;}
-
 
 }//namespace

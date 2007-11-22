@@ -1,7 +1,6 @@
 #ifndef GUARD_XMLPersist_h
 #define GUARD_XMLPersist_h
 
-#include "oberror.h"
 #include "Persistence.h"
 #include "TimeCounter.h"
 #include "../tinyxml/tinyxml.h"

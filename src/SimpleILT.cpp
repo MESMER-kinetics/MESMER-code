@@ -45,7 +45,7 @@ namespace mesmer
 
     // Extract densities of states from molecules.
 
-    pReactant->cellDensityOfStates(cellDOS, mEnv) ;
+    pReactant->getCellDensityOfStates(cellDOS, mEnv) ;
 
     // Conversion of EINF from kcal.mol^-1 to cm^-1
 
@@ -59,7 +59,5 @@ namespace mesmer
 
     return true;
   }
-
-  bool SimpleILT::countDimerCellDOS(SuperMolecule* rcts, const MesmerEnv &mEnv){return true;}
-
+  
 }//namespace

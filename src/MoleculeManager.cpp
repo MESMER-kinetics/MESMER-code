@@ -30,8 +30,12 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
     if (ptype) moltype = ptype;
 
     Molecule *pmolecule;
-    if(moltype=="modelled")
+    if     (moltype=="source")
+      pmolecule = static_cast<Molecule*>(new SuperMolecule());
+    else if(moltype=="colliding")
       pmolecule = static_cast<Molecule*>(new CollidingMolecule());
+    else if(moltype=="modelled")
+      pmolecule = static_cast<Molecule*>(new ModelledMolecule());
     else if(moltype=="transitionState")
       pmolecule = static_cast<Molecule*>(new TransitionState);
     else if(moltype=="bathGas")
@@ -43,7 +47,7 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
     // Initialize Molecule from input stream.
     // Each molecule type has its own set of mandatory parameters
     if(!pmolecule->InitializeMolecule(ppmol) && (pmolecule->getName()).empty()){
-    	delete pmolecule;
+      delete pmolecule;
       return false;
     }
 
@@ -66,6 +70,17 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
     ppmol = ppmol->XmlMoveTo("molecule");
   }
   return true;
+}
+
+//
+// Add a new molecule to the list.
+//
+SuperMolecule* MoleculeManager::addSuperMol() {
+  string myName = "source term";
+  SuperMolecule *pmolecule = new SuperMolecule();
+  pmolecule->InitializeMolecule(myName);
+  m_molmap[myName] = pmolecule;
+  return pmolecule;
 }
 
 //

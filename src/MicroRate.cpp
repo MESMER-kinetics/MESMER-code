@@ -26,8 +26,8 @@ namespace mesmer
     vector<double> CellEne(mEnv.MaxCell,0.0) ;
     vector<double> cellDOS(mEnv.MaxCell,0.0) ;
 
-    pReactant->cellEnergies(CellEne, mEnv) ;
-    pReactant->cellDensityOfStates(cellDOS, mEnv) ;
+    pReactant->getCellEnergies(CellEne, mEnv) ;
+    pReactant->getCellDensityOfStates(cellDOS, mEnv) ;
 
     for(int i = 0 ; i < 29 ; ++i)
     {

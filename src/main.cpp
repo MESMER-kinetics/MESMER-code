@@ -45,9 +45,14 @@ int main(int argc,char *argv[])
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
-  if(!ppIOPtr || !_sys.parse(ppIOPtr))
+  if(!ppIOPtr || !_sys.parse(ppIOPtr)){
+    stringstream errorMsg;
+    errorMsg << "System parse failed." << endl;
+    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
     return -2;
-
+  }
+  
+  
   //------------------
   // Begin calculation
   {
