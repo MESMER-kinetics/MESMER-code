@@ -43,6 +43,7 @@ namespace mesmer
     virtual bool InitializeMolecule(PersistPtr pp);
 
     PersistPtr  getPersistentPointer()     { return m_ppPersist;};
+    void setPersistentPointer(PersistPtr value){m_ppPersist = value;}
     std::string getName() const            { return m_Name ; } ;
 
     int    getFlag()                       { return m_flag; } ;
@@ -214,7 +215,7 @@ namespace mesmer
     ~SuperMolecule();
 
     // Initialize SuperMolecule.
-    virtual bool InitializeMolecule(string name);
+    virtual bool InitializeMolecule(PersistPtr pp);
 
     // Accessors.
 
@@ -229,7 +230,7 @@ namespace mesmer
       setSpinMultiplicity(m_mol1->getSpinMultiplicity() + m_mol2->getSpinMultiplicity());
       set_DensityOfStatesCalculator(m_mol1->get_DensityOfStatesCalculator());
     }
-    
+
     CollidingMolecule* getMember1(){ return m_mol1;}
     ModelledMolecule * getMember2(){ return m_mol2;}
 

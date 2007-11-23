@@ -189,7 +189,12 @@ namespace mesmer
       case varUseDoubleDouble:   precisionMethod = "Double-double";       break;
       case varUseQuadDouble:     precisionMethod = "Quad-double";         break;
     }
-    cout << "Precision: " << precisionMethod << endl;
+
+    {
+      stringstream errorMsg;
+      errorMsg << "Precision: " << precisionMethod;
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
     //---------------
 
     // Build collison matrix for system.
@@ -247,7 +252,11 @@ namespace mesmer
     formatFloat(cout, kinf, 6, 15) ;
     }*/
 
-    cout << events << endl;
+    {
+      stringstream errorMsg;
+      errorMsg << events;
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
   }
 
   bool System::SetGrainParams()
@@ -313,6 +322,11 @@ namespace mesmer
       mEnv.GrainSize = (mEnv.EMax-mEnv.EMin)/mEnv.MaxGrn;
 
     mEnv.MaxCell = (int)(mEnv.GrainSize * mEnv.MaxGrn + 0.5);
+    {
+      stringstream errorMsg;
+      errorMsg << "Cell number = " << mEnv.MaxCell << ", Grain number = " << mEnv.MaxGrn;
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
     return true;
     /*
      //Hardwired
@@ -383,7 +397,7 @@ namespace mesmer
       stringstream errorMsg;
       thisEvent = "Write XML attribute";
       timeString = events.setTimeStamp(thisEvent);
-      errorMsg << thisEvent << " at " << timeString << endl;
+      errorMsg << thisEvent << " at " << timeString;
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     ppItem->XmlWriteAttribute("content", timeString);

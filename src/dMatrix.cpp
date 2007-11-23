@@ -2,7 +2,7 @@
 //
 // dMatrix.cpp
 //
-// Author: Struan Robertson 
+// Author: Struan Robertson
 // Date:   18/June/2006
 //
 // EISPACK functions for diagonalizing a symmetric matrix.
@@ -20,7 +20,7 @@
 //   Ref: Smith et al., Matrix Eigensystem Routines -- EISPACK Guide
 //   Springer-Verlag, 1976, pp. 489-494.
 //   W H Press et al., Numerical Recipes in C, Cambridge U P,
-//   1988, pp. 373-374. 
+//   1988, pp. 373-374.
 //-------------------------------------------------------------------------------------------
 namespace mesmer
 {
@@ -103,16 +103,16 @@ void dMatrix::tred2(MesmerHP **a, int n, MesmerHP *d, MesmerHP *e)
 //-------------------------------------------------------------------------------------------
 // EISPACK tqli function.
 //
-// QL algorithm with implicit shifts, to determine the eigenvalues and eigenvectors of a real, 
-// symmetric, tridiagonal matrix, or of a real, symmetric matrix previously reduced by tred2. 
+// QL algorithm with implicit shifts, to determine the eigenvalues and eigenvectors of a real,
+// symmetric, tridiagonal matrix, or of a real, symmetric matrix previously reduced by tred2.
 //
 // On input:
-//    d[1..n] contains the diagonal elements of the tridiagonal matrix. 
+//    d[1..n] contains the diagonal elements of the tridiagonal matrix.
 //    e[1..n] contains the subdiagonal elements of the tridiagonal matrix.
 // with e[1] arbitrary.
-// On output: 
-//    d[1..n] returns the eigenvalues.  
-//    e[1..n] is destroyed. 
+// On output:
+//    d[1..n] returns the eigenvalues.
+//    e[1..n] is destroyed.
 //
 // When finding only the eigenvalues, several lines may be omitted, as noted in the comments.
 //
@@ -139,6 +139,17 @@ void dMatrix::tqli(MesmerHP *d, MesmerHP *e, int n, MesmerHP **z)
       if (m != l) {
         // if (iter++ == 30) fprintf(stderr, "Too many iterations in TQLI");
         if (iter++ == 60) fprintf(stderr, "Too many iterations in TQLI");
+        /* CHL
+        Source: http://www.nr.com/forum/showthread.php?t=592
+        I hope that bellow words will be useful for you.
+        See thread under the title: Possible convergence problems in svdcmp, jacobi, tqli, hqr by Saul Teukolsky
+        in Forum: Official Bug Reports with known bugs. May be this is a reason of slow convergency.
+        It is good check, that matrix is symmetric and to work with double accuracy. I have known also versions
+        with increased number of iterations (200 for example). But I think that this experimental number is right
+        in any case: if you have not convergency for 30 iterations, there is no convergency at all.
+        SVD method used in book is an intrinsic iterative procedure, 30 iterations is a good number to
+        convergency up to numerical accuracy. Evgeny
+        */
         g=(d[l]-d[l-1])/(2.0*e[l-1]);
         r=sqrt((g*g)+1.0);
         g=d[m-1]-d[l-1]+e[l-1]/(g + (g<0 ? -fabs(r) : fabs(r)));

@@ -22,11 +22,11 @@ namespace mesmer
 
     if (!p_mol1 || !p_mol2){ // cannot get the pointers directly, some error will occur!
       stringstream errorMsg;
-      errorMsg << "Cannot get individual members of the SuperMolecule" << endl;
+      errorMsg << "Cannot get individual members of the SuperMolecule";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
     }
-    
-    
+
+
     vector<double> rotCs1; int rotor1Type = p_mol1->get_rotConsts(rotCs1);
     vector<double> rotCs2; int rotor2Type = p_mol2->get_rotConsts(rotCs2);
     vector<double> mol1CellEne;
@@ -108,7 +108,12 @@ namespace mesmer
   bool ClassicalRotor::countMonomerCellDOS(ModelledMolecule* mol, const MesmerEnv &mEnv)
   {
     vector<double> VibFreq; mol->get_VibFreq(VibFreq);
-    cout << endl << "Number of frequencies: " << VibFreq.size() << endl ;
+
+    {
+      stringstream errorMsg;
+      errorMsg << "Number of frequencies: " << VibFreq.size();
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
 
     mol->m_cellDOS.clear(); mol->m_cellEne.clear(); //make sure there is no residue left
 

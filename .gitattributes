@@ -26,6 +26,7 @@ Windows[!!-~]VC8/Mesmer/pentyl_isomerizationJul.xml -text
 Windows[!!-~]VC8/Mesmer/switchcontent.js -text
 bin/OH_acetylene_association.xml -text
 bin/pentyl_isomerizationJul.xml -text
+bin/pentyl_isomerizationOct.xml -text
 qd/AUTHORS -text
 qd/COPYING -text
 qd/ChangeLog -text

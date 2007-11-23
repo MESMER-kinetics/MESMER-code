@@ -37,13 +37,13 @@ int main(int argc,char *argv[])
 
   //------------
   // Parse input
-    {
-      stringstream errorMsg;
-      string thisEvent = "Parse input xml file";
-      string parseTimeStamp = events.setTimeStamp(thisEvent);
-      errorMsg << thisEvent << " at " << parseTimeStamp << endl;
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-    }
+  {
+    stringstream errorMsg;
+    string thisEvent = "Parse input xml file";
+    string parseTimeStamp = events.setTimeStamp(thisEvent);
+    errorMsg << thisEvent << " at " << parseTimeStamp << endl;
+    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+  }
 
   if(!ppIOPtr || !_sys.parse(ppIOPtr)){
     stringstream errorMsg;

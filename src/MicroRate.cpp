@@ -17,7 +17,12 @@ namespace mesmer
     pReact->get_unimolecularspecies(unimolecularspecies);
     CollidingMolecule * pReactant = unimolecularspecies[0];
 
-    cout << endl << "Test of microcanonical rate coefficients" << endl << endl ;
+    {
+      stringstream errorMsg;
+      errorMsg << "Test of microcanonical rate coefficients";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
+
     string comment("Microcanonical rate coefficients");
     PersistPtr ppList = ppbase->XmlWriteMainElement("me:microRateList", comment );
 

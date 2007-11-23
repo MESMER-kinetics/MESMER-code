@@ -78,7 +78,12 @@ namespace mesmer
     if(ppReactant2)
     {
       pMol2 = GetMolRef(ppReactant2);
-      if(!pMol2) return false;
+      if(!pMol2){
+        stringstream errorMsg;
+        errorMsg << "Cannot find Reactant 2 defined in Reaction " << getName() << ".";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+        return false;
+      }
     }
 
     //Put the CollidingMolecule into m_rct1, even if it is second in datafile
@@ -100,13 +105,39 @@ namespace mesmer
       m_rct2 = dynamic_cast<ModelledMolecule*>(pMol1);
     }
 
-    if (pMol1 && pMol2){
-      // Create a SuperMolecule from reactants
-      SuperMolecule* pSMol(NULL);
-      pSMol = m_pMoleculeManager->addSuperMol(); // add a blank SuperMolecule pointer to molmap
-
-      m_srct = pSMol;
-      m_srct->setMembers(m_rct1, m_rct2);
+    if (m_rct1 && m_rct2){ // the reactant side has two molecules
+      // check whether there is any SuperMolecule in m_molmap contains pMol1 & pMol2
+      string id = "source"; SuperMolecule* pmol = NULL;
+      while(m_pMoleculeManager->GetNextMolecule(id, pmol)){ // get next SuperMolecule
+        // if found a SuperMolecule
+        CollidingMolecule* rm1 = pmol->getMember1();
+        ModelledMolecule*  rm2 = pmol->getMember2();
+        if (rm1 && rm2){ // some data are already inside
+          if (rm1 != m_rct1 || rm2 != m_rct2){ // not this SuperMolecule, find next.
+            errorMsg << "Not this SuperMolecule, find next.";
+            obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+            pmol = NULL;
+          }
+          else{ // this is the SuperMolecule we are looking for
+            m_srct = pmol;
+            errorMsg << "Found the SuperMolecule: " << m_srct->getName();
+            obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+            break;
+          }
+        }
+        else{// there is no data inside, occupy it!
+          pmol->setMembers(m_rct1, m_rct2);
+          m_srct = pmol;
+          errorMsg << "Occupy the position of the SuperMolecule: " << m_srct->getName();
+          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+          break;
+        }
+      }
+      if (!pmol){
+        errorMsg << "Cannot find any SuperMolecule in m_molmap.";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+        return false;
+      }
     }
 
     //Read products ... if any.
@@ -149,8 +180,12 @@ namespace mesmer
       if(ppmol)
       {
         const char* pRef = ppmol->XmlReadValue("ref");
-        if(!pRef)
-            return false;
+        if(!pRef){
+          stringstream errorMsg;
+          errorMsg << "Cannot find transitionState defined in Reaction " << getName() << ".";
+          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+          return false;
+        }
         m_TransitionState = dynamic_cast<TransitionState*>(m_pMoleculeManager->find(pRef));
       }
 
@@ -221,7 +256,7 @@ namespace mesmer
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
         return false;
       }
-    }
+    } // shall we provide a default method?
 
 
     return true;
@@ -427,12 +462,18 @@ namespace mesmer
     }
 
     // Issue warning if number of grains produced is less that requested.
-    if ( idx2 < MaximumGrain ) {
+    if ( idx2 != MaximumGrain ) {
       stringstream errorMsg;
-      errorMsg << "Number of grains produced is less than requested" << endl
-        << "Number of grains requested: " << MaximumGrain << endl
-        << "Number of grains produced : " << idx2 << ".";
+      errorMsg << "Number of grains produced is not equal to that requested" << endl
+               << "Number of grains requested: " << MaximumGrain << endl
+               << "Number of grains produced : " << idx2 << " in " << getName();
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+    }
+    else{
+//      stringstream errorMsg;
+//      errorMsg << "Number of grains requested: " << MaximumGrain << endl
+//               << "Number of grains produced : " << idx2 << " in " << getName();
+//      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     return true;
   }
@@ -527,7 +568,7 @@ namespace mesmer
     vector<double> srcBoltz(MaximumGrain, 0.0) ;
     m_srct->grnBoltzDist(srcBoltz, mEnv) ;
 
-    int sL(srcLoc) ;
+    int sL(srcLoc) ; // this is the location of the source (SuperMolecule)
     double DissRateCoeff(0.0) ;
 
     const int idx = int(m_HeatOfReaction / mEnv.GrainSize); //any possible leak? need to test.

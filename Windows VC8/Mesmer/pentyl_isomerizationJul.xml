@@ -208,7 +208,7 @@
         </property>
       </propertyList>
     </molecule>
-
+    
     <molecule id="ethyl">
       <atomArray>
         <atom id="a1" elementType="C"/>

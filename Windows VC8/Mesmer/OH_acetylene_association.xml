@@ -2,6 +2,10 @@
 <?xml-stylesheet type='text/xsl' href='mesmer1.xsl'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
     <moleculeList>
+        <molecule id="source" me:type="source">
+          <component ref="n-pentyl" />
+          <component ref="2-pentyl" />
+        </molecule>
         <molecule id="OH_acetylene_adduct" me:type="colliding">
             <atomarray>
                 <atom id="a1" elementType="C" />
@@ -73,6 +77,12 @@
                 </property>
                 <property dictRef="me:symmetryNumber">
                     <scalar>1.0</scalar>
+                </property>
+                <property dictRef="me:epsilon">
+                    <scalar>250.0</scalar>
+                </property>
+                <property dictRef="me:sigma">
+                    <scalar>5.0</scalar>
                 </property>
                 <property dictRef="me:vibFreqs">
                     <array units="cm-1">332.0 807.0 903.0 1010.0 1098.0 1158.0 1306.0 1407.0 1988.0 3127.0 3167.0</array>

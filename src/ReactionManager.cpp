@@ -41,6 +41,10 @@ namespace mesmer
       //
       // Add reaction to map.
       //
+
+      //need to check if there is duplicate reaction name/species: CHL
+
+
       m_reactions.push_back(preaction) ;
 
       ppReac = ppReac->XmlMoveTo("reaction");
@@ -130,7 +134,11 @@ namespace mesmer
       }
     }
 
-    cout << endl << "Size of the collision matrix: " << msize << endl << endl ;
+    {
+      stringstream errorMsg;
+      errorMsg << "Size of the collision matrix: " << msize;
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
 
     // Allocate space for system collision operator.
 
@@ -161,10 +169,20 @@ namespace mesmer
     // Allocate space for eigenvalues.
     const int smsize = int(m_pSystemCollisionOperator->size()) ;
     vector<double> rr(smsize, 0.0);
+    {
+      stringstream errorMsg;
+      errorMsg << "Size of the collision operator = " << smsize;
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
 
     m_pSystemCollisionOperator->diagonalize(&rr[0]) ;
 
     // Print out the first ten eigen values.
+    {
+      stringstream errorMsg;
+      errorMsg << "Printing the first ten eigen values";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
 
     cout << endl ;
 

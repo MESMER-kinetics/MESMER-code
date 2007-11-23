@@ -3,9 +3,9 @@
 
 //-------------------------------------------------------------------------------------------
 //
-// Constants.h 
+// Constants.h
 //
-// Author: Struan Robertson 
+// Author: Struan Robertson
 // Date:   10/Mar/2003
 //
 // This header file contains the definitions of common physical constants.
@@ -22,7 +22,7 @@ namespace Constants {
   //
   static const double boltzmann_RCpK          = 0.695035612 ;   // Boltzmann constant (cm*K)-1. (Reciprocal Centimeter per Kelvin)
   static const double KcalPerMolToRC          = 349.757 ;       // kilo Calorie per mol to reciprocal centimeter
-                                              
+
   static const double SpeedOfLight_cm         = 2.99792458e+10 ;  // speed of light in centimeter
   static const double InverseSpeedOfLight_pCm = 1.0/SpeedOfLight_cm ; // In wavenumber units this comes out as
                                                                       // the reciprocal of the speed of light.
@@ -36,6 +36,8 @@ namespace Constants {
   static const double pascalPerAtm            = 1.01325e+05;
   static const double idealGasC               = 8.31451l;
   static const double amu                     = 1.6606E-27;
+  static const double sigmaDefault            = 5.0;
+  static const double epsilonDefault          = 50.0;
 }
 
 #endif // GUARD_Constants_h

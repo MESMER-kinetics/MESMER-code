@@ -1,3 +1,15 @@
+_2007_11_23__17_26_41_ Chi-Hsiu Liang
+
+  * Added two static variables sigmaDefault, and epsilonDefault.
+  * Some comments on dMatrix.cpp
+  * Modified some information reports.
+  * reorganised some orders of molecular initialization.
+  * Added setPersistentPointer() for Molecule
+  * Added some codes in MoleculeManager.cpp & Reaction.cpp about adding SuperMolecule (some errors still exist)
+  * Problem for SuperMolecule: 1. After adding a SuperMolecule into m_molmap, still cannot use GetNextMolecule() to
+                               retrieve it!?
+                               2. Matrix diagonalization does not converge.
+
 _2007_11_22__10_57_55_ Chi-Hsiu Liang
 
   * modified some tags in bin/pentyl_isomerizationJul.xml

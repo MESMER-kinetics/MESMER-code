@@ -26,8 +26,15 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
     //-------------
     // Create a new Molecule of the required type.
     const char* ptype = ppmol->XmlReadValue("me:type", false);//some product mols don't have type
+    /*need to think about this again, if a molecule has no type, it cannot store zpe, spin, etc...
+    A mol has no type may probably for user to prepare some incomplete/unused molecules.*/
     string moltype;
-    if (ptype) moltype = ptype;
+    if (ptype) {
+      moltype = ptype;
+    }
+    else{
+      moltype = "undefined";
+    }
 
     Molecule *pmolecule;
     if     (moltype=="source")
@@ -46,42 +53,64 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
     //-------------
     // Initialize Molecule from input stream.
     // Each molecule type has its own set of mandatory parameters
-    if(!pmolecule->InitializeMolecule(ppmol) && (pmolecule->getName()).empty()){
+    if(!pmolecule->InitializeMolecule(ppmol) || pmolecule->getName().empty()){
+      stringstream errorMsg;
+      errorMsg << "Failed in initializing the molecule. moltype = " << moltype;
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       delete pmolecule;
       return false;
-    }
+    } /*for the case of a SuperMolecule, if the element of source exists, the name has also to be specified.*/
 
+    //strName has to go after InitializeMolecule()
     string strName = pmolecule->getName() ;
+
+//    {stringstream errorMsg;
+//    errorMsg << "Molecule " << strName << ", size of name = " << strName.size() << ", molecular type = " << moltype;
+//    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
+
     //check if the molecule exists in m_molmap
-    constMolIter it ;
-    it = m_molmap.find(strName) ;
+    constMolIter it = m_molmap.find(strName) ;
     if (it != m_molmap.end()) {
       stringstream errorMsg;
       errorMsg << "Molecule " << strName << " already defined. Check input file to remove duplicates.";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
     }
+    else{
+      //pmolecule->put_verbosity(true) ;
+//      {stringstream errorMsg;
+//      errorMsg << "Adding Molecule " << strName << " into m_molmap, molecular type = " << moltype;
+//      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
 
-    //pmolecule->put_verbosity(true) ;
-
-    //-------------
-    // Add molecule to map.
-    m_molmap[strName] = pmolecule ;
-
+      //-------------
+      // Add molecule to map.
+      m_molmap[strName] = pmolecule ;
+    }
     ppmol = ppmol->XmlMoveTo("molecule");
   }
+
+  //check if there is a SuperMolecule (must at least have one)
+  string superName = "source";
+  constMolIter it = m_molmap.find(superName) ;
+  if (it != m_molmap.end()) { // if there is no source, create an instance
+    PersistPtr ppSuper = ppMolList->XmlWriteElement("molecule");
+    ppSuper->XmlWriteAttribute("id", "source");
+    ppSuper->XmlWriteAttribute("me:type", "source");
+    it->second->setPersistentPointer(ppSuper);
+  }
+
   return true;
 }
 
-//
-// Add a new molecule to the list.
-//
-SuperMolecule* MoleculeManager::addSuperMol() {
-  string myName = "source term";
-  SuperMolecule *pmolecule = new SuperMolecule();
-  pmolecule->InitializeMolecule(myName);
-  m_molmap[myName] = pmolecule;
-  return pmolecule;
-}
+////
+//// Add a new molecule to the list.
+////
+//SuperMolecule* MoleculeManager::addSuperMol(PersistPtr value) {
+//  string myName = "source";
+//  SuperMolecule *pmolecule = new SuperMolecule();
+//  pmolecule->InitializeMolecule(value);
+//  m_molmap[myName] = pmolecule;
+//  return pmolecule;
+//}
 
 //
 // Find a molecule in the list.

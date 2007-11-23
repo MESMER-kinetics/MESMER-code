@@ -69,11 +69,6 @@ namespace mesmer
     m_mol2(NULL)
   {}
 
-  SuperMolecule::SuperMolecule(double zpe, CollidingMolecule* mol1p, ModelledMolecule* mol2p):
-    m_mol1(mol1p),
-    m_mol2(mol2p)
-  {}
-
   SuperMolecule::~SuperMolecule()
   {}
 
@@ -108,26 +103,13 @@ namespace mesmer
     txt= ppPropList->XmlReadProperty("me:MW");
     if(!txt){
       errorMsg << "Molecule::Cannot find argument me:MW\n";
-      setFlag(true);
+      //setFlag(true);
     }
     else { istringstream idata(txt); double mass(0.); idata >> mass; setMass(mass);}
 
-    txt= ppPropList->XmlReadProperty("me:sigma");
-    if(!txt){
-      errorMsg << "Molecule::Cannot find argument me:sigma\n";
-      setFlag(true);
-    }
-    else { istringstream idata(txt); double sigma(0.); idata >> sigma; setSigma(sigma);}
-
-    txt= ppPropList->XmlReadProperty("me:epsilon");
-    if(!txt){
-      errorMsg << "Molecule::Cannot find argument me:epsilon\n";
-      setFlag(true);
-    }
-    else { istringstream idata(txt); double epsilon(0.); idata >> epsilon; setEpsilon(epsilon);} //extra block ensures idata is initiallised
 
     if (getFlag()){
-      errorMsg << "Error(s) while initializing molecule: " << m_Name << endl;
+      errorMsg << "Error(s) while initializing molecule: " << m_Name;
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
       return false;
     }
@@ -136,6 +118,8 @@ namespace mesmer
 
   bool BathGasMolecule::InitializeMolecule(PersistPtr pp)
   {
+    stringstream errorMsg;
+
     //Read base class parameters first
     if(!Molecule::InitializeMolecule(pp)){
       stringstream errorMsg;
@@ -143,6 +127,35 @@ namespace mesmer
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       return false;
     }
+
+    PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
+    if(!ppPropList)
+        ppPropList=pp; //Be forgiving; we can get by without a propertyList element
+
+    const char* txt;
+
+    txt= ppPropList->XmlReadProperty("me:sigma");
+    if(!txt){
+      errorMsg << "Molecule::Cannot find argument me:sigma.\n";
+      setSigma(sigmaDefault);
+      setFlag(true);
+    }
+    else { istringstream idata(txt); double sigma(0.); idata >> sigma; setSigma(sigma);}
+
+    txt= ppPropList->XmlReadProperty("me:epsilon");
+    if(!txt){
+      errorMsg << "Molecule::Cannot find argument me:epsilon.\n";
+      setEpsilon(epsilonDefault);
+      setFlag(true);
+    }
+    else { istringstream idata(txt); double epsilon(0.); idata >> epsilon; setEpsilon(epsilon);} //extra block ensures idata is initiallised
+
+    if (getFlag()){
+      errorMsg << "Error(s) while initializing molecule: " << getName();
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      return false;
+    }
+
     return true;
   }
 
@@ -207,7 +220,7 @@ namespace mesmer
     else { istringstream idata(txt); idata >> m_ZPE ; }
 
     // Determine the method of DOS calculation.
-    const char* pDOSCMethodtxt = pp->XmlReadValue("me:DOSCMethod") ;
+    const char* pDOSCMethodtxt = pp->XmlReadValue("me:DOSCMethod", false) ;
     if(pDOSCMethodtxt)
     {
       m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
@@ -221,6 +234,10 @@ namespace mesmer
         m_pDensityOfStatesCalculator = NULL;
       }
     }
+    else{
+      pDOSCMethodtxt = "Classical rotors"; // must exist
+      m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
+    }
 
 //    txt= ppPropList->XmlReadProperty("me:spinMultiplicity");
 //    if(!txt)
@@ -230,6 +247,7 @@ namespace mesmer
 //    }
 
     if (getFlag()){
+      errorMsg << "Error(s) while initializing ModelledMolecule: " << getName();
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       return false;
     }
@@ -256,6 +274,23 @@ namespace mesmer
 
     const char* txt;
 
+    txt= ppPropList->XmlReadProperty("me:sigma");
+    if(!txt){
+      errorMsg << "Molecule::Cannot find argument me:sigma. Default value " << sigmaDefault << " used.\n";
+      setSigma(sigmaDefault);
+      //setFlag(true);
+      // sigma and epsilon are not always necessary.
+    }
+    else { istringstream idata(txt); double sigma(0.); idata >> sigma; setSigma(sigma);}
+
+    txt= ppPropList->XmlReadProperty("me:epsilon");
+    if(!txt){
+      errorMsg << "Molecule::Cannot find argument me:epsilon. Default value " << epsilonDefault << " used.\n";
+      setEpsilon(epsilonDefault);
+      //setFlag(true);
+    }
+    else { istringstream idata(txt); double epsilon(0.); idata >> epsilon; setEpsilon(epsilon);} //extra block ensures idata is initiallised
+
     txt= ppPropList->XmlReadProperty("me:deltaEDown");
     if(!txt){
       errorMsg << "CollidingMolecule::Cannot find argument me:deltaEDown";
@@ -264,21 +299,48 @@ namespace mesmer
     else { istringstream idata(txt); idata >> m_DeltaEdown; }
 
     if (getFlag()){
+      errorMsg << "Error(s) while initializing CollidingMolecule: " << getName();
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       return false;
     }
-    
-    {stringstream errorMsg;
-     errorMsg << "Constructed CollidingMolecule " << getName() << " successfully.";
-     obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
+
+//    {stringstream errorMsg;
+//     errorMsg << "Constructed CollidingMolecule " << getName() << " successfully.";
+//     obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
 
     return true;
   }
 
-  bool SuperMolecule::InitializeMolecule(string name)
+  bool SuperMolecule::InitializeMolecule(PersistPtr pp)
   {
-    setName(name);
-    return true;
+    //the construction of SuperMolecule should always rely on the components, there is therefore no need to initialize it
+    //apart from name and m_ppPersist
+    stringstream errorMsg;
+
+    if (pp) {
+      setPersistentPointer(pp);
+
+      const char* id = pp->XmlReadValue("id");
+      if (id) setName(id);
+      else{
+        errorMsg << "Molecular name is absent.\n";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+        string tempName = "source"; setName(tempName);
+        setFlag(true);
+      }
+      return true;
+    }
+    else{
+      errorMsg << "Invalid PersistPtr.\n";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      return false;
+    }
+
+    if (getFlag()){
+      errorMsg << "Error(s) while initializing SuperMolecule: " << getName();
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      return false;
+    }
   }
 
   //
@@ -327,6 +389,10 @@ namespace mesmer
   void ModelledMolecule::grnBoltzDist(vector<double> &grainBoltzDist, const MesmerEnv &mEnv)
   {
     // If density of states have not already been calcualted then do so.
+    {stringstream errorMsg;
+     errorMsg << "Before calcDensityOfStates(), Molecular name: " << getName();
+     obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
+
     if (!m_cellDOS.size())
       calcDensityOfStates(mEnv) ;
 
@@ -729,7 +795,7 @@ namespace mesmer
 
     if (mEnv.GrainSize < 1) {
       stringstream errorMsg;
-      errorMsg << "Not enought Cells to produce requested number of Grains.";
+      errorMsg << "The number of Cells is insufficient to produce requested number of Grains.";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       exit(1) ;
     }
@@ -763,12 +829,19 @@ namespace mesmer
 
     // Issue warning if number of grains produced is less that requested.
 
-    if ( idx2 < MaximumGrain ) {
+    if ( idx2 != MaximumGrain ) {
       stringstream errorMsg;
-      errorMsg << "Number of grains produced is less than requested" << endl
+      errorMsg << "Number of grains produced is not equal to that requested" << endl
                << "Number of grains requested: " << MaximumGrain << endl
-               << "Number of grains produced : " << idx2 << ".";
+               << "Number of grains produced : " << idx2 << " in " << getName();
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
     }
+    else{
+//      stringstream errorMsg;
+//      errorMsg << "Number of grains requested: " << MaximumGrain << endl
+//               << "Number of grains produced : " << idx2 << " in " << getName();
+//      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
+
   }
 }//namespace
