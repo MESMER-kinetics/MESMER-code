@@ -20,12 +20,11 @@ namespace mesmer
     CollidingMolecule* p_mol1 = rcts->getMember1();
     ModelledMolecule*  p_mol2 = rcts->getMember2();
 
-    if (!p_mol1 || !p_mol2){ // cannot get the pointers directly, some error will occur!
+    if (!p_mol1 || !p_mol2){
       stringstream errorMsg;
       errorMsg << "Cannot get individual members of the SuperMolecule";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
     }
-
 
     vector<double> rotCs1; int rotor1Type = p_mol1->get_rotConsts(rotCs1);
     vector<double> rotCs2; int rotor2Type = p_mol2->get_rotConsts(rotCs2);

@@ -1,3 +1,9 @@
+_2007_11_26__14_10_23_ Chi-Hsiu Liang
+
+  * Corrected the usage on GetNextMolecule() in line 110 of Reaction.cpp
+  * Todo: 1. need to check testDensityOfStates() for both ModelledMolecule and SuperMolecule
+          2. test systems, check AddAssocReactionTerms()
+
 _2007_11_23__17_26_41_ Chi-Hsiu Liang
 
   * Added two static variables sigmaDefault, and epsilonDefault.

@@ -107,7 +107,8 @@ namespace mesmer
 
     if (m_rct1 && m_rct2){ // the reactant side has two molecules
       // check whether there is any SuperMolecule in m_molmap contains pMol1 & pMol2
-      string id = "source"; SuperMolecule* pmol = NULL;
+      string id; //shoud not set any name for it.
+      SuperMolecule* pmol = NULL;
       while(m_pMoleculeManager->GetNextMolecule(id, pmol)){ // get next SuperMolecule
         // if found a SuperMolecule
         CollidingMolecule* rm1 = pmol->getMember1();

@@ -145,7 +145,7 @@ namespace mesmer
     void calcGrainAverages(const MesmerEnv &mEnv) ;
 
     // Test the rovibrational density of states.
-    void testDensityOfStates(const MesmerEnv &mEnv) ;
+    virtual void testDensityOfStates(const MesmerEnv &mEnv) ;
   } ;
 
   //**************************************************
@@ -233,6 +233,8 @@ namespace mesmer
 
     CollidingMolecule* getMember1(){ return m_mol1;}
     ModelledMolecule * getMember2(){ return m_mol2;}
+
+    //virtual void testDensityOfStates(const MesmerEnv &mEnv) ;
 
   };
 

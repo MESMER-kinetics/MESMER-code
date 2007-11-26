@@ -711,23 +711,23 @@ namespace mesmer
   }
 
   //
-  // Test the rovibrational density of states.
+  // Test the rovibrational density of states for ModelledMolecule.
   //
   void ModelledMolecule::testDensityOfStates(const MesmerEnv &mEnv)
   {
-    cout << endl << "Test density of states: " << getName() << endl << endl ;
+    cout << endl << "Test density of states for ModelledMolecule: " << getName() << endl << endl ;
     int MaximumGrain = mEnv.MaxGrn;
-    double temp = 0.;
-    double beta = 0.;
 
     string comment("Partition function calculation at various temperatures.\n qtot : using analytical formula\n sumc : based on cells\n sumg  : based on grains");
 
     PersistPtr ppList = getPersistentPointer()->XmlWriteMainElement("me:densityOfStatesList", comment );
 
+    cout << "      T           qtot           sumc           sumg\n";
+
     //loop through predefined test temperatures
     for ( int n = 0 ; n < 29 ; ++n ) {
-      temp = 100.0*static_cast<double>(n + 2) ;
-      beta = 1.0/(boltzmann_RCpK*temp) ;
+      double temp = 100.0*static_cast<double>(n + 2) ;
+      double beta = 1.0/(boltzmann_RCpK*temp) ;
 
       // Calculate partition functions based on cells.
 
@@ -750,13 +750,13 @@ namespace mesmer
       vector<double> rotConst; int rotorType = get_rotConsts(rotConst);
 
       switch(rotorType){
-        case 2:
+        case 2://3-D symmetric/asymmetric/spherical top
           for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) {
             qtot /= (1.0 - exp(-beta*m_VibFreq[j])) ;
           }
           qtot *= sqrt(M_PI/(rotConst[0] * rotConst[1] * rotConst[2]))*(pow(beta,-1.5))/m_Sym ;
           break;
-        case 0:
+        case 0://2-D linear
           for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) {
             qtot /= (1.0 - exp(-beta*m_VibFreq[j])) ;
           }
