@@ -137,7 +137,7 @@ namespace mesmer
     int get_unimolecularspecies(std::vector<CollidingMolecule *> &unimolecularspecies) const ;
 
     // Product information:
-    int get_bi_molecularspecies(SuperMolecule* bi_mol) const;
+    SuperMolecule* get_bi_molecularspecies(void) const;
 
     // Get the principal source reactant (i.e. reactant not in excess) if it exists.
     CollidingMolecule *get_pseudoIsomer() const ;

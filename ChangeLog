@@ -1,3 +1,15 @@
+_2007_11_27__12_39_58_ Chi-Hsiu Liang
+
+  * Some corrections over the error checking on parsing.
+  * Added spin multiplicity in the multiplication of DOS in monomer.
+  * Modified the return type of get_unimolecularspecies(), the old method is not clear whether the inserted argument
+    is for output or input.
+  * Add a source term in m_molmap whenever if there isn't one. No matter if it is necessary to have a source or not. (See
+    the end of addmols() in MoleculeManager.cpp)
+  * Problem: sL variable out of range in the vector in AddAssocReactionTerms(), the reason is that the m_CellDOS not initialized
+    properly for source term.
+  * Added Windows VC8/Mesmer/HSO2_test.xml for test.
+
 _2007_11_26__14_10_23_ Chi-Hsiu Liang
 
   * Corrected the usage on GetNextMolecule() in line 110 of Reaction.cpp

@@ -124,18 +124,19 @@ namespace mesmer
     //From inverse Laplace transform of rotors
     vector<double> rotConst; int rotorType = mol->get_rotConsts(rotConst);
     double sym = mol->get_Sym();
+    double qele = mol->getSpinMultiplicity();
     double cnt = 0.;
 
     switch (rotorType){
       case 2: //3-D symmetric/asymmetric/spherical top
-        cnt = sqrt(4./(rotConst[0] * rotConst[1] * rotConst[2]))/sym ;
+        cnt = qele * sqrt(4./(rotConst[0] * rotConst[1] * rotConst[2]))/sym ;
         for (int i = 0 ; i < mEnv.MaxCell ; ++i ) {
           mol->m_cellEne.push_back(static_cast<double>(i) + 0.5);
           mol->m_cellDOS.push_back(cnt*sqrt(mol->m_cellEne[i]));
         }
         break;
       case 0: //2-D linear
-        cnt = 1./ (rotConst[0] * sym);
+        cnt = qele / (rotConst[0] * sym);
         for (int i = 0 ; i < mEnv.MaxCell ; ++i ){
           mol->m_cellEne.push_back(static_cast<double>(i) + 0.5);
           mol->m_cellDOS.push_back(cnt);

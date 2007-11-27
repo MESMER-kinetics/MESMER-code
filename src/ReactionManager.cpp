@@ -120,15 +120,16 @@ namespace mesmer
     meanomega /= isomers.size();
 
     //
-    // Find all source terms. Note: A source term is probably the only deficient reactant that initiates the whole process
-    // of reactions in the master equation. In this case we think there may be more than one source terms. CHL
-    //
+    // Find all source terms. 
+    // Note: 1. A source term is probably the only deficient reactant that initiates the whole process of reactions 
+    //          in the master equation. In this case we think there may be more than one source terms.
+    //       2. In the current construction of Mesmer, the source is a SuperMolecule representing both reactants.
     Reaction::sourceMap sources ; // Maps the location of source in the system matrix.
     for (size_t i(0) ; i < size() ; ++i) {
 
-      SuperMolecule *pSuperMolecule = new SuperMolecule;
-      if (m_reactions[i]->get_bi_molecularspecies(pSuperMolecule) == 2 &&
-          sources.find(pSuperMolecule) == sources.end()){ // New source
+      SuperMolecule *pSuperMolecule = NULL; // get the sourceMap returnHere
+      pSuperMolecule = m_reactions[i]->get_bi_molecularspecies();
+      if (pSuperMolecule && sources.find(pSuperMolecule) == sources.end()){ // New source
         ++msize ;
         sources[pSuperMolecule] = msize ;
       }

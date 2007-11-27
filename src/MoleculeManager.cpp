@@ -91,11 +91,13 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
   //check if there is a SuperMolecule (must at least have one)
   string superName = "source";
   constMolIter it = m_molmap.find(superName) ;
-  if (it != m_molmap.end()) { // if there is no source, create an instance
+  if (it == m_molmap.end()) { // if there is no source, create an instance
     PersistPtr ppSuper = ppMolList->XmlWriteElement("molecule");
     ppSuper->XmlWriteAttribute("id", "source");
     ppSuper->XmlWriteAttribute("me:type", "source");
-    it->second->setPersistentPointer(ppSuper);
+    Molecule *pmolecule = static_cast<Molecule*>(new SuperMolecule());
+    pmolecule->InitializeMolecule(ppSuper);
+    m_molmap[superName] = pmolecule;
   }
 
   return true;

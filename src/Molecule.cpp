@@ -181,14 +181,14 @@ namespace mesmer
     txt= ppPropList->XmlReadProperty("me:vibFreqs");
     if(!txt){
       errorMsg << "ModelledMolecule::Cannot find argument me:vibFreqs";
-      setFlag(true);
+      //setFlag(true); // it maybe an atom so not necessary to set this flag. Just produce warning.
     }
     else { istringstream idata(txt); double x; while (idata >> x) m_VibFreq.push_back(x);}
 
     txt= ppPropList->XmlReadProperty("me:rotConsts");
     if(!txt){
       errorMsg << "ModelledMolecule::Cannot find argument me:rotConsts";
-      setFlag(true);
+      //setFlag(true); // it maybe an atom so not necessary to set this flag. Just produce warning.
     }
     else {
       istringstream idata(txt);
@@ -207,15 +207,16 @@ namespace mesmer
 
     txt= ppPropList->XmlReadProperty("me:symmetryNumber");
     if(!txt){
-      errorMsg << "ModelledMolecule::Cannot find argument me:symmetryNumber";
-      setFlag(true);
+      errorMsg << "ModelledMolecule::Cannot find argument me:symmetryNumber. Set to default value 1.0";
+      m_Sym = 1.0;
+      //setFlag(true);
     }
     else { istringstream idata(txt); idata >> m_Sym; }
 
     txt= ppPropList->XmlReadProperty("me:ZPE");
     if(!txt){
       errorMsg << "ModelledMolecule::Cannot find argument me:ZPE";
-      setFlag(true);
+      setFlag(true); // there has to have zero point energy in all molecules.
     }
     else { istringstream idata(txt); idata >> m_ZPE ; }
 
@@ -239,12 +240,16 @@ namespace mesmer
       m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
     }
 
-//    txt= ppPropList->XmlReadProperty("me:spinMultiplicity");
-//    if(!txt)
-//        return false;
-//    { istringstream idata(txt);
-//    idata >> m_SpinMultiplicity;
-//    }
+    txt= ppPropList->XmlReadProperty("me:spinMultiplicity");
+    if(!txt){
+      errorMsg << "ModelledMolecule::Cannot find argument me:spinMultiplicity. Set to default value 1.0";
+      m_SpinMultiplicity = 1;
+    }
+    else
+    { 
+      istringstream idata(txt);
+      idata >> m_SpinMultiplicity;
+    }
 
     if (getFlag()){
       errorMsg << "Error(s) while initializing ModelledMolecule: " << getName();
@@ -294,7 +299,7 @@ namespace mesmer
     txt= ppPropList->XmlReadProperty("me:deltaEDown");
     if(!txt){
       errorMsg << "CollidingMolecule::Cannot find argument me:deltaEDown";
-      setFlag(true);
+      //setFlag(true);
     }
     else { istringstream idata(txt); idata >> m_DeltaEdown; }
 
@@ -395,6 +400,10 @@ namespace mesmer
 
     if (!m_cellDOS.size())
       calcDensityOfStates(mEnv) ;
+
+    {stringstream errorMsg;
+     errorMsg << "After calcDensityOfStates(), Molecular name: " << getName();
+     obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
 
     int MaximumGrain = mEnv.MaxGrn ;
     double beta = mEnv.beta;
@@ -717,11 +726,24 @@ namespace mesmer
   {
     cout << endl << "Test density of states for ModelledMolecule: " << getName() << endl << endl ;
     int MaximumGrain = mEnv.MaxGrn;
+    int MaximumCell  = mEnv.MaxCell;
 
-    string comment("Partition function calculation at various temperatures.\n qtot : using analytical formula\n sumc : based on cells\n sumg  : based on grains");
+    string comment("Partition function calculation at various temperatures.\n qtot : partition function as a product of quantum mechanical partition functions for vibrations (1-D harmonic oscillator) and classifical partition functions for rotations\n sumc : (user calculated) cell based partition function \n sumg : (user calculated) grain based partition function ");
 
     PersistPtr ppList = getPersistentPointer()->XmlWriteMainElement("me:densityOfStatesList", comment );
 
+    if (0)
+    {
+      cout << "Cell density of states:\n";
+      for ( int i = 0 ; i < MaximumCell ; ++i ) {
+        cout << m_cellDOS[i] << endl;
+      }
+      cout << "Grain density of states:\n";
+      for ( int i = 0 ; i < MaximumGrain ; ++i ) {
+        cout << m_grainDOS[i] << endl;
+      }
+    }
+    
     cout << "      T           qtot           sumc           sumg\n";
 
     //loop through predefined test temperatures
@@ -732,7 +754,7 @@ namespace mesmer
       // Calculate partition functions based on cells.
 
       double sumc  = 0.0 ;
-      for ( int i = 0 ; i < mEnv.MaxCell ; ++i ) {
+      for ( int i = 0 ; i < MaximumCell ; ++i ) {
         sumc += m_cellDOS[i]*exp(-beta*m_cellEne[i]) ;
       }
 
@@ -743,7 +765,7 @@ namespace mesmer
         sumg += m_grainDOS[i]*exp(-beta*m_grainEne[i]) ;
       }
 
-      // Calculate partition functions using analytical formula.
+      // Calculate partition functions using analytical formula (treat vibrations classically).
 
       double qtot = 1.0 ;
 
@@ -754,13 +776,13 @@ namespace mesmer
           for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) {
             qtot /= (1.0 - exp(-beta*m_VibFreq[j])) ;
           }
-          qtot *= sqrt(M_PI/(rotConst[0] * rotConst[1] * rotConst[2]))*(pow(beta,-1.5))/m_Sym ;
+          qtot *= (sqrt(M_PI/(rotConst[0] * rotConst[1] * rotConst[2]))*(pow(beta,-1.5))/m_Sym) ;
           break;
         case 0://2-D linear
           for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) {
             qtot /= (1.0 - exp(-beta*m_VibFreq[j])) ;
           }
-          qtot *= rotConst[0] / (m_Sym*beta) ;
+          qtot *= (rotConst[0] / (m_Sym*beta)) ;
           break;
         default:
           qtot = 0.;
@@ -787,7 +809,7 @@ namespace mesmer
   {
     int MaximumGrain = mEnv.MaxGrn;
     m_grainEne.resize(MaximumGrain) ;
-    m_grainDOS.resize(MaximumGrain) ;
+    m_grainDOS.resize(MaximumGrain, 0.) ;
 
     //    int igsz = MAXCELL/MAXGRN ;
 
@@ -809,22 +831,22 @@ namespace mesmer
 
       // Calculate the number of states in a grain.
 
-      double smt = 0.0 ;
+      double gNOS = 0.0 ; 
       for (int j = 0 ; j < mEnv.GrainSize ; ++j, ++idx1 )
-        smt += m_cellDOS[idx1] ;
+        gNOS += m_cellDOS[idx1] ;
 
       // Calculate average energy of the grain if it contains sum states.
 
-      if ( smt > 0.0 ) {
+      if ( gNOS > 0.0 ) {
 
-        double smat = 0.0 ;
+        double gSE = 0.0 ; // grain sum of state energy
         for (int j = 0 ; j < mEnv.GrainSize ; ++j, ++idx3 )
-          smat += m_cellEne[idx3] * m_cellDOS[idx3] ;
+          gSE += m_cellEne[idx3] * m_cellDOS[idx3] ;
 
-        m_grainDOS[idx2] = smt ;
-        m_grainEne[idx2] = smat/smt ;
-        idx2++ ;
+        m_grainDOS[idx2] = gNOS ;
+        m_grainEne[idx2] = gSE/gNOS ;
       }
+      idx2++ ;
     }
 
     // Issue warning if number of grains produced is less that requested.

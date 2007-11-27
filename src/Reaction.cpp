@@ -57,14 +57,14 @@ namespace mesmer
   bool Reaction::InitializeReaction(PersistPtr ppReac)
   {
     m_ppPersist = ppReac;
-    stringstream errorMsg;
 
     //Read reaction ID
     const char* id = ppReac->XmlReadValue("id");
     if(id) m_Name = id; //Continues if reaction id not found
     else{
+      {stringstream errorMsg;
       errorMsg << "Reaction ID not found\n";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
     }
 
     Molecule* pMol1(NULL) ;
@@ -79,9 +79,9 @@ namespace mesmer
     {
       pMol2 = GetMolRef(ppReactant2);
       if(!pMol2){
-        stringstream errorMsg;
-        errorMsg << "Cannot find Reactant 2 defined in Reaction " << getName() << ".";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+        {stringstream errorMsg;
+        errorMsg << "Cannot find Reactant 2 defined in Reaction " << getName();
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
         return false;
       }
     }
@@ -96,9 +96,9 @@ namespace mesmer
     else{
       pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
       if(!pColMol){
-        errorMsg << "Either " << pMol1->getName() << " or "
-            << pMol2->getName() <<" has to be a colliding molecule";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+        {stringstream errorMsg;
+        errorMsg << "At least one of the reactants has to be a colliding molecule";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
         return false;
       }
       m_rct1 = pColMol;
@@ -106,6 +106,10 @@ namespace mesmer
     }
 
     if (m_rct1 && m_rct2){ // the reactant side has two molecules
+      {stringstream errorMsg;
+      errorMsg << "Reaction " << m_Name << " has two reactants. ";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+      
       // check whether there is any SuperMolecule in m_molmap contains pMol1 & pMol2
       string id; //shoud not set any name for it.
       SuperMolecule* pmol = NULL;
@@ -115,30 +119,39 @@ namespace mesmer
         ModelledMolecule*  rm2 = pmol->getMember2();
         if (rm1 && rm2){ // some data are already inside
           if (rm1 != m_rct1 || rm2 != m_rct2){ // not this SuperMolecule, find next.
+            {stringstream errorMsg;
             errorMsg << "Not this SuperMolecule, find next.";
-            obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+            obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
             pmol = NULL;
           }
           else{ // this is the SuperMolecule we are looking for
             m_srct = pmol;
+            {stringstream errorMsg;
             errorMsg << "Found the SuperMolecule: " << m_srct->getName();
-            obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+            obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
             break;
           }
         }
         else{// there is no data inside, occupy it!
           pmol->setMembers(m_rct1, m_rct2);
           m_srct = pmol;
+          {stringstream errorMsg;
           errorMsg << "Occupy the position of the SuperMolecule: " << m_srct->getName();
-          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
           break;
         }
       }
       if (!pmol){
-        errorMsg << "Cannot find any SuperMolecule in m_molmap.";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-        return false;
+        {stringstream errorMsg;
+        errorMsg << "No SuperMolecule was found.";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+        // there will always at least one SuperMolecule in m_molmap, check the end of addmols() in MoleculeManager.cpp.
       }
+    }
+    else{
+      {stringstream errorMsg;
+      errorMsg << "Reaction " << m_Name << " has only one reactant";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
     }
 
     //Read products ... if any.
@@ -162,10 +175,9 @@ namespace mesmer
         pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
         if(!pColMol)
         {
-          stringstream errorMsg;
-          errorMsg << "Either " << pMol1->getName() << " or "
-            << pMol2->getName() <<" has to be a modelled molecule";
-          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+          {stringstream errorMsg;
+          errorMsg << "No colliding molecule for product. There has to be one colliding molecule in product.";
+          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
           return false;
         }
         m_pdt1 = pColMol;
@@ -182,9 +194,9 @@ namespace mesmer
       {
         const char* pRef = ppmol->XmlReadValue("ref");
         if(!pRef){
-          stringstream errorMsg;
+          {stringstream errorMsg;
           errorMsg << "Cannot find transitionState defined in Reaction " << getName() << ".";
-          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
           return false;
         }
         m_TransitionState = dynamic_cast<TransitionState*>(m_pMoleculeManager->find(pRef));
@@ -238,8 +250,9 @@ namespace mesmer
       m_reactiontype = DISSOCIATION ;
     else {
       m_reactiontype = ERROR_REACTION ;
-      stringstream errorMsg; errorMsg << "Unknown combination of reactants and products";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      {stringstream errorMsg; 
+      errorMsg << "Unknown combination of reactants and products";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
       return false;
     }
 
@@ -250,11 +263,11 @@ namespace mesmer
       m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
       if(!m_pMicroRateCalculator)
       {
-        stringstream errorMsg;
+        {stringstream errorMsg;
         errorMsg << "Unknown method " << pMCRCMethodtxt
           << " for the determination of Microcanonical rate coefficients in reaction "
           << m_Name;
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
         return false;
       }
     } // shall we provide a default method?
@@ -282,9 +295,9 @@ namespace mesmer
 
     if(!pMol)
     {
-      stringstream errorMsg;
+      {stringstream errorMsg;
       errorMsg << "Unknown molecule: " << pRef;
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
       return NULL;
     }
 
@@ -319,23 +332,16 @@ namespace mesmer
   }
 
   // Returns the bi-molecular speices (reactants) for association reaction.
-  int Reaction::get_bi_molecularspecies(SuperMolecule* bi_mol) const
+  SuperMolecule* Reaction::get_bi_molecularspecies(void) const
   {
     switch(m_reactiontype) {
-    case ISOMERIZATION :
-      return 3;
-
     case ASSOCIATION :
-      bi_mol = m_srct ;
-      return 2;
-
-    case DISSOCIATION :
-      return 1;
+      return m_srct;
 
     default :
-      return 0;
+      return NULL;
     }
-    return 0;
+    return NULL;
   }
 
   //
@@ -373,10 +379,10 @@ namespace mesmer
     else if (!m_rct2 &&  m_pdt2 ) Keq = (Qpdt1*Qpdt2)/Qrct1 ;             // Dissociation reaction.
     else if (!m_rct2 && !m_pdt2 ) Keq =  Qpdt1/Qrct1 ;                    // Isomerization reaction.
     else { //no chance to get here
-      stringstream errorMsg;
+      {stringstream errorMsg;
       errorMsg << "Error: calculating equilibrium constant for reaction," << endl
                << "unknown reactant/product combination" << endl;
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
     }
 
     Keq *= exp(-beta*m_HeatOfReaction) ;
@@ -420,7 +426,7 @@ namespace mesmer
 
     int MaximumGrain = mEnv.MaxGrn;
     double currentGrainSize = mEnv.GrainSize;
-    m_GrainKfmc.resize(MaximumGrain);
+    m_GrainKfmc.resize(MaximumGrain, 0.);
 
     // Extract density of states of equilibrium molecule.
 
@@ -430,9 +436,9 @@ namespace mesmer
     // Check that there are enough cells.
 
     if (currentGrainSize < 1) {
-      stringstream errorMsg;
+      {stringstream errorMsg;
       errorMsg << "Not enought Cells to produce requested number of Grains.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
       exit(1) ;
     }
 
@@ -445,36 +451,36 @@ namespace mesmer
 
       // Calculate the number of states in a grain.
 
-      double smt = .0 ;
+      double gNOS = .0 ;
       for (int j = 0 ; j < currentGrainSize ; ++j, ++idx1 )
-        smt += cellDOS[idx1] ;
+        gNOS += cellDOS[idx1] ;
 
       // Calculate average energy of the grain if it contains sum states.
+      // need to think about how to deal with DOS/ENE of atoms. (there should have no rovibrational DOS/ENE for atoms)
+      if ( gNOS > 0.0 ) {
 
-      if ( smt > 0.0 ) {
-
-        double smat = .0;
+        double gSE = .0;
         for (int j= 0 ; j < currentGrainSize ; ++j, ++idx3 )
-            smat += m_CellKfmc[idx3] * cellDOS[idx3] ;
+            gSE += m_CellKfmc[idx3] * cellDOS[idx3] ;
 
-        m_GrainKfmc[idx2] = smat/smt ;
-        idx2++ ;
+        m_GrainKfmc[idx2] = gSE/gNOS ;
       }
+      idx2++ ;
     }
 
     // Issue warning if number of grains produced is less that requested.
     if ( idx2 != MaximumGrain ) {
-      stringstream errorMsg;
+      {stringstream errorMsg;
       errorMsg << "Number of grains produced is not equal to that requested" << endl
                << "Number of grains requested: " << MaximumGrain << endl
                << "Number of grains produced : " << idx2 << " in " << getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
     }
     else{
-//      stringstream errorMsg;
+//      {stringstream errorMsg;
 //      errorMsg << "Number of grains requested: " << MaximumGrain << endl
 //               << "Number of grains produced : " << idx2 << " in " << getName();
-//      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+//      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
     }
     return true;
   }
@@ -558,9 +564,9 @@ namespace mesmer
                                        const MesmerEnv &mEnv)
   {
     // Locate isomers in system matrix.
-    const int pdtLoc  = isomermap[m_pdt1] ;
-    const int srcLoc  = sourcemap[m_srct] ;
-
+    int pdtLoc  = isomermap[m_pdt1] ;
+    int srcLoc  = sourcemap[m_srct] ;
+    
     // Get equilibrium constant.
     double Keq = calcEquilibriumConstant(mEnv) ;
 
@@ -569,7 +575,7 @@ namespace mesmer
     vector<double> srcBoltz(MaximumGrain, 0.0) ;
     m_srct->grnBoltzDist(srcBoltz, mEnv) ;
 
-    int sL(srcLoc) ; // this is the location of the source (SuperMolecule)
+    const int sL = srcLoc ; // this is the location of the source (SuperMolecule)
     double DissRateCoeff(0.0) ;
 
     const int idx = int(m_HeatOfReaction / mEnv.GrainSize); //any possible leak? need to test.

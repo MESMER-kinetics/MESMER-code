@@ -58,7 +58,8 @@ namespace mesmer
     vector<CollidingMolecule *> unimolecularspecies;
 
     pReact->get_unimolecularspecies(unimolecularspecies);
-    if (pReact->get_bi_molecularspecies(p_rcts)){
+    p_rcts = pReact->get_bi_molecularspecies();
+    if (!p_rcts){
       stringstream errorMsg;
       errorMsg << "Not a valid bi-molecularspecies";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
