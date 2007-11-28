@@ -92,6 +92,12 @@ namespace mesmer
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       return false;
     }
+    else{
+      stringstream errorMsg;
+      errorMsg << "Number of concentration points: " << Concentrations.size() 
+               << ", number of pressure points: " << Pressures.size();
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
 
     //-------------
     //Model Parameters
@@ -144,7 +150,6 @@ namespace mesmer
   //
   void System::calculate()
   {
-    double beta = .0;
     TimeCount events; unsigned int timeElapsed =0;
 
     if(!SetGrainParams())
@@ -178,6 +183,7 @@ namespace mesmer
     */
 
     mEnv.beta = 1.0 / (boltzmann_RCpK * Temperatures[0]) ; //temporary statements
+    double beta = mEnv.beta;
     mEnv.conc = Concentrations[0];
 
     //---------------

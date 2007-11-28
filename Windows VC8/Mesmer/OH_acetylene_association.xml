@@ -207,7 +207,7 @@
     </reactionList>
     <me:conditions>
         <me:bathGas>N_2</me:bathGas>
-        <me:conc>1000</me:conc>
+        <me:conc>2e19</me:conc>
         <!--Three ways to input temperatures at which calcs are to be done-->
         <me:temperature units="K">298</me:temperature>
         <me:temperature initial="100" increment="50" final="500" />
@@ -215,7 +215,7 @@
     </me:conditions>
     <me:modelParameters>
         <!--Specify grain size directly...-->
-        <me:grainSize units="cm-1">50</me:grainSize>
+        <me:grainSize units="cm-1">10000</me:grainSize>
         <!--...or by the total number of grains
         <me:numberOfGrains> 500 </me:numberOfGrains>-->
         <!--Specify increased energy range 

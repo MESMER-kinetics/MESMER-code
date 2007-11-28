@@ -1,3 +1,9 @@
+_2007_11_28__17_40_29_ Chi-Hsiu Liang
+
+  * Added some more error report in Molecule.cpp
+  * some other corrections 
+  ToDo: 1. Automatically calculate the mass of a molecule from the atom list if the user forgot to provide it.
+
 _2007_11_28__13_21_33_ Chi-Hsiu Liang
 
   * Corrected some issues in the order calculating density of states for molecules

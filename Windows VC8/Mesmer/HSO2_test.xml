@@ -9,6 +9,9 @@
       <property dictRef="me:ZPE">
         <scalar units="kJmol-1">39.44</scalar>
       </property>
+      <property dictRef="me:MW">
+          <scalar>1.0</scalar>
+      </property>
     </molecule>
     <molecule id="SO2" me:type="modelled">
       <atomArray>
@@ -25,6 +28,9 @@
       </bondArray>
       <property dictRef="me:rotConsts">
         <array units="cm-1">2.016 0.345 0.295</array>
+      </property>
+      <property dictRef="me:MW">
+          <scalar>64.0</scalar>
       </property>
       <property dictRef="me:symmetryNumber">
         <scalar>2</scalar>
@@ -53,6 +59,12 @@
       <property dictRef="me:ZPE">
         <scalar units="kJmol-1">24.38</scalar>
       </property>
+      <property dictRef="me:MW">
+          <scalar>65.0</scalar>
+      </property>
+      <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">250.0</scalar>
+      </property>
       <property dictRef="me:rotConsts">
         <array units="cm-1">1.703 0.3 0.263</array>
       </property>
@@ -79,6 +91,9 @@
       </property>
       <property dictRef="me:rotConsts">
         <array units="cm-1">1.22 0.321 0.275</array>
+      </property>
+      <property dictRef="me:MW">
+          <scalar>65.0</scalar>
       </property>
       <property dictRef="me:vibFreqs">
         <array units="cm-1">
@@ -122,10 +137,10 @@
   <me:conditions>
     <me:bathGas>Ar</me:bathGas>
     <me:temperature>300</me:temperature>
-    <me:conc>1e8</me:conc>
+    <me:conc>2e19</me:conc>
   </me:conditions>
   <me:modelParameters>
-    <me:grainSize units="cm-1"> 100 </me:grainSize>
+    <me:grainSize units="cm-1"> 10000 </me:grainSize>
     <!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
     <me:maxTemperature>3000</me:maxTemperature>
   </me:modelParameters>
