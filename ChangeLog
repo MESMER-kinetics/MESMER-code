@@ -1,3 +1,12 @@
+_2007_11_28__13_21_33_ Chi-Hsiu Liang
+
+  * Corrected some issues in the order calculating density of states for molecules
+  * If no pDOSCMethod or wrong is provided default method Classical rotors is used.
+  * Added test_rotConsts() in Molecule.cpp
+  * modified calcEquilibriumConstant() in Reaction.cpp (added the check for the consistency of partition function 
+    in SuperMolecule and the product of respective partition function of reactants. They should be equal. 
+    May include error later.)
+
 _2007_11_27__12_39_58_ Chi-Hsiu Liang
 
   * Some corrections over the error checking on parsing.

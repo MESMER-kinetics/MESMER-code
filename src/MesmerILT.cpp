@@ -122,6 +122,10 @@ namespace mesmer
       cellKfmc[i + activ_ene] = _ant * conv[i] / rctsCellDOS[i + activ_ene];
       //cout << "cellKfmc[" << i + activ_ene << "] = " << cellKfmc[i + activ_ene] << endl;
     }
+    
+    {stringstream errorMsg;
+    errorMsg << "MesmerILT calculation completed";
+    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
 
     return true;
   }

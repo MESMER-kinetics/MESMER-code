@@ -367,25 +367,29 @@ namespace mesmer
     double Qrct1 = m_rct1->grnCanPrtnFn(mEnv) ;
     double Qpdt1 = m_pdt1->grnCanPrtnFn(mEnv) ;
 
-    double Qrct2 = (m_rct2)? m_rct2->grnCanPrtnFn(mEnv) : 0.0 ;
-    double Qpdt2 = (m_pdt2)? m_pdt2->grnCanPrtnFn(mEnv) : 0.0 ;
+    double Qrct2 = (m_rct2)? m_rct2->grnCanPrtnFn(mEnv) : 1.0 ;
+    double Qpdt2 = (m_pdt2)? m_pdt2->grnCanPrtnFn(mEnv) : 1.0 ;
 
     // Calculate the equilibrium constant.
+    if(1){stringstream errorMsg;
+    errorMsg << "Qrct1 = " << Qrct1 << ", Qpdt1 = " << Qpdt1 << ", Qrct2 = " << Qrct2 << ", Qpdt2 = " << Qpdt2;
+    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
 
     double beta = mEnv.beta ;
 
-    if      ( m_rct2 &&  m_pdt2 ) Keq = (Qpdt1*Qpdt2)/(Qrct1*Qrct2) ;     // Exchange reaction.
-    else if ( m_rct2 && !m_pdt2 ) Keq =  Qpdt1/(Qrct1*Qrct2) ;            // Assocations reaction.
-    else if (!m_rct2 &&  m_pdt2 ) Keq = (Qpdt1*Qpdt2)/Qrct1 ;             // Dissociation reaction.
-    else if (!m_rct2 && !m_pdt2 ) Keq =  Qpdt1/Qrct1 ;                    // Isomerization reaction.
-    else { //no chance to get here
-      {stringstream errorMsg;
-      errorMsg << "Error: calculating equilibrium constant for reaction," << endl
-               << "unknown reactant/product combination" << endl;
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
-    }
-
+    Keq = (Qpdt1*Qpdt2)/(Qrct1*Qrct2) ;     // Whatever reaction.
     Keq *= exp(-beta*m_HeatOfReaction) ;
+
+    // check in ASSOCIATION reaction, if the partition function of the SuperMolecule is equal to the product of the 
+    // partitions of the two reactants.
+    if (m_rct1 && m_rct2 && m_pdt1 && !m_pdt2){
+      double Qrcts = m_srct->grnCanPrtnFn(mEnv);
+      if (Qrcts != Qrct1){
+        stringstream errorMsg;
+        errorMsg << "Partition function of the SuperMolecule is not consistent with the product of partition functions of the reactants";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      }
+    }
 
     return Keq ;
   }

@@ -126,6 +126,7 @@ namespace mesmer
     double get_zpe() const { return m_ZPE ; }
     void set_zpe(double value) { m_ZPE = value; }
     double get_Sym(void){return m_Sym;}
+    int test_rotConsts(void);
     int  get_rotConsts(std::vector<double> &mmtsInt);
     void set_grnZpe(int grnZpe) {m_grnZpe = grnZpe ;} ;
     int  get_grnZpe() const {return m_grnZpe ;} ;

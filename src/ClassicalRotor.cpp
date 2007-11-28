@@ -17,6 +17,7 @@ namespace mesmer
     // 0-1, 0-2, 0-3, 1-1, 1-2, 1-3, 2-2, 2-3, 3-3
     // where the first three convolutions are trivial
     //
+
     CollidingMolecule* p_mol1 = rcts->getMember1();
     ModelledMolecule*  p_mol2 = rcts->getMember2();
 
@@ -29,9 +30,11 @@ namespace mesmer
     vector<double> rotCs1; int rotor1Type = p_mol1->get_rotConsts(rotCs1);
     vector<double> rotCs2; int rotor2Type = p_mol2->get_rotConsts(rotCs2);
     vector<double> mol1CellEne;
+    vector<double> mol2CellEne;
     rcts->m_cellDOS.clear();
     vector<double> dimerCellDOS(mEnv.MaxCell, .0);
-    p_mol1->getCellEnergies(mol1CellEne, mEnv) ;
+    p_mol1->getCellEnergies(mol1CellEne, mEnv) ; // make sure the cell energies are calculated for both molecules.
+    p_mol2->getCellEnergies(mol2CellEne, mEnv) ;
 
     double I1 = 0., I2 = 0.,                                            //for 2-D linear rotors
            I1X = 0., I2X = 0., I1Y = 0., I2Y = 0., I1Z = 0., I2Z = 0.,  //for 3-D symmetric/asymmetric/spherical top rotors
@@ -56,11 +59,13 @@ namespace mesmer
     double cnt = q1 * q2 / (s1 * s2);
 
     if      (rotorType <  0 && rotor1Type < rotor2Type){ // only p_mol2 a rotor
-      p_mol2->getCellDensityOfStates(dimerCellDOS, mEnv);
+      rcts->m_cellDOS.assign(p_mol2->m_cellDOS.begin(), p_mol2->m_cellDOS.end());
+      rcts->m_cellEne.assign(p_mol2->m_cellEne.begin(), p_mol2->m_cellEne.end());
       return true;
     }
     else if (rotorType <  0 && rotor1Type > rotor2Type){ // only p_mol1 a rotor
-      p_mol1->getCellDensityOfStates(dimerCellDOS, mEnv);
+      rcts->m_cellDOS.assign(p_mol1->m_cellDOS.begin(), p_mol1->m_cellDOS.end());
+      rcts->m_cellEne.assign(p_mol1->m_cellEne.begin(), p_mol1->m_cellEne.end());
       return true;
     }
     else if (rotorType == 0){                            // both 2-D linear
@@ -79,7 +84,6 @@ namespace mesmer
       cnt *= (M_PI /(2. * sqrt(I1X * I1Y * I1Z * I2X * I2Y * I2Z)));
       for (int i = 0; i < mEnv.MaxCell; ++i) dimerCellDOS[i] = cnt * (mol1CellEne[i] * mol1CellEne[i]);
     }
-
 
     //-----------------------------------------------------------------------------------------------------
     // convolution of vibrational DOS onto rotational DOS -- loop through all frequencies of both molecules
@@ -167,9 +171,15 @@ namespace mesmer
     SuperMolecule* pMolSuper = dynamic_cast<SuperMolecule*>(mol);
 
     if (pMolSuper){
+      if(0){stringstream errorMsg;
+      errorMsg << "Calculate DOS for " << pMolSuper->getName();
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
       return countDimerCellDOS(pMolSuper, mEnv);
     }
     else{
+      if(0){stringstream errorMsg;
+      errorMsg << "Calculate DOS for " << mol->getName();
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
       return countMonomerCellDOS(mol, mEnv);
     }
     return true;

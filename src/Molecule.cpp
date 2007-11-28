@@ -225,17 +225,22 @@ namespace mesmer
     if(pDOSCMethodtxt)
     {
       m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
-      if(!m_pDensityOfStatesCalculator)
+      if(!m_pDensityOfStatesCalculator) // if the provided method cannot be found, 
       {
         stringstream errorMsg;
         errorMsg << "Unknown method " << pDOSCMethodtxt
-          << " for the calculation of Density Of States in ModelledMolecule "
-          << getName();
+          << " for the calculation of DOS in ModelledMolecule" << getName()
+          << ". Please check spelling error. Default method <Classical rotors> used.";
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
-        m_pDensityOfStatesCalculator = NULL;
+        pDOSCMethodtxt = "Classical rotors";
+        m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
       }
     }
-    else{
+    else{ // if no method is provided.
+        stringstream errorMsg;
+        errorMsg << "No method for the calculation of DOS in ModelledMolecule" << getName()
+          << " is provided. Default method <Classical rotors> used.";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       pDOSCMethodtxt = "Classical rotors"; // must exist
       m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
     }
@@ -432,6 +437,7 @@ namespace mesmer
   //
   double ModelledMolecule::grnCanPrtnFn(const MesmerEnv &mEnv) {
     // If density of states have not already been calcualted then do so.
+    if (test_rotConsts() == (-4)) return 1.0;
     if (!m_cellDOS.size())
       calcDensityOfStates(mEnv) ;
 
@@ -449,9 +455,19 @@ namespace mesmer
 
     // Electronic partition function.
     CanPrtnFn *= double(getSpinMultiplicity()) ;
+      
+    if(0){stringstream errorMsg;
+    errorMsg << "CanPrtnFn = " << CanPrtnFn << ", molecular name: " << getName();
+    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
 
     // Translational partition function.
     return CanPrtnFn ;
+  }
+
+  int ModelledMolecule::test_rotConsts()
+  {
+    std::vector<double> mmtsInt;
+    return get_rotConsts(mmtsInt);
   }
 
   int ModelledMolecule::get_rotConsts(std::vector<double> &mmtsInt)
@@ -554,7 +570,7 @@ namespace mesmer
     for ( i = 0 ; i < MaximumGrain ; ++i ) (*m_egme)[i][i] -= 1.0 ;
 
 
-    cout << endl << "Column Sums" << endl << endl ;
+    cout << endl << "Collision operator column Sums" << endl << endl ;
     for ( i = 0 ; i < MaximumGrain ; ++i ) {
       double columnSum(0.0) ;
       for ( j = 0 ; j < MaximumGrain ; ++j ){
