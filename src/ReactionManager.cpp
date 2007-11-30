@@ -18,7 +18,7 @@ namespace mesmer
   //
   // Add a new reaction to the map.
   //
-  bool ReactionManager::addreactions(PersistPtr ppReacList)
+  bool ReactionManager::addreactions(PersistPtr ppReacList, const MesmerEnv& Env)
   {
     PersistPtr ppReac = ppReacList->XmlMoveTo("reaction");
     while(ppReac)
@@ -26,7 +26,7 @@ namespace mesmer
       //
       // Create a new Reaction.
       //
-      Reaction *preaction = new Reaction(m_pMoleculeManager) ;
+      Reaction *preaction = new Reaction(m_pMoleculeManager, Env) ;
 
       //
       // Initialize Reaction from input stream.
@@ -58,7 +58,7 @@ namespace mesmer
     return -1;
   }
 
-  bool ReactionManager::BuildSystemCollisionOperator(const double beta, const MesmerEnv &mEnv)
+  bool ReactionManager::BuildSystemCollisionOperator(const double beta, const MesmerEnv &m_Env)
   {
     //
     // Find all the unique wells and lowest zero point energy.
@@ -104,17 +104,17 @@ namespace mesmer
       isomeritr->second = msize ; //set location
 
       double zpe = (isomer->get_zpe()) - minEnergy ; // cell zpe related with the minimum of all wells
-      int grnZpe = int(zpe * KcalPerMolToRC / mEnv.GrainSize) ; //convert to grain
+      int grnZpe = int(zpe * KcalPerMolToRC / m_Env.GrainSize) ; //convert to grain
 
       isomer->set_grnZpe(grnZpe) ; //set grain ZPE (related with the minimum of all wells)
-      int colloptrsize = mEnv.MaxGrn  - grnZpe ;
+      int colloptrsize = m_Env.MaxGrn  - grnZpe ;
       isomer->set_colloptrsize(colloptrsize) ;
       msize += colloptrsize ;
 
       if (!isomer->m_cellDOS.size())
-        isomer->calcDensityOfStates(mEnv);
+        isomer->calcDensityOfStates();
 
-      isomer->initCollisionOperator(beta, pBathGasMolecule, mEnv) ;
+      isomer->initCollisionOperator(beta, pBathGasMolecule) ;
       meanomega += isomer->get_collisionFrequency() ;
     }
     meanomega /= isomers.size();
@@ -153,13 +153,13 @@ namespace mesmer
       double omega = isomer->get_collisionFrequency() ;
       int idx = isomeritr->second ;
 
-      isomer->copyCollisionOperator(m_pSystemCollisionOperator, colloptrsize, idx, omega/meanomega, mEnv) ;
+      isomer->copyCollisionOperator(m_pSystemCollisionOperator, colloptrsize, idx, omega/meanomega) ;
 
     }
 
     // Add connecting rate coefficients.
     for (size_t i(0) ; i < size() ; ++i) {
-        m_reactions[i]->AddMicroRates(m_pSystemCollisionOperator,isomers,sources,1.0/meanomega, mEnv) ;
+        m_reactions[i]->AddMicroRates(m_pSystemCollisionOperator,isomers,sources,1.0/meanomega) ;
     }
 
     return true;

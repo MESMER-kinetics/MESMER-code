@@ -8,10 +8,10 @@ namespace mesmer
   class ClassicalRotor : public DensityOfStatesCalculator
   {
     // provide a function to define particular counts of the convoluted DOS of two molecules
-    bool countDimerCellDOS(SuperMolecule* rcts, const MesmerEnv &mEnv); // convolutes the DOS of two molecules
+    bool countDimerCellDOS(SuperMolecule* rcts); // convolutes the DOS of two molecules
 
     // provide a function to define particular counts of the DOS of a molecule
-    bool countMonomerCellDOS(ModelledMolecule* mol, const MesmerEnv &mEnv);
+    bool countMonomerCellDOS(ModelledMolecule* mol);
 
   public:
 
@@ -20,7 +20,7 @@ namespace mesmer
 
     virtual ~ClassicalRotor() {}
 
-    virtual bool countCellDOS(ModelledMolecule* mol, const MesmerEnv &mEnv);
+    virtual bool countCellDOS(ModelledMolecule* mol);
 
   };
 }//namespace

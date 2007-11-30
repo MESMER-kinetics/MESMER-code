@@ -17,7 +17,8 @@ using namespace mesmer;
 
 namespace mesmer
 {
-  Reaction::Reaction(MoleculeManager *pMoleculeManager):
+  Reaction::Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env):
+    m_Env(Env),
     m_Name(),
     m_pMoleculeManager(pMoleculeManager),
     m_srct(NULL),
@@ -358,24 +359,24 @@ namespace mesmer
   //
   // Calculate reaction equilibrium constant.
   //
-  double Reaction::calcEquilibriumConstant(const MesmerEnv &mEnv) {
+  double Reaction::calcEquilibriumConstant() {
 
     double Keq(0.0) ;
 
     // Get Canonical partition functions.
 
-    double Qrct1 = m_rct1->grnCanPrtnFn(mEnv) ;
-    double Qpdt1 = m_pdt1->grnCanPrtnFn(mEnv) ;
+    double Qrct1 = m_rct1->grnCanPrtnFn() ;
+    double Qpdt1 = m_pdt1->grnCanPrtnFn() ;
 
-    double Qrct2 = (m_rct2)? m_rct2->grnCanPrtnFn(mEnv) : 1.0 ;
-    double Qpdt2 = (m_pdt2)? m_pdt2->grnCanPrtnFn(mEnv) : 1.0 ;
+    double Qrct2 = (m_rct2)? m_rct2->grnCanPrtnFn() : 1.0 ;
+    double Qpdt2 = (m_pdt2)? m_pdt2->grnCanPrtnFn() : 1.0 ;
 
     // Calculate the equilibrium constant.
     if(1){stringstream errorMsg;
     errorMsg << "Qrct1 = " << Qrct1 << ", Qpdt1 = " << Qpdt1 << ", Qrct2 = " << Qrct2 << ", Qpdt2 = " << Qpdt2;
     obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
 
-    double beta = mEnv.beta ;
+    double beta = m_Env.beta ;
 
     Keq = (Qpdt1*Qpdt2)/(Qrct1*Qrct2) ;     // Whatever reaction.
     Keq *= exp(-beta*m_HeatOfReaction) ;
@@ -383,7 +384,7 @@ namespace mesmer
     // check in ASSOCIATION reaction, if the partition function of the SuperMolecule is equal to the product of the 
     // partitions of the two reactants.
     if (m_rct1 && m_rct2 && m_pdt1 && !m_pdt2){
-      double Qrcts = m_srct->grnCanPrtnFn(mEnv);
+      double Qrcts = m_srct->grnCanPrtnFn();
       if (Qrcts != Qrct1){
         stringstream errorMsg;
         errorMsg << "Partition function of the SuperMolecule is not consistent with the product of partition functions of the reactants";
@@ -397,27 +398,27 @@ namespace mesmer
   //
   // Access microcanoincal rate coefficients.
   //
-  void Reaction::get_MicroRateCoeffs(std::vector<double> &kmc, const MesmerEnv &mEnv) {
-    calcGrnAvrgMicroRateCoeffs(mEnv);
+  void Reaction::get_MicroRateCoeffs(std::vector<double> &kmc) {
+    calcGrnAvrgMicroRateCoeffs();
     kmc = m_GrainKfmc ;
   }
 
   //
   // Calculate grain averaged microcanonical rate coefficients.
   //
-  bool Reaction::calcGrnAvrgMicroRateCoeffs(const MesmerEnv &mEnv) {
+  bool Reaction::calcGrnAvrgMicroRateCoeffs() {
 
     // Calculate microcanonical rate coefficients.
     if (m_CellKfmc.size()==0)
     {
-      if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this, m_CellKfmc, mEnv) ||
-        (mEnv.microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_CellKfmc, m_ppPersist, mEnv)))
+      if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this, m_CellKfmc, m_Env) ||
+        (m_Env.microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_CellKfmc, m_ppPersist, m_Env)))
         return false;
     }
 
     // Calculate Grain averages of microcanonical rate coefficients.
     if (m_GrainKfmc.size()==0)
-        return grnAvrgMicroRateCoeffs(mEnv) ;
+        return grnAvrgMicroRateCoeffs() ;
     return true;
   }
 
@@ -426,16 +427,16 @@ namespace mesmer
   // to give grain values. This code is similar to that in Molecule.cpp
   // and this averaging should be done there. SHR 19/Sep/2004.
   //
-  bool Reaction::grnAvrgMicroRateCoeffs(const MesmerEnv &mEnv) {
+  bool Reaction::grnAvrgMicroRateCoeffs() {
 
-    int MaximumGrain = mEnv.MaxGrn;
-    double currentGrainSize = mEnv.GrainSize;
+    int MaximumGrain = m_Env.MaxGrn;
+    double currentGrainSize = m_Env.GrainSize;
     m_GrainKfmc.resize(MaximumGrain, 0.);
 
     // Extract density of states of equilibrium molecule.
 
-    vector<double> cellDOS(mEnv.MaxCell,0.0) ;
-    m_rct1->getCellDensityOfStates(cellDOS, mEnv) ;
+    vector<double> cellDOS(m_Env.MaxCell,0.0) ;
+    m_rct1->getCellDensityOfStates(cellDOS) ;
 
     // Check that there are enough cells.
 
@@ -495,23 +496,22 @@ namespace mesmer
   void Reaction::AddMicroRates(dMatrix *CollOptr,
       isomerMap &isomermap,
       sourceMap &sourcemap,
-      const double rMeanOmega,
-      const MesmerEnv &mEnv)
+      const double rMeanOmega)
   {
 
     // Calculate Microcanonical rate coefficients.
 
-    calcGrnAvrgMicroRateCoeffs(mEnv) ;
+    calcGrnAvrgMicroRateCoeffs() ;
 
     // Add microcanonical rates to the collision operator.
 
     switch(m_reactiontype) {
     case ISOMERIZATION :
-      AddIsomerReactionTerms(CollOptr, isomermap, rMeanOmega, mEnv) ;
+      AddIsomerReactionTerms(CollOptr, isomermap, rMeanOmega) ;
       break;
 
     case ASSOCIATION :
-      AddAssocReactionTerms(CollOptr, isomermap, sourcemap, rMeanOmega, mEnv) ;
+      AddAssocReactionTerms(CollOptr, isomermap, sourcemap, rMeanOmega) ;
       break;
 
     case DISSOCIATION :
@@ -531,20 +531,19 @@ namespace mesmer
   //
   void Reaction::AddIsomerReactionTerms(dMatrix         *CollOptr,
                                         isomerMap       &isomermap,
-                                        const double    rMeanOmega,
-                                        const MesmerEnv &mEnv)
+                                        const double    rMeanOmega)
   {
     // Locate isomers in system matrix.
     const int rctLocation = isomermap[m_rct1] ;
     const int pdtLocation = isomermap[m_pdt1] ;
 
     // Get densities of states for detailed balance.
-    const int MaximumGrain = mEnv.MaxGrn;
+    const int MaximumGrain = m_Env.MaxGrn;
     vector<double> rctDOS(MaximumGrain, 0.0) ;
     vector<double> pdtDOS(MaximumGrain, 0.0) ;
 
-    m_rct1->grnDensityOfStates(rctDOS, mEnv) ;
-    m_pdt1->grnDensityOfStates(pdtDOS, mEnv) ;
+    m_rct1->grnDensityOfStates(rctDOS) ;
+    m_pdt1->grnDensityOfStates(pdtDOS) ;
 
     const int idx = m_pdt1->get_grnZpe() - m_rct1->get_grnZpe() ;
     for ( int i = max(0,-idx) ; i < min(MaximumGrain,(MaximumGrain-idx)) ; ++i ) {
@@ -564,25 +563,24 @@ namespace mesmer
   void Reaction::AddAssocReactionTerms(dMatrix         *CollOptr,
                                        isomerMap       &isomermap,
                                        sourceMap       &sourcemap,
-                                       const double    rMeanOmega,
-                                       const MesmerEnv &mEnv)
+                                       const double    rMeanOmega)
   {
     // Locate isomers in system matrix.
     int pdtLoc  = isomermap[m_pdt1] ;
     int srcLoc  = sourcemap[m_srct] ;
     
     // Get equilibrium constant.
-    double Keq = calcEquilibriumConstant(mEnv) ;
+    double Keq = calcEquilibriumConstant() ;
 
     // Get Boltzmann distribution for detailed balance.
-    const int MaximumGrain = mEnv.MaxGrn ;
+    const int MaximumGrain = m_Env.MaxGrn ;
     vector<double> srcBoltz(MaximumGrain, 0.0) ;
-    m_srct->grnBoltzDist(srcBoltz, mEnv) ;
+    m_srct->grnBoltzDist(srcBoltz) ;
 
     const int sL = srcLoc ; // this is the location of the source (SuperMolecule)
     double DissRateCoeff(0.0) ;
 
-    const int idx = int(m_HeatOfReaction / mEnv.GrainSize); //any possible leak? need to test.
+    const int idx = int(m_HeatOfReaction / m_Env.GrainSize); //any possible leak? need to test.
     //the same number of atoms on reactants and product
     for ( int i = max(0,-idx) ; i < min(MaximumGrain,(MaximumGrain-idx)) ; ++i ) {
       int sG = m_srct->get_grnZpe() + max(0,idx);

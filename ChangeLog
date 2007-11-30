@@ -1,3 +1,16 @@
+2007-11-30 Chris Morley
+  
+  * Removed Mesmer.exe from SVN. Compiled files are not usually in SVN
+   and it always caused error messages when updating.
+    
+  * mEnv revamp.
+  I've given Molecule and Reaction a member variable m_Env - a constant 
+  reference which is initiallised in the constructors. This avoids it 
+  being a parameter in lots of functions, reducing clutter in the place 
+  where the action is, even if the constructors are more complicated.
+  Affects a large number of files.
+  
+
 _2007_11_28__17_40_29_ Chi-Hsiu Liang
 
   * Added some more error report in Molecule.cpp

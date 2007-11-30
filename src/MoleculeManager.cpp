@@ -18,7 +18,7 @@ namespace mesmer
 //
 // Add a new molecule to the list.
 //
-bool MoleculeManager::addmols(PersistPtr ppMolList) {
+bool MoleculeManager::addmols(PersistPtr ppMolList, const MesmerEnv& Env) {
 
   PersistPtr ppmol = ppMolList->XmlMoveTo("molecule");
   while(ppmol)
@@ -27,7 +27,11 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
     // Create a new Molecule of the required type.
     const char* ptype = ppmol->XmlReadValue("me:type", false);//some product mols don't have type
     /*need to think about this again, if a molecule has no type, it cannot store zpe, spin, etc...
-    A mol has no type may probably for user to prepare some incomplete/unused molecules.*/
+    A mol has no type may probably for user to prepare some incomplete/unused molecules.
+      Maybe I am wrong, but I thought that product molecules of irreversible reations need only a name.
+      If some properties of a molecule are not going to be used then we should not make them
+      madatory.
+    */
     string moltype;
     if (ptype) {
       moltype = ptype;
@@ -38,17 +42,17 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
 
     Molecule *pmolecule;
     if     (moltype=="source")
-      pmolecule = static_cast<Molecule*>(new SuperMolecule());
+      pmolecule = static_cast<Molecule*>(new SuperMolecule(Env));
     else if(moltype=="colliding")
-      pmolecule = static_cast<Molecule*>(new CollidingMolecule());
+      pmolecule = static_cast<Molecule*>(new CollidingMolecule(Env));
     else if(moltype=="modelled")
-      pmolecule = static_cast<Molecule*>(new ModelledMolecule());
+      pmolecule = static_cast<Molecule*>(new ModelledMolecule(Env));
     else if(moltype=="transitionState")
-      pmolecule = static_cast<Molecule*>(new TransitionState);
+      pmolecule = static_cast<Molecule*>(new TransitionState(Env));
     else if(moltype=="bathGas")
-      pmolecule = static_cast<Molecule*>(new BathGasMolecule);
+      pmolecule = static_cast<Molecule*>(new BathGasMolecule(Env));
     else
-      pmolecule = static_cast<Molecule*>(new Molecule);
+      pmolecule = static_cast<Molecule*>(new Molecule(Env));
 
     //-------------
     // Initialize Molecule from input stream.
@@ -77,7 +81,7 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
     }
     else{
       //pmolecule->put_verbosity(true) ;
-//      {stringstream errorMsg;
+//      {stringstream errorMsg; 
 //      errorMsg << "Adding Molecule " << strName << " into m_molmap, molecular type = " << moltype;
 //      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
 
@@ -95,7 +99,7 @@ bool MoleculeManager::addmols(PersistPtr ppMolList) {
     PersistPtr ppSuper = ppMolList->XmlWriteElement("molecule");
     ppSuper->XmlWriteAttribute("id", "source");
     ppSuper->XmlWriteAttribute("me:type", "source");
-    Molecule *pmolecule = static_cast<Molecule*>(new SuperMolecule());
+    Molecule *pmolecule = static_cast<Molecule*>(new SuperMolecule(Env));
     pmolecule->InitializeMolecule(ppSuper);
     m_molmap[superName] = pmolecule;
   }

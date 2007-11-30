@@ -1,4 +1,4 @@
-#ifndef GUARD_Reaction_h
+  #ifndef GUARD_Reaction_h
 #define GUARD_Reaction_h
 
 //-------------------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ namespace mesmer
     typedef std::map<SuperMolecule*    , int> sourceMap ;
 
   private:
-
+    const MesmerEnv&   m_Env;
     std::string        m_Name ;             // Reaction name.
     MoleculeManager   *m_pMoleculeManager ; // Pointer to molecule manager.
 
@@ -71,19 +71,19 @@ namespace mesmer
     Molecule* GetMolRef(PersistPtr pp);
 
     // Calculate reaction equilibrium constant.
-    double calcEquilibriumConstant(const MesmerEnv &mEnv) ;
+    double calcEquilibriumConstant() ;
 
     // Grain average microcanonical rate coefficients.
-    bool grnAvrgMicroRateCoeffs(const MesmerEnv &mEnv);
+    bool grnAvrgMicroRateCoeffs();
 
     // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
-    bool calcGrnAvrgMicroRateCoeffs(const MesmerEnv &mEnv) ;
+    bool calcGrnAvrgMicroRateCoeffs() ;
 
     // Add isomer reaction terms to collision matrix.
-    void AddIsomerReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega, const MesmerEnv &mEnv) ;
+    void AddIsomerReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
 
     // Add (reversible) association reaction terms to collision matrix.
-    void AddAssocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, sourceMap &sourcemap, const double rMeanOmega, const MesmerEnv &mEnv) ;
+    void AddAssocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, sourceMap &sourcemap, const double rMeanOmega) ;
 
     // Add dissociation reaction terms to collision matrix.
     void AddDissocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
@@ -91,9 +91,9 @@ namespace mesmer
   public:
 
     // Constructors.
-    Reaction();
+//    Reaction();
 
-    Reaction(MoleculeManager *pMoleculeManager);
+    Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env);
 
     // Destructor.
     ~Reaction();
@@ -107,7 +107,9 @@ namespace mesmer
     // Initialize reaction.
     bool InitializeReaction(PersistPtr ppReac) ;
 
-    std::string& getName() { return m_Name ; } ;
+    std::string& getName()          { return m_Name ; } ;
+    const MesmerEnv& getEnv() const { return m_Env; } 
+
 
     // Modifier for reaction type.
     void put_Reactiontype(ReactionType reactiontype) ;
@@ -119,14 +121,13 @@ namespace mesmer
     void AddMicroRates(dMatrix *CollOptr,
                        isomerMap &isomermap,
                        sourceMap &sourcemap,
-                       const double rMeanOmega,
-                       const MesmerEnv &mEnv);
+                       const double rMeanOmega);
 
     // Determine the equilibrium constant.
     void CalcEquilConst() { } ;
 
     // Access microcanoincal rate coeffcients.
-    void get_MicroRateCoeffs(std::vector<double> &kmc, const MesmerEnv &mEnv) ;
+    void get_MicroRateCoeffs(std::vector<double> &kmc) ;
 
     double get_PreExp() const                   { return m_PreExp ; } ;
     double get_ActivationEnergy()const          { return m_ActEne ; } ;

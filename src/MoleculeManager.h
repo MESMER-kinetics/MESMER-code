@@ -30,7 +30,7 @@ public:
   ~MoleculeManager();
 
   // Add a new molecule to the list.
-  bool addmols(PersistPtr ppMolList) ;
+  bool addmols(PersistPtr ppMolList, const MesmerEnv& Env) ;
 
   // Returns a newly created reference to the source term
   SuperMolecule* MoleculeManager::addSuperMol();

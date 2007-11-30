@@ -40,7 +40,7 @@ namespace mesmer
       return false;
     }
 
-    if(!m_pMoleculeManager->addmols(ppMolList))
+    if(!m_pMoleculeManager->addmols(ppMolList, m_Env))
       return false;
     //-------------
     //Reaction List
@@ -52,7 +52,7 @@ namespace mesmer
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       return false;
     }
-    if(!m_pReactionManager->addreactions(ppReacList))
+    if(!m_pReactionManager->addreactions(ppReacList, m_Env))
       return false;
 
     //-------------
@@ -109,37 +109,37 @@ namespace mesmer
       if(txt)
       {
         istringstream ss(txt);
-        ss >> mEnv.GrainSize;
+        ss >> m_Env.GrainSize;
       }
 
       txt = ppParams->XmlReadValue("me:numberOfGrains",false);
       if(txt)
       {
         istringstream ss(txt);
-        ss >> mEnv.MaxGrn;
+        ss >> m_Env.MaxGrn;
       }
 
       txt = ppParams->XmlReadValue("me:maxTemperature",false);
       if(txt)
       {
         istringstream ss(txt);
-        ss >> mEnv.MaxT;
+        ss >> m_Env.MaxT;
       }
 
-      if(mEnv.GrainSize!=0.0 && mEnv.MaxGrn!=0)
+      if(m_Env.GrainSize!=0.0 && m_Env.MaxGrn!=0)
       {
         stringstream errorMsg;
         errorMsg << "No method is provided to specify me:grainSize and me:numberOfGrains.\n"
                  << "me:numberOfGrains has been ignored";
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-        mEnv.MaxGrn=0;
+        m_Env.MaxGrn=0;
       }
     }
 
     PersistPtr ppControl = ppIOPtr->XmlMoveTo("me:control");
     if(ppControl)
     {
-      mEnv.microRateEnabled = ppControl->XmlReadBoolean("me:testMicroRates");
+      m_Env.microRateEnabled = ppControl->XmlReadBoolean("me:testMicroRates");
     }
 
     return true;
@@ -172,19 +172,19 @@ namespace mesmer
       // TODO: Get pressure units right. Pressures currently non-functional!
       for(size_t i=0;i<imax;++i)
       {
-        mEnv.conc = !Pressures.empty() ? Pressures[i]*beta : Concentrations[i];
+        m_Env.conc = !Pressures.empty() ? Pressures[i]*beta : Concentrations[i];
 
         // Build collison matrix for system.
-        m_pReactionManager->BuildSystemCollisionOperator(beta, mEnv) ;
+        m_pReactionManager->BuildSystemCollisionOperator(beta, m_Env) ;
 
         m_pReactionManager->diagCollisionOperator() ;
       }
     }
     */
 
-    mEnv.beta = 1.0 / (boltzmann_RCpK * Temperatures[0]) ; //temporary statements
-    double beta = mEnv.beta;
-    mEnv.conc = Concentrations[0];
+    m_Env.beta = 1.0 / (boltzmann_RCpK * Temperatures[0]) ; //temporary statements
+    double beta = m_Env.beta;
+    m_Env.conc = Concentrations[0];
 
     //---------------
     //About precision
@@ -211,7 +211,7 @@ namespace mesmer
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
-    if (!m_pReactionManager->BuildSystemCollisionOperator(beta, mEnv)){
+    if (!m_pReactionManager->BuildSystemCollisionOperator(beta, m_Env)){
         stringstream errorMsg;
         errorMsg << "Failed building system collison operator.";
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
@@ -239,9 +239,9 @@ namespace mesmer
 
     // Work space to hold microcanonical rates.
 
-    vector<double> kmc(mEnv.MaxGrn,0.0) ;
+    vector<double> kmc(m_Env.MaxGrn,0.0) ;
 
-    reaction->get_MicroRateCoeffs(kmc, mEnv) ;
+    reaction->get_MicroRateCoeffs(kmc, m_Env) ;
 
     CollidingMolecule *pmolecule = reaction->m_rct1 ;
 
@@ -252,7 +252,7 @@ namespace mesmer
 
     // Calculate matrix elements
 
-    double kinf = pmolecule->matrixElement(mEnv.MaxGrn-1,mEnv.MaxGrn-1,kmc,mEnv.MaxGrn) ;
+    double kinf = pmolecule->matrixElement(m_Env.MaxGrn-1,m_Env.MaxGrn-1,kmc,m_Env.MaxGrn) ;
 
     cout << endl ;
     formatFloat(cout, kinf, 6, 15) ;
@@ -287,17 +287,17 @@ namespace mesmer
 
     //Calculate the energy range covering all modelled molecules
     const double BIG = 1e100;
-    mEnv.EMax = 0.0; mEnv.EMin = BIG;
+    m_Env.EMax = 0.0; m_Env.EMin = BIG;
 
     std::string id; ModelledMolecule* pmol = NULL;
     while(m_pMoleculeManager->GetNextMolecule(id, pmol))
     {
       double zpe = pmol->get_zpe() * KcalPerMolToRC ;
-      mEnv.EMax = std::max(mEnv.EMax, zpe);
-      mEnv.EMin = std::min(mEnv.EMin, zpe);
+      m_Env.EMax = std::max(m_Env.EMax, zpe);
+      m_Env.EMin = std::min(m_Env.EMin, zpe);
     }
 
-    if(mEnv.EMin==BIG || mEnv.EMax==0.0)
+    if(m_Env.EMin==BIG || m_Env.EMax==0.0)
     {
       stringstream errorMsg;
       errorMsg << "The modelled molecules do not cover an appropriate energy range";
@@ -305,40 +305,40 @@ namespace mesmer
       return false;
     }
 
-    //mEnv.MaxT gives the option of widening the energy range
-    if(mEnv.MaxT <= 0.0){
-      mEnv.MaxT = *max_element(Temperatures.begin(), Temperatures.end());
+    //m_Env.MaxT gives the option of widening the energy range
+    if(m_Env.MaxT <= 0.0){
+      m_Env.MaxT = *max_element(Temperatures.begin(), Temperatures.end());
 //      stringstream errorMsg;
 //      errorMsg << "Maximum Temperature was not set. Reset Maximum Temperature, me:maxTemperature to remove this message.";
 //      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
     //Max energy is ** 20kT  ** above the highest well [was 10kT]
-    mEnv.EMax = mEnv.EMax + 20 * boltzmann_RCpK * mEnv.MaxT;
-    if(mEnv.GrainSize <= 0.0){
-      mEnv.GrainSize = 100.; //default 100cm-1
+    m_Env.EMax = m_Env.EMax + 20 * boltzmann_RCpK * m_Env.MaxT;
+    if(m_Env.GrainSize <= 0.0){
+      m_Env.GrainSize = 100.; //default 100cm-1
       stringstream errorMsg;
       errorMsg << "Grain size was invalid. Reset grain size to default: 100";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
     }
 
-    if(mEnv.MaxGrn <= 0)
-      mEnv.MaxGrn = (int)((mEnv.EMax-mEnv.EMin)/mEnv.GrainSize + 0.5);
+    if(m_Env.MaxGrn <= 0)
+      m_Env.MaxGrn = (int)((m_Env.EMax-m_Env.EMin)/m_Env.GrainSize + 0.5);
     else
-      mEnv.GrainSize = (mEnv.EMax-mEnv.EMin)/mEnv.MaxGrn;
+      m_Env.GrainSize = (m_Env.EMax-m_Env.EMin)/m_Env.MaxGrn;
 
-    mEnv.MaxCell = (int)(mEnv.GrainSize * mEnv.MaxGrn + 0.5);
+    m_Env.MaxCell = (int)(m_Env.GrainSize * m_Env.MaxGrn + 0.5);
     {
       stringstream errorMsg;
-      errorMsg << "Cell number = " << mEnv.MaxCell << ", Grain number = " << mEnv.MaxGrn;
+      errorMsg << "Cell number = " << m_Env.MaxCell << ", Grain number = " << m_Env.MaxGrn;
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     return true;
     /*
      //Hardwired
-     mEnv.MaxCell=50000;
-     mEnv.MaxGrn =500;
-     mEnv.GrainSize = 100;
+     m_Env.MaxCell=50000;
+     m_Env.MaxGrn =500;
+     m_Env.GrainSize = 100;
      return true;
     */
   }

@@ -9,7 +9,7 @@ namespace mesmer
   //************************************************************
 
   // provide a function to define particular counts of the convoluted DOS of two molecules
-  bool ClassicalRotor::countDimerCellDOS(SuperMolecule* rcts, const MesmerEnv &mEnv){
+  bool ClassicalRotor::countDimerCellDOS(SuperMolecule* rcts){
     //----------
     // Differetiating the rotors
     // <three types of rotors: (0) non-rotor (1) 2-D linear, (2) 3-D symmetric top, (3) 3-D asymmetric top>
@@ -27,14 +27,16 @@ namespace mesmer
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
     }
 
+    const MesmerEnv& mEnv = p_mol2->getEnv();
+
     vector<double> rotCs1; int rotor1Type = p_mol1->get_rotConsts(rotCs1);
     vector<double> rotCs2; int rotor2Type = p_mol2->get_rotConsts(rotCs2);
     vector<double> mol1CellEne;
     vector<double> mol2CellEne;
     rcts->m_cellDOS.clear();
     vector<double> dimerCellDOS(mEnv.MaxCell, .0);
-    p_mol1->getCellEnergies(mol1CellEne, mEnv) ; // make sure the cell energies are calculated for both molecules.
-    p_mol2->getCellEnergies(mol2CellEne, mEnv) ;
+    p_mol1->getCellEnergies(mol1CellEne) ; // make sure the cell energies are calculated for both molecules.
+    p_mol2->getCellEnergies(mol2CellEne) ;
 
     double I1 = 0., I2 = 0.,                                            //for 2-D linear rotors
            I1X = 0., I2X = 0., I1Y = 0., I2Y = 0., I1Z = 0., I2Z = 0.,  //for 3-D symmetric/asymmetric/spherical top rotors
@@ -108,7 +110,7 @@ namespace mesmer
   }
 
   // provide a function to define particular counts of the convoluted DOS of two molecules
-  bool ClassicalRotor::countMonomerCellDOS(ModelledMolecule* mol, const MesmerEnv &mEnv)
+  bool ClassicalRotor::countMonomerCellDOS(ModelledMolecule* mol)
   {
     vector<double> VibFreq; mol->get_VibFreq(VibFreq);
 
@@ -119,6 +121,7 @@ namespace mesmer
     }
 
     mol->m_cellDOS.clear(); mol->m_cellEne.clear(); //make sure there is no residue left
+    const MesmerEnv& mEnv = mol->getEnv();
 
     //
     // Initialize density of states array using calculated rotational
@@ -167,20 +170,20 @@ namespace mesmer
     return true;
   }
 
-  bool ClassicalRotor::countCellDOS(ModelledMolecule* mol, const MesmerEnv &mEnv){
+  bool ClassicalRotor::countCellDOS(ModelledMolecule* mol){
     SuperMolecule* pMolSuper = dynamic_cast<SuperMolecule*>(mol);
 
     if (pMolSuper){
       if(0){stringstream errorMsg;
       errorMsg << "Calculate DOS for " << pMolSuper->getName();
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
-      return countDimerCellDOS(pMolSuper, mEnv);
+      return countDimerCellDOS(pMolSuper);
     }
     else{
       if(0){stringstream errorMsg;
       errorMsg << "Calculate DOS for " << mol->getName();
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
-      return countMonomerCellDOS(mol, mEnv);
+      return countMonomerCellDOS(mol);
     }
     return true;
   }

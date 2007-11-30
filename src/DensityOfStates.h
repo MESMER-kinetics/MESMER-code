@@ -31,7 +31,7 @@ namespace mesmer
     }
 
     // provide a function to define particular counts of the DOS of a molecule
-    virtual bool countCellDOS(ModelledMolecule* mol, const MesmerEnv &mEnv) = 0;
+    virtual bool countCellDOS(ModelledMolecule* mol) = 0;
 
   private:
     /// Returns a reference to the map of DensityOfStatesCalculator classes

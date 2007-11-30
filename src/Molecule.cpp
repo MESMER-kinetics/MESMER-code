@@ -14,7 +14,8 @@ using namespace Constants ;
 
 namespace mesmer
 {
-  Molecule::Molecule():
+  Molecule::Molecule(const MesmerEnv& Env):
+    m_Env(Env),
     m_flag(0),
     m_ppPersist(NULL),
     m_Name(),
@@ -23,7 +24,7 @@ namespace mesmer
     m_Epsilon(0.0)
   {}
 
-  ModelledMolecule::ModelledMolecule():
+  ModelledMolecule::ModelledMolecule(const MesmerEnv& Env): Molecule(Env),
     m_RotCstA(0.0),
     m_RotCstB(0.0),
     m_RotCstC(0.0),
@@ -49,7 +50,7 @@ namespace mesmer
     if (m_cellDOS.size()) m_VibFreq.clear();
   }
 
-  CollidingMolecule::CollidingMolecule():
+  CollidingMolecule::CollidingMolecule(const MesmerEnv& Env) : ModelledMolecule(Env),
     m_DeltaEdown(0.0),
     m_collisionFrequency(0.0),
     m_ncolloptrsize(0),
@@ -61,15 +62,15 @@ namespace mesmer
     if (m_egme != NULL) delete m_egme ;
   }
 
-  TransitionState::TransitionState()
+  TransitionState::TransitionState(const MesmerEnv& Env) : ModelledMolecule(Env)
   {}
 
-  SuperMolecule::SuperMolecule():
+  SuperMolecule::SuperMolecule(const MesmerEnv& Env) : CollidingMolecule(Env),
     m_mol1(NULL),
     m_mol2(NULL)
   {}
 
-  SuperMolecule::~SuperMolecule()
+    SuperMolecule::~SuperMolecule()
   {}
 
   /* Will need Clone() functions
@@ -394,47 +395,47 @@ namespace mesmer
   //
   // Get cell density of states.
   //
-  void ModelledMolecule::getCellDensityOfStates(vector<double> &cellDOS, const MesmerEnv &mEnv) {
+  void ModelledMolecule::getCellDensityOfStates(vector<double> &cellDOS) {
     // If density of states have not already been calcualted then do so.
     if (!m_cellDOS.size())
-      calcDensityOfStates(mEnv) ;
+      calcDensityOfStates() ;
     cellDOS.assign(m_cellDOS.begin(), m_cellDOS.end());
   }
 
   //
   // Get cell energies.
   //
-  void ModelledMolecule::getCellEnergies(vector<double> &CellEne, const MesmerEnv &mEnv) {
+  void ModelledMolecule::getCellEnergies(vector<double> &CellEne) {
     // If density of states have not already been calcualted then do so.
     if (!m_cellDOS.size())
-      calcDensityOfStates(mEnv) ;
+      calcDensityOfStates() ;
     CellEne.assign(m_cellEne.begin(), m_cellEne.end());
   }
 
   //
   // Get grain density of states.
   //
-  void ModelledMolecule::grnDensityOfStates(vector<double> &grainDOS, const MesmerEnv &mEnv) {
+  void ModelledMolecule::grnDensityOfStates(vector<double> &grainDOS) {
     // If density of states have not already been calcualted then do so.
     if (!m_cellDOS.size())
-      calcDensityOfStates(mEnv) ;
+      calcDensityOfStates() ;
     grainDOS.assign(m_grainDOS.begin(), m_grainDOS.end());
   }
 
   //
   // Get grain energies.
   //
-  void ModelledMolecule::grnEnergies(vector<double> &grainEne, const MesmerEnv &mEnv) {
+  void ModelledMolecule::grnEnergies(vector<double> &grainEne) {
     // If density of states have not already been calcualted then do so.
     if (!m_cellDOS.size())
-      calcDensityOfStates(mEnv) ;
+      calcDensityOfStates() ;
     grainEne.assign(m_grainEne.begin(), m_grainEne.end());
   }
 
   //
   // Get Grain Boltzmann distribution.
   //
-  void ModelledMolecule::grnBoltzDist(vector<double> &grainBoltzDist, const MesmerEnv &mEnv)
+  void ModelledMolecule::grnBoltzDist(vector<double> &grainBoltzDist)
   {
     // If density of states have not already been calcualted then do so.
      if(0){stringstream errorMsg;
@@ -442,14 +443,14 @@ namespace mesmer
      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
 
     if (!m_cellDOS.size())
-      calcDensityOfStates(mEnv) ;
+      calcDensityOfStates() ;
 
      if(0){stringstream errorMsg;
      errorMsg << "After calcDensityOfStates(), Molecular name: " << getName();
      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
 
-    int MaximumGrain = mEnv.MaxGrn ;
-    double beta = mEnv.beta;
+    int MaximumGrain = getEnv().MaxGrn ;
+    double beta = getEnv().beta;
 
     // Calculate the Boltzmann distribution.
     // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
@@ -472,19 +473,19 @@ namespace mesmer
   //
   // Get Grain canonical partition function.
   //
-  double ModelledMolecule::grnCanPrtnFn(const MesmerEnv &mEnv) {
+  double ModelledMolecule::grnCanPrtnFn() {
     // If density of states have not already been calcualted then do so.
     if (test_rotConsts() == (-4)) return 1.0;
     if (!m_cellDOS.size())
-      calcDensityOfStates(mEnv) ;
+      calcDensityOfStates() ;
 
     double CanPrtnFn(0.0) ;
 
     // Calculate the ro-vibrational partition function based on the grain
     // densities of states, and not the molecular properties, for consistency.
 
-    int MaximumGrain = mEnv.MaxGrn ;
-    double beta = mEnv.beta;
+    int MaximumGrain = getEnv().MaxGrn ;
+    double beta = getEnv().beta;
 
     for (int i = 0; i < MaximumGrain; ++i) {
       CanPrtnFn += exp( log(m_grainDOS[i]) - beta*m_grainEne[i] ) ;
@@ -528,20 +529,20 @@ namespace mesmer
   //
   // Initialize the Collision Operator.
   //
-  bool CollidingMolecule::initCollisionOperator(double beta, Molecule *pBathGasMolecule, const MesmerEnv &mEnv)
+  bool CollidingMolecule::initCollisionOperator(double beta, Molecule *pBathGasMolecule)
   {
     // If density of states have not already been calcualted then do so.
 
     if (!m_cellDOS.size())
-      calcDensityOfStates(mEnv) ;
+      calcDensityOfStates() ;
 
     // Calculate the collision frequency.
 
-    m_collisionFrequency = collisionFrequency(beta, mEnv.conc, pBathGasMolecule) ;
+    m_collisionFrequency = collisionFrequency(beta, getEnv().conc, pBathGasMolecule) ;
 
     // Calculate the collision operator.
 
-    if (!collisionOperator(beta, mEnv)){
+    if (!collisionOperator(beta)){
       std::stringstream errorMsg;
       errorMsg << "Failed building collision operator";
       mesmer::obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), mesmer::obError);
@@ -553,7 +554,7 @@ namespace mesmer
   //
   // Calculate collision operator
   //
-  bool CollidingMolecule::collisionOperator(double beta, const MesmerEnv &mEnv)
+  bool CollidingMolecule::collisionOperator(double beta)
   {
     if (test_rotConsts() == (-4)) return true;
     //
@@ -562,7 +563,7 @@ namespace mesmer
     //   iii) Symmetrise Collision Matrix.
     //
     int i, j;
-    int MaximumGrain = mEnv.MaxGrn;
+    int MaximumGrain = getEnv().MaxGrn;
 
     if(!m_DeltaEdown){
       stringstream errorMsg;
@@ -781,13 +782,12 @@ namespace mesmer
   void CollidingMolecule::copyCollisionOperator(dMatrix *CollOptr,
                                                 const int size,
                                                 const int locate,
-                                                const double RducdOmega,
-                                                const MesmerEnv &mEnv) const
+                                                const double RducdOmega) const
   {
     // Find size of system matrix.
 
     int smsize = static_cast<int>(CollOptr->size()) ;
-    int MaximumGrain = mEnv.MaxGrn;
+    int MaximumGrain = getEnv().MaxGrn;
 
     // Check there is enough space in system matrix.
 
@@ -818,23 +818,23 @@ namespace mesmer
   //
   // Calculate the rovibrational density of states.
   //
-  bool ModelledMolecule::calcDensityOfStates(const MesmerEnv &mEnv)
+  bool ModelledMolecule::calcDensityOfStates()
   {
-    if (!m_pDensityOfStatesCalculator->countCellDOS(this, mEnv)){
+    if (!m_pDensityOfStatesCalculator->countCellDOS(this)){
       return false;
     }
-    calcGrainAverages(mEnv); testDensityOfStates(mEnv) ;
+    calcGrainAverages(); testDensityOfStates() ;
     return true;
   }
 
   //
   // Test the rovibrational density of states for ModelledMolecule.
   //
-  void ModelledMolecule::testDensityOfStates(const MesmerEnv &mEnv)
+  void ModelledMolecule::testDensityOfStates()
   {
     cout << endl << "Test density of states for ModelledMolecule: " << getName() << endl << endl ;
-    int MaximumGrain = mEnv.MaxGrn;
-    int MaximumCell  = mEnv.MaxCell;
+    int MaximumGrain = getEnv().MaxGrn;
+    int MaximumCell  = getEnv().MaxCell;
 
     string comment("Partition function calculation at various temperatures.\n qtot : partition function as a product of quantum mechanical partition functions for vibrations (1-D harmonic oscillator) and classifical partition functions for rotations\n sumc : (user calculated) cell based partition function \n sumg : (user calculated) grain based partition function ");
 
@@ -913,9 +913,9 @@ namespace mesmer
   //
   // Calculate the average grain energy and then number of states per grain.
   //
-  void ModelledMolecule::calcGrainAverages(const MesmerEnv &mEnv)
+  void ModelledMolecule::calcGrainAverages()
   {
-    int MaximumGrain = mEnv.MaxGrn;
+    int MaximumGrain = getEnv().MaxGrn;
     m_grainEne.resize(MaximumGrain) ;
     m_grainDOS.resize(MaximumGrain, 0.) ;
 
@@ -923,7 +923,7 @@ namespace mesmer
 
     // Check that there are enough cells.
 
-    if (mEnv.GrainSize < 1) {
+    if (getEnv().GrainSize < 1) {
       stringstream errorMsg;
       errorMsg << "The number of Cells is insufficient to produce requested number of Grains.";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
@@ -940,7 +940,7 @@ namespace mesmer
       // Calculate the number of states in a grain.
 
       double gNOS = 0.0 ;
-      for (int j = 0 ; j < mEnv.GrainSize ; ++j, ++idx1 )
+      for (int j = 0 ; j < getEnv().GrainSize ; ++j, ++idx1 )
         gNOS += m_cellDOS[idx1] ;
 
       // Calculate average energy of the grain if it contains sum states.
@@ -948,7 +948,7 @@ namespace mesmer
       if ( gNOS > 0.0 ) {
 
         double gSE = 0.0 ; // grain sum of state energy
-        for (int j = 0 ; j < mEnv.GrainSize ; ++j, ++idx3 )
+        for (int j = 0 ; j < getEnv().GrainSize ; ++j, ++idx3 )
           gSE += m_cellEne[idx3] * m_cellDOS[idx3] ;
 
         m_grainDOS[idx2] = gNOS ;

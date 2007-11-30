@@ -14,7 +14,7 @@ namespace mesmer
 
     virtual ~MesmerILT() {}
 
-    virtual bool calculateMicroRateCoeffs(Reaction* pReact, std::vector<double> &cellKfmc, const MesmerEnv &mEnv);
+    virtual bool calculateMicroRateCoeffs(Reaction* pReact, std::vector<double> &cellKfmc, const MesmerEnv &m_Env);
 
   };
 }//namespace

@@ -37,8 +37,9 @@ namespace mesmer
     std::vector<double> Concentrations; //Bath gas concentrations: values for calculation. Use if Pressures is empty.
     std::vector<double> Pressures;      //Bath gas pressures: values for calculation
 
-    //stores environmental variables
-    MesmerEnv mEnv;
+    //Stores environmental variables
+    //Reference to this are passed to the constructors of all Molecules and Reactions
+    MesmerEnv m_Env;
 
   private:
 

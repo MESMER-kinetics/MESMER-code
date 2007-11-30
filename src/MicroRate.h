@@ -31,9 +31,9 @@ namespace mesmer
       return (pos==get_Map().end()) ? NULL : pos->second;
     }
 
-    virtual bool calculateMicroRateCoeffs(Reaction* pReact, std::vector<double> &cellKfmc, const MesmerEnv &mEnv) = 0 ;
+    virtual bool calculateMicroRateCoeffs(Reaction* pReact, std::vector<double> &cellKfmc, const MesmerEnv &m_Env) = 0 ;
 
-    virtual bool testMicroRateCoeffs(Reaction* pReact, std::vector<double> &cellKfmc, PersistPtr ppbase, const MesmerEnv &mEnv) const;
+    virtual bool testMicroRateCoeffs(Reaction* pReact, std::vector<double> &cellKfmc, PersistPtr ppbase, const MesmerEnv &m_Env) const;
 
   private:
     /// Returns a reference to the map of MicroRateCalculator classes

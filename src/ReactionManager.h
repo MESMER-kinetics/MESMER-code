@@ -34,7 +34,7 @@ namespace mesmer
     ~ReactionManager(){} ;
 
     // Add a new reaction to the map.
-    bool addreactions(PersistPtr ReacList) ;
+    bool addreactions(PersistPtr ReacList, const MesmerEnv& Env) ;
 
     // Remove a reaction from the map.
     void remove(){} ;
@@ -57,7 +57,7 @@ namespace mesmer
     int Connectivity(Molecule* pReactant, Molecule* pProduct);
 
     // Build collision operator for system.
-    bool BuildSystemCollisionOperator(const double beta, const MesmerEnv &mEnv) ;
+    bool BuildSystemCollisionOperator(const double beta, const MesmerEnv &m_Env) ;
 
     // Diagonalize the collision operator.
     void diagCollisionOperator() ;

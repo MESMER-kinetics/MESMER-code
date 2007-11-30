@@ -13,6 +13,7 @@
 //-------------------------------------------------------------------------------------------
 
 #include <memory>
+#include "MesmerEnv.h"
 #include "XMLPersist.h"
 #include "MesmerMath.h"
 #include "formatfloat.h"
@@ -25,6 +26,9 @@ namespace mesmer
   /// Used for bath gases and unmodelled product molecules.
   class Molecule
   {
+  private:
+
+    const MesmerEnv&     m_Env;
     int            m_flag;              // count the errors during initialization
     PersistPtr     m_ppPersist;         // Conduit for I/O
     std::string    m_Name ;             // Molecule name.
@@ -36,7 +40,7 @@ namespace mesmer
     //Molecule& operator=(const Molecule&) ;
 
   public:
-    Molecule() ;
+    Molecule(const MesmerEnv& Env) ;
     virtual ~Molecule(){} ;
 
     // Initialize Molecule.
@@ -45,6 +49,7 @@ namespace mesmer
     PersistPtr  getPersistentPointer()     { return m_ppPersist;};
     void setPersistentPointer(PersistPtr value){m_ppPersist = value;}
     std::string getName() const            { return m_Name ; } ;
+    const MesmerEnv& getEnv() const        { return m_Env; } 
 
     int    getFlag()                       { return m_flag; } ;
     double getMass() const                 { return m_Mass ; } ;
@@ -62,6 +67,8 @@ namespace mesmer
   class BathGasMolecule : public Molecule
   {
   public:
+    BathGasMolecule(const MesmerEnv& Env) : Molecule(Env){}
+    virtual ~BathGasMolecule(){} ;
     // Initialize BathGasMolecule.
     virtual bool InitializeMolecule(PersistPtr pp);
   };
@@ -95,32 +102,32 @@ namespace mesmer
     std::vector<double> m_grainDOS ;         // Grain density of states array.
 
     //----------------
-    ModelledMolecule();
+    ModelledMolecule(const MesmerEnv& Env);
     virtual ~ModelledMolecule();
 
     // Initialize ModelledMolecule.
     virtual bool InitializeMolecule(PersistPtr pp);
 
     // Get the density of states.
-    void getCellDensityOfStates(std::vector<double> &cellDOS, const MesmerEnv &mEnv) ;
+    void getCellDensityOfStates(std::vector<double> &cellDOS) ;
 
     // Get cell energies.
-    void getCellEnergies(std::vector<double> &CellEne, const MesmerEnv &mEnv) ;
+    void getCellEnergies(std::vector<double> &CellEne) ;
 
     // Get grain density of states.
-    void grnDensityOfStates(std::vector<double> &grainDOS, const MesmerEnv &mEnv) ;
+    void grnDensityOfStates(std::vector<double> &grainDOS) ;
 
     // Get grain energies.
-    void grnEnergies(std::vector<double> &grainEne, const MesmerEnv &mEnv) ;
+    void grnEnergies(std::vector<double> &grainEne) ;
 
     // Get Grain Boltzmann distribution.
-    void grnBoltzDist(std::vector<double> &grainBoltzDist, const MesmerEnv &mEnv) ;
+    void grnBoltzDist(std::vector<double> &grainBoltzDist) ;
 
     // Get Grain canonical partition function.
-    double grnCanPrtnFn(const MesmerEnv &mEnv) ;
+    double grnCanPrtnFn() ;
 
     // Calculate Density of states
-    bool calcDensityOfStates(const MesmerEnv &mEnv);
+    bool calcDensityOfStates();
 
     // Accessors.
     double get_zpe() const { return m_ZPE ; }
@@ -143,10 +150,10 @@ namespace mesmer
     void   setSpinMultiplicity(int value)  { m_SpinMultiplicity = value; }
 
     // Calculate the average grain energy and then number of states per grain.
-    void calcGrainAverages(const MesmerEnv &mEnv) ;
+    void calcGrainAverages() ;
 
     // Test the rovibrational density of states.
-    virtual void testDensityOfStates(const MesmerEnv &mEnv) ;
+    virtual void testDensityOfStates() ;
   } ;
 
   //**************************************************
@@ -154,8 +161,10 @@ namespace mesmer
   class TransitionState : public ModelledMolecule
   {
   public:
+    TransitionState(const MesmerEnv& Env);
+    virtual ~TransitionState(){}
     // Initialize TransitionState.
-    TransitionState();
+//    virtual bool InitializeMolecule(PersistPtr pp); Nothing to initialize?
 
   };
 
@@ -177,17 +186,17 @@ namespace mesmer
     // Calculate collision frequency.
     double collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule) ;
     // Calculate collision operator.
-    bool   collisionOperator (double beta, const MesmerEnv &mEnv) ;
+    bool   collisionOperator (double beta) ;
 
   public:
-    CollidingMolecule();
+    CollidingMolecule(const MesmerEnv& Env);
     ~CollidingMolecule();
 
     // Initialize CollidingMolecule.
     virtual bool InitializeMolecule(PersistPtr ppp);
 
     // Initialize the Collision Operator.
-    bool initCollisionOperator(double beta, Molecule *pBathGasMolecule, const MesmerEnv &mEnv) ;
+    bool initCollisionOperator(double beta, Molecule *pBathGasMolecule) ;
 
     // Diagonalize the Collision Operator. See ReactionManager::diagCollisionOperator()
     //void diagCollisionOperator() ;
@@ -195,7 +204,7 @@ namespace mesmer
     // Calculate a reaction matrix element.
     double matrixElement(int eigveci, int eigvecj, std::vector<double> &k, int ndim) ;
 
-    void copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate, const double RducdOmega, const MesmerEnv &mEnv) const ;
+    void copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
 
     // Accessors.
     double get_collisionFrequency() const { return m_collisionFrequency ;} ;
@@ -211,8 +220,8 @@ namespace mesmer
     CollidingMolecule* m_mol1;
     ModelledMolecule*  m_mol2;
 
-    SuperMolecule();
-    SuperMolecule(double zpe, CollidingMolecule* mol1p, ModelledMolecule* mol2p);
+    SuperMolecule(const MesmerEnv& Env);
+//     SuperMolecule(double zpe, CollidingMolecule* mol1p, ModelledMolecule* mol2p, MesmerEnv& Env);
     ~SuperMolecule();
 
     // Initialize SuperMolecule.
@@ -235,7 +244,7 @@ namespace mesmer
     CollidingMolecule* getMember1(){ return m_mol1;}
     ModelledMolecule * getMember2(){ return m_mol2;}
 
-    //virtual void testDensityOfStates(const MesmerEnv &mEnv) ;
+    //virtual void testDensityOfStates(const MesmerEnv &m_Env) ;
 
   };
 
