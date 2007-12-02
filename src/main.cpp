@@ -66,7 +66,7 @@ int main(int argc,char *argv[])
 
   //--------------------------------
   // Save XML document to a new file
-  string saveTimeStamp(0);
+  string saveTimeStamp ;
   {
     stringstream errorMsg;
     string thisEvent = "Save XML document to a new file";

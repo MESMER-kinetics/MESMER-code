@@ -800,13 +800,12 @@ namespace mesmer
 
     // Copy collision operator to the diagonal block indicated by "locate"
     // and multiply by the reduced collision frequencey.
-    int start = MaximumGrain - size;
-    //CHL: I guess the well is concerned starting from the bottom (MaximumGrain - size) to the top (MaximumGrain)
-    for (int i(0) ; i < size ; ++i) {
-      int ii(locate + i) ; int ipos = i + start;
+
+	for (int i(0) ; i < size ; ++i) {
+      int ii(locate + i) ;
       for (int j(0) ; j < size ; ++j) {
         int jj(locate + j) ;
-        (*CollOptr)[ii][jj] = RducdOmega * (*m_egme)[ipos][j + start] ;
+        (*CollOptr)[ii][jj] = RducdOmega * (*m_egme)[i][j] ;
       }
     }
   }

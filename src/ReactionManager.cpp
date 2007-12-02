@@ -111,9 +111,6 @@ namespace mesmer
       isomer->set_colloptrsize(colloptrsize) ;
       msize += colloptrsize ;
 
-      if (!isomer->m_cellDOS.size())
-        isomer->calcDensityOfStates();
-
       isomer->initCollisionOperator(beta, pBathGasMolecule) ;
       meanomega += isomer->get_collisionFrequency() ;
     }
@@ -130,8 +127,8 @@ namespace mesmer
       SuperMolecule *pSuperMolecule = NULL; // get the sourceMap returnHere
       pSuperMolecule = m_reactions[i]->get_bi_molecularspecies();
       if (pSuperMolecule && sources.find(pSuperMolecule) == sources.end()){ // New source
-        ++msize ;
         sources[pSuperMolecule] = msize ;
+        ++msize ;
       }
     }
 

@@ -1,3 +1,10 @@
+
+2007-12-2  Struan Robertson
+
+  * Corrected the method of addition of isomer collision opertators to overall 
+  collision matrix.
+  * Checked-in initial revision of Mesmer QA.
+
 2007-11-30 Chris Morley
   
   * Removed Mesmer.exe from SVN. Compiled files are not usually in SVN

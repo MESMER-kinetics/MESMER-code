@@ -1,4 +1,4 @@
-  #ifndef GUARD_Reaction_h
+#ifndef GUARD_Reaction_h
 #define GUARD_Reaction_h
 
 //-------------------------------------------------------------------------------------------
@@ -108,7 +108,7 @@ namespace mesmer
     bool InitializeReaction(PersistPtr ppReac) ;
 
     std::string& getName()          { return m_Name ; } ;
-    const MesmerEnv& getEnv() const { return m_Env; } 
+    const MesmerEnv& getEnv() const { return m_Env; } ;
 
 
     // Modifier for reaction type.

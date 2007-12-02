@@ -8,6 +8,14 @@ Documentation/inclusion.tex -text
 Documentation/mybib.bib -text
 Documentation/proposal.doc -text
 Documentation/proposal.tex -text
+MesmerQA/HSO2/HSO2.xml -text
+MesmerQA/HSO2/HSO2_test.xml -text
+MesmerQA/HSO2/baselines/Win32/HSO2_test.20071202_174201.xml -text
+MesmerQA/HSO2/baselines/Win32/HSO2_test.out -text
+MesmerQA/pentyl/baselines/Win32/pentyl_isomerization.20071202_174923.xml -text
+MesmerQA/pentyl/baselines/Win32/pentyl_isomerization.out -text
+MesmerQA/pentyl/pentyl_isomerization.xml -text
+MesmerQA/pentyl/pentyl_isomerize_dissocn.xml -text
 /README -text
 /ToDo -text
 Windows[!!-~]VC8/MESMER.sln -text
