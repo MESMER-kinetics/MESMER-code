@@ -63,9 +63,9 @@ namespace mesmer
     const char* id = ppReac->XmlReadValue("id");
     if(id) m_Name = id; //Continues if reaction id not found
     else{
-        {stringstream errorMsg;
-        errorMsg << "Reaction ID not found\n";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+      {stringstream errorMsg;
+      errorMsg << "Reaction ID not found\n";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
     }
 
     Molecule* pMol1(NULL) ;
@@ -78,13 +78,13 @@ namespace mesmer
     PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
     if(ppReactant2)
     {
-        pMol2 = GetMolRef(ppReactant2);
-        if(!pMol2){
-            {stringstream errorMsg;
-            errorMsg << "Cannot find Reactant 2 defined in Reaction " << getName();
-            obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
-            return false;
-        }
+      pMol2 = GetMolRef(ppReactant2);
+      if(!pMol2){
+        {stringstream errorMsg;
+        errorMsg << "Cannot find Reactant 2 defined in Reaction " << getName();
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
+        return false;
+      }
     }
 
     //Put the CollidingMolecule into m_rct1, even if it is second in datafile
@@ -95,59 +95,59 @@ namespace mesmer
         m_rct2 = dynamic_cast<ModelledMolecule*>(pMol2);
     }
     else{
-        pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
-        if(!pColMol){
-            {stringstream errorMsg;
-            errorMsg << "At least one of the reactants has to be a colliding molecule";
-            obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
-            return false;
-        }
-        m_rct1 = pColMol;
-        m_rct2 = dynamic_cast<ModelledMolecule*>(pMol1);
+      pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
+      if(!pColMol){
+        {stringstream errorMsg;
+        errorMsg << "At least one of the reactants has to be a colliding molecule";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
+        return false;
+      }
+      m_rct1 = pColMol;
+      m_rct2 = dynamic_cast<ModelledMolecule*>(pMol1);
     }
 
     if (m_rct1 && m_rct2){ // the reactant side has two molecules
-        {stringstream errorMsg;
-        errorMsg << "Reaction " << m_Name << " has two reactants. ";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+      {stringstream errorMsg;
+      errorMsg << "Reaction " << m_Name << " has two reactants. ";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
 
-        // check whether there is any SuperMolecule in m_molmap contains pMol1 & pMol2
-        string id; //shoud not set any name for it.
-        SuperMolecule* pmol = NULL;
-        while(m_pMoleculeManager->GetNextMolecule(id, pmol)){ // get next SuperMolecule
-            // if found a SuperMolecule
-            CollidingMolecule* rm1 = pmol->getMember1();
-            ModelledMolecule*  rm2 = pmol->getMember2();
-            if (rm1 && rm2){ // some data are already inside
-                if (rm1 != m_rct1 || rm2 != m_rct2){ // not this SuperMolecule, find next.
-                    {stringstream errorMsg;
-                    errorMsg << "Not this SuperMolecule, find next.";
-                    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
-                    pmol = NULL;
-                }
-                else{ // this is the SuperMolecule we are looking for
-                    m_srct = pmol;
-                    {stringstream errorMsg;
-                    errorMsg << "Found the SuperMolecule: " << m_srct->getName();
-                    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
-                    break;
-                }
-            }
-            else{// there is no data inside, occupy it!
-                pmol->setMembers(m_rct1, m_rct2);
-                m_srct = pmol;
-                {stringstream errorMsg;
-                errorMsg << "Occupy the position of the SuperMolecule: " << m_srct->getName();
-                obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
-                break;
-            }
-        }
-        if (!pmol){
+      // check whether there is any SuperMolecule in m_molmap contains pMol1 & pMol2
+      string id; //shoud not set any name for it.
+      SuperMolecule* pmol = NULL;
+      while(m_pMoleculeManager->GetNextMolecule(id, pmol)){ // get next SuperMolecule
+        // if found a SuperMolecule
+        CollidingMolecule* rm1 = pmol->getMember1();
+        ModelledMolecule*  rm2 = pmol->getMember2();
+        if (rm1 && rm2){ // some data are already inside
+          if (rm1 != m_rct1 || rm2 != m_rct2){ // not this SuperMolecule, find next.
             {stringstream errorMsg;
-            errorMsg << "No SuperMolecule was found.";
+            errorMsg << "Not this SuperMolecule, find next.";
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
-            // there will always at least one SuperMolecule in m_molmap, check the end of addmols() in MoleculeManager.cpp.
+            pmol = NULL;
+          }
+          else{ // this is the SuperMolecule we are looking for
+            m_srct = pmol;
+            {stringstream errorMsg;
+            errorMsg << "Found the SuperMolecule: " << m_srct->getName();
+            obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+            break;
+          }
         }
+        else{// there is no data inside, occupy it!
+          pmol->setMembers(m_rct1, m_rct2);
+          m_srct = pmol;
+          {stringstream errorMsg;
+          errorMsg << "Occupy the position of the SuperMolecule: " << m_srct->getName();
+          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+          break;
+        }
+      }
+      if (!pmol){
+        {stringstream errorMsg;
+        errorMsg << "No SuperMolecule was found.";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+        // there will always at least one SuperMolecule in m_molmap, check the end of addmols() in MoleculeManager.cpp.
+      }
     }
     else{
         {stringstream errorMsg;
@@ -159,74 +159,74 @@ namespace mesmer
     pMol1=NULL; pMol2=NULL;
     PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
     if (ppProduct1) {
-        pMol1 = GetMolRef(ppProduct1);
+      pMol1 = GetMolRef(ppProduct1);
 
-        PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
-        pMol2 = GetMolRef(ppProduct2);
+      PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
+      pMol2 = GetMolRef(ppProduct2);
 
-        //Put the Colliding Molecule into m_pdt1, even if it is second in datafile
-        pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
-        if(pColMol)
+      //Put the Colliding Molecule into m_pdt1, even if it is second in datafile
+      pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
+      if(pColMol)
+      {
+        m_pdt1 = pColMol;
+        m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol2);
+      }
+      else
+      {
+        pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
+        if(!pColMol)
         {
-            m_pdt1 = pColMol;
-            m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol2);
+          {stringstream errorMsg;
+          errorMsg << "No colliding molecule for product. There has to be one colliding molecule in product.";
+          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
+          return false;
         }
-        else
-        {
-            pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
-            if(!pColMol)
-            {
-                {stringstream errorMsg;
-                errorMsg << "No colliding molecule for product. There has to be one colliding molecule in product.";
-                obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
-                return false;
-            }
-            m_pdt1 = pColMol;
-            m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol1);
-        }
+        m_pdt1 = pColMol;
+        m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol1);
+      }
     }
 
     // Read the transition state (if present)
     PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState") ;
     if (ppTransitionState)
     {
-        PersistPtr ppmol = ppTransitionState->XmlMoveTo("molecule");
-        if(ppmol)
-        {
-            const char* pRef = ppmol->XmlReadValue("ref");
-            if(!pRef){
-                {stringstream errorMsg;
-                errorMsg << "Cannot find transitionState defined in Reaction " << getName() << ".";
-                obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
-                return false;
-            }
-            m_TransitionState = dynamic_cast<TransitionState*>(m_pMoleculeManager->find(pRef));
+      PersistPtr ppmol = ppTransitionState->XmlMoveTo("molecule");
+      if(ppmol)
+      {
+        const char* pRef = ppmol->XmlReadValue("ref");
+        if(!pRef){
+          {stringstream errorMsg;
+          errorMsg << "Cannot find transitionState defined in Reaction " << getName() << ".";
+          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
+          return false;
         }
+        m_TransitionState = dynamic_cast<TransitionState*>(m_pMoleculeManager->find(pRef));
+      }
 
-        /* It would be better to use the ZPEs rather than threshold
-        if(m_TransitionState)
-        {
-        const char* pthreshtxt = ppReac->XmlReadValue("me:threshold",false);
-        if(pthreshtxt)
-        {
-        stringstream ss(pthreshtxt);
-        ss >> m_E0;
-        }
-        */
+      /* It would be better to use the ZPEs rather than threshold
+      if(m_TransitionState)
+      {
+      const char* pthreshtxt = ppReac->XmlReadValue("me:threshold",false);
+      if(pthreshtxt)
+      {
+      stringstream ss(pthreshtxt);
+      ss >> m_E0;
+      }
+      */
     }
 
     // Read the heat of reaction (if present).
     const char* pHeatRxntxt = ppReac->XmlReadValue("me:HeatOfReaction",false);
     if (pHeatRxntxt){
-        stringstream s1(pHeatRxntxt);
-        s1 >> m_HeatOfReaction ;
+      stringstream s1(pHeatRxntxt);
+      s1 >> m_HeatOfReaction ;
     }
     else{ // calculate HeatOfReaction
-        double zpe_pdt1 = m_pdt1 ? m_pdt1->get_zpe() : 0.;
-        double zpe_pdt2 = m_pdt2 ? m_pdt2->get_zpe() : 0.;
-        double zpe_rct1 = m_rct1 ? m_rct1->get_zpe() : 0.;
-        double zpe_rct2 = m_rct2 ? m_rct2->get_zpe() : 0.;
-        m_HeatOfReaction = zpe_pdt1 + zpe_pdt2 - zpe_rct1 - zpe_rct2;
+      double zpe_pdt1 = m_pdt1 ? m_pdt1->get_zpe() : 0.;
+      double zpe_pdt2 = m_pdt2 ? m_pdt2->get_zpe() : 0.;
+      double zpe_rct1 = m_rct1 ? m_rct1->get_zpe() : 0.;
+      double zpe_rct2 = m_rct2 ? m_rct2->get_zpe() : 0.;
+      m_HeatOfReaction = zpe_pdt1 + zpe_pdt2 - zpe_rct1 - zpe_rct2;
 
     }
 
@@ -237,40 +237,40 @@ namespace mesmer
     const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential",false);
     if (pActEnetxt && pPreExptxt)
     {
-        stringstream s1(pActEnetxt); s1 >> m_ActEne ;
-        stringstream s2(pPreExptxt); s2 >> m_PreExp ;
+      stringstream s1(pActEnetxt); s1 >> m_ActEne ;
+      stringstream s2(pPreExptxt); s2 >> m_PreExp ;
     }
 
     // Classify the reaction.
 
     if (m_rct1 && m_pdt1 && !m_rct2 && !m_pdt2)
-        m_reactiontype = ISOMERIZATION ;
+      m_reactiontype = ISOMERIZATION ;
     else if (m_rct1 && m_pdt1 && m_rct2 && !m_pdt2)
-        m_reactiontype = ASSOCIATION ;
+      m_reactiontype = ASSOCIATION ;
     else if (m_rct1)
-        m_reactiontype = DISSOCIATION ;
+      m_reactiontype = DISSOCIATION ;
     else {
-        m_reactiontype = ERROR_REACTION ;
-        {stringstream errorMsg;
-        errorMsg << "Unknown combination of reactants and products";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
-        return false;
+      m_reactiontype = ERROR_REACTION ;
+      {stringstream errorMsg;
+      errorMsg << "Unknown combination of reactants and products";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
+      return false;
     }
 
     // Determine the method of MC rate coefficient calculation.
     const char* pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod") ;
     if(pMCRCMethodtxt)
     {
-        m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
-        if(!m_pMicroRateCalculator)
-        {
-            {stringstream errorMsg;
-            errorMsg << "Unknown method " << pMCRCMethodtxt
-                << " for the determination of Microcanonical rate coefficients in reaction "
-                << m_Name;
-            obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
-            return false;
-        }
+      m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
+      if(!m_pMicroRateCalculator)
+      {
+        {stringstream errorMsg;
+        errorMsg << "Unknown method " << pMCRCMethodtxt
+                 << " for the determination of Microcanonical rate coefficients in reaction "
+                 << m_Name;
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
+        return false;
+      }
     } // shall we provide a default method?
 
 
