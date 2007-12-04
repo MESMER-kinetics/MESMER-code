@@ -10,8 +10,12 @@ Documentation/proposal.doc -text
 Documentation/proposal.tex -text
 MesmerQA/HSO2/HSO2.xml -text
 MesmerQA/HSO2/HSO2_test.xml -text
+MesmerQA/HSO2/baselines/Cygwin[!!-~]32-bit[!!-~]double/HSO2_test.20071204_105924.xml -text
+MesmerQA/HSO2/baselines/Cygwin[!!-~]32-bit[!!-~]double/HSO2_test.out -text
 MesmerQA/HSO2/baselines/Win32/HSO2_test.20071202_174201.xml -text
 MesmerQA/HSO2/baselines/Win32/HSO2_test.out -text
+MesmerQA/pentyl/baselines/Cygwin[!!-~]32-bit[!!-~]double/pentyl_isomerization.20071204_105247.xml -text
+MesmerQA/pentyl/baselines/Cygwin[!!-~]32-bit[!!-~]double/pentyl_isomerization.out -text
 MesmerQA/pentyl/baselines/Win32/pentyl_isomerization.20071202_174923.xml -text
 MesmerQA/pentyl/baselines/Win32/pentyl_isomerization.out -text
 MesmerQA/pentyl/pentyl_isomerization.xml -text
