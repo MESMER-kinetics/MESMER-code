@@ -584,7 +584,7 @@ namespace mesmer
     const int idx = m_pdt1->get_grnZpe() - m_rct1->get_grnZpe() ;
     for ( int i = max(0,-idx) ; i < min(colloptrsize,(colloptrsize-idx)) ; ++i ) {
       int ll = i + idx ;
-	  int pL(pdtLoc + ll) ;
+      int pL(pdtLoc + ll) ;
 
       (*CollOptr)[pL][pL] -= rMeanOmega * m_GrainKfmc[ll] ;                        // Forward loss reaction.
       (*CollOptr)[pL][sL]  = rMeanOmega * m_GrainKfmc[ll]*sqrt(srcBoltz[ll]/Keq) ; // Reactive gain.

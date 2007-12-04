@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <sstream>
 
 #ifdef _WIN32
@@ -27,9 +28,15 @@ int main(int argc,char *argv[])
   //-------------------------------
   // process command line arguments
   string inputfilename, outputfilename;
-  if(argc<2) {usage(); return -1;}
-  inputfilename = argv[1];
-  if (argc > 2) outputfilename = argv[2];
+  if(argc<2) {
+    string textReport;
+    cout << "Please give input filename:";
+    cin >> inputfilename;
+  }
+  else{
+    inputfilename = argv[1];
+    if (argc > 2) outputfilename = argv[2];
+  }
 
   //This is where the type of IO is decided.
   //Opens the data file and checks that its root element is me:mesmer.
