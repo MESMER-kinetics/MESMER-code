@@ -27,7 +27,9 @@ public:
   MoleculeManager() : m_molmap(), m_BathGasMolecule() { } ;
 
   // Default destructor.
-  ~MoleculeManager();
+  ~MoleculeManager(){
+    clear();
+  };
 
   // Add a new molecule to the list.
   bool addmols(PersistPtr ppMolList, const MesmerEnv& Env) ;
@@ -93,6 +95,14 @@ private:
   typedef std::map<std::string, Molecule*>::iterator        molIter ;
   typedef std::map<std::string, Molecule*>::const_iterator  constMolIter ;
   std::string                                               m_BathGasMolecule ;
+
+  void clear(void){
+    m_BathGasMolecule.clear();
+    for (molIter i = m_molmap.begin(); i != m_molmap.end(); ++i){
+      delete i->second;
+    }
+    m_molmap.clear();
+  }
 } ;
 }//namespace
 #endif // GUARD_MoleculeManager_h

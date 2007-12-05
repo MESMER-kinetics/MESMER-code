@@ -21,18 +21,46 @@ namespace mesmer
     m_Name(),
     m_Mass(0.0),
     m_Sigma(0.0),
-    m_Epsilon(0.0)
+    m_Epsilon(0.0),
+    m_Mass_chk(-1),
+    m_Sigma_chk(-1),
+    m_Epsilon_chk(-1)
   {}
+
+  Molecule::~Molecule()
+  {
+    if (m_Mass_chk == 0){
+      stringstream errorMsg;
+      errorMsg << "m_Mass is provided but not used in " << getName();
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
+    if (m_Sigma_chk == 0){
+      stringstream errorMsg;
+      errorMsg << "m_Sigma is provided but not used in " << getName();
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
+    if (m_Epsilon_chk == 0){
+      stringstream errorMsg;
+      errorMsg << "m_Epsilon is provided but not used in " << getName();
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
+  }
 
   ModelledMolecule::ModelledMolecule(const MesmerEnv& Env): Molecule(Env),
     m_RotCstA(0.0),
     m_RotCstB(0.0),
     m_RotCstC(0.0),
-    m_Sym(0.0),
+    m_Sym(1.0),
     m_ZPE(0.0),
     m_SpinMultiplicity(1),
     m_grnZpe(0),
     m_pDensityOfStatesCalculator(NULL),
+    m_eleExc(),
+    m_RC_chk(-1),
+    m_Sym_chk(-1),
+    m_ZPE_chk(-1),
+    m_SpinMultiplicity_chk(-1),
+    m_VibFreq_chk(-1),
     m_VibFreq(),
     m_cellEne(),
     m_cellDOS(),
@@ -42,23 +70,55 @@ namespace mesmer
 
   ModelledMolecule::~ModelledMolecule()
   {
+    if (m_RC_chk == 0){
+      stringstream errorMsg;
+      errorMsg << "Rotational constants are provided but not used in " << getName();
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
+    if (m_Sym_chk == 0){
+      stringstream errorMsg;
+      errorMsg << "m_Sym is provided but not used in " << getName();
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
+    if (m_ZPE_chk == 0){
+      stringstream errorMsg;
+      errorMsg << "m_ZPE is provided but not used in " << getName();
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
+    if (m_SpinMultiplicity_chk == 0){
+      stringstream errorMsg;
+      errorMsg << "m_SpinMultiplicity is provided but not used in " << getName();
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
+    if (m_VibFreq_chk == 0){
+      stringstream errorMsg;
+      errorMsg << "m_VibFreq is provided but not used in " << getName();
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
+
     // Free any memory assigned for calculating densities of states.
-    if (m_cellDOS.size()) m_grainDOS.clear();
-    if (m_cellEne.size()) m_grainEne.clear();
+    if (m_grainDOS.size()) m_grainDOS.clear();
+    if (m_grainEne.size()) m_grainEne.clear();
     if (m_cellDOS.size()) m_cellDOS.clear();
     if (m_cellEne.size()) m_cellEne.clear();
-    if (m_cellDOS.size()) m_VibFreq.clear();
+    if (m_VibFreq.size()) m_VibFreq.clear();
   }
 
   CollidingMolecule::CollidingMolecule(const MesmerEnv& Env) : ModelledMolecule(Env),
     m_DeltaEdown(0.0),
     m_collisionFrequency(0.0),
     m_ncolloptrsize(0),
+    m_DeltaEdown_chk(-1),
     m_egme(NULL)
   {}
 
   CollidingMolecule::~CollidingMolecule()
   {
+    if (m_DeltaEdown_chk == 0){
+      stringstream errorMsg;
+      errorMsg << "m_DeltaEdown is provided but not used in " << getName();
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
     if (m_egme != NULL) delete m_egme ;
   }
 
@@ -200,9 +260,10 @@ namespace mesmer
       stringstream errorMsg;
       errorMsg << "ModelledMolecule::Cannot find argument me:vibFreqs. Maybe an atom or atomic ion.";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      m_VibFreq_chk = -1;
       //setFlag(true); // it maybe an atom so not necessary to set this flag. Just produce warning.
     }
-    else { istringstream idata(txt); double x; while (idata >> x) m_VibFreq.push_back(x);}
+    else { istringstream idata(txt); double x; while (idata >> x) m_VibFreq.push_back(x); m_VibFreq_chk = 0;}
 
     txt= ppPropList->XmlReadProperty("me:rotConsts");
     if(!txt){
@@ -210,6 +271,7 @@ namespace mesmer
       stringstream errorMsg;
       errorMsg << "ModelledMolecule::Cannot find argument me:rotConsts. Maybe an atom or atomic ion.";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      m_RC_chk = -1;
       //setFlag(true); // it maybe an atom so not necessary to set this flag. Just produce warning.
     }
     else {
@@ -225,6 +287,7 @@ namespace mesmer
       m_RotCstA = rCnst[2];
       m_RotCstB = rCnst[1];
       m_RotCstC = rCnst[0];
+      m_RC_chk = 0;
     }
 
     if (hasVibFreq != hasRotConst){
@@ -235,24 +298,35 @@ namespace mesmer
       setFlag(true);
     }
 
+    txt= ppPropList->XmlReadProperty("me:eletronicExcitation");
+    if(!txt){
+      stringstream errorMsg;
+      errorMsg << "ModelledMolecule::Cannot find argument me:eletronicExcitation for ModelledMolecule " << getName();
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    }
+    else {
+      istringstream idata(txt); double _iele = 0.; m_eleExc.clear();
+      while (idata >> _iele) m_eleExc.push_back(_iele);
+    }
+
     txt= ppPropList->XmlReadProperty("me:symmetryNumber");
     if(!txt){
       stringstream errorMsg;
-      errorMsg << "ModelledMolecule::Cannot find argument me:symmetryNumber. Default value 1.0 is used.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
-      m_Sym = 1.0;
+      errorMsg << "ModelledMolecule::Cannot find argument me:symmetryNumber. Default value " << m_Sym << " is used.";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      m_Sym_chk = -1;
       //setFlag(true);
     }
-    else { istringstream idata(txt); idata >> m_Sym; }
+    else { istringstream idata(txt); idata >> m_Sym; m_Sym_chk = 0;}
 
     txt= ppPropList->XmlReadProperty("me:ZPE");
     if(!txt){
       stringstream errorMsg;
       errorMsg << "ModelledMolecule::Cannot find argument me:ZPE";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
-      setFlag(true); // there has to have zero point energy in all molecules.
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      m_ZPE_chk = -1;
     }
-    else { istringstream idata(txt); idata >> m_ZPE ; }
+    else { istringstream idata(txt); idata >> m_ZPE ; m_ZPE_chk = 0;}
 
     // Determine the method of DOS calculation.
     const char* pDOSCMethodtxt = pp->XmlReadValue("me:DOSCMethod", false) ;
@@ -282,14 +356,14 @@ namespace mesmer
     txt= ppPropList->XmlReadProperty("me:spinMultiplicity");
     if(!txt){
       stringstream errorMsg;
-      errorMsg << "ModelledMolecule::Cannot find argument me:spinMultiplicity. Default value 1.0 is used.";
+      errorMsg << "ModelledMolecule::Cannot find argument me:spinMultiplicity. Default value "<< m_SpinMultiplicity << " is used.";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
-      m_SpinMultiplicity = 1;
     }
     else
     {
       istringstream idata(txt);
       idata >> m_SpinMultiplicity;
+      m_SpinMultiplicity_chk = 0;
     }
 
     if (getFlag()){
@@ -470,12 +544,22 @@ namespace mesmer
     }
   }
 
+    //
+    // Get Electronic excitations
+    //
+    void ModelledMolecule::getEleExcitation(vector<double> &elecExci){
+      elecExci.clear();
+      for (int i = 0; i < m_eleExc.size(); ++i){
+        elecExci.push_back(m_eleExc[i]);
+      }
+    }
+
   //
   // Get Grain canonical partition function.
   //
   double ModelledMolecule::grnCanPrtnFn() {
     // If density of states have not already been calcualted then do so.
-    if (test_rotConsts() == (-4)) return 1.0;
+    if (test_rotConsts() < 0) return 1.0;
     if (!m_cellDOS.size())
       calcDensityOfStates() ;
 
@@ -510,6 +594,12 @@ namespace mesmer
 
   int ModelledMolecule::get_rotConsts(std::vector<double> &mmtsInt)
   {
+    if (m_RC_chk < 0){
+      {stringstream errorMsg;
+      errorMsg << "Rotational constants were not defined but requested in " << getName();
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
+      return -4; // treat as a non-rotor
+    }
     mmtsInt.clear();
     mmtsInt.push_back(m_RotCstA);
     mmtsInt.push_back(m_RotCstB);
@@ -517,6 +607,7 @@ namespace mesmer
     /* now the classification of rotors is simplified to only three following types. 3-D rotors may have other
     attributes different from one another but in ILT they are treated as the same type. The function return values
     are temporary shorthand representations. */
+    ++m_RC_chk;
     if      ((mmtsInt[0] + mmtsInt[1] + mmtsInt[2]) == 0.) return -4; // not a rotor
     else if ((mmtsInt[0] * mmtsInt[1] * mmtsInt[2]) == 0.) return  0; // 2-D linear
     else                                                   return  2; // 3-D symmetric/asymmetric/spherical top
@@ -556,7 +647,7 @@ namespace mesmer
   //
   bool CollidingMolecule::collisionOperator(double beta)
   {
-    if (test_rotConsts() == (-4)) return true;
+    if (test_rotConsts() < 0) return true;
     //
     //     i) Determine Probabilities of Energy Transfer.
     //    ii) Normalisation of Probability matrix.
@@ -706,7 +797,7 @@ namespace mesmer
   //
   double CollidingMolecule::collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule)
   {
-    if (test_rotConsts() == (-4)) return 0.;
+    if (test_rotConsts() < 0) return 0.;
     //
     // Lennard-Jones Collision frequency. The collision integral is calculated
     // using the formula of Neufeld et al., J.C.P. Vol. 57, Page 1100 (1972).
@@ -743,7 +834,7 @@ namespace mesmer
     double sam  = (getSigma() + bthSigma) * 0.5;
     double tstr = 1. / (eam * beta);
 
-    if(1){stringstream errorMsg;
+    if(0){stringstream errorMsg;
     errorMsg << "mu = " << mu << ", eam = " << eam << ", sam = " << sam << ", tstr = " << tstr << ", beta = " << beta;
     obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
 
@@ -876,20 +967,27 @@ namespace mesmer
 
       double qtot = 1.0 ;
 
-      vector<double> rotConst; int rotorType = get_rotConsts(rotConst);
+      vector<double> rotConst; int rotorType;
+
+      if (!dynamic_cast<SuperMolecule *>(this)) {
+        rotorType = get_rotConsts(rotConst);
+      }
+      else{rotorType = -4;}
+
+      vector<double> vibFreq; get_VibFreq(vibFreq);
 
       switch(rotorType){
         case 2://3-D symmetric/asymmetric/spherical top
-          for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) {
-            qtot /= (1.0 - exp(-beta*m_VibFreq[j])) ;
+          for ( vector<double>::size_type j = 0 ; j < vibFreq.size() ; ++j ) {
+            qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
           }
-          qtot *= (sqrt(M_PI/(rotConst[0] * rotConst[1] * rotConst[2]))*(pow(beta,-1.5))/m_Sym) ;
+          qtot *= (sqrt(M_PI/(rotConst[0] * rotConst[1] * rotConst[2]))*(pow(beta,-1.5))/get_Sym()) ;
           break;
         case 0://2-D linear
-          for ( vector<double>::size_type j = 0 ; j < m_VibFreq.size() ; ++j ) {
-            qtot /= (1.0 - exp(-beta*m_VibFreq[j])) ;
+          for ( vector<double>::size_type j = 0 ; j < vibFreq.size() ; ++j ) {
+            qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
           }
-          qtot *= (rotConst[0] / (m_Sym*beta)) ;
+          qtot *= (rotConst[0] / (get_Sym()*beta)) ;
           break;
         default:
           qtot = 0.;
@@ -907,6 +1005,25 @@ namespace mesmer
       ppItem->XmlWriteValueElement("me:sumc", sumc, 6);
       ppItem->XmlWriteValueElement("me:sumg", sumg, 6);
     }
+    if (0){
+      cout << endl << "Cell density of states for ModelledMolecule: " << getName() << endl << endl << "{" << endl;
+      for (int i = 0; i < MaximumCell; ++i){
+        formatFloat(cout, m_cellEne[i],  6,  15) ;
+        formatFloat(cout, m_cellDOS[i],  6,  15) ;
+        cout << endl ;
+      }
+      cout << "}" << endl;
+    }
+
+    if (0){
+      cout << endl << "Grain density of states for ModelledMolecule: " << getName() << endl << endl << "{" << endl;
+      for (int i = 0; i < MaximumGrain; ++i){
+        formatFloat(cout, m_grainEne[i],  6,  15) ;
+        formatFloat(cout, m_grainDOS[i],  6,  15) ;
+        cout << endl ;
+      }
+      cout << "}" << endl;
+    }
   }
 
   //
@@ -915,7 +1032,7 @@ namespace mesmer
   void ModelledMolecule::calcGrainAverages()
   {
     int MaximumGrain = getEnv().MaxGrn;
-    m_grainEne.resize(MaximumGrain) ;
+    m_grainEne.resize(MaximumGrain, 0.) ;
     m_grainDOS.resize(MaximumGrain, 0.) ;
 
     //    int igsz = MAXCELL/MAXGRN ;
@@ -931,28 +1048,27 @@ namespace mesmer
 
     int idx1 = 0 ;
     int idx2 = 0 ;
-
+    int grainsize = static_cast<int>(getEnv().GrainSize);
     for (int i = 0 ; i < MaximumGrain ; ++i ) {
 
       int idx3 = idx1 ;
 
       // Calculate the number of states in a grain.
-
       double gNOS = 0.0 ;
-      for (int j = 0 ; j < getEnv().GrainSize ; ++j, ++idx1 )
+      for (int j = 0 ; j < grainsize ; ++j, ++idx1 ){
         gNOS += m_cellDOS[idx1] ;
+      }
 
       // Calculate average energy of the grain if it contains sum states.
-
       if ( gNOS > 0.0 ) {
-
         double gSE = 0.0 ; // grain sum of state energy
-        for (int j = 0 ; j < getEnv().GrainSize ; ++j, ++idx3 )
+        for (int j = 0 ; j < grainsize ; ++j, ++idx3 ){
           gSE += m_cellEne[idx3] * m_cellDOS[idx3] ;
-
+        }
         m_grainDOS[idx2] = gNOS ;
         m_grainEne[idx2] = gSE/gNOS ;
       }
+
       idx2++ ;
     }
 

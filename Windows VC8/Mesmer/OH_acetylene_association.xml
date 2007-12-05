@@ -53,6 +53,7 @@
             </propertyList>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
         </molecule>
+
         <molecule id="TS_1a" me:type="transitionState">
             <atomarray>
                 <atom id="a1" elementType="C" />
@@ -70,7 +71,7 @@
             </bondarray>
             <propertyList>
                 <property dictRef="me:ZPE">
-                    <scalar units="kcal/mol">137.2</scalar>
+                    <scalar units="kcal/mol">6.5</scalar>
                 </property>
                 <property dictRef="me:rotConsts">
                     <array units="cm-1">0.33065 0.39313 2.06178</array>
@@ -78,17 +79,17 @@
                 <property dictRef="me:symmetryNumber">
                     <scalar>1.0</scalar>
                 </property>
-                <property dictRef="me:epsilon">
-                    <scalar>250.0</scalar>
-                </property>
-                <property dictRef="me:sigma">
-                    <scalar>5.0</scalar>
-                </property>
                 <property dictRef="me:vibFreqs">
                     <array units="cm-1">332.0 807.0 903.0 1010.0 1098.0 1158.0 1306.0 1407.0 1988.0 3127.0 3167.0</array>
                 </property>
                 <property dictRef="me:MW">
                     <scalar>43</scalar>
+                </property>
+                <property dictRef="me:epsilon">
+                    <scalar>250.0</scalar>
+                </property>
+                <property dictRef="me:sigma">
+                    <scalar>5.0</scalar>
                 </property>
                 <property dictRef="me:deltaEDown">
                     <scalar units="cm-1">250.0</scalar>
@@ -99,6 +100,7 @@
             </propertyList>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
         </molecule>
+
         <molecule id="OH" me:type="colliding">
             <atomarray>
                 <atom id="a1" elementType="O" />
@@ -113,6 +115,9 @@
                 </property>
                 <property dictRef="me:rotConsts">
                     <array units="cm-1">19.2438</array>
+                </property>
+                <property dictRef="me:eletronicExcitation">
+                    <array units="cm-1">139.7</array>
                 </property>
                 <property dictRef="me:symmetryNumber">
                     <scalar>1</scalar>
@@ -132,6 +137,7 @@
             </propertyList>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
         </molecule>
+
         <molecule id="acetylene" me:type="modelled">
             <atomarray>
                 <atom id="a1" elementType="C" />
@@ -146,7 +152,7 @@
             </bondarray>
             <propertyList>
                 <property dictRef="me:ZPE">
-                    <scalar units="kcal/mol">130.7</scalar>
+                    <scalar units="kcal/mol">0.0</scalar>
                 </property>
                 <property dictRef="me:rotConsts">
                     <array units="cm-1">1.19205</array>
@@ -215,10 +221,10 @@
     </me:conditions>
     <me:modelParameters>
         <!--Specify grain size directly...-->
-        <me:grainSize units="cm-1">10000</me:grainSize>
+        <me:grainSize units="cm-1">20</me:grainSize>
         <!--...or by the total number of grains
         <me:numberOfGrains> 500 </me:numberOfGrains>-->
-        <!--Specify increased energy range 
+        <!--Specify increased energy range
         <me:maxTemperature>6000</me:maxTemperature>-->
     </me:modelParameters>
     <me:control>

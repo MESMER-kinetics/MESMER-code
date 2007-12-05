@@ -21,7 +21,10 @@ namespace mesmer
       m_pReactionManager = new ReactionManager(m_pMoleculeManager) ;
   }
 
-  System::~System() { }
+  System::~System() {
+    delete m_pReactionManager;
+    delete m_pMoleculeManager;
+  }
 
   //
   // Parse an input data file.
@@ -313,8 +316,8 @@ namespace mesmer
 //      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
-    //Max energy is ** 20kT  ** above the highest well [was 10kT]
-    m_Env.EMax = m_Env.EMax + 20 * boltzmann_RCpK * m_Env.MaxT;
+    //EAboveWell: Max energy above the highest well.
+    m_Env.EMax = m_Env.EMax + m_Env.EAboveWell * boltzmann_RCpK * m_Env.MaxT;
     if(m_Env.GrainSize <= 0.0){
       m_Env.GrainSize = 100.; //default 100cm-1
       stringstream errorMsg;

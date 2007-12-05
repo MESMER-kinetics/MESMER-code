@@ -15,10 +15,11 @@ namespace mesmer
     int    MaxGrn;     //The number of grains
     int    MaxCell;    //The number of cells
     double MaxT;       //Maximum temperature for the purposes of setting the energy range
-
+    
     double EMin, EMax; // The absolute lowest and highest energies in the system, cm-1
 
     bool   microRateEnabled;  // Whether to output microcanonical rate coefficients
+    double EAboveWell; //Max energy above the highest well [was 10kT]
   };
 }//namespace
 

@@ -10,6 +10,8 @@ namespace mesmer{
     MaxT(.0),
     EMin(.0),
     EMax(.0),
-    microRateEnabled(false){}
+    microRateEnabled(false),
+    EAboveWell(9.)
+    {}
 }//namespace
 

@@ -47,12 +47,12 @@ namespace mesmer
 
 
     //---------------------- Assign rotational constants ----------------------
-    if      (rotor1Type == -4){}                                                   // non-rotor
+    if      (rotor1Type  <  0){}                                                   // non-rotor
     else if (rotor1Type ==  0){ I1 = rotCs1[0]; }                                  // 2-D linear
     else                      { I1X = rotCs1[0]; I1Y = rotCs1[1]; I1Z = rotCs1[2];}// 3-D symmetric/asymmetric/spherical top
-    if      (rotor2Type == -4){}                                                   // non-rotor
+    if      (rotor2Type  <  0){}                                                   // non-rotor
     else if (rotor2Type ==  0){ I2 = rotCs2[0]; }                                  // 2-D linear
-    else                      { I2X = rotCs2[0]; I2Y = rotCs1[1]; I2Z = rotCs2[2];}// 3-D symmetric/asymmetric/spherical top
+    else                      { I2X = rotCs2[0]; I2Y = rotCs2[1]; I2Z = rotCs2[2];}// 3-D symmetric/asymmetric/spherical top
 
     //------------------------------------------------------------------------------
     //Density of states from ILT of the product of partition functions of two rotors
@@ -101,6 +101,27 @@ namespace mesmer
       int nFreq = static_cast<int>(vfMol2[i] + 0.5);
       for (int j = 0; j < (mEnv.MaxCell - nFreq); ++j){
         dimerCellDOS[nFreq + j] += dimerCellDOS[j];
+      }
+    }
+
+    //electronic degeneracy
+    vector<double> eleExc1, eleExc2;
+    p_mol1->getEleExcitation(eleExc1);
+    p_mol2->getEleExcitation(eleExc2);
+    if (!eleExc1.empty()){
+      for (int j = 0; j < static_cast<int>(eleExc1.size()); ++j){
+        int iele = static_cast<int>(eleExc1[j]+.5);
+        for (int i = (mEnv.MaxCell - 1); i >= iele; --i){
+          dimerCellDOS[i] += dimerCellDOS[i - iele];
+        }
+      }
+    }
+    if (!eleExc2.empty()){
+      for (int j = 0; j < static_cast<int>(eleExc2.size()); ++j){
+        int iele = static_cast<int>(eleExc2[j]+.5);
+        for (int i = (mEnv.MaxCell - 1); i >= iele; --i){
+          dimerCellDOS[i] += dimerCellDOS[i - iele];
+        }
       }
     }
 
@@ -165,6 +186,18 @@ namespace mesmer
       // the original case has larger difference where if frequency = 392.95 it floors to 392
       for (int i = 0 ; i < mEnv.MaxCell - iFreq ; ++i ){
         mol->m_cellDOS[i + iFreq] += mol->m_cellDOS[i] ;
+      }
+    }
+
+    //electronic degeneracy
+    vector<double> eleExc;
+    mol->getEleExcitation(eleExc);
+    if (!eleExc.empty()){
+      for (int j = 0; j < static_cast<int>(eleExc.size()); ++j){
+        int iele = static_cast<int>(eleExc[j]+.5);
+        for (int i = (mEnv.MaxCell - 1); i >= iele; --i){
+          mol->m_cellDOS[i] += mol->m_cellDOS[i - iele];
+        }
       }
     }
     return true;

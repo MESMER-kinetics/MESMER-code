@@ -36,12 +36,26 @@ namespace mesmer
     double         m_Sigma ;            // Lennard-Jones sigma.
     double         m_Epsilon ;          // Lennard-Jones epsilon.
 
+    // CHECK FOR INPUTFILE PARAMETERS
+    // for these check values, initially the values are given -1. If not provided by user the value will remain as -1.
+    // If provided by the user the value will be increased to 0. 
+    // During calcualtion, every inputfile parameter if called by any function, the class will check if the parameter
+    // is provided. If it is provided, the chk value will increase by 1. So if a chk value is 9, it is asked for 9 times.
+    // However, if the user did not provide the value and the values is asked. The program will stop and report error.
+    // Values with obvious default values are also accounted in this check but the program will not exit; only 
+    // warning message will be given.
+    //================================================
+    int m_Mass_chk;
+    int m_Sigma_chk;
+    int m_Epsilon_chk;
+    //================================================
+
     //Molecule(const Molecule&) ;
     //Molecule& operator=(const Molecule&) ;
 
   public:
     Molecule(const MesmerEnv& Env) ;
-    virtual ~Molecule(){} ;
+    virtual ~Molecule();
 
     // Initialize Molecule.
     virtual bool InitializeMolecule(PersistPtr pp);
@@ -52,15 +66,48 @@ namespace mesmer
     const MesmerEnv& getEnv() const        { return m_Env; } 
 
     int    getFlag()                       { return m_flag; } ;
-    double getMass() const                 { return m_Mass ; } ;
-    double getSigma() const                { return m_Sigma ; } ;
-    double getEpsilon() const              { return m_Epsilon ; } ;
+    double getMass()                       {
+      if (m_Mass_chk >= 0){
+        ++m_Mass_chk;
+        return m_Mass ;
+      }
+      else{
+        stringstream errorMsg;
+        errorMsg << "m_Mass was not defined but requested in " << getName();
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+        exit(1);
+      }
+    } ;
+    double getSigma()                      {
+      if (m_Sigma_chk >= 0){
+        ++m_Sigma_chk;
+        return m_Sigma ;
+      }
+      else{
+        stringstream errorMsg;
+        errorMsg << "m_Sigma was not defined but requested in " << getName();
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+        exit(1);
+      }
+    } ;
+    double getEpsilon()                    {
+      if (m_Epsilon_chk >= 0){
+        ++m_Epsilon_chk;
+        return m_Epsilon ;
+      }
+      else{
+        stringstream errorMsg;
+        errorMsg << "m_Epsilon was not defined but requested in " << getName();
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+        exit(1);
+      }
+    } ;
 
     void   setName(string name)            { m_Name = name; } ;
     void   setFlag(bool value)             { if (value) ++m_flag; } ;
-    void   setMass(double value)           { m_Mass = value; } ;
-    void   setSigma(double value)          { m_Sigma = value; } ;
-    void   setEpsilon(double value)        { m_Epsilon = value; } ;
+    void   setMass(double value)           { m_Mass = value; m_Mass_chk = 0;} ;
+    void   setSigma(double value)          { m_Sigma = value; m_Sigma_chk = 0;} ;
+    void   setEpsilon(double value)        { m_Epsilon = value; m_Epsilon_chk = 0;} ;
   };
 
   //**************************************************
@@ -89,6 +136,15 @@ namespace mesmer
     int                 m_grnZpe ;           // Zero point energy expressed in grains.
     DensityOfStatesCalculator *m_pDensityOfStatesCalculator ;
 
+    //================================================
+    int m_RC_chk;
+    int m_Sym_chk;
+    int m_ZPE_chk;
+    int m_SpinMultiplicity_chk;
+    int m_VibFreq_chk;
+    //================================================
+
+    vector <double> m_eleExc; //Electronic excitation(for OH, NO, NS otherwise no memeber).
 
   public:
     std::vector<double> m_VibFreq ;          // Values of vibrational frequencies.
@@ -123,6 +179,9 @@ namespace mesmer
     // Get Grain Boltzmann distribution.
     void grnBoltzDist(std::vector<double> &grainBoltzDist) ;
 
+    // Get Electronic excitations
+    void getEleExcitation(vector<double> &elecExci);
+
     // Get Grain canonical partition function.
     double grnCanPrtnFn() ;
 
@@ -130,9 +189,31 @@ namespace mesmer
     bool calcDensityOfStates();
 
     // Accessors.
-    double get_zpe() const { return m_ZPE ; }
+    double get_zpe() { 
+      if (m_ZPE_chk >=0){
+        ++m_ZPE_chk;
+        return m_ZPE ; 
+      }
+      else{
+        stringstream errorMsg;
+        errorMsg << "m_ZPE was not defined but requested in " << getName() << ". Default value " << m_ZPE << " is given.";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+        return m_Sym;
+      }
+    }
     void set_zpe(double value) { m_ZPE = value; }
-    double get_Sym(void){return m_Sym;}
+    double get_Sym(void){
+      if (m_Sym_chk >= 0){
+        ++m_Sym_chk;
+        return m_Sym ;
+      }
+      else{
+        stringstream errorMsg;
+        errorMsg << "m_Sym was not defined but requested in " << getName() << ". Default value " << m_Sym << " is given.";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+        return m_Sym;
+      }
+    }
     int test_rotConsts(void);
     int  get_rotConsts(std::vector<double> &mmtsInt);
     void set_grnZpe(int grnZpe) {m_grnZpe = grnZpe ;} ;
@@ -140,13 +221,27 @@ namespace mesmer
 
     void get_VibFreq(std::vector<double>& vibFreq){
       vibFreq.clear();
-      vibFreq.assign(m_VibFreq.begin(), m_VibFreq.end());
+      if (m_VibFreq_chk >=0){
+        vibFreq.assign(m_VibFreq.begin(), m_VibFreq.end());
+        ++m_VibFreq_chk;
+      }
     }
 
     DensityOfStatesCalculator* get_DensityOfStatesCalculator(){return m_pDensityOfStatesCalculator;}
     void set_DensityOfStatesCalculator(DensityOfStatesCalculator* value){m_pDensityOfStatesCalculator = value;}
 
-    int getSpinMultiplicity() const        { return m_SpinMultiplicity; }
+    int getSpinMultiplicity()              {
+      if (m_SpinMultiplicity_chk >= 0){
+        ++m_SpinMultiplicity_chk;
+        return m_SpinMultiplicity ;
+      }
+      else{
+        stringstream errorMsg;
+        errorMsg << "m_SpinMultiplicity was not defined but requested in " << getName() << ". Default value " << m_SpinMultiplicity << " is given.";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+        return m_SpinMultiplicity;
+      }
+    }
     void   setSpinMultiplicity(int value)  { m_SpinMultiplicity = value; }
 
     // Calculate the average grain energy and then number of states per grain.
@@ -180,8 +275,12 @@ namespace mesmer
     double              m_DeltaEdown ;         // <Delta E down> for the exponential down model.
     double              m_collisionFrequency ; // Current value of collision frequency.
     int                 m_ncolloptrsize ;      // Size of the collision operator matrix.
-    dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
 
+    //================================================
+    int m_DeltaEdown_chk;
+    //================================================
+
+    dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
     //-------------------------------
     // Calculate collision frequency.
     double collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule) ;

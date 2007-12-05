@@ -184,7 +184,7 @@ namespace mesmer
 
     cout << endl ;
 
-    for (int i = smsize-10 ; i < smsize; ++i) {
+    for (int i = 0 ; i < smsize; ++i) {
       formatFloat(cout, rr[i], 6, 15) ;
       cout << endl ;
     }

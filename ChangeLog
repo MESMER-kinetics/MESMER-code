@@ -1,3 +1,12 @@
+_2007_12_05__19_19_09_ Chi-Hsiu Liang
+
+  * Added codes for input file parameters redundancy check in Molecule
+  * Updated destructors in System to Molecule level. Let distructors report redundancies.
+  * Added electronic excitation. (in DOS calculation and xml input.)
+  * Set EAboveWell as a member of m_Env (later will add it into the xml input)
+  * still need to put ninf in somewhere of xml.
+  * other minor modifications
+
 _2007_12_04__11_17_27_ Chi-Hsiu Liang
 
 Updated baseline for Cygwin 32-bit double.

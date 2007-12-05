@@ -386,8 +386,9 @@ namespace mesmer
     if (m_rct1 && m_rct2 && m_pdt1 && !m_pdt2){
       double Qrcts = m_srct->grnCanPrtnFn();
       if (Qrcts != Qrct1){
+        double diff = Qrcts - Qrct1;
         stringstream errorMsg;
-        errorMsg << "Partition function of the SuperMolecule is not consistent with the product of partition functions of the reactants";
+        errorMsg << "Partition function of the SuperMolecule is not consistent with the product of partition functions of the reactants. Diff = " << diff;
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       }
     }
