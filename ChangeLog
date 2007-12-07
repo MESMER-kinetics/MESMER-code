@@ -1,3 +1,15 @@
+_2007_12_07__16_30_57_ Chi-Hsiu Liang
+
+  * Check redundancy for m_deltaEDown, m_RotConsts, m_Sym, m_ZPE
+  * privatize m_VibFreq
+  * add get_deltaEDown()
+  * Added m_NInf in Reaction
+  * There seems to be something wrong in the code but I cannot tell where it is. I have set a flag 
+    if you look for this timestamp in the code: _2007_12_07__16_01_51_ 
+    So if anyone has time to check what's wrong with it. I will keep on doing what I was doing. 
+    The problem looks like if I change this line (I know the syntax is wrong so I have modified it to the correct one),
+    the collision operator will not be initialized correctly, which is a bit strange.
+
 _2007_12_05__19_19_09_ Chi-Hsiu Liang
 
   * Added codes for input file parameters redundancy check in Molecule

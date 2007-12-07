@@ -34,6 +34,7 @@ namespace mesmer
     m_GrainKfmc(),
     m_ActEne(0.0),
     m_PreExp(0.0),
+    m_NInf(0.0),
     m_ppPersist(),
     m_pMicroRateCalculator(NULL)
   {}
@@ -227,19 +228,27 @@ namespace mesmer
       double zpe_rct1 = m_rct1 ? m_rct1->get_zpe() : 0.;
       double zpe_rct2 = m_rct2 ? m_rct2->get_zpe() : 0.;
       m_HeatOfReaction = zpe_pdt1 + zpe_pdt2 - zpe_rct1 - zpe_rct2;
-
     }
 
     //Read in Kinetic rate parameters, if present
     m_ActEne = std::numeric_limits<double>::quiet_NaN();//means not set
 
     const char* pActEnetxt = ppReac->XmlReadValue("me:activationEnergy",false);
-    const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential",false);
-    if (pActEnetxt && pPreExptxt)
+    if (pActEnetxt)
     {
       stringstream s1(pActEnetxt); s1 >> m_ActEne ;
+    }
+    const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential",false);
+    if (pPreExptxt)
+    {
       stringstream s2(pPreExptxt); s2 >> m_PreExp ;
     }
+    const char* pNInftxt   = ppReac->XmlReadValue("me:nInfinity",false);
+    if (pNInftxt)
+    {
+      stringstream s3(pNInftxt); s3 >> m_NInf ;
+    }
+
 
     // Classify the reaction.
 

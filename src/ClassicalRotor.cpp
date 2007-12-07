@@ -91,13 +91,13 @@ namespace mesmer
     // convolution of vibrational DOS onto rotational DOS -- loop through all frequencies of both molecules
     vector<double> vfMol1; p_mol1->get_VibFreq(vfMol1);
     vector<double> vfMol2; p_mol2->get_VibFreq(vfMol2);
-    for (int i = 0; i < int(vfMol1.size()); ++i){
+    for (vector<double>::size_type i = 0; i < vfMol1.size(); ++i){
       int nFreq = static_cast<int>(vfMol1[i] + 0.5);
       for (int j = 0; j < (mEnv.MaxCell - nFreq); ++j){
         dimerCellDOS[nFreq + j] += dimerCellDOS[j];
       }
     }
-    for (int i = 0; i < int(vfMol2.size()); ++i){
+    for (vector<double>::size_type i = 0; i < vfMol2.size(); ++i){
       int nFreq = static_cast<int>(vfMol2[i] + 0.5);
       for (int j = 0; j < (mEnv.MaxCell - nFreq); ++j){
         dimerCellDOS[nFreq + j] += dimerCellDOS[j];

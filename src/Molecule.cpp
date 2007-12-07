@@ -55,12 +55,12 @@ namespace mesmer
     m_SpinMultiplicity(1),
     m_grnZpe(0),
     m_pDensityOfStatesCalculator(NULL),
-    m_eleExc(),
     m_RC_chk(-1),
     m_Sym_chk(-1),
     m_ZPE_chk(-1),
     m_SpinMultiplicity_chk(-1),
     m_VibFreq_chk(-1),
+    m_eleExc(),
     m_VibFreq(),
     m_cellEne(),
     m_cellDOS(),
@@ -428,7 +428,7 @@ namespace mesmer
       //setFlag(true);
       // deltaEDown is not always necessary. Hoever, it is not wise to provide a default value.
     }
-    else { istringstream idata(txt); idata >> m_DeltaEdown; }
+    else { istringstream idata(txt); idata >> m_DeltaEdown; m_DeltaEdown_chk = 0;}
 
     if (getFlag()){
       stringstream errorMsg;
@@ -549,7 +549,7 @@ namespace mesmer
     //
     void ModelledMolecule::getEleExcitation(vector<double> &elecExci){
       elecExci.clear();
-      for (int i = 0; i < m_eleExc.size(); ++i){
+      for (vector<double>::size_type i = 0; i < m_eleExc.size(); ++i){
         elecExci.push_back(m_eleExc[i]);
       }
     }
@@ -594,11 +594,17 @@ namespace mesmer
 
   int ModelledMolecule::get_rotConsts(std::vector<double> &mmtsInt)
   {
-    if (m_RC_chk < 0){
+    //if (m_RC_chk = -1){ // replace the line below by this line _2007_12_07__16_01_51_ you will encounter a problem somewhere else
+    if (m_RC_chk == -1){
       {stringstream errorMsg;
       errorMsg << "Rotational constants were not defined but requested in " << getName();
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
+      --m_RC_chk;
       return -4; // treat as a non-rotor
+    }
+    else if (m_RC_chk < -1){
+      --m_RC_chk;
+      return -4;
     }
     mmtsInt.clear();
     mmtsInt.push_back(m_RotCstA);

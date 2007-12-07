@@ -47,7 +47,7 @@ namespace mesmer
   {
     //-----------------
     //starting variables block
-    MesmerHP _ninf        = 0.0; // constraint: _ninf > -1.5
+    MesmerHP _ninf        = pReact->get_NInf(); // constraint: _ninf > -1.5
     double   _ainf        = pReact->get_PreExp();
     double   _einf        = pReact->get_ActivationEnergy();
     double   _tinf        = 1. / (boltzmann_RCpK * mEnv.beta);

@@ -13,7 +13,6 @@
 //-------------------------------------------------------------------------------------------
 
 #include <memory>
-#include "MesmerEnv.h"
 #include "XMLPersist.h"
 #include "MesmerMath.h"
 #include "formatfloat.h"
@@ -145,9 +144,9 @@ namespace mesmer
     //================================================
 
     vector <double> m_eleExc; //Electronic excitation(for OH, NO, NS otherwise no memeber).
+    std::vector<double> m_VibFreq ;          // Values of vibrational frequencies.
 
   public:
-    std::vector<double> m_VibFreq ;          // Values of vibrational frequencies.
     //
     // Cell and grain averages.  Note: raw array used for efficiency,
     // but need to test validity of this. SHR 5/Jan/03.
@@ -190,29 +189,35 @@ namespace mesmer
 
     // Accessors.
     double get_zpe() { 
-      if (m_ZPE_chk >=0){
-        ++m_ZPE_chk;
-        return m_ZPE ; 
-      }
-      else{
+      if (m_ZPE_chk == -1){
         stringstream errorMsg;
         errorMsg << "m_ZPE was not defined but requested in " << getName() << ". Default value " << m_ZPE << " is given.";
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
-        return m_Sym;
+        --m_ZPE_chk;
+        return m_ZPE;
       }
+      else if (m_ZPE_chk < -1){
+        --m_ZPE_chk;
+        return m_ZPE;
+      }
+      ++m_ZPE_chk;
+      return m_ZPE ; 
     }
     void set_zpe(double value) { m_ZPE = value; }
     double get_Sym(void){
-      if (m_Sym_chk >= 0){
-        ++m_Sym_chk;
-        return m_Sym ;
-      }
-      else{
+      if (m_Sym_chk == -1){
         stringstream errorMsg;
         errorMsg << "m_Sym was not defined but requested in " << getName() << ". Default value " << m_Sym << " is given.";
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+        --m_Sym_chk;
         return m_Sym;
       }
+      else if (m_Sym_chk < -1){
+        --m_Sym_chk;
+        return m_Sym;
+      }
+      ++m_Sym_chk;
+      return m_Sym ;
     }
     int test_rotConsts(void);
     int  get_rotConsts(std::vector<double> &mmtsInt);
@@ -224,6 +229,16 @@ namespace mesmer
       if (m_VibFreq_chk >=0){
         vibFreq.assign(m_VibFreq.begin(), m_VibFreq.end());
         ++m_VibFreq_chk;
+      }
+    }
+    
+    void set_VibFreq(std::vector<double>& vibFreq, bool addition = false){
+      if (addition){
+        for (std::vector<double>::size_type i = 0; i < vibFreq.size(); ++i) m_VibFreq.push_back(vibFreq[i]);
+      }
+      else{
+        m_VibFreq.clear();
+        m_VibFreq.assign(vibFreq.begin(), vibFreq.end());
       }
     }
 
@@ -309,6 +324,18 @@ namespace mesmer
     double get_collisionFrequency() const { return m_collisionFrequency ;} ;
     void set_colloptrsize(int ncolloptrsize) {m_ncolloptrsize = ncolloptrsize ;} ;
     int  get_colloptrsize() const {return m_ncolloptrsize ;} ;
+    double get_deltaEDown()       {
+      if (m_DeltaEdown_chk >= 0){
+        ++m_DeltaEdown_chk;
+        return m_DeltaEdown ;
+      }
+      else{
+        stringstream errorMsg;
+        errorMsg << "m_DeltaEdown was not defined but requested in " << getName() << ". Default value " << m_DeltaEdown << " is given.";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+        return m_DeltaEdown;
+      }
+    }
   };
 
   // class representing pair of molecules participating one association reaction
@@ -330,11 +357,10 @@ namespace mesmer
 
     // set composing member of the SuperMolecule, also copy necessary properties
     void setMembers(CollidingMolecule* mol1p, ModelledMolecule* mol2p){
-      m_mol1 = mol1p;
-      m_mol2 = mol2p;
-      m_VibFreq.assign(m_mol1->m_VibFreq.begin(), m_mol1->m_VibFreq.end());
-      for (size_t i(0); i < m_mol2->m_VibFreq.size(); ++i)
-        m_VibFreq.push_back(m_mol2->m_VibFreq[i]);
+      m_mol1 = mol1p; std::vector<double> vfMol1; m_mol1->get_VibFreq(vfMol1);
+      m_mol2 = mol2p; std::vector<double> vfMol2; m_mol2->get_VibFreq(vfMol2);
+      set_VibFreq(vfMol1);
+      set_VibFreq(vfMol2, true);
       set_zpe(m_mol1->get_zpe() + m_mol2->get_zpe());
       setSpinMultiplicity(m_mol1->getSpinMultiplicity() + m_mol2->getSpinMultiplicity());
       set_DensityOfStatesCalculator(m_mol1->get_DensityOfStatesCalculator());

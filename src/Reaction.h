@@ -58,6 +58,7 @@ namespace mesmer
 
     double              m_ActEne ;           // Activation Energy
     double              m_PreExp ;           // Preexponetial factor
+    double              m_NInf ;             // Modified Arrhenius parameter
 
     // I/O and control
     PersistPtr          m_ppPersist;         // Conduit for I/O
@@ -131,6 +132,7 @@ namespace mesmer
 
     double get_PreExp() const                   { return m_PreExp ; } ;
     double get_ActivationEnergy()const          { return m_ActEne ; } ;
+    double get_NInf()const                      { return m_NInf   ; } ;
 
     TransitionState* get_TransitionState()const { return m_TransitionState ; } ;
 
