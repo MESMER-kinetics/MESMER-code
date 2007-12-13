@@ -41,9 +41,9 @@ namespace mesmer
     // Reaction composition.
     //
     SuperMolecule     *m_srct ;              // Reactant molecules as a super-reactant
-    CollidingMolecule *m_rct1 ;              // Reactant Molecule.
+    ModelledMolecule  *m_rct1 ;              // Reactant Molecule.
     ModelledMolecule  *m_rct2 ;              // Subsidiary reactant molecule.
-    CollidingMolecule *m_pdt1 ;              // Product Molecule.
+    ModelledMolecule  *m_pdt1 ;              // Product Molecule.
     ModelledMolecule  *m_pdt2 ;              // Subsidiary product molecule.
     TransitionState   *m_TransitionState;    // TransitionState
     ReactionType       m_reactiontype ;      // Type of reaction.
@@ -137,13 +137,13 @@ namespace mesmer
     TransitionState* get_TransitionState()const { return m_TransitionState ; } ;
 
     // Reactant information:
-    int get_unimolecularspecies(std::vector<CollidingMolecule *> &unimolecularspecies) const ;
+    int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const ;
 
     // Product information:
     SuperMolecule* get_bi_molecularspecies(void) const;
 
     // Get the principal source reactant (i.e. reactant not in excess) if it exists.
-    CollidingMolecule *get_pseudoIsomer() const ;
+    ModelledMolecule *get_pseudoIsomer() const ;
 
   } ;
 

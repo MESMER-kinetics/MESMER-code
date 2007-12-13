@@ -18,38 +18,33 @@ namespace mesmer
 //
 // Add a new molecule to the list.
 //
-bool MoleculeManager::addmols(PersistPtr ppMolList, const MesmerEnv& Env) {
+Molecule* MoleculeManager::addmol(string& molName, string& molType, PersistPtr ppMolList, const MesmerEnv& Env) {
 
+  Molecule *pmolecule;
   PersistPtr ppmol = ppMolList->XmlMoveTo("molecule");
-  while(ppmol)
-  {
+  while (ppmol){
+    string id = ppmol->XmlReadValue("id");
+    if (id == molName) break; // found the molecule
+    ppmol = ppmol->XmlMoveTo("molecule");
+  }
+
+  //check if the molecule exists in m_molmap
+  constMolIter it = m_molmap.find(molName) ;
+  if (it != m_molmap.end()) { // found a molecule with the same name --> should check its type as well later.
+    return it->second;
+  }
+  else{
     //-------------
     // Create a new Molecule of the required type.
-    const char* ptype = ppmol->XmlReadValue("me:type", false);//some product mols don't have type
-    /*need to think about this again, if a molecule has no type, it cannot store zpe, spin, etc...
-    A mol has no type may probably for user to prepare some incomplete/unused molecules.
-      Maybe I am wrong, but I thought that product molecules of irreversible reations need only a name.
-      If some properties of a molecule are not going to be used then we should not make them
-      madatory.
-    */
-    string moltype;
-    if (ptype) {
-      moltype = ptype;
-    }
-    else{
-      moltype = "undefined";
-    }
-
-    Molecule *pmolecule;
-    if     (moltype=="source")
-      pmolecule = static_cast<Molecule*>(new SuperMolecule(Env));
-    else if(moltype=="colliding")
+    if(molType=="modelled")
       pmolecule = static_cast<Molecule*>(new CollidingMolecule(Env));
-    else if(moltype=="modelled")
+    else if(molType=="reactant")
+      pmolecule = static_cast<Molecule*>(new CollidingMolecule(Env));
+    else if(molType=="excessReactant")
       pmolecule = static_cast<Molecule*>(new ModelledMolecule(Env));
-    else if(moltype=="transitionState")
+    else if(molType=="transitionState")
       pmolecule = static_cast<Molecule*>(new TransitionState(Env));
-    else if(moltype=="bathGas")
+    else if(molType=="bathGas")
       pmolecule = static_cast<Molecule*>(new BathGasMolecule(Env));
     else
       pmolecule = static_cast<Molecule*>(new Molecule(Env));
@@ -59,52 +54,33 @@ bool MoleculeManager::addmols(PersistPtr ppMolList, const MesmerEnv& Env) {
     // Each molecule type has its own set of mandatory parameters
     if(!pmolecule->InitializeMolecule(ppmol) || pmolecule->getName().empty()){
       stringstream errorMsg;
-      errorMsg << "Failed in initializing the molecule. moltype = " << moltype;
+      errorMsg << "Failed in initializing the molecule. molType = " << molType;
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
-      delete pmolecule;
-      return false;
+      delete pmolecule; return NULL;
     } /*for the case of a SuperMolecule, if the element of source exists, the name has also to be specified.*/
 
-    //strName has to go after InitializeMolecule()
-    string strName = pmolecule->getName() ;
-
-//    {stringstream errorMsg;
-//    errorMsg << "Molecule " << strName << ", size of name = " << strName.size() << ", molecular type = " << moltype;
-//    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
-
-    //check if the molecule exists in m_molmap
-    constMolIter it = m_molmap.find(strName) ;
-    if (it != m_molmap.end()) {
-      stringstream errorMsg;
-      errorMsg << "Molecule " << strName << " already defined. Check input file to remove duplicates.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
-    }
-    else{
-      //pmolecule->put_verbosity(true) ;
-//      {stringstream errorMsg; 
-//      errorMsg << "Adding Molecule " << strName << " into m_molmap, molecular type = " << moltype;
-//      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
-
-      //-------------
-      // Add molecule to map.
-      m_molmap[strName] = pmolecule ;
-    }
-    ppmol = ppmol->XmlMoveTo("molecule");
+    //-------------
+    // Add molecule to map.
+    m_molmap[molName] = pmolecule ;
   }
 
+//    {stringstream errorMsg;
+//    errorMsg << "Molecule " << molName << ", size of name = " << molName.size() << ", molecular type = " << molType;
+//    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
+
+
   //check if there is a SuperMolecule (must at least have one)
-  string superName = "source";
-  constMolIter it = m_molmap.find(superName) ;
-  if (it == m_molmap.end()) { // if there is no source, create an instance
+  if (molType == "reactant"){
+    stringstream superName; superName << "source_" << sourceNumber;
+    ++sourceNumber;
     PersistPtr ppSuper = ppMolList->XmlWriteElement("molecule");
-    ppSuper->XmlWriteAttribute("id", "source");
+    ppSuper->XmlWriteAttribute("id", superName.str());
     ppSuper->XmlWriteAttribute("me:type", "source");
     Molecule *pmolecule = static_cast<Molecule*>(new SuperMolecule(Env));
     pmolecule->InitializeMolecule(ppSuper);
-    m_molmap[superName] = pmolecule;
+    m_molmap[superName.str()] = pmolecule;
   }
-
-  return true;
+  return pmolecule;
 }
 
 ////

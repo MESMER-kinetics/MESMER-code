@@ -18,7 +18,7 @@ namespace mesmer
     // where the first three convolutions are trivial
     //
 
-    CollidingMolecule* p_mol1 = rcts->getMember1();
+    ModelledMolecule*  p_mol1 = rcts->getMember1();
     ModelledMolecule*  p_mol2 = rcts->getMember2();
 
     if (!p_mol1 || !p_mol2){

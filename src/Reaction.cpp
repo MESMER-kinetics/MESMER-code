@@ -82,7 +82,7 @@ namespace mesmer
       pMol2 = GetMolRef(ppReactant2);
       if(!pMol2){
         {stringstream errorMsg;
-        errorMsg << "Cannot find Reactant 2 defined in Reaction " << getName();
+        errorMsg << "Reactant 2 defined in Reaction " << getName() << " is incomplete.";
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
         return false;
       }
@@ -90,10 +90,9 @@ namespace mesmer
 
     //Put the CollidingMolecule into m_rct1, even if it is second in datafile
     CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
-    if(pColMol)
-    {
-        m_rct1 = pColMol;
-        m_rct2 = dynamic_cast<ModelledMolecule*>(pMol2);
+    if(pColMol){
+      m_rct1 = pColMol;
+      m_rct2 = dynamic_cast<ModelledMolecule*>(pMol2);
     }
     else{
       pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
@@ -114,40 +113,28 @@ namespace mesmer
 
       // check whether there is any SuperMolecule in m_molmap contains pMol1 & pMol2
       string id; //shoud not set any name for it.
-      SuperMolecule* pmol = NULL;
-      while(m_pMoleculeManager->GetNextMolecule(id, pmol)){ // get next SuperMolecule
+      SuperMolecule* pSupMol = NULL;
+      while(m_pMoleculeManager->GetNextMolecule(id, pSupMol)){ // get next SuperMolecule
         // if found a SuperMolecule
-        CollidingMolecule* rm1 = pmol->getMember1();
-        ModelledMolecule*  rm2 = pmol->getMember2();
-        if (rm1 && rm2){ // some data are already inside
-          if (rm1 != m_rct1 || rm2 != m_rct2){ // not this SuperMolecule, find next.
-            {stringstream errorMsg;
-            errorMsg << "Not this SuperMolecule, find next.";
-            obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
-            pmol = NULL;
-          }
-          else{ // this is the SuperMolecule we are looking for
-            m_srct = pmol;
-            {stringstream errorMsg;
-            errorMsg << "Found the SuperMolecule: " << m_srct->getName();
-            obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
-            break;
-          }
-        }
-        else{// there is no data inside, occupy it!
-          pmol->setMembers(m_rct1, m_rct2);
-          m_srct = pmol;
+        ModelledMolecule*  rm1 = pSupMol->getMember1();
+        ModelledMolecule*  rm2 = pSupMol->getMember2();
+        if (!rm1 && !rm2){// there is no data inside, occupy it!
+          pSupMol->setMembers(m_rct1, m_rct2);
+          m_srct = pSupMol;
           {stringstream errorMsg;
-          errorMsg << "Occupy the position of the SuperMolecule: " << m_srct->getName();
+          errorMsg << "Set members of the SuperMolecule: " << m_srct->getName();
           obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
           break;
         }
       }
-      if (!pmol){
+      if (!pSupMol){
         {stringstream errorMsg;
         errorMsg << "No SuperMolecule was found.";
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
-        // there will always at least one SuperMolecule in m_molmap, check the end of addmols() in MoleculeManager.cpp.
+        // there will always at least one SuperMolecule in m_molmap, check the end of addmol() in MoleculeManager.cpp.
+        /* need to create one (mark _2007_12_10__17_10_18_)
+        write a SuperMolecule creator that acquire a position in the XML
+        */
       }
     }
     else{
@@ -169,20 +156,17 @@ namespace mesmer
       pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
       if(pColMol)
       {
-        m_pdt1 = pColMol;
+        m_pdt1 = static_cast<ModelledMolecule*>(pColMol);
         m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol2);
       }
       else
       {
         pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
-        if(!pColMol)
-        {
-          {stringstream errorMsg;
-          errorMsg << "No colliding molecule for product. There has to be one colliding molecule in product.";
-          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
-          return false;
+        if(!pColMol) { // both products are not CollidingMolecule -> dissociation reaction
+          m_pdt1 = dynamic_cast<ModelledMolecule*>(pMol1);
+          m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol2); // do we need to check the existence of m_pdt2 ?
         }
-        m_pdt1 = pColMol;
+        m_pdt1 = static_cast<ModelledMolecule*>(pColMol);
         m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol1);
       }
     }
@@ -191,18 +175,8 @@ namespace mesmer
     PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState") ;
     if (ppTransitionState)
     {
-      PersistPtr ppmol = ppTransitionState->XmlMoveTo("molecule");
-      if(ppmol)
-      {
-        const char* pRef = ppmol->XmlReadValue("ref");
-        if(!pRef){
-          {stringstream errorMsg;
-          errorMsg << "Cannot find transitionState defined in Reaction " << getName() << ".";
-          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
-          return false;
-        }
-        m_TransitionState = dynamic_cast<TransitionState*>(m_pMoleculeManager->find(pRef));
-      }
+      TransitionState* pTrans = dynamic_cast<TransitionState*>(GetMolRef(ppTransitionState));
+      if(pTrans) m_TransitionState = pTrans;
 
       /* It would be better to use the ZPEs rather than threshold
       if(m_TransitionState)
@@ -280,7 +254,7 @@ namespace mesmer
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
         return false;
       }
-    } // shall we provide a default method?
+    }
 
 
     return true;
@@ -291,22 +265,33 @@ namespace mesmer
   //
   Molecule* Reaction::GetMolRef(PersistPtr pp)
   {
-    Molecule* pMol;
-    if(!pp)
-        return NULL;
+    Molecule* pMol = NULL;
+    
+    if(!pp) return NULL;
     PersistPtr ppmol = pp->XmlMoveTo("molecule");
-    if(!ppmol){
-      return NULL;
+    if(!ppmol) return NULL;
+
+    string pRef = ppmol->XmlReadValue("ref");
+    if(pRef.size()){ // if got the name of the molecule
+      string pType = ppmol->XmlReadValue("me:type");
+      if(pType.size()){ // initialize molecule here with the specified type (need to know m_ppIOPtr)
+        PersistPtr ppMolList = m_pMoleculeManager->get_PersistPtr();
+        if(!ppMolList)
+        {
+          stringstream errorMsg;
+          errorMsg << "No molecules have been specified";
+          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+          return false;
+        }
+        pMol = m_pMoleculeManager->addmol(pRef, pType, ppMolList, m_Env);
+      }
     }
 
-    const char* pRef = ppmol->XmlReadValue("ref");
-    if(pRef)
-      pMol = m_pMoleculeManager->find(pRef);
 
     if(!pMol)
     {
       {stringstream errorMsg;
-      errorMsg << "Unknown molecule: " << pRef;
+      errorMsg << "Cannot find molecule: " << pRef;
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
       return NULL;
     }
@@ -319,7 +304,7 @@ namespace mesmer
   // (source term) or dissociation (sink term) reaction one species is returned,
   // for an isomerization reaction two species are returned.
   //
-  int Reaction::get_unimolecularspecies(vector<CollidingMolecule *> &unimolecularspecies) const
+  int Reaction::get_unimolecularspecies(vector<ModelledMolecule *> &unimolecularspecies) const
   {
     switch(m_reactiontype) {
     case ISOMERIZATION :
@@ -358,9 +343,9 @@ namespace mesmer
   // Get the prinincipal source reactant (i.e. reactant not in excess) if it exists.
   // (Not sure if this is a good idea, may be better to pass a Map in.)
   //
-  CollidingMolecule *Reaction::get_pseudoIsomer() const
+  ModelledMolecule *Reaction::get_pseudoIsomer() const
   {
-    CollidingMolecule *pseudoIsomer = NULL ;
+    ModelledMolecule *pseudoIsomer = NULL ;
     if(m_reactiontype == ASSOCIATION) pseudoIsomer = m_pdt1 ;
     return pseudoIsomer ;
   }
@@ -544,8 +529,8 @@ namespace mesmer
                                         const double    rMeanOmega)
   {
     // Locate isomers in system matrix.
-    const int rctLocation = isomermap[m_rct1] ;
-    const int pdtLocation = isomermap[m_pdt1] ;
+    const int rctLocation = isomermap[dynamic_cast<CollidingMolecule*>(m_rct1)] ;
+    const int pdtLocation = isomermap[dynamic_cast<CollidingMolecule*>(m_pdt1)] ;
 
     // Get densities of states for detailed balance.
     const int MaximumGrain = m_Env.MaxGrn;
@@ -576,8 +561,8 @@ namespace mesmer
                                        const double rMeanOmega)
   {
     // Locate isomers in system matrix.
-    const int pdtLoc  = isomermap[m_pdt1] ;
-    const int sL      = sourcemap[m_srct] ;
+    const int pdtLoc  = isomermap[dynamic_cast<CollidingMolecule*>(m_pdt1)] ;
+    const int sL      = sourcemap[dynamic_cast<SuperMolecule    *>(m_srct)] ;
 
     // Get equilibrium constant.
     const double Keq = calcEquilibriumConstant() ;
@@ -587,7 +572,7 @@ namespace mesmer
     vector<double> srcBoltz(MaximumGrain, 0.0) ;
     m_srct->grnBoltzDist(srcBoltz) ;
 
-    const int colloptrsize = m_pdt1->get_colloptrsize() ;
+    const int colloptrsize = dynamic_cast<CollidingMolecule*>(m_pdt1)->get_colloptrsize() ;
 
     double DissRateCoeff(0.0) ;
 
@@ -611,9 +596,9 @@ namespace mesmer
   void Reaction::AddDissocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) {
 
     // Locate reactant in system matrix.
-    const int rctLocation = isomermap[m_rct1] ;
+    const int rctLocation = isomermap[dynamic_cast<CollidingMolecule*>(m_rct1)] ;
 
-    for ( int i = 0 ; i < m_rct1->get_colloptrsize() ; ++i ) {
+    for ( int i = 0 ; i < dynamic_cast<CollidingMolecule*>(m_rct1)->get_colloptrsize() ; ++i ) {
         int ii(rctLocation + i) ;
         (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKfmc[i] ;                            // Forward loss reaction.
     }

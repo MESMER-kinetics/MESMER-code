@@ -55,7 +55,7 @@ namespace mesmer
     //-----------------
 
     SuperMolecule*              p_rcts = NULL;
-    vector<CollidingMolecule *> unimolecularspecies;
+    vector<ModelledMolecule *> unimolecularspecies;
 
     pReact->get_unimolecularspecies(unimolecularspecies);
     p_rcts = pReact->get_bi_molecularspecies();
@@ -66,8 +66,8 @@ namespace mesmer
       return false;
     }
 
-    CollidingMolecule *p_pdt1 = unimolecularspecies[0];
-    CollidingMolecule* p_rct1 = p_rcts->getMember1();
+    ModelledMolecule*  p_pdt1 = unimolecularspecies[0];
+    ModelledMolecule*  p_rct1 = p_rcts->getMember1();
     ModelledMolecule*  p_rct2 = p_rcts->getMember2();
 
     // Get molecular specific values

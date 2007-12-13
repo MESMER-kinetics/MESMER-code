@@ -13,9 +13,9 @@ namespace mesmer
                                                 PersistPtr        ppbase,
                                                 const MesmerEnv    &m_Env) const
   {
-    vector<CollidingMolecule *> unimolecularspecies;
+    vector<ModelledMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
-    CollidingMolecule * pReactant = unimolecularspecies[0];
+    ModelledMolecule * pReactant = unimolecularspecies[0];
 
     {
       stringstream errorMsg;

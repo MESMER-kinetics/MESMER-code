@@ -8,7 +8,7 @@ void DOSconvolution(const std::vector<double> &f1,
                     const std::vector<double> &f2,
                     std::vector<double> &conv)
 {
-  unsigned int i, j, vSize = f1.size();
+  std::vector<double>::size_type i, j, vSize = f1.size();
   for (i = 0; i < vSize; ++i){
     conv[i] = 0.;
     for (j = 0; j <= i; ++j){

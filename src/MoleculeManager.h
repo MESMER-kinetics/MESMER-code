@@ -21,10 +21,23 @@ namespace mesmer
 {
 class MoleculeManager {
 
+  std::map<std::string, Molecule*>                          m_molmap ;
+  typedef std::map<std::string, Molecule*>::iterator        molIter ;
+  typedef std::map<std::string, Molecule*>::const_iterator  constMolIter ;
+  std::string                                               m_BathGasMolecule ;
+  PersistPtr                                                m_ppPersist;
+  int                                                       sourceNumber;
+
+  void clear(void){
+    m_BathGasMolecule.clear();
+    for (molIter i = m_molmap.begin(); i != m_molmap.end(); ++i) delete i->second;
+    m_molmap.clear();
+  }
+
 public:
 
   // Default constructor.
-  MoleculeManager() : m_molmap(), m_BathGasMolecule() { } ;
+  MoleculeManager() : m_molmap(), m_BathGasMolecule(), m_ppPersist(NULL), sourceNumber(0) { } ;
 
   // Default destructor.
   ~MoleculeManager(){
@@ -32,7 +45,7 @@ public:
   };
 
   // Add a new molecule to the list.
-  bool addmols(PersistPtr ppMolList, const MesmerEnv& Env) ;
+  Molecule*  addmol(string& molName, string& molType, PersistPtr ppMolList, const MesmerEnv& Env) ;
 
   // Returns a newly created reference to the source term
   SuperMolecule* MoleculeManager::addSuperMol();
@@ -83,26 +96,35 @@ public:
     }
     return false;
   }
+  
+  /*Give the molecular name returns pointer*/
+  template<typename T>
+  bool GetThisMolecule(std::string& id, T*& pmol)
+  {
+    pmol=NULL;
+    molIter iter;
+    if(id.empty()){
+      pmol = NULL; return false;
+    }
+    else
+    {
+      iter=m_molmap.find(id);
+      if (iter != m_molmap.end()){
+        pmol = dynamic_cast<T*>(iter->second);
+        return true;
+      }
+      else return false;
+    }
+    return false;
+  }
 
   // Accessors and Modifers for bath gas molecule.
 
+  PersistPtr get_PersistPtr() {return m_ppPersist;}
+  void set_PersistPtr(PersistPtr value) {m_ppPersist = value;}
   Molecule *get_BathGasMolecule() {return m_molmap[m_BathGasMolecule]; } ;
   void set_BathGasMolecule(const std::string &BathGasMolecule){m_BathGasMolecule = BathGasMolecule ; } ;
 
-private:
-
-  std::map<std::string, Molecule*>                          m_molmap ;
-  typedef std::map<std::string, Molecule*>::iterator        molIter ;
-  typedef std::map<std::string, Molecule*>::const_iterator  constMolIter ;
-  std::string                                               m_BathGasMolecule ;
-
-  void clear(void){
-    m_BathGasMolecule.clear();
-    for (molIter i = m_molmap.begin(); i != m_molmap.end(); ++i){
-      delete i->second;
-    }
-    m_molmap.clear();
-  }
 } ;
 }//namespace
 #endif // GUARD_MoleculeManager_h

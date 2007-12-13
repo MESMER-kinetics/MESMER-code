@@ -340,11 +340,11 @@ namespace mesmer
 
   // class representing pair of molecules participating one association reaction
   // this class should account for their density of states as a convolution
-  class SuperMolecule : public CollidingMolecule
+  class SuperMolecule : public ModelledMolecule
   {
   public:
-    CollidingMolecule* m_mol1;
-    ModelledMolecule*  m_mol2;
+    ModelledMolecule* m_mol1;
+    ModelledMolecule* m_mol2;
 
     SuperMolecule(const MesmerEnv& Env);
 //     SuperMolecule(double zpe, CollidingMolecule* mol1p, ModelledMolecule* mol2p, MesmerEnv& Env);
@@ -356,7 +356,7 @@ namespace mesmer
     // Accessors.
 
     // set composing member of the SuperMolecule, also copy necessary properties
-    void setMembers(CollidingMolecule* mol1p, ModelledMolecule* mol2p){
+    void setMembers(ModelledMolecule* mol1p, ModelledMolecule* mol2p){
       m_mol1 = mol1p; std::vector<double> vfMol1; m_mol1->get_VibFreq(vfMol1);
       m_mol2 = mol2p; std::vector<double> vfMol2; m_mol2->get_VibFreq(vfMol2);
       set_VibFreq(vfMol1);
@@ -366,8 +366,8 @@ namespace mesmer
       set_DensityOfStatesCalculator(m_mol1->get_DensityOfStatesCalculator());
     }
 
-    CollidingMolecule* getMember1(){ return m_mol1;}
-    ModelledMolecule * getMember2(){ return m_mol2;}
+    ModelledMolecule* getMember1(){ return m_mol1;}
+    ModelledMolecule* getMember2(){ return m_mol2;}
 
     //virtual void testDensityOfStates(const MesmerEnv &m_Env) ;
 

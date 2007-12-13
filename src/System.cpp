@@ -31,20 +31,40 @@ namespace mesmer
   //
   bool System::parse(PersistPtr ppIOPtr)
   {
-    //-------------
-    //Molecule List
     m_ppIOPtr = ppIOPtr;
+
+    //-------------
+    //Molecule List // parse this part inside Reaction
     PersistPtr ppMolList = ppIOPtr->XmlMoveTo("moleculeList");
-    if(!ppMolList)
+    m_pMoleculeManager->set_PersistPtr(ppMolList);
+
+    //-------------
+    //Model Parameters
+    PersistPtr ppParams = ppIOPtr->XmlMoveTo("me:modelParameters");
+    if(ppParams)
     {
-      stringstream errorMsg;
-      errorMsg << "No molecules have been specified";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
-      return false;
+      const char* txt = ppParams->XmlReadValue("me:grainSize",false);
+      if(txt) { istringstream ss(txt); ss >> m_Env.GrainSize; }
+
+      txt = ppParams->XmlReadValue("me:numberOfGrains",false);
+      if(txt) { istringstream ss(txt); ss >> m_Env.MaxGrn; }
+
+      txt = ppParams->XmlReadValue("me:maxTemperature",false);
+      if(txt) { istringstream ss(txt); ss >> m_Env.MaxT; }
+
+      txt = ppParams->XmlReadValue("me:energyAboveTheTopWell",false);
+      if(txt) { istringstream ss(txt); ss >> m_Env.EAboveWell; }
+
+      if(m_Env.GrainSize!=0.0 && m_Env.MaxGrn!=0)
+      {
+        stringstream errorMsg;
+        errorMsg << "No method is provided to specify me:grainSize and me:numberOfGrains.\n"
+                 << "me:numberOfGrains has been ignored";
+        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+        m_Env.MaxGrn=0;
+      }
     }
 
-    if(!m_pMoleculeManager->addmols(ppMolList, m_Env))
-      return false;
     //-------------
     //Reaction List
     PersistPtr ppReacList = ppIOPtr->XmlMoveTo("reactionList");
@@ -55,38 +75,30 @@ namespace mesmer
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       return false;
     }
-    if(!m_pReactionManager->addreactions(ppReacList, m_Env))
-      return false;
+    if(!m_pReactionManager->addreactions(ppReacList, m_Env)) return false;
 
     //-------------
     //Reaction Conditions
     PersistPtr ppConditions = ppIOPtr->XmlMoveTo("me:conditions");
     if(!ppConditions)
     {
-      stringstream errorMsg;
-      errorMsg << "No conditions have been specified";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
-      return false;
+      stringstream errorMsg; errorMsg << "No conditions specified";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning); return false;
     }
-    const string Bgtxt = ppConditions->XmlReadValue("me:bathGas");
-    if(!Bgtxt.size() || !(m_pMoleculeManager->find(Bgtxt)) )
-    {
-      stringstream errorMsg;
-      errorMsg << "No bath gas specified";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
-      return false;
-    } else {
+    string Bgtxt = ppConditions->XmlReadValue("me:bathGas");
+    if (Bgtxt.empty()){
+      stringstream errorMsg; errorMsg << "No bath gas specified";
+      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning); return false;
+    }
+    else{
+      string molType = "bathGas";
+      m_pMoleculeManager->addmol(Bgtxt, molType, ppMolList, m_Env);
       m_pMoleculeManager->set_BathGasMolecule(Bgtxt) ;
     }
 
-    if(!ReadRange("me:temperature", Temperatures, ppConditions))
-      return false;
-
-    if(!ReadRange("me:conc", Concentrations, ppConditions, false))
-      return false;
-
-    if(!ReadRange("me:pressure", Pressures, ppConditions, false))
-      return false;
+    if(!ReadRange("me:temperature", Temperatures, ppConditions))   return false;
+    if(!ReadRange("me:conc", Concentrations, ppConditions, false)) return false;
+    if(!ReadRange("me:pressure", Pressures, ppConditions, false))  return false;
 
     if(Concentrations.size()==0 && Pressures.size()==0)
     {
@@ -97,46 +109,9 @@ namespace mesmer
     }
     else{
       stringstream errorMsg;
-      errorMsg << "Number of concentration points: " << Concentrations.size() 
+      errorMsg << "Number of concentration points: " << Concentrations.size()
                << ", number of pressure points: " << Pressures.size();
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-    }
-
-    //-------------
-    //Model Parameters
-    PersistPtr ppParams = ppIOPtr->XmlMoveTo("me:modelParameters");
-
-    if(ppParams)
-    {
-      const char* txt = ppParams->XmlReadValue("me:grainSize",false);
-      if(txt)
-      {
-        istringstream ss(txt);
-        ss >> m_Env.GrainSize;
-      }
-
-      txt = ppParams->XmlReadValue("me:numberOfGrains",false);
-      if(txt)
-      {
-        istringstream ss(txt);
-        ss >> m_Env.MaxGrn;
-      }
-
-      txt = ppParams->XmlReadValue("me:maxTemperature",false);
-      if(txt)
-      {
-        istringstream ss(txt);
-        ss >> m_Env.MaxT;
-      }
-
-      if(m_Env.GrainSize!=0.0 && m_Env.MaxGrn!=0)
-      {
-        stringstream errorMsg;
-        errorMsg << "No method is provided to specify me:grainSize and me:numberOfGrains.\n"
-                 << "me:numberOfGrains has been ignored";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-        m_Env.MaxGrn=0;
-      }
     }
 
     PersistPtr ppControl = ppIOPtr->XmlMoveTo("me:control");

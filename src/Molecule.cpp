@@ -125,7 +125,7 @@ namespace mesmer
   TransitionState::TransitionState(const MesmerEnv& Env) : ModelledMolecule(Env)
   {}
 
-  SuperMolecule::SuperMolecule(const MesmerEnv& Env) : CollidingMolecule(Env),
+  SuperMolecule::SuperMolecule(const MesmerEnv& Env) : ModelledMolecule(Env),
     m_mol1(NULL),
     m_mol2(NULL)
   {}

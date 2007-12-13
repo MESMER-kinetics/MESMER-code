@@ -1,3 +1,12 @@
+_2007_12_13__10_49_05_ Chi-Hsiu Liang
+
+  * Corrected some default pointer types for ModelledMolecule and CollidingMolecule
+  * Change back the default value for EAboveWell
+  * Change the order of parsing molecule list and reaction list, this including:
+    1. addmols() -> addmol()
+    2. source term numbering (initially source_0)
+    3. Modified GetMolRef() to add molecule and return its pointer
+  
 _2007_12_07__16_30_57_ Chi-Hsiu Liang
 
   * Check redundancy for m_deltaEDown, m_RotConsts, m_Sym, m_ZPE

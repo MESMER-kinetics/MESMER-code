@@ -11,7 +11,7 @@ namespace mesmer{
     EMin(.0),
     EMax(.0),
     microRateEnabled(false),
-    EAboveWell(9.)
+    EAboveWell(20.)
     {}
 }//namespace
 

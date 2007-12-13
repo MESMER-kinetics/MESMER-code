@@ -17,9 +17,9 @@ namespace mesmer
 
   bool SimpleILT::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc, const MesmerEnv &m_Env)
   {
-    vector<CollidingMolecule *> unimolecularspecies;
+    vector<ModelledMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
-    CollidingMolecule * pReactant = unimolecularspecies[0];
+    ModelledMolecule * pReactant = unimolecularspecies[0];
     if(IsNan(pReact->get_ActivationEnergy()))
     {
       stringstream errorMsg;

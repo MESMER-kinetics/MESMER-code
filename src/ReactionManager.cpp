@@ -70,13 +70,13 @@ namespace mesmer
     // populate isomerMap with unimolecular species
     for (size_t i(0) ; i < size() ; ++i) {
 
-      vector<CollidingMolecule *> unimolecules ;
+      vector<ModelledMolecule *> unimolecules ;
 
       int flag1 = m_reactions[i]->get_unimolecularspecies(unimolecules) ;
 
       if (flag1 > 0){ // association, dissociation or isomerization
         for (size_t i(0) ; i < unimolecules.size() ; ++i) {
-          CollidingMolecule *pCollidingMolecule = unimolecules[i] ;
+          CollidingMolecule *pCollidingMolecule = dynamic_cast<CollidingMolecule*>(unimolecules[i]) ;
           if(isomers.find(pCollidingMolecule) == isomers.end()){ // New isomer
             isomers[pCollidingMolecule] = 0 ; //initialize to a trivial location
             minEnergy = min(minEnergy, pCollidingMolecule->get_zpe()) ;

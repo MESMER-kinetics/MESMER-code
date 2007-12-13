@@ -4,7 +4,7 @@
   <!--Note that the thermodata is not real-->
   
   <moleculeList>
-    <molecule id="H" me:type="colliding">
+    <molecule id="H">
       <atom id="a1" elementType="H"/>
       <property dictRef="me:ZPE">
         <scalar units="kJmol-1">39.44</scalar>
@@ -13,7 +13,7 @@
         <scalar>1</scalar>
       </property>
     </molecule>
-    <molecule id="SO2" me:type="modelled">
+    <molecule id="SO2">
       <atomArray>
         <atom id="a1" elementType="O"/>
         <atom id="a2" elementType="S"/>
@@ -41,7 +41,7 @@
         <scalar units="kJmol-1">39.44</scalar>
       </property>
     </molecule>
-    <molecule id="HSO2" me:type="colliding">
+    <molecule id="HSO2">
       <atomArray>
         <atom id="a1" elementType="S"/>
         <atom id="a2" elementType="H"/>
@@ -71,7 +71,7 @@
         <scalar units="cm-1">230.0</scalar>
       </property>
     </molecule>
-    <molecule id="TS1" me:type="transitionState">
+    <molecule id="TS1">
       <atomArray>
         <atom id="a1" elementType="S"/>
         <atom id="a2" elementType="H"/>
@@ -98,7 +98,7 @@
         </array>
       </property>
     </molecule>
-    <molecule id="Ar" me:type="bathGas">
+    <molecule id="Ar">
       <atom elementType="Ar"/>
       <propertyList>
         <property dictRef="me:epsilon">
@@ -116,16 +116,16 @@
   <reactionList>
     <reaction id="R1" reversible="true">
       <reactant>
-        <molecule ref="H" />
+        <molecule ref="H" me:type="reactant" />
       </reactant>
       <reactant>
-        <molecule ref="SO2" />
+        <molecule ref="SO2" me:type="excessReactant" />
       </reactant>
       <product>
-        <molecule ref="HSO2" />
+        <molecule ref="HSO2" me:type="modelled" />
       </product>
       <me:transitionState>
-        <molecule ref="TS1" />
+        <molecule ref="TS1" me:type="transitionState" />
       </me:transitionState>
       <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
       <me:threshold>41.56</me:threshold>
