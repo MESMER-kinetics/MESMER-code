@@ -2,11 +2,7 @@
 <?xml-stylesheet type='text/xsl' href='mesmer1.xsl'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
     <moleculeList>
-        <molecule id="source" me:type="source">
-          <component ref="n-pentyl" />
-          <component ref="2-pentyl" />
-        </molecule>
-        <molecule id="OH_acetylene_adduct" me:type="colliding">
+        <molecule id="OH_acetylene_adduct">
             <atomarray>
                 <atom id="a1" elementType="C" />
                 <atom id="a2" elementType="C" />
@@ -53,8 +49,7 @@
             </propertyList>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
         </molecule>
-
-        <molecule id="TS_1a" me:type="transitionState">
+        <molecule id="TS_1a">
             <atomarray>
                 <atom id="a1" elementType="C" />
                 <atom id="a2" elementType="C" />
@@ -100,8 +95,7 @@
             </propertyList>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
         </molecule>
-
-        <molecule id="OH" me:type="colliding">
+        <molecule id="OH">
             <atomarray>
                 <atom id="a1" elementType="O" />
                 <atom id="a2" elementType="H" />
@@ -137,8 +131,7 @@
             </propertyList>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
         </molecule>
-
-        <molecule id="acetylene" me:type="modelled">
+        <molecule id="acetylene">
             <atomarray>
                 <atom id="a1" elementType="C" />
                 <atom id="a2" elementType="C" />
@@ -175,7 +168,7 @@
             </propertyList>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
         </molecule>
-        <molecule id="N_2" me:type="bathGas">
+        <molecule id="N_2">
             <atom elementType="N_2" />
             <propertyList>
                 <property dictRef="me:epsilon">
@@ -193,16 +186,16 @@
     <reactionList>
         <reaction id="R1">
             <reactant>
-                <molecule ref="OH" />
+                <molecule ref="OH" me:type="reactant" />
             </reactant>
             <reactant>
-                <molecule ref="acetylene" />
+                <molecule ref="acetylene" me:type="excessReactant" />
             </reactant>
             <product>
-                <molecule ref="OH_acetylene_adduct" />
+                <molecule ref="OH_acetylene_adduct" me:type="modelled" />
             </product>
             <me:transitionState>
-                <molecule ref="TS_1a" />
+                <molecule ref="TS_1a" me:type="transitionState" />
             </me:transitionState>
             <!--Use zero point energies instead
             <me:threshold>25.99</me:threshold>-->

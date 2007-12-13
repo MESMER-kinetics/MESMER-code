@@ -1,3 +1,7 @@
+_2007_12_13__15_58_20_ Chi-Hsiu Liang
+  
+  * Prevented Elements of source molecule from duplication.
+
 _2007_12_13__10_49_05_ Chi-Hsiu Liang
 
   * Corrected some default pointer types for ModelledMolecule and CollidingMolecule

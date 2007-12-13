@@ -39,6 +39,18 @@ namespace mesmer
     m_pMoleculeManager->set_PersistPtr(ppMolList);
 
     //-------------
+    // remove all previous source terms first
+//    PersistPtr ppMol = ppMolList->XmlMoveTo("molecule");
+//    while (ppMol){
+//      string myType = ppMol->XmlReadValue("me:type", false);
+//      if (myType == "source"){
+//        ppMolList->XmlRemoveChild(ppMol);
+//        ppMol = ppMolList;
+//      }
+//      ppMol = ppMol->XmlMoveTo("molecule");
+//    }
+
+    //-------------
     //Model Parameters
     PersistPtr ppParams = ppIOPtr->XmlMoveTo("me:modelParameters");
     if(ppParams)

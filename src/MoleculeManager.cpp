@@ -69,16 +69,26 @@ Molecule* MoleculeManager::addmol(string& molName, string& molType, PersistPtr p
 //    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
 
 
-  //check if there is a SuperMolecule (must at least have one)
   if (molType == "reactant"){
-    stringstream superName; superName << "source_" << sourceNumber;
-    ++sourceNumber;
-    PersistPtr ppSuper = ppMolList->XmlWriteElement("molecule");
-    ppSuper->XmlWriteAttribute("id", superName.str());
-    ppSuper->XmlWriteAttribute("me:type", "source");
+    stringstream superId; superId << "source_" << sourceNumber; ++sourceNumber;
+    PersistPtr ppSuper = NULL;
+    //find if this source term is there
+    PersistPtr ppMol = ppMolList->XmlMoveTo("molecule");
+    while (ppMol){
+      string myId = ppMol->XmlReadValue("id", false);
+      if (myId == superId.str()){
+        ppSuper = ppMol; break;
+      }
+      ppMol = ppMol->XmlMoveTo("molecule");
+    }
+    if (!ppSuper){
+      PersistPtr ppSuper = ppMolList->XmlWriteElement("molecule");
+      ppSuper->XmlWriteAttribute("id", superId.str());
+      ppSuper->XmlWriteAttribute("me:type", "source");
+    }
     Molecule *pmolecule = static_cast<Molecule*>(new SuperMolecule(Env));
     pmolecule->InitializeMolecule(ppSuper);
-    m_molmap[superName.str()] = pmolecule;
+    m_molmap[superId.str()] = pmolecule;
   }
   return pmolecule;
 }
