@@ -72,7 +72,7 @@ namespace mesmer
         stringstream errorMsg;
         errorMsg << "No method is provided to specify me:grainSize and me:numberOfGrains.\n"
                  << "me:numberOfGrains has been ignored";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
         m_Env.MaxGrn=0;
       }
     }
@@ -84,7 +84,7 @@ namespace mesmer
     {
       stringstream errorMsg;
       errorMsg << "No reactions have been specified";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       return false;
     }
     if(!m_pReactionManager->addreactions(ppReacList, m_Env)) return false;
@@ -95,12 +95,12 @@ namespace mesmer
     if(!ppConditions)
     {
       stringstream errorMsg; errorMsg << "No conditions specified";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning); return false;
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning); return false;
     }
     string Bgtxt = ppConditions->XmlReadValue("me:bathGas");
     if (Bgtxt.empty()){
       stringstream errorMsg; errorMsg << "No bath gas specified";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning); return false;
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning); return false;
     }
     else{
       string molType = "bathGas";
@@ -116,14 +116,14 @@ namespace mesmer
     {
       stringstream errorMsg;
       errorMsg << "It is necessary to specify at least one bath gas concentration or pressure";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       return false;
     }
     else{
       stringstream errorMsg;
       errorMsg << "Number of concentration points: " << Concentrations.size()
                << ", number of pressure points: " << Pressures.size();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
     PersistPtr ppControl = ppIOPtr->XmlMoveTo("me:control");
@@ -189,7 +189,7 @@ namespace mesmer
     {
       stringstream errorMsg;
       errorMsg << "Precision: " << precisionMethod;
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     //---------------
 
@@ -198,20 +198,20 @@ namespace mesmer
       stringstream errorMsg;
       string thisEvent = "Build Collison Matrix";
       errorMsg << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
     if (!m_pReactionManager->BuildSystemCollisionOperator(beta, m_Env)){
         stringstream errorMsg;
         errorMsg << "Failed building system collison operator.";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
     }
 
     {
       stringstream errorMsg;
       string thisEvent = "Diagonlize Collision Operator";
       errorMsg << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     m_pReactionManager->diagCollisionOperator() ;
 
@@ -219,7 +219,7 @@ namespace mesmer
       stringstream errorMsg;
       string thisEvent = "Finish Calculation";
       errorMsg << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
     /*
@@ -244,14 +244,14 @@ namespace mesmer
 
     double kinf = pmolecule->matrixElement(m_Env.MaxGrn-1,m_Env.MaxGrn-1,kmc,m_Env.MaxGrn) ;
 
-    cout << endl ;
-    formatFloat(cout, kinf, 6, 15) ;
+    ctest << endl ;
+    formatFloat(ctest, kinf, 6, 15) ;
     }*/
 
     {
       stringstream errorMsg;
       errorMsg << events;
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
   }
 
@@ -291,7 +291,7 @@ namespace mesmer
     {
       stringstream errorMsg;
       errorMsg << "The modelled molecules do not cover an appropriate energy range";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       return false;
     }
 
@@ -300,7 +300,7 @@ namespace mesmer
       m_Env.MaxT = *max_element(Temperatures.begin(), Temperatures.end());
 //      stringstream errorMsg;
 //      errorMsg << "Maximum Temperature was not set. Reset Maximum Temperature, me:maxTemperature to remove this message.";
-//      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+//      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
     //EAboveWell: Max energy above the highest well.
@@ -309,7 +309,7 @@ namespace mesmer
       m_Env.GrainSize = 100.; //default 100cm-1
       stringstream errorMsg;
       errorMsg << "Grain size was invalid. Reset grain size to default: 100";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
     }
 
     if(m_Env.MaxGrn <= 0)
@@ -321,7 +321,7 @@ namespace mesmer
     {
       stringstream errorMsg;
       errorMsg << "Cell number = " << m_Env.MaxCell << ", Grain number = " << m_Env.MaxGrn;
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     return true;
     /*
@@ -364,7 +364,7 @@ namespace mesmer
     {
       stringstream errorMsg;
       errorMsg << "Must specify at least one value of " << name;
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
       return false;
     }
     return true;
@@ -394,7 +394,7 @@ namespace mesmer
       thisEvent = "Write XML attribute";
       timeString = events.setTimeStamp(thisEvent);
       errorMsg << thisEvent << " at " << timeString;
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     ppItem->XmlWriteAttribute("content", timeString);
     //----------------------------------------

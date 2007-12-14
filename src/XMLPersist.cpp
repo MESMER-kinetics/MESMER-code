@@ -11,13 +11,19 @@ namespace mesmer
 {
 PersistPtr XMLPersist::XmlLoad(const std::string& inputfilename, const std::string& title)
 {
-  TiXmlDocument* pdoc = new TiXmlDocument( inputfilename.c_str() );//Deleted in destructor
-  if( !pdoc->LoadFile() )
+  TiXmlDocument* pdoc = new TiXmlDocument();//Deleted in destructor
+
+  bool ret;
+  if(inputfilename.empty())
+    ret = pdoc->LoadFile(stdin);
+  else
+    ret = pdoc->LoadFile(inputfilename);
+  if( !ret )
   {
     stringstream errorMsg;
     errorMsg << "Could not load file " << inputfilename
              << "\nIt may not exist or it may not consist of well-formed XML." << endl;
-    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
 
     delete pdoc;
     return PersistPtr(NULL);
@@ -28,7 +34,7 @@ PersistPtr XMLPersist::XmlLoad(const std::string& inputfilename, const std::stri
   {
     stringstream errorMsg;
     errorMsg << inputfilename << " does not have a required root element named " << title << endl;
-    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
     delete pdoc;
     return PersistPtr(NULL);
   }
@@ -75,7 +81,7 @@ const char* XMLPersist::XmlReadValue(const std::string& name, bool MustBeThere) 
   if(!ptext && MustBeThere){
     stringstream errorMsg;
     errorMsg << "The " << name << " element or attribute was missing or empty.";
-    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
   }
   return ptext;
 }
@@ -102,6 +108,8 @@ const char* XMLPersist::XmlReadProperty(const string& name, bool MustBeThere) co
     }
     pnProp = pnProp->NextSiblingElement();
   }
+//  if(MustBeThere)
+//    meErrorLog.ThrowError(__FUNCTION__, "The property " + name + " is missing or empty", obError);
   return NULL;
 }
 
@@ -172,7 +180,7 @@ PersistPtr XMLPersist::XmlWriteMainElement(
       thisEvent = "Record calculated data";
       timeString = events.setTimeStamp(thisEvent);
       errorMsg << thisEvent << " at " << timeString << endl;
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     pnel->SetAttribute("calculated", timeString);
     //----------------------------------------
@@ -187,7 +195,10 @@ PersistPtr XMLPersist::XmlWriteMainElement(
 
 bool XMLPersist::XmlSaveFile(const std::string& outfilename)
   {
-    return pnNode->GetDocument()->SaveFile(outfilename);
+    if(outfilename.empty())
+      return pnNode->GetDocument()->SaveFile(stdout);
+    else
+      return pnNode->GetDocument()->SaveFile(outfilename);
   }
 
 }//namespacer mesmer

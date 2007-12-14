@@ -55,7 +55,7 @@ Molecule* MoleculeManager::addmol(string& molName, string& molType, PersistPtr p
     if(!pmolecule->InitializeMolecule(ppmol) || pmolecule->getName().empty()){
       stringstream errorMsg;
       errorMsg << "Failed in initializing the molecule. molType = " << molType;
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       delete pmolecule; return NULL;
     } /*for the case of a SuperMolecule, if the element of source exists, the name has also to be specified.*/
 
@@ -66,7 +66,7 @@ Molecule* MoleculeManager::addmol(string& molName, string& molType, PersistPtr p
 
 //    {stringstream errorMsg;
 //    errorMsg << "Molecule " << molName << ", size of name = " << molName.size() << ", molecular type = " << molType;
-//    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
+//    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
 
 
   if (molType == "reactant"){
@@ -116,7 +116,7 @@ Molecule *MoleculeManager::find(const std::string& name) const {
   if (it == m_molmap.end()) {
     stringstream errorMsg;
     errorMsg << name << " is not a known Molecule.";
-    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
 
     return NULL;
   }

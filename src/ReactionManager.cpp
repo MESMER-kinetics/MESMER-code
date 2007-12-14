@@ -87,7 +87,7 @@ namespace mesmer
         stringstream errorMsg;
         // Does this kind of reaction ever exist? CHL
         errorMsg << "Reaction " << m_reactions[i]->getName() << " is invalid without any product and reactant." << endl;
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
       }
     }
 
@@ -135,7 +135,7 @@ namespace mesmer
     {
       stringstream errorMsg;
       errorMsg << "Size of the collision matrix: " << msize;
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
     // Allocate space for system collision operator.
@@ -170,7 +170,7 @@ namespace mesmer
     {
       stringstream errorMsg;
       errorMsg << "Size of the collision operator = " << smsize;
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
     m_pSystemCollisionOperator->diagonalize(&rr[0]) ;
@@ -179,17 +179,17 @@ namespace mesmer
     {
       stringstream errorMsg;
       errorMsg << "Printing the first ten eigen values";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
-    cout << endl ;
+    ctest << endl ;
 
     for (int i = 0 ; i < smsize; ++i) {
-      formatFloat(cout, rr[i], 6, 15) ;
-      cout << endl ;
+      formatFloat(ctest, rr[i], 6, 15) ;
+      ctest << endl ;
     }
 
-    cout << endl ;
+    ctest << endl ;
   }
 
 }//namespace

@@ -32,17 +32,17 @@ namespace mesmer
     if (m_Mass_chk == 0){
       stringstream errorMsg;
       errorMsg << "m_Mass is provided but not used in " << getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     if (m_Sigma_chk == 0){
       stringstream errorMsg;
       errorMsg << "m_Sigma is provided but not used in " << getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     if (m_Epsilon_chk == 0){
       stringstream errorMsg;
       errorMsg << "m_Epsilon is provided but not used in " << getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
   }
 
@@ -73,27 +73,27 @@ namespace mesmer
     if (m_RC_chk == 0){
       stringstream errorMsg;
       errorMsg << "Rotational constants are provided but not used in " << getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     if (m_Sym_chk == 0){
       stringstream errorMsg;
       errorMsg << "m_Sym is provided but not used in " << getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     if (m_ZPE_chk == 0){
       stringstream errorMsg;
       errorMsg << "m_ZPE is provided but not used in " << getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     if (m_SpinMultiplicity_chk == 0){
       stringstream errorMsg;
       errorMsg << "m_SpinMultiplicity is provided but not used in " << getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     if (m_VibFreq_chk == 0){
       stringstream errorMsg;
       errorMsg << "m_VibFreq is provided but not used in " << getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
     // Free any memory assigned for calculating densities of states.
@@ -117,7 +117,7 @@ namespace mesmer
     if (m_DeltaEdown_chk == 0){
       stringstream errorMsg;
       errorMsg << "m_DeltaEdown is provided but not used in " << getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     if (m_egme != NULL) delete m_egme ;
   }
@@ -155,7 +155,7 @@ namespace mesmer
     if (m_Name.empty()) {
       stringstream errorMsg;
       errorMsg << "Molecular name is absent.\n";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       m_Name = "unknown";
       setFlag(true);
     }
@@ -170,7 +170,7 @@ namespace mesmer
     if(!txt){
       stringstream errorMsg;
       errorMsg << "Molecule::Cannot find argument me:MW\n";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       setFlag(true); // later put a function to calculate the molecular weight if the user forgot to provide it.
     }
     else { istringstream idata(txt); double mass(0.); idata >> mass; setMass(mass);}
@@ -179,7 +179,7 @@ namespace mesmer
     if (getFlag()){
       stringstream errorMsg;
       errorMsg << "Error(s) while initializing molecule: " << m_Name;
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       return false;
     }
     return true;
@@ -193,7 +193,7 @@ namespace mesmer
     if(!Molecule::InitializeMolecule(pp)){
       stringstream errorMsg;
       errorMsg << "InitializeMolecule failed for Molecule " << getName() << " before constructing BathGasMolecule.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       return false;
     }
 
@@ -207,7 +207,7 @@ namespace mesmer
     if(!txt){
       stringstream errorMsg;
       errorMsg << "BathGasMolecule::Cannot find argument me:sigma.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       //setSigma(sigmaDefault);
       setFlag(true);
     }
@@ -217,7 +217,7 @@ namespace mesmer
     if(!txt){
       stringstream errorMsg;
       errorMsg << "BathGasMolecule::Cannot find argument me:epsilon.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       //setEpsilon(epsilonDefault);
       setFlag(true);
     }
@@ -226,7 +226,7 @@ namespace mesmer
     if (getFlag()){
       stringstream errorMsg;
       errorMsg << "Error(s) while initializing BathGasMolecule: " << getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       return false;
     }
 
@@ -242,7 +242,7 @@ namespace mesmer
     if(!Molecule::InitializeMolecule(pp)){
       stringstream errorMsg;
       errorMsg << "InitializeMolecule for Molecule " << getName() << " before constructing ModelledMolecule with errors.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
     }
 
     pp = oldpp;
@@ -259,7 +259,7 @@ namespace mesmer
       hasVibFreq = false;
       stringstream errorMsg;
       errorMsg << "ModelledMolecule::Cannot find argument me:vibFreqs. Maybe an atom or atomic ion.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
       m_VibFreq_chk = -1;
       //setFlag(true); // it maybe an atom so not necessary to set this flag. Just produce warning.
     }
@@ -270,7 +270,7 @@ namespace mesmer
       hasRotConst = false;
       stringstream errorMsg;
       errorMsg << "ModelledMolecule::Cannot find argument me:rotConsts. Maybe an atom or atomic ion.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
       m_RC_chk = -1;
       //setFlag(true); // it maybe an atom so not necessary to set this flag. Just produce warning.
     }
@@ -294,7 +294,7 @@ namespace mesmer
       stringstream errorMsg;
       errorMsg << "ModelledMolecule " << getName()
       << " has improper setting on vibrational frequencies or rotational constants. Check input file to remove this error.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       setFlag(true);
     }
 
@@ -302,7 +302,7 @@ namespace mesmer
     if(!txt){
       stringstream errorMsg;
       errorMsg << "ModelledMolecule::Cannot find argument me:eletronicExcitation for ModelledMolecule " << getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     else {
       istringstream idata(txt); double _iele = 0.; m_eleExc.clear();
@@ -313,7 +313,7 @@ namespace mesmer
     if(!txt){
       stringstream errorMsg;
       errorMsg << "ModelledMolecule::Cannot find argument me:symmetryNumber. Default value " << m_Sym << " is used.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
       m_Sym_chk = -1;
       //setFlag(true);
     }
@@ -323,7 +323,7 @@ namespace mesmer
     if(!txt){
       stringstream errorMsg;
       errorMsg << "ModelledMolecule::Cannot find argument me:ZPE";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       m_ZPE_chk = -1;
     }
     else { istringstream idata(txt); idata >> m_ZPE ; m_ZPE_chk = 0;}
@@ -339,7 +339,7 @@ namespace mesmer
         errorMsg << "Unknown method " << pDOSCMethodtxt
           << " for the calculation of DOS in ModelledMolecule" << getName()
           << ". Please check spelling error. Default method <Classical rotors> is used.";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
         pDOSCMethodtxt = "Classical rotors";
         m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
       }
@@ -348,7 +348,7 @@ namespace mesmer
         stringstream errorMsg;
         errorMsg << "No method for the calculation of DOS in ModelledMolecule" << getName()
           << " is provided. Default method <Classical rotors> is used.";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       pDOSCMethodtxt = "Classical rotors"; // must exist
       m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
     }
@@ -357,7 +357,7 @@ namespace mesmer
     if(!txt){
       stringstream errorMsg;
       errorMsg << "ModelledMolecule::Cannot find argument me:spinMultiplicity. Default value "<< m_SpinMultiplicity << " is used.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
     }
     else
     {
@@ -369,7 +369,7 @@ namespace mesmer
     if (getFlag()){
       stringstream errorMsg;
       errorMsg << "Error(s) while initializing ModelledMolecule: " << getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       return false;
     }
 
@@ -386,7 +386,7 @@ namespace mesmer
       stringstream errorMsg;
       errorMsg << "InitializeMolecule failed for ModelledMolecule " << getName()
       << " before constructing CollidingMolecule.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       setFlag(true);
     }
 
@@ -402,7 +402,7 @@ namespace mesmer
     if(!txt){
       stringstream errorMsg;
       errorMsg << "Molecule::Cannot find argument me:sigma. Default value " << sigmaDefault << " is used.\n";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       setSigma(sigmaDefault);
       //setFlag(true);
       // sigma and epsilon are not always necessary.
@@ -413,7 +413,7 @@ namespace mesmer
     if(!txt){
       stringstream errorMsg;
       errorMsg << "Molecule::Cannot find argument me:epsilon. Default value " << epsilonDefault << " is used.\n";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       setEpsilon(epsilonDefault);
       //setFlag(true);
       // sigma and epsilon are not always necessary.
@@ -424,7 +424,7 @@ namespace mesmer
     if(!txt){
       stringstream errorMsg;
       errorMsg << "CollidingMolecule::Cannot find argument me:deltaEDown";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       //setFlag(true);
       // deltaEDown is not always necessary. Hoever, it is not wise to provide a default value.
     }
@@ -433,7 +433,7 @@ namespace mesmer
     if (getFlag()){
       stringstream errorMsg;
       errorMsg << "Error(s) while initializing CollidingMolecule: " << getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       return false;
     }
     return true;
@@ -452,7 +452,7 @@ namespace mesmer
       else{
         stringstream errorMsg;
         errorMsg << "Molecular name is absent. Default name <source> is used.";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
         string tempName = "source"; setName(tempName);
         //setFlag(true);
       }
@@ -461,7 +461,7 @@ namespace mesmer
     else{
       stringstream errorMsg;
       errorMsg << "Invalid PersistPtr.\n";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       return false;
     }
   }
@@ -514,14 +514,14 @@ namespace mesmer
     // If density of states have not already been calcualted then do so.
      if(0){stringstream errorMsg;
      errorMsg << "Before calcDensityOfStates(), Molecular name: " << getName();
-     obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
+     meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
 
     if (!m_cellDOS.size())
       calcDensityOfStates() ;
 
      if(0){stringstream errorMsg;
      errorMsg << "After calcDensityOfStates(), Molecular name: " << getName();
-     obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
+     meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
 
     int MaximumGrain = getEnv().MaxGrn ;
     double beta = getEnv().beta;
@@ -580,7 +580,7 @@ namespace mesmer
 
     if(0){stringstream errorMsg;
     errorMsg << "CanPrtnFn = " << CanPrtnFn << ", molecular name: " << getName();
-    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
 
     // Translational partition function.
     return CanPrtnFn ;
@@ -598,7 +598,7 @@ namespace mesmer
     if (m_RC_chk == -1){
       {stringstream errorMsg;
       errorMsg << "Rotational constants were not defined but requested in " << getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
       --m_RC_chk;
       return -4; // treat as a non-rotor
     }
@@ -642,7 +642,7 @@ namespace mesmer
     if (!collisionOperator(beta)){
       std::stringstream errorMsg;
       errorMsg << "Failed building collision operator";
-      mesmer::obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), mesmer::obError);
+      mesmer::meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), mesmer::obError);
       return false;
     }
     return true;
@@ -665,7 +665,7 @@ namespace mesmer
     if(!m_DeltaEdown){
       stringstream errorMsg;
       errorMsg << "me:deltaEDown is necessary for " << getName() << ". Correct input file to remove this error.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       return false;
     }
 
@@ -685,13 +685,13 @@ namespace mesmer
       if (m_grainDOS[i] <= 0.0) {
         stringstream errorMsg;
         errorMsg << "Data indicates that grain " << i << " of the current colliding molecule has no states.";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
         return false;
       }
     }
     if(1){stringstream errorMsg;
     errorMsg << "alpha = " << alpha << ", m_DeltaEdown = " << m_DeltaEdown;
-    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
     //
     // The collision operator.
     //
@@ -718,7 +718,7 @@ namespace mesmer
         }
         errorMsg << endl;
       }
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
       //-----------------------------------------------------CHECKBLOCK
 
     //Normalisation
@@ -736,17 +736,17 @@ namespace mesmer
         }
         errorMsg << endl;
       }
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
       //-----------------------------------------------------CHECKBLOCK
 
 
-    cout << endl << "Collision operator column Sums" << endl << endl ;
+    ctest << endl << "Collision operator column Sums" << endl << endl ;
     for ( i = 0 ; i < MaximumGrain ; ++i ) {
       double columnSum(0.0) ;
       for ( j = 0 ; j < MaximumGrain ; ++j ){
         columnSum += to_double((*m_egme)[j][i]) ;
       }
-      cout << columnSum << endl ;
+      ctest << columnSum << endl ;
     }
     //
     // Determine the equilibrium vector for symmetrization. The work
@@ -783,16 +783,16 @@ namespace mesmer
 
     m_egme->diagonalize(&rr[0]) ;
 
-    cout << endl ;
+    ctest << endl ;
     for (int i(0) ; i < msize ; ++i)
-        cout << rr[i] << endl;
+        ctest << rr[i] << endl;
 
-    cout << endl ;
+    ctest << endl ;
     for (int i(0) ; i < msize ; ++i)  {
-      formatFloat(cout, m_grainEne[i],              6, 15) ;
-      formatFloat(cout, (*m_egme)[i][MaximumGrain-1], 6, 15) ;
-      formatFloat(cout, (*m_egme)[i][MaximumGrain-2], 6, 15) ;
-      cout << endl ;
+      formatFloat(ctest, m_grainEne[i],              6, 15) ;
+      formatFloat(ctest, (*m_egme)[i][MaximumGrain-1], 6, 15) ;
+      formatFloat(ctest, (*m_egme)[i][MaximumGrain-2], 6, 15) ;
+      ctest << endl ;
     }
 
   }
@@ -826,13 +826,13 @@ namespace mesmer
     if (!bthSigma){
       stringstream errorMsg;
       errorMsg << "me:sigma is necessary for " << pBathGasMolecule->getName() << ". Correct input file to remove this error.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
     double bthEpsilon = pBathGasMolecule->getEpsilon();
     if (!bthEpsilon){
       stringstream errorMsg;
       errorMsg << "me:epsilon is necessary for " << pBathGasMolecule->getName() << ". Correct input file to remove this error.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
     double mu   = amu * getMass() * bthMass/(getMass() + bthMass) ;
@@ -842,7 +842,7 @@ namespace mesmer
 
     if(0){stringstream errorMsg;
     errorMsg << "mu = " << mu << ", eam = " << eam << ", sam = " << sam << ", tstr = " << tstr << ", beta = " << beta;
-    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
 
     // Calculate collision integral.
     double collFrq = A * exp(-log(tstr) * B) + C * exp(-D * tstr) + E * exp(-F * tstr) ;
@@ -855,7 +855,7 @@ namespace mesmer
 
     if(1){stringstream errorMsg;
     errorMsg << "Collision frequency of " << getName() << " is " << collFrq;
-    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
 
     return collFrq;
   }
@@ -891,7 +891,7 @@ namespace mesmer
     if (locate + size > smsize) {
       stringstream errorMsg;
       errorMsg << "Error in the size of the system matrix.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       exit(1) ;
     }
 
@@ -928,7 +928,7 @@ namespace mesmer
   //
   void ModelledMolecule::testDensityOfStates()
   {
-    cout << endl << "Test density of states for ModelledMolecule: " << getName() << endl << endl ;
+    ctest << endl << "Test density of states for ModelledMolecule: " << getName() << endl << endl ;
     int MaximumGrain = getEnv().MaxGrn;
     int MaximumCell  = getEnv().MaxCell;
 
@@ -938,17 +938,17 @@ namespace mesmer
 
     if (0)
     {
-      cout << "Cell density of states:\n";
+      ctest << "Cell density of states:\n";
       for ( int i = 0 ; i < MaximumCell ; ++i ) {
-        cout << m_cellDOS[i] << endl;
+        ctest << m_cellDOS[i] << endl;
       }
-      cout << "Grain density of states:\n";
+      ctest << "Grain density of states:\n";
       for ( int i = 0 ; i < MaximumGrain ; ++i ) {
-        cout << m_grainDOS[i] << endl;
+        ctest << m_grainDOS[i] << endl;
       }
     }
 
-    cout << "      T           qtot           sumc           sumg\n";
+    ctest << "      T           qtot           sumc           sumg\n";
 
     //loop through predefined test temperatures
     for ( int n = 0 ; n < 29 ; ++n ) {
@@ -998,11 +998,11 @@ namespace mesmer
         default:
           qtot = 0.;
       }
-      formatFloat(cout, temp,  6,  7) ;
-      formatFloat(cout, qtot,  6, 15) ;
-      formatFloat(cout, sumc,  6, 15) ;
-      formatFloat(cout, sumg,  6, 15) ;
-      cout << endl ;
+      formatFloat(ctest, temp,  6,  7) ;
+      formatFloat(ctest, qtot,  6, 15) ;
+      formatFloat(ctest, sumc,  6, 15) ;
+      formatFloat(ctest, sumg,  6, 15) ;
+      ctest << endl ;
 
       //Add to XML document
       PersistPtr ppItem = ppList->XmlWriteElement("me:densityOfStates");
@@ -1012,23 +1012,23 @@ namespace mesmer
       ppItem->XmlWriteValueElement("me:sumg", sumg, 6);
     }
     if (0){
-      cout << endl << "Cell density of states for ModelledMolecule: " << getName() << endl << endl << "{" << endl;
+      ctest << endl << "Cell density of states for ModelledMolecule: " << getName() << endl << endl << "{" << endl;
       for (int i = 0; i < MaximumCell; ++i){
-        formatFloat(cout, m_cellEne[i],  6,  15) ;
-        formatFloat(cout, m_cellDOS[i],  6,  15) ;
-        cout << endl ;
+        formatFloat(ctest, m_cellEne[i],  6,  15) ;
+        formatFloat(ctest, m_cellDOS[i],  6,  15) ;
+        ctest << endl ;
       }
-      cout << "}" << endl;
+      ctest << "}" << endl;
     }
 
     if (0){
-      cout << endl << "Grain density of states for ModelledMolecule: " << getName() << endl << endl << "{" << endl;
+      ctest << endl << "Grain density of states for ModelledMolecule: " << getName() << endl << endl << "{" << endl;
       for (int i = 0; i < MaximumGrain; ++i){
-        formatFloat(cout, m_grainEne[i],  6,  15) ;
-        formatFloat(cout, m_grainDOS[i],  6,  15) ;
-        cout << endl ;
+        formatFloat(ctest, m_grainEne[i],  6,  15) ;
+        formatFloat(ctest, m_grainDOS[i],  6,  15) ;
+        ctest << endl ;
       }
-      cout << "}" << endl;
+      ctest << "}" << endl;
     }
   }
 
@@ -1048,7 +1048,7 @@ namespace mesmer
     if (getEnv().GrainSize < 1) {
       stringstream errorMsg;
       errorMsg << "The number of Cells is insufficient to produce requested number of Grains.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       exit(1) ;
     }
 
@@ -1085,13 +1085,13 @@ namespace mesmer
       errorMsg << "Number of grains produced is not equal to that requested" << endl
                << "Number of grains requested: " << MaximumGrain << endl
                << "Number of grains produced : " << idx2 << " in " << getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
     }
     else{
 //      stringstream errorMsg;
 //      errorMsg << "Number of grains requested: " << MaximumGrain << endl
 //               << "Number of grains produced : " << idx2 << " in " << getName();
-//      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+//      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
   }

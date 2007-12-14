@@ -1,20 +1,10 @@
 /**********************************************************************
 oberror.cpp - Handle error messages.
+Details at end of error.cpp
  
-Copyright (C) 2002 by Stefan Kebekus
-Some portions Copyright (C) 2002-2006 by Geoffrey R. Hutchison
- 
-This file is part of the Open Babel project.
-For more information, see <http://openbabel.sourceforge.net/>
- 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation version 2 of the License.
- 
-This program is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-General Public License for more details.
+Copyright (C) 2007 by Chris Morley
+Based on original code from OpenBabel 
+Copyright (C) 2002 by Stefan Kebekus, 2002-2006 by Geoffrey R. Hutchison
 ***********************************************************************/
 
 #include "oberror.h"
@@ -24,223 +14,144 @@ using namespace std;
 namespace mesmer
 {
 
-  OBMessageHandler obErrorLog;
+//Global output streams which by default go to clog
+//They may be redirected by an OStreamRedirector object 
+ostream cwarn(clog.rdbuf());
+ostream cinfo(clog.rdbuf());
+ostream ctest(clog.rdbuf());
 
-  OBError::OBError( const string &method, 
-                    const string &errorMsg, 
-                    const string &explanation,
-                    const string &possibleCause,
-                    const string &suggestedRemedy,
-                    const obMessageLevel level) :
-    _method(method), _errorMsg(errorMsg), _explanation(explanation),
-    _possibleCause(possibleCause), _suggestedRemedy(suggestedRemedy),
-    _level(level)
-  { }
+//Global message handler
+MessageHandler meErrorLog;
 
-  string OBError::message() const
-  {
-    string tmp = "==============================\n";
+//////////////////////////////////////////////////////////////////
+MessageHandler::MessageHandler(ostream* logstream) :
+_outputLevel(obWarning), _logging(true), _logStream(logstream)
+{}
 
-    if (_level == obError)
-      tmp += "*** Mesmer Error ";
-    else if (_level == obWarning)
-      tmp += "*** Mesmer Warning ";
-    else if (_level == obInfo)
-      tmp += "*** Mesmer Information ";
-    else if (_level == obAuditMsg)
-      tmp += "*** Mesmer Audit Log ";
-    else
-      tmp += "*** Mesmer Debugging Message ";
-
-    if (_method.length() != 0)
-      {
-        tmp += " in " + _method + string("\n");
-      }
-    tmp += _errorMsg + "\n";
-    if (_explanation.size() != 0)
-      tmp += "  " + _explanation + "\n";
-    if (_possibleCause.size() != 0)
-      tmp += "  Possible reason: " + _possibleCause + "\n";
-    if (_suggestedRemedy.size() != 0)
-      tmp += "  Suggestion: " + _suggestedRemedy + "\n";
-    return tmp;
-  }
-
-
-  /** \class OBMessageHandler oberror.h <openbabel/oberror.h>
-
-  OBMessageHandler represents a configurable error system for Open Babel.
-
-  A global error log is defined by the Open Babel library for use of
-  internal code as well as code built on top of Open Babel. This class
-  allows flexible filtering based on urgency (defined by the
-  obMessageLevel type), an "audit log" of molecular changes, including
-  recall using the GetMessagesOfLevel method, etc.
-
-  The default is to only log and output errors of priority
-  obMessageLevel::obError or obMessageLevel::obWarning.
-
-  Long-running code may wish to set the size of the in-memory error log
-  using the StartLogging / StopLogging methods and
-  SetMaxLogEntries. Otherwise, the error log may easily fill up,
-  requiring large amounts of memory.
-
-  If you wish to divert error output to a different std::ostream (i.e.,
-  for graphical display, or a file log), use the SetOutputStream method
-  -- the default goes to the std::clog stream. Furthermore, some older
-  code uses std::cerr for direct error output, rather than the
-  ThrowError() methods in this class. To prevent this, you can turn on
-  "error wrapping" using the StartErrorWrap method -- this behavior is
-  turned off by default.
-
-  To make it easy to use the OBMessageHandler class and error logging
-  facilities, a global log is defined:
-
-  \code
-  OBERROR extern OBMessageHandler obErrorLog;
-  \endcode
-
-  Therefore, it is very easy to log errors:
-
-  \code
-  if (atomIndex < 1 || atomIndex > mol.NumAtoms() )
-     obErrorLog.ThrowError(__FUNCTION__, "Requested Atom Out of Range", obDebug);
-  \endcode
-
-  or
-
-  \code
-  stringstream errorMsg;
-  errorMsg << " Could not parse line in type translation table types.txt -- incorect number of columns";
-  errorMsg << " found " << vc.size() << " expected " << _ncols << ".";
-  obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-  \endcode
-
-  The __FUNCTION__ builtin is defined by many compilers (e.g., <a
-  href="http://gcc.gnu.org/">GCC</a>) but can be defined to an empty
-  string on some platforms without this compiler extension.
-
-  Output from the error log typically looks like:
-  \code
-  ==============================
-  *** Open Babel Audit Log  in ReadChemObject
-  OpenBabel::Read molecule Protein Data Bank format
-  ==============================
-  *** Open Babel Information  in ParseConectRecord
-  WARNING: Problems reading a PDB file
-  Problems reading a CONECT record.
-  According to the PDB specification,
-  the record should have 70 columns, but OpenBabel found 61 columns.
-  \endcode
-
-  **/
-
-  OBMessageHandler::OBMessageHandler() :
-    _outputLevel(obInfo), _outputStream(&clog), _logging(true), _maxEntries(100)
-  {
-    _messageCount[0] = _messageCount[1] = _messageCount[2] = 0;
-    _messageCount[3] = _messageCount[4] = 0;
-    //  StartErrorWrap(); // (don't turn on error wrapping by default)
-  }
-
-  OBMessageHandler::~OBMessageHandler()
+///////////////////////////////////////////////////////////////////
+void MessageHandler::ThrowError(const std::string &context, 
+                                  const std::string &errorMsg,
+                                  obMessageLevel level) const
+{
+  if (!_logging || errorMsg.empty())
+    return;
+  string txt;
+  if(errorMsg.size()>1)
   { 
-    StopErrorWrap();
-
-    // free the internal filter streambuf
-    if (_filterStreamBuf != NULL)
-      delete _filterStreamBuf;
+    if(!context.empty() || !_defaultContext.empty())
+      txt = GetLevelText(level) + "in ";
+    if(!context.empty())
+      txt += context + '\n';
+    else if (!_defaultContext.empty())
+      txt += _defaultContext + '\n';
   }
-    
-  void OBMessageHandler::ThrowError(OBError err)
+  txt += errorMsg;
+
+  //if no new line at end, add one
+  if(txt[txt.size()-1]!='\n')
+    txt += '\n';
+
+  if(_logStream)
+   *_logStream << txt; 
+
+  if (level <= _outputLevel)
+    clog << txt; //write to console
+}
+
+////////////////////////////////////////////////////////////////////
+int obLogBuf::sync()
+{
+  _handler->ThrowError("", str(), _messageLevel);
+  str(std::string()); // clear the buffer
+  return 0;
+}
+
+////////////////////////////////////////////////////////////////////
+  OStreamRedirector::OStreamRedirector(MessageHandler* handler, std::ostream* Newctest) :
+      _cerrbuf(obError, handler), _cwarnbuf(obWarning, handler), _cinfobuf(obInfo, handler)
   {
-    if (!_logging)
-      return;
-    _messageList.push_back(err);
-    _messageCount[err.GetLevel()]++;
-    if (_maxEntries != 0 && _messageList.size() > _maxEntries)
-      _messageList.pop_front();
-  
-    if (err.GetLevel() <= _outputLevel)
+    //Save original buffers for output streams...
+    _oldcerrbuf = std::cerr.rdbuf();
+    _oldcwarnbuf = cwarn.rdbuf();
+    _oldcinfobuf = cinfo.rdbuf();
+
+    // and replace them with buffers which will send messages to the message handler
+    std::cerr.rdbuf(&_cerrbuf);
+    cwarn.rdbuf(&_cwarnbuf);
+    cinfo.rdbuf(&_cinfobuf);
+
+    //Optional redirection of ctest.
+    //This is ordinary redirection, messages are not sent to throwError.
+    if(Newctest)
     {
-      *_outputStream << err;
+      _oldctestbuf = ctest.rdbuf();
+      ctest.rdbuf(Newctest->rdbuf());
     }
   }
-
-  void OBMessageHandler::ThrowError(const std::string &method, 
-                                    const std::string &errorMsg,
-                                    obMessageLevel level)
+  OStreamRedirector::~OStreamRedirector()
   {
-    if (errorMsg.length() > 1)
-    {
-      OBError err(method, errorMsg, "", "", "", level);
-      ThrowError(err);
-    }
-  }
-
-  std::vector<std::string> OBMessageHandler::GetMessagesOfLevel(const obMessageLevel level)
-  {
-    vector<string> results;
-    deque<OBError>::iterator i;
-    OBError error;
-
-    for (i = _messageList.begin(); i != _messageList.end(); ++i)
-    {
-      error = (*i);
-      if (error.GetLevel() == level)
-        results.push_back( error.message() );
-    }
-
-    return results;
-  }
-
-  bool OBMessageHandler::StartErrorWrap()
-  {
-    if (_inWrapStreamBuf != NULL)
-      return true; // already wrapped cerr  -- don't go into loops!
-
-    _inWrapStreamBuf = cerr.rdbuf();
- 
-    if (_filterStreamBuf == NULL)
-    {
-      _filterStreamBuf = new(obLogBuf);
-    }
-
-    cerr.rdbuf(_filterStreamBuf);
-    return true;
-  }
-
-  bool OBMessageHandler::StopErrorWrap()
-  {
-    if (_inWrapStreamBuf == NULL)
-      return true; // never wrapped cerr
-
-    // don't free the filter streambuf yet -- we might start wrapping later
-    // it's freed in the dtor
-
-    cerr.rdbuf(_inWrapStreamBuf);
-    return true;
-  }
-
-  string OBMessageHandler::GetMessageSummary()
-  {
-    stringstream summary;
-    if (_messageCount[obError] > 0)
-      summary << _messageCount[obError] << " errors ";
-    if (_messageCount[obWarning] > 0)
-      summary << _messageCount[obWarning] << " warnings ";
-    if (_messageCount[obInfo] > 0)
-      summary << _messageCount[obInfo] << " info messages ";
-    if (_messageCount[obAuditMsg] > 0)
-      summary << _messageCount[obAuditMsg] << " audit log messages ";
-    if (_messageCount[obDebug] > 0)
-      summary << _messageCount[obDebug] << " debugging messages ";
-
-    return summary.str();
+    if(_oldcerrbuf)
+      std::cerr.rdbuf(_oldcerrbuf);
+    if(_oldcwarnbuf)
+      cwarn.rdbuf(_oldcwarnbuf);
+    if(_oldcinfobuf)
+      cinfo.rdbuf(_oldcinfobuf);
+    if(_oldctestbuf)
+      ctest.rdbuf(_oldctestbuf);
   }
 
 } // end namespace OpenBabel
 
+/*
+MessageHandler class controls the display of error messages. There is a
+global instance meErrorLog, but other instances can be made if necessary.
+
+All the error messages a handler receives are sent to an output stream that is
+specified either when the MessageHandler object is constructed or by calling 
+SetLogStream(). It is probably attached to a logfile.
+
+Additionally, messages graded above a certain severity (see obMessageLevel) are
+sent to cout (usually the console). The level is set by SetOutputLevel().
+
+In the code, the most flexible way of sending an error message is to use
+MessageHandler::ThrowError(string context, string msg, obMessageLevel level);
+The context string gives locally significant information, such as the routine
+where the call is made from (use __FUNCTION__) or the name of the structure
+being worked on. If context is empty, a default context, set by calling
+SetContext() is used instead. So a call:
+ meErrorLog.ThrowError(molID, "Molecule already defined", obError);
+may appear in the log file and the console as:
+Error in n-pentyl: Molecule already defined
+
+An alternative method of sending error messages from code is to write to
+cerr, or some extra similar output streams, cwarn and cinfo. The severities 
+for these are obError, obWarning and obInfo respectively and the context is 
+empty, so that a default context is used. Using these output stream simplifies
+the formatting of the message and the output of numerical data. It is possible
+to group several messages under one context header by not flushing the buffer,
+i.e. don't use endl.
+
+To use this to send messages, make an instance of OStreamRedirector, specifying
+the message handler, e.g. OStreamRedirector osr(&meErrorLog). The streams will
+be restored to their old destinations when the OStreamRedirector instance goes
+out of scope. 
+
+The reuse of cerr means that old code written using it will automatically use
+the new system. This eases its introduction, since it is operational without
+having to modify the message calling statements.
+
+The optional parameter on the OStreamRedirector constructor is the stream to which
+ctest should be redirected. This output is independent and not sent to 
+mesmer.log or the console.
+
+Recording of error messages can be switched off and on using 
+MessageHandler::StopLogging() and StartLogging(). Logging is on by default
+with a severity level of obInfo which outputs messages of severities obInfo,
+obWarning and obError.
+*/
+
+
+
 //! \file oberror.cpp
 //! \brief Handle error messages, warnings, notices, etc.
-//!  Implements OBMessageHandler class.
+//!  Implements MessageHandler class.

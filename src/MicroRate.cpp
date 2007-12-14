@@ -20,7 +20,7 @@ namespace mesmer
     {
       stringstream errorMsg;
       errorMsg << "Test of microcanonical rate coefficients";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
     string comment("Microcanonical rate coefficients");
@@ -47,9 +47,9 @@ namespace mesmer
         sm2 +=           tmp ;
       }
       sm1 /= sm2 ;
-      formatFloat(cout, Temperature, 6,  7) ;
-      formatFloat(cout, sm1,         6, 15) ;
-      cout << endl ;
+      formatFloat(ctest, Temperature, 6,  7) ;
+      formatFloat(ctest, sm1,         6, 15) ;
+      ctest << endl ;
 
       //Add to XML document
       PersistPtr ppItem = ppList->XmlWriteElement("me:microRate");

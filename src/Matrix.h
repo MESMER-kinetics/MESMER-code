@@ -166,7 +166,7 @@ void Matrix<T>::resize(const size_type n){
     if (n < 1){
       stringstream errorMsg;
       errorMsg << "Matrix must of size one or greater";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
     T **matrix = allocatematrix(n)  ;
@@ -208,7 +208,7 @@ void Matrix<T>::normalize(){
       if (upperSum <= 0.0) {
         stringstream errorMsg;
         errorMsg << "Normalization coefficients in this matrix is smaller than or equal to zero";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
         exit(1) ;
       }
       work[i] = (1.0 - scaledRemain) / upperSum ;

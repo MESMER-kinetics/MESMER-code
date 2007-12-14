@@ -25,7 +25,7 @@ namespace mesmer
       stringstream errorMsg;
       errorMsg << "To use SimpleILT for reaction " << pReact->getName()
                << " the Activation Energy needs to be set.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       return false;
     }
 

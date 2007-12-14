@@ -66,7 +66,7 @@ namespace mesmer
     else{
       {stringstream errorMsg;
       errorMsg << "Reaction ID not found\n";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
     }
 
     Molecule* pMol1(NULL) ;
@@ -83,7 +83,7 @@ namespace mesmer
       if(!pMol2){
         {stringstream errorMsg;
         errorMsg << "Reactant 2 defined in Reaction " << getName() << " is incomplete.";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
         return false;
       }
     }
@@ -99,7 +99,7 @@ namespace mesmer
       if(!pColMol){
         {stringstream errorMsg;
         errorMsg << "At least one of the reactants has to be a colliding molecule";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
         return false;
       }
       m_rct1 = pColMol;
@@ -109,7 +109,7 @@ namespace mesmer
     if (m_rct1 && m_rct2){ // the reactant side has two molecules
       {stringstream errorMsg;
       errorMsg << "Reaction " << m_Name << " has two reactants. ";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
 
       // check whether there is any SuperMolecule in m_molmap contains pMol1 & pMol2
       string id; //shoud not set any name for it.
@@ -123,14 +123,14 @@ namespace mesmer
           m_srct = pSupMol;
           {stringstream errorMsg;
           errorMsg << "Set members of the SuperMolecule: " << m_srct->getName();
-          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+          meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
           break;
         }
       }
       if (!pSupMol){
         {stringstream errorMsg;
         errorMsg << "No SuperMolecule was found.";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
         // there will always at least one SuperMolecule in m_molmap, check the end of addmol() in MoleculeManager.cpp.
         /* need to create one (mark _2007_12_10__17_10_18_)
         write a SuperMolecule creator that acquire a position in the XML
@@ -140,7 +140,7 @@ namespace mesmer
     else{
         {stringstream errorMsg;
         errorMsg << "Reaction " << m_Name << " has only one reactant";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
     }
 
     //Read products ... if any.
@@ -236,7 +236,7 @@ namespace mesmer
       m_reactiontype = ERROR_REACTION ;
       {stringstream errorMsg;
       errorMsg << "Unknown combination of reactants and products";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
       return false;
     }
 
@@ -251,7 +251,7 @@ namespace mesmer
         errorMsg << "Unknown method " << pMCRCMethodtxt
                  << " for the determination of Microcanonical rate coefficients in reaction "
                  << m_Name;
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
         return false;
       }
     }
@@ -280,7 +280,7 @@ namespace mesmer
         {
           stringstream errorMsg;
           errorMsg << "No molecules have been specified";
-          obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+          meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
           return false;
         }
         pMol = m_pMoleculeManager->addmol(pRef, pType, ppMolList, m_Env);
@@ -292,7 +292,7 @@ namespace mesmer
     {
       {stringstream errorMsg;
       errorMsg << "Cannot find molecule: " << pRef;
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
       return NULL;
     }
 
@@ -368,7 +368,7 @@ namespace mesmer
     // Calculate the equilibrium constant.
     if(1){stringstream errorMsg;
     errorMsg << "Qrct1 = " << Qrct1 << ", Qpdt1 = " << Qpdt1 << ", Qrct2 = " << Qrct2 << ", Qpdt2 = " << Qpdt2;
-    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
 
     double beta = m_Env.beta ;
 
@@ -383,7 +383,7 @@ namespace mesmer
         double diff = Qrcts - Qrct1;
         stringstream errorMsg;
         errorMsg << "Partition function of the SuperMolecule is not consistent with the product of partition functions of the reactants. Diff = " << diff;
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       }
     }
 
@@ -438,7 +438,7 @@ namespace mesmer
     if (currentGrainSize < 1) {
       {stringstream errorMsg;
       errorMsg << "Not enought Cells to produce requested number of Grains.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
       exit(1) ;
     }
 
@@ -474,13 +474,13 @@ namespace mesmer
       errorMsg << "Number of grains produced is not equal to that requested" << endl
                << "Number of grains requested: " << MaximumGrain << endl
                << "Number of grains produced : " << idx2 << " in " << getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
     }
     else{
 //      {stringstream errorMsg;
 //      errorMsg << "Number of grains requested: " << MaximumGrain << endl
 //               << "Number of grains produced : " << idx2 << " in " << getName();
-//      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+//      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
     }
     return true;
   }
@@ -516,7 +516,7 @@ namespace mesmer
     default :
       stringstream errorMsg;
       errorMsg << "Unknown reaction type";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
 
     }
   }

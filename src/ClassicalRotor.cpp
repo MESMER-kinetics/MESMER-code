@@ -24,7 +24,7 @@ namespace mesmer
     if (!p_mol1 || !p_mol2){
       stringstream errorMsg;
       errorMsg << "Cannot get individual members of the SuperMolecule";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
     }
 
     const MesmerEnv& mEnv = p_mol2->getEnv();
@@ -138,7 +138,7 @@ namespace mesmer
     {
       stringstream errorMsg;
       errorMsg << "Number of frequencies: " << VibFreq.size();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
     mol->m_cellDOS.clear(); mol->m_cellEne.clear(); //make sure there is no residue left
@@ -209,13 +209,13 @@ namespace mesmer
     if (pMolSuper){
       if(0){stringstream errorMsg;
       errorMsg << "Calculate DOS for " << pMolSuper->getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
       return countDimerCellDOS(pMolSuper);
     }
     else{
       if(0){stringstream errorMsg;
       errorMsg << "Calculate DOS for " << mol->getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
       return countMonomerCellDOS(mol);
     }
     return true;

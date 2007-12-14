@@ -20,7 +20,9 @@
 
 namespace mesmer
 {
-  // Global Utility methods:
+  // Although the methods have names starting with Xml, the Ipersist interface 
+  // could potentially be used with non-XML files.
+  // The derived class XMLPersist is XML specific.
 
   class PersistPtr;
 

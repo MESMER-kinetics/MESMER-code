@@ -62,7 +62,7 @@ namespace mesmer
     if (!p_rcts){
       stringstream errorMsg;
       errorMsg << "Not a valid bi-molecularspecies";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
       return false;
     }
 
@@ -95,7 +95,7 @@ namespace mesmer
       stringstream errorMsg;
       errorMsg << "To use MesmerILT for reaction " << pReact->getName()
                << " the Activation Energy needs to be set.";
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       return false;
     }
     else{
@@ -120,12 +120,12 @@ namespace mesmer
     for (int i = 0; i < activ_ene; ++i)  cellKfmc[i] = 0.;
     for (int i = 0; i < (mEnv.MaxCell - activ_ene); ++i){
       cellKfmc[i + activ_ene] = _ant * conv[i] / rctsCellDOS[i + activ_ene];
-      //cout << "cellKfmc[" << i + activ_ene << "] = " << cellKfmc[i + activ_ene] << endl;
+      //ctest << "cellKfmc[" << i + activ_ene << "] = " << cellKfmc[i + activ_ene] << endl;
     }
 
     {stringstream errorMsg;
     errorMsg << "MesmerILT calculation completed";
-    obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
 
     return true;
   }

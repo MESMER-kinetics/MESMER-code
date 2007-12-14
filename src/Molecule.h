@@ -73,7 +73,7 @@ namespace mesmer
       else{
         stringstream errorMsg;
         errorMsg << "m_Mass was not defined but requested in " << getName();
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
         exit(1);
       }
     } ;
@@ -85,7 +85,7 @@ namespace mesmer
       else{
         stringstream errorMsg;
         errorMsg << "m_Sigma was not defined but requested in " << getName();
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
         exit(1);
       }
     } ;
@@ -97,7 +97,7 @@ namespace mesmer
       else{
         stringstream errorMsg;
         errorMsg << "m_Epsilon was not defined but requested in " << getName();
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
         exit(1);
       }
     } ;
@@ -192,7 +192,7 @@ namespace mesmer
       if (m_ZPE_chk == -1){
         stringstream errorMsg;
         errorMsg << "m_ZPE was not defined but requested in " << getName() << ". Default value " << m_ZPE << " is given.";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
         --m_ZPE_chk;
         return m_ZPE;
       }
@@ -208,7 +208,7 @@ namespace mesmer
       if (m_Sym_chk == -1){
         stringstream errorMsg;
         errorMsg << "m_Sym was not defined but requested in " << getName() << ". Default value " << m_Sym << " is given.";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
         --m_Sym_chk;
         return m_Sym;
       }
@@ -253,7 +253,7 @@ namespace mesmer
       else{
         stringstream errorMsg;
         errorMsg << "m_SpinMultiplicity was not defined but requested in " << getName() << ". Default value " << m_SpinMultiplicity << " is given.";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
         return m_SpinMultiplicity;
       }
     }
@@ -332,7 +332,7 @@ namespace mesmer
       else{
         stringstream errorMsg;
         errorMsg << "m_DeltaEdown was not defined but requested in " << getName() << ". Default value " << m_DeltaEdown << " is given.";
-        obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
         return m_DeltaEdown;
       }
     }

@@ -21,7 +21,7 @@ namespace mesmer
     {
       stringstream errorMsg;
       errorMsg << "No transition state in Simple RRKM for reaction " << pReact->getName();
-      obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
       return false;
     }
 

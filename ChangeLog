@@ -1,3 +1,13 @@
+2007-12-14 Chris Morley
+
+  * Re-write of error handling and commandline. Big changes to
+    oberro.h, oberror.cpp and main.cpp.
+    
+  * rename obErroLog to meErrorLog.
+  
+  * persistence.h: note about function names starting with Xml.
+  * XMLPersist.cpp part of implementation to read from stdin (incomplete).
+
 _2007_12_13__15_58_20_ Chi-Hsiu Liang
   
   * Prevented Elements of source molecule from duplication.
