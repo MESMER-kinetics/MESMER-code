@@ -558,8 +558,7 @@ namespace mesmer
   // Get Grain canonical partition function.
   //
   double ModelledMolecule::grnCanPrtnFn() {
-    // If density of states have not already been calcualted then do so.
-    if (test_rotConsts() < 0) return 1.0;
+    // If density of states have not already been calculated then do so.
     if (!m_cellDOS.size())
       calcDensityOfStates() ;
 
@@ -568,8 +567,8 @@ namespace mesmer
     // Calculate the ro-vibrational partition function based on the grain
     // densities of states, and not the molecular properties, for consistency.
 
-    int MaximumGrain = getEnv().MaxGrn ;
-    double beta = getEnv().beta;
+    const int MaximumGrain = getEnv().MaxGrn ;
+    const double beta = getEnv().beta;
 
     for (int i = 0; i < MaximumGrain; ++i) {
       CanPrtnFn += exp( log(m_grainDOS[i]) - beta*m_grainEne[i] ) ;
@@ -803,7 +802,6 @@ namespace mesmer
   //
   double CollidingMolecule::collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule)
   {
-    if (test_rotConsts() < 0) return 0.;
     //
     // Lennard-Jones Collision frequency. The collision integral is calculated
     // using the formula of Neufeld et al., J.C.P. Vol. 57, Page 1100 (1972).

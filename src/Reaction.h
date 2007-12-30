@@ -32,22 +32,23 @@ namespace mesmer
     typedef std::map<CollidingMolecule*, int> isomerMap ;
     typedef std::map<SuperMolecule*    , int> sourceMap ;
 
-  private:
+  protected:
     const MesmerEnv&   m_Env;
     std::string        m_Name ;             // Reaction name.
+	ReactionType       m_reactiontype ;     // Type of reaction.
     MoleculeManager   *m_pMoleculeManager ; // Pointer to molecule manager.
 
     //
     // Reaction composition.
     //
     SuperMolecule     *m_srct ;              // Reactant molecules as a super-reactant
-    ModelledMolecule  *m_rct1 ;              // Reactant Molecule.
+    CollidingMolecule *m_rct1 ;              // Reactant Molecule.
     ModelledMolecule  *m_rct2 ;              // Subsidiary reactant molecule.
-    ModelledMolecule  *m_pdt1 ;              // Product Molecule.
+    CollidingMolecule *m_pdt1 ;              // Product Molecule.
     ModelledMolecule  *m_pdt2 ;              // Subsidiary product molecule.
     TransitionState   *m_TransitionState;    // TransitionState
-    ReactionType       m_reactiontype ;      // Type of reaction.
 
+//  private:
     //
     // Reaction Rate data.
     //
@@ -56,6 +57,10 @@ namespace mesmer
     std::vector<double> m_CellKfmc ;         // Forward microcanonical rate coefficients.
     std::vector<double> m_GrainKfmc ;        // Grained averaged forward microcanonical rates.
 
+    // Calculate reaction equilibrium constant.
+    double calcEquilibriumConstant() ;
+
+  private:
     double              m_ActEne ;           // Activation Energy
     double              m_PreExp ;           // Preexponetial factor
     double              m_NInf ;             // Modified Arrhenius parameter
@@ -63,16 +68,11 @@ namespace mesmer
     // I/O and control
     PersistPtr          m_ppPersist;         // Conduit for I/O
 
-    //
     // Point to microcanoical rate coeff. calculator.
-    //
     MicroRateCalculator *m_pMicroRateCalculator ;
 
     // Read a molecule name from the XML file and look it up
     Molecule* GetMolRef(PersistPtr pp);
-
-    // Calculate reaction equilibrium constant.
-    double calcEquilibriumConstant() ;
 
     // Grain average microcanonical rate coefficients.
     bool grnAvrgMicroRateCoeffs();
@@ -80,21 +80,15 @@ namespace mesmer
     // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
     bool calcGrnAvrgMicroRateCoeffs() ;
 
-    // Add isomer reaction terms to collision matrix.
-    void AddIsomerReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
-
-    // Add (reversible) association reaction terms to collision matrix.
-    void AddAssocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, sourceMap &sourcemap, const double rMeanOmega) ;
-
-    // Add dissociation reaction terms to collision matrix.
-    void AddDissocReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+    // Add reaction terms to collision matrix.
+	virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) = 0 ;
 
   public:
 
     // Constructors.
 //    Reaction();
 
-    Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env);
+    Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id);
 
     // Destructor.
     ~Reaction();
@@ -111,21 +105,10 @@ namespace mesmer
     std::string& getName()          { return m_Name ; } ;
     const MesmerEnv& getEnv() const { return m_Env; } ;
 
-
-    // Modifier for reaction type.
-    void put_Reactiontype(ReactionType reactiontype) ;
-
-    // Accessor for reaction type.
-    ReactionType get_Reactiontype() const {return m_reactiontype ; } ;
-
     // Add microcanonical terms to collision operator
     void AddMicroRates(dMatrix *CollOptr,
                        isomerMap &isomermap,
-                       sourceMap &sourcemap,
                        const double rMeanOmega);
-
-    // Determine the equilibrium constant.
-    void CalcEquilConst() { } ;
 
     // Access microcanoincal rate coeffcients.
     void get_MicroRateCoeffs(std::vector<double> &kmc) ;
@@ -146,6 +129,7 @@ namespace mesmer
     ModelledMolecule *get_pseudoIsomer() const ;
 
   } ;
+
 
 }//namespace
 #endif // GUARD_Reaction_h

@@ -1,8 +1,16 @@
+
+2007-12-30 Struan Robertson
+
+  * Added four new classes for each of the reaction types. These classes derive 
+    from the Reaction calss whihc is now an abstract class. 
+    
+  * Updated QA files to reflect changes made to I/O.
+
 2007-12-14 Chris Morley
 
   * Re-write of error handling and commandline. Big changes to
     oberro.h, oberror.cpp and main.cpp.
-    
+
   * rename obErroLog to meErrorLog.
   
   * persistence.h: note about function names starting with Xml.

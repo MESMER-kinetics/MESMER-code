@@ -1,0 +1,147 @@
+Mesmer v0.1 compiled: -- Dec 30 2007 -- 16:18:45
+
+Parsing input xml file... 
+
+HSO2_test.xml at 20071230_162255
+ *Info in mesmer::ModelledMolecule::InitializeMolecule
+ModelledMolecule::Cannot find argument me:vibFreqs. Maybe an atom or atomic ion.
+ *Info in mesmer::ModelledMolecule::InitializeMolecule
+ModelledMolecule::Cannot find argument me:rotConsts. Maybe an atom or atomic ion.
+ *Info in mesmer::ModelledMolecule::InitializeMolecule
+ModelledMolecule::Cannot find argument me:eletronicExcitation for ModelledMolecule H
+ *Info in mesmer::ModelledMolecule::InitializeMolecule
+ModelledMolecule::Cannot find argument me:symmetryNumber. Default value 1 is used.
+  **Warning in mesmer::ModelledMolecule::InitializeMolecule
+No method for the calculation of DOS in ModelledMoleculeH is provided. Default method <Classical rotors> is used.
+  **Warning in mesmer::ModelledMolecule::InitializeMolecule
+ModelledMolecule::Cannot find argument me:spinMultiplicity. Default value 1 is used.
+  **Warning in mesmer::CollidingMolecule::InitializeMolecule
+Molecule::Cannot find argument me:sigma. Default value 5 is used.
+  **Warning in mesmer::CollidingMolecule::InitializeMolecule
+Molecule::Cannot find argument me:epsilon. Default value 50 is used.
+  **Warning in mesmer::CollidingMolecule::InitializeMolecule
+CollidingMolecule::Cannot find argument me:deltaEDown
+ *Info in mesmer::ModelledMolecule::InitializeMolecule
+ModelledMolecule::Cannot find argument me:eletronicExcitation for ModelledMolecule SO2
+  **Warning in mesmer::ModelledMolecule::InitializeMolecule
+No method for the calculation of DOS in ModelledMoleculeSO2 is provided. Default method <Classical rotors> is used.
+  **Warning in mesmer::ModelledMolecule::InitializeMolecule
+ModelledMolecule::Cannot find argument me:spinMultiplicity. Default value 1 is used.
+ *Info in mesmer::Reaction::InitializeReaction
+Reaction R1 has two reactants. 
+  **Warning in mesmer::ModelledMolecule::getSpinMultiplicity
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+  **Warning in mesmer::ModelledMolecule::getSpinMultiplicity
+m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is given.
+ *Info in mesmer::Reaction::InitializeReaction
+Set members of the SuperMolecule: 
+ *Info in mesmer::ModelledMolecule::InitializeMolecule
+ModelledMolecule::Cannot find argument me:eletronicExcitation for ModelledMolecule HSO2
+ *Info in mesmer::ModelledMolecule::InitializeMolecule
+ModelledMolecule::Cannot find argument me:symmetryNumber. Default value 1 is used.
+  **Warning in mesmer::ModelledMolecule::InitializeMolecule
+No method for the calculation of DOS in ModelledMoleculeHSO2 is provided. Default method <Classical rotors> is used.
+  **Warning in mesmer::ModelledMolecule::InitializeMolecule
+ModelledMolecule::Cannot find argument me:spinMultiplicity. Default value 1 is used.
+  **Warning in mesmer::CollidingMolecule::InitializeMolecule
+Molecule::Cannot find argument me:sigma. Default value 5 is used.
+  **Warning in mesmer::CollidingMolecule::InitializeMolecule
+Molecule::Cannot find argument me:epsilon. Default value 50 is used.
+ *Info in mesmer::ModelledMolecule::InitializeMolecule
+ModelledMolecule::Cannot find argument me:eletronicExcitation for ModelledMolecule TS1
+ *Info in mesmer::ModelledMolecule::InitializeMolecule
+ModelledMolecule::Cannot find argument me:symmetryNumber. Default value 1 is used.
+  **Warning in mesmer::ModelledMolecule::InitializeMolecule
+No method for the calculation of DOS in ModelledMoleculeTS1 is provided. Default method <Classical rotors> is used.
+  **Warning in mesmer::ModelledMolecule::InitializeMolecule
+ModelledMolecule::Cannot find argument me:spinMultiplicity. Default value 1 is used.
+ *Info in mesmer::System::parse
+Number of concentration points: 1, number of pressure points: 0
+HSO2_test.xml successfully parsed. Calculate EGME at 20071230_162259
+Now calculating...
+
+  **Warning in mesmer::ModelledMolecule::get_zpe
+m_ZPE was not defined but requested in . Default value 78.88 is given.
+ *Info in mesmer::System::SetGrainParams
+Cell number = 95600, Grain number = 956
+ *Info in mesmer::System::WriteMetadata
+Write XML attribute at 20071230_162259
+ *Info in mesmer::System::calculate
+Precision: Double
+ *Info in mesmer::System::calculate
+Build Collison Matrix at 20071230_162259
+ *Info in mesmer::ClassicalRotor::countMonomerCellDOS
+Number of frequencies: 6
+  **Warning in mesmer::ModelledMolecule::get_Sym
+m_Sym was not defined but requested in HSO2. Default value 1 is given.
+  **Warning in mesmer::ModelledMolecule::getSpinMultiplicity
+m_SpinMultiplicity was not defined but requested in HSO2. Default value 1 is given.
+ *Info in mesmer::XMLPersist::XmlWriteMainElement
+Record calculated data at 20071230_162301
+ *Info in mesmer::CollidingMolecule::collisionFrequency
+Collision frequency of HSO2 is 0.0304742
+ *Info in mesmer::CollidingMolecule::collisionOperator
+alpha = 0.00434783, m_DeltaEdown = 230
+ *Info in mesmer::ReactionManager::BuildSystemCollisionOperator
+Size of the collision matrix: 872
+ *Info in mesmer::ClassicalRotor::countMonomerCellDOS
+Number of frequencies: 5
+  **Warning in mesmer::ModelledMolecule::get_Sym
+m_Sym was not defined but requested in TS1. Default value 1 is given.
+  **Warning in mesmer::ModelledMolecule::getSpinMultiplicity
+m_SpinMultiplicity was not defined but requested in TS1. Default value 1 is given.
+ *Info in mesmer::XMLPersist::XmlWriteMainElement
+Record calculated data at 20071230_162307
+ *Info in mesmer::ClassicalRotor::countMonomerCellDOS
+Number of frequencies: 0
+  **Warning in mesmer::ModelledMolecule::get_rotConsts
+Rotational constants were not defined but requested in H
+  **Warning in mesmer::ModelledMolecule::get_Sym
+m_Sym was not defined but requested in H. Default value 1 is given.
+  **Warning in mesmer::ModelledMolecule::getSpinMultiplicity
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+ *Info in mesmer::XMLPersist::XmlWriteMainElement
+Record calculated data at 20071230_162308
+  **Warning in mesmer::ModelledMolecule::getSpinMultiplicity
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+  **Warning in mesmer::ModelledMolecule::getSpinMultiplicity
+m_SpinMultiplicity was not defined but requested in HSO2. Default value 1 is given.
+ *Info in mesmer::ClassicalRotor::countMonomerCellDOS
+Number of frequencies: 3
+  **Warning in mesmer::ModelledMolecule::getSpinMultiplicity
+m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is given.
+ *Info in mesmer::XMLPersist::XmlWriteMainElement
+Record calculated data at 20071230_162310
+  **Warning in mesmer::ModelledMolecule::getSpinMultiplicity
+m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is given.
+ *Info in mesmer::Reaction::calcEquilibriumConstant
+Qrct1 = 0, Qpdt1 = 17399.1, Qrct2 = 6402.49, Qpdt2 = 1
+ *Info in mesmer::System::calculate
+Diagonlize Collision Operator at 20071230_162319 -- Time elapsed: 0 seconds.
+ *Info in mesmer::ReactionManager::diagCollisionOperator
+Size of the collision operator = 872
+ *Info in mesmer::ReactionManager::diagCollisionOperator
+Printing the first teneigen values
+ *Info in mesmer::System::calculate
+
+Finish Calculation at 20071230_162353 -- Time elapsed: 20 seconds.
+ *Info in mesmer::System::calculate
+
+Time stamps:
+20071230_162259 -- Build Collison Matrix
+20071230_162319 -- Diagonlize Collision Operator
+20071230_162353 -- Finish Calculation
+System saved to HSO2_test.20071230_162353.xml
+ *Info in mesmer::Molecule::~Molecule
+m_Mass is provided but not used in H
+ *Info in mesmer::Molecule::~Molecule
+m_Sigma is provided but not used in H
+ *Info in mesmer::Molecule::~Molecule
+m_Epsilon is provided but not used in H
+ *Info in mesmer::CollidingMolecule::~CollidingMolecule
+m_DeltaEdown is provided but not used in HSO2
+ *Info in mesmer::Molecule::~Molecule
+m_Mass is provided but not used in SO2
+ *Info in mesmer::Molecule::~Molecule
+m_Mass is provided but not used in TS1
+Save XML document to a new file at .20071230_162353 -- Time elapsed: 54 seconds.

@@ -178,6 +178,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\src\AssociationReaction.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ClassicalRotor.cpp"
 				>
 			</File>
@@ -186,11 +190,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\DissociationReaction.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\dMatrix.cpp"
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ExchangeReaction.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\formatfloat.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\IsomerizationReaction.cpp"
 				>
 			</File>
 			<File
@@ -280,6 +296,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\..\src\AssociationReaction.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ClassicalRotor.h"
 				>
 			</File>
@@ -292,11 +312,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\DissociationReaction.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\dMatrix.h"
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ExchangeReaction.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\formatfloat.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\IsomerizationReaction.h"
 				>
 			</File>
 			<File

@@ -87,7 +87,7 @@ Molecule* MoleculeManager::addmol(string& molName, string& molType, PersistPtr p
       ppSuper->XmlWriteAttribute("me:type", "source");
     }
     Molecule *pmolecule = static_cast<Molecule*>(new SuperMolecule(Env));
-    pmolecule->InitializeMolecule(ppSuper);
+    // pmolecule->InitializeMolecule(ppSuper);
     m_molmap[superId.str()] = pmolecule;
   }
   return pmolecule;

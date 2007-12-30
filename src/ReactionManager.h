@@ -13,67 +13,73 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include "Reaction.h"
+#include "AssociationReaction.h"
+#include "DissociationReaction.h"
+#include "IsomerizationReaction.h"
+#include "ExchangeReaction.h"
 
 namespace mesmer
 {
-  class ReactionManager
-  {
-  public:
+    class ReactionManager
+    {
+    public:
 
-    // Type defs
-    typedef  size_t  size_type ;
+        // Type defs
+        typedef  size_t  size_type ;
 
-    ReactionManager(MoleculeManager *pMoleculeManager):
-      m_reactions(),
-      m_pMoleculeManager(pMoleculeManager),
-      m_pSystemCollisionOperator(0)
-      {};
+        ReactionManager(MoleculeManager *pMoleculeManager):
+        m_reactions(),
+            m_pMoleculeManager(pMoleculeManager),
+            m_pSystemCollisionOperator(0)
+        {};
 
-    // Destructor.
-    ~ReactionManager(){} ;
+        // Destructor.
+        ~ReactionManager(){} ;
 
-    // Add a new reaction to the map.
-    bool addreactions(PersistPtr ReacList, const MesmerEnv& Env) ;
+        // Add a new reaction to the map.
+        bool addreactions(PersistPtr ReacList, const MesmerEnv& Env) ;
 
-    // Remove a reaction from the map.
-    void remove(){} ;
+        // Remove a reaction from the map.
+        void remove(){} ;
 
-    // Total number of reaction in map.
-    size_type size() const {return m_reactions.size() ; } ;
+        // Total number of reaction in map.
+        size_type size() const {return m_reactions.size() ; } ;
 
-    // Find a particular reaction.
-    Reaction*       operator[](const size_type i)       { return m_reactions[i] ; } ;
-    const Reaction* operator[](const size_type i) const { return m_reactions[i] ; } ;
+        // Find a particular reaction.
+        Reaction*       operator[](const size_type i)       { return m_reactions[i] ; } ;
+        const Reaction* operator[](const size_type i) const { return m_reactions[i] ; } ;
 
-    // Find a reaction from its id
-    Reaction* find(const std::string& id) const ;
+        // Find a reaction from its id
+        Reaction* find(const std::string& id) const ;
 
-    // Interrogates the (virtual) connectivity matrix, returning the reaction
-    // index of the reaction (one based) connecting pProduct and pReactant
-    // if both are CollidingMolecules
-    // 0 if reactant and product are the same and are a CollidingMolecule
-    // -1 otherwise
-    int Connectivity(Molecule* pReactant, Molecule* pProduct);
+        // Interrogates the (virtual) connectivity matrix, returning the reaction
+        // index of the reaction (one based) connecting pProduct and pReactant
+        // if both are CollidingMolecules
+        // 0 if reactant and product are the same and are a CollidingMolecule
+        // -1 otherwise
+        int Connectivity(Molecule* pReactant, Molecule* pProduct);
 
-    // Build collision operator for system.
-    bool BuildSystemCollisionOperator(const double beta, const MesmerEnv &m_Env) ;
+        // Build collision operator for system.
+        bool BuildSystemCollisionOperator(const double beta, const MesmerEnv &m_Env) ;
 
-    // Diagonalize the collision operator.
-    void diagCollisionOperator() ;
+        // Diagonalize the collision operator.
+        void diagCollisionOperator() ;
 
-  private:
+    private:
 
-    std::vector<Reaction *> m_reactions ;
+        std::vector<Reaction *> m_reactions ;
 
-    MoleculeManager        *m_pMoleculeManager ;
+        MoleculeManager        *m_pMoleculeManager ;
 
-    dMatrix                *m_pSystemCollisionOperator ;
+        dMatrix                *m_pSystemCollisionOperator ;
 
-    // Default Constructor.
-    //ReactionManager() {} ;
+        // Default Constructor.
+        //ReactionManager() {} ;
 
-  } ;
+        // Extract molecule information from XML stream.
+        bool GetMoleculeInfo(PersistPtr pp, std::string& MolName, std::string& MolType) ;
+
+    } ;
 }//namespace
 
 #endif // GUARD_ReactionManager_h
