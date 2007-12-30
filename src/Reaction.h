@@ -119,8 +119,8 @@ namespace mesmer
 
     TransitionState* get_TransitionState()const { return m_TransitionState ; } ;
 
-    // Reactant information:
-    int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const ;
+    // Get unimolecualr species information:
+    virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const = 0 ;
 
     // Product information:
     SuperMolecule* get_bi_molecularspecies(void) const;

@@ -261,33 +261,6 @@ Molecule* Reaction::GetMolRef(PersistPtr pp)
     return pMol;
 }
 
-//
-// Returns the unimolecular species in each reaction, i.e. for association
-// (source term) or dissociation (sink term) reaction one species is returned,
-// for an isomerization reaction two species are returned.
-//
-int Reaction::get_unimolecularspecies(vector<ModelledMolecule *> &unimolecularspecies) const
-{
-    switch(m_reactiontype) {
-    case ISOMERIZATION :
-        unimolecularspecies.push_back(m_rct1) ;
-        unimolecularspecies.push_back(m_pdt1) ;
-        return 3;
-
-    case ASSOCIATION :
-        unimolecularspecies.push_back(m_pdt1) ;
-        return 2;
-
-    case DISSOCIATION :
-        unimolecularspecies.push_back(m_rct1) ;
-        return 1;
-
-    default :
-        return 0;
-    }
-    return 0;
-}
-
 // Returns the bi-molecular speices (reactants) for association reaction.
 SuperMolecule* Reaction::get_bi_molecularspecies(void) const
 {

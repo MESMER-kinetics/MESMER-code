@@ -31,13 +31,21 @@ namespace mesmer
 		  // Destructor.
 		  ~AssociationReaction();
 
-		  virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
-
 		  void putSourceMap(sourceMap *sourcemap){m_sourceMap = sourcemap ; } ;
+
+		  // Get unimolecular species information:
+		  virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const 
+		  {        
+			  unimolecularspecies.push_back(m_pdt1) ;
+			  return 1;
+		  } ;
 
 	private:
 
-		sourceMap *m_sourceMap ; 
+		// Add reaction terms to collision matrix.
+		  virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+
+		  sourceMap *m_sourceMap ; 
 
 	} ;
 

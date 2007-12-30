@@ -1,9 +1,14 @@
 
 2007-12-30 Struan Robertson
 
-  * Added four new classes for each of the reaction types. These classes derive 
-    from the Reaction calss whihc is now an abstract class. 
-    
+  * Made method get_unimolecularspecies pure virtual and re-implemented it on 
+    the derived classes.
+
+2007-12-30 Struan Robertson
+
+  * Added four new classes for each of the reaction types. These classes derive
+    from the Reaction calss whihc is now an abstract class.
+
   * Updated QA files to reflect changes made to I/O.
 
 2007-12-14 Chris Morley

@@ -19,23 +19,28 @@
 namespace mesmer
 {
 
-  class ExchangeReaction : public Reaction
-  {
-  public:
+	class ExchangeReaction : public Reaction
+	{
+	public:
 
-    // Constructors.
-	  ExchangeReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
-		Reaction(pMoleculeManager, Env, id)
-		 {m_reactiontype = EXCHANGE ; } ;
+		// Constructors.
+		ExchangeReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
+		  Reaction(pMoleculeManager, Env, id)
+		  {m_reactiontype = EXCHANGE ; } ;
 
-    // Destructor.
+		// Destructor.
 		~ExchangeReaction(){} ;
 
-	virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+		// Get unimolecualr species information:
+		virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const 
+		{return 0 ;} ;
 
 	private:
 
-  } ;
+		// Add reaction terms to collision matrix.
+		virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+
+	} ;
 
 
 }//namespace

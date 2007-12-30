@@ -19,22 +19,32 @@
 namespace mesmer
 {
 
-  class IsomerizationReaction : public Reaction
-  {
-  public:
+	class IsomerizationReaction : public Reaction
+	{
+	public:
 
-    // Constructors.
-	  IsomerizationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
-		Reaction(pMoleculeManager, Env, id)
-		{m_reactiontype = ISOMERIZATION; } ;
+		// Constructors.
+		IsomerizationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
+		  Reaction(pMoleculeManager, Env, id)
+		  {m_reactiontype = ISOMERIZATION; } ;
 
-    // Destructor.
-		~IsomerizationReaction() {} ;
+		  // Destructor.
+		  ~IsomerizationReaction() {} ;
 
-	virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+		  // Get unimolecular species information:
+		  virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const 
+		  {        
+			  unimolecularspecies.push_back(m_rct1) ;
+			  unimolecularspecies.push_back(m_pdt1) ;
+			  return 2 ;
+		  } ;
 
 	private:
- } ;
+
+		// Add reaction terms to collision matrix.
+		virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+
+	} ;
 
 
 }//namespace
