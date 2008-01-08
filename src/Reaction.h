@@ -64,6 +64,7 @@ namespace mesmer
     double              m_ActEne ;           // Activation Energy
     double              m_PreExp ;           // Preexponetial factor
     double              m_NInf ;             // Modified Arrhenius parameter
+    double              m_ERConc ;           // Concentration of the excess reactant
 
     // I/O and control
     PersistPtr          m_ppPersist;         // Conduit for I/O

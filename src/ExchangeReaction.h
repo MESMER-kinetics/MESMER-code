@@ -12,35 +12,33 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include "MoleculeManager.h"
-#include "MicroRate.h"
 #include "Reaction.h"
 
 namespace mesmer
 {
 
-	class ExchangeReaction : public Reaction
-	{
-	public:
+  class ExchangeReaction : public Reaction
+  {
+  public:
 
-		// Constructors.
-		ExchangeReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
-		  Reaction(pMoleculeManager, Env, id)
-		  {m_reactiontype = EXCHANGE ; } ;
+    // Constructors.
+    ExchangeReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
+      Reaction(pMoleculeManager, Env, id)
+      {m_reactiontype = EXCHANGE ; } ;
 
-		// Destructor.
-		~ExchangeReaction(){} ;
+    // Destructor.
+    ~ExchangeReaction(){} ;
 
-		// Get unimolecualr species information:
-		virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const 
-		{return 0 ;} ;
+    // Get unimolecualr species information:
+    virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const 
+    {return 0 ;} ;
 
-	private:
+  private:
 
-		// Add reaction terms to collision matrix.
-		virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+    // Add reaction terms to collision matrix.
+    virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
 
-	} ;
+  } ;
 
 
 }//namespace

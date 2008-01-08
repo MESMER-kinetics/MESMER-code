@@ -71,6 +71,7 @@ Molecule* MoleculeManager::addmol(string& molName, string& molType, PersistPtr p
 
   if (molType == "reactant"){
     stringstream superId; superId << "source_" << sourceNumber; ++sourceNumber;
+    cwarn << "source name = " << superId.str() << endl;
     PersistPtr ppSuper = NULL;
     //find if this source term is there
     PersistPtr ppMol = ppMolList->XmlMoveTo("molecule");
@@ -82,12 +83,16 @@ Molecule* MoleculeManager::addmol(string& molName, string& molType, PersistPtr p
       ppMol = ppMol->XmlMoveTo("molecule");
     }
     if (!ppSuper){
-      PersistPtr ppSuper = ppMolList->XmlWriteElement("molecule");
+      ppSuper = ppMolList->XmlWriteElement("molecule");
       ppSuper->XmlWriteAttribute("id", superId.str());
-      ppSuper->XmlWriteAttribute("me:type", "source");
+      if (!ppSuper) {stringstream errorMsg;
+        errorMsg << "Cannot get a persistent pointer.";
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      }
     }
-    Molecule *pmolecule = static_cast<Molecule*>(new SuperMolecule(Env));
-    // pmolecule->InitializeMolecule(ppSuper);
+    SuperMolecule *pSMolecule = new SuperMolecule(Env);
+    pSMolecule->InitializeMolecule(ppSuper);
+    Molecule *pmolecule = static_cast<Molecule*>(pSMolecule);
     m_molmap[superId.str()] = pmolecule;
   }
   return pmolecule;

@@ -12,38 +12,36 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include "MoleculeManager.h"
-#include "MicroRate.h"
 #include "Reaction.h"
 
 namespace mesmer
 {
 
-	class DissociationReaction : public Reaction
-	{
-	public:
+  class DissociationReaction : public Reaction
+  {
+  public:
 
-		// Constructors.
-		DissociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
-		  Reaction(pMoleculeManager, Env, id)
-		  {m_reactiontype = DISSOCIATION ; } ;
+    // Constructors.
+    DissociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
+      Reaction(pMoleculeManager, Env, id)
+      {m_reactiontype = DISSOCIATION ; } ;
 
-		  // Destructor.
-		  ~DissociationReaction(){} ;
+      // Destructor.
+      ~DissociationReaction(){} ;
 
-		  // Get unimolecular species information:
-		  virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const 
-		  {        
-			  unimolecularspecies.push_back(m_rct1) ;
-			  return 1;
-		  } ;
+      // Get unimolecular species information:
+      virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const 
+      {        
+        unimolecularspecies.push_back(m_rct1) ;
+        return 1;
+      } ;
 
-	private:
+  private:
 
-		// Add reaction terms to collision matrix.
-		virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+    // Add reaction terms to collision matrix.
+    virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
 
-	} ;
+  } ;
 
 
 }//namespace

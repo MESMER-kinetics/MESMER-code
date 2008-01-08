@@ -21,8 +21,8 @@ namespace mesmer
     // Add exchange reaction terms to collision matrix.
     //
     void ExchangeReaction::AddReactionTerms(dMatrix      *CollOptr,
-											isomerMap    &isomermap,
-											const double rMeanOmega)
+                                            isomerMap    &isomermap,
+                                            const double rMeanOmega)
     {
 
     }

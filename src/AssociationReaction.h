@@ -12,42 +12,40 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include "MoleculeManager.h"
-#include "MicroRate.h"
 #include "Reaction.h"
 
 namespace mesmer
 {
 
-	class AssociationReaction : public Reaction
-	{
-	public:
+  class AssociationReaction : public Reaction
+  {
+  public:
 
-		// Constructors.
-		AssociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
-		  Reaction(pMoleculeManager, Env, id),
-			  m_sourceMap(NULL) {m_reactiontype = ASSOCIATION ; } ;
+    // Constructors.
+    AssociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
+      Reaction(pMoleculeManager, Env, id),
+        m_sourceMap(NULL) {m_reactiontype = ASSOCIATION ; } ;
 
-		  // Destructor.
-		  ~AssociationReaction();
+      // Destructor.
+      ~AssociationReaction();
 
-		  void putSourceMap(sourceMap *sourcemap){m_sourceMap = sourcemap ; } ;
+      void putSourceMap(sourceMap *sourcemap){m_sourceMap = sourcemap ; } ;
 
-		  // Get unimolecular species information:
-		  virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const 
-		  {        
-			  unimolecularspecies.push_back(m_pdt1) ;
-			  return 1;
-		  } ;
+      // Get unimolecular species information:
+      virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const 
+      {        
+        unimolecularspecies.push_back(m_pdt1) ;
+        return 1;
+      } ;
 
-	private:
+  private:
 
-		// Add reaction terms to collision matrix.
-		  virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+    // Add reaction terms to collision matrix.
+      virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
 
-		  sourceMap *m_sourceMap ; 
+      sourceMap *m_sourceMap ; 
 
-	} ;
+  } ;
 
 
 }//namespace

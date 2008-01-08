@@ -17,19 +17,19 @@ using namespace mesmer;
 
 namespace mesmer
 {
-	//
-	// Add dissociation reaction terms to collision matrix.
-	//
-	void DissociationReaction::AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) {
+  //
+  // Add dissociation reaction terms to collision matrix.
+  //
+  void DissociationReaction::AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) {
 
-		// Locate reactant in system matrix.
-		const int rctLocation = isomermap[dynamic_cast<CollidingMolecule*>(m_rct1)] ;
+    // Locate reactant in system matrix.
+    const int rctLocation = isomermap[dynamic_cast<CollidingMolecule*>(m_rct1)] ;
 
-		for ( int i = 0 ; i < dynamic_cast<CollidingMolecule*>(m_rct1)->get_colloptrsize() ; ++i ) {
-			int ii(rctLocation + i) ;
-			(*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKfmc[i] ;                            // Forward loss reaction.
-		}
-	}
+    for ( int i = 0 ; i < dynamic_cast<CollidingMolecule*>(m_rct1)->get_colloptrsize() ; ++i ) {
+      int ii(rctLocation + i) ;
+      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKfmc[i] ;                            // Forward loss reaction.
+    }
+  }
 
 
 }//namespace

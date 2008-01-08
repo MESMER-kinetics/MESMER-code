@@ -66,7 +66,7 @@
             </bondarray>
             <propertyList>
                 <property dictRef="me:ZPE">
-                    <scalar units="kcal/mol">6.5</scalar>
+                    <scalar units="kcal/mol">137.2</scalar>
                 </property>
                 <property dictRef="me:rotConsts">
                     <array units="cm-1">0.33065 0.39313 2.06178</array>
@@ -80,17 +80,8 @@
                 <property dictRef="me:MW">
                     <scalar>43</scalar>
                 </property>
-                <property dictRef="me:epsilon">
-                    <scalar>250.0</scalar>
-                </property>
-                <property dictRef="me:sigma">
-                    <scalar>5.0</scalar>
-                </property>
                 <property dictRef="me:deltaEDown">
                     <scalar units="cm-1">250.0</scalar>
-                </property>
-                <property dictRef="me:spinMultiplicity">
-                    <scalar>2</scalar>
                 </property>
             </propertyList>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
@@ -110,9 +101,6 @@
                 <property dictRef="me:rotConsts">
                     <array units="cm-1">19.2438</array>
                 </property>
-                <property dictRef="me:eletronicExcitation">
-                    <array units="cm-1">139.7</array>
-                </property>
                 <property dictRef="me:symmetryNumber">
                     <scalar>1</scalar>
                 </property>
@@ -124,9 +112,6 @@
                 </property>
                 <property dictRef="me:deltaEDown">
                     <scalar units="cm-1">250.0</scalar>
-                </property>
-                <property dictRef="me:spinMultiplicity">
-                    <scalar>2</scalar>
                 </property>
             </propertyList>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
@@ -145,7 +130,7 @@
             </bondarray>
             <propertyList>
                 <property dictRef="me:ZPE">
-                    <scalar units="kcal/mol">0.0</scalar>
+                    <scalar units="kcal/mol">130.7</scalar>
                 </property>
                 <property dictRef="me:rotConsts">
                     <array units="cm-1">1.19205</array>
@@ -163,7 +148,7 @@
                     <scalar units="cm-1">250.0</scalar>
                 </property>
                 <property dictRef="me:spinMultiplicity">
-                    <scalar>1</scalar>
+                    <scalar>2</scalar>
                 </property>
             </propertyList>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
@@ -202,11 +187,13 @@
             <me:MCRCMethod>Mesmer ILT</me:MCRCMethod>
             <me:activationEnergy>5.375</me:activationEnergy>
             <me:preExponential>7.00e-12</me:preExponential>
+            <me:excessReactantConc>1.00e17</me:excessReactantConc>
         </reaction>
     </reactionList>
     <me:conditions>
         <me:bathGas>N_2</me:bathGas>
-        <me:conc>2e19</me:conc>
+        
+        <me:conc>1000</me:conc>
         <!--Three ways to input temperatures at which calcs are to be done-->
         <me:temperature units="K">298</me:temperature>
         <me:temperature initial="100" increment="50" final="500" />
@@ -217,8 +204,9 @@
         <me:grainSize units="cm-1">20</me:grainSize>
         <!--...or by the total number of grains
         <me:numberOfGrains> 500 </me:numberOfGrains>-->
-        <!--Specify increased energy range
+        <!--Specify increased energy range 
         <me:maxTemperature>6000</me:maxTemperature>-->
+        <me:energyAboveTheTopWell>0.</me:energyAboveTheTopWell>
     </me:modelParameters>
     <me:control>
         <me:testMicroRates />

@@ -1,3 +1,10 @@
+_2008_01_08__09_35_40_ Chi-Hsiu Liang
+
+  * Deleted logged test files in \trunk\Windows VC8\Mesmer (anyone needs them shall copy them from the history)
+  * Cleaned up the code. (No tabs, one tab converts to two spaces.)
+  * removed a bug in source term persistent pointer locating.
+  * Added a test system OH acetylene association.
+  * Added a variable m_ERConc for excess reactant concentration in the Reaction.
 
 2007-12-30 Struan Robertson
 

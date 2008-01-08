@@ -82,9 +82,13 @@ namespace mesmer
     vector<double> pdt1CellDOS(mEnv.MaxCell,0.0) ; // Cell density of states of      product molecule.
     vector<double> pdt1CellEne(mEnv.MaxCell,0.0) ; // Cell energies          of      product molecule.
     vector<double> rctsCellDOS(mEnv.MaxCell,0.0) ; // Convoluted cell density of states of reactants.
+
     p_pdt1->getCellDensityOfStates(pdt1CellDOS) ;
-    p_rcts->getCellDensityOfStates(rctsCellDOS) ;
+
     p_pdt1->getCellEnergies       (pdt1CellEne) ;
+
+    p_rcts->getCellDensityOfStates(rctsCellDOS) ;
+
 
     // Allocate space to hold Micro-canonical rate coefficients.
     cellKfmc.resize(mEnv.MaxCell); // no need to initialize
