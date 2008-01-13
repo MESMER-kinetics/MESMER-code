@@ -1,3 +1,9 @@
+
+2008-1-13 Struan Robertson
+
+  * Declared method InitializeReaction virtual and re-implemented it for
+    isomerization class.
+
 _2008_01_08__09_35_40_ Chi-Hsiu Liang
 
   * Deleted logged test files in \trunk\Windows VC8\Mesmer (anyone needs them shall copy them from the history)
@@ -8,7 +14,7 @@ _2008_01_08__09_35_40_ Chi-Hsiu Liang
 
 2007-12-30 Struan Robertson
 
-  * Made method get_unimolecularspecies pure virtual and re-implemented it on 
+  * Made method get_unimolecularspecies pure virtual and re-implemented it on
     the derived classes.
 
 2007-12-30 Struan Robertson

@@ -60,20 +60,24 @@ namespace mesmer
     // Calculate reaction equilibrium constant.
     double calcEquilibriumConstant() ;
 
+    // I/O and control
+    PersistPtr          m_ppPersist;         // Conduit for I/O
+
+    // Read a molecule name from the XML file and look it up
+    Molecule* GetMolRef(PersistPtr pp);
+
+	// Read parameters requires to determine reaction heats and rates.
+	bool ReadRateCoeffParameters(PersistPtr ppReac) ;
+
   private:
+
     double              m_ActEne ;           // Activation Energy
     double              m_PreExp ;           // Preexponetial factor
     double              m_NInf ;             // Modified Arrhenius parameter
     double              m_ERConc ;           // Concentration of the excess reactant
 
-    // I/O and control
-    PersistPtr          m_ppPersist;         // Conduit for I/O
-
     // Point to microcanoical rate coeff. calculator.
     MicroRateCalculator *m_pMicroRateCalculator ;
-
-    // Read a molecule name from the XML file and look it up
-    Molecule* GetMolRef(PersistPtr pp);
 
     // Grain average microcanonical rate coefficients.
     bool grnAvrgMicroRateCoeffs();
@@ -101,7 +105,7 @@ namespace mesmer
     //   Reaction& operator=(const Reaction& reaction) ;
 
     // Initialize reaction.
-    bool InitializeReaction(PersistPtr ppReac) ;
+    virtual bool InitializeReaction(PersistPtr ppReac) ;
 
     std::string& getName()          { return m_Name ; } ;
     const MesmerEnv& getEnv() const { return m_Env; } ;

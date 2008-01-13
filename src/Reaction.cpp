@@ -17,48 +17,48 @@ using namespace mesmer;
 
 namespace mesmer
 {
-  Reaction::Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
-    m_Env(Env),
-    m_Name(id),
-    m_pMoleculeManager(pMoleculeManager),
-    m_srct(NULL),
-    m_rct1(NULL),
-    m_rct2(NULL),
-    m_pdt1(NULL),
-    m_pdt2(NULL),
-    m_TransitionState(NULL),
-    m_reactiontype(ERROR_REACTION),
-    m_HeatOfReaction(0.0),
-    m_kfwd(0.0),
-    m_CellKfmc(),
-    m_GrainKfmc(),
-    m_ActEne(0.0),
-    m_PreExp(0.0),
-    m_NInf(0.0),
-    m_ERConc(0.0),
-    m_ppPersist(),
-    m_pMicroRateCalculator(NULL)
-  {}
+    Reaction::Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
+m_Env(Env),
+m_Name(id),
+m_pMoleculeManager(pMoleculeManager),
+m_srct(NULL),
+m_rct1(NULL),
+m_rct2(NULL),
+m_pdt1(NULL),
+m_pdt2(NULL),
+m_TransitionState(NULL),
+m_reactiontype(ERROR_REACTION),
+m_HeatOfReaction(0.0),
+m_kfwd(0.0),
+m_CellKfmc(),
+m_GrainKfmc(),
+m_ActEne(0.0),
+m_PreExp(0.0),
+m_NInf(0.0),
+m_ERConc(0.0),
+m_ppPersist(),
+m_pMicroRateCalculator(NULL)
+{}
 
-  Reaction::~Reaction(){}
+Reaction::~Reaction(){}
 
-  /*
-  Reaction::Reaction(const Reaction& reaction) {
-  // Copy constructor - define later SHR 23/Feb/2003
-  }
+/*
+Reaction::Reaction(const Reaction& reaction) {
+// Copy constructor - define later SHR 23/Feb/2003
+}
 
-  Reaction& Reaction::operator=(const Reaction& reaction) {
-  // Assignment operator - define later SHR 23/Feb/2003
+Reaction& Reaction::operator=(const Reaction& reaction) {
+// Assignment operator - define later SHR 23/Feb/2003
 
-  return *this ;
-  }
-  */
+return *this ;
+}
+*/
 
-  //
-  // Read the Molecular data from input stream.
-  //
-  bool Reaction::InitializeReaction(PersistPtr ppReac)
-  {
+//
+// Read the Molecular data from input stream.
+//
+bool Reaction::InitializeReaction(PersistPtr ppReac)
+{
     m_ppPersist = ppReac;
 
     Molecule* pMol1(NULL) ;
@@ -71,174 +71,122 @@ namespace mesmer
     PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
     if(ppReactant2)
     {
-      pMol2 = GetMolRef(ppReactant2);
-      if(!pMol2){
-        {string errorMsg = "Reactant 2 defined in Reaction " + m_Name + " is incomplete.";
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg, obError);}
-        return false;
-      }
+        pMol2 = GetMolRef(ppReactant2);
+        if(!pMol2){
+            {string errorMsg = "Reactant 2 defined in Reaction " + m_Name + " is incomplete.";
+            meErrorLog.ThrowError(__FUNCTION__, errorMsg, obError);}
+            return false;
+        }
     }
 
     //Put the CollidingMolecule into m_rct1, even if it is second in datafile
     CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
     if(pColMol){
-      m_rct2 = dynamic_cast<ModelledMolecule*>(pMol2);
+        m_rct2 = dynamic_cast<ModelledMolecule*>(pMol2);
     }
     else{
-      pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
-      if(!pColMol){
-        meErrorLog.ThrowError(__FUNCTION__, string("At least one of the reactants has to be a colliding molecule"), obError);
-        return false;
-      }
-      m_rct2 = dynamic_cast<ModelledMolecule*>(pMol1);
+        pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
+        if(!pColMol){
+            meErrorLog.ThrowError(__FUNCTION__, string("At least one of the reactants has to be a colliding molecule"), obError);
+            return false;
+        }
+        m_rct2 = dynamic_cast<ModelledMolecule*>(pMol1);
     }
     m_rct1 = pColMol;
 
     if (m_rct1 && m_rct2){ // the reactant side has two molecules
-      {stringstream errorMsg;
-      errorMsg << "Reaction " << m_Name << " has two reactants. ";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+        {stringstream errorMsg;
+        errorMsg << "Reaction " << m_Name << " has two reactants. ";
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
 
-      // check whether there is any SuperMolecule in m_molmap contains pMol1 & pMol2
-      string id; //shoud not set any name for it.
-      SuperMolecule* pSupMol = NULL;
-      while(m_pMoleculeManager->GetNextMolecule(id, pSupMol)){ // get next SuperMolecule
-        // if found a SuperMolecule
-        ModelledMolecule*  rm1 = pSupMol->getMember1();
-        ModelledMolecule*  rm2 = pSupMol->getMember2();
-        if (!rm1 && !rm2){// there is no data inside, occupy it!
-          pSupMol->setMembers(m_rct1, m_rct2);
-          m_srct = pSupMol;
-          {stringstream errorMsg;
-          errorMsg << "Set members of the SuperMolecule: " << m_srct->getName();
-          meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
-          break;
+        // check whether there is any SuperMolecule in m_molmap contains pMol1 & pMol2
+        string id; //shoud not set any name for it.
+        SuperMolecule* pSupMol = NULL;
+        while(m_pMoleculeManager->GetNextMolecule(id, pSupMol)){ // get next SuperMolecule
+            // if found a SuperMolecule
+            ModelledMolecule*  rm1 = pSupMol->getMember1();
+            ModelledMolecule*  rm2 = pSupMol->getMember2();
+            if (!rm1 && !rm2){// there is no data inside, occupy it!
+                pSupMol->setMembers(m_rct1, m_rct2);
+                m_srct = pSupMol;
+                {stringstream errorMsg;
+                errorMsg << "Set members of the SuperMolecule: " << m_srct->getName();
+                meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+                break;
+            }
         }
-      }
-      if (!pSupMol){
-        meErrorLog.ThrowError(__FUNCTION__, string("No SuperMolecule was found."), obInfo);
-        // there will always at least one SuperMolecule in m_molmap, check the end of addmol()
-        // in MoleculeManager.cpp.
-        /* need to create one (mark _2007_12_10__17_10_18_)
-        write a SuperMolecule creator that acquire a position in the XML
-        */
-      }
+        if (!pSupMol){
+            meErrorLog.ThrowError(__FUNCTION__, string("No SuperMolecule was found."), obInfo);
+            // there will always at least one SuperMolecule in m_molmap, check the end of addmol()
+            // in MoleculeManager.cpp.
+            /* need to create one (mark _2007_12_10__17_10_18_)
+            write a SuperMolecule creator that acquire a position in the XML
+            */
+        }
     }
     else{
-      string errorMsg = "Reaction " + m_Name + " has only one reactant";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg, obInfo);
+        string errorMsg = "Reaction " + m_Name + " has only one reactant";
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg, obInfo);
     }
 
     //Read products ... if any.
     pMol1=pMol2=NULL;
     PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
     if (ppProduct1) {
-      pMol1 = GetMolRef(ppProduct1);
+        pMol1 = GetMolRef(ppProduct1);
 
-      PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
-      pMol2 = GetMolRef(ppProduct2);
+        PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
+        pMol2 = GetMolRef(ppProduct2);
 
-      //Put the Colliding Molecule into m_pdt1, even if it is second in datafile
-      pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
-      if(pColMol)
-      {
-        m_pdt1 = pColMol ;
-        m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol2);
-      }
-      else
-      {
-        pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
-        if(!pColMol) { // both products are not CollidingMolecule -> dissociation reaction
-          m_pdt1 = dynamic_cast<CollidingMolecule*>(pMol1);
-          m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol2); // do we need to check the existence of m_pdt2 ?
-        } else {
-          m_pdt1 = pColMol ;
-          m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol1);
+        //Put the Colliding Molecule into m_pdt1, even if it is second in datafile
+        pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
+        if(pColMol)
+        {
+            m_pdt1 = pColMol ;
+            m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol2);
         }
-      }
+        else
+        {
+            pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
+            if(!pColMol) { // both products are not CollidingMolecule -> dissociation reaction
+                m_pdt1 = dynamic_cast<CollidingMolecule*>(pMol1);
+                m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol2); // do we need to check the existence of m_pdt2 ?
+            } else {
+                m_pdt1 = pColMol ;
+                m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol1);
+            }
+        }
     }
 
     // Read the transition state (if present)
     PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState") ;
     if (ppTransitionState)
     {
-      TransitionState* pTrans = dynamic_cast<TransitionState*>(GetMolRef(ppTransitionState));
-      if(pTrans) m_TransitionState = pTrans;
+        TransitionState* pTrans = dynamic_cast<TransitionState*>(GetMolRef(ppTransitionState));
+        if(pTrans) m_TransitionState = pTrans;
 
-      /* It would be better to use the ZPEs rather than threshold
-      if(m_TransitionState)
-      {
-      const char* pthreshtxt = ppReac->XmlReadValue("me:threshold",false);
-      if(pthreshtxt)
-      {
-      stringstream ss(pthreshtxt);
-      ss >> m_E0;
-      }
-      */
-    }
-
-    // Read the heat of reaction (if present).
-    const char* pHeatRxntxt = ppReac->XmlReadValue("me:HeatOfReaction",false);
-    if (pHeatRxntxt){
-      stringstream s1(pHeatRxntxt);
-      s1 >> m_HeatOfReaction ;
-    }
-    else{ // calculate HeatOfReaction
-      double zpe_pdt1 = m_pdt1 ? m_pdt1->get_zpe() : 0.;
-      double zpe_pdt2 = m_pdt2 ? m_pdt2->get_zpe() : 0.;
-      double zpe_rct1 = m_rct1 ? m_rct1->get_zpe() : 0.;
-      double zpe_rct2 = m_rct2 ? m_rct2->get_zpe() : 0.;
-      m_HeatOfReaction = zpe_pdt1 + zpe_pdt2 - zpe_rct1 - zpe_rct2;
+        /* It would be better to use the ZPEs rather than threshold
+        if(m_TransitionState)
+        {
+        const char* pthreshtxt = ppReac->XmlReadValue("me:threshold",false);
+        if(pthreshtxt)
+        {
+        stringstream ss(pthreshtxt);
+        ss >> m_E0;
+        }
+        */
     }
 
-    //Read in Kinetic rate parameters, if present
-    m_ActEne = std::numeric_limits<double>::quiet_NaN();//means not set
+    // Read heat of reaction and rate parameters.
 
-    const char* pActEnetxt = ppReac->XmlReadValue("me:activationEnergy",false);
-    if (pActEnetxt)
-    {
-      stringstream s1(pActEnetxt); s1 >> m_ActEne ;
-    }
-    const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential",false);
-    if (pPreExptxt)
-    {
-      stringstream s2(pPreExptxt); s2 >> m_PreExp ;
-    }
-    const char* pNInftxt   = ppReac->XmlReadValue("me:nInfinity",false);
-    if (pNInftxt)
-    {
-      stringstream s3(pNInftxt); s3 >> m_NInf ;
-    }
-    const char* pERConctxt   = ppReac->XmlReadValue("me:excessReactantConc",false);
-    if (pERConctxt)
-    {
-      stringstream s3(pERConctxt); s3 >> m_ERConc ;
-    }
+    return ReadRateCoeffParameters(ppReac) ;
+}
 
-    // Determine the method of MC rate coefficient calculation.
-    const char* pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod") ;
-    if(pMCRCMethodtxt)
-    {
-      m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
-      if(!m_pMicroRateCalculator)
-      {
-        {stringstream errorMsg;
-        errorMsg << "Unknown method " << pMCRCMethodtxt
-                 << " for the determination of Microcanonical rate coefficients in reaction "
-                 << m_Name;
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  //
-  // Locate molecule in molecular map.
-  //
-  Molecule* Reaction::GetMolRef(PersistPtr pp)
-  {
+//
+// Locate molecule in molecular map.
+//
+Molecule* Reaction::GetMolRef(PersistPtr pp)
+{
     Molecule* pMol = NULL;
 
     if(!pp) return NULL;
@@ -247,54 +195,113 @@ namespace mesmer
 
     string pRef = ppmol->XmlReadValue("ref");
     if(pRef.size()){ // if got the name of the molecule
-      string pType = ppmol->XmlReadValue("me:type");
-      if(pType.size()){ // initialize molecule here with the specified type (need to know m_ppIOPtr)
-        PersistPtr ppMolList = m_pMoleculeManager->get_PersistPtr();
-        if(!ppMolList)
-        {
-          meErrorLog.ThrowError(__FUNCTION__, string("No molecules have been specified"), obWarning);
-          return false;
+        string pType = ppmol->XmlReadValue("me:type");
+        if(pType.size()){ // initialize molecule here with the specified type (need to know m_ppIOPtr)
+            PersistPtr ppMolList = m_pMoleculeManager->get_PersistPtr();
+            if(!ppMolList)
+            {
+                meErrorLog.ThrowError(__FUNCTION__, string("No molecules have been specified"), obWarning);
+                return false;
+            }
+            pMol = m_pMoleculeManager->addmol(pRef, pType, ppMolList, m_Env);
         }
-        pMol = m_pMoleculeManager->addmol(pRef, pType, ppMolList, m_Env);
-      }
     }
 
     if(!pMol) {
-      meErrorLog.ThrowError(__FUNCTION__, string("Cannot find molecule: "), obInfo);
-      return NULL;
+        meErrorLog.ThrowError(__FUNCTION__, string("Cannot find molecule: "), obInfo);
+        return NULL;
     }
 
     return pMol;
-  }
+}
 
-  // Returns the bi-molecular speices (reactants) for association reaction.
-  SuperMolecule* Reaction::get_bi_molecularspecies(void) const
-  {
+// Read parameters requires to determine reaction heats and rates.
+bool Reaction::ReadRateCoeffParameters(PersistPtr ppReac) {
+
+    // Read the heat of reaction (if present).
+    const char* pHeatRxntxt = ppReac->XmlReadValue("me:HeatOfReaction",false);
+    if (pHeatRxntxt){
+        stringstream s1(pHeatRxntxt);
+        s1 >> m_HeatOfReaction ;
+    } else { // Calculate heat of reaction.
+        double zpe_pdt1 = m_pdt1 ? m_pdt1->get_zpe() : 0.;
+        double zpe_pdt2 = m_pdt2 ? m_pdt2->get_zpe() : 0.;
+        double zpe_rct1 = m_rct1 ? m_rct1->get_zpe() : 0.;
+        double zpe_rct2 = m_rct2 ? m_rct2->get_zpe() : 0.;
+        m_HeatOfReaction = zpe_pdt1 + zpe_pdt2 - zpe_rct1 - zpe_rct2;
+    }
+
+    //Read in Kinetic rate parameters, if present
+    m_ActEne = std::numeric_limits<double>::quiet_NaN();//means not set
+
+    const char* pActEnetxt = ppReac->XmlReadValue("me:activationEnergy",false);
+    if (pActEnetxt)
+    {
+        stringstream s1(pActEnetxt); s1 >> m_ActEne ;
+    }
+    const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential",false);
+    if (pPreExptxt)
+    {
+        stringstream s2(pPreExptxt); s2 >> m_PreExp ;
+    }
+    const char* pNInftxt   = ppReac->XmlReadValue("me:nInfinity",false);
+    if (pNInftxt)
+    {
+        stringstream s3(pNInftxt); s3 >> m_NInf ;
+    }
+    const char* pERConctxt   = ppReac->XmlReadValue("me:excessReactantConc",false);
+    if (pERConctxt)
+    {
+        stringstream s3(pERConctxt); s3 >> m_ERConc ;
+    }
+
+	// Determine the method of MC rate coefficient calculation.
+    const char* pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod") ;
+    if(pMCRCMethodtxt)
+    {
+        m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
+        if(!m_pMicroRateCalculator)
+        {
+            {stringstream errorMsg;
+            errorMsg << "Unknown method " << pMCRCMethodtxt
+                << " for the determination of Microcanonical rate coefficients in reaction "
+                << m_Name;
+            meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
+            return false;
+        }
+    }
+
+	return true ;
+}
+
+// Returns the bi-molecular speices (reactants) for association reaction.
+SuperMolecule* Reaction::get_bi_molecularspecies(void) const
+{
     switch(m_reactiontype) {
     case ASSOCIATION :
-      return m_srct;
+        return m_srct;
 
     default :
-      return NULL;
+        return NULL;
     }
     return NULL;
-  }
+}
 
-  //
-  // Get the prinincipal source reactant (i.e. reactant not in excess) if it exists.
-  // (Not sure if this is a good idea, may be better to pass a Map in.)
-  //
-  ModelledMolecule *Reaction::get_pseudoIsomer() const
-  {
+//
+// Get the prinincipal source reactant (i.e. reactant not in excess) if it exists.
+// (Not sure if this is a good idea, may be better to pass a Map in.)
+//
+ModelledMolecule *Reaction::get_pseudoIsomer() const
+{
     ModelledMolecule *pseudoIsomer = NULL ;
     if(m_reactiontype == ASSOCIATION) pseudoIsomer = m_pdt1 ;
     return pseudoIsomer ;
-  }
+}
 
-  //
-  // Calculate reaction equilibrium constant.
-  //
-  double Reaction::calcEquilibriumConstant() {
+//
+// Calculate reaction equilibrium constant.
+//
+double Reaction::calcEquilibriumConstant() {
 
     double Keq(0.0) ;
 
@@ -329,41 +336,41 @@ namespace mesmer
     } */
 
     return Keq ;
-  }
+}
 
-  //
-  // Access microcanoincal rate coefficients.
-  //
-  void Reaction::get_MicroRateCoeffs(std::vector<double> &kmc) {
+//
+// Access microcanoincal rate coefficients.
+//
+void Reaction::get_MicroRateCoeffs(std::vector<double> &kmc) {
     calcGrnAvrgMicroRateCoeffs();
     kmc = m_GrainKfmc ;
-  }
+}
 
-  //
-  // Calculate grain averaged microcanonical rate coefficients.
-  //
-  bool Reaction::calcGrnAvrgMicroRateCoeffs() {
+//
+// Calculate grain averaged microcanonical rate coefficients.
+//
+bool Reaction::calcGrnAvrgMicroRateCoeffs() {
 
     // Calculate microcanonical rate coefficients.
     if (m_CellKfmc.size()==0)
     {
-      if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this, m_CellKfmc, m_Env) ||
-        (m_Env.microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_CellKfmc, m_ppPersist, m_Env)))
-        return false;
+        if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this, m_CellKfmc, m_Env) ||
+            (m_Env.microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_CellKfmc, m_ppPersist, m_Env)))
+            return false;
     }
 
     // Calculate Grain averages of microcanonical rate coefficients.
     if (m_GrainKfmc.size()==0)
-      return grnAvrgMicroRateCoeffs() ;
+        return grnAvrgMicroRateCoeffs() ;
     return true;
-  }
+}
 
-  //
-  // Access microcanonical rate coefficients - cell values are averaged
-  // to give grain values. This code is similar to that in Molecule.cpp
-  // and this averaging should be done there. SHR 19/Sep/2004.
-  //
-  bool Reaction::grnAvrgMicroRateCoeffs() {
+//
+// Access microcanonical rate coefficients - cell values are averaged
+// to give grain values. This code is similar to that in Molecule.cpp
+// and this averaging should be done there. SHR 19/Sep/2004.
+//
+bool Reaction::grnAvrgMicroRateCoeffs() {
 
     int MaximumGrain = m_Env.MaxGrn;
     double currentGrainSize = m_Env.GrainSize;
@@ -377,10 +384,8 @@ namespace mesmer
     // Check that there are enough cells.
 
     if (currentGrainSize < 1) {
-      {stringstream errorMsg;
-      errorMsg << "Not enought Cells to produce requested number of Grains.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);}
-      exit(1) ;
+        meErrorLog.ThrowError(__FUNCTION__, string("Not enought Cells to produce requested number of Grains."), obError);
+        exit(1) ;
     }
 
     int idx1 = 0 ;
@@ -388,57 +393,58 @@ namespace mesmer
 
     for (int i = 0; i < MaximumGrain ; ++i ) {
 
-      int idx3 = idx1 ;
+        int idx3 = idx1 ;
 
-      // Calculate the number of states in a grain.
+        // Calculate the number of states in a grain.
 
-      double gNOS = .0 ;
-      for (int j = 0 ; j < currentGrainSize ; ++j, ++idx1 )
-        gNOS += cellDOS[idx1] ;
+        double gNOS = .0 ;
+        for (int j = 0 ; j < currentGrainSize ; ++j, ++idx1 )
+            gNOS += cellDOS[idx1] ;
 
-      // Calculate average energy of the grain if it contains sum states.
-      // need to think about how to deal with DOS/ENE of atoms. (there should have no rovibrational DOS/ENE for atoms)
-      if ( gNOS > 0.0 ) {
+        // Calculate average energy of the grain if it contains sum states.
+        // need to think about how to deal with DOS/ENE of atoms. (there should 
+		// have no rovibrational DOS/ENE for atoms)
+        if ( gNOS > 0.0 ) {
 
-        double gSE = .0;
-        for (int j= 0 ; j < currentGrainSize ; ++j, ++idx3 )
-          gSE += m_CellKfmc[idx3] * cellDOS[idx3] ;
+            double gSE = .0;
+            for (int j= 0 ; j < currentGrainSize ; ++j, ++idx3 )
+                gSE += m_CellKfmc[idx3] * cellDOS[idx3] ;
 
-        m_GrainKfmc[idx2] = gSE/gNOS ;
-      }
-      idx2++ ;
+            m_GrainKfmc[idx2] = gSE/gNOS ;
+        }
+        idx2++ ;
     }
 
     // Issue warning if number of grains produced is less that requested.
     if ( idx2 != MaximumGrain ) {
-      {stringstream errorMsg;
-      errorMsg << "Number of grains produced is not equal to that requested" << endl
-               << "Number of grains requested: " << MaximumGrain << endl
-               << "Number of grains produced : " << idx2 << " in " << getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
+        {stringstream errorMsg;
+        errorMsg << "Number of grains produced is not equal to that requested" << endl
+            << "Number of grains requested: " << MaximumGrain << endl
+            << "Number of grains produced : " << idx2 << " in " << getName();
+        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
     }
     else{
-//      {stringstream errorMsg;
-//      errorMsg << "Number of grains requested: " << MaximumGrain << endl
-//               << "Number of grains produced : " << idx2 << " in " << getName();
-//      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+        //      {stringstream errorMsg;
+        //      errorMsg << "Number of grains requested: " << MaximumGrain << endl
+        //               << "Number of grains produced : " << idx2 << " in " << getName();
+        //      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
     }
     return true;
-  }
+}
 
-  //
-  // Add microcanonical terms to collision operator
-  //
-  void Reaction::AddMicroRates(dMatrix *CollOptr,
-                               isomerMap &isomermap,
-                               const double rMeanOmega)
-  {
+//
+// Add microcanonical terms to collision operator
+//
+void Reaction::AddMicroRates(dMatrix *CollOptr,
+                             isomerMap &isomermap,
+                             const double rMeanOmega)
+{
     // Calculate Microcanonical rate coefficients.
     calcGrnAvrgMicroRateCoeffs() ;
 
     // Add microcanonical rates to the collision operator.
     AddReactionTerms(CollOptr, isomermap, rMeanOmega) ;
-  }
+}
 
 
 }//namespace
