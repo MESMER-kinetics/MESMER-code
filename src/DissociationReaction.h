@@ -23,8 +23,7 @@ namespace mesmer
 
     // Constructors.
     DissociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
-      Reaction(pMoleculeManager, Env, id)
-      {m_reactiontype = DISSOCIATION ; } ;
+      Reaction(pMoleculeManager, Env, id){} ;
 
       // Destructor.
       ~DissociationReaction(){} ;

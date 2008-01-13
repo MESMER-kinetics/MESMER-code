@@ -23,8 +23,7 @@ namespace mesmer
 
         // Constructors.
         IsomerizationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
-          Reaction(pMoleculeManager, Env, id)
-          {m_reactiontype = ISOMERIZATION; } ;
+          Reaction(pMoleculeManager, Env, id){} ;
 
           // Destructor.
           ~IsomerizationReaction() {} ;

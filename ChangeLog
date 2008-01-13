@@ -1,6 +1,10 @@
 
 2008-1-13 Struan Robertson
 
+  * Elimination of the reaction type enumerated variable.
+
+2008-1-13 Struan Robertson
+
   * Declared method InitializeReaction virtual and re-implemented it for
     isomerization class.
 

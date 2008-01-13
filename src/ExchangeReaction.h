@@ -23,8 +23,7 @@ namespace mesmer
 
     // Constructors.
     ExchangeReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
-      Reaction(pMoleculeManager, Env, id)
-      {m_reactiontype = EXCHANGE ; } ;
+      Reaction(pMoleculeManager, Env, id){} ;
 
     // Destructor.
     ~ExchangeReaction(){} ;

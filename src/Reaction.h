@@ -22,20 +22,12 @@ namespace mesmer
 
   public:
 
-    // Type of reaction.
-    typedef enum ReactionType{ASSOCIATION,
-                              DISSOCIATION,
-                              ISOMERIZATION,
-                              EXCHANGE,
-                              ERROR_REACTION } ;
-
     typedef std::map<CollidingMolecule*, int> isomerMap ;
     typedef std::map<SuperMolecule*    , int> sourceMap ;
 
   protected:
     const MesmerEnv&   m_Env;
     std::string        m_Name ;             // Reaction name.
-	ReactionType       m_reactiontype ;     // Type of reaction.
     MoleculeManager   *m_pMoleculeManager ; // Pointer to molecule manager.
 
     //
@@ -128,10 +120,10 @@ namespace mesmer
     virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const = 0 ;
 
     // Product information:
-    SuperMolecule* get_bi_molecularspecies(void) const;
+	virtual SuperMolecule* get_bi_molecularspecies(void) const {return NULL ; } ;
 
     // Get the principal source reactant (i.e. reactant not in excess) if it exists.
-    ModelledMolecule *get_pseudoIsomer() const ;
+    virtual ModelledMolecule *get_pseudoIsomer(void) const {return NULL ; } ;
 
   } ;
 

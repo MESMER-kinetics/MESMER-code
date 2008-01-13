@@ -27,7 +27,6 @@ m_rct2(NULL),
 m_pdt1(NULL),
 m_pdt2(NULL),
 m_TransitionState(NULL),
-m_reactiontype(ERROR_REACTION),
 m_HeatOfReaction(0.0),
 m_kfwd(0.0),
 m_CellKfmc(),
@@ -272,30 +271,6 @@ bool Reaction::ReadRateCoeffParameters(PersistPtr ppReac) {
     }
 
 	return true ;
-}
-
-// Returns the bi-molecular speices (reactants) for association reaction.
-SuperMolecule* Reaction::get_bi_molecularspecies(void) const
-{
-    switch(m_reactiontype) {
-    case ASSOCIATION :
-        return m_srct;
-
-    default :
-        return NULL;
-    }
-    return NULL;
-}
-
-//
-// Get the prinincipal source reactant (i.e. reactant not in excess) if it exists.
-// (Not sure if this is a good idea, may be better to pass a Map in.)
-//
-ModelledMolecule *Reaction::get_pseudoIsomer() const
-{
-    ModelledMolecule *pseudoIsomer = NULL ;
-    if(m_reactiontype == ASSOCIATION) pseudoIsomer = m_pdt1 ;
-    return pseudoIsomer ;
 }
 
 //
