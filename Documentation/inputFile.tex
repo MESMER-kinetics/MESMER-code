@@ -1,0 +1,141 @@
+\section{Write a XML input file}\label{sec:InputFile}
+
+There are several ways to construct a XML input file for Mesmer. The quickest way is using OpenBabel and save it to a XML file that Mesmer can read. Of course, some editing work is unavoidable. To edit a XML file, the user needs a XML editor or if the user was familiar with XML notations, a normal editor capable of highlighting syntaxes would be ideal.
+
+Severl points need to be kept in mind while writing a XML document are summarised here. The first is that every tag can appear as a pair
+
+\begin{verbatim}
+<moleculeList>
+</moleculeList>
+\end{verbatim}
+
+or as a single tag element that ends itself
+
+\begin{verbatim}
+<molecule ref="acetylene" me:type="excessReactant" />
+\end{verbatim}
+
+where the first or the only tag has the capability to include descriptions within the angle-brackets. The descriptions inside the angle-brackets are shown in pairs with the right-hand-side description encapsulated by a pair of quotation marks \verb|"description"|, and each pair of the descriptions is bridged by an equivalent sign, `\verb|=|'. Besides, space characters are default separators inside the angle-brackets.
+
+Once there is a pair of tags, there can have inclusive tags, or simply values in between, which depends on what contents to be delivered. For example, in a reaction list
+
+{\footnotesize
+\begin{verbatim}
+<reactionList>
+    <reaction id="R1">
+        <reactant>
+            <molecule ref="OH" me:type="reactant" />
+        </reactant>
+        <me:transitionState>
+            <molecule ref="TS_1a" me:type="transitionState" />
+        </me:transitionState>
+        <me:excessReactantConc>1.00e17</me:excessReactantConc>
+    </reaction>
+</reactionList>
+\end{verbatim}
+}
+
+the tags are nested in various combinations so that they form dependent structures of elements. 
+
+%----------------------------------------------------------------------------------------
+\subsection{Major sections}\label{sec:MajorSectionsXML}
+%----------------------------------------------------------------------------------------
+
+There is such a sequence to construct a XML file for Mesmer:
+
+\begin{enumerate}
+\item  Starting the XML file by a standard XML initialization:
+\begin{verbatim}
+<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type='text/xsl' href='mesmer1.xsl'?>
+\end{verbatim}
+
+The first line here addresses itself, with certain xml version and encoding standard which is nothing to worry about. The second line describes where the XML reader (such as Internet Explorer or Firefox) should look for the information regarding how to display this XML file in the browser. 
+
+
+\item  The next thing to construct is the main element:
+
+{\footnotesize
+\begin{verbatim}
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+</me:mesmer>
+\end{verbatim}
+}
+
+Between these two `angle-bracketed' tags, lies everything that Mesmer requires:
+
+The major parts are 
+
+\begin{description}
+\item[Molecule list]{\verb|<moleculeList>| and \verb|</moleculeList>|}
+\item[Reaction list]{\verb|<reactionList>| and \verb|</reactionList>|}
+\item[Conditions]{\verb|<me:conditions>| and \verb|</me:conditions>|}
+\item[Model parameters]{\verb|<me:modelParameters>| and \verb|</me:modelParameters>|}
+\end{description}
+
+The reason of the final two elements to be prefixed by `\verb|me:|' is because these reaction conditions and simulation properties are especially for the use in Mesmer. 
+\end{enumerate}
+
+Detail of each element depends on each application, as the program is still under construction, it is not favourable to write down each of the rules explicitedly in this document yet. However, some essential parameters are summarized in the next section. Examples of writing XML input file can also be found in the folder \verb|\trunk\MesmerQA|. 
+
+%----------------------------------------------------------------------------------------
+\subsection{Check list}\label{sec:CheckListXML}
+%----------------------------------------------------------------------------------------
+
+To write a XML input file from scratch, one needs to have in mind what information is necessary and what is optional.
+
+%----------------------------------------------------------------------------------------
+\subsubsection{Molecule List}\label{sec:moleculeList}
+%----------------------------------------------------------------------------------------
+
+In this section, the first part of the tags are \verb|atomarray| and \verb|bondarray|. The simplest case is OH radical:
+
+\begin{verbatim}
+<atomarray>
+    <atom id="a1" elementType="O" />
+    <atom id="a2" elementType="H" />
+</atomarray>
+<bondarray>
+    <bond atomRefs2="a1 a2" order="1" />
+</bondarray>
+\end{verbatim}
+
+No matter how many times a molecule appears in different reactions, it will be only referred once in a Mesmer XML. Each molecule has a unique name in the file and it is better be brief and meaningful for the ease of identification. This part of description is not essential for Mesmer, but it is useful for user to understand the basic geometrical information of the molecule.
+
+The second part of the tags is \verb|propertyList|. A propertyList 
+
+{\footnotesize
+\begin{verbatim}
+<propertyList>
+    <property dictRef="me:ZPE">
+        <scalar units="kcal/mol">0.0</scalar>
+    </property>
+    <property dictRef="me:rotConsts">
+        <array units="cm-1">0.32031 0.36452 2.64058</array>
+    </property>
+    <property dictRef="me:symmetryNumber">
+        <scalar>1</scalar>
+    </property>
+    <property dictRef="me:vibFreqs">
+        <array units="cm-1">464.0 474.0 567.0 770.0 848.0 1099.0 1244.
+        0 1354.0 1667.0 3101.0 3300.0 3797.0</array>
+    </property>
+    <property dictRef="me:MW">
+        <scalar>43</scalar>
+    </property>
+    <property dictRef="me:epsilon">
+        <scalar>250.0</scalar>
+    </property>
+    <property dictRef="me:sigma">
+        <scalar>5.0</scalar>
+    </property>
+    <property dictRef="me:deltaEDown">
+        <scalar units="cm-1">250.0</scalar>
+    </property>
+    <property dictRef="me:spinMultiplicity">
+        <scalar>2</scalar>
+    </property>
+</propertyList>
+\end{verbatim}
+
+}

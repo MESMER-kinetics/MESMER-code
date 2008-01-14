@@ -11,7 +11,7 @@ namespace mesmer
   bool MicroRateCalculator::testMicroRateCoeffs(Reaction*         pReact,
                                                 vector<double> &cellKfmc,
                                                 PersistPtr        ppbase,
-                                                const MesmerEnv    &m_Env) const
+                                                const MesmerEnv    &Env) const
   {
     vector<ModelledMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
@@ -28,8 +28,8 @@ namespace mesmer
 
     // Allocate some work space for density of states.
 
-    vector<double> CellEne(m_Env.MaxCell,0.0) ;
-    vector<double> cellDOS(m_Env.MaxCell,0.0) ;
+    vector<double> CellEne(Env.MaxCell,0.0) ;
+    vector<double> cellDOS(Env.MaxCell,0.0) ;
 
     pReactant->getCellEnergies(CellEne) ;
     pReactant->getCellDensityOfStates(cellDOS) ;
@@ -41,7 +41,7 @@ namespace mesmer
 
       double sm1 = 0.0, sm2 = 0.0, tmp = 0.0;
 
-      for ( int i = 0 ; i < m_Env.MaxCell ; ++i ) {
+      for ( int i = 0 ; i < Env.MaxCell ; ++i ) {
         tmp  = cellDOS[i] * exp(-beta * CellEne[i]) ;
         sm1 += cellKfmc[i] * tmp ;
         sm2 +=           tmp ;

@@ -1,89 +1,77 @@
-Mesmer v0.1 compiled: -- Dec 18 2007 -- 17:38:52
+Mesmer v0.1 compiled: -- Jan 14 2008 -- 13:26:51
 
 Parsing input xml file... 
 
-pentyl_isomerization.xml at 20071229_152246
+pentyl_isomerization.xml at 20080114_145208
  *Info in mesmer::ModelledMolecule::InitializeMolecule
-ModelledMolecule::Cannot find argument me:eletronicExcitation for ModelledMolecule n-pentyl
+Cannot find argument me:eletronicExcitation for n-pentyl
   **Warning in mesmer::ModelledMolecule::InitializeMolecule
-No method for the calculation of DOS in ModelledMoleculen-pentyl is provided. Default method <Classical rotors> is used.
+No method for the calculation of DOS in n-pentyl is provided. Default method <Classical rotors> is used.
   **Warning in mesmer::ModelledMolecule::InitializeMolecule
-ModelledMolecule::Cannot find argument me:spinMultiplicity. Default value 1 is used.
- *Info in mesmer::Reaction::InitializeReaction
-Reaction R1 has only one reactant
+Cannot find argument me:spinMultiplicity in n-pentyl. Default value 1 is used.
  *Info in mesmer::ModelledMolecule::InitializeMolecule
-ModelledMolecule::Cannot find argument me:eletronicExcitation for ModelledMolecule 2-pentyl
+Cannot find argument me:eletronicExcitation for 2-pentyl
   **Warning in mesmer::ModelledMolecule::InitializeMolecule
-No method for the calculation of DOS in ModelledMolecule2-pentyl is provided. Default method <Classical rotors> is used.
+No method for the calculation of DOS in 2-pentyl is provided. Default method <Classical rotors> is used.
   **Warning in mesmer::ModelledMolecule::InitializeMolecule
-ModelledMolecule::Cannot find argument me:spinMultiplicity. Default value 1 is used.
+Cannot find argument me:spinMultiplicity in 2-pentyl. Default value 1 is used.
  *Info in mesmer::ModelledMolecule::InitializeMolecule
-ModelledMolecule::Cannot find argument me:eletronicExcitation for ModelledMolecule n-pentyl=TS=2-pentyl
+Cannot find argument me:eletronicExcitation for n-pentyl=TS=2-pentyl
   **Warning in mesmer::ModelledMolecule::InitializeMolecule
-No method for the calculation of DOS in ModelledMoleculen-pentyl=TS=2-pentyl is provided. Default method <Classical rotors> is used.
+No method for the calculation of DOS in n-pentyl=TS=2-pentyl is provided. Default method <Classical rotors> is used.
   **Warning in mesmer::ModelledMolecule::InitializeMolecule
-ModelledMolecule::Cannot find argument me:spinMultiplicity. Default value 1 is used.
+Cannot find argument me:spinMultiplicity in n-pentyl=TS=2-pentyl. Default value 1 is used.
  *Info in mesmer::System::parse
-Number of concentration points: 1, number of pressure points: 0
-pentyl_isomerization.xml successfully parsed. Calculate EGME at 20071229_152250
+Number of concentration points: 1
+Number of      pressure points: 0
+pentyl_isomerization.xml successfully parsed. Calculate EGME at 20080114_145208
+
 Now calculating...
 
  *Info in mesmer::System::SetGrainParams
 Cell number = 50800, Grain number = 508
  *Info in mesmer::System::WriteMetadata
-Write XML attribute at 20071229_152250
+Write XML attribute at 20080114_145208
  *Info in mesmer::System::calculate
 Precision: Double
  *Info in mesmer::System::calculate
-Build Collison Matrix at 20071229_152250
- *Info in mesmer::ClassicalRotor::countMonomerCellDOS
-Number of frequencies: 42
+Build Collison Operator at 20080114_145208
   **Warning in mesmer::ModelledMolecule::getSpinMultiplicity
 m_SpinMultiplicity was not defined but requested in n-pentyl. Default value 1 is given.
  *Info in mesmer::XMLPersist::XmlWriteMainElement
-Record calculated data at 20071229_152253
+Record calculated data at 20080114_145209
  *Info in mesmer::CollidingMolecule::collisionFrequency
 Collision frequency of n-pentyl is 0.0539959
- *Info in mesmer::CollidingMolecule::collisionOperator
-alpha = 0.00434783, m_DeltaEdown = 230
- *Info in mesmer::ClassicalRotor::countMonomerCellDOS
-Number of frequencies: 42
   **Warning in mesmer::ModelledMolecule::getSpinMultiplicity
 m_SpinMultiplicity was not defined but requested in 2-pentyl. Default value 1 is given.
  *Info in mesmer::XMLPersist::XmlWriteMainElement
-Record calculated data at 20071229_152256
+Record calculated data at 20080114_145212
  *Info in mesmer::CollidingMolecule::collisionFrequency
 Collision frequency of 2-pentyl is 0.0539959
- *Info in mesmer::CollidingMolecule::collisionOperator
-alpha = 0.00434783, m_DeltaEdown = 230
  *Info in mesmer::ReactionManager::BuildSystemCollisionOperator
 Size of the collision matrix: 1009
- *Info in mesmer::ClassicalRotor::countMonomerCellDOS
-Number of frequencies: 41
   **Warning in mesmer::ModelledMolecule::getSpinMultiplicity
 m_SpinMultiplicity was not defined but requested in n-pentyl=TS=2-pentyl. Default value 1 is given.
  *Info in mesmer::XMLPersist::XmlWriteMainElement
-Record calculated data at 20071229_152259
+Record calculated data at 20080114_145215
  *Info in mesmer::System::calculate
-Diagonlize Collision Operator at 20071229_152300 -- Time elapsed: 0 seconds.
+Diagonlize Collision Operator at 20080114_145216 -- Time elapsed: 0 seconds.
  *Info in mesmer::ReactionManager::diagCollisionOperator
 Size of the collision operator = 1009
- *Info in mesmer::ReactionManager::diagCollisionOperator
-Printing the first ten eigen values
  *Info in mesmer::System::calculate
 
-Finish Calculation at 20071229_152339 -- Time elapsed: 10 seconds.
+Finish Calculation at 20080114_145301 -- Time elapsed: 8 seconds.
  *Info in mesmer::System::calculate
 
 Time stamps:
-20071229_152250 -- Build Collison Matrix
-20071229_152300 -- Diagonlize Collision Operator
-20071229_152339 -- Finish Calculation
-System saved to pentyl_isomerization.20071229_152339.xml
+20080114_145208 -- Build Collison Operator
+20080114_145216 -- Diagonlize Collision Operator
+20080114_145301 -- Finish Calculation
+System saved to pentyl_isomerization.20080114_145301.xml
  *Info in mesmer::CollidingMolecule::~CollidingMolecule
 m_DeltaEdown is provided but not used in 2-pentyl
  *Info in mesmer::CollidingMolecule::~CollidingMolecule
 m_DeltaEdown is provided but not used in n-pentyl
  *Info in mesmer::Molecule::~Molecule
 m_Mass is provided but not used in n-pentyl=TS=2-pentyl
-Save XML document to a new file at .20071229_152339 -- Time elapsed: 49 seconds.
+Save XML document to a new file at 20080114_145301 -- Time elapsed: 53 seconds.

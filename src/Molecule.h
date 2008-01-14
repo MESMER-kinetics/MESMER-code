@@ -37,11 +37,11 @@ namespace mesmer
 
     // CHECK FOR INPUTFILE PARAMETERS
     // for these check values, initially the values are given -1. If not provided by user the value will remain as -1.
-    // If provided by the user the value will be increased to 0. 
+    // If provided by the user the value will be increased to 0.
     // During calcualtion, every inputfile parameter if called by any function, the class will check if the parameter
     // is provided. If it is provided, the chk value will increase by 1. So if a chk value is 9, it is asked for 9 times.
     // However, if the user did not provide the value and the values is asked. The program will stop and report error.
-    // Values with obvious default values are also accounted in this check but the program will not exit; only 
+    // Values with obvious default values are also accounted in this check but the program will not exit; only
     // warning message will be given.
     //================================================
     int m_Mass_chk;
@@ -62,51 +62,18 @@ namespace mesmer
     PersistPtr  getPersistentPointer()     { return m_ppPersist;};
     void setPersistentPointer(PersistPtr value){m_ppPersist = value;}
     std::string getName() const            { return m_Name ; } ;
-    const MesmerEnv& getEnv() const        { return m_Env; } 
+    const MesmerEnv& getEnv() const        { return m_Env; }
 
     int    getFlag()                       { return m_flag; } ;
-    double getMass()                       {
-      if (m_Mass_chk >= 0){
-        ++m_Mass_chk;
-        return m_Mass ;
-      }
-      else{
-        stringstream errorMsg;
-        errorMsg << "m_Mass was not defined but requested in " << getName();
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
-        exit(1);
-      }
-    } ;
-    double getSigma()                      {
-      if (m_Sigma_chk >= 0){
-        ++m_Sigma_chk;
-        return m_Sigma ;
-      }
-      else{
-        stringstream errorMsg;
-        errorMsg << "m_Sigma was not defined but requested in " << getName();
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
-        exit(1);
-      }
-    } ;
-    double getEpsilon()                    {
-      if (m_Epsilon_chk >= 0){
-        ++m_Epsilon_chk;
-        return m_Epsilon ;
-      }
-      else{
-        stringstream errorMsg;
-        errorMsg << "m_Epsilon was not defined but requested in " << getName();
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
-        exit(1);
-      }
-    } ;
+    double getMass() ;
+    double getSigma() ;
+    double getEpsilon() ;
 
     void   setName(string name)            { m_Name = name; } ;
     void   setFlag(bool value)             { if (value) ++m_flag; } ;
-    void   setMass(double value)           { m_Mass = value; m_Mass_chk = 0;} ;
-    void   setSigma(double value)          { m_Sigma = value; m_Sigma_chk = 0;} ;
-    void   setEpsilon(double value)        { m_Epsilon = value; m_Epsilon_chk = 0;} ;
+    void   setMass(double value);
+    void   setSigma(double value);
+    void   setEpsilon(double value);
   };
 
   //**************************************************
@@ -136,6 +103,7 @@ namespace mesmer
     DensityOfStatesCalculator *m_pDensityOfStatesCalculator ;
 
     //================================================
+    // CHECK FOR INPUTFILE PARAMETERS
     int m_RC_chk;
     int m_Sym_chk;
     int m_ZPE_chk;
@@ -188,76 +156,21 @@ namespace mesmer
     bool calcDensityOfStates();
 
     // Accessors.
-    double get_zpe() { 
-      if (m_ZPE_chk == -1){
-        stringstream errorMsg;
-        errorMsg << "m_ZPE was not defined but requested in " << getName() << ". Default value " << m_ZPE << " is given.";
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
-        --m_ZPE_chk;
-        return m_ZPE;
-      }
-      else if (m_ZPE_chk < -1){
-        --m_ZPE_chk;
-        return m_ZPE;
-      }
-      ++m_ZPE_chk;
-      return m_ZPE ; 
-    }
-    void set_zpe(double value) { m_ZPE = value; }
-    double get_Sym(void){
-      if (m_Sym_chk == -1){
-        stringstream errorMsg;
-        errorMsg << "m_Sym was not defined but requested in " << getName() << ". Default value " << m_Sym << " is given.";
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
-        --m_Sym_chk;
-        return m_Sym;
-      }
-      else if (m_Sym_chk < -1){
-        --m_Sym_chk;
-        return m_Sym;
-      }
-      ++m_Sym_chk;
-      return m_Sym ;
-    }
+    double get_zpe();
+    void set_zpe(double value);
+    double get_Sym(void);
     int test_rotConsts(void);
     int  get_rotConsts(std::vector<double> &mmtsInt);
     void set_grnZpe(int grnZpe) {m_grnZpe = grnZpe ;} ;
     int  get_grnZpe() const {return m_grnZpe ;} ;
-
-    void get_VibFreq(std::vector<double>& vibFreq){
-      vibFreq.clear();
-      if (m_VibFreq_chk >=0){
-        vibFreq.assign(m_VibFreq.begin(), m_VibFreq.end());
-        ++m_VibFreq_chk;
-      }
-    }
-    
-    void set_VibFreq(std::vector<double>& vibFreq, bool addition = false){
-      if (addition){
-        for (std::vector<double>::size_type i = 0; i < vibFreq.size(); ++i) m_VibFreq.push_back(vibFreq[i]);
-      }
-      else{
-        m_VibFreq.clear();
-        m_VibFreq.assign(vibFreq.begin(), vibFreq.end());
-      }
-    }
+    void get_VibFreq(std::vector<double>& vibFreq);
+    void set_VibFreq(std::vector<double>& vibFreq, bool addition = false);
 
     DensityOfStatesCalculator* get_DensityOfStatesCalculator(){return m_pDensityOfStatesCalculator;}
     void set_DensityOfStatesCalculator(DensityOfStatesCalculator* value){m_pDensityOfStatesCalculator = value;}
 
-    int getSpinMultiplicity()              {
-      if (m_SpinMultiplicity_chk >= 0){
-        ++m_SpinMultiplicity_chk;
-        return m_SpinMultiplicity ;
-      }
-      else{
-        stringstream errorMsg;
-        errorMsg << "m_SpinMultiplicity was not defined but requested in " << getName() << ". Default value " << m_SpinMultiplicity << " is given.";
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
-        return m_SpinMultiplicity;
-      }
-    }
-    void   setSpinMultiplicity(int value)  { m_SpinMultiplicity = value; }
+    int getSpinMultiplicity();
+    void   setSpinMultiplicity(int value);
 
     // Calculate the average grain energy and then number of states per grain.
     void calcGrainAverages() ;
@@ -292,6 +205,7 @@ namespace mesmer
     int                 m_ncolloptrsize ;      // Size of the collision operator matrix.
 
     //================================================
+    // CHECK FOR INPUTFILE PARAMETERS
     int m_DeltaEdown_chk;
     //================================================
 
@@ -304,16 +218,13 @@ namespace mesmer
 
   public:
     CollidingMolecule(const MesmerEnv& Env);
-    ~CollidingMolecule();
+    virtual ~CollidingMolecule();
 
     // Initialize CollidingMolecule.
     virtual bool InitializeMolecule(PersistPtr ppp);
 
     // Initialize the Collision Operator.
     bool initCollisionOperator(double beta, Molecule *pBathGasMolecule) ;
-
-    // Diagonalize the Collision Operator. See ReactionManager::diagCollisionOperator()
-    //void diagCollisionOperator() ;
 
     // Calculate a reaction matrix element.
     double matrixElement(int eigveci, int eigvecj, std::vector<double> &k, int ndim) ;
@@ -324,18 +235,8 @@ namespace mesmer
     double get_collisionFrequency() const { return m_collisionFrequency ;} ;
     void set_colloptrsize(int ncolloptrsize) {m_ncolloptrsize = ncolloptrsize ;} ;
     int  get_colloptrsize() const {return m_ncolloptrsize ;} ;
-    double get_deltaEDown()       {
-      if (m_DeltaEdown_chk >= 0){
-        ++m_DeltaEdown_chk;
-        return m_DeltaEdown ;
-      }
-      else{
-        stringstream errorMsg;
-        errorMsg << "m_DeltaEdown was not defined but requested in " << getName() << ". Default value " << m_DeltaEdown << " is given.";
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
-        return m_DeltaEdown;
-      }
-    }
+    void   setDeltaEdown(double value);
+    double getDeltaEdown();
   };
 
   // class representing pair of molecules participating one association reaction
@@ -356,15 +257,7 @@ namespace mesmer
     // Accessors.
 
     // set composing member of the SuperMolecule, also copy necessary properties
-    void setMembers(ModelledMolecule* mol1p, ModelledMolecule* mol2p){
-      m_mol1 = mol1p; std::vector<double> vfMol1; m_mol1->get_VibFreq(vfMol1);
-      m_mol2 = mol2p; std::vector<double> vfMol2; m_mol2->get_VibFreq(vfMol2);
-      set_VibFreq(vfMol1);
-      set_VibFreq(vfMol2, true);
-      set_zpe(m_mol1->get_zpe() + m_mol2->get_zpe());
-      setSpinMultiplicity(m_mol1->getSpinMultiplicity() + m_mol2->getSpinMultiplicity());
-      set_DensityOfStatesCalculator(m_mol1->get_DensityOfStatesCalculator());
-    }
+    void setMembers(ModelledMolecule* mol1p, ModelledMolecule* mol2p);
 
     ModelledMolecule* getMember1(){ return m_mol1;}
     ModelledMolecule* getMember2(){ return m_mol2;}

@@ -122,7 +122,7 @@ namespace mesmer
     else{
       stringstream errorMsg;
       errorMsg << "Number of concentration points: " << Concentrations.size()
-               << ", number of pressure points: " << Pressures.size();
+               << "\nNumber of      pressure points: " << Pressures.size();
       meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
@@ -130,6 +130,15 @@ namespace mesmer
     if(ppControl)
     {
       m_Env.microRateEnabled = ppControl->XmlReadBoolean("me:testMicroRates");
+      m_Env.grainDOSEnabled = ppControl->XmlReadBoolean("me:printGrainDOS");
+      m_Env.cellDOSEnabled = ppControl->XmlReadBoolean("me:printCellDOS");
+      m_Env.collisionOCSEnabled = ppControl->XmlReadBoolean("me:printCollisionOperatorColumnSums");
+      m_Env.kECellsEnabled = ppControl->XmlReadBoolean("me:printCellkE");
+      const char* txt = ppControl->XmlReadValue("me:eigenvalues",false);
+      if(txt) { 
+        istringstream ss(txt); 
+        ss >> m_Env.printEigenValuesNum; 
+      }
     }
 
     return true;
@@ -167,7 +176,7 @@ namespace mesmer
         // Build collison matrix for system.
         m_pReactionManager->BuildSystemCollisionOperator(beta, m_Env) ;
 
-        m_pReactionManager->diagCollisionOperator() ;
+        m_pReactionManager->diagCollisionOperator(m_Env) ;
       }
     }
     */
@@ -196,7 +205,7 @@ namespace mesmer
     // Build collison matrix for system.
     {
       stringstream errorMsg;
-      string thisEvent = "Build Collison Matrix";
+      string thisEvent = "Build Collison Operator";
       errorMsg << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
       meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
@@ -213,7 +222,7 @@ namespace mesmer
       errorMsg << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
       meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
-    m_pReactionManager->diagCollisionOperator() ;
+    m_pReactionManager->diagCollisionOperator(m_Env) ;
 
     {
       stringstream errorMsg;
@@ -238,7 +247,7 @@ namespace mesmer
     // for (int i(0) ; i < MAXCELL ; i++)
     //     kmc[i] /= omega ;
 
-    pmolecule->diagCollisionOperator() ;
+    pmolecule->diagCollisionOperator(m_Env) ;
 
     // Calculate matrix elements
 

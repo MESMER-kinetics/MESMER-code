@@ -32,7 +32,7 @@ namespace mesmer
     const double Keq = calcEquilibriumConstant() ;
 
     // Get Boltzmann distribution for detailed balance.
-    const int MaximumGrain = m_Env.MaxGrn ;
+    const int MaximumGrain = getEnv().MaxGrn ;
     vector<double> adductBoltz(MaximumGrain, 0.0) ;
     m_pdt1->grnBoltzDist(adductBoltz) ;
 

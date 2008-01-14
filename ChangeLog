@@ -1,3 +1,22 @@
+_2008_01_14__16_48_41_ Chi-Hsiu Liang
+
+  * Modified Mesmer.dvi, Mesmer.tex. 
+  * Corrected OH_acetylene_association.xml. Updated OH_acetylene_association baseline.
+  * Added several control sequence printing values. See MesmerEnv.h for additional control flags.
+    Printing: 
+      grain density of states
+      cell density of states
+      collision operator column sums
+      cell k(e)'s
+      number of eigenvalues being printed
+    Also, values are enclosed by braces, easier for copying and comparing.
+  * Moved some longer definitions of accessors in Molecule.h to Molecule.cpp
+  * Note: There should have a complaint over missing parameter on epsilon and sigma from HSO2, but the program will run with
+          default values. (Need to give correct values.)
+  * Updated pentyl and HSO2 baselines. HSO2 baseline does not change but pentyl baseline change because of the rounding 
+    difference between two versions. There are three differences on ClassicalRotor.cpp. also for the electron excitation 
+    energy. Another difference is on the starting count of electron excitation energy.
+  * Other minor modifications.
 
 2008-1-13 Struan Robertson
 

@@ -10,7 +10,7 @@ namespace mesmer
   SimpleRRKM theSimpleRRKM("Simple RRKM");
   //************************************************************
 
-  bool SimpleRRKM::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc, const MesmerEnv &m_Env)
+  bool SimpleRRKM::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc, const MesmerEnv &Env)
   {
     vector<ModelledMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
@@ -26,19 +26,19 @@ namespace mesmer
     }
 
     // Allocate space to hold Micro-canonical rate coefficients.
-    cellKfmc.resize(m_Env.MaxCell);
+    cellKfmc.resize(Env.MaxCell);
 
     // Initialize microcanoincal rate coefficients.
 
     int i, j ;
-    for (i = 0 ; i < m_Env.MaxCell ; ++i ) {
+    for (i = 0 ; i < Env.MaxCell ; ++i ) {
         cellKfmc[i] = 0.0 ;
     }
 
     // Allocate some work space for density of states.
 
-    vector<double> TScellDOS(m_Env.MaxCell,0.0) ; // Transistion state density of states.
-    vector<double> cellDOS(m_Env.MaxCell,0.0) ; // Density of states of equilibrium molecule.
+    vector<double> TScellDOS(Env.MaxCell,0.0) ; // Transistion state density of states.
+    vector<double> cellDOS(Env.MaxCell,0.0) ; // Density of states of equilibrium molecule.
 
     // Extract densities of states from molecules.
 
@@ -47,7 +47,7 @@ namespace mesmer
 
     double SumOfStates  = 0.0 ;
     int thresholdEnergy = int((pTS->get_zpe() - pReactant->get_zpe()) * KcalPerMolToRC) ;
-    for (i = thresholdEnergy, j = 0 ; i < m_Env.MaxCell ; ++i, ++j ) {
+    for (i = thresholdEnergy, j = 0 ; i < Env.MaxCell ; ++i, ++j ) {
 
         // Integrate transition state density of states.
 

@@ -16,7 +16,7 @@ namespace mesmer
   
     virtual ~SimpleRRKM() {}
   
-    virtual bool calculateMicroRateCoeffs(Reaction* pReact, std::vector<double> &cellKfmc, const MesmerEnv &m_Env);
+    virtual bool calculateMicroRateCoeffs(Reaction* pReact, std::vector<double> &cellKfmc, const MesmerEnv &Env);
   };
 }//namespace
 

@@ -51,7 +51,7 @@ namespace mesmer
     double   _ainf        = pReact->get_PreExp();
     double   _einf        = pReact->get_ActivationEnergy();
     double   _tinf        = 1. / (boltzmann_RCpK * mEnv.beta);
-    double   C_prime      = 3.24331e+20; // pow((2 * pi / (h * h)), 1.5)  not sure?? CHL
+    double   C_prime      = 3.24331e+20; // will explain this later. _2008_01_11__13_48_51_
     //-----------------
 
     SuperMolecule*              p_rcts = NULL;
@@ -71,12 +71,12 @@ namespace mesmer
     ModelledMolecule*  p_rct2 = p_rcts->getMember2();
 
     // Get molecular specific values
-    double edg_a = static_cast<double>(p_pdt1->getSpinMultiplicity());
-    double edg_b = static_cast<double>(p_rct1->getSpinMultiplicity());
-    double edg_c = static_cast<double>(p_rct2->getSpinMultiplicity());
-    double ma = p_pdt1->getMass();
-    double mb = p_rct1->getMass();
-    double mc = p_rct2->getMass();
+    double edg_a = static_cast<double>(p_rct1->getSpinMultiplicity());
+    double edg_b = static_cast<double>(p_rct2->getSpinMultiplicity());
+    double edg_c = static_cast<double>(p_pdt1->getSpinMultiplicity());
+    double ma = p_rct1->getMass();
+    double mb = p_rct2->getMass();
+    double mc = p_pdt1->getMass();
 
     // Allocate some work space for density of states and extract densities of states from molecules.
     vector<double> pdt1CellDOS(mEnv.MaxCell,0.0) ; // Cell density of states of      product molecule.
@@ -91,9 +91,23 @@ namespace mesmer
 
 
     // Allocate space to hold Micro-canonical rate coefficients.
-    cellKfmc.resize(mEnv.MaxCell); // no need to initialize
+    cellKfmc.resize(mEnv.MaxCell, 0.0); // no need to initialize
 
-    int activ_ene = 0;
+    long double _gamma = (MesmerHP) MesmerGamma(_ninf + 1.5);
+    long double _ant = _ainf * C_prime * (edg_a * edg_b / edg_c) * pow( ( ma * mb / mc), 1.5 ) / _gamma;
+    if (0) ctest << "_ant before division = " << _ant << endl;
+    _ant /= (pow((_tinf * boltzmann_RCpK), _ninf));
+
+    if (0)
+      ctest << "_ainf = " << _ainf << ", _einf = " << _einf << ", _ninf = " << _ninf << ", _tinf = " << _tinf << endl;
+
+    if (0)
+      ctest << "edg_a = " << edg_a << ", edg_b = " << edg_b
+            << ", edg_c = " << edg_c << ", ma = " << ma << ", mb = " << mb
+            << ", mc = " << mc << ", _gamma = " << _gamma << endl;
+
+
+    int activ_ene(0);
     if(IsNan(_einf))
     {
       stringstream errorMsg;
@@ -103,13 +117,12 @@ namespace mesmer
       return false;
     }
     else{
-      // Conversion of EINF from kcal.mol^-1 to cm^-1
-      activ_ene = int(_einf * KcalPerMolToRC) ;
+      // Conversion of EINF from kiloJoule.mol^-1 to cm^-1
+      activ_ene = int((_einf + p_rct1->get_zpe() + p_rct2->get_zpe()) * kJPerMolInRC);
     }
 
-    double _gamma = (MesmerHP) MesmerGamma(_ninf + 1.5);
-    long double _ant = _ainf * C_prime * (edg_a * edg_b / edg_c) * pow( ( ma * mb / mc), 1.5 ) / _gamma;
-    _ant /= (pow((_tinf * boltzmann_RCpK), _ninf));
+    if (0)
+      ctest << "activ_ene = " << activ_ene << ", _ant = " << _ant << endl;
 
     vector<double> work(mEnv.MaxCell);
     vector<double> conv(mEnv.MaxCell);
@@ -119,13 +132,20 @@ namespace mesmer
       work[i] = pow(pdt1CellEne[i], pwr);
     }
 
-    DOSconvolution(work, pdt1CellDOS, conv);
+    DOSconvolution(work, rctsCellDOS, conv);
 
-    for (int i = 0; i < activ_ene; ++i)  cellKfmc[i] = 0.;
     for (int i = 0; i < (mEnv.MaxCell - activ_ene); ++i){
-      cellKfmc[i + activ_ene] = _ant * conv[i] / rctsCellDOS[i + activ_ene];
-      //ctest << "cellKfmc[" << i + activ_ene << "] = " << cellKfmc[i + activ_ene] << endl;
+      cellKfmc[i + activ_ene] = _ant * conv[i] / pdt1CellDOS[i + activ_ene];
     }
+
+    if (mEnv.kECellsEnabled){
+      ctest << "\nk(e) cells:\n{\n";
+      for (int i = 0; i < mEnv.MaxCell; ++i){
+        ctest << cellKfmc[i] << endl;
+      }
+      ctest << "}\n";
+    }
+
 
     {stringstream errorMsg;
     errorMsg << "MesmerILT calculation completed";

@@ -242,4 +242,13 @@
     <me:maxTemperature>3000</me:maxTemperature>
   </me:modelParameters>
 
+    <me:control>
+        <!--<me:testMicroRates />-->
+        <!--<me:printGrainDOS />-->
+        <!--<me:printCellDOS />-->
+        <me:printCollisionOperatorColumnSums />
+        <!--<me:printCellkE />-->
+        <!--<me:eigenvalues>0</me:eigenvalues>-->
+    </me:control>
+
     </me:mesmer>

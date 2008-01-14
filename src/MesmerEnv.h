@@ -19,7 +19,12 @@ namespace mesmer
     double EMin, EMax; // The absolute lowest and highest energies in the system, cm-1
 
     bool   microRateEnabled;  // Whether to output microcanonical rate coefficients
+    bool   grainDOSEnabled;   // Enabled printing grain DOS
+    bool   cellDOSEnabled;   // Enabled printing cell DOS
+    bool   collisionOCSEnabled; // Enabled printing collision operator column Sums
+    bool   kECellsEnabled;    // Enabled printing k(E) cells
     double EAboveWell; //Max energy above the highest well [was 10kT]
+    int printEigenValuesNum; // number of eigen values to be printed: -1 for all of them, otherwise specified.
   };
 }//namespace
 

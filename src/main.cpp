@@ -129,16 +129,16 @@ int main(int argc,char *argv[])
 
   if(nocalc)
     return 0;
-  cerr << "Now calculating..." << endl;
+  cerr << "\nNow calculating..." << endl;
   _sys.calculate() ;
 
   meErrorLog.SetContext(__FUNCTION__);
   //--------------------------------
   // Save XML document to a new file
   string thisEvent = "Save XML document to a new file";
-  string saveTimeStamp = '.' + events.setTimeStamp(thisEvent, timeElapsed);
-  cinfo << thisEvent << " at " << saveTimeStamp  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
-
+  string currentTimeStamp = events.setTimeStamp(thisEvent, timeElapsed);
+  string saveTimeStamp = '.' + currentTimeStamp;
+  cinfo << thisEvent << " at " << currentTimeStamp  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
 
   if(!usecout && outfilename.empty() && !infilename.empty())
   {

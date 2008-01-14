@@ -92,13 +92,13 @@ namespace mesmer
     vector<double> vfMol1; p_mol1->get_VibFreq(vfMol1);
     vector<double> vfMol2; p_mol2->get_VibFreq(vfMol2);
     for (vector<double>::size_type i = 0; i < vfMol1.size(); ++i){
-      int nFreq = static_cast<int>(vfMol1[i] + 0.5);
+      int nFreq = static_cast<int>(vfMol1[i]);
       for (int j = 0; j < (mEnv.MaxCell - nFreq); ++j){
         dimerCellDOS[nFreq + j] += dimerCellDOS[j];
       }
     }
     for (vector<double>::size_type i = 0; i < vfMol2.size(); ++i){
-      int nFreq = static_cast<int>(vfMol2[i] + 0.5);
+      int nFreq = static_cast<int>(vfMol2[i]);
       for (int j = 0; j < (mEnv.MaxCell - nFreq); ++j){
         dimerCellDOS[nFreq + j] += dimerCellDOS[j];
       }
@@ -110,17 +110,17 @@ namespace mesmer
     p_mol2->getEleExcitation(eleExc2);
     if (!eleExc1.empty()){
       for (int j = 0; j < static_cast<int>(eleExc1.size()); ++j){
-        int iele = static_cast<int>(eleExc1[j]+.5);
-        for (int i = (mEnv.MaxCell - 1); i >= iele; --i){
-          dimerCellDOS[i] += dimerCellDOS[i - iele];
+        int iele = static_cast<int>(eleExc1[j]);
+        for (int i = (mEnv.MaxCell - 1); i >= (iele - 1); --i){
+          dimerCellDOS[i] += dimerCellDOS[i - iele +1];
         }
       }
     }
     if (!eleExc2.empty()){
       for (int j = 0; j < static_cast<int>(eleExc2.size()); ++j){
-        int iele = static_cast<int>(eleExc2[j]+.5);
-        for (int i = (mEnv.MaxCell - 1); i >= iele; --i){
-          dimerCellDOS[i] += dimerCellDOS[i - iele];
+        int iele = static_cast<int>(eleExc2[j]);
+        for (int i = (mEnv.MaxCell - 1); i >= (iele - 1); --i){
+          dimerCellDOS[i] += dimerCellDOS[i - iele + 1];
         }
       }
     }
@@ -135,7 +135,7 @@ namespace mesmer
   {
     vector<double> VibFreq; mol->get_VibFreq(VibFreq);
 
-    {
+    if (0){
       stringstream errorMsg;
       errorMsg << "Number of frequencies: " << VibFreq.size();
       meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
@@ -181,7 +181,7 @@ namespace mesmer
 
     // Implementation of the Bayer-Swinehart algorithm.
     for ( vector<double>::size_type j = 0 ; j < VibFreq.size() ; ++j ) {
-      int iFreq = static_cast<int>(VibFreq[j] +.5) ;
+      int iFreq = static_cast<int>(VibFreq[j]) ;
       // +.5 makes sure it floors to the frequency that is closer to the integer
       // the original case has larger difference where if frequency = 392.95 it floors to 392
       for (int i = 0 ; i < mEnv.MaxCell - iFreq ; ++i ){
@@ -194,9 +194,9 @@ namespace mesmer
     mol->getEleExcitation(eleExc);
     if (!eleExc.empty()){
       for (int j = 0; j < static_cast<int>(eleExc.size()); ++j){
-        int iele = static_cast<int>(eleExc[j]+.5);
-        for (int i = (mEnv.MaxCell - 1); i >= iele; --i){
-          mol->m_cellDOS[i] += mol->m_cellDOS[i - iele];
+        int iele = static_cast<int>(eleExc[j]);
+        for (int i = (mEnv.MaxCell - 1); i >= (iele - 1); --i){
+          mol->m_cellDOS[i] += mol->m_cellDOS[i - iele + 1];
         }
       }
     }

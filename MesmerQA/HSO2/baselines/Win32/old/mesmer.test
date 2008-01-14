@@ -1,5 +1,5 @@
 
-Test density of states for: HSO2
+Test density of states for ModelledMolecule: HSO2
 
       T           qtot           sumc           sumg
     200         8399.2        8399.55        8229.69
@@ -33,7 +33,7 @@ Test density of states for: HSO2
    3000   1.47456e+008   1.47456e+008   1.47442e+008
 
 Collision operator column Sums
-{
+
 -6.93929e-017
 2.52757e-016
 -4.53884e-017
@@ -990,9 +990,8 @@ Collision operator column Sums
 1.31839e-016
 -1.38778e-016
 0
-}
 
-Test density of states for: TS1
+Test density of states for ModelledMolecule: TS1
 
       T           qtot           sumc           sumg
     200          18807        18807.8        18421.5
@@ -1025,7 +1024,7 @@ Test density of states for: TS1
    2900   3.00083e+009   3.00083e+009   3.00052e+009
    3000   3.66338e+009   3.66338e+009   3.66303e+009
 
-Test density of states for: H
+Test density of states for ModelledMolecule: H
 
       T           qtot           sumc           sumg
     200              0              0              0
@@ -1058,7 +1057,7 @@ Test density of states for: H
    2900              0              0              0
    3000              0              0              0
 
-Test density of states for: SO2
+Test density of states for ModelledMolecule: SO2
 
       T           qtot           sumc           sumg
     200        3286.66        3286.79        3220.36
@@ -1091,9 +1090,6 @@ Test density of states for: SO2
    2900   3.65551e+006   3.65551e+006   3.65514e+006
    3000   4.16216e+006   4.16216e+006   4.16176e+006
 
-Total number of eigenvalues = 872
-Eigenvalues
-{
       -0.925238
       -0.921394
       -0.919608
@@ -1966,4 +1962,4 @@ Eigenvalues
      -0.0901965
   -1.08754e-015
               0
-}
+
