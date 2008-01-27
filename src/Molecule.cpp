@@ -644,13 +644,18 @@ namespace mesmer
     const double beta = getEnv().beta;
 
     for (int i = 0; i < MaximumGrain; ++i) {
-      CanPrtnFn += exp( log(m_grainDOS[i]) - beta*m_grainEne[i] ) ;
+		if (m_grainDOS[i] > 0.0) 
+			CanPrtnFn += exp( log(m_grainDOS[i]) - beta*m_grainEne[i] ) ;
     }
+
+	// The following catches the case where the molecule is a single atom
+
+	CanPrtnFn = max(CanPrtnFn, 1.0) ;
 
     // Electronic partition function.
     CanPrtnFn *= double(getSpinMultiplicity()) ;
 
-    if(0){stringstream errorMsg;
+    {stringstream errorMsg;
     errorMsg << "CanPrtnFn = " << CanPrtnFn << ", molecular name: " << getName();
     meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
 

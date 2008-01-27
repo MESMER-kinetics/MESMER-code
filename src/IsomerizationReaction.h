@@ -41,6 +41,9 @@ namespace mesmer
 
     private:
 
+        // Calculate reaction equilibrium constant.
+        virtual double calcEquilibriumConstant() ;
+
         // Add reaction terms to collision matrix.
         virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
 

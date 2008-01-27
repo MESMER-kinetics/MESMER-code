@@ -1,9 +1,18 @@
+
+
+2008-1-27 Struan Robertson
+
+  * Re-implemented association reaction initialization and equilibrium constant
+    methods.
+  * Introduced excess reactant concentration for association reactions.
+
+
 _2008_01_14__16_48_41_ Chi-Hsiu Liang
 
-  * Modified Mesmer.dvi, Mesmer.tex. 
+  * Modified Mesmer.dvi, Mesmer.tex.
   * Corrected OH_acetylene_association.xml. Updated OH_acetylene_association baseline.
   * Added several control sequence printing values. See MesmerEnv.h for additional control flags.
-    Printing: 
+    Printing:
       grain density of states
       cell density of states
       collision operator column sums
@@ -13,8 +22,8 @@ _2008_01_14__16_48_41_ Chi-Hsiu Liang
   * Moved some longer definitions of accessors in Molecule.h to Molecule.cpp
   * Note: There should have a complaint over missing parameter on epsilon and sigma from HSO2, but the program will run with
           default values. (Need to give correct values.)
-  * Updated pentyl and HSO2 baselines. HSO2 baseline does not change but pentyl baseline change because of the rounding 
-    difference between two versions. There are three differences on ClassicalRotor.cpp. also for the electron excitation 
+  * Updated pentyl and HSO2 baselines. HSO2 baseline does not change but pentyl baseline change because of the rounding
+    difference between two versions. There are three differences on ClassicalRotor.cpp. also for the electron excitation
     energy. Another difference is on the starting count of electron excitation energy.
   * Other minor modifications.
 
