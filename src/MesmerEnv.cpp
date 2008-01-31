@@ -11,10 +11,14 @@ namespace mesmer{
     EMin(.0),
     EMax(.0),
     microRateEnabled(false),
+    grainBoltzmannEnabled(false),
     grainDOSEnabled(false),
     cellDOSEnabled(false),
     collisionOCSEnabled(false),
-    kECellsEnabled(false),
+    kfECellsEnabled(false),
+    kfEGrainsEnabled(false),
+    kbECellsEnabled(false),
+    kbEGrainsEnabled(false),
     EAboveWell(20.),
     printEigenValuesNum(-1)
     {}

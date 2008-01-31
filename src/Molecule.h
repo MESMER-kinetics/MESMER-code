@@ -15,7 +15,6 @@
 #include <memory>
 #include "XMLPersist.h"
 #include "MesmerMath.h"
-#include "formatfloat.h"
 #include "DensityOfStates.h"
 
 namespace mesmer
@@ -59,18 +58,18 @@ namespace mesmer
     // Initialize Molecule.
     virtual bool InitializeMolecule(PersistPtr pp);
 
-    PersistPtr  getPersistentPointer()     { return m_ppPersist;};
-    void setPersistentPointer(PersistPtr value){m_ppPersist = value;}
-    std::string getName() const            { return m_Name ; } ;
-    const MesmerEnv& getEnv() const        { return m_Env; }
+    PersistPtr  getPersistentPointer();
+    void setPersistentPointer(PersistPtr value);
+    std::string getName() const;
+    const MesmerEnv& getEnv() const;
 
-    int    getFlag()                       { return m_flag; } ;
+    int    getFlag() ;
     double getMass() ;
     double getSigma() ;
     double getEpsilon() ;
 
-    void   setName(string name)            { m_Name = name; } ;
-    void   setFlag(bool value)             { if (value) ++m_flag; } ;
+    void   setName(string name) ;
+    void   setFlag(bool value) ;
     void   setMass(double value);
     void   setSigma(double value);
     void   setEpsilon(double value);
@@ -156,20 +155,20 @@ namespace mesmer
     bool calcDensityOfStates();
 
     // Accessors.
-    double get_zpe();
+    virtual double get_zpe();
     void set_zpe(double value);
     double get_Sym(void);
     int test_rotConsts(void);
     int  get_rotConsts(std::vector<double> &mmtsInt);
-    void set_grnZpe(int grnZpe) {m_grnZpe = grnZpe ;} ;
-    int  get_grnZpe() const {return m_grnZpe ;} ;
-    void get_VibFreq(std::vector<double>& vibFreq);
+    void set_grnZpe(int grnZpe); // with respect to the minimum of all wells, default zero.
+    virtual const int get_grnZpe();
+    virtual void get_VibFreq(std::vector<double>& vibFreq);
     void set_VibFreq(std::vector<double>& vibFreq, bool addition = false);
 
-    DensityOfStatesCalculator* get_DensityOfStatesCalculator(){return m_pDensityOfStatesCalculator;}
-    void set_DensityOfStatesCalculator(DensityOfStatesCalculator* value){m_pDensityOfStatesCalculator = value;}
+    virtual DensityOfStatesCalculator* get_DensityOfStatesCalculator();
+    void set_DensityOfStatesCalculator(DensityOfStatesCalculator* value);
 
-    int getSpinMultiplicity();
+    virtual int getSpinMultiplicity();
     void   setSpinMultiplicity(int value);
 
     // Calculate the average grain energy and then number of states per grain.
@@ -186,8 +185,6 @@ namespace mesmer
   public:
     TransitionState(const MesmerEnv& Env);
     virtual ~TransitionState(){}
-    // Initialize TransitionState.
-//    virtual bool InitializeMolecule(PersistPtr pp); Nothing to initialize?
 
   };
 
@@ -210,6 +207,7 @@ namespace mesmer
     //================================================
 
     dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
+
     //-------------------------------
     // Calculate collision frequency.
     double collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule) ;
@@ -232,9 +230,9 @@ namespace mesmer
     void copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
 
     // Accessors.
-    double get_collisionFrequency() const { return m_collisionFrequency ;} ;
-    void set_colloptrsize(int ncolloptrsize) {m_ncolloptrsize = ncolloptrsize ;} ;
-    int  get_colloptrsize() const {return m_ncolloptrsize ;} ;
+    double get_collisionFrequency() const ;
+    void set_colloptrsize(int ncolloptrsize) ;
+    int  get_colloptrsize() const ;
     void   setDeltaEdown(double value);
     double getDeltaEdown();
   };
@@ -248,8 +246,7 @@ namespace mesmer
     ModelledMolecule* m_mol2;
 
     SuperMolecule(const MesmerEnv& Env);
-//     SuperMolecule(double zpe, CollidingMolecule* mol1p, ModelledMolecule* mol2p, MesmerEnv& Env);
-    ~SuperMolecule();
+    virtual ~SuperMolecule();
 
     // Initialize SuperMolecule.
     virtual bool InitializeMolecule(PersistPtr pp);
@@ -257,10 +254,15 @@ namespace mesmer
     // Accessors.
 
     // set composing member of the SuperMolecule, also copy necessary properties
+    const int get_grnZpe();
+    int getSpinMultiplicity();
+    void get_VibFreq(std::vector<double>& vibFreq);
+    double get_zpe();
+    DensityOfStatesCalculator* get_DensityOfStatesCalculator();
     void setMembers(ModelledMolecule* mol1p, ModelledMolecule* mol2p);
 
-    ModelledMolecule* getMember1(){ return m_mol1;}
-    ModelledMolecule* getMember2(){ return m_mol2;}
+    ModelledMolecule* getMember1();
+    ModelledMolecule* getMember2();
 
     //virtual void testDensityOfStates(const MesmerEnv &m_Env) ;
 

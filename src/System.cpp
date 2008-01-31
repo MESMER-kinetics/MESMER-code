@@ -114,30 +114,37 @@ namespace mesmer
 
     if(Concentrations.size()==0 && Pressures.size()==0)
     {
-      stringstream errorMsg;
-      errorMsg << "It is necessary to specify at least one bath gas concentration or pressure";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      cerr << "It is necessary to specify at least one bath gas concentration or pressure point.";
       return false;
     }
     else{
-      stringstream errorMsg;
-      errorMsg << "Number of concentration points: " << Concentrations.size()
-               << "\nNumber of      pressure points: " << Pressures.size();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      cinfo << "Number of concentration points: " << Concentrations.size()
+            << "\nNumber of      pressure points: " << Pressures.size()
+            << "\nNumber of   temperature points: " << Temperatures.size();
+    }
+    
+    if (Pressures.size()==0){
+      Pressures = Concentrations; // need to do conversion?
     }
 
     PersistPtr ppControl = ppIOPtr->XmlMoveTo("me:control");
     if(ppControl)
     {
-      m_Env.microRateEnabled = ppControl->XmlReadBoolean("me:testMicroRates");
-      m_Env.grainDOSEnabled = ppControl->XmlReadBoolean("me:printGrainDOS");
-      m_Env.cellDOSEnabled = ppControl->XmlReadBoolean("me:printCellDOS");
-      m_Env.collisionOCSEnabled = ppControl->XmlReadBoolean("me:printCollisionOperatorColumnSums");
-      m_Env.kECellsEnabled = ppControl->XmlReadBoolean("me:printCellkE");
+      m_Env.testDOSEnabled        = ppControl->XmlReadBoolean("me:testDOS");
+      m_Env.microRateEnabled      = ppControl->XmlReadBoolean("me:testMicroRates");
+      m_Env.grainBoltzmannEnabled = ppControl->XmlReadBoolean("me:printGrainBoltzmann");
+      m_Env.grainDOSEnabled       = ppControl->XmlReadBoolean("me:printGrainDOS");
+      m_Env.cellDOSEnabled        = ppControl->XmlReadBoolean("me:printCellDOS");
+      m_Env.collisionOCSEnabled   = ppControl->XmlReadBoolean("me:printCollisionOperatorColumnSums");
+      m_Env.kfECellsEnabled       = ppControl->XmlReadBoolean("me:printCellkfE");
+      m_Env.kfEGrainsEnabled      = ppControl->XmlReadBoolean("me:printGrainkfE");
+      m_Env.kbECellsEnabled       = ppControl->XmlReadBoolean("me:printCellkbE");
+      m_Env.kbEGrainsEnabled      = ppControl->XmlReadBoolean("me:printGrainkbE");
+
       const char* txt = ppControl->XmlReadValue("me:eigenvalues",false);
-      if(txt) { 
-        istringstream ss(txt); 
-        ss >> m_Env.printEigenValuesNum; 
+      if(txt) {
+        istringstream ss(txt);
+        ss >> m_Env.printEigenValuesNum;
       }
     }
 
@@ -183,7 +190,8 @@ namespace mesmer
 
     m_Env.beta = 1.0 / (boltzmann_RCpK * Temperatures[0]) ; //temporary statements
     double beta = m_Env.beta;
-    m_Env.conc = Concentrations[0];
+    m_Env.conc = (Pressures[0] / AtmInMmHg) * pascalPerAtm * AvogadroC / (idealGasC * Temperatures[0] * 1.0e6);
+    // need to think of auto-conversion of units? The pressure unit now is mmHg.
 
     //---------------
     //About precision
@@ -194,42 +202,24 @@ namespace mesmer
       case varUseDoubleDouble:   precisionMethod = "Double-double";       break;
       case varUseQuadDouble:     precisionMethod = "Quad-double";         break;
     }
-
-    {
-      stringstream errorMsg;
-      errorMsg << "Precision: " << precisionMethod;
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-    }
+    cinfo << "Precision: " << precisionMethod;
     //---------------
 
     // Build collison matrix for system.
-    {
-      stringstream errorMsg;
-      string thisEvent = "Build Collison Operator";
-      errorMsg << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-    }
+    {string thisEvent = "Build Collison Operator";
+     cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;}
 
     if (!m_pReactionManager->BuildSystemCollisionOperator(beta, m_Env)){
-        stringstream errorMsg;
-        errorMsg << "Failed building system collison operator.";
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      cerr << "Failed building system collison operator.";
     }
 
-    {
-      stringstream errorMsg;
-      string thisEvent = "Diagonlize Collision Operator";
-      errorMsg << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-    }
+    {string thisEvent = "Diagonlize Collision Operator";
+     cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";}
+
     m_pReactionManager->diagCollisionOperator(m_Env) ;
 
-    {
-      stringstream errorMsg;
-      string thisEvent = "Finish Calculation";
-      errorMsg << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-    }
+    {string thisEvent = "Finish Calculation";
+     cinfo << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";}
 
     /*
     for (size_t i=0; i < m_pReactionManager->size() ; i++) {
@@ -257,11 +247,7 @@ namespace mesmer
     formatFloat(ctest, kinf, 6, 15) ;
     }*/
 
-    {
-      stringstream errorMsg;
-      errorMsg << events;
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-    }
+    cinfo << events;
   }
 
   bool System::SetGrainParams()
@@ -291,16 +277,14 @@ namespace mesmer
     std::string id; ModelledMolecule* pmol = NULL;
     while(m_pMoleculeManager->GetNextMolecule(id, pmol))
     {
-      double zpe = pmol->get_zpe() * KcalPerMolToRC ;
+      double zpe = pmol->get_zpe() * kJPerMolInRC ;
       m_Env.EMax = std::max(m_Env.EMax, zpe);
       m_Env.EMin = std::min(m_Env.EMin, zpe);
     }
 
     if(m_Env.EMin==BIG || m_Env.EMax==0.0)
     {
-      stringstream errorMsg;
-      errorMsg << "The modelled molecules do not cover an appropriate energy range";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      cerr << "The modelled molecules do not cover an appropriate energy range";
       return false;
     }
 
@@ -316,9 +300,7 @@ namespace mesmer
     m_Env.EMax = m_Env.EMax + m_Env.EAboveWell * boltzmann_RCpK * m_Env.MaxT;
     if(m_Env.GrainSize <= 0.0){
       m_Env.GrainSize = 100.; //default 100cm-1
-      stringstream errorMsg;
-      errorMsg << "Grain size was invalid. Reset grain size to default: 100";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      cerr << "Grain size was invalid. Reset grain size to default: 100";
     }
 
     if(m_Env.MaxGrn <= 0)
@@ -327,11 +309,9 @@ namespace mesmer
       m_Env.GrainSize = (m_Env.EMax-m_Env.EMin)/m_Env.MaxGrn;
 
     m_Env.MaxCell = (int)(m_Env.GrainSize * m_Env.MaxGrn + 0.5);
-    {
-      stringstream errorMsg;
-      errorMsg << "Cell number = " << m_Env.MaxCell << ", Grain number = " << m_Env.MaxGrn;
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-    }
+
+    cinfo << "Cell number = " << m_Env.MaxCell << ", Grain number = " << m_Env.MaxGrn;
+
     return true;
     /*
      //Hardwired
@@ -371,9 +351,7 @@ namespace mesmer
     }
     if(MustBeThere && vals.size()==0)
     {
-      stringstream errorMsg;
-      errorMsg << "Must specify at least one value of " << name;
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      cerr << "Must specify at least one value of " << name;
       return false;
     }
     return true;

@@ -35,7 +35,7 @@ namespace mesmer
 			string errorMsg = "Association reaction " + getName() + " has no reactants.";
 			meErrorLog.ThrowError(__FUNCTION__, string(errorMsg), obError);
 			return false;
-		}        
+		}
 		PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
 		Molecule* pMol2 = GetMolRef(ppReactant2);
 		if(!pMol2)
@@ -103,7 +103,7 @@ namespace mesmer
 			string errorMsg = "Association reaction " + getName() + " has no product.";
 			meErrorLog.ThrowError(__FUNCTION__, string(errorMsg), obError);
 			return false;
-		}           
+		}
 		PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
 		if(ppProduct2)
 		{
@@ -139,43 +139,67 @@ namespace mesmer
 	// Add (REVERSIBLE) association reaction terms to collision matrix.
 	//
 	void AssociationReaction::AddReactionTerms(dMatrix      *CollOptr,
-		isomerMap    &isomermap,
-		const double rMeanOmega)
+		                                         isomerMap    &isomermap,
+		                                         const double rMeanOmega)
 	{
 		// Locate isomers in system matrix.
 		const int pdtLoc =      isomermap[dynamic_cast<CollidingMolecule*>(m_pdt1)] ;
-		const int sL     = (*m_sourceMap)[dynamic_cast<SuperMolecule    *>(m_srct)] ;
+		const int jj     = (*m_sourceMap)[dynamic_cast<SuperMolecule    *>(m_srct)] ;
 
 		// Get equilibrium constant.
 		double Keq = calcEquilibriumConstant() ;
+    const double excess = getExcessReactantConc();
 
-		// Multiply equilibrum constant by concentration of excess reactant.
-		// concentration of excess reactant should be in molec/cm3. This gives
-		// a dimensionless pseudo-isomerization equilibrium constant.
-
-        Keq *= m_excessReactantConc ;
+    vector<double> rctDOS;
+    vector<double> pdtDOS;
+    m_srct->grnDensityOfStates(rctDOS) ;
+    m_pdt1->grnDensityOfStates(pdtDOS) ;
 
 		// Get Boltzmann distribution for detailed balance.
-
 		const int MaximumGrain = getEnv().MaxGrn ;
 		vector<double> adductBoltz(MaximumGrain, 0.0) ;
 		m_pdt1->grnBoltzDist(adductBoltz) ;
 
-		const int colloptrsize = dynamic_cast<CollidingMolecule*>(m_pdt1)->get_colloptrsize() ;
+		const int colloptrsize = dynamic_cast<CollidingMolecule*>(m_pdt1)->get_colloptrsize() ; // collision operator size of the isomer
+
+    const int grnWellBot = MaximumGrain - colloptrsize; // well bottom of the isomer
 
 		double DissRateCoeff(0.0) ;
+    if (debugFlag) ctest << "colloptrsize = " << colloptrsize << ", grnWellBot = " << grnWellBot << endl;
+    if (debugFlag) ctest << "Keq * excess = " << Keq << " * " << excess << " = " << Keq * excess << endl;
 
-		const int idx = m_pdt1->get_grnZpe() - m_rct1->get_grnZpe() ;
-		for ( int i = max(0,-idx) ; i < min(colloptrsize,(colloptrsize-idx)) ; ++i ) {
-			int ll = i + idx ;
-			int pL(pdtLoc + ll) ;
+		// Multiply equilibrum constant by concentration of excess reactant.
+		// concentration of excess reactant should be in molec/cm3. This gives
+		// a dimensionless pseudo-isomerization equilibrium constant.
+    Keq *= excess ;
 
-			(*CollOptr)[pL][pL] -= rMeanOmega * m_GrainKfmc[ll] ;                           // Forward loss reaction.
-			(*CollOptr)[pL][sL]  = rMeanOmega * m_GrainKfmc[ll]*sqrt(adductBoltz[ll]*Keq) ; // Reactive gain.
-			(*CollOptr)[sL][pL]  = (*CollOptr)[pL][sL] ;                                    // Reactive gain.
-			DissRateCoeff       += m_GrainKfmc[ll]*adductBoltz[ll] ;
-		}
-		(*CollOptr)[sL][sL] -= DissRateCoeff*Keq ;       // Backward loss reaction from detailed balance.
+    if (collisionOperatorCheck){
+      ctest << "\nSystem collision operator check before adding " << getName() << " microrates:\n";
+      (*CollOptr).showFinalBits(8);
+    }
+
+    for ( int i = 0; i < colloptrsize; ++i) {
+      int ll = i + grnWellBot ;
+      int ii(pdtLoc + i) ;
+
+      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKbmc[ll] ;                           // Backward loss of the adduct
+      if (i < colloptrsize && i > (colloptrsize - 8) && debugFlag) {
+        ctest << rMeanOmega << " * " << "m_GrainKbmc[" << ll
+        << "](" << m_GrainKbmc[ll] << ") = " << rMeanOmega * m_GrainKbmc[ll] << endl;
+      }
+      (*CollOptr)[jj][ii]  = rMeanOmega * m_GrainKbmc[ll] * sqrt(adductBoltz[ll] * Keq) ; // Reactive gain of the source
+      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                                    // Reactive gain
+      DissRateCoeff       += rMeanOmega * m_GrainKbmc[ll] * adductBoltz[ll] ;
+    }
+
+    if (debugFlag) ctest << "DissRateCoeff = " << DissRateCoeff << endl;
+    (*CollOptr)[jj][jj] -= (DissRateCoeff * Keq);       // Backward loss reaction from detailed balance.
+
+    if (collisionOperatorCheck){
+      ctest << "\nSystem collision operator check after adding " << getName() << " microrates:\n";
+      (*CollOptr).showFinalBits(8);
+    }
+
 	}
 
 	//
@@ -184,35 +208,44 @@ namespace mesmer
 	//
 	double AssociationReaction::calcEquilibriumConstant() {
 
-		double Keq(0.0) ;
+    // equilibrium constant:
+    long double Keq(0.0) ;
 
-		// Get Canonical rovibronic partition functions.
+    // Get Canonical partition functions.
+    long double Qrcts = m_srct->grnCanPrtnFn();
+    long double Qpdt1 = m_pdt1->grnCanPrtnFn() ;
 
-		const double Qrct1 = m_rct1->grnCanPrtnFn() ;
-		const double Qrct2 = m_rct2->grnCanPrtnFn() ;
-		const double Qpdt1 = m_pdt1->grnCanPrtnFn() ;
+    long double mass_rct1 = m_rct1->getMass();
+    long double mass_rct2 = m_rct2->getMass();
+    long double mass_srct = mass_rct1 + mass_rct2;
 
-		{stringstream errorMsg;
-		errorMsg << "Qrct1 = " << Qrct1 << ", Qpdt1 = " << Qpdt1 << ", Qrct2 = " << Qrct2 ;
-		meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+    // Calculate the equilibrium constant.
+    long double beta = getEnv().beta ;
 
-		// Get mass.
+    Keq = Qrcts/Qpdt1 ;
+    if(debugFlag) ctest << "Keq = " << Keq << endl;
 
-		const double mrct1 = m_rct1->getMass() ;
-		const double mrct2 = m_rct2->getMass() ;
-		const double mpdt1 = mrct1 + mrct2 ;
+    /* Electronic degeneracies were already accounted for in DOS calculations */
+    // Heat of reaction
+    long double _expon = -beta * getHeatOfReaction() * kJPerMolInRC;
+    Keq /= exp(_expon) ;
+    if(debugFlag) ctest << "Keq = " << Keq 
+      << ", getHeatOfReaction() = " << getHeatOfReaction() 
+      << ", beta = " << beta 
+      << ", _expon = " << _expon 
+      << ", dh = " << getHeatOfReaction() * kJPerMolInRC 
+      << ", kJPerMolInRC = " << kJPerMolInRC << endl;
 
-		// Calculate the equilibrium constant.
+    // Translational contribution
+    // 2.0593e19 = conversion factor,  1e-6*(((cm-1 -> j)/(h2*na)))^3/2
+    // double tau = 2.0593e19 * pow(2. * M_PI ,1.5);
+    Keq *= (tp_C * pow(mass_rct1 * mass_rct2 / (mass_srct * beta), 1.5l));
+    if(debugFlag) ctest << "Keq = " << Keq << endl;
 
-		const double beta = getEnv().beta ;
+    Keq = 1./Keq;
+    if(debugFlag) ctest << "Keq = " << Keq << endl;
+    return (double) Keq ;
 
-		const double Tau = 2.0593e+19*pow( (2.0*acos(-1.0)), 1.5) ; // 2.0593e19 = conversion factor,  1e-6*(((cm-1 -> J)/(h2*Na)))^3/2
-
-		Keq  = Qpdt1/(Qrct1*Qrct2) ;                             // Rovibronic contribution.
-        Keq *= pow( ((mpdt1*beta)/(mrct1*mrct2)), 1.5)/Tau ;     // Translational contribution.
-		Keq *= exp(-beta*m_HeatOfReaction) ;
-
-		return Keq ;
 	}
 
 }//namespace

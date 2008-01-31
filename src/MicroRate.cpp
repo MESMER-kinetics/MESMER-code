@@ -9,31 +9,27 @@ namespace mesmer
 {
 
   bool MicroRateCalculator::testMicroRateCoeffs(Reaction*         pReact,
-                                                vector<double> &cellKfmc,
-                                                PersistPtr        ppbase,
-                                                const MesmerEnv    &Env) const
+                                                PersistPtr        ppbase) const
   {
     vector<ModelledMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
     ModelledMolecule * pReactant = unimolecularspecies[0];
 
-    {
-      stringstream errorMsg;
-      errorMsg << "Test of microcanonical rate coefficients";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-    }
+    cinfo << "Test of microcanonical rate coefficients" << endl;
 
     string comment("Microcanonical rate coefficients");
     PersistPtr ppList = ppbase->XmlWriteMainElement("me:microRateList", comment );
+    int MaximumCell = pReact->getEnv().MaxCell;
 
     // Allocate some work space for density of states.
 
-    vector<double> CellEne(Env.MaxCell,0.0) ;
-    vector<double> cellDOS(Env.MaxCell,0.0) ;
+    vector<double> cellEne;
+    vector<double> cellDOS;
 
-    pReactant->getCellEnergies(CellEne) ;
+    pReactant->getCellEnergies(cellEne) ;
     pReactant->getCellDensityOfStates(cellDOS) ;
 
+    ctest << "\nMicrocanonical rate coefficients:\n{\n";
     for(int i = 0 ; i < 29 ; ++i)
     {
       double Temperature = double(i+2)*100.0 ;
@@ -41,10 +37,10 @@ namespace mesmer
 
       double sm1 = 0.0, sm2 = 0.0, tmp = 0.0;
 
-      for ( int i = 0 ; i < Env.MaxCell ; ++i ) {
-        tmp  = cellDOS[i] * exp(-beta * CellEne[i]) ;
-        sm1 += cellKfmc[i] * tmp ;
-        sm2 +=           tmp ;
+      for ( int i = 0 ; i < MaximumCell ; ++i ) {
+        tmp  = cellDOS[i] * exp(-beta * cellEne[i]) ;
+        sm1 += pReact->m_CellKfmc[i] * tmp ;
+        sm2 += tmp ;
       }
       sm1 /= sm2 ;
       formatFloat(ctest, Temperature, 6,  7) ;
@@ -56,6 +52,8 @@ namespace mesmer
       ppItem->XmlWriteValueElement("me:T",   Temperature, 6) ;
       ppItem->XmlWriteValueElement("me:val", sm1,         6) ;
     }
+    ctest << "}\n";
+        
     return true;
   }
 }//namespace

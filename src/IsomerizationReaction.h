@@ -26,7 +26,7 @@ namespace mesmer
           Reaction(pMoleculeManager, Env, id){} ;
 
           // Destructor.
-          ~IsomerizationReaction() {} ;
+          virtual ~IsomerizationReaction() {} ;
 
           // Get unimolecular species information:
           virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const 
@@ -38,6 +38,9 @@ namespace mesmer
 
           // Initialize reaction.
           virtual bool InitializeReaction(PersistPtr ppReac) ;
+          
+          virtual void detailedBalance(const int dir);
+
 
     private:
 
@@ -46,6 +49,8 @@ namespace mesmer
 
         // Add reaction terms to collision matrix.
         virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+        
+        
 
     } ;
 

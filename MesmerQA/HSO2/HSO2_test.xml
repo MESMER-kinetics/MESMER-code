@@ -7,7 +7,7 @@
     <molecule id="H">
       <atom id="a1" elementType="H"/>
       <property dictRef="me:ZPE">
-        <scalar units="kJmol-1">39.44</scalar>
+        <scalar units="kJ/mol">39.44</scalar>
       </property>
       <property dictRef="me:MW">
         <scalar>1</scalar>
@@ -38,7 +38,7 @@
         </array>
       </property>
       <property dictRef="me:ZPE">
-        <scalar units="kJmol-1">39.44</scalar>
+        <scalar units="kJ/mol">39.44</scalar>
       </property>
     </molecule>
     <molecule id="HSO2">
@@ -57,7 +57,7 @@
         <scalar>65</scalar>
       </property>
       <property dictRef="me:ZPE">
-        <scalar units="kJmol-1">24.38</scalar>
+        <scalar units="kJ/mol">24.38</scalar>
       </property>
       <property dictRef="me:rotConsts">
         <array units="cm-1">1.703 0.3 0.263</array>
@@ -87,7 +87,7 @@
         <scalar>65</scalar>
       </property>
       <property dictRef="me:ZPE">
-        <scalar units="kJmol-1">178.6</scalar>
+        <scalar units="kJ/mol">178.6</scalar>
       </property>
       <property dictRef="me:rotConsts">
         <array units="cm-1">1.22 0.321 0.275</array>
@@ -142,12 +142,16 @@
     <me:maxTemperature>3000</me:maxTemperature>
   </me:modelParameters>
     <me:control>
-        <!--<me:testMicroRates />-->
+        <me:testDOS />
+        <me:testMicroRates />
         <!--<me:printGrainDOS />-->
         <!--<me:printCellDOS />-->
         <me:printCollisionOperatorColumnSums />
-        <!--<me:printCellkE />-->
-        <!--<me:eigenvalues>0</me:eigenvalues>-->
+        <!--<me:printCellkfE />-->
+        <!--<me:printCellkbE />-->
+        <!--<me:printGrainkfE />-->
+        <!--<me:printGrainkbE />-->
+        <me:eigenvalues>0</me:eigenvalues>
     </me:control>
 
 

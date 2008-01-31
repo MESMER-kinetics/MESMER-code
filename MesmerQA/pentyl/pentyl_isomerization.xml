@@ -8,7 +8,7 @@
         <atom id="a2" elementType="C"/>
         <atom id="a3" elementType="C"/>
         <atom id="a4" elementType="C"/>
-        <atom id="a5" elementType="C" spinMultiplicity="2"/>
+        <atom id="a5" elementType="C"/>
       </atomarray>
       <bondarray>
         <bond atomRefs2="a1 a2" order="1"/>
@@ -47,6 +47,9 @@
         <property dictRef="me:deltaEDown">
           <scalar units="cm-1">230.0</scalar>
         </property>
+        <property dictRef="me:spinMultiplicity">
+            <scalar>2</scalar>
+        </property>
       </propertyList>
     </molecule>
 
@@ -56,7 +59,7 @@
         <atom id="a2" elementType="C"/>
         <atom id="a3" elementType="C"/>
         <atom id="a4" elementType="C"/>
-        <atom id="a5" elementType="C" spinMultiplicity="2"/>
+        <atom id="a5" elementType="C"/>
       </atomarray>
       <bondarray>
         <bond atomRefs2="a1 a2" order="1"/>
@@ -135,6 +138,9 @@
         <property dictRef="me:deltaEDown">
           <scalar units="cm-1">230.0</scalar>
         </property>
+        <property dictRef="me:spinMultiplicity">
+            <scalar>2</scalar>
+        </property>
       </propertyList>
     </molecule>
 
@@ -143,7 +149,7 @@
         <atom id="a1" elementType="C"/>
         <atom id="a2" elementType="C"/>
         <atom id="a3" elementType="C"/>
-        <atom id="a4" elementType="C" spinMultiplicity="2"/>
+        <atom id="a4" elementType="C"/>
         <atom id="a5" elementType="C"/>
       </atomarray>
       <bondarray>
@@ -188,6 +194,9 @@
         <property dictRef="me:deltaEDown">
           <scalar units="cm-1">230.0</scalar>
         </property>
+        <property dictRef="me:spinMultiplicity">
+            <scalar>2</scalar>
+        </property>
       </propertyList>
     </molecule>
 
@@ -225,7 +234,6 @@
         <molecule ref="n-pentyl=TS=2-pentyl" me:type="transitionState" />
       </me:transitionState>
 
-      <me:threshold>25.99</me:threshold>
     </reaction>
     
   </reactionList>
@@ -243,12 +251,17 @@
   </me:modelParameters>
 
     <me:control>
-        <!--<me:testMicroRates />-->
+        <me:testDOS />
+        <me:testMicroRates />
         <!--<me:printGrainDOS />-->
         <!--<me:printCellDOS />-->
         <me:printCollisionOperatorColumnSums />
-        <!--<me:printCellkE />-->
-        <!--<me:eigenvalues>0</me:eigenvalues>-->
+        <!--<me:printCellkfE />-->
+        <!--<me:printCellkbE />-->
+        <!--<me:printGrainkfE />-->
+        <!--<me:printGrainBoltzmann />-->
+        <!--<me:printGrainkbE />-->
+        <me:eigenvalues>0</me:eigenvalues>
     </me:control>
 
     </me:mesmer>

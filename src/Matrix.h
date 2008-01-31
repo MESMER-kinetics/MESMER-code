@@ -17,6 +17,7 @@
 //#include <stdexcept>
 #include <sstream>
 #include "oberror.h"
+#include "formatfloat.h"
 
 using namespace std;
 
@@ -56,6 +57,7 @@ public:
     // Modifiers
     void resize(const size_type n) ;
     void normalize();
+    void showFinalBits(const size_type n);
 
 protected:
 
@@ -186,7 +188,7 @@ void Matrix<T>::resize(const size_type n){
 
 template<class T>
 void Matrix<T>::normalize(){
-    
+
     T* work = new T[m_msize] ;// Work space.
     //
     // Normalization of Probability matrix.
@@ -194,24 +196,24 @@ void Matrix<T>::normalize(){
     // are unity. The procedure leads to a matrix that is of upper triangular
     // form and the normalisation constants are found by back substitution.
     //
-    
+
     int i, j; //int makes sure the comparison to negative numbers meaningful (i >=0)
 
+    T scaledRemain(0.0) ;
     for ( i = (int)m_msize - 1 ; i >= 0 ; --i ) {
 
       T upperSum(0.0) ;
-      for ( j = 0 ; j <= i ; ++j ) upperSum += m_matrix[j][i] ;
+      for ( j = 0 ; j <= i ; ++j )
+        upperSum += m_matrix[j][i] ;
 
-      T scaledRemain(0.0) ;
-      for ( j = i + 1 ; j < (int)m_msize ; ++j ) scaledRemain += m_matrix[j][i] * work[j] ;
-
-      if (upperSum <= 0.0) {
-        stringstream errorMsg;
-        errorMsg << "Normalization coefficients in this matrix is smaller than or equal to zero";
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
-        exit(1) ;
+      if (upperSum > 0.0){
+        if (i < (int)m_msize - 1){
+          scaledRemain = 0.0;
+          for ( j = i + 1 ; j < (int)m_msize ; ++j )
+            scaledRemain += m_matrix[j][i] * work[j] ;
+        }
+        work[i] = (1.0 - scaledRemain) / upperSum ;
       }
-      work[i] = (1.0 - scaledRemain) / upperSum ;
     }
 
     //
@@ -225,6 +227,25 @@ void Matrix<T>::normalize(){
       }
     }
     delete [] work;
+
+}
+
+
+template<class T>
+void Matrix<T>::showFinalBits(const size_type n){
+
+    //
+    // Show the final n x n square of the current matrix
+    //
+
+    ctest << "{\n";
+    for (size_type i = m_msize - n ; i < m_msize ; ++i ) {
+      for (size_type j = m_msize-n ; j < m_msize ; ++j ) {
+        formatFloat(ctest, m_matrix[i][j], 5,  13) ;
+      }
+      ctest << endl;
+    }
+    ctest << "}\n";
 
 }
 }//namespacer mesmer

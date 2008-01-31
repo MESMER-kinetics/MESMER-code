@@ -20,7 +20,7 @@
             </bondarray>
             <propertyList>
                 <property dictRef="me:ZPE">
-                    <scalar units="kcal/mol">0.0</scalar>
+                    <scalar units="kJ/mol">0.0</scalar>
                 </property>
                 <property dictRef="me:rotConsts">
                     <array units="cm-1">0.32031 0.36452 2.64058</array>
@@ -32,7 +32,7 @@
                     <array units="cm-1">464.0 474.0 567.0 770.0 848.0 1099.0 1244.0 1354.0 1667.0 3101.0 3300.0 3797.0</array>
                 </property>
                 <property dictRef="me:MW">
-                    <scalar>43</scalar>
+                    <scalar units="amu">43</scalar>
                 </property>
                 <property dictRef="me:epsilon">
                     <scalar>250.0</scalar>
@@ -66,7 +66,7 @@
             </bondarray>
             <propertyList>
                 <property dictRef="me:ZPE">
-                    <scalar units="kcal/mol">137.2</scalar>
+                    <scalar units="kJ/mol">141.4</scalar>
                 </property>
                 <property dictRef="me:rotConsts">
                     <array units="cm-1">0.33065 0.39313 2.06178</array>
@@ -78,10 +78,21 @@
                     <array units="cm-1">332.0 807.0 903.0 1010.0 1098.0 1158.0 1306.0 1407.0 1988.0 3127.0 3167.0</array>
                 </property>
                 <property dictRef="me:MW">
-                    <scalar>43</scalar>
+                    <scalar units="amu">43</scalar>
                 </property>
                 <property dictRef="me:spinMultiplicity">
                     <scalar>2</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+        </molecule>
+        <molecule id="TS_0">
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">136.075</scalar>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">43</scalar>
                 </property>
             </propertyList>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
@@ -96,7 +107,7 @@
             </bondarray>
             <propertyList>
                 <property dictRef="me:ZPE">
-                    <scalar units="kcal/mol">0.0</scalar>
+                    <scalar units="kJ/mol">0.0</scalar>
                 </property>
                 <property dictRef="me:rotConsts">
                     <array units="cm-1">19.2438</array>
@@ -108,7 +119,7 @@
                     <array units="cm-1">3722.0</array>
                 </property>
                 <property dictRef="me:MW">
-                    <scalar>17</scalar>
+                    <scalar units="amu">17</scalar>
                 </property>
                 <property dictRef="me:spinMultiplicity">
                     <scalar>2</scalar>
@@ -133,7 +144,7 @@
             </bondarray>
             <propertyList>
                 <property dictRef="me:ZPE">
-                    <scalar units="kcal/mol">130.7</scalar>
+                    <scalar units="kJ/mol">130.7</scalar>
                 </property>
                 <property dictRef="me:rotConsts">
                     <array units="cm-1">1.19205</array>
@@ -145,7 +156,7 @@
                     <array units="cm-1">664.0 664.0 766.0 766.0 2066.0 3408.0 3509.0</array>
                 </property>
                 <property dictRef="me:MW">
-                    <scalar>26</scalar>
+                    <scalar units="amu">26</scalar>
                 </property>
                 <property dictRef="me:spinMultiplicity">
                     <scalar>1</scalar>
@@ -163,7 +174,7 @@
                     <scalar>3.90</scalar>
                 </property>
                 <property dictRef="me:MW">
-                    <scalar>28.0</scalar>
+                    <scalar units="amu">28.0</scalar>
                 </property>
             </propertyList>
         </molecule>
@@ -180,14 +191,23 @@
                 <molecule ref="OH_acetylene_adduct" me:type="modelled" />
             </product>
             <me:transitionState>
-                <molecule ref="TS_1a" me:type="transitionState" />
+                <molecule ref="TS_0" me:type="transitionState" />
             </me:transitionState>
             <!--Use zero point energies instead-->
             <me:MCRCMethod>Mesmer ILT</me:MCRCMethod>
-            <me:activationEnergy>5.375</me:activationEnergy>
             <me:preExponential>7.00e-12</me:preExponential>
             <me:excessReactantConc>1.00e17</me:excessReactantConc>
             <me:nInfinity>0.0</me:nInfinity>
+        </reaction>
+        <reaction id="R2">
+            <reactant>
+                <molecule ref="OH_acetylene_adduct" me:type="reactant" />
+            </reactant>
+            <me:transitionState>
+                <molecule ref="TS_1a" me:type="transitionState" />
+            </me:transitionState>
+            <!--Use zero point energies instead-->
+            <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
         </reaction>
     </reactionList>
     <me:conditions>
@@ -208,11 +228,16 @@
         <me:energyAboveTheTopWell>20.</me:energyAboveTheTopWell>
     </me:modelParameters>
     <me:control>
+        <me:testDOS />
         <me:testMicroRates />
-        <me:printGrainDOS />
+        <!--<me:printGrainDOS />-->
         <!--<me:printCellDOS />-->
         <me:printCollisionOperatorColumnSums />
-        <me:printCellkE />
+        <!--<me:printCellkfE />-->
+        <!--<me:printCellkbE />-->
+        <!--<me:printGrainkfE />-->
+        <!--<me:printGrainBoltzmann />-->
+        <!--<me:printGrainkbE />-->
         <me:eigenvalues>0</me:eigenvalues>
     </me:control>
 </me:mesmer>

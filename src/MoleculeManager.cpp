@@ -15,6 +15,18 @@
 using namespace std ;
 namespace mesmer
 {
+  
+void MoleculeManager::clear(void){
+  m_BathGasMolecule.clear();
+  for (molIter i = m_molmap.begin(); i != m_molmap.end(); ++i) delete i->second;
+  m_molmap.clear();
+}
+
+MoleculeManager::~MoleculeManager(){
+  clear();
+};
+
+
 //
 // Add a new molecule to the list.
 //
@@ -71,7 +83,7 @@ Molecule* MoleculeManager::addmol(string& molName, string& molType, PersistPtr p
 
   if (molType == "reactant"){
     stringstream superId; superId << "source_" << sourceNumber; ++sourceNumber;
-    cwarn << "source name = " << superId.str() << endl;
+    cinfo << "source name = " << superId.str() << endl;
     PersistPtr ppSuper = NULL;
     //find if this source term is there
     PersistPtr ppMol = ppMolList->XmlMoveTo("molecule");

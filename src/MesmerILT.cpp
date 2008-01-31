@@ -43,28 +43,26 @@ namespace mesmer
    3. A reaction PES can change in different temperature, caused by rotational contribution to the total energy.
   //-------------------------------------------------*/
 
-  bool MesmerILT::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc, const MesmerEnv &mEnv)
+  bool MesmerILT::calculateMicroRateCoeffs(Reaction* pReact)
   {
     //-----------------
     //starting variables block
-    MesmerHP _ninf        = pReact->get_NInf(); // constraint: _ninf > -1.5
+    MesmerHP _ninf   = pReact->get_NInf(); // constraint: _ninf > -1.5
     double   _ainf        = pReact->get_PreExp();
     double   _einf        = pReact->get_ActivationEnergy();
-    double   _tinf        = 1. / (boltzmann_RCpK * mEnv.beta);
-    double   C_prime      = 3.24331e+20; // will explain this later. _2008_01_11__13_48_51_
+    double   _tinf        = 1. / (boltzmann_RCpK * pReact->getEnv().beta);
+    // double tp_C = 3.24331e+20; // Defined in Constant.h, constant used in the translational partition function
     //-----------------
 
     SuperMolecule*              p_rcts = NULL;
-    vector<ModelledMolecule *> unimolecularspecies;
-
-    pReact->get_unimolecularspecies(unimolecularspecies);
     p_rcts = pReact->get_bi_molecularspecies();
     if (!p_rcts){
-      stringstream errorMsg;
-      errorMsg << "Not a valid bi-molecularspecies";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      cerr << "Not a valid bi-molecularspecies";
       return false;
     }
+
+    vector<ModelledMolecule *> unimolecularspecies;
+    pReact->get_unimolecularspecies(unimolecularspecies);
 
     ModelledMolecule*  p_pdt1 = unimolecularspecies[0];
     ModelledMolecule*  p_rct1 = p_rcts->getMember1();
@@ -77,29 +75,26 @@ namespace mesmer
     double ma = p_rct1->getMass();
     double mb = p_rct2->getMass();
     double mc = p_pdt1->getMass();
+    const int MaxCell = pReact->getEnv().MaxCell;
 
     // Allocate some work space for density of states and extract densities of states from molecules.
-    vector<double> pdt1CellDOS(mEnv.MaxCell,0.0) ; // Cell density of states of      product molecule.
-    vector<double> pdt1CellEne(mEnv.MaxCell,0.0) ; // Cell energies          of      product molecule.
-    vector<double> rctsCellDOS(mEnv.MaxCell,0.0) ; // Convoluted cell density of states of reactants.
+    vector<double> pdt1CellDOS; // Cell density of states of      product molecule.
+    vector<double> pdt1CellEne; // Cell energies          of      product molecule.
+    vector<double> rctsCellDOS; // Convoluted cell density of states of reactants.
 
     p_pdt1->getCellDensityOfStates(pdt1CellDOS) ;
-
     p_pdt1->getCellEnergies       (pdt1CellEne) ;
-
     p_rcts->getCellDensityOfStates(rctsCellDOS) ;
 
+    // Allocate space to hold microcanonical rate coefficients for dissociation.
+    pReact->m_CellKbmc.resize(MaxCell, 0.0); // no need to initialize
 
-    // Allocate space to hold Micro-canonical rate coefficients.
-    cellKfmc.resize(mEnv.MaxCell, 0.0); // no need to initialize
-
-    long double _gamma = (MesmerHP) MesmerGamma(_ninf + 1.5);
-    long double _ant = _ainf * C_prime * (edg_a * edg_b / edg_c) * pow( ( ma * mb / mc), 1.5 ) / _gamma;
-    if (0) ctest << "_ant before division = " << _ant << endl;
+    MesmerHP _gamma = MesmerGamma(_ninf + 1.5);
+    MesmerHP _ant = _ainf * tp_C * (edg_a * edg_b / edg_c) * pow( ( ma * mb / mc), 1.5 ) / _gamma;
     _ant /= (pow((_tinf * boltzmann_RCpK), _ninf));
 
     if (0)
-      ctest << "_ainf = " << _ainf << ", _einf = " << _einf << ", _ninf = " << _ninf << ", _tinf = " << _tinf << endl;
+      ctest << "_ainf = " << _ainf << ", _ninf = " << _ninf << ", _tinf = " << _tinf << endl;
 
     if (0)
       ctest << "edg_a = " << edg_a << ", edg_b = " << edg_b
@@ -108,48 +103,38 @@ namespace mesmer
 
 
     int activ_ene(0);
-    if(IsNan(_einf))
-    {
-      stringstream errorMsg;
-      errorMsg << "To use MesmerILT for reaction " << pReact->getName()
-               << " the Activation Energy needs to be set.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
-      return false;
-    }
-    else{
-      // Conversion of EINF from kiloJoule.mol^-1 to cm^-1
-      activ_ene = int((_einf + p_rct1->get_zpe() + p_rct2->get_zpe()) * kJPerMolInRC);
-    }
+    // Conversion of EINF from kiloJoule.mol^-1 to cm^-1
+    activ_ene = int((_einf + p_rct1->get_zpe() + p_rct2->get_zpe()) * kJPerMolInRC);
 
     if (0)
       ctest << "activ_ene = " << activ_ene << ", _ant = " << _ant << endl;
 
-    vector<double> work(mEnv.MaxCell);
-    vector<double> conv(mEnv.MaxCell);
+    vector<double> work(MaxCell);
+    vector<double> conv(MaxCell);
 
-    double pwr     = _ninf + .5;
-    for (int i = 0; i < mEnv.MaxCell; ++i) {
-      work[i] = pow(pdt1CellEne[i], pwr);
+    MesmerHP pwr     = _ninf + .5;
+    for (int i = 0; i < MaxCell; ++i) {
+      work[i] = to_double(pow(pdt1CellEne[i], pwr));
     }
 
     DOSconvolution(work, rctsCellDOS, conv);
 
-    for (int i = 0; i < (mEnv.MaxCell - activ_ene); ++i){
-      cellKfmc[i + activ_ene] = _ant * conv[i] / pdt1CellDOS[i + activ_ene];
+    for (int i = 0; i < (MaxCell - activ_ene); ++i){
+      pReact->m_CellKbmc[i + activ_ene] = to_double(_ant) * conv[i] / pdt1CellDOS[i + activ_ene];
     }
 
-    if (mEnv.kECellsEnabled){
-      ctest << "\nk(e) cells:\n{\n";
-      for (int i = 0; i < mEnv.MaxCell; ++i){
-        ctest << cellKfmc[i] << endl;
+    if (pReact->getEnv().kbECellsEnabled){
+      ctest << "\nk_b(e) cells:\n{\n";
+      for (int i = 0; i < MaxCell; ++i){
+        ctest << pReact->m_CellKbmc[i] << endl;
       }
       ctest << "}\n";
     }
 
+    cinfo << "ILT calculation completed";
 
-    {stringstream errorMsg;
-    errorMsg << "MesmerILT calculation completed";
-    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+    // convert backward microcanonical reaction constants to forward microcanonical reaction constants
+    pReact->detailedBalance(-1);
 
     return true;
   }

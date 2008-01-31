@@ -1,0 +1,4 @@
+* PathScale compiler pathCC version 2.4 with flag -O2 seems to 
+  mis-compile pslq_test, causing a segfault at the last test
+  (pslq with p = 3, q = 5).  Version 2.5 seems to fix the problem.
+

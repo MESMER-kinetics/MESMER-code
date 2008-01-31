@@ -14,7 +14,6 @@
 // is stored in the molecule manager.
 //
 //-------------------------------------------------------------------------------------------
-#include "MesmerConfig.h"
 #include "ReactionManager.h"
 
 namespace mesmer

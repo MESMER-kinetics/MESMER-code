@@ -91,25 +91,35 @@ all: ${OUTPUT}
 # Source files
 #****************************************************************************
 
-SRCS := MicroRate.cpp \
+SRCS := \
+  AssociationReaction.cpp \
+  BathGasMolecule.cpp \
   ClassicalRotor.cpp \
+  CollidingMolecule.cpp \
   DensityOfStates.cpp \
+	DissociationReaction.cpp \
+	dMatrix.cpp \
+	ExchangeReaction.cpp \
+	formatfloat.cpp \
+	IsomerizationReaction.cpp \
+	main.cpp \
+	MesmerEnv.cpp \
 	MesmerILT.cpp \
 	MesmerMath.cpp \
+  MicroRate.cpp \
+	ModelledMolecule.cpp \
 	Molecule.cpp \
 	MoleculeManager.cpp \
+	oberror.cpp \
 	Reaction.cpp \
 	ReactionManager.cpp \
 	SimpleILT.cpp \
 	SimpleRRKM.cpp \
+	SuperMolecule.cpp \
 	System.cpp \
-	XMLPersist.cpp \
-	dMatrix.cpp \
-	formatfloat.cpp \
-	oberror.cpp \
 	TimeCounter.cpp \
-	MesmerEnv.cpp \
-	main.cpp
+	TransitionState.cpp \
+	XMLPersist.cpp 
 
 # Add on the sources for libraries
 SRCS := ${SRCS}

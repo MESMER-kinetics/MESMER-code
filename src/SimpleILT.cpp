@@ -15,33 +15,20 @@ namespace mesmer
   //
 
 
-  bool SimpleILT::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc, const MesmerEnv &Env)
+  bool SimpleILT::calculateMicroRateCoeffs(Reaction* pReact)
   {
     vector<ModelledMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
     ModelledMolecule * pReactant = unimolecularspecies[0];
-    if(IsNan(pReact->get_ActivationEnergy()))
-    {
-      stringstream errorMsg;
-      errorMsg << "To use SimpleILT for reaction " << pReact->getName()
-               << " the Activation Energy needs to be set.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
-      return false;
-    }
+
+    int MaximumCell = pReact->getEnv().MaxCell;
 
     // Allocate space to hold Micro-canonical rate coefficients.
-    cellKfmc.resize(Env.MaxCell);
-
-    // Initialize microcanoincal rate coefficients.
-
-    int i ;
-    for (i = 0 ; i < Env.MaxCell ; ++i ) {
-        cellKfmc[i] = 0.0 ;
-    }
+    pReact->m_CellKfmc.resize(MaximumCell, 0.0);
 
     // Allocate some work space for density of states.
 
-    vector<double> cellDOS(Env.MaxCell,0.0) ; // Density of states of equilibrim molecule.
+    vector<double> cellDOS; // Density of states of equilibrim molecule.
 
     // Extract densities of states from molecules.
 
@@ -49,13 +36,16 @@ namespace mesmer
 
     // Conversion of EINF from kcal.mol^-1 to cm^-1
 
-    int nEinf = int(pReact->get_ActivationEnergy()*KcalPerMolToRC) ;
+    int nEinf = int(pReact->get_ActivationEnergy()*kJPerMolInRC) ;
 
     // Calculate microcanonical rate coefficients using simple ILT expression.
 
-    for (i = nEinf ; i < Env.MaxCell ; ++i ) {
-      cellKfmc[i] = pReact->get_PreExp()*cellDOS[i-nEinf] / cellDOS[i] ;
+    for (int i = nEinf ; i < MaximumCell ; ++i ) {
+      pReact->m_CellKfmc[i] = pReact->get_PreExp() * cellDOS[i-nEinf] / cellDOS[i] ;
     }
+    
+    // convert forward microcanonical reaction constants to backward microcanonical reaction constants
+    pReact->detailedBalance(1);
 
     return true;
   }

@@ -26,11 +26,11 @@ namespace mesmer
       Reaction(pMoleculeManager, Env, id){} ;
 
       // Destructor.
-      ~DissociationReaction(){} ;
+      virtual ~DissociationReaction(){} ;
 
       // Get unimolecular species information:
-      virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const 
-      {        
+      virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const
+      {
         unimolecularspecies.push_back(m_rct1) ;
         return 1;
       } ;

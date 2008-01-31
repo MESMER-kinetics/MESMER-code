@@ -17,6 +17,7 @@ int main(int argc,char *argv[])
     usage();
     return 0;
   }
+
   //
   //Start the error handling system
   //
@@ -77,7 +78,7 @@ int main(int argc,char *argv[])
         usage();
         return 0;
       case 'V':
-        cout << version;
+        cout << version();
         return 0;
       }
     }
@@ -97,7 +98,7 @@ int main(int argc,char *argv[])
   //This is where the type of IO is decided.
   //Opens the data file and checks that its root element is me:mesmer.
   PersistPtr ppIOPtr = XMLPersist::XmlLoad(infilename, "me:mesmer");
-  
+
   //------------
   // Parse input file
 
@@ -117,18 +118,18 @@ int main(int argc,char *argv[])
     cerr << "System parse failed." << endl;
     return -2;
   }
-  
+
   meErrorLog.SetContext("");
   //------------------
   // Begin calculation
   {
     string thisEvent = "Calculate EGME";
-    cinfo << infilename << " successfully parsed. " << thisEvent 
+    cinfo << "\nFile: \"" << infilename << "\" successfully parsed.\n" << thisEvent
           << " at " << events.setTimeStamp(thisEvent) << endl;
   }
 
-  if(nocalc)
-    return 0;
+  if (nocalc) return 0;
+
   cerr << "\nNow calculating..." << endl;
   _sys.calculate() ;
 
@@ -138,7 +139,7 @@ int main(int argc,char *argv[])
   string thisEvent = "Save XML document to a new file";
   string currentTimeStamp = events.setTimeStamp(thisEvent, timeElapsed);
   string saveTimeStamp = '.' + currentTimeStamp;
-  cinfo << thisEvent << " at " << currentTimeStamp  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
+  cinfo << thisEvent << " at " << currentTimeStamp  << " -- Total time elapsed: " << timeElapsed << " seconds.\n";
 
   if(!usecout && outfilename.empty() && !infilename.empty())
   {
@@ -173,7 +174,11 @@ int main(int argc,char *argv[])
 
 void usage()
 {
-  cout << "Usage:\n  mesmer infilename [options]\n"
+  cout << "Usage:\n"
+          "In Windows command line:\n"
+          "     mesmer infilename [options]\n"
+          "In UNIX/Linux console:\n"
+          "     ./mesmer.out infilename [options]\n"
           "If there is no infilename, stdin is used.\n"
           "Options:\n"
           " -o<outfilename>\n"

@@ -10,44 +10,47 @@ namespace mesmer
   SimpleRRKM theSimpleRRKM("Simple RRKM");
   //************************************************************
 
-  bool SimpleRRKM::calculateMicroRateCoeffs(Reaction* pReact, vector<double> &cellKfmc, const MesmerEnv &Env)
+  bool SimpleRRKM::calculateMicroRateCoeffs(Reaction* pReact)
   {
+    SuperMolecule*              p_rcts = NULL;
+    p_rcts = pReact->get_bi_molecularspecies();
+
     vector<ModelledMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
-    ModelledMolecule * pReactant = unimolecularspecies[0];
+
+    ModelledMolecule * p_rct = NULL;
+
+    if (!p_rcts){
+      p_rct = unimolecularspecies[0];
+    }
+    else{
+      p_rct = p_rcts;
+    }
 
     TransitionState* pTS = pReact->get_TransitionState();
     if(!pTS)
     {
-      stringstream errorMsg;
-      errorMsg << "No transition state in Simple RRKM for reaction " << pReact->getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      cerr << "Lack of transition state in reaction " << pReact->getName() << " for Simple RRKM" << endl;
       return false;
     }
+    int MaximumCell = pReact->getEnv().MaxCell;
 
     // Allocate space to hold Micro-canonical rate coefficients.
-    cellKfmc.resize(Env.MaxCell);
-
-    // Initialize microcanoincal rate coefficients.
-
-    int i, j ;
-    for (i = 0 ; i < Env.MaxCell ; ++i ) {
-        cellKfmc[i] = 0.0 ;
-    }
+    pReact->m_CellKfmc.resize(MaximumCell, 0.0);
 
     // Allocate some work space for density of states.
 
-    vector<double> TScellDOS(Env.MaxCell,0.0) ; // Transistion state density of states.
-    vector<double> cellDOS(Env.MaxCell,0.0) ; // Density of states of equilibrium molecule.
+    vector<double> TScellDOS; // Transistion state density of states.
+    vector<double> rctCellDOS; // Density of states of equilibrium molecule.
 
     // Extract densities of states from molecules.
-
-    pReactant->getCellDensityOfStates(cellDOS) ;
+    p_rct->getCellDensityOfStates(rctCellDOS) ;
     pTS->getCellDensityOfStates(TScellDOS) ;
 
     double SumOfStates  = 0.0 ;
-    int thresholdEnergy = int((pTS->get_zpe() - pReactant->get_zpe()) * KcalPerMolToRC) ;
-    for (i = thresholdEnergy, j = 0 ; i < Env.MaxCell ; ++i, ++j ) {
+    int thresholdEnergy = int(pReact->get_ActivationEnergy() * kJPerMolInRC) ;
+    
+    for (int i = thresholdEnergy, j = 0 ; i < MaximumCell ; ++i, ++j ) {
 
         // Integrate transition state density of states.
 
@@ -55,8 +58,12 @@ namespace mesmer
 
         // Calculate microcanonical rate coefficients using RRKM expression.
 
-        cellKfmc[i] = SumOfStates * SpeedOfLight_cm / cellDOS[i];
+        pReact->m_CellKfmc[i] = SumOfStates * SpeedOfLight_cm / rctCellDOS[i];
     }
+
+    // convert forward microcanonical reaction constants to backward microcanonical reaction constants
+    if (!dynamic_cast<DissociationReaction *>(pReact)) pReact->detailedBalance(1);
+
     return true;
   }
 

@@ -28,11 +28,7 @@ class MoleculeManager {
   PersistPtr                                                m_ppPersist;
   int                                                       sourceNumber;
 
-  void clear(void){
-    m_BathGasMolecule.clear();
-    for (molIter i = m_molmap.begin(); i != m_molmap.end(); ++i) delete i->second;
-    m_molmap.clear();
-  }
+  void clear(void);
 
 public:
 
@@ -40,9 +36,7 @@ public:
   MoleculeManager() : m_molmap(), m_BathGasMolecule(), m_ppPersist(NULL), sourceNumber(0) { } ;
 
   // Default destructor.
-  ~MoleculeManager(){
-    clear();
-  };
+  ~MoleculeManager();
 
   // Add a new molecule to the list.
   Molecule*  addmol(string& molName, string& molType, PersistPtr ppMolList, const MesmerEnv& Env) ;

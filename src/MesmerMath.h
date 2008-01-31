@@ -18,6 +18,7 @@
 #include <vector>
 #include "dMatrix.h"
 #include "Constants.h"
+#include "TimeCounter.h"
 
 template <class T>
 const T MesmerGamma(const T& x)
@@ -54,7 +55,7 @@ const T MesmerGamma(const T& x)
   };
 
   if (x > 171.0) return 1e308;    // This value is an overflow flag.
-  if (x == (int) x) {
+  if (to_double(x) == (int) to_double(x)) {
     if (x > 0.0) {
       ga = 1.0;               // use factorial
       for (i=2;i<x;--i) ga *= i;
@@ -64,7 +65,7 @@ const T MesmerGamma(const T& x)
   else {
     if (fabs(x) > 1.0) {
       z = fabs(x);
-      m = (int)z;
+      m = (int)to_double(z);
       r = 1.0;
       for (k=1;k<=m;++k) r *= (z-k);
       z -= m;

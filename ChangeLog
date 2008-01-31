@@ -1,5 +1,43 @@
+_2008_01_31__19_01_16_ Chi-Hsiu Liang
 
-
+  * Removed all KcalPerMolToRC in Mesmer. This made the calculation slow. The input units are SI. 
+    (It might be worthwhile to convert the activation energy to RC directly from the function get_ActivationEnergy()
+    can provide automatic unit conversion if the input units are not SI.)
+  * See whether destructors of base/derived classes are virtual.
+  * Implementation of Bayer_Swinehart.h
+  * Add a function Matrix<T>::showFinalBits(int) in Matrix.h to print out the final bits of the matrix.
+  * Added forward and backward cell/grain microcanonical rate constants
+  * Change the number of digits on the exponents in cygwin. (formatfloat.h)
+  * Modified a bit on Matrix<T>::normalize()
+  * Added several flags to print data in mesmer.test. Check MesmerEnv.cpp and System.cpp line 133-142 for detail.
+  * calculateMicroRateCoeffs() now has only one input parameter.
+  * Created files for each class in Molecule.cpp to 
+      TransitionState.cpp
+      SuperMolecule.cpp
+      ModelledMolecule.cpp
+      CollidingMolecule.cpp
+      BathGasMolecule.cpp
+  * Removed most of the accessor functions from Molecule.h to cpp files.
+  * Moved destructor definition for MoleculeManager to MoleculeManager.cpp
+  * Corrected the sequence of initialization of MessageHandler on oberror.h
+  * Things about the activation energy has to be reconsidered. The experimental activation energy does not have to be 
+    consistent with the relative zero-point energy of the transition state. An option to add activation energy in the 
+    reaction list by user can also to be considered (not implemented yet).
+  * Added a function detailedBalance(int) to interconvert forward and backward microcanonical rate constants.
+  * Can also virtualize grnAvrgMicroRateCoeffs() for variations in different reaction classes later.
+  * Should there only be either H or SO2 have ZPE = 39.44?
+  * Added QD for Windows in qd folder.
+      Additional steps to add QD library in Windows VC: (to be placed in documentation)
+        1. One might build QD using qd.vcproj in debug mode to see if there are any errors.
+        2. Build the project as a Release.
+        3. In Mesmer property pages -> Configuration Properties -> C/C++ -> General -> Additional include directories
+           Put "../../qd/Windows VC/include" into the list.
+        4. In Mesmer property pages -> Configuration Properties -> Linker -> Input -> Additional dependencies
+           Put "qd.lib" into the list.
+        5. ?? How to link qd.dll? Program cannot execute!!
+        
+  * Other minor modifications.
+  
 2008-1-27 Struan Robertson
 
   * Re-implemented association reaction initialization and equilibrium constant

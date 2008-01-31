@@ -26,7 +26,7 @@ namespace mesmer
       //Read reaction ID
 
       const char* id = ppReac->XmlReadValue("id");
-      if(!id) 
+      if(!id)
         meErrorLog.ThrowError(__FUNCTION__, string("Reaction ID not found\n"), obInfo) ;
 
       // Read reactant and product types.
@@ -62,13 +62,13 @@ namespace mesmer
       // Create a new Reaction.
       //
       Reaction *preaction ;
-      if (!bRct2 && bPdt1 && !bPdt2) 
+      if (!bRct2 && bPdt1 && !bPdt2)
         preaction = new IsomerizationReaction(m_pMoleculeManager, Env, id) ;
-      else if(bRct2 && bPdt1 && !bPdt2) 
+      else if(bRct2 && bPdt1 && !bPdt2)
         preaction = new AssociationReaction(m_pMoleculeManager, Env, id) ;
-      else if(!bRct2 && !bPdt1 && !bPdt2) 
+      else if(!bRct2 && !bPdt1 && !bPdt2)
         preaction = new DissociationReaction(m_pMoleculeManager, Env, id) ;
-      else if(bRct2 && bPdt1 && bPdt2) 
+      else if(bRct2 && bPdt1 && bPdt2)
         preaction = new ExchangeReaction(m_pMoleculeManager, Env, id) ;
       else {
         meErrorLog.ThrowError(__FUNCTION__, string("Unknown reaction type\n"), obInfo) ;
@@ -114,7 +114,7 @@ namespace mesmer
     // populate isomerMap with unimolecular species
     for (size_t i(0) ; i < size() ; ++i) {
 
-      vector<ModelledMolecule *> unimolecules ;
+      std::vector<ModelledMolecule *> unimolecules ;
 
       int flag1 = m_reactions[i]->get_unimolecularspecies(unimolecules) ;
 
@@ -147,10 +147,13 @@ namespace mesmer
       CollidingMolecule *isomer = isomeritr->first ;
       isomeritr->second = msize ; //set location
 
-      double zpe = (isomer->get_zpe()) - minEnergy ; // cell zpe related with the minimum of all wells
-      int grnZpe = int(zpe * KcalPerMolToRC / Env.GrainSize) ; //convert to grain
-
-      isomer->set_grnZpe(grnZpe) ; //set grain ZPE (related with the minimum of all wells)
+      double zpe = (isomer->get_zpe()) - minEnergy ; // cell zpe with respect to the minimum of all wells
+      int grnZpe = int(zpe * kJPerMolInRC / Env.GrainSize) ; //convert to grain
+      
+      // only a safetly check, should not see this message.
+      if (grnZpe < 0) cerr << "Grain zero point energy has to be a positive integer."; 
+      
+      isomer->set_grnZpe(grnZpe) ; //set grain ZPE (with respect to the minimum of all wells)
       int colloptrsize = Env.MaxGrn - grnZpe ;
       isomer->set_colloptrsize(colloptrsize) ;
       msize += colloptrsize ;
@@ -161,31 +164,26 @@ namespace mesmer
     meanomega /= isomers.size();
 
     //
-    // Find all source terms. 
-    // Note: 1. A source term is probably the only deficient reactant that initiates 
-    //          the whole process of reactions in the master equation. In this case   
+    // Find all source terms.
+    // Note: 1. A source term is probably the only deficient reactant that initiates
+    //          the whole process of reactions in the master equation. In this case
     //          we think there may be more than one source terms.
-    //       2. In the current construction of Mesmer, the source is a SuperMolecule 
+    //       2. In the current construction of Mesmer, the source is a SuperMolecule
     //          representing both reactants.
     Reaction::sourceMap sources ; // Maps the location of source in the system matrix.
     for (size_t i(0) ; i < size() ; ++i) {
-
 			AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
 			if (pReaction) {
 				SuperMolecule *pSuperMolecule = pReaction->get_bi_molecularspecies();
-      if (pSuperMolecule && sources.find(pSuperMolecule) == sources.end()){ // New source
-        sources[pSuperMolecule] = msize ;
-					pReaction->putSourceMap(&sources) ;
-        ++msize ;
+        if (pSuperMolecule && sources.find(pSuperMolecule) == sources.end()){ // New source
+          sources[pSuperMolecule] = msize ;
+			  	pReaction->putSourceMap(&sources) ;
+          ++msize ;
+        }
       }
-    }
 		}
 
-    {
-      stringstream errorMsg;
-      errorMsg << "Size of the collision matrix: " << msize;
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-    }
+    cinfo << "Size of the collision matrix: " << msize << endl;
 
     // Allocate space for system collision operator.
 
@@ -198,15 +196,27 @@ namespace mesmer
       int colloptrsize = isomer->get_colloptrsize() ;
       double omega = isomer->get_collisionFrequency() ;
       int idx = isomeritr->second ;
+      if (debugFlag) ctest << "reduced omega = " << omega << " / " << meanomega << " = " << omega/meanomega << endl;
 
       isomer->copyCollisionOperator(m_pSystemCollisionOperator, colloptrsize, idx, omega/meanomega) ;
 
+    }
+
+    if (collisionOperatorCheck){
+      ctest << "\nSystem collision operator check before adding microrates:\n";
+      (*m_pSystemCollisionOperator).showFinalBits(8);
     }
 
     // Add connecting rate coefficients.
     for (size_t i(0) ; i < size() ; ++i) {
       m_reactions[i]->AddMicroRates(m_pSystemCollisionOperator,isomers,1.0/meanomega) ;
     }
+
+    if (collisionOperatorCheck){
+      ctest << "\nSystem collision operator check after adding microrates:\n";
+      (*m_pSystemCollisionOperator).showFinalBits(8);
+    }
+
 
     return true;
   }
@@ -215,14 +225,15 @@ namespace mesmer
   {
     // Allocate space for eigenvalues.
     const int smsize = int(m_pSystemCollisionOperator->size()) ;
-    vector<double> rr(smsize, 0.0);
-    {
-      stringstream errorMsg;
-      errorMsg << "Size of the collision operator = " << smsize;
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-    }
+    std::vector<double> rr(smsize, 0.0);
+    cinfo << "Size of the collision operator = " << smsize << endl;
 
     m_pSystemCollisionOperator->diagonalize(&rr[0]) ;
+
+    if (collisionOperatorCheck){
+      ctest << "\nSystem collision operator check after diagonalization:\n";
+      (*m_pSystemCollisionOperator).showFinalBits(8);
+    }
 
     int numberStarted = 0;
     int numberPrinted = smsize; // Default prints all of the eigenvalues
@@ -231,7 +242,7 @@ namespace mesmer
       numberStarted = smsize - Env.printEigenValuesNum;
     }
 
-    ctest << "\nTotal number of eigenvalues = " << smsize << endl; 
+    ctest << "\nTotal number of eigenvalues = " << smsize << endl;
     ctest << "Eigenvalues\n{\n";
     for (int i = numberStarted ; i < smsize; ++i) {
       formatFloat(ctest, rr[i], 6, 15) ;
@@ -247,11 +258,11 @@ namespace mesmer
   {
     PersistPtr ppmol = pp->XmlMoveTo("molecule");
     if(!ppmol) {
-      meErrorLog.ThrowError(__FUNCTION__, string("Ill formed reactant or product."), obError);
+      meErrorLog.ThrowError(__FUNCTION__, string("Ill formed molecule tag."), obError);
       return false;
     }
     MolName = ppmol->XmlReadValue("ref");
-    if(MolName.size()){ 
+    if(MolName.size()){
       MolType = ppmol->XmlReadValue("me:type");
     } else {
       meErrorLog.ThrowError(__FUNCTION__, string("Cannot find molecule name."), obError);

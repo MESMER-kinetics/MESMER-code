@@ -23,7 +23,7 @@ class dMatrix : public Matrix<MesmerHP> {
 public:
 
   // Constructor
-  dMatrix(int n) : Matrix<MesmerHP>(n) { } ;
+  dMatrix(int n) : Matrix<MesmerHP>(n, 0.0) { } ;
 
   // Wrapped call to LAPACK routine to diagonalise matrix.
   void diagonalize(double *rr) {

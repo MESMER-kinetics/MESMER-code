@@ -18,28 +18,29 @@ using namespace mesmer;
 namespace mesmer
 {
   Reaction::Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
-m_Env(Env),
-m_Name(id),
-m_pMoleculeManager(pMoleculeManager),
-m_srct(NULL),
-m_rct1(NULL),
-m_rct2(NULL),
-m_pdt1(NULL),
-m_pdt2(NULL),
-m_TransitionState(NULL),
-m_HeatOfReaction(0.0),
-m_kfwd(0.0),
-m_CellKfmc(),
-m_GrainKfmc(),
-m_ActEne(0.0),
-m_PreExp(0.0),
-m_NInf(0.0),
-m_ERConc(0.0),
-m_ppPersist(),
-m_pMicroRateCalculator(NULL)
-{}
+    m_Env(Env),
+    m_Name(id),
+    m_PreExp(0.0),
+    m_NInf(0.0),
+    m_ERConc(1.0),
+    m_kfwd(0.0),
+    m_HeatOfReaction(0.0),
+    m_pMoleculeManager(pMoleculeManager),
+    m_pMicroRateCalculator(NULL),
+    m_ppPersist(),
+    m_srct(NULL),
+    m_rct1(NULL),
+    m_rct2(NULL),
+    m_pdt1(NULL),
+    m_pdt2(NULL),
+    m_TransitionState(NULL),
+    m_CellKfmc(),
+    m_CellKbmc(),
+    m_GrainKfmc(),
+    m_GrainKbmc()
+    {}
 
-Reaction::~Reaction(){}
+  Reaction::~Reaction(){}
 
 /*
 Reaction::Reaction(const Reaction& reaction) {
@@ -220,14 +221,6 @@ bool Reaction::ReadRateCoeffParameters(PersistPtr ppReac) {
       m_HeatOfReaction = zpe_pdt1 + zpe_pdt2 - zpe_rct1 - zpe_rct2;
     }
 
-    //Read in Kinetic rate parameters, if present
-    m_ActEne = std::numeric_limits<double>::quiet_NaN();//means not set
-
-    const char* pActEnetxt = ppReac->XmlReadValue("me:activationEnergy",false);
-    if (pActEnetxt)
-    {
-      stringstream s1(pActEnetxt); s1 >> m_ActEne ;
-    }
     const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential",false);
     if (pPreExptxt)
     {
@@ -260,7 +253,7 @@ bool Reaction::ReadRateCoeffParameters(PersistPtr ppReac) {
       }
     }
 
-	return true ;
+  return true ;
 }
 
 
@@ -268,41 +261,44 @@ bool Reaction::ReadRateCoeffParameters(PersistPtr ppReac) {
   // Calculate reaction equilibrium constant.
   //
   double Reaction::calcEquilibriumConstant() {
+    // equilibrium constant:
 
     double Keq(0.0) ;
 
     // Get Canonical partition functions.
 
-    double Qrct1 = m_rct1->grnCanPrtnFn() ;
+    double Qrcts = 1.0;
+    if (m_rct2)
+      Qrcts = m_srct->grnCanPrtnFn();
+    else
+      Qrcts = m_rct1->grnCanPrtnFn() ;
+
     double Qpdt1 = m_pdt1->grnCanPrtnFn() ;
 
-    double Qrct2 = (m_rct2)? m_rct2->grnCanPrtnFn() : 1.0 ;
-    double Qpdt2 = (m_pdt2)? m_pdt2->grnCanPrtnFn() : 1.0 ;
+    double mass_rct1 = m_rct1->getMass();
+    double mass_rct2 = (m_rct2)? m_rct2->getMass() : 0.0;
+    double mass_srct = mass_rct1 + mass_rct2;
 
     // Calculate the equilibrium constant.
-    if(0){stringstream errorMsg;
-    errorMsg << "Qrct1 = " << Qrct1 << ", Qpdt1 = " << Qpdt1 << ", Qrct2 = " << Qrct2 << ", Qpdt2 = " << Qpdt2;
-    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
-
     double beta = getEnv().beta ;
 
-    Keq = (Qpdt1*Qpdt2)/(Qrct1*Qrct2) ;     // Whatever reaction.
-    Keq *= exp(-beta*m_HeatOfReaction) ;
+    Keq = Qpdt1/Qrcts ;
+    if(debugFlag) ctest << "Keq = " << Keq << endl;
 
-    // check in ASSOCIATION reaction, if the partition function of the SuperMolecule is equal to the product of the
-    // partitions of the two reactants.
-    /*    if (m_rct1 && m_rct2 && m_pdt1 && !m_pdt2){
-    double Qrcts = m_srct->grnCanPrtnFn();
-    if (Qrcts != Qrct1){
-    double diff = Qrcts - Qrct1;
-    stringstream errorMsg;
-    errorMsg << "Partition function of the SuperMolecule is not consistent with the product of partition functions of the reactants. Diff = " << diff;
-    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
-    }
-    } */
+    /* Electronic degeneracies were already accounted for in DOS calculations */
+    // Heat of reaction
+    Keq *= exp(-beta * m_HeatOfReaction * kJPerMolInRC) ;
+    if(debugFlag) ctest << "Keq = " << Keq << endl;
 
+    // Translational contribution
+    // 2.0593e19 = conversion factor,  1e-6*(((cm-1 -> j)/(h2*na)))^3/2
+    // double tau = 2.0593e19 * pow(2. * M_PI ,1.5);
+    if (m_rct2)
+      Keq /= (tp_C * pow(mass_rct1 * mass_rct2 / (mass_srct * beta), 1.5));
+
+    if(debugFlag) ctest << "Keq = " << Keq << endl;
     return Keq ;
-}
+  }
 
 //
 // Access microcanoincal rate coefficients.
@@ -312,23 +308,64 @@ void Reaction::get_MicroRateCoeffs(std::vector<double> &kmc) {
     kmc = m_GrainKfmc ;
 }
 
+double Reaction::get_ActivationEnergy(void) {
+  double AE = m_TransitionState->get_zpe() - m_rct1->get_zpe();
+  if (m_rct2) AE -= m_rct2->get_zpe(); 
+  if(IsNan(AE)){
+    cerr << "To use SimpleILT for reaction " << getName() << " the ZPE of the transition state needs to be set.";
+    exit(1);
+  }
+  return AE; 
+} ;
+
+
 //
 // Calculate grain averaged microcanonical rate coefficients.
 //
 bool Reaction::calcGrnAvrgMicroRateCoeffs() {
 
     // Calculate microcanonical rate coefficients.
-    if (m_CellKfmc.size()==0)
+    if (m_CellKfmc.empty() || m_CellKbmc.empty())
     {
-      if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this, m_CellKfmc, getEnv()) ||
-        (getEnv().microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_CellKfmc, m_ppPersist, getEnv())))
+      if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this) ||
+        (getEnv().microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_ppPersist)))
         return false;
     }
 
-    // Calculate Grain averages of microcanonical rate coefficients.
-    if (m_GrainKfmc.size()==0)
+    // Calculate Grain-averaged microcanonical rate coefficients.
+    if (m_GrainKfmc.empty() || m_GrainKbmc.empty())
       return grnAvrgMicroRateCoeffs() ;
     return true;
+}
+
+void Reaction::grnAvg(const int _MG, const int _gsz, const std::vector<double> &DOS, const std::vector<double> &CellRC, std::vector<double> &GrainRC){
+  int idx1(0), idx2(0);
+  for (int i = 0; i < _MG ; ++i ) {
+    int idx3(idx1);
+
+    // Calculate the number of states in a grain.
+    double gNOS = .0 ;
+    for (int j = 0 ; j < _gsz ; ++j, ++idx1 ) gNOS += DOS[idx1] ;
+
+    // Calculate average energy of the grain if it contains sum states.
+    if ( gNOS > 0.0 ) {
+      double gSE = .0;
+      for (int j= 0 ; j < _gsz ; ++j, ++idx3 ) gSE += CellRC[idx3] * DOS[idx3] ;
+      GrainRC[idx2] = gSE/gNOS ;
+    }
+    idx2++ ;
+  }
+
+  // Issue warning if number of grains produced is less that requested.
+  if ( idx2 != _MG ) {
+    cerr << "Number of grains produced is not equal to that is requested" << endl
+             << "Number of grains requested: " << _MG << endl
+             << "Number of grains produced : " << idx2 << " in " << getName();
+  }
+  else{
+      //      cinfo << "Number of grains requested: " << MaximumGrain << endl
+      //            << "Number of grains produced : " << idx2 << " in " << getName() << endl;
+  }
 }
 
 //
@@ -339,62 +376,50 @@ bool Reaction::calcGrnAvrgMicroRateCoeffs() {
 bool Reaction::grnAvrgMicroRateCoeffs() {
 
     int MaximumGrain = getEnv().MaxGrn;
-    double currentGrainSize = getEnv().GrainSize;
+    int grnSize = static_cast<int>(getEnv().GrainSize);
+
+    // Always calculate forward grain microcanonical rate coefficients.
     m_GrainKfmc.resize(MaximumGrain, 0.);
+    if (m_pdt1) 
+      m_GrainKbmc.resize(MaximumGrain, 0.);
 
     // Extract density of states of equilibrium molecule.
+    std::vector<double> rctCellDOS;
+    std::vector<double> pdtCellDOS;
+    if (m_rct2)
+      m_srct->getCellDensityOfStates(rctCellDOS);
+    else
+      m_rct1->getCellDensityOfStates(rctCellDOS);
 
-    vector<double> cellDOS(getEnv().MaxCell,0.0) ;
-    m_rct1->getCellDensityOfStates(cellDOS) ;
+    if (m_pdt1) 
+      m_pdt1->getCellDensityOfStates(pdtCellDOS);
 
-    // Check that there are enough cells.
-
-    if (currentGrainSize < 1) {
-        meErrorLog.ThrowError(__FUNCTION__, string("Not enought Cells to produce requested number of Grains."), obError);
+    // Check if there are enough cells.
+    if (grnSize < 1) {
+      cerr << "The requested grain size is invalid.";
       exit(1) ;
     }
 
-    int idx1 = 0 ;
-    int idx2 = 0 ;
+    grnAvg(MaximumGrain, grnSize, rctCellDOS, m_CellKfmc, m_GrainKfmc);
+    if (m_pdt1) 
+      grnAvg(MaximumGrain, grnSize, pdtCellDOS, m_CellKbmc, m_GrainKbmc);
 
-    for (int i = 0; i < MaximumGrain ; ++i ) {
-
-      int idx3 = idx1 ;
-
-      // Calculate the number of states in a grain.
-
-      double gNOS = .0 ;
-      for (int j = 0 ; j < currentGrainSize ; ++j, ++idx1 )
-        gNOS += cellDOS[idx1] ;
-
-      // Calculate average energy of the grain if it contains sum states.
-        // need to think about how to deal with DOS/ENE of atoms. (there should 
-		// have no rovibrational DOS/ENE for atoms)
-      if ( gNOS > 0.0 ) {
-
-        double gSE = .0;
-        for (int j= 0 ; j < currentGrainSize ; ++j, ++idx3 )
-          gSE += m_CellKfmc[idx3] * cellDOS[idx3] ;
-
-        m_GrainKfmc[idx2] = gSE/gNOS ;
+    if (getEnv().kfEGrainsEnabled){
+      ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
+      for (int i = 0; i < MaximumGrain; ++i){
+        ctest << m_GrainKfmc[i] << endl;
       }
-      idx2++ ;
+      ctest << "}\n";
     }
 
-    // Issue warning if number of grains produced is less that requested.
-    if ( idx2 != MaximumGrain ) {
-      {stringstream errorMsg;
-      errorMsg << "Number of grains produced is not equal to that requested" << endl
-               << "Number of grains requested: " << MaximumGrain << endl
-               << "Number of grains produced : " << idx2 << " in " << getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
+    if (getEnv().kbEGrainsEnabled && m_pdt1){
+      ctest << "\nk_b(e) grains for " << getName() << ":\n{\n";
+      for (int i = 0; i < MaximumGrain; ++i){
+        ctest << m_GrainKbmc[i] << endl;
+      }
+      ctest << "}\n";
     }
-    else{
-        //      {stringstream errorMsg;
-        //      errorMsg << "Number of grains requested: " << MaximumGrain << endl
-        //               << "Number of grains produced : " << idx2 << " in " << getName();
-        //      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
-    }
+
     return true;
 }
 
@@ -410,6 +435,43 @@ void Reaction::AddMicroRates(dMatrix *CollOptr,
 
     // Add microcanonical rates to the collision operator.
     AddReactionTerms(CollOptr, isomermap, rMeanOmega) ;
+}
+
+//
+// DetailedBalance
+//
+void Reaction::detailedBalance(const int dir){
+  // if dir == -1 then do backward -> forward conversion
+  
+  int MaximumCell = getEnv().MaxCell;
+
+  if (dir == -1) {
+    m_CellKfmc.resize(MaximumCell, 0.0);
+
+    for (int i = 0; i < MaximumCell; ++i)
+      m_CellKfmc[i] = m_CellKbmc[i] * m_srct->m_cellDOS[i] / m_pdt1->m_cellDOS[i];
+    
+    if (getEnv().kfECellsEnabled){
+      ctest << "k_f(e) cells:\n{\n";
+      for (int i = 0; i < MaximumCell; ++i)
+          ctest << m_CellKfmc[i] << endl;
+      ctest << "}" << endl;
+    }
+  }
+  else{
+    m_CellKbmc.resize(MaximumCell, 0.0);
+
+    for (int i = 0; i < MaximumCell; ++i)
+      m_CellKbmc[i] = m_CellKfmc[i] * m_pdt1->m_cellDOS[i] / m_srct->m_cellDOS[i];
+    
+    if (getEnv().kbECellsEnabled){
+      ctest << "k_b(e) cells:\n{\n";
+      for (int i = 0; i < MaximumCell; ++i)
+          ctest << m_CellKbmc[i] << endl;
+      ctest << "}" << endl;
+    }
+  }
+  
 }
 
 

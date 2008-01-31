@@ -17,50 +17,49 @@
 namespace mesmer
 {
 
-	class AssociationReaction : public Reaction
-	{
-	public:
+  class AssociationReaction : public Reaction
+  {
+  public:
 
-		// Constructors.
-		AssociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
-		  Reaction(pMoleculeManager, Env, id),
-		  m_sourceMap(NULL),
-		  m_excessReactantConc(1.0e10){} ;
+    // Constructors.
+    AssociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
+      Reaction(pMoleculeManager, Env, id),
+      m_sourceMap(NULL){} ;
 
-		  // Destructor.
-		  ~AssociationReaction();
+      // Destructor.
+      virtual ~AssociationReaction(){
+        delete m_sourceMap;
+      };
 
-		  void putSourceMap(sourceMap *sourcemap){m_sourceMap = sourcemap ; } ;
+      void putSourceMap(sourceMap *sourcemap){m_sourceMap = sourcemap ; } ;
 
-		  // Get unimolecular species information:
-		  virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const 
-		  {        
-			  unimolecularspecies.push_back(m_pdt1) ;
-			  return 1;
-		  } ;
+      // Get unimolecular species information:
+      virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const
+      {
+        unimolecularspecies.push_back(m_pdt1) ;
+        return 1;
+      } ;
 
           // Initialize reaction.
           virtual bool InitializeReaction(PersistPtr ppReac) ;
 
-		  // Product information:
-		  virtual SuperMolecule* get_bi_molecularspecies(void) const {return m_srct ; } ;
+    // Product information:
+    virtual SuperMolecule* get_bi_molecularspecies(void) const {return m_srct ; } ;
 
-		  // Get the principal source reactant (i.e. reactant not in excess).
-		  virtual ModelledMolecule *get_pseudoIsomer(void) const {return m_pdt1 ; } ;
+    // Get the principal source reactant (i.e. reactant not in excess).
+    virtual ModelledMolecule *get_pseudoIsomer(void) const {return m_pdt1 ; } ;
 
-	private:
+  private:
 
-		// Calculate reaction equilibrium constant.
-		virtual double calcEquilibriumConstant() ;
+    // Calculate reaction equilibrium constant.
+    virtual double calcEquilibriumConstant() ;
 
-		// Add reaction terms to collision matrix.
-		virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+    // Add reaction terms to collision matrix.
+    virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
 
-		sourceMap *m_sourceMap ;
+    sourceMap *m_sourceMap ;
 
-		double m_excessReactantConc ;
-
-	} ;
+  } ;
 
 
 }//namespace

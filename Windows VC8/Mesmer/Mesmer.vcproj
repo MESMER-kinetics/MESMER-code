@@ -41,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
-				AdditionalIncludeDirectories="../../src ../../tinyxml"
+				AdditionalIncludeDirectories="&quot;../../src ../../tinyxml ../../qd/Windows VC/include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -62,7 +62,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="qd.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="../../qd/Windows VC/Release"
+				DelayLoadDLLs="qd.dll"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -182,7 +185,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\BathGasMolecule.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ClassicalRotor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\CollidingMolecule.cpp"
 				>
 			</File>
 			<File
@@ -230,6 +241,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ModelledMolecule.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Molecule.cpp"
 				>
 			</File>
@@ -255,6 +270,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\SimpleRRKM.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\SuperMolecule.cpp"
 				>
 			</File>
 			<File
@@ -286,6 +305,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\TransitionState.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\XMLPersist.cpp"
 				>
 			</File>
@@ -305,6 +328,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Constants.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\qd\Windows VC\include\qd\dd_inline.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\qd\Windows VC\include\qd\dd_real.h"
 				>
 			</File>
 			<File
@@ -373,6 +404,18 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Persistence.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\qd\Windows VC\include\qd\qd_config.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\qd\Windows VC\include\qd\qd_inline.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\qd\Windows VC\include\qd\qd_real.h"
 				>
 			</File>
 			<File

@@ -1,4 +1,5 @@
 #include "ClassicalRotor.h"
+#include "Bayer_Swinehart.h"
 
 using namespace std;
 namespace mesmer
@@ -61,13 +62,13 @@ namespace mesmer
     double cnt = q1 * q2 / (s1 * s2);
 
     if      (rotorType <  0 && rotor1Type < rotor2Type){ // only p_mol2 a rotor
-      rcts->m_cellDOS.assign(p_mol2->m_cellDOS.begin(), p_mol2->m_cellDOS.end());
-      rcts->m_cellEne.assign(p_mol2->m_cellEne.begin(), p_mol2->m_cellEne.end());
+      rcts->m_cellDOS = p_mol2->m_cellDOS;
+      rcts->m_cellEne = p_mol2->m_cellEne;
       return true;
     }
     else if (rotorType <  0 && rotor1Type > rotor2Type){ // only p_mol1 a rotor
-      rcts->m_cellDOS.assign(p_mol1->m_cellDOS.begin(), p_mol1->m_cellDOS.end());
-      rcts->m_cellEne.assign(p_mol1->m_cellEne.begin(), p_mol1->m_cellEne.end());
+      rcts->m_cellDOS = p_mol1->m_cellDOS;
+      rcts->m_cellEne = p_mol1->m_cellEne;
       return true;
     }
     else if (rotorType == 0){                            // both 2-D linear
@@ -89,20 +90,13 @@ namespace mesmer
 
     //-----------------------------------------------------------------------------------------------------
     // convolution of vibrational DOS onto rotational DOS -- loop through all frequencies of both molecules
-    vector<double> vfMol1; p_mol1->get_VibFreq(vfMol1);
+    vector<double> vfMols; p_mol1->get_VibFreq(vfMols);
     vector<double> vfMol2; p_mol2->get_VibFreq(vfMol2);
-    for (vector<double>::size_type i = 0; i < vfMol1.size(); ++i){
-      int nFreq = static_cast<int>(vfMol1[i]);
-      for (int j = 0; j < (mEnv.MaxCell - nFreq); ++j){
-        dimerCellDOS[nFreq + j] += dimerCellDOS[j];
-      }
-    }
     for (vector<double>::size_type i = 0; i < vfMol2.size(); ++i){
-      int nFreq = static_cast<int>(vfMol2[i]);
-      for (int j = 0; j < (mEnv.MaxCell - nFreq); ++j){
-        dimerCellDOS[nFreq + j] += dimerCellDOS[j];
-      }
+      vfMols.push_back(vfMol2[i]);
     }
+    
+    Bayer_Swinehart(vfMols, dimerCellDOS, mEnv.MaxCell);
 
     //electronic degeneracy
     vector<double> eleExc1, eleExc2;
@@ -125,8 +119,8 @@ namespace mesmer
       }
     }
 
-    rcts->m_cellDOS.assign(dimerCellDOS.begin(), dimerCellDOS.end());
-    rcts->m_cellEne.assign(mol1CellEne.begin(), mol1CellEne.end());
+    rcts->m_cellDOS = dimerCellDOS;
+    rcts->m_cellEne = mol1CellEne;
     return true;
   }
 
@@ -178,16 +172,8 @@ namespace mesmer
         }
     }
 
-
     // Implementation of the Bayer-Swinehart algorithm.
-    for ( vector<double>::size_type j = 0 ; j < VibFreq.size() ; ++j ) {
-      int iFreq = static_cast<int>(VibFreq[j]) ;
-      // +.5 makes sure it floors to the frequency that is closer to the integer
-      // the original case has larger difference where if frequency = 392.95 it floors to 392
-      for (int i = 0 ; i < mEnv.MaxCell - iFreq ; ++i ){
-        mol->m_cellDOS[i + iFreq] += mol->m_cellDOS[i] ;
-      }
-    }
+    Bayer_Swinehart(VibFreq, mol->m_cellDOS, mEnv.MaxCell);
 
     //electronic degeneracy
     vector<double> eleExc;

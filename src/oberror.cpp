@@ -25,7 +25,7 @@ MessageHandler meErrorLog;
 
 //////////////////////////////////////////////////////////////////
 MessageHandler::MessageHandler(ostream* logstream) :
-_outputLevel(obWarning), _logging(true), _logStream(logstream)
+_outputLevel(obWarning), _logStream(logstream), _logging(true)
 {}
 
 ///////////////////////////////////////////////////////////////////

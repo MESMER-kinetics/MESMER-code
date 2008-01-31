@@ -26,7 +26,7 @@ namespace mesmer
       Reaction(pMoleculeManager, Env, id){} ;
 
     // Destructor.
-    ~ExchangeReaction(){} ;
+    virtual ~ExchangeReaction(){} ;
 
     // Get unimolecualr species information:
     virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const 
