@@ -18,7 +18,7 @@
       </bondarray>
       <propertyList>
         <property dictRef="me:ZPE">
-          <scalar units="kcal/mol">2.180</scalar>
+          <scalar units="kJ/mol">9.12112</scalar>
         </property>
         <property dictRef="me:rotConsts">
           <array units="cm-1">0.60318 0.06728 0.06356</array>
@@ -48,7 +48,7 @@
           <scalar units="cm-1">230.0</scalar>
         </property>
         <property dictRef="me:spinMultiplicity">
-            <scalar>2</scalar>
+            <scalar>1</scalar>
         </property>
       </propertyList>
     </molecule>
@@ -69,7 +69,7 @@
       </bondarray>
       <propertyList>
         <property dictRef="me:ZPE">
-          <scalar units="kcal/mol">25.99</scalar>
+          <scalar units="kJ/mol">108.74216</scalar>
         </property>
         <property dictRef="me:rotConsts">
           <array units="cm-1">
@@ -139,7 +139,7 @@
           <scalar units="cm-1">230.0</scalar>
         </property>
         <property dictRef="me:spinMultiplicity">
-            <scalar>2</scalar>
+            <scalar>1</scalar>
         </property>
       </propertyList>
     </molecule>
@@ -160,7 +160,7 @@
       </bondarray>
       <propertyList>
         <property dictRef="me:ZPE">
-          <scalar units="kcal/mol">0.0</scalar>
+          <scalar units="kJ/mol">0.0</scalar>
         </property>
         <property dictRef="me:rotConsts">
           <array units="cm-1">
@@ -195,7 +195,7 @@
           <scalar units="cm-1">230.0</scalar>
         </property>
         <property dictRef="me:spinMultiplicity">
-            <scalar>2</scalar>
+            <scalar>1</scalar>
         </property>
       </propertyList>
     </molecule>
