@@ -22,11 +22,11 @@ namespace Constants {
   //
   static const double boltzmann_C             = 1.3806503e-23;  // Boltzmann constant (J*K-1).
   static const double SpeedOfLight_cm         = 2.99792458e+10 ;// speed of light in centimeter
-  static const double PlancksConstant         = 6.626068e-34;   // Planck's constant in Joule per second
-  static const double boltzmann_RCpK          = 0.69503877 ;   
+  static const double PlancksConstant         = 6.6260689633e-34;   // Planck's constant in Joule per second
+  static const double boltzmann_RCpK          = 0.695035612 ;   
                                                                 // Boltzmann constant (cm*K)-1. (Reciprocal Centimeter per Kelvin)
                                                                 // boltzmann_C /(SpeedOfLight_cm * PlancksConstant);
-  static const double AvogadroC               = 6.02214179e+23;
+  static const double AvogadroC               = 6.0221367e+23;
   static const double kJPerMolInRC            = 83.593461;      // kilo Joule per mol to reciprocal centimeter
                                                                 // 1.0e3 / (AvogadroC * PlancksConstant * SpeedOfLight_cm);
   static const double CalorieInJoule          = 4.184;
@@ -35,11 +35,6 @@ namespace Constants {
 
                                                                 // kilo Joule per mol to reciprocal centimeter
   static const double tp_C                    = 3.24331e+20;    //pow((2 * M_PI * SpeedOfLight_cm) / (1.0e3 * PlancksConstant * AvogadroC * 1.0e4),1.5);
-
-
-
-
-
 
   static const double boltzmannC              = 1.3806503e-23;  // m2 kg s-2 K-1
   static const double AtmInMmHg               = 760.0;
@@ -53,5 +48,4 @@ namespace Constants {
   static const bool collisionOperatorCheck = false;
   static const bool debugFlag              = false;
 }
-
 #endif // GUARD_Constants_h

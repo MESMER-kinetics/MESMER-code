@@ -1,3 +1,7 @@
+_2008_03_13__12_14_38_ Chi-Hsiu Liang
+
+  Return the constants changed from 107-108.
+
 _2008_01_31__19_01_16_ Chi-Hsiu Liang
 
   * Removed all KcalPerMolToRC in Mesmer. This made the calculation slow. The input units are SI. 
