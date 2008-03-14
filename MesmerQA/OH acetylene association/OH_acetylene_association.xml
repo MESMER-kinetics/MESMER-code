@@ -212,11 +212,9 @@
     </reactionList>
     <me:conditions>
         <me:bathGas>N_2</me:bathGas>
-        <me:conc>1000</me:conc>
-        <!--Three ways to input temperatures at which calcs are to be done-->
-        <me:temperature units="K">298.0</me:temperature>
-        <!--<me:temperature initial="100" increment="50" final="500" />-->
-        <!--<me:temperature increment="200" final="3000">2200</me:temperature>-->
+        <me:CPTs>
+          <me:CPTpair me:units="1" me:CP="1000" me:T="298.0" />
+        </me:CPTs>
     </me:conditions>
     <me:modelParameters>
         <!--Specify grain size directly...-->

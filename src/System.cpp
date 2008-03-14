@@ -108,24 +108,40 @@ namespace mesmer
       m_pMoleculeManager->set_BathGasMolecule(Bgtxt) ;
     }
 
-    if(!ReadRange("me:temperature", Temperatures, ppConditions))   return false;
-    if(!ReadRange("me:conc", Concentrations, ppConditions, false)) return false;
-    if(!ReadRange("me:pressure", Pressures, ppConditions, false))  return false;
+    //--------------
+    //  The concentration/pressure units are of following formats:
+    //  units:
+    //   0: particles per cubic centimeter
+    //   1: Torr
+    //
+    //  Allowed input formats are shown below (example units in particles per cubic centimeter).
+    //
+    //  <me:CPTs>
+    //    <me:CPTset me:units="0">
+    //      <me:CPrange initial="1e8" increment="2e7" final="2e8">
+    //      <me:Trange initial="100" increment="20" final="200">
+    //    </me:CPTset>
+    //  </me:CPTs>
+    //
+    //  The above example will create a matrix of concentration/temperature points of the size:
+    //      (number of CP points) x (number of T points)
+    //
+    //  Another example of specifying small numbers of CPT points (example units in Torr):
+    //
+    //  <me:CPTs>
+    //    <me:CPTpair me:units="1" me:CP="100" me:T="200">
+    //    <me:CPTpair me:units="0" me:CP="1e18" me:T="298">
+    //  </me:CPTs>
+    //
+    //  The looping of the CPT points are easy, they are first parsed and all the points are stored in pairs in
+    //  vector CPandTs, and Mesmer simply loop through all its members.
+    //--------------
 
-    if(Concentrations.size()==0 && Pressures.size()==0)
-    {
-      cerr << "It is necessary to specify at least one bath gas concentration or pressure point.";
-      return false;
-    }
-    else{
-      cinfo << "Number of concentration points: " << Concentrations.size()
-            << "\nNumber of      pressure points: " << Pressures.size()
-            << "\nNumber of   temperature points: " << Temperatures.size();
-    }
-    
-    if (Pressures.size()==0){
-      Pressures = Concentrations; // need to do conversion?
-    }
+    PersistPtr ppCPTs = ppConditions->XmlMoveTo("me:CPTs");
+    if(ppCPTs)
+      readCPTs(ppCPTs);
+    if (!CPandTs.size())
+      cerr << "No concentration/pressure and temperature specified.";
 
     PersistPtr ppControl = ppIOPtr->XmlMoveTo("me:control");
     if(ppControl)
@@ -149,6 +165,79 @@ namespace mesmer
     }
 
     return true;
+  }
+  
+  double System::getConvertedCP(CPandTpair pair)
+  {
+    switch (pair.units)
+    {
+      case 0:
+        return pair.cp;
+      case 1:
+        return ((pair.cp / AtmInMmHg) * pascalPerAtm * AvogadroC / (idealGasC * pair.t * 1.0e6));
+    }
+    return 0.;
+  }
+
+  //pop the CP and T points into CPandTs
+  void System::readCPTs(PersistPtr anchor)
+  {
+    PersistPtr pp=anchor;
+    const char* txt;
+
+    //defaults
+    const int _units = 0;
+    std::vector<double> _CP;
+    _CP.push_back(1e17);
+    _CP.push_back(760.);
+
+    const double _temp = 298.;
+
+    // check for set values
+    PersistPtr ppCPTset = pp->XmlMoveTo("me:CPTset");
+    while (ppCPTset){
+      txt = ppCPTset->XmlReadValue("me:units");
+      int this_units = _units;
+      if (!txt){
+        cerr << "No units provided. Default units " << _units << " are used.";
+        this_units = _units;
+      }
+
+      std::vector<double> CPvals, Tvals;
+      if(!ReadRange("me:CPrange", CPvals, ppCPTset)) CPvals.push_back(_CP[this_units]);
+      if(!ReadRange("me:Trange", Tvals, ppCPTset))   Tvals.push_back(_temp);
+
+      for (unsigned int i = 0; i < CPvals.size(); ++i){
+        for (unsigned int j = 0; j < Tvals.size(); ++j){
+          CPandTpair thisPair(this_units, CPvals[i], Tvals[j]);
+          CPandTs.push_back(thisPair);
+        }
+      }
+      ppCPTset = ppCPTset->XmlMoveTo("me:CPTset");
+    }
+
+    // check for indivually specified points
+    PersistPtr ppCPTpair = pp->XmlMoveTo("me:CPTpair");
+    while (ppCPTpair){
+      int this_units = 0;
+      txt = ppCPTpair->XmlReadValue("me:units");
+      if (txt)
+        this_units = atoi(txt);
+      double this_CP = _CP[this_units];
+      double this_T = _temp;
+
+      txt = ppCPTpair->XmlReadValue("me:CP");
+      if (txt)
+        this_CP = atof(txt);
+      txt = ppCPTpair->XmlReadValue("me:T");
+      if (txt)
+        this_T = atof(txt);
+
+      CPandTpair thisPair(this_units, this_CP, this_T);
+      CPandTs.push_back(thisPair);
+
+      ppCPTpair = ppCPTpair->XmlMoveTo("me:CPTpair");
+    }
   }
 
   //
@@ -188,10 +277,10 @@ namespace mesmer
     }
     */
 
-    m_Env.beta = 1.0 / (boltzmann_RCpK * Temperatures[0]) ; //temporary statements
+    m_Env.beta = 1.0 / (boltzmann_RCpK * CPandTs[0].t) ; //temporary statements
     double beta = m_Env.beta;
-    m_Env.conc = (Pressures[0] / AtmInMmHg) * pascalPerAtm * AvogadroC / (idealGasC * Temperatures[0] * 1.0e6);
-    // need to think of auto-conversion of units? The pressure unit now is mmHg.
+    m_Env.conc = getConvertedCP(CPandTs[0]);
+    // unit of conc: mol
 
     //---------------
     //About precision
@@ -290,6 +379,9 @@ namespace mesmer
 
     //m_Env.MaxT gives the option of widening the energy range
     if(m_Env.MaxT <= 0.0){
+      std::vector<double> Temperatures;
+      for (unsigned int i = 0; i < CPandTs.size(); ++i)
+        Temperatures.push_back(CPandTs[i].t);
       m_Env.MaxT = *max_element(Temperatures.begin(), Temperatures.end());
 //      stringstream errorMsg;
 //      errorMsg << "Maximum Temperature was not set. Reset Maximum Temperature, me:maxTemperature to remove this message.";

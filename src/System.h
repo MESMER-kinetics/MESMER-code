@@ -18,6 +18,21 @@
 
 namespace mesmer
 {
+  // to make sure if there is a concentration or pressure definition, there is a temperature definition.
+  class CPandTpair{
+    /*
+    units:
+    0: particles per cubic centimeter
+    1: mmHg
+    2:
+    */
+    public:
+      CPandTpair(int _units, double _cp, double _t):units(_units), cp(_cp), t(_t){}
+      int units;
+      double cp;
+      double t;
+  };
+
   class System
   {
   public:
@@ -32,9 +47,10 @@ namespace mesmer
     void calculate() ;
 
 
-    std::vector<double> Temperatures;   //Explicit emumeration of the temperatures requested in the input
-    std::vector<double> Concentrations; //Bath gas concentrations: values for calculation. Use if Pressures is empty.
-    std::vector<double> Pressures;      //Bath gas pressures: values for calculation
+    std::vector<CPandTpair> CPandTs;
+//    std::vector<double> Temperatures;   //Explicit emumeration of the temperatures requested in the input
+//    std::vector<double> Concentrations; //Bath gas concentrations: values for calculation. Use if Pressures is empty.
+//    std::vector<double> Pressures;      //Bath gas pressures: values for calculation
 
     //Stores environmental variables
     //Reference to this are passed to the constructors of all Molecules and Reactions
@@ -48,7 +64,9 @@ namespace mesmer
     // Location of the reaction maps.
     ReactionManager *m_pReactionManager ;
 
+    double getConvertedCP(CPandTpair);
     bool SetGrainParams();
+    void readCPTs(PersistPtr);
     bool ReadRange(const std::string&    name,
                    std::vector<double>&  vals,
                    PersistPtr            ppbase,

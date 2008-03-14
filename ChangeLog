@@ -1,3 +1,39 @@
+_2008_03_14__17_43_39_ Chi-Hsiu Liang
+
+  * Concentrations and pressures are not directly interconvertable. They relate each other with temperature 
+  and other factors. Inputting concentration by particles per cubic centimeter and converting it to mols is direct
+  , but for pressures we need conversion through idea gas constant and temperature. So these parameters has to come
+  in pairs: <concentration, temperature> or <pressure, temperature>.
+
+    //--------------
+    //  The concentration/pressure units are of following formats:
+    //  units:
+    //   0: particles per cubic centimeter
+    //   1: Torr
+    //
+    //  Allowed input formats are shown below (example units in particles per cubic centimeter).
+    //
+    //  <me:CPTs>
+    //    <me:CPTset me:units="0">
+    //      <me:CPrange initial="1e8" increment="2e7" final="2e8">
+    //      <me:Trange initial="100" increment="20" final="200">
+    //    </me:CPTset>
+    //  </me:CPTs>
+    //
+    //  The above example will create a matrix of concentration/temperature points of the size:
+    //      (number of CP points) x (number of T points)
+    //
+    //  Another example of specifying small numbers of CPT points (example units in Torr):
+    //
+    //  <me:CPTs>
+    //    <me:CPTpair me:units="1" me:CP="100" me:T="200">
+    //    <me:CPTpair me:units="0" me:CP="1e18" me:T="298">
+    //  </me:CPTs>
+    //
+    //  The looping of the CPT points are easy, they are first parsed and all the points are stored in pairs in
+    //  vector CPandTs, and Mesmer simply loop through all its members.
+    //--------------
+
 _2008_03_13__15_53_37_ Chi-Hsiu Liang
 
   Change the zpe numbers of pentyl system and HSO2 system so that they are kJ/mol

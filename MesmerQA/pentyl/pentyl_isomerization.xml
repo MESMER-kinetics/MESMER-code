@@ -240,8 +240,9 @@
 
   <me:conditions>
     <me:bathGas>Ar</me:bathGas>
-    <me:temperature>300</me:temperature>
-    <me:conc>1e8</me:conc>
+    <me:CPTs>
+      <me:CPTpair me:units="0" me:CP="1e8" me:T="300" />
+    </me:CPTs>
   </me:conditions>
 
   <me:modelParameters>
