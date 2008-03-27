@@ -209,6 +209,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\EckartCoefficients.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ExchangeReaction.cpp"
 				>
 			</File>
@@ -331,6 +335,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\convolution.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\qd\Windows VC\include\qd\dd_inline.h"
 				>
 			</File>
@@ -348,6 +356,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\dMatrix.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\EckartCoefficients.h"
 				>
 			</File>
 			<File
@@ -444,6 +456,10 @@
 			</File>
 			<File
 				RelativePath="..\..\tinyxml\tinyxml.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Tunneling.h"
 				>
 			</File>
 			<File

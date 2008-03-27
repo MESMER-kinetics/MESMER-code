@@ -99,6 +99,7 @@ SRCS := \
   DensityOfStates.cpp \
 	DissociationReaction.cpp \
 	dMatrix.cpp \
+	EckartCoefficients.cpp \
 	ExchangeReaction.cpp \
 	formatfloat.cpp \
 	IsomerizationReaction.cpp \

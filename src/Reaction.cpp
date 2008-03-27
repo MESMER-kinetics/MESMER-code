@@ -20,6 +20,7 @@ namespace mesmer
   Reaction::Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
     m_Env(Env),
     m_Name(id),
+    restartCalc(true),
     m_PreExp(0.0),
     m_NInf(0.0),
     m_ERConc(1.0),
@@ -27,6 +28,7 @@ namespace mesmer
     m_HeatOfReaction(0.0),
     m_pMoleculeManager(pMoleculeManager),
     m_pMicroRateCalculator(NULL),
+    m_pTunnelingCalculator(NULL),
     m_ppPersist(),
     m_srct(NULL),
     m_rct1(NULL),
@@ -244,11 +246,23 @@ bool Reaction::ReadRateCoeffParameters(PersistPtr ppReac) {
       m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
       if(!m_pMicroRateCalculator)
       {
-        {stringstream errorMsg;
-        errorMsg << "Unknown method " << pMCRCMethodtxt
-                 << " for the determination of Microcanonical rate coefficients in reaction "
-                 << m_Name;
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
+        cerr << "Unknown method " << pMCRCMethodtxt
+             << " for the determination of Microcanonical rate coefficients in reaction "
+             << m_Name;
+        return false;
+      }
+    }
+
+    // Determine the method of estimating tunneling effect.
+    const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
+    if(pTunnelingtxt)
+    {
+      m_pTunnelingCalculator = TunnelingCalculator::Find(pTunnelingtxt);
+      if(!m_pTunnelingCalculator)
+      {
+        cerr << "Unknown method " << pTunnelingtxt
+             << " for the determination of tunneling coefficients in reaction "
+             << m_Name;
         return false;
       }
     }
@@ -309,13 +323,17 @@ void Reaction::get_MicroRateCoeffs(std::vector<double> &kmc) {
 }
 
 double Reaction::get_ActivationEnergy(void) {
-  double AE = m_TransitionState->get_zpe() - m_rct1->get_zpe();
-  if (m_rct2) AE -= m_rct2->get_zpe(); 
+  if (!m_TransitionState) {
+    cinfo << "No TransitionState for " << getName() << ", activation energy = 0.";
+    return 0.0;
+  }
+  double zpeReactants = m_rct2 ? m_rct1->get_zpe() + m_rct2->get_zpe() : m_rct1->get_zpe();
+  double AE = m_TransitionState->get_zpe() - zpeReactants;
   if(IsNan(AE)){
-    cerr << "To use SimpleILT for reaction " << getName() << " the ZPE of the transition state needs to be set.";
+    cerr << "To use ILT for reaction " << getName() << " the ZPE of the transition state needs to be set.";
     exit(1);
   }
-  return AE; 
+  return AE;
 } ;
 
 
@@ -323,19 +341,17 @@ double Reaction::get_ActivationEnergy(void) {
 // Calculate grain averaged microcanonical rate coefficients.
 //
 bool Reaction::calcGrnAvrgMicroRateCoeffs() {
-
+  if (restartCalc){
+    if (m_CellKfmc.size()) m_CellKfmc.clear();
+    if (m_CellKbmc.size()) m_CellKbmc.clear();
+    restartCalc = false; // reset the flag
     // Calculate microcanonical rate coefficients.
-    if (m_CellKfmc.empty() || m_CellKbmc.empty())
-    {
-      if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this) ||
-        (getEnv().microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_ppPersist)))
-        return false;
-    }
-
+    if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this) ||
+      (getEnv().microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_ppPersist)))
+      return false;
     // Calculate Grain-averaged microcanonical rate coefficients.
-    if (m_GrainKfmc.empty() || m_GrainKbmc.empty())
-      return grnAvrgMicroRateCoeffs() ;
-    return true;
+    return grnAvrgMicroRateCoeffs() ;
+  }
 }
 
 void Reaction::grnAvg(const int _MG, const int _gsz, const std::vector<double> &DOS, const std::vector<double> &CellRC, std::vector<double> &GrainRC){
@@ -380,7 +396,7 @@ bool Reaction::grnAvrgMicroRateCoeffs() {
 
     // Always calculate forward grain microcanonical rate coefficients.
     m_GrainKfmc.resize(MaximumGrain, 0.);
-    if (m_pdt1) 
+    if (m_pdt1)
       m_GrainKbmc.resize(MaximumGrain, 0.);
 
     // Extract density of states of equilibrium molecule.
@@ -391,7 +407,7 @@ bool Reaction::grnAvrgMicroRateCoeffs() {
     else
       m_rct1->getCellDensityOfStates(rctCellDOS);
 
-    if (m_pdt1) 
+    if (m_pdt1)
       m_pdt1->getCellDensityOfStates(pdtCellDOS);
 
     // Check if there are enough cells.
@@ -401,7 +417,7 @@ bool Reaction::grnAvrgMicroRateCoeffs() {
     }
 
     grnAvg(MaximumGrain, grnSize, rctCellDOS, m_CellKfmc, m_GrainKfmc);
-    if (m_pdt1) 
+    if (m_pdt1)
       grnAvg(MaximumGrain, grnSize, pdtCellDOS, m_CellKbmc, m_GrainKbmc);
 
     if (getEnv().kfEGrainsEnabled){
@@ -442,7 +458,7 @@ void Reaction::AddMicroRates(dMatrix *CollOptr,
 //
 void Reaction::detailedBalance(const int dir){
   // if dir == -1 then do backward -> forward conversion
-  
+
   int MaximumCell = getEnv().MaxCell;
 
   if (dir == -1) {
@@ -450,7 +466,7 @@ void Reaction::detailedBalance(const int dir){
 
     for (int i = 0; i < MaximumCell; ++i)
       m_CellKfmc[i] = m_CellKbmc[i] * m_srct->m_cellDOS[i] / m_pdt1->m_cellDOS[i];
-    
+
     if (getEnv().kfECellsEnabled){
       ctest << "k_f(e) cells:\n{\n";
       for (int i = 0; i < MaximumCell; ++i)
@@ -463,7 +479,7 @@ void Reaction::detailedBalance(const int dir){
 
     for (int i = 0; i < MaximumCell; ++i)
       m_CellKbmc[i] = m_CellKfmc[i] * m_pdt1->m_cellDOS[i] / m_srct->m_cellDOS[i];
-    
+
     if (getEnv().kbECellsEnabled){
       ctest << "k_b(e) cells:\n{\n";
       for (int i = 0; i < MaximumCell; ++i)
@@ -471,7 +487,7 @@ void Reaction::detailedBalance(const int dir){
       ctest << "}" << endl;
     }
   }
-  
+
 }
 
 

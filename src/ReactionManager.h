@@ -41,6 +41,8 @@ namespace mesmer
 
     // Remove a reaction from the map.
     void remove(){} ;
+    
+    void resetCalcFlags();
 
     // Total number of reaction in map.
     size_type size() const {return m_reactions.size() ; } ;
@@ -60,7 +62,7 @@ namespace mesmer
     int Connectivity(Molecule* pReactant, Molecule* pProduct);
 
     // Build collision operator for system.
-    bool BuildSystemCollisionOperator(const double beta, const MesmerEnv &Env) ;
+    bool BuildSystemCollisionOperator(const MesmerEnv &Env) ;
 
     // Diagonalize the collision operator.
     void diagCollisionOperator(const MesmerEnv &Env) ;

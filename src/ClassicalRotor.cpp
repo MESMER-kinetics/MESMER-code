@@ -1,5 +1,5 @@
 #include "ClassicalRotor.h"
-#include "Bayer_Swinehart.h"
+#include "convolution.h"
 
 using namespace std;
 namespace mesmer
@@ -28,14 +28,15 @@ namespace mesmer
       meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
     }
 
-    const MesmerEnv& mEnv = p_mol2->getEnv();
-
     vector<double> rotCs1; int rotor1Type = p_mol1->get_rotConsts(rotCs1);
     vector<double> rotCs2; int rotor2Type = p_mol2->get_rotConsts(rotCs2);
     vector<double> mol1CellEne;
     vector<double> mol2CellEne;
     rcts->m_cellDOS.clear();
-    vector<double> dimerCellDOS(mEnv.MaxCell, .0);
+
+    const MesmerEnv& mEnv = p_mol2->getEnv();
+    int MaxCell = mEnv.MaxCell;
+    vector<double> dimerCellDOS(MaxCell, .0);
     p_mol1->getCellEnergies(mol1CellEne) ; // make sure the cell energies are calculated for both molecules.
     p_mol2->getCellEnergies(mol2CellEne) ;
 
@@ -73,19 +74,19 @@ namespace mesmer
     }
     else if (rotorType == 0){                            // both 2-D linear
       cnt /= (I1 * I2);
-      for (int i = 0; i < mEnv.MaxCell; ++i) dimerCellDOS[i] = cnt * mol1CellEne[i];
+      for (int i = 0; i < MaxCell; ++i) dimerCellDOS[i] = cnt * mol1CellEne[i];
     }
     else if (rotorType == 2 && rotor1Type < rotor2Type){ // 2-D linear vs 3-D symmetric/asymmetric/spherical top
       cnt *= (4./(3.* I1 * sqrt(I2X * I2Y * I2Z)));
-      for (int i = 0; i < mEnv.MaxCell; ++i) dimerCellDOS[i] = cnt * pow(mol1CellEne[i], 1.5);
+      for (int i = 0; i < MaxCell; ++i) dimerCellDOS[i] = cnt * pow(mol1CellEne[i], 1.5);
     }
     else if (rotorType == 2 && rotor1Type > rotor2Type){ // 3-D symmetric/asymmetric/spherical top vs 2-D linear
       cnt *= (4./(3.* I2 * sqrt(I1X * I1Y * I1Z)));
-      for (int i = 0; i < mEnv.MaxCell; ++i) dimerCellDOS[i] = cnt * pow(mol1CellEne[i], 1.5);
+      for (int i = 0; i < MaxCell; ++i) dimerCellDOS[i] = cnt * pow(mol1CellEne[i], 1.5);
     }
     else if (rotorType == 4){                            // both 3-D symmetric/asymmetric/spherical top
       cnt *= (M_PI /(2. * sqrt(I1X * I1Y * I1Z * I2X * I2Y * I2Z)));
-      for (int i = 0; i < mEnv.MaxCell; ++i) dimerCellDOS[i] = cnt * (mol1CellEne[i] * mol1CellEne[i]);
+      for (int i = 0; i < MaxCell; ++i) dimerCellDOS[i] = cnt * (mol1CellEne[i] * mol1CellEne[i]);
     }
 
     //-----------------------------------------------------------------------------------------------------
@@ -96,7 +97,7 @@ namespace mesmer
       vfMols.push_back(vfMol2[i]);
     }
     
-    Bayer_Swinehart(vfMols, dimerCellDOS, mEnv.MaxCell);
+    Beyer_Swinehart(vfMols, dimerCellDOS);
 
     //electronic degeneracy
     vector<double> eleExc1, eleExc2;
@@ -105,7 +106,7 @@ namespace mesmer
     if (!eleExc1.empty()){
       for (int j = 0; j < static_cast<int>(eleExc1.size()); ++j){
         int iele = static_cast<int>(eleExc1[j]);
-        for (int i = (mEnv.MaxCell - 1); i >= (iele - 1); --i){
+        for (int i = (MaxCell - 1); i >= (iele - 1); --i){
           dimerCellDOS[i] += dimerCellDOS[i - iele +1];
         }
       }
@@ -113,7 +114,7 @@ namespace mesmer
     if (!eleExc2.empty()){
       for (int j = 0; j < static_cast<int>(eleExc2.size()); ++j){
         int iele = static_cast<int>(eleExc2[j]);
-        for (int i = (mEnv.MaxCell - 1); i >= (iele - 1); --i){
+        for (int i = (MaxCell - 1); i >= (iele - 1); --i){
           dimerCellDOS[i] += dimerCellDOS[i - iele + 1];
         }
       }
@@ -137,7 +138,7 @@ namespace mesmer
 
     mol->m_cellDOS.clear(); mol->m_cellEne.clear(); //make sure there is no residue left
     const MesmerEnv& mEnv = mol->getEnv();
-
+    int MaxCell = mEnv.MaxCell;
     //
     // Initialize density of states array using calculated rotational
     // density of state.
@@ -152,28 +153,28 @@ namespace mesmer
     switch (rotorType){
       case 2: //3-D symmetric/asymmetric/spherical top
         cnt = qele * sqrt(4./(rotConst[0] * rotConst[1] * rotConst[2]))/sym ;
-        for (int i = 0 ; i < mEnv.MaxCell ; ++i ) {
+        for (int i = 0 ; i < MaxCell ; ++i ) {
           mol->m_cellEne.push_back(static_cast<double>(i) + 0.5);
           mol->m_cellDOS.push_back(cnt*sqrt(mol->m_cellEne[i]));
         }
         break;
       case 0: //2-D linear
         cnt = qele / (rotConst[0] * sym);
-        for (int i = 0 ; i < mEnv.MaxCell ; ++i ){
+        for (int i = 0 ; i < MaxCell ; ++i ){
           mol->m_cellEne.push_back(static_cast<double>(i) + 0.5);
           mol->m_cellDOS.push_back(cnt);
         }
         break;
       default:
         cnt = 0.;
-        for (int i = 0 ; i < mEnv.MaxCell ; ++i ){
+        for (int i = 0 ; i < MaxCell ; ++i ){
           mol->m_cellEne.push_back(static_cast<double>(i) + 0.5);
           mol->m_cellDOS.push_back(cnt);
         }
     }
 
-    // Implementation of the Bayer-Swinehart algorithm.
-    Bayer_Swinehart(VibFreq, mol->m_cellDOS, mEnv.MaxCell);
+    // Implementation of the Beyer-Swinehart algorithm.
+    Beyer_Swinehart(VibFreq, mol->m_cellDOS);
 
     //electronic degeneracy
     vector<double> eleExc;
@@ -181,7 +182,7 @@ namespace mesmer
     if (!eleExc.empty()){
       for (int j = 0; j < static_cast<int>(eleExc.size()); ++j){
         int iele = static_cast<int>(eleExc[j]);
-        for (int i = (mEnv.MaxCell - 1); i >= (iele - 1); --i){
+        for (int i = (MaxCell - 1); i >= (iele - 1); --i){
           mol->m_cellDOS[i] += mol->m_cellDOS[i - iele + 1];
         }
       }

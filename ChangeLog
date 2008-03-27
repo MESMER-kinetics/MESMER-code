@@ -1,3 +1,14 @@
+_2008_03_27__14_49_28_ Chi-Hsiu Liang
+
+  * Added a plugin class for Tunneling
+  * Added getClassicalEnergy() for calculating classical electronic for molecules (without ZPE corrections)
+  * Added a member m_Description in Molecule class for more detailed description of any molecule.
+  * Added m_ImFreq for Tunneling parameter in TransitionState
+  * Renamed BeyerSwinehart.h to convolution.h
+  * Added EckartCoefficients.h (method for Tunneling )
+  * Added condition loop (DOS only calculated once, other parameters updated in every loop).
+  * Problem: If there are several conditions defined, it seems XML file only records the final calculated condition.
+
 _2008_03_14__17_43_39_ Chi-Hsiu Liang
 
   * Concentrations and pressures are not directly interconvertable. They relate each other with temperature 

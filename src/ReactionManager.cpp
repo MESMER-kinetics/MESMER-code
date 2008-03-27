@@ -102,8 +102,17 @@ namespace mesmer
     return -1;
   }
 
-  bool ReactionManager::BuildSystemCollisionOperator(const double beta, const MesmerEnv &Env)
+  void ReactionManager::resetCalcFlags(){
+    for (size_t i(0) ; i < size() ; ++i) {
+      m_reactions[i]->restCalcFlag();
+    }
+  }
+
+  bool ReactionManager::BuildSystemCollisionOperator(const MesmerEnv &Env)
   {
+    // reset the DOS calculation flags before building the system collision operator
+    resetCalcFlags();
+
     //
     // Find all the unique wells and lowest zero point energy.
     //
@@ -158,7 +167,7 @@ namespace mesmer
       isomer->set_colloptrsize(colloptrsize) ;
       msize += colloptrsize ;
 
-      isomer->initCollisionOperator(beta, pBathGasMolecule) ;
+      isomer->initCollisionOperator(Env.beta, pBathGasMolecule) ;
       meanomega += isomer->get_collisionFrequency() ;
     }
     meanomega /= isomers.size();

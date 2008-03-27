@@ -20,6 +20,7 @@ namespace mesmer
     m_flag(0),
     m_ppPersist(NULL),
     m_Name(),
+    m_Description(),
     m_Mass(0.0),
     m_Sigma(sigmaDefault),
     m_Epsilon(epsilonDefault),
@@ -73,6 +74,11 @@ namespace mesmer
       setFlag(true);
     }
 
+    const char* desc = m_ppPersist->XmlReadValue("description");
+    if (desc)
+      m_Description = desc;
+    // no check value for description
+
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
         ppPropList=pp; //Be forgiving; we can get by without a propertyList element
@@ -107,12 +113,15 @@ namespace mesmer
   std::string Molecule::getName() const            {
     return m_Name ;
   } ;
+  std::string Molecule::getDescription() const            {
+    return m_Description ;
+  } ;
   const MesmerEnv& Molecule::getEnv() const        {
     return m_Env;
   }
 
-  int    Molecule::getFlag()                       { 
-    return m_flag; 
+  int    Molecule::getFlag()                       {
+    return m_flag;
   } ;
 
   void   Molecule::setMass(double value)           {
@@ -173,11 +182,11 @@ namespace mesmer
     }
   } ;
 
-  void   Molecule::setName(string name)            { 
-    m_Name = name; 
+  void   Molecule::setName(string name)            {
+    m_Name = name;
   } ;
-  void   Molecule::setFlag(bool value)             { 
-    if (value) ++m_flag; 
+  void   Molecule::setFlag(bool value)             {
+    if (value) ++m_flag;
   } ;
 
 

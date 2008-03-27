@@ -30,6 +30,7 @@ namespace mesmer
     int            m_flag;              // count the errors during initialization
     PersistPtr     m_ppPersist;         // Conduit for I/O
     std::string    m_Name ;             // Molecule name.
+    std::string    m_Description;       // Longer description for the structure
     double         m_Mass ;             // Mass.
     double         m_Sigma ;            // Lennard-Jones sigma.
     double         m_Epsilon ;          // Lennard-Jones epsilon.
@@ -61,6 +62,7 @@ namespace mesmer
     PersistPtr  getPersistentPointer();
     void setPersistentPointer(PersistPtr value);
     std::string getName() const;
+    std::string getDescription() const;
     const MesmerEnv& getEnv() const;
 
     int    getFlag() ;
@@ -154,6 +156,9 @@ namespace mesmer
     // Calculate Density of states
     bool calcDensityOfStates();
 
+    // Calculate classical energy
+    double getClassicalEnergy();
+    
     // Accessors.
     virtual double get_zpe();
     void set_zpe(double value);
@@ -182,9 +187,19 @@ namespace mesmer
   ///Transition states have no collisional properties
   class TransitionState : public ModelledMolecule
   {
+    double m_ImFreq;            // Imaginary frequency of this barrier (For tunneling in QM calculations)
+    //================================================
+    // CHECK FOR INPUTFILE PARAMETERS
+    int m_ImFreq_chk;
+    //================================================
+
   public:
     TransitionState(const MesmerEnv& Env);
-    virtual ~TransitionState(){}
+    virtual ~TransitionState();
+  
+    // Initialize TransitionState.
+    virtual bool InitializeMolecule(PersistPtr pp);
+    double get_ImFreq();
 
   };
 

@@ -22,7 +22,7 @@ namespace Constants {
   //
   static const double boltzmann_C             = 1.3806503e-23;  // Boltzmann constant (J*K-1).
   static const double SpeedOfLight_cm         = 2.99792458e+10 ;// speed of light in centimeter
-  static const double PlancksConstant         = 6.6260689633e-34;   // Planck's constant in Joule per second
+  static const double PlancksConstant         = 6.6260689633e-34;   // Planck's constant in Joule times second
   static const double boltzmann_RCpK          = 0.695035612 ;   
                                                                 // Boltzmann constant (cm*K)-1. (Reciprocal Centimeter per Kelvin)
                                                                 // boltzmann_C /(SpeedOfLight_cm * PlancksConstant);

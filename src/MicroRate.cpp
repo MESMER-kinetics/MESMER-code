@@ -29,7 +29,7 @@ namespace mesmer
     pReactant->getCellEnergies(cellEne) ;
     pReactant->getCellDensityOfStates(cellDOS) ;
 
-    ctest << "\nMicrocanonical rate coefficients:\n{\n";
+    ctest << "\nMicrocanonical rate coefficients for: " << pReact->getName() << "\n{\n";
     for(int i = 0 ; i < 29 ; ++i)
     {
       double Temperature = double(i+2)*100.0 ;

@@ -13,6 +13,7 @@ Documentation/inputFile.tex -text
 Documentation/mybib.bib -text
 Documentation/proposal.doc -text
 Documentation/proposal.tex -text
+MesmerQA/Acetyl[!!-~]O2[!!-~]association/Acetyl_O2_association.xml -text
 MesmerQA/HSO2/HSO2.xml -text
 MesmerQA/HSO2/HSO2_test.xml -text
 MesmerQA/HSO2/baselines/Cygwin[!!-~]32-bit[!!-~]double/HSO2_test.20071204_105924.xml -text
@@ -289,7 +290,6 @@ qd/Windows[!!-~]VC/tests/tictoc.h -text
 src/AssociationReaction.cpp -text
 src/AssociationReaction.h -text
 src/BathGasMolecule.cpp -text
-src/Bayer_Swinehart.h -text
 src/ClassicalRotor.cpp -text
 src/ClassicalRotor.h -text
 src/CollidingMolecule.cpp -text
@@ -298,6 +298,8 @@ src/DensityOfStates.cpp -text
 src/DensityOfStates.h -text
 src/DissociationReaction.cpp -text
 src/DissociationReaction.h -text
+src/EckartCoefficients.cpp -text
+src/EckartCoefficients.h -text
 src/ExchangeReaction.cpp -text
 src/ExchangeReaction.h -text
 src/IsomerizationReaction.cpp -text
@@ -334,8 +336,10 @@ src/System.h -text
 src/TimeCounter.cpp -text
 src/TimeCounter.h -text
 src/TransitionState.cpp -text
+src/Tunneling.h -text
 src/XMLPersist.cpp -text
 src/XMLPersist.h -text
+src/convolution.h -text
 src/dMatrix.cpp -text
 src/dMatrix.h -text
 src/formatfloat.cpp -text

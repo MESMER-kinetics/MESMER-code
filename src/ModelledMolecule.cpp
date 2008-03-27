@@ -369,12 +369,21 @@ namespace mesmer
     return true;
   }
 
+  // Calculate classical energy
+  double ModelledMolecule::getClassicalEnergy(){
+    //Basically use the frequencies to calculate the contribution of ZPE from harmonic oscillators approximation
+    double ZC = 0.0;
+    for (unsigned int i = 0; i < m_VibFreq.size(); ++i)
+      ZC += m_VibFreq[i] * SpeedOfLight_cm * PlancksConstant * AvogadroC / (4.0e3 * M_PI);
+    return get_zpe() - ZC;
+  }
+
+
   //
   // Test the rovibrational density of states for ModelledMolecule.
   //
   void ModelledMolecule::testDensityOfStates()
   {
-    if (getEnv().testDOSEnabled) ctest << endl << "Test density of states for: " << getName() << endl << endl ;
     int MaximumGrain = getEnv().MaxGrn;
     int MaximumCell  = getEnv().MaxCell;
 
@@ -382,6 +391,7 @@ namespace mesmer
 
     PersistPtr ppList = getPersistentPointer()->XmlWriteMainElement("me:densityOfStatesList", comment );
 
+    if (getEnv().testDOSEnabled) ctest << endl << "Test density of states for: " << getName() << "\n{\n";
     if (getEnv().testDOSEnabled) ctest << "      T           qtot           sumc           sumg\n";
 
     //loop through predefined test temperatures
@@ -445,6 +455,8 @@ namespace mesmer
       ppItem->XmlWriteValueElement("me:sumc", sumc, 6);
       ppItem->XmlWriteValueElement("me:sumg", sumg, 6);
     }
+    ctest << "}" << endl;
+
     if (getEnv().cellDOSEnabled){
       ctest << endl << "Cell density of states of " << getName() << endl << "{" << endl;
       for (int i = 0; i < MaximumCell; ++i){

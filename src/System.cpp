@@ -166,7 +166,7 @@ namespace mesmer
 
     return true;
   }
-  
+
   double System::getConvertedCP(CPandTpair pair)
   {
     switch (pair.units)
@@ -179,7 +179,8 @@ namespace mesmer
     return 0.;
   }
 
-  //pop the CP and T points into CPandTs
+  // pop the CP and T points into CPandTs
+  // This is a function for reading concentration/pressure and temperature conditions.
   void System::readCPTs(PersistPtr anchor)
   {
     PersistPtr pp=anchor;
@@ -255,33 +256,6 @@ namespace mesmer
 
     WriteMetadata();
 
-    /* Needs rethink on how to do looping over T and P
-    //Outer loop is temperature
-    vector<double>::iterator Titer;
-    for(Titer=Temperatures.begin();Titer!=Temperatures.end();++Titer)
-    {
-      beta = 1.0/(boltzmann_RCpK*(*Titer)) ;
-
-      size_t imax = !Pressures.empty() ? Pressures.size() : Concentrations.size();
-      //Inner loop is concentrations, possibly calculated from pressures if these were specified
-      // TODO: Get pressure units right. Pressures currently non-functional!
-      for(size_t i=0;i<imax;++i)
-      {
-        m_Env.conc = !Pressures.empty() ? Pressures[i]*beta : Concentrations[i];
-
-        // Build collison matrix for system.
-        m_pReactionManager->BuildSystemCollisionOperator(beta, m_Env) ;
-
-        m_pReactionManager->diagCollisionOperator(m_Env) ;
-      }
-    }
-    */
-
-    m_Env.beta = 1.0 / (boltzmann_RCpK * CPandTs[0].t) ; //temporary statements
-    double beta = m_Env.beta;
-    m_Env.conc = getConvertedCP(CPandTs[0]);
-    // unit of conc: mol
-
     //---------------
     //About precision
     string precisionMethod;
@@ -294,47 +268,34 @@ namespace mesmer
     cinfo << "Precision: " << precisionMethod;
     //---------------
 
-    // Build collison matrix for system.
-    {string thisEvent = "Build Collison Operator";
-     cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;}
+    // looping over temperatures and concentrations
+    unsigned int calPoint = 0;
+    for (calPoint = 0; calPoint < CPandTs.size(); ++calPoint){
+      m_Env.beta = 1.0 / (boltzmann_RCpK * CPandTs[calPoint].t) ; //temporary statements
+      double beta = m_Env.beta;
+      m_Env.conc = getConvertedCP(CPandTs[calPoint]);
+      // unit of conc: particles per cubic centimeter
 
-    if (!m_pReactionManager->BuildSystemCollisionOperator(beta, m_Env)){
-      cerr << "Failed building system collison operator.";
+      ctest << "\nCondition: conc = " << m_Env.conc << ", temp = " << CPandTs[calPoint].t << "\n{\n";
+
+      // Build collison matrix for system.
+      {string thisEvent = "Build Collison Operator";
+       cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;}
+
+      if (!m_pReactionManager->BuildSystemCollisionOperator(m_Env)){
+        cerr << "Failed building system collison operator.";
+      }
+
+      {string thisEvent = "Diagonlize Collision Operator";
+       cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";}
+
+      m_pReactionManager->diagCollisionOperator(m_Env) ;
+      ctest << "}\n";
     }
 
-    {string thisEvent = "Diagonlize Collision Operator";
-     cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";}
-
-    m_pReactionManager->diagCollisionOperator(m_Env) ;
-
     {string thisEvent = "Finish Calculation";
-     cinfo << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";}
-
-    /*
-    for (size_t i=0; i < m_pReactionManager->size() ; i++) {
-
-    Reaction *reaction = (*m_pReactionManager)[i] ;
-
-    // Work space to hold microcanonical rates.
-
-    vector<double> kmc(m_Env.MaxGrn,0.0) ;
-
-    reaction->get_MicroRateCoeffs(kmc, m_Env) ;
-
-    CollidingMolecule *pmolecule = reaction->m_rct1 ;
-
-    // for (int i(0) ; i < MAXCELL ; i++)
-    //     kmc[i] /= omega ;
-
-    pmolecule->diagCollisionOperator(m_Env) ;
-
-    // Calculate matrix elements
-
-    double kinf = pmolecule->matrixElement(m_Env.MaxGrn-1,m_Env.MaxGrn-1,kmc,m_Env.MaxGrn) ;
-
-    ctest << endl ;
-    formatFloat(ctest, kinf, 6, 15) ;
-    }*/
+     cinfo << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
+     cinfo << "In total, " << calPoint + 1 << " temperature/concentration-pressure points calculated." << endl;}
 
     cinfo << events;
   }
@@ -380,8 +341,7 @@ namespace mesmer
     //m_Env.MaxT gives the option of widening the energy range
     if(m_Env.MaxT <= 0.0){
       std::vector<double> Temperatures;
-      for (unsigned int i = 0; i < CPandTs.size(); ++i)
-        Temperatures.push_back(CPandTs[i].t);
+      for (unsigned int i = 0; i < CPandTs.size(); ++i) Temperatures.push_back(CPandTs[i].t);
       m_Env.MaxT = *max_element(Temperatures.begin(), Temperatures.end());
 //      stringstream errorMsg;
 //      errorMsg << "Maximum Temperature was not set. Reset Maximum Temperature, me:maxTemperature to remove this message.";

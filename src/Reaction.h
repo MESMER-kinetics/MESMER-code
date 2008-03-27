@@ -14,6 +14,7 @@
 
 #include "MoleculeManager.h"
 #include "MicroRate.h"
+#include "Tunneling.h"
 #include "MesmerConfig.h"
 
 namespace mesmer
@@ -24,7 +25,7 @@ namespace mesmer
 	  const MesmerEnv& m_Env;
 	  std::string m_Name ;        // Reaction name.
 
-
+    bool restartCalc;           // restart calculation on DOS
     double m_PreExp ;           // Preexponetial factor
     double m_NInf ;             // Modified Arrhenius parameter
     double m_ERConc ;           // Concentration of the excess reactant
@@ -40,7 +41,8 @@ namespace mesmer
 
     MoleculeManager     *m_pMoleculeManager ;     // Pointer to molecule manager.
     MicroRateCalculator *m_pMicroRateCalculator ; // Pointer to microcanoical rate coeff. calculator.
-    
+    TunnelingCalculator *m_pTunnelingCalculator ; // Pointer to Tunneling Calculator
+
     // I/O and control
     PersistPtr          m_ppPersist;         // Conduit for I/O
 
@@ -58,6 +60,7 @@ namespace mesmer
     std::vector<double> m_CellKbmc ;         // Backward microcanonical rate coefficients.
     std::vector<double> m_GrainKfmc ;        // Grained averaged forward  microcanonical rates.
     std::vector<double> m_GrainKbmc ;        // Grained averaged backward microcanonical rates.
+    std::vector<double> m_CellTunneling;
 
   public:
 
@@ -87,8 +90,9 @@ namespace mesmer
     double get_PreExp() const                   { return m_PreExp ; } ;
     double get_NInf()const                      { return m_NInf   ; } ;
     double getHeatOfReaction() const            { return m_HeatOfReaction ; };
-    const MesmerEnv& getEnv() const { return m_Env; } ;
-
+    const MesmerEnv& getEnv() const             { return m_Env; } ;
+    void restCalcFlag()                         { restartCalc = true; };
+    
     // Calculate association reaction coefficients
     virtual void detailedBalance(const int dir);
 
