@@ -26,17 +26,17 @@ namespace mesmer
 
         // Read reactant details.
 
-		PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
+    PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
         Molecule* pMol1 = GetMolRef(ppReactant1);
         if(!pMol1){
-			string errorMsg = "Isomerizaton reaction " + getName() + " has no reactant.";
+      string errorMsg = "Isomerizaton reaction " + getName() + " has no reactant.";
             meErrorLog.ThrowError(__FUNCTION__, string(errorMsg), obError);
             return false;
-		}        
-		PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
+    }        
+    PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
         if(ppReactant2)
         {
-			string errorMsg = "Isomerizaton reaction " + getName() + " has more than one reactant.";
+      string errorMsg = "Isomerizaton reaction " + getName() + " has more than one reactant.";
             meErrorLog.ThrowError(__FUNCTION__, errorMsg, obError);
             return false;
         }
@@ -45,7 +45,7 @@ namespace mesmer
 
         CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
         if(pColMol){
-			m_rct1 = pColMol;
+      m_rct1 = pColMol;
         } else {
             meErrorLog.ThrowError(__FUNCTION__, string("Isomer reactant must be a colliding molecule"), obError);
             return false;
@@ -54,16 +54,16 @@ namespace mesmer
         //Read product details.
 
         PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
-		pMol1 = GetMolRef(ppProduct1);
+    pMol1 = GetMolRef(ppProduct1);
         if (!pMol1) {
-			string errorMsg = "Isomerizaton reaction " + getName() + " has no product.";
+      string errorMsg = "Isomerizaton reaction " + getName() + " has no product.";
             meErrorLog.ThrowError(__FUNCTION__, string(errorMsg), obError);
             return false;
-		}           
+    }           
         PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
-		if(ppProduct2)
+    if(ppProduct2)
         {
-			string errorMsg = "Isomerizaton reaction " + getName() + " has more than one product.";
+      string errorMsg = "Isomerizaton reaction " + getName() + " has more than one product.";
             meErrorLog.ThrowError(__FUNCTION__, errorMsg, obError);
             return false;
         }
@@ -72,7 +72,7 @@ namespace mesmer
 
         pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
         if(pColMol){
-			m_pdt1 = pColMol;
+      m_pdt1 = pColMol;
         } else {
             meErrorLog.ThrowError(__FUNCTION__, string("Isomer product must be a colliding molecule"), obError);
             return false;
@@ -85,7 +85,7 @@ namespace mesmer
         {
           TransitionState* pTrans = dynamic_cast<TransitionState*>(GetMolRef(ppTransitionState));
           if(pTrans) 
-				    m_TransitionState = pTrans;
+            m_TransitionState = pTrans;
         }
 
         // Read heat of reaction and rate parameters.
@@ -93,31 +93,31 @@ namespace mesmer
         return ReadRateCoeffParameters(ppReac) ;
     }
 
-	//
-	// Calculate reaction equilibrium constant.
-	//
-	double IsomerizationReaction::calcEquilibriumConstant() {
+  //
+  // Calculate reaction equilibrium constant.
+  //
+  double IsomerizationReaction::calcEquilibriumConstant() {
 
-		double Keq(0.0) ;
+    double Keq(0.0) ;
 
-		// Get Canonical partition functions.
+    // Get Canonical partition functions.
 
-		double Qrct1 = m_rct1->grnCanPrtnFn() ;
-		double Qpdt1 = m_pdt1->grnCanPrtnFn() ;
+    double Qrct1 = m_rct1->grnCanPrtnFn() ;
+    double Qpdt1 = m_pdt1->grnCanPrtnFn() ;
 
-		// Calculate the equilibrium constant.
-		{stringstream errorMsg;
-		errorMsg << "Qrct1 = " << Qrct1 << ", Qpdt1 = " << Qpdt1 ;
-		meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
+    // Calculate the equilibrium constant.
+    {stringstream errorMsg;
+    errorMsg << "Qrct1 = " << Qrct1 << ", Qpdt1 = " << Qpdt1 ;
+    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
 
-		double beta = getEnv().beta ;
+    double beta = getEnv().beta ;
 
-		Keq = (Qpdt1 / Qrct1)*exp(-beta * getHeatOfReaction()) ;
+    Keq = (Qpdt1 / Qrct1)*exp(-beta * getHeatOfReaction()) ;
 
-		return Keq ;
-	}
+    return Keq ;
+  }
 
-	//
+  //
   // Add isomer reaction terms to collision matrix.
   //
   void IsomerizationReaction::AddReactionTerms(dMatrix         *CollOptr,
@@ -132,8 +132,8 @@ namespace mesmer
     const int MaximumGrain = getEnv().MaxGrn;
     vector<double> rctDOS;
     vector<double> pdtDOS;
-    m_rct1->grnDensityOfStates(rctDOS) ;
-    m_pdt1->grnDensityOfStates(pdtDOS) ;
+    m_rct1->getGrainDensityOfStates(rctDOS) ;
+    m_pdt1->getGrainDensityOfStates(pdtDOS) ;
 
     const int idx = m_pdt1->get_grnZpe() - m_rct1->get_grnZpe() ;
     for ( int i = max(0,-idx) ; i < min(MaximumGrain,(MaximumGrain-idx)) ; ++i ) {
@@ -146,42 +146,5 @@ namespace mesmer
       (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                     // Reactive gain.
     }
   }
-
-//
-// DetailedBalance
-//
-void IsomerizationReaction::detailedBalance(const int dir){
-  // if dir == -1 then do backward -> forward conversion
-  
-  int MaximumCell = getEnv().MaxCell;
-
-  if (dir == -1) {
-    m_CellKfmc.resize(MaximumCell, 0.0);
-
-    for (int i = 0; i < MaximumCell; ++i)
-      m_CellKfmc[i] = m_CellKbmc[i] * m_rct1->m_cellDOS[i] / m_pdt1->m_cellDOS[i];
-    
-    if (getEnv().kfECellsEnabled){
-      ctest << "k_f(e) cells:\n{\n";
-      for (int i = 0; i < MaximumCell; ++i)
-          ctest << m_CellKfmc[i] << endl;
-      ctest << "}" << endl;
-    }
-  }
-  else{
-    m_CellKbmc.resize(MaximumCell, 0.0);
-
-    for (int i = 0; i < MaximumCell; ++i)
-      m_CellKbmc[i] = m_CellKfmc[i] * m_pdt1->m_cellDOS[i] / m_rct1->m_cellDOS[i];
-    
-    if (getEnv().kbECellsEnabled){
-      ctest << "k_b(e) cells:\n{\n";
-      for (int i = 0; i < MaximumCell; ++i)
-          ctest << m_CellKbmc[i] << endl;
-      ctest << "}" << endl;
-    }
-  }
-  
-}
 
 }//namespace

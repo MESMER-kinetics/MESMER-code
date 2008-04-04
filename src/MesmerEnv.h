@@ -30,7 +30,8 @@ namespace mesmer
     bool   kfEGrainsEnabled;    // Enabled printing k_f(E) grains
     bool   kbECellsEnabled;     // Enabled printing k_b(E) cells
     bool   kbEGrainsEnabled;    // Enabled printing k_b(E) grains
-    double EAboveWell; //Max energy above the highest well [was 10kT]
+    bool   TunnelingCoeffEnabled; // Enabled printing Tunneling coefficients
+    double EAboveHill; //Max energy above the highest Hill [in kT]
     int printEigenValuesNum; // number of eigen values to be printed: -1 for all of them, otherwise specified.
   };
 }//namespace

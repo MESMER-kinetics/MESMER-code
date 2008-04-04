@@ -43,6 +43,18 @@ namespace mesmer
         if(IsNan(pReact->m_CellTunneling[i])) pReact->m_CellTunneling[i] = 0.0;  // if statement to avoid nan at small values of E
       }
     }
+
+    if (pReact->getEnv().TunnelingCoeffEnabled){
+      ctest << "\nTunneling coefficients for: " << pReact->getName() 
+      << "\nV0 = " << V0 << ", V1 = " << V1 
+      << ", barrier0 = " << barrier0 << ", barrier1 = " << barrier1 
+      << ", imFreq = " << imFreq << "\n{\n";
+      for(int i = 0; i < MaxCell; ++i){
+        ctest << pReact->m_CellTunneling[i] << endl;
+      }
+      ctest << "}\n";
+    }
+
     return true;
   }
 }//namespace

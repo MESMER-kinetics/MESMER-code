@@ -104,7 +104,7 @@ namespace mesmer
 
   void ReactionManager::resetCalcFlags(){
     for (size_t i(0) ; i < size() ; ++i) {
-      m_reactions[i]->restCalcFlag();
+      m_reactions[i]->resetCalcFlag();
     }
   }
 
@@ -117,7 +117,7 @@ namespace mesmer
     // Find all the unique wells and lowest zero point energy.
     //
     Reaction::isomerMap isomers ; // Maps the location of reactant collision operator in the system matrix.
-    double minEnergy(0) ; //this is the minimum of ZPE amongst all wells
+    m_minEnergy = 0.0 ; //this is the minimum of ZPE amongst all wells
     Molecule *pBathGasMolecule = m_pMoleculeManager->get_BathGasMolecule();
 
     // populate isomerMap with unimolecular species
@@ -132,7 +132,7 @@ namespace mesmer
           CollidingMolecule *pCollidingMolecule = dynamic_cast<CollidingMolecule*>(unimolecules[i]) ;
           if(isomers.find(pCollidingMolecule) == isomers.end()){ // New isomer
             isomers[pCollidingMolecule] = 0 ; //initialize to a trivial location
-            minEnergy = min(minEnergy, pCollidingMolecule->get_zpe()) ;
+            m_minEnergy = min(m_minEnergy, pCollidingMolecule->get_zpe()) ;
           }
         }
       }
@@ -143,6 +143,42 @@ namespace mesmer
         meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
       }
     }
+
+    // Set grain ZPE for all species involved in the reactions according to the minimum energy of the system.
+    for (size_t i(0) ; i < size() ; ++i) {
+      // first check for any SuperMolecule in this reaction
+      SuperMolecule* pSuper = m_reactions[i]->get_bi_molecularspecies();
+      // the grain ZPE of SuperMolecule has to be calculated from zpeReactant1 + zpeReactant2 - m_minEnergy
+      if (pSuper){
+        double zpe = (pSuper->get_zpe()) - m_minEnergy ; // cell zpe with respect to the minimum of all wells
+        int grnZpe = int(zpe * kJPerMolInRC / Env.GrainSize) ; //convert to grain
+        if (grnZpe < 0) cerr << "Grain zero point energy has to be a positive integer.";
+        pSuper->set_grnZpe(grnZpe) ; //set grain ZPE (with respect to the minimum of all wells)
+      }
+
+      // second check for unimolecular species in this reaction
+      std::vector<ModelledMolecule *> unimolecules ;
+      int flag1 = m_reactions[i]->get_unimolecularspecies(unimolecules) ;
+      if (flag1 > 0){ // association, dissociation or isomerization
+        for (size_t i(0) ; i < unimolecules.size() ; ++i) {
+          CollidingMolecule *pCollidingMolecule = dynamic_cast<CollidingMolecule*>(unimolecules[i]) ;
+          double zpe = (pCollidingMolecule->get_zpe()) - m_minEnergy ; // cell zpe with respect to the minimum of all wells
+          int grnZpe = int(zpe * kJPerMolInRC / Env.GrainSize) ; //convert to grain
+          if (grnZpe < 0) cerr << "Grain zero point energy has to be a positive integer.";
+          pCollidingMolecule->set_grnZpe(grnZpe) ; //set grain ZPE (with respect to the minimum of all wells)
+        }
+      }
+
+      // third check for transition states in this reaction
+      TransitionState *pTransitionState = m_reactions[i]->get_TransitionState();
+      if (pTransitionState){
+        double zpe = (pTransitionState->get_zpe()) - m_minEnergy ; // cell zpe with respect to the minimum of all wells
+        int grnZpe = int(zpe * kJPerMolInRC / Env.GrainSize) ; //convert to grain
+        if (grnZpe < 0) cerr << "Grain zero point energy has to be a positive integer.";
+        pTransitionState->set_grnZpe(grnZpe) ; //set grain ZPE (with respect to the minimum of all wells)
+      }
+    }
+
 
     //
     // Shift all wells to the same origin, calculate the size of the system collision operator,
@@ -156,13 +192,8 @@ namespace mesmer
       CollidingMolecule *isomer = isomeritr->first ;
       isomeritr->second = msize ; //set location
 
-      double zpe = (isomer->get_zpe()) - minEnergy ; // cell zpe with respect to the minimum of all wells
-      int grnZpe = int(zpe * kJPerMolInRC / Env.GrainSize) ; //convert to grain
-      
-      // only a safetly check, should not see this message.
-      if (grnZpe < 0) cerr << "Grain zero point energy has to be a positive integer."; 
-      
-      isomer->set_grnZpe(grnZpe) ; //set grain ZPE (with respect to the minimum of all wells)
+      int grnZpe = isomer->get_grnZpe() ; //set grain ZPE (with respect to the minimum of all wells)
+
       int colloptrsize = Env.MaxGrn - grnZpe ;
       isomer->set_colloptrsize(colloptrsize) ;
       msize += colloptrsize ;

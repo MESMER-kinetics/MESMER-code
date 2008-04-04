@@ -43,9 +43,6 @@ namespace mesmer
     for (int i = nEinf ; i < MaximumCell ; ++i ) {
       pReact->m_CellKfmc[i] = pReact->get_PreExp() * cellDOS[i-nEinf] / cellDOS[i] ;
     }
-    
-    // convert forward microcanonical reaction constants to backward microcanonical reaction constants
-    pReact->detailedBalance(1);
 
     return true;
   }

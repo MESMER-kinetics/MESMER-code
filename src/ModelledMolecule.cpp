@@ -20,14 +20,17 @@ namespace mesmer
     m_RotCstC(0.0),
     m_Sym(1.0),
     m_ZPE(0.0),
+    m_scaleFactor(1.0),
     m_SpinMultiplicity(1),
     m_grnZpe(0),
     m_pDensityOfStatesCalculator(NULL),
     m_RC_chk(-1),
     m_Sym_chk(-1),
     m_ZPE_chk(-1),
+    m_scaleFactor_chk(-1),
     m_SpinMultiplicity_chk(-1),
     m_VibFreq_chk(-1),
+    m_grnZpe_chk(-1),
     m_eleExc(),
     m_VibFreq(),
     m_cellEne(),
@@ -41,8 +44,10 @@ namespace mesmer
     if (m_RC_chk == 0) cinfo << "Rotational constants are provided but not used in " << getName() << endl;
     if (m_Sym_chk == 0) cinfo << "m_Sym is provided but not used in " << getName() << endl;
     if (m_ZPE_chk == 0) cinfo << "m_ZPE is provided but not used in " << getName() << endl;
+    if (m_scaleFactor_chk == 0) cinfo << "m_scaleFactor is provided but not used in " << getName() << endl;
     if (m_SpinMultiplicity_chk == 0) cinfo << "m_SpinMultiplicity is provided but not used in " << getName() << endl;
     if (m_VibFreq_chk == 0) cinfo << "m_VibFreq is provided but not used in " << getName() << endl;
+    if (m_grnZpe_chk == 0) cinfo << "m_grnZpe is calculated but not used in " << getName() << endl;
 
     // Free any memory assigned for calculating densities of states.
     if (m_grainDOS.size()) m_grainDOS.clear();
@@ -149,6 +154,17 @@ namespace mesmer
     }
     else { istringstream idata(txt); idata >> m_ZPE ; m_ZPE_chk = 0;}
 
+    // The reason why me:frequenciesScaleFactor stands out to be a separate property in the propertyList is that 
+    // this value is not usually necessary. The default value is 1.0 and it is usually the case.
+    txt= ppPropList->XmlReadProperty("me:frequenciesScaleFactor");
+    if(!txt){
+      stringstream errorMsg;
+      errorMsg << "Cannot find argument me:frequenciesScaleFactor";
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      m_scaleFactor_chk = -1;
+    }
+    else { istringstream idata(txt); idata >> m_scaleFactor ; m_scaleFactor_chk = 0;}
+
     // Determine the method of DOS calculation.
     const char* pDOSCMethodtxt = pp->XmlReadValue("me:DOSCMethod", false) ;
     if(pDOSCMethodtxt)
@@ -221,9 +237,9 @@ namespace mesmer
   //
   // Get grain density of states.
   //
-  void ModelledMolecule::grnDensityOfStates(vector<double> &grainDOS) {
+  void ModelledMolecule::getGrainDensityOfStates(vector<double> &grainDOS) {
     // If density of states have not already been calcualted then do so.
-    if (!m_cellDOS.size())
+    if (!m_grainDOS.size())
       calcDensityOfStates() ;
     grainDOS = m_grainDOS;
   }
@@ -231,9 +247,9 @@ namespace mesmer
   //
   // Get grain energies.
   //
-  void ModelledMolecule::grnEnergies(vector<double> &grainEne) {
+  void ModelledMolecule::getGrainEnergies(vector<double> &grainEne) {
     // If density of states have not already been calcualted then do so.
-    if (!m_cellDOS.size())
+    if (!m_grainEne.size())
       calcDensityOfStates() ;
     grainEne = m_grainEne;
   }
@@ -305,7 +321,7 @@ namespace mesmer
     const double beta = getEnv().beta;
 
     for (int i = 0; i < MaximumGrain; ++i) {
-		if (m_grainDOS[i] > 0.0) 
+		if (m_grainDOS[i] > 0.0)
 			CanPrtnFn += exp( log(m_grainDOS[i]) - beta*m_grainEne[i] ) ;
     }
 
@@ -374,7 +390,7 @@ namespace mesmer
     //Basically use the frequencies to calculate the contribution of ZPE from harmonic oscillators approximation
     double ZC = 0.0;
     for (unsigned int i = 0; i < m_VibFreq.size(); ++i)
-      ZC += m_VibFreq[i] * SpeedOfLight_cm * PlancksConstant * AvogadroC / (4.0e3 * M_PI);
+      ZC += m_VibFreq[i] / (kJPerMolInRC * 2.0);
     return get_zpe() - ZC;
   }
 
@@ -455,7 +471,7 @@ namespace mesmer
       ppItem->XmlWriteValueElement("me:sumc", sumc, 6);
       ppItem->XmlWriteValueElement("me:sumg", sumg, 6);
     }
-    ctest << "}" << endl;
+    if (getEnv().testDOSEnabled) ctest << "}" << endl;
 
     if (getEnv().cellDOSEnabled){
       ctest << endl << "Cell density of states of " << getName() << endl << "{" << endl;
@@ -558,9 +574,30 @@ namespace mesmer
     return m_ZPE ;
   }
 
+  double ModelledMolecule::get_scaleFactor() {
+    if (m_scaleFactor_chk == -1){
+      stringstream errorMsg;
+      errorMsg << "m_scaleFactor was not defined but requested in " << getName() << ". Default value " << m_scaleFactor << " is given.";
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      --m_scaleFactor_chk;
+      return m_scaleFactor;
+    }
+    else if (m_scaleFactor_chk < -1){
+      --m_scaleFactor_chk;
+      return m_scaleFactor;
+    }
+    ++m_scaleFactor_chk;
+    return m_scaleFactor ;
+  }
+
   void ModelledMolecule::set_zpe(double value) {
     m_ZPE = value;
-    ++m_ZPE_chk;
+    m_ZPE_chk = 0;
+  }
+
+  void ModelledMolecule::set_scaleFactor(double value) {
+    m_scaleFactor = value;
+    m_scaleFactor_chk = 0;
   }
 
   double ModelledMolecule::get_Sym(void){
@@ -580,26 +617,36 @@ namespace mesmer
   }
 
   void ModelledMolecule::set_grnZpe(int grnZpe) {
-    m_grnZpe = grnZpe;
+    if (m_grnZpe_chk < 0){
+      m_grnZpe = grnZpe;
+      m_grnZpe_chk = 0;
+    }
+    else{
+      // cinfo << "Grain ZPE is already set for " << getName() << endl;
+    }
   }
 
   const int ModelledMolecule::get_grnZpe(){
+    if (m_grnZpe_chk == -1){
+      stringstream errorMsg;
+      errorMsg << "m_grnZpe was not calculated but requested in " << getName() << ". Default value " << m_grnZpe << " is given.";
+      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      --m_grnZpe_chk;
+      return m_grnZpe;
+    }
+    else if (m_grnZpe_chk < -1){
+      --m_grnZpe_chk;
+      return m_grnZpe;
+    }
+    ++m_grnZpe_chk;
     return m_grnZpe;
   }
 
   void ModelledMolecule::get_VibFreq(std::vector<double>& vibFreq){
     if (m_VibFreq_chk >=0){
-      vibFreq = m_VibFreq;
+      for (unsigned int i = 0; i < m_VibFreq.size(); ++i)
+        vibFreq.push_back(m_VibFreq[i]);
       ++m_VibFreq_chk;
-    }
-  }
-
-  void ModelledMolecule::set_VibFreq(std::vector<double>& vibFreq, bool addition){
-    if (addition){
-      for (std::vector<double>::size_type i = 0; i < vibFreq.size(); ++i) m_VibFreq.push_back(vibFreq[i]);
-    }
-    else{
-      m_VibFreq = vibFreq;
     }
   }
 

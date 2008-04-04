@@ -64,8 +64,8 @@ namespace mesmer
       txt = ppParams->XmlReadValue("me:maxTemperature",false);
       if(txt) { istringstream ss(txt); ss >> m_Env.MaxT; }
 
-      txt = ppParams->XmlReadValue("me:energyAboveTheTopWell",false);
-      if(txt) { istringstream ss(txt); ss >> m_Env.EAboveWell; }
+      txt = ppParams->XmlReadValue("me:energyAboveTheTopHill",false);
+      if(txt) { istringstream ss(txt); ss >> m_Env.EAboveHill; }
 
       if(m_Env.GrainSize!=0.0 && m_Env.MaxGrn!=0)
       {
@@ -156,6 +156,7 @@ namespace mesmer
       m_Env.kfEGrainsEnabled      = ppControl->XmlReadBoolean("me:printGrainkfE");
       m_Env.kbECellsEnabled       = ppControl->XmlReadBoolean("me:printCellkbE");
       m_Env.kbEGrainsEnabled      = ppControl->XmlReadBoolean("me:printGrainkbE");
+      m_Env.TunnelingCoeffEnabled = ppControl->XmlReadBoolean("me:printTunnelingCoefficients");
 
       const char* txt = ppControl->XmlReadValue("me:eigenvalues",false);
       if(txt) {
@@ -295,7 +296,7 @@ namespace mesmer
 
     {string thisEvent = "Finish Calculation";
      cinfo << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
-     cinfo << "In total, " << calPoint + 1 << " temperature/concentration-pressure points calculated." << endl;}
+     cinfo << "In total, " << calPoint << " temperature/concentration-pressure points calculated." << endl;}
 
     cinfo << events;
   }
@@ -348,8 +349,8 @@ namespace mesmer
 //      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
     }
 
-    //EAboveWell: Max energy above the highest well.
-    m_Env.EMax = m_Env.EMax + m_Env.EAboveWell * boltzmann_RCpK * m_Env.MaxT;
+    //EAboveHill: Max energy above the highest well.
+    m_Env.EMax = m_Env.EMax + m_Env.EAboveHill * boltzmann_RCpK * m_Env.MaxT;
     if(m_Env.GrainSize <= 0.0){
       m_Env.GrainSize = 100.; //default 100cm-1
       cerr << "Grain size was invalid. Reset grain size to default: 100";
@@ -362,7 +363,7 @@ namespace mesmer
 
     m_Env.MaxCell = (int)(m_Env.GrainSize * m_Env.MaxGrn + 0.5);
 
-    cinfo << "Cell number = " << m_Env.MaxCell << ", Grain number = " << m_Env.MaxGrn;
+    cerr << "Cell number = " << m_Env.MaxCell << ", Grain number = " << m_Env.MaxGrn;
 
     return true;
     /*

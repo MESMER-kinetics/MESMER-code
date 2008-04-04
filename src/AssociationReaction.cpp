@@ -85,9 +85,6 @@ namespace mesmer
         meErrorLog.ThrowError(__FUNCTION__, string("No SuperMolecule was found."), obInfo);
         // there will always at least one SuperMolecule in m_molmap, check the end of addmol()
         // in MoleculeManager.cpp.
-        /* need to create one (mark _2007_12_10__17_10_18_)
-        write a SuperMolecule creator that acquire a position in the XML
-        */
       }
     }
     else{
@@ -152,8 +149,8 @@ namespace mesmer
 
     vector<double> rctDOS;
     vector<double> pdtDOS;
-    m_srct->grnDensityOfStates(rctDOS) ;
-    m_pdt1->grnDensityOfStates(pdtDOS) ;
+    m_srct->getGrainDensityOfStates(rctDOS) ;
+    m_pdt1->getGrainDensityOfStates(pdtDOS) ;
 
     // Get Boltzmann distribution for detailed balance.
     const int MaximumGrain = getEnv().MaxGrn ;
@@ -162,10 +159,7 @@ namespace mesmer
 
     const int colloptrsize = dynamic_cast<CollidingMolecule*>(m_pdt1)->get_colloptrsize() ; // collision operator size of the isomer
 
-    const int grnWellBot = MaximumGrain - colloptrsize; // well bottom of the isomer
-
     double DissRateCoeff(0.0) ;
-    if (debugFlag) ctest << "colloptrsize = " << colloptrsize << ", grnWellBot = " << grnWellBot << endl;
     if (debugFlag) ctest << "Keq * excess = " << Keq << " * " << excess << " = " << Keq * excess << endl;
 
     // Multiply equilibrum constant by concentration of excess reactant.
@@ -179,7 +173,7 @@ namespace mesmer
     }
 
     for ( int i = 0; i < colloptrsize; ++i) {
-      int ll = i + grnWellBot ;
+      int ll = i;
       int ii(pdtLoc + i) ;
 
       (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKbmc[ll] ;                           // Backward loss of the adduct

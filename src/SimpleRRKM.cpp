@@ -49,7 +49,7 @@ namespace mesmer
 
     int thresholdEnergy = int(pReact->get_ActivationEnergy() * kJPerMolInRC) ;
     
-    if (pReact->m_pTunnelingCalculator) {
+    if (pReact->m_pTunnelingCalculator) { // with tunneling
       pReact->m_pTunnelingCalculator->calculateTunnelingCoeffs(pReact);
 
       for (int i = 0; i < MaximumCell ; ++i) {
@@ -57,11 +57,11 @@ namespace mesmer
         double SumOfStates = 0.0;
         for (int j = 0; j <= i; ++j) SumOfStates += pReact->m_CellTunneling[i-j] * TScellDOS[j];
 
-        // Calculate microcanonical rate coefficients using RRKM expression.
+        // Calculate microcanonical rate coefficients using RRKM expression with tunneling correction.
         pReact->m_CellKfmc[i] = SumOfStates * SpeedOfLight_cm / rctCellDOS[i];
       }
     }
-    else{
+    else{ // without tunneling
       double SumOfStates = 0.0;
       for (int i = thresholdEnergy, j = 0 ; i < MaximumCell ; ++i, ++j ) {
         // Integrate transition state density of states.
@@ -71,8 +71,6 @@ namespace mesmer
         pReact->m_CellKfmc[i] = SumOfStates * SpeedOfLight_cm / rctCellDOS[i];
       }
     }
-    // convert forward microcanonical reaction constants to backward microcanonical reaction constants
-    if (!dynamic_cast<DissociationReaction *>(pReact)) pReact->detailedBalance(1);
 
     return true;
   }

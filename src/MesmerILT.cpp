@@ -133,9 +133,6 @@ namespace mesmer
 
     cinfo << "ILT calculation completed";
 
-    // convert backward microcanonical reaction constants to forward microcanonical reaction constants
-    pReact->detailedBalance(-1);
-
     return true;
   }
 

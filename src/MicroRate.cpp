@@ -19,15 +19,15 @@ namespace mesmer
 
     string comment("Microcanonical rate coefficients");
     PersistPtr ppList = ppbase->XmlWriteMainElement("me:microRateList", comment );
-    int MaximumCell = pReact->getEnv().MaxCell;
+    int MaximumGrain = pReact->getEnv().MaxGrn;
 
     // Allocate some work space for density of states.
 
-    vector<double> cellEne;
-    vector<double> cellDOS;
+    vector<double> grainEne;
+    vector<double> grainDOS;
 
-    pReactant->getCellEnergies(cellEne) ;
-    pReactant->getCellDensityOfStates(cellDOS) ;
+    pReactant->getGrainEnergies(grainEne) ;
+    pReactant->getGrainDensityOfStates(grainDOS) ;
 
     ctest << "\nMicrocanonical rate coefficients for: " << pReact->getName() << "\n{\n";
     for(int i = 0 ; i < 29 ; ++i)
@@ -37,9 +37,9 @@ namespace mesmer
 
       double sm1 = 0.0, sm2 = 0.0, tmp = 0.0;
 
-      for ( int i = 0 ; i < MaximumCell ; ++i ) {
-        tmp  = cellDOS[i] * exp(-beta * cellEne[i]) ;
-        sm1 += pReact->m_CellKfmc[i] * tmp ;
+      for ( int i = 0 ; i < MaximumGrain ; ++i ) {
+        tmp  = grainDOS[i] * exp(-beta * grainEne[i]) ;
+        sm1 += pReact->m_GrainKfmc[i] * tmp ;
         sm2 += tmp ;
       }
       sm1 /= sm2 ;
@@ -53,7 +53,7 @@ namespace mesmer
       ppItem->XmlWriteValueElement("me:val", sm1,         6) ;
     }
     ctest << "}\n";
-        
+
     return true;
   }
 }//namespace

@@ -19,7 +19,8 @@ namespace mesmer{
     kfEGrainsEnabled(false),
     kbECellsEnabled(false),
     kbEGrainsEnabled(false),
-    EAboveWell(20.),
+    TunnelingCoeffEnabled(false),
+    EAboveHill(20.),
     printEigenValuesNum(-1)
     {}
 }//namespace

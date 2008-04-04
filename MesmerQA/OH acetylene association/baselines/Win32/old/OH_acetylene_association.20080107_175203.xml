@@ -1034,7 +1034,7 @@
         <me:numberOfGrains> 500 </me:numberOfGrains>-->
         <!--Specify increased energy range 
         <me:maxTemperature>6000</me:maxTemperature>-->
-        <me:energyAboveTheTopWell>0.</me:energyAboveTheTopWell>
+        <me:energyAboveTheTopHill>0.</me:energyAboveTheTopHill>
     </me:modelParameters>
     <me:control>
         <me:testMicroRates />

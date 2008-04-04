@@ -22,8 +22,8 @@ namespace mesmer
   class Reaction
   {
   private:
-	  const MesmerEnv& m_Env;
-	  std::string m_Name ;        // Reaction name.
+    const MesmerEnv& m_Env;
+    std::string m_Name ;        // Reaction name.
 
     bool restartCalc;           // restart calculation on DOS
     double m_PreExp ;           // Preexponetial factor
@@ -60,6 +60,15 @@ namespace mesmer
     std::vector<double> m_CellKbmc ;         // Backward microcanonical rate coefficients.
     std::vector<double> m_GrainKfmc ;        // Grained averaged forward  microcanonical rates.
     std::vector<double> m_GrainKbmc ;        // Grained averaged backward microcanonical rates.
+
+    /*
+    Each of the backward/forward microcanonical rate coefficients are based on the well bottom of its own well.
+    That is, each of these vectors contains rate coefficients starting from index 0 (the bottom of that well)
+    to the top (MaximumGrain - ZpeOfTheWell).
+    However, each of the vectors has the same number of members with some members be zero (either not calculated
+    or no reaction ocurred).
+    */
+
     std::vector<double> m_CellTunneling;
 
   public:
@@ -91,10 +100,10 @@ namespace mesmer
     double get_NInf()const                      { return m_NInf   ; } ;
     double getHeatOfReaction() const            { return m_HeatOfReaction ; };
     const MesmerEnv& getEnv() const             { return m_Env; } ;
-    void restCalcFlag()                         { restartCalc = true; };
-    
+    void resetCalcFlag()                         { restartCalc = true; };
+
     // Calculate association reaction coefficients
-    virtual void detailedBalance(const int dir);
+    virtual void grainRateCoeffDetailedBalance(const int dir);
 
     // Get activiation energy
     double get_ActivationEnergy(void);
@@ -105,7 +114,7 @@ namespace mesmer
     virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const = 0 ;
 
     // Product information:
-	virtual SuperMolecule* get_bi_molecularspecies(void) const {return NULL ; } ;
+    virtual SuperMolecule* get_bi_molecularspecies(void) const {return NULL ; } ;
 
     // Get the principal source reactant (i.e. reactant not in excess) if it exists.
     virtual ModelledMolecule *get_pseudoIsomer(void) const {return NULL ; } ;
@@ -115,8 +124,8 @@ namespace mesmer
     // Read a molecule name from the XML file and look it up
     Molecule* GetMolRef(PersistPtr pp);
 
-	  // Read parameters requires to determine reaction heats and rates.
-	  bool ReadRateCoeffParameters(PersistPtr ppReac) ;
+    // Read parameters requires to determine reaction heats and rates.
+    bool ReadRateCoeffParameters(PersistPtr ppReac) ;
 
 
 
@@ -131,16 +140,16 @@ namespace mesmer
     //   Reaction& operator=(const Reaction& reaction) ;
 
     // Grain averaging shorthand function for microcanoical rate coefficients
-    void grnAvg(const int _MG, const int _gsz, const std::vector<double> &DOS, const std::vector<double> &CellRC, std::vector<double> &GrainRC);
+    void rateConstantGrnAvg(const int _MG, const int _gsz, const std::vector<double> &DOS, const std::vector<double> &CellRC, std::vector<double> &GrainRC);
 
-	// Grain average microcanonical rate coefficients.
+  // Grain average microcanonical rate coefficients.
     bool grnAvrgMicroRateCoeffs();
 
     // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
     bool calcGrnAvrgMicroRateCoeffs() ;
 
     // Add reaction terms to collision matrix.
-	  virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) = 0 ;
+    virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) = 0 ;
 
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;

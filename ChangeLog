@@ -1,3 +1,17 @@
+_2008_04_04__14_25_39_ Chi-Hsiu Liang
+
+  * renamed grnDensityOfStates() -> getGrainDensityOfStates()
+  * Changed detailed balance on the cell level to the grain level
+  * Corrected codes where DOS and rate coefficients are not referenced to the well bottom.
+  * EAboveWell renamed to EAboveHill to reflect that this energy value is above the highest hilltop 
+    but not the highest well bottom
+  * Code for setting grain ZPE of all speices
+  * Corrected getClassicalEnergy()
+  * rename grnAvg() -> rateConstantGrnAvg()
+  * put minEnergy in ReactionManager.cpp to ReactionManager.h as m_minEnergy
+  * Add a short section in ReactionManager.cpp (Line 147 - 182) to set grain ZPE for all speices
+  * setup basic constants and derived constants in Constants.h
+
 _2008_03_27__14_49_28_ Chi-Hsiu Liang
 
   * Added a plugin class for Tunneling

@@ -223,7 +223,7 @@
         <me:numberOfGrains> 500 </me:numberOfGrains>-->
         <!--Specify increased energy range 
         <me:maxTemperature>6000</me:maxTemperature>-->
-        <me:energyAboveTheTopWell>20.</me:energyAboveTheTopWell>
+        <me:energyAboveTheTopHill>20.</me:energyAboveTheTopHill>
     </me:modelParameters>
     <me:control>
         <me:testDOS />

@@ -345,31 +345,48 @@ bool Reaction::calcGrnAvrgMicroRateCoeffs() {
     if (m_CellKfmc.size()) m_CellKfmc.clear();
     if (m_CellKbmc.size()) m_CellKbmc.clear();
     restartCalc = false; // reset the flag
+
     // Calculate microcanonical rate coefficients.
-    if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this) ||
-      (getEnv().microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_ppPersist)))
+    if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this))
       return false;
+
     // Calculate Grain-averaged microcanonical rate coefficients.
-    return grnAvrgMicroRateCoeffs() ;
+    if (!grnAvrgMicroRateCoeffs())
+      return false;
+
+    // test grained microcanonical rate coefficients
+    if (getEnv().microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_ppPersist))
+      return false;
   }
+  return true;
 }
 
-void Reaction::grnAvg(const int _MG, const int _gsz, const std::vector<double> &DOS, const std::vector<double> &CellRC, std::vector<double> &GrainRC){
+// calculate rate constant grained average for a forward or backward reaction
+void Reaction::rateConstantGrnAvg(const int _MG,
+                      const int _gsz,
+                      const std::vector<double> &CellDOS,
+                      const std::vector<double> &CellRC,
+                      std::vector<double> &GrainRC
+  ){
   int idx1(0), idx2(0);
   for (int i = 0; i < _MG ; ++i ) {
     int idx3(idx1);
 
     // Calculate the number of states in a grain.
     double gNOS = .0 ;
-    for (int j = 0 ; j < _gsz ; ++j, ++idx1 ) gNOS += DOS[idx1] ;
-
-    // Calculate average energy of the grain if it contains sum states.
-    if ( gNOS > 0.0 ) {
-      double gSE = .0;
-      for (int j= 0 ; j < _gsz ; ++j, ++idx3 ) gSE += CellRC[idx3] * DOS[idx3] ;
-      GrainRC[idx2] = gSE/gNOS ;
+    for (int j = 0 ; j < _gsz ; ++j, ++idx1){
+      gNOS += CellDOS[idx1] ;
     }
-    idx2++ ;
+
+    // Calculate average of the grain if it contains sum states.
+    if ( gNOS > 0.0 ) {
+      double gSum = .0;
+      for (int j= 0 ; j < _gsz ; ++j, ++idx3){
+        gSum += CellRC[idx3] * CellDOS[idx3] ;
+      }
+      GrainRC[idx2] = gSum/gNOS ;
+      idx2++;
+    }
   }
 
   // Issue warning if number of grains produced is less that requested.
@@ -384,41 +401,57 @@ void Reaction::grnAvg(const int _MG, const int _gsz, const std::vector<double> &
   }
 }
 
+
+
 //
 // Access microcanonical rate coefficients - cell values are averaged
 // to give grain values. This code is similar to that in Molecule.cpp
 // and this averaging should be done there. SHR 19/Sep/2004.
 //
 bool Reaction::grnAvrgMicroRateCoeffs() {
+    // This grain averaging of the microcanonical rate coefficients is based on the view from the species that is
+    // moving in the current reaction toward the opposite species.
 
     int MaximumGrain = getEnv().MaxGrn;
     int grnSize = static_cast<int>(getEnv().GrainSize);
-
-    // Always calculate forward grain microcanonical rate coefficients.
-    m_GrainKfmc.resize(MaximumGrain, 0.);
-    if (m_pdt1)
-      m_GrainKbmc.resize(MaximumGrain, 0.);
-
-    // Extract density of states of equilibrium molecule.
-    std::vector<double> rctCellDOS;
-    std::vector<double> pdtCellDOS;
-    if (m_rct2)
-      m_srct->getCellDensityOfStates(rctCellDOS);
-    else
-      m_rct1->getCellDensityOfStates(rctCellDOS);
-
-    if (m_pdt1)
-      m_pdt1->getCellDensityOfStates(pdtCellDOS);
-
     // Check if there are enough cells.
     if (grnSize < 1) {
       cerr << "The requested grain size is invalid.";
       exit(1) ;
     }
 
-    grnAvg(MaximumGrain, grnSize, rctCellDOS, m_CellKfmc, m_GrainKfmc);
-    if (m_pdt1)
-      grnAvg(MaximumGrain, grnSize, pdtCellDOS, m_CellKbmc, m_GrainKbmc);
+    // Extract density of states of equilibrium molecule.
+    std::vector<double> rctCellDOS;
+    std::vector<double> pdtCellDOS;
+
+    m_GrainKfmc.resize(MaximumGrain, 0.);
+    m_GrainKbmc.resize(MaximumGrain, 0.);
+
+    if (m_rct2){ // association
+      if (m_CellKbmc.size()){
+        // first convert backward cell RC to grain RC
+        m_pdt1->getCellDensityOfStates(pdtCellDOS);
+        rateConstantGrnAvg(MaximumGrain, grnSize, pdtCellDOS, m_CellKbmc, m_GrainKbmc);
+        // second calculate forward grain RC via detailed balance
+        grainRateCoeffDetailedBalance(-1);
+      }
+      else{
+        m_srct->getCellDensityOfStates(rctCellDOS);
+        rateConstantGrnAvg(MaximumGrain, grnSize, rctCellDOS, m_CellKfmc, m_GrainKfmc);
+        grainRateCoeffDetailedBalance(1);
+      }
+    }
+    else if (!m_pdt1){ // dissociation
+      m_rct1->getCellDensityOfStates(rctCellDOS);
+      rateConstantGrnAvg(MaximumGrain, grnSize, rctCellDOS, m_CellKfmc, m_GrainKfmc);
+      //no detailed balance required
+    }
+    else{ // isomerization
+      m_rct1->getCellDensityOfStates(rctCellDOS);
+      rateConstantGrnAvg(MaximumGrain, grnSize, rctCellDOS, m_CellKfmc, m_GrainKfmc);
+      grainRateCoeffDetailedBalance(1);
+    }
+
 
     if (getEnv().kfEGrainsEnabled){
       ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
@@ -456,36 +489,52 @@ void Reaction::AddMicroRates(dMatrix *CollOptr,
 //
 // DetailedBalance
 //
-void Reaction::detailedBalance(const int dir){
+void Reaction::grainRateCoeffDetailedBalance(const int dir){
   // if dir == -1 then do backward -> forward conversion
+  // *** No need to do Detailed Balance for a dissociation reaction
 
-  int MaximumCell = getEnv().MaxCell;
+  int MaximumGrain = getEnv().MaxGrn;
 
+  // first find out the ZPEs of both sides
+  int rctGrainZPE(0);
+  int pdtGrainZPE(0);
+
+  vector<double> rctGrainDOS;
+  vector<double> pdtGrainDOS;
+
+
+  if (m_rct2){ // association
+    rctGrainZPE = m_srct->get_grnZpe();
+    pdtGrainZPE = m_pdt1->get_grnZpe();
+    m_srct->getGrainDensityOfStates(rctGrainDOS) ;
+    m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
+  }
+  else if (!m_pdt1){ // dissociation
+    rctGrainZPE = m_rct1->get_grnZpe();
+    m_rct1->getGrainDensityOfStates(rctGrainDOS) ;
+  }
+  else{ // isomerization
+    rctGrainZPE = m_rct1->get_grnZpe();
+    pdtGrainZPE = m_pdt1->get_grnZpe();
+    m_rct1->getGrainDensityOfStates(rctGrainDOS) ;
+    m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
+  }
+
+  int zpe_move = pdtGrainZPE - rctGrainZPE;
+  int grainsStart = 0;
+  if (zpe_move < 0) grainsStart = -zpe_move;
+  int grainsEnd = MaximumGrain;
+  if (zpe_move > 0) grainsEnd = MaximumGrain - zpe_move;
+
+  // No matter what condition it is, the microcanonical rate coefficients of a reaction are calculated from the 
+  // higher bottom of two wells (this is for the convenience of tunneling).
   if (dir == -1) {
-    m_CellKfmc.resize(MaximumCell, 0.0);
-
-    for (int i = 0; i < MaximumCell; ++i)
-      m_CellKfmc[i] = m_CellKbmc[i] * m_srct->m_cellDOS[i] / m_pdt1->m_cellDOS[i];
-
-    if (getEnv().kfECellsEnabled){
-      ctest << "k_f(e) cells:\n{\n";
-      for (int i = 0; i < MaximumCell; ++i)
-          ctest << m_CellKfmc[i] << endl;
-      ctest << "}" << endl;
-    }
+    for (int i = grainsStart; i < grainsEnd; ++i)
+      m_GrainKfmc[i + zpe_move] = m_GrainKbmc[i] * pdtGrainDOS[i] / rctGrainDOS[i + zpe_move];
   }
   else{
-    m_CellKbmc.resize(MaximumCell, 0.0);
-
-    for (int i = 0; i < MaximumCell; ++i)
-      m_CellKbmc[i] = m_CellKfmc[i] * m_pdt1->m_cellDOS[i] / m_srct->m_cellDOS[i];
-
-    if (getEnv().kbECellsEnabled){
-      ctest << "k_b(e) cells:\n{\n";
-      for (int i = 0; i < MaximumCell; ++i)
-          ctest << m_CellKbmc[i] << endl;
-      ctest << "}" << endl;
-    }
+    for (int i = grainsStart; i < grainsEnd; ++i)
+      m_GrainKbmc[i] = m_GrainKfmc[i + zpe_move] * rctGrainDOS[i + zpe_move] / pdtGrainDOS[i];
   }
 
 }

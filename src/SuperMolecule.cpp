@@ -51,10 +51,6 @@ namespace mesmer
     }
   }
 
-  const int SuperMolecule::get_grnZpe(){
-    return (m_mol1->get_grnZpe() + m_mol2->get_grnZpe());
-  }
-
   int SuperMolecule::getSpinMultiplicity(){
     return (m_mol1->getSpinMultiplicity() * m_mol2->getSpinMultiplicity());
   }

@@ -92,11 +92,16 @@ namespace mesmer
     //-----------------------------------------------------------------------------------------------------
     // convolution of vibrational DOS onto rotational DOS -- loop through all frequencies of both molecules
     vector<double> vfMols; p_mol1->get_VibFreq(vfMols);
+
+    // times the scale factor (the original vibrational frequencies vector still contains the unscaled values)
+    for (vector<double>::size_type i = 0; i < vfMols.size(); ++i){
+      vfMols[i] *= p_mol1->get_scaleFactor();
+    }
     vector<double> vfMol2; p_mol2->get_VibFreq(vfMol2);
     for (vector<double>::size_type i = 0; i < vfMol2.size(); ++i){
-      vfMols.push_back(vfMol2[i]);
+      vfMols.push_back(vfMol2[i] * p_mol2->get_scaleFactor());
     }
-    
+
     Beyer_Swinehart(vfMols, dimerCellDOS);
 
     //electronic degeneracy
@@ -129,6 +134,11 @@ namespace mesmer
   bool ClassicalRotor::countMonomerCellDOS(ModelledMolecule* mol)
   {
     vector<double> VibFreq; mol->get_VibFreq(VibFreq);
+
+    // times the scale factor
+    for (vector<double>::size_type i = 0; i < VibFreq.size(); ++i){
+      VibFreq[i] *= mol->get_scaleFactor();
+    }
 
     if (0){
       stringstream errorMsg;

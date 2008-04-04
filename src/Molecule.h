@@ -99,6 +99,7 @@ namespace mesmer
     double              m_RotCstC ;          // Moment of inertia C.
     double              m_Sym ;              // Rotational symmetry number.
     double              m_ZPE ;              // Zero Point Energy. (Kcal/Mol)
+    double              m_scaleFactor ;      // scale factor for input real/imaginary vibrational frequencies
     int                 m_SpinMultiplicity ; // spin multiplicity
     int                 m_grnZpe ;           // Zero point energy expressed in grains.
     DensityOfStatesCalculator *m_pDensityOfStatesCalculator ;
@@ -108,11 +109,13 @@ namespace mesmer
     int m_RC_chk;
     int m_Sym_chk;
     int m_ZPE_chk;
+    int m_scaleFactor_chk;
     int m_SpinMultiplicity_chk;
     int m_VibFreq_chk;
+    int m_grnZpe_chk;
     //================================================
 
-    vector <double> m_eleExc; //Electronic excitation(for OH, NO, NS otherwise no memeber).
+    std::vector<double> m_eleExc; //Electronic excitation(for OH, NO, NS otherwise no memeber).
     std::vector<double> m_VibFreq ;          // Values of vibrational frequencies.
 
   public:
@@ -120,11 +123,11 @@ namespace mesmer
     // Cell and grain averages.  Note: raw array used for efficiency,
     // but need to test validity of this. SHR 5/Jan/03.
     //
-    std::vector<double> m_cellEne ;          // Cell mid-point energy array.
+    std::vector<double> m_cellEne ;          // Cell energy array.
     std::vector<double> m_cellDOS ;          // Cell density of states array.
     std::vector<double> m_grainEne ;         // Grain average energy array.
     std::vector<double> m_grainDOS ;         // Grain density of states array.
-
+    
     //----------------
     ModelledMolecule(const MesmerEnv& Env);
     virtual ~ModelledMolecule();
@@ -139,10 +142,10 @@ namespace mesmer
     void getCellEnergies(std::vector<double> &CellEne) ;
 
     // Get grain density of states.
-    void grnDensityOfStates(std::vector<double> &grainDOS) ;
+    void getGrainDensityOfStates(std::vector<double> &grainDOS) ;
 
     // Get grain energies.
-    void grnEnergies(std::vector<double> &grainEne) ;
+    void getGrainEnergies(std::vector<double> &grainEne) ;
 
     // Get Grain Boltzmann distribution.
     void grnBoltzDist(std::vector<double> &grainBoltzDist) ;
@@ -161,14 +164,15 @@ namespace mesmer
     
     // Accessors.
     virtual double get_zpe();
+    double get_scaleFactor();
     void set_zpe(double value);
+    void set_scaleFactor(double value);
     double get_Sym(void);
     int test_rotConsts(void);
     int  get_rotConsts(std::vector<double> &mmtsInt);
     void set_grnZpe(int grnZpe); // with respect to the minimum of all wells, default zero.
     virtual const int get_grnZpe();
     virtual void get_VibFreq(std::vector<double>& vibFreq);
-    void set_VibFreq(std::vector<double>& vibFreq, bool addition = false);
 
     virtual DensityOfStatesCalculator* get_DensityOfStatesCalculator();
     void set_DensityOfStatesCalculator(DensityOfStatesCalculator* value);
@@ -269,7 +273,6 @@ namespace mesmer
     // Accessors.
 
     // set composing member of the SuperMolecule, also copy necessary properties
-    const int get_grnZpe();
     int getSpinMultiplicity();
     void get_VibFreq(std::vector<double>& vibFreq);
     double get_zpe();
