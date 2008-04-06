@@ -19,144 +19,139 @@
 
 namespace mesmer
 {
-  class Reaction
-  {
-  private:
-    const MesmerEnv& m_Env;
-    std::string m_Name ;        // Reaction name.
+    class Reaction
+    {
+    public:
 
-    bool restartCalc;           // restart calculation on DOS
-    double m_PreExp ;           // Preexponetial factor
-    double m_NInf ;             // Modified Arrhenius parameter
-    double m_ERConc ;           // Concentration of the excess reactant
-    double m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
+		typedef std::map<CollidingMolecule*, int> isomerMap ;
+        typedef std::map<SuperMolecule*    , int> sourceMap ;
 
-    //
-    // Reaction Rate data.
-    //
-    double m_HeatOfReaction ;   // The heat of reaction corrected for zero point energies.
+		// Constructors.
 
-  public:
+        Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id);
 
+        // Destructor.
+        virtual ~Reaction();
 
-    MoleculeManager     *m_pMoleculeManager ;     // Pointer to molecule manager.
-    MicroRateCalculator *m_pMicroRateCalculator ; // Pointer to microcanoical rate coeff. calculator.
-    TunnelingCalculator *m_pTunnelingCalculator ; // Pointer to Tunneling Calculator
+        // Initialize reaction.
+        virtual bool InitializeReaction(PersistPtr ppReac) ;
 
-    // I/O and control
-    PersistPtr          m_ppPersist;         // Conduit for I/O
+        // Add microcanonical terms to collision operator
+        void AddMicroRates(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega);
 
-    //
-    // Reaction composition.
-    //
-    SuperMolecule     *m_srct ;              // Reactant molecules as a super-reactant
-    CollidingMolecule *m_rct1 ;              // Reactant Molecule.
-    ModelledMolecule  *m_rct2 ;              // Subsidiary reactant molecule.
-    CollidingMolecule *m_pdt1 ;              // Product Molecule.
-    ModelledMolecule  *m_pdt2 ;              // Subsidiary product molecule.
-    TransitionState   *m_TransitionState;    // TransitionState
+        // Access microcanoincal rate coeffcients.
+        void get_MicroRateCoeffs(std::vector<double> &kmc) ;
 
-    std::vector<double> m_CellKfmc ;         // Forward  microcanonical rate coefficients.
-    std::vector<double> m_CellKbmc ;         // Backward microcanonical rate coefficients.
-    std::vector<double> m_GrainKfmc ;        // Grained averaged forward  microcanonical rates.
-    std::vector<double> m_GrainKbmc ;        // Grained averaged backward microcanonical rates.
+        const std::string& getName() const    { return m_Name ; } ;
+        double getExcessReactantConc() const  { return m_ERConc ; } ;
+        double get_PreExp() const             { return m_PreExp ; } ;
+        double get_NInf()const                { return m_NInf   ; } ;
+        double getHeatOfReaction() const      { return m_HeatOfReaction ; };
+        const MesmerEnv& getEnv() const       { return m_Env; } ;
+        void resetCalcFlag()                  { restartCalc = true; };
 
-    /*
-    Each of the backward/forward microcanonical rate coefficients are based on the well bottom of its own well.
-    That is, each of these vectors contains rate coefficients starting from index 0 (the bottom of that well)
-    to the top (MaximumGrain - ZpeOfTheWell).
-    However, each of the vectors has the same number of members with some members be zero (either not calculated
-    or no reaction ocurred).
-    */
+        // Calculate association reaction coefficients
+        virtual void grainRateCoeffDetailedBalance(const int dir);
 
-    std::vector<double> m_CellTunneling;
+        // Get activiation energy
+        double get_ActivationEnergy(void);
 
-  public:
+        TransitionState* get_TransitionState()const { return m_TransitionState ; } ;
 
-    typedef std::map<CollidingMolecule*, int> isomerMap ;
-    typedef std::map<SuperMolecule*    , int> sourceMap ;
+        // Get unimolecualr species information:
+        virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const = 0 ;
 
-    // Constructors.
+        // Product information:
+        virtual SuperMolecule* get_bi_molecularspecies(void) const {return NULL ; } ;
 
-    Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id);
+        // Get the principal source reactant (i.e. reactant not in excess) if it exists.
+        virtual ModelledMolecule *get_pseudoIsomer(void) const {return NULL ; } ;
 
-    // Destructor.
-    virtual ~Reaction();
+		// Get the imaginary frequency of the transitions state.
+		double get_TSImFreq(void) const {return m_TransitionState->get_ImFreq() ; } ;
 
-    // Initialize reaction.
-    virtual bool InitializeReaction(PersistPtr ppReac) ;
+		bool thereIsTunnelling (void) const {return (m_pTunnelingCalculator) ? true : false ; } ;
 
-    // Add microcanonical terms to collision operator
-    void AddMicroRates(dMatrix *CollOptr,
-                       isomerMap &isomermap,
-                       const double rMeanOmega);
+		void calculateTunnelingCoeffs(std::vector<double>& TunnelingProbability) {m_pTunnelingCalculator->calculateTunnelingCoeffs(this, TunnelingProbability); } ;
 
-    // Access microcanoincal rate coeffcients.
-    void get_MicroRateCoeffs(std::vector<double> &kmc) ;
+    protected:
 
-    const std::string& getName() const          { return m_Name ; } ;
-    double getExcessReactantConc() const        { return m_ERConc ; } ;
-    double get_PreExp() const                   { return m_PreExp ; } ;
-    double get_NInf()const                      { return m_NInf   ; } ;
-    double getHeatOfReaction() const            { return m_HeatOfReaction ; };
-    const MesmerEnv& getEnv() const             { return m_Env; } ;
-    void resetCalcFlag()                         { restartCalc = true; };
+        // Read a molecule name from the XML file and look it up
+        Molecule* GetMolRef(PersistPtr pp);
 
-    // Calculate association reaction coefficients
-    virtual void grainRateCoeffDetailedBalance(const int dir);
+        // Read parameters requires to determine reaction heats and rates.
+        bool ReadRateCoeffParameters(PersistPtr ppReac) ;
 
-    // Get activiation energy
-    double get_ActivationEnergy(void);
+        // I/O and control
+        PersistPtr           m_ppPersist;            // Conduit for I/O
+												  
+        /*
+        Each of the backward/forward microcanonical rate coefficients are based on 
+		the well bottom of its own well. That is, each of these vectors contains rate 
+		coefficients starting from index 0 (the bottom of that well) to the top 
+		(MaximumGrain - ZpeOfTheWell). However, each of the vectors has the same number 
+		of members with some members be zero (either not calculated or no reaction ocurred).
+        */
 
-    TransitionState* get_TransitionState()const { return m_TransitionState ; } ;
+		std::vector<double>  m_CellKfmc ;            // Forward  microcanonical rate coefficients.
+        std::vector<double>  m_CellKbmc ;            // Backward microcanonical rate coefficients.
+        std::vector<double>  m_GrainKfmc ;           // Grained averaged forward  microcanonical rates.
+        std::vector<double>  m_GrainKbmc ;           // Grained averaged backward microcanonical rates.
 
-    // Get unimolecualr species information:
-    virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const = 0 ;
+		//
+        // Reaction composition.
+        //
+        SuperMolecule       *m_srct ;                 // Reactant molecules as a super-reactant
+        CollidingMolecule   *m_rct1 ;                 // Reactant Molecule.
+        ModelledMolecule    *m_rct2 ;                 // Subsidiary reactant molecule.
+        CollidingMolecule   *m_pdt1 ;                 // Product Molecule.
+        ModelledMolecule    *m_pdt2 ;                 // Subsidiary product molecule.
+        TransitionState     *m_TransitionState;       // TransitionState
+		
+        MoleculeManager     *m_pMoleculeManager ;     // Pointer to molecule manager.
+        MicroRateCalculator *m_pMicroRateCalculator ; // Pointer to microcanoical rate coeff. calculator.
+        TunnelingCalculator *m_pTunnelingCalculator ; // Pointer to Tunneling Calculator
 
-    // Product information:
-    virtual SuperMolecule* get_bi_molecularspecies(void) const {return NULL ; } ;
+	private:
 
-    // Get the principal source reactant (i.e. reactant not in excess) if it exists.
-    virtual ModelledMolecule *get_pseudoIsomer(void) const {return NULL ; } ;
+        //   Reaction();
 
-  protected:
+        // Copy constructor.
+        //   Reaction(const Reaction& reaction) ;
 
-    // Read a molecule name from the XML file and look it up
-    Molecule* GetMolRef(PersistPtr pp);
+        // Assignment operator.
+        //   Reaction& operator=(const Reaction& reaction) ;
 
-    // Read parameters requires to determine reaction heats and rates.
-    bool ReadRateCoeffParameters(PersistPtr ppReac) ;
+        // Grain averaging shorthand function for microcanoical rate coefficients
+        void rateConstantGrnAvg(const int _MG, const int _gsz, const std::vector<double> &DOS, const std::vector<double> &CellRC, std::vector<double> &GrainRC);
 
+        // Grain average microcanonical rate coefficients.
+        bool grnAvrgMicroRateCoeffs();
 
+        // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
+        bool calcGrnAvrgMicroRateCoeffs() ;
 
-  private:
+        // Add reaction terms to collision matrix.
+        virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) = 0 ;
 
-    //   Reaction();
+        // Calculate reaction equilibrium constant.
+        virtual double calcEquilibriumConstant() ;
 
-    // Copy constructor.
-    //   Reaction(const Reaction& reaction) ;
+		const MesmerEnv& m_Env;
+        std::string m_Name ;        // Reaction name.
 
-    // Assignment operator.
-    //   Reaction& operator=(const Reaction& reaction) ;
+        bool restartCalc;           // restart calculation on DOS
+        double m_PreExp ;           // Preexponetial factor
+        double m_NInf ;             // Modified Arrhenius parameter
+        double m_ERConc ;           // Concentration of the excess reactant
+        double m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
 
-    // Grain averaging shorthand function for microcanoical rate coefficients
-    void rateConstantGrnAvg(const int _MG, const int _gsz, const std::vector<double> &DOS, const std::vector<double> &CellRC, std::vector<double> &GrainRC);
+        //
+        // Reaction Rate data.
+        //
+        double m_HeatOfReaction ;   // The heat of reaction corrected for zero point energies.
 
-  // Grain average microcanonical rate coefficients.
-    bool grnAvrgMicroRateCoeffs();
-
-    // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
-    bool calcGrnAvrgMicroRateCoeffs() ;
-
-    // Add reaction terms to collision matrix.
-    virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) = 0 ;
-
-    // Calculate reaction equilibrium constant.
-    virtual double calcEquilibriumConstant() ;
-
-
-
-  } ;
+    } ;
 
 
 }//namespace

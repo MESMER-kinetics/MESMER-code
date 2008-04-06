@@ -8,8 +8,9 @@ using namespace Constants ;
 namespace mesmer
 {
 
-  bool MicroRateCalculator::testMicroRateCoeffs(Reaction*         pReact,
-                                                PersistPtr        ppbase) const
+  bool MicroRateCalculator::testMicroRateCoeffs(Reaction*  pReact,
+                                                PersistPtr ppbase,
+												vector<double>& TSFlux) const
   {
     vector<ModelledMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
@@ -39,7 +40,7 @@ namespace mesmer
 
       for ( int i = 0 ; i < MaximumGrain ; ++i ) {
         tmp  = grainDOS[i] * exp(-beta * grainEne[i]) ;
-        sm1 += pReact->m_GrainKfmc[i] * tmp ;
+        sm1 += TSFlux[i] * tmp ;
         sm2 += tmp ;
       }
       sm1 /= sm2 ;

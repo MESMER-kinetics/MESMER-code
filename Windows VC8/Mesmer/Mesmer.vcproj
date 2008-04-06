@@ -62,10 +62,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qd.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="../../qd/Windows VC/Release"
-				DelayLoadDLLs="qd.dll"
+				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"

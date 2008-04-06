@@ -43,14 +43,14 @@ namespace mesmer
    3. A reaction PES can change in different temperature, caused by rotational contribution to the total energy.
   //-------------------------------------------------*/
 
-  bool MesmerILT::calculateMicroRateCoeffs(Reaction* pReact)
+  bool MesmerILT::calculateMicroRateCoeffs(Reaction* pReact, std::vector<double>& TSFlux)
   {
     //-----------------
     //starting variables block
     MesmerHP _ninf   = pReact->get_NInf(); // constraint: _ninf > -1.5
-    double   _ainf        = pReact->get_PreExp();
-    double   _einf        = pReact->get_ActivationEnergy();
-    double   _tinf        = 1. / (boltzmann_RCpK * pReact->getEnv().beta);
+    double   _ainf   = pReact->get_PreExp();
+    double   _einf   = pReact->get_ActivationEnergy();
+    double   _tinf   = 1. / (boltzmann_RCpK * pReact->getEnv().beta);
     // double tp_C = 3.24331e+20; // Defined in Constant.h, constant used in the translational partition function
     //-----------------
 
@@ -87,7 +87,7 @@ namespace mesmer
     p_rcts->getCellDensityOfStates(rctsCellDOS) ;
 
     // Allocate space to hold microcanonical rate coefficients for dissociation.
-    pReact->m_CellKbmc.resize(MaxCell, 0.0); // no need to initialize
+    TSFlux.resize(MaxCell, 0.0); // no need to initialize
 
     MesmerHP _gamma = MesmerGamma(_ninf + 1.5);
     MesmerHP _ant = _ainf * tp_C * (edg_a * edg_b / edg_c) * pow( ( ma * mb / mc), 1.5 ) / _gamma;
@@ -120,13 +120,13 @@ namespace mesmer
     DOSconvolution(work, rctsCellDOS, conv);
 
     for (int i = 0; i < (MaxCell - activ_ene); ++i){
-      pReact->m_CellKbmc[i + activ_ene] = to_double(_ant) * conv[i] / pdt1CellDOS[i + activ_ene];
+      TSFlux[i + activ_ene] = to_double(_ant) * conv[i] / pdt1CellDOS[i + activ_ene];
     }
 
     if (pReact->getEnv().kbECellsEnabled){
       ctest << "\nk_b(e) cells:\n{\n";
       for (int i = 0; i < MaxCell; ++i){
-        ctest << pReact->m_CellKbmc[i] << endl;
+        ctest << TSFlux[i] << endl;
       }
       ctest << "}\n";
     }

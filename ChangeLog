@@ -1,3 +1,8 @@
+
+2008-1-27 Struan Robertson
+
+  * Reaction.h:  Move all public data to protected data, and concomitant changes.
+
 _2008_04_04__14_25_39_ Chi-Hsiu Liang
 
   * renamed grnDensityOfStates() -> getGrainDensityOfStates()

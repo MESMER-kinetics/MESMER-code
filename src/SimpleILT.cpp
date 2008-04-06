@@ -15,7 +15,7 @@ namespace mesmer
   //
 
 
-  bool SimpleILT::calculateMicroRateCoeffs(Reaction* pReact)
+  bool SimpleILT::calculateMicroRateCoeffs(Reaction* pReact, vector<double>& TSFlux)
   {
     vector<ModelledMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
@@ -24,7 +24,7 @@ namespace mesmer
     int MaximumCell = pReact->getEnv().MaxCell;
 
     // Allocate space to hold Micro-canonical rate coefficients.
-    pReact->m_CellKfmc.resize(MaximumCell, 0.0);
+    TSFlux.resize(MaximumCell, 0.0);
 
     // Allocate some work space for density of states.
 
@@ -41,7 +41,7 @@ namespace mesmer
     // Calculate microcanonical rate coefficients using simple ILT expression.
 
     for (int i = nEinf ; i < MaximumCell ; ++i ) {
-      pReact->m_CellKfmc[i] = pReact->get_PreExp() * cellDOS[i-nEinf] / cellDOS[i] ;
+      TSFlux[i] = pReact->get_PreExp() * cellDOS[i-nEinf] / cellDOS[i] ;
     }
 
     return true;

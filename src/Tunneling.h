@@ -31,7 +31,7 @@ namespace mesmer
       return (pos==get_Map().end()) ? NULL : pos->second;
     }
 
-    virtual bool calculateTunnelingCoeffs(Reaction* pReact) = 0 ;
+	virtual bool calculateTunnelingCoeffs(Reaction* pReact, std::vector<double>& TunnelingProbability) = 0 ;
 
   private:
     /// Returns a reference to the map of TunnelingCalculator classes
