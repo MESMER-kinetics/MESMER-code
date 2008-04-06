@@ -1,4 +1,10 @@
 
+
+2008-1-27 Struan Robertson
+
+  * Reaction.h:  Declare methods InitializeReaction and calcEquilibriumConstant 
+  pure virtual, and associated changes.
+
 2008-1-27 Struan Robertson
 
   * Reaction.h:  Move all public data to protected data, and concomitant changes.

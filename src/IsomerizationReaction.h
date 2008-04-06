@@ -39,7 +39,6 @@ namespace mesmer
           // Initialize reaction.
           virtual bool InitializeReaction(PersistPtr ppReac) ;
 
-
     private:
 
         // Calculate reaction equilibrium constant.

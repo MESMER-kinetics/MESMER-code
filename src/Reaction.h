@@ -34,7 +34,7 @@ namespace mesmer
         virtual ~Reaction();
 
         // Initialize reaction.
-        virtual bool InitializeReaction(PersistPtr ppReac) ;
+        virtual bool InitializeReaction(PersistPtr ppReac) = 0 ;
 
         // Add microcanonical terms to collision operator
         void AddMicroRates(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega);
@@ -56,7 +56,7 @@ namespace mesmer
         // Get activiation energy
         double get_ActivationEnergy(void);
 
-        TransitionState* get_TransitionState()const { return m_TransitionState ; } ;
+        TransitionState* get_TransitionState() const { return m_TransitionState ; } ;
 
         // Get unimolecualr species information:
         virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const = 0 ;
@@ -92,6 +92,9 @@ namespace mesmer
 		(MaximumGrain - ZpeOfTheWell). However, each of the vectors has the same number 
 		of members with some members be zero (either not calculated or no reaction ocurred).
         */
+
+		std::vector<double>  m_CellTSFlux ;          // Microcanonical transition state fluxes.
+		std::vector<double>  m_GrainTSFlux ;         // Grain summed microcanonical transition state fluxes..
 
 		std::vector<double>  m_CellKfmc ;            // Forward  microcanonical rate coefficients.
         std::vector<double>  m_CellKbmc ;            // Backward microcanonical rate coefficients.
@@ -135,7 +138,7 @@ namespace mesmer
         virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) = 0 ;
 
         // Calculate reaction equilibrium constant.
-        virtual double calcEquilibriumConstant() ;
+        virtual double calcEquilibriumConstant() = 0 ;
 
 		const MesmerEnv& m_Env;
         std::string m_Name ;        // Reaction name.
