@@ -18,7 +18,7 @@ MesmerQA/HSO2/HSO2.xml -text
 MesmerQA/HSO2/HSO2_test.xml -text
 MesmerQA/HSO2/baselines/Cygwin[!!-~]32-bit[!!-~]double/HSO2_test.20071204_105924.xml -text
 MesmerQA/HSO2/baselines/Cygwin[!!-~]32-bit[!!-~]double/HSO2_test.out -text
-MesmerQA/HSO2/baselines/Win32/HSO2_test.20080114_152014.xml -text
+MesmerQA/HSO2/baselines/Win32/HSO2_test.20080417_123329.xml -text
 MesmerQA/HSO2/baselines/Win32/mesmer.log -text
 MesmerQA/HSO2/baselines/Win32/mesmer.test -text
 MesmerQA/HSO2/baselines/Win32/old/HSO2_test.20071230_162353.xml -text

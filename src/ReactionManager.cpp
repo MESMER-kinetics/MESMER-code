@@ -185,7 +185,6 @@ namespace mesmer
     // calculate the mean collision frequency and initialize all collision operators.
     //
     int msize(0) ; // size of the collision matrix
-    double meanomega(0.0) ;
     Reaction::isomerMap::iterator isomeritr = isomers.begin() ;
     for (; isomeritr != isomers.end() ; ++isomeritr) {
 
@@ -199,9 +198,9 @@ namespace mesmer
       msize += colloptrsize ;
 
       isomer->initCollisionOperator(Env.beta, pBathGasMolecule) ;
-      meanomega += isomer->get_collisionFrequency() ;
+      m_meanOmega += isomer->get_collisionFrequency() ;
     }
-    meanomega /= isomers.size();
+    m_meanOmega /= isomers.size();
 
     //
     // Find all source terms.
@@ -236,9 +235,9 @@ namespace mesmer
       int colloptrsize = isomer->get_colloptrsize() ;
       double omega = isomer->get_collisionFrequency() ;
       int idx = isomeritr->second ;
-      if (debugFlag) ctest << "reduced omega = " << omega << " / " << meanomega << " = " << omega/meanomega << endl;
+      if (debugFlag) ctest << "reduced omega = " << omega << " / " << m_meanOmega << " = " << omega/m_meanOmega << endl;
 
-      isomer->copyCollisionOperator(m_pSystemCollisionOperator, colloptrsize, idx, omega/meanomega) ;
+      isomer->copyCollisionOperator(m_pSystemCollisionOperator, colloptrsize, idx, omega/m_meanOmega) ;
 
     }
 
@@ -249,7 +248,7 @@ namespace mesmer
 
     // Add connecting rate coefficients.
     for (size_t i(0) ; i < size() ; ++i) {
-      m_reactions[i]->AddMicroRates(m_pSystemCollisionOperator,isomers,1.0/meanomega) ;
+      m_reactions[i]->AddMicroRates(m_pSystemCollisionOperator,isomers,1.0/m_meanOmega) ;
     }
 
     if (collisionOperatorCheck){
@@ -285,7 +284,7 @@ namespace mesmer
     ctest << "\nTotal number of eigenvalues = " << smsize << endl;
     ctest << "Eigenvalues\n{\n";
     for (int i = numberStarted ; i < smsize; ++i) {
-      formatFloat(ctest, rr[i], 6, 15) ;
+      formatFloat(ctest, m_meanOmega * rr[i], 6, 15) ;
       ctest << endl ;
     }
     ctest << "}\n";

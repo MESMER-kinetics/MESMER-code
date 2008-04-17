@@ -29,7 +29,7 @@ namespace Constants {
   // Basic constants
   //
   static const double boltzmann_C             = 1.3806503e-23;  // Boltzmann constant (J*K-1).
-  static const double SpeedOfLight_cm         = 2.99792458e+10 ;// speed of light in centimeter
+  static const double SpeedOfLight_cm         = 2.99792458e+10 ;// speed of light in centimeter/s
   static const double PlancksConstant         = 6.6260689633e-34;   // Planck's constant in Joule times second
   static const double AvogadroC               = 6.0221367e+23;
   static const double CalorieInJoule          = 4.184;

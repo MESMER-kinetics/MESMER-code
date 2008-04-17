@@ -31,7 +31,8 @@ namespace mesmer
     m_reactions(),
         m_pMoleculeManager(pMoleculeManager),
         m_pSystemCollisionOperator(0),
-        m_minEnergy(0.0)
+        m_minEnergy(0.0),
+        m_meanOmega(0.0)
     {};
 
     // Destructor.
@@ -77,6 +78,8 @@ namespace mesmer
     dMatrix                *m_pSystemCollisionOperator ;
     
     double m_minEnergy;
+    
+    double m_meanOmega;
 
     // Default Constructor.
     //ReactionManager() {} ;

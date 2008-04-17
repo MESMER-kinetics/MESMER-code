@@ -32,7 +32,7 @@ namespace mesmer
             string errorMsg = "Isomerizaton reaction " + getName() + " has no reactant.";
             meErrorLog.ThrowError(__FUNCTION__, string(errorMsg), obError);
             return false;
-        }        
+        }
         PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
         if(ppReactant2)
         {
@@ -59,7 +59,7 @@ namespace mesmer
             string errorMsg = "Isomerizaton reaction " + getName() + " has no product.";
             meErrorLog.ThrowError(__FUNCTION__, string(errorMsg), obError);
             return false;
-        }           
+        }
         PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
         if(ppProduct2)
         {
@@ -84,7 +84,7 @@ namespace mesmer
         if (ppTransitionState)
         {
             TransitionState* pTrans = dynamic_cast<TransitionState*>(GetMolRef(ppTransitionState));
-            if(pTrans) 
+            if(pTrans)
                 m_TransitionState = pTrans;
         }
 
@@ -147,4 +147,48 @@ namespace mesmer
         }
     }
 
+    // Read parameters requires to determine reaction heats and rates.
+    bool IsomerizationReaction::ReadRateCoeffParameters(PersistPtr ppReac) {
+
+        // Read the heat of reaction (if present).
+        const char* pHeatRxntxt = ppReac->XmlReadValue("me:HeatOfReaction",false);
+        if (pHeatRxntxt){
+      stringstream s1(pHeatRxntxt);
+      double value = 0.0; s1 >> value ; setHeatOfReaction(value);
+        } else { // Calculate heat of reaction.
+            double zpe_pdt1 = m_pdt1->get_zpe();
+            double zpe_rct1 = m_rct1->get_zpe();
+            setHeatOfReaction(zpe_pdt1 - zpe_rct1);
+        }
+
+        // Determine the method of MC rate coefficient calculation.
+        const char* pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod") ;
+        if(pMCRCMethodtxt)
+        {
+            m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
+            if(!m_pMicroRateCalculator)
+            {
+                cerr << "Unknown method " << pMCRCMethodtxt
+                    << " for the determination of Microcanonical rate coefficients in reaction "
+                    << getName();
+                return false;
+            }
+        }
+
+        // Determine the method of estimating tunneling effect.
+        const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
+        if(pTunnelingtxt)
+        {
+            m_pTunnelingCalculator = TunnelingCalculator::Find(pTunnelingtxt);
+            if(!m_pTunnelingCalculator)
+            {
+                cerr << "Unknown method " << pTunnelingtxt
+                    << " for the determination of tunneling coefficients in reaction "
+                    << getName();
+                return false;
+            }
+        }
+
+        return true ;
+    }
 }//namespace

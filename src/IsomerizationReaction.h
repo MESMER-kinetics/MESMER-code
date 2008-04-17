@@ -17,39 +17,40 @@
 namespace mesmer
 {
 
-    class IsomerizationReaction : public Reaction
-    {
-    public:
+  class IsomerizationReaction : public Reaction
+  {
+  public:
 
-        // Constructors.
-        IsomerizationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
-          Reaction(pMoleculeManager, Env, id){} ;
+    // Constructors.
+    IsomerizationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
+        Reaction(pMoleculeManager, Env, id){} ;
 
-          // Destructor.
-          virtual ~IsomerizationReaction() {} ;
+        // Destructor.
+        virtual ~IsomerizationReaction() {} ;
 
-          // Get unimolecular species information:
-          virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const
-          {
-              unimolecularspecies.push_back(m_rct1) ;
-              unimolecularspecies.push_back(m_pdt1) ;
-              return 2 ;
-          } ;
+        // Get unimolecular species information:
+        virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const
+        {
+          unimolecularspecies.push_back(m_rct1) ;
+          unimolecularspecies.push_back(m_pdt1) ;
+          return 2 ;
+        } ;
 
-          // Initialize reaction.
-          virtual bool InitializeReaction(PersistPtr ppReac) ;
+        // Initialize reaction.
+        virtual bool InitializeReaction(PersistPtr ppReac) ;
 
-    private:
+  private:
 
-        // Calculate reaction equilibrium constant.
-        virtual double calcEquilibriumConstant() ;
+    // Calculate reaction equilibrium constant.
+    virtual double calcEquilibriumConstant() ;
 
-        // Add reaction terms to collision matrix.
-        virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+    // Add reaction terms to collision matrix.
+    virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
 
+    // Read parameters requires to determine reaction heats and rates.
+    virtual bool ReadRateCoeffParameters(PersistPtr ppReac) ;
 
-
-    } ;
+  } ;
 
 }//namespace
 #endif // GUARD_IsomerizationReaction_h

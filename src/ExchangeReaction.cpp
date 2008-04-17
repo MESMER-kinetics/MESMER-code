@@ -151,4 +151,9 @@ namespace mesmer
 
     }
 
+    // Read parameters requires to determine reaction heats and rates.
+    bool ExchangeReaction::ReadRateCoeffParameters(PersistPtr ppReac) {
+
+        return true ;
+    }
 }//namespace

@@ -59,6 +59,12 @@
       <property dictRef="me:rotConsts">
         <array units="cm-1">1.703 0.3 0.263</array>
       </property>
+      <property dictRef="me:epsilon">
+        <scalar>380</scalar>
+      </property>
+      <property dictRef="me:sigma">
+        <scalar>4.3</scalar>
+      </property>
       <property dictRef="me:vibFreqs">
         <array units="cm-1">
           411 777 1027 1094 1578 2284
@@ -124,6 +130,7 @@
       <me:transitionState>
         <molecule ref="TS1" me:type="transitionState" />
       </me:transitionState>
+      <me:excessReactantConc>1e14</me:excessReactantConc>
       <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
       <me:threshold>41.56</me:threshold>
     </reaction>
@@ -131,7 +138,7 @@
   <me:conditions>
     <me:bathGas>Ar</me:bathGas>
     <me:CPTs>
-      <me:CPTpair me:units="1" me:CP="1000" me:T="200" />
+      <me:CPTpair me:units="1" me:CP="100000000" me:T="500" />
     </me:CPTs>
   </me:conditions>
   <me:modelParameters>

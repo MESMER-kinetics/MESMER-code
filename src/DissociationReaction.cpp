@@ -129,5 +129,62 @@ namespace mesmer
 
     }
 
+// Read parameters requires to determine reaction heats and rates.
+bool DissociationReaction::ReadRateCoeffParameters(PersistPtr ppReac) {
+
+    // Read the heat of reaction (if present).
+    const char* pHeatRxntxt = ppReac->XmlReadValue("me:HeatOfReaction",false);
+    if (pHeatRxntxt){
+      stringstream s1(pHeatRxntxt);
+      double value = 0.0; s1 >> value ; setHeatOfReaction(value);
+   } else { // Calculate heat of reaction.
+        double zpe_pdt1 = m_pdt1->get_zpe();
+        double zpe_rct1 = m_rct1->get_zpe();
+        double zpe_rct2 = m_rct2->get_zpe();
+        setHeatOfReaction(zpe_pdt1 - zpe_rct1 - zpe_rct2);
+    }
+
+    const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential",false);
+    if (pPreExptxt)
+    {
+        double value = 0.0; stringstream s2(pPreExptxt); s2 >> value  ; set_PreExp(value);
+    }
+    const char* pNInftxt   = ppReac->XmlReadValue("me:nInfinity",false);
+    if (pNInftxt)
+    {
+        double value = 0.0; stringstream s3(pNInftxt); s3 >> value ; set_NInf(value);
+    }
+
+    // Determine the method of MC rate coefficient calculation.
+    const char* pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod") ;
+    if(pMCRCMethodtxt)
+    {
+        m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
+        if(!m_pMicroRateCalculator)
+        {
+            cerr << "Unknown method " << pMCRCMethodtxt
+                << " for the determination of Microcanonical rate coefficients in reaction "
+                << getName();
+            return false;
+        }
+    }
+
+    // Determine the method of estimating tunneling effect.
+    const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
+    if(pTunnelingtxt)
+    {
+        m_pTunnelingCalculator = TunnelingCalculator::Find(pTunnelingtxt);
+        if(!m_pTunnelingCalculator)
+        {
+            cerr << "Unknown method " << pTunnelingtxt
+                << " for the determination of tunneling coefficients in reaction "
+                << getName();
+            return false;
+        }
+    }
+
+    return true ;
+}
+
 
 }//namespace

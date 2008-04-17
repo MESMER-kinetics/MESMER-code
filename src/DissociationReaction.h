@@ -17,36 +17,39 @@
 namespace mesmer
 {
 
-    class DissociationReaction : public Reaction
-    {
-    public:
+  class DissociationReaction : public Reaction
+  {
+  public:
 
-        // Constructors.
-        DissociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
-          Reaction(pMoleculeManager, Env, id){} ;
+    // Constructors.
+    DissociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
+        Reaction(pMoleculeManager, Env, id){} ;
 
-          // Destructor.
-          virtual ~DissociationReaction(){} ;
+        // Destructor.
+        virtual ~DissociationReaction(){} ;
 
-          // Get unimolecular species information:
-          virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const
-          {
-              unimolecularspecies.push_back(m_rct1) ;
-              return 1;
-          } ;
+        // Get unimolecular species information:
+        virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const
+        {
+          unimolecularspecies.push_back(m_rct1) ;
+          return 1;
+        } ;
 
-          // Initialize reaction.
-          virtual bool InitializeReaction(PersistPtr ppReac) ;
+        // Initialize reaction.
+        virtual bool InitializeReaction(PersistPtr ppReac) ;
 
-    private:
+  private:
 
-        // Add reaction terms to collision matrix.
-        virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+    // Add reaction terms to collision matrix.
+    virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
 
-        // Calculate reaction equilibrium constant.
-        virtual double calcEquilibriumConstant() ;
+    // Calculate reaction equilibrium constant.
+    virtual double calcEquilibriumConstant() ;
 
-	} ;
+    // Read parameters requires to determine reaction heats and rates.
+    virtual bool ReadRateCoeffParameters(PersistPtr ppReac) ;
+
+  } ;
 
 
 }//namespace

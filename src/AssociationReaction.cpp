@@ -136,21 +136,15 @@ namespace mesmer
   // Add (REVERSIBLE) association reaction terms to collision matrix.
   //
   void AssociationReaction::AddReactionTerms(dMatrix      *CollOptr,
-                                             isomerMap    &isomermap,
-                                             const double rMeanOmega)
+    isomerMap    &isomermap,
+    const double rMeanOmega)
   {
     // Locate isomers in system matrix.
     const int pdtLoc =      isomermap[dynamic_cast<CollidingMolecule*>(m_pdt1)] ;
     const int jj     = (*m_sourceMap)[dynamic_cast<SuperMolecule    *>(m_srct)] ;
 
     // Get equilibrium constant.
-    double Keq = calcEquilibriumConstant() ;
-    const double excess = getExcessReactantConc();
-
-    vector<double> rctDOS;
-    vector<double> pdtDOS;
-    m_srct->getGrainDensityOfStates(rctDOS) ;
-    m_pdt1->getGrainDensityOfStates(pdtDOS) ;
+    const double Keq = calcEquilibriumConstant() ;
 
     // Get Boltzmann distribution for detailed balance.
     const int MaximumGrain = getEnv().MaxGrn ;
@@ -160,40 +154,22 @@ namespace mesmer
     const int colloptrsize = dynamic_cast<CollidingMolecule*>(m_pdt1)->get_colloptrsize() ; // collision operator size of the isomer
 
     double DissRateCoeff(0.0) ;
-    if (debugFlag) ctest << "Keq * excess = " << Keq << " * " << excess << " = " << Keq * excess << endl;
 
     // Multiply equilibrum constant by concentration of excess reactant.
     // concentration of excess reactant should be in molec/cm3. This gives
     // a dimensionless pseudo-isomerization equilibrium constant.
-    Keq *= excess ;
-
-    if (collisionOperatorCheck){
-      ctest << "\nSystem collision operator check before adding " << getName() << " microrates:\n";
-      (*CollOptr).showFinalBits(8);
-    }
 
     for ( int i = 0; i < colloptrsize; ++i) {
       int ll = i;
       int ii(pdtLoc + i) ;
 
-      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKbmc[ll] ;                           // Backward loss of the adduct
-      if (i < colloptrsize && i > (colloptrsize - 8) && debugFlag) {
-        ctest << rMeanOmega << " * " << "m_GrainKbmc[" << ll
-        << "](" << m_GrainKbmc[ll] << ") = " << rMeanOmega * m_GrainKbmc[ll] << endl;
-      }
+      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKbmc[ll] ;                               // Backward loss of the adduct
       (*CollOptr)[jj][ii]  = rMeanOmega * m_GrainKbmc[ll] * sqrt(adductBoltz[ll] * Keq) ; // Reactive gain of the source
-      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                                    // Reactive gain
-      DissRateCoeff       += rMeanOmega * m_GrainKbmc[ll] * adductBoltz[ll] ;
+      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                                        // Reactive gain
+      DissRateCoeff       += m_GrainKbmc[ll] * adductBoltz[ll] ;
     }
-
-    if (debugFlag) ctest << "DissRateCoeff = " << DissRateCoeff << endl;
-    (*CollOptr)[jj][jj] -= (DissRateCoeff * Keq);       // Backward loss reaction from detailed balance.
-
-    if (collisionOperatorCheck){
-      ctest << "\nSystem collision operator check after adding " << getName() << " microrates:\n";
-      (*CollOptr).showFinalBits(8);
-    }
-
+    (*CollOptr)[jj][jj] -= (rMeanOmega * DissRateCoeff * Keq);       // Backward loss reaction from detailed balance.
+    
   }
 
   //
@@ -206,40 +182,98 @@ namespace mesmer
     long double Keq(0.0) ;
 
     // Get Canonical partition functions.
-    long double Qrcts = m_srct->grnCanPrtnFn();
-    long double Qpdt1 = m_pdt1->grnCanPrtnFn() ;
+    const long double Qrct1 = m_rct1->grnCanPrtnFn();
+    const long double Qrct2 = m_rct2->grnCanPrtnFn();
+    const long double Qpdt1 = m_pdt1->grnCanPrtnFn() ;
 
-    long double mass_rct1 = m_rct1->getMass();
-    long double mass_rct2 = m_rct2->getMass();
-    long double mass_srct = mass_rct1 + mass_rct2;
+    const long double mass_rct1 = m_rct1->getMass();
+    const long double mass_rct2 = m_rct2->getMass();
+    const long double mass_srct = mass_rct1 + mass_rct2;
 
     // Calculate the equilibrium constant.
-    long double beta = getEnv().beta ;
+    const long double beta = getEnv().beta ;
 
-    Keq = Qrcts/Qpdt1 ;
-    if(debugFlag) ctest << "Keq = " << Keq << endl;
+    Keq = Qpdt1 / (Qrct1 * Qrct2);
 
     /* Electronic degeneracies were already accounted for in DOS calculations */
     // Heat of reaction
-    long double _expon = -beta * getHeatOfReaction() * kJPerMolInRC;
-    Keq /= exp(_expon) ;
-    if(debugFlag) ctest << "Keq = " << Keq 
-      << ", getHeatOfReaction() = " << getHeatOfReaction() 
-      << ", beta = " << beta 
-      << ", _expon = " << _expon 
-      << ", dh = " << getHeatOfReaction() * kJPerMolInRC 
-      << ", kJPerMolInRC = " << kJPerMolInRC << endl;
+    double HeatOfReaction = getHeatOfReaction() ;
+    long double _expon = -beta * HeatOfReaction * kJPerMolInRC;
+    Keq *= exp(_expon) ;
 
     // Translational contribution
     // 2.0593e19 = conversion factor,  1e-6*(((cm-1 -> j)/(h2*na)))^3/2
     // double tau = 2.0593e19 * pow(2. * M_PI ,1.5);
-    Keq *= (tp_C * pow(mass_rct1 * mass_rct2 / (mass_srct * beta), 1.5l));
-    if(debugFlag) ctest << "Keq = " << Keq << endl;
+    Keq /= (tp_C * pow(mass_rct1 * mass_rct2 / (mass_srct * beta), 1.5l));
 
-    Keq = 1./Keq;
-    if(debugFlag) ctest << "Keq = " << Keq << endl;
+    const double excess = getExcessReactantConc();
+    Keq *= excess ;
+
     return (double) Keq ;
 
+  }
+
+  // Read parameters requires to determine reaction heats and rates.
+  bool AssociationReaction::ReadRateCoeffParameters(PersistPtr ppReac) {
+
+    // Read the heat of reaction (if present).
+    const char* pHeatRxntxt = ppReac->XmlReadValue("me:HeatOfReaction",false);
+    if (pHeatRxntxt){
+      stringstream s1(pHeatRxntxt);
+      double value = 0.0; s1 >> value ; setHeatOfReaction(value);
+    } else { // Calculate heat of reaction.
+      double zpe_pdt1 = m_pdt1->get_zpe();
+      double zpe_rct1 = m_rct1->get_zpe();
+      double zpe_rct2 = m_rct2->get_zpe();
+      setHeatOfReaction(zpe_pdt1 - zpe_rct1 - zpe_rct2);
+    }
+
+    const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential",false);
+    if (pPreExptxt)
+    {
+      double value = 0.0;
+      stringstream s2(pPreExptxt); s2 >> value ; set_PreExp(value);
+    }
+    const char* pNInftxt   = ppReac->XmlReadValue("me:nInfinity",false);
+    if (pNInftxt)
+    {
+      double value = 0.0; stringstream s3(pNInftxt); s3 >> value ; set_NInf(value);
+    }
+    const char* pERConctxt   = ppReac->XmlReadValue("me:excessReactantConc",false);
+    if (pERConctxt)
+    {
+      stringstream s3(pERConctxt); s3 >> m_ERConc ;
+    }
+
+    // Determine the method of MC rate coefficient calculation.
+    const char* pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod") ;
+    if(pMCRCMethodtxt)
+    {
+      m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
+      if(!m_pMicroRateCalculator)
+      {
+        cerr << "Unknown method " << pMCRCMethodtxt
+          << " for the determination of Microcanonical rate coefficients in reaction "
+          << getName();
+        return false;
+      }
+    }
+
+    // Determine the method of estimating tunneling effect.
+    const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
+    if(pTunnelingtxt)
+    {
+      m_pTunnelingCalculator = TunnelingCalculator::Find(pTunnelingtxt);
+      if(!m_pTunnelingCalculator)
+      {
+        cerr << "Unknown method " << pTunnelingtxt
+          << " for the determination of tunneling coefficients in reaction "
+          << getName();
+        return false;
+      }
+    }
+
+    return true ;
   }
 
 }//namespace

@@ -17,49 +17,57 @@
 namespace mesmer
 {
 
-    class AssociationReaction : public Reaction
-    {
-    public:
+  class AssociationReaction : public Reaction
+  {
+  public:
 
-        // Constructors.
-        AssociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
-          Reaction(pMoleculeManager, Env, id),
-              m_sourceMap(NULL){} ;
+    // Constructors.
+    AssociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
+        Reaction(pMoleculeManager, Env, id),
+          m_sourceMap(NULL),
+        m_ERConc(0.){} ;
 
-          // Destructor.
-          virtual ~AssociationReaction(){
-              delete m_sourceMap;
-          };
+        // Destructor.
+        virtual ~AssociationReaction(){
+          delete m_sourceMap;
+        };
 
-          void putSourceMap(sourceMap *sourcemap){m_sourceMap = sourcemap ; } ;
+        void putSourceMap(sourceMap *sourcemap){m_sourceMap = sourcemap ; } ;
 
-          // Get unimolecular species information:
-          virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const
-          {
-              unimolecularspecies.push_back(m_pdt1) ;
-              return 1;
-          } ;
+        // Get unimolecular species information:
+        virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const
+        {
+          unimolecularspecies.push_back(m_pdt1) ;
+          return 1;
+        } ;
 
-          // Initialize reaction.
-          virtual bool InitializeReaction(PersistPtr ppReac) ;
+        // Initialize reaction.
+        virtual bool InitializeReaction(PersistPtr ppReac) ;
 
-          // Product information:
-          virtual SuperMolecule* get_bi_molecularspecies(void) const {return m_srct ; } ;
+        // Product information:
+        virtual SuperMolecule* get_bi_molecularspecies(void) const {return m_srct ; } ;
 
-          // Get the principal source reactant (i.e. reactant not in excess).
-          virtual ModelledMolecule *get_pseudoIsomer(void) const {return m_pdt1 ; } ;
+        // Get the principal source reactant (i.e. reactant not in excess).
+        virtual ModelledMolecule *get_pseudoIsomer(void) const {return m_pdt1 ; } ;
 
-    private:
+        double getExcessReactantConc() const  { return m_ERConc ; } ;
 
-        // Calculate reaction equilibrium constant.
-        virtual double calcEquilibriumConstant() ;
+  private:
 
-        // Add reaction terms to collision matrix.
-        virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+    // Calculate reaction equilibrium constant.
+    virtual double calcEquilibriumConstant() ;
 
-        sourceMap *m_sourceMap ;
+    // Add reaction terms to collision matrix.
+    virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
 
-    } ;
+    // Read parameters requires to determine reaction heats and rates.
+    virtual bool ReadRateCoeffParameters(PersistPtr ppReac) ;
+
+    sourceMap *m_sourceMap ;
+
+    double m_ERConc ;           // Concentration of the excess reactant
+
+  } ;
 
 
 }//namespace

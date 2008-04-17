@@ -17,33 +17,36 @@
 namespace mesmer
 {
 
-    class ExchangeReaction : public Reaction
-    {
-    public:
+  class ExchangeReaction : public Reaction
+  {
+  public:
 
-        // Constructors.
-        ExchangeReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
-          Reaction(pMoleculeManager, Env, id){} ;
+    // Constructors.
+    ExchangeReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
+        Reaction(pMoleculeManager, Env, id){} ;
 
-          // Destructor.
-          virtual ~ExchangeReaction(){} ;
+        // Destructor.
+        virtual ~ExchangeReaction(){} ;
 
-          // Get unimolecualr species information:
-          virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const 
-          {return 0 ;} ;
+        // Get unimolecualr species information:
+        virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const 
+        {return 0 ;} ;
 
-          // Initialize reaction.
-          virtual bool InitializeReaction(PersistPtr ppReac) ;
+        // Initialize reaction.
+        virtual bool InitializeReaction(PersistPtr ppReac) ;
 
-    private:
+  private:
 
-        // Add reaction terms to collision matrix.
-        virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+    // Add reaction terms to collision matrix.
+    virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
 
-        // Calculate reaction equilibrium constant.
-        virtual double calcEquilibriumConstant() ;
+    // Calculate reaction equilibrium constant.
+    virtual double calcEquilibriumConstant() ;
 
-    } ;
+    // Read parameters requires to determine reaction heats and rates.
+    virtual bool ReadRateCoeffParameters(PersistPtr ppReac) ;
+
+  } ;
 
 
 }//namespace
