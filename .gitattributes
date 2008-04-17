@@ -28,6 +28,9 @@ MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Win32/OH_acetylene_associa
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Win32/mesmer.test -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Win32/old/OH_acetylene_association.20080107_175203.xml -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Win32/old/mesmer.test -text
+MesmerQA/cyclopropene[!!-~]isomerization/Cyclopropene_isomerization.xml -text
+MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/Cyclopropene_isomerization.20080417_150318.xml -text
+MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/mesmer.test -text
 MesmerQA/pentyl/baselines/Cygwin[!!-~]32-bit[!!-~]double/pentyl_isomerization.20071204_105247.xml -text
 MesmerQA/pentyl/baselines/Cygwin[!!-~]32-bit[!!-~]double/pentyl_isomerization.out -text
 MesmerQA/pentyl/baselines/Win32/mesmer.log -text

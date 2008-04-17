@@ -212,6 +212,8 @@ namespace mesmer
   class CollidingMolecule : public ModelledMolecule
   {
 
+  private:
+
     //-------------------------------
     // Variables:
     // Collision operator properties.

@@ -1,4 +1,9 @@
-_2008_04_17__11_44_02_ Struan
+2008-4-17 David Glowacki
+
+  * corrected collision operator initialization routine
+  * added cyclopropene baseline + input file
+
+2008_04_17__11_44_02_ Chi-Hsiu Liang
 
   * Updated baseline for association reaction
   * review of association equilibrium constant

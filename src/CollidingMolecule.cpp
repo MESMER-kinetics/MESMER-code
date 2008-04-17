@@ -44,7 +44,7 @@ namespace mesmer
     if(!ModelledMolecule::InitializeMolecule(pp)){
       stringstream errorMsg;
       errorMsg << "InitializeMolecule failed for " << getName()
-      << " before constructing CollidingMolecule.";
+        << " before constructing CollidingMolecule.";
       meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       setFlag(true);
     }
@@ -53,7 +53,7 @@ namespace mesmer
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
-        ppPropList=pp; //Be forgiving; we can get by without a propertyList element
+      ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
     const char* txt;
 
@@ -61,7 +61,7 @@ namespace mesmer
     if(!txt){
       stringstream errorMsg;
       errorMsg << "Cannot find argument me:sigma in " << getName()
-               << ". Default value " << sigmaDefault << " is used.\n";
+        << ". Default value " << sigmaDefault << " is used.\n";
       meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       // sigma and epsilon are not always necessary.
     }
@@ -71,7 +71,7 @@ namespace mesmer
     if(!txt){
       stringstream errorMsg;
       errorMsg << "Cannot find argument me:epsilon in " << getName()
-               << ". Default value " << epsilonDefault << " is used.\n";
+        << ". Default value " << epsilonDefault << " is used.\n";
       meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       // sigma and epsilon are not always necessary.
     }
@@ -174,23 +174,21 @@ namespace mesmer
 
     // Allocate memory.
     if (m_egme) delete m_egme ;                       // Delete any existing matrix.
-    m_egme = new dMatrix(MaximumGrain) ;              // Collision operator matrix.
+    m_egme = new dMatrix(m_ncolloptrsize) ;           // Collision operator matrix.
 
     // Initialisation and error checking.
-    for ( i = 0 ; i < MaximumGrain ; ++i ) {
+    for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
       if (m_grainDOS[i] <= 0.0) {
         cerr << "Data indicates that grain " << i << " of the current colliding molecule has no states.";
         return false;
       }
     }
 
-    if (debugFlag) ctest << "alpha = " << alpha << ", m_DeltaEdown = " << m_DeltaEdown << ", beta = " << beta << endl;
-
     // The collision operator.
-    for ( i = 0 ; i < MaximumGrain ; ++i ) {
+    for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
       double ei = m_grainEne[i] ;
       double ni = m_grainDOS[i] ;
-      for ( j = i ; j < MaximumGrain ; ++j ) {
+      for ( j = i ; j < m_ncolloptrsize ; ++j ) {
 
         // Transfer to lower Energy -
         (*m_egme)[i][j] = exp(-alpha*(m_grainEne[j] - ei)) ;
@@ -200,43 +198,27 @@ namespace mesmer
       }
     }
 
-    //check collision operator
-    if (collisionOperatorCheck){
-      ctest << "\nCollision operator check before normalisation:\n";
-      (*m_egme).showFinalBits(7);
-    }
-
     //Normalisation
     m_egme->normalize();
 
-    if (collisionOperatorCheck){
-      ctest << "\nCollision operator check after normalisation:\n";
-      (*m_egme).showFinalBits(7);
-    }
-
     // Symmetrization of the collision matrix.
-    if (1){
-      vector<double> work(MaximumGrain,0.0) ; // Work space.
-      for ( i = 0 ; i < MaximumGrain ; ++i ) {
-        double ei = log(m_grainDOS[i]) - beta*m_grainEne[i] + 10.0 ;
-        ei = exp(ei) ;
-        work[i] = sqrt(ei) ;
-      }
-      for ( i = 1 ; i < MaximumGrain ; ++i ) {
-        for ( j = 0 ; j < i ; ++j ) {
-          (*m_egme)[j][i] *= (work[i]/work[j]) ;
-          (*m_egme)[i][j]  = (*m_egme)[j][i] ;
-        }
-      }
+    vector<double> work(m_ncolloptrsize,0.0) ; // Work space.
+    for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
+      double ei = log(m_grainDOS[i]) - beta*m_grainEne[i] + 10.0 ;
+      ei = exp(ei) ;
+      work[i] = sqrt(ei) ;
     }
-
-    if (collisionOperatorCheck){
-      ctest << "\nCollision operator check after symmetrisation:\n";
-      (*m_egme).showFinalBits(7);
+    for ( i = 1 ; i < m_ncolloptrsize ; ++i ) {
+      for ( j = 0 ; j < i ; ++j ) {
+        (*m_egme)[j][i] *= (work[i]/work[j]) ;
+        (*m_egme)[i][j]  = (*m_egme)[j][i] ;
+      }
     }
 
     //account for collisional loss by subrtacting unity from the leading diagonal.
-    for ( i = 0 ; i < MaximumGrain ; ++i ) (*m_egme)[i][i] -= 1.0 ;
+    for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
+      (*m_egme)[i][i] -= 1.0 ;
+    }
 
     if (getEnv().collisionOCSEnabled){
       ctest << endl << "Collision operator column Sums" << endl << "{" << endl ;
@@ -249,7 +231,6 @@ namespace mesmer
       }
       ctest << "}" << endl;
     }
-
 
     return true;
   }
@@ -283,14 +264,14 @@ namespace mesmer
 
     if (!bthSigma)
       cerr << "me:sigma is necessary for " << pBathGasMolecule->getName()
-           << ". Correct input file to remove this error." << endl;
+      << ". Correct input file to remove this error." << endl;
 
     double bthEpsilon = 0.0;
     bthEpsilon = pBathGasMolecule->getEpsilon();
 
     if (!bthEpsilon)
       cerr << "me:epsilon is necessary for " << pBathGasMolecule->getName()
-           << ". Correct input file to remove this error.";
+      << ". Correct input file to remove this error.";
     double mr   = getMass();
     double mu   = amu * getMass() * bthMass/(getMass() + bthMass) ;
     double eam  = sqrt(getEpsilon() * bthEpsilon) ;
@@ -299,7 +280,7 @@ namespace mesmer
 
     if (debugFlag)
       ctest << "mu = " << mu << ", mr = " << mr << ", bthMass = " << bthMass << ", eam = " << eam << ", sam = " << sam
-            << ", tstr = " << tstr << ", beta = " << beta << ", temp = " << temp << ", conc = " << conc << endl;
+      << ", tstr = " << tstr << ", beta = " << beta << ", temp = " << temp << ", conc = " << conc << endl;
 
     // Calculate collision integral.
     double collFrq = A * exp(-log(tstr) * B) + C * exp(-D * tstr) + E * exp(-F * tstr) ;
@@ -332,9 +313,9 @@ namespace mesmer
   // Copy collision operator to diagonal block of system matrix.
   //
   void CollidingMolecule::copyCollisionOperator(dMatrix *CollOptr,
-                                                const int size,
-                                                const int locate,
-                                                const double RducdOmega) const
+    const int size,
+    const int locate,
+    const double RducdOmega) const
   {
     // Find size of system matrix.
 
@@ -354,7 +335,7 @@ namespace mesmer
     // Copy collision operator to the diagonal block indicated by "locate"
     // and multiply by the reduced collision frequencey.
 
-	  for (int i(0) ; i < size ; ++i) {
+    for (int i(0) ; i < size ; ++i) {
       int ii(locate + i) ;
       for (int j(0) ; j < size ; ++j) {
         int jj(locate + j) ;
