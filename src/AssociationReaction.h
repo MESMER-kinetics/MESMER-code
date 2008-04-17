@@ -52,7 +52,12 @@ namespace mesmer
 
         double getExcessReactantConc() const  { return m_ERConc ; } ;
 
+        virtual void grainRateCoeffDetailedBalance(const int dir) ;
+
   private:
+
+    // Grain average microcanonical rate coefficients.
+    virtual bool grnAvrgMicroRateCoeffs();
 
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
@@ -66,6 +71,10 @@ namespace mesmer
     sourceMap *m_sourceMap ;
 
     double m_ERConc ;           // Concentration of the excess reactant
+
+    // Reaction composition:
+
+    SuperMolecule       *m_srct ;                 // Reactant molecules as a super-reactant
 
   } ;
 

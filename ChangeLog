@@ -1,5 +1,11 @@
 2008-4-17 David Glowacki
 
+  * created pure virtual methods in reaction.h for describing detailed balance in association, isomerization, exchange, and dissociation reactions
+  * updated baselines for HSO2 & cyclopropene
+  * replace max grain size variable to use member data m_ncolloptrsize in collidingmolecule
+
+2008-4-17 David Glowacki
+
   * corrected collision operator initialization routine
   * added cyclopropene baseline + input file
 

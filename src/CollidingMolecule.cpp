@@ -161,7 +161,6 @@ namespace mesmer
     //
 
     int i, j;
-    int MaximumGrain = getEnv().MaxGrn;
 
     if(!m_DeltaEdown){
       stringstream errorMsg;
@@ -201,6 +200,19 @@ namespace mesmer
     //Normalisation
     m_egme->normalize();
 
+    // print out of column sums to check normalization results
+    if (getEnv().collisionOCSEnabled){
+      ctest << endl << "Collision operator column Sums" << endl << "{" << endl ;
+      for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
+        double columnSum(0.0) ;
+        for ( j = 0 ; j < m_ncolloptrsize ; ++j ){
+          columnSum += to_double((*m_egme)[j][i]) ;
+        }
+        ctest << columnSum << endl ;
+      }
+      ctest << "}" << endl;
+    }
+
     // Symmetrization of the collision matrix.
     vector<double> work(m_ncolloptrsize,0.0) ; // Work space.
     for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
@@ -218,18 +230,6 @@ namespace mesmer
     //account for collisional loss by subrtacting unity from the leading diagonal.
     for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
       (*m_egme)[i][i] -= 1.0 ;
-    }
-
-    if (getEnv().collisionOCSEnabled){
-      ctest << endl << "Collision operator column Sums" << endl << "{" << endl ;
-      for ( i = 0 ; i < MaximumGrain ; ++i ) {
-        double columnSum(0.0) ;
-        for ( j = 0 ; j < MaximumGrain ; ++j ){
-          columnSum += to_double((*m_egme)[j][i]) ;
-        }
-        ctest << columnSum << endl ;
-      }
-      ctest << "}" << endl;
     }
 
     return true;

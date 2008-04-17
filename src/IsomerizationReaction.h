@@ -39,7 +39,13 @@ namespace mesmer
         // Initialize reaction.
         virtual bool InitializeReaction(PersistPtr ppReac) ;
 
+        virtual void grainRateCoeffDetailedBalance(const int dir) {} ;
+
+
   private:
+
+    // Grain average microcanonical rate coefficients.
+    virtual bool grnAvrgMicroRateCoeffs();
 
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;

@@ -102,43 +102,35 @@ namespace mesmer
     // Calculate reaction equilibrium constant.
     //
     double ExchangeReaction::calcEquilibriumConstant() {
-        // equilibrium constant:
 
-        double Keq(0.0) ;
+      double Keq(0.0) ;
 
-        // Get Canonical partition functions.
+      // Get Canonical partition functions.
 
-        double Qrcts = 1.0;
-        if (m_rct2)
-            Qrcts = m_srct->grnCanPrtnFn();
-        else
-            Qrcts = m_rct1->grnCanPrtnFn() ;
+      const double Qrct1 = m_rct1->grnCanPrtnFn() ;
+      const double Qrct2 = m_rct2->grnCanPrtnFn() ;
+      const double Qpdt1 = m_pdt1->grnCanPrtnFn() ;
+      const double Qpdt2 = m_pdt2->grnCanPrtnFn() ;
 
-        double Qpdt1 = m_pdt1->grnCanPrtnFn() ;
+      const double mass_rct1 = m_rct1->getMass() ;
+      const double mass_rct2 = m_rct2->getMass() ;
+      const double mass_pdt1 = m_pdt1->getMass() ;
+      const double mass_pdt2 = m_pdt2->getMass() ;
 
-        double mass_rct1 = m_rct1->getMass();
-        double mass_rct2 = (m_rct2)? m_rct2->getMass() : 0.0;
-        double mass_srct = mass_rct1 + mass_rct2;
+      // Calculate the equilibrium constant.
+      double beta = getEnv().beta ;
 
-        // Calculate the equilibrium constant.
-        double beta = getEnv().beta ;
+      Keq = (Qpdt1 * Qpdt1)/(Qrct1 * Qrct2) ;
 
-        Keq = Qpdt1/Qrcts ;
-        if(debugFlag) ctest << "Keq = " << Keq << endl;
+      // Electronic degeneracies were already accounted for in DOS calculations.
+      // Heat of reaction
+      Keq *= exp(-beta * getHeatOfReaction() * kJPerMolInRC) ;
 
-        /* Electronic degeneracies were already accounted for in DOS calculations */
-        // Heat of reaction
-        Keq *= exp(-beta * getHeatOfReaction() * kJPerMolInRC) ;
-        if(debugFlag) ctest << "Keq = " << Keq << endl;
+      // Translational contribution
 
-        // Translational contribution
-        // 2.0593e19 = conversion factor,  1e-6*(((cm-1 -> j)/(h2*na)))^3/2
-        // double tau = 2.0593e19 * pow(2. * M_PI ,1.5);
-        if (m_rct2)
-            Keq /= (tp_C * pow(mass_rct1 * mass_rct2 / (mass_srct * beta), 1.5));
+      Keq *= (pow(mass_pdt1 * mass_pdt2 / (mass_rct1 * mass_rct1), 1.5));
 
-        if(debugFlag) ctest << "Keq = " << Keq << endl;
-        return Keq ;
+      return Keq ;
     }
 
     //
@@ -156,4 +148,17 @@ namespace mesmer
 
         return true ;
     }
+
+    //
+// Access microcanonical rate coefficients - cell values are averaged
+// to give grain values. This code is similar to that in Molecule.cpp
+// and this averaging should be done there. SHR 19/Sep/2004.
+//
+bool ExchangeReaction::grnAvrgMicroRateCoeffs() {
+
+  // This is not presently implemented.  DRG 17/4/2008
+
+    return true;
+}
+
 }//namespace

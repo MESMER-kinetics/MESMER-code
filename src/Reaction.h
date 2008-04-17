@@ -53,7 +53,7 @@ namespace mesmer
     void resetCalcFlag()                  { restartCalc = true; };
          
     // Calculate association reaction coefficients
-    virtual void grainRateCoeffDetailedBalance(const int dir);
+    virtual void grainRateCoeffDetailedBalance(const int dir) = 0 ;
 
     // Get activiation energy
     double get_ActivationEnergy(void);
@@ -77,6 +77,9 @@ namespace mesmer
     void calculateTunnelingCoeffs(std::vector<double>& TunnelingProbability) {m_pTunnelingCalculator->calculateTunnelingCoeffs(this, TunnelingProbability); } ;
 
   protected:
+
+    // Grain averaging shorthand function for microcanoical rate coefficients
+    void rateConstantGrnAvg(const int _MG, const int _gsz, const std::vector<double> &DOS, const std::vector<double> &CellRC, std::vector<double> &GrainRC);
 
     // Read a molecule name from the XML file and look it up
     Molecule* GetMolRef(PersistPtr pp);
@@ -103,7 +106,7 @@ namespace mesmer
     //
     // Reaction composition.
     //
-    SuperMolecule       *m_srct ;                 // Reactant molecules as a super-reactant
+
     CollidingMolecule   *m_rct1 ;                 // Reactant Molecule.
     ModelledMolecule    *m_rct2 ;                 // Subsidiary reactant molecule.
     CollidingMolecule   *m_pdt1 ;                 // Product Molecule.
@@ -124,11 +127,8 @@ namespace mesmer
     // Assignment operator.
     //   Reaction& operator=(const Reaction& reaction) ;
 
-    // Grain averaging shorthand function for microcanoical rate coefficients
-    void rateConstantGrnAvg(const int _MG, const int _gsz, const std::vector<double> &DOS, const std::vector<double> &CellRC, std::vector<double> &GrainRC);
-
     // Grain average microcanonical rate coefficients.
-    bool grnAvrgMicroRateCoeffs();
+    virtual bool grnAvrgMicroRateCoeffs() = 0;
 
     // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
     bool calcGrnAvrgMicroRateCoeffs() ;

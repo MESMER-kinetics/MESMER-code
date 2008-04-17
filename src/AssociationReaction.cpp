@@ -169,7 +169,7 @@ namespace mesmer
       DissRateCoeff       += m_GrainKbmc[ll] * adductBoltz[ll] ;
     }
     (*CollOptr)[jj][jj] -= (rMeanOmega * DissRateCoeff * Keq);       // Backward loss reaction from detailed balance.
-    
+
   }
 
   //
@@ -274,6 +274,118 @@ namespace mesmer
     }
 
     return true ;
+  }
+
+  //
+  // DetailedBalance
+  //
+  void AssociationReaction::grainRateCoeffDetailedBalance(const int dir){
+    // if dir == -1 then do backward -> forward conversion
+    // *** No need to do Detailed Balance for a dissociation reaction
+
+    int MaximumGrain = getEnv().MaxGrn;
+
+    // first find out the ZPEs of both sides
+    int rctGrainZPE(0);
+    int pdtGrainZPE(0);
+
+    vector<double> rctGrainDOS;
+    vector<double> pdtGrainDOS;
+
+
+    if (m_rct2){ // association
+      rctGrainZPE = m_srct->get_grnZpe();
+      pdtGrainZPE = m_pdt1->get_grnZpe();
+      m_srct->getGrainDensityOfStates(rctGrainDOS) ;
+      m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
+    }
+    else if (!m_pdt1){ // dissociation
+      rctGrainZPE = m_rct1->get_grnZpe();
+      m_rct1->getGrainDensityOfStates(rctGrainDOS) ;
+    }
+    else{ // isomerization
+      rctGrainZPE = m_rct1->get_grnZpe();
+      pdtGrainZPE = m_pdt1->get_grnZpe();
+      m_rct1->getGrainDensityOfStates(rctGrainDOS) ;
+      m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
+    }
+
+    int zpe_move = pdtGrainZPE - rctGrainZPE;
+    int grainsStart = 0;
+    if (zpe_move < 0) grainsStart = -zpe_move;
+    int grainsEnd = MaximumGrain;
+    if (zpe_move > 0) grainsEnd = MaximumGrain - zpe_move;
+
+    // No matter what condition it is, the microcanonical rate coefficients of a reaction are calculated from the 
+    // higher bottom of two wells (this is for the convenience of tunneling).
+    if (dir == -1) {
+      for (int i = grainsStart; i < grainsEnd; ++i)
+        m_GrainKfmc[i + zpe_move] = m_GrainKbmc[i] * pdtGrainDOS[i] / rctGrainDOS[i + zpe_move];
+    }
+    else{
+      for (int i = grainsStart; i < grainsEnd; ++i)
+        m_GrainKbmc[i] = m_GrainKfmc[i + zpe_move] * rctGrainDOS[i + zpe_move] / pdtGrainDOS[i];
+    }
+
+  }
+
+  //
+  // Access microcanonical rate coefficients - cell values are averaged
+  // to give grain values. This code is similar to that in Molecule.cpp
+  // and this averaging should be done there. SHR 19/Sep/2004.
+  //
+  bool AssociationReaction::grnAvrgMicroRateCoeffs() {
+    // This grain averaging of the microcanonical rate coefficients is 
+    // based on the view from the species that is
+    // moving in the current reaction toward the opposite species.
+
+    int MaximumGrain = getEnv().MaxGrn;
+    int grnSize = static_cast<int>(getEnv().GrainSize);
+    // Check if there are enough cells.
+    if (grnSize < 1) {
+      cerr << "The requested grain size is invalid.";
+      exit(1) ;
+    }
+
+    // Extract density of states of equilibrium molecule.
+    std::vector<double> rctCellDOS;
+    std::vector<double> pdtCellDOS;
+
+    m_GrainKfmc.resize(MaximumGrain, 0.);
+    m_GrainKbmc.resize(MaximumGrain, 0.);
+
+    if (m_CellKbmc.size()){
+      // first convert backward cell k(e) to grain k(e)
+      m_pdt1->getCellDensityOfStates(pdtCellDOS);
+      rateConstantGrnAvg(MaximumGrain, grnSize, pdtCellDOS, m_CellKbmc, m_GrainKbmc);
+      // second calculate forward grain k(e) via detailed balance
+      grainRateCoeffDetailedBalance(-1);
+    }
+    else{
+      m_srct->getCellDensityOfStates(rctCellDOS);
+      rateConstantGrnAvg(MaximumGrain, grnSize, rctCellDOS, m_CellKfmc, m_GrainKfmc);
+      grainRateCoeffDetailedBalance(1);
+    }
+
+    // the code that follows is for printing of the f & r k(E)s
+
+    if (getEnv().kfEGrainsEnabled){
+      ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
+      for (int i = 0; i < MaximumGrain; ++i){
+        ctest << m_GrainKfmc[i] << endl;
+      }
+      ctest << "}\n";
+    }
+
+    if (getEnv().kbEGrainsEnabled && m_pdt1){
+      ctest << "\nk_b(e) grains for " << getName() << ":\n{\n";
+      for (int i = 0; i < MaximumGrain; ++i){
+        ctest << m_GrainKbmc[i] << endl;
+      }
+      ctest << "}\n";
+    }
+
+    return true;
   }
 
 }//namespace
