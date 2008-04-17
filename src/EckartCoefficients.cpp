@@ -15,18 +15,28 @@ namespace mesmer
     ModelledMolecule * pReactant = unimolecularspecies[0];
     ModelledMolecule * p_Product = unimolecularspecies[1];
     TransitionState  * p_TransitionState = pReact->get_TransitionState();
+    //TC is the classical energy of the TS
     double TC = p_TransitionState->getClassicalEnergy();
+    //TZ is the zpe of the TS
     double TZ = p_TransitionState->get_zpe();
 
+    //V0 & V1 are the classical barrier heights in the forward/reverse directions
     double V0 = (TC - pReactant->getClassicalEnergy()) * kJPerMolInRC;
     double V1 = (TC - p_Product->getClassicalEnergy()) * kJPerMolInRC;
+    //barrier0 & barrier1 are the zpe corrected barrier heights in the forward/reverse directions
     double barrier0 = (TZ - pReactant->get_zpe()) * kJPerMolInRC;
     double barrier1 = (TZ - p_Product->get_zpe()) * kJPerMolInRC;
+    //imFreq is the imaginary frequency of the TS
     double imFreq = pReact->get_TSImFreq() * SpeedOfLight_cm; // convert im_freq from cm-1 -> Hz
 
+    //get properties of vectors in which to include transmission coefficients
     const MesmerEnv& mEnv = pReactant->getEnv();
     int MaxCell = mEnv.MaxCell;
     TunnelingProbability.resize(MaxCell);
+
+    //set transmission coefficients to 0 where no tunneling is possible;
+    //where tunneling may occur, the transmission coefficients are calculated using, a, b, & c, 
+    //for a 1d eckart barrier as described by W.H. Miller, JACS, 101(23), 1979
 
     for(int i = 0; i < MaxCell; ++i){
       double j = double(i);
@@ -46,9 +56,9 @@ namespace mesmer
 
     if (pReact->getEnv().TunnelingCoeffEnabled){
       ctest << "\nTunneling coefficients for: " << pReact->getName() 
-      << "\nV0 = " << V0 << ", V1 = " << V1 
-      << ", barrier0 = " << barrier0 << ", barrier1 = " << barrier1 
-      << ", imFreq = " << imFreq << "\n{\n";
+        << "\nV0 = " << V0 << ", V1 = " << V1 
+        << ", barrier0 = " << barrier0 << ", barrier1 = " << barrier1 
+        << ", imFreq = " << imFreq << "\n{\n";
       for(int i = 0; i < MaxCell; ++i){
         ctest << TunnelingProbability[i] << endl;
       }
