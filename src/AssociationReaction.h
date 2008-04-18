@@ -25,7 +25,7 @@ namespace mesmer
     AssociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
         Reaction(pMoleculeManager, Env, id),
           m_sourceMap(NULL),
-        m_ERConc(0.){} ;
+          m_ERConc(0.){} ;
 
         // Destructor.
         virtual ~AssociationReaction(){

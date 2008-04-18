@@ -110,7 +110,6 @@ namespace mesmer
     CollidingMolecule   *m_rct1 ;                 // Reactant Molecule.
     ModelledMolecule    *m_rct2 ;                 // Subsidiary reactant molecule.
     CollidingMolecule   *m_pdt1 ;                 // Product Molecule.
-    ModelledMolecule    *m_pdt2 ;                 // Subsidiary product molecule.
     TransitionState     *m_TransitionState;       // TransitionState
 
     MoleculeManager     *m_pMoleculeManager ;     // Pointer to molecule manager.
