@@ -98,7 +98,7 @@ namespace mesmer
     double              m_RotCstB ;          // Moment of inertia B.
     double              m_RotCstC ;          // Moment of inertia C.
     double              m_Sym ;              // Rotational symmetry number.
-    double              m_ZPE ;              // Zero Point Energy. (Kcal/Mol)
+    double              m_ZPE ;              // Zero Point Energy. (kJ/mol)
     double              m_scaleFactor ;      // scale factor for input real/imaginary vibrational frequencies
     int                 m_SpinMultiplicity ; // spin multiplicity
     int                 m_grnZpe ;           // Zero point energy expressed in grains.

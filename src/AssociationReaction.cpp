@@ -292,23 +292,10 @@ namespace mesmer
     vector<double> rctGrainDOS;
     vector<double> pdtGrainDOS;
 
-
-    if (m_rct2){ // association
-      rctGrainZPE = m_srct->get_grnZpe();
-      pdtGrainZPE = m_pdt1->get_grnZpe();
-      m_srct->getGrainDensityOfStates(rctGrainDOS) ;
-      m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
-    }
-    else if (!m_pdt1){ // dissociation
-      rctGrainZPE = m_rct1->get_grnZpe();
-      m_rct1->getGrainDensityOfStates(rctGrainDOS) ;
-    }
-    else{ // isomerization
-      rctGrainZPE = m_rct1->get_grnZpe();
-      pdtGrainZPE = m_pdt1->get_grnZpe();
-      m_rct1->getGrainDensityOfStates(rctGrainDOS) ;
-      m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
-    }
+    rctGrainZPE = m_srct->get_grnZpe();
+    pdtGrainZPE = m_pdt1->get_grnZpe();
+    m_srct->getGrainDensityOfStates(rctGrainDOS) ;
+    m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
 
     int zpe_move = pdtGrainZPE - rctGrainZPE;
     int grainsStart = 0;

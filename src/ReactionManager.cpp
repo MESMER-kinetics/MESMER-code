@@ -123,24 +123,16 @@ namespace mesmer
     // populate isomerMap with unimolecular species
     for (size_t i(0) ; i < size() ; ++i) {
 
-      std::vector<ModelledMolecule *> unimolecules ;
+      vector<ModelledMolecule *> unimolecules ;
 
-      int flag1 = m_reactions[i]->get_unimolecularspecies(unimolecules) ;
+      m_reactions[i]->get_unimolecularspecies(unimolecules) ;
 
-      if (flag1 > 0){ // association, dissociation or isomerization
-        for (size_t i(0) ; i < unimolecules.size() ; ++i) {
-          CollidingMolecule *pCollidingMolecule = dynamic_cast<CollidingMolecule*>(unimolecules[i]) ;
-          if(isomers.find(pCollidingMolecule) == isomers.end()){ // New isomer
-            isomers[pCollidingMolecule] = 0 ; //initialize to a trivial location
-            m_minEnergy = min(m_minEnergy, pCollidingMolecule->get_zpe()) ;
-          }
+      for (size_t i(0) ; i < unimolecules.size() ; ++i) {
+        CollidingMolecule *pCollidingMolecule = dynamic_cast<CollidingMolecule*>(unimolecules[i]) ;
+        if(isomers.find(pCollidingMolecule) == isomers.end()){ // New isomer
+          isomers[pCollidingMolecule] = 0 ; //initialize to a trivial location
+          m_minEnergy = min(m_minEnergy, pCollidingMolecule->get_zpe()) ;
         }
-      }
-      else{
-        stringstream errorMsg;
-        // Does this kind of reaction ever exist? CHL
-        errorMsg << "Reaction " << m_reactions[i]->getName() << " is invalid without any product and reactant." << endl;
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
       }
     }
 
@@ -158,8 +150,7 @@ namespace mesmer
 
       // second check for unimolecular species in this reaction
       std::vector<ModelledMolecule *> unimolecules ;
-      int flag1 = m_reactions[i]->get_unimolecularspecies(unimolecules) ;
-      if (flag1 > 0){ // association, dissociation or isomerization
+      m_reactions[i]->get_unimolecularspecies(unimolecules) ;
         for (size_t i(0) ; i < unimolecules.size() ; ++i) {
           CollidingMolecule *pCollidingMolecule = dynamic_cast<CollidingMolecule*>(unimolecules[i]) ;
           double zpe = (pCollidingMolecule->get_zpe()) - m_minEnergy ; // cell zpe with respect to the minimum of all wells
@@ -167,16 +158,7 @@ namespace mesmer
           if (grnZpe < 0) cerr << "Grain zero point energy has to be a positive integer.";
           pCollidingMolecule->set_grnZpe(grnZpe) ; //set grain ZPE (with respect to the minimum of all wells)
         }
-      }
 
-      // third check for transition states in this reaction
-      TransitionState *pTransitionState = m_reactions[i]->get_TransitionState();
-      if (pTransitionState){
-        double zpe = (pTransitionState->get_zpe()) - m_minEnergy ; // cell zpe with respect to the minimum of all wells
-        int grnZpe = int(zpe * kJPerMolInRC / Env.GrainSize) ; //convert to grain
-        if (grnZpe < 0) cerr << "Grain zero point energy has to be a positive integer.";
-        pTransitionState->set_grnZpe(grnZpe) ; //set grain ZPE (with respect to the minimum of all wells)
-      }
     }
 
 

@@ -1,3 +1,9 @@
+2008-4-18 David Glowacki
+
+  * clean up reaction manager.cpp
+  * clean up mesmerilt.cpp
+  * clean up AssociationReaction.cpp
+
 _2008_04_18__11_28_41_ Ch-Hsiu Liang
 
   * Input the units of concentration by a string instead of meaningless number

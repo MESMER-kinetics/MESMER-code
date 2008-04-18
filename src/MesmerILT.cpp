@@ -47,10 +47,10 @@ namespace mesmer
   {
     //-----------------
     //starting variables block
-    MesmerHP _ninf   = pReact->get_NInf(); // constraint: _ninf > -1.5
-    double   _ainf   = pReact->get_PreExp();
-    double   _einf   = pReact->get_ThresholdEnergy();
-    double   _tinf   = 1. / (boltzmann_RCpK * pReact->getEnv().beta);
+    double _ninf   = pReact->get_NInf(); // constraint: _ninf > -1.5
+    double _ainf   = pReact->get_PreExp();
+    double _einf   = pReact->get_ThresholdEnergy();
+    double _tinf   = 1. / (boltzmann_RCpK * pReact->getEnv().beta);
     // double tp_C = 3.24331e+20; // Defined in Constant.h, constant used in the translational partition function
     //-----------------
 
@@ -89,30 +89,18 @@ namespace mesmer
     // Allocate space to hold microcanonical rate coefficients for dissociation.
     TSFlux.resize(MaxCell, 0.0); // no need to initialize
 
-    MesmerHP _gamma = MesmerGamma(_ninf + 1.5);
-    MesmerHP _ant = _ainf * tp_C * (edg_a * edg_b / edg_c) * pow( ( ma * mb / mc), 1.5 ) / _gamma;
+    double _gamma = MesmerGamma(_ninf + 1.5);
+    double _ant = _ainf * tp_C * (edg_a * edg_b / edg_c) * pow( ( ma * mb / mc), 1.5 ) / _gamma;
     _ant /= (pow((_tinf * boltzmann_RCpK), _ninf));
-
-    if (0)
-      ctest << "_ainf = " << _ainf << ", _ninf = " << _ninf << ", _tinf = " << _tinf << endl;
-
-    if (0)
-      ctest << "edg_a = " << edg_a << ", edg_b = " << edg_b
-            << ", edg_c = " << edg_c << ", ma = " << ma << ", mb = " << mb
-            << ", mc = " << mc << ", _gamma = " << _gamma << endl;
-
 
     int activ_ene(0);
     // Conversion of EINF from kiloJoule.mol^-1 to cm^-1
     activ_ene = int((_einf + p_rct1->get_zpe() + p_rct2->get_zpe()) * kJPerMolInRC);
 
-    if (0)
-      ctest << "activ_ene = " << activ_ene << ", _ant = " << _ant << endl;
-
     vector<double> work(MaxCell);
     vector<double> conv(MaxCell);
 
-    MesmerHP pwr     = _ninf + .5;
+    double pwr     = _ninf + .5;
     for (int i = 0; i < MaxCell; ++i) {
       work[i] = to_double(pow(pdt1CellEne[i], pwr));
     }
