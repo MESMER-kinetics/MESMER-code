@@ -24,10 +24,10 @@
 //-------------------------------------------------------------------------------------------
 namespace mesmer
 {
-void dMatrix::tred2(MesmerHP **a, int n, MesmerHP *d, MesmerHP *e)
+void dMatrix::tred2(double **a, int n, double *d, double *e)
 {
   int l, k, j, i;
-  MesmerHP scale, hh, h, g, f;
+  double scale, hh, h, g, f;
 
   for (i=n;i>=2;--i) {
     l=i-1;
@@ -122,10 +122,10 @@ void dMatrix::tred2(MesmerHP **a, int n, MesmerHP *d, MesmerHP *e)
 // z returns the normalized eigenvector corresponding to d[k].
 //
 //-------------------------------------------------------------------------------------------
-void dMatrix::tqli(MesmerHP *d, MesmerHP *e, int n, MesmerHP **z)
+void dMatrix::tqli(double *d, double *e, int n, double **z)
 {
   int m,l,iter,i,k;
-  MesmerHP s,r,p,g,f,dd,c,b;
+  double s,r,p,g,f,dd,c,b;
 
   for (i=2;i<=n;++i) e[i-2]=e[i-1];
   e[n-1]=0.0;
@@ -220,9 +220,9 @@ void dMatrix::tqli(MesmerHP *d, MesmerHP *e, int n, MesmerHP **z)
 // Finds sqrtl(a**2+b**2) without overflow or destructive underflow.
 //
 //-------------------------------------------------------------------------------------------
-MesmerHP dMatrix::pythag(MesmerHP a, MesmerHP b)
+double dMatrix::pythag(double a, double b)
 {
-  MesmerHP p,r,s,t,u;
+  double p,r,s,t,u;
   if (fabs(a) > fabs(b)) p = fabs(a);
   else p = fabs(b);
   if (p == 0.) goto label_1;

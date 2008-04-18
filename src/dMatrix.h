@@ -18,12 +18,12 @@
 
 namespace mesmer
 {
-class dMatrix : public Matrix<MesmerHP> {
+class dMatrix : public Matrix<double> {
 
 public:
 
   // Constructor
-  dMatrix(int n) : Matrix<MesmerHP>(n, 0.0) { } ;
+  dMatrix(int n) : Matrix<double>(n, 0.0) { } ;
 
   // Wrapped call to LAPACK routine to diagonalise matrix.
   void diagonalize(double *rr) {
@@ -32,8 +32,8 @@ public:
     size = static_cast<int>(m_msize) ;
 
     //  Allocate memory for work array
-    MesmerHP *work = new MesmerHP[size] ;
-    MesmerHP *rrProxy = new MesmerHP[size] ;
+    double *work = new double[size] ;
+    double *rrProxy = new double[size] ;
     
     tred2(m_matrix, size, rrProxy, work) ;
     tqli(rrProxy, work, size, m_matrix) ;
@@ -49,9 +49,9 @@ private:
   //
   // EISPACK methods for diagonalizing matrix.
   //
-  void    tred2   (MesmerHP **a, int n, MesmerHP *d, MesmerHP *e) ;
-  void    tqli    (MesmerHP *d, MesmerHP *e, int n, MesmerHP **z) ;
-  MesmerHP  pythag  (MesmerHP a, MesmerHP b) ;
+  void    tred2   (double **a, int n, double *d, double *e) ;
+  void    tqli    (double *d, double *e, int n, double **z) ;
+  double  pythag  (double a, double b) ;
 
 } ;
 

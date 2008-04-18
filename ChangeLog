@@ -1,3 +1,7 @@
+_2008_04_18__09_28_31_ Chi-Hsiu Liang
+
+Change back MesmerHP to double in dMatrix.h
+
 2008-4-17 David Glowacki
 
   * created pure virtual methods in reaction.h for describing detailed balance in association, isomerization, exchange, and dissociation reactions
