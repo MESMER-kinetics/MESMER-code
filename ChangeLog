@@ -1,5 +1,10 @@
 2008-4-18 David Glowacki
 
+  * moved subsidiary reactant 2 from reaction.h to the derived classes association and exchange
+  * change ActivationEnergy to ThresholdEnergy
+
+2008-4-18 David Glowacki
+
   * moved subsidiary product 2 from reaction.h to the derived classes dissociation and exchange
 
 _2008_04_18__09_28_31_ Chi-Hsiu Liang

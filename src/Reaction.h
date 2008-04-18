@@ -56,7 +56,7 @@ namespace mesmer
     virtual void grainRateCoeffDetailedBalance(const int dir) = 0 ;
 
     // Get activiation energy
-    double get_ActivationEnergy(void);
+    double get_ThresholdEnergy(void);
 
     TransitionState* get_TransitionState() const { return m_TransitionState ; } ;
 
@@ -108,7 +108,6 @@ namespace mesmer
     //
 
     CollidingMolecule   *m_rct1 ;                 // Reactant Molecule.
-    ModelledMolecule    *m_rct2 ;                 // Subsidiary reactant molecule.
     CollidingMolecule   *m_pdt1 ;                 // Product Molecule.
     TransitionState     *m_TransitionState;       // TransitionState
 

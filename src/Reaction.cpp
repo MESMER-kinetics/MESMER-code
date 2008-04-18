@@ -30,7 +30,6 @@ m_pMicroRateCalculator(NULL),
 m_pTunnelingCalculator(NULL),
 m_ppPersist(),
 m_rct1(NULL),
-m_rct2(NULL),
 m_pdt1(NULL),
 m_TransitionState(NULL),
 m_CellKfmc(),
@@ -88,25 +87,26 @@ Molecule* Reaction::GetMolRef(PersistPtr pp)
 }
 
 //
-// Access microcanoincal rate coefficients.
+// Access microcanonical rate coefficients.
 //
 void Reaction::get_MicroRateCoeffs(std::vector<double> &kmc) {
     calcGrnAvrgMicroRateCoeffs();
     kmc = m_GrainKfmc ;
 }
 
-double Reaction::get_ActivationEnergy(void) {
+//this function retrieves the threshold energy for a reaction
+double Reaction::get_ThresholdEnergy(void) {
     if (!m_TransitionState) {
         cinfo << "No TransitionState for " << getName() << ", activation energy = 0.";
         return 0.0;
     }
-    double zpeReactants = m_rct2 ? m_rct1->get_zpe() + m_rct2->get_zpe() : m_rct1->get_zpe();
-    double AE = m_TransitionState->get_zpe() - zpeReactants;
-    if(IsNan(AE)){
+
+    double ThresholdEnergy = m_TransitionState->get_zpe() - m_rct1->get_zpe();
+    if(IsNan(ThresholdEnergy)){
         cerr << "To use ILT for reaction " << getName() << " the ZPE of the transition state needs to be set.";
         exit(1);
     }
-    return AE;
+    return ThresholdEnergy;
 } ;
 
 

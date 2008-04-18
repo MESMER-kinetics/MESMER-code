@@ -23,7 +23,7 @@ namespace mesmer
 
     // Constructors.
     ExchangeReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
-        Reaction(pMoleculeManager, Env, id), m_pdt2(NULL){} ;
+        Reaction(pMoleculeManager, Env, id), m_pdt2(NULL), m_rct2(NULL){} ;
 
         // Destructor.
         virtual ~ExchangeReaction(){} ;
@@ -52,7 +52,8 @@ namespace mesmer
     // Read parameters requires to determine reaction heats and rates.
     virtual bool ReadRateCoeffParameters(PersistPtr ppReac) ;
 
-     ModelledMolecule    *m_pdt2 ;                 // Subsidiary product molecule.
+    ModelledMolecule    *m_rct2 ;                 // Subsidiary reactant molecule. 
+    ModelledMolecule    *m_pdt2 ;                 // Subsidiary product molecule.
 
   } ;
 

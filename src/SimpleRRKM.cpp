@@ -47,7 +47,7 @@ namespace mesmer
 		p_rct->getCellDensityOfStates(rctCellDOS) ;
 		pTS->getCellDensityOfStates(TScellDOS) ;
 
-		int thresholdEnergy = int(pReact->get_ActivationEnergy() * kJPerMolInRC) ;
+		int thresholdEnergy = int(pReact->get_ThresholdEnergy() * kJPerMolInRC) ;
 
 		if (pReact->thereIsTunnelling()) { // with tunneling
 

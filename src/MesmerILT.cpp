@@ -49,7 +49,7 @@ namespace mesmer
     //starting variables block
     MesmerHP _ninf   = pReact->get_NInf(); // constraint: _ninf > -1.5
     double   _ainf   = pReact->get_PreExp();
-    double   _einf   = pReact->get_ActivationEnergy();
+    double   _einf   = pReact->get_ThresholdEnergy();
     double   _tinf   = 1. / (boltzmann_RCpK * pReact->getEnv().beta);
     // double tp_C = 3.24331e+20; // Defined in Constant.h, constant used in the translational partition function
     //-----------------

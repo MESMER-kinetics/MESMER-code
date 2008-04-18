@@ -25,7 +25,7 @@ namespace mesmer
     AssociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
         Reaction(pMoleculeManager, Env, id),
           m_sourceMap(NULL),
-          m_ERConc(0.){} ;
+          m_ERConc(0.),m_rct2(NULL){} ;
 
         // Destructor.
         virtual ~AssociationReaction(){
@@ -75,6 +75,7 @@ namespace mesmer
     // Reaction composition:
 
     SuperMolecule       *m_srct ;                 // Reactant molecules as a super-reactant
+    ModelledMolecule    *m_rct2 ;                 // Subsidiary reactant molecule.
 
   } ;
 
