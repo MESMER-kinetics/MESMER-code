@@ -1137,7 +1137,7 @@
     <me:conditions>
         <me:bathGas>Ar</me:bathGas>
         <me:CPTs>
-            <me:CPTpair me:units="1" me:CP="100000000" me:T="500" />
+            <me:CPTpair me:units="Torr" me:CP="100000000" me:T="500" />
         </me:CPTs>
     </me:conditions>
     <me:modelParameters>

@@ -269,8 +269,8 @@
     <me:conditions>
         <me:bathGas>He</me:bathGas>
         <me:CPTs>
-          <me:CPTpair me:units="1" me:CP="200.72" me:T="500." />
-          <me:CPTpair me:units="1" me:CP="201.60" me:T="2000." />
+          <me:CPTpair me:units="Torr" me:CP="200.72" me:T="500." />
+          <me:CPTpair me:units="Torr" me:CP="201.60" me:T="2000." />
         </me:CPTs>
     </me:conditions>
     <me:modelParameters>

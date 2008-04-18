@@ -235,27 +235,15 @@ namespace mesmer
       int colloptrsize = isomer->get_colloptrsize() ;
       double omega = isomer->get_collisionFrequency() ;
       int idx = isomeritr->second ;
-      if (debugFlag) ctest << "reduced omega = " << omega << " / " << m_meanOmega << " = " << omega/m_meanOmega << endl;
 
       isomer->copyCollisionOperator(m_pSystemCollisionOperator, colloptrsize, idx, omega/m_meanOmega) ;
 
-    }
-
-    if (collisionOperatorCheck){
-      ctest << "\nSystem collision operator check before adding microrates:\n";
-      (*m_pSystemCollisionOperator).showFinalBits(8);
     }
 
     // Add connecting rate coefficients.
     for (size_t i(0) ; i < size() ; ++i) {
       m_reactions[i]->AddMicroRates(m_pSystemCollisionOperator,isomers,1.0/m_meanOmega) ;
     }
-
-    if (collisionOperatorCheck){
-      ctest << "\nSystem collision operator check after adding microrates:\n";
-      (*m_pSystemCollisionOperator).showFinalBits(8);
-    }
-
 
     return true;
   }
@@ -268,11 +256,6 @@ namespace mesmer
     cinfo << "Size of the collision operator = " << smsize << endl;
 
     m_pSystemCollisionOperator->diagonalize(&rr[0]) ;
-
-    if (collisionOperatorCheck){
-      ctest << "\nSystem collision operator check after diagonalization:\n";
-      (*m_pSystemCollisionOperator).showFinalBits(8);
-    }
 
     int numberStarted = 0;
     int numberPrinted = smsize; // Default prints all of the eigenvalues

@@ -168,14 +168,22 @@ namespace mesmer
     return true;
   }
 
-  double System::getConvertedCP(CPandTpair pair)
+  // Returns particles per cubic centimeter no matter what unit the user has provided.
+  double System::getConvertedCP(string unitInput, double concentrationInput, double temperatureInput)
   {
-    switch (pair.units)
+    // define rule of conversion (give a name to return a number for the switch function below)
+    concentrationUnitConversionMap["particles per cubic centimeter"] = 0;
+    concentrationUnitConversionMap["PPCC"] = 0;
+    concentrationUnitConversionMap["Torr"] = 1;
+    concentrationUnitConversionMap["mmHg"] = 1;
+
+    // switch
+    switch (concentrationUnitConversionMap[unitInput])
     {
       case 0:
-        return pair.cp;
+        return concentrationInput;
       case 1:
-        return ((pair.cp / AtmInMmHg) * pascalPerAtm * AvogadroC / (idealGasC * pair.t * 1.0e6));
+        return ((concentrationInput / AtmInMmHg) * pascalPerAtm * AvogadroC / (idealGasC * temperatureInput * 1.0e6));
     }
     return 0.;
   }
@@ -188,45 +196,48 @@ namespace mesmer
     const char* txt;
 
     //defaults
-    const int _units = 0;
-    std::vector<double> _CP;
-    _CP.push_back(1e17);
-    _CP.push_back(760.);
+    const string DefaultUnit = "PPCC";
+    const double DefaultConcentration = 1e17;
+    const double DefaultTmeperature = 298.;
 
-    const double _temp = 298.;
-
-    // check for set values
+    //
+    // check for grid values of temperatures and concentrations
+    //
     PersistPtr ppCPTset = pp->XmlMoveTo("me:CPTset");
     while (ppCPTset){
       txt = ppCPTset->XmlReadValue("me:units");
-      int this_units = _units;
+      string this_units = txt;
       if (!txt){
-        cerr << "No units provided. Default units " << _units << " are used.";
-        this_units = _units;
+        cerr << "No units provided. Default units " << DefaultUnit << " are used.";
+        this_units = DefaultUnit;
       }
 
+      // if user does not input any value for temperature and concentration, give a Default set of concentration and pressure
+      // for simulation
       std::vector<double> CPvals, Tvals;
-      if(!ReadRange("me:CPrange", CPvals, ppCPTset)) CPvals.push_back(_CP[this_units]);
-      if(!ReadRange("me:Trange", Tvals, ppCPTset))   Tvals.push_back(_temp);
+      if(!ReadRange("me:CPrange", CPvals, ppCPTset)) CPvals.push_back(DefaultConcentration);
+      if(!ReadRange("me:Trange", Tvals, ppCPTset))   Tvals.push_back(DefaultTmeperature);
 
       for (unsigned int i = 0; i < CPvals.size(); ++i){
         for (unsigned int j = 0; j < Tvals.size(); ++j){
-          CPandTpair thisPair(this_units, CPvals[i], Tvals[j]);
+          CandTpair thisPair(getConvertedCP(this_units, CPvals[i], Tvals[j]), Tvals[j]);
           CPandTs.push_back(thisPair);
         }
       }
       ppCPTset = ppCPTset->XmlMoveTo("me:CPTset");
     }
 
-    // check for indivually specified points
+    //
+    // check for indivually specified concentration/temperature points
+    //
     PersistPtr ppCPTpair = pp->XmlMoveTo("me:CPTpair");
     while (ppCPTpair){
-      int this_units = 0;
+      string this_units;
       txt = ppCPTpair->XmlReadValue("me:units");
       if (txt)
-        this_units = atoi(txt);
-      double this_CP = _CP[this_units];
-      double this_T = _temp;
+        this_units = txt;
+      double this_CP = DefaultConcentration;
+      double this_T = DefaultTmeperature;
 
       txt = ppCPTpair->XmlReadValue("me:CP");
       if (txt)
@@ -235,7 +246,7 @@ namespace mesmer
       if (txt)
         this_T = atof(txt);
 
-      CPandTpair thisPair(this_units, this_CP, this_T);
+      CandTpair thisPair(getConvertedCP(this_units, this_CP, this_T), this_T);
       CPandTs.push_back(thisPair);
 
       ppCPTpair = ppCPTpair->XmlMoveTo("me:CPTpair");
@@ -272,12 +283,12 @@ namespace mesmer
     // looping over temperatures and concentrations
     unsigned int calPoint = 0;
     for (calPoint = 0; calPoint < CPandTs.size(); ++calPoint){
-      m_Env.beta = 1.0 / (boltzmann_RCpK * CPandTs[calPoint].t) ; //temporary statements
+      m_Env.beta = 1.0 / (boltzmann_RCpK * CPandTs[calPoint].temperature) ; //temporary statements
       double beta = m_Env.beta;
-      m_Env.conc = getConvertedCP(CPandTs[calPoint]);
+      m_Env.conc = CPandTs[calPoint].concentration;
       // unit of conc: particles per cubic centimeter
 
-      ctest << "\nCondition: conc = " << m_Env.conc << ", temp = " << CPandTs[calPoint].t << "\n{\n";
+      ctest << "\nCondition: conc = " << m_Env.conc << ", temp = " << CPandTs[calPoint].temperature << "\n{\n";
 
       // Build collison matrix for system.
       {string thisEvent = "Build Collison Operator";
@@ -342,7 +353,7 @@ namespace mesmer
     //m_Env.MaxT gives the option of widening the energy range
     if(m_Env.MaxT <= 0.0){
       std::vector<double> Temperatures;
-      for (unsigned int i = 0; i < CPandTs.size(); ++i) Temperatures.push_back(CPandTs[i].t);
+      for (unsigned int i = 0; i < CPandTs.size(); ++i) Temperatures.push_back(CPandTs[i].temperature);
       m_Env.MaxT = *max_element(Temperatures.begin(), Temperatures.end());
 //      stringstream errorMsg;
 //      errorMsg << "Maximum Temperature was not set. Reset Maximum Temperature, me:maxTemperature to remove this message.";

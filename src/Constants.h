@@ -21,10 +21,6 @@ namespace Constants {
   static const double sigmaDefault            = 5.0;
   static const double epsilonDefault          = 50.0;
 
-  //temporary flags for debug purposes
-  static const bool collisionOperatorCheck    = false;
-  static const bool debugFlag                 = false;
-
   //
   // Basic constants
   //

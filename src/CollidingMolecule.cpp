@@ -278,21 +278,13 @@ namespace mesmer
     double sam  = (getSigma() + bthSigma) * 0.5;
     double tstr = temp / eam;
 
-    if (debugFlag)
-      ctest << "mu = " << mu << ", mr = " << mr << ", bthMass = " << bthMass << ", eam = " << eam << ", sam = " << sam
-      << ", tstr = " << tstr << ", beta = " << beta << ", temp = " << temp << ", conc = " << conc << endl;
-
     // Calculate collision integral.
     double collFrq = A * exp(-log(tstr) * B) + C * exp(-D * tstr) + E * exp(-F * tstr) ;
-    if (debugFlag) ctest << "collFrq = " << collFrq << endl;
 
     // Calculate molecular collision frequency.
     collFrq *= (M_PI * sam * sam * 1.0e-20 * sqrt(8. * boltzmann_C * temp/(M_PI * mu))) ;
-    if (debugFlag) ctest << "collFrq = " << collFrq << endl;
     // Calculate overall collision frequency.
     collFrq *= (conc * 1.0e6) ;
-
-    if (debugFlag) ctest << "Collision frequency of " << getName() << " is " << collFrq << endl;
 
     return collFrq;
   }
@@ -322,7 +314,6 @@ namespace mesmer
     int smsize = static_cast<int>(CollOptr->size()) ;
     //int MaximumGrain = getEnv().MaxGrn;
 
-    if (debugFlag) ctest << "smsize = " << smsize << ", locate = " << locate << ", size = " << size << endl;
     // Check there is enough space in system matrix.
 
     if (locate + size > smsize) {
@@ -342,12 +333,6 @@ namespace mesmer
         (*CollOptr)[ii][jj] = RducdOmega * (*m_egme)[i][j] ;
       }
     }
-
-    if (collisionOperatorCheck){
-      ctest << "\nSystem collision operator check after copied from egme:\n";
-      (*CollOptr).showFinalBits(8);
-    }
-
   }
 
 }//namespace

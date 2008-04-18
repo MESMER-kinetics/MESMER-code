@@ -1,3 +1,8 @@
+_2008_04_18__11_28_41_ Ch-Hsiu Liang
+
+  * Input the units of concentration by a string instead of meaningless number
+  * removed some debugflags
+
 2008-4-18 David Glowacki
 
   * moved subsidiary reactant 2 from reaction.h to the derived classes association and exchange
