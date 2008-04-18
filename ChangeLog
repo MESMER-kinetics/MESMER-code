@@ -1,5 +1,11 @@
 2008-4-18 David Glowacki
 
+  * replace supermolecule pointers with modelledmolecule pointers
+  * alter simplerrkm, remove reference to supermolecule
+  * update HSO2 baseline
+
+2008-4-18 David Glowacki
+
   * clean up reaction manager.cpp
   * clean up mesmerilt.cpp
   * clean up AssociationReaction.cpp

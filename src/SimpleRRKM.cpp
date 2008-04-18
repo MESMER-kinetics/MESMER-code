@@ -12,20 +12,10 @@ namespace mesmer
 
 	bool SimpleRRKM::calculateMicroRateCoeffs(Reaction* pReact, std::vector<double>& TSFlux)
 	{
-		SuperMolecule*              p_rcts = NULL;
-		p_rcts = pReact->get_bi_molecularspecies();
-
 		vector<ModelledMolecule *> unimolecularspecies;
 		pReact->get_unimolecularspecies(unimolecularspecies);
 
-		ModelledMolecule * p_rct = NULL;
-
-		if (!p_rcts){
-			p_rct = unimolecularspecies[0];
-		}
-		else{
-			p_rct = p_rcts;
-		}
+		ModelledMolecule *p_rct = unimolecularspecies[0];
 
 		TransitionState* pTS = pReact->get_TransitionState();
 		if(!pTS)

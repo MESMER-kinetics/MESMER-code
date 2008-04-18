@@ -141,7 +141,7 @@ namespace mesmer
   {
     // Locate isomers in system matrix.
     const int pdtLoc =      isomermap[dynamic_cast<CollidingMolecule*>(m_pdt1)] ;
-    const int jj     = (*m_sourceMap)[dynamic_cast<SuperMolecule    *>(m_srct)] ;
+    const int jj     = (*m_sourceMap)[dynamic_cast<ModelledMolecule *>(m_srct)] ;
 
     // Get equilibrium constant.
     const double Keq = calcEquilibriumConstant() ;
