@@ -86,7 +86,7 @@ int main(int argc,char *argv[])
       infilename = p;
   }
 
-  cinfo << version() << endl;;
+  cinfo << version() << endl;
   //
   // Instantiate the System collection. This holds all information
   // about reaction systems and all molecular data.
@@ -139,7 +139,7 @@ int main(int argc,char *argv[])
   string thisEvent = "Save XML document to a new file";
   string currentTimeStamp = events.setTimeStamp(thisEvent, timeElapsed);
   string saveTimeStamp = '.' + currentTimeStamp;
-  cinfo << thisEvent << " at " << currentTimeStamp  << " -- Total time elapsed: " << timeElapsed << " seconds.\n";
+  cinfo << thisEvent << " at " << currentTimeStamp  << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
 
   if(!usecout && outfilename.empty() && !infilename.empty())
   {

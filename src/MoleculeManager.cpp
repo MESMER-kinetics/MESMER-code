@@ -15,7 +15,7 @@
 using namespace std ;
 namespace mesmer
 {
-  
+
 void MoleculeManager::clear(void){
   m_BathGasMolecule.clear();
   for (molIter i = m_molmap.begin(); i != m_molmap.end(); ++i) delete i->second;
@@ -65,9 +65,7 @@ Molecule* MoleculeManager::addmol(string& molName, string& molType, PersistPtr p
     // Initialize Molecule from input stream.
     // Each molecule type has its own set of mandatory parameters
     if(!pmolecule->InitializeMolecule(ppmol) || pmolecule->getName().empty()){
-      stringstream errorMsg;
-      errorMsg << "Failed in initializing the molecule. molType = " << molType;
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      cerr << "Failed in initializing the molecule. molType = " << molType;
       delete pmolecule; return NULL;
     } /*for the case of a SuperMolecule, if the element of source exists, the name has also to be specified.*/
 
@@ -76,15 +74,11 @@ Molecule* MoleculeManager::addmol(string& molName, string& molType, PersistPtr p
     m_molmap[molName] = pmolecule ;
   }
 
-//    {stringstream errorMsg;
-//    errorMsg << "Molecule " << molName << ", size of name = " << molName.size() << ", molecular type = " << molType;
-//    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
-
-
   if (molType == "reactant"){
     stringstream superId; superId << "source_" << sourceNumber; ++sourceNumber;
     cinfo << "source name = " << superId.str() << endl;
     PersistPtr ppSuper = NULL;
+
     //find if this source term is there
     PersistPtr ppMol = ppMolList->XmlMoveTo("molecule");
     while (ppMol){
@@ -97,9 +91,8 @@ Molecule* MoleculeManager::addmol(string& molName, string& molType, PersistPtr p
     if (!ppSuper){
       ppSuper = ppMolList->XmlWriteElement("molecule");
       ppSuper->XmlWriteAttribute("id", superId.str());
-      if (!ppSuper) {stringstream errorMsg;
-        errorMsg << "Cannot get a persistent pointer.";
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      if (!ppSuper) {
+        cinfo << "Cannot get a persistent pointer." << endl;
       }
     }
     SuperMolecule *pSMolecule = new SuperMolecule(Env);
@@ -131,10 +124,7 @@ Molecule *MoleculeManager::find(const std::string& name) const {
   it = m_molmap.find(name) ;
 
   if (it == m_molmap.end()) {
-    stringstream errorMsg;
-    errorMsg << name << " is not a known Molecule.";
-    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-
+    cerr << name << " is not a known Molecule.";
     return NULL;
   }
 

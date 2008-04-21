@@ -69,10 +69,8 @@ namespace mesmer
 
       if(m_Env.GrainSize!=0.0 && m_Env.MaxGrn!=0)
       {
-        stringstream errorMsg;
-        errorMsg << "No method is provided to specify me:grainSize and me:numberOfGrains.\n"
+        cerr << "No method is provided to specify me:grainSize and me:numberOfGrains.\n"
                  << "me:numberOfGrains has been ignored";
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
         m_Env.MaxGrn=0;
       }
     }
@@ -82,9 +80,7 @@ namespace mesmer
     PersistPtr ppReacList = ppIOPtr->XmlMoveTo("reactionList");
     if(!ppReacList)
     {
-      stringstream errorMsg;
-      errorMsg << "No reactions have been specified";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      cerr << "No reactions have been specified";
       return false;
     }
     if(!m_pReactionManager->addreactions(ppReacList, m_Env)) return false;
@@ -94,13 +90,13 @@ namespace mesmer
     PersistPtr ppConditions = ppIOPtr->XmlMoveTo("me:conditions");
     if(!ppConditions)
     {
-      stringstream errorMsg; errorMsg << "No conditions specified";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning); return false;
+      cerr << "No conditions specified";
+      return false;
     }
     string Bgtxt = ppConditions->XmlReadValue("me:bathGas");
     if (Bgtxt.empty()){
-      stringstream errorMsg; errorMsg << "No bath gas specified";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning); return false;
+      cerr << "No bath gas specified";
+      return false;
     }
     else{
       string molType = "bathGas";
@@ -277,7 +273,7 @@ namespace mesmer
       case varUseDoubleDouble:   precisionMethod = "Double-double";       break;
       case varUseQuadDouble:     precisionMethod = "Quad-double";         break;
     }
-    cinfo << "Precision: " << precisionMethod;
+    cinfo << "Precision: " << precisionMethod << endl;
     //---------------
 
     // looping over temperatures and concentrations
@@ -355,9 +351,7 @@ namespace mesmer
       std::vector<double> Temperatures;
       for (unsigned int i = 0; i < CPandTs.size(); ++i) Temperatures.push_back(CPandTs[i].temperature);
       m_Env.MaxT = *max_element(Temperatures.begin(), Temperatures.end());
-//      stringstream errorMsg;
-//      errorMsg << "Maximum Temperature was not set. Reset Maximum Temperature, me:maxTemperature to remove this message.";
-//      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+//      cinfo << "Maximum Temperature was not set. Reset Maximum Temperature, me:maxTemperature to remove this message.";
     }
 
     //EAboveHill: Max energy above the highest well.
@@ -374,7 +368,7 @@ namespace mesmer
 
     m_Env.MaxCell = (int)(m_Env.GrainSize * m_Env.MaxGrn + 0.5);
 
-    cerr << "Cell number = " << m_Env.MaxCell << ", Grain number = " << m_Env.MaxGrn;
+    cerr << "Cell number = " << m_Env.MaxCell << ", Grain number = " << m_Env.MaxGrn << endl;
 
     return true;
     /*
@@ -441,11 +435,9 @@ namespace mesmer
     TimeCount events;
     string thisEvent, timeString;
     {
-      stringstream errorMsg;
       thisEvent = "Write XML attribute";
       timeString = events.setTimeStamp(thisEvent);
-      errorMsg << thisEvent << " at " << timeString;
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      cinfo << thisEvent << " at " << timeString << endl;
     }
     ppItem->XmlWriteAttribute("content", timeString);
     //----------------------------------------

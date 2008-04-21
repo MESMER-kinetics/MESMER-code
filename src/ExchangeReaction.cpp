@@ -28,19 +28,9 @@ namespace mesmer
 
         PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
         Molecule* pMol1 = GetMolRef(ppReactant1);
-        if(!pMol1){
-            string errorMsg = "Exchange reaction " + getName() + " has no reactant.";
-            meErrorLog.ThrowError(__FUNCTION__, string(errorMsg), obError);
-            return false;
-        }        
+
         PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
         Molecule* pMol2 = GetMolRef(ppReactant2);
-        if(!pMol2)
-        {
-            string errorMsg = "Exchange reaction " + getName() + " has only one reactant.";
-            meErrorLog.ThrowError(__FUNCTION__, errorMsg, obError);
-            return false;
-        }
 
         // Save first reactant as CollidingMolecule. SHR 6/Apr/2008 this incorrect,
         // but we are forced at present to do this because of the types declared in
@@ -50,12 +40,12 @@ namespace mesmer
         if(pColMol){
             m_rct1 = pColMol;
         } else {
-            meErrorLog.ThrowError(__FUNCTION__, string("Exchange reactant missing"), obError);
+            cerr << "Exchange reaction " << getName() << " has no reactant.";
             return false;
         }
         m_rct2 = dynamic_cast<ModelledMolecule*>(pMol2) ;
         if (m_rct2) {
-            meErrorLog.ThrowError(__FUNCTION__, string("Exchange reactant missing"), obError);
+            cerr << "Exchange reaction " << getName() << " has only one reactant.";
             return false;
         }
 
@@ -67,8 +57,7 @@ namespace mesmer
             if (pMol1) {
                 m_pdt1 = dynamic_cast<CollidingMolecule*>(pMol1) ;
             } else {
-                string errorMsg = "Exchange reaction" + getName() + " has no products defined.";
-                meErrorLog.ThrowError(__FUNCTION__, errorMsg, obWarning);
+                cerr << "Exchange reaction" << getName() << " has no products defined.";
             }
 
             PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
@@ -77,8 +66,7 @@ namespace mesmer
                 if (pMol2) {
                     m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol2) ;
                 } else {
-                    string errorMsg = "Exchange reaction " + getName() + " has only one product defined.";
-                    meErrorLog.ThrowError(__FUNCTION__, errorMsg, obWarning);
+                    cerr << "Exchange reaction " << getName() << " has only one product defined.";
                 }
             }
         }

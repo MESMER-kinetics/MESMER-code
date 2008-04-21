@@ -23,9 +23,8 @@ namespace mesmer
     ModelledMolecule*  p_mol2 = rcts->getMember2();
 
     if (!p_mol1 || !p_mol2){
-      stringstream errorMsg;
-      errorMsg << "Cannot get individual members of the SuperMolecule";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      cerr << "Cannot get individual members of the SuperMolecule";
+      return false;
     }
 
     vector<double> rotCs1; int rotor1Type = p_mol1->get_rotConsts(rotCs1);
@@ -140,12 +139,6 @@ namespace mesmer
       VibFreq[i] *= mol->get_scaleFactor();
     }
 
-    if (0){
-      stringstream errorMsg;
-      errorMsg << "Number of frequencies: " << VibFreq.size();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-    }
-
     mol->m_cellDOS.clear(); mol->m_cellEne.clear(); //make sure there is no residue left
     const MesmerEnv& mEnv = mol->getEnv();
     int MaxCell = mEnv.MaxCell;
@@ -204,15 +197,9 @@ namespace mesmer
     SuperMolecule* pMolSuper = dynamic_cast<SuperMolecule*>(mol);
 
     if (pMolSuper){
-      if(0){stringstream errorMsg;
-      errorMsg << "Calculate DOS for " << pMolSuper->getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
       return countDimerCellDOS(pMolSuper);
     }
     else{
-      if(0){stringstream errorMsg;
-      errorMsg << "Calculate DOS for " << mol->getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
       return countMonomerCellDOS(mol);
     }
     return true;

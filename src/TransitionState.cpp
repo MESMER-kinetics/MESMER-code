@@ -30,9 +30,7 @@ namespace mesmer
     PersistPtr oldpp = pp;
 
     if(!ModelledMolecule::InitializeMolecule(pp)){
-      stringstream errorMsg;
-      errorMsg << "InitializeMolecule for " << getName() << " before constructing TransitionState with errors.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      cerr << "InitializeMolecule for " << getName() << " before constructing TransitionState with errors.";
     }
 
     pp = oldpp;
@@ -45,7 +43,7 @@ namespace mesmer
     const char* txt;
     txt= ppPropList->XmlReadProperty("me:imFreqs");
     if(!txt){
-      cinfo << "No imaginary vibrational frequency for " << getName();
+      cinfo << "No imaginary vibrational frequency for " << getName() << endl;
       m_ImFreq_chk = -1;
     }
     else {

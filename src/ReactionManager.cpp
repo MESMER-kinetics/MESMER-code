@@ -193,18 +193,16 @@ namespace mesmer
     //          representing both reactants.
     Reaction::sourceMap sources ; // Maps the location of source in the system matrix.
     for (size_t i(0) ; i < size() ; ++i) {
-			AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
-			if (pReaction) {
-				SuperMolecule *pSuperMolecule = pReaction->get_bi_molecularspecies();
+      AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
+      if (pReaction) {
+        SuperMolecule *pSuperMolecule = pReaction->get_bi_molecularspecies();
         if (pSuperMolecule && sources.find(pSuperMolecule) == sources.end()){ // New source
           sources[pSuperMolecule] = msize ;
-			  	pReaction->putSourceMap(&sources) ;
+          pReaction->putSourceMap(&sources) ;
           ++msize ;
         }
       }
-		}
-
-    cinfo << "Size of the collision matrix: " << msize << endl;
+    }
 
     // Allocate space for system collision operator.
 
@@ -235,7 +233,6 @@ namespace mesmer
     // Allocate space for eigenvalues.
     const int smsize = int(m_pSystemCollisionOperator->size()) ;
     std::vector<double> rr(smsize, 0.0);
-    cinfo << "Size of the collision operator = " << smsize << endl;
 
     m_pSystemCollisionOperator->diagonalize(&rr[0]) ;
 

@@ -29,15 +29,13 @@ namespace mesmer
     PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
     Molecule* pMol1 = GetMolRef(ppReactant1);
     if(!pMol1){
-      string errorMsg = "Dissociation reaction " + getName() + " has no reactant.";
-      meErrorLog.ThrowError(__FUNCTION__, string(errorMsg), obError);
+      cerr << "Dissociation reaction " << getName() << " has no reactant.";
       return false;
     }        
     PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
     if(ppReactant2)
     {
-      string errorMsg = "Dissociation reaction " + getName() + " has more than one reactant.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg, obError);
+      cerr << "Dissociation reaction " << getName() << " has more than one reactant.";
       return false;
     }
 
@@ -60,9 +58,9 @@ namespace mesmer
       pMol1 = GetMolRef(ppProduct1);
       if (pMol1) {
         m_pdt1 = dynamic_cast<CollidingMolecule*>(pMol1) ;
-      } else {
-        string errorMsg = "Dissociation reaction" + getName() + " has no products defined.";
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg, obWarning);
+      }
+      else {
+        cinfo << "Dissociation reaction" << getName() << " has no product defined." << endl;
       }
 
       Molecule* pMol2 = NULL ;
@@ -71,9 +69,9 @@ namespace mesmer
         pMol2 = GetMolRef(ppProduct1);
         if (pMol2) {
           m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol2) ;
-        } else {
-          string errorMsg = "Dissociation reaction " + getName() + " has only one product defined.";
-          meErrorLog.ThrowError(__FUNCTION__, errorMsg, obWarning);
+        }
+        else {
+          cinfo << "Dissociation reaction " << getName() << " has only one product defined." << endl;
         }
       }
     }

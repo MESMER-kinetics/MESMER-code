@@ -97,7 +97,7 @@ void Reaction::get_MicroRateCoeffs(std::vector<double> &kmc) {
 //this function retrieves the threshold energy for a reaction
 double Reaction::get_ThresholdEnergy(void) {
     if (!m_TransitionState) {
-        cinfo << "No TransitionState for " << getName() << ", activation energy = 0.";
+        cinfo << "No TransitionState for " << getName() << ", activation energy = 0." << endl;
         return 0.0;
     }
 
@@ -167,10 +167,6 @@ void Reaction::rateConstantGrnAvg(const int _MG,
         cerr << "Number of grains produced is not equal to that is requested" << endl
             << "Number of grains requested: " << _MG << endl
             << "Number of grains produced : " << idx2 << " in " << getName();
-    }
-    else{
-        //      cinfo << "Number of grains requested: " << MaximumGrain << endl
-        //            << "Number of grains produced : " << idx2 << " in " << getName() << endl;
     }
 }
 

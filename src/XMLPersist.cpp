@@ -20,10 +20,8 @@ PersistPtr XMLPersist::XmlLoad(const std::string& inputfilename, const std::stri
     ret = pdoc->LoadFile(inputfilename);
   if( !ret )
   {
-    stringstream errorMsg;
-    errorMsg << "Could not load file " << inputfilename
+    cerr << "Could not load file " << inputfilename
              << "\nIt may not exist or it may not consist of well-formed XML." << endl;
-    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
 
     delete pdoc;
     return PersistPtr(NULL);
@@ -32,9 +30,7 @@ PersistPtr XMLPersist::XmlLoad(const std::string& inputfilename, const std::stri
   TiXmlElement* root = pdoc->RootElement();
   if(title.size() && root->ValueStr()!=title)
   {
-    stringstream errorMsg;
-    errorMsg << inputfilename << " does not have a required root element named " << title << endl;
-    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+    cerr << inputfilename << " does not have a required root element named " << title << endl;
     delete pdoc;
     return PersistPtr(NULL);
   }
@@ -79,9 +75,7 @@ const char* XMLPersist::XmlReadValue(const std::string& name, bool MustBeThere) 
     ptext = pnNode->Attribute(name.c_str());
 
   if(!ptext && MustBeThere){
-    stringstream errorMsg;
-    errorMsg << "The " << name << " element or attribute was missing or empty.";
-    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+    cinfo << "The " << name << " element or attribute was missing or empty." << endl;
   }
   return ptext;
 }
@@ -175,13 +169,6 @@ PersistPtr XMLPersist::XmlWriteMainElement(
     //----------------------------------------
     TimeCount events;
     std::string thisEvent, timeString;
-    {
-      stringstream errorMsg;
-      thisEvent = "Record calculated data";
-      timeString = events.setTimeStamp(thisEvent);
-      errorMsg << thisEvent << " at " << timeString << endl;
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-    }
     pnel->SetAttribute("calculated", timeString);
     //----------------------------------------
 

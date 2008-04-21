@@ -35,18 +35,14 @@ namespace mesmer
       const char* id = pp->XmlReadValue("id");
       if (id) setName(id);
       else{
-        stringstream errorMsg;
-        errorMsg << "Molecular name is absent. Default name <source> is used.";
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+        cinfo << "Molecular name is absent. Default name <source> is used." << endl;
         string tempName = "source"; setName(tempName);
         //setFlag(true);
       }
       return true;
     }
     else{
-      stringstream errorMsg;
-      errorMsg << "Invalid PersistPtr.\n";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      cerr << "Invalid PersistPtr.\n";
       return false;
     }
   }

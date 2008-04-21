@@ -29,15 +29,13 @@ namespace mesmer
     PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
     Molecule* pMol1 = GetMolRef(ppReactant1);
     if(!pMol1){
-      string errorMsg = "Isomerizaton reaction " + getName() + " has no reactant.";
-      meErrorLog.ThrowError(__FUNCTION__, string(errorMsg), obError);
+      cerr << "Isomerizaton reaction " << getName() << " has no reactant.";
       return false;
     }
     PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
     if(ppReactant2)
     {
-      string errorMsg = "Isomerizaton reaction " + getName() + " has more than one reactant.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg, obError);
+      cerr << "Isomerizaton reaction " << getName() << " has more than one reactant.";
       return false;
     }
 
@@ -56,15 +54,13 @@ namespace mesmer
     PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
     pMol1 = GetMolRef(ppProduct1);
     if (!pMol1) {
-      string errorMsg = "Isomerizaton reaction " + getName() + " has no product.";
-      meErrorLog.ThrowError(__FUNCTION__, string(errorMsg), obError);
+      cerr << "Isomerizaton reaction " << getName() << " has no product.";
       return false;
     }
     PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
     if(ppProduct2)
     {
-      string errorMsg = "Isomerizaton reaction " + getName() + " has more than one product.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg, obError);
+      cerr << "Isomerizaton reaction " << getName() << " has more than one product.";
       return false;
     }
 
@@ -101,14 +97,8 @@ namespace mesmer
     double Keq(0.0) ;
 
     // Get Canonical partition functions.
-
     double Qrct1 = m_rct1->grnCanPrtnFn() ;
     double Qpdt1 = m_pdt1->grnCanPrtnFn() ;
-
-    // Calculate the equilibrium constant.
-    {stringstream errorMsg;
-    errorMsg << "Qrct1 = " << Qrct1 << ", Qpdt1 = " << Qpdt1 ;
-    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
 
     double beta = getEnv().beta ;
 

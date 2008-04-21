@@ -119,7 +119,7 @@ namespace mesmer
       ctest << "}\n";
     }
 
-    cinfo << "ILT calculation completed";
+    cinfo << "ILT calculation completed" << endl;
 
     return true;
   }

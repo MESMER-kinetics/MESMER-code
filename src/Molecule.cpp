@@ -32,19 +32,13 @@ namespace mesmer
   Molecule::~Molecule()
   {
     if (m_Mass_chk == 0){
-      stringstream errorMsg;
-      errorMsg << "m_Mass is provided but not used in " << getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      cerr << "m_Mass is provided but not used in " << getName();
     }
     if (m_Sigma_chk == 0){
-      stringstream errorMsg;
-      errorMsg << "m_Sigma is provided but not used in " << getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      cerr << "m_Sigma is provided but not used in " << getName();
     }
     if (m_Epsilon_chk == 0){
-      stringstream errorMsg;
-      errorMsg << "m_Epsilon is provided but not used in " << getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      cerr << "m_Epsilon is provided but not used in " << getName();
     }
   }
 
@@ -87,18 +81,14 @@ namespace mesmer
 
     txt= ppPropList->XmlReadProperty("me:MW");
     if(!txt){
-      stringstream errorMsg;
-      errorMsg << "Cannot find argument me:MW in " << getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      cerr << "Cannot find argument me:MW in " << getName();
       setFlag(true); // later put a function to calculate the molecular weight if the user forgot to provide it.
     }
     else { istringstream idata(txt); double mass(0.); idata >> mass; setMass(mass);}
 
 
     if (getFlag()){
-      stringstream errorMsg;
-      errorMsg << "Error(s) while initializing molecule: " << m_Name;
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      cerr << "Error(s) while initializing molecule: " << m_Name;
       return false;
     }
     return true;
@@ -135,9 +125,7 @@ namespace mesmer
       return m_Mass ;
     }
     else{
-      stringstream errorMsg;
-      errorMsg << "m_Mass was not defined but requested in " << getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      cerr << "m_Mass was not defined but requested in " << getName();
       exit(1);
     }
   } ;
@@ -153,10 +141,8 @@ namespace mesmer
       return m_Sigma ;
     }
     else{
-      stringstream errorMsg;
-      errorMsg << "m_Sigma was not defined but requested in " << getName()
+      cerr << "m_Sigma was not defined but requested in " << getName()
                << ". Default value " << sigmaDefault << " is used.\n";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       //exit(1);
       return m_Sigma ;
     }
@@ -173,10 +159,8 @@ namespace mesmer
       return m_Epsilon ;
     }
     else{
-      stringstream errorMsg;
-      errorMsg << "m_Epsilon was not defined but requested in " << getName()
+      cerr << "m_Epsilon was not defined but requested in " << getName()
                << ". Default value " << epsilonDefault << " is used.\n";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       //exit(1);
       return m_Epsilon ;
     }

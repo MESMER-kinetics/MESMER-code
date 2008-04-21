@@ -8,15 +8,14 @@ using namespace Constants ;
 namespace mesmer
 {
 
-  bool MicroRateCalculator::testMicroRateCoeffs(Reaction*  pReact,
-                                                PersistPtr ppbase,
-												vector<double>& TSFlux) const
+  bool MicroRateCalculator::testMicroRateCoeffs(
+    Reaction*  pReact,
+    PersistPtr ppbase,
+    vector<double>& TSFlux) const
   {
     vector<ModelledMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
     ModelledMolecule * pReactant = unimolecularspecies[0];
-
-    cinfo << "Test of microcanonical rate coefficients" << endl;
 
     string comment("Microcanonical rate coefficients");
     PersistPtr ppList = ppbase->XmlWriteMainElement("me:microRateList", comment );

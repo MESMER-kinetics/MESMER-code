@@ -25,9 +25,7 @@ namespace mesmer
   CollidingMolecule::~CollidingMolecule()
   {
     if (m_DeltaEdown_chk == 0){
-      stringstream errorMsg;
-      errorMsg << "m_DeltaEdown is provided but not used in " << getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      cinfo << "m_DeltaEdown is provided but not used in " << getName() << endl;
     }
     if (m_egme != NULL) delete m_egme ;
   }
@@ -37,15 +35,12 @@ namespace mesmer
   //
   bool CollidingMolecule::InitializeMolecule(PersistPtr pp)
   {
-    stringstream errorMsg;
     PersistPtr oldpp = pp;
 
     //Read base class parameters first
     if(!ModelledMolecule::InitializeMolecule(pp)){
-      stringstream errorMsg;
-      errorMsg << "InitializeMolecule failed for " << getName()
-        << " before constructing CollidingMolecule.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      cinfo << "InitializeMolecule failed for " << getName()
+        << " before constructing CollidingMolecule." << endl;
       setFlag(true);
     }
 
@@ -59,38 +54,30 @@ namespace mesmer
 
     txt= ppPropList->XmlReadProperty("me:sigma");
     if(!txt){
-      stringstream errorMsg;
-      errorMsg << "Cannot find argument me:sigma in " << getName()
-        << ". Default value " << sigmaDefault << " is used.\n";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      cinfo << "Cannot find argument me:sigma in " << getName()
+        << ". Default value " << sigmaDefault << " is used.\n" << endl;
       // sigma and epsilon are not always necessary.
     }
     else { istringstream idata(txt); double sigma(0.); idata >> sigma; setSigma(sigma);}
 
     txt= ppPropList->XmlReadProperty("me:epsilon");
     if(!txt){
-      stringstream errorMsg;
-      errorMsg << "Cannot find argument me:epsilon in " << getName()
-        << ". Default value " << epsilonDefault << " is used.\n";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      cinfo << "Cannot find argument me:epsilon in " << getName()
+        << ". Default value " << epsilonDefault << " is used.\n" << endl;
       // sigma and epsilon are not always necessary.
     }
     else { istringstream idata(txt); double epsilon(0.); idata >> epsilon; setEpsilon(epsilon);} //extra block ensures idata is initiallised
 
     txt= ppPropList->XmlReadProperty("me:deltaEDown");
     if(!txt){
-      stringstream errorMsg;
-      errorMsg << "Cannot find argument me:deltaEDown in " << getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      cinfo << "Cannot find argument me:deltaEDown in " << getName() << endl;
       //setFlag(true);
       // deltaEDown is not always necessary. Hoever, it is not wise to provide a default value.
     }
     else { istringstream idata(txt); idata >> m_DeltaEdown; m_DeltaEdown_chk = 0;}
 
     if (getFlag()){
-      stringstream errorMsg;
-      errorMsg << "Error(s) while initializing: " << getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      cerr << "Error(s) while initializing: " << getName();
       return false;
     }
     return true;
@@ -120,9 +107,7 @@ namespace mesmer
       return m_DeltaEdown ;
     }
     else{
-      stringstream errorMsg;
-      errorMsg << "m_DeltaEdown was not defined but requested in " << getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      cerr << "m_DeltaEdown was not defined but requested in " << getName();
       exit(1);
     }
   } ;
@@ -163,9 +148,7 @@ namespace mesmer
     int i, j;
 
     if(!m_DeltaEdown){
-      stringstream errorMsg;
-      errorMsg << "me:deltaEDown is necessary for " << getName() << ". Correct input file to remove this error.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      cerr << "me:deltaEDown is necessary for " << getName() << ". Correct input file to remove this error.";
       return false;
     }
 
@@ -317,9 +300,7 @@ namespace mesmer
     // Check there is enough space in system matrix.
 
     if (locate + size > smsize) {
-      stringstream errorMsg;
-      errorMsg << "Error in the size of the system matrix.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      cerr << "Error in the size of the system matrix.";
       exit(1) ;
     }
 

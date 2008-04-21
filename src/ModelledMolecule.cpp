@@ -66,9 +66,7 @@ namespace mesmer
     PersistPtr oldpp = pp;
 
     if(!Molecule::InitializeMolecule(pp)){
-      stringstream errorMsg;
-      errorMsg << "InitializeMolecule for " << getName() << " before constructing ModelledMolecule with errors.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      cerr << "InitializeMolecule for " << getName() << " before constructing ModelledMolecule with errors.";
     }
 
     pp = oldpp;
@@ -83,9 +81,7 @@ namespace mesmer
     txt= ppPropList->XmlReadProperty("me:vibFreqs");
     if(!txt){
       hasVibFreq = false;
-      stringstream errorMsg;
-      errorMsg << "Cannot find argument me:vibFreqs. Maybe an atom or atomic ion.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      cinfo << "Cannot find argument me:vibFreqs. Maybe an atom or atomic ion." << endl;
       m_VibFreq_chk = -1;
       //setFlag(true); // it maybe an atom so not necessary to set this flag. Just produce warning.
     }
@@ -94,9 +90,7 @@ namespace mesmer
     txt= ppPropList->XmlReadProperty("me:rotConsts");
     if(!txt){
       hasRotConst = false;
-      stringstream errorMsg;
-      errorMsg << "Cannot find argument me:rotConsts. Maybe an atom or atomic ion.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      cinfo << "Cannot find argument me:rotConsts. Maybe an atom or atomic ion." << endl;
       m_RC_chk = -1;
       //setFlag(true); // it maybe an atom so not necessary to set this flag. Just produce warning.
     }
@@ -117,18 +111,14 @@ namespace mesmer
     }
 
     if (hasVibFreq != hasRotConst){
-      stringstream errorMsg;
-      errorMsg << getName()
+      cerr << getName()
       << " has improper setting on vibrational frequencies or rotational constants. Check input file to remove this error.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       setFlag(true);
     }
 
     txt= ppPropList->XmlReadProperty("me:eletronicExcitation");
     if(!txt){
-      stringstream errorMsg;
-      errorMsg << "Cannot find argument me:eletronicExcitation for " << getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      cinfo << "Cannot find argument me:eletronicExcitation for " << getName() << endl;
     }
     else {
       istringstream idata(txt); double _iele = 0.; m_eleExc.clear();
@@ -137,9 +127,7 @@ namespace mesmer
 
     txt= ppPropList->XmlReadProperty("me:symmetryNumber");
     if(!txt){
-      stringstream errorMsg;
-      errorMsg << "Cannot find argument me:symmetryNumber. Default value " << m_Sym << " is used.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      cinfo << "Cannot find argument me:symmetryNumber. Default value " << m_Sym << " is used." << endl;
       m_Sym_chk = -1;
       //setFlag(true);
     }
@@ -147,20 +135,16 @@ namespace mesmer
 
     txt= ppPropList->XmlReadProperty("me:ZPE");
     if(!txt){
-      stringstream errorMsg;
-      errorMsg << "Cannot find argument me:ZPE";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      cinfo << "Cannot find argument me:ZPE" << endl;
       m_ZPE_chk = -1;
     }
     else { istringstream idata(txt); idata >> m_ZPE ; m_ZPE_chk = 0;}
 
-    // The reason why me:frequenciesScaleFactor stands out to be a separate property in the propertyList is that 
+    // The reason why me:frequenciesScaleFactor stands out to be a separate property in the propertyList is that
     // this value is not usually necessary. The default value is 1.0 and it is usually the case.
     txt= ppPropList->XmlReadProperty("me:frequenciesScaleFactor");
     if(!txt){
-      stringstream errorMsg;
-      errorMsg << "Cannot find argument me:frequenciesScaleFactor";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      cinfo << "Cannot find argument me:frequenciesScaleFactor" << endl;
       m_scaleFactor_chk = -1;
     }
     else { istringstream idata(txt); idata >> m_scaleFactor ; m_scaleFactor_chk = 0;}
@@ -172,30 +156,24 @@ namespace mesmer
       m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
       if(!m_pDensityOfStatesCalculator) // if the provided method cannot be found,
       {
-        stringstream errorMsg;
-        errorMsg << "Unknown method " << pDOSCMethodtxt
+        cinfo << "Unknown method " << pDOSCMethodtxt
           << " for the calculation of DOS in " << getName()
-          << ". Please check spelling error. Default method <Classical rotors> is used.";
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+          << ". Please check spelling error. Default method <Classical rotors> is used." << endl;
         pDOSCMethodtxt = "Classical rotors";
         m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
       }
     }
     else{ // if no method is provided.
-        stringstream errorMsg;
-        errorMsg << "No method for the calculation of DOS in " << getName()
-          << " is provided. Default method <Classical rotors> is used.";
-        meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      cinfo << "No method for the calculation of DOS in " << getName()
+            << " is provided. Default method <Classical rotors> is used." << endl;
       pDOSCMethodtxt = "Classical rotors"; // must exist
       m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
     }
 
     txt= ppPropList->XmlReadProperty("me:spinMultiplicity");
     if(!txt){
-      stringstream errorMsg;
-      errorMsg << "Cannot find argument me:spinMultiplicity in " << getName()
-               << ". Default value "<< m_SpinMultiplicity << " is used.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      cinfo << "Cannot find argument me:spinMultiplicity in " << getName()
+               << ". Default value "<< m_SpinMultiplicity << " is used." << endl;
     }
     else
     {
@@ -205,9 +183,7 @@ namespace mesmer
     }
 
     if (getFlag()){
-      stringstream errorMsg;
-      errorMsg << "Error(s) while initializing: " << getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      cerr << "Error(s) while initializing: " << getName();
       return false;
     }
 
@@ -321,20 +297,16 @@ namespace mesmer
     const double beta = getEnv().beta;
 
     for (int i = 0; i < MaximumGrain; ++i) {
-		if (m_grainDOS[i] > 0.0)
-			CanPrtnFn += exp( log(m_grainDOS[i]) - beta*m_grainEne[i] ) ;
+    if (m_grainDOS[i] > 0.0)
+      CanPrtnFn += exp( log(m_grainDOS[i]) - beta*m_grainEne[i] ) ;
     }
 
-	  // The following catches the case where the molecule is a single atom
+    // The following catches the case where the molecule is a single atom
 
-	  CanPrtnFn = max(CanPrtnFn, 1.0) ;
+    CanPrtnFn = max(CanPrtnFn, 1.0) ;
 
     // Electronic partition function.
     CanPrtnFn *= double(getSpinMultiplicity()) ;
-
-    if (1){stringstream errorMsg;
-    errorMsg << "CanPrtnFn = " << CanPrtnFn << ", molecular name: " << getName();
-    meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
 
     // Translational partition function.
     return CanPrtnFn ;
@@ -350,9 +322,7 @@ namespace mesmer
   {
     //if (m_RC_chk = -1){ // replace the line below by this line _2007_12_07__16_01_51_ you will encounter a problem somewhere else
     if (m_RC_chk == -1){
-      {stringstream errorMsg;
-      errorMsg << "Rotational constants were not defined but requested in " << getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);}
+      cinfo << "Rotational constants were not defined but requested in " << getName() << endl;
       --m_RC_chk;
       return -4; // treat as a non-rotor
     }
@@ -508,9 +478,7 @@ namespace mesmer
     // Check that there are enough cells.
 
     if (getEnv().GrainSize < 1) {
-      stringstream errorMsg;
-      errorMsg << "The number of Cells is insufficient to produce requested number of Grains.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
+      cinfo << "The number of Cells is insufficient to produce requested number of Grains." << endl;
       exit(1) ;
     }
 
@@ -543,26 +511,15 @@ namespace mesmer
     // Issue warning if number of grains produced is less that requested.
 
     if ( idx2 != MaximumGrain ) {
-      stringstream errorMsg;
-      errorMsg << "Number of grains produced is not equal to that requested" << endl
+      cinfo << "Number of grains produced is not equal to that requested" << endl
                << "Number of grains requested: " << MaximumGrain << endl
-               << "Number of grains produced : " << idx2 << " in " << getName();
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+               << "Number of grains produced : " << idx2 << " in " << getName() << endl;
     }
-    else{
-//      stringstream errorMsg;
-//      errorMsg << "Number of grains requested: " << MaximumGrain << endl
-//               << "Number of grains produced : " << idx2 << " in " << getName();
-//      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
-    }
-
   }
 
   double ModelledMolecule::get_zpe() {
     if (m_ZPE_chk == -1){
-      stringstream errorMsg;
-      errorMsg << "m_ZPE was not defined but requested in " << getName() << ". Default value " << m_ZPE << " is given.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      cinfo << "m_ZPE was not defined but requested in " << getName() << ". Default value " << m_ZPE << " is given." << endl;
       --m_ZPE_chk;
       return m_ZPE;
     }
@@ -576,9 +533,7 @@ namespace mesmer
 
   double ModelledMolecule::get_scaleFactor() {
     if (m_scaleFactor_chk == -1){
-      stringstream errorMsg;
-      errorMsg << "m_scaleFactor was not defined but requested in " << getName() << ". Default value " << m_scaleFactor << " is given.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      cinfo << "m_scaleFactor was not defined but requested in " << getName() << ". Default value " << m_scaleFactor << " is given." << endl;
       --m_scaleFactor_chk;
       return m_scaleFactor;
     }
@@ -602,9 +557,7 @@ namespace mesmer
 
   double ModelledMolecule::get_Sym(void){
     if (m_Sym_chk == -1){
-      stringstream errorMsg;
-      errorMsg << "m_Sym was not defined but requested in " << getName() << ". Default value " << m_Sym << " is given.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      cinfo << "m_Sym was not defined but requested in " << getName() << ". Default value " << m_Sym << " is given." << endl;
       --m_Sym_chk;
       return m_Sym;
     }
@@ -628,9 +581,7 @@ namespace mesmer
 
   const int ModelledMolecule::get_grnZpe(){
     if (m_grnZpe_chk == -1){
-      stringstream errorMsg;
-      errorMsg << "m_grnZpe was not calculated but requested in " << getName() << ". Default value " << m_grnZpe << " is given.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      cinfo << "m_grnZpe was not calculated but requested in " << getName() << ". Default value " << m_grnZpe << " is given." << endl;
       --m_grnZpe_chk;
       return m_grnZpe;
     }
@@ -656,9 +607,7 @@ namespace mesmer
       return m_SpinMultiplicity ;
     }
     else{
-      stringstream errorMsg;
-      errorMsg << "m_SpinMultiplicity was not defined but requested in " << getName() << ". Default value " << m_SpinMultiplicity << " is given.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
+      cinfo << "m_SpinMultiplicity was not defined but requested in " << getName() << ". Default value " << m_SpinMultiplicity << " is given." << endl;
       return m_SpinMultiplicity;
     }
   }

@@ -1,3 +1,7 @@
+_2008_04_21__10_17_30_ Chi-Hsiu Liang
+
+  * Further tidy up the errorMsg and some previous debug flags.
+
 2008-4-18 David Glowacki
 
   * replace supermolecule pointers with modelledmolecule pointers

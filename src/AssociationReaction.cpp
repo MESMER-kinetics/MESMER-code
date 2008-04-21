@@ -32,16 +32,14 @@ namespace mesmer
     PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
     Molecule* pMol1 = GetMolRef(ppReactant1);
     if(!pMol1){
-      string errorMsg = "Association reaction " + getName() + " has no reactants.";
-      meErrorLog.ThrowError(__FUNCTION__, string(errorMsg), obError);
+      cerr << "Association reaction " << getName() << " has no reactants.";
       return false;
     }
     PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
     Molecule* pMol2 = GetMolRef(ppReactant2);
     if(!pMol2)
     {
-      string errorMsg = "Association reaction " + getName() + " does not have two reactants.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg, obError);
+      cerr << "Association reaction " << getName() << " does not have two reactants.";
       return false;
     }
 
@@ -61,10 +59,6 @@ namespace mesmer
     m_rct1 = pColMol;
 
     if (m_rct1 && m_rct2){ // the reactant side has two molecules
-      {stringstream errorMsg;
-      errorMsg << "Reaction " << getName() << " has two reactants. ";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
-
       // check whether there is any SuperMolecule in m_molmap contains pMol1 & pMol2
       string id; //shoud not set any name for it.
       SuperMolecule* pSupMol = NULL;
@@ -75,9 +69,6 @@ namespace mesmer
         if (!rm1 && !rm2){// there is no data inside, occupy it!
           pSupMol->setMembers(m_rct1, m_rct2);
           m_srct = pSupMol;
-          {stringstream errorMsg;
-          errorMsg << "Set members of the SuperMolecule: " << m_srct->getName();
-          meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);}
           break;
         }
       }
@@ -88,8 +79,8 @@ namespace mesmer
       }
     }
     else{
-      string errorMsg = "Reaction " + getName() + " has only one reactant";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg, obInfo);
+      cerr << "AssociationReaction " << getName() << " has only one reactant";
+      return false;
     }
 
     //Read product details.
@@ -97,15 +88,13 @@ namespace mesmer
     PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
     pMol1 = GetMolRef(ppProduct1);
     if (!pMol1) {
-      string errorMsg = "Association reaction " + getName() + " has no product.";
-      meErrorLog.ThrowError(__FUNCTION__, string(errorMsg), obError);
+      cerr << "Association reaction " << getName() << " has no product.";
       return false;
     }
     PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
     if(ppProduct2)
     {
-      string errorMsg = "Association reaction " + getName() + " has more than one product.";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg, obError);
+      cerr << "Association reaction " << getName() << " has more than one product.";
       return false;
     }
 
@@ -271,6 +260,9 @@ namespace mesmer
           << getName();
         return false;
       }
+    }
+    else{
+      cinfo << "No tunneling method was found for " << getName() << endl;
     }
 
     return true ;
