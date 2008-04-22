@@ -1,3 +1,12 @@
+_2008_04_22__10_55_37_ Chi-Hsiu Liang
+
+  * Convert zero-point energy to wavenumber and concentration to number density while parsing.
+  * Further clean up some error report messages.
+  * Added a function XmlReadPropertyAttribute() to Persistence.h and XmlPersist.h/.cpp for reading attribute of the property
+   (such as unit of energy)
+  * reset initialization of m_HeatOfReaction to nothing. For dissociation, this value should be NaN if not defined.
+  * Added unitConversion.h/.cpp for converting units.
+
 _2008_04_21__10_17_30_ Chi-Hsiu Liang
 
   * Further tidy up the errorMsg and some previous debug flags.
@@ -55,7 +64,7 @@ Change back MesmerHP to double in dMatrix.h
 
 2008-1-27 Struan Robertson
 
-  * Reaction.h:  Declare methods InitializeReaction and calcEquilibriumConstant 
+  * Reaction.h:  Declare methods InitializeReaction and calcEquilibriumConstant
   pure virtual, and associated changes.
 
 2008-1-27 Struan Robertson
@@ -67,7 +76,7 @@ _2008_04_04__14_25_39_ Chi-Hsiu Liang
   * renamed grnDensityOfStates() -> getGrainDensityOfStates()
   * Changed detailed balance on the cell level to the grain level
   * Corrected codes where DOS and rate coefficients are not referenced to the well bottom.
-  * EAboveWell renamed to EAboveHill to reflect that this energy value is above the highest hilltop 
+  * EAboveWell renamed to EAboveHill to reflect that this energy value is above the highest hilltop
     but not the highest well bottom
   * Code for setting grain ZPE of all speices
   * Corrected getClassicalEnergy()
@@ -89,7 +98,7 @@ _2008_03_27__14_49_28_ Chi-Hsiu Liang
 
 _2008_03_14__17_43_39_ Chi-Hsiu Liang
 
-  * Concentrations and pressures are not directly interconvertable. They relate each other with temperature 
+  * Concentrations and pressures are not directly interconvertable. They relate each other with temperature
   and other factors. Inputting concentration by particles per cubic centimeter and converting it to mols is direct
   , but for pressures we need conversion through idea gas constant and temperature. So these parameters has to come
   in pairs: <concentration, temperature> or <pressure, temperature>.
@@ -133,7 +142,7 @@ _2008_03_13__12_14_38_ Chi-Hsiu Liang
 
 _2008_01_31__19_01_16_ Chi-Hsiu Liang
 
-  * Removed all KcalPerMolToRC in Mesmer. This made the calculation slow. The input units are SI. 
+  * Removed all KcalPerMolToRC in Mesmer. This made the calculation slow. The input units are SI.
     (It might be worthwhile to convert the activation energy to RC directly from the function get_ActivationEnergy()
     can provide automatic unit conversion if the input units are not SI.)
   * See whether destructors of base/derived classes are virtual.
@@ -144,7 +153,7 @@ _2008_01_31__19_01_16_ Chi-Hsiu Liang
   * Modified a bit on Matrix<T>::normalize()
   * Added several flags to print data in mesmer.test. Check MesmerEnv.cpp and System.cpp line 133-142 for detail.
   * calculateMicroRateCoeffs() now has only one input parameter.
-  * Created files for each class in Molecule.cpp to 
+  * Created files for each class in Molecule.cpp to
       TransitionState.cpp
       SuperMolecule.cpp
       ModelledMolecule.cpp
@@ -153,8 +162,8 @@ _2008_01_31__19_01_16_ Chi-Hsiu Liang
   * Removed most of the accessor functions from Molecule.h to cpp files.
   * Moved destructor definition for MoleculeManager to MoleculeManager.cpp
   * Corrected the sequence of initialization of MessageHandler on oberror.h
-  * Things about the activation energy has to be reconsidered. The experimental activation energy does not have to be 
-    consistent with the relative zero-point energy of the transition state. An option to add activation energy in the 
+  * Things about the activation energy has to be reconsidered. The experimental activation energy does not have to be
+    consistent with the relative zero-point energy of the transition state. An option to add activation energy in the
     reaction list by user can also to be considered (not implemented yet).
   * Added a function detailedBalance(int) to interconvert forward and backward microcanonical rate constants.
   * Can also virtualize grnAvrgMicroRateCoeffs() for variations in different reaction classes later.
@@ -168,9 +177,9 @@ _2008_01_31__19_01_16_ Chi-Hsiu Liang
         4. In Mesmer property pages -> Configuration Properties -> Linker -> Input -> Additional dependencies
            Put "qd.lib" into the list.
         5. ?? How to link qd.dll? Program cannot execute!!
-        
+
   * Other minor modifications.
-  
+
 2008-1-27 Struan Robertson
 
   * Re-implemented association reaction initialization and equilibrium constant
@@ -233,12 +242,12 @@ _2008_01_08__09_35_40_ Chi-Hsiu Liang
     oberro.h, oberror.cpp and main.cpp.
 
   * rename obErroLog to meErrorLog.
-  
+
   * persistence.h: note about function names starting with Xml.
   * XMLPersist.cpp part of implementation to read from stdin (incomplete).
 
 _2007_12_13__15_58_20_ Chi-Hsiu Liang
-  
+
   * Prevented Elements of source molecule from duplication.
 
 _2007_12_13__10_49_05_ Chi-Hsiu Liang
@@ -249,16 +258,16 @@ _2007_12_13__10_49_05_ Chi-Hsiu Liang
     1. addmols() -> addmol()
     2. source term numbering (initially source_0)
     3. Modified GetMolRef() to add molecule and return its pointer
-  
+
 _2007_12_07__16_30_57_ Chi-Hsiu Liang
 
   * Check redundancy for m_deltaEDown, m_RotConsts, m_Sym, m_ZPE
   * privatize m_VibFreq
   * add get_deltaEDown()
   * Added m_NInf in Reaction
-  * There seems to be something wrong in the code but I cannot tell where it is. I have set a flag 
-    if you look for this timestamp in the code: _2007_12_07__16_01_51_ 
-    So if anyone has time to check what's wrong with it. I will keep on doing what I was doing. 
+  * There seems to be something wrong in the code but I cannot tell where it is. I have set a flag
+    if you look for this timestamp in the code: _2007_12_07__16_01_51_
+    So if anyone has time to check what's wrong with it. I will keep on doing what I was doing.
     The problem looks like if I change this line (I know the syntax is wrong so I have modified it to the correct one),
     the collision operator will not be initialized correctly, which is a bit strange.
 
@@ -281,27 +290,27 @@ Allow user to input filename after program starts.
 
 2007-12-2  Struan Robertson
 
-  * Corrected the method of addition of isomer collision opertators to overall 
+  * Corrected the method of addition of isomer collision opertators to overall
   collision matrix.
   * Checked-in initial revision of Mesmer QA.
 
 2007-11-30 Chris Morley
-  
+
   * Removed Mesmer.exe from SVN. Compiled files are not usually in SVN
    and it always caused error messages when updating.
-    
+
   * mEnv revamp.
-  I've given Molecule and Reaction a member variable m_Env - a constant 
-  reference which is initiallised in the constructors. This avoids it 
-  being a parameter in lots of functions, reducing clutter in the place 
+  I've given Molecule and Reaction a member variable m_Env - a constant
+  reference which is initiallised in the constructors. This avoids it
+  being a parameter in lots of functions, reducing clutter in the place
   where the action is, even if the constructors are more complicated.
   Affects a large number of files.
-  
+
 
 _2007_11_28__17_40_29_ Chi-Hsiu Liang
 
   * Added some more error report in Molecule.cpp
-  * some other corrections 
+  * some other corrections
   ToDo: 1. Automatically calculate the mass of a molecule from the atom list if the user forgot to provide it.
 
 _2007_11_28__13_21_33_ Chi-Hsiu Liang
@@ -309,8 +318,8 @@ _2007_11_28__13_21_33_ Chi-Hsiu Liang
   * Corrected some issues in the order calculating density of states for molecules
   * If no pDOSCMethod or wrong is provided default method Classical rotors is used.
   * Added test_rotConsts() in Molecule.cpp
-  * modified calcEquilibriumConstant() in Reaction.cpp (added the check for the consistency of partition function 
-    in SuperMolecule and the product of respective partition function of reactants. They should be equal. 
+  * modified calcEquilibriumConstant() in Reaction.cpp (added the check for the consistency of partition function
+    in SuperMolecule and the product of respective partition function of reactants. They should be equal.
     May include error later.)
 
 _2007_11_27__12_39_58_ Chi-Hsiu Liang
@@ -350,35 +359,35 @@ _2007_11_22__10_57_55_ Chi-Hsiu Liang
                           Windows VC8/Mesmer/pentyl_isomerization.xml
                           Windows VC8/Mesmer/pentyl_isomerizationJul.xml
 
-  * modified function names: cellEnergies() -> getCellEnergies 
+  * modified function names: cellEnergies() -> getCellEnergies
                              cellDensityOfStates -> getCellDensityOfStates
     for the fact that these two functions only performs get functionality. Note: Result credibility should check before
     execution.
   * Added files ClassicalRotor.cpp/h, DensityOfStates.cpp/h
   * Moved counterDimerDOS() to a plugin class DensityOfStatesCalculator (DensityOfStates.h)
-  * modified the original ModelledMolecule::calcDensityOfStates() so that it governs the calculation of DOS in both 
+  * modified the original ModelledMolecule::calcDensityOfStates() so that it governs the calculation of DOS in both
     ModelledMolecule and SuperMolecule
   * m_VibFreq temporarily become a public variable (if necessary will add accessors and privatize it later)
   * Added DensityOfStatesCalculator *m_pDensityOfStatesCalculator ; in ModelledMolecule.
   * Added functions to get individual member of participant Molecules in SuperMolecule
-  * Important: Now all isomers have to be specified `colliding' instead of being only `modelled' in xml. 
-               Both second reactant/product are ModelledMolecule. Please read MoleculeManager.cpp 
+  * Important: Now all isomers have to be specified `colliding' instead of being only `modelled' in xml.
+               Both second reactant/product are ModelledMolecule. Please read MoleculeManager.cpp
                line 33 to line 44.
-  * Important: Added a tag me:DOSCMethod in each molecular element of XML input. 
+  * Important: Added a tag me:DOSCMethod in each molecular element of XML input.
                This makes it possible to use different methods to calculate the DOS in different species.
   * Added a new function addSuperMol() in MoleculeManager
   * rearranged the variable definition and function declaration order in Reaction.h
   * Add bool return to BuildSystemCollisionOperator()
   * Add another test file Windows VC8\Mesmer\OH_acetylene_association.xml
-  
+
   To do Next: 1. Debug
               2. Add an element in xml file for SuperMolecule.
               3. Test systems.
-              
+
 _2007_11_15__18_37_45_ Chi-Hsiu Liang
 
   * Added a new class SuperMolecule (originally pairedMoleucles)
-    Note: This new class is derived from CollidingMolecule; in addition, it includes two pointers to CollidingMolecule and 
+    Note: This new class is derived from CollidingMolecule; in addition, it includes two pointers to CollidingMolecule and
           ModelledMolecule respectively. This class takes the position of the source terms, any of which composed of two
           reactant molecules in an association reaction. All SuperMolecule(s) go into sources.
   * Added a new member SuperMolecule* m_srct in Reaction to represent the reactants.
@@ -386,7 +395,7 @@ _2007_11_15__18_37_45_ Chi-Hsiu Liang
   * Errors, warnings and progress information all report to oberror.
   * rearranged the order of variables/functions in Molecule.h
   * Other minor modifications
-  * Note: Need to solve initialization of some pointers here. Later develop plugin to calculate density of states etc of 
+  * Note: Need to solve initialization of some pointers here. Later develop plugin to calculate density of states etc of
           whatever.
 
 _2007_11_13__11_17_57_ Chi-Hsiu Liang
@@ -400,15 +409,15 @@ _2007_11_13__11_17_57_ Chi-Hsiu Liang
   * removed some typecast warnings in VC compiler
   * removed m_alloc
   * Add lines in bool MoleculeManager::addmols() preventing user from inputting duplicated molecules
-  * Modified oberror report level from obWarning to obInfo. 
+  * Modified oberror report level from obWarning to obInfo.
   * moved m_SpinMultiplicity to ModelledMolecule
   * some other minor modifications
 
 2007-10-21  Struan Robertson
 
-	* Molecule.cpp/Reaction.cpp: Added methods to calcualte equilibrium 
+	* Molecule.cpp/Reaction.cpp: Added methods to calcualte equilibrium
         constant.
-        * Reaction.cpp: Altered secondary reactant and product to be 
+        * Reaction.cpp: Altered secondary reactant and product to be
         ModelledMolecule.
 
 _2007_11_02__16_40_03_ Chi-Hsiu Liang

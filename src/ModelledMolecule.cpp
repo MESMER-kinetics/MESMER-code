@@ -4,6 +4,7 @@
 // Author: Struan Robertson
 //-------------------------------------------------------------------------------------------
 #include "Molecule.h"
+#include "unitsConversion.h"
 
 using namespace std ;
 using namespace Constants ;
@@ -73,7 +74,7 @@ namespace mesmer
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
-        ppPropList=pp; //Be forgiving; we can get by without a propertyList element
+      ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
     const char* txt;
 
@@ -98,8 +99,8 @@ namespace mesmer
       istringstream idata(txt);
       std::vector<double> rCnst(3);
       idata >> rCnst[0]
-            >> rCnst[1]
-            >> rCnst[2];
+      >> rCnst[1]
+      >> rCnst[2];
       rCnst[0] = abs(rCnst[0]);
       rCnst[1] = abs(rCnst[1]);
       rCnst[2] = abs(rCnst[2]);
@@ -112,7 +113,7 @@ namespace mesmer
 
     if (hasVibFreq != hasRotConst){
       cerr << getName()
-      << " has improper setting on vibrational frequencies or rotational constants. Check input file to remove this error.";
+        << " has improper setting on vibrational frequencies or rotational constants. Check input file to remove this error.";
       setFlag(true);
     }
 
@@ -133,12 +134,26 @@ namespace mesmer
     }
     else { istringstream idata(txt); idata >> m_Sym; m_Sym_chk = 0;}
 
-    txt= ppPropList->XmlReadProperty("me:ZPE");
+    txt = ppPropList->XmlReadProperty("me:ZPE");
     if(!txt){
       cinfo << "Cannot find argument me:ZPE" << endl;
       m_ZPE_chk = -1;
     }
-    else { istringstream idata(txt); idata >> m_ZPE ; m_ZPE_chk = 0;}
+    else {
+      istringstream idata(txt); 
+      double tempzpe = 0.0; 
+      idata >> tempzpe;
+      txt= ppPropList->XmlReadPropertyAttribute("me:ZPE", "units");
+      string unitsInput;
+      if (txt){
+        unitsInput = txt;
+      }
+      else{
+        unitsInput = "kJ/mol";
+      }
+      set_zpe(getConvertedEnergy(unitsInput, tempzpe));
+      m_ZPE_chk = 0;
+    }
 
     // The reason why me:frequenciesScaleFactor stands out to be a separate property in the propertyList is that
     // this value is not usually necessary. The default value is 1.0 and it is usually the case.
@@ -165,7 +180,7 @@ namespace mesmer
     }
     else{ // if no method is provided.
       cinfo << "No method for the calculation of DOS in " << getName()
-            << " is provided. Default method <Classical rotors> is used." << endl;
+        << " is provided. Default method <Classical rotors> is used." << endl;
       pDOSCMethodtxt = "Classical rotors"; // must exist
       m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
     }
@@ -173,7 +188,7 @@ namespace mesmer
     txt= ppPropList->XmlReadProperty("me:spinMultiplicity");
     if(!txt){
       cinfo << "Cannot find argument me:spinMultiplicity in " << getName()
-               << ". Default value "<< m_SpinMultiplicity << " is used." << endl;
+        << ". Default value "<< m_SpinMultiplicity << " is used." << endl;
     }
     else
     {
@@ -248,16 +263,16 @@ namespace mesmer
 
     double prtfn(0.0) ;
     for (int i = 0; i < MaximumGrain; ++i) {
-        double tmp = log(m_grainDOS[i]) - beta*m_grainEne[i] + 10.0 ;
-        tmp = exp(tmp) ;
-        prtfn += tmp ;
-        grainBoltzDist[i] = tmp ;
+      double tmp = log(m_grainDOS[i]) - beta*m_grainEne[i] + 10.0 ;
+      tmp = exp(tmp) ;
+      prtfn += tmp ;
+      grainBoltzDist[i] = tmp ;
     }
 
     // Normalize the Boltzmann distribution.
 
     for (int i = 0; i < MaximumGrain; ++i) {
-        grainBoltzDist[i] /= prtfn ;
+      grainBoltzDist[i] /= prtfn ;
     }
 
     if (getEnv().grainBoltzmannEnabled){
@@ -269,15 +284,15 @@ namespace mesmer
     }
   }
 
-    //
-    // Get Electronic excitations
-    //
-    void ModelledMolecule::getEleExcitation(vector<double> &elecExci){
-      elecExci.clear();
-      for (vector<double>::size_type i = 0; i < m_eleExc.size(); ++i){
-        elecExci.push_back(m_eleExc[i]);
-      }
+  //
+  // Get Electronic excitations
+  //
+  void ModelledMolecule::getEleExcitation(vector<double> &elecExci){
+    elecExci.clear();
+    for (vector<double>::size_type i = 0; i < m_eleExc.size(); ++i){
+      elecExci.push_back(m_eleExc[i]);
     }
+  }
 
 
   //
@@ -297,8 +312,8 @@ namespace mesmer
     const double beta = getEnv().beta;
 
     for (int i = 0; i < MaximumGrain; ++i) {
-    if (m_grainDOS[i] > 0.0)
-      CanPrtnFn += exp( log(m_grainDOS[i]) - beta*m_grainEne[i] ) ;
+      if (m_grainDOS[i] > 0.0)
+        CanPrtnFn += exp( log(m_grainDOS[i]) - beta*m_grainEne[i] ) ;
     }
 
     // The following catches the case where the molecule is a single atom
@@ -360,7 +375,7 @@ namespace mesmer
     //Basically use the frequencies to calculate the contribution of ZPE from harmonic oscillators approximation
     double ZC = 0.0;
     for (unsigned int i = 0; i < m_VibFreq.size(); ++i)
-      ZC += m_VibFreq[i] / (kJPerMolInRC * 2.0);
+      ZC += m_VibFreq[i] / 2.0;
     return get_zpe() - ZC;
   }
 
@@ -512,8 +527,8 @@ namespace mesmer
 
     if ( idx2 != MaximumGrain ) {
       cinfo << "Number of grains produced is not equal to that requested" << endl
-               << "Number of grains requested: " << MaximumGrain << endl
-               << "Number of grains produced : " << idx2 << " in " << getName() << endl;
+        << "Number of grains requested: " << MaximumGrain << endl
+        << "Number of grains produced : " << idx2 << " in " << getName() << endl;
     }
   }
 

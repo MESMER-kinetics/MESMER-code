@@ -95,7 +95,7 @@ namespace mesmer
 
     int activ_ene(0);
     // Conversion of EINF from kiloJoule.mol^-1 to cm^-1
-    activ_ene = int((_einf + p_rct1->get_zpe() + p_rct2->get_zpe()) * kJPerMolInRC);
+    activ_ene = int(_einf + p_rct1->get_zpe() + p_rct2->get_zpe());
 
     vector<double> work(MaxCell);
     vector<double> conv(MaxCell);

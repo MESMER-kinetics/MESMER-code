@@ -24,7 +24,7 @@ restartCalc(true),
 m_PreExp(0.0),
 m_NInf(0.0),
 m_kfwd(0.0),
-m_HeatOfReaction(0.0),
+m_HeatOfReaction(), // Does not set a default value for heat of reaction. NaN if undefined.
 m_pMoleculeManager(pMoleculeManager),
 m_pMicroRateCalculator(NULL),
 m_pTunnelingCalculator(NULL),
@@ -71,15 +71,15 @@ Molecule* Reaction::GetMolRef(PersistPtr pp)
             PersistPtr ppMolList = m_pMoleculeManager->get_PersistPtr();
             if(!ppMolList)
             {
-                meErrorLog.ThrowError(__FUNCTION__, string("No molecules have been specified"), obWarning);
-                return false;
+                cerr << "No molecules have been specified." << endl;
+                return NULL;
             }
             pMol = m_pMoleculeManager->addmol(pRef, pType, ppMolList, getEnv());
         }
     }
 
     if(!pMol) {
-        meErrorLog.ThrowError(__FUNCTION__, string("Cannot find molecule: "), obInfo);
+        cinfo << "Failed to get a molecular reference." << endl;
         return NULL;
     }
 

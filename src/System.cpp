@@ -31,6 +31,7 @@ namespace mesmer
   //
   bool System::parse(PersistPtr ppIOPtr)
   {
+    initializeConversionMaps();
     m_ppIOPtr = ppIOPtr;
 
     //-------------
@@ -164,25 +165,6 @@ namespace mesmer
     return true;
   }
 
-  // Returns particles per cubic centimeter no matter what unit the user has provided.
-  double System::getConvertedCP(string unitInput, double concentrationInput, double temperatureInput)
-  {
-    // define rule of conversion (give a name to return a number for the switch function below)
-    concentrationUnitConversionMap["particles per cubic centimeter"] = 0;
-    concentrationUnitConversionMap["PPCC"] = 0;
-    concentrationUnitConversionMap["Torr"] = 1;
-    concentrationUnitConversionMap["mmHg"] = 1;
-
-    // switch
-    switch (concentrationUnitConversionMap[unitInput])
-    {
-      case 0:
-        return concentrationInput;
-      case 1:
-        return ((concentrationInput / AtmInMmHg) * pascalPerAtm * AvogadroC / (idealGasC * temperatureInput * 1.0e6));
-    }
-    return 0.;
-  }
 
   // pop the CP and T points into CPandTs
   // This is a function for reading concentration/pressure and temperature conditions.
@@ -335,7 +317,7 @@ namespace mesmer
     std::string id; ModelledMolecule* pmol = NULL;
     while(m_pMoleculeManager->GetNextMolecule(id, pmol))
     {
-      double zpe = pmol->get_zpe() * kJPerMolInRC ;
+      double zpe = pmol->get_zpe() ;
       m_Env.EMax = std::max(m_Env.EMax, zpe);
       m_Env.EMin = std::min(m_Env.EMin, zpe);
     }
@@ -371,13 +353,6 @@ namespace mesmer
     cerr << "Cell number = " << m_Env.MaxCell << ", Grain number = " << m_Env.MaxGrn << endl;
 
     return true;
-    /*
-     //Hardwired
-     m_Env.MaxCell=50000;
-     m_Env.MaxGrn =500;
-     m_Env.GrainSize = 100;
-     return true;
-    */
   }
 
   bool System::ReadRange(const string& name, vector<double>& vals, PersistPtr ppbase, bool MustBeThere)

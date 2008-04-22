@@ -11,7 +11,7 @@
 // This header file contains the definitions of common physical constants.
 //
 //-------------------------------------------------------------------------------------------
-
+#include <cmath>
 #ifndef M_PI
 #define M_PI acos(-1.)
 #endif //M_PI
@@ -24,28 +24,31 @@ namespace Constants {
   //
   // Basic constants
   //
-  static const double boltzmann_C             = 1.3806503e-23;  // Boltzmann constant (J*K-1).
-  static const double SpeedOfLight_cm         = 2.99792458e+10 ;// speed of light in centimeter/s
-  static const double PlancksConstant         = 6.6260689633e-34;   // Planck's constant in Joule times second
-  static const double AvogadroC               = 6.0221367e+23;
-  static const double CalorieInJoule          = 4.184;
-  static const double AtmInMmHg               = 760.0;
-  static const double pascalPerAtm            = 1.01325e+05;    //Pascal: N*m^-2
+  static const double boltzmann_C                    = 1.3806503e-23;  // Boltzmann constant (J*K-1).
+  static const double SpeedOfLight_in_cm             = 2.99792458e+10 ;// speed of light in centimeter/s
+  static const double PlancksConstant_in_JouleSecond = 6.6260689633e-34;   // Planck's constant in Joule times second
+  static const double AvogadroC                      = 6.0221367e+23;
+  static const double Calorie_in_Joule               = 4.184;
+  static const double Atm_in_Torr                    = 760.0;
+  static const double mbar_in_pascal                 = 100.;
+  static const double atm_in_pascal                  = 1.01325e+05;    //Pascal: N*m^-2
+  static const double Hartree_In_kJperMol            = 2625.5;
+  static const double psi_in_pascal                  = 6894.76;
 
   //
   // Derived constants (do not alter contents below)
   //
 
-  static const double boltzmann_RCpK          = boltzmann_C /(SpeedOfLight_cm * PlancksConstant); //0.695035612 ;
+  static const double boltzmann_RCpK          = boltzmann_C /(SpeedOfLight_in_cm * PlancksConstant_in_JouleSecond); //0.695035612 ;
                                                                 // Boltzmann constant (cm*K)-1. (Reciprocal Centimeter per Kelvin)
-                                                                // boltzmann_C /(SpeedOfLight_cm * PlancksConstant);
-  static const double kJPerMolInRC            = 1.0e3 / (AvogadroC * PlancksConstant * SpeedOfLight_cm);
+                                                                // boltzmann_C /(SpeedOfLight_in_cm * PlancksConstant_in_JouleSecond);
+  static const double kJPerMol_in_RC          = 1.0e3 / (AvogadroC * PlancksConstant_in_JouleSecond * SpeedOfLight_in_cm);
                                                                 // kilo Joule per mol to reciprocal centimeter
-                                                                // 1.0e3 / (AvogadroC * PlancksConstant * SpeedOfLight_cm);
-  //static const double KcalPerMolInRC          = kJPerMolInRC * CalorieInJoule;       // 349.757 ;
+                                                                // 1.0e3 / (AvogadroC * PlancksConstant_in_JouleSecond * SpeedOfLight_in_cm);
+  static const double kCalPerMol_in_RC        = kJPerMol_in_RC * Calorie_in_Joule;       // 349.757 ;
                                                                 // kilo Calorie per mol in reciprocal centimeter
 
-  static const double tp_C                    = pow((2.0 * M_PI * SpeedOfLight_cm) / (1.0e3 * PlancksConstant * AvogadroC * 1.0e4),1.5);    //3.24331e+20;
+  static const double tp_C                    = pow((2.0 * M_PI * SpeedOfLight_in_cm) / (1.0e3 * PlancksConstant_in_JouleSecond * AvogadroC * 1.0e4),1.5);    //3.24331e+20;
   static const double amu                     = 1.0 / (AvogadroC * 1.0e3);
   static const double idealGasC               = boltzmann_C * AvogadroC;
 

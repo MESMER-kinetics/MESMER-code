@@ -36,7 +36,7 @@ namespace mesmer
 
     // Conversion of EINF from kcal.mol^-1 to cm^-1
 
-    int nEinf = int(pReact->get_ThresholdEnergy()*kJPerMolInRC) ;
+    int nEinf = int(pReact->get_ThresholdEnergy()) ;
 
     // Calculate microcanonical rate coefficients using simple ILT expression.
 

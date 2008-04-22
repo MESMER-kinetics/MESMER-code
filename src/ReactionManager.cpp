@@ -27,7 +27,7 @@ namespace mesmer
 
       const char* id = ppReac->XmlReadValue("id");
       if(!id)
-        meErrorLog.ThrowError(__FUNCTION__, string("Reaction ID not found\n"), obInfo) ;
+        cinfo << "Reaction ID not found.\n";
 
       // Read reactant and product types.
 
@@ -71,7 +71,7 @@ namespace mesmer
       else if(bRct2 && bPdt1 && bPdt2)
         preaction = new ExchangeReaction(m_pMoleculeManager, Env, id) ;
       else {
-        meErrorLog.ThrowError(__FUNCTION__, string("Unknown reaction type\n"), obInfo) ;
+        cinfo << "Unknown reaction type.\n";
         return false ;
       }
 
@@ -143,7 +143,7 @@ namespace mesmer
       // the grain ZPE of SuperMolecule has to be calculated from zpeReactant1 + zpeReactant2 - m_minEnergy
       if (pSuper){
         double zpe = (pSuper->get_zpe()) - m_minEnergy ; // cell zpe with respect to the minimum of all wells
-        int grnZpe = int(zpe * kJPerMolInRC / Env.GrainSize) ; //convert to grain
+        int grnZpe = int(zpe / Env.GrainSize) ; //convert to grain
         if (grnZpe < 0) cerr << "Grain zero point energy has to be a positive integer.";
         pSuper->set_grnZpe(grnZpe) ; //set grain ZPE (with respect to the minimum of all wells)
       }
@@ -154,7 +154,7 @@ namespace mesmer
         for (size_t i(0) ; i < unimolecules.size() ; ++i) {
           CollidingMolecule *pCollidingMolecule = dynamic_cast<CollidingMolecule*>(unimolecules[i]) ;
           double zpe = (pCollidingMolecule->get_zpe()) - m_minEnergy ; // cell zpe with respect to the minimum of all wells
-          int grnZpe = int(zpe * kJPerMolInRC / Env.GrainSize) ; //convert to grain
+          int grnZpe = int(zpe / Env.GrainSize) ; //convert to grain
           if (grnZpe < 0) cerr << "Grain zero point energy has to be a positive integer.";
           pCollidingMolecule->set_grnZpe(grnZpe) ; //set grain ZPE (with respect to the minimum of all wells)
         }
@@ -259,14 +259,14 @@ namespace mesmer
   {
     PersistPtr ppmol = pp->XmlMoveTo("molecule");
     if(!ppmol) {
-      meErrorLog.ThrowError(__FUNCTION__, string("Ill formed molecule tag."), obError);
+      cerr << "Ill formed molecule tag." << endl;
       return false;
     }
     MolName = ppmol->XmlReadValue("ref");
     if(MolName.size()){
       MolType = ppmol->XmlReadValue("me:type");
     } else {
-      meErrorLog.ThrowError(__FUNCTION__, string("Cannot find molecule name."), obError);
+      cerr << "Cannot find molecule name." << endl;
     }
 
     return true ;

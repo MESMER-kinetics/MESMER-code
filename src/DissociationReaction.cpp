@@ -125,10 +125,12 @@ namespace mesmer
       stringstream s1(pHeatRxntxt);
       double value = 0.0; s1 >> value ; setHeatOfReaction(value);
     } else { // Calculate heat of reaction.
-      double zpe_pdt1 = m_pdt1->get_zpe();
-      double zpe_pdt2 = m_pdt2->get_zpe();
-      double zpe_rct1 = m_rct1->get_zpe();
-      setHeatOfReaction(zpe_pdt1 + zpe_pdt2 - zpe_rct1);
+      if (m_pdt1 && m_pdt1){
+        double zpe_pdt1 = m_pdt1->get_zpe();
+        double zpe_pdt2 = m_pdt2->get_zpe();
+        double zpe_rct1 = m_rct1->get_zpe();
+        setHeatOfReaction(zpe_pdt1 + zpe_pdt2 - zpe_rct1);
+      }
     }
 
     const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential",false);

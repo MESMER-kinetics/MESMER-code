@@ -147,12 +147,13 @@ namespace mesmer
 
     int i, j;
 
-    if(!m_DeltaEdown){
+    double DEDown = getDeltaEdown();
+    if(!DEDown){
       cerr << "me:deltaEDown is necessary for " << getName() << ". Correct input file to remove this error.";
       return false;
     }
 
-    double alpha = 1.0/m_DeltaEdown ;
+    double alpha = 1.0/DEDown ;
 
     // Allocate memory.
     if (m_egme) delete m_egme ;                       // Delete any existing matrix.

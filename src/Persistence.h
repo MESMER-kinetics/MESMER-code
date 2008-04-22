@@ -51,6 +51,9 @@ namespace mesmer
     /// Returns the data associated with name (CML property element)
     virtual const char* XmlReadProperty( const std::string& name, bool MustBeThere=true)const=0;
 
+    /// Returns the attribute associated with name and attName (CML property element)
+    virtual const char* XmlReadPropertyAttribute(const std::string& name, const std::string& attName, bool MustBeThere=true) const=0;
+
     /// Returns true if datatext associated with name is "1" or "true" or nothing;
     //  returns false if datatext is something else or if element is not found.
     virtual bool XmlReadBoolean( const std::string& name)const=0;

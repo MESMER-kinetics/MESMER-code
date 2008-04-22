@@ -107,6 +107,34 @@ const char* XMLPersist::XmlReadProperty(const string& name, bool MustBeThere) co
   return NULL;
 }
 
+// Returns the attName attribute of an CML <property> element
+/// Looks for child elements pnList of the form:
+/// <property dictRef="name">
+///     <scalar attName="attribute"> content </scalar>
+/// </property>
+/// The property can have <array>, <string>, or anything, in place of <scalar>
+/// Returns NULL if the appropriate property attribute is not found or if it has no content.
+ 
+const char* XMLPersist::XmlReadPropertyAttribute(const string& name, const string& attName, bool MustBeThere) const
+{
+  TiXmlElement* pnProp = pnNode->FirstChildElement("property");
+  while(pnProp)
+  {
+    const char* pAtt = pnProp->Attribute("dictRef");
+    if(pAtt && name==pAtt)
+    {
+      TiXmlElement* pnChild = pnProp->FirstChildElement(); //could be <array> or <scalar> or <string>
+      if(pnChild){
+        return pnChild->Attribute(attName.c_str());
+      }
+    }
+    pnProp = pnProp->NextSiblingElement();
+  }
+//  if(MustBeThere)
+//    meErrorLog.ThrowError(__FUNCTION__, "The property " + name + " is missing or empty", obError);
+  return NULL;
+}
+
   /// Returns true if datatext associated with name is "1" or "true" or nothing;
   //  returns false if datatext is something else or if element is not found.
   bool XMLPersist::XmlReadBoolean( const std::string& name)const

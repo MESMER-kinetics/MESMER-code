@@ -187,7 +187,7 @@ namespace mesmer
     /* Electronic degeneracies were already accounted for in DOS calculations */
     // Heat of reaction
     double HeatOfReaction = getHeatOfReaction() ;
-    long double _expon = -beta * HeatOfReaction * kJPerMolInRC;
+    long double _expon = -beta * HeatOfReaction;
     Keq *= exp(_expon) ;
 
     // Translational contribution

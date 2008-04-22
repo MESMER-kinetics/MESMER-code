@@ -37,6 +37,7 @@ public:
   virtual const char* XmlReadValue(const std::string& name, bool MustBeThere=true) const;
 //  virtual const int   XmlReadSpinMultiplicity() const;
   virtual const char* XmlReadProperty( const std::string& name, bool MustBeThere=true) const;
+  virtual const char* XmlReadPropertyAttribute(const std::string& name, const std::string& attName, bool MustBeThere=true) const;
   virtual bool XmlReadBoolean( const std::string& name)const;
 
 

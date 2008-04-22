@@ -37,7 +37,7 @@ namespace mesmer
 		p_rct->getCellDensityOfStates(rctCellDOS) ;
 		pTS->getCellDensityOfStates(TScellDOS) ;
 
-		int thresholdEnergy = int(pReact->get_ThresholdEnergy() * kJPerMolInRC) ;
+		int thresholdEnergy = int(pReact->get_ThresholdEnergy()) ;
 
 		if (pReact->thereIsTunnelling()) { // with tunneling
 
@@ -52,7 +52,7 @@ namespace mesmer
 					SumOfStates += TunnelingProbability[i-j] * TScellDOS[j];
 
 				// Calculate microcanonical rate coefficients using RRKM expression with tunneling correction.
-				TSFlux[i] = SumOfStates * SpeedOfLight_cm / rctCellDOS[i];
+				TSFlux[i] = SumOfStates * SpeedOfLight_in_cm / rctCellDOS[i];
 			}
 		}
 		else{ // without tunneling
@@ -62,7 +62,7 @@ namespace mesmer
 				SumOfStates += TScellDOS[j];
 
 				// Calculate microcanonical rate coefficients using RRKM expression.
-				TSFlux[i] = SumOfStates * SpeedOfLight_cm / rctCellDOS[i];
+				TSFlux[i] = SumOfStates * SpeedOfLight_in_cm / rctCellDOS[i];
 			}
 		}
 
