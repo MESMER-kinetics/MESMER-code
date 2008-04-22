@@ -10,6 +10,8 @@
 #include <cstdio>
 #include <map>
 #include <string>
+#include "Constants.h"
+
 using namespace std;
 
 namespace mesmer

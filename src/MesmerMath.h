@@ -17,12 +17,12 @@
 #include <cmath>
 #include <vector>
 #include "dMatrix.h"
-#include "Constants.h"
 #include "TimeCounter.h"
 
 template <class T>
 const T MesmerGamma(const T& x)
 {
+  T T_PI = acos(-1.);
   int i,k,m;
   T ga,gr,r,z;
 
@@ -76,7 +76,7 @@ const T MesmerGamma(const T& x)
     ga = 1.0/(gr*z);
     if (fabs(x) > 1.0) {
       ga *= r;
-      if (x < 0.0) ga = -M_PI/(x*ga*sin(M_PI*x));
+      if (x < 0.0) ga = -T_PI/(x*ga*sin(T_PI*x));
     }
   }
   return ga;

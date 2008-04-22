@@ -4,7 +4,6 @@
 // Author: Struan Robertson
 //-------------------------------------------------------------------------------------------
 #include "Molecule.h"
-#include "unitsConversion.h"
 
 using namespace std ;
 using namespace Constants ;

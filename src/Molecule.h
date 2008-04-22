@@ -16,6 +16,7 @@
 #include "XMLPersist.h"
 #include "MesmerMath.h"
 #include "DensityOfStates.h"
+#include "unitsConversion.h"
 
 namespace mesmer
 {

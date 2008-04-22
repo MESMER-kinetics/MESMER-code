@@ -15,7 +15,6 @@
 //
 //-------------------------------------------------------------------------------------------
 #include "ReactionManager.h"
-#include "unitsConversion.h"
 
 namespace mesmer
 {

@@ -4,7 +4,6 @@
 //
 //-------------------------------------------------------------------------------------------
 #include "unitsConversion.h"
-#include "Constants.h"
 using namespace std;
 using namespace Constants;
 
