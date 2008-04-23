@@ -1,3 +1,9 @@
+2008-4-23 David Glowacki
+
+  * change the name of Cyclopropene_isomerization.xml to Cyclopropene_isomerization_test.xml
+  * add comments to simpleRRKM class
+  * update the pentyl baseline, which had not been done since version 106
+
 _2008_04_23__10_12_19_ Chi-Hsiu Liang
 
   * Added a comment on equilibrium constant

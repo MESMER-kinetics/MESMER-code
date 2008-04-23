@@ -23,15 +23,17 @@ namespace mesmer
 			cerr << "Lack of transition state in reaction " << pReact->getName() << " for Simple RRKM" << endl;
 			return false;
 		}
+
+    // get MaxCell from MesmerEnv structure via Reaction class 
 		int MaximumCell = pReact->getEnv().MaxCell;
 
-		// Allocate space to hold Micro-canonical rate coefficients.
+		// Allocate space to hold Micro-canonical rate coefficients and initialize elements to zero.
 		TSFlux.resize(MaximumCell, 0.0);
 
 		// Allocate some work space for density of states.
 
-		vector<double> TScellDOS; // Transistion state density of states.
-		vector<double> rctCellDOS; // Density of states of equilibrium molecule.
+		vector<double> TScellDOS; // Transition state density of states.
+		vector<double> rctCellDOS; // Density of states in the well (reactant)
 
 		// Extract densities of states from molecules.
 		p_rct->getCellDensityOfStates(rctCellDOS) ;
