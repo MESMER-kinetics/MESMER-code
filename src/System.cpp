@@ -258,6 +258,7 @@ namespace mesmer
     cinfo << "Precision: " << precisionMethod << endl;
     //---------------
 
+    //---------------------------------------------
     // looping over temperatures and concentrations
     unsigned int calPoint = 0;
     for (calPoint = 0; calPoint < CPandTs.size(); ++calPoint){
@@ -271,17 +272,31 @@ namespace mesmer
       // Build collison matrix for system.
       {string thisEvent = "Build Collison Operator";
        cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;}
-
       if (!m_pReactionManager->BuildSystemCollisionOperator(m_Env)){
         cerr << "Failed building system collison operator.";
       }
-
+      
+      // Calculate eigenvectors and eigenvalues.
       {string thisEvent = "Diagonlize Collision Operator";
        cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";}
-
       m_pReactionManager->diagCollisionOperator(m_Env) ;
+
+      // Time steps loop
+      int maxTimeStep = 100;
+      for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+        //if (!TimeEvolution(timestep)){
+        //  cerr << "Time evolution failed on the " << timestep << "th time step.";
+        //  break;
+        //}
+        //else{
+        //  // Calculate overall populations of each isomer
+
+        //}
+      }
+
       ctest << "}\n";
     }
+    //---------------------------------------------
 
     {string thisEvent = "Finish Calculation";
      cinfo << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";

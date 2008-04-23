@@ -1,3 +1,8 @@
+_2008_04_23__10_12_19_ Chi-Hsiu Liang
+
+  * Added a comment on equilibrium constant
+  * Added a planning block for the TimeEvolution() loop (not yet defined)
+
 _2008_04_22__11_14_43_ Chi-Hsiu Liang
 
 Updated file dependencies

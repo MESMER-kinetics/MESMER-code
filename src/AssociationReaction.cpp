@@ -197,6 +197,11 @@ namespace mesmer
 
     const double excess = getExcessReactantConc();
     Keq *= excess ;
+    //
+    // K_eq = ( [C]/[A][B] ) * [A] = [C]/[B]
+    //
+    // where [A] is the reactant what is in excess (seen as constant).
+    // Therefore, the K_eq here is essentially the pseudo-first-order equilibrium constant.
 
     return (double) Keq ;
 
