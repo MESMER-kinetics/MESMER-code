@@ -62,8 +62,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="qd.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../../qd/Windows VC/Release"
+				AdditionalLibraryDirectories="../qd/Release"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -119,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../src ../../tinyxml"
+				AdditionalIncludeDirectories="../../src;../../tinyxml;../../qd/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -138,7 +139,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="qd.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="../qd/Release"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -285,26 +288,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\TimeCounter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\tinyxml\tinyxml.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions="TIXML_USE_STL"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\tinyxml\tinyxmlerror.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\tinyxml\tinyxmlparser.cpp"
 				>
 			</File>
 			<File
@@ -480,10 +463,6 @@
 		</File>
 		<File
 			RelativePath=".\pentyl_isomerizationJul.xml"
-			>
-		</File>
-		<File
-			RelativePath="..\..\tinyxml\docs\TinyXML.html"
 			>
 		</File>
 	</Files>

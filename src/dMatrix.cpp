@@ -24,6 +24,8 @@
 //-------------------------------------------------------------------------------------------
 namespace mesmer
 {
+//dd_real dd; //This will compile
+
 void dMatrix::tred2(double **a, int n, double *d, double *e)
 {
   int l, k, j, i;

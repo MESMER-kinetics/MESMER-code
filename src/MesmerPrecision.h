@@ -1,6 +1,11 @@
 #ifndef GUARD_MesmerPrecision_h
 #define GUARD_MesmerPrecision_h
 
+#include "MesmerConfig.h"
+#include <qd/dd_real.h>
+#include <qd/qd_real.h>
+
+
 //-------------------   Precision   ----------------
 //uncomment one of these to choose precision package
 #define USE_DOUBLE

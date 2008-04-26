@@ -1,3 +1,12 @@
+2008-04-26 Chris Morley
+
+  * Made projects for static libraries for TinyXML and qd within the solution.
+    Left only linux qd files and used the source files for the Windows build.
+    Configuration files are copied as a pre-build event.
+    Although its not implemented yet, it looks like the choice of precision is
+    expected to be at compile-time, but would it not be better to be an option
+    in the input file? (i.e. at runtime)
+  
 2008-4-23 David Glowacki
 
   * change the name of Cyclopropene_isomerization.xml to Cyclopropene_isomerization_test.xml
