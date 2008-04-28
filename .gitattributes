@@ -47,6 +47,8 @@ Windows[!!-~]VC8/Mesmer/Mesmer.vcproj -text
 Windows[!!-~]VC8/Mesmer/mesmer1.xsl -text
 Windows[!!-~]VC8/Mesmer/mesmerDiag.xsl -text
 Windows[!!-~]VC8/Mesmer/switchcontent.js -text
+Windows[!!-~]VC8/TinyXML/TinyXML.vcproj -text
+Windows[!!-~]VC8/qd/qd.vcproj -text
 qd/AUTHORS -text
 qd/COPYING -text
 qd/ChangeLog -text
