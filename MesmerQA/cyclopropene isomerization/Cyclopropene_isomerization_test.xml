@@ -286,6 +286,8 @@
         <me:testDOS />
         <me:testMicroRates />
         <me:printGrainDOS />
+        <!--<me:printCellTransitionStateFlux />-->
+        <!--<me:printGrainTransitionStateFlux />-->
         <!--<me:printCellDOS />-->
         <!--<me:printCollisionOperatorColumnSums />-->
         <!--<me:printTunnelingCoefficients />-->

@@ -17,136 +17,132 @@ using namespace mesmer;
 
 namespace mesmer
 {
-    //
-    // Read the Molecular data from input stream.
-    //
-    bool ExchangeReaction::InitializeReaction(PersistPtr ppReac)
-    {
-        m_ppPersist = ppReac;
+  //
+  // Read the Molecular data from input stream.
+  //
+  bool ExchangeReaction::InitializeReaction(PersistPtr ppReac)
+  {
+    m_ppPersist = ppReac;
 
-        // Read reactant details.
+    // Read reactant details.
 
-        PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
-        Molecule* pMol1 = GetMolRef(ppReactant1);
+    PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
+    Molecule* pMol1 = GetMolRef(ppReactant1);
 
-        PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
-        Molecule* pMol2 = GetMolRef(ppReactant2);
+    PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
+    Molecule* pMol2 = GetMolRef(ppReactant2);
 
-        // Save first reactant as CollidingMolecule. SHR 6/Apr/2008 this incorrect,
-        // but we are forced at present to do this because of the types declared in
-        // the reaction class. 
+    // Save first reactant as CollidingMolecule. SHR 6/Apr/2008 this incorrect,
+    // but we are forced at present to do this because of the types declared in
+    // the reaction class.
 
-        CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
-        if(pColMol){
-            m_rct1 = pColMol;
+    CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
+    if(pColMol){
+      m_rct1 = pColMol;
+    } else {
+      cerr << "Exchange reaction " << getName() << " has no reactant.";
+      return false;
+    }
+    m_rct2 = dynamic_cast<ModelledMolecule*>(pMol2) ;
+    if (m_rct2) {
+      cerr << "Exchange reaction " << getName() << " has only one reactant.";
+      return false;
+    }
+
+    // Read product details. Save them as type Molecule.
+
+    PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
+    if (ppProduct1) {
+      pMol1 = GetMolRef(ppProduct1);
+      if (pMol1) {
+        m_pdt1 = dynamic_cast<CollidingMolecule*>(pMol1) ;
+      } else {
+        cerr << "Exchange reaction" << getName() << " has no products defined.";
+      }
+
+      PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
+      if (ppProduct2) {
+        pMol2 = GetMolRef(ppProduct1);
+        if (pMol2) {
+          m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol2) ;
         } else {
-            cerr << "Exchange reaction " << getName() << " has no reactant.";
-            return false;
+          cerr << "Exchange reaction " << getName() << " has only one product defined.";
         }
-        m_rct2 = dynamic_cast<ModelledMolecule*>(pMol2) ;
-        if (m_rct2) {
-            cerr << "Exchange reaction " << getName() << " has only one reactant.";
-            return false;
-        }
-
-        // Read product details. Save them as type Molecule.
-
-        PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
-        if (ppProduct1) {
-            pMol1 = GetMolRef(ppProduct1);
-            if (pMol1) {
-                m_pdt1 = dynamic_cast<CollidingMolecule*>(pMol1) ;
-            } else {
-                cerr << "Exchange reaction" << getName() << " has no products defined.";
-            }
-
-            PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
-            if (ppProduct2) {
-                pMol2 = GetMolRef(ppProduct1);
-                if (pMol2) {
-                    m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol2) ;
-                } else {
-                    cerr << "Exchange reaction " << getName() << " has only one product defined.";
-                }
-            }
-        }
-
-        // Read the transition state (if present).
-
-        PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState") ;
-        if (ppTransitionState)
-        {
-            TransitionState* pTrans = dynamic_cast<TransitionState*>(GetMolRef(ppTransitionState));
-            if(pTrans) 
-                m_TransitionState = pTrans;
-        }
-
-        // Read heat of reaction and rate parameters.
-
-        return ReadRateCoeffParameters(ppReac) ;
+      }
     }
 
-    //
-    // Calculate reaction equilibrium constant.
-    //
-    double ExchangeReaction::calcEquilibriumConstant() {
+    // Read the transition state (if present).
 
-      double Keq(0.0) ;
-
-      // Get Canonical partition functions.
-
-      const double Qrct1 = m_rct1->grnCanPrtnFn() ;
-      const double Qrct2 = m_rct2->grnCanPrtnFn() ;
-      const double Qpdt1 = m_pdt1->grnCanPrtnFn() ;
-      const double Qpdt2 = m_pdt2->grnCanPrtnFn() ;
-
-      const double mass_rct1 = m_rct1->getMass() ;
-      const double mass_rct2 = m_rct2->getMass() ;
-      const double mass_pdt1 = m_pdt1->getMass() ;
-      const double mass_pdt2 = m_pdt2->getMass() ;
-
-      // Calculate the equilibrium constant.
-      double beta = getEnv().beta ;
-
-      Keq = (Qpdt1 * Qpdt1)/(Qrct1 * Qrct2) ;
-
-      // Electronic degeneracies were already accounted for in DOS calculations.
-      // Heat of reaction
-      Keq *= exp(-beta * getHeatOfReaction()) ;
-
-      // Translational contribution
-
-      Keq *= (pow(mass_pdt1 * mass_pdt2 / (mass_rct1 * mass_rct1), 1.5));
-
-      return Keq ;
-    }
-
-    //
-    // Add exchange reaction terms to collision matrix.
-    //
-    void ExchangeReaction::AddReactionTerms(dMatrix      *CollOptr,
-        isomerMap    &isomermap,
-        const double rMeanOmega)
+    PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState") ;
+    if (ppTransitionState)
     {
-
+      TransitionState* pTrans = dynamic_cast<TransitionState*>(GetMolRef(ppTransitionState));
+      if(pTrans)
+        m_TransitionState = pTrans;
     }
 
-    // Read parameters requires to determine reaction heats and rates.
-    bool ExchangeReaction::ReadRateCoeffParameters(PersistPtr ppReac) {
+    // Read heat of reaction and rate parameters.
 
-        return true ;
-    }
+    return ReadRateCoeffParameters(ppReac) ;
+  }
 
-    //
-// Access microcanonical rate coefficients - cell values are averaged
-// to give grain values. This code is similar to that in Molecule.cpp
-// and this averaging should be done there. SHR 19/Sep/2004.
-//
-bool ExchangeReaction::grnAvrgMicroRateCoeffs() {
+  //
+  // Calculate reaction equilibrium constant.
+  //
+  double ExchangeReaction::calcEquilibriumConstant() {
 
-  // This is not presently implemented.  DRG 17/4/2008
+    double Keq(0.0) ;
 
-    return true;
-}
+    // Get Canonical partition functions.
+
+    const double Qrct1 = m_rct1->grnCanPrtnFn() ;
+    const double Qrct2 = m_rct2->grnCanPrtnFn() ;
+    const double Qpdt1 = m_pdt1->grnCanPrtnFn() ;
+    const double Qpdt2 = m_pdt2->grnCanPrtnFn() ;
+
+    const double mass_rct1 = m_rct1->getMass() ;
+    const double mass_rct2 = m_rct2->getMass() ;
+    const double mass_pdt1 = m_pdt1->getMass() ;
+    const double mass_pdt2 = m_pdt2->getMass() ;
+
+    // Calculate the equilibrium constant.
+    double beta = getEnv().beta ;
+
+    Keq = (Qpdt1 * Qpdt2)/(Qrct1 * Qrct2) ;
+
+    // Electronic degeneracies were already accounted for in DOS calculations.
+    // Heat of reaction
+    double HeatOfReaction = getHeatOfReaction();
+    Keq *= exp(-beta * HeatOfReaction) ;
+
+    // Translational contribution
+
+    Keq *= (pow(mass_pdt1 * mass_pdt2 / (mass_rct1 * mass_rct2), 1.5));
+
+    return Keq ;
+  }
+
+  //
+  // Add exchange reaction terms to collision matrix.
+  //
+  void ExchangeReaction::AddReactionTerms(dMatrix      *CollOptr,
+    isomerMap    &isomermap,
+    const double rMeanOmega)
+  {
+
+  }
+
+  // Read parameters requires to determine reaction heats and rates.
+  bool ExchangeReaction::ReadRateCoeffParameters(PersistPtr ppReac) {
+
+    return true ;
+  }
+
+  //
+  // Calculate grained forward and reverse k(E)s from trainsition state flux
+  //
+  void ExchangeReaction::calcGrainRateCoeffs(){
+
+  }
 
 }//namespace

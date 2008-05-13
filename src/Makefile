@@ -116,10 +116,12 @@ SRCS := \
 	ReactionManager.cpp \
 	SimpleILT.cpp \
 	SimpleRRKM.cpp \
+	SinkMolecule.cpp \
 	SuperMolecule.cpp \
 	System.cpp \
 	TimeCounter.cpp \
 	TransitionState.cpp \
+	unitsConversion.cpp \
 	XMLPersist.cpp 
 
 # Add on the sources for libraries

@@ -128,6 +128,10 @@ namespace mesmer
     isomerMap    &isomermap,
     const double rMeanOmega)
   {
+    // Get densities of states for detailed balance.
+    vector<double> pdtDOS;
+    m_pdt1->getGrainDensityOfStates(pdtDOS) ;
+
     // Locate isomers in system matrix.
     const int pdtLoc =      isomermap[dynamic_cast<CollidingMolecule*>(m_pdt1)] ;
     const int jj     = (*m_sourceMap)[dynamic_cast<ModelledMolecule *>(m_srct)] ;
@@ -140,25 +144,24 @@ namespace mesmer
     vector<double> adductBoltz ;
     m_pdt1->grnBoltzDist(adductBoltz) ;
 
-    const int colloptrsize = dynamic_cast<CollidingMolecule*>(m_pdt1)->get_colloptrsize() ; // collision operator size of the isomer
-
     double DissRateCoeff(0.0) ;
 
     // Multiply equilibrum constant by concentration of excess reactant.
     // concentration of excess reactant should be in molec/cm3. This gives
     // a dimensionless pseudo-isomerization equilibrium constant.
+    const int TSgrainZPE  = getTSFluxGrnZPE();
+    const int pdtGrainZPE = m_pdt1->get_grnZpe();
 
-    for ( int i = 0; i < colloptrsize; ++i) {
-      int ll = i;
-      int ii(pdtLoc + i) ;
+    for ( int i = TSgrainZPE, j = 0; i < MaximumGrain; ++i, ++j) {
+      int ll(i - pdtGrainZPE);
+      int ii(pdtLoc + ll) ;
 
-      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainKbmc[ll] ;                               // Backward loss of the adduct
-      (*CollOptr)[jj][ii]  = rMeanOmega * m_GrainKbmc[ll] * sqrt(adductBoltz[ll] * Keq) ; // Reactive gain of the source
-      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                                        // Reactive gain
-      DissRateCoeff       += m_GrainKbmc[ll] * adductBoltz[ll] ;
+      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainTSFlux[j] / pdtDOS[ll];                              // Backward loss of the adduct
+      (*CollOptr)[jj][ii]  = rMeanOmega * m_GrainTSFlux[j] * sqrt(adductBoltz[ll] * Keq) / pdtDOS[ll]; // Reactive gain of the source
+      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                                                    // Reactive gain
+      DissRateCoeff       += m_GrainTSFlux[j] * adductBoltz[ll] / pdtDOS[ll];
     }
     (*CollOptr)[jj][jj] -= (rMeanOmega * DissRateCoeff * Keq);       // Backward loss reaction from detailed balance.
-
   }
 
   //
@@ -216,12 +219,15 @@ namespace mesmer
       stringstream s1(pHeatRxntxt);
       double value = 0.0; s1 >> value ; setHeatOfReaction(value);
     } else { // Calculate heat of reaction.
-      double zpe_pdt1 = m_pdt1->get_zpe();
-      double zpe_rct1 = m_rct1->get_zpe();
-      double zpe_rct2 = m_rct2->get_zpe();
-      setHeatOfReaction(zpe_pdt1 - zpe_rct1 - zpe_rct2);
+      setHeatOfReaction(get_relative_pdtZPE(), get_relative_rctZPE());
     }
 
+    const char* pActEnetxt = ppReac->XmlReadValue("me:activationEnergy",false);
+    if (pActEnetxt)
+    {
+      double value = 0.0;
+      stringstream s2(pActEnetxt); s2 >> value; m_ActivationEnergy = value;
+    }
     const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential",false);
     if (pPreExptxt)
     {
@@ -274,85 +280,32 @@ namespace mesmer
   }
 
   //
-  // DetailedBalance
+  // Calculate grained forward and reverse k(E)s from trainsition state flux
   //
-  void AssociationReaction::grainRateCoeffDetailedBalance(const int dir){
-    // if dir == -1 then do backward -> forward conversion
-    // *** No need to do Detailed Balance for a dissociation reaction
-
-    int MaximumGrain = getEnv().MaxGrn;
-
-    // first find out the ZPEs of both sides
-    int rctGrainZPE(0);
-    int pdtGrainZPE(0);
+  void AssociationReaction::calcGrainRateCoeffs(){
 
     vector<double> rctGrainDOS;
     vector<double> pdtGrainDOS;
-
-    rctGrainZPE = m_srct->get_grnZpe();
-    pdtGrainZPE = m_pdt1->get_grnZpe();
     m_srct->getGrainDensityOfStates(rctGrainDOS) ;
     m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
 
-    int zpe_move = pdtGrainZPE - rctGrainZPE;
-    int grainsStart = 0;
-    if (zpe_move < 0) grainsStart = -zpe_move;
-    int grainsEnd = MaximumGrain;
-    if (zpe_move > 0) grainsEnd = MaximumGrain - zpe_move;
+    const int TSgrainZPE  = getTSFluxGrnZPE();
+    const int rctGrainZPE = m_srct->get_grnZpe();
+    const int pdtGrainZPE = m_pdt1->get_grnZpe();
 
-    // No matter what condition it is, the microcanonical rate coefficients of a reaction are calculated from the 
-    // higher bottom of two wells (this is for the convenience of tunneling).
-    if (dir == -1) {
-      for (int i = grainsStart; i < grainsEnd; ++i)
-        m_GrainKfmc[i + zpe_move] = m_GrainKbmc[i] * pdtGrainDOS[i] / rctGrainDOS[i + zpe_move];
+    const int MaximumGrain = getEnv().MaxGrn;
+    m_GrainKfmc.resize(MaximumGrain , 0.0);
+    m_GrainKbmc.resize(MaximumGrain , 0.0);
+
+    // For AssociationReaction, TSFlux is calculated from ILT
+    for (int i = TSgrainZPE - pdtGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
+      m_GrainKbmc[i] = m_GrainTSFlux[j] / pdtGrainDOS[i];
     }
-    else{
-      for (int i = grainsStart; i < grainsEnd; ++i)
-        m_GrainKbmc[i] = m_GrainKfmc[i + zpe_move] * rctGrainDOS[i + zpe_move] / pdtGrainDOS[i];
-    }
-
-  }
-
-  //
-  // Access microcanonical rate coefficients - cell values are averaged
-  // to give grain values. This code is similar to that in Molecule.cpp
-  // and this averaging should be done there. SHR 19/Sep/2004.
-  //
-  bool AssociationReaction::grnAvrgMicroRateCoeffs() {
-    // This grain averaging of the microcanonical rate coefficients is 
-    // based on the view from the species that is
-    // moving in the current reaction toward the opposite species.
-
-    int MaximumGrain = getEnv().MaxGrn;
-    int grnSize = static_cast<int>(getEnv().GrainSize);
-    // Check if there are enough cells.
-    if (grnSize < 1) {
-      cerr << "The requested grain size is invalid.";
-      exit(1) ;
-    }
-
-    // Extract density of states of equilibrium molecule.
-    std::vector<double> rctCellDOS;
-    std::vector<double> pdtCellDOS;
-
-    m_GrainKfmc.resize(MaximumGrain, 0.);
-    m_GrainKbmc.resize(MaximumGrain, 0.);
-
-    if (m_CellKbmc.size()){
-      // first convert backward cell k(e) to grain k(e)
-      m_pdt1->getCellDensityOfStates(pdtCellDOS);
-      rateConstantGrnAvg(MaximumGrain, grnSize, pdtCellDOS, m_CellKbmc, m_GrainKbmc);
-      // second calculate forward grain k(e) via detailed balance
-      grainRateCoeffDetailedBalance(-1);
-    }
-    else{
-      m_srct->getCellDensityOfStates(rctCellDOS);
-      rateConstantGrnAvg(MaximumGrain, grnSize, rctCellDOS, m_CellKfmc, m_GrainKfmc);
-      grainRateCoeffDetailedBalance(1);
+    for (int i = TSgrainZPE - rctGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
+      m_GrainKfmc[i] = m_GrainTSFlux[j] / rctGrainDOS[i];
     }
 
     // the code that follows is for printing of the f & r k(E)s
-
     if (getEnv().kfEGrainsEnabled){
       ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
@@ -360,16 +313,28 @@ namespace mesmer
       }
       ctest << "}\n";
     }
-
-    if (getEnv().kbEGrainsEnabled && m_pdt1){
+    if (getEnv().kbEGrainsEnabled){
       ctest << "\nk_b(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
         ctest << m_GrainKbmc[i] << endl;
       }
       ctest << "}\n";
     }
-
-    return true;
   }
+
+
+  //this function retrieves the activation energy for an association reaction
+  double AssociationReaction::get_ThresholdEnergy(void) const {
+    if (!m_ActivationEnergy){
+      if (!m_TransitionState) {
+        cinfo << "No TransitionState for " << getName() << ", threshold energy = 0.0" << endl;
+        return 0.0;
+      }
+      double ThresholdEnergy = get_relative_TSZPE() - get_relative_rctZPE();
+      // Activation energy should be defined by user, otherwise return zero.
+      return ThresholdEnergy;
+    }
+    return m_ActivationEnergy;
+  } ;
 
 }//namespace

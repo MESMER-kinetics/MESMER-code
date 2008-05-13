@@ -1,0 +1,2093 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type='text/xsl' href='mesmer1.xsl'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+    <moleculeList>
+        <molecule id="acetyl" description="CH_3CO">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="H" />
+                <atom id="a5" elementType="C" />
+                <atom id="a6" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a4" order="1" />
+                <bond atomRefs2="a1 a5" order="1" />
+                <bond atomRefs2="a5 a6" order="2" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">139.5</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">1.573140 0.3155 0.3330</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">110.8594 469.8360 852.9605 955.5673 1049.6839 1359.1474 1454.3118 1459.6421 1930.1084 3014.0596 3104.5876 3110.7727</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">43</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>2</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+            <me:densityOfStatesList calculated="">
+                <me:description>Partition function calculation at various temperatures. qtot : partition function as a product of quantum mechanical partition functions for vibrations (1-D harmonic oscillator) and classifical partition functions for rotations.  sumc : (user calculated) cell based partition function. sumg : (user calculated) grain based partition function </me:description>
+                <me:densityOfStates>
+                    <me:T>200</me:T>
+                    <me:qtot>13512.3</me:qtot>
+                    <me:sumc>27394.6</me:sumc>
+                    <me:sumg>27142.9</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>300</me:T>
+                    <me:qtot>36913.1</me:qtot>
+                    <me:sumc>75324.5</me:sumc>
+                    <me:sumg>75013.5</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>400</me:T>
+                    <me:qtot>85203.2</me:qtot>
+                    <me:sumc>175126</me:sumc>
+                    <me:sumg>174717</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>500</me:T>
+                    <me:qtot>181093</me:qtot>
+                    <me:sumc>375024</me:sumc>
+                    <me:sumg>374463</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>600</me:T>
+                    <me:qtot>366065</me:qtot>
+                    <me:sumc>763711</me:sumc>
+                    <me:sumg>762915</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>700</me:T>
+                    <me:qtot>713518</me:qtot>
+                    <me:sumc>1.49913e+006</me:sumc>
+                    <me:sumg>1.49799e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>800</me:T>
+                    <me:qtot>1.35015e+006</me:qtot>
+                    <me:sumc>2.85562e+006</me:sumc>
+                    <me:sumg>2.85394e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>900</me:T>
+                    <me:qtot>2.48989e+006</me:qtot>
+                    <me:sumc>5.29898e+006</me:sumc>
+                    <me:sumg>5.29652e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1000</me:T>
+                    <me:qtot>4.48661e+006</me:qtot>
+                    <me:sumc>9.60366e+006</me:sumc>
+                    <me:sumg>9.60006e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1100</me:T>
+                    <me:qtot>7.91439e+006</me:qtot>
+                    <me:sumc>1.70319e+007</me:sumc>
+                    <me:sumg>1.70267e+007</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1200</me:T>
+                    <me:qtot>1.36877e+007</me:qtot>
+                    <me:sumc>2.96031e+007</me:sumc>
+                    <me:sumg>2.95954e+007</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1300</me:T>
+                    <me:qtot>2.32381e+007</me:qtot>
+                    <me:sumc>5.04911e+007</me:sumc>
+                    <me:sumg>5.04799e+007</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1400</me:T>
+                    <me:qtot>3.87711e+007</me:qtot>
+                    <me:sumc>8.46032e+007</me:sumc>
+                    <me:sumg>8.4587e+007</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1500</me:T>
+                    <me:qtot>6.3633e+007</me:qtot>
+                    <me:sumc>1.39409e+008</me:sumc>
+                    <me:sumg>1.39386e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1600</me:T>
+                    <me:qtot>1.02828e+008</me:qtot>
+                    <me:sumc>2.26114e+008</me:sumc>
+                    <me:sumg>2.26081e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1700</me:T>
+                    <me:qtot>1.63738e+008</me:qtot>
+                    <me:sumc>3.61294e+008</me:sumc>
+                    <me:sumg>3.61247e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1800</me:T>
+                    <me:qtot>2.57121e+008</me:qtot>
+                    <me:sumc>5.6915e+008</me:sumc>
+                    <me:sumg>5.69085e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1900</me:T>
+                    <me:qtot>3.98456e+008</me:qtot>
+                    <me:sumc>8.84561e+008</me:sumc>
+                    <me:sumg>8.84469e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2000</me:T>
+                    <me:qtot>6.09775e+008</me:qtot>
+                    <me:sumc>1.35715e+009</me:sumc>
+                    <me:sumg>1.35703e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2100</me:T>
+                    <me:qtot>9.22094e+008</me:qtot>
+                    <me:sumc>2.05663e+009</me:sumc>
+                    <me:sumg>2.05646e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2200</me:T>
+                    <me:qtot>1.37864e+009</me:qtot>
+                    <me:sumc>3.07962e+009</me:sumc>
+                    <me:sumg>3.07939e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2300</me:T>
+                    <me:qtot>2.03909e+009</me:qtot>
+                    <me:sumc>4.55819e+009</me:sumc>
+                    <me:sumg>4.55787e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2400</me:T>
+                    <me:qtot>2.98508e+009</me:qtot>
+                    <me:sumc>6.67029e+009</me:sumc>
+                    <me:sumg>6.66986e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2500</me:T>
+                    <me:qtot>4.32728e+009</me:qtot>
+                    <me:sumc>9.65215e+009</me:sumc>
+                    <me:sumg>9.65157e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2600</me:T>
+                    <me:qtot>6.21461e+009</me:qtot>
+                    <me:sumc>1.38126e+010</me:sumc>
+                    <me:sumg>1.38118e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2700</me:T>
+                    <me:qtot>8.84577e+009</me:qtot>
+                    <me:sumc>1.95492e+010</me:sumc>
+                    <me:sumg>1.95482e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2800</me:T>
+                    <me:qtot>1.2484e+010</me:qtot>
+                    <me:sumc>2.73659e+010</me:sumc>
+                    <me:sumg>2.73646e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2900</me:T>
+                    <me:qtot>1.74757e+010</me:qtot>
+                    <me:sumc>3.78921e+010</me:sumc>
+                    <me:sumg>3.78904e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>3000</me:T>
+                    <me:qtot>2.42732e+010</me:qtot>
+                    <me:sumc>5.19019e+010</me:sumc>
+                    <me:sumg>5.18997e+010</me:sumg>
+                </me:densityOfStates>
+            </me:densityOfStatesList>
+        </molecule>
+        <molecule id="TSabs">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="H" />
+                <atom id="a5" elementType="C" />
+                <atom id="a6" elementType="O" />
+                <atom id="a7" elementType="O" />
+                <atom id="a8" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a4" order="1" />
+                <bond atomRefs2="a1 a5" order="1" />
+                <bond atomRefs2="a5 a6" order="2" />
+                <bond atomRefs2="a7 a8" order="2" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">335.06</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">0.614 0.057 0.056</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">74 103 211 316 406 531 912 965 1014 1110 1325 1379 1409 2151 2278 2797</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">75</scalar>
+                </property>
+                <property dictRef="me:imFreqs">
+                    <array units="cm-1">533.0</array>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+        </molecule>
+        <molecule id="O_2" description="oxygen">
+            <atomarray>
+                <atom id="a1" elementType="O" />
+                <atom id="a2" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="2" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">0.0</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">1.44914</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">1665.4292</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">32</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>3</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+            <me:densityOfStatesList calculated="">
+                <me:description>Partition function calculation at various temperatures. qtot : partition function as a product of quantum mechanical partition functions for vibrations (1-D harmonic oscillator) and classifical partition functions for rotations.  sumc : (user calculated) cell based partition function. sumg : (user calculated) grain based partition function </me:description>
+                <me:densityOfStates>
+                    <me:T>200</me:T>
+                    <me:qtot>100.721</me:qtot>
+                    <me:sumc>1503.5</me:sumc>
+                    <me:sumg>1489.93</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>300</me:T>
+                    <me:qtot>151.132</me:qtot>
+                    <me:sumc>2763.08</me:sumc>
+                    <me:sumg>2751.82</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>400</me:T>
+                    <me:qtot>201.946</me:qtot>
+                    <me:sumc>4264.04</me:sumc>
+                    <me:sumg>4254.19</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>500</me:T>
+                    <me:qtot>253.907</me:qtot>
+                    <me:sumc>5996.21</me:sumc>
+                    <me:sumg>5987.31</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>600</me:T>
+                    <me:qtot>307.835</me:qtot>
+                    <me:sumc>7967.81</me:sumc>
+                    <me:sumg>7959.57</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>700</me:T>
+                    <me:qtot>364.405</me:qtot>
+                    <me:sumc>10193.9</me:sumc>
+                    <me:sumg>10186.1</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>800</me:T>
+                    <me:qtot>424.097</me:qtot>
+                    <me:sumc>12690.8</me:sumc>
+                    <me:sumg>12683.4</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>900</me:T>
+                    <me:qtot>487.241</me:qtot>
+                    <me:sumc>15474.5</me:sumc>
+                    <me:sumg>15467.3</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1000</me:T>
+                    <me:qtot>554.057</me:qtot>
+                    <me:sumc>18559.4</me:sumc>
+                    <me:sumg>18552.5</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1100</me:T>
+                    <me:qtot>624.696</me:qtot>
+                    <me:sumc>21959.4</me:sumc>
+                    <me:sumg>21952.6</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1200</me:T>
+                    <me:qtot>699.259</me:qtot>
+                    <me:sumc>25686.9</me:sumc>
+                    <me:sumg>25680.2</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1300</me:T>
+                    <me:qtot>777.817</me:qtot>
+                    <me:sumc>29753.9</me:sumc>
+                    <me:sumg>29747.3</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1400</me:T>
+                    <me:qtot>860.422</me:qtot>
+                    <me:sumc>34171.6</me:sumc>
+                    <me:sumg>34165.1</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1500</me:T>
+                    <me:qtot>947.109</me:qtot>
+                    <me:sumc>38950.8</me:sumc>
+                    <me:sumg>38944.3</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1600</me:T>
+                    <me:qtot>1037.9</me:qtot>
+                    <me:sumc>44101.7</me:sumc>
+                    <me:sumg>44095.2</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1700</me:T>
+                    <me:qtot>1132.83</me:qtot>
+                    <me:sumc>49634.2</me:sumc>
+                    <me:sumg>49627.8</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1800</me:T>
+                    <me:qtot>1231.9</me:qtot>
+                    <me:sumc>55557.9</me:sumc>
+                    <me:sumg>55551.5</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1900</me:T>
+                    <me:qtot>1335.12</me:qtot>
+                    <me:sumc>61882.1</me:sumc>
+                    <me:sumg>61875.7</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2000</me:T>
+                    <me:qtot>1442.51</me:qtot>
+                    <me:sumc>68615.8</me:sumc>
+                    <me:sumg>68609.4</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2100</me:T>
+                    <me:qtot>1554.07</me:qtot>
+                    <me:sumc>75767.8</me:sumc>
+                    <me:sumg>75761.4</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2200</me:T>
+                    <me:qtot>1669.81</me:qtot>
+                    <me:sumc>83346.7</me:sumc>
+                    <me:sumg>83340.2</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2300</me:T>
+                    <me:qtot>1789.72</me:qtot>
+                    <me:sumc>91360.9</me:sumc>
+                    <me:sumg>91354.4</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2400</me:T>
+                    <me:qtot>1913.82</me:qtot>
+                    <me:sumc>99818.5</me:sumc>
+                    <me:sumg>99812</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2500</me:T>
+                    <me:qtot>2042.11</me:qtot>
+                    <me:sumc>108728</me:sumc>
+                    <me:sumg>108721</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2600</me:T>
+                    <me:qtot>2174.59</me:qtot>
+                    <me:sumc>118096</me:sumc>
+                    <me:sumg>118090</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2700</me:T>
+                    <me:qtot>2311.26</me:qtot>
+                    <me:sumc>127932</me:sumc>
+                    <me:sumg>127926</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2800</me:T>
+                    <me:qtot>2452.12</me:qtot>
+                    <me:sumc>138243</me:sumc>
+                    <me:sumg>138236</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2900</me:T>
+                    <me:qtot>2597.18</me:qtot>
+                    <me:sumc>149036</me:sumc>
+                    <me:sumg>149029</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>3000</me:T>
+                    <me:qtot>2746.43</me:qtot>
+                    <me:sumc>160318</me:sumc>
+                    <me:sumg>160311</me:sumg>
+                </me:densityOfStates>
+            </me:densityOfStatesList>
+        </molecule>
+        <molecule id="OH" description="OH radical">
+            <atomarray>
+                <atom id="a1" elementType="O" />
+                <atom id="a2" elementType="H" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">0.0</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">19.2438</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">3722.0</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">17</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:eletronicExcitation">
+                    <array units="cm-1">139.7</array>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+        </molecule>
+        <molecule id="Int1" description="peroxy acetyl O_2 adduct">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="H" />
+                <atom id="a5" elementType="C" />
+                <atom id="a6" elementType="O" />
+                <atom id="a7" elementType="O" />
+                <atom id="a8" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a4" order="1" />
+                <bond atomRefs2="a1 a5" order="1" />
+                <bond atomRefs2="a5 a6" order="2" />
+                <bond atomRefs2="a5 a7" order="1" />
+                <bond atomRefs2="a7 a8" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">0.0</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">0.1081 0.161 0.3105</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">138.9727 166.6422 324.9740 506.7799 542.6734 550.0846 733.6783 982.3224 1047.8019 1130.4775 1195.2988 1402.4804 1463.1799 1467.7251 1893.8762 3059.8972 3120.2416 3160.5853</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">75</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:epsilon">
+                    <scalar>473.17</scalar>
+                </property>
+                <property dictRef="me:sigma">
+                    <scalar>5.09</scalar>
+                </property>
+                <property dictRef="me:deltaEDown">
+                    <scalar units="cm-1">130.0</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+            <me:densityOfStatesList calculated="">
+                <me:description>Partition function calculation at various temperatures. qtot : partition function as a product of quantum mechanical partition functions for vibrations (1-D harmonic oscillator) and classifical partition functions for rotations.  sumc : (user calculated) cell based partition function. sumg : (user calculated) grain based partition function </me:description>
+                <me:densityOfStates>
+                    <me:T>200</me:T>
+                    <me:qtot>106606</me:qtot>
+                    <me:sumc>219630</me:sumc>
+                    <me:sumg>217618</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>300</me:T>
+                    <me:qtot>463454</me:qtot>
+                    <me:sumc>970883</me:sumc>
+                    <me:sumg>966870</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>400</me:T>
+                    <me:qtot>1.75846e+006</me:qtot>
+                    <me:sumc>3.74193e+006</me:sumc>
+                    <me:sumg>3.73319e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>500</me:T>
+                    <me:qtot>6.12065e+006</me:qtot>
+                    <me:sumc>1.32144e+007</me:sumc>
+                    <me:sumg>1.31946e+007</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>600</me:T>
+                    <me:qtot>1.99131e+007</me:qtot>
+                    <me:sumc>4.35613e+007</me:sumc>
+                    <me:sumg>4.35159e+007</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>700</me:T>
+                    <me:qtot>6.10905e+007</me:qtot>
+                    <me:sumc>1.35232e+008</me:sumc>
+                    <me:sumg>1.35129e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>800</me:T>
+                    <me:qtot>1.77708e+008</me:qtot>
+                    <me:sumc>3.97596e+008</me:sumc>
+                    <me:sumg>3.97363e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>900</me:T>
+                    <me:qtot>4.923e+008</me:qtot>
+                    <me:sumc>1.11208e+009</me:sumc>
+                    <me:sumg>1.11157e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1000</me:T>
+                    <me:qtot>1.30374e+009</me:qtot>
+                    <me:sumc>2.97076e+009</me:sumc>
+                    <me:sumg>2.96965e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1100</me:T>
+                    <me:qtot>3.31179e+009</me:qtot>
+                    <me:sumc>7.60608e+009</me:sumc>
+                    <me:sumg>7.60372e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1200</me:T>
+                    <me:qtot>8.09438e+009</me:qtot>
+                    <me:sumc>1.87238e+010</me:sumc>
+                    <me:sumg>1.87189e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1300</me:T>
+                    <me:qtot>1.90879e+010</me:qtot>
+                    <me:sumc>4.44435e+010</me:sumc>
+                    <me:sumg>4.44336e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1400</me:T>
+                    <me:qtot>4.35394e+010</me:qtot>
+                    <me:sumc>1.01982e+011</me:sumc>
+                    <me:sumg>1.01963e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1500</me:T>
+                    <me:qtot>9.62827e+010</me:qtot>
+                    <me:sumc>2.26747e+011</me:sumc>
+                    <me:sumg>2.26709e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1600</me:T>
+                    <me:qtot>2.0685e+011</me:qtot>
+                    <me:sumc>4.89458e+011</me:sumc>
+                    <me:sumg>4.89386e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1700</me:T>
+                    <me:qtot>4.32542e+011</me:qtot>
+                    <me:sumc>1.02742e+012</me:sumc>
+                    <me:sumg>1.02729e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1800</me:T>
+                    <me:qtot>8.81884e+011</me:qtot>
+                    <me:sumc>2.09966e+012</me:sumc>
+                    <me:sumg>2.09941e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1900</me:T>
+                    <me:qtot>1.75586e+012</me:qtot>
+                    <me:sumc>4.18047e+012</me:sumc>
+                    <me:sumg>4.18003e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2000</me:T>
+                    <me:qtot>3.41893e+012</me:qtot>
+                    <me:sumc>8.11167e+012</me:sumc>
+                    <me:sumg>8.1109e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2100</me:T>
+                    <me:qtot>6.51906e+012</me:qtot>
+                    <me:sumc>1.53395e+013</me:sumc>
+                    <me:sumg>1.53382e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2200</me:T>
+                    <me:qtot>1.21871e+013</me:qtot>
+                    <me:sumc>2.82672e+013</me:sumc>
+                    <me:sumg>2.8265e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2300</me:T>
+                    <me:qtot>2.23628e+013</me:qtot>
+                    <me:sumc>5.07556e+013</me:sumc>
+                    <me:sumg>5.0752e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2400</me:T>
+                    <me:qtot>4.03184e+013</me:qtot>
+                    <me:sumc>8.88053e+013</me:sumc>
+                    <me:sumg>8.87995e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2500</me:T>
+                    <me:qtot>7.14903e+013</me:qtot>
+                    <me:sumc>1.51446e+014</me:sumc>
+                    <me:sumg>1.51437e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2600</me:T>
+                    <me:qtot>1.24779e+014</me:qtot>
+                    <me:sumc>2.51853e+014</me:sumc>
+                    <me:sumg>2.51839e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2700</me:T>
+                    <me:qtot>2.14553e+014</me:qtot>
+                    <me:sumc>4.08696e+014</me:sumc>
+                    <me:sumg>4.08675e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2800</me:T>
+                    <me:qtot>3.63714e+014</me:qtot>
+                    <me:sumc>6.47709e+014</me:sumc>
+                    <me:sumg>6.47678e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2900</me:T>
+                    <me:qtot>6.08302e+014</me:qtot>
+                    <me:sumc>1.00347e+015</me:sumc>
+                    <me:sumg>1.00343e+015</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>3000</me:T>
+                    <me:qtot>1.00438e+015</me:qtot>
+                    <me:sumc>1.52136e+015</me:sumc>
+                    <me:sumg>1.5213e+015</me:sumg>
+                </me:densityOfStates>
+            </me:densityOfStatesList>
+        </molecule>
+        <molecule id="TS1" description="TS1a: peroxy -&gt; peroxide">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="H" />
+                <atom id="a5" elementType="C" />
+                <atom id="a6" elementType="O" />
+                <atom id="a7" elementType="O" />
+                <atom id="a8" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a5" order="1" />
+                <bond atomRefs2="a5 a6" order="2" />
+                <bond atomRefs2="a5 a7" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">118.0</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">0.1132 0.1635 0.3428</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">154.0756 307.2675 490.3402 544.8189 604.1097 684.6515 844.1110 947.0026 1034.5115 1037.5541 1106.2784 1148.9625 1420.1279 1723.3141 1864.7200 3109.0068 3192.0922</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">75</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:imFreqs">
+                    <scalar units="cm-1">1688.0</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+            <me:densityOfStatesList calculated="">
+                <me:description>Partition function calculation at various temperatures. qtot : partition function as a product of quantum mechanical partition functions for vibrations (1-D harmonic oscillator) and classifical partition functions for rotations.  sumc : (user calculated) cell based partition function. sumg : (user calculated) grain based partition function </me:description>
+                <me:densityOfStates>
+                    <me:T>200</me:T>
+                    <me:qtot>65933.3</me:qtot>
+                    <me:sumc>134652</me:sumc>
+                    <me:sumg>133421</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>300</me:T>
+                    <me:qtot>230025</me:qtot>
+                    <me:sumc>477437</me:sumc>
+                    <me:sumg>475465</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>400</me:T>
+                    <me:qtot>749060</me:qtot>
+                    <me:sumc>1.58042e+006</me:sumc>
+                    <me:sumg>1.57673e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>500</me:T>
+                    <me:qtot>2.34563e+006</me:qtot>
+                    <me:sumc>5.02554e+006</me:sumc>
+                    <me:sumg>5.01801e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>600</me:T>
+                    <me:qtot>7.07396e+006</me:qtot>
+                    <me:sumc>1.53678e+007</me:sumc>
+                    <me:sumg>1.53518e+007</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>700</me:T>
+                    <me:qtot>2.04987e+007</me:qtot>
+                    <me:sumc>4.50862e+007</me:sumc>
+                    <me:sumg>4.50517e+007</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>800</me:T>
+                    <me:qtot>5.70027e+007</me:qtot>
+                    <me:sumc>1.2676e+008</me:sumc>
+                    <me:sumg>1.26686e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>900</me:T>
+                    <me:qtot>1.52135e+008</me:qtot>
+                    <me:sumc>3.41637e+008</me:sumc>
+                    <me:sumg>3.41478e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1000</me:T>
+                    <me:qtot>3.90147e+008</me:qtot>
+                    <me:sumc>8.83802e+008</me:sumc>
+                    <me:sumg>8.8347e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1100</me:T>
+                    <me:qtot>9.63011e+008</me:qtot>
+                    <me:sumc>2.19868e+009</me:sumc>
+                    <me:sumg>2.19799e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1200</me:T>
+                    <me:qtot>2.29246e+009</me:qtot>
+                    <me:sumc>5.27106e+009</me:sumc>
+                    <me:sumg>5.26969e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1300</me:T>
+                    <me:qtot>5.27399e+009</me:qtot>
+                    <me:sumc>1.22042e+010</me:sumc>
+                    <me:sumg>1.22015e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1400</me:T>
+                    <me:qtot>1.175e+010</me:qtot>
+                    <me:sumc>2.73477e+010</me:sumc>
+                    <me:sumg>2.73424e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1500</me:T>
+                    <me:qtot>2.5401e+010</me:qtot>
+                    <me:sumc>5.94301e+010</me:sumc>
+                    <me:sumg>5.94201e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1600</me:T>
+                    <me:qtot>5.33821e+010</me:qtot>
+                    <me:sumc>1.25476e+011</me:sumc>
+                    <me:sumg>1.25457e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1700</me:T>
+                    <me:qtot>1.09253e+011</me:qtot>
+                    <me:sumc>2.57785e+011</me:sumc>
+                    <me:sumg>2.57752e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1800</me:T>
+                    <me:qtot>2.18108e+011</me:qtot>
+                    <me:sumc>5.15979e+011</me:sumc>
+                    <me:sumg>5.15919e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1900</me:T>
+                    <me:qtot>4.25372e+011</me:qtot>
+                    <me:sumc>1.00704e+012</me:sumc>
+                    <me:sumg>1.00693e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2000</me:T>
+                    <me:qtot>8.11582e+011</me:qtot>
+                    <me:sumc>1.91735e+012</me:sumc>
+                    <me:sumg>1.91717e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2100</me:T>
+                    <me:qtot>1.51678e+012</me:qtot>
+                    <me:sumc>3.56192e+012</me:sumc>
+                    <me:sumg>3.56162e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2200</me:T>
+                    <me:qtot>2.78011e+012</me:qtot>
+                    <me:sumc>6.4566e+012</me:sumc>
+                    <me:sumg>6.4561e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2300</me:T>
+                    <me:qtot>5.00295e+012</me:qtot>
+                    <me:sumc>1.14198e+013</me:sumc>
+                    <me:sumg>1.1419e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2400</me:T>
+                    <me:qtot>8.84831e+012</me:qtot>
+                    <me:sumc>1.97096e+013</me:sumc>
+                    <me:sumg>1.97083e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2500</me:T>
+                    <me:qtot>1.53948e+013</me:qtot>
+                    <me:sumc>3.32016e+013</me:sumc>
+                    <me:sumg>3.31996e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2600</me:T>
+                    <me:qtot>2.63722e+013</me:qtot>
+                    <me:sumc>5.46105e+013</me:sumc>
+                    <me:sumg>5.46074e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2700</me:T>
+                    <me:qtot>4.45174e+013</me:qtot>
+                    <me:sumc>8.7756e+013</me:sumc>
+                    <me:sumg>8.77515e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2800</me:T>
+                    <me:qtot>7.41054e+013</me:qtot>
+                    <me:sumc>1.37873e+014</me:sumc>
+                    <me:sumg>1.37866e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2900</me:T>
+                    <me:qtot>1.21734e+014</me:qtot>
+                    <me:sumc>2.11957e+014</me:sumc>
+                    <me:sumg>2.11948e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>3000</me:T>
+                    <me:qtot>1.97467e+014</me:qtot>
+                    <me:sumc>3.19147e+014</me:sumc>
+                    <me:sumg>3.19134e+014</me:sumg>
+                </me:densityOfStates>
+            </me:densityOfStatesList>
+        </molecule>
+        <molecule id="TS2" description="peroxy -&gt; HO_2 + ketene">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="H" />
+                <atom id="a5" elementType="C" />
+                <atom id="a6" elementType="O" />
+                <atom id="a7" elementType="O" />
+                <atom id="a8" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a5" order="2" />
+                <bond atomRefs2="a5 a6" order="1" />
+                <bond atomRefs2="a7 a8" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">151.09</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">0.0902 0.1249 0.3048</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">58.9178 210.6371 351.1485 471.5286 493.1359 549.9057 656.6765 885.5224 1027.6419 1089.9743 1276.4269 1311.1723 1388.6216 1701.6942 2181.6392 3091.2077 3164.8605</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">75</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:imFreqs">
+                    <scalar units="cm-1">1063.0</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+            <me:densityOfStatesList calculated="">
+                <me:description>Partition function calculation at various temperatures. qtot : partition function as a product of quantum mechanical partition functions for vibrations (1-D harmonic oscillator) and classifical partition functions for rotations.  sumc : (user calculated) cell based partition function. sumg : (user calculated) grain based partition function </me:description>
+                <me:densityOfStates>
+                    <me:T>200</me:T>
+                    <me:qtot>219725</me:qtot>
+                    <me:sumc>452583</me:sumc>
+                    <me:sumg>448402</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>300</me:T>
+                    <me:qtot>1.02354e+006</me:qtot>
+                    <me:sumc>2.14329e+006</me:sumc>
+                    <me:sumg>2.13441e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>400</me:T>
+                    <me:qtot>4.0894e+006</me:qtot>
+                    <me:sumc>8.69683e+006</me:sumc>
+                    <me:sumg>8.6765e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>500</me:T>
+                    <me:qtot>1.47975e+007</me:qtot>
+                    <me:sumc>3.19165e+007</me:sumc>
+                    <me:sumg>3.18686e+007</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>600</me:T>
+                    <me:qtot>4.95232e+007</me:qtot>
+                    <me:sumc>1.08177e+008</me:sumc>
+                    <me:sumg>1.08065e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>700</me:T>
+                    <me:qtot>1.54976e+008</me:qtot>
+                    <me:sumc>3.42376e+008</me:sumc>
+                    <me:sumg>3.42113e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>800</me:T>
+                    <me:qtot>4.56796e+008</me:qtot>
+                    <me:sumc>1.01941e+009</me:sumc>
+                    <me:sumg>1.01881e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>900</me:T>
+                    <me:qtot>1.27548e+009</me:qtot>
+                    <me:sumc>2.8723e+009</me:sumc>
+                    <me:sumg>2.87097e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1000</me:T>
+                    <me:qtot>3.39012e+009</me:qtot>
+                    <me:sumc>7.6967e+009</me:sumc>
+                    <me:sumg>7.69381e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1100</me:T>
+                    <me:qtot>8.61341e+009</me:qtot>
+                    <me:sumc>1.96993e+010</me:sumc>
+                    <me:sumg>1.96932e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1200</me:T>
+                    <me:qtot>2.09972e+010</me:qtot>
+                    <me:sumc>4.83418e+010</me:sumc>
+                    <me:sumg>4.83292e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1300</me:T>
+                    <me:qtot>4.92719e+010</me:qtot>
+                    <me:sumc>1.14125e+011</me:sumc>
+                    <me:sumg>1.141e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1400</me:T>
+                    <me:qtot>1.11625e+011</me:qtot>
+                    <me:sumc>2.59974e+011</me:sumc>
+                    <me:sumg>2.59924e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1500</me:T>
+                    <me:qtot>2.44784e+011</me:qtot>
+                    <me:sumc>5.72941e+011</me:sumc>
+                    <me:sumg>5.72846e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1600</me:T>
+                    <me:qtot>5.20822e+011</me:qtot>
+                    <me:sumc>1.22439e+012</me:sumc>
+                    <me:sumg>1.22421e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1700</me:T>
+                    <me:qtot>1.07745e+012</me:qtot>
+                    <me:sumc>2.54205e+012</me:sumc>
+                    <me:sumg>2.54172e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1800</me:T>
+                    <me:qtot>2.17139e+012</me:qtot>
+                    <me:sumc>5.13501e+012</me:sumc>
+                    <me:sumg>5.13442e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1900</me:T>
+                    <me:qtot>4.27036e+012</me:qtot>
+                    <me:sumc>1.01027e+013</me:sumc>
+                    <me:sumg>1.01016e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2000</me:T>
+                    <me:qtot>8.20844e+012</me:qtot>
+                    <me:sumc>1.93703e+013</me:sumc>
+                    <me:sumg>1.93685e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2100</me:T>
+                    <me:qtot>1.54436e+013</me:qtot>
+                    <me:sumc>3.62051e+013</me:sumc>
+                    <me:sumg>3.6202e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2200</me:T>
+                    <me:qtot>2.84771e+013</me:qtot>
+                    <me:sumc>6.59768e+013</me:sumc>
+                    <me:sumg>6.59717e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2300</me:T>
+                    <me:qtot>5.15255e+013</me:qtot>
+                    <me:sumc>1.1723e+014</me:sumc>
+                    <me:sumg>1.17221e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2400</me:T>
+                    <me:qtot>9.15806e+013</me:qtot>
+                    <me:sumc>2.03132e+014</me:sumc>
+                    <me:sumg>2.03118e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2500</me:T>
+                    <me:qtot>1.60058e+014</me:qtot>
+                    <me:sumc>3.43353e+014</me:sumc>
+                    <me:sumg>3.43333e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2600</me:T>
+                    <me:qtot>2.75326e+014</me:qtot>
+                    <me:sumc>5.66414e+014</me:sumc>
+                    <me:sumg>5.66382e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2700</me:T>
+                    <me:qtot>4.66535e+014</me:qtot>
+                    <me:sumc>9.12503e+014</me:sumc>
+                    <me:sumg>9.12456e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2800</me:T>
+                    <me:qtot>7.79345e+014</me:qtot>
+                    <me:sumc>1.43676e+015</me:sumc>
+                    <me:sumg>1.43669e+015</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2900</me:T>
+                    <me:qtot>1.28441e+015</me:qtot>
+                    <me:sumc>2.21297e+015</me:sumc>
+                    <me:sumg>2.21287e+015</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>3000</me:T>
+                    <me:qtot>2.08976e+015</me:qtot>
+                    <me:sumc>3.33757e+015</me:sumc>
+                    <me:sumg>3.33743e+015</me:sumg>
+                </me:densityOfStates>
+            </me:densityOfStatesList>
+        </molecule>
+        <molecule id="ketene" description="CH_2CO">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="C" />
+                <atom id="a5" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a4" order="2" />
+                <bond atomRefs2="a4 a5" order="2" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">115.6</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">9.478 0.344 0.332</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">450 552 593 994 1176 1414 2246 3194 3290</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">42</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>1</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+        </molecule>
+        <molecule id="HO_2">
+            <atomarray>
+                <atom id="a1" elementType="H" />
+                <atom id="a2" elementType="O" />
+                <atom id="a3" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a2 a3" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">0.0</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">20.648 1.131 1.072</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">1184 1449 3580</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">42</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>1</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+        </molecule>
+        <molecule id="Int2" description="peroxide_isomer_opt">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="H" />
+                <atom id="a5" elementType="C" />
+                <atom id="a6" elementType="O" />
+                <atom id="a7" elementType="O" />
+                <atom id="a8" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a5" order="1" />
+                <bond atomRefs2="a5 a6" order="2" />
+                <bond atomRefs2="a5 a7" order="1" />
+                <bond atomRefs2="a7 a8" order="1" />
+                <bond atomRefs2="a8 a4" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">12.33</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">0.1089 0.1531 0.3768</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">206.2304 322.6668 336.7996 425.9810 499.7561 639.0242 683.9563 768.2432 873.4549 1008.2554 1029.8794 1248.4029 1451.2159 1502.3398 1710.3720 3169.9573 3289.8637 3474.3897</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">75</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:epsilon">
+                    <scalar>473.17</scalar>
+                </property>
+                <property dictRef="me:sigma">
+                    <scalar>5.09</scalar>
+                </property>
+                <property dictRef="me:deltaEDown">
+                    <scalar units="cm-1">130.0</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+            <me:densityOfStatesList calculated="">
+                <me:description>Partition function calculation at various temperatures. qtot : partition function as a product of quantum mechanical partition functions for vibrations (1-D harmonic oscillator) and classifical partition functions for rotations.  sumc : (user calculated) cell based partition function. sumg : (user calculated) grain based partition function </me:description>
+                <me:densityOfStates>
+                    <me:T>200</me:T>
+                    <me:qtot>63768.6</me:qtot>
+                    <me:sumc>130358</me:sumc>
+                    <me:sumg>129174</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>300</me:T>
+                    <me:qtot>248741</me:qtot>
+                    <me:sumc>518462</me:sumc>
+                    <me:sumg>516321</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>400</me:T>
+                    <me:qtot>917345</me:qtot>
+                    <me:sumc>1.94716e+006</me:sumc>
+                    <me:sumg>1.94261e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>500</me:T>
+                    <me:qtot>3.21683e+006</me:qtot>
+                    <me:sumc>6.93983e+006</me:sumc>
+                    <me:sumg>6.92943e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>600</me:T>
+                    <me:qtot>1.06984e+007</me:qtot>
+                    <me:sumc>2.34118e+007</me:sumc>
+                    <me:sumg>2.33874e+007</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>700</me:T>
+                    <me:qtot>3.3709e+007</me:qtot>
+                    <me:sumc>7.46945e+007</me:sumc>
+                    <me:sumg>7.46373e+007</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>800</me:T>
+                    <me:qtot>1.00734e+008</me:qtot>
+                    <me:sumc>2.25681e+008</me:sumc>
+                    <me:sumg>2.25548e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>900</me:T>
+                    <me:qtot>2.86199e+008</me:qtot>
+                    <me:sumc>6.47472e+008</me:sumc>
+                    <me:sumg>6.47171e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1000</me:T>
+                    <me:qtot>7.75478e+008</me:qtot>
+                    <me:sumc>1.7697e+009</me:sumc>
+                    <me:sumg>1.76904e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1100</me:T>
+                    <me:qtot>2.01048e+009</me:qtot>
+                    <me:sumc>4.62409e+009</me:sumc>
+                    <me:sumg>4.62266e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1200</me:T>
+                    <me:qtot>5.0032e+009</me:qtot>
+                    <me:sumc>1.1589e+010</me:sumc>
+                    <me:sumg>1.1586e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1300</me:T>
+                    <me:qtot>1.19874e+010</me:qtot>
+                    <me:sumc>2.79453e+010</me:sumc>
+                    <me:sumg>2.79391e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1400</me:T>
+                    <me:qtot>2.77288e+010</me:qtot>
+                    <me:sumc>6.50208e+010</me:sumc>
+                    <me:sumg>6.50083e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1500</me:T>
+                    <me:qtot>6.20823e+010</me:qtot>
+                    <me:sumc>1.46346e+011</me:sumc>
+                    <me:sumg>1.46321e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1600</me:T>
+                    <me:qtot>1.34845e+011</me:qtot>
+                    <me:sumc>3.19336e+011</me:sumc>
+                    <me:sumg>3.19286e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1700</me:T>
+                    <me:qtot>2.84731e+011</me:qtot>
+                    <me:sumc>6.76751e+011</me:sumc>
+                    <me:sumg>6.76647e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1800</me:T>
+                    <me:qtot>5.85585e+011</me:qtot>
+                    <me:sumc>1.39474e+012</me:sumc>
+                    <me:sumg>1.39451e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1900</me:T>
+                    <me:qtot>1.17502e+012</me:qtot>
+                    <me:sumc>2.7977e+012</me:sumc>
+                    <me:sumg>2.7971e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2000</me:T>
+                    <me:qtot>2.304e+012</me:qtot>
+                    <me:sumc>5.46412e+012</me:sumc>
+                    <me:sumg>5.46255e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2100</me:T>
+                    <me:qtot>4.42096e+012</me:qtot>
+                    <me:sumc>1.03919e+013</me:sumc>
+                    <me:sumg>1.03877e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2200</me:T>
+                    <me:qtot>8.31217e+012</me:qtot>
+                    <me:sumc>1.92447e+013</me:sumc>
+                    <me:sumg>1.92341e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2300</me:T>
+                    <me:qtot>1.53318e+013</me:qtot>
+                    <me:sumc>3.4703e+013</me:sumc>
+                    <me:sumg>3.46771e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2400</me:T>
+                    <me:qtot>2.77733e+013</me:qtot>
+                    <me:sumc>6.09419e+013</me:sumc>
+                    <me:sumg>6.08826e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2500</me:T>
+                    <me:qtot>4.94598e+013</me:qtot>
+                    <me:sumc>1.04257e+014</me:sumc>
+                    <me:sumg>1.04128e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2600</me:T>
+                    <me:qtot>8.66704e+013</me:qtot>
+                    <me:sumc>1.73847e+014</me:sumc>
+                    <me:sumg>1.73584e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2700</me:T>
+                    <me:qtot>1.49573e+014</me:qtot>
+                    <me:sumc>2.82767e+014</me:sumc>
+                    <me:sumg>2.82254e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2800</me:T>
+                    <me:qtot>2.54416e+014</me:qtot>
+                    <me:sumc>4.49031e+014</me:sumc>
+                    <me:sumg>4.48077e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2900</me:T>
+                    <me:qtot>4.26836e+014</me:qtot>
+                    <me:sumc>6.9687e+014</me:sumc>
+                    <me:sumg>6.95165e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>3000</me:T>
+                    <me:qtot>7.068e+014</me:qtot>
+                    <me:sumc>1.0581e+015</me:sumc>
+                    <me:sumg>1.05517e+015</me:sumg>
+                </me:densityOfStates>
+            </me:densityOfStatesList>
+        </molecule>
+        <molecule id="TS3" description="TS peroxide -&gt; lactone + OH">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="H" />
+                <atom id="a5" elementType="C" />
+                <atom id="a6" elementType="O" />
+                <atom id="a7" elementType="O" />
+                <atom id="a8" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a5" order="1" />
+                <bond atomRefs2="a5 a6" order="2" />
+                <bond atomRefs2="a5 a7" order="1" />
+                <bond atomRefs2="a8 a4" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">103.98</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">0.1001 0.1422 0.3155</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">156.7840 187.6845 296.4705 320.1151 378.1544 616.3625 634.0759 819.5867 973.3226 1008.5148 1012.6292 1182.8647 1430.4450 1859.9531 3155.9226 3276.3336 3682.5520</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">75</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:imFreqs">
+                    <scalar units="cm-1">656.0</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+            <me:densityOfStatesList calculated="">
+                <me:description>Partition function calculation at various temperatures. qtot : partition function as a product of quantum mechanical partition functions for vibrations (1-D harmonic oscillator) and classifical partition functions for rotations.  sumc : (user calculated) cell based partition function. sumg : (user calculated) grain based partition function </me:description>
+                <me:densityOfStates>
+                    <me:T>200</me:T>
+                    <me:qtot>120028</me:qtot>
+                    <me:sumc>248155</me:sumc>
+                    <me:sumg>245867</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>300</me:T>
+                    <me:qtot>593236</me:qtot>
+                    <me:sumc>1.25053e+006</me:sumc>
+                    <me:sumg>1.24535e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>400</me:T>
+                    <me:qtot>2.54831e+006</me:qtot>
+                    <me:sumc>5.46372e+006</me:sumc>
+                    <me:sumg>5.45094e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>500</me:T>
+                    <me:qtot>9.85486e+006</me:qtot>
+                    <me:sumc>2.14433e+007</me:sumc>
+                    <me:sumg>2.14112e+007</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>600</me:T>
+                    <me:qtot>3.48674e+007</me:qtot>
+                    <me:sumc>7.68431e+007</me:sumc>
+                    <me:sumg>7.6763e+007</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>700</me:T>
+                    <me:qtot>1.14051e+008</me:qtot>
+                    <me:sumc>2.54155e+008</me:sumc>
+                    <me:sumg>2.5396e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>800</me:T>
+                    <me:qtot>3.4784e+008</me:qtot>
+                    <me:sumc>7.82697e+008</me:sumc>
+                    <me:sumg>7.82238e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>900</me:T>
+                    <me:qtot>9.96495e+008</me:qtot>
+                    <me:sumc>2.2616e+009</me:sumc>
+                    <me:sumg>2.26055e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1000</me:T>
+                    <me:qtot>2.69901e+009</me:qtot>
+                    <me:sumc>6.17262e+009</me:sumc>
+                    <me:sumg>6.17031e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1100</me:T>
+                    <me:qtot>6.95063e+009</me:qtot>
+                    <me:sumc>1.60059e+010</me:sumc>
+                    <me:sumg>1.60009e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1200</me:T>
+                    <me:qtot>1.71025e+010</me:qtot>
+                    <me:sumc>3.96299e+010</me:sumc>
+                    <me:sumg>3.96195e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1300</me:T>
+                    <me:qtot>4.03792e+010</me:qtot>
+                    <me:sumc>9.40984e+010</me:sumc>
+                    <me:sumg>9.40775e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1400</me:T>
+                    <me:qtot>9.18145e+010</me:qtot>
+                    <me:sumc>2.15072e+011</me:sumc>
+                    <me:sumg>2.1503e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1500</me:T>
+                    <me:qtot>2.01703e+011</me:qtot>
+                    <me:sumc>4.74707e+011</me:sumc>
+                    <me:sumg>4.74628e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1600</me:T>
+                    <me:qtot>4.29318e+011</me:qtot>
+                    <me:sumc>1.01461e+012</me:sumc>
+                    <me:sumg>1.01446e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1700</me:T>
+                    <me:qtot>8.87526e+011</me:qtot>
+                    <me:sumc>2.10469e+012</me:sumc>
+                    <me:sumg>2.10442e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1800</me:T>
+                    <me:qtot>1.78593e+012</me:qtot>
+                    <me:sumc>4.24476e+012</me:sumc>
+                    <me:sumg>4.24427e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1900</me:T>
+                    <me:qtot>3.50489e+012</me:qtot>
+                    <me:sumc>8.33375e+012</me:sumc>
+                    <me:sumg>8.33289e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2000</me:T>
+                    <me:qtot>6.71985e+012</me:qtot>
+                    <me:sumc>1.59405e+013</me:sumc>
+                    <me:sumg>1.5939e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2100</me:T>
+                    <me:qtot>1.26066e+013</me:qtot>
+                    <me:sumc>2.9719e+013</me:sumc>
+                    <me:sumg>2.97165e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2200</me:T>
+                    <me:qtot>2.31739e+013</me:qtot>
+                    <me:sumc>5.4019e+013</me:sumc>
+                    <me:sumg>5.40148e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2300</me:T>
+                    <me:qtot>4.1794e+013</me:qtot>
+                    <me:sumc>9.57441e+013</me:sumc>
+                    <me:sumg>9.57373e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2400</me:T>
+                    <me:qtot>7.4036e+013</me:qtot>
+                    <me:sumc>1.65511e+014</me:sumc>
+                    <me:sumg>1.655e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2500</me:T>
+                    <me:qtot>1.28956e+014</me:qtot>
+                    <me:sumc>2.79148e+014</me:sumc>
+                    <me:sumg>2.79131e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2600</me:T>
+                    <me:qtot>2.2107e+014</me:qtot>
+                    <me:sumc>4.59568e+014</me:sumc>
+                    <me:sumg>4.59542e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2700</me:T>
+                    <me:qtot>3.73325e+014</me:qtot>
+                    <me:sumc>7.39012e+014</me:sumc>
+                    <me:sumg>7.38974e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2800</me:T>
+                    <me:qtot>6.21537e+014</me:qtot>
+                    <me:sumc>1.16166e+015</me:sumc>
+                    <me:sumg>1.16161e+015</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2900</me:T>
+                    <me:qtot>1.02092e+015</me:qtot>
+                    <me:sumc>1.78657e+015</me:sumc>
+                    <me:sumg>1.78649e+015</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>3000</me:T>
+                    <me:qtot>1.65562e+015</me:qtot>
+                    <me:sumc>2.69086e+015</me:sumc>
+                    <me:sumg>2.69075e+015</me:sumg>
+                </me:densityOfStates>
+            </me:densityOfStatesList>
+        </molecule>
+        <molecule id="lactone">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="C" />
+                <atom id="a5" elementType="O" />
+                <atom id="a6" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a4" order="1" />
+                <bond atomRefs2="a1 a5" order="1" />
+                <bond atomRefs2="a4 a5" order="1" />
+                <bond atomRefs2="a4 a6" order="2" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">13.0</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1" />
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1" />
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">58</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>1</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+        </molecule>
+        <molecule id="triplet_C2H2O2">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="C" />
+                <atom id="a5" elementType="O" />
+                <atom id="a6" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a4" order="2" />
+                <bond atomRefs2="a4 a5" order="1" />
+                <bond atomRefs2="a4 a6" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">186.41</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1" />
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1" />
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">58</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>1</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+        </molecule>
+        <molecule id="He">
+            <atom elementType="He" />
+            <propertyList>
+                <property dictRef="me:epsilon">
+                    <scalar>10.2</scalar>
+                </property>
+                <property dictRef="me:sigma">
+                    <scalar>2.55</scalar>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">4.0</scalar>
+                </property>
+            </propertyList>
+        </molecule>
+        <molecule id="source_0">
+            <me:densityOfStatesList calculated="">
+                <me:description>Partition function calculation at various temperatures. qtot : partition function as a product of quantum mechanical partition functions for vibrations (1-D harmonic oscillator) and classifical partition functions for rotations.  sumc : (user calculated) cell based partition function. sumg : (user calculated) grain based partition function </me:description>
+                <me:densityOfStates>
+                    <me:T>200</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>3.94155e+006</me:sumc>
+                    <me:sumg>3.90528e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>300</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>1.6263e+007</me:sumc>
+                    <me:sumg>1.61958e+007</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>400</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>5.05335e+007</me:sumc>
+                    <me:sumg>5.04155e+007</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>500</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>1.36111e+008</me:sumc>
+                    <me:sumg>1.35907e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>600</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>3.3623e+008</me:sumc>
+                    <me:sumg>3.3588e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>700</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>7.81767e+008</me:sumc>
+                    <me:sumg>7.81168e+008</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>800</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>1.73417e+009</me:sumc>
+                    <me:sumg>1.73316e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>900</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>3.69942e+009</me:sumc>
+                    <me:sumg>3.69771e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1000</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>7.62869e+009</me:sumc>
+                    <me:sumg>7.62582e+009</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1100</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>1.52629e+010</me:sumc>
+                    <me:sumg>1.52581e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1200</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>2.97103e+010</me:sumc>
+                    <me:sumg>2.97026e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1300</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>5.63945e+010</me:sumc>
+                    <me:sumg>5.63819e+010</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1400</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>1.04577e+011</me:sumc>
+                    <me:sumg>1.04557e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1500</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>1.89762e+011</me:sumc>
+                    <me:sumg>1.8973e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1600</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>3.37414e+011</me:sumc>
+                    <me:sumg>3.37365e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1700</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>5.88623e+011</me:sumc>
+                    <me:sumg>5.88546e+011</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1800</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>1.00855e+012</me:sumc>
+                    <me:sumg>1.00843e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1900</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>1.69879e+012</me:sumc>
+                    <me:sumg>1.69859e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2000</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>2.815e+012</me:sumc>
+                    <me:sumg>2.81465e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2100</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>4.59147e+012</me:sumc>
+                    <me:sumg>4.59083e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2200</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>7.37431e+012</me:sumc>
+                    <me:sumg>7.37305e+012</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2300</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>1.1665e+013</me:sumc>
+                    <me:sumg>1.16624e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2400</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>1.81759e+013</me:sumc>
+                    <me:sumg>1.81705e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2500</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>2.7898e+013</me:sumc>
+                    <me:sumg>2.78871e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2600</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>4.21829e+013</me:sumc>
+                    <me:sumg>4.21615e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2700</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>6.28365e+013</me:sumc>
+                    <me:sumg>6.27958e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2800</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>9.22253e+013</me:sumc>
+                    <me:sumg>9.21507e+013</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>2900</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>1.33391e+014</me:sumc>
+                    <me:sumg>1.33259e+014</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>3000</me:T>
+                    <me:qtot>0</me:qtot>
+                    <me:sumc>1.90174e+014</me:sumc>
+                    <me:sumg>1.89949e+014</me:sumg>
+                </me:densityOfStates>
+            </me:densityOfStatesList>
+        </molecule>
+    </moleculeList>
+    <reactionList>
+        <reaction id="R1">
+            <reactant>
+                <molecule ref="acetyl" me:type="reactant" />
+            </reactant>
+            <reactant>
+                <molecule ref="O_2" me:type="excessReactant" />
+            </reactant>
+            <product>
+                <molecule ref="Int1" me:type="modelled" />
+            </product>
+            <me:MCRCMethod>Mesmer ILT</me:MCRCMethod>
+            <me:preExponential>6.00e-12</me:preExponential>
+            <me:excessReactantConc>2.25E16</me:excessReactantConc>
+            <me:activationEnergy>0.0</me:activationEnergy>
+            <me:nInfinity>-0.5</me:nInfinity>
+        </reaction>
+        <reaction id="R2">
+            <reactant>
+                <molecule ref="Int1" me:type="modelled" />
+            </reactant>
+            <product>
+                <molecule ref="Int2" me:type="modelled" />
+            </product>
+            <me:transitionState>
+                <molecule ref="TS1" me:type="transitionState" />
+            </me:transitionState>
+            <me:tunneling>Eckart</me:tunneling>
+            <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+        </reaction>
+        <reaction id="R3">
+            <reactant>
+                <molecule ref="Int2" me:type="modelled" />
+            </reactant>
+            <product>
+                <molecule ref="lactone" me:type="sink" />
+            </product>
+            <product>
+                <molecule ref="OH" me:type="sink" />
+            </product>
+            <me:transitionState>
+                <molecule ref="TS3" me:type="transitionState" />
+            </me:transitionState>
+            <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+        </reaction>
+        <reaction id="R4">
+            <reactant>
+                <molecule ref="Int1" me:type="modelled" />
+            </reactant>
+            <product>
+                <molecule ref="ketene" me:type="sink" />
+            </product>
+            <product>
+                <molecule ref="HO_2" me:type="sink" />
+            </product>
+            <me:transitionState>
+                <molecule ref="TS2" me:type="transitionState" />
+            </me:transitionState>
+            <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+        </reaction>
+    </reactionList>
+    <me:conditions>
+        <me:bathGas>He</me:bathGas>
+        <me:CPTs>
+            <me:CPTpair me:units="Torr" me:CP="200.72" me:T="298." />
+            <!--<me:CPTpair me:units="Torr" me:CP="201.60" me:T="298." />-->
+            <!--<me:CPTpair me:units="Torr" me:CP="10.06" me:T="298." />-->
+            <!--<me:CPTpair me:units="Torr" me:CP="15.01" me:T="298." />-->
+        </me:CPTs>
+    </me:conditions>
+    <me:modelParameters>
+        <!--Specify grain size directly...-->
+        <me:grainSize units="cm-1">66</me:grainSize>
+        <!--...or by the total number of grains
+        <me:numberOfGrains> 500 </me:numberOfGrains>-->
+        <!--Specify increased energy range
+        <me:maxTemperature>6000</me:maxTemperature>-->
+        <me:energyAboveTheTopHill>98.5</me:energyAboveTheTopHill>
+    </me:modelParameters>
+    <me:control>
+        <!--<me:testDOS />-->
+        <!--<me:testMicroRates />-->
+        <me:printGrainDOS />
+        <!--<me:printCellDOS />-->
+        <!--<me:printCollisionOperatorColumnSums />-->
+        <me:printTunnelingCoefficients />
+        <me:printGrainkfE />
+        <!--<me:printGrainBoltzmann />-->
+        <me:printGrainkbE />
+        <me:eigenvalues>0</me:eigenvalues>
+    </me:control>
+    <metadataList>
+        <metadata name="dc:creator" content="Mesmer v0.1" />
+        <metadata name="dc:description" content="Calculation of the interaction between collisional energy transfer and chemical reaction for dissociation, isomerization and association processes" />
+        <metadata name="dc:date" content="20080513_103625" />
+        <metadata name="dc:contributor" content="unknown" />
+    </metadataList>
+</me:mesmer>

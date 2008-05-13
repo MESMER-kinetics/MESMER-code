@@ -15,6 +15,7 @@ namespace mesmer
   //Constructor
   //
   ModelledMolecule::ModelledMolecule(const MesmerEnv& Env): Molecule(Env),
+    m_Mass(0.0),
     m_RotCstA(0.0),
     m_RotCstB(0.0),
     m_RotCstC(0.0),
@@ -22,8 +23,10 @@ namespace mesmer
     m_ZPE(0.0),
     m_scaleFactor(1.0),
     m_SpinMultiplicity(1),
-    m_grnZpe(0),
+    m_grnZpe(0.0),
+    m_cellOffset(0),
     m_pDensityOfStatesCalculator(NULL),
+    m_Mass_chk(-1),
     m_RC_chk(-1),
     m_Sym_chk(-1),
     m_ZPE_chk(-1),
@@ -41,6 +44,7 @@ namespace mesmer
 
   ModelledMolecule::~ModelledMolecule()
   {
+    if (m_Mass_chk == 0) cinfo << "m_Mass is provided but not used in " << getName();
     if (m_RC_chk == 0) cinfo << "Rotational constants are provided but not used in " << getName() << endl;
     if (m_Sym_chk == 0) cinfo << "m_Sym is provided but not used in " << getName() << endl;
     if (m_ZPE_chk == 0) cinfo << "m_ZPE is provided but not used in " << getName() << endl;
@@ -49,12 +53,13 @@ namespace mesmer
     if (m_VibFreq_chk == 0) cinfo << "m_VibFreq is provided but not used in " << getName() << endl;
     if (m_grnZpe_chk == 0) cinfo << "m_grnZpe is calculated but not used in " << getName() << endl;
 
-    // Free any memory assigned for calculating densities of states.
+    // Free any memory assigned for calculating densities of states. (must be in reverse order)
     if (m_grainDOS.size()) m_grainDOS.clear();
     if (m_grainEne.size()) m_grainEne.clear();
     if (m_cellDOS.size()) m_cellDOS.clear();
     if (m_cellEne.size()) m_cellEne.clear();
     if (m_VibFreq.size()) m_VibFreq.clear();
+    if (m_eleExc.size()) m_eleExc.clear();
   }
 
   //
@@ -76,6 +81,13 @@ namespace mesmer
       ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
     const char* txt;
+
+    txt= ppPropList->XmlReadProperty("me:MW");
+    if(!txt){
+      cerr << "Cannot find argument me:MW in " << getName();
+      setFlag(true); // later put a function to calculate the molecular weight if the user forgot to provide it.
+    }
+    else { istringstream idata(txt); double mass(0.); idata >> mass; setMass(mass);}
 
     bool hasVibFreq = true; bool hasRotConst = true;
     txt= ppPropList->XmlReadProperty("me:vibFreqs");
@@ -139,8 +151,8 @@ namespace mesmer
       m_ZPE_chk = -1;
     }
     else {
-      istringstream idata(txt); 
-      double tempzpe = 0.0; 
+      istringstream idata(txt);
+      double tempzpe = 0.0;
       idata >> tempzpe;
       txt= ppPropList->XmlReadPropertyAttribute("me:ZPE", "units");
       string unitsInput;
@@ -209,9 +221,9 @@ namespace mesmer
   //
   void ModelledMolecule::getCellDensityOfStates(vector<double> &cellDOS) {
     // If density of states have not already been calcualted then do so.
-    if (!m_cellDOS.size())
-      calcDensityOfStates() ;
-    cellDOS = m_cellDOS;
+    if (!calcDensityOfStates())
+      cerr << "Failed calculating DOS";
+   cellDOS = m_cellDOS;
   }
 
   //
@@ -219,8 +231,8 @@ namespace mesmer
   //
   void ModelledMolecule::getCellEnergies(vector<double> &CellEne) {
     // If density of states have not already been calcualted then do so.
-    if (!m_cellDOS.size())
-      calcDensityOfStates() ;
+    if (!calcDensityOfStates())
+      cerr << "Failed calculating DOS";
     CellEne = m_cellEne;
   }
 
@@ -229,8 +241,8 @@ namespace mesmer
   //
   void ModelledMolecule::getGrainDensityOfStates(vector<double> &grainDOS) {
     // If density of states have not already been calcualted then do so.
-    if (!m_grainDOS.size())
-      calcDensityOfStates() ;
+    if (!calcDensityOfStates())
+      cerr << "Failed calculating DOS";
     grainDOS = m_grainDOS;
   }
 
@@ -239,8 +251,8 @@ namespace mesmer
   //
   void ModelledMolecule::getGrainEnergies(vector<double> &grainEne) {
     // If density of states have not already been calcualted then do so.
-    if (!m_grainEne.size())
-      calcDensityOfStates() ;
+    if (!calcDensityOfStates())
+      cerr << "Failed calculating DOS";
     grainEne = m_grainEne;
   }
 
@@ -250,9 +262,8 @@ namespace mesmer
   void ModelledMolecule::grnBoltzDist(vector<double> &grainBoltzDist)
   {
     // If density of states have not already been calcualted then do so.
-    if (!m_cellDOS.size())
-      calcDensityOfStates() ;
-
+    if (!calcDensityOfStates())
+      cerr << "Failed calculating DOS";
     int MaximumGrain = getEnv().MaxGrn ;
     double beta = getEnv().beta;
 
@@ -299,9 +310,8 @@ namespace mesmer
   //
   double ModelledMolecule::grnCanPrtnFn() {
     // If density of states have not already been calculated then do so.
-    if (!m_cellDOS.size())
-      calcDensityOfStates() ;
-
+    if (!calcDensityOfStates())
+      cerr << "Failed calculating DOS";
     double CanPrtnFn(0.0) ;
 
     // Calculate the ro-vibrational partition function based on the grain
@@ -358,14 +368,39 @@ namespace mesmer
   }
 
   //
+  // Inserts leading zeros to cellDOS and cellEne vector to accounts for the graining integrity.
+  //
+  void ModelledMolecule::shiftCells(std::vector<double>& shiftedCellDOS, std::vector<double>& shiftedCellEne){
+    const int MaximumCell  = getEnv().MaxCell;
+    const int cellOffset = get_cellOffset();
+    for(int i = 0; i < cellOffset; ++i){
+      shiftedCellDOS.push_back(0.0);
+      shiftedCellEne.push_back(0.0);
+    }
+    for(int i = cellOffset, j = 0; i < MaximumCell; ++i, ++j){
+      shiftedCellDOS.push_back(m_cellDOS[j]);
+      shiftedCellEne.push_back(m_cellEne[j]);
+    }
+  }
+
+  //
   // Calculate the rovibrational density of states.
   //
   bool ModelledMolecule::calcDensityOfStates()
   {
+    if (m_cellDOS.size() && m_cellDOS.size() == static_cast<unsigned int>(getEnv().MaxCell))
+      return true;
     if (!get_DensityOfStatesCalculator()->countCellDOS(this)){
       return false;
     }
-    calcGrainAverages(); testDensityOfStates() ;
+
+    std::vector<double> shiftedCellDOS;
+    std::vector<double> shiftedCellEne;
+    shiftCells(shiftedCellDOS, shiftedCellEne);
+
+    calcGrainAverages(shiftedCellDOS, shiftedCellEne);
+
+    testDensityOfStates() ;
     return true;
   }
 
@@ -384,8 +419,8 @@ namespace mesmer
   //
   void ModelledMolecule::testDensityOfStates()
   {
-    int MaximumGrain = getEnv().MaxGrn;
-    int MaximumCell  = getEnv().MaxCell;
+    const int MaximumGrain = getEnv().MaxGrn;
+    const int MaximumCell  = getEnv().MaxCell;
 
     string comment("Partition function calculation at various temperatures. qtot : partition function as a product of quantum mechanical partition functions for vibrations (1-D harmonic oscillator) and classifical partition functions for rotations.  sumc : (user calculated) cell based partition function. sumg : (user calculated) grain based partition function ");
 
@@ -478,10 +513,22 @@ namespace mesmer
     }
   }
 
+  void ModelledMolecule::set_grainValues(double relativeZPE) {
+    double grnZpe = relativeZPE / getEnv().GrainSize ; //convert to grain
+    if (grnZpe < 0.0) cerr << "Grain zero point energy has to be a positive value.";
+    set_grnZpe(grnZpe) ; //set grain ZPE (with respect to the minimum of all wells)
+    int cellOffset = int(fmod(relativeZPE, getEnv().GrainSize));
+    m_cellOffset = cellOffset;
+  }
+
+  int ModelledMolecule::get_cellOffset(void) const {
+    return m_cellOffset;
+  }
+
   //
   // Calculate the average grain energy and then number of states per grain.
   //
-  void ModelledMolecule::calcGrainAverages()
+  void ModelledMolecule::calcGrainAverages(const std::vector<double>& shiftedCellDOS, const std::vector<double>& shiftedCellEne)
   {
     int MaximumGrain = getEnv().MaxGrn;
     m_grainEne.resize(MaximumGrain, 0.) ;
@@ -498,28 +545,28 @@ namespace mesmer
 
     int idx1 = 0 ;
     int idx2 = 0 ;
-    int grainsize = static_cast<int>(getEnv().GrainSize);
+    int grnSize = getEnv().GrainSize;
     for (int i = 0 ; i < MaximumGrain ; ++i ) {
 
-      int idx3 = idx1 ;
+      int idx3(idx1);
 
       // Calculate the number of states in a grain.
       double gNOS = 0.0 ;
-      for (int j = 0 ; j < grainsize ; ++j, ++idx1 ){
-        gNOS += m_cellDOS[idx1] ;
+      for (int j = 0 ; j < grnSize ; ++j, ++idx1 ){
+        gNOS += shiftedCellDOS[idx1] ;
       }
 
       // Calculate average energy of the grain if it contains sum states.
       if ( gNOS > 0.0 ) {
         double gSE = 0.0 ; // grain sum of state energy
-        for (int j = 0 ; j < grainsize ; ++j, ++idx3 ){
-          gSE += m_cellEne[idx3] * m_cellDOS[idx3] ;
+        for (int j = 0 ; j < grnSize ; ++j, ++idx3 ){
+          gSE += shiftedCellEne[idx3] * shiftedCellDOS[idx3] ;
         }
         m_grainDOS[idx2] = gNOS ;
         m_grainEne[idx2] = gSE/gNOS ;
+        idx2++ ;
       }
 
-      idx2++ ;
     }
 
     // Issue warning if number of grains produced is less that requested.
@@ -529,6 +576,28 @@ namespace mesmer
         << "Number of grains requested: " << MaximumGrain << endl
         << "Number of grains produced : " << idx2 << " in " << getName() << endl;
     }
+  }
+
+
+  void   ModelledMolecule::setMass(double value)           {
+    m_Mass = value;
+    m_Mass_chk = 0;
+  } ;
+
+  double ModelledMolecule::getMass()                       {
+    if (m_Mass_chk >= 0){
+      ++m_Mass_chk;
+      return m_Mass ;
+    }
+    else{
+      cerr << "m_Mass was not defined but requested in " << getName();
+      exit(1);
+    }
+  } ;
+
+  // cell zpe with respect to the minimum of all wells
+  double ModelledMolecule::get_relative_ZPE(){
+    return get_zpe() - getEnv().EMin;
   }
 
   double ModelledMolecule::get_zpe() {
@@ -583,7 +652,7 @@ namespace mesmer
     return m_Sym ;
   }
 
-  void ModelledMolecule::set_grnZpe(int grnZpe) {
+  void ModelledMolecule::set_grnZpe(double grnZpe) {
     if (m_grnZpe_chk < 0){
       m_grnZpe = grnZpe;
       m_grnZpe_chk = 0;
@@ -594,17 +663,19 @@ namespace mesmer
   }
 
   const int ModelledMolecule::get_grnZpe(){
+    /* get_grnZpe() function returns the integer part of m_grnZpe However the first grain of the well usually have leading
+    zeros to offset the cell numbers to integral grains. */
     if (m_grnZpe_chk == -1){
       cinfo << "m_grnZpe was not calculated but requested in " << getName() << ". Default value " << m_grnZpe << " is given." << endl;
       --m_grnZpe_chk;
-      return m_grnZpe;
+      return int(m_grnZpe);
     }
     else if (m_grnZpe_chk < -1){
       --m_grnZpe_chk;
-      return m_grnZpe;
+      return int(m_grnZpe);
     }
     ++m_grnZpe_chk;
-    return m_grnZpe;
+    return int(m_grnZpe);
   }
 
   void ModelledMolecule::get_VibFreq(std::vector<double>& vibFreq){

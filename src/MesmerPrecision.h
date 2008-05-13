@@ -2,8 +2,8 @@
 #define GUARD_MesmerPrecision_h
 
 #include "MesmerConfig.h"
-#include <qd/dd_real.h>
-#include <qd/qd_real.h>
+//#include <qd/dd_real.h>
+//#include <qd/qd_real.h>
 
 
 //-------------------   Precision   ----------------

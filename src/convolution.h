@@ -3,10 +3,10 @@
 
 void Beyer_Swinehart(const std::vector<double>& VibFreq, std::vector<double>& cellDOS){
   // Implementation of the Beyer-Swinehart algorithm.
-  int MaxCell = int(cellDOS.size());
+  const int MaximumCell = int(cellDOS.size());
   for ( vector<double>::size_type j = 0 ; j < VibFreq.size() ; ++j ) {
     int freq = static_cast<int>(VibFreq[j]) ;
-    for (int i = 0 ; i < MaxCell - freq ; ++i ){
+    for (int i = 0 ; i < MaximumCell - freq ; ++i ){
       cellDOS[i + freq] += cellDOS[i] ;
     }
   }
@@ -17,8 +17,8 @@ void Beyer_Swinehart(const std::vector<double>& VibFreq, std::vector<double>& ce
 //  if (sum.size())
 //    sum.clear();
 //
-//  int MaxCell = int(cellDOS.size());
-//  for(int i = 0; i < MaxCell; ++i) {
+//  int MaximumCell = int(cellDOS.size());
+//  for(int i = 0; i < MaximumCell; ++i) {
 //    sum.push_back(0.0);
 //    for(int j = 0; j <= i; ++j){
 //      sum[i] += v1[i - j] * v2[j];

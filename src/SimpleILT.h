@@ -16,7 +16,7 @@ namespace mesmer
 
     virtual ~SimpleILT() {}
 
-	virtual bool calculateMicroRateCoeffs(Reaction* pReact, std::vector<double>& TSFlux);
+  virtual bool calculateMicroRateCoeffs(Reaction* pReact);
 
   };
 }//namespace

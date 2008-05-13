@@ -15,15 +15,25 @@ namespace mesmer
   //Constructor
   //
   CollidingMolecule::CollidingMolecule(const MesmerEnv& Env) : ModelledMolecule(Env),
+    m_Sigma(sigmaDefault),
+    m_Epsilon(epsilonDefault),
     m_DeltaEdown(0.0),
     m_collisionFrequency(0.0),
     m_ncolloptrsize(0),
+    m_Sigma_chk(-1),
+    m_Epsilon_chk(-1),
     m_DeltaEdown_chk(-1),
     m_egme(NULL)
   {}
 
   CollidingMolecule::~CollidingMolecule()
   {
+    if (m_Sigma_chk == 0){
+      cinfo << "m_Sigma is provided but not used in " << getName();
+    }
+    if (m_Epsilon_chk == 0){
+      cinfo << "m_Epsilon is provided but not used in " << getName();
+    }
     if (m_DeltaEdown_chk == 0){
       cinfo << "m_DeltaEdown is provided but not used in " << getName() << endl;
     }
@@ -95,6 +105,41 @@ namespace mesmer
     return m_ncolloptrsize ;
   } ;
 
+  void   CollidingMolecule::setSigma(double value)          {
+    m_Sigma = value;
+    m_Sigma_chk = 0;
+  } ;
+
+  double CollidingMolecule::getSigma()                      {
+    if (m_Sigma_chk >= 0){
+      ++m_Sigma_chk;
+      return m_Sigma ;
+    }
+    else{
+      cerr << "m_Sigma was not defined but requested in " << getName()
+               << ". Default value " << sigmaDefault << " is used.\n";
+      //exit(1);
+      return m_Sigma ;
+    }
+  } ;
+
+  void   CollidingMolecule::setEpsilon(double value)        {
+    m_Epsilon = value;
+    m_Epsilon_chk = 0;
+  } ;
+
+  double CollidingMolecule::getEpsilon()                    {
+    if (m_Epsilon_chk >= 0){
+      ++m_Epsilon_chk;
+      return m_Epsilon ;
+    }
+    else{
+      cerr << "m_Epsilon was not defined but requested in " << getName()
+               << ". Default value " << epsilonDefault << " is used.\n";
+      //exit(1);
+      return m_Epsilon ;
+    }
+  } ;
 
   void   CollidingMolecule::setDeltaEdown(double value)        {
     m_DeltaEdown = value;
@@ -115,12 +160,14 @@ namespace mesmer
   //
   // Initialize the Collision Operator.
   //
-  bool CollidingMolecule::initCollisionOperator(double beta, Molecule *pBathGasMolecule)
+  bool CollidingMolecule::initCollisionOperator(double beta, BathGasMolecule *pBathGasMolecule)
   {
     // If density of states have not already been calcualted then do so.
 
-    if (!m_cellDOS.size())
-      calcDensityOfStates() ;
+    if (!calcDensityOfStates()){
+      cerr << "Failed calculating DOS";
+      return false;
+    }
 
     // Calculate the collision frequency.
     m_collisionFrequency = collisionFrequency(beta, getEnv().conc, pBathGasMolecule) ;
@@ -222,7 +269,7 @@ namespace mesmer
   //
   // Calculate collision frequency.
   //
-  double CollidingMolecule::collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule)
+  double CollidingMolecule::collisionFrequency(double beta, const double conc, BathGasMolecule *pBathGasMolecule)
   {
     //
     // Lennard-Jones Collision frequency. The collision integral is calculated
@@ -256,7 +303,6 @@ namespace mesmer
     if (!bthEpsilon)
       cerr << "me:epsilon is necessary for " << pBathGasMolecule->getName()
       << ". Correct input file to remove this error.";
-    double mr   = getMass();
     double mu   = amu * getMass() * bthMass/(getMass() + bthMass) ;
     double eam  = sqrt(getEpsilon() * bthEpsilon) ;
     double sam  = (getSigma() + bthSigma) * 0.5;

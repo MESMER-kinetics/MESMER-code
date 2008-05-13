@@ -47,7 +47,6 @@ namespace mesmer
     // Location of the reaction maps.
     ReactionManager *m_pReactionManager ;
 
-    bool SetGrainParams();
     void readCPTs(PersistPtr);
     bool ReadRange(const std::string&    name,
       std::vector<double>&  vals,

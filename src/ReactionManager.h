@@ -64,10 +64,13 @@ namespace mesmer
     int Connectivity(Molecule* pReactant, Molecule* pProduct);
 
     // Build collision operator for system.
-    bool BuildSystemCollisionOperator(const MesmerEnv &Env) ;
+    bool BuildSystemCollisionOperator(MesmerEnv &Env) ;
 
     // Diagonalize the collision operator.
     void diagCollisionOperator(const MesmerEnv &Env) ;
+
+    // sets grain parameters and determines system environment
+    bool SetGrainParams(MesmerEnv &Env, const double minEne, const double maxEne);
 
   private:
 

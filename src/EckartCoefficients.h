@@ -24,7 +24,7 @@ namespace mesmer
   
     virtual ~EckartCoefficients() {}
   
-    virtual bool calculateTunnelingCoeffs(Reaction* pReact, std::vector<double>& TunnelingProbability);
+    virtual bool calculateCellTunnelingCoeffs(Reaction* pReact, std::vector<double>& TunnelingProbability);
   };
 }//namespace
 

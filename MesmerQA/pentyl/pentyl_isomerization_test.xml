@@ -256,12 +256,10 @@
         <me:testMicroRates />
         <!--<me:printGrainDOS />-->
         <!--<me:printCellDOS />-->
-        <me:printCollisionOperatorColumnSums />
-        <!--<me:printCellkfE />-->
-        <!--<me:printCellkbE />-->
-        <!--<me:printGrainkfE />-->
+        <!--<me:printCollisionOperatorColumnSums />-->
+        <me:printGrainkfE />
         <!--<me:printGrainBoltzmann />-->
-        <!--<me:printGrainkbE />-->
+        <me:printGrainkbE />
         <me:eigenvalues>0</me:eigenvalues>
     </me:control>
 

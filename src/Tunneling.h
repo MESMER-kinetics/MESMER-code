@@ -31,11 +31,12 @@ namespace mesmer
       return (pos==get_Map().end()) ? NULL : pos->second;
     }
 
-	virtual bool calculateTunnelingCoeffs(Reaction* pReact, std::vector<double>& TunnelingProbability) = 0 ;
+    virtual bool calculateCellTunnelingCoeffs(Reaction* pReact, std::vector<double>& TunnelingProbability) = 0 ;
 
   private:
     /// Returns a reference to the map of TunnelingCalculator classes
     /// Is a function rather than a static member variable to avoid initialization problems.
+
     static TunnelingMap& get_Map()
     {
       static TunnelingMap m;

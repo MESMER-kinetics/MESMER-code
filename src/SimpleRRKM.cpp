@@ -5,70 +5,73 @@ using namespace std;
 using namespace Constants;
 namespace mesmer
 {
-	//************************************************************
-	//Global instance, defining its id (usually the only instance)
-	SimpleRRKM theSimpleRRKM("Simple RRKM");
-	//************************************************************
+  //************************************************************
+  //Global instance, defining its id (usually the only instance)
+  SimpleRRKM theSimpleRRKM("Simple RRKM");
+  //************************************************************
 
-	bool SimpleRRKM::calculateMicroRateCoeffs(Reaction* pReact, std::vector<double>& TSFlux)
-	{
-		vector<ModelledMolecule *> unimolecularspecies;
-		pReact->get_unimolecularspecies(unimolecularspecies);
+  bool SimpleRRKM::calculateMicroRateCoeffs(Reaction* pReact)
+  {
+    TransitionState* pTS = pReact->get_TransitionState();
+    if(!pTS)
+    {
+      cerr << "Lack of transition state in reaction " << pReact->getName() << " for Simple RRKM" << endl;
+      return false;
+    }
+    // Allocate some work space for density of states.
+    vector<double> TScellDOS; // Transistion state density of states.
+    pTS->getCellDensityOfStates(TScellDOS) ; // Extract densities of states from molecules.
 
-		ModelledMolecule *p_rct = unimolecularspecies[0];
+    // get MaxCell from MesmerEnv structure via Reaction class
+    const int MaximumCell = pReact->getEnv().MaxCell;
 
-		TransitionState* pTS = pReact->get_TransitionState();
-		if(!pTS)
-		{
-			cerr << "Lack of transition state in reaction " << pReact->getName() << " for Simple RRKM" << endl;
-			return false;
-		}
+    // Allocate space to hold transition state flux and initialize elements to zero.
+    vector<double>& TSFlux = pReact->get_CellFlux();
+    TSFlux.resize(MaximumCell, 0.0);
 
-    // get MaxCell from MesmerEnv structure via Reaction class 
-		int MaximumCell = pReact->getEnv().MaxCell;
+    if (pReact->thereIsTunnelling()) { // with tunneling
+      int HeatOfReaction = pReact->getHeatOfReactionInt();
+      const int TunnelingStart = (HeatOfReaction > 0) ? int(HeatOfReaction) : 0;
 
-		// Allocate space to hold Micro-canonical rate coefficients and initialize elements to zero.
-		TSFlux.resize(MaximumCell, 0.0);
+      vector<double> TunnelingProbability;
 
-		// Allocate some work space for density of states.
+      pReact->calculateCellTunnelingCoeffs(TunnelingProbability);
 
-		vector<double> TScellDOS; // Transition state density of states.
-		vector<double> rctCellDOS; // Density of states in the well (reactant)
+      for (int i = TunnelingStart; i < MaximumCell; ++i) {
+        // Integrate transition state density of states.
+        double SumOfStates = 0.0;
+        for (int j = 0; j <= i; ++j){
+          SumOfStates += TunnelingProbability[i-j] * TScellDOS[j];
+        }
+        // Calculate transition state flux using RRKM expression with tunneling correction.
+        TSFlux[i - TunnelingStart] = SumOfStates * SpeedOfLight_in_cm;
+      }
 
-		// Extract densities of states from molecules.
-		p_rct->getCellDensityOfStates(rctCellDOS) ;
-		pTS->getCellDensityOfStates(TScellDOS) ;
+      // the flux bottom energy is equal to the ZPE of the higher well
+      if (TunnelingStart > 0) {
+        pReact->setCellFluxBottom(pReact->get_relative_pdtZPE());
+      }
+      else{
+        pReact->setCellFluxBottom(pReact->get_relative_rctZPE());
+      }
 
-		int thresholdEnergy = int(pReact->get_ThresholdEnergy()) ;
+    }
+    else{ // without tunneling
+      double SumOfStates = 0.0;
+      for (int i = 0 ; i < MaximumCell ; ++i) {
+        // Integrate transition state density of states.
+        SumOfStates += TScellDOS[i];
 
-		if (pReact->thereIsTunnelling()) { // with tunneling
+        // Calculate microcanonical rate coefficients using RRKM expression.
+        TSFlux[i] = SumOfStates * SpeedOfLight_in_cm;
+      }
 
-			vector<double> TunnelingProbability;
+      // the flux bottom energy is equal to the ZPE of the transition state
+      pReact->setCellFluxBottom(pReact->get_relative_rctZPE() + pReact->get_ThresholdEnergy());
+    }
 
-			pReact->calculateTunnelingCoeffs(TunnelingProbability);
 
-			for (int i = 0; i < MaximumCell ; ++i) {
-				// Integrate transition state density of states.
-				double SumOfStates = 0.0;
-				for (int j = 0; j <= i; ++j) 
-					SumOfStates += TunnelingProbability[i-j] * TScellDOS[j];
-
-				// Calculate microcanonical rate coefficients using RRKM expression with tunneling correction.
-				TSFlux[i] = SumOfStates * SpeedOfLight_in_cm / rctCellDOS[i];
-			}
-		}
-		else{ // without tunneling
-			double SumOfStates = 0.0;
-			for (int i = thresholdEnergy, j = 0 ; i < MaximumCell ; ++i, ++j ) {
-				// Integrate transition state density of states.
-				SumOfStates += TScellDOS[j];
-
-				// Calculate microcanonical rate coefficients using RRKM expression.
-				TSFlux[i] = SumOfStates * SpeedOfLight_in_cm / rctCellDOS[i];
-			}
-		}
-
-		return true;
-	}
+    return true;
+  }
 
 }//namespace

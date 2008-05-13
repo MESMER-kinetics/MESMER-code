@@ -341,7 +341,7 @@
             </propertyList>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
         </molecule>
-        <molecule id="HO2">
+        <molecule id="HO_2">
             <atomarray>
                 <atom id="a1" elementType="H" />
                 <atom id="a2" elementType="O" />
@@ -589,6 +589,7 @@
             <me:MCRCMethod>Mesmer ILT</me:MCRCMethod>
             <me:preExponential>6.00e-12</me:preExponential>
             <me:excessReactantConc>2.25E16</me:excessReactantConc>
+            <me:activationEnergy>0.0</me:activationEnergy>
             <me:nInfinity>-0.5</me:nInfinity>
         </reaction>
         <reaction id="R2">
@@ -608,6 +609,12 @@
             <reactant>
                 <molecule ref="Int2" me:type="modelled" />
             </reactant>
+            <product>
+                <molecule ref="lactone" me:type="sink" />
+            </product>
+            <product>
+                <molecule ref="OH" me:type="sink" />
+            </product>
             <me:transitionState>
                 <molecule ref="TS3" me:type="transitionState" />
             </me:transitionState>
@@ -617,6 +624,12 @@
             <reactant>
                 <molecule ref="Int1" me:type="modelled" />
             </reactant>
+            <product>
+                <molecule ref="ketene" me:type="sink" />
+            </product>
+            <product>
+                <molecule ref="HO_2" me:type="sink" />
+            </product>
             <me:transitionState>
                 <molecule ref="TS2" me:type="transitionState" />
             </me:transitionState>
@@ -627,7 +640,7 @@
         <me:bathGas>He</me:bathGas>
         <me:CPTs>
           <me:CPTpair me:units="Torr" me:CP="200.72" me:T="298." />
-          <me:CPTpair me:units="Torr" me:CP="201.60" me:T="298." />
+          <!--<me:CPTpair me:units="Torr" me:CP="201.60" me:T="298." />-->
           <!--<me:CPTpair me:units="Torr" me:CP="10.06" me:T="298." />-->
           <!--<me:CPTpair me:units="Torr" me:CP="15.01" me:T="298." />-->
         </me:CPTs>
@@ -647,8 +660,6 @@
         <me:printGrainDOS />
         <!--<me:printCellDOS />-->
         <!--<me:printCollisionOperatorColumnSums />-->
-        <!--<me:printCellkfE />-->
-        <!--<me:printCellkbE />-->
         <me:printTunnelingCoefficients />
         <me:printGrainkfE />
         <!--<me:printGrainBoltzmann />-->

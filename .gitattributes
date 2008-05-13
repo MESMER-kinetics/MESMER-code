@@ -14,6 +14,8 @@ Documentation/mybib.bib -text
 Documentation/proposal.doc -text
 Documentation/proposal.tex -text
 MesmerQA/Acetyl[!!-~]O2[!!-~]association/Acetyl_O2_association.xml -text
+MesmerQA/Acetyl[!!-~]O2[!!-~]association/baselines/Win32/Acetyl_O2_association.20080513_105018.xml -text
+MesmerQA/Acetyl[!!-~]O2[!!-~]association/baselines/Win32/mesmer.test -text
 MesmerQA/HSO2/HSO2.xml -text
 MesmerQA/HSO2/HSO2_test.xml -text
 MesmerQA/HSO2/baselines/Cygwin[!!-~]32-bit[!!-~]double/HSO2_test.20071204_105924.xml -text
@@ -31,6 +33,7 @@ MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Win32/old/mesmer.test -tex
 MesmerQA/cyclopropene[!!-~]isomerization/Cyclopropene_isomerization_test.xml -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/Cyclopropene_isomerization.20080417_150318.xml -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/mesmer.test -text
+MesmerQA/methylene[!!-~]D2[!!-~]association/methylene_D2_association.xml -text
 MesmerQA/pentyl/baselines/Cygwin[!!-~]32-bit[!!-~]double/pentyl_isomerization.20071204_105247.xml -text
 MesmerQA/pentyl/baselines/Cygwin[!!-~]32-bit[!!-~]double/pentyl_isomerization.out -text
 MesmerQA/pentyl/baselines/Win32/mesmer.log -text
@@ -213,6 +216,7 @@ src/SimpleILT.cpp -text
 src/SimpleILT.h -text
 src/SimpleRRKM.cpp -text
 src/SimpleRRKM.h -text
+src/SinkMolecule.cpp -text
 src/SuperMolecule.cpp -text
 src/System.cpp -text
 src/System.h -text
@@ -297,6 +301,7 @@ tinyxml/tinyXmlTest.dsp -text
 tinyxml/tinyXmlTestSTL.dsp -text
 tinyxml/tinystr.cpp -text
 tinyxml/tinystr.h -text
+tinyxml/tinyxml.a -text
 tinyxml/tinyxml.cpp -text
 tinyxml/tinyxml.dsw -text
 tinyxml/tinyxml.h -text

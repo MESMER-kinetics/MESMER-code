@@ -58,6 +58,8 @@ Molecule* MoleculeManager::addmol(string& molName, string& molType, PersistPtr p
       pmolecule = static_cast<Molecule*>(new TransitionState(Env));
     else if(molType=="bathGas")
       pmolecule = static_cast<Molecule*>(new BathGasMolecule(Env));
+    else if(molType=="sink")
+      pmolecule = static_cast<Molecule*>(new SinkMolecule(Env));
     else
       pmolecule = static_cast<Molecule*>(new Molecule(Env));
 

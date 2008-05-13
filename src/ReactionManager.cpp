@@ -66,7 +66,7 @@ namespace mesmer
         preaction = new IsomerizationReaction(m_pMoleculeManager, Env, id) ;
       else if(bRct2 && bPdt1 && !bPdt2)
         preaction = new AssociationReaction(m_pMoleculeManager, Env, id) ;
-      else if(!bRct2 && !bPdt1 && !bPdt2)
+      else if(!bRct2 && bPdt1 && bPdt2)
         preaction = new DissociationReaction(m_pMoleculeManager, Env, id) ;
       else if(bRct2 && bPdt1 && bPdt2)
         preaction = new ExchangeReaction(m_pMoleculeManager, Env, id) ;
@@ -74,6 +74,9 @@ namespace mesmer
         cinfo << "Unknown reaction type.\n";
         return false ;
       }
+      /*The information of the products of a dissociation reaction is necessary, as in the xml output, Mesmer needs to know
+      the products to draw the potential energy surface. In addition, for dissociation reaction with QM tunneling,
+      Mesmer also needs to know the barrier height on the products side. */
 
       //
       // Initialize Reaction from input stream.
@@ -108,7 +111,51 @@ namespace mesmer
     }
   }
 
-  bool ReactionManager::BuildSystemCollisionOperator(const MesmerEnv &Env)
+  bool ReactionManager::SetGrainParams(MesmerEnv &Env, const double minEne, const double maxEne)
+  {
+    //  Grain size and number of grain:
+    //
+    //  - Either grain size or number of grains can be specified, but not both.
+    //
+    //  - Uses the value of grain size in the datafile, if specified.
+    //
+    //  - If grain size is not specified but number of grains is, use a grain size to fit the energy range.
+    //  If neither is specified, the grain size is set to 100cm-1 and the number of grains set so that
+    //  the energy range is sufficient.
+    //
+    //  Energy Range:
+    //
+    //  - The required total energy domain extends from the lowest zero point energy of the lowest molecule
+    //  to 10 k_B T above the highest.
+
+    Env.EMin = minEne;
+    Env.EMax = maxEne;
+
+    /*For testing purposes, set the maxGrn based on the highest temperature we use in all calculations.*/
+    double MaximumTemperature = Env.MaximumTemperature;
+
+    /*EAboveHill: Max energy above the highest hill. The temperature refers to the current condition.*/
+    if (Env.useTheSameCellNumber){
+      Env.EMax += Env.EAboveHill * MaximumTemperature * boltzmann_RCpK;
+    }
+    else{
+      Env.EMax += Env.EAboveHill / Env.beta;
+    }
+
+    if(Env.GrainSize <= 0.0){
+      Env.GrainSize = 100; //default 100cm-1
+      cerr << "Grain size was invalid. Reset grain size to default: 100";
+    }
+
+    Env.MaxGrn = (int)((Env.EMax-Env.EMin)/Env.GrainSize + 0.5);
+    Env.MaxCell = Env.GrainSize * Env.MaxGrn;
+
+    cerr << "Cell number = " << Env.MaxCell << ", Grain number = " << Env.MaxGrn << endl;
+
+    return true;
+  }
+
+  bool ReactionManager::BuildSystemCollisionOperator(MesmerEnv &Env)
   {
     // reset the DOS calculation flags before building the system collision operator
     resetCalcFlags();
@@ -117,112 +164,134 @@ namespace mesmer
     // Find all the unique wells and lowest zero point energy.
     //
     Reaction::isomerMap isomers ; // Maps the location of reactant collision operator in the system matrix.
-    m_minEnergy = 0.0 ; //this is the minimum of ZPE amongst all wells
-    Molecule *pBathGasMolecule = m_pMoleculeManager->get_BathGasMolecule();
+    double minEnergy = 0.0 ; //this is the minimum of ZPE amongst all wells
+    double maxEnergy = 0.0 ; //this is the maximum of ZPE amongst all hills
+    BathGasMolecule *pBathGasMolecule = dynamic_cast<BathGasMolecule*>(m_pMoleculeManager->get_BathGasMolecule());
 
-    // populate isomerMap with unimolecular species
+    // populate isomerMap with unimolecular species and determine minimum/maximum energy on the PES
     for (size_t i(0) ; i < size() ; ++i) {
-
       vector<ModelledMolecule *> unimolecules ;
-
       m_reactions[i]->get_unimolecularspecies(unimolecules) ;
 
-      for (size_t i(0) ; i < unimolecules.size() ; ++i) {
-        CollidingMolecule *pCollidingMolecule = dynamic_cast<CollidingMolecule*>(unimolecules[i]) ;
+      // populate isomerMap with unimolecular species
+      for (size_t j(0) ; j < unimolecules.size() ; ++j) {
+        // wells
+        CollidingMolecule *pCollidingMolecule = dynamic_cast<CollidingMolecule*>(unimolecules[j]) ;
         if(isomers.find(pCollidingMolecule) == isomers.end()){ // New isomer
           isomers[pCollidingMolecule] = 0 ; //initialize to a trivial location
-          m_minEnergy = min(m_minEnergy, pCollidingMolecule->get_zpe()) ;
+          minEnergy = min(minEnergy, pCollidingMolecule->get_zpe()) ;
+          maxEnergy = max(maxEnergy, pCollidingMolecule->get_zpe()) ;
         }
       }
+
+      // SuperMolecules
+      // first check for any SuperMolecule in this reaction
+      SuperMolecule* pSuper = m_reactions[i]->get_bi_molecularspecies();
+      if (pSuper){
+        minEnergy = min(minEnergy, pSuper->get_zpe()) ;
+        maxEnergy = max(maxEnergy, pSuper->get_zpe()) ;
+      }
+
+      // Transition State
+      // third check for the transition state in this reaction
+      TransitionState *pTransitionState = m_reactions[i]->get_TransitionState();
+      if (pTransitionState){
+        minEnergy = min(minEnergy, pTransitionState->get_zpe()) ;
+        maxEnergy = max(maxEnergy, pTransitionState->get_zpe()) ;
+      }
     }
+
+    // set grain parameters for the current Temperature/pressure condition
+    if(!SetGrainParams(Env, minEnergy, maxEnergy))
+      return false;
 
     // Set grain ZPE for all species involved in the reactions according to the minimum energy of the system.
     for (size_t i(0) ; i < size() ; ++i) {
       // first check for any SuperMolecule in this reaction
       SuperMolecule* pSuper = m_reactions[i]->get_bi_molecularspecies();
-      // the grain ZPE of SuperMolecule has to be calculated from zpeReactant1 + zpeReactant2 - m_minEnergy
+      // the grain ZPE of SuperMolecule has to be calculated from zpeReactant1 + zpeReactant2 - minEnergy
       if (pSuper){
-        double zpe = (pSuper->get_zpe()) - m_minEnergy ; // cell zpe with respect to the minimum of all wells
-        int grnZpe = int(zpe / Env.GrainSize) ; //convert to grain
-        if (grnZpe < 0) cerr << "Grain zero point energy has to be a positive integer.";
-        pSuper->set_grnZpe(grnZpe) ; //set grain ZPE (with respect to the minimum of all wells)
+        double zpe = pSuper->get_relative_ZPE(); 
+        pSuper->set_grainValues(zpe);
       }
 
       // second check for unimolecular species in this reaction
       std::vector<ModelledMolecule *> unimolecules ;
       m_reactions[i]->get_unimolecularspecies(unimolecules) ;
-        for (size_t i(0) ; i < unimolecules.size() ; ++i) {
-          CollidingMolecule *pCollidingMolecule = dynamic_cast<CollidingMolecule*>(unimolecules[i]) ;
-          double zpe = (pCollidingMolecule->get_zpe()) - m_minEnergy ; // cell zpe with respect to the minimum of all wells
-          int grnZpe = int(zpe / Env.GrainSize) ; //convert to grain
-          if (grnZpe < 0) cerr << "Grain zero point energy has to be a positive integer.";
-          pCollidingMolecule->set_grnZpe(grnZpe) ; //set grain ZPE (with respect to the minimum of all wells)
-        }
-
-    }
-
-
-    //
-    // Shift all wells to the same origin, calculate the size of the system collision operator,
-    // calculate the mean collision frequency and initialize all collision operators.
-    //
-    int msize(0) ; // size of the collision matrix
-    Reaction::isomerMap::iterator isomeritr = isomers.begin() ;
-    for (; isomeritr != isomers.end() ; ++isomeritr) {
-
-      CollidingMolecule *isomer = isomeritr->first ;
-      isomeritr->second = msize ; //set location
-
-      int grnZpe = isomer->get_grnZpe() ; //set grain ZPE (with respect to the minimum of all wells)
-
-      int colloptrsize = Env.MaxGrn - grnZpe ;
-      isomer->set_colloptrsize(colloptrsize) ;
-      msize += colloptrsize ;
-
-      isomer->initCollisionOperator(Env.beta, pBathGasMolecule) ;
-      m_meanOmega += isomer->get_collisionFrequency() ;
-    }
-    m_meanOmega /= isomers.size();
-
-    //
-    // Find all source terms.
-    // Note: 1. A source term is probably the only deficient reactant that initiates
-    //          the whole process of reactions in the master equation. In this case
-    //          we think there may be more than one source terms.
-    //       2. In the current construction of Mesmer, the source is a SuperMolecule
-    //          representing both reactants.
-    Reaction::sourceMap sources ; // Maps the location of source in the system matrix.
-    for (size_t i(0) ; i < size() ; ++i) {
-      AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
-      if (pReaction) {
-        SuperMolecule *pSuperMolecule = pReaction->get_bi_molecularspecies();
-        if (pSuperMolecule && sources.find(pSuperMolecule) == sources.end()){ // New source
-          sources[pSuperMolecule] = msize ;
-          pReaction->putSourceMap(&sources) ;
-          ++msize ;
-        }
+      for (size_t j(0) ; j < unimolecules.size() ; ++j) {
+        CollidingMolecule *pCollidingMolecule = dynamic_cast<CollidingMolecule*>(unimolecules[j]) ;
+        double zpe = pCollidingMolecule->get_relative_ZPE() ;
+        pCollidingMolecule->set_grainValues(zpe);
       }
     }
 
-    // Allocate space for system collision operator.
-
-    m_pSystemCollisionOperator = new dMatrix(msize) ;
-
-    // Insert collision operators for individual wells.
-    for (isomeritr = isomers.begin() ; isomeritr != isomers.end() ; ++isomeritr) {
-
-      CollidingMolecule *isomer = isomeritr->first ;
-      int colloptrsize = isomer->get_colloptrsize() ;
-      double omega = isomer->get_collisionFrequency() ;
-      int idx = isomeritr->second ;
-
-      isomer->copyCollisionOperator(m_pSystemCollisionOperator, colloptrsize, idx, omega/m_meanOmega) ;
-
+    // Caluclate TSFlux and k(E)s
+    for (size_t i(0) ; i < size() ; ++i) {
+      m_reactions[i]->calcGrnAvrgMicroRateCoeffs() ;
     }
 
-    // Add connecting rate coefficients.
-    for (size_t i(0) ; i < size() ; ++i) {
-      m_reactions[i]->AddMicroRates(m_pSystemCollisionOperator,isomers,1.0/m_meanOmega) ;
+    if (!Env.rateCoefficientsOnly){
+      //
+      // Shift all wells to the same origin, calculate the size of the system collision operator,
+      // calculate the mean collision frequency and initialize all collision operators.
+      //
+      int msize(0) ; // size of the collision matrix
+      Reaction::isomerMap::iterator isomeritr = isomers.begin() ;
+      for (; isomeritr != isomers.end() ; ++isomeritr) {
+
+        CollidingMolecule *isomer = isomeritr->first ;
+        isomeritr->second = msize ; //set location
+
+        int grnZpe = isomer->get_grnZpe() ; //set grain ZPE (with respect to the minimum of all wells)
+
+        int colloptrsize = Env.MaxGrn - grnZpe ;
+        isomer->set_colloptrsize(colloptrsize) ;
+        msize += colloptrsize ;
+
+        isomer->initCollisionOperator(Env.beta, pBathGasMolecule) ;
+        m_meanOmega += isomer->get_collisionFrequency() ;
+      }
+      m_meanOmega /= isomers.size();
+
+      //
+      // Find all source terms.
+      // Note: 1. A source term is probably the only deficient reactant that initiates
+      //          the whole process of reactions in the master equation. In this case
+      //          we think there may be more than one source terms.
+      //       2. In the current construction of Mesmer, the source is a SuperMolecule
+      //          representing both reactants.
+      Reaction::sourceMap sources ; // Maps the location of source in the system matrix.
+      for (size_t i(0) ; i < size() ; ++i) {
+        AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
+        if (pReaction) {
+          SuperMolecule *pSuperMolecule = pReaction->get_bi_molecularspecies();
+          if (pSuperMolecule && sources.find(pSuperMolecule) == sources.end()){ // New source
+            sources[pSuperMolecule] = msize ;
+            pReaction->putSourceMap(&sources) ;
+            ++msize ;
+          }
+        }
+      }
+
+      // Allocate space for system collision operator.
+      m_pSystemCollisionOperator = new dMatrix(msize) ;
+
+      // Insert collision operators for individual wells.
+      for (isomeritr = isomers.begin() ; isomeritr != isomers.end() ; ++isomeritr) {
+
+        CollidingMolecule *isomer = isomeritr->first ;
+        int colloptrsize = isomer->get_colloptrsize() ;
+        double omega = isomer->get_collisionFrequency() ;
+        int idx = isomeritr->second ;
+
+        isomer->copyCollisionOperator(m_pSystemCollisionOperator, colloptrsize, idx, omega/m_meanOmega) ;
+
+      }
+
+      // Add connecting rate coefficients.
+      for (size_t i(0) ; i < size() ; ++i) {
+        m_reactions[i]->AddReactionTerms(m_pSystemCollisionOperator,isomers,1.0/m_meanOmega) ;
+      }
     }
 
     return true;

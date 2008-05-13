@@ -57,23 +57,22 @@ namespace mesmer
     if(ppParams)
     {
       const char* txt = ppParams->XmlReadValue("me:grainSize",false);
-      if(txt) { istringstream ss(txt); ss >> m_Env.GrainSize; }
-
-      txt = ppParams->XmlReadValue("me:numberOfGrains",false);
-      if(txt) { istringstream ss(txt); ss >> m_Env.MaxGrn; }
+      if(txt){
+        istringstream ss(txt); ss >> m_Env.GrainSize;
+      }
+      else{
+        cinfo << "Grain size is not provided. Default grain size = " << m_Env.GrainSize << " is used";
+      }
 
       txt = ppParams->XmlReadValue("me:maxTemperature",false);
-      if(txt) { istringstream ss(txt); ss >> m_Env.MaxT; }
+      if(txt) {
+        istringstream ss(txt);
+        ss >> m_Env.MaximumTemperature;
+      }
 
       txt = ppParams->XmlReadValue("me:energyAboveTheTopHill",false);
       if(txt) { istringstream ss(txt); ss >> m_Env.EAboveHill; }
 
-      if(m_Env.GrainSize!=0.0 && m_Env.MaxGrn!=0)
-      {
-        cerr << "No method is provided to specify me:grainSize and me:numberOfGrains.\n"
-                 << "me:numberOfGrains has been ignored";
-        m_Env.MaxGrn=0;
-      }
     }
 
     //-------------
@@ -143,18 +142,22 @@ namespace mesmer
     PersistPtr ppControl = ppIOPtr->XmlMoveTo("me:control");
     if(ppControl)
     {
-      m_Env.testDOSEnabled        = ppControl->XmlReadBoolean("me:testDOS");
-      m_Env.microRateEnabled      = ppControl->XmlReadBoolean("me:testMicroRates");
-      m_Env.grainBoltzmannEnabled = ppControl->XmlReadBoolean("me:printGrainBoltzmann");
-      m_Env.grainDOSEnabled       = ppControl->XmlReadBoolean("me:printGrainDOS");
-      m_Env.cellDOSEnabled        = ppControl->XmlReadBoolean("me:printCellDOS");
-      m_Env.collisionOCSEnabled   = ppControl->XmlReadBoolean("me:printCollisionOperatorColumnSums");
-      m_Env.kfECellsEnabled       = ppControl->XmlReadBoolean("me:printCellkfE");
-      m_Env.kfEGrainsEnabled      = ppControl->XmlReadBoolean("me:printGrainkfE");
-      m_Env.kbECellsEnabled       = ppControl->XmlReadBoolean("me:printCellkbE");
-      m_Env.kbEGrainsEnabled      = ppControl->XmlReadBoolean("me:printGrainkbE");
-      m_Env.TunnelingCoeffEnabled = ppControl->XmlReadBoolean("me:printTunnelingCoefficients");
-
+      m_Env.testDOSEnabled              = ppControl->XmlReadBoolean("me:testDOS");
+      m_Env.microRateEnabled            = ppControl->XmlReadBoolean("me:testMicroRates");
+      m_Env.grainBoltzmannEnabled       = ppControl->XmlReadBoolean("me:printGrainBoltzmann");
+      m_Env.grainDOSEnabled             = ppControl->XmlReadBoolean("me:printGrainDOS");
+      m_Env.cellDOSEnabled              = ppControl->XmlReadBoolean("me:printCellDOS");
+      m_Env.collisionOCSEnabled         = ppControl->XmlReadBoolean("me:printCollisionOperatorColumnSums");
+      m_Env.kfEGrainsEnabled            = ppControl->XmlReadBoolean("me:printGrainkfE");
+      m_Env.kbEGrainsEnabled            = ppControl->XmlReadBoolean("me:printGrainkbE");
+      m_Env.TunnelingCoeffEnabled       = ppControl->XmlReadBoolean("me:printTunnelingCoefficients");
+      m_Env.cellTSFluxEnabled           = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
+      m_Env.grainTSFluxEnabled          = ppControl->XmlReadBoolean("me:printGrainTransitionStateFlux");
+      m_Env.rateCoefficientsOnly        = ppControl->XmlReadBoolean("me:calculateRateCoefficinetsOnly");
+      m_Env.useTheSameCellNumber        = ppControl->XmlReadBoolean("me:useTheSameCellNumberForAllConditions");
+      if (!m_Env.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
+        m_Env.useTheSameCellNumber = true;
+      }
       const char* txt = ppControl->XmlReadValue("me:eigenvalues",false);
       if(txt) {
         istringstream ss(txt);
@@ -238,12 +241,6 @@ namespace mesmer
   {
     TimeCount events; unsigned int timeElapsed =0;
 
-    if(!SetGrainParams())
-      return;
-
-    //std::string id;
-    //ModelledMolecule* pmol = NULL;
-
     WriteMetadata();
 
     //---------------
@@ -258,24 +255,27 @@ namespace mesmer
     cinfo << "Precision: " << precisionMethod << endl;
     //---------------
 
+    // Find the highest temperature
+    for (unsigned int i = 0; i < CPandTs.size(); ++i){
+      m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, CPandTs[i].temperature);
+    }
+
     //---------------------------------------------
     // looping over temperatures and concentrations
     unsigned int calPoint = 0;
     for (calPoint = 0; calPoint < CPandTs.size(); ++calPoint){
       m_Env.beta = 1.0 / (boltzmann_RCpK * CPandTs[calPoint].temperature) ; //temporary statements
-      double beta = m_Env.beta;
       m_Env.conc = CPandTs[calPoint].concentration;
       // unit of conc: particles per cubic centimeter
-
-      ctest << "\nCondition: conc = " << m_Env.conc << ", temp = " << CPandTs[calPoint].temperature << "\n{\n";
-
+      cerr << "\nGrid " << calPoint << "\n";
+      ctest << "Condition: conc = " << m_Env.conc << ", temp = " << CPandTs[calPoint].temperature << "\n{\n";
       // Build collison matrix for system.
       {string thisEvent = "Build Collison Operator";
        cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;}
       if (!m_pReactionManager->BuildSystemCollisionOperator(m_Env)){
         cerr << "Failed building system collison operator.";
       }
-      
+
       // Calculate eigenvectors and eigenvalues.
       {string thisEvent = "Diagonlize Collision Operator";
        cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";}
@@ -303,71 +303,6 @@ namespace mesmer
      cinfo << "In total, " << calPoint << " temperature/concentration-pressure points calculated." << endl;}
 
     cinfo << events;
-  }
-
-  bool System::SetGrainParams()
-  {
-    /*
-    Grain size and number of grain:
-
-      - Either grain size or number of grains can be specified, but not both.
-
-      - Uses the value of grain size in the datafile, if specified.
-
-      - If grain size is not specified but number of grains is, use a grain size to fit the energy range.
-        If neither is specified, the grain size is set to 100cm-1 and the number of grains set so that
-        the energy range is sufficient.
-
-    Energy Range:
-
-      - The required total energy domain extends from the lowest zero point energy of the lowest molecule
-        to 10kT above the highest. <me:maxTemperature> is used, if specified in the data file.
-        But, if the input energy of the system is higher, should this be used?
-    */
-
-    //Calculate the energy range covering all modelled molecules
-    const double BIG = 1e100;
-    m_Env.EMax = 0.0; m_Env.EMin = BIG;
-
-    std::string id; ModelledMolecule* pmol = NULL;
-    while(m_pMoleculeManager->GetNextMolecule(id, pmol))
-    {
-      double zpe = pmol->get_zpe() ;
-      m_Env.EMax = std::max(m_Env.EMax, zpe);
-      m_Env.EMin = std::min(m_Env.EMin, zpe);
-    }
-
-    if(m_Env.EMin==BIG || m_Env.EMax==0.0)
-    {
-      cerr << "The modelled molecules do not cover an appropriate energy range";
-      return false;
-    }
-
-    //m_Env.MaxT gives the option of widening the energy range
-    if(m_Env.MaxT <= 0.0){
-      std::vector<double> Temperatures;
-      for (unsigned int i = 0; i < CPandTs.size(); ++i) Temperatures.push_back(CPandTs[i].temperature);
-      m_Env.MaxT = *max_element(Temperatures.begin(), Temperatures.end());
-//      cinfo << "Maximum Temperature was not set. Reset Maximum Temperature, me:maxTemperature to remove this message.";
-    }
-
-    //EAboveHill: Max energy above the highest well.
-    m_Env.EMax = m_Env.EMax + m_Env.EAboveHill * boltzmann_RCpK * m_Env.MaxT;
-    if(m_Env.GrainSize <= 0.0){
-      m_Env.GrainSize = 100.; //default 100cm-1
-      cerr << "Grain size was invalid. Reset grain size to default: 100";
-    }
-
-    if(m_Env.MaxGrn <= 0)
-      m_Env.MaxGrn = (int)((m_Env.EMax-m_Env.EMin)/m_Env.GrainSize + 0.5);
-    else
-      m_Env.GrainSize = (m_Env.EMax-m_Env.EMin)/m_Env.MaxGrn;
-
-    m_Env.MaxCell = (int)(m_Env.GrainSize * m_Env.MaxGrn + 0.5);
-
-    cerr << "Cell number = " << m_Env.MaxCell << ", Grain number = " << m_Env.MaxGrn << endl;
-
-    return true;
   }
 
   bool System::ReadRange(const string& name, vector<double>& vals, PersistPtr ppbase, bool MustBeThere)

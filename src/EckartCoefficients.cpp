@@ -9,39 +9,41 @@ namespace mesmer
   EckartCoefficients theEckartCoefficients("Eckart");
   //************************************************************
 
-  bool EckartCoefficients::calculateTunnelingCoeffs(Reaction* pReact, vector<double>& TunnelingProbability){
+
+
+  bool EckartCoefficients::calculateCellTunnelingCoeffs(Reaction* pReact, vector<double>& TunnelingProbability){
     std::vector<ModelledMolecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
     ModelledMolecule * pReactant = unimolecularspecies[0];
     ModelledMolecule * p_Product = unimolecularspecies[1];
     TransitionState  * p_TransitionState = pReact->get_TransitionState();
-    //TC is the classical energy of the TS
-    double TC = p_TransitionState->getClassicalEnergy();
-    //TZ is the zpe of the TS
-    double TZ = p_TransitionState->get_zpe();
 
+    //TC is the classical energy of the TS
+    const double TC = p_TransitionState->getClassicalEnergy();
     //V0 & V1 are the classical barrier heights in the forward/reverse directions
-    double V0 = (TC - pReactant->getClassicalEnergy());
-    double V1 = (TC - p_Product->getClassicalEnergy());
+    const double V0 = TC - pReactant->getClassicalEnergy();
+    const double V1 = TC - p_Product->getClassicalEnergy();
+
+    //TZ is the zpe of the TS
+    const double TZ = pReact->get_relative_TSZPE();
     //barrier0 & barrier1 are the zpe corrected barrier heights in the forward/reverse directions
-    double barrier0 = (TZ - pReactant->get_zpe());
-    double barrier1 = (TZ - p_Product->get_zpe());
+    const int barrier0 = int(TZ) - int(pReact->get_relative_rctZPE());
+    const int barrier1 = int(TZ) - int(pReact->get_relative_pdtZPE());
+
     //imFreq is the imaginary frequency of the TS
-    double imFreq = pReact->get_TSImFreq() * SpeedOfLight_in_cm; // convert im_freq from cm-1 -> Hz
+    const double imFreq = pReact->get_TSImFreq() * SpeedOfLight_in_cm; // convert im_freq from cm-1 -> Hz
 
     //get properties of vectors in which to include transmission coefficients
-    const MesmerEnv& mEnv = pReactant->getEnv();
-    int MaxCell = mEnv.MaxCell;
-    TunnelingProbability.resize(MaxCell);
+    const int MaximumCell = pReactant->getEnv().MaxCell;
+    TunnelingProbability.resize(MaximumCell);
 
     //set transmission coefficients to 0 where no tunneling is possible;
     //where tunneling may occur, the transmission coefficients are calculated using, a, b, & c, 
     //for a 1d eckart barrier as described by W.H. Miller, JACS, 101(23), 1979
 
-    for(int i = 0; i < MaxCell; ++i){
-      double j = double(i);
-      double E = j - barrier0;
-      if ((E + barrier1)<0.0){
+    for(int i = 0; i < MaximumCell; ++i){
+      int E = i - barrier0;
+      if ((E + barrier1) < 0){
         TunnelingProbability[i] = 0.0;
       }
       else
@@ -59,7 +61,7 @@ namespace mesmer
         << "\nV0 = " << V0 << ", V1 = " << V1 
         << ", barrier0 = " << barrier0 << ", barrier1 = " << barrier1 
         << ", imFreq = " << imFreq << "\n{\n";
-      for(int i = 0; i < MaxCell; ++i){
+      for(int i = 0; i < MaximumCell; ++i){
         ctest << TunnelingProbability[i] << endl;
       }
       ctest << "}\n";

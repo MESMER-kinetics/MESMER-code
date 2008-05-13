@@ -36,9 +36,6 @@ namespace mesmer
     // Initialize reaction.
     virtual bool InitializeReaction(PersistPtr ppReac) = 0 ;
 
-    // Add microcanonical terms to collision operator
-    void AddMicroRates(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega);
-
     // Access microcanoincal rate coeffcients.
     void get_MicroRateCoeffs(std::vector<double> &kmc) ;
 
@@ -48,15 +45,19 @@ namespace mesmer
     double get_NInf()const                { return m_NInf   ; } ;
     void set_NInf(double value)           { m_NInf = value;}
     double getHeatOfReaction() const      { return m_HeatOfReaction ; };
-    void setHeatOfReaction(double value)  { m_HeatOfReaction = value;}
+    int getHeatOfReactionInt() const         { return m_HeatOfReactionInt; };
+    void setHeatOfReaction(const double pdtZPE, const double rctZPE);
+    void setHeatOfReaction(const double value);
     const MesmerEnv& getEnv() const       { return m_Env; } ;
     void resetCalcFlag()                  { restartCalc = true; };
-         
-    // Calculate association reaction coefficients
-    virtual void grainRateCoeffDetailedBalance(const int dir) = 0 ;
+
+    // return reactant and product zero-point energy
+    virtual double get_relative_rctZPE(void) const = 0;
+    virtual double get_relative_pdtZPE(void) const = 0;
+    virtual double get_relative_TSZPE(void) const = 0;
 
     // Get activiation energy
-    double get_ThresholdEnergy(void);
+    virtual double get_ThresholdEnergy(void) const;
 
     TransitionState* get_TransitionState() const { return m_TransitionState ; } ;
 
@@ -74,18 +75,58 @@ namespace mesmer
 
     bool thereIsTunnelling (void) const {return (m_pTunnelingCalculator) ? true : false ; } ;
 
-    void calculateTunnelingCoeffs(std::vector<double>& TunnelingProbability) {m_pTunnelingCalculator->calculateTunnelingCoeffs(this, TunnelingProbability); } ;
+    void calculateCellTunnelingCoeffs(std::vector<double>& TunnelingProbability) {m_pTunnelingCalculator->calculateCellTunnelingCoeffs(this, TunnelingProbability); } ;
+
+    void calculateGrainTunnelingCoeffs(std::vector<double>& TunnelingProbability);
+
+    // calculate TSFlux in grains
+    void TSFluxCellToGrain(const std::vector<double>& shiftedTScellFlux);
+
+    // shift transitions state cell flux
+    void shiftTScellFlux(std::vector<double>& shiftedTScellFlux);
+
+    // returns the flux in cells for foreign modifications
+    std::vector<double>& get_CellFlux(void) {return m_CellTSFlux; };
+
+    // returns the forward grain microcanoincal rate coefficients for foreign modifications
+    const std::vector<double>& get_GrainKfmc(void) {return m_GrainKfmc; };
+
+    // returns the backward grain microcanoincal rate coefficients for foreign modifications
+    std::vector<double>& get_GrainKbmc(void) {return m_GrainKbmc; };
+
+    // set the bottom energy of m_CellTSFlux
+    void setCellFluxBottom(const double energyValue);
+
+    // get the bottom grain ZPE of m_GrainTSFlux
+    const int getTSFluxGrnZPE(void){return int(m_FluxGrainZPE);};
+
+    // get the bottom cell offset of m_CellTSFlux
+    const int getTSFluxCellOffset(void){return m_FluxCellOffset;};
+    
+    // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
+    bool calcGrnAvrgMicroRateCoeffs() ;
+
+    // Add reaction terms to collision matrix.
+    virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) = 0 ;
 
   protected:
-
-    // Grain averaging shorthand function for microcanoical rate coefficients
-    void rateConstantGrnAvg(const int _MG, const int _gsz, const std::vector<double> &DOS, const std::vector<double> &CellRC, std::vector<double> &GrainRC);
 
     // Read a molecule name from the XML file and look it up
     Molecule* GetMolRef(PersistPtr pp);
 
     // I/O and control
     PersistPtr           m_ppPersist;            // Conduit for I/O
+
+    //
+    // Reaction composition.
+    //
+
+    CollidingMolecule   *m_rct1 ;                 // Reactant Molecule.
+    TransitionState     *m_TransitionState;       // TransitionState
+
+    MoleculeManager     *m_pMoleculeManager ;     // Pointer to molecule manager.
+    MicroRateCalculator *m_pMicroRateCalculator ; // Pointer to microcanoical rate coeff. calculator.
+    TunnelingCalculator *m_pTunnelingCalculator ; // Pointer to Tunneling Calculator
 
     /*
     Each of the backward/forward microcanonical rate coefficients are based on
@@ -95,25 +136,16 @@ namespace mesmer
     of members with some members be zero (either not calculated or no reaction ocurred).
     */
 
-    std::vector<double>  m_CellTSFlux ;          // Microcanonical transition state fluxes.
+    // _2008_04_24__12_35_40_  <- Please search for this string in the current file for further description.
+    double m_FluxGrainZPE;                       // grain ZPE of m_GrainTSFlux
+    int m_FluxCellOffset;                        // cell Offset when converting m_CellTSFlux to m_GrainTSFlux
+    std::vector<double>  m_CellTSFlux ;          // Microcanonical transition state fluxes. (QM or classical)
     std::vector<double>  m_GrainTSFlux ;         // Grain summed microcanonical transition state fluxes..
 
     std::vector<double>  m_CellKfmc ;            // Forward  microcanonical rate coefficients.
     std::vector<double>  m_CellKbmc ;            // Backward microcanonical rate coefficients.
     std::vector<double>  m_GrainKfmc ;           // Grained averaged forward  microcanonical rates.
     std::vector<double>  m_GrainKbmc ;           // Grained averaged backward microcanonical rates.
-
-    //
-    // Reaction composition.
-    //
-
-    CollidingMolecule   *m_rct1 ;                 // Reactant Molecule.
-    CollidingMolecule   *m_pdt1 ;                 // Product Molecule.
-    TransitionState     *m_TransitionState;       // TransitionState
-
-    MoleculeManager     *m_pMoleculeManager ;     // Pointer to molecule manager.
-    MicroRateCalculator *m_pMicroRateCalculator ; // Pointer to microcanoical rate coeff. calculator.
-    TunnelingCalculator *m_pTunnelingCalculator ; // Pointer to Tunneling Calculator
 
   private:
 
@@ -126,19 +158,16 @@ namespace mesmer
     //   Reaction& operator=(const Reaction& reaction) ;
 
     // Grain average microcanonical rate coefficients.
-    virtual bool grnAvrgMicroRateCoeffs() = 0;
-
-    // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
-    bool calcGrnAvrgMicroRateCoeffs() ;
-
-    // Add reaction terms to collision matrix.
-    virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) = 0 ;
+    bool grnAvrgMicroRateCoeffs();
 
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() = 0 ;
 
     // Read parameters requires to determine reaction heats and rates.
     virtual bool ReadRateCoeffParameters(PersistPtr ppReac) = 0;
+
+    // Grain averaged microcanonical rate coefficients.
+    virtual void calcGrainRateCoeffs() = 0;
 
     const MesmerEnv& m_Env;
     std::string m_Name ;        // Reaction name.
@@ -152,9 +181,59 @@ namespace mesmer
     // Reaction Rate data.
     //
     double m_HeatOfReaction ;   // The heat of reaction corrected for zero point energies.
+    int m_HeatOfReactionInt ;   // Relative heat of reaction in wavenumber (integer)
 
   } ;
 
+  // _2008_04_24__12_35_40_
+  //
+  //  Transition state flux construction:
+  //
+  //  The horizontal dashes on the graph below represents the flux in cell level of a reaction. It can start from
+  //  the bottom of the higher well of the reaction as there will be no flux for any energy lower than this point.
+  //
+  //  It is user's taste to choose where to start a Flux vector, as long as the user specifies the ZPE of the Flux
+  //  by setCellFluxBottom()
+  //
+  //  It is important to calculate the flux so that it is based at least higher than the higher well so that the derivation 
+  //  of forward/reverse microcanoincal rate coefficients can be processed by Mesmer.
+  //
+  //                     TS flux                           kfmc                           kbmc
+  //                       ___                             --->                           <---
+  //                       ___                             --->                           <---
+  //                       ___                             --->                           <---
+  //                       ___                             --->             ___           <---
+  //                      /___\                            --->            /   \          <---
+  //                     / ___ \                           --->           /     \         <---
+  //                    /  ___  \                          --->          /       \        <---
+  //                   /   ___   \                         --->         /         \       <---
+  //                  /    ___    \______ higher well      --->        /           \______<---
+  //                 /                                     ---x = 0.0 /
+  //                /                                      ---x = 0.0/
+  // lower well ___/                                       ---x .___/
+  // 
+  // ------------------
+  //
+  //                     E        DOS     kf(E)     TS flux         kr(E)
+  //                                  --->             ___           <---
+  //                 /  12          6 ---> 10       60 ___           <---
+  //         grain  |   11          5 --->  9       45 ___           <---
+  //                 \  10          4 --->  8       32 ___           <---
+  //                                  --->            /___\          <---
+  //                                  --->           / ___ \         <---
+  //                                  --->          /  ___  \        <---
+  //                                  --->         /   ___   \       <---
+  //                                  --->        /    ___    \______<---
+  //                                  ---x = 0.0 /
+  //                                  ---x = 0.0/
+  //                                  ---x .___/
+  //
+  //  Let's say if we have a grain has three cells (wavenumbers), and their energy are 10, 11, 12, respectively.
+  //  Their cell DOS are listed above, which are 4, 5, 6, respectively; also the forward microcanoincal rate coefficients.
+  //  Then, we have flux 6*10=60 for cell 12, 5*9=45 for cell 11, 4*8=32 for cell 10.
+  //  
+  //  Conversely, when we first calculating kfmc, we put k(E) = W(E)/ [h * rho(E)]. Flux of cell 12 is simply [W(E)/ h] = 60
+  //  without having to divide by rho(E), which is 6 for this cell.
 
 }//namespace
 #endif // GUARD_Reaction_h

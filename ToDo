@@ -10,3 +10,41 @@ _2007_09_19__09_38_18_ Chi-Hsiu Liang
   * update the precision of varaibles -- the double-double (dd) and quad-double (qd)
     operations are time consuming processes; therefore, it is better to allow user
     choosing precision on runtime, i.e. not on the compilation time.
+
+------------------
+
+  * Mesmer now force an DissociationReaction to have two products. Zero-point energy of the products are required for drawing
+    potential energy surface in XML output and tunneling calculation.
+  * Added virtual functions get_rctZPE() and get_pdtZPE() in Reaction, they return the ZPE's of reactant(s) and product(s),
+    relative to the deepest well bottom. (Considering to prevent user from using get_zpe(), as this
+    function returns raw ZPE's of the molecules. Will make it private/protected later.)
+  * Microrate Calculator now calculates transition state flux instead of k(E)s
+  * removed virtual bool grnAvrgMicroRateCoeffs(); added virtual void calcGrainRateCoeffs() in all reaction 
+    types for converting TSFlux to k(E)s
+  * Added  m_ActivationEnergy   in AssociationReaction
+  * An additional option for getting k(E)s only, without building collision operators (me:calculateRateCoefficinetsOnly)
+    -- Removed AddMicroRates() and rearranged codes within BuildSystemCollisionOperator(MesmerEnv &Env) for control purposes.
+  * calcDensityOfStates() now decides whether to recalculate the DOS or not.
+  * Added cell Offset variable in ModelledMolecule to account for the cell shifts when converting from cell to grain
+    -- see shiftCells(), set_grainValues() and m_cellOffset
+  * Added a function double ModelledMolecule::get_relative_ZPE() that returns ZPE in wavenumber relative to the ZPE 
+    of the deepest well bottom.
+  * change m_grnZpe from int to double
+  * bool SetGrainParams() is now moved to ReactionManager, user can choose whether to use the same number of cells
+    throughout various conditions.
+  * Added getHeatOfReactionInt() in Reaction, which force all energy values in integral wavenumbers. If energy values are
+    in double the calculation of heat of reaction may differ by one wavenumber. For example,
+    If the product ZPE is 9.1, and reactant ZPE is 42.8, the heat of reaction calculated in double will be -33.7, which 
+    is -34 when rounded to int. But if these ZPE are rounded before the HoR is calculated, the HoR will be -33.
+  * Move m_pdt1 to all derived classes of Reation. In DissociationReaction and ExchangeReaction, it is only a ModelledMolecule.
+  * Added
+    virtual double get_relative_rctZPE(void) const = 0;
+    virtual double get_relative_pdtZPE(void) const = 0;
+    virtual double get_relative_TSZPE(void) const = 0;
+    for class Reaction. These functions return species ZPE's of a reaction in wavenumber relative to the deepest well bottom.
+  * Updated Makefile
+  * Added a derived class SinkMolecule
+    -- Moved m_Mass to ModelledMolecule and BathGasMolecule, moved m_Sigma and m_Epsilon to CollidingMolecule 
+       and BathGasMolecule.
+  * qd_real and dd_real are still not working in this version; therefore, I commented them out.
+

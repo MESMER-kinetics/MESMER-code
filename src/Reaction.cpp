@@ -17,47 +17,47 @@ using namespace mesmer;
 
 namespace mesmer
 {
-    Reaction::Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id):
-m_Env(Env),
-m_Name(id),
-restartCalc(true),
-m_PreExp(0.0),
-m_NInf(0.0),
-m_kfwd(0.0),
-m_HeatOfReaction(), // Does not set a default value for heat of reaction. NaN if undefined.
-m_pMoleculeManager(pMoleculeManager),
-m_pMicroRateCalculator(NULL),
-m_pTunnelingCalculator(NULL),
-m_ppPersist(),
-m_rct1(NULL),
-m_pdt1(NULL),
-m_TransitionState(NULL),
-m_CellKfmc(),
-m_CellKbmc(),
-m_GrainKfmc(),
-m_GrainKbmc()
-{}
+  Reaction::Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id)
+    :m_ppPersist(),
+    m_rct1(NULL),
+    m_TransitionState(NULL),
+    m_pMoleculeManager(pMoleculeManager),
+    m_pMicroRateCalculator(NULL),
+    m_pTunnelingCalculator(NULL),
+    m_CellTSFlux(),
+    m_GrainTSFlux(),
+    m_GrainKfmc(),
+    m_GrainKbmc(),
+    m_Env(Env),
+    m_Name(id),
+    restartCalc(true),
+    m_PreExp(0.0),
+    m_NInf(0.0),
+    m_kfwd(0.0),
+    m_HeatOfReaction(0.0),
+    m_HeatOfReactionInt(0)
+  {}
 
-Reaction::~Reaction(){}
+  Reaction::~Reaction(){}
 
-/*
-Reaction::Reaction(const Reaction& reaction) {
-// Copy constructor - define later SHR 23/Feb/2003
-}
+  /*
+  Reaction::Reaction(const Reaction& reaction) {
+  // Copy constructor - define later SHR 23/Feb/2003
+  }
 
-Reaction& Reaction::operator=(const Reaction& reaction) {
-// Assignment operator - define later SHR 23/Feb/2003
+  Reaction& Reaction::operator=(const Reaction& reaction) {
+  // Assignment operator - define later SHR 23/Feb/2003
 
-return *this ;
-}
-*/
+  return *this ;
+  }
+  */
 
 
-//
-// Locate molecule in molecular map.
-//
-Molecule* Reaction::GetMolRef(PersistPtr pp)
-{
+  //
+  // Locate molecule in molecular map.
+  //
+  Molecule* Reaction::GetMolRef(PersistPtr pp)
+  {
     Molecule* pMol = NULL;
 
     if(!pp) return NULL;
@@ -66,124 +66,157 @@ Molecule* Reaction::GetMolRef(PersistPtr pp)
 
     string pRef = ppmol->XmlReadValue("ref");
     if(pRef.size()){ // if got the name of the molecule
-        string pType = ppmol->XmlReadValue("me:type");
-        if(pType.size()){ // initialize molecule here with the specified type (need to know m_ppIOPtr)
-            PersistPtr ppMolList = m_pMoleculeManager->get_PersistPtr();
-            if(!ppMolList)
-            {
-                cerr << "No molecules have been specified." << endl;
-                return NULL;
-            }
-            pMol = m_pMoleculeManager->addmol(pRef, pType, ppMolList, getEnv());
+      string pType = ppmol->XmlReadValue("me:type");
+      if(pType.size()){ // initialize molecule here with the specified type (need to know m_ppIOPtr)
+        PersistPtr ppMolList = m_pMoleculeManager->get_PersistPtr();
+        if(!ppMolList)
+        {
+          cerr << "No molecules have been specified." << endl;
+          return NULL;
         }
+        pMol = m_pMoleculeManager->addmol(pRef, pType, ppMolList, getEnv());
+      }
     }
 
     if(!pMol) {
-        cinfo << "Failed to get a molecular reference." << endl;
-        return NULL;
+      cinfo << "Failed to get a molecular reference." << endl;
+      return NULL;
     }
 
     return pMol;
-}
+  }
 
-//
-// Access microcanonical rate coefficients.
-//
-void Reaction::get_MicroRateCoeffs(std::vector<double> &kmc) {
+  //
+  // Access microcanonical rate coefficients.
+  //
+  void Reaction::get_MicroRateCoeffs(std::vector<double> &kmc) {
     calcGrnAvrgMicroRateCoeffs();
     kmc = m_GrainKfmc ;
-}
-
-//this function retrieves the threshold energy for a reaction
-double Reaction::get_ThresholdEnergy(void) {
-    if (!m_TransitionState) {
-        cinfo << "No TransitionState for " << getName() << ", activation energy = 0." << endl;
-        return 0.0;
-    }
-
-    double ThresholdEnergy = m_TransitionState->get_zpe() - m_rct1->get_zpe();
-    if(IsNan(ThresholdEnergy)){
-        cerr << "To use ILT for reaction " << getName() << " the ZPE of the transition state needs to be set.";
-        exit(1);
-    }
-    return ThresholdEnergy;
-} ;
+  }
 
 
-//
-// Calculate grain averaged microcanonical rate coefficients.
-//
-bool Reaction::calcGrnAvrgMicroRateCoeffs() {
+  //
+  // Calculate grain averaged microcanonical rate coefficients.
+  //
+  bool Reaction::calcGrnAvrgMicroRateCoeffs() {
     if (restartCalc){
-        if (m_CellKfmc.size()) m_CellKfmc.clear();
-        if (m_CellKbmc.size()) m_CellKbmc.clear();
-        restartCalc = false; // reset the flag
+      if (m_CellTSFlux.size()) m_CellTSFlux.clear();
+      restartCalc = false; // reset the flag
 
-        // Calculate microcanonical rate coefficients.
-        if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this, m_CellKfmc))
-            return false;
+      // Calculate microcanonical rate coefficients.
+      if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this))
+        return false;
 
-        // Calculate Grain-averaged microcanonical rate coefficients.
-        if (!grnAvrgMicroRateCoeffs())
-            return false;
+      // report TransitionState Flux in cells to test output
+      const int MaximumCell = getEnv().MaxCell;
+      if (getEnv().cellTSFluxEnabled){
+        ctest << "\nTSFlux(e) cells for " << getName() << ":\n{\n";
+        for (int i = 0; i < MaximumCell; ++i){
+          ctest << m_CellTSFlux[i] << endl;
+        }
+        ctest << "}\n";
+      }
 
-        // test grained microcanonical rate coefficients
-        if (getEnv().microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_ppPersist, m_GrainKfmc) )
-            return false;
+      // Calculate Grain-averaged microcanonical rate coefficients.
+      if (!grnAvrgMicroRateCoeffs())
+        return false;
+
+      // test grained microcanonical rate coefficients
+      if (getEnv().microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_ppPersist) )
+        return false;
     }
     return true;
-}
+  }
 
-// calculate rate constant grained average for a forward or backward reaction
-void Reaction::rateConstantGrnAvg(const int _MG,
-                                  const int _gsz,
-                                  const std::vector<double> &CellDOS,
-                                  const std::vector<double> &CellRC,
-                                  std::vector<double> &GrainRC)
-{
-    int idx1(0), idx2(0);
-    for (int i = 0; i < _MG ; ++i ) {
-        int idx3(idx1);
+  //
+  // Access microcanonical rate coefficients - cell values are averaged
+  // to give grain values. This code is similar to that in Molecule.cpp
+  // and this averaging should be done there. SHR 19/Sep/2004.
+  //
+  bool Reaction::grnAvrgMicroRateCoeffs() {
+    // This grain averaging of the microcanonical rate coefficients is
+    // based on the view from the species that is
+    // moving in the current reaction toward the opposite species.
 
-        // Calculate the number of states in a grain.
-        double gNOS = .0 ;
-        for (int j = 0 ; j < _gsz ; ++j, ++idx1){
-            gNOS += CellDOS[idx1] ;
-        }
+    std::vector<double> shiftedTScellFlux;
+    shiftTScellFlux(shiftedTScellFlux);
+    
+    // convert flux from cells to grains
+    TSFluxCellToGrain(shiftedTScellFlux);
 
-        // Calculate average of the grain if it contains sum states.
-        if ( gNOS > 0.0 ) {
-            double gSum = .0;
-            for (int j= 0 ; j < _gsz ; ++j, ++idx3){
-                gSum += CellRC[idx3] * CellDOS[idx3] ;
-            }
-            GrainRC[idx2] = gSum/gNOS ;
-            idx2++;
-        }
+    // Calculate forward and backward grained microcanonical rate coefficients
+    calcGrainRateCoeffs();
+
+    return true;
+  }
+  
+  // set the bottom energy of m_CellTSFlux
+  void Reaction::setCellFluxBottom(const double fluxBottomZPE){
+    m_FluxGrainZPE = (fluxBottomZPE - getEnv().EMin) / getEnv().GrainSize ; //convert to grain
+    m_FluxCellOffset = int(fmod(fluxBottomZPE, getEnv().GrainSize));
+  }
+
+  // shift transitions state cell flux
+  void Reaction::shiftTScellFlux(std::vector<double>& shiftedTScellFlux){
+    int cellOffset = getTSFluxCellOffset();
+    const int MaximumCell  = getEnv().MaxCell;
+    for(int i = 0; i < cellOffset; ++i){
+      shiftedTScellFlux.push_back(0.0);
+    }
+    for(int i = cellOffset, j = 0; i < MaximumCell; ++i, ++j){
+      shiftedTScellFlux.push_back(m_CellTSFlux[j]);
+    }
+  }
+
+  // calculate TSFlux in grains
+  void Reaction::TSFluxCellToGrain(const std::vector<double>& shiftedTScellFlux)
+  {
+    const int maxGrn = getEnv().MaxGrn;
+    const int grnSiz = getEnv().GrainSize;
+
+    // resize m_GrainTSFlux to maxGrn and initialize all members to zero
+    m_GrainTSFlux.resize(maxGrn, 0.0);
+
+    int cIdx = 0; // cell iterator
+
+    for (int i = 0; i < maxGrn ; ++i) {
+      for (int j = 0; j < grnSiz; ++j, ++cIdx) {
+        m_GrainTSFlux[i] += shiftedTScellFlux[cIdx];
+      }
     }
 
-    // Issue warning if number of grains produced is less that requested.
-    if ( idx2 != _MG ) {
-        cerr << "Number of grains produced is not equal to that is requested" << endl
-            << "Number of grains requested: " << _MG << endl
-            << "Number of grains produced : " << idx2 << " in " << getName();
+    if (getEnv().grainTSFluxEnabled){
+      ctest << "\nTSFlux(e) grains for " << getName() << ":\n{\n";
+      for (int i = 0; i < maxGrn; ++i){
+        ctest << m_GrainTSFlux[i] << endl;
+      }
+      ctest << "}\n";
     }
-}
+  }
 
+  //this function retrieves the threshold energy for a reaction
+  double Reaction::get_ThresholdEnergy(void) const {
+    if (!m_TransitionState) {
+      cinfo << "No TransitionState for " << getName() << ", threshold energy = 0." << endl;
+      return 0.0;
+    }
 
+    double ThresholdEnergy = get_relative_TSZPE() - get_relative_rctZPE();
+    if(IsNan(ThresholdEnergy)){
+      cerr << "Reaction " << getName() << " has no threshold energy.";
+      exit(1);
+    }
+    return ThresholdEnergy;
+  } ;
 
-//
-// Add microcanonical terms to collision operator
-//
-void Reaction::AddMicroRates(dMatrix *CollOptr,
-                             isomerMap &isomermap,
-                             const double rMeanOmega)
-{
-    // Calculate Microcanonical rate coefficients.
-    calcGrnAvrgMicroRateCoeffs() ;
+  void Reaction::setHeatOfReaction(const double pdtZPE, const double rctZPE){
+    m_HeatOfReaction = pdtZPE - rctZPE;
+    m_HeatOfReactionInt = int(pdtZPE) - int(rctZPE);
+  }
 
-    // Add microcanonical rates to the collision operator.
-    AddReactionTerms(CollOptr, isomermap, rMeanOmega) ;
-}
+  void Reaction::setHeatOfReaction(const double value){
+    m_HeatOfReaction = value;
+    m_HeatOfReactionInt = int(value);
+  }
 
 }//namespace
