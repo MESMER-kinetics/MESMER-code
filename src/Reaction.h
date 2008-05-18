@@ -45,7 +45,7 @@ namespace mesmer
     double get_NInf()const                { return m_NInf   ; } ;
     void set_NInf(double value)           { m_NInf = value;}
     double getHeatOfReaction() const      { return m_HeatOfReaction ; };
-    int getHeatOfReactionInt() const         { return m_HeatOfReactionInt; };
+    int getHeatOfReactionInt() const      { return m_HeatOfReactionInt; };
     void setHeatOfReaction(const double pdtZPE, const double rctZPE);
     void setHeatOfReaction(const double value);
     const MesmerEnv& getEnv() const       { return m_Env; } ;

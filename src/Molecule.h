@@ -220,7 +220,9 @@ namespace mesmer
     virtual void testDensityOfStates() ;
 
     void set_grainValues(double relativeZPE);
-    int get_cellOffset(void) const;
+
+    int get_cellOffset(void) const {return m_cellOffset ;} ;
+
   } ;
 
   //**************************************************

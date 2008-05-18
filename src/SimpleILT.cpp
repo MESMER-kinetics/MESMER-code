@@ -9,38 +9,32 @@ namespace mesmer
   SimpleILT theSimpleILT("Simple ILT");
   //************************************************************
 
-  //-----
-  //short note for variables:
-  //dh00:
   //
-
+  // This method calculates the reaction flux by Laplace inversion
+  // of the Arrhenius equation for a reaction proceeding in the 
+  // unimolecular direction.
+  //
 
   bool SimpleILT::calculateMicroRateCoeffs(Reaction* pReact)
   {
-    SuperMolecule*              p_rcts = NULL;
-    p_rcts = pReact->get_bi_molecularspecies();
-    if (!p_rcts){
-      cerr << "Not a valid bi-molecularspecies";
-      return false;
-    }
+    vector<ModelledMolecule *> Isomers ;
+	int nIsomers = pReact->get_unimolecularspecies(Isomers) ;  
+	ModelledMolecule *p_rcts = Isomers[0] ;
 
-    const int MaximumCell = pReact->getEnv().MaxCell;
+	const int MaximumCell = pReact->getEnv().MaxCell;
 
     // Allocate space to hold transition state flux and initialize elements to zero.
     vector<double>& TSFlux = pReact->get_CellFlux();
     TSFlux.resize(MaximumCell, 0.0);
 
-    // Allocate some work space for density of states.
+    // Allocate some work space for and obtain density of states of the unimolecuar reactant.
 
-    vector<double> rctsCellDOS; // Density of states of equilibrim molecule.
+    vector<double> rctsCellDOS; 
+	p_rcts->getCellDensityOfStates(rctsCellDOS) ;
 
-    // Extract densities of states from molecules.
+    // Obtain he Arrhenius parameters.
 
-    p_rcts->getCellDensityOfStates(rctsCellDOS) ;
-
-    // Conversion of EINF from kcal.mol^-1 to cm^-1
-
-    const int nEinf = int(pReact->get_ThresholdEnergy()) ;
+    const int nEinf = int(pReact->get_ThresholdEnergy()) ;  //<-- SHR: This should be activation energy NOT threshold energy!!
     const double preExp = pReact->get_PreExp();
 
     // Calculate microcanonical rate coefficients using simple ILT expression.

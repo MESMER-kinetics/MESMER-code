@@ -100,11 +100,6 @@ namespace mesmer
     return true;
   }
 
-  int ReactionManager::Connectivity(Molecule* pReactant, Molecule* pProduct)
-  {
-    return -1;
-  }
-
   void ReactionManager::resetCalcFlags(){
     for (size_t i(0) ; i < size() ; ++i) {
       m_reactions[i]->resetCalcFlag();

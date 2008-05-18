@@ -515,31 +515,26 @@ namespace mesmer
 
   void ModelledMolecule::set_grainValues(double relativeZPE) {
     double grnZpe = relativeZPE / getEnv().GrainSize ; //convert to grain
-    if (grnZpe < 0.0) cerr << "Grain zero point energy has to be a positive value.";
-    set_grnZpe(grnZpe) ; //set grain ZPE (with respect to the minimum of all wells)
-    int cellOffset = int(fmod(relativeZPE, getEnv().GrainSize));
-    m_cellOffset = cellOffset;
-  }
+    if (grnZpe < 0.0) 
+		cerr << "Grain zero point energy has to be a positive value.";
 
-  int ModelledMolecule::get_cellOffset(void) const {
-    return m_cellOffset;
+    set_grnZpe(grnZpe) ; //set grain ZPE (with respect to the minimum of all wells)
+    m_cellOffset =  int(fmod(relativeZPE, getEnv().GrainSize));
   }
 
   //
   // Calculate the average grain energy and then number of states per grain.
   //
-  void ModelledMolecule::calcGrainAverages(const std::vector<double>& shiftedCellDOS, const std::vector<double>& shiftedCellEne)
+  void ModelledMolecule::calcGrainAverages(const vector<double>& shiftedCellDOS, const vector<double>& shiftedCellEne)
   {
     int MaximumGrain = getEnv().MaxGrn;
     m_grainEne.resize(MaximumGrain, 0.) ;
     m_grainDOS.resize(MaximumGrain, 0.) ;
 
-    //    int igsz = MAXCELL/MAXGRN ;
-
     // Check that there are enough cells.
 
     if (getEnv().GrainSize < 1) {
-      cinfo << "The number of Cells is insufficient to produce requested number of Grains." << endl;
+	  meErrorLog.ThrowError(__FUNCTION__, string("The number of Cells is insufficient to produce requested number of Grains."), obError);
       exit(1) ;
     }
 

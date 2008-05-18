@@ -56,13 +56,6 @@ namespace mesmer
     // Find a reaction from its id
     Reaction* find(const std::string& id) const ;
 
-    // Interrogates the (virtual) connectivity matrix, returning the reaction
-    // index of the reaction (one based) connecting pProduct and pReactant
-    // if both are CollidingMolecules
-    // 0 if reactant and product are the same and are a CollidingMolecule
-    // -1 otherwise
-    int Connectivity(Molecule* pReactant, Molecule* pProduct);
-
     // Build collision operator for system.
     bool BuildSystemCollisionOperator(MesmerEnv &Env) ;
 

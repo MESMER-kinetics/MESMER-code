@@ -1,3 +1,9 @@
+
+2008-5-18 Struan Robertson
+
+  * SimpleILT.cpp: remove dependency on Supermolecules.
+  * 0ther minor tidying.
+
 _2008_05_13__09_30_00_ Chi-Hsiu Liang
 
   * Mesmer now force an DissociationReaction to have two products. Zero-point energy of the products are required for drawing
