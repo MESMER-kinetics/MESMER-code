@@ -191,6 +191,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\BoltzmannDistribution.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ClassicalRotor.cpp"
 				>
 			</File>
@@ -313,7 +317,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\..\src\a2d.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\AssociationReaction.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\BoltzmannDistribution.h"
 				>
 			</File>
 			<File
@@ -345,6 +357,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Distribution.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\dMatrix.h"
 				>
 			</File>
@@ -362,6 +378,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\IsomerizationReaction.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\marray.h"
 				>
 			</File>
 			<File

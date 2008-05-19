@@ -30,7 +30,7 @@ namespace mesmer
     m_GrainKbmc(),
     m_Env(Env),
     m_Name(id),
-    restartCalc(true),
+    reCalcDOS(true),
     m_PreExp(0.0),
     m_NInf(0.0),
     m_kfwd(0.0),
@@ -99,9 +99,10 @@ namespace mesmer
   // Calculate grain averaged microcanonical rate coefficients.
   //
   bool Reaction::calcGrnAvrgMicroRateCoeffs() {
-    if (restartCalc){
+    if (reCalcDOS){
       if (m_CellTSFlux.size()) m_CellTSFlux.clear();
-      restartCalc = false; // reset the flag
+
+      reCalcDOS = false; // reset the flag
 
       // Calculate microcanonical rate coefficients.
       if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this))
@@ -140,7 +141,7 @@ namespace mesmer
 
     std::vector<double> shiftedTScellFlux;
     shiftTScellFlux(shiftedTScellFlux);
-    
+
     // convert flux from cells to grains
     TSFluxCellToGrain(shiftedTScellFlux);
 
@@ -149,7 +150,7 @@ namespace mesmer
 
     return true;
   }
-  
+
   // set the bottom energy of m_CellTSFlux
   void Reaction::setCellFluxBottom(const double fluxBottomZPE){
     m_FluxGrainZPE = (fluxBottomZPE - getEnv().EMin) / getEnv().GrainSize ; //convert to grain

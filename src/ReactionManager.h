@@ -17,6 +17,7 @@
 #include "DissociationReaction.h"
 #include "IsomerizationReaction.h"
 #include "ExchangeReaction.h"
+#include "marray.h"
 
 namespace mesmer
 {
@@ -27,13 +28,7 @@ namespace mesmer
     // Type defs
     typedef  size_t  size_type ;
 
-    ReactionManager(MoleculeManager *pMoleculeManager):
-    m_reactions(),
-        m_pMoleculeManager(pMoleculeManager),
-        m_pSystemCollisionOperator(0),
-        m_minEnergy(0.0),
-        m_meanOmega(0.0)
-    {};
+    ReactionManager(MoleculeManager *pMoleculeManager);
 
     // Destructor.
     ~ReactionManager(){} ;
@@ -43,7 +38,7 @@ namespace mesmer
 
     // Remove a reaction from the map.
     void remove(){} ;
-    
+
     void resetCalcFlags();
 
     // Total number of reaction in map.
@@ -62,8 +57,8 @@ namespace mesmer
     // Diagonalize the collision operator.
     void diagCollisionOperator(const MesmerEnv &Env) ;
 
-    // sets grain parameters and determines system environment
-    bool SetGrainParams(MesmerEnv &Env, const double minEne, const double maxEne);
+    // Calculate the time evolution of the system
+    bool timeEvolution(int maxTimeStep);
 
   private:
 
@@ -72,9 +67,11 @@ namespace mesmer
     MoleculeManager        *m_pMoleculeManager ;
 
     dMatrix                *m_pSystemCollisionOperator ;
-    
-    double m_minEnergy;
-    
+
+    // Maps the location of individual reactant collision operator and source terms in the system matrix.
+    Reaction::isomerMap    m_isomers;
+    Reaction::sourceMap    m_sources;
+
     double m_meanOmega;
 
     // Default Constructor.
@@ -82,6 +79,9 @@ namespace mesmer
 
     // Extract molecule information from XML stream.
     bool GetMoleculeInfo(PersistPtr pp, std::string& MolName, std::string& MolType) ;
+
+    // sets grain parameters and determines system environment
+    bool SetGrainParams(MesmerEnv &Env, const double minEne, const double maxEne);
 
   } ;
 }//namespace

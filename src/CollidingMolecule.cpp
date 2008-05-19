@@ -15,14 +15,19 @@ namespace mesmer
   //Constructor
   //
   CollidingMolecule::CollidingMolecule(const MesmerEnv& Env) : ModelledMolecule(Env),
+    m_eqFraction(0.),
     m_Sigma(sigmaDefault),
     m_Epsilon(epsilonDefault),
     m_DeltaEdown(0.0),
     m_collisionFrequency(0.0),
     m_ncolloptrsize(0),
+    m_pDistributionCalculator(NULL),
     m_Sigma_chk(-1),
     m_Epsilon_chk(-1),
     m_DeltaEdown_chk(-1),
+    m_grainFracBeta(0.),
+    m_normalizationFactor(0.0),
+    m_grainDist(0),
     m_egme(NULL)
   {}
 
@@ -38,6 +43,7 @@ namespace mesmer
       cinfo << "m_DeltaEdown is provided but not used in " << getName() << endl;
     }
     if (m_egme != NULL) delete m_egme ;
+    if (m_grainDist.size()) m_grainDist.clear();
   }
 
   //
@@ -85,6 +91,27 @@ namespace mesmer
       // deltaEDown is not always necessary. Hoever, it is not wise to provide a default value.
     }
     else { istringstream idata(txt); idata >> m_DeltaEdown; m_DeltaEdown_chk = 0;}
+
+    // Determine the method of DOS calculation.
+    const char* pDistCalcMethodtxt = pp->XmlReadValue("me:DistributionCalcMethod", false) ;
+    if(pDistCalcMethodtxt)
+    {
+      m_pDistributionCalculator = DistributionCalculator::Find(pDistCalcMethodtxt);
+      if(!m_pDistributionCalculator) // if the provided method cannot be found,
+      {
+        cinfo << "Unknown method " << pDistCalcMethodtxt
+          << " for the calculation of distribution fraction in " << getName()
+          << ". Please check spelling error. Default method <Boltzmann> is used." << endl;
+        pDistCalcMethodtxt = "Boltzmann";
+        m_pDistributionCalculator = DistributionCalculator::Find(pDistCalcMethodtxt);
+      }
+    }
+    else{ // if no method is provided.
+      cinfo << "No method for the calculation of distribution fraction in " << getName()
+        << " is provided. Default method <Boltzmann> is used." << endl;
+      pDistCalcMethodtxt = "Boltzmann"; // must exist
+      m_pDistributionCalculator = DistributionCalculator::Find(pDistCalcMethodtxt);
+    }
 
     if (getFlag()){
       cerr << "Error(s) while initializing: " << getName();
@@ -245,15 +272,15 @@ namespace mesmer
     }
 
     // Symmetrization of the collision matrix.
-    vector<double> work(m_ncolloptrsize,0.0) ; // Work space.
-    for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
-      double ei = log(m_grainDOS[i]) - beta*m_grainEne[i] + 10.0 ;
-      ei = exp(ei) ;
-      work[i] = sqrt(ei) ;
-    }
+    vector<double> popDist; // grained population distribution
+    double prtfn;
+    grainDistribution(popDist, prtfn); // prtfn is not used here
+    for (unsigned int idx(0); idx < popDist.size(); ++idx)
+      popDist[idx] = sqrt(popDist[idx]);
+
     for ( i = 1 ; i < m_ncolloptrsize ; ++i ) {
       for ( j = 0 ; j < i ; ++j ) {
-        (*m_egme)[j][i] *= (work[i]/work[j]) ;
+        (*m_egme)[j][i] *= popDist[i]/popDist[j] ;
         (*m_egme)[i][j]  = (*m_egme)[j][i] ;
       }
     }
@@ -363,4 +390,54 @@ namespace mesmer
     }
   }
 
+  //
+  // Get grain distribution.
+  //
+  void CollidingMolecule::grainDistribution(vector<double> &grainFrac, double& prtfn)
+  {
+    // If density of states have not already been calcualted then do so.
+    if (!calcDensityOfStates())
+      cerr << "Failed calculating DOS";
+
+    if (m_grainDist.size() != m_grainDOS.size() || getEnv().beta != m_grainFracBeta){
+      m_pDistributionCalculator->calculateDistribution(m_grainDOS, m_grainEne, getEnv().beta, m_grainDist, prtfn);
+      m_grainFracBeta = getEnv().beta; 
+      m_normalizationFactor = prtfn;
+    }
+    else{ // need to return also the sum of the partition functions
+      prtfn = m_normalizationFactor;
+    }
+
+    grainFrac = m_grainDist;
+  }
+
+  //
+  // Get normalized grain distribution.
+  //
+  void CollidingMolecule::normalizedGrainDistribution(vector<double> &grainFrac)
+  {
+    double prtfn = 0.0;
+    grainDistribution(grainFrac, prtfn);
+
+    int MaximumGrain = getEnv().MaxGrn ;
+    for (int i = 0; i < MaximumGrain; ++i){
+      grainFrac[i] /= prtfn;
+    }
+
+    if (getEnv().grainBoltzmannEnabled){
+      ctest << "\nGrain fraction for " << getName() << ":\n{\n";
+      for (int i = 0; i < MaximumGrain; ++i){
+        ctest << grainFrac[i] << endl;
+      }
+      ctest << "}\n";
+    }
+  }
+
+  void CollidingMolecule::set_DistributionCalculator(DistributionCalculator* value){
+    m_pDistributionCalculator = value;
+  }
+
+  DistributionCalculator* CollidingMolecule::get_DistributionCalculator(){
+    return m_pDistributionCalculator;
+  }
 }//namespace

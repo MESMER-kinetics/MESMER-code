@@ -16,6 +16,7 @@
 #include "XMLPersist.h"
 #include "MesmerMath.h"
 #include "DensityOfStates.h"
+#include "Distribution.h"
 #include "unitsConversion.h"
 
 namespace mesmer
@@ -33,7 +34,6 @@ namespace mesmer
     std::string    m_Name ;             // Molecule name.
     std::string    m_Description;       // Longer description for the structure
 
-
     //Molecule(const Molecule&) ;
     //Molecule& operator=(const Molecule&) ;
 
@@ -49,9 +49,7 @@ namespace mesmer
     std::string getName() const;
     std::string getDescription() const;
     const MesmerEnv& getEnv() const;
-
     int    getFlag() ;
-
     void   setName(string name) ;
     void   setFlag(bool value) ;
   };
@@ -60,17 +58,20 @@ namespace mesmer
   class SinkMolecule : public Molecule
   {
   public:
-    SinkMolecule(const MesmerEnv& Env) : Molecule(Env), m_ZPE(0.0), m_ZPE_chk(-1){}
+    SinkMolecule(const MesmerEnv& Env);
     virtual ~SinkMolecule();
+
     // Initialize BathGasMolecule.
     virtual bool InitializeMolecule(PersistPtr pp);
 
     virtual double get_zpe();
-
     void set_zpe(double value);
+    double getEqFraction() const { return m_eqFraction;};
+    void setEqFraction(double value){ m_eqFraction = value;};
 
   private:
-    double              m_ZPE ;              // Zero Point Energy. (kJ/mol)
+    double         m_ZPE ;              // Zero Point Energy. (kJ/mol)
+    double         m_eqFraction;        // population of the species
 
     //================================================
     // CHECK FOR INPUTFILE PARAMETERS
@@ -154,7 +155,7 @@ namespace mesmer
     std::vector<double> m_cellDOS ;          // Cell density of states array.
     std::vector<double> m_grainEne ;         // Grain average energy array.
     std::vector<double> m_grainDOS ;         // Grain density of states array.
-    
+
     //----------------
     ModelledMolecule(const MesmerEnv& Env);
     virtual ~ModelledMolecule();
@@ -173,9 +174,6 @@ namespace mesmer
 
     // Get grain energies.
     void getGrainEnergies(std::vector<double> &grainEne) ;
-
-    // Get Grain Boltzmann distribution.
-    void grnBoltzDist(std::vector<double> &grainBoltzDist) ;
 
     // Get Electronic excitations
     void getEleExcitation(vector<double> &elecExci);
@@ -238,7 +236,7 @@ namespace mesmer
   public:
     TransitionState(const MesmerEnv& Env);
     virtual ~TransitionState();
-  
+
     // Initialize TransitionState.
     virtual bool InitializeMolecule(PersistPtr pp);
     double get_ImFreq();
@@ -256,12 +254,14 @@ namespace mesmer
     // Variables:
     // Collision operator properties.
     //
+    double              m_eqFraction;        // population of the species
     double              m_Sigma ;            // Lennard-Jones sigma.
     double              m_Epsilon ;          // Lennard-Jones epsilon.
 
     double              m_DeltaEdown ;         // <Delta E down> for the exponential down model.
     double              m_collisionFrequency ; // Current value of collision frequency.
     int                 m_ncolloptrsize ;      // Size of the collision operator matrix.
+    DistributionCalculator* m_pDistributionCalculator;
 
     //================================================
     // CHECK FOR INPUTFILE PARAMETERS
@@ -270,6 +270,9 @@ namespace mesmer
     int m_DeltaEdown_chk;
     //================================================
 
+    double m_grainFracBeta;                    // beta used to calculate grain distribution fraction
+    double m_normalizationFactor;                            // sum of members in m_grainDist
+    std::vector<double> m_grainDist ;          // Grain distribution (not normalized)
     dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
 
     //-------------------------------
@@ -293,7 +296,13 @@ namespace mesmer
 
     void copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
 
+    // Get Grain Boltzmann distribution.
+    void grainDistribution(vector<double> &grainFrac, double& prtfn);
+    void normalizedGrainDistribution(std::vector<double> &grainBoltzDist) ;
+
     // Accessors.
+    double getEqFraction() const { return m_eqFraction;};
+    void setEqFraction(double value){ m_eqFraction = value;};
     double getSigma() ;
     void   setSigma(double value);
     double getEpsilon() ;
@@ -303,6 +312,8 @@ namespace mesmer
     int  get_colloptrsize() const ;
     void   setDeltaEdown(double value);
     double getDeltaEdown();
+    void set_DistributionCalculator(DistributionCalculator* value);
+    DistributionCalculator* get_DistributionCalculator();
   };
 
   // class representing pair of molecules participating one association reaction
@@ -310,8 +321,8 @@ namespace mesmer
   class SuperMolecule : public ModelledMolecule
   {
   public:
-    ModelledMolecule* m_mol1;
-    ModelledMolecule* m_mol2;
+    CollidingMolecule* m_mol1;
+    ModelledMolecule*  m_mol2;
 
     SuperMolecule(const MesmerEnv& Env);
     virtual ~SuperMolecule();
@@ -326,10 +337,10 @@ namespace mesmer
     void get_VibFreq(std::vector<double>& vibFreq);
     virtual double get_zpe();
     DensityOfStatesCalculator* get_DensityOfStatesCalculator();
-    void setMembers(ModelledMolecule* mol1p, ModelledMolecule* mol2p);
+    void setMembers(CollidingMolecule* mol1p, ModelledMolecule* mol2p);
 
-    ModelledMolecule* getMember1();
-    ModelledMolecule* getMember2();
+    CollidingMolecule* getMember1();
+    ModelledMolecule*  getMember2();
 
     //virtual void testDensityOfStates(const MesmerEnv &m_Env) ;
 

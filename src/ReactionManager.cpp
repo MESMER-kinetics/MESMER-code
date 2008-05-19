@@ -15,6 +15,15 @@ using namespace std ;
 
 namespace mesmer
 {
+  ReactionManager::ReactionManager(MoleculeManager *pMoleculeManager)
+    :m_reactions(),
+    m_pMoleculeManager(pMoleculeManager),
+    m_pSystemCollisionOperator(0),
+    m_isomers(),
+    m_sources(),
+    m_meanOmega(0.0)
+  {};
+
   //
   // Add a new reaction to the map.
   //
@@ -50,7 +59,7 @@ namespace mesmer
         bPdt1 = true ;
 
         PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
-        if (ppProduct2) {
+        if (ppProduct2){
           readStatus = (readStatus && GetMoleculeInfo(ppProduct2, pdt2Name, pdt2Type)) ;
           bPdt2 = true ;
         }
@@ -158,7 +167,8 @@ namespace mesmer
     //
     // Find all the unique wells and lowest zero point energy.
     //
-    Reaction::isomerMap isomers ; // Maps the location of reactant collision operator in the system matrix.
+    m_isomers.clear();
+
     double minEnergy = 0.0 ; //this is the minimum of ZPE amongst all wells
     double maxEnergy = 0.0 ; //this is the maximum of ZPE amongst all hills
     BathGasMolecule *pBathGasMolecule = dynamic_cast<BathGasMolecule*>(m_pMoleculeManager->get_BathGasMolecule());
@@ -172,8 +182,8 @@ namespace mesmer
       for (size_t j(0) ; j < unimolecules.size() ; ++j) {
         // wells
         CollidingMolecule *pCollidingMolecule = dynamic_cast<CollidingMolecule*>(unimolecules[j]) ;
-        if(isomers.find(pCollidingMolecule) == isomers.end()){ // New isomer
-          isomers[pCollidingMolecule] = 0 ; //initialize to a trivial location
+        if(m_isomers.find(pCollidingMolecule) == m_isomers.end()){ // New isomer
+          m_isomers[pCollidingMolecule] = 0 ; //initialize to a trivial location
           minEnergy = min(minEnergy, pCollidingMolecule->get_zpe()) ;
           maxEnergy = max(maxEnergy, pCollidingMolecule->get_zpe()) ;
         }
@@ -206,7 +216,7 @@ namespace mesmer
       SuperMolecule* pSuper = m_reactions[i]->get_bi_molecularspecies();
       // the grain ZPE of SuperMolecule has to be calculated from zpeReactant1 + zpeReactant2 - minEnergy
       if (pSuper){
-        double zpe = pSuper->get_relative_ZPE(); 
+        double zpe = pSuper->get_relative_ZPE();
         pSuper->set_grainValues(zpe);
       }
 
@@ -231,8 +241,8 @@ namespace mesmer
       // calculate the mean collision frequency and initialize all collision operators.
       //
       int msize(0) ; // size of the collision matrix
-      Reaction::isomerMap::iterator isomeritr = isomers.begin() ;
-      for (; isomeritr != isomers.end() ; ++isomeritr) {
+      Reaction::isomerMap::iterator isomeritr = m_isomers.begin() ;
+      for (; isomeritr != m_isomers.end() ; ++isomeritr) {
 
         CollidingMolecule *isomer = isomeritr->first ;
         isomeritr->second = msize ; //set location
@@ -246,7 +256,7 @@ namespace mesmer
         isomer->initCollisionOperator(Env.beta, pBathGasMolecule) ;
         m_meanOmega += isomer->get_collisionFrequency() ;
       }
-      m_meanOmega /= isomers.size();
+      m_meanOmega /= m_isomers.size();
 
       //
       // Find all source terms.
@@ -255,14 +265,14 @@ namespace mesmer
       //          we think there may be more than one source terms.
       //       2. In the current construction of Mesmer, the source is a SuperMolecule
       //          representing both reactants.
-      Reaction::sourceMap sources ; // Maps the location of source in the system matrix.
+      m_sources.clear(); // Maps the location of source in the system matrix.
       for (size_t i(0) ; i < size() ; ++i) {
         AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
         if (pReaction) {
           SuperMolecule *pSuperMolecule = pReaction->get_bi_molecularspecies();
-          if (pSuperMolecule && sources.find(pSuperMolecule) == sources.end()){ // New source
-            sources[pSuperMolecule] = msize ;
-            pReaction->putSourceMap(&sources) ;
+          if (pSuperMolecule && m_sources.find(pSuperMolecule) == m_sources.end()){ // New source
+            m_sources[pSuperMolecule] = msize ;
+            pReaction->putSourceMap(&m_sources) ;
             ++msize ;
           }
         }
@@ -272,7 +282,7 @@ namespace mesmer
       m_pSystemCollisionOperator = new dMatrix(msize) ;
 
       // Insert collision operators for individual wells.
-      for (isomeritr = isomers.begin() ; isomeritr != isomers.end() ; ++isomeritr) {
+      for (isomeritr = m_isomers.begin() ; isomeritr != m_isomers.end() ; ++isomeritr) {
 
         CollidingMolecule *isomer = isomeritr->first ;
         int colloptrsize = isomer->get_colloptrsize() ;
@@ -285,7 +295,7 @@ namespace mesmer
 
       // Add connecting rate coefficients.
       for (size_t i(0) ; i < size() ; ++i) {
-        m_reactions[i]->AddReactionTerms(m_pSystemCollisionOperator,isomers,1.0/m_meanOmega) ;
+        m_reactions[i]->AddReactionTerms(m_pSystemCollisionOperator,m_isomers,1.0/m_meanOmega) ;
       }
     }
 
@@ -336,4 +346,67 @@ namespace mesmer
     return true ;
   }
 
+  bool ReactionManager::timeEvolution(int maxTimeStep)
+  {
+    int smsize = int(m_pSystemCollisionOperator->size());
+
+    /* calculate the time points */
+    vector<double> timePoints;
+    for (int i = 0; i < maxTimeStep; ++i){
+      timePoints.push_back(pow(10., static_cast<double>(i) / 10. - 11.));
+    }
+
+    // find all source terms and give them initial values
+    vector<double> init(smsize, 0.);
+    Reaction::sourceMap::iterator spos;
+    for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
+      if (dynamic_cast<SuperMolecule*>(spos->first)){
+        init[spos->second] = 1.0;
+      }
+    }
+
+    // building the equilibrium fraction vector
+    vector<double> eqFrac(smsize, 0.);
+    Reaction::isomerMap::iterator ipos;
+    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
+      
+    }
+
+    // Coefficients due to the init distribution
+    dMatrix SCO(*m_pSystemCollisionOperator); // copy the system collision operator
+    vector<double> work1(smsize, 0.);
+    for (int i = 0; i < smsize; ++i) {
+      double sum = 0.;
+      for (int j = 0; j < smsize; ++j) {
+        sum += init[j]*SCO[j][i];
+      }
+      work1[i] = sum;
+    }
+
+    // Multiply root matrix with eigenvector matrix. Note VT contains transpose of V
+    //for (int i = 0; i < smsize; ++i) {
+    //  double tmp = rtu1[i];
+    //  for (int j = 0; j < smsize; ++j) {
+    //    SCO[i][j] *= tmp;
+    //  }
+    //}
+
+    // populations calculated here
+    //db2D timeMatrix(smsize, maxTimeStep); // numbers inside the parentheses are dummys
+    //vector<double> work2(smsize, 0.);
+    //for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+    //  double zt = z*timePoints[timestep];
+    //  for (int j = 0; j < smsize; ++j) {
+    //    work2[j] = work1[j] * exp(rr[j] * zt);
+    //  }
+    //  for (int j = 0; j < smsize; ++j) {
+    //    double sum = 0.;
+    //    for (int l = 0; l < smsize; ++l) {
+    //      sum += work2[l] * SCO[j][l];
+    //    }
+    //    timeMatrix[j][timestep] = sum;
+    //  }
+    //}
+    return true;
+  }
 }//namespace

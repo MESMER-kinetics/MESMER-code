@@ -69,12 +69,12 @@ namespace mesmer
   }
 
   // set composing member of the SuperMolecule, also copy necessary properties
-  void SuperMolecule::setMembers(ModelledMolecule* mol1p, ModelledMolecule* mol2p){
+  void SuperMolecule::setMembers(CollidingMolecule* mol1p, ModelledMolecule* mol2p){
     m_mol1 = mol1p; std::vector<double> vfMol1; m_mol1->get_VibFreq(vfMol1);
     m_mol2 = mol2p; std::vector<double> vfMol2; m_mol2->get_VibFreq(vfMol2);
   }
 
-  ModelledMolecule* SuperMolecule::getMember1(){
+  CollidingMolecule* SuperMolecule::getMember1(){
     return m_mol1;
   }
 

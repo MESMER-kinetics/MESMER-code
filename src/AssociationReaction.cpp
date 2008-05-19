@@ -64,7 +64,7 @@ namespace mesmer
       SuperMolecule* pSupMol = NULL;
       while(m_pMoleculeManager->GetNextMolecule(id, pSupMol)){ // get next SuperMolecule
         // if found a SuperMolecule
-        ModelledMolecule*  rm1 = pSupMol->getMember1();
+        CollidingMolecule* rm1 = pSupMol->getMember1();
         ModelledMolecule*  rm2 = pSupMol->getMember2();
         if (!rm1 && !rm2){// there is no data inside, occupy it!
           pSupMol->setMembers(m_rct1, m_rct2);
@@ -133,16 +133,16 @@ namespace mesmer
     m_pdt1->getGrainDensityOfStates(pdtDOS) ;
 
     // Locate isomers in system matrix.
-    const int pdtLoc =      isomermap[dynamic_cast<CollidingMolecule*>(m_pdt1)] ;
-    const int jj     = (*m_sourceMap)[dynamic_cast<ModelledMolecule *>(m_srct)] ;
+    const int pdtLoc =      isomermap[m_pdt1] ;
+    const int jj     = (*m_sourceMap)[m_srct] ;
 
     // Get equilibrium constant.
     const double Keq = calcEquilibriumConstant() ;
 
     // Get Boltzmann distribution for detailed balance.
     const int MaximumGrain = getEnv().MaxGrn ;
-    vector<double> adductBoltz ;
-    m_pdt1->grnBoltzDist(adductBoltz) ;
+    vector<double> adductPopFrac ; // Population fraction of the adduct
+    m_pdt1->normalizedGrainDistribution(adductPopFrac) ;
 
     double DissRateCoeff(0.0) ;
 
@@ -156,12 +156,12 @@ namespace mesmer
       int ll(i - pdtGrainZPE);
       int ii(pdtLoc + ll) ;
 
-      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainTSFlux[j] / pdtDOS[ll];                              // Backward loss of the adduct
-      (*CollOptr)[jj][ii]  = rMeanOmega * m_GrainTSFlux[j] * sqrt(adductBoltz[ll] * Keq) / pdtDOS[ll]; // Reactive gain of the source
-      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                                                    // Reactive gain
-      DissRateCoeff       += m_GrainTSFlux[j] * adductBoltz[ll] / pdtDOS[ll];
+      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainTSFlux[j] / pdtDOS[ll];                                // Loss of the adduct to the source
+      (*CollOptr)[jj][ii]  = rMeanOmega * m_GrainTSFlux[j] * sqrt(adductPopFrac[ll] * Keq) / pdtDOS[ll];// Reactive gain of the source
+      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                                                      // Reactive gain (symmetrization)
+      DissRateCoeff       += m_GrainTSFlux[j] * adductPopFrac[ll] / pdtDOS[ll];
     }
-    (*CollOptr)[jj][jj] -= (rMeanOmega * DissRateCoeff * Keq);       // Backward loss reaction from detailed balance.
+    (*CollOptr)[jj][jj] -= (rMeanOmega * DissRateCoeff * Keq);       // Loss of the source from detailed balance.
   }
 
   //

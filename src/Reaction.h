@@ -24,7 +24,7 @@ namespace mesmer
   public:
 
     typedef std::map<CollidingMolecule*, int> isomerMap ;
-    typedef std::map<ModelledMolecule* , int> sourceMap ;
+    typedef std::map<SuperMolecule*    , int> sourceMap ;
 
     // Constructors.
 
@@ -49,7 +49,7 @@ namespace mesmer
     void setHeatOfReaction(const double pdtZPE, const double rctZPE);
     void setHeatOfReaction(const double value);
     const MesmerEnv& getEnv() const       { return m_Env; } ;
-    void resetCalcFlag()                  { restartCalc = true; };
+    void resetCalcFlag()                  { reCalcDOS = true; };
 
     // return reactant and product zero-point energy
     virtual double get_relative_rctZPE(void) const = 0;
@@ -172,7 +172,7 @@ namespace mesmer
     const MesmerEnv& m_Env;
     std::string m_Name ;        // Reaction name.
 
-    bool restartCalc;           // restart calculation on DOS
+    bool reCalcDOS;             // re-calculation on DOS
     double m_PreExp ;           // Preexponetial factor
     double m_NInf ;             // Modified Arrhenius parameter
     double m_kfwd ;             // Forward canonical (high pressure) rate coefficient.

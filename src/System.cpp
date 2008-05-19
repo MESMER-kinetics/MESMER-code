@@ -282,17 +282,8 @@ namespace mesmer
       m_pReactionManager->diagCollisionOperator(m_Env) ;
 
       // Time steps loop
-      int maxTimeStep = 100;
-      for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-        //if (!TimeEvolution(timestep)){
-        //  cerr << "Time evolution failed on the " << timestep << "th time step.";
-        //  break;
-        //}
-        //else{
-        //  // Calculate overall populations of each isomer
-
-        //}
-      }
+      int timestep = 100;
+      m_pReactionManager->timeEvolution(timestep);
 
       ctest << "}\n";
     }

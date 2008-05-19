@@ -122,8 +122,8 @@ namespace mesmer
     m_pdt1->getGrainDensityOfStates(pdtDOS) ;
 
     // Locate isomers in system matrix.
-    const int rctLocation = isomermap[dynamic_cast<CollidingMolecule*>(m_rct1)] ;
-    const int pdtLocation = isomermap[dynamic_cast<CollidingMolecule*>(m_pdt1)] ;
+    const int rctLocation = isomermap[m_rct1] ;
+    const int pdtLocation = isomermap[m_pdt1] ;
 
     const int TSgrainZPE  = getTSFluxGrnZPE();
     const int rctGrainZPE = m_rct1->get_grnZpe();

@@ -149,11 +149,11 @@
   <me:control>
     <me:testDOS />
     <me:testMicroRates />
-    <!--<me:printGrainDOS />-->
+    <me:printGrainDOS />
     <!--<me:printCellDOS />-->
-    <me:printCollisionOperatorColumnSums />
-    <!--<me:printGrainkfE />-->
-    <!--<me:printGrainkbE />-->
+    <!--<me:printCollisionOperatorColumnSums />-->
+    <me:printGrainkfE />
+    <me:printGrainkbE />
     <me:eigenvalues>0</me:eigenvalues>
   </me:control>
 

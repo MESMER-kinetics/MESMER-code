@@ -176,6 +176,8 @@ qd/tests/tictoc.h -text
 src/AssociationReaction.cpp -text
 src/AssociationReaction.h -text
 src/BathGasMolecule.cpp -text
+src/BoltzmannDistribution.cpp -text
+src/BoltzmannDistribution.h -text
 src/ClassicalRotor.cpp -text
 src/ClassicalRotor.h -text
 src/CollidingMolecule.cpp -text
@@ -184,6 +186,7 @@ src/DensityOfStates.cpp -text
 src/DensityOfStates.h -text
 src/DissociationReaction.cpp -text
 src/DissociationReaction.h -text
+src/Distribution.h -text
 src/EckartCoefficients.cpp -text
 src/EckartCoefficients.h -text
 src/ExchangeReaction.cpp -text
@@ -226,12 +229,14 @@ src/TransitionState.cpp -text
 src/Tunneling.h -text
 src/XMLPersist.cpp -text
 src/XMLPersist.h -text
+src/a2d.h -text
 src/convolution.h -text
 src/dMatrix.cpp -text
 src/dMatrix.h -text
 src/formatfloat.cpp -text
 src/formatfloat.h -text
 src/main.cpp -text
+src/marray.h -text
 src/oberror.cpp -text
 src/oberror.h -text
 src/source.ps -text

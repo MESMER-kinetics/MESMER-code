@@ -257,44 +257,6 @@ namespace mesmer
   }
 
   //
-  // Get Grain Boltzmann distribution.
-  //
-  void ModelledMolecule::grnBoltzDist(vector<double> &grainBoltzDist)
-  {
-    // If density of states have not already been calcualted then do so.
-    if (!calcDensityOfStates())
-      cerr << "Failed calculating DOS";
-    int MaximumGrain = getEnv().MaxGrn ;
-    double beta = getEnv().beta;
-
-    grainBoltzDist.resize(MaximumGrain, 0.0);
-    // Calculate the Boltzmann distribution.
-    // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
-
-    double prtfn(0.0) ;
-    for (int i = 0; i < MaximumGrain; ++i) {
-      double tmp = log(m_grainDOS[i]) - beta*m_grainEne[i] + 10.0 ;
-      tmp = exp(tmp) ;
-      prtfn += tmp ;
-      grainBoltzDist[i] = tmp ;
-    }
-
-    // Normalize the Boltzmann distribution.
-
-    for (int i = 0; i < MaximumGrain; ++i) {
-      grainBoltzDist[i] /= prtfn ;
-    }
-
-    if (getEnv().grainBoltzmannEnabled){
-      ctest << "\nTest grain Boltzmann distribution:\n{\n";
-      for (int i = 0; i < MaximumGrain; ++i){
-        ctest << sqrt(grainBoltzDist[i]) << endl;
-      }
-      ctest << "}\n";
-    }
-  }
-
-  //
   // Get Electronic excitations
   //
   void ModelledMolecule::getEleExcitation(vector<double> &elecExci){
@@ -303,7 +265,6 @@ namespace mesmer
       elecExci.push_back(m_eleExc[i]);
     }
   }
-
 
   //
   // Get Grain canonical partition function.

@@ -10,6 +10,8 @@ using namespace Constants ;
 
 namespace mesmer
 {
+  SinkMolecule::SinkMolecule(const MesmerEnv& Env)
+    :Molecule(Env), m_ZPE(0.0), m_ZPE_chk(-1), m_eqFraction(0.){}
 
   bool SinkMolecule::InitializeMolecule(PersistPtr pp)
   {
