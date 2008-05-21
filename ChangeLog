@@ -1,3 +1,10 @@
+_2008_05_21__10_51_16_ Chi-Hsiu Liang
+
+  * Update baselines for all test systems.
+  * There is probably a memory leak in Mesmer. Need to find out what variables are not initialized properly. 
+    -- Problem: When turn on <me:printGrainDOS /> in pentyl_isomreization.xml, the eigenvalues calculated deviate from when this flag
+                is off, however the differences are small. The problem maybe from the precision change in the calculation.
+
 _2008_05_19__16_34_38_ Chi-Hsiu Liang
 
   * Added a plug-in class for calculating distribution. This plug-in can be used to produce either cell or grain 

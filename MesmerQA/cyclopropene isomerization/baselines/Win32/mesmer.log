@@ -1,0 +1,69 @@
+Mesmer v0.1 compiled: -- May 21 2008 -- 11:04:32
+
+Parsing input xml file... 
+
+Cyclopropene_isomerization_test.xml at 20080521_131337
+Cannot find argument me:eletronicExcitation for allene
+Cannot find argument me:spinMultiplicity in allene. Default value 1 is used.
+No method for the calculation of distribution fraction in allene is provided. Default method <Boltzmann> is used.
+Cannot find argument me:eletronicExcitation for cyclopropene
+Cannot find argument me:spinMultiplicity in cyclopropene. Default value 1 is used.
+No method for the calculation of distribution fraction in cyclopropene is provided. Default method <Boltzmann> is used.
+Cannot find argument me:eletronicExcitation for TS1
+No imaginary vibrational frequency for TS1
+The me:tunneling element or attribute was missing or empty.
+Cannot find argument me:eletronicExcitation for propyne
+No method for the calculation of distribution fraction in propyne is provided. Default method <Boltzmann> is used.
+Cannot find argument me:eletronicExcitation for TS3
+No imaginary vibrational frequency for TS3
+The me:tunneling element or attribute was missing or empty.
+The description element or attribute was missing or empty.
+
+File: "Cyclopropene_isomerization_test.xml" successfully parsed.
+Calculate EGME at 20080521_131337
+
+Now calculating...
+
+Write XML attribute at 20080521_131337
+Precision: Double
+
+Grid 
+0
+
+Build Collison Operator at 20080521_131337
+Cell number = 
+31200
+, Grain number = 
+156
+
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+
+Grid 
+1
+
+Diagonlize Collision Operator at 20080521_131343 -- Time elapsed: 0 seconds.
+Build Collison Operator at 20080521_131350
+Cell number = 
+52000
+, Grain number = 
+260
+
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+Diagonlize Collision Operator at 20080521_131409 -- Time elapsed: 6 seconds.
+
+Finish Calculation at 20080521_131439 -- Time elapsed: 19 seconds.
+In total, 2 temperature/concentration-pressure points calculated.
+
+Time stamps:
+20080521_121337 -- Build Collison Operator
+20080521_121343 -- Diagonlize Collision Operator
+20080521_121350 -- Build Collison Operator
+20080521_121409 -- Diagonlize Collision Operator
+20080521_121439 -- Finish Calculation
+ *Info in main
+Save XML document to a new file at 20080521_131439 -- Total time elapsed: 62 seconds.
+
+System saved to Cyclopropene_isomerization_test.20080521_131439.xml
+m_Mass is provided but not used in TS1m_Mass is provided but not used in TS3

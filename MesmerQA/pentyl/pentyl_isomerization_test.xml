@@ -254,7 +254,7 @@
     <me:control>
         <me:testDOS />
         <me:testMicroRates />
-        <!--<me:printGrainDOS />-->
+        <me:printGrainDOS />
         <!--<me:printCellDOS />-->
         <!--<me:printCollisionOperatorColumnSums />-->
         <me:printGrainkfE />
