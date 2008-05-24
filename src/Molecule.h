@@ -14,10 +14,9 @@
 
 #include <memory>
 #include "XMLPersist.h"
-#include "MesmerMath.h"
 #include "DensityOfStates.h"
 #include "Distribution.h"
-#include "unitsConversion.h"
+#include "MesmerEnv.h"
 
 namespace mesmer
 {
@@ -66,12 +65,9 @@ namespace mesmer
 
     virtual double get_zpe();
     void set_zpe(double value);
-    double getEqFraction() const { return m_eqFraction;};
-    void setEqFraction(double value){ m_eqFraction = value;};
 
   private:
     double         m_ZPE ;              // Zero Point Energy. (kJ/mol)
-    double         m_eqFraction;        // population of the species
 
     //================================================
     // CHECK FOR INPUTFILE PARAMETERS
@@ -179,7 +175,7 @@ namespace mesmer
     void getEleExcitation(vector<double> &elecExci);
 
     // Get Grain canonical partition function.
-    double grnCanPrtnFn() ;
+    double rovibronicGrnCanPrtnFn() ;
 
     // Calculate Density of states
     bool calcDensityOfStates();
@@ -254,7 +250,7 @@ namespace mesmer
     // Variables:
     // Collision operator properties.
     //
-    double              m_eqFraction;        // population of the species
+    double              m_eqFraction;        // equilibrium fraction of the species
     double              m_Sigma ;            // Lennard-Jones sigma.
     double              m_Epsilon ;          // Lennard-Jones epsilon.
 
@@ -271,7 +267,6 @@ namespace mesmer
     //================================================
 
     double m_grainFracBeta;                    // beta used to calculate grain distribution fraction
-    double m_normalizationFactor;                            // sum of members in m_grainDist
     std::vector<double> m_grainDist ;          // Grain distribution (not normalized)
     dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
 
@@ -297,8 +292,8 @@ namespace mesmer
     void copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
 
     // Get Grain Boltzmann distribution.
-    void grainDistribution(vector<double> &grainFrac, double& prtfn);
-    void normalizedGrainDistribution(std::vector<double> &grainBoltzDist) ;
+    void grainDistribution(vector<double> &grainFrac, const int numberOfGrains);
+    void normalizedGrainDistribution(vector<double> &grainFrac, const int numberOfGrains) ;
 
     // Accessors.
     double getEqFraction() const { return m_eqFraction;};

@@ -195,6 +195,8 @@ src/MesmerILT.h -text
 src/MesmerMath.cpp -text
 src/MesmerMath.h -text
 src/MesmerPrecision.h -text
+src/MesmerTools.cpp -text
+src/MesmerTools.h -text
 src/MicroRate.cpp -text
 src/MicroRate.h -text
 src/ModelledMolecule.cpp -text
@@ -222,7 +224,6 @@ src/Tunneling.h -text
 src/XMLPersist.cpp -text
 src/XMLPersist.h -text
 src/a2d.h -text
-src/convolution.h -text
 src/dMatrix.cpp -text
 src/dMatrix.h -text
 src/formatfloat.cpp -text

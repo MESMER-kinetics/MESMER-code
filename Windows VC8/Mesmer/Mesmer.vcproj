@@ -247,6 +247,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\MesmerTools.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\MicroRate.cpp"
 				>
 			</File>
@@ -337,10 +341,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\convolution.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\qd\Windows VC\include\qd\dd_inline.h"
 				>
 			</File>
@@ -406,6 +406,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\MesmerPrecision.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\MesmerTools.h"
 				>
 			</File>
 			<File

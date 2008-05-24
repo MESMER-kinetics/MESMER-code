@@ -107,6 +107,7 @@ SRCS := \
 	MesmerEnv.cpp \
 	MesmerILT.cpp \
 	MesmerMath.cpp \
+	MesmerTools.cpp \
   MicroRate.cpp \
 	ModelledMolecule.cpp \
 	Molecule.cpp \

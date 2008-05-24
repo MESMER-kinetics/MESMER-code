@@ -95,10 +95,10 @@ namespace mesmer
 
     // Get Canonical partition functions.
 
-    const double Qrct1 = m_rct1->grnCanPrtnFn() ;
-    const double Qrct2 = m_rct2->grnCanPrtnFn() ;
-    const double Qpdt1 = m_pdt1->grnCanPrtnFn() ;
-    const double Qpdt2 = m_pdt2->grnCanPrtnFn() ;
+    const double Qrct1 = m_rct1->rovibronicGrnCanPrtnFn() ;
+    const double Qrct2 = m_rct2->rovibronicGrnCanPrtnFn() ;
+    const double Qpdt1 = m_pdt1->rovibronicGrnCanPrtnFn() ;
+    const double Qpdt2 = m_pdt2->rovibronicGrnCanPrtnFn() ;
 
     const double mass_rct1 = m_rct1->getMass() ;
     const double mass_rct2 = m_rct2->getMass() ;

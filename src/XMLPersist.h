@@ -2,8 +2,8 @@
 #define GUARD_XMLPersist_h
 
 #include "Persistence.h"
-#include "TimeCounter.h"
 #include "../tinyxml/tinyxml.h"
+#include "MesmerTools.h"
 
 namespace mesmer
 {

@@ -44,7 +44,7 @@ namespace mesmer
 
   ModelledMolecule::~ModelledMolecule()
   {
-    if (m_Mass_chk == 0) cinfo << "m_Mass is provided but not used in " << getName();
+    if (m_Mass_chk == 0) cinfo << "m_Mass is provided but not used in " << getName() << endl;
     if (m_RC_chk == 0) cinfo << "Rotational constants are provided but not used in " << getName() << endl;
     if (m_Sym_chk == 0) cinfo << "m_Sym is provided but not used in " << getName() << endl;
     if (m_ZPE_chk == 0) cinfo << "m_ZPE is provided but not used in " << getName() << endl;
@@ -223,7 +223,7 @@ namespace mesmer
     // If density of states have not already been calcualted then do so.
     if (!calcDensityOfStates())
       cerr << "Failed calculating DOS";
-   cellDOS = m_cellDOS;
+    cellDOS = m_cellDOS;
   }
 
   //
@@ -267,33 +267,21 @@ namespace mesmer
   }
 
   //
-  // Get Grain canonical partition function.
+  // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
   //
-  double ModelledMolecule::grnCanPrtnFn() {
+  double ModelledMolecule::rovibronicGrnCanPrtnFn() {
     // If density of states have not already been calculated then do so.
     if (!calcDensityOfStates())
       cerr << "Failed calculating DOS";
-    double CanPrtnFn(0.0) ;
 
-    // Calculate the ro-vibrational partition function based on the grain
-    // densities of states, and not the molecular properties, for consistency.
-
-    const int MaximumGrain = getEnv().MaxGrn ;
-    const double beta = getEnv().beta;
-
-    for (int i = 0; i < MaximumGrain; ++i) {
-      if (m_grainDOS[i] > 0.0)
-        CanPrtnFn += exp( log(m_grainDOS[i]) - beta*m_grainEne[i] ) ;
+    // Calculate the rovibronic partition function based on the grain DOS
+    // The following catches the case where the molecule is a single atom
+    double CanPrtnFn = max(canonicalPartitionFunction(m_grainDOS, m_grainEne, getEnv().beta), 1.0) ;
+    if (CanPrtnFn == 1.0){
+      // Electronic partition function for atom is accounted here.
+      CanPrtnFn = double(getSpinMultiplicity()) ;
     }
 
-    // The following catches the case where the molecule is a single atom
-
-    CanPrtnFn = max(CanPrtnFn, 1.0) ;
-
-    // Electronic partition function.
-    CanPrtnFn *= double(getSpinMultiplicity()) ;
-
-    // Translational partition function.
     return CanPrtnFn ;
   }
 
@@ -376,18 +364,18 @@ namespace mesmer
 
 
   //
-  // Test the rovibrational density of states for ModelledMolecule.
+  // Test the rovibronic density of states for ModelledMolecule.
   //
   void ModelledMolecule::testDensityOfStates()
   {
     const int MaximumGrain = getEnv().MaxGrn;
     const int MaximumCell  = getEnv().MaxCell;
 
-    string comment("Partition function calculation at various temperatures. qtot : partition function as a product of quantum mechanical partition functions for vibrations (1-D harmonic oscillator) and classifical partition functions for rotations.  sumc : (user calculated) cell based partition function. sumg : (user calculated) grain based partition function ");
+    string comment("Rovibronic partition function calculation at various temperatures. qtot : partition function as a product of quantum mechanical partition functions for vibrations (1-D harmonic oscillator) and classifical partition functions for rotations.  sumc : (user calculated) cell based partition function. sumg : (user calculated) grain based partition function ");
 
     PersistPtr ppList = getPersistentPointer()->XmlWriteMainElement("me:densityOfStatesList", comment );
 
-    if (getEnv().testDOSEnabled) ctest << endl << "Test density of states for: " << getName() << "\n{\n";
+    if (getEnv().testDOSEnabled) ctest << endl << "Test rovibronic density of states for: " << getName() << "\n{\n";
     if (getEnv().testDOSEnabled) ctest << "      T           qtot           sumc           sumg\n";
 
     //loop through predefined test temperatures
@@ -395,32 +383,34 @@ namespace mesmer
       double temp = 100.0*static_cast<double>(n + 2) ;
       double beta = 1.0/(boltzmann_RCpK*temp) ;
 
-      // Calculate partition functions based on cells.
-
-      double sumc  = 0.0 ;
-      for ( int i = 0 ; i < MaximumCell ; ++i ) {
-        sumc += m_cellDOS[i]*exp(-beta*m_cellEne[i]) ;
+      // Calculate rovibronic partition functions based on cells.
+      // The following catches the case where the molecule is a single atom
+      double cellCanPrtnFn = max(canonicalPartitionFunction(m_cellDOS, m_cellEne, beta), 1.0) ;
+      if (cellCanPrtnFn == 1.0){
+        // Electronic partition function for atom is accounted here.
+        cellCanPrtnFn = double(getSpinMultiplicity()) ;
       }
 
-      // Calculate partition functions based on grains.
-
-      double sumg  = 0.0 ;
-      for ( int i = 0 ; i < MaximumGrain ; ++i ) {
-        sumg += m_grainDOS[i]*exp(-beta*m_grainEne[i]) ;
+      // Calculate rovibronic partition functions based on grains.
+      // The following catches the case where the molecule is a single atom
+      double grainCanPrtnFn = max(canonicalPartitionFunction(m_grainDOS, m_grainEne, beta), 1.0) ;
+      if (grainCanPrtnFn == 1.0){
+        // Electronic partition function for atom is accounted here.
+        grainCanPrtnFn = double(getSpinMultiplicity()) ;
       }
 
-      // Calculate partition functions using analytical formula (treat vibrations classically).
-
+      // Calculate rovibronic partition functions using analytical formula (treat vibrations classically).
       double qtot = 1.0 ;
-
       vector<double> rotConst; int rotorType;
-
       if (!dynamic_cast<SuperMolecule *>(this)) {
         rotorType = get_rotConsts(rotConst);
       }
       else{rotorType = -4;}
-
       vector<double> vibFreq; get_VibFreq(vibFreq);
+      // times the scale factor
+      for (vector<double>::size_type i = 0; i < vibFreq.size(); ++i){
+        vibFreq[i] *= get_scaleFactor();
+      }
 
       switch(rotorType){
         case 2://3-D symmetric/asymmetric/spherical top
@@ -433,28 +423,35 @@ namespace mesmer
           for ( vector<double>::size_type j = 0 ; j < vibFreq.size() ; ++j ) {
             qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
           }
-          qtot *= (rotConst[0] / (get_Sym()*beta)) ;
+          qtot /= rotConst[0]* get_Sym()*beta ;
           break;
         default:
           qtot = 0.;
       }
+      qtot *= double(getSpinMultiplicity());
+      qtot = max(qtot, 1.0);
+      if (qtot == 1.0){
+        // Electronic partition function for atom is accounted here.
+        qtot = double(getSpinMultiplicity()) ;
+      }
+
       if (getEnv().testDOSEnabled) formatFloat(ctest, temp,  6,  7) ;
       if (getEnv().testDOSEnabled) formatFloat(ctest, qtot,  6, 15) ;
-      if (getEnv().testDOSEnabled) formatFloat(ctest, sumc,  6, 15) ;
-      if (getEnv().testDOSEnabled) formatFloat(ctest, sumg,  6, 15) ;
+      if (getEnv().testDOSEnabled) formatFloat(ctest, cellCanPrtnFn,  6, 15) ;
+      if (getEnv().testDOSEnabled) formatFloat(ctest, grainCanPrtnFn,  6, 15) ;
       if (getEnv().testDOSEnabled) ctest << endl ;
 
       //Add to XML document
       PersistPtr ppItem = ppList->XmlWriteElement("me:densityOfStates");
       ppItem->XmlWriteValueElement("me:T",    temp, 6);
       ppItem->XmlWriteValueElement("me:qtot", qtot, 6);
-      ppItem->XmlWriteValueElement("me:sumc", sumc, 6);
-      ppItem->XmlWriteValueElement("me:sumg", sumg, 6);
+      ppItem->XmlWriteValueElement("me:sumc", cellCanPrtnFn, 6);
+      ppItem->XmlWriteValueElement("me:sumg", grainCanPrtnFn, 6);
     }
     if (getEnv().testDOSEnabled) ctest << "}" << endl;
 
     if (getEnv().cellDOSEnabled){
-      ctest << endl << "Cell density of states of " << getName() << endl << "{" << endl;
+      ctest << endl << "Cell rovibronic density of states of " << getName() << endl << "{" << endl;
       for (int i = 0; i < MaximumCell; ++i){
         formatFloat(ctest, m_cellEne[i],  6,  15) ;
         formatFloat(ctest, m_cellDOS[i],  6,  15) ;
@@ -464,7 +461,7 @@ namespace mesmer
     }
 
     if (getEnv().grainDOSEnabled){
-      ctest << endl << "Grain density of states of " << getName() << endl << "{" << endl;
+      ctest << endl << "Grain rovibronic density of states of " << getName() << endl << "{" << endl;
       for (int i = 0; i < MaximumGrain; ++i){
         formatFloat(ctest, m_grainEne[i],  6,  15) ;
         formatFloat(ctest, m_grainDOS[i],  6,  15) ;
@@ -476,8 +473,8 @@ namespace mesmer
 
   void ModelledMolecule::set_grainValues(double relativeZPE) {
     double grnZpe = relativeZPE / getEnv().GrainSize ; //convert to grain
-    if (grnZpe < 0.0) 
-		cerr << "Grain zero point energy has to be a positive value.";
+    if (grnZpe < 0.0)
+      cerr << "Grain zero point energy has to be a positive value.";
 
     set_grnZpe(grnZpe) ; //set grain ZPE (with respect to the minimum of all wells)
     m_cellOffset =  int(fmod(relativeZPE, getEnv().GrainSize));
@@ -495,7 +492,7 @@ namespace mesmer
     // Check that there are enough cells.
 
     if (getEnv().GrainSize < 1) {
-	  meErrorLog.ThrowError(__FUNCTION__, string("The number of Cells is insufficient to produce requested number of Grains."), obError);
+      meErrorLog.ThrowError(__FUNCTION__, string("The number of Cells is insufficient to produce requested number of Grains."), obError);
       exit(1) ;
     }
 

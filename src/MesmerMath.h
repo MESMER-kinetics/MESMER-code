@@ -16,8 +16,6 @@
 #include <algorithm>
 #include <cmath>
 #include <vector>
-#include "dMatrix.h"
-#include "TimeCounter.h"
 
 template <class T>
 const T MesmerGamma(const T& x)

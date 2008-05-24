@@ -2,7 +2,6 @@
 #define GUARD_Tunneling_h
 
 #include <map>
-#include "Molecule.h"
 
 namespace mesmer
 {

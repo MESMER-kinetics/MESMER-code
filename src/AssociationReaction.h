@@ -11,8 +11,11 @@
 // This header file contains the declaration of the AssociationReaction class.
 //
 //-------------------------------------------------------------------------------------------
-
 #include "Reaction.h"
+
+using namespace Constants ;
+using namespace std;
+using namespace mesmer;
 
 namespace mesmer
 {

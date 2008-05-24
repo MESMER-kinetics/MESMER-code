@@ -97,8 +97,8 @@ namespace mesmer
     double Keq(0.0) ;
 
     // Get Canonical partition functions.
-    double Qrct1 = m_rct1->grnCanPrtnFn() ;
-    double Qpdt1 = m_pdt1->grnCanPrtnFn() ;
+    double Qrct1 = m_rct1->rovibronicGrnCanPrtnFn() ;
+    double Qpdt1 = m_pdt1->rovibronicGrnCanPrtnFn() ;
 
     double beta = getEnv().beta ;
 

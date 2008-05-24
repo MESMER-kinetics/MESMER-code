@@ -655,7 +655,7 @@
         <me:energyAboveTheTopHill>98.5</me:energyAboveTheTopHill>
     </me:modelParameters>
     <me:control>
-        <!--<me:testDOS />-->
+        <me:testDOS />
         <!--<me:testMicroRates />-->
         <me:printGrainDOS />
         <!--<me:printCellDOS />-->

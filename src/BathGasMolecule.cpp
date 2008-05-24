@@ -66,13 +66,13 @@ namespace mesmer
   BathGasMolecule::~BathGasMolecule()
   {
     if (m_Mass_chk == 0){
-      cinfo << "m_Mass is provided but not used in " << getName();
+      cinfo << "m_Mass is provided but not used in " << getName() << endl;
     }
     if (m_Sigma_chk == 0){
-      cinfo << "m_Sigma is provided but not used in " << getName();
+      cinfo << "m_Sigma is provided but not used in " << getName() << endl;
     }
     if (m_Epsilon_chk == 0){
-      cinfo << "m_Epsilon is provided but not used in " << getName();
+      cinfo << "m_Epsilon is provided but not used in " << getName() << endl;
     }
   };
   

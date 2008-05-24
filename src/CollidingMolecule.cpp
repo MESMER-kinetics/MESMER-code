@@ -26,7 +26,6 @@ namespace mesmer
     m_Epsilon_chk(-1),
     m_DeltaEdown_chk(-1),
     m_grainFracBeta(0.),
-    m_normalizationFactor(0.0),
     m_grainDist(0),
     m_egme(NULL)
   {}
@@ -34,10 +33,10 @@ namespace mesmer
   CollidingMolecule::~CollidingMolecule()
   {
     if (m_Sigma_chk == 0){
-      cinfo << "m_Sigma is provided but not used in " << getName();
+      cinfo << "m_Sigma is provided but not used in " << getName() << endl;
     }
     if (m_Epsilon_chk == 0){
-      cinfo << "m_Epsilon is provided but not used in " << getName();
+      cinfo << "m_Epsilon is provided but not used in " << getName() << endl;
     }
     if (m_DeltaEdown_chk == 0){
       cinfo << "m_DeltaEdown is provided but not used in " << getName() << endl;
@@ -273,8 +272,7 @@ namespace mesmer
 
     // Symmetrization of the collision matrix.
     vector<double> popDist; // grained population distribution
-    double prtfn;
-    grainDistribution(popDist, prtfn); // prtfn is not used here
+    grainDistribution(popDist, m_ncolloptrsize);
     for (unsigned int idx(0); idx < popDist.size(); ++idx)
       popDist[idx] = sqrt(popDist[idx]);
 
@@ -393,40 +391,41 @@ namespace mesmer
   //
   // Get grain distribution.
   //
-  void CollidingMolecule::grainDistribution(vector<double> &grainFrac, double& prtfn)
+  void CollidingMolecule::grainDistribution(vector<double> &grainFrac, const int numberOfGrains)
   {
     // If density of states have not already been calcualted then do so.
     if (!calcDensityOfStates())
       cerr << "Failed calculating DOS";
 
     if (m_grainDist.size() != m_grainDOS.size() || getEnv().beta != m_grainFracBeta){
-      m_pDistributionCalculator->calculateDistribution(m_grainDOS, m_grainEne, getEnv().beta, m_grainDist, prtfn);
-      m_grainFracBeta = getEnv().beta; 
-      m_normalizationFactor = prtfn;
-    }
-    else{ // need to return also the sum of the partition functions
-      prtfn = m_normalizationFactor;
+      m_pDistributionCalculator->calculateDistribution(m_grainDOS, m_grainEne, getEnv().beta, m_grainDist);
+      m_grainFracBeta = getEnv().beta;
     }
 
-    grainFrac = m_grainDist;
+    for (int i = 0; i < numberOfGrains; ++i){
+      grainFrac.push_back(m_grainDist[i]);
+    }
   }
 
   //
   // Get normalized grain distribution.
   //
-  void CollidingMolecule::normalizedGrainDistribution(vector<double> &grainFrac)
+  void CollidingMolecule::normalizedGrainDistribution(vector<double> &grainFrac, const int numberOfGrains)
   {
-    double prtfn = 0.0;
-    grainDistribution(grainFrac, prtfn);
+    grainDistribution(grainFrac, numberOfGrains);
 
-    int MaximumGrain = getEnv().MaxGrn ;
-    for (int i = 0; i < MaximumGrain; ++i){
+    double prtfn(0.);
+    for (int i = 0; i < numberOfGrains; ++i){
+      prtfn += grainFrac[i];
+    }
+
+    for (int i = 0; i < numberOfGrains; ++i){
       grainFrac[i] /= prtfn;
     }
 
     if (getEnv().grainBoltzmannEnabled){
       ctest << "\nGrain fraction for " << getName() << ":\n{\n";
-      for (int i = 0; i < MaximumGrain; ++i){
+      for (int i = 0; i < numberOfGrains; ++i){
         ctest << grainFrac[i] << endl;
       }
       ctest << "}\n";

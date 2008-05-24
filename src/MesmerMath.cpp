@@ -1,6 +1,5 @@
 #include "MesmerMath.h"
 
-using namespace mesmer;
 //convolutes DOSs
 void DOSconvolution(const std::vector<double> &f1,
                     const std::vector<double> &f2,

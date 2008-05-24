@@ -24,7 +24,7 @@ namespace mesmer
   
     virtual ~BoltzmannDistribution() {}
   
-    virtual bool calculateDistribution(const std::vector<double>& DOS, const std::vector<double>& ene, const double& beta, std::vector<double>& distribution, double& prtfn);
+    virtual bool calculateDistribution(const std::vector<double>& DOS, const std::vector<double>& ene, const double& beta, std::vector<double>& distribution);
   };
 }//namespace
 

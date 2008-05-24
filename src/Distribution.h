@@ -12,7 +12,6 @@
 #define GUARD_Distribution_h
 
 #include <map>
-#include "XMLPersist.h"
 
 namespace mesmer
 {
@@ -39,7 +38,7 @@ namespace mesmer
       return (pos==get_Map().end()) ? NULL : pos->second;
     }
 
-    virtual bool calculateDistribution(const std::vector<double>& DOS, const std::vector<double>& ene, const double& beta, std::vector<double>& distribution, double& prtfn) = 0 ;
+    virtual bool calculateDistribution(const std::vector<double>& DOS, const std::vector<double>& ene, const double& beta, std::vector<double>& distribution) = 0 ;
 
   private:
     /// Returns a reference to the map of DistributionCalculator classes

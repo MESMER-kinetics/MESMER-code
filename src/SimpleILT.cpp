@@ -18,10 +18,10 @@ namespace mesmer
   bool SimpleILT::calculateMicroRateCoeffs(Reaction* pReact)
   {
     vector<ModelledMolecule *> Isomers ;
-	int nIsomers = pReact->get_unimolecularspecies(Isomers) ;  
-	ModelledMolecule *p_rcts = Isomers[0] ;
+    int nIsomers = pReact->get_unimolecularspecies(Isomers) ;  
+    ModelledMolecule *p_rcts = Isomers[0] ;
 
-	const int MaximumCell = pReact->getEnv().MaxCell;
+    const int MaximumCell = pReact->getEnv().MaxCell;
 
     // Allocate space to hold transition state flux and initialize elements to zero.
     vector<double>& TSFlux = pReact->get_CellFlux();
@@ -30,7 +30,7 @@ namespace mesmer
     // Allocate some work space for and obtain density of states of the unimolecuar reactant.
 
     vector<double> rctsCellDOS; 
-	p_rcts->getCellDensityOfStates(rctsCellDOS) ;
+    p_rcts->getCellDensityOfStates(rctsCellDOS) ;
 
     // Obtain he Arrhenius parameters.
 

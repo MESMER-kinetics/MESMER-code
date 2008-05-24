@@ -14,7 +14,6 @@
 
 using namespace Constants ;
 using namespace std;
-using namespace mesmer;
 
 namespace mesmer
 {
@@ -142,17 +141,18 @@ namespace mesmer
     // Get Boltzmann distribution for detailed balance.
     const int MaximumGrain = getEnv().MaxGrn ;
     vector<double> adductPopFrac ; // Population fraction of the adduct
-    m_pdt1->normalizedGrainDistribution(adductPopFrac) ;
+
+    const int pdtGrainZPE = m_pdt1->get_grnZpe();
+    m_pdt1->normalizedGrainDistribution(adductPopFrac, MaximumGrain - pdtGrainZPE) ;
 
     double DissRateCoeff(0.0) ;
 
     // Multiply equilibrum constant by concentration of excess reactant.
     // concentration of excess reactant should be in molec/cm3. This gives
     // a dimensionless pseudo-isomerization equilibrium constant.
-    const int TSgrainZPE  = getTSFluxGrnZPE();
-    const int pdtGrainZPE = m_pdt1->get_grnZpe();
+    const int TSFluxGrainZPE  = getTSFluxGrnZPE();
 
-    for ( int i = TSgrainZPE, j = 0; i < MaximumGrain; ++i, ++j) {
+    for ( int i = TSFluxGrainZPE, j = 0; i < MaximumGrain; ++i, ++j) {
       int ll(i - pdtGrainZPE);
       int ii(pdtLoc + ll) ;
 
@@ -172,31 +172,32 @@ namespace mesmer
 
     // equilibrium constant:
     long double Keq(0.0) ;
-
-    // Get Canonical partition functions.
-    const long double Qrct1 = m_rct1->grnCanPrtnFn();
-    const long double Qrct2 = m_rct2->grnCanPrtnFn();
-    const long double Qpdt1 = m_pdt1->grnCanPrtnFn() ;
-
-    const long double mass_rct1 = m_rct1->getMass();
-    const long double mass_rct2 = m_rct2->getMass();
-    const long double mass_srct = mass_rct1 + mass_rct2;
-
-    // Calculate the equilibrium constant.
     const long double beta = getEnv().beta ;
 
-    Keq = Qpdt1 / (Qrct1 * Qrct2);
+    // partition function for each reactant
+    long double Qrcts = m_srct->rovibronicGrnCanPrtnFn();
+    const long double Qrct1 = m_rct1->rovibronicGrnCanPrtnFn();
+    const long double Qrct2 = m_rct2->rovibronicGrnCanPrtnFn();
+    const long double Qdiff = Qrcts / (Qrct1 * Qrct2);
+    if (abs(Qdiff - 1.0) > 0.01) {
+      cerr << "Rovibronic partition function calculated for source term and individual reactants does not match.";
+      cerr << "Ratio = " << Qdiff;
+      return false;
+    }
+    // rovibronic partition function for reactants multiplied by translation contribution
+    Qrcts *= translationalContribution(m_rct1->getMass(), m_rct2->getMass(), beta);
+
+    // rovibronic partition function for product
+    const long double Qpdt1 = m_pdt1->rovibronicGrnCanPrtnFn() ;
+
+    Keq = Qpdt1 / Qrcts;
 
     /* Electronic degeneracies were already accounted for in DOS calculations */
-    // Heat of reaction
-    double HeatOfReaction = getHeatOfReaction() ;
-    long double _expon = -beta * HeatOfReaction;
-    Keq *= exp(_expon) ;
 
-    // Translational contribution
-    // 2.0593e19 = conversion factor,  1e-6*(((cm-1 -> j)/(h2*na)))^3/2
-    // double tau = 2.0593e19 * pow(2. * M_PI ,1.5);
-    Keq /= (tp_C * pow(mass_rct1 * mass_rct2 / (mass_srct * beta), 1.5l));
+    // Heat of reaction: use heat of reaction to calculate the zpe weighing of different wells
+    const double HeatOfReaction = getHeatOfReaction() ;
+    const long double _expon = -beta * HeatOfReaction;
+    Keq *= exp(_expon) ;
 
     const double excess = getExcessReactantConc();
     Keq *= excess ;
@@ -289,7 +290,7 @@ namespace mesmer
     m_srct->getGrainDensityOfStates(rctGrainDOS) ;
     m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
 
-    const int TSgrainZPE  = getTSFluxGrnZPE();
+    const int TSFluxGrainZPE  = getTSFluxGrnZPE();
     const int rctGrainZPE = m_srct->get_grnZpe();
     const int pdtGrainZPE = m_pdt1->get_grnZpe();
 
@@ -298,10 +299,10 @@ namespace mesmer
     m_GrainKbmc.resize(MaximumGrain , 0.0);
 
     // For AssociationReaction, TSFlux is calculated from ILT
-    for (int i = TSgrainZPE - pdtGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
+    for (int i = TSFluxGrainZPE - pdtGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
       m_GrainKbmc[i] = m_GrainTSFlux[j] / pdtGrainDOS[i];
     }
-    for (int i = TSgrainZPE - rctGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
+    for (int i = TSFluxGrainZPE - rctGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
       m_GrainKfmc[i] = m_GrainTSFlux[j] / rctGrainDOS[i];
     }
 

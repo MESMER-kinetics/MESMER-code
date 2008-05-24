@@ -105,17 +105,6 @@ Molecule* MoleculeManager::addmol(string& molName, string& molType, PersistPtr p
   return pmolecule;
 }
 
-////
-//// Add a new molecule to the list.
-////
-//SuperMolecule* MoleculeManager::addSuperMol(PersistPtr value) {
-//  string myName = "source";
-//  SuperMolecule *pmolecule = new SuperMolecule();
-//  pmolecule->InitializeMolecule(value);
-//  m_molmap[myName] = pmolecule;
-//  return pmolecule;
-//}
-
 //
 // Find a molecule in the list.
 //

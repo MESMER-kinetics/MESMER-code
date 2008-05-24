@@ -1,7 +1,7 @@
 #include <sstream>
 #include <iomanip>
 #include "formatfloat.h"
-using namespace std;
+
 namespace mesmer
 {
   //

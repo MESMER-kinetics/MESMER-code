@@ -1,5 +1,4 @@
 #include "ClassicalRotor.h"
-#include "convolution.h"
 
 using namespace std;
 namespace mesmer
@@ -8,6 +7,8 @@ namespace mesmer
   //Global instance, defining its id (usually the only instance)
   ClassicalRotor theClassicalRotor("Classical rotors");
   //************************************************************
+  // Reference: Theory of Unimolecular and Recombination Reactions, Robert G. Gilbert / Sean C. Smith
+  //            Section 4.3 for the examples of how density of states are calculated from partition functions.
 
   // provide a function to define particular counts of the convoluted DOS of two molecules
   bool ClassicalRotor::countDimerCellDOS(SuperMolecule* rcts){
@@ -152,21 +153,26 @@ namespace mesmer
     double qele = mol->getSpinMultiplicity();
     double cnt = 0.;
 
+    for (int i = 0 ; i < MaximumCell ; ++i ) {
+      mol->m_cellEne.push_back(static_cast<double>(i) + 0.5);
+    }
+
     switch (rotorType){
       case 2: //3-D symmetric/asymmetric/spherical top
         cnt = qele * sqrt(4./(rotConst[0] * rotConst[1] * rotConst[2]))/sym ;
+        for (int i = 0 ; i < MaximumCell ; ++i ) 
+          mol->m_cellDOS.push_back(cnt*sqrt(mol->m_cellEne[i]));
         break;
       case 0: //2-D linear
         cnt = qele / (rotConst[0] * sym);
+        for (int i = 0 ; i < MaximumCell ; ++i ) 
+          mol->m_cellDOS.push_back(cnt);
         break;
       default:
         cnt = 0.;
-    }
-
-    for (int i = 0 ; i < MaximumCell ; ++i ) {
-      mol->m_cellEne.push_back(static_cast<double>(i) + 0.5);
-      mol->m_cellDOS.push_back(cnt*sqrt(mol->m_cellEne[i]));
-    }
+        for (int i = 0 ; i < MaximumCell ; ++i ) 
+          mol->m_cellDOS.push_back(cnt);
+      }
 
     // Implementation of the Beyer-Swinehart algorithm.
     Beyer_Swinehart(VibFreq, mol->m_cellDOS);

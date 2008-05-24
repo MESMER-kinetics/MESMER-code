@@ -1,6 +1,5 @@
 #ifndef GUARD_MesmerEnv_h
 #define GUARD_MesmerEnv_h
-#include "oberror.h"
 
 namespace mesmer
 {

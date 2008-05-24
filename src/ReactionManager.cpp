@@ -19,6 +19,7 @@ namespace mesmer
     :m_reactions(),
     m_pMoleculeManager(pMoleculeManager),
     m_pSystemCollisionOperator(0),
+    m_eigenvalues(),
     m_isomers(),
     m_sources(),
     m_meanOmega(0.0)
@@ -306,9 +307,9 @@ namespace mesmer
   {
     // Allocate space for eigenvalues.
     const int smsize = int(m_pSystemCollisionOperator->size()) ;
-    std::vector<double> rr(smsize, 0.0);
 
-    m_pSystemCollisionOperator->diagonalize(&rr[0]) ;
+    m_eigenvalues.resize(smsize, 0.0);
+    m_pSystemCollisionOperator->diagonalize(&m_eigenvalues[0]) ;
 
     int numberStarted = 0;
     int numberPrinted = smsize; // Default prints all of the eigenvalues
@@ -320,7 +321,7 @@ namespace mesmer
     ctest << "\nTotal number of eigenvalues = " << smsize << endl;
     ctest << "Eigenvalues\n{\n";
     for (int i = numberStarted ; i < smsize; ++i) {
-      formatFloat(ctest, m_meanOmega * rr[i], 6, 15) ;
+      formatFloat(ctest, m_meanOmega * m_eigenvalues[i], 6, 15) ;
       ctest << endl ;
     }
     ctest << "}\n";
@@ -346,7 +347,90 @@ namespace mesmer
     return true ;
   }
 
-  bool ReactionManager::timeEvolution(int maxTimeStep)
+  bool ReactionManager::calculateEquilibriumFractions(const double beta){
+    // All species we care about in here is the source term(s) and isomers.
+    // A sink term's equilibrium population is not calculated, because there is no equilibrium for a reaction with a sink term.
+
+    // Loop through all isomers in the system giving their partition function values as their equilibrium fraction.
+    Reaction::isomerMap::iterator ipos;
+    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
+      CollidingMolecule* pI0 = ipos->first;
+      long double eqFrac(1.0);
+      const long double prtFn1 = pI0->rovibronicGrnCanPrtnFn();
+      Reaction::isomerMap::iterator jpos;
+      for (jpos = m_isomers.begin(); jpos != m_isomers.end(); ++jpos){
+        if (jpos->first != pI0){
+          CollidingMolecule* pI1 = jpos->first;
+          const long double HeatDiff = pI1->get_zpe() - pI0->get_zpe();
+          const long double prtFn2 = pI1->rovibronicGrnCanPrtnFn();
+          eqFrac += prtFn2 / prtFn1 * exp(-beta * HeatDiff);
+        }
+      }
+      Reaction::sourceMap::iterator kpos;
+      for (kpos = m_sources.begin(); kpos != m_sources.end(); ++kpos){
+        SuperMolecule* pS1 = kpos->first;
+        const long double HeatDiff = pS1->get_zpe() - pI0->get_zpe();
+        long double prtFn2 = pS1->rovibronicGrnCanPrtnFn();
+        prtFn2 *= translationalContribution((pS1->getMember1())->getMass(), (pS1->getMember2())->getMass(), beta);
+        eqFrac += prtFn2 / prtFn1 * exp(-beta * HeatDiff);
+      }
+      pI0->setEqFraction(1.0 / eqFrac);
+    }
+
+    Reaction::sourceMap::iterator spos;
+    for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
+      SuperMolecule* pSx = spos->first;
+      long double eqFrac(1.0);
+      long double prtFn1 = pSx->rovibronicGrnCanPrtnFn();
+      prtFn1 *= translationalContribution((pSx->getMember1())->getMass(), (pSx->getMember2())->getMass(), beta);
+      Reaction::isomerMap::iterator jpos;
+      for (jpos = m_isomers.begin(); jpos != m_isomers.end(); ++jpos){
+        CollidingMolecule* pSy = jpos->first;
+        const long double HeatDiff = pSy->get_zpe() - pSx->get_zpe();
+        const long double prtFn2 = pSy->rovibronicGrnCanPrtnFn();
+        eqFrac += prtFn2 / prtFn1 * exp(-beta * HeatDiff);
+      }
+      Reaction::sourceMap::iterator kpos;
+      for (kpos = m_sources.begin(); kpos != m_sources.end(); ++kpos){
+        if (kpos->first != pSx){
+          SuperMolecule* pSy = kpos->first;
+          const long double HeatDiff = pSy->get_zpe() - pSx->get_zpe();
+          long double prtFn2 = pSy->rovibronicGrnCanPrtnFn();
+          prtFn2 *= translationalContribution((pSy->getMember1())->getMass(), (pSy->getMember2())->getMass(), beta);
+          eqFrac += prtFn2 / prtFn1 * exp(-beta * HeatDiff);
+        }
+      }
+      (pSx->getMember1())->setEqFraction(1.0 / eqFrac);
+    }
+    return true;
+  }
+
+  bool ReactionManager::produceInitialPopulationVector(vector<double>& eqFracCoeff, vector<double>& initDist){
+    Reaction::isomerMap::iterator ipos;
+    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
+      CollidingMolecule* isomer = ipos->first;
+      int location = ipos->second;
+      const double eqFrac = isomer->getEqFraction();
+      const int colloptrsize = isomer->get_colloptrsize();
+      vector<double> boltzFrac;
+      isomer->normalizedGrainDistribution(boltzFrac, colloptrsize);
+      for (int i = 0; i < colloptrsize; ++i){
+        eqFracCoeff[i + location] = sqrt(boltzFrac[i] * eqFrac);
+      }
+    }
+    Reaction::sourceMap::iterator spos;
+    for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
+      SuperMolecule* source = spos->first;
+      int location = spos->second;
+      const double eqFrac = (source->getMember1())->getEqFraction();
+      eqFracCoeff[location] = sqrt(eqFrac);
+      initDist[location] = 1.0 / eqFracCoeff[location];
+    }
+
+    return true;
+  }
+
+  bool ReactionManager::timeEvolution(int maxTimeStep, const double beta)
   {
     int smsize = int(m_pSystemCollisionOperator->size());
 
@@ -356,57 +440,67 @@ namespace mesmer
       timePoints.push_back(pow(10., static_cast<double>(i) / 10. - 11.));
     }
 
-    // find all source terms and give them initial values
-    vector<double> init(smsize, 0.);
-    Reaction::sourceMap::iterator spos;
-    for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
-      if (dynamic_cast<SuperMolecule*>(spos->first)){
-        init[spos->second] = 1.0;
-      }
+    if (!calculateEquilibriumFractions(beta)){
+      cerr << "Failed calculating equilibrium fractions.";
+      return false;
     }
 
-    // building the equilibrium fraction vector
-    vector<double> eqFrac(smsize, 0.);
-    Reaction::isomerMap::iterator ipos;
-    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
-      
+    vector<double> initDist(smsize, 0.); // initial distribution
+    vector<double> eqFracCoeff(smsize, 0.);   // equilibrium fraction coefficients
+    if (!produceInitialPopulationVector(eqFracCoeff, initDist)){
+      cerr << "Failed producing initial population vector.";
+      return false;
     }
 
-    // Coefficients due to the init distribution
-    dMatrix SCO(*m_pSystemCollisionOperator); // copy the system collision operator
+    // Coefficients due to the initial distribution
+    dMatrix sysCollOptr(*m_pSystemCollisionOperator); // copy the system collision operator
     vector<double> work1(smsize, 0.);
     for (int i = 0; i < smsize; ++i) {
       double sum = 0.;
       for (int j = 0; j < smsize; ++j) {
-        sum += init[j]*SCO[j][i];
+        sum += initDist[j] * sysCollOptr[j][i];
       }
       work1[i] = sum;
     }
 
     // Multiply root matrix with eigenvector matrix. Note VT contains transpose of V
-    //for (int i = 0; i < smsize; ++i) {
-    //  double tmp = rtu1[i];
-    //  for (int j = 0; j < smsize; ++j) {
-    //    SCO[i][j] *= tmp;
-    //  }
-    //}
+    for (int i = 0; i < smsize; ++i) {
+      double tmp = eqFracCoeff[i];
+      for (int j = 0; j < smsize; ++j) {
+        sysCollOptr[i][j] *= tmp;
+      }
+    }
 
     // populations calculated here
-    //db2D timeMatrix(smsize, maxTimeStep); // numbers inside the parentheses are dummys
-    //vector<double> work2(smsize, 0.);
-    //for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-    //  double zt = z*timePoints[timestep];
-    //  for (int j = 0; j < smsize; ++j) {
-    //    work2[j] = work1[j] * exp(rr[j] * zt);
-    //  }
-    //  for (int j = 0; j < smsize; ++j) {
-    //    double sum = 0.;
-    //    for (int l = 0; l < smsize; ++l) {
-    //      sum += work2[l] * SCO[j][l];
-    //    }
-    //    timeMatrix[j][timestep] = sum;
-    //  }
-    //}
+    db2D speciesProfile(smsize, maxTimeStep); // numbers inside the parentheses are dummies
+    vector<double> work2(smsize, 0.);
+    for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+      double numColl = m_meanOmega * timePoints[timestep];
+      for (int j = 0; j < smsize; ++j) {
+        work2[j] = work1[j] * exp(m_eigenvalues[j] * numColl);
+      }
+      for (int j = 0; j < smsize; ++j) {
+        double sum = 0.;
+        for (int l = 0; l < smsize; ++l) {
+          sum += work2[l] * sysCollOptr[j][l];
+        }
+        speciesProfile[j][timestep] = sum;
+      }
+    }
+
+    // print species profile
+    ctest << "\nSpecies profile (the first row is time points in unit of second):\n{\n";
+    for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+      formatFloat(ctest, timePoints[timestep], 6,  15);
+    }
+    ctest << endl;
+    for (int j = 0; j < smsize; ++j) {
+      for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+        formatFloat(ctest, speciesProfile[j][timestep], 6,  15);
+      }
+      ctest << endl;
+    }
+    ctest << "}\n";
     return true;
   }
 }//namespace

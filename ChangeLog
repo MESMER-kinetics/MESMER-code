@@ -1,3 +1,15 @@
+_2008_05_24__15_59_03_ Chi-Hsiu Liang
+
+  * Corrected the population fraction routine so that it only gives the population fraction of the range we are interested.
+    -- please refer to normalizedGrainDistribution()
+  * Renamed grnCanPrtnFn() to rovibronicGrnCanPrtnFn() to indicate that it includes the rotation, vibration and electronic degeneracies
+  * Isolate out translational contribution of two molecules to a function called translationalContribution() in MesmerTools.h
+  * Corrected the calculation of DOS on 2-D linear rotors. 
+  * Not sure if the Boltzmann distribution of HSO2 is right?
+  * Basic structure of producing species profile is done; needs debugging.
+    -- please refer to calculateEquilibriumFractions(), produceInitialPopulationVector() and timeEvolution().
+  * Add m_eigenvalues to ReactionManager
+
 _2008_05_21__10_51_16_ Chi-Hsiu Liang
 
   * Update baselines for all test systems.

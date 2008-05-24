@@ -15,7 +15,6 @@
 #include "MoleculeManager.h"
 #include "MicroRate.h"
 #include "Tunneling.h"
-#include "MesmerConfig.h"
 
 namespace mesmer
 {
@@ -108,7 +107,7 @@ namespace mesmer
 
     // Add reaction terms to collision matrix.
     virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) = 0 ;
-
+   
   protected:
 
     // Read a molecule name from the XML file and look it up
@@ -142,8 +141,6 @@ namespace mesmer
     std::vector<double>  m_CellTSFlux ;          // Microcanonical transition state fluxes. (QM or classical)
     std::vector<double>  m_GrainTSFlux ;         // Grain summed microcanonical transition state fluxes..
 
-    std::vector<double>  m_CellKfmc ;            // Forward  microcanonical rate coefficients.
-    std::vector<double>  m_CellKbmc ;            // Backward microcanonical rate coefficients.
     std::vector<double>  m_GrainKfmc ;           // Grained averaged forward  microcanonical rates.
     std::vector<double>  m_GrainKbmc ;           // Grained averaged backward microcanonical rates.
 

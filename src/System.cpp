@@ -283,7 +283,7 @@ namespace mesmer
 
       // Time steps loop
       int timestep = 100;
-      m_pReactionManager->timeEvolution(timestep);
+      m_pReactionManager->timeEvolution(timestep, m_Env.beta);
 
       ctest << "}\n";
     }

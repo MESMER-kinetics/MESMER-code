@@ -58,7 +58,7 @@ namespace mesmer
     void diagCollisionOperator(const MesmerEnv &Env) ;
 
     // Calculate the time evolution of the system
-    bool timeEvolution(int maxTimeStep);
+    bool timeEvolution(int maxTimeStep, const double beta);
 
   private:
 
@@ -67,6 +67,8 @@ namespace mesmer
     MoleculeManager        *m_pMoleculeManager ;
 
     dMatrix                *m_pSystemCollisionOperator ;
+
+    std::vector<double>     m_eigenvalues;
 
     // Maps the location of individual reactant collision operator and source terms in the system matrix.
     Reaction::isomerMap    m_isomers;
@@ -82,6 +84,10 @@ namespace mesmer
 
     // sets grain parameters and determines system environment
     bool SetGrainParams(MesmerEnv &Env, const double minEne, const double maxEne);
+
+    bool calculateEquilibriumFractions(const double beta);
+
+    bool produceInitialPopulationVector(vector<double>& eqFracCoeff, vector<double>& initDist);
 
   } ;
 }//namespace

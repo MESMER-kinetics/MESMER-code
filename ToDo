@@ -12,17 +12,4 @@ _2007_09_19__09_38_18_ Chi-Hsiu Liang
     choosing precision on runtime, i.e. not on the compilation time.
 
 ------------------
-_2008_05_19__16_34_38_ Chi-Hsiu Liang
-
-  * Added a plug-in class for calculating distribution. This plug-in can be used to produce either cell or grain 
-    distribution fractions. Please check for calculateDistributionFractions()
-    -- This function will be responsible for the distribution of a species. In case not a Boltzmann distribution, an additional 
-       plug-in class will be required.
-  * isomers and sources are now member varaibles of ReactionManager. They are cleared every time when the system collision operator
-    is built.
-  * Add a function for time evolution calculation, which generates time-dependent species profiles. (not complete)
-  * Added a variable m_population in all CollidingMolecule and SinkMolecule.
-  * Force 1st member of SuperMolecule be CollidingMolecule. Need to think about how to treat association of identical molecules.
-  * Added a class a2d_t for making dynamic two-dimensional matrix.
-  * Need to adjust cellEne for offset.
 
