@@ -17,8 +17,8 @@ using namespace Constants ;
 namespace mesmer
 {
   System::System(): m_pMoleculeManager(0), m_pReactionManager(0){
-      m_pMoleculeManager = new MoleculeManager() ;
-      m_pReactionManager = new ReactionManager(m_pMoleculeManager) ;
+    m_pMoleculeManager = new MoleculeManager() ;
+    m_pReactionManager = new ReactionManager(m_pMoleculeManager) ;
   }
 
   System::~System() {
@@ -35,21 +35,9 @@ namespace mesmer
     m_ppIOPtr = ppIOPtr;
 
     //-------------
-    //Molecule List // parse this part inside Reaction
+    //Molecule List (parse this part inside Reaction)
     PersistPtr ppMolList = ppIOPtr->XmlMoveTo("moleculeList");
     m_pMoleculeManager->set_PersistPtr(ppMolList);
-
-    //-------------
-    // remove all previous source terms first
-//    PersistPtr ppMol = ppMolList->XmlMoveTo("molecule");
-//    while (ppMol){
-//      string myType = ppMol->XmlReadValue("me:type", false);
-//      if (myType == "source"){
-//        ppMolList->XmlRemoveChild(ppMol);
-//        ppMol = ppMolList;
-//      }
-//      ppMol = ppMol->XmlMoveTo("molecule");
-//    }
 
     //-------------
     //Model Parameters
@@ -112,32 +100,37 @@ namespace mesmer
     //
     //  Allowed input formats are shown below (example units in particles per cubic centimeter).
     //
-    //  <me:CPTs>
-    //    <me:CPTset me:units="0">
-    //      <me:CPrange initial="1e8" increment="2e7" final="2e8">
+    //  <me:PTs>
+    //    <me:PTset me:units="0">
+    //      <me:Prange initial="1e8" increment="2e7" final="2e8">
     //      <me:Trange initial="100" increment="20" final="200">
-    //    </me:CPTset>
-    //  </me:CPTs>
+    //    </me:PTset>
+    //  </me:PTs>
     //
-    //  The above example will create a matrix of concentration/temperature points of the size:
-    //      (number of CP points) x (number of T points)
+    //  The above example creates a matrix of concentration/temperature points of the size:
+    //      (number of P points) x (number of T points)
     //
-    //  Another example of specifying small numbers of CPT points (example units in Torr):
+    //  Another example of specifying small numbers of PT points (example units in Torr):
     //
-    //  <me:CPTs>
-    //    <me:CPTpair me:units="1" me:CP="100" me:T="200">
-    //    <me:CPTpair me:units="0" me:CP="1e18" me:T="298">
-    //  </me:CPTs>
+    //  <me:PTs>
+    //    <me:PTpair me:units="1" me:P="100" me:T="200">
+    //    <me:PTpair me:units="0" me:P="1e18" me:T="298">
+    //  </me:PTs>
     //
-    //  The looping of the CPT points are easy, they are first parsed and all the points are stored in pairs in
-    //  vector CPandTs, and Mesmer simply loop through all its members.
+    //  The looping of the PT points are easy, they are first parsed and all the points are stored in pairs in
+    //  vector PandTs, and Mesmer simply loop through all its members.
     //--------------
 
-    PersistPtr ppCPTs = ppConditions->XmlMoveTo("me:CPTs");
-    if(ppCPTs)
-      readCPTs(ppCPTs);
-    if (!CPandTs.size())
+    PersistPtr ppPTs = ppConditions->XmlMoveTo("me:PTs");
+    if(ppPTs)
+      readPTs(ppPTs);
+    if (!PandTs.size())
       cerr << "No concentration/pressure and temperature specified.";
+
+    // read initial population (needs to be normalized later if their sum not equals to 1.0)
+    PersistPtr ppInitalPopulation = ppConditions->XmlMoveTo("me:InitalPopulation");
+    if (ppInitalPopulation)
+      m_pReactionManager->setInitialPopulation(ppInitalPopulation);
 
     PersistPtr ppControl = ppIOPtr->XmlMoveTo("me:control");
     if(ppControl)
@@ -150,7 +143,10 @@ namespace mesmer
       m_Env.collisionOCSEnabled         = ppControl->XmlReadBoolean("me:printCollisionOperatorColumnSums");
       m_Env.kfEGrainsEnabled            = ppControl->XmlReadBoolean("me:printGrainkfE");
       m_Env.kbEGrainsEnabled            = ppControl->XmlReadBoolean("me:printGrainkbE");
-      m_Env.TunnelingCoeffEnabled       = ppControl->XmlReadBoolean("me:printTunnelingCoefficients");
+      // Both Tunnelling and Tunneling will work
+      m_Env.TunnellingCoeffEnabled      = ppControl->XmlReadBoolean("me:printTunnellingCoefficients");
+      if (!m_Env.TunnellingCoeffEnabled)
+        m_Env.TunnellingCoeffEnabled    = ppControl->XmlReadBoolean("me:printTunnelingCoefficients");
       m_Env.cellTSFluxEnabled           = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
       m_Env.grainTSFluxEnabled          = ppControl->XmlReadBoolean("me:printGrainTransitionStateFlux");
       m_Env.rateCoefficientsOnly        = ppControl->XmlReadBoolean("me:calculateRateCoefficinetsOnly");
@@ -168,10 +164,9 @@ namespace mesmer
     return true;
   }
 
-
-  // pop the CP and T points into CPandTs
+  // pop the P and T points into PandTs
   // This is a function for reading concentration/pressure and temperature conditions.
-  void System::readCPTs(PersistPtr anchor)
+  void System::readPTs(PersistPtr anchor)
   {
     PersistPtr pp=anchor;
     const char* txt;
@@ -184,9 +179,9 @@ namespace mesmer
     //
     // check for grid values of temperatures and concentrations
     //
-    PersistPtr ppCPTset = pp->XmlMoveTo("me:CPTset");
-    while (ppCPTset){
-      txt = ppCPTset->XmlReadValue("me:units");
+    PersistPtr ppPTset = pp->XmlMoveTo("me:PTset");
+    while (ppPTset){
+      txt = ppPTset->XmlReadValue("me:units");
       string this_units = txt;
       if (!txt){
         cerr << "No units provided. Default units " << DefaultUnit << " are used.";
@@ -195,42 +190,42 @@ namespace mesmer
 
       // if user does not input any value for temperature and concentration, give a Default set of concentration and pressure
       // for simulation
-      std::vector<double> CPvals, Tvals;
-      if(!ReadRange("me:CPrange", CPvals, ppCPTset)) CPvals.push_back(DefaultConcentration);
-      if(!ReadRange("me:Trange", Tvals, ppCPTset))   Tvals.push_back(DefaultTmeperature);
+      std::vector<double> Pvals, Tvals;
+      if(!ReadRange("me:Prange", Pvals, ppPTset)) Pvals.push_back(DefaultConcentration);
+      if(!ReadRange("me:Trange", Tvals, ppPTset))   Tvals.push_back(DefaultTmeperature);
 
-      for (unsigned int i = 0; i < CPvals.size(); ++i){
+      for (unsigned int i = 0; i < Pvals.size(); ++i){
         for (unsigned int j = 0; j < Tvals.size(); ++j){
-          CandTpair thisPair(getConvertedCP(this_units, CPvals[i], Tvals[j]), Tvals[j]);
-          CPandTs.push_back(thisPair);
+          CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j]);
+          PandTs.push_back(thisPair);
         }
       }
-      ppCPTset = ppCPTset->XmlMoveTo("me:CPTset");
+      ppPTset = ppPTset->XmlMoveTo("me:PTset");
     }
 
     //
     // check for indivually specified concentration/temperature points
     //
-    PersistPtr ppCPTpair = pp->XmlMoveTo("me:CPTpair");
-    while (ppCPTpair){
+    PersistPtr ppPTpair = pp->XmlMoveTo("me:PTpair");
+    while (ppPTpair){
       string this_units;
-      txt = ppCPTpair->XmlReadValue("me:units");
+      txt = ppPTpair->XmlReadValue("me:units");
       if (txt)
         this_units = txt;
-      double this_CP = DefaultConcentration;
+      double this_P = DefaultConcentration;
       double this_T = DefaultTmeperature;
 
-      txt = ppCPTpair->XmlReadValue("me:CP");
+      txt = ppPTpair->XmlReadValue("me:P");
       if (txt)
-        this_CP = atof(txt);
-      txt = ppCPTpair->XmlReadValue("me:T");
+        this_P = atof(txt);
+      txt = ppPTpair->XmlReadValue("me:T");
       if (txt)
         this_T = atof(txt);
 
-      CandTpair thisPair(getConvertedCP(this_units, this_CP, this_T), this_T);
-      CPandTs.push_back(thisPair);
+      CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T);
+      PandTs.push_back(thisPair);
 
-      ppCPTpair = ppCPTpair->XmlMoveTo("me:CPTpair");
+      ppPTpair = ppPTpair->XmlMoveTo("me:PTpair");
     }
   }
 
@@ -248,37 +243,37 @@ namespace mesmer
     string precisionMethod;
     switch(precisionTag)
     {
-      case varUseDouble:         precisionMethod = "Double";              break;
-      case varUseDoubleDouble:   precisionMethod = "Double-double";       break;
-      case varUseQuadDouble:     precisionMethod = "Quad-double";         break;
+    case varUseDouble:         precisionMethod = "Double";              break;
+    case varUseDoubleDouble:   precisionMethod = "Double-double";       break;
+    case varUseQuadDouble:     precisionMethod = "Quad-double";         break;
     }
     cinfo << "Precision: " << precisionMethod << endl;
     //---------------
 
     // Find the highest temperature
-    for (unsigned int i = 0; i < CPandTs.size(); ++i){
-      m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, CPandTs[i].temperature);
+    for (unsigned int i = 0; i < PandTs.size(); ++i){
+      m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, PandTs[i].temperature);
     }
 
     //---------------------------------------------
     // looping over temperatures and concentrations
     unsigned int calPoint = 0;
-    for (calPoint = 0; calPoint < CPandTs.size(); ++calPoint){
-      m_Env.beta = 1.0 / (boltzmann_RCpK * CPandTs[calPoint].temperature) ; //temporary statements
-      m_Env.conc = CPandTs[calPoint].concentration;
+    for (calPoint = 0; calPoint < PandTs.size(); ++calPoint){
+      m_Env.beta = 1.0 / (boltzmann_RCpK * PandTs[calPoint].temperature) ; //temporary statements
+      m_Env.conc = PandTs[calPoint].concentration;
       // unit of conc: particles per cubic centimeter
       cerr << "\nGrid " << calPoint << "\n";
-      ctest << "Condition: conc = " << m_Env.conc << ", temp = " << CPandTs[calPoint].temperature << "\n{\n";
+      ctest << "Condition: conc = " << m_Env.conc << ", temp = " << PandTs[calPoint].temperature << "\n{\n";
       // Build collison matrix for system.
       {string thisEvent = "Build Collison Operator";
-       cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;}
+      cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;}
       if (!m_pReactionManager->BuildSystemCollisionOperator(m_Env)){
         cerr << "Failed building system collison operator.";
       }
 
       // Calculate eigenvectors and eigenvalues.
       {string thisEvent = "Diagonlize Collision Operator";
-       cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";}
+      cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";}
       m_pReactionManager->diagCollisionOperator(m_Env) ;
 
       // Time steps loop
@@ -290,8 +285,8 @@ namespace mesmer
     //---------------------------------------------
 
     {string thisEvent = "Finish Calculation";
-     cinfo << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
-     cinfo << "In total, " << calPoint << " temperature/concentration-pressure points calculated." << endl;}
+    cinfo << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
+    cinfo << "In total, " << calPoint << " temperature/concentration-pressure points calculated." << endl;}
 
     cinfo << events;
   }
@@ -341,8 +336,8 @@ namespace mesmer
     ppItem = ppList->XmlWriteElement("metadata");
     ppItem->XmlWriteAttribute("name", "dc:description");
     ppItem->XmlWriteAttribute("content",
-    "Calculation of the interaction between collisional energy transfer and chemical reaction"
-    " for dissociation, isomerization and association processes");
+      "Calculation of the interaction between collisional energy transfer and chemical reaction"
+      " for dissociation, isomerization and association processes");
 
     ppItem = ppList->XmlWriteElement("metadata");
     ppItem->XmlWriteAttribute("name", "dc:date");

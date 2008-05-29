@@ -33,7 +33,7 @@ namespace mesmer
   static stringMapType energyMap;
 
   void initializeConversionMaps();
-  double getConvertedCP(string unitInput, double concentrationInput, double temperatureInp);
+  double getConvertedP(string unitInput, double concentrationInput, double temperatureInp);
   double getConvertedEnergy(string unitInput, double energyInput);
 
 }//namespace

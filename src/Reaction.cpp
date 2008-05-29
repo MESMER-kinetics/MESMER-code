@@ -64,17 +64,17 @@ namespace mesmer
     PersistPtr ppmol = pp->XmlMoveTo("molecule");
     if(!ppmol) return NULL;
 
-    string pRef = ppmol->XmlReadValue("ref");
-    if(pRef.size()){ // if got the name of the molecule
-      string pType = ppmol->XmlReadValue("me:type");
-      if(pType.size()){ // initialize molecule here with the specified type (need to know m_ppIOPtr)
+    string sRef = ppmol->XmlReadValue("ref");
+    if(sRef.size()){ // if got the name of the molecule
+      string sType = ppmol->XmlReadValue("me:type");
+      if(sType.size()){ // initialize molecule here with the specified type (need to know m_ppIOPtr)
         PersistPtr ppMolList = m_pMoleculeManager->get_PersistPtr();
         if(!ppMolList)
         {
           cerr << "No molecules have been specified." << endl;
           return NULL;
         }
-        pMol = m_pMoleculeManager->addmol(pRef, pType, ppMolList, getEnv());
+        pMol = m_pMoleculeManager->addmol(sRef, sType, ppMolList, getEnv());
       }
     }
 

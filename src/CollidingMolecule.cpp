@@ -15,6 +15,7 @@ namespace mesmer
   //Constructor
   //
   CollidingMolecule::CollidingMolecule(const MesmerEnv& Env) : ModelledMolecule(Env),
+    m_initPopulation(0.),
     m_eqFraction(0.),
     m_Sigma(sigmaDefault),
     m_Epsilon(epsilonDefault),

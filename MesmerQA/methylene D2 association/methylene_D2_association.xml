@@ -190,9 +190,9 @@
     </reactionList>
     <me:conditions>
         <me:bathGas>N_2</me:bathGas>
-        <me:CPTs>
-          <me:CPTpair me:units="Torr" me:CP="1000" me:T="298." />
-        </me:CPTs>
+        <me:PTs>
+          <me:PTpair me:units="Torr" me:P="1000" me:T="298." />
+        </me:PTs>
     </me:conditions>
     <me:modelParameters>
         <!--Specify grain size directly...-->

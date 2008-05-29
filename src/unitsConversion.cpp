@@ -33,7 +33,7 @@ namespace mesmer
   }
 
   // Returns particles per cubic centimeter no matter what unit the user has provided.
-  double getConvertedCP(string unitInput, double concentrationInput, double temperatureInput)
+  double getConvertedP(string unitInput, double concentrationInput, double temperatureInput)
   {
     
     // switch

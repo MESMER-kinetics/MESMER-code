@@ -27,7 +27,7 @@ namespace mesmer
     bool   collisionOCSEnabled;           // Enabled printing collision operator column Sums
     bool   kfEGrainsEnabled;              // Enabled printing k_f(E) grains
     bool   kbEGrainsEnabled;              // Enabled printing k_b(E) grains
-    bool   TunnelingCoeffEnabled;         // Enabled printing Tunneling coefficients
+    bool   TunnellingCoeffEnabled;         // Enabled printing Tunneling coefficients
     bool   cellTSFluxEnabled;             // Enabled printing transition state flux
     bool   grainTSFluxEnabled;            // Enabled printing transition state flux
     bool   rateCoefficientsOnly;          // Calculate rate coefficients only without doing collision operators

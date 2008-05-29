@@ -268,10 +268,10 @@
     </reactionList>
     <me:conditions>
         <me:bathGas>He</me:bathGas>
-        <me:CPTs>
-          <me:CPTpair me:units="Torr" me:CP="200.72" me:T="500." />
-          <me:CPTpair me:units="Torr" me:CP="201.60" me:T="2000." />
-        </me:CPTs>
+        <me:PTs>
+          <me:PTpair me:units="Torr" me:P="200.72" me:T="500." />
+          <me:PTpair me:units="Torr" me:P="201.60" me:T="2000." />
+        </me:PTs>
     </me:conditions>
     <me:modelParameters>
         <!--Specify grain size directly...-->
@@ -290,7 +290,7 @@
         <!--<me:printGrainTransitionStateFlux />-->
         <!--<me:printCellDOS />-->
         <!--<me:printCollisionOperatorColumnSums />-->
-        <!--<me:printTunnelingCoefficients />-->
+        <!--<me:printTunnellingCoefficients />-->
         <me:printGrainkfE />
         <!--<me:printGrainBoltzmann />-->
         <me:printGrainkbE />

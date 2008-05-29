@@ -22,6 +22,7 @@ namespace mesmer
     m_eigenvalues(),
     m_isomers(),
     m_sources(),
+    m_populations(),
     m_meanOmega(0.0)
   {};
 
@@ -172,6 +173,7 @@ namespace mesmer
 
     double minEnergy = 0.0 ; //this is the minimum of ZPE amongst all wells
     double maxEnergy = 0.0 ; //this is the maximum of ZPE amongst all hills
+    double populationSum = 0.0;
     BathGasMolecule *pBathGasMolecule = dynamic_cast<BathGasMolecule*>(m_pMoleculeManager->get_BathGasMolecule());
 
     // populate isomerMap with unimolecular species and determine minimum/maximum energy on the PES
@@ -184,6 +186,12 @@ namespace mesmer
         // wells
         CollidingMolecule *pCollidingMolecule = dynamic_cast<CollidingMolecule*>(unimolecules[j]) ;
         if(m_isomers.find(pCollidingMolecule) == m_isomers.end()){ // New isomer
+          double population = m_populations[pCollidingMolecule->getName()];
+          if (population){
+            populationSum += population;
+            pCollidingMolecule->setInitPopulation(population);
+            ctest << "Initial population of " << pCollidingMolecule->getName() << " = " << population << endl;
+          }
           m_isomers[pCollidingMolecule] = 0 ; //initialize to a trivial location
           minEnergy = min(minEnergy, pCollidingMolecule->get_zpe()) ;
           maxEnergy = max(maxEnergy, pCollidingMolecule->get_zpe()) ;
@@ -272,6 +280,15 @@ namespace mesmer
         if (pReaction) {
           SuperMolecule *pSuperMolecule = pReaction->get_bi_molecularspecies();
           if (pSuperMolecule && m_sources.find(pSuperMolecule) == m_sources.end()){ // New source
+            double population = m_populations[(pSuperMolecule->getMember1())->getName()];
+            if (population){
+              populationSum += population;
+              (pSuperMolecule->getMember1())->setInitPopulation(population);
+            }
+            if (populationSum == 0.0){
+              populationSum += 1.0;
+              (pSuperMolecule->getMember1())->setInitPopulation(populationSum);
+            }
             m_sources[pSuperMolecule] = msize ;
             pReaction->putSourceMap(&m_sources) ;
             ++msize ;
@@ -363,52 +380,68 @@ namespace mesmer
           CollidingMolecule* pI1 = jpos->first;
           const long double HeatDiff = pI1->get_zpe() - pI0->get_zpe();
           const long double prtFn2 = pI1->rovibronicGrnCanPrtnFn();
-          eqFrac += prtFn2 / prtFn1 * exp(-beta * HeatDiff);
+          const long double prtFn21 = prtFn2 / prtFn1 * exp(-beta * HeatDiff);
+          eqFrac += prtFn21;
         }
       }
       Reaction::sourceMap::iterator kpos;
       for (kpos = m_sources.begin(); kpos != m_sources.end(); ++kpos){
         SuperMolecule* pS1 = kpos->first;
         const long double HeatDiff = pS1->get_zpe() - pI0->get_zpe();
-        long double prtFn2 = pS1->rovibronicGrnCanPrtnFn();
-        prtFn2 *= translationalContribution((pS1->getMember1())->getMass(), (pS1->getMember2())->getMass(), beta);
-        eqFrac += prtFn2 / prtFn1 * exp(-beta * HeatDiff);
+        const long double prtFn2 = pS1->rovibronicGrnCanPrtnFn();
+        const long double trCon2 = translationalContribution((pS1->getMember1())->getMass(), (pS1->getMember2())->getMass(), beta);
+        const long double prtFn21 = prtFn2 * trCon2 / prtFn1 * exp(-beta * HeatDiff);
+        eqFrac += prtFn21;
       }
       pI0->setEqFraction(1.0 / eqFrac);
+      ctest << "Equilibrium Fraction for " << pI0->getName() << " = " << 1.0 / eqFrac << endl;
     }
 
     Reaction::sourceMap::iterator spos;
     for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
       SuperMolecule* pSx = spos->first;
       long double eqFrac(1.0);
-      long double prtFn1 = pSx->rovibronicGrnCanPrtnFn();
-      prtFn1 *= translationalContribution((pSx->getMember1())->getMass(), (pSx->getMember2())->getMass(), beta);
+      const long double prtFn1 = pSx->rovibronicGrnCanPrtnFn();
+      const long double trCon1 = translationalContribution((pSx->getMember1())->getMass(), (pSx->getMember2())->getMass(), beta);
       Reaction::isomerMap::iterator jpos;
       for (jpos = m_isomers.begin(); jpos != m_isomers.end(); ++jpos){
         CollidingMolecule* pSy = jpos->first;
         const long double HeatDiff = pSy->get_zpe() - pSx->get_zpe();
         const long double prtFn2 = pSy->rovibronicGrnCanPrtnFn();
-        eqFrac += prtFn2 / prtFn1 * exp(-beta * HeatDiff);
+        const long double prtFn21 = prtFn2 / (prtFn1 * trCon1) * exp(-beta * HeatDiff);
+        eqFrac += prtFn21;
       }
       Reaction::sourceMap::iterator kpos;
       for (kpos = m_sources.begin(); kpos != m_sources.end(); ++kpos){
         if (kpos->first != pSx){
           SuperMolecule* pSy = kpos->first;
           const long double HeatDiff = pSy->get_zpe() - pSx->get_zpe();
-          long double prtFn2 = pSy->rovibronicGrnCanPrtnFn();
-          prtFn2 *= translationalContribution((pSy->getMember1())->getMass(), (pSy->getMember2())->getMass(), beta);
-          eqFrac += prtFn2 / prtFn1 * exp(-beta * HeatDiff);
+          const long double prtFn2 = pSy->rovibronicGrnCanPrtnFn();
+          const long double trCon2 = translationalContribution((pSy->getMember1())->getMass(), (pSy->getMember2())->getMass(), beta);
+          eqFrac += prtFn2 * trCon2 / (prtFn1 * trCon1) * exp(-beta * HeatDiff);
         }
       }
       (pSx->getMember1())->setEqFraction(1.0 / eqFrac);
+      ctest << "Equilibrium Fraction for " << pSx->getName() << " = " << 1.0 / eqFrac << endl;
     }
     return true;
   }
 
   bool ReactionManager::produceInitialPopulationVector(vector<double>& eqFracCoeff, vector<double>& initDist){
+    double populationSum = 0.0;
     Reaction::isomerMap::iterator ipos;
     for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
       CollidingMolecule* isomer = ipos->first;
+      populationSum += isomer->getInitPopulation();
+    }
+    Reaction::sourceMap::iterator spos;
+    for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
+      SuperMolecule* source = spos->first;
+      populationSum += (source->getMember1())->getInitPopulation();
+    }
+    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
+      CollidingMolecule* isomer = ipos->first;
+      double initFrac = isomer->getInitPopulation() / populationSum;
       int location = ipos->second;
       const double eqFrac = isomer->getEqFraction();
       const int colloptrsize = isomer->get_colloptrsize();
@@ -417,14 +450,23 @@ namespace mesmer
       for (int i = 0; i < colloptrsize; ++i){
         eqFracCoeff[i + location] = sqrt(boltzFrac[i] * eqFrac);
       }
+      if (initFrac != 0.0){
+        for (int i = 0; i < colloptrsize; ++i){
+          initDist[i + location] = sqrt(initFrac * boltzFrac[i] / eqFrac);
+        }
+      }
     }
-    Reaction::sourceMap::iterator spos;
     for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
       SuperMolecule* source = spos->first;
+      double initFrac = (source->getMember1())->getInitPopulation() / populationSum;
       int location = spos->second;
       const double eqFrac = (source->getMember1())->getEqFraction();
       eqFracCoeff[location] = sqrt(eqFrac);
-      initDist[location] = 1.0 / eqFracCoeff[location];
+      initDist[location] = sqrt(initFrac) / eqFracCoeff[location];
+      if (populationSum == 0. && spos == m_sources.begin()){
+        cinfo << "No population was assigned. Initialize the first source term to 1.0." << endl;
+        initDist[location] = 1.0 / eqFracCoeff[location];
+      }
     }
 
     return true;
@@ -472,7 +514,7 @@ namespace mesmer
     }
 
     // populations calculated here
-    db2D speciesProfile(smsize, maxTimeStep); // numbers inside the parentheses are dummies
+    db2D grainedProfile(smsize, maxTimeStep); // numbers inside the parentheses are dummies
     vector<double> work2(smsize, 0.);
     for (int timestep = 0; timestep < maxTimeStep; ++timestep){
       double numColl = m_meanOmega * timePoints[timestep];
@@ -484,23 +526,62 @@ namespace mesmer
         for (int l = 0; l < smsize; ++l) {
           sum += work2[l] * sysCollOptr[j][l];
         }
-        speciesProfile[j][timestep] = sum;
+        grainedProfile[j][timestep] = sum;
       }
     }
 
-    // print species profile
-    ctest << "\nSpecies profile (the first row is time points in unit of second):\n{\n";
+    //------------------------------
+    // print grained species profile
+    ctest << "\nGrained species profile (the first row is time points in unit of second):\n{\n";
     for (int timestep = 0; timestep < maxTimeStep; ++timestep){
       formatFloat(ctest, timePoints[timestep], 6,  15);
     }
     ctest << endl;
     for (int j = 0; j < smsize; ++j) {
+
       for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-        formatFloat(ctest, speciesProfile[j][timestep], 6,  15);
+        formatFloat(ctest, grainedProfile[j][timestep], 6,  15);
       }
       ctest << endl;
     }
     ctest << "}\n";
+
+    //----------------------
+    // print species profile
+//    ctest << "\nSpecies profile (the first row is time points in unit of second):\n{\n";
+//    for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+//      formatFloat(ctest, timePoints[timestep], 6,  15);
+//    }
+//    ctest << endl;
+//    for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+//      for (int j = 0; j < numberOfSpecies; ++j) {
+//        
+//        
+//        formatFloat(ctest, speciesProfile[j][timestep], 6,  15);
+//      }
+//      ctest << endl;
+//    }
+//    ctest << "}\n";
     return true;
   }
+
+  // Set Initial population for individual species
+  void ReactionManager::setInitialPopulation(PersistPtr anchor)
+  {
+    PersistPtr pp=anchor;
+    const char* txt;
+    double populationSum = 0.0;
+    PersistPtr ppInitMol = pp->XmlMoveTo("molecule");
+    while(ppInitMol){
+      double population = 0.0;
+      string sRef = ppInitMol->XmlReadValue("ref");
+      if(sRef.size()){ // if got the name of the molecule
+        txt = ppInitMol->XmlReadValue("me:population");
+        population = atof(txt);
+        m_populations[sRef] = population;
+      }
+      ppInitMol = ppInitMol->XmlMoveTo("molecule");
+    }
+  }
+
 }//namespace

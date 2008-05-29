@@ -33,7 +33,7 @@ namespace mesmer
     void calculate() ;
 
     // Paired concentration and pressure points
-    std::vector<CandTpair> CPandTs;
+    std::vector<CandTpair> PandTs;
 
     //Stores environmental variables
     //Reference to this are passed to the constructors of all Molecules and Reactions
@@ -47,7 +47,8 @@ namespace mesmer
     // Location of the reaction maps.
     ReactionManager *m_pReactionManager ;
 
-    void readCPTs(PersistPtr);
+    void readPTs(PersistPtr);
+
     bool ReadRange(const std::string&    name,
       std::vector<double>&  vals,
       PersistPtr            ppbase,

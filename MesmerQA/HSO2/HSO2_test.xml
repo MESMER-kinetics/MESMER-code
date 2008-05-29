@@ -137,9 +137,12 @@
   </reactionList>
   <me:conditions>
     <me:bathGas>Ar</me:bathGas>
-    <me:CPTs>
-      <me:CPTpair me:units="Torr" me:CP="100000000" me:T="500" />
-    </me:CPTs>
+    <me:PTs>
+      <me:PTpair me:units="Torr" me:P="100000000" me:T="500" />
+    </me:PTs>
+    <me:InitalPopulation>
+      <molecule ref="H" me:population="1.0" />
+    </me:InitalPopulation>
   </me:conditions>
   <me:modelParameters>
     <me:grainSize units="cm-1"> 100 </me:grainSize>

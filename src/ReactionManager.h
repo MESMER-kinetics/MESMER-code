@@ -27,6 +27,7 @@ namespace mesmer
 
     // Type defs
     typedef  size_t  size_type ;
+    typedef std::map<std::string , double> populationMap ;
 
     ReactionManager(MoleculeManager *pMoleculeManager);
 
@@ -60,6 +61,9 @@ namespace mesmer
     // Calculate the time evolution of the system
     bool timeEvolution(int maxTimeStep, const double beta);
 
+    // Set Initial population for individual species
+    void setInitialPopulation(PersistPtr);
+
   private:
 
     std::vector<Reaction *> m_reactions ;
@@ -73,7 +77,8 @@ namespace mesmer
     // Maps the location of individual reactant collision operator and source terms in the system matrix.
     Reaction::isomerMap    m_isomers;
     Reaction::sourceMap    m_sources;
-
+    populationMap          m_populations;
+    
     double m_meanOmega;
 
     // Default Constructor.

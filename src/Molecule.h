@@ -250,6 +250,7 @@ namespace mesmer
     // Variables:
     // Collision operator properties.
     //
+    double              m_initPopulation;    // initial population of the molecule.
     double              m_eqFraction;        // equilibrium fraction of the species
     double              m_Sigma ;            // Lennard-Jones sigma.
     double              m_Epsilon ;          // Lennard-Jones epsilon.
@@ -296,6 +297,8 @@ namespace mesmer
     void normalizedGrainDistribution(vector<double> &grainFrac, const int numberOfGrains) ;
 
     // Accessors.
+    double getInitPopulation() const { return m_initPopulation;};
+    void setInitPopulation(double value) { m_initPopulation = value;};
     double getEqFraction() const { return m_eqFraction;};
     void setEqFraction(double value){ m_eqFraction = value;};
     double getSigma() ;

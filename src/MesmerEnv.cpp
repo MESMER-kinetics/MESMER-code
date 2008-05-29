@@ -18,7 +18,7 @@ namespace mesmer{
     collisionOCSEnabled(false),
     kfEGrainsEnabled(false),
     kbEGrainsEnabled(false),
-    TunnelingCoeffEnabled(false),
+    TunnellingCoeffEnabled(false),
     cellTSFluxEnabled(false),
     grainTSFluxEnabled(false),
     rateCoefficientsOnly(false),

@@ -277,9 +277,9 @@
 
   <me:conditions>
     <me:bathGas>Ar</me:bathGas>
-    <me:CPTs>
-      <me:CPTpair me:units="PPCC" me:CP="1e8" me:T="300" />
-    </me:CPTs>
+    <me:PTs>
+      <me:PTpair me:units="PPCC" me:P="1e8" me:T="300" />
+    </me:PTs>
   </me:conditions>
 
   <me:modelParameters>
