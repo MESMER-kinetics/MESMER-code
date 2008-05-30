@@ -127,7 +127,7 @@ namespace mesmer
     isomerMap    &isomermap,
     const double rMeanOmega)
   {
-    // Get densities of states for detailed balance.
+    // Get densities of states of the adduct for detailed balance.
     vector<double> pdtDOS;
     m_pdt1->getGrainDensityOfStates(pdtDOS) ;
 
@@ -147,9 +147,6 @@ namespace mesmer
 
     double DissRateCoeff(0.0) ;
 
-    // Multiply equilibrum constant by concentration of excess reactant.
-    // concentration of excess reactant should be in molec/cm3. This gives
-    // a dimensionless pseudo-isomerization equilibrium constant.
     const int TSFluxGrainZPE  = getTSFluxGrnZPE();
 
     for ( int i = TSFluxGrainZPE, j = 0; i < MaximumGrain; ++i, ++j) {

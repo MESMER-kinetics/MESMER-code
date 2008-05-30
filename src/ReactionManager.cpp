@@ -269,9 +269,8 @@ namespace mesmer
 
       //
       // Find all source terms.
-      // Note: 1. A source term is probably the only deficient reactant that initiates
-      //          the whole process of reactions in the master equation. In this case
-      //          we think there may be more than one source terms.
+      // Note: 1. A source term contains the deficient reactant.  It is possible for
+      //          there to be more than one source term.
       //       2. In the current construction of Mesmer, the source is a SuperMolecule
       //          representing both reactants.
       m_sources.clear(); // Maps the location of source in the system matrix.
@@ -296,7 +295,7 @@ namespace mesmer
         }
       }
 
-      // Allocate space for system collision operator.
+      // Allocate space for the full system collision operator.
       m_pSystemCollisionOperator = new dMatrix(msize) ;
 
       // Insert collision operators for individual wells.
@@ -495,7 +494,7 @@ namespace mesmer
     }
 
     // Coefficients due to the initial distribution
-    dMatrix sysCollOptr(*m_pSystemCollisionOperator); // copy the system collision operator
+    dMatrix sysCollOptr(*m_pSystemCollisionOperator); // copy the system collision operator, which holds the eigenvectors
     vector<double> work1(smsize, 0.);
     for (int i = 0; i < smsize; ++i) {
       double sum = 0.;
@@ -505,7 +504,7 @@ namespace mesmer
       work1[i] = sum;
     }
 
-    // Multiply root matrix with eigenvector matrix. Note VT contains transpose of V
+    // Multiply equilibrium matrix with eigenvector matrix. 
     for (int i = 0; i < smsize; ++i) {
       double tmp = eqFracCoeff[i];
       for (int j = 0; j < smsize; ++j) {

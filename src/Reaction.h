@@ -129,10 +129,9 @@ namespace mesmer
 
     /*
     Each of the backward/forward microcanonical rate coefficients are based on
-    the well bottom of its own well. That is, each of these vectors contains rate
-    coefficients starting from index 0 (the bottom of that well) to the top
-    (MaximumGrain - ZpeOfTheWell). However, each of the vectors has the same number
-    of members with some members be zero (either not calculated or no reaction ocurred).
+    the bottom of the relevant well. The cell and grain vectors for each well all have 
+    the same number of elements; although the number of trailing 0 elements differ
+    by the quantity (MaximumGrain - ZpeOfTheWell).
     */
 
     // _2008_04_24__12_35_40_  <- Please search for this string in the current file for further description.

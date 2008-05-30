@@ -1,7 +1,7 @@
 //
 // BathGasMolecule.cpp
 //
-// Author: Struan Robertson
+// Author: Alvyn Liang
 //-------------------------------------------------------------------------------------------
 #include "Molecule.h"
 

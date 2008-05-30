@@ -470,6 +470,8 @@ namespace mesmer
       ctest << "}" << endl;
     }
   }
+// gets relative ZPE of the well and calculates grain origin and cell offset
+// (i.e., the number of leading zeros in the well's cell properties vector
 
   void ModelledMolecule::set_grainValues(double relativeZPE) {
     double grnZpe = relativeZPE / getEnv().GrainSize ; //convert to grain

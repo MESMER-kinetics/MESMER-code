@@ -1,3 +1,8 @@
+2008-5-30 David Glowacki
+
+* add and delete various comments
+* add an initial version of the MESMER User's manual to the documentation section
+
 _2008_05_24__15_59_03_ Chi-Hsiu Liang
 
   * Corrected the population fraction routine so that it only gives the population fraction of the range we are interested.
