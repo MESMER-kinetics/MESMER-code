@@ -3,6 +3,7 @@
 Documentation/Checklist.doc -text
 Documentation/FAQ.tex -text
 Documentation/HowMesmerWork.tex -text
+Documentation/MESMER[!!-~]manual.doc -text
 Documentation/Mesmer[!!-~]FAQ.doc -text
 Documentation/Mesmer.dvi -text
 Documentation/Mesmer.ps -text
