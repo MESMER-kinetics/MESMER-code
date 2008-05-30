@@ -23,7 +23,9 @@ namespace mesmer{
     grainTSFluxEnabled(false),
     rateCoefficientsOnly(false),
     useTheSameCellNumber(false),
+    grainedProfileEnabled(false),
     EAboveHill(20.),
+    maxEvolutionTime(0.),
     printEigenValuesNum(-1)
     {}
 }//namespace

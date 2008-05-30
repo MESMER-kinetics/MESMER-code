@@ -14,6 +14,7 @@ namespace mesmer
   //Constructor
   //
   SuperMolecule::SuperMolecule(const MesmerEnv& Env) : ModelledMolecule(Env),
+    m_ERConc(0.),
     m_mol1(NULL),
     m_mol2(NULL)
   {}

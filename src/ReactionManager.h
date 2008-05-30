@@ -59,7 +59,7 @@ namespace mesmer
     void diagCollisionOperator(const MesmerEnv &Env) ;
 
     // Calculate the time evolution of the system
-    bool timeEvolution(int maxTimeStep, const double beta);
+    bool timeEvolution(int maxTimeStep, const MesmerEnv mEnv);
 
     // Set Initial population for individual species
     void setInitialPopulation(PersistPtr);

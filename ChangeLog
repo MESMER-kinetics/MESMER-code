@@ -1,3 +1,13 @@
+_2008_05_30__16_46_28_ Chi-Hsiu Liang
+
+  * Move double m_ERConc (excess reactant concentration) from AssociationReaction to be a SuperMolecule member variable.
+  * Added bool MesmerEnv::grainedProfileEnabled   --> print species profile before summation
+          double MesmerEnv::maxEvolutionTime      --> for user to choose maximum length of time the species profile can evolve.
+  * Updated   bool ReactionManager::calculateEquilibriumFractions(const double beta) to include excess reactant concentration.
+  * Updated   bool ReactionManager::timeEvolution(int maxTimeStep, const double beta) to print out individual species profile.
+  * Added comment for equilibrium fraction routine. See the end of ReactionManager.cpp: _2008_05_30__12_48_35_
+  * Still need to sort out the specie profile for sink terms. Also need to consider if the sink term has only one product.
+  
 2008-5-30 David Glowacki
 
 * add manual (oops!)

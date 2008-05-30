@@ -20,7 +20,7 @@ namespace mesmer
   long double translationalContribution(const long double m1, const long double m2, const long double beta){
     // Translational contribution
     // 2.0593e19 = conversion factor,  1e-6*(((cm-1 -> j)/(h2*na)))^3/2
-    // double tau = 2.0593e19 * pow(2. * M_PI ,1.5);
+    // double tp_C = 2.0593e19 * pow(2. * M_PI ,1.5);
 
     return (tp_C * pow(m1 * m2 / ((m1 + m2) * beta), 1.5l));
   }

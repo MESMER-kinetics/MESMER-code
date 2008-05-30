@@ -27,7 +27,7 @@ namespace mesmer
     // Constructors.
     AssociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id)
       :Reaction(pMoleculeManager, Env, id),
-      m_sourceMap(NULL),m_ERConc(0.), 
+      m_sourceMap(NULL), 
       m_srct(NULL), 
       m_rct2(NULL), 
       m_pdt1(NULL),
@@ -57,8 +57,6 @@ namespace mesmer
     // Get the principal source reactant (i.e. reactant not in excess).
     virtual ModelledMolecule *get_pseudoIsomer(void) const {return m_pdt1 ; } ;
 
-    double getExcessReactantConc() const  { return m_ERConc ; } ;
-
     // return relative reactant, product and transition state zero-point energy
     virtual double get_relative_rctZPE() const {return m_rct1->get_zpe() + m_rct2->get_zpe() - getEnv().EMin;}
     virtual double get_relative_pdtZPE() const {return m_pdt1->get_zpe() - getEnv().EMin;}
@@ -85,8 +83,6 @@ namespace mesmer
     virtual void calcGrainRateCoeffs();
 
     sourceMap *m_sourceMap ;
-
-    double m_ERConc ;           // Concentration of the excess reactant
 
     // Reaction composition:
 

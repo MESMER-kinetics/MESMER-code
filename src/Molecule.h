@@ -53,7 +53,7 @@ namespace mesmer
     void   setFlag(bool value) ;
   };
 
- //**************************************************
+  //**************************************************
   class SinkMolecule : public Molecule
   {
   public:
@@ -111,7 +111,7 @@ namespace mesmer
   ///Molecule with multiple energy states. Probably not instantiated itself
   class ModelledMolecule : public Molecule
   {
-    private:
+  private:
     //
     // Molecular properties.
     //
@@ -318,6 +318,9 @@ namespace mesmer
   // this class should account for their density of states as a convolution
   class SuperMolecule : public ModelledMolecule
   {
+  private:
+    double m_ERConc; // Concentration of the excess reactant
+
   public:
     CollidingMolecule* m_mol1;
     ModelledMolecule*  m_mol2;
@@ -336,7 +339,8 @@ namespace mesmer
     virtual double get_zpe();
     DensityOfStatesCalculator* get_DensityOfStatesCalculator();
     void setMembers(CollidingMolecule* mol1p, ModelledMolecule* mol2p);
-
+    double getExcessReactantConc() const  { return m_ERConc ; } ;
+    void setExcessReactantConc(double value) { m_ERConc = value;};
     CollidingMolecule* getMember1();
     ModelledMolecule*  getMember2();
 

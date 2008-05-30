@@ -370,30 +370,32 @@ namespace mesmer
     // Loop through all isomers in the system giving their partition function values as their equilibrium fraction.
     Reaction::isomerMap::iterator ipos;
     for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
-      CollidingMolecule* pI0 = ipos->first;
+      CollidingMolecule* pI1 = ipos->first;
       long double eqFrac(1.0);
-      const long double prtFn1 = pI0->rovibronicGrnCanPrtnFn();
+      const long double prtFn1 = pI1->rovibronicGrnCanPrtnFn();
       Reaction::isomerMap::iterator jpos;
       for (jpos = m_isomers.begin(); jpos != m_isomers.end(); ++jpos){
-        if (jpos->first != pI0){
-          CollidingMolecule* pI1 = jpos->first;
-          const long double HeatDiff = pI1->get_zpe() - pI0->get_zpe();
-          const long double prtFn2 = pI1->rovibronicGrnCanPrtnFn();
+        if (jpos->first != pI1){
+          CollidingMolecule* pI2 = jpos->first;
+          const long double HeatDiff = pI2->get_zpe() - pI1->get_zpe();
+          const long double prtFn2 = pI2->rovibronicGrnCanPrtnFn();
           const long double prtFn21 = prtFn2 / prtFn1 * exp(-beta * HeatDiff);
           eqFrac += prtFn21;
         }
       }
       Reaction::sourceMap::iterator kpos;
       for (kpos = m_sources.begin(); kpos != m_sources.end(); ++kpos){
-        SuperMolecule* pS1 = kpos->first;
-        const long double HeatDiff = pS1->get_zpe() - pI0->get_zpe();
-        const long double prtFn2 = pS1->rovibronicGrnCanPrtnFn();
-        const long double trCon2 = translationalContribution((pS1->getMember1())->getMass(), (pS1->getMember2())->getMass(), beta);
-        const long double prtFn21 = prtFn2 * trCon2 / prtFn1 * exp(-beta * HeatDiff);
+        SuperMolecule* pS2 = kpos->first;
+        const long double HeatDiff = pS2->get_zpe() - pI1->get_zpe();
+        const long double prtFn2 = pS2->rovibronicGrnCanPrtnFn();
+        const long double trCon2 = translationalContribution((pS2->getMember1())->getMass(), (pS2->getMember2())->getMass(), beta);
+        const long double excess2 = pS2->getExcessReactantConc();
+        const long double prtFn21 = prtFn2 * trCon2 / (prtFn1 * excess2) * exp(-beta * HeatDiff);
         eqFrac += prtFn21;
       }
-      pI0->setEqFraction(1.0 / eqFrac);
-      ctest << "Equilibrium Fraction for " << pI0->getName() << " = " << 1.0 / eqFrac << endl;
+      eqFrac = 1.0 / eqFrac;
+      pI1->setEqFraction(eqFrac);
+      ctest << "Equilibrium Fraction for " << pI1->getName() << " = " << eqFrac << endl;
     }
 
     Reaction::sourceMap::iterator spos;
@@ -402,12 +404,13 @@ namespace mesmer
       long double eqFrac(1.0);
       const long double prtFn1 = pSx->rovibronicGrnCanPrtnFn();
       const long double trCon1 = translationalContribution((pSx->getMember1())->getMass(), (pSx->getMember2())->getMass(), beta);
+      const long double excess1 = pSx->getExcessReactantConc();
       Reaction::isomerMap::iterator jpos;
       for (jpos = m_isomers.begin(); jpos != m_isomers.end(); ++jpos){
-        CollidingMolecule* pSy = jpos->first;
-        const long double HeatDiff = pSy->get_zpe() - pSx->get_zpe();
-        const long double prtFn2 = pSy->rovibronicGrnCanPrtnFn();
-        const long double prtFn21 = prtFn2 / (prtFn1 * trCon1) * exp(-beta * HeatDiff);
+        CollidingMolecule* pIy = jpos->first;
+        const long double HeatDiff = pIy->get_zpe() - pSx->get_zpe();
+        const long double prtFn2 = pIy->rovibronicGrnCanPrtnFn();
+        const long double prtFn21 = prtFn2 * excess1/ (prtFn1 * trCon1) * exp(-beta * HeatDiff);
         eqFrac += prtFn21;
       }
       Reaction::sourceMap::iterator kpos;
@@ -417,12 +420,15 @@ namespace mesmer
           const long double HeatDiff = pSy->get_zpe() - pSx->get_zpe();
           const long double prtFn2 = pSy->rovibronicGrnCanPrtnFn();
           const long double trCon2 = translationalContribution((pSy->getMember1())->getMass(), (pSy->getMember2())->getMass(), beta);
-          eqFrac += prtFn2 * trCon2 / (prtFn1 * trCon1) * exp(-beta * HeatDiff);
+          const long double excess2 = pSy->getExcessReactantConc();
+          eqFrac += prtFn2 * trCon2 * excess1 / (prtFn1 * trCon1 * excess2) * exp(-beta * HeatDiff);
         }
       }
-      (pSx->getMember1())->setEqFraction(1.0 / eqFrac);
-      ctest << "Equilibrium Fraction for " << pSx->getName() << " = " << 1.0 / eqFrac << endl;
+      eqFrac = 1.0 / eqFrac;
+      (pSx->getMember1())->setEqFraction(eqFrac);
+      ctest << "Equilibrium Fraction for " << pSx->getName() << " = " << eqFrac << endl;
     }
+    // description of the calculation: _2008_05_30__12_48_35_ on the end of the file.
     return true;
   }
 
@@ -438,6 +444,7 @@ namespace mesmer
       SuperMolecule* source = spos->first;
       populationSum += (source->getMember1())->getInitPopulation();
     }
+
     for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
       CollidingMolecule* isomer = ipos->first;
       double initFrac = isomer->getInitPopulation() / populationSum;
@@ -455,6 +462,28 @@ namespace mesmer
         }
       }
     }
+
+    // if there is no source term and the populationSum is still zero, set population = 1.0 for the first isomer
+    int sizeSource = static_cast<int>(m_sources.size());
+    if (populationSum == 0. && sizeSource == 0){
+      ipos == m_isomers.begin();
+      CollidingMolecule* isomer = ipos->first;
+      isomer->setInitPopulation(1.0); // set initial population for the first isomer
+      double initFrac = isomer->getInitPopulation();
+      cinfo << "No population was assigned with no source term. Initialize the first isomer term to 1.0." << endl;
+      int location = ipos->second;
+      const double eqFrac = isomer->getEqFraction();
+      const int colloptrsize = isomer->get_colloptrsize();
+      vector<double> boltzFrac;
+      isomer->normalizedGrainDistribution(boltzFrac, colloptrsize);
+      for (int i = 0; i < colloptrsize; ++i){
+        eqFracCoeff[i + location] = sqrt(boltzFrac[i] * eqFrac);
+      }
+      for (int i = 0; i < colloptrsize; ++i){
+        initDist[i + location] = sqrt(initFrac * boltzFrac[i] / eqFrac);
+      }
+    }
+
     for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
       SuperMolecule* source = spos->first;
       double initFrac = (source->getMember1())->getInitPopulation() / populationSum;
@@ -471,17 +500,26 @@ namespace mesmer
     return true;
   }
 
-  bool ReactionManager::timeEvolution(int maxTimeStep, const double beta)
+  bool ReactionManager::timeEvolution(int maxTimeStep, const MesmerEnv mEnv)
   {
     int smsize = int(m_pSystemCollisionOperator->size());
+
+    double maxEvoTime = 0.;
+    if (mEnv.maxEvolutionTime <= 0. || mEnv.maxEvolutionTime > 1.0e8)
+      maxEvoTime = 1.0e8;
+    else
+      maxEvoTime = mEnv.maxEvolutionTime;
 
     /* calculate the time points */
     vector<double> timePoints;
     for (int i = 0; i < maxTimeStep; ++i){
-      timePoints.push_back(pow(10., static_cast<double>(i) / 10. - 11.));
+      double time = pow(10., static_cast<double>(i) / 10. - 11.);
+      if (time > maxEvoTime)
+        break;
+      timePoints.push_back(time);
     }
 
-    if (!calculateEquilibriumFractions(beta)){
+    if (!calculateEquilibriumFractions(mEnv.beta)){
       cerr << "Failed calculating equilibrium fractions.";
       return false;
     }
@@ -531,36 +569,72 @@ namespace mesmer
 
     //------------------------------
     // print grained species profile
-    ctest << "\nGrained species profile (the first row is time points in unit of second):\n{\n";
+    if (mEnv.grainedProfileEnabled) {
+      ctest << "\nGrained species profile (the first row is time points in unit of second):\n{\n";
+      for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+        formatFloat(ctest, timePoints[timestep], 6,  15);
+      }
+      ctest << endl;
+      for (int j = 0; j < smsize; ++j) {
+        for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+          formatFloat(ctest, grainedProfile[j][timestep], 6,  15);
+        }
+        ctest << endl;
+      }
+      ctest << "}\n";
+    }
+    //------------------------------
+
+    int numberOfSpecies = static_cast<int>(m_isomers.size() + m_sources.size());
+    db2D speciesProfile(numberOfSpecies, maxTimeStep);
+
+    //----------------------
+    // print species profile
+    ctest << "\nSpecies profile (the first row is time points in unit of second):\n{\nTimesteps   ";
     for (int timestep = 0; timestep < maxTimeStep; ++timestep){
       formatFloat(ctest, timePoints[timestep], 6,  15);
     }
     ctest << endl;
-    for (int j = 0; j < smsize; ++j) {
-
+    //-----------------------------------------------
+    // Sum up individual species
+    Reaction::isomerMap::iterator ipos;
+    std::map<int, CollidingMolecule*> numMap1;
+    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
+      numMap1[ipos->second] = ipos->first;
+    }
+    std::map<int, CollidingMolecule*>::iterator jpos;
+    int j = 0;
+    for (jpos = numMap1.begin(); jpos != numMap1.end(); ++jpos, ++j){
+      int idx = jpos->first;
+      int colloptrsize = (jpos->second)->get_colloptrsize();
+      ctest << (jpos->second)->getName() << " ";
       for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-        formatFloat(ctest, grainedProfile[j][timestep], 6,  15);
+        for (int i = 0; i < colloptrsize; ++i){
+          speciesProfile[j][timestep] += grainedProfile[i + idx][timestep];
+        }
+        formatFloat(ctest, speciesProfile[j][timestep], 6,  15);
+      }
+      ctest << endl;
+    }
+
+    Reaction::sourceMap::iterator kpos;
+    std::map<int, SuperMolecule*> numMap2;
+    for (kpos = m_sources.begin(); kpos != m_sources.end(); ++kpos){
+      numMap2[kpos->second] = kpos->first;
+    }
+    std::map<int, SuperMolecule*>::iterator lpos;
+    for (lpos = numMap2.begin(); lpos != numMap2.end(); ++lpos, ++j){
+      int idx = lpos->first;
+      ctest << (lpos->second)->getName() << " ";
+      for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+        speciesProfile[j][timestep] = grainedProfile[idx][timestep];
+        formatFloat(ctest, speciesProfile[j][timestep], 6,  15);
       }
       ctest << endl;
     }
     ctest << "}\n";
 
-    //----------------------
-    // print species profile
-//    ctest << "\nSpecies profile (the first row is time points in unit of second):\n{\n";
-//    for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-//      formatFloat(ctest, timePoints[timestep], 6,  15);
-//    }
-//    ctest << endl;
-//    for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-//      for (int j = 0; j < numberOfSpecies; ++j) {
-//        
-//        
-//        formatFloat(ctest, speciesProfile[j][timestep], 6,  15);
-//      }
-//      ctest << endl;
-//    }
-//    ctest << "}\n";
+    //-----------------------------------------------
     return true;
   }
 
@@ -569,7 +643,6 @@ namespace mesmer
   {
     PersistPtr pp=anchor;
     const char* txt;
-    double populationSum = 0.0;
     PersistPtr ppInitMol = pp->XmlMoveTo("molecule");
     while(ppInitMol){
       double population = 0.0;
@@ -582,5 +655,28 @@ namespace mesmer
       ppInitMol = ppInitMol->XmlMoveTo("molecule");
     }
   }
+
+  // _2008_05_30__12_48_35_
+  //
+  // For a system with one source term and two isomer terms as the following
+  // excess + A ---> B
+  // B <--> C
+  // The equilibrium population fraction of A will be expressed as
+  //                         1.0
+  // PA = ------------------------------------------
+  //            Q_rve_B [excess]    Q_rve_C [excess]
+  //      1.0 + ----------------  + ----------------
+  //            Q_rvet_Reactants    Q_rvet_Reactants
+  //
+  // where in the expression, Q_rve is rovibronic contribution of the partition function,
+  // and t is the translational contribution of the partition function.
+  // [excess] is the number density of the excess reactant.
+  //
+  // Also, the equilibrium population fraction of B will be
+  //                      1.0
+  // PB = ----------------------------------
+  //            Q_rvet_Reactants     Q_rve_C
+  //      1.0 + ----------------  +  -------
+  //            Q_rve_B [excess]     Q_rve_B
 
 }//namespace

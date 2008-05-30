@@ -151,13 +151,19 @@ namespace mesmer
       m_Env.grainTSFluxEnabled          = ppControl->XmlReadBoolean("me:printGrainTransitionStateFlux");
       m_Env.rateCoefficientsOnly        = ppControl->XmlReadBoolean("me:calculateRateCoefficinetsOnly");
       m_Env.useTheSameCellNumber        = ppControl->XmlReadBoolean("me:useTheSameCellNumberForAllConditions");
+      m_Env.grainedProfileEnabled       = ppControl->XmlReadBoolean("me:printGrainedSpeciesProfile");
       if (!m_Env.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
         m_Env.useTheSameCellNumber = true;
       }
-      const char* txt = ppControl->XmlReadValue("me:eigenvalues",false);
-      if(txt) {
-        istringstream ss(txt);
+      const char* txtEV = ppControl->XmlReadValue("me:eigenvalues",false);
+      if(txtEV) {
+        istringstream ss(txtEV);
         ss >> m_Env.printEigenValuesNum;
+      }
+      const char* txtMET = ppControl->XmlReadValue("me:MaximumEvolutionTime");
+      if (txtMET){
+        istringstream ss(txtMET);
+        ss >> m_Env.maxEvolutionTime;
       }
     }
 
@@ -277,8 +283,8 @@ namespace mesmer
       m_pReactionManager->diagCollisionOperator(m_Env) ;
 
       // Time steps loop
-      int timestep = 100;
-      m_pReactionManager->timeEvolution(timestep, m_Env.beta);
+      int timestep = 191;
+      m_pReactionManager->timeEvolution(timestep, m_Env);
 
       ctest << "}\n";
     }

@@ -196,7 +196,7 @@ namespace mesmer
     const long double _expon = -beta * HeatOfReaction;
     Keq *= exp(_expon) ;
 
-    const double excess = getExcessReactantConc();
+    const double excess = m_srct->getExcessReactantConc();
     Keq *= excess ;
     //
     // K_eq = ( [C]/[A][B] ) * [A] = [C]/[B]
@@ -240,7 +240,10 @@ namespace mesmer
     const char* pERConctxt   = ppReac->XmlReadValue("me:excessReactantConc",false);
     if (pERConctxt)
     {
-      stringstream s3(pERConctxt); s3 >> m_ERConc ;
+      stringstream s3(pERConctxt);
+      double erconc = 0.0;
+      s3 >> erconc;
+      m_srct->setExcessReactantConc(erconc);
     }
 
     // Determine the method of MC rate coefficient calculation.
