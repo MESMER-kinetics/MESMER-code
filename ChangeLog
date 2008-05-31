@@ -1,3 +1,14 @@
+_2008_05_31__17_18_15_ Chi-Hsiu Liang
+
+  * Update baselines. 
+    The equilibrium constant for an association reaction of previous baselines were calculated from dividing product 
+    rovibronic partition function by combined contribution of the rovibronic partition function of reactant 1 and reactant 2, 
+    translation, and then time the expression by the excess reactant concentration. Since the density of states for 2-D linear
+    rotors were not correct, so the baseline of OH acetylene system has to be updated. 
+    Also in the equilibrium constant of association reaction, from Version 141, dividing Qpdt1 by Qrcts, instead of (Qrct1 * Qrct2),
+    and added a checkpoint there to see the difference between (Qrct1 * Qrct2) and Qrcts.
+    I have changed the code of 2-D linear rotors in Version 141 but only update the baselines in this version. The eigenvalues 
+    of OH-acetylene system is now closer to Dave's old code.
 
 2008-5-18 Struan Robertson
 

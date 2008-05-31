@@ -1,8 +1,8 @@
-Mesmer v0.1 compiled: -- May 21 2008 -- 11:04:32
+Mesmer v0.1 compiled: -- May 30 2008 -- 16:21:32
 
 Parsing input xml file... 
 
-Acetyl_O2_association.xml at 20080521_114621
+Acetyl_O2_association.xml at 20080530_162746
 Cannot find argument me:eletronicExcitation for acetyl
 Cannot find argument me:sigma in acetyl. Default value 5 is used.
 
@@ -25,40 +25,45 @@ The me:tunneling element or attribute was missing or empty.
 Cannot find argument me:eletronicExcitation for TS2
 The me:tunneling element or attribute was missing or empty.
 The description element or attribute was missing or empty.
+The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "Acetyl_O2_association.xml" successfully parsed.
-Calculate EGME at 20080521_114621
+Calculate EGME at 20080530_162746
 
 Now calculating...
 
-Write XML attribute at 20080521_114621
+Write XML attribute at 20080530_162746
 Precision: Double
 
 Grid 
 0
 
-Build Collison Operator at 20080521_114621
+Build Collison Operator at 20080530_162746
 Cell number = 
 33000
 , Grain number = 
 500
 
 No TransitionState for R1, threshold energy = 0.0
+m_scaleFactor was not defined but requested in source_0. Default value 1 is given.
 ILT calculation completed
-Diagonlize Collision Operator at 20080521_120936 -- Time elapsed: 0 seconds.
+Diagonlize Collision Operator at 20080530_165248 -- Time elapsed: 0 seconds.
 
-Finish Calculation at 20080521_121114 -- Time elapsed: 1395 seconds.
+Finish Calculation at 20080530_171343 -- Time elapsed: 1502 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
 
 Time stamps:
-20080521_104621 -- Build Collison Operator
-20080521_110936 -- Diagonlize Collision Operator
-20080521_111114 -- Finish Calculation
+20080530_152746 -- Build Collison Operator
+20080530_155248 -- Diagonlize Collision Operator
+20080530_161343 -- Finish Calculation
  *Info in main
-Save XML document to a new file at 20080521_121114 -- Total time elapsed: 1493 seconds.
+Save XML document to a new file at 20080530_171343 -- Total time elapsed: 2757 seconds.
 
-System saved to Acetyl_O2_association.20080521_121114.xml
-m_Mass is provided but not used in TS1m_ImFreq is provided but not used in TS2
-m_Mass is provided but not used in TS2m_ImFreq is provided but not used in TS3
-m_Mass is provided but not used in TS3m_ZPE is provided but not used in ketene
+System saved to Acetyl_O2_association.20080530_171343.xml
+m_Mass is provided but not used in TS1
+m_ImFreq is provided but not used in TS2
+m_Mass is provided but not used in TS2
+m_ImFreq is provided but not used in TS3
+m_Mass is provided but not used in TS3
+m_ZPE is provided but not used in ketene
 m_ZPE is provided but not used in lactone

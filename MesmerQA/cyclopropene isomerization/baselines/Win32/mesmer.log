@@ -1,8 +1,8 @@
-Mesmer v0.1 compiled: -- May 21 2008 -- 11:04:32
+Mesmer v0.1 compiled: -- May 30 2008 -- 16:21:32
 
 Parsing input xml file... 
 
-Cyclopropene_isomerization_test.xml at 20080521_131337
+Cyclopropene_isomerization_test.xml at 20080531_170759
 Cannot find argument me:eletronicExcitation for allene
 Cannot find argument me:spinMultiplicity in allene. Default value 1 is used.
 No method for the calculation of distribution fraction in allene is provided. Default method <Boltzmann> is used.
@@ -18,52 +18,171 @@ Cannot find argument me:eletronicExcitation for TS3
 No imaginary vibrational frequency for TS3
 The me:tunneling element or attribute was missing or empty.
 The description element or attribute was missing or empty.
+The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "Cyclopropene_isomerization_test.xml" successfully parsed.
-Calculate EGME at 20080521_131337
+Calculate EGME at 20080531_170759
 
 Now calculating...
 
-Write XML attribute at 20080521_131337
+Write XML attribute at 20080531_170759
 Precision: Double
 
 Grid 
 0
 
-Build Collison Operator at 20080521_131337
+Build Collison Operator at 20080531_170759
 Cell number = 
 31200
 , Grain number = 
 156
 
 m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
 m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+Diagonlize Collision Operator at 20080531_170814 -- Time elapsed: 0 seconds.
+No population was assigned with no source term. Initialize the first isomer term to 1.0.
 
 Grid 
 1
 
-Diagonlize Collision Operator at 20080521_131343 -- Time elapsed: 0 seconds.
-Build Collison Operator at 20080521_131350
+Build Collison Operator at 20080531_171050
 Cell number = 
 52000
 , Grain number = 
 260
 
 m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in allene. Default value 1 is given.
 m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
-Diagonlize Collision Operator at 20080521_131409 -- Time elapsed: 6 seconds.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+Diagonlize Collision Operator at 20080531_171127 -- Time elapsed: 15 seconds.
 
-Finish Calculation at 20080521_131439 -- Time elapsed: 19 seconds.
+Finish Calculation at 20080531_171550 -- Time elapsed: 37 seconds.
 In total, 2 temperature/concentration-pressure points calculated.
 
 Time stamps:
-20080521_121337 -- Build Collison Operator
-20080521_121343 -- Diagonlize Collision Operator
-20080521_121350 -- Build Collison Operator
-20080521_121409 -- Diagonlize Collision Operator
-20080521_121439 -- Finish Calculation
+20080531_160759 -- Build Collison Operator
+20080531_160814 -- Diagonlize Collision Operator
+20080531_161050 -- Build Collison Operator
+20080531_161127 -- Diagonlize Collision Operator
+20080531_161550 -- Finish Calculation
  *Info in main
-Save XML document to a new file at 20080521_131439 -- Total time elapsed: 62 seconds.
+Save XML document to a new file at 20080531_171550 -- Total time elapsed: 471 seconds.
 
-System saved to Cyclopropene_isomerization_test.20080521_131439.xml
-m_Mass is provided but not used in TS1m_Mass is provided but not used in TS3
+System saved to Cyclopropene_isomerization_test.20080531_171550.xml
+m_Mass is provided but not used in TS1
+m_Mass is provided but not used in TS3

@@ -466,7 +466,7 @@ namespace mesmer
     // if there is no source term and the populationSum is still zero, set population = 1.0 for the first isomer
     int sizeSource = static_cast<int>(m_sources.size());
     if (populationSum == 0. && sizeSource == 0){
-      ipos == m_isomers.begin();
+      ipos = m_isomers.begin();
       CollidingMolecule* isomer = ipos->first;
       isomer->setInitPopulation(1.0); // set initial population for the first isomer
       double initFrac = isomer->getInitPopulation();

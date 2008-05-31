@@ -1,8 +1,8 @@
-Mesmer v0.1 compiled: -- May 21 2008 -- 11:04:32
+Mesmer v0.1 compiled: -- May 30 2008 -- 16:21:32
 
 Parsing input xml file... 
 
-OH_acetylene_association.xml at 20080521_132057
+OH_acetylene_association.xml at 20080531_172344
 The description element or attribute was missing or empty.
 Cannot find argument me:frequenciesScaleFactor
 Cannot find argument me:sigma in OH. Default value 5 is used.
@@ -36,19 +36,20 @@ Cannot find argument me:frequenciesScaleFactor
 No imaginary vibrational frequency for TS_1a
 The me:tunneling element or attribute was missing or empty.
 The description element or attribute was missing or empty.
+The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "OH_acetylene_association.xml" successfully parsed.
-Calculate EGME at 20080521_132057
+Calculate EGME at 20080531_172344
 
 Now calculating...
 
-Write XML attribute at 20080521_132057
+Write XML attribute at 20080531_172344
 Precision: Double
 
 Grid 
 0
 
-Build Collison Operator at 20080521_132057
+Build Collison Operator at 20080531_172344
 Cell number = 
 15960
 , Grain number = 
@@ -56,20 +57,23 @@ Cell number =
 
 m_scaleFactor was not defined but requested in OH. Default value 1 is given.
 m_scaleFactor was not defined but requested in acetylene. Default value 1 is given.
+m_scaleFactor was not defined but requested in source_0. Default value 1 is given.
 ILT calculation completed
 m_scaleFactor was not defined but requested in OH_acetylene_adduct. Default value 1 is given.
 m_scaleFactor was not defined but requested in TS_1a. Default value 1 is given.
-Diagonlize Collision Operator at 20080521_132325 -- Time elapsed: 0 seconds.
+Diagonlize Collision Operator at 20080531_172834 -- Time elapsed: 0 seconds.
 
-Finish Calculation at 20080521_132417 -- Time elapsed: 148 seconds.
+Finish Calculation at 20080531_173110 -- Time elapsed: 290 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
 
 Time stamps:
-20080521_122057 -- Build Collison Operator
-20080521_122325 -- Diagonlize Collision Operator
-20080521_122417 -- Finish Calculation
+20080531_162344 -- Build Collison Operator
+20080531_162834 -- Diagonlize Collision Operator
+20080531_163110 -- Finish Calculation
  *Info in main
-Save XML document to a new file at 20080521_132417 -- Total time elapsed: 200 seconds.
+Save XML document to a new file at 20080531_173110 -- Total time elapsed: 446 seconds.
 
-System saved to OH_acetylene_association.20080521_132417.xml
-m_Mass is provided but not used in TS_0m_Mass is provided but not used in TS_1am_ZPE is provided but not used in dummy1
+System saved to OH_acetylene_association.20080531_173110.xml
+m_Mass is provided but not used in TS_0
+m_Mass is provided but not used in TS_1a
+m_ZPE is provided but not used in dummy1
