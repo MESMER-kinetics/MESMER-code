@@ -56,7 +56,6 @@ public:
 
     // Modifiers
     void resize(const size_type n) ;
-    void normalize();
     void showFinalBits(const size_type n);
 
 protected:
@@ -185,51 +184,6 @@ void Matrix<T>::resize(const size_type n){
     m_matrix = matrix;
 
 }
-
-template<class T>
-void Matrix<T>::normalize(){
-
-    T* work = new T[m_msize] ;// Work space.
-    //
-    // Normalization of Probability matrix.
-    // Normalising coefficients are found by using the fact that column sums
-    // are unity. The procedure leads to a matrix that is of upper triangular
-    // form and the normalisation constants are found by back substitution.
-    //
-
-    int i, j; //int makes sure the comparison to negative numbers meaningful (i >=0)
-
-    T scaledRemain(0.0) ;
-    for ( i = (int)m_msize - 1 ; i >= 0 ; --i ) {
-
-      T upperSum(0.0) ;
-      for ( j = 0 ; j <= i ; ++j )
-        upperSum += m_matrix[j][i] ;
-
-      if (upperSum > 0.0){
-        if (i < (int)m_msize - 1){
-          scaledRemain = 0.0;
-          for ( j = i + 1 ; j < (int)m_msize ; ++j )
-            scaledRemain += m_matrix[j][i] * work[j] ;
-        }
-        work[i] = (1.0 - scaledRemain) / upperSum ;
-      }
-    }
-
-    //
-    // Apply normalization coefficients
-    //
-    for ( i = 0 ; i < (int)m_msize ; ++i ) {
-      m_matrix[i][i] *= work[i] ;
-      for ( j = i + 1 ; j < (int)m_msize ; ++j ) {
-        m_matrix[j][i] *= work[j] ;
-        m_matrix[i][j] *= work[j] ;
-      }
-    }
-    delete [] work;
-
-}
-
 
 template<class T>
 void Matrix<T>::showFinalBits(const size_type n){

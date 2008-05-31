@@ -1,3 +1,8 @@
+
+2008-5-18 Struan Robertson
+
+  * CollidingMolecule.cpp/Matrix.h: Move normalization method back to colliding molecule class for the present. Matrix class should be used for linear algebra only.
+
 _2008_05_30__16_46_28_ Chi-Hsiu Liang
 
   * Move double m_ERConc (excess reactant concentration) from AssociationReaction to be a SuperMolecule member variable.

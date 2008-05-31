@@ -287,6 +287,9 @@ namespace mesmer
     // Initialize the Collision Operator.
     bool initCollisionOperator(double beta, BathGasMolecule *pBathGasMolecule) ;
 
+    // Normalize the Collision Operator.
+	void normalizeCollisionOperator();
+
     // Calculate a reaction matrix element.
     double matrixElement(int eigveci, int eigvecj, std::vector<double> &k, int ndim) ;
 

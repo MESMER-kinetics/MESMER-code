@@ -256,7 +256,7 @@ namespace mesmer
     }
 
     //Normalisation
-    m_egme->normalize();
+    normalizeCollisionOperator();
 
     // print out of column sums to check normalization results
     if (getEnv().collisionOCSEnabled){
@@ -291,6 +291,51 @@ namespace mesmer
 
     return true;
   }
+
+  //
+  // Normalize collision operator
+  //
+void CollidingMolecule::normalizeCollisionOperator(){
+
+    double* work = new double[m_ncolloptrsize] ;// Work space.
+    //
+    // Normalization of Probability matrix.
+    // Normalising coefficients are found by using the fact that column sums
+    // are unity. The procedure leads to a matrix that is of upper triangular
+    // form and the normalisation constants are found by back substitution.
+    //
+
+    int i, j; //int makes sure the comparison to negative numbers meaningful (i >=0)
+
+    double scaledRemain(0.0) ;
+    for ( i = m_ncolloptrsize - 1 ; i >= 0 ; --i ) {
+
+      double upperSum(0.0) ;
+      for ( j = 0 ; j <= i ; ++j )
+        upperSum += (*m_egme)[j][i] ;
+
+      if (upperSum > 0.0){
+        if (i < (int)m_ncolloptrsize - 1){
+          scaledRemain = 0.0;
+          for ( j = i + 1 ; j < (int)m_ncolloptrsize ; ++j )
+            scaledRemain += (*m_egme)[j][i] * work[j] ;
+        }
+        work[i] = (1.0 - scaledRemain) / upperSum ;
+      }
+    }
+
+    //
+    // Apply normalization coefficients
+    //
+    for ( i = 0 ; i < (int)m_ncolloptrsize ; ++i ) {
+      (*m_egme)[i][i] *= work[i] ;
+      for ( j = i + 1 ; j < (int)m_ncolloptrsize ; ++j ) {
+        (*m_egme)[j][i] *= work[j] ;
+        (*m_egme)[i][j] *= work[j] ;
+      }
+    }
+    delete [] work;
+}
 
   //
   // Calculate collision frequency.
