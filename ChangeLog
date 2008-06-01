@@ -1,3 +1,9 @@
+
+2008-6-01 Struan Robertson
+
+  * Reaction.h: Moved reactant definitions onto to derived classes.
+  * Minor tidying up.
+
 _2008_05_31__17_18_15_ Chi-Hsiu Liang
 
   * Update baselines. 
@@ -10,7 +16,7 @@ _2008_05_31__17_18_15_ Chi-Hsiu Liang
     I have changed the code of 2-D linear rotors in Version 141 but only update the baselines in this version. The eigenvalues 
     of OH-acetylene system is now closer to Dave's old code.
 
-2008-5-18 Struan Robertson
+2008-5-31 Struan Robertson
 
   * CollidingMolecule.cpp/Matrix.h: Move normalization method back to colliding molecule class for the present. Matrix class should be used for linear algebra only.
 

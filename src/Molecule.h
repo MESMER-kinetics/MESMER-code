@@ -20,336 +20,339 @@
 
 namespace mesmer
 {
-  //**************************************************
-  /// Basic molecule: has name and some collision parameters.
-  /// Used for bath gases and unmodelled product molecules.
-  class Molecule
-  {
-  private:
-
-    const MesmerEnv&     m_Env;
-    int            m_flag;              // count the errors during initialization
-    PersistPtr     m_ppPersist;         // Conduit for I/O
-    std::string    m_Name ;             // Molecule name.
-    std::string    m_Description;       // Longer description for the structure
-
-    //Molecule(const Molecule&) ;
-    //Molecule& operator=(const Molecule&) ;
-
-  public:
-    Molecule(const MesmerEnv& Env) ;
-    virtual ~Molecule();
-
-    // Initialize Molecule.
-    virtual bool InitializeMolecule(PersistPtr pp);
-
-    PersistPtr  getPersistentPointer();
-    void setPersistentPointer(PersistPtr value);
-    std::string getName() const;
-    std::string getDescription() const;
-    const MesmerEnv& getEnv() const;
-    int    getFlag() ;
-    void   setName(string name) ;
-    void   setFlag(bool value) ;
-  };
-
-  //**************************************************
-  class SinkMolecule : public Molecule
-  {
-  public:
-    SinkMolecule(const MesmerEnv& Env);
-    virtual ~SinkMolecule();
-
-    // Initialize BathGasMolecule.
-    virtual bool InitializeMolecule(PersistPtr pp);
-
-    virtual double get_zpe();
-    void set_zpe(double value);
-
-  private:
-    double         m_ZPE ;              // Zero Point Energy. (kJ/mol)
-
-    //================================================
-    // CHECK FOR INPUTFILE PARAMETERS
-    int m_ZPE_chk;
-    //================================================
-
-  };
-
-  //**************************************************
-  class BathGasMolecule : public Molecule
-  {
-  public:
-    BathGasMolecule(const MesmerEnv& Env);
-    virtual ~BathGasMolecule();
-    // Initialize BathGasMolecule.
-    virtual bool InitializeMolecule(PersistPtr pp);
-
-    double getMass() ;
-    void   setMass(double value);
-    double getSigma() ;
-    void   setSigma(double value);
-    double getEpsilon() ;
-    void   setEpsilon(double value);
-
-
-  private:
-    double         m_Mass ;             // Mass.
-    double         m_Sigma ;            // Lennard-Jones sigma.
-    double         m_Epsilon ;          // Lennard-Jones epsilon.
-
-    //================================================
-    // CHECK FOR INPUTFILE PARAMETERS
-    int m_Mass_chk;
-    int m_Sigma_chk;
-    int m_Epsilon_chk;
-    //================================================
-
-  };
-
-  //**************************************************
-  ///Molecule with multiple energy states. Probably not instantiated itself
-  class ModelledMolecule : public Molecule
-  {
-  private:
-    //
-    // Molecular properties.
-    //
-    double              m_Mass ;             // Mass.
-    double              m_RotCstA ;          // Moment of inertia A.
-    double              m_RotCstB ;          // Moment of inertia B.
-    double              m_RotCstC ;          // Moment of inertia C.
-    double              m_Sym ;              // Rotational symmetry number.
-    double              m_ZPE ;              // Zero Point Energy. (kJ/mol)
-    double              m_scaleFactor ;      // scale factor for input real/imaginary vibrational frequencies
-    int                 m_SpinMultiplicity ; // spin multiplicity
-    double              m_grnZpe ;           // Zero point energy expressed in grains.
-    int                 m_cellOffset ;         // Shift of cells for integral number of grains in a well
-    DensityOfStatesCalculator *m_pDensityOfStatesCalculator ;
-
-    //================================================
-    // CHECK FOR INPUTFILE PARAMETERS
-    int m_Mass_chk;
-    int m_RC_chk;
-    int m_Sym_chk;
-    int m_ZPE_chk;
-    int m_scaleFactor_chk;
-    int m_SpinMultiplicity_chk;
-    int m_VibFreq_chk;
-    int m_grnZpe_chk;
-    //================================================
-
-    std::vector<double> m_eleExc; //Electronic excitation(for OH, NO, NS otherwise no memeber).
-    std::vector<double> m_VibFreq ;          // Values of vibrational frequencies.
-
-  public:
-    //
-    // Cell and grain averages.  Note: raw array used for efficiency,
-    // but need to test validity of this. SHR 5/Jan/03.
-    //
-    std::vector<double> m_cellEne ;          // Cell energy array.
-    std::vector<double> m_cellDOS ;          // Cell density of states array.
-    std::vector<double> m_grainEne ;         // Grain average energy array.
-    std::vector<double> m_grainDOS ;         // Grain density of states array.
-
-    //----------------
-    ModelledMolecule(const MesmerEnv& Env);
-    virtual ~ModelledMolecule();
-
-    // Initialize ModelledMolecule.
-    virtual bool InitializeMolecule(PersistPtr pp);
-
-    // Get the density of states.
-    void getCellDensityOfStates(std::vector<double> &cellDOS) ;
-
-    // Get cell energies.
-    void getCellEnergies(std::vector<double> &CellEne) ;
-
-    // Get grain density of states.
-    void getGrainDensityOfStates(std::vector<double> &grainDOS) ;
-
-    // Get grain energies.
-    void getGrainEnergies(std::vector<double> &grainEne) ;
-
-    // Get Electronic excitations
-    void getEleExcitation(vector<double> &elecExci);
-
-    // Get Grain canonical partition function.
-    double rovibronicGrnCanPrtnFn() ;
-
-    // Calculate Density of states
-    bool calcDensityOfStates();
-
-    // Calculate classical energy
-    double getClassicalEnergy();
-
-    // shift cell DOS and energy vectors according to m_cellOffset
-    void shiftCells(std::vector<double>& shiftedCellDOS, std::vector<double>& shiftedCellEne);
-
-    // Accessors.
-    double getMass() ;
-    void   setMass(double value);
-    double get_relative_ZPE();
-    virtual double get_zpe();
-    double get_scaleFactor();
-    void set_zpe(double value);
-    void set_scaleFactor(double value);
-    double get_Sym(void);
-    int test_rotConsts(void);
-    int  get_rotConsts(std::vector<double> &mmtsInt);
-    void set_grnZpe(double grnZpe); // with respect to the minimum of all wells, default zero.
-    virtual const int get_grnZpe();
-    virtual void get_VibFreq(std::vector<double>& vibFreq);
-
-    virtual DensityOfStatesCalculator* get_DensityOfStatesCalculator();
-    void set_DensityOfStatesCalculator(DensityOfStatesCalculator* value);
-
-    virtual int getSpinMultiplicity();
-    void   setSpinMultiplicity(int value);
-
-    // Calculate the average grain energy and then number of states per grain.
-    void calcGrainAverages(const std::vector<double>& shiftedCellDOS, const std::vector<double>& shiftedCellEne) ;
-
-    // Test the rovibrational density of states.
-    virtual void testDensityOfStates() ;
-
-    void set_grainValues(double relativeZPE);
-
-    int get_cellOffset(void) const {return m_cellOffset ;} ;
-
-  } ;
-
-  //**************************************************
-  ///Transition states have no collisional properties
-  class TransitionState : public ModelledMolecule
-  {
-    double m_ImFreq;            // Imaginary frequency of this barrier (For tunneling in QM calculations)
-    //================================================
-    // CHECK FOR INPUTFILE PARAMETERS
-    int m_ImFreq_chk;
-    //================================================
-
-  public:
-    TransitionState(const MesmerEnv& Env);
-    virtual ~TransitionState();
-
-    // Initialize TransitionState.
-    virtual bool InitializeMolecule(PersistPtr pp);
-    double get_ImFreq();
-
-  };
-
-  //**************************************************
-  ///For most molecules
-  class CollidingMolecule : public ModelledMolecule
-  {
-
-  private:
-
-    //-------------------------------
-    // Variables:
-    // Collision operator properties.
-    //
-    double              m_initPopulation;    // initial population of the molecule.
-    double              m_eqFraction;        // equilibrium fraction of the species
-    double              m_Sigma ;            // Lennard-Jones sigma.
-    double              m_Epsilon ;          // Lennard-Jones epsilon.
-
-    double              m_DeltaEdown ;         // <Delta E down> for the exponential down model.
-    double              m_collisionFrequency ; // Current value of collision frequency.
-    int                 m_ncolloptrsize ;      // Size of the collision operator matrix.
-    DistributionCalculator* m_pDistributionCalculator;
-
-    //================================================
-    // CHECK FOR INPUTFILE PARAMETERS
-    int m_Sigma_chk;
-    int m_Epsilon_chk;
-    int m_DeltaEdown_chk;
-    //================================================
-
-    double m_grainFracBeta;                    // beta used to calculate grain distribution fraction
-    std::vector<double> m_grainDist ;          // Grain distribution (not normalized)
-    dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
-
-    //-------------------------------
-    // Calculate collision frequency.
-    double collisionFrequency(double beta, const double conc, BathGasMolecule *pBathGasMolecule) ;
-    // Calculate collision operator.
-    bool   collisionOperator (double beta) ;
-
-  public:
-    CollidingMolecule(const MesmerEnv& Env);
-    virtual ~CollidingMolecule();
-
-    // Initialize CollidingMolecule.
-    virtual bool InitializeMolecule(PersistPtr ppp);
-
-    // Initialize the Collision Operator.
-    bool initCollisionOperator(double beta, BathGasMolecule *pBathGasMolecule) ;
-
-    // Normalize the Collision Operator.
-	void normalizeCollisionOperator();
-
-    // Calculate a reaction matrix element.
-    double matrixElement(int eigveci, int eigvecj, std::vector<double> &k, int ndim) ;
-
-    void copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
-
-    // Get Grain Boltzmann distribution.
-    void grainDistribution(vector<double> &grainFrac, const int numberOfGrains);
-    void normalizedGrainDistribution(vector<double> &grainFrac, const int numberOfGrains) ;
-
-    // Accessors.
-    double getInitPopulation() const { return m_initPopulation;};
-    void setInitPopulation(double value) { m_initPopulation = value;};
-    double getEqFraction() const { return m_eqFraction;};
-    void setEqFraction(double value){ m_eqFraction = value;};
-    double getSigma() ;
-    void   setSigma(double value);
-    double getEpsilon() ;
-    void   setEpsilon(double value);
-    double get_collisionFrequency() const ;
-    void set_colloptrsize(int ncolloptrsize) ;
-    int  get_colloptrsize() const ;
-    void   setDeltaEdown(double value);
-    double getDeltaEdown();
-    void set_DistributionCalculator(DistributionCalculator* value);
-    DistributionCalculator* get_DistributionCalculator();
-  };
-
-  // class representing pair of molecules participating one association reaction
-  // this class should account for their density of states as a convolution
-  class SuperMolecule : public ModelledMolecule
-  {
-  private:
-    double m_ERConc; // Concentration of the excess reactant
-
-  public:
-    CollidingMolecule* m_mol1;
-    ModelledMolecule*  m_mol2;
-
-    SuperMolecule(const MesmerEnv& Env);
-    virtual ~SuperMolecule();
-
-    // Initialize SuperMolecule.
-    virtual bool InitializeMolecule(PersistPtr pp);
-
-    // Accessors.
-
-    // set composing member of the SuperMolecule, also copy necessary properties
-    int getSpinMultiplicity();
-    void get_VibFreq(std::vector<double>& vibFreq);
-    virtual double get_zpe();
-    DensityOfStatesCalculator* get_DensityOfStatesCalculator();
-    void setMembers(CollidingMolecule* mol1p, ModelledMolecule* mol2p);
-    double getExcessReactantConc() const  { return m_ERConc ; } ;
-    void setExcessReactantConc(double value) { m_ERConc = value;};
-    CollidingMolecule* getMember1();
-    ModelledMolecule*  getMember2();
-
-    //virtual void testDensityOfStates(const MesmerEnv &m_Env) ;
-
-  };
+    //**************************************************
+    /// Basic molecule: has name and some collision parameters.
+    /// Used for bath gases and unmodelled product molecules.
+    class Molecule
+    {
+    private:
+
+        const MesmerEnv&     m_Env;
+        int            m_flag;              // count the errors during initialization
+        PersistPtr     m_ppPersist;         // Conduit for I/O
+        std::string    m_Name ;             // Molecule name.
+        std::string    m_Description;       // Longer description for the structure
+
+        //Molecule(const Molecule&) ;
+        //Molecule& operator=(const Molecule&) ;
+
+    public:
+        Molecule(const MesmerEnv& Env) ;
+        virtual ~Molecule();
+
+        // Initialize Molecule.
+        virtual bool InitializeMolecule(PersistPtr pp);
+
+        PersistPtr  getPersistentPointer();
+        void setPersistentPointer(PersistPtr value);
+        std::string getName() const;
+        std::string getDescription() const;
+        const MesmerEnv& getEnv() const;
+        int    getFlag() ;
+        void   setName(string name) ;
+        void   setFlag(bool value) ;
+    };
+
+    //**************************************************
+    class SinkMolecule : public Molecule
+    {
+    public:
+        SinkMolecule(const MesmerEnv& Env);
+        virtual ~SinkMolecule();
+
+        // Initialize BathGasMolecule.
+        virtual bool InitializeMolecule(PersistPtr pp);
+
+        virtual double get_zpe();
+        void set_zpe(double value);
+
+    private:
+        double         m_ZPE ;              // Zero Point Energy. (kJ/mol)
+
+        //================================================
+        // CHECK FOR INPUTFILE PARAMETERS
+        int m_ZPE_chk;
+        //================================================
+
+    };
+
+    //**************************************************
+    class BathGasMolecule : public Molecule
+    {
+    public:
+        BathGasMolecule(const MesmerEnv& Env);
+        virtual ~BathGasMolecule();
+        // Initialize BathGasMolecule.
+        virtual bool InitializeMolecule(PersistPtr pp);
+
+        double getMass() ;
+        void   setMass(double value);
+        double getSigma() ;
+        void   setSigma(double value);
+        double getEpsilon() ;
+        void   setEpsilon(double value);
+
+
+    private:
+        double         m_Mass ;             // Mass.
+        double         m_Sigma ;            // Lennard-Jones sigma.
+        double         m_Epsilon ;          // Lennard-Jones epsilon.
+
+        //================================================
+        // CHECK FOR INPUTFILE PARAMETERS
+        int m_Mass_chk;
+        int m_Sigma_chk;
+        int m_Epsilon_chk;
+        //================================================
+
+    };
+
+    //**************************************************
+    ///Molecule with multiple energy states. Probably not instantiated itself
+    class ModelledMolecule : public Molecule
+    {
+    private:
+        //
+        // Molecular properties.
+        //
+        double m_Mass ;             // Mass.
+        double m_RotCstA ;          // Moment of inertia A.
+        double m_RotCstB ;          // Moment of inertia B.
+        double m_RotCstC ;          // Moment of inertia C.
+        double m_Sym ;              // Rotational symmetry number.
+        double m_ZPE ;              // Zero Point Energy. (kJ/mol)
+        double m_scaleFactor ;      // scale factor for input real/imaginary vibrational frequencies
+        int    m_SpinMultiplicity ; // spin multiplicity
+        double m_grnZpe ;           // Zero point energy expressed in grains.
+        int    m_cellOffset ;       // Shift of cells for integral number of grains in a well
+
+        DensityOfStatesCalculator *m_pDensityOfStatesCalculator ;
+
+        double m_initPopulation ;   // initial population of the molecule.
+        double m_eqFraction ;       // equilibrium fraction of the species
+
+        //================================================
+        // CHECK FOR INPUTFILE PARAMETERS
+        int m_Mass_chk;
+        int m_RC_chk;
+        int m_Sym_chk;
+        int m_ZPE_chk;
+        int m_scaleFactor_chk;
+        int m_SpinMultiplicity_chk;
+        int m_VibFreq_chk;
+        int m_grnZpe_chk;
+        //================================================
+
+        std::vector<double> m_eleExc; //Electronic excitation(for OH, NO, NS otherwise no memeber).
+        std::vector<double> m_VibFreq ;          // Values of vibrational frequencies.
+
+    public:
+        //
+        // Cell and grain averages.  Note: raw array used for efficiency,
+        // but need to test validity of this. SHR 5/Jan/03.
+        //
+        std::vector<double> m_cellEne ;          // Cell energy array.
+        std::vector<double> m_cellDOS ;          // Cell density of states array.
+        std::vector<double> m_grainEne ;         // Grain average energy array.
+        std::vector<double> m_grainDOS ;         // Grain density of states array.
+
+        //----------------
+        ModelledMolecule(const MesmerEnv& Env);
+        virtual ~ModelledMolecule();
+
+        // Initialize ModelledMolecule.
+        virtual bool InitializeMolecule(PersistPtr pp);
+
+        // Get the density of states.
+        void getCellDensityOfStates(std::vector<double> &cellDOS) ;
+
+        // Get cell energies.
+        void getCellEnergies(std::vector<double> &CellEne) ;
+
+        // Get grain density of states.
+        void getGrainDensityOfStates(std::vector<double> &grainDOS) ;
+
+        // Get grain energies.
+        void getGrainEnergies(std::vector<double> &grainEne) ;
+
+        // Get Electronic excitations
+        void getEleExcitation(vector<double> &elecExci);
+
+        // Get Grain canonical partition function.
+        double rovibronicGrnCanPrtnFn() ;
+
+        // Calculate Density of states
+        bool calcDensityOfStates();
+
+        // Calculate classical energy
+        double getClassicalEnergy();
+
+        // shift cell DOS and energy vectors according to m_cellOffset
+        void shiftCells(std::vector<double>& shiftedCellDOS, std::vector<double>& shiftedCellEne);
+
+        // Accessors.
+        double getMass() ;
+        void   setMass(double value);
+        double get_relative_ZPE();
+        virtual double get_zpe();
+        double get_scaleFactor();
+        void set_zpe(double value);
+        void set_scaleFactor(double value);
+        double get_Sym(void);
+        int test_rotConsts(void);
+        int  get_rotConsts(std::vector<double> &mmtsInt);
+        void set_grnZpe(double grnZpe); // with respect to the minimum of all wells, default zero.
+        virtual const int get_grnZpe();
+        virtual void get_VibFreq(std::vector<double>& vibFreq);
+
+        double getInitPopulation() const { return m_initPopulation;};
+        void setInitPopulation(double value) { m_initPopulation = value;};
+        double getEqFraction() const { return m_eqFraction;};
+        void setEqFraction(double value){ m_eqFraction = value;};
+
+        virtual DensityOfStatesCalculator* get_DensityOfStatesCalculator();
+        void set_DensityOfStatesCalculator(DensityOfStatesCalculator* value);
+
+        virtual int getSpinMultiplicity();
+        void   setSpinMultiplicity(int value);
+
+        // Calculate the average grain energy and then number of states per grain.
+        void calcGrainAverages(const std::vector<double>& shiftedCellDOS, const std::vector<double>& shiftedCellEne) ;
+
+        // Test the rovibrational density of states.
+        virtual void testDensityOfStates() ;
+
+        void set_grainValues(double relativeZPE);
+
+        int get_cellOffset(void) const {return m_cellOffset ;} ;
+
+    } ;
+
+    //**************************************************
+    ///Transition states have no collisional properties
+    class TransitionState : public ModelledMolecule
+    {
+        double m_ImFreq;            // Imaginary frequency of this barrier (For tunneling in QM calculations)
+        //================================================
+        // CHECK FOR INPUTFILE PARAMETERS
+        int m_ImFreq_chk;
+        //================================================
+
+    public:
+        TransitionState(const MesmerEnv& Env);
+        virtual ~TransitionState();
+
+        // Initialize TransitionState.
+        virtual bool InitializeMolecule(PersistPtr pp);
+        double get_ImFreq();
+
+    };
+
+    //**************************************************
+    ///For most molecules
+    class CollidingMolecule : public ModelledMolecule
+    {
+
+    private:
+
+        //-------------------------------
+        // Variables:
+        // Collision operator properties.
+        //
+        double              m_Sigma ;            // Lennard-Jones sigma.
+        double              m_Epsilon ;          // Lennard-Jones epsilon.
+
+        double              m_DeltaEdown ;         // <Delta E down> for the exponential down model.
+        double              m_collisionFrequency ; // Current value of collision frequency.
+        int                 m_ncolloptrsize ;      // Size of the collision operator matrix.
+        DistributionCalculator* m_pDistributionCalculator;
+
+        //================================================
+        // CHECK FOR INPUTFILE PARAMETERS
+        int m_Sigma_chk;
+        int m_Epsilon_chk;
+        int m_DeltaEdown_chk;
+        //================================================
+
+        double m_grainFracBeta;                    // beta used to calculate grain distribution fraction
+        std::vector<double> m_grainDist ;          // Grain distribution (not normalized)
+        dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
+
+        //-------------------------------
+        // Calculate collision frequency.
+        double collisionFrequency(double beta, const double conc, BathGasMolecule *pBathGasMolecule) ;
+        // Calculate collision operator.
+        bool   collisionOperator (double beta) ;
+
+    public:
+        CollidingMolecule(const MesmerEnv& Env);
+        virtual ~CollidingMolecule();
+
+        // Initialize CollidingMolecule.
+        virtual bool InitializeMolecule(PersistPtr ppp);
+
+        // Initialize the Collision Operator.
+        bool initCollisionOperator(double beta, BathGasMolecule *pBathGasMolecule) ;
+
+        // Normalize the Collision Operator.
+        void normalizeCollisionOperator();
+
+        // Calculate a reaction matrix element.
+        double matrixElement(int eigveci, int eigvecj, std::vector<double> &k, int ndim) ;
+
+        void copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
+
+        // Get Grain Boltzmann distribution.
+        void grainDistribution(vector<double> &grainFrac, const int numberOfGrains);
+        void normalizedGrainDistribution(vector<double> &grainFrac, const int numberOfGrains) ;
+
+        // Accessors.
+        double getSigma() ;
+        void   setSigma(double value);
+        double getEpsilon() ;
+        void   setEpsilon(double value);
+        double get_collisionFrequency() const ;
+        void set_colloptrsize(int ncolloptrsize) ;
+        int  get_colloptrsize() const ;
+        void   setDeltaEdown(double value);
+        double getDeltaEdown();
+        void set_DistributionCalculator(DistributionCalculator* value);
+        DistributionCalculator* get_DistributionCalculator();
+    };
+
+    // class representing pair of molecules participating one association reaction
+    // this class should account for their density of states as a convolution
+    class SuperMolecule : public ModelledMolecule
+    {
+    private:
+        double m_ERConc; // Concentration of the excess reactant
+
+    public:
+        ModelledMolecule* m_mol1;
+        ModelledMolecule* m_mol2;
+
+        SuperMolecule(const MesmerEnv& Env);
+        virtual ~SuperMolecule();
+
+        // Initialize SuperMolecule.
+        virtual bool InitializeMolecule(PersistPtr pp);
+
+        // Accessors.
+
+        // set composing member of the SuperMolecule, also copy necessary properties
+        int getSpinMultiplicity();
+        void get_VibFreq(std::vector<double>& vibFreq);
+        virtual double get_zpe();
+        DensityOfStatesCalculator* get_DensityOfStatesCalculator();
+        void setMembers(ModelledMolecule* mol1p, ModelledMolecule* mol2p);
+        double getExcessReactantConc() const  { return m_ERConc ; } ;
+        void setExcessReactantConc(double value) { m_ERConc = value;};
+        ModelledMolecule* getMember1(){ return m_mol1 ; } ;
+        ModelledMolecule* getMember2(){ return m_mol2 ; } ;
+
+        //virtual void testDensityOfStates(const MesmerEnv &m_Env) ;
+
+    };
 
 }//namespace
 
