@@ -66,9 +66,6 @@ namespace mesmer
         // Product information:
         virtual SuperMolecule* get_bi_molecularspecies(void) const {return NULL ; } ;
 
-        // Get the principal source reactant (i.e. reactant not in excess) if it exists.
-        virtual ModelledMolecule *get_pseudoIsomer(void) const {return NULL ; } ;
-
         // Get the imaginary frequency of the transitions state.
         double get_TSImFreq(void) const {return m_TransitionState->get_ImFreq() ; } ;
 
@@ -107,6 +104,9 @@ namespace mesmer
 
         // Add reaction terms to collision matrix.
         virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) = 0 ;
+
+        // Calculate reaction equilibrium constant.
+        virtual double calcEquilibriumConstant() = 0 ;
 
     protected:
 
@@ -154,9 +154,6 @@ namespace mesmer
 
         // Grain average microcanonical rate coefficients.
         bool grnAvrgMicroRateCoeffs();
-
-        // Calculate reaction equilibrium constant.
-        virtual double calcEquilibriumConstant() = 0 ;
 
         // Read parameters requires to determine reaction heats and rates.
         virtual bool ReadRateCoeffParameters(PersistPtr ppReac) = 0;

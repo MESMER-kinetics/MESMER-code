@@ -46,10 +46,10 @@ namespace mesmer
         virtual double get_relative_pdtZPE() const {return m_pdt1->get_zpe() - getEnv().EMin;}
         virtual double get_relative_TSZPE(void) const {return m_TransitionState->get_zpe() - getEnv().EMin;};
 
-    private:
-
         // Calculate reaction equilibrium constant.
         virtual double calcEquilibriumConstant() ;
+
+    private:
 
         // Add reaction terms to collision matrix.
         virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;

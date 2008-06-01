@@ -18,42 +18,72 @@
 
 namespace mesmer
 {
-class dMatrix : public Matrix<double> {
+	class dMatrix : public Matrix<double> {
 
-public:
+	public:
 
-  // Constructor
-  dMatrix(int n) : Matrix<double>(n, 0.0) { } ;
+		// Constructor
+		dMatrix(int n) : Matrix<double>(n, 0.0) { } ;
 
-  // Wrapped call to LAPACK routine to diagonalise matrix.
-  void diagonalize(double *rr) {
+		//
+		// Wrapped call to EISPACK routine to diagonalise matrix.
+		//
+		void diagonalize(double *rr) {
 
-    int size ;
-    size = static_cast<int>(m_msize) ;
+			int size ;
+			size = static_cast<int>(m_msize) ;
 
-    //  Allocate memory for work array
-    double *work = new double[size] ;
-    double *rrProxy = new double[size] ;
-    
-    tred2(m_matrix, size, rrProxy, work) ;
-    tqli(rrProxy, work, size, m_matrix) ;
+			//  Allocate memory for work array
+			double *work = new double[size] ;
+			double *rrProxy = new double[size] ;
 
-    for (int i = 0; i < size; ++i){
-      rr[i] = to_double(rrProxy[i]);
-    }
-    delete [] work ;
-  }
+			tred2(m_matrix, size, rrProxy, work) ;
+			tqli(rrProxy, work, size, m_matrix) ;
 
-private:
+			for (int i = 0; i < size; ++i){
+				rr[i] = to_double(rrProxy[i]);
+			}
 
-  //
-  // EISPACK methods for diagonalizing matrix.
-  //
-  void    tred2   (double **a, int n, double *d, double *e) ;
-  void    tqli    (double *d, double *e, int n, double **z) ;
-  double  pythag  (double a, double b) ;
+			delete [] work ;
+			delete [] rrProxy ;
 
-} ;
+		}
+
+		// 
+		// Solve a set of linear equations with a single right hand side.
+		//
+		void solveLinearEquationSet(double *rr) {
+
+			int size ;
+			size = static_cast<int>(m_msize) ;
+
+			//  Allocate memory for work array
+			int *indx = new int[size] ;
+
+			double d ;
+			ludcmp(m_matrix, size, indx, d) ;
+			lubksb(m_matrix, size, indx, rr) ;
+
+			delete [] indx ;
+
+		};
+
+	private:
+
+		//
+		// EISPACK methods for diagonalizing matrix.
+		//
+		void    tred2   (double **a, int n, double *d, double *e) ;
+		void    tqli    (double *d, double *e, int n, double **z) ;
+		double  pythag  (double a, double b) ;
+
+		//
+		// NR LU methods for linear equation solving.
+		//
+		void ludcmp(double **a,  int n, int *indx, double d) ;
+		void lubksb(double **a,  int n, int *indx, double* b) ;
+
+	} ;
 
 }//namespacer mesmer
 

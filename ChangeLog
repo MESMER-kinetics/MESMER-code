@@ -1,6 +1,10 @@
 
 2008-6-01 Struan Robertson
 
+  * dMatrix.h: Introduction of inversion method and other minor changes requied to remove Supermolecules.
+
+2008-6-01 Struan Robertson
+
   * Reaction.h: Moved reactant definitions onto to derived classes.
   * Minor tidying up.
 

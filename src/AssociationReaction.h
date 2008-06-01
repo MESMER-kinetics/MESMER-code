@@ -55,7 +55,7 @@ namespace mesmer
     virtual SuperMolecule* get_bi_molecularspecies(void) const {return m_srct ; } ;
 
     // Get the principal source reactant (i.e. reactant not in excess).
-    virtual ModelledMolecule *get_pseudoIsomer(void) const {return m_pdt1 ; } ;
+    virtual ModelledMolecule *get_pseudoIsomer(void) const {return m_rct1 ; } ;
 
     // return relative reactant, product and transition state zero-point energy
     virtual double get_relative_rctZPE() const {return m_rct1->get_zpe() + m_rct2->get_zpe() - getEnv().EMin;}
@@ -68,10 +68,10 @@ namespace mesmer
     In ILT, not the theoretical threshold energy but the experimental activation energy is used. 
     This function returns user defined m_ActivationEnergy, otherwise zero. */
 
-  private:
-
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
+
+  private:
 
     // Add reaction terms to collision matrix.
     virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
