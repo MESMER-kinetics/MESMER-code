@@ -2,6 +2,10 @@
 
 * updates to manual
 
+2008-6-01 Dave Glowacki
+
+* updates to manual
+
 _2008_06_02__10_08_50_ Chi-Hsiu Liang
 
 * Minor modification to   bool ReactionManager::timeEvolution(int maxTimeStep, const MesmerEnv mEnv)
