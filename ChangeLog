@@ -1,3 +1,6 @@
+_2008_06_02__10_08_50_ Chi-Hsiu Liang
+
+* Minor modification to   bool ReactionManager::timeEvolution(int maxTimeStep, const MesmerEnv mEnv)
 
 2008-6-01 Struan Robertson
 

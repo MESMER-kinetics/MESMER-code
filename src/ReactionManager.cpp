@@ -552,6 +552,7 @@ namespace mesmer
 
     // populations calculated here
     db2D grainedProfile(smsize, maxTimeStep); // numbers inside the parentheses are dummies
+    vector<double> totalProductPop(maxTimeStep, 0.);
     vector<double> work2(smsize, 0.);
     for (int timestep = 0; timestep < maxTimeStep; ++timestep){
       double numColl = m_meanOmega * timePoints[timestep];
@@ -564,7 +565,9 @@ namespace mesmer
           sum += work2[l] * sysCollOptr[j][l];
         }
         grainedProfile[j][timestep] = sum;
+        totalProductPop[timestep] += grainedProfile[j][timestep];
       }
+      totalProductPop[timestep] = 1.0 - totalProductPop[timestep];
     }
 
     //------------------------------
@@ -607,16 +610,23 @@ namespace mesmer
     for (jpos = numMap1.begin(); jpos != numMap1.end(); ++jpos, ++j){
       int idx = jpos->first;
       int colloptrsize = (jpos->second)->get_colloptrsize();
-      ctest << (jpos->second)->getName() << " ";
       for (int timestep = 0; timestep < maxTimeStep; ++timestep){
         for (int i = 0; i < colloptrsize; ++i){
           speciesProfile[j][timestep] += grainedProfile[i + idx][timestep];
         }
+      }
+    }
+    
+    // print isomer terms
+    for (jpos = numMap1.begin(), j = 0; jpos != numMap1.end(); ++jpos, ++j){
+      ctest << (jpos->second)->getName() << " ";
+      for (int timestep = 0; timestep < maxTimeStep; ++timestep){
         formatFloat(ctest, speciesProfile[j][timestep], 6,  15);
       }
       ctest << endl;
     }
 
+    // printing source terms
     Reaction::sourceMap::iterator kpos;
     std::map<int, SuperMolecule*> numMap2;
     for (kpos = m_sources.begin(); kpos != m_sources.end(); ++kpos){
