@@ -432,7 +432,7 @@ namespace mesmer
     }
 
     //
-    // Get grain distribution.
+    // calculates p(E)*exp(-EB)
     //
     void CollidingMolecule::grainDistribution(vector<double> &grainFrac, const int numberOfGrains)
     {

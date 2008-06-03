@@ -368,6 +368,8 @@ namespace mesmer
     // A sink term's equilibrium population is not calculated, because there is no equilibrium for a reaction with a sink term.
 
     // Loop through all isomers in the system giving their partition function values as their equilibrium fraction.
+
+    // this is for iterating through isomers to get partition ftn ratios of a given isomer wrt to other isomers
     Reaction::isomerMap::iterator ipos;
     for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
       CollidingMolecule* pI1 = ipos->first;
@@ -377,27 +379,28 @@ namespace mesmer
       for (jpos = m_isomers.begin(); jpos != m_isomers.end(); ++jpos){
         if (jpos->first != pI1){
           CollidingMolecule* pI2 = jpos->first;
-          const long double HeatDiff = pI2->get_zpe() - pI1->get_zpe();
+          const long double ZPEDiff = pI2->get_zpe() - pI1->get_zpe();
           const long double prtFn2 = pI2->rovibronicGrnCanPrtnFn();
-          const long double prtFn21 = prtFn2 / prtFn1 * exp(-beta * HeatDiff);
+          const long double prtFn21 = prtFn2 / prtFn1 * exp(-beta * ZPEDiff);
           eqFrac += prtFn21;
         }
       }
+    // this is for iterating through isomers to get partition ftn ratios of a given isomer wrt to sources
       Reaction::sourceMap::iterator kpos;
       for (kpos = m_sources.begin(); kpos != m_sources.end(); ++kpos){
         SuperMolecule* pS2 = kpos->first;
-        const long double HeatDiff = pS2->get_zpe() - pI1->get_zpe();
+        const long double ZPEDiff = pS2->get_zpe() - pI1->get_zpe();
         const long double prtFn2 = pS2->rovibronicGrnCanPrtnFn();
         const long double trCon2 = translationalContribution((pS2->getMember1())->getMass(), (pS2->getMember2())->getMass(), beta);
         const long double excess2 = pS2->getExcessReactantConc();
-        const long double prtFn21 = prtFn2 * trCon2 / (prtFn1 * excess2) * exp(-beta * HeatDiff);
+        const long double prtFn21 = prtFn2 * trCon2 / (prtFn1 * excess2) * exp(-beta * ZPEDiff);
         eqFrac += prtFn21;
       }
       eqFrac = 1.0 / eqFrac;
       pI1->setEqFraction(eqFrac);
       ctest << "Equilibrium Fraction for " << pI1->getName() << " = " << eqFrac << endl;
     }
-
+    // this is for iterating through sources to get partition ftn ratios of a given source wrt to other isomers
     Reaction::sourceMap::iterator spos;
     for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
       SuperMolecule* pSx = spos->first;
@@ -408,20 +411,21 @@ namespace mesmer
       Reaction::isomerMap::iterator jpos;
       for (jpos = m_isomers.begin(); jpos != m_isomers.end(); ++jpos){
         CollidingMolecule* pIy = jpos->first;
-        const long double HeatDiff = pIy->get_zpe() - pSx->get_zpe();
+        const long double ZPEDiff = pIy->get_zpe() - pSx->get_zpe();
         const long double prtFn2 = pIy->rovibronicGrnCanPrtnFn();
-        const long double prtFn21 = prtFn2 * excess1/ (prtFn1 * trCon1) * exp(-beta * HeatDiff);
+        const long double prtFn21 = prtFn2 * excess1/ (prtFn1 * trCon1) * exp(-beta * ZPEDiff);
         eqFrac += prtFn21;
       }
+     // this is for iterating through sources to get partition ftn ratios of a given source wrt to other sources
       Reaction::sourceMap::iterator kpos;
       for (kpos = m_sources.begin(); kpos != m_sources.end(); ++kpos){
         if (kpos->first != pSx){
           SuperMolecule* pSy = kpos->first;
-          const long double HeatDiff = pSy->get_zpe() - pSx->get_zpe();
+          const long double ZPEDiff = pSy->get_zpe() - pSx->get_zpe();
           const long double prtFn2 = pSy->rovibronicGrnCanPrtnFn();
           const long double trCon2 = translationalContribution((pSy->getMember1())->getMass(), (pSy->getMember2())->getMass(), beta);
           const long double excess2 = pSy->getExcessReactantConc();
-          eqFrac += prtFn2 * trCon2 * excess1 / (prtFn1 * trCon1 * excess2) * exp(-beta * HeatDiff);
+          eqFrac += prtFn2 * trCon2 * excess1 / (prtFn1 * trCon1 * excess2) * exp(-beta * ZPEDiff);
         }
       }
       eqFrac = 1.0 / eqFrac;
@@ -502,6 +506,7 @@ namespace mesmer
     int smsize = int(m_pSystemCollisionOperator->size());
 
     double maxEvoTime = 0.;
+   // set the default maximum evolution time
     if (mEnv.maxEvolutionTime <= 0. || mEnv.maxEvolutionTime > 1.0e8)
       maxEvoTime = 1.0e8;
     else
