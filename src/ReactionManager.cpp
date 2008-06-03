@@ -444,20 +444,19 @@ namespace mesmer
       SuperMolecule* source = spos->first;
       populationSum += (source->getMember1())->getInitPopulation();
     }
-
+    
     for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
       CollidingMolecule* isomer = ipos->first;
-      double initFrac = isomer->getInitPopulation() / populationSum;
-      int location = ipos->second;
-      const double eqFrac = isomer->getEqFraction();
-      const int colloptrsize = isomer->get_colloptrsize();
-      vector<double> boltzFrac;
-      isomer->normalizedGrainDistribution(boltzFrac, colloptrsize);
-      for (int i = 0; i < colloptrsize; ++i){
-        eqFracCoeff[i + location] = sqrt(boltzFrac[i] * eqFrac);
-      }
+      double initFrac = isomer->getInitPopulation();
       if (initFrac != 0.0){
+        initFrac /= populationSum;
+        int location = ipos->second;
+        const double eqFrac = isomer->getEqFraction();
+        const int colloptrsize = isomer->get_colloptrsize();
+        vector<double> boltzFrac;
+        isomer->normalizedGrainDistribution(boltzFrac, colloptrsize);
         for (int i = 0; i < colloptrsize; ++i){
+          eqFracCoeff[i + location] = sqrt(boltzFrac[i] * eqFrac);
           initDist[i + location] = sqrt(initFrac * boltzFrac[i] / eqFrac);
         }
       }
@@ -478,8 +477,6 @@ namespace mesmer
       isomer->normalizedGrainDistribution(boltzFrac, colloptrsize);
       for (int i = 0; i < colloptrsize; ++i){
         eqFracCoeff[i + location] = sqrt(boltzFrac[i] * eqFrac);
-      }
-      for (int i = 0; i < colloptrsize; ++i){
         initDist[i + location] = sqrt(initFrac * boltzFrac[i] / eqFrac);
       }
     }

@@ -1,3 +1,9 @@
+_2008_06_03__09_50_25_ Chi-Hsiu Liang
+
+  * Correction on the Boltzmann distribution on symmetrizing collision operator of CollidingMolecule
+  * Removed unnecessary code in IsomerizationReaction.cpp
+  * Corrected   bool ReactionManager::produceInitialPopulationVector()
+
 2008-6-01 Dave Glowacki
 
 * updates to manual

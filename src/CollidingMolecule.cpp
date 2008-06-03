@@ -271,10 +271,9 @@ namespace mesmer
 
         // Symmetrization of the collision matrix.
         vector<double> popDist; // grained population distribution
-        grainDistribution(popDist, m_ncolloptrsize);
-        for (unsigned int idx(0); idx < popDist.size(); ++idx)
-            popDist[idx] = sqrt(popDist[idx]);
-
+        for (int idx(0); idx < m_ncolloptrsize; ++idx){
+          popDist.push_back(sqrt(exp(log(m_grainDOS[idx]) - beta * m_grainEne[idx] + 10.0)));
+        }
         for ( i = 1 ; i < m_ncolloptrsize ; ++i ) {
             for ( j = 0 ; j < i ; ++j ) {
                 (*m_egme)[j][i] *= popDist[i]/popDist[j] ;

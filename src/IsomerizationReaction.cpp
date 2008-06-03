@@ -25,22 +25,14 @@ namespace mesmer
     m_ppPersist = ppReac;
 
     // Read reactant details.
-
     PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
     Molecule* pMol1 = GetMolRef(ppReactant1);
     if(!pMol1){
-      cerr << "Isomerizaton reaction " << getName() << " has no reactant.";
-      return false;
-    }
-    PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
-    if(ppReactant2)
-    {
-      cerr << "Isomerizaton reaction " << getName() << " has more than one reactant.";
+      cerr << "Cannot get reactant definition for Isomerization reaction " << getName() << ".";
       return false;
     }
 
     // Save reactant as CollidingMolecule.
-
     CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
     if(pColMol){
       m_rct1 = pColMol;
@@ -50,22 +42,14 @@ namespace mesmer
     }
 
     //Read product details.
-
     PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
     pMol1 = GetMolRef(ppProduct1);
     if (!pMol1) {
-      cerr << "Isomerizaton reaction " << getName() << " has no product.";
-      return false;
-    }
-    PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
-    if(ppProduct2)
-    {
-      cerr << "Isomerizaton reaction " << getName() << " has more than one product.";
+      cerr << "Cannot get product definition for Isomerization reaction " << getName() << ".";
       return false;
     }
 
     // Save product as CollidingMolecule.
-
     pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
     if(pColMol){
       m_pdt1 = pColMol;
