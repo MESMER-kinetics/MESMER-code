@@ -1,0 +1,19 @@
+digraph "source tree" {
+    overlap=scale;
+    size="7,10";
+    ratio="fill";
+    fontsize="16";
+    fontname="Helvetica";
+	clusterrank="local";
+	"example3.cc" -> "fftw++.h"
+	"example1r.cc" -> "fftw++.h"
+	"example0r.cc" -> "fftw++.h"
+	"example1.cc" -> "fftw++.h"
+	"example2r.cc" -> "fftw++.h"
+	"fftw++.cc" -> "fftw++.h"
+	"example0.cc" -> "fftw++.h"
+	"example3r.cc" -> "fftw++.h"
+	"convolution.cc" -> "convolution.h"
+	"example2.cc" -> "fftw++.h"
+	"convolution.h" -> "fftw++.h"
+}

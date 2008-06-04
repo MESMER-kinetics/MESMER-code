@@ -1,0 +1,15 @@
+Finish the documentation.
+
+More performance benchmarking & optimization, especially on the Cray
+(and other large machines).
+
+Test program should also check SCRAMBLED_IN/SCRAMBLED_OUT 1d case.
+
+rank==1 r2c/c2r? This is tricky, but should be doable with a scrambled
+transpose mode.
+
+Multi-dimensional block distributions.  (From a performance
+perspective, 1d block distributions seem theoretically superior when
+they are possible, but the problem is that they limit the
+parallelization to the size of the largest dimension.  This is
+especially problematic for high-dimensional transforms.)

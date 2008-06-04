@@ -9,7 +9,9 @@
 //
 //-------------------------------------------------------------------------------------------
 #include <cmath>
+#include <climits>
 #include <stdio.h>
+#include <vector>
 #include "dMatrix.h"
 
 //-------------------------------------------------------------------------------------------
@@ -254,9 +256,9 @@ label_1: return(p);
 
         double *work = new double[n] ;
         d = 1.0 ;
-        for (i = 1; i < n ; i++) {
+        for (i = 1; i < n ; ++i) {
             big = 0.0 ;
-            for (j = 0; j < n ; j++) {
+            for (j = 0; j < n ; ++j) {
                 if ((temp = fabs(a[i][j])) > big)
                     big = temp ;
             }
@@ -267,18 +269,18 @@ label_1: return(p);
             work[i] = 1.0/big ;
         }
 
-        for (j = 0; j < n ; j++) {
-            for (i = 0; i < j ; i++) {
+        for (j = 0; j < n ; ++j) {
+            for (i = 0; i < j ; ++i) {
                 sum = a[i][j] ;
-                for (k = 0; k < i ; k++) 
+                for (k = 0; k < i ; ++k)
                     sum -= a[i][k]*a[k][j] ;
 
                 a[i][j] = sum ;
             }
             big = 0.0 ;
-            for (i = j; i < n; i++) {
+            for (i = j; i < n; ++i) {
                 sum = a[i][j] ;
-                for (k = 0; k < j ; k++) 
+                for (k = 0; k < j ; ++k)
                     sum -= a[i][k]*a[k][j] ;
 
                 a[i][j] = sum ;
@@ -289,7 +291,7 @@ label_1: return(p);
                 }
             }
             if (j != imax) {
-                for (k = 0; k < n; k++) {
+                for (k = 0; k < n; ++k) {
                     dum = a[imax][k] ;
                     a[imax][k] = a[j][k] ;
                     a[j][k] = dum ;
@@ -303,7 +305,7 @@ label_1: return(p);
 
             if (j != n-1) {
                 dum = 1.0/(a[j][i]) ;
-                for (i = j+1; i < n; i++)
+                for (i = j+1; i < n; ++i)
                     a[i][j] = dum ;
             }
 
@@ -318,25 +320,114 @@ label_1: return(p);
         int i, ii = 0, ip, j ;
         double sum ;
 
-        for (i = 0; i < n; i++) {
+        for (i = 0; i < n; ++i) {
             ip = indx[i] ;
             sum = b[ip] ;
             b[ip] = b[i] ;
             if (ii != 0) {
-                for (j = ii-1; j < i; j++) 
+                for (j = ii-1; j < i; ++j)
                     sum -= a[i][j]*b[j] ;
             } else {
-                if (sum != 0.0) 
+                if (sum != 0.0)
                     ii = i+1 ;
                 b[i] = sum ;
             }
         }
         for (i = n-1; i >= 0; i--) {
             sum = b[i] ;
-            for (j=i+1; j < n; j++) 
+            for (j=i+1; j < n; ++j)
                 sum -= a[i][j]*b[j] ;
             b[i] = sum/a[i][j] ;
         }
     }
+
+  int dMatrix::invert(double** matrix, const int n){
+  /*######################################################################
+    Author: Chi-Hsiu Liang
+    Matrix  inversion, real symmetric a of order n.
+    Gaussian elimination with interchanges.
+    Sometimes this routine can cause problem, there is no disgnostic functions
+    inside this routine. Users have to find it out by themselves
+    To see what's the input matrix one should uncomments the section which
+    can print out the matrix.
+    (Useful checklist of whether a matrix has an inverse or not is below.
+    A. Matrix with two columns/rows completely the same does not have an inverse
+    B. Matrix with determinant zero does not have an inverse, of course this include
+    the one above.)
+    USAGE: @s_inv = invert(\@s_inv, orbNo);
+    where
+    @s_inv :a two dimensional matrix to be inverted.
+    orbNo :member of the indicated matrix.
+    ######################################################################*/
+    if (n > INT_MAX) return 2; // The matrix size is too large to process.
+    double divide, ratio;
+    std::vector<int> zeroCount(n, 0);
+
+    //-------------------------------
+    //produce a unit vector of size n, and copy the incoming matrix
+    dMatrix m2(n);
+    dMatrix m1(n);
+    for (int i = 0; i < n; ++i){
+      for (int j = 0; j < n; ++j){
+        m1[i][j] = matrix[i][j];
+        m2[i][j] = (i == j) ? 1.0 : 0.0;
+      }
+    }
+    //-------------------------------
+
+    for(int j = 0; j < n; ++j){
+      for (int i = 0; i < n; ++i){
+        if (m1[i][j] == 0.0){
+          zeroCount[j]++; if (zeroCount[j] == n) return 1;
+          /* If there is a zero column the whole array has no inverse.*/
+        }
+        else{
+          if (i < j){
+            if (m1[j][j] == 0.0){ /* Add the former row to the j'th row if the main row is empty.*/
+              for (int col = 0; col < n; ++col){
+                m1[i][col] = m1[j][col];
+                m2[i][col] = m2[j][col];
+              }
+            }
+          }
+          else if (i > j){ // Add the later row to the j'th row.
+            if (zeroCount[j] == i){
+              for (int col = j; col < 3; ++col) swap(m1[i][col], m1[j][col]);
+              for (int col = 0; col < 3; ++col) swap(m2[i][col], m2[j][col]);
+              i = j - 1; zeroCount[j] = 0;
+            }
+            else{
+              for (int col = 0; col < n; ++col){
+                m1[i][col] = m1[j][col];
+                m2[i][col] = m2[j][col];
+              }
+            }
+          }
+          //i = j;
+          else{ // in this case i = j
+            if (m1[i][j] != 1.0){
+              divide = m1[i][j];
+              for (int col = i; col < n; ++col) m1[i][col] /= divide; // normalise i'th row.
+              for (int col = 0; col < n; ++col) m2[i][col] /= divide;
+            }
+            for (int row = 0; row < n; ++row){
+              if (row == i) continue;
+              ratio = m1[row][j] / m1[i][j];
+              for (int col = i; col < n; ++col) m1[row][col] -= m1[i][col] * ratio;
+                /* Only alterations after the i'th indice are necessary*/
+              for (int col = 0; col < n; ++col) m2[row][col] -= m2[i][col] * ratio;
+            }
+          }
+        }
+      }
+    }
+
+    for(int i = 0; i < n; ++i){
+      for (int j = 0; j < n; ++j){
+        matrix[i][j] = m2[i][j];
+      }
+    }
+    return 0;
+  }
 
 }//namespacer mesmer

@@ -83,6 +83,9 @@ namespace mesmer
 		void ludcmp(double **a,  int n, int *indx, double d) ;
 		void lubksb(double **a,  int n, int *indx, double* b) ;
 
+    // Matrix inversion method by Gaussian elimination
+    int dMatrix::invert(double** matrix, const int n);
+
 	} ;
 
 }//namespacer mesmer

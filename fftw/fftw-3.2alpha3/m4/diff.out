@@ -1,0 +1,5875 @@
+diff -ru x86info-1.7/AMD/AMD.h x86info-2007-01-04/AMD/AMD.h
+--- x86info-1.7/AMD/AMD.h	2001-12-09 11:18:20.000000000 -0500
++++ x86info-2007-01-04/AMD/AMD.h	2006-09-27 19:19:21.000000000 -0400
+@@ -1,6 +1,12 @@
+ #ifndef _AMD_H
+ #define _AMD_H
+-void decode_athlon_bluesmoke(int cpunum);
+-void dump_athlon_MSR(struct cpudata *cpu);
+-void dump_k6_MSR (struct cpudata *cpu);
++extern void decode_athlon_bluesmoke(int cpunum);
++extern void dump_athlon_MSR(struct cpudata *cpu);
++extern void dump_k6_MSR (struct cpudata *cpu);
++extern void decode_powernow (struct cpudata *cpu);
++extern void show_amd_bugs(struct cpudata *cpu);
++extern void dump_PSB(struct cpudata *cpu, int maxfid, int startvid);
++
++#define MSR_CLKCTL	0xc001001b
++
+ #endif /* _AMD_H */
+diff -ru x86info-1.7/AMD/bluesmoke.c x86info-2007-01-04/AMD/bluesmoke.c
+--- x86info-1.7/AMD/bluesmoke.c	2001-12-10 12:52:15.000000000 -0500
++++ x86info-2007-01-04/AMD/bluesmoke.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,5 +1,5 @@
+ /*
+- *  $Id: bluesmoke.c,v 1.4 2001/12/10 17:52:15 davej Exp $
++ *  $Id: bluesmoke.c,v 1.6 2003/04/11 00:17:19 davej Exp $
+  *  This file is part of x86info.
+  *  (C) 2001 Dave Jones.
+  *
+@@ -26,7 +26,7 @@
+ void decode_athlon_bluesmoke(int cpunum)
+ {
+ 	unsigned long long val, val2;
+-	int banks, i;
++	unsigned int banks, i;
+ 
+ 	if (!user_is_root)
+ 		return;
+@@ -35,12 +35,20 @@
+ 		return;
+ 
+ 	if ((val & (1<<8)) == 0)
+-		printf ("Erk, MCG_CTL not present! :%llx:\n", val);
++		printf ("Erk, MCG_CTL not present! :%016llx:\n", val);
+ 
+ 	banks = val & 0xf;
+ 
+ 	printf ("Number of reporting banks : %d\n\n", banks);
+ 
++	if (read_msr(cpunum, MCG_STATUS, &val) == 1) {
++		if (val != 0) {
++			printf("            31       23       15       7 \n");
++			printf ("MCG_STATUS: ");
++			dumpmsr_bin (cpunum, MCG_STATUS, 32);
++		}
++	}
++
+ 	if (read_msr(cpunum, MCG_CTL, &val) == 1) {
+ 		printf ("MCG_CTL:\n");
+ 
+@@ -99,14 +107,14 @@
+ 
+ 	printf("           31       23       15       7 \n");
+ 	for (i=0; i<banks; i++) {
+-		printf ("Bank: %d (0x%x)\n", i, MC_CTL+i*4);
+-		printf ("MC%dCTL:    ", i);
++		printf ("Bank: %u (0x%x)\n", i, (unsigned int)MC_CTL+i*4);
++		printf ("MC%uCTL:    ", i);
+ 		dumpmsr_bin (cpunum, MC_CTL+i*4, 32);
+-		printf ("MC%dSTATUS: ", i);
++		printf ("MC%uSTATUS: ", i);
+ 		dumpmsr_bin (cpunum, MC_STATUS+i*4, 32);
+-		printf ("MC%dADDR:   ", i);
++		printf ("MC%uADDR:   ", i);
+ 		dumpmsr_bin (cpunum, MC_ADDR+i*4, 32);
+-		printf ("MC%dMISC:   ", i);
++		printf ("MC%uMISC:   ", i);
+ 		dumpmsr_bin (cpunum, MC_MISC+i*4, 32);
+ 		printf ("\n");
+ 	}
+Only in x86info-2007-01-04/AMD: bugs.c
+Only in x86info-2007-01-04/AMD: dumppsb.c
+diff -ru x86info-1.7/AMD/identify.c x86info-2007-01-04/AMD/identify.c
+--- x86info-1.7/AMD/identify.c	2001-12-10 18:52:56.000000000 -0500
++++ x86info-2007-01-04/AMD/identify.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,5 +1,5 @@
+ /*
+- *  $Id: identify.c,v 1.14 2001/12/10 23:51:58 davej Exp $
++ *  $Id: identify.c,v 1.54 2004/06/11 12:35:05 davej Exp $
+  *  This file is part of x86info.
+  *  (C) 2001 Dave Jones.
+  *
+@@ -7,6 +7,7 @@
+  *
+  *  AMD-specific information
+  *
++ * http://www.pbase.com/image/17079307/original
+  */
+ 
+ #include <stdio.h>
+@@ -15,59 +16,63 @@
+ #include "../x86info.h"
+ #include "AMD.h"
+ 
++static char *amd_nameptr;
++#define add_to_cpuname(x)	amd_nameptr += snprintf(amd_nameptr, sizeof(x), "%s", x);
++
+ static void do_assoc(unsigned long assoc)
+ {
+ 	if ((assoc & 0xff) == 255)
+-		printf ("Fully");
++		printf("Fully");
+ 	else
+-		printf ("%ld-way", assoc);
+-	printf (" associative. ");
++		printf("%lu-way", assoc);
++	printf(" associative. ");
+ }
+ 
+-static void decode_AMD_cacheinfo(int cpunum, unsigned long maxei)
++static void decode_AMD_cacheinfo(struct cpudata *cpu)
+ {
+ 	unsigned long eax, ebx, ecx, edx;
+ 
+-	if (maxei >= 0x80000005) {
++	if (cpu->maxei >= 0x80000005) {
+ 		/* TLB and cache info */
+-		cpuid (cpunum, 0x80000005, &eax, &ebx, &ecx, &edx);
++		cpuid(cpu->number, 0x80000005, &eax, &ebx, &ecx, &edx);
+ 
+-		printf ("Instruction TLB: ");
+-		do_assoc ((ebx >> 8) & 0xff);
+-		printf ("%ld entries.\n", ebx & 0xff);
+-
+-		printf ("Data TLB: ");
+-		do_assoc (ebx>>24);
+-		printf ("%ld entries.\n", (ebx >> 16) & 0xff);
+-
+-		printf ("L1 Data cache:\n\t");
+-		printf ("Size: %ldKb\t", ecx >> 24);
+-		do_assoc ((ecx >> 16) & 0xff);
+-		printf ("\n\t");
+-		printf ("lines per tag=%ld\t", (ecx >> 8) & 0xff);
+-		printf ("line size=%ld bytes.\n", ecx & 0xff);
+-
+-		printf ("L1 Instruction cache:\n\t");
+-		printf ("Size: %ldKb\t", edx >> 24);
+-		do_assoc ((edx >> 16) & 0xff);
+-		printf ("\n\t");
+-		printf ("lines per tag=%ld\t", (edx >> 8) & 0xff);
+-		printf ("line size=%ld bytes.\n", edx & 0xff);
++		printf("Instruction TLB: ");
++		do_assoc((ebx >> 8) & 0xff);
++		printf("%lu entries.\n", ebx & 0xff);
++
++		printf("Data TLB: ");
++		do_assoc(ebx >> 24);
++		printf("%lu entries.\n", (ebx >> 16) & 0xff);
++
++		printf("L1 Data cache:\n\t");
++		printf("Size: %luKb\t", ecx >> 24);
++		do_assoc((ecx >> 16) & 0xff);
++		printf("\n\t");
++		printf("lines per tag=%lu\t", (ecx >> 8) & 0xff);
++		printf("line size=%lu bytes.\n", ecx & 0xff);
++
++		printf("L1 Instruction cache:\n\t");
++		printf("Size: %luKb\t", edx >> 24);
++		do_assoc((edx >> 16) & 0xff);
++		printf("\n\t");
++		printf("lines per tag=%lu\t", (edx >> 8) & 0xff);
++		printf("line size=%lu bytes.\n", edx & 0xff);
+ 	}
+ 
+-	/* check K6-III (and later?) on-chip L2 cache size */
+-	if (maxei >= 0x80000006) {
+-		cpuid (cpunum, 0x80000006, &eax, &ebx, &ecx, &edx);
+-		printf ("L2 (on CPU) cache:\n\t");
+-		printf ("Size: %ldKb\t", ecx >> 16);
+-		do_assoc ((ecx >> 12) & 0x0f);
+-		printf ("\n\t");
+-		printf ("lines per tag=%ld\t", (ecx >> 8) & 0x0f);
+-		printf ("line size=%ld bytes.\n", ecx & 0xff);
++	/* check K6-III (and later) on-chip L2 cache size */
++	if (cpu->maxei >= 0x80000006) {
++		cpuid(cpu->number, 0x80000006, &eax, &ebx, &ecx, &edx);
++		printf("L2 (on CPU) cache:\n\t");
++		printf("Size: %luKb\t", ecx >> 16);
++		do_assoc((ecx >> 12) & 0x0f);
++		printf("\n\t");
++		printf("lines per tag=%lu\t", (ecx >> 8) & 0x0f);
++		printf("line size=%lu bytes.\n", ecx & 0xff);
+ 	}
+-	printf ("\n");
++	printf("\n");
+ }
+ 
++
+ /*
+  * Returns size of L2 cache for Duron/Athlon descrimination
+  * Assumes 0x80000006 is valid.
+@@ -75,156 +80,536 @@
+ static int getL2size(int cpunum)
+ {
+ 	unsigned long eax, ebx, ecx, edx;
+-	cpuid (cpunum, 0x80000006, &eax, &ebx, &ecx, &edx);
++	cpuid(cpunum, 0x80000006, &eax, &ebx, &ecx, &edx);
+ 	return (ecx >> 16);
+ }
+ 
+-static void dump_extended_AMD_regs(int cpunum, unsigned long maxei)
++
++static int is_mobile(struct cpudata *cpu)
+ {
+ 	unsigned long eax, ebx, ecx, edx;
+-	unsigned int i;
+-
+-	/* Dump extended info in raw hex */
+-	for (i = 0x80000000; i <= maxei; i++) {
+-		cpuid (cpunum, i, &eax, &ebx, &ecx, &edx);
+-		printf ("eax in: 0x%x, eax = %08lx ebx = %08lx ecx = %08lx edx = %08lx\n", i, eax, ebx, ecx, edx);
++	if (cpu->maxei >= 0x80000007) {
++		cpuid(cpu->number, 0x80000007, &eax, &ebx, &ecx, &edx);
++		if ((edx & (1<<1|1<<2)) == 0)
++			return 0;
++		else
++			return 1;
++	} else {
++		return 0;
+ 	}
+-	printf ("\n");
+ }
+ 
+ 
+-void Identify_AMD (unsigned int maxi, struct cpudata *cpu)
++static void determine_xp_mp(struct cpudata *cpu)
+ {
+-	char *nameptr;
+ 	unsigned long eax, ebx, ecx, edx;
+ 
+-	nameptr = cpu->name;
++	/* There are no mobile MPs. */
++	if (is_mobile(cpu)) {
++		add_to_cpuname("XP");
++		return;
++	}
++
++	cpuid(cpu->number, 0x80000001, &eax, &ebx, &ecx, &edx);
++	if ((edx & (1 << 19)) == 0) {
++		add_to_cpuname("XP");
++	} else {
++		add_to_cpuname("MP");
++	}
++}
++
++
++void Identify_AMD(struct cpudata *cpu)
++{
++	unsigned long eax, ebx, ecx, edx;
+ 
++	amd_nameptr = cpu->name;
+ 	cpu->vendor = VENDOR_AMD;
+ 
+-	if (maxi >= 0x00000001) {
+-		cpuid (cpu->number, 0x00000001, &eax, &ebx, &ecx, &edx);
+-		cpu->stepping = eax & 0xf;
+-		cpu->model = (eax >> 4) & 0xf;
+-		cpu->family = (eax >> 8) & 0xf;
+-
+-		switch (cpu->family) {
+-		case 4:
+-			switch (cpu->model) {
+-				case 3:	sprintf (cpu->name, "%s", "Am486DX2-WT");	break;
+-				case 7:	sprintf (cpu->name, "%s", "Am486DX2-WB");	break;
+-				case 8:	sprintf (cpu->name, "%s", "Am486DX4-WT / Am5x86-WT");	break;
+-				case 9:	sprintf (cpu->name, "%s", "Am486DX4-WB / Am5x86-WB");	break;
+-				case 10:sprintf (cpu->name, "%s", "Elan SC400");	break;
+-				case 0xe:sprintf (cpu->name, "%s", "Am5x86-WT");	break;
+-				case 0xf:sprintf (cpu->name, "%s", "Am5x86-WB");	break;
+-				default:sprintf (cpu->name, "%s", "Unknown CPU");	break;
++	if (cpu->maxi < 1)
++		return;
++
++	cpuid(cpu->number, 0x00000001, &eax, &ebx, &ecx, &edx);
++	cpu->stepping = eax & 0xf;
++	cpu->model = (eax >> 4) & 0xf;
++	cpu->family = (eax >> 8) & 0xf;
++	cpu->emodel = (eax >> 16) & 0xff;
++	cpu->efamily= (eax >> 20) & 0xf;
++
++	switch (cpu->family) {
++	case 4:
++		cpu->connector = CONN_SOCKET_3;
++		break;
++	}
++
++	switch (tuple(cpu) & 0xff0) {
++	case 0x430:
++		add_to_cpuname("Am486DX2-WT");
++		break;
++	case 0x470:
++		add_to_cpuname("Am486DX2-WB");
++		break;
++	case 0x480:
++		add_to_cpuname("Am486DX4-WT / Am5x86-WT");
++		break;
++	case 0x490:
++		add_to_cpuname("Am486DX4-WB / Am5x86-WB");
++		break;
++	case 0x4a0:
++		add_to_cpuname("Elan SC400");
++		break;
++	case 0x4e0:
++		add_to_cpuname("Am5x86-WT");
++		break;
++	case 0x4f0:
++		add_to_cpuname("Am5x86-WB");
++		break;
++
++	case 0x500:
++		add_to_cpuname("SSA5 (PR75/PR90/PR100)");
++		cpu->connector = CONN_SOCKET_5_7;
++		break;
++	case 0x510:
++		add_to_cpuname("K5 (PR120/PR133)");
++		cpu->connector = CONN_SOCKET_5_7;
++		break;
++	case 0x520:
++		add_to_cpuname("K5 (PR166)");
++		cpu->connector = CONN_SOCKET_5_7;
++		break;
++	case 0x530:
++		add_to_cpuname("K5 (PR200)");
++		cpu->connector = CONN_SOCKET_5_7;
++		break;
++	case 0x560:
++		add_to_cpuname("K6 (0.30 um)");
++		cpu->connector = CONN_SOCKET_7;
++		break;
++	case 0x570:
++		add_to_cpuname("K6 (0.25 um)");
++		cpu->connector = CONN_SOCKET_7;
++		break;
++	case 0x580:
++		add_to_cpuname("K6-2");
++		cpu->connector = CONN_SUPER_SOCKET_7;
++		if (cpu->stepping >= 8)
++			add_to_cpuname(" (CXT core)");
++		break;
++	case 0x590:
++		add_to_cpuname("K6-III");
++		cpu->connector = CONN_SUPER_SOCKET_7;
++		break;
++	case 0x5c0:
++		add_to_cpuname("K6-2+ (0.18um)");
++		cpu->connector = CONN_SUPER_SOCKET_7;
++		break;
++	case 0x5d0:
++		add_to_cpuname("K6-3+ (0.18um)");
++		cpu->connector = CONN_SUPER_SOCKET_7;
++		break;
++
++	case 0x600:
++		cpu->connector = CONN_SLOT_A;
++		add_to_cpuname("K7 ES");
++		break;
++
++	case 0x610:
++		cpu->connector = CONN_SLOT_A;
++		add_to_cpuname("Athlon (0.25um)");
++		switch (cpu->stepping) {
++		case 1:
++			add_to_cpuname(" [C1]");
++			break;
++		case 2:
++			add_to_cpuname(" [C2]");
++			break;
++		}
++		break;
++
++	case 0x620:
++		cpu->connector = CONN_SLOT_A;
++		add_to_cpuname("Athlon (0.18um)");
++		switch (cpu->stepping) {
++		case 1:
++			add_to_cpuname(" [A1]");
++			break;
++		case 2:
++			add_to_cpuname(" [A2]");
++			break;
++		}
++		break;
++
++	case 0x630:
++		cpu->connector = CONN_SOCKET_A;
++		add_to_cpuname("Duron (spitfire)");
++		switch (cpu->stepping) {
++		case 0:
++			add_to_cpuname(" [A0]");
++			break;
++		case 1:
++			add_to_cpuname(" [A2]");
++			break;
++		}
++		break;
++
++	case 0x640:
++		cpu->connector = CONN_SOCKET_A;
++		add_to_cpuname("Athlon (Thunderbird)");
++		switch (cpu->stepping) {
++		case 0:
++			add_to_cpuname(" [A1]");
++			break;
++		case 1:
++			add_to_cpuname(" [A2]");
++			break;
++		case 2:
++			add_to_cpuname(" [A4-A8]");
++			break;
++		case 3:
++			add_to_cpuname(" [A9]");
++			break;
++		}
++		break;
++
++	case 0x660:
++		cpu->connector = CONN_SOCKET_A;
++
++		if (is_mobile(cpu)) {
++			add_to_cpuname("Mobile Athlon 4");
++			goto out_660;
++		}
++		if (getL2size(cpu->number) < 256) {
++			add_to_cpuname("Duron (Morgan)");
++		} else {
++			add_to_cpuname("Athlon ");
++			determine_xp_mp(cpu);
++			/* Palomino
++			 * 0.18u L2=256KB
++			 * 266MHz FSB
++			 * 12%-20% faster than Athlon Thunderbird at same GHz
++			 * Power requirement reduced by 20%
++			 * Athlon XP 1500+ (Oct 2001)
++			 * Athlon XP 1600+ (Oct 2001)
++			 * Athlon XP 1700+ (Oct 2001)
++			 * Athlon XP 1800+ (Oct 2001)
++			 * Athlon XP 1900+ (Nov 2001)
++			 * Athlon XP 2000+ (Jan 2002)
++			 * Athlon XP 2100+ (Mar 2002)
++			 */
++			add_to_cpuname(" (Palomino)");
++		}
++out_660:
++		switch (cpu->stepping) {
++		case 0:
++			add_to_cpuname(" [A0-A1]");
++			break;
++		case 1:
++			add_to_cpuname(" [A2]");
++			break;
++		}
++		break;
++
++	case 0x670:
++		cpu->connector = CONN_SOCKET_A;
++		if (is_mobile(cpu))
++			add_to_cpuname("Mobile ");
++		add_to_cpuname("Duron (Morgan core)");
++		switch (cpu->stepping) {
++		case 0:
++			add_to_cpuname(" [A0]");
++			break;
++		case 1:
++			add_to_cpuname(" [A1]");
++			break;
++		}
++		break;
++
++	case 0x680:
++		cpu->connector = CONN_SOCKET_A;
++		if (is_mobile(cpu))
++			add_to_cpuname("Mobile ");
++		if (getL2size(cpu->number) < 256) {
++			add_to_cpuname("Duron ");
++		} else {
++			add_to_cpuname("Athlon ");
++			determine_xp_mp(cpu);
++		}
++		/*
++		 * Thoroughbred
++		 * 0.13u L2=256KB
++		 * Thoroughbred 'A' = 266FSB
++		 * Thoroughbred 'B' = 266FSB
++		 * Thoroughbred 'B' = 333FSB
++		 * Throughbred B has an extra layer of copper interconnects
++		 * to reduce interference.
++		 * Athlon XP1600+ (A:June 2002 B:Mar 2003)
++		 * Athlon XP1700+ (A:June 2002 B:Dec 2002)
++		 * Athlon XP1800+ (A:June 2002 B:Dec 2002)
++		 * Athlon XP1900+ (A:June 2002 B:Dec 2002)
++		 * Athlon XP2000+ (A:June 2002 B:Aug 2002)
++		 * Athlon XP2100+ (A:June 2002 B:Dec 2002)
++		 * Athlon XP2200+ (A:June 2002 B:Aug 2002)
++		 * Athlon XP2400+ (            B:Aug 2002)
++		 * Athlon XP2600+ (            B:Aug 2002 B2: Nov 2002)
++		 * Athlon XP2700+ (                       B2: Oct 2002)
++		 * Athlon XP2800+ (                       B2: Oct 2002)
++		 */
++		add_to_cpuname(" (Thoroughbred)");
++
++		if (cpu->stepping == 0)
++			add_to_cpuname("[A0]");
++		if (cpu->stepping == 1)
++			add_to_cpuname("[B0]");
++		//fab_process = ".13 micron";
++		//transistors = 37600000;
++		//die_size = "84 sq.mm";
++		break;
++
++	case 0x6a0:
++		cpu->connector = CONN_SOCKET_A;
++		if (is_mobile(cpu))
++			add_to_cpuname("Mobile ");
++		add_to_cpuname("Athlon ");
++		determine_xp_mp(cpu);
++		add_to_cpuname(" (Barton)");
++		//fab_process = ".13 micron copper";
++		//transistors = 54300000;
++		//die_size = "101 sq. mm";
++		/* Barton
++		 * L2=512
++		 * 333 FSB & 400 FSB
++		 * 10%-15% faster than Athlon XP (old) with same GHz
++		 * CPU core size 20% bigger than T-bred.
++		 * 333 FSB:
++		 * Athlon XP 2500+ (Feb 2003)
++		 * Athlon XP 2600+ (June 2003)
++		 * Athlon XP 2800+ (Feb 2003)
++		 * Athlon XP 3000+ (Feb 2003)
++		 * 400 FSB:
++		 * Athlon XP 3000+ (Apr 2003)
++		 * Athlon XP 3200+ (May 2003)
++		 * Athlon XP 3400+ (Q4 2003)
++		 * Athlon XP 3600+ (Q1 2004)
++		 * Athlon XP 3800+ (Q2 2004)
++		 */
++		break;
++/*
++ * Applebred
++ * 0.13u L2=64KB
++ * 266FSB
++ * Barton grade processor modules with 64KB cache
++ *
++ * Duron 1.4 (Aug 2003)
++ * Duron 1.6 (Aug 2003)
++ * Duron 1.8 (Q4 2003)
++ */
++
++/*
++ * Socket 940
++ * Sledgehammer
++ * 0.13u
++ * L2=1mb
++ * 400FSB
++ * SOI (silicon on insulator)
++ * Registered DIMM required
++ * 25% faster than Athlon XP with same GHz
++ * Athlon 64 FX51 (Sep 2003)
++ * Athlon 64 FX53 (Nov 2003)
++ * Athlon 64 FX55 (Q4 2003)
++ */
++
++ /*
++  * Socket 754
++  * Clawhammer
++  * 0.13
++  * L2=1mb
++  * 400FSB
++  * No dual channel memory access
++  * Registered DIMM not required
++  * Athlon 64 3000+ (Oct 2003)
++  * Athlon 64 3200+ (Sep 2003)
++  * Athlon 64 3400+ (Oct 2003)
++  * Athlon 64 3700+ (Q4 2003)
++  */
++
++ /*
++  * Socket 939
++  * San Diego
++  * 90nm l2=1mb
++  * 400FSB
++  * Dual channel memory access
++  * Registered DIMM not required
++  * Athlon64 FX-57 (Q1 2004)
++  */
++
++ /*
++  * Socket 754
++  * Victoria
++  * 90nm L2=1MB
++  * 400FSB
++  * No dual channel memory access
++  * Registered DIMM not required
++  * Athlon64 3x00+ (Q3 2004)
++  */
++
++	case 0xF00:
++		cpu->connector = CONN_SOCKET_754;
++		add_to_cpuname("Athlon 64 ");
++		switch (cpu->stepping) {
++		case 0:
++			add_to_cpuname("[SH7-A0]");
++			break;
++		case 1:
++			add_to_cpuname("[SH7-A2]");
++			break;
++		}
++		break;
++
++	case 0xF10:
++		add_to_cpuname("Opteron ES ");
++		cpu->connector = CONN_SOCKET_940;
++		switch (cpu->stepping) {
++		case 0:
++			add_to_cpuname("[SH7-A0]");
++			break;
++		case 1:
++			add_to_cpuname("[SH7-A2]");
++			break;
++		}
++		break;
++
++	case 0xF40:
++		cpu->connector = CONN_SOCKET_754;
++		add_to_cpuname("Athlon 64 ");
++		switch (cpu->stepping) {
++		case 0:
++			if (cpu->emodel==0) {
++				add_to_cpuname("[SH7-B0]");
++			} else {
++				add_to_cpuname("[SH8-D0]");
+ 			}
+ 			break;
++		case 8:
++			// need to check for longmode bit. could be athlon xp 3000+.
++			//  (These are 32bit only amd64's)
++			//might be mobile
++			add_to_cpuname("[SH7-C0]");
++			break;
++		case 0xa:
++			//might be mobile
++			add_to_cpuname("[SH7-CG]");
++			break;
++		}
++		break;
+ 
+-		case 5:
+-			switch (cpu->model) {
+-				case 0:	sprintf (cpu->name, "%s", "SSA5 (PR75/PR90/PR100)");	break;
+-				case 1:	sprintf (cpu->name, "%s", "K5 (PR120/PR133)");			break;
+-				case 2:	sprintf (cpu->name, "%s", "K5 (PR166)");				break;
+-				case 3:	sprintf (cpu->name, "%s", "K5 (PR200)");				break;
+-				case 6:	sprintf (cpu->name, "%s", "K6 (0.30 um)");				break;
+-				case 7:	sprintf (cpu->name, "%s", "K6 (0.25 um)");				break;
+-				case 8:	nameptr += sprintf (cpu->name, "%s", "K6-2");
+-						if (cpu->stepping >= 8)
+-							printf (nameptr, "%s", " (CXT core)");
+-						break;
+-				case 9:	sprintf (cpu->name, "%s", "K6-III");			break;
+-				case 12:sprintf (cpu->name, "%s", "K6-2+ (0.18um)");	break;
+-				case 13:sprintf (cpu->name, "%s", "K6-3+ (0.18um)");	break;
+-				default:sprintf (cpu->name, "%s", "Unknown CPU");		break;
++	// Gar, these could also be athlon 64fx
++	case 0xF50:
++		cpu->connector = CONN_SOCKET_940;
++		add_to_cpuname("Opteron");
++		switch (cpu->stepping) {
++		case 0:
++			if (cpu->emodel==0) {
++				add_to_cpuname("[SH7-B0]");
++			} else {
++				add_to_cpuname("[SH8-D0]");
+ 			}
+ 			break;
++		case 1:
++			add_to_cpuname("[SH7-B3]");
++			break;
++		case 8:
++			add_to_cpuname("[SH7-C0]");
++			break;
++		case 0xA:
++			add_to_cpuname("[SH7-CG]");
++			break;
++		default:
++			break;
++		}
++		break;
+ 
+-		case 6:
+-			switch (cpu->model) {
+-				case 0:	sprintf (cpu->name, "%s", "K7 ES");		break;
+-				case 1:	nameptr += sprintf (cpu->name, "%s", "Athlon (0.25um)");
+-						switch (cpu->stepping) {
+-							case 1:	sprintf (nameptr, "%s", " Rev C1");	break;
+-							case 2:	sprintf (nameptr, "%s", " Rev C2");	break;
+-						}
+-					break;
+-				case 2:	nameptr += sprintf (cpu->name, "%s", "Athlon (0.18um)");
+-						switch (cpu->stepping) {
+-							case 1:	sprintf (nameptr, "%s", " Rev A1");	break;
+-							case 2:	sprintf (nameptr, "%s", " Rev A2");	break;
+-						}
+-						break;
+-				case 3:	nameptr += sprintf (cpu->name, "%s", "Duron");
+-						switch (cpu->stepping) {
+-							case 0:	sprintf (nameptr, "%s", " Rev A0");	break;
+-							case 1:	sprintf (nameptr, "%s", " Rev A2");	break;
+-						}
+-						break;
+-				case 4:	nameptr += sprintf (cpu->name, "%s", "Thunderbird");
+-						switch (cpu->stepping) {
+-							case 0:	sprintf (nameptr, "%s", " Rev A1");		break;
+-							case 1:	sprintf (nameptr, "%s", " Rev A2");		break;
+-							case 2:	sprintf (nameptr, "%s", " Rev A4-A8");	break;
+-							case 3:	sprintf (nameptr, "%s", " Rev A9");		break;
+-						}
+-						break;
+-				case 6:	switch (cpu->stepping) {
+-							case 0:	sprintf (nameptr, "%s", "Athlon 4 (Palomino core) Rev A0-A1");	break;
+-							case 1:	sprintf (nameptr, "%s", "Athlon 4 (Palomino core) Rev A2");		break;
+-							case 2:	
+-									if (getL2size(cpu->number) < 256) {
+-										sprintf (nameptr, "%s", "Mobile Duron");
+-										break;
+-									} else {
+-										cpuid (cpu->number, 0x80000001, &eax, &ebx, &ecx, &edx);
+-										if ((edx & (1<<19)) == 0) {
+-											sprintf (nameptr, "%s", "Athlon XP");
+-											break;
+-										} else {
+-											sprintf (nameptr, "%s", "Athlon MP");
+-											break;
+-										}
+-									}
+-						}
+-						break;
+-				case 7:	switch (cpu->stepping) {
+-							case 0:	sprintf (cpu->name, "%s", "Duron (Morgan core) Rev A0");	break;
+-							case 1:	sprintf (cpu->name, "%s", "Duron (Morgan core) Rev A1");	break;
+-						}
+-						break;
+-				case 8:
+-						if (getL2size(cpu->number) < 256) {
+-							sprintf (nameptr, "%s", "Duron");
+-							break;
+-						} else {
+-							cpuid (cpu->number, 0x80000001, &eax, &ebx, &ecx, &edx);
+-							if ((edx & (1<<19)) == 0) {
+-								sprintf (nameptr, "%s", "Athlon XP (Thoroughbred core)");
+-								break;
+-							} else {
+-								sprintf (nameptr, "%s", "Athlon MP (Thoroughbred core)");
+-								break;
+-							}
+-						}
+-						break;
++	case 0xF70:
++		add_to_cpuname("Athlon 64 ");
++		cpu->connector = CONN_SOCKET_939;
++		switch (cpu->stepping) {
++		case 0x0:
++			add_to_cpuname("[SH8-D0]");
++			break;
++		case 0xa:
++			add_to_cpuname("[SH7-CG]");
++			break;
++		}
++		break;
+ 
+-				default:sprintf (cpu->name, "%s", "Unknown CPU");
+-				break;
+-			}
++	case 0xF80:
++		cpu->connector = CONN_SOCKET_754;
++		add_to_cpuname("Athlon 64 ");
++		switch (cpu->stepping) {
++		case 2:
++			//might be mobile
++			add_to_cpuname("CH7-CG");
++			break;
++		}
++		break;
++
++	case 0xFB0:
++		cpu->connector = CONN_SOCKET_939;
++		add_to_cpuname("Athlon 64 ");
++		switch (cpu->stepping) {
++		case 2:
++			add_to_cpuname("CH7-CG");
++			break;
++		}
++		break;
++
++	case 0xFC0:
++		cpu->connector = CONN_SOCKET_754;
++		add_to_cpuname("Athlon 64 ");
++		switch (cpu->stepping) {
++		case 0:
++			//might be mobile
++			add_to_cpuname("DH7-CG");
++			break;
++		}
++		break;
++
++	case 0xFE0:
++		//might be mobile
++		cpu->connector = CONN_SOCKET_754;
++		add_to_cpuname("Athlon 64 ");
++		switch (cpu->stepping) {
++		case 0:
++			add_to_cpuname("DH7-CG");
++			break;
+ 		}
++		break;
++
++
++	case 0xFF0:
++		cpu->connector = CONN_SOCKET_939;
++		add_to_cpuname("Athlon 64 ");
++		switch (cpu->stepping) {
++		case 0:
++			add_to_cpuname("DH7-CG");
++			break;
++		}
++		break;
++
++	default:
++		add_to_cpuname("Unknown CPU");
++		break;
+ 	}
+ }
+ 
+ 
+-void display_AMD_info(unsigned int maxei, struct cpudata *cpu)
++void display_AMD_info(struct cpudata *cpu)
+ {
+-	unsigned long tmp;
+-	unsigned long eax, ebx, ecx, edx;
++	printf("Family: %u Model: %u Stepping: %u\n",
++	       cpu->family, cpu->model, cpu->stepping);
++	printf ("CPU Model : %s\n", cpu->name);
++	get_model_name(cpu);
+ 
+-	if (show_registers && (maxei != 0))
+-		dump_extended_AMD_regs(cpu->number, maxei);
++	decode_feature_flags(cpu);
+ 
+ 	if (show_msr) {
+ 		if (cpu->family == 5)
+@@ -236,31 +621,25 @@
+ 	if (show_bluesmoke)
+ 		decode_athlon_bluesmoke(cpu->number);
+ 
+-	if (maxei >= 0x80000001) {
+-		cpuid (cpu->number, 0x00000001, &eax, &ebx, &ecx, &tmp);
+-		cpuid (cpu->number, 0x80000001, &eax, &ebx, &ecx, &edx);
+-		decode_feature_flags (cpu, tmp, edx);
+-	}
++	if (show_cacheinfo)
++		decode_AMD_cacheinfo(cpu);
+ 
+-	printf ("Family: %d Model: %d Stepping: %d [%s]\n",
+-		cpu->family, cpu->model, cpu->stepping, cpu->name);
+-	get_model_name (maxei, cpu);
++	if (show_pm)
++		decode_powernow(cpu);
+ 
+-	if (show_cacheinfo)
+-		decode_AMD_cacheinfo(cpu->number, maxei);
++	if (show_bugs)
++		show_amd_bugs(cpu);
++
++	/* AMD Multicore characterisation */
++	if (cpu->maxei >= 0x80000008) {
++		int nr_cores;
++		unsigned long ecx;
+ 
+-	if (maxei >= 0x80000007) {
+-		cpuid (cpu->number, 0x80000007, &eax, &ebx, &ecx, &edx);
+-		printf ("PowerNOW! Technology information\n");
+-		printf ("Available features:");
+-		if (edx & 1<<0)
+-			printf ("\n\tTemperature sensing diode present.");
+-		if (edx & 1<<1)
+-			printf ("\n\tBus divisor control");
+-		if (edx & 1<<2)
+-			printf ("\n\tVoltage ID control\n");
+-		if (!(edx & (1<<0 | 1<<1 | 1<<2)))
+-			printf (" None");
+-		printf ("\n\n");
++		cpuid (cpu->number, 0x80000008, NULL, NULL, &ecx, NULL);
++		nr_cores = 1 + (ecx & 0xff);
++
++		if (nr_cores > 1)
++			printf ("The physical package has %d cores\n", nr_cores);
+ 	}
+ }
++
+diff -ru x86info-1.7/AMD/MSR-Athlon.c x86info-2007-01-04/AMD/MSR-Athlon.c
+--- x86info-1.7/AMD/MSR-Athlon.c	2001-12-10 15:17:34.000000000 -0500
++++ x86info-2007-01-04/AMD/MSR-Athlon.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,5 +1,5 @@
+ /*
+- *  $Id: MSR-Athlon.c,v 1.3 2001/12/10 20:17:34 davej Exp $
++ *  $Id: MSR-Athlon.c,v 1.5 2002/12/04 18:07:03 davej Exp $
+  *  This file is part of x86info.
+  *  (C) 2001 Dave Jones.
+  *
+@@ -20,11 +20,10 @@
+ 	if (!user_is_root)
+ 		return;
+ 
+-	printf("\t\t\t\t31       23       15       7 \n");
+ 	dumpmsr(cpu->number, 0x2A, 32);
+ 	dumpmsr(cpu->number, 0xC0000080, 32);
+ 	dumpmsr(cpu->number, 0xC0010010, 32);
+ 	dumpmsr(cpu->number, 0xC0010015, 32);
+-	dumpmsr(cpu->number, 0xC001001B, 32);
++	dumpmsr(cpu->number, MSR_CLKCTL, 32);
+ 	printf ("\n");
+ }
+diff -ru x86info-1.7/AMD/MSR-K6.c x86info-2007-01-04/AMD/MSR-K6.c
+--- x86info-1.7/AMD/MSR-K6.c	2001-12-10 15:17:34.000000000 -0500
++++ x86info-2007-01-04/AMD/MSR-K6.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,11 +1,12 @@
+ /*
+- *  $Id: MSR-K6.c,v 1.7 2001/12/10 20:17:34 davej Exp $
++ *  $Id: MSR-K6.c,v 1.10 2002/11/25 15:34:30 davej Exp $
+  *  This file is part of x86info.
+  *  (C) 2001 Dave Jones.
+  *
+  *  Licensed under the terms of the GNU GPL License version 2.
+  *
+  *  AMD-K6 specific MSR information
++ *  See 21329h1.pdf for more details.
+  *
+  */
+ 
+@@ -22,7 +23,6 @@
+ 	if (!user_is_root)
+ 		return;
+ 
+-	printf("\t\t\t\t31       23       15       7 \n");
+ 	dumpmsr(cpu->number, 0xC0000082, 32);
+ 
+ 	/* Original K6 or K6-2 (old core). */
+@@ -49,5 +49,30 @@
+ 		}
+ 	}
+ 
++	/* Dump EWBE register on K6-2 & K6-3 */
++	if ((cpu->family==5) && (cpu->model>=8)) {
++		if (read_msr (cpu->number, 0xC0000080, &val) == 1) {
++			if (val & (1<<0))
++				printf ("System call extension present.\n");
++			if (val & (1<<1))
++				printf ("Data prefetch enabled.\n");
++			else
++				printf ("Data prefetch disabled.\n");
++			printf ("EWBE mode: ");
++			switch ((val & (1<<2|1<<3|1<<4))>>2) {
++				case 0:	printf ("strong ordering (slowest performance)\n");
++					break;
++				case 1:	printf ("speculative disable (close to best performance)\n");
++					break;
++				case 2:	printf ("invalid\n");
++					break;
++				case 3:	printf ("global disable (best performance)\n");
++					break;
++			}
++		} else {
++			printf ("Couldn't read EFER register.\n");
++		}
++	}
++
+ 	printf ("\n");
+ }
+Only in x86info-2007-01-04/AMD: powernow.c
+Only in x86info-2007-01-04/AMD: powernow.h
+Only in x86info-2007-01-04/: bench
+diff -ru x86info-1.7/binary.c x86info-2007-01-04/binary.c
+--- x86info-1.7/binary.c	2001-11-21 09:22:02.000000000 -0500
++++ x86info-2007-01-04/binary.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,20 +1,30 @@
+ #include <stdio.h>
+ 
++void binary (unsigned int n, unsigned long value)
++{
++	unsigned int i;
++
++	for(i=0; i<n; i++, value<<=1)
++		(void)putchar( (1<<(n-1) & value) ? '1' : '0' );
++	(void)putchar('\n');
++}
++
+ void binary32 (unsigned long value)
+ {
+ 	int i;
+ 
+ 	for(i=0;i<32;i++,value<<=1) {
+-		putchar( (1<<31 & value) ? '1' : '0' );
++		(void)putchar( (1<<31 & value) ? '1' : '0' );
+ 
+ 		if(i==23 || i==15 || i==7)
+-			putchar(' ');
++			(void)putchar(' ');
+ 	}
+-	putchar('\n');
++	(void)putchar('\n');
+ }
+ 
+ void binary64(unsigned long long value)
+ {
+ 	binary32 (value>>32);
++	printf ("           ");
+ 	binary32 (value);
+ }
+Only in x86info-1.7/: ChangeLog
+Only in x86info-2007-01-04/: connector.c
+diff -ru x86info-1.7/cpuid.c x86info-2007-01-04/cpuid.c
+--- x86info-1.7/cpuid.c	2001-11-21 09:22:02.000000000 -0500
++++ x86info-2007-01-04/cpuid.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,24 +1,27 @@
+ /*
+- *  $Id: cpuid.c,v 1.9 2001/11/19 12:31:27 davej Exp $
++ *  $Id: cpuid.c,v 1.12 2005/04/25 20:54:12 davej Exp $
+  *	This file is part of x86info
+  *	(C) 2000, 2001 Dave Jones.
+  *	Fixes by Arjan van de Ven (arjanv@redhat.com) and
+  *	Philipp Rumpf (prumpf@mandrakesoft.com)
+  *
+- * 	Licensed under the terms of the GNU GPL License version 2.
++ *	Licensed under the terms of the GNU GPL License version 2.
+  *
+  */
+ 
++#define _LARGEFILE64_SOURCE
++
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <fcntl.h>
+ #include <sys/stat.h>
+ #include <sys/types.h>
+ #include <unistd.h>
++#include <errno.h>
+ 
+ #include "x86info.h"
+ 
+-void cpuid (int CPU_number, int index,
++void cpuid (int CPU_number, unsigned int idx,
+ 	unsigned long *eax,
+ 	unsigned long *ebx,
+ 	unsigned long *ecx,
+@@ -30,29 +33,36 @@
+ 	int fh;
+ 
+ 	if (nodriver==1) {
+-		cpuid_UP (index, eax, ebx, ecx, edx);
++		cpuid_UP(idx, eax, ebx, ecx, edx);
+ 		return;
+ 	}
+ 
+ 	/* Ok, use the /dev/CPU interface in preference to the _up code. */
+-	snprintf (cpuname,18, "/dev/cpu/%d/cpuid", CPU_number);
+-	fh = open (cpuname, O_RDONLY);
++	(void)snprintf(cpuname,18, "/dev/cpu/%d/cpuid", CPU_number);
++	fh = open(cpuname, O_RDONLY);
+ 	if (fh != -1) {
+-		lseek (fh, index, SEEK_CUR);
+-		read (fh, &buffer[0], 16);
+-		if (eax!=0)	*eax = (*(unsigned long *)buffer);
+-		if (ebx!=0)	*ebx = (*(unsigned long *)(buffer+4));
+-		if (ecx!=0)	*ecx = (*(unsigned long *)(buffer+8));
+-		if (edx!=0)	*edx = (*(unsigned long *)(buffer+12));
+-		close (fh);
++#ifndef S_SPLINT_S
++		lseek64(fh, (off64_t)idx, SEEK_CUR);
++#endif
++		if (read(fh, &buffer[0], 16) == -1) {
++			perror(cpuname);
++			exit(EXIT_FAILURE);
++		}
++		if (eax!=0)	*eax = (*(unsigned *)(buffer   ));
++		if (ebx!=0)	*ebx = (*(unsigned *)(buffer+ 4));
++		if (ecx!=0)	*ecx = (*(unsigned *)(buffer+ 8));
++		if (edx!=0)	*edx = (*(unsigned *)(buffer+12));
++		if (close(fh) == -1) {
++			perror("close");
++			exit(EXIT_FAILURE);
++		}
+ 	} else {
+ 		/* Something went wrong, just do UP and hope for the best. */
+ 		nodriver = 1;
+-		if (!silent) {
++		if (!silent && nrCPUs != 1)
+ 			perror(cpuname);
+-		}
+ 		used_UP = 1;
+-		cpuid_UP (index, eax, ebx, ecx, edx);
++		cpuid_UP (idx, eax, ebx, ecx, edx);
+ 		return;
+ 	}
+ }
+diff -ru x86info-1.7/cpuid_UP.S x86info-2007-01-04/cpuid_UP.S
+--- x86info-1.7/cpuid_UP.S	2001-12-11 12:01:41.000000000 -0500
++++ x86info-2007-01-04/cpuid_UP.S	2006-09-27 19:19:21.000000000 -0400
+@@ -1,25 +1,45 @@
+ 	.align 4
+ 	.text
+ 
+-#ifdef linux
+-
+ .globl cpuid_UP
+ 	.type	cpuid_UP,@function
+ cpuid_UP:
+ 
+-#else /* BSD or WIN32 */
++#ifdef __x86_64__
++/* x86_64 calling convention: Args passed in rdi, rsi, rdx, rcx, r8, r9;
++   rbc, r12 -- r15, and rbp need to be preserved. */
++	pushq %rbp
++	movq %rsp,%rbp
++	pushq %rbx
++	movq %rdx, %r10
++	movq %rcx, %r11
++	movq %rdi, %rax
++	cpuid
++	test %rsi,%rsi
++	jz L1	
++	movq %rax,(%rsi)
+ 
+-.globl _cpuid_UP
++L1:	
++	test %r10,%r10
++	jz L2
++	movq %rbx,(%r10)
+ 
+-#ifdef __WIN32__
+-	.def	_cpuid_UP;  .scl    2;      .type   32;     .endef
+-#else /* BSD */
+-	.type	_cpuid_UP,@function
+-#endif /* __WIN32__ */
++L2:	
++	test %r11,%r11
++	jz L3
++	movq %rcx,(%r11)
+ 
+-_cpuid_UP:
+-#endif /* linux */
++L3:	
++	test %r8,%r8
++	jz L4
++	movq %rdx,(%r8)
+ 
++L4:
++	popq %rbx
++	movq %rbp,%rsp
++	popq %rbp
++	ret
++#else
+ 	pushl %ebp
+ 	movl %esp,%ebp
+ 	pushl %edi
+@@ -55,3 +75,7 @@
+ 	movl %ebp,%esp
+ 	popl %ebp
+ 	ret
++#endif
++
++.section .note.GNU-stack,"", @progbits
++
+diff -ru x86info-1.7/Cyrix/identify.c x86info-2007-01-04/Cyrix/identify.c
+--- x86info-1.7/Cyrix/identify.c	2001-12-10 19:58:06.000000000 -0500
++++ x86info-2007-01-04/Cyrix/identify.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,5 +1,5 @@
+ /*
+- *  $Id: identify.c,v 1.8 2001/12/11 00:58:06 davej Exp $
++ *  $Id: identify.c,v 1.14 2002/11/11 20:02:55 davej Exp $
+  *  This file is part of x86info. 
+  *  (C) 2001 Dave Jones.
+  *
+@@ -12,6 +12,9 @@
+ #include "../x86info.h"
+ #include "Cyrix.h"
+ 
++static char *cyrix_nameptr;
++#define add_to_cpuname(x)   cyrix_nameptr += snprintf(cyrix_nameptr, sizeof(x), "%s", x);
++
+ /* Decode TLB and cache info descriptors */
+ void decode_Cyrix_TLB (int x)
+ {
+@@ -28,94 +31,74 @@
+ }
+ 
+ /* Cyrix-specific information */
+-void Identify_Cyrix (unsigned int maxi, unsigned int maxei, struct cpudata *cpu)
++void Identify_Cyrix (struct cpudata *cpu)
+ {
+ 	unsigned long eax, ebx, ecx, edx;
+ 
++	cyrix_nameptr = cpu->name;
+ 	cpu->vendor = VENDOR_CYRIX;
+ 
+ 	/* Do standard stuff */
+-	if (maxi >= 1) {
+-		cpuid (cpu->number, 1, &eax, &ebx, &ecx, &edx);
++	if (cpu->maxi < 1)
++		return;
++
++	cpuid (cpu->number, 1, &eax, &ebx, &ecx, &edx);
++	cpu->stepping = eax & 0xf;
++	cpu->model = (eax >> 4) & 0xf;
++	cpu->family = (eax >> 8) & 0xf;
++
++	switch (tuple(cpu) & 0xff0) {
++		case 0x450:	add_to_cpuname("MediaGX");
++					break;
++
++		case 0x520:	add_to_cpuname("6x86");
++					break;
++		case 0x524:	add_to_cpuname("GXm");
++					break;
++
++		case 0x600:	add_to_cpuname("6x86/MX");
++					break;
++		case 0x620:	add_to_cpuname("MII");
++					break;
++		default:	add_to_cpuname("Unknown CPU");
++					break;
++	}
++
++	/* Check for presence of extended info */
++	if (cpu->maxei < 0x80000000)
++		return;
++
++	if (cpu->maxei >= 0x80000001) {
++		cpuid (cpu->number, 0x80000001, &eax, &ebx, &ecx, &edx);
+ 		cpu->stepping = eax & 0xf;
+ 		cpu->model = (eax >> 4) & 0xf;
+ 		cpu->family = (eax >> 8) & 0xf;
+ 
+ 		switch (cpu->family) {
+-			case 4:	if (cpu->model==5) {
+-						sprintf (cpu->name, "%s", "MediaGX");
+-						break;
+-					}
+-					sprintf (cpu->name, "%s", "Unknown CPU");
+-					break;
+-			case 5:	switch (cpu->model) {
+-						case 2:	sprintf (cpu->name, "%s", "6x86");
+-								break;
+-						case 4:	sprintf (cpu->name, "%s", "GXm");
+-								break;
+-						default:sprintf (cpu->name, "%s", "Unknown CPU");
+-								break;
+-					}
+-					break;
+-			case 6:	switch (cpu->model) {
+-						case 0:
+-							sprintf (cpu->name, "%s", "6x86/MX");
+-							break;
+-						case 2:
+-							sprintf (cpu->name, "%s", "MII");
+-							break;
+-						default:
+-							sprintf (cpu->name, "%s", "Unknown CPU");
+-							break;
+-					}
++			case 4:	add_to_cpuname("MediaGX");
++					break;
++			case 5:	add_to_cpuname("6x86/GXm");
++					break;
++			case 6:	add_to_cpuname("6x86/MX");
+ 					break;
+ 		}
+-
+-		/* Check for presence of extended info */
+-		if (maxei < 0x80000000)
+-			return;
+-
+-		if (maxei >= 0x80000001) {
+-			cpuid (cpu->number, 0x80000001, &eax, &ebx, &ecx, &edx);
+-			cpu->stepping = eax & 0xf;
+-			cpu->model = (eax >> 4) & 0xf;
+-			cpu->family = (eax >> 8) & 0xf;
+-
+-			switch (cpu->family) {
+-				case 4:	sprintf (cpu->name, "MediaGX");
+-						break;
+-				case 5:	sprintf (cpu->name, "6x86/GXm");
+-						break;
+-				case 6:	sprintf (cpu->name, "6x86/MX");
+-						break;
+-			}
+-		}
+-
+ 	}
+ }
+ 
+-void display_Cyrix_info(unsigned int maxi, unsigned int maxei, struct cpudata *cpu)
++void display_Cyrix_info(struct cpudata *cpu)
+ {
+ 	unsigned int i, ntlb;
+ 	unsigned long eax, ebx, ecx, edx;
+ 
+-	printf ("Family: %d Model: %d Stepping: %d [%s]\n",
+-		cpu->family, cpu->model, cpu->stepping, cpu->name);
+-	get_model_name (maxei, cpu);
+-
+-	if (maxei >= 0x80000000 && show_registers) {
+-		/* Dump extended info in raw hex */
+-		for (i = 0x80000000; i <= maxei; i++) {
+-			cpuid (cpu->number, i, &eax, &ebx, &ecx, &edx);
+-			printf ("eax in: 0x%x, eax = %08lx ebx = %08lx ecx = %08lx edx = %08lx\n", i, eax, ebx, ecx,
+-				edx);
+-		}
+-	}
++	printf ("Family: %u Model: %u Stepping: %u\n",
++		cpu->family, cpu->model, cpu->stepping);
++	printf ("CPU Model : %s\n", cpu->name);
++	get_model_name (cpu);
+ 
+-	decode_feature_flags (cpu, edx, 0);
++	decode_feature_flags (cpu);
+ 
+ 	printf ("TLB & L1 Cache info\n");
+-	if (maxi >= 2 && show_cacheinfo) {
++	if (cpu->maxi >= 2 && show_cacheinfo) {
+ 		/* TLB and L1 Cache info */
+ 		ntlb = 255;
+ 		for (i = 0; i < ntlb; i++) {
+@@ -136,7 +119,7 @@
+ 	}
+ 
+ 	printf ("TLB & L1 Cache info from extended info\n");
+-	if (maxei >= 0x80000005 && show_cacheinfo) {
++	if (cpu->maxei >= 0x80000005 && show_cacheinfo) {
+ 		/* TLB and L1 Cache info */
+ 		ntlb = 255;
+ 		for (i = 0; i < ntlb; i++) {
+Only in x86info-1.7/: dumpregs.c
+diff -ru x86info-1.7/features.c x86info-2007-01-04/features.c
+--- x86info-1.7/features.c	2001-12-10 20:06:31.000000000 -0500
++++ x86info-2007-01-04/features.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,7 +1,6 @@
+ /*
+- *  $Id: features.c,v 1.14 2001/12/10 23:56:15 davej Exp $
+  *  This file is part of x86info
+- *  (C) 2001 Dave Jones.
++ *  (C) 2001-2006 Dave Jones.
+  *
+  *  Licensed under the terms of the GNU GPL License version 2.
+  *
+@@ -11,26 +10,121 @@
+ #include <stdio.h>
+ #include "x86info.h"
+ 
+-void decode_feature_flags (struct cpudata *cpu, int flags, int eflags)
++void flag_decode(unsigned long reg, const char *flags[])
+ {
++	unsigned int i;
++
++	for (i=0; i<32; i++) {
++		if (reg & (1<<i)) {
++			if (flags[i])
++				printf(" %s", flags[i]);
++			else
++				printf(" [%u]", i);
++		}
++	}
++}
++
++
++void decode_feature_flags(struct cpudata *cpu)
++{
++	unsigned long eax, ebx, ecx, edx;
++	unsigned int i;
++
++	/* CPUID 0x00000001 EDX flags */
+ 	const char *generic_cap_flags[] = {
+ 		"fpu", "vme", "de", "pse", "tsc", "msr", "pae", "mce",
+ 		"cx8", "apic", NULL, "sep", "mtrr", "pge", "mca", "cmov",
+-		"pat", "pse36", "psn", "clflsh", NULL, "dtes", "acpi", "mmx",
+-		"fxsr", "xmm", "xmm2", "selfsnoop", "ht", "acc", "ia64", NULL
++		"pat", "pse36", "psn", "clflsh", NULL, "ds", "acpi", "mmx",
++		"fxsr", "sse", "sse2", "ss", "ht", "tm", NULL, "pbe"
++	};
++	const char *generic_cap_flags_desc[] = {
++		"Onboard FPU",
++		"Virtual Mode Extensions",
++		"Debugging Extensions",
++		"Page Size Extensions",
++		"Time Stamp Counter",
++		"Model-Specific Registers",
++		"Physical Address Extensions",
++		"Machine Check Architecture",
++		"CMPXCHG8 instruction",
++		"Onboard APIC",
++		NULL,
++		"SYSENTER/SYSEXIT",
++		"Memory Type Range Registers",
++		"Page Global Enable",
++		"Machine Check Architecture",
++		"CMOV instruction",
++		"Page Attribute Table",
++		"36-bit PSEs",
++		"Processor serial number",
++		"CLFLUSH instruction",
++		NULL,
++		"Debug Trace Store",
++		"ACPI via MSR",
++		"MMX support",
++		"FXSAVE and FXRESTORE instructions",
++		"SSE support",
++		"SSE2 support",
++		"CPU self snoop",
++		"Hyper-Threading",
++		"Thermal Monitor",
++		NULL,
++		"Pending Break Enable"
+ 	};
+-	const char *amd_cap_flags[] = {
++	/* CPUID 0x00000001 ECX flags */
++	const char *intel_cap_generic_ecx_flags[] = {
++		"sse3", NULL, NULL, "monitor", "ds-cpl", "vmx", NULL, "est",
++		"tm2", "ssse3", "cntx-id", NULL, NULL, "cx16", "xTPR", NULL,
++		NULL, NULL, "dca", NULL, NULL, NULL, NULL, NULL,
++		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
++	};
++	/* CPUID 0x80000001 EDX flags */
++	const char *intel_cap_extended_edx_flags[] = {
++		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
++		NULL, NULL, NULL, "SYSCALL", NULL, NULL, NULL, NULL,
++		NULL, NULL, NULL, NULL, "xd", NULL, NULL, NULL,
++		NULL, NULL, NULL, NULL, NULL, "em64t", NULL, NULL,
++	};
++	/* CPUID 0x80000001 ECX flags */
++	const char *intel_cap_extended_ecx_flags[] = {
++		"lahf_lm", NULL, NULL, NULL, NULL, NULL, NULL, NULL,
++		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
++		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+ 		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+-		NULL, NULL, NULL, "syscall", NULL, NULL, NULL, NULL,
+-		NULL, NULL, NULL, NULL, NULL, NULL, "mmxext", NULL,
+-		NULL, NULL, NULL, NULL, NULL, "lm", "3dnowext", "3dnow"
+ 	};
+-	const char *centaur_cap_flags[] = {
++
++	const char *amd_cap_generic_ecx_flags[] = {
++		"sse3", NULL, NULL, NULL, NULL, NULL, NULL, NULL,
++		NULL, NULL, NULL, NULL, NULL, "cmpxchg16b", NULL, NULL,
+ 		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
++		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
++	};
++	const char *amd_cap_extended_edx_flags[] = {
++		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
++		NULL, NULL, NULL, "syscall", NULL, NULL, NULL, NULL,
++		NULL, NULL, NULL, "mp/sempron", "nx", NULL, "mmxext", NULL,
++		NULL, "Fast fxsave/fxrstor", NULL, "rdtscp", NULL, "lm", "3dnowext", "3dnow"
++	};
++	const char *amd_cap_extended_ecx_flags[] = {
++		"lahf/sahf", "CMP legacy", "svm", "ExtApicSpace", "LockMovCr0", NULL, NULL, NULL,
++		"3DNowPrefetch", NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+ 		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
++		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
++	};
++
++	const char *centaur_cap_extended_ecx_flags[] = {
++		"sse3", NULL, NULL, NULL, NULL, NULL, NULL, "EPS",
++		"tm2", NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+ 		NULL, NULL, NULL, NULL, NULL, NULL, "mmxext", NULL,
+ 		NULL, NULL, NULL, NULL, NULL, NULL, "3dnowext", "3dnow"
+ 	};
++	const char *centaur_cap_extended_edx_flags[] = {
++		NULL, NULL, "RNGp", "RNGe", NULL, NULL, "ACEp", "ACEe",
++		"ACE2p", "ACE2e", "PHEp", "PHEe", "PMMp", "PMMe", NULL, NULL,
++		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
++		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
++	};
++
+ 	const char *transmeta_cap_flags[] = {
+ 		"recovery", "longrun", NULL, "lrti", NULL, NULL, NULL, NULL,
+ 		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+@@ -38,56 +132,82 @@
+ 		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+ 	};
+ 
+-	int i;
++	cpuid(cpu->number, 0x00000001, &eax, &ebx, &ecx, &edx);
++	cpu->flags_ecx = ecx;
++	cpu->flags_edx = edx;
++	if (cpu->maxei >= 0x80000001) {
++		cpuid(cpu->number, 0x80000001, &eax, &ebx, &ecx, &edx);
++		cpu->eflags_ecx = ecx;
++		cpu->eflags_edx = edx;
++	}
+ 
+-	if (show_flags == 0)
++	if (silent != 0)
+ 		return;
+ 
+ 	printf ("Feature flags:\n");
+-	for (i = 0; i < 32; i++)
+-		if (flags & (1 << i))
+-			printf (" %s", generic_cap_flags[i]);
+-
+-	printf ("\n");
+-
+-	if (eflags == 0) {
+-		printf ("\n");
+-		return;
++	for (i=0; i<32; i++) {
++		if (cpu->flags_edx & (1 << i)) {
++			if (!(generic_cap_flags_desc[i]))
++				printf(" [%u]", i);
++			if (verbose)
++				printf ("\t%s\n", generic_cap_flags_desc[i]);
++			else
++				printf (" %s", generic_cap_flags[i]);
++		}
+ 	}
+ 
+ 	/* Vendor specific extensions. */
+ 	switch (cpu->vendor) {
+-
+ 		case VENDOR_AMD:
+-			printf ("Extended feature flags:\n");
+-			for (i = 0; i < 32; i++) {
+-				if (eflags & (1 << i) && amd_cap_flags[i])
+-					printf (" %s", amd_cap_flags[i]);
++			for (i=0; i<32; i++) {
++				if (cpu->flags_ecx & (1 << i) && amd_cap_generic_ecx_flags[i])
++					printf (" %s", amd_cap_generic_ecx_flags[i]);
+ 			}
++			printf("\n");
++			if (cpu->maxei < 0x80000001)
++				break;
++			printf ("Extended feature flags:\n");
++			flag_decode(cpu->eflags_edx, &amd_cap_extended_edx_flags);
++			flag_decode(cpu->eflags_ecx, &amd_cap_extended_ecx_flags);
+ 			break;
+ 
+ 		case VENDOR_CENTAUR:
++			printf ("\n");
+ 			printf ("Extended feature flags:\n");
+-			for (i = 0; i < 32; i++) {
+-				if (eflags & (1 << i) && centaur_cap_flags[i])
+-					printf (" %s", centaur_cap_flags[i]);
++			flag_decode(cpu->flags_ecx, &centaur_cap_extended_ecx_flags);
++			cpuid(cpu->number, 0xc0000000, &eax, &ebx, &ecx, &edx);
++			if (eax >=0xc0000001) {
++				cpuid(cpu->number, 0xc0000001, &eax, &ebx, &ecx, &edx);
++				cpu->flags_edx = edx;
++				flag_decode(cpu->flags_edx, &centaur_cap_extended_edx_flags);
+ 			}
+ 			break;
+ 
+ 		case VENDOR_TRANSMETA:
++			printf ("\n");
+ 			printf ("Extended feature flags:\n");
+-			for (i = 0; i < 32; i++) {
+-				if (eflags & (1 << i) && transmeta_cap_flags[i])
+-					printf (" %s", transmeta_cap_flags[i]);
+-			}
++			flag_decode(cpu->flags_ecx, &transmeta_cap_flags);
+ 			break;
+ 
+ 		case VENDOR_CYRIX:
++			printf ("\n");
++			break;
++
+ 		case VENDOR_INTEL:
++			printf ("\n");
++			printf ("Extended feature flags:\n");
++			flag_decode(cpu->flags_ecx, &intel_cap_generic_ecx_flags);
++			if (cpu->maxei < 0x80000001)
++				break;
++			printf ("\n");
++			flag_decode(cpu->eflags_edx, &intel_cap_extended_edx_flags);
++			flag_decode(cpu->eflags_ecx, &intel_cap_extended_ecx_flags);
++			break;
++
+ 		default:
+ 			/* Unknown CPU manufacturer or no special handling needed */
+ 			break;
+ 	}
+ 
+-	printf ("\n\n");
++	printf ("\n");
+ }
+diff -ru x86info-1.7/get_model_name.c x86info-2007-01-04/get_model_name.c
+--- x86info-1.7/get_model_name.c	2001-12-10 16:12:12.000000000 -0500
++++ x86info-2007-01-04/get_model_name.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,5 +1,5 @@
+ /*
+- *  $Id: get_model_name.c,v 1.1 2001/12/10 21:12:12 davej Exp $
++ *  $Id: get_model_name.c,v 1.4 2003/06/13 11:36:20 davej Exp $
+  *  This file is part of x86info.
+  *  (C) 2001 Dave Jones.
+  *
+@@ -10,20 +10,23 @@
+  */
+ 
+ #include <stdio.h>
++#include <string.h>
+ #include "x86info.h"
+ 
+-void get_model_name (unsigned long maxei, struct cpudata *cpu)
++void get_model_name(struct cpudata *cpu)
+ {
+ 	unsigned int i, j;
+ 	unsigned long eax, ebx, ecx, edx;
+ 	char namestring[49], *cp;
+ 
+-	if (maxei < 0x80000004)
++	if (cpu->maxei < 0x80000004)
+ 		return;
+ 
+ 	cp = namestring;
+ 	for (j = 0x80000002; j <= 0x80000004; j++) {
+-		cpuid (cpu->number, j, &eax, &ebx, &ecx, &edx);
++		cpuid(cpu->number, j, &eax, &ebx, &ecx, &edx);
++		if (eax == 0)
++			return;
+ 
+ 		for (i = 0; i < 4; i++)
+ 			*cp++ = eax >> (8 * i);
+@@ -34,5 +37,96 @@
+ 		for (i = 0; i < 4; i++)
+ 			*cp++ = edx >> (8 * i);
+ 	}
+-	printf ("Processor name string: %s\n\n", namestring);
++	cp = namestring;
++	while(*cp == ' ')
++		cp++;
++
++	/* Broken BIOS? Try to determine the model name ourselves.  */
++	if (strstr(cp, "unknown") != NULL) {
++		unsigned long vendor;
++		cpuid(cpu->number, 0, NULL, &vendor, NULL, NULL);
++		if (vendor == 0x68747541 && cpu->maxi >= 1 && cpu->maxei >= 0x80000001) { /* AMD defined flags */
++			unsigned long bid, ebid;
++			cpuid(cpu->number, 0x00000001, NULL, &bid, NULL, NULL);
++			bid &= 0xff;
++			cpuid(cpu->number, 0x80000001, NULL, &ebid, NULL, NULL);
++
++			/* 8BitBrandId == 0, BrandId == non-zero */
++			if (bid == 0 && ebid != 0) {
++				int BrandTableIndex = (ebid >> 6) & 0x3f;
++				int NN = ebid & 0x3f;
++
++				/* processor name string table */
++				int model_number = 0;
++				const char *name = NULL;
++				switch (BrandTableIndex) {
++				case 0x00: name = "AMD Engineering Sample"; break;
++				case 0x04: name = "AMD Athlon(tm) 64 Processor %d00+"; model_number = 'X'; break;
++				case 0x05: name = "AMD Athlon(tm) 64 X2 Dual Core Processor %d00+"; model_number = 'X'; break;
++				case 0x08: name = "Mobile AMD Athlon(tm) 64 Processor %d00+"; model_number = 'X'; break;
++				case 0x09: name = "Mobile AMD Athlon(tm) 64 Processor %d00+"; model_number = 'X'; break;
++				case 0x0A: name = "AMD Turion(tm) 64 Mobile Technology ML-%d"; model_number = 'X'; break;
++				case 0x0B: name = "AMD Turion(tm) 64 Mobile Technology MT-%d"; model_number = 'X'; break;
++				case 0x0C: name = "AMD Opteron(tm) Processor 1%d"; model_number = 'Y'; break;
++				case 0x0D: name = "AMD Opteron(tm) Processor 1%d"; model_number = 'Y'; break;
++				case 0x0E: name = "AMD Opteron(tm) Processor 1%d HE"; model_number = 'Y'; break;
++				case 0x0F: name = "AMD Opteron(tm) Processor 1%d EE"; model_number = 'Y'; break;
++				case 0x10: name = "AMD Opteron(tm) Processor 2%d"; model_number = 'Y'; break;
++				case 0x11: name = "AMD Opteron(tm) Processor 2%d"; model_number = 'Y'; break;
++				case 0x12: name = "AMD Opteron(tm) Processor 2%d HE"; model_number = 'Y'; break;
++				case 0x13: name = "AMD Opteron(tm) Processor 2%d EE"; model_number = 'Y'; break;
++				case 0x14: name = "AMD Opteron(tm) Processor 8%d"; model_number = 'Y'; break;
++				case 0x15: name = "AMD Opteron(tm) Processor 8%d"; model_number = 'Y'; break;
++				case 0x16: name = "AMD Opteron(tm) Processor 8%d HE"; model_number = 'Y'; break;
++				case 0x17: name = "AMD Opteron(tm) Processor 8%d EE"; model_number = 'Y'; break;
++				case 0x18: name = "AMD Athlon(tm) 64 Processor %d00+"; model_number = 'E'; break;
++				case 0x1D: name = "Mobile Athlon(tm) XP-M Processor %d00+"; model_number = 'X'; break;
++				case 0x1E: name = "Mobile Athlon(tm) XP-M Processor %d00+"; model_number = 'X'; break;
++				case 0x20: name = "AMD Athlon(tm) XP Processor %d00+"; model_number = 'X'; break;
++				case 0x21: name = "Mobile AMD Sempron(tm) Processor %d00+"; model_number = 'T'; break;
++				case 0x22: name = "AMD Sempron(tm) Processor %d00+"; model_number = 'T'; break;
++				case 0x23: name = "Mobile AMD Sempron(tm) Processor %d00+"; model_number = 'T'; break;
++				case 0x24: name = "AMD Athlon(tm) 64 FX-%d Processor"; model_number = 'Z'; break;
++				case 0x26: name = "AMD Sempron(tm) Processor %d00+"; model_number = 'T'; break;
++				case 0x29: name = "Dual Core AMD Opteron(tm) Processor 1%d SE"; model_number = 'R'; break;
++				case 0x2A: name = "Dual Core AMD Opteron(tm) Processor 2%d SE"; model_number = 'R'; break;
++				case 0x2B: name = "Dual Core AMD Opteron(tm) Processor 8%d SE"; model_number = 'R'; break;
++				case 0x2C: name = "Dual Core AMD Opteron(tm) Processor 1%d"; model_number = 'R'; break;
++				case 0x2D: name = "Dual Core AMD Opteron(tm) Processor 1%d"; model_number = 'R'; break;
++				case 0x2E: name = "Dual Core AMD Opteron(tm) Processor 1%d HE"; model_number = 'R'; break;
++				case 0x2F: name = "Dual Core AMD Opteron(tm) Processor 1%d EE"; model_number = 'R'; break;
++				case 0x30: name = "Dual Core AMD Opteron(tm) Processor 2%d"; model_number = 'R'; break;
++				case 0x31: name = "Dual Core AMD Opteron(tm) Processor 2%d"; model_number = 'R'; break;
++				case 0x32: name = "Dual Core AMD Opteron(tm) Processor 2%d HE"; model_number = 'R'; break;
++				case 0x33: name = "Dual Core AMD Opteron(tm) Processor 2%d EE"; model_number = 'R'; break;
++				case 0x34: name = "Dual Core AMD Opteron(tm) Processor 8%d"; model_number = 'R'; break;
++				case 0x35: name = "Dual Core AMD Opteron(tm) Processor 8%d"; model_number = 'R'; break;
++				case 0x36: name = "Dual Core AMD Opteron(tm) Processor 8%d HE"; model_number = 'R'; break;
++				case 0x37: name = "Dual Core AMD Opteron(tm) Processor 8%d EE"; model_number = 'R'; break;
++				case 0x38: name = "Dual Core AMD Opteron(tm) Processor 1%d"; model_number = 'R'; break;
++				case 0x39: name = "Dual Core AMD Opteron(tm) Processor 2%d"; model_number = 'R'; break;
++				case 0x3A: name = "Dual Core AMD Opteron(tm) Processor 8%d"; model_number = 'R'; break;
++				default: name = "AMD Processor model unknown"; break;
++				}
++
++				/* model number calculation */
++				switch (model_number) {
++				case 'X': model_number = 22 + NN; break;
++				case 'Y': model_number = 38 + (2 * NN); break;
++				case 'Z': model_number = 24 + NN; break;
++				case 'T': model_number = 24 + NN; break;
++				case 'R': model_number = 45 + (5 * NN); break;
++				case 'E': model_number = 9 + NN; break;
++				}
++
++				cp = namestring;
++				if (model_number)
++					(void)snprintf(cp, sizeof(namestring), "%s %d", name, model_number);
++				else
++					strcpy(cp, name);
++			}
++		}
++	}
++
++	printf("Processor name string: %s\n\n", cp);
+ }
+Only in x86info-2007-01-04/: .gitignore
+diff -ru x86info-1.7/havecpuid.c x86info-2007-01-04/havecpuid.c
+--- x86info-1.7/havecpuid.c	2001-12-09 11:18:20.000000000 -0500
++++ x86info-2007-01-04/havecpuid.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,18 +1,18 @@
+ #include <stdio.h>
+ 
+-static __inline__ int flag_is_changeable_p(unsigned int flag)
++static __inline__ int flag_is_changeable_p(unsigned long flag)
+ {
+-	unsigned int f1, f2;
+-	__asm__ volatile("pushfl\n\t"
+-			"pushfl\n\t"
+-			"popl %0\n\t"
+-			"movl %0,%1\n\t"
+-			"xorl %2,%0\n\t"
+-			"pushl %0\n\t"
+-			"popfl\n\t"
+-			"pushfl\n\t"
+-			"popl %0\n\t"
+-			"popfl\n\t"
++	unsigned long f1, f2;
++	__asm__ volatile("pushf\n\t"
++			"pushf\n\t"
++			"pop %0\n\t"
++			"mov %0,%1\n\t"
++			"xor %2,%0\n\t"
++			"push %0\n\t"
++			"popf\n\t"
++			"pushf\n\t"
++			"pop %0\n\t"
++			"popf\n\t"
+ 			: "=&r" (f1), "=&r" (f2)
+ 			: "ir" (flag));
+ 	return ((f1^f2) & flag) != 0;
+diff -ru x86info-1.7/identify.c x86info-2007-01-04/identify.c
+--- x86info-1.7/identify.c	2001-12-10 18:52:56.000000000 -0500
++++ x86info-2007-01-04/identify.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,5 +1,5 @@
+ /*
+- *  $Id: identify.c,v 1.18 2001/12/10 23:51:58 davej Exp $
++ *  $Id: identify.c,v 1.28 2003/11/04 02:02:43 davej Exp $
+  *  This file is part of x86info.
+  *  (C) 2001 Dave Jones.
+  *
+@@ -10,54 +10,126 @@
+ #include <stdio.h>
+ #include "x86info.h"
+ 
+-void identify (struct cpudata *cpu)
++void identify(struct cpudata *cpu)
+ {
+-	unsigned long maxi, maxei, eax, ebx, ecx, edx;
++	unsigned long maxi, maxei, vendor;
+ 
+-	cpuid (cpu->number, 0, &maxi, NULL, NULL, NULL);
++	cpuid(cpu->number, 0, &maxi, &vendor, NULL, NULL);
+ 	maxi &= 0xffff;		/* The high-order word is non-zero on some Cyrix CPUs */
++	cpu->maxi = maxi;
+ 
+-	cpuid (cpu->number, 0, &eax, &ebx, &ecx, &edx);
+-	cpuid (cpu->number, 0x80000000, &maxei, NULL, NULL, NULL);
+-	
+-	switch (ebx) {
+-		case 0x756e6547:/* Intel */	Identify_Intel (maxi, cpu);		break;
+-		case 0x68747541:/* AMD */	Identify_AMD (maxi, cpu);			break;
+-		case 0x69727943:/* Cyrix */	Identify_Cyrix (maxi, maxei, cpu);	break;
+-		case 0x746e6543:/* IDT */	Identify_IDT (maxi, cpu);	break;
+-		case 0x52697365:/* Rise This should be checked. Why 2 ? */
+-		case 0x65736952:/* Rise */	Identify_RiSE (maxi, cpu);	break;
+-		default:					printf ("Unknown vendor\n");				return;
++	cpuid(cpu->number, 0x80000000, &maxei, NULL, NULL, NULL);
++	cpu->maxei = maxei;
++
++	cpuid(cpu->number, 0xC0000000, &maxei, NULL, NULL, NULL);
++	cpu->maxei2 = maxei;
++
++	switch (vendor) {
++	case 0x756e6547:	/* Intel */
++		Identify_Intel(cpu);
++		break;
++	case 0x68747541:	/* AMD */
++		Identify_AMD(cpu);
++		break;
++	case 0x69727943:	/* Cyrix */
++		Identify_Cyrix(cpu);
++		break;
++	case 0x746e6543:	/* IDT */
++		Identify_IDT(cpu);
++		break;
++	case 0x646f6547:	/* Natsemi Geode */
++		Identify_NatSemi(cpu);
++		break;
++	case 0x52697365:	/* Rise This should be checked. Why 2 ? */
++	case 0x65736952:	/* Rise */
++		Identify_RiSE(cpu);
++		break;
++	case 0x20536953:	/* SiS */
++		Identify_SiS(cpu);
++		break;
++	default:
++		printf("Unknown vendor (%lx)\n", vendor);
++		return;
++	}
++}
++
++static void dumpregs (int cpunum, unsigned int begin, unsigned int end)
++{
++	unsigned int i;
++	unsigned long eax, ebx, ecx, edx;
++
++	/* Dump all the CPUID results in raw hex */
++	for (i=begin; i<=end; i++) {
++		cpuid (cpunum, i, &eax, &ebx, &ecx, &edx);
++		printf ("eax in: 0x%08x, eax = %08lx ebx = %08lx ecx = %08lx edx = %08lx\n", i, eax, ebx, ecx, edx);
++	}
++	printf ("\n");
++}
++
++void show_info(struct cpudata *cpu)
++{
++	if (silent)
++		return;
++
++	if (show_registers) {
++		dumpregs (cpu->number, 0, cpu->maxi);
++		if (cpu->maxei >=0x80000000)
++			dumpregs (cpu->number, 0x80000000, cpu->maxei);
++
++		if (cpu->maxei2 >=0xC0000000)
++			dumpregs (cpu->number, 0xC0000000, cpu->maxei2);
++	}
++
++	switch (cpu->vendor) {
++	case VENDOR_AMD:
++		display_AMD_info(cpu);
++		break;
++
++	case VENDOR_CYRIX:
++		display_Cyrix_info(cpu);
++		break;
++
++	case VENDOR_CENTAUR:
++		display_IDT_info(cpu);
++		break;
++
++	case VENDOR_INTEL:
++		display_Intel_info(cpu);
++		break;
++
++	case VENDOR_NATSEMI:
++		display_NatSemi_info(cpu);
++		break;
++
++	case VENDOR_RISE:
++		display_RiSE_info(cpu);
++		break;
++
++	case VENDOR_SIS:
++		display_SiS_info(cpu);
++		break;
++
++	default:
++		break;
+ 	}
+ 
+-	if (show_registers)
+-		dumpregs (cpu->number);
++	if (show_connector)
++		decode_connector (cpu->connector);
++
++	if (show_urls) {
++		if (cpu->datasheet_url != NULL)
++			printf ("Datasheet: %s\n", cpu->datasheet_url);
+ 
+-	if (!silent) {
++		if (cpu->errata_url != NULL)
++			printf ("Errata: %s\n", cpu->errata_url);
+ 
+-		switch (cpu->vendor) {
+-			case VENDOR_AMD:
+-				display_AMD_info (maxei, cpu);
+-				break;
+-
+-			case VENDOR_CYRIX:
+-				display_Cyrix_info (maxi, maxei, cpu);
+-				break;
+-
+-			case VENDOR_CENTAUR:
+-				display_IDT_info (maxei, cpu);
+-				break;
+-
+-			case VENDOR_INTEL:
+-				display_Intel_info (maxi, cpu);
+-				break;
+-
+-			case VENDOR_RISE:
+-				display_RiSE_info (maxi, maxei, cpu);
+-				break;
+-
+-			default:
+-				break;
+-		}
++		printf ("\n");
+ 	}
++
++	if (!user_is_root)
++		return;
++
++	if (show_mtrr)
++		dump_mtrrs(cpu);
+ }
++
+diff -ru x86info-1.7/IDT/identify.c x86info-2007-01-04/IDT/identify.c
+--- x86info-1.7/IDT/identify.c	2001-12-10 20:06:31.000000000 -0500
++++ x86info-2007-01-04/IDT/identify.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,5 +1,5 @@
+ /*
+- *  $Id: identify.c,v 1.19 2001/12/11 01:03:20 davej Exp $
++ *  $Id: identify.c,v 1.33 2004/08/11 11:18:27 davej Exp $
+  *  This file is part of x86info.
+  *  (C) 2001 Dave Jones.
+  *
+@@ -11,139 +11,183 @@
+ #include "../x86info.h"
+ #include "IDT.h"
+ 
+-void Identify_IDT (unsigned int maxi, struct cpudata *cpu)
++static char *idt_nameptr;
++#define add_to_cpuname(x)   idt_nameptr += snprintf(idt_nameptr, sizeof(x), "%s", x);
++
++void Identify_IDT(struct cpudata *cpu)
+ {
+ 	char *nameptr;
+ 	unsigned long eax, ebx, ecx, edx;
+ 
+-	nameptr = cpu->name;
++	idt_nameptr = nameptr = cpu->name;
+ 
+ 	cpu->vendor = VENDOR_CENTAUR;
+ 
+ 	/* Do standard stuff */
+-	if (maxi >= 1) {
+-		cpuid (cpu->number, 1, &eax, &ebx, &ecx, &edx);
+-		cpu->stepping = eax & 0xf;
+-		cpu->model = (eax >> 4) & 0xf;
+-		cpu->family = (eax >> 8) & 0xf;
+-
+-		switch (cpu->family) {
+-		case 5:
+-			switch (cpu->model) {
+-			case 4:	sprintf (cpu->name, "%s", "Winchip C6");
+-					break;
+-			case 8:
+-				switch (cpu->stepping) {
+-				default:
+-					sprintf (cpu->name, "%s", "Winchip 2");
+-					break;
+-				case 7:
+-				case 8:
+-				case 9:
+-					sprintf (cpu->name, "%s", "Winchip 2A");
+-					break;
+-				case 10:
+-				case 11:
+-				case 12:
+-				case 13:
+-				case 14:
+-				case 15:
+-					sprintf (cpu->name, "%s", "Winchip 2B");
+-					break;
+-				}
++	if (cpu->maxi < 1)
++		return;
++
++	cpuid(cpu->number, 1, &eax, &ebx, &ecx, &edx);
++	cpu->stepping = eax & 0xf;
++	cpu->model = (eax >> 4) & 0xf;
++	cpu->family = (eax >> 8) & 0xf;
++
++	switch (tuple(cpu) & 0xff0) {
++		case 0x540:
++			add_to_cpuname("Winchip C6");
++			//transistors = 5400000;
++			//fab_process = "0.35 micron CMOS";
++			//die_size = "88 sq.mm";
++			//introduction_date = "September 1997";
++			//pipeline_stages = 6;
++			break;
++		case 0x580:
++			switch (cpu->stepping) {
++			case 0 ... 6:
++				add_to_cpuname("Winchip 2");
+ 				break;
+-			case 9:
+-				sprintf (cpu->name, "%s", "Winchip 3");
++			case 7 ... 9:
++				add_to_cpuname("Winchip 2A");
+ 				break;
+-			default:
+-				sprintf (cpu->name, "%s", "unknown CPU");
++			case 0xA ... 0xF:
++				add_to_cpuname("Winchip 2B");
+ 				break;
+ 			}
+ 			break;
+-		
++		case 0x590:
++			add_to_cpuname("Winchip 3");
++			break;
++
+ 		/* Family 6 is when VIA bought out Cyrix & IDT
+ 		 * This is the CyrixIII family. */
+-		case 6:
+-			switch (cpu->model) {
+-				case 6:	sprintf (cpu->name, "%s", "VIA Cyrix III");
+-						break;
+-				case 7:	nameptr += sprintf (cpu->name, "%s", "VIA C3");
+-						if (cpu->stepping>7)
+-							sprintf(nameptr, "%s", " \"Ezra\"");
++		case 0x660:
++			add_to_cpuname("VIA Cyrix 3 (Samuel) [C5A]");
++				//pipeline_stages = 12;
++				//1.8-2.0V
++				//CPGA
++				//75mm
++				//0.18 Al
++				//500-733MHz
++				//11.3 mil transistors
++				//June 6 2000
++				break;
++		case 0x670:
++				switch (cpu->stepping) {
++				case 0 ... 7:
++					add_to_cpuname("VIA C3 (Samuel 2) [C5B]");
++					//pipeline_stages = 12;
++					//1.6V
++					//CPGA/EBGA
++					//52mm
++					//0.15u Al
++					//650-800MHz
++					//15.2 mil transistors
++					//Mar 25 2001
++					break;
++				case 8 ... 0xf:
++					add_to_cpuname("VIA C3 (Ezra) [C5C]");
++					//pipeline_stages = 12;
++					//1.35V
++					//CPGA/EBGA
++					//52mm
++					//0.15u/0.13u hybrid Al
++					//800-1000MHz
++					//15.4 mil transistors
++					//Sep 11 2001
++					break;
++				}
++				break;
++		/* Ezra-T is much like Ezra but reworked to run in Pentium III Tualatin sockets. */
++		case 0x680:	add_to_cpuname("VIA C3 (Ezra-T) [C5M/C5N]");
++					//pipeline_stages = 12;
++					//CPGA/EBGA/uPGA2/uFCPGA
++					//900-1200MHz
++					//56mm
++					//0.15/0.13u hybrid (Cu)
++					//15.5 mil transistors
++					//C5N=copper interconnectrs
++					//2002
++					break;
++		case 0x690:	add_to_cpuname("VIA C3 (Nehemiah) [C5XL]");
++					//pipeline_stages = 16;
++					//2 SSE units
++					//first C3 to run FPU at full clock speed (previous ran at 50%)
++					//1100-1300
++					//0.13 (Cu)
++					//die_size = "78 sq. mm"; (C5X)
++					//die_size = "54 sq. mm"; (C5XL)
++					//January 22 2003
++					break;
++		case 0x6A0:	switch (cpu->stepping) {
++					case 0:
++					case 8 ... 0xF:
++						add_to_cpuname("VIA C3 (Esther) [C7-M]");
+ 						break;
+-				default:
+-						printf ("Unknown CPU");
++					case 1 ... 7:
++						add_to_cpuname("VIA C3 (Ruth) [C7-M]");
+ 						break;
+-			}
+-			break;
++					}
++					break;
++
++	// C5P introduced the HW AES
++	// C5YL
++	// C5X
++	// CZA
+ 
+ 		default:
+-			sprintf (cpu->name, "%s", "Unknown CPU");
++			add_to_cpuname("Unknown VIA CPU");
+ 			break;
+-		}
+ 	}
+ }
+ 
+ 
+-void decode_IDT_cacheinfo(unsigned int maxei, struct cpudata *cpu)
++void decode_IDT_cacheinfo(struct cpudata *cpu)
+ {
+ 	unsigned long eax, ebx, ecx, edx;
+ 
+-	if (maxei >= 0x80000005) {
++	if (cpu->maxei >= 0x80000005) {
+ 		/* TLB and cache info */
+-		cpuid (cpu->number, 0x80000005, &eax, &ebx, &ecx, &edx);
+-		printf ("Instruction TLB: %ld-way associative. %ld entries.\n", (ebx >> 8) & 0xff, ebx & 0xff);
+-		printf ("Data TLB: %ld-way associative. %ld entries.\n", ebx >> 24, (ebx >> 16) & 0xff);
+-		printf ("L1 Data cache:\n\tSize: %ldKb\t%ld-way associative.\n\tlines per tag=%ld\tline size=%ld bytes.\n",
+-			ecx >> 24, (ecx >> 16) & 0xff, (ecx >> 8) & 0xff, ecx & 0xff);
+-		printf ("L1 Instruction cache:\n\tSize: %ldKb\t%ld-way associative.\n\tlines per tag=%ld\tline size=%ld bytes.\n",
++		cpuid(cpu->number, 0x80000005, &eax, &ebx, &ecx, &edx);
++		printf("Cache info\n");
++		printf(" L1 Instruction cache: %ldKB, %ld-way associative, %ld lines per tag, line size=%ld bytes.\n",
+ 			edx >> 24, (edx >> 16) & 0xff, (edx >> 8) & 0xff, edx & 0xff);
++		printf(" L1 Data cache: %ldKB %ld-way associative, %ld lines per tag, line size=%ld bytes.\n",
++			ecx >> 24, (ecx >> 16) & 0xff, (ecx >> 8) & 0xff, ecx & 0xff);
++		if (cpu->maxei >= 0x80000006) {
++			cpuid (cpu->number, 0x80000006, &eax, &ebx, &ecx, &edx);
++			if ((cpu->family==6) && (cpu->model==7 || cpu->model==8))
++				/* Work around errata. */
++				printf (" L2 (on CPU) cache: %ldKB %ld-way associative, %ld lines per tag, line size=%ld bytes.\n",
++					ecx >> 24, (ecx >> 16) & 0x0f, (ecx >> 8) & 0x0f, ecx & 0xff);
++			else
++				printf (" L2 (on CPU) cache: %ldKB %ld-way associative, %ld lines per tag, line size=%ld bytes.\n",
++					ecx >> 16, (ecx >> 12) & 0x0f, (ecx >> 8) & 0x0f, ecx & 0xff);
++		}
++		printf("TLB info\n");
++		cpuid(cpu->number, 0x80000005, &eax, &ebx, &ecx, &edx);
++		printf(" Instruction TLB: %ld-way associative. %ld entries.\n", (ebx >> 8) & 0xff, ebx & 0xff);
++		printf(" Data TLB: %ld-way associative. %ld entries.\n", ebx >> 24, (ebx >> 16) & 0xff);
+ 	}
+ 
+ 	/* check on-chip L2 cache size */
+-	if (maxei >= 0x80000006) {
+-		cpuid (cpu->number, 0x80000006, &eax, &ebx, &ecx, &edx);
+-		if ((cpu->family==6) && (cpu->model==7 || cpu->model==8))
+-			printf ("L2 (on CPU) cache:\n\tSize: %ldKb\t%ld-way associative.\n\tlines per tag=%ld\tline size=%ld bytes.\n",
+-				ecx >> 24, (ecx >> 16) & 0x0f, (ecx >> 8) & 0x0f, ecx & 0xff);
+-		else
+-			printf ("L2 (on CPU) cache:\n\tSize: %ldKb\t%ld-way associative.\n\tlines per tag=%ld\tline size=%ld bytes.\n",
+-				ecx >> 16, (ecx >> 12) & 0x0f, (ecx >> 8) & 0x0f, ecx & 0xff);
+-	}
+ }
+ 
+ 
+-void display_IDT_info(unsigned int maxei, struct cpudata *cpu)
++void display_IDT_info(struct cpudata *cpu)
+ {
+-	unsigned int i;
+-	unsigned long eax, ebx, ecx, edx, tmp=0;
+-
+-	if (maxei != 0 && show_registers) {
+-		/* Dump extended info in raw hex */
+-		for (i = 0x80000000; i <= maxei; i++) {
+-			cpuid (cpu->number, i, &eax, &ebx, &ecx, &edx);
+-			printf ("eax in: 0x%x, eax = %08lx ebx = %08lx ecx = %08lx edx = %08lx\n", i, eax, ebx, ecx,
+-				edx);
+-		}
+-		printf ("\n");
+-	}
+-
+-	printf ("Family: %d Model: %d Stepping: %d [%s]\n",
+-		cpu->family, cpu->model, cpu->stepping, cpu->name);
+-	get_model_name (maxei, cpu);
++	printf("Family: %u Model: %u Stepping: %u\n",
++		cpu->family, cpu->model, cpu->stepping);
++	printf ("CPU Model : %s\n", cpu->name);
++	get_model_name (cpu);
+ 
+ 
+ 	/* Check for presence of extended info */
+-	if (maxei == 0)
+-		return;
++	decode_feature_flags(cpu);
+ 
+-	cpuid (cpu->number, 0x00000001, &eax, &ebx, &ecx, &edx);
+-	if (maxei >= 0x80000001)
+-		cpuid (cpu->number, 0x80000001, &eax, &ebx, &ecx, &tmp);
+-	decode_feature_flags (cpu, edx, tmp);
++	if (cpu->maxei == 0)
++		return;
+ 
+-	if (show_cacheinfo)
+-		decode_IDT_cacheinfo(maxei, cpu);
++	decode_IDT_cacheinfo(cpu);
+ 
+ 	if (cpu->family == 6 && show_registers)
+ 		dump_C3_MSR(cpu);
+diff -ru x86info-1.7/IDT/IDT.h x86info-2007-01-04/IDT/IDT.h
+--- x86info-1.7/IDT/IDT.h	2001-12-10 15:30:39.000000000 -0500
++++ x86info-2007-01-04/IDT/IDT.h	2006-09-27 19:19:21.000000000 -0400
+@@ -1,4 +1,6 @@
+ #ifndef _IDT_H
+ #define _IDT_H
+ void dump_C3_MSR (struct cpudata *cpu);
++void decode_longhaul(struct cpudata *cpu);
++void decode_powersaver(struct cpudata *cpu);
+ #endif /* _IDT_H */
+Only in x86info-2007-01-04/IDT: longhaul.c
+Only in x86info-2007-01-04/IDT: longhaul-v2.c
+diff -ru x86info-1.7/IDT/MSR-C3.c x86info-2007-01-04/IDT/MSR-C3.c
+--- x86info-1.7/IDT/MSR-C3.c	2001-12-11 12:02:42.000000000 -0500
++++ x86info-2007-01-04/IDT/MSR-C3.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,5 +1,5 @@
+ /*
+- *  $Id: MSR-C3.c,v 1.2 2001/12/11 01:16:14 davej Exp $
++ *  $Id: MSR-C3.c,v 1.5 2003/11/04 01:36:43 davej Exp $
+  *  This file is part of x86info.
+  *  (C) 2001 Dave Jones.
+  *
+@@ -9,79 +9,24 @@
+  */
+ #include <stdio.h>
+ #include "../x86info.h"
++#include "IDT.h"
+ 
+ void dump_C3_MSR (struct cpudata *cpu)
+ {
+-	unsigned long long val=0;
+-	int longhaul=0;
+-
+ 	if (!user_is_root)
+ 		return;
+ 
+ 	printf ("FCR: ");
+ 	dumpmsr (cpu->number, 0x1107, 32);
+ 
+-	printf ("Longhaul v");
+-	if (cpu->model==6 || (cpu->model==7 && cpu->stepping==0))
+-		printf ("1.0");
+-	if (cpu->model==7 && cpu->stepping>0) {
+-		printf ("2.0");
+-		longhaul=2;
++	printf ("Power management: ");
++	if (cpu->model==6 || cpu->model==7) {
++		printf ("Longhaul\n");
++		decode_longhaul(cpu);
+ 	}
+-	if (cpu->model==8)
+-		printf ("3.0");
+-	printf (" present\n");
+-
+-	if (longhaul==2 && read_msr(cpu->number, 0x110A, &val) == 1) {
+-		dumpmsr (cpu->number, 0x110A, 64);
+-		if (val & 1)
+-			printf ("\tSoftVID support\n");
+-		if (val & 2)
+-			printf ("\tSoftBSEL support\n");
+-		if (val==0)
+-			printf ("\tSoftware clock multiplier only: No Softvid\n");
+-
+-		printf ("\tRevision key: %llu\n", (val & (1<<7|1<<6|1<<5|1<<4)) >> 4);
+-		if (val & (1<<8))
+-			printf ("\tEnableSoftBusRatio=Enabled\n");
+-		if (val & (1<<9))
+-			printf ("\tEnableSoftVid=Enabled\n");
+-		if (val & (1<<10))
+-			printf ("\tEnableSoftBSEL=Enabled\n");
+-
+-		printf ("\tSoftBusRatio=%llu\n", val & 1<<14);
+-		if (val & 0xf)
+-			printf ("\tVRM Rev=%s\n",
+-				((val & 1<<15)) ? "Mobile VRM" : "VRM 8.5");
+ 
+-		val = val>>32;
+-		binary32 (val);
+-		printf ("\tMaxMHzBR: %s%s%s%s\n",
+-			(((val & (1<<3)) >>3) ? "1" : "0"),
+-			(((val & (1<<2)) >>2) ? "1" : "0"),
+-			(((val & (1<<1)) >>1) ? "1" : "0"),
+-			(((val & (1<<0)) >>0) ? "1" : "0"));
+-		printf ("\tMaximumVID: %s%s%s%s%s\n",
+-			(((val & (1<<8)) >>8) ? "1" : "0"),
+-			(((val & (1<<7)) >>7) ? "1" : "0"),
+-			(((val & (1<<6)) >>6) ? "1" : "0"),
+-			(((val & (1<<5)) >>5) ? "1" : "0"),
+-			(((val & (1<<4)) >>4) ? "1" : "0"));
+-		printf ("\tMaxMHzFSB: %s%s\n",
+-			(((val & (1<<10)) >>10) ? "1" : "0"),
+-			(((val & (1<<9))  >>9) ? "1" : "0"));
+-		printf ("\tMinMHzBR: %s%s%s%s\n",
+-			(((val & (1<<19)) >>19) ? "1" : "0"),
+-			(((val & (1<<18)) >>18) ? "1" : "0"),
+-			(((val & (1<<17)) >>17) ? "1" : "0"),
+-			(((val & (1<<16)) >>16) ? "1" : "0"));
+-		printf ("\tMinimumVID: %s%s%s%s\n",
+-			(((val & (1<<23)) >>23) ? "1" : "0"),
+-			(((val & (1<<22)) >>22) ? "1" : "0"),
+-			(((val & (1<<21)) >>21) ? "1" : "0"),
+-			(((val & (1<<20)) >>20) ? "1" : "0"));
+-		printf ("\tMinMHzFSB: %s%s\n",
+-			(((val & (1<<26)) >>26) ? "1" : "0"),
+-			(((val & (1<<25)) >>25) ? "1" : "0"));
++	if (cpu->model==8 || cpu->model==9) {
++		printf ("Powersaver\n");
++		decode_powersaver(cpu);
+ 	}
+ }
+Only in x86info-2007-01-04/IDT: powersaver.c
+Only in x86info-2007-01-04/IDT: powersaver.h
+diff -ru x86info-1.7/Intel/bluesmoke.c x86info-2007-01-04/Intel/bluesmoke.c
+--- x86info-1.7/Intel/bluesmoke.c	2001-12-10 12:52:15.000000000 -0500
++++ x86info-2007-01-04/Intel/bluesmoke.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,5 +1,5 @@
+ /*
+- *  $Id: bluesmoke.c,v 1.5 2001/12/10 17:52:15 davej Exp $
++ *  $Id: bluesmoke.c,v 1.9 2003/04/11 00:17:20 davej Exp $
+  *  This file is part of x86info.
+  *  (C) 2001 Dave Jones.
+  *
+@@ -15,18 +15,22 @@
+ #include "../x86info.h"
+ 
+ #define MCG_CAP 0x0179
++#define MCG_CTL_PBIT	8
++#define MCG_EXT_PBIT	9
+ #define MCG_STATUS 0x17a
+ #define MCG_CTL 0x17b
++#define MCG_EXT 0x180
+ 
+ #define MC_CTL 0x0400
+ #define MC_STATUS 0x0401
+ #define MC_ADDR 0x402
+-#define MC_MISC 0x403
+ 
+-void decode_Intel_bluesmoke(int cpunum)
++#define PENTIUM4(family)	(family == 0xf)
++
++void decode_Intel_bluesmoke(int cpunum, int family)
+ {
+ 	unsigned long long val, val2;
+-	int banks, i;
++	int banks, i, extcount = 0;
+ 
+ 	if (!user_is_root)
+ 		return;
+@@ -34,12 +38,21 @@
+ 	if (read_msr(cpunum, MCG_CAP, &val) != 1)
+ 		return;
+ 
+-	if ((val & (1<<8)) == 0)
+-		printf ("Erk, MCG_CTL not present! :%llx:\n", val);
++	banks = val & 0xff;
+ 
+-	banks = val & 0xf;
++	printf ("\nNumber of reporting banks : %d\n\n", banks);
+ 
+-	printf ("Number of reporting banks : %d\n\n", banks);
++	if (PENTIUM4(family)) {
++		if ((val & (1<<MCG_EXT_PBIT))) {
++			extcount = (val >> 16) & 0xff;
++			printf ("Number of extended MC registers : %d\n\n", extcount);
++		}
++		else
++			printf ("Erk, MCG_EXT not present! :%016llx:\n", val);
++	}
++	else
++	if ((val & (1<<MCG_CTL_PBIT)) == 0)
++		printf ("Erk, MCG_CTL not present! :%016llx:\n", val);
+ 
+ 	if (read_msr(cpunum, MCG_CTL, &val) == 1) {
+ 		printf ("MCG_CTL:\n");
+@@ -96,18 +109,14 @@
+ 	}
+ 	printf ("\n");
+ 
+-
+-	printf("           31       23       15       7 \n");
+ 	for (i=0; i<banks; i++) {
+-		printf ("Bank: %d (0x%x)\n", i, MC_CTL+i*4);
++		printf ("Bank: %d (0x%x)\n", i, (unsigned int)MC_CTL+i*4);
+ 		printf ("MC%dCTL:    ", i);
+-		dumpmsr_bin (cpunum, MC_CTL+i*4, 32);
++		dumpmsr_bin (cpunum, MC_CTL+i*4, 64);
+ 		printf ("MC%dSTATUS: ", i);
+-		dumpmsr_bin (cpunum, MC_STATUS+i*4, 32);
++		dumpmsr_bin (cpunum, MC_STATUS+i*4, 64);
+ 		printf ("MC%dADDR:   ", i);
+-		dumpmsr_bin (cpunum, MC_ADDR+i*4, 32);
+-		printf ("MC%dMISC:   ", i);
+-		dumpmsr_bin (cpunum, MC_MISC+i*4, 32);
++		dumpmsr_bin (cpunum, MC_ADDR+i*4, 64);
+ 		printf ("\n");
+ 	}
+ }
+diff -ru x86info-1.7/Intel/cachesize.c x86info-2007-01-04/Intel/cachesize.c
+--- x86info-1.7/Intel/cachesize.c	2001-12-10 16:51:25.000000000 -0500
++++ x86info-2007-01-04/Intel/cachesize.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,115 +1,278 @@
+ /*
+- * $Id: cachesize.c,v 1.2 2001/12/10 21:48:37 davej Exp $
++ *  $Id: cachesize.c,v 1.14 2005/08/07 18:42:37 davej Exp $
++ *  This file is part of x86info.
++ *  (C) 2001 Dave Jones.
++ *
++ *  Licensed under the terms of the GNU GPL License version 2.
++ *
++ * Intel specific parts
++ *
++ * References:
++ *	http://developer.intel.com/
++ *	http://microcodes.sourceforge.net/CPUID.htm
++ *
+  */
+ 
++#include <stdio.h>
++#include <string.h>
+ #include "../x86info.h"
++#include "Intel.h"
+ 
+-void get_intel_cacheinfo (struct cpudata *c)
++struct _cache_table
+ {
+-	unsigned long eax, ebx, ecx, edx;
++	unsigned char descriptor;
++	int size;
++	char *string;
++};
+ 
+-	c->cachesize_L1_I = 0;
+-	c->cachesize_L1_D = 0;
+-	c->cachesize_L2 = 0;
+-	c->cachesize_L3 = 0;
+-
+-	if (c->maxi > 1) {
+-		/* supports eax=2  call */
+-		int i, j, n;
+-		unsigned long regs[4];
+-		unsigned char *dp = (unsigned char *)regs;
+-
+-		/* Number of times to iterate */
+-		cpuid (c->number, 2, &eax, &ebx, &ecx, &edx);
+-		n = eax & 0xFF;
+-
+-		for ( i = 0 ; i < n ; i++ ) {
+-			cpuid (c->number, 2, &regs[0], &regs[1], &regs[2], &regs[3]);
+-			
+-			/* If bit 31 is set, this is an unknown format */
+-			for ( j = 0 ; j < 3 ; j++ )
+-				if ((regs[j] & (1<<31)) != 0)
+-					regs[j] = 0;
+-
+-			/* Byte 0 is level count, not a descriptor */
+-			for ( j = 1 ; j < 16 ; j++ ) {
+-				unsigned char des = dp[j];
+-				unsigned char dl, dh;
+-				unsigned int cs;
+-
+-				dh = des >> 4;
+-				dl = des & 0x0F;
+-
+-				/* Black magic... */
+-				switch ( dh ) {
+-				case 0:
+-					switch ( dl ) {
+-					case 6:
+-						/* L1 I cache */
+-						c->cachesize_L1_I += 8;
+-						break;
+-					case 8:
+-						/* L1 I cache */
+-						c->cachesize_L1_I += 16;
+-						break;
+-					case 10:
+-						/* L1 D cache */
+-						c->cachesize_L1_D += 8;
+-						break;
+-					case 12:
+-						/* L1 D cache */
+-						c->cachesize_L1_D += 16;
+-						break;
+-					default:;
+-						/* TLB, or unknown */
+-					}
+-					break;
+-				case 2:
+-					if ( dl ) {
+-						/* L3 cache */
+-						cs = (dl-1) << 9;
+-						c->cachesize_L3 += cs;
+-					}
+-					break;
+-				case 4:
+-					if (c->family > 6 && dl ) {
+-						/* P4 family */
+-						/* L3 cache */
+-						cs = 128 << (dl-1);
+-						c->cachesize_L3 += cs;
+-						break;
+-					}
+-					/* else same as 8 - fall through */
+-				case 8:
+-					if ( dl ) {
+-						/* L2 cache */
+-						cs = 128 << (dl-1);
+-						c->cachesize_L2 += cs;
+-					}
+-					break;
+-				case 6:
+-					if (dl > 5) {
+-						/* L1 D cache */
+-						cs = 8<<(dl-6);
+-						c->cachesize_L1_D += cs;
+-					}
+-					break;
+-				case 7:
+-					if ( dl >= 8 ) {
+-						/* L2 cache */
+-						cs = 64<<(dl-8);
+-						c->cachesize_L2 += cs;
+-					} else {
+-						/* L0 I cache, count as L1 */
+-						cs = dl ? (16 << (dl-1)) : 12;
+-						c->cachesize_L1_I += cs;
+-					}
+-					break;
+-				default:
+-					/* TLB, or something else we don't know about */
+-					break;
+-				}
+-			}
++static struct _cache_table TRACE_cache_table[] =
++{
++	{ 0x70, 12, "Instruction trace cache: 12K uOps, 8-way associative." },
++	{ 0x71, 16, "Instruction trace cache: 16K uOps, 8-way associative." },
++	{ 0x72, 32, "Instruction trace cache: 32K uOps, 8-way associative." },
++	{ 0x73, 64, "Instruction trace cache: 64K uOps, 8-way associative." },
++	{ 0, 0, NULL }
++};
++
++static struct _cache_table L1I_cache_table[] =
++{
++	{ 0x6,  8,  "L1 Instruction cache: 8KB, 4-way associative. 32 byte line size." },
++	{ 0x8,  16, "L1 Instruction cache: 16KB, 4-way associative. 32 byte line size." },
++	{ 0x30, 32,	"L1 Instruction cache: 32KB, 8-way associative. 64 byte line size." },
++	{ 0, 0, NULL }
++};
++
++static struct _cache_table L1D_cache_table[] =
++{
++	{ 0xa,  8, "L1 Data cache: 8KB, 2-way associative. 32 byte line size." },
++	{ 0xc,  16, "L1 Data cache: 16KB, 4-way associative. 32 byte line size." },
++	{ 0x2c, 32, "L1 Data cache: 32KB, 8-way associative. 64 byte line size." },
++	{ 0x60, 16, "L1 Data cache: 16KB, sectored, 8-way associative. 64 byte line size." },
++	{ 0x66, 8, "L1 Data cache: 8KB, sectored, 4-way associative. 64 byte line size." },
++	{ 0x67, 16, "L1 Data cache: 16KB, sectored, 4-way associative. 64 byte line size." },
++	{ 0x68, 32, "L1 Data cache: 32KB, sectored, 4-way associative. 64 byte line size." },
++	{ 0, 0, NULL }
++};
++
++static struct _cache_table L2_cache_table[] =
++{
++	{ 0x39, 128, "L2 unified cache: 128KB, 4-way associative. 64 byte line size." },
++	{ 0x3a, 192, "L2 unified cache: 192KB, 6-way associative. 64 byte line size." },
++	{ 0x3b, 128, "L2 unified cache: 128KB, 2-way associative. 64 byte line size." },
++	{ 0x3c, 256, "L2 unified cache: 256KB, 4-way associative. 64 byte line size." },
++	{ 0x3d, 384, "L2 unified cache: 384KB, 6-way associative. 64 byte line size." },
++	{ 0x3e, 512, "L2 unified cache: 512KB, 4-way associative. 64 byte line size." },
++	{ 0x41, 128, "L2 unified cache: 128KB, 4-way associative. 32 byte line size." },
++	{ 0x42, 256, "L2 unified cache: 256KB, 4-way associative. 32 byte line size." },
++	{ 0x43, 512, "L2 unified cache: 512KB, 4-way associative. 32 byte line size." },
++	{ 0x44, 1024, "L2 unified cache: 1MB, 4-way associative. 32 byte line size." },
++	{ 0x45, 2048, "L2 unified cache: 2MB, 4-way associative. 32 byte line size." },
++	{ 0x46, 4096, "L3 unified cache: 4MB, 4-way associative. 64 byte line size." },
++	{ 0x47, 8192, "L3 unified cache: 8MB, 8-way associative. 64 byte line size." },
++	{ 0x49, 4096, "L3 unified cache: 4MB, 16-way associative. 64 byte line size." },
++	{ 0x4a, 6144, "L3 unified cache: 6MB, 12-way associative. 64 byte line size." },
++	{ 0x4b, 8192, "L3 unified cache: 8MB, 16-way associative. 64 byte line size." },
++	{ 0x4c, 12288, "L3 unified cache: 12MB, 12-way associative. 64 byte line size." },
++	{ 0x4d, 16384, "L3 unified cache: 16MB, 16-way associative. 64 byte line size." },
++	{ 0x78, 1024, "L3 unified cache: 1MB, sectored, 8-way associative. 64 byte line size." },
++	{ 0x79, 128, "L2 unified cache: 128KB, sectored, 8-way associative. 64 byte line size." },
++	{ 0x7a, 256, "L2 unified cache: 256KB, sectored, 8-way associative. 64 byte line size." },
++	{ 0x7b, 512, "L2 unified cache: 512KB, sectored, 8-way associative. 64 byte line size." },
++	{ 0x7c, 1024, "L2 unified cache: 1MB, sectored, 8-way associative. 64 byte line size." },
++	{ 0x7d, 2048, "L2 unified cache: 2MB, sectored, 8-way associative. 64 byte line size." },
++	{ 0x7f, 512, "L2 unified cache: 512KB, 2-way associative. 64 byte line size." },
++	{ 0x82, 256, "L2 unified cache: 256KB, 8-way associative. 32 byte line size." },
++	{ 0x83, 512, "L2 unified cache: 512KB, 8-way associative. 32 byte line size." },
++	{ 0x84, 1024, "L2 unified cache: 1MB, 8-way associative. 32 byte line size." },
++	{ 0x85, 2048, "L2 unified cache: 2MB, 8-way associative. 32 byte line size." },
++	{ 0x86, 512, "L2 unified cache: 512KB, 4-way associative. 64 byte line size." },
++	{ 0x87, 1024, "L2 unified cache: 1MB, 8-way associative. 64 byte line size." },
++	{ 0, 0, NULL }
++};
++
++static struct _cache_table L3_cache_table[] =
++{
++	{ 0x22, 512, "L3 unified cache: 512KB, 4-way associative. 64 byte line size." },
++	{ 0x23, 1024, "L3 unified cache: 1MB, 8-way associative. 64 byte line size." },
++	{ 0x25, 2048, "L3 unified cache: 2MB, 8-way associative. 64 byte line size." },
++	{ 0x29, 4096, "L3 unified cache: 4MB, 8-way associative. 64 byte line size." },
++	{ 0, 0, NULL }
++};
++
++static struct _cache_table ITLB_cache_table[] =
++{
++	{ 0x1,  32, "Instruction TLB: 4KB pages, 4-way associative, 32 entries" },
++	{ 0x2,  2, "Instruction TLB: 4MB pages, fully associative, 2 entries" },
++	{ 0x50, 64, "Instruction TLB: 4K, 2MB or 4MB pages, fully associative, 64 entries." },
++	{ 0x51, 128, "Instruction TLB: 4K, 2MB or 4MB pages, fully associative, 128 entries." },
++	{ 0x52, 256, "Instruction TLB: 4K, 2MB or 4MB pages, fully associative, 256 entries." },
++	{ 0xb0, 128, "Instruction TLB: 4K pages, 4-way associative, 128 entries." },
++	{ 0xb1, 4, "Instruction TLB: 4x 4MB page entries, or 8x 2MB pages entries, 4-way associative" },
++	{ 0, 0, NULL }
++};
++
++static struct _cache_table DTLB_cache_table[] =
++{
++	{ 0x3,  64, "Data TLB: 4KB pages, 4-way associative, 64 entries" },
++	{ 0x4,  8, "Data TLB: 4MB pages, 4-way associative, 8 entries" },
++	{ 0x5,  32, "Data TLB: 4MB pages, 4-way associative, 32 entries" },
++	{ 0x56,	16, "L0 Data TLB: 4MB pages, 4-way set associative, 16 entries" },
++	{ 0x57,	16, "L0 Data TLB: 4MB pages, 4-way set associative, 16 entries" },
++	{ 0x5b, 64, "Data TLB: 4KB or 4MB pages, fully associative, 64 entries." },
++	{ 0x5c, 128, "Data TLB: 4KB or 4MB pages, fully associative, 128 entries." },
++	{ 0x5d, 256, "Data TLB: 4KB or 4MB pages, fully associative, 256 entries." },
++	{ 0xb3, 128, "Data TLB: 4K pages, 4-way associative, 128 entries." },
++	{ 0xb4, 256, "Data TLB: 4K pages, 4-way associative, 256 entries." },
++	{ 0, 0, NULL }
++};
++
++static struct _cache_table prefetch_table[] =
++{
++	{0xf0, 64, "64 byte prefetching."},
++	{0xf1, 64, "128 byte prefetching."},
++};
++
++static char found_unknown=0;
++static char unknown_array[256];
++
++/* Decode Intel TLB and cache info descriptors */
++//TODO : Errata workaround. http://www.sandpile.org/post/msgs/20002736.htm
++static void decode_Intel_cache(int des, struct cpudata *cpu, int output,
++			struct _cache_table *table)
++{
++	int k=0;
++
++	/* "No 2nd-level cache or, if processor contains a valid 2nd-level
++	   cache, no 3rd-level cache". Skip this pointless entry.*/
++	if (des == 0x40)
++		return;
++
++	//TODO: Add description to link-list in cpu->
++
++	while (table[k].descriptor != 0) {
++		if (table[k].descriptor == des) {
++
++			if (table == TRACE_cache_table)
++				cpu->cachesize_trace += table[k].size;
++
++			if (table == L1I_cache_table)
++				cpu->cachesize_L1_I += table[k].size;
++
++			if (table == L1D_cache_table)
++				cpu->cachesize_L1_D += table[k].size;
++
++			if (table == L2_cache_table)
++				cpu->cachesize_L2 += table[k].size;
++
++			if (table == L3_cache_table)
++				cpu->cachesize_L3 += table[k].size;
++
++			if (output)
++				printf (" %s\n", table[k].string);
++		}
++		k++;
++	}
++	if (table[k].descriptor == 0) {
++		if (unknown_array[des]==0) {
++			unknown_array[des]=1;
++			found_unknown++;
++		}
++	}
++}
++
++static void decode_cache(struct cpudata *cpu, struct _cache_table *table, int output)
++{
++	unsigned int i, j, n;
++	unsigned long regs[4];
++
++	/* Decode TLB and cache info */
++	cpuid(cpu->number, 2, &regs[0], &regs[1], &regs[2], &regs[3]);
++
++	/* Number of times to iterate */
++	n = regs[0] & 0xff;
++
++	for (i=0; i<n; i++) {
++		cpuid(cpu->number, 2, &regs[0], &regs[1], &regs[2], &regs[3]);
++
++		/* If bit 31 is set, this is an unknown format */
++		for (j=0; j<3; j++)
++			if (regs[j] & 0x80000000)
++				regs[j] = 0;
++
++		/* Byte 0 is level count, not a descriptor */
++		for (j=1; j<16; j++) {
++			unsigned char val = regs[j / 4] >> (unsigned int)(8 * (j % 4));
++			if (val)
++				decode_Intel_cache(val, cpu, output, table);
++		}
++	}
++}
++
++void clean_unknowns(struct _cache_table *table)
++{
++	int j=0;
++	int des;
++
++	while (table[j].descriptor != 0) {
++		des = table[j++].descriptor;
++		if (unknown_array[des]==1) {
++			unknown_array[des]=0;
++			found_unknown--;
+ 		}
+ 	}
+ }
++
++
++void decode_Intel_caches (struct cpudata *cpu, int output)
++{
++	unsigned int i;
++
++	if (cpu->maxi < 2)
++		return;
++
++	memset(&unknown_array, 0, sizeof(unknown_array));
++
++	if (output)
++		printf("Cache info\n");
++	decode_cache(cpu, TRACE_cache_table, output);
++	decode_cache(cpu, L1I_cache_table, output);
++	decode_cache(cpu, L1D_cache_table, output);
++	decode_cache(cpu, L2_cache_table, output);
++	decode_cache(cpu, L3_cache_table, output);
++	if (output)
++		printf("TLB info\n");
++	decode_cache(cpu, ITLB_cache_table, output);
++	decode_cache(cpu, DTLB_cache_table, output);
++	decode_cache(cpu, prefetch_table, output);
++
++	if (found_unknown == 0)
++		return;
++
++	/* Remove any known entries */
++	for (i=0; i<256; i++) {
++		clean_unknowns(TRACE_cache_table);
++		clean_unknowns(L1I_cache_table);
++		clean_unknowns(L1D_cache_table);
++		clean_unknowns(L2_cache_table);
++		clean_unknowns(L3_cache_table);
++		clean_unknowns(ITLB_cache_table);
++		clean_unknowns(DTLB_cache_table);
++		clean_unknowns(prefetch_table);
++	}
++
++	if (found_unknown == 0)
++		return;
++
++	if (output)
++		printf ("Found unknown cache descriptors: ");
++
++	for (i=0; i<256; i++) {
++		if (unknown_array[i]==1)
++			if (output)
++				printf ("%02x ", i);
++	}
++	if (output)
++		printf ("\n");
++	found_unknown = 0;
++}
++
+diff -ru x86info-1.7/Intel/identify.c x86info-2007-01-04/Intel/identify.c
+--- x86info-1.7/Intel/identify.c	2001-12-11 20:53:26.000000000 -0500
++++ x86info-2007-01-04/Intel/identify.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,454 +1,1070 @@
+ /*
+- *  $Id: identify.c,v 1.18 2001/12/12 01:53:26 davej Exp $
++ *  $Id: identify.c,v 1.60 2004/08/20 13:05:56 davej Exp $
+  *  This file is part of x86info.
+  *  (C) 2001 Dave Jones.
+  *
+  *  Licensed under the terms of the GNU GPL License version 2.
+  *
+  * Intel specific parts
++ *
++ * References:
++ *	http://developer.intel.com/
++ *	http://microcodes.sourceforge.net/CPUID.htm
++ *
+  */
+ 
+ #include <stdio.h>
++#include <string.h>
+ #include "../x86info.h"
+ #include "Intel.h"
+ 
+-/* Decode Intel TLB and cache info descriptors */
+-void decode_Intel_TLB (int x, int family)
+-{
+-	switch (x & 0xff) {
+-	case 0:
+-		break;
+-	case 0x1:
+-		printf ("Instruction TLB: 4KB pages, 4-way assocative, 32 entries\n");
+-		break;
+-	case 0x2:
+-		printf ("Instruction TLB: 4MB pages, fully associative, 2 entries\n");
+-		break;
+-	case 0x3:
+-		printf ("Data TLB: 4KB pages, 4-way associative, 64 entries\n");
+-		break;
+-	case 0x4:
+-		printf ("Data TLB: 4MB pages, 4-way associative, 8 entries\n");
+-		break;
+-	case 0x6:
+-		printf ("L1 Instruction cache:\n\tSize: 8KB\t4-way associative.\n\tline size=32 bytes\n");
+-		break;
+-	case 0x8:
+-		printf ("L1 Instruction cache:\n\tSize: 16KB\t4-way associative.\n\tline size=32 bytes\n");
+-		break;
+-	case 0xa:
+-		printf ("L1 Data cache:\n\tSize: 8KB\t2-way associative.\n\tline size=32 bytes\n");
+-		break;
+-	case 0xc:
+-		printf ("L1 Data cache:\n\tSize: 16KB\t2-way or 4-way associative.\n\tline size=32 bytes\n");
+-		break;
+-	case 0x40:
+-		if (family==15)
+-			printf ("No L3 cache\n");	/* Pentium 4 */
+-		else
+-			printf ("No L2 cache\n");
+-		break;
+-	case 0x41:
+-		printf ("L2 unified cache:\n\tSize: 128KB\t4-way associative.\n\tline size=32 bytes.\n");
+-		break;
+-	case 0x42:
+-		printf ("L2 unified cache:\n\tSize: 256KB\t4-way associative.\n\tline size=32 bytes.\n");
+-		break;
+-	case 0x43:
+-		printf ("L2 unified cache:\n\tSize: 512KB\t4-way associative.\n\tline size=32 bytes.\n");
+-		break;
+-	case 0x44:
+-		printf ("L2 unified cache:\n\tSize: 1MB\t4-way associative.\n\tline size=32 bytes.\n");
+-		break;
+-	case 0x45:
+-		printf ("L2 unified cache:\n\tSize: 2MB\t4-way associative.\n\tline size=32 bytes.\n");
+-		break;
+-	case 0x50:
+-		printf ("Instruction TLB: 4K, 2MB or 4MB pages, fully associative, 64 entries.\n");
+-		break;
+-	case 0x5b:
+-		printf ("Data TLB: 4K or 4MB pages, fully associative, 64 entries.\n");
+-		break;
+-	case 0x66:
+-		printf ("L2 Data cache:\n\tSize: 8KB\tSectored, 8 way associative.\n\tline size=64 bytes.\n");
+-		break;
+-	case 0x70:
+-		printf ("Instruction trace cache:\n\tSize: 12K uOps\t4 way associative.\n");
+-		break;
+-	case 0x7a:
+-		printf ("L2 unified cache:\n\tSize: 256K\tSectored, 8 way associative.\n\tline size=64 bytes.\n");
+-		break;
+-	case 0x82:
+-		printf ("L2 unified cache:\n\tSize: 256K\tSectored, 8 way associative.\n\tline size=32 bytes.\n");
+-		break;
+-	case 0x84:
+-		printf ("L2 unified cache:\n\tSize: 1MB\tSectored, 8 way associative\n\tline size=32 bytes.\n");
+-		break;
+-	case 0x85:
+-		printf ("L2 unified cache:\n\tSize: 2MB\tSectored, 8 way associative\n\tline size=32 bytes.\n");
+-		break;
++static char *intel_nameptr;
++#define add_to_cpuname(x)   intel_nameptr += snprintf(intel_nameptr, sizeof(x), "%s", x);
+ 
+-	default:
+-		printf ("unknown TLB/cache descriptor:\n\t0x%x\n", x);
+-		break;
+-	}
+-}
++static char p4_423_datasheet[]="http://developer.intel.com/design/pentium4/datashts/24919805.pdf";
++static char p4_478_datasheet[]="http://developer.intel.com/design/pentium4/datashts/24988703.pdf\n\thttp://developer.intel.com/design/pentium4/datashts/29864304.pdf";
++static char p4_errata[]="http://developer.intel.com/design/pentium4/specupdt/249199.htm";
+ 
+ 
+-/* Intel-specific information */
+-void Identify_Intel (unsigned int maxi, struct cpudata *cpu)
++void Identify_Intel (struct cpudata *cpu)
+ {
+-	char *nameptr;
+ 	unsigned long eax, ebx, ecx, edx;
+ 	int reserved;
+ 
+ 	cpu->vendor = VENDOR_INTEL;
+-	nameptr = cpu->name;
++	intel_nameptr = cpu->name;
+ 
+-	if (maxi >= 1) {
+-		/* Family/model/type etc */
+-		cpuid (cpu->number, 1, &eax, &ebx, &ecx, &edx);
+-		cpu->stepping = eax & 0xf;
+-		cpu->model = (eax >> 4) & 0xf;
+-		cpu->family = (eax >> 8) & 0xf;
+-		cpu->type = (eax >> 12) & 0x3;
+-		cpu->brand = (ebx & 0xf);
+-		reserved = eax >> 14;
+-
+-		get_intel_cacheinfo (cpu);
+-
+-		switch (cpu->family) {
+-		case 4:		/* Family 4 */
+-			nameptr += sprintf (cpu->name, "%s", "i486 ");
+-			switch (cpu->model) {
+-			case 0:
+-				nameptr+=sprintf (nameptr, "%s", "DX-25/33");
+-				break;
+-			case 1:
+-				nameptr+=sprintf (nameptr, "%s", "DX-50");
+-				break;
+-			case 2:
+-				nameptr+=sprintf (nameptr, "%s", "SX");
+-				break;
+-			case 3:
+-				nameptr+=sprintf (nameptr, "%s", "487/DX2");
+-				break;
+-			case 4:
+-				nameptr+=sprintf (nameptr, "%s", "SL");
+-				break;
+-			case 5:
+-				nameptr+=sprintf (nameptr, "%s", "SX2");
+-				break;
+-			case 7:
+-				nameptr+=sprintf (nameptr, "%s", "write-back enhanced DX2");
+-				break;
+-			case 8:
+-				nameptr+=sprintf (nameptr, "%s", "DX4");
+-				break;
+-			case 9:
+-				nameptr+=sprintf (nameptr, "%s", "write-back enhanced DX4");
+-				break;
+-			default:
+-				nameptr+=sprintf (nameptr, "%s", "Unknown CPU");
+-				break;
+-			}
+-			break;
++	if (cpu->maxi < 1)
++		return;
+ 
+-		case 5:		/* Family 5 */
+-			nameptr += sprintf (cpu->name, "%s", "Pentium ");
+-			switch (cpu->model) {
+-			case 0:
+-				nameptr+=sprintf (nameptr, "%s", "A-step");
+-				break;
+-			case 1:
+-				nameptr+=sprintf (nameptr, "%s", "60/66");
+-				break;
+-			case 2:
+-				nameptr+=sprintf (nameptr, "%s", "75-200");
+-				break;
+-			case 3:
+-				nameptr+=sprintf (nameptr, "%s", "Overdrive");
+-				break;
+-			case 4:
+-				nameptr+=sprintf (nameptr, "%s", "MMX");
+-				break;
+-			case 7:
+-				nameptr+=sprintf (nameptr, "%s", "Mobile");
+-				break;
+-			case 8:
+-				nameptr+=sprintf (nameptr, "%s", "MMX Mobile");
+-				break;
+-			}
++	/* Family/model/type etc */
++	cpuid (cpu->number, 1, &eax, &ebx, &ecx, &edx);
++	cpu->stepping = eax & 0xf;
++	cpu->model = (eax >> 4) & 0xf;
++	cpu->family = (eax >> 8) & 0xf;
++	cpu->type = (eax >> 12) & 0x3;
++	cpu->brand = (ebx & 0xf);
++	reserved = eax >> 14;
++
++	cpu->flags_ecx = ecx; // Used for identification of Core 2
++	cpu->flags_edx = edx;
++
++	decode_Intel_caches(cpu, 0);
++
++	switch (cpu->family) {
++	case 4:	add_to_cpuname("i486 ");
++			break;
++	case 5: add_to_cpuname("Pentium ");
+ 			break;
++	}
+ 
+-		case 6:		/* Family 6 */
+-			switch (cpu->model) {
+-			case 0:
+-				nameptr+=sprintf (cpu->name, "%s", "Pentium Pro A-Step");
+-				break;
+-			case 1:
+-				nameptr+=sprintf (cpu->name, "%s", "Pentium Pro");
+-				break;
+-			case 3:
+-				nameptr+=sprintf (cpu->name, "%s", "Pentium II ");
+-				switch (cpu->stepping) {
+-				case 2:
+-					nameptr+=sprintf (nameptr, "%s", "Overdrive");
++	switch (tuple(cpu) & 0xff0) {
++	case 0x400:		/* Family 4 */
++		add_to_cpuname("DX-25/33");
++		break;
++	case 0x410:
++		add_to_cpuname("DX-50");
++		break;
++	case 0x420:
++		add_to_cpuname("SX");
++		break;
++	case 0x430:
++		add_to_cpuname("487/DX2");
++		break;
++	case 0x440:
++		add_to_cpuname("SL");
++		break;
++	case 0x450:
++		add_to_cpuname("SX2");
++		break;
++	case 0x470:
++		add_to_cpuname("write-back enhanced DX2");
++		break;
++	case 0x480:
++		add_to_cpuname("DX4");
++		cpu->connector = CONN_SOCKET_3;
++		//transistors = 1600000;
++		//fab_process = "0.6 micron CMOS";
++		//die_size = "345 sq. mm";
++		//introduction_date = "March 1994";
++		break;
++	case 0x490:
++		add_to_cpuname("write-back enhanced DX4");
++		cpu->connector = CONN_SOCKET_3;
++		break;
++
++	case 0x500:
++		add_to_cpuname("A-step");
++		cpu->connector = CONN_SOCKET_4;
++		break;
++	case 0x510:
++		add_to_cpuname("60/66");
++		cpu->connector = CONN_SOCKET_4;
++		break;
++	case 0x520:
++		add_to_cpuname("75-200");
++		cpu->connector = CONN_SOCKET_5_7;
++		break;
++	case 0x530:
++		add_to_cpuname("Overdrive");
++		cpu->connector = CONN_SOCKET_4;
++		break;
++	case 0x540:
++		add_to_cpuname("MMX");
++		cpu->connector = CONN_SOCKET_7;
++		//transistors = 4500000;
++		//fab_process = "0.35 micron CMOS";
++		//die_size = "140 sq.mm";
++		//introduction_date = "June 1997";
++		break;
++	case 0x570:
++		add_to_cpuname("Mobile");
++		cpu->connector = CONN_SOCKET_7;
++		break;
++	case 0x580:
++		add_to_cpuname("MMX Mobile");
++		cpu->connector = CONN_SOCKET_7;
++		break;
++	case 0x600:
++		add_to_cpuname("Pentium Pro A-Step");
++		cpu->connector = CONN_SOCKET_8;
++		break;
++	case 0x610:
++		add_to_cpuname("Pentium Pro");
++		cpu->connector = CONN_SOCKET_8;
++		switch (cpu->stepping) {
++		case 1:
++			add_to_cpuname(" [B0]");
++			switch (cpu->MHz) {
++				case 133:
++					//sSpec# Q0812, Q0815
+ 					break;
+-				case 3:
+-					nameptr+=sprintf (nameptr, "%s", "(Klamath) [C0]");
++				case 150:
++					//sSpec# Q0813, Q0816, SY002, SY011, SY014
+ 					break;
+-				case 4:
+-					nameptr+=sprintf (nameptr, "%s", "(Klamath) [C1]");
++			}
++			break;
++		case 2:
++			add_to_cpuname(" [C0]");
++			//sSpec# Q0822, Q0825, Q0826, SY010
++			break;
++		case 6:
++			add_to_cpuname(" [sA0]");
++			switch (cpu->MHz) {
++				case 166:
++					//sSpec# Q0864
++					break;
++				case 180:
++					//sSpec# SY012, Q0858, Q0860, Q0873, Q0910
++					break;
++				case 200:
++					//cache = 256 sSpec# SY013, Q0859, Q0874
++					//cache = 512 sSpec# Q0865
+ 					break;
+-				}
+-				break;
+-			case 4:
+-				nameptr+=sprintf (cpu->name, "%s", "Pentium II (Deschutes?)");
+-				break;
+-			case 5:
+-				if (cpu->cachesize_L2 == 0) {
+-					nameptr+=sprintf (cpu->name, "%s", "Celeron (Covington)");
++			}
++			break;
++		case 7:
++			add_to_cpuname(" [sA1]");
++			switch (cpu->MHz) {
++				case 166:
++					//sSpec# SY034, SY047, Q0918, Q0929, Q935
++					break;
++				case 180:
++					//sSpec# SY031, SY039, SU103, Q0871, Q0907
++					break;
++				case 200:
++					//cache = 256 sSpec# SY032, SY040, SL245, SL247, SU104, Q076, Q0872, Q0908, Q0909
++					//cache = 512 sSpec# SY048, Q0920, Q0924, Q932 , Q936
+ 					break;
+-				}
+-				if (cpu->cachesize_L2 == 256) {
+-					nameptr+=sprintf (cpu->name, "%s", "Mobile Pentium II (Dixon)");
++			}
++			break;
++		case 9:
++			add_to_cpuname(" [sB1]");
++			switch (cpu->MHz) {
++				case 166:
++					//sSpec# Q008, Q009, SL2FJ, SL22X
++					break;
++				case 180:
++					//sSpec# SL22S, SL22U, SL23L, Q033, Q035
++					break;
++				case 200:
++					//cache = 256 sSpec# L22T, SL22V, SL23M,SL254,SL255,Q034,Q036 ,Q083 ,Q084
++					//cache = 512 sSpec# Q010, Q011, SL22Z
++					//cache = 1MB sSpec# SL259, SL25A
+ 					break;
+-				}
+-				switch (cpu->stepping) {
+-				case 0:
+-					nameptr+=sprintf (cpu->name, "%s", "Pentium II [dA0]");
++			}
++			break;
++		}
++		break;
++	case 0x630:
++		add_to_cpuname("Pentium II ");
++		cpu->connector = CONN_SLOT_1;
++		switch (cpu->stepping) {
++		case 2:
++			add_to_cpuname("Overdrive [tdB0]");
++			break;
++		case 3:
++			add_to_cpuname("(Klamath) [C0]");
++			switch (cpu->MHz) {
++				case 233:
++					//sSpec# SL264, SL268, SL28K
+ 					break;
+-				case 1:
+-					nameptr+=sprintf (cpu->name, "%s", "Pentium II (Deschutes) [dA1]");
++				case 266:
++					//sSpec# SL265, SL269, SL28L
+ 					break;
+-				case 2:
+-					nameptr+=sprintf (cpu->name, "%s", "Pentium II (Deschutes) [dB0]");
++				case 300:
++					//sSpec# SL28R, SL2MZ
+ 					break;
+-				case 3:
+-					nameptr+=sprintf (cpu->name, "%s", "Pentium II (Deschutes) [dB1]");
++			}
++			break;
++		case 4:
++			add_to_cpuname("(Klamath) [C1]");
++			switch (cpu->MHz) {
++				case 233:
++					//sSpec# SL2HD, SL2HF, SL2QA
+ 					break;
+-				default:
+-					nameptr+=sprintf (cpu->name, "%s", "Pentium II");
++				case 266:
++					//sSpec# SL2HC, SL2HE, SL2QB
+ 					break;
+-				}
+-				break;
+-			case 6:
+-				if (cpu->cachesize_L2 == 128) {
+-					nameptr+=sprintf (cpu->name, "%s", "Celeron (Mendocino)");
++				case 300:
++					//sSpec# SL2HA, SL2QC
+ 					break;
+-				}
++			}
++			break;
++		}
++		break;
++	case 0x640:
++		//Does this exist? Its not in Intels spec update.
++		cpu->connector = CONN_SLOT_1;
++		add_to_cpuname("Pentium II (Deschutes?)");
++		break;
++	case 0x650:
++		cpu->connector = CONN_SLOT_1;
++		switch (cpu->cachesize_L2) {
++			case 0:
++				add_to_cpuname("Celeron (Covington)");
++				break;
++
++			case 256:
++				add_to_cpuname("Mobile Pentium II (Dixon)");
++				break;
++
++			case 512:
+ 				switch (cpu->stepping) {
+ 				case 0:
+-					nameptr+=sprintf (cpu->name, "%s", "Celeron-A [mA0]");
+-					break;
+-				case 5:
+-					nameptr+=sprintf (cpu->name, "%s", "Celeron-A [mB0]");
+-					break;
+-				case 0xA:
+-					nameptr+=sprintf (cpu->name, "%s", "Mobile Pentium II [mdA0]");
++					add_to_cpuname("Pentium II [dA0]");
++					switch (cpu->MHz) {
++						case 266:
++							//sSpec# SL2K9
++							break;
++						case 333:
++							//sSpec# SL2KA, SL2QF
++							break;
++					}
+ 					break;
+-				default:
+-					nameptr+=sprintf (cpu->name, "%s", "Celeron / Mobile Pentium II");
++				case 1:
++					add_to_cpuname("Pentium II (Deschutes) [dA1]");
++					switch (cpu->MHz) {
++						case 300:
++							//66 bus sSpec# SL35V, SL2VY
++							break;
++						case 333:
++							//66 bus sSpec# SL2QH, SL2S5, SL2ZP
++							break;
++						case 350:
++							//100Bus - sSpec# SL2ZQ, SL2S6, SL2SF
++							break;
++						case 400:
++							//100Bus - sSpec# Sl2S7, SL2SH
++							break;
++					}
+ 					break;
+-				}
+-				break;
+-			case 7:
+-				switch (cpu->stepping) {
+ 				case 2:
+-					nameptr+=sprintf (cpu->name, "%s", "Pentium III [kB0]");
++					add_to_cpuname("Pentium II (Deschutes) [dB0]");
++					switch (cpu->MHz) {
++						case 266:
++							//66Bus sSpec# SL33D, SL2W7
++							break;
++						case 300:
++							//66Bus - SL2YK, SL2W8
++							break;
++						case 333:
++							//66Bus - SL2KE, SL2TV
++							break;
++						case 350:
++							//100Bus - SL2WZ, SL2U3, SL2U4, SL356, SL37F, SL3FN
++							break;
++						case 400:
++							//100Bus - SL2YM, SL37G, SL2U5, SL2U6, SL357, SL3EE, SL3F9
++							break;
++						case 450:
++							//100Bus - SL2WB, SL37H, SL2U7, SL358
++							break;
++					}
+ 					break;
+ 				case 3:
+-					nameptr+=sprintf (cpu->name, "%s", "Pentium III (Katmai) [kC0]");
++					add_to_cpuname("Pentium II (Deschutes) [dB1]");
++					switch (cpu->MHz) {
++						case 350:
++							//100Bus - SL38M, SL36U, SL3J2
++							break;
++						case 400:
++							//100Bus - SL38N, SL38Z, SL3D5
++							break;
++					}
+ 					break;
+ 				default:
+-					nameptr+=sprintf (cpu->name, "%s", "Pentium III/Pentium III Xeon");
++					add_to_cpuname("Pentium II");
+ 					break;
+ 				}
++		}
++		break;
++	case 0x660:
++		cpu->connector = CONN_SOCKET_370;
++		if (cpu->cachesize_L2 == 128) {
++			add_to_cpuname("Celeron (Mendocino)");
++			break;
++		}
++		switch (cpu->stepping) {
++		case 0:
++			add_to_cpuname("Celeron-A [mA0]");
++			break;
++		case 5:
++			add_to_cpuname("Celeron-A [mB0]");
++			break;
++		case 0xA:
++			add_to_cpuname("Mobile Pentium II [mdA0]");
++			break;
++		default:
++			add_to_cpuname("Celeron / Mobile Pentium II");
++			break;
++		}
++		break;
++	case 0x670:
++		cpu->connector = CONN_SLOT_1;
++		switch (cpu->stepping) {
++		case 2:
++			// Core=500 FSB=100
++			// SL2XU SL3C9 (l2=512)
++			// SL2XV SL3CA (l2=1MB)
++			// SL2XW SL3CB (l2=2MB)
++			add_to_cpuname("Pentium III (Katmai) [kB0]");
++			break;
++		case 3:
++			// Core=550 FSB=100
++			// SL3FK SL3D9 SL3AJ SL3Y4 SL3FR SL3LM (l2=512)
++			// SL3DA SL3CE SL3TW SL3LN (l2=1mb)
++			// SL3DB SL3CF SL3LP (l2=2mb)
++			//
++			// Core 500 FSB=100
++			// SL385 (l2=512)
++			// SL386 (l2=1MB)
++			// SL387 (l2=2MB)
++			add_to_cpuname("Pentium III (Katmai) [kC0]");
++			break;
++		default:
++			add_to_cpuname("Pentium III/Pentium III Xeon");
++			break;
++		}
++		break;
++	case 0x680:
++		switch (cpu->brand) {
++		case 2:
++			add_to_cpuname("Pentium III/Pentium III-M (Coppermine)");
++			switch (cpu->stepping) {
++			case 1:
++				add_to_cpuname(" [cA2]");
+ 				break;
+-			case 8:
+-				if (cpu->cachesize_L2 == 128) {
+-					nameptr+=sprintf (cpu->name, "%s", "Celeron");
+-				} else {
+-					nameptr+=sprintf (cpu->name, "%s", "Pentium III");
+-				}
+-				nameptr+=sprintf (nameptr, "%s", " (Coppermine)");
+-				switch (cpu->stepping) {
+-				case 1:
+-					nameptr+=sprintf (nameptr, "%s", " [cA2]");
+-					break;
+-				case 3:
+-					nameptr+=sprintf (nameptr, "%s", " [cB0]");
+-					break;
+-				case 6:
+-					nameptr+=sprintf (nameptr, "%s", " [cC0]");
+-					break;
+-				case 0xA:
+-					nameptr+=sprintf (nameptr, "%s", " [cD0]");
+-					break;
+-				}
++			case 3:
++				add_to_cpuname(" [cB0]");
++				break;
++			case 6:
++				add_to_cpuname(" [cC0]");
++				break;
++			case 0xA:
++				add_to_cpuname(" [cD0]");
++				break;
++			}
++			break;
++		case 3:
++			add_to_cpuname("Pentium III Xeon");
++			switch (cpu->stepping) {
++			case 1:
++				// l2=256KB FSB=133
++				// Core=600		SL3BJ SL3BK SL3SS
++				// Core=667		SL3BL SL3DC SL3ST
++				// Core=733		SL3SF SL3SG SL3SU
++				// Core=800		SL3V2 SL3V3 SL3VU
++				add_to_cpuname(" [A2]");
++				break;
++			case 3:
++				// l2=256 FSB=133
++				// Core=600		SL3WM SL3WN
++				// Core=667		SL3WP SL3WQ
++				// Core=733		SL3WR SL3WS
++				// Core=800		SL3WT SL3WU
++				// Core=866		SL3WV SL3WW SL4PZ
++				// Core=933		SL3WX SL3WY
++				add_to_cpuname(" [B0]");
++				break;
++			case 6:
++				// l2=256 FSB=133
++				// Core=733		SL4H6 SL4H7
++				// Core=800		SL4H8 SL4H9
++				// Core=866		SL4HA SL4HB SL4U2
++				// Core=933		SL4HC SL4HD SL4R9
++				// Core=1000	SL4HE SL4HF
++				add_to_cpuname(" [C0]");
++				break;
++			}
++			break;
++
++		case 8:
++			// cpu->connector = CONN_BGA2; - Could also be Micro-PGA2
++			add_to_cpuname("Mobile Pentium III");
++			break;
++
++		default:
++			cpu->connector = CONN_SOCKET_370_FCPGA;
++			if (cpu->cachesize_L2 == 128) {
++				add_to_cpuname("Celeron");
++			} else {
++				add_to_cpuname("Pentium III");
++			}
++
++			add_to_cpuname(" (Coppermine)");
++			switch (cpu->stepping) {
++			case 1:
++				add_to_cpuname(" [cA2]");
++				break;
++			case 3:
++				add_to_cpuname(" [cB0]");
++				break;
++			case 6:
++				add_to_cpuname(" [cC0]");
+ 				break;
+ 			case 0xA:
+-				switch (cpu->brand) {
++				add_to_cpuname(" [cD0]");
++				break;
++			}
++			break;
++		}
++		break;
++
++	case 0x690:
++//		cpu->connector = 
++		add_to_cpuname("Pentium M (Banias)");
++		break;
++
++	case 0x6A0:
++		cpu->connector = CONN_SLOT_1;
++		switch (cpu->brand) {
++		case 0:
++			add_to_cpuname("Pentium II (Deschutes)");
++			break;
++		case 1:
++			add_to_cpuname("Celeron");
++			break;
++		case 2:
++			add_to_cpuname("Pentium III");
++			break;
++		case 3:
++			// FSB=100
++			add_to_cpuname("Pentium III Xeon");
++			switch (cpu->stepping) {
+ 				case 0:
+-					nameptr+=sprintf (cpu->name, "%s", "Pentium II (Deschutes)");
++					// Core=700
++					//    L2=1MB		SL3U4 SL3U5 SL4GD SL4GE
++					//    L2=2MB		SL3WZ SL3X2 SL4GF SL4GG
++					add_to_cpuname(" [A0]");
+ 					break;
+ 				case 1:
+-					nameptr+=sprintf (cpu->name, "%s", "Celeron");
+-					break;
+-				case 2:
+-					nameptr+=sprintf (cpu->name, "%s", "Pentium III");
+-					break;
+-				case 3:
+-					nameptr+=sprintf (cpu->name, "%s", "Pentium III Xeon");
++					// Core=700
++					//    L2=1MB		SL49P SL49Q SL4RZ
++					//    L2=2MB		SL49R SL49S SL4R3
++					add_to_cpuname(" [A1]");
+ 					break;
+ 				case 4:
+-					nameptr+=sprintf (cpu->name, "%s", "Pentium III (Cascades)");
++					// Core=700
++					//    L2=1MB		SL4XU SL5D4 SL4XV
++					//    L2=2MB		SL4XW SL5D5 SL4XX
++					// Core=900
++					//    L2=2MB		SL4XY SL4XZ SL5D3
++					add_to_cpuname(" [B0]");
+ 					break;
+-				default:
+-					nameptr+=sprintf (cpu->name, "%s", "Unknown CPU");
+-					break;
+-				}
++			}
++			break;
++		case 4:
++			add_to_cpuname("Pentium III (Cascades)");
++			break;
++		default:
++			add_to_cpuname("Unknown CPU");
++			break;
++		}
++		break;
++	case 0x6B0:
++		switch (cpu->brand) {
++			case 1:
++			case 3:
++				cpu->connector = CONN_SLOT_1;
++				add_to_cpuname("Celeron (Tualatin) [tA1/cA2]");
++				break;
++			case 6:
++				cpu->connector = CONN_MICROFCBGA;
++				add_to_cpuname("Pentium III-M");
+ 				break;
+-			case 0xB:
++			default:
++				cpu->connector = CONN_SLOT_1;
+ 				switch (cpu->stepping) {
+ 				case 1:
+-					nameptr+=sprintf (cpu->name, "%s", "Celeron / Pentium III (Tualatin) [tA1]");
++					add_to_cpuname("Pentium III (Tualatin) [tA1/cA2]");
++					break;
++				case 4:
++					add_to_cpuname("Pentium III [B-1]");
+ 					break;
+ 				default:
+-					nameptr+=sprintf (cpu->name, "%s", "Unknown CPU");
++					add_to_cpuname("Unknown CPU");
+ 					break;
+ 				}
+-				break;
+-			}
+-			break;
+-
+-		case 7:		/* Family 7 */
+-			nameptr += sprintf (cpu->name, "%s", "Itanium");
+-			break;
+-
+-		case 0xF:	/* Family 15 */
+-			switch (cpu->model) {
+-			case 0:
+-				nameptr += sprintf (cpu->name, "%s", "Pentium 4");
+-				switch (cpu->stepping) {
+-				case 7:
+-					nameptr+=sprintf (nameptr, "%s", " [B2]");
++		}
++		break;
++	case 0x6d0:
++		add_to_cpuname("Pentium M ");
++		cpu->connector = CONN_MICROFCBGA;
++		switch (cpu->stepping) {
++			case 1:	add_to_cpuname("(Dothan) [A-1]");
++					break;
++
++			case 2:	add_to_cpuname("(Dothan) [A-2]");
++					break;
++
++			/*
++				S-spec	Processor	Hi-Freq	Low-Freq
++						Number
++				SL7EM	755			2.0GHz	600MHz
++				SL7EL	755			2.0GHz	600MHz
++				SL7EN	745			1.8GHz	600MHz
++				SL7EQ	745			1.8GHz	600MHz
++				SL7EP	735			1.7GHz	600MHz
++				SL7ER	735			1.7GHz	600MHz
++				SL7EG	725			1.6GHz	600MHz
++				SL7F2	725			1.6GHz	600MHz
++				SL7GL	715			1.5GHz	600MHz
++				SL7GK	715			1.5GHz	600MHz
++				SL7VC	738			1.4GHz	600MHz
++				SL7F4	733			1.1GHz	600MHz
++				SL7VD	733			1.1GHz	600MHz
++				SL7V2	723			1.0GHz	600MHz
++			 */
++			case 6:	add_to_cpuname("(Dothan) [B-1]");
++					break;
++
++			/*
++			   FSB=533 2MB L2 90nm
++				SL86G	730			1.6GHz	800MHz
++				SL7SA	740			1.73GHz	800MHz
++				SL7S9	750			1.86GHz	800MHz
++				SL7SM	760			2.0GHz	800MHz
++				SL7SL	770			2.13GHz	800MHz
++				SL7VB	780			2.26GHz	800MHz
++				SL86M	730			1.6GHz	800MHz
++				SL7S8	740			1.73GHz	800MHz
++				SL7SR	750			1.86GHz	800MHz
++				Sl7SQ	760			2.0GHz	800MHz
++				SL7SP	770			2.13GHz	800MHz
++				SL7SN	780			2.26GHz	800MHz
++				SL86B	740			1.73GHz	800MHz
++				SL86A	750			1.86GHz	800MHz
++				SL869	760			2.0GHz	800MHz
++				SL868	770			2.13GHz	800MHz
++				SL8QK	780			2.26GHz	800MHz
++			   FSB=400
++				SL8QF	778			1.6GHz	600MHz
++				SL89X	758			1.5GHz	600MHz
++				SL8A3	723			1.0GHz	600MHz
++				SL8LM	733J		1.1GHz	600MHz
++				SL8A2	733J		1.1GHz	600MHz
++				SL89Z	753			1.2GHz	600MHz
++				SL8LL	753			1.2GHz	600MHz
++				SL8QG	778			1.6GHz	600MHz
++				SL89M	758			1.5GHz	600MHz
++				SL89R	723			1.0GHz	600MHz
++				SL8LT	733J		1.1GHz	600MHz
++				SL89Q	733J		1.1GHz	600MHz
++				SL89P	753			1.2GHz	600MHz
++				SL8LS	753			1.2GHz	600MHz
++				SL89N	738			1.4GHz	600MHz
++				SL89Y	738			1.4GHz	600MHz
++		     */
++			case 8:	add_to_cpuname("(Dothan) [C-0]");
+ 					break;
+-				case 0xA:
+-					nameptr+=sprintf (nameptr, "%s", " [C1]");
++		}
++		break;
++
++	case 0x6e0:
++		add_to_cpuname("Core ");
++		switch (cpu->stepping) {
++			case 8:
++				switch (cpu->MHz) {
++				case 1000:
++					// SL99W/SL8W7 533FSB
++					add_to_cpuname("Duo U2400/Solo U1300 [C-0]");
++					break;
++				case 1200:
++					// SL8W6 533FSB
++					add_to_cpuname("Solo U1400 [C-0]");
++					break;
++				case 1500:
++					// SL8VX 667FSB
++					add_to_cpuname("Duo L2300 [C-0]");
++					break;
++				case 1600:
++					// SL9JE/SL9JV/SL8VR/SL8VV/SL8VY/SL8W3/SL8VW 667FSB
++					add_to_cpuname("Solo T1300/Duo T2300(E)/Duo L2400");
++					break;
++				case 1800:
++					// SL92X/SL8VQ/SL8VU/SL92V/SL92X 667FSB
++					add_to_cpuname("Solo T1400/Duo T2400 [C-0]");
++					break;
++				case 2000:
++					// SL8VP/SL8VT/SL92U/SL92W 667FSB
++					add_to_cpuname("Solo T1500/Duo T2500 [C-0]");
++					break;
++				case 2150:
++					// SL8VN/SL8VS 667FSB
++					add_to_cpuname("Duo T2600 [C-0]");
+ 					break;
+ 				}
+ 				break;
+-			case 1:
+-				nameptr += sprintf (cpu->name, "%s", "Pentium 4");
+-				switch (cpu->stepping) {
+-				case 2:
+-					nameptr+=sprintf (nameptr, "%s", " [D0]");
++			case 0xc:
++				switch (cpu->MHz) {
++				case 1200:
++					// SL99V 533FSB
++					add_to_cpuname("Duo U2500 [D-0]");
++					break;
++				case 1800:
++					// SL9JU 667FSB
++					add_to_cpuname("Duo L2500 [D-0]");
++					break;
++				case 2300:
++					// SL9JP/SL9K4 667FSB
++					add_to_cpuname("Duo T2700 [D-0]");
+ 					break;
+ 				}
++		}
++		break;
++
++	case 0x6f0:
++		add_to_cpuname("Core 2 ");
++		// Do a numerical hack, because they aren't exactly 2100Mhz etc.
++		// FIXME: Come up with a better way to do this, easiest if
++		// Intel gives us an Extreme chip to compare against others ;-)
++		if(cpu->MHz/100 >= 29) {
++			add_to_cpuname("Extreme ");
++		} else {
++			add_to_cpuname("Duo ");
++		}
++		// Check for Thermal Monitor 2 feature bit, because only the
++		// non-mobile processors have it
++		// TODO: Clean up Feature bit handling
++		if(cpu->flags_ecx & (1 << 8)) {
++			cpu->connector = CONN_LGA775;
++			switch (cpu->MHz) {
++			case 1800:
++				// SL9SA 1066FSB 2MB L2
++				add_to_cpuname("E6300");
++				break;
++			case 2150:
++				// SL9S9 1066FSB 2MB L2
++				add_to_cpuname("E6400");
++				break;
++			case 2400:
++				// SL9S8 1066FSB 4MB L2
++				add_to_cpuname("E6600");
++				break;
++			case 2600:
++				// SL9S7 1066FSB 4MB L2
++				add_to_cpuname("E6700");
++				break;
++			case 2950:
++				// SL9S5 1066FSB 4MB L2
++				add_to_cpuname("E6800/X6800");
+ 				break;
+-			case 4:
+-			case 5:
+-				nameptr+=sprintf (cpu->name, "%s", "P4 Xeon (Foster)");
+-				break;
+-			default:
+-				nameptr+=sprintf (cpu->name, "%s", "Unknown CPU");
++			}
++		} else {
++			cpu->connector = CONN_MICROFCBGA;
++			add_to_cpuname("Mobile ");
++			switch (cpu->MHz) {
++			case 1600:
++				// SL9SH/SL9SQ 1.6GHz 667FSB
++				add_to_cpuname("T5500");
++				break;
++			case 1800:
++				// SL9SG/SL9SP 1.8GHz 667FSB
++				add_to_cpuname("T5600");
++			case 2000:
++				// SL9SF/SL9SL 667FSB
++				add_to_cpuname("T7200");
++				break;
++			case 2100:
++				// SL9SE/SL9SK 667FSB
++				add_to_cpuname("T7400");
++				break;
++			case 2300:
++				// SL9SD/SL9SJ 667FSB
++				add_to_cpuname("T7600");
+ 				break;
+ 			}
++		}
++		// TODO: Check that the Mobile chips really are stepping 6 as well.
++		// The Sept 06 Core 2 Intel Errata documentation says there are
++		// at least B1 and B2 steppings.
++		switch(cpu->stepping) {
++		// TODO: B1 as stepping 5 is a 100% guess
++		case 5:
++			add_to_cpuname(" [B1]");
++			break;
++		case 6:
++			add_to_cpuname(" [B2]");
+ 			break;
+ 		}
++		break;
+ 
+-		switch (cpu->type) {
+-		case 0:
+-			sprintf (nameptr, "%s", " Original OEM");
++	case 0x700:		/* Family 7 */
++		add_to_cpuname("Itanium");
++		break;
++
++	case 0xF00:	/* Family 15 */
++		cpu->connector = CONN_SOCKET_423;
++		cpu->datasheet_url = strdup(p4_423_datasheet);
++		cpu->errata_url = strdup(p4_errata);
++		add_to_cpuname("Pentium 4");
++		switch (cpu->stepping) {
++		case 7:
++			//SL4QD SL4SF = 1.3GHz
++			//SL4SG SL4SC = 1.4GHz
++			//SL4SH SL4TY = 1.5GHz
++			add_to_cpuname(" [B2]");
+ 			break;
++		case 0xA:
++			//SL5FW SL5GC 1.3GHz
++			//SL4WS SL4X2 SL59U SL5N7 1.4GHz
++			//SL4WT SL4X3 SL59V SL5NB 1.5GHz
++			//SL4WU SL4X4 SL5US SL5UW 1.6GHz
++			//SL57W SL57V SL59X SL5N9 1.7GHz
++			//SL4WV SL4X5 SL5UT SL5UV 1.8GHz
++			add_to_cpuname(" [C1]");
++			break;
++		}
++		break;
++
++	case 0xF10:
++		cpu->connector = CONN_SOCKET_423;
++		add_to_cpuname("Pentium 4 (Willamette)");
++		cpu->datasheet_url = strdup(p4_423_datasheet);
++		cpu->errata_url = strdup(p4_errata);
++		switch (cpu->stepping) {
+ 		case 1:
+-			sprintf (nameptr, "%s", " Overdrive");
++			//400FSB 256K L2
++			//SSpec MHz L3
++			//SL5G8 1.6 1M
++			//SL5S4 1.6 1M
++			//SL5FZ 1.4 512K
++			//SL5RZ 1.4 512K
++			//SL5G2 1.5 512K
++			//SL5RW 1.5 512K
++			add_to_cpuname(" [C0]");
+ 			break;
+ 		case 2:
+-			sprintf (nameptr, "%s", " Dual-capable");
++			//SL5TG SL5UE 1.4GHz
++			//SL5SX SL5TJ SL5UF SL62Y SL5TN 1.5GHz
++			//SL5VL SL5UL SL5VH SL5UJ 1.6GHz
++			//SL5SY SL5TK SL5UG SL62Z 1.7GHz
++			//SL5VM SL5VM SL5VJ SL5UK 1.8GHz
++			//SL5VN SL5WH SL5VK SL5WG 1.9GHz
++			//SL5SZ SL5TQ SL5TL 2GHz
++			add_to_cpuname(" [D0]");
+ 			break;
+ 		case 3:
+-			sprintf (nameptr, "%s", " Reserved");
++			//SL6BC SL679 1.6GHz
++			//SL6BD SL67A 1.7GHz
++			//SL6BE SL78B 1.8GHz
++			//SL6BF SL67C 1.9GHz
++			add_to_cpuname(" [E0]");
+ 			break;
+ 		}
+-	}
+-}
+-
+-
+-void display_Intel_info (unsigned int maxi, struct cpudata *cpu)
+-{
+-	int ntlb, i;
+-	unsigned long eax, ebx, ecx, edx;
+-
+-	printf ("Family: %d Model: %d Stepping: %d Type: %d [%s]\n",
+-		cpu->family, cpu->model, cpu->stepping, cpu->type, cpu->name);
++		break;
++	case 0xF20:
++		cpu->connector = CONN_SOCKET_478;
++		cpu->datasheet_url = strdup(p4_478_datasheet);
++		cpu->errata_url = strdup(p4_errata);
++		switch (cpu->brand) {
++			case 15:
++				add_to_cpuname("Celeron (P4 core)");
++				break;
++			case 7:
++			default:
++				add_to_cpuname("Pentium 4 (Northwood)");
++				break;
++		}
++		switch (cpu->stepping) {
++		case 2:
++			//512K L2
++			//          L3
++			//SL6GZ 1.5 1M
++			//SL6KB 1.5 1M
++			//SL6H2 1.9 2M
++			//SL6KC 1.9 2M
++			//SL66Z 2.0 1M
++			//SL6KD 2.0 1M
++			add_to_cpuname(" [A0]");
++			break;
++		case 4:
++			//SL66B 1.6GHz
++			//SL63X SL62P SL6BQ 1.8GHz
++			//SL6BR SL5YR 2GHz
++			//SL5YS SL6BS SL5ZU 2.2GHz
++			//SL6B3 SL67Y 2.26GHz (533MHz FSB)
++			//SL6BT SL65R SL67R 2.4GHz (400MHz FSB)
++			//SL6B4 SL67Z 2.4GHz (533MHz FSB)
++			//SL6B5 SL6B2 2.53GHz (533MHz FSB)
++			add_to_cpuname(" [B0]");
++			break;
++		case 5:
++			/*[M0] */
++			//SL6Z3 2.4GHz (800FSB)
++			//SL6Z5 2.8GHz (800FSB)
++			/* P4 Extreme edition.*/
++			//SL7AA 3.2GHz (800FSB) 2MB L3 cache
++			//SL7CH 3.4GHz (800FSB) 2MB L3 cache
++
++			/* 400FSB B1 512K L2 */
++			//SL6YJ 2.0 1M L3
++			//SL6Z6 2.0 1M L3
++			//SL6Z2 2.5 1M L3
++			//SL6Z7 2.5 1M L3
++			//SL6YL 2.8 2M L3
++			//SL6Z8 2.8 2M L3
++			add_to_cpuname(" [M0]");
++			break;
++		case 6:
++			//400FSB 512K L2
++			//SL79V 3.0 4M L3
++			//SL79Z 2.7 2M L3
++			//SL7A5 2.2 2M L3
++			add_to_cpuname(" [C0]");
++			break;
++		case 7:
++			//SL6HL SL6K6 2.8GHz (533MHz FSB)
++			//SL6LA SL6S6 1.8GHz
++			//SL6GQ SL6S7 SL6E7 2GHz
++			//SL6GR SL6SB SL6EB 2.2GHz
++			//SL6DU SL6RY SL6EE 2.26GHz (533FSB)
++			//SL6EF SL6DV SL6S9 SL6RZ SL6E9 2.4GHz (533FSB)
++			//SL6SA 2.5GHz (400FSB)
++			//SL6EG SL6S2 SL6DW 2.53GHz (533FSB)
++			//SL6SB 2.6GHz (400FSB)
++			//SL6S3 SL6SK 2.66GHz (533FSB)
++			//SL6S4 SL6SL 2.8GHz (533FSB)
++			//SL6S5 SL6K7 SL6SM SL6JJ 3.06GHz (533FSB)
++			add_to_cpuname(" [C1]");
++			break;
++		case 9:
++			//SL6QL 1.8GHz
++			//SL6QM SL6PK 2.0GHz
++			//SL6QN SL6PL 2.2GHz
++			//SL6QR SL6PB 2.26GHz (533FSB)
++			//SL6QP SL6PM 2.4GHz
++			//SL6QB SL6PC 2.4GHz (533FSB)
++			//SL6WF SL6WR 2.4GHz (800FSB)
++			//SL6QQ 2.5GHz
++			//SL6Q9 SL6PD 2.53GHz (533FSB)
++			//SL6QR 2.6GHz
++			//SL6WH SL6WS 2.6GHz (800FSB)
++			//SL6QA SL6PE 2.66GHz (533FSB)
++			//SL6QB SL6PF 2.8GHz (533FSB)
++			//SL6WJ SL6WT 2.8GHz (800FSB)
++			//SL6WU SL6WK 3GHz (800FSB)
++			//SL6QC SL6PG 3.06GHz (533FSB)
++			//SL6WG SL6WE 3.2GHz (800FSB)
++			//SL793 3.4GHz (800FSB)
++			add_to_cpuname(" [D1]");
++			break;
++		}
++		break;
++	case 0xF30:
++		switch (cpu->stepping) {
++		case 3:
++			/*
++			sspec speed   fsb l2 90nm
++			SL7D7 2.26GHz 533 512K
++			SL7FY 2.4GHz  800 1M
++			SL7E8 2.4GHz  533 1M
++			SL7E9 2.66GHz 533 1M
++			SL7D8 2.8GHz  533 1M
++			SL79K 2.8GHz  800 1M
++			SL79L 3.0GHz  800 1M
++			SL79M 3.2GHz  800 1M
++			SL7B8 3.2GHz  800 1M
++			SL7B9 3.4GHz  800 1M
++			SL7AJ 3.4GHz  800 1M
++
++			process = "0.09u";
++			125 million transistors
++			112mm2 die size
++			pipeline_stages=31
++			*/
++			add_to_cpuname("Pentium 4 (Prescott) [C0]");
++			break;
++		case 4:
++			/*
++			1M L2 90nm
++			sspec speed   fsb
++			SL7E2 2.8GHz  533
++			SL7E3 2.8GHz  800
++			SL7KA 2.8GHz  800
++			SL7K9 2.8GHz  533
++			SL7E4 3.0GHz  800
++			SL7KB 3.0GHz  800
++			SL7L4 3.0GHz  800
++			SL7L5 3.2GHz  800
++			SL7E5 3.2GHz  800
++			SL7KC 3.2GHz  800
++			SL7E6 3.4GHz  800
++			SL7KD 3.4GHz  800
++			SL7YP 2.4GHz  533
++			SL7YU 2.66GHz 533
++			SL7J4 2.8GHz  533
++			SL7J5 2.8GHz  800
++			SL7KH 2.8GHz  533
++			SL7KJ 2.8GHz  800
++			SL7YV 2.93GHz 533
++			SL7J6 3.0GHz  800
++			SL7KK 3.0GHz  800
++			SL7J7 3.2GHz  800
++			SL7KL 3.2GHz  800
++			SL7LA 3.2GHz  800
++			SL7J8 3.4GHz  800
++			SL7KM 3.4GHz  800
++			SL7L8 3.4GHz  800
++			SL7J9 3.6GHz  800
++			SL7KN 3.6GHz  800
++			SL7L9 3.6GHz  800
++			 */
++			add_to_cpuname("Pentium 4 (Prescott) [D0]");
++			break;
++		}
++		break;
+ 
+-	/* Pentium4 and above have cpu name. */
+-	cpuid (cpu->number, 0x80000000, &eax, &ebx, &ecx, &edx);
+-	if (cpu->family == 0xF)
+-		get_model_name (eax, cpu);
+-
+-	cpuid (cpu->number, 0x00000001, &eax, &ebx, &ecx, &edx);
+-	decode_feature_flags (cpu, edx, 0);
+-
+-	if (maxi >= 2 && show_cacheinfo) {
+-		/* Decode TLB and cache info */
+-		ntlb = 255;
+-		for (i = 0; i < ntlb; i++) {
+-			cpuid (cpu->number, 2, &eax, &ebx, &ecx, &edx);
+-			ntlb = eax & 0xff;
+-			decode_Intel_TLB (eax >> 8, cpu->family);
+-			decode_Intel_TLB (eax >> 16, cpu->family);
+-			decode_Intel_TLB (eax >> 24, cpu->family);
+-
+-			if ((ebx & 0x80000000) == 0) {
+-				decode_Intel_TLB (ebx, cpu->family);
+-				decode_Intel_TLB (ebx >> 8, cpu->family);
+-				decode_Intel_TLB (ebx >> 16, cpu->family);
+-				decode_Intel_TLB (ebx >> 24, cpu->family);
+-			}
+-			if ((ecx & 0x80000000) == 0) {
+-				decode_Intel_TLB (ecx, cpu->family);
+-				decode_Intel_TLB (ecx >> 8, cpu->family);
+-				decode_Intel_TLB (ecx >> 16, cpu->family);
+-				decode_Intel_TLB (ecx >> 24, cpu->family);
+-			}
+-			if ((edx & 0x80000000) == 0) {
+-				decode_Intel_TLB (edx, cpu->family);
+-				decode_Intel_TLB (edx >> 8, cpu->family);
+-				decode_Intel_TLB (edx >> 16, cpu->family);
+-				decode_Intel_TLB (edx >> 24, cpu->family);
+-			}
++	case 0xF40:
++		add_to_cpuname("Pentium 4 ");
++		switch (cpu->stepping) {
++		case 1:
++			/*
++			 1M L2 90nm
++			SL88F 2.4GHz  533
++			SL8B3 2.66GHz 533
++			SL88G 2.8GHz  533
++			SL88H 2.8GHz  800
++			SL7PL 2.8GHz  800
++			SL7PK 2.8GHz  533
++			SL7PM 3GHz    800
++			SL88J 3GHz    800
++			SL7PN 3.2GHz  800
++			SL88K 3.2GHz  800
++			SL88L 3.4GHz  800
++			SL7PP 3.4GHz  800
++			SL7PT 2.66GHz 533
++			SL82P 2.8GHz  800
++			SL7PR 2.8GHz  800
++			SL8HX 2.8GHz  800
++			SL85U 2.66GHz 533
++			SL8J8 2.66GHz 533
++			SL85V 2.93GHz 533
++			SL8J9 2.93GHz 533
++			SL87L 3.06GHz 533
++			SL8JA 3.06GHz 533
++			SL82X 3.0GHz  800
++			SL7PU 3.0GHz  800
++			SL8HZ 3.0GHz  800
++			SL7PW 3.2GHz  800
++			SL7PX 3.2GHz  800
++			SL82Z 3.2GHz  800
++			SL8J2 3.2GHz  800
++			SL7PY 3.4GHz  800
++			SL7PZ 3.4GHz  800
++			SL833 3.4GHz  800
++			SL7ZW 3.4GHz  800
++			SL8J5 3.4GHz  800
++			SL84X 3.6GHz  800
++			SL7Q2 3.6GHz  800
++			SL7NZ 3.6GHz  800
++			SL8J6 3.6GHz  800
++			SL82U 3.8GHz  800
++			SL84Y 3.8GHz  800
++			SL7P2 3.8GHz  800
++			SL8J7 3.8GHz  800
++			 */
++			/*
++			 8MB L3 [C-0]
++			 SL8EY 3.3GHz 667
++			 SL8EW 3GHz   667
++			 4MB L3
++			 SL8ED 2.8GHz 667
++			 */
++			add_to_cpuname("(Prescott) [E0]");
++			break;
++		case 3:
++			/*
++			 2M L2 90nm
++			 SL7Z9 3.0GHz  800
++			 SL7Z8 3.2GHz  800
++			 SL8Z7 3.4GHz  800
++			 SL7Z5 3.6GHz  800
++			 SL7Z4 3.73GHz 800
++			 SL7Z3 3.8GHz  800
++			 */
++			add_to_cpuname("(Prescott) [N0]");
++			break;
++		case 4:
++			/*
++			   1Mx2 L2	800MHz FSB
++			   SL88T	2.8GHz
++			   SL88S	3GHz
++			   SL88R	3.2GHz
++			   SL8FK	3.2GHz
++			 */
++			add_to_cpuname("Extreme Edition [A0]");
++			break;
++		default:
++			add_to_cpuname("D (Foster)");
++			break;
+ 		}
+-	}
++		break;
+ 
+-	if (maxi >= 3) {
+-		/* Pentium III CPU serial number */
+-		unsigned long signature;
+-		cpuid (cpu->number, 1, &eax, NULL, NULL, NULL);
+-		signature = eax;
+-
+-		cpuid (cpu->number, 3, &eax, &ebx, &ecx, &edx);
+-		printf ("Processor serial: ");
+-		printf ("%04lX", signature >> 16);
+-		printf ("-%04lX", signature & 0xffff);
+-		printf ("-%04lX", edx >> 16);
+-		printf ("-%04lX", edx & 0xffff);
+-		printf ("-%04lX", ecx >> 16);
+-		printf ("-%04lX\n", ecx & 0xffff);
++	case 0xF50:
++		cpu->connector = CONN_SOCKET_603;
++//		cpu->datasheet_url = strdup(p4_478_datasheet);
++//		cpu->errata_url = strdup(p4_errata);
++		add_to_cpuname("Pentium 4 Xeon (Foster)");
++		break;
++	default:
++		add_to_cpuname("Unknown CPU");
++		break;
+ 	}
+ 
+-	if (show_eblcr) {
+-		if (cpu->family == 6 && cpu->model >= 3) {
+-			unsigned long long eblcr;
+-			read_msr (cpu->number, 0x2A, &eblcr);
+-			interpret_eblcr(eblcr);
+-		}
++	switch (cpu->type) {
++	case 0:
++		add_to_cpuname(" Original OEM");
++		break;
++	case 1:
++		add_to_cpuname(" Overdrive");
++		break;
++	case 2:
++		add_to_cpuname(" Dual-capable");
++		break;
++	case 3:
++		add_to_cpuname(" Reserved");
++		break;
+ 	}
+-
+-	/* FIXME: Bit test for MCA here!*/
+-	if (show_bluesmoke)
+-		decode_Intel_bluesmoke(cpu->number);
+ }
+Only in x86info-2007-01-04/Intel: info.c
+diff -ru x86info-1.7/Intel/Intel.h x86info-2007-01-04/Intel/Intel.h
+--- x86info-1.7/Intel/Intel.h	2001-12-10 16:51:25.000000000 -0500
++++ x86info-2007-01-04/Intel/Intel.h	2006-09-27 19:19:21.000000000 -0400
+@@ -1,6 +1,21 @@
+ #ifndef _INTEL_H
+ #define _INTEL_H
+-void decode_Intel_bluesmoke(int cpunum);
+-void decode_Intel_TLB (int i, int family);
+-void get_intel_cacheinfo (struct cpudata *c);
++extern void decode_Intel_caches (struct cpudata *cpu, int output);
++extern void show_Intel_caches(struct cpudata *cpu);
++extern void decode_Intel_bluesmoke(int cpunum, int family);
++extern void dump_p4_MSRs(struct cpudata *cpu);
++extern void dump_p6_MSRs(struct cpudata *cpu);
++extern void dump_centrino_MSRs(struct cpudata *cpu);
++extern void decode_microcode(struct cpudata *cpu);
++
++#define MSR_IA32_PLATFORM_ID	0x17
++#define MSR_IA32_UCODE_REV		0x8b
++
++#define MSR_IA32_PERF_STATUS		0x198
++#define MSR_IA32_PERF_CTL		0x199
++#define MSR_IA32_THERM_CONTROL		0x19a
++#define MSR_IA32_THERM_STATUS		0x19c
++#define MSR_PM_THERM2_CTL		0x19d
++#define MSR_IA32_MISC_ENABLE		0x1a0
++
+ #endif /* _INTEL_H */
+Only in x86info-2007-01-04/Intel: microcode.c
+Only in x86info-2007-01-04/Intel: MSR-P4.c
+Only in x86info-2007-01-04/Intel: MSR-P6.c
+Only in x86info-2007-01-04/Intel: MSR-PM.c
+diff -ru x86info-1.7/Makefile x86info-2007-01-04/Makefile
+--- x86info-1.7/Makefile	2001-12-11 12:01:40.000000000 -0500
++++ x86info-2007-01-04/Makefile	2006-09-27 19:19:21.000000000 -0400
+@@ -1,51 +1,84 @@
+-CFLAGS = -Wall -W -g -O2
+-#CFLAGS += -mwin32 -DWIN32_LEAN_AND_MEAN
++CFLAGS = -Wall -W -Wshadow -g -O2
++
+ SHELL = /bin/sh
+ 
+-all: x86info
++all: x86info test
+ 
+ OBJS =\
+ 	AMD/identify.o\
+ 	AMD/bluesmoke.o\
+ 	AMD/MSR-Athlon.o\
+ 	AMD/MSR-K6.o\
++	AMD/powernow.o\
++	AMD/dumppsb.o\
++	AMD/bugs.o\
+ \
+ 	Cyrix/identify.o\
+ \
+ 	Intel/identify.o\
++	Intel/info.o\
+ 	Intel/bluesmoke.o\
+ 	Intel/cachesize.o\
+ 	Intel/eblcr.o\
++	Intel/MSR-P4.o\
++	Intel/MSR-P6.o\
++	Intel/MSR-PM.o\
++	Intel/microcode.o\
+ \
+ 	IDT/identify.o\
+ 	IDT/MSR-C3.o\
++	IDT/longhaul.o\
++	IDT/powersaver.o\
++\
++	NatSemi/identify.o\
+ \
+ 	RiSE/identify.o\
+ \
++	SiS/identify.o\
++\
+ 	x86info.o\
+ 	havecpuid.o\
+ 	cpuid.o\
+ 	cpuid_UP.o\
+ 	features.o\
+ 	identify.o\
+-	dumpregs.o\
+ 	rdmsr.o\
+ 	binary.o\
+-	MHz.o\
+ 	mptable.o\
+ 	get_model_name.o\
++	mtrr.o \
++	connector.o\
++\
++	bench/benchmarks.o\
++	bench/MHz.o
+ 
+ x86info: $(OBJS)
+-	gcc -o x86info $(OBJS)
++	$(CC) $(CFLAGS) -o x86info $(OBJS)
+ 
+ .c.o:
+-	gcc $(CFLAGS) -o $@ -c $<
++	$(CC) $(CFLAGS) -o $@ -c $<
+ 
+ .S.o:
+-	gcc $(CFLAGS) -o $@ -c $<
++	$(CC) $(CFLAGS) -o $@ -c $<
++
++nodes:
++	scripts/makenodes
++
++test:
++	scripts/testnodes
++
++VERSION=1.20
++	
++release:
++	git repack -a -d
++	git-prune-packed
++	git-tar-tree HEAD x86info-$(VERSION) | gzip -9 > x86info-$(VERSION).tgz
+ 
+ clean:
+ 	@find . -name "*.o" -exec rm {} \;
+ 	@find . -name "*~" -exec rm {} \;
+ 	@rm -f x86info x86info.exe
+ 
++splint:
++	splint +posixlib -badflag -fileextensions -type -nullassign -boolops -showcolumn -sysunrecog -fullinitblock -onlytrans -unrecog -usedef -statictrans -compdestroy -predboolint -predboolothers -D__`uname -m`__ *.c  AMD/*.c  Cyrix/*.c Intel/*.c NatSemi/*.c RiSE/*.c SiS/*.c IDT/*.c
++
+Only in x86info-1.7/: MHz.c
+diff -ru x86info-1.7/mptable.c x86info-2007-01-04/mptable.c
+--- x86info-1.7/mptable.c	2001-12-11 12:03:45.000000000 -0500
++++ x86info-2007-01-04/mptable.c	2006-09-27 19:19:21.000000000 -0400
+@@ -24,10 +24,9 @@
+  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+  * SUCH DAMAGE.
+  *
+- *	  $Id: mptable.c,v 1.5 2001/12/11 17:03:45 davej Exp $
++ *	  $Id: mptable.c,v 1.8 2005/04/25 20:54:12 davej Exp $
+  */
+ 
+-#define MP_SIG				  0x5f504d5f	  /* _MP_ */
+ 
+ #include <stdio.h>
+ #include <errno.h>
+@@ -38,12 +37,9 @@
+ #include <sys/types.h>
+ 
+ #include "mptable.h"
++#include "x86info.h"
+ 
+-#ifdef linux
+-typedef unsigned int vm_offset_t;
+-#else
+-#include <machine/types.h>
+-#endif
++typedef unsigned long vm_offset_t;
+ 
+ /* EBDA is @ 40:0e in real-mode terms */
+ #define EBDA_POINTER			0x040e		  /* location of EBDA pointer */
+@@ -68,13 +64,25 @@
+ 
+ #define MAXPNSTR				132
+ 
++/* global data */
++static int pfd;			/* physical /dev/mem fd */
++
++static int	busses[16];
++static int	apics[16];
++
++static int	ncpu;
++static int	nbus;
++static int	napic;
++static int	nintr;
++static int verbose_mp;
++
+ typedef struct TABLE_ENTRY {
+-	u_char	type;
+-	u_char	length;
++	u8	type;
++	u8	length;
+ 	char	name[32];
+ } tableEntry;
+ 
+-tableEntry basetableEntryTypes[] =
++static tableEntry basetableEntryTypes[] =
+ {
+ 	{ 0, 20, "Processor" },
+ 	{ 1,  8, "Bus" },
+@@ -86,115 +94,166 @@
+ /* MP Floating Pointer Structure */
+ typedef struct MPFPS {
+ 	char	signature[4];
+-	void*	pap;
+-	u_char	length;
+-	u_char	spec_rev;
+-	u_char	checksum;
+-	u_char	mpfb1;
+-	u_char	mpfb2;
+-	u_char	mpfb3;
+-	u_char	mpfb4;
+-	u_char	mpfb5;
++	u32		pap;
++	u8	length;
++	u8	spec_rev;
++	u8	checksum;
++	u8	mpfb1;
++	u8	mpfb2;
++	u8	mpfb3;
++	u8	mpfb4;
++	u8	mpfb5;
+ } mpfps_t;
+ 
+ /* MP Configuration Table Header */
+ typedef struct MPCTH {
+ 	char	signature[4];
+-	u_short	base_table_length;
+-	u_char	spec_rev;
+-	u_char	checksum;
+-	u_char	oem_id[8];
+-	u_char	product_id[12];
+-	void*	oem_table_pointer;
+-	u_short	oem_table_size;
+-	u_short	entry_count;
+-	void*	apic_address;
+-	u_short	extended_table_length;
+-	u_char	extended_table_checksum;
+-	u_char	reserved;
++	u16	base_table_length;
++	u8	spec_rev;
++	u8	checksum;
++	u8	oem_id[8];
++	u8	product_id[12];
++	u32 oem_table_pointer;
++	u16	oem_table_size;
++	u16	entry_count;
++	u32	apic_address;
++	u16	extended_table_length;
++	u8	extended_table_checksum;
++	u8	reserved;
+ } mpcth_t;
+ 
+ typedef struct PROCENTRY {
+-	u_char	type;
+-	u_char	apicID;
+-	u_char	apicVersion;
+-	u_char	cpuFlags;
+-	u_long	cpuSignature;
+-	u_long	featureFlags;
+-	u_long	reserved1;
+-	u_long	reserved2;
++	u8	type;
++	u8	apicID;
++	u8	apicVersion;
++	u8	cpuFlags;
++	u32	cpuSignature;
++	u32	featureFlags;
++	u32	reserved1;
++	u32	reserved2;
+ } ProcEntry;
+ 
+-static void apic_probe(vm_offset_t* paddr, int* where);
+ 
+-static int MPConfigTableHeader(void* pap);
++static void seekEntry(vm_offset_t addr)
++{
++	if (lseek(pfd, (off_t)addr, SEEK_SET) < 0) {
++		perror("/dev/mem seek");
++		exit(EXIT_FAILURE);
++	}
++}
+ 
+-static int readType(void);
+-static void seekEntry(vm_offset_t addr);
+-static void readEntry(void* entry, int size);
++static void readEntry(void* entry, int size)
++{
++	if (read(pfd, entry, size) != size) {
++		perror("readEntry");
++		exit(EXIT_FAILURE);
++	}
++}
+ 
+-static void processorEntry(void);
++static int readType(void)
++{
++	unsigned char type;
+ 
+-/* global data */
+-int	pfd;			/* physical /dev/mem fd */
++	if (read(pfd, &type, sizeof(unsigned char)) != sizeof(unsigned char)) {
++		perror("type read");
++		exit(EXIT_FAILURE);
++	}
+ 
+-int	busses[16];
+-int	apics[16];
++	if (lseek(pfd, -1, SEEK_CUR) < 0) {
++		perror("type seek");
++		exit(EXIT_FAILURE);
++	}
+ 
+-int	ncpu;
+-int	nbus;
+-int	napic;
+-int	nintr;
+-int	verbose;
++	return (int)type;
++}
+ 
+-int issmp(int *numcpu, int verb)
++static void processorEntry(void)
+ {
+-	vm_offset_t paddr;
+-	mpfps_t mpfps;
+-	int where;
+-	int defaultConfig;
++	ProcEntry entry;
+ 
+-	verbose=verb;
+-	/* open physical memory for access to MP structures */
+-	if ((pfd = open("/dev/mem", O_RDONLY)) < 0) {
+-		fprintf(stderr, "issmp(): /dev/mem: %s\n", strerror(errno));
+-		return -1;
++	/* read it into local memory */
++	readEntry(&entry, sizeof(entry));
++
++	/* count it */
++	++ncpu;
++
++	if (verbose_mp) {
++		printf("#\t%2d", (int) entry.apicID);
++		printf("\t 0x%2x", (unsigned int) entry.apicVersion);
++
++		printf("\t %s, %s",
++				(entry.cpuFlags & PROCENTRY_FLAG_BP) ? "BSP" : "AP",
++				(entry.cpuFlags & PROCENTRY_FLAG_EN) ? "usable" : "unusable");
++
++		printf("\t %d\t %d\t %d",
++				(int) (entry.cpuSignature >> 8) & 0x0f,
++				(int) (entry.cpuSignature >> 4) & 0x0f,
++				(int)  entry.cpuSignature & 0x0f);
++
++		printf("\t 0x%04x\n", entry.featureFlags);
+ 	}
++}
+ 
+-	/* probe for MP structures */
+-	apic_probe(&paddr, &where);
+-	if (where <= 0) {
+-		if(numcpu) *numcpu=1;
++
++static int MPConfigTableHeader(u32 pap)
++{
++	vm_offset_t paddr;
++	mpcth_t	 cth;
++	int x;
++	int totalSize, t;
++	int count, c;
++
++	if (pap == 0) {
++		printf("MP Configuration Table Header MISSING!\n");
+ 		return SMP_NO;
+ 	}
+ 
+-	/* read in mpfps structure*/
++	/* convert physical address to virtual address */
++	paddr = (vm_offset_t)pap;
++
++	/* read in cth structure */
+ 	seekEntry(paddr);
+-	readEntry(&mpfps, sizeof(mpfps_t));
++	readEntry(&cth, sizeof(cth));
+ 
+-	/* check whether an MP config table exists */
+-	if (! (defaultConfig = mpfps.mpfb1))
+-		MPConfigTableHeader(mpfps.pap);
++	totalSize = cth.base_table_length - sizeof(struct MPCTH);
++	count = cth.entry_count;
++
++	/* initialize tables */
++	for (x = 0; x < 16; ++x)
++		busses[ x ] = apics[ x ] = 0xff;
++
++	ncpu = 0;
++	nbus = 0;
++	napic = 0;
++	nintr = 0;
++
++	/* process all the CPUs */
++	if (verbose_mp)
++		printf("MP Table:\n#\tAPIC ID\tVersion\tState\t\tFamily\tModel\tStep\tFlags\n");
++	for (t = totalSize, c = count; c; c--) {
++		if (readType() == 0)
++			processorEntry();
++		totalSize -= basetableEntryTypes[ 0 ].length;
++	}
++	if (verbose_mp)
++		printf ("\n");
+ 
+-	if(numcpu) *numcpu=ncpu;
+ 	return SMP_YES;
+ }
+ 
++
++
+ /*
+  * set PHYSICAL address of MP floating pointer structure
+  */
+ #define NEXT(X)		((X) += 4)
+-static void
+-apic_probe(vm_offset_t* paddr, int* where)
++static int apic_probe(vm_offset_t* paddr)
+ {
+-	/*
+-	 * c rewrite of apic_probe() by Jack F. Vogel
+-	 */
+-
+-unsigned int x;
+-	u_short segment;
++	unsigned int x;
++	u16 segment;
+ 	vm_offset_t target;
+-	u_int buffer[ BIOS_SIZE / sizeof(int) ];
++	unsigned int buffer[BIOS_SIZE];
++	const char MP_SIG[]="_MP_";
+ 
+ 	/* search Extended Bios Data Area, if present */
+ 	seekEntry((vm_offset_t)EBDA_POINTER);
+@@ -204,11 +263,10 @@
+ 		seekEntry(target);
+ 		readEntry(buffer, ONE_KBYTE);
+ 
+-		for (x = 0; x < ONE_KBYTE / sizeof (unsigned int); NEXT(x)) {
+-			if (buffer[ x ] == MP_SIG) {
+-				*where = 1;
+-				*paddr = (x * sizeof(unsigned int)) + target;
+-				return;
++		for (x = 0; x < ONE_KBYTE / 4; NEXT(x)) {
++			if (!strncmp((char *)&buffer[x], MP_SIG, 4)) {
++				*paddr = (x*4) + target;
++				return 1;
+ 			}
+ 		}
+ 	}
+@@ -216,16 +274,15 @@
+ 	/* read CMOS for real top of mem */
+ 	seekEntry((vm_offset_t)TOPOFMEM_POINTER);
+ 	readEntry(&segment, 2);
+-	--segment;										  /* less ONE_KBYTE */
++	--segment;						  /* less ONE_KBYTE */
+ 	target = segment * 1024;
+ 	seekEntry(target);
+ 	readEntry(buffer, ONE_KBYTE);
+ 
+-	for (x = 0; x < ONE_KBYTE / sizeof (unsigned int); NEXT(x)) {
+-		if (buffer[ x ] == MP_SIG) {
+-			*where = 2;
+-			*paddr = (x * sizeof(unsigned int)) + target;
+-			return;
++	for (x = 0; x < ONE_KBYTE/4; NEXT(x)) {
++		if (!strncmp((char *)&buffer[x], MP_SIG, 4)) {
++			*paddr = (x*4) + target;
++			return 2;
+ 		}
+ 	}
+ 
+@@ -235,11 +292,10 @@
+ 		seekEntry(target);
+ 		readEntry(buffer, ONE_KBYTE);
+ 
+-		for (x = 0; x < ONE_KBYTE / sizeof (unsigned int); NEXT(x)) {
+-			if (buffer[ x ] == MP_SIG) {
+-				*where = 3;
+-				*paddr = (x * sizeof(unsigned int)) + target;
+-				return;
++		for (x = 0; x < ONE_KBYTE/4; NEXT(x)) {
++			if (!strncmp((char *)&buffer[x], MP_SIG, 4)) {
++				*paddr = (x*4) + target;
++				return 3;
+ 			}
+ 		}
+ 	}
+@@ -248,11 +304,10 @@
+ 	seekEntry(BIOS_BASE);
+ 	readEntry(buffer, BIOS_SIZE);
+ 
+-	for (x = 0; x < BIOS_SIZE / sizeof(unsigned int); NEXT(x)) {
+-		if (buffer[ x ] == MP_SIG) {
+-			*where = 4;
+-			*paddr = (x * sizeof(unsigned int)) + BIOS_BASE;
+-			return;
++	for (x = 0; x < BIOS_SIZE/4; NEXT(x)) {
++		if (!strncmp((char *)&buffer[x], MP_SIG, 4)) {
++			*paddr = (x*4) + BIOS_BASE;
++			return 4;
+ 		}
+ 	}
+ 
+@@ -260,11 +315,10 @@
+ 	seekEntry(BIOS_BASE2);
+ 	readEntry(buffer, BIOS_SIZE);
+ 
+-	for (x = 0; x < BIOS_SIZE / sizeof(unsigned int); NEXT(x)) {
+-		if (buffer[ x ] == MP_SIG) {
+-			*where = 5;
+-			*paddr = (x * sizeof(unsigned int)) + BIOS_BASE2;
+-			return;
++	for (x = 0; x < BIOS_SIZE/4; NEXT(x)) {
++		if (!strncmp((char *)&buffer[x], MP_SIG, 4)) {
++			*paddr = (x*4) + BIOS_BASE2;
++			return 4;
+ 		}
+ 	}
+ 
+@@ -273,11 +327,10 @@
+ 	seekEntry(target);
+ 	readEntry(buffer, GROPE_SIZE);
+ 
+-	for (x = 0; x < GROPE_SIZE / sizeof(unsigned int); NEXT(x)) {
+-		if (buffer[ x ] == MP_SIG) {
+-			*where = 6;
+-			*paddr = (x * sizeof(unsigned int)) + GROPE_AREA1;
+-			return;
++	for (x = 0; x < GROPE_SIZE/4; NEXT(x)) {
++		if (!strncmp((char *)&buffer[x], MP_SIG, 4)) {
++			*paddr = (x*4) + GROPE_AREA1;
++			return 5;
+ 		}
+ 	}
+ 
+@@ -285,128 +338,78 @@
+ 	seekEntry(target);
+ 	readEntry(buffer, GROPE_SIZE);
+ 
+-	for (x = 0; x < GROPE_SIZE / sizeof(unsigned int); NEXT(x)) {
+-		if (buffer[ x ] == MP_SIG) {
+-			*where = 7;
+-			*paddr = (x * sizeof(unsigned int)) + GROPE_AREA2;
+-			return;
++	for (x = 0; x < GROPE_SIZE/4; NEXT(x)) {
++		if (!strncmp((char *)&buffer[x], MP_SIG, 4)) {
++			*paddr = (x*4) + GROPE_AREA2;
++			return 6;
+ 		}
+ 	}
+ 
+-	*where = 0;
+ 	*paddr = (vm_offset_t)0;
++	return 0;
+ }
+ 
+-static int MPConfigTableHeader(void* pap)
++
++int enumerate_cpus(void)
+ {
+ 	vm_offset_t paddr;
+-	mpcth_t	 cth;
+-	int x;
+-	int totalSize, t;
+-	int count, c;
++	mpfps_t mpfps;
+ 
+-	if (pap == 0) {
+-		printf("MP Configuration Table Header MISSING!\n");
+-		return SMP_NO;
++	/* open physical memory for access to MP structures */
++	if ((pfd = open("/dev/mem", O_RDONLY)) < 0) {
++		fprintf(stderr, "enumerate_cpus(): /dev/mem: %s\n", strerror(errno));
++		return -1;
+ 	}
+ 
+-	/* convert physical address to virtual address */
+-	paddr = (vm_offset_t)pap;
++	/* probe for MP structures */
++	if (apic_probe(&paddr) <= 0)
++		return 1;
+ 
+-	/* read in cth structure */
++	/* read in mpfps structure*/
+ 	seekEntry(paddr);
+-	readEntry(&cth, sizeof(cth));
+-
+-	totalSize = cth.base_table_length - sizeof(struct MPCTH);
+-	count = cth.entry_count;
+-
+-	/* initialze tables */
+-	for (x = 0; x < 16; ++x)
+-		busses[ x ] = apics[ x ] = 0xff;
+-
+-	ncpu = 0;
+-	nbus = 0;
+-	napic = 0;
+-	nintr = 0;
+-
+-	/* process all the CPUs */
+-	if(verbose) printf("# Processors:\tAPIC ID\tVersion\tState\t\tFamily\tModel\tStep\tFlags\n");
+-	for (t = totalSize, c = count; c; c--) {
+-		if (readType() == 0)
+-			processorEntry();
+-		totalSize -= basetableEntryTypes[ 0 ].length;
+-	}
+-	
+-	return SMP_YES;
+-}
+-
+-static int readType(void)
+-{
+-	u_char type;
+-
+-	if (read(pfd, &type, sizeof(u_char)) != sizeof(u_char)) {
+-		perror("type read");
+-		exit(1);
+-	}
++	readEntry(&mpfps, sizeof(mpfps_t));
+ 
+-	if (lseek(pfd, -1, SEEK_CUR) < 0) {
+-		perror("type seek");
+-		exit(1);
+-	}
++	/* check whether an MP config table exists */
++	if (!mpfps.mpfb1)
++		if (MPConfigTableHeader(mpfps.pap) == SMP_YES)
++			return ncpu;
+ 
+-	return (int)type;
++	return 1;
+ }
+ 
+-static void seekEntry(vm_offset_t addr)
++int issmp(int verb)
+ {
+-	if (lseek(pfd, (off_t)addr, SEEK_SET) < 0) {
+-		perror("/dev/mem seek");
+-		exit(1);
+-	}
+-}
++	vm_offset_t paddr;
++	mpfps_t mpfps;
+ 
+-static void readEntry(void* entry, int size)
+-{
+-	if (read(pfd, entry, size) != size) {
+-		perror("readEntry");
+-		exit(1);
++	verbose_mp=verb;
++	/* open physical memory for access to MP structures */
++	if ((pfd = open("/dev/mem", O_RDONLY)) < 0) {
++		fprintf(stderr, "issmp(): /dev/mem: %s\n", strerror(errno));
++		return -1;
+ 	}
+-}
+ 
+-static void processorEntry(void)
+-{
+-	ProcEntry entry;
++	/* probe for MP structures */
++	if (apic_probe(&paddr) <= 0)
++		return SMP_NO;
+ 
+-	/* read it into local memory */
+-	readEntry(&entry, sizeof(entry));
++	/* read in mpfps structure*/
++	seekEntry(paddr);
++	readEntry(&mpfps, sizeof(mpfps_t));
+ 
+-	/* count it */
+-	++ncpu;
++	/* check whether an MP config table exists */
++	if (!mpfps.mpfb1)
++		return MPConfigTableHeader(mpfps.pap);
+ 
+-	if(verbose)
+-	{
+-		printf("#\t\t%2d", entry.apicID);
+-		printf("\t 0x%2x", entry.apicVersion);
+-		
+-		printf("\t %s, %s",
+-				(entry.cpuFlags & PROCENTRY_FLAG_BP) ? "BSP" : "AP",
+-				(entry.cpuFlags & PROCENTRY_FLAG_EN) ? "usable" : "unusable");
+-		
+-		printf("\t %ld\t %ld\t %ld",
+-				(entry.cpuSignature >> 8) & 0x0f,
+-				(entry.cpuSignature >> 4) & 0x0f,
+-				entry.cpuSignature & 0x0f);
+-		
+-		printf("\t 0x%04lx\n", entry.featureFlags);
+-	}
++	return SMP_NO;
+ }
+ 
+ #ifdef STANDALONE
+ int main()
+ {
+ 	int	numcpu, smp;
+-
+-	smp=issmp(&numcpu, 1);
++	numcpu = enumerate_cpus();
++	smp=issmp(1);
+ 	printf("SMP: %d\nCPU: %d\n", smp, numcpu);
+ 	return 0;
+ }
+diff -ru x86info-1.7/mptable.h x86info-2007-01-04/mptable.h
+--- x86info-1.7/mptable.h	2001-12-10 11:46:56.000000000 -0500
++++ x86info-2007-01-04/mptable.h	2006-09-27 19:19:21.000000000 -0400
+@@ -4,6 +4,6 @@
+ #define	SMP_NO	0
+ #define SMP_YES	1
+ 
+-int issmp(int *ncpu, int verbose);
++int issmp(int verbose);
+ 
+ #endif
+Only in x86info-2007-01-04/: mtrr.c
+Only in x86info-2007-01-04/: NatSemi
+diff -ru x86info-1.7/rdmsr.c x86info-2007-01-04/rdmsr.c
+--- x86info-1.7/rdmsr.c	2001-12-09 11:35:51.000000000 -0500
++++ x86info-2007-01-04/rdmsr.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,5 +1,5 @@
+ /*
+- *  $Id: rdmsr.c,v 1.10 2001/12/09 16:35:51 davej Exp $
++ *  $Id: rdmsr.c,v 1.16 2003/06/09 22:15:20 davej Exp $
+  *  This file is part of x86info.
+  *  (C) 2001 Dave Jones.
+  *
+@@ -16,28 +16,39 @@
+ #include <unistd.h>
+ #include "x86info.h"
+ 
+-int read_msr(int cpu, unsigned int index, unsigned long long *val)
++int read_msr(int cpu, unsigned int idx, unsigned long long *val)
+ {
+ 	char cpuname[16];
+ 	unsigned char buffer[8];
+ 	unsigned long lo, hi;
+ 	int fh;
++	static int nodriver=0;
+ 
+-	sprintf (cpuname, "/dev/cpu/%d/msr", cpu);
++	if (nodriver==1)
++		return 0;
+ 
+-	fh = open (cpuname, O_RDONLY);
++	(void)snprintf(cpuname, sizeof(cpuname), "/dev/cpu/%d/msr", cpu);
++
++	fh = open(cpuname, O_RDONLY);
+ 	if (fh==-1) {
+-		if (!silent) perror(cpuname);
+-		return (0);
++		if (!silent)
++			perror(cpuname);
++		nodriver=1;
++		return 0;
+ 	}
+ 
+-	lseek (fh, index, SEEK_CUR);
++	if (lseek(fh, idx, SEEK_CUR)==-1) {
++		perror("lseek");
++		exit(EXIT_FAILURE);
++	}
+ 
+ 	if (fh != -1) {
+-
+-		if (read (fh, &buffer[0], 8) != 8) {
+-			close (fh);
+-			return (0);
++		if (read(fh, &buffer[0], 8) != 8) {
++			if (close(fh) == -1) {
++				perror("close");
++				exit(EXIT_FAILURE);
++			}
++			return 0;
+ 		}
+ 
+ 		lo = (*(unsigned long *)buffer);
+@@ -45,8 +56,11 @@
+ 		*val = hi;
+ 		*val = (*val<<32) | lo;
+ 	}
+-	close (fh);
+-	return (1);
++	if (close(fh)==-1) {
++		perror("close");
++		exit(EXIT_FAILURE);
++	}
++	return 1;
+ }
+ 
+ 
+@@ -55,11 +69,14 @@
+ 	unsigned long long val=0;
+ 
+ 	if (read_msr(cpu, msr, &val) == 1) {
+-		printf ("MSR: 0x%08x=0x%8llx : ", msr, val);
+-		if (size==32)
++		if (size==32){
++			printf ("MSR: 0x%08x=0x%08lx : ", msr, (unsigned long) val);
+ 			binary32(val);
+-		if (size==64)
++		}
++		if (size==64) {
++			printf ("MSR: 0x%08x=0x%016llx : ", msr, val);
+ 			binary64(val);
++		}
+ 		return;
+ 	}
+ 	printf ("Couldn't read MSR 0x%x\n", msr);
+diff -ru x86info-1.7/README x86info-2007-01-04/README
+--- x86info-1.7/README	2001-12-11 12:01:41.000000000 -0500
++++ x86info-2007-01-04/README	2006-09-27 19:19:21.000000000 -0400
+@@ -1,5 +1,5 @@
+-x86info v1.7            http://www.sourceforge.net/projects/x86info
+-Dave Jones <davej@suse.de>
++x86info v1.20            http://www.codemonkey.org.uk/projects/x86info
++Dave Jones <davej@redhat.com>
+ 
+ Somewhere in the mists of time, there was a program by Phil Karn (KA9Q)
+ called cpuid, which identified CPU. It didn't get updated very often,
+@@ -10,8 +10,6 @@
+ from his code, but the last remnants are now long gone. Additional functionality
+ has been added, such as support for SMP, and building on non-Linux platforms.
+ 
+-For problems specific to the Cygwin/Win32 port, contact
+-Matthew Gregan <mgregan@jade.co.nz>.
+ 
+ 
+ Features:
+@@ -22,8 +20,8 @@
+ 
+ 
+ Caveats:
+-   For usage of the MSR / SMP functions, x86info needs the
+-   x86 cpuid driver provided with the Linux kernel 2.2.18 / 2.4.0,
++*  For usage of the MSR / SMP functions, x86info needs the
++   x86 cpuid driver provided with the Linux kernel since 2.2.18 / 2.4.0,
+    and the appropriate nodes in /dev
+ 
+    To set up these devices, do the following..
+@@ -36,13 +34,12 @@
+ 		mknod msr c 202 $i
+ 	done
+ 
+-   To build under Win32/Cygwin, uncomment the second line
+-   in the Makefile, otherwise some files will fail to build.
++*  If you are using the cpuid / msr drivers built as modules
++   as opposed to built into the kernel, then you should ensure
++   the following is in your /etc/modules.conf
+ 
+-   Usage under Win32 is somewhat limited at present:
+-	- no support for reading MSRs (anyone want to write a driver?)
+-
+-   FreeBSD / OpenBSD / NetBSD also have the same limitations.
++	alias char-major-202 msr  
++	alias char-major-203 cpuid
+ 
+ Info on the command line switches can be found in the man page.
+ 
+Only in x86info-2007-01-04/: results
+diff -ru x86info-1.7/RiSE/identify.c x86info-2007-01-04/RiSE/identify.c
+--- x86info-1.7/RiSE/identify.c	2001-12-10 18:52:56.000000000 -0500
++++ x86info-2007-01-04/RiSE/identify.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,5 +1,5 @@
+ /*
+- *  $Id: identify.c,v 1.6 2001/12/10 23:51:58 davej Exp $
++ *  $Id: identify.c,v 1.11 2002/11/11 20:02:56 davej Exp $
+  *  This file is part of x86info.
+  *  (C) 2001 Dave Jones.
+  *
+@@ -10,66 +10,46 @@
+ #include <stdio.h>
+ #include "../x86info.h"
+ 
+-void Identify_RiSE (unsigned int maxi, struct cpudata *cpu)
++static char *rise_nameptr;
++#define add_to_cpuname(x)   rise_nameptr += snprintf(rise_nameptr, sizeof(x), "%s", x);
++
++void Identify_RiSE (struct cpudata *cpu)
+ {
+ 	unsigned long eax, ebx, ecx, edx;
++
++	rise_nameptr = cpu->name;
+ 	cpu->vendor = VENDOR_RISE;
+ 
+ 	/* Do standard stuff */
+-	if (maxi >= 1) {
+-		cpuid (cpu->number, 1, &eax, &ebx, &ecx, &edx);
+-		cpu->stepping = eax & 0xf;
+-		cpu->model = (eax >> 4) & 0xf;
+-		cpu->family = (eax >> 8) & 0xf;
+-
+-		switch (cpu->family) {
+-		case 5:
+-			switch (cpu->model) {
+-				case 0:		sprintf (cpu->name, "%s", "iDragon (0.25um)");		break;
+-				case 2:		sprintf (cpu->name, "%s", "iDragon (0.18um)");		break;
+-				case 8:		sprintf (cpu->name, "%s", "iDragon II (0.25um)");	break;
+-				case 9:		sprintf (cpu->name, "%s", "iDragon II (0.18um)");	break;
+-				default:	sprintf (cpu->name, "%s", "Unknown CPU");			break;
+-			}
+-			break;
+-
+-		default:
+-			printf ("Unknown CPU");
+-			break;
+-		}
++	if (cpu->maxi < 1)
++		return;
++
++	cpuid (cpu->number, 1, &eax, &ebx, &ecx, &edx);
++	cpu->stepping = eax & 0xf;
++	cpu->model = (eax >> 4) & 0xf;
++	cpu->family = (eax >> 8) & 0xf;
++
++	switch (tuple(cpu) & 0xff0) {
++		case 0x500:	add_to_cpuname("iDragon (0.25um)");
++					break;
++		case 0x520:	add_to_cpuname("iDragon (0.18um)");
++					break;
++		case 0x580:	add_to_cpuname("iDragon II (0.25um)");
++					break;
++		case 0x590:	add_to_cpuname("iDragon II (0.18um)");
++					break;
++		default:	add_to_cpuname("Unknown CPU");
++					break;
+ 	}
+ }
+ 
+ 
+-void display_RiSE_info(unsigned int maxi, unsigned int maxei, struct cpudata *cpu)
++void display_RiSE_info(struct cpudata *cpu)
+ {
+-	unsigned int i;
+-	unsigned long eax, ebx, ecx, edx, tmp=0;
+-
+-	printf ("Family: %d Model: %d Stepping: %d [%s]\n",
+-		cpu->family, cpu->model, cpu->stepping, cpu->name);
+-	get_model_name (maxei, cpu);
+-
+-	if (maxi != 0 && show_registers) {
+-		/* Dump extended info in raw hex */
+-		for (i = 0x00000000; i <= maxi; i++) {
+-			cpuid (cpu->number, i, &eax, &ebx, &ecx, &edx);
+-			printf ("eax in: 0x%x, eax = %08lx ebx = %08lx ecx = %08lx edx = %08lx\n", i, eax, ebx, ecx, edx);
+-		}
+-		printf ("\n");
+-	}
+-
+-	if (maxei != 0 && show_registers) {
+-		/* Dump extended info in raw hex */
+-		for (i = 0x80000000; i <= maxei; i++) {
+-			cpuid (cpu->number, i, &eax, &ebx, &ecx, &edx);
+-			printf ("eax in: 0x%x, eax = %08lx ebx = %08lx ecx = %08lx edx = %08lx\n", i, eax, ebx, ecx, edx);
+-		}
+-		printf ("\n");
+-	}
++	printf ("Family: %u Model: %u Stepping: %u\n",
++		cpu->family, cpu->model, cpu->stepping);
++	printf ("CPU Model : %s\n", cpu->name);
++	get_model_name (cpu);
+ 
+-	cpuid (cpu->number, 0x00000001, &eax, &ebx, &ecx, &edx);
+-	if (maxei >= 0x80000001)
+-		cpuid (cpu->number, 0x80000001, &eax, &ebx, &ecx, &tmp);
+-	decode_feature_flags (cpu, edx, tmp);
++	decode_feature_flags (cpu);
+ }
+Only in x86info-2007-01-04/: scripts
+Only in x86info-2007-01-04/: SiS
+diff -ru x86info-1.7/TODO x86info-2007-01-04/TODO
+--- x86info-1.7/TODO	2001-12-10 17:55:44.000000000 -0500
++++ x86info-2007-01-04/TODO	2006-09-27 19:19:21.000000000 -0400
+@@ -1,23 +1,43 @@
++- Don't output same info more than once on SMP, just make a note
++  that there are N identical CPUs.
++
++- feature flag handling code could use more cleanup.
++
++- Make intel cache sizing use cpuid(4) where present.
++
++- Fix benchmarking
++
++- introduce hexdump option (-x) to dump register values in addition to decoding.
++
+ - Identify Transmeta CPUs.
+ 
+-- Report the CPU packaging type on CPUs where info is available.
++- Decode mtrr registers as well as dumping them
+ 
+-- --mtrr, --arr
+-  Dump MTRR/ARR registers.
++- Dump cyrix ARR registers when we pass --mtrr
+ 
+ - --apic
+   Dump APIC registers
+ 
+-- Recognise CPUs with bugs, and print warnings
+-  if workarounds are not enabled. For example..
+-  "Stepping D0 Duron detected with Cache size bug.
+-   You should upgrade your kernel to work around this bug"
+-
+-- --gcc option to output best optimisation parameters
+-  for that CPU.
++- --gcc option to output best optimisation parameters for that CPU.
+ 
+ - Some CPUs allow the name string to be changed.
+   If this has happened we die horribly. We need to store the current
+   name string, perform the cpuid reset sequence, and restore the
+   name string on exit.
+ 
++- After identifying CPU we can associate more info with the CPU.
++  - CPU codename
++  - Introduction date
++  - number of transistors
++  - voltages (I/O, Core, Maximum)
++  - number of pipelines
++
++- review code for extended natsemi support.
++
++- report L3 (chipset) caches (requires PCI poking)
++
++- might be time to start thinking about XML for CPU descriptions?
++
++- libx86info for other apps
++
++- Be able to tell the user when we have failed to identify the chip, so they can send us information!
+diff -ru x86info-1.7/x86info.1 x86info-2007-01-04/x86info.1
+--- x86info-1.7/x86info.1	2001-12-10 12:30:23.000000000 -0500
++++ x86info-2007-01-04/x86info.1	2006-09-27 19:19:21.000000000 -0400
+@@ -58,7 +58,7 @@
+ x86info \(em display x86 CPU diagnostics 
+ .SH "SYNOPSIS" 
+ .PP 
+-\fBx86info\fP [\fB-a\fP]  [\fB-c\fP]  [\fB-f\fP]  [\fB-m\fP]  [\fB-mhz\fP]  [\fB-r\fP]  [\fB?\fP]  [\fB--all\fP]  [\fB--cache\fP]  [\fB--flags\fP]  [\fB--msr\fP]  [\fB--mhz\fP]  [\fB--registers\fP]  [\fB--help\fP]  
++\fBx86info\fP [\fB-a\fP]  [\fB-c\fP]  [\fB-f\fP] [fB-F\fP]  [\fB-m\fP] [\fB-mhz\fP]  [\fB-r\fP]  [\fB?\fP]  [\fB--all\fP]  [\fB--cache\fP] [\fB--flags\fP] [\fB--verbose\fP]  [\fB--msr\fP]  [\fB--mhz\fP]  [\fB--registers\fP]  [\fB--help\fP]  
+ .SH "DESCRIPTION" 
+ .PP 
+ This manual page documents \fBx86info\fP, a 
+@@ -66,7 +66,7 @@
+ present in an x86 system. 
+ .PP
+ In order to make full use of this program you need to have the CPU ID
+-and MSR device drivers in your kernel with accessable device files
++and MSR device drivers in your kernel with accessible device files
+ /dev/cpu/<n>/cpuid and /dev/cpu/<n>/msr.
+ .SH "OPTIONS" 
+ .PP 
+@@ -78,7 +78,7 @@
+ .IP "\fB-a\fP           \fB--all\fP         " 10 
+ Show all information.  Equivalent to 
+ \fB-c\fP \fB-f\fP \fB-m\fP 	    \fB-r\fP \fB-mhz\fP.  
+-.IP "\fB-c\fP           \fB--cacheinfo\fP         " 10 
++.IP "\fB-c\fP           \fB--cache\fP         " 10 
+ Show TLB, cache sizes and cache associativity. 
+ .IP "\fB-f\fP           \fB--flags\fP         " 10 
+ Show CPU feature flags. 
+@@ -94,17 +94,15 @@
+ Show register values from all possible cpuid calls. 
+ .IP "\fB-s\fP           \fB--show-bluesmoke\fP         " 10 
+ Show machine check exception information.
++.IP "\fB-v\fP           \fB--verbose\fP         " 10 
++Show verbose descriptions.
+ .SH "AUTHOR" 
+ .PP 
+ \fBx86info\fP was written by Dave Jones 
+-<davej@suse.de>. 
++<davej@redhat.com>. 
+ .PP 
+ This manual page was written by Mark Brown <broonie@debian.org> for 
+ the \fBDebian GNU/Linux\fP system (but may be used by others). 
+ .PP 
+ Permission is granted to copy, distribute and/or modify this 
+-document under the terms of the GNU Free Documentation License, 
+-Version 1.1 or any later version published by the Free Software 
+-Foundation; with no Invariant Sections, no Front-Cover Texts and 
+-no Back-Cover Texts. 
+-...\" created by instant / docbook-to-man, Sun 15 Jul 2001, 22:38 
++document under the terms of the GNU General Public License version 2.
+diff -ru x86info-1.7/x86info.c x86info-2007-01-04/x86info.c
+--- x86info-1.7/x86info.c	2001-12-13 13:47:31.000000000 -0500
++++ x86info-2007-01-04/x86info.c	2006-09-27 19:19:21.000000000 -0400
+@@ -1,10 +1,8 @@
+ /*
+- *  $Id: x86info.c,v 1.48 2001/12/13 18:47:31 davej Exp $
+  *  This file is part of x86info.
+- *  (C) 2001 Dave Jones.
++ *  (C) 2001-2006 Dave Jones.
+  *
+  *  Licensed under the terms of the GNU GPL License version 2.
+- *
+  */
+ 
+ #include <stdio.h>
+@@ -12,48 +10,56 @@
+ #include <stdlib.h>
+ #include <unistd.h>
+ 
+-#ifndef linux
+-
+-#ifdef __WIN32__
+-#include <sys/types.h>
+-#include <windows.h>
+-#else
+-#include <sys/types.h>
+-#include <sys/param.h>
+-#include <sys/sysctl.h>
+-#endif /* __WIN32__ */
+-
+-#endif /* linux */
+-
+ #include "x86info.h"
+ 
+-int show_msr=0;
+-int show_registers=0;
+-int show_flags=0;
+-int show_cacheinfo=0;
+-int show_all=0;
+-int show_MHz=0;
+-int show_mptable=0;
++int show_bench=0;
++int show_bios=0;
+ int show_bluesmoke=0;
++int show_bugs=0;
++int show_cacheinfo=0;
++int show_connector=0;
+ int show_eblcr=0;
++int show_msr=0;
++int show_microcode=0;
++int show_mtrr=0;
++int show_pm=0;
++int show_registers=0;
++int show_urls=0;
++
++static int show_mptable=0;
++static int show_flags=0;
++static int show_MHz=0;
+ 
++int verbose=0;
+ int silent = 0;
+ int used_UP = 0;
+ int user_is_root = 1;
+-int need_root = 0;
++static int need_root = 0;
+ 
+-void usage (char *programname)
++unsigned int nrCPUs=1;
++static unsigned int nrSMPCPUs;
++
++static void usage (char *programname)
+ {
+ 	printf ("Usage: %s [<switches>]\n\
+ -a,   --all\n\
+--c,   --cacheinfo \n\
++      --bench\n\
++	  --bios\n\
++      --bugs\n\
++-c,   --cache\n\
++      --connector\n\
+ -f,   --flags\n\
+ -mhz, --mhz\n\
++      --microcode\n\
+ -mp,  --mptable\n\
+ -m,   --msr\n\
+       --mult\n\
++      --mtrr\n\
++      --pm\n\
+ -r,   --registers\n\
+ -s,   --show-bluesmoke\n\
++-u,   --urls\n\
++-v,   --verbose\n\
+ \n", programname);
+ 	exit (0);
+ }
+@@ -64,20 +70,42 @@
+ 
+ 	for (argp = argv+1; argp <= argv + argc && (arg = *argp); argp++) {
+ 		if ((!strcmp(arg, "-a") || !strcmp(arg, "--all"))) {
+-			show_bluesmoke =1;
++//			show_bench = 1;
++			show_bios = 1;
++			show_bluesmoke = 1;
++			show_bugs = 1;
+ 			show_cacheinfo = 1;
++			show_connector = 1;
+ 			show_eblcr =1;
+ 			show_flags = 1;
++			show_microcode = 1;
+ 			show_mptable =1;
+ 			show_msr = 1;
+ 			show_MHz = 1;
++			show_mtrr = 1;
++			show_pm = 1;
+ 			show_registers = 1;
++			show_urls = 1;
++			need_root = 1;
++		}
++
++//		if (!strcmp(arg, "--bench"))
++//			show_bench = 1;
++
++		if (!strcmp(arg, "--bios")) {
+ 			need_root = 1;
++			show_bios = 1;
+ 		}
+ 
++		if (!strcmp(arg, "--bugs"))
++			show_bugs = 1;
++
+ 		if ((!strcmp(arg, "-c") || !strcmp(arg, "--cache")))
+ 			show_cacheinfo = 1;
+ 
++		if (!strcmp(arg, "--connector"))
++			show_connector = 1;
++
+ 		if ((!strcmp(arg, "-f") || !strcmp(arg, "--flags")))
+ 			show_flags = 1;
+ 
+@@ -86,9 +114,9 @@
+ 			show_msr = 1;
+ 		}
+ 
+-		if (!strcmp(arg, "--mult")) {
++		if (!strcmp(arg, "--microcode")) {
+ 			need_root = 1;
+-			show_eblcr = 1;
++			show_microcode = 1;
+ 		}
+ 
+ 		if ((!strcmp(arg, "-mhz") || !strcmp(arg, "--mhz")))
+@@ -99,6 +127,19 @@
+ 			show_mptable = 1;
+ 		}
+ 
++		if (!strcmp(arg, "--mtrr")) {
++			need_root = 1;
++			show_mtrr = 1;
++		}
++
++		if (!strcmp(arg, "--mult")) {
++			need_root = 1;
++			show_eblcr = 1;
++		}
++
++		if (!strcmp(arg, "--pm"))
++			show_pm = 1;
++
+ 		if ((!strcmp(arg, "-r") || !strcmp(arg, "--registers")))
+ 			show_registers = 1;
+ 
+@@ -107,51 +148,52 @@
+ 			show_bluesmoke = 1;
+ 		}
+ 
++		if ((!strcmp(arg, "-u") || !strcmp(arg, "--urls")))
++			show_urls = 1;
++
++		if ((!strcmp(arg, "-v") || !strcmp(arg, "--verbose")))
++			verbose = 1;
++
+ 		if ((!strcmp(arg, "?") || !strcmp(arg, "--help")))
+ 			usage(argv[0]);	
+ 	}
+ }
+ 
+ 
++static void separator(void)
++{
++	int j;
++
++	for (j=0; j<74; j++)
++		printf ("-");
++	printf ("\n");
++}
++
++
+ int main (int argc, char **argv)
+ {
+-	unsigned int i, nrCPUs=1, nrSMPCPUs;
+-	struct cpudata cpu;
++	unsigned int i;
++	struct cpudata *cpu, *head=NULL, *tmp;
+ 
+ 	parse_command_line(argc, argv);
+ 	if (!silent) {
+-		printf ("x86info v1.7.  Dave Jones 2001\n");
+-		printf ("Feedback to <davej@suse.de>.\n\n");
++		printf ("x86info v1.20.  Dave Jones 2001-2006\n");
++		printf ("Feedback to <davej@redhat.com>.\n\n");
+ 	}
+ 
+ 	if ((HaveCPUID())==0) {
+ 		printf ("No CPUID instruction available.\n");
+ 		printf ("No further information available for this CPU.\n");
+-		return(0);
++		return 0;
+ 	}
+ 
+ 	if (getuid()!=0)
+ 		user_is_root=0;
+ 
+-	if (need_root==1 && user_is_root==0)
++	if (need_root && !user_is_root)
+ 		printf ("Need to be root to use specified options.\n");
+ 
+-#if defined __WIN32__
+-	{
+-		SYSTEM_INFO sys_info;
+-		GetSystemInfo(&sys_info);
+-		nrCPUs = sys_info.dwNumberOfProcessors;
+-	}
+-#elif defined _SC_NPROCESSORS_CONF	/* Linux */
+ 	nrCPUs = sysconf (_SC_NPROCESSORS_CONF);
+-#else /* BSD */
+-	{
+-		int mib[2] = { CTL_HW, HW_NCPU };
+-		size_t len;
+-		len = sizeof(nrCPUs);
+-		sysctl(mib, 2, &nrCPUs, &len, NULL, 0);
+-	}
+-#endif /* __WIN32__ */
+ 
+ 	if (!silent) {
+ 		printf ("Found %u CPU", nrCPUs);
+@@ -160,11 +202,10 @@
+ 
+ 		/* Check mptable if present. This way we get number of CPUs
+ 		   on SMP systems that have booted UP kernels. */
+-		if (user_is_root==1) {
+-			issmp (&nrSMPCPUs, 0);
+-			if (nrSMPCPUs > nrCPUs) {
+-				printf (", but found %d CPUs in MPTable.", nrSMPCPUs);
+-			}
++		if (user_is_root) {
++			nrSMPCPUs = enumerate_cpus();
++			if (nrSMPCPUs > nrCPUs)
++				printf (", but found %ud CPUs in MPTable.", nrSMPCPUs);
+ 		}
+ 		printf ("\n");
+ 	}
+@@ -179,28 +220,81 @@
+ 	}
+ 
+ 	if (show_mptable && user_is_root)
+-		issmp (&nrSMPCPUs, 1);
++		(void)issmp(1);		// FIXME: issmp should become 'show_mptable'
++
++	separator();
++
++	/* Iterate over the linked list. */
+ 
+ 	for (i=0; i<nrCPUs; i++) {
+-		cpu.number = i;
++		cpu = malloc (sizeof (struct cpudata));
++		if (!cpu) {
++			printf ("Out of memory\n");
++			return -1;
++		}
++
++		memset (cpu, 0, sizeof(struct cpudata));
++
++		if (!head) {
++			head = cpu;
++		} else {
++			cpu->next = head;
++			head = cpu;
++		}
++
++		cpu->number = i;
+ 
+ 		if (!silent && nrCPUs!=1)
+ 			printf ("CPU #%u\n", i+1);
+ 
+-		identify (&cpu);
++		estimate_MHz(cpu);
++		identify (cpu);
++		show_info (cpu);
+ 
+ 		/*
+ 		 * Doing this per-cpu is a problem, as we can't
+ 		 * schedule userspace code per-cpu.
+ 		 * Although running nrCPUs * threads would probably work.
++		 *
++		 * Could also experiment with the new scheduler binding syscalls.
+ 		 */
+-		if (show_MHz)
+-			estimate_MHz(i);
++		if (show_MHz) {
++			if (cpu->MHz < 1000)
++				printf("%uMHz", cpu->MHz);
++			else {
++				int a = (cpu->MHz / 1000);
++				int b = ((cpu->MHz % 1000)/100);
++				int c = (a*1000)+(b*100);
++
++				printf("%u.%u%uGHz", a, b, (cpu->MHz - c)/10);
++			}
++			printf (" processor (estimate).\n\n");
++		}
++		if (show_bench)
++			show_benchmarks();
++
++		if (nrCPUs>1)
++			separator();
++
++		if (cpu->next)
++			cpu = cpu->next;
++	}
++
++	/* Tear down the linked list. */
++	cpu = head;
++	for (i=0; i<nrCPUs; i++) {
++		if (cpu->datasheet_url)
++			free(cpu->datasheet_url);
++		if (cpu->errata_url)
++			free(cpu->errata_url);
++		tmp = cpu->next;
++		free(cpu);
++		cpu = tmp;
+ 	}
+ 
+ 	if (nrCPUs > 1 && used_UP==1 && (!silent)) {
+-		printf ("\nWARNING: Detected SMP, but unable to access cpuid driver.\n");
+-		printf ("Used single CPU routines. Results inaccurate.\n");
++		printf ("WARNING: Detected SMP, but unable to access cpuid driver.\n");
++		printf ("Used Uniprocessor CPU routines. Results inaccurate.\n");
+ 	}
+ 
+ 	return (0);
+diff -ru x86info-1.7/x86info.h x86info-2007-01-04/x86info.h
+--- x86info-1.7/x86info.h	2001-12-10 17:55:44.000000000 -0500
++++ x86info-2007-01-04/x86info.h	2006-09-27 19:19:21.000000000 -0400
+@@ -1,81 +1,142 @@
+ #ifndef _X86INFO_H
+ #define _X86INFO_H
+-/* x86info by Dave Jones
+- * Based on 'cpuid' by Phil Karn, KA9Q
+- * May be used under the terms of the GNU Public License (GPL)
+- */
+-
+-#ifdef linux
+-#include <linux/types.h>
+-#else
+-#include <machine/types.h>
+-#define __u32 int
+-#endif /* linux */
+ 
+-typedef __u32 u32;
++typedef unsigned char u8;
++typedef unsigned short u16;
++typedef unsigned int u32;
+ 
+ #define VENDOR_AMD	1
+ #define VENDOR_CENTAUR 2
+ #define VENDOR_CYRIX 3
+ #define VENDOR_INTEL 4
+-#define VENDOR_RISE 5
+-#define VENDOR_TRANSMETA 6
++#define VENDOR_NATSEMI 5
++#define VENDOR_RISE 6
++#define VENDOR_TRANSMETA 7
++#define VENDOR_SIS 8
+ 
+ struct cpudata {
++	struct cpudata *next;
+ 	unsigned int number;
+ 	unsigned int vendor;
++	unsigned int efamily;
+ 	unsigned int family;
+ 	unsigned int model;
++	unsigned int emodel;
+ 	unsigned int stepping;
+ 	unsigned int type;
+ 	unsigned int brand;
+ 	unsigned int cachesize_L1_I, cachesize_L1_D;
+ 	unsigned int cachesize_L2;
+ 	unsigned int cachesize_L3;
+-	unsigned int maxi, maxei;
+-	unsigned char name[80];
++	unsigned int cachesize_trace;
++	unsigned int maxi, maxei, maxei2;
++	char name[80];
++	unsigned char connector;
++	unsigned int flags_ecx;
++	unsigned int flags_edx;
++	unsigned int eflags_ecx;
++	unsigned int eflags_edx;
++	unsigned int MHz;
++	char * datasheet_url;
++	char * errata_url;
+ };
+ 
+-void cpuid (int, int, unsigned long *, unsigned long *, unsigned long *, unsigned long *);
+-void cpuid_UP (int, unsigned long *, unsigned long *, unsigned long *, unsigned long *);
++#define tuple(c) ((c->family<<8)|(c->model<<4)|(c->stepping))
++#define etuple(c) ((c->efamily<<8)|(c->model<<4)|(c->stepping))
+ 
+-void Identify_AMD (unsigned int, struct cpudata *cpu);
+-void Identify_Cyrix (unsigned int, unsigned int, struct cpudata *cpu);
+-void Identify_IDT (unsigned int, struct cpudata *cpu);
+-void Identify_Intel (unsigned int, struct cpudata *cpu);
+-void Identify_RiSE (unsigned int, struct cpudata *cpu);
+-
+-void display_AMD_info(unsigned int maxei, struct cpudata *cpu);
+-void display_Cyrix_info(unsigned int maxi, unsigned int maxei, struct cpudata *cpu);
+-void display_IDT_info(unsigned int maxei, struct cpudata *cpu);
+-void display_Intel_info(unsigned int maxi, struct cpudata *cpu);
+-void display_RiSE_info(unsigned int maxi, unsigned int maxei, struct cpudata *cpu);
+-
+-void decode_feature_flags (struct cpudata *cpu, int flags, int eflags);
+-void identify (struct cpudata *cpu);
+-void dumpregs (int cpunum);
+-
+-int read_msr(int cpu, unsigned int index, unsigned long long *val);
+-void binary32(unsigned long value);
+-void binary64(unsigned long long value);
+-void dumpmsr (int cpunum, unsigned int msr, int size);
+-void dumpmsr_bin (int cpunum, unsigned int msr, int size);
+-
+-void estimate_MHz(int cpunum);
+-int HaveCPUID(void);
+-void interpret_eblcr(u32 lo);
+-int issmp(int *numcpu, int verb);
+-void get_model_name (unsigned long maxei, struct cpudata *cpu);
++#define CONN_UNKNOWN		0
++#define CONN_SOCKET_3		1
++#define CONN_SOCKET_4		2
++#define CONN_SOCKET_5		3
++#define CONN_SOCKET_7		4
++#define CONN_SOCKET_370		5
++#define CONN_SOCKET_370_FCPGA	6
++#define CONN_SOCKET_5_7		7
++#define CONN_SUPER_SOCKET_7	8
++#define CONN_SLOT_A		9
++#define CONN_SOCKET_A		10
++#define CONN_SOCKET_A_SLOT_A	11
++#define CONN_SOCKET_A_OR_SLOT_A	12
++#define CONN_SOCKET_57B		13
++#define CONN_MOBILE_7		14
++#define CONN_SOCKET_8		15
++#define CONN_SLOT_1		16
++#define CONN_SLOT_2		17
++#define CONN_SOCKET_423		18
++#define CONN_MMC		19
++#define CONN_MMC2		20
++#define CONN_BGA474		21
++#define CONN_BGA		22
++#define CONN_SOCKET_754		23
++#define CONN_SOCKET_478		24
++#define CONN_SOCKET_603		25
++#define CONN_MICROFCBGA		26
++#define CONN_SOCKET_939		27
++#define CONN_SOCKET_940		28
++#define CONN_LGA775		29
++
++extern void cpuid (int, unsigned int, unsigned long *, unsigned long *, unsigned long *, unsigned long *);
++extern void cpuid_UP (int, unsigned long *, unsigned long *, unsigned long *, unsigned long *);
++
++extern void Identify_AMD (struct cpudata *cpu);
++extern void Identify_Cyrix (struct cpudata *cpu);
++extern void Identify_IDT (struct cpudata *cpu);
++extern void Identify_Intel (struct cpudata *cpu);
++extern void Identify_RiSE (struct cpudata *cpu);
++extern void Identify_NatSemi (struct cpudata *cpu);
++extern void Identify_SiS (struct cpudata *cpu);
++
++extern void display_AMD_info(struct cpudata *cpu);
++extern void display_Cyrix_info(struct cpudata *cpu);
++extern void display_IDT_info(struct cpudata *cpu);
++extern void display_Intel_info(struct cpudata *cpu);
++extern void display_NatSemi_info(struct cpudata *cpu);
++extern void display_RiSE_info(struct cpudata *cpu);
++extern void display_SiS_info(struct cpudata *cpu);
++
++extern void decode_feature_flags (struct cpudata *cpu);
++extern void identify (struct cpudata *cpu);
++extern void show_info (struct cpudata *cpu);
++
++extern int read_msr(int cpu, unsigned int idx, unsigned long long *val);
++extern void binary(unsigned int n, unsigned long value);
++extern void binary32(unsigned long value);
++extern void binary64(unsigned long long value);
++extern void dumpmsr (int cpunum, unsigned int msr, int size);
++extern void dumpmsr_bin (int cpunum, unsigned int msr, int size);
++
++extern void dump_mtrrs (struct cpudata *cpu);
++
++extern void estimate_MHz(struct cpudata *cpu);
++extern int HaveCPUID(void);
++extern void interpret_eblcr(u32 lo);
++extern int issmp(int verb);
++extern int enumerate_cpus(void);
++extern void get_model_name (struct cpudata *cpu);
++extern void decode_connector (unsigned int type);
++extern void show_benchmarks (void);
+ 
++extern int show_bench;
++extern int show_bios;
+ extern int show_bluesmoke;
++extern int show_bugs;
+ extern int show_cacheinfo;
++extern int show_connector;
+ extern int show_eblcr;
+-extern int show_flags;
++extern int verbose;
++extern int show_microcode;
+ extern int show_msr;
++extern int show_mtrr;
++extern int show_pm;
+ extern int show_registers;
++extern int show_urls;
++
++extern unsigned int nrCPUs;
+ 
+ extern int used_UP;
+ extern int silent;
+ extern int user_is_root;
+ 
++#define X86_FEATURE_MTRR	1<<12
++
+ #endif /* _X86INFO_H */
