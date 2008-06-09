@@ -277,6 +277,10 @@ namespace mesmer
         cerr << "Failed building system collison operator.";
       }
 
+      if (!m_pReactionManager->calculateEquilibriumFractions(m_Env.beta)){
+        cerr << "Failed calculating equilibrium fractions.";
+      }
+
       // Calculate eigenvectors and eigenvalues.
       {string thisEvent = "Diagonlize Collision Operator";
       cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";}

@@ -363,76 +363,138 @@ namespace mesmer
     return true ;
   }
 
-  bool ReactionManager::calculateEquilibriumFractions(const double beta){
-    // All species we care about in here is the source term(s) and isomers.
-    // A sink term's equilibrium population is not calculated, because there is no equilibrium for a reaction with a sink term.
+  bool ReactionManager::calculateEquilibriumFractions(const double beta)
+  {
 
-    // Loop through all isomers in the system giving their partition function values as their equilibrium fraction.
+    // determine the total number of isomers + sources from the m_isomers and m_sources maps
 
-    // this is for iterating through isomers to get partition ftn ratios of a given isomer wrt to other isomers
-    Reaction::isomerMap::iterator ipos;
-    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
-      CollidingMolecule* pI1 = ipos->first;
-      long double eqFrac(1.0);
-      const long double prtFn1 = pI1->rovibronicGrnCanPrtnFn();
-      Reaction::isomerMap::iterator jpos;
-      for (jpos = m_isomers.begin(); jpos != m_isomers.end(); ++jpos){
-        if (jpos->first != pI1){
-          CollidingMolecule* pI2 = jpos->first;
-          const long double ZPEDiff = pI2->get_zpe() - pI1->get_zpe();
-          const long double prtFn2 = pI2->rovibronicGrnCanPrtnFn();
-          const long double prtFn21 = prtFn2 / prtFn1 * exp(-beta * ZPEDiff);
-          eqFrac += prtFn21;
+    int eqMatrixSize = int(m_isomers.size() + m_sources.size()); 
+
+    // intialize the matrix which holds the system of equations that describe the equilibrium distribution
+
+    dMatrix  eqMatrix(eqMatrixSize);
+
+    // initialize a map of equilibrium fractions
+    map<ModelledMolecule*, int> eqFrac;
+
+    // loop over the number of reactions in order to assign elements to the eqFrac map
+    // and then update the corresponding matrix elements in eqMatrix
+
+    int counter(0);   //counter keeps track of how may elements are in the eqFrac map
+
+    for (size_t i(0) ; i < size() ; ++i) {  //iterate through m_reactions
+
+      // check if a reaction is association or isomerization
+      AssociationReaction* arc = dynamic_cast<AssociationReaction*>(m_reactions[i]);
+      IsomerizationReaction* irc = dynamic_cast<IsomerizationReaction*>(m_reactions[i]);
+      ModelledMolecule* rct;
+      ModelledMolecule* pdt;
+      double Keq;
+
+      if(arc){     //if it's an association reaction
+        rct = arc->get_pseudoIsomer();        // get the reactants 
+        vector<ModelledMolecule*> unispecies;       
+        arc->get_unimolecularspecies(unispecies);
+        pdt = unispecies[0];                  // get the products
+        Keq = arc->calcEquilibriumConstant();
+      }
+      else if(irc){     //if it's an isomerization reaction
+        vector<ModelledMolecule*> isomers;       
+        irc->get_unimolecularspecies(isomers);
+        rct = isomers[0];                     // get the reactants
+        pdt = isomers[1];                     // get the products
+        Keq = irc->calcEquilibriumConstant();
+      }
+
+      if (arc || irc){                  //only need eq fracs for species in isom & assoc rxns
+
+        int ploc, rloc, rval, pval;
+
+        map<ModelledMolecule*, int>::iterator rctitr = eqFrac.find(rct);   //check if the reactant is in the map
+        if(rctitr==eqFrac.end())        //if the reactant isnt in the map
+          rval = 0;
+        else{
+          rloc = rctitr->second;        //if the reactant is in the map, get the location
+          rval = 1;
+        }
+
+        map<ModelledMolecule*, int>::iterator pdtitr = eqFrac.find(pdt);   //check if the product is in the map
+        if(pdtitr==eqFrac.end())        //if the product isnt in the map
+          pval = 0;
+        else{
+          ploc = pdtitr->second;        //if the product is in the map, get the location
+          pval = 1;
+        }
+
+        if(rval==0 && pval==0){             // if neither reactant nor product are in the eqFrac map
+          eqFrac[rct] = counter;            // update the eqMatrix elements 
+          counter += 1;
+          eqFrac[pdt] = counter;
+          eqMatrix[counter-1][counter-1] =+ -1.0 * Keq;
+          eqMatrix[counter-1][counter] =+ 1.0;
+          counter += 1;
+        }
+        else if(rval==0 && pval==1){        // if reactant isnt in eqFrac map & product is
+          eqFrac[rct] = counter;            // update the eqMatrix matrix elements 
+          eqMatrix[counter-1][ploc] =+ 1.0;
+          eqMatrix[counter-1][counter] =+ -1.0 * Keq;
+          counter += 1;
+        }
+        else if(rval==1 && pval==0){        // if reactant is in eqFrac map & product isnt
+          eqFrac[pdt] = counter;            // update the eqMatrix matrix elements
+          eqMatrix[counter-1][rloc] =+ -1.0 * Keq;
+          eqMatrix[counter-1][counter] =+ 1.0;
+          counter += 1;
+        }
+        else if(rval==1 && pval==1){        // if both reactant & product are in eqFrac map
+
+          double pdtRowSum(0.0), rctRowSum(0.0);  
+
+          for(int j(0);j<counter;++j){           // calculate pdt & rct rowSums of EqMatrix to see if the rxn is redundant
+            pdtRowSum += eqMatrix[ploc][j];
+            rctRowSum += eqMatrix[rloc][j];
+          }
+
+          if(pdtRowSum!=0.0 && rctRowSum!=0.0){ // connection is redundant
+            eqMatrix[counter-1][ploc] =+ 1.0;  
+            eqMatrix[counter-1][rloc] =+ -1.0 * Keq;
+          }
+          else if(rctRowSum==0.0){              // connection is not redundant, pdts lack specification
+            eqMatrix[rloc][ploc] =+ 1.0;
+            eqMatrix[rloc][rloc] =+ -1.0 * Keq;
+          }
+          else if(pdtRowSum==0.0){
+            eqMatrix[ploc][ploc] =+ 1.0;        // connection is not redundant, rcts lack specification
+            eqMatrix[ploc][rloc] =+ -1.0 * Keq;
+          }
         }
       }
-    // this is for iterating through isomers to get partition ftn ratios of a given isomer wrt to sources
-      Reaction::sourceMap::iterator kpos;
-      for (kpos = m_sources.begin(); kpos != m_sources.end(); ++kpos){
-        SuperMolecule* pS2 = kpos->first;
-        const long double ZPEDiff = pS2->get_zpe() - pI1->get_zpe();
-        const long double prtFn2 = pS2->rovibronicGrnCanPrtnFn();
-        const long double trCon2 = translationalContribution((pS2->getMember1())->getMass(), (pS2->getMember2())->getMass(), beta);
-        const long double excess2 = pS2->getExcessReactantConc();
-        const long double prtFn21 = prtFn2 * trCon2 / (prtFn1 * excess2) * exp(-beta * ZPEDiff);
-        eqFrac += prtFn21;
-      }
-      eqFrac = 1.0 / eqFrac;
-      pI1->setEqFraction(eqFrac);
-      ctest << "Equilibrium Fraction for " << pI1->getName() << " = " << eqFrac << endl;
     }
-    // this is for iterating through sources to get partition ftn ratios of a given source wrt to other isomers
-    Reaction::sourceMap::iterator spos;
-    for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
-      SuperMolecule* pSx = spos->first;
-      long double eqFrac(1.0);
-      const long double prtFn1 = pSx->rovibronicGrnCanPrtnFn();
-      const long double trCon1 = translationalContribution((pSx->getMember1())->getMass(), (pSx->getMember2())->getMass(), beta);
-      const long double excess1 = pSx->getExcessReactantConc();
-      Reaction::isomerMap::iterator jpos;
-      for (jpos = m_isomers.begin(); jpos != m_isomers.end(); ++jpos){
-        CollidingMolecule* pIy = jpos->first;
-        const long double ZPEDiff = pIy->get_zpe() - pSx->get_zpe();
-        const long double prtFn2 = pIy->rovibronicGrnCanPrtnFn();
-        const long double prtFn21 = prtFn2 * excess1/ (prtFn1 * trCon1) * exp(-beta * ZPEDiff);
-        eqFrac += prtFn21;
-      }
-     // this is for iterating through sources to get partition ftn ratios of a given source wrt to other sources
-      Reaction::sourceMap::iterator kpos;
-      for (kpos = m_sources.begin(); kpos != m_sources.end(); ++kpos){
-        if (kpos->first != pSx){
-          SuperMolecule* pSy = kpos->first;
-          const long double ZPEDiff = pSy->get_zpe() - pSx->get_zpe();
-          const long double prtFn2 = pSy->rovibronicGrnCanPrtnFn();
-          const long double trCon2 = translationalContribution((pSy->getMember1())->getMass(), (pSy->getMember2())->getMass(), beta);
-          const long double excess2 = pSy->getExcessReactantConc();
-          eqFrac += prtFn2 * trCon2 * excess1 / (prtFn1 * trCon1 * excess2) * exp(-beta * ZPEDiff);
-        }
-      }
-      eqFrac = 1.0 / eqFrac;
-      (pSx->getMember1())->setEqFraction(eqFrac);
-      ctest << "Equilibrium Fraction for " << pSx->getName() << " = " << eqFrac << endl;
+    for(int i=0; i < counter; ++i){         // add ones to the final row of the matrix
+      eqMatrix[counter-1][i]= 1.0;
     }
-    // description of the calculation: _2008_05_30__12_48_35_ on the end of the file.
+
+    //    ctest << "matrix elements for calculating isomer equilibrium fractions:" << endl;
+    //    eqMatrix.showFinalBits(counter);
+
+    dMatrix backup(eqMatrix);  //backup EqMatrix for error reporting
+
+    if(eqMatrix.invert()){
+      cerr << "Inversion of matrix for calculating Eq fractions failed.  Matrix before inversion is: ";
+      backup.showFinalBits(counter);
+    }
+
+    //    ctest << "inverse:" << endl;
+    //    eqMatrix.showFinalBits(counter);
+
+    map<ModelledMolecule*, int>::iterator itr1;
+
+    for(itr1= eqFrac.begin(); itr1!=eqFrac.end(); ++itr1){  //assign Eq fraction to appropriate ModelledMolecule
+      int position = itr1->second;                          //in the Eq frac map      
+      ModelledMolecule* key = itr1->first;
+      key->setEqFraction(eqMatrix[position][counter-1]);
+      ctest << "Equilibrium Fraction for " << key->getName() << " = " << key->getEqFraction() << endl;
+    }
     return true;
   }
 
@@ -519,11 +581,6 @@ namespace mesmer
       if (time > maxEvoTime)
         break;
       timePoints.push_back(time);
-    }
-
-    if (!calculateEquilibriumFractions(mEnv.beta)){
-      cerr << "Failed calculating equilibrium fractions.";
-      return false;
     }
 
     vector<double> initDist(smsize, 0.); // initial distribution

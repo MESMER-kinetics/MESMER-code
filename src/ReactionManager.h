@@ -64,6 +64,8 @@ namespace mesmer
     // Set Initial population for individual species
     void setInitialPopulation(PersistPtr);
 
+    bool calculateEquilibriumFractions(const double beta);
+
   private:
 
     std::vector<Reaction *> m_reactions ;
@@ -89,8 +91,6 @@ namespace mesmer
 
     // sets grain parameters and determines system environment
     bool SetGrainParams(MesmerEnv &Env, const double minEne, const double maxEne);
-
-    bool calculateEquilibriumFractions(const double beta);
 
     bool produceInitialPopulationVector(vector<double>& eqFracCoeff, vector<double>& initDist);
 

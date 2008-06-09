@@ -1,3 +1,9 @@
+2008-6-09 Dave Glowacki
+
+* change the calculateEquilibriumFractions routine in ReactionManager.cpp so that eq fractions are calculated 
+  by inverting a matrix whose elements contain the equations describing the equilibrated system
+* baselines updated
+
 _2008_06_04__13_32_37_ Chi-Hsiu Liang
 
   * Delete FFTW first. Will add it back later when the test is completed.

@@ -341,7 +341,7 @@ label_1: return(p);
         }
     }
 
-  int dMatrix::invert(double** matrix, const int n){
+  int dMatrix::invert(){
   /*######################################################################
     Author: Chi-Hsiu Liang
     Matrix  inversion, real symmetric a of order n.
@@ -359,6 +359,7 @@ label_1: return(p);
     @s_inv :a two dimensional matrix to be inverted.
     orbNo :member of the indicated matrix.
     ######################################################################*/
+	  int n = static_cast<int>(m_msize) ;
     if (n > INT_MAX) return 2; // The matrix size is too large to process.
     double divide, ratio;
     std::vector<int> zeroCount(n, 0);
@@ -369,7 +370,7 @@ label_1: return(p);
     dMatrix m1(n);
     for (int i = 0; i < n; ++i){
       for (int j = 0; j < n; ++j){
-        m1[i][j] = matrix[i][j];
+        m1[i][j] = m_matrix[i][j];
         m2[i][j] = (i == j) ? 1.0 : 0.0;
       }
     }
@@ -424,7 +425,7 @@ label_1: return(p);
 
     for(int i = 0; i < n; ++i){
       for (int j = 0; j < n; ++j){
-        matrix[i][j] = m2[i][j];
+        m_matrix[i][j] = m2[i][j];
       }
     }
     return 0;
