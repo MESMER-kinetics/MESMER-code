@@ -140,7 +140,7 @@ namespace mesmer
 
         // Get Boltzmann distribution for detailed balance.
         const int MaximumGrain = getEnv().MaxGrn ;
-        vector<double> adductPopFrac ; // Population fraction of the adduct
+        vector<long double> adductPopFrac ; // Population fraction of the adduct
 
         const int pdtGrainZPE = m_pdt1->get_grnZpe();
         m_pdt1->normalizedGrainDistribution(adductPopFrac, MaximumGrain - pdtGrainZPE) ;

@@ -92,7 +92,9 @@ namespace mesmer
     // sets grain parameters and determines system environment
     bool SetGrainParams(MesmerEnv &Env, const double minEne, const double maxEne);
 
-    bool produceInitialPopulationVector(vector<double>& eqFracCoeff, vector<double>& initDist);
+    bool produceInitialPopulationVector(vector<long double>& initDist);
+
+    bool ReactionManager::produceEquilibriumVector(vector<long double>& eqVector);
 
   } ;
 }//namespace

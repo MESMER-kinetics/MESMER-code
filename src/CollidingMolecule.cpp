@@ -434,7 +434,7 @@ namespace mesmer
     //
     // calculates p(E)*exp(-EB)
     //
-    void CollidingMolecule::grainDistribution(vector<double> &grainFrac, const int numberOfGrains)
+    void CollidingMolecule::grainDistribution(vector<long double> &grainFrac, const int numberOfGrains)
     {
         // If density of states have not already been calcualted then do so.
         if (!calcDensityOfStates())
@@ -453,7 +453,7 @@ namespace mesmer
     //
     // Get normalized grain distribution.
     //
-    void CollidingMolecule::normalizedGrainDistribution(vector<double> &grainFrac, const int numberOfGrains)
+    void CollidingMolecule::normalizedGrainDistribution(vector<long double> &grainFrac, const int numberOfGrains)
     {
         grainDistribution(grainFrac, numberOfGrains);
 

@@ -303,8 +303,8 @@ namespace mesmer
         void copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
 
         // Get Grain Boltzmann distribution.
-        void grainDistribution(vector<double> &grainFrac, const int numberOfGrains);
-        void normalizedGrainDistribution(vector<double> &grainFrac, const int numberOfGrains) ;
+        void grainDistribution(vector<long double> &grainFrac, const int numberOfGrains);
+        void normalizedGrainDistribution(vector<long double> &grainFrac, const int numberOfGrains) ;
 
         // Accessors.
         double getSigma() ;

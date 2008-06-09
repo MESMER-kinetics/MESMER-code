@@ -1,5 +1,13 @@
 2008-6-09 Dave Glowacki
 
+* change the timeEvolution and produceInitialPopulationVector member functions in reaction.cpp in order to integrate
+  a new member function, produceEquilibriumVector
+* perform timeEvolution calculations using long double precision, necessitating changes of variable from double to long
+  double in some other functions
+* decrease the number of time steps for which output data is printed in mesmer.test
+
+2008-6-09 Dave Glowacki
+
 * change the calculateEquilibriumFractions routine in ReactionManager.cpp so that eq fractions are calculated 
   by inverting a matrix whose elements contain the equations describing the equilibrated system
 * baselines updated

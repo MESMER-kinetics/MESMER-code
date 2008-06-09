@@ -389,7 +389,7 @@ namespace mesmer
       IsomerizationReaction* irc = dynamic_cast<IsomerizationReaction*>(m_reactions[i]);
       ModelledMolecule* rct;
       ModelledMolecule* pdt;
-      double Keq;
+      long double Keq;
 
       if(arc){     //if it's an association reaction
         rct = arc->get_pseudoIsomer();        // get the reactants 
@@ -492,38 +492,39 @@ namespace mesmer
     for(itr1= eqFrac.begin(); itr1!=eqFrac.end(); ++itr1){  //assign Eq fraction to appropriate ModelledMolecule
       int position = itr1->second;                          //in the Eq frac map      
       ModelledMolecule* key = itr1->first;
-      key->setEqFraction(eqMatrix[position][counter-1]);
+      key->setEqFraction(eqMatrix[position][counter-1]);    //set Eq fraction to last column in eqMatrix
       ctest << "Equilibrium Fraction for " << key->getName() << " = " << key->getEqFraction() << endl;
     }
     return true;
   }
 
-  bool ReactionManager::produceInitialPopulationVector(vector<double>& eqFracCoeff, vector<double>& initDist){
-    double populationSum = 0.0;
+  bool ReactionManager::produceInitialPopulationVector(vector<long double>& initDist){
+    
+    long double populationSum = 0.0;
+
     Reaction::isomerMap::iterator ipos;
-    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
-      CollidingMolecule* isomer = ipos->first;
+    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
+      CollidingMolecule* isomer = ipos->first;                        // to get isomer initial populations
       populationSum += isomer->getInitPopulation();
     }
+
     Reaction::sourceMap::iterator spos;
-    for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
-      SuperMolecule* source = spos->first;
+    for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map to get
+      SuperMolecule* source = spos->first;                            // source initial populations
       populationSum += (source->getMember1())->getInitPopulation();
     }
     
     for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
-      CollidingMolecule* isomer = ipos->first;
-      double initFrac = isomer->getInitPopulation();
-      if (initFrac != 0.0){
-        initFrac /= populationSum;
-        int location = ipos->second;
-        const double eqFrac = isomer->getEqFraction();
+      CollidingMolecule* isomer = ipos->first;                        // get initial population of each isomer
+      long double initFrac = isomer->getInitPopulation();                   
+      if (initFrac != 0.0){                                           // if isomer initial populations are nonzero                                           
+        initFrac /= populationSum;                                    // normalize initial pop fraction
+        int location = ipos->second;                  
         const int colloptrsize = isomer->get_colloptrsize();
-        vector<double> boltzFrac;
+        vector<long double> boltzFrac;
         isomer->normalizedGrainDistribution(boltzFrac, colloptrsize);
         for (int i = 0; i < colloptrsize; ++i){
-          eqFracCoeff[i + location] = sqrt(boltzFrac[i] * eqFrac);
-          initDist[i + location] = sqrt(initFrac * boltzFrac[i] / eqFrac);
+          initDist[i + location] = initFrac * boltzFrac[i];
         }
       }
     }
@@ -534,32 +535,54 @@ namespace mesmer
       ipos = m_isomers.begin();
       CollidingMolecule* isomer = ipos->first;
       isomer->setInitPopulation(1.0); // set initial population for the first isomer
-      double initFrac = isomer->getInitPopulation();
-      cinfo << "No population was assigned with no source term. Initialize the first isomer term to 1.0." << endl;
+      long double initFrac = isomer->getInitPopulation();
+      cinfo << "No population was assigned, and there is no source term."  << endl
+            << "Initialize a Boltzmann distribution in the first isomer." << endl;
       int location = ipos->second;
-      const double eqFrac = isomer->getEqFraction();
       const int colloptrsize = isomer->get_colloptrsize();
-      vector<double> boltzFrac;
+      vector<long double> boltzFrac;
       isomer->normalizedGrainDistribution(boltzFrac, colloptrsize);
       for (int i = 0; i < colloptrsize; ++i){
-        eqFracCoeff[i + location] = sqrt(boltzFrac[i] * eqFrac);
-        initDist[i + location] = sqrt(initFrac * boltzFrac[i] / eqFrac);
+        initDist[i + location] = initFrac * boltzFrac[i];
       }
     }
 
     for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
       SuperMolecule* source = spos->first;
-      double initFrac = (source->getMember1())->getInitPopulation() / populationSum;
+      long double initFrac = (source->getMember1())->getInitPopulation() / populationSum;
       int location = spos->second;
-      const double eqFrac = (source->getMember1())->getEqFraction();
-      eqFracCoeff[location] = sqrt(eqFrac);
-      initDist[location] = sqrt(initFrac) / eqFracCoeff[location];
+      initDist[location] = initFrac;
       if (populationSum == 0. && spos == m_sources.begin()){
         cinfo << "No population was assigned. Initialize the first source term to 1.0." << endl;
-        initDist[location] = 1.0 / eqFracCoeff[location];
+        initDist[location] = 1.0;
       }
     }
 
+    return true;
+  }
+
+  bool ReactionManager::produceEquilibriumVector(vector<long double>& eqVector)
+  { //the vector produced by this function contains the sqrt of the normalized equilibrium distribution 
+    Reaction::sourceMap::iterator spos;
+    for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map to get
+      SuperMolecule* source = spos->first;                            // eq Fractions
+      int location = spos->second;
+      long double eqFrac = (source->getMember1())->getEqFraction();
+      eqVector[location] = sqrt(eqFrac);
+    }
+
+    Reaction::isomerMap::iterator ipos;
+    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
+      CollidingMolecule* isomer = ipos->first;                        // to get eq Fractions
+      int location = ipos->second;
+      long double eqFrac = isomer->getEqFraction();
+      const int colloptrsize = isomer->get_colloptrsize();
+      vector<long double> boltzFrac;
+      isomer->normalizedGrainDistribution(boltzFrac, colloptrsize);
+      for(int i(0);i<colloptrsize;++i){
+        eqVector[location + i]= sqrt(eqFrac * boltzFrac[i]);
+      }
+    }
     return true;
   }
 
@@ -567,7 +590,7 @@ namespace mesmer
   {
     int smsize = int(m_pSystemCollisionOperator->size());
 
-    double maxEvoTime = 0.;
+    long double maxEvoTime = 0.;
    // set the default maximum evolution time
     if (mEnv.maxEvolutionTime <= 0. || mEnv.maxEvolutionTime > 1.0e8)
       maxEvoTime = 1.0e8;
@@ -577,58 +600,74 @@ namespace mesmer
     /* calculate the time points */
     vector<double> timePoints;
     for (int i = 0; i < maxTimeStep; ++i){
-      double time = pow(10., static_cast<double>(i) / 10. - 11.);
+      long double time = pow(10., static_cast<double>(i) / 10. - 11.);
       if (time > maxEvoTime)
         break;
       timePoints.push_back(time);
     }
 
-    vector<double> initDist(smsize, 0.); // initial distribution
-    vector<double> eqFracCoeff(smsize, 0.);   // equilibrium fraction coefficients
-    if (!produceInitialPopulationVector(eqFracCoeff, initDist)){
-      cerr << "Failed producing initial population vector.";
+    vector<long double> initDist(smsize, 0.); // initial distribution
+    if (!produceInitialPopulationVector(initDist)){
+      cerr << "Calculation of initial conditions vector failed.";
       return false;
     }
 
-    // Coefficients due to the initial distribution
+    vector<long double> eqVector(smsize, 0.);   // equilibrium vector
+    if (!produceEquilibriumVector(eqVector)){
+      cerr << "Calculation of equilibrium vector failed.";
+      return false;
+    }
+
+    // |initDist> = F^(-1)*|p(0)>
+    for (int j = 0; j < smsize; ++j) {
+      initDist[j] = initDist[j]/eqVector[j];
+    }
+
     dMatrix sysCollOptr(*m_pSystemCollisionOperator); // copy the system collision operator, which holds the eigenvectors
-    vector<double> work1(smsize, 0.);
+    vector<long double> work1(smsize, 0.);
+
     for (int i = 0; i < smsize; ++i) {
-      double sum = 0.;
+      long double sum = 0.;
       for (int j = 0; j < smsize; ++j) {
         sum += initDist[j] * sysCollOptr[j][i];
       }
-      work1[i] = sum;
+      work1[i] = sum;  // now |work1> = V^(T)*|init> = U^(-1)*|p(0)>
     }
 
-    // Multiply equilibrium matrix with eigenvector matrix. 
     for (int i = 0; i < smsize; ++i) {
-      double tmp = eqFracCoeff[i];
+      long double tmp = eqVector[i];
       for (int j = 0; j < smsize; ++j) {
         sysCollOptr[i][j] *= tmp;
       }
     }
 
-    // populations calculated here
-    db2D grainedProfile(smsize, maxTimeStep); // numbers inside the parentheses are dummies
-    vector<double> totalProductPop(maxTimeStep, 0.);
-    vector<double> work2(smsize, 0.);
+    ldb2D grainedProfile(smsize, maxTimeStep); // numbers inside the parentheses are dummies
+    vector<long double> work2(smsize, 0.);
+
     for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-      double numColl = m_meanOmega * timePoints[timestep];
+      long double numColl = m_meanOmega * timePoints[timestep];
       for (int j = 0; j < smsize; ++j) {
-        work2[j] = work1[j] * exp(m_eigenvalues[j] * numColl);
-      }
+        work2[j] = work1[j] * exp(m_eigenvalues[j] * numColl); 
+      } // now |wk2> = exp(Dt)*V^(T)*|init> = exp(Dt)*U^(-1)*|p(0)>
       for (int j = 0; j < smsize; ++j) {
-        double sum = 0.;
+        long double sum = 0.;
         for (int l = 0; l < smsize; ++l) {
           sum += work2[l] * sysCollOptr[j][l];
         }
-        grainedProfile[j][timestep] = sum;
-        totalProductPop[timestep] += grainedProfile[j][timestep];
-      }
-      totalProductPop[timestep] = 1.0 - totalProductPop[timestep];
+        grainedProfile[j][timestep] = sum;  
+      } // now |grainedProfile(t)> = |grainedProfile(i)> = F*V*exp(Dt)*V^(T)*|init> = U*exp(Dt)*U^(-1)*|p(0)>
     }
 
+    vector<long double> totalIsomerPop(maxTimeStep, 0.);
+    vector<long double> totalProductPop(maxTimeStep, 0.);
+
+    for(int timestep(0); timestep<maxTimeStep; ++timestep){
+      for(int j(0);j<smsize;++j){
+        totalIsomerPop[timestep] += grainedProfile[j][timestep];
+      }
+      totalProductPop[timestep] = 1.0 - totalIsomerPop[timestep];
+    }
+  
     //------------------------------
     // print grained species profile
     if (mEnv.grainedProfileEnabled) {
@@ -658,7 +697,8 @@ namespace mesmer
     }
     ctest << endl;
     //-----------------------------------------------
-    // Sum up individual species
+    // speciesProfile will contain the sum of all grains corresponding to an individual species at each time step
+    // speciesProfile is sorted so that it has the same ordering as the system collision operator
     Reaction::isomerMap::iterator ipos;
     std::map<int, CollidingMolecule*> numMap1;
     for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){

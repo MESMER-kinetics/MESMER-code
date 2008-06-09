@@ -287,7 +287,7 @@ namespace mesmer
       m_pReactionManager->diagCollisionOperator(m_Env) ;
 
       // Time steps loop
-      int timestep = 191;
+      int timestep = 160;
       m_pReactionManager->timeEvolution(timestep, m_Env);
 
       ctest << "}\n";
