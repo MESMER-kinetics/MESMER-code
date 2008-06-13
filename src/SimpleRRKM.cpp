@@ -27,6 +27,7 @@ namespace mesmer
 
     // Allocate space to hold transition state flux and initialize elements to zero.
     vector<double>& TSFlux = pReact->get_CellFlux();
+    TSFlux.clear();
     TSFlux.resize(MaximumCell, 0.0);
 
     if (pReact->thereIsTunnelling()) { // with tunneling

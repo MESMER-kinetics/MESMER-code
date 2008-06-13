@@ -66,6 +66,8 @@ namespace mesmer
 
     bool calculateEquilibriumFractions(const double beta);
 
+    bool BartisWidomPhenomenologicalRates();
+
   private:
 
     std::vector<Reaction *> m_reactions ;
@@ -76,11 +78,16 @@ namespace mesmer
 
     std::vector<double>     m_eigenvalues;
 
+    std::vector<double>     eqVector;
+
     // Maps the location of individual reactant collision operator and source terms in the system matrix.
     Reaction::isomerMap    m_isomers;
     Reaction::sourceMap    m_sources;
-    populationMap          m_populations;
-    
+    populationMap          m_initialPopulations;
+
+    // map modelled molecules (isomers + sources) with their sequence in the EqMatrix and Rate Coefficient matrix
+    map<ModelledMolecule*, int> m_SpeciesSequence;  
+
     double m_meanOmega;
 
     // Default Constructor.
@@ -94,7 +101,7 @@ namespace mesmer
 
     bool produceInitialPopulationVector(vector<long double>& initDist);
 
-    bool ReactionManager::produceEquilibriumVector(vector<long double>& eqVector);
+    bool produceEquilibriumVector();
 
   } ;
 }//namespace

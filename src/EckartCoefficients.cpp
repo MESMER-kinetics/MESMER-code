@@ -35,6 +35,7 @@ namespace mesmer
 
     //get properties of vectors in which to include transmission coefficients
     const int MaximumCell = pReactant->getEnv().MaxCell;
+    TunnelingProbability.clear();
     TunnelingProbability.resize(MaximumCell);
 
     //set transmission coefficients to 0 where no tunneling is possible;

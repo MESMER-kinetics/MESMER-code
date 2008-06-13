@@ -85,7 +85,8 @@ namespace mesmer
 
     // Allocate space to hold microcanonical rate coefficients for dissociation.
     vector<double>& TSFlux = pReact->get_CellFlux();
-    TSFlux.resize(MaximumCell, 0.0); // no need to initialize
+    TSFlux.clear();
+    TSFlux.resize(MaximumCell, 0.0); 
 
     const double _gamma = MesmerGamma(n_infinity + 1.5);
     double _ant = preExp * tp_C * (edg_a * edg_b / edg_c) * pow( ( ma * mb / mc), 1.5 ) / _gamma;

@@ -147,7 +147,8 @@
   <me:modelParameters>
     <me:grainSize units="cm-1"> 100 </me:grainSize>
     <!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
-    <me:maxTemperature>1000</me:maxTemperature>
+    <!--<me:maxTemperature>1000</me:maxTemperature>-->
+    <me:energyAboveTheTopHill>20.</me:energyAboveTheTopHill>
   </me:modelParameters>
   <me:control>
     <me:testDOS />

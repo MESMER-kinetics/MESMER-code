@@ -44,7 +44,7 @@
                     <scalar>1</scalar>
                 </property>
                 <property dictRef="me:deltaEDown">
-                    <scalar units="cm-1">200.0</scalar>
+                    <scalar units="cm-1">250.0</scalar>
                 </property>
 				<property dictRef="me:epsilon">
 					<scalar>473.1</scalar>
@@ -94,7 +94,7 @@
                     <scalar units="amu">40</scalar>
                 </property>
                 <property dictRef="me:deltaEDown">
-                    <scalar units="cm-1">200.0</scalar>
+                    <scalar units="cm-1">250.0</scalar>
                 </property>
 				<property dictRef="me:epsilon">
 					<scalar>473.1</scalar>
@@ -143,7 +143,7 @@
                     <scalar units="amu">40</scalar>
                 </property>
                 <property dictRef="me:deltaEDown">
-                    <scalar units="cm-1">200.0</scalar>
+                    <scalar units="cm-1">250.0</scalar>
                 </property>
 				<property dictRef="me:epsilon">
 					<scalar>473.1</scalar>
@@ -269,9 +269,12 @@
     <me:conditions>
         <me:bathGas>He</me:bathGas>
         <me:PTs>
-          <me:PTpair me:units="Torr" me:P="200.72" me:T="500." />
-          <me:PTpair me:units="Torr" me:P="201.60" me:T="2000." />
+          <me:PTpair me:units="Torr" me:P="200.72" me:T="800." />
+          <me:PTpair me:units="Torr" me:P="250.00" me:T="1000." />
         </me:PTs>
+		<me:InitalPopulation>
+			<molecule ref="cyclopropene" me:population="1.0" />
+		</me:InitalPopulation>
     </me:conditions>
     <me:modelParameters>
         <!--Specify grain size directly...-->
@@ -291,7 +294,7 @@
         <!--<me:printCellDOS />-->
         <!--<me:printCollisionOperatorColumnSums />-->
         <!--<me:printTunnellingCoefficients />-->
-        <me:printGrainkfE />
+		<me:printGrainkfE />
         <!--<me:printGrainBoltzmann />-->
         <me:printGrainkbE />
         <me:eigenvalues>0</me:eigenvalues>

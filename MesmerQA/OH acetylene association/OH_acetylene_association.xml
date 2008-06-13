@@ -238,7 +238,7 @@
     </me:conditions>
     <me:modelParameters>
         <!--Specify grain size directly...-->
-        <me:grainSize units="cm-1">20</me:grainSize>
+        <me:grainSize units="cm-1">50</me:grainSize>
         <!--...or by the total number of grains
         <me:numberOfGrains> 500 </me:numberOfGrains>-->
         <!--Specify increased energy range 

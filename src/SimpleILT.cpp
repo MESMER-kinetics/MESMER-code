@@ -25,6 +25,7 @@ namespace mesmer
 
     // Allocate space to hold transition state flux and initialize elements to zero.
     vector<double>& TSFlux = pReact->get_CellFlux();
+    TSFlux.clear();
     TSFlux.resize(MaximumCell, 0.0);
 
     // Allocate some work space for and obtain density of states of the unimolecuar reactant.

@@ -647,12 +647,12 @@
     </me:conditions>
     <me:modelParameters>
         <!--Specify grain size directly...-->
-        <me:grainSize units="cm-1">66</me:grainSize>
+        <me:grainSize units="cm-1">100</me:grainSize>
         <!--...or by the total number of grains
         <me:numberOfGrains> 500 </me:numberOfGrains>-->
         <!--Specify increased energy range
         <me:maxTemperature>6000</me:maxTemperature>-->
-        <me:energyAboveTheTopHill>98.5</me:energyAboveTheTopHill>
+        <me:energyAboveTheTopHill>25.0</me:energyAboveTheTopHill>
     </me:modelParameters>
     <me:control>
         <me:testDOS />

@@ -490,6 +490,8 @@ namespace mesmer
     void ModelledMolecule::calcGrainAverages(const vector<double>& shiftedCellDOS, const vector<double>& shiftedCellEne)
     {
         int MaximumGrain = getEnv().MaxGrn;
+        m_grainEne.clear() ;
+        m_grainDOS.clear() ;        
         m_grainEne.resize(MaximumGrain, 0.) ;
         m_grainDOS.resize(MaximumGrain, 0.) ;
 

@@ -295,7 +295,9 @@ namespace mesmer
         const int pdtGrainZPE = m_pdt1->get_grnZpe();
 
         const int MaximumGrain = getEnv().MaxGrn;
+        m_GrainKfmc.clear();
         m_GrainKfmc.resize(MaximumGrain , 0.0);
+        m_GrainKbmc.clear();
         m_GrainKbmc.resize(MaximumGrain , 0.0);
 
         // For AssociationReaction, TSFlux is calculated from ILT

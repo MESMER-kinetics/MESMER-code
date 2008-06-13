@@ -175,6 +175,7 @@ namespace mesmer
         const int grnSiz = getEnv().GrainSize;
 
         // resize m_GrainTSFlux to maxGrn and initialize all members to zero
+        m_GrainTSFlux.clear();
         m_GrainTSFlux.resize(maxGrn, 0.0);
 
         int cIdx = 0; // cell iterator

@@ -1,3 +1,17 @@
+2008-6-13 Dave Glowacki
+* added Bartis Widom method for calculating first order & psuedo first phenomenological rate coefficients for
+  isomers.  the method has been added to reaction manager, and does not presently include orthogonalization
+  of the Z matrix.  it has been tested on all systems except methylene D2 association, and the results are sensible.  
+  in order to test, several of the baseline input files were changed in order to give eigenvalues that were: 
+  (1) all negative, and (2) showed good separation between the CSEs and IEREs.  the rate coefficients and a few accompanying 
+  diagnostics for determining reliability of the eigenvectors are now printed in mesmer.test
+* added a Species Sequence map to reaction manager for use in equilibrium fraction matrix inversion and 
+  bartis widom method
+* fixed the following bug: in the previous version of MESMER, when more than 1 grid point was calculated, 
+  MESMER give different results for identical conditions.  this is because several vectors for holding reaction flux,
+  DOS, tunneling coefficients, etc. were updated using only the .restart operator, and were not reinitialized to 0 from run to run. 
+* updated baselines for all systems except methylene D2 association
+
 2008-6-09 Dave Glowacki
 
 * change the timeEvolution and produceInitialPopulationVector member functions in reaction.cpp in order to integrate

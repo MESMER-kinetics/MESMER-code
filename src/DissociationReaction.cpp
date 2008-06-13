@@ -186,6 +186,7 @@ namespace mesmer
     const int rctGrainZPE = m_rct1->get_grnZpe();
 
     const int MaximumGrain = getEnv().MaxGrn;
+    m_GrainKfmc.clear();
     m_GrainKfmc.resize(MaximumGrain , 0.0);
 
     // For AssociationReaction, TSFlux is calculated from ILT

@@ -290,7 +290,10 @@ namespace mesmer
       int timestep = 160;
       m_pReactionManager->timeEvolution(timestep, m_Env);
 
+      m_pReactionManager->BartisWidomPhenomenologicalRates();
+
       ctest << "}\n";
+
     }
     //---------------------------------------------
 

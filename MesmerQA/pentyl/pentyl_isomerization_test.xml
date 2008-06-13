@@ -238,29 +238,30 @@
     
   </reactionList>
 
-  <me:conditions>
-    <me:bathGas>Ar</me:bathGas>
-    <me:PTs>
-      <me:PTpair me:units="PPCC" me:P="1e8" me:T="300" />
-    </me:PTs>
-  </me:conditions>
+	<me:conditions>
+		<me:bathGas>Ar</me:bathGas>
+		<me:PTs>
+			<me:PTpair me:units="PPCC" me:P="1.0e8" me:T="500" />
+		</me:PTs>
+	</me:conditions>
 
-  <me:modelParameters>
-    <me:grainSize units="cm-1"> 100 </me:grainSize>
-    <!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
-    <me:maxTemperature>3000</me:maxTemperature>
-  </me:modelParameters>
+	<me:modelParameters>
+		<me:grainSize units="cm-1"> 150</me:grainSize>
+		<!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
+		<!--<me:maxTemperature>3000</me:maxTemperature>-->
+		<me:energyAboveTheTopHill>20.</me:energyAboveTheTopHill>
+	</me:modelParameters>
 
-    <me:control>
-        <me:testDOS />
-        <me:testMicroRates />
-        <me:printGrainDOS />
-        <!--<me:printCellDOS />-->
-        <!--<me:printCollisionOperatorColumnSums />-->
-        <me:printGrainkfE />
-        <!--<me:printGrainBoltzmann />-->
-        <me:printGrainkbE />
-        <me:eigenvalues>0</me:eigenvalues>
-    </me:control>
+	<me:control>
+		<me:testDOS />
+		<me:testMicroRates />
+		<me:printGrainDOS />
+		<!--<me:printCellDOS />-->
+		<!--<me:printCollisionOperatorColumnSums />-->
+		<me:printGrainkfE />
+		<!--<me:printGrainBoltzmann />-->
+		<me:printGrainkbE />
+		<me:eigenvalues>0</me:eigenvalues>
+	</me:control>
 
-    </me:mesmer>
+</me:mesmer>
