@@ -207,10 +207,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\dMatrix.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\EckartCoefficients.cpp"
 				>
 			</File>
@@ -470,6 +466,10 @@
 			</File>
 			<File
 				RelativePath="..\..\tinyxml\tinyxml.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\TMatrix.h"
 				>
 			</File>
 			<File

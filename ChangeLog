@@ -1,3 +1,9 @@
+_2008_06_17__14_22_17_ Chi-Hsiu Liang
+
+  * Created a templated class TMatrix.
+  * Added ddMatrix and qdMatrix
+  * Added additional precision option for marry.h
+
 _2008_06_17__10_39_47_ Chi-Hsiu Liang
 
   * Renamed DissociationReaction to IrreversibleReaction

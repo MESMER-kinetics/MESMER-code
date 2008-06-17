@@ -368,17 +368,17 @@ namespace mesmer
 
   bool ReactionManager::calculateEquilibriumFractions(const double beta)
   { /* Consider a three well system: e.g., A <-> B <-> C where A <-> B has Keq = K1 & B <-> C has Keq = K2.
-       This routine uses the fact that the normalized equilibrated system may be described 
+       This routine uses the fact that the normalized equilibrated system may be described
        by a 3x3 matrix and a vector which satisfy the following:
                                             |-K1  1   0| |A|   |0|
                                             | 0  -K2  1| |B| = |0|
                                             | 1   1   1| |C|   |1|
-       The equilibrium fraction of each isomer (or psuedo isomer, in the case of a source term) may be  
+       The equilibrium fraction of each isomer (or psuedo isomer, in the case of a source term) may be
        obtained by inverting the matrix shown above, and taking the elements in the final column of the inverse.
        Any system, with an arbitrary number of wells and connections, may be described by such a Matrix */
 
     // determine the total number of isomers + sources from the m_isomers and m_sources maps
-    int eqMatrixSize = int(m_isomers.size() + m_sources.size()); 
+    int eqMatrixSize = int(m_isomers.size() + m_sources.size());
 
     // intialize the matrix which holds the system of equations that describe the equilibrium distribution
     dMatrix  eqMatrix(eqMatrixSize);
@@ -401,14 +401,14 @@ namespace mesmer
       long double Keq;
 
       if(arc){     //if it's an association reaction
-        rct = arc->get_pseudoIsomer();        // get the reactants 
-        vector<ModelledMolecule*> unispecies;       
+        rct = arc->get_pseudoIsomer();        // get the reactants
+        vector<ModelledMolecule*> unispecies;
         arc->get_unimolecularspecies(unispecies);
         pdt = unispecies[0];                  // get the products
         Keq = arc->calcEquilibriumConstant();
       }
       else if(irc){     //if it's an isomerization reaction
-        vector<ModelledMolecule*> isomers;       
+        vector<ModelledMolecule*> isomers;
         irc->get_unimolecularspecies(isomers);
         rct = isomers[0];                     // get the reactants
         pdt = isomers[1];                     // get the products
@@ -436,7 +436,7 @@ namespace mesmer
         }
 
         if(rval==0 && pval==0){             // if neither reactant nor product are in the m_SpeciesSequence map
-          m_SpeciesSequence[rct] = counter;            // update the eqMatrix elements 
+          m_SpeciesSequence[rct] = counter;            // update the eqMatrix elements
           counter += 1;
           m_SpeciesSequence[pdt] = counter;
           eqMatrix[counter-1][counter-1] =+ -1.0 * Keq;
@@ -444,7 +444,7 @@ namespace mesmer
           counter += 1;
         }
         else if(rval==0 && pval==1){        // if reactant isnt in m_SpeciesSequence map & product is
-          m_SpeciesSequence[rct] = counter;            // update the eqMatrix matrix elements 
+          m_SpeciesSequence[rct] = counter;            // update the eqMatrix matrix elements
           eqMatrix[counter-1][ploc] =+ 1.0;
           eqMatrix[counter-1][counter] =+ -1.0 * Keq;
           counter += 1;
@@ -457,7 +457,7 @@ namespace mesmer
         }
         else if(rval==1 && pval==1){        // if both reactant & product are in m_SpeciesSequence map
 
-          double pdtRowSum(0.0), rctRowSum(0.0);  
+          double pdtRowSum(0.0), rctRowSum(0.0);
 
           for(int j(0);j<counter;++j){           // calculate pdt & rct rowSums of EqMatrix to see if the rxn is redundant
             pdtRowSum += eqMatrix[ploc][j];
@@ -465,7 +465,7 @@ namespace mesmer
           }
 
           if(pdtRowSum!=0.0 && rctRowSum!=0.0){ // connection is redundant
-            eqMatrix[counter-1][ploc] =+ 1.0;  
+            eqMatrix[counter-1][ploc] =+ 1.0;
             eqMatrix[counter-1][rloc] =+ -1.0 * Keq;
           }
           else if(rctRowSum==0.0){              // connection is not redundant, pdts lack specification
@@ -499,7 +499,7 @@ namespace mesmer
     map<ModelledMolecule*, int>::iterator itr1;
 
     for(itr1= m_SpeciesSequence.begin(); itr1!=m_SpeciesSequence.end(); ++itr1){  //assign Eq fraction to appropriate ModelledMolecule
-      int position = itr1->second;                          //in the Eq frac map      
+      int position = itr1->second;                          //in the Eq frac map
       ModelledMolecule* key = itr1->first;
       key->setEqFraction(eqMatrix[position][counter-1]);    //set Eq fraction to last column in eqMatrix
       ctest << "Equilibrium Fraction for " << key->getName() << " = " << key->getEqFraction() << endl;
@@ -508,7 +508,7 @@ namespace mesmer
   }
 
   bool ReactionManager::produceInitialPopulationVector(vector<long double>& initDist){
-    
+
     long double populationSum = 0.0;
 
     Reaction::isomerMap::iterator ipos;
@@ -522,13 +522,13 @@ namespace mesmer
       SuperMolecule* source = spos->first;                            // source initial populations
       populationSum += (source->getMember1())->getInitPopulation();
     }
-    
+
     for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
       CollidingMolecule* isomer = ipos->first;                        // get initial population of each isomer
-      long double initFrac = isomer->getInitPopulation();                   
-      if (initFrac != 0.0){                                           // if isomer initial populations are nonzero                                           
+      long double initFrac = isomer->getInitPopulation();
+      if (initFrac != 0.0){                                           // if isomer initial populations are nonzero
         initFrac /= populationSum;                                    // normalize initial pop fraction
-        int location = ipos->second;                  
+        int location = ipos->second;
         const int colloptrsize = isomer->get_colloptrsize();
         vector<long double> boltzFrac;
         isomer->normalizedGrainDistribution(boltzFrac, colloptrsize);
@@ -571,7 +571,7 @@ namespace mesmer
   }
 
   bool ReactionManager::produceEquilibriumVector()
-  { //the vector produced by this function contains the sqrt of the normalized equilibrium distribution 
+  { //the vector produced by this function contains the sqrt of the normalized equilibrium distribution
 
     eqVector.clear();
     eqVector.resize(m_pSystemCollisionOperator->size());
@@ -659,14 +659,14 @@ namespace mesmer
     for (int timestep = 0; timestep < maxTimeStep; ++timestep){
       long double numColl = m_meanOmega * timePoints[timestep];
       for (int j = 0; j < smsize; ++j) {
-        work2[j] = work1[j] * exp(m_eigenvalues[j] * numColl); 
+        work2[j] = work1[j] * exp(m_eigenvalues[j] * numColl);
       } // now |wk2> = exp(Dt)*V^(T)*|init> = exp(Dt)*U^(-1)*|p(0)>
       for (int j = 0; j < smsize; ++j) {
         long double sum = 0.;
         for (int l = 0; l < smsize; ++l) {
           sum += work2[l] * sysCollOptr[j][l];
         }
-        grainedProfile[j][timestep] = sum;  
+        grainedProfile[j][timestep] = sum;
       } // now |grainedProfile(t)> = |grainedProfile(i)> = F*V*exp(Dt)*V^(T)*|init> = U*exp(Dt)*U^(-1)*|p(0)>
     }
 
@@ -679,7 +679,7 @@ namespace mesmer
       }
       totalProductPop[timestep] = 1.0 - totalIsomerPop[timestep];
     }
-  
+
     //------------------------------
     // print grained species profile
     if (mEnv.grainedProfileEnabled) {
@@ -727,7 +727,7 @@ namespace mesmer
         }
       }
     }
-    
+
     // print isomer terms
     for (jpos = numMap1.begin(), j = 0; jpos != numMap1.end(); ++jpos, ++j){
       ctest << (jpos->second)->getName() << " ";
@@ -791,7 +791,7 @@ namespace mesmer
     int nchem = static_cast<int>(m_isomers.size() + m_sources.size());  // number of isomers+psuedoisomers
     int nchemIdx = smsize - nchem;       // idx for chemically significant eigenvalues & vectors
 
-    for(int i(0);i<smsize;++i){     
+    for(int i(0);i<smsize;++i){
       tmp = eqVector[i];
       for(int j(0);j<smsize;++j){
         assymInvEigenVec[j][i] = eigenVec[i][j]/tmp;         //calculation of U^(-1) = (FV)^-1 = V^T * F^-1
@@ -799,7 +799,7 @@ namespace mesmer
       }
     }
 
-    for(int i(0);i<smsize;++i){          // multiply U*U^(-1) for testing     
+    for(int i(0);i<smsize;++i){          // multiply U*U^(-1) for testing
       test = 0.0;
       for(int j(0);j<smsize;++j){
         sm = 0.0;
@@ -807,7 +807,7 @@ namespace mesmer
           sm += assymEigenVec[i][k] * assymInvEigenVec[k][j];
         }
         EigenVecIdentity[i][j] = sm;
-        test += sm; 
+        test += sm;
       }
       if((test/1.0) < 0.999 || (test/1.0) > 1.001)      // test that U*U^(-1) = 1
         ctest << "row " << i << " of the U*U^(-1) matrix does not equal unity. It sums to " << test << endl;
@@ -819,13 +819,13 @@ namespace mesmer
     Reaction::isomerMap::iterator ipos;  // set up an iterator through the isomer map
     Reaction::sourceMap::iterator spos;  // set up an iterator through the source map
 
-    for(int i(0); i<nchem; ++i){         
+    for(int i(0); i<nchem; ++i){
       for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // calculate Z matrix elements for
         sm = 0.0;                                                       // all isomers in the system
-        CollidingMolecule* isomer = ipos->first;                        
+        CollidingMolecule* isomer = ipos->first;
         const int colloptrsize = isomer->get_colloptrsize();
         int location = ipos->second;
-        int position = m_SpeciesSequence[isomer];   
+        int position = m_SpeciesSequence[isomer];
         for(int j(0);j<colloptrsize;++j){
           sm += assymEigenVec[location+j][nchemIdx+i];
         }
@@ -836,10 +836,10 @@ namespace mesmer
         SuperMolecule* source = spos->first;
         ModelledMolecule* psuedo_isomer = source->getMember1();
         int location = spos->second;
-        int position = m_SpeciesSequence[psuedo_isomer];  
+        int position = m_SpeciesSequence[psuedo_isomer];
         sm = assymEigenVec[location][nchemIdx+i];
         Z[position][i] = sm;
-      } 
+      }
     }
 
 //    ctest << "Z matrix:" << endl;
@@ -855,17 +855,17 @@ namespace mesmer
 //    ctest << "inverse of Z:" << endl;
 //    Zinv.showFinalBits(nchem);
 
-    for(int i(0);i<nchem;++i){          // multiply Z*Z^(-1) for testing     
+    for(int i(0);i<nchem;++i){          // multiply Z*Z^(-1) for testing
       for(int j(0);j<nchem;++j){
         sm = 0.0;
         for(int k(0);k<nchem;++k){
           sm += Z[i][k] * Zinv[k][j];
         }
         Zidentity[i][j] = sm;
-      }  
+      }
     }
 
-    ctest << "Z*Z^(-1):" << endl;
+    ctest << "\nZ*Z^(-1):" << endl;
     Zidentity.showFinalBits(nchem);
 
     for(int i(0);i<nchem;++i){          // calculate Kr (definition taken from PCCP 2007(9), p.4085)
@@ -874,19 +874,19 @@ namespace mesmer
         for(int k(0);k<nchem;++k){
           sm += Z[i][k] * m_eigenvalues[nchemIdx+k] * Zinv[k][j];
         }
-        Kr[i][j] = sm * m_meanOmega;                
+        Kr[i][j] = sm * m_meanOmega;
       }
     }
 
-    ctest << "Kr:" << endl;
+    ctest << "\nKr:" << endl;
     Kr.showFinalBits(nchem);
 
-    ctest << endl << "first order and psuedo first order rate coefficients:" << endl << endl;
+    ctest << "\nFirst order and psuedo first order rate coefficients:\n{\n";
     map<ModelledMolecule*, int>::iterator lossitr;
     map<ModelledMolecule*, int>::iterator rctitr;
     map<ModelledMolecule*, int>::iterator pdtitr;
     // print k loss for isomers
-    for(lossitr=m_SpeciesSequence.begin(); lossitr!=m_SpeciesSequence.end(); ++lossitr){ 
+    for(lossitr=m_SpeciesSequence.begin(); lossitr!=m_SpeciesSequence.end(); ++lossitr){
       ModelledMolecule* iso = lossitr->first;
       int losspos = lossitr->second;
       ctest << iso->getName() << " loss = " << Kr[losspos][losspos] << endl;
@@ -902,12 +902,12 @@ namespace mesmer
           ctest << rct->getName() << " -> " << pdt->getName() << " =  " << Kr[pdtpos][rctpos] << endl;
       }
     }
+    ctest << "}\n";
 
     return true;
 }
 
 }//namespace
 
- 
 
-   
+

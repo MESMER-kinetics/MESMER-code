@@ -1,18 +1,96 @@
+#ifndef GUARD_TMatrix_h
+#define GUARD_TMatrix_h
+
 //-------------------------------------------------------------------------------------------
 //
-// dMatrix.cpp
+// TMatrix.h
 //
 // Author: Struan Robertson
-// Date:   18/June/2006
+// Date:   30/Mar/2003
 //
-// EISPACK functions for diagonalizing a symmetric matrix.
+// This header file contains the declaration of the TMatrix class.  This class inherits from
+// Matrix and wraps calls to LAPACK functions.
 //
 //-------------------------------------------------------------------------------------------
+#include "Matrix.h"
+#include <string>
 #include <cmath>
 #include <climits>
 #include <stdio.h>
 #include <vector>
-#include "dMatrix.h"
+
+namespace mesmer
+{
+  template<class T>
+	class TMatrix : public Matrix<T> {
+
+	public:
+
+		// Constructor
+		TMatrix(int n) : Matrix<T>(n, 0.0) { } ;
+
+		//
+		// Wrapped call to EISPACK routine to diagonalise matrix.
+		//
+		void diagonalize(T *rr) {
+
+			int size ;
+			size = static_cast<int>(this->size()) ;
+
+			//  Allocate memory for work array
+			T *work = new T[size] ;
+			T *rrProxy = new T[size] ;
+
+			tred2(this->m_matrix, size, rrProxy, work) ;
+			tqli(rrProxy, work, size, this->m_matrix) ;
+
+			for (int i = 0; i < size; ++i){
+				rr[i] = to_double(rrProxy[i]);
+			}
+
+			delete [] work ;
+			delete [] rrProxy ;
+
+		}
+
+		// 
+		// Solve a set of linear equations with a single right hand side.
+		//
+		void solveLinearEquationSet(T *rr) {
+
+			int size ;
+			size = static_cast<int>(this->size()) ;
+
+			//  Allocate memory for work array
+			int *indx = new int[size] ;
+
+			T d ;
+			ludcmp(this->m_matrix, size, indx, d) ;
+			lubksb(this->m_matrix, size, indx, rr) ;
+
+      delete [] indx ;
+
+    };
+
+    // Matrix inversion method by Gaussian elimination
+    int invert();
+
+  private:
+
+		//
+		// EISPACK methods for diagonalizing matrix.
+		//
+		void    tred2   (T **a, int n, T *d, T *e) ;
+		void    tqli    (T *d, T *e, int n, T **z) ;
+		T  pythag  (T a, T b) ;
+
+		//
+		// NR LU methods for linear equation solving.
+		//
+		void ludcmp(T **a,  int n, int *indx, T d) ;
+		void lubksb(T **a,  int n, int *indx, T* b) ;
+
+	} ;
 
 //-------------------------------------------------------------------------------------------
 // EISPACK tred2 function.
@@ -24,14 +102,12 @@
 //   W H Press et al., Numerical Recipes in C, Cambridge U P,
 //   1988, pp. 373-374.
 //-------------------------------------------------------------------------------------------
-namespace mesmer
-{
-    //dd_real dd; //This will compile
 
-    void dMatrix::tred2(double **a, int n, double *d, double *e)
+    template<class T>
+    void TMatrix<T>::tred2(T **a, int n, T *d, T *e)
     {
         int l, k, j, i;
-        double scale, hh, h, g, f;
+        T scale, hh, h, g, f;
 
         for (i=n;i>=2;--i) {
             l=i-1;
@@ -126,10 +202,11 @@ namespace mesmer
     // z returns the normalized eigenvector corresponding to d[k].
     //
     //-------------------------------------------------------------------------------------------
-    void dMatrix::tqli(double *d, double *e, int n, double **z)
+    template<class T>
+    void TMatrix<T>::tqli(T *d, T *e, int n, T **z)
     {
         int m,l,iter,i,k;
-        double s,r,p,g,f,dd,c,b;
+        T s,r,p,g,f,dd,c,b;
 
         for (i=2;i<=n;++i) e[i-2]=e[i-1];
         e[n-1]=0.0;
@@ -148,7 +225,7 @@ namespace mesmer
                     I hope that bellow words will be useful for you.
                     See thread under the title: Possible convergence problems in svdcmp, jacobi, tqli, hqr by Saul Teukolsky
                     in Forum: Official Bug Reports with known bugs. May be this is a reason of slow convergency.
-                    It is good check, that matrix is symmetric and to work with double accuracy. I have known also versions
+                    It is good check, that matrix is symmetric and to work with T accuracy. I have known also versions
                     with increased number of iterations (200 for example). But I think that this experimental number is right
                     in any case: if you have not convergency for 30 iterations, there is no convergency at all.
                     SVD method used in book is an intrinsic iterative procedure, 30 iterations is a good number to
@@ -224,9 +301,10 @@ namespace mesmer
     // Finds sqrtl(a**2+b**2) without overflow or destructive underflow.
     //
     //-------------------------------------------------------------------------------------------
-    double dMatrix::pythag(double a, double b)
+    template<class T>
+    T TMatrix<T>::pythag(T a, T b)
     {
-        double p,r,s,t,u;
+        T p,r,s,t,u;
         if (fabs(a) > fabs(b)) p = fabs(a);
         else p = fabs(b);
         if (p == 0.) goto label_1;
@@ -248,13 +326,14 @@ label_1: return(p);
     //
     // NR LU methods for linear equation solving.
     //
-    void dMatrix::ludcmp(double **a,  int n, int *indx, double d) {
+    template<class T>
+    void TMatrix<T>::ludcmp(T **a,  int n, int *indx, T d) {
 
-        const double TINY = 1.0e-20 ;
+        const T TINY = 1.0e-20 ;
         int i, imax, j, k ;
-        double big, dum, sum, temp ;
+        T big, dum, sum, temp ;
 
-        double *work = new double[n] ;
+        T *work = new T[n] ;
         d = 1.0 ;
         for (i = 1; i < n ; ++i) {
             big = 0.0 ;
@@ -315,10 +394,11 @@ label_1: return(p);
 
     }
 
-    void dMatrix::lubksb(double **a,  int n, int *indx, double* b) {
+    template<class T>
+    void TMatrix<T>::lubksb(T **a,  int n, int *indx, T* b) {
 
         int i, ii = 0, ip, j ;
-        double sum ;
+        T sum ;
 
         for (i = 0; i < n; ++i) {
             ip = indx[i] ;
@@ -341,7 +421,8 @@ label_1: return(p);
         }
     }
 
-  int dMatrix::invert(){
+  template<class T>
+  int TMatrix<T>::invert(){
   /*######################################################################
     Author: Chi-Hsiu Liang
     Matrix  inversion, real symmetric a of order n.
@@ -359,18 +440,18 @@ label_1: return(p);
     @s_inv :a two dimensional matrix to be inverted.
     orbNo :member of the indicated matrix.
     ######################################################################*/
-	  int n = static_cast<int>(m_msize) ;
+	  int n = static_cast<int>(this->size()) ;
     if (n > INT_MAX) return 2; // The matrix size is too large to process.
-    double divide, ratio;
+    T divide, ratio;
     std::vector<int> zeroCount(n, 0);
 
     //-------------------------------
     //produce a unit vector of size n, and copy the incoming matrix
-    dMatrix m2(n);
-    dMatrix m1(n);
+    TMatrix<T> m2(n);
+    TMatrix<T> m1(n);
     for (int i = 0; i < n; ++i){
       for (int j = 0; j < n; ++j){
-        m1[i][j] = m_matrix[i][j];
+        m1[i][j] = this->m_matrix[i][j];
         m2[i][j] = (i == j) ? 1.0 : 0.0;
       }
     }
@@ -425,10 +506,12 @@ label_1: return(p);
 
     for(int i = 0; i < n; ++i){
       for (int j = 0; j < n; ++j){
-        m_matrix[i][j] = m2[i][j];
+        this->m_matrix[i][j] = m2[i][j];
       }
     }
     return 0;
   }
-
 }//namespacer mesmer
+
+
+#endif // GUARD_TMatrix_h

@@ -98,7 +98,6 @@ SRCS := \
   CollidingMolecule.cpp \
   DensityOfStates.cpp \
 	IrreversibleReaction.cpp \
-	dMatrix.cpp \
 	EckartCoefficients.cpp \
 	ExchangeReaction.cpp \
 	formatfloat.cpp \

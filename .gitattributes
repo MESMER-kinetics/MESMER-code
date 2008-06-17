@@ -218,6 +218,7 @@ src/SinkMolecule.cpp -text
 src/SuperMolecule.cpp -text
 src/System.cpp -text
 src/System.h -text
+src/TMatrix.h -text
 src/TimeCounter.cpp -text
 src/TimeCounter.h -text
 src/TransitionState.cpp -text
@@ -225,7 +226,6 @@ src/Tunneling.h -text
 src/XMLPersist.cpp -text
 src/XMLPersist.h -text
 src/a2d.h -text
-src/dMatrix.cpp -text
 src/dMatrix.h -text
 src/formatfloat.cpp -text
 src/formatfloat.h -text
