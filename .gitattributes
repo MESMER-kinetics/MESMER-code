@@ -177,13 +177,13 @@ src/CollidingMolecule.cpp -text
 src/Constants.h -text
 src/DensityOfStates.cpp -text
 src/DensityOfStates.h -text
-src/DissociationReaction.cpp -text
-src/DissociationReaction.h -text
 src/Distribution.h -text
 src/EckartCoefficients.cpp -text
 src/EckartCoefficients.h -text
 src/ExchangeReaction.cpp -text
 src/ExchangeReaction.h -text
+src/IrreversibleReaction.cpp -text
+src/IrreversibleReaction.h -text
 src/IsomerizationReaction.cpp -text
 src/IsomerizationReaction.h -text
 src/Makefile -text

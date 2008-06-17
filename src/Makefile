@@ -97,7 +97,7 @@ SRCS := \
   ClassicalRotor.cpp \
   CollidingMolecule.cpp \
   DensityOfStates.cpp \
-	DissociationReaction.cpp \
+	IrreversibleReaction.cpp \
 	dMatrix.cpp \
 	EckartCoefficients.cpp \
 	ExchangeReaction.cpp \

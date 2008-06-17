@@ -1,3 +1,9 @@
+_2008_06_17__10_39_47_ Chi-Hsiu Liang
+
+  * Renamed DissociationReaction to IrreversibleReaction
+  * Cleaned up InitializeReaction() in several Reaction classes.
+  * Cleaned up MesmerPrecision.h (now we can start to define ddMatrix and qdMatrix)
+
 2008-6-13 Dave Glowacki
 * added Bartis Widom method for calculating first order & psuedo first phenomenological rate coefficients for
   isomers.  the method has been added to reaction manager, and does not presently include orthogonalization

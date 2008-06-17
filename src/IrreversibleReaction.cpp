@@ -1,15 +1,15 @@
 //-------------------------------------------------------------------------------------------
 //
-// DissociationReaction.cpp
+// IrreversibleReaction.cpp
 //
 // Author: Struan Robertson
 // Date:   30/Dec/2007
 //
-// This file contains the implementation of the DissociationReaction class.
+// This file contains the implementation of the IrreversibleReaction class.
 //
 //-------------------------------------------------------------------------------------------
 #include <limits>
-#include "DissociationReaction.h"
+#include "IrreversibleReaction.h"
 
 using namespace Constants ;
 using namespace std;
@@ -20,7 +20,7 @@ namespace mesmer
   //
   // Read the Molecular data from input stream.
   //
-  bool DissociationReaction::InitializeReaction(PersistPtr ppReac)
+  bool IrreversibleReaction::InitializeReaction(PersistPtr ppReac)
   {
     m_ppPersist = ppReac;
 
@@ -29,7 +29,7 @@ namespace mesmer
     PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
     Molecule* pMol1 = GetMolRef(ppReactant1);
     if(!pMol1){
-      cerr << "Dissociation reaction " << getName() << " has no reactant.";
+      cerr << "Cannot find reactant molecule definition for irreversible reaction " << getName() << ".";
       return false;
     }
 
@@ -39,7 +39,7 @@ namespace mesmer
     if(pColMol){
       m_rct1 = pColMol;
     } else {
-      meErrorLog.ThrowError(__FUNCTION__, string("Dissociating reactant must be a colliding molecule"), obError);
+      cerr << "Reactant of a irreversible reaction must be a colliding molecule";
       return false;
     }
 
@@ -51,23 +51,22 @@ namespace mesmer
     if (ppProduct1) {
       pMol1 = GetMolRef(ppProduct1);
       if (pMol1){
-        m_pdt1 = dynamic_cast<ModelledMolecule*>(pMol1) ;
+        m_pdt1 = dynamic_cast<SinkMolecule*>(pMol1) ;
       }
       else {
-        cerr << "Dissociation reaction" << getName() << " has no product defined." << endl;
+        cerr << "Irreversible reaction" << getName() << " has no product defined." << endl;
         return false;
       }
 
       Molecule* pMol2 = NULL ;
       PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
       if (ppProduct2) {
-        pMol2 = GetMolRef(ppProduct1);
+        pMol2 = GetMolRef(ppProduct2);
         if (pMol2){
-          m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol2) ;
+          m_pdt2 = dynamic_cast<SinkMolecule*>(pMol2) ;
         }
         else {
-          cerr << "Dissociation reaction " << getName() << " has only one product defined." << endl;
-          return false;
+          cinfo << "Irreversible reaction " << getName() << " has only one product defined." << endl;
         }
       }
     }
@@ -90,7 +89,7 @@ namespace mesmer
   //
   // Calculate reaction equilibrium constant.
   //
-  double DissociationReaction::calcEquilibriumConstant() {
+  double IrreversibleReaction::calcEquilibriumConstant() {
 
     double Keq(0.0) ;
 
@@ -100,7 +99,7 @@ namespace mesmer
   //
   // Add dissociation reaction terms to collision matrix.
   //
-  void DissociationReaction::AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) {
+  void IrreversibleReaction::AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) {
     // Get densities of states for detailed balance.
     vector<double> rctDOS;
     m_rct1->getGrainDensityOfStates(rctDOS) ;
@@ -119,7 +118,7 @@ namespace mesmer
   }
 
   // Read parameters requires to determine reaction heats and rates.
-  bool DissociationReaction::ReadRateCoeffParameters(PersistPtr ppReac) {
+  bool IrreversibleReaction::ReadRateCoeffParameters(PersistPtr ppReac) {
 
     // Read the heat of reaction (if present).
     const char* pHeatRxntxt = ppReac->XmlReadValue("me:HeatOfReaction",false);
@@ -178,7 +177,7 @@ namespace mesmer
   //
   // Calculate grained forward and reverse k(E)s from trainsition state flux
   //
-  void DissociationReaction::calcGrainRateCoeffs(){
+  void IrreversibleReaction::calcGrainRateCoeffs(){
     vector<double> rctGrainDOS;
     m_rct1->getGrainDensityOfStates(rctGrainDOS) ;
 

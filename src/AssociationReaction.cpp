@@ -31,14 +31,14 @@ namespace mesmer
         PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
         Molecule* pMol1 = GetMolRef(ppReactant1);
         if(!pMol1){
-            cerr << "Association reaction " << getName() << " has no reactants.";
+            cerr << "Cannot find 1st reactant molecule definition for association reaction " << getName() << ".";
             return false;
         }
         PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
         Molecule* pMol2 = GetMolRef(ppReactant2);
         if(!pMol2)
         {
-            cerr << "Association reaction " << getName() << " does not have two reactants.";
+            cerr << "Cannot find 2nd reactant molecule definition for association reaction " << getName() << ".";
             return false;
         }
 
@@ -50,50 +50,39 @@ namespace mesmer
         } else {
             pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
             if(!pColMol){
-                meErrorLog.ThrowError(__FUNCTION__, string("At least one of the reactants has to be a colliding molecule"), obError);
+                cerr << "At least one of the reactants has to be a colliding molecule";
                 return false;
             }
             m_rct2 = dynamic_cast<ModelledMolecule*>(pMol1);
         }
         m_rct1 = pColMol;
 
-        if (m_rct1 && m_rct2){ // the reactant side has two molecules
-            // check whether there is any SuperMolecule in m_molmap contains pMol1 & pMol2
-            string id; //shoud not set any name for it.
-            SuperMolecule* pSupMol = NULL;
-            while(m_pMoleculeManager->GetNextMolecule(id, pSupMol)){ // get next SuperMolecule
-                // if found a SuperMolecule
-                ModelledMolecule* rm1 = pSupMol->getMember1();
-                ModelledMolecule* rm2 = pSupMol->getMember2();
-                if (!rm1 && !rm2){// there is no data inside, occupy it!
-                    pSupMol->setMembers(m_rct1, m_rct2);
-                    m_srct = pSupMol;
-                    break;
-                }
-            }
-            if (!pSupMol){
-                meErrorLog.ThrowError(__FUNCTION__, string("No SuperMolecule was found."), obInfo);
-                // there will always at least one SuperMolecule in m_molmap, check the end of addmol()
-                // in MoleculeManager.cpp.
+        // SuperMolecule section --- to be removed. ------------------------------
+        string id; //shoud not set any name for it.
+        SuperMolecule* pSupMol = NULL;
+        while(m_pMoleculeManager->GetNextMolecule(id, pSupMol)){ // get next SuperMolecule
+            // if found a SuperMolecule
+            ModelledMolecule* rm1 = pSupMol->getMember1();
+            ModelledMolecule* rm2 = pSupMol->getMember2();
+            if (!rm1 && !rm2){// there is no data inside, occupy it!
+                pSupMol->setMembers(m_rct1, m_rct2);
+                m_srct = pSupMol;
+                break;
             }
         }
-        else{
-            cerr << "AssociationReaction " << getName() << " has only one reactant";
-            return false;
+        if (!pSupMol){
+            cerr << "No SuperMolecule was found.";
+            // there will always at least one SuperMolecule in m_molmap, check the end of addmol()
+            // in MoleculeManager.cpp.
         }
+        // SuperMolecule section --- to be removed. ------------------------------
 
         //Read product details.
 
         PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
         pMol1 = GetMolRef(ppProduct1);
         if (!pMol1) {
-            cerr << "Association reaction " << getName() << " has no product.";
-            return false;
-        }
-        PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
-        if(ppProduct2)
-        {
-            cerr << "Association reaction " << getName() << " has more than one product.";
+            cerr << "Cannot find product molecule definition for association reaction " << getName() << ".";
             return false;
         }
 
@@ -103,7 +92,7 @@ namespace mesmer
         if(pColMol){
             m_pdt1 = pColMol;
         } else {
-            meErrorLog.ThrowError(__FUNCTION__, string("Isomer product must be a colliding molecule"), obError);
+            cerr << "Isomer product must be a colliding molecule";
             return false;
         }
 

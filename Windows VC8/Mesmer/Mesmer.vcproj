@@ -41,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
-				AdditionalIncludeDirectories="&quot;../../src ../../tinyxml ../../qd/Windows VC/include&quot;"
+				AdditionalIncludeDirectories="&quot;../../src ../../tinyxml ../../qd/include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -207,10 +207,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\DissociationReaction.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\dMatrix.cpp"
 				>
 			</File>
@@ -224,6 +220,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\formatfloat.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\IrreversibleReaction.cpp"
 				>
 			</File>
 			<File
@@ -353,10 +353,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\DissociationReaction.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Distribution.h"
 				>
 			</File>
@@ -374,6 +370,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\formatfloat.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\IrreversibleReaction.h"
 				>
 			</File>
 			<File

@@ -498,7 +498,7 @@ namespace mesmer
         // Check that there are enough cells.
 
         if (getEnv().GrainSize < 1) {
-            meErrorLog.ThrowError(__FUNCTION__, string("The number of Cells is insufficient to produce requested number of Grains."), obError);
+            cerr << "The number of Cells is insufficient to produce requested number of Grains.";
             exit(1) ;
         }
 

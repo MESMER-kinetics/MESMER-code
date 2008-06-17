@@ -14,7 +14,7 @@
 //-------------------------------------------------------------------------------------------
 
 #include "AssociationReaction.h"
-#include "DissociationReaction.h"
+#include "IrreversibleReaction.h"
 #include "IsomerizationReaction.h"
 #include "ExchangeReaction.h"
 #include "marray.h"

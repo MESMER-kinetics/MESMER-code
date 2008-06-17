@@ -244,18 +244,6 @@ namespace mesmer
 
     WriteMetadata();
 
-    //---------------
-    //About precision
-    string precisionMethod;
-    switch(precisionTag)
-    {
-    case varUseDouble:         precisionMethod = "Double";              break;
-    case varUseDoubleDouble:   precisionMethod = "Double-double";       break;
-    case varUseQuadDouble:     precisionMethod = "Quad-double";         break;
-    }
-    cinfo << "Precision: " << precisionMethod << endl;
-    //---------------
-
     // Find the highest temperature
     for (unsigned int i = 0; i < PandTs.size(); ++i){
       m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, PandTs[i].temperature);

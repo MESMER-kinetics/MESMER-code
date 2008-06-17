@@ -3,12 +3,12 @@
 
 //-------------------------------------------------------------------------------------------
 //
-// DissociationReaction.h
+// IrreversibleReaction.h
 //
 // Author: Struan Robertson
 // Date:   30/Dec/2007
 //
-// This header file contains the declaration of the DissociationReaction class.
+// This header file contains the declaration of the IrreversibleReaction class.
 //
 //-------------------------------------------------------------------------------------------
 
@@ -17,19 +17,19 @@
 namespace mesmer
 {
 
-    class DissociationReaction : public Reaction
+    class IrreversibleReaction : public Reaction
     {
     public:
 
         // Constructors.
-        DissociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id)
-            : Reaction(pMoleculeManager, Env, id),       
+        IrreversibleReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id)
+            : Reaction(pMoleculeManager, Env, id),
             m_rct1(NULL),
-            m_pdt1(NULL), 
+            m_pdt1(NULL),
             m_pdt2(NULL) {} ;
 
         // Destructor.
-        virtual ~DissociationReaction(){} ;
+        virtual ~IrreversibleReaction(){} ;
 
         // Get unimolecular species information:
         virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const
@@ -43,7 +43,12 @@ namespace mesmer
 
         // return relative reactant, product and transition state zero-point energy
         virtual double get_relative_rctZPE() const {return m_rct1->get_zpe() - getEnv().EMin;}
-        virtual double get_relative_pdtZPE() const {return m_pdt1->get_zpe() + m_pdt2->get_zpe() - getEnv().EMin;}
+        virtual double get_relative_pdtZPE() const {
+          double zpe = m_pdt1->get_zpe() - getEnv().EMin;
+          if (m_pdt2)
+            zpe += m_pdt2->get_zpe();
+          return zpe;
+        }
         virtual double get_relative_TSZPE(void) const {return m_TransitionState->get_zpe() - getEnv().EMin;};
 
         // Calculate reaction equilibrium constant.
@@ -61,8 +66,8 @@ namespace mesmer
         virtual void calcGrainRateCoeffs();
 
         CollidingMolecule   *m_rct1 ;                 // Reactant Molecule.
-        ModelledMolecule    *m_pdt1 ;                 // Product Molecule.
-        ModelledMolecule    *m_pdt2 ;                 // Subsidiary product molecule.
+        SinkMolecule    *m_pdt1 ;                 // Product Molecule.
+        SinkMolecule    *m_pdt2 ;                 // Subsidiary product molecule.
 
     } ;
 

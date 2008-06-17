@@ -37,7 +37,7 @@ namespace mesmer
     if(pColMol){
       m_rct1 = pColMol;
     } else {
-      meErrorLog.ThrowError(__FUNCTION__, string("Isomer reactant must be a colliding molecule"), obError);
+      cerr << "Isomer reactant must be a colliding molecule";
       return false;
     }
 
@@ -54,7 +54,7 @@ namespace mesmer
     if(pColMol){
       m_pdt1 = pColMol;
     } else {
-      meErrorLog.ThrowError(__FUNCTION__, string("Isomer product must be a colliding molecule"), obError);
+      cerr << "Isomer product must be a colliding molecule";
       return false;
     }
 

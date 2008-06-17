@@ -166,8 +166,7 @@ void Matrix<T>::resize(const size_type n){
 
     if (n < 1){
       stringstream errorMsg;
-      errorMsg << "Matrix must be of size one or greater";
-      meErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
+      cerr << "Matrix must be of size one or greater";
     }
 
     T **matrix = allocatematrix(n)  ;

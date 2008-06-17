@@ -73,13 +73,13 @@ namespace mesmer
       // Create a new Reaction.
       //
       Reaction *preaction ;
-      if (!bRct2 && bPdt1 && !bPdt2)
+      if     (!bRct2 && bPdt1 && pdt1Type == "modelled" && !bPdt2)
         preaction = new IsomerizationReaction(m_pMoleculeManager, Env, id) ;
-      else if(bRct2 && bPdt1 && !bPdt2)
+      else if( bRct2 && bPdt1 && !bPdt2)
         preaction = new AssociationReaction(m_pMoleculeManager, Env, id) ;
-      else if(!bRct2 && bPdt1 && bPdt2)
-        preaction = new DissociationReaction(m_pMoleculeManager, Env, id) ;
-      else if(bRct2 && bPdt1 && bPdt2)
+      else if(!bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink"))
+        preaction = new IrreversibleReaction(m_pMoleculeManager, Env, id) ;
+      else if( bRct2 && bPdt1 &&  bPdt2)
         preaction = new ExchangeReaction(m_pMoleculeManager, Env, id) ;
       else {
         cinfo << "Unknown reaction type.\n";
