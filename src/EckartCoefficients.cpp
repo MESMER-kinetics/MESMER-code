@@ -53,7 +53,8 @@ namespace mesmer
         double b = (4.0 * M_PI * SpeedOfLight_in_cm /imFreq)* sqrt(E + V1) * 1.0/(1.0/sqrt(V0) + 1.0/sqrt(V1));
         double c = 2.0 * M_PI * sqrt(V0 * V1 / (pow(imFreq/SpeedOfLight_in_cm ,2.0)) - 1.0/16.0);
         TunnelingProbability[i] = (sinh(a) * sinh(b)) / (pow(sinh((a+b)/2.0),2.0) + pow(cosh(c),2.0));
-        if(IsNan(TunnelingProbability[i])) TunnelingProbability[i] = 0.0;  // if statement to avoid nan at small values of E
+        // following if statement to avoid nan at small values of E
+        if(IsNan(TunnelingProbability[i])) TunnelingProbability[i] = 0.0;  
       }
     }
 

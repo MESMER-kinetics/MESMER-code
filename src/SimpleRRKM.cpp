@@ -35,17 +35,16 @@ namespace mesmer
       const int TunnelingStart = (HeatOfReaction > 0) ? int(HeatOfReaction) : 0;
 
       vector<double> TunnelingProbability;
-
       pReact->calculateCellTunnelingCoeffs(TunnelingProbability);
 
-      for (int i = TunnelingStart; i < MaximumCell; ++i) {
-        // Integrate transition state density of states.
-        double SumOfStates = 0.0;
-        for (int j = 0; j <= i; ++j){
-          SumOfStates += TunnelingProbability[i-j] * TScellDOS[j];
-        }
-        // Calculate transition state flux using RRKM expression with tunneling correction.
-        TSFlux[i - TunnelingStart] = SumOfStates * SpeedOfLight_in_cm;
+      vector<double> ConvolvedSumOfStates(MaximumCell,0.0);
+
+      ctest << endl << "convoluting tunneling probabilities and TS sum of states for " << pReact->getName() << endl;
+      FastLaplaceConvolution(TScellDOS, TunnelingProbability, ConvolvedSumOfStates); // FFT convolution
+//      Convolution(TScellDOS, TunnelingProbability, ConvolvedSumOfStates); // standard convolution
+
+      for (int i = TunnelingStart; i < MaximumCell; ++i) {                       // Calculate TSflux using RRKM 
+        TSFlux[i-TunnelingStart] = ConvolvedSumOfStates[i] * SpeedOfLight_in_cm; // with tunneling correction
       }
 
       // the flux bottom energy is equal to the ZPE of the higher well

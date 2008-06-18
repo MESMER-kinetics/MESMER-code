@@ -645,7 +645,7 @@ namespace mesmer
     /* calculate the time points */
     vector<double> timePoints;
     for (int i = 0; i < maxTimeStep; ++i){
-      long double time = pow(10., static_cast<double>(i) / 10. - 11.);
+      long double time = powl(10., static_cast<double>(i) / 10. - 11.);
       if (time > maxEvoTime)
         break;
       timePoints.push_back(time);
@@ -691,7 +691,7 @@ namespace mesmer
     for (int timestep = 0; timestep < maxTimeStep; ++timestep){
       long double numColl = m_meanOmega * timePoints[timestep];
       for (int j = 0; j < smsize; ++j) {
-        work2[j] = work1[j] * exp(m_eigenvalues[j] * numColl);
+        work2[j] = work1[j] * expl(m_eigenvalues[j] * numColl); 
       } // now |wk2> = exp(Dt)*V^(T)*|init> = exp(Dt)*U^(-1)*|p(0)>
       for (int j = 0; j < smsize; ++j) {
         long double sum = 0.;

@@ -1,3 +1,18 @@
+2008-6-18 Dave Glowacki
+
+* added an implementation of FFT algorithm in Memsermath  
+* added a routine called FastLaplaceConvolution in Mesmermath for fast convolution of data.  several tests were performed
+  comparing the output with the standard convolution output.  in the FastLaplaceConvolution output, it was found that the values of the
+  initial elements suffer from precision issues.  For the ILT convolution, only the first few elements are unreliable, but a substantial fraction
+  of the elements following the tunneling convolution are unreliable.  this is due to the very small values for several elements in
+  in the tunneling probabilities vector, at energies far below the classical threshold.  thus, FastLaplaceConvolution includes a standard 
+  convolution algorithm to fix values that are in error by more than 1%.
+* fixed an error in MesmerILT that convoluted the wrong data sets
+* increased the precision in timeEvolution routine to long double to get better species profiles at long times
+* updated baselines:  pentyl, HSO2, and cyclopropene are essentially unchanged, and the differences in the acetyl+O2 and 
+  acetylene + OH baselines result from the changes listed above.  with the FFT, both of these simulations are now much faster, and should be
+  added to the standard baseline testing protocol for subsequent changes.
+
 _2008_06_18__14_15_13_ Chi-Hsiu Liang
 
   * add normalizedBoltzmannDistribution() to distinguish from   void CollidingMolecule::normalizedInitialDistribution()

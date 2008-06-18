@@ -74,7 +74,7 @@ namespace mesmer
     const double ma = p_rct1->getMass();
     const double mb = p_rct2->getMass();
     const double mc = p_pdt1->getMass();
-    const int MaximumCell = pReact->getEnv().MaxCell;
+    int MaximumCell = pReact->getEnv().MaxCell;
 
     // Allocate some work space for density of states and extract densities of states from molecules.
     vector<double> rctsCellEne; // Cell energies          of      product molecule.
@@ -92,17 +92,20 @@ namespace mesmer
     double _ant = preExp * tp_C * (edg_a * edg_b / edg_c) * pow( ( ma * mb / mc), 1.5 ) / _gamma;
     _ant /= (pow((t_infinity * boltzmann_RCpK), n_infinity));
 
-    vector<double> work(MaximumCell);
+    vector<double> work(MaximumCell);;
     vector<double> conv(MaximumCell);
+    vector<double> rctsCellDOS1(MaximumCell);
 
-    double pwr     = n_infinity + .5;
+    double pwr = n_infinity + .5;
     for (int i = 0; i < MaximumCell; ++i) {
-      work[i] = pow(rctsCellDOS[i], pwr);
+      work[i] = pow(rctsCellEne[i], pwr);
     }
 
-    DOSconvolution(work, rctsCellDOS, conv);
+    ctest << endl << "performing ILT convolution for " << pReact->getName() << endl;
+    FastLaplaceConvolution(work, rctsCellDOS, conv);    // FFT convolution replaces the standard convolution
+//    Convolution(work, rctsCellDOS, conv);  // standard convolution
 
-    for (int i = activ_ene; i < MaximumCell; ++i){
+     for (int i = activ_ene; i < MaximumCell; ++i){
       TSFlux[i] = _ant * conv[i - activ_ene];
     }
 

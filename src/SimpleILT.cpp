@@ -33,7 +33,7 @@ namespace mesmer
     vector<double> rctsCellDOS; 
     p_rcts->getCellDensityOfStates(rctsCellDOS) ;
 
-    // Obtain he Arrhenius parameters.
+    // Obtain the Arrhenius parameters.
 
     const int nEinf = int(pReact->get_ThresholdEnergy()) ;  //<-- SHR: This should be activation energy NOT threshold energy!!
     const double preExp = pReact->get_PreExp();

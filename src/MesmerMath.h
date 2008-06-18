@@ -79,11 +79,17 @@ const T MesmerGamma(const T& x)
   }
   return ga;
 }
+template<class T>
+inline const T SQR(const T a) {return a*a;}
 
 
 //convolutes rovibrational DOSs
-void DOSconvolution(const std::vector<double> &f1,
+void Convolution(const std::vector<double> &f1,
                     const std::vector<double> &f2,
-                    std::vector<double> &conv);
+                    std::vector<double> &conv,
+                    const int n = 0);
+
+//convolutes rovibrational DOSs
+void FastLaplaceConvolution(std::vector<double> &data,std::vector<double> &respns, std::vector<double> &convolution);
 
 #endif // GUARD_MesmerMath_h
