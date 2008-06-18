@@ -17,7 +17,6 @@
 #include "IrreversibleReaction.h"
 #include "IsomerizationReaction.h"
 #include "ExchangeReaction.h"
-#include "marray.h"
 
 namespace mesmer
 {
@@ -56,7 +55,7 @@ namespace mesmer
     bool BuildSystemCollisionOperator(MesmerEnv &Env) ;
 
     // Diagonalize the collision operator.
-    void diagCollisionOperator(const MesmerEnv &Env) ;
+    void diagCollisionOperator(const MesmerEnv &Env, const int precision) ;
 
     // Calculate the time evolution of the system
     bool timeEvolution(int maxTimeStep, const MesmerEnv mEnv);

@@ -23,6 +23,11 @@ namespace mesmer
   };
 
   // double-double version of Matrix
+	class ldMatrix : public TMatrix<long double>{
+		public: ldMatrix(int n) : TMatrix<long double>(n) { } ;
+	};
+
+  // double-double version of Matrix
 	class ddMatrix : public TMatrix<dd_real>{
 		public: ddMatrix(int n) : TMatrix<dd_real>(n) { } ;
 	};

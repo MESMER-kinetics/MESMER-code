@@ -304,7 +304,8 @@ namespace mesmer
 
         // Get Grain Boltzmann distribution.
         void grainDistribution(vector<long double> &grainFrac, const int numberOfGrains);
-        void normalizedGrainDistribution(vector<long double> &grainFrac, const int numberOfGrains) ;
+        void normalizedInitialDistribution(vector<long double> &grainFrac, const int numberOfGrains) ;
+        void normalizedBoltzmannDistribution(vector<long double> &grainFrac, const int numberOfGrains);
 
         // Accessors.
         double getSigma() ;

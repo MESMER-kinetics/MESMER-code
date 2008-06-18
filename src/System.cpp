@@ -119,13 +119,25 @@ namespace mesmer
     //
     //  The looping of the PT points are easy, they are first parsed and all the points are stored in pairs in
     //  vector PandTs, and Mesmer simply loop through all its members.
+    //
+    //  Or, if someone wants a higher precision on some condition they are interested, they can specify additional
+    //  precision flag with small numbers of PT points.
+    //
+    //  <me:PTs>
+    //    <me:PTpair me:units="1" me:P="100" me:T="200" me:precision="1">
+    //    <me:PTpair me:units="0" me:P="1e18" me:T="298" me:precision="2">
+    //  </me:PTs>
+    //
+    //  The description above will do first a double-double precision calculation and a quad-double calculation.
+
+
     //--------------
 
     PersistPtr ppPTs = ppConditions->XmlMoveTo("me:PTs");
     if(ppPTs)
       readPTs(ppPTs);
     if (!PandTs.size())
-      cerr << "No concentration/pressure and temperature specified.";
+      cerr << "No pressure and temperature specified.";
 
     // read initial population (needs to be normalized later if their sum not equals to 1.0)
     PersistPtr ppInitalPopulation = ppConditions->XmlMoveTo("me:InitalPopulation");
@@ -177,10 +189,10 @@ namespace mesmer
     PersistPtr pp=anchor;
     const char* txt;
 
-    //defaults
-    const string DefaultUnit = "PPCC";
-    const double DefaultConcentration = 1e17;
-    const double DefaultTmeperature = 298.;
+    //default unit, pressure and temperature
+    const string default_unit = "PPCC";
+    const double default_P = 1e17;
+    const double default_T = 298.;
 
     //
     // check for grid values of temperatures and concentrations
@@ -190,15 +202,15 @@ namespace mesmer
       txt = ppPTset->XmlReadValue("me:units");
       string this_units = txt;
       if (!txt){
-        cerr << "No units provided. Default units " << DefaultUnit << " are used.";
-        this_units = DefaultUnit;
+        cerr << "No units provided. Default units " << default_unit << " are used.";
+        this_units = default_unit;
       }
 
       // if user does not input any value for temperature and concentration, give a Default set of concentration and pressure
       // for simulation
       std::vector<double> Pvals, Tvals;
-      if(!ReadRange("me:Prange", Pvals, ppPTset)) Pvals.push_back(DefaultConcentration);
-      if(!ReadRange("me:Trange", Tvals, ppPTset))   Tvals.push_back(DefaultTmeperature);
+      if(!ReadRange("me:Prange", Pvals, ppPTset)) Pvals.push_back(default_P);
+      if(!ReadRange("me:Trange", Tvals, ppPTset)) Tvals.push_back(default_T);
 
       for (unsigned int i = 0; i < Pvals.size(); ++i){
         for (unsigned int j = 0; j < Tvals.size(); ++j){
@@ -218,8 +230,9 @@ namespace mesmer
       txt = ppPTpair->XmlReadValue("me:units");
       if (txt)
         this_units = txt;
-      double this_P = DefaultConcentration;
-      double this_T = DefaultTmeperature;
+      double this_P = default_P;
+      double this_T = default_T;
+      int this_precision = 0;
 
       txt = ppPTpair->XmlReadValue("me:P");
       if (txt)
@@ -227,8 +240,16 @@ namespace mesmer
       txt = ppPTpair->XmlReadValue("me:T");
       if (txt)
         this_T = atof(txt);
+      txt = ppPTpair->XmlReadValue("me:precision");
 
-      CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T);
+      // Can specify abbreviation
+      if (txt){
+        if (!strcmp(txt,"dd")) this_precision = 1;
+        if (!strcmp(txt,"qd")) this_precision = 2;
+        if (!strcmp(txt,"double-double")) this_precision = 1;
+        if (!strcmp(txt,"quad-double")) this_precision = 2;
+      }
+      CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision);
       PandTs.push_back(thisPair);
 
       ppPTpair = ppPTpair->XmlMoveTo("me:PTpair");
@@ -256,8 +277,14 @@ namespace mesmer
       m_Env.beta = 1.0 / (boltzmann_RCpK * PandTs[calPoint].temperature) ; //temporary statements
       m_Env.conc = PandTs[calPoint].concentration;
       // unit of conc: particles per cubic centimeter
-      cerr << "\nGrid " << calPoint << "\n";
-      ctest << "Condition: conc = " << m_Env.conc << ", temp = " << PandTs[calPoint].temperature << "\n{\n";
+      cerr << "\nGrid " << calPoint;
+      int precision = PandTs[calPoint].precision;
+      ctest << "Condition: conc = " << m_Env.conc << ", temp = " << PandTs[calPoint].temperature;
+      switch (precision){
+        case 1: ctest << ", diagonalization precision: double-double\n{\n"; break;
+        case 2: ctest << ", diagonalization precision: quad-double\n{\n"; break;
+        default: ctest << ", diagonalization precision: double\n{\n";
+      }
       // Build collison matrix for system.
       {string thisEvent = "Build Collison Operator";
       cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;}
@@ -272,7 +299,8 @@ namespace mesmer
       // Calculate eigenvectors and eigenvalues.
       {string thisEvent = "Diagonlize Collision Operator";
       cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";}
-      m_pReactionManager->diagCollisionOperator(m_Env) ;
+
+      m_pReactionManager->diagCollisionOperator(m_Env, precision) ;
 
       // Time steps loop
       int timestep = 160;

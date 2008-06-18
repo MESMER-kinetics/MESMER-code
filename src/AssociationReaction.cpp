@@ -132,7 +132,7 @@ namespace mesmer
         vector<long double> adductPopFrac ; // Population fraction of the adduct
 
         const int pdtGrainZPE = m_pdt1->get_grnZpe();
-        m_pdt1->normalizedGrainDistribution(adductPopFrac, MaximumGrain - pdtGrainZPE) ;
+        m_pdt1->normalizedBoltzmannDistribution(adductPopFrac, MaximumGrain - pdtGrainZPE) ;
 
         double DissRateCoeff(0.0) ;
 

@@ -233,7 +233,7 @@
     <me:conditions>
         <me:bathGas>N_2</me:bathGas>
         <me:PTs>
-          <me:PTpair me:units="Torr" me:P="1000" me:T="298.0" />
+          <me:PTpair me:units="Torr" me:P="1000" me:T="298.0"/>
         </me:PTs>
     </me:conditions>
     <me:modelParameters>

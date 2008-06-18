@@ -7,6 +7,7 @@
 #include "TimeCounter.h"
 #include "unitsConversion.h"
 #include "dMatrix.h"
+#include "marray.h"
 using namespace Constants;
 using namespace std;
 

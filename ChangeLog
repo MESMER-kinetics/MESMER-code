@@ -1,3 +1,9 @@
+_2008_06_18__14_15_13_ Chi-Hsiu Liang
+
+  * add normalizedBoltzmannDistribution() to distinguish from   void CollidingMolecule::normalizedInitialDistribution()
+  * added ldMatrix for long double matrix
+  * added options for user to calculate diagonalization at higher precisions dd and qd
+
 _2008_06_17__14_22_17_ Chi-Hsiu Liang
 
   * Created a templated class TMatrix.

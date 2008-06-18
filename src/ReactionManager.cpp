@@ -321,14 +321,46 @@ namespace mesmer
     return true;
   }
 
-  void ReactionManager::diagCollisionOperator(const MesmerEnv &Env)
+  void ReactionManager::diagCollisionOperator(const MesmerEnv &Env, const int precision)
   {
     // Allocate space for eigenvalues.
     const int smsize = int(m_pSystemCollisionOperator->size()) ;
 
     m_eigenvalues.clear();
     m_eigenvalues.resize(smsize, 0.0);
-    m_pSystemCollisionOperator->diagonalize(&m_eigenvalues[0]) ;
+
+    // Construction of two matrices and eigenvalue vectors for dd and qd
+    vector<dd_real> ddEigenValue(smsize, 0.0);
+    vector<qd_real> qdEigenValue(smsize, 0.0);
+    ddMatrix ddDiagM(smsize);
+    qdMatrix qdDiagM(smsize);
+
+    switch (precision){
+      case 1:
+        for ( int i = 0 ; i < smsize ; ++i )
+          for ( int j = 0 ; j < smsize ; ++j )
+            ddDiagM[i][j] = (*m_pSystemCollisionOperator)[i][j] ;
+        ddDiagM.diagonalize(&ddEigenValue[0]) ;
+        for ( int i = 0 ; i < smsize ; ++i )
+          m_eigenvalues[i] = to_double(ddEigenValue[i]);
+        for ( int i = 0 ; i < smsize ; ++i )
+          for ( int j = 0 ; j < smsize ; ++j )
+            (*m_pSystemCollisionOperator)[i][j] = to_double(ddDiagM[i][j]) ;
+        break;
+      case 2:
+        for ( int i = 0 ; i < smsize ; ++i )
+          for ( int j = 0 ; j < smsize ; ++j )
+            qdDiagM[i][j] = (*m_pSystemCollisionOperator)[i][j] ;
+        qdDiagM.diagonalize(&qdEigenValue[0]) ;
+        for ( int i = 0 ; i < smsize ; ++i )
+          m_eigenvalues[i] = to_double(qdEigenValue[i]);
+        for ( int i = 0 ; i < smsize ; ++i )
+          for ( int j = 0 ; j < smsize ; ++j )
+            (*m_pSystemCollisionOperator)[i][j] = to_double(qdDiagM[i][j]) ;
+        break;
+      default:
+        m_pSystemCollisionOperator->diagonalize(&m_eigenvalues[0]) ;
+    }
 
     int numberStarted = 0;
     int numberPrinted = smsize; // Default prints all of the eigenvalues
@@ -531,7 +563,7 @@ namespace mesmer
         int location = ipos->second;
         const int colloptrsize = isomer->get_colloptrsize();
         vector<long double> boltzFrac;
-        isomer->normalizedGrainDistribution(boltzFrac, colloptrsize);
+        isomer->normalizedBoltzmannDistribution(boltzFrac, colloptrsize);
         for (int i = 0; i < colloptrsize; ++i){
           initDist[i + location] = initFrac * boltzFrac[i];
         }
@@ -550,7 +582,7 @@ namespace mesmer
       int location = ipos->second;
       const int colloptrsize = isomer->get_colloptrsize();
       vector<long double> boltzFrac;
-      isomer->normalizedGrainDistribution(boltzFrac, colloptrsize);
+      isomer->normalizedInitialDistribution(boltzFrac, colloptrsize);
       for (int i = 0; i < colloptrsize; ++i){
         initDist[i + location] = initFrac * boltzFrac[i];
       }
@@ -591,7 +623,7 @@ namespace mesmer
       long double eqFrac = isomer->getEqFraction();
       const int colloptrsize = isomer->get_colloptrsize();
       vector<long double> boltzFrac;
-      isomer->normalizedGrainDistribution(boltzFrac, colloptrsize);
+      isomer->normalizedBoltzmannDistribution(boltzFrac, colloptrsize);
       for(int i(0);i<colloptrsize;++i){
         eqVector[location + i]= sqrt(eqFrac * boltzFrac[i]);
       }
