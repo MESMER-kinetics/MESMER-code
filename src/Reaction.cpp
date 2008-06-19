@@ -101,8 +101,6 @@ namespace mesmer
         if (reCalcDOS){
             if (m_CellTSFlux.size()) m_CellTSFlux.clear();
 
-            reCalcDOS = false; // reset the flag
-
             // Calculate microcanonical rate coefficients.
             if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this))
                 return false;
@@ -125,6 +123,7 @@ namespace mesmer
             if (getEnv().microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_ppPersist) )
                 return false;
         }
+        reCalcDOS = false; // reset the flag
         return true;
     }
 

@@ -138,7 +138,7 @@ namespace mesmer
     Env.EMax = maxEne;
 
     /*For testing purposes, set the maxGrn based on the highest temperature we use in all calculations.*/
-    double MaximumTemperature = Env.MaximumTemperature;
+    const double MaximumTemperature = Env.MaximumTemperature;
 
     /*EAboveHill: Max energy above the highest hill. The temperature refers to the current condition.*/
     if (Env.useTheSameCellNumber){

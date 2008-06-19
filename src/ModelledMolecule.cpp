@@ -481,7 +481,8 @@ namespace mesmer
             cerr << "Grain zero point energy has to be a positive value.";
 
         set_grnZpe(grnZpe) ; //set grain ZPE (with respect to the minimum of all wells)
-        m_cellOffset =  int(fmod(relativeZPE, getEnv().GrainSize));
+        const double modulus = fmod(relativeZPE, getEnv().GrainSize);
+        m_cellOffset =  int(modulus);
     }
 
     //
