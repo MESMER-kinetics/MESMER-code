@@ -124,7 +124,7 @@ namespace mesmer
                         h += a[i-1][k-1]*a[i-1][k-1];
                     }
                     f=a[i-1][l-1];
-                    g = f>0 ? -sqrt(h) : sqrt(h);
+                    g = f > 0.0 ? -sqrt(h) : sqrt(h);
                     e[i-1]=scale*g;
                     h -= f*g;
                     a[i-1][l-1]=f-g;
@@ -233,7 +233,7 @@ namespace mesmer
                     */
                     g=(d[l]-d[l-1])/(2.0*e[l-1]);
                     r=sqrt((g*g)+1.0);
-                    g=d[m-1]-d[l-1]+e[l-1]/(g + (g<0 ? -fabs(r) : fabs(r)));
+                    g=d[m-1]-d[l-1]+e[l-1]/(g + (g < 0.0 ? -fabs(r) : fabs(r)));
                     s=c=1.0;
                     p=0.0;
                     for (i=m-1;i>=l;--i) {

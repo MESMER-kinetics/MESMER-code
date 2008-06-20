@@ -1,3 +1,9 @@
+_2008_06_20__14_23_40_ Chi-Hsiu Liang
+  
+  * Minor modifications on TMatrix.h for Linux compiler error.
+  * Updated Manual
+  * Removed unnecessary bits in Makefile
+
 _2008_06_19__15_01_20_ Chi-Hsiu Liang
 
   * Minor modifications
