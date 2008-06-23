@@ -68,9 +68,9 @@ namespace mesmer
     ModelledMolecule*  p_rct2 = p_rcts->getMember2();
 
     // Get molecular specific values
-    const double edg_a = static_cast<double>(p_rct1->getSpinMultiplicity());
-    const double edg_b = static_cast<double>(p_rct2->getSpinMultiplicity());
-    const double edg_c = static_cast<double>(p_pdt1->getSpinMultiplicity());
+//    const double edg_a = static_cast<double>(p_rct1->getSpinMultiplicity());
+//    const double edg_b = static_cast<double>(p_rct2->getSpinMultiplicity());
+//    const double edg_c = static_cast<double>(p_pdt1->getSpinMultiplicity());
     const double ma = p_rct1->getMass();
     const double mb = p_rct2->getMass();
     const double mc = p_pdt1->getMass();
@@ -89,7 +89,10 @@ namespace mesmer
     TSFlux.resize(MaximumCell, 0.0); 
 
     const double _gamma = MesmerGamma(n_infinity + 1.5);
-    double _ant = preExp * tp_C * (edg_a * edg_b / edg_c) * pow( ( ma * mb / mc), 1.5 ) / _gamma;
+    
+    //double _ant = preExp * tp_C * (edg_a * edg_b / edg_c) * pow( ( ma * mb / mc), 1.5 ) / _gamma;
+    // Replace the above line because electronic degeneracies were already accounted for in DOS calculations
+    double _ant = preExp * tp_C * pow( ( ma * mb / mc), 1.5 ) / _gamma;
     _ant /= (pow((t_infinity * boltzmann_RCpK), n_infinity));
 
     vector<double> work(MaximumCell);;
