@@ -95,15 +95,15 @@ namespace mesmer
     //--------------
     //  The concentration/pressure units are of following formats:
     //  units:
-    //   0: particles per cubic centimeter
-    //   1: Torr
+    //   PPCC: particles per cubic centimeter
+    //   Torr: Torr
     //
     //  Allowed input formats are shown below (example units in particles per cubic centimeter).
     //
     //  <me:PTs>
-    //    <me:PTset me:units="0">
-    //      <me:Prange initial="1e8" increment="2e7" final="2e8">
-    //      <me:Trange initial="100" increment="20" final="200">
+    //    <me:PTset me:units="Torr">
+    //      <me:Prange initial="1e8" increment="2e7" final="2e8" />
+    //      <me:Trange initial="100" increment="20" final="200" />
     //    </me:PTset>
     //  </me:PTs>
     //
@@ -113,8 +113,8 @@ namespace mesmer
     //  Another example of specifying small numbers of PT points (example units in Torr):
     //
     //  <me:PTs>
-    //    <me:PTpair me:units="1" me:P="100" me:T="200">
-    //    <me:PTpair me:units="0" me:P="1e18" me:T="298">
+    //    <me:PTpair me:units="Torr" me:P="100" me:T="200" />
+    //    <me:PTpair me:units="PPCC" me:P="1e18" me:T="298" />
     //  </me:PTs>
     //
     //  The looping of the PT points are easy, they are first parsed and all the points are stored in pairs in
@@ -124,13 +124,11 @@ namespace mesmer
     //  precision flag with small numbers of PT points.
     //
     //  <me:PTs>
-    //    <me:PTpair me:units="1" me:P="100" me:T="200" me:precision="1">
-    //    <me:PTpair me:units="0" me:P="1e18" me:T="298" me:precision="2">
+    //    <me:PTpair me:units="Torr" me:P="100" me:T="200" me:precision="double-double" />
+    //    <me:PTpair me:units="PPCC" me:P="1e18" me:T="298" me:precision="quad-double" />
     //  </me:PTs>
     //
     //  The description above will do first a double-double precision calculation and a quad-double calculation.
-
-
     //--------------
 
     PersistPtr ppPTs = ppConditions->XmlMoveTo("me:PTs");
@@ -244,9 +242,13 @@ namespace mesmer
 
       // Can specify abbreviation
       if (txt){
+        if (!strcmp(txt,"1d")) this_precision = 0;
+        if (!strcmp(txt,"double")) this_precision = 0;
+        if (!strcmp(txt,"2d")) this_precision = 1;
         if (!strcmp(txt,"dd")) this_precision = 1;
-        if (!strcmp(txt,"qd")) this_precision = 2;
         if (!strcmp(txt,"double-double")) this_precision = 1;
+        if (!strcmp(txt,"4d")) this_precision = 2;
+        if (!strcmp(txt,"qd")) this_precision = 2;
         if (!strcmp(txt,"quad-double")) this_precision = 2;
       }
       CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision);

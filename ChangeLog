@@ -1,3 +1,7 @@
+_2008_06_23__12_21_17_ Chi-Hsiu Liang
+
+  * Minor corrections. Removed the check of partition function difference on calcEquilibriumConstant() of AssociationReaction.cpp
+
 _2008_06_20__14_23_40_ Chi-Hsiu Liang
   
   * Minor modifications on TMatrix.h for Linux compiler error.

@@ -162,14 +162,7 @@ namespace mesmer
 
         // partition function for each reactant
         long double Qrcts = m_srct->rovibronicGrnCanPrtnFn();
-        const long double Qrct1 = m_rct1->rovibronicGrnCanPrtnFn();
-        const long double Qrct2 = m_rct2->rovibronicGrnCanPrtnFn();
-        const long double Qdiff = Qrcts / (Qrct1 * Qrct2);
-        if (abs(Qdiff - 1.0) > 0.01) {
-            cerr << "Rovibronic partition function calculated for source term and individual reactants does not match.";
-            cerr << "Ratio = " << Qdiff;
-            return false;
-        }
+
         // rovibronic partition function for reactants multiplied by translation contribution
         Qrcts *= translationalContribution(m_rct1->getMass(), m_rct2->getMass(), beta);
 
