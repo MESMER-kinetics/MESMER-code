@@ -211,6 +211,12 @@ namespace mesmer
       }
       ctest << "}\n";
     }
+    if (getEnv().testRateConstantEnabled)
+      testRateConstant();
   }
 
+  // Test k(T)
+  void IsomerizationReaction::testRateConstant() const {
+  
+  }
 }//namespace

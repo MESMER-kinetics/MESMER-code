@@ -142,7 +142,13 @@ namespace mesmer
   // Calculate grained forward and reverse k(E)s from trainsition state flux
   //
   void ExchangeReaction::calcGrainRateCoeffs(){
-
+    if (getEnv().testRateConstantEnabled)
+      testRateConstant();
+  }
+  
+  // Test k(T)
+  void ExchangeReaction::testRateConstant() const {
+  
   }
 
 }//namespace

@@ -20,6 +20,7 @@ namespace mesmer
 
     // decide what to report
     bool   testDOSEnabled;                // Whether to output test of DOS to mesmer.test
+    bool   testRateConstantEnabled;       // Option to output canonical rate constant
     bool   microRateEnabled;              // Whether to output microcanonical rate coefficients
     bool   grainBoltzmannEnabled;         // Enabled printing grain boltzmann distribution
     bool   grainDOSEnabled;               // Enabled printing grain DOS
@@ -32,7 +33,8 @@ namespace mesmer
     bool   grainTSFluxEnabled;            // Enabled printing transition state flux
     bool   rateCoefficientsOnly;          // Calculate rate coefficients only without doing collision operators
     bool   useTheSameCellNumber;          // Option to use the same cell number or not in various conditions
-    bool   grainedProfileEnabled;           // Option to print out grained species profile (before summation to individual species)
+    bool   grainedProfileEnabled;         // Option to print out grained species profile (before summation to individual species)
+    bool   speciesProfileEnabled;         // Option to print species profile
     double EAboveHill;                    // Max energy above the highest Hill [in kT]
     double maxEvolutionTime;              // Maximum time of evolution for the species profile
     int printEigenValuesNum;              // Number of eigen values to be printed: -1 for all of them, otherwise specified.

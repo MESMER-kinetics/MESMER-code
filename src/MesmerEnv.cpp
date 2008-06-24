@@ -11,6 +11,7 @@ namespace mesmer{
     EMin(.0),
     EMax(.0),
     testDOSEnabled(false),
+    testRateConstantEnabled(false),
     microRateEnabled(false),
     grainBoltzmannEnabled(false),
     grainDOSEnabled(false),
@@ -24,6 +25,7 @@ namespace mesmer{
     rateCoefficientsOnly(false),
     useTheSameCellNumber(false),
     grainedProfileEnabled(false),
+    speciesProfileEnabled(false),
     EAboveHill(20.),
     maxEvolutionTime(0.),
     printEigenValuesNum(-1)

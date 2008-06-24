@@ -82,6 +82,9 @@ namespace mesmer
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs();
 
+    // Test k(T)
+    virtual void testRateConstant() const;
+
     sourceMap *m_sourceMap ;
 
     // Reaction composition:

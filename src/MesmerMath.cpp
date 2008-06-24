@@ -178,7 +178,7 @@ void FastLaplaceConvolution(std::vector<double> &data1, std::vector<double>
     ++replace;
   }while(convolution_value/initial_value < 0.99 || convolution_value/initial_value > 1.01);
 
-  ctest << endl << replace << " values in the FFT convolution routine were replaced by standard convolution" << endl;
+  cinfo << endl << replace << " values in the FFT convolution routine were replaced by standard convolution" << endl;
 
   for(i=0;i<arraySize;i++)           // copy the inverse FT into the convolution vector for output
     convolution[i]=ans[i];

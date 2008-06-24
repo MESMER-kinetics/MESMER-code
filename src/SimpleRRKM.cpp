@@ -39,7 +39,6 @@ namespace mesmer
 
       vector<double> ConvolvedSumOfStates(MaximumCell,0.0);
 
-      ctest << endl << "convoluting tunneling probabilities and TS sum of states for " << pReact->getName() << endl;
       FastLaplaceConvolution(TScellDOS, TunnelingProbability, ConvolvedSumOfStates); // FFT convolution
 //      Convolution(TScellDOS, TunnelingProbability, ConvolvedSumOfStates); // standard convolution
 

@@ -735,11 +735,13 @@ namespace mesmer
 
     //----------------------
     // print species profile
-    ctest << "\nSpecies profile (the first row is time points in unit of second):\n{\nTimesteps   ";
-    for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-      formatFloat(ctest, timePoints[timestep], 6,  15);
+    if (mEnv.speciesProfileEnabled) {
+      ctest << "\nSpecies profile (the first row is time points in unit of second):\n{\nTimesteps   ";
+      for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+        formatFloat(ctest, timePoints[timestep], 6,  15);
+      }
+      ctest << endl;
     }
-    ctest << endl;
     //-----------------------------------------------
     // speciesProfile will contain the sum of all grains corresponding to an individual species at each time step
     // and is sorted so that it has the same ordering as the system collision operator

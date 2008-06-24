@@ -93,7 +93,6 @@ namespace mesmer
         kmc = m_GrainKfmc ;
     }
 
-
     //
     // Calculate grain averaged microcanonical rate coefficients.
     //
@@ -118,7 +117,7 @@ namespace mesmer
             // Calculate Grain-averaged microcanonical rate coefficients.
             if (!grnAvrgMicroRateCoeffs())
                 return false;
-
+                
             // test grained microcanonical rate coefficients
             if (getEnv().microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_ppPersist) )
                 return false;

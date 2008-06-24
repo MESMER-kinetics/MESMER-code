@@ -1,3 +1,8 @@
+_2008_06_24__13_00_37_ Chi-Hsiu Liang
+
+  * Added testRateConstant() which displays k(T) for AssociationReaction
+  * Added a flag MesmerEnv speciesProfileEnabled for printing species profile 
+
 _2008_06_23__15_49_31_ Chi-Hsiu Liang
 
   * Removed the account for electronic degeneracies in MesmerILT.cpp as electronic degeneracies are already accounted for in

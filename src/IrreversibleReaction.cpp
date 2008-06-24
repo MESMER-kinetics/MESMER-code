@@ -201,6 +201,13 @@ namespace mesmer
       }
       ctest << "}\n";
     }
+    if (getEnv().testRateConstantEnabled)
+      testRateConstant();
+  }
+
+  // Test k(T)
+  void IrreversibleReaction::testRateConstant() const {
+  
   }
 
 }//namespace

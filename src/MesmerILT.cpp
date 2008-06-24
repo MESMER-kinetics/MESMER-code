@@ -97,14 +97,12 @@ namespace mesmer
 
     vector<double> work(MaximumCell);;
     vector<double> conv(MaximumCell);
-    vector<double> rctsCellDOS1(MaximumCell);
 
     double pwr = n_infinity + .5;
     for (int i = 0; i < MaximumCell; ++i) {
       work[i] = pow(rctsCellEne[i], pwr);
     }
 
-    ctest << endl << "performing ILT convolution for " << pReact->getName() << endl;
     FastLaplaceConvolution(work, rctsCellDOS, conv);    // FFT convolution replaces the standard convolution
 //    Convolution(work, rctsCellDOS, conv);  // standard convolution
 

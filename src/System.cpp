@@ -146,6 +146,7 @@ namespace mesmer
     if(ppControl)
     {
       m_Env.testDOSEnabled              = ppControl->XmlReadBoolean("me:testDOS");
+      m_Env.testRateConstantEnabled     = ppControl->XmlReadBoolean("me:testRateConstant");
       m_Env.microRateEnabled            = ppControl->XmlReadBoolean("me:testMicroRates");
       m_Env.grainBoltzmannEnabled       = ppControl->XmlReadBoolean("me:printGrainBoltzmann");
       m_Env.grainDOSEnabled             = ppControl->XmlReadBoolean("me:printGrainDOS");
@@ -162,6 +163,7 @@ namespace mesmer
       m_Env.rateCoefficientsOnly        = ppControl->XmlReadBoolean("me:calculateRateCoefficinetsOnly");
       m_Env.useTheSameCellNumber        = ppControl->XmlReadBoolean("me:useTheSameCellNumberForAllConditions");
       m_Env.grainedProfileEnabled       = ppControl->XmlReadBoolean("me:printGrainedSpeciesProfile");
+      m_Env.speciesProfileEnabled       = ppControl->XmlReadBoolean("me:printSpeciesProfile");
       if (!m_Env.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
         m_Env.useTheSameCellNumber = true;
       }
