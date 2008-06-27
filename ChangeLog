@@ -1,3 +1,9 @@
+_2008_06_27__16_44_38_ Chi-Hsiu Liang
+
+  * Corrected MesmerILT so that it can deal with negative Einf
+  * Corrected AssociationReaction::testRateConstant(). Now the rate of association (loss rate of source) will asymptotically 
+    approach k_inf(T) as the pressure going higher.
+
 _2008_06_24__13_00_37_ Chi-Hsiu Liang
 
   * Added testRateConstant() which displays k(T) for AssociationReaction

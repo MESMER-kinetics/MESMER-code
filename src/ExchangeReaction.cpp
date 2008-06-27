@@ -147,7 +147,7 @@ namespace mesmer
   }
   
   // Test k(T)
-  void ExchangeReaction::testRateConstant() const {
+  void ExchangeReaction::testRateConstant() {
   
   }
 

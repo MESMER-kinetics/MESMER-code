@@ -216,7 +216,7 @@ namespace mesmer
   }
 
   // Test k(T)
-  void IsomerizationReaction::testRateConstant() const {
+  void IsomerizationReaction::testRateConstant() {
   
   }
 }//namespace

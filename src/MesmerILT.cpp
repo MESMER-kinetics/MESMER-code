@@ -15,7 +15,7 @@ namespace mesmer
   //   zpe_react:           zero-point energy of the reactant
   //   zpe_prodt:           zero-point energy of the product
   //   barri_hgt:           Barrier height (equals to theoretical calculated threshold energy)
-  //   activ_ene:           activation energy (experimental value)
+  //   Einf:           activation energy (experimental value)
   //   TS:                  transition state
   //   PES:                 potential energy surface
   //   A+B:                 molecules A and B
@@ -46,10 +46,10 @@ namespace mesmer
   {
     //-----------------
     //starting variables block
-    const double n_infinity   = pReact->get_NInf(); // constraint: n_infinity > -1.5
-    const double t_infinity   = 1. / (boltzmann_RCpK * pReact->getEnv().beta);
-    const double preExp       = pReact->get_PreExp();
-    const int    activ_ene    = int(pReact->get_ThresholdEnergy());
+    const double Ninf   = pReact->get_NInf(); // constraint: Ninf > -1.5
+    const double Tinf   = 1. / (boltzmann_RCpK * pReact->getEnv().beta);
+    const double Ainf   = pReact->get_PreExp();
+    const int    Einf   = int(pReact->get_ThresholdEnergy());
     // double tp_C = 3.24331e+20; // Defined in Constant.h, constant used in the translational partition function
     //-----------------
 
@@ -88,17 +88,17 @@ namespace mesmer
     TSFlux.clear();
     TSFlux.resize(MaximumCell, 0.0); 
 
-    const double _gamma = MesmerGamma(n_infinity + 1.5);
+    const double gammaValue = MesmerGamma(Ninf + 1.5);
     
-    //double _ant = preExp * tp_C * (edg_a * edg_b / edg_c) * pow( ( ma * mb / mc), 1.5 ) / _gamma;
+    //double _ant = Ainf * tp_C * (edg_a * edg_b / edg_c) * pow( ( ma * mb / mc), 1.5 ) / gammaValue;
     // Replace the above line because electronic degeneracies were already accounted for in DOS calculations
-    double _ant = preExp * tp_C * pow( ( ma * mb / mc), 1.5 ) / _gamma;
-    _ant /= (pow((t_infinity * boltzmann_RCpK), n_infinity));
+    double _ant = Ainf * tp_C * pow( ( ma * mb / mc), 1.5 ) / gammaValue;
+    _ant /= (pow((Tinf * boltzmann_RCpK), Ninf));
 
     vector<double> work(MaximumCell);;
     vector<double> conv(MaximumCell);
 
-    double pwr = n_infinity + .5;
+    double pwr = Ninf + .5;
     for (int i = 0; i < MaximumCell; ++i) {
       work[i] = pow(rctsCellEne[i], pwr);
     }
@@ -106,8 +106,15 @@ namespace mesmer
     FastLaplaceConvolution(work, rctsCellDOS, conv);    // FFT convolution replaces the standard convolution
 //    Convolution(work, rctsCellDOS, conv);  // standard convolution
 
-     for (int i = activ_ene; i < MaximumCell; ++i){
-      TSFlux[i] = _ant * conv[i - activ_ene];
+    if (Einf >= 0){
+      for (int i = Einf; i < MaximumCell; ++i){
+        TSFlux[i] = _ant * conv[i - Einf];
+      }
+    }
+    else{
+      for (int i = 0; i < MaximumCell + Einf; ++i){
+        TSFlux[i] = _ant * conv[i - Einf];
+      }
     }
 
     // the flux bottom energy is equal to the well bottom of the product

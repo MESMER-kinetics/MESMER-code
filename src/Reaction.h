@@ -162,7 +162,7 @@ namespace mesmer
     virtual void calcGrainRateCoeffs() = 0;
 
     // Test k(T)
-    virtual void testRateConstant() const = 0;
+    virtual void testRateConstant() = 0;
 
     const MesmerEnv& m_Env;
     std::string m_Name ;        // Reaction name.

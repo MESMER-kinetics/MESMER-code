@@ -206,7 +206,7 @@ namespace mesmer
   }
 
   // Test k(T)
-  void IrreversibleReaction::testRateConstant() const {
+  void IrreversibleReaction::testRateConstant() {
   
   }
 

@@ -489,10 +489,6 @@
 			RelativePath=".\mesmer1.xsl"
 			>
 		</File>
-		<File
-			RelativePath=".\pentyl_isomerizationJul.xml"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

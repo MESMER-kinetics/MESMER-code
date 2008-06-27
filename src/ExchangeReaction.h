@@ -59,7 +59,7 @@ namespace mesmer
     virtual void calcGrainRateCoeffs();
 
     // Test k(T)
-    virtual void testRateConstant() const;
+    virtual void testRateConstant();
 
     ModelledMolecule    *m_rct1 ;                 // Reactant Molecule.
     ModelledMolecule    *m_rct2 ;                 // Subsidiary reactant molecule. 

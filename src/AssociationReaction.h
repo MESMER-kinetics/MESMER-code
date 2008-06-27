@@ -83,7 +83,7 @@ namespace mesmer
     virtual void calcGrainRateCoeffs();
 
     // Test k(T)
-    virtual void testRateConstant() const;
+    virtual void testRateConstant();
 
     sourceMap *m_sourceMap ;
 

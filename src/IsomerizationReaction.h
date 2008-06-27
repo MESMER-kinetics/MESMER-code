@@ -61,7 +61,7 @@ namespace mesmer
     virtual void calcGrainRateCoeffs();
 
     // Test k(T)
-    virtual void testRateConstant() const;
+    virtual void testRateConstant();
 
     CollidingMolecule   *m_rct1 ;                 // Reactant Molecule.
     CollidingMolecule   *m_pdt1 ;                 // Product Molecule.
