@@ -1,3 +1,16 @@
+2008-6-30 Chris Morley
+
+* added examples and examples/DiagramTest and versions of xml files. These work with
+  the xsl files in the top directory.
+  
+* mesmer1.xsl, mesmerDiag.xsl: modified to handle bimolecular reactants and products.
+  NOTE: needs Firefox 3 and you need to:
+    1) type about:config in the address bar
+    2) right click security.fileuri.strict_origin_policy and change it to false
+  Not all examples work yet - work in progress - but Acetyl_O2_association.xml looks ok.
+
+* src/main.cpp: added bail out if there is a gross error on the input file.
+
 2008-6-30 Dave Glowacki
 
 * added routines to reactionmanager.cpp in order to calculate product yields as a function of time.  because the product yields are calculated

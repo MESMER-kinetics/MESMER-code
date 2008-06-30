@@ -98,7 +98,8 @@ int main(int argc,char *argv[])
   //This is where the type of IO is decided.
   //Opens the data file and checks that its root element is me:mesmer.
   PersistPtr ppIOPtr = XMLPersist::XmlLoad(infilename, "me:mesmer");
-
+  if(!ppIOPtr)
+    return -1;
   //------------
   // Parse input file
 
