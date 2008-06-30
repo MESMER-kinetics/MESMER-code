@@ -20,7 +20,7 @@
       </bondarray>
       <propertyList>
         <property dictRef="me:ZPE">
-          <scalar units="kJ/mol">143.5</scalar>
+          <scalar units="kJ/mol">139.5</scalar>
         </property>
         <property dictRef="me:rotConsts">
           <array units="cm-1">1.573140 0.3155 0.3330</array>
@@ -587,7 +587,7 @@
         <molecule ref="Int1" me:type="modelled" />
       </product>
       <me:MCRCMethod>Mesmer ILT</me:MCRCMethod>
-      <me:preExponential>6.20e-12</me:preExponential>
+      <me:preExponential>6.00e-12</me:preExponential>
       <me:excessReactantConc>2.25E16</me:excessReactantConc>
       <me:activationEnergy>0.0</me:activationEnergy>
       <me:nInfinity>-0.5</me:nInfinity>
@@ -639,11 +639,11 @@
   <me:conditions>
     <me:bathGas>He</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="Torr" me:P="5" me:T="213" me:precision="quad-double" />
-      <me:PTpair me:units="Torr" me:P="50" me:T="213" me:precision="quad-double" />
-      <me:PTpair me:units="Torr" me:P="500" me:T="213" me:precision="quad-double" />
-      <me:PTpair me:units="Torr" me:P="5000" me:T="213" me:precision="quad-double" />
-      <me:PTpair me:units="Torr" me:P="50000" me:T="213" me:precision="quad-double" />
+      <me:PTpair me:units="Torr" me:P="200.72" me:T="298." />
+      <!--<me:PTpair me:units="Torr" me:P="201.60" me:T="298." />-->
+      <!--<me:PTpair me:units="Torr" me:P="10.06" me:T="298." />-->
+      <!--<me:PTpair me:units="Torr" me:P="15.01" me:T="298." />-->
+
     </me:PTs>
   </me:conditions>
   <me:modelParameters>
@@ -656,16 +656,17 @@
     <me:energyAboveTheTopHill>25.0</me:energyAboveTheTopHill>
   </me:modelParameters>
   <me:control>
-    <!--<me:testDOS />-->
-    <me:testRateConstant />
+    <me:testDOS />
+
     <!--<me:testMicroRates />-->
-    <!--<me:printGrainDOS />-->
+    <me:testRateConstant />
+    <me:printGrainDOS />
     <!--<me:printCellDOS />-->
     <!--<me:printCollisionOperatorColumnSums />-->
-    <!--<me:printTunnellingCoefficients />-->
-    <!--<me:printGrainkfE />-->
+    <me:printTunnellingCoefficients />
+    <me:printGrainkfE />
     <!--<me:printGrainBoltzmann />-->
-    <!--<me:printGrainkbE />-->
-    <me:eigenvalues>10</me:eigenvalues>
+    <me:printGrainkbE />
+    <me:eigenvalues>0</me:eigenvalues>
   </me:control>
 </me:mesmer>
