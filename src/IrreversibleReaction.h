@@ -17,62 +17,77 @@
 namespace mesmer
 {
 
-  class IrreversibleReaction : public Reaction
-  {
-  public:
-
-    // Constructors.
-    IrreversibleReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id)
-      : Reaction(pMoleculeManager, Env, id),
-      m_rct1(NULL),
-      m_pdt1(NULL),
-      m_pdt2(NULL) {} ;
-
-    // Destructor.
-    virtual ~IrreversibleReaction(){} ;
-
-    // Get unimolecular species information:
-    virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const
+    class IrreversibleReaction : public Reaction
     {
-      unimolecularspecies.push_back(m_rct1) ;
-      return 1;
-    } ;
+    public:
 
-    // Initialize reaction.
-    virtual bool InitializeReaction(PersistPtr ppReac) ;
+        // Constructors.
+        IrreversibleReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id)
+            : Reaction(pMoleculeManager, Env, id),
+            m_rct1(NULL),
+            m_pdt1(NULL),
+            m_pdt2(NULL) {} ;
 
-    // return relative reactant, product and transition state zero-point energy
-    virtual double get_relative_rctZPE() const {return m_rct1->get_zpe() - getEnv().EMin;}
-    virtual double get_relative_pdtZPE() const {
-      double zpe = m_pdt1->get_zpe() - getEnv().EMin;
-      if (m_pdt2)
-        zpe += m_pdt2->get_zpe();
-      return zpe;
-    }
-    virtual double get_relative_TSZPE(void) const {return m_TransitionState->get_zpe() - getEnv().EMin;};
+        // Destructor.
+        virtual ~IrreversibleReaction(){} ;
 
-    // Calculate reaction equilibrium constant.
-    virtual double calcEquilibriumConstant() ;
+        // Get unimolecular species information:
+        virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const
+        {
+            unimolecularspecies.push_back(m_rct1) ;
+            return 1;
+        } ;
 
-  private:
+        // Initialize reaction.
+        virtual bool InitializeReaction(PersistPtr ppReac) ;
 
-    // Add reaction terms to collision matrix.
-    virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+        // return relative reactant, product and transition state zero-point energy
+        virtual double get_relative_rctZPE() const {return m_rct1->get_zpe() - getEnv().EMin;}
+        virtual double get_relative_pdtZPE() const {
+          double zpe = m_pdt1->get_zpe() - getEnv().EMin;
+          if (m_pdt2)
+            zpe += m_pdt2->get_zpe();
+          return zpe;
+        }
+        virtual double get_relative_TSZPE(void) const {return m_TransitionState->get_zpe() - getEnv().EMin;};
 
-    // Read parameters requires to determine reaction heats and rates.
-    virtual bool ReadRateCoeffParameters(PersistPtr ppReac) ;
+        // Calculate reaction equilibrium constant.
+        virtual double calcEquilibriumConstant() ;
 
-    // Grain averaged microcanonical rate coefficients.
-    virtual void calcGrainRateCoeffs();
+        // return the colloptrsize of the reactants
+        int getRctColloptrsize(){return m_rct1->get_colloptrsize();}
+
+         // Return products
+        int get_products(std::vector<ModelledMolecule *> &product) const
+        {
+          product.push_back(m_pdt1) ;
+          if(m_pdt2){
+            product.push_back(m_pdt2) ;
+            return 2;
+          }
+          return 1;
+        } ;
+
+
+    private:
+
+        // Add reaction terms to collision matrix.
+        virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+
+        // Read parameters requires to determine reaction heats and rates.
+        virtual bool ReadRateCoeffParameters(PersistPtr ppReac) ;
+
+        // Grain averaged microcanonical rate coefficients.
+        virtual void calcGrainRateCoeffs();
 
     // Test k(T)
     virtual void testRateConstant();
 
-    CollidingMolecule   *m_rct1 ;                 // Reactant Molecule.
-    SinkMolecule    *m_pdt1 ;                 // Product Molecule.
-    SinkMolecule    *m_pdt2 ;                 // Subsidiary product molecule.
+        CollidingMolecule   *m_rct1 ;                 // Reactant Molecule.
+        ModelledMolecule    *m_pdt1 ;                 // Product Molecule.
+        ModelledMolecule    *m_pdt2 ;                 // Subsidiary product molecule.
 
-  } ;
+    } ;
 
 
 }//namespace

@@ -86,18 +86,41 @@
             </propertyList>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
         </molecule>
-        <molecule id="dummy1">
+        <molecule id="OCHCH2">
+			<atomarray>
+				<atom id="a1" elementType="C" />
+				<atom id="a2" elementType="C" />
+				<atom id="a3" elementType="H" />
+				<atom id="a4" elementType="H" />
+				<atom id="a5" elementType="O" />
+				<atom id="a6" elementType="H" />
+			</atomarray>
+			<bondarray>
+				<bond atomRefs2="a1 a2" order="2" />
+				<bond atomRefs2="a2 a3" order="1" />
+				<bond atomRefs2="a2 a4" order="1" />
+				<bond atomRefs2="a1 a5" order="1" />
+				<bond atomRefs2="a1 a6" order="1" />
+			</bondarray>
             <propertyList>
                 <property dictRef="me:ZPE">
-                    <scalar units="kJ/mol">30.0</scalar>
+                    <scalar units="kJ/mol">-110.5</scalar>
                 </property>
-            </propertyList>
-        </molecule>
-        <molecule id="dummy2">
-            <propertyList>
-                <property dictRef="me:ZPE">
-                    <scalar units="kJ/mol">30.0</scalar>
-                </property>
+				<property dictRef="me:rotConsts">
+					<array units="cm-1">2.247 0.382 0.326</array>
+				</property>
+				<property dictRef="me:symmetryNumber">
+					<scalar>1.0</scalar>
+				</property>
+				<property dictRef="me:vibFreqs">
+					<array units="cm-1">443 507 760 975 978 1157 1395 1471 1545 2943 3138 3253</array>
+				</property>
+				<property dictRef="me:MW">
+					<scalar units="amu">43</scalar>
+				</property>
+				<property dictRef="me:spinMultiplicity">
+					<scalar>2</scalar>
+				</property>
             </propertyList>
         </molecule>
         <molecule id="TS_0">
@@ -218,10 +241,7 @@
                 <molecule ref="OH_acetylene_adduct" me:type="reactant" />
             </reactant>
             <product>
-                <molecule ref="dummy1" me:type="sink" />
-            </product>
-            <product>
-                <molecule ref="dummy2" me:type="sink" />
+                <molecule ref="OCHCH2" me:type="sink" />
             </product>
             <me:transitionState>
                 <molecule ref="TS_1a" me:type="transitionState" />

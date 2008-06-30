@@ -27,6 +27,7 @@ namespace mesmer
     // Type defs
     typedef  size_t  size_type ;
     typedef std::map<std::string , double> populationMap ;
+    typedef std::map<IrreversibleReaction* , int> sinkMap ;
 
     ReactionManager(MoleculeManager *pMoleculeManager);
 
@@ -82,6 +83,7 @@ namespace mesmer
     // Maps the location of individual reactant collision operator and source terms in the system matrix.
     Reaction::isomerMap    m_isomers;
     Reaction::sourceMap    m_sources;
+    sinkMap                m_sinkRxns;
     populationMap          m_initialPopulations;
 
     // map modelled molecules (isomers + sources) with their sequence in the EqMatrix and Rate Coefficient matrix

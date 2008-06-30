@@ -1,3 +1,15 @@
+2008-6-30 Dave Glowacki
+
+* added routines to reactionmanager.cpp in order to calculate product yields as a function of time.  because the product yields are calculated
+  based on a numerical integration and require a finite timestep, there is some residual numerical error in their calculation - i.e., the sum 
+  of the product yields vs time doesnt agree EXACTLY with the calculated total product population calculated as 1 - (the total isomer population).  
+  the error is very small (within 1%), but the product populations are nonetheless normalized in order to agree exactly with the total 
+  product population  
+* changed the routines for printing isomer species profiles and the print format
+* made changes to IrreversibleReaction.cpp in order to (1) clean it up and (2) facilitate calculating and printing out time dependent sink profiles
+* got rid of the sink molecule class
+* updated baselines: acetyl + O2, HSO2, pentyl, OH+acetylene, and cyclopropene 
+
 _2008_06_27__16_44_38_ Chi-Hsiu Liang
 
   * Corrected MesmerILT so that it can deal with negative Einf

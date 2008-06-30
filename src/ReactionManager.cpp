@@ -642,13 +642,20 @@ namespace mesmer
     else
       maxEvoTime = mEnv.maxEvolutionTime;
 
-    /* calculate the time points */
+    // calculate the time points 
     vector<double> timePoints;
-    for (int i = 0; i < maxTimeStep; ++i){
+    for (int i = 0; i <= maxTimeStep; ++i){
       long double time = powl(10., static_cast<double>(i) / 10. - 11.);
       if (time > maxEvoTime)
         break;
       timePoints.push_back(time);
+    }
+
+    //initialize dt vector for calculating product yields    
+    vector<double> dt(maxTimeStep,0.0);
+    dt[0] = ((timePoints[0] + timePoints[1])/2)-((timePoints[0] + powl(10.0,0.9-12.0))/2);
+    for (int i = 1; i < maxTimeStep; ++i){
+      dt[i] = ((timePoints[i] + timePoints[i+1])/2)-((timePoints[i] + timePoints[i-1])/2);
     }
 
     vector<long double> initDist(smsize, 0.); // initial distribution
@@ -667,8 +674,8 @@ namespace mesmer
       initDist[j] = initDist[j]/eqVector[j];
     }
 
-    dMatrix sysCollOptr(*m_pSystemCollisionOperator); // copy the system collision operator, which holds the eigenvectors
-    vector<long double> work1(smsize, 0.);
+    dMatrix sysCollOptr(*m_pSystemCollisionOperator); // copy the system collision operator,
+    vector<long double> work1(smsize, 0.);            // which holds the eigenvectors
 
     for (int i = 0; i < smsize; ++i) {
       long double sum = 0.;
@@ -712,84 +719,94 @@ namespace mesmer
       totalProductPop[timestep] = 1.0 - totalIsomerPop[timestep];
     }
 
-    //------------------------------
-    // print grained species profile
-    if (mEnv.grainedProfileEnabled) {
-      ctest << "\nGrained species profile (the first row is time points in unit of second):\n{\n";
-      for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-        formatFloat(ctest, timePoints[timestep], 6,  15);
+    ctest << endl << "print time dependent species and product profiles" << endl << "{" << endl;
+    int sinkpos(0);
+    m_sinkRxns.clear();                      // Populate map: m_sinkRxns[IrreversibleRxns] = location of rct
+    for (size_t i(0) ; i < size() ; ++i) {
+      IrreversibleReaction* Reaction = dynamic_cast<IrreversibleReaction*>(m_reactions[i]) ;
+      if (Reaction && m_sinkRxns.find(Reaction) == m_sinkRxns.end()) {   // add an irreversible rxn to the map
+        vector<ModelledMolecule*> species;
+        Reaction->get_unimolecularspecies(species);
+        CollidingMolecule* isomer = dynamic_cast<CollidingMolecule*>(species[0]);
+        int location = m_isomers[isomer];
+        m_sinkRxns[Reaction] = location;              
+        ++sinkpos;
       }
-      ctest << endl;
-      for (int j = 0; j < smsize; ++j) {
-        for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-          formatFloat(ctest, grainedProfile[j][timestep], 6,  15);
-        }
-        ctest << endl;
-      }
-      ctest << "}\n";
     }
-    //------------------------------
 
-    int numberOfSpecies = static_cast<int>(m_isomers.size() + m_sources.size());
+    int numberOfSpecies = static_cast<int>(m_isomers.size() + m_sources.size() + m_sinkRxns.size());
     db2D speciesProfile(numberOfSpecies, maxTimeStep);
+    int speciesProfileidx(0);
 
-    //----------------------
-    // print species profile
-    if (mEnv.speciesProfileEnabled) {
-      ctest << "\nSpecies profile (the first row is time points in unit of second):\n{\nTimesteps   ";
+    Reaction::sourceMap::iterator spos;
+    for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map 
+      ModelledMolecule* source = (spos->first)->getMember1();                            // to get source profile vs t
+      ctest << setw(16) << "Timestep/s" << setw(16) << source->getName();
+      int location = spos->second;
       for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-        formatFloat(ctest, timePoints[timestep], 6,  15);
+        double tmp = grainedProfile[location][timestep];
+        speciesProfile[speciesProfileidx][timestep]= grainedProfile[location][timestep];
       }
-      ctest << endl;
+      ++speciesProfileidx;
     }
-    //-----------------------------------------------
-    // speciesProfile will contain the sum of all grains corresponding to an individual species at each time step
-    // and is sorted so that it has the same ordering as the system collision operator
+
     Reaction::isomerMap::iterator ipos;
-    std::map<int, CollidingMolecule*> numMap1;
-    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
-      numMap1[ipos->second] = ipos->first;
-    }
-    std::map<int, CollidingMolecule*>::iterator jpos;
-    int j = 0;
-    for (jpos = numMap1.begin(); jpos != numMap1.end(); ++jpos, ++j){
-      int idx = jpos->first;
-      int colloptrsize = (jpos->second)->get_colloptrsize();
+    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
+      CollidingMolecule* isomer = ipos->first;                        // to get isomer profile vs t
+      ctest << setw(16) << isomer->getName();
+      int location = ipos->second;
+      const int colloptrsize = isomer->get_colloptrsize();
       for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-        for (int i = 0; i < colloptrsize; ++i){
-          speciesProfile[j][timestep] += grainedProfile[i + idx][timestep];
+        for(int i = 0; i < colloptrsize; ++i){
+          speciesProfile[speciesProfileidx][timestep] += grainedProfile[i+location][timestep];
         }
       }
+      ++speciesProfileidx;
     }
 
-    // print isomer terms
-    for (jpos = numMap1.begin(), j = 0; jpos != numMap1.end(); ++jpos, ++j){
-      ctest << (jpos->second)->getName() << " ";
+    map<IrreversibleReaction*, int>::iterator pos;      // iterate through sink map to get product profile vs t
+    int productProfileStartidx = speciesProfileidx;
+    for (pos = m_sinkRxns.begin(); pos != m_sinkRxns.end(); ++pos){      
+      vector<double> KofEs;                             // get sink k(E)s
+      IrreversibleReaction* sinkReaction = pos->first;
+      KofEs = sinkReaction->get_GrainKfmc();            // assign sink k(E)s, the vector size == maxgrn
+      int location = pos->second;                       // get sink location
+      const int colloptrsize = sinkReaction->getRctColloptrsize();    // get collisionoptrsize of reactant
+      vector<ModelledMolecule*> pdts;                                 // in the sink reaction
+      sinkReaction->get_products(pdts);
+      ctest << setw(16) << pdts[0]->getName();
+      double TimeIntegratedProductPop(0.0);
       for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-        formatFloat(ctest, speciesProfile[j][timestep], 6,  15);
+        for(int i = 0; i < colloptrsize; ++i){
+          speciesProfile[speciesProfileidx][timestep] += KofEs[i]*grainedProfile[i+location][timestep]*dt[timestep];
+        }
+        TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];
+        speciesProfile[speciesProfileidx][timestep]= TimeIntegratedProductPop;
       }
-      ctest << endl;
+      ++speciesProfileidx;
+    }    
+
+    for(int timestep = 0; timestep < maxTimeStep; ++timestep){    // normalize product profile to account for small
+      double NormalizationConstant(0.0);                          // numerical errors in TimeIntegratedProductPop
+      double ProductYield(0.0);
+      for(int(i)=productProfileStartidx; i<speciesProfileidx; ++i){   // calculate normalization constant
+        ProductYield += speciesProfile[i][timestep];
+      }
+      NormalizationConstant = totalProductPop[timestep] / ProductYield;
+      for(int(i)=productProfileStartidx; i<speciesProfileidx; ++i){   // apply normalization constant
+        speciesProfile[i][timestep] *= NormalizationConstant;
+      }
     }
 
-    // printing source terms
-    Reaction::sourceMap::iterator kpos;
-    std::map<int, SuperMolecule*> numMap2;
-    for (kpos = m_sources.begin(); kpos != m_sources.end(); ++kpos){
-      numMap2[kpos->second] = kpos->first;
-    }
-    std::map<int, SuperMolecule*>::iterator lpos;
-    for (lpos = numMap2.begin(); lpos != numMap2.end(); ++lpos, ++j){
-      int idx = lpos->first;
-      ctest << (lpos->second)->getName() << " ";
-      for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-        speciesProfile[j][timestep] = grainedProfile[idx][timestep];
-        formatFloat(ctest, speciesProfile[j][timestep], 6,  15);
+    ctest << setw(16)<< "totalIsomerPop" << setw(16)<< "totalProductPop"  << endl;
+    for(int timestep = 0; timestep < maxTimeStep; ++timestep){
+      ctest << setw(16) << timePoints[timestep];
+      for(int i(0); i<speciesProfileidx; ++i){
+        ctest << setw(16) << speciesProfile[i][timestep];
       }
-      ctest << endl;
+      ctest << setw(16) << totalIsomerPop[timestep] << setw(16) << totalProductPop[timestep] << endl;
     }
-    ctest << "}\n";
 
-    //-----------------------------------------------
     return true;
   }
 
@@ -820,7 +837,6 @@ namespace mesmer
     dMatrix EigenVecIdentity(smsize);   // matrix for holding product of U^(-1) * U
     double tmp;
     double sm, test;
-    map<ModelledMolecule*, int> SpeciesSequence;  //initialize a map to keep track of species sequence in matrices
 
     int nchem = static_cast<int>(m_isomers.size() + m_sources.size());  // number of isomers+psuedoisomers
     int nchemIdx = smsize - nchem;       // idx for chemically significant eigenvalues & vectors
@@ -876,6 +892,8 @@ namespace mesmer
       }
     }
 
+    ctest << endl << "}" << endl;
+
 //    ctest << "Z matrix:" << endl;
 //    Z.showFinalBits(nchem);
 
@@ -915,18 +933,18 @@ namespace mesmer
     ctest << "\nKr:" << endl;
     Kr.showFinalBits(nchem);
 
-    ctest << "\nFirst order and psuedo first order rate coefficients:\n{\n";
+    ctest << "\nFirst order and psuedo first order rate coefficients:\n{\n";        
     map<ModelledMolecule*, int>::iterator lossitr;
     map<ModelledMolecule*, int>::iterator rctitr;
     map<ModelledMolecule*, int>::iterator pdtitr;
-    // print k loss for isomers
+                                                                        // print psuedo 1st order k loss for isomers
     for(lossitr=m_SpeciesSequence.begin(); lossitr!=m_SpeciesSequence.end(); ++lossitr){
       ModelledMolecule* iso = lossitr->first;
       int losspos = lossitr->second;
       ctest << iso->getName() << " loss = " << Kr[losspos][losspos] << endl;
     }
-    // print k for connecting rates
-    for (rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){  // print connecting rates
+                                                                        // print psuedo first order connecting ks
+    for (rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){  
       ModelledMolecule* rct = rctitr->first;
       int rctpos = rctitr->second;
       for (pdtitr=m_SpeciesSequence.begin(); pdtitr!=m_SpeciesSequence.end(); ++pdtitr){

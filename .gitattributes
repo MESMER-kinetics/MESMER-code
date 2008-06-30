@@ -214,7 +214,6 @@ src/SimpleILT.cpp -text
 src/SimpleILT.h -text
 src/SimpleRRKM.cpp -text
 src/SimpleRRKM.h -text
-src/SinkMolecule.cpp -text
 src/SuperMolecule.cpp -text
 src/System.cpp -text
 src/System.h -text

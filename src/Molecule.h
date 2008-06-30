@@ -54,29 +54,6 @@ namespace mesmer
     };
 
     //**************************************************
-    class SinkMolecule : public Molecule
-    {
-    public:
-        SinkMolecule(const MesmerEnv& Env);
-        virtual ~SinkMolecule();
-
-        // Initialize BathGasMolecule.
-        virtual bool InitializeMolecule(PersistPtr pp);
-
-        virtual double get_zpe();
-        void set_zpe(double value);
-
-    private:
-        double         m_ZPE ;              // Zero Point Energy. (kJ/mol)
-
-        //================================================
-        // CHECK FOR INPUTFILE PARAMETERS
-        int m_ZPE_chk;
-        //================================================
-
-    };
-
-    //**************************************************
     class BathGasMolecule : public Molecule
     {
     public:

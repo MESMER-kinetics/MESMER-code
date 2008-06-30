@@ -51,7 +51,7 @@ namespace mesmer
     if (ppProduct1) {
       pMol1 = GetMolRef(ppProduct1);
       if (pMol1){
-        m_pdt1 = dynamic_cast<SinkMolecule*>(pMol1) ;
+        m_pdt1 = dynamic_cast<ModelledMolecule*>(pMol1) ;
       }
       else {
         cerr << "Irreversible reaction" << getName() << " has no product defined." << endl;
@@ -63,7 +63,7 @@ namespace mesmer
       if (ppProduct2) {
         pMol2 = GetMolRef(ppProduct2);
         if (pMol2){
-          m_pdt2 = dynamic_cast<SinkMolecule*>(pMol2) ;
+          m_pdt2 = dynamic_cast<ModelledMolecule*>(pMol2) ;
         }
         else {
           cinfo << "Irreversible reaction " << getName() << " has only one product defined." << endl;
@@ -175,7 +175,7 @@ namespace mesmer
 
 
   //
-  // Calculate grained forward and reverse k(E)s from trainsition state flux
+  // Calculate grained forward k(E)s from transition state flux
   //
   void IrreversibleReaction::calcGrainRateCoeffs(){
     vector<double> rctGrainDOS;
@@ -188,12 +188,12 @@ namespace mesmer
     m_GrainKfmc.clear();
     m_GrainKfmc.resize(MaximumGrain , 0.0);
 
-    // For AssociationReaction, TSFlux is calculated from ILT
+    // calculate forward k(E)s from TSFlux
     for (int i = TSgrainZPE - rctGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
       m_GrainKfmc[i] = m_GrainTSFlux[j] / rctGrainDOS[i];
     }
 
-    // the code that follows is for printing of the f & r k(E)s
+    // the code that follows is for printing the forward k(E)s
     if (getEnv().kfEGrainsEnabled){
       ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
