@@ -907,7 +907,7 @@ Eigenvalues
   -1.26398e-016
 }
 
-print time dependent species and product profiles
+Print time dependent species and product profiles
 {
         n-pentyl        2-pentyl  totalIsomerPop totalProductPop
           1e-011               1    6.02839e-010               1   -4.85167e-013
@@ -1070,7 +1070,6 @@ print time dependent species and product profiles
          50118.7        0.566682        0.433711         1.00039    -0.000392715
          63095.7         0.49148        0.508981         1.00046    -0.000460887
          79432.8        0.411556        0.588977         1.00053     -0.00053334
-
 }
 
 Z*Z^(-1):

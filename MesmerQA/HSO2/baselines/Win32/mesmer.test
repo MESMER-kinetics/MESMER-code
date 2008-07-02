@@ -1764,8 +1764,8 @@ Microcanonical rate coefficients for: R1
    2900   6.56539e+016
    3000   7.09092e+016
 }
-Equilibrium Fraction for HSO2 = 0.000606509
 Equilibrium Fraction for H = 0.999393
+Equilibrium Fraction for HSO2 = 0.000606509
 
 Total number of eigenvalues = 135
 Eigenvalues
@@ -1907,7 +1907,7 @@ Eigenvalues
   -6.66195e-005
 }
 
-print time dependent species and product profiles
+Print time dependent species and product profiles
 {
       Timestep/s               H            HSO2  totalIsomerPop totalProductPop
           1e-011               1    4.33846e-009               1   -4.66294e-015
@@ -2070,7 +2070,6 @@ print time dependent species and product profiles
          50118.7        0.035455    2.15168e-005       0.0354765        0.964524
          63095.7       0.0149355    9.06402e-006       0.0149446        0.985055
          79432.8      0.00502976    3.05245e-006      0.00503281        0.994967
-
 }
 
 Z*Z^(-1):
@@ -2087,9 +2086,9 @@ Kr:
 
 First order and psuedo first order rate coefficients:
 {
-HSO2 loss = -714826
 H loss = -433.811
-HSO2 -> H =  714825
+HSO2 loss = -714826
 H -> HSO2 =  433.811
+HSO2 -> H =  714825
 }
 }

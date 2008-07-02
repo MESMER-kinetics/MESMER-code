@@ -23,9 +23,10 @@ MesmerQA/HSO2/baselines/Cygwin[!!-~]32-bit[!!-~]double/HSO2_test.20071204_105924
 MesmerQA/HSO2/baselines/Cygwin[!!-~]32-bit[!!-~]double/HSO2_test.out -text
 MesmerQA/HSO2/baselines/Win32/mesmer.log -text
 MesmerQA/HSO2/baselines/Win32/mesmer.test -text
-MesmerQA/OH[!!-~]acetylene[!!-~]association/OH_acetylene_association.xml -text
+MesmerQA/OH[!!-~]acetylene[!!-~]association/OH_acetylene_association_test.xml -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Win32/mesmer.log -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Win32/mesmer.test -text
+MesmerQA/QA.bat -text
 MesmerQA/cyclopropene[!!-~]isomerization/Cyclopropene_isomerization_test.xml -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/mesmer.log -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/mesmer.test -text

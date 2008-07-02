@@ -1533,7 +1533,7 @@ Eigenvalues
    1.28939e-005
 }
 
-print time dependent species and product profiles
+Print time dependent species and product profiles
 {
       Timestep/s              OHOH_acetylene_adduct          OCHCH2  totalIsomerPop totalProductPop
           1e-011        0.999999    8.07926e-007    7.31091e-011               1    7.31091e-011
@@ -1696,11 +1696,10 @@ print time dependent species and product profiles
          50118.7    9.01828e-016         1.90084       -0.900843         1.90084       -0.900843
          63095.7    1.06609e-015         2.24706        -1.24706         2.24706        -1.24706
          79432.8    1.31606e-015         2.77395        -1.77395         2.77395        -1.77395
+}
 row 1 of the U*U^(-1) matrix does not equal unity. It sums to 0.998942
 row 3 of the U*U^(-1) matrix does not equal unity. It sums to 1.00197
 row 6 of the U*U^(-1) matrix does not equal unity. It sums to 0.998327
-
-}
 
 Z*Z^(-1):
 {

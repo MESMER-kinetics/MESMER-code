@@ -1,3 +1,9 @@
+_2008_07_02__14_15_31_ CHi-Hsiu Liang
+
+  * Minor change of formatting that goes to update baselines 
+  * Addtion of OH acetylene association system into the QA
+  * Added a DOS batch for QA, which located in MesmerQA folder. Need to write another bash script for Linux baselines.
+
 2008-6-30 Chris Morley
 
 * added examples and examples/DiagramTest and versions of xml files. These work with

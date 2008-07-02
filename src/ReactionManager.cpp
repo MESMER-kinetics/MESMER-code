@@ -400,14 +400,14 @@ namespace mesmer
 
   bool ReactionManager::calculateEquilibriumFractions(const double beta)
   { /* Consider a three well system: e.g., A <-> B <-> C where A <-> B has Keq = K1 & B <-> C has Keq = K2.
-       This routine uses the fact that the normalized equilibrated system may be described
-       by a 3x3 matrix and a vector which satisfy the following:
-                                            |-K1  1   0| |A|   |0|
-                                            | 0  -K2  1| |B| = |0|
-                                            | 1   1   1| |C|   |1|
-       The equilibrium fraction of each isomer (or psuedo isomer, in the case of a source term) may be
-       obtained by inverting the matrix shown above, and taking the elements in the final column of the inverse.
-       Any system, with an arbitrary number of wells and connections, may be described by such a Matrix */
+    This routine uses the fact that the normalized equilibrated system may be described
+    by a 3x3 matrix and a vector which satisfy the following:
+    |-K1  1   0| |A|   |0|
+    | 0  -K2  1| |B| = |0|
+    | 1   1   1| |C|   |1|
+    The equilibrium fraction of each isomer (or psuedo isomer, in the case of a source term) may be
+    obtained by inverting the matrix shown above, and taking the elements in the final column of the inverse.
+    Any system, with an arbitrary number of wells and connections, may be described by such a Matrix */
 
     // determine the total number of isomers + sources from the m_isomers and m_sources maps
     int eqMatrixSize = int(m_isomers.size() + m_sources.size());
@@ -578,7 +578,7 @@ namespace mesmer
       isomer->setInitPopulation(1.0); // set initial population for the first isomer
       long double initFrac = isomer->getInitPopulation();
       cinfo << "No population was assigned, and there is no source term."  << endl
-            << "Initialize a Boltzmann distribution in the first isomer." << endl;
+        << "Initialize a Boltzmann distribution in the first isomer." << endl;
       int location = ipos->second;
       const int colloptrsize = isomer->get_colloptrsize();
       vector<long double> boltzFrac;
@@ -636,7 +636,7 @@ namespace mesmer
     int smsize = int(m_pSystemCollisionOperator->size());
 
     long double maxEvoTime = 0.;
-   // set the default maximum evolution time
+    // set the default maximum evolution time
     if (mEnv.maxEvolutionTime <= 0. || mEnv.maxEvolutionTime > 1.0e8)
       maxEvoTime = 1.0e8;
     else
@@ -698,7 +698,7 @@ namespace mesmer
     for (int timestep = 0; timestep < maxTimeStep; ++timestep){
       long double numColl = m_meanOmega * timePoints[timestep];
       for (int j = 0; j < smsize; ++j) {
-        work2[j] = work1[j] * expl(m_eigenvalues[j] * numColl); 
+        work2[j] = work1[j] * expl(m_eigenvalues[j] * numColl);
       } // now |wk2> = exp(Dt)*V^(T)*|init> = exp(Dt)*U^(-1)*|p(0)>
       for (int j = 0; j < smsize; ++j) {
         long double sum = 0.;
@@ -719,94 +719,97 @@ namespace mesmer
       totalProductPop[timestep] = 1.0 - totalIsomerPop[timestep];
     }
 
-    ctest << endl << "print time dependent species and product profiles" << endl << "{" << endl;
-    int sinkpos(0);
-    m_sinkRxns.clear();                      // Populate map: m_sinkRxns[IrreversibleRxns] = location of rct
-    for (size_t i(0) ; i < size() ; ++i) {
-      IrreversibleReaction* Reaction = dynamic_cast<IrreversibleReaction*>(m_reactions[i]) ;
-      if (Reaction && m_sinkRxns.find(Reaction) == m_sinkRxns.end()) {   // add an irreversible rxn to the map
-        vector<ModelledMolecule*> species;
-        Reaction->get_unimolecularspecies(species);
-        CollidingMolecule* isomer = dynamic_cast<CollidingMolecule*>(species[0]);
-        int location = m_isomers[isomer];
-        m_sinkRxns[Reaction] = location;              
-        ++sinkpos;
-      }
-    }
-
-    int numberOfSpecies = static_cast<int>(m_isomers.size() + m_sources.size() + m_sinkRxns.size());
-    db2D speciesProfile(numberOfSpecies, maxTimeStep);
-    int speciesProfileidx(0);
-
-    Reaction::sourceMap::iterator spos;
-    for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map 
-      ModelledMolecule* source = (spos->first)->getMember1();                            // to get source profile vs t
-      ctest << setw(16) << "Timestep/s" << setw(16) << source->getName();
-      int location = spos->second;
-      for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-        double tmp = grainedProfile[location][timestep];
-        speciesProfile[speciesProfileidx][timestep]= grainedProfile[location][timestep];
-      }
-      ++speciesProfileidx;
-    }
-
-    Reaction::isomerMap::iterator ipos;
-    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
-      CollidingMolecule* isomer = ipos->first;                        // to get isomer profile vs t
-      ctest << setw(16) << isomer->getName();
-      int location = ipos->second;
-      const int colloptrsize = isomer->get_colloptrsize();
-      for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-        for(int i = 0; i < colloptrsize; ++i){
-          speciesProfile[speciesProfileidx][timestep] += grainedProfile[i+location][timestep];
+    if (mEnv.speciesProfileEnabled){
+      ctest << endl << "Print time dependent species and product profiles" << endl << "{" << endl;
+      int sinkpos(0);
+      m_sinkRxns.clear();                      // Populate map: m_sinkRxns[IrreversibleRxns] = location of rct
+      for (size_t i(0) ; i < size() ; ++i) {
+        IrreversibleReaction* Reaction = dynamic_cast<IrreversibleReaction*>(m_reactions[i]) ;
+        if (Reaction && m_sinkRxns.find(Reaction) == m_sinkRxns.end()) {   // add an irreversible rxn to the map
+          vector<ModelledMolecule*> species;
+          Reaction->get_unimolecularspecies(species);
+          CollidingMolecule* isomer = dynamic_cast<CollidingMolecule*>(species[0]);
+          int location = m_isomers[isomer];
+          m_sinkRxns[Reaction] = location;              
+          ++sinkpos;
         }
       }
-      ++speciesProfileidx;
-    }
-
-    map<IrreversibleReaction*, int>::iterator pos;      // iterate through sink map to get product profile vs t
-    int productProfileStartidx = speciesProfileidx;
-    for (pos = m_sinkRxns.begin(); pos != m_sinkRxns.end(); ++pos){      
-      vector<double> KofEs;                             // get sink k(E)s
-      IrreversibleReaction* sinkReaction = pos->first;
-      KofEs = sinkReaction->get_GrainKfmc();            // assign sink k(E)s, the vector size == maxgrn
-      int location = pos->second;                       // get sink location
-      const int colloptrsize = sinkReaction->getRctColloptrsize();    // get collisionoptrsize of reactant
-      vector<ModelledMolecule*> pdts;                                 // in the sink reaction
-      sinkReaction->get_products(pdts);
-      ctest << setw(16) << pdts[0]->getName();
-      double TimeIntegratedProductPop(0.0);
-      for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-        for(int i = 0; i < colloptrsize; ++i){
-          speciesProfile[speciesProfileidx][timestep] += KofEs[i]*grainedProfile[i+location][timestep]*dt[timestep];
+      
+      int numberOfSpecies = static_cast<int>(m_isomers.size() + m_sources.size() + m_sinkRxns.size());
+      db2D speciesProfile(numberOfSpecies, maxTimeStep);
+      int speciesProfileidx(0);
+      
+      Reaction::sourceMap::iterator spos;
+      for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map 
+        ModelledMolecule* source = (spos->first)->getMember1();                            // to get source profile vs t
+        ctest << setw(16) << "Timestep/s" << setw(16) << source->getName();
+        int location = spos->second;
+        for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+          double tmp = grainedProfile[location][timestep];
+          speciesProfile[speciesProfileidx][timestep]= grainedProfile[location][timestep];
         }
-        TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];
-        speciesProfile[speciesProfileidx][timestep]= TimeIntegratedProductPop;
+        ++speciesProfileidx;
       }
-      ++speciesProfileidx;
-    }    
-
-    for(int timestep = 0; timestep < maxTimeStep; ++timestep){    // normalize product profile to account for small
-      double NormalizationConstant(0.0);                          // numerical errors in TimeIntegratedProductPop
-      double ProductYield(0.0);
-      for(int(i)=productProfileStartidx; i<speciesProfileidx; ++i){   // calculate normalization constant
-        ProductYield += speciesProfile[i][timestep];
+      
+      Reaction::isomerMap::iterator ipos;
+      for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
+        CollidingMolecule* isomer = ipos->first;                        // to get isomer profile vs t
+        ctest << setw(16) << isomer->getName();
+        int location = ipos->second;
+        const int colloptrsize = isomer->get_colloptrsize();
+        for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+          for(int i = 0; i < colloptrsize; ++i){
+            speciesProfile[speciesProfileidx][timestep] += grainedProfile[i+location][timestep];
+          }
+        }
+        ++speciesProfileidx;
       }
-      NormalizationConstant = totalProductPop[timestep] / ProductYield;
-      for(int(i)=productProfileStartidx; i<speciesProfileidx; ++i){   // apply normalization constant
-        speciesProfile[i][timestep] *= NormalizationConstant;
+      
+      map<IrreversibleReaction*, int>::iterator pos;      // iterate through sink map to get product profile vs t
+      int productProfileStartidx = speciesProfileidx;
+      for (pos = m_sinkRxns.begin(); pos != m_sinkRxns.end(); ++pos){      
+        vector<double> KofEs;                             // get sink k(E)s
+        IrreversibleReaction* sinkReaction = pos->first;
+        KofEs = sinkReaction->get_GrainKfmc();            // assign sink k(E)s, the vector size == maxgrn
+        int location = pos->second;                       // get sink location
+        const int colloptrsize = sinkReaction->getRctColloptrsize();    // get collisionoptrsize of reactant
+        vector<ModelledMolecule*> pdts;                                 // in the sink reaction
+        sinkReaction->get_products(pdts);
+        ctest << setw(16) << pdts[0]->getName();
+        double TimeIntegratedProductPop(0.0);
+        for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+          for(int i = 0; i < colloptrsize; ++i){
+            speciesProfile[speciesProfileidx][timestep] += KofEs[i]*grainedProfile[i+location][timestep]*dt[timestep];
+          }
+          TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];
+          speciesProfile[speciesProfileidx][timestep]= TimeIntegratedProductPop;
+        }
+        ++speciesProfileidx;
+      }    
+      
+      for(int timestep = 0; timestep < maxTimeStep; ++timestep){    // normalize product profile to account for small
+        double NormalizationConstant(0.0);                          // numerical errors in TimeIntegratedProductPop
+        double ProductYield(0.0);
+        for(int(i)=productProfileStartidx; i<speciesProfileidx; ++i){   // calculate normalization constant
+          ProductYield += speciesProfile[i][timestep];
+        }
+        NormalizationConstant = totalProductPop[timestep] / ProductYield;
+        for(int(i)=productProfileStartidx; i<speciesProfileidx; ++i){   // apply normalization constant
+          speciesProfile[i][timestep] *= NormalizationConstant;
+        }
       }
+      
+      ctest << setw(16)<< "totalIsomerPop" << setw(16)<< "totalProductPop"  << endl;
+      for(int timestep = 0; timestep < maxTimeStep; ++timestep){
+        ctest << setw(16) << timePoints[timestep];
+        for(int i(0); i<speciesProfileidx; ++i){
+          ctest << setw(16) << speciesProfile[i][timestep];
+        }
+        ctest << setw(16) << totalIsomerPop[timestep] << setw(16) << totalProductPop[timestep] << endl;
+      }
+      
+      ctest << "}" << endl;
     }
-
-    ctest << setw(16)<< "totalIsomerPop" << setw(16)<< "totalProductPop"  << endl;
-    for(int timestep = 0; timestep < maxTimeStep; ++timestep){
-      ctest << setw(16) << timePoints[timestep];
-      for(int i(0); i<speciesProfileidx; ++i){
-        ctest << setw(16) << speciesProfile[i][timestep];
-      }
-      ctest << setw(16) << totalIsomerPop[timestep] << setw(16) << totalProductPop[timestep] << endl;
-    }
-
     return true;
   }
 
@@ -892,10 +895,8 @@ namespace mesmer
       }
     }
 
-    ctest << endl << "}" << endl;
-
-//    ctest << "Z matrix:" << endl;
-//    Z.showFinalBits(nchem);
+    //    ctest << "Z matrix:" << endl;
+    //    Z.showFinalBits(nchem);
 
     dMatrix Zinv(Z), Zidentity(nchem), Kr(nchem);
 
@@ -904,8 +905,8 @@ namespace mesmer
       Z.showFinalBits(nchem);
     }
 
-//    ctest << "inverse of Z:" << endl;
-//    Zinv.showFinalBits(nchem);
+    //    ctest << "inverse of Z:" << endl;
+    //    Zinv.showFinalBits(nchem);
 
     for(int i(0);i<nchem;++i){          // multiply Z*Z^(-1) for testing
       for(int j(0);j<nchem;++j){
@@ -933,17 +934,17 @@ namespace mesmer
     ctest << "\nKr:" << endl;
     Kr.showFinalBits(nchem);
 
-    ctest << "\nFirst order and psuedo first order rate coefficients:\n{\n";        
+    ctest << "\nFirst order and psuedo first order rate coefficients:\n{\n";
     map<ModelledMolecule*, int>::iterator lossitr;
     map<ModelledMolecule*, int>::iterator rctitr;
     map<ModelledMolecule*, int>::iterator pdtitr;
-                                                                        // print psuedo 1st order k loss for isomers
+    // print psuedo 1st order k loss for isomers
     for(lossitr=m_SpeciesSequence.begin(); lossitr!=m_SpeciesSequence.end(); ++lossitr){
       ModelledMolecule* iso = lossitr->first;
       int losspos = lossitr->second;
       ctest << iso->getName() << " loss = " << Kr[losspos][losspos] << endl;
     }
-                                                                        // print psuedo first order connecting ks
+    // print psuedo first order connecting ks
     for (rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){  
       ModelledMolecule* rct = rctitr->first;
       int rctpos = rctitr->second;
@@ -957,7 +958,7 @@ namespace mesmer
     ctest << "}\n";
 
     return true;
-}
+  }
 
 }//namespace
 

@@ -158,6 +158,7 @@
     <!--<me:printCollisionOperatorColumnSums />-->
     <me:printGrainkfE />
     <me:printGrainkbE />
+    <me:printSpeciesProfile />
     <me:eigenvalues>0</me:eigenvalues>
   </me:control>
 

@@ -309,26 +309,26 @@ namespace mesmer
       testRateConstant();
   }
 
-//  // Test k(T)
-//  void AssociationReaction::testRateConstant() {
-//    vector<double> rctGrainDOS;
-//    vector<double> rctGrainEne;
-//    m_srct->getGrainDensityOfStates(rctGrainDOS) ;
-//    m_srct->getGrainEnergies(rctGrainEne);
-//
-//    const int MaximumGrain = getEnv().MaxGrn;
-//    double k_inf = 0.0;
-//    const double beta = getEnv().beta;
-//    for (int i = 0; i < MaximumGrain; ++i){
-//      k_inf += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i] ) ;
-//    }
-//    const double prtfn = canonicalPartitionFunction(rctGrainDOS, rctGrainEne, beta);
-//    const double trans = translationalContribution(m_rct1->getMass(), m_rct2->getMass(), beta);
-//    k_inf /= prtfn;
-//    k_inf /= trans;
-//    const double temperature = 1. / (boltzmann_RCpK * beta);
-//    ctest << "Association rate constant of " << getName() << ": k(" << temperature << ") = " << k_inf << endl;
-//  }
+  //  // Test k(T)
+  //  void AssociationReaction::testRateConstant() {
+  //    vector<double> rctGrainDOS;
+  //    vector<double> rctGrainEne;
+  //    m_srct->getGrainDensityOfStates(rctGrainDOS) ;
+  //    m_srct->getGrainEnergies(rctGrainEne);
+  //
+  //    const int MaximumGrain = getEnv().MaxGrn;
+  //    double k_inf = 0.0;
+  //    const double beta = getEnv().beta;
+  //    for (int i = 0; i < MaximumGrain; ++i){
+  //      k_inf += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i] ) ;
+  //    }
+  //    const double prtfn = canonicalPartitionFunction(rctGrainDOS, rctGrainEne, beta);
+  //    const double trans = translationalContribution(m_rct1->getMass(), m_rct2->getMass(), beta);
+  //    k_inf /= prtfn;
+  //    k_inf /= trans;
+  //    const double temperature = 1. / (boltzmann_RCpK * beta);
+  //    ctest << "Association rate constant of " << getName() << ": k(" << temperature << ") = " << k_inf << endl;
+  //  }
 
   // Test k(T)
   void AssociationReaction::testRateConstant() {

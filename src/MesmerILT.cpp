@@ -68,9 +68,9 @@ namespace mesmer
     ModelledMolecule*  p_rct2 = p_rcts->getMember2();
 
     // Get molecular specific values
-//    const double edg_a = static_cast<double>(p_rct1->getSpinMultiplicity());
-//    const double edg_b = static_cast<double>(p_rct2->getSpinMultiplicity());
-//    const double edg_c = static_cast<double>(p_pdt1->getSpinMultiplicity());
+    //    const double edg_a = static_cast<double>(p_rct1->getSpinMultiplicity());
+    //    const double edg_b = static_cast<double>(p_rct2->getSpinMultiplicity());
+    //    const double edg_c = static_cast<double>(p_pdt1->getSpinMultiplicity());
     const double ma = p_rct1->getMass();
     const double mb = p_rct2->getMass();
     const double mc = p_pdt1->getMass();
@@ -89,7 +89,7 @@ namespace mesmer
     TSFlux.resize(MaximumCell, 0.0); 
 
     const double gammaValue = MesmerGamma(Ninf + 1.5);
-    
+
     //double _ant = Ainf * tp_C * (edg_a * edg_b / edg_c) * pow( ( ma * mb / mc), 1.5 ) / gammaValue;
     // Replace the above line because electronic degeneracies were already accounted for in DOS calculations
     double _ant = Ainf * tp_C * pow( ( ma * mb / mc), 1.5 ) / gammaValue;
@@ -104,7 +104,7 @@ namespace mesmer
     }
 
     FastLaplaceConvolution(work, rctsCellDOS, conv);    // FFT convolution replaces the standard convolution
-//    Convolution(work, rctsCellDOS, conv);  // standard convolution
+    //    Convolution(work, rctsCellDOS, conv);  // standard convolution
 
     if (Einf >= 0){
       for (int i = Einf; i < MaximumCell; ++i){

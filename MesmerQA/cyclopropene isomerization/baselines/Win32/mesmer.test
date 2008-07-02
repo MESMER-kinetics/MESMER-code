@@ -2369,7 +2369,7 @@ Eigenvalues
    6.81758e-007
 }
 
-print time dependent species and product profiles
+Print time dependent species and product profiles
 {
     cyclopropene         propyne          allene  totalIsomerPop totalProductPop
           1e-011               1     1.0246e-009    5.35265e-011               1   -1.16729e-012
@@ -2532,7 +2532,6 @@ print time dependent species and product profiles
          50118.7    6.08094e-007        0.856297        0.170301          1.0266      -0.0265978
          63095.7    5.94553e-007        0.836306        0.197881         1.03419      -0.0341882
          79432.8    5.81477e-007        0.816923        0.227251         1.04417      -0.0441749
-
 }
 
 Z*Z^(-1):
@@ -5101,7 +5100,7 @@ Eigenvalues
   -1.17736e-007
 }
 
-print time dependent species and product profiles
+Print time dependent species and product profiles
 {
     cyclopropene         propyne          allene  totalIsomerPop totalProductPop
           1e-011               1    2.43036e-007    2.65853e-008               1   -1.88586e-010
@@ -5264,7 +5263,6 @@ print time dependent species and product profiles
          50118.7    6.87074e-006        0.676395        0.318314        0.994716      0.00528444
          63095.7    6.86025e-006        0.675362        0.317828        0.993197      0.00680307
          79432.8    6.84707e-006        0.674064        0.317217        0.991288      0.00871161
-
 }
 
 Z*Z^(-1):
