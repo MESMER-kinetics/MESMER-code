@@ -9,7 +9,8 @@ using namespace mesmer ;
 
 void usage();
 string version();
-
+bool QACompare(string infilename)
+;
 int main(int argc,char *argv[])
 {
   if(argc<2)
@@ -42,7 +43,7 @@ int main(int argc,char *argv[])
   //-------------------------------
   // process command line arguments
   string infilename, outfilename;
-  bool nocalc=false, notimestamp=false, usecout=false;;
+  bool nocalc=false, notimestamp=false, usecout=false, updatemols=true, qatest=false;
 
   for(int iarg=1; iarg<argc;++iarg)
   {
@@ -52,12 +53,13 @@ int main(int argc,char *argv[])
       switch(*++p)
       {
       case 'w': //error level for reporting
-        if(!++p) //if no digit after -w use next arg
+        if(!*++p) //if no digit after -w use next arg
           p=argv[++iarg];
         meErrorLog.SetOutputLevel((obMessageLevel)(*p-'0'));
         break;
       case 'o': //output filename
-        if(!++p) //if no digit after -w use next arg if its not an option
+        if(!*++p) //if no digit after -o use next arg if its not an option
+        {
           if(++iarg<argc && *argv[iarg]!='-')
             p = argv[iarg];
           else //-o option has no filename
@@ -66,13 +68,20 @@ int main(int argc,char *argv[])
             usecout = true;
             break;
           }
+        }
         outfilename = p;
         break;
       case 'p': //just parse the input file - no calculation
         nocalc=true;
         break;
+      case 'q':
+        qatest=true;
+        break;
       case 'n':
         notimestamp=true;
+        break;
+      case 'l':
+        updatemols=false;
         break;
       case '?':
         usage();
@@ -118,6 +127,18 @@ int main(int argc,char *argv[])
   {
     cerr << "System parse failed." << endl;
     return -2;
+  }
+
+  /* Get a list of molecules which were not present in the data file
+  but which were sucessfully recovered from the Library.
+  Unless the -l option is used, insert them into the data tree and
+  save to file at the end of main(). */
+  vector<PersistPtr> libMols = _sys.getLibraryMols();
+  if(updatemols && !libMols.empty())
+  {
+    for(size_t i=libMols.size();i;--i) //backwards so mols come out in order they went in
+      ppIOPtr->XmlCopyElement(libMols[i-1]);
+    //ppIOPtr->XmlSaveFile("E:/My Documents/MSVC/MESMER/examples/DiagramTest/testout.xml"); //***TEMPORARY****
   }
 
   meErrorLog.SetContext("");
@@ -168,7 +189,19 @@ int main(int argc,char *argv[])
   else
   {
     meErrorLog.SetContext(""); //so no ***Error prefix
-    cerr << "System saved to " + outfilename;
+    if(!outfilename.empty())
+      cerr << "System saved to " + outfilename;
+  }
+  if(qatest)
+  {
+    osout.close();
+    if(!QACompare(infilename))
+    {
+      cerr << "QA test failed" << endl;
+      return -5;
+    }
+    else
+      cerr << "QA test successful" << endl;
   }
   return 0 ;
 }
@@ -199,17 +232,40 @@ void usage()
           "For example:\n"
           "  mesmer HSO2.xml     will read HSO2.xml and write the output to\n"
           "                      something like HSO2.20071031_134701.xml\n"
-          "                      Using this as an iput file in the same way will produce\n"
+          "                      Using this in turn as an input file will produce\n"
           "                      something like HSO2.20071031_134701.20071212_200423.xml\n"
           "  mesmer HSO2.xml -n  will read HSO2.xml and write the output back to it\n"
           "  mesmer -o -w0       will silently read from cin and write to cout\n"
        << endl;
+         // "-q  Do a QA test.
 }
 string version()
 {
   stringstream ss;
   ss << "Mesmer " << "v0.1" << " compiled: -- "  << __DATE__ << " -- " << __TIME__ << endl;
   return ss.str();
+}
+
+bool QACompare(string infilename)
+{
+  //Read the baseline file
+  string::size_type pos = infilename.find_last_of("/\\:");
+  infilename.erase(pos+1); //may erase everything if has no path
+  infilename.append(TestSubFolder);
+  ifstream QAfile(infilename.c_str());
+  ifstream CurrentTest("mesmer.test");
+  if(!QAfile || !CurrentTest)
+  {  
+    cerr << "Cannot open " << infilename << " or current mesmer.test" << endl;
+    return false;
+  }
+  typedef std::istreambuf_iterator<char> istreambuf_iterator;
+  return std::equal(
+    istreambuf_iterator(QAfile),
+    istreambuf_iterator(),
+    istreambuf_iterator(CurrentTest)); 
+  // return true even if there are extra characters at the end of outstream
+  //but that doesn't matter here.
 }
 
 /*

@@ -65,13 +65,20 @@ namespace mesmer
     /// Adds an XML attribute (or equivalent)
     virtual void XmlWriteAttribute(const std::string& name, const std::string& value)=0;
 
-      /// Inserts into XML document a new element  containing a formatted number
+    /// Inserts into XML document a new element  containing a formatted number
     virtual void XmlWriteValueElement(const std::string& name,
                                    const double datum, const int precision=-1)=0;
+
+    /// Inserts into XML document meta data information
+    ///like <metadata name="dc:source" content="LibraryMols.xml" timestamp="20080705_104810" />
+    virtual PersistPtr XmlWriteMetadata(const std::string& name, const std::string& content)=0;
 
     ///Insert into XML document a new element, name, and gives it a timestamp attribute and comment (if comment not empty)
     virtual PersistPtr XmlWriteMainElement( const std::string& name,
                                     const std::string& comment, bool replaceExisting=true)=0;
+
+    ///Insert a copy of an element
+    virtual bool XmlCopyElement(PersistPtr ppToBeCopied)=0;
 
     virtual bool XmlSaveFile(const std::string& outfilename)=0;
 
@@ -115,6 +122,8 @@ namespace mesmer
       if (old && --old->count_ == 0) delete old;
       return *this;
     }
+
+    IPersist* get() {return p_;};//needed for XmlCopyElement()
 
   private:
     IPersist* p_;
@@ -175,7 +184,7 @@ of either a child element or an attribute.
 A 'top-level' XMLPersist object (wrapped as always by  a PersistPtr) can be
 made by the static XMLPersist function XmlLoad(). It contains a pointer to the
 TinyXml Document, and the lifetimes of the two objects are synchronised as is
-required the document being deleted in the XMLPersist destructor. Most
+required, the document being deleted in the XMLPersist destructor. Most
 'subsidiary' XMLPersist objects do not do this and are made in normal XMLPersist
 functions. The constructor of XMLPersist is private, so that external instances,
 which may subvert the reference-counting mechanism, cannot be made.

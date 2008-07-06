@@ -88,7 +88,8 @@ namespace mesmer
     }
     else{
       string molType = "bathGas";
-      m_pMoleculeManager->addmol(Bgtxt, molType, ppMolList, m_Env);
+      if(!m_pMoleculeManager->addmol(Bgtxt, molType, ppMolList, m_Env))
+        return false;
       m_pMoleculeManager->set_BathGasMolecule(Bgtxt) ;
     }
 

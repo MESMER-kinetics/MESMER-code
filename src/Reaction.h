@@ -111,7 +111,8 @@ namespace mesmer
   protected:
 
     // Read a molecule name from the XML file and look it up
-    Molecule* GetMolRef(PersistPtr pp);
+    // The defaultType is used if there is no me:type attribute
+    Molecule* GetMolRef(PersistPtr pp, const char* defaultType = NULL);
 
     // I/O and control
     PersistPtr           m_ppPersist;            // Conduit for I/O

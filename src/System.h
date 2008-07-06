@@ -32,6 +32,12 @@ namespace mesmer
     // Begin calculation.
     void calculate() ;
 
+    /// Access a list of molecules which were not present in the data file
+    /// but which were sucessfully recovered from the Library.
+    vector<PersistPtr>& getLibraryMols(){return m_pMoleculeManager->getLibraryMols();};
+
+  public:
+
     // Paired concentration and pressure points
     std::vector<CandTpair> PandTs;
 

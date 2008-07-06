@@ -1,3 +1,29 @@
+2008-07-06 Chris Morley
+
+  Give Reaction::GetMolRef() a default molecule type to be used if no me:type.
+  Allows simplification of: 
+  <me:transitionState>
+    <molecule ref="TS_1a" me:type="transitionState" />
+  </me:transitionState>
+  
+  Added library facility for molecules. Missing molecules are looked for in LibraryMols.xml
+  in a folder specified by the Environment Variable MESMER_LIBRARY. Unless the -l option
+  is specified, they are copied into the datafile (with an element describing their origin)
+  if the parsing is successful.
+  Searching all files in the specifed folder (like other mesmer files) would be better,
+  but requires platform-dependent code. Maybe later.
+  
+  Added XmlCopyElement and XmlWriteMetadata to IPersist and XMLPersist for the above.
+  
+  Alternative form for <property> element accepted (to suit OpenBabel output):
+  <property title="localname">
+  as well as:
+  <property dictRef="name">
+  
+  -q option does a QA test, comparing the current mesmer.test with the baseline file two folders
+  down from the datafile. Doing it this way, rather than all by scripting, makes routine testing
+  while debugging easier.
+
 _2008_07_02__14_15_31_ CHi-Hsiu Liang
 
   * Minor change of formatting that goes to update baselines 

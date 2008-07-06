@@ -7,6 +7,9 @@
 
 namespace mesmer
 {
+///Class to implement the IPersist interface for XML files using TinyXML
+///To use another XML library, or another type of data file, replace this class
+///and the single reference to it in main.cpp.
 class XMLPersist : public IPersist
 {
 protected:
@@ -47,6 +50,10 @@ public:
   /// Adds an XML attribute (or equivalent)
   virtual void XmlWriteAttribute(const std::string& name, const std::string& value);
 
+  /// Inserts into XML document meta data information
+  ///like <metadata name="dc:source" content="LibraryMols.xml" timestamp="20080705_104810" />
+  virtual PersistPtr XmlWriteMetadata(const std::string& name, const std::string& content);
+
   /// Inserts into XML document a new element  containing a formatted number
   virtual void XmlWriteValueElement(const std::string& name,
                                  const double datum, const int precision=-1);
@@ -54,6 +61,9 @@ public:
   ///Insert into XML document a new element, name, and gives it a timestamp attribute and comment
   virtual PersistPtr XmlWriteMainElement( const std::string& name,
                                   const std::string& comment, bool replaceExisting=true);
+
+  ///Insert a copy of an element as the first child of the current element
+  virtual bool XmlCopyElement(PersistPtr ppToBeCopied);
 
   virtual bool XmlSaveFile(const std::string& outfilename);
 

@@ -27,7 +27,9 @@ class MoleculeManager {
   std::string                                               m_BathGasMolecule ;
   PersistPtr                                                m_ppPersist;
   int                                                       sourceNumber;
-
+private:
+   //pointers to molecules from library that have been successfully used
+  std::vector<PersistPtr> m_libMols;
   void clear(void);
 
 public:
@@ -111,6 +113,11 @@ public:
     }
     return false;
   }
+
+  ///Search the library of molecules, initialize pmolecule with the data
+  ///Returns true if found
+  bool LookinLibrary(const std::string molName, Molecule* pmolecule);
+  vector<PersistPtr>& getLibraryMols(){return m_libMols;};
 
   // Accessors and Modifers for bath gas molecule.
 

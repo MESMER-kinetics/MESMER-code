@@ -62,9 +62,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qd.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="../qd/Release"
+				AdditionalLibraryDirectories=""
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -139,9 +138,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qd.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="../qd/Release"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -225,6 +223,18 @@
 			<File
 				RelativePath="..\..\src\IsomerizationReaction.cpp"
 				>
+			</File>
+			<File
+				RelativePath="..\..\src\library.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\main.cpp"
@@ -482,7 +492,11 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath=".\mesmer1.xsl"
+			RelativePath="..\..\mesmer1.xsl"
+			>
+		</File>
+		<File
+			RelativePath="..\..\mesmerDiag.xsl"
 			>
 		</File>
 	</Files>

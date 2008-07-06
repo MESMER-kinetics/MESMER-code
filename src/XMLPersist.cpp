@@ -2,7 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
-#include <time.h>
+#include "TimeCounter.h"
 #include "XMLPersist.h"
 
 using namespace std;
@@ -80,21 +80,35 @@ const char* XMLPersist::XmlReadValue(const std::string& name, bool MustBeThere) 
   return ptext;
 }
 
-/// Returns the effective content of an CML <property> element
-/// Looks for child elements pnList of the form:
-/// <property dictRef="name">
-///     <scalar> content </scalar>
-/// </property>
-/// The property can have <array>, <string>, or anything, in place of <scalar>
-/// Returns NULL if the appropriate property is not found or if it has no content.
+/** 
+Returns the effective content of an CML <property> element
+Looks for child elements pnList of the form:
+ <property dictRef="name">
+   <scalar> content </scalar>
+ </property>
+ or alternatively:
+ <property title="name">
+   <scalar> content </scalar>
+ </property>
+ In the second case, only  the part of name after any colon (the "localname") is used
+ The property can have <array>, <string>, or anything, in place of <scalar>
+ Returns NULL if the appropriate property is not found or if it has no content.
+ **/
 
 const char* XMLPersist::XmlReadProperty(const string& name, bool MustBeThere) const
 {
   TiXmlElement* pnProp = pnNode->FirstChildElement("property");
   while(pnProp)
   {
+    size_t pos=0;
     const char* pAtt = pnProp->Attribute("dictRef");
-    if(pAtt && name==pAtt)
+    if(!pAtt)
+    {
+      pAtt = pnProp->Attribute("title");
+      //The position of the start of the localname(the bit after the colon)
+      pos=name.find(':') + 1; //ok even if there is no colon (if npos=-1)
+    }
+    if(pAtt && name.compare(pos, name.size()-pos, pAtt)==0)
     {
       TiXmlElement* pnChild = pnProp->FirstChildElement(); //could be <array> or <scalar> or <string>
       if(pnChild)
@@ -107,21 +121,22 @@ const char* XMLPersist::XmlReadProperty(const string& name, bool MustBeThere) co
   return NULL;
 }
 
-// Returns the attName attribute of an CML <property> element
-/// Looks for child elements pnList of the form:
-/// <property dictRef="name">
-///     <scalar attName="attribute"> content </scalar>
-/// </property>
-/// The property can have <array>, <string>, or anything, in place of <scalar>
-/// Returns NULL if the appropriate property attribute is not found or if it has no content.
- 
+/// Returns the attName attribute of an CML <property> element
+/// See XMLPersist::XmlReadProperty for details
 const char* XMLPersist::XmlReadPropertyAttribute(const string& name, const string& attName, bool MustBeThere) const
 {
   TiXmlElement* pnProp = pnNode->FirstChildElement("property");
   while(pnProp)
   {
+    size_t pos=0;
     const char* pAtt = pnProp->Attribute("dictRef");
-    if(pAtt && name==pAtt)
+    if(!pAtt)
+    {
+      pAtt = pnProp->Attribute("title");
+      //The position of the start of the localname(the bit after the colon)
+      pos=name.find(':') + 1; //ok even if there is no colon (if npos=-1)
+    }
+    if(pAtt && name.compare(pos, name.size()-pos, pAtt)==0)
     {
       TiXmlElement* pnChild = pnProp->FirstChildElement(); //could be <array> or <scalar> or <string>
       if(pnChild){
@@ -176,6 +191,20 @@ void XMLPersist::XmlWriteAttribute(const std::string& name, const std::string& v
   pnNode->SetAttribute(name, value);
 }
 
+//e.g. <metadata name="dc:source" content="LibraryMols.xml" timestamp="20080705_104810" />
+PersistPtr XMLPersist::XmlWriteMetadata(const std::string& name, const std::string& content)
+{
+  TiXmlElement* item = new TiXmlElement("metadata");
+  pnNode->LinkEndChild(item);
+  TimeCount events;
+  std::string timeString;
+  item->SetAttribute("name",name);
+  item->SetAttribute("name",name);
+  item->SetAttribute("content",content);
+  item->SetAttribute("timestamp",events.setTimeStamp(timeString));
+  return PersistPtr(new XMLPersist(item));
+}
+
 PersistPtr XMLPersist::XmlWriteMainElement(
                         const std::string& name, const std::string& comment, bool replaceExisting)
 {
@@ -197,7 +226,7 @@ PersistPtr XMLPersist::XmlWriteMainElement(
     //----------------------------------------
     TimeCount events;
     std::string thisEvent, timeString;
-    pnel->SetAttribute("calculated", timeString);
+    pnel->SetAttribute("calculated", events.setTimeStamp(timeString));
     //----------------------------------------
 
     //Add explanatory comment in description element
@@ -208,12 +237,20 @@ PersistPtr XMLPersist::XmlWriteMainElement(
   return PersistPtr(new XMLPersist(pnel));
 }
 
+bool XMLPersist::XmlCopyElement(PersistPtr ppToBeCopied)
+{
+  TiXmlNode* pnBefore = pnNode->FirstChild();
+  if(!pnBefore) return false;
+  XMLPersist* pxP = dynamic_cast<XMLPersist*> (ppToBeCopied.get());
+  return pnNode->InsertBeforeChild(pnBefore, *pxP->pnNode);
+}
+
 bool XMLPersist::XmlSaveFile(const std::string& outfilename)
-  {
-    if(outfilename.empty())
-      return pnNode->GetDocument()->SaveFile(stdout);
-    else
-      return pnNode->GetDocument()->SaveFile(outfilename);
-  }
+{
+  if(outfilename.empty())
+    return pnNode->GetDocument()->SaveFile(stdout);
+  else
+    return pnNode->GetDocument()->SaveFile(outfilename);
+}
 
 }//namespacer mesmer

@@ -17,73 +17,76 @@ using namespace mesmer;
 
 namespace mesmer
 {
-  Reaction::Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id)
-    :m_ppPersist(),
-    m_TransitionState(NULL),
-    m_pMoleculeManager(pMoleculeManager),
-    m_pMicroRateCalculator(NULL),
-    m_pTunnelingCalculator(NULL),
-    m_CellTSFlux(),
-    m_GrainTSFlux(),
-    m_GrainKfmc(),
-    m_GrainKbmc(),
-    m_Env(Env),
-    m_Name(id),
-    reCalcDOS(true),
-    m_PreExp(0.0),
-    m_NInf(0.0),
-    m_kfwd(0.0),
-    m_HeatOfReaction(0.0),
-    m_HeatOfReactionInt(0)
-  {}
+    Reaction::Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id)
+        :m_ppPersist(),
+        m_TransitionState(NULL),
+        m_pMoleculeManager(pMoleculeManager),
+        m_pMicroRateCalculator(NULL),
+        m_pTunnelingCalculator(NULL),
+        m_CellTSFlux(),
+        m_GrainTSFlux(),
+        m_GrainKfmc(),
+        m_GrainKbmc(),
+        m_Env(Env),
+        m_Name(id),
+        reCalcDOS(true),
+        m_PreExp(0.0),
+        m_NInf(0.0),
+        m_kfwd(0.0),
+        m_HeatOfReaction(0.0),
+        m_HeatOfReactionInt(0)
+    {}
 
-  Reaction::~Reaction(){}
+    Reaction::~Reaction(){}
 
-  /*
-  Reaction::Reaction(const Reaction& reaction) {
-  // Copy constructor - define later SHR 23/Feb/2003
-  }
+    /*
+    Reaction::Reaction(const Reaction& reaction) {
+    // Copy constructor - define later SHR 23/Feb/2003
+    }
 
-  Reaction& Reaction::operator=(const Reaction& reaction) {
-  // Assignment operator - define later SHR 23/Feb/2003
+    Reaction& Reaction::operator=(const Reaction& reaction) {
+    // Assignment operator - define later SHR 23/Feb/2003
 
-  return *this ;
-  }
-  */
+    return *this ;
+    }
+    */
 
 
-  //
-  // Locate molecule in molecular map.
-  //
-  Molecule* Reaction::GetMolRef(PersistPtr pp)
-  {
-    Molecule* pMol = NULL;
+    //
+    // Locate molecule in molecular map.
+    //
+    Molecule* Reaction::GetMolRef(PersistPtr pp, const char* defaultType)
+    {
+        Molecule* pMol = NULL;
 
-    if(!pp) return NULL;
-    PersistPtr ppmol = pp->XmlMoveTo("molecule");
-    if(!ppmol) return NULL;
+        if(!pp) return NULL;
+        PersistPtr ppmol = pp->XmlMoveTo("molecule");
+        if(!ppmol) return NULL;
 
-    string sRef = ppmol->XmlReadValue("ref");
-    if(sRef.size()){ // if got the name of the molecule
-      string sType = ppmol->XmlReadValue("me:type");
-      if(sType.size()){ // initialize molecule here with the specified type (need to know m_ppIOPtr)
-        PersistPtr ppMolList = m_pMoleculeManager->get_PersistPtr();
-        if(!ppMolList)
+        const char* reftxt = ppmol->XmlReadValue("ref");//using const char* in case NULL returned
+        if(reftxt) // if got the name of the molecule
         {
-          cerr << "No molecules have been specified." << endl;
-          return NULL;
+          const char* typetxt = ppmol->XmlReadValue("me:type");
+          if(!typetxt && defaultType)
+            typetxt=defaultType;
+          if(typetxt){ // initialize molecule here with the specified type (need to know m_ppIOPtr)
+              PersistPtr ppMolList = m_pMoleculeManager->get_PersistPtr();
+              if(!ppMolList)
+              {
+                  cerr << "No molecules have been specified." << endl;
+                  return NULL;
+              }
+              pMol = m_pMoleculeManager->addmol(string(reftxt), string(typetxt), ppMolList, getEnv());
+          }
         }
-        pMol = m_pMoleculeManager->addmol(sRef, sType, ppMolList, getEnv());
-      }
-    }
 
-    if(!pMol) {
-      cinfo << "Failed to get a molecular reference." << endl;
-      return NULL;
-    }
+        if(!pMol) {
+            cinfo << "Failed to get a molecular reference." << endl;
+            return NULL;
+        }
 
-    return pMol;
-  }
+        return pMol;
+    }
 
   //
   // Access microcanonical rate coefficients.

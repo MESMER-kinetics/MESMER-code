@@ -10,6 +10,8 @@
 //-------------------------------------------------------------------------------------------
 
 #include <iostream>
+#include <stdlib.h>
+#include "MesmerConfig.h"
 #include "MoleculeManager.h"
 
 using namespace std ;
@@ -32,49 +34,50 @@ MoleculeManager::~MoleculeManager(){
 //
 Molecule* MoleculeManager::addmol(string& molName, string& molType, PersistPtr ppMolList, const MesmerEnv& Env) {
 
-  Molecule *pmolecule;
-  PersistPtr ppmol = ppMolList->XmlMoveTo("molecule");
-  while (ppmol){
-    string id = ppmol->XmlReadValue("id");
-    if (id == molName) break; // found the molecule
-    ppmol = ppmol->XmlMoveTo("molecule");
-  }
-
   //check if the molecule exists in m_molmap
   constMolIter it = m_molmap.find(molName) ;
   if (it != m_molmap.end()) { // found a molecule with the same name --> should check its type as well later.
     return it->second;
   }
-  else{
-    //-------------
-    // Create a new Molecule of the required type.
-    if(molType=="modelled")
-      pmolecule = static_cast<Molecule*>(new CollidingMolecule(Env));
-    else if(molType=="reactant")
-      pmolecule = static_cast<Molecule*>(new CollidingMolecule(Env));
-    else if(molType=="excessReactant")
-      pmolecule = static_cast<Molecule*>(new ModelledMolecule(Env));
-    else if(molType=="transitionState")
-      pmolecule = static_cast<Molecule*>(new TransitionState(Env));
-    else if(molType=="bathGas")
-      pmolecule = static_cast<Molecule*>(new BathGasMolecule(Env));
-    else if(molType=="sink")
-      pmolecule = static_cast<Molecule*>(new ModelledMolecule(Env));
-    else
-      pmolecule = static_cast<Molecule*>(new Molecule(Env));
 
-    //-------------
-    // Initialize Molecule from input stream.
-    // Each molecule type has its own set of mandatory parameters
-    if(!pmolecule->InitializeMolecule(ppmol) || pmolecule->getName().empty()){
-      cerr << "Failed in initializing the molecule. molType = " << molType;
-      delete pmolecule; return NULL;
-    } /*for the case of a SuperMolecule, if the element of source exists, the name has also to be specified.*/
+  //Need to construct a new Molecule of the required type
+  Molecule *pmolecule;
+  if(molType=="modelled")
+    pmolecule = static_cast<Molecule*>(new CollidingMolecule(Env));
+  else if(molType=="reactant")
+    pmolecule = static_cast<Molecule*>(new CollidingMolecule(Env));
+  else if(molType=="excessReactant")
+    pmolecule = static_cast<Molecule*>(new ModelledMolecule(Env));
+  else if(molType=="transitionState")
+    pmolecule = static_cast<Molecule*>(new TransitionState(Env));
+  else if(molType=="bathGas")
+    pmolecule = static_cast<Molecule*>(new BathGasMolecule(Env));
+  else if(molType=="sink")
+    pmolecule = static_cast<Molecule*>(new ModelledMolecule(Env));
+  else
+    pmolecule = static_cast<Molecule*>(new Molecule(Env));
 
-    //-------------
-    // Add molecule to map.
-    m_molmap[molName] = pmolecule ;
-  }
+  //Look for it by name in the datafile
+  PersistPtr ppmol = ppMolList;
+  do{
+    ppmol = ppmol->XmlMoveTo("molecule");
+  }while(ppmol && ppmol->XmlReadValue("id")!= molName);
+
+  // Initialize Molecule from input stream.
+  // Each molecule type has its own set of mandatory parameters
+  if(!ppmol || !pmolecule->InitializeMolecule(ppmol)){
+    //If molecule with correct name not found, or if it does not initiallize properly, try the Library
+    if(!LookinLibrary(molName, pmolecule)){
+      //Still failed
+      cerr << "Failed to find or initialize " << molName;
+      delete pmolecule;
+      return NULL;
+    }
+  } /*for the case of a SuperMolecule, if the element of source exists, the name has also to be specified.*/
+
+  //-------------
+  // Add molecule to map.
+  m_molmap[molName] = pmolecule ;
 
   if (molType == "reactant"){
     stringstream superId; superId << "source_" << sourceNumber; ++sourceNumber;
@@ -120,6 +123,53 @@ Molecule *MoleculeManager::find(const std::string& name) const {
   }
 
   return it->second ;
+}
+
+bool MoleculeManager::LookinLibrary(const std::string molName, Molecule* pmolecule)
+{
+  if(molName.empty())
+    return false;
+  static PersistPtr ppLib; //initiallized by system to NULL
+  string libFilename("LibraryMols.xml");
+  if(!ppLib)
+  {
+    const char* pdir = getenv("MESMER_LIBRARY");
+    string libname;
+    if(pdir)
+    {
+      libname = pdir;
+      libname += FileSeparatorChar;
+    }
+    libname += libFilename;
+    ppLib = XMLPersist::XmlLoad(libname);
+    if(!ppLib)
+    {
+      cwarn << "Could not find Library file to search it for missing molecule(s)."<<endl;
+      return false;
+    }
+  }
+  cinfo << "Looked for " << molName << " in " << libFilename << endl;
+  PersistPtr ppMolList   = ppLib->XmlMoveTo("moleculeList");
+  if(!ppMolList)
+    ppMolList = ppLib; //Can do without <moleculeList>
+  PersistPtr ppMol = ppMolList->XmlMoveTo("molecule");
+  while(ppMol)
+  {
+    if(molName==ppMol->XmlReadValue("id"))
+    {
+      //Check that the molecule can be initialised ok
+      if(pmolecule->InitializeMolecule(ppMol))
+      {
+        //If ok, write provenance and save in list so that it can be added to datafile later
+//        ppMol->XmlWriteMainElement("me:source","Copied from " + libFilename);
+        ppMol->XmlWriteMetadata("source", libFilename);
+        m_libMols.push_back(ppMol);
+        return true;
+      }
+    }
+    ppMol = ppMol->XmlMoveTo("molecule");
+  }
+  return false; // no suitable molecule found
 }
 
 }//namespace
