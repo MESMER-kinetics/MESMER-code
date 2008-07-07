@@ -24,6 +24,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="Copy configuration files, if not up to date"
+				CommandLine="xcopy /Y /D qd_config.h  ..\..\qd\include\qd\"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
