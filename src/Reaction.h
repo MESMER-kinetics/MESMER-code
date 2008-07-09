@@ -39,10 +39,12 @@ namespace mesmer
     void get_MicroRateCoeffs(std::vector<double> &kmc) ;
 
     const std::string& getName() const    { return m_Name ; } ;
-    double get_PreExp() const             { return m_PreExp ; } ;
+    double get_PreExp()                   { return m_PreExp.get_value() ; } ;
     void set_PreExp(double value)         { m_PreExp = value;}
-    double get_NInf()const                { return m_NInf   ; } ;
+    void set_PreExp(double valueL, double valueU, double stepsize){ m_PreExp.set_range(valueL, valueU, stepsize); };
+    double get_NInf()                     { return m_NInf.get_value() ; } ;
     void set_NInf(double value)           { m_NInf = value;}
+    void set_NInf(double valueL, double valueU, double stepsize)  { m_NInf.set_range(valueL, valueU, stepsize); }
     double getHeatOfReaction() const      { return m_HeatOfReaction ; };
     int getHeatOfReactionInt() const      { return m_HeatOfReactionInt; };
     void setHeatOfReaction(const double pdtZPE, const double rctZPE);
@@ -56,7 +58,17 @@ namespace mesmer
     virtual double get_relative_TSZPE(void) const = 0;
 
     // Get activiation energy
-    virtual double get_ThresholdEnergy(void) const;
+    double get_ThresholdEnergy(void);
+    /* This function should be considered as a function to get the activiation energy. 
+    In ILT, not the theoretical threshold energy but the experimental activation energy is used. 
+    This function returns user defined m_ActivationEnergy, otherwise zero. 
+    ILT can be used in all reaction types if necessary. */
+
+    // Set activiation energy
+    void set_ThresholdEnergy(const double value){m_ActivationEnergy = value; };
+    void set_ThresholdEnergy(const double value, const double valueL, const double valueU, const double stepsize){
+      m_ActivationEnergy.set_range(valueL, valueU, stepsize);
+    };
 
     TransitionState* get_TransitionState() const { return m_TransitionState ; } ;
 
@@ -103,7 +115,7 @@ namespace mesmer
     bool calcGrnAvrgMicroRateCoeffs() ;
 
     // Add reaction terms to collision matrix.
-    virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) = 0 ;
+    virtual void AddReactionTerms(qdMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) = 0 ;
 
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() = 0 ;
@@ -169,15 +181,16 @@ namespace mesmer
     std::string m_Name ;        // Reaction name.
 
     bool reCalcDOS;             // re-calculation on DOS
-    double m_PreExp ;           // Preexponetial factor
-    double m_NInf ;             // Modified Arrhenius parameter
+    DPoint m_PreExp ;           // Preexponetial factor
+    DPoint m_NInf ;             // Modified Arrhenius parameter
     double m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
 
     //
     // Reaction Rate data.
     //
-    double m_HeatOfReaction ;   // The heat of reaction corrected for zero point energies.
-    int m_HeatOfReactionInt ;   // Relative heat of reaction in wavenumber (integer)
+    double m_HeatOfReaction ;       // The heat of reaction corrected for zero point energies.
+    int    m_HeatOfReactionInt ;    // Relative heat of reaction in wavenumber (integer)
+    DPoint m_ActivationEnergy;      // Activation Energy
 
   } ;
 

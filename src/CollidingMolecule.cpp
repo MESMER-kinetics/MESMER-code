@@ -88,7 +88,23 @@ namespace mesmer
       //setFlag(true);
       // deltaEDown is not always necessary. Hoever, it is not wise to provide a default value.
     }
-    else { istringstream idata(txt); idata >> m_DeltaEdown; m_DeltaEdown_chk = 0;}
+    else {
+      istringstream idata(txt);
+      double value(0.0);
+      idata >> value;
+      const char* pLowertxt = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "lower");
+      const char* pUppertxt = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "upper");
+      const char* pStepStxt = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "stepsize");
+      if (pLowertxt && pUppertxt){
+        double valueL(0.0), valueU(0.0), stepsize(0.0);
+        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
+        setDeltaEdown(valueL, valueU, stepsize);
+      }
+      else{
+        setDeltaEdown(value);
+      }
+      m_DeltaEdown_chk = 0;
+    }
 
     // Determine the method of DOS calculation.
     const char* pDistCalcMethodtxt = pp->XmlReadValue("me:DistributionCalcMethod", false) ;
@@ -166,15 +182,10 @@ namespace mesmer
     }
   } ;
 
-  void   CollidingMolecule::setDeltaEdown(double value)        {
-    m_DeltaEdown = value;
-    m_DeltaEdown_chk = 0;
-  } ;
-
   double CollidingMolecule::getDeltaEdown()                    {
     if (m_DeltaEdown_chk >= 0){
       ++m_DeltaEdown_chk;
-      return m_DeltaEdown ;
+      return m_DeltaEdown.get_value() ;
     }
     else{
       cerr << "m_DeltaEdown was not defined but requested in " << getName();
@@ -246,10 +257,12 @@ namespace mesmer
       for ( j = i ; j < m_ncolloptrsize ; ++j ) {
 
         // Transfer to lower Energy -
-        (*m_egme)[i][j] = exp(-alpha*(m_grainEne[j] - ei)) ;
+        double transferDown = exp(-alpha*(m_grainEne[j] - ei)) ;
+        (*m_egme)[i][j] = transferDown;
 
         // Transfer to higher Energy (via detailed balance) -
-        (*m_egme)[j][i] = (*m_egme)[i][j] * (m_grainDOS[j]/ni)*exp(-beta*(m_grainEne[j] - ei)) ;
+        double transferUp = (*m_egme)[i][j] * (m_grainDOS[j]/ni)*exp(-beta*(m_grainEne[j] - ei)) ;
+        (*m_egme)[j][i] = transferUp;
       }
     }
 
@@ -294,7 +307,7 @@ namespace mesmer
   //
   void CollidingMolecule::normalizeCollisionOperator(){
 
-    double* work = new double[m_ncolloptrsize] ;// Work space.
+    vector<double> work(m_ncolloptrsize) ;// Work space.
     //
     // Normalization of Probability matrix.
     // Normalising coefficients are found by using the fact that column sums
@@ -331,7 +344,8 @@ namespace mesmer
         (*m_egme)[i][j] *= work[j] ;
       }
     }
-    delete [] work;
+
+    //(*m_egme).showFinalBits(m_ncolloptrsize);
   }
 
   //
@@ -402,7 +416,7 @@ namespace mesmer
   //
   // Copy collision operator to diagonal block of system matrix.
   //
-  void CollidingMolecule::copyCollisionOperator(dMatrix *CollOptr,
+  void CollidingMolecule::copyCollisionOperator(qdMatrix *CollOptr,
     const int size,
     const int locate,
     const double RducdOmega) const
@@ -434,13 +448,14 @@ namespace mesmer
   //
   // calculates p(E)*exp(-EB)
   //
-  void CollidingMolecule::grainDistribution(vector<long double> &grainFrac, const int numberOfGrains)
+  void CollidingMolecule::grainDistribution(vector<double> &grainFrac, const int numberOfGrains)
   {
     // If density of states have not already been calcualted then do so.
     if (!calcDensityOfStates())
       cerr << "Failed calculating DOS";
 
     if (m_grainDist.size() != m_grainDOS.size() || getEnv().beta != m_grainFracBeta){
+      cerr << m_grainDist.size() << " " << m_grainDOS.size() << endl;
       m_pDistributionCalculator->calculateDistribution(m_grainDOS, m_grainEne, getEnv().beta, m_grainDist);
       m_grainFracBeta = getEnv().beta;
     }
@@ -453,11 +468,11 @@ namespace mesmer
   //
   // Get normalized grain distribution.
   //
-  void CollidingMolecule::normalizedInitialDistribution(vector<long double> &grainFrac, const int numberOfGrains)
+  void CollidingMolecule::normalizedInitialDistribution(vector<double> &grainFrac, const int numberOfGrains)
   {
     grainDistribution(grainFrac, numberOfGrains);
 
-    long double prtfn(0.);
+    double prtfn(0.);
     for (int i = 0; i < numberOfGrains; ++i){
       prtfn += grainFrac[i];
     }
@@ -478,7 +493,7 @@ namespace mesmer
   //
   // Get normalized grain distribution.
   //
-  void CollidingMolecule::normalizedBoltzmannDistribution(vector<long double> &grainFrac, const int numberOfGrains)
+  void CollidingMolecule::normalizedBoltzmannDistribution(vector<double> &grainFrac, const int numberOfGrains)
   {
     // If density of states have not already been calcualted then do so.
     if (!calcDensityOfStates())
@@ -491,7 +506,7 @@ namespace mesmer
       grainFrac.push_back(exp(log(m_grainDOS[i]) - getEnv().beta * m_grainEne[i] + 10.0));
     }
 
-    long double prtfn(0.);
+    double prtfn(0.);
     for (int i = 0; i < numberOfGrains; ++i){
       prtfn += grainFrac[i];
     }

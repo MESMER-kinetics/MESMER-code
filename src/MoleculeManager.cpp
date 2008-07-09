@@ -11,7 +11,6 @@
 
 #include <iostream>
 #include <stdlib.h>
-#include "MesmerConfig.h"
 #include "MoleculeManager.h"
 
 using namespace std ;
@@ -32,7 +31,7 @@ MoleculeManager::~MoleculeManager(){
 //
 // Add a new molecule to the list.
 //
-Molecule* MoleculeManager::addmol(string& molName, string& molType, PersistPtr ppMolList, const MesmerEnv& Env) {
+Molecule* MoleculeManager::addmol(string molName, string molType, PersistPtr ppMolList, const MesmerEnv& Env) {
 
   //check if the molecule exists in m_molmap
   constMolIter it = m_molmap.find(molName) ;

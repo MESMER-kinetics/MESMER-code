@@ -1,5 +1,4 @@
 #include "MesmerILT.h"
-#include "fftw3.h"
 
 using namespace std;
 using namespace Constants;
@@ -45,11 +44,6 @@ namespace mesmer
 
   bool MesmerILT::calculateMicroRateCoeffs(Reaction* pReact)
   {
-    //Temporary test
-    fftw_complex *in, *out;
-    fftw_plan p;
-    //
-
     //-----------------
     //starting variables block
     const double Ninf   = pReact->get_NInf(); // constraint: Ninf > -1.5

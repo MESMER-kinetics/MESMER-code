@@ -216,6 +216,8 @@ src/Molecule.h -text
 src/MoleculeManager.cpp -text
 src/MoleculeManager.h -text
 src/Persistence.h -text
+src/Pointer.cpp -text
+src/Pointer.h -text
 src/Reaction.cpp -text
 src/Reaction.h -text
 src/ReactionManager.cpp -text

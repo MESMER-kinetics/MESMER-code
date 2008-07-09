@@ -31,8 +31,7 @@ namespace mesmer
       m_srct(NULL), 
       m_rct1(NULL),
       m_rct2(NULL), 
-      m_pdt1(NULL),
-      m_ActivationEnergy(0.0) {}
+      m_pdt1(NULL){}
 
     // Destructor.
     virtual ~AssociationReaction(){
@@ -58,23 +57,17 @@ namespace mesmer
     virtual ModelledMolecule *get_pseudoIsomer(void) const {return m_rct1 ; } ;
 
     // return relative reactant, product and transition state zero-point energy
-    virtual double get_relative_rctZPE() const {return m_rct1->get_zpe() + m_rct2->get_zpe() - getEnv().EMin;}
-    virtual double get_relative_pdtZPE() const {return m_pdt1->get_zpe() - getEnv().EMin;}
-    virtual double get_relative_TSZPE(void) const {return m_TransitionState->get_zpe() - getEnv().EMin;};
-
-    // Get activiation energy
-    virtual double get_ThresholdEnergy(void) const;
-    /* This function in AssociationReaction should be considered as a function to get the activiation energy. 
-    In ILT, not the theoretical threshold energy but the experimental activation energy is used. 
-    This function returns user defined m_ActivationEnergy, otherwise zero. */
-
+    virtual double get_relative_rctZPE() const { return m_rct1->get_zpe() + m_rct2->get_zpe() - getEnv().EMin; }
+    virtual double get_relative_pdtZPE() const { return m_pdt1->get_zpe() - getEnv().EMin; }
+    virtual double get_relative_TSZPE(void) const { return m_TransitionState->get_zpe() - getEnv().EMin; };
+    
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
 
   private:
 
     // Add reaction terms to collision matrix.
-    virtual void AddReactionTerms(dMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+    virtual void AddReactionTerms(qdMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
 
     // Read parameters requires to determine reaction heats and rates.
     virtual bool ReadRateCoeffParameters(PersistPtr ppReac) ;
@@ -93,7 +86,6 @@ namespace mesmer
     ModelledMolecule    *m_rct1 ;                 // Reactant Molecule.
     ModelledMolecule    *m_rct2 ;                 // Subsidiary reactant molecule.
     CollidingMolecule   *m_pdt1 ;                 // Product Molecule.
-    double               m_ActivationEnergy;      // Activation Energy
   } ;
 
 

@@ -22,12 +22,13 @@
 //Ignore warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
 #pragma warning( disable : 4800 )
 const char FileSeparatorChar = '\\';
-const std::string TestSubFolder("baselines\\Win32\\mesmer.test"); //relative to the data file
 #else //suppose it is LINUX but not defined
 
 #define IsNan isnan
 const char FileSeparatorChar = '/';
 
 #endif // Platform definition 
+
+const std::string TestSubFolder("baselines\\Win32\\mesmer.test"); //relative to the data file
 
 #endif // GUARD_MesmerConfig_h

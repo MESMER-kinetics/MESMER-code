@@ -10,7 +10,6 @@
 //-------------------------------------------------------------------------------------------
 #include "System.h"
 
-
 using namespace std ;
 using namespace Constants ;
 
@@ -168,6 +167,11 @@ namespace mesmer
       if (!m_Env.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
         m_Env.useTheSameCellNumber = true;
       }
+
+      if (ppControl->XmlReadBoolean("me:gridSearch")) m_Env.searchMethod = 1;
+      else if (ppControl->XmlReadBoolean("me:fitting")) m_Env.searchMethod = 2;
+      else m_Env.searchMethod = 0;
+
       const char* txtEV = ppControl->XmlReadValue("me:eigenvalues",false);
       if(txtEV) {
         istringstream ss(txtEV);
@@ -236,11 +240,9 @@ namespace mesmer
       int this_precision = 0;
 
       txt = ppPTpair->XmlReadValue("me:P");
-      if (txt)
-        this_P = atof(txt);
+      if (txt){ stringstream s1(txt); s1 >> this_P; }
       txt = ppPTpair->XmlReadValue("me:T");
-      if (txt)
-        this_T = atof(txt);
+      if (txt){ stringstream s1(txt); s1 >> this_T; }
       txt = ppPTpair->XmlReadValue("me:precision");
 
       // Can specify abbreviation
@@ -255,36 +257,128 @@ namespace mesmer
         if (!strcmp(txt,"quad-double")) this_precision = 2;
       }
       CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision);
-      PandTs.push_back(thisPair);
 
+      // Set experimental conditions for chiSquare calculation
+      txt = ppPTpair->XmlReadValue("me:experimentalRate", false);
+      PersistPtr ppExpRate = ppPTpair->XmlMoveTo("me:experimentalRate");
+      while (ppExpRate){
+        double rateValue(0.0), errorValue(0.0); string ref1, ref2;
+        stringstream s1(txt); s1 >> rateValue;
+        txt = ppExpRate->XmlReadValue("ref1");
+        stringstream s2(txt); s2 >> ref1;
+        txt = ppExpRate->XmlReadValue("ref2");
+        stringstream s3(txt); s3 >> ref2;
+        txt = ppExpRate->XmlReadValue("error");
+        stringstream s4(txt); s4 >> errorValue;
+        thisPair.set_condition(ref1, ref2, rateValue, errorValue);
+        ppExpRate = ppExpRate->XmlMoveTo("me:experimentalRate");
+      }
+
+      PandTs.push_back(thisPair);
       ppPTpair = ppPTpair->XmlMoveTo("me:PTpair");
     }
+  }
+
+  void System::gridSearch(void){
+
+    // produce a grid for search
+    db2D gridArray; // this array grows up freely without needing dimensions
+
+    int totalSteps = 1;
+    for (size_t varID(0); varID < fitDP.size(); ++varID){
+      // for every dimension create a series and duplicate the serie while the indices going forward
+      double lower(0.0), upper(0.0), stepsize(0.0);
+      fitDP[varID].get_range(lower, upper, stepsize);
+      int numSteps = int((upper - lower) / stepsize) + 1;
+      totalSteps *= numSteps;
+    }
+
+    int spanSteps = 1;
+    for (int varID(0); varID < int(fitDP.size()); ++varID){
+      double lower(0.0), upper(0.0), stepsize(0.0);
+      fitDP[varID].get_range(lower, upper, stepsize);
+      int numSteps = int((upper - lower) / stepsize) + 1;
+      int stack(0), block(0);
+      while (stack < totalSteps){
+        int step(0);
+        while(step < spanSteps){
+          double stepValue = lower + block * stepsize;
+          gridArray[stack][varID] = stepValue;
+          ++step;
+          ++stack;
+        }
+        ++block;
+        if (block == numSteps) block = 0;
+      }
+      spanSteps *= numSteps;
+    }
+
+    TimeCount events; unsigned int timeElapsed; int calPoint(0);
+
+    for (int i(0); i < totalSteps; ++i){
+      double chiSquare(1000.0);
+
+      // assign values
+      for (int varID(0); varID < int(fitDP.size()); ++varID) fitDP[varID] = gridArray[i][varID];
+
+      // calculate
+      cerr << "Parameter Grid " << calPoint;
+      ctest << "Parameter Grid " << calPoint << "\n{\n";
+      calculate(chiSquare);
+
+      ctest << "Parameters: ( ";
+      for (int varID(0); varID < int(fitDP.size()); ++varID) formatFloat(ctest, gridArray[i][varID], 4,  7) ;
+      ctest << " chiSquare = " << chiSquare << " )\n}\n";
+      ++calPoint;
+    }
+
+  }
+
+  // This function calls calculate() to obtain a serie of
+  void System::fitting(void){
+
+    double chiSquare = 1000.0;
+
+    int steps(0);
+    while (1){
+
+      for (size_t obj(0); obj < fitDP.size(); ++obj){
+
+      }
+
+      ++steps;
+      ctest << "Step " << steps << " of fitting. chiSquare = " << chiSquare << endl;
+      if (chiSquare < 1 || steps > 100) break;
+    }
+
   }
 
   //
   // Begin calculation.
   //
-  void System::calculate()
+  void System::calculate(double& chiSquare)
   {
+    chiSquare = 0.0; // reset the value to zero
+
     TimeCount events; unsigned int timeElapsed =0;
 
     WriteMetadata();
 
     // Find the highest temperature
     for (unsigned int i = 0; i < PandTs.size(); ++i){
-      m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, PandTs[i].temperature);
+      m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, PandTs[i].get_temperature());
     }
 
     //---------------------------------------------
     // looping over temperatures and concentrations
-    unsigned int calPoint = 0;
+    unsigned int calPoint(0);
     for (calPoint = 0; calPoint < PandTs.size(); ++calPoint){
-      m_Env.beta = 1.0 / (boltzmann_RCpK * PandTs[calPoint].temperature) ; //temporary statements
-      m_Env.conc = PandTs[calPoint].concentration;
+      m_Env.beta = 1.0 / (boltzmann_RCpK * PandTs[calPoint].get_temperature()) ; //temporary statements
+      m_Env.conc = PandTs[calPoint].get_concentration();
       // unit of conc: particles per cubic centimeter
-      cerr << "\nGrid " << calPoint;
-      int precision = PandTs[calPoint].precision;
-      ctest << "Condition: conc = " << m_Env.conc << ", temp = " << PandTs[calPoint].temperature;
+      cerr << "PT Grid " << calPoint;
+      int precision = PandTs[calPoint].get_precision();
+      ctest << "PT Grid " << calPoint << " Condition: conc = " << m_Env.conc << ", temp = " << PandTs[calPoint].get_temperature();
       switch (precision){
         case 1: ctest << ", diagonalization precision: double-double\n{\n"; break;
         case 2: ctest << ", diagonalization precision: quad-double\n{\n"; break;
@@ -311,7 +405,14 @@ namespace mesmer
       int timestep = 160;
       m_pReactionManager->timeEvolution(timestep, m_Env);
 
-      m_pReactionManager->BartisWidomPhenomenologicalRates();
+      dMatrix mesmerRates(1);
+      m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates);
+
+      if (m_Env.searchMethod){
+        vector<conditionSet> expRates;
+        PandTs[calPoint].get_experimentalRates(expRates);
+        chiSquare += m_pReactionManager->calcChiSquare(mesmerRates, expRates);
+      }
 
       ctest << "}\n";
 
@@ -394,6 +495,34 @@ namespace mesmer
     ppItem = ppList->XmlWriteElement("metadata");
     ppItem->XmlWriteAttribute("name", "dc:contributor");
     ppItem->XmlWriteAttribute("content", author);
+  }
+
+  void System::configuration(void){
+    cerr << "\nPrinting system precision configuration:";
+    cerr << "Size of float = " << sizeof(float);
+    cerr << "Size of double = " << sizeof(double);
+    cerr << "Size of long double = " << sizeof(long double);
+    cerr << "Size of double-double = " << sizeof(dd_real);
+    cerr << "Size of quad-double = " << sizeof(qd_real);
+
+    cerr << "\nEpsilon is the difference between 1 and the smallest value greater than 1 that is representable for the data type.";
+    cerr << "float epsilon == " << numeric_limits<float>::epsilon() << endl;
+    cerr << "double epsilon == " << numeric_limits<double>::epsilon() << endl;
+    cerr << "long double epsilon == " << numeric_limits<long double>::epsilon() << endl;
+    cerr << "dd_real epsilon == " << numeric_limits<dd_real>::epsilon() << endl;
+    cerr << "qd_real epsilon == " << numeric_limits<qd_real>::epsilon() << endl;
+
+    cerr << "\nfloat max == " << numeric_limits<float>::max() << endl;
+    cerr << "double max == " << numeric_limits<double>::max() << endl;
+    cerr << "long double max == " << numeric_limits<long double>::max() << endl;
+    cerr << "dd_real max == " << numeric_limits<dd_real>::max() << endl;
+    cerr << "qd_real max == " << numeric_limits<qd_real>::max() << endl;
+
+    cerr << "\nfloat min == " << numeric_limits<float>::min() << endl;
+    cerr << "double min == " << numeric_limits<double>::min() << endl;
+    cerr << "long double min == " << numeric_limits<long double>::min() << endl;
+    cerr << "dd_real min == " << numeric_limits<dd_real>::min() << endl;
+    cerr << "qd_real min == " << numeric_limits<qd_real>::min() << endl;
   }
 
 }//namespace

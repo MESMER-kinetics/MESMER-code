@@ -57,6 +57,7 @@ public:
     // Modifiers
     void resize(const size_type n) ;
     void showFinalBits(const size_type n);
+    void reset(const size_type n);
 
 protected:
 
@@ -140,7 +141,7 @@ Matrix<T>::Matrix(const Matrix& rhs) : m_msize(0), m_matrix(0) {
 template<class T>
 Matrix<T>& Matrix<T>::operator=(const Matrix<T> &rhs) {
 
-    if (this != rhs) {
+    if (this != &rhs) {
 
         // If necessary resize underlying array.
 
@@ -175,6 +176,28 @@ void Matrix<T>::resize(const size_type n){
     for ( size_type i = 0 ; i < msize ; i++ )
         for ( size_type j = 0 ; j < msize ; j++ )
             matrix[i][j] = m_matrix[i][j] ;
+
+    destroy() ;
+
+    m_msize = n ;
+
+    m_matrix = matrix;
+
+}
+
+template<class T>
+void Matrix<T>::reset(const size_type n){
+
+    if (n < 1){
+      stringstream errorMsg;
+      cerr << "Matrix must be of size one or greater";
+    }
+
+    T **matrix = allocatematrix(n)  ;
+
+    for ( size_type i = 0 ; i < n ; i++ )
+        for ( size_type j = 0 ; j < n ; j++ )
+            matrix[i][j] = 0.0;
 
     destroy() ;
 

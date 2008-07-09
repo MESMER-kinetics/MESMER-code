@@ -30,8 +30,17 @@ namespace mesmer
     bool parse(PersistPtr ppIOPtr) ;
 
     // Begin calculation.
-    void calculate() ;
+    void calculate(double& chiSquare) ;
 
+    // Begin fitting.
+    void fitting(void);
+
+    // Begin grid search
+    void gridSearch(void);
+    
+    // Print system configuration
+    void configuration(void);
+    
     /// Access a list of molecules which were not present in the data file
     /// but which were sucessfully recovered from the Library.
     vector<PersistPtr>& getLibraryMols(){return m_pMoleculeManager->getLibraryMols();};
@@ -61,6 +70,7 @@ namespace mesmer
       bool                  MustBeThere=true);
 
     void WriteMetadata();
+
 
     // level in XML file under <mesemer>
     PersistPtr m_ppIOPtr;

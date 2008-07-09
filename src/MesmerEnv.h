@@ -6,6 +6,8 @@ namespace mesmer
   struct MesmerEnv
   {
     MesmerEnv();
+    // whether do the fitting or grid search
+    int    searchMethod; // 0 for single calculation, 1 for grid search, 2 for fitting, and more...?
 
     // environmental values
     double beta;

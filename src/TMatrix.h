@@ -27,7 +27,7 @@ namespace mesmer
   public:
 
     // Constructor
-    TMatrix(int n) : Matrix<T>(n, 0.0) { } ;
+    TMatrix(int n, const T& init = T()) : Matrix<T>(n, init) { } ;
 
     //
     // Wrapped call to EISPACK routine to diagonalise matrix.

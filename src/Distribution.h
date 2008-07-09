@@ -38,7 +38,7 @@ namespace mesmer
       return (pos==get_Map().end()) ? NULL : pos->second;
     }
 
-    virtual bool calculateDistribution(const std::vector<double>& DOS, const std::vector<double>& ene, const double& beta, std::vector<double>& distribution) = 0 ;
+    virtual bool calculateDistribution(std::vector<double> DOS, std::vector<double> ene, const double& beta, std::vector<double>& distribution) = 0 ;
 
   private:
     /// Returns a reference to the map of DistributionCalculator classes

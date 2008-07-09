@@ -28,7 +28,7 @@ RANLIB := ranlib
 DEBUG_CFLAGS     := -Wall -Wno-format -g -DDEBUG
 RELEASE_CFLAGS   := -Wall -Wno-unknown-pragmas -Wno-format -O3
 
-LIBS		 := ../tinyxml/tinyxml.a -lqd
+LIBS		 := ../tinyxml/tinyxml.a -lqd -L/usr/local/src/qd-2.1.147/src /usr/local/lib/libqd.a
 
 DEBUG_CXXFLAGS   := ${DEBUG_CFLAGS} 
 RELEASE_CXXFLAGS := ${RELEASE_CFLAGS}
@@ -112,11 +112,11 @@ SRCS := \
 	Molecule.cpp \
 	MoleculeManager.cpp \
 	oberror.cpp \
+	Pointer.cpp \
 	Reaction.cpp \
 	ReactionManager.cpp \
 	SimpleILT.cpp \
 	SimpleRRKM.cpp \
-	SinkMolecule.cpp \
 	SuperMolecule.cpp \
 	System.cpp \
 	TimeCounter.cpp \

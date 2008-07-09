@@ -13,5 +13,6 @@ typedef a2d_t<double>      db2D;
 typedef a2d_t<long double> ldb2D;
 typedef a2d_t<dd_real>     ddb2D;
 typedef a2d_t<qd_real>     qdb2D;
+typedef a2d_t<int>         int2D;
 
 #endif

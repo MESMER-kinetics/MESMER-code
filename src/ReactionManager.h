@@ -66,7 +66,9 @@ namespace mesmer
 
     bool calculateEquilibriumFractions(const double beta);
 
-    bool BartisWidomPhenomenologicalRates();
+    bool BartisWidomPhenomenologicalRates(dMatrix& rates);
+
+    double calcChiSquare(const dMatrix& mesmerRates, vector<conditionSet>& expRates);
 
   private:
 
@@ -74,9 +76,9 @@ namespace mesmer
 
     MoleculeManager        *m_pMoleculeManager ;
 
-    dMatrix                *m_pSystemCollisionOperator ;
+    qdMatrix                *m_pSystemCollisionOperator ;
 
-    std::vector<double>     m_eigenvalues;
+    std::vector<qd_real>     m_eigenvalues;
 
     std::vector<double>     eqVector;
 
@@ -87,12 +89,9 @@ namespace mesmer
     populationMap          m_initialPopulations;
 
     // map modelled molecules (isomers + sources) with their sequence in the EqMatrix and Rate Coefficient matrix
-    map<ModelledMolecule*, int> m_SpeciesSequence;  
+    map<ModelledMolecule*, int> m_SpeciesSequence;
 
     double m_meanOmega;
-
-    // Default Constructor.
-    //ReactionManager() {} ;
 
     // Extract molecule information from XML stream.
     bool GetMoleculeInfo(PersistPtr pp, std::string& MolName, std::string& MolType) ;
@@ -100,7 +99,7 @@ namespace mesmer
     // sets grain parameters and determines system environment
     bool SetGrainParams(MesmerEnv &Env, const double minEne, const double maxEne);
 
-    bool produceInitialPopulationVector(vector<long double>& initDist);
+    bool produceInitialPopulationVector(vector<double>& initDist);
 
     bool produceEquilibriumVector();
 

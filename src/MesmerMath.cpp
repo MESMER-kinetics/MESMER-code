@@ -48,9 +48,9 @@ void four1(std::vector<double> &data, const int isign)
   while (n > mmax) {
     istep=mmax << 1;
     theta=isign*(2.0 * M_PI/mmax);
-    wtemp=sinl(0.5*theta);
+    wtemp=sin(0.5*theta);
     wpr = -2.0*wtemp*wtemp;
-    wpi=sinl(theta);
+    wpi=sin(theta);
     wr=1.0;
     wi=0.0;
     for (m=1;m<mmax;m+=2) {
@@ -86,9 +86,9 @@ void realft(std::vector<double> &data, const int isign)
     c2=0.5;
     theta = -theta;
   }
-  wtemp=sinl(0.5*theta);
+  wtemp=sin(0.5*theta);
   wpr = -2.0*wtemp*wtemp;
-  wpi=sinl(theta);
+  wpi=sin(theta);
   wr=1.0+wpr;
   wi=wpi;
   for (i=1;i<(n>>2);i++) {
@@ -138,7 +138,7 @@ void FastLaplaceConvolution(std::vector<double> &data1, std::vector<double>
 
   i=0;                // calculate how many elements (2^i) and how much zero padding (2*(2^i) - arraySize)  
   do{                 // required in the arrays that are to be transformed & convolved
-    idx = static_cast<int>(powl(2,i));
+    idx = static_cast<int>(pow(2.0,double(i)));
     ++i;
   }while(idx < arraySize);
 

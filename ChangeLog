@@ -1,3 +1,44 @@
+_2008_07_09__14_08_28_ Chi-Hsiu Liang
+
+  * Removed all long double for cross platform consistency (Windows Visual C++ compiler maps long double to double)
+  * Changed m_pSystemCollisionOperator to quad double. 
+    I suspect some diagonalization problem caused by the accumulated error when the addition of values in AddReactionTerms 
+    are done in double instead of higher precision. For every variable type such as double, long double, double double and 
+    quad double, there is a limit called epsilon. Epsilon is the smallest non-trivial number you can add with 1.000.
+    If many number smaller than this number is added/deducted in the collision operator and later divided, it may have big 
+    difference. For example, 
+    m = 3.14159265 + 0.000000001 = 3.141592651 but if truncated it will remain as 3.14159265
+    And if many number smaller than 0.000000001 are added to m and later m is substracted by 3.14159265 and divided by something
+    else, the result will be very wrong. 
+    So when numbers are multiplied their magnitude is more important than their tailing numbers, but when numbers 
+    are added/deducted and then perform multiplication and division, their tailing numbers have increased importance.
+  * Move m_ActivationEnergy from AssociationReaction to Reaction, as not only AssociationReaction can use ILT.
+  * Added a class DPoint to store numbers that can be modified later. See definition of Pointer.h and Pointer.cpp
+  * Added grid search function for paramters (Ninf, Ainf, ZPE, Einf and delta_E_down) with the assist of Pointer. 
+    Check get_range() and set_range() to see how values are initialized and modified.
+  * Corrected dMatrix.h so that all matrices are always properly initialized to zeros.
+  * Added System::configuration() to print out platform dependent precision information.
+  * Added a fitting routine (search method to be added later, planned to be genetic algorithm)
+  * Added a reset() function for Matrix.h
+    corrected line 143 of Matrix.h
+    if (this != rhs) {
+    if (this != &rhs) {
+  * Relocated a line 
+    const std::string TestSubFolder("baselines\\Win32\\mesmer.test"); //relative to the data file
+    in MesmerConfig.h
+  * Added a routine to calculate chiSquare (least square method) to compare with experimental values. experimental values
+    can be input by syntax like the following
+
+    <me:PTs>
+      <me:PTpair me:units="Torr" me:P="100.0" me:T="500" me:precision="double" >
+        <me:experimentalRate ref1="acetyl" ref2="acetyl" error="2.93e+03">7.04e+04</me:experimentalRate>
+      </me:PTpair>
+    </me:PTs>
+    
+    where ref1 and ref2 are molecular IDs. if ref1 == ref2, this value will indicate the loss rate.
+    if ref1 != ref2, this value will indicate the rate from ref1 to ref2.
+    See struct conditionSet for the definition of experimental value and error. 
+
 2008-07-06 Chris Morley
 
   Give Reaction::GetMolRef() a default molecule type to be used if no me:type.

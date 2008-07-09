@@ -11,7 +11,9 @@ namespace mesmer
     struct std::tm* timeinfo; timeinfo = std::localtime (&tnow);
     char buffer [20]; std::strftime(buffer,20,"%Y%m%d_%H%M%S", timeinfo);
     std::string myTime(buffer);
-    if (static_cast<int>(TimeMap.size()) > 1) timeElapsed = TimeMap[TimeMap.size()-1].timeStamp - TimeMap[TimeMap.size()-2].timeStamp;
+    if (int(TimeMap.size()) > 1) {
+      timeElapsed = TimeMap[int(TimeMap.size())-1].timeStamp - TimeMap[int(TimeMap.size())-2].timeStamp;
+    }
     else timeElapsed = 0;
     return myTime;
   }

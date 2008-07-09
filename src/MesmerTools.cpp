@@ -17,12 +17,12 @@ namespace mesmer
   }
 
   // translation contribution for the partition function of two molecules
-  long double translationalContribution(const long double m1, const long double m2, const long double beta){
+  double translationalContribution(const double m1, const double m2, const double beta){
     // Translational contribution
     // 2.0593e19 = conversion factor,  1e-6*(((cm-1 -> j)/(h2*na)))^3/2
     // double tp_C = 2.0593e19 * pow(2. * M_PI ,1.5);
 
-    return (tp_C * pow(m1 * m2 / ((m1 + m2) * beta), 1.5l));
+    return (tp_C * pow(m1 * m2 / ((m1 + m2) * beta), 1.5));
   }
 
   double canonicalPartitionFunction(const vector<double>& DOS, const vector<double>& Ene, const double beta){

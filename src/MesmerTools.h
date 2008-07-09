@@ -16,7 +16,7 @@ namespace mesmer
   void Beyer_Swinehart(const vector<double>& VibFreq, vector<double>& cellDOS);
 
   // translation contribution for the partition function of two molecules
-  long double translationalContribution(const long double m1, const long double m2, const long double beta);
+  double translationalContribution(const double m1, const double m2, const double beta);
 
   double canonicalPartitionFunction(const vector<double>& DOS, const vector<double>& Ene, const double beta);
 

@@ -2,6 +2,7 @@
 
 namespace mesmer{
   MesmerEnv::MesmerEnv():
+    searchMethod(0),
     beta(1.), // not sure what value to initialize. CHL
     conc(.0),
     GrainSize(100),

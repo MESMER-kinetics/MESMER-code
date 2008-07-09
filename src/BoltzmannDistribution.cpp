@@ -17,8 +17,8 @@ namespace mesmer
   BoltzmannDistribution theBoltzmannDistribution("Boltzmann");
   //************************************************************
 
-  bool BoltzmannDistribution::calculateDistribution(const std::vector<double>& DOS,
-                                                    const std::vector<double>& Ene,
+  bool BoltzmannDistribution::calculateDistribution(std::vector<double> DOS,
+                                                    std::vector<double> Ene,
                                                     const double& beta,
                                                     std::vector<double>& dist)
   {

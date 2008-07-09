@@ -95,7 +95,7 @@ namespace mesmer
   //
   // Add isomer reaction terms to collision matrix.
   //
-  void IsomerizationReaction::AddReactionTerms(dMatrix         *CollOptr,
+  void IsomerizationReaction::AddReactionTerms(qdMatrix         *CollOptr,
     isomerMap       &isomermap,
     const double    rMeanOmega)
   {
@@ -119,9 +119,9 @@ namespace mesmer
       int mm = i + TSgrainZPE - pdtGrainZPE;
       int ii(rctLocation + ll) ;
       int jj(pdtLocation + mm) ;
-      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainTSFlux[i] / rctDOS[ll];                     // Forward loss reaction.
-      (*CollOptr)[jj][jj] -= rMeanOmega * m_GrainTSFlux[i] / pdtDOS[mm] ;                    // Backward loss reaction from detailed balance.
-      (*CollOptr)[ii][jj]  = rMeanOmega * m_GrainTSFlux[i] / sqrt(rctDOS[ll] * pdtDOS[mm]) ; // Reactive gain.
+      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainTSFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
+      (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * m_GrainTSFlux[i] / pdtDOS[mm]) ;                    // Backward loss reaction from detailed balance.
+      (*CollOptr)[ii][jj]  = qd_real(rMeanOmega * m_GrainTSFlux[i] / sqrt(rctDOS[ll] * pdtDOS[mm])) ; // Reactive gain.
       (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                           // Reactive gain.
     }
   }

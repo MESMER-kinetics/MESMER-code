@@ -277,6 +277,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Pointer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Reaction.cpp"
 				>
 			</File>
@@ -432,6 +436,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Persistence.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Pointer.h"
 				>
 			</File>
 			<File

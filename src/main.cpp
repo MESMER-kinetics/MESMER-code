@@ -9,8 +9,8 @@ using namespace mesmer ;
 
 void usage();
 string version();
-bool QACompare(string infilename)
-;
+bool QACompare(string infilename);
+
 int main(int argc,char *argv[])
 {
   if(argc<2)
@@ -113,15 +113,17 @@ int main(int argc,char *argv[])
   // Parse input file
 
   {
-
     string thisEvent;
     if(infilename.empty())
       thisEvent = "Parsing xml from stdin...";
     else
        thisEvent = "Parsing input xml file... ";
-    cerr << thisEvent << endl; //usually output
+    cerr << thisEvent; //usually output
     cinfo << infilename << " at " << events.setTimeStamp(thisEvent) << endl;
   }
+
+  // System configuration information
+  _sys.configuration();
 
   if(!ppIOPtr || !_sys.parse(ppIOPtr))
   {
@@ -152,8 +154,19 @@ int main(int argc,char *argv[])
 
   if (nocalc) return 0;
 
-  cerr << "\nNow calculating..." << endl;
-  _sys.calculate() ;
+  cerr << "\nNow calculating..." << infilename;
+  
+  switch (_sys.m_Env.searchMethod){
+    case 2:
+      _sys.fitting() ;
+      break;
+    case 1:
+      _sys.gridSearch();
+      break;
+    default:
+      double chiSquare(1000.0);
+      _sys.calculate(chiSquare) ;
+  }
 
   meErrorLog.SetContext(__FUNCTION__);
   //--------------------------------

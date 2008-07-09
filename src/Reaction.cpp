@@ -17,51 +17,52 @@ using namespace mesmer;
 
 namespace mesmer
 {
-    Reaction::Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id)
-        :m_ppPersist(),
-        m_TransitionState(NULL),
-        m_pMoleculeManager(pMoleculeManager),
-        m_pMicroRateCalculator(NULL),
-        m_pTunnelingCalculator(NULL),
-        m_CellTSFlux(),
-        m_GrainTSFlux(),
-        m_GrainKfmc(),
-        m_GrainKbmc(),
-        m_Env(Env),
-        m_Name(id),
-        reCalcDOS(true),
-        m_PreExp(0.0),
-        m_NInf(0.0),
-        m_kfwd(0.0),
-        m_HeatOfReaction(0.0),
-        m_HeatOfReactionInt(0)
-    {}
+  Reaction::Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id)
+    :m_ppPersist(),
+    m_TransitionState(NULL),
+    m_pMoleculeManager(pMoleculeManager),
+    m_pMicroRateCalculator(NULL),
+    m_pTunnelingCalculator(NULL),
+    m_CellTSFlux(),
+    m_GrainTSFlux(),
+    m_GrainKfmc(),
+    m_GrainKbmc(),
+    m_Env(Env),
+    m_Name(id),
+    reCalcDOS(true),
+    m_PreExp(0.0),
+    m_NInf(0.0),
+    m_kfwd(0.0),
+    m_HeatOfReaction(0.0),
+    m_HeatOfReactionInt(0),
+    m_ActivationEnergy(0.0) 
+  {}
 
-    Reaction::~Reaction(){}
+  Reaction::~Reaction(){}
 
-    /*
-    Reaction::Reaction(const Reaction& reaction) {
-    // Copy constructor - define later SHR 23/Feb/2003
-    }
+  /*
+  Reaction::Reaction(const Reaction& reaction) {
+  // Copy constructor - define later SHR 23/Feb/2003
+  }
 
-    Reaction& Reaction::operator=(const Reaction& reaction) {
-    // Assignment operator - define later SHR 23/Feb/2003
+  Reaction& Reaction::operator=(const Reaction& reaction) {
+  // Assignment operator - define later SHR 23/Feb/2003
 
-    return *this ;
-    }
-    */
+  return *this ;
+  }
+  */
 
 
-    //
-    // Locate molecule in molecular map.
-    //
+  //
+  // Locate molecule in molecular map.
+  //
     Molecule* Reaction::GetMolRef(PersistPtr pp, const char* defaultType)
-    {
-        Molecule* pMol = NULL;
+  {
+    Molecule* pMol = NULL;
 
-        if(!pp) return NULL;
-        PersistPtr ppmol = pp->XmlMoveTo("molecule");
-        if(!ppmol) return NULL;
+    if(!pp) return NULL;
+    PersistPtr ppmol = pp->XmlMoveTo("molecule");
+    if(!ppmol) return NULL;
 
         const char* reftxt = ppmol->XmlReadValue("ref");//using const char* in case NULL returned
         if(reftxt) // if got the name of the molecule
@@ -70,23 +71,23 @@ namespace mesmer
           if(!typetxt && defaultType)
             typetxt=defaultType;
           if(typetxt){ // initialize molecule here with the specified type (need to know m_ppIOPtr)
-              PersistPtr ppMolList = m_pMoleculeManager->get_PersistPtr();
-              if(!ppMolList)
-              {
-                  cerr << "No molecules have been specified." << endl;
-                  return NULL;
-              }
+        PersistPtr ppMolList = m_pMoleculeManager->get_PersistPtr();
+        if(!ppMolList)
+        {
+          cerr << "No molecules have been specified." << endl;
+          return NULL;
+        }
               pMol = m_pMoleculeManager->addmol(string(reftxt), string(typetxt), ppMolList, getEnv());
-          }
-        }
-
-        if(!pMol) {
-            cinfo << "Failed to get a molecular reference." << endl;
-            return NULL;
-        }
-
-        return pMol;
+      }
     }
+
+    if(!pMol) {
+      cinfo << "Failed to get a molecular reference." << endl;
+      return NULL;
+    }
+
+    return pMol;
+  }
 
   //
   // Access microcanonical rate coefficients.
@@ -196,19 +197,22 @@ namespace mesmer
     }
   }
 
-  //this function retrieves the threshold energy for a reaction
-  double Reaction::get_ThresholdEnergy(void) const {
-    if (!m_TransitionState) {
-      cinfo << "No TransitionState for " << getName() << ", threshold energy = 0." << endl;
-      return 0.0;
+  //this function retrieves the activation/threshold energy for an association reaction
+  double Reaction::get_ThresholdEnergy(void) {
+    if (!m_ActivationEnergy.get_value()){ // default is zero
+      if (!m_TransitionState) {
+        cinfo << "No TransitionState for " << getName() << ", threshold energy = 0.0" << endl;
+        return 0.0;
+      }
+      double ThresholdEnergy = get_relative_TSZPE() - get_relative_rctZPE();
+      // Activation energy should be defined by user, otherwise return zero.
+      if(IsNan(ThresholdEnergy)){
+        cerr << "Reaction " << getName() << " has no threshold energy.";
+        exit(1);
+      }
+      return ThresholdEnergy;
     }
-
-    double ThresholdEnergy = get_relative_TSZPE() - get_relative_rctZPE();
-    if(IsNan(ThresholdEnergy)){
-      cerr << "Reaction " << getName() << " has no threshold energy.";
-      exit(1);
-    }
-    return ThresholdEnergy;
+    return m_ActivationEnergy.get_value();
   } ;
 
   void Reaction::setHeatOfReaction(const double pdtZPE, const double rctZPE){

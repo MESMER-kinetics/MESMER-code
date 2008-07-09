@@ -2,7 +2,6 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
-#include "TimeCounter.h"
 #include "XMLPersist.h"
 
 using namespace std;

@@ -17,6 +17,7 @@
 #include "DensityOfStates.h"
 #include "Distribution.h"
 #include "MesmerEnv.h"
+#include "Pointer.h"
 
 namespace mesmer
 {
@@ -97,16 +98,16 @@ namespace mesmer
         double m_RotCstB ;          // Moment of inertia B.
         double m_RotCstC ;          // Moment of inertia C.
         double m_Sym ;              // Rotational symmetry number.
-        double m_ZPE ;              // Zero Point Energy. (kJ/mol)
+        DPoint m_ZPE ;              // Zero Point Energy. (kJ/mol)
         double m_scaleFactor ;      // scale factor for input real/imaginary vibrational frequencies
         int    m_SpinMultiplicity ; // spin multiplicity
         double m_grnZpe ;           // Zero point energy expressed in grains.
         int    m_cellOffset ;       // Shift of cells for integral number of grains in a well
 
-        DensityOfStatesCalculator *m_pDensityOfStatesCalculator ;
-
         double m_initPopulation ;   // initial population of the molecule.
         double m_eqFraction ;       // equilibrium fraction of the species
+
+        DensityOfStatesCalculator *m_pDensityOfStatesCalculator ;
 
         //================================================
         // CHECK FOR INPUTFILE PARAMETERS
@@ -173,7 +174,11 @@ namespace mesmer
         double get_relative_ZPE();
         virtual double get_zpe();
         double get_scaleFactor();
-        void set_zpe(double value);
+        void set_zpe(const double value){ m_ZPE = value; m_ZPE_chk = 0;};
+        void set_zpe(const double valueL, const double valueU, const double stepsize){ 
+          m_ZPE.set_range(valueL, valueU, stepsize); 
+          m_ZPE_chk = 0;
+        }
         void set_scaleFactor(double value);
         double get_Sym(void);
         int test_rotConsts(void);
@@ -239,7 +244,7 @@ namespace mesmer
         double              m_Sigma ;            // Lennard-Jones sigma.
         double              m_Epsilon ;          // Lennard-Jones epsilon.
 
-        double              m_DeltaEdown ;         // <Delta E down> for the exponential down model.
+        DPoint              m_DeltaEdown ;         // <Delta E down> for the exponential down model.
         double              m_collisionFrequency ; // Current value of collision frequency.
         int                 m_ncolloptrsize ;      // Size of the collision operator matrix.
         DistributionCalculator* m_pDistributionCalculator;
@@ -277,12 +282,12 @@ namespace mesmer
         // Calculate a reaction matrix element.
         double matrixElement(int eigveci, int eigvecj, std::vector<double> &k, int ndim) ;
 
-        void copyCollisionOperator(dMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
+        void copyCollisionOperator(qdMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
 
         // Get Grain Boltzmann distribution.
-        void grainDistribution(vector<long double> &grainFrac, const int numberOfGrains);
-        void normalizedInitialDistribution(vector<long double> &grainFrac, const int numberOfGrains) ;
-        void normalizedBoltzmannDistribution(vector<long double> &grainFrac, const int numberOfGrains);
+        void grainDistribution(vector<double> &grainFrac, const int numberOfGrains);
+        void normalizedInitialDistribution(vector<double> &grainFrac, const int numberOfGrains) ;
+        void normalizedBoltzmannDistribution(vector<double> &grainFrac, const int numberOfGrains);
 
         // Accessors.
         double getSigma() ;
@@ -292,7 +297,11 @@ namespace mesmer
         double get_collisionFrequency() const ;
         void set_colloptrsize(int ncolloptrsize) ;
         int  get_colloptrsize() const ;
-        void   setDeltaEdown(double value);
+        void   setDeltaEdown(const double value){ m_DeltaEdown = value; m_DeltaEdown_chk = 0;};
+        void   setDeltaEdown(const double valueL, const double valueU, const double stepsize){ 
+          m_DeltaEdown.set_range(valueL, valueU, stepsize);
+          m_DeltaEdown_chk = 0;
+        };
         double getDeltaEdown();
         void set_DistributionCalculator(DistributionCalculator* value);
         DistributionCalculator* get_DistributionCalculator();

@@ -164,7 +164,21 @@ namespace mesmer
       else{
         unitsInput = "kJ/mol";
       }
-      set_zpe(getConvertedEnergy(unitsInput, tempzpe));
+      const char* pLowertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "lower");
+      const char* pUppertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "upper");
+      const char* pStepStxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "stepsize");
+      double value(getConvertedEnergy(unitsInput, tempzpe));
+      if (pLowertxt && pUppertxt){
+        double tempLV(0.0), tempUV(0.0), tempSS(0.0);
+        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> tempLV; s4 >> tempUV; s5 >> tempSS;
+        double valueL(getConvertedEnergy(unitsInput, tempLV)), 
+               valueU(getConvertedEnergy(unitsInput, tempUV)), 
+               stepsize(getConvertedEnergy(unitsInput, tempSS));
+        set_zpe(valueL, valueU, stepsize);
+      }
+      else{
+        set_zpe(value);
+      }
       m_ZPE_chk = 0;
     }
 
@@ -562,16 +576,19 @@ namespace mesmer
 
   double ModelledMolecule::get_zpe() {
     if (m_ZPE_chk == -1){
-      cinfo << "m_ZPE was not defined but requested in " << getName() << ". Default value " << m_ZPE << " is given." << endl;
+      cinfo << "m_ZPE was not defined but requested in " << getName() << ". Default value " << m_ZPE.get_value() << " is given." << endl;
       --m_ZPE_chk;
-      return m_ZPE;
+      double zpe = m_ZPE.get_value();
+      return zpe;
     }
     else if (m_ZPE_chk < -1){
       --m_ZPE_chk;
-      return m_ZPE;
+      double zpe = m_ZPE.get_value();
+      return zpe;
     }
     ++m_ZPE_chk;
-    return m_ZPE ;
+    double zpe = m_ZPE.get_value();
+    return zpe;
   }
 
   double ModelledMolecule::get_scaleFactor() {
@@ -586,11 +603,6 @@ namespace mesmer
     }
     ++m_scaleFactor_chk;
     return m_scaleFactor ;
-  }
-
-  void ModelledMolecule::set_zpe(double value) {
-    m_ZPE = value;
-    m_ZPE_chk = 0;
   }
 
   void ModelledMolecule::set_scaleFactor(double value) {

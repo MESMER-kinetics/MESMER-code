@@ -112,7 +112,7 @@ namespace mesmer
   //
   // Add (REVERSIBLE) association reaction terms to collision matrix.
   //
-  void AssociationReaction::AddReactionTerms(dMatrix      *CollOptr,
+  void AssociationReaction::AddReactionTerms(qdMatrix      *CollOptr,
     isomerMap    &isomermap,
     const double rMeanOmega)
   {
@@ -129,12 +129,12 @@ namespace mesmer
 
     // Get Boltzmann distribution for detailed balance.
     const int MaximumGrain = getEnv().MaxGrn ;
-    vector<long double> adductPopFrac ; // Population fraction of the adduct
+    vector<double> adductPopFrac ; // Population fraction of the adduct
 
     const int pdtGrainZPE = m_pdt1->get_grnZpe();
     m_pdt1->normalizedBoltzmannDistribution(adductPopFrac, MaximumGrain - pdtGrainZPE) ;
 
-    double DissRateCoeff(0.0) ;
+    qd_real DissRateCoeff(0.0) ;
 
     const int TSFluxGrainZPE  = getTSFluxGrnZPE();
 
@@ -142,12 +142,12 @@ namespace mesmer
       int ll(i - pdtGrainZPE);
       int ii(pdtLoc + ll) ;
 
-      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainTSFlux[j] / pdtDOS[ll];                                // Loss of the adduct to the source
-      (*CollOptr)[jj][ii]  = rMeanOmega * m_GrainTSFlux[j] * sqrt(adductPopFrac[ll] * Keq) / pdtDOS[ll];// Reactive gain of the source
+      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainTSFlux[j] / pdtDOS[ll]);                                // Loss of the adduct to the source
+      (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainTSFlux[j] * sqrt(adductPopFrac[ll] * Keq) / pdtDOS[ll]);// Reactive gain of the source
       (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                                                      // Reactive gain (symmetrization)
-      DissRateCoeff       += m_GrainTSFlux[j] * adductPopFrac[ll] / pdtDOS[ll];
+      DissRateCoeff       += qd_real(m_GrainTSFlux[j] * adductPopFrac[ll] / pdtDOS[ll]);
     }
-    (*CollOptr)[jj][jj] -= (rMeanOmega * DissRateCoeff * Keq);       // Loss of the source from detailed balance.
+    (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * DissRateCoeff * Keq);       // Loss of the source from detailed balance.
   }
 
   //
@@ -157,17 +157,17 @@ namespace mesmer
   double AssociationReaction::calcEquilibriumConstant() {
 
     // equilibrium constant:
-    long double Keq(0.0) ;
-    const long double beta = getEnv().beta ;
+    double Keq(0.0) ;
+    const double beta = getEnv().beta ;
 
     // partition function for each reactant
-    long double Qrcts = m_srct->rovibronicGrnCanPrtnFn();
+    double Qrcts = m_srct->rovibronicGrnCanPrtnFn();
 
     // rovibronic partition function for reactants multiplied by translation contribution
     Qrcts *= translationalContribution(m_rct1->getMass(), m_rct2->getMass(), beta);
 
     // rovibronic partition function for product
-    const long double Qpdt1 = m_pdt1->rovibronicGrnCanPrtnFn() ;
+    const double Qpdt1 = m_pdt1->rovibronicGrnCanPrtnFn() ;
 
     Keq = Qpdt1 / Qrcts;
 
@@ -175,7 +175,7 @@ namespace mesmer
 
     // Heat of reaction: use heat of reaction to calculate the zpe weighing of different wells
     const double HeatOfReaction = getHeatOfReaction() ;
-    const long double _expon = -beta * HeatOfReaction;
+    const double _expon = -beta * HeatOfReaction;
     Keq *= exp(_expon) ;
 
     const double excess = m_srct->getExcessReactantConc();
@@ -194,7 +194,7 @@ namespace mesmer
   bool AssociationReaction::ReadRateCoeffParameters(PersistPtr ppReac) {
 
     // Read the heat of reaction (if present).
-    const char* pHeatRxntxt = ppReac->XmlReadValue("me:HeatOfReaction",false);
+      const char* pHeatRxntxt = ppReac->XmlReadValue("me:HeatOfReaction",false);
     if (pHeatRxntxt){
       stringstream s1(pHeatRxntxt);
       double value = 0.0; s1 >> value ; setHeatOfReaction(value);
@@ -202,23 +202,63 @@ namespace mesmer
       setHeatOfReaction(get_relative_pdtZPE(), get_relative_rctZPE());
     }
 
-    const char* pActEnetxt = ppReac->XmlReadValue("me:activationEnergy",false);
+    const char* pActEnetxt = ppReac->XmlReadValue("me:activationEnergy", false);
     if (pActEnetxt)
     {
+      PersistPtr ppActEne = ppReac->XmlMoveTo("me:activationEnergy") ;
       double value = 0.0;
-      stringstream s2(pActEnetxt); s2 >> value; m_ActivationEnergy = value;
+      stringstream s2(pActEnetxt); s2 >> value ;
+      const char* pLowertxt = ppActEne->XmlReadValue("lower", false);
+      const char* pUppertxt = ppActEne->XmlReadValue("upper", false);
+      const char* pStepStxt = ppActEne->XmlReadValue("stepsize", false);
+      if (pLowertxt && pUppertxt){
+        double valueL(0.0), valueU(0.0), stepsize(0.0);
+        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
+        set_ThresholdEnergy(value, valueL, valueU, stepsize);
+      }
+      else{
+        set_ThresholdEnergy(value);
+      }
     }
-    const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential",false);
+
+    const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential", false);
     if (pPreExptxt)
     {
+      PersistPtr ppPreExponential = ppReac->XmlMoveTo("me:preExponential") ;
       double value = 0.0;
-      stringstream s2(pPreExptxt); s2 >> value ; set_PreExp(value);
+      stringstream s2(pPreExptxt); s2 >> value ;
+      const char* pLowertxt = ppPreExponential->XmlReadValue("lower", false);
+      const char* pUppertxt = ppPreExponential->XmlReadValue("upper", false);
+      const char* pStepStxt = ppPreExponential->XmlReadValue("stepsize", false);
+      if (pLowertxt && pUppertxt){
+        double valueL(0.0), valueU(0.0), stepsize(0.0);
+        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
+        set_PreExp(valueL, valueU, stepsize);
+      }
+      else{
+        set_PreExp(value);
+      }
     }
-    const char* pNInftxt   = ppReac->XmlReadValue("me:nInfinity",false);
+
+    const char* pNInftxt = ppReac->XmlReadValue("me:nInfinity", false);
     if (pNInftxt)
     {
-      double value = 0.0; stringstream s3(pNInftxt); s3 >> value ; set_NInf(value);
+      PersistPtr ppNInf = ppReac->XmlMoveTo("me:nInfinity") ;
+      double value = 0.0;
+      stringstream s2(pNInftxt); s2 >> value ;
+      const char* pLowertxt = ppNInf->XmlReadValue("lower", false);
+      const char* pUppertxt = ppNInf->XmlReadValue("upper", false);
+      const char* pStepStxt = ppNInf->XmlReadValue("stepsize", false);
+      if (pLowertxt && pUppertxt){
+        double valueL(0.0), valueU(0.0), stepsize(0.0);
+        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
+        set_NInf(valueL, valueU, stepsize);
+      }
+      else{
+        set_NInf(value);
+      }
     }
+
     const char* pERConctxt   = ppReac->XmlReadValue("me:excessReactantConc",false);
     if (pERConctxt)
     {
@@ -350,19 +390,5 @@ namespace mesmer
     const double temperature = 1. / (boltzmann_RCpK * beta);
     ctest << "Association rate constant of " << getName() << ": k_inf(" << temperature << ") = " << k_inf << endl;
   }
-
-  //this function retrieves the activation energy for an association reaction
-  double AssociationReaction::get_ThresholdEnergy(void) const {
-    if (!m_ActivationEnergy){
-      if (!m_TransitionState) {
-        cinfo << "No TransitionState for " << getName() << ", threshold energy = 0.0" << endl;
-        return 0.0;
-      }
-      double ThresholdEnergy = get_relative_TSZPE() - get_relative_rctZPE();
-      // Activation energy should be defined by user, otherwise return zero.
-      return ThresholdEnergy;
-    }
-    return m_ActivationEnergy;
-  } ;
 
 }//namespace
