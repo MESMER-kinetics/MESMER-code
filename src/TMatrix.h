@@ -443,12 +443,11 @@ label_1: return(p);
     int n = static_cast<int>(this->size()) ;
     if (n > INT_MAX) return 2; // The matrix size is too large to process.
     T divide, ratio;
-    std::vector<int> zeroCount(n, 0);
 
     //-------------------------------
     //produce a unit vector of size n, and copy the incoming matrix
-    TMatrix<T> m2(n);
     TMatrix<T> m1(n);
+    TMatrix<T> m2(n);
     for (int i = 0; i < n; ++i){
       for (int j = 0; j < n; ++j){
         m1[i][j] = this->m_matrix[i][j];
@@ -456,6 +455,7 @@ label_1: return(p);
       }
     }
     //-------------------------------
+    int* zeroCount = new int[n];
 
     for(int j = 0; j < n; ++j){
       for (int i = 0; i < n; ++i){
@@ -504,11 +504,14 @@ label_1: return(p);
       }
     }
 
+    delete zeroCount;
+
     for(int i = 0; i < n; ++i){
       for (int j = 0; j < n; ++j){
         this->m_matrix[i][j] = m2[i][j];
       }
     }
+
     return 0;
   }
 }//namespacer mesmer

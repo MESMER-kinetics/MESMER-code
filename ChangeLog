@@ -1,3 +1,7 @@
+_2008_07_09__15_39_30_ Chi-Hsiu Liang
+
+  * Make zeroCount in matrix inversion routine an int array instead of an int vector. This removes address deallocation problem.
+
 _2008_07_09__14_08_28_ Chi-Hsiu Liang
 
   * Removed all long double for cross platform consistency (Windows Visual C++ compiler maps long double to double)
