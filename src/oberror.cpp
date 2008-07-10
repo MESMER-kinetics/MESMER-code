@@ -1,6 +1,6 @@
 /**********************************************************************
 oberror.cpp - Handle error messages.
-Details at end of error.cpp
+Details at end of oberror.cpp
  
 Copyright (C) 2007 by Chris Morley
 Based on original code from OpenBabel 
@@ -67,7 +67,7 @@ int obLogBuf::sync()
 }
 
 ////////////////////////////////////////////////////////////////////
-  OStreamRedirector::OStreamRedirector(MessageHandler* handler, std::ostream* Newctest) :
+  OStreamRedirector::OStreamRedirector(MessageHandler* handler, std::ostream* Newctest, bool nologging) :
       _cerrbuf(obError, handler), _cwarnbuf(obWarning, handler), _cinfobuf(obInfo, handler)
   {
     //Save original buffers for output streams...
@@ -87,7 +87,15 @@ int obLogBuf::sync()
       _oldctestbuf = ctest.rdbuf();
       ctest.rdbuf(Newctest->rdbuf());
     }
-  }
+    if(nologging)
+    {  
+      //turn off logging and test streams
+      //std::cerr.rdbuf(NULL);
+      //cwarn.rdbuf(NULL);
+      cinfo.rdbuf(NULL);
+      ctest.rdbuf(NULL);
+    }
+ }
   OStreamRedirector::~OStreamRedirector()
   {
     if(_oldcerrbuf)

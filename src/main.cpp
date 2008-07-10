@@ -19,31 +19,9 @@ int main(int argc,char *argv[])
     return 0;
   }
 
-  //
-  //Start the error handling system
-  //
-  ostream* plog=NULL;
-  ofstream logstream("mesmer.log");
-  if(!logstream)
-    cerr << "Could not open mesmer.log for writing. Continuing without it." << endl;
-  else
-    plog = &logstream;
-
-  //Wite all messages to mesmer.log, if it was opened.
-  meErrorLog.SetLogStream(plog);
-
-  ofstream osout("mesmer.test");
-  if(!osout)
-    cerr << "Could not open mesmer.out for writing. Continuing without it." << endl;
-
-  //Allow writing of messages to cerr, cwarn and cinfo. Send ctest to file mesmer.test
-  //Original streams restored when this goes out of context
-  OStreamRedirector osr(&meErrorLog, &osout);
-
-  //-------------------------------
   // process command line arguments
   string infilename, outfilename;
-  bool nocalc=false, notimestamp=false, usecout=false, updatemols=true, qatest=false;
+  bool nocalc=false, notimestamp=false, usecout=false, updatemols=true, qatest=false, nologging=false;
 
   for(int iarg=1; iarg<argc;++iarg)
   {
@@ -83,6 +61,10 @@ int main(int argc,char *argv[])
       case 'l':
         updatemols=false;
         break;
+      case 'g':
+        nologging=true;
+        cerr << "Logging is turned off: no info or test output" << endl;
+        break;
       case '?':
         usage();
         return 0;
@@ -94,6 +76,29 @@ int main(int argc,char *argv[])
     else
       infilename = p;
   }
+
+  //-----------------------------------
+  //Start the error handling system
+  //
+  ostream* plog=NULL;
+  ofstream logstream("mesmer.log");
+  if(!logstream)
+    cerr << "Could not open mesmer.log for writing. Continuing without it." << endl;
+  else
+    plog = &logstream;
+
+  //Write all messages to mesmer.log, if it was opened.
+  meErrorLog.SetLogStream(plog);
+
+  ofstream osout("mesmer.test");
+  if(!osout)
+    cerr << "Could not open mesmer.test for writing. Continuing without it." << endl;
+
+  //Allow writing of messages to cerr, cwarn and cinfo. Send ctest to file mesmer.test
+  //Original streams restored when this goes out of context
+  OStreamRedirector osr(&meErrorLog, &osout, nologging);
+
+  //-------------------------------
 
   cinfo << version() << endl;
   //

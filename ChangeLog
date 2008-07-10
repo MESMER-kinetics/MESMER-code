@@ -1,3 +1,8 @@
+2008-07-06 Chris Morley
+
+  Provide -g option which turns off cinfo and ctest streams and may solve the problems
+  Alvyn was having with overflowing buffers.
+  
 _2008_07_09__15_39_30_ Chi-Hsiu Liang
 
   * Make zeroCount in matrix inversion routine an int array instead of an int vector. This removes address deallocation problem.

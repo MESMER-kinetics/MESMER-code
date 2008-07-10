@@ -1,6 +1,6 @@
 /**********************************************************************
 oberror.h - Handle error messages.
-Details at end of error.cpp
+Details at end of oberror.cpp
  
 Copyright (C) 2007 by Chris Morley
 Based on original code from OpenBabel 
@@ -113,7 +113,7 @@ namespace mesmer
   class OStreamRedirector
   {
   public:
-    OStreamRedirector(MessageHandler* handler, std::ostream* Newctest=NULL);
+    OStreamRedirector(MessageHandler* handler, std::ostream* Newctest=NULL, bool nologging=false);
     ~OStreamRedirector();
   private:
     //New buffers for output streams, cerr, etc
