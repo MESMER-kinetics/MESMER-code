@@ -31,7 +31,8 @@ namespace mesmer
       m_srct(NULL), 
       m_rct1(NULL),
       m_rct2(NULL), 
-      m_pdt1(NULL){}
+      m_pdt1(NULL),
+	  m_ERConc(0.) {}
 
     // Destructor.
     virtual ~AssociationReaction(){
@@ -82,10 +83,13 @@ namespace mesmer
 
     // Reaction composition:
 
-    SuperMolecule       *m_srct ;                 // Reactant molecules as a super-reactant
-    ModelledMolecule    *m_rct1 ;                 // Reactant Molecule.
-    ModelledMolecule    *m_rct2 ;                 // Subsidiary reactant molecule.
-    CollidingMolecule   *m_pdt1 ;                 // Product Molecule.
+    SuperMolecule       *m_srct ;   // Reactant molecules as a super-reactant
+    ModelledMolecule    *m_rct1 ;   // Reactant Molecule.
+    ModelledMolecule    *m_rct2 ;   // Subsidiary reactant molecule.
+    CollidingMolecule   *m_pdt1 ;   // Product Molecule.
+
+	double               m_ERConc ; // Concentration of the excess reactant
+
   } ;
 
 

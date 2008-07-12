@@ -171,20 +171,19 @@ namespace mesmer
 
     Keq = Qpdt1 / Qrcts;
 
-    /* Electronic degeneracies were already accounted for in DOS calculations */
+    // Electronic degeneracies were already accounted for in DOS calculations.
 
     // Heat of reaction: use heat of reaction to calculate the zpe weighing of different wells
     const double HeatOfReaction = getHeatOfReaction() ;
     const double _expon = -beta * HeatOfReaction;
     Keq *= exp(_expon) ;
 
-    const double excess = m_srct->getExcessReactantConc();
-    Keq *= excess ;
     //
     // K_eq = ( [C]/[A][B] ) * [A] = [C]/[B]
     //
     // where [A] is the reactant what is in excess (seen as constant).
     // Therefore, the K_eq here is essentially the pseudo-first-order equilibrium constant.
+    Keq *= m_ERConc ;
 
     return (double) Keq ;
 
@@ -259,13 +258,13 @@ namespace mesmer
       }
     }
 
-    const char* pERConctxt   = ppReac->XmlReadValue("me:excessReactantConc",false);
-    if (pERConctxt)
-    {
-      stringstream s3(pERConctxt);
-      double erconc = 0.0;
-      s3 >> erconc;
-      m_srct->setExcessReactantConc(erconc);
+    const char* pERConctxt = ppReac->XmlReadValue("me:excessReactantConc",false);
+	if (!pERConctxt){
+      cerr << "Concentration of excess reactant has not been specified.";
+      return false;
+	} else {
+      stringstream s3(pERConctxt) ;
+      s3 >> m_ERConc ;
     }
 
     // Determine the method of MC rate coefficient calculation.

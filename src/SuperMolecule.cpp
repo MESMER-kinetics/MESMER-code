@@ -14,7 +14,6 @@ namespace mesmer
     //Constructor
     //
     SuperMolecule::SuperMolecule(const MesmerEnv& Env) : ModelledMolecule(Env),
-        m_ERConc(0.),
         m_mol1(NULL),
         m_mol2(NULL)
     {}
@@ -46,19 +45,6 @@ namespace mesmer
             cerr << "Invalid PersistPtr.\n";
             return false;
         }
-    }
-
-    int SuperMolecule::getSpinMultiplicity(){
-        return (m_mol1->getSpinMultiplicity() * m_mol2->getSpinMultiplicity());
-    }
-
-    void SuperMolecule::get_VibFreq(std::vector<double>& vibFreq){
-        vibFreq.clear();
-        std::vector<double> vmol2;
-        m_mol1->get_VibFreq(vibFreq);
-        m_mol1->get_VibFreq(vmol2);
-        for (std::vector<double>::size_type i = 0; i < vmol2.size(); ++i)
-            vibFreq.push_back(vmol2[i]);
     }
 
     double SuperMolecule::get_zpe() {

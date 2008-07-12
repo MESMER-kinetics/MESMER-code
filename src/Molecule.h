@@ -312,7 +312,6 @@ namespace mesmer
     class SuperMolecule : public ModelledMolecule
     {
     private:
-        double m_ERConc; // Concentration of the excess reactant
 
     public:
         ModelledMolecule* m_mol1;
@@ -327,17 +326,11 @@ namespace mesmer
         // Accessors.
 
         // set composing member of the SuperMolecule, also copy necessary properties
-        int getSpinMultiplicity();
-        void get_VibFreq(std::vector<double>& vibFreq);
         virtual double get_zpe();
         DensityOfStatesCalculator* get_DensityOfStatesCalculator();
         void setMembers(ModelledMolecule* mol1p, ModelledMolecule* mol2p);
-        double getExcessReactantConc() const  { return m_ERConc ; } ;
-        void setExcessReactantConc(double value) { m_ERConc = value;};
         ModelledMolecule* getMember1(){ return m_mol1 ; } ;
         ModelledMolecule* getMember2(){ return m_mol2 ; } ;
-
-        //virtual void testDensityOfStates(const MesmerEnv &m_Env) ;
 
     };
 
