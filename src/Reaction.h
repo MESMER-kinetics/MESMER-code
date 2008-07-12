@@ -23,7 +23,7 @@ namespace mesmer
   public:
 
     typedef std::map<CollidingMolecule*, int> isomerMap ;
-    typedef std::map<SuperMolecule*    , int> sourceMap ;
+    typedef std::map<ModelledMolecule* , int> sourceMap ;
 
     // Constructors.
 

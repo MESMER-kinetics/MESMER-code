@@ -122,7 +122,7 @@ namespace mesmer
 
     // Locate isomers in system matrix.
     const int pdtLoc =      isomermap[m_pdt1] ;
-    const int jj     = (*m_sourceMap)[m_srct] ;
+    const int jj     = (*m_sourceMap)[get_pseudoIsomer()] ;
 
     // Get equilibrium constant.
     const double Keq = calcEquilibriumConstant() ;
