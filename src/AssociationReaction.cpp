@@ -325,9 +325,9 @@ namespace mesmer
     for (int i = TSFluxGrainZPE - pdtGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
       m_GrainKbmc[i] = m_GrainTSFlux[j] / pdtGrainDOS[i];
     }
-    for (int i = TSFluxGrainZPE - rctGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
-      m_GrainKfmc[i] = m_GrainTSFlux[j] / rctGrainDOS[i];
-    }
+    // for (int i = TSFluxGrainZPE - rctGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
+    //   m_GrainKfmc[i] = m_GrainTSFlux[j] / rctGrainDOS[i];
+    // }
 
     // the code that follows is for printing of the f & r k(E)s
     if (getEnv().kfEGrainsEnabled){

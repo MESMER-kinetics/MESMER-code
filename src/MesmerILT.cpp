@@ -44,9 +44,9 @@ namespace mesmer
 
     bool MesmerILT::calculateMicroRateCoeffs(Reaction* pReact)
     {
-		//
-		// Check input to see if we have the correct type of reaction.
-		//
+        //
+        // Check input to see if we have the correct type of reaction.
+        //
         AssociationReaction *pAssocReaction = dynamic_cast<AssociationReaction*>(pReact) ;
         if (!pAssocReaction) {
             cerr << "The Mesmer ILT method is valid for association reactions only." ;
@@ -87,6 +87,19 @@ namespace mesmer
         // Allocate some work space for density of states and extract densities of states from molecules.
         vector<double> rctsCellEne; // Cell energies          of      product molecule.
         vector<double> rctsCellDOS; // Convoluted cell density of states of reactants.
+
+		// SHR 13/Jul/2008: from here ...
+        m_pDensityOfStatesCalculator->countDimerCellDOS(p_rcts) ;
+
+        std::vector<double> shiftedCellDOS;
+        std::vector<double> shiftedCellEne;
+        p_rcts->shiftCells(shiftedCellDOS, shiftedCellEne);
+
+        p_rcts->calcGrainAverages(shiftedCellDOS, shiftedCellEne);
+
+        p_rcts->testDensityOfStates() ;
+
+		// ... to here is temporary code to allow the removal of SuperMolecule.
 
         p_rcts->getCellEnergies       (rctsCellEne) ;
         p_rcts->getCellDensityOfStates(rctsCellDOS) ;

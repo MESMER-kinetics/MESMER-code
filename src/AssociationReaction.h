@@ -10,13 +10,12 @@
 //
 // This header file contains the declaration of the AssociationReaction class.
 //
-// This cless describes linearized association reaction in which one reactant is in such
+// This class describes a linearized association reaction in which one reactant is in such
 // excess that reaction does not significantly alter its concentration. The reactant with
-// the smallest concentration is deemed to be the pseudo-isomer of the reaction. Following
+// the smaller concentration is deemed to be the pseudo-isomer of the reaction. Following
 // regular isomerization, a number of reaction properties are delegated to the pseudo-isomer,
-// e.g. the zero point energy location of the associating pair. Other properties of the, 
-// such as the combined density of states. are properties of the reaction and are so held 
-// held at that level.
+// e.g. the zero point energy location of the associating pair. Other quantities, such as 
+// the combined density of states, are properties of the reaction and are held at that level.
 //
 //-------------------------------------------------------------------------------------------
 #include "Reaction.h"

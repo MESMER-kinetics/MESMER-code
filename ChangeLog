@@ -1,4 +1,7 @@
 
+2008-7-13 Struan Robertson
+
+  * MesmerILT.h/.cpp : Altered so that the convolved density of states is calculated by explicit invocation and not via the modelled molecule route. This is possible because this method can only be used in conjunction with MesmerILT. This allows the removal of some SuperMolecule references in ClassicalRotor.cpp.
 
 2008-07-06 Chris Morley
 
