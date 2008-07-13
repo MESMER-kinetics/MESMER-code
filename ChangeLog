@@ -1,4 +1,9 @@
 
+
+2008-07-06 Chris Morley
+
+  * src/main: Documentation of mesmer output streams
+  
 2008-7-13 Struan Robertson
 
   * ReactionManager.cpp: Removal of reference to SuperMolecules. This reference was used to store the combined zero point energy location of the reactants. This is now stored on the pseudo-isomer.

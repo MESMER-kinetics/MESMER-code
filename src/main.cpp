@@ -287,16 +287,35 @@ bool QACompare(string infilename)
 }
 
 /*
-Output streams in Mesmer:
-cout   to console as normal
-clog   to console as normal
-ctest  to mesmer.test
+Mesmer outputs:
 
-cerr  | all to mesmer.log and also, depending
-cwarn | on the warning severity level, to the console
-cinfo |
+                           Source                           Destination  
+--------------------------------------------------------------------------------------
+Main output       Functions in IPersist                Decided by -o option  
+                  like XmlWriteElement                 Usually file,
+                                                       or cout for piping
 
-Output to mesmer.test and mesmer.log will be overwrite anything from
-previous runs.
+Error messages    cerr <<...    or                     Console unless -w0
+                  meErrorLog.ThrowError( , ,obError)   and mesmer.log
+
+Warning messages  cwarn <<...   or                     Console unless -w0 or w1
+                  meErrorLog.ThrowError( , ,obWarn)    and mesmer.log
+
+Logging messages  cinfo <<...   or                     Console if -w2
+                  meErrorLog.ThrowError( , ,obInfo)    and mesmer.log
+
+QA test output    ctest <<...                          mesmer.test
+
+Temporary debug   cout <<...                           File when redirected       Use for bulky
+                                                       from commandline with >    debug output
+                                                       (Otherwise console)
+
+Temporary debug   clog <<...                           Console                    Use for short
+                                                                                  debug output
+
+
+Output to mesmer.test and mesmer.log can be turned off with the -g option
+The files will be overwrtten each run.
+A comparison with a previously stored version of mesmer.test can be made with the -q option.
 
 */
