@@ -317,8 +317,12 @@ namespace mesmer
         ModelledMolecule* m_mol1;
         ModelledMolecule* m_mol2;
 
-        SuperMolecule(const MesmerEnv& Env);
-        virtual ~SuperMolecule();
+        SuperMolecule(const MesmerEnv& Env) : ModelledMolecule(Env),
+             m_mol1(NULL),
+             m_mol2(NULL)
+        {} ;
+
+		virtual ~SuperMolecule() {} ;
 
         // Initialize SuperMolecule.
         virtual bool InitializeMolecule(PersistPtr pp);

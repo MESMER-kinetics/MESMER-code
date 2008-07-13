@@ -11,17 +11,6 @@ using namespace Constants ;
 namespace mesmer
 {
     //
-    //Constructor
-    //
-    SuperMolecule::SuperMolecule(const MesmerEnv& Env) : ModelledMolecule(Env),
-        m_mol1(NULL),
-        m_mol2(NULL)
-    {}
-
-    SuperMolecule::~SuperMolecule()
-    {}
-
-    //
     //Initialization
     //
     bool SuperMolecule::InitializeMolecule(PersistPtr pp)

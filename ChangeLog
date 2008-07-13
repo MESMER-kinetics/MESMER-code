@@ -1,8 +1,16 @@
-2008-6-01 Struan Robertson
+
+2008-7-13 Struan Robertson
+
+  * ReactionManager.cpp: Removal of unnecessary reference to SuperMolecule class.
+  * MesmerILT.cpp: Check of reaction type (Mesmer ILT only applies to association reactions) and minor changes to use AssociationReaction rather than SuperMolecule.
+  * AssociationReaction.h: Addition of method to obtain pointer to
+reactant in excess.
+
+2008-7-12 Struan Robertson
 
   * AssociationReaction.cpp/Molecule.h: Remove of unnecessary methods from SuperMolecule class.
 
-2008-6-01 Struan Robertson
+2008-7-12 Struan Robertson
 
   * ReactionManager.cpp/.h: Replaced an invocation of get_bi_molecularspecies with get_pseudoIsomer as part of the rationalization of SuperMolecules.
 

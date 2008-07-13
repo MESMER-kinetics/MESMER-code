@@ -56,6 +56,7 @@ namespace mesmer
 
     // Get the principal source reactant (i.e. reactant not in excess).
     virtual ModelledMolecule *get_pseudoIsomer(void) const {return m_rct1 ; } ;
+    virtual ModelledMolecule *get_excessReactant(void) const {return m_rct2 ; } ;
 
     // return relative reactant, product and transition state zero-point energy
     virtual double get_relative_rctZPE() const { return m_rct1->get_zpe() + m_rct2->get_zpe() - getEnv().EMin; }
