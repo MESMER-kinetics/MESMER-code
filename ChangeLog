@@ -1,6 +1,11 @@
 
 2008-7-13 Struan Robertson
 
+  * ReactionManager.cpp: Removal of reference to SuperMolecules. This reference was used to store the combined zero point energy location of the reactants. This is now stored on the pseudo-isomer.
+  * AssociationReaction.h/.cpp, Reaction.h: Changes related to the above.
+
+2008-7-13 Struan Robertson
+
   * ReactionManager.cpp: Removal of unnecessary reference to SuperMolecule class.
   * MesmerILT.cpp: Check of reaction type (Mesmer ILT only applies to association reactions) and minor changes to use AssociationReaction rather than SuperMolecule.
   * AssociationReaction.h: Addition of method to obtain pointer to

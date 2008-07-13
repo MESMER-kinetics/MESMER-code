@@ -312,7 +312,7 @@ namespace mesmer
     m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
 
     const int TSFluxGrainZPE  = getTSFluxGrnZPE();
-    const int rctGrainZPE = m_srct->get_grnZpe();
+    const int rctGrainZPE = get_pseudoIsomer()->get_grnZpe();
     const int pdtGrainZPE = m_pdt1->get_grnZpe();
 
     const int MaximumGrain = getEnv().MaxGrn;

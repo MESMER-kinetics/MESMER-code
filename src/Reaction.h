@@ -75,9 +75,6 @@ namespace mesmer
     // Get unimolecualr species information:
     virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const = 0 ;
 
-    // Product information:
-    virtual SuperMolecule* get_bi_molecularspecies(void) const {return NULL ; } ;
-
     // Get the imaginary frequency of the transitions state.
     double get_TSImFreq(void) const {return m_TransitionState->get_ImFreq() ; } ;
 

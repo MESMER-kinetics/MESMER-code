@@ -229,15 +229,18 @@ namespace mesmer
 
         // Set grain ZPE for all species involved in the reactions according to the minimum energy of the system.
         for (size_t i(0) ; i < size() ; ++i) {
-            // first check for any SuperMolecule in this reaction
-            SuperMolecule* pSuper = m_reactions[i]->get_bi_molecularspecies();
-            // the grain ZPE of SuperMolecule has to be calculated from zpeReactant1 + zpeReactant2 - minEnergy
-            if (pSuper){
-                double zpe = pSuper->get_relative_ZPE();
-                pSuper->set_grainValues(zpe);
+
+            // First: check for an association reaction and set grain location properties 
+			// of the reactants on the pseudo-isomer, the grain ZPE of being calculated as 
+			// zpeReactant1 + zpeReactant2 - minEnergy
+            AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
+            if (pReaction) {
+                ModelledMolecule *pPseudoIsomer = pReaction->get_pseudoIsomer() ;
+				double zpe = pReaction->get_relative_rctZPE();
+				pPseudoIsomer->set_grainValues(zpe) ;
             }
 
-            // second check for unimolecular species in this reaction
+			// Second: check for unimolecular species in this reaction
             std::vector<ModelledMolecule *> unimolecules ;
             m_reactions[i]->get_unimolecularspecies(unimolecules) ;
             for (size_t j(0) ; j < unimolecules.size() ; ++j) {
