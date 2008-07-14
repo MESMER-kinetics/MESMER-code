@@ -90,10 +90,10 @@ int obLogBuf::sync()
     if(nologging)
     {  
       //turn off logging and test streams
-      //std::cerr.rdbuf(NULL);
-      //cwarn.rdbuf(NULL);
+      std::cerr.rdbuf(NULL);
+      cwarn.rdbuf(NULL);
       cinfo.rdbuf(NULL);
-      ctest.rdbuf(NULL);
+      //ctest.rdbuf(NULL);
     }
  }
   OStreamRedirector::~OStreamRedirector()

@@ -45,7 +45,7 @@ namespace mesmer
       tqli(rrProxy, work, size, this->m_matrix) ;
 
       for (int i = 0; i < size; ++i){
-        rr[i] = to_double(rrProxy[i]);
+        rr[i] = rrProxy[i];
       }
 
       delete [] work ;
@@ -225,7 +225,7 @@ namespace mesmer
           I hope that bellow words will be useful for you.
           See thread under the title: Possible convergence problems in svdcmp, jacobi, tqli, hqr by Saul Teukolsky
           in Forum: Official Bug Reports with known bugs. May be this is a reason of slow convergency.
-          It is good check, that matrix is symmetric and to work with T accuracy. I have known also versions
+          It is good check, that matrix is symmetric and to work with double accuracy. I have known also versions
           with increased number of iterations (200 for example). But I think that this experimental number is right
           in any case: if you have not convergency for 30 iterations, there is no convergency at all.
           SVD method used in book is an intrinsic iterative procedure, 30 iterations is a good number to
@@ -504,7 +504,7 @@ label_1: return(p);
       }
     }
 
-    delete zeroCount;
+    delete [] zeroCount;
 
     for(int i = 0; i < n; ++i){
       for (int j = 0; j < n; ++j){
