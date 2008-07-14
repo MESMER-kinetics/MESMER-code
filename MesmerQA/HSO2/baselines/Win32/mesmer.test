@@ -1,4 +1,4 @@
-Condition: conc = 1.9313e+024, temp = 500, diagonalization precision: double
+PT Grid 0 Condition: conc = 1.9313e+024, temp = 500, diagonalization precision: double
 {
 
 Test rovibronic density of states for: TS1
@@ -1764,8 +1764,8 @@ Microcanonical rate coefficients for: R1
    2900   6.56539e+016
    3000   7.09092e+016
 }
-Equilibrium Fraction for H = 0.999393
 Equilibrium Fraction for HSO2 = 0.000606509
+Equilibrium Fraction for H = 0.999393
 
 Total number of eigenvalues = 135
 Eigenvalues
@@ -2072,7 +2072,7 @@ Print time dependent species and product profiles
          79432.8      0.00502976    3.05245e-006      0.00503281        0.994967
 }
 
-Z*Z^(-1):
+Z_matrix * Z_matrix^(-1):
 {
             1 -1.1102e-016
  -4.5753e-017            1
@@ -2086,9 +2086,9 @@ Kr:
 
 First order and psuedo first order rate coefficients:
 {
-H loss = -433.811
 HSO2 loss = -714826
-H -> HSO2 =  433.811
+H loss = -433.811
 HSO2 -> H =  714825
+H -> HSO2 =  433.811
 }
 }
