@@ -335,14 +335,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\qd\Windows VC\include\qd\dd_inline.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\qd\Windows VC\include\qd\dd_real.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\DensityOfStates.h"
 				>
 			</File>
@@ -428,18 +420,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Pointer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\qd\Windows VC\include\qd\qd_config.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\qd\Windows VC\include\qd\qd_inline.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\qd\Windows VC\include\qd\qd_real.h"
 				>
 			</File>
 			<File
