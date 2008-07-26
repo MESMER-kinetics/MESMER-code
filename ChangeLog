@@ -1,6 +1,10 @@
 
 2008-7-26 Struan Robertson
 
+  * ClassicalRotor.cpp/.h, MesmerILT.cpp: Further rationalization of SuperMolecules.
+
+2008-7-26 Struan Robertson
+
   * Baseline update following fixes in version 192.
 
 2008-7-26 Struan Robertson

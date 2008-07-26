@@ -85,11 +85,14 @@ namespace mesmer
         int MaximumCell = pAssocReaction->getEnv().MaxCell;
 
         // Allocate some work space for density of states and extract densities of states from molecules.
-        vector<double> rctsCellEne; // Cell energies          of      product molecule.
-        vector<double> rctsCellDOS; // Convoluted cell density of states of reactants.
+        vector<double> rctsCellEne(MaximumCell, 0.0) ; // Cell energies          of      product molecule.
+        vector<double> rctsCellDOS(MaximumCell, 0.0) ; // Convoluted cell density of states of reactants.
 
 		// SHR 13/Jul/2008: from here ...
-        m_pDensityOfStatesCalculator->countDimerCellDOS(p_rcts) ;
+        m_pDensityOfStatesCalculator->countDimerCellDOS(p_rct1, p_rct2, rctsCellEne, rctsCellDOS) ;
+
+		p_rcts->m_cellDOS = rctsCellDOS ;
+		p_rcts->m_cellEne = rctsCellEne ;
 
         std::vector<double> shiftedCellDOS;
         std::vector<double> shiftedCellEne;

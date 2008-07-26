@@ -10,7 +10,7 @@ namespace mesmer
     public:
 
         // Provide a function to define particular counts of the convolved DOS of two molecules.
-        bool countDimerCellDOS(SuperMolecule* rcts); // convolves the DOS of two molecules
+        bool countDimerCellDOS(ModelledMolecule* p_mol1, ModelledMolecule*  p_mol2, vector<double>& rctsCellEne, vector<double>& rctsCellDOS) ; 
 
         // Provide a function to define particular counts of the DOS of a molecule.
         virtual bool countCellDOS(ModelledMolecule* mol);
