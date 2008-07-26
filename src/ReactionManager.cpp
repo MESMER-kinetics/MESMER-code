@@ -235,9 +235,9 @@ namespace mesmer
 			// zpeReactant1 + zpeReactant2 - minEnergy
             AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
             if (pReaction) {
-                ModelledMolecule *pPseudoIsomer = pReaction->get_pseudoIsomer() ;
-				double zpe = pReaction->get_relative_rctZPE();
-				pPseudoIsomer->set_grainValues(zpe) ;
+                double zpe = pReaction->get_relative_rctZPE();
+                pReaction->get_bi_molecularspecies()->set_grainValues(zpe);
+                pReaction->get_pseudoIsomer()->set_grainValues(zpe) ;
       }
 
 			// Second: check for unimolecular species in this reaction
