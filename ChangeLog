@@ -1,5 +1,9 @@
 2008-7-26 Struan Robertson
 
+  * Winding back other changes to fix broken HOSO test.
+
+2008-7-26 Struan Robertson
+
   * ReactionManager.cpp: Temporary fix for broken HOSO test.
 
 2008-7-25 Struan Robertson

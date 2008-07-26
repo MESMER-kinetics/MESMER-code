@@ -5,23 +5,24 @@
 
 namespace mesmer
 {
-    class ClassicalRotor : public DensityOfStatesCalculator
-    {
-    public:
+  class ClassicalRotor : public DensityOfStatesCalculator
+  {
+    // provide a function to define particular counts of the DOS of a molecule
+    bool countMonomerCellDOS(ModelledMolecule* mol);
 
-        // Provide a function to define particular counts of the convolved DOS of two molecules.
-        bool countDimerCellDOS(SuperMolecule* rcts); // convolves the DOS of two molecules
+  public:
 
-        // Provide a function to define particular counts of the DOS of a molecule.
-        virtual bool countCellDOS(ModelledMolecule* mol);
+     // provide a function to define particular counts of the convoluted DOS of two molecules
+    bool countDimerCellDOS(SuperMolecule* rcts); 
 
-        ///Constructor which registers with the list of MicroRateCalculators in the base class
-        ClassicalRotor(const std::string& id) : DensityOfStatesCalculator(id){}
+   ///Constructor which registers with the list of MicroRateCalculators in the base class
+    ClassicalRotor(const std::string& id) : DensityOfStatesCalculator(id){}
 
-        virtual ~ClassicalRotor() {}
+    virtual ~ClassicalRotor() {}
 
-    } ;
+    virtual bool countCellDOS(ModelledMolecule* mol);
 
+  };
 }//namespace
 
 #endif // GUARD_ClassicalRotor_h

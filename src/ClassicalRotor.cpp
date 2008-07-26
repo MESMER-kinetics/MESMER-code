@@ -131,7 +131,7 @@ namespace mesmer
   }
 
   // provide a function to define particular counts of the convoluted DOS of two molecules
-  bool ClassicalRotor::countCellDOS(ModelledMolecule* mol)
+  bool ClassicalRotor::countMonomerCellDOS(ModelledMolecule* mol)
   {
     vector<double> VibFreq; mol->get_VibFreq(VibFreq);
 
@@ -189,6 +189,18 @@ namespace mesmer
       }
     }
 
+    return true;
+  }
+
+  bool ClassicalRotor::countCellDOS(ModelledMolecule* mol){
+    SuperMolecule* pMolSuper = dynamic_cast<SuperMolecule*>(mol);
+
+    if (pMolSuper){
+      return countDimerCellDOS(pMolSuper);
+    }
+    else{
+      return countMonomerCellDOS(mol);
+    }
     return true;
   }
 
