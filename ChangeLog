@@ -1,5 +1,11 @@
 2008-7-26 Struan Robertson
 
+  * AssociationReaction.cpp: Found bug in equilibrium constant of association reaction which was using SuperMolecule. Altered to use
+individual reactant partition functions and reinstated code rolled
+back earlier.
+
+2008-7-26 Struan Robertson
+
   * Winding back other changes to fix broken HOSO test.
 
 2008-7-26 Struan Robertson
