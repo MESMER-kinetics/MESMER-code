@@ -89,6 +89,7 @@ namespace mesmer
     ///Molecule with multiple energy states. Probably not instantiated itself
     class ModelledMolecule : public Molecule
     {
+
     private:
         //
         // Molecular properties.
@@ -121,17 +122,20 @@ namespace mesmer
         int m_grnZpe_chk;
         //================================================
 
-        std::vector<double> m_eleExc; //Electronic excitation(for OH, NO, NS otherwise no memeber).
-        std::vector<double> m_VibFreq ;          // Values of vibrational frequencies.
+        std::vector<double> m_eleExc;   // Electronic excitation(for OH, NO, NS otherwise no member).
+        std::vector<double> m_VibFreq ; // Values of vibrational frequencies.
 
-    public:
+	protected:
+
         //
         // Cell and grain averages. 
         //
-        std::vector<double> m_cellEne ;          // Cell energy array.
-        std::vector<double> m_cellDOS ;          // Cell density of states array.
-        std::vector<double> m_grainEne ;         // Grain average energy array.
-        std::vector<double> m_grainDOS ;         // Grain density of states array.
+		std::vector<double> m_cellEne ;   // Cell energy array.
+        std::vector<double> m_cellDOS ;   // Cell density of states array.
+        std::vector<double> m_grainEne ;  // Grain average energy array.
+        std::vector<double> m_grainDOS ;  // Grain density of states array.
+
+	public:
 
         //----------------
         ModelledMolecule(const MesmerEnv& Env);
@@ -140,11 +144,17 @@ namespace mesmer
         // Initialize ModelledMolecule.
         virtual bool InitializeMolecule(PersistPtr pp);
 
-        // Get the density of states.
+        // Get cell density of states.
         void getCellDensityOfStates(std::vector<double> &cellDOS) ;
+
+		// Set cell  density of states.
+		void setCellDensityOfStates(std::vector<double> &cellDOS) { m_cellDOS = cellDOS ; } ;
 
         // Get cell energies.
         void getCellEnergies(std::vector<double> &CellEne) ;
+
+        // Set cell energies.
+		void setCellEnergies(std::vector<double> &CellEne) { m_cellEne = CellEne ; } ;
 
         // Get grain density of states.
         void getGrainDensityOfStates(std::vector<double> &grainDOS) ;

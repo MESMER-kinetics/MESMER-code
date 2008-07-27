@@ -1,6 +1,10 @@
 
 2008-7-27 Struan Robertson
 
+  * Molecule.h, ClassicalRoror.cpp: Public data changed to protected.
+
+2008-7-27 Struan Robertson
+
   * Molecule.h etc.: Removal of SuperMolecules and minor baseline updates.
 
 2008-7-26 Struan Robertson

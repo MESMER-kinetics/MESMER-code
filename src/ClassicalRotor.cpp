@@ -7,8 +7,6 @@ namespace mesmer
 	//Global instance, defining its id (usually the only instance)
 	ClassicalRotor theClassicalRotor("Classical rotors");
 	//************************************************************
-	// Reference: Theory of Unimolecular and Recombination Reactions, Robert G. Gilbert / Sean C. Smith
-	//            Section 4.3 for the examples of how density of states are calculated from partition functions.
 
 	// provide a function to define particular counts of the convoluted DOS of two molecules
 	bool ClassicalRotor::countDimerCellDOS(ModelledMolecule* p_mol1, ModelledMolecule*  p_mol2, vector<double>& rctsCellEne, vector<double>& rctsCellDOS){
@@ -122,63 +120,69 @@ namespace mesmer
 	}
 
 	// provide a function to define particular counts of the convoluted DOS of two molecules
-	bool ClassicalRotor::countCellDOS(ModelledMolecule* mol)
+	bool ClassicalRotor::countCellDOS(ModelledMolecule* pMol)
 	{
-		vector<double> VibFreq; mol->get_VibFreq(VibFreq);
+		vector<double> VibFreq ; 
+		pMol->get_VibFreq(VibFreq) ;
 
 		// times the scale factor
 		for (vector<double>::size_type i = 0; i < VibFreq.size(); ++i){
-			VibFreq[i] *= mol->get_scaleFactor();
+			VibFreq[i] *= pMol->get_scaleFactor();
 		}
 
-		const int MaximumCell = mol->getEnv().MaxCell;
-		mol->m_cellDOS.clear(); mol->m_cellEne.clear(); //make sure there is no residue left
+		const int MaximumCell = pMol->getEnv().MaxCell;
+        vector<double> cellEne(MaximumCell, 0.0) ;
+        vector<double> cellDOS(MaximumCell, 0.0) ;
+
 		//
 		// Initialize density of states array using calculated rotational
 		// density of state.
 		//
 
 		//From inverse Laplace transform of rotors
-		vector<double> rotConst; int rotorType = mol->get_rotConsts(rotConst);
-		double sym = mol->get_Sym();
-		double qele = mol->getSpinMultiplicity();
+		vector<double> rotConst; int rotorType = pMol->get_rotConsts(rotConst);
+		double sym = pMol->get_Sym();
+		double qele = pMol->getSpinMultiplicity();
 		double cnt = 0.;
 
 		for (int i = 0 ; i < MaximumCell ; ++i ) {
-			mol->m_cellEne.push_back(static_cast<double>(i) + 0.5);
+			cellEne[i] = double(i) + 0.5 ;
 		}
 
 		switch (rotorType){
 	  case 2: //3-D symmetric/asymmetric/spherical top
 		  cnt = qele * sqrt(4./(rotConst[0] * rotConst[1] * rotConst[2]))/sym ;
 		  for (int i = 0 ; i < MaximumCell ; ++i ) 
-			  mol->m_cellDOS.push_back(cnt*sqrt(mol->m_cellEne[i]));
+			  cellDOS[i] = cnt*sqrt(cellEne[i]) ;
 		  break;
 	  case 0: //2-D linear
 		  cnt = qele / (rotConst[0] * sym);
 		  for (int i = 0 ; i < MaximumCell ; ++i ) 
-			  mol->m_cellDOS.push_back(cnt);
+			  cellDOS[i] = cnt ;
 		  break;
 	  default:
 		  cnt = 0.;
 		  for (int i = 0 ; i < MaximumCell ; ++i ) 
-			  mol->m_cellDOS.push_back(cnt);
+			  cellDOS[i] = cnt ;
 		}
 
 		// Implementation of the Beyer-Swinehart algorithm.
-		Beyer_Swinehart(VibFreq, mol->m_cellDOS);
+		Beyer_Swinehart(VibFreq, cellDOS);
 
 		//electronic degeneracy
 		vector<double> eleExc;
-		mol->getEleExcitation(eleExc);
+		pMol->getEleExcitation(eleExc);
 		if (!eleExc.empty()){
-			for (int j = 0; j < static_cast<int>(eleExc.size()); ++j){
+			for (int j = 0; j < eleExc.size() ; ++j){
 				int iele = static_cast<int>(eleExc[j]);
 				for (int i = (MaximumCell - 1); i >= (iele - 1); --i){
-					mol->m_cellDOS[i] += mol->m_cellDOS[i - iele + 1];
+					cellDOS[i] += cellDOS[i - iele + 1];
 				}
 			}
 		}
+
+		pMol->setCellEnergies(cellEne) ;
+		pMol->setCellDensityOfStates(cellDOS) ;
 
 		return true;
 	}
