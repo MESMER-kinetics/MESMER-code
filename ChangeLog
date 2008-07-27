@@ -1,6 +1,10 @@
 
 2008-7-27 Struan Robertson
 
+  * Mesmer.vcproj updated to account for the deletion of SuperMolecule.cpp.
+
+2008-7-27 Struan Robertson
+
   * Molecule.h, ClassicalRoror.cpp: Public data changed to protected.
 
 2008-7-27 Struan Robertson
