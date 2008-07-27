@@ -35,7 +35,6 @@ namespace mesmer
     AssociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id)
       :Reaction(pMoleculeManager, Env, id),
       m_sourceMap(NULL), 
-      m_srct(NULL), 
       m_rct1(NULL),
       m_rct2(NULL), 
       m_pdt1(NULL),
@@ -57,9 +56,6 @@ namespace mesmer
 
     // Initialize reaction.
     virtual bool InitializeReaction(PersistPtr ppReac) ;
-
-    // Product information:
-    virtual SuperMolecule* get_bi_molecularspecies(void) const {return m_srct ; } ;
 
     // Get the principal source reactant (i.e. reactant not in excess).
     virtual ModelledMolecule *get_pseudoIsomer(void) const {return m_rct1 ; } ;
@@ -91,7 +87,6 @@ namespace mesmer
 
     // Reaction composition:
 
-    SuperMolecule       *m_srct ;   // Reactant molecules as a super-reactant
     ModelledMolecule    *m_rct1 ;   // Reactant Molecule.
     ModelledMolecule    *m_rct2 ;   // Subsidiary reactant molecule.
     CollidingMolecule   *m_pdt1 ;   // Product Molecule.

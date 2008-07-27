@@ -62,12 +62,6 @@ namespace mesmer
         // double tp_C = 3.24331e+20; // Defined in Constant.h, constant used in the translational partition function
         //-----------------
 
-        SuperMolecule* p_rcts = pAssocReaction->get_bi_molecularspecies();
-        if (!p_rcts){
-            cerr << "Not a valid bi-molecularspecies";
-            return false;
-        }
-
         vector<ModelledMolecule *> unimolecularspecies;
         pAssocReaction->get_unimolecularspecies(unimolecularspecies);
 
@@ -85,27 +79,10 @@ namespace mesmer
         int MaximumCell = pAssocReaction->getEnv().MaxCell;
 
         // Allocate some work space for density of states and extract densities of states from molecules.
-        vector<double> rctsCellEne(MaximumCell, 0.0) ; // Cell energies          of      product molecule.
+        vector<double> rctsCellEne(MaximumCell, 0.0) ; // Cell energies of product molecule.
         vector<double> rctsCellDOS(MaximumCell, 0.0) ; // Convoluted cell density of states of reactants.
 
-		// SHR 13/Jul/2008: from here ...
         m_pDensityOfStatesCalculator->countDimerCellDOS(p_rct1, p_rct2, rctsCellEne, rctsCellDOS) ;
-
-		p_rcts->m_cellDOS = rctsCellDOS ;
-		p_rcts->m_cellEne = rctsCellEne ;
-
-        std::vector<double> shiftedCellDOS;
-        std::vector<double> shiftedCellEne;
-        p_rcts->shiftCells(shiftedCellDOS, shiftedCellEne);
-
-        p_rcts->calcGrainAverages(shiftedCellDOS, shiftedCellEne);
-
-        p_rcts->testDensityOfStates() ;
-
-		// ... to here is temporary code to allow the removal of SuperMolecule.
-
-        p_rcts->getCellEnergies       (rctsCellEne) ;
-        p_rcts->getCellDensityOfStates(rctsCellDOS) ;
 
         // Allocate space to hold microcanonical rate coefficients for dissociation.
         vector<double>& TSFlux = pAssocReaction->get_CellFlux();
@@ -142,7 +119,7 @@ namespace mesmer
         }
 
         // the flux bottom energy is equal to the well bottom of the product
-        pAssocReaction->setCellFluxBottom(p_rcts->get_relative_ZPE());
+        pAssocReaction->setCellFluxBottom(pReact->get_relative_rctZPE());
 
         cinfo << "ILT calculation completed" << endl;
 

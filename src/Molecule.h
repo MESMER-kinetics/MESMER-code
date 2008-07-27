@@ -126,8 +126,7 @@ namespace mesmer
 
     public:
         //
-        // Cell and grain averages.  Note: raw array used for efficiency,
-        // but need to test validity of this. SHR 5/Jan/03.
+        // Cell and grain averages. 
         //
         std::vector<double> m_cellEne ;          // Cell energy array.
         std::vector<double> m_cellDOS ;          // Cell density of states array.
@@ -307,36 +306,6 @@ namespace mesmer
         DistributionCalculator* get_DistributionCalculator();
     };
 
-    // class representing pair of molecules participating one association reaction
-    // this class should account for their density of states as a convolution
-    class SuperMolecule : public ModelledMolecule
-    {
-    private:
-
-    public:
-        ModelledMolecule* m_mol1;
-        ModelledMolecule* m_mol2;
-
-        SuperMolecule(const MesmerEnv& Env) : ModelledMolecule(Env),
-             m_mol1(NULL),
-             m_mol2(NULL)
-        {} ;
-
-		virtual ~SuperMolecule() {} ;
-
-        // Initialize SuperMolecule.
-        virtual bool InitializeMolecule(PersistPtr pp);
-
-        // Accessors.
-
-        // set composing member of the SuperMolecule, also copy necessary properties
-        virtual double get_zpe();
-        DensityOfStatesCalculator* get_DensityOfStatesCalculator();
-        void setMembers(ModelledMolecule* mol1p, ModelledMolecule* mol2p);
-        ModelledMolecule* getMember1(){ return m_mol1 ; } ;
-        ModelledMolecule* getMember2(){ return m_mol2 ; } ;
-
-    };
 
 }//namespace
 

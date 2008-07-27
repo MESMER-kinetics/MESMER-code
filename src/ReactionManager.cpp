@@ -236,7 +236,6 @@ namespace mesmer
             AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
             if (pReaction) {
                 double zpe = pReaction->get_relative_rctZPE();
-                pReaction->get_bi_molecularspecies()->set_grainValues(zpe);
                 pReaction->get_pseudoIsomer()->set_grainValues(zpe) ;
             }
 

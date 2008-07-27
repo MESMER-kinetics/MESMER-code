@@ -57,26 +57,6 @@ namespace mesmer
 		}
 		m_rct1 = pColMol;
 
-		// SuperMolecule section --- to be removed. ------------------------------
-		string id; //shoud not set any name for it.
-		SuperMolecule* pSupMol = NULL;
-		while(m_pMoleculeManager->GetNextMolecule(id, pSupMol)){ // get next SuperMolecule
-			// if found a SuperMolecule
-			ModelledMolecule* rm1 = pSupMol->getMember1();
-			ModelledMolecule* rm2 = pSupMol->getMember2();
-			if (!rm1 && !rm2){// there is no data inside, occupy it!
-				pSupMol->setMembers(m_rct1, m_rct2);
-				m_srct = pSupMol;
-				break;
-			}
-		}
-		if (!pSupMol){
-			cerr << "No SuperMolecule was found.";
-			// there will always at least one SuperMolecule in m_molmap, check the end of addmol()
-			// in MoleculeManager.cpp.
-		}
-		// SuperMolecule section --- to be removed. ------------------------------
-
 		//Read product details.
 
 		PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
@@ -308,7 +288,6 @@ namespace mesmer
 
 		vector<double> rctGrainDOS;
 		vector<double> pdtGrainDOS;
-		m_srct->getGrainDensityOfStates(rctGrainDOS) ;
 		m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
 
 		const int TSFluxGrainZPE  = getTSFluxGrnZPE();
@@ -325,9 +304,6 @@ namespace mesmer
 		for (int i = TSFluxGrainZPE - pdtGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
 			m_GrainKbmc[i] = m_GrainTSFlux[j] / pdtGrainDOS[i];
 		}
-		// for (int i = TSFluxGrainZPE - rctGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
-		//   m_GrainKfmc[i] = m_GrainTSFlux[j] / rctGrainDOS[i];
-		// }
 
 		// the code that follows is for printing of the f & r k(E)s
 		if (getEnv().kfEGrainsEnabled){
