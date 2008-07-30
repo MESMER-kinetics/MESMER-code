@@ -19,3 +19,8 @@ cd "OH acetylene association"
 "../../Windows VC8/Mesmer/Mesmer.exe" "OH_acetylene_association_test.xml"
 copy "./mesmer.test" "./baselines/Win32/mesmer.test"
 cd ..
+
+cd "Acetyl O2 association" 
+"../../Windows VC8/Mesmer/Mesmer.exe" "Acetyl_O2_association.xml"
+copy "./mesmer.test" "./baselines/Win32/mesmer.test"
+cd ..

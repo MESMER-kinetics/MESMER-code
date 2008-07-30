@@ -657,7 +657,7 @@
   </me:modelParameters>
   <me:control>
     <me:testDOS />
-
+    <me:printSpeciesProfile />
     <!--<me:testMicroRates />-->
     <me:testRateConstant />
     <me:printGrainDOS />

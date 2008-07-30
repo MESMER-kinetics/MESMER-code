@@ -1,3 +1,8 @@
+2008-7-30 Dave Glowacki
+
+* miscellaneous small changes to reaction manager.cpp for output file printing  
+* updated all baselines
+* changed QA.bat to include acetyl + O2 test system 
 
 2008-7-27 Struan Robertson
 

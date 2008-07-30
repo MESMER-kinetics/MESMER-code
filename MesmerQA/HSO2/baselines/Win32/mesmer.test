@@ -1507,6 +1507,15 @@ Grain rovibronic density of states of SO2
         21750.1   3.96944e+007
         21850.1   4.02961e+007
 }
+{
+  -0.00060687            1
+            1            1
+}
+inverse:
+{
+     -0.99939      0.99939
+      0.99939   0.00060651
+}
 Equilibrium Fraction for HSO2 = 0.000606505
 Equilibrium Fraction for H = 0.999393
 
@@ -1649,6 +1658,7 @@ Eigenvalues
         -715259
    2.01588e-005
 }
+mean collision frequency = 6.66055e+014/s
 
 Print time dependent species and product profiles
 {

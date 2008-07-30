@@ -690,6 +690,15 @@ Microcanonical rate coefficients for: R1
    2900   4.76409e+006
    3000   4.80733e+006
 }
+{
+      -34.484            1
+            1            1
+}
+inverse:
+{
+    -0.028182     0.028182
+     0.028182      0.97182
+}
 Equilibrium Fraction for n-pentyl = 0.028182
 Equilibrium Fraction for 2-pentyl = 0.971818
 
@@ -906,6 +915,7 @@ Eigenvalues
   -1.15922e-005
   -1.26398e-016
 }
+mean collision frequency = 0.0489851/s
 
 Print time dependent species and product profiles
 {

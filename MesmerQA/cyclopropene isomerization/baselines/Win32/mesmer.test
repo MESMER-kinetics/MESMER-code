@@ -1866,6 +1866,17 @@ Microcanonical rate coefficients for: R2
    2900   1.85166e+010
    3000   2.13343e+010
 }
+{
+ -1.5862e-006            1            0
+            0 -1.3993e+006            1
+            1            1            1
+}
+inverse:
+{
+ -4.3463e+005      -0.3106       0.3106
+       0.3106 -4.9267e-007  4.9267e-007
+  4.3463e+005       0.3106       0.6894
+}
 Equilibrium Fraction for propyne = 0.689396
 Equilibrium Fraction for allene = 0.310604
 Equilibrium Fraction for cyclopropene = 4.92668e-007
@@ -2368,6 +2379,7 @@ Eigenvalues
   -9.43536e-006
   -2.64645e-007
 }
+mean collision frequency = 2.14921e+009/s
 
 Print time dependent species and product profiles
 {
@@ -4555,6 +4567,17 @@ Microcanonical rate coefficients for: R2
    2900    2.5393e+010
    3000   2.98357e+010
 }
+{
+ -2.1582e-005            1            0
+            0       -98526            1
+            1            1            1
+}
+inverse:
+{
+       -31515     -0.31986      0.31986
+      0.31986 -6.9031e-006  6.9031e-006
+        31515      0.31987      0.68013
+}
 Equilibrium Fraction for propyne = 0.680133
 Equilibrium Fraction for allene = 0.31986
 Equilibrium Fraction for cyclopropene = 6.90308e-006
@@ -5099,6 +5122,7 @@ Eigenvalues
      -0.0490453
   -8.84946e-007
 }
+mean collision frequency = 2.31593e+009/s
 
 Print time dependent species and product profiles
 {
