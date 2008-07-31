@@ -1677,6 +1677,10 @@ row 0 of the U*U^(-1) matrix does not equal unity. It sums to 1.00114
 row 4 of the U*U^(-1) matrix does not equal unity. It sums to 0.998581
 row 12 of the U*U^(-1) matrix does not equal unity. It sums to 1.00102
 
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 1
+
 Z_matrix * Z_matrix^(-1):
 {
             1 -9.8608e-032
@@ -1689,11 +1693,23 @@ Kr:
         73408  1.4381e-005
 }
 
-First order and psuedo first order rate coefficients:
+Kp:
+{
+             289.003        8.94965e-013
+}
+
+First order & psuedo first order rate coefficients for loss & isomerization rxns:
 {
 OH loss = -73697.4
 OH_acetylene_adduct loss = 1.43807e-005
-OH -> OH_acetylene_adduct =  73408.4
-OH_acetylene_adduct -> OH =  3.48861e-011
+OH -> OH_acetylene_adduct = 73408.4
+OH_acetylene_adduct -> OH = 3.48861e-011
 }
+
+First order & psuedo first order rate coefficients for irreversible rxns:
+{
+OH -> OCHCH2 = 289.003
+OH_acetylene_adduct -> OCHCH2 = 8.94965e-013
+}
+
 }

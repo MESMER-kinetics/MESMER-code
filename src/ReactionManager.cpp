@@ -762,6 +762,7 @@ namespace mesmer
           CollidingMolecule* isomer = dynamic_cast<CollidingMolecule*>(species[0]);
           int location = m_isomers[isomer];
           m_sinkRxns[Reaction] = location;
+          m_SinkSequence[Reaction] = sinkpos;               // populate SinkSequence map
           ++sinkpos;
         }
       }
@@ -774,7 +775,7 @@ namespace mesmer
 
       Reaction::sourceMap::iterator spos;
       for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map
-                ModelledMolecule* source = spos->first ;                        // to get source profile vs t
+        ModelledMolecule* source = spos->first ;                        // to get source profile vs t
         ctest << setw(16) << source->getName();
         int location = spos->second;
         for (int timestep = 0; timestep < maxTimeStep; ++timestep){
@@ -798,7 +799,7 @@ namespace mesmer
         ++speciesProfileidx;
       }
 
-      map<IrreversibleReaction*, int>::iterator pos;      // iterate through sink map to get product profile vs t
+      sinkMap::iterator pos;      // iterate through sink map to get product profile vs t
       int productProfileStartidx = speciesProfileidx;
       for (pos = m_sinkRxns.begin(); pos != m_sinkRxns.end(); ++pos){
         vector<double> KofEs;                             // get sink k(E)s
@@ -906,17 +907,22 @@ namespace mesmer
 
     // EigenVecIdentity.showFinalBits(nchem);
 
-    dMatrix Z_matrix(nchem), Y_matrix(nchem);          // definitions of Z_matrix & Y_matrix taken from PCCP 2007(9), p.4085
+    dMatrix Z_matrix(nchem);  // definitions of Y_matrix and Z_matrix taken from PCCP 2007(9), p.4085
+    db2D Y_matrix;
     Reaction::isomerMap::iterator ipos;  // set up an iterator through the isomer map
     Reaction::sourceMap::iterator spos;  // set up an iterator through the source map
+    sinkMap::iterator sinkpos;           // set up an iterator through the irreversible rxn map
+
+    ctest << "\nBartis Widom eigenvalue/eigenvector analysis\n";
+    ctest << endl << "Number of sinks in this system: " << m_sinkRxns.size() << endl;
 
     for(int i(0); i<nchem; ++i){
       for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // calculate Z_matrix matrix elements for
         double sm = 0.0;                                                // all isomers in the system
         CollidingMolecule* isomer = ipos->first;
-        const int colloptrsize = isomer->get_colloptrsize();
-        int location = ipos->second;
-        int position = m_SpeciesSequence[isomer];
+        const int colloptrsize = isomer->get_colloptrsize();            // get colloptrsize for isomer
+        int location = ipos->second;                                    // get location for isomer
+        int position = m_SpeciesSequence[isomer];                       // get sequence position for isomer
         for(int j(0);j<colloptrsize;++j){
           sm += assymEigenVec[location+j][nchemIdx+i];
         }
@@ -930,16 +936,34 @@ namespace mesmer
         sm = assymEigenVec[location][nchemIdx+i];
         Z_matrix[position][i] = sm;
       }
+      if(m_sinkRxns.size()!=0) {     
+        for(sinkpos=m_sinkRxns.begin(); sinkpos!=m_sinkRxns.end(); ++sinkpos){ // calculate Y_matrix elements for sinks
+          double sm = 0.0;
+          IrreversibleReaction* sinkReaction = sinkpos->first;                 
+          vector<double> KofEs;                                         // get sink k(E)s
+          KofEs = sinkReaction->get_GrainKfmc();                        // assign sink k(E)s, the vector size == maxgrn
+          int location = sinkpos->second;                               // get sink location
+          const int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant        
+          int position = m_SinkSequence[sinkReaction];                  // get sink sequence position
+          for(int j(0);j<colloptrsize;++j){
+            sm += assymEigenVec[location+j][nchemIdx+i] * KofEs[j];
+          }
+          Y_matrix[position][i] = sm;
+        }
+      }
     }
 
+//    Y_matrix.print((int)(m_sinkRxns.size()), (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
+
     dMatrix Zinv(Z_matrix), Zidentity(nchem), Kr(nchem);
+    db2D Kp;                                  
 
     if(Zinv.invert()){
       cerr << "Inversion of Z_matrix failed.  Matrix before inversion is: ";
       Z_matrix.showFinalBits(nchem);
     }
 
-    //    ctest << "inverse of Z_matrix:" << endl;
+    //    ctest << endl << "inverse of Z_matrix:" << endl;
     //    Zinv.showFinalBits(nchem);
 
     for(int i(0);i<nchem;++i){          // multiply Z_matrix*Z_matrix^(-1) for testing
@@ -964,14 +988,25 @@ namespace mesmer
         Kr[i][j] = sm * m_meanOmega;
       }
     }
-
     ctest << "\nKr:" << endl;
-    Kr.showFinalBits(nchem);
+    Kr.showFinalBits(nchem);       // print out Kr_matrix
 
-    ctest << "\nFirst order and psuedo first order rate coefficients:\n{\n";
-    map<ModelledMolecule*, int>::iterator lossitr;
-    map<ModelledMolecule*, int>::iterator rctitr;
-    map<ModelledMolecule*, int>::iterator pdtitr;
+    if(m_sinkRxns.size()!=0){
+      for(int i(0); i!=m_sinkRxns.size(); ++i){    // calculate Kp (definition taken from PCCP 2007(9), p.4085)
+        for(int j(0);j<nchem;++j){
+          double sm = 0.0;
+          for(int k(0);k<nchem;++k){
+            sm += Y_matrix[i][k] * Zinv[k][j];
+          }
+          Kp[i][j] = sm; 
+        }
+      }
+      ctest << "\nKp:" << endl;    // print out Kp_matrix
+      Kp.print((int)(m_sinkRxns.size()), (int)(m_SpeciesSequence.size()));
+    }
+
+    ctest << "\nFirst order & psuedo first order rate coefficients for loss & isomerization rxns:\n{\n";
+    map<ModelledMolecule*, int>::iterator lossitr, rctitr, pdtitr;
 
     // print psuedo 1st order k loss for isomers
     for(lossitr=m_SpeciesSequence.begin(); lossitr!=m_SpeciesSequence.end(); ++lossitr){
@@ -988,10 +1023,28 @@ namespace mesmer
         ModelledMolecule* pdt = pdtitr->first;
         int pdtpos = pdtitr->second;
         if(rctpos != pdtpos)
-          ctest << rct->getName() << " -> " << pdt->getName() << " =  " << Kr[pdtpos][rctpos] << endl;
+          ctest << rct->getName() << " -> " << pdt->getName() << " = " << Kr[pdtpos][rctpos] << endl;
       }
     }
     ctest << "}\n";
+
+    if(m_sinkRxns.size()!=0){
+      ctest << "\nFirst order & psuedo first order rate coefficients for irreversible rxns:\n{\n";
+      map<IrreversibleReaction*, int>::iterator sinkitr;
+
+      for(sinkitr=m_SinkSequence.begin(); sinkitr!=m_SinkSequence.end(); ++sinkitr){
+        IrreversibleReaction* sinkReaction = sinkitr->first;          // get Irreversible Rxn
+        int sinkpos = m_SinkSequence[sinkReaction];                   // get products & their position
+        vector<ModelledMolecule*> pdts;                                 
+        sinkReaction->get_products(pdts);
+        for(rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
+          ModelledMolecule* rcts = rctitr->first;     // get reactants & their position
+          int rctpos = rctitr->second;
+          ctest << rcts->getName() << " -> "  << pdts[0]->getName() << " = " << Kp[sinkpos][rctpos] << endl;
+        }
+      }
+      ctest << "}\n\n";
+    }
 
     mesmerRates = Kr;
     return true;

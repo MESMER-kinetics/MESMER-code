@@ -1825,6 +1825,10 @@ Print time dependent species and product profiles
          79432.8         4.95631      0.00300785         4.95931        -3.95931
 }
 
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
 Z_matrix * Z_matrix^(-1):
 {
             1            0
@@ -1837,11 +1841,11 @@ Kr:
        433.81 -7.1483e+005
 }
 
-First order and psuedo first order rate coefficients:
+First order & psuedo first order rate coefficients for loss & isomerization rxns:
 {
 HSO2 loss = -714825
 H loss = -433.809
-HSO2 -> H =  714825
-H -> HSO2 =  433.809
+HSO2 -> H = 714825
+H -> HSO2 = 433.809
 }
 }

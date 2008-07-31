@@ -20421,9 +20421,9 @@ inverse:
   1.9794e-014     -0.99632      0.99632
   7.3014e-017      0.99632    0.0036751
 }
-Equilibrium Fraction for acetyl = 1.97941e-014
 Equilibrium Fraction for Int1 = 0.996325
 Equilibrium Fraction for Int2 = 0.00367513
+Equilibrium Fraction for acetyl = 1.97941e-014
 
 Total number of eigenvalues = 347
 Eigenvalues
@@ -20943,6 +20943,10 @@ Print time dependent species and product profiles
          79432.8     1.8182e-014         1.01775      0.00123315      -0.0189793   -2.15695e-006         1.01898      -0.0189814
 }
 
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 2
+
 Z_matrix * Z_matrix^(-1):
 {
             1  3.1554e-030  7.8886e-031
@@ -20957,16 +20961,33 @@ Kr:
        383.84  1.8993e-006    -0.001566
 }
 
-First order and psuedo first order rate coefficients:
+Kp:
 {
-acetyl loss = -83869.3
+             8180.92        2.17046e-008          0.00105704
+             2.01622        3.65711e-015        5.10146e-015
+}
+
+First order & psuedo first order rate coefficients for loss & isomerization rxns:
+{
 Int1 loss = 9.38599e-007
 Int2 loss = -0.00156597
-acetyl -> Int1 =  75286.7
-acetyl -> Int2 =  383.837
-Int1 -> acetyl =  1.49581e-009
-Int1 -> Int2 =  1.89928e-006
-Int2 -> acetyl =  2.06766e-009
-Int2 -> Int1 =  0.000514893
+acetyl loss = -83869.3
+Int1 -> Int2 = 1.89928e-006
+Int1 -> acetyl = 1.49581e-009
+Int2 -> Int1 = 0.000514893
+Int2 -> acetyl = 2.06766e-009
+acetyl -> Int1 = 75286.7
+acetyl -> Int2 = 383.837
 }
+
+First order & psuedo first order rate coefficients for irreversible rxns:
+{
+Int1 -> lactone = 2.17046e-008
+Int2 -> lactone = 0.00105704
+acetyl -> lactone = 8180.92
+Int1 -> ketene = 3.65711e-015
+Int2 -> ketene = 5.10146e-015
+acetyl -> ketene = 2.01622
+}
+
 }

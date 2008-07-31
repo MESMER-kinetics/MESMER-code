@@ -2546,6 +2546,10 @@ Print time dependent species and product profiles
          79432.8        0.815132        0.164086    5.78902e-007        0.979219       0.0207814
 }
 
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
 Z_matrix * Z_matrix^(-1):
 {
             1            0 -5.5511e-017
@@ -2560,17 +2564,17 @@ Kr:
   5.5107e-006        39.85 -3.1273e-005
 }
 
-First order and psuedo first order rate coefficients:
+First order & psuedo first order rate coefficients for loss & isomerization rxns:
 {
 propyne loss = -3.12732e-005
 allene loss = -6.57246e-006
 cyclopropene loss = -40.3363
-propyne -> allene =  2.4828e-006
-propyne -> cyclopropene =  2.84782e-005
-allene -> propyne =  5.51067e-006
-allene -> cyclopropene =  8.37034e-007
-cyclopropene -> propyne =  39.8498
-cyclopropene -> allene =  0.527709
+propyne -> allene = 2.4828e-006
+propyne -> cyclopropene = 2.84782e-005
+allene -> propyne = 5.51067e-006
+allene -> cyclopropene = 8.37034e-007
+cyclopropene -> propyne = 39.8498
+cyclopropene -> allene = 0.527709
 }
 }
 PT Grid 1 Condition: conc = 2.41412e+018, temp = 1000, diagonalization precision: double
@@ -5289,6 +5293,10 @@ Print time dependent species and product profiles
          79432.8        0.634218        0.298461    6.44231e-006        0.932685       0.0673146
 }
 
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
 Z_matrix * Z_matrix^(-1):
 {
             1 -5.5511e-017            0
@@ -5303,16 +5311,16 @@ Kr:
      0.031491       4070.4    -0.056167
 }
 
-First order and psuedo first order rate coefficients:
+First order & psuedo first order rate coefficients for loss & isomerization rxns:
 {
 propyne loss = -0.0561671
 allene loss = -0.0333848
 cyclopropene loss = -4155.69
-propyne -> allene =  0.0148101
-propyne -> cyclopropene =  0.0413128
-allene -> propyne =  0.0314912
-allene -> cyclopropene =  0.00191301
-cyclopropene -> propyne =  4070.39
-cyclopropene -> allene =  88.6334
+propyne -> allene = 0.0148101
+propyne -> cyclopropene = 0.0413128
+allene -> propyne = 0.0314912
+allene -> cyclopropene = 0.00191301
+cyclopropene -> propyne = 4070.39
+cyclopropene -> allene = 88.6334
 }
 }

@@ -90,6 +90,7 @@ namespace mesmer
 
     // map modelled molecules (isomers + sources) with their sequence in the EqMatrix and Rate Coefficient matrix
     map<ModelledMolecule*, int> m_SpeciesSequence;
+    map<IrreversibleReaction*, int> m_SinkSequence;
 
     double m_meanOmega;
 

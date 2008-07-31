@@ -1,5 +1,11 @@
 2008-7-30 Dave Glowacki
 
+* added Bartis Widom eigenvalue eigenvector analysis to get phenomenological rates for irreversible reactions
+* added a member function to a2d.h to print out db2d matrices  
+* updated all baselines
+
+2008-7-30 Dave Glowacki
+
 * miscellaneous small changes to reaction manager.cpp for output file printing  
 * updated all baselines
 * changed QA.bat to include acetyl + O2 test system 

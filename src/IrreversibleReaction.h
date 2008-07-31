@@ -68,6 +68,8 @@ namespace mesmer
           return 1;
         } ;
 
+        // Return reactants
+        ModelledMolecule* get_reactants() const{return m_rct1;} ;
 
     private:
 
