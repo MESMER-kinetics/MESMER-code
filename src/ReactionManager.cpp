@@ -988,7 +988,7 @@ namespace mesmer
         Kr[i][j] = sm * m_meanOmega;
       }
     }
-    ctest << "\nKr:" << endl;
+    ctest << "\nKr matrix:" << endl;
     Kr.showFinalBits(nchem);       // print out Kr_matrix
 
     if(m_sinkRxns.size()!=0){
@@ -1001,11 +1001,11 @@ namespace mesmer
           Kp[i][j] = sm; 
         }
       }
-      ctest << "\nKp:" << endl;    // print out Kp_matrix
+      ctest << "\nKp matrix:" << endl;    // print out Kp_matrix
       Kp.print((int)(m_sinkRxns.size()), (int)(m_SpeciesSequence.size()));
     }
 
-    ctest << "\nFirst order & psuedo first order rate coefficients for loss & isomerization rxns:\n{\n";
+    ctest << "\nFirst order & psuedo first order rate coefficients for loss rxns:\n{\n";
     map<ModelledMolecule*, int>::iterator lossitr, rctitr, pdtitr;
 
     // print psuedo 1st order k loss for isomers
@@ -1014,6 +1014,9 @@ namespace mesmer
       int losspos = lossitr->second;
       ctest << iso->getName() << " loss = " << Kr[losspos][losspos] << endl;
     }
+
+    ctest << "}\n";
+    ctest << "\nFirst order & psuedo first order rate coefficients for isomerization rxns:\n{\n";
 
     // print psuedo first order connecting ks
     for (rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){

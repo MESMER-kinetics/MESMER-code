@@ -1,3 +1,7 @@
+2008-8-01 Dave Glowacki
+
+* fixed a bug in fast laplace transform routine in mesmermath.cpp
+
 _2008_08_01__15_35_33_ Chi-Hsiu Liang
 
   * Corrected the cell offset error produced during the process of removing SuperMolecule. Some functions are added for 

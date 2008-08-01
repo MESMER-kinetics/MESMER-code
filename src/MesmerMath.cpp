@@ -166,16 +166,23 @@ void FastLaplaceConvolution(std::vector<double> &data1, std::vector<double>
 
   realft(ans, -1);                   // inverse FFT back to the time/energy domain
 
-  double convolution_value,initial_value;     // replace those values in the convolution vector that are 
-  int replace(0);                             // unreliable because of precision issues
-  do{
-    convolution_value = 0;
-    initial_value = ans[replace];
-    for (int j(0); j <= replace; ++j)
-      convolution_value += data2[replace-j] * data1[j];
-    ans[replace] = convolution_value;
-    ++replace;
-  }while(convolution_value/initial_value < 0.99 || convolution_value/initial_value > 1.01);
+  int chk(20),replace(0);    // chk specifies how many values are required to demonstrate that
+  int ctr(0);                // the FFT convolution gives results within 1% of the slow convolution  
+  std::vector<double> conv_value(chk,0.0),initial_value(chk,0.0); 
+                             
+  do{                                        // replace those values in the convolution vector that are 
+    ctr = 0;                                 // unreliable because of precision issues - especially significant
+    for(int jj(0); jj<chk; ++jj){            // for convolution of data sets including very small values, e.g.,
+      conv_value[jj] = 0;                    // convolution of tunneling probabilities with TS Sum of States
+      initial_value[jj] = ans[replace];
+      for(int j(0); j <= replace; ++j)
+        conv_value[jj] += data2[replace-j] * data1[j];
+      ans[replace] = conv_value[jj];
+      if(conv_value[jj]/initial_value[jj]<1.01 && conv_value[jj]/initial_value[jj]>0.99 || initial_value[jj]==0)
+        ctr += 1;                            // increment ctr by one if it the convergence criteria are specified
+      ++replace;                                
+    }
+  }while(ctr!=chk);
 
   cinfo << endl << replace << " values in the FFT convolution routine were replaced by standard convolution" << endl;
 
