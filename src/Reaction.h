@@ -13,7 +13,6 @@
 //-------------------------------------------------------------------------------------------
 
 #include "MoleculeManager.h"
-#include "MicroRate.h"
 #include "Tunneling.h"
 
 namespace mesmer

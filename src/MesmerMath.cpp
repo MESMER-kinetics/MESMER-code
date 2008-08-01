@@ -1,5 +1,4 @@
 #include "MesmerMath.h"
-#include "oberror.h"
 #include "Constants.h"
 
 using namespace std;

@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 namespace mesmer
 {
@@ -28,6 +29,9 @@ namespace mesmer
       DensityOfStatesMap::iterator pos = get_Map().find(id);
       return (pos==get_Map().end()) ? NULL : pos->second;
     }
+
+    // Provide a function to define particular counts of the convolved DOS of two molecules.
+    virtual bool countDimerCellDOS(ModelledMolecule* p_mol1, ModelledMolecule*  p_mol2, std::vector<double>& rctsCellEne, std::vector<double>& rctsCellDOS) = 0; 
 
     // provide a function to define particular counts of the DOS of a molecule
     virtual bool countCellDOS(ModelledMolecule* mol) = 0;

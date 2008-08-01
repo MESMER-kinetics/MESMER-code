@@ -1,3 +1,30 @@
+_2008_08_01__15_35_33_ Chi-Hsiu Liang
+
+  * Corrected the cell offset error produced during the process of removing SuperMolecule. Some functions are added for 
+    AssociationReaction.
+    Variables added in AssociationReaction:
+      std::vector<double> m_rctsCellEne ;   // Cell energies of reactants.                        
+      std::vector<double> m_rctsCellDOS ;   // Convoluted cell density of states of reactants.           
+      std::vector<double> m_rctsGrainEne ;  // Grain average energy array.
+      std::vector<double> m_rctsGrainDOS ;  // Grain density of states array.
+
+    Functions added in AssociationReaction:
+      rctsRovibronicGrnCanPrtnFn()
+      calcRctsDensityOfStates()
+      getRctsCellDensityOfStates(vector<double> &cellDOS)
+      getRctsCellEnergies(vector<double> &CellEne)
+      getRctsGrainDensityOfStates(vector<double> &grainDOS)
+      getRctsGrainEnergies(vector<double> &grainEne)
+      
+  * Make countDimerCellDOS() a virtual function of class DensityOfStatesCalculator.
+  * Removed SuperMolecule.cpp
+  * Removed m_pDensityOfStatesCalculator from MesmerILT
+  * Moved shiftCells() and calcGrainAverages()
+    function from ModelledMolecule to MesmerTools. This is more of a tool than a molecular specific function. 
+    AssociationReaction now uses these function.
+  * Updated part of the manual.
+  * Updated baseline for Acetyl+O2 and OH+acetylene systems.
+  
 2008-7-30 Dave Glowacki
 
 * added Bartis Widom eigenvalue eigenvector analysis to get phenomenological rates for irreversible reactions

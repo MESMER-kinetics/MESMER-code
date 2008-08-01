@@ -14,7 +14,7 @@
 // excess that reaction does not significantly alter its concentration. The reactant with
 // the smaller concentration is deemed to be the pseudo-isomer of the reaction. Following
 // regular isomerization, a number of reaction properties are delegated to the pseudo-isomer,
-// e.g. the zero point energy location of the associating pair. Other quantities, such as 
+// e.g. the zero point energy location of the associating pair. Other quantities, such as
 // the combined density of states, are properties of the reaction and are held at that level.
 //
 //-------------------------------------------------------------------------------------------
@@ -34,11 +34,15 @@ namespace mesmer
     // Constructors.
     AssociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id)
       :Reaction(pMoleculeManager, Env, id),
-      m_sourceMap(NULL), 
+      m_sourceMap(NULL),
       m_rct1(NULL),
-      m_rct2(NULL), 
+      m_rct2(NULL),
       m_pdt1(NULL),
-	  m_ERConc(0.) {}
+      m_ERConc(0.),
+      m_rctsCellEne(),
+      m_rctsCellDOS(),
+      m_rctsGrainEne(),
+      m_rctsGrainDOS() {}
 
     // Destructor.
     virtual ~AssociationReaction(){
@@ -65,9 +69,33 @@ namespace mesmer
     virtual double get_relative_rctZPE() const { return m_rct1->get_zpe() + m_rct2->get_zpe() - getEnv().EMin; }
     virtual double get_relative_pdtZPE() const { return m_pdt1->get_zpe() - getEnv().EMin; }
     virtual double get_relative_TSZPE(void) const { return m_TransitionState->get_zpe() - getEnv().EMin; };
-    
+
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
+
+    // Get reactants cell density of states.
+    virtual void getRctsCellDensityOfStates(std::vector<double> &cellDOS) ;
+
+    // Set reactants cell  density of states.
+    virtual void setRctsCellDensityOfStates(std::vector<double> &cellDOS) { m_rctsCellDOS = cellDOS ; } ;
+
+    // Get reactants cell energies.
+    virtual void getRctsCellEnergies(std::vector<double> &CellEne) ;
+
+    // Set reactants cell energies.
+    virtual void setRctsCellEnergies(std::vector<double> &CellEne) { m_rctsCellEne = CellEne ; } ;
+
+    // Get reactants grain density of states.
+    virtual void getRctsGrainDensityOfStates(std::vector<double> &grainDOS) ;
+
+    // Get reactants grain energies.
+    virtual void getRctsGrainEnergies(std::vector<double> &grainEne) ;
+
+    virtual DensityOfStatesCalculator* get_rctsDensityOfStatesCalculator(){return get_pseudoIsomer()->get_DensityOfStatesCalculator(); }
+
+    bool calcRctsDensityOfStates();
+
+    double rctsRovibronicGrnCanPrtnFn();
 
   private:
 
@@ -91,7 +119,15 @@ namespace mesmer
     ModelledMolecule    *m_rct2 ;   // Subsidiary reactant molecule.
     CollidingMolecule   *m_pdt1 ;   // Product Molecule.
 
-	double               m_ERConc ; // Concentration of the excess reactant
+    double               m_ERConc ; // Concentration of the excess reactant
+
+    //
+    // Convoluted cell and grain averages for m_rct1 and m_rct2.
+    //
+    std::vector<double> m_rctsCellEne ;   // Cell energies of reactants.                        
+    std::vector<double> m_rctsCellDOS ;   // Convoluted cell density of states of reactants.           
+    std::vector<double> m_rctsGrainEne ;  // Grain average energy array.
+    std::vector<double> m_rctsGrainDOS ;  // Grain density of states array.
 
   } ;
 

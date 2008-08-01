@@ -12,7 +12,6 @@
 #include <string>
 #include <vector>
 #include "Constants.h"
-#include "marray.h"
 
 using namespace std;
 
@@ -53,7 +52,7 @@ namespace mesmer
     const double get_temperature()  { return temperature;   }
     const int    get_precision()    { return precision;     }
 
-    void set_condition(string ref1_, string ref2_, double value_, double error_){
+    void set_experimentalRate(string ref1_, string ref2_, double value_, double error_){
       conditionSet tCS(ref1_, ref2_, value_, error_);
       rates.push_back(tCS);
     }
@@ -69,7 +68,7 @@ namespace mesmer
     int     precision;
 
     vector<conditionSet> rates;
-
+    vector<conditionSet> yields;
   };
 
   // defining the unit concentration units conversion rule

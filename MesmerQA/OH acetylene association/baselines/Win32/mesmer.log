@@ -1,8 +1,68 @@
-Mesmer v0.1 compiled: -- May 30 2008 -- 16:21:32
+Mesmer v0.1 compiled: -- Aug  1 2008 -- 16:55:15
 
 Parsing input xml file... 
+OH_acetylene_association_test.xml at 20080801_172845
 
-OH_acetylene_association.xml at 20080531_172344
+Printing system precision configuration:
+Size of float = 
+4
+Size of double = 
+8
+Size of long double = 
+8
+Size of double-double = 
+16
+Size of quad-double = 
+32
+
+Epsilon is the difference between 1 and the smallest value greater than 1 that is representable for the data type.
+float epsilon == 
+1.19209e-007
+
+double epsilon == 
+2.22045e-016
+
+long double epsilon == 
+2.22045e-016
+
+dd_real epsilon == 
+4.93038e-032
+
+qd_real epsilon == 
+1.21543e-063
+
+
+float max == 
+3.40282e+038
+
+double max == 
+1.79769e+308
+
+long double max == 
+1.79769e+308
+
+dd_real max == 
+1.797693e+308
+
+qd_real max == 
+1.797693e+308
+
+
+float min == 
+1.17549e-038
+
+double min == 
+2.22507e-308
+
+long double min == 
+2.22507e-308
+
+dd_real min == 
+2.00417e-292
+
+qd_real min == 
+1.62597e-260
+
 The description element or attribute was missing or empty.
 Cannot find argument me:frequenciesScaleFactor
 Cannot find argument me:sigma in OH. Default value 5 is used.
@@ -11,7 +71,6 @@ Cannot find argument me:epsilon in OH. Default value 50 is used.
 
 Cannot find argument me:deltaEDown in OH
 No method for the calculation of distribution fraction in OH is provided. Default method <Boltzmann> is used.
-source name = source_0
 The description element or attribute was missing or empty.
 Cannot find argument me:eletronicExcitation for acetylene
 Cannot find argument me:frequenciesScaleFactor
@@ -30,50 +89,56 @@ No imaginary vibrational frequency for TS_0
 The me:tunneling element or attribute was missing or empty.
 No tunneling method was found for R1
 The description element or attribute was missing or empty.
+Cannot find argument me:eletronicExcitation for OCHCH2
+Cannot find argument me:frequenciesScaleFactor
+No method for the calculation of DOS in OCHCH2 is provided. Default method <Classical rotors> is used.
 The description element or attribute was missing or empty.
 Cannot find argument me:eletronicExcitation for TS_1a
 Cannot find argument me:frequenciesScaleFactor
 No imaginary vibrational frequency for TS_1a
 The me:tunneling element or attribute was missing or empty.
 The description element or attribute was missing or empty.
+The me:precision element or attribute was missing or empty.
 The me:MaximumEvolutionTime element or attribute was missing or empty.
 
-File: "OH_acetylene_association.xml" successfully parsed.
-Calculate EGME at 20080531_172344
+File: "OH_acetylene_association_test.xml" successfully parsed.
+Calculate EGME at 20080801_172845
 
 Now calculating...
-
-Write XML attribute at 20080531_172344
-Precision: Double
-
-Grid 
+OH_acetylene_association_test.xml
+Write XML attribute at 20080801_172845
+PT Grid 
 0
-
-Build Collison Operator at 20080531_172344
+Build Collison Operator at 20080801_172845
 Cell number = 
-15960
+15950
 , Grain number = 
-798
+319
 
 m_scaleFactor was not defined but requested in OH. Default value 1 is given.
 m_scaleFactor was not defined but requested in acetylene. Default value 1 is given.
-m_scaleFactor was not defined but requested in source_0. Default value 1 is given.
+
+2 values in the FFT convolution routine were replaced by standard convolution
 ILT calculation completed
 m_scaleFactor was not defined but requested in OH_acetylene_adduct. Default value 1 is given.
 m_scaleFactor was not defined but requested in TS_1a. Default value 1 is given.
-Diagonlize Collision Operator at 20080531_172834 -- Time elapsed: 0 seconds.
+Diagonlize Collision Operator at 20080801_172850 -- Time elapsed: 0 seconds.
 
-Finish Calculation at 20080531_173110 -- Time elapsed: 290 seconds.
+Finish Calculation at 20080801_172916 -- Time elapsed: 5 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
 
 Time stamps:
-20080531_162344 -- Build Collison Operator
-20080531_162834 -- Diagonlize Collision Operator
-20080531_163110 -- Finish Calculation
+20080801_162845 -- Build Collison Operator
+20080801_162850 -- Diagonlize Collision Operator
+20080801_162916 -- Finish Calculation
  *Info in main
-Save XML document to a new file at 20080531_173110 -- Total time elapsed: 446 seconds.
+Save XML document to a new file at 20080801_172916 -- Total time elapsed: 31 seconds.
 
-System saved to OH_acetylene_association.20080531_173110.xml
+System saved to OH_acetylene_association_test.20080801_172916.xml
+m_Mass is provided but not used in OCHCH2
+Rotational constants are provided but not used in OCHCH2
+m_Sym is provided but not used in OCHCH2
+m_SpinMultiplicity is provided but not used in OCHCH2
+m_VibFreq is provided but not used in OCHCH2
 m_Mass is provided but not used in TS_0
 m_Mass is provided but not used in TS_1a
-m_ZPE is provided but not used in dummy1

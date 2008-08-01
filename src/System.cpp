@@ -270,7 +270,7 @@ namespace mesmer
         stringstream s3(txt); s3 >> ref2;
         txt = ppExpRate->XmlReadValue("error");
         stringstream s4(txt); s4 >> errorValue;
-        thisPair.set_condition(ref1, ref2, rateValue, errorValue);
+        thisPair.set_experimentalRate(ref1, ref2, rateValue, errorValue);
         ppExpRate = ppExpRate->XmlMoveTo("me:experimentalRate");
       }
 
@@ -313,7 +313,8 @@ namespace mesmer
       spanSteps *= numSteps;
     }
 
-    TimeCount events; unsigned int timeElapsed; int calPoint(0);
+    // TimeCount events; unsigned int timeElapsed; 
+    int calPoint(0);
 
     for (int i(0); i < totalSteps; ++i){
       double chiSquare(1000.0);

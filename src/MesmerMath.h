@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <cmath>
 #include <vector>
+#include "oberror.h"
 
 template <class T>
 const T MesmerGamma(const T& x)

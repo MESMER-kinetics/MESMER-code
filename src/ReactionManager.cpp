@@ -89,10 +89,10 @@ namespace mesmer
         return false ;
       }
 
-            // The information of the products of a dissociation reaction is necessary, as in 
-            // the xml output, Mesmer needs to know the products to draw the potential energy
-            // surface. In addition, for dissociation reaction with QM tunneling, Mesmer also
-            // needs to know the barrier height on the products side.
+      // The information of the products of a dissociation reaction is necessary, as in 
+      // the xml output, Mesmer needs to know the products to draw the potential energy
+      // surface. In addition, for dissociation reaction with QM tunneling, Mesmer also
+      // needs to know the barrier height on the products side.
 
       //
       // Initialize Reaction from input stream.
@@ -203,16 +203,16 @@ namespace mesmer
         }
       }
 
-            //
-            // For Association reactions determine zero point energy location of the 
-            // associating pair.
-            //
-            AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
-            if (pReaction) {
-                double zpe = (pReaction->get_pseudoIsomer())->get_zpe() 
-                    + (pReaction->get_excessReactant())->get_zpe() ;
-                minEnergy = min(minEnergy, zpe) ;
-                maxEnergy = max(maxEnergy, zpe) ;
+      //
+      // For Association reactions determine zero point energy location of the 
+      // associating pair.
+      //
+      AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
+      if (pReaction) {
+        double zpe = (pReaction->get_pseudoIsomer())->get_zpe() 
+          + (pReaction->get_excessReactant())->get_zpe() ;
+        minEnergy = min(minEnergy, zpe) ;
+        maxEnergy = max(maxEnergy, zpe) ;
       }
 
       // Transition State
@@ -230,16 +230,16 @@ namespace mesmer
     // Set grain ZPE for all species involved in the reactions according to the minimum energy of the system.
     for (size_t i(0) ; i < size() ; ++i) {
 
-            // First: check for an association reaction and set grain location properties 
-            // of the reactants on the pseudo-isomer, the grain ZPE of being calculated as 
-            // zpeReactant1 + zpeReactant2 - minEnergy
-            AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
-            if (pReaction) {
-                double zpe = pReaction->get_relative_rctZPE();
-                pReaction->get_pseudoIsomer()->set_grainValues(zpe) ;
+      // First: check for an association reaction and set grain location properties 
+      // of the reactants on the pseudo-isomer, the grain ZPE of being calculated as 
+      // zpeReactant1 + zpeReactant2 - minEnergy
+      AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
+      if (pReaction) {
+        double zpe = pReaction->get_relative_rctZPE();
+        pReaction->get_pseudoIsomer()->set_grainValues(zpe) ;
       }
 
-            // Second: check for unimolecular species in this reaction
+      // Second: check for unimolecular species in this reaction
       std::vector<ModelledMolecule *> unimolecules ;
       m_reactions[i]->get_unimolecularspecies(unimolecules) ;
       for (size_t j(0) ; j < unimolecules.size() ; ++j) {
@@ -249,7 +249,7 @@ namespace mesmer
       }
     }
 
-        // Calculate TSFlux and k(E)s
+    // Calculate TSFlux and k(E)s
     for (size_t i(0) ; i < size() ; ++i) {
       m_reactions[i]->calcGrnAvrgMicroRateCoeffs() ;
     }
@@ -287,18 +287,18 @@ namespace mesmer
       for (size_t i(0) ; i < size() ; ++i) {
         AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
         if (pReaction) {
-                    ModelledMolecule *pPseudoIsomer = pReaction->get_pseudoIsomer();
-                    if (pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){ // New source
-                        double population = m_initialPopulations[pPseudoIsomer->getName()];
+          ModelledMolecule *pPseudoIsomer = pReaction->get_pseudoIsomer();
+          if (pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){ // New source
+            double population = m_initialPopulations[pPseudoIsomer->getName()];
             if (population){
               populationSum += population;
-                            pPseudoIsomer->setInitPopulation(population);
+              pPseudoIsomer->setInitPopulation(population);
             }
             if (populationSum == 0.0){
               populationSum += 1.0;
-                            pPseudoIsomer->setInitPopulation(populationSum);
+              pPseudoIsomer->setInitPopulation(populationSum);
             }
-                        m_sources[pPseudoIsomer] = msize ;
+            m_sources[pPseudoIsomer] = msize ;
             pReaction->putSourceMap(&m_sources) ;
             ++msize ;
           }
@@ -306,7 +306,7 @@ namespace mesmer
       }
 
       // Allocate space for the full system collision operator.
-            if (m_pSystemCollisionOperator) delete m_pSystemCollisionOperator;
+      if (m_pSystemCollisionOperator) delete m_pSystemCollisionOperator;
       m_pSystemCollisionOperator = new qdMatrix(msize, 0.0) ;
 
       // Insert collision operators for individual wells.
@@ -344,40 +344,40 @@ namespace mesmer
 
     switch (precision){
       case 0: // diagonalize in double
-          {
-              dMatrix dDiagM(smsize);
-        for ( int i = 0 ; i < smsize ; ++i )
-          for ( int j = 0 ; j < smsize ; ++j )
-            dDiagM[i][j] = to_double((*m_pSystemCollisionOperator)[i][j]) ;
-              vector<double>  dEigenValue(smsize, 0.0);
-        dDiagM.diagonalize(&dEigenValue[0]) ;
-        for ( int i = 0 ; i < smsize ; ++i )
-          m_eigenvalues[i] = dEigenValue[i];
-        for ( int i = 0 ; i < smsize ; ++i )
-          for ( int j = 0 ; j < smsize ; ++j )
-            (*m_pSystemCollisionOperator)[i][j] = dDiagM[i][j] ;
-        break;
-          }
-      case 1: // diagonalize in double double
-          {
-              ddMatrix ddDiagM(smsize);
-        for ( int i = 0 ; i < smsize ; ++i )
-          for ( int j = 0 ; j < smsize ; ++j )
-            ddDiagM[i][j] = to_dd_real((*m_pSystemCollisionOperator)[i][j]) ;
-              vector<dd_real> ddEigenValue(smsize, 0.0);
-        ddDiagM.diagonalize(&ddEigenValue[0]) ;
-        for ( int i = 0 ; i < smsize ; ++i )
-          m_eigenvalues[i] = ddEigenValue[i];
-        for ( int i = 0 ; i < smsize ; ++i )
-          for ( int j = 0 ; j < smsize ; ++j )
-            (*m_pSystemCollisionOperator)[i][j] = ddDiagM[i][j] ;
-        break;
-          }
-      default: // diagonalize in quad double
-          {
-        m_pSystemCollisionOperator->diagonalize(&m_eigenvalues[0]) ;
-    }
+        {
+          dMatrix dDiagM(smsize);
+          for ( int i = 0 ; i < smsize ; ++i )
+            for ( int j = 0 ; j < smsize ; ++j )
+              dDiagM[i][j] = to_double((*m_pSystemCollisionOperator)[i][j]) ;
+          vector<double>  dEigenValue(smsize, 0.0);
+          dDiagM.diagonalize(&dEigenValue[0]) ;
+          for ( int i = 0 ; i < smsize ; ++i )
+            m_eigenvalues[i] = dEigenValue[i];
+          for ( int i = 0 ; i < smsize ; ++i )
+            for ( int j = 0 ; j < smsize ; ++j )
+              (*m_pSystemCollisionOperator)[i][j] = dDiagM[i][j] ;
+          break;
         }
+      case 1: // diagonalize in double double
+        {
+          ddMatrix ddDiagM(smsize);
+          for ( int i = 0 ; i < smsize ; ++i )
+            for ( int j = 0 ; j < smsize ; ++j )
+              ddDiagM[i][j] = to_dd_real((*m_pSystemCollisionOperator)[i][j]) ;
+          vector<dd_real> ddEigenValue(smsize, 0.0);
+          ddDiagM.diagonalize(&ddEigenValue[0]) ;
+          for ( int i = 0 ; i < smsize ; ++i )
+            m_eigenvalues[i] = ddEigenValue[i];
+          for ( int i = 0 ; i < smsize ; ++i )
+            for ( int j = 0 ; j < smsize ; ++j )
+              (*m_pSystemCollisionOperator)[i][j] = ddDiagM[i][j] ;
+          break;
+        }
+      default: // diagonalize in quad double
+        {
+          m_pSystemCollisionOperator->diagonalize(&m_eigenvalues[0]) ;
+        }
+    }
 
     if (0) (*m_pSystemCollisionOperator).showFinalBits(smsize/2);
 
@@ -398,7 +398,7 @@ namespace mesmer
   }
 
   //
-    // Extract molecule information from XML stream.
+  // Extract molecule information from XML stream.
   //
   bool ReactionManager::GetMoleculeInfo(PersistPtr pp, string& MolName, string& MolType)
   {
@@ -539,15 +539,15 @@ namespace mesmer
 
     dMatrix backup(eqMatrix);  //backup EqMatrix for error reporting
 
-        backup.showFinalBits(counter);
-    
-      if(eqMatrix.invert()){
+    backup.showFinalBits(counter);
+
+    if(eqMatrix.invert()){
       cerr << "Inversion of matrix for calculating Eq fractions failed.  Matrix before inversion is: ";
       backup.showFinalBits(counter);
     }
 
-        ctest << "inverse:" << endl;
-        eqMatrix.showFinalBits(counter);
+    ctest << "inverse:" << endl;
+    eqMatrix.showFinalBits(counter);
 
     map<ModelledMolecule*, int>::iterator itr1;
 
@@ -572,8 +572,8 @@ namespace mesmer
 
     Reaction::sourceMap::iterator spos;
     for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map to get
-            ModelledMolecule* source = spos->first;                         // source initial populations
-            populationSum += source->getInitPopulation();
+      ModelledMolecule* source = spos->first;                         // source initial populations
+      populationSum += source->getInitPopulation();
     }
 
     for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
@@ -610,8 +610,8 @@ namespace mesmer
     }
 
     for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
-            ModelledMolecule* source = spos->first;
-            double initFrac = source->getInitPopulation() / populationSum;
+      ModelledMolecule* source = spos->first;
+      double initFrac = source->getInitPopulation() / populationSum;
       int location = spos->second;
       initDist[location] = initFrac;
       if (populationSum == 0. && spos == m_sources.begin()){
@@ -623,21 +623,21 @@ namespace mesmer
     return true;
   }
 
-    //
-    // The vector produced by this function contains the sqrt of 
-    // the normalized equilibrium distribution.
-    //
+  //
+  // The vector produced by this function contains the sqrt of 
+  // the normalized equilibrium distribution.
+  //
   bool ReactionManager::produceEquilibriumVector()
-    {
+  {
 
     eqVector.clear();
     eqVector.resize(m_pSystemCollisionOperator->size());
 
     Reaction::sourceMap::iterator spos;
     for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map to get
-            ModelledMolecule* source = spos->first;                            // eq Fractions
+      ModelledMolecule* source = spos->first;                            // eq Fractions
       int location = spos->second;
-            double eqFrac = source->getEqFraction();
+      double eqFrac = source->getEqFraction();
       eqVector[location] = sqrt(eqFrac);
     }
 
@@ -953,7 +953,7 @@ namespace mesmer
       }
     }
 
-//    Y_matrix.print((int)(m_sinkRxns.size()), (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
+    //    Y_matrix.print((int)(m_sinkRxns.size()), (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
 
     dMatrix Zinv(Z_matrix), Zidentity(nchem), Kr(nchem);
     db2D Kp;                                  
