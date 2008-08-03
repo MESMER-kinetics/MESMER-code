@@ -119,6 +119,10 @@ namespace mesmer
     // Add reaction terms to collision matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) = 0 ;
 
+    // Is reaction equilibrating and therefore contributes
+	// to the calculation of equilibrium fractions.
+	virtual bool isEquilibratingReaction(double &Keq, ModelledMolecule **rct, ModelledMolecule **pdt) { return false ; } ;
+
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() = 0 ;
 

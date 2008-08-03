@@ -73,6 +73,10 @@ namespace mesmer
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
 
+	// Is reaction equilibrating and therefore contributes
+	// to the calculation of equilibrium fractions.
+    virtual bool isEquilibratingReaction(double &Keq, ModelledMolecule **rct, ModelledMolecule **pdt) ;
+
     // Get reactants cell density of states.
     virtual void getRctsCellDensityOfStates(std::vector<double> &cellDOS) ;
 

@@ -89,7 +89,8 @@ namespace mesmer
     populationMap          m_initialPopulations;
 
     // map modelled molecules (isomers + sources) with their sequence in the EqMatrix and Rate Coefficient matrix
-    map<ModelledMolecule*, int> m_SpeciesSequence;
+    Reaction::sourceMap    m_SpeciesSequence;
+
     map<IrreversibleReaction*, int> m_SinkSequence;
 
     double m_meanOmega;

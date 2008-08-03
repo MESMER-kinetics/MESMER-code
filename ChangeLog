@@ -1,3 +1,7 @@
+2008-8-03 Struan Robertson
+
+  * ReactionManager.cpp: Minor tidying and removal of unnecessary down casts.
+
 _2008_08_03__12_15_44_ Chi-Hsiu Liang
 
 Update the manual and check for chmlin14 usage.

@@ -46,7 +46,11 @@ namespace mesmer
     virtual double get_relative_pdtZPE() const {return m_pdt1->get_zpe() - getEnv().EMin;}
     virtual double get_relative_TSZPE(void) const {return m_TransitionState->get_zpe() - getEnv().EMin;};
 
-    // Calculate reaction equilibrium constant.
+    // Is reaction equilibrating and therefore contributes
+	// to the calculation of equilibrium fractions.
+	virtual bool isEquilibratingReaction(double &Keq, ModelledMolecule **rct, ModelledMolecule **pdt) ;
+
+	// Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
 
   private:

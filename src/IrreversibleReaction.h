@@ -44,10 +44,10 @@ namespace mesmer
         // return relative reactant, product and transition state zero-point energy
         virtual double get_relative_rctZPE() const {return m_rct1->get_zpe() - getEnv().EMin;}
         virtual double get_relative_pdtZPE() const {
-          double zpe = m_pdt1->get_zpe() - getEnv().EMin;
-          if (m_pdt2)
-            zpe += m_pdt2->get_zpe();
-          return zpe;
+            double zpe = m_pdt1->get_zpe() - getEnv().EMin;
+            if (m_pdt2)
+                zpe += m_pdt2->get_zpe();
+            return zpe;
         }
         virtual double get_relative_TSZPE(void) const {return m_TransitionState->get_zpe() - getEnv().EMin;};
 
@@ -57,15 +57,15 @@ namespace mesmer
         // return the colloptrsize of the reactants
         int getRctColloptrsize(){return m_rct1->get_colloptrsize();}
 
-         // Return products
+        // Return products
         int get_products(std::vector<ModelledMolecule *> &product) const
         {
-          product.push_back(m_pdt1) ;
-          if(m_pdt2){
-            product.push_back(m_pdt2) ;
-            return 2;
-          }
-          return 1;
+            product.push_back(m_pdt1) ;
+            if(m_pdt2){
+                product.push_back(m_pdt2) ;
+                return 2;
+            }
+            return 1;
         } ;
 
         // Return reactants
@@ -82,8 +82,8 @@ namespace mesmer
         // Grain averaged microcanonical rate coefficients.
         virtual void calcGrainRateCoeffs();
 
-    // Test k(T)
-    virtual void testRateConstant();
+        // Test k(T)
+        virtual void testRateConstant();
 
         CollidingMolecule   *m_rct1 ;                 // Reactant Molecule.
         ModelledMolecule    *m_pdt1 ;                 // Product Molecule.
