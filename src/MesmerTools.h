@@ -20,7 +20,7 @@ namespace mesmer
 
   double canonicalPartitionFunction(const vector<double>& DOS, const vector<double>& Ene, const double beta);
 
-  // shift cell DOS and energy vectors according to m_cellOffset
+  // shift cell DOS and energy vectors according to cellOffset
   void shiftCells(int MaximumCell, int cellOffset, const vector<double>& cellDOS, const vector<double>& cellEne, std::vector<double>& shiftedCellDOS, std::vector<double>& shiftedCellEne);
 
   // Calculate the average grain energy and then number of states per grain.

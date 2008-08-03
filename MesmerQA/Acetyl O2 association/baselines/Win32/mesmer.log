@@ -1,7 +1,7 @@
-Mesmer v0.1 compiled: -- Aug  1 2008 -- 14:11:16
+Mesmer v0.1 compiled: -- Aug  2 2008 -- 23:50:14
 
 Parsing input xml file... 
-Acetyl_O2_association.xml at 20080801_162034
+Acetyl_O2_association.xml at 20080803_001113
 
 Printing system precision configuration:
 Size of float = 
@@ -94,14 +94,14 @@ The me:precision element or attribute was missing or empty.
 The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "Acetyl_O2_association.xml" successfully parsed.
-Calculate EGME at 20080801_162034
+Calculate EGME at 20080803_001113
 
 Now calculating...
 Acetyl_O2_association.xml
-Write XML attribute at 20080801_162034
+Write XML attribute at 20080803_001113
 PT Grid 
 0
-Build Collison Operator at 20080801_162034
+Build Collison Operator at 20080803_001113
 Cell number = 
 17800
 , Grain number = 
@@ -109,32 +109,34 @@ Cell number =
 
 No TransitionState for R1, threshold energy = 0.0
 
-19 values in the FFT convolution routine were replaced by standard convolution
+40 values in the FFT convolution routine were replaced by standard convolution
 ILT calculation completed
 
-8094 values in the FFT convolution routine were replaced by standard convolution
-Diagonlize Collision Operator at 20080801_162310 -- Time elapsed: 0 seconds.
+8420 values in the FFT convolution routine were replaced by standard convolution
+Diagonlize Collision Operator at 20080803_001236 -- Time elapsed: 0 seconds.
 
-Finish Calculation at 20080801_162403 -- Time elapsed: 156 seconds.
+Finish Calculation at 20080803_001317 -- Time elapsed: 83 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
 
 Time stamps:
-20080801_152034 -- Build Collison Operator
-20080801_152310 -- Diagonlize Collision Operator
-20080801_152403 -- Finish Calculation
+20080802_231113 -- Build Collison Operator
+20080802_231236 -- Diagonlize Collision Operator
+20080802_231317 -- Finish Calculation
  *Info in main
-Save XML document to a new file at 20080801_162403 -- Total time elapsed: 209 seconds.
+Save XML document to a new file at 20080803_001317 -- Total time elapsed: 124 seconds.
 
-System saved to Acetyl_O2_association.20080801_162403.xml
+System saved to Acetyl_O2_association.20080803_001317.xml
 m_Mass is provided but not used in HO_2
 Rotational constants are provided but not used in HO_2
 m_Sym is provided but not used in HO_2
+m_ZPE is provided but not used in HO_2
 m_scaleFactor is provided but not used in HO_2
 m_SpinMultiplicity is provided but not used in HO_2
 m_VibFreq is provided but not used in HO_2
 m_Mass is provided but not used in OH
 Rotational constants are provided but not used in OH
 m_Sym is provided but not used in OH
+m_ZPE is provided but not used in OH
 m_scaleFactor is provided but not used in OH
 m_SpinMultiplicity is provided but not used in OH
 m_VibFreq is provided but not used in OH
@@ -146,10 +148,12 @@ m_Mass is provided but not used in TS3
 m_Mass is provided but not used in ketene
 Rotational constants are provided but not used in ketene
 m_Sym is provided but not used in ketene
+m_ZPE is provided but not used in ketene
 m_scaleFactor is provided but not used in ketene
 m_SpinMultiplicity is provided but not used in ketene
 m_VibFreq is provided but not used in ketene
 m_Mass is provided but not used in lactone
 m_Sym is provided but not used in lactone
+m_ZPE is provided but not used in lactone
 m_scaleFactor is provided but not used in lactone
 m_SpinMultiplicity is provided but not used in lactone

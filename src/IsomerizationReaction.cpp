@@ -129,15 +129,6 @@ namespace mesmer
   // Read parameters requires to determine reaction heats and rates.
   bool IsomerizationReaction::ReadRateCoeffParameters(PersistPtr ppReac) {
 
-    // Read the heat of reaction (if present).
-    const char* pHeatRxntxt = ppReac->XmlReadValue("me:HeatOfReaction",false);
-    if (pHeatRxntxt){
-      stringstream s1(pHeatRxntxt);
-      double value = 0.0; s1 >> value ; setHeatOfReaction(value);
-    } else { // Calculate heat of reaction.
-      setHeatOfReaction(get_relative_pdtZPE(), get_relative_rctZPE());
-    }
-
     // Determine the method of MC rate coefficient calculation.
     const char* pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod") ;
     if(pMCRCMethodtxt)

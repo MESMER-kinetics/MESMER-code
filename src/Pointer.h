@@ -21,6 +21,7 @@ namespace mesmer
   class DPoint{
   private:
     int    p_;        // index to the double allP vector (if p_ = -1 then this object is not a point)
+    double value;     // the value used to calculate the current DOS vector
     double lower;     // lower bound of this variable
     double upper;     // upper bound of this variable
     double stepsize;  // step size used for grid search or fitting
@@ -46,6 +47,19 @@ namespace mesmer
     DPoint& operator/=(const double& b) { allP[p_] /= b;          return *this; }
 
     const double& get_value(void)       { return allP[p_];                      }
+    
+    // check if the "value" used to calculate the previous data is identical to the current value in allP vector.
+    bool isConstant(void){
+      if (value == get_value()){ 
+        return true;
+      }
+      return false;
+    }
+    
+    // This function explicitly tell DPoint to update the value, means that the DOS is re-calculated using the current value.
+    void updateValue(void){
+      value = get_value();
+    }
 
     void set_range(const double valueL, const double valueU, const double stepsize_);
 

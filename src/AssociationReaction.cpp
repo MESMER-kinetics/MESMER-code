@@ -190,15 +190,6 @@ namespace mesmer
   // Read parameters requires to determine reaction heats and rates.
   bool AssociationReaction::ReadRateCoeffParameters(PersistPtr ppReac) {
 
-    // Read the heat of reaction (if present).
-    const char* pHeatRxntxt = ppReac->XmlReadValue("me:HeatOfReaction",false);
-    if (pHeatRxntxt){
-      stringstream s1(pHeatRxntxt);
-      double value = 0.0; s1 >> value ; setHeatOfReaction(value);
-    } else { // Calculate heat of reaction.
-      setHeatOfReaction(get_relative_pdtZPE(), get_relative_rctZPE());
-    }
-
     const char* pActEnetxt = ppReac->XmlReadValue("me:activationEnergy", false);
     if (pActEnetxt)
     {
@@ -307,7 +298,8 @@ namespace mesmer
     vector<double> rctGrainDOS;
     vector<double> pdtGrainDOS;
     m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
-
+    getRctsGrainDensityOfStates(rctGrainDOS);
+    
     const int TSFluxGrainZPE  = getTSFluxGrnZPE();
     const int rctGrainZPE = get_pseudoIsomer()->get_grnZpe();
     const int pdtGrainZPE = m_pdt1->get_grnZpe();
@@ -322,7 +314,10 @@ namespace mesmer
     for (int i = TSFluxGrainZPE - pdtGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
       m_GrainKbmc[i] = m_GrainTSFlux[j] / pdtGrainDOS[i];
     }
-
+    for (int i = TSFluxGrainZPE - rctGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
+      m_GrainKfmc[i] = m_GrainTSFlux[j] / rctGrainDOS[i];
+    }
+    
     // the code that follows is for printing of the f & r k(E)s
     if (getEnv().kfEGrainsEnabled){
       ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
@@ -389,7 +384,11 @@ namespace mesmer
   //
   bool AssociationReaction::calcRctsDensityOfStates()
   {
-    if (m_rctsCellDOS.size() && m_rctsCellDOS.size() == static_cast<unsigned int>(getEnv().MaxCell))
+    const bool recalcRct1(m_rct1->needReCalculateDOS());
+    const bool recalcRct2(m_rct2->needReCalculateDOS());
+    const bool vectorSizeConstant(m_rctsCellDOS.size() == static_cast<unsigned int>(getEnv().MaxCell));
+    const size_t sizeOfVector(m_rctsCellDOS.size());
+    if (sizeOfVector && vectorSizeConstant && !recalcRct1 && !recalcRct2)
       return true;
     if (!get_rctsDensityOfStatesCalculator()->countDimerCellDOS(m_rct1, m_rct2, m_rctsCellEne, m_rctsCellDOS)){
       return false;

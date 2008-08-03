@@ -23,8 +23,6 @@ namespace mesmer
     m_ZPE(0.0),
     m_scaleFactor(1.0),
     m_SpinMultiplicity(1),
-    m_grnZpe(0.0),
-    m_cellOffset(0),
     m_initPopulation(0.0),
     m_eqFraction(0.0),
     m_pDensityOfStatesCalculator(NULL),
@@ -35,7 +33,6 @@ namespace mesmer
     m_scaleFactor_chk(-1),
     m_SpinMultiplicity_chk(-1),
     m_VibFreq_chk(-1),
-    m_grnZpe_chk(-1),
     m_eleExc(),
     m_VibFreq(),
     m_cellEne(),
@@ -53,7 +50,6 @@ namespace mesmer
     if (m_scaleFactor_chk == 0) cinfo << "m_scaleFactor is provided but not used in " << getName() << endl;
     if (m_SpinMultiplicity_chk == 0) cinfo << "m_SpinMultiplicity is provided but not used in " << getName() << endl;
     if (m_VibFreq_chk == 0) cinfo << "m_VibFreq is provided but not used in " << getName() << endl;
-    if (m_grnZpe_chk == 0) cinfo << "m_grnZpe is calculated but not used in " << getName() << endl;
 
     // Free any memory assigned for calculating densities of states. (must be in reverse order)
     if (m_grainDOS.size()) m_grainDOS.clear();
@@ -338,7 +334,11 @@ namespace mesmer
   //
   bool ModelledMolecule::calcDensityOfStates()
   {
-    if (m_cellDOS.size() && m_cellDOS.size() == static_cast<unsigned int>(getEnv().MaxCell))
+    const bool recalc(needReCalculateDOS());
+    const bool vectorSizeConstant(m_cellDOS.size() == static_cast<unsigned int>(getEnv().MaxCell));
+    const size_t sizeOfVector(m_cellDOS.size());
+
+    if (sizeOfVector && vectorSizeConstant && !recalc)
       return true;
     if (!get_DensityOfStatesCalculator()->countCellDOS(this)){
       return false;
@@ -353,6 +353,8 @@ namespace mesmer
     calcGrainAverages(getEnv().MaxGrn, getEnv().GrainSize, shiftedCellDOS, shiftedCellEne, m_grainDOS, m_grainEne, getName());
 
     testDensityOfStates();
+    
+    recalculateDOScompleted();
     return true;
   }
 
@@ -472,18 +474,6 @@ namespace mesmer
     }
   }
 
-  // gets relative ZPE of the well and calculates grain origin and cell offset
-  // (i.e., the number of leading zeros in the well's cell properties vector
-  void ModelledMolecule::set_grainValues(double relativeZPE) {
-    double grnZpe = relativeZPE / getEnv().GrainSize ; //convert to grain
-    if (grnZpe < 0.0)
-      cerr << "Grain zero point energy has to be a positive value.";
-
-    set_grnZpe(grnZpe) ; //set grain ZPE (with respect to the minimum of all wells)
-    const double modulus = fmod(relativeZPE, getEnv().GrainSize);
-    m_cellOffset =  int(modulus);
-  }
-
   void   ModelledMolecule::setMass(double value)           {
     m_Mass = value;
     m_Mass_chk = 0;
@@ -555,30 +545,12 @@ namespace mesmer
     return m_Sym ;
   }
 
-  void ModelledMolecule::set_grnZpe(double grnZpe) {
-    if (m_grnZpe_chk < 0){
-      m_grnZpe = grnZpe;
-      m_grnZpe_chk = 0;
-    }
-    else{
-      // cinfo << "Grain ZPE is already set for " << getName() << endl;
-    }
-  }
-
   const int ModelledMolecule::get_grnZpe(){
-    /* get_grnZpe() function returns the integer part of m_grnZpe However the first grain of the well usually have leading
-    zeros to offset the cell numbers to integral grains. */
-    if (m_grnZpe_chk == -1){
-      cinfo << "m_grnZpe was not calculated but requested in " << getName() << ". Default value " << m_grnZpe << " is given." << endl;
-      --m_grnZpe_chk;
-      return int(m_grnZpe);
-    }
-    else if (m_grnZpe_chk < -1){
-      --m_grnZpe_chk;
-      return int(m_grnZpe);
-    }
-    ++m_grnZpe_chk;
-    return int(m_grnZpe);
+    double grnZpe = get_relative_ZPE() / getEnv().GrainSize ; //convert to grain
+    if (grnZpe < 0.0)
+      cerr << "Grain zero point energy has to be a positive value.";
+
+    return int(grnZpe);
   }
 
   void ModelledMolecule::get_VibFreq(std::vector<double>& vibFreq){

@@ -1,3 +1,12 @@
+_2008_08_02__23_04_32_ Chi-Hsiu Liang
+
+  * Removed some variables related with heat of reaction, cell offset and grain ZPE. These variables should be calculated 
+    on the fly. This solves inconsistency problem in grid search.
+  * Updated baselines. Most baselines changes are due to the correction in shifting wells of source term and transition states.
+    All corrections are in good agreement with the baselines based on version 179.
+  * The difference in the species profile of pentyl baseline between version 201 and version 198 is due to the population starts
+    from alternative species. 
+  
 2008-8-01 Dave Glowacki
 
 * fixed a bug in fast laplace transform routine in mesmermath.cpp

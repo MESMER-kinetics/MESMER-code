@@ -120,17 +120,6 @@ namespace mesmer
   // Read parameters requires to determine reaction heats and rates.
   bool IrreversibleReaction::ReadRateCoeffParameters(PersistPtr ppReac) {
 
-    // Read the heat of reaction (if present).
-    const char* pHeatRxntxt = ppReac->XmlReadValue("me:HeatOfReaction",false);
-    if (pHeatRxntxt){
-      stringstream s1(pHeatRxntxt);
-      double value = 0.0; s1 >> value ; setHeatOfReaction(value);
-    } else { // Calculate heat of reaction.
-      if (m_pdt1 && m_pdt1){
-        setHeatOfReaction(get_relative_pdtZPE(), get_relative_rctZPE());
-      }
-    }
-
     const char* pActEnetxt = ppReac->XmlReadValue("me:activationEnergy", false);
     if (pActEnetxt)
     {

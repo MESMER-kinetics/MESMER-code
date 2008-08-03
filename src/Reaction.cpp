@@ -33,8 +33,6 @@ namespace mesmer
     m_PreExp(0.0),
     m_NInf(0.0),
     m_kfwd(0.0),
-    m_HeatOfReaction(0.0),
-    m_HeatOfReactionInt(0),
     m_ActivationEnergy(0.0) 
   {}
 
@@ -214,15 +212,5 @@ namespace mesmer
     }
     return m_ActivationEnergy.get_value();
   } ;
-
-  void Reaction::setHeatOfReaction(const double pdtZPE, const double rctZPE){
-    m_HeatOfReaction = pdtZPE - rctZPE;
-    m_HeatOfReactionInt = int(pdtZPE) - int(rctZPE);
-  }
-
-  void Reaction::setHeatOfReaction(const double value){
-    m_HeatOfReaction = value;
-    m_HeatOfReactionInt = int(value);
-  }
 
 }//namespace

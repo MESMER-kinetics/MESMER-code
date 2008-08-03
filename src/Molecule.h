@@ -102,8 +102,6 @@ namespace mesmer
     DPoint m_ZPE ;              // Zero Point Energy. (kJ/mol)
     double m_scaleFactor ;      // scale factor for input real/imaginary vibrational frequencies
     int    m_SpinMultiplicity ; // spin multiplicity
-    double m_grnZpe ;           // Zero point energy expressed in grains.
-    int    m_cellOffset ;       // Shift of cells for integral number of grains in a well
 
     double m_initPopulation ;   // initial population of the molecule.
     double m_eqFraction ;       // equilibrium fraction of the species
@@ -119,7 +117,6 @@ namespace mesmer
     int m_scaleFactor_chk;
     int m_SpinMultiplicity_chk;
     int m_VibFreq_chk;
-    int m_grnZpe_chk;
     //================================================
 
     std::vector<double> m_eleExc;   // Electronic excitation(for OH, NO, NS otherwise no member).
@@ -128,7 +125,7 @@ namespace mesmer
   protected:
 
     //
-    // Cell and grain averages. 
+    // Cell and grain averages.
     //
     std::vector<double> m_cellEne ;   // Cell energy array.
     std::vector<double> m_cellDOS ;   // Cell density of states array.
@@ -174,6 +171,17 @@ namespace mesmer
     // Calculate classical energy
     double getClassicalEnergy();
 
+    // This function checks if any of the DPoint values is different then a DOS recalculation will take place
+    bool needReCalculateDOS(void){
+      if (!m_ZPE.isConstant()) return true;
+      return false;
+    }
+
+    // This function explicitly tell all DPoint values in this ModelledMolecule that a DOS recalculation is completed.
+    void recalculateDOScompleted(void){
+      m_ZPE.updateValue();
+    }
+
     // Accessors.
     double getMass() ;
     void   setMass(double value);
@@ -181,8 +189,8 @@ namespace mesmer
     virtual double get_zpe();
     double get_scaleFactor();
     void set_zpe(const double value){ m_ZPE = value; m_ZPE_chk = 0;};
-    void set_zpe(const double valueL, const double valueU, const double stepsize){ 
-      m_ZPE.set_range(valueL, valueU, stepsize); 
+    void set_zpe(const double valueL, const double valueU, const double stepsize){
+      m_ZPE.set_range(valueL, valueU, stepsize);
       m_ZPE_chk = 0;
     }
     void set_scaleFactor(double value);
@@ -211,8 +219,11 @@ namespace mesmer
     // Test the rovibrational density of states.
     virtual void testDensityOfStates() ;
 
-        void set_grainValues(double relativeZPE);
-    int get_cellOffset(void) const {return m_cellOffset ;} ;
+    void set_grainValues(double relativeZPE);
+    int get_cellOffset(void) {
+      double modulus = fmod(get_relative_ZPE(), getEnv().GrainSize);
+    return int(modulus) ;
+    } ;
 
   } ;
 
@@ -304,7 +315,7 @@ namespace mesmer
     void set_colloptrsize(int ncolloptrsize) ;
     int  get_colloptrsize() const ;
     void   setDeltaEdown(const double value){ m_DeltaEdown = value; m_DeltaEdown_chk = 0;};
-    void   setDeltaEdown(const double valueL, const double valueU, const double stepsize){ 
+    void   setDeltaEdown(const double valueL, const double valueU, const double stepsize){
       m_DeltaEdown.set_range(valueL, valueU, stepsize);
       m_DeltaEdown_chk = 0;
     };

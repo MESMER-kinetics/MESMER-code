@@ -227,28 +227,6 @@ namespace mesmer
     if(!SetGrainParams(Env, minEnergy, maxEnergy))
       return false;
 
-    // Set grain ZPE for all species involved in the reactions according to the minimum energy of the system.
-    for (size_t i(0) ; i < size() ; ++i) {
-
-      // First: check for an association reaction and set grain location properties 
-      // of the reactants on the pseudo-isomer, the grain ZPE of being calculated as 
-      // zpeReactant1 + zpeReactant2 - minEnergy
-      AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
-      if (pReaction) {
-        double zpe = pReaction->get_relative_rctZPE();
-        pReaction->get_pseudoIsomer()->set_grainValues(zpe) ;
-      }
-
-      // Second: check for unimolecular species in this reaction
-      std::vector<ModelledMolecule *> unimolecules ;
-      m_reactions[i]->get_unimolecularspecies(unimolecules) ;
-      for (size_t j(0) ; j < unimolecules.size() ; ++j) {
-        CollidingMolecule *pCollidingMolecule = dynamic_cast<CollidingMolecule*>(unimolecules[j]) ;
-        double zpe = pCollidingMolecule->get_relative_ZPE() ;
-        pCollidingMolecule->set_grainValues(zpe);
-      }
-    }
-
     // Calculate TSFlux and k(E)s
     for (size_t i(0) ; i < size() ; ++i) {
       m_reactions[i]->calcGrnAvrgMicroRateCoeffs() ;

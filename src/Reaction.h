@@ -44,10 +44,16 @@ namespace mesmer
     double get_NInf()                     { return m_NInf.get_value() ; } ;
     void set_NInf(double value)           { m_NInf = value;}
     void set_NInf(double valueL, double valueU, double stepsize)  { m_NInf.set_range(valueL, valueU, stepsize); }
-    double getHeatOfReaction() const      { return m_HeatOfReaction ; };
-    int getHeatOfReactionInt() const      { return m_HeatOfReactionInt; };
-    void setHeatOfReaction(const double pdtZPE, const double rctZPE);
-    void setHeatOfReaction(const double value);
+    double getHeatOfReaction() const      {
+      const double pdtZPE = get_relative_pdtZPE();
+      const double rctZPE = get_relative_rctZPE();
+      return pdtZPE - rctZPE;
+    };
+    int getHeatOfReactionInt() const      { 
+      const int pdtZPE = int(get_relative_pdtZPE());
+      const int rctZPE = int(get_relative_rctZPE());
+      return pdtZPE - rctZPE; 
+    };
     const MesmerEnv& getEnv() const       { return m_Env; } ;
     void resetCalcFlag()                  { reCalcDOS = true; };
 
@@ -184,8 +190,6 @@ namespace mesmer
     //
     // Reaction Rate data.
     //
-    double m_HeatOfReaction ;       // The heat of reaction corrected for zero point energies.
-    int    m_HeatOfReactionInt ;    // Relative heat of reaction in wavenumber (integer)
     DPoint m_ActivationEnergy;      // Activation Energy
 
   } ;

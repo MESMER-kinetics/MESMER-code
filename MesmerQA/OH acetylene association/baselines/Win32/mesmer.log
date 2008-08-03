@@ -1,7 +1,7 @@
-Mesmer v0.1 compiled: -- Aug  1 2008 -- 16:55:15
+Mesmer v0.1 compiled: -- Aug  2 2008 -- 23:50:14
 
 Parsing input xml file... 
-OH_acetylene_association_test.xml at 20080801_172845
+OH_acetylene_association_test.xml at 20080803_121423
 
 Printing system precision configuration:
 Size of float = 
@@ -102,14 +102,14 @@ The me:precision element or attribute was missing or empty.
 The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "OH_acetylene_association_test.xml" successfully parsed.
-Calculate EGME at 20080801_172845
+Calculate EGME at 20080803_121423
 
 Now calculating...
 OH_acetylene_association_test.xml
-Write XML attribute at 20080801_172845
+Write XML attribute at 20080803_121423
 PT Grid 
 0
-Build Collison Operator at 20080801_172845
+Build Collison Operator at 20080803_121423
 Cell number = 
 15950
 , Grain number = 
@@ -118,26 +118,27 @@ Cell number =
 m_scaleFactor was not defined but requested in OH. Default value 1 is given.
 m_scaleFactor was not defined but requested in acetylene. Default value 1 is given.
 
-2 values in the FFT convolution routine were replaced by standard convolution
+40 values in the FFT convolution routine were replaced by standard convolution
 ILT calculation completed
 m_scaleFactor was not defined but requested in OH_acetylene_adduct. Default value 1 is given.
 m_scaleFactor was not defined but requested in TS_1a. Default value 1 is given.
-Diagonlize Collision Operator at 20080801_172850 -- Time elapsed: 0 seconds.
+Diagonlize Collision Operator at 20080803_121427 -- Time elapsed: 0 seconds.
 
-Finish Calculation at 20080801_172916 -- Time elapsed: 5 seconds.
+Finish Calculation at 20080803_121502 -- Time elapsed: 4 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
 
 Time stamps:
-20080801_162845 -- Build Collison Operator
-20080801_162850 -- Diagonlize Collision Operator
-20080801_162916 -- Finish Calculation
+20080803_111423 -- Build Collison Operator
+20080803_111427 -- Diagonlize Collision Operator
+20080803_111502 -- Finish Calculation
  *Info in main
-Save XML document to a new file at 20080801_172916 -- Total time elapsed: 31 seconds.
+Save XML document to a new file at 20080803_121502 -- Total time elapsed: 39 seconds.
 
-System saved to OH_acetylene_association_test.20080801_172916.xml
+System saved to OH_acetylene_association_test.20080803_121502.xml
 m_Mass is provided but not used in OCHCH2
 Rotational constants are provided but not used in OCHCH2
 m_Sym is provided but not used in OCHCH2
+m_ZPE is provided but not used in OCHCH2
 m_SpinMultiplicity is provided but not used in OCHCH2
 m_VibFreq is provided but not used in OCHCH2
 m_Mass is provided but not used in TS_0
