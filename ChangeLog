@@ -1,3 +1,7 @@
+_2008_08_03__12_15_44_ Chi-Hsiu Liang
+
+Update the manual and check for chmlin14 usage.
+
 _2008_08_02__23_04_32_ Chi-Hsiu Liang
 
   * Removed some variables related with heat of reaction, cell offset and grain ZPE. These variables should be calculated 
