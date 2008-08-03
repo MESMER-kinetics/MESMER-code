@@ -20,7 +20,7 @@ namespace mesmer
         m_pMoleculeManager(pMoleculeManager),
         m_pSystemCollisionOperator(0),
         m_eigenvalues(),
-        eqVector(),
+        m_eqVector(),
         m_isomers(),
         m_sources(),
         m_sinkRxns(),
@@ -429,25 +429,19 @@ namespace mesmer
             //only need eq fracs for species in isom & assoc rxns
             if (m_reactions[i]->isEquilibratingReaction(Keq, &rct, &pdt)){ 
 
-                int ploc, rloc, rval, pval;
+                int ploc, rloc ;
 
                 map<ModelledMolecule*, int>::iterator rctitr = m_SpeciesSequence.find(rct);   //check if the reactant is in the map
-                if(rctitr==m_SpeciesSequence.end())        //if the reactant isnt in the map
-                    rval = 0;
-                else{
-                    rloc = rctitr->second;        //if the reactant is in the map, get the location
-                    rval = 1;
-                }
+                bool rval = (rctitr != m_SpeciesSequence.end()) ;       //if the reactant isnt in the map
+                if (rval)
+                    rloc = rctitr->second ;        //if the reactant is in the map, get the location
 
                 map<ModelledMolecule*, int>::iterator pdtitr = m_SpeciesSequence.find(pdt);   //check if the product is in the map
-                if(pdtitr==m_SpeciesSequence.end())        //if the product isnt in the map
-                    pval = 0;
-                else{
+                bool pval = (pdtitr != m_SpeciesSequence.end()) ;       //if the product isnt in the map
+                if (pval)
                     ploc = pdtitr->second;        //if the product is in the map, get the location
-                    pval = 1;
-                }
 
-                if(rval==0 && pval==0){             // if neither reactant nor product are in the m_SpeciesSequence map
+                if(!rval && !pval){             // if neither reactant nor product are in the m_SpeciesSequence map
                     m_SpeciesSequence[rct] = counter;            // update the eqMatrix elements
                     counter++ ;
                     m_SpeciesSequence[pdt] = counter;
@@ -455,19 +449,19 @@ namespace mesmer
                     eqMatrix[counter-1][counter] += 1.0;
                     counter++ ;
                 }
-                else if(rval==0 && pval==1){        // if reactant isnt in m_SpeciesSequence map & product is
+                else if(!rval && pval){        // if reactant isnt in m_SpeciesSequence map & product is
                     m_SpeciesSequence[rct] = counter;            // update the eqMatrix matrix elements
                     eqMatrix[counter-1][ploc] += 1.0;
                     eqMatrix[counter-1][counter] -= Keq;
                     counter++ ;
                 }
-                else if(rval==1 && pval==0){        // if reactant is in m_SpeciesSequence map & product isnt
+                else if(rval && !pval){        // if reactant is in m_SpeciesSequence map & product isnt
                     m_SpeciesSequence[pdt] = counter;            // update the eqMatrix matrix elements
                     eqMatrix[counter-1][rloc] -= Keq;
                     eqMatrix[counter-1][counter] += 1.0 ;
                     counter++ ;
                 }
-                else if(rval==1 && pval==1){        // if both reactant & product are in m_SpeciesSequence map
+                else if(rval && pval){        // if both reactant & product are in m_SpeciesSequence map
 
                     double pdtRowSum(0.0), rctRowSum(0.0);
 
@@ -591,15 +585,15 @@ namespace mesmer
     bool ReactionManager::produceEquilibriumVector()
     {
 
-        eqVector.clear();
-        eqVector.resize(m_pSystemCollisionOperator->size());
+        m_eqVector.clear();
+        m_eqVector.resize(m_pSystemCollisionOperator->size());
 
         Reaction::sourceMap::iterator spos;
         for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map to get
             ModelledMolecule* source = spos->first;                            // eq Fractions
             int location = spos->second;
             double eqFrac = source->getEqFraction();
-            eqVector[location] = sqrt(eqFrac);
+            m_eqVector[location] = sqrt(eqFrac);
         }
 
         Reaction::isomerMap::iterator ipos;
@@ -611,7 +605,7 @@ namespace mesmer
             vector<double> boltzFrac;
             isomer->normalizedBoltzmannDistribution(boltzFrac, colloptrsize);
             for(int i(0);i<colloptrsize;++i){
-                eqVector[location + i]= sqrt(eqFrac * boltzFrac[i]);
+                m_eqVector[location + i]= sqrt(eqFrac * boltzFrac[i]);
             }
         }
         return true;
@@ -657,7 +651,7 @@ namespace mesmer
 
         // |initDist> = F^(-1)*|p(0)>
         for (int j = 0; j < smsize; ++j) {
-            initDist[j] = initDist[j]/eqVector[j];
+            initDist[j] = initDist[j]/m_eqVector[j];
         }
 
         dMatrix sysCollOptr(smsize); // copy the system collision operator,
@@ -676,7 +670,7 @@ namespace mesmer
         }
 
         for (int i = 0; i < smsize; ++i) {
-            double tmp = eqVector[i];
+            double tmp = m_eqVector[i];
             for (int j = 0; j < smsize; ++j) {
                 sysCollOptr[i][j] *= tmp;
             }
@@ -842,10 +836,10 @@ namespace mesmer
         dMatrix assymInvEigenVec(smsize);   // U^(-1)
         dMatrix assymEigenVec(smsize);      // U
         for(int i(0);i<smsize;++i){
-            double tmp = eqVector[i];
+            double tmp = m_eqVector[i];
             for(int j(0);j<smsize;++j){
                 assymInvEigenVec[j][i] = eigenVec[i][j]/tmp;         //calculation of U^(-1) = (FV)^-1 = V^T * F^-1
-                assymEigenVec[j][i] = eqVector[j] * eigenVec[j][i];  //calculation of U = FV
+                assymEigenVec[j][i] = m_eqVector[j] * eigenVec[j][i];  //calculation of U = FV
             }
         }
 

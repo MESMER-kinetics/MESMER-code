@@ -76,11 +76,11 @@ namespace mesmer
 
     MoleculeManager        *m_pMoleculeManager ;
 
-    qdMatrix                *m_pSystemCollisionOperator ;
+    qdMatrix               *m_pSystemCollisionOperator ;
 
-    std::vector<qd_real>     m_eigenvalues;
+    std::vector<qd_real>    m_eigenvalues;
 
-    std::vector<double>     eqVector;
+    std::vector<double>     m_eqVector;
 
     // Maps the location of individual reactant collision operator and source terms in the system matrix.
     Reaction::isomerMap    m_isomers;
