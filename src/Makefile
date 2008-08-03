@@ -70,6 +70,7 @@ endif
 
 #INCS := -I/usr/include/g++-2 -I/usr/local/include
 INCS := -I../tinyxml/
+#INCS := -I../tinyxml/ -I/usr/local/newqd/include
 
 
 #****************************************************************************
@@ -119,7 +120,6 @@ SRCS := \
 	ReactionManager.cpp \
 	SimpleILT.cpp \
 	SimpleRRKM.cpp \
-	SuperMolecule.cpp \
 	System.cpp \
 	TimeCounter.cpp \
 	TransitionState.cpp \

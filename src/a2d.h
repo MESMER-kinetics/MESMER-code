@@ -11,14 +11,14 @@
 #endif
 
 #include <map>
-#include "oberror.h"
 
 #define __A2D_DUMP__
 #ifdef __A2D_DUMP__
 #include <iostream>
-using std::cout;
-using std::endl;
 #endif
+#include "oberror.h"
+using namespace mesmer;
+using namespace std;
 
 template <class V, class K=int>
 class a2d_t{
