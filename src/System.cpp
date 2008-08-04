@@ -327,9 +327,11 @@ namespace mesmer
       ctest << "Parameter Grid " << calPoint << "\n{\n";
       calculate(chiSquare);
 
-      ctest << "Parameters: ( ";
-      for (int varID(0); varID < int(fitDP.size()); ++varID) formatFloat(ctest, gridArray[i][varID], 4,  7) ;
-      ctest << " chiSquare = " << chiSquare << " )\n}\n";
+      if (fitDP.size()){
+        ctest << "Parameters: ( ";
+        for (int varID(0); varID < int(fitDP.size()); ++varID) ctest << gridArray[i][varID] << " ";
+        ctest << "chiSquare = " << chiSquare << " )\n}\n";
+      }
       ++calPoint;
     }
 
