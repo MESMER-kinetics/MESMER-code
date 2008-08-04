@@ -1180,8 +1180,8 @@ inverse:
   -4.763e-016   4.763e-016
    4.763e-016            1
 }
-Equilibrium Fraction for OH = 4.76304e-016
 Equilibrium Fraction for OH_acetylene_adduct = 1
+Equilibrium Fraction for OH = 4.76304e-016
 
 Total number of eigenvalues = 320
 Eigenvalues
@@ -1702,20 +1702,20 @@ Kp matrix:
 
 First order & psuedo first order rate coefficients for loss rxns:
 {
-OH loss = -73531.8
 OH_acetylene_adduct loss = -1.20549e-005
+OH loss = -73531.8
 }
 
 First order & psuedo first order rate coefficients for isomerization rxns:
 {
-OH -> OH_acetylene_adduct = 73243.4
 OH_acetylene_adduct -> OH = 3.48861e-011
+OH -> OH_acetylene_adduct = 73243.4
 }
 
 First order & psuedo first order rate coefficients for irreversible rxns:
 {
-OH -> OCHCH2 = 288.353
 OH_acetylene_adduct -> OCHCH2 = 8.94964e-013
+OH -> OCHCH2 = 288.353
 }
 
 }

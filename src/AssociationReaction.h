@@ -32,17 +32,19 @@ namespace mesmer
   public:
 
     // Constructors.
-    AssociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id)
+    AssociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id, bool isReactant)
       :Reaction(pMoleculeManager, Env, id),
       m_sourceMap(NULL),
       m_rct1(NULL),
       m_rct2(NULL),
       m_pdt1(NULL),
+      deficientReactantLocation(isReactant),
       m_ERConc(0.),
       m_rctsCellEne(),
       m_rctsCellDOS(),
       m_rctsGrainEne(),
-      m_rctsGrainDOS() {}
+      m_rctsGrainDOS() 
+    {}
 
     // Destructor.
     virtual ~AssociationReaction(){
@@ -123,6 +125,7 @@ namespace mesmer
     ModelledMolecule    *m_rct2 ;   // Subsidiary reactant molecule.
     CollidingMolecule   *m_pdt1 ;   // Product Molecule.
 
+    bool deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
     double               m_ERConc ; // Concentration of the excess reactant
 
     //

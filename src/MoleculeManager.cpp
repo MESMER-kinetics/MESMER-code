@@ -43,8 +43,8 @@ namespace mesmer
         Molecule *pmolecule;
         if(molType=="modelled")
             pmolecule = static_cast<Molecule*>(new CollidingMolecule(Env));
-        else if(molType=="reactant")
-            pmolecule = static_cast<Molecule*>(new CollidingMolecule(Env));
+        else if(molType=="deficientReactant")
+            pmolecule = static_cast<Molecule*>(new ModelledMolecule(Env));
         else if(molType=="excessReactant")
             pmolecule = static_cast<Molecule*>(new ModelledMolecule(Env));
         else if(molType=="transitionState")

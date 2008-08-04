@@ -22,32 +22,47 @@ namespace mesmer
   //
   bool ExchangeReaction::InitializeReaction(PersistPtr ppReac)
   {
-    m_ppPersist = ppReac;
+        m_ppPersist = ppReac;
 
-    // Read reactant details.
+        // Read reactant details.
 
-    PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
-    Molecule* pMol1 = GetMolRef(ppReactant1);
+        PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
+        Molecule* pMol1 = GetMolRef(ppReactant1);
+        if(!pMol1){
+            cerr << "Cannot find 1st reactant molecule definition for association reaction " << getName() << ".";
+            return false;
+        }
+        PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
+        Molecule* pMol2 = GetMolRef(ppReactant2);
+        if(!pMol2)
+        {
+          cerr << "Cannot find 2nd reactant molecule definition for association reaction " << getName() << ".";
+          return false;
+        }
 
-    PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
-    Molecule* pMol2 = GetMolRef(ppReactant2);
+        // if deficientReactantLocation=true, then pMol1 (the first rct
+        // in the XML input) is the deficient reactant (m_rct1)
 
-    // Save first reactant as CollidingMolecule. SHR 6/Apr/2008 this incorrect,
-    // but we are forced at present to do this because of the types declared in
-    // the reaction class.
+        ModelledMolecule* tmp_rct1 = dynamic_cast<ModelledMolecule*>(pMol1);
+        ModelledMolecule* tmp_rct2 = dynamic_cast<ModelledMolecule*>(pMol2);
 
-    CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
-    if(pColMol){
-      m_rct1 = pColMol;
-    } else {
-      cerr << "Exchange reaction " << getName() << " has no reactant.";
-      return false;
-    }
-    m_rct2 = dynamic_cast<ModelledMolecule*>(pMol2) ;
-    if (m_rct2) {
-      cerr << "Exchange reaction " << getName() << " has only one reactant.";
-      return false;
-    }
+        if(deficientReactantLocation){
+          m_rct1 = tmp_rct1;
+          m_rct2 = tmp_rct2;
+        }
+        else {
+          m_rct1 = tmp_rct1;
+          m_rct2 = tmp_rct2;
+        }
+
+        if(!m_rct1){
+          cerr << "the deficient reactant in the association reaction is undefined" << endl;
+          return false;
+        }
+        if(!m_rct2){
+          cerr << "the excess reactant in the association reaction is undefined" << endl;
+          return false;
+        }
 
     // Read product details. Save them as type Molecule.
 
@@ -55,7 +70,7 @@ namespace mesmer
     if (ppProduct1) {
       pMol1 = GetMolRef(ppProduct1);
       if (pMol1) {
-        m_pdt1 = dynamic_cast<CollidingMolecule*>(pMol1) ;
+        m_pdt1 = dynamic_cast<ModelledMolecule*>(pMol1) ;
       } else {
         cerr << "Exchange reaction" << getName() << " has no products defined.";
       }

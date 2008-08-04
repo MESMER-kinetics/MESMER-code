@@ -22,7 +22,7 @@ namespace mesmer
   public:
 
     // Constructors.
-    ExchangeReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id)
+    ExchangeReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id, bool isReactant)
       : Reaction(pMoleculeManager, Env, id),
       m_rct1(NULL),
       m_rct2(NULL), 
@@ -65,6 +65,8 @@ namespace mesmer
     ModelledMolecule    *m_rct2 ;                 // Subsidiary reactant molecule. 
     ModelledMolecule    *m_pdt1 ;                 // Product Molecule.
     ModelledMolecule    *m_pdt2 ;                 // Subsidiary product molecule.
+
+    bool deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
 
   } ;
 

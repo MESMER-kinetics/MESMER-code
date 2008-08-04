@@ -219,7 +219,7 @@
   <reactionList>
     <reaction id="R1">
       <reactant>
-        <molecule ref="OH" me:type="reactant" />
+        <molecule ref="OH" me:type="deficientReactant" />
       </reactant>
       <reactant>
         <molecule ref="acetylene" me:type="excessReactant" />

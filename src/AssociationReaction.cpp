@@ -38,42 +38,51 @@ namespace mesmer
         Molecule* pMol2 = GetMolRef(ppReactant2);
         if(!pMol2)
         {
-            cerr << "Cannot find 2nd reactant molecule definition for association reaction " << getName() << ".";
-            return false;
+          cerr << "Cannot find 2nd reactant molecule definition for association reaction " << getName() << ".";
+          return false;
         }
 
-        // Put the CollidingMolecule into m_rct1, even if it is second in datafile
+        // if deficientReactantLocation=true, then pMol1 (the first rct
+        // in the XML input) is the deficient reactant (m_rct1)
 
-        CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
-        if(pColMol){
-            m_rct2 = dynamic_cast<ModelledMolecule*>(pMol2);
-        } else {
-            pColMol = dynamic_cast<CollidingMolecule*>(pMol2);
-            if(!pColMol){
-                cerr << "At least one of the reactants has to be a colliding molecule";
-                return false;
-            }
-            m_rct2 = dynamic_cast<ModelledMolecule*>(pMol1);
+        ModelledMolecule* tmp_rct1 = dynamic_cast<ModelledMolecule*>(pMol1);
+        ModelledMolecule* tmp_rct2 = dynamic_cast<ModelledMolecule*>(pMol2);
+
+        if(deficientReactantLocation){
+          m_rct1 = tmp_rct1;
+          m_rct2 = tmp_rct2;
         }
-        m_rct1 = pColMol;
+        else {
+          m_rct1 = tmp_rct1;
+          m_rct2 = tmp_rct2;
+        }
+
+        if(!m_rct1){
+          cerr << "the deficient reactant in the association reaction is undefined" << endl;
+          return false;
+        }
+        if(!m_rct2){
+          cerr << "the excess reactant in the association reaction is undefined" << endl;
+          return false;
+        }
 
         //Read product details.
 
         PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
         pMol1 = GetMolRef(ppProduct1);
         if (!pMol1) {
-            cerr << "Cannot find product molecule definition for association reaction " << getName() << ".";
-            return false;
+          cerr << "Cannot find product molecule definition for association reaction " << getName() << ".";
+          return false;
         }
 
         // Save product as CollidingMolecule.
 
-        pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
+        CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
         if(pColMol){
-            m_pdt1 = pColMol;
+          m_pdt1 = pColMol;
         } else {
-            cerr << "Isomer product must be a colliding molecule";
-            return false;
+          cerr << "Isomer product must be a colliding molecule";
+          return false;
         }
 
         // Read the transition state (if present)

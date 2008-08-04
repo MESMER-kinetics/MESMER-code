@@ -578,7 +578,7 @@
   <reactionList>
     <reaction id="R1">
       <reactant>
-        <molecule ref="acetyl" me:type="reactant" />
+        <molecule ref="acetyl" me:type="deficientReactant" />
       </reactant>
       <reactant>
         <molecule ref="O_2" me:type="excessReactant" />
