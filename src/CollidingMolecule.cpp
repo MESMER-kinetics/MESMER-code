@@ -164,6 +164,14 @@ namespace mesmer
     }
   } ;
 
+  const int CollidingMolecule::get_grnZpe(){
+    double grnZpe = (get_zpe() - getEnv().EMin) / getEnv().GrainSize ; //convert to grain
+    if (grnZpe < 0.0)
+      cerr << "Grain zero point energy has to be a non-negative value.";
+
+    return int(grnZpe);
+  }
+
   void   CollidingMolecule::setEpsilon(double value)        {
     m_Epsilon = value;
     m_Epsilon_chk = 0;

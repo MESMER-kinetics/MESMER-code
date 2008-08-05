@@ -167,6 +167,9 @@ namespace mesmer
       if (!m_Env.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
         m_Env.useTheSameCellNumber = true;
       }
+      
+      // System configuration information
+      if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();
 
       if (ppControl->XmlReadBoolean("me:gridSearch")) m_Env.searchMethod = 1;
       else if (ppControl->XmlReadBoolean("me:fitting")) m_Env.searchMethod = 2;

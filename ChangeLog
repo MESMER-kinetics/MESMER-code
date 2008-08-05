@@ -1,3 +1,16 @@
+_2008_08_05__11_19_05_ Chi-Hsiu Liang
+
+  * Corrected the way calculating reactants ZPE in AssociationReaction 
+      See: const int rctGrainZPE = get_rctsGrnZpe();
+      Also:     int get_cellOffset(void)  for AssociationReaction
+  * Removed   const int ModelledMolecule::get_grnZpe()
+      to      const int CollidingMolecule::get_grnZpe()
+      so that it calculates relative ZPE to the lowest well directly.
+      and remove   double ModelledMolecule::get_relative_ZPE()
+  * Calculates  configuration() when user explicitly requests it in XML input.
+  * Corrected the initialization of deficientReactantLocation in ExchangeReaction.h
+  * Updated OH acetylene baseline
+
 2008-8-04 Dave Glowacki
 
 * make changes to Association Reaction and Exchange reaction in preparation for sorting out exchange reaction

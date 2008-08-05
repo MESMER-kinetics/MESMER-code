@@ -45,7 +45,7 @@ namespace mesmer
     }
 
     // the flux bottom energy is equal to the well bottom of the source term
-    pReact->setCellFluxBottom(p_rcts->get_relative_ZPE());
+    pReact->setCellFluxBottom(p_rcts->get_zpe() - pReact->getEnv().EMin);
 
     return true;
   }

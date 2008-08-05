@@ -97,6 +97,15 @@ namespace mesmer
     // Get reactants grain energies.
     virtual void getRctsGrainEnergies(std::vector<double> &grainEne) ;
 
+    // Get reactants grain ZPE
+    const int get_rctsGrnZpe(void);
+
+    // Get cell offset for the reactants
+    int get_cellOffset(void) {
+      double modulus = fmod(m_rct1->get_zpe() + m_rct2->get_zpe() - getEnv().EMin, getEnv().GrainSize);
+      return int(modulus) ;
+    } ;
+
     virtual DensityOfStatesCalculator* get_rctsDensityOfStatesCalculator(){return get_pseudoIsomer()->get_DensityOfStatesCalculator(); }
 
     bool calcRctsDensityOfStates();

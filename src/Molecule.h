@@ -185,7 +185,6 @@ namespace mesmer
     // Accessors.
     double getMass() ;
     void   setMass(double value);
-    double get_relative_ZPE();
     virtual double get_zpe();
     double get_scaleFactor();
     void set_zpe(const double value){ m_ZPE = value; m_ZPE_chk = 0;};
@@ -198,7 +197,6 @@ namespace mesmer
     int test_rotConsts(void);
     int  get_rotConsts(std::vector<double> &mmtsInt);
     void set_grnZpe(double grnZpe); // with respect to the minimum of all wells, default zero.
-    virtual const int get_grnZpe();
     virtual void get_VibFreq(std::vector<double>& vibFreq);
 
     double getInitPopulation() const { return m_initPopulation;};
@@ -221,8 +219,8 @@ namespace mesmer
 
     void set_grainValues(double relativeZPE);
     int get_cellOffset(void) {
-      double modulus = fmod(get_relative_ZPE(), getEnv().GrainSize);
-    return int(modulus) ;
+      double modulus = fmod(get_zpe() - getEnv().EMin, getEnv().GrainSize);
+      return int(modulus) ;
     } ;
 
   } ;
@@ -319,6 +317,8 @@ namespace mesmer
       m_DeltaEdown.set_range(valueL, valueU, stepsize);
       m_DeltaEdown_chk = 0;
     };
+    const int get_grnZpe();
+
     double getDeltaEdown();
     void set_DistributionCalculator(DistributionCalculator* value);
     DistributionCalculator* get_DistributionCalculator();

@@ -490,11 +490,6 @@ namespace mesmer
     }
   } ;
 
-  // cell zpe with respect to the minimum of all wells
-  double ModelledMolecule::get_relative_ZPE(){
-    return get_zpe() - getEnv().EMin;
-  }
-
   double ModelledMolecule::get_zpe() {
     if (m_ZPE_chk == -1){
       cinfo << "m_ZPE was not defined but requested in " << getName() << ". Default value " << m_ZPE.get_value() << " is given." << endl;
@@ -543,14 +538,6 @@ namespace mesmer
     }
     ++m_Sym_chk;
     return m_Sym ;
-  }
-
-  const int ModelledMolecule::get_grnZpe(){
-    double grnZpe = get_relative_ZPE() / getEnv().GrainSize ; //convert to grain
-    if (grnZpe < 0.0)
-      cerr << "Grain zero point energy has to be a positive value.";
-
-    return int(grnZpe);
   }
 
   void ModelledMolecule::get_VibFreq(std::vector<double>& vibFreq){

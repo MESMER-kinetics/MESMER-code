@@ -127,9 +127,6 @@ int main(int argc,char *argv[])
     cinfo << infilename << " at " << events.setTimeStamp(thisEvent) << endl;
   }
 
-  // System configuration information
-  _sys.configuration();
-
   if(!ppIOPtr || !_sys.parse(ppIOPtr))
   {
     cerr << "System parse failed." << endl;
