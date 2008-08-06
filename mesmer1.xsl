@@ -80,7 +80,7 @@
       <xsl:apply-templates select="//me:densityOfStatesList"/>
     </div>
 
-    <h3 id="microRates-title" class="handcursor">Microcanonical Rate Coeffficients</h3>
+    <h3 id="microRates-title" class="handcursor">Microcanonical Rate Coefficients</h3>
     <div id="microRates" class="switchgroup2">
       <xsl:apply-templates select="//me:microRateList"/>
     </div>
