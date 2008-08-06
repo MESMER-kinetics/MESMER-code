@@ -39,9 +39,6 @@ MesmerQA/pentyl/pentyl_isomerize_dissocn.xml -text
 /ToDo -text
 Windows[!!-~]VC8/MESMER.sln -text
 Windows[!!-~]VC8/Mesmer/Mesmer.vcproj -text
-Windows[!!-~]VC8/Mesmer/mesmer1.xsl -text
-Windows[!!-~]VC8/Mesmer/mesmerDiag.xsl -text
-Windows[!!-~]VC8/Mesmer/switchcontent.js -text
 Windows[!!-~]VC8/TinyXML/TinyXML.vcproj -text
 Windows[!!-~]VC8/qd/qd.vcproj -text
 examples/DiagramTest/Acetyl_O2_association.xml -text

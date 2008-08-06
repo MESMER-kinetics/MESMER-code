@@ -1,3 +1,14 @@
+2008-08-06 Chris Morley
+
+	* mesmerDiag.xsl: make <propertyList> optional. Diagram for
+	HSO2.xml now works.
+	
+	* examples/DiagramTest/HSO2.xml, MesmerQA/HSO2/HSO2.xml:
+	add MW and spinMultiplicity properties and a conditions section.
+	
+	* Windows VC8/Mesmer/mesmer1.xsl, Windows VC8/Mesmer/mesmerDiag.xsl,
+	Windows VC8/Mesmer/switchcontent.js: delete. (Now in toplevel directory.)
+
 _2008_08_05__11_19_05_ Chi-Hsiu Liang
 
   * Corrected the way calculating reactants ZPE in AssociationReaction 

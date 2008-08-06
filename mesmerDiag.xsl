@@ -39,7 +39,8 @@
       <xsl:variable name="bothSpecies" 
         select="../../../*[local-name()=$RorP]"/>
       <xsl:variable name="bothEnergies"
-        select="key('molrefs',$bothSpecies/cml:molecule/@ref)/cml:propertyList/cml:property[@dictRef='me:ZPE']/cml:scalar" />
+        select="key('molrefs',$bothSpecies/cml:molecule/@ref)//cml:property[@dictRef='me:ZPE']/cml:scalar" />
+      <!--The // in the above expression means that surrounding <cml:property> by a <cml:propertyList> is optional-->
       <xsl:element name="Energy">
         <xsl:value-of select="sum($bothEnergies)"/>
       </xsl:element>
@@ -47,7 +48,7 @@
   </xsl:variable>
   
   <xsl:variable name="TSEnergies"
-    select="key('molrefs',//me:transitionState/cml:molecule/@ref)/cml:propertyList/cml:property[@dictRef='me:ZPE']/cml:scalar" />
+    select="key('molrefs',//me:transitionState/cml:molecule/@ref)//cml:property[@dictRef='me:ZPE']/cml:scalar" />
 
   <!--Calculate an appropriate  vertical scaling factor-->
   
@@ -68,7 +69,7 @@
       </xsl:attribute>
       <!-- <xsl:call-template name="drawYaxis"/>-->
 
-      <!--<xsl:call-template name="test3"/>-->
+      <xsl:call-template name="test3"/>
       
       <!--Draw the energy levels of the modelled molecules-->
       <xsl:call-template name="drawWells"/>
@@ -89,7 +90,7 @@
         <xsl:variable name="bothSpecies" 
           select="../../../*[local-name()=$RorP]"/>
         <xsl:variable name="bothEnergies"
-          select="key('molrefs',$bothSpecies/cml:molecule/@ref)/cml:propertyList/cml:property[@dictRef='me:ZPE']/cml:scalar" />
+          select="key('molrefs',$bothSpecies/cml:molecule/@ref)//cml:property[@dictRef='me:ZPE']/cml:scalar" />
 
         <xsl:variable name="yval"
           select="$ybase - $yscale * sum($bothEnergies)"/>
@@ -148,8 +149,8 @@
       <xsl:variable name="reactantmol" select="key('molrefs', cml:reactant/cml:molecule/@ref)" />
       <xsl:variable name="productmol" select="key('molrefs', cml:product/cml:molecule/@ref)" />
       <xsl:variable name="TSmol" select="key('molrefs', me:transitionState/cml:molecule/@ref)" />
-      <xsl:variable name="EnergyTS" select="$TSmol/cml:propertyList/cml:property[@dictRef='me:ZPE']/cml:scalar"/>
-      <xsl:variable name="yTS" select="$ybase - $yscale * $TSmol/cml:propertyList/cml:property[@dictRef='me:ZPE']/cml:scalar"/>
+      <xsl:variable name="EnergyTS" select="$TSmol//cml:property[@dictRef='me:ZPE']/cml:scalar"/>
+      <xsl:variable name="yTS" select="$ybase - $yscale * $TSmol//cml:property[@dictRef='me:ZPE']/cml:scalar"/>
 
       <!--There must be a better way of obtaining the position in mols!-->
       <xsl:variable name="reactantIndex">
@@ -213,7 +214,7 @@
           <xsl:value-of select="'M'" />
           <xsl:value-of select="concat($reactantpos  + $spoffset,' ')"/>
           <xsl:value-of select="$ybase - $yscale * exsl:node-set($RandPEnergies)/*[number($reactantIndex)]"/>
-            <!--$reactantmol /cml:propertyList/cml:property[@dictRef='me:ZPE']/cml:scalar"/>ENERGY-->
+            <!--$reactantmol //cml:property[@dictRef='me:ZPE']/cml:scalar"/>ENERGY-->
 
           <xsl:if test="$yTS">
           <!--Only if there is a valid TS-->
@@ -226,7 +227,7 @@
           
           <xsl:value-of select="concat(' L',$productpos - $spoffset,' ')"/>
           <xsl:value-of select="$ybase - $yscale * exsl:node-set($RandPEnergies)/*[number($productIndex)]"/>
-            <!--$productmol /cml:propertyList/cml:property[@dictRef='me:ZPE']/cml:scalar"/>ENERGY-->
+            <!--$productmol //cml:property[@dictRef='me:ZPE']/cml:scalar"/>ENERGY-->
         </xsl:attribute>
       </svg:path>
       
@@ -315,15 +316,17 @@
 
   <xsl:template name="test3">
     <svg:text x="160" y="50">
-      count RandP sets =
+      Count RandP sets =
       <xsl:value-of select="count($distinctRandP)"/>
-      count TS =
+      Count TS =
       <xsl:value-of select="count(key('molrefs',//me:transitionState/cml:molecule/@ref))"/>
+      Count TSEnergies =
+      <xsl:value-of select="count($TSEnergies)"/>
       </svg:text>
       <svg:text x="160" y="80">
         yscale = 
         <xsl:value-of select="$yscale"/>
-        count =
+        Count energy levels =
         <xsl:value-of select="count(exsl:node-set($RandPEnergies)/Energy | $TSEnergies)"/>
       </svg:text>
   </xsl:template>
