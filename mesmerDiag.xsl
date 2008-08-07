@@ -69,7 +69,7 @@
       </xsl:attribute>
       <!-- <xsl:call-template name="drawYaxis"/>-->
 
-      <xsl:call-template name="test3"/>
+      <!--      <xsl:call-template name="test3"/>-->
       
       <!--Draw the energy levels of the modelled molecules-->
       <xsl:call-template name="drawWells"/>
