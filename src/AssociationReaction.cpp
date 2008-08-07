@@ -42,28 +42,28 @@ namespace mesmer
       return false;
     }
 
-        // if deficientReactantLocation=true, then pMol1 (the first rct
-        // in the XML input) is the deficient reactant (m_rct1)
+    // if deficientReactantLocation=true, then pMol1 (the first rct
+    // in the XML input) is the deficient reactant (m_rct1)
 
-        ModelledMolecule* tmp_rct1 = dynamic_cast<ModelledMolecule*>(pMol1);
-        ModelledMolecule* tmp_rct2 = dynamic_cast<ModelledMolecule*>(pMol2);
+    ModelledMolecule* tmp_rct1 = dynamic_cast<ModelledMolecule*>(pMol1);
+    ModelledMolecule* tmp_rct2 = dynamic_cast<ModelledMolecule*>(pMol2);
 
-        if(deficientReactantLocation){
-          m_rct1 = tmp_rct1;
-          m_rct2 = tmp_rct2;
-        }
-        else {
-          m_rct1 = tmp_rct1;
-          m_rct2 = tmp_rct2;
-        }
+    if(deficientReactantLocation){
+      m_rct1 = tmp_rct1;
+      m_rct2 = tmp_rct2;
+    }
+    else {
+      m_rct1 = tmp_rct2;
+      m_rct2 = tmp_rct1;
+    }
 
-        if(!m_rct1){
-          cerr << "the deficient reactant in the association reaction is undefined" << endl;
-        return false;
-      }
-        if(!m_rct2){
-          cerr << "the excess reactant in the association reaction is undefined" << endl;
-          return false;
+    if(!m_rct1){
+      cerr << "the deficient reactant in the association reaction is undefined" << endl;
+      return false;
+    }
+    if(!m_rct2){
+      cerr << "the excess reactant in the association reaction is undefined" << endl;
+      return false;
     }
 
     //Read product details.
@@ -77,7 +77,7 @@ namespace mesmer
 
     // Save product as CollidingMolecule.
 
-        CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
+    CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
     if(pColMol){
       m_pdt1 = pColMol;
     } else {

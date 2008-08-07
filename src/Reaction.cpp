@@ -152,7 +152,7 @@ namespace mesmer
 
   // set the bottom energy of m_CellTSFlux
   void Reaction::setCellFluxBottom(const double fluxBottomZPE){
-    m_FluxGrainZPE = (fluxBottomZPE - getEnv().EMin) / getEnv().GrainSize ; //convert to grain
+    m_FluxGrainZPE = fluxBottomZPE / getEnv().GrainSize ; //convert to grain
     m_FluxCellOffset = int(fmod(fluxBottomZPE, getEnv().GrainSize));
   }
 

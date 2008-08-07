@@ -1,3 +1,9 @@
+_2008_08_07__11_59_16_ Chi-Hsiu Liang
+
+  * Corrected flux bottom ZPE for transition state (a fix for ZPE lower than 0.0)
+  * Minor correction on   bool AssociationReaction::InitializeReaction(PersistPtr ppReac)
+  * updated manual
+
 2008-08-06 Chris Morley
 
 	* mesmerDiag.xsl: make <propertyList> optional. Diagram for

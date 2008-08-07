@@ -17,8 +17,6 @@ MesmerQA/Acetyl[!!-~]O2[!!-~]association/baselines/Win32/mesmer.log -text
 MesmerQA/Acetyl[!!-~]O2[!!-~]association/baselines/Win32/mesmer.test -text
 MesmerQA/HSO2/HSO2.xml -text
 MesmerQA/HSO2/HSO2_test.xml -text
-MesmerQA/HSO2/baselines/Cygwin[!!-~]32-bit[!!-~]double/HSO2_test.20071204_105924.xml -text
-MesmerQA/HSO2/baselines/Cygwin[!!-~]32-bit[!!-~]double/HSO2_test.out -text
 MesmerQA/HSO2/baselines/Win32/mesmer.log -text
 MesmerQA/HSO2/baselines/Win32/mesmer.test -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/OH_acetylene_association_test.xml -text
@@ -29,8 +27,6 @@ MesmerQA/cyclopropene[!!-~]isomerization/Cyclopropene_isomerization_test.xml -te
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/mesmer.log -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/mesmer.test -text
 MesmerQA/methylene[!!-~]D2[!!-~]association/methylene_D2_association.xml -text
-MesmerQA/pentyl/baselines/Cygwin[!!-~]32-bit[!!-~]double/pentyl_isomerization.20071204_105247.xml -text
-MesmerQA/pentyl/baselines/Cygwin[!!-~]32-bit[!!-~]double/pentyl_isomerization.out -text
 MesmerQA/pentyl/baselines/Win32/mesmer.log -text
 MesmerQA/pentyl/baselines/Win32/mesmer.test -text
 MesmerQA/pentyl/pentyl_isomerization_test.xml -text
