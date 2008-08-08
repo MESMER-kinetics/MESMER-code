@@ -69,6 +69,15 @@ namespace mesmer
     This function returns user defined m_ActivationEnergy, otherwise zero. 
     ILT can be used in all reaction types if necessary. */
 
+    // get products
+    virtual int get_products(std::vector<ModelledMolecule *> &product) const = 0;
+
+    // get the reactant, which reacts in a first order or pseudo first order process
+    virtual ModelledMolecule *get_reactant(void) const = 0;
+
+    // get reactant collisionoperator size
+    virtual int getRctColloptrsize() = 0;
+
     // Set activiation energy
     void set_ThresholdEnergy(const double value){m_ActivationEnergy = value; };
     void set_ThresholdEnergy(const double value, const double valueL, const double valueU, const double stepsize){
@@ -104,6 +113,12 @@ namespace mesmer
     // returns the backward grain microcanoincal rate coefficients for foreign modifications
     std::vector<double>& get_GrainKbmc(void) {return m_GrainKbmc; };
 
+    // returns the forward grain microcanoincal rate coefficients for foreign modifications
+    const std::vector<double>& get_IrreversibleRateCoefficients(void) {return m_GrainKfmc; };
+
+    // get canonical psuedo first order irreversible loss rate coefficient
+    virtual double GetCanonicalIrreversibleLossRate(void){return 0.0;};
+
     // set the bottom energy of m_CellTSFlux
     void setCellFluxBottom(const double energyValue);
 
@@ -120,8 +135,11 @@ namespace mesmer
     virtual void AddReactionTerms(qdMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) = 0 ;
 
     // Is reaction equilibrating and therefore contributes
-	// to the calculation of equilibrium fractions.
-	virtual bool isEquilibratingReaction(double &Keq, ModelledMolecule **rct, ModelledMolecule **pdt) { return false ; } ;
+    // to the calculation of equilibrium fractions.
+    virtual bool isEquilibratingReaction(double &Keq, ModelledMolecule **rct, ModelledMolecule **pdt) { return false ; } ;
+
+// is the reaction an irreversible reaction
+    virtual bool isIrreversible(){return false;};
 
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() = 0 ;
@@ -155,6 +173,9 @@ namespace mesmer
     // _2008_04_24__12_35_40_  <- Please search for this string in the current file for further description.
     double m_FluxGrainZPE;                       // grain ZPE of m_GrainTSFlux
     int m_FluxCellOffset;                        // cell Offset when converting m_CellTSFlux to m_GrainTSFlux
+    double forwardCanonicalRate;
+    double backwardCanonicalRate;
+
     std::vector<double>  m_CellTSFlux ;          // Microcanonical transition state fluxes. (QM or classical)
     std::vector<double>  m_GrainTSFlux ;         // Grain summed microcanonical transition state fluxes..
 

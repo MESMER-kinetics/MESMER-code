@@ -1,15 +1,15 @@
 //-------------------------------------------------------------------------------------------
 //
-// IrreversibleReaction.cpp
+// IrreversibleUnimolecularReaction.cpp
 //
 // Author: Struan Robertson
 // Date:   30/Dec/2007
 //
-// This file contains the implementation of the IrreversibleReaction class.
+// This file contains the implementation of the IrreversibleUnimolecularReaction class.
 //
 //-------------------------------------------------------------------------------------------
 #include <limits>
-#include "IrreversibleReaction.h"
+#include "IrreversibleUnimolecularReaction.h"
 
 using namespace Constants ;
 using namespace std;
@@ -20,7 +20,7 @@ namespace mesmer
   //
   // Read the Molecular data from input stream.
   //
-  bool IrreversibleReaction::InitializeReaction(PersistPtr ppReac)
+  bool IrreversibleUnimolecularReaction::InitializeReaction(PersistPtr ppReac)
   {
     m_ppPersist = ppReac;
 
@@ -89,7 +89,7 @@ namespace mesmer
   //
   // Calculate reaction equilibrium constant.
   //
-  double IrreversibleReaction::calcEquilibriumConstant() {
+  double IrreversibleUnimolecularReaction::calcEquilibriumConstant() {
 
     double Keq(0.0) ;
 
@@ -99,7 +99,7 @@ namespace mesmer
   //
   // Add dissociation reaction terms to collision matrix.
   //
-  void IrreversibleReaction::AddReactionTerms(qdMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) {
+  void IrreversibleUnimolecularReaction::AddReactionTerms(qdMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) {
     // Get densities of states for detailed balance.
     vector<double> rctDOS;
     m_rct1->getGrainDensityOfStates(rctDOS) ;
@@ -118,7 +118,7 @@ namespace mesmer
   }
 
   // Read parameters requires to determine reaction heats and rates.
-  bool IrreversibleReaction::ReadRateCoeffParameters(PersistPtr ppReac) {
+  bool IrreversibleUnimolecularReaction::ReadRateCoeffParameters(PersistPtr ppReac) {
 
     const char* pActEnetxt = ppReac->XmlReadValue("me:activationEnergy", false);
     if (pActEnetxt)
@@ -212,7 +212,7 @@ namespace mesmer
   //
   // Calculate grained forward k(E)s from transition state flux
   //
-  void IrreversibleReaction::calcGrainRateCoeffs(){
+  void IrreversibleUnimolecularReaction::calcGrainRateCoeffs(){
     vector<double> rctGrainDOS;
     m_rct1->getGrainDensityOfStates(rctGrainDOS) ;
 
@@ -241,8 +241,23 @@ namespace mesmer
   }
 
   // Test k(T)
-  void IrreversibleReaction::testRateConstant() {
+  void IrreversibleUnimolecularReaction::testRateConstant() {
 
+    vector<double> rctGrainDOS, rctGrainEne;
+    m_rct1->getGrainDensityOfStates(rctGrainDOS);
+    m_rct1->getGrainEnergies(rctGrainEne);
+    const int MaximumGrain = getEnv().MaxGrn;;
+    const double beta = getEnv().beta;
+    const double temperature = 1. / (boltzmann_RCpK * beta);
+
+    for(int i(0); i < MaximumGrain; ++i)
+      forwardCanonicalRate += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
+
+    const double rctprtfn = canonicalPartitionFunction(rctGrainDOS, rctGrainEne, beta);
+    forwardCanonicalRate /= rctprtfn;
+
+    ctest << endl << "Canonical psuedo first order forward rate constant of irreversible reaction " 
+      << getName() << " = " << forwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
   }
 
 }//namespace

@@ -33,6 +33,8 @@ namespace mesmer
     m_PreExp(0.0),
     m_NInf(0.0),
     m_kfwd(0.0),
+    forwardCanonicalRate(0.0),
+    backwardCanonicalRate(0.0),
     m_ActivationEnergy(0.0) 
   {}
 
@@ -54,7 +56,7 @@ namespace mesmer
   //
   // Locate molecule in molecular map.
   //
-    Molecule* Reaction::GetMolRef(PersistPtr pp, const char* defaultType)
+  Molecule* Reaction::GetMolRef(PersistPtr pp, const char* defaultType)
   {
     Molecule* pMol = NULL;
 
@@ -62,20 +64,20 @@ namespace mesmer
     PersistPtr ppmol = pp->XmlMoveTo("molecule");
     if(!ppmol) return NULL;
 
-        const char* reftxt = ppmol->XmlReadValue("ref");//using const char* in case NULL returned
-        if(reftxt) // if got the name of the molecule
-        {
-          const char* typetxt = ppmol->XmlReadValue("me:type");
-          if(!typetxt && defaultType)
-            typetxt=defaultType;
-          if(typetxt){ // initialize molecule here with the specified type (need to know m_ppIOPtr)
+    const char* reftxt = ppmol->XmlReadValue("ref");//using const char* in case NULL returned
+    if(reftxt) // if got the name of the molecule
+    {
+      const char* typetxt = ppmol->XmlReadValue("me:type");
+      if(!typetxt && defaultType)
+        typetxt=defaultType;
+      if(typetxt){ // initialize molecule here with the specified type (need to know m_ppIOPtr)
         PersistPtr ppMolList = m_pMoleculeManager->get_PersistPtr();
         if(!ppMolList)
         {
           cerr << "No molecules have been specified." << endl;
           return NULL;
         }
-              pMol = m_pMoleculeManager->addmol(string(reftxt), string(typetxt), ppMolList, getEnv());
+        pMol = m_pMoleculeManager->addmol(string(reftxt), string(typetxt), ppMolList, getEnv());
       }
     }
 
@@ -156,7 +158,7 @@ namespace mesmer
     m_FluxCellOffset = int(fmod(fluxBottomZPE, getEnv().GrainSize));
   }
 
-  // shift transitions state cell flux
+  // shift transition state cell flux
   void Reaction::shiftTScellFlux(std::vector<double>& shiftedTScellFlux){
     int cellOffset = getTSFluxCellOffset();
     const int MaximumCell  = getEnv().MaxCell;

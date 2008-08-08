@@ -14,9 +14,9 @@
 //-------------------------------------------------------------------------------------------
 
 #include "AssociationReaction.h"
-#include "IrreversibleReaction.h"
+#include "IrreversibleUnimolecularReaction.h"
 #include "IsomerizationReaction.h"
-#include "ExchangeReaction.h"
+#include "IrreversibleExchangeReaction.h"
 
 namespace mesmer
 {
@@ -27,7 +27,7 @@ namespace mesmer
     // Type defs
     typedef  size_t  size_type ;
     typedef std::map<std::string , double> populationMap ;
-    typedef std::map<IrreversibleReaction* , int> sinkMap ;
+    typedef std::map<Reaction* , int> sinkMap ;
 
     ReactionManager(MoleculeManager *pMoleculeManager);
 
@@ -91,7 +91,7 @@ namespace mesmer
     // map modelled molecules (isomers + sources) with their sequence in the EqMatrix and Rate Coefficient matrix
     Reaction::sourceMap    m_SpeciesSequence;
 
-    map<IrreversibleReaction*, int> m_SinkSequence;
+    map<Reaction*, int> m_SinkSequence;
 
     double m_meanOmega;
 

@@ -82,9 +82,9 @@ namespace mesmer
       else if( bRct2 && bPdt1 && !bPdt2)
         preaction = new AssociationReaction(m_pMoleculeManager, Env, id, (rct1Type == "deficientReactant")) ;
       else if(!bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink"))
-        preaction = new IrreversibleReaction(m_pMoleculeManager, Env, id) ;
-      else if( bRct2 && bPdt1 &&  bPdt2)
-        preaction = new ExchangeReaction(m_pMoleculeManager, Env, id, (rct1Type == "deficientReactant")) ;
+        preaction = new IrreversibleUnimolecularReaction(m_pMoleculeManager, Env, id) ;
+      else if( bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink"))
+        preaction = new IrreversibleExchangeReaction(m_pMoleculeManager, Env, id, (rct1Type == "deficientReactant")) ;
       else {
         cinfo << "Unknown reaction type.\n";
         return false ;
@@ -191,7 +191,7 @@ namespace mesmer
       for (size_t j(0) ; j < unimolecules.size() ; ++j) {
         // wells
         CollidingMolecule *pCollidingMolecule = dynamic_cast<CollidingMolecule*>(unimolecules[j]) ;
-        if(m_isomers.find(pCollidingMolecule) == m_isomers.end()){ // New isomer
+        if(pCollidingMolecule && m_isomers.find(pCollidingMolecule) == m_isomers.end()){ // New isomer
           double population = m_initialPopulations[pCollidingMolecule->getName()];
           if (population){
             populationSum += population;
@@ -211,7 +211,7 @@ namespace mesmer
       AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
       if (pReaction) {
         double zpe = (pReaction->get_pseudoIsomer())->get_zpe() 
-            + (pReaction->get_excessReactant())->get_zpe() ;
+          + (pReaction->get_excessReactant())->get_zpe() ;
         minEnergy = min(minEnergy, zpe) ;
         maxEnergy = max(maxEnergy, zpe) ;
       }
@@ -264,12 +264,13 @@ namespace mesmer
       //          there to be more than one source term.
       m_sources.clear(); // Maps the location of source in the system matrix.
       for (size_t i(0) ; i < size() ; ++i) {
+        IrreversibleExchangeReaction *IREreaction = dynamic_cast<IrreversibleExchangeReaction*>(m_reactions[i]);
         AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
-        if (pReaction) {
+        if (pReaction) {  // if the reaction is an association reaction
           ModelledMolecule *pPseudoIsomer = pReaction->get_pseudoIsomer();
-          if (pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){ // New source
-            double population = m_initialPopulations[pPseudoIsomer->getName()];
-            if (population){
+          if (pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){ // reaction includes 
+            double population = m_initialPopulations[pPseudoIsomer->getName()];   // a new pseudoisomer
+            if (population){                                                      
               populationSum += population;
               pPseudoIsomer->setInitPopulation(population);
             }
@@ -281,6 +282,20 @@ namespace mesmer
             pReaction->putSourceMap(&m_sources) ;
             ++msize ;
           }
+          else if(pPseudoIsomer && m_sources.find(pPseudoIsomer)!=m_sources.end()){ // reaction includes a
+            pReaction->putSourceMap(&m_sources);                                    // psuedoisomer that
+          }                                                                         // is already in the map
+        }
+        if(IREreaction){       // if the reaction is an irreversible exchange reaction                                                
+          ModelledMolecule *pPseudoIsomer = IREreaction->get_pseudoIsomer();        
+          if(pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){    // reaction includes a new
+            m_sources[pPseudoIsomer] = msize ;                                      // pseudoisomer
+            IREreaction->putSourceMap(&m_sources);
+            ++msize;
+          }
+          else if(pPseudoIsomer && m_sources.find(pPseudoIsomer)!=m_sources.end()){ // reaction includes a 
+            IREreaction->putSourceMap(&m_sources);                                  // psuedoisomer that is 
+          }                                                                         // already in the map  
         }
       }
 
@@ -495,6 +510,7 @@ namespace mesmer
 
     dMatrix backup(eqMatrix);  //backup EqMatrix for error reporting
 
+    ctest << endl << "Eq fraction matrix:" << endl;
     backup.showFinalBits(counter);
 
     if(eqMatrix.invert()){
@@ -502,7 +518,7 @@ namespace mesmer
       backup.showFinalBits(counter);
     }
 
-    ctest << "inverse:" << endl;
+    ctest << "inverse of Eq fraction matrix:" << endl;
     eqMatrix.showFinalBits(counter);
 
     map<ModelledMolecule*, int>::iterator itr1;
@@ -709,17 +725,25 @@ namespace mesmer
     if (mEnv.speciesProfileEnabled){
       ctest << endl << "Print time dependent species and product profiles" << endl << "{" << endl;
       int sinkpos(0);
-      m_sinkRxns.clear();                      // Populate map: m_sinkRxns[IrreversibleRxns] = location of rct
+      m_sinkRxns.clear();                      // Populate map: m_sinkRxns[Rxns] = location of rct
       for (size_t i(0) ; i < size() ; ++i) {
-        IrreversibleReaction* Reaction = dynamic_cast<IrreversibleReaction*>(m_reactions[i]) ;
-        if (Reaction && m_sinkRxns.find(Reaction) == m_sinkRxns.end()) {   // add an irreversible rxn to the map
-          vector<ModelledMolecule*> species;
-          Reaction->get_unimolecularspecies(species);
-          CollidingMolecule* isomer = dynamic_cast<CollidingMolecule*>(species[0]);
-          int location = m_isomers[isomer];
-          m_sinkRxns[Reaction] = location;
-          m_SinkSequence[Reaction] = sinkpos;               // populate SinkSequence map
-          ++sinkpos;
+        bool Irreversible = (m_reactions[i])->isIrreversible() ;
+        if (Irreversible && m_sinkRxns.find(m_reactions[i]) == m_sinkRxns.end()) {   // add an irreversible rxn to the map
+          Reaction* reaction = m_reactions[i];
+          ModelledMolecule* source = reaction->get_reactant();
+          CollidingMolecule* isomer = dynamic_cast<CollidingMolecule*>(source);
+          if(isomer){
+            int location = m_isomers[isomer];
+            m_sinkRxns[reaction] = location;
+            m_SinkSequence[reaction] = sinkpos;               // populate SinkSequence map with Irreversible Rxns
+            ++sinkpos;
+          }
+          else if(source){
+            int location = m_sources[source];
+            m_sinkRxns[reaction] = location;
+            m_SinkSequence[reaction] = sinkpos;
+            ++sinkpos;
+          }
         }
       }
 
@@ -758,14 +782,20 @@ namespace mesmer
       sinkMap::iterator pos;      // iterate through sink map to get product profile vs t
       int productProfileStartidx = speciesProfileidx;
       for (pos = m_sinkRxns.begin(); pos != m_sinkRxns.end(); ++pos){
-        vector<double> KofEs;                             // get sink k(E)s
-        IrreversibleReaction* sinkReaction = pos->first;
-        KofEs = sinkReaction->get_GrainKfmc();            // assign sink k(E)s, the vector size == maxgrn
-        int location = pos->second;                       // get sink location
-        const int colloptrsize = sinkReaction->getRctColloptrsize();    // get collisionoptrsize of reactant
-        vector<ModelledMolecule*> pdts;                                 // in the sink reaction
+        vector<double> KofEs;                             // vector to hold sink k(E)s
+        Reaction* sinkReaction = pos->first;
+        const int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant
+        vector<ModelledMolecule*> pdts;                               // in the sink reaction  
         sinkReaction->get_products(pdts);
-        ctest << setw(16) << pdts[0]->getName();
+        if(colloptrsize == 1){  // if the collision operator size is 1, there is one canonical loss rate coefficient
+          KofEs.push_back(sinkReaction->GetCanonicalIrreversibleLossRate());
+          ctest << setw(11) << pdts[0]->getName()<< setw(5) << "(bim)";
+        }
+        else{   // if the collision operator size is >1, there are k(E)s for the irreversible loss
+          KofEs = sinkReaction->get_GrainKfmc();          // assign sink k(E)s, the vector size == maxgrn
+          ctest << setw(16) << pdts[0]->getName();
+        }
+        int location = pos->second;                       // get sink location
         double TimeIntegratedProductPop(0.0);
         for (int timestep = 0; timestep < maxTimeStep; ++timestep){
           for(int i = 0; i < colloptrsize; ++i){
@@ -775,6 +805,7 @@ namespace mesmer
           speciesProfile[speciesProfileidx][timestep]= TimeIntegratedProductPop;
         }
         ++speciesProfileidx;
+        KofEs.clear();
       }
 
       for(int timestep = 0; timestep < maxTimeStep; ++timestep){    // normalize product profile to account for small
@@ -797,7 +828,6 @@ namespace mesmer
         }
         ctest << setw(16) << totalIsomerPop[timestep] << setw(16) << totalProductPop[timestep] << endl;
       }
-
       ctest << "}" << endl;
     }
     return true;
@@ -895,16 +925,20 @@ namespace mesmer
       if(m_sinkRxns.size()!=0) {     
         for(sinkpos=m_sinkRxns.begin(); sinkpos!=m_sinkRxns.end(); ++sinkpos){ // calculate Y_matrix elements for sinks
           double sm = 0.0;
-          IrreversibleReaction* sinkReaction = sinkpos->first;                 
-          vector<double> KofEs;                                         // get sink k(E)s
-          KofEs = sinkReaction->get_GrainKfmc();                        // assign sink k(E)s, the vector size == maxgrn
+          vector<double> KofEs;                                         // vector to hold sink k(E)s
+          Reaction* sinkReaction = sinkpos->first;                 
+          const int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant
+          if(colloptrsize == 1)  // if the collision operator size is 1, there is one canonical loss rate coefficient
+            KofEs.push_back(sinkReaction->GetCanonicalIrreversibleLossRate());
+          else                   // if the collision operator size is >1, there are k(E)s for the irreversible loss
+            KofEs = sinkReaction->get_GrainKfmc();                      // assign sink k(E)s, the vector size == maxgrn
           int location = sinkpos->second;                               // get sink location
-          const int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant        
           int position = m_SinkSequence[sinkReaction];                  // get sink sequence position
           for(int j(0);j<colloptrsize;++j){
             sm += assymEigenVec[location+j][nchemIdx+i] * KofEs[j];
           }
           Y_matrix[position][i] = sm;
+          KofEs.clear();
         }
       }
     }
@@ -989,17 +1023,21 @@ namespace mesmer
 
     if(m_sinkRxns.size()!=0){
       ctest << "\nFirst order & psuedo first order rate coefficients for irreversible rxns:\n{\n";
-      map<IrreversibleReaction*, int>::iterator sinkitr;
+      map<Reaction*, int>::iterator sinkitr;
 
       for(sinkitr=m_SinkSequence.begin(); sinkitr!=m_SinkSequence.end(); ++sinkitr){
-        IrreversibleReaction* sinkReaction = sinkitr->first;          // get Irreversible Rxn
+        Reaction* sinkReaction = sinkitr->first;          // get Irreversible Rxn
+        int colloptrsize = sinkReaction->getRctColloptrsize();
         int sinkpos = m_SinkSequence[sinkReaction];                   // get products & their position
         vector<ModelledMolecule*> pdts;                                 
         sinkReaction->get_products(pdts);
         for(rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
           ModelledMolecule* rcts = rctitr->first;     // get reactants & their position
           int rctpos = rctitr->second;
-          ctest << rcts->getName() << " -> "  << pdts[0]->getName() << " = " << Kp[sinkpos][rctpos] << endl;
+          if(colloptrsize==1)
+            ctest << rcts->getName() << " -> "  << pdts[0]->getName() << "(bim) = " << Kp[sinkpos][rctpos] << endl;
+          else
+            ctest << rcts->getName() << " -> "  << pdts[0]->getName() << " = " << Kp[sinkpos][rctpos] << endl;
         }
       }
       ctest << "}\n\n";
@@ -1049,4 +1087,6 @@ namespace mesmer
 
 
 }//namespace
+
+
 

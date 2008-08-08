@@ -28,7 +28,7 @@ namespace mesmer
     pReactant->getGrainEnergies(grainEne) ;
     pReactant->getGrainDensityOfStates(grainDOS) ;
 
-    ctest << "\nMicrocanonical rate coefficients for: " << pReact->getName() << "\n{\n";
+    ctest << "\nCanonical rate coefficients for " << pReact->getName() << ", calculated from microcanonical rates\n{\n";
     for(int i = 0 ; i < 29 ; ++i)
     {
       double Temperature = double(i+2)*100.0 ;

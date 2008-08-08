@@ -1475,7 +1475,7 @@ k_b(e) grains for R1:
 2.84902e+014
 }
 
-Microcanonical rate coefficients for: R1
+Canonical rate coefficients for R1, calculated from microcanonical rates
 {
     200   8.63561e+009
     300   4.09266e+011
@@ -1507,11 +1507,13 @@ Microcanonical rate coefficients for: R1
    2900   6.56539e+016
    3000   7.09092e+016
 }
+
+Eq fraction matrix:
 {
   -0.00060688            1
             1            1
 }
-inverse:
+inverse of Eq fraction matrix:
 {
      -0.99939      0.99939
       0.99939   0.00060651

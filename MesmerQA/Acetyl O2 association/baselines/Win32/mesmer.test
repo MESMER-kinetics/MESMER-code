@@ -1012,7 +1012,10 @@ k_b(e) grains for R1:
 5.28266e+010
 5.57886e+010
 }
-Association rate constant of R1: k_inf(298) = 137670
+
+Canonical psuedo first order rate constant of association reaction R1 = 137670 s-1 (298 K)
+Canonical bimolecular rate constant of association reaction R1 = 6.11866e-012 cm^3/mol/s (298 K)
+Canonical first order rate constant for the reverse of reaction R1 = 2.76151e-009 s-1 (298 K)
 
 Test rovibronic density of states for: TS1
 {
@@ -19615,6 +19618,9 @@ k_b(e) grains for R2:
 0
 }
 
+Canonical psuedo first order forward rate constant of isomerization reaction R2 = 1.91133e-006 s-1 (298 K)
+Canonical psuedo first order backward rate constant of isomerization reaction R2 = 0.000515983 s-1 (298 K)
+
 Test rovibronic density of states for: TS3
 {
       T           qtot           sumc           sumg
@@ -20013,6 +20019,8 @@ k_f(e) grains for R3:
 1.47499e+011
 }
 
+Canonical psuedo first order forward rate constant of irreversible reaction R3 = 0.00130421 s-1 (298 K)
+
 Test rovibronic density of states for: TS2
 {
       T           qtot           sumc           sumg
@@ -20410,20 +20418,24 @@ k_f(e) grains for R4:
 1.46857e+008
 1.62313e+008
 }
+
+Canonical psuedo first order forward rate constant of irreversible reaction R4 = 4.58763e-014 s-1 (298 K)
+
+Eq fraction matrix:
 {
  -4.9853e+013            1            0
             0   -0.0036887            1
             1            1            1
 }
-inverse:
+inverse of Eq fraction matrix:
 {
  -2.0059e-014 -1.9985e-014  1.9985e-014
   1.9985e-014     -0.99632      0.99632
   7.3719e-017      0.99632    0.0036751
 }
-Equilibrium Fraction for acetyl = 1.99852e-014
 Equilibrium Fraction for Int1 = 0.996325
 Equilibrium Fraction for Int2 = 0.00367513
+Equilibrium Fraction for acetyl = 1.99852e-014
 
 Total number of eigenvalues = 347
 Eigenvalues
@@ -20969,29 +20981,29 @@ Kp matrix:
 
 First order & psuedo first order rate coefficients for loss rxns:
 {
-acetyl loss = -83067.4
 Int1 loss = -1.76631e-006
 Int2 loss = -0.00156619
+acetyl loss = -83067.4
 }
 
 First order & psuedo first order rate coefficients for isomerization rxns:
 {
+Int1 -> Int2 = 1.88027e-006
+Int1 -> acetyl = 1.49581e-009
+Int2 -> Int1 = 0.000509738
+Int2 -> acetyl = 2.06768e-009
 acetyl -> Int1 = 74566.9
 acetyl -> Int2 = 380.17
-Int1 -> acetyl = 1.49581e-009
-Int1 -> Int2 = 1.88027e-006
-Int2 -> acetyl = 2.06768e-009
-Int2 -> Int1 = 0.000509738
 }
 
 First order & psuedo first order rate coefficients for irreversible rxns:
 {
-acetyl -> lactone = 8102.66
 Int1 -> lactone = 2.17053e-008
 Int2 -> lactone = 0.00105704
-acetyl -> ketene = 1.99694
+acetyl -> lactone = 8102.66
 Int1 -> ketene = 3.65719e-015
 Int2 -> ketene = 5.10171e-015
+acetyl -> ketene = 1.99694
 }
 
 }

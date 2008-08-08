@@ -209,15 +209,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\ExchangeReaction.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\formatfloat.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\IrreversibleReaction.cpp"
+				RelativePath="..\..\src\IrreversibleExchangeReaction.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\IrreversibleUnimolecularReaction.cpp"
 				>
 			</File>
 			<File
@@ -347,15 +347,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\ExchangeReaction.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\formatfloat.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\IrreversibleReaction.h"
+				RelativePath="..\..\src\IrreversibleExchangeReaction.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\IrreversibleUnimolecularReaction.h"
 				>
 			</File>
 			<File

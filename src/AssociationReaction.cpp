@@ -42,28 +42,28 @@ namespace mesmer
       return false;
     }
 
-    // if deficientReactantLocation=true, then pMol1 (the first rct
-    // in the XML input) is the deficient reactant (m_rct1)
+        // if deficientReactantLocation=true, then pMol1 (the first rct
+        // in the XML input) is the deficient reactant (m_rct1)
 
-    ModelledMolecule* tmp_rct1 = dynamic_cast<ModelledMolecule*>(pMol1);
-    ModelledMolecule* tmp_rct2 = dynamic_cast<ModelledMolecule*>(pMol2);
+        ModelledMolecule* tmp_rct1 = dynamic_cast<ModelledMolecule*>(pMol1);
+        ModelledMolecule* tmp_rct2 = dynamic_cast<ModelledMolecule*>(pMol2);
 
-    if(deficientReactantLocation){
-      m_rct1 = tmp_rct1;
-      m_rct2 = tmp_rct2;
-    }
-    else {
-      m_rct1 = tmp_rct2;
-      m_rct2 = tmp_rct1;
-    }
+        if(deficientReactantLocation){
+          m_rct1 = tmp_rct1;
+          m_rct2 = tmp_rct2;
+        }
+        else {
+          m_rct1 = tmp_rct2;
+          m_rct2 = tmp_rct1;
+        }
 
-    if(!m_rct1){
-      cerr << "the deficient reactant in the association reaction is undefined" << endl;
-      return false;
-    }
-    if(!m_rct2){
-      cerr << "the excess reactant in the association reaction is undefined" << endl;
-      return false;
+        if(!m_rct1){
+          cerr << "the deficient reactant in the association reaction is undefined" << endl;
+        return false;
+      }
+        if(!m_rct2){
+          cerr << "the excess reactant in the association reaction is undefined" << endl;
+          return false;
     }
 
     //Read product details.
@@ -77,7 +77,7 @@ namespace mesmer
 
     // Save product as CollidingMolecule.
 
-    CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
+        CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
     if(pColMol){
       m_pdt1 = pColMol;
     } else {
@@ -330,7 +330,6 @@ namespace mesmer
     m_GrainKbmc.clear();
     m_GrainKbmc.resize(MaximumGrain , 0.0);
 
-    // For AssociationReaction, TSFlux is calculated from ILT
     for (int i = TSFluxGrainZPE - pdtGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
       m_GrainKbmc[i] = m_GrainTSFlux[j] / pdtGrainDOS[i];
     }
@@ -357,46 +356,29 @@ namespace mesmer
       testRateConstant();
   }
 
-  //  // Test k(T)
-  //  void AssociationReaction::testRateConstant() {
-  //    vector<double> rctGrainDOS;
-  //    vector<double> rctGrainEne;
-  //    m_srct->getGrainDensityOfStates(rctGrainDOS) ;
-  //    m_srct->getGrainEnergies(rctGrainEne);
-  //
-  //    const int MaximumGrain = getEnv().MaxGrn;
-  //    double k_inf = 0.0;
-  //    const double beta = getEnv().beta;
-  //    for (int i = 0; i < MaximumGrain; ++i){
-  //      k_inf += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i] ) ;
-  //    }
-  //    const double prtfn = canonicalPartitionFunction(rctGrainDOS, rctGrainEne, beta);
-  //    const double trans = translationalContribution(m_rct1->getMass(), m_rct2->getMass(), beta);
-  //    k_inf /= prtfn;
-  //    k_inf /= trans;
-  //    const double temperature = 1. / (boltzmann_RCpK * beta);
-  //    ctest << "Association rate constant of " << getName() << ": k(" << temperature << ") = " << k_inf << endl;
-  //  }
-
-  // Test k(T)
   void AssociationReaction::testRateConstant() {
     vector<double> pdtGrainDOS;
     vector<double> pdtGrainEne;
+
     m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
     m_pdt1->getGrainEnergies(pdtGrainEne);
 
     const int MaximumGrain = getEnv().MaxGrn;
-    double k_inf = 0.0;
     const double beta = getEnv().beta;
     for (int i = 0; i < MaximumGrain; ++i){
-      k_inf += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i] ) ;
+      backwardCanonicalRate += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i] ) ;
     }
     const double prtfn = canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, beta);
-    k_inf /= prtfn;
+    backwardCanonicalRate /= prtfn;
     double Keq = calcEquilibriumConstant();
-    k_inf *= Keq;
+    forwardCanonicalRate = backwardCanonicalRate * Keq;
     const double temperature = 1. / (boltzmann_RCpK * beta);
-    ctest << "Association rate constant of " << getName() << ": k_inf(" << temperature << ") = " << k_inf << endl;
+    ctest << endl << "Canonical psuedo first order rate constant of association reaction " 
+      << getName() << " = " << forwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
+    ctest << "Canonical bimolecular rate constant of association reaction " 
+      << getName() << " = " << forwardCanonicalRate/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
+    ctest << "Canonical first order rate constant for the reverse of reaction " 
+      << getName() << " = " << backwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
   }
 
   //

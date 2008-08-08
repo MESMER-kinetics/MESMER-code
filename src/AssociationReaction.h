@@ -60,11 +60,22 @@ namespace mesmer
       return 1;
     } ;
 
+    // Get product information:
+    virtual int get_products(std::vector<ModelledMolecule *> &unimolecularspecies) const
+    {
+      unimolecularspecies.push_back(m_pdt1) ;
+      return 1;
+    } ;
+
+    // return the colloptrsize of the reactants
+    virtual int getRctColloptrsize(){return 1;}
+
     // Initialize reaction.
     virtual bool InitializeReaction(PersistPtr ppReac) ;
 
     // Get the principal source reactant (i.e. reactant not in excess).
     virtual ModelledMolecule *get_pseudoIsomer(void) const {return m_rct1 ; } ;
+    virtual ModelledMolecule *get_reactant(void) const {return m_rct1;};
     virtual ModelledMolecule *get_excessReactant(void) const {return m_rct2 ; } ;
 
     // return relative reactant, product and transition state zero-point energy
@@ -75,8 +86,8 @@ namespace mesmer
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
 
-	// Is reaction equilibrating and therefore contributes
-	// to the calculation of equilibrium fractions.
+    // Is reaction equilibrating and therefore contributes
+    // to the calculation of equilibrium fractions.
     virtual bool isEquilibratingReaction(double &Keq, ModelledMolecule **rct, ModelledMolecule **pdt) ;
 
     // Get reactants cell density of states.

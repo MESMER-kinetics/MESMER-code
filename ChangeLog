@@ -1,3 +1,17 @@
+2008-8-08 Dave Glowacki
+
+* irreversible exchange reactions are now working in the recently added benzene oxidation system
+* addReactionTerms routine has been added in IrreversibleExchangeReaction class
+* irreversible and exchange reaction class have been replaced by irreversibleunimolecular reaction and irreversibleexchange reaction classes
+  and changes to MESMER have been implemented in order to incorporate these classes
+* implement testRateConstant routines in all reaction classes
+* correct output stream printing in microrate.cpp
+* added forwardcanonicalrate and backwardcanonical rate data & corresponding handling functions to reaction class
+* changes to reactionmanager in order to incorporate printing of product yields and phenomenological rate that correspond to
+  irreversible exchange reactions
+* update all baselines
+* manual updates
+
 _2008_08_07__11_59_16_ Chi-Hsiu Liang
 
   * Corrected flux bottom ZPE for transition state (a fix for ZPE lower than 0.0)

@@ -1009,7 +1009,7 @@ k_b(e) grains for R1:
 1.22909e+011
 }
 
-Microcanonical rate coefficients for: R1
+Canonical rate coefficients for R1, calculated from microcanonical rates
 {
     200   1.05924e-062
     300   1.73066e-037
@@ -1834,7 +1834,7 @@ k_b(e) grains for R2:
 7.70612e+008
 }
 
-Microcanonical rate coefficients for: R2
+Canonical rate coefficients for R2, calculated from microcanonical rates
 {
     200    8.0064e-034
     300   2.66434e-018
@@ -1866,12 +1866,14 @@ Microcanonical rate coefficients for: R2
    2900   1.85166e+010
    3000   2.13343e+010
 }
+
+Eq fraction matrix:
 {
  -1.5862e-006            1            0
             0 -1.3993e+006            1
             1            1            1
 }
-inverse:
+inverse of Eq fraction matrix:
 {
  -4.3463e+005      -0.3106       0.3106
        0.3106 -4.9267e-007  4.9267e-007
@@ -3662,7 +3664,7 @@ k_b(e) grains for R1:
 2.2497e+011
 }
 
-Microcanonical rate coefficients for: R1
+Canonical rate coefficients for R1, calculated from microcanonical rates
 {
     200   1.05924e-062
     300   1.73066e-037
@@ -4543,7 +4545,7 @@ k_b(e) grains for R2:
 2.0591e+009
 }
 
-Microcanonical rate coefficients for: R2
+Canonical rate coefficients for R2, calculated from microcanonical rates
 {
     200    8.0064e-034
     300   2.66434e-018
@@ -4575,12 +4577,14 @@ Microcanonical rate coefficients for: R2
    2900    2.5393e+010
    3000   2.98357e+010
 }
+
+Eq fraction matrix:
 {
  -2.1582e-005            1            0
             0       -98526            1
             1            1            1
 }
-inverse:
+inverse of Eq fraction matrix:
 {
        -31515     -0.31986      0.31986
       0.31986 -6.9031e-006  6.9031e-006

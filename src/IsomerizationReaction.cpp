@@ -193,33 +193,56 @@ namespace mesmer
 
         // For AssociationReaction, TSFlux is calculated from ILT
         for (int i = TSgrainZPE - pdtGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
-            m_GrainKbmc[i] = m_GrainTSFlux[j] / pdtGrainDOS[i];
+          m_GrainKbmc[i] = m_GrainTSFlux[j] / pdtGrainDOS[i];
         }
         for (int i = TSgrainZPE - rctGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
-            m_GrainKfmc[i] = m_GrainTSFlux[j] / rctGrainDOS[i];
+          m_GrainKfmc[i] = m_GrainTSFlux[j] / rctGrainDOS[i];
         }
 
         // the code that follows is for printing of the f & r k(E)s
         if (getEnv().kfEGrainsEnabled){
-            ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
-            for (int i = 0; i < MaximumGrain; ++i){
-                ctest << m_GrainKfmc[i] << endl;
-            }
-            ctest << "}\n";
+          ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
+          for (int i = 0; i < MaximumGrain; ++i){
+            ctest << m_GrainKfmc[i] << endl;
+          }
+          ctest << "}\n";
         }
         if (getEnv().kbEGrainsEnabled){
-            ctest << "\nk_b(e) grains for " << getName() << ":\n{\n";
-            for (int i = 0; i < MaximumGrain; ++i){
-                ctest << m_GrainKbmc[i] << endl;
-            }
-            ctest << "}\n";
+          ctest << "\nk_b(e) grains for " << getName() << ":\n{\n";
+          for (int i = 0; i < MaximumGrain; ++i){
+            ctest << m_GrainKbmc[i] << endl;
+          }
+          ctest << "}\n";
         }
         if (getEnv().testRateConstantEnabled)
-            testRateConstant();
+          testRateConstant();
     }
 
     // Test k(T)
     void IsomerizationReaction::testRateConstant() {
 
+      vector<double> rctGrainDOS, rctGrainEne, pdtGrainDOS, pdtGrainEne ;
+      m_rct1->getGrainDensityOfStates(rctGrainDOS);
+      m_pdt1->getGrainDensityOfStates(pdtGrainDOS);
+      m_rct1->getGrainEnergies(rctGrainEne);
+      m_pdt1->getGrainEnergies(pdtGrainEne);
+      const int MaximumGrain = getEnv().MaxGrn;;
+      const double beta = getEnv().beta;
+      const double temperature = 1. / (boltzmann_RCpK * beta);
+
+      for(int i(0); i < MaximumGrain; ++i){
+        forwardCanonicalRate += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
+        backwardCanonicalRate += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i]);
+      }
+
+      const double rctprtfn = canonicalPartitionFunction(rctGrainDOS, rctGrainEne, beta);
+      const double pdtprtfn = canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, beta);
+      forwardCanonicalRate /= rctprtfn;
+      backwardCanonicalRate /= pdtprtfn;
+
+      ctest << endl << "Canonical psuedo first order forward rate constant of isomerization reaction " 
+        << getName() << " = " << forwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
+      ctest << "Canonical psuedo first order backward rate constant of isomerization reaction " 
+        << getName() << " = " << backwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
     }
 }//namespace

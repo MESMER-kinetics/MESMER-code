@@ -181,10 +181,10 @@ src/DensityOfStates.h -text
 src/Distribution.h -text
 src/EckartCoefficients.cpp -text
 src/EckartCoefficients.h -text
-src/ExchangeReaction.cpp -text
-src/ExchangeReaction.h -text
-src/IrreversibleReaction.cpp -text
-src/IrreversibleReaction.h -text
+src/IrreversibleExchangeReaction.cpp -text
+src/IrreversibleExchangeReaction.h -text
+src/IrreversibleUnimolecularReaction.cpp -text
+src/IrreversibleUnimolecularReaction.h -text
 src/IsomerizationReaction.cpp -text
 src/IsomerizationReaction.h -text
 src/Makefile -text
