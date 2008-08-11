@@ -1,7 +1,7 @@
 /**********************************************************************
 oberror.cpp - Handle error messages.
 Details at end of oberror.cpp
- 
+
 Copyright (C) 2007 by Chris Morley
 Based on original code from OpenBabel 
 Copyright (C) 2002 by Stefan Kebekus, 2002-2006 by Geoffrey R. Hutchison
@@ -14,61 +14,61 @@ using namespace std;
 namespace mesmer
 {
 
-//Global output streams which by default go to clog
-//They may be redirected by an OStreamRedirector object 
-ostream cwarn(clog.rdbuf());
-ostream cinfo(clog.rdbuf());
-ostream ctest(clog.rdbuf());
+  //Global output streams which by default go to clog
+  //They may be redirected by an OStreamRedirector object 
+  ostream cwarn(clog.rdbuf());
+  ostream cinfo(clog.rdbuf());
+  ostream ctest(clog.rdbuf());
 
-//Global message handler
-MessageHandler meErrorLog;
+  //Global message handler
+  MessageHandler meErrorLog;
 
-//////////////////////////////////////////////////////////////////
-MessageHandler::MessageHandler(ostream* logstream) :
-_outputLevel(obWarning), _logStream(logstream), _logging(true)
-{}
+  //////////////////////////////////////////////////////////////////
+  MessageHandler::MessageHandler(ostream* logstream) :
+  _outputLevel(obWarning), _logStream(logstream), _logging(true)
+  {}
 
-///////////////////////////////////////////////////////////////////
-void MessageHandler::ThrowError(const std::string &context, 
-                                  const std::string &errorMsg,
-                                  obMessageLevel level) const
-{
-  if (!_logging || errorMsg.empty())
-    return;
-  string txt;
-  if(errorMsg.size()>1)
-  { 
-    if(!context.empty() || !_defaultContext.empty())
-      txt = GetLevelText(level) + "in ";
-    if(!context.empty())
-      txt += context + '\n';
-    else if (!_defaultContext.empty())
-      txt += _defaultContext + '\n';
+  ///////////////////////////////////////////////////////////////////
+  void MessageHandler::ThrowError(const std::string &context, 
+    const std::string &errorMsg,
+    obMessageLevel level) const
+  {
+    if (!_logging || errorMsg.empty())
+      return;
+    string txt;
+    if(errorMsg.size()>1)
+    { 
+      if(!context.empty() || !_defaultContext.empty())
+        txt = GetLevelText(level) + "in ";
+      if(!context.empty())
+        txt += context + '\n';
+      else if (!_defaultContext.empty())
+        txt += _defaultContext + '\n';
+    }
+    txt += errorMsg;
+
+    //if no new line at end, add one
+    if(txt[txt.size()-1]!='\n')
+      txt += '\n';
+
+    if(_logStream)
+      *_logStream << txt; 
+
+    if (level <= _outputLevel)
+      clog << txt; //write to console
   }
-  txt += errorMsg;
 
-  //if no new line at end, add one
-  if(txt[txt.size()-1]!='\n')
-    txt += '\n';
+  ////////////////////////////////////////////////////////////////////
+  int obLogBuf::sync()
+  {
+    _handler->ThrowError("", str(), _messageLevel);
+    str(std::string()); // clear the buffer
+    return 0;
+  }
 
-  if(_logStream)
-   *_logStream << txt; 
-
-  if (level <= _outputLevel)
-    clog << txt; //write to console
-}
-
-////////////////////////////////////////////////////////////////////
-int obLogBuf::sync()
-{
-  _handler->ThrowError("", str(), _messageLevel);
-  str(std::string()); // clear the buffer
-  return 0;
-}
-
-////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
   OStreamRedirector::OStreamRedirector(MessageHandler* handler, std::ostream* Newctest, bool nologging) :
-      _cerrbuf(obError, handler), _cwarnbuf(obWarning, handler), _cinfobuf(obInfo, handler)
+  _cerrbuf(obError, handler), _cwarnbuf(obWarning, handler), _cinfobuf(obInfo, handler)
   {
     //Save original buffers for output streams...
     _oldcerrbuf = std::cerr.rdbuf();
@@ -95,7 +95,7 @@ int obLogBuf::sync()
       cinfo.rdbuf(NULL);
       //ctest.rdbuf(NULL);
     }
- }
+  }
   OStreamRedirector::~OStreamRedirector()
   {
     if(_oldcerrbuf)
@@ -127,7 +127,7 @@ The context string gives locally significant information, such as the routine
 where the call is made from (use __FUNCTION__) or the name of the structure
 being worked on. If context is empty, a default context, set by calling
 SetContext() is used instead. So a call:
- meErrorLog.ThrowError(molID, "Molecule already defined", obError);
+meErrorLog.ThrowError(molID, "Molecule already defined", obError);
 may appear in the log file and the console as:
 Error in n-pentyl: Molecule already defined
 

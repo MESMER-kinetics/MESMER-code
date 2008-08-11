@@ -23,6 +23,10 @@ namespace mesmer
     m_pMoleculeManager(pMoleculeManager),
     m_pMicroRateCalculator(NULL),
     m_pTunnelingCalculator(NULL),
+    m_forwardCanonicalRate(0.0),
+    m_backwardCanonicalRate(0.0),
+    m_FluxGrainZPE(0.0),
+    m_FluxCellOffset(0),
     m_CellTSFlux(),
     m_GrainTSFlux(),
     m_GrainKfmc(),
@@ -32,10 +36,8 @@ namespace mesmer
     reCalcDOS(true),
     m_PreExp(0.0),
     m_NInf(0.0),
-    m_kfwd(0.0),
-    forwardCanonicalRate(0.0),
-    backwardCanonicalRate(0.0),
-    m_ActivationEnergy(0.0) 
+    m_ActivationEnergy(0.0),
+    m_kfwd(0.0)
   {}
 
   Reaction::~Reaction(){}

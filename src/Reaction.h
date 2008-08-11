@@ -170,11 +170,15 @@ namespace mesmer
     by the quantity (MaximumGrain - ZpeOfTheWell).
     */
 
+    //
+    // Reaction Rate data.
+    //
+    double m_forwardCanonicalRate;
+    double m_backwardCanonicalRate;
+
     // _2008_04_24__12_35_40_  <- Please search for this string in the current file for further description.
     double m_FluxGrainZPE;                       // grain ZPE of m_GrainTSFlux
     int m_FluxCellOffset;                        // cell Offset when converting m_CellTSFlux to m_GrainTSFlux
-    double forwardCanonicalRate;
-    double backwardCanonicalRate;
 
     std::vector<double>  m_CellTSFlux ;          // Microcanonical transition state fluxes. (QM or classical)
     std::vector<double>  m_GrainTSFlux ;         // Grain summed microcanonical transition state fluxes..
@@ -210,13 +214,8 @@ namespace mesmer
     bool reCalcDOS;             // re-calculation on DOS
     DPoint m_PreExp ;           // Preexponetial factor
     DPoint m_NInf ;             // Modified Arrhenius parameter
+    DPoint m_ActivationEnergy;  // Activation Energy
     double m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
-
-    //
-    // Reaction Rate data.
-    //
-    DPoint m_ActivationEnergy;      // Activation Energy
-
   } ;
 
   // _2008_04_24__12_35_40_

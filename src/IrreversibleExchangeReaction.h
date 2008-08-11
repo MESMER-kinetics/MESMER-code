@@ -24,12 +24,12 @@ namespace mesmer
     // Constructors.
     IrreversibleExchangeReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id, bool isReactant)
       : Reaction(pMoleculeManager, Env, id),
-      deficientReactantLocation(isReactant),
       m_sourceMap(NULL),
       m_rct1(NULL),
       m_rct2(NULL), 
       m_pdt1(NULL), 
       m_pdt2(NULL),
+      deficientReactantLocation(isReactant),
       m_ERConc(0.),
       m_rctsCellEne(),
       m_rctsCellDOS(),
@@ -92,7 +92,7 @@ namespace mesmer
     virtual ModelledMolecule *get_reactant(void) const {return m_rct1;};
 
     // get canonical psuedo first order irreversible loss rate coefficient
-    virtual double GetCanonicalIrreversibleLossRate(void){return forwardCanonicalRate;};
+    virtual double GetCanonicalIrreversibleLossRate(void){return m_forwardCanonicalRate;};
 
   private:
 
@@ -109,13 +109,13 @@ namespace mesmer
     virtual void testRateConstant();
 
     sourceMap *m_sourceMap ;
-    bool deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
 
     ModelledMolecule    *m_rct1 ;                 // Reactant Molecule.
     ModelledMolecule    *m_rct2 ;                 // Subsidiary reactant molecule. 
     ModelledMolecule    *m_pdt1 ;                 // Product Molecule.
     ModelledMolecule    *m_pdt2 ;                 // Subsidiary product molecule.
 
+    bool deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
     double               m_ERConc ; // Concentration of the excess reactant
 
     // Convoluted cell and grain averages for m_rct1 and m_rct2.

@@ -1,3 +1,13 @@
+_2008_08_11__18_07_40_ Chi-Hsiu Liang
+
+  * Add an additional flag for command line mode, -N, which force the name of the test and log to be the same as the input XML
+    For example, if input XML is Acetyl_O2_association.xml, then the test file will be Acetyl_O2_association.test, and the
+    log file will be Acetyl_O2_association.log. However, the timestamp of the input file will be discarded. So, if the input
+    file name is Acetyl_O2_association.20080811_181138.xml, the test file will still be Acetyl_O2_association.test.
+    This flag will allow user to run multiple jobs in the same folder without having the test files overwriting each other.
+  * Corrected the initialization order of class variables in Reaction classes.
+  * Compile OK in cygwin.
+
 2008-8-08 Dave Glowacki
 
 * irreversible exchange reactions are now working in the recently added benzene oxidation system

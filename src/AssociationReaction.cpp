@@ -366,19 +366,19 @@ namespace mesmer
     const int MaximumGrain = getEnv().MaxGrn;
     const double beta = getEnv().beta;
     for (int i = 0; i < MaximumGrain; ++i){
-      backwardCanonicalRate += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i] ) ;
+      m_backwardCanonicalRate += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i] ) ;
     }
     const double prtfn = canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, beta);
-    backwardCanonicalRate /= prtfn;
+    m_backwardCanonicalRate /= prtfn;
     double Keq = calcEquilibriumConstant();
-    forwardCanonicalRate = backwardCanonicalRate * Keq;
+    m_forwardCanonicalRate = m_backwardCanonicalRate * Keq;
     const double temperature = 1. / (boltzmann_RCpK * beta);
     ctest << endl << "Canonical psuedo first order rate constant of association reaction " 
-      << getName() << " = " << forwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
+      << getName() << " = " << m_forwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
     ctest << "Canonical bimolecular rate constant of association reaction " 
-      << getName() << " = " << forwardCanonicalRate/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
+      << getName() << " = " << m_forwardCanonicalRate/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
     ctest << "Canonical first order rate constant for the reverse of reaction " 
-      << getName() << " = " << backwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
+      << getName() << " = " << m_backwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
   }
 
   //

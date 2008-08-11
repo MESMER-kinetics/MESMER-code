@@ -141,8 +141,7 @@ namespace mesmer
     const double rMeanOmega)              // Add exchange reaction terms to collision matrix.
   {
     const int jj     = (*m_sourceMap)[get_pseudoIsomer()] ;
-    double checkvalue = rMeanOmega * forwardCanonicalRate;
-    (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * forwardCanonicalRate);
+    (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * m_forwardCanonicalRate);
   }
 
   bool IrreversibleExchangeReaction::calcRctsDensityOfStates()    // Calculate rovibrational reactant DOS
@@ -219,20 +218,20 @@ namespace mesmer
     const int MaximumGrain = getEnv().MaxGrn;;
     const double beta = getEnv().beta;
     for(int i(0); i < MaximumGrain; ++i){
-      forwardCanonicalRate += m_GrainKfmc[i] * exp( log(m_rctsGrainDOS[i]) - beta * m_rctsGrainEne[i]); 
+      m_forwardCanonicalRate += m_GrainKfmc[i] * exp( log(m_rctsGrainDOS[i]) - beta * m_rctsGrainEne[i]); 
     }
     const double prtfn = canonicalPartitionFunction(m_rctsGrainDOS, m_rctsGrainEne, beta);
     const double trans = translationalContribution(m_rct1->getMass(), m_rct2->getMass(), beta);
-    forwardCanonicalRate /= prtfn;
-    forwardCanonicalRate /= trans;
-    forwardCanonicalRate *= m_ERConc;
+    m_forwardCanonicalRate /= prtfn;
+    m_forwardCanonicalRate /= trans;
+    m_forwardCanonicalRate *= m_ERConc;
 
     if (getEnv().testRateConstantEnabled){
       const double temperature = 1. / (boltzmann_RCpK * beta);
       ctest << endl << "Canonical psuedo first order rate constant of irreversible reaction " 
-        << getName() << " = " << forwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
+        << getName() << " = " << m_forwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
       ctest << "Canonical bimolecular rate constant of irreversible reaction " 
-        << getName() << " = " << forwardCanonicalRate/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
+        << getName() << " = " << m_forwardCanonicalRate/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
     }
   }
 

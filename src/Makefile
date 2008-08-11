@@ -100,10 +100,10 @@ SRCS := \
   ClassicalRotor.cpp \
   CollidingMolecule.cpp \
   DensityOfStates.cpp \
-	IrreversibleReaction.cpp \
 	EckartCoefficients.cpp \
-	ExchangeReaction.cpp \
 	formatfloat.cpp \
+	IrreversibleExchangeReaction.cpp \
+	IrreversibleUnimolecularReaction.cpp \
 	IsomerizationReaction.cpp \
 	main.cpp \
 	MesmerEnv.cpp \

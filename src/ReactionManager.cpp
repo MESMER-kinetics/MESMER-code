@@ -982,7 +982,7 @@ namespace mesmer
     Kr.showFinalBits(nchem);       // print out Kr_matrix
 
     if(m_sinkRxns.size()!=0){
-      for(int i(0); i!=m_sinkRxns.size(); ++i){    // calculate Kp (definition taken from PCCP 2007(9), p.4085)
+      for(int i(0); i != int(m_sinkRxns.size()); ++i){    // calculate Kp (definition taken from PCCP 2007(9), p.4085)
         for(int j(0);j<nchem;++j){
           double sm = 0.0;
           for(int k(0);k<nchem;++k){

@@ -231,18 +231,18 @@ namespace mesmer
       const double temperature = 1. / (boltzmann_RCpK * beta);
 
       for(int i(0); i < MaximumGrain; ++i){
-        forwardCanonicalRate += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
-        backwardCanonicalRate += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i]);
+        m_forwardCanonicalRate += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
+        m_backwardCanonicalRate += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i]);
       }
 
       const double rctprtfn = canonicalPartitionFunction(rctGrainDOS, rctGrainEne, beta);
       const double pdtprtfn = canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, beta);
-      forwardCanonicalRate /= rctprtfn;
-      backwardCanonicalRate /= pdtprtfn;
+      m_forwardCanonicalRate /= rctprtfn;
+      m_backwardCanonicalRate /= pdtprtfn;
 
       ctest << endl << "Canonical psuedo first order forward rate constant of isomerization reaction " 
-        << getName() << " = " << forwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
+        << getName() << " = " << m_forwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
       ctest << "Canonical psuedo first order backward rate constant of isomerization reaction " 
-        << getName() << " = " << backwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
+        << getName() << " = " << m_backwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
     }
 }//namespace
