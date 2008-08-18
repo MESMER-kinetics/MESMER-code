@@ -17,6 +17,8 @@ namespace mesmer
   CollidingMolecule::CollidingMolecule(const MesmerEnv& Env) : ModelledMolecule(Env),
     m_Sigma(sigmaDefault),
     m_Epsilon(epsilonDefault),
+    m_DeltaEdownExponent(0.0),
+    m_DeltaEdownRefTemp(298.0),
     m_DeltaEdown(0.0),
     m_collisionFrequency(0.0),
     m_ncolloptrsize(0),
@@ -92,9 +94,11 @@ namespace mesmer
       istringstream idata(txt);
       double value(0.0);
       idata >> value;
-      const char* pLowertxt = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "lower");
-      const char* pUppertxt = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "upper");
-      const char* pStepStxt = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "stepsize");
+      const char* pLowertxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "lower");
+      const char* pUppertxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "upper");
+      const char* pStepStxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "stepsize");
+      const char* pRefTemptxt  = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "referenceTemperature");
+      const char* pExponenttxt = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "exponent");
       if (pLowertxt && pUppertxt){
         double valueL(0.0), valueU(0.0), stepsize(0.0);
         stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
@@ -102,6 +106,16 @@ namespace mesmer
       }
       else{
         setDeltaEdown(value);
+      }
+      if(pRefTemptxt){
+        double ref_t(298.);
+        stringstream s_temp(pRefTemptxt); s_temp >> ref_t;
+        setDeltaEdownRefTemp(ref_t);
+      }
+      if(pExponenttxt){
+        double ref_exp(0.0);
+        stringstream s_exp(pExponenttxt); s_exp >> ref_exp;
+        setDeltaEdownExponent(ref_exp);
       }
       m_DeltaEdown_chk = 0;
     }
@@ -193,7 +207,11 @@ namespace mesmer
   double CollidingMolecule::getDeltaEdown()                    {
     if (m_DeltaEdown_chk >= 0){
       ++m_DeltaEdown_chk;
-      return m_DeltaEdown.get_value() ;
+      const double refTemp = getDeltaEdownRefTemp();
+      const double dEdExp = getDeltaEdownExponent();
+      const double dEdRef = m_DeltaEdown.get_value();
+      const double temperature = 1. / (boltzmann_RCpK * m_Env.beta);
+      return dEdRef * pow((temperature/refTemp),dEdExp);
     }
     else{
       cerr << "m_DeltaEdown was not defined but requested in " << getName();

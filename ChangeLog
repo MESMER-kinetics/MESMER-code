@@ -1,3 +1,13 @@
+_2008_08_18__15_26_21_ Chi-Hsiu Liang
+
+  * Add variables for additional <delta_E_down> dependency to temperature.
+    The function is
+    // Exponent of <Delta E down> according to the relation
+    // <delta_E_down>(T) = <delta_E_down>_ref * (T / m_DeltaEdownRefTemp)^n
+    // where m_DeltaEdownExponent is the exponent n
+    // By default, n = 0, which means delta_E_down does not depend on temperature.
+  * Recover the section printing grained species profile
+
 _2008_08_11__18_07_40_ Chi-Hsiu Liang
 
   * Add an additional flag for command line mode, -N, which force the name of the test and log to be the same as the input XML
@@ -32,16 +42,16 @@ _2008_08_07__11_59_16_ Chi-Hsiu Liang
 
 	* mesmerDiag.xsl: make <propertyList> optional. Diagram for
 	HSO2.xml now works.
-	
+
 	* examples/DiagramTest/HSO2.xml, MesmerQA/HSO2/HSO2.xml:
 	add MW and spinMultiplicity properties and a conditions section.
-	
+
 	* Windows VC8/Mesmer/mesmer1.xsl, Windows VC8/Mesmer/mesmerDiag.xsl,
 	Windows VC8/Mesmer/switchcontent.js: delete. (Now in toplevel directory.)
 
 _2008_08_05__11_19_05_ Chi-Hsiu Liang
 
-  * Corrected the way calculating reactants ZPE in AssociationReaction 
+  * Corrected the way calculating reactants ZPE in AssociationReaction
       See: const int rctGrainZPE = get_rctsGrnZpe();
       Also:     int get_cellOffset(void)  for AssociationReaction
   * Removed   const int ModelledMolecule::get_grnZpe()
@@ -76,24 +86,24 @@ Update the manual and check for chmlin14 usage.
 
 _2008_08_02__23_04_32_ Chi-Hsiu Liang
 
-  * Removed some variables related with heat of reaction, cell offset and grain ZPE. These variables should be calculated 
+  * Removed some variables related with heat of reaction, cell offset and grain ZPE. These variables should be calculated
     on the fly. This solves inconsistency problem in grid search.
   * Updated baselines. Most baselines changes are due to the correction in shifting wells of source term and transition states.
     All corrections are in good agreement with the baselines based on version 179.
   * The difference in the species profile of pentyl baseline between version 201 and version 198 is due to the population starts
-    from alternative species. 
-  
+    from alternative species.
+
 2008-8-01 Dave Glowacki
 
 * fixed a bug in fast laplace transform routine in mesmermath.cpp
 
 _2008_08_01__15_35_33_ Chi-Hsiu Liang
 
-  * Corrected the cell offset error produced during the process of removing SuperMolecule. Some functions are added for 
+  * Corrected the cell offset error produced during the process of removing SuperMolecule. Some functions are added for
     AssociationReaction.
     Variables added in AssociationReaction:
-      std::vector<double> m_rctsCellEne ;   // Cell energies of reactants.                        
-      std::vector<double> m_rctsCellDOS ;   // Convoluted cell density of states of reactants.           
+      std::vector<double> m_rctsCellEne ;   // Cell energies of reactants.
+      std::vector<double> m_rctsCellDOS ;   // Convoluted cell density of states of reactants.
       std::vector<double> m_rctsGrainEne ;  // Grain average energy array.
       std::vector<double> m_rctsGrainDOS ;  // Grain density of states array.
 
@@ -104,27 +114,27 @@ _2008_08_01__15_35_33_ Chi-Hsiu Liang
       getRctsCellEnergies(vector<double> &CellEne)
       getRctsGrainDensityOfStates(vector<double> &grainDOS)
       getRctsGrainEnergies(vector<double> &grainEne)
-      
+
   * Make countDimerCellDOS() a virtual function of class DensityOfStatesCalculator.
   * Removed SuperMolecule.cpp
   * Removed m_pDensityOfStatesCalculator from MesmerILT
   * Moved shiftCells() and calcGrainAverages()
-    function from ModelledMolecule to MesmerTools. This is more of a tool than a molecular specific function. 
+    function from ModelledMolecule to MesmerTools. This is more of a tool than a molecular specific function.
     AssociationReaction now uses these function.
   * Updated part of the manual.
   * Updated baseline for Acetyl+O2 and OH+acetylene systems.
-  
+
 2008-7-30 Dave Glowacki
 
 * added Bartis Widom eigenvalue eigenvector analysis to get phenomenological rates for irreversible reactions
-* added a member function to a2d.h to print out db2d matrices  
+* added a member function to a2d.h to print out db2d matrices
 * updated all baselines
 
 2008-7-30 Dave Glowacki
 
-* miscellaneous small changes to reaction manager.cpp for output file printing  
+* miscellaneous small changes to reaction manager.cpp for output file printing
 * updated all baselines
-* changed QA.bat to include acetyl + O2 test system 
+* changed QA.bat to include acetyl + O2 test system
 
 2008-7-27 Struan Robertson
 
@@ -182,7 +192,7 @@ Chi-Hsiu Liang
 2008-07-06 Chris Morley
 
   * src/main: Documentation of mesmer output streams
-  
+
 2008-7-13 Struan Robertson
 
   * ReactionManager.cpp: Removal of reference to SuperMolecules. This reference was used to store the combined zero point energy location of the reactants. This is now stored on the pseudo-isomer.
@@ -207,7 +217,7 @@ reactant in excess.
 
   Provide -g option which turns off cinfo and ctest streams and may solve the problems
   Alvyn was having with overflowing buffers.
-  
+
 _2008_07_09__15_39_30_ Chi-Hsiu Liang
 
   * Make zeroCount in matrix inversion routine an int array instead of an int vector. This removes address deallocation problem.
@@ -215,20 +225,20 @@ _2008_07_09__15_39_30_ Chi-Hsiu Liang
 _2008_07_09__14_08_28_ Chi-Hsiu Liang
 
   * Removed all long double for cross platform consistency (Windows Visual C++ compiler maps long double to double)
-  * Changed m_pSystemCollisionOperator to quad double. 
-    I suspect some diagonalization problem caused by the accumulated error when the addition of values in AddReactionTerms 
-    are done in double instead of higher precision. For every variable type such as double, long double, double double and 
+  * Changed m_pSystemCollisionOperator to quad double.
+    I suspect some diagonalization problem caused by the accumulated error when the addition of values in AddReactionTerms
+    are done in double instead of higher precision. For every variable type such as double, long double, double double and
     quad double, there is a limit called epsilon. Epsilon is the smallest non-trivial number you can add with 1.000.
-    If many number smaller than this number is added/deducted in the collision operator and later divided, it may have big 
-    difference. For example, 
+    If many number smaller than this number is added/deducted in the collision operator and later divided, it may have big
+    difference. For example,
     m = 3.14159265 + 0.000000001 = 3.141592651 but if truncated it will remain as 3.14159265
     And if many number smaller than 0.000000001 are added to m and later m is substracted by 3.14159265 and divided by something
-    else, the result will be very wrong. 
-    So when numbers are multiplied their magnitude is more important than their tailing numbers, but when numbers 
+    else, the result will be very wrong.
+    So when numbers are multiplied their magnitude is more important than their tailing numbers, but when numbers
     are added/deducted and then perform multiplication and division, their tailing numbers have increased importance.
   * Move m_ActivationEnergy from AssociationReaction to Reaction, as not only AssociationReaction can use ILT.
   * Added a class DPoint to store numbers that can be modified later. See definition of Pointer.h and Pointer.cpp
-  * Added grid search function for paramters (Ninf, Ainf, ZPE, Einf and delta_E_down) with the assist of Pointer. 
+  * Added grid search function for paramters (Ninf, Ainf, ZPE, Einf and delta_E_down) with the assist of Pointer.
     Check get_range() and set_range() to see how values are initialized and modified.
   * Corrected dMatrix.h so that all matrices are always properly initialized to zeros.
   * Added System::configuration() to print out platform dependent precision information.
@@ -237,7 +247,7 @@ _2008_07_09__14_08_28_ Chi-Hsiu Liang
     corrected line 143 of Matrix.h
     if (this != rhs) {
     if (this != &rhs) {
-  * Relocated a line 
+  * Relocated a line
     const std::string TestSubFolder("baselines\\Win32\\mesmer.test"); //relative to the data file
     in MesmerConfig.h
   * Added a routine to calculate chiSquare (least square method) to compare with experimental values. experimental values
@@ -248,40 +258,40 @@ _2008_07_09__14_08_28_ Chi-Hsiu Liang
         <me:experimentalRate ref1="acetyl" ref2="acetyl" error="2.93e+03">7.04e+04</me:experimentalRate>
       </me:PTpair>
     </me:PTs>
-    
+
     where ref1 and ref2 are molecular IDs. if ref1 == ref2, this value will indicate the loss rate.
     if ref1 != ref2, this value will indicate the rate from ref1 to ref2.
-    See struct conditionSet for the definition of experimental value and error. 
+    See struct conditionSet for the definition of experimental value and error.
 
 2008-07-06 Chris Morley
 
   Give Reaction::GetMolRef() a default molecule type to be used if no me:type.
-  Allows simplification of: 
+  Allows simplification of:
   <me:transitionState>
     <molecule ref="TS_1a" me:type="transitionState" />
   </me:transitionState>
-  
+
   Added library facility for molecules. Missing molecules are looked for in LibraryMols.xml
   in a folder specified by the Environment Variable MESMER_LIBRARY. Unless the -l option
   is specified, they are copied into the datafile (with an element describing their origin)
   if the parsing is successful.
   Searching all files in the specifed folder (like other mesmer files) would be better,
   but requires platform-dependent code. Maybe later.
-  
+
   Added XmlCopyElement and XmlWriteMetadata to IPersist and XMLPersist for the above.
-  
+
   Alternative form for <property> element accepted (to suit OpenBabel output):
   <property title="localname">
   as well as:
   <property dictRef="name">
-  
+
   -q option does a QA test, comparing the current mesmer.test with the baseline file two folders
   down from the datafile. Doing it this way, rather than all by scripting, makes routine testing
   while debugging easier.
 
 _2008_07_02__14_15_31_ CHi-Hsiu Liang
 
-  * Minor change of formatting that goes to update baselines 
+  * Minor change of formatting that goes to update baselines
   * Addtion of OH acetylene association system into the QA
   * Added a DOS batch for QA, which located in MesmerQA folder. Need to write another bash script for Linux baselines.
 
@@ -289,7 +299,7 @@ _2008_07_02__14_15_31_ CHi-Hsiu Liang
 
 * added examples and examples/DiagramTest and versions of xml files. These work with
   the xsl files in the top directory.
-  
+
 * mesmer1.xsl, mesmerDiag.xsl: modified to handle bimolecular reactants and products.
   NOTE: needs Firefox 3 and you need to:
     1) type about:config in the address bar
@@ -301,25 +311,25 @@ _2008_07_02__14_15_31_ CHi-Hsiu Liang
 2008-6-30 Dave Glowacki
 
 * added routines to reactionmanager.cpp in order to calculate product yields as a function of time.  because the product yields are calculated
-  based on a numerical integration and require a finite timestep, there is some residual numerical error in their calculation - i.e., the sum 
-  of the product yields vs time doesnt agree EXACTLY with the calculated total product population calculated as 1 - (the total isomer population).  
-  the error is very small (within 1%), but the product populations are nonetheless normalized in order to agree exactly with the total 
-  product population  
+  based on a numerical integration and require a finite timestep, there is some residual numerical error in their calculation - i.e., the sum
+  of the product yields vs time doesnt agree EXACTLY with the calculated total product population calculated as 1 - (the total isomer population).
+  the error is very small (within 1%), but the product populations are nonetheless normalized in order to agree exactly with the total
+  product population
 * changed the routines for printing isomer species profiles and the print format
 * made changes to IrreversibleReaction.cpp in order to (1) clean it up and (2) facilitate calculating and printing out time dependent sink profiles
 * got rid of the sink molecule class
-* updated baselines: acetyl + O2, HSO2, pentyl, OH+acetylene, and cyclopropene 
+* updated baselines: acetyl + O2, HSO2, pentyl, OH+acetylene, and cyclopropene
 
 _2008_06_27__16_44_38_ Chi-Hsiu Liang
 
   * Corrected MesmerILT so that it can deal with negative Einf
-  * Corrected AssociationReaction::testRateConstant(). Now the rate of association (loss rate of source) will asymptotically 
+  * Corrected AssociationReaction::testRateConstant(). Now the rate of association (loss rate of source) will asymptotically
     approach k_inf(T) as the pressure going higher.
 
 _2008_06_24__13_00_37_ Chi-Hsiu Liang
 
   * Added testRateConstant() which displays k(T) for AssociationReaction
-  * Added a flag MesmerEnv speciesProfileEnabled for printing species profile 
+  * Added a flag MesmerEnv speciesProfileEnabled for printing species profile
 
 _2008_06_23__15_49_31_ Chi-Hsiu Liang
 
@@ -331,7 +341,7 @@ _2008_06_23__12_21_17_ Chi-Hsiu Liang
   * Minor corrections. Removed the check of partition function difference on calcEquilibriumConstant() of AssociationReaction.cpp
 
 _2008_06_20__14_23_40_ Chi-Hsiu Liang
-  
+
   * Minor modifications on TMatrix.h for Linux compiler error.
   * Updated Manual
   * Removed unnecessary bits in Makefile
@@ -342,16 +352,16 @@ _2008_06_19__15_01_20_ Chi-Hsiu Liang
 
 2008-6-18 Dave Glowacki
 
-* added an implementation of FFT algorithm in Memsermath  
+* added an implementation of FFT algorithm in Memsermath
 * added a routine called FastLaplaceConvolution in Mesmermath for fast convolution of data.  several tests were performed
   comparing the output with the standard convolution output.  in the FastLaplaceConvolution output, it was found that the values of the
   initial elements suffer from precision issues.  For the ILT convolution, only the first few elements are unreliable, but a substantial fraction
   of the elements following the tunneling convolution are unreliable.  this is due to the very small values for several elements in
-  in the tunneling probabilities vector, at energies far below the classical threshold.  thus, FastLaplaceConvolution includes a standard 
+  in the tunneling probabilities vector, at energies far below the classical threshold.  thus, FastLaplaceConvolution includes a standard
   convolution algorithm to fix values that are in error by more than 1%.
 * fixed an error in MesmerILT that convoluted the wrong data sets
 * increased the precision in timeEvolution routine to long double to get better species profiles at long times
-* updated baselines:  pentyl, HSO2, and cyclopropene are essentially unchanged, and the differences in the acetyl+O2 and 
+* updated baselines:  pentyl, HSO2, and cyclopropene are essentially unchanged, and the differences in the acetyl+O2 and
   acetylene + OH baselines result from the changes listed above.  with the FFT, both of these simulations are now much faster, and should be
   added to the standard baseline testing protocol for subsequent changes.
 
@@ -376,15 +386,15 @@ _2008_06_17__10_39_47_ Chi-Hsiu Liang
 2008-6-13 Dave Glowacki
 * added Bartis Widom method for calculating first order & psuedo first phenomenological rate coefficients for
   isomers.  the method has been added to reaction manager, and does not presently include orthogonalization
-  of the Z matrix.  it has been tested on all systems except methylene D2 association, and the results are sensible.  
-  in order to test, several of the baseline input files were changed in order to give eigenvalues that were: 
-  (1) all negative, and (2) showed good separation between the CSEs and IEREs.  the rate coefficients and a few accompanying 
+  of the Z matrix.  it has been tested on all systems except methylene D2 association, and the results are sensible.
+  in order to test, several of the baseline input files were changed in order to give eigenvalues that were:
+  (1) all negative, and (2) showed good separation between the CSEs and IEREs.  the rate coefficients and a few accompanying
   diagnostics for determining reliability of the eigenvectors are now printed in mesmer.test
-* added a Species Sequence map to reaction manager for use in equilibrium fraction matrix inversion and 
+* added a Species Sequence map to reaction manager for use in equilibrium fraction matrix inversion and
   bartis widom method
-* fixed the following bug: in the previous version of MESMER, when more than 1 grid point was calculated, 
+* fixed the following bug: in the previous version of MESMER, when more than 1 grid point was calculated,
   MESMER give different results for identical conditions.  this is because several vectors for holding reaction flux,
-  DOS, tunneling coefficients, etc. were updated using only the .restart operator, and were not reinitialized to 0 from run to run. 
+  DOS, tunneling coefficients, etc. were updated using only the .restart operator, and were not reinitialized to 0 from run to run.
 * updated baselines for all systems except methylene D2 association
 
 2008-6-09 Dave Glowacki
@@ -397,7 +407,7 @@ _2008_06_17__10_39_47_ Chi-Hsiu Liang
 
 2008-6-09 Dave Glowacki
 
-* change the calculateEquilibriumFractions routine in ReactionManager.cpp so that eq fractions are calculated 
+* change the calculateEquilibriumFractions routine in ReactionManager.cpp so that eq fractions are calculated
   by inverting a matrix whose elements contain the equations describing the equilibrated system
 * baselines updated
 
@@ -411,7 +421,7 @@ _2008_06_04__13_32_37_ Chi-Hsiu Liang
 
 _2008_06_04__12_34_00_ Chi-Hsiu Liang
 
-  * Add a folder to store fast-Fourier transform library. 
+  * Add a folder to store fast-Fourier transform library.
   * Added an inversion function in dMatrix
 
 2008-6-03 Dave Glowacki
@@ -447,14 +457,14 @@ _2008_06_02__10_08_50_ Chi-Hsiu Liang
 
 _2008_05_31__17_18_15_ Chi-Hsiu Liang
 
-  * Update baselines. 
-    The equilibrium constant for an association reaction of previous baselines were calculated from dividing product 
-    rovibronic partition function by combined contribution of the rovibronic partition function of reactant 1 and reactant 2, 
+  * Update baselines.
+    The equilibrium constant for an association reaction of previous baselines were calculated from dividing product
+    rovibronic partition function by combined contribution of the rovibronic partition function of reactant 1 and reactant 2,
     translation, and then time the expression by the excess reactant concentration. Since the density of states for 2-D linear
-    rotors were not correct, so the baseline of OH acetylene system has to be updated. 
+    rotors were not correct, so the baseline of OH acetylene system has to be updated.
     Also in the equilibrium constant of association reaction, from Version 141, dividing Qpdt1 by Qrcts, instead of (Qrct1 * Qrct2),
     and added a checkpoint there to see the difference between (Qrct1 * Qrct2) and Qrcts.
-    I have changed the code of 2-D linear rotors in Version 141 but only update the baselines in this version. The eigenvalues 
+    I have changed the code of 2-D linear rotors in Version 141 but only update the baselines in this version. The eigenvalues
     of OH-acetylene system is now closer to Dave's old code.
 
 2008-5-31 Struan Robertson
@@ -470,7 +480,7 @@ _2008_05_30__16_46_28_ Chi-Hsiu Liang
   * Updated   bool ReactionManager::timeEvolution(int maxTimeStep, const double beta) to print out individual species profile.
   * Added comment for equilibrium fraction routine. See the end of ReactionManager.cpp: _2008_05_30__12_48_35_
   * Still need to sort out the specie profile for sink terms. Also need to consider if the sink term has only one product.
-  
+
 2008-5-30 David Glowacki
 
 * add manual (oops!)
@@ -486,7 +496,7 @@ _2008_05_24__15_59_03_ Chi-Hsiu Liang
     -- please refer to normalizedGrainDistribution()
   * Renamed grnCanPrtnFn() to rovibronicGrnCanPrtnFn() to indicate that it includes the rotation, vibration and electronic degeneracies
   * Isolate out translational contribution of two molecules to a function called translationalContribution() in MesmerTools.h
-  * Corrected the calculation of DOS on 2-D linear rotors. 
+  * Corrected the calculation of DOS on 2-D linear rotors.
   * Not sure if the Boltzmann distribution of HSO2 is right?
   * Basic structure of producing species profile is done; needs debugging.
     -- please refer to calculateEquilibriumFractions(), produceInitialPopulationVector() and timeEvolution().
@@ -495,15 +505,15 @@ _2008_05_24__15_59_03_ Chi-Hsiu Liang
 _2008_05_21__10_51_16_ Chi-Hsiu Liang
 
   * Update baselines for all test systems.
-  * There is probably a memory leak in Mesmer. Need to find out what variables are not initialized properly. 
+  * There is probably a memory leak in Mesmer. Need to find out what variables are not initialized properly.
     -- Problem: When turn on <me:printGrainDOS /> in pentyl_isomreization.xml, the eigenvalues calculated deviate from when this flag
                 is off, however the differences are small. The problem maybe from the precision change in the calculation.
 
 _2008_05_19__16_34_38_ Chi-Hsiu Liang
 
-  * Added a plug-in class for calculating distribution. This plug-in can be used to produce either cell or grain 
+  * Added a plug-in class for calculating distribution. This plug-in can be used to produce either cell or grain
     distribution fractions. Please check for calculateDistributionFractions()
-    -- This function will be responsible for the distribution of a species. In case not a Boltzmann distribution, an additional 
+    -- This function will be responsible for the distribution of a species. In case not a Boltzmann distribution, an additional
        plug-in class will be required.
   * isomers and sources are now member varaibles of ReactionManager. They are cleared every time when the system collision operator
     is built.
@@ -526,7 +536,7 @@ _2008_05_13__09_30_00_ Chi-Hsiu Liang
     relative to the deepest well bottom. (Considering to prevent user from using get_zpe(), as this
     function returns raw ZPE's of the molecules. Will make it private/protected later.)
   * Microrate Calculator now calculates transition state flux instead of k(E)s
-  * removed virtual bool grnAvrgMicroRateCoeffs(); added virtual void calcGrainRateCoeffs() in all reaction 
+  * removed virtual bool grnAvrgMicroRateCoeffs(); added virtual void calcGrainRateCoeffs() in all reaction
     types for converting TSFlux to k(E)s
   * Added  m_ActivationEnergy   in AssociationReaction
   * An additional option for getting k(E)s only, without building collision operators (me:calculateRateCoefficinetsOnly)
@@ -534,14 +544,14 @@ _2008_05_13__09_30_00_ Chi-Hsiu Liang
   * calcDensityOfStates() now decides whether to recalculate the DOS or not.
   * Added cell offset variable in ModelledMolecule to account for the cell shifts when converting from cell to grain
     -- see shiftCells(), set_grainValues() and m_cellOffset
-  * Added a function double ModelledMolecule::get_relative_ZPE() that returns ZPE in wavenumber relative to the ZPE 
+  * Added a function double ModelledMolecule::get_relative_ZPE() that returns ZPE in wavenumber relative to the ZPE
     of the deepest well bottom.
   * change m_grnZpe from int to double
   * bool SetGrainParams() is now moved to ReactionManager, user can choose whether to use the same number of cells
     throughout various conditions.
   * Added getHeatOfReactionInt() in Reaction, which force all energy values in integral wavenumbers. If energy values are
     in double the calculation of heat of reaction may differ by one wavenumber. For example,
-    If the product ZPE is 9.1, and reactant ZPE is 42.8, the heat of reaction calculated in double will be -33.7, which 
+    If the product ZPE is 9.1, and reactant ZPE is 42.8, the heat of reaction calculated in double will be -33.7, which
     is -34 when rounded to int. But if these ZPE are rounded before the HoR is calculated, the HoR will be -33.
   * Move m_pdt1 to all derived classes of Reation. In DissociationReaction and ExchangeReaction, it is only a ModelledMolecule.
   * Added
@@ -551,7 +561,7 @@ _2008_05_13__09_30_00_ Chi-Hsiu Liang
     for class Reaction. These functions return species ZPE's of a reaction in wavenumber relative to the deepest well bottom.
   * Updated Makefile
   * Added a derived class SinkMolecule
-    -- Moved m_Mass to ModelledMolecule and BathGasMolecule, moved m_Sigma and m_Epsilon to CollidingMolecule 
+    -- Moved m_Mass to ModelledMolecule and BathGasMolecule, moved m_Sigma and m_Epsilon to CollidingMolecule
        and BathGasMolecule.
   * qd_real and dd_real are still not working in this version; therefore, I commented them out.
 
@@ -563,7 +573,7 @@ _2008_05_13__09_30_00_ Chi-Hsiu Liang
     Although its not implemented yet, it looks like the choice of precision is
     expected to be at compile-time, but would it not be better to be an option
     in the input file? (i.e. at runtime)
-  
+
 2008-4-23 David Glowacki
 
   * change the name of Cyclopropene_isomerization.xml to Cyclopropene_isomerization_test.xml

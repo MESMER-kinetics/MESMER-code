@@ -175,6 +175,11 @@ namespace mesmer
       else if (ppControl->XmlReadBoolean("me:fitting")) m_Env.searchMethod = 2;
       else m_Env.searchMethod = 0;
 
+      if (m_Env.grainedProfileEnabled && (m_Env.speciesProfileEnabled || m_Env.searchMethod)){
+        cinfo << "Turn off grained species profile to prevent disk flooding.";
+        m_Env.grainedProfileEnabled = false;
+      }
+
       const char* txtEV = ppControl->XmlReadValue("me:eigenvalues",false);
       if(txtEV) {
         istringstream ss(txtEV);

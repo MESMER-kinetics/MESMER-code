@@ -26,9 +26,11 @@ namespace mesmer
   /// Used for bath gases and unmodelled product molecules.
   class Molecule
   {
+  protected:
+    const MesmerEnv&     m_Env;
+
   private:
 
-    const MesmerEnv&     m_Env;
     int            m_flag;              // count the errors during initialization
     PersistPtr     m_ppPersist;         // Conduit for I/O
     std::string    m_Name ;             // Molecule name.
@@ -259,6 +261,11 @@ namespace mesmer
     double              m_Sigma ;            // Lennard-Jones sigma.
     double              m_Epsilon ;          // Lennard-Jones epsilon.
 
+    double              m_DeltaEdownExponent;  // Exponent of <Delta E down> according to the relation
+                                               // <delta_E_down>(T) = <delta_E_down>_ref * (T / m_DeltaEdownRefTemp)^n
+                                               // where m_DeltaEdownExponent is the exponent n
+                                               // By default, n = 0, which means delta_E_down does not depend on temperature.
+    double              m_DeltaEdownRefTemp;   // reference temperature of <Delta E down>, default 298.
     DPoint              m_DeltaEdown ;         // <Delta E down> for the exponential down model.
     double              m_collisionFrequency ; // Current value of collision frequency.
     int                 m_ncolloptrsize ;      // Size of the collision operator matrix.
@@ -317,6 +324,10 @@ namespace mesmer
       m_DeltaEdown.set_range(valueL, valueU, stepsize);
       m_DeltaEdown_chk = 0;
     };
+    void   setDeltaEdownRefTemp(const double value){m_DeltaEdownRefTemp = value;};
+    void   setDeltaEdownExponent(const double value){m_DeltaEdownExponent = value;};
+    double getDeltaEdownRefTemp (){return m_DeltaEdownRefTemp; }
+    double getDeltaEdownExponent(){return m_DeltaEdownExponent;}
     const int get_grnZpe();
 
     double getDeltaEdown();

@@ -722,6 +722,24 @@ namespace mesmer
       totalProductPop[timestep] = 1.0 - totalIsomerPop[timestep];
     }
 
+    //------------------------------
+    // print grained species profile
+    if (mEnv.grainedProfileEnabled) {
+      ctest << "\nGrained species profile (the first row is time points in unit of second):\n{\n";
+      for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+        formatFloat(ctest, timePoints[timestep], 6,  15);
+      }
+      ctest << endl;
+      for (int j = 0; j < smsize; ++j) {
+        for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+          formatFloat(ctest, grainedProfile[j][timestep], 6,  15);
+        }
+        ctest << endl;
+      }
+      ctest << "}\n";
+    }
+    //------------------------------
+
     if (mEnv.speciesProfileEnabled){
       ctest << endl << "Print time dependent species and product profiles" << endl << "{" << endl;
       int sinkpos(0);
