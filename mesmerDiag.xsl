@@ -9,7 +9,8 @@
   extension-element-prefixes="set"
   exclude-result-prefixes="exsl">
 
-  <xsl:variable name ="ybase" select="260"/>
+  <xsl:variable name ="debug" select="0"/>
+  <xsl:variable name ="diagheight" select="300"/>
   <xsl:variable name ="xleft" select="20"/>
   <xsl:variable name="xspacing" select="100"/>  <!--x spacing of species-->
   <xsl:variable name="spwidth" select="40"/>    <!--width of species bars-->
@@ -51,25 +52,45 @@
     select="key('molrefs',//me:transitionState/cml:molecule/@ref)//cml:property[@dictRef='me:ZPE']/cml:scalar" />
 
   <!--Calculate an appropriate  vertical scaling factor-->
-  
-  <xsl:variable name="yscale">
+
+  <xsl:variable name="ymin">
     <xsl:for-each select="exsl:node-set($RandPEnergies)/Energy | $TSEnergies">
       <xsl:sort  data-type="number"/>
-      <xsl:if test="position()=last()">
-        <xsl:value-of select="($ybase - 40) div . "/>
+      <xsl:if test="position()=1">
+        <xsl:value-of select="."/>
       </xsl:if>
     </xsl:for-each>
   </xsl:variable>
 
+  <xsl:variable name="ymax">
+    <xsl:for-each select="exsl:node-set($RandPEnergies)/Energy | $TSEnergies">
+      <xsl:sort  data-type="number"/>
+      <xsl:if test="position()=last()">
+        <xsl:value-of select="."/>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:variable>
+  
+  <xsl:variable name="yscale">
+    <xsl:value-of select="($diagheight - 80) div ($ymax - $ymin)"/>
+  </xsl:variable>
+
+  <xsl:variable name ="ybase" select="$diagheight+($ymin * $yscale) - 40"/>
+
   <xsl:template name="drawDiag" match="me:mesmer">
-    <svg:svg  version="1.1" height="300">
+    <svg:svg  version="1.1">
+      <xsl:attribute name="height">
+        <xsl:value-of select="$diagheight+60" />
+      </xsl:attribute>
       <xsl:attribute name="viewBox">
         <xsl:value-of select="concat('0 0 ', 
-        300+200*(count(exsl:node-set($RandPEnergies)/Energy)-1), ' 300')"/>
+        300+200*(count(exsl:node-set($RandPEnergies)/Energy)-1), '$diagheight')"/>
       </xsl:attribute>
       <!-- <xsl:call-template name="drawYaxis"/>-->
 
-      <!--      <xsl:call-template name="test3"/>-->
+      <xsl:if test="$debug">
+        <xsl:call-template name="test3"/>
+      </xsl:if>
       
       <!--Draw the energy levels of the modelled molecules-->
       <xsl:call-template name="drawWells"/>
@@ -315,7 +336,10 @@
   </xsl:template>
 
   <xsl:template name="test3">
-    <svg:text x="160" y="50">
+    <svg:text x="20">
+      <xsl:attribute name="y">
+        <xsl:value-of select="$diagheight"/>
+      </xsl:attribute> 
       Count RandP sets =
       <xsl:value-of select="count($distinctRandP)"/>
       Count TS =
@@ -323,9 +347,16 @@
       Count TSEnergies =
       <xsl:value-of select="count($TSEnergies)"/>
       </svg:text>
-      <svg:text x="160" y="80">
-        yscale = 
+      <svg:text x="20">
+        <xsl:attribute name="y">
+          <xsl:value-of select="$diagheight + 30"/>
+        </xsl:attribute>
+        yscale =
         <xsl:value-of select="$yscale"/>
+        ymax =
+        <xsl:value-of select="$ymax"/>
+        ymin =
+        <xsl:value-of select="$ymin"/>
         Count energy levels =
         <xsl:value-of select="count(exsl:node-set($RandPEnergies)/Energy | $TSEnergies)"/>
       </svg:text>
