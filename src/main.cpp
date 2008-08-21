@@ -307,30 +307,28 @@ bool QACompare(string infilename)
 
 /*
 Mesmer outputs:
-
-Source                           Destination  
+                        Source                           Destination  
 --------------------------------------------------------------------------------------
 Main output       Functions in IPersist                Decided by -o option  
-like XmlWriteElement                 Usually file,
-or cout for piping
+                  like XmlWriteElement                 Usually file,or cout for piping
 
 Error messages    cerr <<...    or                     Console unless -w0
-meErrorLog.ThrowError( , ,obError)   and mesmer.log
+                  meErrorLog.ThrowError( , ,obError)   and mesmer.log
 
 Warning messages  cwarn <<...   or                     Console unless -w0 or w1
-meErrorLog.ThrowError( , ,obWarn)    and mesmer.log
+                  meErrorLog.ThrowError( , ,obWarn)    and mesmer.log
 
 Logging messages  cinfo <<...   or                     Console if -w2
-meErrorLog.ThrowError( , ,obInfo)    and mesmer.log
+                  meErrorLog.ThrowError( , ,obInfo)    and mesmer.log
 
 QA test output    ctest <<...                          mesmer.test
 
-Temporary debug   cout <<...                           File when redirected       Use for bulky
-from commandline with >    debug output
-(Otherwise console)
+Temporary debug   cout <<...                           File when redirected
+                  Use for bulky                        from commandline with >
+                  debug output                         (Otherwise console)
 
-Temporary debug   clog <<...                           Console                    Use for short
-debug output
+Temporary debug   clog <<...                           Console                    
+                  Use for short debug output
 
 
 Output to mesmer.log can be turned off with the -g option.

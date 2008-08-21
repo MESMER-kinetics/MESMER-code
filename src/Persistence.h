@@ -42,16 +42,16 @@ namespace mesmer
     //  (child or sibling element)
     virtual PersistPtr XmlMoveTo(const std::string& name)const =0;
 
-    ///Returns next item from the input document. (Value of this element)
+    ///Returns next item from the input document. (Value of this element) or NULL
     virtual const char* XmlRead()const=0;
 
-    /// Returns the value of the datatext associated with name (Value of child element or attribute)
+    /// Returns the value of the datatext associated with name (Value of child element or attribute) or NULL
     virtual const char* XmlReadValue(const std::string& name, bool MustBeThere=true) const=0;
 
-    /// Returns the data associated with name (CML property element)
+    /// Returns the data associated with name (CML property element) or NULL
     virtual const char* XmlReadProperty( const std::string& name, bool MustBeThere=true)const=0;
 
-    /// Returns the attribute associated with name and attName (CML property element)
+    /// Returns the attribute associated with name and attName (CML property element) or NULL
     virtual const char* XmlReadPropertyAttribute(const std::string& name, const std::string& attName, bool MustBeThere=true) const=0;
 
     /// Returns true if datatext associated with name is "1" or "true" or nothing;

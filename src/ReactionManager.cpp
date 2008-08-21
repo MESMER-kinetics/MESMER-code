@@ -42,6 +42,8 @@ namespace mesmer
       const char* id = ppReac->XmlReadValue("id");
       if(!id)
         cinfo << "Reaction ID not found.\n";
+      cinfo << "Parsing reaction " << id << "...\n";
+      meErrorLog.SetContext(id);
 
       // Read reactant and product types.
 
@@ -54,21 +56,26 @@ namespace mesmer
 
       PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
       if(ppReactant2) {
+        meErrorLog.SetContext(id);
         readStatus = (readStatus && GetMoleculeInfo(ppReactant2, rct2Name, rct2Type)) ;
         bRct2 = true;
       }
 
       PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
       if (ppProduct1) {
+        meErrorLog.SetContext(id);
         readStatus = (readStatus && GetMoleculeInfo(ppProduct1, pdt1Name, pdt1Type)) ;
         bPdt1 = true ;
 
         PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
         if (ppProduct2){
+          meErrorLog.SetContext(id);
           readStatus = (readStatus && GetMoleculeInfo(ppProduct2, pdt2Name, pdt2Type)) ;
           bPdt2 = true ;
         }
       }
+      meErrorLog.SetContext("");
+
       if (!readStatus)
         return false ;
 
@@ -401,14 +408,16 @@ namespace mesmer
       cerr << "Ill formed molecule tag." << endl;
       return false;
     }
-    MolName = ppmol->XmlReadValue("ref");
-    if(MolName.size()){
-      MolType = ppmol->XmlReadValue("me:type");
-    } else {
-      cerr << "Cannot find molecule name." << endl;
+    const char *pmolname, *pmoltype;
+    pmolname = ppmol->XmlReadValue("ref");
+    if(pmolname) {
+      MolName = pmolname;
+      meErrorLog.AppendContext(MolName);
+      pmoltype = ppmol->XmlReadValue("me:type");
+      if(pmoltype)
+        MolType = pmoltype;
     }
-
-    return true ;
+    return pmolname && pmoltype;
   }
 
   bool ReactionManager::calculateEquilibriumFractions(const double beta)

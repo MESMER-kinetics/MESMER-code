@@ -1,3 +1,11 @@
+2008-08-21 Chris Morley
+
+	* src/ReactionManager.cpp: improve error handling in addreactions()
+	and GetMoleculeInfo(). Was crashing on ill-formed datafiles. 
+	* src/Persistence.h: add comment that XmlRead, etc can return NULL
+	* src/oberror.h: add AppendContext()
+	* src/main.cpp: restore spacing in output stream documentation
+
 _2008_08_20__16_42_31_ Chi-Hsiu Liang
   
   * Update manual 

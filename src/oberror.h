@@ -63,6 +63,7 @@ namespace mesmer
 
       //! Set extra information to be output when using output streams, cerr, etc
       void SetContext(const std::string& txt){ _defaultContext = txt; }
+      void AppendContext(const std::string& txt){ _defaultContext += (':' + txt); }
 
     private:
       const std::string& GetLevelText(obMessageLevel level)const
