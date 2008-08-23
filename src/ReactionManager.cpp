@@ -456,12 +456,12 @@ namespace mesmer
 
         int ploc, rloc ;
 
-        map<ModelledMolecule*, int>::iterator rctitr = m_SpeciesSequence.find(rct);   //check if the reactant is in the map
+        Reaction::sourceMap::iterator rctitr = m_SpeciesSequence.find(rct);   //check if the reactant is in the map
         bool rval = (rctitr != m_SpeciesSequence.end()) ;       //if the reactant isnt in the map
         if (rval)
           rloc = rctitr->second ;        //if the reactant is in the map, get the location
 
-        map<ModelledMolecule*, int>::iterator pdtitr = m_SpeciesSequence.find(pdt);   //check if the product is in the map
+        Reaction::sourceMap::iterator pdtitr = m_SpeciesSequence.find(pdt);   //check if the product is in the map
         bool pval = (pdtitr != m_SpeciesSequence.end()) ;       //if the product isnt in the map
         if (pval)
           ploc = pdtitr->second;        //if the product is in the map, get the location
@@ -530,7 +530,7 @@ namespace mesmer
     ctest << "inverse of Eq fraction matrix:" << endl;
     eqMatrix.showFinalBits(counter);
 
-    map<ModelledMolecule*, int>::iterator itr1;
+    Reaction::sourceMap::iterator itr1;
 
     for(itr1= m_SpeciesSequence.begin(); itr1!=m_SpeciesSequence.end(); ++itr1){  //assign Eq fraction to appropriate ModelledMolecule
       int position = itr1->second;                          //in the Eq frac map
@@ -1023,7 +1023,7 @@ namespace mesmer
     }
 
     ctest << "\nFirst order & psuedo first order rate coefficients for loss rxns:\n{\n";
-    map<ModelledMolecule*, int>::iterator lossitr, rctitr, pdtitr;
+    Reaction::sourceMap::iterator lossitr, rctitr, pdtitr;
 
     // print psuedo 1st order k loss for isomers
     for(lossitr=m_SpeciesSequence.begin(); lossitr!=m_SpeciesSequence.end(); ++lossitr){
@@ -1050,7 +1050,7 @@ namespace mesmer
 
     if(m_sinkRxns.size()!=0){
       ctest << "\nFirst order & psuedo first order rate coefficients for irreversible rxns:\n{\n";
-      map<Reaction*, int>::iterator sinkitr;
+      sinkMap::iterator sinkitr;
 
       for(sinkitr=m_SinkSequence.begin(); sinkitr!=m_SinkSequence.end(); ++sinkitr){
         Reaction* sinkReaction = sinkitr->first;          // get Irreversible Rxn
@@ -1082,7 +1082,7 @@ namespace mesmer
       expRates[i].get_conditionSet(ref1, ref2, expRate, expErr);
 
       // check and get the position of ref1 and ref2 inside m_SpeciesSequence vector
-      map<ModelledMolecule*, int>::iterator spcitr;
+      Reaction::sourceMap::iterator spcitr;
       for (spcitr = m_SpeciesSequence.begin(); spcitr != m_SpeciesSequence.end(); ++spcitr){
         if (ref1 == (spcitr->first)->getName()) {
           iref1 = spcitr->second;
@@ -1090,7 +1090,7 @@ namespace mesmer
         }
       }
       if (iref1 == -1){
-        cerr << "No molecular named " << ref1 << " is available in the reaction species.";
+        cerr << "No molecule named " << ref1 << " is available in the reaction species.";
         break;
       }
       for (spcitr = m_SpeciesSequence.begin(); spcitr != m_SpeciesSequence.end(); ++spcitr){
@@ -1100,7 +1100,7 @@ namespace mesmer
         }
       }
       if (iref2 == -1){
-        cerr << "No molecular named " << ref2 << " is available in the reaction species.";
+        cerr << "No molecule named " << ref2 << " is available in the reaction species.";
         break;
       }
 

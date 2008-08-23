@@ -20,9 +20,22 @@ namespace mesmer
   class Reaction
   {
   public:
+    //Orders Molecule pointers using the Molecule name.
+    //Using the pointer itself was seen to give unpredictable ordering.
+    //See Scott Meyers "Effective STL", Item 20
+    struct MoleculePtrLess : public binary_function<const Molecule*, const Molecule*, bool>
+    {
+      bool operator()(const Molecule* mol1, const Molecule* mol2)const
+      { return mol1->getName() < mol2->getName(); }
+    };
+    struct ReactionPtrLess : public binary_function<const Reaction*, const Reaction*, bool>
+    {
+      bool operator()(const Reaction* r1, const Reaction* r2)const
+      { return r1->getName() < r2->getName(); }
+    };
 
-    typedef std::map<CollidingMolecule*, int> isomerMap ;
-    typedef std::map<ModelledMolecule* , int> sourceMap ;
+    typedef std::map<CollidingMolecule*, int, MoleculePtrLess> isomerMap ;
+    typedef std::map<ModelledMolecule* , int, MoleculePtrLess> sourceMap ;
 
     // Constructors.
 

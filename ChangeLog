@@ -1,3 +1,16 @@
+2008-08-23 Chris Morley
+
+	* src/Reaction.h, src/ReactionManager.h: 
+	The maps types which have Molecule* or Reaction* as keys, isomerMap,
+	sourceMap, sinkMap, given a functor parameter which orders them by name.
+	Ordering by pointer value was unpredictable.
+	
+	* src/ReactionManager.cpp: Iterators defined in terms of typedef
+	of map.
+	
+	*** QA test failed - the reason needs to be found, since they should not
+	happen by changing only the order in the maps.
+
 2008-08-21 Chris Morley
 
 	* src/ReactionManager.cpp: improve error handling in addreactions()
