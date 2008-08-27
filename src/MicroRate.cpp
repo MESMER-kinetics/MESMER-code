@@ -18,7 +18,7 @@ namespace mesmer
 
     string comment("Microcanonical rate coefficients");
     PersistPtr ppList = ppbase->XmlWriteMainElement("me:microRateList", comment );
-    int MaximumGrain = pReact->getEnv().MaxGrn;
+    int MaximumGrain = (pReact->getEnv().MaxGrn - pReact->get_TSFluxStartIdx());
 
     // Allocate some work space for density of states.
 

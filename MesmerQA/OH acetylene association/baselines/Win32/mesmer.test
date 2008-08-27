@@ -1702,19 +1702,19 @@ Kp matrix:
              288.353        8.94964e-013
 }
 
-First order & psuedo first order rate coefficients for loss rxns:
+First order & pseudo first order rate coefficients for loss rxns:
 {
 OH loss = -73531.8
 OH_acetylene_adduct loss = -1.20549e-005
 }
 
-First order & psuedo first order rate coefficients for isomerization rxns:
+First order & pseudo first order rate coefficients for isomerization rxns:
 {
 OH -> OH_acetylene_adduct = 73243.4
 OH_acetylene_adduct -> OH = 3.48861e-011
 }
 
-First order & psuedo first order rate coefficients for irreversible rxns:
+First order & pseudo first order rate coefficients for irreversible rxns:
 {
 OH -> OCHCH2 = 288.353
 OH_acetylene_adduct -> OCHCH2 = 8.94964e-013

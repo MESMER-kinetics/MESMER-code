@@ -111,6 +111,10 @@ namespace mesmer
     // Get reactants grain ZPE
     const int get_rctsGrnZpe(void);
 
+    // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
+    // with a negative threshold energy
+    void calculateEffectiveGrainedThreshEn(void);
+
     // Get cell offset for the reactants
     int get_cellOffset(void) {
       double modulus = fmod(m_rct1->get_zpe() + m_rct2->get_zpe() - getEnv().EMin, getEnv().GrainSize);

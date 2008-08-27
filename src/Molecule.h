@@ -222,6 +222,8 @@ namespace mesmer
     void set_grainValues(double relativeZPE);
     int get_cellOffset(void) {
       double modulus = fmod(get_zpe() - getEnv().EMin, getEnv().GrainSize);
+      if(modulus < 0.0)  // presently modulus is only less than 0 for the excess reactant in an association rxn
+        modulus = 0.0;   // however, this problem should become obsolete once supermolecule DOS is calculated on the fly
       return int(modulus) ;
     } ;
 

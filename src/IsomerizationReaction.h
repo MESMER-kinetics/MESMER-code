@@ -60,6 +60,10 @@ namespace mesmer
     // to the calculation of equilibrium fractions.
     virtual bool isEquilibratingReaction(double &Keq, ModelledMolecule **rct, ModelledMolecule **pdt) ;
 
+    // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
+    // with a negative threshold energy
+    void calculateEffectiveGrainedThreshEn(void);
+
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
 

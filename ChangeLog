@@ -1,3 +1,18 @@
+2008-8-27 Dave Glowacki
+
+* alter the code in order that it can handle negative threshold energies for the RRKM k(E) calculations
+* a new function, calculateTSfluxStartidx, has been added to Reaction.cpp in order to calculate which grain is the first grain for
+  calculation of k(E)s from the TS flux vector
+* a new pure virtual function, calculateEffectiveGrainedThreshEn, has been added to Reaction.  appropriate versions of this function 
+  have been added to Reaction's derived classes 
+* the AddreactionTerms function in each of the derived reaction classes has been updated to cope with negative threshold energies  
+* a bug which calculated an incorrect cell offset in the HOSO2 test system has been corrected; it involved small changes on
+  ReactionManager and Molecule 
+* the code in MesmerILT for coping with negative activation energies has been removed, as a negative activation energy is nonsensical
+  for the association ILT routine
+* miscellaneous changes to clean up comments and spelling errors
+* update all baselines
+
 _2008_08_27__11_37_58_ Chi-Hsiu Liang
 
   * Change baselines

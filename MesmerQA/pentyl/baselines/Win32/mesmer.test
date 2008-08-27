@@ -1100,13 +1100,13 @@ Kr matrix:
   1.1275e-005 -3.2727e-007
 }
 
-First order & psuedo first order rate coefficients for loss rxns:
+First order & pseudo first order rate coefficients for loss rxns:
 {
 2-pentyl loss = -3.27266e-007
 n-pentyl loss = -1.12649e-005
 }
 
-First order & psuedo first order rate coefficients for isomerization rxns:
+First order & pseudo first order rate coefficients for isomerization rxns:
 {
 2-pentyl -> n-pentyl = 3.2697e-007
 n-pentyl -> 2-pentyl = 1.12751e-005

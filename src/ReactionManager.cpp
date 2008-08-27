@@ -81,7 +81,7 @@ namespace mesmer
 
       //
       // Create a new Reaction.  For association & exchange reactions, if rct1Type == reactant,
-      // bool is true and rct1 is the psuedoisomer.  if not, bool is false, and rct1 is the excess
+      // bool is true and rct1 is the pseudoisomer.  if not, bool is false, and rct1 is the excess
       //
       Reaction *preaction ;
       if     (!bRct2 && bPdt1 && pdt1Type == "modelled" && !bPdt2)
@@ -184,8 +184,8 @@ namespace mesmer
     //
     m_isomers.clear();
 
-    double minEnergy = 0.0 ; //this is the minimum of ZPE amongst all wells
-    double maxEnergy = 0.0 ; //this is the maximum of ZPE amongst all hills
+    double minEnergy = 9e23 ;  // this is the minimum & maximum ZPE amongst all wells, set artificially large and small
+    double maxEnergy = -9e23 ; // to guarantee that each is overwritten in setting minEnergy and maxEnergy
     double populationSum = 0.0;
     BathGasMolecule *pBathGasMolecule = dynamic_cast<BathGasMolecule*>(m_pMoleculeManager->get_BathGasMolecule());
 
@@ -290,7 +290,7 @@ namespace mesmer
             ++msize ;
           }
           else if(pPseudoIsomer && m_sources.find(pPseudoIsomer)!=m_sources.end()){ // reaction includes a
-            pReaction->putSourceMap(&m_sources);                                    // psuedoisomer that
+            pReaction->putSourceMap(&m_sources);                                    // pseudoisomer that
           }                                                                         // is already in the map
         }
         if(IREreaction){       // if the reaction is an irreversible exchange reaction                                                
@@ -301,7 +301,7 @@ namespace mesmer
             ++msize;
           }
           else if(pPseudoIsomer && m_sources.find(pPseudoIsomer)!=m_sources.end()){ // reaction includes a 
-            IREreaction->putSourceMap(&m_sources);                                  // psuedoisomer that is 
+            IREreaction->putSourceMap(&m_sources);                                  // pseudoisomer that is 
           }                                                                         // already in the map  
         }
       }
@@ -427,7 +427,7 @@ namespace mesmer
     |-K1  1   0| |A|   |0|
     | 0  -K2  1| |B| = |0|
     | 1   1   1| |C|   |1|
-    The equilibrium fraction of each isomer (or psuedo isomer, in the case of a source term) may be
+    The equilibrium fraction of each isomer (or pseudo isomer, in the case of a source term) may be
     obtained by inverting the matrix shown above, and taking the elements in the final column of the inverse.
     Any system, with an arbitrary number of wells and connections, may be described by such a Matrix */
 
@@ -888,7 +888,7 @@ namespace mesmer
         eigenVec[i][j] = to_double((*m_pSystemCollisionOperator)[i][j]) ;
 
     // constant variables
-    const int nchem = static_cast<int>(m_isomers.size() + m_sources.size());  // number of isomers+psuedoisomers
+    const int nchem = static_cast<int>(m_isomers.size() + m_sources.size());  // number of isomers+pseudoisomers
     const int nchemIdx = smsize - nchem;       // idx for chemically significant eigenvalues & vectors
 
     dMatrix assymInvEigenVec(smsize);   // U^(-1)
@@ -1022,10 +1022,10 @@ namespace mesmer
       Kp.print((int)(m_sinkRxns.size()), (int)(m_SpeciesSequence.size()));
     }
 
-    ctest << "\nFirst order & psuedo first order rate coefficients for loss rxns:\n{\n";
+    ctest << "\nFirst order & pseudo first order rate coefficients for loss rxns:\n{\n";
     Reaction::sourceMap::iterator lossitr, rctitr, pdtitr;
 
-    // print psuedo 1st order k loss for isomers
+    // print pseudo 1st order k loss for isomers
     for(lossitr=m_SpeciesSequence.begin(); lossitr!=m_SpeciesSequence.end(); ++lossitr){
       ModelledMolecule* iso = lossitr->first;
       int losspos = lossitr->second;
@@ -1033,9 +1033,9 @@ namespace mesmer
     }
 
     ctest << "}\n";
-    ctest << "\nFirst order & psuedo first order rate coefficients for isomerization rxns:\n{\n";
+    ctest << "\nFirst order & pseudo first order rate coefficients for isomerization rxns:\n{\n";
 
-    // print psuedo first order connecting ks
+    // print pseudo first order connecting ks
     for (rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
       ModelledMolecule* rct = rctitr->first;
       int rctpos = rctitr->second;
@@ -1049,7 +1049,7 @@ namespace mesmer
     ctest << "}\n";
 
     if(m_sinkRxns.size()!=0){
-      ctest << "\nFirst order & psuedo first order rate coefficients for irreversible rxns:\n{\n";
+      ctest << "\nFirst order & pseudo first order rate coefficients for irreversible rxns:\n{\n";
       sinkMap::iterator sinkitr;
 
       for(sinkitr=m_SinkSequence.begin(); sinkitr!=m_SinkSequence.end(); ++sinkitr){

@@ -120,21 +120,21 @@ namespace mesmer
     const int MaximumGrain = getEnv().MaxGrn ;
     vector<double> adductPopFrac ; // Population fraction of the adduct
 
-    const int pdtGrainZPE = m_pdt1->get_grnZpe();
-    m_pdt1->normalizedBoltzmannDistribution(adductPopFrac, MaximumGrain - pdtGrainZPE) ;
-
+    m_pdt1->normalizedBoltzmannDistribution(adductPopFrac, MaximumGrain) ;
     qd_real DissRateCoeff(0.0) ;
 
-    const int TSFluxGrainZPE  = getTSFluxGrnZPE();
+    const int colloptrsize = m_pdt1->get_colloptrsize();
+    const int forwardThreshE = get_effectiveForwardTSFluxGrnZPE();
+    const int reverseThreshE = get_effectiveReverseTSFluxGrnZPE();
+    const int fluxStartIdx = get_TSFluxStartIdx();
 
-    for ( int i = TSFluxGrainZPE, j = 0; i < MaximumGrain; ++i, ++j) {
-      int ll(i - pdtGrainZPE);
-      int ii(pdtLoc + ll) ;
+    for ( int i = reverseThreshE, j = fluxStartIdx; i < colloptrsize; ++i, ++j) {
+      int ii(pdtLoc + i) ;
 
-      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainTSFlux[j] / pdtDOS[ll]);                                // Loss of the adduct to the source
-      (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainTSFlux[j] * sqrt(adductPopFrac[ll] * Keq) / pdtDOS[ll]);// Reactive gain of the source
+      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainTSFlux[j] / pdtDOS[i]);                                // Loss of the adduct to the source
+      (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainTSFlux[j] * sqrt(adductPopFrac[i] * Keq) / pdtDOS[i]);// Reactive gain of the source
       (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                                                      // Reactive gain (symmetrization)
-      DissRateCoeff       += qd_real(m_GrainTSFlux[j] * adductPopFrac[ll] / pdtDOS[ll]);
+      DissRateCoeff       += qd_real(m_GrainTSFlux[j] * adductPopFrac[i] / pdtDOS[i]);
     }
     (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * DissRateCoeff * Keq);       // Loss of the source from detailed balance.
   }
@@ -311,7 +311,7 @@ namespace mesmer
   }
 
   //
-  // Calculate grained forward and reverse k(E)s from trainsition state flux
+  // Calculate grained forward and reverse k(E)s from transition state flux
   //
   void AssociationReaction::calcGrainRateCoeffs(){
 
@@ -320,20 +320,24 @@ namespace mesmer
     m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
     getRctsGrainDensityOfStates(rctGrainDOS);
 
-    const int TSFluxGrainZPE  = getTSFluxGrnZPE();
-    const int rctGrainZPE = get_rctsGrnZpe();
-    const int pdtGrainZPE = m_pdt1->get_grnZpe();
+    calculateEffectiveGrainedThreshEn();
+    const int forwardTE = get_effectiveForwardTSFluxGrnZPE();
+    int reverseTE = get_effectiveReverseTSFluxGrnZPE();
+    calculateTSfluxStartIdx();
+    const int fluxStartIdx = get_TSFluxStartIdx();
 
-    const int MaximumGrain = getEnv().MaxGrn;
+    const int MaximumGrain = (getEnv().MaxGrn-fluxStartIdx);
     m_GrainKfmc.clear();
     m_GrainKfmc.resize(MaximumGrain , 0.0);
     m_GrainKbmc.clear();
     m_GrainKbmc.resize(MaximumGrain , 0.0);
 
-    for (int i = TSFluxGrainZPE - pdtGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
+    this;
+   
+    for (int i = reverseTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
       m_GrainKbmc[i] = m_GrainTSFlux[j] / pdtGrainDOS[i];
     }
-    for (int i = TSFluxGrainZPE - rctGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
+    for (int i = forwardTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
       m_GrainKfmc[i] = m_GrainTSFlux[j] / rctGrainDOS[i];
     }
 
@@ -363,7 +367,7 @@ namespace mesmer
     m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
     m_pdt1->getGrainEnergies(pdtGrainEne);
 
-    const int MaximumGrain = getEnv().MaxGrn;
+    const int MaximumGrain = (getEnv().MaxGrn-get_TSFluxStartIdx());
     const double beta = getEnv().beta;
     for (int i = 0; i < MaximumGrain; ++i){
       m_backwardCanonicalRate += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i] ) ;
@@ -373,7 +377,7 @@ namespace mesmer
     double Keq = calcEquilibriumConstant();
     m_forwardCanonicalRate = m_backwardCanonicalRate * Keq;
     const double temperature = 1. / (boltzmann_RCpK * beta);
-    ctest << endl << "Canonical psuedo first order rate constant of association reaction " 
+    ctest << endl << "Canonical pseudo first order rate constant of association reaction " 
       << getName() << " = " << m_forwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
     ctest << "Canonical bimolecular rate constant of association reaction " 
       << getName() << " = " << m_forwardCanonicalRate/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
@@ -457,5 +461,25 @@ namespace mesmer
     return int(grnZpe);
   }
 
+  void AssociationReaction::calculateEffectiveGrainedThreshEn(void){  // calculate the effective forward and reverse
+    double thresh = get_ThresholdEnergy();  // threshold energy for an association reaction
+    double RxnHeat = getHeatOfReaction();
+    int TS_en = this->getTSFluxGrnZPE();
+    int pdt_en = m_pdt1->get_grnZpe();
+    int rct_en = get_rctsGrnZpe();
+    int GrainedRxnHeat = pdt_en - rct_en;
+    if(thresh<0.0){                          // if the forward threshold energy is negative
+      set_effectiveForwardTSFluxGrnZPE(0);   // forward grained flux threshold energy = 0
+      set_effectiveReverseTSFluxGrnZPE(-GrainedRxnHeat);  // reverse grained flux threshold energy = heat of reaction
+    }
+    else if(thresh>0.0 && thresh<RxnHeat){   // if the reverse threshold energy is negative
+      set_effectiveForwardTSFluxGrnZPE(GrainedRxnHeat);  // forward grained flux threshold energy = heat of reaction
+      set_effectiveReverseTSFluxGrnZPE(0);   // reverse grained flux threshold energy = 0
+    }
+    else{
+      set_effectiveForwardTSFluxGrnZPE(TS_en-rct_en);  // forward grained flux threshold energy = TS energy - rct energy
+      set_effectiveReverseTSFluxGrnZPE(TS_en-pdt_en);  // reverse grained flux threshold energy = TS energy - pdt energy
+    }
+  }
 
 }//namespace

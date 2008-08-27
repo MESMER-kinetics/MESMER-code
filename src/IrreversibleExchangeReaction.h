@@ -91,8 +91,12 @@ namespace mesmer
     // get the reactant, which reacts in a first order or pseudo first order process
     virtual ModelledMolecule *get_reactant(void) const {return m_rct1;};
 
-    // get canonical psuedo first order irreversible loss rate coefficient
+    // get canonical pseudo first order irreversible loss rate coefficient
     virtual double GetCanonicalIrreversibleLossRate(void){return m_forwardCanonicalRate;};
+
+    // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
+    // with a negative threshold energy
+    void calculateEffectiveGrainedThreshEn(void);
 
   private:
 

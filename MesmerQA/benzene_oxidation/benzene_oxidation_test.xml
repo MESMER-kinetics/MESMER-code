@@ -478,6 +478,9 @@
         <property dictRef="me:imFreqs">
           <array units="cm-1">190.5820</array>
         </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
       </propertyList>
       <me:DOSCMethod>Classical rotors</me:DOSCMethod>
     </molecule>
@@ -623,6 +626,9 @@
         <property dictRef="me:imFreqs">
           <array units="cm-1">460.5897</array>
         </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
       </propertyList>
       <me:DOSCMethod>Classical rotors</me:DOSCMethod>
     </molecule>
@@ -694,6 +700,9 @@
         </property>
         <property dictRef="me:imFreqs">
           <array units="cm-1">534.5380</array>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
         </property>
       </propertyList>
       <me:DOSCMethod>Classical rotors</me:DOSCMethod>

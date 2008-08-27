@@ -1,7 +1,8 @@
-Mesmer v0.1 compiled: -- Aug  8 2008 -- 15:09:34
+Mesmer v0.1 compiled: -- Aug 27 2008 -- 15:13:50
 
 Parsing input xml file... 
-benzene_oxidation_test.xml at 20080808_171702
+benzene_oxidation_test.xml at 20080827_184157
+Parsing reaction R_I1_I2c...
 Cannot find argument me:eletronicExcitation for I1
 Cannot find argument me:eletronicExcitation for O_2
 Cannot find argument me:eletronicExcitation for I2_c_ax
@@ -9,165 +10,74 @@ No method for the calculation of distribution fraction in I2_c_ax is provided. D
 Cannot find argument me:eletronicExcitation for TS1_c
 The me:tunneling element or attribute was missing or empty.
 No tunneling method was found for R_I1_I2c
+Parsing reaction R_I1_I2t...
 Cannot find argument me:eletronicExcitation for I2_t_eq
 No method for the calculation of distribution fraction in I2_t_eq is provided. Default method <Boltzmann> is used.
 Cannot find argument me:eletronicExcitation for TS1_t
 The me:tunneling element or attribute was missing or empty.
 No tunneling method was found for R_I1_I2t
+Parsing reaction R1_HO2...
 Cannot find argument me:eletronicExcitation for phenol
 Cannot find argument me:eletronicExcitation for HO2
 Cannot find argument me:eletronicExcitation for TS1_HO2
 The me:tunneling element or attribute was missing or empty.
+Parsing reaction R3_HO2...
 Cannot find argument me:eletronicExcitation for TS3_HO2
-Cannot find argument me:spinMultiplicity in TS3_HO2. Default value 1 is used.
 The me:tunneling element or attribute was missing or empty.
+Parsing reaction R_2_6t...
 Cannot find argument me:eletronicExcitation for I3t
 Cannot find argument me:eletronicExcitation for TS3_t_ax_2_6
-Cannot find argument me:spinMultiplicity in TS3_t_ax_2_6. Default value 1 is used.
 The me:tunneling element or attribute was missing or empty.
+Parsing reaction R_2_6c...
 Cannot find argument me:eletronicExcitation for I3c
 Cannot find argument me:eletronicExcitation for TS3_c_ax_2_6
-Cannot find argument me:spinMultiplicity in TS3_c_ax_2_6. Default value 1 is used.
 The me:tunneling element or attribute was missing or empty.
 The description element or attribute was missing or empty.
 The me:precision element or attribute was missing or empty.
 The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "benzene_oxidation_test.xml" successfully parsed.
-Calculate EGME at 20080808_171702
+Calculate EGME at 20080827_184157
 
 Now calculating...
 benzene_oxidation_test.xml
-Write XML attribute at 20080808_171702
+Write XML attribute at 20080827_184157
 PT Grid 
 0
-Build Collison Operator at 20080808_171702
+Build Collison Operator at 20080827_184157
 Cell number = 
 11350
 , Grain number = 
 227
 
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_HO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_t_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in TS3_c_ax_2_6. Default value 1 is given.
-Diagonlize Collision Operator at 20080808_171709 -- Time elapsed: 0 seconds.
+Diagonlize Collision Operator at 20080827_184203 -- Time elapsed: 0 seconds.
 
-Finish Calculation at 20080808_171758 -- Time elapsed: 7 seconds.
+Finish Calculation at 20080827_184248 -- Time elapsed: 6 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
 
 Time stamps:
-20080808_161702 -- Build Collison Operator
-20080808_161709 -- Diagonlize Collision Operator
-20080808_161758 -- Finish Calculation
+20080827_174157 -- Build Collison Operator
+20080827_174203 -- Diagonlize Collision Operator
+20080827_174248 -- Finish Calculation
  *Info in main
-Save XML document to a new file at 20080808_171758 -- Total time elapsed: 56 seconds.
+Save XML document to a new file at 20080827_184248 -- Total time elapsed: 51 seconds.
 
-System saved to benzene_oxidation_test.20080808_171758.xml
+System saved to benzene_oxidation_test.20080827_184248.xml
 m_Mass is provided but not used in HO2
 Rotational constants are provided but not used in HO2
 m_Sym is provided but not used in HO2
-m_ZPE is provided but not used in HO2
 m_scaleFactor is provided but not used in HO2
 m_SpinMultiplicity is provided but not used in HO2
 m_VibFreq is provided but not used in HO2
 m_Mass is provided but not used in I3c
 Rotational constants are provided but not used in I3c
 m_Sym is provided but not used in I3c
-m_ZPE is provided but not used in I3c
 m_scaleFactor is provided but not used in I3c
 m_SpinMultiplicity is provided but not used in I3c
 m_VibFreq is provided but not used in I3c
 m_Mass is provided but not used in I3t
 Rotational constants are provided but not used in I3t
 m_Sym is provided but not used in I3t
-m_ZPE is provided but not used in I3t
 m_scaleFactor is provided but not used in I3t
 m_SpinMultiplicity is provided but not used in I3t
 m_VibFreq is provided but not used in I3t
@@ -186,7 +96,6 @@ m_Mass is provided but not used in TS3_t_ax_2_6
 m_Mass is provided but not used in phenol
 Rotational constants are provided but not used in phenol
 m_Sym is provided but not used in phenol
-m_ZPE is provided but not used in phenol
 m_scaleFactor is provided but not used in phenol
 m_SpinMultiplicity is provided but not used in phenol
 m_VibFreq is provided but not used in phenol

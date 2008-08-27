@@ -33,6 +33,9 @@ namespace mesmer
     m_GrainKbmc(),
     m_Env(Env),
     m_Name(id),
+    TSFluxStartIdx(0),
+    EffectiveForwardGrainedThreshEn(0),
+    EffectiveReverseGrainedThreshEn(0),
     reCalcDOS(true),
     m_PreExp(0.0),
     m_NInf(0.0),
@@ -215,6 +218,17 @@ namespace mesmer
       return ThresholdEnergy;
     }
     return m_ActivationEnergy.get_value();
-  } ;
+  } 
+
+  void Reaction::calculateTSfluxStartIdx(void) {
+    double thresh = get_ThresholdEnergy();
+    double RxnHeat = getHeatOfReaction();
+    if(thresh<0.0)
+      TSFluxStartIdx = int(-thresh/m_Env.GrainSize);
+    else if(thresh>0.0 && thresh<RxnHeat)
+      TSFluxStartIdx = int(RxnHeat - thresh)/m_Env.GrainSize;
+    else
+      TSFluxStartIdx = 0;
+  };  
 
 }//namespace

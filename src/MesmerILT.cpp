@@ -104,19 +104,12 @@ namespace mesmer
     FastLaplaceConvolution(work, rctsCellDOS, conv);    // FFT convolution replaces the standard convolution
     //    Convolution(work, rctsCellDOS, conv);  // standard convolution
 
-    if (Einf >= 0){
-      for (int i = Einf; i < MaximumCell; ++i){
-        TSFlux[i] = _ant * conv[i - Einf];
-      }
-    }
-    else{
-      for (int i = 0; i < MaximumCell + Einf; ++i){
-        TSFlux[i] = _ant * conv[i - Einf];
-      }
+    for (int i = 0; i < MaximumCell; ++i){
+      TSFlux[i] = _ant * conv[i];
     }
 
-    // the flux bottom energy is equal to the well bottom of the product
-    pAssocReaction->setCellFluxBottom(pReact->get_relative_rctZPE());
+    // the flux bottom energy is equal to the well bottom of the reactant
+    pAssocReaction->setCellFluxBottom(pReact->get_relative_rctZPE() + pReact->get_ThresholdEnergy());
 
     cinfo << "ILT calculation completed" << endl;
 

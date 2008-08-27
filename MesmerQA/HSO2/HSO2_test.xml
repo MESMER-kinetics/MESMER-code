@@ -132,7 +132,6 @@
       </me:transitionState>
       <me:excessReactantConc>1e14</me:excessReactantConc>
       <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
-      <me:threshold>41.56</me:threshold>
     </reaction>
   </reactionList>
   <me:conditions>

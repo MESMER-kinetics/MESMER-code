@@ -2566,14 +2566,14 @@ Kr matrix:
   6.9661e-006        39.85 -3.1164e-005
 }
 
-First order & psuedo first order rate coefficients for loss rxns:
+First order & pseudo first order rate coefficients for loss rxns:
 {
 allene loss = -7.09797e-006
 cyclopropene loss = -40.3363
 propyne loss = -3.11639e-005
 }
 
-First order & psuedo first order rate coefficients for isomerization rxns:
+First order & pseudo first order rate coefficients for isomerization rxns:
 {
 allene -> cyclopropene = 8.37177e-007
 allene -> propyne = 6.9661e-006
@@ -5319,14 +5319,14 @@ Kr matrix:
      0.031493       4070.4    -0.056168
 }
 
-First order & psuedo first order rate coefficients for loss rxns:
+First order & pseudo first order rate coefficients for loss rxns:
 {
 allene loss = -0.0333858
 cyclopropene loss = -4155.69
 propyne loss = -0.0561677
 }
 
-First order & psuedo first order rate coefficients for isomerization rxns:
+First order & pseudo first order rate coefficients for isomerization rxns:
 {
 allene -> cyclopropene = 0.001913
 allene -> propyne = 0.0314932

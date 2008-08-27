@@ -75,6 +75,9 @@ namespace mesmer
     virtual double get_relative_pdtZPE(void) const = 0;
     virtual double get_relative_TSZPE(void) const = 0;
 
+    // return the grain idx in TSflux where the forward & reverse kofEs begin, respectively
+    virtual void calculateTSfluxStartIdx(void) ;
+
     // Get activiation energy
     double get_ThresholdEnergy(void);
     /* This function should be considered as a function to get the activiation energy. 
@@ -129,14 +132,29 @@ namespace mesmer
     // returns the forward grain microcanoincal rate coefficients for foreign modifications
     const std::vector<double>& get_IrreversibleRateCoefficients(void) {return m_GrainKfmc; };
 
-    // get canonical psuedo first order irreversible loss rate coefficient
+    // get canonical pseudo first order irreversible loss rate coefficient
     virtual double GetCanonicalIrreversibleLossRate(void){return 0.0;};
 
     // set the bottom energy of m_CellTSFlux
     void setCellFluxBottom(const double energyValue);
 
-    // get the bottom grain ZPE of m_GrainTSFlux
+    // set & get the grain in TSflux vector which corresponds to the threshold energy
+    // normally this is the first grain, except for cases where the threshold energy is negative
+    void set_TSFluxStartIdx(int idx){TSFluxStartIdx = idx;};
+    const int get_TSFluxStartIdx(void){return int(TSFluxStartIdx);};
+    // set & get the TSFlux Start Idx for calculating k(e)s from TS flux
+    void set_effectiveForwardTSFluxGrnZPE(int idx){EffectiveForwardGrainedThreshEn = idx;};
+    const int get_effectiveForwardTSFluxGrnZPE(void){return int(EffectiveForwardGrainedThreshEn);};
+    // set & get the forward threshold energy for calculating backward k(e)s from TS flux
+    void set_effectiveReverseTSFluxGrnZPE(int idx){EffectiveReverseGrainedThreshEn = idx;};
+    const int get_effectiveReverseTSFluxGrnZPE(void){return int(EffectiveReverseGrainedThreshEn);};
+    
+    // get the backward threshold energy for calculating backward k(e)s from TS flux
     const int getTSFluxGrnZPE(void){return int(m_FluxGrainZPE);};
+
+    // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
+    // with a negative threshold energy
+    virtual void calculateEffectiveGrainedThreshEn(void) = 0;
 
     // get the bottom cell offset of m_CellTSFlux
     const int getTSFluxCellOffset(void){return m_FluxCellOffset;};
@@ -151,7 +169,7 @@ namespace mesmer
     // to the calculation of equilibrium fractions.
     virtual bool isEquilibratingReaction(double &Keq, ModelledMolecule **rct, ModelledMolecule **pdt) { return false ; } ;
 
-// is the reaction an irreversible reaction
+    // is the reaction an irreversible reaction
     virtual bool isIrreversible(){return false;};
 
     // Calculate reaction equilibrium constant.
@@ -188,7 +206,7 @@ namespace mesmer
     //
     double m_forwardCanonicalRate;
     double m_backwardCanonicalRate;
-
+    
     // _2008_04_24__12_35_40_  <- Please search for this string in the current file for further description.
     double m_FluxGrainZPE;                       // grain ZPE of m_GrainTSFlux
     int m_FluxCellOffset;                        // cell Offset when converting m_CellTSFlux to m_GrainTSFlux
@@ -223,6 +241,10 @@ namespace mesmer
 
     const MesmerEnv& m_Env;
     std::string m_Name ;        // Reaction name.
+
+    int TSFluxStartIdx;                 // idx of the starting grain for calculating forward/backward k(E)s from flux
+    int EffectiveForwardGrainedThreshEn;   // effective threshold energy (in grains) for forward flux calculations
+    int EffectiveReverseGrainedThreshEn;   // effective threshold energy (in grains) for backward flux calculations
 
     bool reCalcDOS;             // re-calculation on DOS
     DPoint m_PreExp ;           // Preexponetial factor

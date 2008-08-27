@@ -190,14 +190,16 @@ namespace mesmer
     vector<double> rctGrainDOS;
     getRctsGrainDensityOfStates(rctGrainDOS);
 
-    const int TSFluxGrainZPE  = getTSFluxGrnZPE();
-    const int rctGrainZPE = get_rctsGrnZpe();
+    calculateEffectiveGrainedThreshEn();
+    const int forwardTE = get_effectiveForwardTSFluxGrnZPE();
+    calculateTSfluxStartIdx();
+    const int fluxStartIdx = get_TSFluxStartIdx();
 
-    const int MaximumGrain = getEnv().MaxGrn;
+    const int MaximumGrain = (getEnv().MaxGrn-fluxStartIdx);
     m_GrainKfmc.clear();
     m_GrainKfmc.resize(MaximumGrain , 0.0);
 
-    for (int i = TSFluxGrainZPE - rctGrainZPE, j = 0; i < MaximumGrain; ++i, ++j){
+    for (int i = forwardTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
       m_GrainKfmc[i] = m_GrainTSFlux[j] / rctGrainDOS[i];
     }
 
@@ -215,7 +217,7 @@ namespace mesmer
 
   void IrreversibleExchangeReaction::testRateConstant() {    // Test k(T)
 
-    const int MaximumGrain = getEnv().MaxGrn;;
+    const int MaximumGrain = (getEnv().MaxGrn-get_TSFluxStartIdx());
     const double beta = getEnv().beta;
     for(int i(0); i < MaximumGrain; ++i){
       m_forwardCanonicalRate += m_GrainKfmc[i] * exp( log(m_rctsGrainDOS[i]) - beta * m_rctsGrainEne[i]); 
@@ -228,7 +230,7 @@ namespace mesmer
 
     if (getEnv().testRateConstantEnabled){
       const double temperature = 1. / (boltzmann_RCpK * beta);
-      ctest << endl << "Canonical psuedo first order rate constant of irreversible reaction " 
+      ctest << endl << "Canonical pseudo first order rate constant of irreversible reaction " 
         << getName() << " = " << m_forwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
       ctest << "Canonical bimolecular rate constant of irreversible reaction " 
         << getName() << " = " << m_forwardCanonicalRate/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
@@ -241,6 +243,18 @@ namespace mesmer
       cerr << "Grain zero point energy has to be a non-negative value.";
 
     return int(grnZpe);
+  }
+
+  void IrreversibleExchangeReaction::calculateEffectiveGrainedThreshEn(void){           // see the comments in
+    double thresh = get_ThresholdEnergy();  // calculateEffectiveGrainedThreshEn under AssociationReaction.cpp
+    int TS_en = this->getTSFluxGrnZPE();
+    int rct_en = get_rctsGrnZpe();
+    if(thresh<0.0){
+      set_effectiveForwardTSFluxGrnZPE(0);
+    }
+    else{
+      set_effectiveForwardTSFluxGrnZPE(TS_en-rct_en);
+    }
   }
 
 }//namespace
