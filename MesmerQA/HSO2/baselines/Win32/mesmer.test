@@ -1518,8 +1518,8 @@ inverse of Eq fraction matrix:
      -0.99939      0.99939
       0.99939   0.00060651
 }
-Equilibrium Fraction for HSO2 = 0.000606509
 Equilibrium Fraction for H = 0.999393
+Equilibrium Fraction for HSO2 = 0.000606509
 
 Total number of eigenvalues = 135
 Eigenvalues
@@ -1845,13 +1845,13 @@ Kr matrix:
 
 First order & psuedo first order rate coefficients for loss rxns:
 {
-HSO2 loss = -714826
 H loss = -433.811
+HSO2 loss = -714826
 }
 
 First order & psuedo first order rate coefficients for isomerization rxns:
 {
-HSO2 -> H = 714825
 H -> HSO2 = 433.811
+HSO2 -> H = 714825
 }
 }

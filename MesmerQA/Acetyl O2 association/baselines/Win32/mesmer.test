@@ -20433,9 +20433,9 @@ inverse of Eq fraction matrix:
   1.9985e-014     -0.99632      0.99632
   7.3719e-017      0.99632    0.0036751
 }
-Equilibrium Fraction for acetyl = 1.99852e-014
 Equilibrium Fraction for Int1 = 0.996325
 Equilibrium Fraction for Int2 = 0.00367513
+Equilibrium Fraction for acetyl = 1.99852e-014
 
 Total number of eigenvalues = 347
 Eigenvalues
@@ -20981,29 +20981,29 @@ Kp matrix:
 
 First order & psuedo first order rate coefficients for loss rxns:
 {
-acetyl loss = -83067.4
 Int1 loss = -1.76631e-006
 Int2 loss = -0.00156619
+acetyl loss = -83067.4
 }
 
 First order & psuedo first order rate coefficients for isomerization rxns:
 {
+Int1 -> Int2 = 1.88027e-006
+Int1 -> acetyl = 1.49581e-009
+Int2 -> Int1 = 0.000509738
+Int2 -> acetyl = 2.06768e-009
 acetyl -> Int1 = 74566.9
 acetyl -> Int2 = 380.17
-Int1 -> acetyl = 1.49581e-009
-Int1 -> Int2 = 1.88027e-006
-Int2 -> acetyl = 2.06768e-009
-Int2 -> Int1 = 0.000509738
 }
 
 First order & psuedo first order rate coefficients for irreversible rxns:
 {
-acetyl -> lactone = 8102.66
 Int1 -> lactone = 2.17053e-008
 Int2 -> lactone = 0.00105704
-acetyl -> ketene = 1.99694
+acetyl -> lactone = 8102.66
 Int1 -> ketene = 3.65719e-015
 Int2 -> ketene = 5.10171e-015
+acetyl -> ketene = 1.99694
 }
 
 }
