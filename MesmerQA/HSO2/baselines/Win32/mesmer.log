@@ -1,7 +1,7 @@
 Mesmer v0.1 compiled: -- Aug 29 2008 -- 11:16:50
 
 Parsing input xml file... 
-HSO2_test.xml at 20080829_114656
+HSO2_test.xml at 20080829_122851
 Parsing reaction R1...
 The description element or attribute was missing or empty.
 Cannot find argument me:vibFreqs. Maybe an atom or atomic ion.
@@ -38,14 +38,14 @@ The me:precision element or attribute was missing or empty.
 The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "HSO2_test.xml" successfully parsed.
-Calculate EGME at 20080829_114656
+Calculate EGME at 20080829_122851
 
 Now calculating...
 HSO2_test.xml
-Write XML attribute at 20080829_114656
+Write XML attribute at 20080829_122851
 PT Grid 
 0
-Build Collison Operator at 20080829_114656
+Build Collison Operator at 20080829_122851
 m_ZPE was not defined but requested in SO2. Default value 0 is given.
 Cell number = 
 13400
@@ -119,7 +119,125 @@ m_SpinMultiplicity was not defined but requested in HSO2. Default value 1 is giv
 Rotational constants were not defined but requested in H
 m_Sym was not defined but requested in H. Default value 1 is given.
 m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is given.
+Number of grains produced is not equal to that requested
+Number of grains requested: 134
+Number of grains produced : 0 in H
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
+m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
 m_scaleFactor was not defined but requested in SO2. Default value 1 is given.
 m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is given.
 m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is given.
@@ -151,21 +269,17 @@ m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is give
 m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is given.
 m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is given.
 m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in H. Default value 1 is given.
-m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is given.
-Diagonlize Collision Operator at 20080829_114700 -- Time elapsed: 0 seconds.
+Diagonlize Collision Operator at 20080829_122854 -- Time elapsed: 0 seconds.
 
-Finish Calculation at 20080829_114708 -- Time elapsed: 4 seconds.
+Finish Calculation at 20080829_122904 -- Time elapsed: 3 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
 
 Time stamps:
-20080829_104656 -- Build Collison Operator
-20080829_104700 -- Diagonlize Collision Operator
-20080829_104708 -- Finish Calculation
+20080829_112851 -- Build Collison Operator
+20080829_112854 -- Diagonlize Collision Operator
+20080829_112904 -- Finish Calculation
  *Info in main
-Save XML document to a new file at 20080829_114708 -- Total time elapsed: 12 seconds.
+Save XML document to a new file at 20080829_122904 -- Total time elapsed: 13 seconds.
 
-System saved to HSO2_test.20080829_114708.xml
+System saved to HSO2_test.20080829_122904.xml
 m_Mass is provided but not used in TS1

@@ -1,7 +1,7 @@
 Mesmer v0.1 compiled: -- Aug 29 2008 -- 11:16:50
 
 Parsing input xml file... 
-OH_acetylene_association_test.xml at 20080829_115159
+OH_acetylene_association_test.xml at 20080829_123321
 Parsing reaction R1...
 The description element or attribute was missing or empty.
 Cannot find argument me:frequenciesScaleFactor
@@ -37,14 +37,14 @@ The me:precision element or attribute was missing or empty.
 The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "OH_acetylene_association_test.xml" successfully parsed.
-Calculate EGME at 20080829_115159
+Calculate EGME at 20080829_123321
 
 Now calculating...
 OH_acetylene_association_test.xml
-Write XML attribute at 20080829_115159
+Write XML attribute at 20080829_123321
 PT Grid 
 0
-Build Collison Operator at 20080829_115159
+Build Collison Operator at 20080829_123321
 Cell number = 
 15950
 , Grain number = 
@@ -53,23 +53,31 @@ Cell number =
 m_scaleFactor was not defined but requested in OH. Default value 1 is given.
 m_scaleFactor was not defined but requested in acetylene. Default value 1 is given.
 
-40 values in the FFT convolution routine were replaced by standard convolution
+20 values in the FFT convolution routine were replaced by standard convolution
+
+20 values in the FFT convolution routine were replaced by standard convolution
 ILT calculation completed
 m_scaleFactor was not defined but requested in OH_acetylene_adduct. Default value 1 is given.
-m_scaleFactor was not defined but requested in TS_1a. Default value 1 is given.
-Diagonlize Collision Operator at 20080829_115209 -- Time elapsed: 0 seconds.
 
-Finish Calculation at 20080829_115306 -- Time elapsed: 10 seconds.
+20 values in the FFT convolution routine were replaced by standard convolution
+m_scaleFactor was not defined but requested in TS_1a. Default value 1 is given.
+
+20 values in the FFT convolution routine were replaced by standard convolution
+
+20 values in the FFT convolution routine were replaced by standard convolution
+Diagonlize Collision Operator at 20080829_123348 -- Time elapsed: 0 seconds.
+
+Finish Calculation at 20080829_123432 -- Time elapsed: 27 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
 
 Time stamps:
-20080829_105159 -- Build Collison Operator
-20080829_105209 -- Diagonlize Collision Operator
-20080829_105306 -- Finish Calculation
+20080829_113321 -- Build Collison Operator
+20080829_113348 -- Diagonlize Collision Operator
+20080829_113432 -- Finish Calculation
  *Info in main
-Save XML document to a new file at 20080829_115306 -- Total time elapsed: 67 seconds.
+Save XML document to a new file at 20080829_123432 -- Total time elapsed: 71 seconds.
 
-System saved to OH_acetylene_association_test.20080829_115306.xml
+System saved to OH_acetylene_association_test.20080829_123432.xml
 m_Mass is provided but not used in OCHCH2
 Rotational constants are provided but not used in OCHCH2
 m_Sym is provided but not used in OCHCH2

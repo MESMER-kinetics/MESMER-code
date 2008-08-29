@@ -1,3 +1,7 @@
+_2008_08_29__11_45_44_ Chi-Hsiu Liang
+
+  * Removed Overloading of countCellDOS() in ClassicalRotor and update baselines.
+
 _2008_08_29__11_06_12_ Chi-Hsiu Liang
 
   * Modified README
