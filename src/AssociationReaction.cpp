@@ -360,8 +360,10 @@ namespace mesmer
   }
 
   void AssociationReaction::testRateConstant() {
+
     vector<double> pdtGrainDOS;
     vector<double> pdtGrainEne;
+    double k_forward(0.0), k_backward(0.0);
 
     m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
     m_pdt1->getGrainEnergies(pdtGrainEne);
@@ -369,19 +371,23 @@ namespace mesmer
     const int MaximumGrain = (getEnv().MaxGrn-get_TSFluxStartIdx());
     const double beta = getEnv().beta;
     for (int i = 0; i < MaximumGrain; ++i){
-      m_backwardCanonicalRate += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i] ) ;
+      k_backward += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i] ) ;
     }
     const double prtfn = canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, beta);
-    m_backwardCanonicalRate /= prtfn;
+    k_backward /= prtfn;
+    set_backwardCanonicalRateCoefficient(k_backward);
+  
     double Keq = calcEquilibriumConstant();
-    m_forwardCanonicalRate = m_backwardCanonicalRate * Keq;
+    k_forward = get_backwardCanonicalRateCoefficient() * Keq;
+    set_forwardCanonicalRateCoefficient(k_forward);
+
     const double temperature = 1. / (boltzmann_RCpK * beta);
     ctest << endl << "Canonical pseudo first order rate constant of association reaction "
-      << getName() << " = " << m_forwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
+      << getName() << " = " << get_forwardCanonicalRateCoefficient() << " s-1 (" << temperature << " K)" << endl;
     ctest << "Canonical bimolecular rate constant of association reaction "
-      << getName() << " = " << m_forwardCanonicalRate/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
+      << getName() << " = " << get_forwardCanonicalRateCoefficient()/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
     ctest << "Canonical first order rate constant for the reverse of reaction "
-      << getName() << " = " << m_backwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
+      << getName() << " = " << get_backwardCanonicalRateCoefficient() << " s-1 (" << temperature << " K)" << endl;
   }
 
   //

@@ -142,9 +142,11 @@ namespace mesmer
     // normally this is the first grain, except for cases where the threshold energy is negative
     void set_TSFluxStartIdx(int idx){TSFluxStartIdx = idx;};
     const int get_TSFluxStartIdx(void){return int(TSFluxStartIdx);};
+
     // set & get the TSFlux Start Idx for calculating k(e)s from TS flux
     void set_effectiveForwardTSFluxGrnZPE(int idx){EffectiveForwardGrainedThreshEn = idx;};
     const int get_effectiveForwardTSFluxGrnZPE(void){return int(EffectiveForwardGrainedThreshEn);};
+    
     // set & get the forward threshold energy for calculating backward k(e)s from TS flux
     void set_effectiveReverseTSFluxGrnZPE(int idx){EffectiveReverseGrainedThreshEn = idx;};
     const int get_effectiveReverseTSFluxGrnZPE(void){return int(EffectiveReverseGrainedThreshEn);};
@@ -155,6 +157,14 @@ namespace mesmer
     // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
     // with a negative threshold energy
     virtual void calculateEffectiveGrainedThreshEn(void) = 0;
+
+    // set the forward and backward canonical rate coefficients
+    void set_forwardCanonicalRateCoefficient(double k){m_forwardCanonicalRate = k;};
+    void set_backwardCanonicalRateCoefficient(double k){m_backwardCanonicalRate = k;};
+
+    // get the forward and backward canonical rate coefficients
+    double get_forwardCanonicalRateCoefficient(void){return m_forwardCanonicalRate;};
+    double get_backwardCanonicalRateCoefficient(void){return m_backwardCanonicalRate;};
 
     // get the bottom cell offset of m_CellTSFlux
     const int getTSFluxCellOffset(void){return m_FluxCellOffset;};
@@ -204,8 +214,6 @@ namespace mesmer
     //
     // Reaction Rate data.
     //
-    double m_forwardCanonicalRate;
-    double m_backwardCanonicalRate;
     
     // _2008_04_24__12_35_40_  <- Please search for this string in the current file for further description.
     double m_FluxGrainZPE;                       // grain ZPE of m_GrainTSFlux
@@ -238,6 +246,9 @@ namespace mesmer
 
     // Test k(T)
     virtual void testRateConstant() = 0;
+
+    double m_forwardCanonicalRate;
+    double m_backwardCanonicalRate;
 
     const MesmerEnv& m_Env;
     std::string m_Name ;        // Reaction name.

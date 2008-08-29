@@ -1,7 +1,7 @@
-Mesmer v0.1 compiled: -- Aug 29 2008 -- 11:16:50
+Mesmer v0.1 compiled: -- Aug 29 2008 -- 18:13:51
 
 Parsing input xml file... 
-Acetyl_O2_association.xml at 20080829_123432
+Acetyl_O2_association.xml at 20080829_181657
 Parsing reaction R1...
 Cannot find argument me:eletronicExcitation for acetyl
 Cannot find argument me:eletronicExcitation for O_2
@@ -31,14 +31,14 @@ The me:precision element or attribute was missing or empty.
 The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "Acetyl_O2_association.xml" successfully parsed.
-Calculate EGME at 20080829_123432
+Calculate EGME at 20080829_181657
 
 Now calculating...
 Acetyl_O2_association.xml
-Write XML attribute at 20080829_123432
+Write XML attribute at 20080829_181657
 PT Grid 
 0
-Build Collison Operator at 20080829_123432
+Build Collison Operator at 20080829_181657
 Cell number = 
 17800
 , Grain number = 
@@ -62,19 +62,19 @@ No TransitionState for R1, threshold energy = 0.0
 20 values in the FFT convolution routine were replaced by standard convolution
 
 20 values in the FFT convolution routine were replaced by standard convolution
-Diagonlize Collision Operator at 20080829_123700 -- Time elapsed: 0 seconds.
+Diagonlize Collision Operator at 20080829_181759 -- Time elapsed: 0 seconds.
 
-Finish Calculation at 20080829_123804 -- Time elapsed: 148 seconds.
+Finish Calculation at 20080829_181828 -- Time elapsed: 62 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
 
 Time stamps:
-20080829_113432 -- Build Collison Operator
-20080829_113700 -- Diagonlize Collision Operator
-20080829_113804 -- Finish Calculation
+20080829_171657 -- Build Collison Operator
+20080829_171759 -- Diagonlize Collision Operator
+20080829_171828 -- Finish Calculation
  *Info in main
-Save XML document to a new file at 20080829_123804 -- Total time elapsed: 212 seconds.
+Save XML document to a new file at 20080829_181828 -- Total time elapsed: 91 seconds.
 
-System saved to Acetyl_O2_association.20080829_123804.xml
+System saved to Acetyl_O2_association.20080829_181828.xml
 m_Mass is provided but not used in HO_2
 Rotational constants are provided but not used in HO_2
 m_Sym is provided but not used in HO_2

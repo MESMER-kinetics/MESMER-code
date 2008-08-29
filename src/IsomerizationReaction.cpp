@@ -223,6 +223,7 @@ void IsomerizationReaction::calcGrainRateCoeffs(){
 // Test k(T)
 void IsomerizationReaction::testRateConstant() {
 
+  double k_forward(0.0), k_backward(0.0);
   vector<double> rctGrainDOS, rctGrainEne, pdtGrainDOS, pdtGrainEne ;
   m_rct1->getGrainDensityOfStates(rctGrainDOS);
   m_pdt1->getGrainDensityOfStates(pdtGrainDOS);
@@ -233,19 +234,21 @@ void IsomerizationReaction::testRateConstant() {
   const double temperature = 1. / (boltzmann_RCpK * beta);
 
   for(int i(0); i < MaximumGrain; ++i){
-    m_forwardCanonicalRate += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
-    m_backwardCanonicalRate += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i]);
+    k_forward += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
+    k_backward += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i]);
   }
 
   const double rctprtfn = canonicalPartitionFunction(rctGrainDOS, rctGrainEne, beta);
   const double pdtprtfn = canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, beta);
-  m_forwardCanonicalRate /= rctprtfn;
-  m_backwardCanonicalRate /= pdtprtfn;
+  k_forward /= rctprtfn;
+  k_backward /= pdtprtfn;
+  set_forwardCanonicalRateCoefficient(k_forward);
+  set_backwardCanonicalRateCoefficient(k_backward);
 
   ctest << endl << "Canonical pseudo first order forward rate constant of isomerization reaction " 
-    << getName() << " = " << m_forwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
+    << getName() << " = " << get_forwardCanonicalRateCoefficient() << " s-1 (" << temperature << " K)" << endl;
   ctest << "Canonical pseudo first order backward rate constant of isomerization reaction " 
-    << getName() << " = " << m_backwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
+    << getName() << " = " << get_backwardCanonicalRateCoefficient() << " s-1 (" << temperature << " K)" << endl;
 }
 
 void IsomerizationReaction::calculateEffectiveGrainedThreshEn(void){  // see the comments in

@@ -1,7 +1,7 @@
-Mesmer v0.1 compiled: -- Aug 29 2008 -- 11:16:50
+Mesmer v0.1 compiled: -- Aug 29 2008 -- 18:13:51
 
 Parsing input xml file... 
-pentyl_isomerization_test.xml at 20080829_122838
+pentyl_isomerization_test.xml at 20080829_181414
 Parsing reaction R1...
 The description element or attribute was missing or empty.
 Cannot find argument me:eletronicExcitation for n-pentyl
@@ -24,14 +24,14 @@ The me:precision element or attribute was missing or empty.
 The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "pentyl_isomerization_test.xml" successfully parsed.
-Calculate EGME at 20080829_122838
+Calculate EGME at 20080829_181414
 
 Now calculating...
 pentyl_isomerization_test.xml
-Write XML attribute at 20080829_122838
+Write XML attribute at 20080829_181414
 PT Grid 
 0
-Build Collison Operator at 20080829_122838
+Build Collison Operator at 20080829_181414
 Cell number = 
 16050
 , Grain number = 
@@ -40,7 +40,7 @@ Cell number =
 m_scaleFactor was not defined but requested in n-pentyl=TS=2-pentyl. Default value 1 is given.
 m_scaleFactor was not defined but requested in n-pentyl. Default value 1 is given.
 m_scaleFactor was not defined but requested in 2-pentyl. Default value 1 is given.
-Diagonlize Collision Operator at 20080829_122840 -- Time elapsed: 0 seconds.
+Diagonlize Collision Operator at 20080829_181416 -- Time elapsed: 0 seconds.
 No population was assigned, and there is no source term.
 Initialize a Boltzmann distribution in the first isomer.
 0
@@ -48,15 +48,15 @@ Initialize a Boltzmann distribution in the first isomer.
 107
 
 
-Finish Calculation at 20080829_122850 -- Time elapsed: 2 seconds.
+Finish Calculation at 20080829_181423 -- Time elapsed: 2 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
 
 Time stamps:
-20080829_112838 -- Build Collison Operator
-20080829_112840 -- Diagonlize Collision Operator
-20080829_112850 -- Finish Calculation
+20080829_171414 -- Build Collison Operator
+20080829_171416 -- Diagonlize Collision Operator
+20080829_171423 -- Finish Calculation
  *Info in main
-Save XML document to a new file at 20080829_122850 -- Total time elapsed: 12 seconds.
+Save XML document to a new file at 20080829_181423 -- Total time elapsed: 9 seconds.
 
-System saved to pentyl_isomerization_test.20080829_122850.xml
+System saved to pentyl_isomerization_test.20080829_181423.xml
 m_Mass is provided but not used in n-pentyl=TS=2-pentyl

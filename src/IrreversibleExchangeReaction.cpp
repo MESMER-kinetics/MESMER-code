@@ -141,7 +141,7 @@ namespace mesmer
     const double rMeanOmega)              // Add exchange reaction terms to collision matrix.
   {
     const int jj     = (*m_sourceMap)[get_pseudoIsomer()] ;
-    (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * m_forwardCanonicalRate);
+    (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * get_forwardCanonicalRateCoefficient());
   }
 
   bool IrreversibleExchangeReaction::calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne)    // Calculate rovibrational reactant DOS
@@ -207,22 +207,25 @@ namespace mesmer
     const double beta = getEnv().beta;
     vector<double> rctsGrainDOS;
     vector<double> rctsGrainEne;
+    double k_forward(0.0);
+
     calcRctsGrainDensityOfStates(rctsGrainDOS, rctsGrainEne);
     for(int i(0); i < MaximumGrain; ++i){
-      m_forwardCanonicalRate += m_GrainKfmc[i] * exp( log(rctsGrainDOS[i]) - beta * rctsGrainEne[i]); 
+      k_forward += m_GrainKfmc[i] * exp( log(rctsGrainDOS[i]) - beta * rctsGrainEne[i]); 
     }
     const double prtfn = canonicalPartitionFunction(rctsGrainDOS, rctsGrainEne, beta);
     const double trans = translationalContribution(m_rct1->getMass(), m_rct2->getMass(), beta);
-    m_forwardCanonicalRate /= prtfn;
-    m_forwardCanonicalRate /= trans;
-    m_forwardCanonicalRate *= m_ERConc;
+    k_forward /= prtfn;
+    k_forward /= trans;
+    k_forward *= m_ERConc;
+    set_forwardCanonicalRateCoefficient(k_forward);
 
     if (getEnv().testRateConstantEnabled){
       const double temperature = 1. / (boltzmann_RCpK * beta);
       ctest << endl << "Canonical pseudo first order rate constant of irreversible reaction " 
-        << getName() << " = " << m_forwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
+        << getName() << " = " << get_forwardCanonicalRateCoefficient() << " s-1 (" << temperature << " K)" << endl;
       ctest << "Canonical bimolecular rate constant of irreversible reaction " 
-        << getName() << " = " << m_forwardCanonicalRate/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
+        << getName() << " = " << get_forwardCanonicalRateCoefficient()/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
     }
   }
 

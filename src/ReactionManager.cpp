@@ -815,7 +815,7 @@ namespace mesmer
         vector<ModelledMolecule*> pdts;                               // in the sink reaction  
         sinkReaction->get_products(pdts);
         if(colloptrsize == 1){  // if the collision operator size is 1, there is one canonical loss rate coefficient
-          KofEs.push_back(sinkReaction->GetCanonicalIrreversibleLossRate());
+          KofEs.push_back(sinkReaction->get_forwardCanonicalRateCoefficient());
           ctest << setw(11) << pdts[0]->getName()<< setw(5) << "(bim)";
         }
         else{   // if the collision operator size is >1, there are k(E)s for the irreversible loss
@@ -956,7 +956,7 @@ namespace mesmer
           Reaction* sinkReaction = sinkpos->first;                 
           const int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant
           if(colloptrsize == 1)  // if the collision operator size is 1, there is one canonical loss rate coefficient
-            KofEs.push_back(sinkReaction->GetCanonicalIrreversibleLossRate());
+            KofEs.push_back(sinkReaction->get_forwardCanonicalRateCoefficient());
           else                   // if the collision operator size is >1, there are k(E)s for the irreversible loss
             KofEs = sinkReaction->get_GrainKfmc();                      // assign sink k(E)s, the vector size == maxgrn
           int location = sinkpos->second;                               // get sink location

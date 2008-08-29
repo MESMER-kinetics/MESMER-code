@@ -257,6 +257,7 @@ namespace mesmer
   // Test k(T)
   void IrreversibleUnimolecularReaction::testRateConstant() {
 
+    double k_forward(0.0);
     vector<double> rctGrainDOS, rctGrainEne;
     m_rct1->getGrainDensityOfStates(rctGrainDOS);
     m_rct1->getGrainEnergies(rctGrainEne);
@@ -265,13 +266,14 @@ namespace mesmer
     const double temperature = 1. / (boltzmann_RCpK * beta);
 
     for(int i(0); i < MaximumGrain; ++i)
-      m_forwardCanonicalRate += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
+      k_forward += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
 
     const double rctprtfn = canonicalPartitionFunction(rctGrainDOS, rctGrainEne, beta);
-    m_forwardCanonicalRate /= rctprtfn;
+    k_forward /= rctprtfn;
+    set_forwardCanonicalRateCoefficient(k_forward);
 
     ctest << endl << "Canonical pseudo first order forward rate constant of irreversible reaction " 
-      << getName() << " = " << m_forwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
+      << getName() << " = " << get_forwardCanonicalRateCoefficient() << " s-1 (" << temperature << " K)" << endl;
   }
 
   void IrreversibleUnimolecularReaction::calculateEffectiveGrainedThreshEn(void){       // see the comments in
