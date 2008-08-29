@@ -39,11 +39,7 @@ namespace mesmer
       m_rct2(NULL),
       m_pdt1(NULL),
       deficientReactantLocation(isReactant),
-      m_ERConc(0.),
-      m_rctsCellEne(),
-      m_rctsCellDOS(),
-      m_rctsGrainEne(),
-      m_rctsGrainDOS() 
+      m_ERConc(0.)
     {}
 
     // Destructor.
@@ -91,22 +87,7 @@ namespace mesmer
     virtual bool isEquilibratingReaction(double &Keq, ModelledMolecule **rct, ModelledMolecule **pdt) ;
 
     // Get reactants cell density of states.
-    virtual void getRctsCellDensityOfStates(std::vector<double> &cellDOS) ;
-
-    // Set reactants cell  density of states.
-    virtual void setRctsCellDensityOfStates(std::vector<double> &cellDOS) { m_rctsCellDOS = cellDOS ; } ;
-
-    // Get reactants cell energies.
-    virtual void getRctsCellEnergies(std::vector<double> &CellEne) ;
-
-    // Set reactants cell energies.
-    virtual void setRctsCellEnergies(std::vector<double> &CellEne) { m_rctsCellEne = CellEne ; } ;
-
-    // Get reactants grain density of states.
-    virtual void getRctsGrainDensityOfStates(std::vector<double> &grainDOS) ;
-
-    // Get reactants grain energies.
-    virtual void getRctsGrainEnergies(std::vector<double> &grainEne) ;
+    void getRctsCellDensityOfStates(std::vector<double> &cellDOS) ;
 
     // Get reactants grain ZPE
     const int get_rctsGrnZpe(void);
@@ -123,7 +104,7 @@ namespace mesmer
 
     virtual DensityOfStatesCalculator* get_rctsDensityOfStatesCalculator(){return get_pseudoIsomer()->get_DensityOfStatesCalculator(); }
 
-    bool calcRctsDensityOfStates();
+    bool calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
 
     double rctsRovibronicGrnCanPrtnFn();
 
@@ -151,14 +132,6 @@ namespace mesmer
 
     bool deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
     double               m_ERConc ; // Concentration of the excess reactant
-
-    //
-    // Convoluted cell and grain averages for m_rct1 and m_rct2.
-    //
-    std::vector<double> m_rctsCellEne ;   // Cell energies of reactants.                        
-    std::vector<double> m_rctsCellDOS ;   // Convoluted cell density of states of reactants.           
-    std::vector<double> m_rctsGrainEne ;  // Grain average energy array.
-    std::vector<double> m_rctsGrainDOS ;  // Grain density of states array.
 
   } ;
 

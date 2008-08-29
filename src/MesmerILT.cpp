@@ -78,10 +78,12 @@ namespace mesmer
     vector<double> rctsCellEne; // Cell energies          of      product molecule.
     vector<double> rctsCellDOS; // Convoluted cell density of states of reactants.
 
-    pAssocReaction->getRctsCellEnergies       (rctsCellEne) ;
+    getCellEnergies(MaximumCell, rctsCellEne) ;
     pAssocReaction->getRctsCellDensityOfStates(rctsCellDOS) ;
 
     // Allocate space to hold microcanonical rate coefficients for dissociation.
+    // This line below pass the reference pointer of m_CellTSFlux to the vector by (&), so what the code does on
+    // TSFlux will in fact work on m_CellTSFlux.
     vector<double>& TSFlux = pAssocReaction->get_CellFlux();
     TSFlux.clear();
     TSFlux.resize(MaximumCell, 0.0); 
@@ -93,14 +95,14 @@ namespace mesmer
     double _ant = Ainf * tp_C * pow( ( ma * mb / mc), 1.5 ) / gammaValue;
     _ant /= (pow((Tinf * boltzmann_RCpK), Ninf));
 
-    vector<double> work(MaximumCell);;
-    vector<double> conv(MaximumCell);
 
     double pwr = Ninf + .5;
+    vector<double> work(MaximumCell);
     for (int i = 0; i < MaximumCell; ++i) {
       work[i] = pow(rctsCellEne[i], pwr);
     }
 
+    vector<double> conv;
     FastLaplaceConvolution(work, rctsCellDOS, conv);    // FFT convolution replaces the standard convolution
     //    Convolution(work, rctsCellDOS, conv);  // standard convolution
 
@@ -109,7 +111,7 @@ namespace mesmer
     }
 
     // the flux bottom energy is equal to the well bottom of the reactant
-    pAssocReaction->setCellFluxBottom(pReact->get_relative_rctZPE() + pReact->get_ThresholdEnergy());
+    pAssocReaction->setCellFluxBottom(pReact->get_relative_rctZPE() + Einf);
 
     cinfo << "ILT calculation completed" << endl;
 

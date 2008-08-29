@@ -3,8 +3,8 @@
 *
 * Struan H. Robertson    Accelrys Inc.  struanr@accelrys.com
 * Chris Morley                          arcl02@dsl.pipex.com
-* Chi-Hsiu Liang         Univ. Leeds    c.liang@leeds.ac.uk
-*
+* Chi-Hsiu Liang         Univ. Leeds    c.h.liang@leeds.ac.uk
+* David Glowacki         Univ. Leeds    chmdrgl@leeds.ac.uk
 ------------------------------------------------------------------------
 
 I.   Introduction
@@ -12,11 +12,34 @@ II.  Directories and Files
 III. Installation
 
 
+
 Introduction
 ------------
 
+The program is named MESMER, which stands for Master Equation Solver for Multi-Energy well Reactions. 
+It is is capable of solving the energy grained master equation (EGME) for a unimolecular system composed of an arbitrary 
+number of wells, transition states, sinks, and reactants.
+ollowing features are provided in this program:
+1. Use standard XML data representation as input stream, in which comments are easily inserted/removed to assist human readability. 
+2. Open source C++ codes, that can be compiled on most plateforms. 
+3. References are given in proper positions where the methodologies are used.
+
+
+
 Directories and Files
 ---------------------
+
+Main directories are listed:
+/src                      all source files
+/bin                      binaries files from UNIX/Linux systems are exported
+/MesmerQA                 Qaulity Assesment files
+/Windows VC8              Windows porject files
+/Documentation            documentation
+/examples                 example input files
+/qd                       quad-double/double-double library from Yozo Hida et al. (http://www.cs.berkeley.edu/~yozo/)
+/tinyxml                  tinyxml library, given ability of reading/writing XML files
+
+
 
 Installation
 ------------

@@ -1,76 +1,10 @@
-Mesmer v0.1 compiled: -- Aug  2 2008 -- 23:50:14
+Mesmer v0.1 compiled: -- Aug 29 2008 -- 11:16:50
 
 Parsing input xml file... 
-OH_acetylene_association_test.xml at 20080803_121423
-
-Printing system precision configuration:
-Size of float = 
-4
-Size of double = 
-8
-Size of long double = 
-8
-Size of double-double = 
-16
-Size of quad-double = 
-32
-
-Epsilon is the difference between 1 and the smallest value greater than 1 that is representable for the data type.
-float epsilon == 
-1.19209e-007
-
-double epsilon == 
-2.22045e-016
-
-long double epsilon == 
-2.22045e-016
-
-dd_real epsilon == 
-4.93038e-032
-
-qd_real epsilon == 
-1.21543e-063
-
-
-float max == 
-3.40282e+038
-
-double max == 
-1.79769e+308
-
-long double max == 
-1.79769e+308
-
-dd_real max == 
-1.797693e+308
-
-qd_real max == 
-1.797693e+308
-
-
-float min == 
-1.17549e-038
-
-double min == 
-2.22507e-308
-
-long double min == 
-2.22507e-308
-
-dd_real min == 
-2.00417e-292
-
-qd_real min == 
-1.62597e-260
-
+OH_acetylene_association_test.xml at 20080829_115159
+Parsing reaction R1...
 The description element or attribute was missing or empty.
 Cannot find argument me:frequenciesScaleFactor
-Cannot find argument me:sigma in OH. Default value 5 is used.
-
-Cannot find argument me:epsilon in OH. Default value 50 is used.
-
-Cannot find argument me:deltaEDown in OH
-No method for the calculation of distribution fraction in OH is provided. Default method <Boltzmann> is used.
 The description element or attribute was missing or empty.
 Cannot find argument me:eletronicExcitation for acetylene
 Cannot find argument me:frequenciesScaleFactor
@@ -88,6 +22,7 @@ Cannot find argument me:spinMultiplicity in TS_0. Default value 1 is used.
 No imaginary vibrational frequency for TS_0
 The me:tunneling element or attribute was missing or empty.
 No tunneling method was found for R1
+Parsing reaction R2...
 The description element or attribute was missing or empty.
 Cannot find argument me:eletronicExcitation for OCHCH2
 Cannot find argument me:frequenciesScaleFactor
@@ -102,14 +37,14 @@ The me:precision element or attribute was missing or empty.
 The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "OH_acetylene_association_test.xml" successfully parsed.
-Calculate EGME at 20080803_121423
+Calculate EGME at 20080829_115159
 
 Now calculating...
 OH_acetylene_association_test.xml
-Write XML attribute at 20080803_121423
+Write XML attribute at 20080829_115159
 PT Grid 
 0
-Build Collison Operator at 20080803_121423
+Build Collison Operator at 20080829_115159
 Cell number = 
 15950
 , Grain number = 
@@ -122,23 +57,22 @@ m_scaleFactor was not defined but requested in acetylene. Default value 1 is giv
 ILT calculation completed
 m_scaleFactor was not defined but requested in OH_acetylene_adduct. Default value 1 is given.
 m_scaleFactor was not defined but requested in TS_1a. Default value 1 is given.
-Diagonlize Collision Operator at 20080803_121427 -- Time elapsed: 0 seconds.
+Diagonlize Collision Operator at 20080829_115209 -- Time elapsed: 0 seconds.
 
-Finish Calculation at 20080803_121502 -- Time elapsed: 4 seconds.
+Finish Calculation at 20080829_115306 -- Time elapsed: 10 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
 
 Time stamps:
-20080803_111423 -- Build Collison Operator
-20080803_111427 -- Diagonlize Collision Operator
-20080803_111502 -- Finish Calculation
+20080829_105159 -- Build Collison Operator
+20080829_105209 -- Diagonlize Collision Operator
+20080829_105306 -- Finish Calculation
  *Info in main
-Save XML document to a new file at 20080803_121502 -- Total time elapsed: 39 seconds.
+Save XML document to a new file at 20080829_115306 -- Total time elapsed: 67 seconds.
 
-System saved to OH_acetylene_association_test.20080803_121502.xml
+System saved to OH_acetylene_association_test.20080829_115306.xml
 m_Mass is provided but not used in OCHCH2
 Rotational constants are provided but not used in OCHCH2
 m_Sym is provided but not used in OCHCH2
-m_ZPE is provided but not used in OCHCH2
 m_SpinMultiplicity is provided but not used in OCHCH2
 m_VibFreq is provided but not used in OCHCH2
 m_Mass is provided but not used in TS_0

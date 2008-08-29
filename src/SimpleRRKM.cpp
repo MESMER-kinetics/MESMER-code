@@ -37,8 +37,7 @@ namespace mesmer
       vector<double> TunnelingProbability;
       pReact->calculateCellTunnelingCoeffs(TunnelingProbability);
 
-      vector<double> ConvolvedSumOfStates(MaximumCell,0.0);
-
+      vector<double> ConvolvedSumOfStates;
       FastLaplaceConvolution(TScellDOS, TunnelingProbability, ConvolvedSumOfStates); // FFT convolution
 //      Convolution(TScellDOS, TunnelingProbability, ConvolvedSumOfStates); // standard convolution
 

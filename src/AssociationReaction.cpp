@@ -42,28 +42,28 @@ namespace mesmer
       return false;
     }
 
-        // if deficientReactantLocation=true, then pMol1 (the first rct
-        // in the XML input) is the deficient reactant (m_rct1)
+    // if deficientReactantLocation=true, then pMol1 (the first rct
+    // in the XML input) is the deficient reactant (m_rct1)
 
-        ModelledMolecule* tmp_rct1 = dynamic_cast<ModelledMolecule*>(pMol1);
-        ModelledMolecule* tmp_rct2 = dynamic_cast<ModelledMolecule*>(pMol2);
+    ModelledMolecule* tmp_rct1 = dynamic_cast<ModelledMolecule*>(pMol1);
+    ModelledMolecule* tmp_rct2 = dynamic_cast<ModelledMolecule*>(pMol2);
 
-        if(deficientReactantLocation){
-          m_rct1 = tmp_rct1;
-          m_rct2 = tmp_rct2;
-        }
-        else {
-          m_rct1 = tmp_rct2;
-          m_rct2 = tmp_rct1;
-        }
+    if(deficientReactantLocation){
+      m_rct1 = tmp_rct1;
+      m_rct2 = tmp_rct2;
+    }
+    else {
+      m_rct1 = tmp_rct2;
+      m_rct2 = tmp_rct1;
+    }
 
-        if(!m_rct1){
-          cerr << "the deficient reactant in the association reaction is undefined" << endl;
-        return false;
-      }
-        if(!m_rct2){
-          cerr << "the excess reactant in the association reaction is undefined" << endl;
-          return false;
+    if(!m_rct1){
+      cerr << "the deficient reactant in the association reaction is undefined" << endl;
+      return false;
+    }
+    if(!m_rct2){
+      cerr << "the excess reactant in the association reaction is undefined" << endl;
+      return false;
     }
 
     //Read product details.
@@ -77,7 +77,7 @@ namespace mesmer
 
     // Save product as CollidingMolecule.
 
-        CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
+    CollidingMolecule* pColMol = dynamic_cast<CollidingMolecule*>(pMol1);
     if(pColMol){
       m_pdt1 = pColMol;
     } else {
@@ -143,13 +143,13 @@ namespace mesmer
   // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
   //
   double AssociationReaction::rctsRovibronicGrnCanPrtnFn() {
-    // If density of states have not already been calculated then do so.
-    if (!calcRctsDensityOfStates())
-      cerr << "Failed calculating DOS";
+    vector<double> rctGrainDOS;
+    vector<double> rctGrainEne;
+    calcRctsGrainDensityOfStates(rctGrainDOS, rctGrainEne);
 
     // Calculate the rovibronic partition function based on the grain DOS
     // The following catches the case where the molecule is a single atom
-    double CanPrtnFn = max(canonicalPartitionFunction(m_rctsGrainDOS, m_rctsGrainEne, getEnv().beta), 1.0) ;
+    double CanPrtnFn = max(canonicalPartitionFunction(rctGrainDOS, rctGrainEne, getEnv().beta), 1.0) ;
     if (CanPrtnFn == 1.0){
       // Electronic partition function for atom is accounted here.
       CanPrtnFn = double(m_rct1->getSpinMultiplicity() * m_rct2->getSpinMultiplicity()) ;
@@ -316,9 +316,10 @@ namespace mesmer
   void AssociationReaction::calcGrainRateCoeffs(){
 
     vector<double> rctGrainDOS;
+    vector<double> rctGrainEne;
     vector<double> pdtGrainDOS;
     m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
-    getRctsGrainDensityOfStates(rctGrainDOS);
+    calcRctsGrainDensityOfStates(rctGrainDOS, rctGrainEne);
 
     calculateEffectiveGrainedThreshEn();
     const int forwardTE = get_effectiveForwardTSFluxGrnZPE();
@@ -332,8 +333,6 @@ namespace mesmer
     m_GrainKbmc.clear();
     m_GrainKbmc.resize(MaximumGrain , 0.0);
 
-    this;
-   
     for (int i = reverseTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
       m_GrainKbmc[i] = m_GrainTSFlux[j] / pdtGrainDOS[i];
     }
@@ -377,38 +376,32 @@ namespace mesmer
     double Keq = calcEquilibriumConstant();
     m_forwardCanonicalRate = m_backwardCanonicalRate * Keq;
     const double temperature = 1. / (boltzmann_RCpK * beta);
-    ctest << endl << "Canonical pseudo first order rate constant of association reaction " 
+    ctest << endl << "Canonical pseudo first order rate constant of association reaction "
       << getName() << " = " << m_forwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
-    ctest << "Canonical bimolecular rate constant of association reaction " 
+    ctest << "Canonical bimolecular rate constant of association reaction "
       << getName() << " = " << m_forwardCanonicalRate/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
-    ctest << "Canonical first order rate constant for the reverse of reaction " 
+    ctest << "Canonical first order rate constant for the reverse of reaction "
       << getName() << " = " << m_backwardCanonicalRate << " s-1 (" << temperature << " K)" << endl;
   }
 
   //
   // Calculate the rovibrational density of states of reactants.
   //
-  bool AssociationReaction::calcRctsDensityOfStates()
+  bool AssociationReaction::calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne)    // Calculate rovibrational reactant DOS
   {
-    const bool recalcRct1(m_rct1->needReCalculateDOS());
-    const bool recalcRct2(m_rct2->needReCalculateDOS());
-    const bool vectorSizeConstant(m_rctsCellDOS.size() == static_cast<unsigned int>(getEnv().MaxCell));
-    const size_t sizeOfVector(m_rctsCellDOS.size());
-    if (sizeOfVector && vectorSizeConstant && !recalcRct1 && !recalcRct2)
-      return true;
-    if (!get_rctsDensityOfStatesCalculator()->countDimerCellDOS(m_rct1, m_rct2, m_rctsCellEne, m_rctsCellDOS)){
-      return false;
-    }
+    std::vector<double> rctsCellDOS;
+    getRctsCellDensityOfStates(rctsCellDOS);
 
     std::vector<double> shiftedCellDOS;
     std::vector<double> shiftedCellEne;
     const int MaximumCell = getEnv().MaxCell;
     const int cellOffset = get_pseudoIsomer()->get_cellOffset();
-
-    shiftCells(MaximumCell, cellOffset, m_rctsCellDOS, m_rctsCellEne, shiftedCellDOS, shiftedCellEne);
+    std::vector<double> rctsCellEne;
+    getCellEnergies(MaximumCell, rctsCellEne);
+    shiftCells(MaximumCell, cellOffset, rctsCellDOS, rctsCellEne, shiftedCellDOS, shiftedCellEne);
 
     string catName = m_rct1->getName() + " + " + m_rct2->getName();
-    calcGrainAverages(getEnv().MaxGrn, getEnv().GrainSize, shiftedCellDOS, shiftedCellEne, m_rctsGrainDOS, m_rctsGrainEne, catName);
+    calcGrainAverages(getEnv().MaxGrn, getEnv().GrainSize, shiftedCellDOS, shiftedCellEne, grainDOS, grainEne, catName);
 
     return true;
   }
@@ -417,40 +410,7 @@ namespace mesmer
   // Get reactants cell density of states.
   //
   void AssociationReaction::getRctsCellDensityOfStates(vector<double> &cellDOS) {
-    // If density of states have not already been calcualted then do so.
-    if (!calcRctsDensityOfStates())
-      cerr << "Failed calculating DOS";
-    cellDOS = m_rctsCellDOS;
-  }
-
-  //
-  // Get reactants cell energies.
-  //
-  void AssociationReaction::getRctsCellEnergies(vector<double> &CellEne) {
-    // If density of states have not already been calcualted then do so.
-    if (!calcRctsDensityOfStates())
-      cerr << "Failed calculating DOS";
-    CellEne = m_rctsCellEne;
-  }
-
-  //
-  // Get reactants grain density of states.
-  //
-  void AssociationReaction::getRctsGrainDensityOfStates(vector<double> &grainDOS) {
-    // If density of states have not already been calcualted then do so.
-    if (!calcRctsDensityOfStates())
-      cerr << "Failed calculating DOS";
-    grainDOS = m_rctsGrainDOS;
-  }
-
-  //
-  // Get reactants grain energies.
-  //
-  void AssociationReaction::getRctsGrainEnergies(vector<double> &grainEne) {
-    // If density of states have not already been calcualted then do so.
-    if (!calcRctsDensityOfStates())
-      cerr << "Failed calculating DOS";
-    grainEne = m_rctsGrainEne;
+    get_rctsDensityOfStatesCalculator()->countDimerCellDOS(m_rct1, m_rct2, cellDOS);
   }
 
   const int AssociationReaction::get_rctsGrnZpe(){

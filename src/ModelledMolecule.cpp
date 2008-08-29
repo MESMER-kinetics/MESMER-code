@@ -35,7 +35,6 @@ namespace mesmer
     m_VibFreq_chk(-1),
     m_eleExc(),
     m_VibFreq(),
-    m_cellEne(),
     m_cellDOS(),
     m_grainEne(),
     m_grainDOS()
@@ -55,7 +54,6 @@ namespace mesmer
     if (m_grainDOS.size()) m_grainDOS.clear();
     if (m_grainEne.size()) m_grainEne.clear();
     if (m_cellDOS.size()) m_cellDOS.clear();
-    if (m_cellEne.size()) m_cellEne.clear();
     if (m_VibFreq.size()) m_VibFreq.clear();
     if (m_eleExc.size()) m_eleExc.clear();
   }
@@ -239,16 +237,6 @@ namespace mesmer
   }
 
   //
-  // Get cell energies.
-  //
-  void ModelledMolecule::getCellEnergies(vector<double> &CellEne) {
-    // If density of states have not already been calcualted then do so.
-    if (!calcDensityOfStates())
-      cerr << "Failed calculating DOS";
-    CellEne = m_cellEne;
-  }
-
-  //
   // Get grain density of states.
   //
   void ModelledMolecule::getGrainDensityOfStates(vector<double> &grainDOS) {
@@ -348,12 +336,14 @@ namespace mesmer
     std::vector<double> shiftedCellEne;
     const int MaximumCell = getEnv().MaxCell;
     const int cellOffset = get_cellOffset();
-    shiftCells(MaximumCell, cellOffset, m_cellDOS, m_cellEne, shiftedCellDOS, shiftedCellEne);
+    std::vector<double> cellEne;
+    getCellEnergies(MaximumCell, cellEne);
+    shiftCells(MaximumCell, cellOffset, m_cellDOS, cellEne, shiftedCellDOS, shiftedCellEne);
 
     calcGrainAverages(getEnv().MaxGrn, getEnv().GrainSize, shiftedCellDOS, shiftedCellEne, m_grainDOS, m_grainEne, getName());
 
     testDensityOfStates();
-    
+
     recalculateDOScompleted();
     return true;
   }
@@ -375,6 +365,8 @@ namespace mesmer
   {
     const int MaximumGrain = getEnv().MaxGrn;
     const int MaximumCell  = getEnv().MaxCell;
+    std::vector<double> cellEne;
+    getCellEnergies(MaximumCell, cellEne);
 
     string comment("Rovibronic partition function calculation at various temperatures. qtot : partition function as a product of quantum mechanical partition functions for vibrations (1-D harmonic oscillator) and classifical partition functions for rotations.  sumc : (user calculated) cell based partition function. sumg : (user calculated) grain based partition function ");
 
@@ -390,7 +382,7 @@ namespace mesmer
 
       // Calculate rovibronic partition functions based on cells.
       // The following catches the case where the molecule is a single atom
-      double cellCanPrtnFn = max(canonicalPartitionFunction(m_cellDOS, m_cellEne, beta), 1.0) ;
+      double cellCanPrtnFn = max(canonicalPartitionFunction(m_cellDOS, cellEne, beta), 1.0) ;
       if (cellCanPrtnFn == 1.0){
         // Electronic partition function for atom is accounted here.
         cellCanPrtnFn = double(getSpinMultiplicity()) ;
@@ -456,7 +448,7 @@ namespace mesmer
     if (getEnv().cellDOSEnabled){
       ctest << endl << "Cell rovibronic density of states of " << getName() << endl << "{" << endl;
       for (int i = 0; i < MaximumCell; ++i){
-        formatFloat(ctest, m_cellEne[i],  6,  15) ;
+        formatFloat(ctest, cellEne[i],  6,  15) ;
         formatFloat(ctest, m_cellDOS[i],  6,  15) ;
         ctest << endl ;
       }

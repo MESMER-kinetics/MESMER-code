@@ -225,7 +225,6 @@ namespace mesmer
   bool CollidingMolecule::initCollisionOperator(double beta, BathGasMolecule *pBathGasMolecule)
   {
     // If density of states have not already been calcualted then do so.
-
     if (!calcDensityOfStates()){
       cerr << "Failed calculating DOS";
       return false;

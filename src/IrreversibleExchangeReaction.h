@@ -30,11 +30,8 @@ namespace mesmer
       m_pdt1(NULL), 
       m_pdt2(NULL),
       deficientReactantLocation(isReactant),
-      m_ERConc(0.),
-      m_rctsCellEne(),
-      m_rctsCellDOS(),
-      m_rctsGrainEne(),
-      m_rctsGrainDOS() {} 
+      m_ERConc(0.)
+      {} 
 
     // Destructor.
     virtual ~IrreversibleExchangeReaction(){
@@ -69,10 +66,9 @@ namespace mesmer
     virtual bool InitializeReaction(PersistPtr ppReac) ;
 
     // calculate Reactant DOS
-    bool calcRctsDensityOfStates();
+    bool calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
     void getRctsCellDensityOfStates(vector<double> &cellDOS);
     virtual DensityOfStatesCalculator* get_rctsDensityOfStatesCalculator(){return get_pseudoIsomer()->get_DensityOfStatesCalculator(); }
-    void getRctsGrainDensityOfStates(vector<double> &grainDOS);
 
     // Get reactants grain ZPE
     const int get_rctsGrnZpe(void);
@@ -122,12 +118,6 @@ namespace mesmer
     bool deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
     double               m_ERConc ; // Concentration of the excess reactant
 
-    // Convoluted cell and grain averages for m_rct1 and m_rct2.
-    
-    std::vector<double> m_rctsCellEne ;   // Cell energies of reactants.                        
-    std::vector<double> m_rctsCellDOS ;   // Convoluted cell density of states of reactants.           
-    std::vector<double> m_rctsGrainEne ;  // Grain average energy array.
-    std::vector<double> m_rctsGrainDOS ;  // Grain density of states array.
   } ;
 
 

@@ -116,8 +116,8 @@ void realft(std::vector<double> &data, const int isign)
 
 
 
-void FastLaplaceConvolution(std::vector<double> &data1, std::vector<double> 
-                            &data2, std::vector<double> &convolution)
+void FastLaplaceConvolution(const std::vector<double> &data1, const std::vector<double> &data2, 
+                            std::vector<double> &convolution)
 { /* this routine takes as input three identically sized vectors, data1, data2, and convolution.
    It takes the FFT of data1 & data2, multiplies them in the frequency domain, and performs an inverse
    FFT of their product to the time domain.  the time convolution is returned in the convolution
@@ -133,7 +133,9 @@ void FastLaplaceConvolution(std::vector<double> &data1, std::vector<double>
 
   int i, n, idx, no2;
   double tmp;
-  int arraySize = static_cast<int>(data1.size()); // check the size of data1 and data2, which should be identical
+  const int arraySize = static_cast<int>(data1.size()); // check the size of data1 and data2, which should be identical
+  convolution.clear();
+  convolution.resize(arraySize,0.0);
 
   i=0;                // calculate how many elements (2^i) and how much zero padding (2*(2^i) - arraySize)  
   do{                 // required in the arrays that are to be transformed & convolved
@@ -190,3 +192,13 @@ void FastLaplaceConvolution(std::vector<double> &data1, std::vector<double>
     convolution[i]=ans[i];
 
 }
+
+
+void getCellEnergies(int cellNumber, std::vector<double>& cellEne)
+{
+  cellEne.clear();
+  for (int i = 0 ; i < cellNumber ; ++i ) {
+    cellEne.push_back(double(i) + 0.5);
+  }
+}
+

@@ -1,3 +1,16 @@
+_2008_08_29__11_06_12_ Chi-Hsiu Liang
+
+  * Modified README
+  * Provide the class DensityOfStatesCalculator a virtual function that convolutes reactants DOS directly by 
+    fast Laplace transform. In which, removed some unnecessary functions, variables from AssociationReaction and 
+    IrreversibleExchangeReaction. countDimerCellDOS() is kept in this version.
+  * Add a section to explain output file in the Manual.
+  * Modified QA.bat so that beep the calculation is finished and also copy mesmer.log.
+  * Baseline changes
+
+Note: The convoluted DOS of reactants are higher in the leading numbers compared with the DOS from analytical convolution,
+      which causes higher microcanonical rates in the leading grains. 
+
 2008-8-27 Dave Glowacki
 
 * alter the code in order that it can handle negative threshold energies for the RRKM k(E) calculations

@@ -21,6 +21,7 @@
 
 namespace mesmer
 {
+
   //**************************************************
   /// Basic molecule: has name and some collision parameters.
   /// Used for bath gases and unmodelled product molecules.
@@ -129,7 +130,6 @@ namespace mesmer
     //
     // Cell and grain averages.
     //
-    std::vector<double> m_cellEne ;   // Cell energy array.
     std::vector<double> m_cellDOS ;   // Cell density of states array.
     std::vector<double> m_grainEne ;  // Grain average energy array.
     std::vector<double> m_grainDOS ;  // Grain density of states array.
@@ -148,12 +148,6 @@ namespace mesmer
 
     // Set cell  density of states.
     void setCellDensityOfStates(std::vector<double> &cellDOS) { m_cellDOS = cellDOS ; } ;
-
-    // Get cell energies.
-    void getCellEnergies(std::vector<double> &CellEne) ;
-
-    // Set cell energies.
-    void setCellEnergies(std::vector<double> &CellEne) { m_cellEne = CellEne ; } ;
 
     // Get grain density of states.
     void getGrainDensityOfStates(std::vector<double> &grainDOS) ;

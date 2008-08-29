@@ -144,43 +144,28 @@ namespace mesmer
     (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * m_forwardCanonicalRate);
   }
 
-  bool IrreversibleExchangeReaction::calcRctsDensityOfStates()    // Calculate rovibrational reactant DOS
+  bool IrreversibleExchangeReaction::calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne)    // Calculate rovibrational reactant DOS
   {
-    const bool recalcRct1(m_rct1->needReCalculateDOS());
-    const bool recalcRct2(m_rct2->needReCalculateDOS());
-    const bool vectorSizeConstant(m_rctsCellDOS.size() == static_cast<unsigned int>(getEnv().MaxCell));
-    const size_t sizeOfVector(m_rctsCellDOS.size());
-    if (sizeOfVector && vectorSizeConstant && !recalcRct1 && !recalcRct2)
-      return true;
-    if (!get_rctsDensityOfStatesCalculator()->countDimerCellDOS(m_rct1, m_rct2, m_rctsCellEne, m_rctsCellDOS)){
-      return false;
-    }
+    std::vector<double> rctsCellDOS;
+    getRctsCellDensityOfStates(rctsCellDOS);
 
     std::vector<double> shiftedCellDOS;
     std::vector<double> shiftedCellEne;
     const int MaximumCell = getEnv().MaxCell;
     const int cellOffset = get_pseudoIsomer()->get_cellOffset();
-
-    shiftCells(MaximumCell, cellOffset, m_rctsCellDOS, m_rctsCellEne, shiftedCellDOS, shiftedCellEne);
+    std::vector<double> rctsCellEne;
+    getCellEnergies(MaximumCell, rctsCellEne);
+    shiftCells(MaximumCell, cellOffset, rctsCellDOS, rctsCellEne, shiftedCellDOS, shiftedCellEne);
 
     string catName = m_rct1->getName() + " + " + m_rct2->getName();
-    calcGrainAverages(getEnv().MaxGrn, getEnv().GrainSize, shiftedCellDOS, shiftedCellEne, m_rctsGrainDOS, m_rctsGrainEne, catName);
+    calcGrainAverages(getEnv().MaxGrn, getEnv().GrainSize, shiftedCellDOS, shiftedCellEne, grainDOS, grainEne, catName);
 
     return true;
   }
 
   // Get reactants cell density of states.
   void IrreversibleExchangeReaction::getRctsCellDensityOfStates(vector<double> &cellDOS) {
-    if (!calcRctsDensityOfStates())     // If density of states have not already been calculated, then do so
-      cerr << "Failed calculating DOS";
-    cellDOS = m_rctsCellDOS;
-  }
-
-  // Get reactants grain density of states.
-  void IrreversibleExchangeReaction::getRctsGrainDensityOfStates(vector<double> &grainDOS) {
-    if (!calcRctsDensityOfStates())     // If density of states have not already been calculated then do so.
-      cerr << "Failed calculating DOS";
-    grainDOS = m_rctsGrainDOS;
+    get_rctsDensityOfStatesCalculator()->countDimerCellDOS(m_rct1, m_rct2, cellDOS);
   }
 
   // Calculate grained forward and reverse k(E)s from transition state flux
@@ -188,7 +173,8 @@ namespace mesmer
   void IrreversibleExchangeReaction::calcGrainRateCoeffs(){
 
     vector<double> rctGrainDOS;
-    getRctsGrainDensityOfStates(rctGrainDOS);
+    vector<double> rctGrainEne;
+    calcRctsGrainDensityOfStates(rctGrainDOS, rctGrainEne);
 
     calculateEffectiveGrainedThreshEn();
     const int forwardTE = get_effectiveForwardTSFluxGrnZPE();
@@ -219,10 +205,13 @@ namespace mesmer
 
     const int MaximumGrain = (getEnv().MaxGrn-get_TSFluxStartIdx());
     const double beta = getEnv().beta;
+    vector<double> rctsGrainDOS;
+    vector<double> rctsGrainEne;
+    calcRctsGrainDensityOfStates(rctsGrainDOS, rctsGrainEne);
     for(int i(0); i < MaximumGrain; ++i){
-      m_forwardCanonicalRate += m_GrainKfmc[i] * exp( log(m_rctsGrainDOS[i]) - beta * m_rctsGrainEne[i]); 
+      m_forwardCanonicalRate += m_GrainKfmc[i] * exp( log(rctsGrainDOS[i]) - beta * rctsGrainEne[i]); 
     }
-    const double prtfn = canonicalPartitionFunction(m_rctsGrainDOS, m_rctsGrainEne, beta);
+    const double prtfn = canonicalPartitionFunction(rctsGrainDOS, rctsGrainEne, beta);
     const double trans = translationalContribution(m_rct1->getMass(), m_rct2->getMass(), beta);
     m_forwardCanonicalRate /= prtfn;
     m_forwardCanonicalRate /= trans;

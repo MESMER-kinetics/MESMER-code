@@ -9,7 +9,7 @@ namespace mesmer
   //************************************************************
 
   // provide a function to define particular counts of the convoluted DOS of two molecules
-  bool ClassicalRotor::countDimerCellDOS(ModelledMolecule* p_mol1, ModelledMolecule*  p_mol2, vector<double>& rctsCellEne, vector<double>& rctsCellDOS){
+  bool ClassicalRotor::countDimerCellDOS(ModelledMolecule* p_mol1, ModelledMolecule*  p_mol2, std::vector<double>& rctsCellDOS){
     //----------
     // Differetiating the rotors
     // <three types of rotors: (0) non-rotor (1) 2-D linear, (2) 3-D symmetric top, (3) 3-D asymmetric top>
@@ -30,8 +30,8 @@ namespace mesmer
     const int MaximumCell = p_mol2->getEnv().MaxCell;
     rctsCellDOS.clear(); // must clear out the previous data
     rctsCellDOS.resize(MaximumCell, 0.0); // and then resize it padding with zeros.
-    p_mol1->getCellEnergies(rctsCellEne) ;  // make sure the cell energies are calculated for both molecules.
-    p_mol2->getCellEnergies(rctsCellEne) ;
+    std::vector<double> cellEne;
+    getCellEnergies(MaximumCell, cellEne) ;
     // protected_block --------------
 
     double I1 = 0., I2 = 0.,                                            //for 2-D linear rotors
@@ -58,28 +58,26 @@ namespace mesmer
 
     if      (rotorType <  0 && rotor1Type < rotor2Type){ // only p_mol2 a rotor
       p_mol2->getCellDensityOfStates(rctsCellDOS) ;
-      p_mol2->getCellEnergies(rctsCellEne) ;
     }
     else if (rotorType <  0 && rotor1Type > rotor2Type){ // only p_mol1 a rotor
       p_mol1->getCellDensityOfStates(rctsCellDOS) ;
-      p_mol1->getCellEnergies(rctsCellEne) ;
     }
     else { 
       if (rotorType == 0){                            // both 2-D linear
         cnt /= (I1 * I2);
-        for (int i = 0; i < MaximumCell; ++i) rctsCellDOS[i] = cnt * rctsCellEne[i];
+        for (int i = 0; i < MaximumCell; ++i) rctsCellDOS[i] = cnt * cellEne[i];
       }
       else if (rotorType == 2 && rotor1Type < rotor2Type){ // 2-D linear vs 3-D symmetric/asymmetric/spherical top
         cnt *= (4./(3.* I1 * sqrt(I2X * I2Y * I2Z)));
-        for (int i = 0; i < MaximumCell; ++i) rctsCellDOS[i] = cnt * pow(rctsCellEne[i], 1.5);
+        for (int i = 0; i < MaximumCell; ++i) rctsCellDOS[i] = cnt * pow(cellEne[i], 1.5);
       }
       else if (rotorType == 2 && rotor1Type > rotor2Type){ // 3-D symmetric/asymmetric/spherical top vs 2-D linear
         cnt *= (4./(3.* I2 * sqrt(I1X * I1Y * I1Z)));
-        for (int i = 0; i < MaximumCell; ++i) rctsCellDOS[i] = cnt * pow(rctsCellEne[i], 1.5);
+        for (int i = 0; i < MaximumCell; ++i) rctsCellDOS[i] = cnt * pow(cellEne[i], 1.5);
       }
       else if (rotorType == 4){                            // both 3-D symmetric/asymmetric/spherical top
         cnt *= (M_PI /(2. * sqrt(I1X * I1Y * I1Z * I2X * I2Y * I2Z)));
-        for (int i = 0; i < MaximumCell; ++i) rctsCellDOS[i] = cnt * (rctsCellEne[i] * rctsCellEne[i]);
+        for (int i = 0; i < MaximumCell; ++i) rctsCellDOS[i] = cnt * (cellEne[i] * cellEne[i]);
       }
 
       //-----------------------------------------------------------------------------------------------------
@@ -134,7 +132,8 @@ namespace mesmer
     }
 
     const int MaximumCell = pMol->getEnv().MaxCell;
-    vector<double> cellEne(MaximumCell, 0.0) ;
+    vector<double> cellEne;
+    getCellEnergies(MaximumCell, cellEne);
     vector<double> cellDOS(MaximumCell, 0.0) ;
 
     //
@@ -184,7 +183,6 @@ namespace mesmer
       }
     }
 
-    pMol->setCellEnergies(cellEne) ;
     pMol->setCellDensityOfStates(cellDOS) ;
 
     return true;

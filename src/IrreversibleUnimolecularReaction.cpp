@@ -118,7 +118,7 @@ namespace mesmer
 
     const int colloptrsize = m_rct1->get_colloptrsize();
     const int forwardThreshE = get_effectiveForwardTSFluxGrnZPE();
-    const int reverseThreshE = get_effectiveReverseTSFluxGrnZPE();
+    //const int reverseThreshE = get_effectiveReverseTSFluxGrnZPE();
     const int fluxStartIdx = get_TSFluxStartIdx();
 
     for ( int i=fluxStartIdx, j = forwardThreshE, k=0; j < colloptrsize; ++i, ++j, ++k) {

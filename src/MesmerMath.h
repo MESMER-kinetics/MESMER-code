@@ -91,6 +91,8 @@ void Convolution(const std::vector<double> &f1,
                     const int n = 0);
 
 //convolutes rovibrational DOSs
-void FastLaplaceConvolution(std::vector<double> &data,std::vector<double> &respns, std::vector<double> &convolution);
+void FastLaplaceConvolution(const std::vector<double> &data, const std::vector<double> &respns, std::vector<double> &convolution);
+
+void getCellEnergies(int cellNumber, std::vector<double>& cellEne);
 
 #endif // GUARD_MesmerMath_h
