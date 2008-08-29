@@ -1,14 +1,12 @@
-Mesmer v0.1 compiled: -- Aug 29 2008 -- 18:13:51
-
 Parsing input xml file... 
-Acetyl_O2_association.xml at 20080829_181657
+Acetyl_O2_association.xml
 Parsing reaction R1...
 Cannot find argument me:eletronicExcitation for acetyl
 Cannot find argument me:eletronicExcitation for O_2
 Cannot find argument me:eletronicExcitation for Int1
 No method for the calculation of distribution fraction in Int1 is provided. Default method <Boltzmann> is used.
 The me:tunneling element or attribute was missing or empty.
-No tunneling method was found for R1
+No tunneling method was found for R1.
 Parsing reaction R2...
 Cannot find argument me:eletronicExcitation for Int2
 No method for the calculation of distribution fraction in Int2 is provided. Default method <Boltzmann> is used.
@@ -31,19 +29,11 @@ The me:precision element or attribute was missing or empty.
 The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "Acetyl_O2_association.xml" successfully parsed.
-Calculate EGME at 20080829_181657
-
-Now calculating...
-Acetyl_O2_association.xml
-Write XML attribute at 20080829_181657
-PT Grid 
-0
-Build Collison Operator at 20080829_181657
-Cell number = 
-17800
-, Grain number = 
-178
-
+Calculate EGME
+Write XML attribute
+PT Grid 0
+Build Collison Operator
+Cell number = 17800, Grain number = 178
 No TransitionState for R1, threshold energy = 0.0
 
 20 values in the FFT convolution routine were replaced by standard convolution
@@ -62,19 +52,14 @@ No TransitionState for R1, threshold energy = 0.0
 20 values in the FFT convolution routine were replaced by standard convolution
 
 20 values in the FFT convolution routine were replaced by standard convolution
-Diagonlize Collision Operator at 20080829_181759 -- Time elapsed: 0 seconds.
+Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 
-Finish Calculation at 20080829_181828 -- Time elapsed: 62 seconds.
+Finish Calculation -- Time elapsed: 63 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
-
-Time stamps:
-20080829_171657 -- Build Collison Operator
-20080829_171759 -- Diagonlize Collision Operator
-20080829_171828 -- Finish Calculation
  *Info in main
-Save XML document to a new file at 20080829_181828 -- Total time elapsed: 91 seconds.
+ -- Total time elapsed: 221 seconds.
 
-System saved to Acetyl_O2_association.20080829_181828.xml
+System saved
 m_Mass is provided but not used in HO_2
 Rotational constants are provided but not used in HO_2
 m_Sym is provided but not used in HO_2

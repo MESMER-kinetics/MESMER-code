@@ -36,7 +36,7 @@ namespace mesmer
 
     txt= ppPropList->XmlReadProperty("me:MW");
     if(!txt){
-      cerr << "Cannot find argument me:MW in " << getName();
+      cerr << "Cannot find argument me:MW in " << getName() << ".";
       setFlag(true); // later put a function to calculate the molecular weight if the user forgot to provide it.
     }
     else { istringstream idata(txt); double mass(0.); idata >> mass; setMass(mass);}

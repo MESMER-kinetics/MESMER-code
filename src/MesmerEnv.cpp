@@ -27,6 +27,7 @@ namespace mesmer{
     useTheSameCellNumber(false),
     grainedProfileEnabled(false),
     speciesProfileEnabled(false),
+    viewEvents(false),
     EAboveHill(20.),
     maxEvolutionTime(0.),
     printEigenValuesNum(-1)

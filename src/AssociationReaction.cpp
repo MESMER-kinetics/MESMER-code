@@ -304,7 +304,7 @@ namespace mesmer
       }
     }
     else{
-      cinfo << "No tunneling method was found for " << getName() << endl;
+      cinfo << "No tunneling method was found for " << getName() << ".\n";
     }
 
     return true ;

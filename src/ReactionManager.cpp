@@ -169,7 +169,8 @@ namespace mesmer
     Env.MaxGrn = (int)((Env.EMax-Env.EMin)/Env.GrainSize + 0.5);
     Env.MaxCell = Env.GrainSize * Env.MaxGrn;
 
-    cerr << "Cell number = " << Env.MaxCell << ", Grain number = " << Env.MaxGrn << endl;
+    clog << "Cell number = " << Env.MaxCell << ", Grain number = " << Env.MaxGrn << endl;
+    cinfo << "Cell number = " << Env.MaxCell << ", Grain number = " << Env.MaxGrn << endl;
 
     return true;
   }

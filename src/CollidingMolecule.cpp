@@ -480,7 +480,6 @@ namespace mesmer
       cerr << "Failed calculating DOS";
 
     if (m_grainDist.size() != m_grainDOS.size() || getEnv().beta != m_grainFracBeta){
-      cerr << m_grainDist.size() << " " << m_grainDOS.size() << endl;
       m_pDistributionCalculator->calculateDistribution(m_grainDOS, m_grainEne, getEnv().beta, m_grainDist);
       m_grainFracBeta = getEnv().beta;
     }

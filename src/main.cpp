@@ -115,7 +115,6 @@ int main(int argc,char *argv[])
 
   //-------------------------------
 
-  cinfo << version() << endl;
   //
   // Instantiate the System collection. This holds all information
   // about reaction systems and all molecular data.
@@ -139,7 +138,8 @@ int main(int argc,char *argv[])
     else
       thisEvent = "Parsing input xml file... ";
     cerr << thisEvent; //usually output
-    cinfo << infilename << " at " << events.setTimeStamp(thisEvent) << endl;
+    cinfo << infilename << endl;
+    events.setTimeStamp(thisEvent);
   }
 
   if(!ppIOPtr || !_sys.parse(ppIOPtr))
@@ -165,13 +165,13 @@ int main(int argc,char *argv[])
   // Begin calculation
   {
     string thisEvent = "Calculate EGME";
-    cinfo << "\nFile: \"" << infilename << "\" successfully parsed.\n" << thisEvent
-      << " at " << events.setTimeStamp(thisEvent) << endl;
+    cinfo << "\nFile: \"" << infilename << "\" successfully parsed.\n" << thisEvent << endl;
+    events.setTimeStamp(thisEvent);
   }
 
   if (nocalc) return 0;
 
-  cerr << "\nNow calculating..." << infilename;
+  clog << "\nNow calculating..." << infilename << endl;
 
   switch (_sys.m_Env.searchMethod){
     case 2:
@@ -191,7 +191,7 @@ int main(int argc,char *argv[])
   string thisEvent = "Save XML document to a new file";
   string currentTimeStamp = events.setTimeStamp(thisEvent, timeElapsed);
   string saveTimeStamp = '.' + currentTimeStamp;
-  cinfo << thisEvent << " at " << currentTimeStamp  << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
+  cinfo << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
 
   if(!usecout && outfilename.empty() && !infilename.empty())
   {
@@ -205,7 +205,7 @@ int main(int argc,char *argv[])
   {
     meErrorLog.SetContext(""); //so no ***Error prefix
     if(!outfilename.empty())
-      cerr << "System saved to " + outfilename;
+      cerr << "System saved";
   }
   if(qatest)
   {

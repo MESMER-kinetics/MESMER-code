@@ -1,7 +1,5 @@
-Mesmer v0.1 compiled: -- Aug 29 2008 -- 18:13:51
-
 Parsing input xml file... 
-OH_acetylene_association_test.xml at 20080829_181626
+OH_acetylene_association_test.xml
 Parsing reaction R1...
 The description element or attribute was missing or empty.
 Cannot find argument me:frequenciesScaleFactor
@@ -19,9 +17,9 @@ Cannot find argument me:eletronicExcitation for TS_0
 Cannot find argument me:symmetryNumber. Default value 1 is used.
 Cannot find argument me:frequenciesScaleFactor
 Cannot find argument me:spinMultiplicity in TS_0. Default value 1 is used.
-No imaginary vibrational frequency for TS_0
+No imaginary vibrational frequency for TS_0.
 The me:tunneling element or attribute was missing or empty.
-No tunneling method was found for R1
+No tunneling method was found for R1.
 Parsing reaction R2...
 The description element or attribute was missing or empty.
 Cannot find argument me:eletronicExcitation for OCHCH2
@@ -30,26 +28,18 @@ No method for the calculation of DOS in OCHCH2 is provided. Default method <Clas
 The description element or attribute was missing or empty.
 Cannot find argument me:eletronicExcitation for TS_1a
 Cannot find argument me:frequenciesScaleFactor
-No imaginary vibrational frequency for TS_1a
+No imaginary vibrational frequency for TS_1a.
 The me:tunneling element or attribute was missing or empty.
 The description element or attribute was missing or empty.
 The me:precision element or attribute was missing or empty.
 The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "OH_acetylene_association_test.xml" successfully parsed.
-Calculate EGME at 20080829_181626
-
-Now calculating...
-OH_acetylene_association_test.xml
-Write XML attribute at 20080829_181626
-PT Grid 
-0
-Build Collison Operator at 20080829_181626
-Cell number = 
-15950
-, Grain number = 
-319
-
+Calculate EGME
+Write XML attribute
+PT Grid 0
+Build Collison Operator
+Cell number = 15950, Grain number = 319
 m_scaleFactor was not defined but requested in OH. Default value 1 is given.
 m_scaleFactor was not defined but requested in acetylene. Default value 1 is given.
 
@@ -65,19 +55,14 @@ m_scaleFactor was not defined but requested in TS_1a. Default value 1 is given.
 20 values in the FFT convolution routine were replaced by standard convolution
 
 20 values in the FFT convolution routine were replaced by standard convolution
-Diagonlize Collision Operator at 20080829_181637 -- Time elapsed: 0 seconds.
+Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 
-Finish Calculation at 20080829_181656 -- Time elapsed: 11 seconds.
+Finish Calculation -- Time elapsed: 42 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
-
-Time stamps:
-20080829_171626 -- Build Collison Operator
-20080829_171637 -- Diagonlize Collision Operator
-20080829_171656 -- Finish Calculation
  *Info in main
-Save XML document to a new file at 20080829_181656 -- Total time elapsed: 30 seconds.
+ -- Total time elapsed: 72 seconds.
 
-System saved to OH_acetylene_association_test.20080829_181656.xml
+System saved
 m_Mass is provided but not used in OCHCH2
 Rotational constants are provided but not used in OCHCH2
 m_Sym is provided but not used in OCHCH2

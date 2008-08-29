@@ -1,3 +1,7 @@
+_2008_08_29__18_20_54_ Chi-Hsiu Liang
+
+  * Clean up some console and log messages/time stamps.
+
 2008-8-29 Dave Glowacki
 
 * fixed a bug in testRateConstant() routine in irreversible exchange reaction class which did not reset the canonical loss rate to 0 in a grid search

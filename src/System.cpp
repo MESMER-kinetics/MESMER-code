@@ -164,6 +164,7 @@ namespace mesmer
       m_Env.useTheSameCellNumber        = ppControl->XmlReadBoolean("me:useTheSameCellNumberForAllConditions");
       m_Env.grainedProfileEnabled       = ppControl->XmlReadBoolean("me:printGrainedSpeciesProfile");
       m_Env.speciesProfileEnabled       = ppControl->XmlReadBoolean("me:printSpeciesProfile");
+      m_Env.viewEvents                  = ppControl->XmlReadBoolean("me:printEventsTimeStamps");
       if (!m_Env.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
         m_Env.useTheSameCellNumber = true;
       }
@@ -387,7 +388,8 @@ namespace mesmer
       m_Env.beta = 1.0 / (boltzmann_RCpK * PandTs[calPoint].get_temperature()) ; //temporary statements
       m_Env.conc = PandTs[calPoint].get_concentration();
       // unit of conc: particles per cubic centimeter
-      cerr << "PT Grid " << calPoint;
+      clog << "PT Grid " << calPoint << endl;
+      cinfo << "PT Grid " << calPoint << endl;
       int precision = PandTs[calPoint].get_precision();
       ctest << "PT Grid " << calPoint << " Condition: conc = " << m_Env.conc << ", temp = " << PandTs[calPoint].get_temperature();
       switch (precision){
@@ -397,7 +399,7 @@ namespace mesmer
       }
       // Build collison matrix for system.
       {string thisEvent = "Build Collison Operator";
-      cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent) << endl;}
+      cinfo << thisEvent << endl;}
       if (!m_pReactionManager->BuildSystemCollisionOperator(m_Env)){
         cerr << "Failed building system collison operator.";
       }
@@ -408,7 +410,8 @@ namespace mesmer
 
       // Calculate eigenvectors and eigenvalues.
       {string thisEvent = "Diagonlize Collision Operator";
-      cinfo << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";}
+      cinfo << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds.\n";
+      events.setTimeStamp(thisEvent, timeElapsed);}
 
       m_pReactionManager->diagCollisionOperator(m_Env, precision) ;
 
@@ -431,10 +434,11 @@ namespace mesmer
     //---------------------------------------------
 
     {string thisEvent = "Finish Calculation";
-    cinfo << endl << thisEvent << " at " << events.setTimeStamp(thisEvent, timeElapsed)  << " -- Time elapsed: " << timeElapsed << " seconds.\n";
+    events.setTimeStamp(thisEvent, timeElapsed);
+    cinfo << endl << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds.\n";
     cinfo << "In total, " << calPoint << " temperature/concentration-pressure points calculated." << endl;}
 
-    cinfo << events;
+    if (m_Env.viewEvents) cinfo << events;
   }
 
   bool System::ReadRange(const string& name, vector<double>& vals, PersistPtr ppbase, bool MustBeThere)
@@ -494,7 +498,7 @@ namespace mesmer
     {
       thisEvent = "Write XML attribute";
       timeString = events.setTimeStamp(thisEvent);
-      cinfo << thisEvent << " at " << timeString << endl;
+      cinfo << thisEvent << endl;
     }
     ppItem->XmlWriteAttribute("content", timeString);
     //----------------------------------------

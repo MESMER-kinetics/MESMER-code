@@ -43,7 +43,7 @@ namespace mesmer
     const char* txt;
     txt= ppPropList->XmlReadProperty("me:imFreqs");
     if(!txt){
-      cinfo << "No imaginary vibrational frequency for " << getName() << endl;
+      cinfo << "No imaginary vibrational frequency for " << getName() << ".\n";
       m_ImFreq_chk = -1;
     }
     else {

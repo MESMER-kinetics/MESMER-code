@@ -37,6 +37,7 @@ namespace mesmer
     bool   useTheSameCellNumber;          // Option to use the same cell number or not in various conditions
     bool   grainedProfileEnabled;         // Option to print out grained species profile (before summation to individual species)
     bool   speciesProfileEnabled;         // Option to print species profile
+    bool   viewEvents;                    // Print events timestamps
     double EAboveHill;                    // Max energy above the highest Hill [in kT]
     double maxEvolutionTime;              // Maximum time of evolution for the species profile
     int printEigenValuesNum;              // Number of eigen values to be printed: -1 for all of them, otherwise specified.
