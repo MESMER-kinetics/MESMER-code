@@ -332,17 +332,50 @@ namespace mesmer
     return true;
   }
 
+  void ReactionManager::printCollisionOperator(const MesmerEnv &Env)
+  {
+    const int smsize = int(m_pSystemCollisionOperator->size()) ;
+
+    switch (Env.printReactionOperatorNum)
+    {
+    case -1:
+      ctest << "Printing all (" << smsize << ") columns/rows of Reaction Operator:\n";
+      (*m_pSystemCollisionOperator).showFinalBits(smsize);
+      break;
+    case -2:
+      ctest << "Printing final 1/2 (" << smsize/2 << ") columns/rows of Reaction Operator:\n";
+      (*m_pSystemCollisionOperator).showFinalBits(smsize/2);
+      break;
+    case -3:
+      ctest << "Printing final 1/3 (" << smsize/3 << ") columns/rows of Reaction Operator:\n";
+      (*m_pSystemCollisionOperator).showFinalBits(smsize/3);
+      break;
+    default: // the number is either smaller than -3 or positive
+      if (abs(Env.printReactionOperatorNum) > smsize){
+        ctest << "Printing all (" << smsize << ") columns/rows of Reaction Operator:\n";
+        (*m_pSystemCollisionOperator).showFinalBits(smsize);
+      }
+      else{
+        ctest << "Printing final " << abs(Env.printReactionOperatorNum) << " columns/rows of Reaction Operator:\n";
+        (*m_pSystemCollisionOperator).showFinalBits(abs(Env.printReactionOperatorNum));
+      }
+    }
+  }
+
   void ReactionManager::diagCollisionOperator(const MesmerEnv &Env, const int precision)
   {
     // Allocate space for eigenvalues.
     const int smsize = int(m_pSystemCollisionOperator->size()) ;
-
     m_eigenvalues.clear();
     m_eigenvalues.resize(smsize, 0.0);
 
     // Construction of two matrices and eigenvalue vectors for dd and qd
 
-    if (0) (*m_pSystemCollisionOperator).showFinalBits(smsize/2);
+    // This block prints Reaction Operator before diagonalization
+    if (Env.printReactionOperatorNum){
+      ctest << "Before diagonalization --- ";
+      printCollisionOperator(Env);
+    }
 
     switch (precision){
       case 0: // diagonalize in double
@@ -381,7 +414,11 @@ namespace mesmer
         }
     }
 
-    if (0) (*m_pSystemCollisionOperator).showFinalBits(smsize/2);
+    // This block prints Reaction Operator after diagonalization
+    if (Env.printReactionOperatorNum){
+      ctest << "After diagonalization --- ";
+      printCollisionOperator(Env);
+    }
 
     int numberStarted = 0;
     int numberPrinted = smsize; // Default prints all of the eigenvalues

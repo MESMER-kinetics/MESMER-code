@@ -186,6 +186,13 @@ namespace mesmer
         istringstream ss(txtEV);
         ss >> m_Env.printEigenValuesNum;
       }
+
+      const char* txtROS = ppControl->XmlReadValue("me:printReactionOperatorSize",false);
+      if(txtROS) {
+        istringstream sROS(txtROS);
+        sROS >> m_Env.printReactionOperatorNum;
+      }
+
       const char* txtMET = ppControl->XmlReadValue("me:MaximumEvolutionTime");
       if (txtMET){
         istringstream ss(txtMET);

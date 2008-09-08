@@ -41,6 +41,9 @@ namespace mesmer
     double EAboveHill;                    // Max energy above the highest Hill [in kT]
     double maxEvolutionTime;              // Maximum time of evolution for the species profile
     int printEigenValuesNum;              // Number of eigen values to be printed: -1 for all of them, otherwise specified.
+    int printReactionOperatorNum;         // Size of printed reaction operator before and after diagonalization: -1
+                                          // for all of them, -2 for 1/2 of them, -3 for 1/3 of them, otherwise specified
+                                          // by positive integers.
   };
 }//namespace
 

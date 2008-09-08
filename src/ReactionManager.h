@@ -105,6 +105,8 @@ namespace mesmer
 
     bool produceEquilibriumVector();
 
+    void printCollisionOperator(const MesmerEnv &Env);
+
   } ;
 }//namespace
 

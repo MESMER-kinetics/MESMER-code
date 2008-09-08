@@ -30,7 +30,8 @@ namespace mesmer{
     viewEvents(false),
     EAboveHill(20.),
     maxEvolutionTime(0.),
-    printEigenValuesNum(-1)
+    printEigenValuesNum(-1),
+    printReactionOperatorNum(0)
     {}
 }//namespace
 
