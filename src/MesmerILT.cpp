@@ -56,7 +56,7 @@ namespace mesmer
     //-----------------
     //starting variables block
     const double Ninf   = pAssocReaction->get_NInf(); // constraint: Ninf > -1.5
-    const double Tinf   = 1. / (boltzmann_RCpK * pAssocReaction->getEnv().beta);
+    const double Tinf   = pAssocReaction->get_TInf();
     const double Ainf   = pAssocReaction->get_PreExp();
     const int    Einf   = int(pAssocReaction->get_ThresholdEnergy());
     // double tp_C = 3.24331e+20; // Defined in Constant.h, constant used in the translational partition function

@@ -1,3 +1,8 @@
+2008-9-8 Dave Glowacki
+
+* fixed a bug in Association Reaction and MesmerILT which incorrectly calculated Tinf
+* updated the baseline input file for acetylene-OH + O2 in order to get rid of confusing structure
+
 _2008_09_08__15_54_34_ Chi-Hsiu Liang
 
   * Add a section to turn on the printing of reaction operator.

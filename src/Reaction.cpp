@@ -39,6 +39,7 @@ namespace mesmer
     reCalcDOS(true),
     m_PreExp(0.0),
     m_NInf(0.0),
+    m_TInf(298.0),
     m_ActivationEnergy(0.0),
     m_kfwd(0.0)
   {}

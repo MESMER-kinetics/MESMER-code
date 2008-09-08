@@ -590,6 +590,7 @@
       <me:preExponential>6.00e-12</me:preExponential>
       <me:excessReactantConc>2.25E16</me:excessReactantConc>
       <me:activationEnergy>0.0</me:activationEnergy>
+      <me:TInfinity>298.0</me:TInfinity>
       <me:nInfinity>-0.5</me:nInfinity>
     </reaction>
     <reaction id="R2">

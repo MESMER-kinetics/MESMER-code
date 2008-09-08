@@ -123,17 +123,6 @@
         </property>
       </propertyList>
     </molecule>
-    <molecule id="TS_0">
-      <propertyList>
-        <property dictRef="me:ZPE">
-          <scalar units="kJ/mol">136.075</scalar>
-        </property>
-        <property dictRef="me:MW">
-          <scalar units="amu">43</scalar>
-        </property>
-      </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
-    </molecule>
     <molecule id="OH">
       <atomarray>
         <atom id="a1" elementType="O" />
@@ -227,13 +216,10 @@
       <product>
         <molecule ref="OH_acetylene_adduct" me:type="modelled" />
       </product>
-      <me:transitionState>
-        <molecule ref="TS_0" me:type="transitionState" />
-      </me:transitionState>
-      <!--Use zero point energies instead-->
       <me:MCRCMethod>Mesmer ILT</me:MCRCMethod>
       <me:preExponential>7.00e-12</me:preExponential>
       <me:excessReactantConc>1.00e17</me:excessReactantConc>
+      <me:activationEnergy units="kJ/mol">5.375</me:activationEnergy>
       <me:nInfinity>0.0</me:nInfinity>
     </reaction>
     <reaction id="R2">
@@ -254,6 +240,8 @@
     <me:bathGas>N_2</me:bathGas>
     <me:PTs>
       <me:PTpair me:units="Torr" me:P="1000" me:T="298.0" />
+      <!--<me:PTpair me:units="Torr" me:P="1000" me:T="325.0" />
+      <me:PTpair me:units="Torr" me:P="1000" me:T="355.0" />-->
     </me:PTs>
   </me:conditions>
   <me:modelParameters>
@@ -275,6 +263,7 @@
     <!--<me:printGrainBoltzmann />-->
     <me:printGrainkbE />
     <me:printSpeciesProfile />
+    <me:testRateConstant />
     <me:eigenvalues>0</me:eigenvalues>
   </me:control>
 </me:mesmer>

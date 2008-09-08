@@ -214,14 +214,26 @@ namespace mesmer
     if (pActEnetxt)
     {
       PersistPtr ppActEne = ppReac->XmlMoveTo("me:activationEnergy") ;
-      double value = 0.0;
-      stringstream s2(pActEnetxt); s2 >> value ;
+      double tmpvalue = 0.0;
+      stringstream s2(pActEnetxt); s2 >> tmpvalue ;
+      const char* unitsTxt = ppActEne->XmlReadValue("units", false);
+      string unitsInput;
+      if (unitsTxt){
+        unitsInput = unitsTxt;
+      }
+      else{
+        unitsInput = "kJ/mol";
+      }
       const char* pLowertxt = ppActEne->XmlReadValue("lower", false);
       const char* pUppertxt = ppActEne->XmlReadValue("upper", false);
       const char* pStepStxt = ppActEne->XmlReadValue("stepsize", false);
+      double value(getConvertedEnergy(unitsInput, tmpvalue));
       if (pLowertxt && pUppertxt){
-        double valueL(0.0), valueU(0.0), stepsize(0.0);
-        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
+        double tmpvalueL(0.0), tmpvalueU(0.0), tmpstepsize(0.0);
+        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> tmpvalueL; s4 >> tmpvalueU; s5 >> tmpstepsize;
+        double valueL(getConvertedEnergy(unitsInput, tmpvalueL));
+        double valueU(getConvertedEnergy(unitsInput, tmpvalueL));
+        double stepsize(getConvertedEnergy(unitsInput, tmpstepsize));
         set_ThresholdEnergy(value, valueL, valueU, stepsize);
       }
       else{
@@ -265,6 +277,21 @@ namespace mesmer
       else{
         set_NInf(value);
       }
+    }
+
+    const char* pTInftxt = ppReac->XmlReadValue("me:TInfinity");  // read XML designation
+    if (!pTInftxt){           // if there is no Tinfinity
+      cinfo << "Tinfinity has not been specified; set to the default value of 298 K" << endl;
+    }
+    else{                     // if there is a Tinfinity
+      double TInf(298.0);     // set Tinf to 298
+      stringstream s3(pTInftxt);    // initialize stringstream
+      s3 >> TInf;             // use the stringstream to get Tinfinty from the input file
+      if(TInf <= 0){          // if Tinf is <= 0, set to 298
+        cinfo << "Tinfinity is less than or equal to 0; set to the default value of 298 K";
+      }
+      else
+        set_TInf(TInf);         // else set Tinf to the value in the input
     }
 
     const char* pERConctxt = ppReac->XmlReadValue("me:excessReactantConc",false);
@@ -376,7 +403,7 @@ namespace mesmer
     const double prtfn = canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, beta);
     k_backward /= prtfn;
     set_backwardCanonicalRateCoefficient(k_backward);
-  
+
     double Keq = calcEquilibriumConstant();
     k_forward = get_backwardCanonicalRateCoefficient() * Keq;
     set_forwardCanonicalRateCoefficient(k_forward);

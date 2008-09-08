@@ -29,6 +29,8 @@ Cannot find argument me:frequenciesScaleFactor
 No method for the calculation of DOS in TS1 is provided. Default method <Classical rotors> is used.
 Cannot find argument me:spinMultiplicity in TS1. Default value 1 is used.
 No imaginary vibrational frequency for TS1.
+The me:TInfinity element or attribute was missing or empty.
+Tinfinity has not been specified; set to the default value of 298 K
 The me:tunneling element or attribute was missing or empty.
 No tunneling method was found for R1.
 The description element or attribute was missing or empty.
@@ -261,10 +263,10 @@ m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is give
 m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is given.
 Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 
-Finish Calculation -- Time elapsed: 6 seconds.
+Finish Calculation -- Time elapsed: 4 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
  *Info in main
- -- Total time elapsed: 8 seconds.
+ -- Total time elapsed: 6 seconds.
 
 System saved
 m_Mass is provided but not used in TS1

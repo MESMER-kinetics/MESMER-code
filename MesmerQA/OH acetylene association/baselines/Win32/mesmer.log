@@ -10,14 +10,8 @@ The description element or attribute was missing or empty.
 Cannot find argument me:eletronicExcitation for OH_acetylene_adduct
 Cannot find argument me:frequenciesScaleFactor
 No method for the calculation of distribution fraction in OH_acetylene_adduct is provided. Default method <Boltzmann> is used.
-The description element or attribute was missing or empty.
-Cannot find argument me:vibFreqs. Maybe an atom or atomic ion.
-Cannot find argument me:rotConsts. Maybe an atom or atomic ion.
-Cannot find argument me:eletronicExcitation for TS_0
-Cannot find argument me:symmetryNumber. Default value 1 is used.
-Cannot find argument me:frequenciesScaleFactor
-Cannot find argument me:spinMultiplicity in TS_0. Default value 1 is used.
-No imaginary vibrational frequency for TS_0.
+The me:TInfinity element or attribute was missing or empty.
+Tinfinity has not been specified; set to the default value of 298 K
 The me:tunneling element or attribute was missing or empty.
 No tunneling method was found for R1.
 Parsing reaction R2...
@@ -50,6 +44,8 @@ ILT calculation completed
 m_scaleFactor was not defined but requested in OH_acetylene_adduct. Default value 1 is given.
 
 20 values in the FFT convolution routine were replaced by standard convolution
+
+20 values in the FFT convolution routine were replaced by standard convolution
 m_scaleFactor was not defined but requested in TS_1a. Default value 1 is given.
 
 20 values in the FFT convolution routine were replaced by standard convolution
@@ -57,10 +53,10 @@ m_scaleFactor was not defined but requested in TS_1a. Default value 1 is given.
 20 values in the FFT convolution routine were replaced by standard convolution
 Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 
-Finish Calculation -- Time elapsed: 42 seconds.
+Finish Calculation -- Time elapsed: 26 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
  *Info in main
- -- Total time elapsed: 72 seconds.
+ -- Total time elapsed: 44 seconds.
 
 System saved
 m_Mass is provided but not used in OCHCH2
@@ -68,5 +64,4 @@ Rotational constants are provided but not used in OCHCH2
 m_Sym is provided but not used in OCHCH2
 m_SpinMultiplicity is provided but not used in OCHCH2
 m_VibFreq is provided but not used in OCHCH2
-m_Mass is provided but not used in TS_0
 m_Mass is provided but not used in TS_1a
