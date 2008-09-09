@@ -99,21 +99,21 @@ namespace mesmer
     for (int i = 0; i < MaximumCell; ++i)
     TSFlux[i] = constant * conv[i];
 
+    // the following code is a temporary check that the flux generated from ILT agrees with the canonical
+    // rate printed in MESMER.test.
     double beta = pReact->getEnv().beta;
-
     double rate(0.0);
     int j(0);
     for (int i = Einf; i < MaximumCell; ++i){
       rate = rate + TSFlux[j]*exp(-rctCellEne[i]*beta);
       j++;
     }
-
+// calculate rct partition function
     double ptfn = 0.0;
     for (int i = 0; i < MaximumCell; ++i)
       ptfn += rctCellDOS[i]*exp(-i*beta);
-
-    double ratenorm(0.0);
-    ratenorm = rate / ptfn;
+// calculate canonical unimolecular rate
+    rate = rate / ptfn;
 
     // the flux bottom energy is equal to the well bottom of the reactant
     double test1 = pReact->get_relative_rctZPE();
