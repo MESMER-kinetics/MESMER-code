@@ -234,10 +234,10 @@ namespace mesmer
         double valueL(getConvertedEnergy(unitsInput, tmpvalueL));
         double valueU(getConvertedEnergy(unitsInput, tmpvalueL));
         double stepsize(getConvertedEnergy(unitsInput, tmpstepsize));
-        set_ThresholdEnergy(value, valueL, valueU, stepsize);
+        set_EInf(valueL, valueU, stepsize);
       }
       else{
-        set_ThresholdEnergy(value);
+        set_EInf(value);
       }
     }
 

@@ -40,7 +40,7 @@ m_scaleFactor was not defined but requested in acetylene. Default value 1 is giv
 20 values in the FFT convolution routine were replaced by standard convolution
 
 20 values in the FFT convolution routine were replaced by standard convolution
-ILT calculation completed
+Association ILT calculation completed
 m_scaleFactor was not defined but requested in OH_acetylene_adduct. Default value 1 is given.
 
 20 values in the FFT convolution routine were replaced by standard convolution
@@ -53,10 +53,10 @@ m_scaleFactor was not defined but requested in TS_1a. Default value 1 is given.
 20 values in the FFT convolution routine were replaced by standard convolution
 Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 
-Finish Calculation -- Time elapsed: 26 seconds.
+Finish Calculation -- Time elapsed: 20 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
  *Info in main
- -- Total time elapsed: 44 seconds.
+ -- Total time elapsed: 35 seconds.
 
 System saved
 m_Mass is provided but not used in OCHCH2

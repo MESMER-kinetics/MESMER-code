@@ -18,6 +18,10 @@ namespace mesmer
       cerr << "Lack of transition state in reaction " << pReact->getName() << " for Simple RRKM" << endl;
       return false;
     }
+
+    double ThresholdEnergy = pReact->get_relative_TSZPE() - pReact->get_relative_rctZPE();
+    pReact->set_ThresholdEnergy(ThresholdEnergy);
+
     // Allocate some work space for density of states.
     vector<double> TScellDOS; // Transistion state density of states.
     pTS->getCellDensityOfStates(TScellDOS) ; // Extract densities of states from molecules.

@@ -34,12 +34,11 @@ Write XML attribute
 PT Grid 0
 Build Collison Operator
 Cell number = 17800, Grain number = 178
-No TransitionState for R1, threshold energy = 0.0
 
 20 values in the FFT convolution routine were replaced by standard convolution
 
 40 values in the FFT convolution routine were replaced by standard convolution
-ILT calculation completed
+Association ILT calculation completed
 
 20 values in the FFT convolution routine were replaced by standard convolution
 No TransitionState for R1, threshold energy = 0.0
@@ -54,10 +53,10 @@ No TransitionState for R1, threshold energy = 0.0
 20 values in the FFT convolution routine were replaced by standard convolution
 Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 
-Finish Calculation -- Time elapsed: 44 seconds.
+Finish Calculation -- Time elapsed: 29 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
  *Info in main
- -- Total time elapsed: 120 seconds.
+ -- Total time elapsed: 90 seconds.
 
 System saved
 m_Mass is provided but not used in HO_2

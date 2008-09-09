@@ -57,8 +57,11 @@ namespace mesmer
     double get_NInf()                     { return m_NInf.get_value() ; } ;
     void set_NInf(double value)           { m_NInf = value;}
     void set_NInf(double valueL, double valueU, double stepsize)  { m_NInf.set_range(valueL, valueU, stepsize); }
-    double get_TInf()                     { return m_TInf.get_value() ; } ;
+    double get_TInf()                     { return m_TInf ; } ;
     void set_TInf(double value)           { m_TInf = value;};
+    double get_EInf()                     { return m_EInf.get_value() ; } ;
+    void set_EInf(double value)           { m_EInf = value;};
+    void set_EInf(double valueL, double valueU, double stepsize)  { m_EInf.set_range(valueL, valueU, stepsize); }
     double getHeatOfReaction() const      {
       const double pdtZPE = get_relative_pdtZPE();
       const double rctZPE = get_relative_rctZPE();
@@ -184,6 +187,9 @@ namespace mesmer
     // is the reaction an irreversible reaction
     virtual bool isIrreversible(){return false;};
 
+    // is the reaction unimolecular?
+    virtual bool isUnimolecular(){return true;};
+
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() = 0 ;
 
@@ -264,7 +270,8 @@ namespace mesmer
     // k(T) = Ainf*(T/Tinf)^ninf * exp(-Ea/(RT))
     DPoint m_PreExp ;           // Preexponetial factor
     DPoint m_NInf ;             // Modified Arrhenius parameter
-    DPoint m_TInf ;             // T infinity
+    double m_TInf ;             // T infinity
+    DPoint m_EInf ;             // Einfinity
     DPoint m_ActivationEnergy;  // Activation Energy
     double m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
   } ;

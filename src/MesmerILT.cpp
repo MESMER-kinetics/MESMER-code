@@ -44,23 +44,104 @@ namespace mesmer
 
   bool MesmerILT::calculateMicroRateCoeffs(Reaction* pReact)
   {
-    //
-    // Check input to see if we have the correct type of reaction.
-    //
+    // Check to see what type of reaction we have
+    if (pReact->isUnimolecular()){      // if it's unimolecular and there microrate calculation is unsuccessful
+      if(!calculateUnimolecularMicroRates(pReact))  // return false
+        return false;
+    }
+    else if(!pReact->isUnimolecular()){ // if it's not unimolecular and the microrate calculation is unsuccesful
+      if(!calculateAssociationMicroRates(pReact))  // return false
+        return false;
+    }
+    return true;
+  }
+
+  bool MesmerILT::calculateUnimolecularMicroRates(Reaction* pReact)
+  {
+    //starting variables block
+    const double Ninf   = pReact->get_NInf(); // constraint: Ninf != 0
+    const double Tinf   = pReact->get_TInf();
+    const double Ainf   = pReact->get_PreExp();
+    const int Einf   = (int)(pReact->get_EInf());
+
+    pReact->set_ThresholdEnergy(pReact->get_EInf());  // set threshold energy to Einf
+
+    ModelledMolecule*  p_rct = pReact->get_reactant();
+    int MaximumCell = pReact->getEnv().MaxCell;
+
+    // Allocate some work space for density of states and extract densities of states from molecules.
+    vector<double> rctCellEne;  // Cell energies of reactant molecule.
+    vector<double> rctCellDOS; //  Cell density of states of reactant.
+
+    getCellEnergies(MaximumCell, rctCellEne);
+    p_rct->getCellDensityOfStates(rctCellDOS);
+
+    // Allocate space to hold microcanonical rate coefficients for dissociation.
+    // This line below pass the reference pointer of m_CellTSFlux to the vector by (&), so what the code does on
+    // TSFlux will in fact work on m_CellTSFlux.
+    vector<double>& TSFlux = pReact->get_CellFlux();
+    TSFlux.clear();
+    TSFlux.resize(MaximumCell, 0.0); 
+
+    double gammaValue = MesmerGamma(Ninf);
+    double beta0 = 1.0/(boltzmann_RCpK*Tinf);
+    double constant = Ainf * pow(beta0,Ninf)/gammaValue;
+
+    double pwr = Ninf - 1.0;
+    vector<double> work(MaximumCell);
+
+    for (int i = 0; i < MaximumCell; ++i)
+      work[i] = pow(rctCellEne[i], pwr);
+
+    vector<double> conv;
+    FastLaplaceConvolution(work, rctCellDOS, conv);    // FFT convolution replaces the standard convolution
+
+    for (int i = 0; i < MaximumCell; ++i)
+    TSFlux[i] = constant * conv[i];
+
+    double beta = pReact->getEnv().beta;
+
+    double rate(0.0);
+    int j(0);
+    for (int i = Einf; i < MaximumCell; ++i){
+      rate = rate + TSFlux[j]*exp(-rctCellEne[i]*beta);
+      j++;
+    }
+
+    double ptfn = 0.0;
+    for (int i = 0; i < MaximumCell; ++i)
+      ptfn += rctCellDOS[i]*exp(-i*beta);
+
+    double ratenorm(0.0);
+    ratenorm = rate / ptfn;
+
+    // the flux bottom energy is equal to the well bottom of the reactant
+    double test1 = pReact->get_relative_rctZPE();
+    int test2 = Einf;
+
+    pReact->setCellFluxBottom(pReact->get_relative_rctZPE() + Einf);
+
+    cinfo << "Unimolecular ILT calculation completed" << endl;
+    return true;
+  }
+
+  bool MesmerILT::calculateAssociationMicroRates(Reaction* pReact)
+  {
     AssociationReaction *pAssocReaction = dynamic_cast<AssociationReaction*>(pReact) ;
-    if (!pAssocReaction) {
-      cerr << "The Mesmer ILT method is valid for association reactions only." ;
+    if(!pAssocReaction){
+      cerr << "The Mesmer ILT method is not available for Irreversible Exchange Reactions"<< endl;
       return false ;
     }
 
-    //-----------------
     //starting variables block
     const double Ninf   = pAssocReaction->get_NInf(); // constraint: Ninf > -1.5
     const double Tinf   = pAssocReaction->get_TInf();
     const double Ainf   = pAssocReaction->get_PreExp();
-    const int    Einf   = int(pAssocReaction->get_ThresholdEnergy());
+    const int Einf   = (int)(pAssocReaction->get_EInf());
     // double tp_C = 3.24331e+20; // Defined in Constant.h, constant used in the translational partition function
     //-----------------
+
+    pAssocReaction->set_ThresholdEnergy(pAssocReaction->get_EInf());  // set threshold energy to Einf
 
     vector<ModelledMolecule *> unimolecularspecies;
     pAssocReaction->get_unimolecularspecies(unimolecularspecies);
@@ -98,23 +179,20 @@ namespace mesmer
 
     double pwr = Ninf + .5;
     vector<double> work(MaximumCell);
-    for (int i = 0; i < MaximumCell; ++i) {
+    for (int i = 0; i < MaximumCell; ++i) 
       work[i] = pow(rctsCellEne[i], pwr);
-    }
 
     vector<double> conv;
     FastLaplaceConvolution(work, rctsCellDOS, conv);    // FFT convolution replaces the standard convolution
     //    Convolution(work, rctsCellDOS, conv);  // standard convolution
 
-    for (int i = 0; i < MaximumCell; ++i){
+    for (int i = 0; i < MaximumCell; ++i)
       TSFlux[i] = _ant * conv[i];
-    }
 
     // the flux bottom energy is equal to the well bottom of the reactant
     pAssocReaction->setCellFluxBottom(pReact->get_relative_rctZPE() + Einf);
 
-    cinfo << "ILT calculation completed" << endl;
-
+    cinfo << "Association ILT calculation completed" << endl;
     return true;
   }
 

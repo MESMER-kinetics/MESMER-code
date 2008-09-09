@@ -84,6 +84,9 @@ namespace mesmer
     // is the reaction an irreversible reaction
     virtual bool isIrreversible(){return true;};
 
+    // is reaction unimolecular
+    virtual bool isUnimolecular(){return false;};
+
     // get the reactant, which reacts in a first order or pseudo first order process
     virtual ModelledMolecule *get_reactant(void) const {return m_rct1;};
 
