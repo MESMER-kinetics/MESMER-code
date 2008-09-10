@@ -233,6 +233,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\MesmerFlags.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\MesmerILT.cpp"
 				>
 			</File>
@@ -376,6 +380,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\MesmerEnv.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\MesmerFlags.h"
 				>
 			</File>
 			<File

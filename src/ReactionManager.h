@@ -35,7 +35,7 @@ namespace mesmer
     ~ReactionManager(){} ;
 
     // Add a new reaction to the map.
-    bool addreactions(PersistPtr ReacList, const MesmerEnv& Env) ;
+    bool addreactions(PersistPtr ReacList, const MesmerEnv& mEnv, MesmerFlags& mFlags) ;
 
     // Remove a reaction from the map.
     void remove(){} ;
@@ -53,13 +53,13 @@ namespace mesmer
     Reaction* find(const std::string& id) const ;
 
     // Build collision operator for system.
-    bool BuildSystemCollisionOperator(MesmerEnv &Env) ;
+    bool BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags) ;
 
     // Diagonalize the collision operator.
-    void diagCollisionOperator(const MesmerEnv &Env, const int precision) ;
+    void diagCollisionOperator(const MesmerFlags &mFlags, const int precision) ;
 
     // Calculate the time evolution of the system
-    bool timeEvolution(int maxTimeStep, const MesmerEnv mEnv);
+    bool timeEvolution(int maxTimeStep, const MesmerFlags mFlags);
 
     // Set Initial population for individual species
     void setInitialPopulation(PersistPtr);
@@ -76,7 +76,7 @@ namespace mesmer
 
     MoleculeManager        *m_pMoleculeManager ;
 
-    qdMatrix               *m_pSystemCollisionOperator ;
+    qdMatrix               *m_pReactionOperator ;
 
     std::vector<qd_real>    m_eigenvalues;
 
@@ -99,13 +99,13 @@ namespace mesmer
     bool GetMoleculeInfo(PersistPtr pp, std::string& MolName, std::string& MolType) ;
 
     // sets grain parameters and determines system environment
-    bool SetGrainParams(MesmerEnv &Env, const double minEne, const double maxEne);
+    bool SetGrainParams(MesmerEnv &mEnv, const MesmerFlags& mFlags, const double minEne, const double maxEne);
 
     bool produceInitialPopulationVector(vector<double>& initDist);
 
     bool produceEquilibriumVector();
 
-    void printCollisionOperator(const MesmerEnv &Env);
+    void printCollisionOperator(const MesmerFlags &mFlags);
 
   } ;
 }//namespace

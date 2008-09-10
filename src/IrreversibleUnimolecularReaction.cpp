@@ -243,14 +243,14 @@ namespace mesmer
     }
 
     // the code that follows is for printing the forward k(E)s
-    if (getEnv().kfEGrainsEnabled){
+    if (getFlags().kfEGrainsEnabled){
       ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
         ctest << m_GrainKfmc[i] << endl;
       }
       ctest << "}\n";
     }
-    if (getEnv().testRateConstantEnabled)
+    if (getFlags().testRateConstantEnabled)
       testRateConstant();
   }
 

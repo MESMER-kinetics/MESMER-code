@@ -107,6 +107,7 @@ SRCS := \
 	IsomerizationReaction.cpp \
 	main.cpp \
 	MesmerEnv.cpp \
+	MesmerFlags.cpp \
 	MesmerILT.cpp \
 	MesmerMath.cpp \
 	MesmerTools.cpp \

@@ -14,7 +14,7 @@ namespace mesmer
   //
   //Constructor
   //
-  TransitionState::TransitionState(const MesmerEnv& Env) : ModelledMolecule(Env),
+  TransitionState::TransitionState(const MesmerEnv& Env, MesmerFlags& Flags) : ModelledMolecule(Env, Flags),
     m_ImFreq(0.0),
     m_ImFreq_chk(-1)
   {}

@@ -292,7 +292,7 @@
     <!--<me:printCellTransitionStateFlux />-->
     <!--<me:printGrainTransitionStateFlux />-->
     <!--<me:printCellDOS />-->
-    <!--<me:printCollisionOperatorColumnSums />-->
+    <!--<me:printReactionOperatorColumnSums />-->
     <!--<me:printTunnellingCoefficients />-->
     <me:printGrainkfE />
     <!--<me:printGrainBoltzmann />-->

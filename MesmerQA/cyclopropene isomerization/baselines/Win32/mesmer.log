@@ -153,10 +153,10 @@ m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 
 m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
 Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 
-Finish Calculation -- Time elapsed: 70 seconds.
+Finish Calculation -- Time elapsed: 116 seconds.
 In total, 2 temperature/concentration-pressure points calculated.
  *Info in main
- -- Total time elapsed: 141 seconds.
+ -- Total time elapsed: 237 seconds.
 
 System saved
 m_Mass is provided but not used in TS1

@@ -202,21 +202,21 @@ void IsomerizationReaction::calcGrainRateCoeffs(){
   }
 
   // the code that follows is for printing of the f & r k(E)s
-  if (getEnv().kfEGrainsEnabled){
+  if (getFlags().kfEGrainsEnabled){
     ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
     for (int i = 0; i < MaximumGrain; ++i){
       ctest << m_GrainKfmc[i] << endl;
     }
     ctest << "}\n";
   }
-  if (getEnv().kbEGrainsEnabled){
+  if (getFlags().kbEGrainsEnabled){
     ctest << "\nk_b(e) grains for " << getName() << ":\n{\n";
     for (int i = 0; i < MaximumGrain; ++i){
       ctest << m_GrainKbmc[i] << endl;
     }
     ctest << "}\n";
   }
-  if (getEnv().testRateConstantEnabled)
+  if (getFlags().testRateConstantEnabled)
     testRateConstant();
 }
 

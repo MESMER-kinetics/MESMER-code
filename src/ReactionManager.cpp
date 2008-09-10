@@ -18,7 +18,7 @@ namespace mesmer
   ReactionManager::ReactionManager(MoleculeManager *pMoleculeManager)
     :m_reactions(),
     m_pMoleculeManager(pMoleculeManager),
-    m_pSystemCollisionOperator(0),
+    m_pReactionOperator(0),
     m_eigenvalues(),
     m_eqVector(),
     m_isomers(),
@@ -32,7 +32,7 @@ namespace mesmer
   //
   // Add a new reaction to the map.
   //
-  bool ReactionManager::addreactions(PersistPtr ppReacList, const MesmerEnv& Env)
+  bool ReactionManager::addreactions(PersistPtr ppReacList, const MesmerEnv& mEnv, MesmerFlags& mFlags)
   {
     PersistPtr ppReac = ppReacList->XmlMoveTo("reaction");
     while(ppReac)
@@ -85,13 +85,13 @@ namespace mesmer
       //
       Reaction *preaction ;
       if     (!bRct2 && bPdt1 && pdt1Type == "modelled" && !bPdt2)
-        preaction = new IsomerizationReaction(m_pMoleculeManager, Env, id) ;
+        preaction = new IsomerizationReaction(m_pMoleculeManager, mEnv, mFlags, id) ;
       else if( bRct2 && bPdt1 && !bPdt2)
-        preaction = new AssociationReaction(m_pMoleculeManager, Env, id, (rct1Type == "deficientReactant")) ;
+        preaction = new AssociationReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "deficientReactant")) ;
       else if(!bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink"))
-        preaction = new IrreversibleUnimolecularReaction(m_pMoleculeManager, Env, id) ;
+        preaction = new IrreversibleUnimolecularReaction(m_pMoleculeManager, mEnv, mFlags, id) ;
       else if( bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink"))
-        preaction = new IrreversibleExchangeReaction(m_pMoleculeManager, Env, id, (rct1Type == "deficientReactant")) ;
+        preaction = new IrreversibleExchangeReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "deficientReactant")) ;
       else {
         cinfo << "Unknown reaction type.\n";
         return false ;
@@ -130,7 +130,7 @@ namespace mesmer
     }
   }
 
-  bool ReactionManager::SetGrainParams(MesmerEnv &Env, const double minEne, const double maxEne)
+  bool ReactionManager::SetGrainParams(MesmerEnv &mEnv, const MesmerFlags& mFlags, const double minEne, const double maxEne)
   {
     //  Grain size and number of grain:
     //
@@ -147,35 +147,35 @@ namespace mesmer
     //  - The required total energy domain extends from the lowest zero point energy of the lowest molecule
     //  to 10 k_B T above the highest.
 
-    Env.EMin = minEne;
-    Env.EMax = maxEne;
+    mEnv.EMin = minEne;
+    mEnv.EMax = maxEne;
 
     /*For testing purposes, set the maxGrn based on the highest temperature we use in all calculations.*/
-    const double MaximumTemperature = Env.MaximumTemperature;
+    const double MaximumTemperature = mEnv.MaximumTemperature;
 
     /*EAboveHill: Max energy above the highest hill. The temperature refers to the current condition.*/
-    if (Env.useTheSameCellNumber){
-      Env.EMax += Env.EAboveHill * MaximumTemperature * boltzmann_RCpK;
+    if (mFlags.useTheSameCellNumber){
+      mEnv.EMax += mEnv.EAboveHill * MaximumTemperature * boltzmann_RCpK;
     }
     else{
-      Env.EMax += Env.EAboveHill / Env.beta;
+      mEnv.EMax += mEnv.EAboveHill / mEnv.beta;
     }
 
-    if(Env.GrainSize <= 0.0){
-      Env.GrainSize = 100; //default 100cm-1
+    if(mEnv.GrainSize <= 0.0){
+      mEnv.GrainSize = 100; //default 100cm-1
       cerr << "Grain size was invalid. Reset grain size to default: 100";
     }
 
-    Env.MaxGrn = (int)((Env.EMax-Env.EMin)/Env.GrainSize + 0.5);
-    Env.MaxCell = Env.GrainSize * Env.MaxGrn;
+    mEnv.MaxGrn = (int)((mEnv.EMax-mEnv.EMin)/mEnv.GrainSize + 0.5);
+    mEnv.MaxCell = mEnv.GrainSize * mEnv.MaxGrn;
 
-    clog << "Cell number = " << Env.MaxCell << ", Grain number = " << Env.MaxGrn << endl;
-    cinfo << "Cell number = " << Env.MaxCell << ", Grain number = " << Env.MaxGrn << endl;
+    clog << "Cell number = " << mEnv.MaxCell << ", Grain number = " << mEnv.MaxGrn << endl;
+    cinfo << "Cell number = " << mEnv.MaxCell << ", Grain number = " << mEnv.MaxGrn << endl;
 
     return true;
   }
 
-  bool ReactionManager::BuildSystemCollisionOperator(MesmerEnv &Env)
+  bool ReactionManager::BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags)
   {
     // reset the DOS calculation flags before building the system collision operator
     resetCalcFlags();
@@ -233,7 +233,7 @@ namespace mesmer
     }
 
     // set grain parameters for the current Temperature/pressure condition
-    if(!SetGrainParams(Env, minEnergy, maxEnergy))
+    if(!SetGrainParams(mEnv, mFlags, minEnergy, maxEnergy))
       return false;
 
     // Calculate TSFlux and k(E)s
@@ -241,7 +241,7 @@ namespace mesmer
       m_reactions[i]->calcGrnAvrgMicroRateCoeffs() ;
     }
 
-    if (!Env.rateCoefficientsOnly){
+    if (!mFlags.rateCoefficientsOnly){
       //
       // Shift all wells to the same origin, calculate the size of the system collision operator,
       // calculate the mean collision frequency and initialize all collision operators.
@@ -257,11 +257,11 @@ namespace mesmer
 
         int grnZpe = isomer->get_grnZpe() ; //set grain ZPE (with respect to the minimum of all wells)
 
-        int colloptrsize = Env.MaxGrn - grnZpe ;
+        int colloptrsize = mEnv.MaxGrn - grnZpe ;
         isomer->set_colloptrsize(colloptrsize) ;
         msize += colloptrsize ;
 
-        isomer->initCollisionOperator(Env.beta, pBathGasMolecule) ;
+        isomer->initCollisionOperator(mEnv.beta, pBathGasMolecule) ;
         m_meanOmega += isomer->get_collisionFrequency() ;
       }
       m_meanOmega /= m_isomers.size();
@@ -308,8 +308,8 @@ namespace mesmer
       }
 
       // Allocate space for the full system collision operator.
-      if (m_pSystemCollisionOperator) delete m_pSystemCollisionOperator;
-      m_pSystemCollisionOperator = new qdMatrix(msize, 0.0) ;
+      if (m_pReactionOperator) delete m_pReactionOperator;
+      m_pReactionOperator = new qdMatrix(msize, 0.0) ;
 
       // Insert collision operators for individual wells.
       for (isomeritr = m_isomers.begin() ; isomeritr != m_isomers.end() ; ++isomeritr) {
@@ -319,62 +319,62 @@ namespace mesmer
         double omega = isomer->get_collisionFrequency() ;
         int idx = isomeritr->second ;
 
-        isomer->copyCollisionOperator(m_pSystemCollisionOperator, colloptrsize, idx, omega/m_meanOmega) ;
+        isomer->copyCollisionOperator(m_pReactionOperator, colloptrsize, idx, omega/m_meanOmega) ;
 
       }
 
       // Add connecting rate coefficients.
       for (size_t i(0) ; i < size() ; ++i) {
-        m_reactions[i]->AddReactionTerms(m_pSystemCollisionOperator,m_isomers,1.0/m_meanOmega) ;
+        m_reactions[i]->AddReactionTerms(m_pReactionOperator,m_isomers,1.0/m_meanOmega) ;
       }
     }
 
     return true;
   }
 
-  void ReactionManager::printCollisionOperator(const MesmerEnv &Env)
+  void ReactionManager::printCollisionOperator(const MesmerFlags& mFlags)
   {
-    const int smsize = int(m_pSystemCollisionOperator->size()) ;
+    const int smsize = int(m_pReactionOperator->size()) ;
 
-    switch (Env.printReactionOperatorNum)
+    switch (mFlags.printReactionOperatorNum)
     {
     case -1:
       ctest << "Printing all (" << smsize << ") columns/rows of Reaction Operator:\n";
-      (*m_pSystemCollisionOperator).showFinalBits(smsize);
+      (*m_pReactionOperator).showFinalBits(smsize);
       break;
     case -2:
       ctest << "Printing final 1/2 (" << smsize/2 << ") columns/rows of Reaction Operator:\n";
-      (*m_pSystemCollisionOperator).showFinalBits(smsize/2);
+      (*m_pReactionOperator).showFinalBits(smsize/2);
       break;
     case -3:
       ctest << "Printing final 1/3 (" << smsize/3 << ") columns/rows of Reaction Operator:\n";
-      (*m_pSystemCollisionOperator).showFinalBits(smsize/3);
+      (*m_pReactionOperator).showFinalBits(smsize/3);
       break;
     default: // the number is either smaller than -3 or positive
-      if (abs(Env.printReactionOperatorNum) > smsize){
+      if (abs(mFlags.printReactionOperatorNum) > smsize){
         ctest << "Printing all (" << smsize << ") columns/rows of Reaction Operator:\n";
-        (*m_pSystemCollisionOperator).showFinalBits(smsize);
+        (*m_pReactionOperator).showFinalBits(smsize);
       }
       else{
-        ctest << "Printing final " << abs(Env.printReactionOperatorNum) << " columns/rows of Reaction Operator:\n";
-        (*m_pSystemCollisionOperator).showFinalBits(abs(Env.printReactionOperatorNum));
+        ctest << "Printing final " << abs(mFlags.printReactionOperatorNum) << " columns/rows of Reaction Operator:\n";
+        (*m_pReactionOperator).showFinalBits(abs(mFlags.printReactionOperatorNum));
       }
     }
   }
 
-  void ReactionManager::diagCollisionOperator(const MesmerEnv &Env, const int precision)
+  void ReactionManager::diagCollisionOperator(const MesmerFlags &mFlags, const int precision)
   {
     // Allocate space for eigenvalues.
-    const int smsize = int(m_pSystemCollisionOperator->size()) ;
+    const int smsize = int(m_pReactionOperator->size()) ;
     m_eigenvalues.clear();
     m_eigenvalues.resize(smsize, 0.0);
 
     // Construction of two matrices and eigenvalue vectors for dd and qd
 
     // This block prints Reaction Operator before diagonalization
-    if (Env.printReactionOperatorNum){
+    if (mFlags.printReactionOperatorNum){
       ctest << "Before diagonalization --- ";
-      printCollisionOperator(Env);
+      printCollisionOperator(mFlags);
     }
 
     switch (precision){
@@ -383,14 +383,14 @@ namespace mesmer
           dMatrix dDiagM(smsize);
           for ( int i = 0 ; i < smsize ; ++i )
             for ( int j = 0 ; j < smsize ; ++j )
-              dDiagM[i][j] = to_double((*m_pSystemCollisionOperator)[i][j]) ;
+              dDiagM[i][j] = to_double((*m_pReactionOperator)[i][j]) ;
           vector<double>  dEigenValue(smsize, 0.0);
           dDiagM.diagonalize(&dEigenValue[0]) ;
           for ( int i = 0 ; i < smsize ; ++i )
             m_eigenvalues[i] = dEigenValue[i];
           for ( int i = 0 ; i < smsize ; ++i )
             for ( int j = 0 ; j < smsize ; ++j )
-              (*m_pSystemCollisionOperator)[i][j] = dDiagM[i][j] ;
+              (*m_pReactionOperator)[i][j] = dDiagM[i][j] ;
           break;
         }
       case 1: // diagonalize in double double
@@ -398,33 +398,33 @@ namespace mesmer
           ddMatrix ddDiagM(smsize);
           for ( int i = 0 ; i < smsize ; ++i )
             for ( int j = 0 ; j < smsize ; ++j )
-              ddDiagM[i][j] = to_dd_real((*m_pSystemCollisionOperator)[i][j]) ;
+              ddDiagM[i][j] = to_dd_real((*m_pReactionOperator)[i][j]) ;
           vector<dd_real> ddEigenValue(smsize, 0.0);
           ddDiagM.diagonalize(&ddEigenValue[0]) ;
           for ( int i = 0 ; i < smsize ; ++i )
             m_eigenvalues[i] = ddEigenValue[i];
           for ( int i = 0 ; i < smsize ; ++i )
             for ( int j = 0 ; j < smsize ; ++j )
-              (*m_pSystemCollisionOperator)[i][j] = ddDiagM[i][j] ;
+              (*m_pReactionOperator)[i][j] = ddDiagM[i][j] ;
           break;
         }
       default: // diagonalize in quad double
         {
-          m_pSystemCollisionOperator->diagonalize(&m_eigenvalues[0]) ;
+          m_pReactionOperator->diagonalize(&m_eigenvalues[0]) ;
         }
     }
 
     // This block prints Reaction Operator after diagonalization
-    if (Env.printReactionOperatorNum){
+    if (mFlags.printReactionOperatorNum){
       ctest << "After diagonalization --- ";
-      printCollisionOperator(Env);
+      printCollisionOperator(mFlags);
     }
 
     int numberStarted = 0;
     int numberPrinted = smsize; // Default prints all of the eigenvalues
-    if (Env.printEigenValuesNum > 0 && Env.printEigenValuesNum <= smsize){ //at least prints 1 eigenvalue
-      numberPrinted = Env.printEigenValuesNum;
-      numberStarted = smsize - Env.printEigenValuesNum;
+    if (mFlags.printEigenValuesNum > 0 && mFlags.printEigenValuesNum <= smsize){ //at least prints 1 eigenvalue
+      numberPrinted = mFlags.printEigenValuesNum;
+      numberStarted = smsize - mFlags.printEigenValuesNum;
     }
 
     ctest << "\nTotal number of eigenvalues = " << smsize << endl;
@@ -650,7 +650,7 @@ namespace mesmer
   {
 
     m_eqVector.clear();
-    m_eqVector.resize(m_pSystemCollisionOperator->size());
+    m_eqVector.resize(m_pReactionOperator->size());
 
     Reaction::sourceMap::iterator spos;
     for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map to get
@@ -675,16 +675,16 @@ namespace mesmer
     return true;
   }
 
-  bool ReactionManager::timeEvolution(int maxTimeStep, const MesmerEnv mEnv)
+  bool ReactionManager::timeEvolution(int maxTimeStep, const MesmerFlags mFlags)
   {
-    int smsize = int(m_pSystemCollisionOperator->size());
+    int smsize = int(m_pReactionOperator->size());
 
     double maxEvoTime = 0.;
     // set the default maximum evolution time
-    if (mEnv.maxEvolutionTime <= 0. || mEnv.maxEvolutionTime > 1.0e8)
+    if (mFlags.maxEvolutionTime <= 0. || mFlags.maxEvolutionTime > 1.0e8)
       maxEvoTime = 1.0e8;
     else
-      maxEvoTime = mEnv.maxEvolutionTime;
+      maxEvoTime = mFlags.maxEvolutionTime;
 
     // calculate the time points
     vector<double> timePoints;
@@ -721,7 +721,7 @@ namespace mesmer
     dMatrix sysCollOptr(smsize); // copy the system collision operator,
     for ( int i = 0 ; i < smsize ; ++i )
       for ( int j = 0 ; j < smsize ; ++j )
-        sysCollOptr[i][j] = to_double((*m_pSystemCollisionOperator)[i][j]);
+        sysCollOptr[i][j] = to_double((*m_pReactionOperator)[i][j]);
 
     vector<double> work1(smsize, 0.);            // which holds the eigenvectors
 
@@ -771,7 +771,7 @@ namespace mesmer
 
     //------------------------------
     // print grained species profile
-    if (mEnv.grainedProfileEnabled) {
+    if (mFlags.grainedProfileEnabled) {
       ctest << "\nGrained species profile (the first row is time points in unit of second):\n{\n";
       for (int timestep = 0; timestep < maxTimeStep; ++timestep){
         formatFloat(ctest, timePoints[timestep], 6,  15);
@@ -787,7 +787,7 @@ namespace mesmer
     }
     //------------------------------
 
-    if (mEnv.speciesProfileEnabled){
+    if (mFlags.speciesProfileEnabled){
       ctest << endl << "Print time dependent species and product profiles" << endl << "{" << endl;
       int sinkpos(0);
       m_sinkRxns.clear();                      // Populate map: m_sinkRxns[Rxns] = location of rct
@@ -918,12 +918,12 @@ namespace mesmer
 
   bool ReactionManager::BartisWidomPhenomenologicalRates(dMatrix& mesmerRates)
   {
-    const int smsize = int(m_pSystemCollisionOperator->size());
-    dMatrix eigenVec(smsize);  //copy SystemCollisionOperator, the eigenvector Matrix (== V)
+    const int smsize = int(m_pReactionOperator->size());
+    dMatrix eigenVec(smsize);  //copy ReactionOperator, the eigenvector Matrix (== V)
 
     for ( int i = 0 ; i < smsize ; ++i )
       for ( int j = 0 ; j < smsize ; ++j )
-        eigenVec[i][j] = to_double((*m_pSystemCollisionOperator)[i][j]) ;
+        eigenVec[i][j] = to_double((*m_pReactionOperator)[i][j]) ;
 
     // constant variables
     const int nchem = static_cast<int>(m_isomers.size() + m_sources.size());  // number of isomers+pseudoisomers

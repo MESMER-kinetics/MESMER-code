@@ -181,7 +181,7 @@ namespace mesmer
     calculateTSfluxStartIdx();
     const int fluxStartIdx = get_TSFluxStartIdx();
 
-    const int MaximumGrain = (getEnv().MaxGrn-fluxStartIdx);
+    const int MaximumGrain = (getEnv().MaxGrn - fluxStartIdx);
     m_GrainKfmc.clear();
     m_GrainKfmc.resize(MaximumGrain , 0.0);
 
@@ -189,7 +189,7 @@ namespace mesmer
       m_GrainKfmc[i] = m_GrainTSFlux[j] / rctGrainDOS[i];
     }
 
-    if (getEnv().kfEGrainsEnabled){               // printing of the forward k(E)s
+    if (getFlags().kfEGrainsEnabled){               // printing of the forward k(E)s
       ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
         ctest << m_GrainKfmc[i] << endl;
@@ -220,7 +220,7 @@ namespace mesmer
     k_forward *= m_ERConc;
     set_forwardCanonicalRateCoefficient(k_forward);
 
-    if (getEnv().testRateConstantEnabled){
+    if (getFlags().testRateConstantEnabled){
       const double temperature = 1. / (boltzmann_RCpK * beta);
       ctest << endl << "Canonical pseudo first order rate constant of irreversible reaction " 
         << getName() << " = " << get_forwardCanonicalRateCoefficient() << " s-1 (" << temperature << " K)" << endl;

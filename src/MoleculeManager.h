@@ -41,7 +41,7 @@ public:
   ~MoleculeManager();
 
   // Add a new molecule to the list.
-  Molecule*  addmol(string molName, string molType, PersistPtr ppMolList, const MesmerEnv& Env) ;
+  Molecule*  addmol(string molName, string molType, PersistPtr ppMolList, const MesmerEnv& Env, MesmerFlags& Flags) ;
 
   // Find a molecule in the list.
   Molecule *find(const std::string& name) const ;

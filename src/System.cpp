@@ -70,7 +70,7 @@ namespace mesmer
       cerr << "No reactions have been specified";
       return false;
     }
-    if(!m_pReactionManager->addreactions(ppReacList, m_Env)) return false;
+    if(!m_pReactionManager->addreactions(ppReacList, m_Env, m_Flags)) return false;
 
     //-------------
     //Reaction Conditions
@@ -87,7 +87,7 @@ namespace mesmer
     }
     else{
       string molType = "bathGas";
-      if(!m_pMoleculeManager->addmol(Bgtxt, molType, ppMolList, m_Env))
+      if(!m_pMoleculeManager->addmol(Bgtxt, molType, ppMolList, m_Env, m_Flags))
         return false;
       m_pMoleculeManager->set_BathGasMolecule(Bgtxt) ;
     }
@@ -145,58 +145,58 @@ namespace mesmer
     PersistPtr ppControl = ppIOPtr->XmlMoveTo("me:control");
     if(ppControl)
     {
-      m_Env.testDOSEnabled              = ppControl->XmlReadBoolean("me:testDOS");
-      m_Env.testRateConstantEnabled     = ppControl->XmlReadBoolean("me:testRateConstant");
-      m_Env.microRateEnabled            = ppControl->XmlReadBoolean("me:testMicroRates");
-      m_Env.grainBoltzmannEnabled       = ppControl->XmlReadBoolean("me:printGrainBoltzmann");
-      m_Env.grainDOSEnabled             = ppControl->XmlReadBoolean("me:printGrainDOS");
-      m_Env.cellDOSEnabled              = ppControl->XmlReadBoolean("me:printCellDOS");
-      m_Env.collisionOCSEnabled         = ppControl->XmlReadBoolean("me:printCollisionOperatorColumnSums");
-      m_Env.kfEGrainsEnabled            = ppControl->XmlReadBoolean("me:printGrainkfE");
-      m_Env.kbEGrainsEnabled            = ppControl->XmlReadBoolean("me:printGrainkbE");
+      m_Flags.testDOSEnabled              = ppControl->XmlReadBoolean("me:testDOS");
+      m_Flags.testRateConstantEnabled     = ppControl->XmlReadBoolean("me:testRateConstant");
+      m_Flags.microRateEnabled            = ppControl->XmlReadBoolean("me:testMicroRates");
+      m_Flags.grainBoltzmannEnabled       = ppControl->XmlReadBoolean("me:printGrainBoltzmann");
+      m_Flags.grainDOSEnabled             = ppControl->XmlReadBoolean("me:printGrainDOS");
+      m_Flags.cellDOSEnabled              = ppControl->XmlReadBoolean("me:printCellDOS");
+      m_Flags.reactionOCSEnabled          = ppControl->XmlReadBoolean("me:printReactionOperatorColumnSums");
+      m_Flags.kfEGrainsEnabled            = ppControl->XmlReadBoolean("me:printGrainkfE");
+      m_Flags.kbEGrainsEnabled            = ppControl->XmlReadBoolean("me:printGrainkbE");
       // Both Tunnelling and Tunneling will work
-      m_Env.TunnellingCoeffEnabled      = ppControl->XmlReadBoolean("me:printTunnellingCoefficients");
-      if (!m_Env.TunnellingCoeffEnabled)
-        m_Env.TunnellingCoeffEnabled    = ppControl->XmlReadBoolean("me:printTunnelingCoefficients");
-      m_Env.cellTSFluxEnabled           = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
-      m_Env.grainTSFluxEnabled          = ppControl->XmlReadBoolean("me:printGrainTransitionStateFlux");
-      m_Env.rateCoefficientsOnly        = ppControl->XmlReadBoolean("me:calculateRateCoefficinetsOnly");
-      m_Env.useTheSameCellNumber        = ppControl->XmlReadBoolean("me:useTheSameCellNumberForAllConditions");
-      m_Env.grainedProfileEnabled       = ppControl->XmlReadBoolean("me:printGrainedSpeciesProfile");
-      m_Env.speciesProfileEnabled       = ppControl->XmlReadBoolean("me:printSpeciesProfile");
-      m_Env.viewEvents                  = ppControl->XmlReadBoolean("me:printEventsTimeStamps");
-      if (!m_Env.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
-        m_Env.useTheSameCellNumber = true;
+      m_Flags.TunnellingCoeffEnabled      = ppControl->XmlReadBoolean("me:printTunnellingCoefficients");
+      if (!m_Flags.TunnellingCoeffEnabled)
+        m_Flags.TunnellingCoeffEnabled    = ppControl->XmlReadBoolean("me:printTunnelingCoefficients");
+      m_Flags.cellTSFluxEnabled           = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
+      m_Flags.grainTSFluxEnabled          = ppControl->XmlReadBoolean("me:printGrainTransitionStateFlux");
+      m_Flags.rateCoefficientsOnly        = ppControl->XmlReadBoolean("me:calculateRateCoefficinetsOnly");
+      m_Flags.useTheSameCellNumber        = ppControl->XmlReadBoolean("me:useTheSameCellNumberForAllConditions");
+      m_Flags.grainedProfileEnabled       = ppControl->XmlReadBoolean("me:printGrainedSpeciesProfile");
+      m_Flags.speciesProfileEnabled       = ppControl->XmlReadBoolean("me:printSpeciesProfile");
+      m_Flags.viewEvents                  = ppControl->XmlReadBoolean("me:printEventsTimeStamps");
+      if (!m_Flags.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
+        m_Flags.useTheSameCellNumber = true;
       }
-      
+
       // System configuration information
       if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();
 
-      if (ppControl->XmlReadBoolean("me:gridSearch")) m_Env.searchMethod = 1;
-      else if (ppControl->XmlReadBoolean("me:fitting")) m_Env.searchMethod = 2;
-      else m_Env.searchMethod = 0;
+      if (ppControl->XmlReadBoolean("me:gridSearch")) m_Flags.searchMethod = 1;
+      else if (ppControl->XmlReadBoolean("me:fitting")) m_Flags.searchMethod = 2;
+      else m_Flags.searchMethod = 0;
 
-      if (m_Env.grainedProfileEnabled && (m_Env.speciesProfileEnabled || m_Env.searchMethod)){
+      if (m_Flags.grainedProfileEnabled && (m_Flags.speciesProfileEnabled || m_Flags.searchMethod)){
         cinfo << "Turn off grained species profile to prevent disk flooding.";
-        m_Env.grainedProfileEnabled = false;
+        m_Flags.grainedProfileEnabled = false;
       }
 
       const char* txtEV = ppControl->XmlReadValue("me:eigenvalues",false);
       if(txtEV) {
         istringstream ss(txtEV);
-        ss >> m_Env.printEigenValuesNum;
+        ss >> m_Flags.printEigenValuesNum;
       }
 
       const char* txtROS = ppControl->XmlReadValue("me:printReactionOperatorSize",false);
       if(txtROS) {
         istringstream sROS(txtROS);
-        sROS >> m_Env.printReactionOperatorNum;
+        sROS >> m_Flags.printReactionOperatorNum;
       }
 
       const char* txtMET = ppControl->XmlReadValue("me:MaximumEvolutionTime");
       if (txtMET){
         istringstream ss(txtMET);
-        ss >> m_Env.maxEvolutionTime;
+        ss >> m_Flags.maxEvolutionTime;
       }
     }
 
@@ -329,7 +329,7 @@ namespace mesmer
       spanSteps *= numSteps;
     }
 
-    // TimeCount events; unsigned int timeElapsed; 
+    // TimeCount events; unsigned int timeElapsed;
     int calPoint(0);
 
     for (int i(0); i < totalSteps; ++i){
@@ -377,6 +377,10 @@ namespace mesmer
   //
   void System::calculate(double& chiSquare)
   {
+    // Controls the print-out of grain/cell DOS in each cycle (This is only for source term)
+    if (m_Flags.cellDOSEnabled) m_Flags.cyclePrintCellDOS = true;
+    if (m_Flags.grainDOSEnabled) m_Flags.cyclePrintGrainDOS = true;
+
     chiSquare = 0.0; // reset the value to zero
 
     TimeCount events; unsigned int timeElapsed =0;
@@ -407,7 +411,7 @@ namespace mesmer
       // Build collison matrix for system.
       {string thisEvent = "Build Collison Operator";
       cinfo << thisEvent << endl;}
-      if (!m_pReactionManager->BuildSystemCollisionOperator(m_Env)){
+      if (!m_pReactionManager->BuildReactionOperator(m_Env, m_Flags)){
         cerr << "Failed building system collison operator.";
       }
 
@@ -420,16 +424,16 @@ namespace mesmer
       cinfo << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds.\n";
       events.setTimeStamp(thisEvent, timeElapsed);}
 
-      m_pReactionManager->diagCollisionOperator(m_Env, precision) ;
+      m_pReactionManager->diagCollisionOperator(m_Flags, precision) ;
 
       // Time steps loop
       int timestep = 160;
-      m_pReactionManager->timeEvolution(timestep, m_Env);
+      m_pReactionManager->timeEvolution(timestep, m_Flags);
 
       dMatrix mesmerRates(1);
       m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates);
 
-      if (m_Env.searchMethod){
+      if (m_Flags.searchMethod){
         vector<conditionSet> expRates;
         PandTs[calPoint].get_experimentalRates(expRates);
         chiSquare += m_pReactionManager->calcChiSquare(mesmerRates, expRates);
@@ -445,7 +449,7 @@ namespace mesmer
     cinfo << endl << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds.\n";
     cinfo << "In total, " << calPoint << " temperature/concentration-pressure points calculated." << endl;}
 
-    if (m_Env.viewEvents) cinfo << events;
+    if (m_Flags.viewEvents) cinfo << events;
   }
 
   bool System::ReadRange(const string& name, vector<double>& vals, PersistPtr ppbase, bool MustBeThere)

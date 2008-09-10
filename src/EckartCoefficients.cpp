@@ -58,7 +58,7 @@ namespace mesmer
       }
     }
 
-    if (pReact->getEnv().TunnellingCoeffEnabled){
+    if (pReact->getFlags().TunnellingCoeffEnabled){
       ctest << "\nTunneling coefficients for: " << pReact->getName() 
         << "\nV0 = " << V0 << ", V1 = " << V1 
         << ", barrier0 = " << barrier0 << ", barrier1 = " << barrier1 

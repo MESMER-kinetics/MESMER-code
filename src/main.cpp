@@ -173,7 +173,7 @@ int main(int argc,char *argv[])
 
   clog << "\nNow calculating..." << infilename << endl;
 
-  switch (_sys.m_Env.searchMethod){
+  switch (_sys.m_Flags.searchMethod){
     case 2:
       _sys.fitting() ;
       break;

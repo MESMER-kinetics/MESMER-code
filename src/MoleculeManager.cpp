@@ -31,7 +31,7 @@ namespace mesmer
     //
     // Add a new molecule to the list.
     //
-    Molecule* MoleculeManager::addmol(string molName, string molType, PersistPtr ppMolList, const MesmerEnv& Env) {
+    Molecule* MoleculeManager::addmol(string molName, string molType, PersistPtr ppMolList, const MesmerEnv& mEnv, MesmerFlags& mFlags) {
 
         //check if the molecule exists in m_molmap
         constMolIter it = m_molmap.find(molName) ;
@@ -42,19 +42,19 @@ namespace mesmer
         //Need to construct a new Molecule of the required type
         Molecule *pmolecule;
         if(molType=="modelled")
-            pmolecule = static_cast<Molecule*>(new CollidingMolecule(Env));
+            pmolecule = static_cast<Molecule*>(new CollidingMolecule(mEnv, mFlags));
         else if(molType=="deficientReactant")
-            pmolecule = static_cast<Molecule*>(new ModelledMolecule(Env));
+            pmolecule = static_cast<Molecule*>(new ModelledMolecule(mEnv, mFlags));
         else if(molType=="excessReactant")
-            pmolecule = static_cast<Molecule*>(new ModelledMolecule(Env));
+            pmolecule = static_cast<Molecule*>(new ModelledMolecule(mEnv, mFlags));
         else if(molType=="transitionState")
-            pmolecule = static_cast<Molecule*>(new TransitionState(Env));
+            pmolecule = static_cast<Molecule*>(new TransitionState(mEnv, mFlags));
         else if(molType=="bathGas")
-            pmolecule = static_cast<Molecule*>(new BathGasMolecule(Env));
+            pmolecule = static_cast<Molecule*>(new BathGasMolecule(mEnv, mFlags));
         else if(molType=="sink")
-            pmolecule = static_cast<Molecule*>(new ModelledMolecule(Env));
+            pmolecule = static_cast<Molecule*>(new ModelledMolecule(mEnv, mFlags));
         else
-            pmolecule = static_cast<Molecule*>(new Molecule(Env));
+            pmolecule = static_cast<Molecule*>(new Molecule(mEnv, mFlags));
 
         //Look for it by name in the datafile
         PersistPtr ppmol = ppMolList;

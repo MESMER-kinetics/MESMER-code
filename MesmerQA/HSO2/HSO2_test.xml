@@ -154,7 +154,7 @@
     <me:testMicroRates />
     <me:printGrainDOS />
     <!--<me:printCellDOS />-->
-    <!--<me:printCollisionOperatorColumnSums />-->
+    <!--<me:printReactionOperatorColumnSums />-->
     <me:printGrainkfE />
     <me:printGrainkbE />
     <me:printSpeciesProfile />

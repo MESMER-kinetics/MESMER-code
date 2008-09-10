@@ -17,6 +17,7 @@
 #include "DensityOfStates.h"
 #include "Distribution.h"
 #include "MesmerEnv.h"
+#include "MesmerFlags.h"
 #include "Pointer.h"
 
 namespace mesmer
@@ -27,12 +28,11 @@ namespace mesmer
   /// Used for bath gases and unmodelled product molecules.
   class Molecule
   {
-  protected:
-    const MesmerEnv&     m_Env;
-
   private:
+    const MesmerEnv&     m_Env;
+    MesmerFlags&         m_Flags;
 
-    int            m_flag;              // count the errors during initialization
+    int            m_errorflag;         // count the errors during initialization
     PersistPtr     m_ppPersist;         // Conduit for I/O
     std::string    m_Name ;             // Molecule name.
     std::string    m_Description;       // Longer description for the structure
@@ -41,7 +41,7 @@ namespace mesmer
     //Molecule& operator=(const Molecule&) ;
 
   public:
-    Molecule(const MesmerEnv& Env) ;
+    Molecule(const MesmerEnv& Env, MesmerFlags& m_Flags) ;
     virtual ~Molecule();
 
     // Initialize Molecule.
@@ -52,7 +52,8 @@ namespace mesmer
     std::string getName() const;
     std::string getDescription() const;
     const MesmerEnv& getEnv() const;
-    int    getFlag() ;
+    MesmerFlags& getFlags();
+    int    getErrorFlag() ;
     void   setName(string name) ;
     void   setFlag(bool value) ;
   };
@@ -61,7 +62,7 @@ namespace mesmer
   class BathGasMolecule : public Molecule
   {
   public:
-    BathGasMolecule(const MesmerEnv& Env);
+    BathGasMolecule(const MesmerEnv& Env, MesmerFlags& Flags);
     virtual ~BathGasMolecule();
     // Initialize BathGasMolecule.
     virtual bool InitializeMolecule(PersistPtr pp);
@@ -137,7 +138,7 @@ namespace mesmer
   public:
 
     //----------------
-    ModelledMolecule(const MesmerEnv& Env);
+    ModelledMolecule(const MesmerEnv& Env, MesmerFlags& Flags);
     virtual ~ModelledMolecule();
 
     // Initialize ModelledMolecule.
@@ -234,7 +235,7 @@ namespace mesmer
     //================================================
 
   public:
-    TransitionState(const MesmerEnv& Env);
+    TransitionState(const MesmerEnv& Env, MesmerFlags& Flags);
     virtual ~TransitionState();
 
     // Initialize TransitionState.
@@ -285,7 +286,7 @@ namespace mesmer
     bool   collisionOperator (double beta) ;
 
   public:
-    CollidingMolecule(const MesmerEnv& Env);
+    CollidingMolecule(const MesmerEnv& Env, MesmerFlags& Flags);
     virtual ~CollidingMolecule();
 
     // Initialize CollidingMolecule.

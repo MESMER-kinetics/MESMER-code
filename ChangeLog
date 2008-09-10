@@ -1,3 +1,10 @@
+_2008_09_10__14_28_16_ Chi-Hsiu Liang
+
+  * Separated out control flags from MesmerEnv to MesmerFlags
+  * Re-enable printing DOS of source term when flag is turned on
+  * Renamed m_pSystemCollisionOperator to m_pReactionOperator to reflect that this operator does operate on reactions.
+  * Updated manual
+
 2008-9-8 Dave Glowacki
 
 * fixed a bug in Association Reaction and MesmerILT which incorrectly calculated Tinf

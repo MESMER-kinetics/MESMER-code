@@ -368,21 +368,21 @@ namespace mesmer
     }
 
     // the code that follows is for printing of the f & r k(E)s
-    if (getEnv().kfEGrainsEnabled){
+    if (getFlags().kfEGrainsEnabled){
       ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
         ctest << m_GrainKfmc[i] << endl;
       }
       ctest << "}\n";
     }
-    if (getEnv().kbEGrainsEnabled){
+    if (getFlags().kbEGrainsEnabled){
       ctest << "\nk_b(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
         ctest << m_GrainKbmc[i] << endl;
       }
       ctest << "}\n";
     }
-    if (getEnv().testRateConstantEnabled)
+    if (getFlags().testRateConstantEnabled)
       testRateConstant();
   }
 
@@ -433,8 +433,31 @@ namespace mesmer
     getCellEnergies(MaximumCell, rctsCellEne);
     shiftCells(MaximumCell, cellOffset, rctsCellDOS, rctsCellEne, shiftedCellDOS, shiftedCellEne);
 
-    string catName = m_rct1->getName() + " + " + m_rct2->getName();
+    const string catName = m_rct1->getName() + " + " + m_rct2->getName();
+
+    if (getFlags().cyclePrintCellDOS){
+      ctest << endl << "Cell rovibronic density of states of " << catName << endl << "{" << endl;
+      for (int i = 0; i < MaximumCell; ++i){
+        formatFloat(ctest, rctsCellEne[i],  6,  15) ;
+        formatFloat(ctest, rctsCellDOS[i],  6,  15) ;
+        ctest << endl ;
+      }
+      ctest << "}" << endl;
+      getFlags().cyclePrintCellDOS = false;
+    }
+
     calcGrainAverages(getEnv().MaxGrn, getEnv().GrainSize, shiftedCellDOS, shiftedCellEne, grainDOS, grainEne, catName);
+
+    if (getFlags().cyclePrintGrainDOS){
+      ctest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;
+      for (int i = 0; i < getEnv().MaxGrn; ++i){
+        formatFloat(ctest, grainEne[i],  6,  15) ;
+        formatFloat(ctest, grainDOS[i],  6,  15) ;
+        ctest << endl ;
+      }
+      ctest << "}" << endl;
+      getFlags().cyclePrintGrainDOS = false;
+    }
 
     return true;
   }

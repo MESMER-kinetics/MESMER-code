@@ -53,6 +53,7 @@ namespace mesmer
     //Stores environmental variables
     //Reference to this are passed to the constructors of all Molecules and Reactions
     MesmerEnv m_Env;
+    MesmerFlags m_Flags;
 
   private:
 

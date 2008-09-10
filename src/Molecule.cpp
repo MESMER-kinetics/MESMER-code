@@ -15,18 +15,16 @@ namespace mesmer
   //
   //Constructor
   //
-  Molecule::Molecule(const MesmerEnv& Env):
+  Molecule::Molecule(const MesmerEnv& Env, MesmerFlags& Flags):
     m_Env(Env),
-    m_flag(0),
+    m_Flags(Flags),
+    m_errorflag(0),
     m_ppPersist(NULL),
     m_Name(),
     m_Description()
   {}
 
-  Molecule::~Molecule()
-  {
-  }
-
+  Molecule::~Molecule(){}
   /* Will need Clone() functions
   Molecule::Molecule(const Molecule& molecule) {
   // Copy constructor - define later SHR 23/Feb/2003
@@ -64,7 +62,7 @@ namespace mesmer
 
     //const char* txt;
 
-    if (getFlag()){
+    if (getErrorFlag()){
       cerr << "Error(s) while initializing molecule: " << m_Name;
       return false;
     }
@@ -83,19 +81,23 @@ namespace mesmer
   std::string Molecule::getDescription() const            {
     return m_Description ;
   } ;
+  MesmerFlags& Molecule::getFlags()         {
+    return m_Flags;
+  }
+
   const MesmerEnv& Molecule::getEnv() const        {
     return m_Env;
   }
 
-  int    Molecule::getFlag()                       {
-    return m_flag;
+  int    Molecule::getErrorFlag()                       {
+    return m_errorflag;
   } ;
 
   void   Molecule::setName(string name)            {
     m_Name = name;
   } ;
   void   Molecule::setFlag(bool value)             {
-    if (value) ++m_flag;
+    if (value) ++m_errorflag;
   } ;
 
 

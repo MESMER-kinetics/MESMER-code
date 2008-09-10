@@ -17,7 +17,7 @@ using namespace mesmer;
 
 namespace mesmer
 {
-  Reaction::Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id)
+  Reaction::Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char *id)
     :m_ppPersist(),
     m_TransitionState(NULL),
     m_pMoleculeManager(pMoleculeManager),
@@ -32,6 +32,7 @@ namespace mesmer
     m_forwardCanonicalRate(0.0),
     m_backwardCanonicalRate(0.0),
     m_Env(Env),
+    m_Flags(Flags),
     m_Name(id),
     TSFluxStartIdx(0),
     EffectiveForwardGrainedThreshEn(0),
@@ -83,7 +84,7 @@ namespace mesmer
           cerr << "No molecules have been specified." << endl;
           return NULL;
         }
-        pMol = m_pMoleculeManager->addmol(string(reftxt), string(typetxt), ppMolList, getEnv());
+        pMol = m_pMoleculeManager->addmol(string(reftxt), string(typetxt), ppMolList, getEnv(), getFlags());
       }
     }
 
@@ -116,7 +117,7 @@ namespace mesmer
 
       // report TransitionState Flux in cells to test output
       const int MaximumCell = getEnv().MaxCell;
-      if (getEnv().cellTSFluxEnabled){
+      if (getFlags().cellTSFluxEnabled){
         ctest << "\nTSFlux(e) cells for " << getName() << ":\n{\n";
         for (int i = 0; i < MaximumCell; ++i){
           ctest << m_CellTSFlux[i] << endl;
@@ -129,7 +130,7 @@ namespace mesmer
         return false;
 
       // test grained microcanonical rate coefficients
-      if (getEnv().microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_ppPersist) )
+      if (getFlags().microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_ppPersist) )
         return false;
     }
     reCalcDOS = false; // reset the flag
@@ -194,7 +195,7 @@ namespace mesmer
       }
     }
 
-    if (getEnv().grainTSFluxEnabled){
+    if (getFlags().grainTSFluxEnabled){
       ctest << "\nTSFlux(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < maxGrn; ++i){
         ctest << m_GrainTSFlux[i] << endl;

@@ -208,7 +208,7 @@
         <me:testMicroRates />
         <!--<me:printGrainDOS />-->
         <!--<me:printCellDOS />-->
-        <me:printCollisionOperatorColumnSums />
+        <me:printReactionOperatorColumnSums />
         <!--<me:printGrainkfE />-->
         <!--<me:printGrainBoltzmann />-->
         <!--<me:printGrainkbE />-->

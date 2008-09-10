@@ -39,7 +39,7 @@ namespace mesmer
 
     // Constructors.
 
-    Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id);
+    Reaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char *id);
 
     // Destructor.
     virtual ~Reaction();
@@ -69,8 +69,9 @@ namespace mesmer
       const int rctZPE = int(get_relative_rctZPE());
       return pdtZPE - rctZPE; 
     };
-    const MesmerEnv& getEnv() const       { return m_Env; } ;
-    void resetCalcFlag()                  { reCalcDOS = true; };
+    const MesmerEnv& getEnv() const { return m_Env; } ;
+    MesmerFlags& getFlags() { return m_Flags; } ;
+    void resetCalcFlag(){ reCalcDOS = true; };
 
     // return reactant and product zero-point energy
     virtual double get_relative_rctZPE(void) const = 0;
@@ -253,6 +254,7 @@ namespace mesmer
     double m_backwardCanonicalRate;
 
     const MesmerEnv& m_Env;
+    MesmerFlags& m_Flags;
     std::string m_Name ;        // Reaction name.
 
     int TSFluxStartIdx;                 // idx of the starting grain for calculating forward/backward k(E)s from flux

@@ -14,7 +14,7 @@ namespace mesmer
   //
   //Constructor
   //
-  CollidingMolecule::CollidingMolecule(const MesmerEnv& Env) : ModelledMolecule(Env),
+  CollidingMolecule::CollidingMolecule(const MesmerEnv& Env, MesmerFlags& Flags) : ModelledMolecule(Env, Flags),
     m_Sigma(sigmaDefault),
     m_Epsilon(epsilonDefault),
     m_DeltaEdownExponent(0.0),
@@ -141,7 +141,7 @@ namespace mesmer
       m_pDistributionCalculator = DistributionCalculator::Find(pDistCalcMethodtxt);
     }
 
-    if (getFlag()){
+    if (getErrorFlag()){
       cerr << "Error(s) while initializing: " << getName();
       return false;
     }
@@ -210,7 +210,7 @@ namespace mesmer
       const double refTemp = getDeltaEdownRefTemp();
       const double dEdExp = getDeltaEdownExponent();
       const double dEdRef = m_DeltaEdown.get_value();
-      const double temperature = 1. / (boltzmann_RCpK * m_Env.beta);
+      const double temperature = 1. / (boltzmann_RCpK * getEnv().beta);
       return dEdRef * pow((temperature/refTemp),dEdExp);
     }
     else{
@@ -295,7 +295,7 @@ namespace mesmer
     normalizeCollisionOperator();
 
     // print out of column sums to check normalization results
-    if (getEnv().collisionOCSEnabled){
+    if (getFlags().reactionOCSEnabled){
       ctest << endl << "Collision operator column Sums" << endl << "{" << endl ;
       for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
         double columnSum(0.0) ;
@@ -505,7 +505,7 @@ namespace mesmer
       grainFrac[i] /= prtfn;
     }
 
-    if (getEnv().grainBoltzmannEnabled){
+    if (getFlags().grainBoltzmannEnabled){
       ctest << "\nGrain fraction for " << getName() << ":\n{\n";
       for (int i = 0; i < numberOfGrains; ++i){
         ctest << grainFrac[i] << endl;

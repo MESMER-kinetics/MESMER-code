@@ -14,7 +14,7 @@ namespace mesmer
   //
   //Constructor
   //
-  ModelledMolecule::ModelledMolecule(const MesmerEnv& Env): Molecule(Env),
+  ModelledMolecule::ModelledMolecule(const MesmerEnv& Env, MesmerFlags& Flags): Molecule(Env, Flags),
     m_Mass(0.0),
     m_RotCstA(0.0),
     m_RotCstB(0.0),
@@ -218,7 +218,7 @@ namespace mesmer
       m_SpinMultiplicity_chk = 0;
     }
 
-    if (getFlag()){
+    if (getErrorFlag()){
       cerr << "Error(s) while initializing: " << getName();
       return false;
     }
@@ -372,8 +372,8 @@ namespace mesmer
 
     PersistPtr ppList = getPersistentPointer()->XmlWriteMainElement("me:densityOfStatesList", comment );
 
-    if (getEnv().testDOSEnabled) ctest << endl << "Test rovibronic density of states for: " << getName() << "\n{\n";
-    if (getEnv().testDOSEnabled) ctest << "      T           qtot           sumc           sumg\n";
+    if (getFlags().testDOSEnabled) ctest << endl << "Test rovibronic density of states for: " << getName() << "\n{\n";
+    if (getFlags().testDOSEnabled) ctest << "      T           qtot           sumc           sumg\n";
 
     //loop through predefined test temperatures
     for ( int n = 0 ; n < 29 ; ++n ) {
@@ -430,11 +430,11 @@ namespace mesmer
         qtot = double(getSpinMultiplicity()) ;
       }
 
-      if (getEnv().testDOSEnabled) formatFloat(ctest, temp,  6,  7) ;
-      if (getEnv().testDOSEnabled) formatFloat(ctest, qtot,  6, 15) ;
-      if (getEnv().testDOSEnabled) formatFloat(ctest, cellCanPrtnFn,  6, 15) ;
-      if (getEnv().testDOSEnabled) formatFloat(ctest, grainCanPrtnFn,  6, 15) ;
-      if (getEnv().testDOSEnabled) ctest << endl ;
+      if (getFlags().testDOSEnabled) formatFloat(ctest, temp,  6,  7) ;
+      if (getFlags().testDOSEnabled) formatFloat(ctest, qtot,  6, 15) ;
+      if (getFlags().testDOSEnabled) formatFloat(ctest, cellCanPrtnFn,  6, 15) ;
+      if (getFlags().testDOSEnabled) formatFloat(ctest, grainCanPrtnFn,  6, 15) ;
+      if (getFlags().testDOSEnabled) ctest << endl ;
 
       //Add to XML document
       PersistPtr ppItem = ppList->XmlWriteElement("me:densityOfStates");
@@ -443,9 +443,9 @@ namespace mesmer
       ppItem->XmlWriteValueElement("me:sumc", cellCanPrtnFn, 6);
       ppItem->XmlWriteValueElement("me:sumg", grainCanPrtnFn, 6);
     }
-    if (getEnv().testDOSEnabled) ctest << "}" << endl;
+    if (getFlags().testDOSEnabled) ctest << "}" << endl;
 
-    if (getEnv().cellDOSEnabled){
+    if (getFlags().cellDOSEnabled){
       ctest << endl << "Cell rovibronic density of states of " << getName() << endl << "{" << endl;
       for (int i = 0; i < MaximumCell; ++i){
         formatFloat(ctest, cellEne[i],  6,  15) ;
@@ -455,7 +455,7 @@ namespace mesmer
       ctest << "}" << endl;
     }
 
-    if (getEnv().grainDOSEnabled){
+    if (getFlags().grainDOSEnabled){
       ctest << endl << "Grain rovibronic density of states of " << getName() << endl << "{" << endl;
       for (int i = 0; i < MaximumGrain; ++i){
         formatFloat(ctest, m_grainEne[i],  6,  15) ;

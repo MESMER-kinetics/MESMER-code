@@ -10,8 +10,8 @@ using namespace Constants ;
 
 namespace mesmer
 {
-  BathGasMolecule::BathGasMolecule(const MesmerEnv& Env) 
-    :Molecule(Env),
+  BathGasMolecule::BathGasMolecule(const MesmerEnv& Env, MesmerFlags& Flags) 
+    :Molecule(Env, Flags),
     m_Mass(0.0),
     m_Sigma(sigmaDefault),
     m_Epsilon(epsilonDefault),
@@ -55,7 +55,7 @@ namespace mesmer
     }
     else { istringstream idata(txt); double epsilon(0.); idata >> epsilon; setEpsilon(epsilon);} //extra block ensures idata is initiallised
 
-    if (getFlag()){
+    if (getErrorFlag()){
       cerr << "Error(s) while initializing: " << getName();
       return false;
     }

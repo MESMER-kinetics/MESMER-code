@@ -1087,7 +1087,7 @@
     <me:printGrainDOS />
     <me:testRateConstant />
     <!--<me:printCellDOS />-->
-    <!--<me:printCollisionOperatorColumnSums />-->
+    <!--<me:printReactionOperatorColumnSums />-->
     <me:printTunnellingCoefficients />
     <me:printGrainkfE />
     <!--<me:printGrainBoltzmann />-->

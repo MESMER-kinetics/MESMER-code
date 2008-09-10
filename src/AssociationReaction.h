@@ -32,8 +32,8 @@ namespace mesmer
   public:
 
     // Constructors.
-    AssociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id, bool isReactant)
-      :Reaction(pMoleculeManager, Env, id),
+    AssociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char *id, bool isReactant)
+      :Reaction(pMoleculeManager, Env, Flags, id),
       m_sourceMap(NULL),
       m_rct1(NULL),
       m_rct2(NULL),

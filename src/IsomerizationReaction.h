@@ -22,8 +22,8 @@ namespace mesmer
   public:
 
     // Constructors.
-    IsomerizationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, const char *id)
-      : Reaction(pMoleculeManager, Env, id),
+    IsomerizationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char *id)
+      : Reaction(pMoleculeManager, Env, Flags, id),
       m_rct1(NULL),
       m_pdt1(NULL) {} ;
 
