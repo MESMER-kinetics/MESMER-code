@@ -91,46 +91,6 @@ namespace mesmer
     return ReadRateCoeffParameters(ppReac) ;       // Read heat of reaction and rate parameters.
   }
 
-  // Read parameters required to determine reaction heats and rates.
-  bool IrreversibleExchangeReaction::ReadRateCoeffParameters(PersistPtr ppReac) {
-
-    const char* pERConctxt = ppReac->XmlReadValue("me:excessReactantConc",false);
-    if (!pERConctxt){
-      cerr << "Concentration of excess reactant has not been specified.";
-      return false;
-    } else {
-      stringstream s3(pERConctxt) ;
-      s3 >> m_ERConc ;
-    }
-
-    const char* pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod") ; // Determine the method of MC 
-    if(pMCRCMethodtxt)                                                   // rate coefficient calculation
-    {
-      m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
-      if(!m_pMicroRateCalculator)
-      {
-        cerr << "Unknown method " << pMCRCMethodtxt
-          << " for the determination of Microcanonical rate coefficients in reaction "
-          << getName();
-        return false;
-      }
-    }
-
-    const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;   // Determine tunneling correction model
-    if(pTunnelingtxt)
-    {
-      m_pTunnelingCalculator = TunnelingCalculator::Find(pTunnelingtxt);
-      if(!m_pTunnelingCalculator)
-      {
-        cerr << "Unknown method " << pTunnelingtxt
-          << " for the determination of tunneling coefficients in reaction "
-          << getName();
-        return false;
-      }
-    }
-    return true ;
-  }
-
   double IrreversibleExchangeReaction::calcEquilibriumConstant() {   // Calculate reaction equilibrium constant.
     double Keq(0.0) ;
     return Keq ;

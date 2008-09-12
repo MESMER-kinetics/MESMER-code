@@ -48,7 +48,7 @@ namespace mesmer
         istringstream ss(txt); ss >> m_Env.GrainSize;
       }
       else{
-        cinfo << "Grain size is not provided. Default grain size = " << m_Env.GrainSize << " is used";
+        cinfo << "Grain size is not provided. Default grain size = " << m_Env.GrainSize << " is used" << endl;
       }
 
       txt = ppParams->XmlReadValue("me:maxTemperature",false);
@@ -177,7 +177,7 @@ namespace mesmer
       else m_Flags.searchMethod = 0;
 
       if (m_Flags.grainedProfileEnabled && (m_Flags.speciesProfileEnabled || m_Flags.searchMethod)){
-        cinfo << "Turn off grained species profile to prevent disk flooding.";
+        cinfo << "Turn off grained species profile to prevent disk flooding." << endl;
         m_Flags.grainedProfileEnabled = false;
       }
 

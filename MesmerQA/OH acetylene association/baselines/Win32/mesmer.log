@@ -10,10 +10,12 @@ The description element or attribute was missing or empty.
 Cannot find argument me:eletronicExcitation for OH_acetylene_adduct
 Cannot find argument me:frequenciesScaleFactor
 No method for the calculation of distribution fraction in OH_acetylene_adduct is provided. Default method <Boltzmann> is used.
+ILT method chosen, look for ILT expressions
 The me:TInfinity element or attribute was missing or empty.
 Tinfinity has not been specified; set to the default value of 298 K
 The me:tunneling element or attribute was missing or empty.
-No tunneling method was found for R1.
+No tunneling method was found for R1
+Not a unimolecular reaction: look for excess reactant concentration.
 Parsing reaction R2...
 The description element or attribute was missing or empty.
 Cannot find argument me:eletronicExcitation for OCHCH2
@@ -24,6 +26,7 @@ Cannot find argument me:eletronicExcitation for TS_1a
 Cannot find argument me:frequenciesScaleFactor
 No imaginary vibrational frequency for TS_1a.
 The me:tunneling element or attribute was missing or empty.
+No tunneling method was found for R2
 The description element or attribute was missing or empty.
 The me:precision element or attribute was missing or empty.
 The me:MaximumEvolutionTime element or attribute was missing or empty.
@@ -39,8 +42,8 @@ m_scaleFactor was not defined but requested in acetylene. Default value 1 is giv
 
 20 values in the FFT convolution routine were replaced by standard convolution
 
-20 values in the FFT convolution routine were replaced by standard convolution
-ILT calculation completed
+40 values in the FFT convolution routine were replaced by standard convolution
+Association ILT calculation completed
 m_scaleFactor was not defined but requested in OH_acetylene_adduct. Default value 1 is given.
 
 20 values in the FFT convolution routine were replaced by standard convolution
@@ -53,10 +56,10 @@ m_scaleFactor was not defined but requested in TS_1a. Default value 1 is given.
 20 values in the FFT convolution routine were replaced by standard convolution
 Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 
-Finish Calculation -- Time elapsed: 44 seconds.
+Finish Calculation -- Time elapsed: 41 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
  *Info in main
- -- Total time elapsed: 77 seconds.
+ -- Total time elapsed: 71 seconds.
 
 System saved
 m_Mass is provided but not used in OCHCH2

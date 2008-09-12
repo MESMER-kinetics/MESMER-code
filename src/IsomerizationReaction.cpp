@@ -136,140 +136,106 @@ namespace mesmer
       (*CollOptr)[ii][jj]  = qd_real(rMeanOmega * m_GrainTSFlux[i] / sqrt(rctDOS[ll] * pdtDOS[mm])) ; // Reactive gain.
       (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                           // Reactive gain.
     }
- 
-}
 
-// Read parameters requires to determine reaction heats and rates.
-bool IsomerizationReaction::ReadRateCoeffParameters(PersistPtr ppReac) {
+  }
 
-  // Determine the method of MC rate coefficient calculation.
-  const char* pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod") ;
-  if(pMCRCMethodtxt)
-  {
-    m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
-    if(!m_pMicroRateCalculator)
-    {
-      cerr << "Unknown method " << pMCRCMethodtxt
-        << " for the determination of Microcanonical rate coefficients in reaction "
-        << getName();
-      return false;
+  //
+  // Calculate grained forward and reverse k(E)s from transition state flux
+  //
+  void IsomerizationReaction::calcGrainRateCoeffs(){
+    vector<double> rctGrainDOS;
+    vector<double> pdtGrainDOS;
+    m_rct1->getGrainDensityOfStates(rctGrainDOS) ;
+    m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
+
+    calculateEffectiveGrainedThreshEn();
+    const int forwardTE = get_effectiveForwardTSFluxGrnZPE();
+    int reverseTE = get_effectiveReverseTSFluxGrnZPE();
+    calculateTSfluxStartIdx();
+    const int fluxStartIdx = get_TSFluxStartIdx();
+
+    const int MaximumGrain = (getEnv().MaxGrn-fluxStartIdx);
+    m_GrainKfmc.clear();
+    m_GrainKfmc.resize(MaximumGrain , 0.0);
+    m_GrainKbmc.clear();
+    m_GrainKbmc.resize(MaximumGrain , 0.0);
+
+    for (int i = reverseTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
+      m_GrainKbmc[i] = m_GrainTSFlux[j] / pdtGrainDOS[i];
+    }
+    for (int i = forwardTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
+      m_GrainKfmc[i] = m_GrainTSFlux[j] / rctGrainDOS[i];
+    }
+
+    // the code that follows is for printing of the f & r k(E)s
+    if (getFlags().kfEGrainsEnabled){
+      ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
+      for (int i = 0; i < MaximumGrain; ++i){
+        ctest << m_GrainKfmc[i] << endl;
+      }
+      ctest << "}\n";
+    }
+    if (getFlags().kbEGrainsEnabled){
+      ctest << "\nk_b(e) grains for " << getName() << ":\n{\n";
+      for (int i = 0; i < MaximumGrain; ++i){
+        ctest << m_GrainKbmc[i] << endl;
+      }
+      ctest << "}\n";
+    }
+    if (getFlags().testRateConstantEnabled)
+      testRateConstant();
+  }
+
+  // Test k(T)
+  void IsomerizationReaction::testRateConstant() {
+
+    double k_forward(0.0), k_backward(0.0);
+    vector<double> rctGrainDOS, rctGrainEne, pdtGrainDOS, pdtGrainEne ;
+    m_rct1->getGrainDensityOfStates(rctGrainDOS);
+    m_pdt1->getGrainDensityOfStates(pdtGrainDOS);
+    m_rct1->getGrainEnergies(rctGrainEne);
+    m_pdt1->getGrainEnergies(pdtGrainEne);
+    const int MaximumGrain = (getEnv().MaxGrn-get_TSFluxStartIdx());
+    const double beta = getEnv().beta;
+    const double temperature = 1. / (boltzmann_RCpK * beta);
+
+    for(int i(0); i < MaximumGrain; ++i){
+      k_forward += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
+      k_backward += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i]);
+    }
+
+    const double rctprtfn = canonicalPartitionFunction(rctGrainDOS, rctGrainEne, beta);
+    const double pdtprtfn = canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, beta);
+    k_forward /= rctprtfn;
+    k_backward /= pdtprtfn;
+    set_forwardCanonicalRateCoefficient(k_forward);
+    set_backwardCanonicalRateCoefficient(k_backward);
+
+    ctest << endl << "Canonical pseudo first order forward rate constant of isomerization reaction " 
+      << getName() << " = " << get_forwardCanonicalRateCoefficient() << " s-1 (" << temperature << " K)" << endl;
+    ctest << "Canonical pseudo first order backward rate constant of isomerization reaction " 
+      << getName() << " = " << get_backwardCanonicalRateCoefficient() << " s-1 (" << temperature << " K)" << endl;
+  }
+
+  void IsomerizationReaction::calculateEffectiveGrainedThreshEn(void){  // see the comments in
+    double thresh = get_ThresholdEnergy();    // calculateEffectiveGrainedThreshEn under AssociationReaction.cpp
+    double RxnHeat = getHeatOfReaction();
+    int TS_en = this->getTSFluxGrnZPE();
+    int pdt_en = m_pdt1->get_grnZpe();
+    int rct_en = m_rct1->get_grnZpe();
+    int GrainedRxnHeat = pdt_en - rct_en;
+    if(thresh<0.0){
+      set_effectiveForwardTSFluxGrnZPE(0);
+      set_effectiveReverseTSFluxGrnZPE(-GrainedRxnHeat);
+    }
+    else if(thresh>0.0 && thresh<RxnHeat){
+      set_effectiveForwardTSFluxGrnZPE(GrainedRxnHeat);
+      set_effectiveReverseTSFluxGrnZPE(0);
+    }
+    else{
+      set_effectiveForwardTSFluxGrnZPE(TS_en-rct_en);
+      set_effectiveReverseTSFluxGrnZPE(TS_en-pdt_en);
     }
   }
-
-  // Determine the method of estimating tunneling effect.
-  const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
-  if(pTunnelingtxt)
-  {
-    m_pTunnelingCalculator = TunnelingCalculator::Find(pTunnelingtxt);
-    if(!m_pTunnelingCalculator)
-    {
-      cerr << "Unknown method " << pTunnelingtxt
-        << " for the determination of tunneling coefficients in reaction "
-        << getName();
-      return false;
-    }
-  }
-
-  return true ;
-}
-
-//
-// Calculate grained forward and reverse k(E)s from trainsition state flux
-//
-void IsomerizationReaction::calcGrainRateCoeffs(){
-  vector<double> rctGrainDOS;
-  vector<double> pdtGrainDOS;
-  m_rct1->getGrainDensityOfStates(rctGrainDOS) ;
-  m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
-
-  calculateEffectiveGrainedThreshEn();
-  const int forwardTE = get_effectiveForwardTSFluxGrnZPE();
-  int reverseTE = get_effectiveReverseTSFluxGrnZPE();
-  calculateTSfluxStartIdx();
-  const int fluxStartIdx = get_TSFluxStartIdx();
-
-  const int MaximumGrain = (getEnv().MaxGrn-fluxStartIdx);
-  m_GrainKfmc.clear();
-  m_GrainKfmc.resize(MaximumGrain , 0.0);
-  m_GrainKbmc.clear();
-  m_GrainKbmc.resize(MaximumGrain , 0.0);
-
-  for (int i = reverseTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
-    m_GrainKbmc[i] = m_GrainTSFlux[j] / pdtGrainDOS[i];
-  }
-  for (int i = forwardTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
-    m_GrainKfmc[i] = m_GrainTSFlux[j] / rctGrainDOS[i];
-  }
-
-  // the code that follows is for printing of the f & r k(E)s
-  if (getFlags().kfEGrainsEnabled){
-    ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
-    for (int i = 0; i < MaximumGrain; ++i){
-      ctest << m_GrainKfmc[i] << endl;
-    }
-    ctest << "}\n";
-  }
-  if (getFlags().kbEGrainsEnabled){
-    ctest << "\nk_b(e) grains for " << getName() << ":\n{\n";
-    for (int i = 0; i < MaximumGrain; ++i){
-      ctest << m_GrainKbmc[i] << endl;
-    }
-    ctest << "}\n";
-  }
-  if (getFlags().testRateConstantEnabled)
-    testRateConstant();
-}
-
-// Test k(T)
-void IsomerizationReaction::testRateConstant() {
-
-  double k_forward(0.0), k_backward(0.0);
-  vector<double> rctGrainDOS, rctGrainEne, pdtGrainDOS, pdtGrainEne ;
-  m_rct1->getGrainDensityOfStates(rctGrainDOS);
-  m_pdt1->getGrainDensityOfStates(pdtGrainDOS);
-  m_rct1->getGrainEnergies(rctGrainEne);
-  m_pdt1->getGrainEnergies(pdtGrainEne);
-  const int MaximumGrain = (getEnv().MaxGrn-get_TSFluxStartIdx());
-  const double beta = getEnv().beta;
-  const double temperature = 1. / (boltzmann_RCpK * beta);
-
-  for(int i(0); i < MaximumGrain; ++i){
-    k_forward += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
-    k_backward += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i]);
-  }
-
-  const double rctprtfn = canonicalPartitionFunction(rctGrainDOS, rctGrainEne, beta);
-  const double pdtprtfn = canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, beta);
-  k_forward /= rctprtfn;
-  k_backward /= pdtprtfn;
-  set_forwardCanonicalRateCoefficient(k_forward);
-  set_backwardCanonicalRateCoefficient(k_backward);
-
-  ctest << endl << "Canonical pseudo first order forward rate constant of isomerization reaction " 
-    << getName() << " = " << get_forwardCanonicalRateCoefficient() << " s-1 (" << temperature << " K)" << endl;
-  ctest << "Canonical pseudo first order backward rate constant of isomerization reaction " 
-    << getName() << " = " << get_backwardCanonicalRateCoefficient() << " s-1 (" << temperature << " K)" << endl;
-}
-
-void IsomerizationReaction::calculateEffectiveGrainedThreshEn(void){  // see the comments in
-  double thresh = get_ThresholdEnergy();    // calculateEffectiveGrainedThreshEn under AssociationReaction.cpp
-  double RxnHeat = getHeatOfReaction();
-  int TS_en = this->getTSFluxGrnZPE();
-  int pdt_en = m_pdt1->get_grnZpe();
-  int rct_en = m_rct1->get_grnZpe();
-  int GrainedRxnHeat = pdt_en - rct_en;
-  if(thresh<0.0){
-    set_effectiveForwardTSFluxGrnZPE(0);
-    set_effectiveReverseTSFluxGrnZPE(-GrainedRxnHeat);
-  }
-  else if(thresh>0.0 && thresh<RxnHeat){
-    set_effectiveForwardTSFluxGrnZPE(GrainedRxnHeat);
-    set_effectiveReverseTSFluxGrnZPE(0);
-  }
-  else{
-    set_effectiveForwardTSFluxGrnZPE(TS_en-rct_en);
-    set_effectiveReverseTSFluxGrnZPE(TS_en-pdt_en);
-  }
-}
 
 }//namespace

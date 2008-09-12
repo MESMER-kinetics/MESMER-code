@@ -75,9 +75,6 @@ namespace mesmer
     // Add reaction terms to collision matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
 
-    // Read parameters requires to determine reaction heats and rates.
-    virtual bool ReadRateCoeffParameters(PersistPtr ppReac) ;
-
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs();
 

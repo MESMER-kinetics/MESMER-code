@@ -1,3 +1,9 @@
+_2008_09_12__16_11_05_ Chi-Hsiu Liang
+
+  * Check in the changes Dave made on unimolecular ILT and corrections on the work vector in ILT. Please check the changes
+    in MesmerILT.
+  * Reorganize ReadRateCoeffParameters() in different reactions into one function in Reaction.
+
 _2008_09_10__14_28_16_ Chi-Hsiu Liang
 
   * Separated out control flags from MesmerEnv to MesmerFlags

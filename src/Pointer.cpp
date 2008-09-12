@@ -17,7 +17,7 @@ namespace mesmer
     p_ = int(allP.size()) - 1;
 
     if (valueU == valueL){
-      cerr << "Upper value cannot equal to lower value.";
+      cerr << "Upper value cannot be equal to lower value.";
       return;
     }
     else if (valueU > valueL){

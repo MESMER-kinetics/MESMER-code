@@ -106,18 +106,9 @@ namespace mesmer
 
     // Locate reactant in system matrix.
     const int rctLocation = isomermap[dynamic_cast<CollidingMolecule*>(m_rct1)] ;
-/*    const int TSgrainZPE  = getTSFluxGrnZPE();
-    const int rctGrainZPE = m_rct1->get_grnZpe();
-    const int MaximumGrain = getEnv().MaxGrn;
-
-    for ( int i = TSgrainZPE, j = 0 ; i < MaximumGrain; ++i, ++j ){
-      int ll(i - rctGrainZPE);
-      int ii(rctLocation + ll) ;
-      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainTSFlux[j] / rctDOS[ll]) ;   // Forward loss reaction.
-    }*/
-
     const int colloptrsize = m_rct1->get_colloptrsize();
     const int forwardThreshE = get_effectiveForwardTSFluxGrnZPE();
+
     //const int reverseThreshE = get_effectiveReverseTSFluxGrnZPE();
     const int fluxStartIdx = get_TSFluxStartIdx();
 
@@ -126,100 +117,7 @@ namespace mesmer
       int ii(rctLocation + ll) ;
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainTSFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
     }
-
   }
-
-  // Read parameters requires to determine reaction heats and rates.
-  bool IrreversibleUnimolecularReaction::ReadRateCoeffParameters(PersistPtr ppReac) {
-
-    const char* pActEnetxt = ppReac->XmlReadValue("me:activationEnergy", false);
-    if (pActEnetxt)
-    {
-      PersistPtr ppActEne = ppReac->XmlMoveTo("me:activationEnergy") ;
-      double value = 0.0;
-      stringstream s2(pActEnetxt); s2 >> value ;
-      const char* pLowertxt = ppActEne->XmlReadValue("lower", false);
-      const char* pUppertxt = ppActEne->XmlReadValue("upper", false);
-      const char* pStepStxt = ppActEne->XmlReadValue("stepsize", false);
-      if (pLowertxt && pUppertxt){
-        double valueL(0.0), valueU(0.0), stepsize(0.0);
-        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
-        set_ThresholdEnergy(value, valueL, valueU, stepsize);
-      }
-      else{
-        set_ThresholdEnergy(value);
-      }
-    }
-
-    const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential", false);
-    if (pPreExptxt)
-    {
-      PersistPtr ppPreExponential = ppReac->XmlMoveTo("me:preExponential") ;
-      double value = 0.0;
-      stringstream s2(pPreExptxt); s2 >> value ;
-      const char* pLowertxt = ppPreExponential->XmlReadValue("lower", false);
-      const char* pUppertxt = ppPreExponential->XmlReadValue("upper", false);
-      const char* pStepStxt = ppPreExponential->XmlReadValue("stepsize", false);
-      if (pLowertxt && pUppertxt){
-        double valueL(0.0), valueU(0.0), stepsize(0.0);
-        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
-        set_PreExp(valueL, valueU, stepsize);
-      }
-      else{
-        set_PreExp(value);
-      }
-    }
-
-    const char* pNInftxt = ppReac->XmlReadValue("me:nInfinity", false);
-    if (pNInftxt)
-    {
-      PersistPtr ppNInf = ppReac->XmlMoveTo("me:nInfinity") ;
-      double value = 0.0;
-      stringstream s2(pNInftxt); s2 >> value ;
-      const char* pLowertxt = ppNInf->XmlReadValue("lower", false);
-      const char* pUppertxt = ppNInf->XmlReadValue("upper", false);
-      const char* pStepStxt = ppNInf->XmlReadValue("stepsize", false);
-      if (pLowertxt && pUppertxt){
-        double valueL(0.0), valueU(0.0), stepsize(0.0);
-        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
-        set_NInf(valueL, valueU, stepsize);
-      }
-      else{
-        set_NInf(value);
-      }
-    }
-
-    // Determine the method of MC rate coefficient calculation.
-    const char* pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod") ;
-    if(pMCRCMethodtxt)
-    {
-      m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
-      if(!m_pMicroRateCalculator)
-      {
-        cerr << "Unknown method " << pMCRCMethodtxt
-          << " for the determination of Microcanonical rate coefficients in reaction "
-          << getName();
-        return false;
-      }
-    }
-
-    // Determine the method of estimating tunneling effect.
-    const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
-    if(pTunnelingtxt)
-    {
-      m_pTunnelingCalculator = TunnelingCalculator::Find(pTunnelingtxt);
-      if(!m_pTunnelingCalculator)
-      {
-        cerr << "Unknown method " << pTunnelingtxt
-          << " for the determination of tunneling coefficients in reaction "
-          << getName();
-        return false;
-      }
-    }
-
-    return true ;
-  }
-
 
   //
   // Calculate grained forward k(E)s from transition state flux

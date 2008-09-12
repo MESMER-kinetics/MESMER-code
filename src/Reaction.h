@@ -57,17 +57,20 @@ namespace mesmer
     double get_NInf()                     { return m_NInf.get_value() ; } ;
     void set_NInf(double value)           { m_NInf = value;}
     void set_NInf(double valueL, double valueU, double stepsize)  { m_NInf.set_range(valueL, valueU, stepsize); }
-    double get_TInf()                     { return m_TInf.get_value() ; } ;
+    double get_TInf()                     { return m_TInf ; } ;
     void set_TInf(double value)           { m_TInf = value;};
+    double get_EInf()                     { return m_EInf.get_value() ; } ;
+    void set_EInf(double value)           { m_EInf = value;};
+    void set_EInf(double valueL, double valueU, double stepsize)  { m_EInf.set_range(valueL, valueU, stepsize); }
     double getHeatOfReaction() const      {
       const double pdtZPE = get_relative_pdtZPE();
       const double rctZPE = get_relative_rctZPE();
       return pdtZPE - rctZPE;
     };
-    int getHeatOfReactionInt() const      { 
+    int getHeatOfReactionInt() const      {
       const int pdtZPE = int(get_relative_pdtZPE());
       const int rctZPE = int(get_relative_rctZPE());
-      return pdtZPE - rctZPE; 
+      return pdtZPE - rctZPE;
     };
     const MesmerEnv& getEnv() const { return m_Env; } ;
     MesmerFlags& getFlags() { return m_Flags; } ;
@@ -83,9 +86,9 @@ namespace mesmer
 
     // Get activiation energy
     double get_ThresholdEnergy(void);
-    /* This function should be considered as a function to get the activiation energy. 
-    In ILT, not the theoretical threshold energy but the experimental activation energy is used. 
-    This function returns user defined m_ActivationEnergy, otherwise zero. 
+    /* This function should be considered as a function to get Einf.
+    In ILT, not the theoretical threshold energy but the experimental Einf is used.
+    This function returns user defined m_EInf, otherwise zero.
     ILT can be used in all reaction types if necessary. */
 
     // get products
@@ -96,12 +99,6 @@ namespace mesmer
 
     // get reactant collisionoperator size
     virtual int getRctColloptrsize() = 0;
-
-    // Set activiation energy
-    void set_ThresholdEnergy(const double value){m_ActivationEnergy = value; };
-    void set_ThresholdEnergy(const double value, const double valueL, const double valueU, const double stepsize){
-      m_ActivationEnergy.set_range(valueL, valueU, stepsize);
-    };
 
     TransitionState* get_TransitionState() const { return m_TransitionState ; } ;
 
@@ -149,11 +146,11 @@ namespace mesmer
     // set & get the TSFlux Start Idx for calculating k(e)s from TS flux
     void set_effectiveForwardTSFluxGrnZPE(int idx){EffectiveForwardGrainedThreshEn = idx;};
     const int get_effectiveForwardTSFluxGrnZPE(void){return int(EffectiveForwardGrainedThreshEn);};
-    
+
     // set & get the forward threshold energy for calculating backward k(e)s from TS flux
     void set_effectiveReverseTSFluxGrnZPE(int idx){EffectiveReverseGrainedThreshEn = idx;};
     const int get_effectiveReverseTSFluxGrnZPE(void){return int(EffectiveReverseGrainedThreshEn);};
-    
+
     // get the backward threshold energy for calculating backward k(e)s from TS flux
     const int getTSFluxGrnZPE(void){return int(m_FluxGrainZPE);};
 
@@ -185,6 +182,9 @@ namespace mesmer
     // is the reaction an irreversible reaction
     virtual bool isIrreversible(){return false;};
 
+    // is the reaction unimolecular?
+    virtual bool isUnimolecular(){return true;};
+
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() = 0 ;
 
@@ -209,7 +209,7 @@ namespace mesmer
 
     /*
     Each of the backward/forward microcanonical rate coefficients are based on
-    the bottom of the relevant well. The cell and grain vectors for each well all have 
+    the bottom of the relevant well. The cell and grain vectors for each well all have
     the same number of elements; although the number of trailing 0 elements differ
     by the quantity (MaximumGrain - ZpeOfTheWell).
     */
@@ -217,7 +217,7 @@ namespace mesmer
     //
     // Reaction Rate data.
     //
-    
+
     // _2008_04_24__12_35_40_  <- Please search for this string in the current file for further description.
     double m_FluxGrainZPE;                       // grain ZPE of m_GrainTSFlux
     int m_FluxCellOffset;                        // cell Offset when converting m_CellTSFlux to m_GrainTSFlux
@@ -227,6 +227,11 @@ namespace mesmer
 
     std::vector<double>  m_GrainKfmc ;           // Grained averaged forward  microcanonical rates.
     std::vector<double>  m_GrainKbmc ;           // Grained averaged backward microcanonical rates.
+
+  protected:
+
+    // Read parameters requires to determine reaction heats and rates.
+    bool ReadRateCoeffParameters(PersistPtr ppReac);
 
   private:
 
@@ -241,8 +246,11 @@ namespace mesmer
     // Grain average microcanonical rate coefficients.
     bool grnAvrgMicroRateCoeffs();
 
-    // Read parameters requires to determine reaction heats and rates.
-    virtual bool ReadRateCoeffParameters(PersistPtr ppReac) = 0;
+    // Read excess reactant concentration
+    bool ReadExcessReactantConcentration(PersistPtr ppReac);
+
+    // Read ILT parameters
+    bool ReadILTParameters(PersistPtr ppReac);
 
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs() = 0;
@@ -263,12 +271,18 @@ namespace mesmer
 
     bool reCalcDOS;             // re-calculation on DOS
     // all the parameters that follow are for an arrhenius expression of the type:
-    // k(T) = Ainf*(T/Tinf)^ninf * exp(-Ea/(RT))
+    // k(T) = Ainf*(T/Tinf)^ninf * exp(-Einf/(RT))
     DPoint m_PreExp ;           // Preexponetial factor
     DPoint m_NInf ;             // Modified Arrhenius parameter
-    DPoint m_TInf ;             // T infinity
-    DPoint m_ActivationEnergy;  // Activation Energy
+    double m_TInf ;             // T infinity
+    DPoint m_EInf ;             // E infinity
     double m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
+
+  protected:
+
+    double m_ERConc ;           // Concentration of the excess reactant (This is a complement to reactions with
+                                // excess species. This value is not used in unimolecular reactions.)
+
   } ;
 
   // _2008_04_24__12_35_40_
@@ -281,7 +295,7 @@ namespace mesmer
   //  It is user's taste to choose where to start a Flux vector, as long as the user specifies the ZPE of the Flux
   //  by setCellFluxBottom()
   //
-  //  It is important to calculate the flux so that it is based at least higher than the higher well so that the derivation 
+  //  It is important to calculate the flux so that it is based at least higher than the higher well so that the derivation
   //  of forward/reverse microcanoincal rate coefficients can be processed by Mesmer.
   //
   //                     TS flux                           kfmc                           kbmc
@@ -297,7 +311,7 @@ namespace mesmer
   //                 /                                     ---x = 0.0 /
   //                /                                      ---x = 0.0/
   // lower well ___/                                       ---x .___/
-  // 
+  //
   // ------------------
   //
   //                     E        DOS     kf(E)     TS flux         kr(E)
@@ -317,7 +331,7 @@ namespace mesmer
   //  Let's say if we have a grain has three cells (wavenumbers), and their energy are 10, 11, 12, respectively.
   //  Their cell DOS are listed above, which are 4, 5, 6, respectively; also the forward microcanoincal rate coefficients.
   //  Then, we have flux 6*10=60 for cell 12, 5*9=45 for cell 11, 4*8=32 for cell 10.
-  //  
+  //
   //  Conversely, when we first calculating kfmc, we put k(E) = W(E)/ [h * rho(E)]. Flux of cell 12 is simply [W(E)/ h] = 60
   //  without having to divide by rho(E), which is 6 for this cell.
 

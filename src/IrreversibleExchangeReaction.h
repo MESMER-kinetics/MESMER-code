@@ -29,8 +29,7 @@ namespace mesmer
       m_rct2(NULL), 
       m_pdt1(NULL), 
       m_pdt2(NULL),
-      deficientReactantLocation(isReactant),
-      m_ERConc(0.)
+      deficientReactantLocation(isReactant)
       {} 
 
     // Destructor.
@@ -84,6 +83,9 @@ namespace mesmer
     // is the reaction an irreversible reaction
     virtual bool isIrreversible(){return true;};
 
+    // is reaction unimolecular
+    virtual bool isUnimolecular(){return false;};
+
     // get the reactant, which reacts in a first order or pseudo first order process
     virtual ModelledMolecule *get_reactant(void) const {return m_rct1;};
 
@@ -95,9 +97,6 @@ namespace mesmer
 
     // Add reaction terms to collision matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
-
-    // Read parameters requires to determine reaction heats and rates.
-    virtual bool ReadRateCoeffParameters(PersistPtr ppReac) ;
 
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs();
@@ -113,8 +112,6 @@ namespace mesmer
     ModelledMolecule    *m_pdt2 ;                 // Subsidiary product molecule.
 
     bool deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
-    double               m_ERConc ; // Concentration of the excess reactant
-
   } ;
 
 

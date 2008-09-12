@@ -16,6 +16,11 @@ namespace mesmer
 
     virtual bool calculateMicroRateCoeffs(Reaction* pReact) ;
 
+  private:
+
+    bool calculateAssociationMicroRates(Reaction* pReact);
+    bool calculateUnimolecularMicroRates(Reaction* pReact);
+
   };
 }//namespace
 

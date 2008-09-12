@@ -41,8 +41,9 @@ namespace mesmer
     m_PreExp(0.0),
     m_NInf(0.0),
     m_TInf(298.0),
-    m_ActivationEnergy(0.0),
-    m_kfwd(0.0)
+    m_EInf(0.0),
+    m_kfwd(0.0),
+    m_ERConc(0.0)
   {}
 
   Reaction::~Reaction(){}
@@ -206,7 +207,7 @@ namespace mesmer
 
   //this function retrieves the activation/threshold energy for an association reaction
   double Reaction::get_ThresholdEnergy(void) {
-    if (!m_ActivationEnergy.get_value()){ // default is zero
+    if (!m_EInf.get_value()){ // default is zero
       if (!m_TransitionState) {
         cinfo << "No TransitionState for " << getName() << ", threshold energy = 0.0" << endl;
         return 0.0;
@@ -219,7 +220,7 @@ namespace mesmer
       }
       return ThresholdEnergy;
     }
-    return m_ActivationEnergy.get_value();
+    return m_EInf.get_value();
   } 
 
   void Reaction::calculateTSfluxStartIdx(void) {
@@ -232,5 +233,154 @@ namespace mesmer
     else
       TSFluxStartIdx = 0;
   };  
+
+  // Read excess reactant concentration
+  bool Reaction::ReadExcessReactantConcentration(PersistPtr ppReac){
+    const char* pERConctxt = ppReac->XmlReadValue("me:excessReactantConc",false);
+    if (!pERConctxt){
+      cerr << "Concentration of excess reactant has not been specified.";
+      return false;
+    } else {
+      stringstream s3(pERConctxt) ;
+      s3 >> m_ERConc ;
+    }
+    return true;
+  }
+
+  // Read ILT parameters
+  bool Reaction::ReadILTParameters(PersistPtr ppReac) {
+    const char* pActEnetxt = ppReac->XmlReadValue("me:activationEnergy", false);
+    if (pActEnetxt)
+    {
+      PersistPtr ppActEne = ppReac->XmlMoveTo("me:activationEnergy") ;
+      double tmpvalue = 0.0;
+      stringstream s2(pActEnetxt); s2 >> tmpvalue ;
+      const char* unitsTxt = ppActEne->XmlReadValue("units", false);
+      string unitsInput;
+      if (unitsTxt){
+        unitsInput = unitsTxt;
+      }
+      else{
+        unitsInput = "kJ/mol";
+      }
+      const char* pLowertxt = ppActEne->XmlReadValue("lower", false);
+      const char* pUppertxt = ppActEne->XmlReadValue("upper", false);
+      const char* pStepStxt = ppActEne->XmlReadValue("stepsize", false);
+      double value(getConvertedEnergy(unitsInput, tmpvalue));
+      if (pLowertxt && pUppertxt){
+        double tmpvalueL(0.0), tmpvalueU(0.0), tmpstepsize(0.0);
+        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> tmpvalueL; s4 >> tmpvalueU; s5 >> tmpstepsize;
+        double valueL(getConvertedEnergy(unitsInput, tmpvalueL));
+        double valueU(getConvertedEnergy(unitsInput, tmpvalueL));
+        double stepsize(getConvertedEnergy(unitsInput, tmpstepsize));
+        set_EInf(valueL, valueU, stepsize);
+      }
+      else{
+        set_EInf(value);
+      }
+    }
+
+    const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential", false);
+    if (pPreExptxt)
+    {
+      PersistPtr ppPreExponential = ppReac->XmlMoveTo("me:preExponential") ;
+      double value = 0.0;
+      stringstream s2(pPreExptxt); s2 >> value ;
+      const char* pLowertxt = ppPreExponential->XmlReadValue("lower", false);
+      const char* pUppertxt = ppPreExponential->XmlReadValue("upper", false);
+      const char* pStepStxt = ppPreExponential->XmlReadValue("stepsize", false);
+      if (pLowertxt && pUppertxt){
+        double valueL(0.0), valueU(0.0), stepsize(0.0);
+        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
+        set_PreExp(valueL, valueU, stepsize);
+      }
+      else{
+        set_PreExp(value);
+      }
+    }
+
+    const char* pNInftxt = ppReac->XmlReadValue("me:nInfinity", false);
+    if (pNInftxt)
+    {
+      PersistPtr ppNInf = ppReac->XmlMoveTo("me:nInfinity") ;
+      double value = 0.0;
+      stringstream s2(pNInftxt); s2 >> value ;
+      const char* pLowertxt = ppNInf->XmlReadValue("lower", false);
+      const char* pUppertxt = ppNInf->XmlReadValue("upper", false);
+      const char* pStepStxt = ppNInf->XmlReadValue("stepsize", false);
+      if (pLowertxt && pUppertxt){
+        double valueL(0.0), valueU(0.0), stepsize(0.0);
+        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
+        set_NInf(valueL, valueU, stepsize);
+      }
+      else{
+        set_NInf(value);
+      }
+    }
+
+    const char* pTInftxt = ppReac->XmlReadValue("me:TInfinity");  // read XML designation
+    if (!pTInftxt){           // if there is no Tinfinity
+      cinfo << "Tinfinity has not been specified; set to the default value of 298 K" << endl;
+    }
+    else{                     // if there is a Tinfinity
+      double TInf(298.0);     // set Tinf to 298
+      stringstream s3(pTInftxt);    // initialize stringstream
+      s3 >> TInf;             // use the stringstream to get Tinfinty from the input file
+      if(TInf <= 0){          // if Tinf is <= 0, set to 298
+        cinfo << "Tinfinity is less than or equal to 0; set to the default value of 298 K" << endl;
+      }
+      else
+        set_TInf(TInf);         // else set Tinf to the value in the input
+    }
+
+    return true;
+  }
+
+  // Read parameters requires to determine reaction heats and rates.
+  bool Reaction::ReadRateCoeffParameters(PersistPtr ppReac) {
+
+    // Determine the method of MC rate coefficient calculation.
+    const char* pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod") ;
+    if(pMCRCMethodtxt)
+    {
+      m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
+      if(!m_pMicroRateCalculator)
+      {
+        cerr << "Unknown method " << pMCRCMethodtxt
+          << " for the determination of Microcanonical rate coefficients in reaction "
+          << getName();
+        return false;
+      }
+      if (strcmp(pMCRCMethodtxt, "Mesmer ILT") == 0){
+        cinfo << "ILT method chosen, look for ILT expressions" << endl;
+        if (!ReadILTParameters(ppReac)) return false;
+      }
+    }
+
+    // Determine the method of estimating tunneling effect.
+    const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
+    if(pTunnelingtxt)
+    {
+      m_pTunnelingCalculator = TunnelingCalculator::Find(pTunnelingtxt);
+      if(!m_pTunnelingCalculator)
+      {
+        cerr << "Unknown method " << pTunnelingtxt
+          << " for the determination of tunneling coefficients in reaction "
+          << getName();
+        return false;
+      }
+    }
+    else{
+      cinfo << "No tunneling method was found for " << getName() << endl;
+    }
+
+    if (!isUnimolecular()){
+      cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;
+      if (!ReadExcessReactantConcentration(ppReac)) return false;
+    }
+
+    return true ;
+  }
+
 
 }//namespace

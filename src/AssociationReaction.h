@@ -38,8 +38,7 @@ namespace mesmer
       m_rct1(NULL),
       m_rct2(NULL),
       m_pdt1(NULL),
-      deficientReactantLocation(isReactant),
-      m_ERConc(0.)
+      deficientReactantLocation(isReactant)
     {}
 
     // Destructor.
@@ -86,6 +85,9 @@ namespace mesmer
     // to the calculation of equilibrium fractions.
     virtual bool isEquilibratingReaction(double &Keq, ModelledMolecule **rct, ModelledMolecule **pdt) ;
 
+    // is reaction unimolecular
+    virtual bool isUnimolecular(){return false;};
+
     // Get reactants cell density of states.
     void getRctsCellDensityOfStates(std::vector<double> &cellDOS) ;
 
@@ -113,9 +115,6 @@ namespace mesmer
     // Add reaction terms to collision matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
 
-    // Read parameters requires to determine reaction heats and rates.
-    virtual bool ReadRateCoeffParameters(PersistPtr ppReac) ;
-
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs();
 
@@ -131,8 +130,6 @@ namespace mesmer
     CollidingMolecule   *m_pdt1 ;   // Product Molecule.
 
     bool deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
-    double               m_ERConc ; // Concentration of the excess reactant
-
   } ;
 
 
