@@ -80,15 +80,8 @@ namespace mesmer
       }
     }
 
-    PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState") ; // Read the transition state (if present)
-
-    if (ppTransitionState)
-    {
-      TransitionState* pTrans = dynamic_cast<TransitionState*>(GetMolRef(ppTransitionState));
-      if(pTrans)
-        m_TransitionState = pTrans;
-    }
     return ReadRateCoeffParameters(ppReac) ;       // Read heat of reaction and rate parameters.
+
   }
 
   double IrreversibleExchangeReaction::calcEquilibriumConstant() {   // Calculate reaction equilibrium constant.

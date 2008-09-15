@@ -58,19 +58,9 @@ namespace mesmer
       return false;
     }
 
-    // Read the transition state (if present).
-
-    PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState") ;
-    if (ppTransitionState)
-    {
-      TransitionState* pTrans = dynamic_cast<TransitionState*>(GetMolRef(ppTransitionState));
-      if(pTrans)
-        m_TransitionState = pTrans;
-    }
-
     // Read heat of reaction and rate parameters.
+    return ReadRateCoeffParameters(ppReac);
 
-    return ReadRateCoeffParameters(ppReac) ;
   }
 
   // Is reaction equilibrating and therefore contributes

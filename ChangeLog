@@ -1,3 +1,8 @@
+_2008_09_15__10_26_45_ Chi-Hsiu Liang
+
+  * Further clean up the code in ReadRateCoeffParameters() and InitializeReaction()
+  * Updated Manual
+
 _2008_09_12__16_11_05_ Chi-Hsiu Liang
 
   * Check in the changes Dave made on unimolecular ILT and corrections on the work vector in ILT. Please check the changes

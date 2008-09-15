@@ -221,7 +221,7 @@ namespace mesmer
       return ThresholdEnergy;
     }
     return m_EInf.get_value();
-  } 
+  }
 
   void Reaction::calculateTSfluxStartIdx(void) {
     double thresh = get_ThresholdEnergy();
@@ -232,7 +232,7 @@ namespace mesmer
       TSFluxStartIdx = int(RxnHeat - thresh)/m_Env.GrainSize;
     else
       TSFluxStartIdx = 0;
-  };  
+  };
 
   // Read excess reactant concentration
   bool Reaction::ReadExcessReactantConcentration(PersistPtr ppReac){
@@ -279,6 +279,10 @@ namespace mesmer
         set_EInf(value);
       }
     }
+    else{
+      cerr << "Specifying ILT without activation energy provided in reaction " << this->getName() << ". Please correct input file.";
+      return false;
+    }
 
     const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential", false);
     if (pPreExptxt)
@@ -297,6 +301,10 @@ namespace mesmer
       else{
         set_PreExp(value);
       }
+    }
+    else{
+      cerr << "Specifying ILT without pre-exponential term provided in reaction " << this->getName() << ". Please correct input file.";
+      return false;
     }
 
     const char* pNInftxt = ppReac->XmlReadValue("me:nInfinity", false);
@@ -351,32 +359,51 @@ namespace mesmer
           << getName();
         return false;
       }
-      if (strcmp(pMCRCMethodtxt, "Mesmer ILT") == 0){
-        cinfo << "ILT method chosen, look for ILT expressions" << endl;
-        if (!ReadILTParameters(ppReac)) return false;
-      }
     }
 
-    // Determine the method of estimating tunneling effect.
-    const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
-    if(pTunnelingtxt)
-    {
-      m_pTunnelingCalculator = TunnelingCalculator::Find(pTunnelingtxt);
-      if(!m_pTunnelingCalculator)
+    //---------------------------------------------------------
+    // Microcanonical rate constants methods dependent section.
+    if (m_pMicroRateCalculator->getName() == "Mesmer ILT"){
+      cinfo << "ILT method chosen, look for ILT expressions" << endl;
+      if (!ReadILTParameters(ppReac)) return false;
+    }
+    else if (m_pMicroRateCalculator->getName() == "Simple RRKM"){
+      // Determine the method of estimating tunneling effect.
+      const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
+      if(pTunnelingtxt)
       {
-        cerr << "Unknown method " << pTunnelingtxt
-          << " for the determination of tunneling coefficients in reaction "
-          << getName();
-        return false;
+        m_pTunnelingCalculator = TunnelingCalculator::Find(pTunnelingtxt);
+        if(!m_pTunnelingCalculator)
+        {
+          cerr << "Unknown method " << pTunnelingtxt
+            << " for the determination of tunneling coefficients in reaction "
+            << getName();
+          return false;
+        }
+      }
+      else{
+        cinfo << "No tunneling method was found for " << getName() << endl;
       }
     }
-    else{
-      cinfo << "No tunneling method was found for " << getName() << endl;
-    }
+    //
+    //---------------------------------------------------------
 
     if (!isUnimolecular()){
       cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;
       if (!ReadExcessReactantConcentration(ppReac)) return false;
+    }
+
+    // Read the transition state (if present)
+    PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState") ;
+    if (ppTransitionState)
+    {
+      TransitionState* pTrans = dynamic_cast<TransitionState*>(GetMolRef(ppTransitionState,"transitionState"));
+      if(pTrans) m_TransitionState = pTrans;
+      
+      if (pTrans && m_pMicroRateCalculator->getName() == "Mesmer ILT"){
+        cerr << "Reaction " << getName() << " uses ILT method, which should not have transition state.";
+        return false;
+      }
     }
 
     return true ;

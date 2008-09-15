@@ -7,17 +7,17 @@ No method for the calculation of distribution fraction in allene is provided. De
 Cannot find argument me:eletronicExcitation for cyclopropene
 Cannot find argument me:spinMultiplicity in cyclopropene. Default value 1 is used.
 No method for the calculation of distribution fraction in cyclopropene is provided. Default method <Boltzmann> is used.
-Cannot find argument me:eletronicExcitation for TS1
-No imaginary vibrational frequency for TS1.
 The me:tunneling element or attribute was missing or empty.
 No tunneling method was found for R1
+Cannot find argument me:eletronicExcitation for TS1
+No imaginary vibrational frequency for TS1.
 Parsing reaction R2...
 Cannot find argument me:eletronicExcitation for propyne
 No method for the calculation of distribution fraction in propyne is provided. Default method <Boltzmann> is used.
-Cannot find argument me:eletronicExcitation for TS3
-No imaginary vibrational frequency for TS3.
 The me:tunneling element or attribute was missing or empty.
 No tunneling method was found for R2
+Cannot find argument me:eletronicExcitation for TS3
+No imaginary vibrational frequency for TS3.
 The description element or attribute was missing or empty.
 The me:precision element or attribute was missing or empty.
 The me:precision element or attribute was missing or empty.
@@ -155,10 +155,10 @@ m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 
 m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
 Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 
-Finish Calculation -- Time elapsed: 109 seconds.
+Finish Calculation -- Time elapsed: 80 seconds.
 In total, 2 temperature/concentration-pressure points calculated.
  *Info in main
- -- Total time elapsed: 204 seconds.
+ -- Total time elapsed: 155 seconds.
 
 System saved
 m_Mass is provided but not used in TS1
