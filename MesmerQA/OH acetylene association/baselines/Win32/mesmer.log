@@ -13,6 +13,7 @@ No method for the calculation of distribution fraction in OH_acetylene_adduct is
 ILT method chosen, look for ILT expressions
 The me:TInfinity element or attribute was missing or empty.
 Tinfinity has not been specified; set to the default value of 298 K
+The me:tunneling element or attribute was missing or empty.
 Not a unimolecular reaction: look for excess reactant concentration.
 Parsing reaction R2...
 The description element or attribute was missing or empty.
@@ -54,10 +55,10 @@ m_scaleFactor was not defined but requested in TS_1a. Default value 1 is given.
 20 values in the FFT convolution routine were replaced by standard convolution
 Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 
-Finish Calculation -- Time elapsed: 31 seconds.
+Finish Calculation -- Time elapsed: 52 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
  *Info in main
- -- Total time elapsed: 52 seconds.
+ -- Total time elapsed: 89 seconds.
 
 System saved
 m_Mass is provided but not used in OCHCH2

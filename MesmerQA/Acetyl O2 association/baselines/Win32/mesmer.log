@@ -6,6 +6,7 @@ Cannot find argument me:eletronicExcitation for O_2
 Cannot find argument me:eletronicExcitation for Int1
 No method for the calculation of distribution fraction in Int1 is provided. Default method <Boltzmann> is used.
 ILT method chosen, look for ILT expressions
+The me:tunneling element or attribute was missing or empty.
 Not a unimolecular reaction: look for excess reactant concentration.
 Parsing reaction R2...
 Cannot find argument me:eletronicExcitation for Int2
@@ -43,8 +44,6 @@ Cell number = 17800, Grain number = 178
 Association ILT calculation completed
 
 20 values in the FFT convolution routine were replaced by standard convolution
-No TransitionState for R1, threshold energy = 0.0
-No TransitionState for R1, threshold energy = 0.0
 
 20 values in the FFT convolution routine were replaced by standard convolution
 
@@ -55,10 +54,10 @@ No TransitionState for R1, threshold energy = 0.0
 20 values in the FFT convolution routine were replaced by standard convolution
 Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 
-Finish Calculation -- Time elapsed: 37 seconds.
+Finish Calculation -- Time elapsed: 63 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
  *Info in main
- -- Total time elapsed: 137 seconds.
+ -- Total time elapsed: 239 seconds.
 
 System saved
 m_Mass is provided but not used in HO_2

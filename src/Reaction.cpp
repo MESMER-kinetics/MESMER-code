@@ -207,20 +207,25 @@ namespace mesmer
 
   //this function retrieves the activation/threshold energy for an association reaction
   double Reaction::get_ThresholdEnergy(void) {
-    if (!m_EInf.get_value()){ // default is zero
-      if (!m_TransitionState) {
-        cinfo << "No TransitionState for " << getName() << ", threshold energy = 0.0" << endl;
-        return 0.0;
-      }
-      double ThresholdEnergy = get_relative_TSZPE() - get_relative_rctZPE();
-      // Activation energy should be defined by user, otherwise return zero.
-      if(IsNan(ThresholdEnergy)){
-        cerr << "Reaction " << getName() << " has no threshold energy.";
+    // ILT
+    if (m_pMicroRateCalculator->getName() == "Mesmer ILT"){
+      if (IsNan(m_EInf.get_value())){
+        cerr << "No E_infinity provided for Reaction " << getName();
         exit(1);
       }
-      return ThresholdEnergy;
+      if (m_EInf.get_value() < 0.0){
+        cerr << "Providing negative E_infinity in Reaction " << getName() << " is invalid.";
+      }
+      return m_EInf.get_value();
     }
-    return m_EInf.get_value();
+    
+    // Not ILT
+    if (!m_TransitionState) {
+      cerr << "No TransitionState for " << getName();
+      exit(1);
+    }
+
+    return (get_relative_TSZPE() - get_relative_rctZPE());
   }
 
   void Reaction::calculateTSfluxStartIdx(void) {
@@ -366,8 +371,14 @@ namespace mesmer
     if (m_pMicroRateCalculator->getName() == "Mesmer ILT"){
       cinfo << "ILT method chosen, look for ILT expressions" << endl;
       if (!ReadILTParameters(ppReac)) return false;
+      const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
+      if(pTunnelingtxt)
+      {
+        cerr << "Tunneling parameter in Reaction " << getName() << " is invalid in ILT.";
+        return false;
+      }
     }
-    else if (m_pMicroRateCalculator->getName() == "Simple RRKM"){
+    if (m_pMicroRateCalculator->getName() == "Simple RRKM"){
       // Determine the method of estimating tunneling effect.
       const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
       if(pTunnelingtxt)

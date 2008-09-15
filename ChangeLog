@@ -1,3 +1,9 @@
+_2008_09_15__13_46_24_ Chi-Hsiu Liang
+
+  * Make tunneling unavailable in ILT (need more thought)
+  * Make user clearly defines ILT parameters.
+  * In ILT, E_infinity should always be positive and also higher than heat of reaction.
+
 _2008_09_15__10_26_45_ Chi-Hsiu Liang
 
   * Further clean up the code in ReadRateCoeffParameters() and InitializeReaction()

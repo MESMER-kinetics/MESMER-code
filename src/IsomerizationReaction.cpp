@@ -210,6 +210,10 @@ namespace mesmer
   void IsomerizationReaction::calculateEffectiveGrainedThreshEn(void){  // see the comments in
     double thresh = get_ThresholdEnergy();    // calculateEffectiveGrainedThreshEn under AssociationReaction.cpp
     double RxnHeat = getHeatOfReaction();
+    if (thresh < RxnHeat && m_pMicroRateCalculator->getName() == "Mesmer ILT"){
+      cerr << "E_infinity should be equal to or greater than the heat of reaction in ILT.";
+      exit(1);
+    }
     int TS_en = this->getTSFluxGrnZPE();
     int pdt_en = m_pdt1->get_grnZpe();
     int rct_en = m_rct1->get_grnZpe();

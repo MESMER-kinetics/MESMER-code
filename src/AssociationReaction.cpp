@@ -341,6 +341,10 @@ namespace mesmer
   void AssociationReaction::calculateEffectiveGrainedThreshEn(void){  // calculate the effective forward and reverse
     double thresh = get_ThresholdEnergy();  // threshold energy for an association reaction
     double RxnHeat = getHeatOfReaction();
+    if (thresh < RxnHeat && m_pMicroRateCalculator->getName() == "Mesmer ILT"){
+      cerr << "E_infinity should be equal to or greater than the heat of reaction in ILT.";
+      exit(1);
+    }
     int TS_en = this->getTSFluxGrnZPE();
     int pdt_en = m_pdt1->get_grnZpe();
     int rct_en = get_rctsGrnZpe();
