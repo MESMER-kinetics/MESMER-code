@@ -60,7 +60,6 @@ namespace mesmer
     grainDOS.resize(MaximumGrain, 0.) ;
 
     // Check that there are enough cells.
-
     if (GrainSize < 1) {
       cerr << "The number of Cells is insufficient to produce requested number of Grains.";
       exit(1) ;
@@ -99,20 +98,5 @@ namespace mesmer
         << "Number of grains produced : " << idx2 << " in " << molName << endl;
     }
   }
-
-
-  //// convolutes v2 into v1
-  //void convolution(const std::vector<double>& v1, const std::vector<double>& v2, std::vector<double>& sum){
-  //  if (sum.size())
-  //    sum.clear();
-  //
-  //  int MaximumCell = int(cellDOS.size());
-  //  for(int i = 0; i < MaximumCell; ++i) {
-  //    sum.push_back(0.0);
-  //    for(int j = 0; j <= i; ++j){
-  //      sum[i] += v1[i - j] * v2[j];
-  //    }
-  //  }
-  //}
 
 }

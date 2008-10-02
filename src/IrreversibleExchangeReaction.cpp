@@ -94,7 +94,7 @@ namespace mesmer
     const double rMeanOmega)              // Add exchange reaction terms to collision matrix.
   {
     const int jj     = (*m_sourceMap)[get_pseudoIsomer()] ;
-    (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * get_forwardCanonicalRateCoefficient());
+    (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * get_fwdGrnCanonicalRate());
   }
 
   bool IrreversibleExchangeReaction::calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne)    // Calculate rovibrational reactant DOS
@@ -129,17 +129,17 @@ namespace mesmer
     vector<double> rctGrainEne;
     calcRctsGrainDensityOfStates(rctGrainDOS, rctGrainEne);
 
-    calculateEffectiveGrainedThreshEn();
-    const int forwardTE = get_effectiveForwardTSFluxGrnZPE();
-    calculateTSfluxStartIdx();
-    const int fluxStartIdx = get_TSFluxStartIdx();
+    calcEffGrnThresholds();
+    const int forwardTE = get_EffGrnFwdThreshold();
+    calcFluxFirstNonZeroIdx();
+    const int fluxStartIdx = get_fluxFirstNonZeroIdx();
 
     const int MaximumGrain = (getEnv().MaxGrn - fluxStartIdx);
     m_GrainKfmc.clear();
     m_GrainKfmc.resize(MaximumGrain , 0.0);
 
     for (int i = forwardTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
-      m_GrainKfmc[i] = m_GrainTSFlux[j] / rctGrainDOS[i];
+      m_GrainKfmc[i] = m_GrainFlux[j] / rctGrainDOS[i];
     }
 
     if (getFlags().kfEGrainsEnabled){               // printing of the forward k(E)s
@@ -156,7 +156,7 @@ namespace mesmer
 
   void IrreversibleExchangeReaction::testRateConstant() {    // Test k(T)
 
-    const int MaximumGrain = (getEnv().MaxGrn-get_TSFluxStartIdx());
+    const int MaximumGrain = (getEnv().MaxGrn-get_fluxFirstNonZeroIdx());
     const double beta = getEnv().beta;
     vector<double> rctsGrainDOS;
     vector<double> rctsGrainEne;
@@ -171,18 +171,18 @@ namespace mesmer
     k_forward /= prtfn;
     k_forward /= trans;
     k_forward *= m_ERConc;
-    set_forwardCanonicalRateCoefficient(k_forward);
+    set_fwdGrnCanonicalRate(k_forward);
 
     if (getFlags().testRateConstantEnabled){
       const double temperature = 1. / (boltzmann_RCpK * beta);
       ctest << endl << "Canonical pseudo first order rate constant of irreversible reaction " 
-        << getName() << " = " << get_forwardCanonicalRateCoefficient() << " s-1 (" << temperature << " K)" << endl;
+        << getName() << " = " << get_fwdGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
       ctest << "Canonical bimolecular rate constant of irreversible reaction " 
-        << getName() << " = " << get_forwardCanonicalRateCoefficient()/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
+        << getName() << " = " << get_fwdGrnCanonicalRate()/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
     }
   }
 
-  const int IrreversibleExchangeReaction::get_rctsGrnZpe(){
+  const int IrreversibleExchangeReaction::get_rctsGrnZPE(){
     double grnZpe = (m_rct1->get_zpe()+m_rct2->get_zpe()-getEnv().EMin) / getEnv().GrainSize ; //convert to grains
     if (grnZpe < 0.0)
       cerr << "Grain zero point energy has to be a non-negative value.";
@@ -190,15 +190,15 @@ namespace mesmer
     return int(grnZpe);
   }
 
-  void IrreversibleExchangeReaction::calculateEffectiveGrainedThreshEn(void){           // see the comments in
-    double thresh = get_ThresholdEnergy();  // calculateEffectiveGrainedThreshEn under AssociationReaction.cpp
-    int TS_en = this->getTSFluxGrnZPE();
-    int rct_en = get_rctsGrnZpe();
+  void IrreversibleExchangeReaction::calcEffGrnThresholds(void){           // see the comments in
+    double thresh = get_ThresholdEnergy();  // calcEffGrnThresholds under AssociationReaction.cpp
+    int TS_en = get_fluxGrnZPE();
+    int rct_en = get_rctsGrnZPE();
     if(thresh<0.0){
-      set_effectiveForwardTSFluxGrnZPE(0);
+      set_EffGrnFwdThreshold(0);
     }
     else{
-      set_effectiveForwardTSFluxGrnZPE(TS_en-rct_en);
+      set_EffGrnFwdThreshold(TS_en-rct_en);
     }
   }
 

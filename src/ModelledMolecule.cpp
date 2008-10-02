@@ -165,8 +165,8 @@ namespace mesmer
       if (pLowertxt && pUppertxt){
         double tempLV(0.0), tempUV(0.0), tempSS(0.0);
         stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> tempLV; s4 >> tempUV; s5 >> tempSS;
-        double valueL(getConvertedEnergy(unitsInput, tempLV)), 
-          valueU(getConvertedEnergy(unitsInput, tempUV)), 
+        double valueL(getConvertedEnergy(unitsInput, tempLV)),
+          valueU(getConvertedEnergy(unitsInput, tempUV)),
           stepsize(getConvertedEnergy(unitsInput, tempSS));
         set_zpe(valueL, valueU, stepsize);
       }
@@ -229,21 +229,48 @@ namespace mesmer
   //
   // Get cell density of states.
   //
-  void ModelledMolecule::getCellDensityOfStates(vector<double> &cellDOS) {
+  void ModelledMolecule::getCellDensityOfStates(vector<double> &cellDOS, int startingCell) {
     // If density of states have not already been calcualted then do so.
     if (!calcDensityOfStates())
       cerr << "Failed calculating DOS";
-    cellDOS = m_cellDOS;
+    if (startingCell == 0)
+      cellDOS = m_cellDOS;
+    else{
+      int MaximumCell = getEnv().MaxCell;
+      for (int i(startingCell); i < MaximumCell; ++i){
+        cellDOS.push_back(m_cellDOS[i]);
+      }
+    }
   }
 
   //
   // Get grain density of states.
   //
-  void ModelledMolecule::getGrainDensityOfStates(vector<double> &grainDOS) {
+  void ModelledMolecule::getGrainDensityOfStates(vector<double> &grainDOS, const int startGrnIdx, const int ignoreCellNumber) {
     // If density of states have not already been calcualted then do so.
-    if (!calcDensityOfStates())
-      cerr << "Failed calculating DOS";
-    grainDOS = m_grainDOS;
+    if (!calcDensityOfStates()){
+      cerr << "Failed calculating DOS for " << getName();
+      exit(1);
+    }
+    if (ignoreCellNumber == 0){ // If there is no cells ignored in this grain, the grain DOS dose not need to be recalculated.
+      grainDOS = m_grainDOS;
+    }
+    else{ // Some cells are ignored in this grain, as they do not occur in this part of reaction.
+      // first deal with the first grain.
+      const int MaximumCell = getEnv().MaxCell;
+      const int gsz = getEnv().GrainSize;
+      const int cellOffset = get_cellOffset();
+      const int grnStartCell = startGrnIdx * gsz - cellOffset;
+      double partialDOS(0.0);
+      for (int i(ignoreCellNumber); i < gsz; ++i){
+        partialDOS += m_cellDOS[i + grnStartCell];
+      }
+      grainDOS.clear();
+      grainDOS.push_back(partialDOS);
+      for (int i(startGrnIdx+1); i < int(m_grainDOS.size()); ++i){
+        grainDOS.push_back(m_grainDOS[i]);
+      }
+    }
   }
 
   //

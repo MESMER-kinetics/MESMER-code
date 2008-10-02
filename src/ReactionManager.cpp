@@ -236,7 +236,7 @@ namespace mesmer
     if(!SetGrainParams(mEnv, mFlags, minEnergy, maxEnergy))
       return false;
 
-    // Calculate TSFlux and k(E)s
+    // Calculate flux and k(E)s
     for (size_t i(0) ; i < size() ; ++i) {
       m_reactions[i]->calcGrnAvrgMicroRateCoeffs() ;
     }
@@ -255,7 +255,7 @@ namespace mesmer
         CollidingMolecule *isomer = isomeritr->first ;
         isomeritr->second = msize ; //set location
 
-        int grnZpe = isomer->get_grnZpe() ; //set grain ZPE (with respect to the minimum of all wells)
+        int grnZpe = isomer->get_grnZPE() ; //set grain ZPE (with respect to the minimum of all wells)
 
         int colloptrsize = mEnv.MaxGrn - grnZpe ;
         isomer->set_colloptrsize(colloptrsize) ;
@@ -603,7 +603,7 @@ namespace mesmer
         int location = ipos->second;
         const int colloptrsize = isomer->get_colloptrsize();
         vector<double> boltzFrac;
-        isomer->normalizedBoltzmannDistribution(boltzFrac, colloptrsize);
+        isomer->normalizedGrnBoltzmannDistribution(boltzFrac, colloptrsize);
         for (int i = 0; i < colloptrsize; ++i){
           initDist[i + location] = initFrac * boltzFrac[i];
         }
@@ -667,7 +667,7 @@ namespace mesmer
       double eqFrac = isomer->getEqFraction();
       const int colloptrsize = isomer->get_colloptrsize();
       vector<double> boltzFrac;
-      isomer->normalizedBoltzmannDistribution(boltzFrac, colloptrsize);
+      isomer->normalizedGrnBoltzmannDistribution(boltzFrac, colloptrsize);
       for(int i(0);i<colloptrsize;++i){
         m_eqVector[location + i]= sqrt(eqFrac * boltzFrac[i]);
       }
@@ -853,7 +853,7 @@ namespace mesmer
         vector<ModelledMolecule*> pdts;                               // in the sink reaction  
         sinkReaction->get_products(pdts);
         if(colloptrsize == 1){  // if the collision operator size is 1, there is one canonical loss rate coefficient
-          KofEs.push_back(sinkReaction->get_forwardCanonicalRateCoefficient());
+          KofEs.push_back(sinkReaction->get_fwdGrnCanonicalRate());
           ctest << setw(11) << pdts[0]->getName()<< setw(5) << "(bim)";
         }
         else{   // if the collision operator size is >1, there are k(E)s for the irreversible loss
@@ -994,7 +994,7 @@ namespace mesmer
           Reaction* sinkReaction = sinkpos->first;                 
           const int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant
           if(colloptrsize == 1)  // if the collision operator size is 1, there is one canonical loss rate coefficient
-            KofEs.push_back(sinkReaction->get_forwardCanonicalRateCoefficient());
+            KofEs.push_back(sinkReaction->get_fwdGrnCanonicalRate());
           else                   // if the collision operator size is >1, there are k(E)s for the irreversible loss
             KofEs = sinkReaction->get_GrainKfmc();                      // assign sink k(E)s, the vector size == maxgrn
           int location = sinkpos->second;                               // get sink location

@@ -81,9 +81,6 @@ namespace mesmer
     virtual double get_relative_pdtZPE(void) const = 0;
     virtual double get_relative_TSZPE(void) const = 0;
 
-    // return the grain idx in TSflux where the forward & reverse kofEs begin, respectively
-    virtual void calculateTSfluxStartIdx(void) ;
-
     // Get activiation energy
     double get_ThresholdEnergy(void);
     /* This function should be considered as a function to get Einf.
@@ -114,14 +111,14 @@ namespace mesmer
 
     void calculateGrainTunnelingCoeffs(std::vector<double>& TunnelingProbability);
 
-    // calculate TSFlux in grains
-    void TSFluxCellToGrain(const std::vector<double>& shiftedTScellFlux);
+    // calculate flux in grains
+    void fluxCellToGrain(const std::vector<double>& shiftedCellFlux);
 
     // shift transitions state cell flux
-    void shiftTScellFlux(std::vector<double>& shiftedTScellFlux);
+    void shiftCellFlux(std::vector<double>& shiftedCellFlux);
 
     // returns the flux in cells for foreign modifications
-    std::vector<double>& get_CellFlux(void) {return m_CellTSFlux; };
+    std::vector<double>& get_CellFlux(void) {return m_CellFlux; };
 
     // returns the forward grain microcanoincal rate coefficients for foreign modifications
     const std::vector<double>& get_GrainKfmc(void) {return m_GrainKfmc; };
@@ -135,39 +132,47 @@ namespace mesmer
     // get canonical pseudo first order irreversible loss rate coefficient
     virtual double GetCanonicalIrreversibleLossRate(void){return 0.0;};
 
-    // set the bottom energy of m_CellTSFlux
+    // set the bottom energy of m_CellFlux
     void setCellFluxBottom(const double energyValue);
 
-    // set & get the grain in TSflux vector which corresponds to the threshold energy
+    // return the grain idx in flux where the forward & reverse kofEs begin, respectively
+    void calcFluxFirstNonZeroIdx(void) ;
+
+    // get the grain in flux vector which corresponds to the threshold energy
     // normally this is the first grain, except for cases where the threshold energy is negative
-    void set_TSFluxStartIdx(int idx){TSFluxStartIdx = idx;};
-    const int get_TSFluxStartIdx(void){return int(TSFluxStartIdx);};
+    const int get_fluxFirstNonZeroIdx(void){return int(m_GrnFluxFirstNonZeroIdx);};
 
-    // set & get the TSFlux Start Idx for calculating k(e)s from TS flux
-    void set_effectiveForwardTSFluxGrnZPE(int idx){EffectiveForwardGrainedThreshEn = idx;};
-    const int get_effectiveForwardTSFluxGrnZPE(void){return int(EffectiveForwardGrainedThreshEn);};
+    // set & get flux Start Idx for calculating k(e)s from flux
+    void set_EffGrnFwdThreshold(int idx){m_EffGrainedFwdThreshold = idx;};
+    const int get_EffGrnFwdThreshold(void){return int(m_EffGrainedFwdThreshold);};
 
-    // set & get the forward threshold energy for calculating backward k(e)s from TS flux
-    void set_effectiveReverseTSFluxGrnZPE(int idx){EffectiveReverseGrainedThreshEn = idx;};
-    const int get_effectiveReverseTSFluxGrnZPE(void){return int(EffectiveReverseGrainedThreshEn);};
+    // set & get the forward threshold energy for calculating backward k(e)s from flux
+    void set_EffGrnRvsThreshold(int idx){m_EffGrainedRvsThreshold = idx;};
+    const int get_EffGrnRvsThreshold(void){return int(m_EffGrainedRvsThreshold);};
 
-    // get the backward threshold energy for calculating backward k(e)s from TS flux
-    const int getTSFluxGrnZPE(void){return int(m_FluxGrainZPE);};
+    // get the backward threshold energy for calculating backward k(e)s from flux
+    const int get_fluxGrnZPE(void){return int(m_FluxGrainZPE);};
+    const int get_fluxZPE(void){return int(m_FluxCellZPE);};
 
     // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
     // with a negative threshold energy
-    virtual void calculateEffectiveGrainedThreshEn(void) = 0;
+    virtual void calcEffGrnThresholds(void) = 0;
 
     // set the forward and backward canonical rate coefficients
-    void set_forwardCanonicalRateCoefficient(double k){m_forwardCanonicalRate = k;};
-    void set_backwardCanonicalRateCoefficient(double k){m_backwardCanonicalRate = k;};
+    void set_fwdGrnCanonicalRate(double k){m_fwdGrnCanonicalRate = k;};
+    void set_rvsGrnCanonicalRate(double k){m_rvsGrnCanonicalRate = k;};
+    void set_fwdCellCanonicalRate(double k){m_fwdCellCanonicalRate = k;};
+    void set_rvsCellCanonicalRate(double k){m_rvsCellCanonicalRate = k;};
 
     // get the forward and backward canonical rate coefficients
-    double get_forwardCanonicalRateCoefficient(void){return m_forwardCanonicalRate;};
-    double get_backwardCanonicalRateCoefficient(void){return m_backwardCanonicalRate;};
+    double get_fwdGrnCanonicalRate(void){return m_fwdGrnCanonicalRate;};
+    double get_rvsGrnCanonicalRate(void){return m_rvsGrnCanonicalRate;};
+    double get_fwdCellCanonicalRate(void){return m_fwdCellCanonicalRate;};
+    double get_rvsCellCanonicalRate(void){return m_rvsCellCanonicalRate;};
 
-    // get the bottom cell offset of m_CellTSFlux
-    const int getTSFluxCellOffset(void){return m_FluxCellOffset;};
+
+    // get the bottom cell offset of m_CellFlux
+    const int getFluxCellOffset(void){return m_FluxCellOffset;};
 
     // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
     bool calcGrnAvrgMicroRateCoeffs() ;
@@ -219,11 +224,12 @@ namespace mesmer
     //
 
     // _2008_04_24__12_35_40_  <- Please search for this string in the current file for further description.
-    double m_FluxGrainZPE;                       // grain ZPE of m_GrainTSFlux
-    int m_FluxCellOffset;                        // cell Offset when converting m_CellTSFlux to m_GrainTSFlux
+    double m_FluxCellZPE;                        // cell ZPE of m_GrainFlux
+    double m_FluxGrainZPE;                       // grain ZPE of m_GrainFlux
+    int m_FluxCellOffset;                        // cell Offset when converting m_CellFlux to m_GrainFlux
 
-    std::vector<double>  m_CellTSFlux ;          // Microcanonical transition state fluxes. (QM or classical)
-    std::vector<double>  m_GrainTSFlux ;         // Grain summed microcanonical transition state fluxes..
+    std::vector<double>  m_CellFlux ;          // Microcanonical transition state fluxes. (QM or classical)
+    std::vector<double>  m_GrainFlux ;         // Grain summed microcanonical transition state fluxes..
 
     std::vector<double>  m_GrainKfmc ;           // Grained averaged forward  microcanonical rates.
     std::vector<double>  m_GrainKbmc ;           // Grained averaged backward microcanonical rates.
@@ -258,16 +264,18 @@ namespace mesmer
     // Test k(T)
     virtual void testRateConstant() = 0;
 
-    double m_forwardCanonicalRate;
-    double m_backwardCanonicalRate;
+    double m_fwdGrnCanonicalRate;
+    double m_rvsGrnCanonicalRate;
+    double m_fwdCellCanonicalRate;
+    double m_rvsCellCanonicalRate;
 
     const MesmerEnv& m_Env;
     MesmerFlags& m_Flags;
     std::string m_Name ;        // Reaction name.
 
-    int TSFluxStartIdx;                 // idx of the starting grain for calculating forward/backward k(E)s from flux
-    int EffectiveForwardGrainedThreshEn;   // effective threshold energy (in grains) for forward flux calculations
-    int EffectiveReverseGrainedThreshEn;   // effective threshold energy (in grains) for backward flux calculations
+    int m_GrnFluxFirstNonZeroIdx;// idx of the starting grain for calculating forward/backward k(E)s from flux
+    int m_EffGrainedFwdThreshold;  // effective threshold energy (in grains) for forward flux calculations
+    int m_EffGrainedRvsThreshold;  // effective threshold energy (in grains) for backward flux calculations
 
     bool reCalcDOS;             // re-calculation on DOS
     // all the parameters that follow are for an arrhenius expression of the type:
@@ -298,7 +306,7 @@ namespace mesmer
   //  It is important to calculate the flux so that it is based at least higher than the higher well so that the derivation
   //  of forward/reverse microcanoincal rate coefficients can be processed by Mesmer.
   //
-  //                     TS flux                           kfmc                           kbmc
+  //                       flux                            kfmc                           kbmc
   //                       ___                             --->                           <---
   //                       ___                             --->                           <---
   //                       ___                             --->                           <---
@@ -314,7 +322,7 @@ namespace mesmer
   //
   // ------------------
   //
-  //                     E        DOS     kf(E)     TS flux         kr(E)
+  //                     E        DOS     kf(E)       flux           kr(E)
   //                                  --->             ___           <---
   //                 /  12          6 ---> 10       60 ___           <---
   //         grain  |   11          5 --->  9       45 ___           <---

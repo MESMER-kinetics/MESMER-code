@@ -145,13 +145,13 @@ namespace mesmer
     virtual bool InitializeMolecule(PersistPtr pp);
 
     // Get cell density of states.
-    void getCellDensityOfStates(std::vector<double> &cellDOS) ;
+    void getCellDensityOfStates(std::vector<double> &cellDOS, int startingCell = 0) ;
 
     // Set cell  density of states.
     void setCellDensityOfStates(std::vector<double> &cellDOS) { m_cellDOS = cellDOS ; } ;
 
     // Get grain density of states.
-    void getGrainDensityOfStates(std::vector<double> &grainDOS) ;
+    void getGrainDensityOfStates(std::vector<double> &grainDOS, const int startGrnIdx = 0, const int ignoreCellNumber = 0) ;
 
     // Get grain energies.
     void getGrainEnergies(std::vector<double> &grainEne) ;
@@ -306,7 +306,8 @@ namespace mesmer
     // Get Grain Boltzmann distribution.
     void grainDistribution(vector<double> &grainFrac, const int numberOfGrains);
     void normalizedInitialDistribution(vector<double> &grainFrac, const int numberOfGrains) ;
-    void normalizedBoltzmannDistribution(vector<double> &grainFrac, const int numberOfGrains);
+    void normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int numberOfGrains, const int startGrnIdx = 0, const int ignoreCellNumber = 0);
+    void normalizedCellBoltzmannDistribution(vector<double> &cellFrac, const int startingCell = 0);
 
     // Accessors.
     double getSigma() ;
@@ -325,7 +326,7 @@ namespace mesmer
     void   setDeltaEdownExponent(const double value){m_DeltaEdownExponent = value;};
     double getDeltaEdownRefTemp (){return m_DeltaEdownRefTemp; }
     double getDeltaEdownExponent(){return m_DeltaEdownExponent;}
-    const int get_grnZpe();
+    const int get_grnZPE();
 
     double getDeltaEdown();
     void set_DistributionCalculator(DistributionCalculator* value);

@@ -70,7 +70,7 @@ namespace mesmer
     virtual DensityOfStatesCalculator* get_rctsDensityOfStatesCalculator(){return get_pseudoIsomer()->get_DensityOfStatesCalculator(); }
 
     // Get reactants grain ZPE
-    const int get_rctsGrnZpe(void);
+    const int get_rctsGrnZPE(void);
 
     // return relative reactant, product and transition state zero-point energy
     virtual double get_relative_rctZPE() const {return m_rct1->get_zpe() + m_rct2->get_zpe() - getEnv().EMin;}
@@ -91,7 +91,7 @@ namespace mesmer
 
     // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
     // with a negative threshold energy
-    void calculateEffectiveGrainedThreshEn(void);
+    void calcEffGrnThresholds(void);
 
   private:
 

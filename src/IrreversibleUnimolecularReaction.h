@@ -77,7 +77,7 @@ namespace mesmer
 
     // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
     // with a negative threshold energy
-    void calculateEffectiveGrainedThreshEn(void);
+    void calcEffGrnThresholds(void);
 
   private:
 

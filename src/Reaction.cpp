@@ -23,20 +23,23 @@ namespace mesmer
     m_pMoleculeManager(pMoleculeManager),
     m_pMicroRateCalculator(NULL),
     m_pTunnelingCalculator(NULL),
+    m_FluxCellZPE(0.0),
     m_FluxGrainZPE(0.0),
     m_FluxCellOffset(0),
-    m_CellTSFlux(),
-    m_GrainTSFlux(),
+    m_CellFlux(),
+    m_GrainFlux(),
     m_GrainKfmc(),
     m_GrainKbmc(),
-    m_forwardCanonicalRate(0.0),
-    m_backwardCanonicalRate(0.0),
+    m_fwdGrnCanonicalRate(0.0),
+    m_rvsGrnCanonicalRate(0.0),
+    m_fwdCellCanonicalRate(0.0),
+    m_rvsCellCanonicalRate(0.0),
     m_Env(Env),
     m_Flags(Flags),
     m_Name(id),
-    TSFluxStartIdx(0),
-    EffectiveForwardGrainedThreshEn(0),
-    EffectiveReverseGrainedThreshEn(0),
+    m_GrnFluxFirstNonZeroIdx(0),
+    m_EffGrainedFwdThreshold(0),
+    m_EffGrainedRvsThreshold(0),
     reCalcDOS(true),
     m_PreExp(0.0),
     m_NInf(0.0),
@@ -110,7 +113,7 @@ namespace mesmer
   //
   bool Reaction::calcGrnAvrgMicroRateCoeffs() {
     if (reCalcDOS){
-      if (m_CellTSFlux.size()) m_CellTSFlux.clear();
+      if (m_CellFlux.size()) m_CellFlux.clear();
 
       // Calculate microcanonical rate coefficients.
       if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this))
@@ -118,10 +121,10 @@ namespace mesmer
 
       // report TransitionState Flux in cells to test output
       const int MaximumCell = getEnv().MaxCell;
-      if (getFlags().cellTSFluxEnabled){
-        ctest << "\nTSFlux(e) cells for " << getName() << ":\n{\n";
+      if (getFlags().cellFluxEnabled){
+        ctest << "\nFlux(e) cells for " << getName() << ":\n{\n";
         for (int i = 0; i < MaximumCell; ++i){
-          ctest << m_CellTSFlux[i] << endl;
+          ctest << m_CellFlux[i] << endl;
         }
         ctest << "}\n";
       }
@@ -148,11 +151,11 @@ namespace mesmer
     // based on the view from the species that is
     // moving in the current reaction toward the opposite species.
 
-    std::vector<double> shiftedTScellFlux;
-    shiftTScellFlux(shiftedTScellFlux);
+    std::vector<double> shiftedCellFlux;
+    shiftCellFlux(shiftedCellFlux);
 
     // convert flux from cells to grains
-    TSFluxCellToGrain(shiftedTScellFlux);
+    fluxCellToGrain(shiftedCellFlux);
 
     // Calculate forward and backward grained microcanonical rate coefficients
     calcGrainRateCoeffs();
@@ -160,46 +163,47 @@ namespace mesmer
     return true;
   }
 
-  // set the bottom energy of m_CellTSFlux
+  // set the bottom energy of m_CellFlux
   void Reaction::setCellFluxBottom(const double fluxBottomZPE){
+    m_FluxCellZPE = fluxBottomZPE;
     m_FluxGrainZPE = fluxBottomZPE / getEnv().GrainSize ; //convert to grain
     m_FluxCellOffset = int(fmod(fluxBottomZPE, getEnv().GrainSize));
   }
 
   // shift transition state cell flux
-  void Reaction::shiftTScellFlux(std::vector<double>& shiftedTScellFlux){
-    int cellOffset = getTSFluxCellOffset();
+  void Reaction::shiftCellFlux(std::vector<double>& shiftedCellFlux){
+    int cellOffset = getFluxCellOffset();
     const int MaximumCell  = getEnv().MaxCell;
     for(int i = 0; i < cellOffset; ++i){
-      shiftedTScellFlux.push_back(0.0);
+      shiftedCellFlux.push_back(0.0);
     }
     for(int i = cellOffset, j = 0; i < MaximumCell; ++i, ++j){
-      shiftedTScellFlux.push_back(m_CellTSFlux[j]);
+      shiftedCellFlux.push_back(m_CellFlux[j]);
     }
   }
 
-  // calculate TSFlux in grains
-  void Reaction::TSFluxCellToGrain(const std::vector<double>& shiftedTScellFlux)
+  // calculate flux in grains
+  void Reaction::fluxCellToGrain(const std::vector<double>& shiftedCellFlux)
   {
     const int maxGrn = getEnv().MaxGrn;
     const int grnSiz = getEnv().GrainSize;
 
-    // resize m_GrainTSFlux to maxGrn and initialize all members to zero
-    m_GrainTSFlux.clear();
-    m_GrainTSFlux.resize(maxGrn, 0.0);
+    // resize m_GrainFlux to maxGrn and initialize all members to zero
+    m_GrainFlux.clear();
+    m_GrainFlux.resize(maxGrn, 0.0);
 
     int cIdx = 0; // cell iterator
 
     for (int i = 0; i < maxGrn ; ++i) {
       for (int j = 0; j < grnSiz; ++j, ++cIdx) {
-        m_GrainTSFlux[i] += shiftedTScellFlux[cIdx];
+        m_GrainFlux[i] += shiftedCellFlux[cIdx];
       }
     }
 
-    if (getFlags().grainTSFluxEnabled){
-      ctest << "\nTSFlux(e) grains for " << getName() << ":\n{\n";
+    if (getFlags().grainFluxEnabled){
+      ctest << "\nFlux(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < maxGrn; ++i){
-        ctest << m_GrainTSFlux[i] << endl;
+        ctest << m_GrainFlux[i] << endl;
       }
       ctest << "}\n";
     }
@@ -228,15 +232,15 @@ namespace mesmer
     return (get_relative_TSZPE() - get_relative_rctZPE());
   }
 
-  void Reaction::calculateTSfluxStartIdx(void) {
+  void Reaction::calcFluxFirstNonZeroIdx(void) {
     double thresh = get_ThresholdEnergy();
     double RxnHeat = getHeatOfReaction();
     if(thresh<0.0)
-      TSFluxStartIdx = int(-thresh/m_Env.GrainSize);
+      m_GrnFluxFirstNonZeroIdx = int(-thresh/m_Env.GrainSize);
     else if(thresh>0.0 && thresh<RxnHeat)
-      TSFluxStartIdx = int(RxnHeat - thresh)/m_Env.GrainSize;
+      m_GrnFluxFirstNonZeroIdx = int(RxnHeat - thresh)/m_Env.GrainSize;
     else
-      TSFluxStartIdx = 0;
+      m_GrnFluxFirstNonZeroIdx = 0;
   };
 
   // Read excess reactant concentration

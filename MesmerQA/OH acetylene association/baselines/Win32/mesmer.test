@@ -749,9 +749,9 @@ k_b(e) grains for R1:
 1.6205e+010
 }
 
-Canonical pseudo first order rate constant of association reaction R1 = 80892.8 s-1 (298 K)
-Canonical bimolecular rate constant of association reaction R1 = 8.08928e-013 cm^3/mol/s (298 K)
-Canonical first order rate constant for the reverse of reaction R1 = 3.86226e-011 s-1 (298 K)
+Canonical pseudo first order rate constant of association reaction R1 = 80555.5 s-1 (298 K)
+Canonical bimolecular rate constant of association reaction R1 = 8.05555e-013 cm^3/mol/s (298 K)
+Canonical first order rate constant for the reverse of reaction R1 = 3.84615e-011 s-1 (298 K)
 
 Canonical rate coefficients for R1, calculated from microcanonical rates
 {

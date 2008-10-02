@@ -27,6 +27,8 @@ namespace mesmer
       name = id;
     }
 
+    virtual ~MicroRateCalculator(){}
+
     //Get a pointer to a derived class by providing its id.
     static MicroRateCalculator* Find(const std::string& id)
     {
@@ -34,7 +36,7 @@ namespace mesmer
       return (pos==get_Map().end()) ? NULL : pos->second;
     }
 
-    const std::string getName() {return name;}
+    virtual std::string getName();
 
     virtual bool calculateMicroRateCoeffs(Reaction* pReact) = 0 ;
 

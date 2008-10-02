@@ -1195,9 +1195,9 @@ k_b(e) grains for R1:
 5.58232e+010
 }
 
-Canonical pseudo first order rate constant of association reaction R1 = 137670 s-1 (298 K)
-Canonical bimolecular rate constant of association reaction R1 = 6.11866e-012 cm^3/mol/s (298 K)
-Canonical first order rate constant for the reverse of reaction R1 = 2.76824e-009 s-1 (298 K)
+Canonical pseudo first order rate constant of association reaction R1 = 135519 s-1 (298 K)
+Canonical bimolecular rate constant of association reaction R1 = 6.02304e-012 cm^3/mol/s (298 K)
+Canonical first order rate constant for the reverse of reaction R1 = 2.72498e-009 s-1 (298 K)
 
 Test rovibronic density of states for: TS1
 {

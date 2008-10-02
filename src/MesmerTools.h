@@ -21,13 +21,13 @@ namespace mesmer
   double canonicalPartitionFunction(const vector<double>& DOS, const vector<double>& Ene, const double beta);
 
   // shift cell DOS and energy vectors according to cellOffset
-  void shiftCells(int MaximumCell, int cellOffset, const vector<double>& cellDOS, const vector<double>& cellEne, std::vector<double>& shiftedCellDOS, std::vector<double>& shiftedCellEne);
+  void shiftCells(int MaximumCell, int cellOffset, const vector<double>& cellDOS, const vector<double>& cellEne,
+    std::vector<double>& shiftedCellDOS, std::vector<double>& shiftedCellEne);
 
   // Calculate the average grain energy and then number of states per grain.
-  void calcGrainAverages(const int MaximumGrain, const int GrainSize, const std::vector<double>& shiftedCellDOS, const std::vector<double>& shiftedCellEne, vector<double>& grainDOS, vector<double>& grainEne, string molName) ;
+  void calcGrainAverages(const int MaximumGrain, const int GrainSize, const std::vector<double>& shiftedCellDOS,
+    const std::vector<double>& shiftedCellEne, vector<double>& grainDOS, vector<double>& grainEne, string molName) ;
 
-  //// convolutes v2 into v1
-  //void convolution(const std::vector<double>& v1, const std::vector<double>& v2, std::vector<double>& sum);
 }
 
 #endif // GUARD_MesmerTools_h

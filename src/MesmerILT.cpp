@@ -75,16 +75,15 @@ namespace mesmer
     p_rct->getCellDensityOfStates(rctCellDOS);
 
     // Allocate space to hold microcanonical rate coefficients for dissociation.
-    // This line below pass the reference pointer of m_CellTSFlux to the vector by (&), so what the code does on
-    // TSFlux will in fact work on m_CellTSFlux.
-    vector<double>& TSFlux = pReact->get_CellFlux();
-    TSFlux.clear();
-    TSFlux.resize(MaximumCell, 0.0); 
+    // This line below pass the reference pointer of m_CellFlux to the vector by (&), so what the code does on
+    // rxnFlux will in fact work on m_CellFlux.
+    vector<double>& rxnFlux = pReact->get_CellFlux();
+    rxnFlux.clear();
+    rxnFlux.resize(MaximumCell, 0.0); 
 
     const double gammaValue = MesmerGamma(Ninf);
     const double beta0      = 1.0/(boltzmann_RCpK*Tinf);
     const double constant   = Ainf * pow(beta0,Ninf)/gammaValue;
-    const double pwr        = Ninf - 1.0;
     
     /*The expression of the work vector is changed so that every member is from analytic solution of
     integral_x_to_y{E^(Ninf-1)dE}, where x and y are lower and upper energy limits of the cell respectively.*/
@@ -97,7 +96,7 @@ namespace mesmer
     FastLaplaceConvolution(work, rctCellDOS, conv);    // FFT convolution replaces the standard convolution
 
     for (int i = 0; i < MaximumCell; ++i)
-      TSFlux[i] = constant * conv[i];
+      rxnFlux[i] = constant * conv[i];
 
     pReact->setCellFluxBottom(pReact->get_relative_rctZPE() + Einf);
 
@@ -141,11 +140,11 @@ namespace mesmer
     pAssocReaction->getRctsCellDensityOfStates(rctsCellDOS) ;
 
     // Allocate space to hold microcanonical rate coefficients for dissociation.
-    // This line below pass the reference pointer of m_CellTSFlux to the vector by (&), so what the code does on
-    // TSFlux will in fact work on m_CellTSFlux.
-    vector<double>& TSFlux = pAssocReaction->get_CellFlux();
-    TSFlux.clear();
-    TSFlux.resize(MaximumCell, 0.0); 
+    // This line below pass the reference pointer of m_CellFlux to the vector by (&), so what the code does on
+    // rxnFlux will in fact work on m_CellFlux.
+    vector<double>& rxnFlux = pAssocReaction->get_CellFlux();
+    rxnFlux.clear();
+    rxnFlux.resize(MaximumCell, 0.0); 
 
     const double gammaValue = MesmerGamma(Ninf + 1.5);
 
@@ -168,7 +167,7 @@ namespace mesmer
     //    Convolution(work, rctsCellDOS, conv);  // standard convolution
 
     for (int i = 0; i < MaximumCell; ++i)
-      TSFlux[i] = _ant * conv[i];
+      rxnFlux[i] = _ant * conv[i];
 
     // the flux bottom energy is equal to the well bottom of the reactant
     pAssocReaction->setCellFluxBottom(pReact->get_relative_rctZPE() + Einf);

@@ -1,3 +1,13 @@
+_2008_10_02__14_26_22_ Chi-Hsiu Liang
+
+  * Removed many instances of TSFlux to simply flux to reflect that flux does not directly relate with transition state.
+  * Added a commented out section trying to fix the low temperature deviation in association k_infinity from the Arrhenius expression.
+  * Modified some naming of variables and functions.
+  * AssociationReaction::testRateConstant() now calculates dissociation k(E)s in cells for more accurate canonical rates.
+  * Added function CollidingMolecule::normalizedCellBoltzmannDistribution(vector<double> &cellFrac, const int startingCell)
+    for calculation of Boltzmann distribution in cell level.
+  * Note: This version still have problem reproducing correct association rate in low temperatures.
+
 _2008_09_15__13_46_24_ Chi-Hsiu Liang
 
   * Make tunneling unavailable in ILT (need more thought)

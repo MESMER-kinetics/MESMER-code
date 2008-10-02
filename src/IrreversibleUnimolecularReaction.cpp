@@ -97,15 +97,15 @@ namespace mesmer
     // Locate reactant in system matrix.
     const int rctLocation = isomermap[dynamic_cast<CollidingMolecule*>(m_rct1)] ;
     const int colloptrsize = m_rct1->get_colloptrsize();
-    const int forwardThreshE = get_effectiveForwardTSFluxGrnZPE();
+    const int forwardThreshE = get_EffGrnFwdThreshold();
 
-    //const int reverseThreshE = get_effectiveReverseTSFluxGrnZPE();
-    const int fluxStartIdx = get_TSFluxStartIdx();
+    //const int reverseThreshE = get_EffGrnRvsThreshold();
+    const int fluxStartIdx = get_fluxFirstNonZeroIdx();
 
     for ( int i=fluxStartIdx, j = forwardThreshE, k=0; j < colloptrsize; ++i, ++j, ++k) {
       int ll = k + forwardThreshE;
       int ii(rctLocation + ll) ;
-      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainTSFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
+      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
     }
   }
 
@@ -116,18 +116,18 @@ namespace mesmer
     vector<double> rctGrainDOS;
     m_rct1->getGrainDensityOfStates(rctGrainDOS) ;
 
-  calculateEffectiveGrainedThreshEn();
-  const int forwardTE = get_effectiveForwardTSFluxGrnZPE();
-  calculateTSfluxStartIdx();
-  const int fluxStartIdx = get_TSFluxStartIdx();  
+  calcEffGrnThresholds();
+  const int forwardTE = get_EffGrnFwdThreshold();
+  calcFluxFirstNonZeroIdx();
+  const int fluxStartIdx = get_fluxFirstNonZeroIdx();  
 
   const int MaximumGrain = (getEnv().MaxGrn-fluxStartIdx);
     m_GrainKfmc.clear();
     m_GrainKfmc.resize(MaximumGrain , 0.0);
 
-    // calculate forward k(E)s from TSFlux
+    // calculate forward k(E)s from flux
     for (int i = forwardTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
-      m_GrainKfmc[i] = m_GrainTSFlux[j] / rctGrainDOS[i];
+      m_GrainKfmc[i] = m_GrainFlux[j] / rctGrainDOS[i];
     }
 
     // the code that follows is for printing the forward k(E)s
@@ -149,7 +149,7 @@ namespace mesmer
     vector<double> rctGrainDOS, rctGrainEne;
     m_rct1->getGrainDensityOfStates(rctGrainDOS);
     m_rct1->getGrainEnergies(rctGrainEne);
-    const int MaximumGrain = (getEnv().MaxGrn-get_TSFluxStartIdx());
+    const int MaximumGrain = (getEnv().MaxGrn-get_fluxFirstNonZeroIdx());
     const double beta = getEnv().beta;
     const double temperature = 1. / (boltzmann_RCpK * beta);
 
@@ -158,21 +158,21 @@ namespace mesmer
 
     const double rctprtfn = canonicalPartitionFunction(rctGrainDOS, rctGrainEne, beta);
     k_forward /= rctprtfn;
-    set_forwardCanonicalRateCoefficient(k_forward);
+    set_fwdGrnCanonicalRate(k_forward);
 
     ctest << endl << "Canonical pseudo first order forward rate constant of irreversible reaction " 
-      << getName() << " = " << get_forwardCanonicalRateCoefficient() << " s-1 (" << temperature << " K)" << endl;
+      << getName() << " = " << get_fwdGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
   }
 
-  void IrreversibleUnimolecularReaction::calculateEffectiveGrainedThreshEn(void){       // see the comments in
-    double thresh = get_ThresholdEnergy();  // calculateEffectiveGrainedThreshEn under AssociationReaction.cpp
-    int TS_en = this->getTSFluxGrnZPE();
-    int rct_en = m_rct1->get_grnZpe();
+  void IrreversibleUnimolecularReaction::calcEffGrnThresholds(void){       // see the comments in
+    double thresh = get_ThresholdEnergy();  // calcEffGrnThresholds under AssociationReaction.cpp
+    int TS_en = get_fluxGrnZPE();
+    int rct_en = m_rct1->get_grnZPE();
     if(thresh<0.0){
-      set_effectiveForwardTSFluxGrnZPE(0);
+      set_EffGrnFwdThreshold(0);
     }
     else{
-      set_effectiveForwardTSFluxGrnZPE(TS_en-rct_en);
+      set_EffGrnFwdThreshold(TS_en-rct_en);
     }
   }
 

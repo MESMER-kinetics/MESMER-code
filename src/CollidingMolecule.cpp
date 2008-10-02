@@ -178,7 +178,7 @@ namespace mesmer
     }
   } ;
 
-  const int CollidingMolecule::get_grnZpe(){
+  const int CollidingMolecule::get_grnZPE(){
     double grnZpe = (get_zpe() - getEnv().EMin) / getEnv().GrainSize ; //convert to grain
     if (grnZpe < 0.0)
       cerr << "Grain zero point energy has to be a non-negative value.";
@@ -473,7 +473,7 @@ namespace mesmer
   //
   // calculates p(E)*exp(-EB)
   //
-  void CollidingMolecule::grainDistribution(vector<double> &grainFrac, const int numberOfGrains)
+  void CollidingMolecule::grainDistribution(vector<double> &grainFrac, const int totalGrnNumber)
   {
     // If density of states have not already been calcualted then do so.
     if (!calcDensityOfStates())
@@ -484,7 +484,7 @@ namespace mesmer
       m_grainFracBeta = getEnv().beta;
     }
 
-    for (int i = 0; i < numberOfGrains; ++i){
+    for (int i = 0; i < totalGrnNumber; ++i){
       grainFrac.push_back(m_grainDist[i]);
     }
   }
@@ -492,22 +492,22 @@ namespace mesmer
   //
   // Get normalized grain distribution.
   //
-  void CollidingMolecule::normalizedInitialDistribution(vector<double> &grainFrac, const int numberOfGrains)
+  void CollidingMolecule::normalizedInitialDistribution(vector<double> &grainFrac, const int totalGrnNumber)
   {
-    grainDistribution(grainFrac, numberOfGrains);
+    grainDistribution(grainFrac, totalGrnNumber);
 
     double prtfn(0.);
-    for (int i = 0; i < numberOfGrains; ++i){
+    for (int i = 0; i < totalGrnNumber; ++i){
       prtfn += grainFrac[i];
     }
 
-    for (int i = 0; i < numberOfGrains; ++i){
+    for (int i = 0; i < totalGrnNumber; ++i){
       grainFrac[i] /= prtfn;
     }
 
     if (getFlags().grainBoltzmannEnabled){
       ctest << "\nGrain fraction for " << getName() << ":\n{\n";
-      for (int i = 0; i < numberOfGrains; ++i){
+      for (int i = 0; i < totalGrnNumber; ++i){
         ctest << grainFrac[i] << endl;
       }
       ctest << "}\n";
@@ -515,30 +515,100 @@ namespace mesmer
   }
 
   //
+  // Get normalized cell distribution.
+  //
+  void CollidingMolecule::normalizedCellBoltzmannDistribution(vector<double> &cellFrac, const int startingCell)
+  {
+    // If density of states have not already been calcualted then do so.
+    if (!calcDensityOfStates())
+      cerr << "Failed calculating DOS";
+    
+    cellFrac.clear();
+
+    const int MaximumCell = getEnv().MaxCell;
+    vector<double> tempCellFrac, cellEne;
+    getCellEnergies(MaximumCell, cellEne);
+    
+    // Calculate unnormalized Boltzmann dist.
+    // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
+    for (int i = 0; i < MaximumCell; ++i) {
+      tempCellFrac.push_back(exp(log(m_cellDOS[i]) - getEnv().beta * cellEne[i] + 10.0));
+    }
+
+    double prtfn(0.);
+    for (int i = 0; i < MaximumCell; ++i)
+      prtfn += tempCellFrac[i];
+
+    for (int i = 0; i < MaximumCell; ++i)
+      tempCellFrac[i] /= prtfn;
+
+    for (int i = startingCell; i < MaximumCell; ++i)
+      cellFrac.push_back(tempCellFrac[i]);
+
+  }
+
+
+  //
   // Get normalized grain distribution.
   //
-  void CollidingMolecule::normalizedBoltzmannDistribution(vector<double> &grainFrac, const int numberOfGrains)
+  void CollidingMolecule::normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int totalGrnNumber, const int startGrnIdx, const int ignoreCellNumber)
   {
     // If density of states have not already been calcualted then do so.
     if (!calcDensityOfStates())
       cerr << "Failed calculating DOS";
 
+    vector<double> tempGrnFrac;
     grainFrac.clear();
+
     // Calculate unnormalized Boltzmann dist.
     // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
-    for (int i = 0; i < numberOfGrains; ++i) {
-      grainFrac.push_back(exp(log(m_grainDOS[i]) - getEnv().beta * m_grainEne[i] + 10.0));
+    for (int i = 0; i < totalGrnNumber; ++i) {
+      tempGrnFrac.push_back(exp(log(m_grainDOS[i]) - getEnv().beta * m_grainEne[i] + 10.0));
     }
 
     double prtfn(0.);
-    for (int i = 0; i < numberOfGrains; ++i){
-      prtfn += grainFrac[i];
+    for (int i = 0; i < totalGrnNumber; ++i){
+      prtfn += tempGrnFrac[i];
     }
 
-    for (int i = 0; i < numberOfGrains; ++i){
-      grainFrac[i] /= prtfn;
+    for (int i = 0; i < totalGrnNumber; ++i){
+      tempGrnFrac[i] /= prtfn;
     }
+
+    //---------------------------
+    //
+    if (ignoreCellNumber == 0){
+      grainFrac = tempGrnFrac;
+    }
+    else{
+      // As there are cells ignored, the population of the first grain participates the reaction will be changed.
+      // deal with the partial grain.
+      const int MaximumCell = getEnv().MaxCell;
+      const int gsz = getEnv().GrainSize;
+      const int cellOffset = get_cellOffset();
+      const int grnStartCell = startGrnIdx * gsz - cellOffset;
+      double partialDOS(0.0);
+      for (int i(ignoreCellNumber); i < gsz; ++i){
+        partialDOS += m_cellDOS[i + grnStartCell];
+      }
+      vector<double> cellEne;
+      getCellEnergies(MaximumCell, cellEne);
+      double partialAvgEne(0.0);
+      for (int i(ignoreCellNumber); i < gsz; ++i){
+        partialAvgEne += m_cellDOS[i + grnStartCell] * cellEne[i + grnStartCell];
+      }
+      partialAvgEne /= partialDOS;
+      double partialFrac = exp(log(partialDOS) - getEnv().beta * partialAvgEne + 10.0);
+      partialFrac /= prtfn;
+      grainFrac.push_back(partialFrac);
+      for (int i(startGrnIdx+1); i < int(tempGrnFrac.size()); ++i){
+        grainFrac.push_back(tempGrnFrac[i]);
+      }
+    }
+    //---------------------------
+
   }
+
   void CollidingMolecule::set_DistributionCalculator(DistributionCalculator* value){
     m_pDistributionCalculator = value;
   }
