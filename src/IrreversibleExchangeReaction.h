@@ -64,11 +64,6 @@ namespace mesmer
     // Initialize reaction.
     virtual bool InitializeReaction(PersistPtr ppReac) ;
 
-    // calculate Reactant DOS
-    bool calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
-    void getRctsCellDensityOfStates(vector<double> &cellDOS);
-    virtual DensityOfStatesCalculator* get_rctsDensityOfStatesCalculator(){return get_pseudoIsomer()->get_DensityOfStatesCalculator(); }
-
     // Get reactants grain ZPE
     const int get_rctsGrnZPE(void);
 
@@ -92,6 +87,16 @@ namespace mesmer
     // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
     // with a negative threshold energy
     void calcEffGrnThresholds(void);
+    
+    // calculate reactant/product DOS/partition function
+    bool calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
+    bool calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
+    void getRctsCellDensityOfStates(vector<double> &cellDOS);
+    void getPdtsCellDensityOfStates(vector<double> &cellDOS);
+    virtual DensityOfStatesCalculator* get_rctsDensityOfStatesCalculator(){return get_pseudoIsomer()->get_DensityOfStatesCalculator(); }
+    virtual DensityOfStatesCalculator* get_pdtsDensityOfStatesCalculator(){return m_pdt1->get_DensityOfStatesCalculator(); }
+    virtual double pdtsRovibronicGrnCanPrtnFn();
+    virtual double rctsRovibronicGrnCanPrtnFn();
 
   private:
 

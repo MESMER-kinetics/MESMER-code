@@ -1,3 +1,10 @@
+_2008_10_10__12_41_53_ Chi-Hsiu Liang
+
+  * Give irreversible reactions a equilibrium constant function. Although there is no equilibrium but according to the partition functions, 
+    one can still define a first order equilibrium constant.
+  * Define functions pdtsRovibronicGrnCanPrtnFn() and rctsRovibronicGrnCanPrtnFn() in all reactions.
+  * Allow user to input ILT parameters in reverse direction for irreversible unimolecular reactions.
+
 _2008_10_02__14_26_22_ Chi-Hsiu Liang
 
   * Removed many instances of TSFlux to simply flux to reflect that flux does not directly relate with transition state.
@@ -7,6 +14,7 @@ _2008_10_02__14_26_22_ Chi-Hsiu Liang
   * Added function CollidingMolecule::normalizedCellBoltzmannDistribution(vector<double> &cellFrac, const int startingCell)
     for calculation of Boltzmann distribution in cell level.
   * Note: This version still have problem reproducing correct association rate in low temperatures.
+  * Updated two baselines.
 
 _2008_09_15__13_46_24_ Chi-Hsiu Liang
 

@@ -49,8 +49,13 @@ namespace mesmer
     }
     virtual double get_relative_TSZPE(void) const {return m_TransitionState->get_zpe() - getEnv().EMin;};
 
+    const int get_pdtsGrnZPE();
+    
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
+
+    // Get products cell density of states.
+    void getPdtsCellDensityOfStates(std::vector<double> &cellDOS) ;
 
     // return the colloptrsize of the reactants
     virtual int getRctColloptrsize(){return m_rct1->get_colloptrsize();}
@@ -78,6 +83,14 @@ namespace mesmer
     // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
     // with a negative threshold energy
     void calcEffGrnThresholds(void);
+
+    virtual DensityOfStatesCalculator* get_pdtsDensityOfStatesCalculator(){return m_pdt1->get_DensityOfStatesCalculator(); }
+
+    bool calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
+
+    // Calculate rovibronic canonical partition function in the grain level for product or reactant
+    virtual double pdtsRovibronicGrnCanPrtnFn();
+    virtual double rctsRovibronicGrnCanPrtnFn();
 
   private:
 

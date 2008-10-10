@@ -220,9 +220,13 @@ namespace mesmer
       if (m_EInf.get_value() < 0.0){
         cerr << "Providing negative E_infinity in Reaction " << getName() << " is invalid.";
       }
+      if (m_isRvsILTpara){
+        const double tempv = m_EInf.get_value() > 0.0 ? m_EInf.get_value() + getHeatOfReaction() : getHeatOfReaction();
+        return tempv;
+      }
       return m_EInf.get_value();
     }
-    
+
     // Not ILT
     if (!m_TransitionState) {
       cerr << "No TransitionState for " << getName();
@@ -262,6 +266,7 @@ namespace mesmer
     if (pActEnetxt)
     {
       PersistPtr ppActEne = ppReac->XmlMoveTo("me:activationEnergy") ;
+      m_isRvsILTpara = ppActEne->XmlReadValue("reverse", false); //specify the direction of the following ILT parameters
       double tmpvalue = 0.0;
       stringstream s2(pActEnetxt); s2 >> tmpvalue ;
       const char* unitsTxt = ppActEne->XmlReadValue("units", false);
@@ -414,7 +419,7 @@ namespace mesmer
     {
       TransitionState* pTrans = dynamic_cast<TransitionState*>(GetMolRef(ppTransitionState,"transitionState"));
       if(pTrans) m_TransitionState = pTrans;
-      
+
       if (pTrans && m_pMicroRateCalculator->getName() == "Mesmer ILT"){
         cerr << "Reaction " << getName() << " uses ILT method, which should not have transition state.";
         return false;

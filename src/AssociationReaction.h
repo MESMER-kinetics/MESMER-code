@@ -108,7 +108,9 @@ namespace mesmer
 
     bool calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
 
-    double rctsRovibronicGrnCanPrtnFn();
+    // Calculate rovibronic canonical partition function in the grain level for product or reactant
+    virtual double rctsRovibronicGrnCanPrtnFn();
+    virtual double pdtsRovibronicGrnCanPrtnFn();
 
   private:
 

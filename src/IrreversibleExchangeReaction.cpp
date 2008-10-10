@@ -84,11 +84,65 @@ namespace mesmer
 
   }
 
-  double IrreversibleExchangeReaction::calcEquilibriumConstant() {   // Calculate reaction equilibrium constant.
-    double Keq(0.0) ;
-    return Keq ;
+  //
+  // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
+  //
+  double IrreversibleExchangeReaction::rctsRovibronicGrnCanPrtnFn() {
+    vector<double> rctGrainDOS;
+    vector<double> rctGrainEne;
+    calcRctsGrainDensityOfStates(rctGrainDOS, rctGrainEne);
+
+    // Calculate the rovibronic partition function based on the grain DOS
+    // The following catches the case where the molecule is a single atom
+    double CanPrtnFn = max(canonicalPartitionFunction(rctGrainDOS, rctGrainEne, getEnv().beta), 1.0) ;
+    if (CanPrtnFn == 1.0){
+      // Electronic partition function for atom is accounted here.
+      CanPrtnFn = double(m_rct1->getSpinMultiplicity() * m_rct2->getSpinMultiplicity()) ;
+    }
+
+    return CanPrtnFn ;
   }
 
+  //
+  // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
+  //
+  double IrreversibleExchangeReaction::pdtsRovibronicGrnCanPrtnFn() {
+    vector<double> pdtGrainDOS;
+    vector<double> pdtGrainEne;
+    calcPdtsGrainDensityOfStates(pdtGrainDOS, pdtGrainEne);
+
+    // Calculate the rovibronic partition function based on the grain DOS
+    // The following catches the case where the molecule is a single atom
+    double CanPrtnFn = max(canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, getEnv().beta), 1.0) ;
+    if (CanPrtnFn == 1.0){
+      // Electronic partition function for atom is accounted here.
+      CanPrtnFn = double(m_pdt1->getSpinMultiplicity() * m_pdt2->getSpinMultiplicity()) ;
+    }
+    return CanPrtnFn ;
+  }
+
+  double IrreversibleExchangeReaction::calcEquilibriumConstant() {   // Calculate reaction equilibrium constant.
+    // equilibrium constant:
+    double Keq(0.0) ;
+    const double beta = getEnv().beta ;
+
+    // rovibronic partition function for products/reactants
+    double Qrcts = rctsRovibronicGrnCanPrtnFn();
+    double Qpdts = pdtsRovibronicGrnCanPrtnFn();
+
+    // rovibronic partition function for reactants/products multiplied by translation contribution
+    Qrcts *= translationalContribution(m_rct1->getMass(), m_rct2->getMass(), beta);
+    Qpdts *= translationalContribution(m_pdt1->getMass(), m_pdt2->getMass(), beta);
+
+    Keq = Qpdts / Qrcts;
+
+    // Heat of reaction: use heat of reaction to calculate the zpe weighing of different wells
+    const double HeatOfReaction = getHeatOfReaction() ;
+    const double _expon = -beta * HeatOfReaction;
+    Keq *= exp(_expon);
+
+    return Keq ;
+  }
 
   void IrreversibleExchangeReaction::AddReactionTerms(qdMatrix *CollOptr, isomerMap &isomermap, 
     const double rMeanOmega)              // Add exchange reaction terms to collision matrix.
@@ -111,18 +165,94 @@ namespace mesmer
     shiftCells(MaximumCell, cellOffset, rctsCellDOS, rctsCellEne, shiftedCellDOS, shiftedCellEne);
 
     string catName = m_rct1->getName() + " + " + m_rct2->getName();
+
+    if (getFlags().cyclePrintCellDOS){
+      ctest << endl << "Cell rovibronic density of states of " << catName << endl << "{" << endl;
+      for (int i = 0; i < MaximumCell; ++i){
+        formatFloat(ctest, rctsCellEne[i],  6,  15) ;
+        formatFloat(ctest, rctsCellDOS[i],  6,  15) ;
+        ctest << endl ;
+      }
+      ctest << "}" << endl;
+      getFlags().cyclePrintCellDOS = false;
+    }
+
     calcGrainAverages(getEnv().MaxGrn, getEnv().GrainSize, shiftedCellDOS, shiftedCellEne, grainDOS, grainEne, catName);
+
+    if (getFlags().cyclePrintGrainDOS){
+      ctest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;
+      for (int i = 0; i < getEnv().MaxGrn; ++i){
+        formatFloat(ctest, grainEne[i],  6,  15) ;
+        formatFloat(ctest, grainDOS[i],  6,  15) ;
+        ctest << endl ;
+      }
+      ctest << "}" << endl;
+      getFlags().cyclePrintGrainDOS = false;
+    }
 
     return true;
   }
 
+  //
+  // Calculate the rovibrational density of states of products.
+  //
+  bool IrreversibleExchangeReaction::calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne)
+  {
+    std::vector<double> pdtsCellDOS;
+    getPdtsCellDensityOfStates(pdtsCellDOS);
+
+    std::vector<double> shiftedCellDOS;
+    std::vector<double> shiftedCellEne;
+    const int MaximumCell = getEnv().MaxCell;
+    const int cellOffset = m_pdt1->get_cellOffset(); // ** temporary statement to get cellOffset from one of the molecules.
+    std::vector<double> pdtsCellEne;
+    getCellEnergies(MaximumCell, pdtsCellEne);
+    shiftCells(MaximumCell, cellOffset, pdtsCellDOS, pdtsCellEne, shiftedCellDOS, shiftedCellEne);
+
+    const string catName = m_pdt1->getName() + " + " + m_pdt2->getName();
+
+    if (getFlags().cyclePrintCellDOS){
+      ctest << endl << "Cell rovibronic density of states of " << catName << endl << "{" << endl;
+      for (int i = 0; i < MaximumCell; ++i){
+        formatFloat(ctest, pdtsCellEne[i],  6,  15) ;
+        formatFloat(ctest, pdtsCellDOS[i],  6,  15) ;
+        ctest << endl ;
+      }
+      ctest << "}" << endl;
+      getFlags().cyclePrintCellDOS = false;
+    }
+
+    calcGrainAverages(getEnv().MaxGrn, getEnv().GrainSize, shiftedCellDOS, shiftedCellEne, grainDOS, grainEne, catName);
+
+    if (getFlags().cyclePrintGrainDOS){
+      ctest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;
+      for (int i = 0; i < getEnv().MaxGrn; ++i){
+        formatFloat(ctest, grainEne[i],  6,  15) ;
+        formatFloat(ctest, grainDOS[i],  6,  15) ;
+        ctest << endl ;
+      }
+      ctest << "}" << endl;
+      getFlags().cyclePrintGrainDOS = false;
+    }
+
+    return true;
+  }
+
+  //
   // Get reactants cell density of states.
+  //
   void IrreversibleExchangeReaction::getRctsCellDensityOfStates(vector<double> &cellDOS) {
     get_rctsDensityOfStatesCalculator()->countDimerCellDOS(m_rct1, m_rct2, cellDOS);
   }
 
-  // Calculate grained forward and reverse k(E)s from transition state flux
+  //
+  // Get products cell density of states.
+  //
+  void IrreversibleExchangeReaction::getPdtsCellDensityOfStates(vector<double> &cellDOS) {
+    get_pdtsDensityOfStatesCalculator()->countDimerCellDOS(m_pdt1, m_pdt2, cellDOS);
+  }
 
+  // Calculate grained forward and reverse k(E)s from transition state flux
   void IrreversibleExchangeReaction::calcGrainRateCoeffs(){
 
     vector<double> rctGrainDOS;
@@ -151,7 +281,7 @@ namespace mesmer
     }
 
     testRateConstant();  // always execute this routine for irreversible exchange reactions in order to derive
-                         // the irreversible collision matrix element
+    // the irreversible collision matrix element
   }
 
   void IrreversibleExchangeReaction::testRateConstant() {    // Test k(T)

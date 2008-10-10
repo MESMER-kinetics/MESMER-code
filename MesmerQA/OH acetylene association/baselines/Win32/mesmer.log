@@ -49,16 +49,16 @@ m_scaleFactor was not defined but requested in OH_acetylene_adduct. Default valu
 
 20 values in the FFT convolution routine were replaced by standard convolution
 m_scaleFactor was not defined but requested in TS_1a. Default value 1 is given.
-
+Grain zero point energy is negative in R2.
 20 values in the FFT convolution routine were replaced by standard convolution
 
 20 values in the FFT convolution routine were replaced by standard convolution
 Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 
-Finish Calculation -- Time elapsed: 41 seconds.
+Finish Calculation -- Time elapsed: 51 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
  *Info in main
- -- Total time elapsed: 70 seconds.
+ -- Total time elapsed: 85 seconds.
 
 System saved
 m_Mass is provided but not used in OCHCH2

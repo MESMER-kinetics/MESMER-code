@@ -62,10 +62,12 @@ namespace mesmer
     const double Ninf   = pReact->get_NInf(); // constraint: Ninf != 0
     const double Tinf   = pReact->get_TInf();
     const double Ainf   = pReact->get_PreExp();
-    const int Einf   = (int)(pReact->get_EInf());
+    const int    Einf   = (int)(pReact->get_EInf());
 
     ModelledMolecule*  p_rct = pReact->get_reactant();
     int MaximumCell = pReact->getEnv().MaxCell;
+    vector<ModelledMolecule*> v_pdts;
+    const int numberOfProducts = pReact->get_products(v_pdts);
 
     // Allocate some work space for density of states and extract densities of states from molecules.
     vector<double> rctCellEne;  // Cell energies of reactant molecule.
@@ -79,12 +81,24 @@ namespace mesmer
     // rxnFlux will in fact work on m_CellFlux.
     vector<double>& rxnFlux = pReact->get_CellFlux();
     rxnFlux.clear();
-    rxnFlux.resize(MaximumCell, 0.0); 
+    rxnFlux.resize(MaximumCell, 0.0);
 
     const double gammaValue = MesmerGamma(Ninf);
     const double beta0      = 1.0/(boltzmann_RCpK*Tinf);
-    const double constant   = Ainf * pow(beta0,Ninf)/gammaValue;
-    
+
+    // If the activation energy specified is for the reverse direction.
+    double Keq(1.0);
+    if (pReact->isReverseReactionILT_Ea()){
+      const double Q_R        = p_rct->rovibronicGrnCanPrtnFn();
+      const double Q_p        = pReact->pdtsRovibronicGrnCanPrtnFn();
+      Keq *= Q_p / Q_R;
+      // Heat of reaction contribution is included in activation energy
+      if (numberOfProducts == 2){
+        Keq *= translationalContribution(v_pdts[0]->getMass(), v_pdts[1]->getMass(), pReact->getEnv().beta);
+      }
+    }
+    const double constant   = Ainf * Keq * pow(beta0,Ninf)/gammaValue;
+
     /*The expression of the work vector is changed so that every member is from analytic solution of
     integral_x_to_y{E^(Ninf-1)dE}, where x and y are lower and upper energy limits of the cell respectively.*/
     vector<double> work(MaximumCell);
@@ -92,13 +106,20 @@ namespace mesmer
       //work[i] = pow(rctCellEne[i], pwr);
       work[i] = (pow(i+1,Ninf)-pow(i,Ninf))/Ninf;
     }
+
     vector<double> conv;
     FastLaplaceConvolution(work, rctCellDOS, conv);    // FFT convolution replaces the standard convolution
 
     for (int i = 0; i < MaximumCell; ++i)
       rxnFlux[i] = constant * conv[i];
 
-    pReact->setCellFluxBottom(pReact->get_relative_rctZPE() + Einf);
+    if (pReact->isReverseReactionILT_Ea()){
+      // exp(-(E0 + Ea)/kB T)
+      pReact->setCellFluxBottom(pReact->get_relative_pdtZPE() + Einf);
+    }
+    else{
+      pReact->setCellFluxBottom(pReact->get_relative_rctZPE() + Einf);
+    }
 
     cinfo << "Unimolecular ILT calculation completed" << endl;
     return true;
@@ -144,7 +165,7 @@ namespace mesmer
     // rxnFlux will in fact work on m_CellFlux.
     vector<double>& rxnFlux = pAssocReaction->get_CellFlux();
     rxnFlux.clear();
-    rxnFlux.resize(MaximumCell, 0.0); 
+    rxnFlux.resize(MaximumCell, 0.0);
 
     const double gammaValue = MesmerGamma(Ninf + 1.5);
 

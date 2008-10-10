@@ -205,6 +205,8 @@ namespace mesmer
 
     return CanPrtnFn ;
   }
+  double AssociationReaction::pdtsRovibronicGrnCanPrtnFn() { return m_pdt1->rovibronicGrnCanPrtnFn();}
+
 
   // Is reaction equilibrating and therefore contributes
   // to the calculation of equilibrium fractions.
@@ -361,7 +363,7 @@ namespace mesmer
   //
   // Calculate the rovibrational density of states of reactants.
   //
-  bool AssociationReaction::calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne)    // Calculate rovibrational reactant DOS
+  bool AssociationReaction::calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne)
   {
     std::vector<double> rctsCellDOS;
     getRctsCellDensityOfStates(rctsCellDOS);

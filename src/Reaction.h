@@ -82,7 +82,7 @@ namespace mesmer
     virtual double get_relative_TSZPE(void) const = 0;
 
     // Get activiation energy
-    double get_ThresholdEnergy(void);
+    virtual double get_ThresholdEnergy(void);
     /* This function should be considered as a function to get Einf.
     In ILT, not the theoretical threshold energy but the experimental Einf is used.
     This function returns user defined m_EInf, otherwise zero.
@@ -193,6 +193,13 @@ namespace mesmer
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() = 0 ;
 
+    // Calculate rovibronic canonical partition function in the grain level for product(s) or reactant(s)
+    virtual double pdtsRovibronicGrnCanPrtnFn() = 0;
+    virtual double rctsRovibronicGrnCanPrtnFn() = 0;
+
+    // Check if the activation energy provided for ILT is for reverse direction
+    bool isReverseReactionILT_Ea() {return m_isRvsILTpara;}
+
   protected:
 
     // Read a molecule name from the XML file and look it up
@@ -257,7 +264,7 @@ namespace mesmer
 
     // Read ILT parameters
     bool ReadILTParameters(PersistPtr ppReac);
-
+    
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs() = 0;
 
@@ -284,6 +291,7 @@ namespace mesmer
     DPoint m_NInf ;             // Modified Arrhenius parameter
     double m_TInf ;             // T infinity
     DPoint m_EInf ;             // E infinity
+    bool   m_isRvsILTpara;      // The ILT parameters provided are for reverse direction.
     double m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
 
   protected:
