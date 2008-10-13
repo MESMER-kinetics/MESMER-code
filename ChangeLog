@@ -1,3 +1,8 @@
+_2008_10_13__13_38_48_ Chi-Hsiu Liang
+
+  * Simplify the dt vector and updated Acetyl+O2 baseline. Ketene species profile should not reduce in the beginning as this is
+    an irreversible reaction.
+
 _2008_10_10__12_41_53_ Chi-Hsiu Liang
 
   * Give irreversible reactions a equilibrium constant function. Although there is no equilibrium but according to the partition functions, 

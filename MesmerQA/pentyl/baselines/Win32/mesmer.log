@@ -35,10 +35,10 @@ Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 No population was assigned, and there is no source term.
 Initialize a Boltzmann distribution in the first isomer.
 
-Finish Calculation -- Time elapsed: 14 seconds.
+Finish Calculation -- Time elapsed: 16 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
  *Info in main
- -- Total time elapsed: 16 seconds.
+ -- Total time elapsed: 20 seconds.
 
 System saved
 m_Mass is provided but not used in n-pentyl=TS=2-pentyl
