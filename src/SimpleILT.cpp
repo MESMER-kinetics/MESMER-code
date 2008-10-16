@@ -24,9 +24,9 @@ namespace mesmer
     const int MaximumCell = pReact->getEnv().MaxCell;
 
     // Allocate space to hold transition state flux and initialize elements to zero.
-    vector<double>& TSFlux = pReact->get_CellFlux();
-    TSFlux.clear();
-    TSFlux.resize(MaximumCell, 0.0);
+    vector<double>& rxnFlux = pReact->get_CellFlux();
+    rxnFlux.clear();
+    rxnFlux.resize(MaximumCell, 0.0);
 
     // Allocate some work space for and obtain density of states of the unimolecuar reactant.
 
@@ -41,7 +41,7 @@ namespace mesmer
     // Calculate microcanonical rate coefficients using simple ILT expression.
 
     for (int i = nEinf; i < MaximumCell ; ++i ) {
-      TSFlux[i] = preExp * rctsCellDOS[i-nEinf];
+      rxnFlux[i] = preExp * rctsCellDOS[i-nEinf];
     }
 
     // the flux bottom energy is equal to the well bottom of the source term

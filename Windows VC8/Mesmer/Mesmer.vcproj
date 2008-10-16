@@ -319,6 +319,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\sevd\ap.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sevd\apvt.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\AssociationReaction.h"
 				>
 			</File>
@@ -435,6 +443,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\sevd\reflections.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sevd\sblas.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sevd\sevd.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\SimpleILT.h"
 				>
 			</File>
@@ -447,6 +467,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\sevd\tdevd.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\TimeCounter.h"
 				>
 			</File>
@@ -456,6 +480,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\TMatrix.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\sevd\tridiagonal.h"
 				>
 			</File>
 			<File

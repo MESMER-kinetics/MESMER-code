@@ -18,6 +18,7 @@
 #include <climits>
 #include <stdio.h>
 #include <vector>
+#include "../sevd/sevd.h"
 
 namespace mesmer
 {
@@ -28,6 +29,42 @@ namespace mesmer
 
     // Constructor
     TMatrix(int n, const T& init = T()) : Matrix<T>(n, init) { } ;
+
+    // A real symmetric matrix diagonalization routine uses ALGLIB
+    void ALGLIB_diagonalize(T *rr) {
+
+      int size ;
+      size = static_cast<int>(this->size()) ;
+
+      ap::real_2d_array<T> matrix;
+      ap::real_2d_array<T> eigenvectors;
+      ap::real_1d_array<T> eigenvalues;
+      matrix.setbounds(0, size-1, 0, size-1);
+      eigenvectors.setbounds(0, size-1, 0, size-1);
+      eigenvalues.setbounds(0, size-1);
+
+      //Allocate vector
+      for (int i(0); i < size; ++i){
+        for (int j(0); j < size; ++j){
+          matrix(i,j) = (*this)[i][j];
+        }
+      }
+
+      if (!smatrixevd(matrix, size, 1, false, eigenvalues, eigenvectors)){
+        cerr << "Vector does not converge!!";
+        exit(1);
+      }
+
+      //Return eigenvectors/eigenvalues
+      for (int i(0); i < size; ++i){
+        rr[i] = eigenvalues(i);
+        for (int j(0); j < size; ++j){
+          (*this)[i][j] = eigenvectors(i,j);
+        }
+      }
+
+
+    }
 
     //
     // Wrapped call to EISPACK routine to diagonalise matrix.
@@ -53,7 +90,7 @@ namespace mesmer
 
     }
 
-    // 
+    //
     // Solve a set of linear equations with a single right hand side.
     //
     void solveLinearEquationSet(T *rr) {

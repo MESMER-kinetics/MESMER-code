@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual C++ Express 2005
+# Visual Studio 2005
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mesmer", "Mesmer\Mesmer.vcproj", "{2BCC6B10-A435-4738-985B-3B3E405D568E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{71A7FD85-66B8-4235-91AC-914AC894D6E1} = {71A7FD85-66B8-4235-91AC-914AC894D6E1}

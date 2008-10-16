@@ -236,7 +236,7 @@ namespace mesmer
     if(!SetGrainParams(mEnv, mFlags, minEnergy, maxEnergy))
       return false;
 
-    // Calculate TSFlux and k(E)s
+    // Calculate flux and k(E)s
     for (size_t i(0) ; i < size() ; ++i) {
       m_reactions[i]->calcGrnAvrgMicroRateCoeffs() ;
     }
@@ -255,7 +255,7 @@ namespace mesmer
         CollidingMolecule *isomer = isomeritr->first ;
         isomeritr->second = msize ; //set location
 
-        int grnZpe = isomer->get_grnZpe() ; //set grain ZPE (with respect to the minimum of all wells)
+        int grnZpe = isomer->get_grnZPE() ; //set grain ZPE (with respect to the minimum of all wells)
 
         int colloptrsize = mEnv.MaxGrn - grnZpe ;
         isomer->set_colloptrsize(colloptrsize) ;
@@ -385,7 +385,7 @@ namespace mesmer
             for ( int j = 0 ; j < smsize ; ++j )
               dDiagM[i][j] = to_double((*m_pReactionOperator)[i][j]) ;
           vector<double>  dEigenValue(smsize, 0.0);
-          dDiagM.diagonalize(&dEigenValue[0]) ;
+          dDiagM.ALGLIB_diagonalize(&dEigenValue[0]) ;
           for ( int i = 0 ; i < smsize ; ++i )
             m_eigenvalues[i] = dEigenValue[i];
           for ( int i = 0 ; i < smsize ; ++i )
@@ -400,7 +400,7 @@ namespace mesmer
             for ( int j = 0 ; j < smsize ; ++j )
               ddDiagM[i][j] = to_dd_real((*m_pReactionOperator)[i][j]) ;
           vector<dd_real> ddEigenValue(smsize, 0.0);
-          ddDiagM.diagonalize(&ddEigenValue[0]) ;
+          ddDiagM.ALGLIB_diagonalize(&ddEigenValue[0]) ;
           for ( int i = 0 ; i < smsize ; ++i )
             m_eigenvalues[i] = ddEigenValue[i];
           for ( int i = 0 ; i < smsize ; ++i )
@@ -410,7 +410,7 @@ namespace mesmer
         }
       default: // diagonalize in quad double
         {
-          m_pReactionOperator->diagonalize(&m_eigenvalues[0]) ;
+          m_pReactionOperator->ALGLIB_diagonalize(&m_eigenvalues[0]) ;
         }
     }
 
@@ -579,7 +579,7 @@ namespace mesmer
     return true;
   }
 
-  bool ReactionManager::produceInitialPopulationVector(vector<double>& initDist){
+  bool ReactionManager::produceInitialPopulationVector(vector<double>& n_0){
 
     double populationSum = 0.0;
 
@@ -603,9 +603,9 @@ namespace mesmer
         int location = ipos->second;
         const int colloptrsize = isomer->get_colloptrsize();
         vector<double> boltzFrac;
-        isomer->normalizedBoltzmannDistribution(boltzFrac, colloptrsize);
+        isomer->normalizedGrnBoltzmannDistribution(boltzFrac, colloptrsize);
         for (int i = 0; i < colloptrsize; ++i){
-          initDist[i + location] = initFrac * boltzFrac[i];
+          n_0[i + location] = initFrac * boltzFrac[i];
         }
       }
     }
@@ -624,7 +624,7 @@ namespace mesmer
       vector<double> boltzFrac;
       isomer->normalizedInitialDistribution(boltzFrac, colloptrsize);
       for (int i = 0; i < colloptrsize; ++i){
-        initDist[i + location] = initFrac * boltzFrac[i];
+        n_0[i + location] = initFrac * boltzFrac[i];
       }
     }
 
@@ -632,10 +632,10 @@ namespace mesmer
       ModelledMolecule* source = spos->first;
       double initFrac = source->getInitPopulation() / populationSum;
       int location = spos->second;
-      initDist[location] = initFrac;
+      n_0[location] = initFrac;
       if (populationSum == 0. && spos == m_sources.begin()){
         cinfo << "No population was assigned. Initialize the first source term to 1.0." << endl;
-        initDist[location] = 1.0;
+        n_0[location] = 1.0;
       }
     }
 
@@ -667,7 +667,7 @@ namespace mesmer
       double eqFrac = isomer->getEqFraction();
       const int colloptrsize = isomer->get_colloptrsize();
       vector<double> boltzFrac;
-      isomer->normalizedBoltzmannDistribution(boltzFrac, colloptrsize);
+      isomer->normalizedGrnBoltzmannDistribution(boltzFrac, colloptrsize);
       for(int i(0);i<colloptrsize;++i){
         m_eqVector[location + i]= sqrt(eqFrac * boltzFrac[i]);
       }
@@ -697,13 +697,13 @@ namespace mesmer
 
     //initialize dt vector for calculating product yields
     vector<double> dt(maxTimeStep,0.0);
-    dt[0] = ((timePoints[0] + timePoints[1])/2)-((timePoints[0] + pow(10.0,0.9-12.0))/2);
+    dt[0] = timePoints[0];
     for (int i = 1; i < maxTimeStep; ++i){
-      dt[i] = ((timePoints[i] + timePoints[i+1])/2)-((timePoints[i] + timePoints[i-1])/2);
+      dt[i] = timePoints[i] - timePoints[i-1];
     }
 
-    vector<double> initDist(smsize, 0.); // initial distribution
-    if (!produceInitialPopulationVector(initDist)){
+    vector<double> n_0(smsize, 0.); // initial distribution
+    if (!produceInitialPopulationVector(n_0)){
       cerr << "Calculation of initial conditions vector failed.";
       return false;
     }
@@ -713,9 +713,9 @@ namespace mesmer
       return false;
     }
 
-    // |initDist> = F^(-1)*|p(0)>
+    // |n_0> = F^(-1)*|n_0>
     for (int j = 0; j < smsize; ++j) {
-      initDist[j] = initDist[j]/m_eqVector[j];
+      n_0[j] /= m_eqVector[j];
     }
 
     dMatrix sysCollOptr(smsize); // copy the system collision operator,
@@ -723,14 +723,17 @@ namespace mesmer
       for ( int j = 0 ; j < smsize ; ++j )
         sysCollOptr[i][j] = to_double((*m_pReactionOperator)[i][j]);
 
-    vector<double> work1(smsize, 0.);            // which holds the eigenvectors
+    // |n_0> is the initial populations of the grains for all species 
+    // |n_t> = U exp(Lamda t) U^-1 |n_0>
+    // |r_0> = U^-1 |n_0>
+    vector<double> r_0(smsize, 0.);            // which holds the eigenvectors
 
     for (int i = 0; i < smsize; ++i) {
       double sum = 0.;
       for (int j = 0; j < smsize; ++j) {
-        sum += initDist[j] * sysCollOptr[j][i];
+        sum += n_0[j] * sysCollOptr[j][i];
       }
-      work1[i] = sum;  // now |work1> = V^(T)*|init> = U^(-1)*|p(0)>
+      r_0[i] = sum;  // now |r_0> = V^(T)*|init> = U^(-1)*|n_0>
     }
 
     for (int i = 0; i < smsize; ++i) {
@@ -740,21 +743,21 @@ namespace mesmer
       }
     }
 
-    ldb2D grainedProfile(smsize, maxTimeStep); // numbers inside the parentheses are dummies
-    vector<double> work2(smsize, 0.);
+    db2D grainedProfile(smsize, maxTimeStep); // numbers inside the parentheses are dummies
+    vector<double> r_t(smsize, 0.);
 
     for (int timestep = 0; timestep < maxTimeStep; ++timestep){
       double numColl = m_meanOmega * timePoints[timestep];
       for (int j = 0; j < smsize; ++j) {
-        work2[j] = work1[j] * exp(to_double(m_eigenvalues[j]) * numColl);
-      } // now |wk2> = exp(Dt)*V^(T)*|init> = exp(Dt)*U^(-1)*|p(0)>
+        r_t[j] = r_0[j] * exp(to_double(m_eigenvalues[j]) * numColl);
+      } // now |r_t> = exp(Dt)*V^(T)*|init> = exp(Dt)*U^(-1)*|n_0>
       for (int j = 0; j < smsize; ++j) {
         double sum = 0.;
         for (int l = 0; l < smsize; ++l) {
-          sum += work2[l] * sysCollOptr[j][l];
+          sum += r_t[l] * sysCollOptr[j][l];
         }
         grainedProfile[j][timestep] = sum;
-      } // now |grainedProfile(t)> = |grainedProfile(i)> = F*V*exp(Dt)*V^(T)*|init> = U*exp(Dt)*U^(-1)*|p(0)>
+      } // now |grainedProfile(t)> = |grainedProfile(i)> = F*V*exp(Dt)*V^(T)*|init> = U*exp(Dt)*U^(-1)*|n_0>
     }
 
     ctest<<"mean collision frequency = " << m_meanOmega << "/s" << endl;
@@ -853,7 +856,7 @@ namespace mesmer
         vector<ModelledMolecule*> pdts;                               // in the sink reaction  
         sinkReaction->get_products(pdts);
         if(colloptrsize == 1){  // if the collision operator size is 1, there is one canonical loss rate coefficient
-          KofEs.push_back(sinkReaction->get_forwardCanonicalRateCoefficient());
+          KofEs.push_back(sinkReaction->get_fwdGrnCanonicalRate());
           ctest << setw(11) << pdts[0]->getName()<< setw(5) << "(bim)";
         }
         else{   // if the collision operator size is >1, there are k(E)s for the irreversible loss
@@ -994,7 +997,7 @@ namespace mesmer
           Reaction* sinkReaction = sinkpos->first;                 
           const int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant
           if(colloptrsize == 1)  // if the collision operator size is 1, there is one canonical loss rate coefficient
-            KofEs.push_back(sinkReaction->get_forwardCanonicalRateCoefficient());
+            KofEs.push_back(sinkReaction->get_fwdGrnCanonicalRate());
           else                   // if the collision operator size is >1, there are k(E)s for the irreversible loss
             KofEs = sinkReaction->get_GrainKfmc();                      // assign sink k(E)s, the vector size == maxgrn
           int location = sinkpos->second;                               // get sink location
@@ -1152,6 +1155,5 @@ namespace mesmer
 
 
 }//namespace
-
 
 

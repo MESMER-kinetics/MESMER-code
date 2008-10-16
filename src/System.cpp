@@ -158,8 +158,8 @@ namespace mesmer
       m_Flags.TunnellingCoeffEnabled      = ppControl->XmlReadBoolean("me:printTunnellingCoefficients");
       if (!m_Flags.TunnellingCoeffEnabled)
         m_Flags.TunnellingCoeffEnabled    = ppControl->XmlReadBoolean("me:printTunnelingCoefficients");
-      m_Flags.cellTSFluxEnabled           = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
-      m_Flags.grainTSFluxEnabled          = ppControl->XmlReadBoolean("me:printGrainTransitionStateFlux");
+      m_Flags.cellFluxEnabled           = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
+      m_Flags.grainFluxEnabled          = ppControl->XmlReadBoolean("me:printGrainTransitionStateFlux");
       m_Flags.rateCoefficientsOnly        = ppControl->XmlReadBoolean("me:calculateRateCoefficinetsOnly");
       m_Flags.useTheSameCellNumber        = ppControl->XmlReadBoolean("me:useTheSameCellNumberForAllConditions");
       m_Flags.grainedProfileEnabled       = ppControl->XmlReadBoolean("me:printGrainedSpeciesProfile");

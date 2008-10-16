@@ -22,8 +22,8 @@ namespace mesmer
     bool   kfEGrainsEnabled;              // Enabled printing k_f(E) grains
     bool   kbEGrainsEnabled;              // Enabled printing k_b(E) grains
     bool   TunnellingCoeffEnabled;        // Enabled printing Tunneling coefficients
-    bool   cellTSFluxEnabled;             // Enabled printing transition state flux
-    bool   grainTSFluxEnabled;            // Enabled printing transition state flux
+    bool   cellFluxEnabled;             // Enabled printing transition state flux
+    bool   grainFluxEnabled;            // Enabled printing transition state flux
     bool   rateCoefficientsOnly;          // Calculate rate coefficients only without doing collision operators
     bool   useTheSameCellNumber;          // Option to use the same cell number or not in various conditions
     bool   grainedProfileEnabled;         // Option to print out grained species profile (before summation to individual species)

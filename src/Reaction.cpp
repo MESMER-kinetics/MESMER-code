@@ -23,20 +23,23 @@ namespace mesmer
     m_pMoleculeManager(pMoleculeManager),
     m_pMicroRateCalculator(NULL),
     m_pTunnelingCalculator(NULL),
+    m_FluxCellZPE(0.0),
     m_FluxGrainZPE(0.0),
     m_FluxCellOffset(0),
-    m_CellTSFlux(),
-    m_GrainTSFlux(),
+    m_CellFlux(),
+    m_GrainFlux(),
     m_GrainKfmc(),
     m_GrainKbmc(),
-    m_forwardCanonicalRate(0.0),
-    m_backwardCanonicalRate(0.0),
+    m_fwdGrnCanonicalRate(0.0),
+    m_rvsGrnCanonicalRate(0.0),
+    m_fwdCellCanonicalRate(0.0),
+    m_rvsCellCanonicalRate(0.0),
     m_Env(Env),
     m_Flags(Flags),
     m_Name(id),
-    TSFluxStartIdx(0),
-    EffectiveForwardGrainedThreshEn(0),
-    EffectiveReverseGrainedThreshEn(0),
+    m_GrnFluxFirstNonZeroIdx(0),
+    m_EffGrainedFwdThreshold(0),
+    m_EffGrainedRvsThreshold(0),
     reCalcDOS(true),
     m_PreExp(0.0),
     m_NInf(0.0),
@@ -110,7 +113,7 @@ namespace mesmer
   //
   bool Reaction::calcGrnAvrgMicroRateCoeffs() {
     if (reCalcDOS){
-      if (m_CellTSFlux.size()) m_CellTSFlux.clear();
+      if (m_CellFlux.size()) m_CellFlux.clear();
 
       // Calculate microcanonical rate coefficients.
       if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this))
@@ -118,10 +121,10 @@ namespace mesmer
 
       // report TransitionState Flux in cells to test output
       const int MaximumCell = getEnv().MaxCell;
-      if (getFlags().cellTSFluxEnabled){
-        ctest << "\nTSFlux(e) cells for " << getName() << ":\n{\n";
+      if (getFlags().cellFluxEnabled){
+        ctest << "\nFlux(e) cells for " << getName() << ":\n{\n";
         for (int i = 0; i < MaximumCell; ++i){
-          ctest << m_CellTSFlux[i] << endl;
+          ctest << m_CellFlux[i] << endl;
         }
         ctest << "}\n";
       }
@@ -148,11 +151,11 @@ namespace mesmer
     // based on the view from the species that is
     // moving in the current reaction toward the opposite species.
 
-    std::vector<double> shiftedTScellFlux;
-    shiftTScellFlux(shiftedTScellFlux);
+    std::vector<double> shiftedCellFlux;
+    shiftCellFlux(shiftedCellFlux);
 
     // convert flux from cells to grains
-    TSFluxCellToGrain(shiftedTScellFlux);
+    fluxCellToGrain(shiftedCellFlux);
 
     // Calculate forward and backward grained microcanonical rate coefficients
     calcGrainRateCoeffs();
@@ -160,46 +163,47 @@ namespace mesmer
     return true;
   }
 
-  // set the bottom energy of m_CellTSFlux
+  // set the bottom energy of m_CellFlux
   void Reaction::setCellFluxBottom(const double fluxBottomZPE){
+    m_FluxCellZPE = fluxBottomZPE;
     m_FluxGrainZPE = fluxBottomZPE / getEnv().GrainSize ; //convert to grain
     m_FluxCellOffset = int(fmod(fluxBottomZPE, getEnv().GrainSize));
   }
 
   // shift transition state cell flux
-  void Reaction::shiftTScellFlux(std::vector<double>& shiftedTScellFlux){
-    int cellOffset = getTSFluxCellOffset();
+  void Reaction::shiftCellFlux(std::vector<double>& shiftedCellFlux){
+    int cellOffset = getFluxCellOffset();
     const int MaximumCell  = getEnv().MaxCell;
     for(int i = 0; i < cellOffset; ++i){
-      shiftedTScellFlux.push_back(0.0);
+      shiftedCellFlux.push_back(0.0);
     }
     for(int i = cellOffset, j = 0; i < MaximumCell; ++i, ++j){
-      shiftedTScellFlux.push_back(m_CellTSFlux[j]);
+      shiftedCellFlux.push_back(m_CellFlux[j]);
     }
   }
 
-  // calculate TSFlux in grains
-  void Reaction::TSFluxCellToGrain(const std::vector<double>& shiftedTScellFlux)
+  // calculate flux in grains
+  void Reaction::fluxCellToGrain(const std::vector<double>& shiftedCellFlux)
   {
     const int maxGrn = getEnv().MaxGrn;
     const int grnSiz = getEnv().GrainSize;
 
-    // resize m_GrainTSFlux to maxGrn and initialize all members to zero
-    m_GrainTSFlux.clear();
-    m_GrainTSFlux.resize(maxGrn, 0.0);
+    // resize m_GrainFlux to maxGrn and initialize all members to zero
+    m_GrainFlux.clear();
+    m_GrainFlux.resize(maxGrn, 0.0);
 
     int cIdx = 0; // cell iterator
 
     for (int i = 0; i < maxGrn ; ++i) {
       for (int j = 0; j < grnSiz; ++j, ++cIdx) {
-        m_GrainTSFlux[i] += shiftedTScellFlux[cIdx];
+        m_GrainFlux[i] += shiftedCellFlux[cIdx];
       }
     }
 
-    if (getFlags().grainTSFluxEnabled){
-      ctest << "\nTSFlux(e) grains for " << getName() << ":\n{\n";
+    if (getFlags().grainFluxEnabled){
+      ctest << "\nFlux(e) grains for " << getName() << ":\n{\n";
       for (int i = 0; i < maxGrn; ++i){
-        ctest << m_GrainTSFlux[i] << endl;
+        ctest << m_GrainFlux[i] << endl;
       }
       ctest << "}\n";
     }
@@ -207,32 +211,41 @@ namespace mesmer
 
   //this function retrieves the activation/threshold energy for an association reaction
   double Reaction::get_ThresholdEnergy(void) {
-    if (!m_EInf.get_value()){ // default is zero
-      if (!m_TransitionState) {
-        cinfo << "No TransitionState for " << getName() << ", threshold energy = 0.0" << endl;
-        return 0.0;
-      }
-      double ThresholdEnergy = get_relative_TSZPE() - get_relative_rctZPE();
-      // Activation energy should be defined by user, otherwise return zero.
-      if(IsNan(ThresholdEnergy)){
-        cerr << "Reaction " << getName() << " has no threshold energy.";
+    // ILT
+    if (m_pMicroRateCalculator->getName() == "Mesmer ILT"){
+      if (IsNan(m_EInf.get_value())){
+        cerr << "No E_infinity provided for Reaction " << getName();
         exit(1);
       }
-      return ThresholdEnergy;
+      if (m_EInf.get_value() < 0.0){
+        cerr << "Providing negative E_infinity in Reaction " << getName() << " is invalid.";
+      }
+      if (m_isRvsILTpara){
+        const double tempv = m_EInf.get_value() > 0.0 ? m_EInf.get_value() + getHeatOfReaction() : getHeatOfReaction();
+        return tempv;
+      }
+      return m_EInf.get_value();
     }
-    return m_EInf.get_value();
-  } 
 
-  void Reaction::calculateTSfluxStartIdx(void) {
+    // Not ILT
+    if (!m_TransitionState) {
+      cerr << "No TransitionState for " << getName();
+      exit(1);
+    }
+
+    return (get_relative_TSZPE() - get_relative_rctZPE());
+  }
+
+  void Reaction::calcFluxFirstNonZeroIdx(void) {
     double thresh = get_ThresholdEnergy();
     double RxnHeat = getHeatOfReaction();
     if(thresh<0.0)
-      TSFluxStartIdx = int(-thresh/m_Env.GrainSize);
+      m_GrnFluxFirstNonZeroIdx = int(-thresh/m_Env.GrainSize);
     else if(thresh>0.0 && thresh<RxnHeat)
-      TSFluxStartIdx = int(RxnHeat - thresh)/m_Env.GrainSize;
+      m_GrnFluxFirstNonZeroIdx = int(RxnHeat - thresh)/m_Env.GrainSize;
     else
-      TSFluxStartIdx = 0;
-  };  
+      m_GrnFluxFirstNonZeroIdx = 0;
+  };
 
   // Read excess reactant concentration
   bool Reaction::ReadExcessReactantConcentration(PersistPtr ppReac){
@@ -253,6 +266,7 @@ namespace mesmer
     if (pActEnetxt)
     {
       PersistPtr ppActEne = ppReac->XmlMoveTo("me:activationEnergy") ;
+      m_isRvsILTpara = ppActEne->XmlReadValue("reverse", false); //specify the direction of the following ILT parameters
       double tmpvalue = 0.0;
       stringstream s2(pActEnetxt); s2 >> tmpvalue ;
       const char* unitsTxt = ppActEne->XmlReadValue("units", false);
@@ -279,6 +293,10 @@ namespace mesmer
         set_EInf(value);
       }
     }
+    else{
+      cerr << "Specifying ILT without activation energy provided in reaction " << this->getName() << ". Please correct input file.";
+      return false;
+    }
 
     const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential", false);
     if (pPreExptxt)
@@ -297,6 +315,10 @@ namespace mesmer
       else{
         set_PreExp(value);
       }
+    }
+    else{
+      cerr << "Specifying ILT without pre-exponential term provided in reaction " << this->getName() << ". Please correct input file.";
+      return false;
     }
 
     const char* pNInftxt = ppReac->XmlReadValue("me:nInfinity", false);
@@ -351,32 +373,57 @@ namespace mesmer
           << getName();
         return false;
       }
-      if (strcmp(pMCRCMethodtxt, "Mesmer ILT") == 0){
-        cinfo << "ILT method chosen, look for ILT expressions" << endl;
-        if (!ReadILTParameters(ppReac)) return false;
-      }
     }
 
-    // Determine the method of estimating tunneling effect.
-    const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
-    if(pTunnelingtxt)
-    {
-      m_pTunnelingCalculator = TunnelingCalculator::Find(pTunnelingtxt);
-      if(!m_pTunnelingCalculator)
+    //---------------------------------------------------------
+    // Microcanonical rate constants methods dependent section.
+    if (m_pMicroRateCalculator->getName() == "Mesmer ILT"){
+      cinfo << "ILT method chosen, look for ILT expressions" << endl;
+      if (!ReadILTParameters(ppReac)) return false;
+      const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
+      if(pTunnelingtxt)
       {
-        cerr << "Unknown method " << pTunnelingtxt
-          << " for the determination of tunneling coefficients in reaction "
-          << getName();
+        cerr << "Tunneling parameter in Reaction " << getName() << " is invalid in ILT.";
         return false;
       }
     }
-    else{
-      cinfo << "No tunneling method was found for " << getName() << endl;
+    if (m_pMicroRateCalculator->getName() == "Simple RRKM"){
+      // Determine the method of estimating tunneling effect.
+      const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
+      if(pTunnelingtxt)
+      {
+        m_pTunnelingCalculator = TunnelingCalculator::Find(pTunnelingtxt);
+        if(!m_pTunnelingCalculator)
+        {
+          cerr << "Unknown method " << pTunnelingtxt
+            << " for the determination of tunneling coefficients in reaction "
+            << getName();
+          return false;
+        }
+      }
+      else{
+        cinfo << "No tunneling method was found for " << getName() << endl;
+      }
     }
+    //
+    //---------------------------------------------------------
 
     if (!isUnimolecular()){
       cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;
       if (!ReadExcessReactantConcentration(ppReac)) return false;
+    }
+
+    // Read the transition state (if present)
+    PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState") ;
+    if (ppTransitionState)
+    {
+      TransitionState* pTrans = dynamic_cast<TransitionState*>(GetMolRef(ppTransitionState,"transitionState"));
+      if(pTrans) m_TransitionState = pTrans;
+
+      if (pTrans && m_pMicroRateCalculator->getName() == "Mesmer ILT"){
+        cerr << "Reaction " << getName() << " uses ILT method, which should not have transition state.";
+        return false;
+      }
     }
 
     return true ;

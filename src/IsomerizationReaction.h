@@ -62,13 +62,18 @@ namespace mesmer
 
     // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
     // with a negative threshold energy
-    void calculateEffectiveGrainedThreshEn(void);
+    void calcEffGrnThresholds(void);
 
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
 
     // get the reactant, which reacts in a first order or pseudo first order process
     virtual ModelledMolecule *get_reactant(void) const {return m_rct1;};
+
+    // Calculate rovibronic canonical partition function in the grain level for product or reactant
+    virtual double pdtsRovibronicGrnCanPrtnFn();
+    virtual double rctsRovibronicGrnCanPrtnFn();
+
 
   private:
 

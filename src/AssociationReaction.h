@@ -92,11 +92,11 @@ namespace mesmer
     void getRctsCellDensityOfStates(std::vector<double> &cellDOS) ;
 
     // Get reactants grain ZPE
-    const int get_rctsGrnZpe(void);
+    const int get_rctsGrnZPE(void);
 
     // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
     // with a negative threshold energy
-    void calculateEffectiveGrainedThreshEn(void);
+    void calcEffGrnThresholds(void);
 
     // Get cell offset for the reactants
     int get_cellOffset(void) {
@@ -108,7 +108,9 @@ namespace mesmer
 
     bool calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
 
-    double rctsRovibronicGrnCanPrtnFn();
+    // Calculate rovibronic canonical partition function in the grain level for product or reactant
+    virtual double rctsRovibronicGrnCanPrtnFn();
+    virtual double pdtsRovibronicGrnCanPrtnFn();
 
   private:
 

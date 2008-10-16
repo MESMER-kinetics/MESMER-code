@@ -7,7 +7,6 @@ Cannot find argument me:eletronicExcitation for Int1
 No method for the calculation of distribution fraction in Int1 is provided. Default method <Boltzmann> is used.
 ILT method chosen, look for ILT expressions
 The me:tunneling element or attribute was missing or empty.
-No tunneling method was found for R1
 Not a unimolecular reaction: look for excess reactant concentration.
 Parsing reaction R2...
 Cannot find argument me:eletronicExcitation for Int2
@@ -18,16 +17,16 @@ The description element or attribute was missing or empty.
 Cannot find argument me:vibFreqs. Maybe an atom or atomic ion.
 Cannot find argument me:rotConsts. Maybe an atom or atomic ion.
 Cannot find argument me:eletronicExcitation for lactone
-Cannot find argument me:eletronicExcitation for TS3
 The me:tunneling element or attribute was missing or empty.
 No tunneling method was found for R3
+Cannot find argument me:eletronicExcitation for TS3
 Parsing reaction R4...
 Cannot find argument me:eletronicExcitation for ketene
 The description element or attribute was missing or empty.
 Cannot find argument me:eletronicExcitation for HO_2
-Cannot find argument me:eletronicExcitation for TS2
 The me:tunneling element or attribute was missing or empty.
 No tunneling method was found for R4
+Cannot find argument me:eletronicExcitation for TS2
 The description element or attribute was missing or empty.
 The me:precision element or attribute was missing or empty.
 The me:MaximumEvolutionTime element or attribute was missing or empty.
@@ -45,8 +44,6 @@ Cell number = 17800, Grain number = 178
 Association ILT calculation completed
 
 20 values in the FFT convolution routine were replaced by standard convolution
-No TransitionState for R1, threshold energy = 0.0
-No TransitionState for R1, threshold energy = 0.0
 
 20 values in the FFT convolution routine were replaced by standard convolution
 
@@ -57,23 +54,21 @@ No TransitionState for R1, threshold energy = 0.0
 20 values in the FFT convolution routine were replaced by standard convolution
 Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 
-Finish Calculation -- Time elapsed: 48 seconds.
+Finish Calculation -- Time elapsed: 51 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
  *Info in main
- -- Total time elapsed: 182 seconds.
+ -- Total time elapsed: 192 seconds.
 
 System saved
 m_Mass is provided but not used in HO_2
 Rotational constants are provided but not used in HO_2
 m_Sym is provided but not used in HO_2
-m_ZPE is provided but not used in HO_2
 m_scaleFactor is provided but not used in HO_2
 m_SpinMultiplicity is provided but not used in HO_2
 m_VibFreq is provided but not used in HO_2
 m_Mass is provided but not used in OH
 Rotational constants are provided but not used in OH
 m_Sym is provided but not used in OH
-m_ZPE is provided but not used in OH
 m_scaleFactor is provided but not used in OH
 m_SpinMultiplicity is provided but not used in OH
 m_VibFreq is provided but not used in OH

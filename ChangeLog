@@ -1,3 +1,37 @@
+_2008_10_13__13_38_48_ Chi-Hsiu Liang
+
+  * Simplify the dt vector and updated Acetyl+O2 baseline. Ketene species profile should not reduce in the beginning as this is
+    an irreversible reaction.
+
+_2008_10_10__12_41_53_ Chi-Hsiu Liang
+
+  * Give irreversible reactions a equilibrium constant function. Although there is no equilibrium but according to the partition functions, 
+    one can still define a first order equilibrium constant.
+  * Define functions pdtsRovibronicGrnCanPrtnFn() and rctsRovibronicGrnCanPrtnFn() in all reactions.
+  * Allow user to input ILT parameters in reverse direction for irreversible unimolecular reactions.
+
+_2008_10_02__14_26_22_ Chi-Hsiu Liang
+
+  * Removed many instances of TSFlux to simply flux to reflect that flux does not directly relate with transition state.
+  * Added a commented out section trying to fix the low temperature deviation in association k_infinity from the Arrhenius expression.
+  * Modified some naming of variables and functions.
+  * AssociationReaction::testRateConstant() now calculates dissociation k(E)s in cells for more accurate canonical rates.
+  * Added function CollidingMolecule::normalizedCellBoltzmannDistribution(vector<double> &cellFrac, const int startingCell)
+    for calculation of Boltzmann distribution in cell level.
+  * Note: This version still have problem reproducing correct association rate in low temperatures.
+  * Updated two baselines.
+
+_2008_09_15__13_46_24_ Chi-Hsiu Liang
+
+  * Make tunneling unavailable in ILT (need more thought)
+  * Make user clearly defines ILT parameters.
+  * In ILT, E_infinity should always be positive and also higher than heat of reaction.
+
+_2008_09_15__10_26_45_ Chi-Hsiu Liang
+
+  * Further clean up the code in ReadRateCoeffParameters() and InitializeReaction()
+  * Updated Manual
+
 _2008_09_12__16_11_05_ Chi-Hsiu Liang
 
   * Check in the changes Dave made on unimolecular ILT and corrections on the work vector in ILT. Please check the changes

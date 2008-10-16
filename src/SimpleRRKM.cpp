@@ -26,9 +26,9 @@ namespace mesmer
     const int MaximumCell = pReact->getEnv().MaxCell;
 
     // Allocate space to hold transition state flux and initialize elements to zero.
-    vector<double>& TSFlux = pReact->get_CellFlux();
-    TSFlux.clear();
-    TSFlux.resize(MaximumCell, 0.0);
+    vector<double>& rxnFlux = pReact->get_CellFlux();
+    rxnFlux.clear();
+    rxnFlux.resize(MaximumCell, 0.0);
 
     if (pReact->thereIsTunnelling()) { // with tunneling
       int HeatOfReaction = pReact->getHeatOfReactionInt();
@@ -41,8 +41,8 @@ namespace mesmer
       FastLaplaceConvolution(TScellDOS, TunnelingProbability, ConvolvedSumOfStates); // FFT convolution
 //      Convolution(TScellDOS, TunnelingProbability, ConvolvedSumOfStates); // standard convolution
 
-      for (int i = TunnelingStart; i < MaximumCell; ++i) {                       // Calculate TSflux using RRKM 
-        TSFlux[i-TunnelingStart] = ConvolvedSumOfStates[i] * SpeedOfLight_in_cm; // with tunneling correction
+      for (int i = TunnelingStart; i < MaximumCell; ++i) {                       // Calculate flux using RRKM 
+        rxnFlux[i-TunnelingStart] = ConvolvedSumOfStates[i] * SpeedOfLight_in_cm; // with tunneling correction
       }
 
       // the flux bottom energy is equal to the ZPE of the higher well
@@ -61,7 +61,7 @@ namespace mesmer
         SumOfStates += TScellDOS[i];
 
         // Calculate microcanonical rate coefficients using RRKM expression.
-        TSFlux[i] = SumOfStates * SpeedOfLight_in_cm;
+        rxnFlux[i] = SumOfStates * SpeedOfLight_in_cm;
       }
 
       // the flux bottom energy is equal to the ZPE of the transition state

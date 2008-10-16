@@ -22,7 +22,12 @@ namespace mesmer
     typedef std::map<std::string, MicroRateCalculator*> MicroRateMap;
 
     ///Base class constructor adds the derived class instance to the map
-    MicroRateCalculator(const std::string& id) { get_Map()[id] = this; }
+    MicroRateCalculator(const std::string& id) {
+      get_Map()[id] = this;
+      name = id;
+    }
+
+    virtual ~MicroRateCalculator(){}
 
     //Get a pointer to a derived class by providing its id.
     static MicroRateCalculator* Find(const std::string& id)
@@ -30,6 +35,8 @@ namespace mesmer
       MicroRateMap::iterator pos = get_Map().find(id);
       return (pos==get_Map().end()) ? NULL : pos->second;
     }
+
+    virtual std::string getName();
 
     virtual bool calculateMicroRateCoeffs(Reaction* pReact) = 0 ;
 
@@ -43,6 +50,8 @@ namespace mesmer
       static MicroRateMap m;
       return m;
     }
+
+    std::string name;
   };
 
 }//namespace

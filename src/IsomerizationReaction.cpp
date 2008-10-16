@@ -58,19 +58,9 @@ namespace mesmer
       return false;
     }
 
-    // Read the transition state (if present).
-
-    PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState") ;
-    if (ppTransitionState)
-    {
-      TransitionState* pTrans = dynamic_cast<TransitionState*>(GetMolRef(ppTransitionState));
-      if(pTrans)
-        m_TransitionState = pTrans;
-    }
-
     // Read heat of reaction and rate parameters.
+    return ReadRateCoeffParameters(ppReac);
 
-    return ReadRateCoeffParameters(ppReac) ;
   }
 
   // Is reaction equilibrating and therefore contributes
@@ -122,18 +112,18 @@ namespace mesmer
     const int pdtLocation = isomermap[m_pdt1] ;
 
     const int colloptrsize = m_pdt1->get_colloptrsize();
-    const int forwardThreshE = get_effectiveForwardTSFluxGrnZPE();
-    const int reverseThreshE = get_effectiveReverseTSFluxGrnZPE();
-    const int fluxStartIdx = get_TSFluxStartIdx();
+    const int forwardThreshE = get_EffGrnFwdThreshold();
+    const int reverseThreshE = get_EffGrnRvsThreshold();
+    const int fluxStartIdx = get_fluxFirstNonZeroIdx();
 
     for ( int i=fluxStartIdx, j = reverseThreshE, k=0; j < colloptrsize; ++i, ++j, ++k) {
       int ll = k + forwardThreshE;
       int mm = k + reverseThreshE;
       int ii(rctLocation + ll) ;
       int jj(pdtLocation + mm) ;
-      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainTSFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
-      (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * m_GrainTSFlux[i] / pdtDOS[mm]) ;                    // Backward loss reaction from detailed balance.
-      (*CollOptr)[ii][jj]  = qd_real(rMeanOmega * m_GrainTSFlux[i] / sqrt(rctDOS[ll] * pdtDOS[mm])) ; // Reactive gain.
+      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
+      (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * m_GrainFlux[i] / pdtDOS[mm]) ;                    // Backward loss reaction from detailed balance.
+      (*CollOptr)[ii][jj]  = qd_real(rMeanOmega * m_GrainFlux[i] / sqrt(rctDOS[ll] * pdtDOS[mm])) ; // Reactive gain.
       (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                           // Reactive gain.
     }
 
@@ -148,11 +138,11 @@ namespace mesmer
     m_rct1->getGrainDensityOfStates(rctGrainDOS) ;
     m_pdt1->getGrainDensityOfStates(pdtGrainDOS) ;
 
-    calculateEffectiveGrainedThreshEn();
-    const int forwardTE = get_effectiveForwardTSFluxGrnZPE();
-    int reverseTE = get_effectiveReverseTSFluxGrnZPE();
-    calculateTSfluxStartIdx();
-    const int fluxStartIdx = get_TSFluxStartIdx();
+    calcEffGrnThresholds();
+    const int forwardTE = get_EffGrnFwdThreshold();
+    int reverseTE = get_EffGrnRvsThreshold();
+    calcFluxFirstNonZeroIdx();
+    const int fluxStartIdx = get_fluxFirstNonZeroIdx();
 
     const int MaximumGrain = (getEnv().MaxGrn-fluxStartIdx);
     m_GrainKfmc.clear();
@@ -161,10 +151,10 @@ namespace mesmer
     m_GrainKbmc.resize(MaximumGrain , 0.0);
 
     for (int i = reverseTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
-      m_GrainKbmc[i] = m_GrainTSFlux[j] / pdtGrainDOS[i];
+      m_GrainKbmc[i] = m_GrainFlux[j] / pdtGrainDOS[i];
     }
     for (int i = forwardTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
-      m_GrainKfmc[i] = m_GrainTSFlux[j] / rctGrainDOS[i];
+      m_GrainKfmc[i] = m_GrainFlux[j] / rctGrainDOS[i];
     }
 
     // the code that follows is for printing of the f & r k(E)s
@@ -195,7 +185,7 @@ namespace mesmer
     m_pdt1->getGrainDensityOfStates(pdtGrainDOS);
     m_rct1->getGrainEnergies(rctGrainEne);
     m_pdt1->getGrainEnergies(pdtGrainEne);
-    const int MaximumGrain = (getEnv().MaxGrn-get_TSFluxStartIdx());
+    const int MaximumGrain = (getEnv().MaxGrn-get_fluxFirstNonZeroIdx());
     const double beta = getEnv().beta;
     const double temperature = 1. / (boltzmann_RCpK * beta);
 
@@ -208,34 +198,44 @@ namespace mesmer
     const double pdtprtfn = canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, beta);
     k_forward /= rctprtfn;
     k_backward /= pdtprtfn;
-    set_forwardCanonicalRateCoefficient(k_forward);
-    set_backwardCanonicalRateCoefficient(k_backward);
+    set_fwdGrnCanonicalRate(k_forward);
+    set_rvsGrnCanonicalRate(k_backward);
 
     ctest << endl << "Canonical pseudo first order forward rate constant of isomerization reaction " 
-      << getName() << " = " << get_forwardCanonicalRateCoefficient() << " s-1 (" << temperature << " K)" << endl;
+      << getName() << " = " << get_fwdGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
     ctest << "Canonical pseudo first order backward rate constant of isomerization reaction " 
-      << getName() << " = " << get_backwardCanonicalRateCoefficient() << " s-1 (" << temperature << " K)" << endl;
+      << getName() << " = " << get_rvsGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
   }
 
-  void IsomerizationReaction::calculateEffectiveGrainedThreshEn(void){  // see the comments in
-    double thresh = get_ThresholdEnergy();    // calculateEffectiveGrainedThreshEn under AssociationReaction.cpp
+  void IsomerizationReaction::calcEffGrnThresholds(void){  // see the comments in
+    double thresh = get_ThresholdEnergy();    // calcEffGrnThresholds under AssociationReaction.cpp
     double RxnHeat = getHeatOfReaction();
-    int TS_en = this->getTSFluxGrnZPE();
-    int pdt_en = m_pdt1->get_grnZpe();
-    int rct_en = m_rct1->get_grnZpe();
+    if (thresh < RxnHeat && m_pMicroRateCalculator->getName() == "Mesmer ILT"){
+      cerr << "E_infinity should be equal to or greater than the heat of reaction in ILT.";
+      exit(1);
+    }
+    int TS_en = this->get_fluxGrnZPE();
+    int pdt_en = m_pdt1->get_grnZPE();
+    int rct_en = m_rct1->get_grnZPE();
     int GrainedRxnHeat = pdt_en - rct_en;
     if(thresh<0.0){
-      set_effectiveForwardTSFluxGrnZPE(0);
-      set_effectiveReverseTSFluxGrnZPE(-GrainedRxnHeat);
+      set_EffGrnFwdThreshold(0);
+      set_EffGrnRvsThreshold(-GrainedRxnHeat);
     }
     else if(thresh>0.0 && thresh<RxnHeat){
-      set_effectiveForwardTSFluxGrnZPE(GrainedRxnHeat);
-      set_effectiveReverseTSFluxGrnZPE(0);
+      set_EffGrnFwdThreshold(GrainedRxnHeat);
+      set_EffGrnRvsThreshold(0);
     }
     else{
-      set_effectiveForwardTSFluxGrnZPE(TS_en-rct_en);
-      set_effectiveReverseTSFluxGrnZPE(TS_en-pdt_en);
+      set_EffGrnFwdThreshold(TS_en-rct_en);
+      set_EffGrnRvsThreshold(TS_en-pdt_en);
     }
   }
+
+  //
+  // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
+  //
+  double IsomerizationReaction::rctsRovibronicGrnCanPrtnFn() { return m_rct1->rovibronicGrnCanPrtnFn();}
+  double IsomerizationReaction::pdtsRovibronicGrnCanPrtnFn() { return m_pdt1->rovibronicGrnCanPrtnFn();}
 
 }//namespace
