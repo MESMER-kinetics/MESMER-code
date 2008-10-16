@@ -1,0 +1,22 @@
+digraph "source tree" {
+    overlap=scale;
+    size="7,10";
+    ratio="fill";
+    fontsize="16";
+    fontname="Helvetica";
+	clusterrank="local";
+	"tdevd.h" -> "ap.h"
+	"sevd.h" -> "tridiagonal.h"
+	"reflections.h" -> "ap.h"
+	"sevd.cpp" -> "sevd.h"
+	"ap.h" -> "apvt.h"
+	"tdevd.cpp" -> "tdevd.h"
+	"sblas.cpp" -> "sblas.h"
+	"reflections.cpp" -> "reflections.h"
+	"tridiagonal.h" -> "reflections.h"
+	"tridiagonal.h" -> "sblas.h"
+	"sblas.h" -> "ap.h"
+	"sevd.h" -> "tdevd.h"
+	"ap.cpp" -> "ap.h"
+	"tridiagonal.cpp" -> "tridiagonal.h"
+}

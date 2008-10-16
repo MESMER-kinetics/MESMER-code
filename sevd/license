@@ -1,0 +1,8 @@
+UNIT NAME      LICENSE
+sevd           3-clause BSD
+blas           3-clause BSD
+rotations      3-clause BSD
+tdevd          3-clause BSD
+sblas          3-clause BSD
+reflections    3-clause BSD
+tridiagonal    3-clause BSD
