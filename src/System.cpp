@@ -165,6 +165,7 @@ namespace mesmer
       m_Flags.grainedProfileEnabled       = ppControl->XmlReadBoolean("me:printGrainedSpeciesProfile");
       m_Flags.speciesProfileEnabled       = ppControl->XmlReadBoolean("me:printSpeciesProfile");
       m_Flags.viewEvents                  = ppControl->XmlReadBoolean("me:printEventsTimeStamps");
+      m_Flags.allowSmallerDEDown          = ppControl->XmlReadBoolean("me:allowSmallerDeltaEDown");
       if (!m_Flags.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
         m_Flags.useTheSameCellNumber = true;
       }
@@ -413,10 +414,12 @@ namespace mesmer
       cinfo << thisEvent << endl;}
       if (!m_pReactionManager->BuildReactionOperator(m_Env, m_Flags)){
         cerr << "Failed building system collison operator.";
+        exit(1);
       }
 
       if (!m_pReactionManager->calculateEquilibriumFractions(m_Env.beta)){
         cerr << "Failed calculating equilibrium fractions.";
+        exit(1);
       }
 
       // Calculate eigenvectors and eigenvalues.
@@ -524,31 +527,31 @@ namespace mesmer
   }
 
   void System::configuration(void){
-    cerr << "\nPrinting system precision configuration:";
-    cerr << "Size of float = " << sizeof(float);
-    cerr << "Size of double = " << sizeof(double);
-    cerr << "Size of long double = " << sizeof(long double);
-    cerr << "Size of double-double = " << sizeof(dd_real);
-    cerr << "Size of quad-double = " << sizeof(qd_real);
+    clog << "\nPrinting system precision configuration:";
+    clog << "Size of float = " << sizeof(float) << endl;
+    clog << "Size of double = " << sizeof(double) << endl;
+    clog << "Size of long double = " << sizeof(long double) << endl;
+    clog << "Size of double-double = " << sizeof(dd_real) << endl;
+    clog << "Size of quad-double = " << sizeof(qd_real) << endl;
 
-    cerr << "\nEpsilon is the difference between 1 and the smallest value greater than 1 that is representable for the data type.";
-    cerr << "float epsilon == " << numeric_limits<float>::epsilon() << endl;
-    cerr << "double epsilon == " << numeric_limits<double>::epsilon() << endl;
-    cerr << "long double epsilon == " << numeric_limits<long double>::epsilon() << endl;
-    cerr << "dd_real epsilon == " << numeric_limits<dd_real>::epsilon() << endl;
-    cerr << "qd_real epsilon == " << numeric_limits<qd_real>::epsilon() << endl;
+    clog << "\nEpsilon is the difference between 1 and the smallest value greater than 1 that is representable for the data type.";
+    clog << "float epsilon == " << numeric_limits<float>::epsilon() << endl;
+    clog << "double epsilon == " << numeric_limits<double>::epsilon() << endl;
+    clog << "long double epsilon == " << numeric_limits<long double>::epsilon() << endl;
+    clog << "dd_real epsilon == " << numeric_limits<dd_real>::epsilon() << endl;
+    clog << "qd_real epsilon == " << numeric_limits<qd_real>::epsilon() << endl;
 
-    cerr << "\nfloat max == " << numeric_limits<float>::max() << endl;
-    cerr << "double max == " << numeric_limits<double>::max() << endl;
-    cerr << "long double max == " << numeric_limits<long double>::max() << endl;
-    cerr << "dd_real max == " << numeric_limits<dd_real>::max() << endl;
-    cerr << "qd_real max == " << numeric_limits<qd_real>::max() << endl;
+    clog << "\nfloat max == " << numeric_limits<float>::max() << endl;
+    clog << "double max == " << numeric_limits<double>::max() << endl;
+    clog << "long double max == " << numeric_limits<long double>::max() << endl;
+    clog << "dd_real max == " << numeric_limits<dd_real>::max() << endl;
+    clog << "qd_real max == " << numeric_limits<qd_real>::max() << endl;
 
-    cerr << "\nfloat min == " << numeric_limits<float>::min() << endl;
-    cerr << "double min == " << numeric_limits<double>::min() << endl;
-    cerr << "long double min == " << numeric_limits<long double>::min() << endl;
-    cerr << "dd_real min == " << numeric_limits<dd_real>::min() << endl;
-    cerr << "qd_real min == " << numeric_limits<qd_real>::min() << endl;
+    clog << "\nfloat min == " << numeric_limits<float>::min() << endl;
+    clog << "double min == " << numeric_limits<double>::min() << endl;
+    clog << "long double min == " << numeric_limits<long double>::min() << endl;
+    clog << "dd_real min == " << numeric_limits<dd_real>::min() << endl;
+    clog << "qd_real min == " << numeric_limits<qd_real>::min() << endl;
   }
 
 }//namespace

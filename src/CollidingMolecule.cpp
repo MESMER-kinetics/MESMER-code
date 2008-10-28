@@ -235,7 +235,7 @@ namespace mesmer
 
     // Calculate the collision operator.
     if (!collisionOperator(beta)){
-      cerr << "Failed building collision operator";
+      cerr << "Failed building collision operator.";
       return false;
     }
     return true;
@@ -263,6 +263,12 @@ namespace mesmer
 
     double alpha = 1.0/DEDown ;
 
+    // issue a warning message if delta_E_down is smaller than grain size.
+    if (DEDown < double(getEnv().GrainSize) && !getFlags().allowSmallerDEDown){
+      cerr << "Delta E down is smaller than grain size: the solution may not converge.";
+      return false;
+    }
+
     // Allocate memory.
     if (m_egme) delete m_egme ;                       // Delete any existing matrix.
     m_egme = new dMatrix(m_ncolloptrsize) ;           // Collision operator matrix.
@@ -280,19 +286,26 @@ namespace mesmer
       double ei = m_grainEne[i] ;
       double ni = m_grainDOS[i] ;
       for ( j = i ; j < m_ncolloptrsize ; ++j ) {
-
+        double ej = m_grainEne[j];
+        double nj = m_grainDOS[j];
         // Transfer to lower Energy -
-        double transferDown = exp(-alpha*(m_grainEne[j] - ei)) ;
+        double transferDown = exp(-alpha*(ej - ei)) ;
         (*m_egme)[i][j] = transferDown;
 
         // Transfer to higher Energy (via detailed balance) -
-        double transferUp = (*m_egme)[i][j] * (m_grainDOS[j]/ni)*exp(-beta*(m_grainEne[j] - ei)) ;
+        double transferUp = exp(-alpha*(ej - ei)) * (nj/ni) * exp(-beta*(ej - ei)) ;
         (*m_egme)[j][i] = transferUp;
       }
     }
 
+    //ctest << "Collision operator of " << getName() << " before normalization:\n";
+    //m_egme->showFinalBits(0);
+
     //Normalisation
     normalizeCollisionOperator();
+
+    //ctest << "Collision operator of " << getName() << " after normalization:\n";
+    //m_egme->showFinalBits(0);
 
     // print out of column sums to check normalization results
     if (getFlags().reactionOCSEnabled){
@@ -324,6 +337,10 @@ namespace mesmer
       (*m_egme)[i][i] -= 1.0 ;
     }
 
+    //ctest << "Collision operator of " << getName() << " after substraction:\n";
+    //m_egme->showFinalBits(0);
+
+
     return true;
   }
 
@@ -352,8 +369,10 @@ namespace mesmer
       if (upperSum > 0.0){
         if (i < (int)m_ncolloptrsize - 1){
           scaledRemain = 0.0;
-          for ( j = i + 1 ; j < (int)m_ncolloptrsize ; ++j )
-            scaledRemain += (*m_egme)[j][i] * work[j] ;
+          for ( j = i + 1 ; j < (int)m_ncolloptrsize ; ++j ){
+            double scale = work[j];
+            scaledRemain += (*m_egme)[j][i] * scale ;
+          }
         }
         work[i] = (1.0 - scaledRemain) / upperSum ;
       }
@@ -522,13 +541,13 @@ namespace mesmer
     // If density of states have not already been calcualted then do so.
     if (!calcDensityOfStates())
       cerr << "Failed calculating DOS";
-    
+
     cellFrac.clear();
 
     const int MaximumCell = getEnv().MaxCell;
     vector<double> tempCellFrac, cellEne;
     getCellEnergies(MaximumCell, cellEne);
-    
+
     // Calculate unnormalized Boltzmann dist.
     // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
     for (int i = 0; i < MaximumCell; ++i) {

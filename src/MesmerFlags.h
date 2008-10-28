@@ -34,6 +34,7 @@ namespace mesmer
     int printReactionOperatorNum;         // Size of printed reaction operator before and after diagonalization: -1
                                           // for all of them, -2 for 1/2 of them, -3 for 1/3 of them, otherwise specified
                                           // by positive integers.
+    bool allowSmallerDEDown;              // decide whether allows <delta E>d to be smaller than grain size.
   };
 }//namespace
 

@@ -1,3 +1,8 @@
+_2008_10_28__09_47_18_ Chi-Hsiu Liang
+
+  * Added the error report for delta_E_down smaller than grain size.
+  * showFinalBits() takes input 0 to print the whole matrix.
+
 _2008_10_13__13_38_48_ Chi-Hsiu Liang
 
   * Simplify the dt vector and updated Acetyl+O2 baseline. Ketene species profile should not reduce in the beginning as this is

@@ -24,7 +24,8 @@ namespace mesmer{
     viewEvents(false),
     maxEvolutionTime(0.),
     printEigenValuesNum(-1),
-    printReactionOperatorNum(0)
+    printReactionOperatorNum(0),
+    allowSmallerDEDown(false)
     {}
 }//namespace
 

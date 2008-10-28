@@ -261,7 +261,10 @@ namespace mesmer
         isomer->set_colloptrsize(colloptrsize) ;
         msize += colloptrsize ;
 
-        isomer->initCollisionOperator(mEnv.beta, pBathGasMolecule) ;
+        if(!isomer->initCollisionOperator(mEnv.beta, pBathGasMolecule)){
+          cerr << "Failed initializing collision operator for " << isomer->getName();
+          return false;
+        }
         m_meanOmega += isomer->get_collisionFrequency() ;
       }
       m_meanOmega /= m_isomers.size();
@@ -294,7 +297,7 @@ namespace mesmer
             pReaction->putSourceMap(&m_sources);                                    // pseudoisomer that
           }                                                                         // is already in the map
         }
-        if(IREreaction){       // if the reaction is an irreversible exchange reaction                                                
+        else if(IREreaction){       // if the reaction is an irreversible exchange reaction                                                
           ModelledMolecule *pPseudoIsomer = IREreaction->get_pseudoIsomer();        
           if(pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){    // reaction includes a new
             m_sources[pPseudoIsomer] = msize ;                                      // pseudoisomer
@@ -369,7 +372,6 @@ namespace mesmer
     m_eigenvalues.clear();
     m_eigenvalues.resize(smsize, 0.0);
 
-    // Construction of two matrices and eigenvalue vectors for dd and qd
 
     // This block prints Reaction Operator before diagonalization
     if (mFlags.printReactionOperatorNum){
@@ -377,6 +379,20 @@ namespace mesmer
       printCollisionOperator(mFlags);
     }
 
+    //-------------------------------------------------
+    // diagonalize the matrix as basis sets
+    //Reaction::isomerMap::iterator ipos;
+    //for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
+    //  CollidingMolecule* isomer = ipos->first;                        // to get eq Fractions
+    //  int location = ipos->second;
+    //  const int colloptrsize = isomer->get_colloptrsize();
+    //}
+
+    // diagonalize the matrix as basis sets
+    //-------------------------------------------------
+
+    //-------------------------------------------------------------
+    // diagonalize the whole matrix
     switch (precision){
       case 0: // diagonalize in double
         {
@@ -413,6 +429,8 @@ namespace mesmer
           m_pReactionOperator->diagonalize(&m_eigenvalues[0]) ;
         }
     }
+    // diagonalize the whole matrix
+    //-------------------------------------------------------------
 
     // This block prints Reaction Operator after diagonalization
     if (mFlags.printReactionOperatorNum){

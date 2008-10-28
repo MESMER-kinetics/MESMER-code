@@ -210,14 +210,17 @@ void Matrix<T>::reset(const size_type n){
 template<class T>
 void Matrix<T>::showFinalBits(const size_type n){
 
+    // if n == 0, print the whole matrix
+    size_type fb(n);
+    if (n == 0) fb = m_msize;
+
     //
     // Show the final n x n square of the current matrix
     //
-
     ctest << "{\n";
-    for (size_type i = m_msize - n ; i < m_msize ; ++i ) {
-      for (size_type j = m_msize-n ; j < m_msize ; ++j ) {
-        formatFloat(ctest, m_matrix[i][j], 5,  13) ;
+    for (size_type i = m_msize - fb ; i < m_msize ; ++i ) {
+      for (size_type j = m_msize - fb ; j < m_msize ; ++j ) {
+        formatFloat(ctest, to_double(m_matrix[i][j]), 5,  13) ;
       }
       ctest << endl;
     }
