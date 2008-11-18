@@ -1,20 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
   <moleculeList>
     <molecule id="n-pentyl">
       <atomarray>
-        <atom id="a1" elementType="C"/>
-        <atom id="a2" elementType="C"/>
-        <atom id="a3" elementType="C"/>
-        <atom id="a4" elementType="C"/>
-        <atom id="a5" elementType="C"/>
+        <atom id="a1" elementType="C" />
+        <atom id="a2" elementType="C" />
+        <atom id="a3" elementType="C" />
+        <atom id="a4" elementType="C" />
+        <atom id="a5" elementType="C" />
       </atomarray>
       <bondarray>
-        <bond atomRefs2="a1 a2" order="1"/>
-        <bond atomRefs2="a2 a3" order="1"/>
-        <bond atomRefs2="a3 a4" order="1"/>
-        <bond atomRefs2="a4 a5" order="1"/>
+        <bond atomRefs2="a1 a2" order="1" />
+        <bond atomRefs2="a2 a3" order="1" />
+        <bond atomRefs2="a3 a4" order="1" />
+        <bond atomRefs2="a4 a5" order="1" />
       </bondarray>
       <propertyList>
         <property dictRef="me:ZPE">
@@ -48,24 +49,23 @@
           <scalar units="cm-1">230.0</scalar>
         </property>
         <property dictRef="me:spinMultiplicity">
-            <scalar>1</scalar>
+          <scalar>1</scalar>
         </property>
       </propertyList>
     </molecule>
-
     <molecule id="n-pentyl=TS=2-pentyl">
       <atomarray>
-        <atom id="a1" elementType="C"/>
-        <atom id="a2" elementType="C"/>
-        <atom id="a3" elementType="C"/>
-        <atom id="a4" elementType="C"/>
-        <atom id="a5" elementType="C"/>
+        <atom id="a1" elementType="C" />
+        <atom id="a2" elementType="C" />
+        <atom id="a3" elementType="C" />
+        <atom id="a4" elementType="C" />
+        <atom id="a5" elementType="C" />
       </atomarray>
       <bondarray>
-        <bond atomRefs2="a1 a2" order="1"/>
-        <bond atomRefs2="a2 a3" order="1"/>
-        <bond atomRefs2="a3 a4" order="1" me:active="true"/>
-        <bond atomRefs2="a4 a5" order="1"/>
+        <bond atomRefs2="a1 a2" order="1" />
+        <bond atomRefs2="a2 a3" order="1" />
+        <bond atomRefs2="a3 a4" order="1" me:active="true" />
+        <bond atomRefs2="a4 a5" order="1" />
       </bondarray>
       <propertyList>
         <property dictRef="me:ZPE">
@@ -139,24 +139,23 @@
           <scalar units="cm-1">230.0</scalar>
         </property>
         <property dictRef="me:spinMultiplicity">
-            <scalar>1</scalar>
+          <scalar>1</scalar>
         </property>
       </propertyList>
     </molecule>
-
     <molecule id="2-pentyl">
       <atomarray>
-        <atom id="a1" elementType="C"/>
-        <atom id="a2" elementType="C"/>
-        <atom id="a3" elementType="C"/>
-        <atom id="a4" elementType="C"/>
-        <atom id="a5" elementType="C"/>
+        <atom id="a1" elementType="C" />
+        <atom id="a2" elementType="C" />
+        <atom id="a3" elementType="C" />
+        <atom id="a4" elementType="C" />
+        <atom id="a5" elementType="C" />
       </atomarray>
       <bondarray>
-        <bond atomRefs2="a1 a2" order="1"/>
-        <bond atomRefs2="a2 a3" order="1"/>
-        <bond atomRefs2="a3 a4" order="1"/>
-        <bond atomRefs2="a4 a5" order="1"/>
+        <bond atomRefs2="a1 a2" order="1" />
+        <bond atomRefs2="a2 a3" order="1" />
+        <bond atomRefs2="a3 a4" order="1" />
+        <bond atomRefs2="a4 a5" order="1" />
       </bondarray>
       <propertyList>
         <property dictRef="me:ZPE">
@@ -195,13 +194,12 @@
           <scalar units="cm-1">230.0</scalar>
         </property>
         <property dictRef="me:spinMultiplicity">
-            <scalar>1</scalar>
+          <scalar>1</scalar>
         </property>
       </propertyList>
     </molecule>
-
     <molecule id="Ar">
-      <atom elementType="Ar"/>
+      <atom elementType="Ar" />
       <propertyList>
         <property dictRef="me:epsilon">
           <scalar>114</scalar>
@@ -214,62 +212,49 @@
         </property>
       </propertyList>
     </molecule>
-
   </moleculeList>
-
   <reactionList>
-
     <reaction id="R1">
       <reactant>
-        <molecule ref="n-pentyl"  me:type="modelled" />
+        <molecule ref="n-pentyl" me:type="modelled" />
       </reactant>
-
       <product>
-        <molecule ref="2-pentyl"  me:type="modelled" />
+        <molecule ref="2-pentyl" me:type="modelled" />
       </product>
-
       <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
-
       <me:transitionState>
         <molecule ref="n-pentyl=TS=2-pentyl" me:type="transitionState" />
       </me:transitionState>
-
     </reaction>
-    
   </reactionList>
-
-	<me:conditions>
-		<me:bathGas>Ar</me:bathGas>
-		<me:PTs>
-			<me:PTpair me:units="PPCC" me:P="1.0e8" me:T="500" />
-		</me:PTs>
-	</me:conditions>
-
-	<me:modelParameters>
-		<me:grainSize units="cm-1"> 150</me:grainSize>
-		<!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
-		<!--<me:maxTemperature>3000</me:maxTemperature>-->
-		<me:energyAboveTheTopHill>20.</me:energyAboveTheTopHill>
-	</me:modelParameters>
-
-	<me:control>
-		<me:testDOS />
-		<me:testMicroRates />
-		<me:printGrainDOS />
-		<!--<me:printCellDOS />-->
-		<!--<me:printCollisionOperatorColumnSums />-->
-		<me:printGrainkfE />
-		<!--<me:printGrainBoltzmann />-->
-		<me:printGrainkbE />
-		<me:eigenvalues>0</me:eigenvalues>
-	</me:control>
-
-    <metadataList>
-        <metadata name="dc:title" content="Pentyl Isomerization" />
-        <metadata name="dc:creator" content="Mesmer v0.1" />
-        <metadata name="dc:description" content="Calculation of the interaction between collisional energy transfer and chemical reaction for dissociation, isomerization and association processes" />
-        <metadata name="dc:date" content="Wed Aug 29 09:19:28 2007" />
-        <metadata name="dc:contributor" content="Chris Morley" />
-    </metadataList>
-
+  <me:conditions>
+    <me:bathGas>Ar</me:bathGas>
+    <me:PTs>
+      <me:PTpair me:units="PPCC" me:P="1.0e8" me:T="500" />
+    </me:PTs>
+  </me:conditions>
+  <me:modelParameters>
+    <me:grainSize units="cm-1"> 150</me:grainSize>
+    <!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
+    <!--<me:maxTemperature>3000</me:maxTemperature>-->
+    <me:energyAboveTheTopHill>20.</me:energyAboveTheTopHill>
+  </me:modelParameters>
+  <me:control>
+    <me:testDOS />
+    <me:testMicroRates />
+    <me:printGrainDOS />
+    <!--<me:printCellDOS />-->
+    <!--<me:printCollisionOperatorColumnSums />-->
+    <me:printGrainkfE />
+    <!--<me:printGrainBoltzmann />-->
+    <me:printGrainkbE />
+    <me:eigenvalues>0</me:eigenvalues>
+  </me:control>
+  <metadataList>
+    <metadata name="dc:title" content="Pentyl Isomerization" />
+    <metadata name="dc:creator" content="Mesmer v0.1" />
+    <metadata name="dc:description" content="Calculation of the interaction between collisional energy transfer and chemical reaction for dissociation, isomerization and association processes" />
+    <metadata name="dc:date" content="Wed Aug 29 09:19:28 2007" />
+    <metadata name="dc:contributor" content="Chris Morley" />
+  </metadataList>
 </me:mesmer>

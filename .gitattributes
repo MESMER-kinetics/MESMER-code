@@ -48,6 +48,7 @@ examples/DiagramTest/methylene_D2_association.xml -text
 examples/DiagramTest/pentyl_isomerization_test.xml -text
 examples/DiagramTest/pentyl_isomerize_dissocn.xml -text
 /mesmer1.xsl -text
+/mesmer2.xsl -text
 /mesmerDiag.xsl -text
 qd/AUTHORS -text
 qd/COPYING -text

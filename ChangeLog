@@ -1,3 +1,12 @@
+2008-11-18 Chris Morley
+
+  * Make datafiles work with for XSLT tab in XMLNotepad.
+    Now two stylesheet declarations:
+    <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+    <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+    The first is used by XMLNotepad; mesmer2.xsl is without diagram which uses
+    XSLT extensions. The second by Firefox3. Not sure how robust the choice is...
+
 _2008_10_28__09_47_18_ Chi-Hsiu Liang
 
   * Added the error report for delta_E_down smaller than grain size.

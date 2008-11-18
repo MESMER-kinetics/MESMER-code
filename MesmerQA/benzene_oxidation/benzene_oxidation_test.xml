@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
   <moleculeList>
     <molecule id="O_2" description="oxygen">
