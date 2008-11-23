@@ -38,12 +38,10 @@ namespace mesmer
     string txt;
     if(errorMsg.size()>1)
     { 
-      if(!context.empty() || !_defaultContext.empty())
-        txt = GetLevelText(level) + "in ";
       if(!context.empty())
-        txt += context + '\n';
+        txt = GetLevelText(level) + "In " + context;
       else if (!_defaultContext.empty())
-        txt += _defaultContext + '\n';
+        txt = "In " + _defaultContext + ' ';
     }
     txt += errorMsg;
 

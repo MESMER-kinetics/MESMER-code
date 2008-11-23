@@ -1,11 +1,27 @@
+2008-11-23 Chris Morley
 
+  * Added me:Hf298 property to be use if me:ZPE not present.
+    ZPE calculated fron Hf298 and written back. 
+    *** But calculation is currently not correct and needs attention ***
+    
+  * Add XmlWriteProperty()
+  
+  *  Add m_EnergyConvention to ModelledMolecule and check it is the same
+    for all molecules.
+    
+  * Get context working for error messages, simplify some ifo message in
+    ModelledMolecule::InitializeMolecule. Simplify console messages.
+    Make -n option notimestamps work and change its description.
+  
+  * Simplify UnitsConversion and add more erro checking. 
+    
 2008-11-23 Struan Robertson
 
    * Updated Mesmer documentation with a discussion on the origin on the C' constant.
 
 2008-11-18 Chris Morley
 
-  * Make datafiles work with for XSLT tab in XMLNotepad.
+  * Make datafiles work with with XSLT tab in XMLNotepad.
     Now two stylesheet declarations:
     <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
     <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>

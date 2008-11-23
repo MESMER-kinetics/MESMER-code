@@ -55,12 +55,17 @@ public:
   virtual PersistPtr XmlWriteMetadata(const std::string& name, const std::string& content);
 
   /// Inserts into XML document a new element  containing a formatted number
-  virtual void XmlWriteValueElement(const std::string& name,
+  virtual PersistPtr XmlWriteValueElement(const std::string& name,
                                  const double datum, const int precision=-1);
 
   ///Insert into XML document a new element, name, and gives it a timestamp attribute and comment
   virtual PersistPtr XmlWriteMainElement( const std::string& name,
-                                  const std::string& comment, bool replaceExisting=true);
+                                 const std::string& comment, bool replaceExisting=true);
+ 
+  ///Insert into XML document a new property element, with timestamp and units attributes (if units is not empty)
+
+  virtual PersistPtr XmlWriteProperty( const std::string& name, 
+                                 const std::string& content, const std::string& units);
 
   ///Insert a copy of an element as the first child of the current element
   virtual bool XmlCopyElement(PersistPtr ppToBeCopied);

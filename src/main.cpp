@@ -136,10 +136,9 @@ int main(int argc,char *argv[])
     if(infilename.empty())
       thisEvent = "Parsing xml from stdin...";
     else
-      thisEvent = "Parsing input xml file... ";
+      thisEvent = "Parsing input xml file...\n" + infilename;
     cerr << thisEvent; //usually output
-    cinfo << infilename << endl;
-    events.setTimeStamp(thisEvent);
+    cinfo << '\n' << events.setTimeStamp(thisEvent);
   }
 
   if(!ppIOPtr || !_sys.parse(ppIOPtr))
@@ -171,7 +170,7 @@ int main(int argc,char *argv[])
 
   if (nocalc) return 0;
 
-  clog << "\nNow calculating..." << infilename << endl;
+  clog << "\nNow calculating..." << endl;
 
   switch (_sys.m_Flags.searchMethod){
     case 2:
@@ -193,7 +192,9 @@ int main(int argc,char *argv[])
   string saveTimeStamp = '.' + currentTimeStamp;
   cinfo << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
 
-  if(!usecout && outfilename.empty() && !infilename.empty())
+  if(!usecout && notimestamp && !infilename.empty())
+    outfilename = infilename;
+  else if(!usecout && outfilename.empty() && !infilename.empty())
   {
     string XMLsuffix(".xml");
     outfilename = duplicateFileName(infilename, XMLsuffix, saveTimeStamp);
@@ -205,7 +206,7 @@ int main(int argc,char *argv[])
   {
     meErrorLog.SetContext(""); //so no ***Error prefix
     if(!outfilename.empty())
-      cerr << "System saved";
+      cerr << "System saved to\n" << outfilename;
   }
   if(qatest)
   {
@@ -253,17 +254,17 @@ void usage()
     "Options:\n"
     " -o<outfilename>\n"
     "     If -o has no outfilename, stdout is used.\n"
-    "     If there is no -o option, the output file name is constructed\n"
+    "     If there is no -o option, the output file name is constructed.\n"
     "     from the input file name by adding or replacing a timstamp.\n"
-    " -n  No timestamp in output file name.\n"
+    " -n  Output added to input file.\n"
     " -N  Use the input filename for test and log, default is mesmer.test and mesmer.log.\n"
     " -p  Parse the input file only - no calculation.\n"
+    " -q  Do a QA test. (Compares mesmer.test with a definitive version.)"
     " -w# Display only warning messages that are at least as severe as:\n"
     "       0 No messages\n"
     "       1 Errors\n"
     "       2 Warnings\n"
     "       3 Information\n"
-    "       4 Audit messages\n"
     " -?  Display this help text\n"
     " -V  Output Mesmer version.\n\n"
     "For example:\n"
@@ -274,7 +275,6 @@ void usage()
     "  mesmer HSO2.xml -n  will read HSO2.xml and write the output back to it\n"
     "  mesmer -o -w0       will silently read from cin and write to cout\n"
     << endl;
-  // "-q  Do a QA test.
 }
 string version()
 {

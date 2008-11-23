@@ -3,6 +3,7 @@
 //
 // Author: Struan Robertson
 //-------------------------------------------------------------------------------------------
+#include "oberror.h"
 #include "Molecule.h"
 
 using namespace std ;
@@ -67,8 +68,9 @@ namespace mesmer
     PersistPtr oldpp = pp;
 
     if(!Molecule::InitializeMolecule(pp)){
-      cerr << "InitializeMolecule for " << getName() << " before constructing ModelledMolecule with errors.";
+      cerr << "Errors in Molecule part";
     }
+    meErrorLog.SetContext(getName());
 
     pp = oldpp;
 
@@ -80,7 +82,7 @@ namespace mesmer
 
     txt= ppPropList->XmlReadProperty("me:MW");
     if(!txt){
-      cerr << "Cannot find argument me:MW in " << getName();
+      cerr << "Cannot find argument me:MW";
       setFlag(true); // later put a function to calculate the molecular weight if the user forgot to provide it.
     }
     else { istringstream idata(txt); double mass(0.); idata >> mass; setMass(mass);}
@@ -119,14 +121,14 @@ namespace mesmer
     }
 
     if (hasVibFreq != hasRotConst){
-      cerr << getName()
-        << " has improper setting on vibrational frequencies or rotational constants. Check input file to remove this error.";
+      cerr 
+        << "Improper setting on vibrational frequencies or rotational constants. Check input file to remove this error.";
       setFlag(true);
     }
 
     txt= ppPropList->XmlReadProperty("me:eletronicExcitation");
     if(!txt){
-      cinfo << "Cannot find argument me:eletronicExcitation for " << getName() << endl;
+      cinfo << "Cannot find argument me:eletronicExcitation" << endl;
     }
     else {
       istringstream idata(txt); double _iele = 0.; m_eleExc.clear();
@@ -155,19 +157,26 @@ namespace mesmer
       if (txt){
         unitsInput = txt;
       }
-      else{
+      else
         unitsInput = "kJ/mol";
-      }
+      
+      txt= ppPropList->XmlReadPropertyAttribute("me:ZPE", "convention");
+      m_EnergyConvention = txt ? txt : "arbitary";
+
+
+
+
       const char* pLowertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "lower");
       const char* pUppertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "upper");
       const char* pStepStxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "stepsize");
       double value(getConvertedEnergy(unitsInput, tempzpe));
       if (pLowertxt && pUppertxt){
         double tempLV(0.0), tempUV(0.0), tempSS(0.0);
-        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> tempLV; s4 >> tempUV; s5 >> tempSS;
+        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); 
+        s3 >> tempLV; s4 >> tempUV; s5 >> tempSS;
         double valueL(getConvertedEnergy(unitsInput, tempLV)),
-          valueU(getConvertedEnergy(unitsInput, tempUV)),
-          stepsize(getConvertedEnergy(unitsInput, tempSS));
+               valueU(getConvertedEnergy(unitsInput, tempUV)),
+               stepsize(getConvertedEnergy(unitsInput, tempSS));
         set_zpe(valueL, valueU, stepsize);
       }
       else{
@@ -192,24 +201,23 @@ namespace mesmer
       m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
       if(!m_pDensityOfStatesCalculator) // if the provided method cannot be found,
       {
-        cinfo << "Unknown method " << pDOSCMethodtxt
-          << " for the calculation of DOS in " << getName()
-          << ". Please check spelling error. Default method <Classical rotors> is used." << endl;
+        cinfo << "Unknown method " << pDOSCMethodtxt  << " for the calculation of DOS.\n"
+              << "Please check spelling error. Default method <Classical rotors> is used." << endl;
         pDOSCMethodtxt = "Classical rotors";
         m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
       }
     }
     else{ // if no method is provided.
-      cinfo << "No method for the calculation of DOS in " << getName()
-        << " is provided. Default method <Classical rotors> is used." << endl;
+      cinfo << "No method for the calculation of DOS is provided. "
+            << "Default method <Classical rotors> is used." << endl;
       pDOSCMethodtxt = "Classical rotors"; // must exist
       m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
     }
 
     txt= ppPropList->XmlReadProperty("me:spinMultiplicity");
     if(!txt){
-      cinfo << "Cannot find argument me:spinMultiplicity in " << getName()
-        << ". Default value "<< m_SpinMultiplicity << " is used." << endl;
+      cinfo << "Cannot find argument me:spinMultiplicity. " 
+            << "Default value "<< m_SpinMultiplicity << " is used." << endl;
     }
     else
     {
@@ -218,8 +226,48 @@ namespace mesmer
       m_SpinMultiplicity_chk = 0;
     }
 
+    /* For molecular energy me:ZPE is used if it is present. If it is not, a value
+       calculated from meHf298 is used and written back to the datafile as a me:ZPE
+       property. It is consequently used in the next run and available to be varied
+       or optimized. The original calculated value remains recorded in an attribute.
+    */
+    txt = ppPropList->XmlReadProperty("me:Hf298", false);
+    if(txt && m_ZPE_chk < 0){ //ignore if there is a me:ZPE 
+      double Hf298;
+      istringstream idata(txt);
+      idata >> Hf298; //orig units
+      const char* utxt= ppPropList->XmlReadPropertyAttribute("me:ZPE", "units");
+      utxt = utxt ? utxt : "kJ/mol";
+      Hf298 = getConvertedEnergy(utxt, Hf298); //cm-1
+
+      //Calculate ZPE from Thermodynamic Heat of Formation
+
+      //*** This is INCOMPLETE and will calculate an incorrect result. NEEDS REVISITING ***
+
+      //The general way is to calculate dln(rot/vib partition function)/dBeta + 1.5kT
+      //calcDensityOfStates(); //but this calls get_zpe and ZPE hasn't been set yet
+      //double Z = max(canonicalPartitionFunction(m_grainDOS, m_grainEne, boltzmann_RCpK * 298), 1.0);
+
+      //Vibrations are treated classically, rotational constants are considered small:
+      // 0.5kT for linear mols, 1.5kT for non-linear polyatomics
+      std::vector<double> rotConsts;
+      int ret = get_rotConsts(rotConsts);
+      double Hf0 = Hf298 - 0.5 * boltzmann_RCpK * 298 *(3 + (ret==0) + 2*(ret==2)); //***Vib TODO      
+      set_zpe(Hf0); //cm-1
+      m_ZPE_chk=0;
+
+      //Write the converted value back to a me:ZPE element in the XML file
+      stringstream ss;
+      ss << ConvertFromWavenumbers(utxt, Hf0);
+      PersistPtr ppScalar = ppPropList->XmlWriteProperty("me:ZPE", ss.str(), utxt);
+      ppScalar->XmlWriteAttribute("convention", "thermodynamic");//orig units
+      ppScalar->XmlWriteAttribute("origValue", ss.str());
+      m_EnergyConvention = "thermodynamic";
+      cinfo << getName() <<": New me:ZPE element written with data from me:Hf298" << endl; 
+    }
+
     if (getErrorFlag()){
-      cerr << "Error(s) while initializing: " << getName();
+      cerr << "Error(s) while initializing ";
       return false;
     }
 
@@ -510,8 +558,9 @@ namespace mesmer
   } ;
 
   double ModelledMolecule::get_zpe() {
-    if (m_ZPE_chk == -1){
-      cinfo << "m_ZPE was not defined but requested in " << getName() << ". Default value " << m_ZPE.get_value() << " is given." << endl;
+    if (m_ZPE_chk == -1) {
+      cinfo << "m_ZPE was not defined but requested in " << getName() 
+            << ". Default value " << m_ZPE.get_value() << " is given." << endl;
       --m_ZPE_chk;
       double zpe = m_ZPE.get_value();
       return zpe;
@@ -581,6 +630,43 @@ namespace mesmer
   void   ModelledMolecule::setSpinMultiplicity(int value){
     m_SpinMultiplicity = value;
   }
+
+/*
+Molecule energy specified in property elements with two dictRefs:
+me:ZPE and me:Hf298
+For example:
+        <property dictRef="me:ZPE">
+          <scalar convention="thermodynamic" units="kJ/mol">139.5</scalar>
+        </property>
+        <property dictRef="me:Hf298">
+          <scalar units="kJ/mol">139.5</scalar>
+        </property>
+
+me:ZPE   - is used preferentially if it is present
+         - can use any baseline, but all the molecules in the file must use the same baseline
+         - the scalar can have the attribute convention="thermodynamic", in which case the
+             baseline is the same as for Hf298
+         - if not originally present, is calculated from me:Hf298 and inserted into the datafile
+             with attributes convention="thermodynamic" and calculated=TIMESTAMP.
+         - can have multiple values if the attributes lower, higher and stepsize are present.
+         - can have a units attribute. The follow values are recognized:
+             "kJ/mol" "kJ per mol" "kcal/mol" "kcal per mol" "wavenumber" "cm-1" "Hartree" "au"
+             If the attribute is missing the default is kJ/mol.
+
+me:Hf298 - is the Enthalpy of formation at 298K, commonly used for thermodynamic data.
+             This baseline is common to all molecules so that it is possible to implement
+             a library of molecules.
+         - is used if me:ZPE is not present
+         - can have a units attribute see above
+
+The energy of a set of reactants and products is obtained by adding the me:ZPEs of
+each of the molecules. If an arbitary baseline is used for the modelled molecules,
+like C2H2 and adduct in the reaction C2H2 + OH => adduct, the ancillary molecules, like OH,
+must have me:ZPE specified as zero. If a thermodynamic baseline is used for any molecule
+it must be used for all, and this is checked.
+*/
+
+
 
 
 }//namespace

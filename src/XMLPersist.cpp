@@ -149,7 +149,7 @@ const char* XMLPersist::XmlReadPropertyAttribute(const string& name, const strin
   return NULL;
 }
 
-  /// Returns true if datatext associated with name is "1" or "true" or nothing;
+  /// Returns true if datatext associated with name is "1" or "true" or "yes" or nothing;
   //  returns false if datatext is something else or if element is not found.
   bool XMLPersist::XmlReadBoolean( const std::string& name)const
   {
@@ -157,13 +157,13 @@ const char* XMLPersist::XmlReadPropertyAttribute(const string& name, const strin
     if(txt)
     {
       string s(txt);
-      return s.empty() || s=="1" || s=="yes";
+      return s.empty() || s=="1" || s=="yes" || s=="true";
     }
     return false;
   }
 
 
-void XMLPersist::XmlWriteValueElement(const std::string& name,
+PersistPtr XMLPersist::XmlWriteValueElement(const std::string& name,
                  const double datum, const int precision)
 {
   ostringstream sstrdatum ;
@@ -176,6 +176,7 @@ void XMLPersist::XmlWriteValueElement(const std::string& name,
   TiXmlElement* item = new TiXmlElement(name);
   pnNode->LinkEndChild(item);
   item->LinkEndChild(new TiXmlText(sstrdatum.str()));
+  return PersistPtr(new XMLPersist(item));
 }
 
 PersistPtr XMLPersist::XmlWriteElement(const std::string& name)
@@ -234,6 +235,34 @@ PersistPtr XMLPersist::XmlWriteMainElement(
     pncom->LinkEndChild(new TiXmlText(comment));
   }
   return PersistPtr(new XMLPersist(pnel));
+}
+
+///Insert into XML document a new property element
+/**If the paramaeter units is not empty a timestamp and a units attribute are added. Like:
+  
+  <property dictRef="me:ZPE">
+    <scalar calculated="20081122_230151" units="kJ/mol">139.5</scalar>
+  </property>
+
+  Returns a PersistPtr to the <scalar> element (so that more attributes can abe added).
+**/
+PersistPtr XMLPersist::XmlWriteProperty( const std::string& name, 
+                                        const std::string& content, const std::string& units)
+{
+  TiXmlElement* pnprop = new TiXmlElement( "property" );
+  pnNode->LinkEndChild(pnprop);
+  pnprop->SetAttribute("dictRef", name);
+  TiXmlElement* pnscal = new TiXmlElement( "scalar" );
+  pnprop->LinkEndChild(pnscal);
+  pnscal->LinkEndChild(new TiXmlText(content));
+  if(!units.empty())
+  {
+    TimeCount events;
+    std::string thisEvent, timeString;
+    pnscal->SetAttribute("calculated", events.setTimeStamp(timeString));
+    pnscal->SetAttribute("units", units);
+  }
+  return PersistPtr(new XMLPersist(pnscal));
 }
 
 bool XMLPersist::XmlCopyElement(PersistPtr ppToBeCopied)

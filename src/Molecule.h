@@ -121,6 +121,8 @@ namespace mesmer
     int m_scaleFactor_chk;
     int m_SpinMultiplicity_chk;
     int m_VibFreq_chk;
+    std::string m_EnergyConvention;
+
     //================================================
 
     std::vector<double> m_eleExc;   // Electronic excitation(for OH, NO, NS otherwise no member).
@@ -189,6 +191,7 @@ namespace mesmer
       m_ZPE.set_range(valueL, valueU, stepsize);
       m_ZPE_chk = 0;
     }
+    const std::string& getEnergyConvention()const { return m_EnergyConvention; }
     void set_scaleFactor(double value);
     double get_Sym(void);
     int test_rotConsts(void);
@@ -221,6 +224,7 @@ namespace mesmer
         modulus = 0.0;   // however, this problem should become obsolete once supermolecule DOS is calculated on the fly
       return int(modulus) ;
     } ;
+
 
   } ;
 

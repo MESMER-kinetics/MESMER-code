@@ -72,7 +72,23 @@ namespace mesmer
     }
     if(!m_pReactionManager->addreactions(ppReacList, m_Env, m_Flags)) return false;
 
+    //Check that the energy baseline is the same for all the modelled molecules
+    std::string id ;
+    ModelledMolecule* pmmol, *pfirstmol;
+    m_pMoleculeManager->GetNextMolecule(id, pfirstmol);
+    string firstConvention(pfirstmol->getEnergyConvention());
+    while(m_pMoleculeManager->GetNextMolecule(id, pmmol)) {
+      if(pmmol->getEnergyConvention() != pfirstmol->getEnergyConvention()) {
+        cerr << "Not all the molecule energies use the same baseline.\n"
+          + pfirstmol->getName() + " uses " + firstConvention + "; "
+          + id + " uses " + pmmol->getEnergyConvention() 
+          + ".\nThere may be others. Check all modelled molecules." << endl;
+      return false;
+      }
+    }
+    cinfo << "All molecules are on the same energy basis: " << firstConvention << endl;
     //-------------
+
     //Reaction Conditions
     PersistPtr ppConditions = ppIOPtr->XmlMoveTo("me:conditions");
     if(!ppConditions)
@@ -400,7 +416,7 @@ namespace mesmer
       m_Env.beta = 1.0 / (boltzmann_RCpK * PandTs[calPoint].get_temperature()) ; //temporary statements
       m_Env.conc = PandTs[calPoint].get_concentration();
       // unit of conc: particles per cubic centimeter
-      clog << "PT Grid " << calPoint << endl;
+      //clog << "PT Grid " << calPoint << endl;
       cinfo << "PT Grid " << calPoint << endl;
       int precision = PandTs[calPoint].get_precision();
       ctest << "PT Grid " << calPoint << " Condition: conc = " << m_Env.conc << ", temp = " << PandTs[calPoint].get_temperature();
@@ -450,7 +466,7 @@ namespace mesmer
     {string thisEvent = "Finish Calculation";
     events.setTimeStamp(thisEvent, timeElapsed);
     cinfo << endl << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds.\n";
-    cinfo << "In total, " << calPoint << " temperature/concentration-pressure points calculated." << endl;}
+    cwarn << "In total, " << calPoint << " temperature/concentration-pressure points calculated." << endl;}
 
     if (m_Flags.viewEvents) cinfo << events;
   }

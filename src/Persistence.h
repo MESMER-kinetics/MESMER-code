@@ -66,7 +66,7 @@ namespace mesmer
     virtual void XmlWriteAttribute(const std::string& name, const std::string& value)=0;
 
     /// Inserts into XML document a new element  containing a formatted number
-    virtual void XmlWriteValueElement(const std::string& name,
+    virtual PersistPtr XmlWriteValueElement(const std::string& name,
                                    const double datum, const int precision=-1)=0;
 
     /// Inserts into XML document meta data information
@@ -75,7 +75,11 @@ namespace mesmer
 
     ///Insert into XML document a new element, name, and gives it a timestamp attribute and comment (if comment not empty)
     virtual PersistPtr XmlWriteMainElement( const std::string& name,
-                                    const std::string& comment, bool replaceExisting=true)=0;
+                                   const std::string& comment, bool replaceExisting=true)=0;
+
+    ///Insert into XML document a new property element, with timestamp and units attributes (if units is not empty)
+    virtual PersistPtr XmlWriteProperty( const std::string& name, 
+                                  const std::string& content, const std::string& units)=0;
 
     ///Insert a copy of an element
     virtual bool XmlCopyElement(PersistPtr ppToBeCopied)=0;

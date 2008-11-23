@@ -3,6 +3,7 @@
 // unitsConversion.cpp
 //
 //-------------------------------------------------------------------------------------------
+#include "oberror.h"
 #include "unitsConversion.h"
 using namespace std;
 using namespace Constants;
@@ -10,32 +11,37 @@ using namespace Constants;
 namespace mesmer
 { 
   void initializeConversionMaps(){
-    // give a name to return a number for the switch functions
     // define rule of conversion for concentration 
-    concentrationMap["particles per cubic centimeter"] = 0;
-    concentrationMap["PPCC"] = 0;
-    concentrationMap["number density"] = 0;
-    concentrationMap["Torr"] = 1;
-    concentrationMap["mmHg"] = 1;
-    concentrationMap["mbar"] = 2;
-    concentrationMap["atm"] = 3;
-    concentrationMap["psi"] = 4;
+    concentrationMap["particles per cubic centimeter"] = 1.0; //internal concentration units
+    concentrationMap["PPCC"] = 1.0;
+    concentrationMap["number density"] = 1.0;
+    concentrationMap["Torr"] = atm_in_pascal * AvogadroC / (idealGasC * Atm_in_Torr * 1.0e6);
+    concentrationMap["mmHg"] = atm_in_pascal * AvogadroC / (idealGasC * Atm_in_Torr * 1.0e6);
+    concentrationMap["mbar"] = mbar_in_pascal * AvogadroC / (idealGasC * 1.0e6);
+    concentrationMap["atm"]  = atm_in_pascal * AvogadroC / (idealGasC * 1.0e6);
+    concentrationMap["psi"]  = psi_in_pascal * AvogadroC / (idealGasC * 1.0e6);
 
     // define rule of conversion for energy
-    energyMap["wavenumber"] = 0;
-    energyMap["cm-1"] = 0;
-    energyMap["kJ/mol"] = 1;
-    energyMap["kJ per mol"] = 1;
-    energyMap["kcal/mol"] = 2;
-    energyMap["kcal per mol"] = 2;
-    energyMap["Hartree"] = 3;
-    energyMap["au"] = 3;
+    energyMap["wavenumber"]   = 1.0; //internal energy units
+    energyMap["cm-1"]         = 1.0;
+    energyMap["kJ/mol"]       = kJPerMol_in_RC;
+    energyMap["kJ per mol"]   = kJPerMol_in_RC;
+    energyMap["kcal/mol"]     = kCalPerMol_in_RC;
+    energyMap["kcal per mol"] = kCalPerMol_in_RC;
+    energyMap["Hartree"]      = Hartree_In_kJperMol * kJPerMol_in_RC;
+    energyMap["au"]           = Hartree_In_kJperMol * kJPerMol_in_RC;
   }
 
   // Returns particles per cubic centimeter no matter what unit the user has provided.
-  double getConvertedP(string unitInput, double concentrationInput, double temperatureInput)
+  double getConvertedP(const string& unitInput, const double concentrationInput, const double temperatureInput)
   {
+    if(concentrationMap.count(unitInput)==0) {
+      cerr << "Unrecognized concentration unit: " + unitInput << endl;
+      return 0.;
+    }
+    return concentrationInput * concentrationMap[unitInput] /temperatureInput;
     
+/*     
     // switch
     switch (concentrationMap[unitInput])
     {
@@ -51,13 +57,19 @@ namespace mesmer
         return (concentrationInput * psi_in_pascal * AvogadroC / (idealGasC * temperatureInput * 1.0e6));
     }
     return 0.;
+*/
   }
 
-  // Returns particles per cubic centimeter no matter what unit the user has provided.
-  double getConvertedEnergy(string unitInput, double energyInput)
+  // Returns particles cm-1 no matter what unit the user has provided.
+  double getConvertedEnergy(const string& unitInput, const double energyInput)
   {
+    if(energyMap.count(unitInput)==0) {
+      cerr << "Unrecognized energy unit: " + unitInput << endl;
+      return 0.;
+    }
+    return energyInput * energyMap[unitInput];
     
-    // switch
+/*    // switch
     switch (energyMap[unitInput])
     {
       case 0: // wavenumber
@@ -70,5 +82,12 @@ namespace mesmer
         return energyInput * Hartree_In_kJperMol * kJPerMol_in_RC;
     }
     return 0.;
+*/
   }
+  //Given energyInput in cm-1 returns value in specified units (no check on units validity)
+  double ConvertFromWavenumbers(const string& unitInput, const double energyInput)
+  {
+    return energyInput / energyMap[unitInput];
+  }    
+
 }

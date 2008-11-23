@@ -72,7 +72,7 @@ namespace mesmer
   };
 
   // defining the unit concentration units conversion rule
-  typedef std::map<std::string, int> stringMapType;
+  typedef std::map<std::string, double> stringMapType;
 
   // mapping the conversion of concentration, pressure
   static stringMapType concentrationMap;
@@ -81,8 +81,9 @@ namespace mesmer
   static stringMapType energyMap;
 
   void initializeConversionMaps();
-  double getConvertedP(string unitInput, double concentrationInput, double temperatureInp);
-  double getConvertedEnergy(string unitInput, double energyInput);
+  double getConvertedP(const string& unitInput, const double concentrationInput, const double temperatureInp);
+  double getConvertedEnergy(const string& unitInput, const double energyInput);
+  double ConvertFromWavenumbers(const string& unitInput, const double energyInput);
 
 }//namespace
 
