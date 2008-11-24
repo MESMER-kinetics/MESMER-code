@@ -56,7 +56,7 @@ public:
 
     // Modifiers
     void resize(const size_type n) ;
-    void showFinalBits(const size_type n);
+    void showFinalBits(const size_type n, bool isTabbed = false);
     void reset(const size_type n);
 
 protected:
@@ -208,7 +208,7 @@ void Matrix<T>::reset(const size_type n){
 }
 
 template<class T>
-void Matrix<T>::showFinalBits(const size_type n){
+void Matrix<T>::showFinalBits(const size_type n, bool isTabbed){
 
     // if n == 0, print the whole matrix
     size_type fb(n);
@@ -218,13 +218,24 @@ void Matrix<T>::showFinalBits(const size_type n){
     // Show the final n x n square of the current matrix
     //
     ctest << "{\n";
-    for (size_type i = m_msize - fb ; i < m_msize ; ++i ) {
-      for (size_type j = m_msize - fb ; j < m_msize ; ++j ) {
-        formatFloat(ctest, to_double(m_matrix[i][j]), 5,  13) ;
+    if (!isTabbed){
+      for (size_type i = m_msize - fb ; i < m_msize ; ++i ) {
+        for (size_type j = m_msize - fb ; j < m_msize ; ++j ) {
+          formatFloat(ctest, m_matrix[i][j], 5,  13) ;
+        }
+        ctest << endl;
       }
-      ctest << endl;
+    }
+    else{
+      for (size_type i = m_msize - fb ; i < m_msize ; ++i ) {
+        for (size_type j = m_msize - fb ; j < m_msize ; ++j ) {
+          ctest << m_matrix[i][j] << "\t";
+        }
+        ctest << endl;
+      }
     }
     ctest << "}\n";
+
 
 }
 }//namespacer mesmer

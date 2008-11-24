@@ -182,9 +182,12 @@ namespace mesmer
       m_Flags.speciesProfileEnabled       = ppControl->XmlReadBoolean("me:printSpeciesProfile");
       m_Flags.viewEvents                  = ppControl->XmlReadBoolean("me:printEventsTimeStamps");
       m_Flags.allowSmallerDEDown          = ppControl->XmlReadBoolean("me:allowSmallerDeltaEDown");
+      m_Flags.print_TabbedMatrices        = ppControl->XmlReadBoolean("me:printTabbedMatrices");
+      m_Flags.useFFTIntegration           = ppControl->XmlReadBoolean("me:useFastFourierTransformIntegration");
       if (!m_Flags.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
         m_Flags.useTheSameCellNumber = true;
       }
+
 
       // System configuration information
       if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();
@@ -446,16 +449,13 @@ namespace mesmer
       m_pReactionManager->diagCollisionOperator(m_Flags, precision) ;
 
       // Time steps loop
-      int timestep = 160;
-      m_pReactionManager->timeEvolution(timestep, m_Flags);
-
-      dMatrix mesmerRates(1);
-      m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates);
+      dMatrix rates(1);
+      m_pReactionManager->timeEvolution(m_Flags, precision, rates);
 
       if (m_Flags.searchMethod){
         vector<conditionSet> expRates;
         PandTs[calPoint].get_experimentalRates(expRates);
-        chiSquare += m_pReactionManager->calcChiSquare(mesmerRates, expRates);
+        chiSquare += m_pReactionManager->calcChiSquare(rates, expRates);
       }
 
       ctest << "}\n";
@@ -543,14 +543,14 @@ namespace mesmer
   }
 
   void System::configuration(void){
-    clog << "\nPrinting system precision configuration:";
+    clog << "\nPrinting system precision configuration:" << endl;
     clog << "Size of float = " << sizeof(float) << endl;
     clog << "Size of double = " << sizeof(double) << endl;
     clog << "Size of long double = " << sizeof(long double) << endl;
     clog << "Size of double-double = " << sizeof(dd_real) << endl;
     clog << "Size of quad-double = " << sizeof(qd_real) << endl;
 
-    clog << "\nEpsilon is the difference between 1 and the smallest value greater than 1 that is representable for the data type.";
+    clog << "\nEpsilon is the difference between 1 and the smallest value greater than 1 that is representable for the data type." << endl;
     clog << "float epsilon == " << numeric_limits<float>::epsilon() << endl;
     clog << "double epsilon == " << numeric_limits<double>::epsilon() << endl;
     clog << "long double epsilon == " << numeric_limits<long double>::epsilon() << endl;

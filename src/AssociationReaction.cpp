@@ -166,7 +166,7 @@ namespace mesmer
 
     // Get Boltzmann distribution for detailed balance.
     const int MaximumGrain = getEnv().MaxGrn ;
-    vector<double> adductPopFrac ; // Population fraction of the adduct
+    vector<qd_real> adductPopFrac ; // Population fraction of the adduct
 
     m_pdt1->normalizedGrnBoltzmannDistribution(adductPopFrac, MaximumGrain) ;
     qd_real DissRateCoeff(0.0) ;

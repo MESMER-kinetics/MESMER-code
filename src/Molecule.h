@@ -280,8 +280,8 @@ namespace mesmer
     //================================================
 
     double m_grainFracBeta;                    // beta used to calculate grain distribution fraction
-    std::vector<double> m_grainDist ;          // Grain distribution (not normalized)
-    dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
+    std::vector<qd_real> m_grainDist ;          // Grain distribution (not normalized)
+    qdMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
 
     //-------------------------------
     // Calculate collision frequency.
@@ -308,10 +308,10 @@ namespace mesmer
     void copyCollisionOperator(qdMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
 
     // Get Grain Boltzmann distribution.
-    void grainDistribution(vector<double> &grainFrac, const int numberOfGrains);
-    void normalizedInitialDistribution(vector<double> &grainFrac, const int numberOfGrains) ;
-    void normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int numberOfGrains, const int startGrnIdx = 0, const int ignoreCellNumber = 0);
-    void normalizedCellBoltzmannDistribution(vector<double> &cellFrac, const int startingCell = 0);
+    void grainDistribution(vector<qd_real> &grainFrac, const int numberOfGrains);
+    void normalizedInitialDistribution(vector<qd_real> &grainFrac, const int numberOfGrains) ;
+    void normalizedGrnBoltzmannDistribution(vector<qd_real> &grainFrac, const int numberOfGrains);
+    void normalizedCellBoltzmannDistribution(vector<qd_real> &cellFrac, const int startingCell = 0);
 
     // Accessors.
     double getSigma() ;

@@ -263,7 +263,7 @@ namespace mesmer
 
     double alpha = 1.0/DEDown ;
 
-    // issue a warning message if delta_E_down is smaller than grain size.
+    // issue a warning message and exit if delta_E_down is smaller than grain size.
     if (DEDown < double(getEnv().GrainSize) && !getFlags().allowSmallerDEDown){
       cerr << "Delta E down is smaller than grain size: the solution may not converge.";
       return false;
@@ -271,7 +271,7 @@ namespace mesmer
 
     // Allocate memory.
     if (m_egme) delete m_egme ;                       // Delete any existing matrix.
-    m_egme = new dMatrix(m_ncolloptrsize) ;           // Collision operator matrix.
+    m_egme = new qdMatrix(m_ncolloptrsize) ;           // Collision operator matrix.
 
     // Initialisation and error checking.
     for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
@@ -289,31 +289,33 @@ namespace mesmer
         double ej = m_grainEne[j];
         double nj = m_grainDOS[j];
         // Transfer to lower Energy -
-        double transferDown = exp(-alpha*(ej - ei)) ;
+        double transferDown = exp(-alpha * (ej - ei)) * (ni/nj);
+//        double transferDown = exp(-alpha*(ej - ei)) ;
         (*m_egme)[i][j] = transferDown;
 
         // Transfer to higher Energy (via detailed balance) -
-        double transferUp = exp(-alpha*(ej - ei)) * (nj/ni) * exp(-beta*(ej - ei)) ;
+        double transferUp = exp(-(alpha + beta)*(ej - ei));
+//        double transferUp = exp(-(alpha + beta)*(ej - ei)) * (nj/ni);
         (*m_egme)[j][i] = transferUp;
       }
     }
 
     //ctest << "Collision operator of " << getName() << " before normalization:\n";
-    //m_egme->showFinalBits(0);
+    //m_egme->showFinalBits(0, getFlags().print_TabbedMatrices);
 
     //Normalisation
     normalizeCollisionOperator();
 
     //ctest << "Collision operator of " << getName() << " after normalization:\n";
-    //m_egme->showFinalBits(0);
+    //m_egme->showFinalBits(0, getFlags().print_TabbedMatrices);
 
     // print out of column sums to check normalization results
     if (getFlags().reactionOCSEnabled){
       ctest << endl << "Collision operator column Sums" << endl << "{" << endl ;
       for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
-        double columnSum(0.0) ;
+        qd_real columnSum(0.0) ;
         for ( j = 0 ; j < m_ncolloptrsize ; ++j ){
-          columnSum += to_double((*m_egme)[j][i]) ;
+          columnSum += (*m_egme)[j][i];
         }
         ctest << columnSum << endl ;
       }
@@ -321,9 +323,12 @@ namespace mesmer
     }
 
     // Symmetrization of the collision matrix.
-    vector<double> popDist; // grained population distribution
+    vector<qd_real> popDist; // grained population distribution
     for (int idx(0); idx < m_ncolloptrsize; ++idx){
-      popDist.push_back(sqrt(exp(log(m_grainDOS[idx]) - beta * m_grainEne[idx] + 10.0)));
+      qd_real DOS = m_grainDOS[idx];
+      qd_real qdbeta = beta;
+      qd_real qdEne = m_grainEne[idx];
+      popDist.push_back(sqrt(exp(log(DOS) - qdbeta * qdEne + 10.0)));
     }
     for ( i = 1 ; i < m_ncolloptrsize ; ++i ) {
       for ( j = 0 ; j < i ; ++j ) {
@@ -338,7 +343,7 @@ namespace mesmer
     }
 
     //ctest << "Collision operator of " << getName() << " after substraction:\n";
-    //m_egme->showFinalBits(0);
+    //m_egme->showFinalBits(0, getFlags().print_TabbedMatrices);
 
 
     return true;
@@ -349,7 +354,7 @@ namespace mesmer
   //
   void CollidingMolecule::normalizeCollisionOperator(){
 
-    vector<double> work(m_ncolloptrsize) ;// Work space.
+    vector<qd_real> work(m_ncolloptrsize) ;// Work space.
     //
     // Normalization of Probability matrix.
     // Normalising coefficients are found by using the fact that column sums
@@ -359,22 +364,28 @@ namespace mesmer
 
     int i, j; //int makes sure the comparison to negative numbers meaningful (i >=0)
 
-    double scaledRemain(0.0) ;
+    qd_real scaledRemain(0.0) ;
+    vector<qd_real> upperValues;
     for ( i = m_ncolloptrsize - 1 ; i >= 0 ; --i ) {
+      qd_real tempUpper(0.0);
+      upperValues.clear();
+      for ( j = 0 ; j <= i ; ++j ){
+        upperValues.push_back((*m_egme)[j][i]);
+        tempUpper += (*m_egme)[j][i];
+      }
 
-      double upperSum(0.0) ;
-      for ( j = 0 ; j <= i ; ++j )
-        upperSum += (*m_egme)[j][i] ;
-
-      if (upperSum > 0.0){
+      if (upperValues.size()){
+        qd_real upperSum = FastFourierIntegration(upperValues);
+        qd_real diff = upperSum - tempUpper; // check point
+        stringstream diffString; diffString << diff;
         if (i < (int)m_ncolloptrsize - 1){
           scaledRemain = 0.0;
           for ( j = i + 1 ; j < (int)m_ncolloptrsize ; ++j ){
-            double scale = work[j];
+            qd_real scale = work[j];
             scaledRemain += (*m_egme)[j][i] * scale ;
           }
         }
-        work[i] = (1.0 - scaledRemain) / upperSum ;
+        work[i] = (1.0 - scaledRemain) / (getFlags().useFFTIntegration ? upperSum : tempUpper) ;
       }
     }
 
@@ -389,7 +400,7 @@ namespace mesmer
       }
     }
 
-    //(*m_egme).showFinalBits(m_ncolloptrsize);
+    //(*m_egme).showFinalBits(m_ncolloptrsize, getFlags().print_TabbedMatrices);
   }
 
   //
@@ -492,7 +503,7 @@ namespace mesmer
   //
   // calculates p(E)*exp(-EB)
   //
-  void CollidingMolecule::grainDistribution(vector<double> &grainFrac, const int totalGrnNumber)
+  void CollidingMolecule::grainDistribution(vector<qd_real> &grainFrac, const int totalGrnNumber)
   {
     // If density of states have not already been calcualted then do so.
     if (!calcDensityOfStates())
@@ -511,11 +522,11 @@ namespace mesmer
   //
   // Get normalized grain distribution.
   //
-  void CollidingMolecule::normalizedInitialDistribution(vector<double> &grainFrac, const int totalGrnNumber)
+  void CollidingMolecule::normalizedInitialDistribution(vector<qd_real> &grainFrac, const int totalGrnNumber)
   {
     grainDistribution(grainFrac, totalGrnNumber);
 
-    double prtfn(0.);
+    qd_real prtfn(0.);
     for (int i = 0; i < totalGrnNumber; ++i){
       prtfn += grainFrac[i];
     }
@@ -536,7 +547,7 @@ namespace mesmer
   //
   // Get normalized cell distribution.
   //
-  void CollidingMolecule::normalizedCellBoltzmannDistribution(vector<double> &cellFrac, const int startingCell)
+  void CollidingMolecule::normalizedCellBoltzmannDistribution(vector<qd_real> &cellFrac, const int startingCell)
   {
     // If density of states have not already been calcualted then do so.
     if (!calcDensityOfStates())
@@ -545,16 +556,20 @@ namespace mesmer
     cellFrac.clear();
 
     const int MaximumCell = getEnv().MaxCell;
-    vector<double> tempCellFrac, cellEne;
+    vector<double> cellEne;
+    vector<qd_real> tempCellFrac;
     getCellEnergies(MaximumCell, cellEne);
 
     // Calculate unnormalized Boltzmann dist.
     // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
     for (int i = 0; i < MaximumCell; ++i) {
-      tempCellFrac.push_back(exp(log(m_cellDOS[i]) - getEnv().beta * cellEne[i] + 10.0));
+      qd_real DOS = m_cellDOS[i];
+      qd_real qdBeta = getEnv().beta;
+      qd_real Ene = cellEne[i];
+      tempCellFrac.push_back(exp(log(DOS) - qdBeta * Ene + 10.0));
     }
 
-    double prtfn(0.);
+    qd_real prtfn(0.);
     for (int i = 0; i < MaximumCell; ++i)
       prtfn += tempCellFrac[i];
 
@@ -570,13 +585,13 @@ namespace mesmer
   //
   // Get normalized grain distribution.
   //
-  void CollidingMolecule::normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int totalGrnNumber, const int startGrnIdx, const int ignoreCellNumber)
+  void CollidingMolecule::normalizedGrnBoltzmannDistribution(vector<qd_real> &grainFrac, const int totalGrnNumber)
   {
     // If density of states have not already been calcualted then do so.
     if (!calcDensityOfStates())
       cerr << "Failed calculating DOS";
 
-    vector<double> tempGrnFrac;
+    vector<qd_real> tempGrnFrac;
     grainFrac.clear();
 
     // Calculate unnormalized Boltzmann dist.
@@ -585,7 +600,7 @@ namespace mesmer
       tempGrnFrac.push_back(exp(log(m_grainDOS[i]) - getEnv().beta * m_grainEne[i] + 10.0));
     }
 
-    double prtfn(0.);
+    qd_real prtfn(0.);
     for (int i = 0; i < totalGrnNumber; ++i){
       prtfn += tempGrnFrac[i];
     }
@@ -594,38 +609,7 @@ namespace mesmer
       tempGrnFrac[i] /= prtfn;
     }
 
-    //---------------------------
-    //
-    if (ignoreCellNumber == 0){
-      grainFrac = tempGrnFrac;
-    }
-    else{
-      // As there are cells ignored, the population of the first grain participates the reaction will be changed.
-      // deal with the partial grain.
-      const int MaximumCell = getEnv().MaxCell;
-      const int gsz = getEnv().GrainSize;
-      const int cellOffset = get_cellOffset();
-      const int grnStartCell = startGrnIdx * gsz - cellOffset;
-      double partialDOS(0.0);
-      for (int i(ignoreCellNumber); i < gsz; ++i){
-        partialDOS += m_cellDOS[i + grnStartCell];
-      }
-      vector<double> cellEne;
-      getCellEnergies(MaximumCell, cellEne);
-      double partialAvgEne(0.0);
-      for (int i(ignoreCellNumber); i < gsz; ++i){
-        partialAvgEne += m_cellDOS[i + grnStartCell] * cellEne[i + grnStartCell];
-      }
-      partialAvgEne /= partialDOS;
-      double partialFrac = exp(log(partialDOS) - getEnv().beta * partialAvgEne + 10.0);
-      partialFrac /= prtfn;
-      grainFrac.push_back(partialFrac);
-      for (int i(startGrnIdx+1); i < int(tempGrnFrac.size()); ++i){
-        grainFrac.push_back(tempGrnFrac[i]);
-      }
-    }
-    //---------------------------
-
+    grainFrac = tempGrnFrac;
   }
 
   void CollidingMolecule::set_DistributionCalculator(DistributionCalculator* value){

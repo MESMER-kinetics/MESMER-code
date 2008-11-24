@@ -20,7 +20,7 @@ namespace mesmer
   bool BoltzmannDistribution::calculateDistribution(std::vector<double> DOS,
                                                     std::vector<double> Ene,
                                                     const double& beta,
-                                                    std::vector<double>& dist)
+                                                    std::vector<qd_real>& dist)
   {
     // The Boltzmann distribution applies only to particles at a high enough temperature
     // and low enough density that quantum effects can be ignored, and the particles are
@@ -31,7 +31,10 @@ namespace mesmer
     // Calculate unnormalized Boltzmann dist.
     // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
     for (int i = 0; i < vsize; ++i) {
-      dist.push_back(exp(log(DOS[i]) - beta * Ene[i] + 10.0));
+      qd_real qdDOS = DOS[i];
+      qd_real qdEne = Ene[i];
+      qd_real qdBeta = beta;
+      dist.push_back(exp(log(qdDOS) - qdBeta * qdEne + 10.0));
     }
     return true;
   }

@@ -12,6 +12,8 @@
 #define GUARD_Distribution_h
 
 #include <map>
+#include "dMatrix.h"
+#include "marray.h"
 
 namespace mesmer
 {
@@ -38,7 +40,7 @@ namespace mesmer
       return (pos==get_Map().end()) ? NULL : pos->second;
     }
 
-    virtual bool calculateDistribution(std::vector<double> DOS, std::vector<double> ene, const double& beta, std::vector<double>& distribution) = 0 ;
+    virtual bool calculateDistribution(std::vector<double> DOS, std::vector<double> ene, const double& beta, std::vector<qd_real>& distribution) = 0 ;
 
   private:
     /// Returns a reference to the map of DistributionCalculator classes

@@ -35,6 +35,8 @@ namespace mesmer
                                           // for all of them, -2 for 1/2 of them, -3 for 1/3 of them, otherwise specified
                                           // by positive integers.
     bool allowSmallerDEDown;              // decide whether allows <delta E>d to be smaller than grain size.
+    bool useFFTIntegration;               // integrates numbers by FFT.
+    bool print_TabbedMatrices;            // print tabbed instead of fixed-widthed matrices.
   };
 }//namespace
 

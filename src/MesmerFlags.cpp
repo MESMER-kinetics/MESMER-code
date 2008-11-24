@@ -25,7 +25,9 @@ namespace mesmer{
     maxEvolutionTime(0.),
     printEigenValuesNum(-1),
     printReactionOperatorNum(0),
-    allowSmallerDEDown(false)
+    allowSmallerDEDown(false),
+    useFFTIntegration(true),
+    print_TabbedMatrices(false)
     {}
 }//namespace
 
