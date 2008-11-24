@@ -110,7 +110,17 @@
         <xsl:value-of select="@id"/>
       </td>
       <td>
-        <xsl:value-of select=".//cml:property[@dictRef='me:ZPE']/cml:scalar"/>
+        <xsl:choose>
+          <xsl:when test=".//cml:property[@dictRef='me:ZPE']/cml:scalar">
+            <xsl:value-of select=".//cml:property[@dictRef='me:ZPE']/cml:scalar"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:if test=".//cml:property[@dictRef='me:Hf298']/cml:scalar">
+              <xsl:value-of select=".//cml:property[@dictRef='me:Hf298']/cml:scalar"/>
+              <xsl:value-of select="'(Hf298)'"/>
+            </xsl:if>
+          </xsl:otherwise>
+        </xsl:choose>
       </td>
       <td>
         <xsl:value-of select=".//cml:property[@dictRef='me:rotConsts']/cml:array"/>
