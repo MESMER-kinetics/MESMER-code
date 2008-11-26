@@ -12,14 +12,15 @@ namespace mesmer
 { 
   void initializeConversionMaps(){
     // define rule of conversion for concentration 
-    concentrationMap["particles per cubic centimeter"] = 1.0; //internal concentration units
-    concentrationMap["PPCC"] = 1.0;
-    concentrationMap["number density"] = 1.0;
-    concentrationMap["Torr"] = atm_in_pascal * AvogadroC / (idealGasC * Atm_in_Torr * 1.0e6);
-    concentrationMap["mmHg"] = atm_in_pascal * AvogadroC / (idealGasC * Atm_in_Torr * 1.0e6);
-    concentrationMap["mbar"] = mbar_in_pascal * AvogadroC / (idealGasC * 1.0e6);
-    concentrationMap["atm"]  = atm_in_pascal * AvogadroC / (idealGasC * 1.0e6);
-    concentrationMap["psi"]  = psi_in_pascal * AvogadroC / (idealGasC * 1.0e6);
+    concentrationMap["particles per cubic centimeter"] = 0;
+    concentrationMap["PPCC"] = 0;
+    concentrationMap["number density"] = 0;
+    concentrationMap["Torr"] = 1;
+    concentrationMap["mmHg"] = 1;
+    concentrationMap["mbar"] = 2;
+    concentrationMap["atm"] = 3;
+    concentrationMap["psi"] = 4;
+    concentrationMap["moles/cc"] =5;
 
     // define rule of conversion for energy
     energyMap["wavenumber"]   = 1.0; //internal energy units
@@ -39,10 +40,7 @@ namespace mesmer
       cerr << "Unrecognized concentration unit: " + unitInput << endl;
       return 0.;
     }
-    return concentrationInput * concentrationMap[unitInput] /temperatureInput;
-    
-/*     
-    // switch
+
     switch (concentrationMap[unitInput])
     {
       case 0: // number density
@@ -55,9 +53,11 @@ namespace mesmer
         return (concentrationInput * atm_in_pascal * AvogadroC / (idealGasC * temperatureInput * 1.0e6));
       case 4: // psi
         return (concentrationInput * psi_in_pascal * AvogadroC / (idealGasC * temperatureInput * 1.0e6));
+      case 5: //moles/cc
+        return concentrationInput * AvogadroC;
     }
     return 0.;
-*/
+
   }
 
   // Returns particles cm-1 no matter what unit the user has provided.

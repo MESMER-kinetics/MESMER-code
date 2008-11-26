@@ -22,6 +22,7 @@ namespace mesmer
     m_RotCstC(0.0),
     m_Sym(1.0),
     m_ZPE(0.0),
+    m_EnergyConvention("arbitary"),
     m_scaleFactor(1.0),
     m_SpinMultiplicity(1),
     m_initPopulation(0.0),
@@ -265,6 +266,8 @@ namespace mesmer
       m_EnergyConvention = "thermodynamic";
       cinfo << getName() <<": New me:ZPE element written with data from me:Hf298" << endl; 
     }
+    else if(m_ZPE_chk < 0)
+      cwarn << "No energy specified (as me:ZPE or me:Hf298 properties)" << endl;
 
     if (getErrorFlag()){
       cerr << "Error(s) while initializing ";

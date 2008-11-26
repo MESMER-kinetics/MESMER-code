@@ -71,14 +71,11 @@ namespace mesmer
     vector<conditionSet> yields;
   };
 
-  // defining the unit concentration units conversion rule
-  typedef std::map<std::string, double> stringMapType;
-
   // mapping the conversion of concentration, pressure
-  static stringMapType concentrationMap;
+  static std::map<std::string, int> concentrationMap;
 
   // mapping the conversion of energy
-  static stringMapType energyMap;
+  static std::map<std::string, double> energyMap;
 
   void initializeConversionMaps();
   double getConvertedP(const string& unitInput, const double concentrationInput, const double temperatureInp);

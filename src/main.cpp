@@ -134,9 +134,9 @@ int main(int argc,char *argv[])
   {
     string thisEvent;
     if(infilename.empty())
-      thisEvent = "Parsing xml from stdin...";
+      thisEvent = "\nParsing xml from stdin...";
     else
-      thisEvent = "Parsing input xml file...\n" + infilename;
+      thisEvent = "\nParsing input xml file...\n" + infilename;
     cerr << thisEvent; //usually output
     cinfo << '\n' << events.setTimeStamp(thisEvent);
   }
@@ -170,7 +170,7 @@ int main(int argc,char *argv[])
 
   if (nocalc) return 0;
 
-  clog << "\nNow calculating..." << endl;
+  clog << "Now calculating..." << endl;
 
   switch (_sys.m_Flags.searchMethod){
     case 2:
