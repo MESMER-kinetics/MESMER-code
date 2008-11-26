@@ -1,34 +1,36 @@
-Parsing input xml file... 
+
+Parsing input xml file...
 OH_acetylene_association_test.xml
-Parsing reaction R1...
+Parsing reaction...
 The description element or attribute was missing or empty.
-Cannot find argument me:frequenciesScaleFactor
+In OH Cannot find argument me:frequenciesScaleFactor
+In OH The description element or attribute was missing or empty.
+In acetylene Cannot find argument me:eletronicExcitation
+In acetylene Cannot find argument me:frequenciesScaleFactor
+In acetylene The description element or attribute was missing or empty.
+In OH_acetylene_adduct Cannot find argument me:eletronicExcitation
+In OH_acetylene_adduct Cannot find argument me:frequenciesScaleFactor
+In OH_acetylene_adduct No method for the calculation of distribution fraction in OH_acetylene_adduct is provided. Default method <Boltzmann> is used.
+In OH_acetylene_adduct ILT method chosen, look for ILT expressions
+In OH_acetylene_adduct The me:TInfinity element or attribute was missing or empty.
+In OH_acetylene_adduct Tinfinity has not been specified; set to the default value of 298 K
+In OH_acetylene_adduct The me:tunneling element or attribute was missing or empty.
+In OH_acetylene_adduct Not a unimolecular reaction: look for excess reactant concentration.
+Parsing reaction...
 The description element or attribute was missing or empty.
-Cannot find argument me:eletronicExcitation for acetylene
-Cannot find argument me:frequenciesScaleFactor
-The description element or attribute was missing or empty.
-Cannot find argument me:eletronicExcitation for OH_acetylene_adduct
-Cannot find argument me:frequenciesScaleFactor
-No method for the calculation of distribution fraction in OH_acetylene_adduct is provided. Default method <Boltzmann> is used.
-ILT method chosen, look for ILT expressions
-The me:TInfinity element or attribute was missing or empty.
-Tinfinity has not been specified; set to the default value of 298 K
-The me:tunneling element or attribute was missing or empty.
-Not a unimolecular reaction: look for excess reactant concentration.
-Parsing reaction R2...
-The description element or attribute was missing or empty.
-Cannot find argument me:eletronicExcitation for OCHCH2
-Cannot find argument me:frequenciesScaleFactor
-No method for the calculation of DOS in OCHCH2 is provided. Default method <Classical rotors> is used.
-The me:tunneling element or attribute was missing or empty.
-No tunneling method was found for R2
-The description element or attribute was missing or empty.
-Cannot find argument me:eletronicExcitation for TS_1a
-Cannot find argument me:frequenciesScaleFactor
-No imaginary vibrational frequency for TS_1a.
-The description element or attribute was missing or empty.
-The me:precision element or attribute was missing or empty.
-The me:MaximumEvolutionTime element or attribute was missing or empty.
+In OCHCH2 Cannot find argument me:eletronicExcitation
+In OCHCH2 Cannot find argument me:frequenciesScaleFactor
+In OCHCH2 No method for the calculation of DOS is provided. Default method <Classical rotors> is used.
+In OCHCH2 The me:tunneling element or attribute was missing or empty.
+In OCHCH2 No tunneling method was found for R2
+In OCHCH2 The description element or attribute was missing or empty.
+In TS_1a Cannot find argument me:eletronicExcitation
+In TS_1a Cannot find argument me:frequenciesScaleFactor
+In TS_1a No imaginary vibrational frequency for TS_1a.
+All molecules are on the same energy basis: arbitary
+In TS_1a The description element or attribute was missing or empty.
+In TS_1a The me:precision element or attribute was missing or empty.
+In TS_1a The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "OH_acetylene_association_test.xml" successfully parsed.
 Calculate EGME
@@ -55,10 +57,9 @@ Grain zero point energy is negative in R2.
 20 values in the FFT convolution routine were replaced by standard convolution
 Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 
-Finish Calculation -- Time elapsed: 27 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
- *Info in main
- -- Total time elapsed: 50 seconds.
+In main Finish Calculation -- Time elapsed: 38 seconds.
+ -- Total time elapsed: 68 seconds.
 
 System saved
 m_Mass is provided but not used in OCHCH2

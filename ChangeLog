@@ -1,3 +1,14 @@
+_2008_11_26__17_32_30_ Chi-Hsiu Liang
+
+  * Replace fabs by abs (STL has already overloaded all precisions for abs)
+  * Changed inver() to invertGaussianJordan() and added another inversion option invertAdjointCofactors() in TMatrix.h
+  * Added a control flag bool me:printTabbedMatrices, default false to prevent user from entering delta E down smaller than
+    gransize.
+  * me:printTabbedMatrices to control whether to output matrices in tabbed form instead of inserting spaces.
+  * Added a flag to control the size of the matrix that is going to ctest stream. See void Matrix<T>::showFinalBits().
+  * Reduced some warning message in compiling time by giving Visual Studio
+    AdditionalOptions="/D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE"
+
 2008-11-23 Chris Morley
 
   * Added me:Hf298 property to be use if me:ZPE not present.

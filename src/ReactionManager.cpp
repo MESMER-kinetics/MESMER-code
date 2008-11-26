@@ -40,10 +40,12 @@ namespace mesmer
       //Read reaction ID
 
       const char* id = ppReac->XmlReadValue("id");
-      if(!id)
+      if(!id){
         cinfo << "Reaction ID not found.\n";
-      cinfo << "Parsing reaction " << id << "...\n";
+        return false;
+      }
       meErrorLog.SetContext(id);
+      cinfo << "Parsing reaction...\n";
 
       // Read reactant and product types.
 
@@ -343,24 +345,24 @@ namespace mesmer
     {
     case -1:
       ctest << "Printing all (" << smsize << ") columns/rows of Reaction Operator:\n";
-      (*m_pReactionOperator).showFinalBits(smsize);
+      (*m_pReactionOperator).showFinalBits(smsize, mFlags.print_TabbedMatrices);
       break;
     case -2:
       ctest << "Printing final 1/2 (" << smsize/2 << ") columns/rows of Reaction Operator:\n";
-      (*m_pReactionOperator).showFinalBits(smsize/2);
+      (*m_pReactionOperator).showFinalBits(smsize/2, mFlags.print_TabbedMatrices);
       break;
     case -3:
       ctest << "Printing final 1/3 (" << smsize/3 << ") columns/rows of Reaction Operator:\n";
-      (*m_pReactionOperator).showFinalBits(smsize/3);
+      (*m_pReactionOperator).showFinalBits(smsize/3, mFlags.print_TabbedMatrices);
       break;
     default: // the number is either smaller than -3 or positive
       if (abs(mFlags.printReactionOperatorNum) > smsize){
         ctest << "Printing all (" << smsize << ") columns/rows of Reaction Operator:\n";
-        (*m_pReactionOperator).showFinalBits(smsize);
+        (*m_pReactionOperator).showFinalBits(smsize, mFlags.print_TabbedMatrices);
       }
       else{
         ctest << "Printing final " << abs(mFlags.printReactionOperatorNum) << " columns/rows of Reaction Operator:\n";
-        (*m_pReactionOperator).showFinalBits(abs(mFlags.printReactionOperatorNum));
+        (*m_pReactionOperator).showFinalBits(abs(mFlags.printReactionOperatorNum), mFlags.print_TabbedMatrices);
       }
     }
   }
@@ -448,7 +450,7 @@ namespace mesmer
     ctest << "\nTotal number of eigenvalues = " << smsize << endl;
     ctest << "Eigenvalues\n{\n";
     for (int i = numberStarted ; i < smsize; ++i) {
-      formatFloat(ctest, m_meanOmega * to_double(m_eigenvalues[i]), 6, 15) ;
+      formatFloat(ctest, m_eigenvalues[i] * m_meanOmega , 6, 15) ;
       ctest << endl ;
     }
     ctest << "}\n";
@@ -578,7 +580,7 @@ namespace mesmer
     ctest << endl << "Eq fraction matrix:" << endl;
     backup.showFinalBits(counter);
 
-    if(eqMatrix.invert()){
+    if(eqMatrix.invertGaussianJordan()){
       cerr << "Inversion of matrix for calculating Eq fractions failed.  Matrix before inversion is: ";
       backup.showFinalBits(counter);
     }
@@ -1034,7 +1036,7 @@ namespace mesmer
     dMatrix Zinv(Z_matrix), Zidentity(nchem), Kr(nchem);
     db2D Kp;                                  
 
-    if(Zinv.invert()){
+    if(Zinv.invertGaussianJordan()){
       cerr << "Inversion of Z_matrix failed.  Matrix before inversion is: ";
       Z_matrix.showFinalBits(nchem);
     }

@@ -1,26 +1,28 @@
-Parsing input xml file... 
+
+Parsing input xml file...
 pentyl_isomerization_test.xml
-Parsing reaction R1...
+Parsing reaction...
 The description element or attribute was missing or empty.
-Cannot find argument me:eletronicExcitation for n-pentyl
-Cannot find argument me:frequenciesScaleFactor
-No method for the calculation of DOS in n-pentyl is provided. Default method <Classical rotors> is used.
-No method for the calculation of distribution fraction in n-pentyl is provided. Default method <Boltzmann> is used.
-The description element or attribute was missing or empty.
-Cannot find argument me:eletronicExcitation for 2-pentyl
-Cannot find argument me:frequenciesScaleFactor
-No method for the calculation of DOS in 2-pentyl is provided. Default method <Classical rotors> is used.
-No method for the calculation of distribution fraction in 2-pentyl is provided. Default method <Boltzmann> is used.
-The me:tunneling element or attribute was missing or empty.
-No tunneling method was found for R1
-The description element or attribute was missing or empty.
-Cannot find argument me:eletronicExcitation for n-pentyl=TS=2-pentyl
-Cannot find argument me:frequenciesScaleFactor
-No method for the calculation of DOS in n-pentyl=TS=2-pentyl is provided. Default method <Classical rotors> is used.
-No imaginary vibrational frequency for n-pentyl=TS=2-pentyl.
-The description element or attribute was missing or empty.
-The me:precision element or attribute was missing or empty.
-The me:MaximumEvolutionTime element or attribute was missing or empty.
+In n-pentyl Cannot find argument me:eletronicExcitation
+In n-pentyl Cannot find argument me:frequenciesScaleFactor
+In n-pentyl No method for the calculation of DOS is provided. Default method <Classical rotors> is used.
+In n-pentyl No method for the calculation of distribution fraction in n-pentyl is provided. Default method <Boltzmann> is used.
+In n-pentyl The description element or attribute was missing or empty.
+In 2-pentyl Cannot find argument me:eletronicExcitation
+In 2-pentyl Cannot find argument me:frequenciesScaleFactor
+In 2-pentyl No method for the calculation of DOS is provided. Default method <Classical rotors> is used.
+In 2-pentyl No method for the calculation of distribution fraction in 2-pentyl is provided. Default method <Boltzmann> is used.
+In 2-pentyl The me:tunneling element or attribute was missing or empty.
+In 2-pentyl No tunneling method was found for R1
+In 2-pentyl The description element or attribute was missing or empty.
+In n-pentyl=TS=2-pentyl Cannot find argument me:eletronicExcitation
+In n-pentyl=TS=2-pentyl Cannot find argument me:frequenciesScaleFactor
+In n-pentyl=TS=2-pentyl No method for the calculation of DOS is provided. Default method <Classical rotors> is used.
+In n-pentyl=TS=2-pentyl No imaginary vibrational frequency for n-pentyl=TS=2-pentyl.
+All molecules are on the same energy basis: arbitary
+In n-pentyl=TS=2-pentyl The description element or attribute was missing or empty.
+In n-pentyl=TS=2-pentyl The me:precision element or attribute was missing or empty.
+In n-pentyl=TS=2-pentyl The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "pentyl_isomerization_test.xml" successfully parsed.
 Calculate EGME
@@ -35,10 +37,9 @@ Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 No population was assigned, and there is no source term.
 Initialize a Boltzmann distribution in the first isomer.
 
-Finish Calculation -- Time elapsed: 8 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
- *Info in main
- -- Total time elapsed: 11 seconds.
+In main Finish Calculation -- Time elapsed: 8 seconds.
+ -- Total time elapsed: 10 seconds.
 
 System saved
 m_Mass is provided but not used in n-pentyl=TS=2-pentyl

@@ -62,8 +62,8 @@ const T MesmerGamma(const T& x)
     else ga = 1e308;
   }
   else {
-    if (fabs(x) > 1.0) {
-      z = fabs(x);
+    if (abs(x) > 1.0) {
+      z = abs(x);
       m = (int)to_double(z);
       r = 1.0;
       for (k=1;k<=m;++k) r *= (z-k);
@@ -73,7 +73,7 @@ const T MesmerGamma(const T& x)
     gr = g[24];
     for (k=23;k>=0;--k) gr = gr*z+g[k];
     ga = 1.0/(gr*z);
-    if (fabs(x) > 1.0) {
+    if (abs(x) > 1.0) {
       ga *= r;
       if (x < 0.0) ga = -T_PI/(x*ga*sin(T_PI*x));
     }

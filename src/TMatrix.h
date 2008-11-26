@@ -73,8 +73,11 @@ namespace mesmer
     };
 
     // Matrix inversion method by Gaussian elimination
-    int invert();
+    int invertGaussianJordan();
 
+    // Matrix inversion method by adjoint cofactors
+    int invertAdjointCofactors();
+    
   private:
 
     //
@@ -90,6 +93,10 @@ namespace mesmer
     void ludcmp(T **a,  int n, int *indx, T d) ;
     void lubksb(T **a,  int n, int *indx, T* b) ;
 
+    //
+    // Calculate the inverse of the matrix by finding the adjoint of the cofactors matrix
+    int GetMinor(T **src, T **dest, int row, int col, int order);
+    T CalcDeterminant( T **mat, int order);
   } ;
 
   //-------------------------------------------------------------------------------------------
@@ -115,7 +122,7 @@ namespace mesmer
       if (l > 1) {
 
         for (k=1;k<=l;++k)
-          scale += fabs(a[i-1][k-1]);
+          scale += abs(a[i-1][k-1]);
         if (scale == 0.0)
           e[i-1]=a[i-1][l-1];
         else {
@@ -214,8 +221,8 @@ namespace mesmer
       iter=0;
       do {
         for (m=l;m<=n-1;++m) {
-          dd=fabs(d[m-1])+fabs(d[m]);
-          if (fabs(e[m-1])+dd == dd) break;
+          dd=abs(d[m-1])+abs(d[m]);
+          if (abs(e[m-1])+dd == dd) break;
         }
         if (m != l) {
           // if (iter++ == 30) fprintf(stderr, "Too many iterations in TQLI");
@@ -233,13 +240,13 @@ namespace mesmer
           */
           g=(d[l]-d[l-1])/(2.0*e[l-1]);
           r=sqrt((g*g)+1.0);
-          g=d[m-1]-d[l-1]+e[l-1]/(g + (g < 0.0 ? -fabs(r) : fabs(r)));
+          g=d[m-1]-d[l-1]+e[l-1]/(g + (g < 0.0 ? -abs(r) : abs(r)));
           s=c=1.0;
           p=0.0;
           for (i=m-1;i>=l;--i) {
             f=s*e[i-1];
             b=c*e[i-1];
-            if (fabs(f) >= fabs(g)) {
+            if (abs(f) >= abs(g)) {
               c=g/f;
               r=sqrt((c*c)+1.0);
               e[i]=f*r;
@@ -305,11 +312,11 @@ namespace mesmer
   T TMatrix<T>::pythag(T a, T b)
   {
     T p,r,s,t,u;
-    if (fabs(a) > fabs(b)) p = fabs(a);
-    else p = fabs(b);
+    if (abs(a) > abs(b)) p = abs(a);
+    else p = abs(b);
     if (p == 0.) goto label_1;
-    if (fabs(a) > fabs(b)) r = fabs(b);
-    else r = fabs(a);
+    if (abs(a) > abs(b)) r = abs(b);
+    else r = abs(a);
     r = (r/p)*(r/p);
 
 label_2: t = 4. + r;
@@ -338,7 +345,7 @@ label_1: return(p);
     for (i = 1; i < n ; ++i) {
       big = 0.0 ;
       for (j = 0; j < n ; ++j) {
-        if ((temp = fabs(a[i][j])) > big)
+        if ((temp = abs(a[i][j])) > big)
           big = temp ;
       }
       if (big == 0.0) {
@@ -364,7 +371,7 @@ label_1: return(p);
 
         a[i][j] = sum ;
 
-        if ( (dum = work[i]*fabs(sum)) >= big) {
+        if ( (dum = work[i]*abs(sum)) >= big) {
           big = dum ;
           imax = i ;
         }
@@ -422,7 +429,7 @@ label_1: return(p);
   }
 
   template<class T>
-  int TMatrix<T>::invert(){
+  int TMatrix<T>::invertGaussianJordan(){
     /*######################################################################
     Author: Chi-Hsiu Liang
     Matrix  inversion, real symmetric a of order n.
@@ -435,10 +442,6 @@ label_1: return(p);
     A. Matrix with two columns/rows completely the same does not have an inverse
     B. Matrix with determinant zero does not have an inverse, of course this include
     the one above.)
-    USAGE: @s_inv = invert(\@s_inv, orbNo);
-    where
-    @s_inv :a two dimensional matrix to be inverted.
-    orbNo :member of the indicated matrix.
     ######################################################################*/
     int n = static_cast<int>(this->size()) ;
     if (n > INT_MAX) return 2; // The matrix size is too large to process.
@@ -446,8 +449,8 @@ label_1: return(p);
 
     //-------------------------------
     //produce a unit vector of size n, and copy the incoming matrix
-    TMatrix<T> m1(n);
-    TMatrix<T> m2(n);
+    Matrix<T> m1(n);
+    Matrix<T> m2(n);
     for (int i = 0; i < n; ++i){
       for (int j = 0; j < n; ++j){
         m1[i][j] = this->m_matrix[i][j];
@@ -461,7 +464,7 @@ label_1: return(p);
       for (int i = 0; i < n; ++i){
         if (m1[i][j] == 0.0){
           zeroCount[j]++; if (zeroCount[j] == n) return 1;
-          /* If there is a zero column the whole array has no inverse.*/
+          /* If there is a zero column, the matrix has no inverse.*/
         }
         else{
           if (i < j){
@@ -513,6 +516,104 @@ label_1: return(p);
 
     return 0;
   }
+  
+  template<class T>
+  int TMatrix<T>::invertAdjointCofactors(){
+    // get the determinant of m_matrix
+    int order = static_cast<int>(this->size()) ;
+    T det = 1.0/CalcDeterminant(m_matrix,order);
+    Matrix<T> Y(order);
+
+    // memory allocation
+    T *temp = new T[(order-1)*(order-1)];
+    T **minor = new T*[order-1];
+    for(int i=0;i<order-1;++i)
+      minor[i] = temp+(i*(order-1));
+
+    for(int j=0;j<order;++j){
+      for(int i=0;i<order;++i){
+        // get the co-factor (matrix) of m_matrix(j,i)
+        GetMinor(m_matrix,minor,j,i,order);
+        Y[i][j] = det*CalcDeterminant(minor,order-1);
+        if( (i+j)%2 == 1)
+          Y[i][j] = -Y[i][j];
+      }
+    }
+
+    for(int j=0;j<order;++j){
+      for(int i=0;i<order;++i){
+        m_matrix[i][j] = Y[i][j];
+      }
+    }
+
+    // release memory
+    delete [] minor[0];
+    delete [] minor;
+    return 0;
+  }
+
+  // calculate the cofactor of element (row,col)
+  template<class T>
+  int TMatrix<T>::GetMinor(T **src, T **dest, int row, int col, int order)
+  {
+    // indicate which col and row is being copied to dest
+    int colCount=0,rowCount=0;
+
+    for(int i = 0; i < order; ++i )
+    {
+      if( i != row )
+      {
+        colCount = 0;
+        for(int j = 0; j < order; ++j )
+        {
+          // when j is not the element
+          if( j != col )
+          {
+            dest[rowCount][colCount] = src[i][j];
+            colCount++;
+          }
+        }
+        rowCount++;
+      }
+    }
+
+    return 1;
+  }
+
+  // Calculate the determinant recursively.
+  template<class T>
+  T TMatrix<T>::CalcDeterminant( T **mat, int order)
+  {
+    // order must be >= 0
+    // stop the recursion when matrix is a single element
+    if( order == 1 )
+      return mat[0][0];
+
+    // the determinant value
+    T det = 0;
+
+    // allocate the cofactor matrix
+    T **minor;
+    minor = new T*[order-1];
+    for(int i=0;i<order-1;++i)
+      minor[i] = new T[order-1];
+
+    for(int i = 0; i < order; ++i )
+    {
+      // get minor of element (0,i)
+      GetMinor( mat, minor, 0, i , order);
+      // the recusion is here!
+      det += pow( -1.0, i ) * mat[0][i] * CalcDeterminant( minor,order-1 );
+    }
+
+    // release memory
+    for(int i=0;i<order-1;++i)
+      delete [] minor[i];
+    delete [] minor;
+
+    return det;
+  }
+
 }//namespacer mesmer
 
 

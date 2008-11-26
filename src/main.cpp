@@ -138,7 +138,8 @@ int main(int argc,char *argv[])
     else
       thisEvent = "\nParsing input xml file...\n" + infilename;
     cerr << thisEvent; //usually output
-    cinfo << '\n' << events.setTimeStamp(thisEvent);
+    //cinfo << endl;
+    events.setTimeStamp(thisEvent);
   }
 
   if(!ppIOPtr || !_sys.parse(ppIOPtr))
@@ -206,18 +207,18 @@ int main(int argc,char *argv[])
   {
     meErrorLog.SetContext(""); //so no ***Error prefix
     if(!outfilename.empty())
-      cerr << "System saved to\n" << outfilename;
+      cerr << "System saved"; // There is no need to know where the System is saved in the log file.
   }
   if(qatest)
   {
     osout.close();
     if(!QACompare(infilename))
     {
-      cerr << "QA test failed" << endl;
+      clog << "QA test failed" << endl;
       return -5;
     }
     else
-      cerr << "QA test successful" << endl;
+      clog << "QA test successful" << endl;
   }
   return 0 ;
 }

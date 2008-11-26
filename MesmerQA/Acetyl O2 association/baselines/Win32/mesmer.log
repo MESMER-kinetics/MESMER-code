@@ -1,35 +1,37 @@
-Parsing input xml file... 
+
+Parsing input xml file...
 Acetyl_O2_association.xml
-Parsing reaction R1...
-Cannot find argument me:eletronicExcitation for acetyl
-Cannot find argument me:eletronicExcitation for O_2
-Cannot find argument me:eletronicExcitation for Int1
-No method for the calculation of distribution fraction in Int1 is provided. Default method <Boltzmann> is used.
-ILT method chosen, look for ILT expressions
-The me:tunneling element or attribute was missing or empty.
-Not a unimolecular reaction: look for excess reactant concentration.
-Parsing reaction R2...
-Cannot find argument me:eletronicExcitation for Int2
-No method for the calculation of distribution fraction in Int2 is provided. Default method <Boltzmann> is used.
-Cannot find argument me:eletronicExcitation for TS1
-Parsing reaction R3...
+In acetyl Parsing reaction...
+Cannot find argument me:eletronicExcitation
+In O_2 Cannot find argument me:eletronicExcitation
+In Int1 Cannot find argument me:eletronicExcitation
+In Int1 No method for the calculation of distribution fraction in Int1 is provided. Default method <Boltzmann> is used.
+In Int1 ILT method chosen, look for ILT expressions
+In Int1 The me:tunneling element or attribute was missing or empty.
+In Int1 Not a unimolecular reaction: look for excess reactant concentration.
+In Int2 Parsing reaction...
+Cannot find argument me:eletronicExcitation
+In Int2 No method for the calculation of distribution fraction in Int2 is provided. Default method <Boltzmann> is used.
+In TS1 Cannot find argument me:eletronicExcitation
+Parsing reaction...
 The description element or attribute was missing or empty.
-Cannot find argument me:vibFreqs. Maybe an atom or atomic ion.
-Cannot find argument me:rotConsts. Maybe an atom or atomic ion.
-Cannot find argument me:eletronicExcitation for lactone
-The me:tunneling element or attribute was missing or empty.
-No tunneling method was found for R3
-Cannot find argument me:eletronicExcitation for TS3
-Parsing reaction R4...
-Cannot find argument me:eletronicExcitation for ketene
-The description element or attribute was missing or empty.
-Cannot find argument me:eletronicExcitation for HO_2
-The me:tunneling element or attribute was missing or empty.
-No tunneling method was found for R4
-Cannot find argument me:eletronicExcitation for TS2
-The description element or attribute was missing or empty.
-The me:precision element or attribute was missing or empty.
-The me:MaximumEvolutionTime element or attribute was missing or empty.
+In lactone Cannot find argument me:vibFreqs. Maybe an atom or atomic ion.
+In lactone Cannot find argument me:rotConsts. Maybe an atom or atomic ion.
+In lactone Cannot find argument me:eletronicExcitation
+In OH The me:tunneling element or attribute was missing or empty.
+In OH No tunneling method was found for R3
+In TS3 Cannot find argument me:eletronicExcitation
+In ketene Parsing reaction...
+Cannot find argument me:eletronicExcitation
+In ketene The description element or attribute was missing or empty.
+In HO_2 Cannot find argument me:eletronicExcitation
+In HO_2 The me:tunneling element or attribute was missing or empty.
+In HO_2 No tunneling method was found for R4
+In TS2 Cannot find argument me:eletronicExcitation
+In TS2 All molecules are on the same energy basis: arbitary
+In TS2 The description element or attribute was missing or empty.
+In TS2 The me:precision element or attribute was missing or empty.
+In TS2 The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "Acetyl_O2_association.xml" successfully parsed.
 Calculate EGME
@@ -54,10 +56,9 @@ Association ILT calculation completed
 20 values in the FFT convolution routine were replaced by standard convolution
 Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 
-Finish Calculation -- Time elapsed: 40 seconds.
 In total, 1 temperature/concentration-pressure points calculated.
- *Info in main
- -- Total time elapsed: 151 seconds.
+In main Finish Calculation -- Time elapsed: 46 seconds.
+ -- Total time elapsed: 161 seconds.
 
 System saved
 m_Mass is provided but not used in HO_2

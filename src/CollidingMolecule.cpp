@@ -263,7 +263,7 @@ namespace mesmer
 
     double alpha = 1.0/DEDown ;
 
-    // issue a warning message if delta_E_down is smaller than grain size.
+    // issue a warning message and exit if delta_E_down is smaller than grain size.
     if (DEDown < double(getEnv().GrainSize) && !getFlags().allowSmallerDEDown){
       cerr << "Delta E down is smaller than grain size: the solution may not converge.";
       return false;
@@ -299,13 +299,13 @@ namespace mesmer
     }
 
     //ctest << "Collision operator of " << getName() << " before normalization:\n";
-    //m_egme->showFinalBits(0);
+    //m_egme->showFinalBits(0, getFlags().print_TabbedMatrices);
 
     //Normalisation
     normalizeCollisionOperator();
 
     //ctest << "Collision operator of " << getName() << " after normalization:\n";
-    //m_egme->showFinalBits(0);
+    //m_egme->showFinalBits(0, getFlags().print_TabbedMatrices);
 
     // print out of column sums to check normalization results
     if (getFlags().reactionOCSEnabled){
@@ -338,7 +338,7 @@ namespace mesmer
     }
 
     //ctest << "Collision operator of " << getName() << " after substraction:\n";
-    //m_egme->showFinalBits(0);
+    //m_egme->showFinalBits(0, getFlags().print_TabbedMatrices);
 
 
     return true;
@@ -389,7 +389,7 @@ namespace mesmer
       }
     }
 
-    //(*m_egme).showFinalBits(m_ncolloptrsize);
+    //(*m_egme).showFinalBits(m_ncolloptrsize, getFlags().print_TabbedMatrices);
   }
 
   //
@@ -594,37 +594,7 @@ namespace mesmer
       tempGrnFrac[i] /= prtfn;
     }
 
-    //---------------------------
-    //
-    if (ignoreCellNumber == 0){
-      grainFrac = tempGrnFrac;
-    }
-    else{
-      // As there are cells ignored, the population of the first grain participates the reaction will be changed.
-      // deal with the partial grain.
-      const int MaximumCell = getEnv().MaxCell;
-      const int gsz = getEnv().GrainSize;
-      const int cellOffset = get_cellOffset();
-      const int grnStartCell = startGrnIdx * gsz - cellOffset;
-      double partialDOS(0.0);
-      for (int i(ignoreCellNumber); i < gsz; ++i){
-        partialDOS += m_cellDOS[i + grnStartCell];
-      }
-      vector<double> cellEne;
-      getCellEnergies(MaximumCell, cellEne);
-      double partialAvgEne(0.0);
-      for (int i(ignoreCellNumber); i < gsz; ++i){
-        partialAvgEne += m_cellDOS[i + grnStartCell] * cellEne[i + grnStartCell];
-      }
-      partialAvgEne /= partialDOS;
-      double partialFrac = exp(log(partialDOS) - getEnv().beta * partialAvgEne + 10.0);
-      partialFrac /= prtfn;
-      grainFrac.push_back(partialFrac);
-      for (int i(startGrnIdx+1); i < int(tempGrnFrac.size()); ++i){
-        grainFrac.push_back(tempGrnFrac[i]);
-      }
-    }
-    //---------------------------
+    grainFrac = tempGrnFrac;
 
   }
 
