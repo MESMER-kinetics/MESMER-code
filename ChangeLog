@@ -1,3 +1,9 @@
+_2008_11_27__15_32_52_ Chi-Hsiu Liang
+
+  * Modified QA.bat so that it issues -q flag when normal "qa" command is requested; copies mesmet.test into the baseline
+    folder as test.test
+    When "qa -o" is requested, it does not issue -q flag, but overwrites baseline files by the current output files.
+
 _2008_11_26__17_32_30_ Chi-Hsiu Liang
 
   * Replace fabs by abs (STL has already overloaded all precisions for abs)
