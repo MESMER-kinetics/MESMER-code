@@ -695,32 +695,9 @@ namespace mesmer
     return true;
   }
 
-  bool ReactionManager::timeEvolution(int maxTimeStep, const MesmerFlags mFlags)
+  bool ReactionManager::timeEvolution(const MesmerFlags mFlags)
   {
     int smsize = int(m_pReactionOperator->size());
-
-    double maxEvoTime = 0.;
-    // set the default maximum evolution time
-    if (mFlags.maxEvolutionTime <= 0. || mFlags.maxEvolutionTime > 1.0e8)
-      maxEvoTime = 1.0e8;
-    else
-      maxEvoTime = mFlags.maxEvolutionTime;
-
-    // calculate the time points
-    vector<double> timePoints;
-    for (int i = 0; i <= maxTimeStep; ++i){
-      double time = pow(10., static_cast<double>(i) / 10. - 11.);
-      if (time > maxEvoTime)
-        break;
-      timePoints.push_back(time);
-    }
-
-    //initialize dt vector for calculating product yields
-    vector<double> dt(maxTimeStep,0.0);
-    dt[0] = timePoints[0];
-    for (int i = 1; i < maxTimeStep; ++i){
-      dt[i] = timePoints[i] - timePoints[i-1];
-    }
 
     vector<double> n_0(smsize, 0.); // initial distribution
     if (!produceInitialPopulationVector(n_0)){
@@ -738,15 +715,40 @@ namespace mesmer
       n_0[j] /= m_eqVector[j];
     }
 
+    // |n_0> is the initial populations of the grains for all species 
+    // |n_t> = U exp(Lamda t) U^-1 |n_0>
+    // |r_0> = U^-1 |n_0>
+    vector<double> r_0(smsize, 0.);            // which holds the eigenvectors
+
+    double maxEvoTime = 0.;
+    // set the default maximum evolution time
+    if (mFlags.maxEvolutionTime <= 0. || mFlags.maxEvolutionTime > 1.0e8)
+      maxEvoTime = 1.0e8;
+    else
+      maxEvoTime = mFlags.maxEvolutionTime;
+
+    // calculate the time points
+    vector<double> timePoints;
+    for (int i = 0; i <= 160; ++i){
+      double time = pow(10., static_cast<double>(i) / 10. - 11.);
+      if (time > maxEvoTime)
+        break;
+      timePoints.push_back(time);
+    }
+
+    //initialize dt vector for calculating product yields
+    vector<double> dt(timePoints.size()-1,0.0);
+    dt[0] = timePoints[0];
+    for (int i = 1; i < int(dt.size()); ++i){
+      dt[i] = timePoints[i] - timePoints[i-1];
+    }
+
+
     dMatrix sysCollOptr(smsize); // copy the system collision operator,
     for ( int i = 0 ; i < smsize ; ++i )
       for ( int j = 0 ; j < smsize ; ++j )
         sysCollOptr[i][j] = to_double((*m_pReactionOperator)[i][j]);
 
-    // |n_0> is the initial populations of the grains for all species 
-    // |n_t> = U exp(Lamda t) U^-1 |n_0>
-    // |r_0> = U^-1 |n_0>
-    vector<double> r_0(smsize, 0.);            // which holds the eigenvectors
 
     for (int i = 0; i < smsize; ++i) {
       double sum = 0.;
@@ -763,7 +765,8 @@ namespace mesmer
       }
     }
 
-    db2D grainedProfile(smsize, maxTimeStep); // numbers inside the parentheses are dummies
+    const int maxTimeStep = int(dt.size());
+    db2D grnProfile(smsize, maxTimeStep); // numbers inside the parentheses are dummies
     vector<double> work2(smsize, 0.);
 
     for (int timestep = 0; timestep < maxTimeStep; ++timestep){
@@ -776,20 +779,8 @@ namespace mesmer
         for (int l = 0; l < smsize; ++l) {
           sum += work2[l] * sysCollOptr[j][l];
         }
-        grainedProfile[j][timestep] = sum;
-      } // now |grainedProfile(t)> = |grainedProfile(i)> = F*V*exp(Dt)*V^(T)*|init> = U*exp(Dt)*U^(-1)*|n_0>
-    }
-
-    ctest<<"mean collision frequency = " << m_meanOmega << "/s" << endl;
-
-    vector<double> totalIsomerPop(maxTimeStep, 0.);
-    vector<double> totalProductPop(maxTimeStep, 0.);
-
-    for(int timestep(0); timestep<maxTimeStep; ++timestep){
-      for(int j(0);j<smsize;++j){
-        totalIsomerPop[timestep] += grainedProfile[j][timestep];
-      }
-      totalProductPop[timestep] = 1.0 - totalIsomerPop[timestep];
+        grnProfile[j][timestep] = sum;
+      } // now |grnProfile(t)> = |grnProfile(i)> = F*V*exp(Dt)*V^(T)*|init> = U*exp(Dt)*U^(-1)*|n_0>
     }
 
     //------------------------------
@@ -802,13 +793,35 @@ namespace mesmer
       ctest << endl;
       for (int j = 0; j < smsize; ++j) {
         for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-          formatFloat(ctest, grainedProfile[j][timestep], 6,  15);
+          formatFloat(ctest, grnProfile[j][timestep], 6,  15);
         }
         ctest << endl;
       }
       ctest << "}\n";
     }
     //------------------------------
+
+    ctest<<"mean collision frequency = " << m_meanOmega << "/s" << endl;
+
+    vector<double> totalIsomerPop(maxTimeStep, 0.);
+    vector<double> totalPdtPop(maxTimeStep, 0.);
+
+    for(int timestep(0); timestep<maxTimeStep; ++timestep){
+      for(int j(0);j<smsize;++j){
+        totalIsomerPop[timestep] += grnProfile[j][timestep];
+      }
+      double popTime = totalIsomerPop[timestep];
+      if (popTime > 1.0){
+        popTime = 1.0; // correct some numerical error
+        //totalIsomerPop[timestep] = 1.0; // Not very sure if we should cover up this numerical error entirely!!?
+      }
+      else if (popTime < 0.0){
+        popTime = 0.0;
+        //totalIsomerPop[timestep] = 0.0; // Not very sure if we should cover up this numerical error entirely!!?
+      }
+      totalPdtPop[timestep] = 1.0 - popTime;
+    }
+
 
     if (mFlags.speciesProfileEnabled){
       ctest << endl << "Print time dependent species and product profiles" << endl << "{" << endl;
@@ -847,7 +860,7 @@ namespace mesmer
         ctest << setw(16) << source->getName();
         int location = spos->second;
         for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-          double gPf = grainedProfile[location][timestep];
+          double gPf = grnProfile[location][timestep];
           speciesProfile[speciesProfileidx][timestep] = gPf;
         }
         ++speciesProfileidx;
@@ -861,14 +874,14 @@ namespace mesmer
         const int colloptrsize = isomer->get_colloptrsize();
         for (int timestep = 0; timestep < maxTimeStep; ++timestep){
           for(int i = 0; i < colloptrsize; ++i){
-            speciesProfile[speciesProfileidx][timestep] += grainedProfile[i+location][timestep];
+            speciesProfile[speciesProfileidx][timestep] += grnProfile[i+location][timestep];
           }
         }
         ++speciesProfileidx;
       }
 
       sinkMap::iterator pos;      // iterate through sink map to get product profile vs t
-      int productProfileStartidx = speciesProfileidx;
+      int pdtProfileStartIdx = speciesProfileidx;
       for (pos = m_sinkRxns.begin(); pos != m_sinkRxns.end(); ++pos){
         vector<double> KofEs;                             // vector to hold sink k(E)s
         Reaction* sinkReaction = pos->first;
@@ -887,7 +900,7 @@ namespace mesmer
         double TimeIntegratedProductPop(0.0);
         for (int timestep = 0; timestep < maxTimeStep; ++timestep){
           for(int i = 0; i < colloptrsize; ++i){
-            speciesProfile[speciesProfileidx][timestep] += KofEs[i]*grainedProfile[i+location][timestep]*dt[timestep];
+            speciesProfile[speciesProfileidx][timestep] += KofEs[i]*grnProfile[i+location][timestep]*dt[timestep];
           }
           TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];
           speciesProfile[speciesProfileidx][timestep]= TimeIntegratedProductPop;
@@ -896,47 +909,32 @@ namespace mesmer
         KofEs.clear();
       }
 
-      for(int timestep = 0; timestep < maxTimeStep; ++timestep){    // normalize product profile to account for small
-        double NormalizationConstant(0.0);                          // numerical errors in TimeIntegratedProductPop
-        double ProductYield(0.0);
-        for(int(i)=productProfileStartidx; i<speciesProfileidx; ++i){   // calculate normalization constant
-          ProductYield += speciesProfile[i][timestep];
-        }
-        NormalizationConstant = totalProductPop[timestep] / ProductYield;
-        for(int(i)=productProfileStartidx; i<speciesProfileidx; ++i){   // apply normalization constant
-          speciesProfile[i][timestep] *= NormalizationConstant;
+      if (pdtProfileStartIdx < speciesProfileidx){
+        for(int timestep = 0; timestep < maxTimeStep; ++timestep){    // normalize product profile to account for small
+          double normConst(0.0);                          // numerical errors in TimeIntegratedProductPop
+          double pdtYield(0.0);
+          for(int i(pdtProfileStartIdx); i<speciesProfileidx; ++i){   // calculate normalization constant
+            pdtYield += speciesProfile[i][timestep];
+          }
+          normConst = totalPdtPop[timestep] / pdtYield;
+          for(int i(pdtProfileStartIdx); i<speciesProfileidx; ++i){   // apply normalization constant
+            speciesProfile[i][timestep] *= normConst;
+          }
         }
       }
 
-      ctest << setw(16)<< "totalIsomerPop" << setw(16)<< "totalProductPop"  << endl;
+
+      ctest << setw(16)<< "totalIsomerPop" << setw(16)<< "totalPdtPop"  << endl;
       for(int timestep = 0; timestep < maxTimeStep; ++timestep){
         ctest << setw(16) << timePoints[timestep];
         for(int i(0); i<speciesProfileidx; ++i){
           ctest << setw(16) << speciesProfile[i][timestep];
         }
-        ctest << setw(16) << totalIsomerPop[timestep] << setw(16) << totalProductPop[timestep] << endl;
+        ctest << setw(16) << totalIsomerPop[timestep] << setw(16) << totalPdtPop[timestep] << endl;
       }
       ctest << "}" << endl;
     }
     return true;
-  }
-
-  // Set Initial population for individual species
-  void ReactionManager::setInitialPopulation(PersistPtr anchor)
-  {
-    PersistPtr pp=anchor;
-    const char* txt;
-    PersistPtr ppInitMol = pp->XmlMoveTo("molecule");
-    while(ppInitMol){
-      double population = 0.0;
-      string sRef = ppInitMol->XmlReadValue("ref");
-      if(sRef.size()){ // if got the name of the molecule
-        txt = ppInitMol->XmlReadValue("me:population");
-        population = atof(txt);
-        m_initialPopulations[sRef] = population;
-      }
-      ppInitMol = ppInitMol->XmlMoveTo("molecule");
-    }
   }
 
   bool ReactionManager::BartisWidomPhenomenologicalRates(dMatrix& mesmerRates)
@@ -1041,8 +1039,11 @@ namespace mesmer
       Z_matrix.showFinalBits(nchem);
     }
 
-    //    ctest << endl << "inverse of Z_matrix:" << endl;
-    //    Zinv.showFinalBits(nchem);
+    ctest << "\nZ_matrix: ";
+    Z_matrix.showFinalBits(nchem, true);
+
+    ctest << endl << "Z_matrix^(-1):" << endl;
+    Zinv.showFinalBits(nchem, true);
 
     for(int i(0);i<nchem;++i){          // multiply Z_matrix*Z_matrix^(-1) for testing
       for(int j(0);j<nchem;++j){
@@ -1054,8 +1055,8 @@ namespace mesmer
       }
     }
 
-    ctest << "\nZ_matrix * Z_matrix^(-1):" << endl;
-    Zidentity.showFinalBits(nchem);
+    ctest << "\nZ_matrix * Z_matrix^(-1) [Identity matrix]:" << endl;
+    Zidentity.showFinalBits(nchem, true);
 
     for(int i(0);i<nchem;++i){          // calculate Kr (definition taken from PCCP 2007(9), p.4085)
       for(int j(0);j<nchem;++j){
@@ -1067,7 +1068,7 @@ namespace mesmer
       }
     }
     ctest << "\nKr matrix:" << endl;
-    Kr.showFinalBits(nchem);       // print out Kr_matrix
+    Kr.showFinalBits(nchem, true);       // print out Kr_matrix
 
     if(m_sinkRxns.size()!=0){
       for(int i(0); i != int(m_sinkRxns.size()); ++i){    // calculate Kp (definition taken from PCCP 2007(9), p.4085)
@@ -1080,7 +1081,7 @@ namespace mesmer
         }
       }
       ctest << "\nKp matrix:" << endl;    // print out Kp_matrix
-      Kp.print((int)(m_sinkRxns.size()), (int)(m_SpeciesSequence.size()));
+      Kp.print(int(m_sinkRxns.size()), int(m_SpeciesSequence.size()));
     }
 
     ctest << "\nFirst order & pseudo first order rate coefficients for loss rxns:\n{\n";
@@ -1133,6 +1134,24 @@ namespace mesmer
 
     mesmerRates = Kr;
     return true;
+  }
+  
+  // Set Initial population for individual species
+  void ReactionManager::setInitialPopulation(PersistPtr anchor)
+  {
+    PersistPtr pp=anchor;
+    const char* txt;
+    PersistPtr ppInitMol = pp->XmlMoveTo("molecule");
+    while(ppInitMol){
+      double population = 0.0;
+      string sRef = ppInitMol->XmlReadValue("ref");
+      if(sRef.size()){ // if got the name of the molecule
+        txt = ppInitMol->XmlReadValue("me:population");
+        population = atof(txt);
+        m_initialPopulations[sRef] = population;
+      }
+      ppInitMol = ppInitMol->XmlMoveTo("molecule");
+    }
   }
 
   double ReactionManager::calcChiSquare(const dMatrix& mesmerRates, vector<conditionSet>& expRates){

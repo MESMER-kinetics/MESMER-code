@@ -447,8 +447,7 @@ namespace mesmer
       m_pReactionManager->diagCollisionOperator(m_Flags, precision) ;
 
       // Time steps loop
-      int timestep = 160;
-      m_pReactionManager->timeEvolution(timestep, m_Flags);
+      m_pReactionManager->timeEvolution(m_Flags);
 
       dMatrix mesmerRates(1);
       m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates);

@@ -53,7 +53,7 @@ namespace mesmer
 
     }
 
-    // 
+    //
     // Solve a set of linear equations with a single right hand side.
     //
     void solveLinearEquationSet(T *rr) {
@@ -64,8 +64,10 @@ namespace mesmer
       //  Allocate memory for work array
       int *indx = new int[size] ;
 
-      T d ;
-      ludcmp(this->m_matrix, size, indx, d) ;
+      if (ludcmp(this->m_matrix, size, indx)){
+        exit(1);
+      }
+
       lubksb(this->m_matrix, size, indx, rr) ;
 
       delete [] indx ;
@@ -75,9 +77,12 @@ namespace mesmer
     // Matrix inversion method by Gaussian elimination
     int invertGaussianJordan();
 
+    // Matrix inversion method by LU decomposition
+    int invertLUdecomposition();
+
     // Matrix inversion method by adjoint cofactors
     int invertAdjointCofactors();
-    
+
   private:
 
     //
@@ -90,7 +95,7 @@ namespace mesmer
     //
     // NR LU methods for linear equation solving.
     //
-    void ludcmp(T **a,  int n, int *indx, T d) ;
+    int ludcmp(T **a,  int n, int *indx) ;
     void lubksb(T **a,  int n, int *indx, T* b) ;
 
     //
@@ -333,40 +338,52 @@ label_1: return(p);
   //
   // NR LU methods for linear equation solving.
   //
+  /**************************************************************
+  * Given an N x N matrix A, this routine replaces it by the LU *
+  * decomposition of a rowwise permutation of itself. A and N   *
+  * are input. INDX is an output vector which records the row   *
+  * permutation effected by the partial pivoting; D is output   *
+  * as -1 or 1, depending on whether the number of row inter-   *
+  * changes was even or odd, respectively. This routine is used *
+  * in combination with LUBKSB to solve linear equations or to  *
+  * invert a matrix. Return code is 1, if matrix is singular.   *
+  **************************************************************/
   template<class T>
-  void TMatrix<T>::ludcmp(T **a,  int n, int *indx, T d) {
+  int TMatrix<T>::ludcmp(T **a,  int n, int *indx) {
 
-    const T TINY = 1.0e-20 ;
-    int i, imax, j, k ;
+    int imax;
+
     T big, dum, sum, temp ;
+    T tiny = numeric_limits<T>::epsilon();
 
     T *work = new T[n] ;
-    d = 1.0 ;
-    for (i = 1; i < n ; ++i) {
+
+    for (int i(0); i < n ; ++i) {
       big = 0.0 ;
-      for (j = 0; j < n ; ++j) {
-        if ((temp = abs(a[i][j])) > big)
+      for (int j(0); j < n ; ++j) {
+        if ((temp = abs(a[i][j])) > big){
           big = temp ;
+        }
       }
       if (big == 0.0) {
-        fprintf(stderr, "Singular Matrix in routine ludcmp");
-        exit(0) ;
+        cerr << "Singular Matrix in routine ludcmp";
+        return 1;
       }
       work[i] = 1.0/big ;
     }
 
-    for (j = 0; j < n ; ++j) {
-      for (i = 0; i < j ; ++i) {
+    for (int j(0); j < n ; ++j) {
+      for (int i(0); i < j ; ++i) {
         sum = a[i][j] ;
-        for (k = 0; k < i ; ++k)
+        for (int k(0); k < i ; ++k){
           sum -= a[i][k]*a[k][j] ;
-
+        }
         a[i][j] = sum ;
       }
       big = 0.0 ;
-      for (i = j; i < n; ++i) {
+      for (int i(j); i < n; ++i) {
         sum = a[i][j] ;
-        for (k = 0; k < j ; ++k)
+        for (int k(0); k < j ; ++k)
           sum -= a[i][k]*a[k][j] ;
 
         a[i][j] = sum ;
@@ -377,55 +394,114 @@ label_1: return(p);
         }
       }
       if (j != imax) {
-        for (k = 0; k < n; ++k) {
+        for (int k(0); k < n; ++k) {
           dum = a[imax][k] ;
           a[imax][k] = a[j][k] ;
           a[j][k] = dum ;
         }
-        d = -d ;
+
         work[imax] = work[j] ;
       }
       indx[j] = imax ;
-      if (a[i][j] == 0.0)
-        a[j][i] = TINY ;
+      if (abs(a[j][j]) < tiny){
+        a[j][j] = tiny;
+      }
 
       if (j != n-1) {
-        dum = 1.0/(a[j][i]) ;
-        for (i = j+1; i < n; ++i)
-          a[i][j] = dum ;
+        dum = 1.0/(a[j][j]) ;
+        for (int i(j+1); i < n; ++i)
+          a[i][j] *= dum ;
       }
 
     }
 
     delete [] work ;
-
+    return 0;
   }
 
+  /*****************************************************************
+  * Solves the set of N linear equations A . X = B.  Here A is     *
+  * input, not as the matrix A but rather as its LU decomposition, *
+  * determined by the routine LUDCMP. INDX is input as the permuta-*
+  * tion vector returned by LUDCMP. B is input as the right-hand   *
+  * side vector B, and returns with the solution vector X. A, N and*
+  * INDX are not modified by this routine and can be used for suc- *
+  * cessive calls with different right-hand sides. This routine is *
+  * also efficient for plain matrix inversion.                     *
+  *****************************************************************/
   template<class T>
   void TMatrix<T>::lubksb(T **a,  int n, int *indx, T* b) {
 
-    int i, ii = 0, ip, j ;
+    int ii = 0, ip;
     T sum ;
 
-    for (i = 0; i < n; ++i) {
+    for (int i(0); i < n; ++i) {
       ip = indx[i] ;
       sum = b[ip] ;
       b[ip] = b[i] ;
-      if (ii != 0) {
-        for (j = ii-1; j < i; ++j)
+      if (ii >= 0) {
+        for (int j(ii); j < i; ++j)
           sum -= a[i][j]*b[j] ;
-      } else {
-        if (sum != 0.0)
-          ii = i+1 ;
-        b[i] = sum ;
       }
+      else if (sum != 0.0){
+        ii = i ;
+      }
+      b[i] = sum ;
     }
-    for (i = n-1; i >= 0; i--) {
+    for (int i(n-1); i >= 0; --i) {
+
       sum = b[i] ;
-      for (j=i+1; j < n; ++j)
-        sum -= a[i][j]*b[j] ;
-      b[i] = sum/a[i][j] ;
+      if (i < n-1){
+        for (int j(i+1); j < n; ++j)
+          sum -= a[i][j]*b[j] ;
+
+      }
+      b[i] = sum/a[i][i] ;
     }
+  }
+
+  template<class T>
+  int TMatrix<T>::invertLUdecomposition(){
+    int size = static_cast<int>(this->size()) ;
+
+    //  Allocate memory for work array
+    int *indx = new int[size] ;
+
+    Matrix<T> invM(size); // an identity matrix as a primer for the inverse
+    for (int i(0); i < size; ++i){
+      for (int j(0); j < size; ++j){
+        invM[i][j] = 0.0;
+      }
+      invM[i][i] = 1.0;
+    }
+
+    int rc = ludcmp(this->m_matrix, size, indx) ;
+
+    ctest << "After ludcmp:";
+    this->showFinalBits(size, true);
+    //call solver if previous return code is ok
+    //to obtain inverse of A one column at a time
+    if (rc == 0) {
+      T *temp = new T[size] ;
+      for (int j(0); j < size; ++j) {
+        for (int i(0); i < size; ++i) temp[i] = invM[i][j];
+        lubksb(this->m_matrix, size, indx, temp);
+        for (int i(0); i < size; ++i) invM[i][j] = temp[i];
+      }
+      for (int j(0); j < size; ++j) {
+        for (int i(0); i < size; ++i){
+          this->m_matrix[i][j] = invM[i][j];
+        }
+      }
+      delete [] temp;
+      delete [] indx ;
+      return 0;
+    }
+    else{
+      delete [] indx;
+      return 1;
+    }
+
   }
 
   template<class T>
@@ -516,7 +592,7 @@ label_1: return(p);
 
     return 0;
   }
-  
+
   template<class T>
   int TMatrix<T>::invertAdjointCofactors(){
     // get the determinant of m_matrix

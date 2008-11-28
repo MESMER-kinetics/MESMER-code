@@ -16,7 +16,7 @@ set starttime=%time%
 :: C:\MESMER_PATH\MesmerQA>QA -o
 
 :: string begins with a period needs to be quoted
-SET directive=-q
+SET directive=
 SET otfn=mesmer.test
 SET executable="../../Windows VC8/Mesmer/Mesmer.exe"
 SET tfn=mesmer.test
@@ -25,8 +25,18 @@ SET bline=baselines/Win32/
 
 :: This compares the "double quote" altogether with the content
 IF "%1"=="" (
-SET directive=
+SET directive=-q
 SET otfn=test.test
+echo -------------------------------------------------------------------------------------------------------------
+echo User QA check mode: output will copy to test.test in the baselines folder. Use your own "diff" program to 
+echo check changes between test.test and mesmer.test in baseline folders. Please ensure the original files in 
+echo the baseline folders were not previously modified by user.
+echo -------------------------------------------------------------------------------------------------------------
+) ELSE (
+echo -------------------------------------------------------------------------------------------------------------
+echo Developer QA check mode: output will overwrite the baselines. Use "SVN check for modifications" to check
+echo the changes compared with the baselines.
+echo -------------------------------------------------------------------------------------------------------------
 )
 
 cd pentyl

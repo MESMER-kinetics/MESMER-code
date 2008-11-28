@@ -38,8 +38,8 @@ No population was assigned, and there is no source term.
 Initialize a Boltzmann distribution in the first isomer.
 
 In total, 1 temperature/concentration-pressure points calculated.
-In main Finish Calculation -- Time elapsed: 8 seconds.
- -- Total time elapsed: 10 seconds.
+In main Finish Calculation -- Time elapsed: 15 seconds.
+ -- Total time elapsed: 19 seconds.
 
 System saved
 m_Mass is provided but not used in n-pentyl=TS=2-pentyl

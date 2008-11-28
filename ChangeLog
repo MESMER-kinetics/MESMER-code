@@ -1,3 +1,10 @@
+_2008_11_28__12_56_33_ Chi-Hsiu Liang
+
+  * Further modified QA.bat to make it clearer to users and developers. Corrected a small problem.
+  * Minor modifications on timeEvolution(). Make sure the integration of species profile not to give negative values for isomers.
+  * Introduced one more inversion methods in TMatrix.h uses LU decomposition: invertLUdecomposition()
+  * Updated manual
+
 _2008_11_27__15_32_52_ Chi-Hsiu Liang
 
   * Modified QA.bat so that it issues -q flag when normal "qa" command is requested; copies mesmet.test into the baseline
