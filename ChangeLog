@@ -1,3 +1,7 @@
+_2008_12_01__16_51_58_ Chi-Hsiu Liang
+
+  * Revert Mesmer manual to 253 and reapply changes.
+
 _2008_12_01__11_25_49_ Chi-Hsiu Liang
 
   * Corrected an initialization order error in ModelledMolecule.
