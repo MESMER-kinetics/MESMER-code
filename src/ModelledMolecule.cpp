@@ -22,7 +22,6 @@ namespace mesmer
     m_RotCstC(0.0),
     m_Sym(1.0),
     m_ZPE(0.0),
-    m_EnergyConvention("arbitary"),
     m_scaleFactor(1.0),
     m_SpinMultiplicity(1),
     m_initPopulation(0.0),
@@ -35,6 +34,7 @@ namespace mesmer
     m_scaleFactor_chk(-1),
     m_SpinMultiplicity_chk(-1),
     m_VibFreq_chk(-1),
+    m_EnergyConvention("arbitary"),
     m_eleExc(),
     m_VibFreq(),
     m_cellDOS(),
@@ -92,7 +92,7 @@ namespace mesmer
     txt= ppPropList->XmlReadProperty("me:vibFreqs");
     if(!txt){
       hasVibFreq = false;
-      cinfo << "Cannot find argument me:vibFreqs. Maybe an atom or atomic ion." << endl;
+      cinfo << "Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion." << endl;
       m_VibFreq_chk = -1;
       //setFlag(true); // it maybe an atom so not necessary to set this flag. Just produce warning.
     }
@@ -101,7 +101,7 @@ namespace mesmer
     txt= ppPropList->XmlReadProperty("me:rotConsts");
     if(!txt){
       hasRotConst = false;
-      cinfo << "Cannot find argument me:rotConsts. Maybe an atom or atomic ion." << endl;
+      cinfo << "Cannot find argument me:rotConsts. Assumes that it is an atom or atomic ion." << endl;
       m_RC_chk = -1;
       //setFlag(true); // it maybe an atom so not necessary to set this flag. Just produce warning.
     }
@@ -129,7 +129,7 @@ namespace mesmer
 
     txt= ppPropList->XmlReadProperty("me:eletronicExcitation");
     if(!txt){
-      cinfo << "Cannot find argument me:eletronicExcitation" << endl;
+      cinfo << "Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule." << endl;
     }
     else {
       istringstream idata(txt); double _iele = 0.; m_eleExc.clear();
@@ -146,7 +146,7 @@ namespace mesmer
 
     txt = ppPropList->XmlReadProperty("me:ZPE");
     if(!txt){
-      cinfo << "Cannot find argument me:ZPE" << endl;
+      cinfo << "Cannot find argument me:ZPE. Assumes me:ZPE = 0.0." << endl;
       m_ZPE_chk = -1;
     }
     else {
@@ -190,7 +190,7 @@ namespace mesmer
     // this value is not usually necessary. The default value is 1.0 and it is usually the case.
     txt= ppPropList->XmlReadProperty("me:frequenciesScaleFactor");
     if(!txt){
-      cinfo << "Cannot find argument me:frequenciesScaleFactor" << endl;
+      cinfo << "Cannot find argument me:frequenciesScaleFactor. Assumes me:frequenciesScaleFactor = 1.0." << endl;
       m_scaleFactor_chk = -1;
     }
     else { istringstream idata(txt); idata >> m_scaleFactor ; m_scaleFactor_chk = 0;}
@@ -217,7 +217,7 @@ namespace mesmer
 
     txt= ppPropList->XmlReadProperty("me:spinMultiplicity");
     if(!txt){
-      cinfo << "Cannot find argument me:spinMultiplicity. " 
+      cinfo << "Cannot find argument me:spinMultiplicity. Assumes me:spinMultiplicity = 1." 
             << "Default value "<< m_SpinMultiplicity << " is used." << endl;
     }
     else
@@ -273,6 +273,8 @@ namespace mesmer
       cerr << "Error(s) while initializing ";
       return false;
     }
+
+    meErrorLog.SetContext("");
 
     return true;
   }

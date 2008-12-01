@@ -597,7 +597,7 @@ label_1: return(p);
   int TMatrix<T>::invertAdjointCofactors(){
     // get the determinant of m_matrix
     int order = static_cast<int>(this->size()) ;
-    T det = 1.0/CalcDeterminant(m_matrix,order);
+    T det = 1.0/CalcDeterminant(this->m_matrix,order);
     Matrix<T> Y(order);
 
     // memory allocation
@@ -609,7 +609,7 @@ label_1: return(p);
     for(int j=0;j<order;++j){
       for(int i=0;i<order;++i){
         // get the co-factor (matrix) of m_matrix(j,i)
-        GetMinor(m_matrix,minor,j,i,order);
+        GetMinor(this->m_matrix,minor,j,i,order);
         Y[i][j] = det*CalcDeterminant(minor,order-1);
         if( (i+j)%2 == 1)
           Y[i][j] = -Y[i][j];
@@ -618,7 +618,7 @@ label_1: return(p);
 
     for(int j=0;j<order;++j){
       for(int i=0;i<order;++i){
-        m_matrix[i][j] = Y[i][j];
+        this->m_matrix[i][j] = Y[i][j];
       }
     }
 

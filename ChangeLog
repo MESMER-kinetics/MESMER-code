@@ -1,3 +1,9 @@
+_2008_12_01__11_25_49_ Chi-Hsiu Liang
+
+  * Corrected an initialization order error in ModelledMolecule.
+  * RRKM method checks the existence of transition state.
+  * Corrected a compiler error for Linux system in TMatrix.h
+
 _2008_11_28__12_56_33_ Chi-Hsiu Liang
 
   * Further modified QA.bat to make it clearer to users and developers. Corrected a small problem.

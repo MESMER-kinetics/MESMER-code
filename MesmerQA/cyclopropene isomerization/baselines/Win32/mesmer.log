@@ -2,28 +2,28 @@
 Parsing input xml file...
 Cyclopropene_isomerization_test.xml
 In allene Parsing reaction...
-Cannot find argument me:eletronicExcitation
-In allene Cannot find argument me:spinMultiplicity. Default value 1 is used.
-In allene No method for the calculation of distribution fraction in allene is provided. Default method <Boltzmann> is used.
-In cyclopropene Cannot find argument me:eletronicExcitation
-In cyclopropene Cannot find argument me:spinMultiplicity. Default value 1 is used.
-In cyclopropene No method for the calculation of distribution fraction in cyclopropene is provided. Default method <Boltzmann> is used.
-In cyclopropene The me:tunneling element or attribute was missing or empty.
-In cyclopropene No tunneling method was found for R1
-In TS1 Cannot find argument me:eletronicExcitation
-In propyne No imaginary vibrational frequency for TS1.
-Parsing reaction...
-Cannot find argument me:eletronicExcitation
-In propyne No method for the calculation of distribution fraction in propyne is provided. Default method <Boltzmann> is used.
-In propyne The me:tunneling element or attribute was missing or empty.
-In propyne No tunneling method was found for R2
-In TS3 Cannot find argument me:eletronicExcitation
-In TS3 No imaginary vibrational frequency for TS3.
+Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
+In allene Cannot find argument me:spinMultiplicity. Assumes me:spinMultiplicity = 1.Default value 1 is used.
+No method for the calculation of distribution fraction in allene is provided. Default method <Boltzmann> is used.
+In cyclopropene Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
+In cyclopropene Cannot find argument me:spinMultiplicity. Assumes me:spinMultiplicity = 1.Default value 1 is used.
+No method for the calculation of distribution fraction in cyclopropene is provided. Default method <Boltzmann> is used.
+In TS1 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
+No imaginary vibrational frequency for TS1.
+The me:tunneling element or attribute was missing or empty.
+No tunneling method was found for R1
+In propyne Parsing reaction...
+Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
+No method for the calculation of distribution fraction in propyne is provided. Default method <Boltzmann> is used.
+In TS3 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
+No imaginary vibrational frequency for TS3.
+The me:tunneling element or attribute was missing or empty.
+No tunneling method was found for R2
 All molecules are on the same energy basis: arbitary
-In TS3 The description element or attribute was missing or empty.
-In TS3 The me:precision element or attribute was missing or empty.
-In TS3 The me:precision element or attribute was missing or empty.
-In TS3 The me:MaximumEvolutionTime element or attribute was missing or empty.
+The description element or attribute was missing or empty.
+The me:precision element or attribute was missing or empty.
+The me:precision element or attribute was missing or empty.
+The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "Cyclopropene_isomerization_test.xml" successfully parsed.
 Calculate EGME
@@ -158,8 +158,8 @@ m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 
 Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 
 In total, 2 temperature/concentration-pressure points calculated.
-In main Finish Calculation -- Time elapsed: 115 seconds.
- -- Total time elapsed: 241 seconds.
+In main Finish Calculation -- Time elapsed: 62 seconds.
+ -- Total time elapsed: 121 seconds.
 
 System saved
 m_Mass is provided but not used in TS1

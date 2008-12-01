@@ -375,9 +375,21 @@ namespace mesmer
       }
     }
 
+    // Read the transition state (if present)
+    PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState") ;
+    if (ppTransitionState)
+    {
+      TransitionState* pTrans = dynamic_cast<TransitionState*>(GetMolRef(ppTransitionState,"transitionState"));
+      if(pTrans) m_TransitionState = pTrans;
+    }
+
     //---------------------------------------------------------
     // Microcanonical rate constants methods dependent section.
     if (m_pMicroRateCalculator->getName() == "Mesmer ILT"){
+      if (ppTransitionState){
+        cerr << "Reaction " << getName() << " uses ILT method, which should not have transition state.";
+        return false;
+      }
       cinfo << "ILT method chosen, look for ILT expressions" << endl;
       if (!ReadILTParameters(ppReac)) return false;
       const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
@@ -388,6 +400,10 @@ namespace mesmer
       }
     }
     if (m_pMicroRateCalculator->getName() == "Simple RRKM"){
+      if (!ppTransitionState){
+        cerr << "Reaction " << getName() << " uses RRKM method, which should have transition state.";
+        return false;
+      }
       // Determine the method of estimating tunneling effect.
       const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
       if(pTunnelingtxt)
@@ -411,19 +427,6 @@ namespace mesmer
     if (!isUnimolecular()){
       cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;
       if (!ReadExcessReactantConcentration(ppReac)) return false;
-    }
-
-    // Read the transition state (if present)
-    PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState") ;
-    if (ppTransitionState)
-    {
-      TransitionState* pTrans = dynamic_cast<TransitionState*>(GetMolRef(ppTransitionState,"transitionState"));
-      if(pTrans) m_TransitionState = pTrans;
-
-      if (pTrans && m_pMicroRateCalculator->getName() == "Mesmer ILT"){
-        cerr << "Reaction " << getName() << " uses ILT method, which should not have transition state.";
-        return false;
-      }
     }
 
     return true ;
