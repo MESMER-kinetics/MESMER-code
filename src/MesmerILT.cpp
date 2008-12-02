@@ -45,12 +45,12 @@ namespace mesmer
   bool MesmerILT::calculateMicroRateCoeffs(Reaction* pReact)
   {
     // Check to see what type of reaction we have
-    if (pReact->isUnimolecular()){      // if it's unimolecular and there microrate calculation is unsuccessful
-      if(!calculateUnimolecularMicroRates(pReact))  // return false
+    if (pReact->isUnimolecular()){                  // if it's unimolecular 
+      if(!calculateUnimolecularMicroRates(pReact))  // and the microrate calculation is unsuccessful return false
         return false;
     }
-    else if(!pReact->isUnimolecular()){ // if it's not unimolecular and the microrate calculation is unsuccesful
-      if(!calculateAssociationMicroRates(pReact))  // return false
+    else if(!pReact->isUnimolecular()){            // if it's not unimolecular
+      if(!calculateAssociationMicroRates(pReact))  // and the microrate calculation is unsuccessful return false
         return false;
     }
     return true;
