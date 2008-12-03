@@ -1,3 +1,7 @@
+_2008_12_03__12_16_02_ Chi-Hsiu Liang
+
+  * Corrected a forgotten plugin class object compilation in Makefile
+
 2008-12-2 David Glowacki
 
    * Updated some comments in the code

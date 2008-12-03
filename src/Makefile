@@ -97,6 +97,7 @@ all: ${OUTPUT}
 SRCS := \
   AssociationReaction.cpp \
   BathGasMolecule.cpp \
+  BoltzmannDistribution.cpp \
   ClassicalRotor.cpp \
   CollidingMolecule.cpp \
   DensityOfStates.cpp \
