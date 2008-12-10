@@ -1,3 +1,7 @@
+_2008_12_10__11_41_02_ Chi-Hsiu Liang
+
+  * Updated Manaul: Firefox usage, compression of release, deltaEdown syntax, etc.
+
 _2008_12_03__12_16_02_ Chi-Hsiu Liang
 
   * Corrected a forgotten plugin class object compilation in Makefile
