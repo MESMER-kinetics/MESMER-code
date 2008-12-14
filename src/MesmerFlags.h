@@ -1,13 +1,16 @@
 #ifndef GUARD_MesmerFlags_h
 #define GUARD_MesmerFlags_h
 
+#include <string>
+#include <sstream>
+
 namespace mesmer
 {
   struct MesmerFlags
   {
     MesmerFlags();
     // whether do the fitting or grid search
-    int    searchMethod; // 0 for single calculation, 1 for grid search, 2 for fitting, and more...?
+    int    searchMethod; // 0 for single calculation, 1 for grid search, 2 for fitting, and 3 for grid search with punch...?
 
     // decide what to report
     bool   testDOSEnabled;                // Whether to output test of DOS to mesmer.test
@@ -18,12 +21,12 @@ namespace mesmer
     bool   cyclePrintGrainDOS;            // Controls the print-out of grain DOS in each cycle (This is only for source term)
     bool   cellDOSEnabled;                // Enabled printing cell DOS
     bool   cyclePrintCellDOS;             // Controls the print-out of cell DOS in each cycle (This is only for source term)
-    bool   reactionOCSEnabled;           // Enabled printing collision operator column Sums
+    bool   reactionOCSEnabled;            // Enabled printing collision operator column Sums
     bool   kfEGrainsEnabled;              // Enabled printing k_f(E) grains
     bool   kbEGrainsEnabled;              // Enabled printing k_b(E) grains
     bool   TunnellingCoeffEnabled;        // Enabled printing Tunneling coefficients
-    bool   cellFluxEnabled;             // Enabled printing transition state flux
-    bool   grainFluxEnabled;            // Enabled printing transition state flux
+    bool   cellFluxEnabled;               // Enabled printing transition state flux
+    bool   grainFluxEnabled;              // Enabled printing transition state flux
     bool   rateCoefficientsOnly;          // Calculate rate coefficients only without doing collision operators
     bool   useTheSameCellNumber;          // Option to use the same cell number or not in various conditions
     bool   grainedProfileEnabled;         // Option to print out grained species profile (before summation to individual species)
@@ -36,6 +39,9 @@ namespace mesmer
                                           // by positive integers.
     bool allowSmallerDEDown;              // decide whether allows <delta E>d to be smaller than grain size.
     bool print_TabbedMatrices;            // print tabbed instead of fixed-widthed matrices.
+    std::string punchSymbols;                   // a string holds the symbols of rates.
+    std::string punchNumbers;
+    std::string punchFileName;
   };
 }//namespace
 

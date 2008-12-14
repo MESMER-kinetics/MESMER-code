@@ -26,7 +26,10 @@ namespace mesmer{
     printEigenValuesNum(-1),
     printReactionOperatorNum(0),
     allowSmallerDEDown(false),
-    print_TabbedMatrices(true)
-  {}
+    print_TabbedMatrices(true),
+    punchSymbols(),
+    punchNumbers(),
+    punchFileName()
+    {}
 }//namespace
 

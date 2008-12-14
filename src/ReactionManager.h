@@ -59,14 +59,14 @@ namespace mesmer
     void diagCollisionOperator(const MesmerFlags &mFlags, const int precision) ;
 
     // Calculate the time evolution of the system
-    bool timeEvolution(const MesmerFlags mFlags);
+    bool timeEvolution(MesmerFlags& mFlags);
 
     // Set Initial population for individual species
     void setInitialPopulation(PersistPtr);
 
     bool calculateEquilibriumFractions(const double beta);
 
-    bool BartisWidomPhenomenologicalRates(dMatrix& rates);
+    bool BartisWidomPhenomenologicalRates(dMatrix& rates, MesmerFlags& mFlags);
 
     double calcChiSquare(const dMatrix& mesmerRates, vector<conditionSet>& expRates);
 
@@ -95,6 +95,8 @@ namespace mesmer
 
     double m_meanOmega;
 
+    bool punchSymbolGathered;
+    
     // Extract molecule information from XML stream.
     bool GetMoleculeInfo(PersistPtr pp, std::string& MolName, std::string& MolType) ;
 

@@ -172,7 +172,7 @@ namespace mesmer
     qd_real DissRateCoeff(0.0) ;
 
     const int colloptrsize = m_pdt1->get_colloptrsize();
-    const int forwardThreshE = get_EffGrnFwdThreshold();
+    //const int forwardThreshE = get_EffGrnFwdThreshold();
     const int reverseThreshE = get_EffGrnRvsThreshold();
     const int fluxStartIdx = get_fluxFirstNonZeroIdx();
 

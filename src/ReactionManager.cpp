@@ -26,7 +26,8 @@ namespace mesmer
     m_sinkRxns(),
     m_initialPopulations(),
     m_SpeciesSequence(),
-    m_meanOmega(0.0)
+    m_meanOmega(0.0),
+    punchSymbolGathered(false)
   {};
 
   //
@@ -99,7 +100,7 @@ namespace mesmer
         return false ;
       }
 
-      // The information of the products of a dissociation reaction is necessary, as in 
+      // The information of the products of a dissociation reaction is necessary, as in
       // the xml output, Mesmer needs to know the products to draw the potential energy
       // surface. In addition, for dissociation reaction with QM tunneling, Mesmer also
       // needs to know the barrier height on the products side.
@@ -215,12 +216,12 @@ namespace mesmer
       }
 
       //
-      // For Association reactions determine zero point energy location of the 
+      // For Association reactions determine zero point energy location of the
       // associating pair.
       //
       AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
       if (pReaction) {
-        double zpe = (pReaction->get_pseudoIsomer())->get_zpe() 
+        double zpe = (pReaction->get_pseudoIsomer())->get_zpe()
           + (pReaction->get_excessReactant())->get_zpe() ;
         minEnergy = min(minEnergy, zpe) ;
         maxEnergy = max(maxEnergy, zpe) ;
@@ -281,9 +282,9 @@ namespace mesmer
         AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
         if (pReaction) {  // if the reaction is an association reaction
           ModelledMolecule *pPseudoIsomer = pReaction->get_pseudoIsomer();
-          if (pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){ // reaction includes 
+          if (pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){ // reaction includes
             double population = m_initialPopulations[pPseudoIsomer->getName()];   // a new pseudoisomer
-            if (population){                                                      
+            if (population){
               populationSum += population;
               pPseudoIsomer->setInitPopulation(population);
             }
@@ -299,16 +300,16 @@ namespace mesmer
             pReaction->putSourceMap(&m_sources);                                    // pseudoisomer that
           }                                                                         // is already in the map
         }
-        else if(IREreaction){       // if the reaction is an irreversible exchange reaction                                                
-          ModelledMolecule *pPseudoIsomer = IREreaction->get_pseudoIsomer();        
+        else if(IREreaction){       // if the reaction is an irreversible exchange reaction
+          ModelledMolecule *pPseudoIsomer = IREreaction->get_pseudoIsomer();
           if(pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){    // reaction includes a new
             m_sources[pPseudoIsomer] = msize ;                                      // pseudoisomer
             IREreaction->putSourceMap(&m_sources);
             ++msize;
           }
-          else if(pPseudoIsomer && m_sources.find(pPseudoIsomer)!=m_sources.end()){ // reaction includes a 
-            IREreaction->putSourceMap(&m_sources);                                  // pseudoisomer that is 
-          }                                                                         // already in the map  
+          else if(pPseudoIsomer && m_sources.find(pPseudoIsomer)!=m_sources.end()){ // reaction includes a
+            IREreaction->putSourceMap(&m_sources);                                  // pseudoisomer that is
+          }                                                                         // already in the map
         }
       }
 
@@ -510,7 +511,7 @@ namespace mesmer
       double Keq(0.0);
 
       //only need eq fracs for species in isom & assoc rxns
-      if (m_reactions[i]->isEquilibratingReaction(Keq, &rct, &pdt)){ 
+      if (m_reactions[i]->isEquilibratingReaction(Keq, &rct, &pdt)){
 
         int ploc, rloc ;
 
@@ -663,7 +664,7 @@ namespace mesmer
   }
 
   //
-  // The vector produced by this function contains the sqrt of 
+  // The vector produced by this function contains the sqrt of
   // the normalized equilibrium distribution.
   //
   bool ReactionManager::produceEquilibriumVector()
@@ -695,7 +696,7 @@ namespace mesmer
     return true;
   }
 
-  bool ReactionManager::timeEvolution(const MesmerFlags mFlags)
+  bool ReactionManager::timeEvolution(MesmerFlags& mFlags)
   {
     int smsize = int(m_pReactionOperator->size());
 
@@ -715,7 +716,7 @@ namespace mesmer
       n_0[j] /= m_eqVector[j];
     }
 
-    // |n_0> is the initial populations of the grains for all species 
+    // |n_0> is the initial populations of the grains for all species
     // |n_t> = U exp(Lamda t) U^-1 |n_0>
     // |r_0> = U^-1 |n_0>
     vector<double> r_0(smsize, 0.);            // which holds the eigenvectors
@@ -886,7 +887,7 @@ namespace mesmer
         vector<double> KofEs;                             // vector to hold sink k(E)s
         Reaction* sinkReaction = pos->first;
         const int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant
-        vector<ModelledMolecule*> pdts;                               // in the sink reaction  
+        vector<ModelledMolecule*> pdts;                               // in the sink reaction
         sinkReaction->get_products(pdts);
         if(colloptrsize == 1){  // if the collision operator size is 1, there is one canonical loss rate coefficient
           KofEs.push_back(sinkReaction->get_fwdGrnCanonicalRate());
@@ -937,7 +938,7 @@ namespace mesmer
     return true;
   }
 
-  bool ReactionManager::BartisWidomPhenomenologicalRates(dMatrix& mesmerRates)
+  bool ReactionManager::BartisWidomPhenomenologicalRates(dMatrix& mesmerRates, MesmerFlags& mFlags)
   {
     const int smsize = int(m_pReactionOperator->size());
     dMatrix eigenVec(smsize);  //copy ReactionOperator, the eigenvector Matrix (== V)
@@ -1008,11 +1009,11 @@ namespace mesmer
         sm = assymEigenVec[location][nchemIdx+i];
         Z_matrix[position][i] = sm;
       }
-      if(m_sinkRxns.size()!=0) {     
+      if(m_sinkRxns.size()!=0) {
         for(sinkpos=m_sinkRxns.begin(); sinkpos!=m_sinkRxns.end(); ++sinkpos){ // calculate Y_matrix elements for sinks
           double sm = 0.0;
           vector<double> KofEs;                                         // vector to hold sink k(E)s
-          Reaction* sinkReaction = sinkpos->first;                 
+          Reaction* sinkReaction = sinkpos->first;
           const int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant
           if(colloptrsize == 1)  // if the collision operator size is 1, there is one canonical loss rate coefficient
             KofEs.push_back(sinkReaction->get_fwdGrnCanonicalRate());
@@ -1032,7 +1033,7 @@ namespace mesmer
     //    Y_matrix.print((int)(m_sinkRxns.size()), (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
 
     dMatrix Zinv(Z_matrix), Zidentity(nchem), Kr(nchem);
-    db2D Kp;                                  
+    db2D Kp;
 
     if(Zinv.invertGaussianJordan()){
       cerr << "Inversion of Z_matrix failed.  Matrix before inversion is: ";
@@ -1077,7 +1078,7 @@ namespace mesmer
           for(int k(0);k<nchem;++k){
             sm += Y_matrix[i][k] * Zinv[k][j];
           }
-          Kp[i][j] = sm; 
+          Kp[i][j] = sm;
         }
       }
       ctest << "\nKp matrix:" << endl;    // print out Kp_matrix
@@ -1087,11 +1088,20 @@ namespace mesmer
     ctest << "\nFirst order & pseudo first order rate coefficients for loss rxns:\n{\n";
     Reaction::sourceMap::iterator lossitr, rctitr, pdtitr;
 
+    stringstream puSymbols;
+    stringstream puNumbers;
     // print pseudo 1st order k loss for isomers
     for(lossitr=m_SpeciesSequence.begin(); lossitr!=m_SpeciesSequence.end(); ++lossitr){
       ModelledMolecule* iso = lossitr->first;
       int losspos = lossitr->second;
       ctest << iso->getName() << " loss = " << Kr[losspos][losspos] << endl;
+      if (mFlags.searchMethod == 3){
+        puNumbers << Kr[losspos][losspos] << "\t";
+        if (punchSymbolGathered == false){
+          puSymbols << iso->getName() << " loss\t";
+        }
+      }
+
     }
 
     ctest << "}\n";
@@ -1104,8 +1114,15 @@ namespace mesmer
       for (pdtitr=m_SpeciesSequence.begin(); pdtitr!=m_SpeciesSequence.end(); ++pdtitr){
         ModelledMolecule* pdt = pdtitr->first;
         int pdtpos = pdtitr->second;
-        if(rctpos != pdtpos)
+        if(rctpos != pdtpos){
           ctest << rct->getName() << " -> " << pdt->getName() << " = " << Kr[pdtpos][rctpos] << endl;
+          if (mFlags.searchMethod == 3){
+            puNumbers << Kr[pdtpos][rctpos] << "\t";
+            if (punchSymbolGathered == false){
+              puSymbols << rct->getName() << " -> " << pdt->getName() << "\t";
+            }
+          }
+        }
       }
     }
     ctest << "}\n";
@@ -1118,24 +1135,49 @@ namespace mesmer
         Reaction* sinkReaction = sinkitr->first;          // get Irreversible Rxn
         int colloptrsize = sinkReaction->getRctColloptrsize();
         int sinkpos = m_SinkSequence[sinkReaction];                   // get products & their position
-        vector<ModelledMolecule*> pdts;                                 
+        vector<ModelledMolecule*> pdts;
         sinkReaction->get_products(pdts);
         for(rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
           ModelledMolecule* rcts = rctitr->first;     // get reactants & their position
           int rctpos = rctitr->second;
-          if(colloptrsize==1)
+          if(colloptrsize==1){
             ctest << rcts->getName() << " -> "  << pdts[0]->getName() << "(bim) = " << Kp[sinkpos][rctpos] << endl;
-          else
+            if (mFlags.searchMethod == 3){
+              puNumbers << Kp[sinkpos][rctpos] << "\t";
+              if (punchSymbolGathered == false){
+                puSymbols << rcts->getName() << " -> " << pdts[0]->getName() << "(bim)\t";
+              }
+            }
+          }
+          else{
             ctest << rcts->getName() << " -> "  << pdts[0]->getName() << " = " << Kp[sinkpos][rctpos] << endl;
+            if (mFlags.searchMethod == 3){
+              puNumbers << Kp[sinkpos][rctpos] << "\t";
+              if (punchSymbolGathered == false){
+                puSymbols << rcts->getName() << " -> " << pdts[0]->getName() << "\t";
+              }
+            }
+          }
         }
       }
       ctest << "}\n\n";
     }
 
+    if (puSymbols.str().size()) {
+      puSymbols << "\n";
+      mFlags.punchSymbols = puSymbols.str();
+      punchSymbolGathered = true;
+    }
+
+    if (puNumbers.str().size()) {
+      puNumbers << "\n";
+      mFlags.punchNumbers = puNumbers.str();
+    }
+
     mesmerRates = Kr;
     return true;
   }
-  
+
   // Set Initial population for individual species
   void ReactionManager::setInitialPopulation(PersistPtr anchor)
   {

@@ -21,7 +21,7 @@ int main(int argc,char *argv[])
   }
 
   // process command line arguments
-  string infilename, outfilename, testfilename, logfilename;
+  string infilename, outfilename, testfilename, logfilename, punchfilename;
   bool nocalc=false, notimestamp=false, usecout=false, updatemols=true, qatest=false, nologging=false, changetestname=false;
 
   for(int iarg=1; iarg<argc;++iarg)
@@ -82,12 +82,15 @@ int main(int argc,char *argv[])
       if (changetestname){
         string testSuffix(".test");
         string logSuffix(".log");
+        string punchSuffix(".punch");
         testfilename = duplicateFileName(infilename, testSuffix);
         logfilename = duplicateFileName(infilename, logSuffix);
+        punchfilename = duplicateFileName(infilename, punchSuffix);
       }
       else{ // default test and log names
         testfilename = "mesmer.test";
         logfilename = "mesmer.log";
+        punchfilename = "mesmer.punch";
       }
     }
   }
@@ -120,6 +123,7 @@ int main(int argc,char *argv[])
   // about reaction systems and all molecular data.
   //
   System _sys ;
+  _sys.m_Flags.punchFileName = punchfilename;
 
   TimeCount events; unsigned int timeElapsed;
 
@@ -178,6 +182,9 @@ int main(int argc,char *argv[])
       _sys.fitting() ;
       break;
     case 1:
+      _sys.gridSearch();
+      break;
+    case 3: // with punch exported
       _sys.gridSearch();
       break;
     default:
@@ -293,7 +300,7 @@ bool QACompare(string infilename)
   ifstream QAfile(infilename.c_str());
   ifstream CurrentTest("mesmer.test");
   if(!QAfile || !CurrentTest)
-  {  
+  {
     cerr << "Cannot open " << infilename << " or current mesmer.test" << endl;
     return false;
   }
@@ -301,16 +308,16 @@ bool QACompare(string infilename)
   return std::equal(
     istreambuf_iterator(QAfile),
     istreambuf_iterator(),
-    istreambuf_iterator(CurrentTest)); 
+    istreambuf_iterator(CurrentTest));
   // return true even if there are extra characters at the end of outstream
   //but that doesn't matter here.
 }
 
 /*
 Mesmer outputs:
-                        Source                           Destination  
+                        Source                           Destination
 --------------------------------------------------------------------------------------
-Main output       Functions in IPersist                Decided by -o option  
+Main output       Functions in IPersist                Decided by -o option
                   like XmlWriteElement                 Usually file,or cout for piping
 
 Error messages    cerr <<...    or                     Console unless -w0
@@ -328,7 +335,7 @@ Temporary debug   cout <<...                           File when redirected
                   Use for bulky                        from commandline with >
                   debug output                         (Otherwise console)
 
-Temporary debug   clog <<...                           Console                    
+Temporary debug   clog <<...                           Console
                   Use for short debug output
 
 

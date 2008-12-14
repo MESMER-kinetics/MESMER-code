@@ -9,6 +9,7 @@
 //
 //-------------------------------------------------------------------------------------------
 #include "System.h"
+#include <fstream>
 
 using namespace std ;
 using namespace Constants ;
@@ -81,7 +82,7 @@ namespace mesmer
       if(pmmol->getEnergyConvention() != pfirstmol->getEnergyConvention()) {
         cerr << "Not all the molecule energies use the same baseline.\n"
           + pfirstmol->getName() + " uses " + firstConvention + "; "
-          + id + " uses " + pmmol->getEnergyConvention() 
+          + id + " uses " + pmmol->getEnergyConvention()
           + ".\nThere may be others. Check all modelled molecules." << endl;
       return false;
       }
@@ -192,6 +193,7 @@ namespace mesmer
 
       if (ppControl->XmlReadBoolean("me:gridSearch")) m_Flags.searchMethod = 1;
       else if (ppControl->XmlReadBoolean("me:fitting")) m_Flags.searchMethod = 2;
+      else if (ppControl->XmlReadBoolean("me:gridSearchWithPunch")) m_Flags.searchMethod = 3;
       else m_Flags.searchMethod = 0;
 
       if (m_Flags.grainedProfileEnabled && (m_Flags.speciesProfileEnabled || m_Flags.searchMethod)){
@@ -318,8 +320,8 @@ namespace mesmer
     // produce a grid for search
     db2D gridArray; // this array grows up freely without needing dimensions
 
-    int totalSteps = 1;
-    for (size_t varID(0); varID < fitDP.size(); ++varID){
+    int totalSteps = 1, dataPointSize = int(fitDP.size());
+    for (int varID(0); varID < dataPointSize; ++varID){
       // for every dimension create a series and duplicate the serie while the indices going forward
       double lower(0.0), upper(0.0), stepsize(0.0);
       fitDP[varID].get_range(lower, upper, stepsize);
@@ -328,7 +330,7 @@ namespace mesmer
     }
 
     int spanSteps = 1;
-    for (int varID(0); varID < int(fitDP.size()); ++varID){
+    for (int varID(0); varID < dataPointSize; ++varID){
       double lower(0.0), upper(0.0), stepsize(0.0);
       fitDP[varID].get_range(lower, upper, stepsize);
       int numSteps = int((upper - lower) / stepsize) + 1;
@@ -350,20 +352,39 @@ namespace mesmer
     // TimeCount events; unsigned int timeElapsed;
     int calPoint(0);
 
+    ofstream punchStream(m_Flags.punchFileName.c_str());
+
     for (int i(0); i < totalSteps; ++i){
       double chiSquare(1000.0);
 
       // assign values
-      for (int varID(0); varID < int(fitDP.size()); ++varID) fitDP[varID] = gridArray[i][varID];
+      for (int varID(0); varID < dataPointSize; ++varID) fitDP[varID] = gridArray[i][varID];
 
       // calculate
       cerr << "Parameter Grid " << calPoint;
       ctest << "Parameter Grid " << calPoint << "\n{\n";
       calculate(chiSquare);
 
-      if (fitDP.size()){
+      if (dataPointSize){
         ctest << "Parameters: ( ";
-        for (int varID(0); varID < int(fitDP.size()); ++varID) ctest << gridArray[i][varID] << " ";
+        if (m_Flags.punchSymbols.size()){
+          for (int varID(0); varID < dataPointSize; ++varID){
+            punchStream << "Para" << varID << "\t";
+          }
+          punchStream << "Temperature (K)\tNumber density\t";
+          punchStream << m_Flags.punchSymbols;
+          m_Flags.punchSymbols.clear();
+        }
+        for (int varID(0); varID < dataPointSize; ++varID){
+          ctest << gridArray[i][varID] << " ";
+          punchStream << gridArray[i][varID] << "\t";
+        }
+        punchStream << m_Env.beta << "\t" << m_Env.conc << "\t";
+        punchStream << m_Flags.punchNumbers;
+        m_Flags.punchNumbers.clear();
+
+        punchStream.flush();
+
         ctest << "chiSquare = " << chiSquare << " )\n}\n";
       }
       ++calPoint;
@@ -450,7 +471,7 @@ namespace mesmer
       m_pReactionManager->timeEvolution(m_Flags);
 
       dMatrix mesmerRates(1);
-      m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates);
+      m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates, m_Flags);
 
       if (m_Flags.searchMethod){
         vector<conditionSet> expRates;
