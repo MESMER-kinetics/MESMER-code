@@ -75,6 +75,8 @@ namespace mesmer
 
     // level in XML file under <mesemer>
     PersistPtr m_ppIOPtr;
+
+    const char* m_pTitle;
   } ;
 }//namespace
 #endif // GUARD_System_h

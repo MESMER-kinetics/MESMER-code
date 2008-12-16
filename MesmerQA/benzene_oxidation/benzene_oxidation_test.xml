@@ -2,6 +2,7 @@
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+  <title>Benzene oxidation</title>
   <moleculeList>
     <molecule id="O_2" description="oxygen">
       <propertyList>

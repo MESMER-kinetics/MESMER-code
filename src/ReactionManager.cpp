@@ -334,8 +334,7 @@ namespace mesmer
         m_reactions[i]->AddReactionTerms(m_pReactionOperator,m_isomers,1.0/m_meanOmega) ;
       }
     }
-
-    return true;
+     return true;
   }
 
   void ReactionManager::printCollisionOperator(const MesmerFlags& mFlags)
@@ -938,7 +937,7 @@ namespace mesmer
     return true;
   }
 
-  bool ReactionManager::BartisWidomPhenomenologicalRates(dMatrix& mesmerRates, MesmerFlags& mFlags)
+  bool ReactionManager::BartisWidomPhenomenologicalRates(dMatrix& mesmerRates, MesmerFlags& mFlags, PersistPtr ppList)
   {
     const int smsize = int(m_pReactionOperator->size());
     dMatrix eigenVec(smsize);  //copy ReactionOperator, the eigenvector Matrix (== V)
@@ -1095,13 +1094,15 @@ namespace mesmer
       ModelledMolecule* iso = lossitr->first;
       int losspos = lossitr->second;
       ctest << iso->getName() << " loss = " << Kr[losspos][losspos] << endl;
+      PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", Kr[losspos][losspos]);
+      ppItem->XmlWriteAttribute("ref", iso->getName());
+      
       if (mFlags.searchMethod == 3){
         puNumbers << Kr[losspos][losspos] << "\t";
         if (punchSymbolGathered == false){
           puSymbols << iso->getName() << " loss\t";
         }
       }
-
     }
 
     ctest << "}\n";
@@ -1116,12 +1117,18 @@ namespace mesmer
         int pdtpos = pdtitr->second;
         if(rctpos != pdtpos){
           ctest << rct->getName() << " -> " << pdt->getName() << " = " << Kr[pdtpos][rctpos] << endl;
-          if (mFlags.searchMethod == 3){
+
+          PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", Kr[pdtpos][rctpos]);
+          ppItem->XmlWriteAttribute("fromRef", rct->getName());
+          ppItem->XmlWriteAttribute("toRef",   pdt->getName());
+          ppItem->XmlWriteAttribute("reactionType", "isomerization");
+        }
+
+        if (mFlags.searchMethod == 3){
             puNumbers << Kr[pdtpos][rctpos] << "\t";
             if (punchSymbolGathered == false){
               puSymbols << rct->getName() << " -> " << pdt->getName() << "\t";
             }
-          }
         }
       }
     }
@@ -1151,6 +1158,11 @@ namespace mesmer
           }
           else{
             ctest << rcts->getName() << " -> "  << pdts[0]->getName() << " = " << Kp[sinkpos][rctpos] << endl;
+
+            PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", Kp[sinkpos][rctpos]);
+            ppItem->XmlWriteAttribute("fromRef", rcts->getName());
+            ppItem->XmlWriteAttribute("toRef",   pdts[0]->getName());
+            ppItem->XmlWriteAttribute("reactionType", "irreversible");
             if (mFlags.searchMethod == 3){
               puNumbers << Kp[sinkpos][rctpos] << "\t";
               if (punchSymbolGathered == false){

@@ -1,3 +1,23 @@
+/*  Copyright (C) 2009 by
+    Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
+    Chris Morley, Michael J. Pilling and contributors
+    This file is part of 
+    Mesmer: Master Equation Solver for Multi-Energy well Reactions
+
+    Mesmer is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Mesmer is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser Public License for more details.
+
+    You should have received a copy of the GNU Lesser Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -117,8 +137,7 @@ int main(int argc,char *argv[])
   OStreamRedirector osr(&meErrorLog, &osout, nologging);
 
   //-------------------------------
-
-  //
+   //
   // Instantiate the System collection. This holds all information
   // about reaction systems and all molecular data.
   //

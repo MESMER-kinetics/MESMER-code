@@ -16,7 +16,7 @@ using namespace Constants ;
 
 namespace mesmer
 {
-  System::System(): m_pMoleculeManager(0), m_pReactionManager(0){
+  System::System(): m_pMoleculeManager(0), m_pReactionManager(0), m_pTitle(NULL){
     m_pMoleculeManager = new MoleculeManager() ;
     m_pReactionManager = new ReactionManager(m_pMoleculeManager) ;
   }
@@ -33,6 +33,8 @@ namespace mesmer
   {
     initializeConversionMaps();
     m_ppIOPtr = ppIOPtr;
+
+    m_pTitle = ppIOPtr->XmlReadValue("title", false);
 
     //-------------
     //Molecule List (parse this part inside Reaction)
@@ -434,6 +436,12 @@ namespace mesmer
     //---------------------------------------------
     // looping over temperatures and concentrations
     unsigned int calPoint(0);
+    //XML output
+    //Considered putting this output under each PT pair in me:conditions.
+    //But doesn't work with a range of Ps or Ts. So has to have its own section.
+    string comment( "Bartis-Widom Phenomenological Rates" );
+    PersistPtr ppAnalysis = m_ppIOPtr->XmlWriteMainElement("me:analysis", comment);
+
     for (calPoint = 0; calPoint < PandTs.size(); ++calPoint){
       m_Env.beta = 1.0 / (boltzmann_RCpK * PandTs[calPoint].get_temperature()) ; //temporary statements
       m_Env.conc = PandTs[calPoint].get_concentration();
@@ -442,6 +450,11 @@ namespace mesmer
       cinfo << "PT Grid " << calPoint << endl;
       int precision = PandTs[calPoint].get_precision();
       ctest << "PT Grid " << calPoint << " Condition: conc = " << m_Env.conc << ", temp = " << PandTs[calPoint].get_temperature();
+      PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
+      ppList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
+      ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
+      ppList->XmlWriteAttribute("me:units", "s-1");
+      
       switch (precision){
         case 1: ctest << ", diagonalization precision: double-double\n{\n"; break;
         case 2: ctest << ", diagonalization precision: quad-double\n{\n"; break;
@@ -471,7 +484,7 @@ namespace mesmer
       m_pReactionManager->timeEvolution(m_Flags);
 
       dMatrix mesmerRates(1);
-      m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates, m_Flags);
+      m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates, m_Flags, ppList);
 
       if (m_Flags.searchMethod){
         vector<conditionSet> expRates;
@@ -530,6 +543,13 @@ namespace mesmer
   void System::WriteMetadata()
   {
     PersistPtr ppList = m_ppIOPtr->XmlWriteMainElement("metadataList", "");
+    if(m_pTitle)
+    {
+      PersistPtr ppItem = ppList->XmlWriteElement("metadata");
+      ppItem->XmlWriteAttribute("name", "dc:title");
+      ppItem->XmlWriteAttribute("content", m_pTitle);
+    }
+
     PersistPtr ppItem = ppList->XmlWriteElement("metadata");
     ppItem->XmlWriteAttribute("name", "dc:creator");
     ppItem->XmlWriteAttribute("content", "Mesmer v0.1");

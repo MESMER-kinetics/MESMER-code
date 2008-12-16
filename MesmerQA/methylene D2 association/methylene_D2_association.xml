@@ -2,7 +2,8 @@
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
-    <moleculeList>
+  <title> Methylene D2 association</title>  
+  <moleculeList>
         <molecule id="CH2D2">
             <atomarray>
                 <atom id="a1" elementType="C" />

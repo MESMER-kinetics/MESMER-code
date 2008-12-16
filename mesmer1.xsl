@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <xsl:stylesheet version="1.0"  xmlns:cml="http://www.xml-cml.org/schema"
-  xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
 
   <xsl:include href="mesmerDiag.xsl"/>
   <xsl:include href="switchcontent.xsl"/>
   
 <xsl:key name="molrefs" match="cml:molecule" use="@id"/>
-  <xsl:variable name="title">
-    <xsl:choose>
-      <xsl:when test="//cml:metadataList">
-        <xsl:value-of select="cml:metadata[@name='dc:title']/@content"/>
-      </xsl:when>
-      <xsl:otherwise>
-        Mesmer datafile
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:variable>
+  
+<xsl:variable name="title">
+  <xsl:choose>
+    <xsl:when test="//cml:metadataList">
+      <xsl:value-of select="//cml:metadataList/cml:metadata[@name='dc:title']/@content"/>
+    </xsl:when>
+    <xsl:when test="//cml:title">
+      <xsl:value-of select="//cml:title"/>
+    </xsl:when>
+    <xsl:otherwise>
+      Mesmer datafile
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:variable>
+  
 <xsl:template match="me:mesmer">
   <html>
     <head>
@@ -37,9 +43,19 @@
         .tableheader
         {
           font-family: Arial, Helvetica, sans-serif;
+          font-size:smaller;
           font-weight:bold;
           text-align:center;
         }
+        .tablehead1
+        {
+          font-family: Arial, Helvetica, sans-serif;
+          color:black;
+          font-weight:bold;
+        }
+        .tablehead2{text-decoration:underline;padding-top:10px;}
+        table{background-color:#e0f8f8; margin-bottom:12px;}
+        td{padding:0px 4px;}
         h3{color:teal;font-family: Arial, Helvetica, sans-serif;}
         .normal{color:black; font-size:smaller;}
         .handcursor{cursor:hand; cursor:pointer;}
@@ -51,6 +67,9 @@
     </head>
     <body>
       <div id="header">
+        <p id="title">
+          <xsl:value-of select="$title"/>
+        </p>
         <xsl:apply-templates select="//cml:metadataList"/>
       </div>
       <h3 id="mols-title" class="handcursor">Molecules</h3>
@@ -58,11 +77,11 @@
         <table class="mol">
           <tr class="tableheader">
             <td>Name</td>
-            <td>Energy/kJ mol<sup>-1</sup>
+            <td>Energy<br />kJ mol<sup>-1</sup>
           </td>
-            <td>Rotational constants/cm<sup>-1</sup>
+            <td>Rotational constants<br />cm<sup>-1</sup>
           </td>
-            <td>Vibrational frequencies/cm<sup>-1</sup>
+            <td>Vibrational frequencies<br />cm<sup>-1</sup>
           </td>
           </tr>
           <xsl:apply-templates select="cml:moleculeList"/>
@@ -85,10 +104,14 @@
       <xsl:apply-templates select="//me:microRateList"/>
     </div>
 
-    <!--Script for expanding an contracting sections-->
+    <h3 id="BWrates-title" class="handcursor">Bartis-Widom Phenomenological Rate Coefficients</h3>
+    <div id="BWrates" class="switchgroup5">
+      <xsl:apply-templates select="//me:rateList"/>
+    </div>
+      <!--Script for expanding an contracting sections-->
     <script type="text/javascript">
       <![CDATA[
-        for(var i=1; i <=4; i++)
+        for(var i=1; i <=5; i++)
         {
           var mc=new switchcontent("switchgroup" + i)
           mc.setStatus('- ','+ ')
@@ -99,8 +122,9 @@
     </script>
 
     <xsl:call-template name="drawDiag"/>
+      
   </body>
-    </html>
+ </html>
 </xsl:template>
 
   
@@ -109,7 +133,7 @@
       <td class="name">
         <xsl:value-of select="@id"/>
       </td>
-      <td>
+      <td align="center">
         <xsl:choose>
           <xsl:when test=".//cml:property[@dictRef='me:ZPE']/cml:scalar">
             <xsl:value-of select=".//cml:property[@dictRef='me:ZPE']/cml:scalar"/>
@@ -136,39 +160,42 @@
       <td>
         <xsl:value-of select="@id"/>
       </td>
-      <td>
+      <td class="name">
         <xsl:for-each select=".//cml:reactant/cml:molecule/@ref">
           <xsl:if test="position()!=1"> + </xsl:if>
           <xsl:value-of select="."/>
         </xsl:for-each>
       </td>
       <td>
-        <xsl:if test="@reversible='true'">&lt;</xsl:if>=></td>
-      <td>
+        <xsl:if test="@reversible='true'">&lt;</xsl:if>&#8195;=>&#8195;
+      </td>
+      <td class="name">
         <xsl:for-each select=".//cml:product/cml:molecule/@ref">
           <xsl:if test="position()!=1"> + </xsl:if>
           <xsl:value-of select="."/>
         </xsl:for-each>
       </td>
       <td>
-        (
-        <xsl:if test="not(.//me:transitionState/cml:molecule/@ref)">No </xsl:if>
-        Transition State <xsl:value-of select=".//me:transitionState/cml:molecule/@ref"/>)
+        <xsl:if test=".//me:transitionState/cml:molecule/@ref">
+          (Transition State <xsl:value-of select=".//me:transitionState/cml:molecule/@ref"/>)
+        </xsl:if>
+      </td>
+      <td>
+        <xsl:if test="me:preExponential">
+          <xsl:value-of select="concat('A = ', me:preExponential, 
+              ' E = ', me:activationEnergy, me:activationEnergy/@units)"/>
+        </xsl:if>
       </td>
     </tr>
   </xsl:template>
 
   <xsl:template match="me:densityOfStatesList">
-    <h4>
-      Density of states for
-      <xsl:value-of select="../@id"/>
-      <span class="normal">
-        (Calculated 
-        <xsl:value-of select="@calculated"/>
-        )
-      </span>
-    </h4>
     <table>
+      <tr>
+        <td class="tablehead1" colspan="5" align="center">
+          Density of states for <xsl:value-of select="../@id"/>
+        </td>
+      </tr>
       <tr class="tableheader">
         <td>T</td>
         <td>qtot</td>
@@ -222,8 +249,42 @@
     </table>
   </xsl:template>
 
+  <xsl:template match="me:rateList">
+    <table>
+     <tr>
+       <td class="tablehead1" colspan="5" align="center">
+         At <xsl:value-of select="concat(@T,' K, ', @conc, ' molecules cm')"/><sup>-3</sup>
+       </td>
+     </tr>
+     <tr>
+       <td class="tablehead2" colspan="5" align="center">Conversion Rates</td>
+     </tr>
+     <xsl:for-each select="me:firstOrderRate">
+        <tr>
+          <td><xsl:value-of select="@fromRef"/></td>
+          <td>&#8195;&#8594;&#8195;</td>
+          <td><xsl:value-of select="@toRef"/></td>
+          <td> <xsl:value-of select="."/></td>
+          <td>s<sup>-1</sup></td>
+        </tr>
+      </xsl:for-each>
+      <tr>
+        <td class="tablehead2" colspan="5" align="center">Loss Rates</td>
+      </tr>
+      <xsl:for-each select="me:firstOrderLoss">
+        <tr>
+          <td><xsl:value-of select="@ref"/> </td>
+          <td></td>
+          <td></td>
+          <td><xsl:value-of select="."/></td>
+          <td>s<sup>-1</sup></td>
+        </tr>
+       </xsl:for-each>
+     </table>
+    </xsl:template>
+ 
+
   <xsl:template match="cml:metadataList">
-      <p id="title"><xsl:value-of select="cml:metadata[@name='dc:title']/@content"/></p>
     <div id="metadata">
         <xsl:value-of select="cml:metadata[@name='dc:creator']/@content"/>:
         <xsl:value-of select="cml:metadata[@name='dc:date']/@content"/>,

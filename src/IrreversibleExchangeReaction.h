@@ -33,9 +33,7 @@ namespace mesmer
       {} 
 
     // Destructor.
-    virtual ~IrreversibleExchangeReaction(){
-      delete m_sourceMap;
-    } ;
+    virtual ~IrreversibleExchangeReaction(){}
 
     void putSourceMap(sourceMap *sourcemap){m_sourceMap = sourcemap ; } ;
 

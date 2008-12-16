@@ -3,7 +3,7 @@
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
   <!--Note that the thermodata is not real-->
-  
+  <title>H + SO2 system</title>
   <moleculeList>
     <molecule id="H">
       <atom id="a1" elementType="H"/>

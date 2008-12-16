@@ -21,6 +21,8 @@
   <xsl:variable name="dytsenergy" select="5"/>  <!--upward displacement of transition state energies-->
   <xsl:variable name="dxtstitle" select="10"/>  <!--leftward dx from mid point of reactant/product of ts title-->
 
+  <xsl:variable name="dummyE" select="-50"/>     <!--The notional energy of a dummy product set-->
+  
   <xsl:key name="molrefs" match="cml:molecule" use="@id"/>
   <xsl:variable name="mols" select="key('molrefs', 
     //cml:molecule[not(@ref)])"/>
@@ -43,7 +45,14 @@
         select="key('molrefs',$bothSpecies/cml:molecule/@ref)//cml:property[@dictRef='me:ZPE']/cml:scalar" />
       <!--The // in the above expression means that surrounding <cml:property> by a <cml:propertyList> is optional-->
       <xsl:element name="Energy">
-        <xsl:value-of select="sum($bothEnergies)"/>
+        <xsl:choose>
+          <xsl:when test="starts-with(.,'dum')">
+            <xsl:value-of select="$dummyE"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="sum($bothEnergies)"/>          
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:element>
     </xsl:for-each>
   </xsl:variable>
@@ -101,9 +110,12 @@
     </svg:svg>
   </xsl:template>
 
+  <!--===================================================================-->
   <xsl:template name="drawWells">
     <svg:g style="stroke:teal">
-      <xsl:for-each select="$distinctRandP">
+      <xsl:for-each select="$distinctRandP[not(starts-with(.,'dum'))]">
+        <!---->[../@me:type!='sink']-->
+        <!--But do not draw wells, energies or names for the dummy ones-->
 
         <!--The type of the current set- 'reactant' or 'product'-->
         <xsl:variable name="RorP" select="local-name(../..)"/>
@@ -144,7 +156,7 @@
           <xsl:value-of select="format-number(sum($bothEnergies),'#.0')" />
         </svg:text>
 
-        <!--Draw horizontal bar at the appriate energy-->
+        <!--Draw horizontal bar at the appropriate energy-->
         <svg:line style="stroke-width:3">
           <xsl:attribute name="x1">
             <xsl:number value="(position()-1)* $xspacing+ $xleft" />
@@ -164,16 +176,15 @@
     </svg:g>
   </xsl:template>
 
+  <!--===================================================================--> 
   <xsl:template match="cml:reactionList" mode="diagram">
     <xsl:for-each select="cml:reaction">
 
       <xsl:variable name="reactantmol" select="key('molrefs', cml:reactant/cml:molecule/@ref)" />
       <xsl:variable name="productmol" select="key('molrefs', cml:product/cml:molecule/@ref)" />
       <xsl:variable name="TSmol" select="key('molrefs', me:transitionState/cml:molecule/@ref)" />
-      <xsl:variable name="EnergyTS" select="$TSmol//cml:property[@dictRef='me:ZPE']/cml:scalar"/>
-      <xsl:variable name="yTS" select="$ybase - $yscale * $TSmol//cml:property[@dictRef='me:ZPE']/cml:scalar"/>
-
-      <!--There must be a better way of obtaining the position in mols!-->
+      <xsl:variable name="EnergyTStemp" select="$TSmol//cml:property[@dictRef='me:ZPE']/cml:scalar"/>
+      
       <xsl:variable name="reactantIndex">
         <xsl:for-each select="$distinctRandP">
           <xsl:if test=".=$reactantmol/@id">
@@ -220,6 +231,25 @@
         </xsl:choose>
       </xsl:variable>
 
+      <xsl:variable name="yTStemp" select="$ybase - $yscale * $TSmol//cml:property[@dictRef='me:ZPE']/cml:scalar"/>
+
+      <xsl:variable name="EnergyTS">
+        <xsl:choose>
+          <xsl:when test="$TSmol">
+            <xsl:value-of select="$EnergyTStemp" />
+          </xsl:when>
+          <xsl:when test="me:activationEnergy">
+            <!--For ILT source reactions use the activationEnergy + energy of reactants-->
+            <xsl:value-of select="(me:activationEnergy + 
+                 exsl:node-set($RandPEnergies)/*[number($reactantIndex)])"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$EnergyTStemp" />
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+      <xsl:variable name="yTS" select="$ybase - $yscale * $EnergyTS"/>
+
       <!--Draw line from reactant, through TS to product-->
       <svg:path stroke ="black" fill="none">
 
@@ -238,7 +268,7 @@
             <!--$reactantmol //cml:property[@dictRef='me:ZPE']/cml:scalar"/>ENERGY-->
 
           <xsl:if test="$yTS">
-          <!--Only if there is a valid TS-->
+           <!--Only if there is a valid TS-->
             <!--Draw lines and TS level-->
             <xsl:value-of select="concat('L ', ($reactantpos+$productpos)*0.5 - $tsoffset, ' ')"/>
             <xsl:value-of select="$yTS"/>

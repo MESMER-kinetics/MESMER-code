@@ -27,16 +27,18 @@ SET bline=baselines/Win32/
 IF "%1"=="" (
 SET directive=-q
 SET otfn=test.test
-echo -------------------------------------------------------------------------------------------------------------
-echo User QA check mode: output will copy to test.test in the baselines folder. Use your own "diff" program to 
-echo check changes between test.test and mesmer.test in baseline folders. Please ensure the original files in 
-echo the baseline folders were not previously modified by user.
-echo -------------------------------------------------------------------------------------------------------------
+echo -------------------------------------------------------------------------------
+echo User QA check mode: output will copy to test.test in the baselines folder.
+echo If message "QA test failed" is output, use your own "diff" program to 
+echo check changes between test.test and mesmer.test in baseline folders.
+echo Please ensure the original files in echo the baseline folders were not
+echo previously modified by user.
+echo -------------------------------------------------------------------------------
 ) ELSE (
-echo -------------------------------------------------------------------------------------------------------------
-echo Developer QA check mode: output will overwrite the baselines. Use "SVN check for modifications" to check
-echo the changes compared with the baselines.
-echo -------------------------------------------------------------------------------------------------------------
+echo -------------------------------------------------------------------------------
+echo Developer QA check mode: output will overwrite the baselines. Use
+echo "SVN check for modifications" to check the changes compared with the baselines.
+echo -------------------------------------------------------------------------------
 )
 
 cd pentyl

@@ -1,3 +1,24 @@
+2008-12-16 Chris Morley
+
+  * Added project title: XML tag, member variable in System, displayed when
+    XML transformed by mesmer1.xsl.
+    Add a title to XML files in MesmerQA.
+    
+  * Output Bartis-Widom rates to XML file in a new section <analysis>
+    Update mesmer1/xsl to display this section and with other cosmetic changes.
+    
+  * Update mesmerdiag.xsl to show activation energy barriers, and handle
+    reactions with no product energy.
+    
+  * Corrected some memory leaks by deleting reactions in the ReactionManager
+    destructor. This showed up incorrect deletion of m_sourcemap (not assigned
+    by new) in AssociatioReaction and IrreversibleExhangeReaction.
+    
+  * Added licence text at the top of main.cpp. This will need to be in every file.
+  
+  * Trivial numerical differences in Acetyl O2 association QA test, which I don't
+    think I caused. Assuming ok, but needs updating.     
+
 _2008_12_14__16_26_45_ Chi-Hsiu Liang
 
   * Added a punch file option with grid search. 

@@ -42,9 +42,7 @@ namespace mesmer
     {}
 
     // Destructor.
-    virtual ~AssociationReaction(){
-      delete m_sourceMap;
-    };
+    virtual ~AssociationReaction(){}
 
     void putSourceMap(sourceMap *sourcemap){m_sourceMap = sourcemap ; } ;
 

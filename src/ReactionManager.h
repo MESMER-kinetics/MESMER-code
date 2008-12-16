@@ -32,7 +32,14 @@ namespace mesmer
     ReactionManager(MoleculeManager *pMoleculeManager);
 
     // Destructor.
-    ~ReactionManager(){} ;
+    ~ReactionManager()
+    { 
+      if (m_pReactionOperator) delete m_pReactionOperator;
+      vector<Reaction*>::iterator iter;
+      for(iter=m_reactions.begin();iter!=m_reactions.end();++iter)
+        delete *iter;
+      m_reactions.clear();
+    }
 
     // Add a new reaction to the map.
     bool addreactions(PersistPtr ReacList, const MesmerEnv& mEnv, MesmerFlags& mFlags) ;
@@ -66,7 +73,7 @@ namespace mesmer
 
     bool calculateEquilibriumFractions(const double beta);
 
-    bool BartisWidomPhenomenologicalRates(dMatrix& rates, MesmerFlags& mFlags);
+    bool BartisWidomPhenomenologicalRates(dMatrix& rates, MesmerFlags& mFlags,PersistPtr ppBase);
 
     double calcChiSquare(const dMatrix& mesmerRates, vector<conditionSet>& expRates);
 
