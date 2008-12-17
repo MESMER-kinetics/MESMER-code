@@ -26,7 +26,7 @@ namespace mesmer
 
   // Calculate the average grain energy and then number of states per grain.
   void calcGrainAverages(const int MaximumGrain, const int GrainSize, const std::vector<double>& shiftedCellDOS,
-    const std::vector<double>& shiftedCellEne, vector<double>& grainDOS, vector<double>& grainEne, string molName) ;
+    const std::vector<double>& shiftedCellEne, vector<double>& grainDOS, vector<double>& grainEne) ;
 
 }
 

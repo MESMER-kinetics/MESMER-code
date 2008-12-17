@@ -9,17 +9,11 @@ namespace mesmer
   //************************************************************
 
   // Provide a function to define particular counts of the DOS of a molecule.
-  bool ClassicalRotor::countCellDOS(ModelledMolecule* pMol)
+  bool ClassicalRotor::countCellDOS(gDensityOfStates* pDOS, int MaximumCell)
   {
     vector<double> VibFreq ; 
-    pMol->get_VibFreq(VibFreq) ;
+    pDOS->get_VibFreq(VibFreq) ;
 
-    // times the scale factor
-    for (vector<double>::size_type i = 0; i < VibFreq.size(); ++i){
-      VibFreq[i] *= pMol->get_scaleFactor();
-    }
-
-    const int MaximumCell = pMol->getEnv().MaxCell;
     vector<double> cellEne;
     getCellEnergies(MaximumCell, cellEne);
     vector<double> cellDOS(MaximumCell, 0.0) ;
@@ -30,9 +24,9 @@ namespace mesmer
     //
 
     //From inverse Laplace transform of rotors
-    vector<double> rotConst; int rotorType = pMol->get_rotConsts(rotConst);
-    double sym = pMol->get_Sym();
-    double qele = pMol->getSpinMultiplicity();
+    vector<double> rotConst; int rotorType = pDOS->get_rotConsts(rotConst);
+    double sym = pDOS->get_Sym();
+    double qele = pDOS->getSpinMultiplicity();
     double cnt = 0.;
 
     for (int i = 0 ; i < MaximumCell ; ++i ) {
@@ -61,7 +55,7 @@ namespace mesmer
 
     //electronic degeneracy
     vector<double> eleExc;
-    pMol->getEleExcitation(eleExc);
+    pDOS->getEleExcitation(eleExc);
     if (!eleExc.empty()){
       for (int j = 0; j < int(eleExc.size()) ; ++j){
         int iele = static_cast<int>(eleExc[j]);
@@ -71,7 +65,7 @@ namespace mesmer
       }
     }
 
-    pMol->setCellDensityOfStates(cellDOS) ;
+    pDOS->setCellDensityOfStates(cellDOS) ;
 
     return true;
   }

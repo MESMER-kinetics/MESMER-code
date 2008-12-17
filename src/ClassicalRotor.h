@@ -10,7 +10,7 @@ namespace mesmer
   public:
 
     // Provide a function to define particular counts of the DOS of a molecule.
-    virtual bool countCellDOS(ModelledMolecule* mol);
+    virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell);
 
     ///Constructor which registers with the list of MicroRateCalculators in the base class
     ClassicalRotor(const std::string& id) : DensityOfStatesCalculator(id){}

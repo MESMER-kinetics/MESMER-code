@@ -12,17 +12,17 @@ namespace mesmer
 
 
   bool EckartCoefficients::calculateCellTunnelingCoeffs(Reaction* pReact, vector<double>& TunnelingProbability){
-    std::vector<ModelledMolecule *> unimolecularspecies;
+    std::vector<Molecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
-    ModelledMolecule * pReactant = unimolecularspecies[0];
-    ModelledMolecule * p_Product = unimolecularspecies[1];
-    TransitionState  * p_TransitionState = pReact->get_TransitionState();
+    Molecule * pReactant = unimolecularspecies[0];
+    Molecule * p_Product = unimolecularspecies[1];
+    Molecule * p_TransitionState = pReact->get_TransitionState();
 
     //TC is the classical energy of the TS
-    const double TC = p_TransitionState->getClassicalEnergy();
+    const double TC = p_TransitionState->g_dos->getClassicalEnergy();
     //V0 & V1 are the classical barrier heights in the forward/reverse directions
-    const double V0 = TC - pReactant->getClassicalEnergy();
-    const double V1 = TC - p_Product->getClassicalEnergy();
+    const double V0 = TC - pReactant->g_dos->getClassicalEnergy();
+    const double V1 = TC - p_Product->g_dos->getClassicalEnergy();
 
     //TZ is the zpe of the TS
     const double TZ = pReact->get_relative_TSZPE();

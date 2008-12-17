@@ -64,9 +64,9 @@ namespace mesmer
     const double Ainf   = pReact->get_PreExp();
     const int    Einf   = (int)(pReact->get_EInf());
 
-    ModelledMolecule*  p_rct = pReact->get_reactant();
+    Molecule*  p_rct = pReact->get_reactant();
     int MaximumCell = pReact->getEnv().MaxCell;
-    vector<ModelledMolecule*> v_pdts;
+    vector<Molecule*> v_pdts;
     const int numberOfProducts = pReact->get_products(v_pdts);
 
     // Allocate some work space for density of states and extract densities of states from molecules.
@@ -74,7 +74,7 @@ namespace mesmer
     vector<double> rctCellDOS; //  Cell density of states of reactant.
 
     getCellEnergies(MaximumCell, rctCellEne);
-    p_rct->getCellDensityOfStates(rctCellDOS);
+    p_rct->g_dos->getCellDensityOfStates(rctCellDOS);
 
     // Allocate space to hold microcanonical rate coefficients for dissociation.
     // This line below pass the reference pointer of m_CellFlux to the vector by (&), so what the code does on
@@ -89,7 +89,7 @@ namespace mesmer
     // If the activation energy specified is for the reverse direction.
     double Keq(1.0);
     if (pReact->isReverseReactionILT_Ea()){
-      const double Q_R        = p_rct->rovibronicGrnCanPrtnFn();
+      const double Q_R        = p_rct->g_dos->rovibronicGrnCanPrtnFn();
       const double Q_p        = pReact->pdtsRovibronicGrnCanPrtnFn();
       Keq *= Q_p / Q_R;
       // Heat of reaction contribution is included in activation energy
@@ -141,12 +141,12 @@ namespace mesmer
     // double tp_C = 3.24331e+20; // Defined in Constant.h, constant used in the translational partition function
     //-----------------
 
-    vector<ModelledMolecule *> unimolecularspecies;
+    vector<Molecule *> unimolecularspecies;
     pAssocReaction->get_unimolecularspecies(unimolecularspecies);
 
-    ModelledMolecule*  p_pdt1 = unimolecularspecies[0];
-    ModelledMolecule*  p_rct1 = pAssocReaction->get_pseudoIsomer();
-    ModelledMolecule*  p_rct2 = pAssocReaction->get_excessReactant();
+    Molecule*  p_pdt1 = unimolecularspecies[0];
+    Molecule*  p_rct1 = pAssocReaction->get_pseudoIsomer();
+    Molecule*  p_rct2 = pAssocReaction->get_excessReactant();
 
     const double ma = p_rct1->getMass();
     const double mb = p_rct2->getMass();

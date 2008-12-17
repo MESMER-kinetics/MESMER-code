@@ -31,7 +31,7 @@ namespace mesmer
     virtual ~IsomerizationReaction() {} ;
 
     // Get unimolecular species information:
-    virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const
+    virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const
     {
       unimolecularspecies.push_back(m_rct1) ;
       unimolecularspecies.push_back(m_pdt1) ;
@@ -39,10 +39,10 @@ namespace mesmer
     } ;
 
     // return the colloptrsize of the reactants
-    virtual int getRctColloptrsize(){return m_rct1->get_colloptrsize();}
+    virtual int getRctColloptrsize(){return m_rct1->g_coll->get_colloptrsize();}
 
     // Return products
-    virtual int get_products(std::vector<ModelledMolecule *> &product) const
+    virtual int get_products(std::vector<Molecule *> &product) const
     {
       product.push_back(m_pdt1) ;
       return 1;
@@ -52,13 +52,13 @@ namespace mesmer
     virtual bool InitializeReaction(PersistPtr ppReac) ;
 
     // return relative reactant, product and transition state zero-point energy
-    virtual double get_relative_rctZPE() const {return m_rct1->get_zpe() - getEnv().EMin;}
-    virtual double get_relative_pdtZPE() const {return m_pdt1->get_zpe() - getEnv().EMin;}
-    virtual double get_relative_TSZPE(void) const {return m_TransitionState->get_zpe() - getEnv().EMin;};
+    virtual double get_relative_rctZPE() const {return m_rct1->g_dos->get_zpe() - getEnv().EMin;}
+    virtual double get_relative_pdtZPE() const {return m_pdt1->g_dos->get_zpe() - getEnv().EMin;}
+    virtual double get_relative_TSZPE(void) const {return m_TransitionState->g_dos->get_zpe() - getEnv().EMin;};
 
     // Is reaction equilibrating and therefore contributes
     // to the calculation of equilibrium fractions.
-    virtual bool isEquilibratingReaction(double &Keq, ModelledMolecule **rct, ModelledMolecule **pdt) ;
+    virtual bool isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) ;
 
     // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
     // with a negative threshold energy
@@ -68,7 +68,7 @@ namespace mesmer
     virtual double calcEquilibriumConstant() ;
 
     // get the reactant, which reacts in a first order or pseudo first order process
-    virtual ModelledMolecule *get_reactant(void) const {return m_rct1;};
+    virtual Molecule *get_reactant(void) const {return m_rct1;};
 
     // Calculate rovibronic canonical partition function in the grain level for product or reactant
     virtual double pdtsRovibronicGrnCanPrtnFn();
@@ -86,8 +86,8 @@ namespace mesmer
     // Test k(T)
     virtual void testRateConstant();
 
-    CollidingMolecule   *m_rct1 ;                 // Reactant Molecule.
-    CollidingMolecule   *m_pdt1 ;                 // Product Molecule.
+    Molecule   *m_rct1 ;                 // Reactant Molecule.
+    Molecule   *m_pdt1 ;                 // Product Molecule.
 
   } ;
 

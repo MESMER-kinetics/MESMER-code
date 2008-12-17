@@ -186,19 +186,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\BathGasMolecule.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\BoltzmannDistribution.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\ClassicalRotor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CollidingMolecule.cpp"
 				>
 			</File>
 			<File
@@ -254,7 +246,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\ModelledMolecule.cpp"
+				RelativePath="..\..\src\MolecularComponents.cpp"
 				>
 			</File>
 			<File
@@ -295,10 +287,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\TimeCounter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\TransitionState.cpp"
 				>
 			</File>
 			<File
@@ -405,6 +393,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\MicroRate.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\MolecularComponents.h"
 				>
 			</File>
 			<File

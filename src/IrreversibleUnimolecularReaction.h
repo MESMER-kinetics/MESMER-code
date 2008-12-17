@@ -32,7 +32,7 @@ namespace mesmer
     virtual ~IrreversibleUnimolecularReaction(){} ;
 
     // Get unimolecular species information:
-    virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const
+    virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const
     {
       unimolecularspecies.push_back(m_rct1) ;
       return 1;
@@ -42,12 +42,12 @@ namespace mesmer
     virtual bool InitializeReaction(PersistPtr ppReac) ;
 
     // return relative reactant, product and transition state zero-point energy
-    virtual double get_relative_rctZPE() const {return m_rct1->get_zpe() - getEnv().EMin;}
+    virtual double get_relative_rctZPE() const {return m_rct1->g_dos->get_zpe() - getEnv().EMin;}
     virtual double get_relative_pdtZPE() const {
-      double zpe = m_pdt1->get_zpe() - getEnv().EMin;
+      double zpe = m_pdt1->g_dos->get_zpe() - getEnv().EMin;
       return zpe;
     }
-    virtual double get_relative_TSZPE(void) const {return m_TransitionState->get_zpe() - getEnv().EMin;};
+    virtual double get_relative_TSZPE(void) const {return m_TransitionState->g_dos->get_zpe() - getEnv().EMin;};
 
     const int get_pdtsGrnZPE();
     
@@ -58,10 +58,10 @@ namespace mesmer
     void getPdtsCellDensityOfStates(std::vector<double> &cellDOS) ;
 
     // return the colloptrsize of the reactants
-    virtual int getRctColloptrsize(){return m_rct1->get_colloptrsize();}
+    virtual int getRctColloptrsize(){return m_rct1->g_coll->get_colloptrsize();}
 
     // Return products
-    virtual int get_products(std::vector<ModelledMolecule *> &product) const
+    virtual int get_products(std::vector<Molecule *> &product) const
     {
       product.push_back(m_pdt1) ;
       if(m_pdt2){
@@ -72,19 +72,19 @@ namespace mesmer
     } ;
 
     // Return reactants
-    ModelledMolecule* get_reactants() const{return m_rct1;} ;
+    Molecule* get_reactants() const{return m_rct1;} ;
 
     // is the reaction an irreversible reaction
     virtual bool isIrreversible(){return true;};
 
     // get the reactant, which reacts in a first order or pseudo first order process
-    virtual ModelledMolecule *get_reactant(void) const {return m_rct1;};
+    virtual Molecule *get_reactant(void) const {return m_rct1;};
 
     // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
     // with a negative threshold energy
     void calcEffGrnThresholds(void);
 
-    virtual DensityOfStatesCalculator* get_pdtsDensityOfStatesCalculator(){return m_pdt1->get_DensityOfStatesCalculator(); }
+    virtual DensityOfStatesCalculator* get_pdtsDensityOfStatesCalculator(){return m_pdt1->g_dos->get_DensityOfStatesCalculator(); }
 
     bool calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
 
@@ -103,9 +103,9 @@ namespace mesmer
     // Test k(T)
     virtual void testRateConstant();
 
-    CollidingMolecule   *m_rct1 ;                 // Reactant Molecule.
-    ModelledMolecule    *m_pdt1 ;                 // Product Molecule.
-    ModelledMolecule    *m_pdt2 ;                 // Subsidiary product molecule.
+    Molecule    *m_rct1 ;                 // Reactant Molecule.
+    Molecule    *m_pdt1 ;                 // Product Molecule.
+    Molecule    *m_pdt2 ;                 // Subsidiary product molecule.
 
   } ;
 

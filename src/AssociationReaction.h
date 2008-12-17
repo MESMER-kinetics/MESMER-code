@@ -47,14 +47,14 @@ namespace mesmer
     void putSourceMap(sourceMap *sourcemap){m_sourceMap = sourcemap ; } ;
 
     // Get unimolecular species information:
-    virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const
+    virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const
     {
       unimolecularspecies.push_back(m_pdt1) ;
       return 1;
     } ;
 
     // Get product information:
-    virtual int get_products(std::vector<ModelledMolecule *> &unimolecularspecies) const
+    virtual int get_products(std::vector<Molecule *> &unimolecularspecies) const
     {
       unimolecularspecies.push_back(m_pdt1) ;
       return 1;
@@ -67,21 +67,21 @@ namespace mesmer
     virtual bool InitializeReaction(PersistPtr ppReac) ;
 
     // Get the principal source reactant (i.e. reactant not in excess).
-    virtual ModelledMolecule *get_pseudoIsomer(void) const {return m_rct1 ; } ;
-    virtual ModelledMolecule *get_reactant(void) const {return m_rct1;};
-    virtual ModelledMolecule *get_excessReactant(void) const {return m_rct2 ; } ;
+    virtual Molecule *get_pseudoIsomer(void) const {return m_rct1 ; } ;
+    virtual Molecule *get_reactant(void) const {return m_rct1;};
+    virtual Molecule *get_excessReactant(void) const {return m_rct2 ; } ;
 
     // return relative reactant, product and transition state zero-point energy
-    virtual double get_relative_rctZPE() const { return m_rct1->get_zpe() + m_rct2->get_zpe() - getEnv().EMin; }
-    virtual double get_relative_pdtZPE() const { return m_pdt1->get_zpe() - getEnv().EMin; }
-    virtual double get_relative_TSZPE(void) const { return m_TransitionState->get_zpe() - getEnv().EMin; };
+    virtual double get_relative_rctZPE() const { return m_rct1->g_dos->get_zpe() + m_rct2->g_dos->get_zpe() - getEnv().EMin; }
+    virtual double get_relative_pdtZPE() const { return m_pdt1->g_dos->get_zpe() - getEnv().EMin; }
+    virtual double get_relative_TSZPE(void) const { return m_TransitionState->g_dos->get_zpe() - getEnv().EMin; };
 
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
 
     // Is reaction equilibrating and therefore contributes
     // to the calculation of equilibrium fractions.
-    virtual bool isEquilibratingReaction(double &Keq, ModelledMolecule **rct, ModelledMolecule **pdt) ;
+    virtual bool isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) ;
 
     // is reaction unimolecular
     virtual bool isUnimolecular(){return false;};
@@ -98,11 +98,11 @@ namespace mesmer
 
     // Get cell offset for the reactants
     int get_cellOffset(void) {
-      double modulus = fmod(m_rct1->get_zpe() + m_rct2->get_zpe() - getEnv().EMin, getEnv().GrainSize);
+      double modulus = fmod(m_rct1->g_dos->get_zpe() + m_rct2->g_dos->get_zpe() - getEnv().EMin, getEnv().GrainSize);
       return int(modulus) ;
     } ;
 
-    virtual DensityOfStatesCalculator* get_rctsDensityOfStatesCalculator(){return get_pseudoIsomer()->get_DensityOfStatesCalculator(); }
+    virtual DensityOfStatesCalculator* get_rctsDensityOfStatesCalculator(){return get_pseudoIsomer()->g_dos->get_DensityOfStatesCalculator(); }
 
     bool calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
 
@@ -125,9 +125,9 @@ namespace mesmer
 
     // Reaction composition:
 
-    ModelledMolecule    *m_rct1 ;   // Reactant Molecule.
-    ModelledMolecule    *m_rct2 ;   // Subsidiary reactant molecule.
-    CollidingMolecule   *m_pdt1 ;   // Product Molecule.
+    Molecule    *m_rct1 ;   // Reactant Molecule.
+    Molecule    *m_rct2 ;   // Subsidiary reactant molecule.
+    Molecule    *m_pdt1 ;   // Product Molecule.
 
     bool deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
   } ;

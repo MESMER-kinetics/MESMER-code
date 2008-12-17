@@ -38,15 +38,15 @@ namespace mesmer
     void putSourceMap(sourceMap *sourcemap){m_sourceMap = sourcemap ; } ;
 
     // Get unimolecular species information:
-    virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const 
+    virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const 
     {unimolecularspecies.push_back(m_rct1); return 1;} ;
 
     // Get the principal source reactant (i.e. reactant not in excess).
-    virtual ModelledMolecule *get_pseudoIsomer(void) const {return m_rct1 ; } ;
-    virtual ModelledMolecule *get_excessReactant(void) const {return m_rct2 ; } ;
+    virtual Molecule *get_pseudoIsomer(void) const {return m_rct1 ; } ;
+    virtual Molecule *get_excessReactant(void) const {return m_rct2 ; } ;
 
     // Return products
-    virtual int get_products(std::vector<ModelledMolecule *> &product) const
+    virtual int get_products(std::vector<Molecule *> &product) const
     {
       product.push_back(m_pdt1) ;
       if(m_pdt2){
@@ -66,9 +66,9 @@ namespace mesmer
     const int get_rctsGrnZPE(void);
 
     // return relative reactant, product and transition state zero-point energy
-    virtual double get_relative_rctZPE() const {return m_rct1->get_zpe() + m_rct2->get_zpe() - getEnv().EMin;}
-    virtual double get_relative_pdtZPE() const {return m_pdt1->get_zpe() + m_pdt2->get_zpe() - getEnv().EMin;}
-    virtual double get_relative_TSZPE(void) const {return m_TransitionState->get_zpe() - getEnv().EMin;};
+    virtual double get_relative_rctZPE() const {return m_rct1->g_dos->get_zpe() + m_rct2->g_dos->get_zpe() - getEnv().EMin;}
+    virtual double get_relative_pdtZPE() const {return m_pdt1->g_dos->get_zpe() + m_pdt2->g_dos->get_zpe() - getEnv().EMin;}
+    virtual double get_relative_TSZPE(void) const {return m_TransitionState->g_dos->get_zpe() - getEnv().EMin;};
     
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
@@ -80,7 +80,7 @@ namespace mesmer
     virtual bool isUnimolecular(){return false;};
 
     // get the reactant, which reacts in a first order or pseudo first order process
-    virtual ModelledMolecule *get_reactant(void) const {return m_rct1;};
+    virtual Molecule *get_reactant(void) const {return m_rct1;};
 
     // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
     // with a negative threshold energy
@@ -91,8 +91,8 @@ namespace mesmer
     bool calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
     void getRctsCellDensityOfStates(vector<double> &cellDOS);
     void getPdtsCellDensityOfStates(vector<double> &cellDOS);
-    virtual DensityOfStatesCalculator* get_rctsDensityOfStatesCalculator(){return get_pseudoIsomer()->get_DensityOfStatesCalculator(); }
-    virtual DensityOfStatesCalculator* get_pdtsDensityOfStatesCalculator(){return m_pdt1->get_DensityOfStatesCalculator(); }
+    virtual DensityOfStatesCalculator* get_rctsDensityOfStatesCalculator(){return get_pseudoIsomer()->g_dos->get_DensityOfStatesCalculator(); }
+    virtual DensityOfStatesCalculator* get_pdtsDensityOfStatesCalculator(){return m_pdt1->g_dos->get_DensityOfStatesCalculator(); }
     virtual double pdtsRovibronicGrnCanPrtnFn();
     virtual double rctsRovibronicGrnCanPrtnFn();
 
@@ -109,10 +109,10 @@ namespace mesmer
 
     sourceMap *m_sourceMap ;
 
-    ModelledMolecule    *m_rct1 ;                 // Reactant Molecule.
-    ModelledMolecule    *m_rct2 ;                 // Subsidiary reactant molecule. 
-    ModelledMolecule    *m_pdt1 ;                 // Product Molecule.
-    ModelledMolecule    *m_pdt2 ;                 // Subsidiary product molecule.
+    Molecule    *m_rct1 ;                 // Reactant Molecule.
+    Molecule    *m_rct2 ;                 // Subsidiary reactant molecule. 
+    Molecule    *m_pdt1 ;                 // Product Molecule.
+    Molecule    *m_pdt2 ;                 // Subsidiary product molecule.
 
     bool deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
   } ;

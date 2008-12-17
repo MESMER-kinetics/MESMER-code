@@ -173,12 +173,10 @@ qd/tests/tictoc.cpp -text
 qd/tests/tictoc.h -text
 src/AssociationReaction.cpp -text
 src/AssociationReaction.h -text
-src/BathGasMolecule.cpp -text
 src/BoltzmannDistribution.cpp -text
 src/BoltzmannDistribution.h -text
 src/ClassicalRotor.cpp -text
 src/ClassicalRotor.h -text
-src/CollidingMolecule.cpp -text
 src/Constants.h -text
 src/DensityOfStates.cpp -text
 src/DensityOfStates.h -text
@@ -207,7 +205,8 @@ src/MesmerTools.cpp -text
 src/MesmerTools.h -text
 src/MicroRate.cpp -text
 src/MicroRate.h -text
-src/ModelledMolecule.cpp -text
+src/MolecularComponents.cpp -text
+src/MolecularComponents.h -text
 src/Molecule.cpp -text
 src/Molecule.h -text
 src/MoleculeManager.cpp -text
@@ -228,7 +227,6 @@ src/System.h -text
 src/TMatrix.h -text
 src/TimeCounter.cpp -text
 src/TimeCounter.h -text
-src/TransitionState.cpp -text
 src/Tunneling.h -text
 src/XMLPersist.cpp -text
 src/XMLPersist.h -text
