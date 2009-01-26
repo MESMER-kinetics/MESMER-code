@@ -1,3 +1,29 @@
+2009-01-25 Chris Morley -- Version merged from v284-285 in branch FlattenedMolecule
+
+  If get functions (like Molecule::getDOS()) for MolecularComponents fail 
+  they now make a new object.
+  
+  The initialization of MolecularComponents has been moved from InitializeProperies()
+  to the constructors. This prevents the use of an unitialized MolecularComponent.
+  
+  Remove Molecule::activateRole() and roleIsActivated() so that the properties
+  are read from the XML file only when they are needed in the calculation.
+  This was really just to that it could be done. Something similar will have to
+  be added back so that the the presence of all the required data can be checked
+  in a parsing phase, before the big calculation starts.
+   
+  * src/main.cpp: added try/catch around parsing and calculating. 
+  Needed for errors in MolecularComponents constructors. When the new way of 
+  handling default values is added, this exception will be activated only rarely
+  when there is a mistake in the permanent file defaults.xml. User mistakes in 
+  their input XML files should not throw an exception, but will do something more
+  helpful.
+  On with modifying the defaults handling code...
+  
+  There are small numerical differences in Acetyl O2 association QA test 
+  between the Debug and Release builds. The baseline mesmer.test is for the
+  Debug build.
+    
 _2009_01_26__12_20_35_ Chi-Hsiu Liang -- Version merged from v283-284 in branch FlattenedMolecule
 
   * Change the MolecularComponent pointers in Molecule to be private, and provide manipulator functions for these member pointers.

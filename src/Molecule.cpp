@@ -123,6 +123,7 @@ namespace mesmer
     m_Name = name;
   } ;
 
+/*
   bool Molecule::activateRole(string molType){
     if (molType == "bathGas" || molType == "modelled"){
       if (!g_bath){
@@ -132,6 +133,7 @@ namespace mesmer
           return false;
       }
     }
+
     if (molType == "modelled" || molType == "deficientReactant" || molType == "sink"
       || molType == "transitionState" || molType == "excessReactant"){
       if (!g_dos){
@@ -165,6 +167,7 @@ namespace mesmer
           return false;
       }
     }
+    
     return true;
   };
 
@@ -191,32 +194,63 @@ namespace mesmer
     }
     return true;
   };
+*/
 
+/*  gBathProperties&        Molecule::getBath() {
+    if (!g_bath) {
+      g_bath = new gBathProperties;
+      if(!g_bath->InitializeProperties(get_PersistentPointer(),this)){
+        cerr << "Failed to initialize bath properties." <<endl;
+        exit(1);
+      }
+    }
+    return *g_bath;
+  }
+*/
+ 
+  //A more elegant way.
+  //The initialization is moved to the gbathProperties constructor, which throws an
+  //exception if it fails. With the proposed way of handling defaults,
+  //even if the required data was not in the xml file this should only occur if
+  //the defaults file is incorrect, which is a developer rather than a user problem,
+  //so users should never acess the following catch statement.
+  //The only try/catch in main()
+  //try {
+  //    if(!ppIOPtr || !_sys.parse(ppIOPtr))
+  //... and calculation...
+  //}
+  //catch(...) {
+  // cerr << "Exiting with an exception" << endl;
+  // exit(1);
+  //}
 
   gBathProperties&        Molecule::getBath() {
-    if (g_bath) return *g_bath;
-    cerr << "Not a proper call to the molecular type defined in the reaction list.";
-    exit(1);
+    if (!g_bath)
+      g_bath = new gBathProperties(this);
+    return *g_bath;
   }
+  
+
   gDensityOfStates&       Molecule::getDOS()  {
-    if (g_dos) return *g_dos;
-    cerr << "Not a proper call to the molecular type defined in the reaction list.";
-    exit(1);
+    if (!g_dos)
+      g_dos = new gDensityOfStates(this);
+     return *g_dos;
   }
   gTransitionState&       Molecule::getTS()   {
-    if (g_ts) return *g_ts  ;
-    cerr << "Not a proper call to the molecular type defined in the reaction list.";
-    exit(1);
-  }
+    if (!g_ts) 
+      g_ts = new gTransitionState(this);
+   return *g_ts  ;  }
+
   gPopulation&            Molecule::getPop()  {
-    if (g_pop) return *g_pop ;
-    cerr << "Not a proper call to the molecular type defined in the reaction list.";
-    exit(1);
+    if (!g_pop)
+      g_pop = new gPopulation(this);
+    return *g_pop ;
   }
   gWellProperties&        Molecule::getColl() {
-    if (g_coll) return *g_coll;
-    cerr << "Not a proper call to the molecular type defined in the reaction list.";
-    exit(1);
+    if (!g_coll)
+      g_coll = new gWellProperties(this);
+     return *g_coll;
+    
   }
 
 }//namespace

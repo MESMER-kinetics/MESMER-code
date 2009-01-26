@@ -37,12 +37,12 @@ namespace mesmer
     if (it != m_molmap.end()) { // found a molecule with the same name --> should check its type as well later.
       // Check if the related properties specified by molType is activated to allow the molecule to play the specific role. 
       // If they are not activated, activate them.
-      if (!(it->second)->roleIsActivated(molType)){
-        if (!((it->second)->activateRole(molType))){
-          cerr << "Failed to initialize some molecular properties in " << molName;
-          return NULL;
-        }
-      }
+      //if (!(it->second)->roleIsActivated(molType)){
+      //  if (!((it->second)->activateRole(molType))){
+      //    cerr << "Failed to initialize some molecular properties in " << molName;
+      //    return NULL;
+      //  }
+      //}
       return it->second;
     }
 
@@ -71,10 +71,10 @@ namespace mesmer
     }
 
     // Activate specified properties for the molecule
-    if (!(pmolecule->activateRole(molType))){
-      cerr << "Failed to initialize some molecular properties in " << molName;
-      return NULL;
-    }
+//    if (!(pmolecule->activateRole(molType))){
+//      cerr << "Failed to initialize some molecular properties in " << molName;
+//      return NULL;
+//    }
 
     // Add molecule to map.
     m_molmap[molName] = pmolecule ;

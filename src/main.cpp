@@ -21,6 +21,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <exception>
 #include "System.h"
 
 using namespace std ;
@@ -164,7 +165,7 @@ int main(int argc,char *argv[])
     //cinfo << endl;
     events.setTimeStamp(thisEvent);
   }
-
+  try {
   if(!ppIOPtr || !_sys.parse(ppIOPtr))
   {
     cerr << "System parse failed." << endl;
@@ -210,7 +211,13 @@ int main(int argc,char *argv[])
       double chiSquare(1000.0);
       _sys.calculate(chiSquare) ;
   }
-
+  }
+  catch(std::exception& e)
+  {
+    cerr << e.what() << endl;
+    exit(1);
+  }
+    
   meErrorLog.SetContext(__FUNCTION__);
   //--------------------------------
   // Save XML document to a new file

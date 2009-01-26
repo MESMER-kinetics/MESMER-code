@@ -59,8 +59,8 @@ namespace mesmer
     // Constructor, destructor and initialization
     //
     gBathProperties();
+    gBathProperties(Molecule* pMol);
     virtual ~gBathProperties();
-    bool InitializeProperties(PersistPtr pp, Molecule* pMol);
 
     double getSigma() ;
     double getEpsilon() ;
@@ -125,8 +125,8 @@ namespace mesmer
     // Constructor, destructor and initialization
     //
     gDensityOfStates();
+    gDensityOfStates(Molecule* pMol);
     virtual ~gDensityOfStates();
-    bool InitializeProperties(PersistPtr pp, Molecule* pMol);
 
     // Get cell density of states.
     void getCellDensityOfStates(std::vector<double> &cellDOS, int startingCell = 0) ;
@@ -254,8 +254,8 @@ it must be used for all, and this is checked.
     // Constructor, destructor and initialization
     //
     gTransitionState();
+    gTransitionState(Molecule* pMol);
     virtual ~gTransitionState();
-    bool InitializeProperties(PersistPtr pp, Molecule* pMol);
 
     double get_ImFreq();
 
@@ -279,7 +279,7 @@ it must be used for all, and this is checked.
     // Constructor, destructor and initialization
     //
     gPopulation();
-    bool InitializeProperties(PersistPtr pp, Molecule* pMol);
+    gPopulation(Molecule* pMol);
 
     double getInitPopulation() const { return m_initPopulation;};
     void setInitPopulation(double value) { m_initPopulation = value;};
@@ -350,9 +350,8 @@ it must be used for all, and this is checked.
     // Constructor, destructor and initialization
     //
     gWellProperties();
+    gWellProperties(Molecule* pMol);
     virtual ~gWellProperties();
-    bool InitializeProperties(PersistPtr pp, Molecule* pMol);
-
 
     // Initialize the Collision Operator.
     bool initCollisionOperator(double beta, Molecule *pBathGasMolecule) ;

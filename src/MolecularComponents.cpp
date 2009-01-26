@@ -3,7 +3,7 @@
 // Author: Chi-Hsiu Liang
 //
 //-------------------------------------------------------------------------------------------
-
+#include <exception>
 #include "MolecularComponents.h"
 #include "Molecule.h"
 
@@ -37,31 +37,35 @@ namespace mesmer
     }
   };
 
-  bool gBathProperties::InitializeProperties(PersistPtr pp, Molecule* pMol)
+  gBathProperties::gBathProperties(Molecule* pMol)
+    :m_Sigma(sigmaDefault),
+    m_Epsilon(epsilonDefault),
+    m_Sigma_chk(-1),
+    m_Epsilon_chk(-1)
   {
     m_host = pMol;
+    PersistPtr pp = pMol->get_PersistentPointer();
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
       ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
-    const char* txt;
+    const char* txt, *txt2;
 
     txt = ppPropList->XmlReadProperty("me:sigma");
-    if(!txt){
+    if(!txt)
       cerr << "gBathProperties::Cannot find argument me:sigma.";
-      return false;
+    else { 
+     istringstream idata(txt); double sigma(0.); idata >> sigma; setSigma(sigma);
     }
-    else { istringstream idata(txt); double sigma(0.); idata >> sigma; setSigma(sigma);}
-
-    txt = ppPropList->XmlReadProperty("me:epsilon");
-    if(!txt){
+    txt2 = ppPropList->XmlReadProperty("me:epsilon");
+    if(!txt2)
       cerr << "gBathProperties::Cannot find argument me:epsilon.";
-      return false;
+    else { 
+      istringstream idata(txt2); double epsilon(0.); idata >> epsilon; setEpsilon(epsilon); //extra block ensures idata is initiallised
     }
-    else { istringstream idata(txt); double epsilon(0.); idata >> epsilon; setEpsilon(epsilon);} //extra block ensures idata is initiallised
-
-    return true;
+    if(!txt || !txt2)
+      throw std::runtime_error("Bath Properties could not be initialized in " + pMol->getName());
   }
 
   void   gBathProperties::setSigma(double value)          {
@@ -144,9 +148,29 @@ namespace mesmer
     if (m_eleExc.size()) m_eleExc.clear();
   }
 
-  bool gDensityOfStates::InitializeProperties(PersistPtr pp, Molecule* pMol)
-  {
+  gDensityOfStates::gDensityOfStates(Molecule* pMol)
+      :m_RotCstA(0.0),
+    m_RotCstB(0.0),
+    m_RotCstC(0.0),
+    m_Sym(1.0),
+    m_ZPE(0.0),
+    m_scaleFactor(1.0),
+    m_SpinMultiplicity(1),
+    m_pDensityOfStatesCalculator(NULL),
+    m_RC_chk(-1),
+    m_Sym_chk(-1),
+    m_ZPE_chk(-1),
+    m_scaleFactor_chk(-1),
+    m_SpinMultiplicity_chk(-1),
+    m_VibFreq_chk(-1),
+    m_EnergyConvention("arbitary"),
+    m_eleExc(),
+    m_VibFreq(),
+    m_grainEne(),
+    m_grainDOS()
+{
     m_host = pMol;
+    PersistPtr pp = pMol->get_PersistentPointer();
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
@@ -329,8 +353,6 @@ namespace mesmer
     }
     else if(m_ZPE_chk < 0)
       cwarn << "No energy specified (as me:ZPE or me:Hf298 properties)" << endl;
-
-    return true;
   }
 
   //
@@ -688,10 +710,12 @@ namespace mesmer
     if (m_ImFreq_chk == 0) cinfo << "m_ImFreq is provided but not used in " << m_host->getName() << "." << endl;
   }
 
-  bool gTransitionState::InitializeProperties(PersistPtr pp, Molecule* pMol)
+  gTransitionState::gTransitionState(Molecule* pMol)
+    :m_ImFreq(0.0),
+    m_ImFreq_chk(-1)
   {
     m_host = pMol;
-
+    PersistPtr pp = pMol->get_PersistentPointer();    
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
       ppPropList=pp; //Be forgiving; we can get by without a propertyList element
@@ -709,8 +733,6 @@ namespace mesmer
       hasImFreq = true;
       m_ImFreq_chk = 0;
     }
-
-    return true;
   }
 
   double gTransitionState::get_ImFreq(){
@@ -742,10 +764,13 @@ namespace mesmer
 
   // Destructor and initialization, not required.
   // gPopulation::~gPopulation();
-  bool gPopulation::InitializeProperties(PersistPtr pp, Molecule* pMol)
+  
+  gPopulation::gPopulation(Molecule* pMol)
+    :m_initPopulation(0.0),
+    m_eqFraction(0.0)
   {
     m_host = pMol;
-    return true;
+    PersistPtr pp = pMol->get_PersistentPointer();    
   }
 
   //-------------------------------------------------------------------------------------------------
@@ -779,10 +804,22 @@ namespace mesmer
     if (m_grainDist.size()) m_grainDist.clear();
   }
 
-  bool gWellProperties::InitializeProperties(PersistPtr pp, Molecule* pMol)
+  gWellProperties::gWellProperties(Molecule* pMol)
+    :m_DeltaEdownExponent(0.0),
+    m_DeltaEdownRefTemp(298.0),
+    m_DeltaEdown(0.0),
+    m_collisionFrequency(0.0),
+    m_ncolloptrsize(0),
+    m_pDistributionCalculator(NULL),
+    m_DeltaEdown_chk(-1),
+    m_grainFracBeta(0.),
+    m_grainDist(0),
+    m_egme(NULL),
+    m_egvec(NULL),
+    m_egval(0)
   {
     m_host = pMol;
-
+    PersistPtr pp = pMol->get_PersistentPointer();
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
       ppPropList=pp; //Be forgiving; we can get by without a propertyList element
@@ -842,8 +879,6 @@ namespace mesmer
       pDistCalcMethodtxt = "Boltzmann"; // must exist
       m_pDistributionCalculator = DistributionCalculator::Find(pDistCalcMethodtxt);
     }
-
-    return true;
   }
 
   double gWellProperties::get_collisionFrequency() const {
