@@ -238,10 +238,14 @@
           <xsl:when test="$TSmol">
             <xsl:value-of select="$EnergyTStemp" />
           </xsl:when>
-          <xsl:when test="me:activationEnergy">
+          <xsl:when test="me:activationEnergy[not(@reverse)]">
             <!--For ILT source reactions use the activationEnergy + energy of reactants-->
             <xsl:value-of select="(me:activationEnergy + 
                  exsl:node-set($RandPEnergies)/*[number($reactantIndex)])"/>
+          </xsl:when>
+          <xsl:when test="me:activationEnergy[@reverse]">
+            <xsl:value-of select="(me:activationEnergy + 
+                 exsl:node-set($RandPEnergies)/*[number($productIndex)])"/>            
           </xsl:when>
           <xsl:otherwise>
             <xsl:value-of select="$EnergyTStemp" />
