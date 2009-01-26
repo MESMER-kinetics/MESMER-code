@@ -33,13 +33,13 @@ Cell number = 16050, Grain number = 107
 m_scaleFactor was not defined but requested in n-pentyl=TS=2-pentyl. Default value 1 is given.
 m_scaleFactor was not defined but requested in n-pentyl. Default value 1 is given.
 m_scaleFactor was not defined but requested in 2-pentyl. Default value 1 is given.
-Diagonlize Collision Operator -- Time elapsed: 0 seconds.
+Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 No population was assigned, and there is no source term.
 Initialize a Boltzmann distribution in the first isomer.
 
 In total, 1 temperature/concentration-pressure points calculated.
-In main Finish Calculation -- Time elapsed: 12 seconds.
- -- Total time elapsed: 14 seconds.
+In main Finish Calculation -- Time elapsed: 19 seconds.
+ -- Total time elapsed: 24 seconds.
 
 System saved
 m_Mass is provided but not used in n-pentyl=TS=2-pentyl

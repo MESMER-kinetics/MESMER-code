@@ -91,7 +91,7 @@ m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 
 m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
 m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
 m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
-Diagonlize Collision Operator -- Time elapsed: 0 seconds.
+Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 PT Grid 1
 Build Collison Operator
 Cell number = 38200, Grain number = 191
@@ -155,11 +155,11 @@ m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 
 m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
 m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
 m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
-Diagonlize Collision Operator -- Time elapsed: 0 seconds.
+Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 2 temperature/concentration-pressure points calculated.
-In main Finish Calculation -- Time elapsed: 121 seconds.
- -- Total time elapsed: 239 seconds.
+In main Finish Calculation -- Time elapsed: 245 seconds.
+ -- Total time elapsed: 414 seconds.
 
 System saved
 m_Mass is provided but not used in TS1

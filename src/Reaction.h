@@ -177,7 +177,7 @@ namespace mesmer
     // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
     bool calcGrnAvrgMicroRateCoeffs() ;
 
-    // Add reaction terms to collision matrix.
+    // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) = 0 ;
 
     // Is reaction equilibrating and therefore contributes

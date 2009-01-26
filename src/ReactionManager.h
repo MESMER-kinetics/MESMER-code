@@ -33,8 +33,8 @@ namespace mesmer
 
     // Destructor.
     ~ReactionManager()
-    { 
-      if (m_pReactionOperator) delete m_pReactionOperator;
+    {
+      if (m_reactionOperator) delete m_reactionOperator;
       vector<Reaction*>::iterator iter;
       for(iter=m_reactions.begin();iter!=m_reactions.end();++iter)
         delete *iter;
@@ -59,11 +59,11 @@ namespace mesmer
     // Find a reaction from its id
     Reaction* find(const std::string& id) const ;
 
-    // Build collision operator for system.
+    // Build reaction operator for system.
     bool BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags) ;
 
-    // Diagonalize the collision operator.
-    void diagCollisionOperator(const MesmerFlags &mFlags, const int precision) ;
+    // Diagonalize the reaction operator.
+    void diagReactionOperator(const MesmerFlags &mFlags, const int precision) ;
 
     // Calculate the time evolution of the system
     bool timeEvolution(MesmerFlags& mFlags);
@@ -77,19 +77,28 @@ namespace mesmer
 
     double calcChiSquare(const dMatrix& mesmerRates, vector<conditionSet>& expRates);
 
+//    void constructBasisMatrix(void);
+
   private:
 
     std::vector<Reaction *> m_reactions ;
 
     MoleculeManager        *m_pMoleculeManager ;
 
-    qdMatrix               *m_pReactionOperator ;
-
+    qdMatrix               *m_reactionOperator ;
+    qdMatrix               *m_eigenvectors;
     std::vector<qd_real>    m_eigenvalues;
+
+    // Reaction operator after similarity transformation by block diagonal U, which is U^-1 M' U.
+    qdMatrix               *m_basisMatrix;
+
+    qdMatrix               *m_reducedReactionOperator;
+    qdMatrix               *m_reducedEigenvectors;
+    std::vector<qd_real>    m_reducedEigenvalues;
 
     std::vector<double>     m_eqVector;
 
-    // Maps the location of individual reactant collision operator and source terms in the system matrix.
+    // Maps the location of individual reactant collision operator and source terms in the reaction operator.
     Reaction::isomerMap    m_isomers;
     Reaction::sourceMap    m_sources;
     sinkMap                m_sinkRxns;
@@ -103,7 +112,7 @@ namespace mesmer
     double m_meanOmega;
 
     bool punchSymbolGathered;
-    
+
     // Extract molecule information from XML stream.
     bool GetMoleculeInfo(PersistPtr pp, std::string& MolName, std::string& MolType) ;
 
@@ -114,7 +123,7 @@ namespace mesmer
 
     bool produceEquilibriumVector();
 
-    void printCollisionOperator(const MesmerFlags &mFlags);
+    void printReactionOperator(const MesmerFlags &mFlags);
 
   } ;
 }//namespace

@@ -177,8 +177,8 @@ namespace mesmer
       m_Flags.TunnellingCoeffEnabled      = ppControl->XmlReadBoolean("me:printTunnellingCoefficients");
       if (!m_Flags.TunnellingCoeffEnabled)
         m_Flags.TunnellingCoeffEnabled    = ppControl->XmlReadBoolean("me:printTunnelingCoefficients");
-      m_Flags.cellFluxEnabled           = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
-      m_Flags.grainFluxEnabled          = ppControl->XmlReadBoolean("me:printGrainTransitionStateFlux");
+      m_Flags.cellFluxEnabled             = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
+      m_Flags.grainFluxEnabled            = ppControl->XmlReadBoolean("me:printGrainTransitionStateFlux");
       m_Flags.rateCoefficientsOnly        = ppControl->XmlReadBoolean("me:calculateRateCoefficinetsOnly");
       m_Flags.useTheSameCellNumber        = ppControl->XmlReadBoolean("me:useTheSameCellNumberForAllConditions");
       m_Flags.grainedProfileEnabled       = ppControl->XmlReadBoolean("me:printGrainedSpeciesProfile");
@@ -186,6 +186,8 @@ namespace mesmer
       m_Flags.viewEvents                  = ppControl->XmlReadBoolean("me:printEventsTimeStamps");
       m_Flags.allowSmallerDEDown          = ppControl->XmlReadBoolean("me:allowSmallerDeltaEDown");
       m_Flags.print_TabbedMatrices        = ppControl->XmlReadBoolean("me:printTabbedMatrices");
+      m_Flags.useDOSweighedDT             = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
+      m_Flags.doBasisSetMethod            = ppControl->XmlReadBoolean("me:runBasisSetMethodroutines");
       if (!m_Flags.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
         m_Flags.useTheSameCellNumber = true;
       }
@@ -201,6 +203,12 @@ namespace mesmer
       if (m_Flags.grainedProfileEnabled && (m_Flags.speciesProfileEnabled || m_Flags.searchMethod)){
         cinfo << "Turn off grained species profile to prevent disk flooding." << endl;
         m_Flags.grainedProfileEnabled = false;
+      }
+
+      const char* txtPCOP = ppControl->XmlReadValue("me:printCollisionOperatorLevel",false);
+      if(txtPCOP) {
+        istringstream ss(txtPCOP);
+        ss >> m_Flags.showCollisionOperator;
       }
 
       const char* txtEV = ppControl->XmlReadValue("me:eigenvalues",false);
@@ -474,17 +482,28 @@ namespace mesmer
       }
 
       // Calculate eigenvectors and eigenvalues.
-      {string thisEvent = "Diagonlize Collision Operator";
+      {string thisEvent = "Diagonlize the Reaction Operator";
       cinfo << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds.\n";
       events.setTimeStamp(thisEvent, timeElapsed);}
 
-      m_pReactionManager->diagCollisionOperator(m_Flags, precision) ;
+      //-------------------------------
+      // Total raction matrix operation
+      //-------------------------------
+
+      // This is where the collision operator being diagonalised.
+      m_pReactionManager->diagReactionOperator(m_Flags, precision) ;
 
       // Time steps loop
       m_pReactionManager->timeEvolution(m_Flags);
 
       dMatrix mesmerRates(1);
       m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates, m_Flags, ppList);
+
+      //-------------------------------
+      // Reduced raction matrix operation
+      //-------------------------------
+
+//      m_pReactionManager->constructBasisMatrix();
 
       if (m_Flags.searchMethod){
         vector<conditionSet> expRates;

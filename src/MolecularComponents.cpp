@@ -765,7 +765,9 @@ namespace mesmer
     m_DeltaEdown_chk(-1),
     m_grainFracBeta(0.),
     m_grainDist(0),
-    m_egme(NULL)
+    m_egme(NULL),
+    m_egvec(NULL),
+    m_egval(0)
   {}
 
   gCollisionProperties::~gCollisionProperties()
@@ -898,7 +900,36 @@ namespace mesmer
       cerr << "Failed building collision operator.";
       return false;
     }
+
+    if (m_host->getFlags().doBasisSetMethod) diagonalizeCollisionOperator();
+
     return true;
+  }
+
+  //
+  // Diagonalize collision operator
+  //
+  void gCollisionProperties::diagonalizeCollisionOperator()
+  {
+    // Allocate memory.
+    m_egval.clear();
+    m_egval.resize(m_ncolloptrsize, 0.0);
+    if (m_egvec) delete m_egvec ;                      // Delete the existing matrix.
+    m_egvec = new dMatrix(m_ncolloptrsize) ;
+    m_egvec = m_egme;
+
+    m_egvec->diagonalize(&m_egval[0]) ;
+
+    ctest << "\nEigenvectors of: " << m_host->getName() << endl;
+    m_egvec->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+
+    // The eigenvalues in this series should contain a zero eigenvalue (lambda_0) which addresses the conserveness 
+    // of the system, the second smallest eigenvalue in magnitude is lamda_1.
+    ctest << "\nEigenvalues of: " << m_host->getName() << "\n{\n";
+    for(int i(0); i < m_ncolloptrsize; ++i){
+      ctest << m_egval[i] << endl;
+    }
+    ctest << "}\n";
   }
 
   //
@@ -945,32 +976,57 @@ namespace mesmer
         return false;
       }
     }
-
-    // The collision operator.
-    for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
-      double ei = gEne[i] ;
-      double ni = gDOS[i] ;
-      for ( j = i ; j < m_ncolloptrsize ; ++j ) {
-        double ej = gEne[j];
-        double nj = gDOS[j];
-        // Transfer to lower Energy -
-        double transferDown = exp(-alpha*(ej - ei)) ;
-        (*m_egme)[i][j] = transferDown;
-
-        // Transfer to higher Energy (via detailed balance) -
-        double transferUp = exp(-alpha*(ej - ei)) * (nj/ni) * exp(-beta*(ej - ei)) ;
-        (*m_egme)[j][i] = transferUp;
+    
+    // Use number of states to weigh the downward transition
+    if (m_host->getFlags().useDOSweighedDT){
+      // The collision operator.
+      for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
+        double ei = gEne[i] ;
+        double ni = gDOS[i] ;
+        for ( j = i ; j < m_ncolloptrsize ; ++j ) {
+          double ej = gEne[j];
+          double nj = gDOS[j];
+          // Transfer to lower Energy -
+          double transferDown = exp(-alpha*(ej - ei)) * (ni/nj);
+          (*m_egme)[i][j] = transferDown;
+      
+          // Transfer to higher Energy (via detailed balance) -
+          double transferUp = exp(-(alpha + beta)*(ej - ei));
+          (*m_egme)[j][i] = transferUp;
+        }
+      }
+    }
+    else{
+      // The collision operator.
+      for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
+        double ei = gEne[i] ;
+        double ni = gDOS[i] ;
+        for ( j = i ; j < m_ncolloptrsize ; ++j ) {
+          double ej = gEne[j];
+          double nj = gDOS[j];
+          // Transfer to lower Energy -
+          double transferDown = exp(-alpha*(ej - ei)) ;
+          (*m_egme)[i][j] = transferDown;
+      
+          // Transfer to higher Energy (via detailed balance) -
+          double transferUp = exp(-alpha*(ej - ei)) * (nj/ni) * exp(-beta*(ej - ei)) ;
+          (*m_egme)[j][i] = transferUp;
+        }
       }
     }
 
-    //ctest << "Collision operator before normalization:\n";
-    //m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+    if (m_host->getFlags().showCollisionOperator != 0){
+      ctest << "\nCollision operator of " << m_host->getName() << " before normalization:\n";
+      m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+    }
 
     //Normalisation
     normalizeCollisionOperator();
 
-    //ctest << "Collision operator after normalization:\n";
-    //m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+    if (m_host->getFlags().showCollisionOperator >= 1){
+      ctest << "\nCollision operator of " << m_host->getName() << " after normalization:\n";
+      m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+    }
 
     // print out of column sums to check normalization results
     if (m_host->getFlags().reactionOCSEnabled){
@@ -1002,9 +1058,10 @@ namespace mesmer
       (*m_egme)[i][i] -= 1.0 ;
     }
 
-    //ctest << "Collision operator after substraction:\n";
-    //m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
-
+    if (m_host->getFlags().showCollisionOperator >= 2){
+      ctest << "Collision operator of " << m_host->getName() << " after :\n";
+      m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+    }
 
     return true;
   }

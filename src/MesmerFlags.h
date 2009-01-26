@@ -21,7 +21,7 @@ namespace mesmer
     bool   cyclePrintGrainDOS;            // Controls the print-out of grain DOS in each cycle (This is only for source term)
     bool   cellDOSEnabled;                // Enabled printing cell DOS
     bool   cyclePrintCellDOS;             // Controls the print-out of cell DOS in each cycle (This is only for source term)
-    bool   reactionOCSEnabled;            // Enabled printing collision operator column Sums
+    bool   reactionOCSEnabled;            // Enabled printing reaction operator column Sums
     bool   kfEGrainsEnabled;              // Enabled printing k_f(E) grains
     bool   kbEGrainsEnabled;              // Enabled printing k_b(E) grains
     bool   TunnellingCoeffEnabled;        // Enabled printing Tunneling coefficients
@@ -39,7 +39,12 @@ namespace mesmer
                                           // by positive integers.
     bool allowSmallerDEDown;              // decide whether allows <delta E>d to be smaller than grain size.
     bool print_TabbedMatrices;            // print tabbed instead of fixed-widthed matrices.
-    std::string punchSymbols;                   // a string holds the symbols of rates.
+    int  showCollisionOperator;           // Show collision operator before and after normalization for each well.
+                                          // 1: after normalization, 2: after deducting with I
+                                          // 0 or anything else: before normalization
+    bool useDOSweighedDT;                 // Use number of states to weigh the downward transition in collisionOperator()
+    bool doBasisSetMethod;                // Run basis set method related routines.
+    std::string punchSymbols;             // a string holds the symbols of rates.
     std::string punchNumbers;
     std::string punchFileName;
   };

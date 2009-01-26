@@ -95,7 +95,7 @@ namespace mesmer
   }
 
   //
-  // Add isomer reaction terms to collision matrix.
+  // Add isomer reaction terms to reaction matrix.
   //
   void IsomerizationReaction::AddReactionTerms(qdMatrix         *CollOptr,
     isomerMap       &isomermap,

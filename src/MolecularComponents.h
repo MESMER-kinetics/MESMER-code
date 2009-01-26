@@ -314,12 +314,17 @@ it must be used for all, and this is checked.
     double m_grainFracBeta;                    // beta used to calculate grain distribution fraction
     std::vector<double> m_grainDist ;          // Grain distribution (not normalized)
     dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
+    dMatrix             *m_egvec ;               // Eigenvectors used to diagonalize (P - I) matrix.
+    std::vector<double>  m_egval;
 
     // Calculate collision frequency.
     double collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule) ;
 
     // Calculate collision operator.
     bool   collisionOperator (double beta) ;
+
+    // Diagonalize collision operator before adding reaction terms to get eigenvectors and eigenvalues.
+    void diagonalizeCollisionOperator();
 
     // Normalize the Collision Operator.
     void normalizeCollisionOperator();
@@ -366,6 +371,9 @@ it must be used for all, and this is checked.
     int  get_colloptrsize() const ;
 
     const int get_grnZPE();
+    
+    const dMatrix* getEigenVectors(){ return m_egvec; }
+
   };
 
 }//namespace

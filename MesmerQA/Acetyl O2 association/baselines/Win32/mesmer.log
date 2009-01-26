@@ -54,11 +54,11 @@ Association ILT calculation completed
 20 values in the FFT convolution routine were replaced by standard convolution
 
 20 values in the FFT convolution routine were replaced by standard convolution
-Diagonlize Collision Operator -- Time elapsed: 0 seconds.
+Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 1 temperature/concentration-pressure points calculated.
-In main Finish Calculation -- Time elapsed: 79 seconds.
- -- Total time elapsed: 223 seconds.
+In main Finish Calculation -- Time elapsed: 104 seconds.
+ -- Total time elapsed: 351 seconds.
 
 System saved
 Rotational constants are provided but not used in HO_2.

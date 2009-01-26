@@ -98,7 +98,7 @@ namespace mesmer
 
   private:
 
-    // Add reaction terms to collision matrix.
+    // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
 
     // Grain averaged microcanonical rate coefficients.

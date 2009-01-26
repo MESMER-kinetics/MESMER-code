@@ -1,3 +1,21 @@
+_2009_01_26__12_16_12_ Chi-Hsiu Liang -- Version merged from v282-283 in branch FlattenedMolecule
+
+  * Changed some variable and function names related with "system collision operator" to "reaction operator"
+  * Add a flag to switch on the DOS weighted downward collision in transition matrix.
+  * Add a flag to show collision matrix for any well.
+  * Add a flag to turn on basis set method. Basis set method is not yet applied in this version.
+  * Modified matrices_multiplication() in MesmerMath.h
+  * Add a function diagonalizeCollisionOperator() in MolecularComponent
+  * Declared two variables
+      dMatrix             *m_egvec ;               // Eigenvectors used to diagonalize (P - I) matrix.
+      std::vector<double>  m_egval;
+    in MolecularComponent.h
+  * In ReactionManager:
+    Added several variables for building the basis set method.
+    Change m_pReactionOperator to m_reactionOperator.
+  * Other minor modifications.
+  * Will start to inspect the int issue regarding to the migration of MESMER to 64 bit platform.
+  
 _2009_01_26__12_09_11_ Chi-Hsiu Liang -- Version merged from v281-282 in branch FlattenedMolecule
 
 Add forgotten namespace declaration.
