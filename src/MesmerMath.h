@@ -17,6 +17,7 @@
 #include <cmath>
 #include <vector>
 #include "oberror.h"
+#include "Matrix.h"
 
 template <class T>
 const T MesmerGamma(const T& x)
@@ -94,5 +95,58 @@ void Convolution(const std::vector<double> &f1,
 void FastLaplaceConvolution(const std::vector<double> &data, const std::vector<double> &respns, std::vector<double> &convolution);
 
 void getCellEnergies(int cellNumber, std::vector<double>& cellEne);
+
+// multiply portions (one of the portions has to be a square) of two matrices
+// If the complete multiplication procedure is M'= A^T M B, then M is the target matrix. A and B are square matrices.
+// This function is either multiplying the (A^T M )or (M B) part.
+template<class T>
+bool matrices_multiplication(Matrix<T>* matrix1, Matrix<T>* matrix2, Matrix<T>* matrix3,
+const size_t m1x, const size_t m1y, const size_t n1x, const size_t n1y,   // The first two numbers are the indices of x and y
+const size_t m2x, const size_t m2y, const size_t n2x, const size_t n2y,   // , the second two numbers are the sizes of the matrix.
+const size_t m3x, const size_t m3y, const bool m1IsTarget){
+
+  // 1st check if the matrices match up and valid
+  if (n1x < 1 || n1y < 1 || n2x < 1 || n2y < 1 || n3x < 1 || n3y < 1) return false;
+  if (n1y != n2x) return false;
+
+  // 2nd define the dimension of the output matrix.
+  // This procedure requires first to make sure that the non-target matrix is a square matrix, and whether the summation
+  // indices are of the same size.
+  size_t n3x(0), n3y(0);
+
+  if (n1y != n2x) return false;
+  else if ( m1IsTarget && n2x == n2y){ n3x = n1x; n3y = n1y; }
+  else if (!m1IsTarget && n1x == n1y){ n3x = n2x; n3y = n2y; }
+  else return false;
+
+  a2d_t<T> mpMul(int(n3x), int(n3y)); // indices are dummies
+
+  //3rd check if the indices go out of range
+  if (m1x + n1x - 1 > matrix1.size() || m1y + n1y - 1 > matrix1.size()) return false;
+  if (m2x + n2x - 1 > matrix2.size() || m2y + n2y - 1 > matrix2.size()) return false;
+  if (m3x + n3x - 1 > matrix3.size() || m3y + n3y - 1 > matrix3.size()) return false;
+
+  //4th do the multiplication
+  for(size_t i(0); i < n1x; ++i){
+    for(size_t j(0); j < n2y; ++j){
+      T sm = 0.0;
+      const size_t i1x = i + m1x;
+      const size_t j2y = j + m2y;
+      for(size_t k(0); k< n1y; ++k){
+        sm += matrix1[i1x][k + m1y] * matrix2[k + m2x][j2y];
+      }
+      mpMul[i][j] = sm;
+    }
+  }
+
+  //5th copy the temporary matrix to the target position
+  for(size_t i(0); i < n3x; ++i){
+    for(size_t j(0); j < n3y; ++j){
+      matrix3[i + m3x][j + m3y] = mpMul[i][j];
+    }
+  }
+
+  return true;
+}
 
 #endif // GUARD_MesmerMath_h
