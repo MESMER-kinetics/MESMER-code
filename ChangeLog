@@ -1,3 +1,7 @@
+_2009_01_26__16_47_26_ Chi-Hsiu Liang
+
+  * Tidied up and made sure MESMER also compile on cygwin.
+
 2009-01-25 Chris Morley -- Version merged from v284-285 in branch FlattenedMolecule
 
   If get functions (like Molecule::getDOS()) for MolecularComponents fail 

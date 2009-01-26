@@ -86,8 +86,6 @@ namespace mesmer
     gPopulation&      getPop();
     gWellProperties&  getColl();
 
-   // bool activateRole(string molType);
-   // bool roleIsActivated(string molType);
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   };
 

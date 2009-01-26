@@ -1,7 +1,7 @@
 #ifndef GUARD_SimpleILT_h
 #define GUARD_SimpleILT_h
 
-#include "ClassicalRotor.h"
+#include "System.h"
 
 namespace mesmer
 {

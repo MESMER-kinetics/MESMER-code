@@ -58,7 +58,6 @@ namespace mesmer
     //
     // Constructor, destructor and initialization
     //
-    gBathProperties();
     gBathProperties(Molecule* pMol);
     virtual ~gBathProperties();
 
@@ -124,7 +123,6 @@ namespace mesmer
     //
     // Constructor, destructor and initialization
     //
-    gDensityOfStates();
     gDensityOfStates(Molecule* pMol);
     virtual ~gDensityOfStates();
 
@@ -253,7 +251,6 @@ it must be used for all, and this is checked.
     //
     // Constructor, destructor and initialization
     //
-    gTransitionState();
     gTransitionState(Molecule* pMol);
     virtual ~gTransitionState();
 
@@ -278,7 +275,6 @@ it must be used for all, and this is checked.
     //
     // Constructor, destructor and initialization
     //
-    gPopulation();
     gPopulation(Molecule* pMol);
 
     double getInitPopulation() const { return m_initPopulation;};
@@ -349,7 +345,6 @@ it must be used for all, and this is checked.
     //
     // Constructor, destructor and initialization
     //
-    gWellProperties();
     gWellProperties(Molecule* pMol);
     virtual ~gWellProperties();
 

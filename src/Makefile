@@ -96,10 +96,8 @@ all: ${OUTPUT}
 
 SRCS := \
   AssociationReaction.cpp \
-  BathGasMolecule.cpp \
   BoltzmannDistribution.cpp \
   ClassicalRotor.cpp \
-  CollidingMolecule.cpp \
   DensityOfStates.cpp \
 	EckartCoefficients.cpp \
 	formatfloat.cpp \
@@ -113,8 +111,8 @@ SRCS := \
 	MesmerMath.cpp \
 	MesmerTools.cpp \
   MicroRate.cpp \
-	ModelledMolecule.cpp \
 	Molecule.cpp \
+	MolecularComponents.cpp \
 	MoleculeManager.cpp \
 	oberror.cpp \
 	Pointer.cpp \
@@ -124,7 +122,6 @@ SRCS := \
 	SimpleRRKM.cpp \
 	System.cpp \
 	TimeCounter.cpp \
-	TransitionState.cpp \
 	unitsConversion.cpp \
 	XMLPersist.cpp 
 

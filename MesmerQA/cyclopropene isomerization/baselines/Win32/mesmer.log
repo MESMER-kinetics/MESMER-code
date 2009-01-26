@@ -2,23 +2,18 @@
 Parsing input xml file...
 Cyclopropene_isomerization_test.xml
 Parsing reaction...
-In allene Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
-In allene Cannot find argument me:spinMultiplicity. Assumes me:spinMultiplicity = 1.Default value 1 is used.
-In allene No method for the calculation of distribution fraction is provided in allene. Default method <Boltzmann> is used.
-In cyclopropene Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
-In cyclopropene Cannot find argument me:spinMultiplicity. Assumes me:spinMultiplicity = 1.Default value 1 is used.
-In cyclopropene No method for the calculation of distribution fraction is provided in cyclopropene. Default method <Boltzmann> is used.
-In TS1 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
-In TS1 No imaginary vibrational frequency.
-The me:tunneling element or attribute was missing or empty.
+In TS1 The me:tunneling element or attribute was missing or empty.
 In TS1 No tunneling method was found for R1
 In TS1 Parsing reaction...
-In propyne Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
-In propyne No method for the calculation of distribution fraction is provided in propyne. Default method <Boltzmann> is used.
-In TS3 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
-In TS3 No imaginary vibrational frequency.
-The me:tunneling element or attribute was missing or empty.
+In TS3 The me:tunneling element or attribute was missing or empty.
 In TS3 No tunneling method was found for R2
+In TS3 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
+In TS3 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
+In TS3 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
+In TS3 Cannot find argument me:spinMultiplicity. Assumes me:spinMultiplicity = 1.Default value 1 is used.
+In TS3 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
+In TS3 Cannot find argument me:spinMultiplicity. Assumes me:spinMultiplicity = 1.Default value 1 is used.
+In TS3 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
 In TS3 All molecules are on the same energy basis: arbitary
 In He The description element or attribute was missing or empty.
 In He The me:precision element or attribute was missing or empty.
@@ -91,6 +86,9 @@ m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 
 m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
 m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
 m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 1 is given.
+No method for the calculation of distribution fraction is provided in cyclopropene. Default method <Boltzmann> is used.
+No method for the calculation of distribution fraction is provided in allene. Default method <Boltzmann> is used.
+No method for the calculation of distribution fraction is provided in propyne. Default method <Boltzmann> is used.
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 PT Grid 1
 Build Collison Operator
@@ -158,8 +156,8 @@ m_SpinMultiplicity was not defined but requested in cyclopropene. Default value 
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 2 temperature/concentration-pressure points calculated.
-In main Finish Calculation -- Time elapsed: 137 seconds.
- -- Total time elapsed: 337 seconds.
+In main Finish Calculation -- Time elapsed: 123 seconds.
+ -- Total time elapsed: 274 seconds.
 
 System saved
 m_Mass is provided but not used in TS1

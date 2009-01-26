@@ -3,37 +3,35 @@ Parsing input xml file...
 HSO2_test.xml
 Parsing reaction...
 In H The description element or attribute was missing or empty.
-In H Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion.
-In H Cannot find argument me:rotConsts. Assumes that it is an atom or atomic ion.
-In H Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
-In H Cannot find argument me:symmetryNumber. Default value 1 is used.
-In H Cannot find argument me:frequenciesScaleFactor. Assumes me:frequenciesScaleFactor = 1.0.
-In H No method for the calculation of DOS is provided. Default method <Classical rotors> is used.
-In H Cannot find argument me:spinMultiplicity. Assumes me:spinMultiplicity = 1.Default value 1 is used.
 In SO2 The description element or attribute was missing or empty.
-In SO2 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
-In SO2 Cannot find argument me:ZPE. Assumes me:ZPE = 0.0.
-In SO2 Cannot find argument me:frequenciesScaleFactor. Assumes me:frequenciesScaleFactor = 1.0.
-In SO2 No method for the calculation of DOS is provided. Default method <Classical rotors> is used.
-In SO2 Cannot find argument me:spinMultiplicity. Assumes me:spinMultiplicity = 1.Default value 1 is used.
-In SO2 No energy specified (as me:ZPE or me:Hf298 properties)
 In HSO2 The description element or attribute was missing or empty.
-In HSO2 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
-In HSO2 Cannot find argument me:symmetryNumber. Default value 1 is used.
-In HSO2 Cannot find argument me:frequenciesScaleFactor. Assumes me:frequenciesScaleFactor = 1.0.
-In HSO2 No method for the calculation of DOS is provided. Default method <Classical rotors> is used.
-In HSO2 Cannot find argument me:spinMultiplicity. Assumes me:spinMultiplicity = 1.Default value 1 is used.
-In HSO2 No method for the calculation of distribution fraction is provided in HSO2. Default method <Boltzmann> is used.
 In TS1 The description element or attribute was missing or empty.
+In TS1 The me:tunneling element or attribute was missing or empty.
+In TS1 No tunneling method was found for R1
+In TS1 Not a unimolecular reaction: look for excess reactant concentration.
+In TS1 Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion.
+In TS1 Cannot find argument me:rotConsts. Assumes that it is an atom or atomic ion.
 In TS1 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
 In TS1 Cannot find argument me:symmetryNumber. Default value 1 is used.
 In TS1 Cannot find argument me:frequenciesScaleFactor. Assumes me:frequenciesScaleFactor = 1.0.
 In TS1 No method for the calculation of DOS is provided. Default method <Classical rotors> is used.
 In TS1 Cannot find argument me:spinMultiplicity. Assumes me:spinMultiplicity = 1.Default value 1 is used.
-In TS1 No imaginary vibrational frequency.
-The me:tunneling element or attribute was missing or empty.
-In TS1 No tunneling method was found for R1
-In TS1 Not a unimolecular reaction: look for excess reactant concentration.
+In TS1 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
+In TS1 Cannot find argument me:symmetryNumber. Default value 1 is used.
+In TS1 Cannot find argument me:frequenciesScaleFactor. Assumes me:frequenciesScaleFactor = 1.0.
+In TS1 No method for the calculation of DOS is provided. Default method <Classical rotors> is used.
+In TS1 Cannot find argument me:spinMultiplicity. Assumes me:spinMultiplicity = 1.Default value 1 is used.
+In TS1 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
+In TS1 Cannot find argument me:ZPE. Assumes me:ZPE = 0.0.
+In TS1 Cannot find argument me:frequenciesScaleFactor. Assumes me:frequenciesScaleFactor = 1.0.
+In TS1 No method for the calculation of DOS is provided. Default method <Classical rotors> is used.
+In TS1 Cannot find argument me:spinMultiplicity. Assumes me:spinMultiplicity = 1.Default value 1 is used.
+In TS1 No energy specified (as me:ZPE or me:Hf298 properties)
+In TS1 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
+In TS1 Cannot find argument me:symmetryNumber. Default value 1 is used.
+In TS1 Cannot find argument me:frequenciesScaleFactor. Assumes me:frequenciesScaleFactor = 1.0.
+In TS1 No method for the calculation of DOS is provided. Default method <Classical rotors> is used.
+In TS1 Cannot find argument me:spinMultiplicity. Assumes me:spinMultiplicity = 1.Default value 1 is used.
 In TS1 All molecules are on the same energy basis: arbitary
 In Ar The description element or attribute was missing or empty.
 In Ar The me:precision element or attribute was missing or empty.
@@ -263,11 +261,12 @@ m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is give
 m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is given.
 m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is given.
 m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is given.
+No method for the calculation of distribution fraction is provided in HSO2. Default method <Boltzmann> is used.
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 1 temperature/concentration-pressure points calculated.
-In main Finish Calculation -- Time elapsed: 12 seconds.
- -- Total time elapsed: 18 seconds.
+In main Finish Calculation -- Time elapsed: 11 seconds.
+ -- Total time elapsed: 16 seconds.
 
 System saved
 m_Mass is provided but not used in TS1
