@@ -45,8 +45,8 @@ namespace mesmer
         cinfo << "Reaction ID not found.\n";
         return false;
       }
+      cinfo << "Parsing reaction..." << endl;
       meErrorLog.SetContext(id);
-      cinfo << "Parsing reaction...\n";
 
       // Read reactant and product types.
 
@@ -59,20 +59,17 @@ namespace mesmer
 
       PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
       if(ppReactant2) {
-        meErrorLog.SetContext(id);
         readStatus = (readStatus && GetMoleculeInfo(ppReactant2, rct2Name, rct2Type)) ;
         bRct2 = true;
       }
 
       PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
       if (ppProduct1) {
-        meErrorLog.SetContext(id);
         readStatus = (readStatus && GetMoleculeInfo(ppProduct1, pdt1Name, pdt1Type)) ;
         bPdt1 = true ;
 
         PersistPtr ppProduct2  = ppProduct1->XmlMoveTo("product");
         if (ppProduct2){
-          meErrorLog.SetContext(id);
           readStatus = (readStatus && GetMoleculeInfo(ppProduct2, pdt2Name, pdt2Type)) ;
           bPdt2 = true ;
         }
@@ -191,27 +188,27 @@ namespace mesmer
     double minEnergy = 9e23 ;  // this is the minimum & maximum ZPE amongst all wells, set artificially large and small
     double maxEnergy = -9e23 ; // to guarantee that each is overwritten in setting minEnergy and maxEnergy
     double populationSum = 0.0;
-    BathGasMolecule *pBathGasMolecule = dynamic_cast<BathGasMolecule*>(m_pMoleculeManager->get_BathGasMolecule());
+    Molecule *pBathGasMolecule = m_pMoleculeManager->get_BathGasMolecule();
 
     // populate isomerMap with unimolecular species and determine minimum/maximum energy on the PES
     for (size_t i(0) ; i < size() ; ++i) {
-      vector<ModelledMolecule *> unimolecules ;
+      vector<Molecule *> unimolecules ;
       m_reactions[i]->get_unimolecularspecies(unimolecules) ;
 
       // populate isomerMap with unimolecular species
       for (size_t j(0) ; j < unimolecules.size() ; ++j) {
         // wells
-        CollidingMolecule *pCollidingMolecule = dynamic_cast<CollidingMolecule*>(unimolecules[j]) ;
+        Molecule *pCollidingMolecule = unimolecules[j] ;
         if(pCollidingMolecule && m_isomers.find(pCollidingMolecule) == m_isomers.end()){ // New isomer
           double population = m_initialPopulations[pCollidingMolecule->getName()];
           if (population){
             populationSum += population;
-            pCollidingMolecule->setInitPopulation(population);
+            pCollidingMolecule->g_pop->setInitPopulation(population);
             ctest << "Initial population of " << pCollidingMolecule->getName() << " = " << population << endl;
           }
           m_isomers[pCollidingMolecule] = 0 ; //initialize to a trivial location
-          minEnergy = min(minEnergy, pCollidingMolecule->get_zpe()) ;
-          maxEnergy = max(maxEnergy, pCollidingMolecule->get_zpe()) ;
+          minEnergy = min(minEnergy, pCollidingMolecule->g_dos->get_zpe()) ;
+          maxEnergy = max(maxEnergy, pCollidingMolecule->g_dos->get_zpe()) ;
         }
       }
 
@@ -221,17 +218,17 @@ namespace mesmer
       //
       AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
       if (pReaction) {
-        double zpe = (pReaction->get_pseudoIsomer())->get_zpe()
-          + (pReaction->get_excessReactant())->get_zpe() ;
+        double zpe = (pReaction->get_pseudoIsomer())->g_dos->get_zpe() 
+          + (pReaction->get_excessReactant())->g_dos->get_zpe() ;
         minEnergy = min(minEnergy, zpe) ;
         maxEnergy = max(maxEnergy, zpe) ;
       }
 
       // Transition State
       // third check for the transition state in this reaction
-      TransitionState *pTransitionState = m_reactions[i]->get_TransitionState();
+      Molecule *pTransitionState = m_reactions[i]->get_TransitionState();
       if (pTransitionState){
-        maxEnergy = max(maxEnergy, pTransitionState->get_zpe()) ;
+        maxEnergy = max(maxEnergy, pTransitionState->g_dos->get_zpe()) ;
       }
     }
 
@@ -255,20 +252,20 @@ namespace mesmer
       Reaction::isomerMap::iterator isomeritr = m_isomers.begin() ;
       for (; isomeritr != m_isomers.end() ; ++isomeritr) {
 
-        CollidingMolecule *isomer = isomeritr->first ;
+        Molecule *isomer = isomeritr->first ;
         isomeritr->second = msize ; //set location
 
-        int grnZpe = isomer->get_grnZPE() ; //set grain ZPE (with respect to the minimum of all wells)
+        int grnZpe = isomer->g_coll->get_grnZPE() ; //set grain ZPE (with respect to the minimum of all wells)
 
         int colloptrsize = mEnv.MaxGrn - grnZpe ;
-        isomer->set_colloptrsize(colloptrsize) ;
+        isomer->g_coll->set_colloptrsize(colloptrsize) ;
         msize += colloptrsize ;
 
-        if(!isomer->initCollisionOperator(mEnv.beta, pBathGasMolecule)){
+        if(!isomer->g_coll->initCollisionOperator(mEnv.beta, pBathGasMolecule)){
           cerr << "Failed initializing collision operator for " << isomer->getName();
           return false;
         }
-        m_meanOmega += isomer->get_collisionFrequency() ;
+        m_meanOmega += isomer->g_coll->get_collisionFrequency() ;
       }
       m_meanOmega /= m_isomers.size();
 
@@ -281,16 +278,16 @@ namespace mesmer
         IrreversibleExchangeReaction *IREreaction = dynamic_cast<IrreversibleExchangeReaction*>(m_reactions[i]);
         AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
         if (pReaction) {  // if the reaction is an association reaction
-          ModelledMolecule *pPseudoIsomer = pReaction->get_pseudoIsomer();
+          Molecule *pPseudoIsomer = pReaction->get_pseudoIsomer();
           if (pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){ // reaction includes
             double population = m_initialPopulations[pPseudoIsomer->getName()];   // a new pseudoisomer
             if (population){
               populationSum += population;
-              pPseudoIsomer->setInitPopulation(population);
+              pPseudoIsomer->g_pop->setInitPopulation(population);
             }
             if (populationSum == 0.0){
               populationSum += 1.0;
-              pPseudoIsomer->setInitPopulation(populationSum);
+              pPseudoIsomer->g_pop->setInitPopulation(populationSum);
             }
             m_sources[pPseudoIsomer] = msize ;
             pReaction->putSourceMap(&m_sources) ;
@@ -300,8 +297,8 @@ namespace mesmer
             pReaction->putSourceMap(&m_sources);                                    // pseudoisomer that
           }                                                                         // is already in the map
         }
-        else if(IREreaction){       // if the reaction is an irreversible exchange reaction
-          ModelledMolecule *pPseudoIsomer = IREreaction->get_pseudoIsomer();
+        else if(IREreaction){       // if the reaction is an irreversible exchange reaction                                                
+          Molecule *pPseudoIsomer = IREreaction->get_pseudoIsomer();        
           if(pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){    // reaction includes a new
             m_sources[pPseudoIsomer] = msize ;                                      // pseudoisomer
             IREreaction->putSourceMap(&m_sources);
@@ -320,12 +317,12 @@ namespace mesmer
       // Insert collision operators for individual wells.
       for (isomeritr = m_isomers.begin() ; isomeritr != m_isomers.end() ; ++isomeritr) {
 
-        CollidingMolecule *isomer = isomeritr->first ;
-        int colloptrsize = isomer->get_colloptrsize() ;
-        double omega = isomer->get_collisionFrequency() ;
+        Molecule *isomer = isomeritr->first ;
+        int colloptrsize = isomer->g_coll->get_colloptrsize() ;
+        double omega = isomer->g_coll->get_collisionFrequency() ;
         int idx = isomeritr->second ;
 
-        isomer->copyCollisionOperator(m_pReactionOperator, colloptrsize, idx, omega/m_meanOmega) ;
+        isomer->g_coll->copyCollisionOperator(m_pReactionOperator, colloptrsize, idx, omega/m_meanOmega) ;
 
       }
 
@@ -385,9 +382,9 @@ namespace mesmer
     // diagonalize the matrix as basis sets
     //Reaction::isomerMap::iterator ipos;
     //for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
-    //  CollidingMolecule* isomer = ipos->first;                        // to get eq Fractions
+    //  Molecule* isomer = ipos->first;                        // to get eq Fractions
     //  int location = ipos->second;
-    //  const int colloptrsize = isomer->get_colloptrsize();
+    //  const int colloptrsize = isomer->g_coll->get_colloptrsize();
     //}
 
     // diagonalize the matrix as basis sets
@@ -470,7 +467,6 @@ namespace mesmer
     pmolname = ppmol->XmlReadValue("ref");
     if(pmolname) {
       MolName = pmolname;
-      meErrorLog.AppendContext(MolName);
       pmoltype = ppmol->XmlReadValue("me:type");
       if(pmoltype)
         MolType = pmoltype;
@@ -505,8 +501,8 @@ namespace mesmer
 
     for (size_t i(0) ; i < size() ; ++i) {  //iterate through m_reactions
 
-      ModelledMolecule* rct;
-      ModelledMolecule* pdt;
+      Molecule* rct;
+      Molecule* pdt;
       double Keq(0.0);
 
       //only need eq fracs for species in isom & assoc rxns
@@ -590,11 +586,11 @@ namespace mesmer
 
     Reaction::sourceMap::iterator itr1;
 
-    for(itr1= m_SpeciesSequence.begin(); itr1!=m_SpeciesSequence.end(); ++itr1){  //assign Eq fraction to appropriate ModelledMolecule
+    for(itr1= m_SpeciesSequence.begin(); itr1!=m_SpeciesSequence.end(); ++itr1){  //assign Eq fraction to appropriate Molecule
       int position = itr1->second;                          //in the Eq frac map
-      ModelledMolecule* key = itr1->first;
-      key->setEqFraction(eqMatrix[position][counter-1]);    //set Eq fraction to last column in eqMatrix
-      ctest << "Equilibrium Fraction for " << key->getName() << " = " << key->getEqFraction() << endl;
+      Molecule* key = itr1->first;
+      key->g_pop->setEqFraction(eqMatrix[position][counter-1]);    //set Eq fraction to last column in eqMatrix
+      ctest << "Equilibrium Fraction for " << key->getName() << " = " << key->g_pop->getEqFraction() << endl;
     }
     return true;
   }
@@ -605,25 +601,25 @@ namespace mesmer
 
     Reaction::isomerMap::iterator ipos;
     for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
-      CollidingMolecule* isomer = ipos->first;                        // to get isomer initial populations
-      populationSum += isomer->getInitPopulation();
+      Molecule* isomer = ipos->first;                        // to get isomer initial populations
+      populationSum += isomer->g_pop->getInitPopulation();
     }
 
     Reaction::sourceMap::iterator spos;
     for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map to get
-      ModelledMolecule* source = spos->first;                         // source initial populations
-      populationSum += source->getInitPopulation();
+      Molecule* source = spos->first;                         // source initial populations
+      populationSum += source->g_pop->getInitPopulation();
     }
 
     for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
-      CollidingMolecule* isomer = ipos->first;                        // get initial population of each isomer
-      double initFrac = isomer->getInitPopulation();
+      Molecule* isomer = ipos->first;                        // get initial population of each isomer
+      double initFrac = isomer->g_pop->getInitPopulation();
       if (initFrac != 0.0){                                           // if isomer initial populations are nonzero
         initFrac /= populationSum;                                    // normalize initial pop fraction
         int location = ipos->second;
-        const int colloptrsize = isomer->get_colloptrsize();
+        const int colloptrsize = isomer->g_coll->get_colloptrsize();
         vector<double> boltzFrac;
-        isomer->normalizedGrnBoltzmannDistribution(boltzFrac, colloptrsize);
+        isomer->g_coll->normalizedGrnBoltzmannDistribution(boltzFrac, colloptrsize);
         for (int i = 0; i < colloptrsize; ++i){
           n_0[i + location] = initFrac * boltzFrac[i];
         }
@@ -634,23 +630,23 @@ namespace mesmer
     int sizeSource = static_cast<int>(m_sources.size());
     if (populationSum == 0. && sizeSource == 0){
       ipos = m_isomers.begin();
-      CollidingMolecule* isomer = ipos->first;
-      isomer->setInitPopulation(1.0); // set initial population for the first isomer
-      double initFrac = isomer->getInitPopulation();
+      Molecule* isomer = ipos->first;
+      isomer->g_pop->setInitPopulation(1.0); // set initial population for the first isomer
+      double initFrac = isomer->g_pop->getInitPopulation();
       cinfo << "No population was assigned, and there is no source term."  << endl
         << "Initialize a Boltzmann distribution in the first isomer." << endl;
       int location = ipos->second;
-      const int colloptrsize = isomer->get_colloptrsize();
+      const int colloptrsize = isomer->g_coll->get_colloptrsize();
       vector<double> boltzFrac;
-      isomer->normalizedInitialDistribution(boltzFrac, colloptrsize);
+      isomer->g_coll->normalizedInitialDistribution(boltzFrac, colloptrsize);
       for (int i = 0; i < colloptrsize; ++i){
         n_0[i + location] = initFrac * boltzFrac[i];
       }
     }
 
     for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
-      ModelledMolecule* source = spos->first;
-      double initFrac = source->getInitPopulation() / populationSum;
+      Molecule* source = spos->first;
+      double initFrac = source->g_pop->getInitPopulation() / populationSum;
       int location = spos->second;
       n_0[location] = initFrac;
       if (populationSum == 0. && spos == m_sources.begin()){
@@ -674,20 +670,20 @@ namespace mesmer
 
     Reaction::sourceMap::iterator spos;
     for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map to get
-      ModelledMolecule* source = spos->first;                            // eq Fractions
+      Molecule* source = spos->first;                            // eq Fractions
       int location = spos->second;
-      double eqFrac = source->getEqFraction();
+      double eqFrac = source->g_pop->getEqFraction();
       m_eqVector[location] = sqrt(eqFrac);
     }
 
     Reaction::isomerMap::iterator ipos;
     for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
-      CollidingMolecule* isomer = ipos->first;                        // to get eq Fractions
+      Molecule* isomer = ipos->first;                        // to get eq Fractions
       int location = ipos->second;
-      double eqFrac = isomer->getEqFraction();
-      const int colloptrsize = isomer->get_colloptrsize();
+      double eqFrac = isomer->g_pop->getEqFraction();
+      const int colloptrsize = isomer->g_coll->get_colloptrsize();
       vector<double> boltzFrac;
-      isomer->normalizedGrnBoltzmannDistribution(boltzFrac, colloptrsize);
+      isomer->g_coll->normalizedGrnBoltzmannDistribution(boltzFrac, colloptrsize);
       for(int i(0);i<colloptrsize;++i){
         m_eqVector[location + i]= sqrt(eqFrac * boltzFrac[i]);
       }
@@ -831,8 +827,8 @@ namespace mesmer
         bool Irreversible = (m_reactions[i])->isIrreversible() ;
         if (Irreversible && m_sinkRxns.find(m_reactions[i]) == m_sinkRxns.end()) {   // add an irreversible rxn to the map
           Reaction* reaction = m_reactions[i];
-          ModelledMolecule* source = reaction->get_reactant();
-          CollidingMolecule* isomer = dynamic_cast<CollidingMolecule*>(source);
+          Molecule* source = reaction->get_reactant();
+          Molecule* isomer = source;
           if(isomer){
             int location = m_isomers[isomer];
             m_sinkRxns[reaction] = location;
@@ -856,7 +852,7 @@ namespace mesmer
 
       Reaction::sourceMap::iterator spos;
       for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map
-        ModelledMolecule* source = spos->first ;                        // to get source profile vs t
+        Molecule* source = spos->first ;                        // to get source profile vs t
         ctest << setw(16) << source->getName();
         int location = spos->second;
         for (int timestep = 0; timestep < maxTimeStep; ++timestep){
@@ -868,10 +864,10 @@ namespace mesmer
 
       Reaction::isomerMap::iterator ipos;
       for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
-        CollidingMolecule* isomer = ipos->first;                        // to get isomer profile vs t
+        Molecule* isomer = ipos->first;                        // to get isomer profile vs t
         ctest << setw(16) << isomer->getName();
         int location = ipos->second;
-        const int colloptrsize = isomer->get_colloptrsize();
+        const int colloptrsize = isomer->g_coll->get_colloptrsize();
         for (int timestep = 0; timestep < maxTimeStep; ++timestep){
           for(int i = 0; i < colloptrsize; ++i){
             speciesProfile[speciesProfileidx][timestep] += grnProfile[i+location][timestep];
@@ -886,7 +882,7 @@ namespace mesmer
         vector<double> KofEs;                             // vector to hold sink k(E)s
         Reaction* sinkReaction = pos->first;
         const int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant
-        vector<ModelledMolecule*> pdts;                               // in the sink reaction
+        vector<Molecule*> pdts;                               // in the sink reaction  
         sinkReaction->get_products(pdts);
         if(colloptrsize == 1){  // if the collision operator size is 1, there is one canonical loss rate coefficient
           KofEs.push_back(sinkReaction->get_fwdGrnCanonicalRate());
@@ -991,8 +987,8 @@ namespace mesmer
     for(int i(0); i<nchem; ++i){
       for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // calculate Z_matrix matrix elements for
         double sm = 0.0;                                                // all isomers in the system
-        CollidingMolecule* isomer = ipos->first;
-        const int colloptrsize = isomer->get_colloptrsize();            // get colloptrsize for isomer
+        Molecule* isomer = ipos->first;
+        const int colloptrsize = isomer->g_coll->get_colloptrsize();            // get colloptrsize for isomer
         int location = ipos->second;                                    // get location for isomer
         int position = m_SpeciesSequence[isomer];                       // get sequence position for isomer
         for(int j(0);j<colloptrsize;++j){
@@ -1002,7 +998,7 @@ namespace mesmer
       }
       for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // calculate Z_matrix matrix elements for
         double sm = 0.0;                                                // all sources in the system
-        ModelledMolecule* pPseudoIsomer = spos->first ;
+        Molecule* pPseudoIsomer = spos->first ;
         int location = spos->second;
         int position = m_SpeciesSequence[pPseudoIsomer];
         sm = assymEigenVec[location][nchemIdx+i];
@@ -1091,7 +1087,7 @@ namespace mesmer
     stringstream puNumbers;
     // print pseudo 1st order k loss for isomers
     for(lossitr=m_SpeciesSequence.begin(); lossitr!=m_SpeciesSequence.end(); ++lossitr){
-      ModelledMolecule* iso = lossitr->first;
+      Molecule* iso = lossitr->first;
       int losspos = lossitr->second;
       ctest << iso->getName() << " loss = " << Kr[losspos][losspos] << endl;
       PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", Kr[losspos][losspos]);
@@ -1110,10 +1106,10 @@ namespace mesmer
 
     // print pseudo first order connecting ks
     for (rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
-      ModelledMolecule* rct = rctitr->first;
+      Molecule* rct = rctitr->first;
       int rctpos = rctitr->second;
       for (pdtitr=m_SpeciesSequence.begin(); pdtitr!=m_SpeciesSequence.end(); ++pdtitr){
-        ModelledMolecule* pdt = pdtitr->first;
+        Molecule* pdt = pdtitr->first;
         int pdtpos = pdtitr->second;
         if(rctpos != pdtpos){
           ctest << rct->getName() << " -> " << pdt->getName() << " = " << Kr[pdtpos][rctpos] << endl;
@@ -1142,10 +1138,10 @@ namespace mesmer
         Reaction* sinkReaction = sinkitr->first;          // get Irreversible Rxn
         int colloptrsize = sinkReaction->getRctColloptrsize();
         int sinkpos = m_SinkSequence[sinkReaction];                   // get products & their position
-        vector<ModelledMolecule*> pdts;
+        vector<Molecule*> pdts;                                 
         sinkReaction->get_products(pdts);
         for(rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
-          ModelledMolecule* rcts = rctitr->first;     // get reactants & their position
+          Molecule* rcts = rctitr->first;     // get reactants & their position
           int rctpos = rctitr->second;
           if(colloptrsize==1){
             ctest << rcts->getName() << " -> "  << pdts[0]->getName() << "(bim) = " << Kp[sinkpos][rctpos] << endl;

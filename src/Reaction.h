@@ -34,8 +34,8 @@ namespace mesmer
       { return r1->getName() < r2->getName(); }
     };
 
-    typedef std::map<CollidingMolecule*, int, MoleculePtrLess> isomerMap ;
-    typedef std::map<ModelledMolecule* , int, MoleculePtrLess> sourceMap ;
+    typedef std::map<Molecule*, int, MoleculePtrLess> isomerMap ;
+    typedef std::map<Molecule*, int, MoleculePtrLess> sourceMap ;
 
     // Constructors.
 
@@ -89,21 +89,21 @@ namespace mesmer
     ILT can be used in all reaction types if necessary. */
 
     // get products
-    virtual int get_products(std::vector<ModelledMolecule *> &product) const = 0;
+    virtual int get_products(std::vector<Molecule *> &product) const = 0;
 
     // get the reactant, which reacts in a first order or pseudo first order process
-    virtual ModelledMolecule *get_reactant(void) const = 0;
+    virtual Molecule *get_reactant(void) const = 0;
 
     // get reactant collisionoperator size
     virtual int getRctColloptrsize() = 0;
 
-    TransitionState* get_TransitionState() const { return m_TransitionState ; } ;
+    Molecule* get_TransitionState() const { return m_TransitionState ; } ;
 
     // Get unimolecualr species information:
-    virtual int get_unimolecularspecies(std::vector<ModelledMolecule *> &unimolecularspecies) const = 0 ;
+    virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const = 0 ;
 
     // Get the imaginary frequency of the transitions state.
-    double get_TSImFreq(void) const {return m_TransitionState->get_ImFreq() ; } ;
+    double get_TSImFreq(void) const {return m_TransitionState->g_ts->get_ImFreq() ; } ;
 
     bool thereIsTunnelling (void) const {return (m_pTunnelingCalculator) ? true : false ; } ;
 
@@ -182,7 +182,7 @@ namespace mesmer
 
     // Is reaction equilibrating and therefore contributes
     // to the calculation of equilibrium fractions.
-    virtual bool isEquilibratingReaction(double &Keq, ModelledMolecule **rct, ModelledMolecule **pdt) { return false ; } ;
+    virtual bool isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) { return false ; } ;
 
     // is the reaction an irreversible reaction
     virtual bool isIrreversible(){return false;};
@@ -213,7 +213,7 @@ namespace mesmer
     // Reaction composition.
     //
 
-    TransitionState     *m_TransitionState;       // TransitionState
+    Molecule     *m_TransitionState;       // Transition State
 
     MoleculeManager     *m_pMoleculeManager ;     // Pointer to molecule manager.
     MicroRateCalculator *m_pMicroRateCalculator ; // Pointer to microcanoical rate coeff. calculator.

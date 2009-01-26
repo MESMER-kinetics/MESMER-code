@@ -1,3 +1,7 @@
+_2009_01_26__11_53_26_ Chi-Hsiu Liang -- Version merged from v276-277 in branch FlattenedMolecule
+
+A tagged version that flattens class Molecule 
+
 2008-12-16 Chris Morley
 
   * Added project title: XML tag, member variable in System, displayed when

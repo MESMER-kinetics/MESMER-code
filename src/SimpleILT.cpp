@@ -17,9 +17,9 @@ namespace mesmer
 
   bool SimpleILT::calculateMicroRateCoeffs(Reaction* pReact)
   {
-    vector<ModelledMolecule *> Isomers ;
+    vector<Molecule *> Isomers ;
     int nIsomers = pReact->get_unimolecularspecies(Isomers) ;  
-    ModelledMolecule *p_rcts = Isomers[0] ;
+    Molecule *p_rcts = Isomers[0] ;
 
     const int MaximumCell = pReact->getEnv().MaxCell;
 
@@ -31,7 +31,7 @@ namespace mesmer
     // Allocate some work space for and obtain density of states of the unimolecuar reactant.
 
     vector<double> rctsCellDOS; 
-    p_rcts->getCellDensityOfStates(rctsCellDOS) ;
+    p_rcts->g_dos->getCellDensityOfStates(rctsCellDOS) ;
 
     // Obtain the Arrhenius parameters.
 
@@ -45,7 +45,7 @@ namespace mesmer
     }
 
     // the flux bottom energy is equal to the well bottom of the source term
-    pReact->setCellFluxBottom(p_rcts->get_zpe() - pReact->getEnv().EMin);
+    pReact->setCellFluxBottom(p_rcts->g_dos->get_zpe() - pReact->getEnv().EMin);
 
     return true;
   }

@@ -77,14 +77,14 @@ namespace mesmer
 
     //Check that the energy baseline is the same for all the modelled molecules
     std::string id ;
-    ModelledMolecule* pmmol, *pfirstmol;
+    Molecule* pmmol, *pfirstmol;
     m_pMoleculeManager->GetNextMolecule(id, pfirstmol);
-    string firstConvention(pfirstmol->getEnergyConvention());
+    string firstConvention(pfirstmol->g_dos->getEnergyConvention());
     while(m_pMoleculeManager->GetNextMolecule(id, pmmol)) {
-      if(pmmol->getEnergyConvention() != pfirstmol->getEnergyConvention()) {
+      if(pmmol->g_dos->getEnergyConvention() != pfirstmol->g_dos->getEnergyConvention()) {
         cerr << "Not all the molecule energies use the same baseline.\n"
           + pfirstmol->getName() + " uses " + firstConvention + "; "
-          + id + " uses " + pmmol->getEnergyConvention()
+          + id + " uses " + pmmol->g_dos->getEnergyConvention() 
           + ".\nThere may be others. Check all modelled molecules." << endl;
       return false;
       }

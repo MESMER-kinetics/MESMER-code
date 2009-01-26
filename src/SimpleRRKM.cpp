@@ -12,7 +12,7 @@ namespace mesmer
 
   bool SimpleRRKM::calculateMicroRateCoeffs(Reaction* pReact)
   {
-    TransitionState* pTS = pReact->get_TransitionState();
+    Molecule* pTS = pReact->get_TransitionState();
     if(!pTS)
     {
       cerr << "Lack of transition state in reaction " << pReact->getName() << " for Simple RRKM" << endl;
@@ -20,7 +20,7 @@ namespace mesmer
     }
     // Allocate some work space for density of states.
     vector<double> TScellDOS; // Transistion state density of states.
-    pTS->getCellDensityOfStates(TScellDOS) ; // Extract densities of states from molecules.
+    pTS->g_dos->getCellDensityOfStates(TScellDOS) ; // Extract densities of states from molecules.
 
     // get MaxCell from MesmerEnv structure via Reaction class
     const int MaximumCell = pReact->getEnv().MaxCell;

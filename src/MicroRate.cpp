@@ -12,9 +12,9 @@ namespace mesmer
     Reaction*  pReact,
     PersistPtr ppbase) const
   {
-    vector<ModelledMolecule *> unimolecularspecies;
+    vector<Molecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
-    ModelledMolecule * pReactant = unimolecularspecies[0];
+    Molecule * pReactant = unimolecularspecies[0];
 
     string comment("Microcanonical rate coefficients");
     PersistPtr ppList = ppbase->XmlWriteMainElement("me:microRateList", comment );
@@ -25,8 +25,8 @@ namespace mesmer
     vector<double> grainEne;
     vector<double> grainDOS;
     const vector<double>& grainKfmc = pReact->get_GrainKfmc();
-    pReactant->getGrainEnergies(grainEne) ;
-    pReactant->getGrainDensityOfStates(grainDOS) ;
+    pReactant->g_dos->getGrainEnergies(grainEne) ;
+    pReactant->g_dos->getGrainDensityOfStates(grainDOS) ;
 
     ctest << "\nCanonical rate coefficients for " << pReact->getName() << ", calculated from microcanonical rates\n{\n";
     for(int i = 0 ; i < 29 ; ++i)

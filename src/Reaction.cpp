@@ -119,7 +119,7 @@ namespace mesmer
       if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this))
         return false;
 
-      // report TransitionState Flux in cells to test output
+      // report Transition State Flux in cells to test output
       const int MaximumCell = getEnv().MaxCell;
       if (getFlags().cellFluxEnabled){
         ctest << "\nFlux(e) cells for " << getName() << ":\n{\n";
@@ -229,7 +229,7 @@ namespace mesmer
 
     // Not ILT
     if (!m_TransitionState) {
-      cerr << "No TransitionState for " << getName();
+      cerr << "No Transition State for " << getName();
       exit(1);
     }
 
@@ -379,7 +379,7 @@ namespace mesmer
     PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState") ;
     if (ppTransitionState)
     {
-      TransitionState* pTrans = dynamic_cast<TransitionState*>(GetMolRef(ppTransitionState,"transitionState"));
+      Molecule* pTrans = GetMolRef(ppTransitionState,"transitionState");
       if(pTrans) m_TransitionState = pTrans;
     }
 

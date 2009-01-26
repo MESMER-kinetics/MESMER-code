@@ -59,7 +59,7 @@ public:
    Returns false when no molecules of the requested class has been found.
    Use like:
      std::string id;
-..   ModelledMolecule* pmol;
+..   Molecule* pmol;
      while(GetNextMolecule(id, pmol))
      { //use id and pmol }
  */
@@ -121,7 +121,7 @@ public:
   PersistPtr get_PersistPtr() {return m_ppPersist;}
   void set_PersistPtr(PersistPtr value) {m_ppPersist = value;}
   Molecule *get_BathGasMolecule() {return m_molmap[m_BathGasMolecule]; } ;
-  void set_BathGasMolecule(const std::string &BathGasMolecule){m_BathGasMolecule = BathGasMolecule ; } ;
+  void set_BathGasMolecule(const std::string &s_bgm){m_BathGasMolecule = s_bgm ; } ;
 
 } ;
 }//namespace

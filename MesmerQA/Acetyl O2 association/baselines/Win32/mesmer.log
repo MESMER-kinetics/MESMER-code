@@ -1,37 +1,37 @@
 
 Parsing input xml file...
 Acetyl_O2_association.xml
-In acetyl Parsing reaction...
-Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
+Parsing reaction...
+In acetyl Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
 In O_2 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
 In Int1 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
-No method for the calculation of distribution fraction in Int1 is provided. Default method <Boltzmann> is used.
-ILT method chosen, look for ILT expressions
-The me:tunneling element or attribute was missing or empty.
-Not a unimolecular reaction: look for excess reactant concentration.
-In Int2 Parsing reaction...
-Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
-No method for the calculation of distribution fraction in Int2 is provided. Default method <Boltzmann> is used.
+In Int1 No method for the calculation of distribution fraction is provided in Int1. Default method <Boltzmann> is used.
+In Int1 ILT method chosen, look for ILT expressions
+In Int1 The me:tunneling element or attribute was missing or empty.
+In Int1 Not a unimolecular reaction: look for excess reactant concentration.
+In Int1 Parsing reaction...
+In Int2 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
+In Int2 No method for the calculation of distribution fraction is provided in Int2. Default method <Boltzmann> is used.
 In TS1 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
-Parsing reaction...
-The description element or attribute was missing or empty.
+In TS1 Parsing reaction...
+In lactone The description element or attribute was missing or empty.
 In lactone Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion.
 In lactone Cannot find argument me:rotConsts. Assumes that it is an atom or atomic ion.
 In lactone Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
 In TS3 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
-The me:tunneling element or attribute was missing or empty.
-No tunneling method was found for R3
-In ketene Parsing reaction...
-Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
-The description element or attribute was missing or empty.
+In TS3 The me:tunneling element or attribute was missing or empty.
+In TS3 No tunneling method was found for R3
+In TS3 Parsing reaction...
+In ketene Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
+In HO_2 The description element or attribute was missing or empty.
 In HO_2 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
 In TS2 Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
-The me:tunneling element or attribute was missing or empty.
-No tunneling method was found for R4
-All molecules are on the same energy basis: arbitary
-The description element or attribute was missing or empty.
-The me:precision element or attribute was missing or empty.
-The me:MaximumEvolutionTime element or attribute was missing or empty.
+In TS2 The me:tunneling element or attribute was missing or empty.
+In TS2 No tunneling method was found for R4
+In TS2 All molecules are on the same energy basis: arbitary
+In He The description element or attribute was missing or empty.
+In He The me:precision element or attribute was missing or empty.
+In He The me:MaximumEvolutionTime element or attribute was missing or empty.
 
 File: "Acetyl_O2_association.xml" successfully parsed.
 Calculate EGME
@@ -57,34 +57,34 @@ Association ILT calculation completed
 Diagonlize Collision Operator -- Time elapsed: 0 seconds.
 
 In total, 1 temperature/concentration-pressure points calculated.
-In main Finish Calculation -- Time elapsed: 31 seconds.
- -- Total time elapsed: 103 seconds.
+In main Finish Calculation -- Time elapsed: 79 seconds.
+ -- Total time elapsed: 223 seconds.
 
 System saved
+Rotational constants are provided but not used in HO_2.
+m_Sym is provided but not used in HO_2.
+m_scaleFactor is provided but not used in HO_2.
+m_SpinMultiplicity is provided but not used in HO_2.
+m_VibFreq is provided but not used in HO_2.
 m_Mass is provided but not used in HO_2
-Rotational constants are provided but not used in HO_2
-m_Sym is provided but not used in HO_2
-m_scaleFactor is provided but not used in HO_2
-m_SpinMultiplicity is provided but not used in HO_2
-m_VibFreq is provided but not used in HO_2
+Rotational constants are provided but not used in OH.
+m_Sym is provided but not used in OH.
+m_scaleFactor is provided but not used in OH.
+m_SpinMultiplicity is provided but not used in OH.
+m_VibFreq is provided but not used in OH.
 m_Mass is provided but not used in OH
-Rotational constants are provided but not used in OH
-m_Sym is provided but not used in OH
-m_scaleFactor is provided but not used in OH
-m_SpinMultiplicity is provided but not used in OH
-m_VibFreq is provided but not used in OH
 m_Mass is provided but not used in TS1
-m_ImFreq is provided but not used in TS2
+m_ImFreq is provided but not used in TS2.
 m_Mass is provided but not used in TS2
-m_ImFreq is provided but not used in TS3
+m_ImFreq is provided but not used in TS3.
 m_Mass is provided but not used in TS3
+Rotational constants are provided but not used in ketene.
+m_Sym is provided but not used in ketene.
+m_scaleFactor is provided but not used in ketene.
+m_SpinMultiplicity is provided but not used in ketene.
+m_VibFreq is provided but not used in ketene.
 m_Mass is provided but not used in ketene
-Rotational constants are provided but not used in ketene
-m_Sym is provided but not used in ketene
-m_scaleFactor is provided but not used in ketene
-m_SpinMultiplicity is provided but not used in ketene
-m_VibFreq is provided but not used in ketene
+m_Sym is provided but not used in lactone.
+m_scaleFactor is provided but not used in lactone.
+m_SpinMultiplicity is provided but not used in lactone.
 m_Mass is provided but not used in lactone
-m_Sym is provided but not used in lactone
-m_scaleFactor is provided but not used in lactone
-m_SpinMultiplicity is provided but not used in lactone

@@ -7,7 +7,7 @@
 
 namespace mesmer
 {
-  class ModelledMolecule;
+  class gDensityOfStates;
   /** Abstract base class for cell Density Of States (DOS) calculators for energy grained master equation (EGME).
   The derived concrete classes are plugin classes:
   -- New classes can be added without changing any of the existing code.
@@ -31,10 +31,10 @@ namespace mesmer
     }
 
     // Provide a function to define particular counts of the convolved DOS of two molecules.
-    virtual bool countDimerCellDOS(ModelledMolecule* p_mol1, ModelledMolecule*  p_mol2, std::vector<double>& rctsCellDOS); 
+    virtual bool countDimerCellDOS(gDensityOfStates* pDOS1, gDensityOfStates*  pDOS2, std::vector<double>& rctsCellDOS); 
 
     // provide a function to define particular counts of the DOS of a molecule
-    virtual bool countCellDOS(ModelledMolecule* mol) = 0;
+    virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell) = 0;
 
   private:
     /// Returns a reference to the map of DensityOfStatesCalculator classes
