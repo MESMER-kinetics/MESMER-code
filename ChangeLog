@@ -1,3 +1,7 @@
+_2009_01_26__12_09_11_ Chi-Hsiu Liang -- Version merged from v281-282 in branch FlattenedMolecule
+
+Add forgotten namespace declaration.
+
 _2009_01_26__12_09_11_ Chi-Hsiu Liang -- Version merged from v280-281 in branch FlattenedMolecule
 
 Checked in for a a prepared routine in matrix multiplication. (not tested)

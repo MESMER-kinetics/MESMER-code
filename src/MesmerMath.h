@@ -19,6 +19,8 @@
 #include "oberror.h"
 #include "Matrix.h"
 
+using namespace mesmer;
+
 template <class T>
 const T MesmerGamma(const T& x)
 {
