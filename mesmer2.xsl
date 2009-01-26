@@ -183,6 +183,9 @@
       </td>
       <td>
         <xsl:if test="me:preExponential">
+          <xsl:if test="me:activationEnergy/@reverse">
+            <xsl:value-of select="'(reverse) '"/>
+          </xsl:if>
           <xsl:value-of select="concat('A = ', me:preExponential, 
               ' E = ', me:activationEnergy, me:activationEnergy/@units)"/>
         </xsl:if>
