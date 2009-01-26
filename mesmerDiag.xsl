@@ -24,8 +24,7 @@
   <xsl:variable name="dummyE" select="-50"/>     <!--The notional energy of a dummy product set-->
   
   <xsl:key name="molrefs" match="cml:molecule" use="@id"/>
-  <xsl:variable name="mols" select="key('molrefs', 
-    //cml:molecule[not(@ref)])"/>
+  <xsl:variable name="mols" select="key('molrefs', //cml:molecule[not(@ref)])"/>
 
   <!--This contains the ref attributes of the first reactant and the first product molecule
       for all reactions. Duplicates have been removed.-->
