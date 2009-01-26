@@ -20,7 +20,7 @@ namespace mesmer
     }
     // Allocate some work space for density of states.
     vector<double> TScellDOS; // Transistion state density of states.
-    pTS->g_dos->getCellDensityOfStates(TScellDOS) ; // Extract densities of states from molecules.
+    pTS->getDOS().getCellDensityOfStates(TScellDOS) ; // Extract densities of states from molecules.
 
     // get MaxCell from MesmerEnv structure via Reaction class
     const int MaximumCell = pReact->getEnv().MaxCell;

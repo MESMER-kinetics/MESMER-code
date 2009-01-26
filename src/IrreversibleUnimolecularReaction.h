@@ -42,12 +42,12 @@ namespace mesmer
     virtual bool InitializeReaction(PersistPtr ppReac) ;
 
     // return relative reactant, product and transition state zero-point energy
-    virtual double get_relative_rctZPE() const {return m_rct1->g_dos->get_zpe() - getEnv().EMin;}
+    virtual double get_relative_rctZPE() const {return m_rct1->getDOS().get_zpe() - getEnv().EMin;}
     virtual double get_relative_pdtZPE() const {
-      double zpe = m_pdt1->g_dos->get_zpe() - getEnv().EMin;
+      double zpe = m_pdt1->getDOS().get_zpe() - getEnv().EMin;
       return zpe;
     }
-    virtual double get_relative_TSZPE(void) const {return m_TransitionState->g_dos->get_zpe() - getEnv().EMin;};
+    virtual double get_relative_TSZPE(void) const {return m_TransitionState->getDOS().get_zpe() - getEnv().EMin;};
 
     const int get_pdtsGrnZPE();
     
@@ -58,7 +58,7 @@ namespace mesmer
     void getPdtsCellDensityOfStates(std::vector<double> &cellDOS) ;
 
     // return the colloptrsize of the reactants
-    virtual int getRctColloptrsize(){return m_rct1->g_coll->get_colloptrsize();}
+    virtual int getRctColloptrsize(){return m_rct1->getColl().get_colloptrsize();}
 
     // Return products
     virtual int get_products(std::vector<Molecule *> &product) const
@@ -84,7 +84,7 @@ namespace mesmer
     // with a negative threshold energy
     void calcEffGrnThresholds(void);
 
-    virtual DensityOfStatesCalculator* get_pdtsDensityOfStatesCalculator(){return m_pdt1->g_dos->get_DensityOfStatesCalculator(); }
+    virtual DensityOfStatesCalculator* get_pdtsDensityOfStatesCalculator(){return m_pdt1->getDOS().get_DensityOfStatesCalculator(); }
 
     bool calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
 

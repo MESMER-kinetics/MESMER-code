@@ -132,7 +132,7 @@ namespace mesmer
           return false;
       }
     }
-    if (molType == "modelled" || molType == "deficientReactant" || molType == "sink" 
+    if (molType == "modelled" || molType == "deficientReactant" || molType == "sink"
       || molType == "transitionState" || molType == "excessReactant"){
       if (!g_dos){
         gDensityOfStates* pGdos = new gDensityOfStates();
@@ -159,7 +159,7 @@ namespace mesmer
     }
     if (molType == "modelled"){
       if (!g_coll){
-        gCollisionProperties* pGcoll = new gCollisionProperties();
+        gWellProperties* pGcoll = new gWellProperties();
         g_coll = pGcoll;
         if (!g_coll->InitializeProperties(m_ppPersist, this))
           return false;
@@ -191,4 +191,32 @@ namespace mesmer
     }
     return true;
   };
+
+
+  gBathProperties&        Molecule::getBath() {
+    if (g_bath) return *g_bath;
+    cerr << "Not a proper call to the molecular type defined in the reaction list.";
+    exit(1);
+  }
+  gDensityOfStates&       Molecule::getDOS()  {
+    if (g_dos) return *g_dos;
+    cerr << "Not a proper call to the molecular type defined in the reaction list.";
+    exit(1);
+  }
+  gTransitionState&       Molecule::getTS()   {
+    if (g_ts) return *g_ts  ;
+    cerr << "Not a proper call to the molecular type defined in the reaction list.";
+    exit(1);
+  }
+  gPopulation&            Molecule::getPop()  {
+    if (g_pop) return *g_pop ;
+    cerr << "Not a proper call to the molecular type defined in the reaction list.";
+    exit(1);
+  }
+  gWellProperties&        Molecule::getColl() {
+    if (g_coll) return *g_coll;
+    cerr << "Not a proper call to the molecular type defined in the reaction list.";
+    exit(1);
+  }
+
 }//namespace

@@ -755,7 +755,7 @@ namespace mesmer
   //
   // Constructor, destructor and initialization
   //
-  gCollisionProperties::gCollisionProperties()
+  gWellProperties::gWellProperties()
     :m_DeltaEdownExponent(0.0),
     m_DeltaEdownRefTemp(298.0),
     m_DeltaEdown(0.0),
@@ -770,7 +770,7 @@ namespace mesmer
     m_egval(0)
   {}
 
-  gCollisionProperties::~gCollisionProperties()
+  gWellProperties::~gWellProperties()
   {
     if (m_DeltaEdown_chk == 0){
       cinfo << "m_DeltaEdown is provided but not used in " << m_host->getName() << "." << endl;
@@ -779,7 +779,7 @@ namespace mesmer
     if (m_grainDist.size()) m_grainDist.clear();
   }
 
-  bool gCollisionProperties::InitializeProperties(PersistPtr pp, Molecule* pMol)
+  bool gWellProperties::InitializeProperties(PersistPtr pp, Molecule* pMol)
   {
     m_host = pMol;
 
@@ -846,27 +846,27 @@ namespace mesmer
     return true;
   }
 
-  double gCollisionProperties::get_collisionFrequency() const {
+  double gWellProperties::get_collisionFrequency() const {
     return m_collisionFrequency ;
   } ;
 
-  void gCollisionProperties::set_colloptrsize(int ncolloptrsize) {
+  void gWellProperties::set_colloptrsize(int ncolloptrsize) {
     m_ncolloptrsize = ncolloptrsize ;
   } ;
 
-  int  gCollisionProperties::get_colloptrsize() const {
+  int  gWellProperties::get_colloptrsize() const {
     return m_ncolloptrsize ;
   } ;
 
-  const int gCollisionProperties::get_grnZPE(){
-    double grnZpe = (m_host->g_dos->get_zpe() - m_host->getEnv().EMin) / m_host->getEnv().GrainSize ; //convert to grain
+  const int gWellProperties::get_grnZPE(){
+    double grnZpe = (m_host->getDOS().get_zpe() - m_host->getEnv().EMin) / m_host->getEnv().GrainSize ; //convert to grain
     if (grnZpe < 0.0)
       cerr << "Grain zero point energy has to be a non-negative value.";
 
     return int(grnZpe);
   }
 
-  double gCollisionProperties::getDeltaEdown()                    {
+  double gWellProperties::getDeltaEdown()                    {
     if (m_DeltaEdown_chk >= 0){
       ++m_DeltaEdown_chk;
       const double refTemp = getDeltaEdownRefTemp();
@@ -884,10 +884,10 @@ namespace mesmer
   //
   // Initialize the Collision Operator.
   //
-  bool gCollisionProperties::initCollisionOperator(double beta, Molecule *pBathGasMolecule)
+  bool gWellProperties::initCollisionOperator(double beta, Molecule *pBathGasMolecule)
   {
     // If density of states have not already been calcualted then do so.
-    if (!m_host->g_dos->calcDensityOfStates()){
+    if (!m_host->getDOS().calcDensityOfStates()){
       cerr << "Failed calculating DOS";
       return false;
     }
@@ -909,7 +909,7 @@ namespace mesmer
   //
   // Diagonalize collision operator
   //
-  void gCollisionProperties::diagonalizeCollisionOperator()
+  void gWellProperties::diagonalizeCollisionOperator()
   {
     // Allocate memory.
     m_egval.clear();
@@ -935,9 +935,9 @@ namespace mesmer
   //
   // Calculate collision operator
   //
-  bool gCollisionProperties::collisionOperator(double beta)
+  bool gWellProperties::collisionOperator(double beta)
   {
-    if (m_host->g_dos->test_rotConsts() < 0) return true;
+    if (m_host->getDOS().test_rotConsts() < 0) return true;
     //
     //     i) Determine Probabilities of Energy Transfer.
     //    ii) Normalisation of Probability matrix.
@@ -966,8 +966,8 @@ namespace mesmer
 
     vector<double> gEne;
     vector<double> gDOS;
-    m_host->g_dos->getGrainEnergies(gEne);
-    m_host->g_dos->getGrainDensityOfStates(gDOS);
+    m_host->getDOS().getGrainEnergies(gEne);
+    m_host->getDOS().getGrainDensityOfStates(gDOS);
 
     // Initialisation and error checking.
     for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
@@ -1069,7 +1069,7 @@ namespace mesmer
   //
   // Normalize collision operator
   //
-  void gCollisionProperties::normalizeCollisionOperator(){
+  void gWellProperties::normalizeCollisionOperator(){
 
     vector<double> work(m_ncolloptrsize) ;// Work space.
     //
@@ -1117,7 +1117,7 @@ namespace mesmer
   //
   // Calculate collision frequency.
   //
-  double gCollisionProperties::collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule)
+  double gWellProperties::collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule)
   {
     //
     // Lennard-Jones Collision frequency. The collision integral is calculated
@@ -1139,21 +1139,21 @@ namespace mesmer
     bthMass = pBathGasMolecule->getMass();
 
     double bthSigma = 0.0;
-    bthSigma = pBathGasMolecule->g_bath->getSigma();
+    bthSigma = pBathGasMolecule->getBath().getSigma();
 
     if (!bthSigma)
       cerr << "me:sigma is necessary for " << pBathGasMolecule->getName()
       << ". Correct input file to remove this error." << endl;
 
     double bthEpsilon = 0.0;
-    bthEpsilon = pBathGasMolecule->g_bath->getEpsilon();
+    bthEpsilon = pBathGasMolecule->getBath().getEpsilon();
 
     if (!bthEpsilon)
       cerr << "me:epsilon is necessary for " << pBathGasMolecule->getName()
       << ". Correct input file to remove this error.";
     double mu   = amu * m_host->getMass() * bthMass/(m_host->getMass() + bthMass) ;
-    double eam  = sqrt(m_host->g_bath->getEpsilon() * bthEpsilon) ;
-    double sam  = (m_host->g_bath->getSigma() + bthSigma) * 0.5;
+    double eam  = sqrt(m_host->getBath().getEpsilon() * bthEpsilon) ;
+    double sam  = (m_host->getBath().getSigma() + bthSigma) * 0.5;
     double tstr = temp / eam;
 
     // Calculate collision integral.
@@ -1170,7 +1170,7 @@ namespace mesmer
   //
   // Calculate a reaction matrix element.
   //
-  double gCollisionProperties::matrixElement(int eigveci, int eigvecj, vector<double> &k, int ndim)
+  double gWellProperties::matrixElement(int eigveci, int eigvecj, vector<double> &k, int ndim)
   {
     double sum = 0.0 ;
     for (int i = 0 ; i < ndim ; ++i){
@@ -1182,7 +1182,7 @@ namespace mesmer
   //
   // Copy collision operator to diagonal block of system matrix.
   //
-  void gCollisionProperties::copyCollisionOperator(qdMatrix *CollOptr,
+  void gWellProperties::copyCollisionOperator(qdMatrix *CollOptr,
     const int size,
     const int locate,
     const double RducdOmega) const
@@ -1214,16 +1214,16 @@ namespace mesmer
   //
   // calculates p(E)*exp(-EB)
   //
-  void gCollisionProperties::grainDistribution(vector<double> &grainFrac, const int totalGrnNumber)
+  void gWellProperties::grainDistribution(vector<double> &grainFrac, const int totalGrnNumber)
   {
     // If density of states have not already been calcualted then do so.
-    if (!m_host->g_dos->calcDensityOfStates())
+    if (!m_host->getDOS().calcDensityOfStates())
       cerr << "Failed calculating DOS";
 
     vector<double> gEne;
     vector<double> gDOS;
-    m_host->g_dos->getGrainEnergies(gEne);
-    m_host->g_dos->getGrainDensityOfStates(gDOS);
+    m_host->getDOS().getGrainEnergies(gEne);
+    m_host->getDOS().getGrainDensityOfStates(gDOS);
 
     if (m_grainDist.size() != gDOS.size() || m_host->getEnv().beta != m_grainFracBeta){
       m_pDistributionCalculator->calculateDistribution(gDOS, gEne, m_host->getEnv().beta, m_grainDist);
@@ -1238,7 +1238,7 @@ namespace mesmer
   //
   // Get normalized grain distribution.
   //
-  void gCollisionProperties::normalizedInitialDistribution(vector<double> &grainFrac, const int totalGrnNumber)
+  void gWellProperties::normalizedInitialDistribution(vector<double> &grainFrac, const int totalGrnNumber)
   {
     grainDistribution(grainFrac, totalGrnNumber);
 
@@ -1263,10 +1263,10 @@ namespace mesmer
   //
   // Get normalized grain distribution.
   //
-  void gCollisionProperties::normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int totalGrnNumber, const int startGrnIdx, const int ignoreCellNumber)
+  void gWellProperties::normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int totalGrnNumber, const int startGrnIdx, const int ignoreCellNumber)
   {
     // If density of states have not already been calcualted then do so.
-    if (!m_host->g_dos->calcDensityOfStates())
+    if (!m_host->getDOS().calcDensityOfStates())
       cerr << "Failed calculating DOS";
 
     vector<double> tempGrnFrac;
@@ -1274,8 +1274,8 @@ namespace mesmer
 
     vector<double> gEne;
     vector<double> gDOS;
-    m_host->g_dos->getGrainEnergies(gEne);
-    m_host->g_dos->getGrainDensityOfStates(gDOS);
+    m_host->getDOS().getGrainEnergies(gEne);
+    m_host->getDOS().getGrainDensityOfStates(gDOS);
 
     // Calculate unnormalized Boltzmann dist.
     // Note the extra 10.0 is to prevent underflow, it is removed during normalization.

@@ -103,7 +103,7 @@ namespace mesmer
     virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const = 0 ;
 
     // Get the imaginary frequency of the transitions state.
-    double get_TSImFreq(void) const {return m_TransitionState->g_ts->get_ImFreq() ; } ;
+    double get_TSImFreq(void) const {return m_TransitionState->getTS().get_ImFreq() ; } ;
 
     bool thereIsTunnelling (void) const {return (m_pTunnelingCalculator) ? true : false ; } ;
 

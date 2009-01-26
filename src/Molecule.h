@@ -44,8 +44,6 @@ namespace mesmer
     //================================================
 
 
-  public:
-
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     // Component pointers
     friend class MolecularComponent; // Provide access privalage of MolecularComponent to private members of Molecule.
@@ -53,8 +51,10 @@ namespace mesmer
     gDensityOfStates*       g_dos;   // Component pointer for cell density of state properties
     gTransitionState*       g_ts;    // Component pointer for transition state properties
     gPopulation*            g_pop;   // Component pointer for population and equilibrium fraction
-    gCollisionProperties*   g_coll;  // Component pointer for collision down model properties
+    gWellProperties*   g_coll;  // Component pointer for collision down model properties
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+  public:
 
     //
     // Constructor
@@ -80,11 +80,11 @@ namespace mesmer
 
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     // Manipulators of component pointers
-    //gBathProperties        getBathGasProperties()   { return *g_bath; }
-    //gDensityOfStates       getCDOSProperties()      { return *g_dos;  }
-    //gTransitionState       getTSProperties()        { return *g_ts  ; }
-    //gPopulation            getPopulationProperties(){ return *g_pop ; }
-    //gCollisionProperties   getCollisionProperties() { return *g_coll; }
+    gBathProperties&  getBath();
+    gDensityOfStates& getDOS();
+    gTransitionState& getTS();
+    gPopulation&      getPop();
+    gWellProperties&  getColl();
 
     bool activateRole(string molType);
     bool roleIsActivated(string molType);

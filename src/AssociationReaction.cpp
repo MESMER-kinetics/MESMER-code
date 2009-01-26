@@ -96,7 +96,7 @@ namespace mesmer
   {
     // Get densities of states of the adduct for detailed balance.
     vector<double> pdtDOS;
-    m_pdt1->g_dos->getGrainDensityOfStates(pdtDOS) ;
+    m_pdt1->getDOS().getGrainDensityOfStates(pdtDOS) ;
 
     // Locate isomers in system matrix.
     const int pdtLoc =      isomermap[m_pdt1] ;
@@ -109,10 +109,10 @@ namespace mesmer
     const int MaximumGrain = getEnv().MaxGrn ;
     vector<double> adductPopFrac ; // Population fraction of the adduct
 
-    m_pdt1->g_coll->normalizedGrnBoltzmannDistribution(adductPopFrac, MaximumGrain) ;
+    m_pdt1->getColl().normalizedGrnBoltzmannDistribution(adductPopFrac, MaximumGrain) ;
     qd_real DissRateCoeff(0.0) ;
 
-    const int colloptrsize = m_pdt1->g_coll->get_colloptrsize();
+    const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
     //const int forwardThreshE = get_EffGrnFwdThreshold();
     const int reverseThreshE = get_EffGrnRvsThreshold();
     const int fluxStartIdx = get_fluxFirstNonZeroIdx();
@@ -141,12 +141,12 @@ namespace mesmer
     double CanPrtnFn = max(canonicalPartitionFunction(rctGrainDOS, rctGrainEne, getEnv().beta), 1.0) ;
     if (CanPrtnFn == 1.0){
       // Electronic partition function for atom is accounted here.
-      CanPrtnFn = double(m_rct1->g_dos->getSpinMultiplicity() * m_rct2->g_dos->getSpinMultiplicity()) ;
+      CanPrtnFn = double(m_rct1->getDOS().getSpinMultiplicity() * m_rct2->getDOS().getSpinMultiplicity()) ;
     }
 
     return CanPrtnFn ;
   }
-  double AssociationReaction::pdtsRovibronicGrnCanPrtnFn() { return m_pdt1->g_dos->rovibronicGrnCanPrtnFn();}
+  double AssociationReaction::pdtsRovibronicGrnCanPrtnFn() { return m_pdt1->getDOS().rovibronicGrnCanPrtnFn();}
 
 
   // Is reaction equilibrating and therefore contributes
@@ -178,7 +178,7 @@ namespace mesmer
     Qrcts *= translationalContribution(m_rct1->getMass(), m_rct2->getMass(), beta);
 
     // rovibronic partition function for product
-    const double Qpdt1 = m_pdt1->g_dos->rovibronicGrnCanPrtnFn() ;
+    const double Qpdt1 = m_pdt1->getDOS().rovibronicGrnCanPrtnFn() ;
 
     Keq = Qpdt1 / Qrcts;
 
@@ -205,7 +205,7 @@ namespace mesmer
     vector<double> rctGrainDOS;
     vector<double> rctGrainEne;
     vector<double> pdtGrainDOS;
-    m_pdt1->g_dos->getGrainDensityOfStates(pdtGrainDOS) ;
+    m_pdt1->getDOS().getGrainDensityOfStates(pdtGrainDOS) ;
     calcRctsGrainDensityOfStates(rctGrainDOS, rctGrainEne);
 
     calcEffGrnThresholds();
@@ -253,9 +253,9 @@ namespace mesmer
     const int MaximumCell = (getEnv().MaxCell);
     const int MaximumGrain = (getEnv().MaxGrn-get_fluxFirstNonZeroIdx());
 
-    m_pdt1->g_dos->getGrainDensityOfStates(pdtGrainDOS) ;
-    m_pdt1->g_dos->getCellDensityOfStates(pdtCellDOS);
-    m_pdt1->g_dos->getGrainEnergies(pdtGrainEne);
+    m_pdt1->getDOS().getGrainDensityOfStates(pdtGrainDOS) ;
+    m_pdt1->getDOS().getCellDensityOfStates(pdtCellDOS);
+    m_pdt1->getDOS().getGrainEnergies(pdtGrainEne);
     getCellEnergies(MaximumCell, pdtCellEne);
 
 
@@ -312,7 +312,7 @@ namespace mesmer
     std::vector<double> shiftedCellDOS;
     std::vector<double> shiftedCellEne;
     const int MaximumCell = getEnv().MaxCell;
-    const int cellOffset = get_pseudoIsomer()->g_dos->get_cellOffset();
+    const int cellOffset = get_pseudoIsomer()->getDOS().get_cellOffset();
     std::vector<double> rctsCellEne;
     getCellEnergies(MaximumCell, rctsCellEne);
     shiftCells(MaximumCell, cellOffset, rctsCellDOS, rctsCellEne, shiftedCellDOS, shiftedCellEne);
@@ -350,11 +350,11 @@ namespace mesmer
   // Get reactants cell density of states.
   //
   void AssociationReaction::getRctsCellDensityOfStates(vector<double> &cellDOS) {
-    get_rctsDensityOfStatesCalculator()->countDimerCellDOS(m_rct1->g_dos, m_rct2->g_dos, cellDOS);
+    get_rctsDensityOfStatesCalculator()->countDimerCellDOS(m_rct1->getDOS(), m_rct2->getDOS(), cellDOS);
   }
 
   const int AssociationReaction::get_rctsGrnZPE(){
-    double grnZpe = (m_rct1->g_dos->get_zpe()+m_rct2->g_dos->get_zpe()-getEnv().EMin) / getEnv().GrainSize ; //convert to grain
+    double grnZpe = (m_rct1->getDOS().get_zpe()+m_rct2->getDOS().get_zpe()-getEnv().EMin) / getEnv().GrainSize ; //convert to grain
     if (grnZpe < 0.0)
       cerr << "Grain zero point energy has to be a non-negative value.";
 
@@ -370,7 +370,7 @@ namespace mesmer
     }
 
     int fluxGrnBottom   = get_fluxGrnZPE();
-    int pdtGrnZPE       = m_pdt1->g_coll->get_grnZPE();
+    int pdtGrnZPE       = m_pdt1->getColl().get_grnZPE();
     int rctsGrnZPE      = get_rctsGrnZPE();
     int GrainedRxnHeat  = pdtGrnZPE - rctsGrnZPE;
 

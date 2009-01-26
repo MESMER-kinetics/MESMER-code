@@ -97,7 +97,7 @@ namespace mesmer
     double CanPrtnFn = max(canonicalPartitionFunction(rctGrainDOS, rctGrainEne, getEnv().beta), 1.0) ;
     if (CanPrtnFn == 1.0){
       // Electronic partition function for atom is accounted here.
-      CanPrtnFn = double(m_rct1->g_dos->getSpinMultiplicity() * m_rct2->g_dos->getSpinMultiplicity()) ;
+      CanPrtnFn = double(m_rct1->getDOS().getSpinMultiplicity() * m_rct2->getDOS().getSpinMultiplicity()) ;
     }
 
     return CanPrtnFn ;
@@ -116,7 +116,7 @@ namespace mesmer
     double CanPrtnFn = max(canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, getEnv().beta), 1.0) ;
     if (CanPrtnFn == 1.0){
       // Electronic partition function for atom is accounted here.
-      CanPrtnFn = double(m_pdt1->g_dos->getSpinMultiplicity() * m_pdt2->g_dos->getSpinMultiplicity()) ;
+      CanPrtnFn = double(m_pdt1->getDOS().getSpinMultiplicity() * m_pdt2->getDOS().getSpinMultiplicity()) ;
     }
     return CanPrtnFn ;
   }
@@ -159,7 +159,7 @@ namespace mesmer
     std::vector<double> shiftedCellDOS;
     std::vector<double> shiftedCellEne;
     const int MaximumCell = getEnv().MaxCell;
-    const int cellOffset = get_pseudoIsomer()->g_dos->get_cellOffset();
+    const int cellOffset = get_pseudoIsomer()->getDOS().get_cellOffset();
     std::vector<double> rctsCellEne;
     getCellEnergies(MaximumCell, rctsCellEne);
     shiftCells(MaximumCell, cellOffset, rctsCellDOS, rctsCellEne, shiftedCellDOS, shiftedCellEne);
@@ -204,7 +204,7 @@ namespace mesmer
     std::vector<double> shiftedCellDOS;
     std::vector<double> shiftedCellEne;
     const int MaximumCell = getEnv().MaxCell;
-    const int cellOffset = m_pdt1->g_dos->get_cellOffset(); // ** temporary statement to get cellOffset from one of the molecules.
+    const int cellOffset = m_pdt1->getDOS().get_cellOffset(); // ** temporary statement to get cellOffset from one of the molecules.
     std::vector<double> pdtsCellEne;
     getCellEnergies(MaximumCell, pdtsCellEne);
     shiftCells(MaximumCell, cellOffset, pdtsCellDOS, pdtsCellEne, shiftedCellDOS, shiftedCellEne);
@@ -242,14 +242,14 @@ namespace mesmer
   // Get reactants cell density of states.
   //
   void IrreversibleExchangeReaction::getRctsCellDensityOfStates(vector<double> &cellDOS) {
-    get_rctsDensityOfStatesCalculator()->countDimerCellDOS(m_rct1->g_dos, m_rct2->g_dos, cellDOS);
+    get_rctsDensityOfStatesCalculator()->countDimerCellDOS(m_rct1->getDOS(), m_rct2->getDOS(), cellDOS);
   }
 
   //
   // Get products cell density of states.
   //
   void IrreversibleExchangeReaction::getPdtsCellDensityOfStates(vector<double> &cellDOS) {
-    get_pdtsDensityOfStatesCalculator()->countDimerCellDOS(m_pdt1->g_dos, m_pdt2->g_dos, cellDOS);
+    get_pdtsDensityOfStatesCalculator()->countDimerCellDOS(m_pdt1->getDOS(), m_pdt2->getDOS(), cellDOS);
   }
 
   // Calculate grained forward and reverse k(E)s from transition state flux
@@ -313,7 +313,7 @@ namespace mesmer
   }
 
   const int IrreversibleExchangeReaction::get_rctsGrnZPE(){
-    double grnZpe = (m_rct1->g_dos->get_zpe()+m_rct2->g_dos->get_zpe()-getEnv().EMin) / getEnv().GrainSize ; //convert to grains
+    double grnZpe = (m_rct1->getDOS().get_zpe()+m_rct2->getDOS().get_zpe()-getEnv().EMin) / getEnv().GrainSize ; //convert to grains
     if (grnZpe < 0.0)
       cerr << "Grain zero point energy has to be a non-negative value.";
 

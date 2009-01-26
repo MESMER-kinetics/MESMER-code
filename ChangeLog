@@ -1,3 +1,7 @@
+_2009_01_26__12_20_35_ Chi-Hsiu Liang -- Version merged from v283-284 in branch FlattenedMolecule
+
+  * Change the MolecularComponent pointers in Molecule to be private, and provide manipulator functions for these member pointers.
+
 _2009_01_26__12_16_12_ Chi-Hsiu Liang -- Version merged from v282-283 in branch FlattenedMolecule
 
   * Changed some variable and function names related with "system collision operator" to "reaction operator"

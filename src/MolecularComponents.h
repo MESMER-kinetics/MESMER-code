@@ -288,7 +288,7 @@ it must be used for all, and this is checked.
 
   };
 
-  class gCollisionProperties:public MolecularComponent
+  class gWellProperties:public MolecularComponent
   {
     //-------------------------------------------------------------------------------------------------
     // Collisional redistribution related properties
@@ -349,8 +349,8 @@ it must be used for all, and this is checked.
     //
     // Constructor, destructor and initialization
     //
-    gCollisionProperties();
-    virtual ~gCollisionProperties();
+    gWellProperties();
+    virtual ~gWellProperties();
     bool InitializeProperties(PersistPtr pp, Molecule* pMol);
 
 

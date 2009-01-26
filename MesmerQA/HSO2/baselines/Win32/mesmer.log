@@ -266,8 +266,8 @@ m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is give
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 1 temperature/concentration-pressure points calculated.
-In main Finish Calculation -- Time elapsed: 9 seconds.
- -- Total time elapsed: 15 seconds.
+In main Finish Calculation -- Time elapsed: 12 seconds.
+ -- Total time elapsed: 18 seconds.
 
 System saved
 m_Mass is provided but not used in TS1

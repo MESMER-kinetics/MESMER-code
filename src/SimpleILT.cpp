@@ -31,7 +31,7 @@ namespace mesmer
     // Allocate some work space for and obtain density of states of the unimolecuar reactant.
 
     vector<double> rctsCellDOS; 
-    p_rcts->g_dos->getCellDensityOfStates(rctsCellDOS) ;
+    p_rcts->getDOS().getCellDensityOfStates(rctsCellDOS) ;
 
     // Obtain the Arrhenius parameters.
 
@@ -45,7 +45,7 @@ namespace mesmer
     }
 
     // the flux bottom energy is equal to the well bottom of the source term
-    pReact->setCellFluxBottom(p_rcts->g_dos->get_zpe() - pReact->getEnv().EMin);
+    pReact->setCellFluxBottom(p_rcts->getDOS().get_zpe() - pReact->getEnv().EMin);
 
     return true;
   }

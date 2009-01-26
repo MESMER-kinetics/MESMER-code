@@ -74,7 +74,7 @@ namespace mesmer
     vector<double> rctCellDOS; //  Cell density of states of reactant.
 
     getCellEnergies(MaximumCell, rctCellEne);
-    p_rct->g_dos->getCellDensityOfStates(rctCellDOS);
+    p_rct->getDOS().getCellDensityOfStates(rctCellDOS);
 
     // Allocate space to hold microcanonical rate coefficients for dissociation.
     // This line below pass the reference pointer of m_CellFlux to the vector by (&), so what the code does on
@@ -89,7 +89,7 @@ namespace mesmer
     // If the activation energy specified is for the reverse direction.
     double Keq(1.0);
     if (pReact->isReverseReactionILT_Ea()){
-      const double Q_R        = p_rct->g_dos->rovibronicGrnCanPrtnFn();
+      const double Q_R        = p_rct->getDOS().rovibronicGrnCanPrtnFn();
       const double Q_p        = pReact->pdtsRovibronicGrnCanPrtnFn();
       Keq *= Q_p / Q_R;
       // Heat of reaction contribution is included in activation energy
