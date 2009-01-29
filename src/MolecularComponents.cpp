@@ -898,7 +898,13 @@ namespace mesmer
     m_egval.resize(m_ncolloptrsize, 0.0);
     if (m_egvec) delete m_egvec ;                      // Delete the existing matrix.
     m_egvec = new dMatrix(m_ncolloptrsize) ;
-    m_egvec = m_egme;
+
+    // copy the values over
+    for (int i(0); i < m_ncolloptrsize; ++i){
+      for (int j(0); j < m_ncolloptrsize; ++j){
+        (*m_egvec)[i][j] = (*m_egme)[i][j];
+      }
+    }
 
     m_egvec->diagonalize(&m_egval[0]) ;
 

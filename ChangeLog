@@ -1,3 +1,15 @@
+_2009_01_29__20_05_31_ Chi-Hsiu Liang
+
+  * Changed the names of isomerMap and sourceMap to molMapType.
+  * Added a routine matrices_multiplication() in MesmerMath.h
+  * Added a routine   void ReactionManager::constructBasisMatrix(void)
+    which constructs a basis matrix M''. This matrix is the reaction operator transformed by the conserve-well eigenvectors.
+    The whole idea is still under testing. It is made sure that when there is no isomerization by commenting out the reaction 
+    terms in IsomerizationReaction.cpp, the basis matrix is simply a matrix filled with diagonal terms, which are the eigenvalues
+    of the conserved-well, whereas the rest entries of the matrix are nearly zero.
+    Now it is required to test: 1. whether the lower-right members of the respective wells are k_infinity's. It is observed that
+    the values are propotional to k_infinity's but it is unsure why they are different.
+
 _2009_01_26__16_47_26_ Chi-Hsiu Liang
 
   * Tidied up and made sure MESMER also compile on cygwin.

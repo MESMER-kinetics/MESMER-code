@@ -195,12 +195,12 @@ namespace mesmer
     double populationSum = 0.0;
     Molecule *pBathGasMolecule = m_pMoleculeManager->get_BathGasMolecule();
 
-    // populate isomerMap with unimolecular species and determine minimum/maximum energy on the PES
+    // populate molMapType with unimolecular species and determine minimum/maximum energy on the PES
     for (size_t i(0) ; i < size() ; ++i) {
       vector<Molecule *> unimolecules ;
       m_reactions[i]->get_unimolecularspecies(unimolecules) ;
 
-      // populate isomerMap with unimolecular species
+      // populate molMapType with unimolecular species
       for (size_t j(0) ; j < unimolecules.size() ; ++j) {
         // wells
         Molecule *pCollidingMolecule = unimolecules[j] ;
@@ -254,7 +254,7 @@ namespace mesmer
       int msize(0) ; // size of the collision matrix
       m_meanOmega = 0.0;
 
-      Reaction::isomerMap::iterator isomeritr = m_isomers.begin() ;
+      Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
       for (; isomeritr != m_isomers.end() ; ++isomeritr) {
 
         Molecule *isomer = isomeritr->first ;
@@ -336,6 +336,12 @@ namespace mesmer
         m_reactions[i]->AddReactionTerms(m_reactionOperator,m_isomers,1.0/m_meanOmega) ;
       }
     }
+
+    if (mFlags.doBasisSetMethod) {
+      ctest << "\nPrinting all (" << m_reactionOperator->size() << ") columns/rows of the Reaction Operator:\n";
+      m_reactionOperator->showFinalBits(0, mFlags.print_TabbedMatrices);
+    }
+
     return true;
   }
 
@@ -346,24 +352,24 @@ namespace mesmer
     switch (mFlags.printReactionOperatorNum)
     {
     case -1:
-      ctest << "Printing all (" << smsize << ") columns/rows of Reaction Operator:\n";
+      ctest << "Printing all (" << smsize << ") columns/rows of the Reaction Operator:\n";
       (*m_reactionOperator).showFinalBits(smsize, mFlags.print_TabbedMatrices);
       break;
     case -2:
-      ctest << "Printing final 1/2 (" << smsize/2 << ") columns/rows of Reaction Operator:\n";
+      ctest << "Printing final 1/2 (" << smsize/2 << ") columns/rows of the Reaction Operator:\n";
       (*m_reactionOperator).showFinalBits(smsize/2, mFlags.print_TabbedMatrices);
       break;
     case -3:
-      ctest << "Printing final 1/3 (" << smsize/3 << ") columns/rows of Reaction Operator:\n";
+      ctest << "Printing final 1/3 (" << smsize/3 << ") columns/rows of the Reaction Operator:\n";
       (*m_reactionOperator).showFinalBits(smsize/3, mFlags.print_TabbedMatrices);
       break;
     default: // the number is either smaller than -3 or positive
       if (abs(mFlags.printReactionOperatorNum) > smsize){
-        ctest << "Printing all (" << smsize << ") columns/rows of Reaction Operator:\n";
+        ctest << "Printing all (" << smsize << ") columns/rows of the Reaction Operator:\n";
         (*m_reactionOperator).showFinalBits(smsize, mFlags.print_TabbedMatrices);
       }
       else{
-        ctest << "Printing final " << abs(mFlags.printReactionOperatorNum) << " columns/rows of Reaction Operator:\n";
+        ctest << "Printing final " << abs(mFlags.printReactionOperatorNum) << " columns/rows of the Reaction Operator:\n";
         (*m_reactionOperator).showFinalBits(abs(mFlags.printReactionOperatorNum), mFlags.print_TabbedMatrices);
       }
     }
@@ -511,12 +517,12 @@ namespace mesmer
 
         int ploc, rloc ;
 
-        Reaction::sourceMap::iterator rctitr = m_SpeciesSequence.find(rct);   //check if the reactant is in the map
+        Reaction::molMapType::iterator rctitr = m_SpeciesSequence.find(rct);   //check if the reactant is in the map
         bool rval = (rctitr != m_SpeciesSequence.end()) ;       //if the reactant isnt in the map
         if (rval)
           rloc = rctitr->second ;        //if the reactant is in the map, get the location
 
-        Reaction::sourceMap::iterator pdtitr = m_SpeciesSequence.find(pdt);   //check if the product is in the map
+        Reaction::molMapType::iterator pdtitr = m_SpeciesSequence.find(pdt);   //check if the product is in the map
         bool pval = (pdtitr != m_SpeciesSequence.end()) ;       //if the product isnt in the map
         if (pval)
           ploc = pdtitr->second;        //if the product is in the map, get the location
@@ -585,7 +591,7 @@ namespace mesmer
     ctest << "inverse of Eq fraction matrix:" << endl;
     eqMatrix.showFinalBits(counter);
 
-    Reaction::sourceMap::iterator itr1;
+    Reaction::molMapType::iterator itr1;
 
     for(itr1= m_SpeciesSequence.begin(); itr1!=m_SpeciesSequence.end(); ++itr1){  //assign Eq fraction to appropriate Molecule
       int seqMatrixLoc = itr1->second;                          //in the Eq frac map
@@ -600,13 +606,13 @@ namespace mesmer
 
     double populationSum = 0.0;
 
-    Reaction::isomerMap::iterator ipos;
+    Reaction::molMapType::iterator ipos;
     for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
       Molecule* isomer = ipos->first;                        // to get isomer initial populations
       populationSum += isomer->getPop().getInitPopulation();
     }
 
-    Reaction::sourceMap::iterator spos;
+    Reaction::molMapType::iterator spos;
     for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map to get
       Molecule* source = spos->first;                         // source initial populations
       populationSum += source->getPop().getInitPopulation();
@@ -669,7 +675,7 @@ namespace mesmer
     m_eqVector.clear();
     m_eqVector.resize(m_reactionOperator->size());
 
-    Reaction::sourceMap::iterator spos;
+    Reaction::molMapType::iterator spos;
     for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map to get
       Molecule* source = spos->first;                            // eq Fractions
       int rxnMatrixLoc = spos->second;
@@ -677,7 +683,7 @@ namespace mesmer
       m_eqVector[rxnMatrixLoc] = sqrt(eqFrac);
     }
 
-    Reaction::isomerMap::iterator ipos;
+    Reaction::molMapType::iterator ipos;
     for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
       Molecule* isomer = ipos->first;                        // to get eq Fractions
       int rxnMatrixLoc = ipos->second;
@@ -851,7 +857,7 @@ namespace mesmer
 
       ctest << setw(16) << "Timestep/s";
 
-      Reaction::sourceMap::iterator spos;
+      Reaction::molMapType::iterator spos;
       for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map
         Molecule* source = spos->first ;                        // to get source profile vs t
         ctest << setw(16) << source->getName();
@@ -863,7 +869,7 @@ namespace mesmer
         ++speciesProfileidx;
       }
 
-      Reaction::isomerMap::iterator ipos;
+      Reaction::molMapType::iterator ipos;
       for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
         Molecule* isomer = ipos->first;                        // to get isomer profile vs t
         ctest << setw(16) << isomer->getName();
@@ -978,8 +984,8 @@ namespace mesmer
 
     dMatrix Z_matrix(nchem);  // definitions of Y_matrix and Z_matrix taken from PCCP 2007(9), p.4085
     db2D Y_matrix;
-    Reaction::isomerMap::iterator ipos;  // set up an iterator through the isomer map
-    Reaction::sourceMap::iterator spos;  // set up an iterator through the source map
+    Reaction::molMapType::iterator ipos;  // set up an iterator through the isomer map
+    Reaction::molMapType::iterator spos;  // set up an iterator through the source map
     sinkMap::iterator sinkpos;           // set up an iterator through the irreversible rxn map
 
     ctest << "\nBartis Widom eigenvalue/eigenvector analysis\n";
@@ -1082,7 +1088,7 @@ namespace mesmer
     }
 
     ctest << "\nFirst order & pseudo first order rate coefficients for loss rxns:\n{\n";
-    Reaction::sourceMap::iterator lossitr, rctitr, pdtitr;
+    Reaction::molMapType::iterator lossitr, rctitr, pdtitr;
 
     stringstream puSymbols;
     stringstream puNumbers;
@@ -1213,7 +1219,7 @@ namespace mesmer
       expRates[i].get_conditionSet(ref1, ref2, expRate, expErr);
 
       // check and get the position of ref1 and ref2 inside m_SpeciesSequence vector
-      Reaction::sourceMap::iterator spcitr;
+      Reaction::molMapType::iterator spcitr;
       for (spcitr = m_SpeciesSequence.begin(); spcitr != m_SpeciesSequence.end(); ++spcitr){
         if (ref1 == (spcitr->first)->getName()) {
           seqMatrixLoc1 = spcitr->second;
@@ -1246,66 +1252,189 @@ namespace mesmer
 
   // This is a routine to construct the big basis matrix based on the alternative basis set method.
   // Right after this, criteria are judged and a reduced basis set matrix is also constructed.
-//  void ReactionManager::constructBasisMatrix(void){
-//    const int smsize = int(m_reactionOperator->size()) ;
-//
-//    // Allocate space for the basis matrix.
-//    if (m_basisMatrix) delete m_basisMatrix;
-//    m_basisMatrix = new qdMatrix(smsize, 0.0) ;
-//
-//    // 1st construct diagonal blocks
-//    Reaction::isomerMap::iterator ipos;
-//    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
-//      Molecule *isomer = ipos->first;
-//      int collsize = ipos->first->getColl().get_colloptrsize();
-//      // produce new instances of matrices so that we can inspect them anytime.
-//      qdMatrix* oMatrix1 = new qdMatrix(collsize);
-//      qdMatrix* oMatrix2 = new qdMatrix(collsize);
-//      dMatrix dEigenMx = *isomer->getColl().getEigenVectors();
-//      qdMatrix* qdEigenM = new qdMatrix(collsize);
-//      // Copy oMatrix2 to m_basisMatrix
-//      for (size_t i(0); i < collsize; ++i){
-//        for (size_t j(0); j < collsize; ++j){
-//          (*qdEigenM)[i][j] = dEigenMx[i][j];
-//        }
-//      }
-//      // U^-1 M
-//      matrices_multiplication(
-//        qdEigenM, 0, 0, collsize, collsize,
-//        m_reactionOperator, ipos->second, ipos->second, collsize, collsize,
-//        oMatrix1, 0, 0, true);
-//      // M U
-//      matrices_multiplication(
-//        oMatrix1, 0, 0, collsize, collsize,
-//        qdEigenM, 0, 0, collsize, collsize,
-//        oMatrix2, 0, 0, false);
-//      // Copy oMatrix2 to m_basisMatrix
-//      for (size_t i(0); i < collsize; ++i){
-//        for (size_t j(0); j < collsize; ++j){
-//          (*m_basisMatrix)[i][j] = (*oMatrix2)[i][j];
-//        }
-//      }
-//      delete oMatrix1;
-//      delete oMatrix2;
-//    }
-//    // 2nd put source diagonals
-//    Reaction::sourceMap::iterator spos;
-//    for (spos = m_sources.begin(); ipos != m_sources.end(); ++spos){
-//      int rxnMatrixLoc = spos->second; // simply copying the numbers.
-//      (*m_basisMatrix)[rxnMatrixLoc][rxnMatrixLoc] = (*m_reactionOperator)[rxnMatrixLoc][rxnMatrixLoc];
-//    }
-//    // 3rd Check reaction map and construct off-diagonal blocks
-//    for (size_t i(0) ; i < size() ; ++i) {  //iterate through m_reactions
-//      Molecule* rct;
-//      Molecule* pdt;
-//      double Keq(0.0);
-//      //only need to look in isom & assoc rxns
-//      if (m_reactions[i]->isEquilibratingReaction(Keq, &rct, &pdt)){
-//        int ploc, rloc ;
-//        
-//      }
-//    }
-//  }
+  void ReactionManager::constructBasisMatrix(void){
+
+    const int smsize = int(m_reactionOperator->size()) ;
+    MesmerFlags& mFlags = m_reactions[0]->getFlags();
+
+    //ctest << "\nPrinting all (" << smsize << ") columns/rows of the Reaction Operator:\n";
+    //m_reactionOperator->showFinalBits(0, mFlags.print_TabbedMatrices);
+
+    // Allocate space for the basis matrix.
+    if (m_basisMatrix) delete m_basisMatrix;
+    m_basisMatrix = new qdMatrix(smsize, 0.0) ;
+
+    // 1st construct diagonal blocks
+    Reaction::molMapType::iterator ipos;
+    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
+      Molecule *isomer = ipos->first;
+      int rxnMatrixLoc = ipos->second;
+      int collsize = ipos->first->getColl().get_colloptrsize();
+      // produce new instances of matrices so that we can inspect them anytime.
+      qdMatrix* oMatrix1 = new qdMatrix(collsize);
+      qdMatrix* oMatrix2 = new qdMatrix(collsize);
+      const dMatrix* dEigenMx = isomer->getColl().getEigenVectors();
+      qdMatrix* qdEigenM = new qdMatrix(collsize);
+      // Copy dEigenMx to qdEigenM
+      for (int i(0); i < collsize; ++i){
+        for (int j(0); j < collsize; ++j){
+          (*qdEigenM)[i][j] = (*dEigenMx)[i][j];
+        }
+      }
+
+      // U^-1 M
+      matrices_multiplication(
+        qdEigenM, 0, 0, collsize, collsize,
+        m_reactionOperator, ipos->second, ipos->second, collsize, collsize,
+        oMatrix1, true);
+      // M U
+      matrices_multiplication(
+        oMatrix1, 0, 0, collsize, collsize,
+        qdEigenM, 0, 0, collsize, collsize,
+        oMatrix2, false);
+      // Copy oMatrix2 to m_basisMatrix
+      for (int i(0); i < collsize; ++i){
+        for (int j(0); j < collsize; ++j){
+          (*m_basisMatrix)[i+rxnMatrixLoc][j+rxnMatrixLoc] = (*oMatrix2)[i][j];
+        }
+      }
+
+      delete qdEigenM;
+      delete oMatrix1;
+      delete oMatrix2;
+    }
+
+    // 2nd put source diagonals
+    Reaction::molMapType::iterator spos;
+    for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
+      int rxnMatrixLoc = spos->second; // simply copying the numbers.
+      (*m_basisMatrix)[rxnMatrixLoc][rxnMatrixLoc] = (*m_reactionOperator)[rxnMatrixLoc][rxnMatrixLoc];
+    }
+    // 3rd Check reaction map and construct off-diagonal blocks
+    for (size_t i(0) ; i < size() ; ++i) {  //iterate through m_reactions
+      Molecule* rct;
+      Molecule* pdt;
+      double Keq(0.0);
+      //only need to look in isom & assoc rxns
+      if (m_reactions[i]->isEquilibratingReaction(Keq, &rct, &pdt)){
+        int rloc, ploc, rcollsize, pcollsize ;
+
+        // There is no duplicated reactions in m_reactions; even if there is, must be there for some reason.
+        // 1st, find the rct&pdt collision operator sizes and their locations in the reaction operator
+        bool isAssociation(false);
+        Reaction::molMapType::iterator rctitr = m_isomers.find(rct);
+        if (rctitr != m_isomers.end()){
+          rloc = rctitr->second;
+          rcollsize = rct->getColl().get_colloptrsize();
+        }else{
+          rctitr = m_sources.find(rct);
+          if (rctitr != m_sources.end()){
+            isAssociation = true;
+            rcollsize = 1;
+          }
+          else{
+            cerr << "Unknown type of Equilibrating Reaction";
+          }
+        }
+
+        // The product must be an isomer
+        Reaction::molMapType::iterator pdtitr = m_isomers.find(pdt);
+        ploc = pdtitr->second;
+        pcollsize = pdt->getColl().get_colloptrsize();
+
+        // 2nd, if the reaction is an association reaction
+        if (rcollsize == 1){
+          // U_A^-1 M
+          qdMatrix* oMatrix = new qdMatrix(pcollsize);
+          const dMatrix* dEigenMx = pdt->getColl().getEigenVectors();
+          qdMatrix* qdEigenM = new qdMatrix(pcollsize);
+          // Copy oMatrix2 to m_basisMatrix
+          for (int i(0); i < pcollsize; ++i){
+            for (int j(0); j < pcollsize; ++j){
+              (*qdEigenM)[i][j] = (*dEigenMx)[i][j];
+            }
+          }
+          matrices_multiplication(
+          qdEigenM, 0, 0, pcollsize, pcollsize,
+          m_reactionOperator, 0, rloc, pcollsize, 1,
+          oMatrix, true);
+
+          // Copy oMatrix to m_basisMatrix
+          for (int i(0); i < pcollsize; ++i){
+              (*m_basisMatrix)[i+rloc][ploc] = (*oMatrix)[i][0];
+              (*m_basisMatrix)[ploc][i+rloc] = (*oMatrix)[0][i];
+          }
+
+          delete qdEigenM;
+          delete oMatrix;
+
+        }
+        else{// 3rd, if the reaction is an isomerization reaction
+          int gtrcollsize = (rcollsize > pcollsize) ? rcollsize : pcollsize;
+          qdMatrix* oMatrix1 = new qdMatrix(gtrcollsize);
+          qdMatrix* oMatrix2 = new qdMatrix(gtrcollsize);
+          Molecule* molA;
+          Molecule* molB;
+          int collsizeA, collsizeB, locA, locB;
+          if(rloc > ploc){
+            molA = pdt; collsizeA = pcollsize; locA = ploc;
+            molB = rct; collsizeB = rcollsize; locB = rloc;
+          }
+          else{
+            molA = rct; collsizeA = rcollsize; locA = rloc;
+            molB = pdt; collsizeB = pcollsize; locB = ploc;
+          }
+          const dMatrix* dEigenMxA = molA->getColl().getEigenVectors();
+          qdMatrix* qdEigenMA = new qdMatrix(collsizeA);
+
+          // Copy dEigenMxA to qdEigenMA
+          for (int i(0); i < collsizeA; ++i){
+            for (int j(0); j < collsizeA; ++j){
+              (*qdEigenMA)[i][j] = (*dEigenMxA)[i][j];
+            }
+          }
+
+          const dMatrix* dEigenMxB = molB->getColl().getEigenVectors();
+          qdMatrix* qdEigenMB = new qdMatrix(collsizeB);
+
+          // Copy dEigenMxB to qdEigenMB
+          for (int i(0); i < collsizeB; ++i){
+            for (int j(0); j < collsizeB; ++j){
+              (*qdEigenMB)[i][j] = (*dEigenMxB)[i][j];
+            }
+          }
+
+          // U_A^-1 M
+          matrices_multiplication(
+            qdEigenMA, 0, 0, collsizeA, collsizeA,
+            m_reactionOperator, locA, locB, collsizeA, collsizeB,
+            oMatrix1, true);
+          // M U_B
+          matrices_multiplication(
+            oMatrix1, 0, 0, collsizeA, collsizeB,
+            qdEigenMB, 0, 0, collsizeB, collsizeB,
+            oMatrix2, false);
+          // Copy oMatrix2 to m_basisMatrix
+          for (int i(0); i < collsizeA; ++i){
+            for (int j(0); j < collsizeB; ++j){
+              (*m_basisMatrix)[i+locA][j+locB] = (*oMatrix2)[i][j];
+              (*m_basisMatrix)[j+locB][i+locA] = (*oMatrix2)[j][i];
+            }
+          }
+
+          delete qdEigenMA;
+          delete qdEigenMB;
+          delete oMatrix1;
+          delete oMatrix2;
+
+        }
+      }
+    }
+
+    ctest << "\nPrinting all (" << smsize << ") columns/rows of the Basis Matrix:\n";
+    m_basisMatrix->showFinalBits(0, mFlags.print_TabbedMatrices);
+
+  }
 
 }//namespace
 

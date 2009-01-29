@@ -487,6 +487,12 @@ namespace mesmer
       events.setTimeStamp(thisEvent, timeElapsed);}
 
       //-------------------------------
+      // Reduced raction matrix operation
+      //-------------------------------
+
+      if (m_Flags.doBasisSetMethod) m_pReactionManager->constructBasisMatrix();
+
+      //-------------------------------
       // Total raction matrix operation
       //-------------------------------
 
@@ -499,11 +505,6 @@ namespace mesmer
       dMatrix mesmerRates(1);
       m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates, m_Flags, ppList);
 
-      //-------------------------------
-      // Reduced raction matrix operation
-      //-------------------------------
-
-//      m_pReactionManager->constructBasisMatrix();
 
       if (m_Flags.searchMethod){
         vector<conditionSet> expRates;

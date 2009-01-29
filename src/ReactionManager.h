@@ -77,7 +77,7 @@ namespace mesmer
 
     double calcChiSquare(const dMatrix& mesmerRates, vector<conditionSet>& expRates);
 
-//    void constructBasisMatrix(void);
+    void constructBasisMatrix(void);
 
   private:
 
@@ -99,13 +99,13 @@ namespace mesmer
     std::vector<double>     m_eqVector;
 
     // Maps the location of individual reactant collision operator and source terms in the reaction operator.
-    Reaction::isomerMap    m_isomers;
-    Reaction::sourceMap    m_sources;
-    sinkMap                m_sinkRxns;
-    populationMap          m_initialPopulations;
+    Reaction::molMapType    m_isomers;
+    Reaction::molMapType    m_sources;
+    sinkMap                 m_sinkRxns;
+    populationMap           m_initialPopulations;
 
     // map modelled molecules (isomers + sources) with their sequence in the EqMatrix and Rate Coefficient matrix
-    Reaction::sourceMap    m_SpeciesSequence;
+    Reaction::molMapType    m_SpeciesSequence;
 
     sinkMap m_SinkSequence;
 

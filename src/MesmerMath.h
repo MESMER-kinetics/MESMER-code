@@ -111,11 +111,10 @@ template<class T> // The first two numbers are the indices of x and y, the secon
 bool matrices_multiplication
 (const Matrix<T>* matrix1, const size_t m1x, const size_t m1y, const size_t n1x, const size_t n1y,
  const Matrix<T>* matrix2, const size_t m2x, const size_t m2y, const size_t n2x, const size_t n2y,
- Matrix<T>* const matrix3, const size_t m3x, const size_t m3y, const bool transposeM1){
+ Matrix<T>* const matrix3, const bool transposeM1){
    // matrix3 is a constant pointer but variable T
    //-----------------------------  1st check if the matrices match up and valid  -----------------------------
    if (n1x < 1 || n1y < 1 || n2x < 1 || n2y < 1) return false;
-   if (n1y != n2x) return false;
 
    //-----------------------------  2nd define the dimension of the output matrix  -----------------------------
    // This procedure requires first to make sure that the non-target matrix is a square matrix, and whether the summation
@@ -127,12 +126,11 @@ bool matrices_multiplication
    else if ( transposeM1 && n1x == n1y){ n3x = n2x; n3y = n2y; }
    else return false;
 
-   a2d_t<T> mpMul(int(n3x), int(n3y)); // indices are dummies
+   Matrix<T> mpMul((n3x > n3y) ? n3x : n3y); // whichever is larger
 
    //-----------------------------  3rd check if the indices go out of range  -----------------------------
    if (m1x + n1x - 1 > matrix1->size() || m1y + n1y - 1 > matrix1->size()) return false;
    if (m2x + n2x - 1 > matrix2->size() || m2y + n2y - 1 > matrix2->size()) return false;
-   if (m3x + n3x - 1 > matrix3->size() || m3y + n3y - 1 > matrix3->size()) return false;
 
    //-----------------------------  4th do the multiplication  -----------------------------
    if (transposeM1){ // When the second matrix is the target, the first matrix has to be transposed.
@@ -165,7 +163,7 @@ bool matrices_multiplication
    //-----------------------------  5th copy the temporary matrix to the target position  -----------------------------
    for(size_t i(0); i < n3x; ++i){
      for(size_t j(0); j < n3y; ++j){
-       (*matrix3)[i + m3x][j + m3y] = mpMul[i][j];
+       (*matrix3)[i][j] = mpMul[i][j];
      }
    }
 

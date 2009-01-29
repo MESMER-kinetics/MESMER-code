@@ -91,7 +91,7 @@ namespace mesmer
   }
 
   void AssociationReaction::AddReactionTerms(qdMatrix      *CollOptr,
-    isomerMap    &isomermap,
+    molMapType    &isomermap,
     const double rMeanOmega)
   {
     // Get densities of states of the adduct for detailed balance.

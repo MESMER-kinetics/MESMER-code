@@ -109,7 +109,7 @@ namespace mesmer
   //
   // Add dissociation reaction terms to collision matrix.
   //
-  void IrreversibleUnimolecularReaction::AddReactionTerms(qdMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) {
+  void IrreversibleUnimolecularReaction::AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) {
     // Get densities of states for detailed balance.
     vector<double> rctDOS;
     m_rct1->getDOS().getGrainDensityOfStates(rctDOS) ;
