@@ -32,6 +32,7 @@ MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/mesmer.test -text
 MesmerQA/methylene[!!-~]D2[!!-~]association/methylene_D2_association.xml -text
 MesmerQA/pentyl/baselines/Win32/mesmer.log -text
 MesmerQA/pentyl/baselines/Win32/mesmer.test -text
+MesmerQA/pentyl/pentyl_isomerization_basisset_test.xml -text
 MesmerQA/pentyl/pentyl_isomerization_test.xml -text
 MesmerQA/pentyl/pentyl_isomerize_dissocn.xml -text
 /README -text

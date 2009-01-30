@@ -1,3 +1,7 @@
+_2009_01_30__11_53_42_ Chi-Hsiu Liang
+
+  * Added a test file in pentyl system for basisset method.
+
 _2009_01_29__20_05_31_ Chi-Hsiu Liang
 
   * Changed the names of isomerMap and sourceMap to molMapType.
