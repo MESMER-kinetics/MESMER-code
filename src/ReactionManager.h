@@ -92,7 +92,7 @@ namespace mesmer
     // Reaction operator after similarity transformation by block diagonal U, which is U^-1 M' U.
     qdMatrix               *m_basisMatrix;
 
-    qdMatrix               *m_reducedReactionOperator;
+    qdMatrix               *m_reducedBasisMatrix;
     qdMatrix               *m_reducedEigenvectors;
     std::vector<qd_real>    m_reducedEigenvalues;
 

@@ -22,7 +22,7 @@ namespace mesmer
     m_eigenvectors(0),
     m_eigenvalues(),
     m_basisMatrix(0),
-    m_reducedReactionOperator(0),
+    m_reducedBasisMatrix(0),
     m_reducedEigenvectors(0),
     m_reducedEigenvalues(),
     m_eqVector(),
@@ -1251,18 +1251,35 @@ namespace mesmer
 
 
   // This is a routine to construct the big basis matrix based on the alternative basis set method.
-  // Right after this, criteria are judged and a reduced basis set matrix is also constructed.
+  // The full reaction operator is subject to a similarity transformation process by a set of eigenvectors.
+  // If there are three wells and two sources in the system, and the eigenvectors of each well under the assumption
+  // of the conservation of the wells are U_0, U_1 and U_2, respectively. The transformer matrix should look like
+  //
+  //        [  U_0   0    0   0   0 ]
+  //        [   0   U_1   0   0   0 ]
+  //    U = [   0    0   U_2  0   0 ]
+  //        [   0    0    0   1   0 ]
+  //        [   0    0    0   0   1 ]
+  //
+  // This transformer matrix operates on the reaction operator to give the basis matrix by doing
+  //
+  //     M'' = U^-1 M U
+  //
+  // One then needs to decide how many members of this basis matrix to include in the reduced basis matrix for
+  // diagonalization.
+  // 
   void ReactionManager::constructBasisMatrix(void){
 
     const int smsize = int(m_reactionOperator->size()) ;
     MesmerFlags& mFlags = m_reactions[0]->getFlags();
 
-    //ctest << "\nPrinting all (" << smsize << ") columns/rows of the Reaction Operator:\n";
-    //m_reactionOperator->showFinalBits(0, mFlags.print_TabbedMatrices);
-
-    // Allocate space for the basis matrix.
+    // Allocate space for the basis matrix / reduced basis matrix, eigenvectors and eigenvalues.
     if (m_basisMatrix) delete m_basisMatrix;
     m_basisMatrix = new qdMatrix(smsize, 0.0) ;
+
+    // 0th define a map with location and number of members included in the reduced basis matrix.
+    map<int, int> locatioNumberMap;
+    int mtxLoc(0);
 
     // 1st construct diagonal blocks
     Reaction::molMapType::iterator ipos;
@@ -1298,6 +1315,11 @@ namespace mesmer
           (*m_basisMatrix)[i+rxnMatrixLoc][j+rxnMatrixLoc] = (*oMatrix2)[i][j];
         }
       }
+      
+      //-------------------
+      // Need to decide here how many members of this well go into the reduced matrix.
+      
+      //-------------------
 
       delete qdEigenM;
       delete oMatrix1;
@@ -1433,6 +1455,10 @@ namespace mesmer
 
     ctest << "\nPrinting all (" << smsize << ") columns/rows of the Basis Matrix:\n";
     m_basisMatrix->showFinalBits(0, mFlags.print_TabbedMatrices);
+
+    // decide to put how many members in the reduced Basis Matrix
+    if (m_reducedBasisMatrix) delete m_reducedBasisMatrix;
+
 
   }
 

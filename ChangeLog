@@ -1,3 +1,8 @@
+_2009_01_30__17_50_04_ Chi-Hsiu Liang
+
+  * The difference of the k_infinity is identified as that the k(E)s in the reaction operator is normalized unit of time.
+    So if one wants to get back the k_infinities he needs to multiply the values by omega.
+
 _2009_01_30__11_53_42_ Chi-Hsiu Liang
 
   * Added a test file in pentyl system for basisset method.
