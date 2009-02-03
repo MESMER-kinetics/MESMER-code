@@ -20,6 +20,13 @@
 
 namespace mesmer
 {
+  struct locationIdx{
+    int fml; // full matrix location
+    int rml; // reduced matrix location
+    int fms; // full matrix size
+    int rms; // reduced matrix size
+  };
+  
   class ReactionManager
   {
   public:

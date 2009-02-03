@@ -1,3 +1,13 @@
+_2009_02_03__14_14_06_ Chi-Hsiu Liang
+
+  * Constructed reduced basis matrix. Time to think about how to use this matrix. 
+    There are several candidates at the moment:
+      1. Basis set method suggested by Struan;
+      2. SSME suggested by Nick;
+      3. Reweighting the phase space of the modified potential used in protein folding.
+    However, the current objective will be first finishing the basis set method.
+    Bartis-Widom rate for basis set method is now under construction.
+
 _2009_01_30__17_50_04_ Chi-Hsiu Liang
 
   * The difference of the k_infinity is identified as that the k(E)s in the reaction operator is normalized unit of time.

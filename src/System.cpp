@@ -490,7 +490,9 @@ namespace mesmer
       // Reduced raction matrix operation
       //-------------------------------
 
-      if (m_Flags.doBasisSetMethod) m_pReactionManager->constructBasisMatrix();
+      if (m_Flags.doBasisSetMethod) {
+        m_pReactionManager->constructBasisMatrix();
+      }
 
       //-------------------------------
       // Total raction matrix operation
