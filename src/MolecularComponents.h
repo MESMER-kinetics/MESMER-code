@@ -59,8 +59,8 @@ namespace mesmer
     // Constructor, destructor and initialization
     //
     gBathProperties();
+    gBathProperties(Molecule* pMol);
     virtual ~gBathProperties();
-    bool InitializeProperties(PersistPtr pp, Molecule* pMol);
 
     double getSigma() ;
     double getEpsilon() ;
@@ -119,14 +119,14 @@ namespace mesmer
     std::vector<double> m_grainEne ;  // Grain average energy array.
     std::vector<double> m_grainDOS ;  // Grain density of states array.
 
-  public:
-
     //
     // Constructor, destructor and initialization
     //
+  private:
     gDensityOfStates();
+  public:
+    gDensityOfStates(Molecule* pMol);
     virtual ~gDensityOfStates();
-    bool InitializeProperties(PersistPtr pp, Molecule* pMol);
 
     // Get cell density of states.
     void getCellDensityOfStates(std::vector<double> &cellDOS, int startingCell = 0) ;
@@ -150,8 +150,8 @@ namespace mesmer
       m_ZPE.set_range(valueL, valueU, stepsize);
       m_ZPE_chk = 0;
     }
-    const std::string& getEnergyConvention()const {
-      return m_EnergyConvention; 
+    std::string getEnergyConvention()const {
+      return m_EnergyConvention.empty() ? "arbitary" : m_EnergyConvention;
     }
     double get_Sym(void);
     int test_rotConsts(void);
@@ -254,8 +254,8 @@ it must be used for all, and this is checked.
     // Constructor, destructor and initialization
     //
     gTransitionState();
+    gTransitionState(Molecule* pMol);
     virtual ~gTransitionState();
-    bool InitializeProperties(PersistPtr pp, Molecule* pMol);
 
     double get_ImFreq();
 
@@ -279,7 +279,7 @@ it must be used for all, and this is checked.
     // Constructor, destructor and initialization
     //
     gPopulation();
-    bool InitializeProperties(PersistPtr pp, Molecule* pMol);
+    gPopulation(Molecule* pMol);
 
     double getInitPopulation() const { return m_initPopulation;};
     void setInitPopulation(double value) { m_initPopulation = value;};
@@ -288,7 +288,7 @@ it must be used for all, and this is checked.
 
   };
 
-  class gCollisionProperties:public MolecularComponent
+  class gWellProperties:public MolecularComponent
   {
     //-------------------------------------------------------------------------------------------------
     // Collisional redistribution related properties
@@ -314,12 +314,17 @@ it must be used for all, and this is checked.
     double m_grainFracBeta;                    // beta used to calculate grain distribution fraction
     std::vector<double> m_grainDist ;          // Grain distribution (not normalized)
     dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
+    dMatrix             *m_egvec ;               // Eigenvectors used to diagonalize (P - I) matrix.
+    std::vector<double>  m_egval;
 
     // Calculate collision frequency.
     double collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule) ;
 
     // Calculate collision operator.
     bool   collisionOperator (double beta) ;
+
+    // Diagonalize collision operator before adding reaction terms to get eigenvectors and eigenvalues.
+    void diagonalizeCollisionOperator();
 
     // Normalize the Collision Operator.
     void normalizeCollisionOperator();
@@ -344,9 +349,9 @@ it must be used for all, and this is checked.
     //
     // Constructor, destructor and initialization
     //
-    gCollisionProperties();
-    virtual ~gCollisionProperties();
-    bool InitializeProperties(PersistPtr pp, Molecule* pMol);
+    gWellProperties();
+    gWellProperties(Molecule* pMol);
+    virtual ~gWellProperties();
 
 
     // Initialize the Collision Operator.
@@ -366,6 +371,33 @@ it must be used for all, and this is checked.
     int  get_colloptrsize() const ;
 
     const int get_grnZPE();
+    
+    const dMatrix* getEigenVectors(){ return m_egvec; }
+
+  };
+
+
+   class gStructure:public MolecularComponent
+  {
+
+    //-------------------------------------------------------------------------------------------------
+    // Chemical Structure related properties
+    //-------------------------------------------------------------------------------------------------
+
+  private:
+    double m_MolecularWeight;
+
+    //
+    // Constructor, destructor and initialization
+    //
+  
+  private:
+    gStructure();
+  public:
+    gStructure(Molecule* pMol);
+
+    double getMass() const { return m_MolecularWeight;};
+    void setMass(double value) { m_MolecularWeight = value;};
   };
 
 }//namespace

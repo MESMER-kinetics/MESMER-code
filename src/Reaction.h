@@ -103,7 +103,7 @@ namespace mesmer
     virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const = 0 ;
 
     // Get the imaginary frequency of the transitions state.
-    double get_TSImFreq(void) const {return m_TransitionState->g_ts->get_ImFreq() ; } ;
+    double get_TSImFreq(void) const {return m_TransitionState->getTS().get_ImFreq() ; } ;
 
     bool thereIsTunnelling (void) const {return (m_pTunnelingCalculator) ? true : false ; } ;
 
@@ -177,7 +177,7 @@ namespace mesmer
     // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
     bool calcGrnAvrgMicroRateCoeffs() ;
 
-    // Add reaction terms to collision matrix.
+    // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) = 0 ;
 
     // Is reaction equilibrating and therefore contributes

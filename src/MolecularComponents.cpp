@@ -3,7 +3,7 @@
 // Author: Chi-Hsiu Liang
 //
 //-------------------------------------------------------------------------------------------
-
+#include <exception>
 #include "MolecularComponents.h"
 #include "Molecule.h"
 
@@ -37,31 +37,22 @@ namespace mesmer
     }
   };
 
-  bool gBathProperties::InitializeProperties(PersistPtr pp, Molecule* pMol)
+  gBathProperties::gBathProperties(Molecule* pMol)
+    :m_Sigma(sigmaDefault),
+    m_Epsilon(epsilonDefault),
+    m_Sigma_chk(-1),
+    m_Epsilon_chk(-1)
   {
+    ErrorContext c(pMol->getName());
     m_host = pMol;
+    PersistPtr pp = pMol->get_PersistentPointer();
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
       ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
-    const char* txt;
-
-    txt = ppPropList->XmlReadProperty("me:sigma");
-    if(!txt){
-      cerr << "gBathProperties::Cannot find argument me:sigma.";
-      return false;
-    }
-    else { istringstream idata(txt); double sigma(0.); idata >> sigma; setSigma(sigma);}
-
-    txt = ppPropList->XmlReadProperty("me:epsilon");
-    if(!txt){
-      cerr << "gBathProperties::Cannot find argument me:epsilon.";
-      return false;
-    }
-    else { istringstream idata(txt); double epsilon(0.); idata >> epsilon; setEpsilon(epsilon);} //extra block ensures idata is initiallised
-
-    return true;
+    setSigma(ppPropList->XmlReadPropertyDouble("me:sigma"));
+    setEpsilon(ppPropList->XmlReadPropertyDouble("me:epsilon"));
   }
 
   void   gBathProperties::setSigma(double value)          {
@@ -105,8 +96,25 @@ namespace mesmer
   //
   // Constructor, destructor and initialization
   //
-  gDensityOfStates::gDensityOfStates()
-    :m_RotCstA(0.0),
+  gDensityOfStates::~gDensityOfStates()
+  {
+    if (m_RC_chk == 0) cinfo << "Rotational constants are provided but not used in " << m_host->getName() << "." << endl;
+    if (m_Sym_chk == 0) cinfo << "m_Sym is provided but not used in " << m_host->getName() << "." << endl;
+    if (m_ZPE_chk == 0) cinfo << "m_ZPE is provided but not used in " << m_host->getName() << "." << endl;
+    if (m_scaleFactor_chk == 0) cinfo << "m_scaleFactor is provided but not used in " << m_host->getName() << "." << endl;
+    if (m_SpinMultiplicity_chk == 0) cinfo << "m_SpinMultiplicity is provided but not used in " << m_host->getName() << "." << endl;
+    if (m_VibFreq_chk == 0) cinfo << "m_VibFreq is provided but not used in " << m_host->getName() << "." << endl;
+
+    // Free any memory assigned for calculating densities of states. (must be in reverse order)
+    if (m_grainDOS.size()) m_grainDOS.clear();
+    if (m_grainEne.size()) m_grainEne.clear();
+    if (m_cellDOS.size()) m_cellDOS.clear();
+    if (m_VibFreq.size()) m_VibFreq.clear();
+    if (m_eleExc.size()) m_eleExc.clear();
+  }
+
+  gDensityOfStates::gDensityOfStates(Molecule* pMol)
+      :m_RotCstA(0.0),
     m_RotCstB(0.0),
     m_RotCstC(0.0),
     m_Sym(1.0),
@@ -125,28 +133,9 @@ namespace mesmer
     m_VibFreq(),
     m_grainEne(),
     m_grainDOS()
-  {}
-
-  gDensityOfStates::~gDensityOfStates()
-  {
-    if (m_RC_chk == 0) cinfo << "Rotational constants are provided but not used in " << m_host->getName() << "." << endl;
-    if (m_Sym_chk == 0) cinfo << "m_Sym is provided but not used in " << m_host->getName() << "." << endl;
-    if (m_ZPE_chk == 0) cinfo << "m_ZPE is provided but not used in " << m_host->getName() << "." << endl;
-    if (m_scaleFactor_chk == 0) cinfo << "m_scaleFactor is provided but not used in " << m_host->getName() << "." << endl;
-    if (m_SpinMultiplicity_chk == 0) cinfo << "m_SpinMultiplicity is provided but not used in " << m_host->getName() << "." << endl;
-    if (m_VibFreq_chk == 0) cinfo << "m_VibFreq is provided but not used in " << m_host->getName() << "." << endl;
-
-    // Free any memory assigned for calculating densities of states. (must be in reverse order)
-    if (m_grainDOS.size()) m_grainDOS.clear();
-    if (m_grainEne.size()) m_grainEne.clear();
-    if (m_cellDOS.size()) m_cellDOS.clear();
-    if (m_VibFreq.size()) m_VibFreq.clear();
-    if (m_eleExc.size()) m_eleExc.clear();
-  }
-
-  bool gDensityOfStates::InitializeProperties(PersistPtr pp, Molecule* pMol)
   {
     m_host = pMol;
+    PersistPtr pp = pMol->get_PersistentPointer();
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
@@ -155,7 +144,7 @@ namespace mesmer
     const char* txt;
 
     bool hasVibFreq = true; bool hasRotConst = true;
-    txt= ppPropList->XmlReadProperty("me:vibFreqs");
+    txt= ppPropList->XmlReadProperty("me:vibFreqs", optional);
     if(!txt){
       hasVibFreq = false;
       cinfo << "Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion." << endl;
@@ -163,7 +152,7 @@ namespace mesmer
     }
     else { istringstream idata(txt); double x; while (idata >> x) m_VibFreq.push_back(x); m_VibFreq_chk = 0;}
 
-    txt= ppPropList->XmlReadProperty("me:rotConsts");
+    txt= ppPropList->XmlReadProperty("me:rotConsts", optional);
     if(!txt){
       hasRotConst = false;
       cinfo << "Cannot find argument me:rotConsts. Assumes that it is an atom or atomic ion." << endl;
@@ -189,75 +178,46 @@ namespace mesmer
       cerr << "Improper setting on vibrational frequencies or rotational constants. Check input file to remove this error.";
     }
 
-    txt= ppPropList->XmlReadProperty("me:eletronicExcitation");
-    if(!txt){
-      cinfo << "Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule." << endl;
-    }
-    else {
-      istringstream idata(txt); double _iele = 0.; m_eleExc.clear();
+    txt= ppPropList->XmlReadProperty("me:electronicExcitation", optional);    
+    if(txt) {
+      istringstream idata(txt);
+      m_eleExc.clear();
+      double _iele; 
       while (idata >> _iele) m_eleExc.push_back(_iele);
     }
 
-    txt= ppPropList->XmlReadProperty("me:symmetryNumber");
-    if(!txt){
-      cinfo << "Cannot find argument me:symmetryNumber. Default value " << m_Sym << " is used." << endl;
-      m_Sym_chk = -1;
+    m_Sym = ppPropList->XmlReadPropertyDouble("me:symmetryNumber");
+    m_Sym_chk = 0;
+
+    double tempzpe = ppPropList->XmlReadPropertyDouble("me:ZPE");
+    string unitsInput = ppPropList->XmlReadPropertyAttribute("me:ZPE", "units");
+    txt= ppPropList->XmlReadPropertyAttribute("me:ZPE", "convention", optional);
+    m_EnergyConvention = txt ? txt : "arbitary";
+
+    const char* pLowertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "lower", optional);
+    const char* pUppertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "upper", optional);
+    const char* pStepStxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "stepsize", optional);
+    double value(getConvertedEnergy(unitsInput, tempzpe));
+    if (pLowertxt && pUppertxt){
+      double tempLV(0.0), tempUV(0.0), tempSS(0.0);
+      stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
+      s3 >> tempLV; s4 >> tempUV; s5 >> tempSS;
+      double valueL(getConvertedEnergy(unitsInput, tempLV)),
+        valueU(getConvertedEnergy(unitsInput, tempUV)),
+        stepsize(getConvertedEnergy(unitsInput, tempSS));
+      set_zpe(valueL, valueU, stepsize);
     }
-    else { istringstream idata(txt); idata >> m_Sym; m_Sym_chk = 0;}
-
-    txt = ppPropList->XmlReadProperty("me:ZPE");
-    if(!txt){
-      cinfo << "Cannot find argument me:ZPE. Assumes me:ZPE = 0.0." << endl;
-      m_ZPE_chk = -1;
+    else{
+      set_zpe(value);
     }
-    else {
-      istringstream idata(txt);
-      double tempzpe = 0.0;
-      idata >> tempzpe;
-      txt= ppPropList->XmlReadPropertyAttribute("me:ZPE", "units");
-      string unitsInput;
-      if (txt){
-        unitsInput = txt;
-      }
-      else
-        unitsInput = "kJ/mol";
-
-      txt= ppPropList->XmlReadPropertyAttribute("me:ZPE", "convention");
-      m_EnergyConvention = txt ? txt : "arbitary";
-
-
-
-
-      const char* pLowertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "lower");
-      const char* pUppertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "upper");
-      const char* pStepStxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "stepsize");
-      double value(getConvertedEnergy(unitsInput, tempzpe));
-      if (pLowertxt && pUppertxt){
-        double tempLV(0.0), tempUV(0.0), tempSS(0.0);
-        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
-        s3 >> tempLV; s4 >> tempUV; s5 >> tempSS;
-        double valueL(getConvertedEnergy(unitsInput, tempLV)),
-          valueU(getConvertedEnergy(unitsInput, tempUV)),
-          stepsize(getConvertedEnergy(unitsInput, tempSS));
-        set_zpe(valueL, valueU, stepsize);
-      }
-      else{
-        set_zpe(value);
-      }
-      m_ZPE_chk = 0;
-    }
+    m_ZPE_chk = 0;
 
     // The reason why me:frequenciesScaleFactor stands out to be a separate property in the propertyList is that
     // this value is not usually necessary. The default value is 1.0 and it is usually the case.
-    txt= ppPropList->XmlReadProperty("me:frequenciesScaleFactor");
-    if(!txt){
-      cinfo << "Cannot find argument me:frequenciesScaleFactor. Assumes me:frequenciesScaleFactor = 1.0." << endl;
-      m_scaleFactor_chk = -1;
-    }
-    else { istringstream idata(txt); idata >> m_scaleFactor ; m_scaleFactor_chk = 0;}
+    m_scaleFactor = ppPropList->XmlReadPropertyDouble("me:frequenciesScaleFactor");
 
     // Determine the method of DOS calculation.
-    const char* pDOSCMethodtxt = pp->XmlReadValue("me:DOSCMethod", false) ;
+    const char* pDOSCMethodtxt = pp->XmlReadValue("me:DOSCMethod") ;
     if(pDOSCMethodtxt)
     {
       m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
@@ -268,12 +228,6 @@ namespace mesmer
         pDOSCMethodtxt = "Classical rotors";
         m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
       }
-    }
-    else{ // if no method is provided.
-      cinfo << "No method for the calculation of DOS is provided. "
-        << "Default method <Classical rotors> is used." << endl;
-      pDOSCMethodtxt = "Classical rotors"; // must exist
-      m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
     }
 
     txt= ppPropList->XmlReadProperty("me:spinMultiplicity");
@@ -286,6 +240,8 @@ namespace mesmer
       istringstream idata(txt);
       idata >> m_SpinMultiplicity;
       m_SpinMultiplicity_chk = 0;
+      if(m_SpinMultiplicity>4) //will catch some missing bonds by OpenBabel
+        cinfo << "The spin multiplicity is " << m_SpinMultiplicity << ". NEEDS TO BE CHECKED\n";
     }
 
     /* For molecular energy me:ZPE is used if it is present. If it is not, a value
@@ -329,8 +285,6 @@ namespace mesmer
     }
     else if(m_ZPE_chk < 0)
       cwarn << "No energy specified (as me:ZPE or me:Hf298 properties)" << endl;
-
-    return true;
   }
 
   //
@@ -688,17 +642,20 @@ namespace mesmer
     if (m_ImFreq_chk == 0) cinfo << "m_ImFreq is provided but not used in " << m_host->getName() << "." << endl;
   }
 
-  bool gTransitionState::InitializeProperties(PersistPtr pp, Molecule* pMol)
+  gTransitionState::gTransitionState(Molecule* pMol)
+    :m_ImFreq(0.0),
+    m_ImFreq_chk(-1)
   {
+    ErrorContext c(pMol->getName());
     m_host = pMol;
-
+    PersistPtr pp = pMol->get_PersistentPointer();    
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
       ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
     bool hasImFreq = false;
     const char* txt;
-    txt= ppPropList->XmlReadProperty("me:imFreqs");
+    txt= ppPropList->XmlReadProperty("me:imFreqs", optional);
     if(!txt){
       cinfo << "No imaginary vibrational frequency.\n";
       m_ImFreq_chk = -1;
@@ -709,8 +666,6 @@ namespace mesmer
       hasImFreq = true;
       m_ImFreq_chk = 0;
     }
-
-    return true;
   }
 
   double gTransitionState::get_ImFreq(){
@@ -742,10 +697,14 @@ namespace mesmer
 
   // Destructor and initialization, not required.
   // gPopulation::~gPopulation();
-  bool gPopulation::InitializeProperties(PersistPtr pp, Molecule* pMol)
+  
+  gPopulation::gPopulation(Molecule* pMol)
+    :m_initPopulation(0.0),
+    m_eqFraction(0.0)
   {
+    ErrorContext c(pMol->getName());
     m_host = pMol;
-    return true;
+    PersistPtr pp = pMol->get_PersistentPointer();    
   }
 
   //-------------------------------------------------------------------------------------------------
@@ -755,7 +714,7 @@ namespace mesmer
   //
   // Constructor, destructor and initialization
   //
-  gCollisionProperties::gCollisionProperties()
+  gWellProperties::gWellProperties()
     :m_DeltaEdownExponent(0.0),
     m_DeltaEdownRefTemp(298.0),
     m_DeltaEdown(0.0),
@@ -765,10 +724,12 @@ namespace mesmer
     m_DeltaEdown_chk(-1),
     m_grainFracBeta(0.),
     m_grainDist(0),
-    m_egme(NULL)
+    m_egme(NULL),
+    m_egvec(NULL),
+    m_egval(0)
   {}
 
-  gCollisionProperties::~gCollisionProperties()
+  gWellProperties::~gWellProperties()
   {
     if (m_DeltaEdown_chk == 0){
       cinfo << "m_DeltaEdown is provided but not used in " << m_host->getName() << "." << endl;
@@ -777,30 +738,44 @@ namespace mesmer
     if (m_grainDist.size()) m_grainDist.clear();
   }
 
-  bool gCollisionProperties::InitializeProperties(PersistPtr pp, Molecule* pMol)
+  gWellProperties::gWellProperties(Molecule* pMol)
+    :m_DeltaEdownExponent(0.0),
+    m_DeltaEdownRefTemp(298.0),
+    m_DeltaEdown(0.0),
+    m_collisionFrequency(0.0),
+    m_ncolloptrsize(0),
+    m_pDistributionCalculator(NULL),
+    m_DeltaEdown_chk(-1),
+    m_grainFracBeta(0.),
+    m_grainDist(0),
+    m_egme(NULL),
+    m_egvec(NULL),
+    m_egval(0)
   {
+    ErrorContext c(pMol->getName());
     m_host = pMol;
-
+    PersistPtr pp = pMol->get_PersistentPointer();
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
       ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
     const char* txt;
 
+    //TODO make essential for appropriate molecules
     txt= ppPropList->XmlReadProperty("me:deltaEDown");
     if(!txt){
-      cinfo << "Cannot find argument me:deltaEDown." << endl;
+      cinfo << "No me:deltaEDown provided." << endl;
       // deltaEDown is not always necessary. Hoever, it is not wise to provide a default value.
     }
     else {
       istringstream idata(txt);
       double value(0.0);
       idata >> value;
-      const char* pLowertxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "lower");
-      const char* pUppertxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "upper");
-      const char* pStepStxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "stepsize");
-      const char* pRefTemptxt  = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "referenceTemperature");
-      const char* pExponenttxt = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "exponent");
+      const char* pLowertxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "lower", optional);
+      const char* pUppertxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "upper", optional);
+      const char* pStepStxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "stepsize" ,optional);
+      const char* pRefTemptxt  = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "referenceTemperature", optional );
+      const char* pExponenttxt = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "exponent", optional);
       if (pLowertxt && pUppertxt){
         double valueL(0.0), valueU(0.0), stepsize(0.0);
         stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
@@ -823,7 +798,7 @@ namespace mesmer
     }
 
     // Determine the method of DOS calculation.
-    const char* pDistCalcMethodtxt = pp->XmlReadValue("me:DistributionCalcMethod", false) ;
+    const char* pDistCalcMethodtxt = pp->XmlReadValue("me:DistributionCalcMethod") ;
     if(pDistCalcMethodtxt)
     {
       m_pDistributionCalculator = DistributionCalculator::Find(pDistCalcMethodtxt);
@@ -840,31 +815,29 @@ namespace mesmer
       pDistCalcMethodtxt = "Boltzmann"; // must exist
       m_pDistributionCalculator = DistributionCalculator::Find(pDistCalcMethodtxt);
     }
-
-    return true;
   }
 
-  double gCollisionProperties::get_collisionFrequency() const {
+  double gWellProperties::get_collisionFrequency() const {
     return m_collisionFrequency ;
   } ;
 
-  void gCollisionProperties::set_colloptrsize(int ncolloptrsize) {
+  void gWellProperties::set_colloptrsize(int ncolloptrsize) {
     m_ncolloptrsize = ncolloptrsize ;
   } ;
 
-  int  gCollisionProperties::get_colloptrsize() const {
+  int  gWellProperties::get_colloptrsize() const {
     return m_ncolloptrsize ;
   } ;
 
-  const int gCollisionProperties::get_grnZPE(){
-    double grnZpe = (m_host->g_dos->get_zpe() - m_host->getEnv().EMin) / m_host->getEnv().GrainSize ; //convert to grain
+  const int gWellProperties::get_grnZPE(){
+    double grnZpe = (m_host->getDOS().get_zpe() - m_host->getEnv().EMin) / m_host->getEnv().GrainSize ; //convert to grain
     if (grnZpe < 0.0)
       cerr << "Grain zero point energy has to be a non-negative value.";
 
     return int(grnZpe);
   }
 
-  double gCollisionProperties::getDeltaEdown()                    {
+  double gWellProperties::getDeltaEdown()                    {
     if (m_DeltaEdown_chk >= 0){
       ++m_DeltaEdown_chk;
       const double refTemp = getDeltaEdownRefTemp();
@@ -882,10 +855,10 @@ namespace mesmer
   //
   // Initialize the Collision Operator.
   //
-  bool gCollisionProperties::initCollisionOperator(double beta, Molecule *pBathGasMolecule)
+  bool gWellProperties::initCollisionOperator(double beta, Molecule *pBathGasMolecule)
   {
     // If density of states have not already been calcualted then do so.
-    if (!m_host->g_dos->calcDensityOfStates()){
+    if (!m_host->getDOS().calcDensityOfStates()){
       cerr << "Failed calculating DOS";
       return false;
     }
@@ -898,15 +871,44 @@ namespace mesmer
       cerr << "Failed building collision operator.";
       return false;
     }
+
+    if (m_host->getFlags().doBasisSetMethod) diagonalizeCollisionOperator();
+
     return true;
+  }
+
+  //
+  // Diagonalize collision operator
+  //
+  void gWellProperties::diagonalizeCollisionOperator()
+  {
+    // Allocate memory.
+    m_egval.clear();
+    m_egval.resize(m_ncolloptrsize, 0.0);
+    if (m_egvec) delete m_egvec ;                      // Delete the existing matrix.
+    m_egvec = new dMatrix(m_ncolloptrsize) ;
+    m_egvec = m_egme;
+
+    m_egvec->diagonalize(&m_egval[0]) ;
+
+    ctest << "\nEigenvectors of: " << m_host->getName() << endl;
+    m_egvec->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+
+    // The eigenvalues in this series should contain a zero eigenvalue (lambda_0) which addresses the conserveness 
+    // of the system, the second smallest eigenvalue in magnitude is lamda_1.
+    ctest << "\nEigenvalues of: " << m_host->getName() << "\n{\n";
+    for(int i(0); i < m_ncolloptrsize; ++i){
+      ctest << m_egval[i] << endl;
+    }
+    ctest << "}\n";
   }
 
   //
   // Calculate collision operator
   //
-  bool gCollisionProperties::collisionOperator(double beta)
+  bool gWellProperties::collisionOperator(double beta)
   {
-    if (m_host->g_dos->test_rotConsts() < 0) return true;
+    if (m_host->getDOS().test_rotConsts() < 0) return true;
     //
     //     i) Determine Probabilities of Energy Transfer.
     //    ii) Normalisation of Probability matrix.
@@ -935,8 +937,8 @@ namespace mesmer
 
     vector<double> gEne;
     vector<double> gDOS;
-    m_host->g_dos->getGrainEnergies(gEne);
-    m_host->g_dos->getGrainDensityOfStates(gDOS);
+    m_host->getDOS().getGrainEnergies(gEne);
+    m_host->getDOS().getGrainDensityOfStates(gDOS);
 
     // Initialisation and error checking.
     for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
@@ -945,7 +947,9 @@ namespace mesmer
         return false;
       }
     }
-
+    
+    // Use number of states to weigh the downward transition
+    if (m_host->getFlags().useDOSweighedDT){
     // The collision operator.
     for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
       double ei = gEne[i] ;
@@ -954,23 +958,45 @@ namespace mesmer
         double ej = gEne[j];
         double nj = gDOS[j];
         // Transfer to lower Energy -
+          double transferDown = exp(-alpha*(ej - ei)) * (ni/nj);
+          (*m_egme)[i][j] = transferDown;
+      
+          // Transfer to higher Energy (via detailed balance) -
+          double transferUp = exp(-(alpha + beta)*(ej - ei));
+          (*m_egme)[j][i] = transferUp;
+        }
+      }
+    }
+    else{
+      // The collision operator.
+      for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
+        double ei = gEne[i] ;
+        double ni = gDOS[i] ;
+        for ( j = i ; j < m_ncolloptrsize ; ++j ) {
+          double ej = gEne[j];
+          double nj = gDOS[j];
+          // Transfer to lower Energy -
         double transferDown = exp(-alpha*(ej - ei)) ;
         (*m_egme)[i][j] = transferDown;
 
         // Transfer to higher Energy (via detailed balance) -
         double transferUp = exp(-alpha*(ej - ei)) * (nj/ni) * exp(-beta*(ej - ei)) ;
         (*m_egme)[j][i] = transferUp;
+        }
       }
     }
-
-    //ctest << "Collision operator before normalization:\n";
-    //m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+    if (m_host->getFlags().showCollisionOperator != 0){
+      ctest << "\nCollision operator of " << m_host->getName() << " before normalization:\n";
+      m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+    }
 
     //Normalisation
     normalizeCollisionOperator();
 
-    //ctest << "Collision operator after normalization:\n";
-    //m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+    if (m_host->getFlags().showCollisionOperator >= 1){
+      ctest << "\nCollision operator of " << m_host->getName() << " after normalization:\n";
+      m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+    }
 
     // print out of column sums to check normalization results
     if (m_host->getFlags().reactionOCSEnabled){
@@ -1002,8 +1028,10 @@ namespace mesmer
       (*m_egme)[i][i] -= 1.0 ;
     }
 
-    //ctest << "Collision operator after substraction:\n";
-    //m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+    if (m_host->getFlags().showCollisionOperator >= 2){
+      ctest << "Collision operator of " << m_host->getName() << " after :\n";
+      m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+    }
 
 
     return true;
@@ -1012,7 +1040,7 @@ namespace mesmer
   //
   // Normalize collision operator
   //
-  void gCollisionProperties::normalizeCollisionOperator(){
+  void gWellProperties::normalizeCollisionOperator(){
 
     vector<double> work(m_ncolloptrsize) ;// Work space.
     //
@@ -1060,7 +1088,7 @@ namespace mesmer
   //
   // Calculate collision frequency.
   //
-  double gCollisionProperties::collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule)
+  double gWellProperties::collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule)
   {
     //
     // Lennard-Jones Collision frequency. The collision integral is calculated
@@ -1079,24 +1107,24 @@ namespace mesmer
 
     // Calculate collision parameter averages.
     double bthMass = 0.0;
-    bthMass = pBathGasMolecule->getMass();
+    bthMass = pBathGasMolecule->getStruc().getMass();
 
     double bthSigma = 0.0;
-    bthSigma = pBathGasMolecule->g_bath->getSigma();
+    bthSigma = pBathGasMolecule->getBath().getSigma();
 
     if (!bthSigma)
       cerr << "me:sigma is necessary for " << pBathGasMolecule->getName()
       << ". Correct input file to remove this error." << endl;
 
     double bthEpsilon = 0.0;
-    bthEpsilon = pBathGasMolecule->g_bath->getEpsilon();
+    bthEpsilon = pBathGasMolecule->getBath().getEpsilon();
 
     if (!bthEpsilon)
       cerr << "me:epsilon is necessary for " << pBathGasMolecule->getName()
       << ". Correct input file to remove this error.";
-    double mu   = amu * m_host->getMass() * bthMass/(m_host->getMass() + bthMass) ;
-    double eam  = sqrt(m_host->g_bath->getEpsilon() * bthEpsilon) ;
-    double sam  = (m_host->g_bath->getSigma() + bthSigma) * 0.5;
+    double mu   = amu * m_host->getStruc().getMass() * bthMass/(m_host->getStruc().getMass() + bthMass) ;
+    double eam  = sqrt(m_host->getBath().getEpsilon() * bthEpsilon) ;
+    double sam  = (m_host->getBath().getSigma() + bthSigma) * 0.5;
     double tstr = temp / eam;
 
     // Calculate collision integral.
@@ -1113,7 +1141,7 @@ namespace mesmer
   //
   // Calculate a reaction matrix element.
   //
-  double gCollisionProperties::matrixElement(int eigveci, int eigvecj, vector<double> &k, int ndim)
+  double gWellProperties::matrixElement(int eigveci, int eigvecj, vector<double> &k, int ndim)
   {
     double sum = 0.0 ;
     for (int i = 0 ; i < ndim ; ++i){
@@ -1125,7 +1153,7 @@ namespace mesmer
   //
   // Copy collision operator to diagonal block of system matrix.
   //
-  void gCollisionProperties::copyCollisionOperator(qdMatrix *CollOptr,
+  void gWellProperties::copyCollisionOperator(qdMatrix *CollOptr,
     const int size,
     const int locate,
     const double RducdOmega) const
@@ -1157,16 +1185,16 @@ namespace mesmer
   //
   // calculates p(E)*exp(-EB)
   //
-  void gCollisionProperties::grainDistribution(vector<double> &grainFrac, const int totalGrnNumber)
+  void gWellProperties::grainDistribution(vector<double> &grainFrac, const int totalGrnNumber)
   {
     // If density of states have not already been calcualted then do so.
-    if (!m_host->g_dos->calcDensityOfStates())
+    if (!m_host->getDOS().calcDensityOfStates())
       cerr << "Failed calculating DOS";
 
     vector<double> gEne;
     vector<double> gDOS;
-    m_host->g_dos->getGrainEnergies(gEne);
-    m_host->g_dos->getGrainDensityOfStates(gDOS);
+    m_host->getDOS().getGrainEnergies(gEne);
+    m_host->getDOS().getGrainDensityOfStates(gDOS);
 
     if (m_grainDist.size() != gDOS.size() || m_host->getEnv().beta != m_grainFracBeta){
       m_pDistributionCalculator->calculateDistribution(gDOS, gEne, m_host->getEnv().beta, m_grainDist);
@@ -1181,7 +1209,7 @@ namespace mesmer
   //
   // Get normalized grain distribution.
   //
-  void gCollisionProperties::normalizedInitialDistribution(vector<double> &grainFrac, const int totalGrnNumber)
+  void gWellProperties::normalizedInitialDistribution(vector<double> &grainFrac, const int totalGrnNumber)
   {
     grainDistribution(grainFrac, totalGrnNumber);
 
@@ -1206,10 +1234,10 @@ namespace mesmer
   //
   // Get normalized grain distribution.
   //
-  void gCollisionProperties::normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int totalGrnNumber, const int startGrnIdx, const int ignoreCellNumber)
+  void gWellProperties::normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int totalGrnNumber, const int startGrnIdx, const int ignoreCellNumber)
   {
     // If density of states have not already been calcualted then do so.
-    if (!m_host->g_dos->calcDensityOfStates())
+    if (!m_host->getDOS().calcDensityOfStates())
       cerr << "Failed calculating DOS";
 
     vector<double> tempGrnFrac;
@@ -1217,8 +1245,8 @@ namespace mesmer
 
     vector<double> gEne;
     vector<double> gDOS;
-    m_host->g_dos->getGrainEnergies(gEne);
-    m_host->g_dos->getGrainDensityOfStates(gDOS);
+    m_host->getDOS().getGrainEnergies(gEne);
+    m_host->getDOS().getGrainDensityOfStates(gDOS);
 
     // Calculate unnormalized Boltzmann dist.
     // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
@@ -1238,5 +1266,17 @@ namespace mesmer
     grainFrac = tempGrnFrac;
 
   }
+
+  gStructure::gStructure(mesmer::Molecule *pMol) : m_MolecularWeight(-1)
+  {
+    ErrorContext c(pMol->getName());
+    m_host = pMol;
+    PersistPtr pp = pMol->get_PersistentPointer();
+    PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
+    if(!ppPropList)
+      ppPropList=pp; //Be forgiving; we can get by without a propertyList element
+    setMass(ppPropList->XmlReadPropertyDouble("me:MW"));
+  }
+  
 
 }//namespace

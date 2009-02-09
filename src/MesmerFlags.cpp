@@ -27,6 +27,9 @@ namespace mesmer{
     printReactionOperatorNum(0),
     allowSmallerDEDown(false),
     print_TabbedMatrices(true),
+    showCollisionOperator(0),
+    useDOSweighedDT(false),
+    doBasisSetMethod(false),
     punchSymbols(),
     punchNumbers(),
     punchFileName()

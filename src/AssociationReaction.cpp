@@ -27,8 +27,11 @@ namespace mesmer
     m_ppPersist = ppReac;
 
     // Read reactant details.
+    PersistPtr ppReactantList = ppReac->XmlMoveTo("reactantList");
+    if(!ppReactantList)
+      ppReactantList=ppReac; //Be forgiving; we can get by without a reactantList element
 
-    PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
+    PersistPtr ppReactant1  = ppReactantList->XmlMoveTo("reactant");
     Molecule* pMol1 = GetMolRef(ppReactant1);
     if(!pMol1){
       cerr << "Cannot find 1st reactant molecule definition for association reaction " << getName() << ".";
@@ -67,8 +70,11 @@ namespace mesmer
     }
 
     //Read product details.
+    PersistPtr ppProductList = ppReac->XmlMoveTo("productList");
+    if(!ppProductList)
+      ppProductList=ppReac; //Be forgiving; we can get by without a productList element
 
-    PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
+    PersistPtr ppProduct1 = ppProductList->XmlMoveTo("product");
     pMol1 = GetMolRef(ppProduct1);
     if (!pMol1) {
       cerr << "Cannot find product molecule definition for association reaction " << getName() << ".";
@@ -96,7 +102,7 @@ namespace mesmer
   {
     // Get densities of states of the adduct for detailed balance.
     vector<double> pdtDOS;
-    m_pdt1->g_dos->getGrainDensityOfStates(pdtDOS) ;
+    m_pdt1->getDOS().getGrainDensityOfStates(pdtDOS) ;
 
     // Locate isomers in system matrix.
     const int pdtLoc =      isomermap[m_pdt1] ;
@@ -109,10 +115,10 @@ namespace mesmer
     const int MaximumGrain = getEnv().MaxGrn ;
     vector<double> adductPopFrac ; // Population fraction of the adduct
 
-    m_pdt1->g_coll->normalizedGrnBoltzmannDistribution(adductPopFrac, MaximumGrain) ;
+    m_pdt1->getColl().normalizedGrnBoltzmannDistribution(adductPopFrac, MaximumGrain) ;
     qd_real DissRateCoeff(0.0) ;
 
-    const int colloptrsize = m_pdt1->g_coll->get_colloptrsize();
+    const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
     //const int forwardThreshE = get_EffGrnFwdThreshold();
     const int reverseThreshE = get_EffGrnRvsThreshold();
     const int fluxStartIdx = get_fluxFirstNonZeroIdx();
@@ -141,12 +147,12 @@ namespace mesmer
     double CanPrtnFn = max(canonicalPartitionFunction(rctGrainDOS, rctGrainEne, getEnv().beta), 1.0) ;
     if (CanPrtnFn == 1.0){
       // Electronic partition function for atom is accounted here.
-      CanPrtnFn = double(m_rct1->g_dos->getSpinMultiplicity() * m_rct2->g_dos->getSpinMultiplicity()) ;
+      CanPrtnFn = double(m_rct1->getDOS().getSpinMultiplicity() * m_rct2->getDOS().getSpinMultiplicity()) ;
     }
 
     return CanPrtnFn ;
   }
-  double AssociationReaction::pdtsRovibronicGrnCanPrtnFn() { return m_pdt1->g_dos->rovibronicGrnCanPrtnFn();}
+  double AssociationReaction::pdtsRovibronicGrnCanPrtnFn() { return m_pdt1->getDOS().rovibronicGrnCanPrtnFn();}
 
 
   // Is reaction equilibrating and therefore contributes
@@ -175,10 +181,10 @@ namespace mesmer
     double Qrcts = rctsRovibronicGrnCanPrtnFn();
 
     // rovibronic partition function for reactants multiplied by translation contribution
-    Qrcts *= translationalContribution(m_rct1->getMass(), m_rct2->getMass(), beta);
+    Qrcts *= translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
 
     // rovibronic partition function for product
-    const double Qpdt1 = m_pdt1->g_dos->rovibronicGrnCanPrtnFn() ;
+    const double Qpdt1 = m_pdt1->getDOS().rovibronicGrnCanPrtnFn() ;
 
     Keq = Qpdt1 / Qrcts;
 
@@ -205,7 +211,7 @@ namespace mesmer
     vector<double> rctGrainDOS;
     vector<double> rctGrainEne;
     vector<double> pdtGrainDOS;
-    m_pdt1->g_dos->getGrainDensityOfStates(pdtGrainDOS) ;
+    m_pdt1->getDOS().getGrainDensityOfStates(pdtGrainDOS) ;
     calcRctsGrainDensityOfStates(rctGrainDOS, rctGrainEne);
 
     calcEffGrnThresholds();
@@ -253,9 +259,9 @@ namespace mesmer
     const int MaximumCell = (getEnv().MaxCell);
     const int MaximumGrain = (getEnv().MaxGrn-get_fluxFirstNonZeroIdx());
 
-    m_pdt1->g_dos->getGrainDensityOfStates(pdtGrainDOS) ;
-    m_pdt1->g_dos->getCellDensityOfStates(pdtCellDOS);
-    m_pdt1->g_dos->getGrainEnergies(pdtGrainEne);
+    m_pdt1->getDOS().getGrainDensityOfStates(pdtGrainDOS) ;
+    m_pdt1->getDOS().getCellDensityOfStates(pdtCellDOS);
+    m_pdt1->getDOS().getGrainEnergies(pdtGrainEne);
     getCellEnergies(MaximumCell, pdtCellEne);
 
 
@@ -312,7 +318,7 @@ namespace mesmer
     std::vector<double> shiftedCellDOS;
     std::vector<double> shiftedCellEne;
     const int MaximumCell = getEnv().MaxCell;
-    const int cellOffset = get_pseudoIsomer()->g_dos->get_cellOffset();
+    const int cellOffset = get_pseudoIsomer()->getDOS().get_cellOffset();
     std::vector<double> rctsCellEne;
     getCellEnergies(MaximumCell, rctsCellEne);
     shiftCells(MaximumCell, cellOffset, rctsCellDOS, rctsCellEne, shiftedCellDOS, shiftedCellEne);
@@ -350,11 +356,11 @@ namespace mesmer
   // Get reactants cell density of states.
   //
   void AssociationReaction::getRctsCellDensityOfStates(vector<double> &cellDOS) {
-    get_rctsDensityOfStatesCalculator()->countDimerCellDOS(m_rct1->g_dos, m_rct2->g_dos, cellDOS);
+    get_rctsDensityOfStatesCalculator()->countDimerCellDOS(m_rct1->getDOS(), m_rct2->getDOS(), cellDOS);
   }
 
   const int AssociationReaction::get_rctsGrnZPE(){
-    double grnZpe = (m_rct1->g_dos->get_zpe()+m_rct2->g_dos->get_zpe()-getEnv().EMin) / getEnv().GrainSize ; //convert to grain
+    double grnZpe = (m_rct1->getDOS().get_zpe()+m_rct2->getDOS().get_zpe()-getEnv().EMin) / getEnv().GrainSize ; //convert to grain
     if (grnZpe < 0.0)
       cerr << "Grain zero point energy has to be a non-negative value.";
 
@@ -364,13 +370,13 @@ namespace mesmer
   void AssociationReaction::calcEffGrnThresholds(void){  // calculate the effective forward and reverse
     double threshold = get_ThresholdEnergy();  // threshold energy for an association reaction
     double RxnHeat   = getHeatOfReaction();
-    if (threshold < RxnHeat && m_pMicroRateCalculator->getName() == "Mesmer ILT"){
+    if (threshold < RxnHeat && m_pMicroRateCalculator->getName() == "MesmerILT"){
       cerr << "E_infinity should be equal to or greater than the heat of reaction in ILT.";
       exit(1);
     }
 
     int fluxGrnBottom   = get_fluxGrnZPE();
-    int pdtGrnZPE       = m_pdt1->g_coll->get_grnZPE();
+    int pdtGrnZPE       = m_pdt1->getColl().get_grnZPE();
     int rctsGrnZPE      = get_rctsGrnZPE();
     int GrainedRxnHeat  = pdtGrnZPE - rctsGrnZPE;
 

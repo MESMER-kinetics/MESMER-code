@@ -588,7 +588,7 @@
       <product>
         <molecule ref="Int1" me:type="modelled" />
       </product>
-      <me:MCRCMethod>Mesmer ILT</me:MCRCMethod>
+      <me:MCRCMethod>MesmerILT</me:MCRCMethod>
       <me:preExponential>6.00e-12</me:preExponential>
       <me:excessReactantConc>2.25E16</me:excessReactantConc>
       <me:activationEnergy>0.0</me:activationEnergy>
@@ -606,7 +606,7 @@
         <molecule ref="TS1" me:type="transitionState" />
       </me:transitionState>
       <me:tunneling>Eckart</me:tunneling>
-      <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
     </reaction>
     <reaction id="R3">
       <reactant>
@@ -621,7 +621,7 @@
       <me:transitionState>
         <molecule ref="TS3" me:type="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
     </reaction>
     <reaction id="R4">
       <reactant>
@@ -636,7 +636,7 @@
       <me:transitionState>
         <molecule ref="TS2" me:type="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
     </reaction>
   </reactionList>
   <me:conditions>

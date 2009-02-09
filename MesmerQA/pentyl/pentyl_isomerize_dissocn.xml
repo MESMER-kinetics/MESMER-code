@@ -246,7 +246,7 @@
       <product>
         <molecule ref="dummy2" me:type="sink"/>
       </product>
-      <me:MCRCMethod>Simple ILT</me:MCRCMethod>
+      <me:MCRCMethod>SimpleILT</me:MCRCMethod>
       <me:activationEnergy>32.0</me:activationEnergy>
       <me:preExponential>8.4e+13</me:preExponential>
     </reaction>
@@ -258,7 +258,7 @@
       <product>
         <molecule ref="dummy3" me:type="sink"/>
       </product>
-      <me:MCRCMethod>Simple ILT</me:MCRCMethod>
+      <me:MCRCMethod>SimpleILT</me:MCRCMethod>
       <me:activationEnergy>31.1</me:activationEnergy>
       <me:preExponential>5.5e+13</me:preExponential>
     </reaction>

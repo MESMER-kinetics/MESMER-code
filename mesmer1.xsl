@@ -59,11 +59,17 @@
         h3{color:teal;font-family: Arial, Helvetica, sans-serif;}
         .normal{color:black; font-size:smaller;}
         .handcursor{cursor:hand; cursor:pointer;}
+        .inactive{color:silver;stroke:silver;}
         #header{color:black;font-family: Arial, Helvetica, sans-serif;font-weight:bold;}
         #title{font-size:larger;font-weight:bold;}
         #metadata{color:teal;font-size:smaller;}
         ]]>
       </style>
+      <xsl:if test="//me:hideInactive">
+        <style>
+          <![CDATA[.inactive{display:none;}]]>
+        </style>
+      </xsl:if>
     </head>
     <body>
       <div id="header">
@@ -93,21 +99,28 @@
     </table>
 
     <!--Show the "results"-->
-    <h3 id="densityOfStates-title" class="handcursor">Density of States</h3>
-    <div id="densityOfStates" class="switchgroup1">
-      <!--<xsl:apply-templates select="//*[@calculated]"/>-->
-      <xsl:apply-templates select="//me:densityOfStatesList"/>
-    </div>
+    <xsl:if test="//me:densityOfStatesList">
+      <h3 id="densityOfStates-title" class="handcursor">Density of States</h3>
+      <div id="densityOfStates" class="switchgroup1">
+        <!--<xsl:apply-templates select="//*[@calculated]"/>-->
+        <xsl:apply-templates select="//me:densityOfStatesList"/>
+      </div>
+    </xsl:if>
 
-    <h3 id="microRates-title" class="handcursor">Microcanonical Rate Coefficients</h3>
-    <div id="microRates" class="switchgroup2">
-      <xsl:apply-templates select="//me:microRateList"/>
-    </div>
+    <xsl:if test="//me:microRateList">
+      <h3 id="microRates-title" class="handcursor">Microcanonical Rate Coefficients</h3>
+      <div id="microRates" class="switchgroup2">
+        <xsl:apply-templates select="//me:microRateList"/>
+      </div>
+    </xsl:if>
 
-    <h3 id="BWrates-title" class="handcursor">Bartis-Widom Phenomenological Rate Coefficients</h3>
-    <div id="BWrates" class="switchgroup5">
-      <xsl:apply-templates select="//me:rateList"/>
-    </div>
+      <xsl:if test="//me:rateList">
+        <h3 id="BWrates-title" class="handcursor">Bartis-Widom Phenomenological Rate Coefficients</h3>
+      <div id="BWrates" class="switchgroup5">
+        <xsl:apply-templates select="//me:rateList"/>
+      </div>
+      </xsl:if>
+      
       <!--Script for expanding an contracting sections-->
     <script type="text/javascript">
       <![CDATA[
@@ -130,6 +143,9 @@
   
   <xsl:template match="cml:molecule">
     <tr>
+      <xsl:if test="@active='false'">
+        <xsl:attribute name="class">inactive</xsl:attribute>
+      </xsl:if>
       <td class="name">
         <xsl:value-of select="@id"/>
       </td>
@@ -157,6 +173,9 @@
   
   <xsl:template match="cml:reaction">
     <tr>
+      <xsl:if test="@active='false'">
+        <xsl:attribute name="class">inactive</xsl:attribute>
+      </xsl:if>
       <td>
         <xsl:value-of select="@id"/>
       </td>
@@ -167,7 +186,7 @@
         </xsl:for-each>
       </td>
       <td>
-        <xsl:if test="@reversible='true'">&lt;</xsl:if>&#8195;=>&#8195;
+        <xsl:if test="@reversible='true'">&lt;</xsl:if>=>
       </td>
       <td class="name">
         <xsl:for-each select=".//cml:product/cml:molecule/@ref">
@@ -181,9 +200,19 @@
         </xsl:if>
       </td>
       <td>
+        <xsl:value-of select="me:MCRCMethod"/>
+      </td>
+      <td>
         <xsl:if test="me:preExponential">
+          <xsl:if test="me:activationEnergy/@reverse">
+            <xsl:value-of select="'(reverse) '"/>
+          </xsl:if>
           <xsl:value-of select="concat('A = ', me:preExponential, 
               ' E = ', me:activationEnergy, me:activationEnergy/@units)"/>
+        </xsl:if>
+        <xsl:if test="cml:rateParameters">
+          <xsl:value-of select="concat( 'A = ', cml:rateParameters/cml:A,
+              ' E = ', cml:rateParameters/cml:E, cml:rateParameters/cml:E/@units)"/>
         </xsl:if>
       </td>
     </tr>

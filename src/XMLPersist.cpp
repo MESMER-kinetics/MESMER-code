@@ -8,8 +8,22 @@ using namespace std;
 
 namespace mesmer
 {
-PersistPtr XMLPersist::XmlLoad(const std::string& inputfilename, const std::string& title)
+//static variable
+TiXmlDocument* XMLPersist::pDefaults=NULL;
+
+PersistPtr XMLPersist::XmlLoad(const std::string& inputfilename, 
+                               const std::string& defaultsfilename,
+                               const std::string& title)
 {
+  //Open defaults.xml (once only)
+  if(!pDefaults && !defaultsfilename.empty())
+  {
+    static TiXmlDocument def;
+    pDefaults = &def;
+    if(!pDefaults->LoadFile(defaultsfilename))
+      cerr << "Could not open the defaults file: " << defaultsfilename << endl;
+  }
+
   TiXmlDocument* pdoc = new TiXmlDocument();//Deleted in destructor
 
   bool ret;
@@ -20,7 +34,8 @@ PersistPtr XMLPersist::XmlLoad(const std::string& inputfilename, const std::stri
   if( !ret )
   {
     cerr << "Could not load file " << inputfilename
-             << "\nIt may not exist or it may not consist of well-formed XML." << endl;
+             << "\nIt may not exist, it may be being used by another program,"
+             << "\nor it may not consist of well-formed XML." << endl;
 
     delete pdoc;
     return PersistPtr(NULL);
@@ -39,7 +54,6 @@ PersistPtr XMLPersist::XmlLoad(const std::string& inputfilename, const std::stri
 XMLPersist::~XMLPersist()
 {
   delete pDocument; //doesn't matter that pDocument is usually NULL
-  //shall we delete pnNode as well?? CHL
 }
 
 PersistPtr XMLPersist::XmlMoveTo(const std::string& name) const
@@ -59,11 +73,16 @@ const char* XMLPersist::XmlRead()const
 ///Look second for an attribute of this name.
 ///If either found, return its value.
 ///Otherwise return NULL. If MustBeThere is true(the default) also give an error message.
-const char* XMLPersist::XmlReadValue(const std::string& name, bool MustBeThere) const
+///If name is empty, returns NULL if there are no children and an empty string if there are.
+const char* XMLPersist::XmlReadValue(const std::string& name, bool MustBeThere)
 {
   const char* ptext=NULL;
-  //Look first to see if there is a child element of this name and, if so, return its value
-  TiXmlElement* pnEl = pnNode->FirstChildElement(name);
+  TiXmlElement* pnEl;
+  if(name.empty())
+    return pnNode->NoChildren() ? NULL : "";
+
+  //Look to see if there is a child element of this name and, if so, return its value
+  pnEl = pnNode->FirstChildElement(name);
   if(pnEl)
   {
     ptext = pnEl->GetText();
@@ -73,10 +92,21 @@ const char* XMLPersist::XmlReadValue(const std::string& name, bool MustBeThere) 
   else
     ptext = pnNode->Attribute(name.c_str());
 
-  if(!ptext && MustBeThere){
-    cinfo << "The " << name << " element or attribute was missing or empty." << endl;
-  }
+  if(!ptext && MustBeThere && !name.empty() && InsertDefault(name))
+    return XmlReadValue(name, MustBeThere); //Try again (recursively). Should succeed.
   return ptext;
+}
+
+double XMLPersist::XmlReadDouble(const std::string& name, bool MustBeThere)
+{
+  double val=0.0;
+  const char* ptxt = XmlReadValue(name, MustBeThere);
+  if(ptxt)
+  {
+    stringstream ss(ptxt);
+    ss >> val;
+  }
+  return val;
 }
 
 /** 
@@ -91,12 +121,17 @@ Looks for child elements pnList of the form:
  </property>
  In the second case, only  the part of name after any colon (the "localname") is used
  The property can have <array>, <string>, or anything, in place of <scalar>
+ The <property> can be the child of a <propertyList> 
  Returns NULL if the appropriate property is not found or if it has no content.
  **/
 
-const char* XMLPersist::XmlReadProperty(const string& name, bool MustBeThere) const
+const char* XMLPersist::XmlReadProperty(const string& name, bool MustBeThere)
 {
-  TiXmlElement* pnProp = pnNode->FirstChildElement("property");
+  TiXmlElement* pnPropList = pnNode->FirstChildElement("propertyList");
+  if(!pnPropList)
+    pnPropList = pnNode; //Be forgiving; we can get by without a propertyList element
+  TiXmlElement* pnProp = pnPropList->FirstChildElement("property");
+  
   while(pnProp)
   {
     size_t pos=0;
@@ -115,14 +150,29 @@ const char* XMLPersist::XmlReadProperty(const string& name, bool MustBeThere) co
     }
     pnProp = pnProp->NextSiblingElement();
   }
-//  if(MustBeThere)
-//    meErrorLog.ThrowError(__FUNCTION__, "The property " + name + " is missing or empty", obError);
+
+  // not found
+  if(pDefaults && MustBeThere  && InsertDefault("property", name))
+    return XmlReadProperty(name, MustBeThere) ; //Try again (recursively). Should succeed.
+
   return NULL;
+}
+
+double XMLPersist::XmlReadPropertyDouble(const std::string& name, bool MustBeThere)
+{
+  double val=0.0;
+  const char* ptxt = XmlReadProperty(name, MustBeThere);
+  if(ptxt)
+  {
+    stringstream ss(ptxt);
+    ss >> val;
+  }
+  return val;
 }
 
 /// Returns the attName attribute of an CML <property> element
 /// See XMLPersist::XmlReadProperty for details
-const char* XMLPersist::XmlReadPropertyAttribute(const string& name, const string& attName, bool MustBeThere) const
+const char* XMLPersist::XmlReadPropertyAttribute(const string& name, const string& attName, bool MustBeThere)
 {
   TiXmlElement* pnProp = pnNode->FirstChildElement("property");
   while(pnProp)
@@ -139,19 +189,28 @@ const char* XMLPersist::XmlReadPropertyAttribute(const string& name, const strin
     {
       TiXmlElement* pnChild = pnProp->FirstChildElement(); //could be <array> or <scalar> or <string>
       if(pnChild){
-        return pnChild->Attribute(attName.c_str());
+        const char* attrtxt = pnChild->Attribute(attName.c_str());
+        if(attrtxt)
+          return attrtxt;//return if the attribute is on this element; otherwise look on next sibling element
       }
     }
     pnProp = pnProp->NextSiblingElement();
   }
-//  if(MustBeThere)
-//    meErrorLog.ThrowError(__FUNCTION__, "The property " + name + " is missing or empty", obError);
+
+  // element/attribute combination not found
+  if(pDefaults && MustBeThere  && InsertDefault("property", name))
+  {
+    //Try again (recursively). Should succeed.
+    const char* ret = XmlReadPropertyAttribute(name, attName, MustBeThere); 
+    assert(ret);
+    return ret;
+  }  
   return NULL;
 }
 
   /// Returns true if datatext associated with name is "1" or "true" or "yes" or nothing;
   //  returns false if datatext is something else or if element is not found.
-  bool XMLPersist::XmlReadBoolean( const std::string& name)const
+  bool XMLPersist::XmlReadBoolean( const std::string& name)
   {
     const char* txt = XmlReadValue(name, false);
     if(txt)
@@ -238,7 +297,7 @@ PersistPtr XMLPersist::XmlWriteMainElement(
 }
 
 ///Insert into XML document a new property element
-/**If the paramaeter units is not empty a timestamp and a units attribute are added. Like:
+/**If the parameter units is not empty a timestamp and a units attribute are added. Like:
   
   <property dictRef="me:ZPE">
     <scalar calculated="20081122_230151" units="kJ/mol">139.5</scalar>
@@ -265,12 +324,19 @@ PersistPtr XMLPersist::XmlWriteProperty( const std::string& name,
   return PersistPtr(new XMLPersist(pnscal));
 }
 
-bool XMLPersist::XmlCopyElement(PersistPtr ppToBeCopied)
+PersistPtr XMLPersist::XmlCopy(PersistPtr ppToBeCopied, PersistPtr ppToBeReplaced)
 {
+  if(ppToBeReplaced)
+  {
+    XMLPersist* pxPRep = dynamic_cast<XMLPersist*> (ppToBeReplaced.get());
+    if(!pnNode->RemoveChild(pxPRep->pnNode))
+      return PersistPtr(NULL); //deletion failure
+  }
+
   TiXmlNode* pnBefore = pnNode->FirstChild();
   if(!pnBefore) return false;
   XMLPersist* pxP = dynamic_cast<XMLPersist*> (ppToBeCopied.get());
-  return pnNode->InsertBeforeChild(pnBefore, *pxP->pnNode);
+  return PersistPtr( new XMLPersist(pnNode->InsertBeforeChild(pnBefore, *pxP->pnNode)->ToElement()));
 }
 
 bool XMLPersist::XmlSaveFile(const std::string& outfilename)
@@ -279,6 +345,85 @@ bool XMLPersist::XmlSaveFile(const std::string& outfilename)
     return pnNode->GetDocument()->SaveFile(stdout);
   else
     return pnNode->GetDocument()->SaveFile(outfilename);
+}
+
+/*/////////////////////////////////////////////////////////////////
+Inserts a default value found by searching defaults.xml
+Handles elements, atrributes and cml properties.
+Call as follows:
+For property with dictref == name            : InsertDefault("property", propname)
+For element with element or attribute == name: InsertDefault(name)
+
+If the default attribute in defaults file is "true" an entry is made in the log file.
+If it is anything else (usually meaning that manual editing is required)
+an error message is displayed in the console.
+The "title" alternative and namespace subtlties not used in defaults.
+*/
+bool XMLPersist::InsertDefault(const string& elName, const string& dictRefName)
+{    
+  string name = dictRefName.empty() ? elName : dictRefName;
+  //Find the default element in defaults.xml
+  TiXmlElement* pnDefProp = pDefaults->RootElement()->FirstChildElement(elName);
+
+  if(!pnDefProp)//no matching elements: the name must refer to an attribute 
+  {
+    pnDefProp = pDefaults->RootElement()->FirstChildElement();
+    while(pnDefProp)
+    {
+      const char* txt = pnDefProp->Attribute(name.c_str());
+      if(txt)
+      {
+        pnNode->SetAttribute(name, txt);
+        const char* pattr = pnDefProp->Attribute("default");
+        if(!pattr)
+        {
+          cerr << "The entry for " << name << " in defaults.txt does not have a default attribute."
+               << "\n THIS NEEDS TO BE CORRECTED.\n";
+          return true;
+        }
+        string attrtext(pattr);
+        pnNode->SetAttribute("default", attrtext);
+        if(attrtext=="true")
+          cinfo << "The default value of " << name << " was used.\n";
+        else
+          cerr << "No value of " << name << " was supplied and the default value " << attrtext << endl;
+        return true;       
+      }
+      pnDefProp = pnDefProp->NextSiblingElement();
+    }
+
+  }
+  else
+  {
+    while(pnDefProp)
+    {
+      const char* dictRefText = pnDefProp->Attribute("dictRef");
+      if(dictRefName.empty() || (dictRefText && dictRefName==dictRefText))
+      {
+        //copy property from defaults.xml to main tree
+        if(pnNode->InsertEndChild(*pnDefProp))
+        {
+          const char* pattr = pnDefProp->Attribute("default");
+          if(!pattr)
+          {
+            cerr << "The entry for " << name << " in defaults.txt does not have a default attribute."
+                 << "\n THIS NEEDS TO BE CORRECTED.\n";
+            return true;
+          }
+          string attrtext(pattr);
+          if(attrtext=="true")
+            cinfo << "The default value of " << name << " was used." <<endl;
+          else
+            cerr << "No value of " << name << " was supplied and the default value " << attrtext << endl;
+          return true;
+        }
+      }
+      pnDefProp = pnDefProp->NextSiblingElement();
+    }
+  }
+  cerr << "No element, or dictRef of a property, = " << name << " was found in defaults.xml or it could not be copied."
+     << "\nTHIS NEEDS TO BE CORRECTED.\n";
+  return false;
 }
 
 }//namespacer mesmer
