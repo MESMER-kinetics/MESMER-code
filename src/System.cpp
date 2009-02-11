@@ -492,6 +492,8 @@ namespace mesmer
 
       if (m_Flags.doBasisSetMethod) {
         m_pReactionManager->constructBasisMatrix();
+        //dMatrix reducedMesmerRates(1);
+        //m_pReactionManager->BartisWidomRatesFromBasisSetMethod(reducedMesmerRates, m_Flags, ppList);
       }
 
       //-------------------------------

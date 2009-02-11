@@ -1,3 +1,14 @@
+_2009_02_11__19_01_57_ Chi-Hsiu Liang
+
+  * Removed an unused routine declaration void calculateGrainTunnelingCoeffs() in Reaction.h
+  * Some progress in making the construction of SS/RS-ME (commented out).
+  * m_locSizeMap is a vector storing the location and size information of the isomer and source terms in the full matrix 
+    and reduced matrix. See declaration of struct locationIdx in ReactionManager.h
+  * Added the diagonalization part of the reduced basis matrix.
+  
+  Note: To use reduced basis sets please look into pentyl_isomerization_mytest.xml in pentyl folder. 
+        <me:runBasisSetMethodroutines /> in <me:control> turns on the routine.
+
 _2009_02_03__14_14_06_ Chi-Hsiu Liang
 
   * Constructed reduced basis matrix. Time to think about how to use this matrix. 

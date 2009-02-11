@@ -108,8 +108,6 @@ namespace mesmer
 
     void calculateCellTunnelingCoeffs(std::vector<double>& TunnelingProbability) {m_pTunnelingCalculator->calculateCellTunnelingCoeffs(this, TunnelingProbability); } ;
 
-    void calculateGrainTunnelingCoeffs(std::vector<double>& TunnelingProbability);
-
     // calculate flux in grains
     void fluxCellToGrain(const std::vector<double>& shiftedCellFlux);
 

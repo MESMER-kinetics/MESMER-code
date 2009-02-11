@@ -21,12 +21,22 @@
 namespace mesmer
 {
   struct locationIdx{
+    Molecule* mol;
     int fml; // full matrix location
     int rml; // reduced matrix location
     int fms; // full matrix size
     int rms; // reduced matrix size
   };
-  
+
+  struct divisionIdx{
+    Molecule* mol;
+    int fml; // full matrix location
+    int asl; // active state location 
+             // The first grain location of the active state, with respect to the full matrix location. 
+             // asl == 0 if the whole well is active.)
+    int fms; // full matrix size
+  };
+
   class ReactionManager
   {
   public:
@@ -82,9 +92,14 @@ namespace mesmer
 
     bool BartisWidomPhenomenologicalRates(dMatrix& rates, MesmerFlags& mFlags,PersistPtr ppBase);
 
+    bool BartisWidomRatesFromBasisSetMethod(dMatrix& mesmerRates, MesmerFlags& mFlags, PersistPtr ppList);
+
     double calcChiSquare(const dMatrix& mesmerRates, vector<conditionSet>& expRates);
 
     void constructBasisMatrix(void);
+    
+    void steadyAndReservoirStateMethod(void);
+
 
   private:
 
@@ -104,6 +119,9 @@ namespace mesmer
     std::vector<qd_real>    m_reducedEigenvalues;
 
     std::vector<double>     m_eqVector;
+    std::vector<double>     m_reducedEqVector;
+    std::vector<locationIdx> m_locSizeMap;
+    std::vector<divisionIdx> m_divMap;
 
     // Maps the location of individual reactant collision operator and source terms in the reaction operator.
     Reaction::molMapType    m_isomers;
@@ -130,7 +148,11 @@ namespace mesmer
 
     bool produceEquilibriumVector();
 
+    bool produceReducedEquilibriumVector();
+
     void printReactionOperator(const MesmerFlags &mFlags);
+
+    void printEiegnvectors(const MesmerFlags &mFlags);
 
   } ;
 }//namespace

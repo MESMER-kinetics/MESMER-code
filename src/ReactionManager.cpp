@@ -26,6 +26,9 @@ namespace mesmer
     m_reducedEigenvectors(0),
     m_reducedEigenvalues(),
     m_eqVector(),
+    m_reducedEqVector(),
+    m_locSizeMap(),
+    m_divMap(),
     m_isomers(),
     m_sources(),
     m_sinkRxns(),
@@ -375,6 +378,36 @@ namespace mesmer
     }
   }
 
+  void ReactionManager::printEiegnvectors(const MesmerFlags& mFlags)
+  {
+    const int smsize = int(m_eigenvectors->size()) ;
+
+    switch (mFlags.printReactionOperatorNum)
+    {
+    case -1:
+      ctest << "Printing all (" << smsize << ") columns/rows of the eigenvectors:\n";
+      (*m_eigenvectors).showFinalBits(smsize, mFlags.print_TabbedMatrices);
+      break;
+    case -2:
+      ctest << "Printing final 1/2 (" << smsize/2 << ") columns/rows of the eigenvectors:\n";
+      (*m_eigenvectors).showFinalBits(smsize/2, mFlags.print_TabbedMatrices);
+      break;
+    case -3:
+      ctest << "Printing final 1/3 (" << smsize/3 << ") columns/rows of the eigenvectors:\n";
+      (*m_eigenvectors).showFinalBits(smsize/3, mFlags.print_TabbedMatrices);
+      break;
+    default: // the number is either smaller than -3 or positive
+      if (abs(mFlags.printReactionOperatorNum) > smsize){
+        ctest << "Printing all (" << smsize << ") columns/rows of the eigenvectors:\n";
+        (*m_eigenvectors).showFinalBits(smsize, mFlags.print_TabbedMatrices);
+      }
+      else{
+        ctest << "Printing final " << abs(mFlags.printReactionOperatorNum) << " columns/rows of the eigenvectors:\n";
+        (*m_eigenvectors).showFinalBits(abs(mFlags.printReactionOperatorNum), mFlags.print_TabbedMatrices);
+      }
+    }
+  }
+
   void ReactionManager::diagReactionOperator(const MesmerFlags &mFlags, const int precision)
   {
     // Allocate space for eigenvalues.
@@ -386,7 +419,7 @@ namespace mesmer
 
     // This block prints Reaction Operator before diagonalization
     if (mFlags.printReactionOperatorNum){
-      ctest << "Before diagonalization --- ";
+      ctest << "Reaction operator --- ";
       printReactionOperator(mFlags);
     }
 
@@ -438,10 +471,10 @@ namespace mesmer
     // diagonalize the whole matrix
     //-------------------------------------------------------------
 
-    // This block prints Reaction Operator after diagonalization
+    // This block prints Eigenvectors
     if (mFlags.printReactionOperatorNum){
-      ctest << "After diagonalization --- ";
-      printReactionOperator(mFlags);
+      ctest << "Eigenvectors --- ";
+      printEiegnvectors(mFlags);
     }
 
     int numberStarted = 0;
@@ -702,14 +735,14 @@ namespace mesmer
   {
     int smsize = int(m_eigenvectors->size());
 
-    vector<double> n_0(smsize, 0.); // initial distribution
-    if (!produceInitialPopulationVector(n_0)){
-      cerr << "Calculation of initial conditions vector failed.";
+    if (!produceEquilibriumVector()){
+      cerr << "Calculation of equilibrium vector failed.";
       return false;
     }
 
-    if (!produceEquilibriumVector()){
-      cerr << "Calculation of equilibrium vector failed.";
+    vector<double> n_0(smsize, 0.); // initial distribution
+    if (!produceInitialPopulationVector(n_0)){
+      cerr << "Calculation of initial conditions vector failed.";
       return false;
     }
 
@@ -925,7 +958,6 @@ namespace mesmer
           }
         }
       }
-
 
       ctest << setw(16)<< "totalIsomerPop" << setw(16)<< "totalPdtPop"  << endl;
       for(int timestep = 0; timestep < maxTimeStep; ++timestep){
@@ -1278,7 +1310,7 @@ namespace mesmer
     m_basisMatrix = new qdMatrix(smsize, 0.0) ;
 
     // 0th define a map with location and number of members included in the reduced basis matrix.
-    vector<locationIdx> locSizeMap;
+    m_locSizeMap.clear();
     int mtxLoc(0);
 
     //-------------------------------------------
@@ -1318,14 +1350,15 @@ namespace mesmer
       }
 
       //-------------------
-      // Need to decide here how many grains of this well go into the reduced matrix.
-      int numMem = 1;// defaults to one.
+      // Need to decide here how many grains of this well to include in the reduced matrix.
+      int numMem = 10;// defaults to one.
       locationIdx lid;
+      lid.mol = isomer;
       lid.fml = ipos->second;
       lid.fms = collsize;
       lid.rml = mtxLoc;
       lid.rms = numMem;
-      locSizeMap.push_back(lid);
+      m_locSizeMap.push_back(lid);
       mtxLoc += numMem;
       //-------------------
 
@@ -1335,18 +1368,19 @@ namespace mesmer
     }
 
     //-------------------------------------------
-    // 2nd put source diagonals
+    // 2nd put source diagonal terms
     Reaction::molMapType::iterator spos;
     for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
       int rxnMatrixLoc = spos->second; // simply copying the numbers.
       (*m_basisMatrix)[rxnMatrixLoc][rxnMatrixLoc] = (*m_reactionOperator)[rxnMatrixLoc][rxnMatrixLoc];
       //Each source only occupies one grain in the reduced basis matrix.
       locationIdx lid;
+      lid.mol = spos->first;
       lid.fml = rxnMatrixLoc;
       lid.fms = 1;
       lid.rml = mtxLoc;
       lid.rms = 1;
-      locSizeMap.push_back(lid);
+      m_locSizeMap.push_back(lid);
       mtxLoc += 1;
     }
 
@@ -1484,12 +1518,12 @@ namespace mesmer
     m_reducedBasisMatrix = new qdMatrix(mtxLoc, 0.0);
 
     // looping through the map and putting whatever the numbers from the full basis matrix to the reduced basis matrix.
-    for (int k(0); k < locSizeMap.size(); ++k)
+    for (int k(0); k < int(m_locSizeMap.size()); ++k)
     {
       // (1) copying the square terms of the well itself
-      int rLoc = locSizeMap[k].rml + locSizeMap[k].rms - 1; // speices location
-      int rSize = locSizeMap[k].rms; // speices included member size
-      int fLoc = locSizeMap[k].fml + locSizeMap[k].fms - 1;
+      int rLoc = m_locSizeMap[k].rml + m_locSizeMap[k].rms - 1; // speices location
+      int rSize = m_locSizeMap[k].rms; // speices included member size
+      int fLoc = m_locSizeMap[k].fml + m_locSizeMap[k].fms - 1;
 
       for (int i(0); i < rSize; ++i){
         for (int j(0); j < rSize; ++j){
@@ -1498,12 +1532,12 @@ namespace mesmer
       }
 
       // (2) copying cross terms
-      for (int l(0); l < locSizeMap.size(); ++l)
+      for (int l(0); l < int(m_locSizeMap.size()); ++l)
       {
         if (l != k){  // only processing 'other' wells.
-          int otherRLoc = locSizeMap[l].rml + locSizeMap[l].rms - 1;
-          int otherRSize = locSizeMap[l].rms;
-          int otherFLoc = locSizeMap[l].fml + locSizeMap[l].fms - 1;
+          int otherRLoc = m_locSizeMap[l].rml + m_locSizeMap[l].rms - 1;
+          int otherRSize = m_locSizeMap[l].rms;
+          int otherFLoc = m_locSizeMap[l].fml + m_locSizeMap[l].fms - 1;
 
           for (int i(0); i < rSize; ++i){
             for (int j(0); j < otherRSize; ++j){
@@ -1522,8 +1556,562 @@ namespace mesmer
 
     //-------------------------------------------
     // 5th diagonalize the reduced matrix
+    if (m_reducedEigenvectors) delete m_reducedEigenvectors;
+    m_reducedEigenvectors = new qdMatrix(mtxLoc, 0.0);
+    m_reducedEigenvalues.clear();
+    m_reducedEigenvalues.resize(mtxLoc, 0.0);
+    for (int i(0); i < mtxLoc; ++i){
+      for (int j(0); j < mtxLoc; ++j){
+        (*m_reducedEigenvectors)[i][j] = (*m_reducedBasisMatrix)[i][j];
+      }
+    }
+
+    m_reducedEigenvectors->diagonalize(&m_reducedEigenvalues[0]);
+
+    // check the values
+    ctest << "\nPrinting all (" << mtxLoc << ") columns/rows of the reduced eigenvectors:\n";
+    m_reducedEigenvectors->showFinalBits(0, mFlags.print_TabbedMatrices);
+
+    // The eigenvalues are multiplied with m_meanOmega to account for the collision frequency.
+    ctest << "\nReduced number of eigenvalues = " << mtxLoc << endl;
+    ctest << "Reduced eigenvalues\n{\n";
+    for (int i = 0 ; i < mtxLoc; ++i) {
+      formatFloat(ctest, m_reducedEigenvalues[i] * m_meanOmega , 6, 15) ;
+      ctest << endl ;
+    }
+    ctest << "}\n";
 
   }
+
+
+  bool ReactionManager::BartisWidomRatesFromBasisSetMethod(dMatrix& mesmerRates, MesmerFlags& mFlags, PersistPtr ppList)
+  {
+
+    if (!produceReducedEquilibriumVector()){
+      cerr << "Calculation of reduced equilibrium vector failed.";
+      return false;
+    }
+
+    const int smsize = int(m_reducedEigenvectors->size());
+    dMatrix eigenVec(smsize);  //copy ReactionOperator, the eigenvector Matrix (== V)
+
+    for ( int i = 0 ; i < smsize ; ++i )
+      for ( int j = 0 ; j < smsize ; ++j )
+        eigenVec[i][j] = to_double((*m_reducedEigenvectors)[i][j]) ;
+
+    // constant variables
+    const int nchem = static_cast<int>(m_isomers.size() + m_sources.size());  // number of isomers+pseudoisomers
+    const int nchemIdx = smsize - nchem;       // idx for chemically significant eigenvalues & vectors
+
+    dMatrix assymInvEigenVec(smsize);   // U^(-1)
+    dMatrix assymEigenVec(smsize);      // U
+    for(int i(0);i<smsize;++i){
+      double tmp = m_reducedEqVector[i];
+      for(int j(0);j<smsize;++j){
+        assymInvEigenVec[j][i] = eigenVec[i][j]/tmp;         //calculation of U^(-1) = (FV)^-1 = V^T * F^-1
+        assymEigenVec[j][i] = m_reducedEqVector[j] * eigenVec[j][i];  //calculation of U = FV
+      }
+    }
+
+    //------------------------- TEST block ----------------------------------------
+    dMatrix EigenVecIdentity(smsize);   // matrix for holding product of U^(-1) * U
+    for(int i(0);i<smsize;++i){         // multiply U*U^(-1) for testing
+      double test = 0.0;
+      for(int j(0);j<smsize;++j){
+        double sm = 0.0;
+        for(int k(0);k<smsize;++k){
+          sm += assymEigenVec[i][k] * assymInvEigenVec[k][j];
+        }
+        EigenVecIdentity[i][j] = sm;
+        test += sm;
+      }
+      if((test/1.0) < 0.999 || (test/1.0) > 1.001)      // test that U*U^(-1) = 1
+        ctest << "row " << i << " of the U*U^(-1) matrix does not equal unity. It sums to " << test << endl;
+    }
+    //------------------------- TEST block ----------------------------------------
+
+    // EigenVecIdentity.showFinalBits(nchem);
+
+    dMatrix Z_matrix(nchem);  // definitions of Y_matrix and Z_matrix taken from PCCP 2007(9), p.4085
+    db2D Y_matrix;
+    Reaction::molMapType::iterator ipos;  // set up an iterator through the isomer map
+    Reaction::molMapType::iterator spos;  // set up an iterator through the source map
+    sinkMap::iterator sinkpos;           // set up an iterator through the irreversible rxn map
+
+    ctest << "\nBartis Widom eigenvalue/eigenvector analysis\n";
+    ctest << endl << "Number of sinks in this system: " << m_sinkRxns.size() << endl;
+
+    for(int i(0); i<nchem; ++i){
+      for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // calculate Z_matrix matrix elements for
+        double sm = 0.0;                                                // all isomers in the system
+        Molecule* isomer = ipos->first;
+        const int colloptrsize = isomer->getColl().get_colloptrsize();    // get colloptrsize for isomer
+        int rxnMatrixLoc = ipos->second;                                // get location for isomer in the rxn matrix
+        int seqMatrixLoc = m_SpeciesSequence[isomer];                       // get sequence position for isomer
+        for(int j(0);j<colloptrsize;++j){
+          sm += assymEigenVec[rxnMatrixLoc+j][nchemIdx+i];
+        }
+        Z_matrix[seqMatrixLoc][i] = sm;
+      }
+      for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // calculate Z_matrix matrix elements for
+        double sm = 0.0;                                                // all sources in the system
+        Molecule* pPseudoIsomer = spos->first ;
+        int rxnMatrixLoc = spos->second;
+        int seqMatrixLoc = m_SpeciesSequence[pPseudoIsomer];
+        sm = assymEigenVec[rxnMatrixLoc][nchemIdx+i];
+        Z_matrix[seqMatrixLoc][i] = sm;
+      }
+      if(m_sinkRxns.size()!=0) {
+        for(sinkpos=m_sinkRxns.begin(); sinkpos!=m_sinkRxns.end(); ++sinkpos){ // calculate Y_matrix elements for sinks
+          double sm = 0.0;
+          vector<double> KofEs;                                         // vector to hold sink k(E)s
+          Reaction* sinkReaction = sinkpos->first;
+          const int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant
+          if(colloptrsize == 1)  // if the collision operator size is 1, there is one canonical loss rate coefficient
+            KofEs.push_back(sinkReaction->get_fwdGrnCanonicalRate());
+          else                   // if the collision operator size is >1, there are k(E)s for the irreversible loss
+            KofEs = sinkReaction->get_GrainKfmc();                      // assign sink k(E)s, the vector size == maxgrn
+          int rxnMatrixLoc = sinkpos->second;                               // get sink location
+          int seqMatrixLoc = m_SinkSequence[sinkReaction];                  // get sink sequence position
+          for(int j(0);j<colloptrsize;++j){
+            sm += assymEigenVec[rxnMatrixLoc+j][nchemIdx+i] * KofEs[j];
+          }
+          Y_matrix[seqMatrixLoc][i] = sm;
+          KofEs.clear();
+        }
+      }
+    }
+
+    //    Y_matrix.print((int)(m_sinkRxns.size()), (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
+
+    dMatrix Zinv(Z_matrix), Zidentity(nchem), Kr(nchem);
+    db2D Kp;
+
+    if(Zinv.invertGaussianJordan()){
+      cerr << "Inversion of Z_matrix failed.  Matrix before inversion is: ";
+      Z_matrix.showFinalBits(nchem);
+    }
+
+    ctest << "\nZ_matrix: ";
+    Z_matrix.showFinalBits(nchem, true);
+
+    ctest << endl << "Z_matrix^(-1):" << endl;
+    Zinv.showFinalBits(nchem, true);
+
+    for(int i(0);i<nchem;++i){          // multiply Z_matrix*Z_matrix^(-1) for testing
+      for(int j(0);j<nchem;++j){
+        double sm = 0.0;
+        for(int k(0);k<nchem;++k){
+          sm += Z_matrix[i][k] * Zinv[k][j];
+        }
+        Zidentity[i][j] = sm;
+      }
+    }
+
+    ctest << "\nZ_matrix * Z_matrix^(-1) [Identity matrix]:" << endl;
+    Zidentity.showFinalBits(nchem, true);
+
+    for(int i(0);i<nchem;++i){          // calculate Kr (definition taken from PCCP 2007(9), p.4085)
+      for(int j(0);j<nchem;++j){
+        double sm = 0.0;
+        for(int k(0);k<nchem;++k){
+          sm += Z_matrix[i][k] * to_double(m_eigenvalues[nchemIdx+k]) * Zinv[k][j];
+        }
+        Kr[i][j] = sm * m_meanOmega;
+      }
+    }
+    ctest << "\nKr matrix:" << endl;
+    Kr.showFinalBits(nchem, true);       // print out Kr_matrix
+
+    if(m_sinkRxns.size()!=0){
+      for(int i(0); i != int(m_sinkRxns.size()); ++i){    // calculate Kp (definition taken from PCCP 2007(9), p.4085)
+        for(int j(0);j<nchem;++j){
+          double sm = 0.0;
+          for(int k(0);k<nchem;++k){
+            sm += Y_matrix[i][k] * Zinv[k][j];
+          }
+          Kp[i][j] = sm;
+        }
+      }
+      ctest << "\nKp matrix:" << endl;    // print out Kp_matrix
+      Kp.print(int(m_sinkRxns.size()), int(m_SpeciesSequence.size()));
+    }
+
+    ctest << "\nFirst order & pseudo first order rate coefficients for loss rxns:\n{\n";
+    Reaction::molMapType::iterator lossitr, rctitr, pdtitr;
+
+    stringstream puSymbols;
+    stringstream puNumbers;
+    // print pseudo 1st order k loss for isomers
+    for(lossitr=m_SpeciesSequence.begin(); lossitr!=m_SpeciesSequence.end(); ++lossitr){
+      Molecule* iso = lossitr->first;
+      int losspos = lossitr->second;
+      ctest << iso->getName() << " loss = " << Kr[losspos][losspos] << endl;
+      PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", Kr[losspos][losspos]);
+      ppItem->XmlWriteAttribute("ref", iso->getName());
+
+      if (mFlags.searchMethod == 3){
+        puNumbers << Kr[losspos][losspos] << "\t";
+        if (punchSymbolGathered == false){
+          puSymbols << iso->getName() << " loss\t";
+        }
+      }
+    }
+
+    ctest << "}\n";
+    ctest << "\nFirst order & pseudo first order rate coefficients for isomerization rxns:\n{\n";
+
+    // print pseudo first order connecting ks
+    for (rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
+      Molecule* rct = rctitr->first;
+      int rctpos = rctitr->second;
+      for (pdtitr=m_SpeciesSequence.begin(); pdtitr!=m_SpeciesSequence.end(); ++pdtitr){
+        Molecule* pdt = pdtitr->first;
+        int pdtpos = pdtitr->second;
+        if(rctpos != pdtpos){
+          ctest << rct->getName() << " -> " << pdt->getName() << " = " << Kr[pdtpos][rctpos] << endl;
+
+          PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", Kr[pdtpos][rctpos]);
+          ppItem->XmlWriteAttribute("fromRef", rct->getName());
+          ppItem->XmlWriteAttribute("toRef",   pdt->getName());
+          ppItem->XmlWriteAttribute("reactionType", "isomerization");
+        }
+
+        if (mFlags.searchMethod == 3){
+          puNumbers << Kr[pdtpos][rctpos] << "\t";
+          if (punchSymbolGathered == false){
+            puSymbols << rct->getName() << " -> " << pdt->getName() << "\t";
+          }
+        }
+      }
+    }
+    ctest << "}\n";
+
+    if(m_sinkRxns.size()!=0){
+      ctest << "\nFirst order & pseudo first order rate coefficients for irreversible rxns:\n{\n";
+      sinkMap::iterator sinkitr;
+
+      for(sinkitr=m_SinkSequence.begin(); sinkitr!=m_SinkSequence.end(); ++sinkitr){
+        Reaction* sinkReaction = sinkitr->first;          // get Irreversible Rxn
+        int colloptrsize = sinkReaction->getRctColloptrsize();
+        int sinkpos = m_SinkSequence[sinkReaction];                   // get products & their position
+        vector<Molecule*> pdts;
+        sinkReaction->get_products(pdts);
+        for(rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
+          Molecule* rcts = rctitr->first;     // get reactants & their position
+          int rctpos = rctitr->second;
+          if(colloptrsize==1){
+            ctest << rcts->getName() << " -> "  << pdts[0]->getName() << "(bim) = " << Kp[sinkpos][rctpos] << endl;
+            if (mFlags.searchMethod == 3){
+              puNumbers << Kp[sinkpos][rctpos] << "\t";
+              if (punchSymbolGathered == false){
+                puSymbols << rcts->getName() << " -> " << pdts[0]->getName() << "(bim)\t";
+              }
+            }
+          }
+          else{
+            ctest << rcts->getName() << " -> "  << pdts[0]->getName() << " = " << Kp[sinkpos][rctpos] << endl;
+
+            PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", Kp[sinkpos][rctpos]);
+            ppItem->XmlWriteAttribute("fromRef", rcts->getName());
+            ppItem->XmlWriteAttribute("toRef",   pdts[0]->getName());
+            ppItem->XmlWriteAttribute("reactionType", "irreversible");
+            if (mFlags.searchMethod == 3){
+              puNumbers << Kp[sinkpos][rctpos] << "\t";
+              if (punchSymbolGathered == false){
+                puSymbols << rcts->getName() << " -> " << pdts[0]->getName() << "\t";
+              }
+            }
+          }
+        }
+      }
+      ctest << "}\n\n";
+    }
+
+    if (puSymbols.str().size()) {
+      puSymbols << "\n";
+      mFlags.punchSymbols = puSymbols.str();
+      punchSymbolGathered = true;
+    }
+
+    if (puNumbers.str().size()) {
+      puNumbers << "\n";
+      mFlags.punchNumbers = puNumbers.str();
+    }
+
+    mesmerRates = Kr;
+    return true;
+  }
+
+  //
+  // The vector produced by this function contains the sqrt of
+  // the normalized equilibrium distribution.
+  //
+  bool ReactionManager::produceReducedEquilibriumVector()
+  {
+
+    m_reducedEqVector.clear();
+    m_reducedEqVector.resize(m_reducedEigenvectors->size());
+
+
+    for (int i(0); i < int(m_locSizeMap.size()); ++i){  // iterate through source map to get
+      Molecule* pMol = m_locSizeMap[i].mol;                            // eq Fractions
+      int rxnMatrixLoc = m_locSizeMap[i].rml;
+      double eqFrac = pMol->getPop().getEqFraction();
+      m_reducedEqVector[rxnMatrixLoc] = sqrt(eqFrac);
+    }
+
+    return true;
+  }
+
+  //// This routine calculates ME using steady-state and/or reservoir-state methods.
+  //void ReactionManager::steadyAndReservoirStateMethod(void){
+
+  //  const int smsize = int(m_reactionOperator->size()) ;
+  //  MesmerFlags& mFlags = m_reactions[0]->getFlags();
+
+  //  // Allocate space for the basis matrix / reduced basis matrix, eigenvectors and eigenvalues.
+  //  if (m_basisMatrix) delete m_basisMatrix;
+  //  m_basisMatrix = new qdMatrix(smsize, 0.0) ;
+
+  //  // 0th define a map with location and number of members included in the reduced basis matrix.
+  //  m_divMap.clear();
+  //  int mtxLoc(0);
+
+  //  //-------------------------------------------
+  //  // 1st, loop through wells and decide their active state locations.
+  //  Reaction::molMapType::iterator ipos;
+  //  for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
+  //    Molecule *isomer = ipos->first;
+  //    int rxnMatrixLoc = ipos->second;
+  //    int collsize = ipos->first->getColl().get_colloptrsize();
+
+  //    // The location of the active state can possibly follow two directions:
+  //    // (a) simply divide the well structure into two parts according to the lowest barrier associated with this well.
+  //    // (b) in addition to the above criterion, check if 99% of Boltzmann distribution is under the dividing grain.
+  //    
+  //    // look for this molecule in the reaction list and find the lowest barrier height.
+  //    for (size_t looker(0); looker < size(); ++looker){
+  //      Molecule* pTS = m_reactions[looker]->get_TransitionState();
+  //      Molecule* 
+  //    }
+  //  }
+
+  //  //-------------------------------------------
+  //  // 2nd put source diagonals
+  //  Reaction::molMapType::iterator spos;
+  //  for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
+  //    int rxnMatrixLoc = spos->second; // simply copying the numbers.
+  //    (*m_basisMatrix)[rxnMatrixLoc][rxnMatrixLoc] = (*m_reactionOperator)[rxnMatrixLoc][rxnMatrixLoc];
+  //    //Each source only occupies one grain in the reduced basis matrix.
+  //    locationIdx lid;
+  //    lid.mol = spos->first;
+  //    lid.fml = rxnMatrixLoc;
+  //    lid.fms = 1;
+  //    lid.rml = mtxLoc;
+  //    lid.rms = 1;
+  //    m_divMap.push_back(lid);
+  //    mtxLoc += 1;
+  //  }
+
+  //  //-------------------------------------------
+  //  // 3rd Check reaction map and construct off-diagonal blocks
+  //  for (size_t i(0) ; i < size() ; ++i) {  //iterate through m_reactions
+  //    Molecule* rct;
+  //    Molecule* pdt;
+  //    double Keq(0.0);
+  //    //only need to look in isom & assoc rxns
+  //    if (m_reactions[i]->isEquilibratingReaction(Keq, &rct, &pdt)){
+  //      int rloc, ploc, rcollsize, pcollsize ;
+
+  //      // There is no duplicated reactions in m_reactions; even if there is, must be there for some reason.
+  //      // (1) find the rct&pdt collision operator sizes and their locations in the reaction operator
+  //      bool isAssociation(false);
+  //      Reaction::molMapType::iterator rctitr = m_isomers.find(rct);
+  //      if (rctitr != m_isomers.end()){
+  //        rloc = rctitr->second;
+  //        rcollsize = rct->getColl().get_colloptrsize();
+  //      }else{
+  //        rctitr = m_sources.find(rct);
+  //        if (rctitr != m_sources.end()){
+  //          isAssociation = true;
+  //          rloc = rctitr->second;
+  //          rcollsize = 1;
+  //        }
+  //        else{
+  //          cerr << "Unknown type of Equilibrating Reaction";
+  //        }
+  //      }
+
+  //      // The product must be an isomer
+  //      Reaction::molMapType::iterator pdtitr = m_isomers.find(pdt);
+  //      ploc = pdtitr->second;
+  //      pcollsize = pdt->getColl().get_colloptrsize();
+
+  //      // (2) if the reaction is an association reaction
+  //      if (rcollsize == 1){
+  //        // U_A^-1 M
+  //        qdMatrix* oMatrix = new qdMatrix(pcollsize);
+  //        const dMatrix* dEigenMx = pdt->getColl().getEigenVectors();
+  //        qdMatrix* qdEigenM = new qdMatrix(pcollsize);
+  //        // Copy oMatrix2 to m_basisMatrix
+  //        for (int i(0); i < pcollsize; ++i){
+  //          for (int j(0); j < pcollsize; ++j){
+  //            (*qdEigenM)[i][j] = (*dEigenMx)[i][j];
+  //          }
+  //        }
+  //        matrices_multiplication(
+  //          qdEigenM, 0, 0, pcollsize, pcollsize,
+  //          m_reactionOperator, 0, rloc, pcollsize, 1,
+  //          oMatrix, true);
+
+  //        // Copy oMatrix to m_basisMatrix
+  //        for (int i(0); i < pcollsize; ++i){
+  //          qd_real entryValue = (*oMatrix)[i][0];
+  //          (*m_basisMatrix)[i+rloc][ploc] = entryValue;
+  //          (*m_basisMatrix)[ploc][i+rloc] = entryValue;
+  //        }
+
+  //        delete qdEigenM;
+  //        delete oMatrix;
+
+  //      }
+  //      else{// (3) if the reaction is an isomerization reaction
+  //        int gtrcollsize = (rcollsize > pcollsize) ? rcollsize : pcollsize;
+  //        qdMatrix* oMatrix1 = new qdMatrix(gtrcollsize);
+  //        qdMatrix* oMatrix2 = new qdMatrix(gtrcollsize);
+  //        Molecule* molA;
+  //        Molecule* molB;
+  //        int collsizeA, collsizeB, locA, locB;
+  //        if(rloc > ploc){
+  //          molA = pdt; collsizeA = pcollsize; locA = ploc;
+  //          molB = rct; collsizeB = rcollsize; locB = rloc;
+  //        }
+  //        else{
+  //          molA = rct; collsizeA = rcollsize; locA = rloc;
+  //          molB = pdt; collsizeB = pcollsize; locB = ploc;
+  //        }
+  //        const dMatrix* dEigenMxA = molA->getColl().getEigenVectors();
+  //        qdMatrix* qdEigenMA = new qdMatrix(collsizeA);
+
+  //        // Copy dEigenMxA to qdEigenMA
+  //        for (int i(0); i < collsizeA; ++i){
+  //          for (int j(0); j < collsizeA; ++j){
+  //            (*qdEigenMA)[i][j] = (*dEigenMxA)[i][j];
+  //          }
+  //        }
+
+  //        const dMatrix* dEigenMxB = molB->getColl().getEigenVectors();
+  //        qdMatrix* qdEigenMB = new qdMatrix(collsizeB);
+
+  //        // Copy dEigenMxB to qdEigenMB
+  //        for (int i(0); i < collsizeB; ++i){
+  //          for (int j(0); j < collsizeB; ++j){
+  //            (*qdEigenMB)[i][j] = (*dEigenMxB)[i][j];
+  //          }
+  //        }
+
+  //        // U_A^-1 M
+  //        matrices_multiplication(
+  //          qdEigenMA, 0, 0, collsizeA, collsizeA,
+  //          m_reactionOperator, locA, locB, collsizeA, collsizeB,
+  //          oMatrix1, true);
+  //        // M U_B
+  //        matrices_multiplication(
+  //          oMatrix1, 0, 0, collsizeA, collsizeB,
+  //          qdEigenMB, 0, 0, collsizeB, collsizeB,
+  //          oMatrix2, false);
+  //        // Copy oMatrix2 to m_basisMatrix
+  //        for (int i(0); i < collsizeA; ++i){
+  //          for (int j(0); j < collsizeB; ++j){
+  //            qd_real entryValue = (*oMatrix2)[i][j];
+  //            (*m_basisMatrix)[i+locA][j+locB] = entryValue;
+  //            (*m_basisMatrix)[j+locB][i+locA] = entryValue;
+  //          }
+  //        }
+
+  //        delete qdEigenMA;
+  //        delete qdEigenMB;
+  //        delete oMatrix1;
+  //        delete oMatrix2;
+
+  //      }
+  //    }
+  //  }
+
+  //  //ctest << "\nPrinting all (" << smsize << ") columns/rows of the Basis Matrix:\n";
+  //  //m_basisMatrix->showFinalBits(0, mFlags.print_TabbedMatrices);
+
+  //  //-------------------------------------------
+  //  // 4th put decided numbers of members in the reduced Basis Matrix
+  //  if (m_reducedBasisMatrix) delete m_reducedBasisMatrix;
+  //  m_reducedBasisMatrix = new qdMatrix(mtxLoc, 0.0);
+
+  //  // looping through the map and putting whatever the numbers from the full basis matrix to the reduced basis matrix.
+  //  for (int k(0); k < int(m_divMap.size()); ++k)
+  //  {
+  //    // (1) copying the square terms of the well itself
+  //    int rLoc = m_divMap[k].rml + m_divMap[k].rms - 1; // speices location
+  //    int rSize = m_divMap[k].rms; // speices included member size
+  //    int fLoc = m_divMap[k].fml + m_divMap[k].fms - 1;
+
+  //    for (int i(0); i < rSize; ++i){
+  //      for (int j(0); j < rSize; ++j){
+  //        (*m_reducedBasisMatrix)[rLoc-i][rLoc-j] = (*m_basisMatrix)[fLoc-i][fLoc-j];
+  //      }
+  //    }
+
+  //    // (2) copying cross terms
+  //    for (int l(0); l < int(m_divMap.size()); ++l)
+  //    {
+  //      if (l != k){  // only processing 'other' wells.
+  //        int otherRLoc = m_divMap[l].rml + m_divMap[l].rms - 1;
+  //        int otherRSize = m_divMap[l].rms;
+  //        int otherFLoc = m_divMap[l].fml + m_divMap[l].fms - 1;
+
+  //        for (int i(0); i < rSize; ++i){
+  //          for (int j(0); j < otherRSize; ++j){
+  //            qd_real entryValue = (*m_basisMatrix)[fLoc-i][otherFLoc-j];
+  //            (*m_reducedBasisMatrix)[rLoc-i][otherRLoc-j] = entryValue;
+  //            (*m_reducedBasisMatrix)[otherRLoc-j][rLoc-i] = entryValue;
+  //          }
+  //        }
+  //      }
+  //    }
+  //  }
+
+  //  // check the values
+  //  ctest << "\nPrinting all (" << mtxLoc << ") columns/rows of the reduced Basis Matrix:\n";
+  //  m_reducedBasisMatrix->showFinalBits(0, mFlags.print_TabbedMatrices);
+
+  //  //-------------------------------------------
+  //  // 5th diagonalize the reduced matrix
+  //  if (m_reducedEigenvectors) delete m_reducedEigenvectors;
+  //  m_reducedEigenvectors = new qdMatrix(mtxLoc, 0.0);
+  //  m_reducedEigenvalues.clear();
+  //  m_reducedEigenvalues.resize(mtxLoc, 0.0);
+  //  for (int i(0); i < mtxLoc; ++i){
+  //    for (int j(0); j < mtxLoc; ++j){
+  //      (*m_reducedEigenvectors)[i][j] = (*m_reducedBasisMatrix)[i][j];
+  //    }
+  //  }
+
+  //  m_reducedEigenvectors->diagonalize(&m_reducedEigenvalues[0]);
+
+  //  // check the values
+  //  ctest << "\nPrinting all (" << mtxLoc << ") columns/rows of the reduced eigenvectors:\n";
+  //  m_reducedEigenvectors->showFinalBits(0, mFlags.print_TabbedMatrices);
+
+  //  ctest << "\nReduced number of eigenvalues = " << mtxLoc << endl;
+  //  ctest << "Reduced eigenvalues\n{\n";
+  //  for (int i = 0 ; i < mtxLoc; ++i) {
+  //    formatFloat(ctest, m_reducedEigenvalues[i] * m_meanOmega , 6, 15) ;
+  //    ctest << endl ;
+  //  }
+  //  ctest << "}\n";
+
+  //}
+
 
 }//namespace
 
