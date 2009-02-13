@@ -14,16 +14,17 @@
 // is stored in the molecule manager.
 //
 //-------------------------------------------------------------------------------------------
+
 #include "ReactionManager.h"
 
 namespace mesmer
 {
 
-  class System
+  class System 
   {
   public:
 
-    System() ;
+    System(const std::string& libraryfilename) ;
     ~System() ;
 
     // Read and parse a data input file.
@@ -40,11 +41,10 @@ namespace mesmer
     
     // Print system configuration
     void configuration(void);
-    
-    /// Access a list of molecules which were not present in the data file
-    /// but which were sucessfully recovered from the Library.
-    vector<PersistPtr>& getLibraryMols(){return m_pMoleculeManager->getLibraryMols();};
 
+    // Deduce the me:type of each molecule and add it to the XML file 
+    bool assignMolTypes(PersistPtr ppIOPtr) ;
+    
   public:
 
     // Paired concentration and pressure points
@@ -58,7 +58,7 @@ namespace mesmer
   private:
 
     // Location of the molecule manager.
-    MoleculeManager *m_pMoleculeManager ;
+    MoleculeManager *m_pMoleculeManager;
 
     // Location of the reaction maps.
     ReactionManager *m_pReactionManager ;

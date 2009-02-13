@@ -66,9 +66,9 @@ namespace mesmer
     const int get_rctsGrnZPE(void);
 
     // return relative reactant, product and transition state zero-point energy
-    virtual double get_relative_rctZPE() const {return m_rct1->g_dos->get_zpe() + m_rct2->g_dos->get_zpe() - getEnv().EMin;}
-    virtual double get_relative_pdtZPE() const {return m_pdt1->g_dos->get_zpe() + m_pdt2->g_dos->get_zpe() - getEnv().EMin;}
-    virtual double get_relative_TSZPE(void) const {return m_TransitionState->g_dos->get_zpe() - getEnv().EMin;};
+    virtual double get_relative_rctZPE() const {return m_rct1->getDOS().get_zpe() + m_rct2->getDOS().get_zpe() - getEnv().EMin;}
+    virtual double get_relative_pdtZPE() const {return m_pdt1->getDOS().get_zpe() + m_pdt2->getDOS().get_zpe() - getEnv().EMin;}
+    virtual double get_relative_TSZPE(void) const {return m_TransitionState->getDOS().get_zpe() - getEnv().EMin;};
     
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
@@ -91,8 +91,8 @@ namespace mesmer
     bool calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
     void getRctsCellDensityOfStates(vector<double> &cellDOS);
     void getPdtsCellDensityOfStates(vector<double> &cellDOS);
-    virtual DensityOfStatesCalculator* get_rctsDensityOfStatesCalculator(){return get_pseudoIsomer()->g_dos->get_DensityOfStatesCalculator(); }
-    virtual DensityOfStatesCalculator* get_pdtsDensityOfStatesCalculator(){return m_pdt1->g_dos->get_DensityOfStatesCalculator(); }
+    virtual DensityOfStatesCalculator* get_rctsDensityOfStatesCalculator(){return get_pseudoIsomer()->getDOS().get_DensityOfStatesCalculator(); }
+    virtual DensityOfStatesCalculator* get_pdtsDensityOfStatesCalculator(){return m_pdt1->getDOS().get_DensityOfStatesCalculator(); }
     virtual double pdtsRovibronicGrnCanPrtnFn();
     virtual double rctsRovibronicGrnCanPrtnFn();
 

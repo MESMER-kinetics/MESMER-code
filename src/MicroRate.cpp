@@ -25,8 +25,8 @@ namespace mesmer
     vector<double> grainEne;
     vector<double> grainDOS;
     const vector<double>& grainKfmc = pReact->get_GrainKfmc();
-    pReactant->g_dos->getGrainEnergies(grainEne) ;
-    pReactant->g_dos->getGrainDensityOfStates(grainDOS) ;
+    pReactant->getDOS().getGrainEnergies(grainEne) ;
+    pReactant->getDOS().getGrainDensityOfStates(grainDOS) ;
 
     ctest << "\nCanonical rate coefficients for " << pReact->getName() << ", calculated from microcanonical rates\n{\n";
     for(int i = 0 ; i < 29 ; ++i)

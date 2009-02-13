@@ -19,10 +19,10 @@ namespace mesmer
     Molecule * p_TransitionState = pReact->get_TransitionState();
 
     //TC is the classical energy of the TS
-    const double TC = p_TransitionState->g_dos->getClassicalEnergy();
+    const double TC = p_TransitionState->getDOS().getClassicalEnergy();
     //V0 & V1 are the classical barrier heights in the forward/reverse directions
-    const double V0 = TC - pReactant->g_dos->getClassicalEnergy();
-    const double V1 = TC - p_Product->g_dos->getClassicalEnergy();
+    const double V0 = TC - pReactant->getDOS().getClassicalEnergy();
+    const double V1 = TC - p_Product->getDOS().getClassicalEnergy();
 
     //TZ is the zpe of the TS
     const double TZ = pReact->get_relative_TSZPE();

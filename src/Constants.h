@@ -17,6 +17,8 @@
 #endif //M_PI
 
 namespace Constants {
+  //More meaningful synonym used in parsing
+  static const bool   optional                = false;
   // default values
   static const double sigmaDefault            = 5.0;
   static const double epsilonDefault          = 50.0;

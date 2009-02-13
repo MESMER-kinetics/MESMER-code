@@ -182,6 +182,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\src\AssignMolTypes.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\AssociationReaction.cpp"
 				>
 			</File>
@@ -465,11 +469,19 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath="..\..\defaults.xml"
+			>
+		</File>
+		<File
 			RelativePath="..\..\mesmer1.xsl"
 			>
 		</File>
 		<File
 			RelativePath="..\..\mesmerDiag.xsl"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Notes.txt"
 			>
 		</File>
 	</Files>

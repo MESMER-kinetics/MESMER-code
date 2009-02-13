@@ -27,15 +27,15 @@ class MoleculeManager {
   std::string                                               m_BathGasMolecule ;
   PersistPtr                                                m_ppPersist;
   int                                                       sourceNumber;
+  const std::string                                         m_libfile;
 private:
-   //pointers to molecules from library that have been successfully used
-  std::vector<PersistPtr> m_libMols;
   void clear(void);
 
 public:
 
   // Default constructor.
-  MoleculeManager() : m_molmap(), m_BathGasMolecule(), m_ppPersist(NULL), sourceNumber(0) { } ;
+  MoleculeManager(const std::string& libraryfilename) 
+    : m_molmap(), m_BathGasMolecule(), m_ppPersist(NULL), sourceNumber(0), m_libfile(libraryfilename) { } ;
 
   // Default destructor.
   ~MoleculeManager();
@@ -52,19 +52,25 @@ public:
   // Total number of molecules in the list.
   void size() const {} ;
 
-  /* Iterate through the molecules and return only those of a specified class.
+  //Return the Energy convention if all  molecules with _gDOS components have the same,
+  //and an empty string otherwise
+  std::string checkEnergyConventions();
+  
+
+/* I don't think these functions are needed within a flat Molecule
+ /* Iterate through the molecules
    When id is empty, starts at beginning,
    When id contains the name of a molecule, the function recovers the
    next molecule of a class castable to that of pmol and returns true.
-   Returns false when no molecules of the requested class has been found.
+   Returns false when no molecules has been found.
    Use like:
      std::string id;
 ..   Molecule* pmol;
      while(GetNextMolecule(id, pmol))
      { //use id and pmol }
  */
-  template<typename T>
-  bool GetNextMolecule(std::string& id, T*& pmol)
+/*
+  bool GetNextMolecule(std::string& id, Molecule*& pmol)
   {
     pmol=NULL;
     molIter iter;
@@ -80,7 +86,7 @@ public:
 
     for(;iter!=m_molmap.end();++iter)
     {
-      pmol = dynamic_cast<T*>(iter->second);
+      pmol = iter->second;
       if(pmol) //molecule of requested class found
       {
         id = iter->first;
@@ -89,10 +95,9 @@ public:
     }
     return false;
   }
-  
+*/  
   /*Give the molecular name returns pointer*/
-  template<typename T>
-  bool GetThisMolecule(std::string& id, T*& pmol)
+  bool GetThisMolecule(std::string& id, Molecule*& pmol)
   {
     pmol=NULL;
     molIter iter;
@@ -103,7 +108,7 @@ public:
     {
       iter=m_molmap.find(id);
       if (iter != m_molmap.end()){
-        pmol = dynamic_cast<T*>(iter->second);
+        pmol = iter->second;
         return true;
       }
       else return false;
@@ -111,10 +116,9 @@ public:
     return false;
   }
 
-  ///Search the library of molecules, initialize pmolecule with the data
-  ///Returns true if found
-  bool LookinLibrary(const std::string molName, Molecule* pmolecule);
-  vector<PersistPtr>& getLibraryMols(){return m_libMols;};
+  ///Search the library of molecules, copy to the main XML file,
+  // replacing an existing molecule of same name. Return a pointer to the copy.
+  PersistPtr GetFromLibrary(const std::string molName, PersistPtr ppMolList);
 
   // Accessors and Modifers for bath gas molecule.
 

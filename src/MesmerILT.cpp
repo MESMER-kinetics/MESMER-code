@@ -6,7 +6,7 @@ namespace mesmer
 {
   //************************************************************
   //Global instance, defining its id (usually the only instance)
-  MesmerILT theMesmerILT("Mesmer ILT");
+  MesmerILT theMesmerILT("MesmerILT");
   //************************************************************
 
   //-------------------------------------------------
@@ -74,7 +74,7 @@ namespace mesmer
     vector<double> rctCellDOS; //  Cell density of states of reactant.
 
     getCellEnergies(MaximumCell, rctCellEne);
-    p_rct->g_dos->getCellDensityOfStates(rctCellDOS);
+    p_rct->getDOS().getCellDensityOfStates(rctCellDOS);
 
     // Allocate space to hold microcanonical rate coefficients for dissociation.
     // This line below pass the reference pointer of m_CellFlux to the vector by (&), so what the code does on
@@ -89,12 +89,12 @@ namespace mesmer
     // If the activation energy specified is for the reverse direction.
     double Keq(1.0);
     if (pReact->isReverseReactionILT_Ea()){
-      const double Q_R        = p_rct->g_dos->rovibronicGrnCanPrtnFn();
+      const double Q_R        = p_rct->getDOS().rovibronicGrnCanPrtnFn();
       const double Q_p        = pReact->pdtsRovibronicGrnCanPrtnFn();
       Keq *= Q_p / Q_R;
       // Heat of reaction contribution is included in activation energy
       if (numberOfProducts == 2){
-        Keq *= translationalContribution(v_pdts[0]->getMass(), v_pdts[1]->getMass(), pReact->getEnv().beta);
+        Keq *= translationalContribution(v_pdts[0]->getStruc().getMass(), v_pdts[1]->getStruc().getMass(), pReact->getEnv().beta);
       }
     }
     const double constant   = Ainf * Keq * pow(beta0,Ninf)/gammaValue;
@@ -129,7 +129,7 @@ namespace mesmer
   {
     AssociationReaction *pAssocReaction = dynamic_cast<AssociationReaction*>(pReact) ;
     if(!pAssocReaction){
-      cerr << "The Mesmer ILT method is not available for Irreversible Exchange Reactions"<< endl;
+      cerr << "The MesmerILT method is not available for Irreversible Exchange Reactions"<< endl;
       return false ;
     }
 
@@ -148,9 +148,9 @@ namespace mesmer
     Molecule*  p_rct1 = pAssocReaction->get_pseudoIsomer();
     Molecule*  p_rct2 = pAssocReaction->get_excessReactant();
 
-    const double ma = p_rct1->getMass();
-    const double mb = p_rct2->getMass();
-    const double mc = p_pdt1->getMass();
+    const double ma = p_rct1->getStruc().getMass();
+    const double mb = p_rct2->getStruc().getMass();
+    const double mc = p_pdt1->getStruc().getMass();
     int MaximumCell = pAssocReaction->getEnv().MaxCell;
 
     // Allocate some work space for density of states and extract densities of states from molecules.

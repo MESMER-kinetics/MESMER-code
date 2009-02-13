@@ -25,7 +25,11 @@ namespace mesmer
     m_ppPersist = ppReac;
 
     // Read reactant details.
-    PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
+    PersistPtr ppReactantList = ppReac->XmlMoveTo("reactantList");
+    if(!ppReactantList)
+      ppReactantList=ppReac; //Be forgiving; we can get by without a reactantList element
+
+    PersistPtr ppReactant1  = ppReactantList->XmlMoveTo("reactant");
     Molecule* pMol1 = GetMolRef(ppReactant1);
     if(!pMol1){
       cerr << "Cannot get reactant definition for Isomerization reaction " << getName() << ".";
@@ -42,7 +46,10 @@ namespace mesmer
     }
 
     //Read product details.
-    PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
+    PersistPtr ppProductList = ppReac->XmlMoveTo("productList");
+    if(!ppProductList)
+      ppProductList=ppReac; //Be forgiving; we can get by without a productList element
+    PersistPtr ppProduct1 = ppProductList->XmlMoveTo("product");
     pMol1 = GetMolRef(ppProduct1);
     if (!pMol1) {
       cerr << "Cannot get product definition for Isomerization reaction " << getName() << ".";
@@ -83,8 +90,8 @@ namespace mesmer
     double Keq(0.0) ;
 
     // Get Canonical partition functions.
-    double Qrct1 = m_rct1->g_dos->rovibronicGrnCanPrtnFn() ;
-    double Qpdt1 = m_pdt1->g_dos->rovibronicGrnCanPrtnFn() ;
+    double Qrct1 = m_rct1->getDOS().rovibronicGrnCanPrtnFn() ;
+    double Qpdt1 = m_pdt1->getDOS().rovibronicGrnCanPrtnFn() ;
 
     double beta = getEnv().beta ;
 
@@ -104,14 +111,14 @@ namespace mesmer
     // Get densities of states for detailed balance.
     vector<double> rctDOS;
     vector<double> pdtDOS;
-    m_rct1->g_dos->getGrainDensityOfStates(rctDOS) ;
-    m_pdt1->g_dos->getGrainDensityOfStates(pdtDOS) ;
+    m_rct1->getDOS().getGrainDensityOfStates(rctDOS) ;
+    m_pdt1->getDOS().getGrainDensityOfStates(pdtDOS) ;
 
     // Locate isomers in system matrix.
     const int rctLocation = isomermap[m_rct1] ;
     const int pdtLocation = isomermap[m_pdt1] ;
 
-    const int colloptrsize = m_pdt1->g_coll->get_colloptrsize();
+    const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
     const int forwardThreshE = get_EffGrnFwdThreshold();
     const int reverseThreshE = get_EffGrnRvsThreshold();
     const int fluxStartIdx = get_fluxFirstNonZeroIdx();
@@ -135,8 +142,8 @@ namespace mesmer
   void IsomerizationReaction::calcGrainRateCoeffs(){
     vector<double> rctGrainDOS;
     vector<double> pdtGrainDOS;
-    m_rct1->g_dos->getGrainDensityOfStates(rctGrainDOS) ;
-    m_pdt1->g_dos->getGrainDensityOfStates(pdtGrainDOS) ;
+    m_rct1->getDOS().getGrainDensityOfStates(rctGrainDOS) ;
+    m_pdt1->getDOS().getGrainDensityOfStates(pdtGrainDOS) ;
 
     calcEffGrnThresholds();
     const int forwardTE = get_EffGrnFwdThreshold();
@@ -181,10 +188,10 @@ namespace mesmer
 
     double k_forward(0.0), k_backward(0.0);
     vector<double> rctGrainDOS, rctGrainEne, pdtGrainDOS, pdtGrainEne ;
-    m_rct1->g_dos->getGrainDensityOfStates(rctGrainDOS);
-    m_pdt1->g_dos->getGrainDensityOfStates(pdtGrainDOS);
-    m_rct1->g_dos->getGrainEnergies(rctGrainEne);
-    m_pdt1->g_dos->getGrainEnergies(pdtGrainEne);
+    m_rct1->getDOS().getGrainDensityOfStates(rctGrainDOS);
+    m_pdt1->getDOS().getGrainDensityOfStates(pdtGrainDOS);
+    m_rct1->getDOS().getGrainEnergies(rctGrainEne);
+    m_pdt1->getDOS().getGrainEnergies(pdtGrainEne);
     const int MaximumGrain = (getEnv().MaxGrn-get_fluxFirstNonZeroIdx());
     const double beta = getEnv().beta;
     const double temperature = 1. / (boltzmann_RCpK * beta);
@@ -210,13 +217,13 @@ namespace mesmer
   void IsomerizationReaction::calcEffGrnThresholds(void){  // see the comments in
     double thresh = get_ThresholdEnergy();    // calcEffGrnThresholds under AssociationReaction.cpp
     double RxnHeat = getHeatOfReaction();
-    if (thresh < RxnHeat && m_pMicroRateCalculator->getName() == "Mesmer ILT"){
+    if (thresh < RxnHeat && m_pMicroRateCalculator->getName() == "MesmerILT"){
       cerr << "E_infinity should be equal to or greater than the heat of reaction in ILT.";
       exit(1);
     }
     int TS_en = this->get_fluxGrnZPE();
-    int pdt_en = m_pdt1->g_coll->get_grnZPE();
-    int rct_en = m_rct1->g_coll->get_grnZPE();
+    int pdt_en = m_pdt1->getColl().get_grnZPE();
+    int rct_en = m_rct1->getColl().get_grnZPE();
     int GrainedRxnHeat = pdt_en - rct_en;
     if(thresh<0.0){
       set_EffGrnFwdThreshold(0);
@@ -235,7 +242,7 @@ namespace mesmer
   //
   // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
   //
-  double IsomerizationReaction::rctsRovibronicGrnCanPrtnFn() { return m_rct1->g_dos->rovibronicGrnCanPrtnFn();}
-  double IsomerizationReaction::pdtsRovibronicGrnCanPrtnFn() { return m_pdt1->g_dos->rovibronicGrnCanPrtnFn();}
+  double IsomerizationReaction::rctsRovibronicGrnCanPrtnFn() { return m_rct1->getDOS().rovibronicGrnCanPrtnFn();}
+  double IsomerizationReaction::pdtsRovibronicGrnCanPrtnFn() { return m_pdt1->getDOS().rovibronicGrnCanPrtnFn();}
 
 }//namespace

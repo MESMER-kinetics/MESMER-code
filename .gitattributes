@@ -40,6 +40,17 @@ Windows[!!-~]VC8/MESMER.sln -text
 Windows[!!-~]VC8/Mesmer/Mesmer.vcproj -text
 Windows[!!-~]VC8/TinyXML/TinyXML.vcproj -text
 Windows[!!-~]VC8/qd/qd.vcproj -text
+/defaults.xml -text
+examples/AcetylO2/Int1.log -text
+examples/AcetylO2/Int2.log -text
+examples/AcetylO2/O2.log -text
+examples/AcetylO2/OH.log -text
+examples/AcetylO2/TS1.log -text
+examples/AcetylO2/TS2.log -text
+examples/AcetylO2/TS3.log -text
+examples/AcetylO2/acetylO2.ck -text
+examples/AcetylO2/acetyl_radical.log -text
+examples/AcetylO2/lactone.log -text
 examples/DiagramTest/Acetyl_O2_association.xml -text
 examples/DiagramTest/Cyclopropene_isomerization_test.xml -text
 examples/DiagramTest/HSO2.xml -text
@@ -47,6 +58,9 @@ examples/DiagramTest/OH_acetylene_association.xml -text
 examples/DiagramTest/methylene_D2_association.xml -text
 examples/DiagramTest/pentyl_isomerization_test.xml -text
 examples/DiagramTest/pentyl_isomerize_dissocn.xml -text
+examples/MesmerTemplate.text -text
+examples/makedata.bat -text
+/librarymols.xml -text
 /mesmer1.xsl -text
 /mesmer2.xsl -text
 /mesmerDiag.xsl -text
@@ -171,6 +185,7 @@ qd/tests/quadt.h -text
 qd/tests/quadt_test.cpp -text
 qd/tests/tictoc.cpp -text
 qd/tests/tictoc.h -text
+src/AssignMolTypes.cpp -text
 src/AssociationReaction.cpp -text
 src/AssociationReaction.h -text
 src/BoltzmannDistribution.cpp -text

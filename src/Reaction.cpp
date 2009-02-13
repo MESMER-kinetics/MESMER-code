@@ -212,7 +212,7 @@ namespace mesmer
   //this function retrieves the activation/threshold energy for an association reaction
   double Reaction::get_ThresholdEnergy(void) {
     // ILT
-    if (m_pMicroRateCalculator->getName() == "Mesmer ILT"){
+    if (m_pMicroRateCalculator->getName() == "MesmerILT"){
       if (IsNan(m_EInf.get_value())){
         cerr << "No E_infinity provided for Reaction " << getName();
         exit(1);
@@ -249,7 +249,7 @@ namespace mesmer
 
   // Read excess reactant concentration
   bool Reaction::ReadExcessReactantConcentration(PersistPtr ppReac){
-    const char* pERConctxt = ppReac->XmlReadValue("me:excessReactantConc",false);
+    const char* pERConctxt = ppReac->XmlReadValue("me:excessReactantConc");
     if (!pERConctxt){
       cerr << "Concentration of excess reactant has not been specified.";
       return false;
@@ -262,11 +262,30 @@ namespace mesmer
 
   // Read ILT parameters
   bool Reaction::ReadILTParameters(PersistPtr ppReac) {
-    const char* pActEnetxt = ppReac->XmlReadValue("me:activationEnergy", false);
+    // OpenBabel outputs <rateParameters> <A> <n> <E>
+    // Attempt to read these first; 
+    // if not present read the mesmer version which will add the default if necessary.
+    //**TODO preExponential
+    PersistPtr ppActEne, ppPreExponential;
+    const char* pActEnetxt=NULL, *pPreExptxt=NULL;
+    PersistPtr ppRateParams = ppReac->XmlMoveTo("rateParameters") ;
+
+    if(ppRateParams) {
+      ppActEne = ppRateParams->XmlMoveTo("E") ;
+      pActEnetxt = ppRateParams->XmlReadValue("E", optional);
+      ppPreExponential = ppRateParams->XmlMoveTo("A") ;
+      pPreExptxt = ppRateParams->XmlReadValue("A");
+    }
+    else {
+      ppActEne = ppReac->XmlMoveTo("me:activationEnergy") ;
+      pActEnetxt = ppReac->XmlReadValue("me:activationEnergy");
+      ppPreExponential = ppReac->XmlMoveTo("me:preExponential") ;
+      pPreExptxt = ppReac->XmlReadValue("me:preExponential");
+    }
+
     if (pActEnetxt)
     {
-      PersistPtr ppActEne = ppReac->XmlMoveTo("me:activationEnergy") ;
-      m_isRvsILTpara = ppActEne->XmlReadValue("reverse", false); //specify the direction of the following ILT parameters
+      m_isRvsILTpara = ppActEne->XmlReadBoolean("reverse"); //specify the direction of the following ILT parameters
       double tmpvalue = 0.0;
       stringstream s2(pActEnetxt); s2 >> tmpvalue ;
       const char* unitsTxt = ppActEne->XmlReadValue("units", false);
@@ -277,13 +296,14 @@ namespace mesmer
       else{
         unitsInput = "kJ/mol";
       }
-      const char* pLowertxt = ppActEne->XmlReadValue("lower", false);
-      const char* pUppertxt = ppActEne->XmlReadValue("upper", false);
-      const char* pStepStxt = ppActEne->XmlReadValue("stepsize", false);
+      const char* pLowertxt = ppActEne->XmlReadValue("lower", optional);
+      const char* pUppertxt = ppActEne->XmlReadValue("upper", optional);
+      const char* pStepStxt = ppActEne->XmlReadValue("stepsize", optional);
       double value(getConvertedEnergy(unitsInput, tmpvalue));
       if (pLowertxt && pUppertxt){
         double tmpvalueL(0.0), tmpvalueU(0.0), tmpstepsize(0.0);
-        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> tmpvalueL; s4 >> tmpvalueU; s5 >> tmpstepsize;
+        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
+        s3 >> tmpvalueL; s4 >> tmpvalueU; s5 >> tmpstepsize;
         double valueL(getConvertedEnergy(unitsInput, tmpvalueL));
         double valueU(getConvertedEnergy(unitsInput, tmpvalueL));
         double stepsize(getConvertedEnergy(unitsInput, tmpstepsize));
@@ -294,22 +314,22 @@ namespace mesmer
       }
     }
     else{
-      cerr << "Specifying ILT without activation energy provided in reaction " << this->getName() << ". Please correct input file.";
+      cerr << "Specifying ILT without activation energy provided in reaction "
+           << this->getName() << ". Please correct input file.";
       return false;
     }
 
-    const char* pPreExptxt = ppReac->XmlReadValue("me:preExponential", false);
     if (pPreExptxt)
     {
-      PersistPtr ppPreExponential = ppReac->XmlMoveTo("me:preExponential") ;
       double value = 0.0;
       stringstream s2(pPreExptxt); s2 >> value ;
-      const char* pLowertxt = ppPreExponential->XmlReadValue("lower", false);
-      const char* pUppertxt = ppPreExponential->XmlReadValue("upper", false);
-      const char* pStepStxt = ppPreExponential->XmlReadValue("stepsize", false);
+      const char* pLowertxt = ppPreExponential->XmlReadValue("lower", optional);
+      const char* pUppertxt = ppPreExponential->XmlReadValue("upper", optional);
+      const char* pStepStxt = ppPreExponential->XmlReadValue("stepsize", optional);
       if (pLowertxt && pUppertxt){
         double valueL(0.0), valueU(0.0), stepsize(0.0);
-        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
+        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
+        s3 >> valueL; s4 >> valueU; s5 >> stepsize;
         set_PreExp(valueL, valueU, stepsize);
       }
       else{
@@ -321,7 +341,7 @@ namespace mesmer
       return false;
     }
 
-    const char* pNInftxt = ppReac->XmlReadValue("me:nInfinity", false);
+    const char* pNInftxt = ppReac->XmlReadValue("me:nInfinity", optional);
     if (pNInftxt)
     {
       PersistPtr ppNInf = ppReac->XmlMoveTo("me:nInfinity") ;
@@ -340,21 +360,14 @@ namespace mesmer
       }
     }
 
-    const char* pTInftxt = ppReac->XmlReadValue("me:TInfinity");  // read XML designation
-    if (!pTInftxt){           // if there is no Tinfinity
-      cinfo << "Tinfinity has not been specified; set to the default value of 298 K" << endl;
+    double TInf = ppReac->XmlReadDouble("me:TInfinity");
+    if(TInf <= 0) {
+      cinfo << "Tinfinity is less than or equal to 0; set to the default value of 298 K" << endl;
+      TInf = 298;
     }
-    else{                     // if there is a Tinfinity
-      double TInf(298.0);     // set Tinf to 298
-      stringstream s3(pTInftxt);    // initialize stringstream
-      s3 >> TInf;             // use the stringstream to get Tinfinty from the input file
-      if(TInf <= 0){          // if Tinf is <= 0, set to 298
-        cinfo << "Tinfinity is less than or equal to 0; set to the default value of 298 K" << endl;
-      }
-      else
-        set_TInf(TInf);         // else set Tinf to the value in the input
-    }
-
+    else
+      set_TInf(TInf);         // else set Tinf to the value in the input
+    
     return true;
   }
 
@@ -370,7 +383,7 @@ namespace mesmer
       {
         cerr << "Unknown method " << pMCRCMethodtxt
           << " for the determination of Microcanonical rate coefficients in reaction "
-          << getName();
+          << getName() << endl;
         return false;
       }
     }
@@ -385,27 +398,27 @@ namespace mesmer
 
     //---------------------------------------------------------
     // Microcanonical rate constants methods dependent section.
-    if (m_pMicroRateCalculator->getName() == "Mesmer ILT"){
+    if (m_pMicroRateCalculator->getName() == "MesmerILT"){
       if (ppTransitionState){
         cerr << "Reaction " << getName() << " uses ILT method, which should not have transition state.";
         return false;
       }
       cinfo << "ILT method chosen, look for ILT expressions" << endl;
       if (!ReadILTParameters(ppReac)) return false;
-      const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
+      const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling", optional) ;
       if(pTunnelingtxt)
       {
         cerr << "Tunneling parameter in Reaction " << getName() << " is invalid in ILT.";
         return false;
       }
     }
-    if (m_pMicroRateCalculator->getName() == "Simple RRKM"){
+    if (m_pMicroRateCalculator->getName() == "SimpleRRKM"){
       if (!ppTransitionState){
         cerr << "Reaction " << getName() << " uses RRKM method, which should have transition state.";
         return false;
       }
       // Determine the method of estimating tunneling effect.
-      const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling") ;
+      const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling", optional) ;
       if(pTunnelingtxt)
       {
         m_pTunnelingCalculator = TunnelingCalculator::Find(pTunnelingtxt);
