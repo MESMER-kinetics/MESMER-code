@@ -6,7 +6,7 @@ namespace mesmer
 {
   //************************************************************
   //Global instance, defining its id (usually the only instance)
-  SimpleILT theSimpleILT("Simple ILT");
+  SimpleILT theSimpleILT("SimpleILT");
   //************************************************************
 
   //

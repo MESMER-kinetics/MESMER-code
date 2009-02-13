@@ -25,8 +25,11 @@ namespace mesmer
     m_ppPersist = ppReac;
 
     // Read reactant details.
+    PersistPtr ppReactantList = ppReac->XmlMoveTo("reactantList");
+    if(!ppReactantList)
+      ppReactantList=ppReac; //Be forgiving; we can get by without a reactantList element
 
-    PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
+    PersistPtr ppReactant1  = ppReactantList->XmlMoveTo("reactant");
     Molecule* pMol1 = GetMolRef(ppReactant1);
     if(!pMol1){
       cerr << "Cannot find reactant molecule definition for irreversible reaction " << getName() << ".";
@@ -46,8 +49,11 @@ namespace mesmer
     // Read product details. The detail of products may be absent or, may be needed
     // to calculate the microcanonical rates. If there are products, save them as
     // type Molecule.
+    PersistPtr ppProductList = ppReac->XmlMoveTo("productList");
+    if(!ppProductList)
+      ppProductList=ppReac; //Be forgiving; we can get by without a productList element
 
-    PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
+    PersistPtr ppProduct1 = ppProductList->XmlMoveTo("product");
     if (ppProduct1) {
       pMol1 = GetMolRef(ppProduct1);
       if (pMol1){
@@ -90,7 +96,7 @@ namespace mesmer
 
     // rovibronic partition function for products multiplied by translation contribution
     if (m_pdt2){
-      Qpdts *= translationalContribution(m_pdt1->getMass(), m_pdt2->getMass(), beta);
+      Qpdts *= translationalContribution(m_pdt1->getStruc().getMass(), m_pdt2->getStruc().getMass(), beta);
     }
 
     // rovibronic partition function for reactant

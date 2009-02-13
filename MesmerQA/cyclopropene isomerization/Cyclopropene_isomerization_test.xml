@@ -253,7 +253,7 @@
       <me:transitionState>
         <molecule ref="TS1" me:type="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
     </reaction>
     <reaction id="R2">
       <reactant>
@@ -265,7 +265,7 @@
       <me:transitionState>
         <molecule ref="TS3" me:type="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
     </reaction>
   </reactionList>
   <me:conditions>

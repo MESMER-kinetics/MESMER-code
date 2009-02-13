@@ -1,44 +1,36 @@
 
 Parsing input xml file...
 pentyl_isomerization_test.xml
-Parsing reaction...
-In n-pentyl The description element or attribute was missing or empty.
-In 2-pentyl The description element or attribute was missing or empty.
-In n-pentyl=TS=2-pentyl The description element or attribute was missing or empty.
-In n-pentyl=TS=2-pentyl The me:tunneling element or attribute was missing or empty.
-In n-pentyl=TS=2-pentyl No tunneling method was found for R1
-In n-pentyl=TS=2-pentyl Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
-In n-pentyl=TS=2-pentyl Cannot find argument me:frequenciesScaleFactor. Assumes me:frequenciesScaleFactor = 1.0.
-In n-pentyl=TS=2-pentyl No method for the calculation of DOS is provided. Default method <Classical rotors> is used.
-In n-pentyl=TS=2-pentyl Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
-In n-pentyl=TS=2-pentyl Cannot find argument me:frequenciesScaleFactor. Assumes me:frequenciesScaleFactor = 1.0.
-In n-pentyl=TS=2-pentyl No method for the calculation of DOS is provided. Default method <Classical rotors> is used.
-In n-pentyl=TS=2-pentyl Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule.
-In n-pentyl=TS=2-pentyl Cannot find argument me:frequenciesScaleFactor. Assumes me:frequenciesScaleFactor = 1.0.
-In n-pentyl=TS=2-pentyl No method for the calculation of DOS is provided. Default method <Classical rotors> is used.
-In n-pentyl=TS=2-pentyl All molecules are on the same energy basis: arbitary
-In Ar The description element or attribute was missing or empty.
-In Ar The me:precision element or attribute was missing or empty.
-In Ar The me:MaximumEvolutionTime element or attribute was missing or empty.
+
+In R1: Parsing reaction...
+In n-pentyl: The default value of me:frequenciesScaleFactor was used.
+In n-pentyl: The default value of me:DOSCMethod was used.
+In n-pentyl: The default value of me:DistributionCalcMethod was used.
+In 2-pentyl: The default value of me:frequenciesScaleFactor was used.
+In 2-pentyl: The default value of me:DOSCMethod was used.
+In 2-pentyl: The default value of me:DistributionCalcMethod was used.
+In n-pentyl=TS=2-pentyl: The default value of me:frequenciesScaleFactor was used.
+In n-pentyl=TS=2-pentyl: The default value of me:DOSCMethod was used.
+In R1: No imaginary vibrational frequency.
+No tunneling method was found for R1
+All molecules are on the same energy basis: arbitary
+The default value of me:precision was used.
 
 File: "pentyl_isomerization_test.xml" successfully parsed.
 Calculate EGME
-Write XML attribute
+Write metadata
 PT Grid 0
 Build Collison Operator
 Cell number = 16050, Grain number = 107
 m_scaleFactor was not defined but requested in n-pentyl=TS=2-pentyl. Default value 1 is given.
 m_scaleFactor was not defined but requested in n-pentyl. Default value 1 is given.
 m_scaleFactor was not defined but requested in 2-pentyl. Default value 1 is given.
-No method for the calculation of distribution fraction is provided in 2-pentyl. Default method <Boltzmann> is used.
-No method for the calculation of distribution fraction is provided in n-pentyl. Default method <Boltzmann> is used.
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 No population was assigned, and there is no source term.
 Initialize a Boltzmann distribution in the first isomer.
 
 In total, 1 temperature/concentration-pressure points calculated.
-In main Finish Calculation -- Time elapsed: 19 seconds.
- -- Total time elapsed: 24 seconds.
+In main: Finish Calculation -- Time elapsed: 28 seconds.
+ -- Total time elapsed: 33 seconds.
 
-System saved
-m_Mass is provided but not used in n-pentyl=TS=2-pentyl
+In main: System saved to pentyl_isomerization_test.20090213_180637.xml

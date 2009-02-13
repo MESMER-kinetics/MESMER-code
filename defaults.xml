@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<defaults  xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+  <me:activationEnergy units="kJ/mol" default="NEEDS TO BE CHECKED**">0.0</me:activationEnergy>
+  <me:preExponential default="NEEDS TO BE CHECKED**">6.00e-12</me:preExponential>
+  <property dictRef="me:spinMultiplicity" default="true">
+    <scalar>1</scalar>
+  </property>
+  <property dictRef="me:symmetryNumber" default="true">
+    <scalar>1</scalar>
+  </property>
+   <property dictRef="me:frequenciesScaleFactor" default="true">
+    <scalar>1</scalar>
+  </property>
+   <property dictRef="me:ZPE" default="NEEDS TO BE CHECKED**">
+    <scalar units="kJ/mol">0</scalar>
+  </property>
+  <property dictRef="me:epsilon" default="true">
+    <scalar>50.0</scalar>
+  </property>
+  <property dictRef="me:sigma" default="true">
+    <scalar>5.0</scalar>
+  </property>
+  <property dictRef="me:deltaEDown" default="NEEDS TO BE CHECKED**">
+    <scalar>130.0</scalar>
+  </property>
+  <molecule me:type="deficientReactant excessReactant modelled transitionState sink"
+            default="IS UNSATISFACTORY. CHOOSE ONE FROM LIST**"></molecule>
+  <property dictRef="me:MW" default="IS UNSATISFACTORY. A VALUE NEEDS TO BE PROVIDED**">
+    <scalar>0.0</scalar>
+  </property>
+  <me:MCRCMethod default="IS UNSATISFACTORY. CHOOSE ONE FROM LIST**">
+    SimpleRRKM SimpleILT MesmerILT</me:MCRCMethod>
+  <me:DOSCMethod default="true">Classical rotors</me:DOSCMethod>
+  <me:DistributionCalcMethod default="true">Boltzmann</me:DistributionCalcMethod>
+  <me:excessReactantConc default="NEEDS TO BE CHECKED**">2.25E16</me:excessReactantConc>
+  <me:precision default="true">double</me:precision>
+  <me:bathgas default="true">He</me:bathgas>
+  <me:TInfinity default="true">298</me:TInfinity>
+  <me:grainSize units="cm-1" default="true">100</me:grainSize>
+  <me:energyAboveTheTopHill units="kT" default="true">25</me:energyAboveTheTopHill>
+  
+</defaults>
+

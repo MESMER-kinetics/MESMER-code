@@ -46,17 +46,23 @@ namespace mesmer
     virtual const char* XmlRead()const=0;
 
     /// Returns the value of the datatext associated with name (Value of child element or attribute) or NULL
-    virtual const char* XmlReadValue(const std::string& name, bool MustBeThere=true) const=0;
+    virtual const char* XmlReadValue(const std::string& name, bool MustBeThere=true)=0;
+
+    /// Returns the value of a specified child element or attribute.
+    virtual double XmlReadDouble(const std::string& name, bool MustBeThere=true)=0;
 
     /// Returns the data associated with name (CML property element) or NULL
-    virtual const char* XmlReadProperty( const std::string& name, bool MustBeThere=true)const=0;
+    virtual const char* XmlReadProperty( const std::string& name, bool MustBeThere=true)=0;
+
+    /// Returns the value associated with name (CML property element)
+    virtual double XmlReadPropertyDouble(const std::string& name, bool MustBeThere=true)=0;
 
     /// Returns the attribute associated with name and attName (CML property element) or NULL
-    virtual const char* XmlReadPropertyAttribute(const std::string& name, const std::string& attName, bool MustBeThere=true) const=0;
+    virtual const char* XmlReadPropertyAttribute(const std::string& name, const std::string& attName, bool MustBeThere=true)=0;
 
     /// Returns true if datatext associated with name is "1" or "true" or nothing;
     //  returns false if datatext is something else or if element is not found.
-    virtual bool XmlReadBoolean( const std::string& name)const=0;
+    virtual bool XmlReadBoolean( const std::string& name)=0;
 
     //Writing methods
     /// Inserts into XML document a new element
@@ -81,8 +87,8 @@ namespace mesmer
     virtual PersistPtr XmlWriteProperty( const std::string& name, 
                                   const std::string& content, const std::string& units)=0;
 
-    ///Insert a copy of an element
-    virtual bool XmlCopyElement(PersistPtr ppToBeCopied)=0;
+    ///Replace or insert an element and return a pointer to the copy
+    virtual PersistPtr XmlCopy(PersistPtr ppToBeCopied, PersistPtr ppToBeReplaced)=0;
 
     virtual bool XmlSaveFile(const std::string& outfilename)=0;
 

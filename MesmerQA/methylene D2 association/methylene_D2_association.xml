@@ -174,7 +174,7 @@
                 <molecule ref="TS_0" me:type="transitionState" />
             </me:transitionState>
             <!--Use zero point energies instead-->
-            <me:MCRCMethod>Mesmer ILT</me:MCRCMethod>
+            <me:MCRCMethod>MesmerILT</me:MCRCMethod>
             <me:preExponential>7.00e-12</me:preExponential>
             <me:excessReactantConc>1.00e17</me:excessReactantConc>
             <me:nInfinity>0.0</me:nInfinity>

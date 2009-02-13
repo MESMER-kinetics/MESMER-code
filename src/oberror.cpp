@@ -22,6 +22,8 @@ namespace mesmer
 
   //Global message handler
   MessageHandler meErrorLog;
+  //Static member variable initialization
+  std::vector<std::string> ErrorContext::stack;
 
   //////////////////////////////////////////////////////////////////
   MessageHandler::MessageHandler(ostream* logstream) :
@@ -41,27 +43,48 @@ namespace mesmer
       if(!context.empty())
         txt = GetLevelText(level) + "In " + context;
       else if (!_defaultContext.empty())
-        txt = "In " + _defaultContext + ' ';
+        txt = "In " + _defaultContext + ": ";
     }
     txt += errorMsg;
 
     //if no new line at end, add one
-    if(txt[txt.size()-1]!='\n')
-      txt += '\n';
+    //if(txt[txt.size()-1]!='\n')
+    //  txt += '\n';
 
     if(_logStream)
       *_logStream << txt; 
 
     if (level <= _outputLevel)
-      clog << txt; //write to console
+      clog << txt << flush; //write to console
+  }
+  ////////////////////////////////////////////////////////////////////
+  ErrorContext::ErrorContext(const std::string& txt)
+  {
+    stack.push_back(txt);
+    meErrorLog.SetContext(txt);
+  }
+
+  ErrorContext::~ErrorContext()
+  {
+    if(!stack.empty())
+    {
+      stack.pop_back();
+      meErrorLog.SetContext(stack.empty() ? "" : stack.back());
+    }
   }
 
   ////////////////////////////////////////////////////////////////////
   int obLogBuf::sync()
   {
-    _handler->ThrowError("", str(), _messageLevel);
-    str(std::string()); // clear the buffer
-    return 0;
+    //Being called after every << which is inconvenient.
+    //Pass the string to the handler only when it ends in newline 
+    string s = str();
+    if(!s.empty() && s[s.size()-1]=='\n')
+    {
+      _handler->ThrowError("", str(), _messageLevel);
+      str(std::string()); // clear the buffer
+    }
+     return 0;
   }
 
   ////////////////////////////////////////////////////////////////////

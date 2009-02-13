@@ -7,7 +7,7 @@ namespace mesmer
 {
   //************************************************************
   //Global instance, defining its id (usually the only instance)
-  SimpleRRKM theSimpleRRKM("Simple RRKM");
+  SimpleRRKM theSimpleRRKM("SimpleRRKM");
   //************************************************************
 
   bool SimpleRRKM::calculateMicroRateCoeffs(Reaction* pReact)
@@ -15,7 +15,7 @@ namespace mesmer
     Molecule* pTS = pReact->get_TransitionState();
     if(!pTS)
     {
-      cerr << "Lack of transition state in reaction " << pReact->getName() << " for Simple RRKM" << endl;
+      cerr << "Lack of transition state in reaction " << pReact->getName() << " for SimpleRRKM" << endl;
       return false;
     }
     // Allocate some work space for density of states.

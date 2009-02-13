@@ -118,11 +118,10 @@ namespace mesmer
     std::vector<double> m_grainEne ;  // Grain average energy array.
     std::vector<double> m_grainDOS ;  // Grain density of states array.
 
-  public:
-
     //
     // Constructor, destructor and initialization
     //
+  public:
     gDensityOfStates(Molecule* pMol);
     virtual ~gDensityOfStates();
 
@@ -148,8 +147,8 @@ namespace mesmer
       m_ZPE.set_range(valueL, valueU, stepsize);
       m_ZPE_chk = 0;
     }
-    const std::string& getEnergyConvention()const {
-      return m_EnergyConvention; 
+    std::string getEnergyConvention()const {
+      return m_EnergyConvention.empty() ? "arbitary" : m_EnergyConvention;
     }
     double get_Sym(void);
     int test_rotConsts(void);
@@ -368,6 +367,30 @@ it must be used for all, and this is checked.
     
     const dMatrix* getEigenVectors(){ return m_egvec; }
 
+  };
+
+
+   class gStructure:public MolecularComponent
+  {
+
+    //-------------------------------------------------------------------------------------------------
+    // Chemical Structure related properties
+    //-------------------------------------------------------------------------------------------------
+
+  private:
+    double m_MolecularWeight;
+
+    //
+    // Constructor, destructor and initialization
+    //
+  
+  private:
+    gStructure();
+  public:
+    gStructure(Molecule* pMol);
+
+    double getMass() const { return m_MolecularWeight;};
+    void setMass(double value) { m_MolecularWeight = value;};
   };
 
 }//namespace

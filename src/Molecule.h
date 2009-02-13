@@ -36,11 +36,9 @@ namespace mesmer
     std::string    m_Name ;             // Molecule name.
     std::string    m_Description;       // Longer description for the structure
 
-    double         m_Mass ;             // Mass.
 
     //================================================
     // CHECK FOR INPUTFILE PARAMETERS
-    int m_Mass_chk;
     //================================================
 
 
@@ -51,7 +49,8 @@ namespace mesmer
     gDensityOfStates*       g_dos;   // Component pointer for cell density of state properties
     gTransitionState*       g_ts;    // Component pointer for transition state properties
     gPopulation*            g_pop;   // Component pointer for population and equilibrium fraction
-    gWellProperties*   g_coll;  // Component pointer for collision down model properties
+    gWellProperties*        g_coll;  // Component pointer for collision down model properties
+    gStructure*             g_struc; // Component pointer for chemical structural properties
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
   public:
@@ -62,7 +61,8 @@ namespace mesmer
     Molecule(const MesmerEnv& Env, MesmerFlags& m_Flags) ;
     virtual ~Molecule();
 
-    // Initialize Molecule.
+    // Initialize Molecule. Returns false if no id attribute
+    // or if no description attribute and <molecule> has no child elements. Probably just a placeholder. 
     virtual bool InitializeMolecule(PersistPtr pp);
 
     PersistPtr  get_PersistentPointer();
@@ -75,8 +75,8 @@ namespace mesmer
 
     MesmerFlags& getFlags();
 
-    double getMass() ;
-    void   setMass(double value);
+//    double getMass() ;
+//    void   setMass(double value);
 
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     // Manipulators of component pointers
@@ -85,7 +85,10 @@ namespace mesmer
     gTransitionState& getTS();
     gPopulation&      getPop();
     gWellProperties&  getColl();
+    gStructure&       getStruc();
 
+    bool activateRole(string molType);
+    bool hasDOSProperties(){return g_dos!=NULL;}
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   };
 

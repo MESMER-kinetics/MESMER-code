@@ -13,6 +13,7 @@ Copyright (C) 2002 by Stefan Kebekus, 2002-2006 by Geoffrey R. Hutchison
 #include <iosfwd>
 #include <sstream>
 #include <string>
+#include <vector>
 
 namespace mesmer
 {
@@ -83,6 +84,23 @@ namespace mesmer
       //! The default context used when messages sent via cerr, etc
       std::string _defaultContext;
     };
+  
+  //*******************************************************************
+  /*A convenient way to set the error context for the global message handler
+    At the start of a function or a block, make an instance of the class
+    with the text appropriate for this function, e.g.
+      ErrorContext c("2-pentyl");
+    The context which was previously used will be restored on leaving
+    the function.
+  */
+  class ErrorContext
+  {
+  public:
+    ErrorContext(const std::string& txt);
+    ~ErrorContext();
+  private:
+    static std::vector<std::string> stack; 
+  };
 
   //*******************************************************************************
   //! \brief A replacement buffer for output streams which passes messages to the message handler

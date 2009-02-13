@@ -25,7 +25,11 @@ namespace mesmer
     m_ppPersist = ppReac;
 
     // Read reactant details.
-    PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
+    PersistPtr ppReactantList = ppReac->XmlMoveTo("reactantList");
+    if(!ppReactantList)
+      ppReactantList=ppReac; //Be forgiving; we can get by without a reactantList element
+
+    PersistPtr ppReactant1  = ppReactantList->XmlMoveTo("reactant");
     Molecule* pMol1 = GetMolRef(ppReactant1);
     if(!pMol1){
       cerr << "Cannot get reactant definition for Isomerization reaction " << getName() << ".";
@@ -42,7 +46,10 @@ namespace mesmer
     }
 
     //Read product details.
-    PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
+    PersistPtr ppProductList = ppReac->XmlMoveTo("productList");
+    if(!ppProductList)
+      ppProductList=ppReac; //Be forgiving; we can get by without a productList element
+    PersistPtr ppProduct1 = ppProductList->XmlMoveTo("product");
     pMol1 = GetMolRef(ppProduct1);
     if (!pMol1) {
       cerr << "Cannot get product definition for Isomerization reaction " << getName() << ".";
@@ -210,7 +217,7 @@ namespace mesmer
   void IsomerizationReaction::calcEffGrnThresholds(void){  // see the comments in
     double thresh = get_ThresholdEnergy();    // calcEffGrnThresholds under AssociationReaction.cpp
     double RxnHeat = getHeatOfReaction();
-    if (thresh < RxnHeat && m_pMicroRateCalculator->getName() == "Mesmer ILT"){
+    if (thresh < RxnHeat && m_pMicroRateCalculator->getName() == "MesmerILT"){
       cerr << "E_infinity should be equal to or greater than the heat of reaction in ILT.";
       exit(1);
     }

@@ -43,26 +43,36 @@ namespace mesmer
   //
   bool ReactionManager::addreactions(PersistPtr ppReacList, const MesmerEnv& mEnv, MesmerFlags& mFlags)
   {
-    PersistPtr ppReac = ppReacList->XmlMoveTo("reaction");
-    while(ppReac)
+    bool readStatus(true);
+    PersistPtr ppReac = ppReacList;
+    while(ppReac = ppReac->XmlMoveTo("reaction"))
     {
-      //Read reaction ID
+      //ignore reactions with attribute active="false"
+      const char* active = ppReac->XmlReadValue("active", optional);
+      if(active && !strcmp(active, "false"))
+        continue;
 
-      const char* id = ppReac->XmlReadValue("id");
+      //Read reaction ID
+      const char* id = ppReac->XmlReadValue("id", false);
       if(!id){
         cinfo << "Reaction ID not found.\n";
         return false;
       }
+      ErrorContext c(id);
       cinfo << "Parsing reaction..." << endl;
-      meErrorLog.SetContext(id);
 
       // Read reactant and product types.
 
       string rct1Name, rct1Type, rct2Name, rct2Type ;
       string pdt1Name, pdt1Type, pdt2Name, pdt2Type ;
-      bool readStatus(true), bRct2(false), bPdt1(false), bPdt2(false) ;
+      bool bRct2(false), bPdt1(false), bPdt2(false) ;
 
-      PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
+      PersistPtr ppReactantList = ppReac->XmlMoveTo("reactantList");
+      if(!ppReactantList)
+        ppReactantList=ppReac; //Be forgiving; we can get by without a reactantList element
+
+      PersistPtr ppReactant1  = ppReactantList->XmlMoveTo("reactant");
+      if(ppReactant1) {
       readStatus = GetMoleculeInfo(ppReactant1, rct1Name, rct1Type) ;
 
       PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
@@ -70,8 +80,13 @@ namespace mesmer
         readStatus = (readStatus && GetMoleculeInfo(ppReactant2, rct2Name, rct2Type)) ;
         bRct2 = true;
       }
+      }
 
-      PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
+      PersistPtr ppProductList = ppReac->XmlMoveTo("productList");
+      if(!ppProductList)
+        ppProductList=ppReac; //Be forgiving; we can get by without a productList element
+
+      PersistPtr ppProduct1 = ppProductList->XmlMoveTo("product");
       if (ppProduct1) {
         readStatus = (readStatus && GetMoleculeInfo(ppProduct1, pdt1Name, pdt1Type)) ;
         bPdt1 = true ;
@@ -82,7 +97,6 @@ namespace mesmer
           bPdt2 = true ;
         }
       }
-      meErrorLog.SetContext("");
 
       if (!readStatus)
         return false ;
@@ -113,9 +127,11 @@ namespace mesmer
       //
       // Initialize Reaction from input stream.
       //
-      if(!preaction->InitializeReaction(ppReac)){
-        delete preaction;
-        return false;
+      readStatus = preaction->InitializeReaction(ppReac);
+      if(!readStatus){
+        //delete preaction;
+        //return false;
+        cerr << "UNSATISFACTORY REACTION\n"; //but keep parsing
       }
 
       //
@@ -125,11 +141,9 @@ namespace mesmer
       //need to check if there is duplicate reaction name/species: CHL
 
       m_reactions.push_back(preaction) ;
-
-      ppReac = ppReac->XmlMoveTo("reaction");
     }
 
-    return true;
+    return readStatus;
   }
 
   void ReactionManager::resetCalcFlags(){
@@ -504,8 +518,9 @@ namespace mesmer
       return false;
     }
     const char *pmolname, *pmoltype;
-    pmolname = ppmol->XmlReadValue("ref");
+    pmolname = ppmol->XmlReadValue("ref", false);
     if(pmolname) {
+      ErrorContext c(pmolname);
       MolName = pmolname;
       pmoltype = ppmol->XmlReadValue("me:type");
       if(pmoltype)
@@ -1235,7 +1250,7 @@ namespace mesmer
       double population = 0.0;
       string sRef = ppInitMol->XmlReadValue("ref");
       if(sRef.size()){ // if got the name of the molecule
-        txt = ppInitMol->XmlReadValue("me:population");
+        txt = ppInitMol->XmlReadValue("me:population", optional);
         population = atof(txt);
         m_initialPopulations[sRef] = population;
       }

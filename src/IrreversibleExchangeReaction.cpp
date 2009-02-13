@@ -21,8 +21,12 @@ namespace mesmer
   bool IrreversibleExchangeReaction::InitializeReaction(PersistPtr ppReac)
   {
     m_ppPersist = ppReac;
+ 
+    PersistPtr ppReactantList = ppReac->XmlMoveTo("reactantList");
+    if(!ppReactantList)
+      ppReactantList=ppReac; //Be forgiving; we can get by without a reactantList element
 
-    PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");      // Read reactant details.
+    PersistPtr ppReactant1  = ppReactantList->XmlMoveTo("reactant");      // Read reactant details.
     Molecule* pMol1 = GetMolRef(ppReactant1);
     if(!pMol1){
       cerr << "Cannot find 1st reactant molecule definition for association reaction " << getName() << ".";
@@ -60,7 +64,11 @@ namespace mesmer
       return false;
     }
 
-    PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");     // Read product details. Save them as type Molecule
+    PersistPtr ppProductList = ppReac->XmlMoveTo("productList");
+    if(!ppProductList)
+      ppProductList=ppReac; //Be forgiving; we can get by without a productList element
+
+    PersistPtr ppProduct1 = ppProductList->XmlMoveTo("product");     // Read product details. Save them as type Molecule
     if (ppProduct1) {
       pMol1 = GetMolRef(ppProduct1);
       if (pMol1) {
@@ -131,8 +139,8 @@ namespace mesmer
     double Qpdts = pdtsRovibronicGrnCanPrtnFn();
 
     // rovibronic partition function for reactants/products multiplied by translation contribution
-    Qrcts *= translationalContribution(m_rct1->getMass(), m_rct2->getMass(), beta);
-    Qpdts *= translationalContribution(m_pdt1->getMass(), m_pdt2->getMass(), beta);
+    Qrcts *= translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
+    Qpdts *= translationalContribution(m_pdt1->getStruc().getMass(), m_pdt2->getStruc().getMass(), beta);
 
     Keq = Qpdts / Qrcts;
 
@@ -297,7 +305,7 @@ namespace mesmer
       k_forward += m_GrainKfmc[i] * exp( log(rctsGrainDOS[i]) - beta * rctsGrainEne[i]); 
     }
     const double prtfn = canonicalPartitionFunction(rctsGrainDOS, rctsGrainEne, beta);
-    const double trans = translationalContribution(m_rct1->getMass(), m_rct2->getMass(), beta);
+    const double trans = translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
     k_forward /= prtfn;
     k_forward /= trans;
     k_forward *= m_ERConc;

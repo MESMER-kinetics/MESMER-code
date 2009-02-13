@@ -27,8 +27,11 @@ namespace mesmer
     m_ppPersist = ppReac;
 
     // Read reactant details.
+    PersistPtr ppReactantList = ppReac->XmlMoveTo("reactantList");
+    if(!ppReactantList)
+      ppReactantList=ppReac; //Be forgiving; we can get by without a reactantList element
 
-    PersistPtr ppReactant1  = ppReac->XmlMoveTo("reactant");
+    PersistPtr ppReactant1  = ppReactantList->XmlMoveTo("reactant");
     Molecule* pMol1 = GetMolRef(ppReactant1);
     if(!pMol1){
       cerr << "Cannot find 1st reactant molecule definition for association reaction " << getName() << ".";
@@ -67,8 +70,11 @@ namespace mesmer
     }
 
     //Read product details.
+    PersistPtr ppProductList = ppReac->XmlMoveTo("productList");
+    if(!ppProductList)
+      ppProductList=ppReac; //Be forgiving; we can get by without a productList element
 
-    PersistPtr ppProduct1 = ppReac->XmlMoveTo("product");
+    PersistPtr ppProduct1 = ppProductList->XmlMoveTo("product");
     pMol1 = GetMolRef(ppProduct1);
     if (!pMol1) {
       cerr << "Cannot find product molecule definition for association reaction " << getName() << ".";
@@ -175,7 +181,7 @@ namespace mesmer
     double Qrcts = rctsRovibronicGrnCanPrtnFn();
 
     // rovibronic partition function for reactants multiplied by translation contribution
-    Qrcts *= translationalContribution(m_rct1->getMass(), m_rct2->getMass(), beta);
+    Qrcts *= translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
 
     // rovibronic partition function for product
     const double Qpdt1 = m_pdt1->getDOS().rovibronicGrnCanPrtnFn() ;
@@ -364,7 +370,7 @@ namespace mesmer
   void AssociationReaction::calcEffGrnThresholds(void){  // calculate the effective forward and reverse
     double threshold = get_ThresholdEnergy();  // threshold energy for an association reaction
     double RxnHeat   = getHeatOfReaction();
-    if (threshold < RxnHeat && m_pMicroRateCalculator->getName() == "Mesmer ILT"){
+    if (threshold < RxnHeat && m_pMicroRateCalculator->getName() == "MesmerILT"){
       cerr << "E_infinity should be equal to or greater than the heat of reaction in ILT.";
       exit(1);
     }

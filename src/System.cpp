@@ -16,8 +16,8 @@ using namespace Constants ;
 
 namespace mesmer
 {
-  System::System(): m_pMoleculeManager(0), m_pReactionManager(0), m_pTitle(NULL){
-    m_pMoleculeManager = new MoleculeManager() ;
+  System::System(const std::string& libraryfilename): m_pMoleculeManager(0), m_pReactionManager(0), m_pTitle(NULL){
+    m_pMoleculeManager = new MoleculeManager(libraryfilename) ;
     m_pReactionManager = new ReactionManager(m_pMoleculeManager) ;
   }
 
@@ -46,23 +46,10 @@ namespace mesmer
     PersistPtr ppParams = ppIOPtr->XmlMoveTo("me:modelParameters");
     if(ppParams)
     {
-      const char* txt = ppParams->XmlReadValue("me:grainSize",false);
-      if(txt){
-        istringstream ss(txt); ss >> m_Env.GrainSize;
-      }
-      else{
-        cinfo << "Grain size is not provided. Default grain size = " << m_Env.GrainSize << " is used" << endl;
-      }
+      m_Env.GrainSize = ppParams->XmlReadDouble("me:grainSize");
 
-      txt = ppParams->XmlReadValue("me:maxTemperature",false);
-      if(txt) {
-        istringstream ss(txt);
-        ss >> m_Env.MaximumTemperature;
-      }
-
-      txt = ppParams->XmlReadValue("me:energyAboveTheTopHill",false);
-      if(txt) { istringstream ss(txt); ss >> m_Env.EAboveHill; }
-
+      m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
+      m_Env.EAboveHill = ppParams->XmlReadDouble("me:energyAboveTheTopHill");
     }
 
     //-------------
@@ -76,20 +63,15 @@ namespace mesmer
     if(!m_pReactionManager->addreactions(ppReacList, m_Env, m_Flags)) return false;
 
     //Check that the energy baseline is the same for all the modelled molecules
-    std::string id ;
-    Molecule* pmmol, *pfirstmol;
-    m_pMoleculeManager->GetNextMolecule(id, pfirstmol);
-    string firstConvention(pfirstmol->getDOS().getEnergyConvention());
-    while(m_pMoleculeManager->GetNextMolecule(id, pmmol)) {
-      if(pmmol->getDOS().getEnergyConvention() != pfirstmol->getDOS().getEnergyConvention()) {
-        cerr << "Not all the molecule energies use the same baseline.\n"
-          + pfirstmol->getName() + " uses " + firstConvention + "; "
-          + id + " uses " + pmmol->getDOS().getEnergyConvention() 
-          + ".\nThere may be others. Check all modelled molecules." << endl;
+    string energyConvention = m_pMoleculeManager->checkEnergyConventions();
+    if(energyConvention.empty())
+    {
+      cerr << "Not all the molecule energies use the same baseline and need to be.\n";
       return false;
-      }
     }
-    cinfo << "All molecules are on the same energy basis: " << firstConvention << endl;
+    else
+      cinfo << "All molecules are on the same energy basis: " << energyConvention << endl;
+
     //-------------
 
     //Reaction Conditions
@@ -100,17 +82,10 @@ namespace mesmer
       return false;
     }
     string Bgtxt = ppConditions->XmlReadValue("me:bathGas");
-    if (Bgtxt.empty()){
-      cerr << "No bath gas specified";
+    if(!m_pMoleculeManager->addmol(Bgtxt, "bathGas", ppMolList, m_Env, m_Flags))
       return false;
-    }
-    else{
-      string molType = "bathGas";
-      if(!m_pMoleculeManager->addmol(Bgtxt, molType, ppMolList, m_Env, m_Flags))
-        return false;
-      m_pMoleculeManager->set_BathGasMolecule(Bgtxt) ;
-    }
-
+    m_pMoleculeManager->set_BathGasMolecule(Bgtxt) ;
+    
     //--------------
     //  The concentration/pressure units are of following formats:
     //  units:
@@ -176,10 +151,10 @@ namespace mesmer
       // Both Tunnelling and Tunneling will work
       m_Flags.TunnellingCoeffEnabled      = ppControl->XmlReadBoolean("me:printTunnellingCoefficients");
       if (!m_Flags.TunnellingCoeffEnabled)
-        m_Flags.TunnellingCoeffEnabled    = ppControl->XmlReadBoolean("me:printTunnelingCoefficients");
+        m_Flags.TunnellingCoeffEnabled    = ppControl->XmlReadBoolean("me:printTunnellingCoefficients");
       m_Flags.cellFluxEnabled             = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
       m_Flags.grainFluxEnabled            = ppControl->XmlReadBoolean("me:printGrainTransitionStateFlux");
-      m_Flags.rateCoefficientsOnly        = ppControl->XmlReadBoolean("me:calculateRateCoefficinetsOnly");
+      m_Flags.rateCoefficientsOnly        = ppControl->XmlReadBoolean("me:calculateRateCoefficientsOnly");
       m_Flags.useTheSameCellNumber        = ppControl->XmlReadBoolean("me:useTheSameCellNumberForAllConditions");
       m_Flags.grainedProfileEnabled       = ppControl->XmlReadBoolean("me:printGrainedSpeciesProfile");
       m_Flags.speciesProfileEnabled       = ppControl->XmlReadBoolean("me:printSpeciesProfile");
@@ -217,13 +192,13 @@ namespace mesmer
         ss >> m_Flags.printEigenValuesNum;
       }
 
-      const char* txtROS = ppControl->XmlReadValue("me:printReactionOperatorSize",false);
+      const char* txtROS = ppControl->XmlReadValue("me:printReactionOperatorSize",optional);
       if(txtROS) {
         istringstream sROS(txtROS);
         sROS >> m_Flags.printReactionOperatorNum;
       }
 
-      const char* txtMET = ppControl->XmlReadValue("me:MaximumEvolutionTime");
+      const char* txtMET = ppControl->XmlReadValue("me:MaximumEvolutionTime", optional);
       if (txtMET){
         istringstream ss(txtMET);
         ss >> m_Flags.maxEvolutionTime;
@@ -250,7 +225,7 @@ namespace mesmer
     //
     PersistPtr ppPTset = pp->XmlMoveTo("me:PTset");
     while (ppPTset){
-      txt = ppPTset->XmlReadValue("me:units");
+      txt = ppPTset->XmlReadValue("me:units",optional);
       string this_units = txt;
       if (!txt){
         cerr << "No units provided. Default units " << default_unit << " are used.";
@@ -278,16 +253,16 @@ namespace mesmer
     PersistPtr ppPTpair = pp->XmlMoveTo("me:PTpair");
     while (ppPTpair){
       string this_units;
-      txt = ppPTpair->XmlReadValue("me:units");
+      txt = ppPTpair->XmlReadValue("me:units", optional);
       if (txt)
         this_units = txt;
       double this_P = default_P;
       double this_T = default_T;
       int this_precision = 0;
 
-      txt = ppPTpair->XmlReadValue("me:P");
+      txt = ppPTpair->XmlReadValue("me:P", optional);
       if (txt){ stringstream s1(txt); s1 >> this_P; }
-      txt = ppPTpair->XmlReadValue("me:T");
+      txt = ppPTpair->XmlReadValue("me:T", optional);
       if (txt){ stringstream s1(txt); s1 >> this_T; }
       txt = ppPTpair->XmlReadValue("me:precision");
 
@@ -591,7 +566,7 @@ namespace mesmer
     TimeCount events;
     string thisEvent, timeString;
     {
-      thisEvent = "Write XML attribute";
+      thisEvent = "Write metadata";
       timeString = events.setTimeStamp(thisEvent);
       cinfo << thisEvent << endl;
     }

@@ -1,3 +1,11 @@
+_2009_02_13__18_22_02_ Chris Morley  -- Change merged by Chi-Hsiu Liang from branch WithDefaults
+
+  * If a required property/element or attribute is missing a default version is added to XML file, possibly with text 
+    to alert user to check the default values.
+
+  * Improved XSLT files: can normalise large E values; handles missing E on products; shows or hides active="false" 
+    molecules or reactions;crude horizontal scaling for files with large number of wells.
+
 _2009_02_11__19_01_57_ Chi-Hsiu Liang
 
   * Removed an unused routine declaration void calculateGrainTunnelingCoeffs() in Reaction.h

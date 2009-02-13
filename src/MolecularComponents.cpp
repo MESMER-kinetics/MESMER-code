@@ -36,6 +36,7 @@ namespace mesmer
     m_Sigma_chk(-1),
     m_Epsilon_chk(-1)
   {
+    ErrorContext c(pMol->getName());
     m_host = pMol;
     PersistPtr pp = pMol->get_PersistentPointer();
 
@@ -43,22 +44,8 @@ namespace mesmer
     if(!ppPropList)
       ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
-    const char* txt, *txt2;
-
-    txt = ppPropList->XmlReadProperty("me:sigma");
-    if(!txt)
-      cerr << "gBathProperties::Cannot find argument me:sigma.";
-    else { 
-     istringstream idata(txt); double sigma(0.); idata >> sigma; setSigma(sigma);
-    }
-    txt2 = ppPropList->XmlReadProperty("me:epsilon");
-    if(!txt2)
-      cerr << "gBathProperties::Cannot find argument me:epsilon.";
-    else { 
-      istringstream idata(txt2); double epsilon(0.); idata >> epsilon; setEpsilon(epsilon); //extra block ensures idata is initiallised
-    }
-    if(!txt || !txt2)
-      throw std::runtime_error("Bath Properties could not be initialized in " + pMol->getName());
+    setSigma(ppPropList->XmlReadPropertyDouble("me:sigma"));
+    setEpsilon(ppPropList->XmlReadPropertyDouble("me:epsilon"));
   }
 
   void   gBathProperties::setSigma(double value)          {
@@ -139,7 +126,7 @@ namespace mesmer
     m_VibFreq(),
     m_grainEne(),
     m_grainDOS()
-{
+  {
     m_host = pMol;
     PersistPtr pp = pMol->get_PersistentPointer();
 
@@ -150,7 +137,7 @@ namespace mesmer
     const char* txt;
 
     bool hasVibFreq = true; bool hasRotConst = true;
-    txt= ppPropList->XmlReadProperty("me:vibFreqs");
+    txt= ppPropList->XmlReadProperty("me:vibFreqs", optional);
     if(!txt){
       hasVibFreq = false;
       cinfo << "Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion." << endl;
@@ -158,7 +145,7 @@ namespace mesmer
     }
     else { istringstream idata(txt); double x; while (idata >> x) m_VibFreq.push_back(x); m_VibFreq_chk = 0;}
 
-    txt= ppPropList->XmlReadProperty("me:rotConsts");
+    txt= ppPropList->XmlReadProperty("me:rotConsts", optional);
     if(!txt){
       hasRotConst = false;
       cinfo << "Cannot find argument me:rotConsts. Assumes that it is an atom or atomic ion." << endl;
@@ -184,48 +171,25 @@ namespace mesmer
       cerr << "Improper setting on vibrational frequencies or rotational constants. Check input file to remove this error.";
     }
 
-    txt= ppPropList->XmlReadProperty("me:eletronicExcitation");
-    if(!txt){
-      cinfo << "Cannot find argument me:eletronicExcitation. Assumes no eletron excitation for this molecule." << endl;
-    }
-    else {
-      istringstream idata(txt); double _iele = 0.; m_eleExc.clear();
+    txt= ppPropList->XmlReadProperty("me:electronicExcitation", optional);    
+    if(txt) {
+      istringstream idata(txt);
+      m_eleExc.clear();
+      double _iele; 
       while (idata >> _iele) m_eleExc.push_back(_iele);
     }
 
-    txt= ppPropList->XmlReadProperty("me:symmetryNumber");
-    if(!txt){
-      cinfo << "Cannot find argument me:symmetryNumber. Default value " << m_Sym << " is used." << endl;
-      m_Sym_chk = -1;
-    }
-    else { istringstream idata(txt); idata >> m_Sym; m_Sym_chk = 0;}
+    m_Sym = ppPropList->XmlReadPropertyDouble("me:symmetryNumber");
+    m_Sym_chk = 0;
 
-    txt = ppPropList->XmlReadProperty("me:ZPE");
-    if(!txt){
-      cinfo << "Cannot find argument me:ZPE. Assumes me:ZPE = 0.0." << endl;
-      m_ZPE_chk = -1;
-    }
-    else {
-      istringstream idata(txt);
-      double tempzpe = 0.0;
-      idata >> tempzpe;
-      txt= ppPropList->XmlReadPropertyAttribute("me:ZPE", "units");
-      string unitsInput;
-      if (txt){
-        unitsInput = txt;
-      }
-      else
-        unitsInput = "kJ/mol";
-
-      txt= ppPropList->XmlReadPropertyAttribute("me:ZPE", "convention");
+    double tempzpe = ppPropList->XmlReadPropertyDouble("me:ZPE");
+    string unitsInput = ppPropList->XmlReadPropertyAttribute("me:ZPE", "units");
+    txt= ppPropList->XmlReadPropertyAttribute("me:ZPE", "convention", optional);
       m_EnergyConvention = txt ? txt : "arbitary";
 
-
-
-
-      const char* pLowertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "lower");
-      const char* pUppertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "upper");
-      const char* pStepStxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "stepsize");
+    const char* pLowertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "lower", optional);
+    const char* pUppertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "upper", optional);
+    const char* pStepStxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "stepsize", optional);
       double value(getConvertedEnergy(unitsInput, tempzpe));
       if (pLowertxt && pUppertxt){
         double tempLV(0.0), tempUV(0.0), tempSS(0.0);
@@ -240,19 +204,13 @@ namespace mesmer
         set_zpe(value);
       }
       m_ZPE_chk = 0;
-    }
 
     // The reason why me:frequenciesScaleFactor stands out to be a separate property in the propertyList is that
     // this value is not usually necessary. The default value is 1.0 and it is usually the case.
-    txt= ppPropList->XmlReadProperty("me:frequenciesScaleFactor");
-    if(!txt){
-      cinfo << "Cannot find argument me:frequenciesScaleFactor. Assumes me:frequenciesScaleFactor = 1.0." << endl;
-      m_scaleFactor_chk = -1;
-    }
-    else { istringstream idata(txt); idata >> m_scaleFactor ; m_scaleFactor_chk = 0;}
+    m_scaleFactor = ppPropList->XmlReadPropertyDouble("me:frequenciesScaleFactor");
 
     // Determine the method of DOS calculation.
-    const char* pDOSCMethodtxt = pp->XmlReadValue("me:DOSCMethod", false) ;
+    const char* pDOSCMethodtxt = pp->XmlReadValue("me:DOSCMethod") ;
     if(pDOSCMethodtxt)
     {
       m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
@@ -263,12 +221,6 @@ namespace mesmer
         pDOSCMethodtxt = "Classical rotors";
         m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
       }
-    }
-    else{ // if no method is provided.
-      cinfo << "No method for the calculation of DOS is provided. "
-        << "Default method <Classical rotors> is used." << endl;
-      pDOSCMethodtxt = "Classical rotors"; // must exist
-      m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
     }
 
     txt= ppPropList->XmlReadProperty("me:spinMultiplicity");
@@ -281,6 +233,8 @@ namespace mesmer
       istringstream idata(txt);
       idata >> m_SpinMultiplicity;
       m_SpinMultiplicity_chk = 0;
+      if(m_SpinMultiplicity>4) //will catch some missing bonds by OpenBabel
+        cinfo << "The spin multiplicity is " << m_SpinMultiplicity << ". NEEDS TO BE CHECKED\n";
     }
 
     /* For molecular energy me:ZPE is used if it is present. If it is not, a value
@@ -680,6 +634,7 @@ namespace mesmer
     :m_ImFreq(0.0),
     m_ImFreq_chk(-1)
   {
+    ErrorContext c(pMol->getName());
     m_host = pMol;
     PersistPtr pp = pMol->get_PersistentPointer();    
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
@@ -688,7 +643,7 @@ namespace mesmer
 
     bool hasImFreq = false;
     const char* txt;
-    txt= ppPropList->XmlReadProperty("me:imFreqs");
+    txt= ppPropList->XmlReadProperty("me:imFreqs", optional);
     if(!txt){
       cinfo << "No imaginary vibrational frequency.\n";
       m_ImFreq_chk = -1;
@@ -731,6 +686,7 @@ namespace mesmer
     :m_initPopulation(0.0),
     m_eqFraction(0.0)
   {
+    ErrorContext c(pMol->getName());
     m_host = pMol;
     PersistPtr pp = pMol->get_PersistentPointer();    
   }
@@ -765,6 +721,7 @@ namespace mesmer
     m_egvec(NULL),
     m_egval(0)
   {
+    ErrorContext c(pMol->getName());
     m_host = pMol;
     PersistPtr pp = pMol->get_PersistentPointer();
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
@@ -773,20 +730,21 @@ namespace mesmer
 
     const char* txt;
 
+    //TODO make essential for appropriate molecules
     txt= ppPropList->XmlReadProperty("me:deltaEDown");
     if(!txt){
-      cinfo << "Cannot find argument me:deltaEDown." << endl;
+      cinfo << "No me:deltaEDown provided." << endl;
       // deltaEDown is not always necessary. Hoever, it is not wise to provide a default value.
     }
     else {
       istringstream idata(txt);
       double value(0.0);
       idata >> value;
-      const char* pLowertxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "lower");
-      const char* pUppertxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "upper");
-      const char* pStepStxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "stepsize");
-      const char* pRefTemptxt  = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "referenceTemperature");
-      const char* pExponenttxt = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "exponent");
+      const char* pLowertxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "lower", optional);
+      const char* pUppertxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "upper", optional);
+      const char* pStepStxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "stepsize" ,optional);
+      const char* pRefTemptxt  = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "referenceTemperature", optional );
+      const char* pExponenttxt = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "exponent", optional);
       if (pLowertxt && pUppertxt){
         double valueL(0.0), valueU(0.0), stepsize(0.0);
         stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
@@ -809,7 +767,7 @@ namespace mesmer
     }
 
     // Determine the method of DOS calculation.
-    const char* pDistCalcMethodtxt = pp->XmlReadValue("me:DistributionCalcMethod", false) ;
+    const char* pDistCalcMethodtxt = pp->XmlReadValue("me:DistributionCalcMethod") ;
     if(pDistCalcMethodtxt)
     {
       m_pDistributionCalculator = DistributionCalculator::Find(pDistCalcMethodtxt);
@@ -1124,7 +1082,7 @@ namespace mesmer
 
     // Calculate collision parameter averages.
     double bthMass = 0.0;
-    bthMass = pBathGasMolecule->getMass();
+    bthMass = pBathGasMolecule->getStruc().getMass();
 
     double bthSigma = 0.0;
     bthSigma = pBathGasMolecule->getBath().getSigma();
@@ -1139,7 +1097,7 @@ namespace mesmer
     if (!bthEpsilon)
       cerr << "me:epsilon is necessary for " << pBathGasMolecule->getName()
       << ". Correct input file to remove this error.";
-    double mu   = amu * m_host->getMass() * bthMass/(m_host->getMass() + bthMass) ;
+    double mu   = amu * m_host->getStruc().getMass() * bthMass/(m_host->getStruc().getMass() + bthMass) ;
     double eam  = sqrt(m_host->getBath().getEpsilon() * bthEpsilon) ;
     double sam  = (m_host->getBath().getSigma() + bthSigma) * 0.5;
     double tstr = temp / eam;
@@ -1283,5 +1241,17 @@ namespace mesmer
     grainFrac = tempGrnFrac;
 
   }
+
+  gStructure::gStructure(mesmer::Molecule *pMol) : m_MolecularWeight(-1)
+  {
+    ErrorContext c(pMol->getName());
+    m_host = pMol;
+    PersistPtr pp = pMol->get_PersistentPointer();
+    PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
+    if(!ppPropList)
+      ppPropList=pp; //Be forgiving; we can get by without a propertyList element
+    setMass(ppPropList->XmlReadPropertyDouble("me:MW"));
+  }
+  
 
 }//namespace

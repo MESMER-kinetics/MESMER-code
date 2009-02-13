@@ -172,7 +172,7 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath="..\..\tinyxml\docs\TinyXML.html"
+			RelativePath="..\..\tinyxml\docs\index.html"
 			>
 		</File>
 	</Files>

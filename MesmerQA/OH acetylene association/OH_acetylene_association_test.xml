@@ -152,7 +152,7 @@
         <property dictRef="me:spinMultiplicity">
           <scalar>2</scalar>
         </property>
-        <property dictRef="me:eletronicExcitation">
+        <property dictRef="me:electronicExcitation">
           <array units="cm-1">139.7</array>
         </property>
       </propertyList>
@@ -218,7 +218,7 @@
       <product>
         <molecule ref="OH_acetylene_adduct" me:type="modelled" />
       </product>
-      <me:MCRCMethod>Mesmer ILT</me:MCRCMethod>
+      <me:MCRCMethod>MesmerILT</me:MCRCMethod>
       <me:preExponential>7.00e-12</me:preExponential>
       <me:excessReactantConc>1.00e17</me:excessReactantConc>
       <me:activationEnergy units="kJ/mol">5.375</me:activationEnergy>
@@ -235,7 +235,7 @@
         <molecule ref="TS_1a" me:type="transitionState" />
       </me:transitionState>
       <!--Use zero point energies instead-->
-      <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
     </reaction>
   </reactionList>
   <me:conditions>

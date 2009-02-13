@@ -24,6 +24,9 @@
         <bond atomRefs2="a1 a2" order="2"/>
         <bond atomRefs2="a2 a3" order="2"/>
       </bondArray>
+      <property dictRef="me:ZPE" note="H has the total energy of the reactants">
+        <scalar units="kJ/mol">0</scalar>
+      </property>
       <property dictRef="me:MW">
         <scalar>64</scalar>
       </property>
@@ -132,7 +135,7 @@
         <molecule ref="TS1" me:type="transitionState" />
       </me:transitionState>
       <me:excessReactantConc>1e14</me:excessReactantConc>
-      <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
     </reaction>
   </reactionList>
   <me:conditions>

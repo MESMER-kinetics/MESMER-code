@@ -43,7 +43,8 @@ int main(int argc,char *argv[])
 
   // process command line arguments
   string infilename, outfilename, testfilename, logfilename, punchfilename;
-  bool nocalc=false, notimestamp=false, usecout=false, updatemols=true, qatest=false, nologging=false, changetestname=false;
+  bool nocalc=false, notimestamp=false, usecout=false, updatemols=true, 
+    qatest=false, nologging=false, changetestname=false;
 
   for(int iarg=1; iarg<argc;++iarg)
   {
@@ -137,82 +138,85 @@ int main(int argc,char *argv[])
   //Original streams restored when this goes out of context
   OStreamRedirector osr(&meErrorLog, &osout, nologging);
 
+  //-----------------------------------------------
+  //Get the top level directory from an environment variable, 
+  //or if that fails, from two levels above the current directory
+  //This contains librarymols.xml, defaults.xml.
+  const char* pdir = getenv("MESMER_DIR");
+  if(!pdir)
+    pdir = "../..";
+  string MesmerDir(pdir);
+    
   //-------------------------------
    //
   // Instantiate the System collection. This holds all information
   // about reaction systems and all molecular data.
   //
-  System _sys ;
+  System _sys(MesmerDir + "/librarymols.xml");
   _sys.m_Flags.punchFileName = punchfilename;
 
   TimeCount events; unsigned int timeElapsed;
 
   //This is where the type of IO is decided.
   //Opens the data file and checks that its root element is me:mesmer.
-  PersistPtr ppIOPtr = XMLPersist::XmlLoad(infilename, "me:mesmer");
+  PersistPtr ppIOPtr = XMLPersist::XmlLoad(infilename, MesmerDir + "/defaults.xml", "me:mesmer");
   if(!ppIOPtr)
     return -1;
-  //------------
-  // Parse input file
 
+  //------------
+  if(nocalc)
+    _sys.assignMolTypes(ppIOPtr);
+  
+  // Parse input file
   {
     string thisEvent;
     if(infilename.empty())
       thisEvent = "\nParsing xml from stdin...";
     else
-      thisEvent = "\nParsing input xml file...\n" + infilename;
-    cerr << thisEvent; //usually output
+      thisEvent = "\nParsing input xml file...\n" + infilename + '\n';
+    cerr << thisEvent << endl; //usually output
     //cinfo << endl;
     events.setTimeStamp(thisEvent);
   }
+  int returnCode=0;
   try {
-  if(!ppIOPtr || !_sys.parse(ppIOPtr))
-  {
-    cerr << "System parse failed." << endl;
-    return -2;
-  }
+    if(!ppIOPtr || !_sys.parse(ppIOPtr))
+    {
+      cerr << "\nSystem parse failed." << endl;
+      returnCode = -2;
+      if(!nocalc)
+        return returnCode;
+    }
 
-  /* Get a list of molecules which were not present in the data file
-  but which were sucessfully recovered from the Library.
-  Unless the -l option is used, insert them into the data tree and
-  save to file at the end of main(). */
-  vector<PersistPtr> libMols = _sys.getLibraryMols();
-  if(updatemols && !libMols.empty())
-  {
-    for(size_t i=libMols.size();i;--i) //backwards so mols come out in order they went in
-      ppIOPtr->XmlCopyElement(libMols[i-1]);
-    //ppIOPtr->XmlSaveFile("E:/My Documents/MSVC/MESMER/examples/DiagramTest/testout.xml"); //***TEMPORARY****
-  }
+    if (!nocalc)
+    {
+      //------------------
+      // Begin calculation
+      {
+        string thisEvent = "Calculate EGME";
+        cinfo << "\nFile: \"" << infilename << "\" successfully parsed.\n" << thisEvent << endl;
+        events.setTimeStamp(thisEvent);
+      }
 
-  meErrorLog.SetContext("");
-  //------------------
-  // Begin calculation
-  {
-    string thisEvent = "Calculate EGME";
-    cinfo << "\nFile: \"" << infilename << "\" successfully parsed.\n" << thisEvent << endl;
-    events.setTimeStamp(thisEvent);
-  }
+      clog << "Now calculating..." << endl;
 
-  if (nocalc) return 0;
-
-  clog << "Now calculating..." << endl;
-
-  switch (_sys.m_Flags.searchMethod){
-    case 2:
-      _sys.fitting() ;
-      break;
-    case 1:
-      _sys.gridSearch();
-      break;
-    case 3: // with punch exported
-      _sys.gridSearch();
-      break;
-    default:
-      double chiSquare(1000.0);
-      _sys.calculate(chiSquare) ;
+      switch (_sys.m_Flags.searchMethod){
+        case 2:
+          _sys.fitting() ;
+          break;
+        case 1:
+          _sys.gridSearch();
+          break;
+        case 3: // with punch exported
+          _sys.gridSearch();
+          break;
+        default:
+          double chiSquare(1000.0);
+          _sys.calculate(chiSquare) ;
+      }
+    }
   }
-  }
-  catch(std::exception& e)
+  catch(std::runtime_error& e)
   {
     cerr << e.what() << endl;
     exit(1);
@@ -238,22 +242,21 @@ int main(int argc,char *argv[])
     cerr << "There was an error when writing " << outfilename;
   else
   {
-    meErrorLog.SetContext(""); //so no ***Error prefix
     if(!outfilename.empty())
-      cerr << "System saved"; // There is no need to know where the System is saved in the log file.
+      cerr << "System saved to " << outfilename << endl;
   }
   if(qatest)
   {
     osout.close();
     if(!QACompare(infilename))
     {
-      clog << "QA test failed" << endl;
+      cerr << "QA test failed" << endl;
       return -5;
     }
     else
-      clog << "QA test successful" << endl;
+      cerr << "QA test successful" << endl;
   }
-  return 0 ;
+  return returnCode;
 }
 
 string duplicateFileName(const string& inName, const string& suffix, const string& newTimeStamp){
@@ -285,15 +288,16 @@ void usage()
     "In UNIX/Linux console:\n"
     "     ./mesmer.out infilename [options]\n"
     "If there is no infilename, stdin is used.\n"
+    "All the chemistry and much of the program control is in the input file.\n\n"
     "Options:\n"
     " -o<outfilename>\n"
     "     If -o has no outfilename, stdout is used.\n"
     "     If there is no -o option, the output file name is constructed.\n"
     "     from the input file name by adding or replacing a timstamp.\n"
     " -n  Output added to input file.\n"
-    " -N  Use the input filename for test and log, default is mesmer.test and mesmer.log.\n"
+    " -N  Use infilename for test and log, default is mesmer.test and mesmer.log.\n"
     " -p  Parse the input file only - no calculation.\n"
-    " -q  Do a QA test. (Compares mesmer.test with a definitive version.)"
+    " -q  Do a QA test. (Compares mesmer.test with a definitive version.)\n"
     " -w# Display only warning messages that are at least as severe as:\n"
     "       0 No messages\n"
     "       1 Errors\n"
