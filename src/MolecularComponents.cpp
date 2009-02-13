@@ -3,7 +3,7 @@
 // Author: Chi-Hsiu Liang
 //
 //-------------------------------------------------------------------------------------------
-#include <exception>
+#include <stdexcept>
 #include "MolecularComponents.h"
 #include "Molecule.h"
 
@@ -20,13 +20,6 @@ namespace mesmer
   //
   // Constructor, destructor and initialization
   //
-  gBathProperties::gBathProperties()
-    :m_Sigma(sigmaDefault),
-    m_Epsilon(epsilonDefault),
-    m_Sigma_chk(-1),
-    m_Epsilon_chk(-1)
-  {}
-
   gBathProperties::~gBathProperties()
   {
     if (m_Sigma_chk == 0){
@@ -632,11 +625,6 @@ namespace mesmer
   //
   // Constructor, destructor and initialization
   //
-  gTransitionState::gTransitionState()
-    :m_ImFreq(0.0),
-    m_ImFreq_chk(-1)
-  {}
-
   gTransitionState::~gTransitionState()
   {
     if (m_ImFreq_chk == 0) cinfo << "m_ImFreq is provided but not used in " << m_host->getName() << "." << endl;
@@ -690,10 +678,6 @@ namespace mesmer
   //
   // Constructor, destructor and initialization
   //
-  gPopulation::gPopulation()
-    :m_initPopulation(0.0),
-    m_eqFraction(0.0)
-  {}
 
   // Destructor and initialization, not required.
   // gPopulation::~gPopulation();
@@ -714,21 +698,6 @@ namespace mesmer
   //
   // Constructor, destructor and initialization
   //
-  gWellProperties::gWellProperties()
-    :m_DeltaEdownExponent(0.0),
-    m_DeltaEdownRefTemp(298.0),
-    m_DeltaEdown(0.0),
-    m_collisionFrequency(0.0),
-    m_ncolloptrsize(0),
-    m_pDistributionCalculator(NULL),
-    m_DeltaEdown_chk(-1),
-    m_grainFracBeta(0.),
-    m_grainDist(0),
-    m_egme(NULL),
-    m_egvec(NULL),
-    m_egval(0)
-  {}
-
   gWellProperties::~gWellProperties()
   {
     if (m_DeltaEdown_chk == 0){
@@ -887,7 +856,13 @@ namespace mesmer
     m_egval.resize(m_ncolloptrsize, 0.0);
     if (m_egvec) delete m_egvec ;                      // Delete the existing matrix.
     m_egvec = new dMatrix(m_ncolloptrsize) ;
-    m_egvec = m_egme;
+
+    // copy the values over
+    for (int i(0); i < m_ncolloptrsize; ++i){
+      for (int j(0); j < m_ncolloptrsize; ++j){
+        (*m_egvec)[i][j] = (*m_egme)[i][j];
+      }
+    }
 
     m_egvec->diagonalize(&m_egval[0]) ;
 

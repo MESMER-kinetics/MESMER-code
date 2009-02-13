@@ -20,6 +20,23 @@
 
 namespace mesmer
 {
+  struct locationIdx{
+    Molecule* mol;
+    int fml; // full matrix location
+    int rml; // reduced matrix location
+    int fms; // full matrix size
+    int rms; // reduced matrix size
+  };
+
+  struct divisionIdx{
+    Molecule* mol;
+    int fml; // full matrix location
+    int asl; // active state location 
+             // The first grain location of the active state, with respect to the full matrix location. 
+             // asl == 0 if the whole well is active.)
+    int fms; // full matrix size
+  };
+
   class ReactionManager
   {
   public:
@@ -75,9 +92,14 @@ namespace mesmer
 
     bool BartisWidomPhenomenologicalRates(dMatrix& rates, MesmerFlags& mFlags,PersistPtr ppBase);
 
+    bool BartisWidomRatesFromBasisSetMethod(dMatrix& mesmerRates, MesmerFlags& mFlags, PersistPtr ppList);
+
     double calcChiSquare(const dMatrix& mesmerRates, vector<conditionSet>& expRates);
 
-//    void constructBasisMatrix(void);
+    void constructBasisMatrix(void);
+    
+    void steadyAndReservoirStateMethod(void);
+
 
   private:
 
@@ -92,20 +114,23 @@ namespace mesmer
     // Reaction operator after similarity transformation by block diagonal U, which is U^-1 M' U.
     qdMatrix               *m_basisMatrix;
 
-    qdMatrix               *m_reducedReactionOperator;
+    qdMatrix               *m_reducedBasisMatrix;
     qdMatrix               *m_reducedEigenvectors;
     std::vector<qd_real>    m_reducedEigenvalues;
 
     std::vector<double>     m_eqVector;
+    std::vector<double>     m_reducedEqVector;
+    std::vector<locationIdx> m_locSizeMap;
+    std::vector<divisionIdx> m_divMap;
 
     // Maps the location of individual reactant collision operator and source terms in the system matrix.
-    Reaction::isomerMap    m_isomers;
-    Reaction::sourceMap    m_sources;
-    sinkMap                m_sinkRxns;
-    populationMap          m_initialPopulations;
+    Reaction::molMapType    m_isomers;
+    Reaction::molMapType    m_sources;
+    sinkMap                 m_sinkRxns;
+    populationMap           m_initialPopulations;
 
     // map modelled molecules (isomers + sources) with their sequence in the EqMatrix and Rate Coefficient matrix
-    Reaction::sourceMap    m_SpeciesSequence;
+    Reaction::molMapType    m_SpeciesSequence;
 
     sinkMap m_SinkSequence;
 
@@ -123,7 +148,11 @@ namespace mesmer
 
     bool produceEquilibriumVector();
 
+    bool produceReducedEquilibriumVector();
+
     void printReactionOperator(const MesmerFlags &mFlags);
+
+    void printEiegnvectors(const MesmerFlags &mFlags);
 
   } ;
 }//namespace

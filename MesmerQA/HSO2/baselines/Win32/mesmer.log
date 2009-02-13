@@ -264,10 +264,7 @@ m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is give
 m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is given.
 m_SpinMultiplicity was not defined but requested in SO2. Default value 1 is given.
 Diagonlize Collision Operator -- Time elapsed: 0 seconds.
-
 In total, 1 temperature/concentration-pressure points calculated.
-In main Finish Calculation -- Time elapsed: 6 seconds.
- -- Total time elapsed: 9 seconds.
-
+In main Finish Calculation -- Time elapsed: 6 seconds. -- Total time elapsed: 9 seconds.
 System saved
 m_Mass is provided but not used in TS1

@@ -105,7 +105,7 @@ namespace mesmer
   // Add isomer reaction terms to collision matrix.
   //
   void IsomerizationReaction::AddReactionTerms(qdMatrix         *CollOptr,
-    isomerMap       &isomermap,
+    molMapType       &isomermap,
     const double    rMeanOmega)
   {
     // Get densities of states for detailed balance.

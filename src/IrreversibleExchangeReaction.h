@@ -35,7 +35,7 @@ namespace mesmer
     // Destructor.
     virtual ~IrreversibleExchangeReaction(){}
 
-    void putSourceMap(sourceMap *sourcemap){m_sourceMap = sourcemap ; } ;
+    void putSourceMap(molMapType *sourcemap){m_sourceMap = sourcemap ; } ;
 
     // Get unimolecular species information:
     virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const 
@@ -99,7 +99,7 @@ namespace mesmer
   private:
 
     // Add reaction terms to collision matrix.
-    virtual void AddReactionTerms(qdMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) ;
+    virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;
 
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs();
@@ -107,7 +107,7 @@ namespace mesmer
     // Test k(T)
     virtual void testRateConstant();
 
-    sourceMap *m_sourceMap ;
+    molMapType *m_sourceMap ;
 
     Molecule    *m_rct1 ;                 // Reactant Molecule.
     Molecule    *m_rct2 ;                 // Subsidiary reactant molecule. 

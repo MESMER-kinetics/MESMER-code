@@ -88,8 +88,7 @@ namespace mesmer
     gStructure&       getStruc();
 
     bool activateRole(string molType);
-    bool hasDOSProperties(){return g_dos!=NULL;}
-    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    bool hasDOSProperties(){return g_dos!=NULL;}    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   };
 
 }//namespace

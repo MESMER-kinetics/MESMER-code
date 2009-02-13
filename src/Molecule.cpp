@@ -39,18 +39,6 @@ namespace mesmer
     if (g_bath  != NULL) delete g_bath;
     }
   
-  /* Will need Clone() functions
-  Molecule::Molecule(const Molecule& molecule) {
-  // Copy constructor - define later SHR 23/Feb/2003
-  }
-
-  Molecule& Molecule::operator=(const Molecule&) {
-  // Assignment operator - define later SHR 23/Feb/2003
-
-  return *this ;
-  }
-  */
-
   //
   //Initialization
   //
@@ -76,23 +64,6 @@ namespace mesmer
     return true;
   }
 
-/*  void   Molecule::setMass(double value)           {
-    m_Mass = value;
-    m_Mass_chk = 0;
-  } ;
-
-  double Molecule::getMass()                       {
-    if (m_Mass_chk >= 0){
-      ++m_Mass_chk;
-      return m_Mass ;
-    }
-    else{
-      cerr << "m_Mass was not defined but requested in " << getName();
-      exit(1);
-    }
-
-  } ;
-*/
   PersistPtr  Molecule::get_PersistentPointer()     {
     return m_ppPersist;
   };
@@ -109,7 +80,6 @@ namespace mesmer
   const MesmerEnv& Molecule::getEnv() const        {
     return m_Env;
   }
-
 
   //Make dummy calls to initialize the MolecularComponents now, during parse, before calculation.
   bool Molecule::activateRole(string molType){
@@ -134,35 +104,6 @@ namespace mesmer
 
     return true;
   };
-
-
-/*  gBathProperties&        Molecule::getBath() {
-    if (!g_bath) {
-      g_bath = new gBathProperties;
-      if(!g_bath->InitializeProperties(get_PersistentPointer(),this)){
-        cerr << "Failed to initialize bath properties." <<endl;
-        exit(1);
-      }
-    }
-    return *g_bath;
-  }
-*/
- 
-  //A more elegant way.
-  //The initialization is moved to the gbathProperties constructor, which throws an
-  //exception if it fails. With the proposed way of handling defaults,
-  //even if the required data was not in the xml file this should only occur if
-  //the defaults file is incorrect, which is a developer rather than a user problem,
-  //so users should never acess the following catch statement.
-  //The only try/catch in main()
-  //try {
-  //    if(!ppIOPtr || !_sys.parse(ppIOPtr))
-  //... and calculation...
-  //}
-  //catch(...) {
-  // cerr << "Exiting with an exception" << endl;
-  // exit(1);
-  //}
 
   gBathProperties&        Molecule::getBath() {
     if (!g_bath)

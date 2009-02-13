@@ -35,14 +35,7 @@ namespace mesmer
     ErrorContext c(molName);
     //check if the molecule exists in m_molmap
     constMolIter it = m_molmap.find(molName) ;
-    if (it != m_molmap.end()) { // found a molecule with the same name --> should check its type as well later.
-      // Check if the related properties specified by molType is activated to allow the molecule to play the specific role. 
-      // If they are not activated, activate them.
-        if (!((it->second)->activateRole(molType))){
-          cerr << "Failed to initialize some molecular properties";
-          return NULL;
-        }
-      return it->second;
+    if (it != m_molmap.end()) { // found a molecule with the same name --> should check its type as well later.      // Check if the related properties specified by molType is activated to allow the molecule to play the specific role.       // If they are not activated, activate them.        if (!((it->second)->activateRole(molType))){          cerr << "Failed to initialize some molecular properties";          return NULL;        }      return it->second;
     }
 
     //Construct a new Molecule
@@ -74,13 +67,11 @@ namespace mesmer
       ppmol = ppmol2;
     }
 
-    // Activate specified properties for the molecule
-    if (!(pmolecule->activateRole(molType))){
+    // Activate specified properties for the molecule    
+    if (!(pmolecule->activateRole(molType))){      
       cerr << "Failed to initialize some molecular properties in " << molName;
       return NULL;
-    }
-
-    // Add molecule to map.
+    }    // Add molecule to map.
     m_molmap[molName] = pmolecule ;
 
     return pmolecule;

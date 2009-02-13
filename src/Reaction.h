@@ -34,8 +34,7 @@ namespace mesmer
       { return r1->getName() < r2->getName(); }
     };
 
-    typedef std::map<Molecule*, int, MoleculePtrLess> isomerMap ;
-    typedef std::map<Molecule*, int, MoleculePtrLess> sourceMap ;
+    typedef std::map<Molecule*, int, MoleculePtrLess> molMapType ;
 
     // Constructors.
 
@@ -109,8 +108,6 @@ namespace mesmer
 
     void calculateCellTunnelingCoeffs(std::vector<double>& TunnelingProbability) {m_pTunnelingCalculator->calculateCellTunnelingCoeffs(this, TunnelingProbability); } ;
 
-    void calculateGrainTunnelingCoeffs(std::vector<double>& TunnelingProbability);
-
     // calculate flux in grains
     void fluxCellToGrain(const std::vector<double>& shiftedCellFlux);
 
@@ -178,7 +175,7 @@ namespace mesmer
     bool calcGrnAvrgMicroRateCoeffs() ;
 
     // Add reaction terms to the reaction matrix.
-    virtual void AddReactionTerms(qdMatrix *CollOptr, isomerMap &isomermap, const double rMeanOmega) = 0 ;
+    virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) = 0 ;
 
     // Is reaction equilibrating and therefore contributes
     // to the calculation of equilibrium fractions.

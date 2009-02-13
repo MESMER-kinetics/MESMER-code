@@ -16,7 +16,10 @@
 #include <algorithm>
 #include <cmath>
 #include <vector>
-#include "oberror.h"
+#include "Matrix.h"
+#include "a2d.h"
+
+using namespace mesmer;
 
 template <class T>
 const T MesmerGamma(const T& x)
@@ -26,31 +29,31 @@ const T MesmerGamma(const T& x)
   T ga,gr,r,z;
 
   static T g[] = {
-     1.0,
-     0.5772156649015329,
+    1.0,
+    0.5772156649015329,
     -0.6558780715202538,
     -0.420026350340952e-1,
-     0.1665386113822915,
+    0.1665386113822915,
     -0.421977345555443e-1,
     -0.9621971527877e-2,
-     0.7218943246663e-2,
+    0.7218943246663e-2,
     -0.11651675918591e-2,
     -0.2152416741149e-3,
-     0.1280502823882e-3,
+    0.1280502823882e-3,
     -0.201348547807e-4,
     -0.12504934821e-5,
-     0.1133027232e-5,
+    0.1133027232e-5,
     -0.2056338417e-6,
-     0.6116095e-8,
-     0.50020075e-8,
+    0.6116095e-8,
+    0.50020075e-8,
     -0.11812746e-8,
-     0.1043427e-9,
-     0.77823e-11,
+    0.1043427e-9,
+    0.77823e-11,
     -0.36968e-11,
-     0.51e-12,
+    0.51e-12,
     -0.206e-13,
     -0.54e-14,
-     0.14e-14
+    0.14e-14
   };
 
   if (x > 171.0) return 1e308;    // This value is an overflow flag.
@@ -86,13 +89,85 @@ inline const T SQR(const T a) {return a*a;}
 
 //convolutes rovibrational DOSs
 void Convolution(const std::vector<double> &f1,
-                    const std::vector<double> &f2,
-                    std::vector<double> &conv,
-                    const int n = 0);
+                 const std::vector<double> &f2,
+                 std::vector<double> &conv,
+                 const int n = 0);
 
 //convolutes rovibrational DOSs
 void FastLaplaceConvolution(const std::vector<double> &data, const std::vector<double> &respns, std::vector<double> &convolution);
 
 void getCellEnergies(int cellNumber, std::vector<double>& cellEne);
+
+//---------------------------------------------------------------------------
+// MULTIPLY PORTIONS OF TWO MATRICES: matrix1 and matrix2
+// If the complete multiplication procedure is (M'= A^T M B), then M is the target matrix. 
+// A and B have to be square matrices, but M does not have to be a square matrix.
+// This function is either multiplying the (A^T M)or (M B) part.
+// The rule here is simple: if matrix1 is     transposed, it is A, and therefore matrix2 is M; 
+//                          if matrix1 is NOT transposed, it is M, and therefore matrix2 is B.
+// Both matrix1 and matrix2 are constant matrices.
+// matrix3 is the location where the result of the multiplication is placed.
+template<class T> // The first two numbers are the indices of x and y, the second two numbers are the sizes of the matrix.
+bool matrices_multiplication
+(const Matrix<T>* matrix1, const size_t m1x, const size_t m1y, const size_t n1x, const size_t n1y,
+ const Matrix<T>* matrix2, const size_t m2x, const size_t m2y, const size_t n2x, const size_t n2y,
+ Matrix<T>* const matrix3, const bool transposeM1){
+   // matrix3 is a constant pointer but variable T
+   //-----------------------------  1st check if the matrices match up and valid  -----------------------------
+   if (n1x < 1 || n1y < 1 || n2x < 1 || n2y < 1) return false;
+
+   //-----------------------------  2nd define the dimension of the output matrix  -----------------------------
+   // This procedure requires first to make sure that the non-target matrix is a square matrix, and whether the summation
+   // indices are of the same size.
+   size_t n3x(0), n3y(0);
+
+   if (n1y != n2x) return false;
+   else if (!transposeM1 && n2x == n2y){ n3x = n1x; n3y = n1y; }
+   else if ( transposeM1 && n1x == n1y){ n3x = n2x; n3y = n2y; }
+   else return false;
+
+   Matrix<T> mpMul((n3x > n3y) ? n3x : n3y); // whichever is larger
+
+   //-----------------------------  3rd check if the indices go out of range  -----------------------------
+   if (m1x + n1x - 1 > matrix1->size() || m1y + n1y - 1 > matrix1->size()) return false;
+   if (m2x + n2x - 1 > matrix2->size() || m2y + n2y - 1 > matrix2->size()) return false;
+
+   //-----------------------------  4th do the multiplication  -----------------------------
+   if (transposeM1){ // When the second matrix is the target, the first matrix has to be transposed.
+     for(size_t i(0); i < n1x; ++i){
+       for(size_t j(0); j < n2y; ++j){
+         T sm = 0.0;
+         const size_t i1x = i + m1x;
+         const size_t j2y = j + m2y;
+         for(size_t k(0); k< n1y; ++k){
+           sm += (*matrix1)[k + m1y][i1x] * (*matrix2)[k + m2x][j2y];
+         }
+         mpMul[i][j] = sm;
+       }
+     }
+   }
+   else{
+     for(size_t i(0); i < n1x; ++i){
+       for(size_t j(0); j < n2y; ++j){
+         T sm = 0.0;
+         const size_t i1x = i + m1x;
+         const size_t j2y = j + m2y;
+         for(size_t k(0); k< n1y; ++k){
+           sm += (*matrix1)[i1x][k + m1y] * (*matrix2)[k + m2x][j2y];
+         }
+         mpMul[i][j] = sm;
+       }
+     }
+   }
+
+   //-----------------------------  5th copy the temporary matrix to the target position  -----------------------------
+   for(size_t i(0); i < n3x; ++i){
+     for(size_t j(0); j < n3y; ++j){
+       (*matrix3)[i][j] = mpMul[i][j];
+     }
+   }
+
+   return true;
+}
 
 #endif // GUARD_MesmerMath_h

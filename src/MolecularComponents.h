@@ -122,9 +122,7 @@ namespace mesmer
     //
     // Constructor, destructor and initialization
     //
-  private:
-    gDensityOfStates();
-  public:
+  private:    gDensityOfStates();  public:
     gDensityOfStates(Molecule* pMol);
     virtual ~gDensityOfStates();
 
