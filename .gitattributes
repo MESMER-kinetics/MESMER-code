@@ -2,6 +2,7 @@
 /ChangeLog -text
 Documentation/Checklist.doc -text
 Documentation/FAQ.tex -text
+Documentation/Getting[!!-~]StartedTutorial.html -text
 Documentation/HowMesmerWork.tex -text
 Documentation/MESMER[!!-~]manual.doc -text
 Documentation/Mesmer.dvi -text

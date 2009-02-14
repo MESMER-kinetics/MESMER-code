@@ -84,13 +84,13 @@
       <property dictRef="me:frequenciesScaleFactor" default="true">
         <scalar>1</scalar>
       </property>
-      <property dictRef="me:spinMultiplicity" default="true">
+      <property dictRef="me:spinMultiplicity">
         <scalar>3</scalar>
       </property>
     </propertyList>
     <me:DOSCMethod default="true">Classical rotors</me:DOSCMethod>
   </molecule>
-  <molecule id="OH" spinMultiplicity="2">
+  <molecule id="OH">
     <atomArray>
       <atom id="a1" elementType="O" spinMultiplicity="2" x3="0.000000" y3="0.000000" z3="0.108216" />
       <atom id="a2" elementType="H" x3="0.000000" y3="0.000000" z3="-0.865729" />
@@ -113,6 +113,9 @@
       </property>
       <property title="Symmetry Number" dictRef="me:symmetryNumber">
         <scalar>1</scalar>
+      </property>
+      <property dictRef="me:spinMultiplicity">
+        <scalar>2</scalar>
       </property>
     </propertyList>
   </molecule>
@@ -146,6 +149,9 @@
     </bondArray>
     <property title="Energy" dictRef="me:ZPE">
       <scalar units="kJ/mol" convention="computational" source="Guessed: to be used only with HO2">-366730</scalar>
+    </property>
+    <property dictRef="me:spinMultiplicity">
+      <scalar>2</scalar>
     </property>
   </molecule>
 </moleculeList>

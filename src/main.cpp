@@ -32,7 +32,6 @@ void usage();
 string version();
 bool QACompare(string infilename);
 string duplicateFileName(const string& inName, const string& suffix, const string& newTimeStamp = "");
-
 int main(int argc,char *argv[])
 {
   if(argc<2)
@@ -43,7 +42,7 @@ int main(int argc,char *argv[])
 
   // process command line arguments
   string infilename, outfilename, testfilename, logfilename, punchfilename;
-  bool nocalc=false, notimestamp=false, usecout=false, updatemols=true, 
+  bool nocalc=false, usecout=false, updatemols=true, 
     qatest=false, nologging=false, changetestname=false;
 
   for(int iarg=1; iarg<argc;++iarg)
@@ -62,9 +61,6 @@ int main(int argc,char *argv[])
         break;
       case 'l':
         updatemols=false;
-        break;
-      case 'n':
-        notimestamp=true;
         break;
       case 'N':
         changetestname=true;
@@ -187,6 +183,7 @@ int main(int argc,char *argv[])
       if(!nocalc)
         return returnCode;
     }
+    _sys.WriteMetadata();
 
     if (!nocalc)
     {
@@ -224,27 +221,44 @@ int main(int argc,char *argv[])
     
   meErrorLog.SetContext(__FUNCTION__);
   //--------------------------------
-  // Save XML document to a new file
-  string thisEvent = "Save XML document to a new file";
+  // Save XML document
+  string thisEvent = "Save XML document";
   string currentTimeStamp = events.setTimeStamp(thisEvent, timeElapsed);
   string saveTimeStamp = '.' + currentTimeStamp;
   cinfo << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
-
-  if(!usecout && notimestamp && !infilename.empty())
+  
+  if(!usecout && outfilename.empty() && !infilename.empty())
     outfilename = infilename;
-  else if(!usecout && outfilename.empty() && !infilename.empty())
-  {
-    string XMLsuffix(".xml");
-    outfilename = duplicateFileName(infilename, XMLsuffix, saveTimeStamp);
-  }
+
+  //Any existing file with the same name as the one being written is renamed with a _prev suffix
+  //Any old _prev file is not deleted unless the write of the new file is successful
+  if(!usecout)
+    rename(outfilename.c_str(), "temp");
 
   if(!ppIOPtr->XmlSaveFile(outfilename))
+  {
     cerr << "There was an error when writing " << outfilename;
+    rename("temp", outfilename.c_str());
+  }
   else
   {
     if(!outfilename.empty())
+    {
       cerr << "System saved to " << outfilename << endl;
+
+      if(!usecout)
+      {
+        string::size_type pos = outfilename.rfind('.');
+        string prevname(outfilename);
+          prevname = pos==string::npos ?
+          prevname + "_prev" :
+          prevname.replace(pos, 1, "_prev.");
+        remove(prevname.c_str());
+        rename("temp", prevname.c_str());
+      }
+    }
   }
+
   if(qatest)
   {
     osout.close();
@@ -292,9 +306,8 @@ void usage()
     "Options:\n"
     " -o<outfilename>\n"
     "     If -o has no outfilename, stdout is used.\n"
-    "     If there is no -o option, the output file name is constructed.\n"
-    "     from the input file name by adding or replacing a timstamp.\n"
-    " -n  Output added to input file.\n"
+    "     If there is no -o option, the output file overwrites the input file.\n"
+    "     Any file about to be overwritten is saved with suffix _prev to its name. \n"
     " -N  Use infilename for test and log, default is mesmer.test and mesmer.log.\n"
     " -p  Parse the input file only - no calculation.\n"
     " -q  Do a QA test. (Compares mesmer.test with a definitive version.)\n"
@@ -305,13 +318,6 @@ void usage()
     "       3 Information\n"
     " -?  Display this help text\n"
     " -V  Output Mesmer version.\n\n"
-    "For example:\n"
-    "  mesmer HSO2.xml     will read HSO2.xml and write the output to\n"
-    "                      something like HSO2.20071031_134701.xml\n"
-    "                      Using this in turn as an input file will produce\n"
-    "                      something like HSO2.20071031_134701.20071212_200423.xml\n"
-    "  mesmer HSO2.xml -n  will read HSO2.xml and write the output back to it\n"
-    "  mesmer -o -w0       will silently read from cin and write to cout\n"
     << endl;
 }
 string version()

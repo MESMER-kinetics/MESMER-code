@@ -45,6 +45,8 @@ namespace mesmer
     // Deduce the me:type of each molecule and add it to the XML file 
     bool assignMolTypes(PersistPtr ppIOPtr) ;
     
+    void WriteMetadata();
+
   public:
 
     // Paired concentration and pressure points
@@ -70,7 +72,6 @@ namespace mesmer
       PersistPtr            ppbase,
       bool                  MustBeThere=true);
 
-    void WriteMetadata();
 
 
     // level in XML file under <mesemer>

@@ -409,8 +409,6 @@ namespace mesmer
 
     TimeCount events; unsigned int timeElapsed =0;
 
-    WriteMetadata();
-
     // Find the highest temperature
     for (unsigned int i = 0; i < PandTs.size(); ++i){
       m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, PandTs[i].get_temperature());

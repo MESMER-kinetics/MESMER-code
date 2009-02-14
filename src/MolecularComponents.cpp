@@ -208,6 +208,7 @@ namespace mesmer
     // The reason why me:frequenciesScaleFactor stands out to be a separate property in the propertyList is that
     // this value is not usually necessary. The default value is 1.0 and it is usually the case.
     m_scaleFactor = ppPropList->XmlReadPropertyDouble("me:frequenciesScaleFactor");
+    m_scaleFactor_chk = 0;
 
     // Determine the method of DOS calculation.
     const char* pDOSCMethodtxt = pp->XmlReadValue("me:DOSCMethod") ;
@@ -223,19 +224,8 @@ namespace mesmer
       }
     }
 
-    txt= ppPropList->XmlReadProperty("me:spinMultiplicity");
-    if(!txt){
-      cinfo << "Cannot find argument me:spinMultiplicity. Assumes me:spinMultiplicity = 1."
-        << "Default value "<< m_SpinMultiplicity << " is used." << endl;
-    }
-    else
-    {
-      istringstream idata(txt);
-      idata >> m_SpinMultiplicity;
-      m_SpinMultiplicity_chk = 0;
-      if(m_SpinMultiplicity>4) //will catch some missing bonds by OpenBabel
-        cinfo << "The spin multiplicity is " << m_SpinMultiplicity << ". NEEDS TO BE CHECKED\n";
-    }
+    m_SpinMultiplicity = ppPropList->XmlReadPropertyDouble("me:spinMultiplicity");
+    m_SpinMultiplicity_chk = 0;
 
     /* For molecular energy me:ZPE is used if it is present. If it is not, a value
     calculated from meHf298 is used and written back to the datafile as a me:ZPE
