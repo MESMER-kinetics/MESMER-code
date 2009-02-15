@@ -9,6 +9,7 @@ SET executable="../../Windows VC8/Mesmer/Mesmer.exe"
 SET tfn=mesmer.test
 SET lfn=mesmer.log
 SET bline=baselines/Win32/
+SET outf=out.xml
 
 :: This compares the "double quote" altogether with the content
 IF "%1"=="" (
@@ -59,31 +60,31 @@ GOTO END
 :RUNNING
 
 cd pentyl
-%executable% pentyl_isomerization_test.xml %directive%
+%executable% pentyl_isomerization_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
 cd HSO2
-%executable% HSO2_test.xml %directive%
+%executable% HSO2_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
 cd "cyclopropene isomerization"
-%executable% Cyclopropene_isomerization_test.xml %directive%
+%executable% Cyclopropene_isomerization_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
 cd "OH acetylene association"
-%executable% OH_acetylene_association_test.xml %directive%
+%executable% OH_acetylene_association_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
 cd "Acetyl O2 association"
-%executable% Acetyl_O2_association.xml %directive%
+%executable% Acetyl_O2_association.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..

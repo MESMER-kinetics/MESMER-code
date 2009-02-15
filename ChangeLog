@@ -1,3 +1,14 @@
+2009-02-15 Chris Morley
+
+	* MesmerQA/QA.bat: add an output file to avoid overwriting the
+	input file with new non-timestamp interface.
+	
+	* src/main.cpp: cosmetic change to remove "in main" from cerr output.
+
+	* mesmerDiag.xsl: use also alternative <rateParameters> form
+	(as well as <me:activationEnergy>) to show pseudo ILT TS.
+	Add check that ILT is being used for the reaction.
+
 2009-02-14 Chris Morley
 
 	* Documentation/Getting StartedTutorial.html: added

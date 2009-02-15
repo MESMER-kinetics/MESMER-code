@@ -272,18 +272,27 @@
       </xsl:variable>
 
       <xsl:variable name="yTStemp" select="$ybase - $yscale * $TSmol//cml:property[@dictRef='me:ZPE']/cml:scalar"/>
-
+      <xsl:variable name="isILT" select="me:MCRCMethod='MesmerILT' or me:MCRCMethod='SimpleILT'"/>
       <xsl:variable name="EnergyTS">
         <xsl:choose>
           <xsl:when test="$TSmol">
             <xsl:value-of select="$EnergyTStemp" />
           </xsl:when>
-          <xsl:when test="me:activationEnergy[not(@reverse)]">
-            <!--For ILT source reactions use the activationEnergy + energy of reactants-->
+          <!--For ILT source reactions use the activationEnergy + energy of reactants-->
+          <!--Look first for alternative format(from OB)-->
+          <xsl:when test="$isILT and cml:rateParameters/cml:E[not(@reverse)]">
+            <xsl:value-of select="(cml:rateParameters/cml:E + 
+                 exsl:node-set($RandPEnergies)/*[number($reactantIndex)])"/>
+          </xsl:when>
+          <xsl:when test="$isILT and cml:rateParameters/cml:E[@reverse]">
+            <xsl:value-of select="(cml:rateParameters/cml:E + 
+                 exsl:node-set($RandPEnergies)/*[number($productIndex)])"/>
+          </xsl:when>
+          <xsl:when test="$isILT and me:activationEnergy[not(@reverse)]">
             <xsl:value-of select="(me:activationEnergy + 
                  exsl:node-set($RandPEnergies)/*[number($reactantIndex)])"/>
           </xsl:when>
-          <xsl:when test="me:activationEnergy[@reverse]">
+          <xsl:when test="$isILT and me:activationEnergy[@reverse]">
             <xsl:value-of select="(me:activationEnergy + 
                  exsl:node-set($RandPEnergies)/*[number($productIndex)])"/>            
           </xsl:when>
