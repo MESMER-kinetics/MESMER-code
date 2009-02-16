@@ -15,22 +15,19 @@ In R1: No imaginary vibrational frequency.
 No tunneling method was found for R1
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
+Write metadata
 
 File: "pentyl_isomerization_test.xml" successfully parsed.
 Calculate EGME
-Write metadata
 PT Grid 0
 Build Collison Operator
 Cell number = 16050, Grain number = 107
-m_scaleFactor was not defined but requested in n-pentyl=TS=2-pentyl. Default value 1 is given.
-m_scaleFactor was not defined but requested in n-pentyl. Default value 1 is given.
-m_scaleFactor was not defined but requested in 2-pentyl. Default value 1 is given.
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 No population was assigned, and there is no source term.
 Initialize a Boltzmann distribution in the first isomer.
 
 In total, 1 temperature/concentration-pressure points calculated.
-In main: Finish Calculation -- Time elapsed: 28 seconds.
- -- Total time elapsed: 33 seconds.
+In main: Finish Calculation -- Time elapsed: 8 seconds.
+ -- Total time elapsed: 11 seconds.
 
-In main: System saved to pentyl_isomerization_test.20090213_180637.xml
+In main: System saved to out.xml

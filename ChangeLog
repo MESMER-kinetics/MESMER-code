@@ -1,3 +1,8 @@
+_2009_02_16__14_00_39_ Chi-Hsiu Liang
+
+  * Correct an missing part of mesmer.log during merge in main.cpp
+  * Commit the change in mesmer.log
+
 2009-02-15 Chris Morley
 
 	* MesmerQA/QA.bat: add an output file to avoid overwriting the

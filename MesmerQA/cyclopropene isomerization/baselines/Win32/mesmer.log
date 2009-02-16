@@ -16,18 +16,13 @@ No tunneling method was found for R2
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
 The default value of me:precision was used.
+Write metadata
 
 File: "Cyclopropene_isomerization_test.xml" successfully parsed.
 Calculate EGME
-Write metadata
 PT Grid 0
 Build Collison Operator
 Cell number = 35400, Grain number = 177
-m_scaleFactor was not defined but requested in TS1. Default value 1 is given.
-m_scaleFactor was not defined but requested in allene. Default value 1 is given.
-m_scaleFactor was not defined but requested in cyclopropene. Default value 1 is given.
-m_scaleFactor was not defined but requested in TS3. Default value 1 is given.
-m_scaleFactor was not defined but requested in propyne. Default value 1 is given.
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 PT Grid 1
 Build Collison Operator
@@ -35,7 +30,7 @@ Cell number = 38200, Grain number = 191
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 2 temperature/concentration-pressure points calculated.
-In main: Finish Calculation -- Time elapsed: 147 seconds.
- -- Total time elapsed: 319 seconds.
+In main: Finish Calculation -- Time elapsed: 138 seconds.
+ -- Total time elapsed: 241 seconds.
 
-In main: System saved to Cyclopropene_isomerization_test.20090213_181216.xml
+In main: System saved to out.xml

@@ -1365,16 +1365,16 @@ namespace mesmer
       }
 
       //-------------------
-      // Need to decide here how many grains of this well to include in the reduced matrix.
-      int numMem = 10;// defaults to one.
+      // Need to decide here how many grains of this well to strip off in the full matrix
+      int numMem = 0;// defaults to one.
       locationIdx lid;
       lid.mol = isomer;
       lid.fml = ipos->second;
       lid.fms = collsize;
       lid.rml = mtxLoc;
-      lid.rms = numMem;
+      lid.rms = collsize - numMem;
       m_locSizeMap.push_back(lid);
-      mtxLoc += numMem;
+      mtxLoc += collsize - numMem;
       //-------------------
 
       delete qdEigenM;
@@ -1879,253 +1879,279 @@ namespace mesmer
     return true;
   }
 
-  //// This routine calculates ME using steady-state and/or reservoir-state methods.
-  //void ReactionManager::steadyAndReservoirStateMethod(void){
-
-  //  const int smsize = int(m_reactionOperator->size()) ;
-  //  MesmerFlags& mFlags = m_reactions[0]->getFlags();
-
-  //  // Allocate space for the basis matrix / reduced basis matrix, eigenvectors and eigenvalues.
-  //  if (m_basisMatrix) delete m_basisMatrix;
-  //  m_basisMatrix = new qdMatrix(smsize, 0.0) ;
-
-  //  // 0th define a map with location and number of members included in the reduced basis matrix.
-  //  m_divMap.clear();
-  //  int mtxLoc(0);
-
-  //  //-------------------------------------------
-  //  // 1st, loop through wells and decide their active state locations.
-  //  Reaction::molMapType::iterator ipos;
-  //  for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
-  //    Molecule *isomer = ipos->first;
-  //    int rxnMatrixLoc = ipos->second;
-  //    int collsize = ipos->first->getColl().get_colloptrsize();
-
-  //    // The location of the active state can possibly follow two directions:
-  //    // (a) simply divide the well structure into two parts according to the lowest barrier associated with this well.
-  //    // (b) in addition to the above criterion, check if 99% of Boltzmann distribution is under the dividing grain.
-  //    
-  //    // look for this molecule in the reaction list and find the lowest barrier height.
-  //    for (size_t looker(0); looker < size(); ++looker){
-  //      Molecule* pTS = m_reactions[looker]->get_TransitionState();
-  //      Molecule* 
-  //    }
-  //  }
-
-  //  //-------------------------------------------
-  //  // 2nd put source diagonals
-  //  Reaction::molMapType::iterator spos;
-  //  for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
-  //    int rxnMatrixLoc = spos->second; // simply copying the numbers.
-  //    (*m_basisMatrix)[rxnMatrixLoc][rxnMatrixLoc] = (*m_reactionOperator)[rxnMatrixLoc][rxnMatrixLoc];
-  //    //Each source only occupies one grain in the reduced basis matrix.
-  //    locationIdx lid;
-  //    lid.mol = spos->first;
-  //    lid.fml = rxnMatrixLoc;
-  //    lid.fms = 1;
-  //    lid.rml = mtxLoc;
-  //    lid.rms = 1;
-  //    m_divMap.push_back(lid);
-  //    mtxLoc += 1;
-  //  }
-
-  //  //-------------------------------------------
-  //  // 3rd Check reaction map and construct off-diagonal blocks
-  //  for (size_t i(0) ; i < size() ; ++i) {  //iterate through m_reactions
-  //    Molecule* rct;
-  //    Molecule* pdt;
-  //    double Keq(0.0);
-  //    //only need to look in isom & assoc rxns
-  //    if (m_reactions[i]->isEquilibratingReaction(Keq, &rct, &pdt)){
-  //      int rloc, ploc, rcollsize, pcollsize ;
-
-  //      // There is no duplicated reactions in m_reactions; even if there is, must be there for some reason.
-  //      // (1) find the rct&pdt collision operator sizes and their locations in the reaction operator
-  //      bool isAssociation(false);
-  //      Reaction::molMapType::iterator rctitr = m_isomers.find(rct);
-  //      if (rctitr != m_isomers.end()){
-  //        rloc = rctitr->second;
-  //        rcollsize = rct->getColl().get_colloptrsize();
-  //      }else{
-  //        rctitr = m_sources.find(rct);
-  //        if (rctitr != m_sources.end()){
-  //          isAssociation = true;
-  //          rloc = rctitr->second;
-  //          rcollsize = 1;
-  //        }
-  //        else{
-  //          cerr << "Unknown type of Equilibrating Reaction";
-  //        }
-  //      }
-
-  //      // The product must be an isomer
-  //      Reaction::molMapType::iterator pdtitr = m_isomers.find(pdt);
-  //      ploc = pdtitr->second;
-  //      pcollsize = pdt->getColl().get_colloptrsize();
-
-  //      // (2) if the reaction is an association reaction
-  //      if (rcollsize == 1){
-  //        // U_A^-1 M
-  //        qdMatrix* oMatrix = new qdMatrix(pcollsize);
-  //        const dMatrix* dEigenMx = pdt->getColl().getEigenVectors();
-  //        qdMatrix* qdEigenM = new qdMatrix(pcollsize);
-  //        // Copy oMatrix2 to m_basisMatrix
-  //        for (int i(0); i < pcollsize; ++i){
-  //          for (int j(0); j < pcollsize; ++j){
-  //            (*qdEigenM)[i][j] = (*dEigenMx)[i][j];
-  //          }
-  //        }
-  //        matrices_multiplication(
-  //          qdEigenM, 0, 0, pcollsize, pcollsize,
-  //          m_reactionOperator, 0, rloc, pcollsize, 1,
-  //          oMatrix, true);
-
-  //        // Copy oMatrix to m_basisMatrix
-  //        for (int i(0); i < pcollsize; ++i){
-  //          qd_real entryValue = (*oMatrix)[i][0];
-  //          (*m_basisMatrix)[i+rloc][ploc] = entryValue;
-  //          (*m_basisMatrix)[ploc][i+rloc] = entryValue;
-  //        }
-
-  //        delete qdEigenM;
-  //        delete oMatrix;
-
-  //      }
-  //      else{// (3) if the reaction is an isomerization reaction
-  //        int gtrcollsize = (rcollsize > pcollsize) ? rcollsize : pcollsize;
-  //        qdMatrix* oMatrix1 = new qdMatrix(gtrcollsize);
-  //        qdMatrix* oMatrix2 = new qdMatrix(gtrcollsize);
-  //        Molecule* molA;
-  //        Molecule* molB;
-  //        int collsizeA, collsizeB, locA, locB;
-  //        if(rloc > ploc){
-  //          molA = pdt; collsizeA = pcollsize; locA = ploc;
-  //          molB = rct; collsizeB = rcollsize; locB = rloc;
-  //        }
-  //        else{
-  //          molA = rct; collsizeA = rcollsize; locA = rloc;
-  //          molB = pdt; collsizeB = pcollsize; locB = ploc;
-  //        }
-  //        const dMatrix* dEigenMxA = molA->getColl().getEigenVectors();
-  //        qdMatrix* qdEigenMA = new qdMatrix(collsizeA);
-
-  //        // Copy dEigenMxA to qdEigenMA
-  //        for (int i(0); i < collsizeA; ++i){
-  //          for (int j(0); j < collsizeA; ++j){
-  //            (*qdEigenMA)[i][j] = (*dEigenMxA)[i][j];
-  //          }
-  //        }
-
-  //        const dMatrix* dEigenMxB = molB->getColl().getEigenVectors();
-  //        qdMatrix* qdEigenMB = new qdMatrix(collsizeB);
-
-  //        // Copy dEigenMxB to qdEigenMB
-  //        for (int i(0); i < collsizeB; ++i){
-  //          for (int j(0); j < collsizeB; ++j){
-  //            (*qdEigenMB)[i][j] = (*dEigenMxB)[i][j];
-  //          }
-  //        }
-
-  //        // U_A^-1 M
-  //        matrices_multiplication(
-  //          qdEigenMA, 0, 0, collsizeA, collsizeA,
-  //          m_reactionOperator, locA, locB, collsizeA, collsizeB,
-  //          oMatrix1, true);
-  //        // M U_B
-  //        matrices_multiplication(
-  //          oMatrix1, 0, 0, collsizeA, collsizeB,
-  //          qdEigenMB, 0, 0, collsizeB, collsizeB,
-  //          oMatrix2, false);
-  //        // Copy oMatrix2 to m_basisMatrix
-  //        for (int i(0); i < collsizeA; ++i){
-  //          for (int j(0); j < collsizeB; ++j){
-  //            qd_real entryValue = (*oMatrix2)[i][j];
-  //            (*m_basisMatrix)[i+locA][j+locB] = entryValue;
-  //            (*m_basisMatrix)[j+locB][i+locA] = entryValue;
-  //          }
-  //        }
-
-  //        delete qdEigenMA;
-  //        delete qdEigenMB;
-  //        delete oMatrix1;
-  //        delete oMatrix2;
-
-  //      }
-  //    }
-  //  }
-
-  //  //ctest << "\nPrinting all (" << smsize << ") columns/rows of the Basis Matrix:\n";
-  //  //m_basisMatrix->showFinalBits(0, mFlags.print_TabbedMatrices);
-
-  //  //-------------------------------------------
-  //  // 4th put decided numbers of members in the reduced Basis Matrix
-  //  if (m_reducedBasisMatrix) delete m_reducedBasisMatrix;
-  //  m_reducedBasisMatrix = new qdMatrix(mtxLoc, 0.0);
-
-  //  // looping through the map and putting whatever the numbers from the full basis matrix to the reduced basis matrix.
-  //  for (int k(0); k < int(m_divMap.size()); ++k)
-  //  {
-  //    // (1) copying the square terms of the well itself
-  //    int rLoc = m_divMap[k].rml + m_divMap[k].rms - 1; // speices location
-  //    int rSize = m_divMap[k].rms; // speices included member size
-  //    int fLoc = m_divMap[k].fml + m_divMap[k].fms - 1;
-
-  //    for (int i(0); i < rSize; ++i){
-  //      for (int j(0); j < rSize; ++j){
-  //        (*m_reducedBasisMatrix)[rLoc-i][rLoc-j] = (*m_basisMatrix)[fLoc-i][fLoc-j];
-  //      }
-  //    }
-
-  //    // (2) copying cross terms
-  //    for (int l(0); l < int(m_divMap.size()); ++l)
-  //    {
-  //      if (l != k){  // only processing 'other' wells.
-  //        int otherRLoc = m_divMap[l].rml + m_divMap[l].rms - 1;
-  //        int otherRSize = m_divMap[l].rms;
-  //        int otherFLoc = m_divMap[l].fml + m_divMap[l].fms - 1;
-
-  //        for (int i(0); i < rSize; ++i){
-  //          for (int j(0); j < otherRSize; ++j){
-  //            qd_real entryValue = (*m_basisMatrix)[fLoc-i][otherFLoc-j];
-  //            (*m_reducedBasisMatrix)[rLoc-i][otherRLoc-j] = entryValue;
-  //            (*m_reducedBasisMatrix)[otherRLoc-j][rLoc-i] = entryValue;
-  //          }
-  //        }
-  //      }
-  //    }
-  //  }
-
-  //  // check the values
-  //  ctest << "\nPrinting all (" << mtxLoc << ") columns/rows of the reduced Basis Matrix:\n";
-  //  m_reducedBasisMatrix->showFinalBits(0, mFlags.print_TabbedMatrices);
-
-  //  //-------------------------------------------
-  //  // 5th diagonalize the reduced matrix
-  //  if (m_reducedEigenvectors) delete m_reducedEigenvectors;
-  //  m_reducedEigenvectors = new qdMatrix(mtxLoc, 0.0);
-  //  m_reducedEigenvalues.clear();
-  //  m_reducedEigenvalues.resize(mtxLoc, 0.0);
-  //  for (int i(0); i < mtxLoc; ++i){
-  //    for (int j(0); j < mtxLoc; ++j){
-  //      (*m_reducedEigenvectors)[i][j] = (*m_reducedBasisMatrix)[i][j];
-  //    }
-  //  }
-
-  //  m_reducedEigenvectors->diagonalize(&m_reducedEigenvalues[0]);
-
-  //  // check the values
-  //  ctest << "\nPrinting all (" << mtxLoc << ") columns/rows of the reduced eigenvectors:\n";
-  //  m_reducedEigenvectors->showFinalBits(0, mFlags.print_TabbedMatrices);
-
-  //  ctest << "\nReduced number of eigenvalues = " << mtxLoc << endl;
-  //  ctest << "Reduced eigenvalues\n{\n";
-  //  for (int i = 0 ; i < mtxLoc; ++i) {
-  //    formatFloat(ctest, m_reducedEigenvalues[i] * m_meanOmega , 6, 15) ;
-  //    ctest << endl ;
-  //  }
-  //  ctest << "}\n";
-
-  //}
+  // This routine calculates ME using steady-state and/or reservoir-state methods.
+//  void ReactionManager::steadyAndReservoirStateMethod(void){
+//
+//    const int smsize = int(m_reactionOperator->size()) ;
+//    MesmerFlags& mFlags = m_reactions[0]->getFlags();
+//
+//    // Allocate space for the basis matrix / reduced basis matrix, eigenvectors and eigenvalues.
+//    if (m_basisMatrix) delete m_basisMatrix;
+//    m_basisMatrix = new qdMatrix(smsize, 0.0) ;
+//
+//    // 0th define a map with location and number of members included in the reduced basis matrix.
+//    m_divMap.clear();
+//    int mtxLoc(0);
+//
+//    //-------------------------------------------
+//    // 1st, loop through wells and decide their active state locations.
+//    Reaction::molMapType::iterator ipos;
+//    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
+//      Molecule *isomer = ipos->first;
+//      int rxnMatrixLoc = ipos->second;
+//      int collsize = ipos->first->getColl().get_colloptrsize();
+//      int thold(999999), tholdMin(6);
+//
+//      // The location of the active state can possibly follow two directions:
+//      // (a) simply divide the well structure into two parts according to the lowest barrier associated with this well.
+//      // (b) in addition to the above criterion, check if 99% of Boltzmann distribution is under the dividing grain.
+//
+//      // look for this molecule in the reaction list and find the lowest barrier height.
+//      for (size_t iLooker(0); iLooker < size(); ++iLooker){
+//        std::vector<Molecule *> molVec;
+//        if (m_reactions[iLooker]->get_products(molVec) == 1){ // if only one product in the vector
+//          if (molVec[0] == isomer){
+//            int rthold = m_reactions[iLooker]->get_EffGrnRvsThreshold();
+//            thold = (rthold < thold)? rthold : thold;
+//            continue;
+//          }
+//        }
+//        if (m_reactions[iLooker]->get_reactant() == isomer){ // if only one reactant in the vector
+//          int fthold = m_reactions[iLooker]->get_EffGrnFwdThreshold();
+//          thold = (fthold < thold)? fthold : thold;
+//          continue;
+//        }
+//      }
+//
+//      if ((thold - 2) <= tholdMin) thold = 0; // if
+//      else thold -= 2;
+//
+//      divisionIdx lid;
+//      lid.mol = ipos->first;
+//      lid.fml = rxnMatrixLoc;
+//      lid.fms = collsize;
+//      lid.ass = collsize - thold;
+//      lid.rml = mtxLoc;
+//      m_divMap.push_back(lid);
+//      mtxLoc += (collsize - thold + 1);
+//
+//      // Need to put something in the structure to calculate the reservoir state population.
+//    }
+//
+//    //-------------------------------------------
+//    // 2nd put source diagonals
+//    Reaction::molMapType::iterator spos;
+//    for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
+//      int rxnMatrixLoc = spos->second; // simply copying the numbers.
+//      (*m_basisMatrix)[rxnMatrixLoc][rxnMatrixLoc] = (*m_reactionOperator)[rxnMatrixLoc][rxnMatrixLoc];
+//      //Each source only occupies one grain in the reduced basis matrix.
+//      divisionIdx lid;
+//      lid.mol = spos->first;
+//      lid.fml = rxnMatrixLoc;
+//      lid.fms = 1;
+//      lid.rml = mtxLoc;
+//      lid.ass = 1;
+//      m_divMap.push_back(lid);
+//      mtxLoc += 1;
+//    }
+//
+//    //-------------------------------------------
+//    // 3rd Check reaction map and construct off-diagonal blocks
+//    for (size_t i(0) ; i < size() ; ++i) {  //iterate through m_reactions
+//      Molecule* rct;
+//      Molecule* pdt;
+//      double Keq(0.0);
+//      //only need to look in isom & assoc rxns
+//      if (m_reactions[i]->isEquilibratingReaction(Keq, &rct, &pdt)){
+//        int rloc, ploc, rcollsize, pcollsize ;
+//
+//        // There is no duplicated reactions in m_reactions; even if there is, must be there for some reason.
+//        // (1) find the rct&pdt collision operator sizes and their locations in the reaction operator
+//        bool isAssociation(false);
+//        Reaction::molMapType::iterator rctitr = m_isomers.find(rct);
+//        if (rctitr != m_isomers.end()){
+//          rloc = rctitr->second;
+//          rcollsize = rct->getColl().get_colloptrsize();
+//        }else{
+//          rctitr = m_sources.find(rct);
+//          if (rctitr != m_sources.end()){
+//            isAssociation = true;
+//            rloc = rctitr->second;
+//            rcollsize = 1;
+//          }
+//          else{
+//            cerr << "Unknown type of Equilibrating Reaction";
+//          }
+//        }
+//
+//        // The product must be an isomer
+//        Reaction::molMapType::iterator pdtitr = m_isomers.find(pdt);
+//        ploc = pdtitr->second;
+//        pcollsize = pdt->getColl().get_colloptrsize();
+//
+//        // (2) if the reaction is an association reaction
+//        if (rcollsize == 1){
+//          // U_A^-1 M
+//          qdMatrix* oMatrix = new qdMatrix(pcollsize);
+//          const dMatrix* dEigenMx = pdt->getColl().getEigenVectors();
+//          qdMatrix* qdEigenM = new qdMatrix(pcollsize);
+//          // Copy oMatrix2 to m_basisMatrix
+//          for (int i(0); i < pcollsize; ++i){
+//            for (int j(0); j < pcollsize; ++j){
+//              (*qdEigenM)[i][j] = (*dEigenMx)[i][j];
+//            }
+//          }
+//          matrices_multiplication(
+//            qdEigenM, 0, 0, pcollsize, pcollsize,
+//            m_reactionOperator, 0, rloc, pcollsize, 1,
+//            oMatrix, true);
+//
+//          // Copy oMatrix to m_basisMatrix
+//          for (int i(0); i < pcollsize; ++i){
+//            qd_real entryValue = (*oMatrix)[i][0];
+//            (*m_basisMatrix)[i+rloc][ploc] = entryValue;
+//            (*m_basisMatrix)[ploc][i+rloc] = entryValue;
+//          }
+//
+//          delete qdEigenM;
+//          delete oMatrix;
+//
+//        }
+//        else{// (3) if the reaction is an isomerization reaction
+//          int gtrcollsize = (rcollsize > pcollsize) ? rcollsize : pcollsize;
+//          qdMatrix* oMatrix1 = new qdMatrix(gtrcollsize);
+//          qdMatrix* oMatrix2 = new qdMatrix(gtrcollsize);
+//          Molecule* molA;
+//          Molecule* molB;
+//          int collsizeA, collsizeB, locA, locB;
+//          if(rloc > ploc){
+//            molA = pdt; collsizeA = pcollsize; locA = ploc;
+//            molB = rct; collsizeB = rcollsize; locB = rloc;
+//          }
+//          else{
+//            molA = rct; collsizeA = rcollsize; locA = rloc;
+//            molB = pdt; collsizeB = pcollsize; locB = ploc;
+//          }
+//          const dMatrix* dEigenMxA = molA->getColl().getEigenVectors();
+//          qdMatrix* qdEigenMA = new qdMatrix(collsizeA);
+//
+//          // Copy dEigenMxA to qdEigenMA
+//          for (int i(0); i < collsizeA; ++i){
+//            for (int j(0); j < collsizeA; ++j){
+//              (*qdEigenMA)[i][j] = (*dEigenMxA)[i][j];
+//            }
+//          }
+//
+//          const dMatrix* dEigenMxB = molB->getColl().getEigenVectors();
+//          qdMatrix* qdEigenMB = new qdMatrix(collsizeB);
+//
+//          // Copy dEigenMxB to qdEigenMB
+//          for (int i(0); i < collsizeB; ++i){
+//            for (int j(0); j < collsizeB; ++j){
+//              (*qdEigenMB)[i][j] = (*dEigenMxB)[i][j];
+//            }
+//          }
+//
+//          // U_A^-1 M
+//          matrices_multiplication(
+//            qdEigenMA, 0, 0, collsizeA, collsizeA,
+//            m_reactionOperator, locA, locB, collsizeA, collsizeB,
+//            oMatrix1, true);
+//          // M U_B
+//          matrices_multiplication(
+//            oMatrix1, 0, 0, collsizeA, collsizeB,
+//            qdEigenMB, 0, 0, collsizeB, collsizeB,
+//            oMatrix2, false);
+//          // Copy oMatrix2 to m_basisMatrix
+//          for (int i(0); i < collsizeA; ++i){
+//            for (int j(0); j < collsizeB; ++j){
+//              qd_real entryValue = (*oMatrix2)[i][j];
+//              (*m_basisMatrix)[i+locA][j+locB] = entryValue;
+//              (*m_basisMatrix)[j+locB][i+locA] = entryValue;
+//            }
+//          }
+//
+//          delete qdEigenMA;
+//          delete qdEigenMB;
+//          delete oMatrix1;
+//          delete oMatrix2;
+//
+//        }
+//      }
+//    }
+//
+//    //ctest << "\nPrinting all (" << smsize << ") columns/rows of the Basis Matrix:\n";
+//    //m_basisMatrix->showFinalBits(0, mFlags.print_TabbedMatrices);
+//
+//    //-------------------------------------------
+//    // 4th put decided numbers of members in the reduced Basis Matrix
+//    if (m_reducedBasisMatrix) delete m_reducedBasisMatrix;
+//    m_reducedBasisMatrix = new qdMatrix(mtxLoc, 0.0);
+//
+//    // looping through the map and putting whatever the numbers from the full basis matrix to the reduced basis matrix.
+//    for (int k(0); k < int(m_divMap.size()); ++k)
+//    {
+//      // (1) copying the square terms of the well itself
+//      int rLoc = m_divMap[k].rml + m_divMap[k].rms - 1; // speices location
+//      int rSize = m_divMap[k].rms; // speices included member size
+//      int fLoc = m_divMap[k].fml + m_divMap[k].fms - 1;
+//
+//      for (int i(0); i < rSize; ++i){
+//        for (int j(0); j < rSize; ++j){
+//          (*m_reducedBasisMatrix)[rLoc-i][rLoc-j] = (*m_basisMatrix)[fLoc-i][fLoc-j];
+//        }
+//      }
+//
+//      // (2) copying cross terms
+//      for (int l(0); l < int(m_divMap.size()); ++l)
+//      {
+//        if (l != k){  // only processing 'other' wells.
+//          int otherRLoc = m_divMap[l].rml + m_divMap[l].rms - 1;
+//          int otherRSize = m_divMap[l].rms;
+//          int otherFLoc = m_divMap[l].fml + m_divMap[l].fms - 1;
+//
+//          for (int i(0); i < rSize; ++i){
+//            for (int j(0); j < otherRSize; ++j){
+//              qd_real entryValue = (*m_basisMatrix)[fLoc-i][otherFLoc-j];
+//              (*m_reducedBasisMatrix)[rLoc-i][otherRLoc-j] = entryValue;
+//              (*m_reducedBasisMatrix)[otherRLoc-j][rLoc-i] = entryValue;
+//            }
+//          }
+//        }
+//      }
+//    }
+//
+//    // check the values
+//    ctest << "\nPrinting all (" << mtxLoc << ") columns/rows of the reduced Basis Matrix:\n";
+//    m_reducedBasisMatrix->showFinalBits(0, mFlags.print_TabbedMatrices);
+//
+//    //-------------------------------------------
+//    // 5th diagonalize the reduced matrix
+//    if (m_reducedEigenvectors) delete m_reducedEigenvectors;
+//    m_reducedEigenvectors = new qdMatrix(mtxLoc, 0.0);
+//    m_reducedEigenvalues.clear();
+//    m_reducedEigenvalues.resize(mtxLoc, 0.0);
+//    for (int i(0); i < mtxLoc; ++i){
+//      for (int j(0); j < mtxLoc; ++j){
+//        (*m_reducedEigenvectors)[i][j] = (*m_reducedBasisMatrix)[i][j];
+//      }
+//    }
+//
+//    m_reducedEigenvectors->diagonalize(&m_reducedEigenvalues[0]);
+//
+//    // check the values
+//    ctest << "\nPrinting all (" << mtxLoc << ") columns/rows of the reduced eigenvectors:\n";
+//    m_reducedEigenvectors->showFinalBits(0, mFlags.print_TabbedMatrices);
+//
+//    ctest << "\nReduced number of eigenvalues = " << mtxLoc << endl;
+//    ctest << "Reduced eigenvalues\n{\n";
+//    for (int i = 0 ; i < mtxLoc; ++i) {
+//      formatFloat(ctest, m_reducedEigenvalues[i] * m_meanOmega , 6, 15) ;
+//      ctest << endl ;
+//    }
+//    ctest << "}\n";
+//
+//  }
 
 
 }//namespace

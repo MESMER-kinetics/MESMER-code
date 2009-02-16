@@ -16,26 +16,22 @@ In R2: No imaginary vibrational frequency.
 No tunneling method was found for R2
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
+Write metadata
 
 File: "OH_acetylene_association_test.xml" successfully parsed.
 Calculate EGME
-Write metadata
 PT Grid 0
 Build Collison Operator
 Cell number = 15950, Grain number = 319
-m_scaleFactor was not defined but requested in OH. Default value 1 is given.
-m_scaleFactor was not defined but requested in acetylene. Default value 1 is given.
 
 20 values in the FFT convolution routine were replaced by standard convolution
 
 40 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-m_scaleFactor was not defined but requested in OH_acetylene_adduct. Default value 1 is given.
 
 20 values in the FFT convolution routine were replaced by standard convolution
 
 20 values in the FFT convolution routine were replaced by standard convolution
-m_scaleFactor was not defined but requested in TS_1a. Default value 1 is given.
 The default value of me:frequenciesScaleFactor was used.
 The default value of me:DOSCMethod was used.
 Grain zero point energy is negative in R2.
@@ -45,11 +41,12 @@ Grain zero point energy is negative in R2.
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 1 temperature/concentration-pressure points calculated.
-In main: Finish Calculation -- Time elapsed: 52 seconds.
- -- Total time elapsed: 100 seconds.
+In main: Finish Calculation -- Time elapsed: 45 seconds.
+ -- Total time elapsed: 78 seconds.
 
-In main: System saved to OH_acetylene_association_test.20090213_181357.xml
+In main: System saved to out.xml
 In main: Rotational constants are provided but not used in OCHCH2.
 In main: m_Sym is provided but not used in OCHCH2.
+In main: m_scaleFactor is provided but not used in OCHCH2.
 In main: m_SpinMultiplicity is provided but not used in OCHCH2.
 In main: m_VibFreq is provided but not used in OCHCH2.

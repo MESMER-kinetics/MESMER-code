@@ -14,33 +14,26 @@ In R4: Parsing reaction...
 In R4: No tunneling method was found for R4
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
+Write metadata
 
 File: "Acetyl_O2_association.xml" successfully parsed.
 Calculate EGME
-Write metadata
 PT Grid 0
 Build Collison Operator
 Cell number = 17800, Grain number = 178
-m_scaleFactor was not defined but requested in acetyl. Default value 0.9854 is given.
-m_scaleFactor was not defined but requested in O_2. Default value 0.9854 is given.
 
 20 values in the FFT convolution routine were replaced by standard convolution
 
 40 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-m_scaleFactor was not defined but requested in Int1. Default value 0.9854 is given.
 
 20 values in the FFT convolution routine were replaced by standard convolution
 
 20 values in the FFT convolution routine were replaced by standard convolution
-m_scaleFactor was not defined but requested in TS1. Default value 0.9854 is given.
 
 8420 values in the FFT convolution routine were replaced by standard convolution
-m_scaleFactor was not defined but requested in Int2. Default value 0.9854 is given.
-m_scaleFactor was not defined but requested in TS3. Default value 0.9854 is given.
 Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion.
 Cannot find argument me:rotConsts. Assumes that it is an atom or atomic ion.
-m_scaleFactor was not defined but requested in TS2. Default value 0.9854 is given.
 
 20 values in the FFT convolution routine were replaced by standard convolution
 
@@ -48,23 +41,27 @@ m_scaleFactor was not defined but requested in TS2. Default value 0.9854 is give
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 1 temperature/concentration-pressure points calculated.
-In main: Finish Calculation -- Time elapsed: 72 seconds.
- -- Total time elapsed: 240 seconds.
+In main: Finish Calculation -- Time elapsed: 52 seconds.
+ -- Total time elapsed: 184 seconds.
 
-In main: System saved to Acetyl_O2_association.20090213_181757.xml
+In main: System saved to out.xml
 In main: Rotational constants are provided but not used in HO_2.
 In main: m_Sym is provided but not used in HO_2.
+In main: m_scaleFactor is provided but not used in HO_2.
 In main: m_SpinMultiplicity is provided but not used in HO_2.
 In main: m_VibFreq is provided but not used in HO_2.
 In main: Rotational constants are provided but not used in OH.
 In main: m_Sym is provided but not used in OH.
+In main: m_scaleFactor is provided but not used in OH.
 In main: m_SpinMultiplicity is provided but not used in OH.
 In main: m_VibFreq is provided but not used in OH.
 In main: m_ImFreq is provided but not used in TS2.
 In main: m_ImFreq is provided but not used in TS3.
 In main: Rotational constants are provided but not used in ketene.
 In main: m_Sym is provided but not used in ketene.
+In main: m_scaleFactor is provided but not used in ketene.
 In main: m_SpinMultiplicity is provided but not used in ketene.
 In main: m_VibFreq is provided but not used in ketene.
 In main: m_Sym is provided but not used in lactone.
+In main: m_scaleFactor is provided but not used in lactone.
 In main: m_SpinMultiplicity is provided but not used in lactone.

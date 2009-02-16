@@ -219,7 +219,7 @@ int main(int argc,char *argv[])
     exit(1);
   }
     
-  meErrorLog.SetContext("");
+  meErrorLog.SetContext(__FUNCTION__);
   //--------------------------------
   // Save XML document
   string thisEvent = "Save XML document";

@@ -31,7 +31,8 @@ namespace mesmer
   struct divisionIdx{
     Molecule* mol;
     int fml; // full matrix location
-    int asl; // active state location 
+    int rml; // reduced matrix location
+    int ass; // active state size 
              // The first grain location of the active state, with respect to the full matrix location. 
              // asl == 0 if the whole well is active.)
     int fms; // full matrix size

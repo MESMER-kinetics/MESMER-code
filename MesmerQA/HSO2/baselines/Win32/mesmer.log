@@ -26,24 +26,22 @@ No tunneling method was found for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
+Write metadata
 
 File: "HSO2_test.xml" successfully parsed.
 Calculate EGME
-Write metadata
 PT Grid 0
 Build Collison Operator
 Cell number = 13400, Grain number = 134
-m_scaleFactor was not defined but requested in TS1. Default value 1 is given.
-m_scaleFactor was not defined but requested in HSO2. Default value 1 is given.
 Rotational constants were not defined but requested.
 Number of grains produced is not equal to that requested
 Number of grains requested: 134
 Number of grains produced : 0
-m_scaleFactor was not defined but requested in SO2. Default value 1 is given.
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 1 temperature/concentration-pressure points calculated.
-In main: Finish Calculation -- Time elapsed: 13 seconds.
- -- Total time elapsed: 20 seconds.
+In main: Finish Calculation -- Time elapsed: 6 seconds.
+ -- Total time elapsed: 8 seconds.
 
-In main: System saved to HSO2_test.20090213_180657.xml
+In main: System saved to out.xml
+In main: m_scaleFactor is provided but not used in H.
