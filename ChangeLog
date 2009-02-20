@@ -1,3 +1,11 @@
+_2009_02_20__13_06_31_ Chi-Hsiu Liang
+
+  * Intemediate version while building SS-RS-ME and QM rotors.
+  * Add     bool doSSRSMethod;                    // Run steady state and reservoir state routine
+    in MesmerFlags.
+  * Does empty DOS grain checking. Put the highest cell energy as the grain energy if no average grain energy is available.
+  * QM rotor plugin class is examed. Now modifying it again to add near-symmetric top rotor.
+
 _2009_02_16__14_00_39_ Chi-Hsiu Liang
 
   * Correct an missing part of mesmer.log during merge in main.cpp

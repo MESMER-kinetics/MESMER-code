@@ -160,8 +160,8 @@ namespace mesmer
       rCnst[0] = abs(rCnst[0]);
       rCnst[1] = abs(rCnst[1]);
       rCnst[2] = abs(rCnst[2]);
-      std::sort(rCnst.begin(), rCnst.end());
-      m_RotCstA = rCnst[2];
+      std::sort(rCnst.begin(), rCnst.end()); // make sure the rotational constants are in ascending order.
+      m_RotCstA = rCnst[2]; // order the rotational constants in descending order (largest in the beginning)
       m_RotCstB = rCnst[1];
       m_RotCstC = rCnst[0];
       m_RC_chk = 0;
@@ -909,7 +909,6 @@ namespace mesmer
     for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
       if (gDOS[i] <= 0.0) {
         cerr << "Data indicates that grain " << i << " of the current colliding molecule has no states.";
-        return false;
       }
     }
     
@@ -1036,6 +1035,14 @@ namespace mesmer
       }
     }
 
+    if (0){
+      ctest << "Normalization coefficients of " << m_host->getName() << ":\n{\n";
+      for ( i = 0 ; i < (int)m_ncolloptrsize ; ++i ) {
+        ctest << 1. / work[i] << endl;
+      }
+      ctest << "}\n";
+    }
+
     //
     // Apply normalization coefficients
     //
@@ -1047,7 +1054,6 @@ namespace mesmer
       }
     }
 
-    //(*m_egme).showFinalBits(m_ncolloptrsize, m_host->getFlags().print_TabbedMatrices);
   }
 
   //

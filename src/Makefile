@@ -96,6 +96,7 @@ all: ${OUTPUT}
 
 SRCS := \
   AssociationReaction.cpp \
+  AssignMolTypes.cpp \
   BoltzmannDistribution.cpp \
   ClassicalRotor.cpp \
   DensityOfStates.cpp \
@@ -116,6 +117,7 @@ SRCS := \
 	MoleculeManager.cpp \
 	oberror.cpp \
 	Pointer.cpp \
+	QMRotor.cpp \
 	Reaction.cpp \
 	ReactionManager.cpp \
 	SimpleILT.cpp \

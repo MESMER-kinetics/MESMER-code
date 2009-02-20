@@ -163,6 +163,7 @@ namespace mesmer
       m_Flags.print_TabbedMatrices        = ppControl->XmlReadBoolean("me:printTabbedMatrices");
       m_Flags.useDOSweighedDT             = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
       m_Flags.doBasisSetMethod            = ppControl->XmlReadBoolean("me:runBasisSetMethodroutines");
+      m_Flags.doSSRSMethod                = ppControl->XmlReadBoolean("me:runSteadyAndReservoirStateMethodroutines");
       if (!m_Flags.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
         m_Flags.useTheSameCellNumber = true;
       }
@@ -467,6 +468,10 @@ namespace mesmer
         m_pReactionManager->constructBasisMatrix();
         //dMatrix reducedMesmerRates(1);
         //m_pReactionManager->BartisWidomRatesFromBasisSetMethod(reducedMesmerRates, m_Flags, ppList);
+      }
+
+      if (m_Flags.doSSRSMethod) {
+        m_pReactionManager->steadyAndReservoirStateMethod();
       }
 
       //-------------------------------

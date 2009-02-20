@@ -29,10 +29,6 @@ namespace mesmer
     double qele = pDOS->getSpinMultiplicity();
     double cnt = 0.;
 
-    for (int i = 0 ; i < MaximumCell ; ++i ) {
-      cellEne[i] = double(i) + 0.5 ;
-    }
-
     switch (rotorType){
     case 2: //3-D symmetric/asymmetric/spherical top
       cnt = qele * sqrt(4./(rotConst[0] * rotConst[1] * rotConst[2]))/sym ;

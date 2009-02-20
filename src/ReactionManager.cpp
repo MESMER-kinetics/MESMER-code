@@ -1880,81 +1880,81 @@ namespace mesmer
   }
 
   // This routine calculates ME using steady-state and/or reservoir-state methods.
-//  void ReactionManager::steadyAndReservoirStateMethod(void){
-//
-//    const int smsize = int(m_reactionOperator->size()) ;
-//    MesmerFlags& mFlags = m_reactions[0]->getFlags();
-//
-//    // Allocate space for the basis matrix / reduced basis matrix, eigenvectors and eigenvalues.
-//    if (m_basisMatrix) delete m_basisMatrix;
-//    m_basisMatrix = new qdMatrix(smsize, 0.0) ;
-//
-//    // 0th define a map with location and number of members included in the reduced basis matrix.
-//    m_divMap.clear();
-//    int mtxLoc(0);
-//
-//    //-------------------------------------------
-//    // 1st, loop through wells and decide their active state locations.
-//    Reaction::molMapType::iterator ipos;
-//    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
-//      Molecule *isomer = ipos->first;
-//      int rxnMatrixLoc = ipos->second;
-//      int collsize = ipos->first->getColl().get_colloptrsize();
-//      int thold(999999), tholdMin(6);
-//
-//      // The location of the active state can possibly follow two directions:
-//      // (a) simply divide the well structure into two parts according to the lowest barrier associated with this well.
-//      // (b) in addition to the above criterion, check if 99% of Boltzmann distribution is under the dividing grain.
-//
-//      // look for this molecule in the reaction list and find the lowest barrier height.
-//      for (size_t iLooker(0); iLooker < size(); ++iLooker){
-//        std::vector<Molecule *> molVec;
-//        if (m_reactions[iLooker]->get_products(molVec) == 1){ // if only one product in the vector
-//          if (molVec[0] == isomer){
-//            int rthold = m_reactions[iLooker]->get_EffGrnRvsThreshold();
-//            thold = (rthold < thold)? rthold : thold;
-//            continue;
-//          }
-//        }
-//        if (m_reactions[iLooker]->get_reactant() == isomer){ // if only one reactant in the vector
-//          int fthold = m_reactions[iLooker]->get_EffGrnFwdThreshold();
-//          thold = (fthold < thold)? fthold : thold;
-//          continue;
-//        }
-//      }
-//
-//      if ((thold - 2) <= tholdMin) thold = 0; // if
-//      else thold -= 2;
-//
-//      divisionIdx lid;
-//      lid.mol = ipos->first;
-//      lid.fml = rxnMatrixLoc;
-//      lid.fms = collsize;
-//      lid.ass = collsize - thold;
-//      lid.rml = mtxLoc;
-//      m_divMap.push_back(lid);
-//      mtxLoc += (collsize - thold + 1);
-//
-//      // Need to put something in the structure to calculate the reservoir state population.
-//    }
-//
-//    //-------------------------------------------
-//    // 2nd put source diagonals
-//    Reaction::molMapType::iterator spos;
-//    for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
-//      int rxnMatrixLoc = spos->second; // simply copying the numbers.
-//      (*m_basisMatrix)[rxnMatrixLoc][rxnMatrixLoc] = (*m_reactionOperator)[rxnMatrixLoc][rxnMatrixLoc];
-//      //Each source only occupies one grain in the reduced basis matrix.
-//      divisionIdx lid;
-//      lid.mol = spos->first;
-//      lid.fml = rxnMatrixLoc;
-//      lid.fms = 1;
-//      lid.rml = mtxLoc;
-//      lid.ass = 1;
-//      m_divMap.push_back(lid);
-//      mtxLoc += 1;
-//    }
-//
+  void ReactionManager::steadyAndReservoirStateMethod(void){
+
+    const int smsize = int(m_reactionOperator->size()) ;
+    MesmerFlags& mFlags = m_reactions[0]->getFlags();
+
+    // Allocate space for the basis matrix / reduced basis matrix, eigenvectors and eigenvalues.
+    if (m_basisMatrix) delete m_basisMatrix;
+    m_basisMatrix = new qdMatrix(smsize, 0.0) ;
+
+    // 0th define a map with location and number of members included in the reduced basis matrix.
+    m_divMap.clear();
+    int mtxLoc(0);
+
+    //-------------------------------------------
+    // 1st, loop through wells and decide their active state locations.
+    Reaction::molMapType::iterator ipos;
+    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
+      Molecule *isomer = ipos->first;
+      int rxnMatrixLoc = ipos->second;
+      int collsize = ipos->first->getColl().get_colloptrsize();
+      int thold(999999), tholdMin(6);
+
+      // The location of the active state can possibly follow two directions:
+      // (a) simply divide the well structure into two parts according to the lowest barrier associated with this well.
+      // (b) in addition to the above criterion, check if 99% of Boltzmann distribution is under the dividing grain.
+
+      // look for this molecule in the reaction list and find the lowest barrier height.
+      for (size_t iLooker(0); iLooker < size(); ++iLooker){
+        std::vector<Molecule *> molVec;
+        if (m_reactions[iLooker]->get_products(molVec) == 1){ // if only one product in the vector
+          if (molVec[0] == isomer){
+            int rthold = m_reactions[iLooker]->get_EffGrnRvsThreshold();
+            thold = (rthold < thold)? rthold : thold;
+            continue;
+          }
+        }
+        if (m_reactions[iLooker]->get_reactant() == isomer){ // if only one reactant in the vector
+          int fthold = m_reactions[iLooker]->get_EffGrnFwdThreshold();
+          thold = (fthold < thold)? fthold : thold;
+          continue;
+        }
+      }
+
+      if ((thold - 2) <= tholdMin) thold = 0; // if
+      else thold -= 2;
+
+      divisionIdx lid;
+      lid.mol = ipos->first;
+      lid.fml = rxnMatrixLoc;
+      lid.fms = collsize;
+      lid.ass = collsize - thold;
+      lid.rml = mtxLoc;
+      m_divMap.push_back(lid);
+      mtxLoc += (collsize - thold + 1);
+
+      // Need to put something in the structure to calculate the reservoir state population.
+    }
+
+    //-------------------------------------------
+    // 2nd put source diagonals
+    Reaction::molMapType::iterator spos;
+    for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
+      int rxnMatrixLoc = spos->second; // simply copying the numbers.
+      (*m_basisMatrix)[rxnMatrixLoc][rxnMatrixLoc] = (*m_reactionOperator)[rxnMatrixLoc][rxnMatrixLoc];
+      //Each source only occupies one grain in the reduced basis matrix.
+      divisionIdx lid;
+      lid.mol = spos->first;
+      lid.fml = rxnMatrixLoc;
+      lid.fms = 1;
+      lid.rml = mtxLoc;
+      lid.ass = 1;
+      m_divMap.push_back(lid);
+      mtxLoc += 1;
+    }
+
 //    //-------------------------------------------
 //    // 3rd Check reaction map and construct off-diagonal blocks
 //    for (size_t i(0) ; i < size() ; ++i) {  //iterate through m_reactions
@@ -2150,8 +2150,8 @@ namespace mesmer
 //      ctest << endl ;
 //    }
 //    ctest << "}\n";
-//
-//  }
+
+  }
 
 
 }//namespace

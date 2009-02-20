@@ -41,7 +41,7 @@ Cannot find argument me:rotConsts. Assumes that it is an atom or atomic ion.
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 1 temperature/concentration-pressure points calculated.
-In main: Finish Calculation -- Time elapsed: 52 seconds.
+In main: Finish Calculation -- Time elapsed: 59 seconds.
  -- Total time elapsed: 184 seconds.
 
 In main: System saved to out.xml

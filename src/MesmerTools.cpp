@@ -78,13 +78,18 @@ namespace mesmer
       }
 
       // Calculate average energy of the grain if it contains sum states.
-      if ( gNOS > 0.0 ) {
+      if (1) {
         double gSE = 0.0 ; // grain sum of state energy
         for (int j = 0 ; j < GrainSize ; ++j, ++idx3 ){
           gSE += shiftedCellEne[idx3] * shiftedCellDOS[idx3] ;
         }
         grainDOS[idx2] = gNOS ;
-        grainEne[idx2] = gSE/gNOS ;
+        if ( gNOS > 0.0 ){
+          grainEne[idx2] = gSE/gNOS ;
+        }
+        else{
+          grainEne[idx2] = shiftedCellEne[idx3-1];
+        }
         idx2++ ;
       }
 

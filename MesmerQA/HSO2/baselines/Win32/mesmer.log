@@ -34,14 +34,11 @@ PT Grid 0
 Build Collison Operator
 Cell number = 13400, Grain number = 134
 Rotational constants were not defined but requested.
-Number of grains produced is not equal to that requested
-Number of grains requested: 134
-Number of grains produced : 0
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 1 temperature/concentration-pressure points calculated.
-In main: Finish Calculation -- Time elapsed: 6 seconds.
- -- Total time elapsed: 8 seconds.
+In main: Finish Calculation -- Time elapsed: 4 seconds.
+ -- Total time elapsed: 7 seconds.
 
 In main: System saved to out.xml
 In main: m_scaleFactor is provided but not used in H.

@@ -231,6 +231,8 @@ src/MoleculeManager.h -text
 src/Persistence.h -text
 src/Pointer.cpp -text
 src/Pointer.h -text
+src/QMRotor.cpp -text
+src/QMRotor.h -text
 src/Reaction.cpp -text
 src/Reaction.h -text
 src/ReactionManager.cpp -text
