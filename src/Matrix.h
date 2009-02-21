@@ -31,14 +31,17 @@ public:
     // Type defs
 
     typedef         size_t  size_type ;
-    //typedef             T*  iterator ;
-    //typedef const       T*  const_iterator ;
-    //typedef             T   value_type ;
+    typedef         T*      iterator ;
+    typedef const   T*      const_iterator ;
+    typedef         T       value_type ;
 
-    // Constructors
+    // Constructor
 
     explicit Matrix(size_type n, const T& a = T() ) ;
-    Matrix(const Matrix&) ; //Copy constructor
+
+	//Copy constructor
+
+	Matrix(const Matrix&) ; 
 
     // Destructor
 

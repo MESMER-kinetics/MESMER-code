@@ -51,11 +51,17 @@ namespace mesmer
     /// Returns the value of a specified child element or attribute.
     virtual double XmlReadDouble(const std::string& name, bool MustBeThere=true)=0;
 
+    /// Returns the value of a specified child element or attribute.
+    virtual int XmlReadInteger(const std::string& name, bool MustBeThere=true)=0;
+
     /// Returns the data associated with name (CML property element) or NULL
     virtual const char* XmlReadProperty( const std::string& name, bool MustBeThere=true)=0;
 
     /// Returns the value associated with name (CML property element)
     virtual double XmlReadPropertyDouble(const std::string& name, bool MustBeThere=true)=0;
+
+    /// Returns the value associated with name (CML property element)
+    virtual int  XmlReadPropertyInteger(const std::string& name, bool MustBeThere=true)=0;
 
     /// Returns the attribute associated with name and attName (CML property element) or NULL
     virtual const char* XmlReadPropertyAttribute(const std::string& name, const std::string& attName, bool MustBeThere=true)=0;

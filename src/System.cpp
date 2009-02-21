@@ -46,7 +46,7 @@ namespace mesmer
     PersistPtr ppParams = ppIOPtr->XmlMoveTo("me:modelParameters");
     if(ppParams)
     {
-      m_Env.GrainSize = ppParams->XmlReadDouble("me:grainSize");
+      m_Env.GrainSize = ppParams->XmlReadInteger("me:grainSize");
 
       m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
       m_Env.EAboveHill = ppParams->XmlReadDouble("me:energyAboveTheTopHill");

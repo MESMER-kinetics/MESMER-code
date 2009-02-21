@@ -27,15 +27,14 @@ namespace mesmer
   public:
 
     // Constructor
-    TMatrix(int n, const T& init = T()) : Matrix<T>(n, init) { } ;
+    TMatrix( size_type n, const T& init = T()) : Matrix<T>(n, init) { } ;
 
     //
     // Wrapped call to EISPACK routine to diagonalise matrix.
     //
     void diagonalize(T *rr) {
 
-      int size ;
-      size = static_cast<int>(this->size()) ;
+      size_type size = this->size() ;
 
       //  Allocate memory for work array
       T *work = new T[size] ;
@@ -44,7 +43,7 @@ namespace mesmer
       tred2(this->m_matrix, size, rrProxy, work) ;
       tqli(rrProxy, work, size, this->m_matrix) ;
 
-      for (int i = 0; i < size; ++i){
+      for (size_type i = 0; i < size; ++i){
         rr[i] = rrProxy[i];
       }
 
@@ -58,8 +57,7 @@ namespace mesmer
     //
     void solveLinearEquationSet(T *rr) {
 
-      int size ;
-      size = static_cast<int>(this->size()) ;
+      size_type size = this->size() ;
 
       //  Allocate memory for work array
       int *indx = new int[size] ;
@@ -88,15 +86,15 @@ namespace mesmer
     //
     // EISPACK methods for diagonalizing matrix.
     //
-    void    tred2   (T **a, int n, T *d, T *e) ;
-    void    tqli    (T *d, T *e, int n, T **z) ;
+    void    tred2   (T **a, size_type n, T *d, T *e) ;
+    void    tqli    (T *d, T *e, size_type n, T **z) ;
     T  pythag  (T a, T b) ;
 
     //
     // NR LU methods for linear equation solving.
     //
-    int ludcmp(T **a,  int n, int *indx) ;
-    void lubksb(T **a,  int n, int *indx, T* b) ;
+    int ludcmp(T **a,  size_type n, int *indx) ;
+    void lubksb(T **a,  size_type n, int *indx, T* b) ;
 
     //
     // Calculate the inverse of the matrix by finding the adjoint of the cofactors matrix
@@ -116,9 +114,9 @@ namespace mesmer
   //-------------------------------------------------------------------------------------------
 
   template<class T>
-  void TMatrix<T>::tred2(T **a, int n, T *d, T *e)
+  void TMatrix<T>::tred2(T **a, size_type n, T *d, T *e)
   {
-    int l, k, j, i;
+    size_type l, k, j, i;
     T scale, hh, h, g, f;
 
     for (i=n;i>=2;--i) {
@@ -215,9 +213,9 @@ namespace mesmer
   //
   //-------------------------------------------------------------------------------------------
   template<class T>
-  void TMatrix<T>::tqli(T *d, T *e, int n, T **z)
+  void TMatrix<T>::tqli(T *d, T *e, size_type n, T **z)
   {
-    int m,l,iter,i,k;
+    size_type m,l,iter,i,k;
     T s,r,p,g,f,dd,c,b;
 
     for (i=2;i<=n;++i) e[i-2]=e[i-1];
@@ -284,11 +282,11 @@ namespace mesmer
 
     // Order eigenvalues and eigenvectors.
 
-    for (int ii = 1; ii < n; ++ii) {
+    for (size_type ii = 1; ii < n; ++ii) {
       i = ii - 1;
       k = i;
       p = d[i];
-      for (int j = ii; j < n; ++j) {
+      for (size_type j = ii; j < n; ++j) {
         if (d[j] < p) {
           k = j;
           p = d[j];
@@ -297,7 +295,7 @@ namespace mesmer
       if (k!=i) {
         d[k] = d[i];
         d[i] = p;
-        for (int j = 0; j < n; ++j) {
+        for (size_type j = 0; j < n; ++j) {
           p = z[j][i];
           z[j][i] = z[j][k];
           z[j][k] = p;
@@ -349,7 +347,7 @@ label_1: return(p);
   * invert a matrix. Return code is 1, if matrix is singular.   *
   **************************************************************/
   template<class T>
-  int TMatrix<T>::ludcmp(T **a,  int n, int *indx) {
+  int TMatrix<T>::ludcmp(T **a,  size_type n, int *indx) {
 
     int imax;
 
@@ -358,9 +356,9 @@ label_1: return(p);
 
     T *work = new T[n] ;
 
-    for (int i(0); i < n ; ++i) {
+    for (size_type i(0); i < n ; ++i) {
       big = 0.0 ;
-      for (int j(0); j < n ; ++j) {
+      for (size_type j(0); j < n ; ++j) {
         if ((temp = abs(a[i][j])) > big){
           big = temp ;
         }
@@ -372,18 +370,18 @@ label_1: return(p);
       work[i] = 1.0/big ;
     }
 
-    for (int j(0); j < n ; ++j) {
-      for (int i(0); i < j ; ++i) {
+    for (size_type j(0); j < n ; ++j) {
+      for (size_type i(0); i < j ; ++i) {
         sum = a[i][j] ;
-        for (int k(0); k < i ; ++k){
+        for (size_type k(0); k < i ; ++k){
           sum -= a[i][k]*a[k][j] ;
         }
         a[i][j] = sum ;
       }
       big = 0.0 ;
-      for (int i(j); i < n; ++i) {
+      for (size_type i(j); i < n; ++i) {
         sum = a[i][j] ;
-        for (int k(0); k < j ; ++k)
+        for (size_type k(0); k < j ; ++k)
           sum -= a[i][k]*a[k][j] ;
 
         a[i][j] = sum ;
@@ -394,7 +392,7 @@ label_1: return(p);
         }
       }
       if (j != imax) {
-        for (int k(0); k < n; ++k) {
+        for (size_type k(0); k < n; ++k) {
           dum = a[imax][k] ;
           a[imax][k] = a[j][k] ;
           a[j][k] = dum ;
@@ -430,17 +428,17 @@ label_1: return(p);
   * also efficient for plain matrix inversion.                     *
   *****************************************************************/
   template<class T>
-  void TMatrix<T>::lubksb(T **a,  int n, int *indx, T* b) {
+  void TMatrix<T>::lubksb(T **a,  size_type n, int *indx, T* b) {
 
     int ii = 0, ip;
     T sum ;
 
-    for (int i(0); i < n; ++i) {
+    for (size_type i(0); i < n; ++i) {
       ip = indx[i] ;
       sum = b[ip] ;
       b[ip] = b[i] ;
       if (ii >= 0) {
-        for (int j(ii); j < i; ++j)
+        for (size_type j(ii); j < i; ++j)
           sum -= a[i][j]*b[j] ;
       }
       else if (sum != 0.0){
@@ -448,11 +446,11 @@ label_1: return(p);
       }
       b[i] = sum ;
     }
-    for (int i(n-1); i >= 0; --i) {
+    for (size_type i(n-1); i >= 0; --i) {
 
       sum = b[i] ;
       if (i < n-1){
-        for (int j(i+1); j < n; ++j)
+        for (size_type j(i+1); j < n; ++j)
           sum -= a[i][j]*b[j] ;
 
       }

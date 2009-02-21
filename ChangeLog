@@ -1,3 +1,10 @@
+
+
+2009-02-21 Struan Robertson
+
+  * TMatrix.h: Reviewed use of type int and replaced with size_type where appropriate.
+  * Removed warning messages concerning double to int conversion by adding two new functions to XMLPersist.
+
 _2009_02_20__16_17_31_ Chi-Hsiu Liang
 
   * Accounts for QM rotors that are close to prolate/oblate symmetric or spherical.

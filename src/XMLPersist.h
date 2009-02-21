@@ -43,9 +43,11 @@ public:
   virtual const char* XmlRead()const;
   virtual const char* XmlReadValue(const std::string& name, bool MustBeThere=true);
   virtual double XmlReadDouble(const std::string& name, bool MustBeThere=true);
+  virtual int XmlReadInteger(const std::string& name, bool MustBeThere=true);
 
   virtual const char* XmlReadProperty( const std::string& name, bool MustBeThere=true);
   virtual double XMLPersist::XmlReadPropertyDouble(const std::string& name, bool MustBeThere);
+  virtual int XMLPersist::XmlReadPropertyInteger(const std::string& name, bool MustBeThere);
   virtual const char* XmlReadPropertyAttribute(const std::string& name, const std::string& attName, bool MustBeThere=true);
   virtual bool XmlReadBoolean( const std::string& name);
 

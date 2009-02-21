@@ -109,6 +109,18 @@ double XMLPersist::XmlReadDouble(const std::string& name, bool MustBeThere)
   return val;
 }
 
+int XMLPersist::XmlReadInteger(const std::string& name, bool MustBeThere)
+{
+  int val(0);
+  const char* ptxt = XmlReadValue(name, MustBeThere);
+  if(ptxt)
+  {
+    stringstream ss(ptxt);
+    ss >> val;
+  }
+  return val;
+}
+
 /** 
 Returns the effective content of an CML <property> element
 Looks for child elements pnList of the form:
@@ -169,6 +181,19 @@ double XMLPersist::XmlReadPropertyDouble(const std::string& name, bool MustBeThe
   }
   return val;
 }
+
+int XMLPersist::XmlReadPropertyInteger(const std::string& name, bool MustBeThere)
+{
+  int val(0);
+  const char* ptxt = XmlReadProperty(name, MustBeThere);
+  if(ptxt)
+  {
+    stringstream ss(ptxt);
+    ss >> val;
+  }
+  return val;
+}
+
 
 /// Returns the attName attribute of an CML <property> element
 /// See XMLPersist::XmlReadProperty for details

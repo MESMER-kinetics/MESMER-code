@@ -224,7 +224,7 @@ namespace mesmer
       }
     }
 
-    m_SpinMultiplicity = ppPropList->XmlReadPropertyDouble("me:spinMultiplicity");
+    m_SpinMultiplicity = ppPropList->XmlReadPropertyInteger("me:spinMultiplicity");
     m_SpinMultiplicity_chk = 0;
 
     /* For molecular energy me:ZPE is used if it is present. If it is not, a value
