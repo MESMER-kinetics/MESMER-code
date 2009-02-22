@@ -309,7 +309,7 @@ it must be used for all, and this is checked.
     double m_grainFracBeta;                    // beta used to calculate grain distribution fraction
     std::vector<double> m_grainDist ;          // Grain distribution (not normalized)
     dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
-    dMatrix             *m_egvec ;               // Eigenvectors used to diagonalize (P - I) matrix.
+    dMatrix             *m_egvec ;             // Eigenvectors used to diagonalize (P - I) matrix.
     std::vector<double>  m_egval;
 
     // Calculate collision frequency.
@@ -354,6 +354,8 @@ it must be used for all, and this is checked.
     double matrixElement(int eigveci, int eigvecj, std::vector<double> &k, int ndim) ;
 
     void copyCollisionOperator(qdMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
+
+    void copyCollisionOperatorEigenValues(qdMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
 
     void normalizedInitialDistribution(vector<double> &grainFrac, const int numberOfGrains) ;
     void normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int numberOfGrains, const int startGrnIdx = 0, const int ignoreCellNumber = 0);

@@ -177,6 +177,9 @@ namespace mesmer
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) = 0 ;
 
+    // Add contracted basis set reaction terms to the reaction matrix.
+    virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) = 0 ;
+
     // Is reaction equilibrating and therefore contributes
     // to the calculation of equilibrium fractions.
     virtual bool isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) { return false ; } ;

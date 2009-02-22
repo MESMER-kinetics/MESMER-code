@@ -1,5 +1,9 @@
 
-2009-02-21 Struan Robertson
+2009-02-22 Struan Robertson
+
+  * ReactionManager.cpp/IsomerizationReaction.cpp: Sketch of contracted basis method added.  
+
+2009-02-22 Struan Robertson
 
   * ReactionManager.cpp: Removed initial population code from BuildReactionOperator method to setInitialPopulation method, in
 preparation for basis set work.

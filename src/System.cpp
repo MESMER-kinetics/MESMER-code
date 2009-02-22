@@ -460,16 +460,6 @@ namespace mesmer
       cinfo << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds.\n";
       events.setTimeStamp(thisEvent, timeElapsed);}
 
-      //-------------------------------
-      // Reduced raction matrix operation
-      //-------------------------------
-
-      if (m_Flags.doBasisSetMethod) {
-        m_pReactionManager->constructBasisMatrix();
-        //dMatrix reducedMesmerRates(1);
-        //m_pReactionManager->BartisWidomRatesFromBasisSetMethod(reducedMesmerRates, m_Flags, ppList);
-      }
-
       if (m_Flags.doSSRSMethod) {
         m_pReactionManager->steadyAndReservoirStateMethod();
       }

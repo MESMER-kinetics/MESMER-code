@@ -32,7 +32,6 @@ namespace mesmer
 		m_isomers(),
 		m_sources(),
 		m_sinkRxns(),
-		m_initialPopulations(),
 		m_SpeciesSequence(),
 		m_meanOmega(0.0),
 		punchSymbolGathered(false)
@@ -316,31 +315,47 @@ namespace mesmer
 				}
 			}
 
-			// Allocate space for the full system collision operator.
-			if (m_reactionOperator) delete m_reactionOperator;
-			m_reactionOperator = new qdMatrix(msize, 0.0) ;
+			// Build reaction operator.
+			//
+			// One of two methods for building the reaction operator are available:
+			// the conventional energy grained master equation method which is based 
+			// on energy grains and a contracted basis set method in which a basis
+			// set is generated from the individual collision operators and a 
+			// representation of the reaction operator build upon this basis.
 
-			// Insert collision operators to reaction operator from individual wells.
-			for (isomeritr = m_isomers.begin() ; isomeritr != m_isomers.end() ; ++isomeritr) {
+			if (!mFlags.doBasisSetMethod) {
 
-				Molecule *isomer = isomeritr->first ;
-				int colloptrsize = isomer->getColl().get_colloptrsize() ;
-				double omega = isomer->getColl().get_collisionFrequency() ;
-				int idx = isomeritr->second ;
+				// Full energy grained reaction operator.
 
-				isomer->getColl().copyCollisionOperator(m_reactionOperator, colloptrsize, idx, omega/m_meanOmega) ;
+				// Allocate space for the full system collision operator.
+				if (m_reactionOperator) delete m_reactionOperator;
+				m_reactionOperator = new qdMatrix(msize, 0.0) ;
 
+				// Insert collision operators to reaction operator from individual wells.
+				for (isomeritr = m_isomers.begin() ; isomeritr != m_isomers.end() ; ++isomeritr) {
+
+					Molecule *isomer = isomeritr->first ;
+					int colloptrsize = isomer->getColl().get_colloptrsize() ;
+					double omega = isomer->getColl().get_collisionFrequency() ;
+					int idx = isomeritr->second ;
+
+					isomer->getColl().copyCollisionOperator(m_reactionOperator, colloptrsize, idx, omega/m_meanOmega) ;
+
+				}
+
+				// Add connecting rate coefficients.
+				for (size_t i(0) ; i < size() ; ++i) {
+					m_reactions[i]->AddReactionTerms(m_reactionOperator,m_isomers,1.0/m_meanOmega) ;
+				}
+
+			} else {
+
+				// Contracted basis set reaction operator.
+
+				constructBasisMatrix();
+				//ctest << "\nPrinting all (" << m_reactionOperator->size() << ") columns/rows of the Reaction Operator:\n";
+				//m_reactionOperator->showFinalBits(0, mFlags.print_TabbedMatrices);
 			}
-
-			// Add connecting rate coefficients.
-			for (size_t i(0) ; i < size() ; ++i) {
-				m_reactions[i]->AddReactionTerms(m_reactionOperator,m_isomers,1.0/m_meanOmega) ;
-			}
-		}
-
-		if (mFlags.doBasisSetMethod) {
-			ctest << "\nPrinting all (" << m_reactionOperator->size() << ") columns/rows of the Reaction Operator:\n";
-			m_reactionOperator->showFinalBits(0, mFlags.print_TabbedMatrices);
 		}
 
 		return true;
@@ -1315,6 +1330,36 @@ namespace mesmer
 	// diagonalization.
 	//
 	void ReactionManager::constructBasisMatrix(void){
+
+		int nbasis(10) ; // Number of basis functions per isomer. SHR, to be expanded later.
+		size_t nIsomers = m_isomers.size() ;
+		size_t msize = nbasis*nIsomers ;
+
+		// Allocate space for the reaction operator.
+		if (m_reactionOperator) delete m_reactionOperator;
+		m_reactionOperator = new qdMatrix(msize, 0.0) ;
+
+		// Insert collision operators: in the contracted basis these are the eignvalues
+		// of the isomer collision operators.
+		int idx(0) ;
+		Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
+		for (; isomeritr != m_isomers.end() ; ++isomeritr) {
+
+			Molecule *isomer = isomeritr->first ;
+			double omega = isomer->getColl().get_collisionFrequency() ;
+
+			isomer->getColl().copyCollisionOperatorEigenValues(m_reactionOperator, nbasis, idx, omega) ;
+			idx += nbasis ;
+		}
+
+		// Add connecting rate coefficients.
+		for (size_t i(0) ; i < size() ; ++i) {
+			m_reactions[i]->AddContractedBasisReactionTerms(m_reactionOperator,m_isomers) ;
+		}
+
+	}
+
+	void ReactionManager::constructBasisMatrixOld(void){
 
 		const int smsize = int(m_reactionOperator->size()) ;
 		MesmerFlags& mFlags = m_reactions[0]->getFlags();

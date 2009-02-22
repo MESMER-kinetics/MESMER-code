@@ -44,7 +44,6 @@ namespace mesmer
 
     // Type defs
     typedef  size_t  size_type ;
-    typedef std::map<std::string , double> populationMap ;
     typedef std::map<Reaction* , int, Reaction::ReactionPtrLess> sinkMap ;
 
     ReactionManager(MoleculeManager *pMoleculeManager);
@@ -99,6 +98,8 @@ namespace mesmer
 
     void constructBasisMatrix(void);
     
+    void constructBasisMatrixOld(void);
+    
     void steadyAndReservoirStateMethod(void);
 
 
@@ -128,7 +129,6 @@ namespace mesmer
     Reaction::molMapType    m_isomers;
     Reaction::molMapType    m_sources;
     sinkMap                 m_sinkRxns;
-    populationMap           m_initialPopulations;
 
     // map modelled molecules (isomers + sources) with their sequence in the EqMatrix and Rate Coefficient matrix
     Reaction::molMapType    m_SpeciesSequence;

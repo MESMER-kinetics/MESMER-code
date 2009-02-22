@@ -1112,11 +1112,11 @@ namespace mesmer
   //
   // Calculate a reaction matrix element.
   //
-  double gWellProperties::matrixElement(int eigveci, int eigvecj, vector<double> &k, int ndim)
+  double gWellProperties::matrixElement(int eigveci, int eigvecj, std::vector<double> &k, int ndim)
   {
     double sum = 0.0 ;
     for (int i = 0 ; i < ndim ; ++i){
-      sum +=  k[i]* to_double((*m_egme)[i][eigveci]*(*m_egme)[i][eigvecj]) ;
+      sum +=  k[i]* to_double((*m_egvec)[i][eigveci]*(*m_egvec)[i][eigvecj]) ;
     }
     return sum ;
   }
@@ -1150,6 +1150,42 @@ namespace mesmer
         int jj(locate + j) ;
         (*CollOptr)[ii][jj] = RducdOmega * (*m_egme)[i][j] ;
       }
+    }
+  }
+
+  //
+  // Copy eigenvalues to diagonal elements of the reaction operator 
+	// matrix in the contracted basis representation.
+  //
+  void gWellProperties::copyCollisionOperatorEigenValues(qdMatrix *CollOptr,
+    const int size,
+    const int locate,
+    const double Omega) const
+  {
+		// Check that the contracted basis method has been specifed.
+
+		if (!m_host->getFlags().doBasisSetMethod) {
+			cerr << "Error: Contracted basis representation not requested.";
+      exit(1) ;
+    }
+
+    // Find size of system matrix.
+
+    int smsize = static_cast<int>(CollOptr->size()) ;
+
+    // Check there is enough space in system matrix.
+
+    if (locate + size > smsize) {
+      cerr << "Error in the size of the reaction operator matrix in contracted basis representation.";
+      exit(1) ;
+    }
+
+    // Copy collision operator eigenvalues to the diagonal elements indicated 
+		// by "locate" and multiply by the reduced collision frequencey.
+
+    for (int i(0) ; i < size ; ++i) {
+      int ii(locate + i) ;
+      (*CollOptr)[ii][ii] = Omega * m_egval[m_ncolloptrsize - i - 1] ;
     }
   }
 
