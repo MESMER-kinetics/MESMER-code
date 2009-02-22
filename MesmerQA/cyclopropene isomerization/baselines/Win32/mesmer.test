@@ -1,6 +1,6 @@
+Initial population of cyclopropene = 1
 PT Grid 0 Condition: conc = 2.42281e+018, temp = 800, diagonalization precision: double
 {
-Initial population of cyclopropene = 1
 
 Test rovibronic density of states for: TS1
 {
@@ -2598,7 +2598,6 @@ propyne -> cyclopropene = 2.84783e-005
 }
 PT Grid 1 Condition: conc = 2.41412e+018, temp = 1000, diagonalization precision: double
 {
-Initial population of cyclopropene = 1
 
 Test rovibronic density of states for: TS1
 {

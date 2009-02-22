@@ -1,4 +1,9 @@
 
+2009-02-21 Struan Robertson
+
+  * ReactionManager.cpp: Removed initial population code from BuildReactionOperator method to setInitialPopulation method, in
+preparation for basis set work.
+  * Updated baselines that have altered as a consequence of the above changes.
 
 2009-02-21 Struan Robertson
 
