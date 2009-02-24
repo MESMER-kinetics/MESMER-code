@@ -210,6 +210,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\HinderedRotorInterpolation.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\IrreversibleExchangeReaction.cpp"
 				>
 			</File>
@@ -349,6 +353,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\formatfloat.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\HinderedRotorInterpolation.h"
 				>
 			</File>
 			<File

@@ -1,3 +1,11 @@
+_2009_02_24__16_16_14_ Chi-Hsiu Liang
+
+  * Moved countDimerCellDOS() to the end of MolecularComponent
+  * Removed  m_pDensityOfStatesCalculator variable from MolecularComponent as this will be read in from XML and use directly.
+  * Modified gDensityOfStates::calcDensityOfStates() so that it reads the DOSCMethod by itself.
+  * Further prepared for other DOS calculator plugin
+  * Reformat code to remove tabs. Please check the setting of tabs and spaces and make sure to use Ctrl+K Ctrl+F to 
+    remove tabs in the code before check-in.
 
 2009-02-22 Struan Robertson
 

@@ -91,8 +91,6 @@ namespace mesmer
     bool calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
     void getRctsCellDensityOfStates(vector<double> &cellDOS);
     void getPdtsCellDensityOfStates(vector<double> &cellDOS);
-    virtual DensityOfStatesCalculator* get_rctsDensityOfStatesCalculator(){return get_pseudoIsomer()->getDOS().get_DensityOfStatesCalculator(); }
-    virtual DensityOfStatesCalculator* get_pdtsDensityOfStatesCalculator(){return m_pdt1->getDOS().get_DensityOfStatesCalculator(); }
     virtual double pdtsRovibronicGrnCanPrtnFn();
     virtual double rctsRovibronicGrnCanPrtnFn();
 

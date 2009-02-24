@@ -107,14 +107,13 @@ namespace mesmer
   }
 
   gDensityOfStates::gDensityOfStates(Molecule* pMol)
-      :m_RotCstA(0.0),
+    :m_RotCstA(0.0),
     m_RotCstB(0.0),
     m_RotCstC(0.0),
     m_Sym(1.0),
     m_ZPE(0.0),
     m_scaleFactor(1.0),
     m_SpinMultiplicity(1),
-    m_pDensityOfStatesCalculator(NULL),
     m_RC_chk(-1),
     m_Sym_chk(-1),
     m_ZPE_chk(-1),
@@ -171,11 +170,11 @@ namespace mesmer
       cerr << "Improper setting on vibrational frequencies or rotational constants. Check input file to remove this error.";
     }
 
-    txt= ppPropList->XmlReadProperty("me:electronicExcitation", optional);    
+    txt= ppPropList->XmlReadProperty("me:electronicExcitation", optional);
     if(txt) {
       istringstream idata(txt);
       m_eleExc.clear();
-      double _iele; 
+      double _iele;
       while (idata >> _iele) m_eleExc.push_back(_iele);
     }
 
@@ -185,44 +184,32 @@ namespace mesmer
     double tempzpe = ppPropList->XmlReadPropertyDouble("me:ZPE");
     string unitsInput = ppPropList->XmlReadPropertyAttribute("me:ZPE", "units");
     txt= ppPropList->XmlReadPropertyAttribute("me:ZPE", "convention", optional);
-      m_EnergyConvention = txt ? txt : "arbitary";
+    m_EnergyConvention = txt ? txt : "arbitary";
 
     const char* pLowertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "lower", optional);
     const char* pUppertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "upper", optional);
     const char* pStepStxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "stepsize", optional);
-      double value(getConvertedEnergy(unitsInput, tempzpe));
-      if (pLowertxt && pUppertxt){
-        double tempLV(0.0), tempUV(0.0), tempSS(0.0);
-        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
-        s3 >> tempLV; s4 >> tempUV; s5 >> tempSS;
-        double valueL(getConvertedEnergy(unitsInput, tempLV)),
-          valueU(getConvertedEnergy(unitsInput, tempUV)),
-          stepsize(getConvertedEnergy(unitsInput, tempSS));
-        set_zpe(valueL, valueU, stepsize);
-      }
-      else{
-        set_zpe(value);
-      }
-      m_ZPE_chk = 0;
+    double value(getConvertedEnergy(unitsInput, tempzpe));
+    if (pLowertxt && pUppertxt){
+      double tempLV(0.0), tempUV(0.0), tempSS(0.0);
+      stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
+      s3 >> tempLV; s4 >> tempUV; s5 >> tempSS;
+      double valueL(getConvertedEnergy(unitsInput, tempLV)),
+        valueU(getConvertedEnergy(unitsInput, tempUV)),
+        stepsize(getConvertedEnergy(unitsInput, tempSS));
+      set_zpe(valueL, valueU, stepsize);
+    }
+    else{
+      set_zpe(value);
+    }
+    m_ZPE_chk = 0;
 
     // The reason why me:frequenciesScaleFactor stands out to be a separate property in the propertyList is that
     // this value is not usually necessary. The default value is 1.0 and it is usually the case.
     m_scaleFactor = ppPropList->XmlReadPropertyDouble("me:frequenciesScaleFactor");
     m_scaleFactor_chk = 0;
 
-    // Determine the method of DOS calculation.
-    const char* pDOSCMethodtxt = pp->XmlReadValue("me:DOSCMethod") ;
-    if(pDOSCMethodtxt)
-    {
-      m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
-      if(!m_pDensityOfStatesCalculator) // if the provided method cannot be found,
-      {
-        cinfo << "Unknown method " << pDOSCMethodtxt  << " for the calculation of DOS.\n"
-          << "Please check spelling error. Default method <Classical rotors> is used." << endl;
-        pDOSCMethodtxt = "Classical rotors";
-        m_pDensityOfStatesCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
-      }
-    }
+
 
     m_SpinMultiplicity = ppPropList->XmlReadPropertyInteger("me:spinMultiplicity");
     m_SpinMultiplicity_chk = 0;
@@ -341,9 +328,62 @@ namespace mesmer
 
     if (sizeOfVector && vectorSizeConstant && !recalc)
       return true;
-    if (!get_DensityOfStatesCalculator()->countCellDOS(this, MaximumCell)){
+
+    // Determine the method of rotational DOS calculation.
+    PersistPtr pp = m_host->get_PersistentPointer();
+    PersistPtr ppRotDOSCMethod = pp->XmlMoveTo("me:DOSCMethod");
+    DensityOfStatesCalculator* pRotationalDOSCalculator(NULL);
+
+    while (ppRotDOSCMethod){
+
+      const char* pRotDOSCMethodTypetxt = ppRotDOSCMethod->XmlReadValue("me:DOSCType") ;
+
+      if (strcmp(pRotDOSCMethodTypetxt, "external") == 0){
+        const char* pRotDOSCMethodtxt = ppRotDOSCMethod->XmlRead();
+        pRotationalDOSCalculator = DensityOfStatesCalculator::Find(pRotDOSCMethodtxt);
+        if(!pRotationalDOSCalculator) // if the provided method cannot be found,
+        {
+          cinfo << "Unknown method " << pRotDOSCMethodtxt  << " for the calculation of rotational DOS.\n"
+            << "Please check spelling error. Default method <Classical rotors> is used." << endl;
+        }
+        break;
+      }
+
+      ppRotDOSCMethod = ppRotDOSCMethod->XmlMoveTo("me:DOSCMethod");
+    }
+
+    if (!pRotationalDOSCalculator){
+      pRotationalDOSCalculator = DensityOfStatesCalculator::Find("Classical rotors");
+    }
+
+    if (!pRotationalDOSCalculator->countCellDOS(this, MaximumCell)){
       return false;
     }
+
+    //-------------------------------------------------------------
+    // Find and calculate any other DOS calculators in the molecule
+    // (internal rotations and other vibrational treatments etc.)
+    PersistPtr ppDOSCMethod = pp->XmlMoveTo("me:DOSCMethod");
+    DensityOfStatesCalculator* pInternalDOSCalculator(NULL);
+
+    while (ppDOSCMethod){
+      const char* pDOSCMethodTypetxt = ppDOSCMethod->XmlReadValue("me:DOSCType", false);
+      const char* pDOSCMethodtxt = ppDOSCMethod->XmlReadValue("me:DOSCMethod", false);
+
+      if (strcmp(pDOSCMethodTypetxt, "external") == 0){
+        ppDOSCMethod = ppDOSCMethod->XmlMoveTo("me:DOSCMethod");
+        continue;
+      }
+
+      pInternalDOSCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
+
+      if (!pInternalDOSCalculator->countCellDOS(this, MaximumCell, ppDOSCMethod)){
+        return false;
+      }
+
+      ppDOSCMethod = ppDOSCMethod->XmlMoveTo("me:DOSCMethod");
+    }
+    //-------------------------------------------------------------
 
     std::vector<double> shiftedCellDOS;
     std::vector<double> shiftedCellEne;
@@ -626,7 +666,7 @@ namespace mesmer
   {
     ErrorContext c(pMol->getName());
     m_host = pMol;
-    PersistPtr pp = pMol->get_PersistentPointer();    
+    PersistPtr pp = pMol->get_PersistentPointer();
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
       ppPropList=pp; //Be forgiving; we can get by without a propertyList element
@@ -671,14 +711,14 @@ namespace mesmer
 
   // Destructor and initialization, not required.
   // gPopulation::~gPopulation();
-  
+
   gPopulation::gPopulation(Molecule* pMol)
     :m_initPopulation(0.0),
     m_eqFraction(0.0)
   {
     ErrorContext c(pMol->getName());
     m_host = pMol;
-    PersistPtr pp = pMol->get_PersistentPointer();    
+    PersistPtr pp = pMol->get_PersistentPointer();
   }
 
   //-------------------------------------------------------------------------------------------------
@@ -859,7 +899,7 @@ namespace mesmer
     ctest << "\nEigenvectors of: " << m_host->getName() << endl;
     m_egvec->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
 
-    // The eigenvalues in this series should contain a zero eigenvalue (lambda_0) which addresses the conserveness 
+    // The eigenvalues in this series should contain a zero eigenvalue (lambda_0) which addresses the conserveness
     // of the system, the second smallest eigenvalue in magnitude is lamda_1.
     ctest << "\nEigenvalues of: " << m_host->getName() << "\n{\n";
     for(int i(0); i < m_ncolloptrsize; ++i){
@@ -911,7 +951,7 @@ namespace mesmer
         cerr << "Data indicates that grain " << i << " of the current colliding molecule has no states.";
       }
     }
-    
+
     // Use number of states to weigh the downward transition
     if (m_host->getFlags().useDOSweighedDT){
       // The collision operator.
@@ -924,7 +964,7 @@ namespace mesmer
           // Transfer to lower Energy -
           double transferDown = exp(-alpha*(ej - ei)) * (ni/nj);
           (*m_egme)[i][j] = transferDown;
-      
+
           // Transfer to higher Energy (via detailed balance) -
           double transferUp = exp(-(alpha + beta)*(ej - ei));
           (*m_egme)[j][i] = transferUp;
@@ -942,7 +982,7 @@ namespace mesmer
           // Transfer to lower Energy -
           double transferDown = exp(-alpha*(ej - ei)) ;
           (*m_egme)[i][j] = transferDown;
-      
+
           // Transfer to higher Energy (via detailed balance) -
           double transferUp = exp(-alpha*(ej - ei)) * (nj/ni) * exp(-beta*(ej - ei)) ;
           (*m_egme)[j][i] = transferUp;
@@ -1154,18 +1194,18 @@ namespace mesmer
   }
 
   //
-  // Copy eigenvalues to diagonal elements of the reaction operator 
-	// matrix in the contracted basis representation.
+  // Copy eigenvalues to diagonal elements of the reaction operator
+  // matrix in the contracted basis representation.
   //
   void gWellProperties::copyCollisionOperatorEigenValues(qdMatrix *CollOptr,
     const int size,
     const int locate,
     const double Omega) const
   {
-		// Check that the contracted basis method has been specifed.
+    // Check that the contracted basis method has been specifed.
 
-		if (!m_host->getFlags().doBasisSetMethod) {
-			cerr << "Error: Contracted basis representation not requested.";
+    if (!m_host->getFlags().doBasisSetMethod) {
+      cerr << "Error: Contracted basis representation not requested.";
       exit(1) ;
     }
 
@@ -1180,8 +1220,8 @@ namespace mesmer
       exit(1) ;
     }
 
-    // Copy collision operator eigenvalues to the diagonal elements indicated 
-		// by "locate" and multiply by the reduced collision frequencey.
+    // Copy collision operator eigenvalues to the diagonal elements indicated
+    // by "locate" and multiply by the reduced collision frequencey.
 
     for (int i(0) ; i < size ; ++i) {
       int ii(locate + i) ;
@@ -1284,6 +1324,26 @@ namespace mesmer
       ppPropList=pp; //Be forgiving; we can get by without a propertyList element
     setMass(ppPropList->XmlReadPropertyDouble("me:MW"));
   }
-  
+
+  // Provide a function to define particular counts of the convolved DOS of two molecules.
+  bool countDimerCellDOS
+    (gDensityOfStates& pDOS1, gDensityOfStates& pDOS2, std::vector<double>& rctsCellDOS){
+      std::vector<double> rct1CellDOS;
+      std::vector<double> rct2CellDOS;
+      pDOS1.getCellDensityOfStates(rct1CellDOS);
+      pDOS2.getCellDensityOfStates(rct2CellDOS);
+      std::vector<double> rotConsts;
+      if (pDOS1.get_rotConsts(rotConsts) == -4){
+        rctsCellDOS = rct2CellDOS;
+      }
+      else if(pDOS2.get_rotConsts(rotConsts) == -4){
+        rctsCellDOS = rct1CellDOS;
+      }
+      else{
+        FastLaplaceConvolution(rct1CellDOS, rct2CellDOS, rctsCellDOS);
+      }
+      return true;
+  }
+
 
 }//namespace

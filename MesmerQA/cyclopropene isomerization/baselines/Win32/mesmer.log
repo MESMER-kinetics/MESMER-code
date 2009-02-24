@@ -23,6 +23,11 @@ Calculate EGME
 PT Grid 0
 Build Collison Operator
 Cell number = 35400, Grain number = 177
+The default value of me:DOSCType was used.
+The default value of me:DOSCType was used.
+The default value of me:DOSCType was used.
+The default value of me:DOSCType was used.
+The default value of me:DOSCType was used.
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 PT Grid 1
 Build Collison Operator
@@ -30,7 +35,7 @@ Cell number = 38200, Grain number = 191
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 2 temperature/concentration-pressure points calculated.
-In main: Finish Calculation -- Time elapsed: 122 seconds.
- -- Total time elapsed: 213 seconds.
+In main: Finish Calculation -- Time elapsed: 147 seconds.
+ -- Total time elapsed: 297 seconds.
 
 In main: System saved to out.xml

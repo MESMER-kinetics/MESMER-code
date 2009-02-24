@@ -147,16 +147,16 @@ namespace mesmer
     m_rct1->getDOS().getGrainDensityOfStates(rctDOS) ;
     m_pdt1->getDOS().getGrainDensityOfStates(pdtDOS) ;
 
-		const int rctColloptrsize = m_rct1->getColl().get_colloptrsize();
-		const int pdtColloptrsize = m_pdt1->getColl().get_colloptrsize();
+    const int rctColloptrsize = m_rct1->getColl().get_colloptrsize();
+    const int pdtColloptrsize = m_pdt1->getColl().get_colloptrsize();
 
-		const int forwardThreshE = get_EffGrnFwdThreshold();
+    const int forwardThreshE = get_EffGrnFwdThreshold();
     const int reverseThreshE = get_EffGrnRvsThreshold();
     const int fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
     vector<double> fwdMicroRateCoef(rctColloptrsize, 0.0) ;
     vector<double> RvsMicroRateCoef(pdtColloptrsize, 0.0) ;
-		for ( int i=fluxStartIdx, j = reverseThreshE, k=0; j < rctColloptrsize; ++i, ++j, ++k) {
+    for ( int i=fluxStartIdx, j = reverseThreshE, k=0; j < rctColloptrsize; ++i, ++j, ++k) {
       int ll = k + forwardThreshE;
       int mm = k + reverseThreshE;
       fwdMicroRateCoef[ll] = m_GrainFlux[i] / rctDOS[ll] ;                    // Forward loss reaction.
@@ -171,47 +171,47 @@ namespace mesmer
     const int pdtLocation = 10 ;
 
     // Calculate the elements of the reactant block.
-		
-		const int nbasis(10) ;
 
-		for (int i=0 ; i < nbasis ; i++) {
+    const int nbasis(10) ;
+
+    for (int i=0 ; i < nbasis ; i++) {
       int ii(rctLocation + i) ;
-			int eigveci(rctColloptrsize - i - 1) ;
-			(*CollOptr)[ii][ii] += m_pdt1->getColl().matrixElement(eigveci, eigveci, fwdMicroRateCoef, rctColloptrsize) ;
-		  for (int j=i+1 ; j < nbasis ; j++) {
+      int eigveci(rctColloptrsize - i - 1) ;
+      (*CollOptr)[ii][ii] += m_pdt1->getColl().matrixElement(eigveci, eigveci, fwdMicroRateCoef, rctColloptrsize) ;
+      for (int j=i+1 ; j < nbasis ; j++) {
         int jj(rctLocation + j) ;
-				int eigvecj(rctColloptrsize - j - 1) ;
-				(*CollOptr)[ii][jj] += m_pdt1->getColl().matrixElement(eigveci, eigvecj, fwdMicroRateCoef, rctColloptrsize) ;
-				(*CollOptr)[jj][ii] += (*CollOptr)[ii][jj] ;
-			}
-		}
+        int eigvecj(rctColloptrsize - j - 1) ;
+        (*CollOptr)[ii][jj] += m_pdt1->getColl().matrixElement(eigveci, eigvecj, fwdMicroRateCoef, rctColloptrsize) ;
+        (*CollOptr)[jj][ii] += (*CollOptr)[ii][jj] ;
+      }
+    }
 
     // Calculate the elements of the product block.
-		
-		for (int i=0 ; i < nbasis ; i++) {
+
+    for (int i=0 ; i < nbasis ; i++) {
       int ii(pdtLocation + i) ;
-			int eigveci(pdtColloptrsize - i - 1) ;
-			(*CollOptr)[ii][ii] += m_pdt1->getColl().matrixElement(eigveci, eigveci, RvsMicroRateCoef, pdtColloptrsize) ;
-		  for (int j=i+1 ; j < nbasis ; j++) {
+      int eigveci(pdtColloptrsize - i - 1) ;
+      (*CollOptr)[ii][ii] += m_pdt1->getColl().matrixElement(eigveci, eigveci, RvsMicroRateCoef, pdtColloptrsize) ;
+      for (int j=i+1 ; j < nbasis ; j++) {
         int jj(pdtLocation + j) ;
-				int eigvecj(pdtColloptrsize - j - 1) ;
-				(*CollOptr)[ii][jj] += m_pdt1->getColl().matrixElement(eigveci, eigvecj, RvsMicroRateCoef, pdtColloptrsize) ;
-				(*CollOptr)[jj][ii] += (*CollOptr)[ii][jj] ;
-			}
-		}
+        int eigvecj(pdtColloptrsize - j - 1) ;
+        (*CollOptr)[ii][jj] += m_pdt1->getColl().matrixElement(eigveci, eigvecj, RvsMicroRateCoef, pdtColloptrsize) ;
+        (*CollOptr)[jj][ii] += (*CollOptr)[ii][jj] ;
+      }
+    }
 
     // Calculate the elements of the cross block.
-		
-		//for (int i=0 ; i < nbasis ; i++) {
-  //    int ii(rctLocation + i) ;
-		//	int eigveci(colloptrsize - i - 1) ;
-		//	(*CollOptr)[ii][ii] += m_pdt1->getColl().matrixElement(eigveci, eigveci, vector<double> &k, colloptrsize) ;
-		//  for (int j=i+1 ; j < nbasis ; j++) {
-  //      int jj(rdtLocation + j) ;
-		//		(*CollOptr)[ii][jj] += m_pdt1->getColl().matrixElement(eigveci, eigveci, vector<double> &k, colloptrsize) ;
-		//		(*CollOptr)[jj][ii] += (*CollOptr)[ii][jj] ;
-		//	}
-		//}
+
+    //for (int i=0 ; i < nbasis ; i++) {
+    //    int ii(rctLocation + i) ;
+    //	int eigveci(colloptrsize - i - 1) ;
+    //	(*CollOptr)[ii][ii] += m_pdt1->getColl().matrixElement(eigveci, eigveci, vector<double> &k, colloptrsize) ;
+    //  for (int j=i+1 ; j < nbasis ; j++) {
+    //      int jj(rdtLocation + j) ;
+    //		(*CollOptr)[ii][jj] += m_pdt1->getColl().matrixElement(eigveci, eigveci, vector<double> &k, colloptrsize) ;
+    //		(*CollOptr)[jj][ii] += (*CollOptr)[ii][jj] ;
+    //	}
+    //}
 
   }
 

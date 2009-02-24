@@ -250,14 +250,14 @@ namespace mesmer
   // Get reactants cell density of states.
   //
   void IrreversibleExchangeReaction::getRctsCellDensityOfStates(vector<double> &cellDOS) {
-    get_rctsDensityOfStatesCalculator()->countDimerCellDOS(m_rct1->getDOS(), m_rct2->getDOS(), cellDOS);
+    countDimerCellDOS(m_rct1->getDOS(), m_rct2->getDOS(), cellDOS);
   }
 
   //
   // Get products cell density of states.
   //
   void IrreversibleExchangeReaction::getPdtsCellDensityOfStates(vector<double> &cellDOS) {
-    get_pdtsDensityOfStatesCalculator()->countDimerCellDOS(m_pdt1->getDOS(), m_pdt2->getDOS(), cellDOS);
+    countDimerCellDOS(m_pdt1->getDOS(), m_pdt2->getDOS(), cellDOS);
   }
 
   // Calculate grained forward and reverse k(E)s from transition state flux

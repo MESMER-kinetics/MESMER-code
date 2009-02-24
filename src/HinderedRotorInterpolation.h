@@ -1,11 +1,11 @@
-#ifndef GUARD_QMRotor_h
-#define GUARD_QMRotor_h
+#ifndef GUARD_HinderedRotorInterpolation_h
+#define GUARD_HinderedRotorInterpolation_h
 
 #include "System.h"
 
 namespace mesmer
 {
-  class QMRotor : public DensityOfStatesCalculator
+  class HinderedRotorInterpolation : public DensityOfStatesCalculator
   {
   public:
 
@@ -13,12 +13,12 @@ namespace mesmer
     virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell, PersistPtr ppDOSC);
 
     ///Constructor which registers with the list of MicroRateCalculators in the base class
-    QMRotor(const std::string& id) : DensityOfStatesCalculator(id){}
+    HinderedRotorInterpolation(const std::string& id) : DensityOfStatesCalculator(id){}
 
-    virtual ~QMRotor() {}
+    virtual ~HinderedRotorInterpolation() {}
 
   } ;
 
 }//namespace
 
-#endif // GUARD_QMRotor_h
+#endif // GUARD_HinderedRotorInterpolation_h

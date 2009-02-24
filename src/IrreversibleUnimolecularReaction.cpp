@@ -215,7 +215,7 @@ namespace mesmer
   // Get products cell density of states.
   //
   void IrreversibleUnimolecularReaction::getPdtsCellDensityOfStates(vector<double> &cellDOS) {
-    get_pdtsDensityOfStatesCalculator()->countDimerCellDOS(m_pdt1->getDOS(), m_pdt2->getDOS(), cellDOS);
+    countDimerCellDOS(m_pdt1->getDOS(), m_pdt2->getDOS(), cellDOS);
   }
 
   const int IrreversibleUnimolecularReaction::get_pdtsGrnZPE(){

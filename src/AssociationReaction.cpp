@@ -356,7 +356,7 @@ namespace mesmer
   // Get reactants cell density of states.
   //
   void AssociationReaction::getRctsCellDensityOfStates(vector<double> &cellDOS) {
-    get_rctsDensityOfStatesCalculator()->countDimerCellDOS(m_rct1->getDOS(), m_rct2->getDOS(), cellDOS);
+    countDimerCellDOS(m_rct1->getDOS(), m_rct2->getDOS(), cellDOS);
   }
 
   const int AssociationReaction::get_rctsGrnZPE(){

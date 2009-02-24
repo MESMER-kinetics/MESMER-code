@@ -200,6 +200,8 @@ src/DensityOfStates.h -text
 src/Distribution.h -text
 src/EckartCoefficients.cpp -text
 src/EckartCoefficients.h -text
+src/HinderedRotorInterpolation.cpp -text
+src/HinderedRotorInterpolation.h -text
 src/IrreversibleExchangeReaction.cpp -text
 src/IrreversibleExchangeReaction.h -text
 src/IrreversibleUnimolecularReaction.cpp -text

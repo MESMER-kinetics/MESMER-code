@@ -23,10 +23,10 @@ using namespace std;
 
 namespace mesmer
 {
-template<class T>
-class Matrix {
+  template<class T>
+  class Matrix {
 
-public:
+  public:
 
     // Type defs
 
@@ -39,9 +39,9 @@ public:
 
     explicit Matrix(size_type n, const T& a = T() ) ;
 
-	//Copy constructor
+    //Copy constructor
 
-	Matrix(const Matrix&) ; 
+    Matrix(const Matrix&) ; 
 
     // Destructor
 
@@ -62,7 +62,7 @@ public:
     void showFinalBits(const size_type n, bool isTabbed = false);
     void reset(const size_type n);
 
-protected:
+  protected:
 
     // Size of matrix.
 
@@ -76,24 +76,24 @@ protected:
 
     void create(size_type n) {
 
-        m_msize = n ;
+      m_msize = n ;
 
-        m_matrix = allocatematrix(m_msize) ;
+      m_matrix = allocatematrix(m_msize) ;
 
     }
 
-  // Internal function that allocates space for matrix.
+    // Internal function that allocates space for matrix.
 
     T** allocatematrix(size_type n) {
 
-        T ** matrix = new T*[n] ;
+      T ** matrix = new T*[n] ;
 
-        matrix[0] = new T[n*n] ;
+      matrix[0] = new T[n*n] ;
 
-        for ( size_type i = 1 ; i < n ; i++ )
-            matrix[i] = matrix[i - 1] + n ;
+      for ( size_type i = 1 ; i < n ; i++ )
+        matrix[i] = matrix[i - 1] + n ;
 
-    return matrix ;
+      return matrix ;
 
     }
 
@@ -101,72 +101,72 @@ protected:
 
     void destroy() {
 
-        if (m_matrix != NULL) {
-            delete[] (m_matrix[0]) ;
-            delete[] (m_matrix) ;
-        }
+      if (m_matrix != NULL) {
+        delete[] (m_matrix[0]) ;
+        delete[] (m_matrix) ;
+      }
     }
 
-private:
+  private:
 
     // Hide default constructor - force the size of the matrix to be passed.
 
     Matrix() : m_msize(0), m_matrix(0) { } ;
 
-} ;
+  } ;
 
-// Construct a matrix of size n and initialized to a.
+  // Construct a matrix of size n and initialized to a.
 
-template<class T>
-Matrix<T>::Matrix(size_type n, const T& a) : m_msize(0), m_matrix(0) {
+  template<class T>
+  Matrix<T>::Matrix(size_type n, const T& a) : m_msize(0), m_matrix(0) {
 
     create(n) ;
 
     for ( size_type i = 0 ; i < m_msize ; i++ )
-        for ( size_type j = 0 ; j < m_msize ; j++ )
-            m_matrix[i][j] = a ;
-}
+      for ( size_type j = 0 ; j < m_msize ; j++ )
+        m_matrix[i][j] = a ;
+  }
 
-// Copy constructor.
+  // Copy constructor.
 
-template<class T>
-Matrix<T>::Matrix(const Matrix& rhs) : m_msize(0), m_matrix(0) {
+  template<class T>
+  Matrix<T>::Matrix(const Matrix& rhs) : m_msize(0), m_matrix(0) {
 
     create(rhs.m_msize) ;
 
     for ( size_type i = 0 ; i < m_msize ; i++ )
-        for ( size_type j = 0 ; j < m_msize ; j++ )
-            m_matrix[i][j] = rhs[i][j] ;
-}
+      for ( size_type j = 0 ; j < m_msize ; j++ )
+        m_matrix[i][j] = rhs[i][j] ;
+  }
 
-// Operators
+  // Operators
 
-template<class T>
-Matrix<T>& Matrix<T>::operator=(const Matrix<T> &rhs) {
+  template<class T>
+  Matrix<T>& Matrix<T>::operator=(const Matrix<T> &rhs) {
 
     if (this != &rhs) {
 
-        // If necessary resize underlying array.
+      // If necessary resize underlying array.
 
-        if (m_msize != rhs.m_msize) {
+      if (m_msize != rhs.m_msize) {
 
-            destroy() ;
+        destroy() ;
 
-            create(rhs.m_msize) ;
+        create(rhs.m_msize) ;
 
-        }
+      }
 
-        for ( size_type i = 0 ; i < m_msize ; i++ )
-            for ( size_type j = 0 ; j < m_msize ; j++ )
-                m_matrix[i][j] = rhs[i][j] ;
+      for ( size_type i = 0 ; i < m_msize ; i++ )
+        for ( size_type j = 0 ; j < m_msize ; j++ )
+          m_matrix[i][j] = rhs[i][j] ;
     }
     return *this ;
-}
+  }
 
-// Modifiers.
+  // Modifiers.
 
-template<class T>
-void Matrix<T>::resize(const size_type n){
+  template<class T>
+  void Matrix<T>::resize(const size_type n){
 
     if (n < 1){
       stringstream errorMsg;
@@ -177,8 +177,8 @@ void Matrix<T>::resize(const size_type n){
 
     size_type msize = std::min(n, m_msize) ;
     for ( size_type i = 0 ; i < msize ; i++ )
-        for ( size_type j = 0 ; j < msize ; j++ )
-            matrix[i][j] = m_matrix[i][j] ;
+      for ( size_type j = 0 ; j < msize ; j++ )
+        matrix[i][j] = m_matrix[i][j] ;
 
     destroy() ;
 
@@ -186,10 +186,10 @@ void Matrix<T>::resize(const size_type n){
 
     m_matrix = matrix;
 
-}
+  }
 
-template<class T>
-void Matrix<T>::reset(const size_type n){
+  template<class T>
+  void Matrix<T>::reset(const size_type n){
 
     if (n < 1){
       stringstream errorMsg;
@@ -199,8 +199,8 @@ void Matrix<T>::reset(const size_type n){
     T **matrix = allocatematrix(n)  ;
 
     for ( size_type i = 0 ; i < n ; i++ )
-        for ( size_type j = 0 ; j < n ; j++ )
-            matrix[i][j] = 0.0;
+      for ( size_type j = 0 ; j < n ; j++ )
+        matrix[i][j] = 0.0;
 
     destroy() ;
 
@@ -208,10 +208,10 @@ void Matrix<T>::reset(const size_type n){
 
     m_matrix = matrix;
 
-}
+  }
 
-template<class T>
-void Matrix<T>::showFinalBits(const size_type n, bool isTabbed){
+  template<class T>
+  void Matrix<T>::showFinalBits(const size_type n, bool isTabbed){
 
     // if n == 0, print the whole matrix
     size_type fb(n);
@@ -240,7 +240,7 @@ void Matrix<T>::showFinalBits(const size_type n, bool isTabbed){
     ctest << "}\n";
 
 
-}
+  }
 }//namespacer mesmer
 
 #endif // GUARD_Matrix_h

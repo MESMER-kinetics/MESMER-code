@@ -102,8 +102,6 @@ namespace mesmer
       return int(modulus) ;
     } ;
 
-    virtual DensityOfStatesCalculator* get_rctsDensityOfStatesCalculator(){return get_pseudoIsomer()->getDOS().get_DensityOfStatesCalculator(); }
-
     bool calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
 
     // Calculate rovibronic canonical partition function in the grain level for product or reactant
@@ -114,7 +112,7 @@ namespace mesmer
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;
 
     // Add contracted basis set reaction terms to the reaction matrix.
-		virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap){} ;
+    virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap){} ;
 
   private:
 

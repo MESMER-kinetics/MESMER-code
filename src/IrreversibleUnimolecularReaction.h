@@ -50,7 +50,7 @@ namespace mesmer
     virtual double get_relative_TSZPE(void) const {return m_TransitionState->getDOS().get_zpe() - getEnv().EMin;};
 
     const int get_pdtsGrnZPE();
-    
+
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
 
@@ -84,8 +84,6 @@ namespace mesmer
     // with a negative threshold energy
     void calcEffGrnThresholds(void);
 
-    virtual DensityOfStatesCalculator* get_pdtsDensityOfStatesCalculator(){return m_pdt1->getDOS().get_DensityOfStatesCalculator(); }
-
     bool calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
 
     // Calculate rovibronic canonical partition function in the grain level for product or reactant
@@ -96,7 +94,7 @@ namespace mesmer
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;
 
     // Add contracted basis set reaction terms to the reaction matrix.
-		virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap){} ;
+    virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap){} ;
 
   private:
 

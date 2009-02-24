@@ -7,19 +7,15 @@ In H: Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion
 In H: Cannot find argument me:rotConsts. Assumes that it is an atom or atomic ion.
 In H: The default value of me:symmetryNumber was used.
 In H: The default value of me:frequenciesScaleFactor was used.
-In H: The default value of me:DOSCMethod was used.
 In H: The default value of me:spinMultiplicity was used.
 In SO2: The default value of me:frequenciesScaleFactor was used.
-In SO2: The default value of me:DOSCMethod was used.
 In SO2: The default value of me:spinMultiplicity was used.
 In HSO2: The default value of me:symmetryNumber was used.
 In HSO2: The default value of me:frequenciesScaleFactor was used.
-In HSO2: The default value of me:DOSCMethod was used.
 In HSO2: The default value of me:spinMultiplicity was used.
 In HSO2: The default value of me:DistributionCalcMethod was used.
 In TS1: The default value of me:symmetryNumber was used.
 In TS1: The default value of me:frequenciesScaleFactor was used.
-In TS1: The default value of me:DOSCMethod was used.
 In TS1: The default value of me:spinMultiplicity was used.
 In R1: No imaginary vibrational frequency.
 No tunneling method was found for R1
@@ -37,8 +33,8 @@ Rotational constants were not defined but requested.
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 1 temperature/concentration-pressure points calculated.
-In main: Finish Calculation -- Time elapsed: 4 seconds.
- -- Total time elapsed: 7 seconds.
+In main: Finish Calculation -- Time elapsed: 10 seconds.
+ -- Total time elapsed: 17 seconds.
 
 In main: System saved to out.xml
 In main: m_scaleFactor is provided but not used in H.
