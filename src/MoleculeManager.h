@@ -58,7 +58,7 @@ public:
   
 
 /* I don't think these functions are needed within a flat Molecule
- /* Iterate through the molecules
+  Iterate through the molecules
    When id is empty, starts at beginning,
    When id contains the name of a molecule, the function recovers the
    next molecule of a class castable to that of pmol and returns true.

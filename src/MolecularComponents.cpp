@@ -292,7 +292,6 @@ namespace mesmer
 
   int gDensityOfStates::get_rotConsts(std::vector<double> &mmtsInt)
   {
-    //if (m_RC_chk = -1){ // replace the line below by this line _2007_12_07__16_01_51_ you will encounter a problem somewhere else
     if (m_RC_chk == -1){
       cinfo << "Rotational constants were not defined but requested." << endl;
       --m_RC_chk;
@@ -603,7 +602,7 @@ namespace mesmer
     }
     else{ // Some cells are ignored in this grain, as they do not occur in this part of reaction.
       // first deal with the first grain.
-      const int MaximumCell = m_host->getEnv().MaxCell;
+      // const int MaximumCell = m_host->getEnv().MaxCell;
       const int gsz = m_host->getEnv().GrainSize;
       const int cellOffset = get_cellOffset();
       const int grnStartCell = startGrnIdx * gsz - cellOffset;

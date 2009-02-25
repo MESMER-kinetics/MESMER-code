@@ -19,22 +19,22 @@ namespace mesmer
 {
   // double version of Matrix
   class dMatrix : public TMatrix<double>{
-    public: dMatrix(int n, const double init = 0.0) : TMatrix<double>(n, init) { } ;
+    public: dMatrix(size_t n, const double init = 0.0) : TMatrix<double>(n, init) { } ;
   };
 
   // double-double version of Matrix
   class ldMatrix : public TMatrix<long double>{
-    public: ldMatrix(int n, const long double init = 0.0) : TMatrix<long double>(n, init) { } ;
+    public: ldMatrix(size_t n, const long double init = 0.0) : TMatrix<long double>(n, init) { } ;
   };
 
   // double-double version of Matrix
   class ddMatrix : public TMatrix<dd_real>{
-    public: ddMatrix(int n, const dd_real init = 0.0) : TMatrix<dd_real>(n, init) { } ;
+    public: ddMatrix(size_t n, const dd_real init = 0.0) : TMatrix<dd_real>(n, init) { } ;
   };
 
   // quad-double version of Matrix
   class qdMatrix : public TMatrix<qd_real>{
-    public: qdMatrix(int n, const qd_real init = 0.0) : TMatrix<qd_real>(n, init) { } ;
+    public: qdMatrix(size_t n, const qd_real init = 0.0) : TMatrix<qd_real>(n, init) { } ;
   };
 }//namespacer mesmer
 

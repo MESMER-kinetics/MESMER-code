@@ -43,7 +43,6 @@ namespace mesmer
   public:
 
     // Type defs
-    typedef  size_t  size_type ;
     typedef std::map<Reaction* , int, Reaction::ReactionPtrLess> sinkMap ;
 
     ReactionManager(MoleculeManager *pMoleculeManager);
@@ -67,11 +66,11 @@ namespace mesmer
     void resetCalcFlags();
 
     // Total number of reaction in map.
-    size_type size() const {return m_reactions.size() ; } ;
+    size_t size() const {return m_reactions.size() ; } ;
 
     // Find a particular reaction.
-    Reaction*       operator[](const size_type i)       { return m_reactions[i] ; } ;
-    const Reaction* operator[](const size_type i) const { return m_reactions[i] ; } ;
+    Reaction*       operator[](const size_t i)       { return m_reactions[i] ; } ;
+    const Reaction* operator[](const size_t i) const { return m_reactions[i] ; } ;
 
     // Find a reaction from its id
     Reaction* find(const std::string& id) const ;

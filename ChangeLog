@@ -1,3 +1,10 @@
+_2009_02_25__11_28_06_ Chi-Hsiu Liang
+
+  * Fixed compile problem in Cygwin. Converted some size_type to size_t.
+    Reference: C++ International Standard clause 20.1.5.4. (part)
+    The typedef members pointer, const_pointer, size_type, and difference_type are required to be T*, T const*, size_t, 
+    and ptrdiff_t, respectively.
+
 _2009_02_24__16_16_14_ Chi-Hsiu Liang
 
   * Moved countDimerCellDOS() to the end of MolecularComponent

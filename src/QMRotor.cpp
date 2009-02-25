@@ -27,7 +27,6 @@ namespace mesmer
     vector<double> rotConst; int rotorType = pDOS->get_rotConsts(rotConst);
     double sym = pDOS->get_Sym();
     double qele = pDOS->getSpinMultiplicity();
-    double cnt = 0.;
     int i_e(0);
 
     // Note: rotConst[0] (A) >= rotConst[1] (B) >= rotConst[2] (C)
