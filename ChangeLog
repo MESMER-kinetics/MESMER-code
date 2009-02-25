@@ -1,3 +1,7 @@
+_2009_02_25__15_31_59_ Chi-Hsiu Liang
+
+  * Updated a bit of the manual.
+
 _2009_02_25__11_28_06_ Chi-Hsiu Liang
 
   * Fixed compile problem in Cygwin. Converted some size_type to size_t.
