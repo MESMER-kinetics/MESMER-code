@@ -346,7 +346,7 @@ namespace mesmer
 
     void copyCollisionOperator(qdMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
 
-    void copyCollisionOperatorEigenValues(qdMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
+    void copyCollisionOperatorEigenValues(qdMatrix *CollOptr, const int locate, const double RducdOmega) const ;
 
     void normalizedInitialDistribution(vector<double> &grainFrac, const int numberOfGrains) ;
     void normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int numberOfGrains, const int startGrnIdx = 0, const int ignoreCellNumber = 0);
@@ -355,6 +355,7 @@ namespace mesmer
     double get_collisionFrequency() const ;
     void set_colloptrsize(int ncolloptrsize) ;
     int  get_colloptrsize() const ;
+		size_t  get_nbasis() const { return 10 ; } ;
 
     const int get_grnZPE();
 

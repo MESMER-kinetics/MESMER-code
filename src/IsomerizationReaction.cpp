@@ -159,44 +159,43 @@ namespace mesmer
     for ( int i=fluxStartIdx, j = reverseThreshE, k=0; j < rctColloptrsize; ++i, ++j, ++k) {
       int ll = k + forwardThreshE;
       int mm = k + reverseThreshE;
-      fwdMicroRateCoef[ll] = m_GrainFlux[i] / rctDOS[ll] ;                    // Forward loss reaction.
-      RvsMicroRateCoef[mm] = m_GrainFlux[i] / pdtDOS[mm] ;                    // Backward loss reaction from detailed balance.
+      fwdMicroRateCoef[ll] = m_GrainFlux[i] / rctDOS[ll] ; // Forward loss reaction.
+      RvsMicroRateCoef[mm] = m_GrainFlux[i] / pdtDOS[mm] ; // Backward loss reaction from detailed balance.
       // (*CollOptr)[ii][jj]  = qd_real(rMeanOmega * m_GrainFlux[i] / sqrt(rctDOS[ll] * pdtDOS[mm])) ; // Reactive gain.
     }
 
     // Locate isomers in system matrix.
-    //const int rctLocation = isomermap[m_rct1] ;
-    //const int pdtLocation = isomermap[m_pdt1] ;
-    const int rctLocation = 0 ;
-    const int pdtLocation = 10 ;
+    const int rctLocation = isomermap[m_rct1] ;
+    const int pdtLocation = isomermap[m_pdt1] ;
 
     // Calculate the elements of the reactant block.
 
-    const int nbasis(10) ;
+    const int rctBasisSize = m_rct1->getColl().get_nbasis();
+    const int pdtBasisSize = m_pdt1->getColl().get_nbasis();
 
-    for (int i=0 ; i < nbasis ; i++) {
+    for (int i=0 ; i < rctBasisSize ; i++) {
       int ii(rctLocation + i) ;
       int eigveci(rctColloptrsize - i - 1) ;
-      (*CollOptr)[ii][ii] += m_pdt1->getColl().matrixElement(eigveci, eigveci, fwdMicroRateCoef, rctColloptrsize) ;
-      for (int j=i+1 ; j < nbasis ; j++) {
+      (*CollOptr)[ii][ii] -= m_pdt1->getColl().matrixElement(eigveci, eigveci, fwdMicroRateCoef, rctColloptrsize) ;
+      for (int j=i+1 ; j < rctBasisSize ; j++) {
         int jj(rctLocation + j) ;
         int eigvecj(rctColloptrsize - j - 1) ;
-        (*CollOptr)[ii][jj] += m_pdt1->getColl().matrixElement(eigveci, eigvecj, fwdMicroRateCoef, rctColloptrsize) ;
-        (*CollOptr)[jj][ii] += (*CollOptr)[ii][jj] ;
+        (*CollOptr)[ii][jj] -= m_pdt1->getColl().matrixElement(eigveci, eigvecj, fwdMicroRateCoef, rctColloptrsize) ;
+        (*CollOptr)[jj][ii] -= (*CollOptr)[ii][jj] ;
       }
     }
 
     // Calculate the elements of the product block.
 
-    for (int i=0 ; i < nbasis ; i++) {
+    for (int i=0 ; i < pdtBasisSize ; i++) {
       int ii(pdtLocation + i) ;
       int eigveci(pdtColloptrsize - i - 1) ;
-      (*CollOptr)[ii][ii] += m_pdt1->getColl().matrixElement(eigveci, eigveci, RvsMicroRateCoef, pdtColloptrsize) ;
-      for (int j=i+1 ; j < nbasis ; j++) {
+      (*CollOptr)[ii][ii] -= m_pdt1->getColl().matrixElement(eigveci, eigveci, RvsMicroRateCoef, pdtColloptrsize) ;
+      for (int j=i+1 ; j < pdtBasisSize ; j++) {
         int jj(pdtLocation + j) ;
         int eigvecj(pdtColloptrsize - j - 1) ;
-        (*CollOptr)[ii][jj] += m_pdt1->getColl().matrixElement(eigveci, eigvecj, RvsMicroRateCoef, pdtColloptrsize) ;
-        (*CollOptr)[jj][ii] += (*CollOptr)[ii][jj] ;
+        (*CollOptr)[ii][jj] -= m_pdt1->getColl().matrixElement(eigveci, eigvecj, RvsMicroRateCoef, pdtColloptrsize) ;
+        (*CollOptr)[jj][ii] -= (*CollOptr)[ii][jj] ;
       }
     }
 
@@ -205,11 +204,11 @@ namespace mesmer
     //for (int i=0 ; i < nbasis ; i++) {
     //    int ii(rctLocation + i) ;
     //	int eigveci(colloptrsize - i - 1) ;
-    //	(*CollOptr)[ii][ii] += m_pdt1->getColl().matrixElement(eigveci, eigveci, vector<double> &k, colloptrsize) ;
+    //	(*CollOptr)[ii][ii] -= m_pdt1->getColl().matrixElement(eigveci, eigveci, vector<double> &k, colloptrsize) ;
     //  for (int j=i+1 ; j < nbasis ; j++) {
     //      int jj(rdtLocation + j) ;
-    //		(*CollOptr)[ii][jj] += m_pdt1->getColl().matrixElement(eigveci, eigveci, vector<double> &k, colloptrsize) ;
-    //		(*CollOptr)[jj][ii] += (*CollOptr)[ii][jj] ;
+    //		(*CollOptr)[ii][jj] -= m_pdt1->getColl().matrixElement(eigveci, eigveci, vector<double> &k, colloptrsize) ;
+    //		(*CollOptr)[jj][ii] -= (*CollOptr)[ii][jj] ;
     //	}
     //}
 

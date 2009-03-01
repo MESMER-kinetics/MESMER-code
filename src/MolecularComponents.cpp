@@ -1153,8 +1153,10 @@ namespace mesmer
   //
   double gWellProperties::matrixElement(int eigveci, int eigvecj, std::vector<double> &k, int ndim)
   {
+    // Calculate matrix element starting with the higher energy
+    // elements first in order to preserve precision as much as possible.
     double sum = 0.0 ;
-    for (int i = 0 ; i < ndim ; ++i){
+    for (int i = m_ncolloptrsize - 1 ; i >= 0 ; --i){
       sum +=  k[i]* to_double((*m_egvec)[i][eigveci]*(*m_egvec)[i][eigvecj]) ;
     }
     return sum ;
@@ -1197,7 +1199,6 @@ namespace mesmer
   // matrix in the contracted basis representation.
   //
   void gWellProperties::copyCollisionOperatorEigenValues(qdMatrix *CollOptr,
-    const int size,
     const int locate,
     const double Omega) const
   {
@@ -1214,7 +1215,7 @@ namespace mesmer
 
     // Check there is enough space in system matrix.
 
-    if (locate + size > smsize) {
+    if (locate + get_nbasis() > smsize) {
       cerr << "Error in the size of the reaction operator matrix in contracted basis representation.";
       exit(1) ;
     }
@@ -1222,7 +1223,7 @@ namespace mesmer
     // Copy collision operator eigenvalues to the diagonal elements indicated
     // by "locate" and multiply by the reduced collision frequencey.
 
-    for (int i(0) ; i < size ; ++i) {
+    for (int i(0) ; i < get_nbasis() ; ++i) {
       int ii(locate + i) ;
       (*CollOptr)[ii][ii] = Omega * m_egval[m_ncolloptrsize - i - 1] ;
     }

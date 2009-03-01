@@ -1,3 +1,8 @@
+
+2009-03-01 Struan Robertson
+
+  * ReactionManager.cpp/IsomerizationReaction.cpp: Minor changes related to contracted basis set method.  
+
 _2009_02_25__15_31_59_ Chi-Hsiu Liang
 
   * Updated a bit of the manual.

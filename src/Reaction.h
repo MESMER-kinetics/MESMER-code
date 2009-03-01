@@ -241,8 +241,6 @@ namespace mesmer
     std::vector<double>  m_GrainKfmc ;           // Grained averaged forward  microcanonical rates.
     std::vector<double>  m_GrainKbmc ;           // Grained averaged backward microcanonical rates.
 
-  protected:
-
     // Read parameters requires to determine reaction heats and rates.
     bool ReadRateCoeffParameters(PersistPtr ppReac);
 

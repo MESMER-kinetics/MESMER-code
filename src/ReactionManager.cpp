@@ -1331,9 +1331,14 @@ namespace mesmer
   //
   void ReactionManager::constructBasisMatrix(void){
 
-    int nbasis(10) ; // Number of basis functions per isomer. SHR, to be expanded later.
-    size_t nIsomers = m_isomers.size() ;
-    size_t msize = nbasis*nIsomers ;
+    // Determine the size and location of various blocks.
+    size_t msize(0) ;
+    Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
+    for (; isomeritr != m_isomers.end() ; ++isomeritr) {
+      Molecule *isomer = isomeritr->first ;
+      isomeritr->second = msize ; //set location
+      msize += isomer->getColl().get_nbasis() ;
+    }
 
     // Allocate space for the reaction operator.
     if (m_reactionOperator) delete m_reactionOperator;
@@ -1341,15 +1346,13 @@ namespace mesmer
 
     // Insert collision operators: in the contracted basis these are the eignvalues
     // of the isomer collision operators.
-    int idx(0) ;
-    Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
-    for (; isomeritr != m_isomers.end() ; ++isomeritr) {
+    for (isomeritr = m_isomers.begin() ; isomeritr != m_isomers.end() ; ++isomeritr) {
 
       Molecule *isomer = isomeritr->first ;
       double omega = isomer->getColl().get_collisionFrequency() ;
+      int idx = isomeritr->second ;
 
-      isomer->getColl().copyCollisionOperatorEigenValues(m_reactionOperator, nbasis, idx, omega) ;
-      idx += nbasis ;
+      isomer->getColl().copyCollisionOperatorEigenValues(m_reactionOperator, idx, omega) ;
     }
 
     // Add connecting rate coefficients.
