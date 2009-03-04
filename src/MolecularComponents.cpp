@@ -4,7 +4,6 @@
 //
 //-------------------------------------------------------------------------------------------
 #include <stdexcept>
-#include "MolecularComponents.h"
 #include "Molecule.h"
 
 using namespace std ;
@@ -742,6 +741,8 @@ namespace mesmer
     m_DeltaEdown(0.0),
     m_collisionFrequency(0.0),
     m_ncolloptrsize(0),
+    m_lowestBarrier(9e23),
+    m_numGroupedGrains(0),
     m_pDistributionCalculator(NULL),
     m_DeltaEdown_chk(-1),
     m_grainFracBeta(0.),
@@ -865,11 +866,49 @@ namespace mesmer
     m_collisionFrequency = collisionFrequency(beta, m_host->getEnv().conc, pBathGasMolecule) ;
 
     // Calculate the collision operator.
-    if (!collisionOperator(beta)){
-      cerr << "Failed building collision operator.";
-      return false;
-    }
+    {
+      //-----------------------------------------
+      // Treat reservoir grains as a source grain (anything going into this grain will behave Boltzmann)
+      // First need to find out the lowest barrier associated with the current well
+      vector<double> gEne;
+      vector<double> gDOS;
+      m_host->getDOS().getGrainEnergies(gEne);
+      m_host->getDOS().getGrainDensityOfStates(gDOS);
 
+      int lowestBarrier = int(getLowestBarrier() / double(m_host->getEnv().GrainSize));
+
+      // Second find out in the current temperature under which energy grain where 99% of the population is located when
+      // the system is in equilibrium for this well.
+      double popUnder(0.0), totalPartition(0.0);
+      int idx(0);
+      for (int i(0); i < m_ncolloptrsize; ++i){
+        totalPartition += sqrt(exp(log(gDOS[i]) - beta * gEne[i] + 10.0));
+      }
+      for (; idx < m_ncolloptrsize; ++idx){
+        popUnder += sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0));
+        if (popUnder/totalPartition > .999) break;
+      }
+
+      m_numGroupedGrains = 0; // Reset the number of grains grouped into a reservoir grain to zero.
+      if (lowestBarrier > idx && m_host->getFlags().doReservoirStateMethod){
+        m_numGroupedGrains = idx;
+      }
+      int reducedCollOptrSize = m_ncolloptrsize - m_numGroupedGrains + 1;
+      //-----------------------------------------
+
+      if (m_host->getFlags().doReservoirStateMethod && m_numGroupedGrains){
+        if (!collisionOperatorWithReservoirState(beta, reducedCollOptrSize)){
+          cerr << "Failed building collision operator with reservoir state.";
+          return false;
+        }
+      }
+      else{
+        if (!collisionOperator(beta)){
+          cerr << "Failed building collision operator.";
+          return false;
+        }
+      }
+    }
     if (m_host->getFlags().doBasisSetMethod) diagonalizeCollisionOperator();
 
     return true;
@@ -910,6 +949,207 @@ namespace mesmer
   //
   // Calculate collision operator
   //
+  bool gWellProperties::collisionOperatorWithReservoirState(double beta, const int reducedCollOptrSize)
+  {
+    if (m_host->getDOS().test_rotConsts() < 0) return true;
+    //
+    //     i) Determine Probabilities of Energy Transfer.
+    //    ii) Normalisation of Probability matrix.
+    //   iii) Symmetrise Collision Matrix.
+    //
+
+    vector<double> gEne;
+    vector<double> gDOS;
+    m_host->getDOS().getGrainEnergies(gEne);
+    m_host->getDOS().getGrainDensityOfStates(gDOS);
+
+    // Initialisation and error checking.
+    for (int i(0) ; i < m_ncolloptrsize ; ++i ) {
+      if (gDOS[i] <= 0.0) {
+        cerr << "Data indicates that grain " << i << " of the current colliding molecule has no states.";
+        cerr << "Usually for small GrainSize DOSs calculated by QM rotor method some grain may have no states.";
+      }
+    }
+
+    double DEDown = getDeltaEdown();
+    double alpha = 1.0/DEDown ;
+
+    // issue a warning message and exit if delta_E_down is smaller than grain size.
+    if (DEDown < double(m_host->getEnv().GrainSize) && !m_host->getFlags().allowSmallerDEDown){
+      cerr << "Delta E down is smaller than grain size: the solution may not converge.";
+      return false;
+    }
+
+    // Allocate memory.
+    if (m_egme) delete m_egme ;                       // Delete any existing matrix.
+    m_egme = new dMatrix(reducedCollOptrSize) ;
+
+    //---------------------------------------------------------------------------------------------------
+    //-------------------- The part doing the same jobs as making a whole collision operator ------------
+    dMatrix* tempEGME = new dMatrix(m_ncolloptrsize);
+
+    // Use number of states to weigh the downward transition
+    if (m_host->getFlags().useDOSweighedDT){
+      // The collision operator.
+      for (int i(0) ; i < m_ncolloptrsize ; ++i ) {
+        double ei = gEne[i] ;
+        double ni = gDOS[i] ;
+        for (int j(i) ; j < m_ncolloptrsize ; ++j ) {
+          double ej = gEne[j];
+          double nj = gDOS[j];
+          // Transfer to lower Energy -
+          double transferDown = exp(-alpha*(ej - ei)) * (ni/nj);
+          (*tempEGME)[i][j] = transferDown;
+
+          // Transfer to higher Energy (via detailed balance) -
+          double transferUp = exp(-(alpha + beta)*(ej - ei));
+          (*tempEGME)[j][i] = transferUp;
+        }
+      }
+    }
+    else{
+      // The collision operator.
+      for (int i(0) ; i < m_ncolloptrsize ; ++i ) {
+        const double ei = gEne[i] ;
+        const double ni = gDOS[i] ;
+        for (int j(i); j < m_ncolloptrsize ; ++j ) {
+          const double ej = gEne[j];
+          const double nj = gDOS[j];
+          // Transfer to lower Energy -
+          const double transferDown = exp(-alpha*(ej - ei)) ;
+          (*tempEGME)[i][j] = transferDown;
+
+          // Transfer to higher Energy (via detailed balance) -
+          const double transferUp = exp(-alpha*(ej - ei)) * (nj/ni) * exp(-beta*(ej - ei)) ;
+          (*tempEGME)[j][i] = transferUp;
+        }
+      }
+    }
+
+    if (m_host->getFlags().showCollisionOperator != 0){
+      ctest << "\nCollision operator of " << m_host->getName() << " before normalization:\n";
+      tempEGME->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+    }
+
+    //Normalisation
+    tempEGME->normalizeProbabilityMatrix();
+
+    if (m_host->getFlags().showCollisionOperator >= 1){
+      ctest << "\nCollision operator of " << m_host->getName() << " after normalization:\n";
+      tempEGME->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+    }
+
+    //-------------------- The part doing the same jobs as making a whole collision operator ------------
+    //---------------------------------------------------------------------------------------------------
+
+
+
+    //--------------------------------
+    // COPY, SUMMATION AND SUBSTITUTE
+    // Need to copy things over, the active states first.
+    for (int i(m_numGroupedGrains) ; i < m_ncolloptrsize ; ++i ) {
+      for (int j(m_numGroupedGrains); j < m_ncolloptrsize ; ++j ) {
+        (*m_egme)[i - m_numGroupedGrains + 1][j - m_numGroupedGrains + 1] = (*tempEGME)[i][j];
+      }
+    }
+
+    // Sum up the downward transition terms for the reservoir grain
+    for (int j(m_numGroupedGrains); j < m_ncolloptrsize ; ++j ) {
+      double downwardSum(0.0);
+      for (int i(0) ; i < m_numGroupedGrains ; ++i ) {
+        downwardSum += (*tempEGME)[i][j];
+      }
+      (*m_egme)[0][j - m_numGroupedGrains + 1] = downwardSum;
+    }
+
+    // Summing the contribution of each grain according to its Boltzmann fraction to active state and reservoir state
+
+    // Get Boltzmann distribution
+    vector<double> BoltzmannPopFrac ; // Population fraction of the adduct
+    normalizedGrnBoltzmannDistribution(BoltzmannPopFrac, m_numGroupedGrains) ;
+
+    for (int j(0); j < m_numGroupedGrains; ++j){
+      for (int i(0); i < m_ncolloptrsize; ++i){
+        if (i < m_numGroupedGrains){
+          (*m_egme)[0][0] += BoltzmannPopFrac[j] * (*tempEGME)[i][j];
+        }
+        else{
+          (*m_egme)[i - m_numGroupedGrains + 1][0] += BoltzmannPopFrac[j] * (*tempEGME)[i][j];
+        }
+      }
+    }
+
+    vector<double> tempVector;
+    for (int i(0); i < reducedCollOptrSize; ++i){
+      tempVector.push_back((*m_egme)[i][0]);
+    }
+    // COPY, SUMMATION AND SUBSTITUTE
+    //--------------------------------
+
+
+
+    // print out of column sums to check normalization results
+    if (m_host->getFlags().reactionOCSEnabled){
+      ctest << endl << "Collision operator column Sums" << endl << "{" << endl ;
+      for (int i(0) ; i < reducedCollOptrSize ; ++i ) {
+        double columnSum(0.0) ;
+        for (int j(0) ; j < reducedCollOptrSize ; ++j ){
+          columnSum += to_double((*m_egme)[j][i]) ;
+        }
+        ctest << columnSum << endl ;
+      }
+      ctest << "}" << endl;
+    }
+
+    // Symmetrization of the collision matrix.
+    vector<double> popDist; // grained population distribution
+    popDist.push_back(0.0);
+    for (int idx(0); idx < m_ncolloptrsize; ++idx){
+      if (idx < m_numGroupedGrains){
+        popDist[0] += sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0));
+      }
+      else{
+        popDist.push_back(sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0)));
+      }
+    }
+
+    for (int i(1) ; i < reducedCollOptrSize ; ++i ) {
+      for (int j(0) ; j < i ; ++j ) {
+        (*m_egme)[j][i] *= popDist[i]/popDist[j] ;
+        (*m_egme)[i][j]  = (*m_egme)[j][i] ;
+      }
+    }
+
+    //account for collisional loss by subrtacting unity from the leading diagonal.
+    for (int i(0) ; i < reducedCollOptrSize ; ++i ) {
+      (*m_egme)[i][i] -= 1.0 ;
+    }
+
+    if (m_host->getFlags().showCollisionOperator >= 2){
+      ctest << "Collision operator of " << m_host->getName() << " after :\n";
+      m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+    }
+
+    delete tempEGME;
+
+    return true;
+  }
+
+  double gWellProperties::getBoltzmannWeightedEnergy (int numberOfGrains, const vector<double>& gEne, const vector<double>& gDos, double beta, double& totalDOS)
+  {
+    double totalEP(0.0), totalP(0.0);
+    totalDOS = 0.0;
+    for (int i(0); i < numberOfGrains; ++i) {
+      totalEP += gEne[i] * exp(log(gDos[i]) - beta * gEne[i] + 10.0);
+      totalP += exp(log(gDos[i]) - beta * gEne[i] + 10.0);
+      totalDOS += gDos[i];
+    }
+    return (totalEP / totalP);
+  }
+
+  //
+  // Calculate collision operator
+  //
   bool gWellProperties::collisionOperator(double beta)
   {
     if (m_host->getDOS().test_rotConsts() < 0) return true;
@@ -922,11 +1162,6 @@ namespace mesmer
     int i, j;
 
     double DEDown = getDeltaEdown();
-    if(!DEDown){
-      cerr << "me:deltaEDown is necessary. Correct input file to remove this error.";
-      return false;
-    }
-
     double alpha = 1.0/DEDown ;
 
     // issue a warning message and exit if delta_E_down is smaller than grain size.
@@ -948,6 +1183,7 @@ namespace mesmer
     for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
       if (gDOS[i] <= 0.0) {
         cerr << "Data indicates that grain " << i << " of the current colliding molecule has no states.";
+        cerr << "Usually for small GrainSize DOSs calculated by QM rotor method some grain may have no states.";
       }
     }
 
@@ -995,7 +1231,7 @@ namespace mesmer
     }
 
     //Normalisation
-    normalizeCollisionOperator();
+    m_egme->normalizeProbabilityMatrix();
 
     if (m_host->getFlags().showCollisionOperator >= 1){
       ctest << "\nCollision operator of " << m_host->getName() << " after normalization:\n";
@@ -1038,61 +1274,6 @@ namespace mesmer
     }
 
     return true;
-  }
-
-  //
-  // Normalize collision operator
-  //
-  void gWellProperties::normalizeCollisionOperator(){
-
-    vector<double> work(m_ncolloptrsize) ;// Work space.
-    //
-    // Normalization of Probability matrix.
-    // Normalising coefficients are found by using the fact that column sums
-    // are unity. The procedure leads to a matrix that is of upper triangular
-    // form and the normalisation constants are found by back substitution.
-    //
-
-    int i, j; //int makes sure the comparison to negative numbers meaningful (i >=0)
-
-    double scaledRemain(0.0) ;
-    for ( i = m_ncolloptrsize - 1 ; i >= 0 ; --i ) {
-
-      double upperSum(0.0) ;
-      for ( j = 0 ; j <= i ; ++j )
-        upperSum += (*m_egme)[j][i] ;
-
-      if (upperSum > 0.0){
-        if (i < (int)m_ncolloptrsize - 1){
-          scaledRemain = 0.0;
-          for ( j = i + 1 ; j < (int)m_ncolloptrsize ; ++j ){
-            double scale = work[j];
-            scaledRemain += (*m_egme)[j][i] * scale ;
-          }
-        }
-        work[i] = (1.0 - scaledRemain) / upperSum ;
-      }
-    }
-
-    if (0){
-      ctest << "Normalization coefficients of " << m_host->getName() << ":\n{\n";
-      for ( i = 0 ; i < (int)m_ncolloptrsize ; ++i ) {
-        ctest << 1. / work[i] << endl;
-      }
-      ctest << "}\n";
-    }
-
-    //
-    // Apply normalization coefficients
-    //
-    for ( i = 0 ; i < (int)m_ncolloptrsize ; ++i ) {
-      (*m_egme)[i][i] *= work[i] ;
-      for ( j = i + 1 ; j < (int)m_ncolloptrsize ; ++j ) {
-        (*m_egme)[j][i] *= work[j] ;
-        (*m_egme)[i][j] *= work[j] ;
-      }
-    }
-
   }
 
   //
@@ -1256,16 +1437,26 @@ namespace mesmer
   //
   // Get normalized grain distribution.
   //
-  void gWellProperties::normalizedInitialDistribution(vector<double> &grainFrac, const int totalGrnNumber)
+  void gWellProperties::normalizedInitialDistribution(vector<double> &grainFrac, const int totalGrnNumber, const int numberOfGroupedGrains)
   {
-    grainDistribution(grainFrac, totalGrnNumber);
+    vector<double> tempGrainFrac;
+    grainDistribution(tempGrainFrac, totalGrnNumber);
 
-    double prtfn(0.);
-    for (int i = 0; i < totalGrnNumber; ++i){
-      prtfn += grainFrac[i];
+    const double firstPartition = tempGrainFrac[0];
+    double prtfn(firstPartition);
+    grainFrac.push_back(firstPartition);
+    for (int i = 1; i < totalGrnNumber; ++i){
+      prtfn += tempGrainFrac[i];
+      if (i < numberOfGroupedGrains){
+        grainFrac[0] += tempGrainFrac[i];
+      }
+      else{
+        grainFrac.push_back(tempGrainFrac[i]);
+      }
     }
 
-    for (int i = 0; i < totalGrnNumber; ++i){
+    int grainFracSize = int(grainFrac.size());
+    for (int i = 0; i < grainFracSize; ++i){
       grainFrac[i] /= prtfn;
     }
 
@@ -1281,7 +1472,7 @@ namespace mesmer
   //
   // Get normalized grain distribution.
   //
-  void gWellProperties::normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int totalGrnNumber, const int startGrnIdx, const int ignoreCellNumber)
+  void gWellProperties::normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int totalGrnNumber, const int numberOfGroupedGrains)
   {
     // If density of states have not already been calcualted then do so.
     if (!m_host->getDOS().calcDensityOfStates())
@@ -1297,16 +1488,22 @@ namespace mesmer
 
     // Calculate unnormalized Boltzmann dist.
     // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
-    for (int i = 0; i < totalGrnNumber; ++i) {
-      tempGrnFrac.push_back(exp(log(gDOS[i]) - m_host->getEnv().beta * gEne[i] + 10.0));
+    const double firstPartition = exp(log(gDOS[0]) - m_host->getEnv().beta * gEne[0] + 10.0);
+    tempGrnFrac.push_back(firstPartition);
+    double prtfn(firstPartition);
+    for (int i = 1; i < totalGrnNumber; ++i) {
+      const double thisPartition = exp(log(gDOS[i]) - m_host->getEnv().beta * gEne[i] + 10.0);
+      prtfn += thisPartition;
+      if (i < numberOfGroupedGrains){
+        tempGrnFrac[0] += thisPartition;
+      }
+      else{
+        tempGrnFrac.push_back(thisPartition);
+      }
     }
 
-    double prtfn(0.);
-    for (int i = 0; i < totalGrnNumber; ++i){
-      prtfn += tempGrnFrac[i];
-    }
-
-    for (int i = 0; i < totalGrnNumber; ++i){
+    const int tempGrnFracSize = int(tempGrnFrac.size());
+    for (int i = 0; i < tempGrnFracSize; ++i){
       tempGrnFrac[i] /= prtfn;
     }
 

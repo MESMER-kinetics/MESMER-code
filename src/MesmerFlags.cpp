@@ -30,7 +30,7 @@ namespace mesmer{
     showCollisionOperator(0),
     useDOSweighedDT(false),
     doBasisSetMethod(false),
-    doSSRSMethod(false),
+    doReservoirStateMethod(false),
     punchSymbols(),
     punchNumbers(),
     punchFileName()

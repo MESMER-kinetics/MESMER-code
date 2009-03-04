@@ -152,6 +152,13 @@ namespace mesmer
     return Keq ;
   }
 
+  void IrreversibleExchangeReaction::AddReactionTermsWithReservoirState(qdMatrix *CollOptr, molMapType &isomermap, 
+    const double rMeanOmega)              // Add exchange reaction terms to collision matrix.
+  {
+    const int jj     = (*m_sourceMap)[get_pseudoIsomer()] ;
+    (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * get_fwdGrnCanonicalRate());
+  }
+
   void IrreversibleExchangeReaction::AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, 
     const double rMeanOmega)              // Add exchange reaction terms to collision matrix.
   {

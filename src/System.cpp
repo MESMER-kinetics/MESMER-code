@@ -163,7 +163,7 @@ namespace mesmer
       m_Flags.print_TabbedMatrices        = ppControl->XmlReadBoolean("me:printTabbedMatrices");
       m_Flags.useDOSweighedDT             = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
       m_Flags.doBasisSetMethod            = ppControl->XmlReadBoolean("me:runBasisSetMethodroutines");
-      m_Flags.doSSRSMethod                = ppControl->XmlReadBoolean("me:runSteadyAndReservoirStateMethodroutines");
+      m_Flags.doReservoirStateMethod      = ppControl->XmlReadBoolean("me:runReservoirSourceRoutines");
       if (!m_Flags.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
         m_Flags.useTheSameCellNumber = true;
       }
@@ -459,10 +459,6 @@ namespace mesmer
       {string thisEvent = "Diagonlize the Reaction Operator";
       cinfo << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds.\n";
       events.setTimeStamp(thisEvent, timeElapsed);}
-
-      if (m_Flags.doSSRSMethod) {
-        m_pReactionManager->steadyAndReservoirStateMethod();
-      }
 
       //-------------------------------
       // Total raction matrix operation

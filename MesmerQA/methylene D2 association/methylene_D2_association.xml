@@ -235,7 +235,7 @@
         <molecule ref="D" me:type="sink" />
       </product>
       <!--Use zero point energies instead-->
-      <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
     </reaction>
     <reaction id="R3">
       <reactant>
@@ -248,7 +248,7 @@
         <molecule ref="H" me:type="sink" />
       </product>
       <!--Use zero point energies instead-->
-      <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
     </reaction>
   </reactionList>
   <me:conditions>

@@ -290,6 +290,8 @@ namespace mesmer
     DPoint              m_DeltaEdown ;         // <Delta E down> for the exponential down model.
     double              m_collisionFrequency ; // Current value of collision frequency.
     int                 m_ncolloptrsize ;      // Size of the collision operator matrix.
+    double              m_lowestBarrier;       // lowest barrier associatied with this species
+    int                 m_numGroupedGrains;    // Number of grains grouped into a reservoir grain.
     DistributionCalculator* m_pDistributionCalculator;
 
     //================================================
@@ -309,11 +311,13 @@ namespace mesmer
     // Calculate collision operator.
     bool   collisionOperator (double beta) ;
 
+    // Calculate collision operator with reservoir state.
+    bool   collisionOperatorWithReservoirState(double beta, int reducedCollOptrSize) ;
+
+    double getBoltzmannWeightedEnergy(int numberOfGrains, const vector<double>& gEne, const vector<double>& gDos, double beta, double& totalDOS);
+
     // Diagonalize collision operator before adding reaction terms to get eigenvectors and eigenvalues.
     void diagonalizeCollisionOperator();
-
-    // Normalize the Collision Operator.
-    void normalizeCollisionOperator();
 
     // Get Grain Boltzmann distribution.
     void grainDistribution(vector<double> &grainFrac, const int numberOfGrains);
@@ -348,8 +352,8 @@ namespace mesmer
 
     void copyCollisionOperatorEigenValues(qdMatrix *CollOptr, const int locate, const double RducdOmega) const ;
 
-    void normalizedInitialDistribution(vector<double> &grainFrac, const int numberOfGrains) ;
-    void normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int numberOfGrains, const int startGrnIdx = 0, const int ignoreCellNumber = 0);
+    void normalizedInitialDistribution(vector<double> &grainFrac, const int numberOfGrains, const int numberOfGroupedGrains = 0) ;
+    void normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int numberOfGrains, const int numberOfGroupedGrains = 0);
 
     // Accessors.
     double get_collisionFrequency() const ;
@@ -361,6 +365,10 @@ namespace mesmer
 
     const dMatrix* getEigenVectors(){ return m_egvec; }
 
+    const double getLowestBarrier() { return m_lowestBarrier;}
+    void setLowestBarrier(double value){ m_lowestBarrier = value;}
+
+    const int getNumberOfGroupedGrains() {return m_numGroupedGrains; }
   };
 
 

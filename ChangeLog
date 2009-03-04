@@ -1,3 +1,9 @@
+_2009_03_04__11_56_32_ Chi-Hsiu Liang
+
+  * Construction of another path of reservoir state treatment on low and inactive grains. (still debugging)
+    This path simply assumes the reservoir grain to behave Boltzmann, which act like a source term.
+  * Moved     void MolecularComponent::normalizeCollisionOperator(); from  to void TMatrix::normalizeProbabilityMatrix();
+  * Added routines --     virtual void Reaction::AddReactionTermsWithReservoirState() = 0;
 
 2009-03-01 Struan Robertson
 

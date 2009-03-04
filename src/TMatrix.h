@@ -81,6 +81,8 @@ namespace mesmer
     // Matrix inversion method by adjoint cofactors
     int invertAdjointCofactors();
 
+    void normalizeProbabilityMatrix();
+
   private:
 
     //
@@ -100,6 +102,7 @@ namespace mesmer
     // Calculate the inverse of the matrix by finding the adjoint of the cofactors matrix
     int GetMinor(T **src, T **dest, int row, int col, int order);
     T CalcDeterminant( T **mat, int order);
+
   } ;
 
   //-------------------------------------------------------------------------------------------
@@ -686,6 +689,57 @@ label_1: return(p);
     delete [] minor;
 
     return det;
+  }
+
+  //
+  // Normalize collision operator
+  //
+  template<class T>
+  void TMatrix<T>::normalizeProbabilityMatrix(){
+
+    //
+    // Normalization of Probability matrix.
+    // Normalising coefficients are found by using the fact that column sums
+    // are unity. The procedure leads to a matrix that is of upper triangular
+    // form and the normalisation constants are found by back substitution.
+    //
+
+    int i, j; //int makes sure the comparison to negative numbers meaningful (i >=0)
+
+    int optrsize(int(this->size()));
+    vector<double> work(optrsize) ;// Work space.
+
+    double scaledRemain(0.0) ;
+    for ( i = optrsize - 1 ; i >= 0 ; --i ) {
+
+      double upperSum(0.0) ;
+      for ( j = 0 ; j <= i ; ++j )
+        upperSum += (*this)[j][i] ;
+
+      if (upperSum > 0.0){
+        if (i < optrsize - 1){
+          scaledRemain = 0.0;
+          for ( j = i + 1 ; j < optrsize ; ++j ){
+            double scale = work[j];
+            scaledRemain += (*this)[j][i] * scale ;
+          }
+        }
+        work[i] = (1.0 - scaledRemain) / upperSum ;
+      }
+    }
+
+    //
+    // Apply normalization coefficients
+    //
+    for ( i = 0 ; i < optrsize ; ++i ) {
+      (*this)[i][i] *= work[i] ;
+      double value = (*this)[i][i];
+      for ( j = i + 1 ; j < optrsize ; ++j ) {
+        (*this)[j][i] *= work[j] ;
+        (*this)[i][j] *= work[j] ;
+      }
+    }
+
   }
 
 }//namespacer mesmer

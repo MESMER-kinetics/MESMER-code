@@ -982,7 +982,7 @@
       <me:transitionState>
         <molecule ref="TS1_c" me:type="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
       <me:excessReactantConc>5.0E18</me:excessReactantConc>
     </reaction>
     <reaction id="R_I1_I2t">
@@ -998,7 +998,7 @@
       <me:transitionState>
         <molecule ref="TS1_t" me:type="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
       <me:excessReactantConc>5.0E18</me:excessReactantConc>
     </reaction>
     <reaction id="R1_HO2">
@@ -1017,7 +1017,7 @@
       <me:transitionState>
         <molecule ref="TS1_HO2" me:type="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
       <me:excessReactantConc>5.0E18</me:excessReactantConc>
     </reaction>
     <reaction id="R3_HO2">
@@ -1033,7 +1033,7 @@
       <me:transitionState>
         <molecule ref="TS3_HO2" me:type="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
     </reaction>
     <reaction id="R_2_6t">
       <reactant>
@@ -1045,7 +1045,7 @@
       <me:transitionState>
         <molecule ref="TS3_t_ax_2_6" me:type="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
     </reaction>
     <reaction id="R_2_6c">
       <reactant>
@@ -1057,7 +1057,7 @@
       <me:transitionState>
         <molecule ref="TS3_c_ax_2_6" me:type="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod>Simple RRKM</me:MCRCMethod>
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
     </reaction>
   </reactionList> 
   <me:conditions>

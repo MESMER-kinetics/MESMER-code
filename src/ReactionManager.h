@@ -96,11 +96,6 @@ namespace mesmer
     double calcChiSquare(const dMatrix& mesmerRates, vector<conditionSet>& expRates);
 
     void constructBasisMatrix(void);
-    
-    void constructBasisMatrixOld(void);
-    
-    void steadyAndReservoirStateMethod(void);
-
 
   private:
 

@@ -104,6 +104,46 @@ namespace mesmer
   //
   // Add isomer reaction terms to reaction matrix.
   //
+  void IsomerizationReaction::AddReactionTermsWithReservoirState(qdMatrix         *CollOptr,
+    molMapType       &isomermap,
+    const double    rMeanOmega)
+  {
+    // Get densities of states for detailed balance.
+    vector<double> rctDOS;
+    vector<double> pdtDOS;
+    m_rct1->getDOS().getGrainDensityOfStates(rctDOS) ;
+    m_pdt1->getDOS().getGrainDensityOfStates(pdtDOS) ;
+
+    // Locate isomers in system matrix.
+    const int rctLocation = isomermap[m_rct1] ;
+    const int pdtLocation = isomermap[m_pdt1] ;
+
+    // Need to know the number of grouped grains in both wells.
+    int rNGG = m_rct1->getColl().getNumberOfGroupedGrains();
+    int pNGG = m_pdt1->getColl().getNumberOfGroupedGrains();
+
+    const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
+
+    const int forwardThreshE = get_EffGrnFwdThreshold();
+    const int reverseThreshE = get_EffGrnRvsThreshold();
+    const int fluxStartIdx = get_fluxFirstNonZeroIdx();
+
+    for ( int i=fluxStartIdx, j = reverseThreshE, k=0; j < colloptrsize; ++i, ++j, ++k) {
+      int ll = k + forwardThreshE;
+      int mm = k + reverseThreshE;
+      int ii(rctLocation + ll) ;
+      int jj(pdtLocation + mm) ;
+      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
+      (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * m_GrainFlux[i] / pdtDOS[mm]) ;                    // Backward loss reaction from detailed balance.
+      (*CollOptr)[ii][jj]  = qd_real(rMeanOmega * m_GrainFlux[i] / sqrt(rctDOS[ll] * pdtDOS[mm])) ; // Reactive gain.
+      (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                           // Reactive gain.
+    }
+
+  }
+
+  //
+  // Add isomer reaction terms to reaction matrix.
+  //
   void IsomerizationReaction::AddReactionTerms(qdMatrix         *CollOptr,
     molMapType       &isomermap,
     const double    rMeanOmega)
