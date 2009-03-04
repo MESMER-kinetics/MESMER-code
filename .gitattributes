@@ -14,6 +14,7 @@ Documentation/mybib.bib -text
 Documentation/proposal.doc -text
 Documentation/proposal.tex -text
 MesmerQA/Acetyl[!!-~]O2[!!-~]association/Acetyl_O2_association.xml -text
+MesmerQA/Acetyl[!!-~]O2[!!-~]association/Acetyl_O2_association_mytest.xml -text
 MesmerQA/Acetyl[!!-~]O2[!!-~]association/baselines/Win32/mesmer.log -text
 MesmerQA/Acetyl[!!-~]O2[!!-~]association/baselines/Win32/mesmer.test -text
 MesmerQA/HSO2/HSO2.xml -text

@@ -164,6 +164,10 @@ namespace mesmer
     const int reverseThreshE = get_EffGrnRvsThreshold();
     const int fluxStartIdx = get_fluxFirstNonZeroIdx();
 
+    // One fact to know is that whatever happens in the reaction operator in this routine is in the unit of 
+    // "per collision".
+    // The flux has to be divided by omega before putting into the entry because flux is calculated in the unit of
+    // second, we need to convert the flux into the unit of per collision.
     for ( int i = reverseThreshE, j = fluxStartIdx; i < colloptrsize; ++i, ++j) {
       int ii(pdtLoc + i) ;
 

@@ -1103,18 +1103,20 @@ namespace mesmer
 
     // Symmetrization of the collision matrix.
     vector<double> popDist; // grained population distribution
-    popDist.push_back(0.0);
-    for (int idx(0); idx < m_ncolloptrsize; ++idx){
+    const double firstPop = exp(log(gDOS[0]) - beta * gEne[0] + 10.0);
+    popDist.push_back(firstPop);
+    for (int idx(1); idx < m_ncolloptrsize; ++idx){
       if (idx < m_numGroupedGrains){
-        popDist[0] += sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0));
+        popDist[0] += exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0);
       }
       else{
         popDist.push_back(sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0)));
       }
     }
+    popDist[0] = sqrt(popDist[0]);
 
     for (int i(1) ; i < reducedCollOptrSize ; ++i ) {
-      for (int j(0) ; j < i ; ++j ) {
+      for (int j(0) ; j < i ; ++j ){
         (*m_egme)[j][i] *= popDist[i]/popDist[j] ;
         (*m_egme)[i][j]  = (*m_egme)[j][i] ;
       }
