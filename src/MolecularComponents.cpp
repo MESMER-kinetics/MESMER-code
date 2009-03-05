@@ -886,7 +886,7 @@ namespace mesmer
       }
       for (; idx < m_ncolloptrsize; ++idx){
         popUnder += sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0));
-        if (popUnder/totalPartition > .999) break;
+        if (popUnder/totalPartition > .99) break;
       }
 
       m_numGroupedGrains = 0; // Reset the number of grains grouped into a reservoir grain to zero.
@@ -1054,39 +1054,29 @@ namespace mesmer
     }
 
     // Sum up the downward transition terms for the reservoir grain
-    for (int j(m_numGroupedGrains); j < m_ncolloptrsize ; ++j ) {
-      double downwardSum(0.0);
-      for (int i(0) ; i < m_numGroupedGrains ; ++i ) {
-        downwardSum += (*tempEGME)[i][j];
+    double sumOfDeactivation(0.0), ptfReservoir(0.0);
+    for (int j(0); j < m_ncolloptrsize ; ++j ) {
+      if (j < m_numGroupedGrains){
+        // summing up the partition function of reservoir state
+        ptfReservoir += exp(log(gDOS[j]) - beta * gEne[j] + 10.0);
       }
-      (*m_egme)[0][j - m_numGroupedGrains + 1] = downwardSum;
-    }
-
-    // Summing the contribution of each grain according to its Boltzmann fraction to active state and reservoir state
-
-    // Get Boltzmann distribution
-    vector<double> BoltzmannPopFrac ; // Population fraction of the adduct
-    normalizedGrnBoltzmannDistribution(BoltzmannPopFrac, m_numGroupedGrains) ;
-
-    for (int j(0); j < m_numGroupedGrains; ++j){
-      for (int i(0); i < m_ncolloptrsize; ++i){
-        if (i < m_numGroupedGrains){
-          (*m_egme)[0][0] += BoltzmannPopFrac[j] * (*tempEGME)[i][j];
+      else{
+        double downwardSum(0.0);
+        for (int i(0) ; i < m_numGroupedGrains ; ++i ) {
+          downwardSum += (*tempEGME)[i][j];
         }
-        else{
-          (*m_egme)[i - m_numGroupedGrains + 1][0] += BoltzmannPopFrac[j] * (*tempEGME)[i][j];
-        }
+        double ptfj = exp(log(gDOS[j]) - beta * gEne[j] + 10.0);
+        sumOfDeactivation += downwardSum * ptfj;
+
+        (*m_egme)[0][j - m_numGroupedGrains + 1] = downwardSum;
       }
     }
-
-    vector<double> tempVector;
-    for (int i(0); i < reducedCollOptrSize; ++i){
-      tempVector.push_back((*m_egme)[i][0]);
-    }
-    // COPY, SUMMATION AND SUBSTITUTE
-    //--------------------------------
+    sumOfDeactivation /= ptfReservoir; // k_a * x_r = k_d(E) * f(E) / Q_a * x_a
+    // where Q_a is equal to x_a and cancelled out.
+    // So, k_a = k_d(E) * f(E) / x_r;
 
 
+    (*m_egme)[0][0] = -sumOfDeactivation;
 
     // print out of column sums to check normalization results
     if (m_host->getFlags().reactionOCSEnabled){
@@ -1113,7 +1103,7 @@ namespace mesmer
         popDist.push_back(sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0)));
       }
     }
-    popDist[0] = sqrt(popDist[0]);
+    popDist[0] = sqrt(popDist[0]); // This is the square root of partition function in the reservoir grain
 
     for (int i(1) ; i < reducedCollOptrSize ; ++i ) {
       for (int j(0) ; j < i ; ++j ){
@@ -1123,7 +1113,7 @@ namespace mesmer
     }
 
     //account for collisional loss by subrtacting unity from the leading diagonal.
-    for (int i(0) ; i < reducedCollOptrSize ; ++i ) {
+    for (int i(1) ; i < reducedCollOptrSize ; ++i ) {
       (*m_egme)[i][i] -= 1.0 ;
     }
 

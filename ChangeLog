@@ -1,3 +1,7 @@
+_2009_03_05__17_01_13_ Chi-Hsiu Liang
+
+  * Improved the way of calculating the loss of reservoir entry. Cleaned up some unecessary code.
+
 _2009_03_04__20_02_21_ Chi-Hsiu Liang
 
   * The reservoir grain approach now works. This is a snapshot of it. The input file Acetyl_O2_association_mytest.xml

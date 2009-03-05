@@ -22,6 +22,12 @@ namespace mesmer
   // Note: the convention adopted here is that there are two reactants
   // and one product (adduct).
   //
+  // One fact to know is that whatever happens in the reaction operator in this routine is in the unit of 
+  // "per collision". In addition, the expression of every entry has to be first similarly transformed to the 
+  // symmetrized matrix corrdinates using detailed balance just like the way of constructing collision operator.
+  // The flux has to be divided by omega before putting into the entry because flux is calculated in the unit of
+  // second, we need to convert the flux into the unit of per collision.
+  // 
   bool AssociationReaction::InitializeReaction(PersistPtr ppReac)
   {
     m_ppPersist = ppReac;
@@ -164,10 +170,6 @@ namespace mesmer
     const int reverseThreshE = get_EffGrnRvsThreshold();
     const int fluxStartIdx = get_fluxFirstNonZeroIdx();
 
-    // One fact to know is that whatever happens in the reaction operator in this routine is in the unit of 
-    // "per collision".
-    // The flux has to be divided by omega before putting into the entry because flux is calculated in the unit of
-    // second, we need to convert the flux into the unit of per collision.
     for ( int i = reverseThreshE, j = fluxStartIdx; i < colloptrsize; ++i, ++j) {
       int ii(pdtLoc + i) ;
 
