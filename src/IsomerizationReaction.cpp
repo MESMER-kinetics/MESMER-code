@@ -119,8 +119,10 @@ namespace mesmer
     const int pdtLocation = isomermap[m_pdt1] ;
 
     // Need to know the number of grouped grains in both wells.
-    int rNGG = m_rct1->getColl().getNumberOfGroupedGrains();
-    int pNGG = m_pdt1->getColl().getNumberOfGroupedGrains();
+    const int rNGG(m_rct1->getColl().getNumberOfGroupedGrains());
+    const int pNGG(m_pdt1->getColl().getNumberOfGroupedGrains());
+    const int rShiftedGrains(rNGG == 0 ? 0 : rNGG - 1);
+    const int pShiftedGrains(pNGG == 0 ? 0 : pNGG - 1);
 
     const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
 
@@ -131,8 +133,8 @@ namespace mesmer
     for ( int i=fluxStartIdx, j = reverseThreshE, k=0; j < colloptrsize; ++i, ++j, ++k) {
       int ll = k + forwardThreshE;
       int mm = k + reverseThreshE;
-      int ii(rctLocation + ll) ;
-      int jj(pdtLocation + mm) ;
+      int ii(rctLocation + ll - rShiftedGrains) ;
+      int jj(pdtLocation + mm - pShiftedGrains) ;
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
       (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * m_GrainFlux[i] / pdtDOS[mm]) ;                    // Backward loss reaction from detailed balance.
       (*CollOptr)[ii][jj]  = qd_real(rMeanOmega * m_GrainFlux[i] / sqrt(rctDOS[ll] * pdtDOS[mm])) ; // Reactive gain.

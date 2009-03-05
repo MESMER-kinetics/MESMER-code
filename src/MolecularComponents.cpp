@@ -886,12 +886,14 @@ namespace mesmer
       }
       for (; idx < m_ncolloptrsize; ++idx){
         popUnder += sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0));
-        if (popUnder/totalPartition > .99) break;
+        if (popUnder/totalPartition > .999) break;
       }
 
       m_numGroupedGrains = 0; // Reset the number of grains grouped into a reservoir grain to zero.
       if (lowestBarrier > idx && m_host->getFlags().doReservoirStateMethod){
         m_numGroupedGrains = idx;
+        ctest << "Reservoir size of " << m_host->getName() << " is " << m_numGroupedGrains * m_host->getEnv().GrainSize 
+              << " cm-1, which is " << m_numGroupedGrains * m_host->getEnv().GrainSize / 83.593 << " kJ/mol." << endl;
       }
       int reducedCollOptrSize = m_ncolloptrsize - m_numGroupedGrains + 1;
       //-----------------------------------------

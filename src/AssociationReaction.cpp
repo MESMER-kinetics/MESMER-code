@@ -124,7 +124,8 @@ namespace mesmer
 
     qd_real DissRateCoeff(0.0) ;
 
-    int pNGG = m_pdt1->getColl().getNumberOfGroupedGrains();
+    const int pNGG(m_pdt1->getColl().getNumberOfGroupedGrains());
+    const int pShiftedGrains(pNGG == 0 ? 0 : pNGG - 1);
     const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
     //const int forwardThreshE = get_EffGrnFwdThreshold();
     const int reverseThreshE = get_EffGrnRvsThreshold();
@@ -133,7 +134,7 @@ namespace mesmer
     // Note: reverseThreshE will always be greater than pNGG here
 
     for ( int i = reverseThreshE, j = fluxStartIdx; i < colloptrsize; ++i, ++j) {
-      int ii(pdtLoc + i - pNGG + 1) ;
+      int ii(pdtLoc + i - pShiftedGrains) ;
 
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[j] / pdtDOS[i]);                                // Loss of the adduct to the source
       (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[j] * sqrt(adductPopFrac[i] * Keq) / pdtDOS[i]);// Reactive gain of the source

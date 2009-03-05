@@ -1,3 +1,7 @@
+_2009_03_05__19_30_56_ Chi-Hsiu Liang
+
+  * Fixed the AddReactionTermsWithReservoirState in all methods.
+
 _2009_03_05__17_01_13_ Chi-Hsiu Liang
 
   * Improved the way of calculating the loss of reservoir entry. Cleaned up some unecessary code.

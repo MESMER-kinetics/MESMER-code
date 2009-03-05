@@ -122,6 +122,8 @@ namespace mesmer
 
     // Locate reactant in system matrix.
     const int rctLocation = isomermap[m_rct1] ;
+    int rNGG(m_rct1->getColl().getNumberOfGroupedGrains());
+    const int rShiftedGrains(rNGG == 0 ? 0 : rNGG - 1);
     const int colloptrsize = m_rct1->getColl().get_colloptrsize();
     const int forwardThreshE = get_EffGrnFwdThreshold();
 
@@ -130,7 +132,7 @@ namespace mesmer
 
     for ( int i=fluxStartIdx, j = forwardThreshE, k=0; j < colloptrsize; ++i, ++j, ++k) {
       int ll = k + forwardThreshE;
-      int ii(rctLocation + ll) ;
+      int ii(rctLocation + ll - rShiftedGrains) ;
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
     }
   }
