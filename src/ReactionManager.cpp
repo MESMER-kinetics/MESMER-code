@@ -1119,9 +1119,13 @@ namespace mesmer
       for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // calculate Z_matrix matrix elements for
         double sm = 0.0;                                                // all isomers in the system
         Molecule* isomer = ipos->first;
-        const int colloptrsize = isomer->getColl().get_colloptrsize();    // get colloptrsize for isomer
+        const int numberGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
+        const int colloptrsize = (!numberGroupedGrains)
+                                ? isomer->getColl().get_colloptrsize()
+                                : isomer->getColl().get_colloptrsize() - numberGroupedGrains + 1;
+                                                                        // get colloptrsize for isomer
         int rxnMatrixLoc = ipos->second;                                // get location for isomer in the rxn matrix
-        int seqMatrixLoc = m_SpeciesSequence[isomer];                       // get sequence position for isomer
+        int seqMatrixLoc = m_SpeciesSequence[isomer];                   // get sequence position for isomer
         for(int j(0);j<colloptrsize;++j){
           sm += assymEigenVec[rxnMatrixLoc+j][nchemIdx+i];
         }

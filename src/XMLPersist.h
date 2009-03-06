@@ -46,8 +46,8 @@ public:
   virtual int XmlReadInteger(const std::string& name, bool MustBeThere=true);
 
   virtual const char* XmlReadProperty( const std::string& name, bool MustBeThere=true);
-  virtual double XMLPersist::XmlReadPropertyDouble(const std::string& name, bool MustBeThere);
-  virtual int XMLPersist::XmlReadPropertyInteger(const std::string& name, bool MustBeThere);
+  virtual double XmlReadPropertyDouble(const std::string& name, bool MustBeThere);
+  virtual int XmlReadPropertyInteger(const std::string& name, bool MustBeThere);
   virtual const char* XmlReadPropertyAttribute(const std::string& name, const std::string& attName, bool MustBeThere=true);
   virtual bool XmlReadBoolean( const std::string& name);
 
@@ -76,7 +76,7 @@ public:
                                  const std::string& content, const std::string& units);
 
   ///Replace an element, or insert a copy of an element as the first child of the current element and return a pointer to the copy
-      virtual PersistPtr XmlCopy(PersistPtr ppToBeCopied, PersistPtr ppToBeReplaced=NULL);
+  virtual PersistPtr XmlCopy(PersistPtr ppToBeCopied, PersistPtr ppToBeReplaced=NULL);
 
 
   virtual bool XmlSaveFile(const std::string& outfilename);

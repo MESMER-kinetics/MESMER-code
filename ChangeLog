@@ -1,3 +1,10 @@
+_2009_03_06__14_35_05_ Chi-Hsiu Liang
+
+  * Temporarily make MESMER not to overwrite the input file. Need to check if this is doing right.
+  * Reports the reservoir grain location in wavenumber and kJ/mol
+  * Fixed Bartis-Widom rates.
+  * Fixed XMLPersist.h for compiling in 64 bits.
+
 _2009_03_05__19_30_56_ Chi-Hsiu Liang
 
   * Fixed the AddReactionTermsWithReservoirState in all methods.

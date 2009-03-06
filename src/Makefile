@@ -85,7 +85,7 @@ CXXFLAGS := ${CXXFLAGS} ${DEFS}
 #****************************************************************************
 
 TARGETPATH = ../bin
-OUTPUT := mesmer.out
+OUTPUT := mesmer
 
 all: ${OUTPUT}
 

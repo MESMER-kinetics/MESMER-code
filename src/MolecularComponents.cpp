@@ -879,14 +879,14 @@ namespace mesmer
 
       // Second find out in the current temperature under which energy grain where 99% of the population is located when
       // the system is in equilibrium for this well.
-      double popUnder(0.0), totalPartition(0.0);
+      double popUnder(0.0), totalPartition(0.0), reservoirInclusionRatio(.999);
       int idx(0);
       for (int i(0); i < m_ncolloptrsize; ++i){
         totalPartition += sqrt(exp(log(gDOS[i]) - beta * gEne[i] + 10.0));
       }
       for (; idx < m_ncolloptrsize; ++idx){
         popUnder += sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0));
-        if (popUnder/totalPartition > .999) break;
+        if (popUnder/totalPartition > reservoirInclusionRatio) break;
       }
 
       m_numGroupedGrains = 0; // Reset the number of grains grouped into a reservoir grain to zero.
@@ -894,6 +894,11 @@ namespace mesmer
         m_numGroupedGrains = idx;
         ctest << "Reservoir size of " << m_host->getName() << " is " << m_numGroupedGrains * m_host->getEnv().GrainSize 
               << " cm-1, which is " << m_numGroupedGrains * m_host->getEnv().GrainSize / 83.593 << " kJ/mol." << endl;
+      }
+      else{
+        ctest << "More than " << 1. - reservoirInclusionRatio 
+              << " is above the lowest threshold. Reservoir grain in " 
+              << m_host->getName() << " is switched off. " << endl;
       }
       int reducedCollOptrSize = m_ncolloptrsize - m_numGroupedGrains + 1;
       //-----------------------------------------

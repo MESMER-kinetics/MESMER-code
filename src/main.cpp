@@ -227,13 +227,13 @@ int main(int argc,char *argv[])
   string saveTimeStamp = '.' + currentTimeStamp;
   cinfo << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
   
-  if(!usecout && outfilename.empty() && !infilename.empty())
-    outfilename = infilename;
+  if(!usecout && outfilename.empty())
+    outfilename = "mesmer_out.xml";
 
   //Any existing file with the same name as the one being written is renamed with a _prev suffix
   //Any old _prev file is not deleted unless the write of the new file is successful
-  if(!usecout)
-    rename(outfilename.c_str(), "temp");
+  //if(!usecout)
+    //rename(outfilename.c_str(), "temp");
 
   if(!ppIOPtr->XmlSaveFile(outfilename))
   {
