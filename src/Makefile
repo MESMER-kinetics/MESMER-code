@@ -95,11 +95,11 @@ all: ${OUTPUT}
 #****************************************************************************
 
 SRCS := \
-  AssociationReaction.cpp \
-  AssignMolTypes.cpp \
-  BoltzmannDistribution.cpp \
-  ClassicalRotor.cpp \
-  DensityOfStates.cpp \
+	AssociationReaction.cpp	\
+	AssignMolTypes.cpp \
+	BoltzmannDistribution.cpp	\
+	ClassicalRotor.cpp \
+	DensityOfStates.cpp \
 	EckartCoefficients.cpp \
 	formatfloat.cpp \
 	HinderedRotorInterpolation.cpp \

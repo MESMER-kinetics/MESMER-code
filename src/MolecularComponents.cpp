@@ -875,36 +875,71 @@ namespace mesmer
       m_host->getDOS().getGrainEnergies(gEne);
       m_host->getDOS().getGrainDensityOfStates(gDOS);
 
-      int lowestBarrier = int(getLowestBarrier() / double(m_host->getEnv().GrainSize));
-
-      // Second find out in the current temperature under which energy grain where 99% of the population is located when
-      // the system is in equilibrium for this well.
-      double popUnder(0.0), totalPartition(0.0), reservoirInclusionRatio(.999);
-      int idx(0);
-      for (int i(0); i < m_ncolloptrsize; ++i){
-        totalPartition += sqrt(exp(log(gDOS[i]) - beta * gEne[i] + 10.0));
-      }
-      for (; idx < m_ncolloptrsize; ++idx){
-        popUnder += sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0));
-        if (popUnder/totalPartition > reservoirInclusionRatio) break;
-      }
+      // Determine the energy of the reservoir grain
+      PersistPtr pp = m_host->get_PersistentPointer();
+      PersistPtr ppReservoirSize = pp->XmlMoveTo("me:reservoirSize");
 
       m_numGroupedGrains = 0; // Reset the number of grains grouped into a reservoir grain to zero.
-      if (lowestBarrier > idx && m_host->getFlags().doReservoirStateMethod){
-        m_numGroupedGrains = idx;
-        ctest << "Reservoir size of " << m_host->getName() << " is " << m_numGroupedGrains * m_host->getEnv().GrainSize 
-              << " cm-1, which is " << m_numGroupedGrains * m_host->getEnv().GrainSize / 83.593 << " kJ/mol." << endl;
-      }
-      else{
-        ctest << "More than " << 1. - reservoirInclusionRatio 
-              << " is above the lowest threshold. Reservoir grain in " 
-              << m_host->getName() << " is switched off. " << endl;
-      }
-      int reducedCollOptrSize = m_ncolloptrsize - m_numGroupedGrains + 1;
-      //-----------------------------------------
 
-      if (m_host->getFlags().doReservoirStateMethod && m_numGroupedGrains){
-        if (!collisionOperatorWithReservoirState(beta, reducedCollOptrSize)){
+      while (ppReservoirSize){
+
+        const char* pReservoirSizeTxt = pp->XmlReadValue("me:reservoirSize");
+        double tmpvalue(0.0); stringstream s2(pReservoirSizeTxt); s2 >> tmpvalue ;
+
+        const char* unitsTxt = ppReservoirSize->XmlReadValue("units", false);
+        string unitsInput;
+        if (unitsTxt){
+          unitsInput = unitsTxt;
+        }
+        else{
+          unitsInput = "kJ/mol";
+        }
+
+        const double value(getConvertedEnergy(unitsInput, tmpvalue));
+        int grainLoc(int(value/ double(m_host->getEnv().GrainSize)));
+        int lowestBarrier = int(getLowestBarrier() / double(m_host->getEnv().GrainSize));
+
+        if (grainLoc > 0){
+          if (grainLoc > lowestBarrier){
+            ctest << "The reservoir size provided is too high, corrected according to the lowest barrier height." << endl;
+            grainLoc = lowestBarrier;
+          }
+        }
+        else{
+          if (abs(grainLoc) > lowestBarrier){
+            ctest << "The reservoir size provided is too low, corrected to zero." << endl;
+            grainLoc = 0;
+            break;
+          }
+          else{
+            ctest << "The reservoir is set to " << grainLoc << " cm-1 lower than the lowest barrier." << endl;
+            grainLoc = lowestBarrier + grainLoc;
+          }
+        }
+
+        // Second find out in the current temperature under which energy grain where 99% of the population is located when
+        // the system is in equilibrium for this well.
+        double popAbove(0.0), totalPartition(0.0);
+        for (int i(0); i < m_ncolloptrsize; ++i){
+          const double ptfn(sqrt(exp(log(gDOS[i]) - beta * gEne[i] + 10.0)));
+          totalPartition += ptfn;
+          if (i >= grainLoc)
+            popAbove += ptfn;
+        }
+
+        popAbove /= totalPartition;
+
+        m_numGroupedGrains = grainLoc;
+        ctest << popAbove << " of the " << m_host->getName() << " population is in the active states. "
+              << "Reservoir size = " << m_numGroupedGrains * m_host->getEnv().GrainSize
+              << " cm-1, which is " << m_numGroupedGrains * m_host->getEnv().GrainSize / 83.593 << " kJ/mol." << endl;
+
+        //-----------------------------------------
+        break;
+      }
+
+      if (m_numGroupedGrains){
+        if (!collisionOperatorWithReservoirState(beta, m_ncolloptrsize - m_numGroupedGrains + 1)){
           cerr << "Failed building collision operator with reservoir state.";
           return false;
         }

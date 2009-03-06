@@ -1,3 +1,8 @@
+_2009_03_06__23_08_04_ Chi-Hsiu Liang
+
+  * Read the reservoir size information directly in  initCollisionOperator()
+  * Corrected some code in BartisWidomPhenomenologicalRates() for reservoir grain method
+
 _2009_03_06__14_35_05_ Chi-Hsiu Liang
 
   * Temporarily make MESMER not to overwrite the input file. Need to check if this is doing right.

@@ -378,18 +378,11 @@ namespace mesmer
 
         }
 
-        if (mFlags.doReservoirStateMethod){
-          // Add connecting rate coefficients.
-          for (size_t i(0) ; i < size() ; ++i) {
-            m_reactions[i]->AddReactionTermsWithReservoirState(m_reactionOperator,m_isomers,1.0/m_meanOmega) ;
-          }
+        // Add connecting rate coefficients.
+        for (size_t i(0) ; i < size() ; ++i) {
+          m_reactions[i]->AddReactionTermsWithReservoirState(m_reactionOperator,m_isomers,1.0/m_meanOmega) ;
         }
-        else{
-          // Add connecting rate coefficients.
-          for (size_t i(0) ; i < size() ; ++i) {
-            m_reactions[i]->AddReactionTerms(m_reactionOperator,m_isomers,1.0/m_meanOmega) ;
-          }
-        }
+
 
       } else {
 
@@ -1144,11 +1137,18 @@ namespace mesmer
           double sm = 0.0;
           vector<double> KofEs;                                         // vector to hold sink k(E)s
           Reaction* sinkReaction = sinkpos->first;
-          const int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant
-          if(colloptrsize == 1)  // if the collision operator size is 1, there is one canonical loss rate coefficient
+          int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant
+          if(colloptrsize == 1){  // if the collision operator size is 1, there is one canonical loss rate coefficient
             KofEs.push_back(sinkReaction->get_fwdGrnCanonicalRate());
-          else                   // if the collision operator size is >1, there are k(E)s for the irreversible loss
+          }
+          else{                   // if the collision operator size is >1, there are k(E)s for the irreversible loss
             KofEs = sinkReaction->get_GrainKfmc();                      // assign sink k(E)s, the vector size == maxgrn
+            Molecule* isomer = sinkReaction->get_reactant();
+            const int numberGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
+            colloptrsize = (!numberGroupedGrains)
+                           ? colloptrsize
+                           : colloptrsize - numberGroupedGrains + 1;
+          }
           int rxnMatrixLoc = sinkpos->second;                               // get sink location
           int seqMatrixLoc = m_SinkSequence[sinkReaction];                  // get sink sequence position
           for(int j(0);j<colloptrsize;++j){
