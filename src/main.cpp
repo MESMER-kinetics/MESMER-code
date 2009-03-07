@@ -42,7 +42,7 @@ int main(int argc,char *argv[])
 
   // process command line arguments
   string infilename, outfilename, testfilename, logfilename, punchfilename;
-  bool nocalc=false, usecout=false, updatemols=true, 
+  bool nocalc=false, usecout=false, updatemols=true, overwriteinput=false, 
     qatest=false, nologging=false, changetestname=false;
 
   for(int iarg=1; iarg<argc;++iarg)
@@ -61,6 +61,9 @@ int main(int argc,char *argv[])
         break;
       case 'l':
         updatemols=false;
+        break;
+      case 'n':
+        overwriteinput=true;
         break;
       case 'N':
         changetestname=true;
@@ -216,10 +219,9 @@ int main(int argc,char *argv[])
   catch(std::runtime_error& e)
   {
     cerr << e.what() << endl;
-    exit(1);
+    exit(-1);
   }
     
-  meErrorLog.SetContext(__FUNCTION__);
   //--------------------------------
   // Save XML document
   string thisEvent = "Save XML document";
@@ -227,13 +229,13 @@ int main(int argc,char *argv[])
   string saveTimeStamp = '.' + currentTimeStamp;
   cinfo << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
   
-  if(!usecout && outfilename.empty())
-    outfilename = "mesmer_out.xml";
+  if(!usecout && outfilename.empty())   
+    outfilename = overwriteinput ? infilename : "mesmer_out.xml";
 
   //Any existing file with the same name as the one being written is renamed with a _prev suffix
   //Any old _prev file is not deleted unless the write of the new file is successful
-  //if(!usecout)
-    //rename(outfilename.c_str(), "temp");
+  if(!usecout)
+    rename(outfilename.c_str(), "temp");
 
   if(!ppIOPtr->XmlSaveFile(outfilename))
   {
@@ -272,6 +274,14 @@ int main(int argc,char *argv[])
   }
   return returnCode;
 }
+/*
+main return codes
+0  ok
+-1 runtime exception
+-2 parse failed
+-3 try to overwrite input file without -n option
+-5 QA test failed
+*/
 
 string duplicateFileName(const string& inName, const string& suffix, const string& newTimeStamp){
   //construct duplicatedName from inName by adding or replacing a timestamp
@@ -306,7 +316,8 @@ void usage()
     "Options:\n"
     " -o<outfilename>\n"
     "     If -o has no outfilename, stdout is used.\n"
-    "     If there is no -o option, the output file overwrites the input file.\n"
+    " -n  Allows the input file to be overwritten when there is no -o option,\n"
+    "       otherwise the output file is \"mesmer_out.xml\"\n"
     "     Any file about to be overwritten is saved with suffix _prev to its name. \n"
     " -N  Use infilename for test and log, default is mesmer.test and mesmer.log.\n"
     " -p  Parse the input file only - no calculation.\n"
@@ -348,7 +359,6 @@ bool QACompare(string infilename)
   // return true even if there are extra characters at the end of outstream
   //but that doesn't matter here.
 }
-
 /*
 Mesmer outputs:
                         Source                           Destination
