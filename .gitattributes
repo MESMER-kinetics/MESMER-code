@@ -45,6 +45,7 @@ Windows[!!-~]VC8/TinyXML/TinyXML.vcproj -text
 Windows[!!-~]VC8/qd/qd.vcproj -text
 /defaults.xml -text
 examples/AcetylO2/AcetylO2reduced.xml -text
+examples/AcetylO2/Acetyl_O2_associationEx.xml -text
 examples/AcetylO2/Int1.log -text
 examples/AcetylO2/Int2.log -text
 examples/AcetylO2/O2.log -text

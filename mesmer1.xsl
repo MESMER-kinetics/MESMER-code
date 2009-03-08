@@ -34,7 +34,20 @@
         <!--If we had used src="switchcontent.js" it would have been relative to the
         position of the xml file. The href in xsl:include is relative to the xsl file.-->
       </script>
-
+      <script>
+        function toggle()
+        {
+          var oRule = document.getElementsByTagName('style')[1].sheet.cssRules[0];
+          if(oRule.style.visibility=='hidden')
+          {
+            oRule.style.visibility = 'visible';
+          }
+          else
+          {
+            oRule.style.visibility = 'hidden';
+          }
+        }
+      </script>
       <style>
         <![CDATA[
         body{margin:20px;padding:0;}
@@ -63,13 +76,22 @@
         #header{color:black;font-family: Arial, Helvetica, sans-serif;font-weight:bold;}
         #title{font-size:larger;font-weight:bold;}
         #metadata{color:teal;font-size:smaller;}
+        #hide{font-size:small;text-decoration:underline;color:blue;cursor:pointer;}
         ]]>
       </style>
-      <xsl:if test="//me:hideInactive">
-        <style>
-          <![CDATA[.inactive{display:none;}]]>
-        </style>
-      </xsl:if>
+      <xsl:variable name="inactval">
+        <xsl:choose>
+          <xsl:when test="//me:hideInactive">
+            <xsl:value-of select="'hidden'"/>
+          </xsl:when>         
+          <xsl:otherwise>
+            <xsl:value-of select="'visible'"/>
+          </xsl:otherwise>               
+        </xsl:choose>      
+      </xsl:variable>
+      <style>
+        <xsl:value-of select="concat('.inactive{visibility:', $inactval, ';}')"/>
+      </style>
     </head>
     <body>
       <div id="header">
@@ -119,9 +141,14 @@
       <div id="BWrates" class="switchgroup5">
         <xsl:apply-templates select="//me:rateList"/>
       </div>
-      </xsl:if>
+    </xsl:if>
+
+      <!--Show toggle for inactive display if the file contains any-->
+    <xsl:if test="//*[@active='false']">
+      <p id="hide" onclick="toggle()">Hide/show inactive</p>
+    </xsl:if>
       
-      <!--Script for expanding an contracting sections-->
+    <!--Script for expanding an contracting sections-->
     <script type="text/javascript">
       <![CDATA[
         for(var i=1; i <=5; i++)
