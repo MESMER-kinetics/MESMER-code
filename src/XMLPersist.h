@@ -38,6 +38,39 @@ public:
                             const std::string& MesmerDir="", 
                             const std::string& title="");
 
+  /**Incorporates the content of the file with name filename into the main data file.
+     The root element of the extra file (say <moleculeList>) is matched against each
+     child elements of <mesmer> in the main file. Its children in the extra file
+     (i.e. each <molecule>) is then inserted as a child a child of the matched element
+     in the main file.
+     If the root element of extrafile doesn't match, the child elements are matched to
+     grandchildren of <mesmer> and then insert as siblings.
+     If still no match, the root of extrafile is matched and inserted as a sibling.
+
+     So should work if the extra file looked like:
+     case A
+     <moleculeList>
+       <molecule>...</molecule>
+       <molecule>...</molecule>
+       ...
+     </moleculeList>
+     
+     OR case B
+     <cml>
+       <molecule>...</molecule>
+       <molecule>...</molecule>
+     </cml>
+
+     The above also applies for other elements at the same level in the
+     <mesmer> heirarchy, like <reaction>.
+     Case A will work even if the main document doesn't already have any
+     <molecule>s under <moleculeList> (or equivalent elements). 
+     Case B needs some existing <molecules> so that MESMER can determine
+     the proper place to insert the new ones. 
+     Returns false if there is an error.
+  **/
+  virtual bool XMLPersist::XmlInclude(const std::string& filename);
+
   ///Returns the first child element with this name, or if not found, the next sibling element with this name
   virtual PersistPtr XmlMoveTo(const std::string& name) const;
   virtual const char* XmlRead()const;

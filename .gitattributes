@@ -44,9 +44,11 @@ Windows[!!-~]VC8/Mesmer/Mesmer.vcproj -text
 Windows[!!-~]VC8/TinyXML/TinyXML.vcproj -text
 Windows[!!-~]VC8/qd/qd.vcproj -text
 /defaults.xml -text
+examples/AcetylO2/AcetylO2reduced.xml -text
 examples/AcetylO2/Int1.log -text
 examples/AcetylO2/Int2.log -text
 examples/AcetylO2/O2.log -text
+examples/AcetylO2/O2OH.xml -text
 examples/AcetylO2/OH.log -text
 examples/AcetylO2/TS1.log -text
 examples/AcetylO2/TS2.log -text

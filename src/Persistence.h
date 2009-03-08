@@ -37,6 +37,10 @@ namespace mesmer
     virtual ~IPersist(){} ;
     virtual operator bool() const=0;
 
+    ///Incorporates the content of the file with name filename into the main data file.
+    ///Returns false if there is an error.
+    virtual bool XmlInclude(const std::string& filename)=0;
+
     //Reading methods
     /// Returns an PersistPtr which can be used to read further down the input or output data
     //  (child or sibling element)

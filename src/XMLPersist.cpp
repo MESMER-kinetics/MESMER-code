@@ -51,6 +51,52 @@ namespace mesmer
     return PersistPtr(new XMLPersist(root, pdoc));//this XMLPersist object has a document pointer
   }
 
+  bool XMLPersist::XmlInclude(const std::string& filename)
+  {
+    //See documentation in declaration
+    TiXmlDocument extradoc;
+    if(!extradoc.LoadFile(filename))
+    {
+      cerr << "Could not load file " << filename << endl;
+      return false;
+    }
+    TiXmlNode* pnExtra = extradoc.RootElement();
+    string extraRootStr(pnExtra->ValueStr());
+    //Find child element of <mesmer> which matches the root element of the extra file
+    TiXmlNode* pnMainSection = pnNode->FirstChild(extraRootStr);
+    //if successful is case A
+    if(!pnMainSection)
+    {
+      //case B
+      //Look for the main section (e.g. moleculeList) which contains <molecule>s
+      TiXmlNode* pnExtraChild = pnExtra->FirstChild();//e.g. <molecule>
+      string extraChildStr(pnExtraChild->ValueStr());//"molecule"
+      for(pnMainSection = pnNode->FirstChild(); pnMainSection; pnMainSection = pnMainSection->NextSibling() )
+        // <moleculeList>, <reactionList>,...
+      {
+        if(pnMainSection->FirstChild(extraChildStr))//<moleculeList> has child <molecules>
+          break;
+      }
+      if(!pnMainSection)
+      {
+        cerr << "Could not include the contents of " << filename << endl;
+        return false;
+      }
+    }
+
+    //insert each child element from extrafile
+    TiXmlNode* pnMainBefore = pnMainSection->FirstChild();
+    
+    for(TiXmlNode* child = pnExtra->LastChild(); child; child = child->PreviousSibling() )
+    {
+      if(!pnMainBefore)
+        pnMainBefore = pnMainSection->InsertEndChild(*child);
+      else
+        pnMainBefore = pnMainSection->InsertBeforeChild(pnMainBefore, *child);
+    }
+    return true;
+  }
+
   XMLPersist::~XMLPersist()
   {
     delete pDocument; //doesn't matter that pDocument is usually NULL

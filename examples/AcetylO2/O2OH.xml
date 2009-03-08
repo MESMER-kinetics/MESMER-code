@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cml xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+<molecule id="O_2" description="oxygen">
+  <atomarray>
+    <atom id="a1" elementType="O" />
+    <atom id="a2" elementType="O" />
+  </atomarray>
+  <bondarray>
+    <bond atomRefs2="a1 a2" order="2" />
+  </bondarray>
+  <propertyList>
+    <property dictRef="me:ZPE">
+      <scalar units="kJ/mol">0.0</scalar>
+    </property>
+    <property dictRef="me:rotConsts">
+      <array units="cm-1">1.44914</array>
+    </property>
+    <property dictRef="me:symmetryNumber">
+      <scalar>2</scalar>
+    </property>
+    <property dictRef="me:frequenciesScaleFactor">
+      <scalar>0.9854</scalar>
+    </property>
+    <property dictRef="me:vibFreqs">
+      <array units="cm-1">1665.4292</array>
+    </property>
+    <property dictRef="me:MW">
+      <scalar units="amu">32</scalar>
+    </property>
+    <property dictRef="me:spinMultiplicity">
+      <scalar>3</scalar>
+    </property>
+  </propertyList>
+  <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+</molecule>
+<molecule id="OH" description="OH radical">
+  <atomarray>
+    <atom id="a1" elementType="O" />
+    <atom id="a2" elementType="H" />
+  </atomarray>
+  <bondarray>
+    <bond atomRefs2="a1 a2" order="1" />
+  </bondarray>
+  <propertyList>
+    <property dictRef="me:ZPE">
+      <scalar units="kJ/mol">0.0</scalar>
+    </property>
+    <property dictRef="me:rotConsts">
+      <array units="cm-1">19.2438</array>
+    </property>
+    <property dictRef="me:symmetryNumber">
+      <scalar>1</scalar>
+    </property>
+    <property dictRef="me:frequenciesScaleFactor">
+      <scalar>0.9854</scalar>
+    </property>
+    <property dictRef="me:vibFreqs">
+      <array units="cm-1">3722.0</array>
+    </property>
+    <property dictRef="me:MW">
+      <scalar units="amu">17</scalar>
+    </property>
+    <property dictRef="me:spinMultiplicity">
+      <scalar>2</scalar>
+    </property>
+    <property dictRef="me:eletronicExcitation">
+      <array units="cm-1">139.7</array>
+    </property>
+  </propertyList>
+  <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+</molecule>
+</cml>

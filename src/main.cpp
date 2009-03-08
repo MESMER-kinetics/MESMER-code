@@ -42,6 +42,7 @@ int main(int argc,char *argv[])
 
   // process command line arguments
   string infilename, outfilename, testfilename, logfilename, punchfilename;
+  vector<string> extraInfilenames;
   bool nocalc=false, usecout=false, updatemols=true, overwriteinput=false, 
     qatest=false, nologging=false, changetestname=false;
 
@@ -99,7 +100,11 @@ int main(int argc,char *argv[])
       }
     }
     else{
-      infilename = p;
+      if(infilename.empty())
+        infilename = p;
+      else
+        extraInfilenames.push_back(p);
+
       if (changetestname){
         string testSuffix(".test");
         string logSuffix(".log");
@@ -161,6 +166,14 @@ int main(int argc,char *argv[])
   PersistPtr ppIOPtr = XMLPersist::XmlLoad(infilename, MesmerDir + "/defaults.xml", "me:mesmer");
   if(!ppIOPtr)
     return -1;
+
+  //Incorporate the additional input files into the main datafile
+  vector<string>::reverse_iterator fileitr;
+  for(fileitr=extraInfilenames.rbegin();fileitr!=extraInfilenames.rend();++fileitr)
+  {
+    if(!ppIOPtr->XmlInclude(*fileitr))
+      return -1;
+  }
 
   //------------
   if(nocalc)

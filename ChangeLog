@@ -1,3 +1,23 @@
+2009-03-08 Chris Morley
+  * src/main.cpp: Make overwriting the input file more difficult, needs an option:
+     mesmer infile -o outfile      to outfile
+     mesmer infile -n              to infile
+     mesmer infile                 to "mesmer_out.xml"
+    Copies of all overwritten files are saved with a _prev suffix.
+  
+  * Support for specifying multiple input files on the commandline.
+    The first is normal and the molecules reactions etc from the subsequent
+    ones are inserted into it in an intelligent way before use.
+    Uses an additional function XMLPersist::Include().
+    Example (files in examples/AcetylO2):
+    mesmer AcetylO2reduced.xml O2OH.xml -o out.xml
+
+  * mesmer1.xsl: Make display of inactive reactions and molecules interactive.
+    It would have been better for them to be removed by CSS display:none but
+    I couldn't find a suitable alternative value for the active state.
+    Example file: examples/AcetylO2/Acetyl_O2_associationEx.xml
+    Shows can possibly improve display by rearranging the order of the *reactions*.
+
 _2009_03_06__23_08_04_ Chi-Hsiu Liang
 
   * Read the reservoir size information directly in  initCollisionOperator()
