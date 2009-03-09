@@ -536,7 +536,8 @@ namespace mesmer
     ctest << "\nTotal number of eigenvalues = " << smsize << endl;
     ctest << "Eigenvalues\n{\n";
     for (int i = numberStarted ; i < smsize; ++i) {
-      formatFloat(ctest, m_eigenvalues[i] * m_meanOmega , 6, 15) ;
+      qd_real tmp = (mFlags.doBasisSetMethod)? m_eigenvalues[i] : m_eigenvalues[i] * m_meanOmega ;
+      formatFloat(ctest, tmp, 6, 15) ;
       ctest << endl ;
     }
     ctest << "}\n";
@@ -1417,7 +1418,7 @@ namespace mesmer
     Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
     for (; isomeritr != m_isomers.end() ; ++isomeritr) {
       Molecule *isomer = isomeritr->first ;
-      isomeritr->second = msize ; //set location
+      isomeritr->second = static_cast<int>(msize) ; //set location
       msize += isomer->getColl().get_nbasis() ;
     }
 
@@ -1441,6 +1442,16 @@ namespace mesmer
       m_reactions[i]->AddContractedBasisReactionTerms(m_reactionOperator,m_isomers) ;
     }
 
+    // Print out system matrix.
+    
+    //ctest << endl << "System matrix:" << endl << endl ;
+    //for (size_t i(0) ; i < msize ; ++i) {
+    //  for (size_t j(0) ; j < msize ; ++j) {
+    //    formatFloat(ctest, (*m_reactionOperator)[i][j],  6,  15) ; 
+    //  }
+    //  ctest << endl ;
+    //}
+    
   }
 
   bool ReactionManager::BartisWidomRatesFromBasisSetMethod(dMatrix& mesmerRates, MesmerFlags& mFlags, PersistPtr ppList)

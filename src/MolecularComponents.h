@@ -346,7 +346,10 @@ namespace mesmer
     bool initCollisionOperator(double beta, Molecule *pBathGasMolecule) ;
 
     // Calculate a reaction matrix element.
-    double matrixElement(int eigveci, int eigvecj, std::vector<double> &k, int ndim) ;
+    qd_real matrixElement(int eigveci, int eigvecj, std::vector<double> &k) const;
+    
+    // Accessor a collision operator eigenvector.
+    void eigenVector(int eigveci, std::vector<double> &evec) const ;
 
     void copyCollisionOperator(qdMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
 

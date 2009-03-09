@@ -198,12 +198,13 @@ namespace mesmer
 
     vector<double> fwdMicroRateCoef(rctColloptrsize, 0.0) ;
     vector<double> RvsMicroRateCoef(pdtColloptrsize, 0.0) ;
+    vector<double> CrsMicroRateCoef(pdtColloptrsize, 0.0) ;
     for ( int i=fluxStartIdx, j = reverseThreshE, k=0; j < rctColloptrsize; ++i, ++j, ++k) {
       int ll = k + forwardThreshE;
       int mm = k + reverseThreshE;
-      fwdMicroRateCoef[ll] = m_GrainFlux[i] / rctDOS[ll] ; // Forward loss reaction.
-      RvsMicroRateCoef[mm] = m_GrainFlux[i] / pdtDOS[mm] ; // Backward loss reaction from detailed balance.
-      // (*CollOptr)[ii][jj]  = qd_real(rMeanOmega * m_GrainFlux[i] / sqrt(rctDOS[ll] * pdtDOS[mm])) ; // Reactive gain.
+      fwdMicroRateCoef[ll] = m_GrainFlux[i] / rctDOS[ll] ;                    // Forward loss reaction.
+      RvsMicroRateCoef[mm] = m_GrainFlux[i] / pdtDOS[mm] ;                    // Backward loss reaction. 
+      CrsMicroRateCoef[mm] = m_GrainFlux[i] / sqrt(rctDOS[ll] * pdtDOS[mm]) ; // Reactive gain from detailed balance.
     }
 
     // Locate isomers in system matrix.
@@ -212,48 +213,70 @@ namespace mesmer
 
     // Calculate the elements of the reactant block.
 
-    const int rctBasisSize = m_rct1->getColl().get_nbasis();
-    const int pdtBasisSize = m_pdt1->getColl().get_nbasis();
+    const int rctBasisSize = static_cast<int>(m_rct1->getColl().get_nbasis()) ;
 
-    for (int i=0 ; i < rctBasisSize ; i++) {
-      int ii(rctLocation + i) ;
-      int eigveci(rctColloptrsize - i - 1) ;
-      (*CollOptr)[ii][ii] -= m_pdt1->getColl().matrixElement(eigveci, eigveci, fwdMicroRateCoef, rctColloptrsize) ;
-      for (int j=i+1 ; j < rctBasisSize ; j++) {
-        int jj(rctLocation + j) ;
-        int eigvecj(rctColloptrsize - j - 1) ;
-        (*CollOptr)[ii][jj] -= m_pdt1->getColl().matrixElement(eigveci, eigvecj, fwdMicroRateCoef, rctColloptrsize) ;
-        (*CollOptr)[jj][ii] -= (*CollOptr)[ii][jj] ;
+    for (int i=0, ii(rctLocation), egvI(rctColloptrsize-1) ; i < rctBasisSize ; i++, ii++, --egvI) {
+      (*CollOptr)[ii][ii] -= m_rct1->getColl().matrixElement(egvI, egvI, fwdMicroRateCoef) ;
+      for (int j=i+1, jj(rctLocation + j), egvJ(rctColloptrsize-j-1) ; j < rctBasisSize ; j++, jj++, --egvJ) {
+        qd_real tmp = m_rct1->getColl().matrixElement(egvI, egvJ, fwdMicroRateCoef) ;
+        (*CollOptr)[ii][jj] -= tmp ;
+        (*CollOptr)[jj][ii] -= tmp ;
       }
     }
 
     // Calculate the elements of the product block.
 
-    for (int i=0 ; i < pdtBasisSize ; i++) {
-      int ii(pdtLocation + i) ;
-      int eigveci(pdtColloptrsize - i - 1) ;
-      (*CollOptr)[ii][ii] -= m_pdt1->getColl().matrixElement(eigveci, eigveci, RvsMicroRateCoef, pdtColloptrsize) ;
-      for (int j=i+1 ; j < pdtBasisSize ; j++) {
-        int jj(pdtLocation + j) ;
-        int eigvecj(pdtColloptrsize - j - 1) ;
-        (*CollOptr)[ii][jj] -= m_pdt1->getColl().matrixElement(eigveci, eigvecj, RvsMicroRateCoef, pdtColloptrsize) ;
-        (*CollOptr)[jj][ii] -= (*CollOptr)[ii][jj] ;
+    const int pdtBasisSize = static_cast<int>(m_pdt1->getColl().get_nbasis());
+
+    for (int i=0, ii(pdtLocation), egvI(pdtColloptrsize-1) ; i < pdtBasisSize ; i++, ii++, --egvI) {
+      (*CollOptr)[ii][ii] -= m_pdt1->getColl().matrixElement(egvI, egvI, RvsMicroRateCoef) ;
+      for (int j=i+1, jj(pdtLocation + j), egvJ(pdtColloptrsize-j-1)  ; j < pdtBasisSize ; j++, jj++, --egvJ) {
+        qd_real tmp = m_pdt1->getColl().matrixElement(egvI, egvJ, RvsMicroRateCoef) ;
+        (*CollOptr)[ii][jj] -= tmp ;
+        (*CollOptr)[jj][ii] -= tmp ;
       }
     }
 
     // Calculate the elements of the cross block.
 
-    //for (int i=0 ; i < nbasis ; i++) {
-    //    int ii(rctLocation + i) ;
-    //	int eigveci(colloptrsize - i - 1) ;
-    //	(*CollOptr)[ii][ii] -= m_pdt1->getColl().matrixElement(eigveci, eigveci, vector<double> &k, colloptrsize) ;
-    //  for (int j=i+1 ; j < nbasis ; j++) {
-    //      int jj(rdtLocation + j) ;
-    //		(*CollOptr)[ii][jj] -= m_pdt1->getColl().matrixElement(eigveci, eigveci, vector<double> &k, colloptrsize) ;
-    //		(*CollOptr)[jj][ii] -= (*CollOptr)[ii][jj] ;
-    //	}
-    //}
+    vector<double> rctBasisVector(rctColloptrsize, 0.0) ;
+    vector<double> pdtBasisVector(pdtColloptrsize, 0.0) ;
+    for (int i=0, rctEgv(rctColloptrsize-1) ; i < rctBasisSize ; i++, --rctEgv) {
+      int ii(rctLocation + i) ;
+      m_rct1->getColl().eigenVector(rctEgv, rctBasisVector) ;
+      for (int j=0, pdtEgv(pdtColloptrsize-1)  ; j < pdtBasisSize ; j++, --pdtEgv) {
+        int jj(pdtLocation + j) ;
+        qd_real tmp(0.0) ;
+               
+        if (i==0 && j==0 ) {
 
+          // Special case for equilibrium eigenvectors which obey a detailed balance relation.
+          // SHR, 8/Mar/2009: are there other relations like this I wonder.
+
+          qd_real elmti = (*CollOptr)[ii][ii] ;
+          qd_real elmtj = (*CollOptr)[jj][jj] ;
+          tmp = sqrt(elmti*elmtj) ;
+ 
+        } else {
+        
+          // General case.
+          
+          m_pdt1->getColl().eigenVector(pdtEgv, pdtBasisVector) ;
+          double sum = 0.0 ;
+          for (int k(rctColloptrsize-reverseThreshE), m(rctColloptrsize-1), n(pdtColloptrsize-1); k >=0 ; --m, --n, --k) {
+            // tmp += rctBasisVector[m]*rctBasisVector[m]*fwdMicroRateCoef[m];
+            // tmp += pdtBasisVector[n]*pdtBasisVector[n]*RvsMicroRateCoef[n];
+            // tmp += rctBasisVector[m]*pdtBasisVector[n]*RvsMicroRateCoef[n]*sqrt(pdtDOS[n]/rctDOS[m]);
+            sum += rctBasisVector[m]*pdtBasisVector[n]*CrsMicroRateCoef[n];
+          }
+          
+          tmp = qd_real(sum) ;
+        }
+        (*CollOptr)[ii][jj] += tmp ;
+        (*CollOptr)[jj][ii] += tmp ;
+      }
+    }
+    
   }
 
   //

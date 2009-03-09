@@ -443,8 +443,7 @@ namespace mesmer
         default: ctest << ", diagonalization precision: double\n{\n";
       }
       // Build collison matrix for system.
-      {string thisEvent = "Build Collison Operator";
-      cinfo << thisEvent << endl;}
+      cinfo << "Build Collison Operator" << endl;
       if (!m_pReactionManager->BuildReactionOperator(m_Env, m_Flags)){
         cerr << "Failed building system collison operator.";
         exit(1);
@@ -461,11 +460,13 @@ namespace mesmer
       events.setTimeStamp(thisEvent, timeElapsed);}
 
       //-------------------------------
-      // Total raction matrix operation
+      // Total reaction matrix operator
       //-------------------------------
 
       // This is where the collision operator being diagonalised.
       m_pReactionManager->diagReactionOperator(m_Flags, precision) ;
+
+      if (m_Flags.doBasisSetMethod) return ;
 
       // Time steps loop
       m_pReactionManager->timeEvolution(m_Flags);

@@ -1,3 +1,8 @@
+
+2009-Mar-08 Struan Robertson
+
+  * src/IsomeriationReaction.cpp: Added code relating to contracted basis set method.
+
 2009-03-08 Chris Morley
   * src/main.cpp: Make overwriting the input file more difficult, needs an option:
      mesmer infile -o outfile      to outfile
