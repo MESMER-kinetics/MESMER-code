@@ -229,20 +229,20 @@ namespace mesmer
       for (size_t j(0) ; j < unimolecules.size() ; ++j) {
         // wells
         Molecule *pCollidingMolecule = unimolecules[j] ;
+        const double collidingMolZPE(pCollidingMolecule->getDOS().get_zpe());
         if(pCollidingMolecule && m_isomers.find(pCollidingMolecule) == m_isomers.end()){ // New isomer
           m_isomers[pCollidingMolecule] = 0 ; //initialize to a trivial location
-          double collidingMolZPE = pCollidingMolecule->getDOS().get_zpe();
-
-          //calculate the lowest barrier associated with this well(species)
-          if (TS_ZPE != -9e23){
-            double barrierHeight = TS_ZPE - collidingMolZPE;
-            if (barrierHeight < pCollidingMolecule->getColl().getLowestBarrier()){
-              pCollidingMolecule->getColl().setLowestBarrier(barrierHeight);
-            }
-          }
 
           minEnergy = min(minEnergy, collidingMolZPE) ;
           maxEnergy = max(maxEnergy, collidingMolZPE) ;
+        }
+
+        //calculate the lowest barrier associated with this well(species)
+        if (TS_ZPE != -9e23){
+          const double barrierHeight = TS_ZPE - collidingMolZPE;
+          if (barrierHeight < pCollidingMolecule->getColl().getLowestBarrier()){
+            pCollidingMolecule->getColl().setLowestBarrier(barrierHeight);
+          }
         }
       }
 
