@@ -1137,6 +1137,7 @@ namespace mesmer
         for(sinkpos=m_sinkRxns.begin(); sinkpos!=m_sinkRxns.end(); ++sinkpos){ // calculate Y_matrix elements for sinks
           double sm = 0.0;
           vector<double> KofEs;                                         // vector to hold sink k(E)s
+          vector<double> KofEsTemp;                                     // vector to hold sink k(E)s
           Reaction* sinkReaction = sinkpos->first;
           int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant
           if(colloptrsize == 1){  // if the collision operator size is 1, there is one canonical loss rate coefficient
@@ -1146,6 +1147,18 @@ namespace mesmer
             KofEs = sinkReaction->get_GrainKfmc();                      // assign sink k(E)s, the vector size == maxgrn
             Molecule* isomer = sinkReaction->get_reactant();
             const int numberGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
+
+            // DO NOT MOVE THIS SECTION --- INDEX SENSITIVE
+            if (numberGroupedGrains != 0){
+              for (size_t i(numberGroupedGrains - 1); i < colloptrsize; ++i)
+                KofEsTemp.push_back(KofEs[i]);
+            }
+            else{
+              for (size_t i(0); i < colloptrsize; ++i)
+                KofEsTemp.push_back(KofEs[i]);
+            }
+            // DO NOT MOVE THIS SECTION --- INDEX SENSITIVE
+
             colloptrsize = (!numberGroupedGrains)
                            ? colloptrsize
                            : colloptrsize - numberGroupedGrains + 1;
@@ -1153,7 +1166,7 @@ namespace mesmer
           int rxnMatrixLoc = sinkpos->second;                               // get sink location
           int seqMatrixLoc = m_SinkSequence[sinkReaction];                  // get sink sequence position
           for(int j(0);j<colloptrsize;++j){
-            sm += assymEigenVec[rxnMatrixLoc+j][nchemIdx+i] * KofEs[j];
+            sm += assymEigenVec[rxnMatrixLoc+j][nchemIdx+i] * KofEsTemp[j];
           }
           Y_matrix[seqMatrixLoc][i] = sm;
           KofEs.clear();

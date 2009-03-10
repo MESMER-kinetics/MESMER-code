@@ -1,3 +1,7 @@
+_2009_03_10__16_52_59_ Chi-Hsiu Liang
+
+  * Corrected the Bartis-Widom rate code for irreversible terms.
+
 _2009_03_10__12_40_45_ Chi-Hsiu Liang
 
   * Tidy up some unused code.
