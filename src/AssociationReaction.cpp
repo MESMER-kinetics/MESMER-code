@@ -102,7 +102,7 @@ namespace mesmer
 
   }
 
-  void AssociationReaction::AddReactionTermsWithReservoirState(qdMatrix      *CollOptr,
+  void AssociationReaction::AddReactionTerms(qdMatrix      *CollOptr,
     molMapType    &isomermap,
     const double rMeanOmega)
   {
@@ -135,44 +135,6 @@ namespace mesmer
 
     for ( int i = reverseThreshE, j = fluxStartIdx; i < colloptrsize; ++i, ++j) {
       int ii(pdtLoc + i - pShiftedGrains) ;
-
-      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[j] / pdtDOS[i]);                                // Loss of the adduct to the source
-      (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[j] * sqrt(adductPopFrac[i] * Keq) / pdtDOS[i]);// Reactive gain of the source
-      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                                                      // Reactive gain (symmetrization)
-      DissRateCoeff       += qd_real(m_GrainFlux[j] * adductPopFrac[i] / pdtDOS[i]);
-    }
-    (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * DissRateCoeff * Keq);       // Loss of the source from detailed balance.
-  }
-
-  void AssociationReaction::AddReactionTerms(qdMatrix      *CollOptr,
-    molMapType    &isomermap,
-    const double rMeanOmega)
-  {
-    // Get densities of states of the adduct for detailed balance.
-    vector<double> pdtDOS;
-    m_pdt1->getDOS().getGrainDensityOfStates(pdtDOS) ;
-
-    // Locate isomers in system matrix.
-    const int pdtLoc =      isomermap[m_pdt1] ;
-    const int jj     = (*m_sourceMap)[get_pseudoIsomer()] ;
-
-    // Get equilibrium constant.
-    const double Keq = calcEquilibriumConstant() ;
-
-    // Get Boltzmann distribution for detailed balance.
-    const int MaximumGrain = getEnv().MaxGrn ;
-    vector<double> adductPopFrac ; // Population fraction of the adduct
-
-    m_pdt1->getColl().normalizedGrnBoltzmannDistribution(adductPopFrac, MaximumGrain) ;
-    qd_real DissRateCoeff(0.0) ;
-
-    const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
-    //const int forwardThreshE = get_EffGrnFwdThreshold();
-    const int reverseThreshE = get_EffGrnRvsThreshold();
-    const int fluxStartIdx = get_fluxFirstNonZeroIdx();
-
-    for ( int i = reverseThreshE, j = fluxStartIdx; i < colloptrsize; ++i, ++j) {
-      int ii(pdtLoc + i) ;
 
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[j] / pdtDOS[i]);                                // Loss of the adduct to the source
       (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[j] * sqrt(adductPopFrac[i] * Keq) / pdtDOS[i]);// Reactive gain of the source

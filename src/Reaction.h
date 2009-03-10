@@ -175,10 +175,7 @@ namespace mesmer
     bool calcGrnAvrgMicroRateCoeffs() ;
 
     // Add reaction terms to the reaction matrix.
-    virtual void AddReactionTermsWithReservoirState(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) = 0;
-
-    // Add reaction terms to the reaction matrix.
-    virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) = 0 ;
+    virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) = 0;
 
     // Add contracted basis set reaction terms to the reaction matrix.
     virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) = 0 ;

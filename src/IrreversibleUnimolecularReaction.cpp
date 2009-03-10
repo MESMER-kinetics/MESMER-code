@@ -115,7 +115,7 @@ namespace mesmer
   //
   // Add dissociation reaction terms to collision matrix.
   //
-  void IrreversibleUnimolecularReaction::AddReactionTermsWithReservoirState(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) {
+  void IrreversibleUnimolecularReaction::AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) {
     // Get densities of states for detailed balance.
     vector<double> rctDOS;
     m_rct1->getDOS().getGrainDensityOfStates(rctDOS) ;
@@ -133,29 +133,6 @@ namespace mesmer
     for ( int i=fluxStartIdx, j = forwardThreshE, k=0; j < colloptrsize; ++i, ++j, ++k) {
       int ll = k + forwardThreshE;
       int ii(rctLocation + ll - rShiftedGrains) ;
-      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
-    }
-  }
-
-  //
-  // Add dissociation reaction terms to collision matrix.
-  //
-  void IrreversibleUnimolecularReaction::AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) {
-    // Get densities of states for detailed balance.
-    vector<double> rctDOS;
-    m_rct1->getDOS().getGrainDensityOfStates(rctDOS) ;
-
-    // Locate reactant in system matrix.
-    const int rctLocation = isomermap[m_rct1] ;
-    const int colloptrsize = m_rct1->getColl().get_colloptrsize();
-    const int forwardThreshE = get_EffGrnFwdThreshold();
-
-    //const int reverseThreshE = get_EffGrnRvsThreshold();
-    const int fluxStartIdx = get_fluxFirstNonZeroIdx();
-
-    for ( int i=fluxStartIdx, j = forwardThreshE, k=0; j < colloptrsize; ++i, ++j, ++k) {
-      int ll = k + forwardThreshE;
-      int ii(rctLocation + ll) ;
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
     }
   }

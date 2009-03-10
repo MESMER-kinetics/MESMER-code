@@ -91,8 +91,6 @@ namespace mesmer
 
     bool BartisWidomPhenomenologicalRates(dMatrix& rates, MesmerFlags& mFlags,PersistPtr ppBase);
 
-    bool BartisWidomRatesFromBasisSetMethod(dMatrix& mesmerRates, MesmerFlags& mFlags, PersistPtr ppList);
-
     double calcChiSquare(const dMatrix& mesmerRates, vector<conditionSet>& expRates);
 
     void constructBasisMatrix(void);

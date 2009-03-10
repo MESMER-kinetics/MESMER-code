@@ -95,9 +95,6 @@ namespace mesmer
     virtual double rctsRovibronicGrnCanPrtnFn();
 
     // Add reaction terms to the reaction matrix.
-    virtual void AddReactionTermsWithReservoirState(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;
-
-    // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;
 
     // Add contracted basis set reaction terms to the reaction matrix.
