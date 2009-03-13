@@ -1,3 +1,11 @@
+_2009_03_13__11_48_50_ Chi-Hsiu Liang
+
+  * Updated manual for reservoir state method
+  * Added a QA for reservoir state method; about additional 1 minute will add to the QA test. 
+    In these moderately high temperatures, 800K and 1000K, for the cyclopropene isomerization system, the approximation is not perfect 
+    and also the computational gaining is only about three times. From the suggestion of Dave, we are thinking about implementing a 
+    new species profile method that takes the values from the Bartis-Windom matrix, which could possibly save some additional time.
+
 _2009_03_10__16_52_59_ Chi-Hsiu Liang
 
   * Corrected the Bartis-Widom rate code for irreversible terms.

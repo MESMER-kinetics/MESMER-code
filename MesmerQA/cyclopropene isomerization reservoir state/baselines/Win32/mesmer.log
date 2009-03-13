@@ -1,6 +1,6 @@
 
 Parsing input xml file...
-Cyclopropene_isomerization_test.xml
+Cyclopropene_isomerization_reservoir_state_test.xml
 
 In R1: Parsing reaction...
 In allene: The default value of me:spinMultiplicity was used.
@@ -18,7 +18,7 @@ The default value of me:precision was used.
 The default value of me:precision was used.
 Write metadata
 
-File: "Cyclopropene_isomerization_test.xml" successfully parsed.
+File: "Cyclopropene_isomerization_reservoir_state_test.xml" successfully parsed.
 Calculate EGME
 PT Grid 0
 Build Collison Operator
@@ -35,7 +35,7 @@ Cell number = 38200, Grain number = 191
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 2 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 94 seconds.
- -- Total time elapsed: 184 seconds.
+Finish Calculation -- Time elapsed: 18 seconds.
+ -- Total time elapsed: 57 seconds.
 
 System saved to out.xml

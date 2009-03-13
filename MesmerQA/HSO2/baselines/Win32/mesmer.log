@@ -33,8 +33,8 @@ Rotational constants were not defined but requested.
 Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 1 temperature/concentration-pressure points calculated.
-In main: Finish Calculation -- Time elapsed: 5 seconds.
- -- Total time elapsed: 8 seconds.
+Finish Calculation -- Time elapsed: 4 seconds.
+ -- Total time elapsed: 6 seconds.
 
-In main: System saved to out.xml
-In main: m_scaleFactor is provided but not used in H.
+System saved to out.xml
+m_scaleFactor is provided but not used in H.

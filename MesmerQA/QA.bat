@@ -77,6 +77,12 @@ copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
+cd "cyclopropene isomerization reservoir state"
+%executable% Cyclopropene_isomerization_reservoir_state_test.xml -o %outf% %directive%
+copy "./%tfn%" "./%bline%%otfn%"
+IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+cd ..
+
 cd "OH acetylene association"
 %executable% OH_acetylene_association_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"

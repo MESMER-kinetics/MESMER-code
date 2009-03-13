@@ -917,8 +917,7 @@ namespace mesmer
           }
         }
 
-        // Second find out in the current temperature under which energy grain where 99% of the population is located when
-        // the system is in equilibrium for this well.
+        // Second find out the partition fraction of active states in the current temperature
         double popAbove(0.0), totalPartition(0.0);
         for (int i(0); i < m_ncolloptrsize; ++i){
           const double ptfn(sqrt(exp(log(gDOS[i]) - beta * gEne[i] + 10.0)));
@@ -1385,7 +1384,7 @@ namespace mesmer
     // evec.clear() ;
     for (int i(0) ; i < m_ncolloptrsize ; ++i){
       evec[i] =  to_double((*m_egvec)[i][eigveci]) ;
-    }  
+    }
   }
 
   //

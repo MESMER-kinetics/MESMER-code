@@ -45,12 +45,12 @@ Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 No population was assigned. Initialize the first source term to 1.0.
 
 In total, 1 temperature/concentration-pressure points calculated.
-In main: Finish Calculation -- Time elapsed: 39 seconds.
- -- Total time elapsed: 68 seconds.
+Finish Calculation -- Time elapsed: 38 seconds.
+ -- Total time elapsed: 66 seconds.
 
-In main: System saved to out.xml
-In main: Rotational constants are provided but not used in OCHCH2.
-In main: m_Sym is provided but not used in OCHCH2.
-In main: m_scaleFactor is provided but not used in OCHCH2.
-In main: m_SpinMultiplicity is provided but not used in OCHCH2.
-In main: m_VibFreq is provided but not used in OCHCH2.
+System saved to out.xml
+Rotational constants are provided but not used in OCHCH2.
+m_Sym is provided but not used in OCHCH2.
+m_scaleFactor is provided but not used in OCHCH2.
+m_SpinMultiplicity is provided but not used in OCHCH2.
+m_VibFreq is provided but not used in OCHCH2.

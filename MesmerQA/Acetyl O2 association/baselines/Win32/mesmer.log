@@ -49,27 +49,27 @@ Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 No population was assigned. Initialize the first source term to 1.0.
 
 In total, 1 temperature/concentration-pressure points calculated.
-In main: Finish Calculation -- Time elapsed: 50 seconds.
- -- Total time elapsed: 165 seconds.
+Finish Calculation -- Time elapsed: 53 seconds.
+ -- Total time elapsed: 173 seconds.
 
-In main: System saved to out.xml
-In main: Rotational constants are provided but not used in HO_2.
-In main: m_Sym is provided but not used in HO_2.
-In main: m_scaleFactor is provided but not used in HO_2.
-In main: m_SpinMultiplicity is provided but not used in HO_2.
-In main: m_VibFreq is provided but not used in HO_2.
-In main: Rotational constants are provided but not used in OH.
-In main: m_Sym is provided but not used in OH.
-In main: m_scaleFactor is provided but not used in OH.
-In main: m_SpinMultiplicity is provided but not used in OH.
-In main: m_VibFreq is provided but not used in OH.
-In main: m_ImFreq is provided but not used in TS2.
-In main: m_ImFreq is provided but not used in TS3.
-In main: Rotational constants are provided but not used in ketene.
-In main: m_Sym is provided but not used in ketene.
-In main: m_scaleFactor is provided but not used in ketene.
-In main: m_SpinMultiplicity is provided but not used in ketene.
-In main: m_VibFreq is provided but not used in ketene.
-In main: m_Sym is provided but not used in lactone.
-In main: m_scaleFactor is provided but not used in lactone.
-In main: m_SpinMultiplicity is provided but not used in lactone.
+System saved to out.xml
+Rotational constants are provided but not used in HO_2.
+m_Sym is provided but not used in HO_2.
+m_scaleFactor is provided but not used in HO_2.
+m_SpinMultiplicity is provided but not used in HO_2.
+m_VibFreq is provided but not used in HO_2.
+Rotational constants are provided but not used in OH.
+m_Sym is provided but not used in OH.
+m_scaleFactor is provided but not used in OH.
+m_SpinMultiplicity is provided but not used in OH.
+m_VibFreq is provided but not used in OH.
+m_ImFreq is provided but not used in TS2.
+m_ImFreq is provided but not used in TS3.
+Rotational constants are provided but not used in ketene.
+m_Sym is provided but not used in ketene.
+m_scaleFactor is provided but not used in ketene.
+m_SpinMultiplicity is provided but not used in ketene.
+m_VibFreq is provided but not used in ketene.
+m_Sym is provided but not used in lactone.
+m_scaleFactor is provided but not used in lactone.
+m_SpinMultiplicity is provided but not used in lactone.
