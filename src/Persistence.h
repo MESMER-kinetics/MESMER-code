@@ -130,16 +130,30 @@ namespace mesmer
       if(p) ++p_->count_; //p can be NULL
     }
     ~PersistPtr()           { if (p_ && --p_->count_ == 0) delete p_; }
-    PersistPtr(const PersistPtr& p) : p_(p.p_) { ++p_->count_; }
+    PersistPtr(const PersistPtr& p) 
+    {
+      if(p)
+      {
+        p_ = p.p_;
+        ++p_->count_;
+      }
+      else
+        p_ = NULL;
+    }
     PersistPtr() :p_(NULL){}
     PersistPtr& operator= (const PersistPtr& p)
     { // DO NOT CHANGE THE ORDER OF THESE STATEMENTS!
       // (This order properly handles self-assignment)
       // (This order also properly handles recursion, e.g., if a IPersist contains PersistPtrs)
-      IPersist* const old = p_;
-      p_ = p.p_;
-      ++p_->count_;
-      if (old && --old->count_ == 0) delete old;
+      if(p)
+      {
+        IPersist* const old = p_;
+        p_ = p.p_;
+        ++p_->count_;
+        if (old && --old->count_ == 0) delete old;
+      }
+      else
+        p_ = NULL;
       return *this;
     }
 

@@ -16,7 +16,9 @@ class XMLPersist : public IPersist
 protected:
   TiXmlElement* pnNode;
   TiXmlDocument* pDocument; //NULL except when XMLPersist made from XmlLoad()
+  static std::string m_defaultsfilename;
   static TiXmlDocument* pDefaults;
+  static std::string  xtraerr;
 
 private:
   //Constructor private so that reference counting cannot be subverted.

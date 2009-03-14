@@ -2,28 +2,26 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include <stdexcept>
 #include "XMLPersist.h"
 
 using namespace std;
 
 namespace mesmer
 {
-  //static variable
+  //static variables
   TiXmlDocument* XMLPersist::pDefaults=NULL;
+  std::string  XMLPersist::m_defaultsfilename;
+  std::string  XMLPersist::xtraerr("\nIt may not exist, it may be being used by another program,"
+                 "\nor it may not consist of well-formed XML.");
 
-  PersistPtr XMLPersist::XmlLoad(const std::string& inputfilename, 
+
+  PersistPtr XMLPersist::XmlLoad(const std::string& inputfilename,
     const std::string& defaultsfilename,
     const std::string& title)
   {
-    //Open defaults.xml (once only)
-    if(!pDefaults && !defaultsfilename.empty())
-    {
-      static TiXmlDocument def;
-      pDefaults = &def;
-      if(!pDefaults->LoadFile(defaultsfilename))
-        cerr << "Could not open the defaults file: " << defaultsfilename << endl;
-    }
-
+    if(!defaultsfilename.empty())
+      m_defaultsfilename = defaultsfilename;
     TiXmlDocument* pdoc = new TiXmlDocument();//Deleted in destructor
 
     bool ret;
@@ -34,8 +32,7 @@ namespace mesmer
     if( !ret )
     {
       cerr << "Could not load file " << inputfilename
-        << "\nIt may not exist, it may be being used by another program,"
-        << "\nor it may not consist of well-formed XML." << endl;
+           << xtraerr  << endl;
 
       delete pdoc;
       return PersistPtr(NULL);
@@ -57,7 +54,7 @@ namespace mesmer
     TiXmlDocument extradoc;
     if(!extradoc.LoadFile(filename))
     {
-      cerr << "Could not load file " << filename << endl;
+      cerr << "Could not load the secondary input file " << filename << xtraerr << endl;
       return false;
     }
     TiXmlNode* pnExtra = extradoc.RootElement();
@@ -93,7 +90,9 @@ namespace mesmer
         pnMainBefore = pnMainSection->InsertEndChild(*child);
       else
         pnMainBefore = pnMainSection->InsertBeforeChild(pnMainBefore, *child);
+      PersistPtr(new XMLPersist(pnMainBefore->ToElement()))->XmlWriteMetadata("source", filename);
     }
+
     return true;
   }
 
@@ -210,7 +209,7 @@ namespace mesmer
     }
 
     // not found
-    if(pDefaults && MustBeThere  && InsertDefault("property", name))
+    if(MustBeThere  && InsertDefault("property", name))
       return XmlReadProperty(name, MustBeThere) ; //Try again (recursively). Should succeed.
 
     return NULL;
@@ -433,7 +432,22 @@ namespace mesmer
   bool XMLPersist::InsertDefault(const string& elName, const string& dictRefName)
   {    
     string name = dictRefName.empty() ? elName : dictRefName;
+
     //Find the default element in defaults.xml
+    if(!pDefaults)
+    {
+      //Open defaults.xml (once only)
+      static TiXmlDocument def;
+      if(def.LoadFile(m_defaultsfilename))
+        pDefaults = &def;
+      else
+      {
+        //Should really terminate, but it's not easy to do from here
+        string s("Could not open the defaults file: " + m_defaultsfilename + xtraerr);
+        throw (std::runtime_error(s)); 
+      }
+    }
+
     TiXmlElement* pnDefProp = pDefaults->RootElement()->FirstChildElement(elName);
 
     if(!pnDefProp)//no matching elements: the name must refer to an attribute 
@@ -492,6 +506,7 @@ namespace mesmer
         pnDefProp = pnDefProp->NextSiblingElement();
       }
     }
+  
     cerr << "No element, or dictRef of a property, = " << name << " was found in defaults.xml or it could not be copied."
       << "\nTHIS NEEDS TO BE CORRECTED.\n";
     return false;
