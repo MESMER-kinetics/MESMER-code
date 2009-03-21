@@ -93,9 +93,13 @@ namespace mesmer
 
     double calcChiSquare(const dMatrix& mesmerRates, vector<conditionSet>& expRates);
 
-    void constructBasisMatrix(void);
-
   private:
+
+    // Construct a transition matrix based on grains.
+    void constructGrainMatrix(int msize);
+    
+    // Construct a transition matrix based on collision operator eigenfunctions.
+    void constructBasisMatrix(void);
 
     std::vector<Reaction *> m_reactions ;
 

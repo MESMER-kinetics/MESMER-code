@@ -322,29 +322,23 @@ namespace mesmer
       //          there to be more than one source term.
       m_sources.clear(); // Maps the location of source in the system matrix.
       for (size_t i(0) ; i < size() ; ++i) {
-        IrreversibleExchangeReaction *IREreaction = dynamic_cast<IrreversibleExchangeReaction*>(m_reactions[i]);
         AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
         if (pReaction) {  // if the reaction is an association reaction
           Molecule *pPseudoIsomer = pReaction->get_pseudoIsomer();
-          if (pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){ // reaction includes
-            m_sources[pPseudoIsomer] = msize ;
-            pReaction->putSourceMap(&m_sources) ;
+          if (pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){ // reaction includes a new
+            m_sources[pPseudoIsomer] = msize ;                                    // pseudoisomer
             ++msize ;
           }
-          else if(pPseudoIsomer && m_sources.find(pPseudoIsomer)!=m_sources.end()){ // reaction includes a
-            pReaction->putSourceMap(&m_sources);                                    // pseudoisomer that
-          }                                                                         // is already in the map
+          pReaction->putSourceMap(&m_sources) ;
         }
-        else if(IREreaction){       // if the reaction is an irreversible exchange reaction
+        IrreversibleExchangeReaction *IREreaction = dynamic_cast<IrreversibleExchangeReaction*>(m_reactions[i]);
+        if(IREreaction){       // if the reaction is an irreversible exchange reaction
           Molecule *pPseudoIsomer = IREreaction->get_pseudoIsomer();
-          if(pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){    // reaction includes a new
-            m_sources[pPseudoIsomer] = msize ;                                      // pseudoisomer
-            IREreaction->putSourceMap(&m_sources);
+          if(pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){  // reaction includes a new
+            m_sources[pPseudoIsomer] = msize ;                                    // pseudoisomer
             ++msize;
           }
-          else if(pPseudoIsomer && m_sources.find(pPseudoIsomer)!=m_sources.end()){ // reaction includes a
-            IREreaction->putSourceMap(&m_sources);                                  // pseudoisomer that is
-          }                                                                         // already in the map
+          IREreaction->putSourceMap(&m_sources);
         }
       }
 
@@ -360,36 +354,14 @@ namespace mesmer
 
         // Full energy grained reaction operator.
 
-        // Allocate space for the full system collision operator.
-        if (m_reactionOperator) delete m_reactionOperator;
-        m_reactionOperator = new qdMatrix(msize, 0.0) ;
-
-        // Insert collision operators to reaction operator from individual wells.
-        for (isomeritr = m_isomers.begin() ; isomeritr != m_isomers.end() ; ++isomeritr) {
-
-          Molecule *isomer = isomeritr->first ;
-          int colloptrsize = isomer->getColl().getNumberOfGroupedGrains() != 0
-                             ? isomer->getColl().get_colloptrsize() - isomer->getColl().getNumberOfGroupedGrains() + 1
-                             : isomer->getColl().get_colloptrsize();
-          double omega = isomer->getColl().get_collisionFrequency();
-          int idx = isomeritr->second ;
-
-          isomer->getColl().copyCollisionOperator(m_reactionOperator, colloptrsize, idx, omega/m_meanOmega) ;
-
-        }
-
-        // Add connecting rate coefficients.
-        for (size_t i(0) ; i < size() ; ++i) {
-          m_reactions[i]->AddReactionTerms(m_reactionOperator,m_isomers,1.0/m_meanOmega) ;
-        }
+        constructGrainMatrix(msize);
 
       } else {
 
         // Contracted basis set reaction operator.
 
         constructBasisMatrix();
-        //ctest << "\nPrinting all (" << m_reactionOperator->size() << ") columns/rows of the Reaction Operator:\n";
-        //m_reactionOperator->showFinalBits(0, mFlags.print_TabbedMatrices);
+
       }
     }
 
@@ -1114,9 +1086,9 @@ namespace mesmer
         Molecule* isomer = ipos->first;
         const int numberGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
         const int colloptrsize = (!numberGroupedGrains)
-                                ? isomer->getColl().get_colloptrsize()
-                                : isomer->getColl().get_colloptrsize() - numberGroupedGrains + 1;
-                                                                        // get colloptrsize for isomer
+          ? isomer->getColl().get_colloptrsize()
+          : isomer->getColl().get_colloptrsize() - numberGroupedGrains + 1;
+        // get colloptrsize for isomer
         int rxnMatrixLoc = ipos->second;                                // get location for isomer in the rxn matrix
         int seqMatrixLoc = m_SpeciesSequence[isomer];                   // get sequence position for isomer
         for(int j(0);j<colloptrsize;++j){
@@ -1159,8 +1131,8 @@ namespace mesmer
             // DO NOT MOVE THIS SECTION --- INDEX SENSITIVE
 
             colloptrsize = (!numberGroupedGrains)
-                           ? colloptrsize
-                           : colloptrsize - numberGroupedGrains + 1;
+              ? colloptrsize
+              : colloptrsize - numberGroupedGrains + 1;
           }
           int rxnMatrixLoc = sinkpos->second;                               // get sink location
           int seqMatrixLoc = m_SinkSequence[sinkReaction];                  // get sink sequence position
@@ -1404,6 +1376,35 @@ namespace mesmer
     return chiSquare;
   }
 
+  // This method constructs a transition matrix based on energy grains.
+  //
+  void ReactionManager::constructGrainMatrix(int msize){
+
+    // Allocate space for the full system collision operator.
+    if (m_reactionOperator) delete m_reactionOperator;
+    m_reactionOperator = new qdMatrix(msize, 0.0) ;
+
+    // Insert collision operators to reaction operator from individual wells.
+    Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
+    for (isomeritr = m_isomers.begin() ; isomeritr != m_isomers.end() ; ++isomeritr) {
+
+      Molecule *isomer = isomeritr->first ;
+      int colloptrsize = isomer->getColl().getNumberOfGroupedGrains() != 0
+        ? isomer->getColl().get_colloptrsize() - isomer->getColl().getNumberOfGroupedGrains() + 1
+        : isomer->getColl().get_colloptrsize();
+      double omega = isomer->getColl().get_collisionFrequency();
+      int idx = isomeritr->second ;
+
+      isomer->getColl().copyCollisionOperator(m_reactionOperator, colloptrsize, idx, omega/m_meanOmega) ;
+
+    }
+
+    // Add connecting rate coefficients.
+    for (size_t i(0) ; i < size() ; ++i) {
+      m_reactions[i]->AddReactionTerms(m_reactionOperator,m_isomers,1.0/m_meanOmega) ;
+    }
+
+  }
 
   // This is a routine to construct the big basis matrix based on the alternative basis set method.
   // The full reaction operator is subject to a similarity transformation process by a set of eigenvectors.
@@ -1426,9 +1427,9 @@ namespace mesmer
   void ReactionManager::constructBasisMatrix(void){
 
     // Determine the size and location of various blocks.
-    
+
     // 1. Isomers.
-    
+
     size_t msize(0) ;
     Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
     for (; isomeritr != m_isomers.end() ; ++isomeritr) {
@@ -1438,7 +1439,7 @@ namespace mesmer
     }
 
     // 2. Pseudoisomers.
-    
+
     Reaction::molMapType::iterator pseudoIsomeritr = m_sources.begin() ;
     for (; pseudoIsomeritr != m_isomers.end() ; ++pseudoIsomeritr) {
       pseudoIsomeritr->second = static_cast<int>(msize) ; //set location
@@ -1446,7 +1447,7 @@ namespace mesmer
     }
 
     // Allocate space for the reaction operator.
-    
+
     if (m_reactionOperator) delete m_reactionOperator;
     m_reactionOperator = new qdMatrix(msize, 0.0) ;
 
@@ -1467,7 +1468,7 @@ namespace mesmer
     }
 
     // Print out system matrix.
-    
+
     //ctest << endl << "System matrix:" << endl << endl ;
     //for (size_t i(0) ; i < msize ; ++i) {
     //  for (size_t j(0) ; j < msize ; ++j) {
@@ -1475,7 +1476,7 @@ namespace mesmer
     //  }
     //  ctest << endl ;
     //}
-    
+
   }
 
   //

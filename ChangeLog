@@ -1,6 +1,10 @@
 
 2009-Mar-21 Struan Robertson
 
+  * src/ReactionManager.cpp: Tidy-up of BuildReactionOperator method.
+
+2009-Mar-21 Struan Robertson
+
   * src/AssociationReaction.cpp: Added code relating to contracted basis set method.
 
 2009-03-14 Chris Morley
