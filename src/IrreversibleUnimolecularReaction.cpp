@@ -124,16 +124,50 @@ namespace mesmer
     const int rctLocation = isomermap[m_rct1] ;
     int rNGG(m_rct1->getColl().getNumberOfGroupedGrains());
     const int rShiftedGrains(rNGG == 0 ? 0 : rNGG - 1);
-    const int colloptrsize = m_rct1->getColl().get_colloptrsize();
-    const int forwardThreshE = get_EffGrnFwdThreshold();
 
-    //const int reverseThreshE = get_EffGrnRvsThreshold();
-    const int fluxStartIdx = get_fluxFirstNonZeroIdx();
+    const int colloptrsize   = m_rct1->getColl().get_colloptrsize();
+    const int forwardThreshE = get_EffGrnFwdThreshold();
+    const int fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
     for ( int i=fluxStartIdx, j = forwardThreshE, k=0; j < colloptrsize; ++i, ++j, ++k) {
       int ll = k + forwardThreshE;
       int ii(rctLocation + ll - rShiftedGrains) ;
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
+    }
+  }
+
+  //
+  // Add contracted basis set reaction terms to the reaction matrix.
+  //
+  void IrreversibleUnimolecularReaction::AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) {
+
+    // Get densities of states for detailed balance.
+    vector<double> rctDOS;
+    m_rct1->getDOS().getGrainDensityOfStates(rctDOS) ;
+
+    const int rctColloptrsize = m_rct1->getColl().get_colloptrsize();
+    const int forwardThreshE  = get_EffGrnFwdThreshold();
+    const int fluxStartIdx    = get_fluxFirstNonZeroIdx();
+
+    vector<double> fwdMicroRateCoef(rctColloptrsize, 0.0) ;
+    for ( int i=fluxStartIdx, j = forwardThreshE, k=0; j < rctColloptrsize; ++i, ++j, ++k) {
+      int ll = k + forwardThreshE;
+      fwdMicroRateCoef[ll] = m_GrainFlux[i] / rctDOS[ll] ;    // Forward loss reaction.
+    }
+
+    // Locate isomers in system matrix.
+    const int rctLocation = isomermap[m_rct1] ;
+
+    // Calculate the elements of the reactant block.
+    const int rctBasisSize = static_cast<int>(m_rct1->getColl().get_nbasis()) ;
+
+    for (int i=0, ii(rctLocation), egvI(rctColloptrsize-1) ; i < rctBasisSize ; i++, ii++, --egvI) {
+      (*CollOptr)[ii][ii] -= m_rct1->getColl().matrixElement(egvI, egvI, fwdMicroRateCoef) ;
+      for (int j=i+1, jj(rctLocation + j), egvJ(rctColloptrsize-j-1) ; j < rctBasisSize ; j++, jj++, --egvJ) {
+        qd_real tmp = m_rct1->getColl().matrixElement(egvI, egvJ, fwdMicroRateCoef) ;
+        (*CollOptr)[ii][jj] -= tmp ;
+        (*CollOptr)[jj][ii] -= tmp ;
+      }
     }
   }
 

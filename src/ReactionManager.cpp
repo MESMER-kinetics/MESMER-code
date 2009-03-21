@@ -383,7 +383,6 @@ namespace mesmer
           m_reactions[i]->AddReactionTerms(m_reactionOperator,m_isomers,1.0/m_meanOmega) ;
         }
 
-
       } else {
 
         // Contracted basis set reaction operator.
@@ -1427,6 +1426,9 @@ namespace mesmer
   void ReactionManager::constructBasisMatrix(void){
 
     // Determine the size and location of various blocks.
+    
+    // 1. Isomers.
+    
     size_t msize(0) ;
     Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
     for (; isomeritr != m_isomers.end() ; ++isomeritr) {
@@ -1435,7 +1437,16 @@ namespace mesmer
       msize += isomer->getColl().get_nbasis() ;
     }
 
+    // 2. Pseudoisomers.
+    
+    Reaction::molMapType::iterator pseudoIsomeritr = m_sources.begin() ;
+    for (; pseudoIsomeritr != m_isomers.end() ; ++pseudoIsomeritr) {
+      pseudoIsomeritr->second = static_cast<int>(msize) ; //set location
+      msize++ ;
+    }
+
     // Allocate space for the reaction operator.
+    
     if (m_reactionOperator) delete m_reactionOperator;
     m_reactionOperator = new qdMatrix(msize, 0.0) ;
 
@@ -1450,7 +1461,7 @@ namespace mesmer
       isomer->getColl().copyCollisionOperatorEigenValues(m_reactionOperator, idx, omega) ;
     }
 
-    // Add connecting rate coefficients.
+    // Add rate coefficients.
     for (size_t i(0) ; i < size() ; ++i) {
       m_reactions[i]->AddContractedBasisReactionTerms(m_reactionOperator,m_isomers) ;
     }

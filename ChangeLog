@@ -1,3 +1,8 @@
+
+2009-Mar-21 Struan Robertson
+
+  * src/AssociationReaction.cpp: Added code relating to contracted basis set method.
+
 2009-03-14 Chris Morley
   
   * src/Persistence.h: make PersistPtr work with NULL content.

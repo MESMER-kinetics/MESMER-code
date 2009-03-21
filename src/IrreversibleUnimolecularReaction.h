@@ -94,7 +94,7 @@ namespace mesmer
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;
 
     // Add contracted basis set reaction terms to the reaction matrix.
-    virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap){} ;
+    virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) ;
 
   private:
 

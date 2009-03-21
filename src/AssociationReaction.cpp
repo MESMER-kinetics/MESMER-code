@@ -144,6 +144,91 @@ namespace mesmer
     (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * DissRateCoeff * Keq);       // Loss of the source from detailed balance.
   }
 
+
+  //
+  // Add isomer reaction terms to contracted basis reaction matrix.
+  //
+  void AssociationReaction::AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap)
+  {
+    // Get densities of states for detailed balance.
+    vector<double> pdtDOS;
+    m_pdt1->getDOS().getGrainDensityOfStates(pdtDOS) ;
+
+    // Get equilibrium constant.
+    const double Keq = calcEquilibriumConstant() ;
+
+    // Get Boltzmann distribution for detailed balance.
+    const int MaximumGrain = getEnv().MaxGrn ;
+    vector<double> adductPopFrac ; // Population fraction of the adduct
+    m_pdt1->getColl().normalizedGrnBoltzmannDistribution(adductPopFrac, MaximumGrain) ;
+
+    const int pdtColloptrsize = m_pdt1->getColl().get_colloptrsize();
+    const int reverseThreshE  = get_EffGrnRvsThreshold();
+    const int fluxStartIdx    = get_fluxFirstNonZeroIdx();
+
+    double DissRateCoeff(0.0) ;
+
+    vector<double> RvsMicroRateCoef(pdtColloptrsize, 0.0) ;
+    vector<double> CrsMicroRateCoef(pdtColloptrsize, 0.0) ;
+    for ( int i=fluxStartIdx, j = reverseThreshE, k=0; j < pdtColloptrsize; ++i, ++j, ++k) {
+      int mm = k + reverseThreshE;
+      RvsMicroRateCoef[mm] = m_GrainFlux[i] / pdtDOS[mm] ;                          // Backward loss reaction. 
+      CrsMicroRateCoef[mm] = RvsMicroRateCoef[mm] * sqrt(adductPopFrac[mm] * Keq) ; // Reactive gain from detailed balance.
+      DissRateCoeff       += RvsMicroRateCoef[mm] * adductPopFrac[mm] ;
+    }
+
+    // Calculate the elements of the product block.
+
+    const int pdtLocation  = isomermap[m_pdt1] ;
+    const int pdtBasisSize = static_cast<int>(m_pdt1->getColl().get_nbasis());
+    for (int i=0, ii(pdtLocation), egvI(pdtColloptrsize-1) ; i < pdtBasisSize ; i++, ii++, --egvI) {
+      (*CollOptr)[ii][ii] -= m_pdt1->getColl().matrixElement(egvI, egvI, RvsMicroRateCoef) ;
+      for (int j=i+1, jj(pdtLocation + j), egvJ(pdtColloptrsize-j-1)  ; j < pdtBasisSize ; j++, jj++, --egvJ) {
+        qd_real tmp = m_pdt1->getColl().matrixElement(egvI, egvJ, RvsMicroRateCoef) ;
+        (*CollOptr)[ii][jj] -= tmp ;
+        (*CollOptr)[jj][ii] -= tmp ;
+      }
+    }
+
+    // Calculate the elements of the reactant block.
+
+    const int jj         = (*m_sourceMap)[get_pseudoIsomer()] ;
+    (*CollOptr)[jj][jj] -= qd_real(DissRateCoeff * Keq);       // Loss of the source from detailed balance.
+
+    // Calculate the elements of the cross blocks.
+
+    vector<double> pdtBasisVector(pdtColloptrsize, 0.0) ;
+    for (int i=0, pdtEgv(pdtColloptrsize-1)  ; i < pdtBasisSize ; i++, --pdtEgv) {
+      int ii(pdtLocation + i) ;
+      qd_real tmp(0.0) ;
+
+      if (i==0) {
+
+        // Special case for equilibrium eigenvectors which obey a detailed balance relation.
+        // SHR, 8/Mar/2009: are there other relations like this I wonder.
+
+        qd_real elmti = (*CollOptr)[ii][ii] ;
+        qd_real elmtj = (*CollOptr)[jj][jj] ;
+        tmp = sqrt(elmti*elmtj) ;
+
+      } else {
+
+        // General case.
+
+        m_pdt1->getColl().eigenVector(pdtEgv, pdtBasisVector) ;
+        double sum = 0.0 ;
+        for (int k(pdtColloptrsize-reverseThreshE), n(pdtColloptrsize-1); k >=0 ; --n, --k) {
+          sum += pdtBasisVector[n]*CrsMicroRateCoef[n];
+        }
+
+        tmp = qd_real(sum) ;
+      }
+      (*CollOptr)[ii][jj] += tmp ;
+      (*CollOptr)[jj][ii] += tmp ;
+    }
+
+  }
+
   //
   // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
   //
