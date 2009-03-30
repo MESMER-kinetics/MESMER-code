@@ -1,4 +1,7 @@
-2009-Mar-26 Struan Robertson
+2009-Mar-30 Dave Glowacki
+  * fixed GCC compiler problem that showed up when testing 64 bit compilation
+
+2009-Mar-26 Dave Glowacki
   * fixed GCC compiler problem that showed up when testing 64 bit compilation
 
 2009-Mar-21 Struan Robertson

@@ -71,7 +71,7 @@ public:
      the proper place to insert the new ones. 
      Returns false if there is an error.
   **/
-  virtual bool XMLPersist::XmlInclude(const std::string& filename);
+  virtual bool XmlInclude(const std::string& filename);
 
   ///Returns the first child element with this name, or if not found, the next sibling element with this name
   virtual PersistPtr XmlMoveTo(const std::string& name) const;
