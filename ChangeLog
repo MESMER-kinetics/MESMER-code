@@ -1,3 +1,8 @@
+
+2009-Mar-30 Struan Robertson
+
+  * MesmerQA: Initial checkin of isopropyl test.
+
 2009-Mar-30 Dave Glowacki
   * fixed GCC compiler problem that showed up when testing 64 bit compilation
 

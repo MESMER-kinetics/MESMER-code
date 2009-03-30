@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+  <title>Pentyl isomerization</title>
+  <moleculeList>
+    <molecule id="i-propyl">
+      <atomarray>
+        <atom id="a1" elementType="C"/>
+        <atom id="a2" elementType="C"/>
+        <atom id="a3" elementType="C"/>
+      </atomarray>
+      <bondarray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a2 a3" order="1"/>
+      </bondarray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">0.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">1.528 0.2645 0.2645</array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>18</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            3052.0 2968.2 2968.2 2967.7 2920.0 2887.0 2850.0 1468.0 1464.0 1462.0
+            1440.0 1378.0 1338.0 1292.0 1200.0 1165.0 1053.8  921.7  879.0  748.1
+             369.2  364.0  300.0  300.0
+          </array>
+          <!-- The last two frequencies approximately represent internal motion.-->
+        </property>
+        <property dictRef="me:MW">
+          <scalar>43</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>275.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>4.94</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">230.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+    <molecule id="propene">
+      <atomarray>
+        <atom id="a1" elementType="C"/>
+        <atom id="a2" elementType="C"/>
+        <atom id="a3" elementType="C"/>
+      </atomarray>
+      <bondarray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a2 a3" order="1"/>
+      </bondarray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">12275.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            0.3690
+            0.0808
+            0.0737
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            3091.0 3022.0 2991.0 2973.0 2952.8 2931.0 1652.8 1458.5 1442.5 1414.0
+            1378.0 1298.0 1177.5 1044.7  990.0  934.5  919.0  912.0  575.2  428.0
+             300.0
+          </array>
+          <!-- The last frequency approximately represent internal motion.-->
+        </property>
+        <property dictRef="me:MW">
+          <scalar>42</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+    <molecule id="H">
+      <atom elementType="H"/>
+      <propertyList>
+        <property dictRef="me:MW">
+          <scalar>1.0</scalar>
+        </property>
+      </propertyList>
+      <property dictRef="me:spinMultiplicity">
+        <scalar>1</scalar>
+      </property>
+    </molecule>
+
+    <molecule id="He">
+      <atom elementType="He"/>
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>10.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>2.55</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>4.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+  </moleculeList>
+
+  <reactionList>
+
+    <reaction id="R1">
+      <reactant>
+        <molecule ref="i-propyl"  me:type="modelled" />
+      </reactant>
+
+      <product>
+        <molecule ref="propene"  me:type="sink" />
+      </product>
+
+      <product>
+        <molecule ref="H"  me:type="sink" />
+      </product>
+
+      <me:MCRCMethod>MesmerILT</me:MCRCMethod>
+      <me:preExponential>6.00e-12</me:preExponential>
+      <me:activationEnergy>546.D0</me:activationEnergy>
+      <me:TInfinity>1.0</me:TInfinity>
+      <me:nInfinity>0.0</me:nInfinity>
+
+    </reaction>
+
+  </reactionList>
+
+  <me:conditions>
+    <me:bathGas>He</me:bathGas>
+    <me:PTs>
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="720."  me:experimentalRate="41.5" />
+      <me:PTpair me:units="PPCC" me:P="30.1e16" me:T="730."  me:experimentalRate="51.1" />
+      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="740."  me:experimentalRate="55.5" />
+      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="740."  me:experimentalRate="70.1" />
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="740."  me:experimentalRate="71.1" />
+      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="750."  me:experimentalRate="55.3" />
+      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="750."  me:experimentalRate="67.2" />
+      <me:PTpair me:units="PPCC" me:P="24.1e16" me:T="750."  me:experimentalRate="86.4" />
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="750."  me:experimentalRate="102." />
+      <me:PTpair me:units="PPCC" me:P="6.02e16" me:T="760."  me:experimentalRate="51.9" />
+      <me:PTpair me:units="PPCC" me:P="9.02e16" me:T="760."  me:experimentalRate="65.7" />
+      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="760."  me:experimentalRate="76.5" />
+      <me:PTpair me:units="PPCC" me:P="18.1e16" me:T="760."  me:experimentalRate="95.0" />
+      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="760."  me:experimentalRate="123." />
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="760."  me:experimentalRate="128." />
+      <me:PTpair me:units="PPCC" me:P="6.01e16" me:T="770."  me:experimentalRate="68.9" />
+      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="770."  me:experimentalRate="89.2" />
+      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="770."  me:experimentalRate="99.0" />
+      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="770."  me:experimentalRate="121." />
+      <me:PTpair me:units="PPCC" me:P="24.1e16" me:T="770."  me:experimentalRate="159." />
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="770."  me:experimentalRate="164." />
+      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="780."  me:experimentalRate="65.5" />
+      <me:PTpair me:units="PPCC" me:P="6.01e16" me:T="780."  me:experimentalRate="89.1" />
+      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="780."  me:experimentalRate="114." />
+      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="780."  me:experimentalRate="125." />
+      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="780."  me:experimentalRate="165." />
+      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="780."  me:experimentalRate="203." />
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="780."  me:experimentalRate="213." />
+      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="790."  me:experimentalRate="77.0" />
+      <me:PTpair me:units="PPCC" me:P="6.01e16" me:T="790."  me:experimentalRate="119." />
+      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="790."  me:experimentalRate="154." />
+      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="790."  me:experimentalRate="170." />
+      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="790."  me:experimentalRate="219." />
+      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="790."  me:experimentalRate="258." />
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="790."  me:experimentalRate="288." />
+      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="800."  me:experimentalRate="96.1" />
+      <me:PTpair me:units="PPCC" me:P="6.01e16" me:T="800."  me:experimentalRate="147." />
+      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="800."  me:experimentalRate="199." />
+      <me:PTpair me:units="PPCC" me:P="12.1e16" me:T="800."  me:experimentalRate="223." />
+      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="800."  me:experimentalRate="302." />
+      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="800."  me:experimentalRate="341." />
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="800."  me:experimentalRate="350." />
+      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="810."  me:experimentalRate="124." />
+      <me:PTpair me:units="PPCC" me:P="6.00e16" me:T="810."  me:experimentalRate="185." />
+      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="810."  me:experimentalRate="248." />
+      <me:PTpair me:units="PPCC" me:P="12.1e16" me:T="810."  me:experimentalRate="274." />
+      <me:PTpair me:units="PPCC" me:P="18.1e16" me:T="810."  me:experimentalRate="379." />
+      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="810."  me:experimentalRate="402." />
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="810."  me:experimentalRate="492." />
+      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="820."  me:experimentalRate="160." />
+      <me:PTpair me:units="PPCC" me:P="6.01e16" me:T="820."  me:experimentalRate="239." />
+      <me:PTpair me:units="PPCC" me:P="9.01e16" me:T="820."  me:experimentalRate="320." />
+      <me:PTpair me:units="PPCC" me:P="12.1e16" me:T="820."  me:experimentalRate="363." />
+      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="820."  me:experimentalRate="447." />
+      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="820."  me:experimentalRate="554." />
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="820."  me:experimentalRate="549." />
+      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="830."  me:experimentalRate="189." />
+      <me:PTpair me:units="PPCC" me:P="6.00e16" me:T="830."  me:experimentalRate="287." />
+      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="830."  me:experimentalRate="375." />
+      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="830."  me:experimentalRate="447." />
+      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="830."  me:experimentalRate="570." />
+      <me:PTpair me:units="PPCC" me:P="3.01e16" me:T="840."  me:experimentalRate="252." />
+      <me:PTpair me:units="PPCC" me:P="6.00e16" me:T="840."  me:experimentalRate="349." />
+      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="840."  me:experimentalRate="471." />
+      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="840."  me:experimentalRate="559." />
+      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="850."  me:experimentalRate="314." />
+      <me:PTpair me:units="PPCC" me:P="6.00e16" me:T="850."  me:experimentalRate="444." />
+      <me:PTpair me:units="PPCC" me:P="3.01e16" me:T="860."  me:experimentalRate="378." />
+      <me:PTpair me:units="PPCC" me:P="6.03e16" me:T="860."  me:experimentalRate="535." />
+      <me:PTpair me:units="PPCC" me:P="3.01e16" me:T="870."  me:experimentalRate="436." />
+      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="880."  me:experimentalRate="535." />
+    </me:PTs>
+  </me:conditions>
+
+  <me:modelParameters>
+    <me:grainSize units="cm-1"> 50</me:grainSize>
+    <!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
+    <!--<me:maxTemperature>3000</me:maxTemperature>-->
+    <me:energyAboveTheTopHill>20.</me:energyAboveTheTopHill>
+  </me:modelParameters>
+
+  <me:control>
+    <me:testDOS />
+    <me:testMicroRates />
+    <me:printGrainDOS />
+    <!--<me:printCellDOS />-->
+    <!--<me:printReactionOperatorColumnSums />-->
+    <me:printGrainkfE />
+    <!--<me:printGrainBoltzmann />-->
+    <me:printGrainkbE />
+    <me:printSpeciesProfile />
+    <me:eigenvalues>0</me:eigenvalues>
+  </me:control>
+
+</me:mesmer>

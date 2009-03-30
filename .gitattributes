@@ -34,6 +34,7 @@ MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Win
 MesmerQA/cyclopropene[!!-~]isomerization/Cyclopropene_isomerization_test.xml -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/mesmer.log -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/mesmer.test -text
+MesmerQA/i-propyl/ipropyl_test.xml -text
 MesmerQA/methylene[!!-~]D2[!!-~]association/methylene_D2_association.xml -text
 MesmerQA/pentyl/baselines/Win32/mesmer.log -text
 MesmerQA/pentyl/baselines/Win32/mesmer.test -text
