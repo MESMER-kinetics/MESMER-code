@@ -1460,6 +1460,8 @@ Bartis Widom eigenvalue/eigenvector analysis
 
 Number of sinks in this system: 0
 
+There should be 1 zero eigenvalue (within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
 Z_matrix: {
 0.0246193	0.999394	
 -0.0246193	0.000606479	

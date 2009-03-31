@@ -1079,6 +1079,26 @@ namespace mesmer
 
     ctest << "\nBartis Widom eigenvalue/eigenvector analysis\n";
     ctest << endl << "Number of sinks in this system: " << m_sinkRxns.size() << endl;
+    
+    if(m_sinkRxns.size()>0){
+      ctest << "\nThere should be " << nchem << " chemically significant eigenvalues (CSEs)" << endl;
+    }
+    else{
+      ctest << "\nThere should be 1 zero eigenvalue (zero within numerical precision) and " << nchem-1
+            << " chemically significant eigenvalues (CSEs)" << endl;
+    }
+
+    // check the separation between chemically significant eigenvalues (CSEs)
+    // and internal energy relaxation eigenvalues (IEREs); if it's not good, print a warning
+
+    double CSE_IERE_separation=(to_double(m_eigenvalues[nchemIdx]))/(to_double(m_eigenvalues[nchemIdx-1]));
+    if(CSE_IERE_separation > 0.1){
+      ctest << "\nWarning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)" << endl;
+      ctest << "\nThe last CSE = " << (to_double(m_eigenvalues[nchemIdx])) 
+            << " and the first IERE = " << (to_double(m_eigenvalues[nchemIdx-1])) << endl; 
+      ctest << " CSE / IERE ratio = " << CSE_IERE_separation << ", which is less than an order of magnitude" << endl;
+      ctest << "\nResults obtained from Bartis Widom eigenvalue-vector analysis may be unreliable" << endl;
+    }
 
     for(int i(0); i<nchem; ++i){
       for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // calculate Z_matrix matrix elements for
@@ -1121,11 +1141,11 @@ namespace mesmer
 
             // DO NOT MOVE THIS SECTION --- INDEX SENSITIVE
             if (numberGroupedGrains != 0){
-              for (size_t i(numberGroupedGrains - 1); i < colloptrsize; ++i)
+              for (int i(numberGroupedGrains - 1); i < colloptrsize; ++i)
                 KofEsTemp.push_back(KofEs[i]);
             }
             else{
-              for (size_t i(0); i < colloptrsize; ++i)
+              for (int i(0); i < colloptrsize; ++i)
                 KofEsTemp.push_back(KofEs[i]);
             }
             // DO NOT MOVE THIS SECTION --- INDEX SENSITIVE

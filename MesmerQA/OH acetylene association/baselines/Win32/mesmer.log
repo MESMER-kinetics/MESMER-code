@@ -45,8 +45,8 @@ Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 No population was assigned. Initialize the first source term to 1.0.
 
 In total, 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 38 seconds.
- -- Total time elapsed: 66 seconds.
+Finish Calculation -- Time elapsed: 31 seconds.
+ -- Total time elapsed: 60 seconds.
 
 System saved to out.xml
 Rotational constants are provided but not used in OCHCH2.
