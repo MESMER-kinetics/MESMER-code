@@ -1,4 +1,7 @@
 2009-Mar-31 Dave Glowacki
+  *add a few changes to LINUX MakeFile
+
+2009-Mar-31 Dave Glowacki
   * updates to manual: (1) discussion of Linux compilation issues & (2) discussion of Bartis Widom output
   * add to Bartis Widom code so that it checks separation between CSEs and IEREs and generates warning messages if appropriate
   * update baselines

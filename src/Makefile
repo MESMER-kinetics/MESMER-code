@@ -26,11 +26,34 @@ AR     := ar rc
 RANLIB := ranlib
 
 DEBUG_CFLAGS     := -Wall -Wno-format -g -DDEBUG
-RELEASE_CFLAGS   := -Wall -Wno-unknown-pragmas -Wno-format -O3
+RELEASE_CFLAGS   := -Wall -Wno-format -O2
 
-#LIBS		 := ../tinyxml/tinyxml.a -lqd -L/usr/local/src/qd-2.1.147/src /usr/local/lib/libqd.a
-LIBS		 := ../tinyxml/tinyxml.a -lqd
+#****************************************************************************
+# LIBS paths
+#****************************************************************************
+
+# the line below is what should be uncommented if the user installs both 
+# tinyxml and qd in their default location within the MESMER distribution.
+# This is the LIBS path required by most users
+
+LIBS           := ../tinyxml/tinyxml.a ../qd/src/libqd.a
+
+# the line below should be uncommented if tinyxml is in its default location and 
+# qd is placed in an arbitrary directory by the user.  The path to libqd.a 
+# must be supplied by the user
+
+#LIBS		 := ../tinyxml/tinyxml.a -lqd
+
+# the lines below are for testing different versions of qd installed on a 
+# particular LINUX machine used for testing by the MESMER developers and are 
+# not generally applicable for end users
+
 #LIBS		 := ../tinyxml/tinyxml.a /usr/local/newqd/lib/libqd.a 
+#LIBS		 := ../tinyxml/tinyxml.a -lqd -L/usr/local/src/qd-2.1.147/src /usr/local/lib/libqd.a
+
+#****************************************************************************
+# end LIBS paths
+#****************************************************************************
 
 DEBUG_CXXFLAGS   := ${DEBUG_CFLAGS} 
 RELEASE_CXXFLAGS := ${RELEASE_CFLAGS}
@@ -49,8 +72,8 @@ else
 endif
 
 ifeq (YES, ${PROFILE})
-   CFLAGS   := ${CFLAGS} -pg -O3
-   CXXFLAGS := ${CXXFLAGS} -pg -O3
+   CFLAGS   := ${CFLAGS} -pg -O2
+   CXXFLAGS := ${CXXFLAGS} -pg -O2
    LDFLAGS  := ${LDFLAGS} -pg
 endif
 
@@ -68,8 +91,25 @@ endif
 # Include paths
 #****************************************************************************
 
+# the line below is what should be uncommented if the user installs both 
+# tinyxml and qd in their default location within the MESMER distribution.
+# This will be the include path required by most users
+
+INCS := -I../tinyxml/ -I../qd/include
+
+# the line below is for
+
 #INCS := -I/usr/include/g++-2 -I/usr/local/include
-INCS := -I../tinyxml/
+
+# the line below should be uncommented if tinyxml in its default location and 
+# qd is placed in an arbitrary directory by the user.  The path to the qd /include 
+# directory must be supplied by the user.
+
+#INCS := -I../tinyxml/
+
+# the line below is for qd installed on a particular LINUX machine used for 
+# testing by the MESMER developers is not generally applicable
+
 #INCS := -I../tinyxml/ -I/usr/local/newqd/include
 
 
