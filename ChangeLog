@@ -1,3 +1,9 @@
+
+2009-Apr-4 Struan Robertson
+
+  * MesmerILT.cpp: Fixed problem with Unimoleculer ILT calculation.
+  * MesmerQA: Update of isopropyl test.
+
 2009-Mar-31 Dave Glowacki
   *add a few changes to LINUX MakeFile
 

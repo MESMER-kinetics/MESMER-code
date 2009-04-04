@@ -66,9 +66,7 @@
         </property>
         <property dictRef="me:rotConsts">
           <array units="cm-1">
-            0.3690
-            0.0808
-            0.0737
+            0.3690 0.0808 0.0737
           </array>
         </property>
         <property dictRef="me:symmetryNumber">
@@ -94,6 +92,9 @@
     <molecule id="H">
       <atom elementType="H"/>
       <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">0.0</scalar>
+        </property>
         <property dictRef="me:MW">
           <scalar>1.0</scalar>
         </property>
@@ -137,7 +138,7 @@
 
       <me:MCRCMethod>MesmerILT</me:MCRCMethod>
       <me:preExponential>6.00e-12</me:preExponential>
-      <me:activationEnergy>546.D0</me:activationEnergy>
+      <me:activationEnergy  units="cm-1" reverse="true">546.D0</me:activationEnergy>
       <me:TInfinity>1.0</me:TInfinity>
       <me:nInfinity>0.0</me:nInfinity>
 
@@ -153,7 +154,7 @@
       <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="740."  me:experimentalRate="55.5" />
       <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="740."  me:experimentalRate="70.1" />
       <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="740."  me:experimentalRate="71.1" />
-      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="750."  me:experimentalRate="55.3" />
+  <!--<me:PTpair me:units="PPCC" me:P="12.0e16" me:T="750."  me:experimentalRate="55.3" />
       <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="750."  me:experimentalRate="67.2" />
       <me:PTpair me:units="PPCC" me:P="24.1e16" me:T="750."  me:experimentalRate="86.4" />
       <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="750."  me:experimentalRate="102." />
@@ -218,12 +219,12 @@
       <me:PTpair me:units="PPCC" me:P="3.01e16" me:T="860."  me:experimentalRate="378." />
       <me:PTpair me:units="PPCC" me:P="6.03e16" me:T="860."  me:experimentalRate="535." />
       <me:PTpair me:units="PPCC" me:P="3.01e16" me:T="870."  me:experimentalRate="436." />
-      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="880."  me:experimentalRate="535." />
+      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="880."  me:experimentalRate="535." />-->
     </me:PTs>
   </me:conditions>
 
   <me:modelParameters>
-    <me:grainSize units="cm-1"> 50</me:grainSize>
+    <me:grainSize units="cm-1">100</me:grainSize>
     <!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
     <!--<me:maxTemperature>3000</me:maxTemperature>-->
     <me:energyAboveTheTopHill>20.</me:energyAboveTheTopHill>
@@ -232,13 +233,14 @@
   <me:control>
     <me:testDOS />
     <me:testMicroRates />
-    <me:printGrainDOS />
+    <me:gridsearch />
+    <!--<me:printGrainDOS />-->
     <!--<me:printCellDOS />-->
     <!--<me:printReactionOperatorColumnSums />-->
     <me:printGrainkfE />
     <!--<me:printGrainBoltzmann />-->
-    <me:printGrainkbE />
-    <me:printSpeciesProfile />
+    <!--<me:printGrainkbE />-->
+    <!--<me:printSpeciesProfile />-->
     <me:eigenvalues>0</me:eigenvalues>
   </me:control>
 

@@ -20,6 +20,9 @@ namespace mesmer
 
     bool calculateAssociationMicroRates(Reaction* pReact);
     bool calculateUnimolecularMicroRates(Reaction* pReact);
+    
+    bool UnimolecularConvolution(Reaction* pReact);
+    bool BimolecularConvolution(Reaction* pReact, vector<double>& ConvolvedCellDOS, double ma, double mb, double mc);
 
   };
 }//namespace

@@ -71,9 +71,6 @@ namespace mesmer
       return 1;
     } ;
 
-    // Return reactants
-    Molecule* get_reactants() const{return m_rct1;} ;
-
     // is the reaction an irreversible reaction
     virtual bool isIrreversible(){return true;};
 
