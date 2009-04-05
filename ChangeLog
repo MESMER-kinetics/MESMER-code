@@ -1,6 +1,11 @@
 
 2009-Apr-5 Struan Robertson
 
+  * ReactionManager.cpp: Fix for grid search, values for Einf where being calculated incorrectly.
+  * MesmerQA: Update of isopropyl test.
+
+2009-Apr-5 Struan Robertson
+
   * ReactionManager.cpp: New section added to estimate threshold of irreversible reaction, which is then used to determined energy limits.
 
 2009-Apr-4 Struan Robertson

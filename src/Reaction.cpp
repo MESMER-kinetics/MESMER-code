@@ -223,8 +223,8 @@ namespace mesmer
         cerr << "Providing negative E_infinity in Reaction " << getName() << " is invalid.";
       }
       if (m_isRvsILTpara){
-        const double tempv = m_EInf.get_value() > 0.0 ? m_EInf.get_value() + getHeatOfReaction() : getHeatOfReaction();
-        return tempv;
+        const double tempv = m_EInf.get_value() ;
+        return (tempv > 0.0) ? tempv + getHeatOfReaction() : getHeatOfReaction();
       }
       return m_EInf.get_value();
     }

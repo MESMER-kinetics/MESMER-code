@@ -42,7 +42,7 @@
           <scalar>4.94</scalar>
         </property>
         <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">230.0</scalar>
+          <scalar units="cm-1" lower="220" upper="240" stepsize="10">230.0</scalar>
         </property>
         <property dictRef="me:spinMultiplicity">
           <scalar>2</scalar>
@@ -151,10 +151,10 @@
     <me:PTs>
       <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="720."  me:experimentalRate="41.5" />
       <me:PTpair me:units="PPCC" me:P="30.1e16" me:T="730."  me:experimentalRate="51.1" />
-      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="740."  me:experimentalRate="55.5" />
+  <!--<me:PTpair me:units="PPCC" me:P="18.0e16" me:T="740."  me:experimentalRate="55.5" />
       <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="740."  me:experimentalRate="70.1" />
       <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="740."  me:experimentalRate="71.1" />
-  <!--<me:PTpair me:units="PPCC" me:P="12.0e16" me:T="750."  me:experimentalRate="55.3" />
+      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="750."  me:experimentalRate="55.3" />
       <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="750."  me:experimentalRate="67.2" />
       <me:PTpair me:units="PPCC" me:P="24.1e16" me:T="750."  me:experimentalRate="86.4" />
       <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="750."  me:experimentalRate="102." />
@@ -227,21 +227,21 @@
     <me:grainSize units="cm-1">100</me:grainSize>
     <!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
     <!--<me:maxTemperature>3000</me:maxTemperature>-->
-    <me:energyAboveTheTopHill>20.</me:energyAboveTheTopHill>
+    <me:energyAboveTheTopHill>10.</me:energyAboveTheTopHill>
   </me:modelParameters>
 
   <me:control>
-    <me:testDOS />
+    <!--<me:testDOS />-->
     <me:testMicroRates />
-    <me:gridsearch />
+    <me:gridSearch />
     <!--<me:printGrainDOS />-->
     <!--<me:printCellDOS />-->
     <!--<me:printReactionOperatorColumnSums />-->
-    <me:printGrainkfE />
+    <!--<me:printGrainkfE />-->
     <!--<me:printGrainBoltzmann />-->
     <!--<me:printGrainkbE />-->
     <!--<me:printSpeciesProfile />-->
-    <me:eigenvalues>0</me:eigenvalues>
+    <me:eigenvalues>3</me:eigenvalues>
   </me:control>
 
 </me:mesmer>
