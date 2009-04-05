@@ -1,4 +1,8 @@
 
+2009-Apr-5 Struan Robertson
+
+  * ReactionManager.cpp: New section added to estimate threshold of irreversible reaction, which is then used to determined energy limits.
+
 2009-Apr-4 Struan Robertson
 
   * MesmerILT.cpp: Fixed problem with Unimoleculer ILT calculation.

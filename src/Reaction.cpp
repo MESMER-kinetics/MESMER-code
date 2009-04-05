@@ -208,8 +208,10 @@ namespace mesmer
       ctest << "}\n";
     }
   }
-
-  //this function retrieves the activation/threshold energy for an association reaction
+ 
+  //
+  // This function retrieves the activation/threshold energy for an association reaction.
+  //
   double Reaction::get_ThresholdEnergy(void) {
     // ILT
     if (m_pMicroRateCalculator->getName() == "MesmerILT"){

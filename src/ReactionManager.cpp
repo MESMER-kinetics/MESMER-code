@@ -201,18 +201,20 @@ namespace mesmer
     // reset the DOS calculation flags before building the reaction operator
     resetCalcFlags();
 
+    const double SUPREMUM =  9e23 ;
+    const double INFIMUM  = -SUPREMUM ;
     //
     // Find all the unique wells and lowest zero point energy.
     //
     m_isomers.clear();
 
-    double minEnergy(9e23) ;  // this is the minimum & maximum ZPE amongst all wells, set artificially large and small
-    double maxEnergy(-9e23) ; // to guarantee that each is overwritten in setting minEnergy and maxEnergy
+    double minEnergy(SUPREMUM) ; // The minimum & maximum ZPE amongst all wells, set artificially large and small
+    double maxEnergy(INFIMUM) ;  // to guarantee that each is overwritten in setting minEnergy and maxEnergy.
     Molecule *pBathGasMolecule = m_pMoleculeManager->get_BathGasMolecule();
 
     // populate molMapType with unimolecular species and determine minimum/maximum energy on the PES
     for (size_t i(0) ; i < size() ; ++i) {
-      double TS_ZPE(-9e23);
+      double TS_ZPE(INFIMUM);
 
       // Transition State
       // third check for the transition state in this reaction
@@ -238,7 +240,7 @@ namespace mesmer
         }
 
         //calculate the lowest barrier associated with this well(species)
-        if (TS_ZPE != -9e23){
+        if (TS_ZPE != INFIMUM){
           const double barrierHeight = TS_ZPE - collidingMolZPE;
           if (barrierHeight < pCollidingMolecule->getColl().getLowestBarrier()){
             pCollidingMolecule->getColl().setLowestBarrier(barrierHeight);
@@ -267,7 +269,22 @@ namespace mesmer
         if (barrierHeight < unimolecules[0]->getColl().getLowestBarrier()){
           unimolecules[0]->getColl().setLowestBarrier(barrierHeight);
         }
+      }
 
+      //
+      // For dissociation reactions determine zero point energy location of the
+      // dissociation pair.
+      //
+      IrreversibleUnimolecularReaction *pDissnRtn = dynamic_cast<IrreversibleUnimolecularReaction*>(m_reactions[i]) ;
+      if (pDissnRtn) {
+        double thresholdEstimate = pDissnRtn->get_ThresholdEnergy();
+        minEnergy = min(minEnergy, thresholdEstimate) ;
+        maxEnergy = max(maxEnergy, thresholdEstimate) ;
+
+        // Calculate the lowest barrier associated with this well(species).
+        if (thresholdEstimate < unimolecules[0]->getColl().getLowestBarrier()){
+          unimolecules[0]->getColl().setLowestBarrier(thresholdEstimate);
+        }
       }
 
     }

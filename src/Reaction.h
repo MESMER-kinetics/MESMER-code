@@ -80,7 +80,7 @@ namespace mesmer
     virtual double get_relative_pdtZPE(void) const = 0;
     virtual double get_relative_TSZPE(void) const = 0;
 
-    // Get activiation energy
+    // Get threshold energy
     virtual double get_ThresholdEnergy(void);
     /* This function should be considered as a function to get Einf.
     In ILT, not the theoretical threshold energy but the experimental Einf is used.
