@@ -415,7 +415,7 @@ namespace mesmer
     }
   }
 
-  void ReactionManager::printEiegnvectors(const MesmerFlags& mFlags)
+  void ReactionManager::printEigenvectors(const MesmerFlags& mFlags)
   {
     const int smsize = int(m_eigenvectors->size()) ;
 
@@ -511,7 +511,7 @@ namespace mesmer
     // This block prints Eigenvectors
     if (mFlags.printReactionOperatorNum){
       ctest << "Eigenvectors --- ";
-      printEiegnvectors(mFlags);
+      printEigenvectors(mFlags);
     }
 
     int numberStarted = 0;
@@ -577,7 +577,6 @@ namespace mesmer
     // and then update the corresponding matrix elements in eqMatrix
 
     int counter(0);   //counter keeps track of how may elements are in the m_SpeciesSequence map
-
     for (size_t i(0) ; i < size() ; ++i) {  //iterate through m_reactions
 
       Molecule* rct;
@@ -643,6 +642,16 @@ namespace mesmer
         }
       }
     }
+
+    // if counter==0 after the for loop above, then there are no equilibrating reactions (i.e., all the reactions
+    // are irreversible).  In that case, the lone isomer has an equilibrium fraction of 1.  Thus, we increment 
+    // counter so that the 1 is added to the eqMatrix in the for loop immediately following
+    if (counter==0){
+      Molecule* rct=(m_isomers.begin())->first;
+      m_SpeciesSequence[rct] = counter;
+      ++counter;
+    }
+
     for(int i=0; i < counter; ++i){         // add ones to the final row of the matrix
       eqMatrix[counter-1][i]= 1.0;
     }
@@ -922,32 +931,31 @@ namespace mesmer
       totalPdtPop[timestep] = 1.0 - popTime;
     }
 
+    int sinkpos(0);
+    m_sinkRxns.clear();                      // Populate map: m_sinkRxns[Rxns] = location of rct
+    for (size_t i(0) ; i < size() ; ++i) {
+      bool Irreversible = (m_reactions[i])->isIrreversible() ;
+      if (Irreversible && m_sinkRxns.find(m_reactions[i]) == m_sinkRxns.end()) {   // add an irreversible rxn to the map
+        Reaction* reaction = m_reactions[i];
+        Molecule* source = reaction->get_reactant();
+        Molecule* isomer = source;
+        if(isomer){
+          int rxnMatrixLoc = m_isomers[isomer];
+          m_sinkRxns[reaction] = rxnMatrixLoc;
+          m_SinkSequence[reaction] = sinkpos;               // populate SinkSequence map with Irreversible Rxns
+          ++sinkpos;
+        }
+        else if(source){
+          int rxnMatrixLoc = m_sources[source];
+          m_sinkRxns[reaction] = rxnMatrixLoc;
+          m_SinkSequence[reaction] = sinkpos;
+          ++sinkpos;
+        }
+      }
+    }
 
     if (mFlags.speciesProfileEnabled){
       ctest << endl << "Print time dependent species and product profiles" << endl << "{" << endl;
-      int sinkpos(0);
-      m_sinkRxns.clear();                      // Populate map: m_sinkRxns[Rxns] = location of rct
-      for (size_t i(0) ; i < size() ; ++i) {
-        bool Irreversible = (m_reactions[i])->isIrreversible() ;
-        if (Irreversible && m_sinkRxns.find(m_reactions[i]) == m_sinkRxns.end()) {   // add an irreversible rxn to the map
-          Reaction* reaction = m_reactions[i];
-          Molecule* source = reaction->get_reactant();
-          Molecule* isomer = source;
-          if(isomer){
-            int rxnMatrixLoc = m_isomers[isomer];
-            m_sinkRxns[reaction] = rxnMatrixLoc;
-            m_SinkSequence[reaction] = sinkpos;               // populate SinkSequence map with Irreversible Rxns
-            ++sinkpos;
-          }
-          else if(source){
-            int rxnMatrixLoc = m_sources[source];
-            m_sinkRxns[reaction] = rxnMatrixLoc;
-            m_SinkSequence[reaction] = sinkpos;
-            ++sinkpos;
-          }
-        }
-      }
-
       int numberOfSpecies = static_cast<int>(m_isomers.size() + m_sources.size() + m_sinkRxns.size());
       db2D speciesProfile(numberOfSpecies, maxTimeStep);
       int speciesProfileidx(0);
@@ -1096,24 +1104,25 @@ namespace mesmer
 
     ctest << "\nBartis Widom eigenvalue/eigenvector analysis\n";
     ctest << endl << "Number of sinks in this system: " << m_sinkRxns.size() << endl;
-    
+
     if(m_sinkRxns.size()>0){
       ctest << "\nThere should be " << nchem << " chemically significant eigenvalues (CSEs)" << endl;
     }
     else{
       ctest << "\nThere should be 1 zero eigenvalue (zero within numerical precision) and " << nchem-1
-            << " chemically significant eigenvalues (CSEs)" << endl;
+        << " chemically significant eigenvalues (CSEs)" << endl;
     }
 
     // check the separation between chemically significant eigenvalues (CSEs)
     // and internal energy relaxation eigenvalues (IEREs); if it's not good, print a warning
 
-    double CSE_IERE_separation=(to_double(m_eigenvalues[nchemIdx]))/(to_double(m_eigenvalues[nchemIdx-1]));
+    const double last_CSE=(to_double(m_eigenvalues[nchemIdx]))* m_meanOmega;
+    const double first_IERE=(to_double(m_eigenvalues[nchemIdx-1]))* m_meanOmega;
+    const double CSE_IERE_separation=last_CSE/first_IERE;
     if(CSE_IERE_separation > 0.1){
       ctest << "\nWarning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)" << endl;
-      ctest << "\nThe last CSE = " << (to_double(m_eigenvalues[nchemIdx])) 
-            << " and the first IERE = " << (to_double(m_eigenvalues[nchemIdx-1])) << endl; 
-      ctest << " CSE / IERE ratio = " << CSE_IERE_separation << ", which is less than an order of magnitude" << endl;
+      ctest << "\nThe last CSE = " << last_CSE << " and the first IERE = " << first_IERE << endl; 
+      ctest << "(last CSE)/(first IERE) ratio = " << CSE_IERE_separation << ", which is less than an order of magnitude" << endl;
       ctest << "\nResults obtained from Bartis Widom eigenvalue-vector analysis may be unreliable" << endl;
     }
 
@@ -1256,36 +1265,38 @@ namespace mesmer
           puSymbols << iso->getName() << " loss\t";
         }
       }
+      ctest << "}\n";
     }
 
-    ctest << "}\n";
-    ctest << "\nFirst order & pseudo first order rate coefficients for isomerization rxns:\n{\n";
+    if(m_SpeciesSequence.size()>m_sinkRxns.size()){
+      ctest << "\nFirst order & pseudo first order rate coefficients for isomerization rxns:\n{\n";
 
-    // print pseudo first order connecting ks
-    for (rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
-      Molecule* rct = rctitr->first;
-      int rctpos = rctitr->second;
-      for (pdtitr=m_SpeciesSequence.begin(); pdtitr!=m_SpeciesSequence.end(); ++pdtitr){
-        Molecule* pdt = pdtitr->first;
-        int pdtpos = pdtitr->second;
-        if(rctpos != pdtpos){
-          ctest << rct->getName() << " -> " << pdt->getName() << " = " << Kr[pdtpos][rctpos] << endl;
+      // print pseudo first order connecting ks
+      for (rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
+        Molecule* rct = rctitr->first;
+        int rctpos = rctitr->second;
+        for (pdtitr=m_SpeciesSequence.begin(); pdtitr!=m_SpeciesSequence.end(); ++pdtitr){
+          Molecule* pdt = pdtitr->first;
+          int pdtpos = pdtitr->second;
+          if(rctpos != pdtpos){
+            ctest << rct->getName() << " -> " << pdt->getName() << " = " << Kr[pdtpos][rctpos] << endl;
 
-          PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", Kr[pdtpos][rctpos]);
-          ppItem->XmlWriteAttribute("fromRef", rct->getName());
-          ppItem->XmlWriteAttribute("toRef",   pdt->getName());
-          ppItem->XmlWriteAttribute("reactionType", "isomerization");
-        }
+            PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", Kr[pdtpos][rctpos]);
+            ppItem->XmlWriteAttribute("fromRef", rct->getName());
+            ppItem->XmlWriteAttribute("toRef",   pdt->getName());
+            ppItem->XmlWriteAttribute("reactionType", "isomerization");
+          }
 
-        if (mFlags.searchMethod == 3){
-          puNumbers << Kr[pdtpos][rctpos] << "\t";
-          if (punchSymbolGathered == false){
-            puSymbols << rct->getName() << " -> " << pdt->getName() << "\t";
+          if (mFlags.searchMethod == 3){
+            puNumbers << Kr[pdtpos][rctpos] << "\t";
+            if (punchSymbolGathered == false){
+              puSymbols << rct->getName() << " -> " << pdt->getName() << "\t";
+            }
           }
         }
       }
+      ctest << "}\n";
     }
-    ctest << "}\n";
 
     if(m_sinkRxns.size()!=0){
       ctest << "\nFirst order & pseudo first order rate coefficients for irreversible rxns:\n{\n";

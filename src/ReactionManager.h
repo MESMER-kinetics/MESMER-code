@@ -149,7 +149,7 @@ namespace mesmer
 
     void printReactionOperator(const MesmerFlags &mFlags);
 
-    void printEiegnvectors(const MesmerFlags &mFlags);
+    void printEigenvectors(const MesmerFlags &mFlags);
 
   } ;
 }//namespace
