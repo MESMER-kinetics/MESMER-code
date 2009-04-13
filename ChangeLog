@@ -1,3 +1,8 @@
+
+2009-Apr-13 Struan Robertson
+
+  * MesmerQA: Update of isopropyl test.
+
 2009-Apr-7 Dave Glowacki
   *ReactionManager.cpp: fix some bugs which came to light for testing the i-propyl system- the case of 1 isomer with only irrreversible channels
   *clean up some other stuff

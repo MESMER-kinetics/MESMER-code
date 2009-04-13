@@ -146,80 +146,223 @@
 
   </reactionList>
 
+  <!-- Data taken from Seakins et al, J. Phys. Chem. Vol. 97, p. 4450 (1993). -->
   <me:conditions>
     <me:bathGas>He</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="720."  me:experimentalRate="41.5" />
-      <me:PTpair me:units="PPCC" me:P="30.1e16" me:T="730."  me:experimentalRate="51.1" />
-  <!--<me:PTpair me:units="PPCC" me:P="18.0e16" me:T="740."  me:experimentalRate="55.5" />
-      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="740."  me:experimentalRate="70.1" />
-      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="740."  me:experimentalRate="71.1" />
-      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="750."  me:experimentalRate="55.3" />
-      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="750."  me:experimentalRate="67.2" />
-      <me:PTpair me:units="PPCC" me:P="24.1e16" me:T="750."  me:experimentalRate="86.4" />
-      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="750."  me:experimentalRate="102." />
-      <me:PTpair me:units="PPCC" me:P="6.02e16" me:T="760."  me:experimentalRate="51.9" />
-      <me:PTpair me:units="PPCC" me:P="9.02e16" me:T="760."  me:experimentalRate="65.7" />
-      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="760."  me:experimentalRate="76.5" />
-      <me:PTpair me:units="PPCC" me:P="18.1e16" me:T="760."  me:experimentalRate="95.0" />
-      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="760."  me:experimentalRate="123." />
-      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="760."  me:experimentalRate="128." />
-      <me:PTpair me:units="PPCC" me:P="6.01e16" me:T="770."  me:experimentalRate="68.9" />
-      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="770."  me:experimentalRate="89.2" />
-      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="770."  me:experimentalRate="99.0" />
-      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="770."  me:experimentalRate="121." />
-      <me:PTpair me:units="PPCC" me:P="24.1e16" me:T="770."  me:experimentalRate="159." />
-      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="770."  me:experimentalRate="164." />
-      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="780."  me:experimentalRate="65.5" />
-      <me:PTpair me:units="PPCC" me:P="6.01e16" me:T="780."  me:experimentalRate="89.1" />
-      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="780."  me:experimentalRate="114." />
-      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="780."  me:experimentalRate="125." />
-      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="780."  me:experimentalRate="165." />
-      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="780."  me:experimentalRate="203." />
-      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="780."  me:experimentalRate="213." />
-      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="790."  me:experimentalRate="77.0" />
-      <me:PTpair me:units="PPCC" me:P="6.01e16" me:T="790."  me:experimentalRate="119." />
-      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="790."  me:experimentalRate="154." />
-      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="790."  me:experimentalRate="170." />
-      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="790."  me:experimentalRate="219." />
-      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="790."  me:experimentalRate="258." />
-      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="790."  me:experimentalRate="288." />
-      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="800."  me:experimentalRate="96.1" />
-      <me:PTpair me:units="PPCC" me:P="6.01e16" me:T="800."  me:experimentalRate="147." />
-      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="800."  me:experimentalRate="199." />
-      <me:PTpair me:units="PPCC" me:P="12.1e16" me:T="800."  me:experimentalRate="223." />
-      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="800."  me:experimentalRate="302." />
-      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="800."  me:experimentalRate="341." />
-      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="800."  me:experimentalRate="350." />
-      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="810."  me:experimentalRate="124." />
-      <me:PTpair me:units="PPCC" me:P="6.00e16" me:T="810."  me:experimentalRate="185." />
-      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="810."  me:experimentalRate="248." />
-      <me:PTpair me:units="PPCC" me:P="12.1e16" me:T="810."  me:experimentalRate="274." />
-      <me:PTpair me:units="PPCC" me:P="18.1e16" me:T="810."  me:experimentalRate="379." />
-      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="810."  me:experimentalRate="402." />
-      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="810."  me:experimentalRate="492." />
-      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="820."  me:experimentalRate="160." />
-      <me:PTpair me:units="PPCC" me:P="6.01e16" me:T="820."  me:experimentalRate="239." />
-      <me:PTpair me:units="PPCC" me:P="9.01e16" me:T="820."  me:experimentalRate="320." />
-      <me:PTpair me:units="PPCC" me:P="12.1e16" me:T="820."  me:experimentalRate="363." />
-      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="820."  me:experimentalRate="447." />
-      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="820."  me:experimentalRate="554." />
-      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="820."  me:experimentalRate="549." />
-      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="830."  me:experimentalRate="189." />
-      <me:PTpair me:units="PPCC" me:P="6.00e16" me:T="830."  me:experimentalRate="287." />
-      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="830."  me:experimentalRate="375." />
-      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="830."  me:experimentalRate="447." />
-      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="830."  me:experimentalRate="570." />
-      <me:PTpair me:units="PPCC" me:P="3.01e16" me:T="840."  me:experimentalRate="252." />
-      <me:PTpair me:units="PPCC" me:P="6.00e16" me:T="840."  me:experimentalRate="349." />
-      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="840."  me:experimentalRate="471." />
-      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="840."  me:experimentalRate="559." />
-      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="850."  me:experimentalRate="314." />
-      <me:PTpair me:units="PPCC" me:P="6.00e16" me:T="850."  me:experimentalRate="444." />
-      <me:PTpair me:units="PPCC" me:P="3.01e16" me:T="860."  me:experimentalRate="378." />
-      <me:PTpair me:units="PPCC" me:P="6.03e16" me:T="860."  me:experimentalRate="535." />
-      <me:PTpair me:units="PPCC" me:P="3.01e16" me:T="870."  me:experimentalRate="436." />
-      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="880."  me:experimentalRate="535." />-->
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="720.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">41.5</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="30.1e16" me:T="730.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">51.1</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="740.">
+         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">55.5</me:experimentalRate>
+      </me:PTpair>
+      <!--<me:PTpair me:units="PPCC" me:P="24.0e16" me:T="740.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">70.1</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="740.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">71.1</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="750.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">55.3</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="750.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">67.2</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="24.1e16" me:T="750.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">86.4</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="750.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">102.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="6.02e16" me:T="760.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">51.9</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="9.02e16" me:T="760.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">65.7</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="760.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">76.5</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="18.1e16" me:T="760.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">95.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="760.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">123.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="760.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">128.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="6.01e16" me:T="770.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">68.9</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="770.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">89.2</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="770.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">99.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="770.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">121.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="24.1e16" me:T="770.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">159.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="770.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">164.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="780.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">65.5</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="6.01e16" me:T="780.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">89.1</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="780.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">114.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="780.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">125.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="780.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">165.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="780.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">203.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="780.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">213.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="790.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">77.0</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="6.01e16" me:T="790.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">119.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="790.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">154.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="790.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">170.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="790.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">219.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="790.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">258.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="790.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">288.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="800.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">96.1</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="6.01e16" me:T="800.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">147.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="800.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">199.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="12.1e16" me:T="800.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">223.5</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="800.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">302.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="800.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">341.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="800.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">350.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="810.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">124.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="6.00e16" me:T="810.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">185.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="810.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">248.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="12.1e16" me:T="810.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">274.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="18.1e16" me:T="810.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">379.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="810.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">402.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="810.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">492.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="820.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">160.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="6.01e16" me:T="820.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">239.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="9.01e16" me:T="820.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">320.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="12.1e16" me:T="820.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">363.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="820.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">447.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="820.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">554.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="820.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">549.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="830.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">189.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="6.00e16" me:T="830.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">287.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="830.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">375.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="830.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">447.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="830.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">570.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="3.01e16" me:T="840.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">252.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="6.00e16" me:T="840.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">349.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="9.00e16" me:T="840.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">471.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="840.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">559.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="850.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">314.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="6.00e16" me:T="850.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">444.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="3.01e16" me:T="860.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">378.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="6.03e16" me:T="860.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">535.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="3.01e16" me:T="870.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">436.</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="880.">
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">535.</me:experimentalRate>
+      </me:PTpair>-->
     </me:PTs>
   </me:conditions>
 
