@@ -122,7 +122,7 @@
 
     <!--Show the "results"-->
     <xsl:if test="//me:densityOfStatesList">
-      <h3 id="densityOfStates-title" class="handcursor">Density of States</h3>
+      <h3 id="densityOfStates-title" class="handcursor">Partition Functions</h3>
       <div id="densityOfStates" class="switchgroup1">
         <!--<xsl:apply-templates select="//*[@calculated]"/>-->
         <xsl:apply-templates select="//me:densityOfStatesList"/>
@@ -249,7 +249,7 @@
     <table>
       <tr>
         <td class="tablehead1" colspan="5" align="center">
-          Density of states for <xsl:value-of select="../@id"/>
+          Partition functions for <xsl:value-of select="../@id"/>
         </td>
       </tr>
       <tr class="tableheader">
@@ -279,7 +279,7 @@
 
     <xsl:template match="me:microRateList">
     <h4>
-      Microcanonical rate coefficients for
+      Canonical rate coefficients for
       <xsl:value-of select="../@id"/>
       <span class="normal">
         (Calculated 
@@ -313,7 +313,7 @@
        </td>
      </tr>
      <tr>
-       <td class="tablehead2" colspan="5" align="center">Conversion Rates</td>
+       <td class="tablehead2" colspan="5" align="center">Conversion Rate Coefficients</td>
      </tr>
      <xsl:for-each select="me:firstOrderRate">
         <tr>
@@ -325,7 +325,7 @@
         </tr>
       </xsl:for-each>
       <tr>
-        <td class="tablehead2" colspan="5" align="center">Loss Rates</td>
+        <td class="tablehead2" colspan="5" align="center">Loss Rate Coefficients</td>
       </tr>
       <xsl:for-each select="me:firstOrderLoss">
         <tr>
