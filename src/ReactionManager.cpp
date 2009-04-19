@@ -339,22 +339,7 @@ namespace mesmer
       // 
       m_sources.clear(); // Maps the location of source in the system matrix.
       for (size_t i(0) ; i < size() ; ++i) {
-        AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
-        if (pReaction) {  // if the reaction is an association reaction
-          Molecule *pPseudoIsomer = pReaction->get_pseudoIsomer();
-          if (pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){ // Reaction includes a new pseudoisomer.
-            m_sources[pPseudoIsomer] = 0 ;
-          }
-          pReaction->putSourceMap(&m_sources) ;
-        }
-        IrreversibleExchangeReaction *IREreaction = dynamic_cast<IrreversibleExchangeReaction*>(m_reactions[i]);
-        if(IREreaction){       // if the reaction is an irreversible exchange reaction
-          Molecule *pPseudoIsomer = IREreaction->get_pseudoIsomer();
-          if(pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){  // Reaction includes a new pseudoisomer.
-            m_sources[pPseudoIsomer] = 0 ;
-          }
-          IREreaction->putSourceMap(&m_sources);
-        }
+        m_reactions[i]->updateSourceMap(m_sources) ;
       }
 
       // Build reaction operator.

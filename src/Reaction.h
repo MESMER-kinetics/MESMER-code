@@ -46,9 +46,6 @@ namespace mesmer
     // Initialize reaction.
     virtual bool InitializeReaction(PersistPtr ppReac) = 0 ;
 
-    // Access microcanoincal rate coeffcients.
-    void get_MicroRateCoeffs(std::vector<double> &kmc) ;
-
     const std::string& getName() const    { return m_Name ; } ;
     double get_PreExp()                   { return m_PreExp.get_value() ; } ;
     void set_PreExp(double value)         { m_PreExp = value;}
@@ -119,12 +116,6 @@ namespace mesmer
 
     // returns the forward grain microcanoincal rate coefficients for foreign modifications
     const std::vector<double>& get_GrainKfmc(void) {return m_GrainKfmc; };
-
-    // returns the backward grain microcanoincal rate coefficients for foreign modifications
-    std::vector<double>& get_GrainKbmc(void) {return m_GrainKbmc; };
-
-    // returns the forward grain microcanoincal rate coefficients for foreign modifications
-    const std::vector<double>& get_IrreversibleRateCoefficients(void) {return m_GrainKfmc; };
 
     // get canonical pseudo first order irreversible loss rate coefficient
     virtual double GetCanonicalIrreversibleLossRate(void){return 0.0;};
@@ -199,6 +190,9 @@ namespace mesmer
 
     // Check if the activation energy provided for ILT is for reverse direction
     bool isReverseReactionILT_Ea() {return m_isRvsILTpara;}
+    
+    // For reactions involving a source update pseudoisomer map.
+    virtual void updateSourceMap(molMapType& sourcemap) { /* For reactions without source terms this is a NULL operation. */} ;
 
   protected:
 
@@ -244,6 +238,9 @@ namespace mesmer
     // Read parameters requires to determine reaction heats and rates.
     bool ReadRateCoeffParameters(PersistPtr ppReac);
 
+    double m_ERConc ;           // Concentration of the excess reactant (This is a complement to reactions with
+                                // excess species. This value is not used in unimolecular reactions.)
+
   private:
 
     //   Reaction();
@@ -278,7 +275,7 @@ namespace mesmer
     MesmerFlags& m_Flags;
     std::string m_Name ;        // Reaction name.
 
-    int m_GrnFluxFirstNonZeroIdx;// idx of the starting grain for calculating forward/backward k(E)s from flux
+    int m_GrnFluxFirstNonZeroIdx;  // idx of the starting grain for calculating forward/backward k(E)s from flux
     int m_EffGrainedFwdThreshold;  // effective threshold energy (in grains) for forward flux calculations
     int m_EffGrainedRvsThreshold;  // effective threshold energy (in grains) for backward flux calculations
 
@@ -291,11 +288,6 @@ namespace mesmer
     DPoint m_EInf ;             // E infinity
     bool   m_isRvsILTpara;      // The ILT parameters provided are for reverse direction.
     double m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
-
-  protected:
-
-    double m_ERConc ;           // Concentration of the excess reactant (This is a complement to reactions with
-                                // excess species. This value is not used in unimolecular reactions.)
 
   } ;
 

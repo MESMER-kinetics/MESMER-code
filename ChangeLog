@@ -1,6 +1,10 @@
 
 2009-Apr-19 Struan Robertson
   
+  * ReactionManager.cpp/Reaction.h: Source term discovery pushed onto to derived reaction classes.
+  
+2009-Apr-19 Struan Robertson
+  
   * ReactionManager.cpp: Minor change related to basis set methods.
   
 2009-Apr-19 Struan Robertson

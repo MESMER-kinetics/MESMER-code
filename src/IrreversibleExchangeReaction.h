@@ -35,7 +35,12 @@ namespace mesmer
     // Destructor.
     virtual ~IrreversibleExchangeReaction(){}
 
-    void putSourceMap(molMapType *sourcemap){m_sourceMap = sourcemap ; } ;
+    void updateSourceMap(molMapType& sourcemap){
+      if (m_rct1 && sourcemap.find(m_rct1) == sourcemap.end()){ // Reaction includes a new pseudoisomer.
+        sourcemap[m_rct1] = 0 ;
+      }
+      m_sourceMap = &sourcemap ; 
+    } ;
 
     // Get unimolecular species information:
     virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const 

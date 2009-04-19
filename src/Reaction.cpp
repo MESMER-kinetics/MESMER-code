@@ -101,14 +101,6 @@ namespace mesmer
   }
 
   //
-  // Access microcanonical rate coefficients.
-  //
-  void Reaction::get_MicroRateCoeffs(std::vector<double> &kmc) {
-    calcGrnAvrgMicroRateCoeffs();
-    kmc = m_GrainKfmc ;
-  }
-
-  //
   // Calculate grain averaged microcanonical rate coefficients.
   //
   bool Reaction::calcGrnAvrgMicroRateCoeffs() {
