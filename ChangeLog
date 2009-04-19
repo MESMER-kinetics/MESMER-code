@@ -1,6 +1,10 @@
 
 2009-Apr-19 Struan Robertson
   
+  * ReactionManager.cpp: Minor change related to basis set methods.
+  
+2009-Apr-19 Struan Robertson
+  
   * ReactionManager.cpp: Minor change to correct for QA failure.
   
 2009-Apr-17 Chris Morley

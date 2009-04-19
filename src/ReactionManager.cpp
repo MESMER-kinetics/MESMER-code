@@ -334,26 +334,24 @@ namespace mesmer
       m_meanOmega /= double(m_isomers.size());
 
       //
-      // Find all source terms.
-      // Note: 1. A source term contains the deficient reactant.  It is possible for
-      //          there to be more than one source term.
+      // Find all source terms. Note: a source term contains the deficient reactant.
+      // It is possible for there to be more than one source term.
+      // 
       m_sources.clear(); // Maps the location of source in the system matrix.
       for (size_t i(0) ; i < size() ; ++i) {
         AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
         if (pReaction) {  // if the reaction is an association reaction
           Molecule *pPseudoIsomer = pReaction->get_pseudoIsomer();
-          if (pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){ // reaction includes a new
-            m_sources[pPseudoIsomer] = msize ;                                    // pseudoisomer
-            ++msize ;
+          if (pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){ // Reaction includes a new pseudoisomer.
+            m_sources[pPseudoIsomer] = 0 ;
           }
           pReaction->putSourceMap(&m_sources) ;
         }
         IrreversibleExchangeReaction *IREreaction = dynamic_cast<IrreversibleExchangeReaction*>(m_reactions[i]);
         if(IREreaction){       // if the reaction is an irreversible exchange reaction
           Molecule *pPseudoIsomer = IREreaction->get_pseudoIsomer();
-          if(pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){  // reaction includes a new
-            m_sources[pPseudoIsomer] = msize ;                                    // pseudoisomer
-            ++msize;
+          if(pPseudoIsomer && m_sources.find(pPseudoIsomer) == m_sources.end()){  // Reaction includes a new pseudoisomer.
+            m_sources[pPseudoIsomer] = 0 ;
           }
           IREreaction->putSourceMap(&m_sources);
         }
@@ -1428,6 +1426,26 @@ namespace mesmer
   //
   void ReactionManager::constructGrainMatrix(int msize){
 
+    // Determine the size and location of various blocks.
+
+    // 1. Isomers.
+
+    //size_t msize(0) ;
+    //Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
+    //for (; isomeritr != m_isomers.end() ; ++isomeritr) {
+    //  Molecule *isomer = isomeritr->first ;
+    //  isomeritr->second = static_cast<int>(msize) ; //set location
+    //  msize += isomer->getColl().get_nbasis() ;
+    //}
+
+    // 2. Pseudoisomers.
+
+    Reaction::molMapType::iterator pseudoIsomeritr = m_sources.begin() ;
+    for (; pseudoIsomeritr != m_sources.end() ; ++pseudoIsomeritr) {
+      pseudoIsomeritr->second = static_cast<int>(msize) ; //set location
+      msize++ ;
+    }
+
     // Allocate space for the full system collision operator.
     if (m_reactionOperator) delete m_reactionOperator;
     m_reactionOperator = new qdMatrix(msize, 0.0) ;
@@ -1489,7 +1507,7 @@ namespace mesmer
     // 2. Pseudoisomers.
 
     Reaction::molMapType::iterator pseudoIsomeritr = m_sources.begin() ;
-    for (; pseudoIsomeritr != m_isomers.end() ; ++pseudoIsomeritr) {
+    for (; pseudoIsomeritr != m_sources.end() ; ++pseudoIsomeritr) {
       pseudoIsomeritr->second = static_cast<int>(msize) ; //set location
       msize++ ;
     }
