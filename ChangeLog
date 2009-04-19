@@ -1,6 +1,10 @@
 
 2009-Apr-19 Struan Robertson
   
+  * QMRotor.h/ClaasicalRotor.h: More header file dependency decoupling.
+  
+2009-Apr-19 Struan Robertson
+  
   * ReactionManage.h/MesmerILT.h: Replace derived class headers with base class to break include dependencies.
   
 2009-Apr-19 Struan Robertson

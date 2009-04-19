@@ -1,7 +1,8 @@
 #ifndef GUARD_HinderedRotorInterpolation_h
 #define GUARD_HinderedRotorInterpolation_h
 
-#include "System.h"
+#include "DensityOfStates.h"
+#include "MolecularComponents.h"
 
 namespace mesmer
 {
