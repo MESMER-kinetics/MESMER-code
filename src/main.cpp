@@ -213,20 +213,7 @@ int main(int argc,char *argv[])
 
       clog << "Now calculating..." << endl;
 
-      switch (_sys.m_Flags.searchMethod){
-        case 2:
-          _sys.fitting() ;
-          break;
-        case 1:
-          _sys.gridSearch();
-          break;
-        case 3: // with punch exported
-          _sys.gridSearch();
-          break;
-        default:
-          double chiSquare(1000.0);
-          _sys.calculate(chiSquare) ;
-      }
+      _sys.executeCalculation() ;
     }
   }
   catch(std::runtime_error& e)

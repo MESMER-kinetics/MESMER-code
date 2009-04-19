@@ -171,10 +171,10 @@ namespace mesmer
       // System configuration information
       if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();
 
-      if (ppControl->XmlReadBoolean("me:gridSearch")) m_Flags.searchMethod = 1;
-      else if (ppControl->XmlReadBoolean("me:fitting")) m_Flags.searchMethod = 2;
-      else if (ppControl->XmlReadBoolean("me:gridSearchWithPunch")) m_Flags.searchMethod = 3;
-      else m_Flags.searchMethod = 0;
+      if      (ppControl->XmlReadBoolean("me:gridSearch"))          m_Flags.searchMethod = GRIDSEARCH;
+      else if (ppControl->XmlReadBoolean("me:fitting"))             m_Flags.searchMethod = FITTING;
+      else if (ppControl->XmlReadBoolean("me:gridSearchWithPunch")) m_Flags.searchMethod = GRIDSEARCHWITHPUNCH;
+      else m_Flags.searchMethod = SINGLECALCULATION;
 
       if (m_Flags.grainedProfileEnabled && (m_Flags.speciesProfileEnabled || m_Flags.searchMethod)){
         cinfo << "Turn off grained species profile to prevent disk flooding." << endl;
@@ -209,6 +209,32 @@ namespace mesmer
     return true;
   }
 
+//
+// Main calculation method.
+//
+  void System::executeCalculation()
+  {
+      switch (m_Flags.searchMethod){
+        case FITTING:
+          fitting() ;
+          break;
+        case GRIDSEARCH:
+          gridSearch();
+          break;
+        case GRIDSEARCHWITHPUNCH: // with punch exported
+          gridSearch();
+          break;
+        case SINGLECALCULATION:
+          {
+            double chiSquare(1000.0);
+            calculate(chiSquare) ;
+          }
+          break;
+        default:
+          cerr << "No search method defined." << endl ;
+      }
+  }
+  
   // pop the P and T points into PandTs
   // This is a function for reading concentration/pressure and temperature conditions.
   void System::readPTs(PersistPtr anchor)

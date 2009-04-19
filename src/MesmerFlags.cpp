@@ -2,7 +2,7 @@
 
 namespace mesmer{
   MesmerFlags::MesmerFlags():
-    searchMethod(0),
+    searchMethod(UNDEFINED_METHOD),
     testDOSEnabled(false),
     testRateConstantEnabled(false),
     microRateEnabled(false),

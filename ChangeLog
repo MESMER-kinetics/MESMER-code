@@ -1,7 +1,11 @@
 
 2009-Apr-19 Struan Robertson
   
-  * QMRotor.h/ClaasicalRotor.h: More header file dependency decoupling.
+  * System.h/.cpp: Minor tidying in preparation for fitting method.
+  
+2009-Apr-19 Struan Robertson
+  
+  * QMRotor.h/ClassicalRotor.h: More header file dependency decoupling.
   
 2009-Apr-19 Struan Robertson
   

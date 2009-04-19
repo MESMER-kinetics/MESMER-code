@@ -31,7 +31,7 @@ namespace mesmer
     bool parse(PersistPtr ppIOPtr) ;
 
     // Begin calculation.
-    void calculate(double& chiSquare) ;
+    void executeCalculation() ;
 
     // Begin fitting.
     void fitting(void);
@@ -47,23 +47,13 @@ namespace mesmer
     
     void WriteMetadata();
 
-  public:
-
-    // Paired concentration and pressure points
-    std::vector<CandTpair> PandTs;
-
-    //Stores environmental variables
-    //Reference to this are passed to the constructors of all Molecules and Reactions
-    MesmerEnv m_Env;
+    // Mesmer control flags.
     MesmerFlags m_Flags;
 
   private:
 
-    // Location of the molecule manager.
-    MoleculeManager *m_pMoleculeManager;
-
-    // Location of the reaction maps.
-    ReactionManager *m_pReactionManager ;
+    // Begin single calculation.
+    void calculate(double& chiSquare) ;
 
     void readPTs(PersistPtr);
 
@@ -72,8 +62,18 @@ namespace mesmer
       PersistPtr            ppbase,
       bool                  MustBeThere=true);
 
+    // Location of the molecule manager.
+    MoleculeManager *m_pMoleculeManager;
 
+    // Location of the reaction mananger.
+    ReactionManager *m_pReactionManager ;
 
+    // Paired concentration and pressure points.
+    std::vector<CandTpair> PandTs;
+
+    // Physical variables. Reference to this are passed to all Molecule and Reaction constructors.
+    MesmerEnv m_Env;
+    
     // level in XML file under <mesemer>
     PersistPtr m_ppIOPtr;
 
