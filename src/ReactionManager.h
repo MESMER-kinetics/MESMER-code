@@ -13,10 +13,7 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include "AssociationReaction.h"
-#include "IrreversibleUnimolecularReaction.h"
-#include "IsomerizationReaction.h"
-#include "IrreversibleExchangeReaction.h"
+#include "Reaction.h"
 
 namespace mesmer
 {

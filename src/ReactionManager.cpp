@@ -10,6 +10,11 @@
 //-------------------------------------------------------------------------------------------
 #include "ReactionManager.h"
 
+#include "AssociationReaction.h"
+#include "IrreversibleUnimolecularReaction.h"
+#include "IsomerizationReaction.h"
+#include "IrreversibleExchangeReaction.h"
+
 using namespace Constants ;
 using namespace std ;
 
