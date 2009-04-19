@@ -1265,8 +1265,8 @@ namespace mesmer
           puSymbols << iso->getName() << " loss\t";
         }
       }
-      ctest << "}\n";
     }
+    ctest << "}\n";
 
     if(m_SpeciesSequence.size()>m_sinkRxns.size()){
       ctest << "\nFirst order & pseudo first order rate coefficients for isomerization rxns:\n{\n";

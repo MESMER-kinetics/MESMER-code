@@ -1,4 +1,8 @@
 
+2009-Apr-19 Struan Robertson
+  
+  * ReactionManager.cpp: Minor change to correct for QA failure.
+  
 2009-Apr-17 Chris Morley
   
   * mesmer1.xsl: minor revision of wording of output.
