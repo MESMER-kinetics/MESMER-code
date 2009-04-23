@@ -19,6 +19,16 @@
   
   * ReactionManager.cpp: Minor change related to basis set methods.
   
+2009-Apr-23 Chris Morley
+
+  * Windows VC9/: Add VC++ 2009 project files. Dave mentioned he had tweakedt
+  the optimization but I could see where. Perhaps he could check that it is correct
+  in the VC++2009 files.
+
+  * src/ReactionManager.cpp, src/System.cpp:added cinfo.flush() at 
+    various points during the parsing, to get a log output even in a crash. 
+  * MesmerQA/QA.bat: update executable to VC9
+
 2009-Apr-19 Struan Robertson
   
   * ReactionManager.cpp: Minor change to correct for QA failure.

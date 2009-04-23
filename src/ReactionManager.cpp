@@ -64,6 +64,7 @@ namespace mesmer
       }
       ErrorContext c(id);
       cinfo << "Parsing reaction..." << endl;
+      cinfo.flush();
 
       // Read reactant and product types.
 

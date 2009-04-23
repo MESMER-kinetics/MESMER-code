@@ -51,6 +51,7 @@ namespace mesmer
       m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
       m_Env.EAboveHill = ppParams->XmlReadDouble("me:energyAboveTheTopHill");
     }
+    cinfo.flush();
 
     //-------------
     //Reaction List
@@ -71,7 +72,7 @@ namespace mesmer
     }
     else
       cinfo << "All molecules are on the same energy basis: " << energyConvention << endl;
-
+    cinfo.flush();
     //-------------
 
     //Reaction Conditions
