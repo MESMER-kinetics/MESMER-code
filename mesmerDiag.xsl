@@ -133,6 +133,14 @@
       
       <!--Draw the energy levels of the transition states and the lines to reactant and product-->
       <xsl:apply-templates select="cml:reactionList" mode="diagram"/>
+
+      <svg:text x="20" font-size="9">
+        <xsl:attribute name="y">
+          <xsl:value-of select="$diagheight"/>
+        </xsl:attribute>
+        <xsl:value-of select="'Energies in '"/>
+        <xsl:value-of select="//cml:property[@dictRef='me:ZPE']/cml:scalar/@units"/>
+      </svg:text>
       
     </svg:svg>
   </xsl:template>

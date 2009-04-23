@@ -1,3 +1,12 @@
+2009-Apr-23 Chris Morley
+
+   * mesmer1.xsl: display energy units correctly in molecule table.
+       check that all energy units are the same and display an error message if not. 
+   * mesmerDiag.xsl: display energy units below diagram
+   * MesmerQA/i-propyl/ipropyl_test.xml: corrected title and 546.D0 which may be valid in
+       some obsolete programming languages but isn't here.
+       Now gives a more informative diagram. 
+
 _2009_04_23__09_11_27_ Chi-Hsiu Liang
 
   * Move DPoint to a higher level. For the moment, DPoint is almist visible to any file in MESMER folder. Declaration of an DPoint value will

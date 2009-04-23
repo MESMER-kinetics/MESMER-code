@@ -73,6 +73,7 @@
         .normal{color:black; font-size:smaller;}
         .handcursor{cursor:hand; cursor:pointer;}
         .inactive{color:silver;stroke:silver;}
+        .error{font-weight:bold;font-size:large;background-color:red;padding:20px;}
         #header{color:black;font-family: Arial, Helvetica, sans-serif;font-weight:bold;}
         #title{font-size:larger;font-weight:bold;}
         #metadata{color:teal;font-size:smaller;}
@@ -100,17 +101,26 @@
         </p>
         <xsl:apply-templates select="//cml:metadataList"/>
       </div>
+      <xsl:variable name ="Eunits">
+        <xsl:call-template name="ZPEunits"/>
+      </xsl:variable>
+      <xsl:for-each select=
+         "//cml:property[@dictRef='me:ZPE']/cml:scalar/@units | //me:activationEnergy/@units">
+        <xsl:if test=".!=$Eunits">
+          <div class="error">
+            <xsl:value-of select=
+             "concat(.,' is different energy unit. All energy units need to be the same.')"/>
+          </div>
+        </xsl:if>
+      </xsl:for-each>
       <h3 id="mols-title" class="handcursor">Molecules</h3>
       <div id="mols" class="switchgroup3">
         <table class="mol">
           <tr class="tableheader">
             <td>Name</td>
-            <td>Energy<br />kJ mol<sup>-1</sup>
-          </td>
-            <td>Rotational constants<br />cm<sup>-1</sup>
-          </td>
-            <td>Vibrational frequencies<br />cm<sup>-1</sup>
-          </td>
+            <td>Energy<br /><xsl:value-of select="$Eunits"/></td>
+            <td>Rotational constants<br />cm<sup>-1</sup></td>
+            <td>Vibrational frequencies<br />cm<sup>-1</sup></td>
           </tr>
           <xsl:apply-templates select="cml:moleculeList"/>
         </table>
@@ -346,6 +356,11 @@
         <xsl:value-of select="cml:metadata[@name='dc:date']/@content"/>,
         <xsl:value-of select="cml:metadata[@name='dc:contributor']/@content"/>
     </div>
+  </xsl:template>
+
+  <xsl:template name="ZPEunits">
+    <xsl:value-of select=
+      "//cml:property[@dictRef='me:ZPE']/cml:scalar/@units | //me:activationEnergy/@units"/>
   </xsl:template>
 
   </xsl:stylesheet> 

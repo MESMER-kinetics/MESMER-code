@@ -2,7 +2,7 @@
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
-  <title>Pentyl isomerization</title>
+  <title>isopropyl decomposition</title>
   <moleculeList>
     <molecule id="i-propyl">
       <atomarray>
@@ -138,7 +138,7 @@
 
       <me:MCRCMethod>MesmerILT</me:MCRCMethod>
       <me:preExponential>6.00e-12</me:preExponential>
-      <me:activationEnergy  units="cm-1" reverse="true">546.D0</me:activationEnergy>
+      <me:activationEnergy  units="cm-1" reverse="true">546.0</me:activationEnergy>
       <me:TInfinity>1.0</me:TInfinity>
       <me:nInfinity>0.0</me:nInfinity>
 
