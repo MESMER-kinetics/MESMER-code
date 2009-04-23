@@ -18,7 +18,6 @@
 #include "Distribution.h"
 #include "MesmerEnv.h"
 #include "MesmerFlags.h"
-#include "Pointer.h"
 
 using namespace std ;
 using namespace Constants ;

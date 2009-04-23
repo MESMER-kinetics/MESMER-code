@@ -1,3 +1,13 @@
+_2009_04_23__09_11_27_ Chi-Hsiu Liang
+
+  * Move DPoint to a higher level. For the moment, DPoint is almist visible to any file in MESMER folder. Declaration of an DPoint value will
+    increment the DPoint vector, and the access of the DPoint value is just like any other variables.
+  * Fixed collision operator column sum in reservoir state.
+  * Fixed VC8/VC9 qa.bat link so that it finds the newer version of the executables. Need to think about if letting user choose which executable to run.
+
+2009-Apr-23 Chris Morley
+
+  * Add VC++ 2009 files. Flush log file during parsing.
 
 2009-Apr-19 Struan Robertson
   

@@ -47,10 +47,10 @@ namespace mesmer
     DPoint& operator/=(const double& b) { allP[p_] /= b;          return *this; }
 
     const double& get_value(void)       { return allP[p_];                      }
-    
+
     // check if the "value" used to calculate the previous data is identical to the current value in allP vector.
     bool isConstant(void){ return (value == get_value()) ; }
-    
+
     // This function explicitly tell DPoint to update the value, means that the DOS is re-calculated using the current value.
     void updateValue(void){
       value = get_value();

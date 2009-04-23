@@ -5,7 +5,16 @@ set starttime=%time%
 :: string begins with a period needs to be quoted
 SET directive=
 SET otfn=mesmer.test
+
+IF EXIST "../../Windows VC9/Mesmer/Mesmer.exe" GOTO VC9
+SET executable="../../Windows VC8/Mesmer/Mesmer.exe"
+GOTO SETTINGS
+
+:VC8
 SET executable="../../Windows VC9/Mesmer/Mesmer.exe"
+GOTO SETTINGS
+
+:SETTINGS
 SET tfn=mesmer.test
 SET lfn=mesmer.log
 SET bline=baselines/Win32/

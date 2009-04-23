@@ -49,8 +49,8 @@ Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
 No population was assigned. Initialize the first source term to 1.0.
 
 In total, 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 43 seconds.
- -- Total time elapsed: 139 seconds.
+Finish Calculation -- Time elapsed: 65 seconds.
+ -- Total time elapsed: 211 seconds.
 
 System saved to out.xml
 Rotational constants are provided but not used in HO_2.

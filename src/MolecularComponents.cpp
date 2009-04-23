@@ -1080,9 +1080,22 @@ namespace mesmer
       tempEGME->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
     }
 
+    // print out of column sums to check normalization results
+    if (m_host->getFlags().reactionOCSEnabled){
+      ctest << endl << "Collision operator column Sums" << endl << "{" << endl ;
+      for (int i(0) ; i < reducedCollOptrSize ; ++i ) {
+        double columnSum(0.0) ;
+        for (int j(0) ; j < reducedCollOptrSize ; ++j ){
+          columnSum += to_double((*tempEGME)[j][i]) ;
+        }
+        ctest << columnSum << endl ;
+      }
+      ctest << "}" << endl;
+    }
+
+
     //-------------------- The part doing the same jobs as making a whole collision operator ------------
     //---------------------------------------------------------------------------------------------------
-
 
 
     //--------------------------------
@@ -1119,18 +1132,6 @@ namespace mesmer
 
     (*m_egme)[0][0] = -sumOfDeactivation;
 
-    // print out of column sums to check normalization results
-    if (m_host->getFlags().reactionOCSEnabled){
-      ctest << endl << "Collision operator column Sums" << endl << "{" << endl ;
-      for (int i(0) ; i < reducedCollOptrSize ; ++i ) {
-        double columnSum(0.0) ;
-        for (int j(0) ; j < reducedCollOptrSize ; ++j ){
-          columnSum += to_double((*m_egme)[j][i]) ;
-        }
-        ctest << columnSum << endl ;
-      }
-      ctest << "}" << endl;
-    }
 
     // Symmetrization of the collision matrix.
     vector<double> popDist; // grained population distribution

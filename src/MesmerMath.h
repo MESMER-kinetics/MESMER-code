@@ -18,6 +18,7 @@
 #include <vector>
 #include "Matrix.h"
 #include "a2d.h"
+#include "Pointer.h"
 
 using namespace mesmer;
 
