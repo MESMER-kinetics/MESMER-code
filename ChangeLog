@@ -7,7 +7,14 @@ _2009_04_23__09_11_27_ Chi-Hsiu Liang
 
 2009-Apr-23 Chris Morley
 
-  * Add VC++ 2009 files. Flush log file during parsing.
+  * Windows VC9/: Add VC++ 2009 project files. Dave mentioned he had tweaked
+  the optimization but I could see where. Perhaps he could check that it is correct
+  in the VC++2009 files.
+
+  * src/ReactionManager.cpp, src/System.cpp:added cinfo.flush() at 
+    various points during the parsing, to get a log output even in a crash.
+     
+  * MesmerQA/QA.bat: update executable to VC9
 
 2009-Apr-19 Struan Robertson
   
