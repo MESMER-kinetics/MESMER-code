@@ -48,10 +48,10 @@ namespace mesmer
         }
       }
       else{
-        
+
         // Asymmetry parameter Kappa varies from -1 for a prolate symmetric top to 1 for an oblate symmetric top.
         double Kappa = (2. * rcB - rcA - rcC)/(rcA - rcC);
-        
+
         if (Kappa > 0){ // near oblate symmetric top
           // A true oblate symmetric top has rotational constants A = B > C. The closer Kappa is to 1, the closer it 
           // is an oblate rotor.
@@ -60,7 +60,7 @@ namespace mesmer
             rcB = .5 * (rcB + rcA);
           }
           int maxJ = int((-rcB + sqrt(rcB*rcB +4. * rcC * (double)(MaximumCell)))/
-                        (2. * rcC)); // A function to calculate the maximum J possible for MaximumCell.
+            (2. * rcC)); // A function to calculate the maximum J possible for MaximumCell.
           for (int j(0); j <= maxJ; ++j ){
             double d_ei = rcB * (double)(j * (j + 1)); // B J (J + 1)
             for (int k(-j) ; k <= j; ++k ){
@@ -135,6 +135,128 @@ namespace mesmer
     pDOS->setCellDensityOfStates(cellDOS) ;
 
     return true;
+  }
+
+  //
+  // Energy levels of an asymmetric molecule. 
+  //
+  // The rotational constant B varies from A to C. The King, Hainer & Cross 
+  // notation of energy levels is used (JCP, Vol. 11, p. 27 (1943)). The 
+  // eigenfunctions are expanded in the prolate symmetric top basis set.
+  // (See also Zare.)
+  // 
+  // ED(K)=E(K,K) are the diagonal elements of the energy matrix, 
+  // ED0=E(0,0). EF(K)=E(K-2,K) are the off-diagonal elements of the 
+  // energy matrix.  ED1=E(1,1)+E(-1,1), ED2=E(1,1)-E(-1,1).
+  //
+
+  void QMRotor::asymmetricRotor(double A, double B, double C, int J, double *pkpp, double *Er, double *Ed, double *Ef) {
+
+    const int NMAX = 200 ;
+    vector<double> E(NMAX,0.0) ;
+    vector<double> R(NMAX,0.0) ;
+    
+    double kpp = (2.0*B - A - C)/(A - C) ; // Eccentricity of top.
+
+    double jj   = double(J) ;
+    double jsqd = jj*(jj + 1.0) ;
+    double f    =  (kpp - 1.0)/2.0 ;
+    double h    = -(kpp + 1.0)/2.0 ;
+
+    double Ed0 = f*jsqd ;
+
+    for (int k = 0 ; k < J ; k++) {
+      double kk = double(k + 1) ;
+      Ed[k] = Ed0 + (1.0 - f)*kk*kk ;
+      double Ee = (jsqd - (kk-2.0)*(kk-1.0))*(jsqd - (kk-1.0)*kk)/4.0 ;
+      Ef[k] = h*sqrt(Ee) ;
+    }
+
+    Ef[2] *= sqrt(2.0) ;
+    double Ed1 = Ed[1] + Ef[1] ;
+    double Ed2 = Ed[1] - Ef[1] ;
+
+    //
+    // E+ Block.
+    //
+    int i(0) ;
+    int N = J/2 + 1 ;
+    R[0] = Ed0 ;
+    for (i = 0 ; i < N-1 ; i++) {
+      E[i+1] = Ef[i*2] ;
+      R[i+1] = Ed[i*2] ;
+    }
+
+    TMatrix<double>::tqlev(&R[0], &E[0], N) ;
+    
+    int m0(0) ;
+    double ene = (A+C)*jsqd/2.0 ;
+    double en2 = (A-C)/2.0 ;
+    for (i = 0 ; i < N ; i++, m0++) {
+      Er[m0] = ene + en2*R[i] ;
+    }
+
+    //
+    // E- Block.
+    //
+    N = J/2 ;
+    for (i = 0 ; i < N ; i++) {
+      E[i+1] = Ef[i*2+2] ;
+      R[i]   = Ed[i*2] ;
+    }
+    
+    TMatrix<double>::tqlev(&R[0], &E[0], N) ;
+        
+    for (i = 0 ; i < N ; i++, m0++) {
+      Er[m0] = ene + en2*R[i] ;
+    }
+
+    //
+    // O+ Block.
+    //
+    N = (J+1)/2 ;
+    R[1] = Ed1 ;
+    for (i = 0 ; i < N-1 ; i++) {
+      E[i+1] = Ef[i*2+1] ;
+      R[i+1] = Ed[i*2+1] ;
+    }
+    
+    TMatrix<double>::tqlev(&R[0], &E[0], N) ;
+    
+    for (i = 0 ; i < N ; i++, m0++) {
+      Er[m0] = ene + en2*R[i] ;
+    }
+    
+    //
+    // O- Block.
+    //
+    N = (J+1)/2 ;
+    R[1] = Ed2 ;
+    for (i = 0 ; i < N-1 ; i++) {
+        E[i+1] = Ef[i*2+1] ;
+        R[i+1] = Ed[i*2+1] ;
+    }
+    
+    TMatrix<double>::tqlev(&R[0], &E[0], N) ;
+    
+    for (i = 0 ; i < N ; i++, m0++) {
+      Er[m0] = ene + en2*R[i] ;
+    }
+    
+    //
+    // Sort eigenvalues.
+    //
+    //      DO 110 N = 1,M0 - 1
+    //         DO 100 I = N + 1,M0
+    //              IF (ER(N).GT.ER(I)) THEN
+    //                  EE    = ER(N)
+    //                  ER(N) = ER(I)
+    //                  ER(I) = EE
+    //              END IF
+    //  100     CONTINUE
+    //  110 CONTINUE
+    //
+
   }
 
 }//namespace

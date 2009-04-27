@@ -83,14 +83,15 @@ namespace mesmer
 
     void normalizeProbabilityMatrix();
 
-  private:
-
     //
     // EISPACK methods for diagonalizing matrix.
     //
-    void    tred2   (T **a, size_t n, T *d, T *e) ;
-    void    tqli    (T *d, T *e, size_t n, T **z) ;
-    T  pythag  (T a, T b) ;
+    static void tred2 (T **a, size_t n, T *d, T *e) ;
+    static void tqli  (T *d, T *e, size_t n, T **z) ;
+    static void tqlev (T *d, T *e, size_t n) ;
+    static T    pythag(T a, T b) ;
+
+  private:
 
     //
     // NR LU methods for linear equation solving.
@@ -303,6 +304,103 @@ namespace mesmer
           z[j][i] = z[j][k];
           z[j][k] = p;
         }
+      }
+    }
+
+  }
+
+
+  //-------------------------------------------------------------------------------------------
+  // Function tqlev - eigenvalue only method based on tqli. 
+  //
+  // QL algorithm with implicit shifts, to determine the eigenvalues and eigenvectors of a real,
+  // symmetric, tridiagonal matrix, or of a real, symmetric matrix previously reduced by tred2.
+  //
+  // On input:
+  //    d[1..n] contains the diagonal elements of the tridiagonal matrix.
+  //    e[1..n] contains the subdiagonal elements of the tridiagonal matrix.
+  // with e[1] arbitrary.
+  // On output:
+  //    d[1..n] returns the eigenvalues.
+  //    e[1..n] is destroyed.
+  //
+  //-------------------------------------------------------------------------------------------
+  template<class T>
+  void TMatrix<T>::tqlev(T *d, T *e, size_t n)
+  {
+    size_t m,l,iter,i,k;
+    T s,r,p,g,f,dd,c,b;
+
+    for (i=2;i<=n;++i) e[i-2]=e[i-1];
+    e[n-1]=0.0;
+    for (l=1;l<=n;++l) {
+      iter=0;
+      do {
+        for (m=l;m<=n-1;++m) {
+          dd=abs(d[m-1])+abs(d[m]);
+          if (abs(e[m-1])+dd == dd) break;
+        }
+        if (m != l) {
+          // if (iter++ == 30) fprintf(stderr, "Too many iterations in TQLI");
+          if (iter++ == 60) fprintf(stderr, "Too many iterations in TQLI");
+          /* CHL
+          Source: http://www.nr.com/forum/showthread.php?t=592
+          I hope that bellow words will be useful for you.
+          See thread under the title: Possible convergence problems in svdcmp, jacobi, tqli, hqr by Saul Teukolsky
+          in Forum: Official Bug Reports with known bugs. May be this is a reason of slow convergency.
+          It is good check, that matrix is symmetric and to work with double accuracy. I have known also versions
+          with increased number of iterations (200 for example). But I think that this experimental number is right
+          in any case: if you have not convergency for 30 iterations, there is no convergency at all.
+          SVD method used in book is an intrinsic iterative procedure, 30 iterations is a good number to
+          convergency up to numerical accuracy. Evgeny
+          */
+          g=(d[l]-d[l-1])/(2.0*e[l-1]);
+          r=sqrt((g*g)+1.0);
+          g=d[m-1]-d[l-1]+e[l-1]/(g + (g < 0.0 ? -abs(r) : abs(r)));
+          s=c=1.0;
+          p=0.0;
+          for (i=m-1;i>=l;--i) {
+            f=s*e[i-1];
+            b=c*e[i-1];
+            if (abs(f) >= abs(g)) {
+              c=g/f;
+              r=sqrt((c*c)+1.0);
+              e[i]=f*r;
+              c *= (s=1.0/r);
+            } else {
+              s=f/g;
+              r=sqrt((s*s)+1.0);
+              e[i]=g*r;
+              s *= (c=1.0/r);
+            }
+            g=d[i]-p;
+            r=(d[i-1]-g)*s+2.0*c*b;
+            p=s*r;
+            d[i]=g+p;
+            g=c*r-b;
+          }
+          d[l-1]=d[l-1]-p;
+          e[l-1]=g;
+          e[m-1]=0.0;
+        }
+      } while (m != l);
+    }
+
+    // Order eigenvalues.
+
+    for (size_t ii = 1; ii < n; ++ii) {
+      i = ii - 1;
+      k = i;
+      p = d[i];
+      for (size_t j = ii; j < n; ++j) {
+        if (d[j] < p) {
+          k = j;
+          p = d[j];
+        }
+      }
+      if (k!=i) {
+        d[k] = d[i];
+        d[i] = p;
       }
     }
 

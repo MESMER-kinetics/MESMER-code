@@ -1,3 +1,8 @@
+
+2009-Apr-19 Struan Robertson
+
+   * QMRotor.cpp/TMatrix.h: Initial implementation of asymmetric QM rotor energy level algorithm.
+
 2009-Apr-27 Chris Morley
 
    * MesmerQA/QA.bat: correct VC9 mod and add display of mesmer version.

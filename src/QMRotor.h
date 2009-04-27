@@ -18,6 +18,10 @@ namespace mesmer
 
     virtual ~QMRotor() {}
 
+  private:
+
+    void asymmetricRotor(double A, double B, double C, int J, double *pkpp, double *Er, double *Ed, double *Ef) ;
+
   } ;
 
 }//namespace
