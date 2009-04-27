@@ -6,11 +6,11 @@ set starttime=%time%
 SET directive=
 SET otfn=mesmer.test
 
-IF EXIST "../../Windows VC9/Mesmer/Mesmer.exe" GOTO VC9
+IF EXIST "../Windows VC9/Mesmer/Mesmer.exe" GOTO VC9
 SET executable="../../Windows VC8/Mesmer/Mesmer.exe"
 GOTO SETTINGS
 
-:VC8
+:VC9
 SET executable="../../Windows VC9/Mesmer/Mesmer.exe"
 GOTO SETTINGS
 
@@ -69,6 +69,10 @@ GOTO END
 :RUNNING
 
 cd pentyl
+
+:: display mesmer version
+%executable% -V
+
 %executable% pentyl_isomerization_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"

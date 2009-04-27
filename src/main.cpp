@@ -97,6 +97,13 @@ int main(int argc,char *argv[])
           p=argv[++iarg];
         meErrorLog.SetOutputLevel((obMessageLevel)(*p-'0'));
         break;
+      default:
+        cerr << "The option -" << *p << " was not recognized" << endl;
+        if (--argc<2)
+        {
+          usage();
+          return 0;
+        }
       }
     }
     else{
@@ -218,6 +225,7 @@ int main(int argc,char *argv[])
   }
   catch(std::runtime_error& e)
   {
+    cinfo.flush();
     cerr << e.what() << endl;
     exit(-1);
   }

@@ -117,7 +117,8 @@ namespace mesmer
   ///Look first to see if there is a child element of this name.
   ///Look second for an attribute of this name.
   ///If either found, return its value.
-  ///Otherwise return NULL. If MustBeThere is true(the default) also give an error message.
+  ///If MustBeThere is true(the default) inserts from defaults.xml and returns its value.
+  ///Otherwise returns NULL;
   ///If name is empty, returns NULL if there are no children and an empty string if there are.
   const char* XMLPersist::XmlReadValue(const std::string& name, bool MustBeThere)
   {
