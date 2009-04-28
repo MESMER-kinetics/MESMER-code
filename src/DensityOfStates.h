@@ -22,25 +22,28 @@ namespace mesmer
     typedef std::map<std::string, DensityOfStatesCalculator*> DensityOfStatesMap;
 
     ///Base class constructor adds the derived class instance to the map
-    DensityOfStatesCalculator(const std::string& id) { get_Map()[id] = this; }
+    DensityOfStatesCalculator(const std::string& id, bool isExtra){ get_Map(isExtra)[id] = this; }
 
     //Get a pointer to a derived class by providing its id.
-    static DensityOfStatesCalculator* Find(const std::string& id)
+    static DensityOfStatesCalculator* Find(const std::string& id, bool extraType=false)
     {
-      DensityOfStatesMap::iterator pos = get_Map().find(id);
-      return (pos==get_Map().end()) ? NULL : pos->second;
+      DensityOfStatesMap::iterator pos = get_Map(extraType).find(id);
+      return (pos==get_Map(extraType).end()) ? NULL : pos->second;
     }
 
     // provide a function to define particular counts of the DOS of a molecule
-    virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell, PersistPtr ppDOSC = NULL) = 0;
+    virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell,
+        PersistPtr ppDOSC = NULL)=0;
 
   private:
     /// Returns a reference to the map of DensityOfStatesCalculator classes
     /// Is a function rather than a static member variable to avoid initialization problems.
-    static DensityOfStatesMap& get_Map()
+    ///There are different maps for main (e.g. ClassicalRotors)and extra (e.g. HinderedRotorA) classes: 
+    static DensityOfStatesMap& get_Map(bool extra)
     {
       static DensityOfStatesMap m;
-      return m;
+      static DensityOfStatesMap mextra;
+      return extra ? mextra : m;
     }
   };
 

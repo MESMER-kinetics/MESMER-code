@@ -1,5 +1,23 @@
+2009-Apr-28 Chris Morley
+   Reshape DOS method classes: main and extra
+   * src/DensityOfStates.h, src/ClassicalRotor.h, src/QMRotor.h : maon DOS methods
+   * src/HinderedRotorA.cpp, src/HinderedRotorA.h: extra DOS methods added
+     (in skeleton form only)
+   * src/MolecularComponents.cpp: requires one main DOS class (default if necessary)
+     and allows multiple extra classes
 
-2009-Apr-19 Struan Robertson
+   * src/ClassicalRotor.cpp : remove const in countCellDOS() to be consistent
+   * src/MolecularComponents.h: added a public function to access parent, and added
+     parameter in getCellDensity OfStates() to prevent recalculation.
+     (Otherwise get recursion in extra DOS classes.) 
+
+   * src/ReactionManager.cpp,src/MesmerILT.cpp,src/SimpleILT.cpp,src/SimpleRRKM.cpp:
+     add bool return to some functions to allow bailout on error
+   * src/System.cpp: minor documentation and error message changes
+   
+   * Windows VC9/Mesmer/Mesmer.vcproj: updated (Windows VC8 abandoned)
+
+2009-Apr-28 Struan Robertson
 
    * QMRotor.cpp/TMatrix.h: Initial implementation of asymmetric QM rotor energy level algorithm.
 

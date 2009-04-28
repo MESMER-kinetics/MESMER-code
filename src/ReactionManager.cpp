@@ -301,7 +301,8 @@ namespace mesmer
 
     // Calculate flux and k(E)s
     for (size_t i(0) ; i < size() ; ++i) {
-      m_reactions[i]->calcGrnAvrgMicroRateCoeffs() ;
+      if(!m_reactions[i]->calcGrnAvrgMicroRateCoeffs())
+        return false;
     }
 
     if (!mFlags.rateCoefficientsOnly){
@@ -795,6 +796,7 @@ namespace mesmer
 
   bool ReactionManager::timeEvolution(MesmerFlags& mFlags)
   {
+    ErrorContext c(__FUNCTION__);
     int smsize = int(m_eigenvectors->size());
 
     if (!produceEquilibriumVector()){

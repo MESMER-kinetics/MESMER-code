@@ -199,6 +199,14 @@
 			<File
 				RelativePath="..\..\src\DensityOfStates.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\EckartCoefficients.cpp"
@@ -209,7 +217,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\HinderedRotorInterpolation.cpp"
+				RelativePath="..\..\src\HinderedRotorA.cpp"
 				>
 			</File>
 			<File
@@ -355,7 +363,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\HinderedRotorInterpolation.h"
+				RelativePath="..\..\src\HinderedRotorA.h"
 				>
 			</File>
 			<File

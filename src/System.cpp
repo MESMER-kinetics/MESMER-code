@@ -472,7 +472,7 @@ namespace mesmer
       // Build collison matrix for system.
       cinfo << "Build Collison Operator" << endl;
       if (!m_pReactionManager->BuildReactionOperator(m_Env, m_Flags)){
-        cerr << "Failed building system collison operator.";
+        cerr << "Failed building system collison operator." << endl;
         exit(1);
       }
 
@@ -482,8 +482,8 @@ namespace mesmer
       }
 
       // Calculate eigenvectors and eigenvalues.
-      {string thisEvent = "Diagonlize the Reaction Operator";
-      cinfo << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds.\n";
+      {string thisEvent = "Diagonalize the Reaction Operator";
+      cinfo << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds." << endl;;
       events.setTimeStamp(thisEvent, timeElapsed);}
 
       //-------------------------------

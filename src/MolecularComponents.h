@@ -28,6 +28,8 @@ namespace mesmer
   class Molecule;
 
   class MolecularComponent{
+  public:
+    Molecule* getHost() { return m_host; }
 
   protected:
     Molecule* m_host;
@@ -63,7 +65,6 @@ namespace mesmer
     double getEpsilon() ;
     void   setSigma(double value);
     void   setEpsilon(double value);
-
   };
 
   class gDensityOfStates:public MolecularComponent
@@ -120,8 +121,8 @@ namespace mesmer
     gDensityOfStates(Molecule* pMol);
     virtual ~gDensityOfStates();
 
-    // Get cell density of states.
-    void getCellDensityOfStates(std::vector<double> &cellDOS, int startingCell = 0) ;
+    // Get cell density of states. No recalculation if bcalc==false.
+    bool getCellDensityOfStates(std::vector<double> &cellDOS, int startingCell = 0, bool bcalc=true) ;
 
     // Set cell  density of states.
     void setCellDensityOfStates(std::vector<double> &cellDOS) { m_cellDOS = cellDOS ; } ;

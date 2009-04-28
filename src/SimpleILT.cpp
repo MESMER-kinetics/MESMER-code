@@ -31,7 +31,8 @@ namespace mesmer
     // Allocate some work space for and obtain density of states of the unimolecuar reactant.
 
     vector<double> rctsCellDOS; 
-    p_rcts->getDOS().getCellDensityOfStates(rctsCellDOS) ;
+    if(!p_rcts->getDOS().getCellDensityOfStates(rctsCellDOS))
+      return false;
 
     // Obtain the Arrhenius parameters.
 

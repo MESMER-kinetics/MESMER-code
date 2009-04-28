@@ -9,7 +9,7 @@ namespace mesmer
   //************************************************************
 
   // Provide a function to define particular counts of the DOS of a molecule.
-  bool ClassicalRotor::countCellDOS(gDensityOfStates* pDOS, int MaximumCell, const PersistPtr ppDOSC)
+  bool ClassicalRotor::countCellDOS(gDensityOfStates* pDOS, int MaximumCell, PersistPtr ppDOSC)
   {
     vector<double> VibFreq ; 
     pDOS->get_VibFreq(VibFreq) ;

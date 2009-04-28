@@ -83,7 +83,8 @@ namespace mesmer
       // Allocate some work space for density of states and extract densities of states from molecules.
       vector<double> pdtsCellDOS; // Convoluted cell density of states of reactants.
 
-      countDimerCellDOS(p_pdt1->getDOS(), p_pdt2->getDOS(), pdtsCellDOS) ;
+      if(!countDimerCellDOS(p_pdt1->getDOS(), p_pdt2->getDOS(), pdtsCellDOS))
+        return false;
 
       BimolecularConvolution(pReact, pdtsCellDOS, ma, mb, mc) ;
 
@@ -154,7 +155,8 @@ namespace mesmer
 
     // Allocate some work space for density of states and extract densities of states from reactant.
     vector<double> rctCellDOS; 
-    p_rct->getDOS().getCellDensityOfStates(rctCellDOS);
+    if(!p_rct->getDOS().getCellDensityOfStates(rctCellDOS))
+      return false;
 
     //
     // Initialize reaction flux vector.

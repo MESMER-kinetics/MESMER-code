@@ -126,6 +126,7 @@ namespace mesmer
     m_grainDOS()
   {
     m_host = pMol;
+    ErrorContext c(pMol->getName());
     PersistPtr pp = pMol->get_PersistentPointer();
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
@@ -259,10 +260,13 @@ namespace mesmer
   //
   // Get cell density of states.
   //
-  void gDensityOfStates::getCellDensityOfStates(vector<double> &cellDOS, int startingCell) {
+  bool gDensityOfStates::getCellDensityOfStates(vector<double> &cellDOS, int startingCell, bool bcalc) {
     // If density of states have not already been calcualted then do so.
-    if (!calcDensityOfStates())
-      cerr << "Failed calculating DOS";
+    if (bcalc && !calcDensityOfStates())
+    {
+      cerr << "Failed calculating DOS" << endl;
+      return false;
+    }
     if (startingCell == 0)
       cellDOS = m_cellDOS;
     else{
@@ -271,6 +275,7 @@ namespace mesmer
         cellDOS.push_back(m_cellDOS[i]);
       }
     }
+    return true;
   }
 
   //
@@ -327,60 +332,38 @@ namespace mesmer
     if (sizeOfVector && vectorSizeConstant && !recalc)
       return true;
 
-    // Determine the method of rotational DOS calculation.
+    /* Two types of DOSCMethod:
+         main methods like Classical Rotors, can be standalone;
+         extra methods like hindered rotor, which must correct for replaced vibrations.
+       Currently both are plugin classes derived from DensityOfStatesCalculator, but with
+       separate lists, so an error is flagged if the wrong type is used,
+    */
+    ErrorContext c(m_host->getName());
     PersistPtr pp = m_host->get_PersistentPointer();
-    PersistPtr ppRotDOSCMethod = pp->XmlMoveTo("me:DOSCMethod");
-    DensityOfStatesCalculator* pRotationalDOSCalculator(NULL);
-
-    while (ppRotDOSCMethod){
-
-      const char* pRotDOSCMethodTypetxt = ppRotDOSCMethod->XmlReadValue("me:DOSCType") ;
-
-      if (strcmp(pRotDOSCMethodTypetxt, "external") == 0){
-        const char* pRotDOSCMethodtxt = ppRotDOSCMethod->XmlRead();
-        pRotationalDOSCalculator = DensityOfStatesCalculator::Find(pRotDOSCMethodtxt);
-        if(!pRotationalDOSCalculator) // if the provided method cannot be found,
-        {
-          cinfo << "Unknown method " << pRotDOSCMethodtxt  << " for the calculation of rotational DOS.\n"
-            << "Please check spelling error. Default method <Classical rotors> is used." << endl;
-        }
-        break;
+    string dosMethod(pp->XmlReadValue("me:DOSCMethod"));
+    DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod);
+    bool ret=false;
+    if(pDOSCalculator)
+    {
+      ret = pDOSCalculator->countCellDOS(this, MaximumCell);
+      while(ret && (pp = pp->XmlMoveTo("me:ExtraDOSCMethod")))
+      {
+        dosMethod.clear();
+        const char* name;
+        if( (name = pp->XmlRead()) || (name = pp->XmlReadValue("name", optional)))
+          dosMethod = name;
+        pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod, true);
+        if(!pDOSCalculator)
+          break;
+        ret = pDOSCalculator->countCellDOS(this, MaximumCell, pp  );
       }
-
-      ppRotDOSCMethod = ppRotDOSCMethod->XmlMoveTo("me:DOSCMethod");
+    }
+    if(!ret || !pDOSCalculator)
+    {
+      cerr << "The method, " << dosMethod << ", for the calculation of Density of States was unknown or failed; check spelling." << endl;
+      return false; //XML file would otherwise have false info: one method specified and another used.
     }
 
-    if (!pRotationalDOSCalculator){
-      pRotationalDOSCalculator = DensityOfStatesCalculator::Find("Classical rotors");
-    }
-
-    if (!pRotationalDOSCalculator->countCellDOS(this, MaximumCell)){
-      return false;
-    }
-
-    //-------------------------------------------------------------
-    // Find and calculate any other DOS calculators in the molecule
-    // (internal rotations and other vibrational treatments etc.)
-    PersistPtr ppDOSCMethod = pp->XmlMoveTo("me:DOSCMethod");
-    DensityOfStatesCalculator* pInternalDOSCalculator(NULL);
-
-    while (ppDOSCMethod){
-      const char* pDOSCMethodTypetxt = ppDOSCMethod->XmlReadValue("me:DOSCType", false);
-      const char* pDOSCMethodtxt = ppDOSCMethod->XmlReadValue("me:DOSCMethod", false);
-
-      if (strcmp(pDOSCMethodTypetxt, "external") == 0){
-        ppDOSCMethod = ppDOSCMethod->XmlMoveTo("me:DOSCMethod");
-        continue;
-      }
-
-      pInternalDOSCalculator = DensityOfStatesCalculator::Find(pDOSCMethodtxt);
-
-      if (!pInternalDOSCalculator->countCellDOS(this, MaximumCell, ppDOSCMethod)){
-        return false;
-      }
-
-      ppDOSCMethod = ppDOSCMethod->XmlMoveTo("me:DOSCMethod");
-    }
     //-------------------------------------------------------------
 
     std::vector<double> shiftedCellDOS;
@@ -1573,8 +1556,8 @@ namespace mesmer
     (gDensityOfStates& pDOS1, gDensityOfStates& pDOS2, std::vector<double>& rctsCellDOS){
       std::vector<double> rct1CellDOS;
       std::vector<double> rct2CellDOS;
-      pDOS1.getCellDensityOfStates(rct1CellDOS);
-      pDOS2.getCellDensityOfStates(rct2CellDOS);
+      if(! pDOS1.getCellDensityOfStates(rct1CellDOS)|| !pDOS2.getCellDensityOfStates(rct2CellDOS))
+        return false;
       std::vector<double> rotConsts;
       if (pDOS1.get_rotConsts(rotConsts) == -4){
         rctsCellDOS = rct2CellDOS;
