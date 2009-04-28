@@ -1085,9 +1085,9 @@
     <me:testDOS />
     <me:printSpeciesProfile />
     <me:testMicroRates />
-    <me:testRateConstant />
+    <me:testRateConstants />
     <me:printGrainDOS />
-    <me:testRateConstant />
+    <me:testRateConstants />
     <!--<me:printCellDOS />-->
     <!--<me:printReactionOperatorColumnSums />-->
     <me:printTunnellingCoefficients />

@@ -1,3 +1,8 @@
+_2009_04_28__14_08_25_ Chi-Hsiu Liang
+   
+   * Naming consistencies of flags in the manual and code.
+     Please make sure that in your input files all me:testRateConstant are changed to me:testRateConstants
+
 _2009_04_28__12_59_50_ Chi-Hsiu Liang
 
    * Add/delete file names in the makefile and VC8 file list.

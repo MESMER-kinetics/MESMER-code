@@ -141,7 +141,7 @@ namespace mesmer
     if(ppControl)
     {
       m_Flags.testDOSEnabled              = ppControl->XmlReadBoolean("me:testDOS");
-      m_Flags.testRateConstantEnabled     = ppControl->XmlReadBoolean("me:testRateConstant");
+      m_Flags.testRateConstantEnabled     = ppControl->XmlReadBoolean("me:testRateConstants");
       m_Flags.microRateEnabled            = ppControl->XmlReadBoolean("me:testMicroRates");
       m_Flags.grainBoltzmannEnabled       = ppControl->XmlReadBoolean("me:printGrainBoltzmann");
       m_Flags.grainDOSEnabled             = ppControl->XmlReadBoolean("me:printGrainDOS");
@@ -152,7 +152,7 @@ namespace mesmer
       // Both Tunnelling and Tunneling will work
       m_Flags.TunnellingCoeffEnabled      = ppControl->XmlReadBoolean("me:printTunnellingCoefficients");
       if (!m_Flags.TunnellingCoeffEnabled)
-        m_Flags.TunnellingCoeffEnabled    = ppControl->XmlReadBoolean("me:printTunnellingCoefficients");
+        m_Flags.TunnellingCoeffEnabled    = ppControl->XmlReadBoolean("me:printTunnelingCoefficients");
       m_Flags.cellFluxEnabled             = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
       m_Flags.grainFluxEnabled            = ppControl->XmlReadBoolean("me:printGrainTransitionStateFlux");
       m_Flags.rateCoefficientsOnly        = ppControl->XmlReadBoolean("me:calculateRateCoefficientsOnly");
@@ -164,7 +164,6 @@ namespace mesmer
       m_Flags.print_TabbedMatrices        = ppControl->XmlReadBoolean("me:printTabbedMatrices");
       m_Flags.useDOSweighedDT             = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
       m_Flags.doBasisSetMethod            = ppControl->XmlReadBoolean("me:runBasisSetMethodroutines");
-      m_Flags.doReservoirStateMethod      = ppControl->XmlReadBoolean("me:runReservoirSourceRoutines");
       if (!m_Flags.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
         m_Flags.useTheSameCellNumber = true;
       }

@@ -664,7 +664,7 @@
     <me:testDOS />
     <me:printSpeciesProfile />
     <!--<me:testMicroRates />-->
-    <me:testRateConstant />
+    <me:testRateConstants />
     <me:printGrainDOS />
     <!--<me:printCellDOS />-->
     <!--<me:printReactionOperatorColumnSums />-->

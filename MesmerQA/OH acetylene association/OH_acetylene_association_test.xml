@@ -265,7 +265,7 @@
     <!--<me:printGrainBoltzmann />-->
     <me:printGrainkbE />
     <me:printSpeciesProfile />
-    <me:testRateConstant />
+    <me:testRateConstants />
     <me:eigenvalues>0</me:eigenvalues>
   </me:control>
 </me:mesmer>

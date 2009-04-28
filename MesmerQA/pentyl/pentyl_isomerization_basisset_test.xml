@@ -257,7 +257,7 @@
     <me:testDOS />
     <me:testMicroRates />
     <me:printGrainDOS />
-    <me:testRateConstant />
+    <me:testRateConstants />
     <!--<me:printCellDOS />-->
     <!--<me:printReactionOperatorColumnSums />-->
     <me:printCollisionOperatorLevel>1</me:printCollisionOperatorLevel>
