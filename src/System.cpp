@@ -361,47 +361,47 @@ namespace mesmer
       spanSteps *= numSteps;
     }
 
-    if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH){
-      // TimeCount events; unsigned int timeElapsed;
-      int calPoint(0);
+    // TimeCount events; unsigned int timeElapsed;
+    int calPoint(0);
 
-      ofstream punchStream(m_Flags.punchFileName.c_str());
+    ofstream punchStream;
+    if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) 
+      punchStream.open(m_Flags.punchFileName.c_str());
 
-      for (int i(0); i < totalSteps; ++i){
-        double chiSquare(1000.0);
+    for (int i(0); i < totalSteps; ++i){
+      double chiSquare(1000.0);
 
-        // assign values
-        for (int varID(0); varID < dataPointSize; ++varID) fitDP[varID] = gridArray[i][varID];
+      // assign values
+      for (int varID(0); varID < dataPointSize; ++varID) fitDP[varID] = gridArray[i][varID];
 
-        // calculate
-        cerr << "Parameter Grid " << calPoint;
-        ctest << "Parameter Grid " << calPoint << "\n{\n";
-        calculate(chiSquare);
+      // calculate
+      cerr << "Parameter Grid " << calPoint;
+      ctest << "Parameter Grid " << calPoint << "\n{\n";
+      calculate(chiSquare);
 
-        if (dataPointSize){
-          ctest << "Parameters: ( ";
-          if (m_Flags.punchSymbols.size()){
-            for (int varID(0); varID < dataPointSize; ++varID){
-              punchStream << "Para" << varID << "\t";
-            }
-            punchStream << "Temperature (K)\tNumber density\t";
-            punchStream << m_Flags.punchSymbols;
-            m_Flags.punchSymbols.clear();
-          }
+      if (dataPointSize){
+        ctest << "Parameters: ( ";
+        if (m_Flags.punchSymbols.size()){
           for (int varID(0); varID < dataPointSize; ++varID){
-            ctest << gridArray[i][varID] << " ";
-            punchStream << gridArray[i][varID] << "\t";
+            if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) punchStream << "Para" << varID << "\t";
           }
-          punchStream << m_Env.beta << "\t" << m_Env.conc << "\t";
-          punchStream << m_Flags.punchNumbers;
-          m_Flags.punchNumbers.clear();
-
-          punchStream.flush();
-
-          ctest << "chiSquare = " << chiSquare << " )\n}\n";
+          if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) punchStream << "Temperature (K)\tNumber density\t";
+          if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) punchStream << m_Flags.punchSymbols;
+          m_Flags.punchSymbols.clear();
         }
-        ++calPoint;
+        for (int varID(0); varID < dataPointSize; ++varID){
+          ctest << gridArray[i][varID] << " ";
+          if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) punchStream << gridArray[i][varID] << "\t";
+        }
+        if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) punchStream << m_Env.beta << "\t" << m_Env.conc << "\t";
+        if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) punchStream << m_Flags.punchNumbers;
+        m_Flags.punchNumbers.clear();
+
+        if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) punchStream.flush();
+
+        ctest << "chiSquare = " << chiSquare << " )\n}\n";
       }
+      ++calPoint;
     }
   }
 
