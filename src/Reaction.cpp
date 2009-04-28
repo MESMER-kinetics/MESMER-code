@@ -30,6 +30,7 @@ namespace mesmer
     m_GrainFlux(),
     m_GrainKfmc(),
     m_GrainKbmc(),
+    m_ERConc(0.0),
     m_fwdGrnCanonicalRate(0.0),
     m_rvsGrnCanonicalRate(0.0),
     m_fwdCellCanonicalRate(0.0),
@@ -45,8 +46,8 @@ namespace mesmer
     m_NInf(0.0),
     m_TInf(298.0),
     m_EInf(0.0),
-    m_kfwd(0.0),
-    m_ERConc(0.0)
+    m_isRvsILTpara(false),
+    m_kfwd(0.0)
   {}
 
   Reaction::~Reaction(){}

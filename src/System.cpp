@@ -86,7 +86,7 @@ namespace mesmer
     if(!m_pMoleculeManager->addmol(Bgtxt, "bathGas", ppMolList, m_Env, m_Flags))
       return false;
     m_pMoleculeManager->set_BathGasMolecule(Bgtxt) ;
-    
+
     //--------------
     //  The concentration/pressure units are of following formats:
     //  units:
@@ -235,7 +235,7 @@ namespace mesmer
           cerr << "No search method defined." << endl ;
       }
   }
-  
+
   // pop the P and T points into PandTs
   // This is a function for reading concentration/pressure and temperature conditions.
   void System::readPTs(PersistPtr anchor)
@@ -362,47 +362,48 @@ namespace mesmer
       spanSteps *= numSteps;
     }
 
-    // TimeCount events; unsigned int timeElapsed;
-    int calPoint(0);
+    if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH){
+      // TimeCount events; unsigned int timeElapsed;
+      int calPoint(0);
 
-    ofstream punchStream(m_Flags.punchFileName.c_str());
+      ofstream punchStream(m_Flags.punchFileName.c_str());
 
-    for (int i(0); i < totalSteps; ++i){
-      double chiSquare(1000.0);
+      for (int i(0); i < totalSteps; ++i){
+        double chiSquare(1000.0);
 
-      // assign values
-      for (int varID(0); varID < dataPointSize; ++varID) fitDP[varID] = gridArray[i][varID];
+        // assign values
+        for (int varID(0); varID < dataPointSize; ++varID) fitDP[varID] = gridArray[i][varID];
 
-      // calculate
-      cerr << "Parameter Grid " << calPoint;
-      ctest << "Parameter Grid " << calPoint << "\n{\n";
-      calculate(chiSquare);
+        // calculate
+        cerr << "Parameter Grid " << calPoint;
+        ctest << "Parameter Grid " << calPoint << "\n{\n";
+        calculate(chiSquare);
 
-      if (dataPointSize){
-        ctest << "Parameters: ( ";
-        if (m_Flags.punchSymbols.size()){
-          for (int varID(0); varID < dataPointSize; ++varID){
-            punchStream << "Para" << varID << "\t";
+        if (dataPointSize){
+          ctest << "Parameters: ( ";
+          if (m_Flags.punchSymbols.size()){
+            for (int varID(0); varID < dataPointSize; ++varID){
+              punchStream << "Para" << varID << "\t";
+            }
+            punchStream << "Temperature (K)\tNumber density\t";
+            punchStream << m_Flags.punchSymbols;
+            m_Flags.punchSymbols.clear();
           }
-          punchStream << "Temperature (K)\tNumber density\t";
-          punchStream << m_Flags.punchSymbols;
-          m_Flags.punchSymbols.clear();
-        }
-        for (int varID(0); varID < dataPointSize; ++varID){
-          ctest << gridArray[i][varID] << " ";
-          punchStream << gridArray[i][varID] << "\t";
-        }
-        punchStream << m_Env.beta << "\t" << m_Env.conc << "\t";
-        punchStream << m_Flags.punchNumbers;
-        m_Flags.punchNumbers.clear();
+          for (int varID(0); varID < dataPointSize; ++varID){
+            ctest << gridArray[i][varID] << " ";
+            punchStream << gridArray[i][varID] << "\t";
+          }
+          punchStream << m_Env.beta << "\t" << m_Env.conc << "\t";
+          punchStream << m_Flags.punchNumbers;
+          m_Flags.punchNumbers.clear();
 
-        punchStream.flush();
+          punchStream.flush();
 
-        ctest << "chiSquare = " << chiSquare << " )\n}\n";
+          ctest << "chiSquare = " << chiSquare << " )\n}\n";
+        }
+        ++calPoint;
       }
-      ++calPoint;
     }
-
   }
 
   // This function calls calculate() to obtain a serie of
@@ -463,7 +464,7 @@ namespace mesmer
       ppList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
       ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
       ppList->XmlWriteAttribute("me:units", "s-1");
-      
+
       switch (precision){
         case 1: ctest << ", diagonalization precision: double-double\n{\n"; break;
         case 2: ctest << ", diagonalization precision: quad-double\n{\n"; break;

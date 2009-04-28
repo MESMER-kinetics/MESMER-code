@@ -408,8 +408,13 @@ namespace mesmer
     if (m_host->getFlags().testDOSEnabled) ctest << endl << "Test rovibronic density of states for: " << m_host->getName() << "\n{\n";
     if (m_host->getFlags().testDOSEnabled) ctest << "      T           qtot           sumc           sumg\n";
 
+    
+    // Partition functions that are higher than the current simulation temperature will not be output.
+    const double temperature = 1. / (boltzmann_RCpK * m_host->getEnv().beta);
+    const int max_nplus1 = int(temperature / 100.);
+
     //loop through predefined test temperatures
-    for ( int n = 0 ; n < 29 ; ++n ) {
+    for ( int n = 0 ; n < max_nplus1 ; ++n ) {
       double temp = 100.0*static_cast<double>(n + 2) ;
       double beta = 1.0/(boltzmann_RCpK*temp) ;
 
@@ -895,10 +900,11 @@ namespace mesmer
             break;
           }
           else{
-            ctest << "The reservoir is set to " << grainLoc << " cm-1 lower than the lowest barrier." << endl;
             grainLoc = lowestBarrier + grainLoc;
           }
         }
+        ctest << "The reservoir is set to " << grainLoc << " grains, which is about " << grainLoc * m_host->getEnv().GrainSize 
+              << " cm-1 from the well bottom." << endl;
 
         // Second find out the partition fraction of active states in the current temperature
         double popAbove(0.0), totalPartition(0.0);

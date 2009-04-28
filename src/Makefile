@@ -142,7 +142,7 @@ SRCS := \
 	DensityOfStates.cpp \
 	EckartCoefficients.cpp \
 	formatfloat.cpp \
-	HinderedRotorInterpolation.cpp \
+	HinderedRotorA.cpp \
 	IrreversibleExchangeReaction.cpp \
 	IrreversibleUnimolecularReaction.cpp \
 	IsomerizationReaction.cpp \

@@ -132,8 +132,7 @@ namespace mesmer
     BimolecularConvolution(pReact, rctsCellDOS, ma, mb, mc) ;
 
     // the flux bottom energy is equal to the well bottom of the reactant
-    const int Einf = static_cast<int>(pReact->get_EInf());
-    pAssocReaction->setCellFluxBottom(pReact->get_relative_rctZPE() + Einf);
+    pAssocReaction->setCellFluxBottom(pReact->get_relative_rctZPE() + pReact->get_EInf());
 
     cinfo << "Association ILT calculation completed" << endl;
 
@@ -148,7 +147,6 @@ namespace mesmer
     const double Ninf = pReact->get_NInf(); 
     const double Tinf = pReact->get_TInf();
     const double Ainf = pReact->get_PreExp();
-    const int    Einf = static_cast<int>(pReact->get_EInf());
 
     Molecule* p_rct = pReact->get_reactant();
     int MaximumCell = pReact->getEnv().MaxCell;
@@ -203,7 +201,6 @@ namespace mesmer
     const double Ninf = pReact->get_NInf(); 
     const double Tinf = pReact->get_TInf();
     const double Ainf = pReact->get_PreExp();
-    const int    Einf = static_cast<int>(pReact->get_EInf());
 
     //
     // Initialize reaction flux vector.

@@ -223,7 +223,6 @@ namespace mesmer
     if (!isTabbed){
       for (size_t i = m_msize - fb ; i < m_msize ; ++i ) {
         for (size_t j = m_msize - fb ; j < m_msize ; ++j ) {
-          double value = to_double(m_matrix[i][j]);
           formatFloat(ctest, m_matrix[i][j], 5,  13) ;
         }
         ctest << endl;
@@ -232,7 +231,6 @@ namespace mesmer
     else{
       for (size_t i = m_msize - fb ; i < m_msize ; ++i ) {
         for (size_t j = m_msize - fb ; j < m_msize ; ++j ) {
-          double value = to_double(m_matrix[i][j]);
           ctest << m_matrix[i][j] << "\t";
         }
         ctest << endl;

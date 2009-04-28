@@ -210,7 +210,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\HinderedRotorInterpolation.cpp"
+				RelativePath="..\..\src\HinderedRotorA.cpp"
 				>
 			</File>
 			<File
@@ -356,7 +356,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\HinderedRotorInterpolation.h"
+				RelativePath="..\..\src\HinderedRotorA.h"
 				>
 			</File>
 			<File

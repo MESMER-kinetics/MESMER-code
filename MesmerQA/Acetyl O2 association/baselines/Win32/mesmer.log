@@ -21,36 +21,29 @@ Calculate EGME
 PT Grid 0
 Build Collison Operator
 Cell number = 17800, Grain number = 178
-The default value of me:DOSCType was used.
-The default value of me:DOSCType was used.
 
 20 values in the FFT convolution routine were replaced by standard convolution
 
 40 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-The default value of me:DOSCType was used.
 
 20 values in the FFT convolution routine were replaced by standard convolution
 
 20 values in the FFT convolution routine were replaced by standard convolution
-The default value of me:DOSCType was used.
 
 8420 values in the FFT convolution routine were replaced by standard convolution
-The default value of me:DOSCType was used.
-The default value of me:DOSCType was used.
-Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion.
-Cannot find argument me:rotConsts. Assumes that it is an atom or atomic ion.
-The default value of me:DOSCType was used.
+In lactone: Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion.
+In lactone: Cannot find argument me:rotConsts. Assumes that it is an atom or atomic ion.
 
 20 values in the FFT convolution routine were replaced by standard convolution
 
 20 values in the FFT convolution routine were replaced by standard convolution
-Diagonlize the Reaction Operator -- Time elapsed: 0 seconds.
-No population was assigned. Initialize the first source term to 1.0.
+Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+In mesmer::ReactionManager::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 
 In total, 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 65 seconds.
- -- Total time elapsed: 211 seconds.
+Finish Calculation -- Time elapsed: 71 seconds.
+ -- Total time elapsed: 218 seconds.
 
 System saved to out.xml
 Rotational constants are provided but not used in HO_2.

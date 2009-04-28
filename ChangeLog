@@ -1,3 +1,13 @@
+_2009_04_28__12_59_50_ Chi-Hsiu Liang
+
+   * Add/delete file names in the makefile and VC8 file list.
+   * Trim unnecessary variables in MesmerILT.cpp
+   * Partition functions that are higher than the current simulation temperature will not be output.
+   * Corrected reservoir state location units.
+   * Corrected initialization of variables in Reaction.cpp
+   * Corrected the action taken to produce punch file.
+      Currently two options as described before <me:gridSearchWithPunch /> and <me:gridSearch />
+
 2009-Apr-28 Chris Morley
    Reshape DOS method classes: main and extra
    * src/DensityOfStates.h, src/ClassicalRotor.h, src/QMRotor.h : maon DOS methods

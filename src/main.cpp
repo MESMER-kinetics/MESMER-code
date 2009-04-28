@@ -1,7 +1,7 @@
 /*  Copyright (C) 2009 by
     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
     Chris Morley, Michael J. Pilling and contributors
-    This file is part of 
+    This file is a part of
     Mesmer: Master Equation Solver for Multi-Energy well Reactions
 
     Mesmer is free software: you can redistribute it and/or modify
@@ -43,7 +43,7 @@ int main(int argc,char *argv[])
   // process command line arguments
   string infilename, outfilename, testfilename, logfilename, punchfilename;
   vector<string> extraInfilenames;
-  bool nocalc=false, usecout=false, updatemols=true, overwriteinput=false, 
+  bool nocalc=false, usecout=false, updatemols=true, overwriteinput=false,
     qatest=false, nologging=false, changetestname=false;
 
   for(int iarg=1; iarg<argc;++iarg)
@@ -150,14 +150,14 @@ int main(int argc,char *argv[])
   OStreamRedirector osr(&meErrorLog, &osout, nologging);
 
   //-----------------------------------------------
-  //Get the top level directory from an environment variable, 
+  //Get the top level directory from an environment variable,
   //or if that fails, from two levels above the current directory
   //This contains librarymols.xml, defaults.xml.
   const char* pdir = getenv("MESMER_DIR");
   if(!pdir)
     pdir = "../..";
   string MesmerDir(pdir);
-    
+
   //-------------------------------
    //
   // Instantiate the System collection. This holds all information
@@ -185,7 +185,7 @@ int main(int argc,char *argv[])
   //------------
   if(nocalc)
     _sys.assignMolTypes(ppIOPtr);
-  
+
   // Parse input file
   {
     string thisEvent;
@@ -229,15 +229,15 @@ int main(int argc,char *argv[])
     cerr << e.what() << endl;
     exit(-1);
   }
-    
+
   //--------------------------------
   // Save XML document
   string thisEvent = "Save XML document";
   string currentTimeStamp = events.setTimeStamp(thisEvent, timeElapsed);
   string saveTimeStamp = '.' + currentTimeStamp;
   cinfo << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
-  
-  if(!usecout && outfilename.empty())   
+
+  if(!usecout && outfilename.empty())
     outfilename = overwriteinput ? infilename : "mesmer_out.xml";
 
   //Any existing file with the same name as the one being written is renamed with a _prev suffix

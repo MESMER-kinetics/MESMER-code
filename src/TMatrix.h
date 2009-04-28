@@ -831,7 +831,7 @@ label_1: return(p);
     //
     for ( i = 0 ; i < optrsize ; ++i ) {
       (*this)[i][i] *= work[i] ;
-      double value = (*this)[i][i];
+      //double value = (*this)[i][i];
       for ( j = i + 1 ; j < optrsize ; ++j ) {
         (*this)[j][i] *= work[j] ;
         (*this)[i][j] *= work[j] ;
