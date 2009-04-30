@@ -14,9 +14,11 @@
 
 #include "MoleculeManager.h"
 #include "Tunneling.h"
+#include "Rdouble.h"
 
 namespace mesmer
 {
+  class Rdouble;
   class Reaction
   {
   public:
@@ -46,18 +48,18 @@ namespace mesmer
     // Initialize reaction.
     virtual bool InitializeReaction(PersistPtr ppReac) = 0 ;
 
-    const std::string& getName() const    { return m_Name ; } ;
-    double get_PreExp()                   { return m_PreExp.get_value() ; } ;
+    const std::string& getName() const    { return m_Name ; }
+    double get_PreExp()                   { return m_PreExp ; }
     void set_PreExp(double value)         { m_PreExp = value;}
-    void set_PreExp(double valueL, double valueU, double stepsize){ m_PreExp.set_range(valueL, valueU, stepsize); };
-    double get_NInf()                     { return m_NInf.get_value() ; } ;
+    //void set_PreExp(double valueL, double valueU, double stepsize){ m_PreExp.set_range(valueL, valueU, stepsize); };
+    double get_NInf()                     { return m_NInf; } 
     void set_NInf(double value)           { m_NInf = value;}
-    void set_NInf(double valueL, double valueU, double stepsize)  { m_NInf.set_range(valueL, valueU, stepsize); }
-    double get_TInf()                     { return m_TInf ; } ;
-    void set_TInf(double value)           { m_TInf = value;};
-    double get_EInf()                     { return m_EInf.get_value() ; } ;
-    void set_EInf(double value)           { m_EInf = value;};
-    void set_EInf(double valueL, double valueU, double stepsize)  { m_EInf.set_range(valueL, valueU, stepsize); }
+    //void set_NInf(double valueL, double valueU, double stepsize)  { m_NInf.set_range(valueL, valueU, stepsize); }
+    double get_TInf()                     { return m_TInf ; }
+    void set_TInf(double value)           { m_TInf = value;}
+    double get_EInf()                     { return m_EInf; }
+    void set_EInf(double value)           { m_EInf = value;}
+    //void set_EInf(double valueL, double valueU, double stepsize)  { m_EInf.set_range(valueL, valueU, stepsize); }
     double getHeatOfReaction() const      {
       const double pdtZPE = get_relative_pdtZPE();
       const double rctZPE = get_relative_rctZPE();
@@ -282,10 +284,10 @@ namespace mesmer
     bool reCalcDOS;             // re-calculation on DOS
     // all the parameters that follow are for an arrhenius expression of the type:
     // k(T) = Ainf*(T/Tinf)^ninf * exp(-Einf/(RT))
-    DPoint m_PreExp ;           // Preexponetial factor
-    DPoint m_NInf ;             // Modified Arrhenius parameter
+    Rdouble m_PreExp ;           // Preexponetial factor
+    Rdouble m_NInf ;             // Modified Arrhenius parameter
     double m_TInf ;             // T infinity
-    DPoint m_EInf ;             // E infinity
+    Rdouble m_EInf ;             // E infinity
     bool   m_isRvsILTpara;      // The ILT parameters provided are for reverse direction.
     double m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
 

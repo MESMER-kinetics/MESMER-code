@@ -1,3 +1,18 @@
+2009-Apr-30 Chris Morley
+   Replace DPoint by the very similar Rdouble to make handling of range and
+   ordinary variables consistent.  See Rdouble.h
+   
+   * src/Pointer.cpp, src/Pointer.h replaced by src/Rdouble.cpp and src/Rdouble.h
+   src/Reaction.cpp
+  
+   Consequent changes to
+   src/MolecularComponents.cpp, src/MolecularComponents.h, src/Reaction.cpp
+   src/Reaction.h, src/System.cpp
+    
+   * src/Constants.h: define NaN
+   
+   * Windows VC9/Mesmer/Mesmer.vcproj updated. Do we need to still support VC8?
+   
 _2009_04_28__17_18_03_ Chi-Hsiu Liang
 
    * Correct the punch file issue again.
@@ -19,7 +34,7 @@ _2009_04_28__12_59_50_ Chi-Hsiu Liang
 
 2009-Apr-28 Chris Morley
    Reshape DOS method classes: main and extra
-   * src/DensityOfStates.h, src/ClassicalRotor.h, src/QMRotor.h : maon DOS methods
+   * src/DensityOfStates.h, src/ClassicalRotor.h, src/QMRotor.h : main DOS methods
    * src/HinderedRotorA.cpp, src/HinderedRotorA.h: extra DOS methods added
      (in skeleton form only)
    * src/MolecularComponents.cpp: requires one main DOS class (default if necessary)

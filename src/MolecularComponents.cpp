@@ -5,6 +5,7 @@
 //-------------------------------------------------------------------------------------------
 #include <stdexcept>
 #include "Molecule.h"
+#include "Rdouble.h"
 
 using namespace std ;
 using namespace Constants ;
@@ -503,18 +504,18 @@ namespace mesmer
 
   double gDensityOfStates::get_zpe() {
     if (m_ZPE_chk == -1) {
-      cinfo << "m_ZPE was not defined but requested in " << m_host->getName() << ". Default value " << m_ZPE.get_value() << " is given." << endl;
+      cinfo << "m_ZPE was not defined but requested in " << m_host->getName() << ". Default value " << m_ZPE << " is given." << endl;
       --m_ZPE_chk;
-      double zpe = m_ZPE.get_value();
+      double zpe = m_ZPE;
       return zpe;
     }
     else if (m_ZPE_chk < -1){
       --m_ZPE_chk;
-      double zpe = m_ZPE.get_value();
+      double zpe = m_ZPE;
       return zpe;
     }
     ++m_ZPE_chk;
-    double zpe = m_ZPE.get_value();
+    double zpe = m_ZPE;
     return zpe;
   }
 
@@ -766,7 +767,11 @@ namespace mesmer
       if (pLowertxt && pUppertxt){
         double valueL(0.0), valueU(0.0), stepsize(0.0);
         stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
-        setDeltaEdown(valueL, valueU, stepsize);
+        //setDeltaEdown(valueL, valueU, stepsize);
+        SETRANGE(setDeltaEdown, valueL, valueU, stepsize);
+        //setDeltaEdown(NaN);
+        //ActiveRdoubles.back()->set_range(valueL,valueU,stepsize);
+        //cinfo << " Set range of deltaEdown" << endl; 
       }
       else{
         setDeltaEdown(value);
@@ -829,7 +834,7 @@ namespace mesmer
       ++m_DeltaEdown_chk;
       const double refTemp = getDeltaEdownRefTemp();
       const double dEdExp = getDeltaEdownExponent();
-      const double dEdRef = m_DeltaEdown.get_value();
+      const double dEdRef = m_DeltaEdown;
       const double temperature = 1. / (boltzmann_RCpK * m_host->getEnv().beta);
       return dEdRef * pow((temperature/refTemp),dEdExp);
     }

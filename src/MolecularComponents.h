@@ -18,6 +18,7 @@
 #include "Distribution.h"
 #include "MesmerEnv.h"
 #include "MesmerFlags.h"
+#include "Rdouble.h"
 
 using namespace std ;
 using namespace Constants ;
@@ -81,7 +82,7 @@ namespace mesmer
     double m_RotCstC ;          // Moment of inertia C.
     double m_Sym ;              // Rotational symmetry number.
 
-    DPoint m_ZPE ;              // Zero Point Energy. (kJ/mol)
+    Rdouble m_ZPE ;              // Zero Point Energy. (kJ/mol)
 
     double m_scaleFactor ;      // scale factor for input real/imaginary vibrational frequencies
     int    m_SpinMultiplicity ; // spin multiplicity
@@ -172,13 +173,13 @@ namespace mesmer
 
     // This function checks if any of the DPoint values is different then a DOS recalculation will take place
     bool needReCalculateDOS(void){
-      if (!m_ZPE.isConstant()) return true;
+      if (!m_ZPE.isUnchanged()) return true;
       return false;
     }
 
     // This function explicitly tell all DPoint values in this Molecule that a DOS recalculation is completed.
     void recalculateDOScompleted(void){
-      m_ZPE.updateValue();
+      m_ZPE.setUnchanged();
     }
 
     // Test the rovibrational density of states.
@@ -287,7 +288,7 @@ namespace mesmer
     // where m_DeltaEdownExponent is the exponent n
     // By default, n = 0, which means delta_E_down does not depend on temperature.
     double              m_DeltaEdownRefTemp;   // reference temperature of <Delta E down>, default 298.
-    DPoint              m_DeltaEdown ;         // <Delta E down> for the exponential down model.
+    Rdouble             m_DeltaEdown ;         // <Delta E down> for the exponential down model.
     double              m_collisionFrequency ; // Current value of collision frequency.
     int                 m_ncolloptrsize ;      // Size of the collision operator matrix.
     double              m_lowestBarrier;       // lowest barrier associatied with this species
@@ -325,10 +326,10 @@ namespace mesmer
     // DeltaEdown operators
     double getDeltaEdown();
     void   setDeltaEdown(const double value){ m_DeltaEdown = value; m_DeltaEdown_chk = 0;};
-    void   setDeltaEdown(const double valueL, const double valueU, const double stepsize){
-      m_DeltaEdown.set_range(valueL, valueU, stepsize);
-      m_DeltaEdown_chk = 0;
-    };
+  //  void   setDeltaEdown(const double valueL, const double valueU, const double stepsize){
+  //   m_DeltaEdown.set_range(valueL, valueU, stepsize);
+  //    m_DeltaEdown_chk = 0;
+  //  };
     void   setDeltaEdownRefTemp(const double value){m_DeltaEdownRefTemp = value;};
     void   setDeltaEdownExponent(const double value){m_DeltaEdownExponent = value;};
     double getDeltaEdownRefTemp (){return m_DeltaEdownRefTemp; }

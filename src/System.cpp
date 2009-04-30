@@ -10,6 +10,7 @@
 //-------------------------------------------------------------------------------------------
 #include "System.h"
 #include <fstream>
+#include "Rdouble.h"
 
 using namespace std ;
 using namespace Constants ;
@@ -332,11 +333,11 @@ namespace mesmer
     // produce a grid for search
     db2D gridArray; // this array grows up freely without needing dimensions
 
-    int totalSteps = 1, dataPointSize = int(fitDP.size());
+    int totalSteps = 1, dataPointSize = int(ActiveRdoubles.size());
     for (int varID(0); varID < dataPointSize; ++varID){
       // for every dimension create a series and duplicate the serie while the indices going forward
       double lower(0.0), upper(0.0), stepsize(0.0);
-      fitDP[varID].get_range(lower, upper, stepsize);
+      ActiveRdoubles[varID]->get_range(lower, upper, stepsize);
       int numSteps = int((upper - lower) / stepsize) + 1;
       totalSteps *= numSteps;
     }
@@ -344,7 +345,7 @@ namespace mesmer
     int spanSteps = 1;
     for (int varID(0); varID < dataPointSize; ++varID){
       double lower(0.0), upper(0.0), stepsize(0.0);
-      fitDP[varID].get_range(lower, upper, stepsize);
+      ActiveRdoubles[varID]->get_range(lower, upper, stepsize);
       int numSteps = int((upper - lower) / stepsize) + 1;
       int stack(0), block(0);
       while (stack < totalSteps){
@@ -372,10 +373,10 @@ namespace mesmer
       double chiSquare(1000.0);
 
       // assign values
-      for (int varID(0); varID < dataPointSize; ++varID) fitDP[varID] = gridArray[i][varID];
+      for (int varID(0); varID < dataPointSize; ++varID) *ActiveRdoubles[varID] = gridArray[i][varID];
 
       // calculate
-      cerr << "Parameter Grid " << calPoint;
+      cerr << "Parameter Grid " << calPoint <<endl;;
       ctest << "Parameter Grid " << calPoint << "\n{\n";
       calculate(chiSquare);
 
@@ -413,7 +414,7 @@ namespace mesmer
     int steps(0);
     while (1){
 
-      for (size_t obj(0); obj < fitDP.size(); ++obj){
+      for (size_t obj(0); obj < ActiveRdoubles.size(); ++obj){
 
       }
 
