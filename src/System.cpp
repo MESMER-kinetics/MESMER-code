@@ -280,7 +280,7 @@ namespace mesmer
     //
     PersistPtr ppPTpair = pp->XmlMoveTo("me:PTpair");
     while (ppPTpair){
-      string this_units;
+       string this_units;
       txt = ppPTpair->XmlReadValue("me:units", optional);
       if (txt)
         this_units = txt;
@@ -293,7 +293,6 @@ namespace mesmer
       txt = ppPTpair->XmlReadValue("me:T", optional);
       if (txt){ stringstream s1(txt); s1 >> this_T; }
       txt = ppPTpair->XmlReadValue("me:precision");
-
       // Can specify abbreviation
       if (txt){
         if (!strcmp(txt,"1d")) this_precision = 0;
@@ -306,6 +305,7 @@ namespace mesmer
         if (!strcmp(txt,"quad-double")) this_precision = 2;
       }
       CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision);
+      cinfo << this_P << this_units << ", " << this_T << "K at " << txt << " precision" <<endl; 
 
       // Set experimental conditions for chiSquare calculation
       txt = ppPTpair->XmlReadValue("me:experimentalRate", false);

@@ -47,6 +47,7 @@ namespace mesmer
 
     // Initialize reaction.
     virtual bool InitializeReaction(PersistPtr ppReac) = 0 ;
+    PersistPtr get_PersistentPointer()const { return m_ppPersist; }
 
     const std::string& getName() const    { return m_Name ; }
     double get_PreExp()                   { return m_PreExp ; }
@@ -60,6 +61,7 @@ namespace mesmer
     double get_EInf()                     { return m_EInf; }
     void set_EInf(double value)           { m_EInf = value;}
     //void set_EInf(double valueL, double valueU, double stepsize)  { m_EInf.set_range(valueL, valueU, stepsize); }
+    void set_revILT(bool rev)             { m_isRvsILTpara = rev; }
     double getHeatOfReaction() const      {
       const double pdtZPE = get_relative_pdtZPE();
       const double rctZPE = get_relative_rctZPE();
@@ -259,8 +261,8 @@ namespace mesmer
     // Read excess reactant concentration
     bool ReadExcessReactantConcentration(PersistPtr ppReac);
 
-    // Read ILT parameters
-    bool ReadILTParameters(PersistPtr ppReac);
+    // Read ILT parameters now in  MicroRateCalculator class
+   // bool ReadILTParameters(PersistPtr ppReac);
     
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs() = 0;

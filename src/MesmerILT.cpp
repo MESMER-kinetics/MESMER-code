@@ -1,5 +1,6 @@
 #include "MesmerILT.h"
 #include "AssociationReaction.h"
+#include "Rdouble.h"
 
 using namespace std;
 using namespace Constants;
@@ -236,6 +237,133 @@ namespace mesmer
     for (int i = 0; i < MaximumCell; ++i)
       rxnFlux[i] = _ant * conv[i];
 
+    return true;
+  }
+
+    // Read ILT parameters
+  bool MicroRateCalculator::ReadParameters(Reaction* pReact) {
+    PersistPtr ppReac = pReact->get_PersistentPointer();
+
+    // OpenBabel outputs <rateParameters> <A> <n> <E>
+    // Attempt to read these first; 
+    // if not present read the mesmer version which will add the default if necessary.
+    //**TODO preExponential
+    PersistPtr ppActEne, ppPreExponential;
+    const char* pActEnetxt=NULL, *pPreExptxt=NULL;
+    PersistPtr ppRateParams = ppReac->XmlMoveTo("rateParameters") ;
+
+    if(ppRateParams) {
+      ppActEne = ppRateParams->XmlMoveTo("E") ;
+      pActEnetxt = ppRateParams->XmlReadValue("E", optional);
+      ppPreExponential = ppRateParams->XmlMoveTo("A") ;
+      pPreExptxt = ppRateParams->XmlReadValue("A");
+    }
+    else {
+      ppActEne = ppReac->XmlMoveTo("me:activationEnergy") ;
+      pActEnetxt = ppReac->XmlReadValue("me:activationEnergy");
+      ppPreExponential = ppReac->XmlMoveTo("me:preExponential") ;
+      pPreExptxt = ppReac->XmlReadValue("me:preExponential");
+    }
+
+    if (pActEnetxt)
+    {
+      pReact->set_revILT(ppActEne->XmlReadBoolean("reverse")); //specify the direction of the following ILT parameters
+      double tmpvalue = 0.0;
+      stringstream s2(pActEnetxt); s2 >> tmpvalue ;
+      const char* unitsTxt = ppActEne->XmlReadValue("units", false);
+      string unitsInput;
+      if (unitsTxt){
+        unitsInput = unitsTxt;
+      }
+      else{
+        unitsInput = "kJ/mol";
+      }
+      const char* pLowertxt = ppActEne->XmlReadValue("lower", optional);
+      const char* pUppertxt = ppActEne->XmlReadValue("upper", optional);
+      const char* pStepStxt = ppActEne->XmlReadValue("stepsize", optional);
+      double value(getConvertedEnergy(unitsInput, tmpvalue));
+      if (pLowertxt && pUppertxt){
+        double tmpvalueL(0.0), tmpvalueU(0.0), tmpstepsize(0.0);
+        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
+        s3 >> tmpvalueL; s4 >> tmpvalueU; s5 >> tmpstepsize;
+        double valueL(getConvertedEnergy(unitsInput, tmpvalueL));
+        double valueU(getConvertedEnergy(unitsInput, tmpvalueL));
+        double stepsize(getConvertedEnergy(unitsInput, tmpstepsize));
+        //set_EInf(valueL, valueU, stepsize);
+        //SETRANGE(pReact->set_EInf,valueL,valueU,stepsize);
+        pReact->set_EInf(NaN);
+        ActiveRdoubles.back()->set_range(valueL,valueU,stepsize);
+        cinfo << " Set range of EInf" << endl; 
+      }
+      else{
+        pReact->set_EInf(value);
+      }
+    }
+    else{
+      cerr << "Specifying ILT without activation energy provided in reaction "
+           << this->getName() << ". Please correct input file.";
+      return false;
+    }
+
+    if (pPreExptxt)
+    {
+      double value = 0.0;
+      stringstream s2(pPreExptxt); s2 >> value ;
+      const char* pLowertxt = ppPreExponential->XmlReadValue("lower", optional);
+      const char* pUppertxt = ppPreExponential->XmlReadValue("upper", optional);
+      const char* pStepStxt = ppPreExponential->XmlReadValue("stepsize", optional);
+      if (pLowertxt && pUppertxt){
+        double valueL(0.0), valueU(0.0), stepsize(0.0);
+        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
+        s3 >> valueL; s4 >> valueU; s5 >> stepsize;
+        //set_PreExp(valueL, valueU, stepsize);
+        //SETRANGE(pReact->set_PreExp,valueL,valueU,stepsize);
+        pReact->set_PreExp(NaN);
+        ActiveRdoubles.back()->set_range(valueL,valueU,stepsize);
+        cinfo << " Set range of PreExp" << endl; 
+
+      }
+      else{
+        pReact->set_PreExp(value);
+      }
+    }
+    else{
+      cerr << "Specifying ILT without pre-exponential term provided in reaction " << this->getName() << ". Please correct input file.";
+      return false;
+    }
+
+    const char* pNInftxt = ppReac->XmlReadValue("me:nInfinity", optional);
+    if (pNInftxt)
+    {
+      PersistPtr ppNInf = ppReac->XmlMoveTo("me:nInfinity") ;
+      double value = 0.0;
+      stringstream s2(pNInftxt); s2 >> value ;
+      const char* pLowertxt = ppNInf->XmlReadValue("lower", false);
+      const char* pUppertxt = ppNInf->XmlReadValue("upper", false);
+      const char* pStepStxt = ppNInf->XmlReadValue("stepsize", false);
+      if (pLowertxt && pUppertxt){
+        double valueL(0.0), valueU(0.0), stepsize(0.0);
+        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
+        //set_NInf(valueL, valueU, stepsize);
+        //SETRANGE(pReact->set_NInf,valueL,valueU,stepsize);
+
+        pReact->set_EInf(NaN);
+        ActiveRdoubles.back()->set_range(valueL,valueU,stepsize);
+        cinfo << " Set range of NInf" << endl; 
+      }
+      else{
+        pReact->set_NInf(value);
+      }
+    }
+
+    double TInf = ppReac->XmlReadDouble("me:TInfinity");
+    if(TInf <= 0) {
+      cinfo << "Tinfinity is less than or equal to 0; set to the default value of 298 K" << endl;
+      TInf = 298;
+    }
+    else
+      pReact->set_TInf(TInf);         // else set Tinf to the value in the input
+    
     return true;
   }
 

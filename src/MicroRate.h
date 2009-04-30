@@ -41,6 +41,8 @@ namespace mesmer
     virtual bool calculateMicroRateCoeffs(Reaction* pReact) = 0 ;
 
     virtual bool testMicroRateCoeffs(Reaction* pReact, PersistPtr ppbase) const;
+  
+    virtual bool ReadParameters(Reaction* pReac); //Used bu MesmerILT and SimpleILT
 
   private:
     /// Returns a reference to the map of MicroRateCalculator classes

@@ -768,10 +768,10 @@ namespace mesmer
         double valueL(0.0), valueU(0.0), stepsize(0.0);
         stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
         //setDeltaEdown(valueL, valueU, stepsize);
-        SETRANGE(setDeltaEdown, valueL, valueU, stepsize);
-        //setDeltaEdown(NaN);
-        //ActiveRdoubles.back()->set_range(valueL,valueU,stepsize);
-        //cinfo << " Set range of deltaEdown" << endl; 
+        //SETRANGE(setDeltaEdown, valueL, valueU, stepsize);
+        setDeltaEdown(NaN);
+        ActiveRdoubles.back()->set_range(valueL,valueU,stepsize);
+        cinfo << " Set range of deltaEdown" << endl; 
       }
       else{
         setDeltaEdown(value);

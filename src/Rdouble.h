@@ -46,15 +46,6 @@ public:
   }
 };
 
-//Macro to set the range of an Rdouble. 
-//origSet is what would be used to set a single value, but without the (), e.g. pReact->set_EInf
-#define SETRANGE(origSet, valueL, valueU, valueS) \
-size_t siz = ActiveRdoubles.size(); \
-origSet##(NaN); \
-if(ActiveRdoubles.size()==siz+1){ \
- ActiveRdoubles.back()->set_range(valueL,valueU,valueS); \
- cinfo << " Set range of EInf" << endl;} 
-  
 /*
 Rdouble is a variable of type double that can hold a range of values,
 and the one actually in use currently can be set externally. 

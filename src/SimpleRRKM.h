@@ -15,6 +15,8 @@ namespace mesmer
     SimpleRRKM(const std::string& id) : MicroRateCalculator(id){}
   
     virtual ~SimpleRRKM() {}
+
+    virtual bool ReadParameters(Reaction* pReac) { return true; }//do nothing
   
     virtual bool calculateMicroRateCoeffs(Reaction* pReact);
   };

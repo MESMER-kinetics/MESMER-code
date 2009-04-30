@@ -1,3 +1,10 @@
+2009-Apr-30 Chris Morley
+	
+	Move the reading of ILT parameters from Reaction to MicroRateCalculator
+	used by ILT classes but nit SimpleRRKM
+	src/RDouble.h: Remove the SETRANGE macro. (It was working at one time...)
+	src/System.cpp: add improved log message on precision
+	
 _2009_04_30__11_21_48_ Chi-Hsiu Liang
 
    * Updated manual for the usage of environmental variable MESMER_DIR.

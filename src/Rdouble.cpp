@@ -23,7 +23,7 @@ void Rdouble::set_range(const double valueL, const double valueU, const double v
     cerr << "The upper value should be larger than lower and the stepsize should be positive"<<endl;
     return;
   }
-  cinfo << "Range with " << numStep << " steps set" << endl;
+  cinfo << "Range with " << (int)numStep+1 << " steps set" << endl;
   if (numStep < 1)
     cerr << "There is only one point for this variable. Remove range setting to clear this error."<<endl;
 
@@ -46,5 +46,15 @@ bool Rdouble::get_range(double& lower_, double& upper_, double& stepsize_)const
   stepsize_= stepsize;
   return true;
 }
+/*not working
+//Macro to set the range of an Rdouble. 
+//origSet is what would be used to set a single value, but without the (), e.g. pReact->set_EInf
+#define SETRANGE(origSet, valueL, valueU, valueS) \
+size_t siz = ActiveRdoubles.size(); \
+origSet##(NaN); \
+if(ActiveRdoubles.size()==siz+1){ \
+ ActiveRdoubles.back()->set_range(valueL,valueU,valueS); \
+ cinfo << " Set range via " << string(origSet) << endl;} 
+*/  
 
 }//namespace
