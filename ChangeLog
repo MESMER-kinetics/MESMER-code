@@ -1,3 +1,7 @@
+_2009_04_30__11_21_48_ Chi-Hsiu Liang
+
+   * Updated manual for the usage of environmental variable MESMER_DIR.
+
 2009-Apr-30 Chris Morley
    Replace DPoint by the very similar Rdouble to make handling of range and
    ordinary variables consistent.  See Rdouble.h
