@@ -72,3 +72,4 @@ the range is indicated by NaN being returned.
 
 }//namespace
 #endif
+

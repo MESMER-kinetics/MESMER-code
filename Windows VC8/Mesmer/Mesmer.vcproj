@@ -270,11 +270,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Pointer.cpp"
+				RelativePath="..\..\src\QMRotor.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\QMRotor.cpp"
+				RelativePath="..\..\src\Rdouble.cpp"
 				>
 			</File>
 			<File
@@ -432,11 +432,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Pointer.h"
+				RelativePath="..\..\src\QMRotor.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\QMRotor.h"
+				RelativePath="..\..\src\Rdouble.h"
 				>
 			</File>
 			<File

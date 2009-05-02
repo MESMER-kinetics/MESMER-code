@@ -1,3 +1,12 @@
+_2009_05_02__10_32_28_ Chi-Hsiu Liang
+
+   * Fixed ZPE determination in ReactionManager.cpp. In this part, minEnergy and maxEnergy should always be compared with the ZPE values entered in
+     the XML input. The ZPE of the dissociation pair here is not under consideration, as the sink pair do not have any energy property associated
+     with the reaction operator. Therefore, the sink pair thresholdEstimate here is replaced by the barrier ZPE calculated from adding the threshold
+     energy with reactant ZPE.
+
+   * Updated VC8 compile file list and Linux Makefile
+
 2009-May-02 Chris Morley
 
 	Remove product dependence for irreversible reactions, except for reverse ILT

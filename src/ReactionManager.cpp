@@ -278,18 +278,18 @@ namespace mesmer
       }
 
       //
-      // For dissociation reactions determine zero point energy location of the
-      // dissociation pair.
+      // For dissociation reactions determine zero point energy location of the barrier
       //
       IrreversibleUnimolecularReaction *pDissnRtn = dynamic_cast<IrreversibleUnimolecularReaction*>(m_reactions[i]) ;
       if (pDissnRtn) {
-        double thresholdEstimate = pDissnRtn->get_ThresholdEnergy();
-        minEnergy = min(minEnergy, thresholdEstimate) ;
-        maxEnergy = max(maxEnergy, thresholdEstimate) ;
+        const double rctZPE = pDissnRtn->get_reactant()->getDOS().get_zpe();
+        double barrierZPE = rctZPE + pDissnRtn->get_ThresholdEnergy();
+        minEnergy = min(minEnergy, barrierZPE) ;
+        maxEnergy = max(maxEnergy, barrierZPE) ;
 
         // Calculate the lowest barrier associated with this well(species).
-        if (thresholdEstimate < unimolecules[0]->getColl().getLowestBarrier()){
-          unimolecules[0]->getColl().setLowestBarrier(thresholdEstimate);
+        if (barrierZPE < unimolecules[0]->getColl().getLowestBarrier()){
+          unimolecules[0]->getColl().setLowestBarrier(barrierZPE);
         }
       }
 

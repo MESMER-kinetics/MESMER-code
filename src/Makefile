@@ -157,8 +157,8 @@ SRCS := \
 	MolecularComponents.cpp \
 	MoleculeManager.cpp \
 	oberror.cpp \
-	Pointer.cpp \
 	QMRotor.cpp \
+	Rdouble.cpp \
 	Reaction.cpp \
 	ReactionManager.cpp \
 	SimpleILT.cpp \
