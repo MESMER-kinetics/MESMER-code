@@ -252,7 +252,6 @@ namespace mesmer
     return true;
   }
 
-
   // Read parameters requires to determine reaction heats and rates.
   bool Reaction::ReadRateCoeffParameters(PersistPtr ppReac) {
 
@@ -280,27 +279,9 @@ namespace mesmer
 
     //---------------------------------------------------------
     // Microcanonical rate constants methods dependent section.
-    if (m_pMicroRateCalculator->getName() == "MesmerILT"){
-      if (ppTransitionState){
-        cerr << "Reaction " << getName() << " uses ILT method, which should not have transition state.";
-        return false;
-      }
-      cinfo << "ILT method chosen, look for ILT expressions" << endl;
       
       if (!m_pMicroRateCalculator->ReadParameters(this)) return false;
       
-      const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling", optional) ;
-      if(pTunnelingtxt)
-      {
-        cerr << "Tunneling parameter in Reaction " << getName() << " is invalid in ILT.";
-        return false;
-      }
-    }
-    if (m_pMicroRateCalculator->getName() == "SimpleRRKM"){
-      if (!ppTransitionState){
-        cerr << "Reaction " << getName() << " uses RRKM method, which should have transition state.";
-        return false;
-      }
       // Determine the method of estimating tunneling effect.
       const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling", optional) ;
       if(pTunnelingtxt)
@@ -317,7 +298,6 @@ namespace mesmer
       else{
         cinfo << "No tunneling method was found for " << getName() << endl;
       }
-    }
     //
     //---------------------------------------------------------
 

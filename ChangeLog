@@ -1,3 +1,21 @@
+2009-May-02 Chris Morley
+
+	Remove product dependence for irreversible reactions, except for reverse ILT
+	
+	* src/IrreversibleExchangeReaction.h,src/IrreversibleUnimolecularReaction.h
+	added their own virtual calcFluxFirstNonZeroIdx()
+	* src/IrreversibleUnimolecularReaction.cpp,src/IrreversibleExchangeReaction.cpp
+	avoid calculating heat of reaction in :calcEffGrnThresholds()
+	
+	* src/MesmerILT.cpp,src/MicroRate.cpp: put ReadParameters in the correct file
+	* src/Reaction.cpp,src/Reaction.h,src/SimpleRRKM.cpp,src/SimpleRRKM.h
+	move more specific operations to MicroRateCalculator classes.
+	
+	* src/MoleculeManager.cpp:ignore library molecules with active=false attributes.
+	* librarymols.xml: make ketene OH and HO_2 inactive
+	
+	* acetyl_O2minimal.xml, without product properties, now validates ok 
+
 2009-Apr-30 Chris Morley
 	
 	Move the reading of ILT parameters from Reaction to MicroRateCalculator

@@ -73,4 +73,15 @@ namespace mesmer
     return true;
   }
 
+  bool SimpleRRKM::ReadParameters(Reaction* pReact)
+  {
+    if (!pReact->get_TransitionState())
+    {
+      cerr << "Reaction " << pReact->getName() 
+        << " uses RRKM method, which should have transition state."<<endl;
+      return false;
+    }
+    return true;
+  }
+
 }//namespace

@@ -16,7 +16,7 @@ namespace mesmer
   
     virtual ~SimpleRRKM() {}
 
-    virtual bool ReadParameters(Reaction* pReac) { return true; }//do nothing
+    virtual bool ReadParameters(Reaction* pReac);
   
     virtual bool calculateMicroRateCoeffs(Reaction* pReact);
   };

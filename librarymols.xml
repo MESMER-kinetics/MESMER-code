@@ -90,7 +90,7 @@
     </propertyList>
     <me:DOSCMethod default="true">Classical rotors</me:DOSCMethod>
   </molecule>
-  <molecule id="OH">
+  <molecule id="OH" active="false">
     <atomArray>
       <atom id="a1" elementType="O" spinMultiplicity="2" x3="0.000000" y3="0.000000" z3="0.108216" />
       <atom id="a2" elementType="H" x3="0.000000" y3="0.000000" z3="-0.865729" />
@@ -119,7 +119,7 @@
       </property>
     </propertyList>
   </molecule>
-    <molecule id="HO2">
+    <molecule id="HO_2" active="false">
     <atomArray>
       <atom id="a1" elementType="O"/>
       <atom id="a2" elementType="O" spinMultiplicity="2"/>
@@ -133,7 +133,7 @@
       <scalar units="kJ/mol" convention="computational" source="Guessed: to be used only with ketene">-430000</scalar>
     </property>
   </molecule>
-  <molecule id="ketene">
+  <molecule id="ketene" active="false">
     <atomArray>
       <atom id="a1" elementType="C"/>
       <atom id="a2" elementType="C"/>

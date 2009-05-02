@@ -128,19 +128,24 @@ namespace mesmer
     {
       if(molName==ppMol->XmlReadValue("id", false))
       {
-        //Delete a molecule of same name in datafile, if present
-        PersistPtr ppOldMol = ppMolList;
-        while(ppOldMol = ppOldMol->XmlMoveTo("molecule")) {
-          if(molName == ppOldMol->XmlReadValue("id", false))
-            break;
+        //ignore library molecules with attribute active="false"
+        const char* active = ppMol->XmlReadValue("active", optional);
+        if(!active || strcmp(active, "false"))
+        {
+          //Delete a molecule of same name in datafile, if present
+          PersistPtr ppOldMol = ppMolList;
+          while(ppOldMol = ppOldMol->XmlMoveTo("molecule")) {
+            if(molName == ppOldMol->XmlReadValue("id", false))
+              break;
+          }
+          //Copy a matching molecule from library to the main XML file
+          //Replace old version if present
+          ppMol = ppMolList->XmlCopy(ppMol, ppOldMol);
+          cinfo << molName << " copied from " << m_libfile << endl;
+          //Write its provenance
+          ppMol->XmlWriteMetadata("source", m_libfile);
+          return ppMol;
         }
-        //Copy a matching molecule from library to the main XML file
-        //Replace old version if present
-        ppMol = ppMolList->XmlCopy(ppMol, ppOldMol);
-        cinfo << molName << " copied from " << m_libfile << endl;
-        //Write its provenance
-        ppMol->XmlWriteMetadata("source", m_libfile);
-        return ppMol;
       }
       ppMol = ppMol->XmlMoveTo("molecule");
     }

@@ -328,10 +328,17 @@ namespace mesmer
     return int(grnZpe);
   }
 
-  void IrreversibleExchangeReaction::calcEffGrnThresholds(void){           // see the comments in
-    double thresh = get_ThresholdEnergy();  // calcEffGrnThresholds under AssociationReaction.cpp
-    int TS_en = get_fluxGrnZPE();
+  void IrreversibleExchangeReaction::calcEffGrnThresholds(void){           
+    int TS_en = get_fluxGrnZPE();// see the comments in calcEffGrnThresholds under AssociationReaction.cpp  
     int rct_en = get_rctsGrnZPE();
+    //This function uses product properties, although the reaction is irreversible
+    //This is only appropriate for reverse ILT.
+    if(!isReverseReactionILT_Ea())
+    {
+      set_EffGrnFwdThreshold(TS_en-rct_en);
+      return;
+    }
+    double thresh = get_ThresholdEnergy();
     if(thresh<0.0){
       set_EffGrnFwdThreshold(0);
     }
@@ -339,5 +346,13 @@ namespace mesmer
       set_EffGrnFwdThreshold(TS_en-rct_en);
     }
   }
+  void IrreversibleExchangeReaction::calcFluxFirstNonZeroIdx(void) {
+  //Use base class function(which references product properties) only with reverse ILT
+  if(isReverseReactionILT_Ea())
+    Reaction::calcFluxFirstNonZeroIdx();
+  else
+    m_GrnFluxFirstNonZeroIdx = 0;
+  }
+
 
 }//namespace

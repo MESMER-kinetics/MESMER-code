@@ -279,10 +279,6 @@ namespace mesmer
     MesmerFlags& m_Flags;
     std::string m_Name ;        // Reaction name.
 
-    int m_GrnFluxFirstNonZeroIdx;  // idx of the starting grain for calculating forward/backward k(E)s from flux
-    int m_EffGrainedFwdThreshold;  // effective threshold energy (in grains) for forward flux calculations
-    int m_EffGrainedRvsThreshold;  // effective threshold energy (in grains) for backward flux calculations
-
     bool reCalcDOS;             // re-calculation on DOS
     // all the parameters that follow are for an arrhenius expression of the type:
     // k(T) = Ainf*(T/Tinf)^ninf * exp(-Einf/(RT))
@@ -292,6 +288,11 @@ namespace mesmer
     Rdouble m_EInf ;             // E infinity
     bool   m_isRvsILTpara;      // The ILT parameters provided are for reverse direction.
     double m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
+
+protected: //previously private but needed in IrreversibleUnimolecularReaction::calcFluxFirstNonZeroIdx(void)
+    int m_GrnFluxFirstNonZeroIdx;  // idx of the starting grain for calculating forward/backward k(E)s from flux
+    int m_EffGrainedFwdThreshold;  // effective threshold energy (in grains) for forward flux calculations
+    int m_EffGrainedRvsThreshold;  // effective threshold energy (in grains) for backward flux calculations
 
   } ;
 

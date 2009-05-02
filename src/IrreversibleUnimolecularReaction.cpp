@@ -204,6 +204,14 @@ namespace mesmer
       testRateConstant();
   }
 
+  void IrreversibleUnimolecularReaction::calcFluxFirstNonZeroIdx(void) {
+    //Use base class function(which references product properties) only with reverse ILT
+    if(isReverseReactionILT_Ea())
+      Reaction::calcFluxFirstNonZeroIdx();
+    else
+      m_GrnFluxFirstNonZeroIdx = 0;
+  }
+
   // Test k(T)
   void IrreversibleUnimolecularReaction::testRateConstant() {
 
@@ -226,11 +234,20 @@ namespace mesmer
       << getName() << " = " << get_fwdGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
   }
 
-  void IrreversibleUnimolecularReaction::calcEffGrnThresholds(void){       // see the comments in
-    double RxnHeat   = getHeatOfReaction();
-    double threshold = get_ThresholdEnergy();  // calcEffGrnThresholds under AssociationReaction.cpp
+  void IrreversibleUnimolecularReaction::calcEffGrnThresholds(void){       
     int TS_en = get_fluxGrnZPE();
     int rct_en = m_rct1->getColl().get_grnZPE();
+
+    //This function uses product properties, although the reaction is irreversible
+    //This is only appropriate for reverse ILT.
+    if(!isReverseReactionILT_Ea())
+    {
+      set_EffGrnFwdThreshold(TS_en-rct_en);
+      return;
+    }
+
+    double RxnHeat   = getHeatOfReaction();    // see the comments in
+    double threshold = get_ThresholdEnergy();  // calcEffGrnThresholds under AssociationReaction.cpp
 
     int pdtsGrnZPE = get_pdtsGrnZPE();
     int rctGrnZPE  = m_rct1->getColl().get_grnZPE();
