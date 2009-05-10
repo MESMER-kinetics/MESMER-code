@@ -1,6 +1,7 @@
 * text=auto !eol
 /ChangeLog -text
 Documentation/Checklist.doc -text
+Documentation/Constructing[!!-~]a[!!-~]Datafile[!!-~]from[!!-~]Gaussian[!!-~]output.html -text
 Documentation/FAQ.tex -text
 Documentation/Getting[!!-~]StartedTutorial.html -text
 Documentation/HowMesmerWork.tex -text
