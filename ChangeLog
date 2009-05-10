@@ -1,3 +1,12 @@
+2009-May-10 Chris Morley
+
+	* Change Rdouble to use an internal static rather than a global variable,
+	  Syntax for setting a range externally is different.
+	  
+	* src/ReactionManager.cpp, src/ReactionManager.h, mesmer1.xsl: 
+	output populations v time to XML. Is the displayed text appropriate?
+	Diagram log(pops) v log(t)to follow, I hope.
+
 _2009_05_02__10_32_28_ Chi-Hsiu Liang
 
    * Fixed ZPE determination in ReactionManager.cpp. In this part, minEnergy and maxEnergy should always be compared with the ZPE values entered in

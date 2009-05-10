@@ -141,7 +141,7 @@ namespace mesmer
     virtual double get_zpe();
     void set_zpe(const double value){ m_ZPE = value; m_ZPE_chk = 0;};
     void set_zpe(const double valueL, const double valueU, const double stepsize){
-      m_ZPE.set_range(valueL, valueU, stepsize);
+      m_ZPE.set_range(valueL, valueU, stepsize, "ZPE");
       m_ZPE_chk = 0;
     }
     std::string getEnergyConvention()const {

@@ -79,7 +79,7 @@ namespace mesmer
     void diagReactionOperator(const MesmerFlags &mFlags, const int precision) ;
 
     // Calculate the time evolution of the system
-    bool timeEvolution(MesmerFlags& mFlags);
+    bool timeEvolution(MesmerFlags& mFlags, PersistPtr ppPopList);
 
     // Set Initial population for individual species
     void setInitialPopulation(PersistPtr);

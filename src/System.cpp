@@ -333,11 +333,11 @@ namespace mesmer
     // produce a grid for search
     db2D gridArray; // this array grows up freely without needing dimensions
 
-    int totalSteps = 1, dataPointSize = int(ActiveRdoubles.size());
+    int totalSteps = 1, dataPointSize = int(Rdouble::withRange().size());
     for (int varID(0); varID < dataPointSize; ++varID){
       // for every dimension create a series and duplicate the serie while the indices going forward
       double lower(0.0), upper(0.0), stepsize(0.0);
-      ActiveRdoubles[varID]->get_range(lower, upper, stepsize);
+      Rdouble::withRange()[varID]->get_range(lower, upper, stepsize);
       int numSteps = int((upper - lower) / stepsize) + 1;
       totalSteps *= numSteps;
     }
@@ -345,7 +345,7 @@ namespace mesmer
     int spanSteps = 1;
     for (int varID(0); varID < dataPointSize; ++varID){
       double lower(0.0), upper(0.0), stepsize(0.0);
-      ActiveRdoubles[varID]->get_range(lower, upper, stepsize);
+      Rdouble::withRange()[varID]->get_range(lower, upper, stepsize);
       int numSteps = int((upper - lower) / stepsize) + 1;
       int stack(0), block(0);
       while (stack < totalSteps){
@@ -373,7 +373,7 @@ namespace mesmer
       double chiSquare(1000.0);
 
       // assign values
-      for (int varID(0); varID < dataPointSize; ++varID) *ActiveRdoubles[varID] = gridArray[i][varID];
+      for (int varID(0); varID < dataPointSize; ++varID) *Rdouble::withRange()[varID] = gridArray[i][varID];
 
       // calculate
       cerr << "Parameter Grid " << calPoint <<endl;;
@@ -414,7 +414,7 @@ namespace mesmer
     int steps(0);
     while (1){
 
-      for (size_t obj(0); obj < ActiveRdoubles.size(); ++obj){
+      for (size_t obj(0); obj < Rdouble::withRange().size(); ++obj){
 
       }
 
@@ -449,7 +449,7 @@ namespace mesmer
     //XML output
     //Considered putting this output under each PT pair in me:conditions.
     //But doesn't work with a range of Ps or Ts. So has to have its own section.
-    string comment( "Bartis-Widom Phenomenological Rates" );
+    string comment( "Bartis-Widom Phenomenological Rates and Time dependent populations" );
     PersistPtr ppAnalysis = m_ppIOPtr->XmlWriteMainElement("me:analysis", comment);
 
     for (calPoint = 0; calPoint < PandTs.size(); ++calPoint){
@@ -460,10 +460,6 @@ namespace mesmer
       cinfo << "PT Grid " << calPoint << endl;
       int precision = PandTs[calPoint].get_precision();
       ctest << "PT Grid " << calPoint << " Condition: conc = " << m_Env.conc << ", temp = " << PandTs[calPoint].get_temperature();
-      PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
-      ppList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
-      ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
-      ppList->XmlWriteAttribute("me:units", "s-1");
 
       switch (precision){
         case 1: ctest << ", diagonalization precision: double-double\n{\n"; break;
@@ -496,12 +492,18 @@ namespace mesmer
 
       if (m_Flags.doBasisSetMethod) return ;
 
+      PersistPtr ppPopList = ppAnalysis->XmlWriteElement("me:populationList");
+      ppPopList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
+      ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
       // Time steps loop
-      m_pReactionManager->timeEvolution(m_Flags);
+      m_pReactionManager->timeEvolution(m_Flags, ppPopList);
 
+      PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
+      ppList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
+      ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
+      ppList->XmlWriteAttribute("me:units", "s-1");
       dMatrix mesmerRates(1);
       m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates, m_Flags, ppList);
-
 
       if (m_Flags.searchMethod){
         vector<conditionSet> expRates;

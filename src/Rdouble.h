@@ -8,20 +8,30 @@
 
 namespace mesmer
 {
-class Rdouble;
-extern std::vector<Rdouble*> ActiveRdoubles;
 
 class Rdouble
 {
 private:
   double value, lower, upper, stepsize, prev;
+  static Rdouble* pendingVar;
 public:
   Rdouble(double val=0.0):value(val),lower(NaN),upper(NaN),stepsize(NaN), prev(NaN){}
   
   operator double() const  { return value; }
   Rdouble& operator = (const double& val);
 
-  void set_range(const double valueL, const double valueU, const double valueS);
+  //Vector of RDoubles that have a range. 
+  //A function, rather than static member variable, for proper initialization.   
+  static std::vector<Rdouble*>& withRange()
+  {
+    static std::vector<Rdouble*> wr;
+    return wr;
+  }
+
+  void set_range(const double valueL, const double valueU, const double valueS,const char* txt=NULL);
+  static void set_range_indirect
+                (const double valueL, const double valueU, const double valueS,const char* txt=NULL);
+
   bool get_range(double& lower_, double& upper_, double& stepsize_)const;
 
   //Returns true if the value is the same as when setUnchanged was last called.
@@ -47,27 +57,29 @@ public:
 };
 
 /*
-Rdouble is a variable of type double that can hold a range of values,
-and the one actually in use currently can be set externally. 
+Rdouble is a variable which looks like a double but can hold a range
+of values, and the one actually in use currently can be controlled externally. 
 
 All that is necessary is for the variable type to be changed from
-double to Rdouble; it behaves as it did before, like a double.
+double to Rdouble, At this stage it behaves as it did before, like a double.
 
-The range can be set from any external code by setting the variable's
-value to NaN. This causes the address of the Rdouble to be pushed
-to the quasi-global vector ActiveRdoubles. It is then retrieved by
-the code from the back of ActiveRdoubles and set_range called.
+To give it a range, and if there isaccess to the variable, use set_range().
+If there is not, for example, if a member variable of Reaction is being set
+from an ILT class, the trick used is to set the value to NaN, which stores
+its address in a static variable. The static function Rdouble::set_rangeindirect()
+uis then called to set the range, e.g.,
 
   pReact->set_EInf(NaN);
-  ActiveRdoubles.back()->set_range(valueL,valueU,valueS);
+  Rdouble::set_range_indirect(valueL, valueU, valueS, "EInf");
 
-Alternatively, there is a macro which does some error checking and
-which makes a log entry.
+Both the set_range functions have an optional text parameter which is
+intended to contain the name of the variable and is used in a log message.
 
-Functions like gridSearch() can retrieve the variable's address from
-ActiveRdoubles and change its current value to anything. Alternatively,
-they can increment or decrement the value using ++ or --, when the end of
-the range is indicated by NaN being returned.  
+RDouble::withRange() returns a reference to the std::vector<Rdouble*>
+that contains pointers to all the Rdoubles with a range set.
+This allows the current value of any of these to be set to anything.
+Alternatively, an Rdouble can be incremented or decremented using ++ or --,
+when the end of the range is indicated by NaN being returned.  
 */
 
 }//namespace

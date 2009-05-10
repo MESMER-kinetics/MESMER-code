@@ -402,7 +402,7 @@ namespace mesmer
     std::vector<double> cellEne;
     getCellEnergies(MaximumCell, cellEne);
 
-    string comment("Rovibronic partition function calculation at various temperatures. qtot : partition function as a product of quantum mechanical partition functions for vibrations (1-D harmonic oscillator) and classifical partition functions for rotations.  sumc : (user calculated) cell based partition function. sumg : (user calculated) grain based partition function ");
+    string comment("Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function ");
 
     PersistPtr ppList = m_host->get_PersistentPointer()->XmlWriteMainElement("me:densityOfStatesList", comment );
 
@@ -767,11 +767,8 @@ namespace mesmer
       if (pLowertxt && pUppertxt){
         double valueL(0.0), valueU(0.0), stepsize(0.0);
         stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
-        //setDeltaEdown(valueL, valueU, stepsize);
-        //SETRANGE(setDeltaEdown, valueL, valueU, stepsize);
         setDeltaEdown(NaN);
-        ActiveRdoubles.back()->set_range(valueL,valueU,stepsize);
-        cinfo << " Set range of deltaEdown" << endl; 
+        Rdouble::set_range_indirect(valueL, valueU, stepsize, "deltaEdown");
       }
       else{
         setDeltaEdown(value);

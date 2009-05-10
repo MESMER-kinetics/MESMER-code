@@ -6,8 +6,9 @@
 
   <xsl:include href="mesmerDiag.xsl"/>
   <xsl:include href="switchcontent.xsl"/>
-  
-<xsl:key name="molrefs" match="cml:molecule" use="@id"/>
+  <!--<xsl:include href="popdiag.xsl"/>-->
+
+  <xsl:key name="molrefs" match="cml:molecule" use="@id"/>
   
 <xsl:variable name="title">
   <xsl:choose>
@@ -57,7 +58,7 @@
         {
           font-family: Arial, Helvetica, sans-serif;
           font-size:smaller;
-          font-weight:bold;
+          
           text-align:center;
         }
         .tablehead1
@@ -67,6 +68,7 @@
           font-weight:bold;
         }
         .tablehead2{text-decoration:underline;padding-top:10px;}
+        .tablehead3{font-weight:bold;padding-top:10px;text-align:center}
         table{background-color:#e0f8f8; margin-bottom:12px;}
         td{padding:0px 4px;}
         h3{color:teal;font-family: Arial, Helvetica, sans-serif;}
@@ -135,6 +137,14 @@
       <h3 id="densityOfStates-title" class="handcursor">Partition Functions</h3>
       <div id="densityOfStates" class="switchgroup1">
         <!--<xsl:apply-templates select="//*[@calculated]"/>-->
+      <xsl:variable name="txt1" select="substring-after(//me:densityOfStatesList/me:description,'.')"/>
+      <xsl:variable name="txt2" select="substring-after($txt1,'.')"/>
+      <xsl:value-of select="substring-before($txt1,'.')"/>
+      <br/>
+      <xsl:value-of select="substring-before($txt2,'.')"/>
+      <br/>
+      <xsl:value-of select="substring-after($txt2,'.')"/>    
+      <p></p>
         <xsl:apply-templates select="//me:densityOfStatesList"/>
       </div>
     </xsl:if>
@@ -146,13 +156,20 @@
       </div>
     </xsl:if>
 
-      <xsl:if test="//me:rateList">
-        <h3 id="BWrates-title" class="handcursor">Bartis-Widom Phenomenological Rate Coefficients</h3>
+    <xsl:if test="//me:rateList">
+      <h3 id="BWrates-title" class="handcursor">Bartis-Widom Phenomenological Rate Coefficients</h3>
       <div id="BWrates" class="switchgroup5">
         <xsl:apply-templates select="//me:rateList"/>
       </div>
     </xsl:if>
 
+    <xsl:if test="//me:populationList">
+      <h3 id="Populations-title" class="handcursor">Species / time profiles</h3>
+      <div id="Populations" class="switchgroup6">
+        <xsl:apply-templates select="//me:populationList"/>
+      </div>
+    </xsl:if>
+      
       <!--Show toggle for inactive display if the file contains any-->
     <xsl:if test="//*[@active='false']">
       <p id="hide" onclick="toggle()">Hide/show inactive</p>
@@ -161,7 +178,7 @@
     <!--Script for expanding an contracting sections-->
     <script type="text/javascript">
       <![CDATA[
-        for(var i=1; i <=5; i++)
+        for(var i=1; i <=6; i++)
         {
           var mc=new switchcontent("switchgroup" + i)
           mc.setStatus('- ','+ ')
@@ -172,8 +189,8 @@
     </script>
 
     <xsl:call-template name="drawDiag"/>
-      
-  </body>
+
+    </body>
  </html>
 </xsl:template>
 
@@ -319,7 +336,7 @@
     <table>
      <tr>
        <td class="tablehead1" colspan="5" align="center">
-         At <xsl:value-of select="concat(@T,' K, ', @conc, ' molecules cm')"/><sup>-3</sup>
+         At <xsl:value-of select="concat(@T,' K, ', @conc, ' molecules cm')"/>
        </td>
      </tr>
      <tr>
@@ -348,9 +365,35 @@
        </xsl:for-each>
      </table>
     </xsl:template>
- 
 
-  <xsl:template match="cml:metadataList">
+  <xsl:template match="//me:populationList">
+    <xsl:variable name="speciesNames" select="me:population[1]/me:pop/@ref"/>
+    <table>
+      <tr><td class="tablehead1" colspan="5" align="center">
+        <xsl:value-of select="concat('Populations (mole fractions) at ',@T,'K ',
+                      @conc, ' molecules cm')"/><sup>-3</sup>
+      </td></tr>
+      <tr><td class="tablehead3">Time, sec</td>
+        <xsl:for-each select="$speciesNames">
+          <td class="tablehead3">
+            <xsl:value-of select="."/>
+          </td>
+        </xsl:for-each>
+      </tr>
+      <xsl:for-each select="me:population">
+        <tr>
+          <td><xsl:value-of select="@time"/></td>
+          <xsl:for-each select="me:pop">
+            <td>
+              <xsl:value-of select="."/>
+            </td>
+          </xsl:for-each>
+        </tr>
+      </xsl:for-each>
+    </table>
+  </xsl:template>  
+
+    <xsl:template match="cml:metadataList">
     <div id="metadata">
         <xsl:value-of select="cml:metadata[@name='dc:creator']/@content"/>:
         <xsl:value-of select="cml:metadata[@name='dc:date']/@content"/>,

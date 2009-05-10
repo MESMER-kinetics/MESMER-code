@@ -52,15 +52,12 @@ namespace mesmer
     const std::string& getName() const    { return m_Name ; }
     double get_PreExp()                   { return m_PreExp ; }
     void set_PreExp(double value)         { m_PreExp = value;}
-    //void set_PreExp(double valueL, double valueU, double stepsize){ m_PreExp.set_range(valueL, valueU, stepsize); };
     double get_NInf()                     { return m_NInf; } 
     void set_NInf(double value)           { m_NInf = value;}
-    //void set_NInf(double valueL, double valueU, double stepsize)  { m_NInf.set_range(valueL, valueU, stepsize); }
     double get_TInf()                     { return m_TInf ; }
     void set_TInf(double value)           { m_TInf = value;}
     double get_EInf()                     { return m_EInf; }
     void set_EInf(double value)           { m_EInf = value;}
-    //void set_EInf(double valueL, double valueU, double stepsize)  { m_EInf.set_range(valueL, valueU, stepsize); }
     void set_revILT(bool rev)             { m_isRvsILTpara = rev; }
     double getHeatOfReaction() const      {
       const double pdtZPE = get_relative_pdtZPE();

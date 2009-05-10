@@ -794,7 +794,7 @@ namespace mesmer
     return true;
   }
 
-  bool ReactionManager::timeEvolution(MesmerFlags& mFlags)
+  bool ReactionManager::timeEvolution(MesmerFlags& mFlags, PersistPtr ppPopList)
   {
     ErrorContext c(__FUNCTION__);
     int smsize = int(m_eigenvectors->size());
@@ -953,10 +953,12 @@ namespace mesmer
 
       ctest << setw(16) << "Timestep/s";
 
+      vector<string> speciesNames;
       Reaction::molMapType::iterator spos;
       for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map
         Molecule* source = spos->first ;                        // to get source profile vs t
         ctest << setw(16) << source->getName();
+        speciesNames.push_back(source->getName());
         int rxnMatrixLoc = spos->second;
         for (int timestep = 0; timestep < maxTimeStep; ++timestep){
           double gPf = grnProfile[rxnMatrixLoc][timestep];
@@ -969,6 +971,7 @@ namespace mesmer
       for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
         Molecule* isomer = ipos->first;                        // to get isomer profile vs t
         ctest << setw(16) << isomer->getName();
+        speciesNames.push_back(isomer->getName());
         int rxnMatrixLoc = ipos->second;
         const int colloptrsize = isomer->getColl().get_colloptrsize();
         const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();
@@ -1005,6 +1008,8 @@ namespace mesmer
           KofEs = sinkReaction->get_GrainKfmc();          // assign sink k(E)s, the vector size == maxgrn
           ctest << setw(16) << pdts[0]->getName();
         }
+        speciesNames.push_back(pdts[0]->getName());
+
         int rxnMatrixLoc = pos->second;                       // get sink location
         double TimeIntegratedProductPop(0.0);
         for (int timestep = 0; timestep < maxTimeStep; ++timestep){
@@ -1032,11 +1037,16 @@ namespace mesmer
         }
       }
 
+      //Write to ctest and XML
       ctest << setw(16)<< "totalIsomerPop" << setw(16)<< "totalPdtPop"  << endl;
       for(int timestep = 0; timestep < maxTimeStep; ++timestep){
         ctest << setw(16) << timePoints[timestep];
+        PersistPtr ppPop =  ppPopList->XmlWriteElement("me:population");
+        ppPop->XmlWriteAttribute("time", toString(timePoints[timestep])); 
         for(int i(0); i<speciesProfileidx; ++i){
           ctest << setw(16) << speciesProfile[i][timestep];
+          PersistPtr ppVal = ppPop->XmlWriteValueElement("me:pop", speciesProfile[i][timestep]);
+          ppVal->XmlWriteAttribute("ref", speciesNames[i]);
         }
         ctest << setw(16) << totalIsomerPop[timestep] << setw(16) << totalPdtPop[timestep] << endl;
       }
