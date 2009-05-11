@@ -1269,7 +1269,7 @@ namespace mesmer
     }
     ctest << "}\n";
 
-    if(m_SpeciesSequence.size()>m_sinkRxns.size()){
+    if(m_SpeciesSequence.size()>1){
       ctest << "\nFirst order & pseudo first order rate coefficients for isomerization rxns:\n{\n";
 
       // print pseudo first order connecting ks

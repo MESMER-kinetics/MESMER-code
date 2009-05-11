@@ -1,3 +1,7 @@
+2009-May-11 Dave Glowacki
+
+  * ReactionManager.cpp: fix a bug for printing rate coefficients
+
 _2009_05_11__15_53_25_ Chi-Hsiu Liang
 
   * reordered some initiation of variables.
