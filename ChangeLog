@@ -1,3 +1,7 @@
+_2009_05_11__15_53_25_ Chi-Hsiu Liang
+
+  * reordered some initiation of variables.
+
 2009-May-10 Chris Morley
 
 	* Change Rdouble to use an internal static rather than a global variable,

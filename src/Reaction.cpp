@@ -39,16 +39,16 @@ namespace mesmer
     m_Env(Env),
     m_Flags(Flags),
     m_Name(id),
-    m_GrnFluxFirstNonZeroIdx(0),
-    m_EffGrainedFwdThreshold(0),
-    m_EffGrainedRvsThreshold(0),
     reCalcDOS(true),
     m_PreExp(0.0),
     m_NInf(0.0),
     m_TInf(298.0),
     m_EInf(0.0),
     m_isRvsILTpara(false),
-    m_kfwd(0.0)
+    m_kfwd(0.0),
+    m_GrnFluxFirstNonZeroIdx(0),
+    m_EffGrainedFwdThreshold(0),
+    m_EffGrainedRvsThreshold(0)
   {}
 
   Reaction::~Reaction(){}
