@@ -53,6 +53,7 @@ Windows[!!-~]VC8/qd/qd.vcproj -text
 Windows[!!-~]VC9/MESMER.sln -text
 Windows[!!-~]VC9/Mesmer/Mesmer.vcproj -text
 Windows[!!-~]VC9/TinyXML/TinyXML.vcproj -text
+Windows[!!-~]VC9/distribution/NSISScriptToCreateInstaller.nsi -text
 Windows[!!-~]VC9/qd/qd.vcproj -text
 /defaults.xml -text
 examples/AcetylO2/AcetylO2reduced.xml -text
