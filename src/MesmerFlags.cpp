@@ -28,7 +28,7 @@ namespace mesmer{
     allowSmallerDEDown(false),
     print_TabbedMatrices(true),
     showCollisionOperator(0),
-    useDOSweighedDT(false),
+    useDOSweightedDT(false),
     doBasisSetMethod(false),
     punchSymbols(),
     punchNumbers(),

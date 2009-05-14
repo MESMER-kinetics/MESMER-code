@@ -1,3 +1,9 @@
+2009-May-14 Dave Glowacki
+
+  * Manual Edit
+  * get rid of methylene_D2 association folder
+  * fix some spelling errors in the code
+
 2009-May-11 Dave Glowacki
 
   * ReactionManager.cpp: fix a bug for printing rate coefficients

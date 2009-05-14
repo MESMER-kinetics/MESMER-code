@@ -1021,7 +1021,7 @@ namespace mesmer
     dMatrix* tempEGME = new dMatrix(m_ncolloptrsize);
 
     // Use number of states to weigh the downward transition
-    if (m_host->getFlags().useDOSweighedDT){
+    if (m_host->getFlags().useDOSweightedDT){
       // The collision operator.
       for (int i(0) ; i < m_ncolloptrsize ; ++i ) {
         double ei = gEne[i] ;
@@ -1213,7 +1213,7 @@ namespace mesmer
     }
 
     // Use number of states to weigh the downward transition
-    if (m_host->getFlags().useDOSweighedDT){
+    if (m_host->getFlags().useDOSweightedDT){
       // The collision operator.
       for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
         double ei = gEne[i] ;
