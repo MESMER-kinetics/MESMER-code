@@ -47,8 +47,7 @@ namespace mesmer
     }
 
     //Construct a new Molecule
-    Molecule *pmolecule = new Molecule(mEnv, mFlags);
-
+    Molecule *pmolecule = new Molecule(mEnv, mFlags, molType);
 
     //Look for it by name in the datafile
     PersistPtr ppmol = ppMolList;

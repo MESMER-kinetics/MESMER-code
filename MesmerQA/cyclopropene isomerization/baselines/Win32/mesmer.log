@@ -15,7 +15,9 @@ In R2: No imaginary vibrational frequency.
 No tunneling method was found for R2
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
+200.72Torr, 800K at double precision
 The default value of me:precision was used.
+250Torr, 1000K at double precision
 Write metadata
 
 File: "Cyclopropene_isomerization_test.xml" successfully parsed.
@@ -30,7 +32,7 @@ Cell number = 38200, Grain number = 191
 Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 2 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 129 seconds.
- -- Total time elapsed: 251 seconds.
+Finish Calculation -- Time elapsed: 167 seconds.
+ -- Total time elapsed: 342 seconds.
 
 System saved to out.xml

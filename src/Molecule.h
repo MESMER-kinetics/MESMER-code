@@ -35,7 +35,7 @@ namespace mesmer
     PersistPtr     m_ppPersist;         // Conduit for I/O
     std::string    m_Name ;             // Molecule name.
     std::string    m_Description;       // Longer description for the structure
-
+    std::map<std::string, bool> m_molTypes;
 
     //================================================
     // CHECK FOR INPUTFILE PARAMETERS
@@ -58,7 +58,7 @@ namespace mesmer
     //
     // Constructor
     //
-    Molecule(const MesmerEnv& Env, MesmerFlags& m_Flags) ;
+    Molecule(const MesmerEnv& Env, MesmerFlags& m_Flags, const string& molType) ;
     virtual ~Molecule();
 
     // Initialize Molecule. Returns false if no id attribute
@@ -89,6 +89,9 @@ namespace mesmer
 
     bool activateRole(string molType);
     bool hasDOSProperties(){return g_dos!=NULL;}
+    bool isMolType(const string& molType){
+      return m_molTypes[molType];
+    }
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   };
 

@@ -12,6 +12,7 @@ In R1: No imaginary vibrational frequency.
 No tunneling method was found for R1
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
+1e+008PPCC, 500K at double precision
 Write metadata
 
 File: "pentyl_isomerization_test.xml" successfully parsed.
@@ -27,7 +28,7 @@ In mesmer::ReactionManager::timeEvolution: No population was assigned, and there
 In mesmer::ReactionManager::timeEvolution: Initialize a Boltzmann distribution in the first isomer.
 
 In total, 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 13 seconds.
- -- Total time elapsed: 15 seconds.
+Finish Calculation -- Time elapsed: 17 seconds.
+ -- Total time elapsed: 19 seconds.
 
 System saved to out.xml

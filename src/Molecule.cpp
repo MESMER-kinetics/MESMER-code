@@ -15,19 +15,22 @@ namespace mesmer
   //
   //Constructor
   //
-  Molecule::Molecule(const MesmerEnv& Env, MesmerFlags& Flags):
+  Molecule::Molecule(const MesmerEnv& Env, MesmerFlags& Flags, const string& molType):
     m_Env(Env),
     m_Flags(Flags),
     m_ppPersist(NULL),
     m_Name(),
     m_Description(),
+    m_molTypes(),
     g_bath(NULL),
     g_dos(NULL),
     g_ts(NULL),
     g_pop(NULL),
     g_coll(NULL),
     g_struc(NULL)
-  {}
+  {
+    m_molTypes[molType] = true;
+  }
 
   Molecule::~Molecule(){
     // delete the pointers in the reverse order.
@@ -83,6 +86,12 @@ namespace mesmer
 
   //Make dummy calls to initialize the MolecularComponents now, during parse, before calculation.
   bool Molecule::activateRole(string molType){
+    // see if the molType is true in m_molTypes
+    if (!m_molTypes[molType])
+    {
+      m_molTypes[molType] = true;
+    }
+    
     if (molType == "bathGas" || molType == "modelled")
       getBath();
 

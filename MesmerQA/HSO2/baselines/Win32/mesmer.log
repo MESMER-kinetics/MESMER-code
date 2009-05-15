@@ -22,6 +22,7 @@ No tunneling method was found for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
+1e+008Torr, 500K at double precision
 Write metadata
 
 File: "HSO2_test.xml" successfully parsed.
@@ -37,8 +38,8 @@ In SO2: The default value of me:DOSCMethod was used.
 Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 7 seconds.
- -- Total time elapsed: 9 seconds.
+Finish Calculation -- Time elapsed: 14 seconds.
+ -- Total time elapsed: 17 seconds.
 
 System saved to out.xml
 m_scaleFactor is provided but not used in H.

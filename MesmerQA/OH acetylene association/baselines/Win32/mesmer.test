@@ -1,20 +1,6 @@
 PT Grid 0 Condition: conc = 3.24043e+019, temp = 298, diagonalization precision: double
 {
 
-Test rovibronic density of states for: OH
-{
-      T           qtot           sumc           sumg
-    200         14.447        19.8003        19.6926
-    300        21.6704        32.8502        32.7709
-}
-
-Test rovibronic density of states for: acetylene
-{
-      T           qtot           sumc           sumg
-    200        59.7833        59.7832        59.5005
-    300        100.203        100.203        99.9807
-}
-
 Test rovibronic density of states for: OH_acetylene_adduct
 {
       T           qtot           sumc           sumg

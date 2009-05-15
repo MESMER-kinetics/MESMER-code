@@ -7,8 +7,8 @@ In OH: The default value of me:frequenciesScaleFactor was used.
 In acetylene: The default value of me:frequenciesScaleFactor was used.
 In OH_acetylene_adduct: The default value of me:frequenciesScaleFactor was used.
 In OH_acetylene_adduct: The default value of me:DistributionCalcMethod was used.
-In R1: ILT method chosen, look for ILT expressions
 In R1: The default value of me:TInfinity was used.
+In R1: No tunneling method was found for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R2: Parsing reaction...
 In TS_1a: The default value of me:frequenciesScaleFactor was used.
@@ -16,6 +16,7 @@ In R2: No imaginary vibrational frequency.
 No tunneling method was found for R2
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
+1000Torr, 298K at double precision
 Write metadata
 
 File: "OH_acetylene_association_test.xml" successfully parsed.
@@ -32,8 +33,7 @@ Association ILT calculation completed
 20 values in the FFT convolution routine were replaced by standard convolution
 
 20 values in the FFT convolution routine were replaced by standard convolution
-In OCHCH2: The default value of me:frequenciesScaleFactor was used.
-Grain zero point energy is negative in R2.
+
 20 values in the FFT convolution routine were replaced by standard convolution
 
 20 values in the FFT convolution routine were replaced by standard convolution
@@ -41,12 +41,7 @@ Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
 In mesmer::ReactionManager::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 
 In total, 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 53 seconds.
- -- Total time elapsed: 84 seconds.
+Finish Calculation -- Time elapsed: 59 seconds.
+ -- Total time elapsed: 96 seconds.
 
 System saved to out.xml
-Rotational constants are provided but not used in OCHCH2.
-m_Sym is provided but not used in OCHCH2.
-m_scaleFactor is provided but not used in OCHCH2.
-m_SpinMultiplicity is provided but not used in OCHCH2.
-m_VibFreq is provided but not used in OCHCH2.
