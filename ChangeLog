@@ -1,3 +1,8 @@
+_2009_05_15__17_06_19_ Chi-Hsiu Liang
+
+  * A check section in "EckartCoefficients.cpp" requires examination / LINE 21 to LINE 29
+  * Fixed CellOffset in source term in AssociationReaction.cpp, which also corrects the baseline for OH acetylene system.
+
 2009-May-15 Chris Morley
 
 	* src/MolecularComponents.cpp, src/AssignMolTypes.cpp,

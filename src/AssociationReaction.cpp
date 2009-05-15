@@ -413,7 +413,18 @@ namespace mesmer
     std::vector<double> shiftedCellDOS;
     std::vector<double> shiftedCellEne;
     const int MaximumCell = getEnv().MaxCell;
-    const int cellOffset = get_pseudoIsomer()->getDOS().get_cellOffset();
+
+    //------------------------------------------------
+    // Calculating the cell offset for the source term
+    const double zpeExcessReactant = get_excessReactant()->getDOS().get_zpe();
+    const double zpePseudoisomer   = get_pseudoIsomer()->getDOS().get_zpe();
+    const double EMin = getEnv().EMin;
+    double modulus = fmod(zpePseudoisomer + zpeExcessReactant - EMin, getEnv().GrainSize);
+    if(modulus < 0.0)  // presently modulus is only less than 0 for the excess reactant in an association rxn
+      modulus = 0.0;   // however, this problem should become obsolete once supermolecule DOS is calculated on the fly
+    const int cellOffset = int(modulus);
+    //------------------------------------------------
+
     std::vector<double> rctsCellEne;
     getCellEnergies(MaximumCell, rctsCellEne);
     shiftCells(MaximumCell, cellOffset, rctsCellDOS, rctsCellEne, shiftedCellDOS, shiftedCellEne);

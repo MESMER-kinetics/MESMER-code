@@ -18,6 +18,16 @@ namespace mesmer
     Molecule * p_Product = unimolecularspecies[1];
     Molecule * p_TransitionState = pReact->get_TransitionState();
 
+    // PLEASE CHECK THIS SECTION FOR NUMBERS CHRIS
+    const double TZPE = p_TransitionState->getDOS().get_zpe();
+    const double oz1 = pReactant->getDOS().get_zpe();
+    const double oz2 = p_Product->getDOS().get_zpe();
+    const double ZPE0 = TZPE - oz1;
+    const double ZPE1 = TZPE - oz2;
+    const double diff = ZPE0 - ZPE1;
+    const double odiff = pReactant->getDOS().get_zpe() - p_Product->getDOS().get_zpe();
+    // PLEASE CHECK THIS SECTION FOR NUMBERS CHRIS
+
     //TC is the classical energy of the TS
     const double TC = p_TransitionState->getDOS().getClassicalEnergy();
     //V0 & V1 are the classical barrier heights in the forward/reverse directions
