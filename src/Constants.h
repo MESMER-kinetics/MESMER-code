@@ -13,11 +13,12 @@
 //-------------------------------------------------------------------------------------------
 #include <cmath>
 #include<limits>
+
 #ifndef M_PI
 #define M_PI acos(-1.)
 #endif //M_PI
 
-static double NaN = std::numeric_limits<double>::quiet_NaN();//may be returned as a non const ref
+static const double NaN = std::numeric_limits<double>::quiet_NaN();
 
 namespace Constants {
   //More meaningful synonym used in parsing

@@ -70,7 +70,9 @@ namespace mesmer
             if(!ppMol) //if still not found cannot add types
               break;
 
-            if(!HasDeficientReactant && ppMol->XmlReadPropertyDouble("me:spinMultiplicity", false)==2)
+            if(!HasDeficientReactant && 
+              (ppMol->XmlReadPropertyDouble("me:spinMultiplicity", false)>1
+               || ppMol->XmlReadInteger("spinMultiplicity", false)>1))
             {
               pprmol->XmlWriteAttribute("me:type", "deficientReactant"); //first radical
               HasDeficientReactant=true;

@@ -210,9 +210,10 @@ namespace mesmer
     m_scaleFactor = ppPropList->XmlReadPropertyDouble("me:frequenciesScaleFactor");
     m_scaleFactor_chk = 0;
 
-
-
-    m_SpinMultiplicity = ppPropList->XmlReadPropertyInteger("me:spinMultiplicity");
+    // Read attribute on the property and then, if not present, on the attribute (with a a default).
+    m_SpinMultiplicity = ppPropList->XmlReadPropertyInteger("me:spinMultiplicity", optional);
+    if(m_SpinMultiplicity==0)
+      m_SpinMultiplicity = pp->XmlReadInteger("spinMultiplicity");
     m_SpinMultiplicity_chk = 0;
 
     /* For molecular energy me:ZPE is used if it is present. If it is not, a value

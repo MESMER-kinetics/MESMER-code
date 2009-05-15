@@ -1,3 +1,20 @@
+2009-May-15 Chris Morley
+
+	* src/MolecularComponents.cpp, src/AssignMolTypes.cpp,
+	MesmerQA/Acetyl O2 association/Acetyl_O2minimal.xml, defaults.xml:
+	Put spinMultiplicity default as an attribute on <molecule>, rather
+	than as	a property. Either can be used for input, but the attribute
+	(as an existing CML	feature)is now preferred.
+	
+	* src/Constants.h, src/Rdouble.h: Make NAN a const double and change
+	the return type of Rdouble operator++ and -- This possibly might
+	have an effect on the Linux difficulties.
+
+	mesmer1.xsl, mesmer2.xsl. popDiag.xsl is just a stub at the moment.
+	
+	* Windows VC9/distribution/NSISScriptToCreateInstaller.nsi:
+	Include in Add and Remove Programs.
+	
 _2009_05_15__13_28_06_ Chi-Hsiu Liang
 
   * Do not output grainDOS for individual source term molecules

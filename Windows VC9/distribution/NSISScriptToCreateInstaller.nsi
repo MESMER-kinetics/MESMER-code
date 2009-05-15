@@ -546,6 +546,9 @@ Section "Dummy Section" SecDummy
 
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
+  ;Add to Add and Remove Programs
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}" "DisplayName" "Mesmer-${MESMERVERSION}"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}" "UninstallString" "$INSTDIR\Uninstall.exe"
 
   ;Create shortcuts
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
@@ -629,8 +632,9 @@ Section "Uninstall"
 
   DeleteRegKey /ifempty HKCU "Software\Mesmer ${MESMERVERSION}"
   DeleteRegKey          HKCU "Software\Mesmer"
-
-  ; Remove env var
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}"
+  
+  ; Remove env vars    Duplication?
   push "MESMER_DIR"
   push $INSTDIR
   Call un.RemoveFromEnvVar

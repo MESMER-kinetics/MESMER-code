@@ -4,7 +4,7 @@
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
   <title> Acetyl O2 minimal</title>
   <moleculeList>
-    <molecule id="acetyl">
+    <molecule id="acetyl" spinMultiplicity="2">
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">139.5</scalar>
@@ -21,12 +21,9 @@
         <property dictRef="me:MW">
           <scalar units="amu">43</scalar>
         </property>
-        <property dictRef="me:spinMultiplicity">
-          <scalar>2</scalar>
-        </property>
       </propertyList>
     </molecule>
-     <molecule id="O_2">
+     <molecule id="O_2" spinMultiplicity="3">
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">0.0</scalar>
@@ -46,13 +43,10 @@
         <property dictRef="me:MW">
           <scalar units="amu">32</scalar>
         </property>
-        <property dictRef="me:spinMultiplicity">
-          <scalar>3</scalar>
-        </property>
       </propertyList>
     </molecule>
     <molecule id="OH"/>
-    <molecule id="Int1">
+    <molecule id="Int1" spinMultiplicity="2">
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">0.0</scalar>
@@ -69,9 +63,6 @@
         <property dictRef="me:MW">
           <scalar units="amu">75</scalar>
         </property>
-        <property dictRef="me:spinMultiplicity">
-          <scalar>2</scalar>
-        </property>
         <property dictRef="me:epsilon">
           <scalar>473.17</scalar>
         </property>
@@ -83,7 +74,7 @@
         </property>
       </propertyList>
     </molecule>
-    <molecule id="TS1">
+    <molecule id="TS1" spinMultiplicity="2">
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">118.0</scalar>
@@ -100,15 +91,12 @@
         <property dictRef="me:MW">
           <scalar units="amu">75</scalar>
         </property>
-        <property dictRef="me:spinMultiplicity">
-          <scalar>2</scalar>
-        </property>
         <property dictRef="me:imFreqs">
           <scalar units="cm-1">1688.0</scalar>
         </property>
       </propertyList>
     </molecule>
-    <molecule id="TS2">
+    <molecule id="TS2" spinMultiplicity="2">
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">151.09</scalar>
@@ -128,9 +116,6 @@
         <property dictRef="me:MW">
           <scalar units="amu">75</scalar>
         </property>
-        <property dictRef="me:spinMultiplicity">
-          <scalar>2</scalar>
-        </property>
         <property dictRef="me:imFreqs">
           <scalar units="cm-1">1063.0</scalar>
         </property>
@@ -138,7 +123,7 @@
     </molecule>
     <molecule id="ketene"/>
     <molecule id="HO_2"/>
-    <molecule id="Int2">
+    <molecule id="Int2" spinMultiplicity="2">
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">12.33</scalar>
@@ -155,9 +140,6 @@
         <property dictRef="me:MW">
           <scalar units="amu">75</scalar>
         </property>
-        <property dictRef="me:spinMultiplicity">
-          <scalar>2</scalar>
-        </property>
         <property dictRef="me:epsilon">
           <scalar>473.17</scalar>
         </property>
@@ -169,7 +151,7 @@
         </property>
       </propertyList>
     </molecule>
-    <molecule id="TS3">
+    <molecule id="TS3" spinMultiplicity="2">
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">103.98</scalar>
@@ -185,9 +167,6 @@
         </property>
         <property dictRef="me:MW">
           <scalar units="amu">75</scalar>
-        </property>
-        <property dictRef="me:spinMultiplicity">
-          <scalar>2</scalar>
         </property>
         <property dictRef="me:imFreqs">
           <scalar units="cm-1">656.0</scalar>

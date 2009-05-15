@@ -42,13 +42,13 @@ public:
   // Increment the current value by stepsize if the result will be <= upper
   // and return the result. If not incremented return NaN.
   //This is pre-increment: it is the new value after incrementing that is returned. 
-  double& operator++()
+  const double& operator++()
   {
     if(value + stepsize > upper)
       return NaN;
     return value += stepsize;
   }
-  double& operator--()
+  const double& operator--()
   {
     if(value - stepsize < upper)
       return NaN;

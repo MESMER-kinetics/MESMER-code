@@ -23,6 +23,7 @@
   <property dictRef="me:deltaEDown" default="NEEDS TO BE CHECKED**">
     <scalar>130.0</scalar>
   </property>
+  <molecule spinMultiplicity="1" default="true"/>
   <molecule me:type="deficientReactant excessReactant modelled transitionState sink"
             default="IS UNSATISFACTORY. CHOOSE ONE FROM LIST**"></molecule>
   <property dictRef="me:MW" default="IS UNSATISFACTORY. A VALUE NEEDS TO BE PROVIDED**">
