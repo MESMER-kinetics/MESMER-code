@@ -1,7 +1,6 @@
 * text=auto !eol
 /ChangeLog -text
 Documentation/Constructing[!!-~]a[!!-~]Datafile[!!-~]from[!!-~]Gaussian[!!-~]output.html -text
-Documentation/Getting[!!-~]StartedTutorial.html -text
 Documentation/MESMER[!!-~]manual.doc -text
 Documentation/MESMER[!!-~]manual.pdf -text
 Documentation/proposal.doc -text
@@ -46,26 +45,18 @@ Windows[!!-~]VC9/TinyXML/TinyXML.vcproj -text
 Windows[!!-~]VC9/distribution/NSISScriptToCreateInstaller.nsi -text
 Windows[!!-~]VC9/qd/qd.vcproj -text
 /defaults.xml -text
-examples/AcetylO2/AcetylO2reduced.xml -text
 examples/AcetylO2/Acetyl_O2_associationEx.xml -text
 examples/AcetylO2/Int1.log -text
 examples/AcetylO2/Int2.log -text
 examples/AcetylO2/O2.log -text
-examples/AcetylO2/O2OH.xml -text
 examples/AcetylO2/OH.log -text
 examples/AcetylO2/TS1.log -text
 examples/AcetylO2/TS2.log -text
 examples/AcetylO2/TS3.log -text
+examples/AcetylO2/acetyl.log -text
 examples/AcetylO2/acetylO2.ck -text
-examples/AcetylO2/acetyl_radical.log -text
 examples/AcetylO2/lactone.log -text
-examples/DiagramTest/Acetyl_O2_association.xml -text
-examples/DiagramTest/Cyclopropene_isomerization_test.xml -text
 examples/DiagramTest/HSO2.xml -text
-examples/DiagramTest/OH_acetylene_association.xml -text
-examples/DiagramTest/methylene_D2_association.xml -text
-examples/DiagramTest/pentyl_isomerization_test.xml -text
-examples/DiagramTest/pentyl_isomerize_dissocn.xml -text
 examples/MesmerTemplate.text -text
 examples/makedata.bat -text
 /librarymols.xml -text

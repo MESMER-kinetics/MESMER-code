@@ -5,7 +5,7 @@ namespace mesmer
 {
   //************************************************************
   //Global instance, defining its id (usually the only instance)
-  ClassicalRotor theClassicalRotor("Classical rotors");
+  ClassicalRotor theClassicalRotor("ClassicalRotors");
   //************************************************************
 
   // Provide a function to define particular counts of the DOS of a molecule.

@@ -55,7 +55,7 @@
           <scalar>5.5</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
       <me:reservoirSize units="kJ/mol">-2.0</me:reservoirSize>
     </molecule>
     <molecule id="cyclopropene" description="C_3H_4">
@@ -107,9 +107,9 @@
         </property>
       </propertyList>
       <me:reservoirSize units="kJ/mol">-2.0</me:reservoirSize>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
-    <molecule id="allene" description="CH_2CCH_2">
+    <molecule id="allene" description="CH2CCH2">
       <atomarray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="H" />
@@ -157,7 +157,7 @@
         </property>
       </propertyList>
       <me:reservoirSize units="kJ/mol">-2.0</me:reservoirSize>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS1" description="allene to cyclopropene">
       <!--JPC Vol. 92, p. 6924, 1988-->
@@ -202,7 +202,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS3" description="cyclopropene to propyne">
       <propertyList>
@@ -228,7 +228,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="He">
       <atom elementType="He" />

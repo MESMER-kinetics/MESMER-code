@@ -26,7 +26,7 @@
         </property>
       </propertyList>
     </molecule>
-     <molecule id="O_2">
+     <molecule id="O2">
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">2222000.0</scalar>
@@ -137,7 +137,7 @@
       </propertyList>
     </molecule>
     <molecule id="ketene"/>
-    <molecule id="HO_2"/>
+    <molecule id="HO2"/>
     <molecule id="Int2">
       <propertyList>
         <property dictRef="me:ZPE">
@@ -193,7 +193,7 @@
           <scalar units="cm-1">656.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="lactone"/>
     <molecule id="He">
@@ -217,7 +217,7 @@
         <molecule ref="acetyl" me:type="deficientReactant" />
       </reactant>
       <reactant>
-        <molecule ref="O_2" me:type="excessReactant" />
+        <molecule ref="O2" me:type="excessReactant" />
       </reactant>
       <product>
         <molecule ref="Int1" me:type="modelled" />
@@ -265,7 +265,7 @@
         <molecule ref="ketene" me:type="sink" />
       </product>
       <product>
-        <molecule ref="HO_2" me:type="sink" />
+        <molecule ref="HO2" me:type="sink" />
       </product>
       <me:transitionState>
         <molecule ref="TS2" me:type="transitionState" />

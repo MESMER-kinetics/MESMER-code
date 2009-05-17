@@ -49,7 +49,7 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS_1a">
       <atomarray>
@@ -86,7 +86,7 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="OCHCH2">
       <atomarray>
@@ -156,7 +156,7 @@
           <array units="cm-1">139.7</array>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="acetylene">
       <atomarray>
@@ -190,10 +190,10 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
-    <molecule id="N_2">
-      <atom elementType="N_2" />
+    <molecule id="N2">
+      <atom elementType="N2" />
       <propertyList>
         <property dictRef="me:epsilon">
           <scalar>48.0</scalar>
@@ -239,7 +239,7 @@
     </reaction>
   </reactionList>
   <me:conditions>
-    <me:bathGas>N_2</me:bathGas>
+    <me:bathGas>N2</me:bathGas>
     <me:PTs>
       <me:PTpair me:units="Torr" me:P="1000" me:T="298.0" />
       <!--<me:PTpair me:units="Torr" me:P="1000" me:T="325.0" />

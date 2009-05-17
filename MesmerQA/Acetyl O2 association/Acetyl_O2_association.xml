@@ -43,7 +43,7 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TSabs">
       <atomarray>
@@ -87,9 +87,9 @@
           <array units="cm-1">533.0</array>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
-    <molecule id="O_2" description="oxygen">
+    <molecule id="O2" description="oxygen">
       <atomarray>
         <atom id="a1" elementType="O" />
         <atom id="a2" elementType="O" />
@@ -120,7 +120,7 @@
           <scalar>3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="OH" description="OH radical">
       <atomarray>
@@ -156,9 +156,9 @@
           <array units="cm-1">139.7</array>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
-    <molecule id="Int1" description="peroxy acetyl O_2 adduct">
+    <molecule id="Int1" description="peroxy acetyl O2 adduct">
       <atomarray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="H" />
@@ -210,7 +210,7 @@
           <scalar units="cm-1">130.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS1" description="TS1a: peroxy -> peroxide">
       <atomarray>
@@ -256,9 +256,9 @@
           <scalar units="cm-1">1688.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
-    <molecule id="TS2" description="peroxy -> HO_2 + ketene">
+    <molecule id="TS2" description="peroxy -> HO2 + ketene">
       <atomarray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="H" />
@@ -302,9 +302,9 @@
           <scalar units="cm-1">1063.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
-    <molecule id="ketene" description="CH_2CO">
+    <molecule id="ketene" description="CH2CO">
       <atomarray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="H" />
@@ -341,9 +341,9 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
-    <molecule id="HO_2">
+    <molecule id="HO2">
       <atomarray>
         <atom id="a1" elementType="H" />
         <atom id="a2" elementType="O" />
@@ -376,7 +376,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="Int2" description="peroxide_isomer_opt">
       <atomarray>
@@ -430,7 +430,7 @@
           <scalar units="cm-1">130.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS3" description="TS peroxide -> lactone + OH">
       <atomarray>
@@ -477,7 +477,7 @@
           <scalar units="cm-1">656.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="lactone">
       <atomarray>
@@ -519,7 +519,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="triplet_C2H2O2">
       <atomarray>
@@ -560,7 +560,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="He">
       <atom elementType="He" />
@@ -583,7 +583,7 @@
         <molecule ref="acetyl" me:type="deficientReactant" />
       </reactant>
       <reactant>
-        <molecule ref="O_2" me:type="excessReactant" />
+        <molecule ref="O2" me:type="excessReactant" />
       </reactant>
       <product>
         <molecule ref="Int1" me:type="modelled" />
@@ -631,7 +631,7 @@
         <molecule ref="ketene" me:type="sink" />
       </product>
       <product>
-        <molecule ref="HO_2" me:type="sink" />
+        <molecule ref="HO2" me:type="sink" />
       </product>
       <me:transitionState>
         <molecule ref="TS2" me:type="transitionState" />

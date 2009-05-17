@@ -5,7 +5,7 @@ namespace mesmer
 {
   //************************************************************
   //Global instance, defining its id (usually the only instance)
-  QMRotor theQMRotor("QM rotors");
+  QMRotor theQMRotor("QMRotors");
   //************************************************************
 
   // Provide a function to define particular counts of the DOS of a molecule.

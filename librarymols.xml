@@ -88,7 +88,7 @@
         <scalar>3</scalar>
       </property>
     </propertyList>
-    <me:DOSCMethod default="true">Classical rotors</me:DOSCMethod>
+    <me:DOSCMethod default="true">ClassicalRotors</me:DOSCMethod>
   </molecule>
   <molecule id="OH" active="false">
     <atomArray>
@@ -119,7 +119,7 @@
       </property>
     </propertyList>
   </molecule>
-    <molecule id="HO_2" active="false">
+    <molecule id="HO2" active="false">
     <atomArray>
       <atom id="a1" elementType="O"/>
       <atom id="a2" elementType="O" spinMultiplicity="2"/>

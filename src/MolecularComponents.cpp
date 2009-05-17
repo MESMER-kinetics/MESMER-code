@@ -335,7 +335,7 @@ namespace mesmer
       return true;
 
     /* Two types of DOSCMethod:
-         main methods like Classical Rotors, can be standalone;
+         main methods like ClassicalRotors, can be standalone;
          extra methods like hindered rotor, which must correct for replaced vibrations.
        Currently both are plugin classes derived from DensityOfStatesCalculator, but with
        separate lists, so an error is flagged if the wrong type is used,

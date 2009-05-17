@@ -1,3 +1,21 @@
+2009-May-17 Chris Morley
+
+	* Grand renaming.Affects QA files, exampl file and some src files.
+	O_2              -> O2
+	HO_2             -> HO2
+	N_2	             -> N2
+	CH_2CCH_2        -> CH2CCH2
+	CH_2CO           -> CH2CO
+	acetyl_radical   -> acetyl
+	Classical rotors -> ClassicalRotors
+	QM rotors        -> QMRotors
+	Mesmer ILT       -> MesmerILT
+	Simple ILT       -> SimpleILT
+
+	* Delete a few old example files
+	
+	* Modify tutorial (now ready to use)
+
 _2009_05_15__17_06_19_ Chi-Hsiu Liang
 
   * A check section in "EckartCoefficients.cpp" requires examination / LINE 21 to LINE 29

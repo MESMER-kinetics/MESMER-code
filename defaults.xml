@@ -31,7 +31,7 @@
   </property>
   <me:MCRCMethod default="IS UNSATISFACTORY. CHOOSE ONE FROM LIST**">
     SimpleRRKM SimpleILT MesmerILT</me:MCRCMethod>
-  <me:DOSCMethod default="true">Classical rotors</me:DOSCMethod>
+  <me:DOSCMethod default="true">ClassicalRotors</me:DOSCMethod>
   <me:DOSCType default="true">external</me:DOSCType>
   <me:DistributionCalcMethod default="true">Boltzmann</me:DistributionCalcMethod>
   <me:excessReactantConc default="NEEDS TO BE CHECKED**">2.25E16</me:excessReactantConc>

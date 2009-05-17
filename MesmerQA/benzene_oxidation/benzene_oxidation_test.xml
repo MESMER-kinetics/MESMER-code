@@ -4,7 +4,7 @@
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
   <title>Benzene oxidation</title>
   <moleculeList>
-    <molecule id="O_2" description="oxygen">
+    <molecule id="O2" description="oxygen">
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">0.0</scalar>
@@ -28,7 +28,7 @@
           <scalar>3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="I1" description="benzene_OH_adduct">
       <propertyList>
@@ -95,7 +95,7 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="I2_t_eq" description="peroxy with O2 trans equatorial">
       <propertyList>
@@ -177,7 +177,7 @@
           <scalar units="cm-1">250.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="I2_c_ax" description="peroxy with O2 cis axial">
       <propertyList>
@@ -259,7 +259,7 @@
           <scalar units="cm-1">250.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS1_t" description="TS for trans addition">
       <propertyList>
@@ -334,7 +334,7 @@
           <scalar units="cm-1">322.1681</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS1_c" description="TS for cis addition">
       <propertyList>
@@ -409,7 +409,7 @@
           <scalar units="cm-1">336.3880</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS3_HO2" description="TS for I2teq->phenol+ho2">
       <propertyList>
@@ -484,7 +484,7 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS1_HO2" description="TS for I1+O2->phenol+ho2">
       <propertyList>
@@ -557,7 +557,7 @@
           <scalar units="cm-1">210.6514</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS3_c_ax_2_6" description="TS for I2cax->I3c">
       <propertyList>
@@ -632,7 +632,7 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS3_t_ax_2_6" description="TS for I2teq->I3t">
       <propertyList>
@@ -707,7 +707,7 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="I3c" description="cis bridged bicyclic compound">
       <propertyList>
@@ -780,7 +780,7 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="I3t" description="trans bridged bicyclic compound">
       <propertyList>
@@ -853,7 +853,7 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="phenol" description="phenol sink">
       <propertyList>
@@ -917,7 +917,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="HO2" description="HO2 sink">
       <propertyList>
@@ -951,7 +951,7 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="N2">
       <atom elementType="He" />
@@ -974,7 +974,7 @@
         <molecule ref="I1" me:type="deficientReactant" />
       </reactant>
       <reactant>
-        <molecule ref="O_2" me:type="excessReactant" />
+        <molecule ref="O2" me:type="excessReactant" />
       </reactant>
       <product>
         <molecule ref="I2_c_ax" me:type="modelled" />
@@ -990,7 +990,7 @@
         <molecule ref="I1" me:type="deficientReactant" />
       </reactant>
       <reactant>
-        <molecule ref="O_2" me:type="excessReactant" />
+        <molecule ref="O2" me:type="excessReactant" />
       </reactant>
       <product>
         <molecule ref="I2_t_eq" me:type="modelled" />
@@ -1006,7 +1006,7 @@
         <molecule ref="I1" me:type="deficientReactant" />
       </reactant>
       <reactant>
-        <molecule ref="O_2" me:type="excessReactant" />
+        <molecule ref="O2" me:type="excessReactant" />
       </reactant>
       <product>
         <molecule ref="phenol" me:type="sink" />
