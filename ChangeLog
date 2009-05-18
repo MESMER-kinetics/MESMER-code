@@ -1,3 +1,16 @@
+2009-May-18 Chris Morley
+
+	* a couple of additions to 3.2.5
+	Is section 3.3.1 necessary? It does basic XML stuff, which, even
+	if it were needed would come earlier. It also does propertyList
+	which IIRC is actually optional.
+	
+	* src/ClassicalRotor.cpp,src/MesmerILT.cpp,src/QMRotor.cpp,
+      src/SimpleILT.cpp,src/SimpleRRKM.cpp: 
+      Alternative names for plugin methods
+
+	* examples/AcetylO2/acetylO2.ck, popDiag.xsl: forgot to upload
+
 _2009_05_18__14_24_11_ Chi-Hsiu Liang
 
   * Solved gridsearch NaN problem on Linux by writing platform dependent NaN definitions.

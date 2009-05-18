@@ -8,6 +8,7 @@ namespace mesmer
   //************************************************************
   //Global instance, defining its id (usually the only instance)
   SimpleRRKM theSimpleRRKM("SimpleRRKM");
+  SimpleRRKM oldSimpleRRKM("Simple RRKM");
   //************************************************************
 
   bool SimpleRRKM::calculateMicroRateCoeffs(Reaction* pReact)

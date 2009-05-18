@@ -4,8 +4,9 @@ using namespace std;
 namespace mesmer
 {
   //************************************************************
-  //Global instance, defining its id (usually the only instance)
+  //Global instance, defining its id (usually the only instance) but here with an alternative name
   QMRotor theQMRotor("QMRotors");
+  QMRotor oldQMRotor("QM rotors");
   //************************************************************
 
   // Provide a function to define particular counts of the DOS of a molecule.

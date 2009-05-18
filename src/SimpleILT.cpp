@@ -5,8 +5,9 @@ using namespace Constants;
 namespace mesmer
 {
   //************************************************************
-  //Global instance, defining its id (usually the only instance)
+  //Global instance, defining its id (usually the only instance) but here with an alternative name
   SimpleILT theSimpleILT("SimpleILT");
+  SimpleILT oldSimpleILT("Simple ILT");
   //************************************************************
 
   //
