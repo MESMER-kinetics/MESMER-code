@@ -1,3 +1,7 @@
+_2009_05_18__14_24_11_ Chi-Hsiu Liang
+
+  * Solved gridsearch NaN problem on Linux by writing platform dependent NaN definitions.
+
 2009-May-18 Dave Glowacki
 
 	* Review changes to Mesmer Manual

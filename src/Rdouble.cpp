@@ -3,13 +3,14 @@
 using namespace std;
 namespace mesmer
 {
-  
+
 //static variable
 Rdouble*  Rdouble::pendingVar;
 
 Rdouble& Rdouble::operator = (const double& val)
 {
   value = val;
+
   if(IsNan(val))
     pendingVar =this;
   return *this;
@@ -26,7 +27,7 @@ void Rdouble::set_range(const double valueL, const double valueU, const double v
   if (numStep < 1)
     cerr << "There is only one point for this variable. Remove range setting to clear this error."<<endl;
 
-  //Push on to the vector of Rdouble objects which have a range 
+  //Push on to the vector of Rdouble objects which have a range
   withRange().push_back(this);
   value    = lower = valueL;
   upper    = valueU;
@@ -42,7 +43,7 @@ void Rdouble::set_range_indirect
   if(pendingVar)
     pendingVar->set_range(valueL, valueU, valueS, txt);
   else
-    cerr << "Indirect setting of a range " << txt 
+    cerr << "Indirect setting of a range " << txt
          << " without previously set variable to NaN. Range setting ignored." <<endl;
   pendingVar = NULL;
 }

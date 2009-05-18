@@ -18,8 +18,6 @@
 #define M_PI acos(-1.)
 #endif //M_PI
 
-static const double NaN = std::numeric_limits<double>::quiet_NaN();
-
 namespace Constants {
   //More meaningful synonym used in parsing
   static const bool   optional                = false;
