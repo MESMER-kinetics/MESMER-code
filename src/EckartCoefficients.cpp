@@ -26,6 +26,7 @@ namespace mesmer
     const double ZPE1 = TZPE - oz2;
     const double diff = ZPE0 - ZPE1;
     const double odiff = pReactant->getDOS().get_zpe() - p_Product->getDOS().get_zpe();
+    const double zeroNumber = odiff + diff;
     // PLEASE CHECK THIS SECTION FOR NUMBERS CHRIS
 
     //TC is the classical energy of the TS
