@@ -468,15 +468,11 @@ namespace mesmer
       }
       // Build collison matrix for system.
       cinfo << "Build Collison Operator" << endl;
-      if (!m_pReactionManager->BuildReactionOperator(m_Env, m_Flags)){
-        cerr << "Failed building system collison operator." << endl;
-        exit(1);
-      }
+      if (!m_pReactionManager->BuildReactionOperator(m_Env, m_Flags))
+        throw (std::runtime_error("Failed building system collison operator.")); 
 
-      if (!m_pReactionManager->calculateEquilibriumFractions(m_Env.beta)){
-        cerr << "Failed calculating equilibrium fractions.";
-        exit(1);
-      }
+      if (!m_pReactionManager->calculateEquilibriumFractions(m_Env.beta))
+      throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
 
       // Calculate eigenvectors and eigenvalues.
       {string thisEvent = "Diagonalize the Reaction Operator";

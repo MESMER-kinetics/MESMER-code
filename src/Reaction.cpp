@@ -48,7 +48,8 @@ namespace mesmer
     m_kfwd(0.0),
     m_GrnFluxFirstNonZeroIdx(0),
     m_EffGrainedFwdThreshold(0),
-    m_EffGrainedRvsThreshold(0)
+    m_EffGrainedRvsThreshold(0),
+    m_usesILT(false)
   {}
 
   Reaction::~Reaction(){}
@@ -208,7 +209,7 @@ namespace mesmer
   //
   double Reaction::get_ThresholdEnergy(void) {
     // ILT
-    if (m_pMicroRateCalculator->getName() == "MesmerILT"){
+    if (usesILT()){
       if (m_EInf < 0.0)
         cerr << "Providing negative E_infinity in Reaction " << getName() << " is invalid.";
      
@@ -221,8 +222,8 @@ namespace mesmer
 
     // Not ILT
     if (!m_TransitionState) {
-      cerr << "No Transition State for " << getName();
-      exit(1);
+      string s("No Transition State for " + getName());
+      throw (std::runtime_error(s)); 
     }
 
     return (get_relative_TSZPE() - get_relative_rctZPE());

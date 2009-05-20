@@ -60,7 +60,6 @@ namespace mesmer
     }
     else{
       cerr << "m_Sigma was not defined but requested in " << m_host->getName() << ". Default value " << sigmaDefault << " is used.\n";
-      //exit(1);
       return m_Sigma ;
     }
   } ;
@@ -77,7 +76,6 @@ namespace mesmer
     }
     else{
       cerr << "m_Epsilon was not defined but requested in " << m_host->getName() << ". Default value " << epsilonDefault << " is used.\n";
-      //exit(1);
       return m_Epsilon ;
     }
   } ;
@@ -587,8 +585,7 @@ namespace mesmer
   void gDensityOfStates::getGrainDensityOfStates(vector<double> &grainDOS, const int startGrnIdx, const int ignoreCellNumber) {
     // If density of states have not already been calcualted then do so.
     if (!calcDensityOfStates()){
-      cerr << "Failed calculating DOS.";
-      exit(1);
+      throw (std::runtime_error("Failed calculating DOS.")); 
     }
     if (ignoreCellNumber == 0){ // If there is no cells ignored in this grain, the grain DOS dose not need to be recalculated.
       grainDOS = m_grainDOS;
@@ -840,10 +837,8 @@ namespace mesmer
       const double temperature = 1. / (boltzmann_RCpK * m_host->getEnv().beta);
       return dEdRef * pow((temperature/refTemp),dEdExp);
     }
-    else{
-      cerr << "m_DeltaEdown was not defined but requested.";
-      exit(1);
-    }
+    else
+      throw (std::runtime_error("m_DeltaEdown was not defined but requested.")); 
   } ;
 
   //
@@ -1399,10 +1394,8 @@ namespace mesmer
 
     // Check there is enough space in system matrix.
 
-    if (locate + size > smsize) {
-      cerr << "Error in the size of the system matrix.";
-      exit(1) ;
-    }
+    if (locate + size > smsize)
+      throw (std::runtime_error("Error in the size of the system matrix.")); 
 
     // Copy collision operator to the diagonal block indicated by "locate"
     // and multiply by the reduced collision frequencey.
@@ -1426,10 +1419,8 @@ namespace mesmer
   {
     // Check that the contracted basis method has been specifed.
 
-    if (!m_host->getFlags().doBasisSetMethod) {
-      cerr << "Error: Contracted basis representation not requested.";
-      exit(1) ;
-    }
+    if (!m_host->getFlags().doBasisSetMethod)
+      throw (std::runtime_error("Error: Contracted basis representation not requested.")); 
 
     // Find size of system matrix.
 
@@ -1438,10 +1429,8 @@ namespace mesmer
 
     // Check there is enough space in system matrix.
 
-    if (locate + nbasis > smsize) {
-      cerr << "Error in the size of the reaction operator matrix in contracted basis representation.";
-      exit(1) ;
-    }
+    if (locate + nbasis > smsize)
+      throw (std::runtime_error("Error in the size of the reaction operator matrix in contracted basis representation.")); 
 
     // Copy collision operator eigenvalues to the diagonal elements indicated
     // by "locate" and multiply by the reduced collision frequencey.

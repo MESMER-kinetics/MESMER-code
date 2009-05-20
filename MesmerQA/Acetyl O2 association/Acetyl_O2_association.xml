@@ -43,7 +43,7 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
     </molecule>
     <molecule id="TSabs">
       <atomarray>
@@ -588,7 +588,7 @@
       <product>
         <molecule ref="Int1" me:type="modelled" />
       </product>
-      <me:MCRCMethod>MesmerILT</me:MCRCMethod>
+      <me:MCRCMethod>Mesmer ILT</me:MCRCMethod>
       <me:preExponential>6.00e-12</me:preExponential>
       <me:excessReactantConc>2.25E16</me:excessReactantConc>
       <me:activationEnergy>0.0</me:activationEnergy>

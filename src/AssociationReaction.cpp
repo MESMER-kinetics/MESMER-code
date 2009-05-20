@@ -476,7 +476,7 @@ namespace mesmer
   void AssociationReaction::calcEffGrnThresholds(void){  // calculate the effective forward and reverse
     double threshold = get_ThresholdEnergy();  // threshold energy for an association reaction
     double RxnHeat   = getHeatOfReaction();
-    if (threshold < RxnHeat && m_pMicroRateCalculator->getName() == "MesmerILT"){
+    if (threshold < RxnHeat && usesILT()){
       cerr << "E_infinity should be equal to or greater than the heat of reaction in ILT.";
       exit(1);
     }

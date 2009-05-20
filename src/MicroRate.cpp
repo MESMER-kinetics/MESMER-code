@@ -60,6 +60,9 @@ namespace mesmer
 
     // Read ILT parameters
   bool MicroRateCalculator::ReadParameters(Reaction* pReact) {
+
+    pReact->setUsesILT();
+
     PersistPtr ppReac = pReact->get_PersistentPointer();
 
     // OpenBabel outputs <rateParameters> <A> <n> <E>

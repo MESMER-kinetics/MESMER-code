@@ -105,6 +105,9 @@ namespace mesmer
     bool thereIsTunnelling (void) const {return (m_pTunnelingCalculator) ? true : false ; } ;
 
     void calculateCellTunnelingCoeffs(std::vector<double>& TunnelingProbability) {m_pTunnelingCalculator->calculateCellTunnelingCoeffs(this, TunnelingProbability); } ;
+    
+    void setUsesILT(bool b=true){ m_usesILT=b;}
+    bool usesILT(){ return m_usesILT; }
 
     // calculate flux in grains
     void fluxCellToGrain(const std::vector<double>& shiftedCellFlux);
@@ -283,6 +286,7 @@ namespace mesmer
     Rdouble m_NInf ;             // Modified Arrhenius parameter
     double m_TInf ;             // T infinity
     Rdouble m_EInf ;             // E infinity
+    bool   m_usesILT;
     bool   m_isRvsILTpara;      // The ILT parameters provided are for reverse direction.
     double m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
 

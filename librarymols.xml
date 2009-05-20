@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <moleculeList xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+  <!--Entries can be deactivated by adding an attribute active="false"-->
+  <!--Put alias entries at the top of file-->
+  <molecule id="oh" ref="OH"/>
+  
   <molecule id="He">
     <atomArray>
       <atom elementType="He"/>
@@ -90,7 +94,7 @@
     </propertyList>
     <me:DOSCMethod default="true">ClassicalRotors</me:DOSCMethod>
   </molecule>
-  <molecule id="OH" active="false">
+  <molecule id="OH">
     <atomArray>
       <atom id="a1" elementType="O" spinMultiplicity="2" x3="0.000000" y3="0.000000" z3="0.108216" />
       <atom id="a2" elementType="H" x3="0.000000" y3="0.000000" z3="-0.865729" />
@@ -118,41 +122,6 @@
         <scalar>2</scalar>
       </property>
     </propertyList>
-  </molecule>
-    <molecule id="HO2" active="false">
-    <atomArray>
-      <atom id="a1" elementType="O"/>
-      <atom id="a2" elementType="O" spinMultiplicity="2"/>
-      <atom id="a3" elementType="H"/>
-    </atomArray>
-    <bondArray>
-      <bond atomRefs2="a1 a2" order="1"/>
-      <bond atomRefs2="a1 a3" order="1"/>
-    </bondArray>
-    <property title="Energy" dictRef="me:ZPE">
-      <scalar units="kJ/mol" convention="computational" source="Guessed: to be used only with ketene">-430000</scalar>
-    </property>
-  </molecule>
-  <molecule id="ketene" active="false">
-    <atomArray>
-      <atom id="a1" elementType="C"/>
-      <atom id="a2" elementType="C"/>
-      <atom id="a3" elementType="O"/>
-      <atom id="a4" elementType="H"/>
-      <atom id="a5" elementType="H"/>
-    </atomArray>
-    <bondArray>
-      <bond atomRefs2="a1 a2" order="2"/>
-      <bond atomRefs2="a2 a3" order="2"/>
-      <bond atomRefs2="a1 a4" order="1"/>
-      <bond atomRefs2="a1 a5" order="1"/>
-    </bondArray>
-    <property title="Energy" dictRef="me:ZPE">
-      <scalar units="kJ/mol" convention="computational" source="Guessed: to be used only with HO2">-366730</scalar>
-    </property>
-    <property dictRef="me:spinMultiplicity">
-      <scalar>2</scalar>
-    </property>
   </molecule>
 </moleculeList>
 

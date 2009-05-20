@@ -1,3 +1,23 @@
+2009-May-18 Chris Morley
+
+	* src/Reaction.cpp, src/Reaction.h,src/AssociationReaction.cpp,
+	  src/MicroRate.cpp: add m_useILT to remove dependendence on 
+	  MesmerILT plugin name. Pragmatic rather than elegant.
+	  
+	* src/MesmerTools.cpp,src/MolecularComponents.cpp,src/System.cpp:
+	  replace exit(1)  by throw statements. Perhaps this
+      will lead to a more complete mesmer.log after a crash.
+      
+	* src/MoleculeManager.cpp: add support for molecule aliases in 
+	  librarymols.xml
+	  
+	* defaults.xml: add default for <A>
+	* examples/AcetylO2/acetylO2.ck: replace acetyl_radical by acetyl
+	* librarymols.xml: remove ketene and HO2 and add an alias example
+
+	* Documentation/MESMER manual.doc:4.2.1 modified title and added bit on
+	  aliases.
+
 _2009_05_19__09_05_27_ Chi-Hsiu Liang
 
   * Updated manual 1. some font typesets; 2. related change about the XML input.

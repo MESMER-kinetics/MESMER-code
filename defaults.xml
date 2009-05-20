@@ -2,6 +2,7 @@
 <defaults  xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
   <me:activationEnergy units="kJ/mol" default="NEEDS TO BE CHECKED**">0.0</me:activationEnergy>
   <me:preExponential default="NEEDS TO BE CHECKED**">6.00e-12</me:preExponential>
+  <A default="NEEDS TO BE CHECKED**">6.00e-12</A>
   <property dictRef="me:spinMultiplicity" default="true">
     <scalar>1</scalar>
   </property>

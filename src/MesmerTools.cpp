@@ -61,8 +61,7 @@ namespace mesmer
 
     // Check that there are enough cells.
     if (GrainSize < 1) {
-      cerr << "The number of Cells is insufficient to produce requested number of Grains.";
-      exit(1) ;
+      throw (std::runtime_error("The number of Cells is insufficient to produce requested number of Grains.")); 
     }
 
     int idx1 = 0 ;
