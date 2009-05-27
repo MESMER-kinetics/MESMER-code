@@ -3,6 +3,7 @@
 #define GUARD_MesmerTools_h
 
 #include <vector>
+#include <stdexcept>
 #include "MesmerMath.h"
 #include "TimeCounter.h"
 #include "unitsConversion.h"
