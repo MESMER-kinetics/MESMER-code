@@ -1,3 +1,8 @@
+
+2009-May-30 Struan Robertson
+
+	* MESMER manual.doc: Review of theory section.
+
 _2009_05_27__10_50_02_ Chi-Hsiu Liang
 
   * include #include <stdexcept> to remove the following error on Linux
