@@ -21,11 +21,10 @@ namespace mesmer
 
     //
     // Initialize density of states array using calculated rotational
-    // density of state.
+    // density of state from inverse Laplace transform of rotors.
     //
-
-    //From inverse Laplace transform of rotors
-    vector<double> rotConst; int rotorType = pDOS->get_rotConsts(rotConst);
+    vector<double> rotConst; 
+    int rotorType = pDOS->get_rotConsts(rotConst);
     double sym = pDOS->get_Sym();
     double qele = pDOS->getSpinMultiplicity();
     double cnt = 0.;
@@ -42,9 +41,8 @@ namespace mesmer
         cellDOS[i] = cnt ;
       break;
     default:
-      cnt = 0.;
-      for (int i = 0 ; i < MaximumCell ; ++i ) 
-        cellDOS[i] = cnt ;
+      break;
+      //DO nothing
     }
 
     // Implementation of the Beyer-Swinehart algorithm.

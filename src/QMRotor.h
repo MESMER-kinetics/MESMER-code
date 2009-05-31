@@ -21,7 +21,7 @@ namespace mesmer
 
   private:
 
-    void asymmetricRotor(double A, double B, double C, int J, double *pkpp, double *Er, double *Ed, double *Ef) ;
+    void asymmetricRotor(double A, double B, double C, int J, double kpp, vector<double> &Er) ;
 
   } ;
 

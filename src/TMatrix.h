@@ -330,6 +330,8 @@ namespace mesmer
   {
     size_t m,l,iter,i,k;
     T s,r,p,g,f,dd,c,b;
+    
+    if (n==0) return ;
 
     for (i=2;i<=n;++i) e[i-2]=e[i-1];
     e[n-1]=0.0;

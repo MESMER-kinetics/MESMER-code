@@ -1,6 +1,11 @@
 
 2009-May-30 Struan Robertson
 
+	* MESMER manual.doc: Correction to ILT formula.
+      * QMRotor.cpp: Corrected and extended non-linear top density of states section.
+
+2009-May-30 Struan Robertson
+
 	* MESMER manual.doc: Review of theory section.
 
 _2009_05_27__10_50_02_ Chi-Hsiu Liang
