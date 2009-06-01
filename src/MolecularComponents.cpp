@@ -664,8 +664,9 @@ namespace mesmer
     const char* txt;
     txt= ppPropList->XmlReadProperty("me:imFreqs", optional);
     if(!txt){
-      cinfo << "No imaginary vibrational frequency.\n";
+      cinfo << "No imaginary vibrational frequency. Check if there is tunneling.\n";
       m_ImFreq_chk = -1;
+      // Note: If there is tunneling, an imaginary frequency must also be supplied.
     }
     else {
       istringstream idata(txt); double x;

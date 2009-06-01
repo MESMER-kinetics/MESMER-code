@@ -9,9 +9,13 @@ In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R2: Parsing reaction...
 In Int2: The default value of me:DistributionCalcMethod was used.
 In R3: Parsing reaction...
-In R3: No tunneling method was found for R3
+In R3: No vibrational frequencies were assigned for lactone, assuming it to be a sink term.
+No vibrational frequencies were assigned for OH, assuming it to be a sink term.
+No tunneling method was found for R3
 In R4: Parsing reaction...
-In R4: No tunneling method was found for R4
+In R4: No vibrational frequencies were assigned for ketene, assuming it to be a sink term.
+No vibrational frequencies were assigned for HO2, assuming it to be a sink term.
+No tunneling method was found for R4
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
 200.72Torr, 298K at double precision
@@ -41,8 +45,8 @@ Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
 In mesmer::ReactionManager::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 
 In total, 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 69 seconds.
- -- Total time elapsed: 203 seconds.
+Finish Calculation -- Time elapsed: 49 seconds.
+ -- Total time elapsed: 165 seconds.
 
 System saved to out.xml
 m_ImFreq is provided but not used in TS2.

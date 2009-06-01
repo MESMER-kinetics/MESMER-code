@@ -11,6 +11,17 @@
         <atom id="a3" elementType="C"/>
         <atom id="a4" elementType="C"/>
         <atom id="a5" elementType="C"/>
+        <atom id="a6" elementType="H"/>
+        <atom id="a7" elementType="H"/>
+        <atom id="a8" elementType="H"/>
+        <atom id="a9" elementType="H"/>
+        <atom id="a10" elementType="H"/>
+        <atom id="a11" elementType="H"/>
+        <atom id="a12" elementType="H"/>
+        <atom id="a13" elementType="H"/>
+        <atom id="a14" elementType="H"/>
+        <atom id="a15" elementType="H"/>
+        <atom id="a16" elementType="H"/>
       </atomarray>
       <bondarray>
         <bond atomRefs2="a1 a2" order="1"/>
@@ -62,6 +73,17 @@
         <atom id="a3" elementType="C"/>
         <atom id="a4" elementType="C"/>
         <atom id="a5" elementType="C"/>
+        <atom id="a6" elementType="H"/>
+        <atom id="a7" elementType="H"/>
+        <atom id="a8" elementType="H"/>
+        <atom id="a9" elementType="H"/>
+        <atom id="a10" elementType="H"/>
+        <atom id="a11" elementType="H"/>
+        <atom id="a12" elementType="H"/>
+        <atom id="a13" elementType="H"/>
+        <atom id="a14" elementType="H"/>
+        <atom id="a15" elementType="H"/>
+        <atom id="a16" elementType="H"/>
       </atomarray>
       <bondarray>
         <bond atomRefs2="a1 a2" order="1"/>
@@ -153,6 +175,17 @@
         <atom id="a3" elementType="C"/>
         <atom id="a4" elementType="C"/>
         <atom id="a5" elementType="C"/>
+        <atom id="a6" elementType="H"/>
+        <atom id="a7" elementType="H"/>
+        <atom id="a8" elementType="H"/>
+        <atom id="a9" elementType="H"/>
+        <atom id="a10" elementType="H"/>
+        <atom id="a11" elementType="H"/>
+        <atom id="a12" elementType="H"/>
+        <atom id="a13" elementType="H"/>
+        <atom id="a14" elementType="H"/>
+        <atom id="a15" elementType="H"/>
+        <atom id="a16" elementType="H"/>
       </atomarray>
       <bondarray>
         <bond atomRefs2="a1 a2" order="1"/>

@@ -80,6 +80,12 @@ namespace mesmer
       return NULL;
     }
 
+    // Check whether the activated molecule pertains correct number of vibrational frequencies
+    if (!pmolecule->checkFrequencies()){
+      string errorMsg = "Incorrect number of virbtaional frequencies were provided in " + molName;
+      throw (std::runtime_error(errorMsg)); 
+    }
+
     // Add molecule to map.
     m_molmap[molName] = pmolecule ;
 

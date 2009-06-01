@@ -1,4 +1,9 @@
+_2009_06_01__10_58_13_ Chi-Hsiu Liang
 
+  * Update manual
+  * Add hydrogen atoms in the atom arrays of pentyl system. This is for checking the number of vibrational frequencies.
+    In the meantime, if the user did not define the atomarray, this check is not performed.
+  
 2009-May-30 Struan Robertson
 
 	* MESMER manual.doc: Correction to ILT formula.

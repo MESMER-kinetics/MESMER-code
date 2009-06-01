@@ -31,6 +31,7 @@ namespace mesmer
 
     const MesmerEnv&     m_Env;
     MesmerFlags&         m_Flags;
+    unsigned int         m_atomNumber;  // If (m_atomNumber == 0), the atomArray element is missing.
 
     PersistPtr     m_ppPersist;         // Conduit for I/O
     std::string    m_Name ;             // Molecule name.
@@ -62,7 +63,7 @@ namespace mesmer
     virtual ~Molecule();
 
     // Initialize Molecule. Returns false if no id attribute
-    // or if no description attribute and <molecule> has no child elements. Probably just a placeholder. 
+    // or if no description attribute and <molecule> has no child elements. Probably just a placeholder.
     virtual bool InitializeMolecule(PersistPtr pp);
 
     PersistPtr  get_PersistentPointer();
@@ -74,6 +75,8 @@ namespace mesmer
     void   setName(string name) ;
 
     MesmerFlags& getFlags();
+
+    bool checkFrequencies();
 
 //    double getMass() ;
 //    void   setMass(double value);

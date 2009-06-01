@@ -8,7 +8,7 @@ In n-pentyl: The default value of me:DistributionCalcMethod was used.
 In 2-pentyl: The default value of me:frequenciesScaleFactor was used.
 In 2-pentyl: The default value of me:DistributionCalcMethod was used.
 In n-pentyl=TS=2-pentyl: The default value of me:frequenciesScaleFactor was used.
-In R1: No imaginary vibrational frequency.
+In R1: No imaginary vibrational frequency. Check if there is tunneling.
 No tunneling method was found for R1
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
@@ -28,7 +28,7 @@ In mesmer::ReactionManager::timeEvolution: No population was assigned, and there
 In mesmer::ReactionManager::timeEvolution: Initialize a Boltzmann distribution in the first isomer.
 
 In total, 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 17 seconds.
- -- Total time elapsed: 19 seconds.
+Finish Calculation -- Time elapsed: 10 seconds.
+ -- Total time elapsed: 12 seconds.
 
 System saved to out.xml
