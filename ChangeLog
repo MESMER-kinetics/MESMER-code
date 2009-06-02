@@ -1,3 +1,7 @@
+_2009_06_02__11_11_27_ Chi-Hsiu Liang
+
+  * Replaced isUnimolecular() and isIrreversible() check functions by getReactionType().
+    
 _2009_06_02__09_26_48_ Chi-Hsiu Liang
 
   * Enabled tunneling into unimolecular sink term.

@@ -18,6 +18,16 @@
 
 namespace mesmer
 {
+
+  enum ReactionType {
+    ISOMERIZATION,
+    ASSOCIATION,
+    DISSOCIATION,
+    IRREVERSIBLE_ISOMERIZATION,
+    IRREVERSIBLE_EXCHANGE,
+    UNDEFINED_REACTION
+  };
+
   class Rdouble;
   class Reaction
   {
@@ -179,11 +189,8 @@ namespace mesmer
     // to the calculation of equilibrium fractions.
     virtual bool isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) { return false ; } ;
 
-    // is the reaction an irreversible reaction
-    virtual bool isIrreversible(){return false;};
-
-    // is the reaction unimolecular?
-    virtual bool isUnimolecular(){return true;};
+    // returns the reaction type
+    virtual int getReactionType(){return UNDEFINED_REACTION;};
 
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() = 0 ;

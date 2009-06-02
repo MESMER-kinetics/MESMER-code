@@ -302,7 +302,7 @@ namespace mesmer
     //
     //---------------------------------------------------------
 
-    if (!isUnimolecular()){
+    if (getReactionType() == ASSOCIATION || getReactionType() == IRREVERSIBLE_EXCHANGE){
       cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;
       if (!ReadExcessReactantConcentration(ppReac)) return false;
     }

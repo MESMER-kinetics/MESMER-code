@@ -18,8 +18,9 @@ namespace mesmer
 
     double pdtZPE(NaN), pdtClassicalEnergy(NaN);
 
-    // If it is an association/dissociation reaction return false.
-    if (0)
+    // This only work for isomerization reactions
+    if (pReact->getReactionType() != IRREVERSIBLE_ISOMERIZATION && 
+        pReact->getReactionType() != ISOMERIZATION)
       return false;
 
     // For association reaction and dissociation reaction, the tunneling correction of hydrogen transfer is

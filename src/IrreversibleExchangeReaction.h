@@ -78,11 +78,8 @@ namespace mesmer
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
 
-    // is the reaction an irreversible reaction
-    virtual bool isIrreversible(){return true;};
-
-    // is reaction unimolecular
-    virtual bool isUnimolecular(){return false;};
+    // returns the reaction type
+    virtual int getReactionType(){return IRREVERSIBLE_EXCHANGE;};
 
     // get the reactant, which reacts in a first order or pseudo first order process
     virtual Molecule *get_reactant(void) const {return m_rct1;};

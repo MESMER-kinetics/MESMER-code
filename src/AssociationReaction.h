@@ -88,8 +88,8 @@ namespace mesmer
     // to the calculation of equilibrium fractions.
     virtual bool isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) ;
 
-    // is reaction unimolecular
-    virtual bool isUnimolecular(){return false;};
+    // returns the reaction type
+    virtual int getReactionType(){return ASSOCIATION;};
 
     // Get reactants cell density of states.
     void getRctsCellDensityOfStates(std::vector<double> &cellDOS) ;

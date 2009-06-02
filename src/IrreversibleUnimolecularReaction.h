@@ -71,8 +71,10 @@ namespace mesmer
       return 1;
     } ;
 
-    // is the reaction an irreversible reaction
-    virtual bool isIrreversible(){return true;};
+    // returns the reaction type
+    virtual int getReactionType(){
+      return m_pdt2 ? DISSOCIATION : IRREVERSIBLE_ISOMERIZATION;
+    };
 
     // get the reactant, which reacts in a first order or pseudo first order process
     virtual Molecule *get_reactant(void) const {return m_rct1;};

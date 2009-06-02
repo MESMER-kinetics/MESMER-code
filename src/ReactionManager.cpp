@@ -925,7 +925,9 @@ namespace mesmer
     int sinkpos(0);
     m_sinkRxns.clear();                      // Populate map: m_sinkRxns[Rxns] = location of rct
     for (size_t i(0) ; i < size() ; ++i) {
-      bool Irreversible = (m_reactions[i])->isIrreversible() ;
+      bool Irreversible = ((m_reactions[i])->getReactionType() == IRREVERSIBLE_ISOMERIZATION ||
+                           (m_reactions[i])->getReactionType() == IRREVERSIBLE_EXCHANGE      ||
+                           (m_reactions[i])->getReactionType() == DISSOCIATION                 );
       if (Irreversible && m_sinkRxns.find(m_reactions[i]) == m_sinkRxns.end()) {   // add an irreversible rxn to the map
         Reaction* reaction = m_reactions[i];
         Molecule* source = reaction->get_reactant();

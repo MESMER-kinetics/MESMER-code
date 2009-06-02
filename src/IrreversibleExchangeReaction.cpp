@@ -21,7 +21,7 @@ namespace mesmer
   bool IrreversibleExchangeReaction::InitializeReaction(PersistPtr ppReac)
   {
     m_ppPersist = ppReac;
- 
+
     PersistPtr ppReactantList = ppReac->XmlMoveTo("reactantList");
     if(!ppReactantList)
       ppReactantList=ppReac; //Be forgiving; we can get by without a reactantList element

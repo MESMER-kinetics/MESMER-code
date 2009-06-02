@@ -60,6 +60,9 @@ namespace mesmer
     // to the calculation of equilibrium fractions.
     virtual bool isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) ;
 
+    // returns the reaction type
+    virtual int getReactionType(){return ISOMERIZATION;};
+
     // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
     // with a negative threshold energy
     void calcEffGrnThresholds(void);
