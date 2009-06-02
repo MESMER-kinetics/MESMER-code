@@ -15,17 +15,40 @@ namespace mesmer
     std::vector<Molecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
     Molecule * pReactant = unimolecularspecies[0];
-    Molecule * p_Product = unimolecularspecies[1];
+
+    double pdtZPE(NaN), pdtClassicalEnergy(NaN);
+
+    // If it is an association/dissociation reaction return false.
+    if (0)
+      return false;
+
+    // For association reaction and dissociation reaction, the tunneling correction of hydrogen transfer is
+    // usually relatively unimportant, where the problem is dealed alternatively through ILT. Therefore in this
+    // section, only irreversible and reversible unimolecular reactions are considered.
+    Molecule * p_Product(NULL);
+    if (unimolecularspecies.size() > 1){ // In this case, it is an isomerization reaction.
+      p_Product = unimolecularspecies[1];
+      pdtZPE = p_Product->getDOS().get_zpe();
+      pdtClassicalEnergy = p_Product->getDOS().getClassicalEnergy();
+    }
+    else{ // a irreversible unimolecular reaction
+      std::vector<Molecule *> pdt_temp;
+      pReact->get_products(pdt_temp);
+      Molecule* p_pdt = pdt_temp[0];
+      pdtZPE = p_pdt->getDOS().get_zpe();
+      pdtClassicalEnergy = p_pdt->getDOS().getClassicalEnergy();
+    }
+
     Molecule * p_TransitionState = pReact->get_TransitionState();
 
     // PLEASE CHECK THIS SECTION FOR NUMBERS CHRIS
     const double TZPE = p_TransitionState->getDOS().get_zpe();
     const double oz1 = pReactant->getDOS().get_zpe();
-    const double oz2 = p_Product->getDOS().get_zpe();
+    const double oz2 = pdtZPE;
     const double ZPE0 = TZPE - oz1;
     const double ZPE1 = TZPE - oz2;
     const double diff = ZPE0 - ZPE1;
-    const double odiff = pReactant->getDOS().get_zpe() - p_Product->getDOS().get_zpe();
+    const double odiff = pReactant->getDOS().get_zpe() - pdtZPE;
     const double zeroNumber = odiff + diff;
     // PLEASE CHECK THIS SECTION FOR NUMBERS CHRIS
 
@@ -33,7 +56,7 @@ namespace mesmer
     const double TC = p_TransitionState->getDOS().getClassicalEnergy();
     //V0 & V1 are the classical barrier heights in the forward/reverse directions
     const double V0 = TC - pReactant->getDOS().getClassicalEnergy();
-    const double V1 = TC - p_Product->getDOS().getClassicalEnergy();
+    const double V1 = TC - pdtClassicalEnergy;
 
     //TZ is the zpe of the TS
     const double TZ = pReact->get_relative_TSZPE();
@@ -50,7 +73,7 @@ namespace mesmer
     TunnelingProbability.resize(MaximumCell);
 
     //set transmission coefficients to 0 where no tunneling is possible;
-    //where tunneling may occur, the transmission coefficients are calculated using, a, b, & c, 
+    //where tunneling may occur, the transmission coefficients are calculated using, a, b, & c,
     //for a 1d eckart barrier as described by W.H. Miller, JACS, 101(23), 1979
 
     for(int i = 0; i < MaximumCell; ++i){
@@ -65,14 +88,14 @@ namespace mesmer
         double c = 2.0 * M_PI * sqrt(V0 * V1 / (pow(imFreq/SpeedOfLight_in_cm ,2.0)) - 1.0/16.0);
         TunnelingProbability[i] = (sinh(a) * sinh(b)) / (pow(sinh((a+b)/2.0),2.0) + pow(cosh(c),2.0));
         // following if statement to avoid nan at small values of E
-        if(IsNan(TunnelingProbability[i])) TunnelingProbability[i] = 0.0;  
+        if(IsNan(TunnelingProbability[i])) TunnelingProbability[i] = 0.0;
       }
     }
 
     if (pReact->getFlags().TunnellingCoeffEnabled){
-      ctest << "\nTunneling coefficients for: " << pReact->getName() 
-        << "\nV0 = " << V0 << ", V1 = " << V1 
-        << ", barrier0 = " << barrier0 << ", barrier1 = " << barrier1 
+      ctest << "\nTunneling coefficients for: " << pReact->getName()
+        << "\nV0 = " << V0 << ", V1 = " << V1
+        << ", barrier0 = " << barrier0 << ", barrier1 = " << barrier1
         << ", imFreq = " << imFreq << "\n{\n";
       for(int i = 0; i < MaximumCell; ++i){
         ctest << TunnelingProbability[i] << endl;
