@@ -18,26 +18,24 @@ namespace mesmer
 
     double pdtZPE(NaN), pdtClassicalEnergy(NaN);
 
-    // This only work for isomerization reactions
-    if (pReact->getReactionType() != IRREVERSIBLE_ISOMERIZATION && 
-        pReact->getReactionType() != ISOMERIZATION)
-      return false;
-
     // For association reaction and dissociation reaction, the tunneling correction of hydrogen transfer is
     // usually relatively unimportant, where the problem is dealed alternatively through ILT. Therefore in this
     // section, only irreversible and reversible unimolecular reactions are considered.
     Molecule * p_Product(NULL);
-    if (unimolecularspecies.size() > 1){ // In this case, it is an isomerization reaction.
+    if (pReact->getReactionType() == ISOMERIZATION){ // In this case, it is an isomerization reaction.
       p_Product = unimolecularspecies[1];
       pdtZPE = p_Product->getDOS().get_zpe();
       pdtClassicalEnergy = p_Product->getDOS().getClassicalEnergy();
     }
-    else{ // a irreversible unimolecular reaction
+    else if (pReact->getReactionType() == IRREVERSIBLE_ISOMERIZATION){ // a irreversible unimolecular reaction
       std::vector<Molecule *> pdt_temp;
       pReact->get_products(pdt_temp);
       Molecule* p_pdt = pdt_temp[0];
       pdtZPE = p_pdt->getDOS().get_zpe();
       pdtClassicalEnergy = p_pdt->getDOS().getClassicalEnergy();
+    }
+    else{
+      return false;
     }
 
     Molecule * p_TransitionState = pReact->get_TransitionState();
