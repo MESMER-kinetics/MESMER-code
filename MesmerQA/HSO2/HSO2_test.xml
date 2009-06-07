@@ -41,6 +41,7 @@
           518 1151 1362
         </array>
       </property>
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
     </molecule>
     <molecule id="HSO2">
       <atomArray>
@@ -77,6 +78,7 @@
       <property dictRef="me:deltaEDown">
         <scalar units="cm-1">230.0</scalar>
       </property>
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS1">
       <atomArray>
@@ -104,6 +106,7 @@
           347 358 517 117 1381
         </array>
       </property>
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
     </molecule>
     <molecule id="Ar">
       <atom elementType="Ar"/>

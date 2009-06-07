@@ -1,3 +1,9 @@
+
+2009-June-7 Struan Robertson
+
+	* MESMER manual.doc: Addition of contracted basis set material.
+      * HSO2_test.xml: Update test to use QM rotor.
+
 _2009_06_02__11_11_27_ Chi-Hsiu Liang
 
   * Replaced isUnimolecular() and isIrreversible() check functions by getReactionType().
