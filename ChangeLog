@@ -1,13 +1,18 @@
 
+
+2009-June-9 Struan Robertson
+
+	* MESMER manual.doc: More tidying up.
+
 2009-June-7 Struan Robertson
 
 	* MESMER manual.doc: Addition of contracted basis set material.
-      * HSO2_test.xml: Update test to use QM rotor.
+	* HSO2_test.xml: Update test to use QM rotor.
 
 _2009_06_02__11_11_27_ Chi-Hsiu Liang
 
   * Replaced isUnimolecular() and isIrreversible() check functions by getReactionType().
-    
+
 _2009_06_02__09_26_48_ Chi-Hsiu Liang
 
   * Enabled tunneling into unimolecular sink term.
@@ -17,11 +22,11 @@ _2009_06_01__10_58_13_ Chi-Hsiu Liang
   * Update manual
   * Add hydrogen atoms in the atom arrays of pentyl system. This is for checking the number of vibrational frequencies.
     In the meantime, if the user did not define the atomarray, this check is not performed.
-  
+
 2009-May-30 Struan Robertson
 
 	* MESMER manual.doc: Correction to ILT formula.
-      * QMRotor.cpp: Corrected and extended non-linear top density of states section.
+	* QMRotor.cpp: Corrected and extended non-linear top density of states section.
 
 2009-May-30 Struan Robertson
 
