@@ -358,7 +358,7 @@ namespace mesmer
       //
       // Find all source terms. Note: a source term contains the deficient reactant.
       // It is possible for there to be more than one source term.
-      // 
+      //
       m_sources.clear(); // Maps the location of source in the system matrix.
       for (size_t i(0) ; i < size() ; ++i) {
         m_reactions[i]->updateSourceMap(m_sources) ;
@@ -649,11 +649,20 @@ namespace mesmer
     }
 
     // if counter==0 after the for loop above, then there are no equilibrating reactions (i.e., all the reactions
-    // are irreversible).  In that case, the lone isomer has an equilibrium fraction of 1.  Thus, we increment 
+    // are irreversible).  In that case, the lone isomer has an equilibrium fraction of 1.  Thus, we increment
     // counter so that the 1 is added to the eqMatrix in the for loop immediately following
     if (counter==0){
-      Molecule* rct=(m_isomers.begin())->first;
-      m_SpeciesSequence[rct] = counter;
+      if (m_isomers.size()){
+        Molecule* rct=(m_isomers.begin())->first;
+        m_SpeciesSequence[rct] = counter;
+      }
+      else if (m_sources.size()){
+        Molecule* rct=(m_sources.begin())->first;
+        m_SpeciesSequence[rct] = counter;
+      }
+      else{
+        return false;
+      }
       ++counter;
     }
 
@@ -1017,6 +1026,8 @@ namespace mesmer
         const int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant
         vector<Molecule*> pdts;                               // in the sink reaction
         sinkReaction->get_products(pdts);
+
+        int numberGrouped(0);
         if(colloptrsize == 1){  // if the collision operator size is 1, there is one canonical loss rate coefficient
           KofEs.push_back(sinkReaction->get_fwdGrnCanonicalRate());
           ctest << setw(11) << pdts[0]->getName()<< setw(5) << "(bim)";
@@ -1024,19 +1035,32 @@ namespace mesmer
         else{   // if the collision operator size is >1, there are k(E)s for the irreversible loss
           KofEs = sinkReaction->get_GrainKfmc();          // assign sink k(E)s, the vector size == maxgrn
           ctest << setw(16) << pdts[0]->getName();
+          numberGrouped = sinkReaction->get_reactant()->getColl().getNumberOfGroupedGrains();
         }
         speciesNames.push_back(pdts[0]->getName());
 
         int rxnMatrixLoc = pos->second;                       // get sink location
         double TimeIntegratedProductPop(0.0);
-        for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-          for(int i = 0; i < colloptrsize; ++i){
-            speciesProfile[speciesProfileidx][timestep] += KofEs[i]*grnProfile[i+rxnMatrixLoc][timestep]*dt[timestep];
+        if (numberGrouped == 0){
+          for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+            for(int i = 0; i < colloptrsize; ++i){
+              speciesProfile[speciesProfileidx][timestep] += KofEs[i]*grnProfile[i+rxnMatrixLoc][timestep]*dt[timestep];
+            }
+            TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];
+            speciesProfile[speciesProfileidx][timestep]= TimeIntegratedProductPop;
           }
-          TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];
-          speciesProfile[speciesProfileidx][timestep]= TimeIntegratedProductPop;
+          ++speciesProfileidx;
         }
-        ++speciesProfileidx;
+        else{
+          for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+            for(int i = 0; i < colloptrsize - numberGrouped + 1; ++i){
+              speciesProfile[speciesProfileidx][timestep] += KofEs[i + numberGrouped - 1]*grnProfile[i+rxnMatrixLoc][timestep]*dt[timestep];
+            }
+            TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];
+            speciesProfile[speciesProfileidx][timestep]= TimeIntegratedProductPop;
+          }
+          ++speciesProfileidx;
+        }
         KofEs.clear();
       }
 
@@ -1059,7 +1083,7 @@ namespace mesmer
       for(int timestep = 0; timestep < maxTimeStep; ++timestep){
         ctest << setw(16) << timePoints[timestep];
         PersistPtr ppPop =  ppPopList->XmlWriteElement("me:population");
-        ppPop->XmlWriteAttribute("time", toString(timePoints[timestep])); 
+        ppPop->XmlWriteAttribute("time", toString(timePoints[timestep]));
         for(int i(0); i<speciesProfileidx; ++i){
           ctest << setw(16) << speciesProfile[i][timestep];
           PersistPtr ppVal = ppPop->XmlWriteValueElement("me:pop", speciesProfile[i][timestep]);
@@ -1139,7 +1163,7 @@ namespace mesmer
     const double CSE_IERE_separation=last_CSE/first_IERE;
     if(CSE_IERE_separation > 0.1){
       ctest << "\nWarning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)" << endl;
-      ctest << "\nThe last CSE = " << last_CSE << " and the first IERE = " << first_IERE << endl; 
+      ctest << "\nThe last CSE = " << last_CSE << " and the first IERE = " << first_IERE << endl;
       ctest << "(last CSE)/(first IERE) ratio = " << CSE_IERE_separation << ", which is less than an order of magnitude" << endl;
       ctest << "\nResults obtained from Bartis Widom eigenvalue-vector analysis may be unreliable" << endl;
     }
@@ -1559,7 +1583,7 @@ namespace mesmer
     //ctest << endl << "System matrix:" << endl << endl ;
     //for (size_t i(0) ; i < msize ; ++i) {
     //  for (size_t j(0) ; j < msize ; ++j) {
-    //    formatFloat(ctest, (*m_reactionOperator)[i][j],  6,  15) ; 
+    //    formatFloat(ctest, (*m_reactionOperator)[i][j],  6,  15) ;
     //  }
     //  ctest << endl ;
     //}
