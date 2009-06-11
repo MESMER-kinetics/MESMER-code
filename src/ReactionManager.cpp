@@ -258,10 +258,10 @@ namespace mesmer
       // For Association reactions determine zero point energy location of the
       // associating pair.
       //
-      AssociationReaction *pReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
-      if (pReaction) {
-        double pseudoIsomerZPE = pReaction->get_pseudoIsomer()->getDOS().get_zpe();
-        double excessReactantZPE = pReaction->get_excessReactant()->getDOS().get_zpe();
+      AssociationReaction *pAReaction = dynamic_cast<AssociationReaction*>(m_reactions[i]) ;
+      if (pAReaction) {
+        double pseudoIsomerZPE = pAReaction->get_pseudoIsomer()->getDOS().get_zpe();
+        double excessReactantZPE = pAReaction->get_excessReactant()->getDOS().get_zpe();
         double sourceTermZPE = pseudoIsomerZPE + excessReactantZPE;
         minEnergy = min(minEnergy, sourceTermZPE) ;
         maxEnergy = max(maxEnergy, sourceTermZPE) ;
@@ -275,6 +275,21 @@ namespace mesmer
         if (barrierHeight < unimolecules[0]->getColl().getLowestBarrier()){
           unimolecules[0]->getColl().setLowestBarrier(barrierHeight);
         }
+      }
+
+      //
+      // For irreversible exchange reactions determine zero point energy location of the
+      // associating pair.
+      //
+      IrreversibleExchangeReaction *pIEReaction = dynamic_cast<IrreversibleExchangeReaction*>(m_reactions[i]) ;
+      if (pIEReaction) {
+        double pseudoIsomerZPE = pIEReaction->get_pseudoIsomer()->getDOS().get_zpe();
+        double excessReactantZPE = pIEReaction->get_excessReactant()->getDOS().get_zpe();
+        double sourceTermZPE = pseudoIsomerZPE + excessReactantZPE;
+        minEnergy = min(minEnergy, sourceTermZPE) ;
+        maxEnergy = max(maxEnergy, sourceTermZPE) ;
+
+        // There is no well for this reaction
       }
 
       //
@@ -930,16 +945,16 @@ namespace mesmer
                            (m_reactions[i])->getReactionType() == DISSOCIATION                 );
       if (Irreversible && m_sinkRxns.find(m_reactions[i]) == m_sinkRxns.end()) {   // add an irreversible rxn to the map
         Reaction* reaction = m_reactions[i];
-        Molecule* source = reaction->get_reactant();
-        Molecule* isomer = source;
-        if(isomer){
-          int rxnMatrixLoc = m_isomers[isomer];
+        Molecule* rctnt = reaction->get_reactant();
+        if((m_reactions[i])->getReactionType() == IRREVERSIBLE_ISOMERIZATION ||
+           (m_reactions[i])->getReactionType() == DISSOCIATION                 ){
+          int rxnMatrixLoc = m_isomers[rctnt];
           m_sinkRxns[reaction] = rxnMatrixLoc;
           m_SinkSequence[reaction] = sinkpos;               // populate SinkSequence map with Irreversible Rxns
           ++sinkpos;
         }
-        else if(source){
-          int rxnMatrixLoc = m_sources[source];
+        else{ // In this case it is irreversible exchange reaction
+          int rxnMatrixLoc = m_sources[rctnt];
           m_sinkRxns[reaction] = rxnMatrixLoc;
           m_SinkSequence[reaction] = sinkpos;
           ++sinkpos;
@@ -1162,6 +1177,7 @@ namespace mesmer
           int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant
           if(colloptrsize == 1){  // if the collision operator size is 1, there is one canonical loss rate coefficient
             KofEs.push_back(sinkReaction->get_fwdGrnCanonicalRate());
+            KofEsTemp.push_back(KofEs[0]);
           }
           else{                   // if the collision operator size is >1, there are k(E)s for the irreversible loss
             KofEs = sinkReaction->get_GrainKfmc();                      // assign sink k(E)s, the vector size == maxgrn
