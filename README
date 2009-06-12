@@ -2,7 +2,7 @@
 * Master Equation Solver for Multi Energy-well Reactions (MESMER)
 *
 * Struan H. Robertson    Accelrys Inc.  struanr@accelrys.com
-* Chris Morley                          arcl02@dsl.pipex.com
+* Chris Morley                          c.morley@gaseq.co.uk
 * Chi-Hsiu Liang         Univ. Leeds    c.h.liang@leeds.ac.uk
 * David Glowacki         Univ. Leeds    chmdrgl@leeds.ac.uk
 ------------------------------------------------------------------------
@@ -23,7 +23,7 @@ ollowing features are provided in this program:
 1. Use standard XML data representation as input stream, in which comments are easily inserted/removed to assist human readability. 
 2. Open source C++ codes, that can be compiled on most plateforms. 
 3. References are given in proper positions where the methodologies are used.
-
+4. MESMER is released with a GNU LESSER GENERAL PUBLIC LICENSE, see license.txt.
 
 
 Directories and Files

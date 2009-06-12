@@ -488,7 +488,7 @@ FunctionEnd
 ;Pages
 
   !insertmacro MUI_PAGE_WELCOME
-  !insertmacro MUI_PAGE_LICENSE "License.txt"
+  !insertmacro MUI_PAGE_LICENSE "..\..\License.txt"
   !insertmacro MUI_PAGE_DIRECTORY
 
   ;Start Menu Folder Page Configuration
@@ -526,7 +526,7 @@ Section "Dummy Section" SecDummy
   File /r /x .svn /x test.test /x *_prev.* /x *_out.xml ..\..\MesmerQA\*.*
 
   SetOutPath "$INSTDIR" 
-  File License.txt
+  File ..\..\License.txt
   File ..\Mesmer\Mesmer.exe
   File vcredist_x86.exe
   File ..\..\mesmer1.xsl

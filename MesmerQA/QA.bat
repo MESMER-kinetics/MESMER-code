@@ -7,6 +7,13 @@ SET directive=
 SET otfn=mesmer.test
 
 IF EXIST "../Windows VC9/Mesmer/Mesmer.exe" GOTO VC9
+IF EXIST "../Windows VC8/Mesmer/Mesmer.exe" GOTO VC8
+
+::For installed version
+SET executable="../../Mesmer.exe"
+GOTO SETTINGS
+
+:VC8
 SET executable="../../Windows VC8/Mesmer/Mesmer.exe"
 GOTO SETTINGS
 

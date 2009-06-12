@@ -1,3 +1,14 @@
+2009-June-12 Chris Morley
+
+  * Removed change tracking in manual
+  * Moved License.txt from VC9 to top level folder
+  * README added reference to Licence.txt, corrected my email address
+  * MesmerQA/QA.bat Added another conditional statement so that it
+    will find Mesmer.exe in the installed version (in the top level folder)
+  * Windows VC9/distribution/NSISScriptToCreateInstaller.nsi: mods appropriate
+    for the above.
+  * Documentation/Proposal.doc: delete
+
 _2009_06_11__16_44_59_ Chi-Hsiu Liang
 
   * fixed counter error in m_SpeciesSequence
@@ -44,8 +55,7 @@ _2009_05_27__10_50_02_ Chi-Hsiu Liang
   * include #include <stdexcept> to remove the following error on Linux
       MesmerTools.cpp:64: `runtime_error' undeclared in namespace `std'
 
-2009-May-18 Chris Morley
-
+SET executable="../../Windows VC8/Mesmer/Mesmer.exe"
 	* src/Reaction.cpp, src/Reaction.h,src/AssociationReaction.cpp,
 	  src/MicroRate.cpp: add m_useILT to remove dependendence on 
 	  MesmerILT plugin name. Pragmatic rather than elegant.
