@@ -23,7 +23,7 @@ A Start Menu Programs item contains links to:
 To edit and recompile the C++ source code for Mesmer, download the project from SourceForge via SVN.
    
 ----------------------------------------------------------------------------------------------------
-* Struan H. Robertson    Accelrys Inc.  struanr@accelrys.com
+* Struan H. Robertson                   struanhrobertson@gmail.com
 * Chi-Hsiu Liang         Univ. Leeds    c.h.liang@leeds.ac.uk
 * David Glowacki         Univ. Leeds    chmdrgl@leeds.ac.uk
 * Chris Morley                          c.morley@gaseq.co.uk
