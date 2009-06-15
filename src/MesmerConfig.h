@@ -3,13 +3,16 @@
 
 #include <float.h>
 #include <string>
-
+#include <limits>
 
 // -------------------   Compiler specific configuration
-#if defined (CYGWIN)      // CYGWIN
+#if defined (__CYGWIN__)      // CYGWIN
 
 #define IsNan isnan
-static const double NaN = NAN;
+#define _isnan isnan
+
+static const double NaN = std::numeric_limits<double>::quiet_NaN();
+
 
 #elif defined (UNIX)      // UNIX
 

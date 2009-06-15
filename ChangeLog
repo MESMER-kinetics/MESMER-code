@@ -1,3 +1,7 @@
+_2009_06_15__15_45_40_ Chi-Hsiu Liang
+
+  * Fixed a Cygwin compile problem on NaN and _isnan.
+
 2009-June-15 Chris Morley
 
 	* Windows VC9/distribution/ReadMe.txt: same change of details
