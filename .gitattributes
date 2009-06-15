@@ -320,7 +320,6 @@ tinyxml/tinyXmlTest.dsp -text
 tinyxml/tinyXmlTestSTL.dsp -text
 tinyxml/tinystr.cpp -text
 tinyxml/tinystr.h -text
-tinyxml/tinyxml.a -text
 tinyxml/tinyxml.cpp -text
 tinyxml/tinyxml.dsw -text
 tinyxml/tinyxml.h -text
