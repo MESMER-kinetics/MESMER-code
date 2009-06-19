@@ -1,3 +1,7 @@
+_2009_06_19__08_37_56_ Chi-Hsiu Liang
+
+  * Fixed a compilation bug Josh Allen reported on line 109 of IrreversibleExchangeReaction.h.
+
 _2009_06_15__15_45_40_ Chi-Hsiu Liang
 
   * Fixed a Cygwin compile problem on NaN and _isnan.

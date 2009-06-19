@@ -106,7 +106,7 @@ namespace mesmer
 
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs();
-    virtual void IrreversibleExchangeReaction::calcFluxFirstNonZeroIdx(void);
+    virtual void calcFluxFirstNonZeroIdx(void);
 
     // Test k(T)
     virtual void testRateConstant();
