@@ -1,3 +1,7 @@
+_2009_06_24__12_56_03_ Chi-Hsiu Liang
+
+  * Correct a template function in TMatrix.h
+
 _2009_06_19__08_37_56_ Chi-Hsiu Liang
 
   * Fixed a compilation bug Josh Allen reported on line 109 of IrreversibleExchangeReaction.h.

@@ -807,12 +807,12 @@ label_1: return(p);
     int i, j; //int makes sure the comparison to negative numbers meaningful (i >=0)
 
     int optrsize(int(this->size()));
-    vector<double> work(optrsize) ;// Work space.
+    vector<T> work(optrsize) ;// Work space.
 
-    double scaledRemain(0.0) ;
+    T scaledRemain(0.0) ;
     for ( i = optrsize - 1 ; i >= 0 ; --i ) {
 
-      double upperSum(0.0) ;
+      T upperSum(0.0) ;
       for ( j = 0 ; j <= i ; ++j )
         upperSum += (*this)[j][i] ;
 
@@ -820,7 +820,7 @@ label_1: return(p);
         if (i < optrsize - 1){
           scaledRemain = 0.0;
           for ( j = i + 1 ; j < optrsize ; ++j ){
-            double scale = work[j];
+            T scale = work[j];
             scaledRemain += (*this)[j][i] * scale ;
           }
         }
@@ -833,7 +833,7 @@ label_1: return(p);
     //
     for ( i = 0 ; i < optrsize ; ++i ) {
       (*this)[i][i] *= work[i] ;
-      //double value = (*this)[i][i];
+      //T value = (*this)[i][i];
       for ( j = i + 1 ; j < optrsize ; ++j ) {
         (*this)[j][i] *= work[j] ;
         (*this)[i][j] *= work[j] ;
