@@ -210,12 +210,12 @@ namespace mesmer
     return true;
   }
 
-//
-// Main calculation method.
-//
+  //
+  // Main calculation method.
+  //
   void System::executeCalculation()
   {
-      switch (m_Flags.searchMethod){
+    switch (m_Flags.searchMethod){
         case FITTING:
           fitting() ;
           break;
@@ -233,7 +233,7 @@ namespace mesmer
           break;
         default:
           cerr << "No search method defined." << endl ;
-      }
+    }
   }
 
   // pop the P and T points into PandTs
@@ -280,7 +280,7 @@ namespace mesmer
     //
     PersistPtr ppPTpair = pp->XmlMoveTo("me:PTpair");
     while (ppPTpair){
-       string this_units;
+      string this_units;
       txt = ppPTpair->XmlReadValue("me:units", optional);
       if (txt)
         this_units = txt;
@@ -406,21 +406,50 @@ namespace mesmer
     }
   }
 
-  // This function calls calculate() to obtain a serie of
+  //
+  // This function implements the Powell Convergent direaction
+  // method to determine the minimum in the chi-squared surface.
+  //
   void System::fitting(void){
 
-    double chiSquare = 1000.0;
+    size_t nVar = Rdouble::withRange().size() ;
 
-    int steps(0);
-    while (1){
+    if (nVar < 1) { 
 
-      for (size_t obj(0); obj < Rdouble::withRange().size(); ++obj){
+      // Return error.
 
+    } else if (nVar == 1) {
+
+      // Do a simple line search.
+
+    } else {
+
+      int MaxNumSteps = 100 ;
+
+      bool converged(false) ;
+
+      double chiSquare(0.0);
+
+      calculate(chiSquare);
+
+      vector<double> currentPosition(nVar,0.0) ;
+
+      dMatrix searchVectors(nVar);  // Create matrix of search directions.
+
+      for (size_t i(0) ; i < nVar ; i++) { 
+        searchVectors[i][i] = 1.0 ;
+        currentPosition[i] = *Rdouble::withRange()[i];
       }
 
-      ++steps;
-      ctest << "Step " << steps << " of fitting. chiSquare = " << chiSquare << endl;
-      if (chiSquare < 1 || steps > 100) break;
+      for (int step(0); step < MaxNumSteps && !converged ; step++ ){
+
+        for (size_t obj(0); obj < nVar ; ++obj){
+
+        }
+
+        ctest << "Step " << step << " of fitting. chiSquare = " << chiSquare << endl;
+      }
+
     }
 
   }
@@ -472,7 +501,7 @@ namespace mesmer
         throw (std::runtime_error("Failed building system collison operator.")); 
 
       if (!m_pReactionManager->calculateEquilibriumFractions(m_Env.beta))
-      throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
+        throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
 
       // Calculate eigenvectors and eigenvalues.
       {string thisEvent = "Diagonalize the Reaction Operator";

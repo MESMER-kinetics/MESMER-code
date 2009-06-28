@@ -1,5 +1,5 @@
-#ifndef GUARD_SimpleILT_h
-#define GUARD_SimpleILT_h
+#ifndef GUARD_MesmerILT_h
+#define GUARD_MesmerILT_h
 
 #include "System.h"
 
@@ -27,4 +27,4 @@ namespace mesmer
   };
 }//namespace
 
-#endif // GUARD_SimpleILT_h
+#endif // GUARD_MesmerILT_h

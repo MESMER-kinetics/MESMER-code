@@ -1185,8 +1185,6 @@ namespace mesmer
     //   iii) Symmetrise Collision Matrix.
     //
 
-    int i, j;
-
     double DEDown = getDeltaEdown();
     double alpha = 1.0/DEDown ;
 
@@ -1206,6 +1204,7 @@ namespace mesmer
     m_host->getDOS().getGrainDensityOfStates(gDOS);
 
     // Initialisation and error checking.
+    int i, j;
     for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
       if (gDOS[i] <= 0.0) {
         cerr << "Data indicates that grain " << i << " of the current colliding molecule has no states.";

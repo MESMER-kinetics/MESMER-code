@@ -1,3 +1,7 @@
+2009-June-28 Struan Robertson
+
+	* System.cpp: Initial changes toward automated fitting and some minor corrections.
+
 _2009_06_24__12_56_03_ Chi-Hsiu Liang
 
   * Correct a template function in TMatrix.h

@@ -8,8 +8,8 @@
 // Author: Struan Robertson
 // Date:   30/Mar/2003
 //
-// This header file contains the declaration of the dMatrix class.  This class inherits from
-// Matrix and wraps calls to LAPACK functions.
+// This header file contains the declaration of the dMatrix class.  This
+// class inherits from Matrix and wraps calls to EISPACK functions.
 //
 //-------------------------------------------------------------------------------------------
 #include "TMatrix.h"
