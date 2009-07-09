@@ -248,6 +248,8 @@ src/a2d.h -text
 src/dMatrix.h -text
 src/formatfloat.cpp -text
 src/formatfloat.h -text
+src/logExp.cpp -text
+src/logExp.h -text
 src/main.cpp -text
 src/marray.h -text
 src/oberror.cpp -text

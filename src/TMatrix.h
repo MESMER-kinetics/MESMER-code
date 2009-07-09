@@ -40,6 +40,16 @@ namespace mesmer
       T *work = new T[size] ;
       T *rrProxy = new T[size] ;
 
+      T testValue;
+      for (size_t p = 0; p < size; ++p){
+        testValue = rrProxy[p];
+      }
+      for (size_t p = 0; p < size; ++p){
+        for(size_t q = 0; q < size; ++q){
+          testValue = this->m_matrix[p][q];
+        }
+      }
+
       tred2(this->m_matrix, size, rrProxy, work) ;
       tqli(rrProxy, work, size, this->m_matrix) ;
 
@@ -123,6 +133,17 @@ namespace mesmer
     size_t l, k, j, i;
     T scale, hh, h, g, f;
 
+
+      T testValue;
+      for (size_t p = 0; p < n; ++p){
+        testValue = d[p];
+      }
+      for (size_t p = 0; p < n; ++p){
+        for(size_t q = 0; q < n; ++q){
+          testValue = a[p][q];
+        }
+      }
+
     for (i=n;i>=2;--i) {
       l=i-1;
       h=scale=0.0;
@@ -135,7 +156,8 @@ namespace mesmer
         else {
           for (k=1;k<=l;++k) {
             a[i-1][k-1] /= scale;
-            h += a[i-1][k-1]*a[i-1][k-1];
+            T tempV = a[i-1][k-1]*a[i-1][k-1];
+            h += tempV;
           }
           f=a[i-1][l-1];
           g = f > 0.0 ? -sqrt(h) : sqrt(h);
@@ -149,7 +171,7 @@ namespace mesmer
             g=0.0;
 
             for (k=1;k<=j;++k)
-              g += a[j-1][k-1]*a[i-1][k-1];
+              g += (a[j-1][k-1]*a[i-1][k-1]);
 
             for (k=j+1;k<=l;++k)
               g += a[k-1][j-1]*a[i-1][k-1];
@@ -245,7 +267,7 @@ namespace mesmer
           SVD method used in book is an intrinsic iterative procedure, 30 iterations is a good number to
           convergency up to numerical accuracy. Evgeny
           */
-          g=(d[l]-d[l-1])/(2.0*e[l-1]);
+          g=(d[l]-d[l-1])/(e[l-1]*2.0);
           r=sqrt((g*g)+1.0);
           g=d[m-1]-d[l-1]+e[l-1]/(g + (g < 0.0 ? -abs(r) : abs(r)));
           s=c=1.0;

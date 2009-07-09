@@ -10,7 +10,6 @@
 //-------------------------------------------------------------------------------------------
 #include "System.h"
 #include <fstream>
-#include "Rdouble.h"
 
 using namespace std ;
 using namespace Constants ;
@@ -303,6 +302,16 @@ namespace mesmer
         if (!strcmp(txt,"4d")) this_precision = 2;
         if (!strcmp(txt,"qd")) this_precision = 2;
         if (!strcmp(txt,"quad-double")) this_precision = 2;
+
+        if (!strcmp(txt,"l1d")) this_precision = 3;
+        if (!strcmp(txt,"ld")) this_precision = 3;
+        if (!strcmp(txt,"log double")) this_precision = 3;
+        if (!strcmp(txt,"l2d")) this_precision = 4;
+        if (!strcmp(txt,"ldd")) this_precision = 4;
+        if (!strcmp(txt,"log double-double")) this_precision = 4;
+        if (!strcmp(txt,"l4d")) this_precision = 5;
+        if (!strcmp(txt,"lqd")) this_precision = 5;
+        if (!strcmp(txt,"log quad-double")) this_precision = 5;
       }
       CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision);
       cinfo << this_P << this_units << ", " << this_T << "K at " << txt << " precision" <<endl; 
@@ -493,6 +502,9 @@ namespace mesmer
       switch (precision){
         case 1: ctest << ", diagonalization precision: double-double\n{\n"; break;
         case 2: ctest << ", diagonalization precision: quad-double\n{\n"; break;
+        case 3: ctest << ", diagonalization precision: log double\n{\n"; break;
+        case 4: ctest << ", diagonalization precision: log double-double\n{\n"; break;
+        case 5: ctest << ", diagonalization precision: log quad-double\n{\n"; break;
         default: ctest << ", diagonalization precision: double\n{\n";
       }
       // Build collison matrix for system.
@@ -527,7 +539,7 @@ namespace mesmer
       ppList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
       ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
       ppList->XmlWriteAttribute("me:units", "s-1");
-      dMatrix mesmerRates(1);
+      lpdMatrix mesmerRates(1);
       m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates, m_Flags, ppList);
 
       if (m_Flags.searchMethod){
@@ -632,27 +644,19 @@ namespace mesmer
     clog << "Size of float = " << sizeof(float) << endl;
     clog << "Size of double = " << sizeof(double) << endl;
     clog << "Size of long double = " << sizeof(long double) << endl;
-    clog << "Size of double-double = " << sizeof(dd_real) << endl;
-    clog << "Size of quad-double = " << sizeof(qd_real) << endl;
 
     clog << "\nEpsilon is the difference between 1 and the smallest value greater than 1 that is representable for the data type." << endl;
     clog << "float epsilon == " << numeric_limits<float>::epsilon() << endl;
     clog << "double epsilon == " << numeric_limits<double>::epsilon() << endl;
     clog << "long double epsilon == " << numeric_limits<long double>::epsilon() << endl;
-    clog << "dd_real epsilon == " << numeric_limits<dd_real>::epsilon() << endl;
-    clog << "qd_real epsilon == " << numeric_limits<qd_real>::epsilon() << endl;
 
     clog << "\nfloat max == " << numeric_limits<float>::max() << endl;
     clog << "double max == " << numeric_limits<double>::max() << endl;
     clog << "long double max == " << numeric_limits<long double>::max() << endl;
-    clog << "dd_real max == " << numeric_limits<dd_real>::max() << endl;
-    clog << "qd_real max == " << numeric_limits<qd_real>::max() << endl;
 
     clog << "\nfloat min == " << numeric_limits<float>::min() << endl;
     clog << "double min == " << numeric_limits<double>::min() << endl;
     clog << "long double min == " << numeric_limits<long double>::min() << endl;
-    clog << "dd_real min == " << numeric_limits<dd_real>::min() << endl;
-    clog << "qd_real min == " << numeric_limits<qd_real>::min() << endl;
   }
 
 }//namespace

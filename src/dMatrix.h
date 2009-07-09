@@ -14,6 +14,9 @@
 //-------------------------------------------------------------------------------------------
 #include "TMatrix.h"
 #include "MesmerPrecision.h"
+#include "logExp.h"
+
+using namespace logExpGroup;
 
 namespace mesmer
 {
@@ -22,20 +25,11 @@ namespace mesmer
     public: dMatrix(size_t n, const double init = 0.0) : TMatrix<double>(n, init) { } ;
   };
 
-  // double-double version of Matrix
-  class ldMatrix : public TMatrix<long double>{
-    public: ldMatrix(size_t n, const long double init = 0.0) : TMatrix<long double>(n, init) { } ;
+  // double version of Matrix
+  class lpdMatrix : public TMatrix<logExp>{
+    public: lpdMatrix(size_t n, const double init = 0.0) : TMatrix<logExp>(n, init) { } ;
   };
 
-  // double-double version of Matrix
-  class ddMatrix : public TMatrix<dd_real>{
-    public: ddMatrix(size_t n, const dd_real init = 0.0) : TMatrix<dd_real>(n, init) { } ;
-  };
-
-  // quad-double version of Matrix
-  class qdMatrix : public TMatrix<qd_real>{
-    public: qdMatrix(size_t n, const qd_real init = 0.0) : TMatrix<qd_real>(n, init) { } ;
-  };
 }//namespacer mesmer
 
 

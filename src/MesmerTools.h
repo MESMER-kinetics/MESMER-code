@@ -9,6 +9,8 @@
 #include "unitsConversion.h"
 #include "dMatrix.h"
 #include "marray.h"
+#include "Rdouble.h"
+
 using namespace Constants;
 using namespace std;
 

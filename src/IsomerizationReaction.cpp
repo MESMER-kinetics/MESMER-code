@@ -104,7 +104,7 @@ namespace mesmer
   //
   // Add isomer reaction terms to reaction matrix.
   //
-  void IsomerizationReaction::AddReactionTerms(qdMatrix         *CollOptr,
+  void IsomerizationReaction::AddReactionTerms(lpdMatrix         *CollOptr,
     molMapType       &isomermap,
     const double    rMeanOmega)
   {
@@ -135,9 +135,9 @@ namespace mesmer
       int mm = k + reverseThreshE;
       int ii(rctLocation + ll - rShiftedGrains) ;
       int jj(pdtLocation + mm - pShiftedGrains) ;
-      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
-      (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * m_GrainFlux[i] / pdtDOS[mm]) ;                    // Backward loss reaction from detailed balance.
-      (*CollOptr)[ii][jj]  = qd_real(rMeanOmega * m_GrainFlux[i] / sqrt(rctDOS[ll] * pdtDOS[mm])) ; // Reactive gain.
+      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainFlux[i] / rctDOS[ll];                     // Forward loss reaction.
+      (*CollOptr)[jj][jj] -= rMeanOmega * m_GrainFlux[i] / pdtDOS[mm] ;                    // Backward loss reaction from detailed balance.
+      (*CollOptr)[ii][jj]  = rMeanOmega * m_GrainFlux[i] / sqrt(rctDOS[ll] * pdtDOS[mm]) ; // Reactive gain.
       (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                           // Reactive gain.
     }
 
@@ -146,7 +146,7 @@ namespace mesmer
   //
   // Add isomer reaction terms to contracted basis reaction matrix.
   //
-  void IsomerizationReaction::AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap)
+  void IsomerizationReaction::AddContractedBasisReactionTerms(lpdMatrix *CollOptr, molMapType &isomermap)
   {
     // Get densities of states for detailed balance.
     vector<double> rctDOS;
@@ -183,7 +183,7 @@ namespace mesmer
     for (int i=0, ii(rctLocation), egvI(rctColloptrsize-1) ; i < rctBasisSize ; i++, ii++, --egvI) {
       (*CollOptr)[ii][ii] -= m_rct1->getColl().matrixElement(egvI, egvI, fwdMicroRateCoef) ;
       for (int j=i+1, jj(rctLocation + j), egvJ(rctColloptrsize-j-1) ; j < rctBasisSize ; j++, jj++, --egvJ) {
-        qd_real tmp = m_rct1->getColl().matrixElement(egvI, egvJ, fwdMicroRateCoef) ;
+        double tmp = m_rct1->getColl().matrixElement(egvI, egvJ, fwdMicroRateCoef) ;
         (*CollOptr)[ii][jj] -= tmp ;
         (*CollOptr)[jj][ii] -= tmp ;
       }
@@ -196,7 +196,7 @@ namespace mesmer
     for (int i=0, ii(pdtLocation), egvI(pdtColloptrsize-1) ; i < pdtBasisSize ; i++, ii++, --egvI) {
       (*CollOptr)[ii][ii] -= m_pdt1->getColl().matrixElement(egvI, egvI, RvsMicroRateCoef) ;
       for (int j=i+1, jj(pdtLocation + j), egvJ(pdtColloptrsize-j-1)  ; j < pdtBasisSize ; j++, jj++, --egvJ) {
-        qd_real tmp = m_pdt1->getColl().matrixElement(egvI, egvJ, RvsMicroRateCoef) ;
+        double tmp = m_pdt1->getColl().matrixElement(egvI, egvJ, RvsMicroRateCoef) ;
         (*CollOptr)[ii][jj] -= tmp ;
         (*CollOptr)[jj][ii] -= tmp ;
       }
@@ -211,15 +211,15 @@ namespace mesmer
       m_rct1->getColl().eigenVector(rctEgv, rctBasisVector) ;
       for (int j=0, pdtEgv(pdtColloptrsize-1)  ; j < pdtBasisSize ; j++, --pdtEgv) {
         int jj(pdtLocation + j) ;
-        qd_real tmp(0.0) ;
+        double tmp(0.0) ;
                
         if (i==0 && j==0 ) {
 
           // Special case for equilibrium eigenvectors which obey a detailed balance relation.
           // SHR, 8/Mar/2009: are there other relations like this I wonder.
 
-          qd_real elmti = (*CollOptr)[ii][ii] ;
-          qd_real elmtj = (*CollOptr)[jj][jj] ;
+          double elmti = to_Type((*CollOptr)[ii][ii]) ;
+          double elmtj = to_Type((*CollOptr)[jj][jj]) ;
           tmp = sqrt(elmti*elmtj) ;
  
         } else {
@@ -235,7 +235,7 @@ namespace mesmer
             sum += rctBasisVector[m]*pdtBasisVector[n]*CrsMicroRateCoef[n];
           }
           
-          tmp = qd_real(sum) ;
+          tmp = sum ;
         }
         (*CollOptr)[ii][jj] += tmp ;
         (*CollOptr)[jj][ii] += tmp ;

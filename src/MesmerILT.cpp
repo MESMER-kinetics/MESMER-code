@@ -1,6 +1,5 @@
 #include "MesmerILT.h"
 #include "AssociationReaction.h"
-#include "Rdouble.h"
 
 using namespace std;
 using namespace Constants;

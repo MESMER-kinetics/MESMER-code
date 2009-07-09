@@ -18,7 +18,6 @@
 #include "Distribution.h"
 #include "MesmerEnv.h"
 #include "MesmerFlags.h"
-#include "Rdouble.h"
 
 using namespace std ;
 using namespace Constants ;
@@ -347,14 +346,14 @@ namespace mesmer
     bool initCollisionOperator(double beta, Molecule *pBathGasMolecule) ;
 
     // Calculate a reaction matrix element.
-    qd_real matrixElement(int eigveci, int eigvecj, std::vector<double> &k) const;
+    double matrixElement(int eigveci, int eigvecj, std::vector<double> &k) const;
     
     // Accessor a collision operator eigenvector.
     void eigenVector(int eigveci, std::vector<double> &evec) const ;
 
-    void copyCollisionOperator(qdMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
+    void copyCollisionOperator(lpdMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
 
-    void copyCollisionOperatorEigenValues(qdMatrix *CollOptr, const int locate, const double RducdOmega) const ;
+    void copyCollisionOperatorEigenValues(lpdMatrix *CollOptr, const int locate, const double RducdOmega) const ;
 
     void normalizedInitialDistribution(vector<double> &grainFrac, const int numberOfGrains, const int numberOfGroupedGrains = 0) ;
     void normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int numberOfGrains, const int numberOfGroupedGrains = 0);

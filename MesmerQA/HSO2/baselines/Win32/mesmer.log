@@ -35,8 +35,8 @@ In H: The default value of me:DOSCMethod was used.
 Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
 
 In total, 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 11 seconds.
- -- Total time elapsed: 32 seconds.
+Finish Calculation -- Time elapsed: 89 seconds.
+ -- Total time elapsed: 113 seconds.
 
 System saved to out.xml
 m_scaleFactor is provided but not used in H.

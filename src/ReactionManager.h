@@ -86,9 +86,9 @@ namespace mesmer
 
     bool calculateEquilibriumFractions(const double beta);
 
-    bool BartisWidomPhenomenologicalRates(dMatrix& rates, MesmerFlags& mFlags,PersistPtr ppBase);
+    bool BartisWidomPhenomenologicalRates(lpdMatrix& rates, MesmerFlags& mFlags,PersistPtr ppBase);
 
-    double calcChiSquare(const dMatrix& mesmerRates, vector<conditionSet>& expRates);
+    double calcChiSquare(const lpdMatrix& mesmerRates, vector<conditionSet>& expRates);
 
   private:
 
@@ -102,16 +102,15 @@ namespace mesmer
 
     MoleculeManager        *m_pMoleculeManager ;
 
-    qdMatrix               *m_reactionOperator ;
-    qdMatrix               *m_eigenvectors;
-    std::vector<qd_real>    m_eigenvalues;
+    lpdMatrix                            *m_reactionOperator ;
+    lpdMatrix                            *m_eigenvectors;
+    std::vector<logExp>    m_eigenvalues;
 
     // Reaction operator after similarity transformation by block diagonal U, which is U^-1 M' U.
-    qdMatrix               *m_basisMatrix;
+    lpdMatrix               *m_basisMatrix;
 
-    qdMatrix               *m_reducedBasisMatrix;
-    qdMatrix               *m_reducedEigenvectors;
-    std::vector<qd_real>    m_reducedEigenvalues;
+    lpdMatrix               *m_reducedBasisMatrix;
+    lpdMatrix               *m_reducedEigenvectors;
 
     std::vector<double>     m_eqVector;
     std::vector<double>     m_reducedEqVector;

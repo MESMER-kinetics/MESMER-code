@@ -146,6 +146,7 @@ SRCS := \
 	IrreversibleExchangeReaction.cpp \
 	IrreversibleUnimolecularReaction.cpp \
 	IsomerizationReaction.cpp \
+	logExp.cpp \
 	main.cpp \
 	MesmerEnv.cpp \
 	MesmerFlags.cpp \

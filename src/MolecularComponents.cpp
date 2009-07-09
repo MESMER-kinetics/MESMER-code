@@ -5,7 +5,6 @@
 //-------------------------------------------------------------------------------------------
 #include <stdexcept>
 #include "Molecule.h"
-#include "Rdouble.h"
 
 using namespace std ;
 using namespace Constants ;
@@ -1078,7 +1077,7 @@ namespace mesmer
       for (int i(0) ; i < reducedCollOptrSize ; ++i ) {
         double columnSum(0.0) ;
         for (int j(0) ; j < reducedCollOptrSize ; ++j ){
-          columnSum += to_double((*tempEGME)[j][i]) ;
+          columnSum += (*tempEGME)[j][i] ;
         }
         ctest << columnSum << endl ;
       }
@@ -1269,7 +1268,7 @@ namespace mesmer
       for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
         double columnSum(0.0) ;
         for ( j = 0 ; j < m_ncolloptrsize ; ++j ){
-          columnSum += to_double((*m_egme)[j][i]) ;
+          columnSum += (*m_egme)[j][i] ;
         }
         ctest << columnSum << endl ;
       }
@@ -1357,13 +1356,13 @@ namespace mesmer
   //
   // Calculate a reaction matrix element.
   //
-  qd_real gWellProperties::matrixElement(int eigveci, int eigvecj, std::vector<double> &k) const
+  double gWellProperties::matrixElement(int eigveci, int eigvecj, std::vector<double> &k) const
   {
     // Calculate matrix element starting with the higher energy
     // elements first in order to preserve precision as much as possible.
-    qd_real sum = 0.0 ;
+    double sum = 0.0 ;
     for (int i = m_ncolloptrsize - 1 ; i >= 0 ; --i){
-      sum +=  qd_real(k[i]) * ((*m_egvec)[i][eigveci]*(*m_egvec)[i][eigvecj]) ;
+      sum +=  k[i] * (*m_egvec)[i][eigveci]*(*m_egvec)[i][eigvecj];
     }
     return sum ;
   }
@@ -1375,14 +1374,14 @@ namespace mesmer
   {
     // evec.clear() ;
     for (int i(0) ; i < m_ncolloptrsize ; ++i){
-      evec[i] =  to_double((*m_egvec)[i][eigveci]) ;
+      evec[i] =  (*m_egvec)[i][eigveci];
     }
   }
 
   //
   // Copy collision operator to diagonal block of system matrix.
   //
-  void gWellProperties::copyCollisionOperator(qdMatrix *CollOptr,
+  void gWellProperties::copyCollisionOperator(lpdMatrix *CollOptr,
     const int size,
     const int locate,
     const double RducdOmega) const
@@ -1413,7 +1412,7 @@ namespace mesmer
   // Copy eigenvalues to diagonal elements of the reaction operator
   // matrix in the contracted basis representation.
   //
-  void gWellProperties::copyCollisionOperatorEigenValues(qdMatrix *CollOptr,
+  void gWellProperties::copyCollisionOperatorEigenValues(lpdMatrix *CollOptr,
     const int locate,
     const double Omega) const
   {

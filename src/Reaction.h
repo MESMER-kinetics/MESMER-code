@@ -14,7 +14,6 @@
 
 #include "MoleculeManager.h"
 #include "Tunneling.h"
-#include "Rdouble.h"
 
 namespace mesmer
 {
@@ -180,10 +179,10 @@ namespace mesmer
     bool calcGrnAvrgMicroRateCoeffs() ;
 
     // Add reaction terms to the reaction matrix.
-    virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) = 0;
+    virtual void AddReactionTerms(lpdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) = 0;
 
     // Add contracted basis set reaction terms to the reaction matrix.
-    virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) = 0 ;
+    virtual void AddContractedBasisReactionTerms(lpdMatrix *CollOptr, molMapType &isomermap) = 0 ;
 
     // Is reaction equilibrating and therefore contributes
     // to the calculation of equilibrium fractions.

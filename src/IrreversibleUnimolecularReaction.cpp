@@ -115,7 +115,7 @@ namespace mesmer
   //
   // Add dissociation reaction terms to collision matrix.
   //
-  void IrreversibleUnimolecularReaction::AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) {
+  void IrreversibleUnimolecularReaction::AddReactionTerms(lpdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) {
     // Get densities of states for detailed balance.
     vector<double> rctDOS;
     m_rct1->getDOS().getGrainDensityOfStates(rctDOS) ;
@@ -132,14 +132,14 @@ namespace mesmer
     for ( int i=fluxStartIdx, j = forwardThreshE, k=0; j < colloptrsize; ++i, ++j, ++k) {
       int ll = k + forwardThreshE;
       int ii(rctLocation + ll - rShiftedGrains) ;
-      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
+      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainFlux[i] / rctDOS[ll];                     // Forward loss reaction.
     }
   }
 
   //
   // Add contracted basis set reaction terms to the reaction matrix.
   //
-  void IrreversibleUnimolecularReaction::AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) {
+  void IrreversibleUnimolecularReaction::AddContractedBasisReactionTerms(lpdMatrix *CollOptr, molMapType &isomermap) {
 
     // Get densities of states for detailed balance.
     vector<double> rctDOS;
@@ -164,7 +164,7 @@ namespace mesmer
     for (int i=0, ii(rctLocation), egvI(rctColloptrsize-1) ; i < rctBasisSize ; i++, ii++, --egvI) {
       (*CollOptr)[ii][ii] -= m_rct1->getColl().matrixElement(egvI, egvI, fwdMicroRateCoef) ;
       for (int j=i+1, jj(rctLocation + j), egvJ(rctColloptrsize-j-1) ; j < rctBasisSize ; j++, jj++, --egvJ) {
-        qd_real tmp = m_rct1->getColl().matrixElement(egvI, egvJ, fwdMicroRateCoef) ;
+        double tmp = m_rct1->getColl().matrixElement(egvI, egvJ, fwdMicroRateCoef) ;
         (*CollOptr)[ii][jj] -= tmp ;
         (*CollOptr)[jj][ii] -= tmp ;
       }

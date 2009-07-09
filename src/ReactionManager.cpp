@@ -29,7 +29,6 @@ namespace mesmer
     m_basisMatrix(0),
     m_reducedBasisMatrix(0),
     m_reducedEigenvectors(0),
-    m_reducedEigenvalues(),
     m_eqVector(),
     m_reducedEqVector(),
     m_locSizeMap(),
@@ -457,7 +456,7 @@ namespace mesmer
     m_eigenvalues.clear();
     m_eigenvalues.resize(smsize, 0.0);
     if (m_eigenvectors) delete m_eigenvectors;
-    m_eigenvectors = new qdMatrix(smsize, 0.0) ;
+    m_eigenvectors = new lpdMatrix(smsize, 0.0) ;
 
     // This block prints Reaction Operator before diagonalization
     if (mFlags.printReactionOperatorNum){
@@ -468,46 +467,16 @@ namespace mesmer
     //-------------------------------------------------------------
     // diagonalize the whole matrix
     switch (precision){
-      case 0: // diagonalize in double
+      default: // diagonalize in log double
         {
-          dMatrix dDiagM(smsize);
+          lpdMatrix lpdDiagM(smsize);
           for ( int i = 0 ; i < smsize ; ++i )
             for ( int j = 0 ; j < smsize ; ++j )
-              dDiagM[i][j] = to_double((*m_reactionOperator)[i][j]) ;
-          vector<double>  dEigenValue(smsize, 0.0);
-          dDiagM.diagonalize(&dEigenValue[0]) ;
-          for ( int i = 0 ; i < smsize ; ++i )
-            m_eigenvalues[i] = dEigenValue[i];
+              lpdDiagM[i][j] = (*m_reactionOperator)[i][j];
+          lpdDiagM.diagonalize(&m_eigenvalues[0]) ;
           for ( int i = 0 ; i < smsize ; ++i )
             for ( int j = 0 ; j < smsize ; ++j )
-              (*m_eigenvectors)[i][j] = dDiagM[i][j] ;
-          break;
-        }
-      case 1: // diagonalize in double double
-        {
-          ddMatrix ddDiagM(smsize);
-          for ( int i = 0 ; i < smsize ; ++i )
-            for ( int j = 0 ; j < smsize ; ++j )
-              ddDiagM[i][j] = to_dd_real((*m_reactionOperator)[i][j]) ;
-          vector<dd_real> ddEigenValue(smsize, 0.0);
-          ddDiagM.diagonalize(&ddEigenValue[0]) ;
-          for ( int i = 0 ; i < smsize ; ++i )
-            m_eigenvalues[i] = ddEigenValue[i];
-          for ( int i = 0 ; i < smsize ; ++i )
-            for ( int j = 0 ; j < smsize ; ++j )
-              (*m_eigenvectors)[i][j] = ddDiagM[i][j] ;
-          break;
-        }
-      default: // diagonalize in quad double
-        {
-          qdMatrix qdDiagM(smsize);
-          for ( int i = 0 ; i < smsize ; ++i )
-            for ( int j = 0 ; j < smsize ; ++j )
-              qdDiagM[i][j] = (*m_reactionOperator)[i][j] ;
-          qdDiagM.diagonalize(&m_eigenvalues[0]) ;
-          for ( int i = 0 ; i < smsize ; ++i )
-            for ( int j = 0 ; j < smsize ; ++j )
-              (*m_eigenvectors)[i][j] = qdDiagM[i][j] ;
+              (*m_eigenvectors)[i][j] = lpdDiagM[i][j] ;
         }
     }
     // diagonalize the whole matrix
@@ -529,7 +498,7 @@ namespace mesmer
     ctest << "\nTotal number of eigenvalues = " << smsize << endl;
     ctest << "Eigenvalues\n{\n";
     for (int i = numberStarted ; i < smsize; ++i) {
-      qd_real tmp = (mFlags.doBasisSetMethod)? m_eigenvalues[i] : m_eigenvalues[i] * m_meanOmega ;
+      logExp tmp = (mFlags.doBasisSetMethod)? m_eigenvalues[i] : m_eigenvalues[i] * m_meanOmega ;
       formatFloat(ctest, tmp, 6, 15) ;
       ctest << endl ;
     }
@@ -842,7 +811,7 @@ namespace mesmer
     // |n_0> is the initial populations of the grains for all species
     // |n_t> = U exp(Lamda t) U^-1 |n_0>
     // |r_0> = U^-1 |n_0>
-    vector<double> r_0(smsize, 0.);
+    vector<logExp> r_0(smsize, 0.);
 
     double maxEvoTime = 0.;
     // set the default maximum evolution time
@@ -868,40 +837,40 @@ namespace mesmer
     }
 
 
-    dMatrix totalEigenVecs(smsize); // copy full eigenvectors of the system
+    lpdMatrix totalEigenVecs(smsize); // copy full eigenvectors of the system
     for ( int i = 0 ; i < smsize ; ++i )
       for ( int j = 0 ; j < smsize ; ++j )
-        totalEigenVecs[i][j] = to_double((*m_eigenvectors)[i][j]);
+        totalEigenVecs[i][j] = (*m_eigenvectors)[i][j];
 
 
     for (int i = 0; i < smsize; ++i) {
-      double sum = 0.;
+      logExp sum = 0.;
       for (int j = 0; j < smsize; ++j) {
-        sum += n_0[j] * totalEigenVecs[j][i];
+        sum += totalEigenVecs[j][i] * n_0[j];
       }
       r_0[i] = sum;  // now |r_0> = V^(T)*|init> = U^(-1)*|n_0>
     }
 
     for (int i = 0; i < smsize; ++i) {
-      double tmp = m_eqVector[i];
+      logExp tmp = m_eqVector[i];
       for (int j = 0; j < smsize; ++j) {
         totalEigenVecs[i][j] *= tmp;
       }
     }
 
     const int maxTimeStep = int(dt.size());
-    db2D grnProfile(smsize, maxTimeStep); // numbers inside the parentheses are dummies
-    vector<double> work2(smsize, 0.);
+    lpdb2D grnProfile(smsize, maxTimeStep); // numbers inside the parentheses are dummies
+    vector<logExp> work2(smsize, 0.);
 
     for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-      double numColl = m_meanOmega * timePoints[timestep];
+      double numColl(m_meanOmega * timePoints[timestep]);
       for (int j = 0; j < smsize; ++j) {
-        work2[j] = r_0[j] * exp(to_double(m_eigenvalues[j]) * numColl);
+        work2[j] = r_0[j] * exp(to_Type(m_eigenvalues[j]) * numColl);
       } // now |wk2> = exp(Dt)*V^(T)*|init> = exp(Dt)*U^(-1)*|n_0>
       for (int j = 0; j < smsize; ++j) {
-        double sum = 0.;
+        logExp sum = 0.;
         for (int l = 0; l < smsize; ++l) {
-          sum += work2[l] * totalEigenVecs[j][l];
+          sum += totalEigenVecs[j][l] * work2[l];
         }
         grnProfile[j][timestep] = sum;
       } // now |grnProfile(t)> = |grnProfile(i)> = F*V*exp(Dt)*V^(T)*|init> = U*exp(Dt)*U^(-1)*|n_0>
@@ -927,14 +896,14 @@ namespace mesmer
 
     ctest<<"mean collision frequency = " << m_meanOmega << "/s" << endl;
 
-    vector<double> totalIsomerPop(maxTimeStep, 0.);
-    vector<double> totalPdtPop(maxTimeStep, 0.);
+    vector<logExp> totalIsomerPop(maxTimeStep, 0.);
+    vector<logExp> totalPdtPop(maxTimeStep, 0.);
 
     for(int timestep(0); timestep<maxTimeStep; ++timestep){
       for(int j(0);j<smsize;++j){
         totalIsomerPop[timestep] += grnProfile[j][timestep];
       }
-      double popTime = totalIsomerPop[timestep];
+      logExp popTime = totalIsomerPop[timestep];
       if (popTime > 1.0){
         popTime = 1.0; // correct some numerical error
         //totalIsomerPop[timestep] = 1.0; // Not very sure if we should cover up this numerical error entirely!!?
@@ -943,7 +912,7 @@ namespace mesmer
         popTime = 0.0;
         //totalIsomerPop[timestep] = 0.0; // Not very sure if we should cover up this numerical error entirely!!?
       }
-      totalPdtPop[timestep] = 1.0 - popTime;
+      totalPdtPop[timestep] = logExp(1.0) - popTime;
     }
 
     int sinkpos(0);
@@ -974,7 +943,7 @@ namespace mesmer
     if (mFlags.speciesProfileEnabled){
       ctest << endl << "Print time dependent species and product profiles" << endl << "{" << endl;
       int numberOfSpecies = static_cast<int>(m_isomers.size() + m_sources.size() + m_sinkRxns.size());
-      db2D speciesProfile(numberOfSpecies, maxTimeStep);
+      lpdb2D speciesProfile(numberOfSpecies, maxTimeStep);
       int speciesProfileidx(0);
 
       ctest << setw(16) << "Timestep/s";
@@ -987,7 +956,7 @@ namespace mesmer
         speciesNames.push_back(source->getName());
         int rxnMatrixLoc = spos->second;
         for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-          double gPf = grnProfile[rxnMatrixLoc][timestep];
+          logExp gPf = grnProfile[rxnMatrixLoc][timestep];
           speciesProfile[speciesProfileidx][timestep] = gPf;
         }
         ++speciesProfileidx;
@@ -1040,11 +1009,11 @@ namespace mesmer
         speciesNames.push_back(pdts[0]->getName());
 
         int rxnMatrixLoc = pos->second;                       // get sink location
-        double TimeIntegratedProductPop(0.0);
+        logExp TimeIntegratedProductPop(0.0);
         if (numberGrouped == 0){
           for (int timestep = 0; timestep < maxTimeStep; ++timestep){
             for(int i = 0; i < colloptrsize; ++i){
-              speciesProfile[speciesProfileidx][timestep] += KofEs[i]*grnProfile[i+rxnMatrixLoc][timestep]*dt[timestep];
+              speciesProfile[speciesProfileidx][timestep] += grnProfile[i+rxnMatrixLoc][timestep]*KofEs[i]*dt[timestep];
             }
             TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];
             speciesProfile[speciesProfileidx][timestep]= TimeIntegratedProductPop;
@@ -1054,7 +1023,7 @@ namespace mesmer
         else{
           for (int timestep = 0; timestep < maxTimeStep; ++timestep){
             for(int i = 0; i < colloptrsize - numberGrouped + 1; ++i){
-              speciesProfile[speciesProfileidx][timestep] += KofEs[i + numberGrouped - 1]*grnProfile[i+rxnMatrixLoc][timestep]*dt[timestep];
+              speciesProfile[speciesProfileidx][timestep] += grnProfile[i+rxnMatrixLoc][timestep]*KofEs[i + numberGrouped - 1]*dt[timestep];
             }
             TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];
             speciesProfile[speciesProfileidx][timestep]= TimeIntegratedProductPop;
@@ -1066,8 +1035,8 @@ namespace mesmer
 
       if (pdtProfileStartIdx < speciesProfileidx){
         for(int timestep = 0; timestep < maxTimeStep; ++timestep){    // normalize product profile to account for small
-          double normConst(0.0);                          // numerical errors in TimeIntegratedProductPop
-          double pdtYield(0.0);
+          logExp normConst(0.0);                          // numerical errors in TimeIntegratedProductPop
+          logExp pdtYield(0.0);
           for(int i(pdtProfileStartIdx); i<speciesProfileidx; ++i){   // calculate normalization constant
             pdtYield += speciesProfile[i][timestep];
           }
@@ -1086,7 +1055,7 @@ namespace mesmer
         ppPop->XmlWriteAttribute("time", toString(timePoints[timestep]));
         for(int i(0); i<speciesProfileidx; ++i){
           ctest << setw(16) << speciesProfile[i][timestep];
-          PersistPtr ppVal = ppPop->XmlWriteValueElement("me:pop", speciesProfile[i][timestep]);
+          PersistPtr ppVal = ppPop->XmlWriteValueElement("me:pop", to_double(to_Type(speciesProfile[i][timestep])));
           ppVal->XmlWriteAttribute("ref", speciesNames[i]);
         }
         ctest << setw(16) << totalIsomerPop[timestep] << setw(16) << totalPdtPop[timestep] << endl;
@@ -1096,35 +1065,35 @@ namespace mesmer
     return true;
   }
 
-  bool ReactionManager::BartisWidomPhenomenologicalRates(dMatrix& mesmerRates, MesmerFlags& mFlags, PersistPtr ppList)
+  bool ReactionManager::BartisWidomPhenomenologicalRates(lpdMatrix& mesmerRates, MesmerFlags& mFlags, PersistPtr ppList)
   {
     const int smsize = int(m_eigenvectors->size());
-    dMatrix eigenVec(smsize);  //copy ReactionOperator, the eigenvector Matrix (== V)
+    lpdMatrix eigenVec(smsize);  //copy ReactionOperator, the eigenvector Matrix (== V)
 
     for ( int i = 0 ; i < smsize ; ++i )
       for ( int j = 0 ; j < smsize ; ++j )
-        eigenVec[i][j] = to_double((*m_eigenvectors)[i][j]) ;
+        eigenVec[i][j] = (*m_eigenvectors)[i][j] ;
 
     // constant variables
     const int nchem = static_cast<int>(m_isomers.size() + m_sources.size());  // number of isomers+pseudoisomers
     const int nchemIdx = smsize - nchem;       // idx for chemically significant eigenvalues & vectors
 
-    dMatrix assymInvEigenVec(smsize);   // U^(-1)
-    dMatrix assymEigenVec(smsize);      // U
+    lpdMatrix assymInvEigenVec(smsize);   // U^(-1)
+    lpdMatrix assymEigenVec(smsize);      // U
     for(int i(0);i<smsize;++i){
-      double tmp = m_eqVector[i];
+      logExp tmp(m_eqVector[i]);
       for(int j(0);j<smsize;++j){
         assymInvEigenVec[j][i] = eigenVec[i][j]/tmp;         //calculation of U^(-1) = (FV)^-1 = V^T * F^-1
-        assymEigenVec[j][i] = m_eqVector[j] * eigenVec[j][i];  //calculation of U = FV
+        assymEigenVec[j][i] = eigenVec[j][i] * m_eqVector[j];  //calculation of U = FV
       }
     }
 
     //------------------------- TEST block ----------------------------------------
-    dMatrix EigenVecIdentity(smsize);   // matrix for holding product of U^(-1) * U
+    lpdMatrix EigenVecIdentity(smsize);   // matrix for holding product of U^(-1) * U
     for(int i(0);i<smsize;++i){         // multiply U*U^(-1) for testing
-      double test = 0.0;
+      logExp test(0.0);
       for(int j(0);j<smsize;++j){
-        double sm = 0.0;
+        logExp sm(0.0);
         for(int k(0);k<smsize;++k){
           sm += assymEigenVec[i][k] * assymInvEigenVec[k][j];
         }
@@ -1138,8 +1107,8 @@ namespace mesmer
 
     // EigenVecIdentity.showFinalBits(nchem);
 
-    dMatrix Z_matrix(nchem);  // definitions of Y_matrix and Z_matrix taken from PCCP 2007(9), p.4085
-    db2D Y_matrix;
+    lpdMatrix Z_matrix(nchem);  // definitions of Y_matrix and Z_matrix taken from PCCP 2007(9), p.4085
+    lpdb2D Y_matrix;
     Reaction::molMapType::iterator ipos;  // set up an iterator through the isomer map
     Reaction::molMapType::iterator spos;  // set up an iterator through the source map
     sinkMap::iterator sinkpos;           // set up an iterator through the irreversible rxn map
@@ -1158,8 +1127,8 @@ namespace mesmer
     // check the separation between chemically significant eigenvalues (CSEs)
     // and internal energy relaxation eigenvalues (IEREs); if it's not good, print a warning
 
-    const double last_CSE=(to_double(m_eigenvalues[nchemIdx]))* m_meanOmega;
-    const double first_IERE=(to_double(m_eigenvalues[nchemIdx-1]))* m_meanOmega;
+    const double last_CSE=(to_double(to_Type(m_eigenvalues[nchemIdx])))* m_meanOmega;
+    const double first_IERE=(to_double(to_Type(m_eigenvalues[nchemIdx-1])))* m_meanOmega;
     const double CSE_IERE_separation=last_CSE/first_IERE;
     if(CSE_IERE_separation > 0.1){
       ctest << "\nWarning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)" << endl;
@@ -1170,7 +1139,7 @@ namespace mesmer
 
     for(int i(0); i<nchem; ++i){
       for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // calculate Z_matrix matrix elements for
-        double sm = 0.0;                                                // all isomers in the system
+        logExp sm(0.0);                                                // all isomers in the system
         Molecule* isomer = ipos->first;
         const int numberGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
         const int colloptrsize = (!numberGroupedGrains)
@@ -1185,7 +1154,7 @@ namespace mesmer
         Z_matrix[seqMatrixLoc][i] = sm;
       }
       for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // calculate Z_matrix matrix elements for
-        double sm = 0.0;                                                // all sources in the system
+        logExp sm(0.0);                                                // all sources in the system
         Molecule* pPseudoIsomer = spos->first ;
         int rxnMatrixLoc = spos->second;
         int seqMatrixLoc = m_SpeciesSequence[pPseudoIsomer];
@@ -1194,7 +1163,7 @@ namespace mesmer
       }
       if(m_sinkRxns.size()!=0) {
         for(sinkpos=m_sinkRxns.begin(); sinkpos!=m_sinkRxns.end(); ++sinkpos){ // calculate Y_matrix elements for sinks
-          double sm = 0.0;
+          logExp sm(0.0);
           vector<double> KofEs;                                         // vector to hold sink k(E)s
           vector<double> KofEsTemp;                                     // vector to hold sink k(E)s
           Reaction* sinkReaction = sinkpos->first;
@@ -1236,8 +1205,8 @@ namespace mesmer
 
     //    Y_matrix.print((int)(m_sinkRxns.size()), (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
 
-    dMatrix Zinv(Z_matrix), Zidentity(nchem), Kr(nchem);
-    db2D Kp;
+    lpdMatrix Zinv(Z_matrix), Zidentity(nchem), Kr(nchem);
+    lpdb2D Kp;
 
     if(Zinv.invertGaussianJordan()){
       cerr << "Inversion of Z_matrix failed.  Matrix before inversion is: ";
@@ -1252,7 +1221,7 @@ namespace mesmer
 
     for(int i(0);i<nchem;++i){          // multiply Z_matrix*Z_matrix^(-1) for testing
       for(int j(0);j<nchem;++j){
-        double sm = 0.0;
+        logExp sm(0.0);
         for(int k(0);k<nchem;++k){
           sm += Z_matrix[i][k] * Zinv[k][j];
         }
@@ -1265,9 +1234,9 @@ namespace mesmer
 
     for(int i(0);i<nchem;++i){          // calculate Kr (definition taken from PCCP 2007(9), p.4085)
       for(int j(0);j<nchem;++j){
-        double sm = 0.0;
+        logExp sm(0.0);
         for(int k(0);k<nchem;++k){
-          sm += Z_matrix[i][k] * to_double(m_eigenvalues[nchemIdx+k]) * Zinv[k][j];
+          sm += Z_matrix[i][k] * to_double(to_Type(m_eigenvalues[nchemIdx+k])) * Zinv[k][j];
         }
         Kr[i][j] = sm * m_meanOmega;
       }
@@ -1278,7 +1247,7 @@ namespace mesmer
     if(m_sinkRxns.size()!=0){
       for(int i(0); i != int(m_sinkRxns.size()); ++i){    // calculate Kp (definition taken from PCCP 2007(9), p.4085)
         for(int j(0);j<nchem;++j){
-          double sm = 0.0;
+          logExp sm(0.0);
           for(int k(0);k<nchem;++k){
             sm += Y_matrix[i][k] * Zinv[k][j];
           }
@@ -1299,7 +1268,7 @@ namespace mesmer
       Molecule* iso = lossitr->first;
       int losspos = lossitr->second;
       ctest << iso->getName() << " loss = " << Kr[losspos][losspos] << endl;
-      PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", Kr[losspos][losspos]);
+      PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", to_Type(Kr[losspos][losspos]));
       ppItem->XmlWriteAttribute("ref", iso->getName());
 
       if (mFlags.searchMethod == 3){
@@ -1324,7 +1293,7 @@ namespace mesmer
           if(rctpos != pdtpos){
             ctest << rct->getName() << " -> " << pdt->getName() << " = " << Kr[pdtpos][rctpos] << endl;
 
-            PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", Kr[pdtpos][rctpos]);
+            PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_Type(Kr[pdtpos][rctpos]));
             ppItem->XmlWriteAttribute("fromRef", rct->getName());
             ppItem->XmlWriteAttribute("toRef",   pdt->getName());
             ppItem->XmlWriteAttribute("reactionType", "isomerization");
@@ -1366,7 +1335,7 @@ namespace mesmer
           else{
             ctest << rcts->getName() << " -> "  << pdts[0]->getName() << " = " << Kp[sinkpos][rctpos] << endl;
 
-            PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", Kp[sinkpos][rctpos]);
+            PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_Type(Kp[sinkpos][rctpos]));
             ppItem->XmlWriteAttribute("fromRef", rcts->getName());
             ppItem->XmlWriteAttribute("toRef",   pdts[0]->getName());
             ppItem->XmlWriteAttribute("reactionType", "irreversible");
@@ -1429,7 +1398,7 @@ namespace mesmer
     }
   }
 
-  double ReactionManager::calcChiSquare(const dMatrix& mesmerRates, vector<conditionSet>& expRates){
+  double ReactionManager::calcChiSquare(const lpdMatrix& mesmerRates, vector<conditionSet>& expRates){
     double chiSquare = 0.0;
 
     for (size_t i(0); i < expRates.size(); ++i){
@@ -1459,7 +1428,7 @@ namespace mesmer
         break;
       }
 
-      double diff = (mesmerRates[seqMatrixLoc1][seqMatrixLoc2] - expRate);
+      double diff = to_Type(mesmerRates[seqMatrixLoc1][seqMatrixLoc2] - expRate);
       chiSquare += (diff * diff) / (expErr * expErr);
     }
 
@@ -1493,7 +1462,7 @@ namespace mesmer
 
     // Allocate space for the full system collision operator.
     if (m_reactionOperator) delete m_reactionOperator;
-    m_reactionOperator = new qdMatrix(msize, 0.0) ;
+    m_reactionOperator = new lpdMatrix(msize, 0.0) ;
 
     // Insert collision operators to reaction operator from individual wells.
     Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
@@ -1560,7 +1529,7 @@ namespace mesmer
     // Allocate space for the reaction operator.
 
     if (m_reactionOperator) delete m_reactionOperator;
-    m_reactionOperator = new qdMatrix(msize, 0.0) ;
+    m_reactionOperator = new lpdMatrix(msize, 0.0) ;
 
     // Insert collision operators: in the contracted basis these are the eignvalues
     // of the isomer collision operators.

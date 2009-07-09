@@ -8,11 +8,13 @@
 
 #include "a2d.h"
 #include "MesmerPrecision.h"
+#include "logExp.h"
 
 typedef a2d_t<double>      db2D;
 typedef a2d_t<long double> ldb2D;
-typedef a2d_t<dd_real>     ddb2D;
-typedef a2d_t<qd_real>     qdb2D;
+//typedef a2d_t<dd_real>     ddb2D;
+//typedef a2d_t<qd_real>     qdb2D;
 typedef a2d_t<int>         int2D;
+typedef a2d_t<logExp>      lpdb2D;
 
 #endif

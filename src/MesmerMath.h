@@ -57,7 +57,7 @@ const T MesmerGamma(const T& x)
   };
 
   if (x > 171.0) return 1e308;    // This value is an overflow flag.
-  if (to_double(x) == (int) to_double(x)) {
+  if (x == (int) x) {
     if (x > 0.0) {
       ga = 1.0;               // use factorial
       for (i=2;i<x;--i) ga *= i;
@@ -67,7 +67,7 @@ const T MesmerGamma(const T& x)
   else {
     if (abs(x) > 1.0) {
       z = abs(x);
-      m = (int)to_double(z);
+      m = (int)z;
       r = 1.0;
       for (k=1;k<=m;++k) r *= (z-k);
       z -= m;

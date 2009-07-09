@@ -22,12 +22,12 @@ namespace mesmer
   // Note: the convention adopted here is that there are two reactants
   // and one product (adduct).
   //
-  // One fact to know is that whatever happens in the reaction operator in this routine is in the unit of 
-  // "per collision". In addition, the expression of every entry has to be first similarly transformed to the 
+  // One fact to know is that whatever happens in the reaction operator in this routine is in the unit of
+  // "per collision". In addition, the expression of every entry has to be first similarly transformed to the
   // symmetrized matrix corrdinates using detailed balance just like the way of constructing collision operator.
   // The flux has to be divided by omega before putting into the entry because flux is calculated in the unit of
   // second, we need to convert the flux into the unit of per collision.
-  // 
+  //
   bool AssociationReaction::InitializeReaction(PersistPtr ppReac)
   {
     m_ppPersist = ppReac;
@@ -102,7 +102,7 @@ namespace mesmer
 
   }
 
-  void AssociationReaction::AddReactionTerms(qdMatrix      *CollOptr,
+  void AssociationReaction::AddReactionTerms(lpdMatrix      *CollOptr,
     molMapType    &isomermap,
     const double rMeanOmega)
   {
@@ -122,7 +122,7 @@ namespace mesmer
     vector<double> adductPopFrac ; // Population fraction of the adduct
     m_pdt1->getColl().normalizedGrnBoltzmannDistribution(adductPopFrac, MaximumGrain) ;
 
-    qd_real DissRateCoeff(0.0) ;
+    double DissRateCoeff(0.0) ;
 
     const int pNGG(m_pdt1->getColl().getNumberOfGroupedGrains());
     const int pShiftedGrains(pNGG == 0 ? 0 : pNGG - 1);
@@ -136,19 +136,19 @@ namespace mesmer
     for ( int i = reverseThreshE, j = fluxStartIdx; i < colloptrsize; ++i, ++j) {
       int ii(pdtLoc + i - pShiftedGrains) ;
 
-      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[j] / pdtDOS[i]);                                // Loss of the adduct to the source
-      (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[j] * sqrt(adductPopFrac[i] * Keq) / pdtDOS[i]);// Reactive gain of the source
+      (*CollOptr)[ii][ii] -= rMeanOmega * m_GrainFlux[j] / pdtDOS[i];                                // Loss of the adduct to the source
+      (*CollOptr)[jj][ii]  = rMeanOmega * m_GrainFlux[j] * sqrt(adductPopFrac[i] * Keq) / pdtDOS[i];// Reactive gain of the source
       (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                                                      // Reactive gain (symmetrization)
-      DissRateCoeff       += qd_real(m_GrainFlux[j] * adductPopFrac[i] / pdtDOS[i]);
+      DissRateCoeff       += m_GrainFlux[j] * adductPopFrac[i] / pdtDOS[i];
     }
-    (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * DissRateCoeff * Keq);       // Loss of the source from detailed balance.
+    (*CollOptr)[jj][jj] -= rMeanOmega * DissRateCoeff * Keq;       // Loss of the source from detailed balance.
   }
 
 
   //
   // Add isomer reaction terms to contracted basis reaction matrix.
   //
-  void AssociationReaction::AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap)
+  void AssociationReaction::AddContractedBasisReactionTerms(lpdMatrix *CollOptr, molMapType &isomermap)
   {
     // Get densities of states for detailed balance.
     vector<double> pdtDOS;
@@ -172,7 +172,7 @@ namespace mesmer
     vector<double> CrsMicroRateCoef(pdtColloptrsize, 0.0) ;
     for ( int i=fluxStartIdx, j = reverseThreshE, k=0; j < pdtColloptrsize; ++i, ++j, ++k) {
       int mm = k + reverseThreshE;
-      RvsMicroRateCoef[mm] = m_GrainFlux[i] / pdtDOS[mm] ;                          // Backward loss reaction. 
+      RvsMicroRateCoef[mm] = m_GrainFlux[i] / pdtDOS[mm] ;                          // Backward loss reaction.
       CrsMicroRateCoef[mm] = RvsMicroRateCoef[mm] * sqrt(adductPopFrac[mm] * Keq) ; // Reactive gain from detailed balance.
       DissRateCoeff       += RvsMicroRateCoef[mm] * adductPopFrac[mm] ;
     }
@@ -184,7 +184,7 @@ namespace mesmer
     for (int i=0, ii(pdtLocation), egvI(pdtColloptrsize-1) ; i < pdtBasisSize ; i++, ii++, --egvI) {
       (*CollOptr)[ii][ii] -= m_pdt1->getColl().matrixElement(egvI, egvI, RvsMicroRateCoef) ;
       for (int j=i+1, jj(pdtLocation + j), egvJ(pdtColloptrsize-j-1)  ; j < pdtBasisSize ; j++, jj++, --egvJ) {
-        qd_real tmp = m_pdt1->getColl().matrixElement(egvI, egvJ, RvsMicroRateCoef) ;
+        double tmp = m_pdt1->getColl().matrixElement(egvI, egvJ, RvsMicroRateCoef) ;
         (*CollOptr)[ii][jj] -= tmp ;
         (*CollOptr)[jj][ii] -= tmp ;
       }
@@ -193,22 +193,22 @@ namespace mesmer
     // Calculate the elements of the reactant block.
 
     const int jj         = (*m_sourceMap)[get_pseudoIsomer()] ;
-    (*CollOptr)[jj][jj] -= qd_real(DissRateCoeff * Keq);       // Loss of the source from detailed balance.
+    (*CollOptr)[jj][jj] -= DissRateCoeff * Keq;       // Loss of the source from detailed balance.
 
     // Calculate the elements of the cross blocks.
 
     vector<double> pdtBasisVector(pdtColloptrsize, 0.0) ;
     for (int i=0, pdtEgv(pdtColloptrsize-1)  ; i < pdtBasisSize ; i++, --pdtEgv) {
       int ii(pdtLocation + i) ;
-      qd_real tmp(0.0) ;
+      double tmp(0.0) ;
 
       if (i==0) {
 
         // Special case for equilibrium eigenvectors which obey a detailed balance relation.
         // SHR, 8/Mar/2009: are there other relations like this I wonder.
 
-        qd_real elmti = (*CollOptr)[ii][ii] ;
-        qd_real elmtj = (*CollOptr)[jj][jj] ;
+        double elmti = to_Type((*CollOptr)[ii][ii]) ;
+        double elmtj = to_Type((*CollOptr)[jj][jj]) ;
         tmp = sqrt(elmti*elmtj) ;
 
       } else {
@@ -221,7 +221,7 @@ namespace mesmer
           sum += pdtBasisVector[n]*CrsMicroRateCoef[n];
         }
 
-        tmp = qd_real(sum) ;
+        tmp = sum ;
       }
       (*CollOptr)[ii][jj] += tmp ;
       (*CollOptr)[jj][ii] += tmp ;

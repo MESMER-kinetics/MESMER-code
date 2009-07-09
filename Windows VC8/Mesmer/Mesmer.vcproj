@@ -226,6 +226,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\logExp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\main.cpp"
 				>
 			</File>
@@ -369,6 +373,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\IsomerizationReaction.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\logExp.h"
 				>
 			</File>
 			<File
