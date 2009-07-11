@@ -655,4 +655,31 @@ namespace mesmer
     clog << "qd_real min == " << numeric_limits<qd_real>::min() << endl;
   }
 
+
+  void System::LineSearch(const int varID) {
+
+	  // First catch your hare ... need to bracket the minimum. To do this
+	  // use the parameter limits supplied. 
+
+      double a, b, stepsize ;
+	  Rdouble::withRange()[varID]->get_range(a, b, stepsize);
+
+	  // Calculate chi2 at the upper and lower points.
+	  *Rdouble::withRange()[varID]=a ;
+      double chi2a ;
+      calculate(chi2a);
+
+	  *Rdouble::withRange()[varID]=b ;
+      double chi2b ;
+      calculate(chi2b);
+
+      // Determine the direaction of search.
+
+	  double direction = (chi2a > chi2b)? 1.0 : -1.0 ;
+
+	  // Follow gradient down hill to estimate loation of the next point.
+
+  }
+
+
 }//namespace

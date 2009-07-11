@@ -1,3 +1,9 @@
+
+
+2009-July-11 Struan Robertson
+
+	* System.cpp: Addition of LineSearch method required by automated search.
+
 2009-June-28 Struan Robertson
 
 	* System.cpp: Initial changes toward automated fitting and some minor corrections.
