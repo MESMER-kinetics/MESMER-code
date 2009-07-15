@@ -1,6 +1,12 @@
 2009-July-15 Chris Morley
-Path
-mesmer1.xsl
+
+	* examples/isopropylHinderedRotor:	Add an example data file and some
+	notes on hindered rotors.
+	
+	* src/XMLPersist.cpp: extra endl to improve log file output.
+	
+2009-July-15 Chris Morley
+
 	* src/MicroRate.cpp: included XML names in the range variables because
 	 they mean more to users.
 	 
@@ -11,7 +17,9 @@ mesmer1.xsl
 	defect) gridSearch with a simpler, more	transparent recursive function.
 	This may have messed up the punch file output. 
 	Enable multiple <analysis> sections in XML file
-
+	
+	* mesmer1.xsl: can now view multiple <analysis> sections.
+	
 2009-July-11 Struan Robertson
 
 	* System.cpp: More LineSearch material.

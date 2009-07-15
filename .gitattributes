@@ -57,6 +57,7 @@ examples/AcetylO2/acetylO2.ck -text
 examples/AcetylO2/lactone.log -text
 examples/DiagramTest/HSO2.xml -text
 examples/MesmerTemplate.text -text
+examples/isopropylHinderedRotor/isopropyl.xml -text
 examples/makedata.bat -text
 /librarymols.xml -text
 /mesmer1.xsl -text

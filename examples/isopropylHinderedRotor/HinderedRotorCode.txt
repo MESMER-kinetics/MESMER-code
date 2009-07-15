@@ -1,0 +1,55 @@
+Hindered Rotors
+
+From MolecularComponents.cpp line 335
+    /* Two types of DOSCMethod:
+         main methods like ClassicalRotors, can be standalone;
+         extra methods like hindered rotor, which must correct for replaced vibrations.
+       Currently both are plugin classes derived from DensityOfStatesCalculator, but with
+       separate lists, so an error is flagged if the wrong type is used,
+    */
+
+From HinderedRotorA.cpp
+
+    //***TODO remove contribution from vibration and add contribution from hindered rotor
+
+From examples/isopropylHinderedRotor/isopropyl.xml
+
+    <molecule  id="i-propyl" spinMultiplicity="2">
+      ...
+      <bondArray>
+        <bond id="b1" atomRefs2="a1 a2" order="1"/>
+        <bond id="b2" atomRefs2="a2 a3" order="1"/>
+      ...
+      <!--No explicit main DOSCMethod. Default is inserted-->
+      <me:ExtraDOSCMethod>HinderedRotorA
+        <bondRef>b1</bondRef>
+        <me:vibFreq units="cm-1">300</me:vibFreq>
+        <me:barrierZPE units="kJ/mol">12.4</me:barrierZPE>
+        <me:periodicity>3</me:periodicity>
+      </me:ExtraDOSCMethod>
+
+      <me:ExtraDOSCMethod name="HinderedRotorA">
+        <bondRef>b2</bondRef>
+        <me:vibFreq units="cm-1">300</me:vibFreq>
+        <me:barrierZPE units="kJ/mol">12.4</me:barrierZPE>
+        <me:periodicity>3</me:periodicity>
+      </me:ExtraDOSCMethod>
+    </molecule>
+    
+    <molecule  id="propene">
+    ...
+	<bondArray>
+	<bond id="b1" atomRefs2="a1 a2" order="1"/>
+    ...
+	<me:DOSCMethod>Classical rotors</me:DOSCMethod>
+	<me:ExtraDOSCMethod>HinderedRotorA
+	  <bondRef>b1</bondRef>
+	  <me:vibFreq units="cm-1">300</me:vibFreq>
+	  <me:barrierZPE units="kJ/mol">12.4</me:barrierZPE>
+	  <me:periodicity>3</me:periodicity>
+	</me:ExtraDOSCMethod>
+    
+The method name in <me:ExtraDOSCMethod> is read in
+gDensityOfStates::calcDensityOfStates().
+The other elements are optionally read in HinderedRotorA.
+Some of them may not be necessary. 
