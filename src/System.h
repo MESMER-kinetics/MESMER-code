@@ -38,7 +38,12 @@ namespace mesmer
 
     // Begin grid search
     void gridSearch(void);
-    
+
+    // grid search
+    //recursively calculate for all values of range variables
+    bool DoRangeCalcs(unsigned startvar, ofstream& punchStream);
+    bool CalcAndReport(ofstream& punchStream);
+  
     // Print system configuration
     void configuration(void);
 

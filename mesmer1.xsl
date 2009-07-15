@@ -66,9 +66,16 @@
           font-family: Arial, Helvetica, sans-serif;
           color:black;
           font-weight:bold;
+          
         }
         .tablehead2{text-decoration:underline;padding-top:10px;}
         .tablehead3{font-weight:bold;padding-top:10px;text-align:center}
+        .paramheader{
+          font-family: Arial, Helvetica, sans-serif;
+          color:black;
+          font-weight:bold;
+          text-decoration: underline;
+        }
         table{background-color:#e0f8f8; margin-bottom:12px;}
         td{padding:0px 4px;}
         h3{color:teal;font-family: Arial, Helvetica, sans-serif;}
@@ -265,7 +272,11 @@
           <xsl:value-of select="concat('A = ', me:preExponential, 
               ' E = ', me:activationEnergy, me:activationEnergy/@units)"/>
         </xsl:if>
-        <xsl:if test="cml:rateParameters">
+        <xsl:if test="me:preExponential/@stepsize | me:activationEnergy/@stepsize">
+          <xsl:value-of select="' with range of parameters'"/>
+        </xsl:if>
+                  
+       <xsl:if test="cml:rateParameters">
           <xsl:value-of select="concat( 'A = ', cml:rateParameters/cml:A,
               ' E = ', cml:rateParameters/cml:E, cml:rateParameters/cml:E/@units)"/>
         </xsl:if>
@@ -334,6 +345,11 @@
   </xsl:template>
 
   <xsl:template match="me:rateList">
+    <p class="paramheader">
+      <xsl:for-each select="../me:parameters/@*">
+        <xsl:value-of select="concat(name(),'=',.,', ')"/>
+      </xsl:for-each>
+    </p>
     <table>
      <tr>
        <td class="tablehead1" colspan="5" align="center">
@@ -369,6 +385,11 @@
 
   <xsl:template match="//me:populationList">
     <xsl:variable name="speciesNames" select="me:population[1]/me:pop/@ref"/>
+    <p class="paramheader">
+      <xsl:for-each select="../me:parameters/@*">
+        <xsl:value-of select="concat(name(),'=',.,', ')"/>
+      </xsl:for-each>
+    </p>
     <table>
       <tr><td class="tablehead1" colspan="5" align="center">
         <xsl:value-of select="concat('Populations (mole fractions) at ',@T,'K ',

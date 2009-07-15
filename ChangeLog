@@ -1,4 +1,16 @@
+2009-July-15 Chris Morley
+Path
+mesmer1.xsl
+	* src/MicroRate.cpp: included XML names in the range variables because
+	 they mean more to users.
+	 
+	* src/Rdouble.h,src/Rdouble.cpp: some new functions. Take account of
+	floating point rounding errors. Fixes bug #2818103.
 
+	* src/System.cpp, src/System.h: redo (sorry, I know this is a character
+	defect) gridSearch with a simpler, more	transparent recursive function.
+	This may have messed up the punch file output. 
+	Enable multiple <analysis> sections in XML file
 
 2009-July-11 Struan Robertson
 

@@ -328,8 +328,67 @@ namespace mesmer
     }
   }
 
-  void System::gridSearch(void){
+  //Calculate for all values of range variables later than startvar (recursive)
+  bool System::DoRangeCalcs(unsigned startvar, ofstream& punchStream)
+  {
+    //Do calculation when the last range variable is incrementing
+    if(startvar >= Rdouble::withRange().size())
+      return CalcAndReport(punchStream);
+    //Do later variables exhautively at each iteration
+    do { DoRangeCalcs(startvar+1, punchStream); } while(!IsNan(++(*Rdouble::withRange()[startvar])));
+    return true;
+  }
 
+  bool System::CalcAndReport(ofstream& punchStream)
+  { 
+    double chiSquare(1000.0);
+    ctest << "Parameter Grid\n";
+
+    for(int i=0;i!=Rdouble::withRange().size();++i)
+    {
+      cerr  << ' ' << Rdouble::withRange()[i]->get_varname() << '=' << *Rdouble::withRange()[i];
+      ctest << ' ' << Rdouble::withRange()[i]->get_varname() << '=' << *Rdouble::withRange()[i];
+    }
+    cerr << endl;
+    ctest << "\n{" << endl;
+
+    calculate(chiSquare);
+
+    if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH)
+    {
+        unsigned dataPointSize = Rdouble::withRange().size();
+        //ctest << "Parameters: ( ";
+        if (m_Flags.punchSymbols.size()){
+          for (unsigned varID(0); varID < dataPointSize; ++varID){
+            punchStream << "Para" << varID << "\t";
+          }
+          punchStream << "Temperature (K)\tNumber density\t";
+          punchStream << m_Flags.punchSymbols;
+          m_Flags.punchSymbols.clear();
+        }
+        for (unsigned varID(0); varID < dataPointSize; ++varID){
+          //ctest << gridArray[i][varID] << " ";
+          //punchStream << gridArray[i][varID] << "\t";
+          punchStream << *Rdouble::withRange()[varID] << "\t";
+        }
+        punchStream << m_Env.beta << "\t" << m_Env.conc << "\t";
+        punchStream << m_Flags.punchNumbers;
+        m_Flags.punchNumbers.clear();
+
+        punchStream.flush();
+
+        ctest << "chiSquare = " << chiSquare << " )\n}\n";
+    }
+    return true;
+  }
+
+  void System::gridSearch(void){
+    ofstream punchStream;
+    if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) 
+      punchStream.open(m_Flags.punchFileName.c_str());
+    DoRangeCalcs(0, punchStream);
+    return;
+/*
     // produce a grid for search
     db2D gridArray; // this array grows up freely without needing dimensions
 
@@ -338,7 +397,7 @@ namespace mesmer
       // for every dimension create a series and duplicate the serie while the indices going forward
       double lower(0.0), upper(0.0), stepsize(0.0);
       Rdouble::withRange()[varID]->get_range(lower, upper, stepsize);
-      int numSteps = int((upper - lower) / stepsize) + 1;
+      int numSteps = Rdouble::withRange()[varID]->get_numsteps();
       totalSteps *= numSteps;
     }
 
@@ -346,7 +405,7 @@ namespace mesmer
     for (int varID(0); varID < dataPointSize; ++varID){
       double lower(0.0), upper(0.0), stepsize(0.0);
       Rdouble::withRange()[varID]->get_range(lower, upper, stepsize);
-      int numSteps = int((upper - lower) / stepsize) + 1;
+      int numSteps = Rdouble::withRange()[varID]->get_numsteps();
       int stack(0), block(0);
       while (stack < totalSteps){
         int step(0);
@@ -404,6 +463,7 @@ namespace mesmer
       }
       ++calPoint;
     }
+  */
   }
 
   //
@@ -479,7 +539,19 @@ namespace mesmer
     //Considered putting this output under each PT pair in me:conditions.
     //But doesn't work with a range of Ps or Ts. So has to have its own section.
     string comment( "Bartis-Widom Phenomenological Rates and Time dependent populations" );
-    PersistPtr ppAnalysis = m_ppIOPtr->XmlWriteMainElement("me:analysis", comment);
+    bool overwrite = false; //There will be an <analysis> section for every calculate()
+    //This may not be appropriate when fitting
+    PersistPtr ppAnalysis = m_ppIOPtr->XmlWriteMainElement("me:analysis", comment, overwrite);
+    if(Rdouble::withRange().size()!=0)
+    {
+      PersistPtr ppParams = ppAnalysis->XmlWriteElement("me:parameters");
+      for(int i=0;i!=Rdouble::withRange().size();++i)
+      {
+        stringstream ss;
+        ss << *Rdouble::withRange()[i];
+        ppParams->XmlWriteAttribute(Rdouble::withRange()[i]->get_varname(), ss.str());
+      }
+    }
 
     for (calPoint = 0; calPoint < PandTs.size(); ++calPoint){
       m_Env.beta = 1.0 / (boltzmann_RCpK * PandTs[calPoint].get_temperature()) ; //temporary statements

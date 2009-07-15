@@ -108,10 +108,10 @@ namespace mesmer
         stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
         s3 >> tmpvalueL; s4 >> tmpvalueU; s5 >> tmpstepsize;
         double valueL(getConvertedEnergy(unitsInput, tmpvalueL));
-        double valueU(getConvertedEnergy(unitsInput, tmpvalueL));
+        double valueU(getConvertedEnergy(unitsInput, tmpvalueU));
         double stepsize(getConvertedEnergy(unitsInput, tmpstepsize));
         pReact->set_EInf(NaN);
-        Rdouble::set_range_indirect(valueL,valueU,stepsize, "EInf");
+        Rdouble::set_range_indirect(valueL,valueU,stepsize, "me:activationEnergy");
       }
       else{
         pReact->set_EInf(value);
@@ -135,7 +135,7 @@ namespace mesmer
         stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
         s3 >> valueL; s4 >> valueU; s5 >> stepsize;
         pReact->set_PreExp(NaN);
-        Rdouble::set_range_indirect(valueL,valueU,stepsize, "PreExp");
+        Rdouble::set_range_indirect(valueL,valueU,stepsize, "me:preExponential");
 
       }
       else{
@@ -160,7 +160,7 @@ namespace mesmer
         double valueL(0.0), valueU(0.0), stepsize(0.0);
         stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
         pReact->set_NInf(NaN);
-        Rdouble::set_range_indirect(valueL,valueU,stepsize, "NInf");
+        Rdouble::set_range_indirect(valueL,valueU,stepsize, "me:nInfinity");
       }
       else{
         pReact->set_NInf(value);
