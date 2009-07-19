@@ -1,3 +1,9 @@
+	
+2009-July-19 Struan Robertson
+
+	* EnergyTransferModel.h: Addition of base class for energy transfer models.
+	* ExponentialDown.cpp/.h: Addition of implentation class for exponential gap model.
+ 
 2009-July-15 Chris Morley
 
 	* examples/isopropylHinderedRotor:	Add an example data file and some

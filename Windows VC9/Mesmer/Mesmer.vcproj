@@ -201,6 +201,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ExponentialDown.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\formatfloat.cpp"
 				>
 			</File>
@@ -344,6 +348,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\EckartCoefficients.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\EnergyTransferModel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ExponentialDown.h"
 				>
 			</File>
 			<File

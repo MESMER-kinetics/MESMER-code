@@ -198,6 +198,9 @@ src/DensityOfStates.h -text
 src/Distribution.h -text
 src/EckartCoefficients.cpp -text
 src/EckartCoefficients.h -text
+src/EnergyTransferModel.h -text
+src/ExponentialDown.cpp -text
+src/ExponentialDown.h -text
 src/IrreversibleExchangeReaction.cpp -text
 src/IrreversibleExchangeReaction.h -text
 src/IrreversibleUnimolecularReaction.cpp -text
