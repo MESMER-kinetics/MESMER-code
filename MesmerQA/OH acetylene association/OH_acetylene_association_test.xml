@@ -256,6 +256,7 @@
     <me:energyAboveTheTopHill>20.</me:energyAboveTheTopHill>
   </me:modelParameters>
   <me:control>
+    <me:useALGLIBdiagonalization />
     <me:testDOS />
     <me:testMicroRates />
     <!--<me:printGrainDOS />-->

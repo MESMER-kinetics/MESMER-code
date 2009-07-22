@@ -659,6 +659,7 @@
     <me:energyAboveTheTopHill>25.0</me:energyAboveTheTopHill>
   </me:modelParameters>
   <me:control>
+    <me:useALGLIBdiagonalization />
     <me:testDOS />
     <me:printSpeciesProfile />
     <!--<me:testMicroRates />-->

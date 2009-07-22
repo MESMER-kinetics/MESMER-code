@@ -185,6 +185,15 @@ qd/tests/quadt.h -text
 qd/tests/quadt_test.cpp -text
 qd/tests/tictoc.cpp -text
 qd/tests/tictoc.h -text
+sevd/README-MESMER-USERS -text
+sevd/ap.h -text
+sevd/apvt.h -text
+sevd/license -text
+sevd/reflections.h -text
+sevd/sblas.h -text
+sevd/sevd.h -text
+sevd/tdevd.h -text
+sevd/tridiagonal.h -text
 src/AssignMolTypes.cpp -text
 src/AssociationReaction.cpp -text
 src/AssociationReaction.h -text

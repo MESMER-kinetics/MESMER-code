@@ -1,0 +1,8 @@
+Note:
+
+The files in this folder were originally from the Symmetric eigenproblem package of ALGLIB. 
+They are trimmed and modified to templates for higher precision purposes in MESMER.
+
+Chi-Hsiu Liang
+
+_2008_10_15__16_00_17_

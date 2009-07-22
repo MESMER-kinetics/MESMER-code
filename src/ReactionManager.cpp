@@ -475,7 +475,8 @@ namespace mesmer
             for ( int j = 0 ; j < smsize ; ++j )
               dDiagM[i][j] = to_double((*m_reactionOperator)[i][j]) ;
           vector<double>  dEigenValue(smsize, 0.0);
-          dDiagM.diagonalize(&dEigenValue[0]) ;
+          if (mFlags.useALGLIB){dDiagM.ALGLIB_diagonalize(&dEigenValue[0]);}
+          else{dDiagM.diagonalize(&dEigenValue[0]);}
           for ( int i = 0 ; i < smsize ; ++i )
             m_eigenvalues[i] = dEigenValue[i];
           for ( int i = 0 ; i < smsize ; ++i )
@@ -490,7 +491,8 @@ namespace mesmer
             for ( int j = 0 ; j < smsize ; ++j )
               ddDiagM[i][j] = to_dd_real((*m_reactionOperator)[i][j]) ;
           vector<dd_real> ddEigenValue(smsize, 0.0);
-          ddDiagM.diagonalize(&ddEigenValue[0]) ;
+          if (mFlags.useALGLIB){ddDiagM.ALGLIB_diagonalize(&ddEigenValue[0]);}
+          else{ddDiagM.diagonalize(&ddEigenValue[0]);}
           for ( int i = 0 ; i < smsize ; ++i )
             m_eigenvalues[i] = ddEigenValue[i];
           for ( int i = 0 ; i < smsize ; ++i )
@@ -504,7 +506,8 @@ namespace mesmer
           for ( int i = 0 ; i < smsize ; ++i )
             for ( int j = 0 ; j < smsize ; ++j )
               qdDiagM[i][j] = (*m_reactionOperator)[i][j] ;
-          qdDiagM.diagonalize(&m_eigenvalues[0]) ;
+          if (mFlags.useALGLIB){qdDiagM.ALGLIB_diagonalize(&m_eigenvalues[0]);}
+          else{qdDiagM.diagonalize(&m_eigenvalues[0]);}
           for ( int i = 0 ; i < smsize ; ++i )
             for ( int j = 0 ; j < smsize ; ++j )
               (*m_eigenvectors)[i][j] = qdDiagM[i][j] ;

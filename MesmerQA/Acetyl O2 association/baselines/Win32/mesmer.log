@@ -45,8 +45,8 @@ Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
 In mesmer::ReactionManager::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 
 In total, 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 56 seconds.
- -- Total time elapsed: 177 seconds.
+Finish Calculation -- Time elapsed: 71 seconds.
+ -- Total time elapsed: 225 seconds.
 
 System saved to out.xml
 m_ImFreq is provided but not used in TS2.
