@@ -1,4 +1,13 @@
-	
+_2009_07_22__15_32_17_ Chi-Hsiu Liang
+
+  * Moved i-propyl and benzene_oxidation to example folder
+  * removed the atom array and bond array blocks for i-propyl system, as this
+    will encourage MESMER to check whether the number of vibrational frequencies is making
+    sense or not.
+  * Fixed the error of benzene_oxidation_test.xml. This is from the calculation 
+    microcanonical rate constants of irreversible exchange reaction, which is
+    unavailable.
+  
 2009-July-19 Struan Robertson
 
 	* EnergyTransferModel.h: Addition of base class for energy transfer models.

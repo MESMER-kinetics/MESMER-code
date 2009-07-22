@@ -14,6 +14,10 @@ namespace mesmer
   {
     vector<Molecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
+    if (!unimolecularspecies.size()){
+      ctest << "\nNo microcanonical rate coefficients for " << pReact->getName() << endl;
+      return true;
+    }
     Molecule * pReactant = unimolecularspecies[0];
 
     string comment("Microcanonical rate coefficients");
