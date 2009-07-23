@@ -838,6 +838,8 @@ namespace mesmer
     for (int j = 0; j < smsize; ++j) {
       n_0[j] /= m_eqVector[j];
     }
+    // Converts the initial population vector into Boltzmann weighted population vector.
+    // All transitions in the reaction matrix are Boltzmann weighted for symmetry.
 
     // |n_0> is the initial populations of the grains for all species
     // |n_t> = U exp(Lamda t) U^-1 |n_0>
@@ -851,7 +853,7 @@ namespace mesmer
     else
       maxEvoTime = mFlags.maxEvolutionTime;
 
-    // calculate the time points
+    // Calculates the time points
     vector<double> timePoints;
     for (int i = 0; i <= 160; ++i){
       double time = pow(10., static_cast<double>(i) / 10. - 11.);
@@ -860,7 +862,7 @@ namespace mesmer
       timePoints.push_back(time);
     }
 
-    //initialize dt vector for calculating product yields
+    //Initialises dt vector for calculating product yields
     vector<double> dt(timePoints.size()-1,0.0);
     dt[0] = timePoints[0];
     for (int i = 1; i < int(dt.size()); ++i){
@@ -880,6 +882,8 @@ namespace mesmer
         sum += n_0[j] * totalEigenVecs[j][i];
       }
       r_0[i] = sum;  // now |r_0> = V^(T)*|init> = U^(-1)*|n_0>
+      // Times the initial population with the inverse of the eigenvector 
+      // which converts the populations into the "decay modes" domain.
     }
 
     for (int i = 0; i < smsize; ++i) {

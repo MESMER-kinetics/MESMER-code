@@ -31,6 +31,8 @@ RELEASE_CFLAGS   := -Wall -Wno-format -O2
 #****************************************************************************
 # LIBS paths
 #****************************************************************************
+# LIBS paths specify the locations for compilers to look for archived 
+# function libraries while linking the object files.
 
 # the line below is what should be uncommented if the user installs both 
 # tinyxml and qd in their default location within the MESMER distribution.
@@ -90,6 +92,8 @@ endif
 #****************************************************************************
 # Include paths
 #****************************************************************************
+# Include paths specify the locations for compilers to look for included
+# header files when creating object files.
 
 # the line below is what should be uncommented if the user installs both 
 # tinyxml and qd in their default location within the MESMER distribution.
