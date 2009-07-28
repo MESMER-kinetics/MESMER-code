@@ -5,21 +5,21 @@
   <title> Acetyl O2 association</title>
   <moleculeList>
     <molecule id="acetyl" description="CH_3CO">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="H" />
         <atom id="a3" elementType="H" />
         <atom id="a4" elementType="H" />
         <atom id="a5" elementType="C" />
         <atom id="a6" elementType="O" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
         <bond atomRefs2="a1 a3" order="1" />
         <bond atomRefs2="a1 a4" order="1" />
         <bond atomRefs2="a1 a5" order="1" />
         <bond atomRefs2="a5 a6" order="2" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">139.5</scalar>
@@ -46,7 +46,7 @@
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TSabs">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="H" />
         <atom id="a3" elementType="H" />
@@ -55,15 +55,15 @@
         <atom id="a6" elementType="O" />
         <atom id="a7" elementType="O" />
         <atom id="a8" elementType="O" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
         <bond atomRefs2="a1 a3" order="1" />
         <bond atomRefs2="a1 a4" order="1" />
         <bond atomRefs2="a1 a5" order="1" />
         <bond atomRefs2="a5 a6" order="2" />
         <bond atomRefs2="a7 a8" order="2" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">335.06</scalar>
@@ -90,13 +90,13 @@
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="O2" description="oxygen">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="O" />
         <atom id="a2" elementType="O" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="2" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">0.0</scalar>
@@ -123,13 +123,13 @@
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="OH" description="OH radical">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="O" />
         <atom id="a2" elementType="H" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">0.0</scalar>
@@ -159,7 +159,7 @@
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="Int1" description="peroxy acetyl O2 adduct">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="H" />
         <atom id="a3" elementType="H" />
@@ -168,8 +168,8 @@
         <atom id="a6" elementType="O" />
         <atom id="a7" elementType="O" />
         <atom id="a8" elementType="O" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
         <bond atomRefs2="a1 a3" order="1" />
         <bond atomRefs2="a1 a4" order="1" />
@@ -177,7 +177,7 @@
         <bond atomRefs2="a5 a6" order="2" />
         <bond atomRefs2="a5 a7" order="1" />
         <bond atomRefs2="a7 a8" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">0.0</scalar>
@@ -214,7 +214,7 @@
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS1" description="TS1a: peroxy -> peroxide">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="H" />
         <atom id="a3" elementType="H" />
@@ -223,14 +223,14 @@
         <atom id="a6" elementType="O" />
         <atom id="a7" elementType="O" />
         <atom id="a8" elementType="O" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
         <bond atomRefs2="a1 a3" order="1" />
         <bond atomRefs2="a1 a5" order="1" />
         <bond atomRefs2="a5 a6" order="2" />
         <bond atomRefs2="a5 a7" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">118.0</scalar>
@@ -260,7 +260,7 @@
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS2" description="peroxy -> HO2 + ketene">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="H" />
         <atom id="a3" elementType="H" />
@@ -269,14 +269,14 @@
         <atom id="a6" elementType="O" />
         <atom id="a7" elementType="O" />
         <atom id="a8" elementType="O" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
         <bond atomRefs2="a1 a3" order="1" />
         <bond atomRefs2="a1 a5" order="2" />
         <bond atomRefs2="a5 a6" order="1" />
         <bond atomRefs2="a7 a8" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">151.09</scalar>
@@ -306,19 +306,19 @@
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="ketene" description="CH2CO">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="H" />
         <atom id="a3" elementType="H" />
         <atom id="a4" elementType="C" />
         <atom id="a5" elementType="O" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
         <bond atomRefs2="a1 a3" order="1" />
         <bond atomRefs2="a1 a4" order="2" />
         <bond atomRefs2="a4 a5" order="2" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">115.6</scalar>
@@ -345,15 +345,15 @@
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="HO2">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="H" />
         <atom id="a2" elementType="O" />
         <atom id="a3" elementType="O" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
         <bond atomRefs2="a2 a3" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">0.0</scalar>
@@ -380,7 +380,7 @@
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="Int2" description="peroxide_isomer_opt">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="H" />
         <atom id="a3" elementType="H" />
@@ -389,8 +389,8 @@
         <atom id="a6" elementType="O" />
         <atom id="a7" elementType="O" />
         <atom id="a8" elementType="O" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
         <bond atomRefs2="a1 a3" order="1" />
         <bond atomRefs2="a1 a5" order="1" />
@@ -398,7 +398,7 @@
         <bond atomRefs2="a5 a7" order="1" />
         <bond atomRefs2="a7 a8" order="1" />
         <bond atomRefs2="a8 a4" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">12.33</scalar>
@@ -435,7 +435,7 @@
       <me:reservoirSize units="kJ/mol">-3.0</me:reservoirSize>
     </molecule>
     <molecule id="TS3" description="TS peroxide -> lactone + OH">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="H" />
         <atom id="a3" elementType="H" />
@@ -444,15 +444,15 @@
         <atom id="a6" elementType="O" />
         <atom id="a7" elementType="O" />
         <atom id="a8" elementType="O" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
         <bond atomRefs2="a1 a3" order="1" />
         <bond atomRefs2="a1 a5" order="1" />
         <bond atomRefs2="a5 a6" order="2" />
         <bond atomRefs2="a5 a7" order="1" />
         <bond atomRefs2="a8 a4" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">103.98</scalar>
@@ -482,22 +482,22 @@
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="lactone">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="H" />
         <atom id="a3" elementType="H" />
         <atom id="a4" elementType="C" />
         <atom id="a5" elementType="O" />
         <atom id="a6" elementType="O" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
         <bond atomRefs2="a1 a3" order="1" />
         <bond atomRefs2="a1 a4" order="1" />
         <bond atomRefs2="a1 a5" order="1" />
         <bond atomRefs2="a4 a5" order="1" />
         <bond atomRefs2="a4 a6" order="2" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">13.0</scalar>
@@ -524,21 +524,21 @@
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="triplet_C2H2O2">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="H" />
         <atom id="a3" elementType="H" />
         <atom id="a4" elementType="C" />
         <atom id="a5" elementType="O" />
         <atom id="a6" elementType="O" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
         <bond atomRefs2="a1 a3" order="1" />
         <bond atomRefs2="a1 a4" order="2" />
         <bond atomRefs2="a4 a5" order="1" />
         <bond atomRefs2="a4 a6" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">186.41</scalar>

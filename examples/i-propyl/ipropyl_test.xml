@@ -4,7 +4,30 @@
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
   <title>isopropyl decomposition</title>
   <moleculeList>
-    <molecule id="i-propyl">
+    <molecule id="i-propyl" spinMultiplicity="2">
+      <atomArray>
+        <atom id="a1" elementType="C"/>
+        <atom id="a2" elementType="C" spinMultiplicity="2"/>
+        <atom id="a3" elementType="C"/>
+        <atom id="a4" elementType="H"/>
+        <atom id="a5" elementType="H"/>
+        <atom id="a6" elementType="H"/>
+        <atom id="a7" elementType="H"/>
+        <atom id="a8" elementType="H"/>
+        <atom id="a9" elementType="H"/>
+        <atom id="a10" elementType="H"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a2 a3" order="1"/>
+        <bond atomRefs2="a1 a4" order="1"/>
+        <bond atomRefs2="a1 a5" order="1"/>
+        <bond atomRefs2="a1 a6" order="1"/>
+        <bond atomRefs2="a2 a7" order="1"/>
+        <bond atomRefs2="a3 a8" order="1"/>
+        <bond atomRefs2="a3 a9" order="1"/>
+        <bond atomRefs2="a3 a10" order="1"/>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="cm-1">0.0</scalar>
@@ -42,6 +65,27 @@
     </molecule>
 
     <molecule id="propene">
+      <atomArray>
+        <atom id="a1" elementType="C"/>
+        <atom id="a2" elementType="C"/>
+        <atom id="a3" elementType="C"/>
+        <atom id="a4" elementType="H"/>
+        <atom id="a5" elementType="H"/>
+        <atom id="a6" elementType="H"/>
+        <atom id="a7" elementType="H"/>
+        <atom id="a8" elementType="H"/>
+        <atom id="a9" elementType="H"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a2 a3" order="2"/>
+        <bond atomRefs2="a1 a4" order="1"/>
+        <bond atomRefs2="a1 a5" order="1"/>
+        <bond atomRefs2="a1 a6" order="1"/>
+        <bond atomRefs2="a2 a7" order="1"/>
+        <bond atomRefs2="a3 a8" order="1"/>
+        <bond atomRefs2="a3 a9" order="1"/>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="cm-1">12275.0</scalar>
@@ -356,9 +400,9 @@
   </me:modelParameters>
 
   <me:control>
+    <me:calcMethod>gridSearch</me:calcMethod>
     <!--<me:testDOS />-->
     <me:testMicroRates />
-    <me:gridSearch />
     <!--<me:printGrainDOS />-->
     <!--<me:printCellDOS />-->
     <!--<me:printReactionOperatorColumnSums />-->

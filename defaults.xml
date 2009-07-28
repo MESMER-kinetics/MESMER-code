@@ -41,6 +41,6 @@
   <me:TInfinity default="true">298</me:TInfinity>
   <me:grainSize units="cm-1" default="true">100</me:grainSize>
   <me:energyAboveTheTopHill units="kT" default="true">25</me:energyAboveTheTopHill>
-  
+  <me:calcMethod default="true">simpleCalc</me:calcMethod>
 </defaults>
 

@@ -85,6 +85,9 @@ namespace mesmer
     virtual PersistPtr XmlWriteValueElement(const std::string& name,
                                    const double datum, const int precision=-1)=0;
 
+    /// Inserts into XML document a new element  containing a string
+    virtual PersistPtr XmlWriteValueElement(const std::string& name, const std::string& value)=0;
+
     /// Inserts into XML document meta data information
     ///like <metadata name="dc:source" content="LibraryMols.xml" timestamp="20080705_104810" />
     virtual PersistPtr XmlWriteMetadata(const std::string& name, const std::string& content)=0;

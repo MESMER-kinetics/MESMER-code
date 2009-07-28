@@ -224,7 +224,7 @@
   <me:control>
     <!--<me:testDOS />-->
     <!--<me:testMicroRates />-->
-    <!--<me:gridSearch />-->
+    <me:gridSearch />
     <!--<me:printGrainDOS />-->
     <!--<me:printCellDOS />-->
     <!--<me:printReactionOperatorColumnSums />-->

@@ -5,7 +5,7 @@
   <title>Pentyl isomerization</title>
   <moleculeList>
     <molecule id="n-pentyl">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C"/>
         <atom id="a2" elementType="C"/>
         <atom id="a3" elementType="C"/>
@@ -22,13 +22,13 @@
         <atom id="a14" elementType="H"/>
         <atom id="a15" elementType="H"/>
         <atom id="a16" elementType="H"/>
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1"/>
         <bond atomRefs2="a2 a3" order="1"/>
         <bond atomRefs2="a3 a4" order="1"/>
         <bond atomRefs2="a4 a5" order="1"/>
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">9.12112</scalar>
@@ -67,7 +67,7 @@
     </molecule>
 
     <molecule id="n-pentyl=TS=2-pentyl">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C"/>
         <atom id="a2" elementType="C"/>
         <atom id="a3" elementType="C"/>
@@ -84,13 +84,13 @@
         <atom id="a14" elementType="H"/>
         <atom id="a15" elementType="H"/>
         <atom id="a16" elementType="H"/>
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1"/>
         <bond atomRefs2="a2 a3" order="1"/>
         <bond atomRefs2="a3 a4" order="1" me:active="true"/>
         <bond atomRefs2="a4 a5" order="1"/>
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">108.74216</scalar>
@@ -169,7 +169,7 @@
     </molecule>
 
     <molecule id="2-pentyl">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C"/>
         <atom id="a2" elementType="C"/>
         <atom id="a3" elementType="C"/>
@@ -186,13 +186,13 @@
         <atom id="a14" elementType="H"/>
         <atom id="a15" elementType="H"/>
         <atom id="a16" elementType="H"/>
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1"/>
         <bond atomRefs2="a2 a3" order="1"/>
         <bond atomRefs2="a3 a4" order="1"/>
         <bond atomRefs2="a4 a5" order="1"/>
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">0.0</scalar>

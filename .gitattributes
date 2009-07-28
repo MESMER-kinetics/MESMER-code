@@ -64,6 +64,7 @@ examples/makedata.bat -text
 /mesmer2.xsl -text
 /mesmerDiag.xsl -text
 /popDiag.xsl -text
+/punch.xsl -text
 qd/AUTHORS -text
 qd/COPYING -text
 qd/ChangeLog -text

@@ -1,3 +1,20 @@
+2009-July-28 Chris Morley
+
+  * Add new folder for plugin classes (but not all moved yet)
+  * Make new abstract class CalcMethod with derived plugin classes in
+    src/plugins/fitting.cpp,src/plugins/gridsearch.cpp,src/plugins/simplecalc.cpp
+  *	src/MesmerFlags.cpp,src/MesmerFlags.h,src/ReactionManager.cpp,src/System.cpp,
+    src/System.h: Use new method for doing the calculations. Remove punch file
+    output.
+  
+  * punch.xsl: for making a simplifed file from the output xml file.  
+
+  * Replace atomarray and bondarray by atomArray and bondArray in example and QA files,
+  and in src/Molecule.cpp. (The embarassing error message with i-propyl was because
+  the molecules had implicit hydrogen. We will ban this in Mesmer.
+  
+  * src/Persistence.h,src/XMLPersist.cpp,src/XMLPersist.h: added XmlWriteValueElement().
+  
 _2009_07_23__14_24_24_ Chi-Hsiu Liang
 
 Some comments

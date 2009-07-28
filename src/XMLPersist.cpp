@@ -309,6 +309,15 @@ namespace mesmer
     return PersistPtr(new XMLPersist(item));
   }
 
+  /// Inserts into XML document a new element  containing a string
+  PersistPtr XMLPersist::XmlWriteValueElement(const std::string& name, const std::string& value)
+  {
+    TiXmlElement* item = new TiXmlElement( name );
+    pnNode->LinkEndChild(item);
+    item->LinkEndChild(new TiXmlText(value));
+    return PersistPtr(new XMLPersist(item));
+  }
+
   PersistPtr XMLPersist::XmlWriteElement(const std::string& name)
   {
     TiXmlElement* item = new TiXmlElement( name );

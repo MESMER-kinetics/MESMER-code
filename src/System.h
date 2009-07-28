@@ -16,10 +16,11 @@
 //-------------------------------------------------------------------------------------------
 
 #include "ReactionManager.h"
+#include "calcmethod.h"
 
 namespace mesmer
 {
-
+  class CalcMethod;
   class System 
   {
   public:
@@ -36,13 +37,8 @@ namespace mesmer
     // Begin fitting.
     void fitting(void);
 
-    // Begin grid search
-    void gridSearch(void);
-
-    // grid search
-    //recursively calculate for all values of range variables
-    bool DoRangeCalcs(unsigned startvar, ofstream& punchStream);
-    bool CalcAndReport(ofstream& punchStream);
+    // Begin single calculation.
+    bool calculate(double& chiSquare) ;
   
     // Print system configuration
     void configuration(void);
@@ -57,8 +53,6 @@ namespace mesmer
 
   private:
 
-    // Begin single calculation.
-    void calculate(double& chiSquare) ;
 
     void readPTs(PersistPtr);
 
@@ -81,6 +75,8 @@ namespace mesmer
     
     // level in XML file under <mesemer>
     PersistPtr m_ppIOPtr;
+
+    CalcMethod* m_CalcMethod;
 
 	// Linesearch. Performs an optimization along a specified direction.
 	// This is only a temporary location for this method, it should be

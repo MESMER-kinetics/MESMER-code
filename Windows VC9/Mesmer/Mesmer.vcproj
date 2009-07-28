@@ -43,7 +43,7 @@
 				AdditionalOptions="/D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE"
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
-				AdditionalIncludeDirectories="&quot;../../src ../../tinyxml ../../qd/include&quot;"
+				AdditionalIncludeDirectories="&quot;..\..\src;..\..\tinyxml;..\..\qd\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -205,7 +205,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\plugins\fitting.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\formatfloat.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\plugins\gridsearch.cpp"
 				>
 			</File>
 			<File
@@ -285,6 +293,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\plugins\simplecalc.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\SimpleILT.cpp"
 				>
 			</File>
@@ -324,6 +336,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\BoltzmannDistribution.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\calcmethod.h"
 				>
 			</File>
 			<File

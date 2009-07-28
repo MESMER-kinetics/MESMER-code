@@ -5,19 +5,19 @@
   <title>Pentyl isomerization</title>
   <moleculeList>
     <molecule id="n-pentyl">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C"/>
         <atom id="a2" elementType="C"/>
         <atom id="a3" elementType="C"/>
         <atom id="a4" elementType="C"/>
         <atom id="a5" elementType="C"/>
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1"/>
         <bond atomRefs2="a2 a3" order="1"/>
         <bond atomRefs2="a3 a4" order="1"/>
         <bond atomRefs2="a4 a5" order="1"/>
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kcal/mol">2.140</scalar>
@@ -56,19 +56,19 @@
     </molecule>
 
     <molecule id="n-pentyl=TS=2-pentyl">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C"/>
         <atom id="a2" elementType="C"/>
         <atom id="a3" elementType="C"/>
         <atom id="a4" elementType="C"/>
         <atom id="a5" elementType="C"/>
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1"/>
         <bond atomRefs2="a2 a3" order="1"/>
         <bond atomRefs2="a3 a4" order="1" me:active="true"/>
         <bond atomRefs2="a4 a5" order="1"/>
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kcal/mol">21.7</scalar>
@@ -147,19 +147,19 @@
     </molecule>
 
     <molecule id="2-pentyl">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C"/>
         <atom id="a2" elementType="C"/>
         <atom id="a3" elementType="C"/>
         <atom id="a4" elementType="C"/>
         <atom id="a5" elementType="C"/>
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1"/>
         <bond atomRefs2="a2 a3" order="1"/>
         <bond atomRefs2="a3 a4" order="1"/>
         <bond atomRefs2="a4 a5" order="1"/>
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kcal/mol">0.0</scalar>

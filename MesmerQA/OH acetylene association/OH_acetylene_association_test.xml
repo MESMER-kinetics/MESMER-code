@@ -5,21 +5,21 @@
   <title>OH Acetylene association</title>
   <moleculeList>
     <molecule id="OH_acetylene_adduct">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="C" />
         <atom id="a3" elementType="O" />
         <atom id="a4" elementType="H" />
         <atom id="a5" elementType="H" />
         <atom id="a6" elementType="H" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="2" />
         <bond atomRefs2="a1 a3" order="1" />
         <bond atomRefs2="a3 a4" order="1" />
         <bond atomRefs2="a1 a5" order="1" />
         <bond atomRefs2="a2 a6" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">0.0</scalar>
@@ -52,20 +52,20 @@
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS_1a">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="C" />
         <atom id="a3" elementType="H" />
         <atom id="a4" elementType="H" />
         <atom id="a5" elementType="O" />
         <atom id="a6" elementType="H" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="3" />
         <bond atomRefs2="a1 a3" order="1" />
         <bond atomRefs2="a2 a4" order="1" />
         <bond atomRefs2="a5 a6" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">141.4</scalar>
@@ -89,21 +89,21 @@
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="OCHCH2">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="C" />
         <atom id="a3" elementType="H" />
         <atom id="a4" elementType="H" />
         <atom id="a5" elementType="O" />
         <atom id="a6" elementType="H" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="2" />
         <bond atomRefs2="a2 a3" order="1" />
         <bond atomRefs2="a2 a4" order="1" />
         <bond atomRefs2="a1 a5" order="1" />
         <bond atomRefs2="a1 a6" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">-110.5</scalar>
@@ -126,13 +126,13 @@
       </propertyList>
     </molecule>
     <molecule id="OH">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="O" />
         <atom id="a2" elementType="H" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">0.0</scalar>
@@ -159,17 +159,17 @@
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="acetylene">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="C" />
         <atom id="a3" elementType="H" />
         <atom id="a4" elementType="H" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="3" />
         <bond atomRefs2="a1 a3" order="1" />
         <bond atomRefs2="a2 a4" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">130.7</scalar>

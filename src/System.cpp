@@ -172,12 +172,16 @@ namespace mesmer
       // System configuration information
       if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();
 
+       m_CalcMethod = CalcMethod::GetCalcMethod(ppControl);
+     
+      /*
       if      (ppControl->XmlReadBoolean("me:gridSearch"))          m_Flags.searchMethod = GRIDSEARCH;
       else if (ppControl->XmlReadBoolean("me:fitting"))             m_Flags.searchMethod = FITTING;
       else if (ppControl->XmlReadBoolean("me:gridSearchWithPunch")) m_Flags.searchMethod = GRIDSEARCHWITHPUNCH;
       else m_Flags.searchMethod = SINGLECALCULATION;
+      */
 
-      if (m_Flags.grainedProfileEnabled && (m_Flags.speciesProfileEnabled || m_Flags.searchMethod)){
+      if (m_Flags.grainedProfileEnabled && (m_Flags.speciesProfileEnabled /*|| m_Flags.searchMethod*/)){
         cinfo << "Turn off grained species profile to prevent disk flooding." << endl;
         m_Flags.grainedProfileEnabled = false;
       }
@@ -215,25 +219,8 @@ namespace mesmer
   //
   void System::executeCalculation()
   {
-    switch (m_Flags.searchMethod){
-        case FITTING:
-          fitting() ;
-          break;
-        case GRIDSEARCH:
-          gridSearch();
-          break;
-        case GRIDSEARCHWITHPUNCH: // with punch exported
-          gridSearch();
-          break;
-        case SINGLECALCULATION:
-          {
-            double chiSquare(1000.0);
-            calculate(chiSquare) ;
-          }
-          break;
-        default:
-          cerr << "No search method defined." << endl ;
-    }
+    assert(m_CalcMethod);
+    m_CalcMethod->DoCalculation(this);
   }
 
   // pop the P and T points into PandTs
@@ -328,196 +315,10 @@ namespace mesmer
     }
   }
 
-  //Calculate for all values of range variables later than startvar (recursive)
-  bool System::DoRangeCalcs(unsigned startvar, ofstream& punchStream)
-  {
-    //Do calculation when the last range variable is incrementing
-    if(startvar >= Rdouble::withRange().size())
-      return CalcAndReport(punchStream);
-    //Do later variables exhautively at each iteration
-    do { DoRangeCalcs(startvar+1, punchStream); } while(!IsNan(++(*Rdouble::withRange()[startvar])));
-    return true;
-  }
-
-  bool System::CalcAndReport(ofstream& punchStream)
-  { 
-    double chiSquare(1000.0);
-    ctest << "Parameter Grid\n";
-
-    for(int i=0;i!=Rdouble::withRange().size();++i)
-    {
-      cerr  << ' ' << Rdouble::withRange()[i]->get_varname() << '=' << *Rdouble::withRange()[i];
-      ctest << ' ' << Rdouble::withRange()[i]->get_varname() << '=' << *Rdouble::withRange()[i];
-    }
-    cerr << endl;
-    ctest << "\n{" << endl;
-
-    calculate(chiSquare);
-
-    if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH)
-    {
-        unsigned dataPointSize = Rdouble::withRange().size();
-        //ctest << "Parameters: ( ";
-        if (m_Flags.punchSymbols.size()){
-          for (unsigned varID(0); varID < dataPointSize; ++varID){
-            punchStream << "Para" << varID << "\t";
-          }
-          punchStream << "Temperature (K)\tNumber density\t";
-          punchStream << m_Flags.punchSymbols;
-          m_Flags.punchSymbols.clear();
-        }
-        for (unsigned varID(0); varID < dataPointSize; ++varID){
-          //ctest << gridArray[i][varID] << " ";
-          //punchStream << gridArray[i][varID] << "\t";
-          punchStream << *Rdouble::withRange()[varID] << "\t";
-        }
-        punchStream << m_Env.beta << "\t" << m_Env.conc << "\t";
-        punchStream << m_Flags.punchNumbers;
-        m_Flags.punchNumbers.clear();
-
-        punchStream.flush();
-
-        ctest << "chiSquare = " << chiSquare << " )\n}\n";
-    }
-    return true;
-  }
-
-  void System::gridSearch(void){
-    ofstream punchStream;
-    if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) 
-      punchStream.open(m_Flags.punchFileName.c_str());
-    DoRangeCalcs(0, punchStream);
-    return;
-/*
-    // produce a grid for search
-    db2D gridArray; // this array grows up freely without needing dimensions
-
-    int totalSteps = 1, dataPointSize = int(Rdouble::withRange().size());
-    for (int varID(0); varID < dataPointSize; ++varID){
-      // for every dimension create a series and duplicate the serie while the indices going forward
-      double lower(0.0), upper(0.0), stepsize(0.0);
-      Rdouble::withRange()[varID]->get_range(lower, upper, stepsize);
-      int numSteps = Rdouble::withRange()[varID]->get_numsteps();
-      totalSteps *= numSteps;
-    }
-
-    int spanSteps = 1;
-    for (int varID(0); varID < dataPointSize; ++varID){
-      double lower(0.0), upper(0.0), stepsize(0.0);
-      Rdouble::withRange()[varID]->get_range(lower, upper, stepsize);
-      int numSteps = Rdouble::withRange()[varID]->get_numsteps();
-      int stack(0), block(0);
-      while (stack < totalSteps){
-        int step(0);
-        while(step < spanSteps){
-          double stepValue = lower + block * stepsize;
-          gridArray[stack][varID] = stepValue;
-          ++step;
-          ++stack;
-        }
-        ++block;
-        if (block == numSteps) block = 0;
-      }
-      spanSteps *= numSteps;
-    }
-
-    // TimeCount events; unsigned int timeElapsed;
-    int calPoint(0);
-
-    ofstream punchStream;
-    if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) 
-      punchStream.open(m_Flags.punchFileName.c_str());
-
-    for (int i(0); i < totalSteps; ++i){
-      double chiSquare(1000.0);
-
-      // assign values
-      for (int varID(0); varID < dataPointSize; ++varID) *Rdouble::withRange()[varID] = gridArray[i][varID];
-
-      // calculate
-      cerr << "Parameter Grid " << calPoint <<endl;;
-      ctest << "Parameter Grid " << calPoint << "\n{\n";
-      calculate(chiSquare);
-
-      if (dataPointSize){
-        ctest << "Parameters: ( ";
-        if (m_Flags.punchSymbols.size()){
-          for (int varID(0); varID < dataPointSize; ++varID){
-            if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) punchStream << "Para" << varID << "\t";
-          }
-          if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) punchStream << "Temperature (K)\tNumber density\t";
-          if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) punchStream << m_Flags.punchSymbols;
-          m_Flags.punchSymbols.clear();
-        }
-        for (int varID(0); varID < dataPointSize; ++varID){
-          ctest << gridArray[i][varID] << " ";
-          if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) punchStream << gridArray[i][varID] << "\t";
-        }
-        if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) punchStream << m_Env.beta << "\t" << m_Env.conc << "\t";
-        if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) punchStream << m_Flags.punchNumbers;
-        m_Flags.punchNumbers.clear();
-
-        if (m_Flags.searchMethod == GRIDSEARCHWITHPUNCH) punchStream.flush();
-
-        ctest << "chiSquare = " << chiSquare << " )\n}\n";
-      }
-      ++calPoint;
-    }
-  */
-  }
-
-  //
-  // This function implements the Powell Convergent direaction
-  // method to determine the minimum in the chi-squared surface.
-  //
-  void System::fitting(void){
-
-    size_t nVar = Rdouble::withRange().size() ;
-
-    if (nVar < 1) { 
-
-      // Return error.
-
-    } else if (nVar == 1) {
-
-      // Do a simple line search.
-
-    } else {
-
-      int MaxNumSteps = 100 ;
-
-      bool converged(false) ;
-
-      double chiSquare(0.0);
-
-      calculate(chiSquare);
-
-      vector<double> currentPosition(nVar,0.0) ;
-
-      dMatrix searchVectors(nVar);  // Create matrix of search directions.
-
-      for (size_t i(0) ; i < nVar ; i++) { 
-        searchVectors[i][i] = 1.0 ;
-        currentPosition[i] = *Rdouble::withRange()[i];
-      }
-
-      for (int step(0); step < MaxNumSteps && !converged ; step++ ){
-
-        for (size_t obj(0); obj < nVar ; ++obj){
-
-        }
-
-        ctest << "Step " << step << " of fitting. chiSquare = " << chiSquare << endl;
-      }
-
-    }
-
-  }
-
   //
   // Begin calculation.
-  //
-  void System::calculate(double& chiSquare)
+  // over all PT values, constant parameters
+  bool System::calculate(double& chiSquare)
   {
     // Controls the print-out of grain/cell DOS in each cycle (This is only for source term)
     if (m_Flags.cellDOSEnabled) m_Flags.cyclePrintCellDOS = true;
@@ -538,9 +339,10 @@ namespace mesmer
     //XML output
     //Considered putting this output under each PT pair in me:conditions.
     //But doesn't work with a range of Ps or Ts. So has to have its own section.
-    string comment( "Bartis-Widom Phenomenological Rates and Time dependent populations" );
+    
     bool overwrite = false; //There will be an <analysis> section for every calculate()
     //This may not be appropriate when fitting
+    string comment = overwrite ?  "Only selected calculations shown here" : "All calculations shown";
     PersistPtr ppAnalysis = m_ppIOPtr->XmlWriteMainElement("me:analysis", comment, overwrite);
     if(Rdouble::withRange().size()!=0)
     {
@@ -585,9 +387,9 @@ namespace mesmer
       //-------------------------------
 
       // This is where the collision operator being diagonalised.
-      m_pReactionManager->diagReactionOperator(m_Flags, precision) ;
+      m_pReactionManager->diagReactionOperator(m_Flags, precision, ppAnalysis) ;
 
-      if (m_Flags.doBasisSetMethod) return ;
+      if (m_Flags.doBasisSetMethod) return true;
 
       PersistPtr ppPopList = ppAnalysis->XmlWriteElement("me:populationList");
       ppPopList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
@@ -602,23 +404,23 @@ namespace mesmer
       dMatrix mesmerRates(1);
       m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates, m_Flags, ppList);
 
-      if (m_Flags.searchMethod){
+      //if (m_Flags.searchMethod){
         vector<conditionSet> expRates;
         PandTs[calPoint].get_experimentalRates(expRates);
         chiSquare += m_pReactionManager->calcChiSquare(mesmerRates, expRates);
-      }
+      //}
 
       ctest << "}\n";
-
     }
     //---------------------------------------------
 
     {string thisEvent = "Finish Calculation";
     events.setTimeStamp(thisEvent, timeElapsed);
     cinfo << endl << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds.\n";
-    cwarn << "In total, " << calPoint << " temperature/concentration-pressure points calculated." << endl;}
+    cwarn << calPoint << " temperature/concentration-pressure points calculated." << endl;}
 
     if (m_Flags.viewEvents) cinfo << events;
+    return true;
   }
 
   bool System::ReadRange(const string& name, vector<double>& vals, PersistPtr ppbase, bool MustBeThere)
@@ -727,90 +529,5 @@ namespace mesmer
     clog << "qd_real min == " << numeric_limits<qd_real>::min() << endl;
   }
 
-
-  void System::LineSearch(const int varID) {
-
-    static const double Gold = (3.0 - sqrt(5.0))/2.0 ;
-    static const double GRatio = (1.0 - Gold)/Gold ;
-    static const double tol = 1.0e-8 ;
-    static const int limit = 100 ;
-
-    // First catch your hare ... need to bracket the minimum. To do this
-    // use the parameter limits supplied. 
-
-    double a, b, stepsize ;
-    Rdouble::withRange()[varID]->get_range(a, b, stepsize);
-
-    // Calculate chi2 at the upper and lower points.
-    *Rdouble::withRange()[varID]=a ;
-    double chi2a ;
-    calculate(chi2a);
-
-    *Rdouble::withRange()[varID]=b ;
-    double chi2b ;
-    calculate(chi2b);
-
-    // Alter the direction of search so that we are always going down hill.
-
-    if (chi2a < chi2b) {
-      double tmp = a ;
-      a = b ;
-      b = tmp ;
-      tmp = chi2a ;
-      chi2a = chi2b ;
-      chi2b = tmp ;
-    }
-
-    // Follow gradient down hill to estimate loation of the next point.
-
-    double c = b + GRatio*(b - a) ;
-
-    // Calculate a new value of chi2 for the new parameter value. 
-
-    *Rdouble::withRange()[varID]=c ;
-    double chi2c ;
-    calculate(chi2c);
-
-    // Repeat the search until a minimum has been bracketed or
-    // the search limit has been reached. 
-
-    int count(0) ;
-    while (count < limit && chi2c < chi2b) {
-      count++ ;
-
-      // Shift values so as to maintain bracketing.
-      a     = b ;
-      chi2a = chi2b ;
-      b     = c ;
-      chi2b = chi2c ;
-
-      // Determine next estimate of lower bracket point.
-
-      c = b + GRatio*(b - a) ;
-      *Rdouble::withRange()[varID]=c ;
-      calculate(chi2c);
-    }
-
-    // At this point the minimum should be bracketed, so 
-    // use golden section search to refine the minimum.
-
-    double x = b + Gold*(c - b) ;
-    *Rdouble::withRange()[varID]=x ;
-    double chi2x ;
-    calculate(chi2x);
-
-    while(true){
-      if (chi2x < chi2b) {
-        a = b ;
-        chi2a = chi2b ;
-        b = x ;
-        chi2b = chi2x ;
-
-      } else {
-        c = x ;
-        chi2c = chi2x ;
-      }
-    }
-  }
 
 }//namespace

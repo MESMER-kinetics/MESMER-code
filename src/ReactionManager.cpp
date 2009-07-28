@@ -420,37 +420,37 @@ namespace mesmer
     }
   }
 
-  void ReactionManager::printEigenvectors(const MesmerFlags& mFlags)
+  void ReactionManager::printEigenvectors(const MesmerFlags& mFlags, std::ostream& os)
   {
     const int smsize = int(m_eigenvectors->size()) ;
 
     switch (mFlags.printReactionOperatorNum)
     {
     case -1:
-      ctest << "Printing all (" << smsize << ") columns/rows of the eigenvectors:\n";
+      os << "Printing all (" << smsize << ") columns/rows of the eigenvectors:\n";
       (*m_eigenvectors).showFinalBits(smsize, mFlags.print_TabbedMatrices);
       break;
     case -2:
-      ctest << "Printing final 1/2 (" << smsize/2 << ") columns/rows of the eigenvectors:\n";
+      os << "Printing final 1/2 (" << smsize/2 << ") columns/rows of the eigenvectors:\n";
       (*m_eigenvectors).showFinalBits(smsize/2, mFlags.print_TabbedMatrices);
       break;
     case -3:
-      ctest << "Printing final 1/3 (" << smsize/3 << ") columns/rows of the eigenvectors:\n";
+      os << "Printing final 1/3 (" << smsize/3 << ") columns/rows of the eigenvectors:\n";
       (*m_eigenvectors).showFinalBits(smsize/3, mFlags.print_TabbedMatrices);
       break;
     default: // the number is either smaller than -3 or positive
       if (abs(mFlags.printReactionOperatorNum) > smsize){
-        ctest << "Printing all (" << smsize << ") columns/rows of the eigenvectors:\n";
+        os << "Printing all (" << smsize << ") columns/rows of the eigenvectors:\n";
         (*m_eigenvectors).showFinalBits(smsize, mFlags.print_TabbedMatrices);
       }
       else{
-        ctest << "Printing final " << abs(mFlags.printReactionOperatorNum) << " columns/rows of the eigenvectors:\n";
+        os << "Printing final " << abs(mFlags.printReactionOperatorNum) << " columns/rows of the eigenvectors:\n";
         (*m_eigenvectors).showFinalBits(abs(mFlags.printReactionOperatorNum), mFlags.print_TabbedMatrices);
       }
     }
   }
 
-  void ReactionManager::diagReactionOperator(const MesmerFlags &mFlags, const int precision)
+  void ReactionManager::diagReactionOperator(const MesmerFlags &mFlags, const int precision, PersistPtr ppAnalysis)
   {
     // Allocate space for eigenvalues.
     const int smsize = int(m_reactionOperator->size()) ;
@@ -516,7 +516,9 @@ namespace mesmer
     // This block prints Eigenvectors
     if (mFlags.printReactionOperatorNum){
       ctest << "Eigenvectors --- ";
-      printEigenvectors(mFlags);
+      stringstream os;
+      printEigenvectors(mFlags, os);
+      ctest << os.str();
     }
 
     int numberStarted = 0;
@@ -526,14 +528,20 @@ namespace mesmer
       numberStarted = smsize - mFlags.printEigenValuesNum;
     }
 
+    PersistPtr ppEigenList = ppAnalysis->XmlWriteElement("me:eigenvalueList");
+    ppEigenList->XmlWriteAttribute("number",toString(smsize));
+    ppEigenList->XmlWriteAttribute("selection",toString(mFlags.printEigenValuesNum));//TODO improve this
     ctest << "\nTotal number of eigenvalues = " << smsize << endl;
     ctest << "Eigenvalues\n{\n";
     for (int i = numberStarted ; i < smsize; ++i) {
       qd_real tmp = (mFlags.doBasisSetMethod)? m_eigenvalues[i] : m_eigenvalues[i] * m_meanOmega ;
       formatFloat(ctest, tmp, 6, 15) ;
       ctest << endl ;
+      ppEigenList->XmlWriteValueElement("me:eigenvalue", to_double(tmp), 6);
     }
     ctest << "}\n";
+
+
   }
 
   //
@@ -1166,10 +1174,13 @@ namespace mesmer
     const double first_IERE=(to_double(m_eigenvalues[nchemIdx-1]))* m_meanOmega;
     const double CSE_IERE_separation=last_CSE/first_IERE;
     if(CSE_IERE_separation > 0.1){
-      ctest << "\nWarning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)" << endl;
-      ctest << "\nThe last CSE = " << last_CSE << " and the first IERE = " << first_IERE << endl;
-      ctest << "(last CSE)/(first IERE) ratio = " << CSE_IERE_separation << ", which is less than an order of magnitude" << endl;
-      ctest << "\nResults obtained from Bartis Widom eigenvalue-vector analysis may be unreliable" << endl;
+      stringstream ss1, ss2, ss3, ss4;
+      ss1 << "\nWarning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)" << endl;
+      ss2 << "\nThe last CSE = " << last_CSE << " and the first IERE = " << first_IERE << endl;
+      ss3 << "(last CSE)/(first IERE) ratio = " << CSE_IERE_separation << ", which is less than an order of magnitude" << endl;
+      ss4 << "\nResults obtained from Bartis Widom eigenvalue-vector analysis may be unreliable" << endl;
+      ctest << ss1.str() << ss2.str() << ss3.str() << ss4.str();
+      ppList->XmlWriteValueElement("me:warning", ss1.str() + ss2.str() + ss3.str() + ss4.str());
     }
 
     for(int i(0); i<nchem; ++i){
@@ -1306,11 +1317,11 @@ namespace mesmer
       PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", Kr[losspos][losspos]);
       ppItem->XmlWriteAttribute("ref", iso->getName());
 
-      if (mFlags.searchMethod == 3){
+     // if (mFlags.searchMethod == 3){
         puNumbers << Kr[losspos][losspos] << "\t";
         if (punchSymbolGathered == false){
           puSymbols << iso->getName() << " loss\t";
-        }
+     //  }
       }
     }
     ctest << "}\n";
@@ -1334,12 +1345,12 @@ namespace mesmer
             ppItem->XmlWriteAttribute("reactionType", "isomerization");
           }
 
-          if (mFlags.searchMethod == 3){
+          //if (mFlags.searchMethod == 3){
             puNumbers << Kr[pdtpos][rctpos] << "\t";
             if (punchSymbolGathered == false){
               puSymbols << rct->getName() << " -> " << pdt->getName() << "\t";
             }
-          }
+          //}
         }
       }
       ctest << "}\n";
@@ -1360,12 +1371,12 @@ namespace mesmer
           int rctpos = rctitr->second;
           if(colloptrsize==1){
             ctest << rcts->getName() << " -> "  << pdts[0]->getName() << "(bim) = " << Kp[sinkpos][rctpos] << endl;
-            if (mFlags.searchMethod == 3){
+            //if (mFlags.searchMethod == 3){
               puNumbers << Kp[sinkpos][rctpos] << "\t";
               if (punchSymbolGathered == false){
                 puSymbols << rcts->getName() << " -> " << pdts[0]->getName() << "(bim)\t";
               }
-            }
+            //}
           }
           else{
             ctest << rcts->getName() << " -> "  << pdts[0]->getName() << " = " << Kp[sinkpos][rctpos] << endl;
@@ -1374,12 +1385,12 @@ namespace mesmer
             ppItem->XmlWriteAttribute("fromRef", rcts->getName());
             ppItem->XmlWriteAttribute("toRef",   pdts[0]->getName());
             ppItem->XmlWriteAttribute("reactionType", "irreversible");
-            if (mFlags.searchMethod == 3){
+            //if (mFlags.searchMethod == 3){
               puNumbers << Kp[sinkpos][rctpos] << "\t";
               if (punchSymbolGathered == false){
                 puSymbols << rcts->getName() << " -> " << pdts[0]->getName() << "\t";
               }
-            }
+            //}
           }
         }
       }

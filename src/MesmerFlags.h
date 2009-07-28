@@ -6,19 +6,10 @@
 
 namespace mesmer
 {
-  enum SearchMethod {
-    SINGLECALCULATION,
-    GRIDSEARCH,
-    GRIDSEARCHWITHPUNCH,
-    FITTING,
-    UNDEFINED_METHOD
-  };
 
   struct MesmerFlags
   {
     MesmerFlags();
-    // whether do the fitting or grid search
-    SearchMethod searchMethod; 
 
     // decide what to report
     bool   testDOSEnabled;                // Whether to output test of DOS to mesmer.test

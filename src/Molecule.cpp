@@ -66,7 +66,7 @@ namespace mesmer
         return false;
 
     // check the number of atoms
-    PersistPtr ppAtomArray = m_ppPersist->XmlMoveTo("atomarray");
+    PersistPtr ppAtomArray = m_ppPersist->XmlMoveTo("atomArray");
     if (ppAtomArray){
       PersistPtr ppAtom = ppAtomArray->XmlMoveTo("atom");
       while (ppAtom){

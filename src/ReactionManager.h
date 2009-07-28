@@ -76,7 +76,7 @@ namespace mesmer
     bool BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags) ;
 
     // Diagonalize the reaction operator.
-    void diagReactionOperator(const MesmerFlags &mFlags, const int precision) ;
+    void diagReactionOperator(const MesmerFlags &mFlags, const int precision, PersistPtr ppAnalysis) ;
 
     // Calculate the time evolution of the system
     bool timeEvolution(MesmerFlags& mFlags, PersistPtr ppPopList);
@@ -146,7 +146,7 @@ namespace mesmer
 
     void printReactionOperator(const MesmerFlags &mFlags);
 
-    void printEigenvectors(const MesmerFlags &mFlags);
+    void printEigenvectors(const MesmerFlags &mFlags, std::ostream& os);
 
   } ;
 }//namespace
