@@ -1398,25 +1398,25 @@ mean collision frequency = 1.31293e+010/s
 Print time dependent species and product profiles
 {
       Timestep/s              OHOH_acetylene_adduct          OCHCH2  totalIsomerPop     totalPdtPop
-          1e-011        0.999999    8.07942e-007    3.80296e-011               1    3.80296e-011
-    1.25893e-011        0.999999    1.01682e-006    6.05443e-011               1    6.05443e-011
-    1.58489e-011        0.999999     1.2796e-006    9.64913e-011               1    9.64913e-011
-    1.99526e-011        0.999998    1.61014e-006    1.52284e-010               1    1.52284e-010
-    2.51189e-011        0.999998     2.0258e-006    2.40235e-010               1    2.40235e-010
-    3.16228e-011        0.999997     2.5484e-006    3.78479e-010               1    3.78479e-010
-    3.98107e-011        0.999997    3.20521e-006    5.94477e-010               1    5.94477e-010
-    5.01187e-011        0.999996     4.0304e-006    9.32151e-010               1    9.32151e-010
-    6.30957e-011        0.999995    5.06666e-006    1.45789e-009               1    1.45789e-009
-    7.94328e-011        0.999994    6.36726e-006    2.27322e-009               1    2.27322e-009
-          1e-010        0.999992    7.99863e-006    3.53116e-009               1    3.53116e-009
-    1.25893e-010         0.99999    1.00434e-005    5.46044e-009               1    5.46044e-009
-    1.58489e-010        0.999987    1.26044e-005    8.39676e-009               1    8.39676e-009
+          1e-011        0.999999    8.07942e-007    3.81679e-011               1    3.81679e-011
+    1.25893e-011        0.999999    1.01682e-006      6.062e-011               1      6.062e-011
+    1.58489e-011        0.999999     1.2796e-006    9.64248e-011               1    9.64248e-011
+    1.99526e-011        0.999998    1.61013e-006    1.52511e-010               1    1.52511e-010
+    2.51189e-011        0.999998     2.0258e-006     2.4036e-010               1     2.4036e-010
+    3.16228e-011        0.999997     2.5484e-006    3.78546e-010               1    3.78546e-010
+    3.98107e-011        0.999997    3.20521e-006    5.94462e-010               1    5.94462e-010
+    5.01187e-011        0.999996     4.0304e-006    9.32414e-010               1    9.32414e-010
+    6.30957e-011        0.999995    5.06666e-006    1.45793e-009               1    1.45793e-009
+    7.94328e-011        0.999994    6.36726e-006    2.27343e-009               1    2.27343e-009
+          1e-010        0.999992    7.99863e-006    3.53121e-009               1    3.53121e-009
+    1.25893e-010         0.99999    1.00434e-005    5.46023e-009               1    5.46023e-009
+    1.58489e-010        0.999987    1.26044e-005    8.39672e-009               1    8.39672e-009
     1.99526e-010        0.999984    1.58094e-005    1.28267e-008               1    1.28267e-008
     2.51189e-010         0.99998    1.98171e-005    1.94378e-008               1    1.94378e-008
-    3.16228e-010        0.999975    2.48251e-005    2.91802e-008               1    2.91802e-008
+    3.16228e-010        0.999975    2.48251e-005    2.91801e-008               1    2.91801e-008
     3.98107e-010        0.999969    3.10797e-005    4.33299e-008               1    4.33299e-008
     5.01187e-010        0.999961    3.88897e-005    6.35432e-008               1    6.35432e-008
-    6.30957e-010        0.999951    4.86436e-005    9.18964e-008               1    9.18964e-008
+    6.30957e-010        0.999951    4.86436e-005    9.18965e-008               1    9.18965e-008
     7.94328e-010        0.999939    6.08331e-005    1.30901e-007               1    1.30901e-007
           1e-009        0.999924    7.60824e-005    1.83503e-007               1    1.83503e-007
     1.25893e-009        0.999905     9.5186e-005    2.53107e-007               1    2.53107e-007
@@ -1559,14 +1559,14 @@ Print time dependent species and product profiles
          63095.7    8.41464e-016         1.76933               0         1.76933               0
          79432.8    9.76429e-016         2.05312               0         2.05312               0
 }
-row 1 of the U*U^(-1) matrix does not equal unity. It sums to 1.00214
-row 2 of the U*U^(-1) matrix does not equal unity. It sums to 0.997183
-row 3 of the U*U^(-1) matrix does not equal unity. It sums to 0.998442
-row 4 of the U*U^(-1) matrix does not equal unity. It sums to 0.996851
-row 5 of the U*U^(-1) matrix does not equal unity. It sums to 0.998171
-row 6 of the U*U^(-1) matrix does not equal unity. It sums to 0.997723
-row 7 of the U*U^(-1) matrix does not equal unity. It sums to 0.997724
-row 13 of the U*U^(-1) matrix does not equal unity. It sums to 1.00126
+row 1 of the U*U^(-1) matrix does not equal unity. It sums to 1.00213
+row 2 of the U*U^(-1) matrix does not equal unity. It sums to 0.997156
+row 3 of the U*U^(-1) matrix does not equal unity. It sums to 0.99843
+row 4 of the U*U^(-1) matrix does not equal unity. It sums to 0.996801
+row 5 of the U*U^(-1) matrix does not equal unity. It sums to 0.998169
+row 6 of the U*U^(-1) matrix does not equal unity. It sums to 0.997737
+row 7 of the U*U^(-1) matrix does not equal unity. It sums to 0.997726
+row 13 of the U*U^(-1) matrix does not equal unity. It sums to 1.00128
 
 Bartis Widom eigenvalue/eigenvector analysis
 

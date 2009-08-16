@@ -1,6 +1,11 @@
 
 2009-August-16 Struan Robertson
 
+	* ReactionManager.cpp: Some minor changes to in preparation to introduce extended 
+        precision into Bartis-Widom methods.
+
+2009-August-16 Struan Robertson
+
 	* main.cpp: Add QD library methods to fix extended precision problems on x86.
 
 2009-July-28 Chris Morley

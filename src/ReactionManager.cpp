@@ -500,14 +500,8 @@ namespace mesmer
         }
       default: // diagonalize in quad double
         {
-          qdMatrix qdDiagM(smsize);
-          for ( int i = 0 ; i < smsize ; ++i )
-            for ( int j = 0 ; j < smsize ; ++j )
-              qdDiagM[i][j] = (*m_reactionOperator)[i][j] ;
-          qdDiagM.diagonalize(&m_eigenvalues[0]) ;
-          for ( int i = 0 ; i < smsize ; ++i )
-            for ( int j = 0 ; j < smsize ; ++j )
-              (*m_eigenvectors)[i][j] = qdDiagM[i][j] ;
+          (*m_eigenvectors) = (*m_reactionOperator) ;
+          m_eigenvectors->diagonalize(&m_eigenvalues[0]) ;
         }
     }
     // diagonalize the whole matrix
@@ -796,30 +790,30 @@ namespace mesmer
     m_eqVector.resize(m_reactionOperator->size());
 
     Reaction::molMapType::iterator spos;
-    for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map to get
-      Molecule* source = spos->first;                            // eq Fractions
+    for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // Iterate through the source map to get
+      Molecule* source = spos->first;                                 // the equilibrum fractions.
       int rxnMatrixLoc = spos->second;
-      double eqFrac = source->getPop().getEqFraction();
-      m_eqVector[rxnMatrixLoc] = sqrt(eqFrac);
+      qd_real eqFrac = source->getPop().getEqFraction();
+      m_eqVector[rxnMatrixLoc] = sqrt(eqFrac) ;
     }
 
     Reaction::molMapType::iterator ipos;
-    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
-      Molecule* isomer = ipos->first;                        // to get eq Fractions
+    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // Iterate through the isomer map
+      Molecule* isomer = ipos->first;                                 // to get the equilibrium fractions.
       int rxnMatrixLoc = ipos->second;
-      double eqFrac = isomer->getPop().getEqFraction();
+      qd_real eqFrac = isomer->getPop().getEqFraction();
       const int colloptrsize = isomer->getColl().get_colloptrsize();
       const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();
       vector<double> boltzFrac;
       isomer->getColl().normalizedGrnBoltzmannDistribution(boltzFrac, colloptrsize, numberGrouped);
       if (numberGrouped == 0) {
         for(int i(0);i<colloptrsize;++i){
-          m_eqVector[rxnMatrixLoc + i]= sqrt(eqFrac * boltzFrac[i]);
+          m_eqVector[rxnMatrixLoc + i] = sqrt(eqFrac * qd_real(boltzFrac[i]) ) ;
         }
       }
       else{
         for(int i(0);i<colloptrsize - numberGrouped + 1;++i){
-          m_eqVector[rxnMatrixLoc + i]= sqrt(eqFrac * boltzFrac[i]);
+          m_eqVector[rxnMatrixLoc + i] = sqrt(eqFrac * qd_real(boltzFrac[i]) ) ;
         }
       }
     }
@@ -844,7 +838,7 @@ namespace mesmer
 
     // |n_0> = F^(-1)*|n_0>
     for (int j = 0; j < smsize; ++j) {
-      n_0[j] /= m_eqVector[j];
+      n_0[j] /= to_double(m_eqVector[j]) ;
     }
     // Converts the initial population vector into Boltzmann weighted population vector.
     // All transitions in the reaction matrix are Boltzmann weighted for symmetry.
@@ -895,7 +889,7 @@ namespace mesmer
     }
 
     for (int i = 0; i < smsize; ++i) {
-      double tmp = m_eqVector[i];
+      double tmp = to_double(m_eqVector[i]);
       for (int j = 0; j < smsize; ++j) {
         totalEigenVecs[i][j] *= tmp;
       }
@@ -962,17 +956,17 @@ namespace mesmer
     m_sinkRxns.clear();                      // Populate map: m_sinkRxns[Rxns] = location of rct
     for (size_t i(0) ; i < size() ; ++i) {
       bool Irreversible = ((m_reactions[i])->getReactionType() == IRREVERSIBLE_ISOMERIZATION ||
-                           (m_reactions[i])->getReactionType() == IRREVERSIBLE_EXCHANGE      ||
-                           (m_reactions[i])->getReactionType() == DISSOCIATION                 );
+        (m_reactions[i])->getReactionType() == IRREVERSIBLE_EXCHANGE      ||
+        (m_reactions[i])->getReactionType() == DISSOCIATION                 );
       if (Irreversible && m_sinkRxns.find(m_reactions[i]) == m_sinkRxns.end()) {   // add an irreversible rxn to the map
         Reaction* reaction = m_reactions[i];
         Molecule* rctnt = reaction->get_reactant();
         if((m_reactions[i])->getReactionType() == IRREVERSIBLE_ISOMERIZATION ||
-           (m_reactions[i])->getReactionType() == DISSOCIATION                 ){
-          int rxnMatrixLoc = m_isomers[rctnt];
-          m_sinkRxns[reaction] = rxnMatrixLoc;
-          m_SinkSequence[reaction] = sinkpos;               // populate SinkSequence map with Irreversible Rxns
-          ++sinkpos;
+          (m_reactions[i])->getReactionType() == DISSOCIATION                 ){
+            int rxnMatrixLoc = m_isomers[rctnt];
+            m_sinkRxns[reaction] = rxnMatrixLoc;
+            m_SinkSequence[reaction] = sinkpos;               // populate SinkSequence map with Irreversible Rxns
+            ++sinkpos;
         }
         else{ // In this case it is irreversible exchange reaction
           int rxnMatrixLoc = m_sources[rctnt];
@@ -1110,45 +1104,35 @@ namespace mesmer
 
   bool ReactionManager::BartisWidomPhenomenologicalRates(dMatrix& mesmerRates, MesmerFlags& mFlags, PersistPtr ppList)
   {
-    const int smsize = int(m_eigenvectors->size());
-    dMatrix eigenVec(smsize);  //copy ReactionOperator, the eigenvector Matrix (== V)
-
-    for ( int i = 0 ; i < smsize ; ++i )
-      for ( int j = 0 ; j < smsize ; ++j )
-        eigenVec[i][j] = to_double((*m_eigenvectors)[i][j]) ;
-
-    // constant variables
-    const int nchem = static_cast<int>(m_isomers.size() + m_sources.size());  // number of isomers+pseudoisomers
-    const int nchemIdx = smsize - nchem;       // idx for chemically significant eigenvalues & vectors
+    // Constants.
+    const size_t smsize   = m_eigenvectors->size() ;
+    const size_t nchem    = m_isomers.size() + m_sources.size() ;  // number of isomers+pseudoisomers
+    const size_t nchemIdx = smsize - nchem ;       // idx for chemically significant eigenvalues & vectors
 
     dMatrix assymInvEigenVec(smsize);   // U^(-1)
     dMatrix assymEigenVec(smsize);      // U
-    for(int i(0);i<smsize;++i){
-      double tmp = m_eqVector[i];
-      for(int j(0);j<smsize;++j){
-        assymInvEigenVec[j][i] = eigenVec[i][j]/tmp;         //calculation of U^(-1) = (FV)^-1 = V^T * F^-1
-        assymEigenVec[j][i] = m_eqVector[j] * eigenVec[j][i];  //calculation of U = FV
+    for(size_t i(0) ; i<smsize ; ++i){
+      qd_real tmp = m_eqVector[i];
+      for(size_t j(0) ; j<smsize ; ++j){
+        assymInvEigenVec[j][i] = to_double((*m_eigenvectors)[i][j]/tmp) ;           //calculation of U^(-1) = (FV)^-1 = V^T * F^-1
+        assymEigenVec[j][i] = to_double(m_eqVector[j] * (*m_eigenvectors)[j][i]) ;  //calculation of U = FV
       }
     }
 
     //------------------------- TEST block ----------------------------------------
-    dMatrix EigenVecIdentity(smsize);   // matrix for holding product of U^(-1) * U
-    for(int i(0);i<smsize;++i){         // multiply U*U^(-1) for testing
+    for(size_t i(0);i<smsize;++i){         // multiply U*U^(-1) for testing
       double test = 0.0;
-      for(int j(0);j<smsize;++j){
+      for(size_t j(0);j<smsize;++j){
         double sm = 0.0;
-        for(int k(0);k<smsize;++k){
+        for(size_t k(0);k<smsize;++k){
           sm += assymEigenVec[i][k] * assymInvEigenVec[k][j];
         }
-        EigenVecIdentity[i][j] = sm;
         test += sm;
       }
-      if((test/1.0) < 0.999 || (test/1.0) > 1.001)      // test that U*U^(-1) = 1
+      if( test < 0.999 || test > 1.001)      // test that U*U^(-1) = 1
         ctest << "row " << i << " of the U*U^(-1) matrix does not equal unity. It sums to " << test << endl;
     }
     //------------------------- TEST block ----------------------------------------
-
-    // EigenVecIdentity.showFinalBits(nchem);
 
     dMatrix Z_matrix(nchem);  // definitions of Y_matrix and Z_matrix taken from PCCP 2007(9), p.4085
     db2D Y_matrix;
@@ -1183,7 +1167,7 @@ namespace mesmer
       ppList->XmlWriteValueElement("me:warning", ss1.str() + ss2.str() + ss3.str() + ss4.str());
     }
 
-    for(int i(0); i<nchem; ++i){
+    for(size_t i(0); i<nchem; ++i){
       for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // calculate Z_matrix matrix elements for
         double sm = 0.0;                                                // all isomers in the system
         Molecule* isomer = ipos->first;
@@ -1265,10 +1249,10 @@ namespace mesmer
     ctest << endl << "Z_matrix^(-1):" << endl;
     Zinv.showFinalBits(nchem, true);
 
-    for(int i(0);i<nchem;++i){          // multiply Z_matrix*Z_matrix^(-1) for testing
-      for(int j(0);j<nchem;++j){
+    for(size_t i(0);i<nchem;++i){          // multiply Z_matrix*Z_matrix^(-1) for testing
+      for(size_t j(0);j<nchem;++j){
         double sm = 0.0;
-        for(int k(0);k<nchem;++k){
+        for(size_t k(0);k<nchem;++k){
           sm += Z_matrix[i][k] * Zinv[k][j];
         }
         Zidentity[i][j] = sm;
@@ -1278,10 +1262,10 @@ namespace mesmer
     ctest << "\nZ_matrix * Z_matrix^(-1) [Identity matrix]:" << endl;
     Zidentity.showFinalBits(nchem, true);
 
-    for(int i(0);i<nchem;++i){          // calculate Kr (definition taken from PCCP 2007(9), p.4085)
-      for(int j(0);j<nchem;++j){
+    for(size_t i(0);i<nchem;++i){          // calculate Kr (definition taken from PCCP 2007(9), p.4085)
+      for(size_t j(0);j<nchem;++j){
         double sm = 0.0;
-        for(int k(0);k<nchem;++k){
+        for(size_t k(0);k<nchem;++k){
           sm += Z_matrix[i][k] * to_double(m_eigenvalues[nchemIdx+k]) * Zinv[k][j];
         }
         Kr[i][j] = sm * m_meanOmega;
@@ -1292,9 +1276,9 @@ namespace mesmer
 
     if(m_sinkRxns.size()!=0){
       for(int i(0); i != int(m_sinkRxns.size()); ++i){    // calculate Kp (definition taken from PCCP 2007(9), p.4085)
-        for(int j(0);j<nchem;++j){
+        for(size_t j(0);j<nchem;++j){
           double sm = 0.0;
-          for(int k(0);k<nchem;++k){
+          for(size_t k(0);k<nchem;++k){
             sm += Y_matrix[i][k] * Zinv[k][j];
           }
           Kp[i][j] = sm;
@@ -1317,11 +1301,11 @@ namespace mesmer
       PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", Kr[losspos][losspos]);
       ppItem->XmlWriteAttribute("ref", iso->getName());
 
-     // if (mFlags.searchMethod == 3){
-        puNumbers << Kr[losspos][losspos] << "\t";
-        if (punchSymbolGathered == false){
-          puSymbols << iso->getName() << " loss\t";
-     //  }
+      // if (mFlags.searchMethod == 3){
+      puNumbers << Kr[losspos][losspos] << "\t";
+      if (punchSymbolGathered == false){
+        puSymbols << iso->getName() << " loss\t";
+        //  }
       }
     }
     ctest << "}\n";
@@ -1346,10 +1330,10 @@ namespace mesmer
           }
 
           //if (mFlags.searchMethod == 3){
-            puNumbers << Kr[pdtpos][rctpos] << "\t";
-            if (punchSymbolGathered == false){
-              puSymbols << rct->getName() << " -> " << pdt->getName() << "\t";
-            }
+          puNumbers << Kr[pdtpos][rctpos] << "\t";
+          if (punchSymbolGathered == false){
+            puSymbols << rct->getName() << " -> " << pdt->getName() << "\t";
+          }
           //}
         }
       }
@@ -1372,10 +1356,10 @@ namespace mesmer
           if(colloptrsize==1){
             ctest << rcts->getName() << " -> "  << pdts[0]->getName() << "(bim) = " << Kp[sinkpos][rctpos] << endl;
             //if (mFlags.searchMethod == 3){
-              puNumbers << Kp[sinkpos][rctpos] << "\t";
-              if (punchSymbolGathered == false){
-                puSymbols << rcts->getName() << " -> " << pdts[0]->getName() << "(bim)\t";
-              }
+            puNumbers << Kp[sinkpos][rctpos] << "\t";
+            if (punchSymbolGathered == false){
+              puSymbols << rcts->getName() << " -> " << pdts[0]->getName() << "(bim)\t";
+            }
             //}
           }
           else{
@@ -1386,10 +1370,10 @@ namespace mesmer
             ppItem->XmlWriteAttribute("toRef",   pdts[0]->getName());
             ppItem->XmlWriteAttribute("reactionType", "irreversible");
             //if (mFlags.searchMethod == 3){
-              puNumbers << Kp[sinkpos][rctpos] << "\t";
-              if (punchSymbolGathered == false){
-                puSymbols << rcts->getName() << " -> " << pdts[0]->getName() << "\t";
-              }
+            puNumbers << Kp[sinkpos][rctpos] << "\t";
+            if (punchSymbolGathered == false){
+              puSymbols << rcts->getName() << " -> " << pdts[0]->getName() << "\t";
+            }
             //}
           }
         }

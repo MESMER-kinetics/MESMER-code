@@ -46,6 +46,14 @@ namespace mesmer
       for (size_t i = 0; i < size; ++i){
         rr[i] = rrProxy[i];
       }
+      
+      bool diagnostic(false) ;
+      if (diagnostic) {
+        ctest << endl ;
+        ctest << "Largest eigenvalue:  " << rr[0] << endl ;
+        ctest << "Smallest eigenvalue: " << rr[size-2] << endl ;
+        ctest << "Ratio:               " << rr[0]/rr[size-2] << endl << endl ;
+      }        
 
       delete [] work ;
       delete [] rrProxy ;

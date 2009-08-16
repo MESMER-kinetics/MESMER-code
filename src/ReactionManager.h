@@ -113,7 +113,7 @@ namespace mesmer
     qdMatrix               *m_reducedEigenvectors;
     std::vector<qd_real>    m_reducedEigenvalues;
 
-    std::vector<double>     m_eqVector;
+    std::vector<qd_real>    m_eqVector;
     std::vector<double>     m_reducedEqVector;
     std::vector<locationIdx> m_locSizeMap;
     std::vector<divisionIdx> m_divMap;
