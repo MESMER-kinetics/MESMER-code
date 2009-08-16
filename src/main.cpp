@@ -34,6 +34,13 @@ bool QACompare(string infilename);
 string duplicateFileName(const string& inName, const string& suffix, const string& newTimeStamp = "");
 int main(int argc,char *argv[])
 {
+  //
+  // The following invocation is required by the QD  library to fix a problem 
+  // with the extended precision methods on x86 platforms.
+  //
+  unsigned int old_cw;
+  fpu_fix_start(&old_cw);
+
   if(argc<2)
   {
     usage();
@@ -280,6 +287,13 @@ int main(int argc,char *argv[])
     else
       cerr << "QA test successful" << endl;
   }
+
+  //
+  // The following invocation is required by the QD  library to restore 
+  // default floating point behaviour on x86 platforms.
+  //
+  fpu_fix_end(&old_cw);
+
   return returnCode;
 }
 /*

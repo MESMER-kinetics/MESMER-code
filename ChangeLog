@@ -1,3 +1,8 @@
+
+2009-August-16 Struan Robertson
+
+	* main.cpp: Add QD library methods to fix extended precision problems on x86.
+
 2009-July-28 Chris Morley
 
   * Add new folder for plugin classes (but not all moved yet)
@@ -6,15 +11,15 @@
   *	src/MesmerFlags.cpp,src/MesmerFlags.h,src/ReactionManager.cpp,src/System.cpp,
     src/System.h: Use new method for doing the calculations. Remove punch file
     output.
-  
-  * punch.xsl: for making a simplifed file from the output xml file.  
+
+  * punch.xsl: for making a simplifed file from the output xml file.
 
   * Replace atomarray and bondarray by atomArray and bondArray in example and QA files,
   and in src/Molecule.cpp. (The embarassing error message with i-propyl was because
   the molecules had implicit hydrogen. We will ban this in Mesmer.
-  
+
   * src/Persistence.h,src/XMLPersist.cpp,src/XMLPersist.h: added XmlWriteValueElement().
-  
+
 _2009_07_23__14_24_24_ Chi-Hsiu Liang
 
 Some comments
@@ -25,10 +30,10 @@ _2009_07_22__15_32_17_ Chi-Hsiu Liang
   * removed the atom array and bond array blocks for i-propyl system, as this
     will encourage MESMER to check whether the number of vibrational frequencies is making
     sense or not.
-  * Fixed the error of benzene_oxidation_test.xml. This is from the calculation 
+  * Fixed the error of benzene_oxidation_test.xml. This is from the calculation
     microcanonical rate constants of irreversible exchange reaction, which is
     unavailable.
-  
+
 2009-July-19 Struan Robertson
 
 	* EnergyTransferModel.h: Addition of base class for energy transfer models.
