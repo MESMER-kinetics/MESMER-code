@@ -244,7 +244,7 @@
   <reactionList>
     <reaction id="R1" reversible="true">
       <reactant>
-        <molecule ref="H" me:type="reactant"/>
+        <molecule ref="H" me:type="deficientReactant"/>
       </reactant>
       <reactant>
         <molecule ref="SO2" me:type="excessReactant" />
@@ -258,7 +258,7 @@
     </reaction>
     <reaction id="R2" reversible="true">
       <reactant>
-        <molecule ref="H" me:type="reactant"/>
+        <molecule ref="H" me:type="deficientReactant"/>
       </reactant>
       <reactant>
         <molecule ref="SO2" me:type="excessReactant"/>
