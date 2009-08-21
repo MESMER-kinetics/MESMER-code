@@ -186,6 +186,14 @@ qd/tests/quadt.h -text
 qd/tests/quadt_test.cpp -text
 qd/tests/tictoc.cpp -text
 qd/tests/tictoc.h -text
+sketchup/MESMER_USER_README -text
+sketchup/mesmer/bezier.rb -text
+sketchup/mesmer/mesmer_menuItem.rb -text
+sketchup/mesmer/mesmer_parseXML.rb -text
+sketchup/mesmer/molecule.rb -text
+sketchup/mesmer/reaction.rb -text
+sketchup/mesmer/spheretool.rb -text
+sketchup/mesmer_data.rb -text
 src/AssignMolTypes.cpp -text
 src/AssociationReaction.cpp -text
 src/AssociationReaction.h -text
