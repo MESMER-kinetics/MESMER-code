@@ -409,7 +409,7 @@
     <!--<me:printGrainkfE />-->
     <!--<me:printGrainBoltzmann />-->
     <!--<me:printGrainkbE />-->
-    <!--<me:printSpeciesProfile />-->
+    <me:printSpeciesProfile />
     <me:eigenvalues>3</me:eigenvalues>
   </me:control>
 

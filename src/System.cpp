@@ -390,12 +390,16 @@ namespace mesmer
       m_pReactionManager->diagReactionOperator(m_Flags, precision, ppAnalysis) ;
 
       if (m_Flags.doBasisSetMethod) return true;
-
-      PersistPtr ppPopList = ppAnalysis->XmlWriteElement("me:populationList");
-      ppPopList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
-      ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
-      // Time steps loop
-      m_pReactionManager->timeEvolution(m_Flags, ppPopList);
+ 
+      PersistPtr ppPopList;
+      if(m_Flags.speciesProfileEnabled)
+      {
+        ppPopList  = ppAnalysis->XmlWriteElement("me:populationList");
+        ppPopList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
+        ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
+      }
+        // Time steps loop
+        m_pReactionManager->timeEvolution(m_Flags, ppPopList); //shortened if speciesProfileEnabled==false
 
       PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
       ppList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));

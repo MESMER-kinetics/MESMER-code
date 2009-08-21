@@ -76,13 +76,8 @@ namespace mesmer
     // level in XML file under <mesemer>
     PersistPtr m_ppIOPtr;
 
+    // The method used for the main calculation
     CalcMethod* m_CalcMethod;
-
-	// Linesearch. Performs an optimization along a specified direction.
-	// This is only a temporary location for this method, it should be
-	// located in a separate class that deals with optimization.
-
-	void LineSearch(const int varID);
 
     const char* m_pTitle;
   } ;

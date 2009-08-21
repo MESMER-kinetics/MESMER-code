@@ -6,7 +6,7 @@
 
   <xsl:include href="mesmerDiag.xsl"/>
   <xsl:include href="switchcontent.xsl"/>
-  <xsl:include href="popdiag.xsl"/>
+  <xsl:include href="popDiag5.xsl"/>
 
   <xsl:key name="molrefs" match="cml:molecule" use="@id"/>
   
@@ -196,7 +196,7 @@
     </script>
 
     <xsl:call-template name="drawDiag"/>
-    <xsl:call-template name="populationDiagram"/>
+    <xsl:apply-templates select="//me:analysis" mode="diagram"/>
 
     </body>
  </html>

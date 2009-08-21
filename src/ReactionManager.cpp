@@ -836,6 +836,10 @@ namespace mesmer
       return false;
     }
 
+    //Cut short if species profiles not needed
+    if(!mFlags.speciesProfileEnabled)
+      return true;
+
     // |n_0> = F^(-1)*|n_0>
     for (int j = 0; j < smsize; ++j) {
       n_0[j] /= to_double(m_eqVector[j]) ;
@@ -1090,6 +1094,7 @@ namespace mesmer
         ctest << setw(16) << timePoints[timestep];
         PersistPtr ppPop =  ppPopList->XmlWriteElement("me:population");
         ppPop->XmlWriteAttribute("time", toString(timePoints[timestep]));
+        ppPop->XmlWriteAttribute("logTime", toString(log10(timePoints[timestep])));
         for(int i(0); i<speciesProfileidx; ++i){
           ctest << setw(16) << speciesProfile[i][timestep];
           PersistPtr ppVal = ppPop->XmlWriteValueElement("me:pop", speciesProfile[i][timestep]);
