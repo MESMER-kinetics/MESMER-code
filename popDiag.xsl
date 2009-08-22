@@ -5,7 +5,7 @@
   xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
   xmlns:svg="http://www.w3.org/2000/svg"
   xmlns:exsl="http://exslt.org/common" >
-
+ 
   <xsl:variable name="colors">
     <c>red</c>
     <c>green</c>
@@ -16,18 +16,26 @@
   </xsl:variable>
   <xsl:variable name="popspecies" select="//me:analysis[1]/me:populationList[1]/me:population[1]/me:pop/@ref"/>
 
-  <xsl:template name="populationDiagram" match="//me:analysis" mode="diagram">
-    <svg:svg>
-      <svg:text x="0" y="0">Population Diagram</svg:text> 
-      <xsl:apply-templates select="me:populationList[1]" mode="diagram"/>
-    </svg:svg>
+<!--  <xsl:template match="/">
+        <xsl:apply-templates select="//me:analysis" mode="diagram"/>
+      </xsl:template>
+-->  
+  <xsl:template match="//me:analysis" mode="diagram">
+    <p class="paramheader">
+      <xsl:for-each select="me:parameters/@*">
+        <xsl:value-of select="concat(name(),'=',.,'  ')"/>
+      </xsl:for-each>
+    </p>
+    <xsl:apply-templates select="me:populationList" mode="diagram"/>
   </xsl:template>
-  <xsl:template name="popListDiag" match="me:populationList[1]" mode="diagram">
+  <xsl:template name="populationDiagram" match="me:populationList" mode="diagram">
     <xsl:variable name="p" select="me:population"/> <!--Save because context node will change in for-eachs-->
     <xsl:if test="position()=1">
       <xsl:call-template name="legend"/>
     </xsl:if>
-  <svg:svg version="1.1" width="200px" height="220px">
+  
+    <!--Frame of graph-->
+    <svg:svg version="1.1" width="200px" height="220px">
     <svg:text x="30" y="14" font-family="Verdana" font-size="13">
       <xsl:value-of select="concat(@T,'K ',@conc)"/>
     </svg:text>
@@ -35,10 +43,10 @@
     <xsl:variable name="startval" select="me:population[1]/@logTime"/>
     <xsl:variable name="endval" select="me:population[last()]/@logTime"/>
     <xsl:call-template name="xaxis">
-      <xsl:with-param name="val" select="$startval"/>
+      <xsl:with-param name="val" select="$startval + 1.0"/><!--label from -->
       <xsl:with-param name="maxval" select="$endval"/>
       <xsl:with-param name="pxperstep" select="(200 * 2) div ($endval - $startval)"/>
-      <xsl:with-param name="xpx" select="1"/>
+      <xsl:with-param name="xpx" select="200 div ($endval - $startval)"/>
       <xsl:with-param name="ypx" select="180"/>
     </xsl:call-template>
     <svg:text text-anchor="middle"  font-family="Verdana" font-size="10">
@@ -51,6 +59,7 @@
       log10(time/secs)
     </svg:text>
 
+    <!--Contents of graph-->    
     <svg:svg y="20" height="160" preserveAspectRatio="none">
         <xsl:attribute name="viewBox">
           <xsl:value-of select="concat($startval, ' -1.0 ', $endval - $startval, ' 1.0')"/>
@@ -144,5 +153,4 @@
        arithmetic is done on them in XSLT before passing on to SVG. Consequently, the minus
        sign needed to invert the y axis is provided separately and the number is presumably
        handled as a string.-->
-
 </xsl:stylesheet>

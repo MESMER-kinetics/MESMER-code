@@ -6,7 +6,7 @@
 
   <xsl:include href="mesmerDiag.xsl"/>
   <xsl:include href="switchcontent.xsl"/>
-  <xsl:include href="popDiag5.xsl"/>
+  <xsl:include href="popDiag.xsl"/>
 
   <xsl:key name="molrefs" match="cml:molecule" use="@id"/>
   
