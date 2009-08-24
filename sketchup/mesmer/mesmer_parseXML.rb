@@ -423,6 +423,14 @@ class MesmerObject
     # Draw the surface one by one using Bezier surfaces
     # call draw molecules functions while drawing the surface
     rl.reactions.each{ |rxnName, rxn|
+      rc_component = rand
+      pc_component = rand
+      tc_component = rand
+      fmu = Sketchup.active_model.materials.add "UpperSurface"
+      fmd = Sketchup.active_model.materials.add "LowerSurface"
+      fmu.color = [tc_component, rc_component, pc_component]
+      fmd.color = [tc_component*0.8, rc_component*0.8, pc_component*0.8]
+
       entities = Sketchup.active_model.entities
       surfaceGroup = Sketchup.active_model.entities.add_group # One reaction is a group
 
@@ -430,7 +438,6 @@ class MesmerObject
       pesR1 = ml.molecules[rxn.rct2] if rxn.rct2 && ml.molecules[rxn.rct2].tempMLOrder != -1.0
       r_zpe = pesR1.totalZPE
       r_dsp = @speciesWidth * pesR1.tempMLOrder
-      rc_component = (r_zpe - @lowestEnergy) / @systemHeight
       entities.add_text rxn.rct1.to_s, [@speciesWidth * pesR1.tempMLOrder, 0.0, r_zpe - @halfSpeciesW]
 
       # which product is on pes?
@@ -438,36 +445,31 @@ class MesmerObject
       pesP1 = ml.molecules[rxn.pdt2] if rxn.pdt2 && ml.molecules[rxn.pdt2].tempMLOrder != -1.0
       p_zpe = pesP1.totalZPE
       p_dsp = @speciesWidth * pesP1.tempMLOrder
-      pc_component = (p_zpe - @lowestEnergy) / @systemHeight
       entities.add_text rxn.pdt1.to_s, [@speciesWidth * pesP1.tempMLOrder, 0.0, p_zpe - @halfSpeciesW]
 
       if rxn.transitionState
         pesTS = ml.molecules[rxn.transitionState]
         ts_zpe = pesTS.zpe
         ts_dsp = pesTS.tempMLOrder
-        tc_component = (ts_zpe - @lowestEnergy) / @systemHeight
-
-        f_material = Sketchup.active_model.materials.add "Surface"
-        f_material.color = [tc_component, rc_component, pc_component]
 
         #puts "Color is:" + colorVector.to_s
         pt1 = [@speciesWidth * pesR1.tempMLOrder, 0.0, r_zpe]
         pt2 = [@speciesWidth * pesTS.tempMLOrder, 0.0, ts_zpe]
         pMesh1 = Bezier.curveSurface(pt1, pt2, @ribbonWidth)
-        surfaceGroup.entities.add_faces_from_mesh pMesh1, 12, f_material
+        surfaceGroup.entities.add_faces_from_mesh pMesh1, 12, fmu, fmd
 
         entities.add_text rxn.transitionState.to_s, [@speciesWidth * pesTS.tempMLOrder, 0.0, ts_zpe + @halfSpeciesW]
 
         pt1 = [@speciesWidth * pesTS.tempMLOrder, 0.0, ts_zpe]
         pt2 = [@speciesWidth * pesP1.tempMLOrder, 0.0, p_zpe]
         pMesh2 = Bezier.curveSurface(pt1, pt2, @ribbonWidth)
-        surfaceGroup.entities.add_faces_from_mesh pMesh2, 12, f_material
+        surfaceGroup.entities.add_faces_from_mesh pMesh2, 12, fmu, fmd
       else
         colorVector = [rc_component, 0.0, pc_component]
         pt1 = [@speciesWidth * pesR1.tempMLOrder, 0.0, r_zpe]
         pt2 = [@speciesWidth * pesP1.tempMLOrder, 0.0, p_zpe]
         pMesh1 = Bezier.curveSurface(pt1, pt2, @ribbonWidth)
-        surfaceGroup.entities.add_faces_from_mesh pMesh1, 12, f_material
+        surfaceGroup.entities.add_faces_from_mesh pMesh1, 12, fmu, fmd
       end
     }
 
