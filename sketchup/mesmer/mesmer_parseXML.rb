@@ -13,6 +13,8 @@ include REXML
 require 'pathname' # 1.8
 load Pathname.new(File.dirname(__FILE__)) + 'reaction.rb'
 load Pathname.new(File.dirname(__FILE__)) + 'bezier.rb'
+load Pathname.new(File.dirname(__FILE__)) + 'sphere.rb'
+load Pathname.new(File.dirname(__FILE__)) + 'element.rb'
 #--------------------
 
 class MesmerObject
@@ -23,9 +25,7 @@ class MesmerObject
   # Initiation procedure
   def initialize
     @simulations = ReactionScheme.new
-    @molecule_scale_factor = 1
-    @vanderwaals_scale_factor = 1
-    @x_displacement = (100.0).cm
+    @angstrom = 0.1
     @lowestEnergy = 9e23
     @highestEnergy = -9e23
     @tempML = []
@@ -35,6 +35,7 @@ class MesmerObject
     @systemHeight = 0.0
     @colorScheme = 0
     @ribbonWidth = 10
+    @eleList = AtomicElementList.new
   end
 
   # Member function which loads the file and calls the parsing procedure
@@ -54,6 +55,9 @@ class MesmerObject
   # This routine should extract all data from the XML file into a single object
   # for later processes.
   def parseXMLFile(doc)
+    # initialize the element list
+    @eleList.load_elements
+
     # parse the Title section
     @simulations.title = XPath.first( doc, "//title" )
     if ! @simulations.title
@@ -65,13 +69,10 @@ class MesmerObject
     # create a new instance of moleculeList object
     ml = MoleculeList.new
     doc.elements.each("*/moleculeList/molecule"){ |nodeMol|
-      mol = Molecule.new
-
       # get the ID and description
       identification = nodeMol.attributes["id"]
-      if ml.molecules[identification] != nil
-        result = UI.messagebox("Redefinition of molecule " +
-        identification + ". Proceeds?", MB_YESNO)
+      if ml[identification] != nil
+        result = UI.messagebox("Redefinition of molecule " + identification + ". Proceeds?", MB_YESNO)
         if result == 7 # No
           UI.messagebox("SketchUp Mesmer Ruby script will now abort.", MB_OK)
           Process.exit
@@ -79,42 +80,11 @@ class MesmerObject
         # proceeds and overwrites the previous molecule setting
       end
 
-      mol.description = nodeMol.attributes["description"]
+      mol = Molecule.new
+      mol.parse(nodeMol)
 
-      #-----------------------------------
-      # Parse the data inside propertyList
-      nodeMol.elements.each("*/property"){ |nodePpt|
-        val = nil
-        dictRef = nodePpt.attributes["dictRef"]
-        text = nodePpt.elements[1].get_text
-        val = text.value if text
-        if val != nil
-          if dictRef == "me:ZPE"
-            mol.zpe = val.to_f
-          elsif dictRef == "me:rotConsts"
-            # replace each tab, carrige return and newline with a space,
-            # and then use space as the delimiter to split the string into array
-            mol.rotConsts = val.gsub(/[\t\r\n]/,' ').split(" ")
-          elsif dictRef == "me:symmetryNumber"
-            mol.symm = val.to_f
-            #puts "symmetryNumber = " + mol.symm
-          elsif dictRef == "me:frequenciesScaleFactor"
-            mol.scaleFactor = val.to_f
-          elsif dictRef == "me:vibFreqs"
-            mol.vibFreq = val.gsub(/[\t\r\n]/,' ').split(" ")
-          elsif dictRef == "me:MW"
-            mol.molecularWeight = val.to_f
-          elsif dictRef == "me:spinMultiplicity"
-            mol.spinMultiplicity = val.to_f
-          elsif dictRef == "me:electronicExcitation"
-            mol.eleExc = val.gsub(/[\t\r\n]/,' ').split(" ")
-          end
-        end
-      }
-      #-----------------------------------
-
-      # ml.molecules is a Hash whose [key,value] are [identification, molecule]
-      ml.molecules[identification] = mol
+      # ml is a Hash whose [key,value] are [identification, molecule]
+      ml[identification] = mol
     }
 
     # parse the reactionList
@@ -195,8 +165,8 @@ class MesmerObject
     itemCount = 0
     @tempML.each{|item|
       if item == molName
-        @simulations.moleculelist.molecules[molName].totalZPE = tempEne
-        @simulations.moleculelist.molecules[molName].tempMLOrder = itemCount.to_f
+        @simulations.moleculelist[molName].totalZPE = tempEne
+        @simulations.moleculelist[molName].tempMLOrder = itemCount.to_f
         return 0
       end
       itemCount += 1
@@ -224,6 +194,25 @@ class MesmerObject
     # D. a set of functions to operate on the screen objects and manipulate
     #    the data, including drag and drop of molecules, writing interactive
     #    comments on the GUI/XML.
+
+    # For the y displacement of the surfaces, the current idea is initially
+    # allowing user to put y coordinates for each species, but the goal is to
+    # drag the surfaces along the y-axis and update the surfaces plot according
+    # to the average of all the displacements. For example, if we have a reaction
+    # scheme:
+    # (1) A + B -> C
+    # (2) A + B -> D
+    # (3) A + B -> E and
+    # (4) E -> F
+    # (5) F -> G + H
+    # Then we drag reaction (1) along the y-axis by 2 units. It will results
+    # in C being dragged along the y-axis together with the transition state if
+    # any by 2 units, but A + B only by a 2/3 units. (as there are three copies
+    # of the same source)
+    # In ruby, the coordinates are saved in an shared address to be access
+    # by both the reaction ribbon and the molecule.
+    # The displacements will then be saved back to the XML file as molecular
+    # data for reference.
 
     # Erase all data that has been drawn if this function is called to redraw
     # the surface.
@@ -384,13 +373,10 @@ class MesmerObject
     puts "Arranging the coordinates..."
 
     # Assign horizontal locations to species.
-    # The size should be refrained by the ratio of 1:sqrt(2), which is the aspect ratio of an A4 page.
-    # If the height of the system is 1, then the width of the system should be about 1.414 times as long.
-
     # Loop the reaction list again to get the dimensions.
     rl.reactions.each { |rxnName, rxn| # Set the surface coordinates from the species data
-      tempEne = ml.molecules[rxn.rct1].zpe
-      tempEne += ml.molecules[rxn.rct2].zpe if rxn.rct2
+      tempEne = ml[rxn.rct1].zpe
+      tempEne += ml[rxn.rct2].zpe if rxn.rct2
       setEnergyRange(tempEne)
 
       # It is possible that rct2 is deficientReactant
@@ -399,13 +385,13 @@ class MesmerObject
       setCoordinates(rct, tempEne)
 
       if rxn.transitionState
-        tempEne = ml.molecules[rxn.transitionState].zpe
+        tempEne = ml[rxn.transitionState].zpe
         setEnergyRange(tempEne)
         setCoordinates(rxn.transitionState, tempEne)
       end
 
-      tempEne = ml.molecules[rxn.pdt1].zpe
-      tempEne += ml.molecules[rxn.pdt2].zpe if rxn.pdt2
+      tempEne = ml[rxn.pdt1].zpe
+      tempEne += ml[rxn.pdt2].zpe if rxn.pdt2
       setEnergyRange(tempEne)
 
       pdt = rxn.pdt1
@@ -413,16 +399,20 @@ class MesmerObject
       setCoordinates(pdt, tempEne)
     }
     @systemHeight = @highestEnergy - @lowestEnergy
-    # Need a line here to do conversion between Hatree and kJ/mol
-    @systemWidth = @systemHeight * Math.sqrt(2)
+
+    # The size should be refrained by the ratio of 1:2.
+    # If the height of the system is 1, then the width of the system should be about 1.414 times as long.
+    @systemWidth = @systemHeight * 2.0
     @speciesWidth = @systemWidth / (@tempML.size - 1).to_f
     @halfSpeciesW = @speciesWidth / 2.0
     @ribbonWidth = 0.03 * @systemHeight
+    @angstrom = @ribbonWidth * 2.0
     #=====================================================
 
     # Draw the surface one by one using Bezier surfaces
     # call draw molecules functions while drawing the surface
     rl.reactions.each{ |rxnName, rxn|
+      # decides color for this reaction
       rc_component = rand
       pc_component = rand
       tc_component = rand
@@ -431,46 +421,67 @@ class MesmerObject
       fmu.color = [tc_component, rc_component, pc_component]
       fmd.color = [tc_component*0.8, rc_component*0.8, pc_component*0.8]
 
-      entities = Sketchup.active_model.entities
-      surfaceGroup = Sketchup.active_model.entities.add_group # One reaction is a group
+      surfEntities = Array.new # One reaction is a group
+      surfG = Sketchup.active_model.entities.add_group
 
-      pesR1 = ml.molecules[rxn.rct1]
-      pesR1 = ml.molecules[rxn.rct2] if rxn.rct2 && ml.molecules[rxn.rct2].tempMLOrder != -1.0
+      pesR1 = ml[rxn.rct1]
+      pesR1 = ml[rxn.rct2] if rxn.rct2 && ml[rxn.rct2].tempMLOrder != -1.0
       r_zpe = pesR1.totalZPE
       r_dsp = @speciesWidth * pesR1.tempMLOrder
-      entities.add_text rxn.rct1.to_s, [@speciesWidth * pesR1.tempMLOrder, 0.0, r_zpe - @halfSpeciesW]
+      moltxt = rxn.rct1.to_s
+      moltxt = moltxt + " + " + rxn.rct2.to_s if rxn.rct2
+      if !pesR1.isDrawn
+        surfG.entities.add_text moltxt, [@speciesWidth * pesR1.tempMLOrder, 0.0, r_zpe - @halfSpeciesW]
+        mol = drawMolecule(pesR1, @speciesWidth * pesR1.tempMLOrder, 0.0, r_zpe - 2.0 * @halfSpeciesW)
+        #surfEntities.push(mol)
+        pesR1.isDrawn = true
+      end
 
       # which product is on pes?
-      pesP1 = ml.molecules[rxn.pdt1]
-      pesP1 = ml.molecules[rxn.pdt2] if rxn.pdt2 && ml.molecules[rxn.pdt2].tempMLOrder != -1.0
+      pesP1 = ml[rxn.pdt1]
+      pesP1 = ml[rxn.pdt2] if rxn.pdt2 && ml[rxn.pdt2].tempMLOrder != -1.0
       p_zpe = pesP1.totalZPE
       p_dsp = @speciesWidth * pesP1.tempMLOrder
-      entities.add_text rxn.pdt1.to_s, [@speciesWidth * pesP1.tempMLOrder, 0.0, p_zpe - @halfSpeciesW]
+      moltxt = rxn.rct1.to_s
+      moltxt = moltxt + " + " + rxn.pdt2.to_s if rxn.pdt2
+      if !pesP1.isDrawn
+        surfG.entities.add_text rxn.pdt1.to_s, [@speciesWidth * pesP1.tempMLOrder, 0.0, p_zpe - @halfSpeciesW]
+        mol = drawMolecule(pesP1, @speciesWidth * pesP1.tempMLOrder, 0.0, p_zpe - 2.0 * @halfSpeciesW)
+        #surfEntities.push(mol)
+        pesP1.isDrawn = true
+      end
 
-      if rxn.transitionState
-        pesTS = ml.molecules[rxn.transitionState]
+      if rxn.transitionState # This does the ribbon connecting directly from the reactant -> TS -> product
+        pesTS = ml[rxn.transitionState]
         ts_zpe = pesTS.zpe
         ts_dsp = pesTS.tempMLOrder
 
-        #puts "Color is:" + colorVector.to_s
         pt1 = [@speciesWidth * pesR1.tempMLOrder, 0.0, r_zpe]
         pt2 = [@speciesWidth * pesTS.tempMLOrder, 0.0, ts_zpe]
         pMesh1 = Bezier.curveSurface(pt1, pt2, @ribbonWidth)
-        surfaceGroup.entities.add_faces_from_mesh pMesh1, 12, fmu, fmd
-
-        entities.add_text rxn.transitionState.to_s, [@speciesWidth * pesTS.tempMLOrder, 0.0, ts_zpe + @halfSpeciesW]
+        surfG.entities.add_faces_from_mesh pMesh1, 12, fmu, fmd
 
         pt1 = [@speciesWidth * pesTS.tempMLOrder, 0.0, ts_zpe]
         pt2 = [@speciesWidth * pesP1.tempMLOrder, 0.0, p_zpe]
         pMesh2 = Bezier.curveSurface(pt1, pt2, @ribbonWidth)
-        surfaceGroup.entities.add_faces_from_mesh pMesh2, 12, fmu, fmd
-      else
+        surfG.entities.add_faces_from_mesh pMesh2, 12, fmu, fmd
+
+        # draw transition state molecule
+        surfG.entities.add_text rxn.transitionState.to_s, [@speciesWidth * pesTS.tempMLOrder, 0.0, ts_zpe + @halfSpeciesW]
+        mol = drawMolecule(pesTS, @speciesWidth * pesTS.tempMLOrder, 0.0, ts_zpe + 2.0 * @halfSpeciesW)
+        #surfEntities.push(mol)
+        pesTS.isDrawn = true
+
+      else # This does the ribbon connecting directly from the reactant to the product
         colorVector = [rc_component, 0.0, pc_component]
         pt1 = [@speciesWidth * pesR1.tempMLOrder, 0.0, r_zpe]
         pt2 = [@speciesWidth * pesP1.tempMLOrder, 0.0, p_zpe]
         pMesh1 = Bezier.curveSurface(pt1, pt2, @ribbonWidth)
-        surfaceGroup.entities.add_faces_from_mesh pMesh1, 12, fmu, fmd
+        surfG.entities.add_faces_from_mesh pMesh1, 12, fmu, fmd
       end
+
+      #surfEntities.push(surfG)
+      #Sketchup.active_model.entities.add_group surfG, surfEntities
     }
 
     #---------------------------------------
@@ -478,13 +489,8 @@ class MesmerObject
     #---------------------------------------
 
     #---------------------------------------
-    # Draw molecules on surface
-    #---------------------------------------
-
-    #---------------------------------------
     # Draw molecules on reservior
     #---------------------------------------
-
 
     #---------------------------------------
     # Draw comments
@@ -503,6 +509,50 @@ class MesmerObject
     camera = view.camera
     status = camera.perspective?
     camera.perspective = false if status
+    styles = Sketchup.active_model.styles.active_style
+
+  end
+
+  def drawMolecule(mol, ax, ay, az)
+    # pass a molecular object in, assuming the coordinates, bonds and atom types
+    # are well defined.
+    # The plotted molecule should be intact as an object and allow user to rotate it.
+    # Todo:
+
+    atoms = mol.atoms
+    bonds = mol.bonds
+
+    molGroups = Array.new
+    atoms.each { |item|
+      molGroups.push(drawAtom(item, ax, ay, az, 2))
+    }
+
+    bonds.each {|item|
+      molGroups.push(drawBond())
+    }
+
+    #return Sketchup.active_model.entities.add_group(molGroups)
+  end
+
+  def drawAtom(atom, ax, ay, az,  option)
+    # Atom can be a sphere, single dot, or even nothing.
+    atomPos = Geom::Point3d.new(atom.x * @angstrom + ax, atom.y * @angstrom + ay, atom.z * @angstrom + az)
+    case option
+      when 0 # draw nothing
+      when 1 # draw a sphere of fixed diameter relative to system size
+        # the fixed diameter of the atom is 1 angstrom
+        return DrawSphere.create_geometry(atomPos, 1.0 * @angstrom, "Xx")
+      when 2 # draw a sphere of van der Waals radius relative to system size
+        return DrawSphere.create_geometry(atomPos, Math::sqrt(@eleList[atom.atomName].rcov) * @angstrom, atom.atomName)
+    end
+  end
+
+
+  def drawBond()
+    # Bond can be single cylinder, double cylinders, sticks, or no lines
+    #
+    group = nil
+    return group
   end
 
 end

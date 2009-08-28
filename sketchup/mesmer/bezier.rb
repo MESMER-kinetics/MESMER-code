@@ -102,12 +102,6 @@ module Bezier
       pMesh.add_polygon(curve1[a], curve1[a+1], curve2[a+1],curve2[a])
     end
     return pMesh
-#    f_material = Sketchup.active_model.materials.add "Surface"
-#    f_material.color = colorVector
-#    group.entities.add_faces_from_mesh pMesh, 12, f_material
-#
-#    Sketchup.active_model.commit_operation
-#    group.entities
   end
 
 end # module Bezier

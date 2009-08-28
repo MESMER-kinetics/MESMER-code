@@ -5,9 +5,10 @@
 #  Created by Chi-Hsiu Liang on 27/07/2009.
 #  Copyright (c) 2009 Chi-Hsiu Liang. All rights reserved.
 #
-
+require 'rexml/document'
+include REXML
 require 'pathname' # 1.8
-require Pathname.new(File.dirname(__FILE__)) + 'molecule.rb'
+load Pathname.new(File.dirname(__FILE__)) + 'molecule.rb'
 
 #----------------
 class Reaction
@@ -31,6 +32,9 @@ class Reaction
     @microRateCalculator = nil
   end
 
+  def parse(nodeRxn)
+    # pass the node in and populate the member data.
+  end
 end
 
 #----------------
