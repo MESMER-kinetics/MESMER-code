@@ -206,7 +206,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\plugins\fitting.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\formatfloat.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\plugins\gridsearch.cpp"
 				>
 			</File>
 			<File
@@ -286,6 +294,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\plugins\simplecalc.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\SimpleILT.cpp"
 				>
 			</File>
@@ -325,6 +337,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\BoltzmannDistribution.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\calcmethod.h"
 				>
 			</File>
 			<File

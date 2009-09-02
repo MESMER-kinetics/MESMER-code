@@ -1109,7 +1109,7 @@ namespace mesmer
       else{
         double downwardSum(0.0);
         for (int i(0) ; i < m_numGroupedGrains ; ++i ) {
-          downwardSum += (*tempEGME)[i][j];
+          downwardSum += (*tempEGME)[i][j]; // sum of the normalized downward prob.
         }
         double ptfj = exp(log(gDOS[j]) - beta * gEne[j] + 10.0);
         sumOfDeactivation += downwardSum * ptfj;
