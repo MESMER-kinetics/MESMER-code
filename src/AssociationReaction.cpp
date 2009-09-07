@@ -125,7 +125,8 @@ namespace mesmer
     qd_real DissRateCoeff(0.0) ;
 
     const int pNGG(m_pdt1->getColl().getNumberOfGroupedGrains());
-    const int pShiftedGrains(pNGG == 0 ? 0 : pNGG - 1);
+    const bool isCemetery(m_pdt1->getColl().isCemetery());
+    const int pShiftedGrains(pNGG == 0 ? 0 : (isCemetery ? pNGG : pNGG - 1));
     const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
     //const int forwardThreshE = get_EffGrnFwdThreshold();
     const int reverseThreshE = get_EffGrnRvsThreshold();

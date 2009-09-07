@@ -121,8 +121,10 @@ namespace mesmer
     // Need to know the number of grouped grains in both wells.
     const int rNGG(m_rct1->getColl().getNumberOfGroupedGrains());
     const int pNGG(m_pdt1->getColl().getNumberOfGroupedGrains());
-    const int rShiftedGrains(rNGG == 0 ? 0 : rNGG - 1);
-    const int pShiftedGrains(pNGG == 0 ? 0 : pNGG - 1);
+    const bool rIsCemetery(m_rct1->getColl().isCemetery());
+    const bool pIsCemetery(m_pdt1->getColl().isCemetery());
+    const int rShiftedGrains(rNGG == 0 ? 0 : (rIsCemetery ? rNGG : rNGG - 1));
+    const int pShiftedGrains(pNGG == 0 ? 0 : (pIsCemetery ? pNGG : pNGG - 1));
 
     const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
 

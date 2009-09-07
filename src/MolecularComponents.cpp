@@ -409,9 +409,9 @@ namespace mesmer
 
     if (m_host->isMolType("modelled") || m_host->isMolType("transitionState")){
       string comment("Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function ");
-      
+
       PersistPtr ppList = m_host->get_PersistentPointer()->XmlWriteMainElement("me:densityOfStatesList", comment );
-      
+
       if (m_host->getFlags().testDOSEnabled) ctest << endl << "Test rovibronic density of states for: " << m_host->getName() << "\n{\n";
       if (m_host->getFlags().testDOSEnabled) ctest << "      T           qtot           sumc           sumg\n";
 
@@ -585,7 +585,7 @@ namespace mesmer
   void gDensityOfStates::getGrainDensityOfStates(vector<double> &grainDOS, const int startGrnIdx, const int ignoreCellNumber) {
     // If density of states have not already been calcualted then do so.
     if (!calcDensityOfStates()){
-      throw (std::runtime_error("Failed calculating DOS.")); 
+      throw (std::runtime_error("Failed calculating DOS."));
     }
     if (ignoreCellNumber == 0){ // If there is no cells ignored in this grain, the grain DOS dose not need to be recalculated.
       grainDOS = m_grainDOS;
@@ -735,6 +735,7 @@ namespace mesmer
     m_ncolloptrsize(0),
     m_lowestBarrier(9e23),
     m_numGroupedGrains(0),
+    m_isCemetery(false),
     m_pDistributionCalculator(NULL),
     m_DeltaEdown_chk(-1),
     m_grainFracBeta(0.),
@@ -839,7 +840,7 @@ namespace mesmer
       return dEdRef * pow((temperature/refTemp),dEdExp);
     }
     else
-      throw (std::runtime_error("m_DeltaEdown was not defined but requested.")); 
+      throw (std::runtime_error("m_DeltaEdown was not defined but requested."));
   } ;
 
   //
@@ -871,9 +872,11 @@ namespace mesmer
       PersistPtr ppReservoirSize = pp->XmlMoveTo("me:reservoirSize");
 
       m_numGroupedGrains = 0; // Reset the number of grains grouped into a reservoir grain to zero.
+      double cemeteryTemperature = 0.0;
 
       while (ppReservoirSize){
 
+        // Check the size of the reservoir.
         const char* pReservoirSizeTxt = pp->XmlReadValue("me:reservoirSize");
         double tmpvalue(0.0); stringstream s2(pReservoirSizeTxt); s2 >> tmpvalue ;
 
@@ -925,12 +928,27 @@ namespace mesmer
               << "Reservoir size = " << m_numGroupedGrains * m_host->getEnv().GrainSize
               << " cm-1, which is " << m_numGroupedGrains * m_host->getEnv().GrainSize / 83.593 << " kJ/mol." << endl;
 
-        //-----------------------------------------
+        // Check the under what condition the reservoir turn into a cemetery.
+        const char* temperatureTxt = ppReservoirSize->XmlReadValue("turnCemeteryWhenUnder", false);
+        stringstream temperatureInput;
+        if (temperatureTxt){
+          temperatureInput << temperatureTxt;
+          temperatureInput >> cemeteryTemperature;
+          if (cemeteryTemperature < 0.0) cemeteryTemperature = 0.0;
+          if (cemeteryTemperature == NaN) cemeteryTemperature = 0.0;
+        }
+        else{
+          cemeteryTemperature = 0.0;
+        }
+        if (cemeteryTemperature != 0.0) 
+          ctest << "Reservoir state of " << m_host->getName()
+                << " turns into a cemetery state under " << cemeteryTemperature << " K." << endl;
         break;
       }
 
       if (m_numGroupedGrains){
-        if (!collisionOperatorWithReservoirState(beta, m_ncolloptrsize - m_numGroupedGrains + 1)){
+        m_isCemetery = (1.0 / (boltzmann_RCpK * beta)) <= cemeteryTemperature ? true : false;
+        if (!collisionOperatorWithReservoirState(beta, m_ncolloptrsize - m_numGroupedGrains)){
           cerr << "Failed building collision operator with reservoir state.";
           return false;
         }
@@ -984,6 +1002,7 @@ namespace mesmer
   //
   bool gWellProperties::collisionOperatorWithReservoirState(double beta, const int reducedCollOptrSize)
   {
+    const int nrg = m_isCemetery ? 0 : 1; // number of reservoir grain
     if (m_host->getDOS().test_rotConsts() < 0) return true;
     //
     //     i) Determine Probabilities of Energy Transfer.
@@ -1015,7 +1034,7 @@ namespace mesmer
 
     // Allocate memory.
     if (m_egme) delete m_egme ;                       // Delete any existing matrix.
-    m_egme = new dMatrix(reducedCollOptrSize) ;
+    m_egme = new dMatrix(reducedCollOptrSize + nrg) ;
 
     //---------------------------------------------------------------------------------------------------
     //-------------------- The part doing the same jobs as making a whole collision operator ------------
@@ -1075,9 +1094,9 @@ namespace mesmer
     // print out of column sums to check normalization results
     if (m_host->getFlags().reactionOCSEnabled){
       ctest << endl << "Collision operator column Sums" << endl << "{" << endl ;
-      for (int i(0) ; i < reducedCollOptrSize ; ++i ) {
+      for (int i(0) ; i < m_ncolloptrsize; ++i ) {
         double columnSum(0.0) ;
-        for (int j(0) ; j < reducedCollOptrSize ; ++j ){
+        for (int j(0) ; j < m_ncolloptrsize; ++j ){
           columnSum += to_double((*tempEGME)[j][i]) ;
         }
         ctest << columnSum << endl ;
@@ -1095,59 +1114,74 @@ namespace mesmer
     // Need to copy things over, the active states first.
     for (int i(m_numGroupedGrains) ; i < m_ncolloptrsize ; ++i ) {
       for (int j(m_numGroupedGrains); j < m_ncolloptrsize ; ++j ) {
-        (*m_egme)[i - m_numGroupedGrains + 1][j - m_numGroupedGrains + 1] = (*tempEGME)[i][j];
+        (*m_egme)[i - m_numGroupedGrains + nrg][j - m_numGroupedGrains + nrg] = (*tempEGME)[i][j];
       }
     }
 
-    // Sum up the downward transition terms for the reservoir grain
-    double sumOfDeactivation(0.0), ptfReservoir(0.0);
-    for (int j(0); j < m_ncolloptrsize ; ++j ) {
-      if (j < m_numGroupedGrains){
-        // summing up the partition function of reservoir state
-        ptfReservoir += exp(log(gDOS[j]) - beta * gEne[j] + 10.0);
-      }
-      else{
-        double downwardSum(0.0);
-        for (int i(0) ; i < m_numGroupedGrains ; ++i ) {
-          downwardSum += (*tempEGME)[i][j]; // sum of the normalized downward prob.
+    if (nrg){
+      // Sum up the downward transition terms for the reservoir grain
+      double sumOfDeactivation(0.0), ptfReservoir(0.0);
+      for (int j(0); j < m_ncolloptrsize ; ++j ) {
+        if (j < m_numGroupedGrains){
+          // summing up the partition function of reservoir state
+          ptfReservoir += exp(log(gDOS[j]) - beta * gEne[j] + 10.0);
         }
-        double ptfj = exp(log(gDOS[j]) - beta * gEne[j] + 10.0);
-        sumOfDeactivation += downwardSum * ptfj;
+        else{
+          double downwardSum(0.0);
+          for (int i(0) ; i < m_numGroupedGrains ; ++i ) {
+            downwardSum += (*tempEGME)[i][j]; // sum of the normalized downward prob.
+          }
+          double ptfj = exp(log(gDOS[j]) - beta * gEne[j] + 10.0);
+          sumOfDeactivation += downwardSum * ptfj;
 
-        (*m_egme)[0][j - m_numGroupedGrains + 1] = downwardSum;
+          (*m_egme)[0][j - m_numGroupedGrains + 1] = downwardSum;
+        }
       }
+      sumOfDeactivation /= ptfReservoir; // k_a * x_r = k_d(E) * f(E) / Q_a * x_a
+      // where Q_a is equal to x_a and cancelled out.
+      // So, k_a = k_d(E) * f(E) / x_r;
+
+      (*m_egme)[0][0] = -sumOfDeactivation;
+
+      // Symmetrization of the collision matrix.
+      vector<double> popDist; // grained population distribution
+      const double firstPop = exp(log(gDOS[0]) - beta * gEne[0] + 10.0);
+      popDist.push_back(firstPop);
+      for (int idx(1); idx < m_ncolloptrsize; ++idx){
+        if (idx < m_numGroupedGrains){
+          popDist[0] += exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0);
+        }
+        else{
+          popDist.push_back(sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0)));
+        }
+      }
+      popDist[0] = sqrt(popDist[0]); // This is the square root of partition function in the reservoir grain
+
+      for (int i(1) ; i < reducedCollOptrSize + 1; ++i ) {
+        for (int j(0) ; j < i ; ++j ){
+          (*m_egme)[j][i] *= popDist[i]/popDist[j] ;
+          (*m_egme)[i][j]  = (*m_egme)[j][i] ;
+        }
+      }
+
     }
-    sumOfDeactivation /= ptfReservoir; // k_a * x_r = k_d(E) * f(E) / Q_a * x_a
-    // where Q_a is equal to x_a and cancelled out.
-    // So, k_a = k_d(E) * f(E) / x_r;
-
-
-    (*m_egme)[0][0] = -sumOfDeactivation;
-
-
-    // Symmetrization of the collision matrix.
-    vector<double> popDist; // grained population distribution
-    const double firstPop = exp(log(gDOS[0]) - beta * gEne[0] + 10.0);
-    popDist.push_back(firstPop);
-    for (int idx(1); idx < m_ncolloptrsize; ++idx){
-      if (idx < m_numGroupedGrains){
-        popDist[0] += exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0);
-      }
-      else{
+    else{
+      // Symmetrization of the collision matrix.
+      vector<double> popDist; // grained population distribution
+      for (int idx(m_numGroupedGrains); idx < m_ncolloptrsize; ++idx){
         popDist.push_back(sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0)));
       }
-    }
-    popDist[0] = sqrt(popDist[0]); // This is the square root of partition function in the reservoir grain
-
-    for (int i(1) ; i < reducedCollOptrSize ; ++i ) {
-      for (int j(0) ; j < i ; ++j ){
-        (*m_egme)[j][i] *= popDist[i]/popDist[j] ;
-        (*m_egme)[i][j]  = (*m_egme)[j][i] ;
+      for (int i(1) ; i < reducedCollOptrSize; ++i ) {
+        for (int j(0) ; j < i ; ++j ){
+          (*m_egme)[j][i] *= popDist[i]/popDist[j] ;
+          (*m_egme)[i][j]  = (*m_egme)[j][i] ;
+        }
       }
     }
 
+
     //account for collisional loss by subrtacting unity from the leading diagonal.
-    for (int i(1) ; i < reducedCollOptrSize ; ++i ) {
+    for (int i(nrg) ; i < reducedCollOptrSize + nrg; ++i ) {
       (*m_egme)[i][i] -= 1.0 ;
     }
 
@@ -1395,7 +1429,7 @@ namespace mesmer
     // Check there is enough space in system matrix.
 
     if (locate + size > smsize)
-      throw (std::runtime_error("Error in the size of the system matrix.")); 
+      throw (std::runtime_error("Error in the size of the system matrix."));
 
     // Copy collision operator to the diagonal block indicated by "locate"
     // and multiply by the reduced collision frequencey.
@@ -1420,7 +1454,7 @@ namespace mesmer
     // Check that the contracted basis method has been specifed.
 
     if (!m_host->getFlags().doBasisSetMethod)
-      throw (std::runtime_error("Error: Contracted basis representation not requested.")); 
+      throw (std::runtime_error("Error: Contracted basis representation not requested."));
 
     // Find size of system matrix.
 
@@ -1430,7 +1464,7 @@ namespace mesmer
     // Check there is enough space in system matrix.
 
     if (locate + nbasis > smsize)
-      throw (std::runtime_error("Error in the size of the reaction operator matrix in contracted basis representation.")); 
+      throw (std::runtime_error("Error in the size of the reaction operator matrix in contracted basis representation."));
 
     // Copy collision operator eigenvalues to the diagonal elements indicated
     // by "locate" and multiply by the reduced collision frequencey.

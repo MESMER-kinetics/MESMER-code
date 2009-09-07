@@ -293,6 +293,7 @@ namespace mesmer
     int                 m_ncolloptrsize ;      // Size of the collision operator matrix.
     double              m_lowestBarrier;       // lowest barrier associatied with this species
     int                 m_numGroupedGrains;    // Number of grains grouped into a reservoir grain.
+    bool                m_isCemetery;          // Whether this is a cemetery state.
     DistributionCalculator* m_pDistributionCalculator;
 
     //================================================
@@ -373,6 +374,7 @@ namespace mesmer
     void setLowestBarrier(double value){ m_lowestBarrier = value;}
 
     const int getNumberOfGroupedGrains() {return m_numGroupedGrains; }
+    const bool isCemetery(){return m_isCemetery;}
   };
 
 

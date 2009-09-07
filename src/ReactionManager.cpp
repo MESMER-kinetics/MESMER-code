@@ -349,6 +349,7 @@ namespace mesmer
         int nGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
         if (nGroupedGrains != 0){
           msize -= (nGroupedGrains - 1);
+          if (isomer->getColl().isCemetery()) msize -= 1;
         }
 
         m_meanOmega += isomer->getColl().get_collisionFrequency() ;
@@ -888,7 +889,7 @@ namespace mesmer
         sum += n_0[j] * totalEigenVecs[j][i];
       }
       r_0[i] = sum;  // now |r_0> = V^(T)*|init> = U^(-1)*|n_0>
-      // Times the initial population with the inverse of the eigenvector 
+      // Times the initial population with the inverse of the eigenvector
       // which converts the populations into the "decay modes" domain.
     }
 
@@ -1505,7 +1506,9 @@ namespace mesmer
 
       Molecule *isomer = isomeritr->first ;
       int colloptrsize = isomer->getColl().getNumberOfGroupedGrains() != 0
-        ? isomer->getColl().get_colloptrsize() - isomer->getColl().getNumberOfGroupedGrains() + 1
+        ? ( isomer->getColl().isCemetery() 
+          ? isomer->getColl().get_colloptrsize() - isomer->getColl().getNumberOfGroupedGrains()
+          : isomer->getColl().get_colloptrsize() - isomer->getColl().getNumberOfGroupedGrains() + 1)
         : isomer->getColl().get_colloptrsize();
       double omega = isomer->getColl().get_collisionFrequency();
       int idx = isomeritr->second ;
