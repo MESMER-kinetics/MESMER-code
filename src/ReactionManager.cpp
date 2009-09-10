@@ -732,7 +732,7 @@ namespace mesmer
           }
         }
         else{
-          for (int i = 0; i < colloptrsize - colloptrsize + 1; ++i){
+          for (int i = 0; i < colloptrsize - numberGrouped + 1; ++i){
             n_0[i + rxnMatrixLoc] = initFrac * boltzFrac[i];
           }
         }
