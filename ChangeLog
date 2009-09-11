@@ -1,5 +1,9 @@
 2009-September-11 Dave Glowacki
 
+  * update manual to add information on Spin Forbidden Crossing Code
+
+2009-September-11 Dave Glowacki
+
   * add and test microcanonical Spin Forbidden Crossing code to MESMER against that described by 
     Harvey & Aschi, Farad. Disc., 2003(124), 129-143.  Two flavors of the spin forbidden
     transmission coefficients are available:
