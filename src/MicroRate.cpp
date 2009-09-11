@@ -33,9 +33,16 @@ namespace mesmer
     pReactant->getDOS().getGrainDensityOfStates(grainDOS) ;
 
     ctest << "\nCanonical rate coefficients for " << pReact->getName() << ", calculated from microcanonical rates\n{\n";
-    for(int i = 0 ; i < 29 ; ++i)
+    
+		// get the Temperature from the MemserEnv beta value
+		double MaxTemp = 1.0e+0/((pReact->getEnv().beta)*boltzmann_RCpK);
+		double Temperature(0.0e+0);
+		int num_temps(0);
+
+		// calculate Canonical rate coefficients up to the Temperature of a particular MesmerEnv
+		while(Temperature <= MaxTemp)
     {
-      double Temperature = double(i+2)*100.0 ;
+      Temperature = double(num_temps+1)*100.0 ;
       double beta = 1.0/(boltzmann_RCpK*Temperature) ;
 
       double sm1 = 0.0, sm2 = 0.0, tmp = 0.0;
@@ -54,6 +61,8 @@ namespace mesmer
       PersistPtr ppItem = ppList->XmlWriteElement("me:microRate");
       ppItem->XmlWriteValueElement("me:T",   Temperature, 6) ;
       ppItem->XmlWriteValueElement("me:val", sm1,         6) ;
+
+			++num_temps;
     }
     ctest << "}\n";
 
@@ -190,6 +199,13 @@ namespace mesmer
     if(pTunnelingtxt)
     {
       cerr << "Tunneling parameter in Reaction " << getName() << " is invalid in ILT."<<endl;
+      return false;
+    }
+
+    const char* pCrossingtxt = ppReac->XmlReadValue("me:crossing", optional) ;
+    if(pCrossingtxt)
+    {
+      cerr << "Crossing parameter in Reaction " << getName() << " is invalid in ILT."<<endl;
       return false;
     }
 

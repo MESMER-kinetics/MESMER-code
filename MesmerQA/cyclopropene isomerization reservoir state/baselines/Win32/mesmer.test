@@ -948,6 +948,7 @@ k_b(e) grains for R1:
 
 Canonical rate coefficients for R1, calculated from microcanonical rates
 {
+    100   4.07175e-138
     200   1.05924e-062
     300   1.73066e-037
     400   7.56559e-025
@@ -956,27 +957,6 @@ Canonical rate coefficients for R1, calculated from microcanonical rates
     700   1.58317e-008
     800   8.56569e-006
     900     0.00115167
-   1000      0.0579618
-   1100        1.41258
-   1200        19.7655
-   1300        178.787
-   1400        1139.81
-   1500        5466.59
-   1600        20744.3
-   1700        64808.5
-   1800         172066
-   1900         398303
-   2000         820876
-   2100   1.53247e+006
-   2200   2.62917e+006
-   2300   4.19602e+006
-   2400   6.29414e+006
-   2500   8.95263e+006
-   2600   1.21667e+007
-   2700   1.59009e+007
-   2800    2.0097e+007
-   2900   2.46816e+007
-   3000   2.95748e+007
 }
 
 Test rovibronic density of states for: TS3
@@ -1731,6 +1711,7 @@ k_b(e) grains for R2:
 
 Canonical rate coefficients for R2, calculated from microcanonical rates
 {
+    100   4.23041e-080
     200    8.0064e-034
     300   2.66434e-018
     400   1.67945e-010
@@ -1739,27 +1720,6 @@ Canonical rate coefficients for R2, calculated from microcanonical rates
     700        2.08016
     800        102.627
     900        2145.18
-   1000        24552.6
-   1100         181190
-   1200         961358
-   1300   3.95356e+006
-   1400   1.32896e+007
-   1500   3.79357e+007
-   1600   9.45585e+007
-   1700   2.10132e+008
-   1800   4.23004e+008
-   1900   7.81202e+008
-   2000   1.33753e+009
-   2100   2.14218e+009
-   2200   3.23474e+009
-   2300   4.63767e+009
-   2400   6.35301e+009
-   2500   8.36271e+009
-   2600   1.06321e+010
-   2700   1.31153e+010
-   2800   1.57608e+010
-   2900   1.85166e+010
-   3000   2.13343e+010
 }
 The reservoir is set to 120 grains, which is about 24000 cm-1 from the well bottom.
 6.07176e-006 of the allene population is in the active states. Reservoir size = 24000 cm-1, which is 287.105 kJ/mol.
@@ -3223,6 +3183,7 @@ k_b(e) grains for R1:
 
 Canonical rate coefficients for R1, calculated from microcanonical rates
 {
+    100   4.07175e-138
     200   1.05924e-062
     300   1.73066e-037
     400   7.56559e-025
@@ -3233,25 +3194,6 @@ Canonical rate coefficients for R1, calculated from microcanonical rates
     900     0.00115795
    1000      0.0589796
    1100        1.47206
-   1200        21.3879
-   1300        203.477
-   1400        1377.95
-   1500        7065.28
-   1600        28756.5
-   1700        96434.3
-   1800         274555
-   1900         680057
-   2000   1.49533e+006
-   2100   2.96824e+006
-   2200   5.39466e+006
-   2300   9.08511e+006
-   2400   1.43232e+007
-   2500   2.13263e+007
-   2600   3.02181e+007
-   2700   4.10176e+007
-   2800   5.36439e+007
-   2900   6.79342e+007
-   3000   8.36675e+007
 }
 
 Test rovibronic density of states for: TS3
@@ -4066,6 +4008,7 @@ k_b(e) grains for R2:
 
 Canonical rate coefficients for R2, calculated from microcanonical rates
 {
+    100   4.23041e-080
     200    8.0064e-034
     300   2.66434e-018
     400   1.67945e-010
@@ -4076,25 +4019,6 @@ Canonical rate coefficients for R2, calculated from microcanonical rates
     900        2145.18
    1000        24552.8
    1100         181201
-   1200         961641
-   1300   3.95786e+006
-   1400   1.33311e+007
-   1500   3.82134e+007
-   1600   9.59478e+007
-   1700   2.15604e+008
-   1800   4.40694e+008
-   1900   8.29688e+008
-   2000   1.45316e+009
-   2100   2.38721e+009
-   2200   3.70406e+009
-   2300   5.46185e+009
-   2400   7.69606e+009
-   2500   1.04145e+010
-   2600   1.35967e+010
-   2700   1.71978e+010
-   2800   2.11545e+010
-   2900    2.5393e+010
-   3000   2.98357e+010
 }
 The reservoir is set to 120 grains, which is about 24000 cm-1 from the well bottom.
 0.000254125 of the allene population is in the active states. Reservoir size = 24000 cm-1, which is 287.105 kJ/mol.

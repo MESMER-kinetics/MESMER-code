@@ -24,6 +24,7 @@ namespace mesmer
     bool   kfEGrainsEnabled;              // Enabled printing k_f(E) grains
     bool   kbEGrainsEnabled;              // Enabled printing k_b(E) grains
     bool   TunnellingCoeffEnabled;        // Enabled printing Tunneling coefficients
+    bool   CrossingCoeffEnabled;          // Enabled printing Crossing coefficients
     bool   cellFluxEnabled;               // Enabled printing transition state flux
     bool   grainFluxEnabled;              // Enabled printing transition state flux
     bool   rateCoefficientsOnly;          // Calculate rate coefficients only without doing collision operators

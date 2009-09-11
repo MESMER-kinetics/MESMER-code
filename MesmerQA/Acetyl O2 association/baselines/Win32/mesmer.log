@@ -5,20 +5,25 @@ Acetyl_O2_association.xml
 In R1: Parsing reaction...
 In Int1: The default value of me:DistributionCalcMethod was used.
 In R1: No tunneling method was found for R1
+In R1: No crossing method was found for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R2: Parsing reaction...
 In Int2: The default value of me:DistributionCalcMethod was used.
+In R2: No crossing method was found for R2
 In R3: Parsing reaction...
 In R3: No vibrational frequencies were assigned for lactone, assuming it to be a sink term.
 No vibrational frequencies were assigned for OH, assuming it to be a sink term.
 No tunneling method was found for R3
+In R3: No crossing method was found for R3
 In R4: Parsing reaction...
 In R4: No vibrational frequencies were assigned for ketene, assuming it to be a sink term.
 No vibrational frequencies were assigned for HO2, assuming it to be a sink term.
 No tunneling method was found for R4
+In R4: No crossing method was found for R4
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
 200.72Torr, 298K at double precision
+The default value of me:calcMethod was used.
 Write metadata
 
 File: "Acetyl_O2_association.xml" successfully parsed.
@@ -36,7 +41,7 @@ Association ILT calculation completed
 
 20 values in the FFT convolution routine were replaced by standard convolution
 
-8420 values in the FFT convolution routine were replaced by standard convolution
+7460 values in the FFT convolution routine were replaced by standard convolution
 
 20 values in the FFT convolution routine were replaced by standard convolution
 
@@ -44,9 +49,9 @@ Association ILT calculation completed
 Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
 In mesmer::ReactionManager::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 
-In total, 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 56 seconds.
- -- Total time elapsed: 177 seconds.
+1 temperature/concentration-pressure points calculated.
+Finish Calculation -- Time elapsed: 13 seconds.
+ -- Total time elapsed: 37 seconds.
 
 System saved to out.xml
 m_ImFreq is provided but not used in TS2.

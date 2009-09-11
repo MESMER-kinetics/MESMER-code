@@ -19,7 +19,7 @@ namespace mesmer
   {
   public:
   
-    ///Constructor which registers with the list of TunnelingCalculators in the base class
+    ///Constructor which registers with the list of DistributionCalculators in the base class
     BoltzmannDistribution(const std::string& id) : DistributionCalculator(id){}
   
     virtual ~BoltzmannDistribution() {}

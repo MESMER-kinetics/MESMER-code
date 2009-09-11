@@ -28,6 +28,12 @@ MesmerQA/pentyl/baselines/Win32/mesmer.test -text
 MesmerQA/pentyl/pentyl_isomerization_basisset_test.xml -text
 MesmerQA/pentyl/pentyl_isomerization_test.xml -text
 MesmerQA/pentyl/pentyl_isomerize_dissocn.xml -text
+MesmerQA/spin_forbidden_kinetics/LZ_test.test -text
+MesmerQA/spin_forbidden_kinetics/LZ_test.xml -text
+MesmerQA/spin_forbidden_kinetics/LZ_test_out.xml -text
+MesmerQA/spin_forbidden_kinetics/WKB_test.test -text
+MesmerQA/spin_forbidden_kinetics/WKB_test.xml -text
+MesmerQA/spin_forbidden_kinetics/WKB_test_out.xml -text
 /README -text
 /ToDo -text
 Windows[!!-~]VC8/MESMER.sln -text
@@ -204,6 +210,7 @@ src/BoltzmannDistribution.h -text
 src/ClassicalRotor.cpp -text
 src/ClassicalRotor.h -text
 src/Constants.h -text
+src/Crossing.h -text
 src/DensityOfStates.cpp -text
 src/DensityOfStates.h -text
 src/Distribution.h -text
@@ -218,6 +225,8 @@ src/IrreversibleUnimolecularReaction.cpp -text
 src/IrreversibleUnimolecularReaction.h -text
 src/IsomerizationReaction.cpp -text
 src/IsomerizationReaction.h -text
+src/LandauZenerCrossingCoeff.cpp -text
+src/LandauZenerCrossingCoeff.h -text
 src/Makefile -text
 src/Matrix.h -text
 src/MesmerConfig.h -text
@@ -257,6 +266,8 @@ src/TMatrix.h -text
 src/TimeCounter.cpp -text
 src/TimeCounter.h -text
 src/Tunneling.h -text
+src/WKBCrossingCoeff.cpp -text
+src/WKBCrossingCoeff.h -text
 src/XMLPersist.cpp -text
 src/XMLPersist.h -text
 src/a2d.h -text

@@ -1,0 +1,2148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+    <title>Cyclopropene isomerization</title>
+    <moleculeList>
+        <!--J. Phys. Chem. A 2003, 107, 2680-2692-->
+        <molecule id="cyclopropene" description="C_3H_4" spinMultiplicity="1" default="true">
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">0.0</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">1.01092 0.73124 0.46343</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>1.0</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">634 798 884 944 1018 1044 1077 1115 1166 1526 1743 3039 3101 3269 3319</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">40</scalar>
+                </property>
+                <property dictRef="me:deltaEDown">
+                    <scalar units="cm-1">250.0</scalar>
+                </property>
+                <property dictRef="me:epsilon">
+                    <scalar>473.1</scalar>
+                </property>
+                <property dictRef="me:sigma">
+                    <scalar>5.5</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+            <me:DistributionCalcMethod default="true">Boltzmann</me:DistributionCalcMethod>
+            <me:densityOfStatesList calculated="20090911_162027">
+                <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
+                <me:densityOfStates>
+                    <me:T>200</me:T>
+                    <me:qtot>5057.24</me:qtot>
+                    <me:sumc>5057.45</me:sumc>
+                    <me:sumg>4677.5</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>300</me:T>
+                    <me:qtot>10340.4</me:qtot>
+                    <me:sumc>10340.7</me:sumc>
+                    <me:sumg>9976.55</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>400</me:T>
+                    <me:qtot>19981.3</me:qtot>
+                    <me:sumc>19981.6</me:sumc>
+                    <me:sumg>19573.5</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>500</me:T>
+                    <me:qtot>38742.1</me:qtot>
+                    <me:sumc>38742.5</me:sumc>
+                    <me:sumg>38226.2</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>600</me:T>
+                    <me:qtot>75718.1</me:qtot>
+                    <me:sumc>75718.7</me:sumc>
+                    <me:sumg>75009.3</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>700</me:T>
+                    <me:qtot>148210</me:qtot>
+                    <me:sumc>148211</me:sumc>
+                    <me:sumg>147183</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>800</me:T>
+                    <me:qtot>288670</me:qtot>
+                    <me:sumc>288671</me:sumc>
+                    <me:sumg>287131</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>900</me:T>
+                    <me:qtot>556899</me:qtot>
+                    <me:sumc>556901</me:sumc>
+                    <me:sumg>554546</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1000</me:T>
+                    <me:qtot>1.06106e+006</me:qtot>
+                    <me:sumc>1.06106e+006</me:sumc>
+                    <me:sumg>1.05742e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1100</me:T>
+                    <me:qtot>1.9932e+006</me:qtot>
+                    <me:sumc>1.9932e+006</me:sumc>
+                    <me:sumg>1.98754e+006</me:sumg>
+                </me:densityOfStates>
+            </me:densityOfStatesList>
+        </molecule>
+        <molecule id="triplet" description="CH2CCH2" spinMultiplicity="1" default="true">
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">105.13</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">2.36572 0.35402 0.30794</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>1.0</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">416 793 1016 1414 3163 535 830 1219 1502 3250 563 909 1238 3047 3261</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">40</scalar>
+                </property>
+                <property dictRef="me:deltaEDown">
+                    <scalar units="cm-1">250.0</scalar>
+                </property>
+                <property dictRef="me:epsilon">
+                    <scalar>473.1</scalar>
+                </property>
+                <property dictRef="me:sigma">
+                    <scalar>5.5</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+            <me:DistributionCalcMethod default="true">Boltzmann</me:DistributionCalcMethod>
+            <me:densityOfStatesList calculated="20090911_162027">
+                <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
+                <me:densityOfStates>
+                    <me:T>200</me:T>
+                    <me:qtot>6314.86</me:qtot>
+                    <me:sumc>6315.12</me:sumc>
+                    <me:sumg>5830.61</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>300</me:T>
+                    <me:qtot>15138.9</me:qtot>
+                    <me:sumc>15139.2</me:sumc>
+                    <me:sumg>14593.7</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>400</me:T>
+                    <me:qtot>34738.5</me:qtot>
+                    <me:sumc>34739</me:sumc>
+                    <me:sumg>34016.7</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>500</me:T>
+                    <me:qtot>78678.2</me:qtot>
+                    <me:sumc>78679</me:sumc>
+                    <me:sumg>77618.1</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>600</me:T>
+                    <me:qtot>175714</me:qtot>
+                    <me:sumc>175715</me:sumc>
+                    <me:sumg>174058</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>700</me:T>
+                    <me:qtot>385110</me:qtot>
+                    <me:sumc>385112</me:sumc>
+                    <me:sumg>382431</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>800</me:T>
+                    <me:qtot>825572</me:qtot>
+                    <me:sumc>825576</me:sumc>
+                    <me:sumg>821162</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>900</me:T>
+                    <me:qtot>1.72845e+006</me:qtot>
+                    <me:sumc>1.72846e+006</me:sumc>
+                    <me:sumg>1.72115e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1000</me:T>
+                    <me:qtot>3.53314e+006</me:qtot>
+                    <me:sumc>3.53316e+006</me:sumc>
+                    <me:sumg>3.52103e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1100</me:T>
+                    <me:qtot>7.05397e+006</me:qtot>
+                    <me:sumc>7.05399e+006</me:sumc>
+                    <me:sumg>7.03396e+006</me:sumg>
+                </me:densityOfStates>
+            </me:densityOfStatesList>
+        </molecule>
+        <molecule id="MECP1" description="cyclopropene to triplet">
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">152.907</scalar>
+                </property>
+                <property dictRef="me:RMS_SOC_element">
+                    <scalar units="cm-1">5.08</scalar>
+                </property>
+                <property dictRef="me:GradientDifferenceMagnitude">
+                    <scalar units="a.u./Bohr">0.09327305</scalar>
+                </property>
+                <property dictRef="me:AverageSlope">
+                    <scalar units="a.u./Bohr">0.03525806</scalar>
+                </property>
+                <property dictRef="me:GradientReducedMass">
+                    <scalar units="a.m.u.">10.4098</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">1.92561 0.38273 0.32291</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>1.0</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">396 440 718 964 975 1009 1104 1306 1417 1557 2938 3059 3141 3245</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">40.0</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>1</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+            <me:densityOfStatesList calculated="20090911_162003">
+                <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
+                <me:densityOfStates>
+                    <me:T>200</me:T>
+                    <me:qtot>6657.56</me:qtot>
+                    <me:sumc>6657.84</me:sumc>
+                    <me:sumg>6149.18</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>300</me:T>
+                    <me:qtot>15674.3</me:qtot>
+                    <me:sumc>15674.7</me:sumc>
+                    <me:sumg>15111.4</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>400</me:T>
+                    <me:qtot>34290.4</me:qtot>
+                    <me:sumc>34290.9</me:sumc>
+                    <me:sumg>33578.9</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>500</me:T>
+                    <me:qtot>72920.5</me:qtot>
+                    <me:sumc>72921.3</me:sumc>
+                    <me:sumg>71938.3</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>600</me:T>
+                    <me:qtot>152022</me:qtot>
+                    <me:sumc>152024</me:sumc>
+                    <me:sumg>150589</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>700</me:T>
+                    <me:qtot>310755</me:qtot>
+                    <me:sumc>310757</me:sumc>
+                    <me:sumg>308592</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>800</me:T>
+                    <me:qtot>622304</me:qtot>
+                    <me:sumc>622307</me:sumc>
+                    <me:sumg>618978</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>900</me:T>
+                    <me:qtot>1.22032e+006</me:qtot>
+                    <me:sumc>1.22033e+006</me:sumc>
+                    <me:sumg>1.21516e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1000</me:T>
+                    <me:qtot>2.34358e+006</me:qtot>
+                    <me:sumc>2.34358e+006</me:sumc>
+                    <me:sumg>2.33554e+006</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>1100</me:T>
+                    <me:qtot>4.40969e+006</me:qtot>
+                    <me:sumc>4.4097e+006</me:sumc>
+                    <me:sumg>4.39718e+006</me:sumg>
+                </me:densityOfStates>
+            </me:densityOfStatesList>
+        </molecule>
+        <molecule id="He">
+            <atom elementType="He" />
+            <propertyList>
+                <property dictRef="me:epsilon">
+                    <scalar>10.2</scalar>
+                </property>
+                <property dictRef="me:sigma">
+                    <scalar>2.55</scalar>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">4.0</scalar>
+                </property>
+            </propertyList>
+        </molecule>
+    </moleculeList>
+    <reactionList>
+        <reaction id="R1">
+            <reactant>
+                <molecule ref="cyclopropene" me:type="modelled" />
+            </reactant>
+            <product>
+                <molecule ref="triplet" me:type="modelled" />
+            </product>
+            <me:transitionState>
+                <molecule ref="MECP1" me:type="transitionState" />
+            </me:transitionState>
+            <me:crossing>WKB</me:crossing>
+            <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+            <me:microRateList calculated="20090911_162027">
+                <me:description>Microcanonical rate coefficients</me:description>
+                <me:microRate>
+                    <me:T>100</me:T>
+                    <me:val>9.13533e-066</me:val>
+                </me:microRate>
+                <me:microRate>
+                    <me:T>200</me:T>
+                    <me:val>1.69644e-030</me:val>
+                </me:microRate>
+                <me:microRate>
+                    <me:T>300</me:T>
+                    <me:val>1.53179e-017</me:val>
+                </me:microRate>
+                <me:microRate>
+                    <me:T>400</me:T>
+                    <me:val>6.77009e-011</me:val>
+                </me:microRate>
+                <me:microRate>
+                    <me:T>500</me:T>
+                    <me:val>7.34899e-007</me:val>
+                </me:microRate>
+                <me:microRate>
+                    <me:T>600</me:T>
+                    <me:val>0.000375949</me:val>
+                </me:microRate>
+                <me:microRate>
+                    <me:T>700</me:T>
+                    <me:val>0.032971</me:val>
+                </me:microRate>
+                <me:microRate>
+                    <me:T>800</me:T>
+                    <me:val>0.953086</me:val>
+                </me:microRate>
+                <me:microRate>
+                    <me:T>900</me:T>
+                    <me:val>13.0955</me:val>
+                </me:microRate>
+                <me:microRate>
+                    <me:T>1000</me:T>
+                    <me:val>106.612</me:val>
+                </me:microRate>
+                <me:microRate>
+                    <me:T>1100</me:T>
+                    <me:val>591.243</me:val>
+                </me:microRate>
+            </me:microRateList>
+        </reaction>
+    </reactionList>
+    <me:conditions>
+        <me:bathGas>He</me:bathGas>
+        <me:PTs>
+            <me:PTpair me:units="Torr" me:P="200.72" me:T="800.">
+                <me:precision default="true">double</me:precision>
+            </me:PTpair>
+            <me:PTpair me:units="Torr" me:P="250.00" me:T="1000.">
+                <me:precision default="true">double</me:precision>
+            </me:PTpair>
+        </me:PTs>
+        <me:InitalPopulation>
+            <molecule ref="cyclopropene" me:population="1.0" />
+        </me:InitalPopulation>
+    </me:conditions>
+    <me:modelParameters>
+        <!--Specify grain size directly...-->
+        <me:grainSize units="cm-1">200</me:grainSize>
+        <!--...or by the total number of grains
+        <me:numberOfGrains> 500 </me:numberOfGrains>-->
+        <!--Specify increased energy range
+        <me:maxTemperature>6000</me:maxTemperature>-->
+        <me:energyAboveTheTopHill>20.</me:energyAboveTheTopHill>
+    </me:modelParameters>
+    <me:control>
+        <me:testDOS />
+        <me:testMicroRates />
+        <me:printGrainDOS />
+        <!--<me:printCellTransitionStateFlux />-->
+        <!--<me:printGrainTransitionStateFlux />-->
+        <!--<me:printCellDOS />-->
+        <!--<me:printReactionOperatorColumnSums />-->
+        <!--<me:printCrossingCoefficients />-->
+        <me:printGrainkfE />
+        <!--<me:printGrainBoltzmann />-->
+        <me:printGrainkbE />
+        <me:printSpeciesProfile />
+        <me:eigenvalues>0</me:eigenvalues>
+        <me:calcMethod default="true">simpleCalc</me:calcMethod>
+    </me:control>
+    <metadataList>
+        <metadata name="dc:title" content="Cyclopropene isomerization" />
+        <metadata name="dc:creator" content="Mesmer v0.1" />
+        <metadata name="dc:description" content="Calculation of the interaction between collisional energy transfer and chemical reaction for dissociation, isomerization and association processes" />
+        <metadata name="dc:date" content="20090911_161933" />
+        <metadata name="dc:contributor" content="unknown" />
+    </metadataList>
+    <me:analysis calculated="20090911_161933">
+        <me:description>All calculations shown</me:description>
+        <me:eigenvalueList number="197" selection="0">
+            <me:eigenvalue>-6.14609e+010</me:eigenvalue>
+            <me:eigenvalue>-1.92843e+009</me:eigenvalue>
+            <me:eigenvalue>-1.90869e+009</me:eigenvalue>
+            <me:eigenvalue>-1.90576e+009</me:eigenvalue>
+            <me:eigenvalue>-1.8888e+009</me:eigenvalue>
+            <me:eigenvalue>-1.88023e+009</me:eigenvalue>
+            <me:eigenvalue>-1.87285e+009</me:eigenvalue>
+            <me:eigenvalue>-1.8591e+009</me:eigenvalue>
+            <me:eigenvalue>-1.85187e+009</me:eigenvalue>
+            <me:eigenvalue>-1.84691e+009</me:eigenvalue>
+            <me:eigenvalue>-1.84211e+009</me:eigenvalue>
+            <me:eigenvalue>-1.83598e+009</me:eigenvalue>
+            <me:eigenvalue>-1.83257e+009</me:eigenvalue>
+            <me:eigenvalue>-1.82615e+009</me:eigenvalue>
+            <me:eigenvalue>-1.81837e+009</me:eigenvalue>
+            <me:eigenvalue>-1.81823e+009</me:eigenvalue>
+            <me:eigenvalue>-1.8174e+009</me:eigenvalue>
+            <me:eigenvalue>-1.8098e+009</me:eigenvalue>
+            <me:eigenvalue>-1.80961e+009</me:eigenvalue>
+            <me:eigenvalue>-1.80795e+009</me:eigenvalue>
+            <me:eigenvalue>-1.80382e+009</me:eigenvalue>
+            <me:eigenvalue>-1.80118e+009</me:eigenvalue>
+            <me:eigenvalue>-1.80035e+009</me:eigenvalue>
+            <me:eigenvalue>-1.79785e+009</me:eigenvalue>
+            <me:eigenvalue>-1.79372e+009</me:eigenvalue>
+            <me:eigenvalue>-1.7913e+009</me:eigenvalue>
+            <me:eigenvalue>-1.78907e+009</me:eigenvalue>
+            <me:eigenvalue>-1.78474e+009</me:eigenvalue>
+            <me:eigenvalue>-1.78389e+009</me:eigenvalue>
+            <me:eigenvalue>-1.7797e+009</me:eigenvalue>
+            <me:eigenvalue>-1.7782e+009</me:eigenvalue>
+            <me:eigenvalue>-1.77517e+009</me:eigenvalue>
+            <me:eigenvalue>-1.77199e+009</me:eigenvalue>
+            <me:eigenvalue>-1.77106e+009</me:eigenvalue>
+            <me:eigenvalue>-1.76749e+009</me:eigenvalue>
+            <me:eigenvalue>-1.76526e+009</me:eigenvalue>
+            <me:eigenvalue>-1.76442e+009</me:eigenvalue>
+            <me:eigenvalue>-1.76172e+009</me:eigenvalue>
+            <me:eigenvalue>-1.75929e+009</me:eigenvalue>
+            <me:eigenvalue>-1.75797e+009</me:eigenvalue>
+            <me:eigenvalue>-1.7571e+009</me:eigenvalue>
+            <me:eigenvalue>-1.75512e+009</me:eigenvalue>
+            <me:eigenvalue>-1.75333e+009</me:eigenvalue>
+            <me:eigenvalue>-1.7517e+009</me:eigenvalue>
+            <me:eigenvalue>-1.75018e+009</me:eigenvalue>
+            <me:eigenvalue>-1.7501e+009</me:eigenvalue>
+            <me:eigenvalue>-1.74862e+009</me:eigenvalue>
+            <me:eigenvalue>-1.74688e+009</me:eigenvalue>
+            <me:eigenvalue>-1.74491e+009</me:eigenvalue>
+            <me:eigenvalue>-1.74274e+009</me:eigenvalue>
+            <me:eigenvalue>-1.74161e+009</me:eigenvalue>
+            <me:eigenvalue>-1.74039e+009</me:eigenvalue>
+            <me:eigenvalue>-1.73786e+009</me:eigenvalue>
+            <me:eigenvalue>-1.73517e+009</me:eigenvalue>
+            <me:eigenvalue>-1.7325e+009</me:eigenvalue>
+            <me:eigenvalue>-1.73232e+009</me:eigenvalue>
+            <me:eigenvalue>-1.72933e+009</me:eigenvalue>
+            <me:eigenvalue>-1.7262e+009</me:eigenvalue>
+            <me:eigenvalue>-1.72293e+009</me:eigenvalue>
+            <me:eigenvalue>-1.72272e+009</me:eigenvalue>
+            <me:eigenvalue>-1.71952e+009</me:eigenvalue>
+            <me:eigenvalue>-1.71595e+009</me:eigenvalue>
+            <me:eigenvalue>-1.71227e+009</me:eigenvalue>
+            <me:eigenvalue>-1.71218e+009</me:eigenvalue>
+            <me:eigenvalue>-1.70819e+009</me:eigenvalue>
+            <me:eigenvalue>-1.70399e+009</me:eigenvalue>
+            <me:eigenvalue>-1.70108e+009</me:eigenvalue>
+            <me:eigenvalue>-1.69957e+009</me:eigenvalue>
+            <me:eigenvalue>-1.69494e+009</me:eigenvalue>
+            <me:eigenvalue>-1.6901e+009</me:eigenvalue>
+            <me:eigenvalue>-1.6891e+009</me:eigenvalue>
+            <me:eigenvalue>-1.68507e+009</me:eigenvalue>
+            <me:eigenvalue>-1.67983e+009</me:eigenvalue>
+            <me:eigenvalue>-1.67631e+009</me:eigenvalue>
+            <me:eigenvalue>-1.67439e+009</me:eigenvalue>
+            <me:eigenvalue>-1.66873e+009</me:eigenvalue>
+            <me:eigenvalue>-1.66284e+009</me:eigenvalue>
+            <me:eigenvalue>-1.66268e+009</me:eigenvalue>
+            <me:eigenvalue>-1.6567e+009</me:eigenvalue>
+            <me:eigenvalue>-1.65032e+009</me:eigenvalue>
+            <me:eigenvalue>-1.64818e+009</me:eigenvalue>
+            <me:eigenvalue>-1.64369e+009</me:eigenvalue>
+            <me:eigenvalue>-1.6368e+009</me:eigenvalue>
+            <me:eigenvalue>-1.63282e+009</me:eigenvalue>
+            <me:eigenvalue>-1.62963e+009</me:eigenvalue>
+            <me:eigenvalue>-1.62218e+009</me:eigenvalue>
+            <me:eigenvalue>-1.61661e+009</me:eigenvalue>
+            <me:eigenvalue>-1.61443e+009</me:eigenvalue>
+            <me:eigenvalue>-1.60637e+009</me:eigenvalue>
+            <me:eigenvalue>-1.59955e+009</me:eigenvalue>
+            <me:eigenvalue>-1.598e+009</me:eigenvalue>
+            <me:eigenvalue>-1.5893e+009</me:eigenvalue>
+            <me:eigenvalue>-1.58156e+009</me:eigenvalue>
+            <me:eigenvalue>-1.58025e+009</me:eigenvalue>
+            <me:eigenvalue>-1.57086e+009</me:eigenvalue>
+            <me:eigenvalue>-1.56241e+009</me:eigenvalue>
+            <me:eigenvalue>-1.5611e+009</me:eigenvalue>
+            <me:eigenvalue>-1.55095e+009</me:eigenvalue>
+            <me:eigenvalue>-1.54201e+009</me:eigenvalue>
+            <me:eigenvalue>-1.54042e+009</me:eigenvalue>
+            <me:eigenvalue>-1.52948e+009</me:eigenvalue>
+            <me:eigenvalue>-1.52036e+009</me:eigenvalue>
+            <me:eigenvalue>-1.5181e+009</me:eigenvalue>
+            <me:eigenvalue>-1.50631e+009</me:eigenvalue>
+            <me:eigenvalue>-1.49741e+009</me:eigenvalue>
+            <me:eigenvalue>-1.49404e+009</me:eigenvalue>
+            <me:eigenvalue>-1.48133e+009</me:eigenvalue>
+            <me:eigenvalue>-1.47306e+009</me:eigenvalue>
+            <me:eigenvalue>-1.4681e+009</me:eigenvalue>
+            <me:eigenvalue>-1.4544e+009</me:eigenvalue>
+            <me:eigenvalue>-1.44724e+009</me:eigenvalue>
+            <me:eigenvalue>-1.44013e+009</me:eigenvalue>
+            <me:eigenvalue>-1.42536e+009</me:eigenvalue>
+            <me:eigenvalue>-1.41987e+009</me:eigenvalue>
+            <me:eigenvalue>-1.41001e+009</me:eigenvalue>
+            <me:eigenvalue>-1.39414e+009</me:eigenvalue>
+            <me:eigenvalue>-1.39083e+009</me:eigenvalue>
+            <me:eigenvalue>-1.37773e+009</me:eigenvalue>
+            <me:eigenvalue>-1.3608e+009</me:eigenvalue>
+            <me:eigenvalue>-1.36001e+009</me:eigenvalue>
+            <me:eigenvalue>-1.34336e+009</me:eigenvalue>
+            <me:eigenvalue>-1.32733e+009</me:eigenvalue>
+            <me:eigenvalue>-1.32538e+009</me:eigenvalue>
+            <me:eigenvalue>-1.30679e+009</me:eigenvalue>
+            <me:eigenvalue>-1.29272e+009</me:eigenvalue>
+            <me:eigenvalue>-1.2875e+009</me:eigenvalue>
+            <me:eigenvalue>-1.26749e+009</me:eigenvalue>
+            <me:eigenvalue>-1.25609e+009</me:eigenvalue>
+            <me:eigenvalue>-1.24669e+009</me:eigenvalue>
+            <me:eigenvalue>-1.22511e+009</me:eigenvalue>
+            <me:eigenvalue>-1.21734e+009</me:eigenvalue>
+            <me:eigenvalue>-1.20268e+009</me:eigenvalue>
+            <me:eigenvalue>-1.17943e+009</me:eigenvalue>
+            <me:eigenvalue>-1.1764e+009</me:eigenvalue>
+            <me:eigenvalue>-1.15526e+009</me:eigenvalue>
+            <me:eigenvalue>-1.13326e+009</me:eigenvalue>
+            <me:eigenvalue>-1.13021e+009</me:eigenvalue>
+            <me:eigenvalue>-1.10423e+009</me:eigenvalue>
+            <me:eigenvalue>-1.08785e+009</me:eigenvalue>
+            <me:eigenvalue>-1.07732e+009</me:eigenvalue>
+            <me:eigenvalue>-1.04945e+009</me:eigenvalue>
+            <me:eigenvalue>-1.04016e+009</me:eigenvalue>
+            <me:eigenvalue>-1.02059e+009</me:eigenvalue>
+            <me:eigenvalue>-9.90988e+008</me:eigenvalue>
+            <me:eigenvalue>-9.89972e+008</me:eigenvalue>
+            <me:eigenvalue>-9.59933e+008</me:eigenvalue>
+            <me:eigenvalue>-9.37988e+008</me:eigenvalue>
+            <me:eigenvalue>-9.28058e+008</me:eigenvalue>
+            <me:eigenvalue>-8.95347e+008</me:eigenvalue>
+            <me:eigenvalue>-8.83449e+008</me:eigenvalue>
+            <me:eigenvalue>-8.61524e+008</me:eigenvalue>
+            <me:eigenvalue>-8.28039e+008</me:eigenvalue>
+            <me:eigenvalue>-8.25792e+008</me:eigenvalue>
+            <me:eigenvalue>-7.91434e+008</me:eigenvalue>
+            <me:eigenvalue>-7.68657e+008</me:eigenvalue>
+            <me:eigenvalue>-7.55081e+008</me:eigenvalue>
+            <me:eigenvalue>-7.18697e+008</me:eigenvalue>
+            <me:eigenvalue>-7.08536e+008</me:eigenvalue>
+            <me:eigenvalue>-6.81611e+008</me:eigenvalue>
+            <me:eigenvalue>-6.48482e+008</me:eigenvalue>
+            <me:eigenvalue>-6.44196e+008</me:eigenvalue>
+            <me:eigenvalue>-6.0853e+008</me:eigenvalue>
+            <me:eigenvalue>-5.86144e+008</me:eigenvalue>
+            <me:eigenvalue>-5.71504e+008</me:eigenvalue>
+            <me:eigenvalue>-5.35045e+008</me:eigenvalue>
+            <me:eigenvalue>-5.24134e+008</me:eigenvalue>
+            <me:eigenvalue>-4.97768e+008</me:eigenvalue>
+            <me:eigenvalue>-4.64356e+008</me:eigenvalue>
+            <me:eigenvalue>-4.59976e+008</me:eigenvalue>
+            <me:eigenvalue>-4.24438e+008</me:eigenvalue>
+            <me:eigenvalue>-4.04027e+008</me:eigenvalue>
+            <me:eigenvalue>-3.87999e+008</me:eigenvalue>
+            <me:eigenvalue>-3.52836e+008</me:eigenvalue>
+            <me:eigenvalue>-3.46843e+008</me:eigenvalue>
+            <me:eigenvalue>-3.17534e+008</me:eigenvalue>
+            <me:eigenvalue>-2.94318e+008</me:eigenvalue>
+            <me:eigenvalue>-2.83475e+008</me:eigenvalue>
+            <me:eigenvalue>-2.50728e+008</me:eigenvalue>
+            <me:eigenvalue>-2.4666e+008</me:eigenvalue>
+            <me:eigenvalue>-2.19305e+008</me:eigenvalue>
+            <me:eigenvalue>-2.05281e+008</me:eigenvalue>
+            <me:eigenvalue>-1.89428e+008</me:eigenvalue>
+            <me:eigenvalue>-1.67816e+008</me:eigenvalue>
+            <me:eigenvalue>-1.6114e+008</me:eigenvalue>
+            <me:eigenvalue>-1.35691e+008</me:eigenvalue>
+            <me:eigenvalue>-1.28946e+008</me:eigenvalue>
+            <me:eigenvalue>-1.11839e+008</me:eigenvalue>
+            <me:eigenvalue>-9.14998e+007</me:eigenvalue>
+            <me:eigenvalue>-8.79692e+007</me:eigenvalue>
+            <me:eigenvalue>-7.2789e+007</me:eigenvalue>
+            <me:eigenvalue>-5.77061e+007</me:eigenvalue>
+            <me:eigenvalue>-4.69472e+007</me:eigenvalue>
+            <me:eigenvalue>-4.49777e+007</me:eigenvalue>
+            <me:eigenvalue>-3.71165e+007</me:eigenvalue>
+            <me:eigenvalue>-2.59101e+007</me:eigenvalue>
+            <me:eigenvalue>-1.54248e+006</me:eigenvalue>
+            <me:eigenvalue>1.08094e-006</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:populationList T="800" conc="2.42281e+018">
+            <me:population time="1e-011" logTime="-11">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">9.5101e-012</me:pop>
+            </me:population>
+            <me:population time="1.25893e-011" logTime="-10.9">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.19721e-011</me:pop>
+            </me:population>
+            <me:population time="1.58489e-011" logTime="-10.8">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.50714e-011</me:pop>
+            </me:population>
+            <me:population time="1.99526e-011" logTime="-10.7">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.89728e-011</me:pop>
+            </me:population>
+            <me:population time="2.51189e-011" logTime="-10.6">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">2.38837e-011</me:pop>
+            </me:population>
+            <me:population time="3.16228e-011" logTime="-10.5">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.00654e-011</me:pop>
+            </me:population>
+            <me:population time="3.98107e-011" logTime="-10.4">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.78462e-011</me:pop>
+            </me:population>
+            <me:population time="5.01187e-011" logTime="-10.3">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">4.76394e-011</me:pop>
+            </me:population>
+            <me:population time="6.30957e-011" logTime="-10.2">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">5.99646e-011</me:pop>
+            </me:population>
+            <me:population time="7.94328e-011" logTime="-10.1">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">7.54755e-011</me:pop>
+            </me:population>
+            <me:population time="1e-010" logTime="-10">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">9.49934e-011</me:pop>
+            </me:population>
+            <me:population time="1.25893e-010" logTime="-9.9">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.19551e-010</me:pop>
+            </me:population>
+            <me:population time="1.58489e-010" logTime="-9.8">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.50444e-010</me:pop>
+            </me:population>
+            <me:population time="1.99526e-010" logTime="-9.7">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.89301e-010</me:pop>
+            </me:population>
+            <me:population time="2.51189e-010" logTime="-9.6">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">2.38161e-010</me:pop>
+            </me:population>
+            <me:population time="3.16228e-010" logTime="-9.5">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">2.99584e-010</me:pop>
+            </me:population>
+            <me:population time="3.98107e-010" logTime="-9.4">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.7677e-010</me:pop>
+            </me:population>
+            <me:population time="5.01187e-010" logTime="-9.3">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">4.7372e-010</me:pop>
+            </me:population>
+            <me:population time="6.30957e-010" logTime="-9.2">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">5.95423e-010</me:pop>
+            </me:population>
+            <me:population time="7.94328e-010" logTime="-9.1">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">7.4809e-010</me:pop>
+            </me:population>
+            <me:population time="1e-009" logTime="-9">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">9.39429e-010</me:pop>
+            </me:population>
+            <me:population time="1.25893e-009" logTime="-8.9">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.17897e-009</me:pop>
+            </me:population>
+            <me:population time="1.58489e-009" logTime="-8.8">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.47845e-009</me:pop>
+            </me:population>
+            <me:population time="1.99526e-009" logTime="-8.7">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.85225e-009</me:pop>
+            </me:population>
+            <me:population time="2.51189e-009" logTime="-8.6">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">2.31787e-009</me:pop>
+            </me:population>
+            <me:population time="3.16228e-009" logTime="-8.5">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">2.89647e-009</me:pop>
+            </me:population>
+            <me:population time="3.98107e-009" logTime="-8.4">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.6134e-009</me:pop>
+            </me:population>
+            <me:population time="5.01187e-009" logTime="-8.3">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">4.49877e-009</me:pop>
+            </me:population>
+            <me:population time="6.30957e-009" logTime="-8.2">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">5.58802e-009</me:pop>
+            </me:population>
+            <me:population time="7.94328e-009" logTime="-8.1">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">6.92245e-009</me:pop>
+            </me:population>
+            <me:population time="1e-008" logTime="-8">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">8.54993e-009</me:pop>
+            </me:population>
+            <me:population time="1.25893e-008" logTime="-7.9">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.05259e-008</me:pop>
+            </me:population>
+            <me:population time="1.58489e-008" logTime="-7.8">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.2915e-008</me:pop>
+            </me:population>
+            <me:population time="1.99526e-008" logTime="-7.7">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.57937e-008</me:pop>
+            </me:population>
+            <me:population time="2.51189e-008" logTime="-7.6">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.92549e-008</me:pop>
+            </me:population>
+            <me:population time="3.16228e-008" logTime="-7.5">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">2.3414e-008</me:pop>
+            </me:population>
+            <me:population time="3.98107e-008" logTime="-7.4">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">2.84174e-008</me:pop>
+            </me:population>
+            <me:population time="5.01187e-008" logTime="-7.3">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.44512e-008</me:pop>
+            </me:population>
+            <me:population time="6.30957e-008" logTime="-7.2">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">4.1749e-008</me:pop>
+            </me:population>
+            <me:population time="7.94328e-008" logTime="-7.1">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">5.05949e-008</me:pop>
+            </me:population>
+            <me:population time="1e-007" logTime="-7">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">6.13199e-008</me:pop>
+            </me:population>
+            <me:population time="1.25893e-007" logTime="-6.9">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">7.42861e-008</me:pop>
+            </me:population>
+            <me:population time="1.58489e-007" logTime="-6.8">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">8.98601e-008</me:pop>
+            </me:population>
+            <me:population time="1.99526e-007" logTime="-6.7">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.08374e-007</me:pop>
+            </me:population>
+            <me:population time="2.51189e-007" logTime="-6.6">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.30073e-007</me:pop>
+            </me:population>
+            <me:population time="3.16228e-007" logTime="-6.5">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.55042e-007</me:pop>
+            </me:population>
+            <me:population time="3.98107e-007" logTime="-6.4">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.83116e-007</me:pop>
+            </me:population>
+            <me:population time="5.01187e-007" logTime="-6.3">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">2.13772e-007</me:pop>
+            </me:population>
+            <me:population time="6.30957e-007" logTime="-6.2">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">2.46041e-007</me:pop>
+            </me:population>
+            <me:population time="7.94328e-007" logTime="-6.1">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">2.78477e-007</me:pop>
+            </me:population>
+            <me:population time="1e-006" logTime="-6">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.09244e-007</me:pop>
+            </me:population>
+            <me:population time="1.25893e-006" logTime="-5.9">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.3638e-007</me:pop>
+            </me:population>
+            <me:population time="1.58489e-006" logTime="-5.8">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.58223e-007</me:pop>
+            </me:population>
+            <me:population time="1.99526e-006" logTime="-5.7">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.73903e-007</me:pop>
+            </me:population>
+            <me:population time="2.51189e-006" logTime="-5.6">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.83654e-007</me:pop>
+            </me:population>
+            <me:population time="3.16228e-006" logTime="-5.5">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.88721e-007</me:pop>
+            </me:population>
+            <me:population time="3.98107e-006" logTime="-5.4">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.90826e-007</me:pop>
+            </me:population>
+            <me:population time="5.01187e-006" logTime="-5.3">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91486e-007</me:pop>
+            </me:population>
+            <me:population time="6.30957e-006" logTime="-5.2">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91633e-007</me:pop>
+            </me:population>
+            <me:population time="7.94328e-006" logTime="-5.1">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91654e-007</me:pop>
+            </me:population>
+            <me:population time="1e-005" logTime="-5">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91655e-007</me:pop>
+            </me:population>
+            <me:population time="1.25893e-005" logTime="-4.9">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="1.58489e-005" logTime="-4.8">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="1.99526e-005" logTime="-4.7">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="2.51189e-005" logTime="-4.6">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="3.16228e-005" logTime="-4.5">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="3.98107e-005" logTime="-4.4">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="5.01187e-005" logTime="-4.3">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="6.30957e-005" logTime="-4.2">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="7.94328e-005" logTime="-4.1">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.0001" logTime="-4">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.000125893" logTime="-3.9">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.000158489" logTime="-3.8">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.000199526" logTime="-3.7">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.000251189" logTime="-3.6">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.000316228" logTime="-3.5">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.000398107" logTime="-3.4">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.000501187" logTime="-3.3">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.000630957" logTime="-3.2">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.000794328" logTime="-3.1">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.001" logTime="-3">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.00125893" logTime="-2.9">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.00158489" logTime="-2.8">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.00199526" logTime="-2.7">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.00251189" logTime="-2.6">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.00316228" logTime="-2.5">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.00398107" logTime="-2.4">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.00501187" logTime="-2.3">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.00630957" logTime="-2.2">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.00794328" logTime="-2.1">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.01" logTime="-2">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.0125893" logTime="-1.9">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.0158489" logTime="-1.8">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.0199526" logTime="-1.7">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.0251189" logTime="-1.6">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.0316228" logTime="-1.5">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.0398107" logTime="-1.4">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.0501187" logTime="-1.3">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.0630957" logTime="-1.2">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.0794328" logTime="-1.1">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.1" logTime="-1">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.125893" logTime="-0.9">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.158489" logTime="-0.8">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.199526" logTime="-0.7">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.251189" logTime="-0.6">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.316228" logTime="-0.5">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.398107" logTime="-0.4">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.501187" logTime="-0.3">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.630957" logTime="-0.2">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="0.794328" logTime="-0.1">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="1" logTime="0">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="1.25893" logTime="0.1">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="1.58489" logTime="0.2">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="1.99526" logTime="0.3">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91656e-007</me:pop>
+            </me:population>
+            <me:population time="2.51189" logTime="0.4">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91657e-007</me:pop>
+            </me:population>
+            <me:population time="3.16228" logTime="0.5">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91657e-007</me:pop>
+            </me:population>
+            <me:population time="3.98107" logTime="0.6">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.91657e-007</me:pop>
+            </me:population>
+            <me:population time="5.01187" logTime="0.7">
+                <me:pop ref="cyclopropene">1.00001</me:pop>
+                <me:pop ref="triplet">3.91658e-007</me:pop>
+            </me:population>
+            <me:population time="6.30957" logTime="0.8">
+                <me:pop ref="cyclopropene">1.00001</me:pop>
+                <me:pop ref="triplet">3.91658e-007</me:pop>
+            </me:population>
+            <me:population time="7.94328" logTime="0.9">
+                <me:pop ref="cyclopropene">1.00001</me:pop>
+                <me:pop ref="triplet">3.91659e-007</me:pop>
+            </me:population>
+            <me:population time="10" logTime="1">
+                <me:pop ref="cyclopropene">1.00001</me:pop>
+                <me:pop ref="triplet">3.9166e-007</me:pop>
+            </me:population>
+            <me:population time="12.5893" logTime="1.1">
+                <me:pop ref="cyclopropene">1.00001</me:pop>
+                <me:pop ref="triplet">3.91661e-007</me:pop>
+            </me:population>
+            <me:population time="15.8489" logTime="1.2">
+                <me:pop ref="cyclopropene">1.00002</me:pop>
+                <me:pop ref="triplet">3.91662e-007</me:pop>
+            </me:population>
+            <me:population time="19.9526" logTime="1.3">
+                <me:pop ref="cyclopropene">1.00002</me:pop>
+                <me:pop ref="triplet">3.91664e-007</me:pop>
+            </me:population>
+            <me:population time="25.1189" logTime="1.4">
+                <me:pop ref="cyclopropene">1.00003</me:pop>
+                <me:pop ref="triplet">3.91666e-007</me:pop>
+            </me:population>
+            <me:population time="31.6228" logTime="1.5">
+                <me:pop ref="cyclopropene">1.00003</me:pop>
+                <me:pop ref="triplet">3.91669e-007</me:pop>
+            </me:population>
+            <me:population time="39.8107" logTime="1.6">
+                <me:pop ref="cyclopropene">1.00004</me:pop>
+                <me:pop ref="triplet">3.91672e-007</me:pop>
+            </me:population>
+            <me:population time="50.1187" logTime="1.7">
+                <me:pop ref="cyclopropene">1.00005</me:pop>
+                <me:pop ref="triplet">3.91677e-007</me:pop>
+            </me:population>
+            <me:population time="63.0957" logTime="1.8">
+                <me:pop ref="cyclopropene">1.00007</me:pop>
+                <me:pop ref="triplet">3.91682e-007</me:pop>
+            </me:population>
+            <me:population time="79.4328" logTime="1.9">
+                <me:pop ref="cyclopropene">1.00009</me:pop>
+                <me:pop ref="triplet">3.91689e-007</me:pop>
+            </me:population>
+            <me:population time="100" logTime="2">
+                <me:pop ref="cyclopropene">1.00011</me:pop>
+                <me:pop ref="triplet">3.91698e-007</me:pop>
+            </me:population>
+            <me:population time="125.893" logTime="2.1">
+                <me:pop ref="cyclopropene">1.00014</me:pop>
+                <me:pop ref="triplet">3.91709e-007</me:pop>
+            </me:population>
+            <me:population time="158.489" logTime="2.2">
+                <me:pop ref="cyclopropene">1.00017</me:pop>
+                <me:pop ref="triplet">3.91723e-007</me:pop>
+            </me:population>
+            <me:population time="199.526" logTime="2.3">
+                <me:pop ref="cyclopropene">1.00022</me:pop>
+                <me:pop ref="triplet">3.9174e-007</me:pop>
+            </me:population>
+            <me:population time="251.189" logTime="2.4">
+                <me:pop ref="cyclopropene">1.00027</me:pop>
+                <me:pop ref="triplet">3.91762e-007</me:pop>
+            </me:population>
+            <me:population time="316.228" logTime="2.5">
+                <me:pop ref="cyclopropene">1.00034</me:pop>
+                <me:pop ref="triplet">3.91789e-007</me:pop>
+            </me:population>
+            <me:population time="398.107" logTime="2.6">
+                <me:pop ref="cyclopropene">1.00043</me:pop>
+                <me:pop ref="triplet">3.91824e-007</me:pop>
+            </me:population>
+            <me:population time="501.187" logTime="2.7">
+                <me:pop ref="cyclopropene">1.00054</me:pop>
+                <me:pop ref="triplet">3.91868e-007</me:pop>
+            </me:population>
+            <me:population time="630.957" logTime="2.8">
+                <me:pop ref="cyclopropene">1.00068</me:pop>
+                <me:pop ref="triplet">3.91923e-007</me:pop>
+            </me:population>
+            <me:population time="794.328" logTime="2.9">
+                <me:pop ref="cyclopropene">1.00086</me:pop>
+                <me:pop ref="triplet">3.91992e-007</me:pop>
+            </me:population>
+            <me:population time="1000" logTime="3">
+                <me:pop ref="cyclopropene">1.00108</me:pop>
+                <me:pop ref="triplet">3.92079e-007</me:pop>
+            </me:population>
+            <me:population time="1258.93" logTime="3.1">
+                <me:pop ref="cyclopropene">1.00136</me:pop>
+                <me:pop ref="triplet">3.92189e-007</me:pop>
+            </me:population>
+            <me:population time="1584.89" logTime="3.2">
+                <me:pop ref="cyclopropene">1.00171</me:pop>
+                <me:pop ref="triplet">3.92327e-007</me:pop>
+            </me:population>
+            <me:population time="1995.26" logTime="3.3">
+                <me:pop ref="cyclopropene">1.00216</me:pop>
+                <me:pop ref="triplet">3.92501e-007</me:pop>
+            </me:population>
+            <me:population time="2511.89" logTime="3.4">
+                <me:pop ref="cyclopropene">1.00272</me:pop>
+                <me:pop ref="triplet">3.9272e-007</me:pop>
+            </me:population>
+            <me:population time="3162.28" logTime="3.5">
+                <me:pop ref="cyclopropene">1.00342</me:pop>
+                <me:pop ref="triplet">3.92997e-007</me:pop>
+            </me:population>
+            <me:population time="3981.07" logTime="3.6">
+                <me:pop ref="cyclopropene">1.00431</me:pop>
+                <me:pop ref="triplet">3.93345e-007</me:pop>
+            </me:population>
+            <me:population time="5011.87" logTime="3.7">
+                <me:pop ref="cyclopropene">1.00543</me:pop>
+                <me:pop ref="triplet">3.93783e-007</me:pop>
+            </me:population>
+            <me:population time="6309.57" logTime="3.8">
+                <me:pop ref="cyclopropene">1.00684</me:pop>
+                <me:pop ref="triplet">3.94336e-007</me:pop>
+            </me:population>
+            <me:population time="7943.28" logTime="3.9">
+                <me:pop ref="cyclopropene">1.00862</me:pop>
+                <me:pop ref="triplet">3.95033e-007</me:pop>
+            </me:population>
+            <me:population time="10000" logTime="4">
+                <me:pop ref="cyclopropene">1.01087</me:pop>
+                <me:pop ref="triplet">3.95912e-007</me:pop>
+            </me:population>
+            <me:population time="12589.3" logTime="4.1">
+                <me:pop ref="cyclopropene">1.0137</me:pop>
+                <me:pop ref="triplet">3.97022e-007</me:pop>
+            </me:population>
+            <me:population time="15848.9" logTime="4.2">
+                <me:pop ref="cyclopropene">1.01728</me:pop>
+                <me:pop ref="triplet">3.98423e-007</me:pop>
+            </me:population>
+            <me:population time="19952.6" logTime="4.3">
+                <me:pop ref="cyclopropene">1.0218</me:pop>
+                <me:pop ref="triplet">4.00194e-007</me:pop>
+            </me:population>
+            <me:population time="25118.9" logTime="4.4">
+                <me:pop ref="cyclopropene">1.02752</me:pop>
+                <me:pop ref="triplet">4.02435e-007</me:pop>
+            </me:population>
+            <me:population time="31622.8" logTime="4.5">
+                <me:pop ref="cyclopropene">1.03477</me:pop>
+                <me:pop ref="triplet">4.05275e-007</me:pop>
+            </me:population>
+            <me:population time="39810.7" logTime="4.6">
+                <me:pop ref="cyclopropene">1.04397</me:pop>
+                <me:pop ref="triplet">4.08877e-007</me:pop>
+            </me:population>
+            <me:population time="50118.7" logTime="4.7">
+                <me:pop ref="cyclopropene">1.05567</me:pop>
+                <me:pop ref="triplet">4.13459e-007</me:pop>
+            </me:population>
+            <me:population time="63095.7" logTime="4.8">
+                <me:pop ref="cyclopropene">1.07058</me:pop>
+                <me:pop ref="triplet">4.19299e-007</me:pop>
+            </me:population>
+            <me:population time="79432.8" logTime="4.9">
+                <me:pop ref="cyclopropene">1.08966</me:pop>
+                <me:pop ref="triplet">4.2677e-007</me:pop>
+            </me:population>
+        </me:populationList>
+        <me:rateList T="800" conc="2.42281e+018" me:units="s-1">
+            <me:firstOrderLoss ref="cyclopropene">-0.605105</me:firstOrderLoss>
+            <me:firstOrderLoss ref="triplet">-1.54248e+006</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="cyclopropene" toRef="triplet" reactionType="isomerization">0.604122</me:firstOrderRate>
+            <me:firstOrderRate fromRef="triplet" toRef="cyclopropene" reactionType="isomerization">1.545e+006</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="223" selection="0">
+            <me:eigenvalue>-7.06073e+010</me:eigenvalue>
+            <me:eigenvalue>-2.12908e+009</me:eigenvalue>
+            <me:eigenvalue>-2.11057e+009</me:eigenvalue>
+            <me:eigenvalue>-2.10747e+009</me:eigenvalue>
+            <me:eigenvalue>-2.08992e+009</me:eigenvalue>
+            <me:eigenvalue>-2.0866e+009</me:eigenvalue>
+            <me:eigenvalue>-2.07455e+009</me:eigenvalue>
+            <me:eigenvalue>-2.06067e+009</me:eigenvalue>
+            <me:eigenvalue>-2.05773e+009</me:eigenvalue>
+            <me:eigenvalue>-2.04791e+009</me:eigenvalue>
+            <me:eigenvalue>-2.03607e+009</me:eigenvalue>
+            <me:eigenvalue>-2.02691e+009</me:eigenvalue>
+            <me:eigenvalue>-2.02504e+009</me:eigenvalue>
+            <me:eigenvalue>-2.01472e+009</me:eigenvalue>
+            <me:eigenvalue>-2.01362e+009</me:eigenvalue>
+            <me:eigenvalue>-2.00586e+009</me:eigenvalue>
+            <me:eigenvalue>-2.00507e+009</me:eigenvalue>
+            <me:eigenvalue>-1.99609e+009</me:eigenvalue>
+            <me:eigenvalue>-1.99038e+009</me:eigenvalue>
+            <me:eigenvalue>-1.98887e+009</me:eigenvalue>
+            <me:eigenvalue>-1.98779e+009</me:eigenvalue>
+            <me:eigenvalue>-1.98106e+009</me:eigenvalue>
+            <me:eigenvalue>-1.98024e+009</me:eigenvalue>
+            <me:eigenvalue>-1.97847e+009</me:eigenvalue>
+            <me:eigenvalue>-1.97359e+009</me:eigenvalue>
+            <me:eigenvalue>-1.9699e+009</me:eigenvalue>
+            <me:eigenvalue>-1.96807e+009</me:eigenvalue>
+            <me:eigenvalue>-1.96804e+009</me:eigenvalue>
+            <me:eigenvalue>-1.96444e+009</me:eigenvalue>
+            <me:eigenvalue>-1.96081e+009</me:eigenvalue>
+            <me:eigenvalue>-1.95818e+009</me:eigenvalue>
+            <me:eigenvalue>-1.9565e+009</me:eigenvalue>
+            <me:eigenvalue>-1.95172e+009</me:eigenvalue>
+            <me:eigenvalue>-1.95146e+009</me:eigenvalue>
+            <me:eigenvalue>-1.94647e+009</me:eigenvalue>
+            <me:eigenvalue>-1.94573e+009</me:eigenvalue>
+            <me:eigenvalue>-1.94078e+009</me:eigenvalue>
+            <me:eigenvalue>-1.94035e+009</me:eigenvalue>
+            <me:eigenvalue>-1.93572e+009</me:eigenvalue>
+            <me:eigenvalue>-1.93465e+009</me:eigenvalue>
+            <me:eigenvalue>-1.93182e+009</me:eigenvalue>
+            <me:eigenvalue>-1.92844e+009</me:eigenvalue>
+            <me:eigenvalue>-1.92804e+009</me:eigenvalue>
+            <me:eigenvalue>-1.92538e+009</me:eigenvalue>
+            <me:eigenvalue>-1.92262e+009</me:eigenvalue>
+            <me:eigenvalue>-1.92095e+009</me:eigenvalue>
+            <me:eigenvalue>-1.92013e+009</me:eigenvalue>
+            <me:eigenvalue>-1.91791e+009</me:eigenvalue>
+            <me:eigenvalue>-1.91592e+009</me:eigenvalue>
+            <me:eigenvalue>-1.91411e+009</me:eigenvalue>
+            <me:eigenvalue>-1.91338e+009</me:eigenvalue>
+            <me:eigenvalue>-1.91246e+009</me:eigenvalue>
+            <me:eigenvalue>-1.91094e+009</me:eigenvalue>
+            <me:eigenvalue>-1.90952e+009</me:eigenvalue>
+            <me:eigenvalue>-1.90813e+009</me:eigenvalue>
+            <me:eigenvalue>-1.90663e+009</me:eigenvalue>
+            <me:eigenvalue>-1.90532e+009</me:eigenvalue>
+            <me:eigenvalue>-1.90496e+009</me:eigenvalue>
+            <me:eigenvalue>-1.90314e+009</me:eigenvalue>
+            <me:eigenvalue>-1.90115e+009</me:eigenvalue>
+            <me:eigenvalue>-1.89903e+009</me:eigenvalue>
+            <me:eigenvalue>-1.89678e+009</me:eigenvalue>
+            <me:eigenvalue>-1.89674e+009</me:eigenvalue>
+            <me:eigenvalue>-1.89438e+009</me:eigenvalue>
+            <me:eigenvalue>-1.89183e+009</me:eigenvalue>
+            <me:eigenvalue>-1.88913e+009</me:eigenvalue>
+            <me:eigenvalue>-1.88763e+009</me:eigenvalue>
+            <me:eigenvalue>-1.88627e+009</me:eigenvalue>
+            <me:eigenvalue>-1.88324e+009</me:eigenvalue>
+            <me:eigenvalue>-1.88005e+009</me:eigenvalue>
+            <me:eigenvalue>-1.87796e+009</me:eigenvalue>
+            <me:eigenvalue>-1.87669e+009</me:eigenvalue>
+            <me:eigenvalue>-1.87317e+009</me:eigenvalue>
+            <me:eigenvalue>-1.8695e+009</me:eigenvalue>
+            <me:eigenvalue>-1.8677e+009</me:eigenvalue>
+            <me:eigenvalue>-1.86566e+009</me:eigenvalue>
+            <me:eigenvalue>-1.86167e+009</me:eigenvalue>
+            <me:eigenvalue>-1.85752e+009</me:eigenvalue>
+            <me:eigenvalue>-1.85682e+009</me:eigenvalue>
+            <me:eigenvalue>-1.85322e+009</me:eigenvalue>
+            <me:eigenvalue>-1.84876e+009</me:eigenvalue>
+            <me:eigenvalue>-1.84532e+009</me:eigenvalue>
+            <me:eigenvalue>-1.84412e+009</me:eigenvalue>
+            <me:eigenvalue>-1.83931e+009</me:eigenvalue>
+            <me:eigenvalue>-1.83431e+009</me:eigenvalue>
+            <me:eigenvalue>-1.83316e+009</me:eigenvalue>
+            <me:eigenvalue>-1.82911e+009</me:eigenvalue>
+            <me:eigenvalue>-1.82372e+009</me:eigenvalue>
+            <me:eigenvalue>-1.82035e+009</me:eigenvalue>
+            <me:eigenvalue>-1.81813e+009</me:eigenvalue>
+            <me:eigenvalue>-1.81232e+009</me:eigenvalue>
+            <me:eigenvalue>-1.80688e+009</me:eigenvalue>
+            <me:eigenvalue>-1.8063e+009</me:eigenvalue>
+            <me:eigenvalue>-1.80006e+009</me:eigenvalue>
+            <me:eigenvalue>-1.79359e+009</me:eigenvalue>
+            <me:eigenvalue>-1.79276e+009</me:eigenvalue>
+            <me:eigenvalue>-1.78687e+009</me:eigenvalue>
+            <me:eigenvalue>-1.77992e+009</me:eigenvalue>
+            <me:eigenvalue>-1.77798e+009</me:eigenvalue>
+            <me:eigenvalue>-1.77271e+009</me:eigenvalue>
+            <me:eigenvalue>-1.76524e+009</me:eigenvalue>
+            <me:eigenvalue>-1.7625e+009</me:eigenvalue>
+            <me:eigenvalue>-1.7575e+009</me:eigenvalue>
+            <me:eigenvalue>-1.74948e+009</me:eigenvalue>
+            <me:eigenvalue>-1.74619e+009</me:eigenvalue>
+            <me:eigenvalue>-1.74118e+009</me:eigenvalue>
+            <me:eigenvalue>-1.73258e+009</me:eigenvalue>
+            <me:eigenvalue>-1.72892e+009</me:eigenvalue>
+            <me:eigenvalue>-1.72367e+009</me:eigenvalue>
+            <me:eigenvalue>-1.71444e+009</me:eigenvalue>
+            <me:eigenvalue>-1.71066e+009</me:eigenvalue>
+            <me:eigenvalue>-1.70489e+009</me:eigenvalue>
+            <me:eigenvalue>-1.69501e+009</me:eigenvalue>
+            <me:eigenvalue>-1.69142e+009</me:eigenvalue>
+            <me:eigenvalue>-1.68477e+009</me:eigenvalue>
+            <me:eigenvalue>-1.67418e+009</me:eigenvalue>
+            <me:eigenvalue>-1.67119e+009</me:eigenvalue>
+            <me:eigenvalue>-1.6632e+009</me:eigenvalue>
+            <me:eigenvalue>-1.65186e+009</me:eigenvalue>
+            <me:eigenvalue>-1.64987e+009</me:eigenvalue>
+            <me:eigenvalue>-1.64009e+009</me:eigenvalue>
+            <me:eigenvalue>-1.62792e+009</me:eigenvalue>
+            <me:eigenvalue>-1.62744e+009</me:eigenvalue>
+            <me:eigenvalue>-1.61533e+009</me:eigenvalue>
+            <me:eigenvalue>-1.6038e+009</me:eigenvalue>
+            <me:eigenvalue>-1.6023e+009</me:eigenvalue>
+            <me:eigenvalue>-1.58882e+009</me:eigenvalue>
+            <me:eigenvalue>-1.57888e+009</me:eigenvalue>
+            <me:eigenvalue>-1.5749e+009</me:eigenvalue>
+            <me:eigenvalue>-1.56052e+009</me:eigenvalue>
+            <me:eigenvalue>-1.5526e+009</me:eigenvalue>
+            <me:eigenvalue>-1.5457e+009</me:eigenvalue>
+            <me:eigenvalue>-1.53044e+009</me:eigenvalue>
+            <me:eigenvalue>-1.52491e+009</me:eigenvalue>
+            <me:eigenvalue>-1.51473e+009</me:eigenvalue>
+            <me:eigenvalue>-1.49858e+009</me:eigenvalue>
+            <me:eigenvalue>-1.49572e+009</me:eigenvalue>
+            <me:eigenvalue>-1.48189e+009</me:eigenvalue>
+            <me:eigenvalue>-1.46526e+009</me:eigenvalue>
+            <me:eigenvalue>-1.46442e+009</me:eigenvalue>
+            <me:eigenvalue>-1.44676e+009</me:eigenvalue>
+            <me:eigenvalue>-1.43277e+009</me:eigenvalue>
+            <me:eigenvalue>-1.42816e+009</me:eigenvalue>
+            <me:eigenvalue>-1.40899e+009</me:eigenvalue>
+            <me:eigenvalue>-1.39874e+009</me:eigenvalue>
+            <me:eigenvalue>-1.38901e+009</me:eigenvalue>
+            <me:eigenvalue>-1.36841e+009</me:eigenvalue>
+            <me:eigenvalue>-1.36297e+009</me:eigenvalue>
+            <me:eigenvalue>-1.34694e+009</me:eigenvalue>
+            <me:eigenvalue>-1.32568e+009</me:eigenvalue>
+            <me:eigenvalue>-1.32457e+009</me:eigenvalue>
+            <me:eigenvalue>-1.30179e+009</me:eigenvalue>
+            <me:eigenvalue>-1.28615e+009</me:eigenvalue>
+            <me:eigenvalue>-1.27799e+009</me:eigenvalue>
+            <me:eigenvalue>-1.25338e+009</me:eigenvalue>
+            <me:eigenvalue>-1.24494e+009</me:eigenvalue>
+            <me:eigenvalue>-1.22791e+009</me:eigenvalue>
+            <me:eigenvalue>-1.20187e+009</me:eigenvalue>
+            <me:eigenvalue>-1.20153e+009</me:eigenvalue>
+            <me:eigenvalue>-1.17437e+009</me:eigenvalue>
+            <me:eigenvalue>-1.15675e+009</me:eigenvalue>
+            <me:eigenvalue>-1.14624e+009</me:eigenvalue>
+            <me:eigenvalue>-1.11725e+009</me:eigenvalue>
+            <me:eigenvalue>-1.10968e+009</me:eigenvalue>
+            <me:eigenvalue>-1.08727e+009</me:eigenvalue>
+            <me:eigenvalue>-1.06076e+009</me:eigenvalue>
+            <me:eigenvalue>-1.05631e+009</me:eigenvalue>
+            <me:eigenvalue>-1.02461e+009</me:eigenvalue>
+            <me:eigenvalue>-1.00973e+009</me:eigenvalue>
+            <me:eigenvalue>-9.91862e+008</me:eigenvalue>
+            <me:eigenvalue>-9.58579e+008</me:eigenvalue>
+            <me:eigenvalue>-9.56677e+008</me:eigenvalue>
+            <me:eigenvalue>-9.2386e+008</me:eigenvalue>
+            <me:eigenvalue>-9.02544e+008</me:eigenvalue>
+            <me:eigenvalue>-8.88616e+008</me:eigenvalue>
+            <me:eigenvalue>-8.52839e+008</me:eigenvalue>
+            <me:eigenvalue>-8.46531e+008</me:eigenvalue>
+            <me:eigenvalue>-8.16449e+008</me:eigenvalue>
+            <me:eigenvalue>-7.894e+008</me:eigenvalue>
+            <me:eigenvalue>-7.79922e+008</me:eigenvalue>
+            <me:eigenvalue>-7.43568e+008</me:eigenvalue>
+            <me:eigenvalue>-7.31144e+008</me:eigenvalue>
+            <me:eigenvalue>-7.07095e+008</me:eigenvalue>
+            <me:eigenvalue>-6.72411e+008</me:eigenvalue>
+            <me:eigenvalue>-6.70143e+008</me:eigenvalue>
+            <me:eigenvalue>-6.33058e+008</me:eigenvalue>
+            <me:eigenvalue>-6.13228e+008</me:eigenvalue>
+            <me:eigenvalue>-5.95621e+008</me:eigenvalue>
+            <me:eigenvalue>-5.5817e+008</me:eigenvalue>
+            <me:eigenvalue>-5.54374e+008</me:eigenvalue>
+            <me:eigenvalue>-5.20542e+008</me:eigenvalue>
+            <me:eigenvalue>-4.96597e+008</me:eigenvalue>
+            <me:eigenvalue>-4.8304e+008</me:eigenvalue>
+            <me:eigenvalue>-4.45919e+008</me:eigenvalue>
+            <me:eigenvalue>-4.40238e+008</me:eigenvalue>
+            <me:eigenvalue>-4.08902e+008</me:eigenvalue>
+            <me:eigenvalue>-3.86687e+008</me:eigenvalue>
+            <me:eigenvalue>-3.72399e+008</me:eigenvalue>
+            <me:eigenvalue>-3.37856e+008</me:eigenvalue>
+            <me:eigenvalue>-3.35462e+008</me:eigenvalue>
+            <me:eigenvalue>-3.01863e+008</me:eigenvalue>
+            <me:eigenvalue>-2.91574e+008</me:eigenvalue>
+            <me:eigenvalue>-2.67919e+008</me:eigenvalue>
+            <me:eigenvalue>-2.52056e+008</me:eigenvalue>
+            <me:eigenvalue>-2.35409e+008</me:eigenvalue>
+            <me:eigenvalue>-2.14704e+008</me:eigenvalue>
+            <me:eigenvalue>-2.04346e+008</me:eigenvalue>
+            <me:eigenvalue>-1.76713e+008</me:eigenvalue>
+            <me:eigenvalue>-1.74288e+008</me:eigenvalue>
+            <me:eigenvalue>-1.47606e+008</me:eigenvalue>
+            <me:eigenvalue>-1.3534e+008</me:eigenvalue>
+            <me:eigenvalue>-1.22133e+008</me:eigenvalue>
+            <me:eigenvalue>-9.92249e+007</me:eigenvalue>
+            <me:eigenvalue>-9.28185e+007</me:eigenvalue>
+            <me:eigenvalue>-7.86336e+007</me:eigenvalue>
+            <me:eigenvalue>-6.09114e+007</me:eigenvalue>
+            <me:eigenvalue>-4.90859e+007</me:eigenvalue>
+            <me:eigenvalue>-4.57516e+007</me:eigenvalue>
+            <me:eigenvalue>-3.44972e+007</me:eigenvalue>
+            <me:eigenvalue>-2.60005e+007</me:eigenvalue>
+            <me:eigenvalue>-1.73189e+007</me:eigenvalue>
+            <me:eigenvalue>-4.59065e+006</me:eigenvalue>
+            <me:eigenvalue>-3.20543e-006</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:populationList T="1000" conc="2.41412e+018">
+            <me:population time="1e-011" logTime="-11">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.0648e-009</me:pop>
+            </me:population>
+            <me:population time="1.25893e-011" logTime="-10.9">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.34042e-009</me:pop>
+            </me:population>
+            <me:population time="1.58489e-011" logTime="-10.8">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.68736e-009</me:pop>
+            </me:population>
+            <me:population time="1.99526e-011" logTime="-10.7">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">2.12405e-009</me:pop>
+            </me:population>
+            <me:population time="2.51189e-011" logTime="-10.6">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">2.6737e-009</me:pop>
+            </me:population>
+            <me:population time="3.16228e-011" logTime="-10.5">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.36547e-009</me:pop>
+            </me:population>
+            <me:population time="3.98107e-011" logTime="-10.4">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">4.23605e-009</me:pop>
+            </me:population>
+            <me:population time="5.01187e-011" logTime="-10.3">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">5.33158e-009</me:pop>
+            </me:population>
+            <me:population time="6.30957e-011" logTime="-10.2">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">6.71001e-009</me:pop>
+            </me:population>
+            <me:population time="7.94328e-011" logTime="-10.1">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">8.44415e-009</me:pop>
+            </me:population>
+            <me:population time="1e-010" logTime="-10">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.06254e-008</me:pop>
+            </me:population>
+            <me:population time="1.25893e-010" logTime="-9.9">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.33685e-008</me:pop>
+            </me:population>
+            <me:population time="1.58489e-010" logTime="-9.8">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.6817e-008</me:pop>
+            </me:population>
+            <me:population time="1.99526e-010" logTime="-9.7">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">2.1151e-008</me:pop>
+            </me:population>
+            <me:population time="2.51189e-010" logTime="-9.6">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">2.65953e-008</me:pop>
+            </me:population>
+            <me:population time="3.16228e-010" logTime="-9.5">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.34307e-008</me:pop>
+            </me:population>
+            <me:population time="3.98107e-010" logTime="-9.4">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">4.20066e-008</me:pop>
+            </me:population>
+            <me:population time="5.01187e-010" logTime="-9.3">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">5.27568e-008</me:pop>
+            </me:population>
+            <me:population time="6.30957e-010" logTime="-9.2">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">6.6218e-008</me:pop>
+            </me:population>
+            <me:population time="7.94328e-010" logTime="-9.1">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">8.30511e-008</me:pop>
+            </me:population>
+            <me:population time="1e-009" logTime="-9">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.04066e-007</me:pop>
+            </me:population>
+            <me:population time="1.25893e-009" logTime="-8.9">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.30246e-007</me:pop>
+            </me:population>
+            <me:population time="1.58489e-009" logTime="-8.8">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">1.62778e-007</me:pop>
+            </me:population>
+            <me:population time="1.99526e-009" logTime="-8.7">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">2.03078e-007</me:pop>
+            </me:population>
+            <me:population time="2.51189e-009" logTime="-8.6">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">2.52811e-007</me:pop>
+            </me:population>
+            <me:population time="3.16228e-009" logTime="-8.5">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.13905e-007</me:pop>
+            </me:population>
+            <me:population time="3.98107e-009" logTime="-8.4">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">3.88548e-007</me:pop>
+            </me:population>
+            <me:population time="5.01187e-009" logTime="-8.3">
+                <me:pop ref="cyclopropene">1</me:pop>
+                <me:pop ref="triplet">4.79168e-007</me:pop>
+            </me:population>
+            <me:population time="6.30957e-009" logTime="-8.2">
+                <me:pop ref="cyclopropene">0.999999</me:pop>
+                <me:pop ref="triplet">5.88384e-007</me:pop>
+            </me:population>
+            <me:population time="7.94328e-009" logTime="-8.1">
+                <me:pop ref="cyclopropene">0.999999</me:pop>
+                <me:pop ref="triplet">7.18941e-007</me:pop>
+            </me:population>
+            <me:population time="1e-008" logTime="-8">
+                <me:pop ref="cyclopropene">0.999999</me:pop>
+                <me:pop ref="triplet">8.73641e-007</me:pop>
+            </me:population>
+            <me:population time="1.25893e-008" logTime="-7.9">
+                <me:pop ref="cyclopropene">0.999999</me:pop>
+                <me:pop ref="triplet">1.05529e-006</me:pop>
+            </me:population>
+            <me:population time="1.58489e-008" logTime="-7.8">
+                <me:pop ref="cyclopropene">0.999999</me:pop>
+                <me:pop ref="triplet">1.26671e-006</me:pop>
+            </me:population>
+            <me:population time="1.99526e-008" logTime="-7.7">
+                <me:pop ref="cyclopropene">0.999998</me:pop>
+                <me:pop ref="triplet">1.51088e-006</me:pop>
+            </me:population>
+            <me:population time="2.51189e-008" logTime="-7.6">
+                <me:pop ref="cyclopropene">0.999998</me:pop>
+                <me:pop ref="triplet">1.79119e-006</me:pop>
+            </me:population>
+            <me:population time="3.16228e-008" logTime="-7.5">
+                <me:pop ref="cyclopropene">0.999998</me:pop>
+                <me:pop ref="triplet">2.11183e-006</me:pop>
+            </me:population>
+            <me:population time="3.98107e-008" logTime="-7.4">
+                <me:pop ref="cyclopropene">0.999998</me:pop>
+                <me:pop ref="triplet">2.47823e-006</me:pop>
+            </me:population>
+            <me:population time="5.01187e-008" logTime="-7.3">
+                <me:pop ref="cyclopropene">0.999997</me:pop>
+                <me:pop ref="triplet">2.89722e-006</me:pop>
+            </me:population>
+            <me:population time="6.30957e-008" logTime="-7.2">
+                <me:pop ref="cyclopropene">0.999997</me:pop>
+                <me:pop ref="triplet">3.37682e-006</me:pop>
+            </me:population>
+            <me:population time="7.94328e-008" logTime="-7.1">
+                <me:pop ref="cyclopropene">0.999996</me:pop>
+                <me:pop ref="triplet">3.92514e-006</me:pop>
+            </me:population>
+            <me:population time="1e-007" logTime="-7">
+                <me:pop ref="cyclopropene">0.999995</me:pop>
+                <me:pop ref="triplet">4.54827e-006</me:pop>
+            </me:population>
+            <me:population time="1.25893e-007" logTime="-6.9">
+                <me:pop ref="cyclopropene">0.999995</me:pop>
+                <me:pop ref="triplet">5.24708e-006</me:pop>
+            </me:population>
+            <me:population time="1.58489e-007" logTime="-6.8">
+                <me:pop ref="cyclopropene">0.999994</me:pop>
+                <me:pop ref="triplet">6.01359e-006</me:pop>
+            </me:population>
+            <me:population time="1.99526e-007" logTime="-6.7">
+                <me:pop ref="cyclopropene">0.999993</me:pop>
+                <me:pop ref="triplet">6.82791e-006</me:pop>
+            </me:population>
+            <me:population time="2.51189e-007" logTime="-6.6">
+                <me:pop ref="cyclopropene">0.999992</me:pop>
+                <me:pop ref="triplet">7.65703e-006</me:pop>
+            </me:population>
+            <me:population time="3.16228e-007" logTime="-6.5">
+                <me:pop ref="cyclopropene">0.999992</me:pop>
+                <me:pop ref="triplet">8.4566e-006</me:pop>
+            </me:population>
+            <me:population time="3.98107e-007" logTime="-6.4">
+                <me:pop ref="cyclopropene">0.999991</me:pop>
+                <me:pop ref="triplet">9.1766e-006</me:pop>
+            </me:population>
+            <me:population time="5.01187e-007" logTime="-6.3">
+                <me:pop ref="cyclopropene">0.99999</me:pop>
+                <me:pop ref="triplet">9.7715e-006</me:pop>
+            </me:population>
+            <me:population time="6.30957e-007" logTime="-6.2">
+                <me:pop ref="cyclopropene">0.99999</me:pop>
+                <me:pop ref="triplet">1.02128e-005</me:pop>
+            </me:population>
+            <me:population time="7.94328e-007" logTime="-6.1">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.04986e-005</me:pop>
+            </me:population>
+            <me:population time="1e-006" logTime="-6">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.0655e-005</me:pop>
+            </me:population>
+            <me:population time="1.25893e-006" logTime="-5.9">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07243e-005</me:pop>
+            </me:population>
+            <me:population time="1.58489e-006" logTime="-5.8">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07478e-005</me:pop>
+            </me:population>
+            <me:population time="1.99526e-006" logTime="-5.7">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07536e-005</me:pop>
+            </me:population>
+            <me:population time="2.51189e-006" logTime="-5.6">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07545e-005</me:pop>
+            </me:population>
+            <me:population time="3.16228e-006" logTime="-5.5">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="3.98107e-006" logTime="-5.4">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="5.01187e-006" logTime="-5.3">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="6.30957e-006" logTime="-5.2">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="7.94328e-006" logTime="-5.1">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="1e-005" logTime="-5">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="1.25893e-005" logTime="-4.9">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="1.58489e-005" logTime="-4.8">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="1.99526e-005" logTime="-4.7">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="2.51189e-005" logTime="-4.6">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="3.16228e-005" logTime="-4.5">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="3.98107e-005" logTime="-4.4">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="5.01187e-005" logTime="-4.3">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="6.30957e-005" logTime="-4.2">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="7.94328e-005" logTime="-4.1">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.0001" logTime="-4">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.000125893" logTime="-3.9">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.000158489" logTime="-3.8">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.000199526" logTime="-3.7">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.000251189" logTime="-3.6">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.000316228" logTime="-3.5">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.000398107" logTime="-3.4">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.000501187" logTime="-3.3">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.000630957" logTime="-3.2">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.000794328" logTime="-3.1">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.001" logTime="-3">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.00125893" logTime="-2.9">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.00158489" logTime="-2.8">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.00199526" logTime="-2.7">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.00251189" logTime="-2.6">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.00316228" logTime="-2.5">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.00398107" logTime="-2.4">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.00501187" logTime="-2.3">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.00630957" logTime="-2.2">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.00794328" logTime="-2.1">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.01" logTime="-2">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.0125893" logTime="-1.9">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.0158489" logTime="-1.8">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.0199526" logTime="-1.7">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.0251189" logTime="-1.6">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.0316228" logTime="-1.5">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.0398107" logTime="-1.4">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.0501187" logTime="-1.3">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.0630957" logTime="-1.2">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.0794328" logTime="-1.1">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.1" logTime="-1">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.125893" logTime="-0.9">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.158489" logTime="-0.8">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.199526" logTime="-0.7">
+                <me:pop ref="cyclopropene">0.999989</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.251189" logTime="-0.6">
+                <me:pop ref="cyclopropene">0.999988</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.316228" logTime="-0.5">
+                <me:pop ref="cyclopropene">0.999988</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.398107" logTime="-0.4">
+                <me:pop ref="cyclopropene">0.999988</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.501187" logTime="-0.3">
+                <me:pop ref="cyclopropene">0.999988</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.630957" logTime="-0.2">
+                <me:pop ref="cyclopropene">0.999987</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="0.794328" logTime="-0.1">
+                <me:pop ref="cyclopropene">0.999987</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="1" logTime="0">
+                <me:pop ref="cyclopropene">0.999986</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="1.25893" logTime="0.1">
+                <me:pop ref="cyclopropene">0.999985</me:pop>
+                <me:pop ref="triplet">1.07546e-005</me:pop>
+            </me:population>
+            <me:population time="1.58489" logTime="0.2">
+                <me:pop ref="cyclopropene">0.999984</me:pop>
+                <me:pop ref="triplet">1.07545e-005</me:pop>
+            </me:population>
+            <me:population time="1.99526" logTime="0.3">
+                <me:pop ref="cyclopropene">0.999983</me:pop>
+                <me:pop ref="triplet">1.07545e-005</me:pop>
+            </me:population>
+            <me:population time="2.51189" logTime="0.4">
+                <me:pop ref="cyclopropene">0.999981</me:pop>
+                <me:pop ref="triplet">1.07545e-005</me:pop>
+            </me:population>
+            <me:population time="3.16228" logTime="0.5">
+                <me:pop ref="cyclopropene">0.999979</me:pop>
+                <me:pop ref="triplet">1.07545e-005</me:pop>
+            </me:population>
+            <me:population time="3.98107" logTime="0.6">
+                <me:pop ref="cyclopropene">0.999976</me:pop>
+                <me:pop ref="triplet">1.07545e-005</me:pop>
+            </me:population>
+            <me:population time="5.01187" logTime="0.7">
+                <me:pop ref="cyclopropene">0.999973</me:pop>
+                <me:pop ref="triplet">1.07544e-005</me:pop>
+            </me:population>
+            <me:population time="6.30957" logTime="0.8">
+                <me:pop ref="cyclopropene">0.999969</me:pop>
+                <me:pop ref="triplet">1.07544e-005</me:pop>
+            </me:population>
+            <me:population time="7.94328" logTime="0.9">
+                <me:pop ref="cyclopropene">0.999964</me:pop>
+                <me:pop ref="triplet">1.07543e-005</me:pop>
+            </me:population>
+            <me:population time="10" logTime="1">
+                <me:pop ref="cyclopropene">0.999957</me:pop>
+                <me:pop ref="triplet">1.07543e-005</me:pop>
+            </me:population>
+            <me:population time="12.5893" logTime="1.1">
+                <me:pop ref="cyclopropene">0.999949</me:pop>
+                <me:pop ref="triplet">1.07542e-005</me:pop>
+            </me:population>
+            <me:population time="15.8489" logTime="1.2">
+                <me:pop ref="cyclopropene">0.999938</me:pop>
+                <me:pop ref="triplet">1.0754e-005</me:pop>
+            </me:population>
+            <me:population time="19.9526" logTime="1.3">
+                <me:pop ref="cyclopropene">0.999925</me:pop>
+                <me:pop ref="triplet">1.07539e-005</me:pop>
+            </me:population>
+            <me:population time="25.1189" logTime="1.4">
+                <me:pop ref="cyclopropene">0.999909</me:pop>
+                <me:pop ref="triplet">1.07537e-005</me:pop>
+            </me:population>
+            <me:population time="31.6228" logTime="1.5">
+                <me:pop ref="cyclopropene">0.999888</me:pop>
+                <me:pop ref="triplet">1.07535e-005</me:pop>
+            </me:population>
+            <me:population time="39.8107" logTime="1.6">
+                <me:pop ref="cyclopropene">0.999862</me:pop>
+                <me:pop ref="triplet">1.07532e-005</me:pop>
+            </me:population>
+            <me:population time="50.1187" logTime="1.7">
+                <me:pop ref="cyclopropene">0.999829</me:pop>
+                <me:pop ref="triplet">1.07529e-005</me:pop>
+            </me:population>
+            <me:population time="63.0957" logTime="1.8">
+                <me:pop ref="cyclopropene">0.999787</me:pop>
+                <me:pop ref="triplet">1.07524e-005</me:pop>
+            </me:population>
+            <me:population time="79.4328" logTime="1.9">
+                <me:pop ref="cyclopropene">0.999735</me:pop>
+                <me:pop ref="triplet">1.07519e-005</me:pop>
+            </me:population>
+            <me:population time="100" logTime="2">
+                <me:pop ref="cyclopropene">0.999669</me:pop>
+                <me:pop ref="triplet">1.07511e-005</me:pop>
+            </me:population>
+            <me:population time="125.893" logTime="2.1">
+                <me:pop ref="cyclopropene">0.999586</me:pop>
+                <me:pop ref="triplet">1.07503e-005</me:pop>
+            </me:population>
+            <me:population time="158.489" logTime="2.2">
+                <me:pop ref="cyclopropene">0.999481</me:pop>
+                <me:pop ref="triplet">1.07491e-005</me:pop>
+            </me:population>
+            <me:population time="199.526" logTime="2.3">
+                <me:pop ref="cyclopropene">0.99935</me:pop>
+                <me:pop ref="triplet">1.07477e-005</me:pop>
+            </me:population>
+            <me:population time="251.189" logTime="2.4">
+                <me:pop ref="cyclopropene">0.999184</me:pop>
+                <me:pop ref="triplet">1.07459e-005</me:pop>
+            </me:population>
+            <me:population time="316.228" logTime="2.5">
+                <me:pop ref="cyclopropene">0.998976</me:pop>
+                <me:pop ref="triplet">1.07437e-005</me:pop>
+            </me:population>
+            <me:population time="398.107" logTime="2.6">
+                <me:pop ref="cyclopropene">0.998714</me:pop>
+                <me:pop ref="triplet">1.07409e-005</me:pop>
+            </me:population>
+            <me:population time="501.187" logTime="2.7">
+                <me:pop ref="cyclopropene">0.998384</me:pop>
+                <me:pop ref="triplet">1.07373e-005</me:pop>
+            </me:population>
+            <me:population time="630.957" logTime="2.8">
+                <me:pop ref="cyclopropene">0.997969</me:pop>
+                <me:pop ref="triplet">1.07329e-005</me:pop>
+            </me:population>
+            <me:population time="794.328" logTime="2.9">
+                <me:pop ref="cyclopropene">0.997446</me:pop>
+                <me:pop ref="triplet">1.07272e-005</me:pop>
+            </me:population>
+            <me:population time="1000" logTime="3">
+                <me:pop ref="cyclopropene">0.996789</me:pop>
+                <me:pop ref="triplet">1.07202e-005</me:pop>
+            </me:population>
+            <me:population time="1258.93" logTime="3.1">
+                <me:pop ref="cyclopropene">0.995962</me:pop>
+                <me:pop ref="triplet">1.07113e-005</me:pop>
+            </me:population>
+            <me:population time="1584.89" logTime="3.2">
+                <me:pop ref="cyclopropene">0.994922</me:pop>
+                <me:pop ref="triplet">1.07001e-005</me:pop>
+            </me:population>
+            <me:population time="1995.26" logTime="3.3">
+                <me:pop ref="cyclopropene">0.993614</me:pop>
+                <me:pop ref="triplet">1.0686e-005</me:pop>
+            </me:population>
+            <me:population time="2511.89" logTime="3.4">
+                <me:pop ref="cyclopropene">0.99197</me:pop>
+                <me:pop ref="triplet">1.06684e-005</me:pop>
+            </me:population>
+            <me:population time="3162.28" logTime="3.5">
+                <me:pop ref="cyclopropene">0.989904</me:pop>
+                <me:pop ref="triplet">1.06461e-005</me:pop>
+            </me:population>
+            <me:population time="3981.07" logTime="3.6">
+                <me:pop ref="cyclopropene">0.987309</me:pop>
+                <me:pop ref="triplet">1.06182e-005</me:pop>
+            </me:population>
+            <me:population time="5011.87" logTime="3.7">
+                <me:pop ref="cyclopropene">0.984053</me:pop>
+                <me:pop ref="triplet">1.05832e-005</me:pop>
+            </me:population>
+            <me:population time="6309.57" logTime="3.8">
+                <me:pop ref="cyclopropene">0.979968</me:pop>
+                <me:pop ref="triplet">1.05393e-005</me:pop>
+            </me:population>
+            <me:population time="7943.28" logTime="3.9">
+                <me:pop ref="cyclopropene">0.974849</me:pop>
+                <me:pop ref="triplet">1.04842e-005</me:pop>
+            </me:population>
+            <me:population time="10000" logTime="4">
+                <me:pop ref="cyclopropene">0.968444</me:pop>
+                <me:pop ref="triplet">1.04153e-005</me:pop>
+            </me:population>
+            <me:population time="12589.3" logTime="4.1">
+                <me:pop ref="cyclopropene">0.960439</me:pop>
+                <me:pop ref="triplet">1.03292e-005</me:pop>
+            </me:population>
+            <me:population time="15848.9" logTime="4.2">
+                <me:pop ref="cyclopropene">0.950456</me:pop>
+                <me:pop ref="triplet">1.02219e-005</me:pop>
+            </me:population>
+            <me:population time="19952.6" logTime="4.3">
+                <me:pop ref="cyclopropene">0.938036</me:pop>
+                <me:pop ref="triplet">1.00883e-005</me:pop>
+            </me:population>
+            <me:population time="25118.9" logTime="4.4">
+                <me:pop ref="cyclopropene">0.92263</me:pop>
+                <me:pop ref="triplet">9.92261e-006</me:pop>
+            </me:population>
+            <me:population time="31622.8" logTime="4.5">
+                <me:pop ref="cyclopropene">0.903594</me:pop>
+                <me:pop ref="triplet">9.71789e-006</me:pop>
+            </me:population>
+            <me:population time="39810.7" logTime="4.6">
+                <me:pop ref="cyclopropene">0.880187</me:pop>
+                <me:pop ref="triplet">9.46615e-006</me:pop>
+            </me:population>
+            <me:population time="50118.7" logTime="4.7">
+                <me:pop ref="cyclopropene">0.851579</me:pop>
+                <me:pop ref="triplet">9.15849e-006</me:pop>
+            </me:population>
+            <me:population time="63095.7" logTime="4.8">
+                <me:pop ref="cyclopropene">0.816883</me:pop>
+                <me:pop ref="triplet">8.78534e-006</me:pop>
+            </me:population>
+            <me:population time="79432.8" logTime="4.9">
+                <me:pop ref="cyclopropene">0.775206</me:pop>
+                <me:pop ref="triplet">8.33711e-006</me:pop>
+            </me:population>
+        </me:populationList>
+        <me:rateList T="1000" conc="2.41412e+018" me:units="s-1">
+            <me:warning>&#x0A;Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)&#x0A;&#x0A;The last CSE = -4.59065e+006 and the first IERE = -1.73189e+007&#x0A;(last CSE)/(first IERE) ratio = 0.265066, which is less than an order of magnitude&#x0A;&#x0A;Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable&#x0A;</me:warning>
+            <me:firstOrderLoss ref="cyclopropene">-49.428</me:firstOrderLoss>
+            <me:firstOrderLoss ref="triplet">-4.5906e+006</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="cyclopropene" toRef="triplet" reactionType="isomerization">49.3706</me:firstOrderRate>
+            <me:firstOrderRate fromRef="triplet" toRef="cyclopropene" reactionType="isomerization">4.59594e+006</me:firstOrderRate>
+        </me:rateList>
+    </me:analysis>
+</me:mesmer>

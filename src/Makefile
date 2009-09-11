@@ -151,12 +151,13 @@ SRCS := \
 	IrreversibleUnimolecularReaction.cpp \
 	IsomerizationReaction.cpp \
 	main.cpp \
+      LandauZenerCrossingCoeff.cpp \
 	MesmerEnv.cpp \
 	MesmerFlags.cpp \
 	MesmerILT.cpp \
 	MesmerMath.cpp \
 	MesmerTools.cpp \
-  MicroRate.cpp \
+      MicroRate.cpp \
 	Molecule.cpp \
 	MolecularComponents.cpp \
 	MoleculeManager.cpp \
@@ -170,6 +171,7 @@ SRCS := \
 	System.cpp \
 	TimeCounter.cpp \
 	unitsConversion.cpp \
+      WKBCrossingCoeff.cpp \
 	XMLPersist.cpp 
 
 # Add on the sources for libraries

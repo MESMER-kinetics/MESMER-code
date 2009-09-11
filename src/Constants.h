@@ -51,6 +51,10 @@ namespace Constants {
                                                                 // 1.0e3 / (AvogadroC * PlancksConstant_in_JouleSecond * SpeedOfLight_in_cm);
   static const double kCalPerMol_in_RC        = kJPerMol_in_RC * Calorie_in_Joule;       // 349.757 ;
                                                                 // kilo Calorie per mol in reciprocal centimeter
+  
+	static const double Hartree_in_RC           = kJPerMol_in_RC * Hartree_In_kJperMol;    // 2.1947e5 ;
+                                                                // kilo Calorie per mol in reciprocal centimeter
+
 
   static const double tp_C                    = pow((2.0 * M_PI * SpeedOfLight_in_cm) / (1.0e3 * PlancksConstant_in_JouleSecond * AvogadroC * 1.0e4),1.5);    //3.24331e+20;
   static const double amu                     = 1.0 / (AvogadroC * 1.0e3);

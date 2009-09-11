@@ -24,6 +24,7 @@ namespace mesmer
     m_pMoleculeManager(pMoleculeManager),
     m_pMicroRateCalculator(NULL),
     m_pTunnelingCalculator(NULL),
+    m_pCrossingCalculator(NULL),
     m_FluxCellZPE(0.0),
     m_FluxGrainZPE(0.0),
     m_FluxCellOffset(0),
@@ -283,7 +284,7 @@ namespace mesmer
       
       if (!m_pMicroRateCalculator->ReadParameters(this)) return false;
       
-      // Determine the method of estimating tunneling effect.
+      // Determine the method of estimating crossing coefficients.
       const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling", optional) ;
       if(pTunnelingtxt)
       {
@@ -299,8 +300,28 @@ namespace mesmer
       else{
         cinfo << "No tunneling method was found for " << getName() << endl;
       }
+
+      // Determine the method of estimating crossing coefficients.
+      const char* pCrossingtxt = ppReac->XmlReadValue("me:crossing", optional) ;
+      if(pCrossingtxt)
+      {
+        m_pCrossingCalculator = CrossingCalculator::Find(pCrossingtxt);
+        if(!m_pCrossingCalculator)
+        {
+          cerr << "Unknown method " << pCrossingtxt
+            << " for the determination of crossing coefficients in reaction "
+            << getName();
+          return false;
+        }
+      }
+      else{
+        cinfo << "No crossing method was found for " << getName() << endl;
+      }
+
     //
     //---------------------------------------------------------
+
+
 
     if (getReactionType() == ASSOCIATION || getReactionType() == IRREVERSIBLE_EXCHANGE){
       cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;

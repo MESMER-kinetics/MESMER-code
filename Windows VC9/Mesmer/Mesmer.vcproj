@@ -233,6 +233,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LandauZenerCrossingCoeff.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\main.cpp"
 				>
 			</File>
@@ -317,6 +321,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\WKBCrossingCoeff.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\XMLPersist.cpp"
 				>
 			</File>
@@ -348,6 +356,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Constants.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Crossing.h"
 				>
 			</File>
 			<File
@@ -392,6 +404,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\IsomerizationReaction.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LandauZenerCrossingCoeff.h"
 				>
 			</File>
 			<File
@@ -500,6 +516,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\unitsConversion.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\WKBCrossingCoeff.h"
 				>
 			</File>
 			<File

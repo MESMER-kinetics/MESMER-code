@@ -1,3 +1,37 @@
+2009-September-11 Dave Glowacki
+
+  * add and test microcanonical Spin Forbidden Crossing code to MESMER against that described by 
+    Harvey & Aschi, Farad. Disc., 2003(124), 129-143.  Two flavors of the spin forbidden
+    transmission coefficients are available:
+	- Landau-Zener theory transmission coefficients which does not include tunneling below threshold
+	- WKB theory transmission coefficients, which include tunneling below threshold
+
+  * spin-forbidden specific changes to code include:
+	1) add Crossing.h abstract base class
+	2) add LandauZenerCrossingCoeff.cpp and LandauZenerCrossingCoeff.h plug-in classes
+	3) add WKBCrossingCoeff.cpp and WKBCrossingCoeff.h plug-in classes
+	4) Constants.h: add constants required in the new code
+	5) MesmerFlags.h, MesmerFlags.cpp, and System.cpp: add CrossingCoeffEnabled flags
+	6) Reaction.h and Reaction.cpp: add CrossingCalculator info
+	7) SimpleRRKM.cpp: add convolution of CrossingProbability vectors and TScellDOS
+
+  * miscellaneous changes to code include
+	1) MicroRate.cpp, so that TST coefficients are not printed out at temperatures much higher
+	   than the ME simulation temperature; because the TST rate coefficients are calculated from
+ 	   grained data, the rate coefficients are most accurate at temperatures less than or equal to the 
+	   simulation temperature; the code has been amended to reflect this, so as not to confuse the user
+	2) MesmerMath.h & MesmerMath.cpp: add Airy functions for WKB transmission coefficients
+	3) MesmerMath.h & MesmerMath.cpp: optimize and improve the FastLaplaceConvolution function
+
+  * spin_forbidden_kinetics/ folder added to MesmerQA; it is not part of MesmerQA.bat, 
+    but it is provided for user reference.  it includes sample input & output files for both WKB and LZ calculations
+
+  * the Makefile has been updated for the new source code
+
+  * the baselines have been updated; changes are on account of the more accurate optimized 
+    FastLaplaceConvolution function and the changes to the temperature range over which the 
+    canonical rate coefficients are calculated
+
 _2009_09_10__16_43_26_ Chi-Hsiu Liang
 
   * Minor fix on reservoir state isomer initial population vector
