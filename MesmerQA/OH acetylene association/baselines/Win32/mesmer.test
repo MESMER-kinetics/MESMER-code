@@ -1507,14 +1507,6 @@ Print time dependent species and product profiles
          63095.7    8.41464e-016         1.76933               0         1.76933               0
          79432.8    9.76429e-016         2.05312               0         2.05312               0
 }
-row 1 of the U*U^(-1) matrix does not equal unity. It sums to 1.00213
-row 2 of the U*U^(-1) matrix does not equal unity. It sums to 0.997156
-row 3 of the U*U^(-1) matrix does not equal unity. It sums to 0.99843
-row 4 of the U*U^(-1) matrix does not equal unity. It sums to 0.996801
-row 5 of the U*U^(-1) matrix does not equal unity. It sums to 0.998169
-row 6 of the U*U^(-1) matrix does not equal unity. It sums to 0.997737
-row 7 of the U*U^(-1) matrix does not equal unity. It sums to 0.997726
-row 13 of the U*U^(-1) matrix does not equal unity. It sums to 1.00128
 
 Bartis Widom eigenvalue/eigenvector analysis
 

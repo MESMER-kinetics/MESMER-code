@@ -2424,16 +2424,16 @@ Z_matrix^(-1):
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1	0	0	
-1.38568e-014	1	-1.95148e-015	
--4.44089e-016	-3.21965e-015	1	
+1	-5.55112e-017	0	
+8.81985e-015	1	3.12365e-015	
+-1.66533e-015	-6.66134e-016	1	
 }
 
 Kr matrix:
 {
 -7.09797e-006	0.5278	3.13854e-006	
 8.37177e-007	-40.3363	2.84783e-005	
-6.9661e-006	39.8499	-3.11639e-005	
+6.96609e-006	39.8499	-3.11639e-005	
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -2446,7 +2446,7 @@ propyne loss = -3.11639e-005
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
 allene -> cyclopropene = 8.37177e-007
-allene -> propyne = 6.9661e-006
+allene -> propyne = 6.96609e-006
 cyclopropene -> allene = 0.5278
 cyclopropene -> propyne = 39.8499
 propyne -> allene = 3.13854e-006
@@ -5060,9 +5060,9 @@ Z_matrix^(-1):
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1	-5.55112e-017	-5.55112e-017	
--6.96304e-015	1	-7.53222e-016	
-6.55032e-015	7.77156e-016	1	
+1	-5.55112e-017	0	
+2.59488e-015	1	-7.53216e-016	
+-1.0103e-014	1.44329e-015	1	
 }
 
 Kr matrix:

@@ -1115,22 +1115,24 @@ namespace mesmer
     const size_t nchem    = m_isomers.size() + m_sources.size() ;  // number of isomers+pseudoisomers
     const size_t nchemIdx = smsize - nchem ;       // idx for chemically significant eigenvalues & vectors
 
-    dMatrix assymInvEigenVec(smsize);   // U^(-1)
-    dMatrix assymEigenVec(smsize);      // U
+    qdMatrix assymInvEigenVec(smsize);   // U^(-1)
+    qdMatrix assymEigenVec(smsize);      // U
     for(size_t i(0) ; i<smsize ; ++i){
       qd_real tmp = m_eqVector[i];
+      qd_real sm(0) ;
       for(size_t j(0) ; j<smsize ; ++j){
-        assymInvEigenVec[j][i] = to_double((*m_eigenvectors)[i][j]/tmp) ;           //calculation of U^(-1) = (FV)^-1 = V^T * F^-1
-        assymEigenVec[j][i] = to_double(m_eqVector[j] * (*m_eigenvectors)[j][i]) ;  //calculation of U = FV
+        assymInvEigenVec[j][i] = (*m_eigenvectors)[i][j]/tmp ;          //calculation of U^(-1) = (FV)^-1 = V^T * F^-1
+        assymEigenVec[j][i] = m_eqVector[j] * (*m_eigenvectors)[j][i] ; //calculation of U = FV
+        sm += assymEigenVec[j][i] ;
       }
-    }
+   }
 
     //------------------------- TEST block ----------------------------------------
-    for(size_t i(0);i<smsize;++i){         // multiply U*U^(-1) for testing
-      double test = 0.0;
-      for(size_t j(0);j<smsize;++j){
-        double sm = 0.0;
-        for(size_t k(0);k<smsize;++k){
+    for(size_t i(nchemIdx) ; i<smsize ; ++i){         // multiply U*U^(-1) for testing
+      qd_real test = 0.0;
+      for(size_t j(nchemIdx) ; j<smsize ; ++j){
+        qd_real sm = 0.0;
+        for(size_t k(0) ; k<smsize ; ++k){
           sm += assymEigenVec[i][k] * assymInvEigenVec[k][j];
         }
         test += sm;
@@ -1160,46 +1162,53 @@ namespace mesmer
     // check the separation between chemically significant eigenvalues (CSEs)
     // and internal energy relaxation eigenvalues (IEREs); if it's not good, print a warning
 
-    const double last_CSE=(to_double(m_eigenvalues[nchemIdx]))* m_meanOmega;
-    const double first_IERE=(to_double(m_eigenvalues[nchemIdx-1]))* m_meanOmega;
-    const double CSE_IERE_separation=last_CSE/first_IERE;
+    const double last_CSE   = (to_double(m_eigenvalues[nchemIdx]))* m_meanOmega;
+    const double first_IERE = (to_double(m_eigenvalues[nchemIdx-1]))* m_meanOmega;
+    const double CSE_IERE_separation = to_double(m_eigenvalues[nchemIdx]/m_eigenvalues[nchemIdx-1]);
     if(CSE_IERE_separation > 0.1){
-      stringstream ss1, ss2, ss3, ss4;
+      stringstream ss1 ;
       ss1 << "\nWarning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)" << endl;
-      ss2 << "\nThe last CSE = " << last_CSE << " and the first IERE = " << first_IERE << endl;
-      ss3 << "(last CSE)/(first IERE) ratio = " << CSE_IERE_separation << ", which is less than an order of magnitude" << endl;
-      ss4 << "\nResults obtained from Bartis Widom eigenvalue-vector analysis may be unreliable" << endl;
-      ctest << ss1.str() << ss2.str() << ss3.str() << ss4.str();
-      ppList->XmlWriteValueElement("me:warning", ss1.str() + ss2.str() + ss3.str() + ss4.str());
+      ss1 << "\nThe last CSE = " << last_CSE << " and the first IERE = " << first_IERE << endl;
+      ss1 << "(last CSE)/(first IERE) ratio = " << CSE_IERE_separation << ", which is less than an order of magnitude" << endl;
+      ss1 << "\nResults obtained from Bartis Widom eigenvalue-vector analysis may be unreliable" << endl;
+      ctest << ss1.str() ;
+      ppList->XmlWriteValueElement("me:warning", ss1.str());
     }
 
-    for(size_t i(0); i<nchem; ++i){
-      for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // calculate Z_matrix matrix elements for
-        double sm = 0.0;                                                // all isomers in the system
+    for(size_t i(0); i < nchem; ++i){
+
+      // Calculate Z_matrix matrix elements for all isomers in the system.
+
+      for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  
+        qd_real sm = 0.0;
         Molecule* isomer = ipos->first;
         const int numberGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
         const int colloptrsize = (!numberGroupedGrains)
           ? isomer->getColl().get_colloptrsize()
           : isomer->getColl().get_colloptrsize() - numberGroupedGrains + 1;
         // get colloptrsize for isomer
-        int rxnMatrixLoc = ipos->second;                                // get location for isomer in the rxn matrix
+        int rxnMatrixLoc = ipos->second + colloptrsize - 1 ;            // get location for isomer in the rxn matrix
         int seqMatrixLoc = m_SpeciesSequence[isomer];                   // get sequence position for isomer
-        for(int j(0);j<colloptrsize;++j){
-          sm += assymEigenVec[rxnMatrixLoc+j][nchemIdx+i];
+        for(int j(0) ; j<colloptrsize ; ++j){
+          sm += assymEigenVec[rxnMatrixLoc-j][nchemIdx+i];
         }
-        Z_matrix[seqMatrixLoc][i] = sm;
+        Z_matrix[seqMatrixLoc][i] = to_double(sm);
       }
-      for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // calculate Z_matrix matrix elements for
-        double sm = 0.0;                                                // all sources in the system
+
+      // Calculate Z_matrix matrix elements for all sources in the system.
+
+      for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  
         Molecule* pPseudoIsomer = spos->first ;
-        int rxnMatrixLoc = spos->second;
-        int seqMatrixLoc = m_SpeciesSequence[pPseudoIsomer];
-        sm = assymEigenVec[rxnMatrixLoc][nchemIdx+i];
-        Z_matrix[seqMatrixLoc][i] = sm;
+        const int rxnMatrixLoc = spos->second;
+        const int seqMatrixLoc = m_SpeciesSequence[pPseudoIsomer];
+        Z_matrix[seqMatrixLoc][i] = to_double(assymEigenVec[rxnMatrixLoc][nchemIdx+i]);
       }
+
+      // Calculate Y_matrix elements for sinks.
+
       if(m_sinkRxns.size()!=0) {
-        for(sinkpos=m_sinkRxns.begin(); sinkpos!=m_sinkRxns.end(); ++sinkpos){ // calculate Y_matrix elements for sinks
-          double sm = 0.0;
+        for(sinkpos=m_sinkRxns.begin(); sinkpos!=m_sinkRxns.end(); ++sinkpos){
+          qd_real sm = 0.0;
           vector<double> KofEs;                                         // vector to hold sink k(E)s
           vector<double> KofEsTemp;                                     // vector to hold sink k(E)s
           Reaction* sinkReaction = sinkpos->first;
@@ -1213,16 +1222,9 @@ namespace mesmer
             Molecule* isomer = sinkReaction->get_reactant();
             const int numberGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
 
-            // DO NOT MOVE THIS SECTION --- INDEX SENSITIVE
-            if (numberGroupedGrains != 0){
-              for (int i(numberGroupedGrains - 1); i < colloptrsize; ++i)
-                KofEsTemp.push_back(KofEs[i]);
-            }
-            else{
-              for (int i(0); i < colloptrsize; ++i)
-                KofEsTemp.push_back(KofEs[i]);
-            }
-            // DO NOT MOVE THIS SECTION --- INDEX SENSITIVE
+            size_t jj = (numberGroupedGrains != 0) ? numberGroupedGrains - 1 : 0 ;
+            for (int j(jj); j < colloptrsize; ++j)
+              KofEsTemp.push_back(KofEs[j]);
 
             colloptrsize = (!numberGroupedGrains)
               ? colloptrsize
@@ -1233,7 +1235,7 @@ namespace mesmer
           for(int j(0);j<colloptrsize;++j){
             sm += assymEigenVec[rxnMatrixLoc+j][nchemIdx+i] * KofEsTemp[j];
           }
-          Y_matrix[seqMatrixLoc][i] = sm;
+          Y_matrix[seqMatrixLoc][i] = to_double(sm);
           KofEs.clear();
         }
       }
