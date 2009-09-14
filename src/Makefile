@@ -139,12 +139,13 @@ all: ${OUTPUT}
 #****************************************************************************
 
 SRCS := \
-	AssociationReaction.cpp	\
 	AssignMolTypes.cpp \
+	AssociationReaction.cpp	\
 	BoltzmannDistribution.cpp	\
 	ClassicalRotor.cpp \
 	DensityOfStates.cpp \
 	EckartCoefficients.cpp \
+	ExponentialDown.cpp \
 	formatfloat.cpp \
 	HinderedRotorA.cpp \
 	IrreversibleExchangeReaction.cpp \
@@ -162,6 +163,9 @@ SRCS := \
 	MolecularComponents.cpp \
 	MoleculeManager.cpp \
 	oberror.cpp \
+        plugins/fitting.cpp \
+        plugins/gridsearch.cpp \
+        plugins/simplecalc.cpp \
 	QMRotor.cpp \
 	Rdouble.cpp \
 	Reaction.cpp \
