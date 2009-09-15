@@ -30,10 +30,8 @@ MesmerQA/pentyl/pentyl_isomerization_test.xml -text
 MesmerQA/pentyl/pentyl_isomerize_dissocn.xml -text
 MesmerQA/spin_forbidden_kinetics/LZ_test.test -text
 MesmerQA/spin_forbidden_kinetics/LZ_test.xml -text
-MesmerQA/spin_forbidden_kinetics/LZ_test_out.xml -text
 MesmerQA/spin_forbidden_kinetics/WKB_test.test -text
 MesmerQA/spin_forbidden_kinetics/WKB_test.xml -text
-MesmerQA/spin_forbidden_kinetics/WKB_test_out.xml -text
 /README -text
 /ToDo -text
 Windows[!!-~]VC8/MESMER.sln -text

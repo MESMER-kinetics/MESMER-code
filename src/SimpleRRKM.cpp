@@ -58,28 +58,41 @@ namespace mesmer
 		}
 		else if(pReact->thereIsCrossing()){ //with spin forbidden crossing
 
-			int HeatOfReaction = pReact->getHeatOfReactionInt();
-			const int CrossingStart = (HeatOfReaction > 0) ? int(HeatOfReaction) : 0;
-
 			vector<double> CrossingProbability;
 			pReact->calculateCellCrossingCoeffs(CrossingProbability);
 
 			vector<double> ConvolvedSumOfStates;
 			FastLaplaceConvolution(TScellDOS, CrossingProbability, ConvolvedSumOfStates); // FFT convolution
 
-			for (int i = CrossingStart; i < MaximumCell; ++i) {                       // Calculate flux using RRKM 
-				rxnFlux[i-CrossingStart] = ConvolvedSumOfStates[i] * SpeedOfLight_in_cm; // with crossing correction
-			}
+			const bool tunnelling = pReact->thereIsCrossingWithTunnelling();
 
-			// the flux bottom energy is equal to the ZPE of the higher well
-			if (CrossingStart > 0) {
-				pReact->setCellFluxBottom(pReact->get_relative_pdtZPE());
+			// the flux bottom energy is equal to the ZPE of the higher well if there is tunnelling & crossing
+			if(tunnelling){
+
+				int HeatOfReaction = pReact->getHeatOfReactionInt();
+				const int CrossingStart = (HeatOfReaction > 0) ? int(HeatOfReaction) : 0;
+
+				for (int i = CrossingStart; i < MaximumCell; ++i) {                       // Calculate flux using RRKM 
+					rxnFlux[i-CrossingStart] = ConvolvedSumOfStates[i] * SpeedOfLight_in_cm; // with crossing correction
+				}
+
+				if (CrossingStart > 0) {pReact->setCellFluxBottom(pReact->get_relative_pdtZPE());}
+				else{pReact->setCellFluxBottom(pReact->get_relative_rctZPE());}
+
 			}
-			else{
-				pReact->setCellFluxBottom(pReact->get_relative_rctZPE());
+			else if(!tunnelling){  // what to do if it's just crossing with no tunnelling
+
+				const int BarrierHeight = int(pReact->get_ThresholdEnergy());
+
+				for (int i = BarrierHeight ; i < MaximumCell ; ++i)     // Calculate k(E)s using RRKM expression.
+					rxnFlux[i-BarrierHeight] = ConvolvedSumOfStates[i] * SpeedOfLight_in_cm;
+
+				pReact->setCellFluxBottom(pReact->get_relative_rctZPE() + BarrierHeight);
+
 			}
 		}
-		else{ // without tunneling
+
+		else{ // if there's neither crossing nor tunneling
 			double SumOfStates = 0.0;
 			for (int i = 0 ; i < MaximumCell ; ++i) {
 				// Integrate transition state density of states.

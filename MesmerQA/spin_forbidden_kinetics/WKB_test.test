@@ -1075,7 +1075,7 @@ Z_matrix^(-1):
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
 1	0	
-5.14868e-017	1	
+5.14872e-017	1	
 }
 
 Kr matrix:
@@ -2278,7 +2278,7 @@ Z_matrix^(-1):
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
 1	0	
--1.16047e-016	1	
+6.19283e-017	1	
 }
 
 Kr matrix:

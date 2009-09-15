@@ -1,5 +1,11 @@
 2009-September-14 Dave Glowacki 
 
+  * fixed a bug which prevented compatibility between the spin forbidden crossing
+    code and the reservoir & cemetary state approximations
+  * update the spin forbidden crossing baselines
+
+2009-September-14 Dave Glowacki 
+
   * update Makefile to compile successfully under Linux/Mac
 
 2009-September-14 Dave Glowacki 

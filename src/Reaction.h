@@ -121,6 +121,8 @@ namespace mesmer
 
     bool thereIsCrossing (void) const {return (m_pCrossingCalculator) ? true : false ; } ;
 
+		bool thereIsCrossingWithTunnelling(void) {return(m_pCrossingCalculator->ThereIsTunnellingWithCrossing()); };
+
     void calculateCellCrossingCoeffs(std::vector<double>& CrossingProbability) {m_pCrossingCalculator->calculateCellCrossingCoeffs(this, CrossingProbability); } ;
 
     // End Spin Forbidden Crossing interface

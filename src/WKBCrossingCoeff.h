@@ -26,6 +26,8 @@ namespace mesmer
 
 		virtual bool calculateCellCrossingCoeffs(Reaction* pReact, std::vector<double>& CrossingProbability);
 
+		virtual bool ThereIsTunnellingWithCrossing(void) {return true;};
+
 		bool ReadDoubleAndUnits(double& element, PersistPtr pp, const std::string identifier, const std::string units);
 	};
 }//namespace

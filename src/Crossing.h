@@ -33,6 +33,8 @@ namespace mesmer
 
 		virtual bool calculateCellCrossingCoeffs(Reaction* pReact, std::vector<double>& CrossingProbability) = 0 ;
 
+		virtual bool ThereIsTunnellingWithCrossing(void) = 0;
+
 	private:
 		/// Returns a reference to the map of CrossingCalculator classes
 		/// Is a function rather than a static member variable to avoid initialization problems.
