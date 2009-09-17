@@ -146,6 +146,7 @@ namespace mesmer
       m_Flags.microRateEnabled            = ppControl->XmlReadBoolean("me:testMicroRates");
       m_Flags.grainBoltzmannEnabled       = ppControl->XmlReadBoolean("me:printGrainBoltzmann");
       m_Flags.grainDOSEnabled             = ppControl->XmlReadBoolean("me:printGrainDOS");
+			m_Flags.grainTSsosEnabled           = ppControl->XmlReadBoolean("me:printTSsos");
       m_Flags.cellDOSEnabled              = ppControl->XmlReadBoolean("me:printCellDOS");
       m_Flags.reactionOCSEnabled          = ppControl->XmlReadBoolean("me:printReactionOperatorColumnSums");
       m_Flags.kfEGrainsEnabled            = ppControl->XmlReadBoolean("me:printGrainkfE");

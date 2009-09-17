@@ -7,6 +7,7 @@ namespace mesmer{
     microRateEnabled(false),
     grainBoltzmannEnabled(false),
     grainDOSEnabled(false),
+		grainTSsosEnabled(false),
     cyclePrintGrainDOS(false),
     cellDOSEnabled(false),
     cyclePrintCellDOS(false),

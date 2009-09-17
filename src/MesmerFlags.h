@@ -17,6 +17,7 @@ namespace mesmer
     bool   microRateEnabled;              // Whether to output microcanonical rate coefficients
     bool   grainBoltzmannEnabled;         // Enabled printing grain boltzmann distribution
     bool   grainDOSEnabled;               // Enabled printing grain DOS
+		bool   grainTSsosEnabled;							// enables printing of TS sum of states
     bool   cyclePrintGrainDOS;            // Controls the print-out of grain DOS in each cycle (This is only for source term)
     bool   cellDOSEnabled;                // Enabled printing cell DOS
     bool   cyclePrintCellDOS;             // Controls the print-out of cell DOS in each cycle (This is only for source term)

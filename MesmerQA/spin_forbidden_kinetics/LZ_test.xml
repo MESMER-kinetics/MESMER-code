@@ -216,6 +216,7 @@
     <me:testDOS />
     <me:testMicroRates />
     <me:printGrainDOS />
+    <me:printTSsos />
     <!--<me:printCellTransitionStateFlux />-->
     <!--<me:printGrainTransitionStateFlux />-->
     <!--<me:printCellDOS />-->
