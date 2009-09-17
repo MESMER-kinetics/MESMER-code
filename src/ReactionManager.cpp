@@ -423,7 +423,7 @@ namespace mesmer
 
   void ReactionManager::printEigenvectors(const MesmerFlags& mFlags, std::ostream& os)
   {
-    const int smsize = int(m_eigenvectors->size()) ;
+    const size_t smsize = m_eigenvectors->size() ;
 
     switch (mFlags.printReactionOperatorNum)
     {
@@ -440,7 +440,7 @@ namespace mesmer
       (*m_eigenvectors).showFinalBits(smsize/3, mFlags.print_TabbedMatrices);
       break;
     default: // the number is either smaller than -3 or positive
-      if (abs(mFlags.printReactionOperatorNum) > smsize){
+      if (abs(mFlags.printReactionOperatorNum) > int(smsize)){
         os << "Printing all (" << smsize << ") columns/rows of the eigenvectors:\n";
         (*m_eigenvectors).showFinalBits(smsize, mFlags.print_TabbedMatrices);
       }
@@ -454,7 +454,7 @@ namespace mesmer
   void ReactionManager::diagReactionOperator(const MesmerFlags &mFlags, const int precision, PersistPtr ppAnalysis)
   {
     // Allocate space for eigenvalues.
-    const int smsize = int(m_reactionOperator->size()) ;
+    const size_t smsize = m_reactionOperator->size() ;
     m_eigenvalues.clear();
     m_eigenvalues.resize(smsize, 0.0);
     if (m_eigenvectors) delete m_eigenvectors;
@@ -472,30 +472,30 @@ namespace mesmer
       case 0: // diagonalize in double
         {
           dMatrix dDiagM(smsize);
-          for ( int i = 0 ; i < smsize ; ++i )
-            for ( int j = 0 ; j < smsize ; ++j )
+          for ( size_t i = 0 ; i < smsize ; ++i )
+            for ( size_t j = 0 ; j < smsize ; ++j )
               dDiagM[i][j] = to_double((*m_reactionOperator)[i][j]) ;
           vector<double>  dEigenValue(smsize, 0.0);
           dDiagM.diagonalize(&dEigenValue[0]) ;
-          for ( int i = 0 ; i < smsize ; ++i )
+          for ( size_t i = 0 ; i < smsize ; ++i )
             m_eigenvalues[i] = dEigenValue[i];
-          for ( int i = 0 ; i < smsize ; ++i )
-            for ( int j = 0 ; j < smsize ; ++j )
+          for ( size_t i = 0 ; i < smsize ; ++i )
+            for ( size_t j = 0 ; j < smsize ; ++j )
               (*m_eigenvectors)[i][j] = dDiagM[i][j] ;
           break;
         }
       case 1: // diagonalize in double double
         {
           ddMatrix ddDiagM(smsize);
-          for ( int i = 0 ; i < smsize ; ++i )
-            for ( int j = 0 ; j < smsize ; ++j )
+          for ( size_t i = 0 ; i < smsize ; ++i )
+            for ( size_t j = 0 ; j < smsize ; ++j )
               ddDiagM[i][j] = to_dd_real((*m_reactionOperator)[i][j]) ;
           vector<dd_real> ddEigenValue(smsize, 0.0);
           ddDiagM.diagonalize(&ddEigenValue[0]) ;
-          for ( int i = 0 ; i < smsize ; ++i )
+          for ( size_t i = 0 ; i < smsize ; ++i )
             m_eigenvalues[i] = ddEigenValue[i];
-          for ( int i = 0 ; i < smsize ; ++i )
-            for ( int j = 0 ; j < smsize ; ++j )
+          for ( size_t i = 0 ; i < smsize ; ++i )
+            for ( size_t j = 0 ; j < smsize ; ++j )
               (*m_eigenvectors)[i][j] = ddDiagM[i][j] ;
           break;
         }
@@ -516,9 +516,9 @@ namespace mesmer
       ctest << os.str();
     }
 
-    int numberStarted = 0;
-    int numberPrinted = smsize; // Default prints all of the eigenvalues
-    if (mFlags.printEigenValuesNum > 0 && mFlags.printEigenValuesNum <= smsize){ //at least prints 1 eigenvalue
+    size_t numberStarted = 0;
+    size_t numberPrinted = smsize; // Default prints all of the eigenvalues
+    if (mFlags.printEigenValuesNum > 0 && mFlags.printEigenValuesNum <= int(smsize)){ //at least prints 1 eigenvalue
       numberPrinted = mFlags.printEigenValuesNum;
       numberStarted = smsize - mFlags.printEigenValuesNum;
     }
@@ -528,7 +528,7 @@ namespace mesmer
     ppEigenList->XmlWriteAttribute("selection",toString(mFlags.printEigenValuesNum));//TODO improve this
     ctest << "\nTotal number of eigenvalues = " << smsize << endl;
     ctest << "Eigenvalues\n{\n";
-    for (int i = numberStarted ; i < smsize; ++i) {
+    for (size_t i = numberStarted ; i < smsize; ++i) {
       qd_real tmp = (mFlags.doBasisSetMethod)? m_eigenvalues[i] : m_eigenvalues[i] * m_meanOmega ;
       formatFloat(ctest, tmp, 6, 15) ;
       ctest << endl ;
@@ -695,7 +695,8 @@ namespace mesmer
       int seqMatrixLoc = itr1->second;                          //in the Eq frac map
       Molecule* key = itr1->first;
       key->getPop().setEqFraction(eqMatrix[seqMatrixLoc][counter-1]);    //set Eq fraction to last column in eqMatrix
-      ctest << "Equilibrium Fraction for " << key->getName() << " = " << key->getPop().getEqFraction() << endl;
+      string speciesName = key->getColl().isCemetery() ? key->getName() + "(+)" : key->getName();
+      ctest << "Equilibrium Fraction for " << speciesName << " = " << key->getPop().getEqFraction() << endl;
     }
     return true;
   }
@@ -726,13 +727,14 @@ namespace mesmer
         const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();
         vector<double> boltzFrac;
         isomer->getColl().normalizedGrnBoltzmannDistribution(boltzFrac, colloptrsize, numberGrouped);
+        const int nrg = isomer->getColl().isCemetery() ? 0 : 1 ;
         if (numberGrouped == 0){
           for (int i = 0; i < colloptrsize; ++i){
             n_0[i + rxnMatrixLoc] = initFrac * boltzFrac[i];
           }
         }
         else{
-          for (int i = 0; i < colloptrsize - numberGrouped + 1; ++i){
+          for (int i = 0; i < colloptrsize - numberGrouped + nrg; ++i){
             n_0[i + rxnMatrixLoc] = initFrac * boltzFrac[i];
           }
         }
@@ -753,13 +755,14 @@ namespace mesmer
       const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();
       vector<double> boltzFrac;
       isomer->getColl().normalizedInitialDistribution(boltzFrac, colloptrsize, numberGrouped);
+      const int nrg = isomer->getColl().isCemetery() ? 0 : 1 ;
       if (numberGrouped == 0){
         for (int i = 0; i < colloptrsize; ++i){
           n_0[i + rxnMatrixLoc] = initFrac * boltzFrac[i];
         }
       }
       else{
-        for (int i = 0; i < colloptrsize - colloptrsize + 1; ++i){
+        for (int i = 0; i < colloptrsize - numberGrouped + nrg; ++i){
           n_0[i + rxnMatrixLoc] = initFrac * boltzFrac[i];
         }
       }
@@ -805,6 +808,7 @@ namespace mesmer
       qd_real eqFrac = isomer->getPop().getEqFraction();
       const int colloptrsize = isomer->getColl().get_colloptrsize();
       const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();
+      const int nrg = isomer->getColl().isCemetery() ? 0 : 1 ;
       vector<double> boltzFrac;
       isomer->getColl().normalizedGrnBoltzmannDistribution(boltzFrac, colloptrsize, numberGrouped);
       if (numberGrouped == 0) {
@@ -813,7 +817,7 @@ namespace mesmer
         }
       }
       else{
-        for(int i(0);i<colloptrsize - numberGrouped + 1;++i){
+        for(int i(0);i<colloptrsize - numberGrouped + nrg;++i){
           m_eqVector[rxnMatrixLoc + i] = sqrt(eqFrac * qd_real(boltzFrac[i]) ) ;
         }
       }
@@ -985,6 +989,16 @@ namespace mesmer
     if (mFlags.speciesProfileEnabled){
       ctest << endl << "Print time dependent species and product profiles" << endl << "{" << endl;
       int numberOfSpecies = static_cast<int>(m_isomers.size() + m_sources.size() + m_sinkRxns.size());
+
+      //---------------------------------------------------------------------------------------------
+      // Need to include the cemetery states too, so loop into isomers and see how many have cemetery.
+      Reaction::molMapType::iterator iposC;
+      for (iposC = m_isomers.begin(); iposC != m_isomers.end(); ++iposC){  // Iterate through the isomer map
+        Molecule* isomer = iposC->first;
+        if (isomer->getColl().isCemetery()) ++numberOfSpecies;
+      }
+      //---------------------------------------------------------------------------------------------
+
       db2D speciesProfile(numberOfSpecies, maxTimeStep);
       int speciesProfileidx(0);
 
@@ -1007,8 +1021,16 @@ namespace mesmer
       Reaction::molMapType::iterator ipos;
       for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
         Molecule* isomer = ipos->first;                        // to get isomer profile vs t
-        ctest << setw(16) << isomer->getName();
-        speciesNames.push_back(isomer->getName());
+        const int nrg = isomer->getColl().isCemetery() ? 0 : 1;
+        string isomerName = isomer->getName();
+        if (nrg){
+          ctest << setw(16) << isomerName;
+        }
+        else{
+          isomerName += "(+)"; // active states
+          ctest << setw(16) << isomerName;
+        }
+        speciesNames.push_back(isomerName);
         int rxnMatrixLoc = ipos->second;
         const int colloptrsize = isomer->getColl().get_colloptrsize();
         const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();
@@ -1021,7 +1043,7 @@ namespace mesmer
         }
         else{
           for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-            for(int i = 0; i < colloptrsize - numberGrouped + 1; ++i){
+            for(int i = 0; i < colloptrsize - numberGrouped + nrg; ++i){
               speciesProfile[speciesProfileidx][timestep] += grnProfile[i+rxnMatrixLoc][timestep];
             }
           }
@@ -1029,8 +1051,30 @@ namespace mesmer
         ++speciesProfileidx;
       }
 
-      sinkMap::iterator pos;      // iterate through sink map to get product profile vs t
       int pdtProfileStartIdx = speciesProfileidx;
+
+      // Taking account of the cemetery states in all wells.
+      for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
+        Molecule* isomer = ipos->first;
+        if (isomer->getColl().isCemetery()){
+          vector<double> grainKdmc = isomer->getColl().get_GrainKdmc();
+          string cemName = isomer->getName() + "(-)";
+          ctest << setw(16) << cemName;
+          speciesNames.push_back(cemName);
+          int rxnMatrixLoc = ipos->second;                       // get isomer location
+          double TimeIntegratedCemeteryPop(0.0);
+          for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+            for(size_t i = 0; i < grainKdmc.size(); ++i){
+              speciesProfile[speciesProfileidx][timestep] += m_meanOmega * grainKdmc[i]*grnProfile[i+rxnMatrixLoc][timestep]*dt[timestep];;
+            }
+            TimeIntegratedCemeteryPop += speciesProfile[speciesProfileidx][timestep];
+            speciesProfile[speciesProfileidx][timestep]= TimeIntegratedCemeteryPop;
+          }
+          ++speciesProfileidx;
+        }
+      }
+
+      sinkMap::iterator pos;      // iterate through sink map to get product profile vs t
       for (pos = m_sinkRxns.begin(); pos != m_sinkRxns.end(); ++pos){
         vector<double> KofEs;                             // vector to hold sink k(E)s
         Reaction* sinkReaction = pos->first;
@@ -1039,17 +1083,18 @@ namespace mesmer
         sinkReaction->get_products(pdts);
 
         int numberGrouped(0);
+        string pdtName = pdts[0]->getName();
         if(colloptrsize == 1){  // if the collision operator size is 1, there is one canonical loss rate coefficient
           KofEs.push_back(sinkReaction->get_fwdGrnCanonicalRate());
-          ctest << setw(11) << pdts[0]->getName()<< setw(5) << "(bim)";
+          pdtName += "(bim)";
+          ctest << setw(16) << pdtName;
         }
         else{   // if the collision operator size is >1, there are k(E)s for the irreversible loss
           KofEs = sinkReaction->get_GrainKfmc();          // assign sink k(E)s, the vector size == maxgrn
-          ctest << setw(16) << pdts[0]->getName();
+          ctest << setw(16) << pdtName;
           numberGrouped = sinkReaction->get_reactant()->getColl().getNumberOfGroupedGrains();
         }
-        speciesNames.push_back(pdts[0]->getName());
-
+        speciesNames.push_back(pdtName);
         int rxnMatrixLoc = pos->second;                       // get sink location
         double TimeIntegratedProductPop(0.0);
         if (numberGrouped == 0){
@@ -1063,9 +1108,11 @@ namespace mesmer
           ++speciesProfileidx;
         }
         else{
+          Molecule* rctMol = pos->first->get_reactant();
+          int nrg = rctMol->getColl().isCemetery() ? 0 : 1;
           for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-            for(int i = 0; i < colloptrsize - numberGrouped + 1; ++i){
-              speciesProfile[speciesProfileidx][timestep] += KofEs[i + numberGrouped - 1]*grnProfile[i+rxnMatrixLoc][timestep]*dt[timestep];
+            for(int i = 0; i < colloptrsize - numberGrouped + nrg; ++i){
+              speciesProfile[speciesProfileidx][timestep] += KofEs[i + numberGrouped - nrg]*grnProfile[i+rxnMatrixLoc][timestep]*dt[timestep];
             }
             TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];
             speciesProfile[speciesProfileidx][timestep]= TimeIntegratedProductPop;
@@ -1175,17 +1222,18 @@ namespace mesmer
       ppList->XmlWriteValueElement("me:warning", ss1.str());
     }
 
-    for(size_t i(0); i < nchem; ++i){
+    int numberOfCemeteries(0); // initialize the number of cemeteries to zero
 
-      // Calculate Z_matrix matrix elements for all isomers in the system.
-
-      for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  
-        qd_real sm = 0.0;
+    for(size_t i(0); i<nchem; ++i){
+      numberOfCemeteries = 0; // re-initialize for every nchem calculation.
+      for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // calculate Z_matrix matrix elements for
+        qd_real sm = 0.0;                                                // all isomers in the system
         Molecule* isomer = ipos->first;
+        const int nrg = isomer->getColl().isCemetery() ? 0 : 1;
         const int numberGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
         const int colloptrsize = (!numberGroupedGrains)
           ? isomer->getColl().get_colloptrsize()
-          : isomer->getColl().get_colloptrsize() - numberGroupedGrains + 1;
+          : isomer->getColl().get_colloptrsize() - numberGroupedGrains + nrg;
         // get colloptrsize for isomer
         int rxnMatrixLoc = ipos->second + colloptrsize - 1 ;            // get location for isomer in the rxn matrix
         int seqMatrixLoc = m_SpeciesSequence[isomer];                   // get sequence position for isomer
@@ -1220,15 +1268,23 @@ namespace mesmer
           else{                   // if the collision operator size is >1, there are k(E)s for the irreversible loss
             KofEs = sinkReaction->get_GrainKfmc();                      // assign sink k(E)s, the vector size == maxgrn
             Molecule* isomer = sinkReaction->get_reactant();
+            const int nrg = isomer->getColl().isCemetery() ? 0 : 1;
             const int numberGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
 
-            size_t jj = (numberGroupedGrains != 0) ? numberGroupedGrains - 1 : 0 ;
-            for (int j(jj); j < colloptrsize; ++j)
-              KofEsTemp.push_back(KofEs[j]);
+            // DO NOT MOVE THIS SECTION --- INDEX SENSITIVE
+            if (numberGroupedGrains != 0){
+              for (int i(numberGroupedGrains - nrg); i < colloptrsize; ++i)
+                KofEsTemp.push_back(KofEs[i]);
+            }
+            else{
+              for (int i(0); i < colloptrsize; ++i)
+                KofEsTemp.push_back(KofEs[i]);
+            }
+            // DO NOT MOVE THIS SECTION --- INDEX SENSITIVE
 
             colloptrsize = (!numberGroupedGrains)
               ? colloptrsize
-              : colloptrsize - numberGroupedGrains + 1;
+              : colloptrsize - numberGroupedGrains + nrg;
           }
           int rxnMatrixLoc = sinkpos->second;                               // get sink location
           int seqMatrixLoc = m_SinkSequence[sinkReaction];                  // get sink sequence position
@@ -1239,9 +1295,29 @@ namespace mesmer
           KofEs.clear();
         }
       }
+      // calculate Y_matrix matrix elements for cemetery states
+      for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
+        Molecule* isomer = ipos->first;
+        if (isomer->getColl().isCemetery()){ // if it is in cemetery state
+          qd_real sm = 0.0;
+          vector<double> KofEs;                                         // vector to hold sink k(E)s
+          KofEs = isomer->getColl().get_GrainKdmc();
+          const int numberGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
+          const int colloptrsize =  isomer->getColl().get_colloptrsize() - numberGroupedGrains;
+          // get colloptrsize for isomer
+          int rxnMatrixLoc = ipos->second;                                // get location for isomer in the rxn matrix
+          int seqMatrixLoc = int(m_sinkRxns.size()) + numberOfCemeteries;      // get sequence position for isomer
+          for(int j(0);j<colloptrsize;++j){
+            sm += assymEigenVec[rxnMatrixLoc+j][nchemIdx+i] * KofEs[j] * m_meanOmega;
+          }
+          Y_matrix[seqMatrixLoc][i] = to_double(sm);
+          KofEs.clear();
+          ++numberOfCemeteries;
+        }
+      }
     }
 
-    //    Y_matrix.print((int)(m_sinkRxns.size()), (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
+    //Y_matrix.print((int)(m_sinkRxns.size()) + numberOfCemeteries, (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
 
     dMatrix Zinv(Z_matrix), Zidentity(nchem), Kr(nchem);
     db2D Kp;
@@ -1283,7 +1359,7 @@ namespace mesmer
     Kr.showFinalBits(nchem, true);       // print out Kr_matrix
 
     if(m_sinkRxns.size()!=0){
-      for(int i(0); i != int(m_sinkRxns.size()); ++i){    // calculate Kp (definition taken from PCCP 2007(9), p.4085)
+      for(size_t i(0); i != m_sinkRxns.size() + numberOfCemeteries; ++i){    // calculate Kp (definition taken from PCCP 2007(9), p.4085)
         for(size_t j(0);j<nchem;++j){
           double sm = 0.0;
           for(size_t k(0);k<nchem;++k){
@@ -1293,7 +1369,7 @@ namespace mesmer
         }
       }
       ctest << "\nKp matrix:" << endl;    // print out Kp_matrix
-      Kp.print(int(m_sinkRxns.size()), int(m_SpeciesSequence.size()));
+      Kp.print(m_sinkRxns.size() + numberOfCemeteries, m_SpeciesSequence.size());
     }
 
     ctest << "\nFirst order & pseudo first order rate coefficients for loss rxns:\n{\n";
@@ -1305,15 +1381,14 @@ namespace mesmer
     for(lossitr=m_SpeciesSequence.begin(); lossitr!=m_SpeciesSequence.end(); ++lossitr){
       Molecule* iso = lossitr->first;
       int losspos = lossitr->second;
-      ctest << iso->getName() << " loss = " << Kr[losspos][losspos] << endl;
+      string isomerName = iso->getColl().isCemetery() ? iso->getName() + "(+)" : iso->getName();
+      ctest << isomerName << " loss = " << Kr[losspos][losspos] << endl;
       PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", Kr[losspos][losspos]);
-      ppItem->XmlWriteAttribute("ref", iso->getName());
+      ppItem->XmlWriteAttribute("ref", isomerName);
 
-      // if (mFlags.searchMethod == 3){
       puNumbers << Kr[losspos][losspos] << "\t";
       if (punchSymbolGathered == false){
-        puSymbols << iso->getName() << " loss\t";
-        //  }
+        puSymbols << isomerName << " loss\t";
       }
     }
     ctest << "}\n";
@@ -1324,25 +1399,25 @@ namespace mesmer
       // print pseudo first order connecting ks
       for (rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
         Molecule* rct = rctitr->first;
+        string rctName = rct->getColl().isCemetery() ? rct->getName() + "(+)" : rct->getName();
         int rctpos = rctitr->second;
         for (pdtitr=m_SpeciesSequence.begin(); pdtitr!=m_SpeciesSequence.end(); ++pdtitr){
           Molecule* pdt = pdtitr->first;
+          string pdtName = pdt->getColl().isCemetery() ? pdt->getName() + "(+)" : pdt->getName();
           int pdtpos = pdtitr->second;
           if(rctpos != pdtpos){
-            ctest << rct->getName() << " -> " << pdt->getName() << " = " << Kr[pdtpos][rctpos] << endl;
+            ctest << rctName << " -> " << pdtName << " = " << Kr[pdtpos][rctpos] << endl;
 
             PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", Kr[pdtpos][rctpos]);
-            ppItem->XmlWriteAttribute("fromRef", rct->getName());
-            ppItem->XmlWriteAttribute("toRef",   pdt->getName());
+            ppItem->XmlWriteAttribute("fromRef", rctName);
+            ppItem->XmlWriteAttribute("toRef",   pdtName);
             ppItem->XmlWriteAttribute("reactionType", "isomerization");
           }
 
-          //if (mFlags.searchMethod == 3){
           puNumbers << Kr[pdtpos][rctpos] << "\t";
           if (punchSymbolGathered == false){
-            puSymbols << rct->getName() << " -> " << pdt->getName() << "\t";
+            puSymbols << rctName << " -> " << pdtName << "\t";
           }
-          //}
         }
       }
       ctest << "}\n";
@@ -1354,36 +1429,63 @@ namespace mesmer
 
       for(sinkitr=m_SinkSequence.begin(); sinkitr!=m_SinkSequence.end(); ++sinkitr){
         Reaction* sinkReaction = sinkitr->first;          // get Irreversible Rxn
-        int colloptrsize = sinkReaction->getRctColloptrsize();
         int sinkpos = m_SinkSequence[sinkReaction];                   // get products & their position
         vector<Molecule*> pdts;
         sinkReaction->get_products(pdts);
+        string pdtsName = pdts[0]->getName();
+        if (pdts.size() == 2) {pdtsName += + "+"; pdtsName += pdts[1]->getName();}
         for(rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
           Molecule* rcts = rctitr->first;     // get reactants & their position
           int rctpos = rctitr->second;
-          if(colloptrsize==1){
-            ctest << rcts->getName() << " -> "  << pdts[0]->getName() << "(bim) = " << Kp[sinkpos][rctpos] << endl;
-            //if (mFlags.searchMethod == 3){
+          if(sinkReaction->getRctColloptrsize()==1){
+            ctest << rcts->getName() << " -> "  << pdtsName << "(bim) = " << Kp[sinkpos][rctpos] << endl;
             puNumbers << Kp[sinkpos][rctpos] << "\t";
             if (punchSymbolGathered == false){
-              puSymbols << rcts->getName() << " -> " << pdts[0]->getName() << "(bim)\t";
+              puSymbols << rcts->getName() << " -> " << pdtsName << "(bim)\t";
             }
-            //}
           }
           else{
-            ctest << rcts->getName() << " -> "  << pdts[0]->getName() << " = " << Kp[sinkpos][rctpos] << endl;
+            ctest << rcts->getName() << " -> "  << pdtsName << " = " << Kp[sinkpos][rctpos] << endl;
 
             PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", Kp[sinkpos][rctpos]);
             ppItem->XmlWriteAttribute("fromRef", rcts->getName());
-            ppItem->XmlWriteAttribute("toRef",   pdts[0]->getName());
+            ppItem->XmlWriteAttribute("toRef",   pdtsName);
             ppItem->XmlWriteAttribute("reactionType", "irreversible");
-            //if (mFlags.searchMethod == 3){
             puNumbers << Kp[sinkpos][rctpos] << "\t";
             if (punchSymbolGathered == false){
-              puSymbols << rcts->getName() << " -> " << pdts[0]->getName() << "\t";
+              puSymbols << rcts->getName() << " -> " << pdtsName << "\t";
             }
-            //}
           }
+        }
+      }
+      ctest << "}\n\n";
+    }
+
+    Reaction::molMapType::iterator speciesitr;
+    int tempNumCemetery(0);
+    if(numberOfCemeteries){
+      ctest << "\nFirst order & pseudo first order rate coefficients for cemetery states:\n{\n";
+      for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
+        Molecule* isomer = ipos->first;
+        if (isomer->getColl().isCemetery()){ // if it is in cemetery state
+          string cemName = isomer->getName() + "(-)";
+          for (speciesitr=m_SpeciesSequence.begin(); speciesitr!=m_SpeciesSequence.end(); ++speciesitr){
+            Molecule* rct = speciesitr->first;
+            string rctName = rct->getColl().isCemetery() ? rct->getName() + "(+)" : rct->getName();
+            int rctpos = speciesitr->second;
+            ctest << rctName << " -> " << cemName << " = " << Kp[m_sinkRxns.size()+tempNumCemetery][rctpos] << endl;
+
+            PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", Kp[m_sinkRxns.size()+tempNumCemetery][rctpos]);
+            ppItem->XmlWriteAttribute("fromRef", rctName);
+            ppItem->XmlWriteAttribute("toRef",   cemName);
+            ppItem->XmlWriteAttribute("reactionType", "deactivation");
+
+            puNumbers << Kp[m_sinkRxns.size()+tempNumCemetery][rctpos] << "\t";
+            if (punchSymbolGathered == false){
+              puSymbols << rctName << " -> " << cemName << "\t";
+            }
+          }
+          ++tempNumCemetery;
         }
       }
       ctest << "}\n\n";
@@ -1508,7 +1610,7 @@ namespace mesmer
 
       Molecule *isomer = isomeritr->first ;
       int colloptrsize = isomer->getColl().getNumberOfGroupedGrains() != 0
-        ? ( isomer->getColl().isCemetery() 
+        ? ( isomer->getColl().isCemetery()
           ? isomer->getColl().get_colloptrsize() - isomer->getColl().getNumberOfGroupedGrains()
           : isomer->getColl().get_colloptrsize() - isomer->getColl().getNumberOfGroupedGrains() + 1)
         : isomer->getColl().get_colloptrsize();
@@ -1610,9 +1712,9 @@ namespace mesmer
     m_reducedEqVector.resize(m_reducedEigenvectors->size());
 
 
-    for (int i(0); i < int(m_locSizeMap.size()); ++i){  // iterate through source map to get
+    for (size_t i(0); i < m_locSizeMap.size(); ++i){  // iterate through source map to get
       Molecule* pMol = m_locSizeMap[i].mol;                            // eq Fractions
-      int rxnMatrixLoc = m_locSizeMap[i].rml;
+      size_t rxnMatrixLoc = m_locSizeMap[i].rml;
       double eqFrac = pMol->getPop().getEqFraction();
       m_reducedEqVector[rxnMatrixLoc] = sqrt(eqFrac);
     }

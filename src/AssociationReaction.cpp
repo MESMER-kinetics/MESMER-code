@@ -115,16 +115,16 @@ namespace mesmer
     const int jj     = (*m_sourceMap)[get_pseudoIsomer()] ;
 
     // Get equilibrium constant.
-    const double Keq = calcEquilibriumConstant() ;
+    const double Keq = calcEquilibriumConstant(true) ;
 
     // Get Boltzmann distribution for detailed balance.
     const int MaximumGrain = getEnv().MaxGrn ;
     vector<double> adductPopFrac ; // Population fraction of the adduct
-    m_pdt1->getColl().normalizedGrnBoltzmannDistribution(adductPopFrac, MaximumGrain) ;
+    const int pNGG(m_pdt1->getColl().getNumberOfGroupedGrains());
+    m_pdt1->getColl().normalizedGrnBoltzmannDistribution(adductPopFrac, MaximumGrain, pNGG) ;
 
     qd_real DissRateCoeff(0.0) ;
 
-    const int pNGG(m_pdt1->getColl().getNumberOfGroupedGrains());
     const bool isCemetery(m_pdt1->getColl().isCemetery());
     const int pShiftedGrains(pNGG == 0 ? 0 : (isCemetery ? pNGG : pNGG - 1));
     const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
@@ -138,9 +138,9 @@ namespace mesmer
       int ii(pdtLoc + i - pShiftedGrains) ;
 
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[j] / pdtDOS[i]);                                // Loss of the adduct to the source
-      (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[j] * sqrt(adductPopFrac[i] * Keq) / pdtDOS[i]);// Reactive gain of the source
+      (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[j] * sqrt(adductPopFrac[ii] * Keq) / pdtDOS[i]);// Reactive gain of the source
       (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                                                      // Reactive gain (symmetrization)
-      DissRateCoeff       += qd_real(m_GrainFlux[j] * adductPopFrac[i] / pdtDOS[i]);
+      DissRateCoeff       += qd_real(m_GrainFlux[j] * adductPopFrac[ii] / pdtDOS[i]);
     }
     (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * DissRateCoeff * Keq);       // Loss of the source from detailed balance.
   }
@@ -156,7 +156,7 @@ namespace mesmer
     m_pdt1->getDOS().getGrainDensityOfStates(pdtDOS) ;
 
     // Get equilibrium constant.
-    const double Keq = calcEquilibriumConstant() ;
+    const double Keq = calcEquilibriumConstant(false) ;
 
     // Get Boltzmann distribution for detailed balance.
     const int MaximumGrain = getEnv().MaxGrn ;
@@ -233,7 +233,7 @@ namespace mesmer
   //
   // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
   //
-  double AssociationReaction::rctsRovibronicGrnCanPrtnFn() {
+  double AssociationReaction::rctsRovibronicGrnCanPrtnFn(bool regardCemetery) {
     vector<double> rctGrainDOS;
     vector<double> rctGrainEne;
     calcRctsGrainDensityOfStates(rctGrainDOS, rctGrainEne);
@@ -248,14 +248,14 @@ namespace mesmer
 
     return CanPrtnFn ;
   }
-  double AssociationReaction::pdtsRovibronicGrnCanPrtnFn() { return m_pdt1->getDOS().rovibronicGrnCanPrtnFn();}
+  double AssociationReaction::pdtsRovibronicGrnCanPrtnFn(bool regardCemetery) { return m_pdt1->getDOS().rovibronicGrnCanPrtnFn(regardCemetery);}
 
 
   // Is reaction equilibrating and therefore contributes
   // to the calculation of equilibrium fractions.
   bool AssociationReaction::isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) {
 
-    Keq = calcEquilibriumConstant() ;
+    Keq = calcEquilibriumConstant(true) ;
 
     *rct = m_rct1 ;
     *pdt = m_pdt1 ;
@@ -267,20 +267,20 @@ namespace mesmer
   // Calculate reaction equilibrium constant for the general reaction
   //        A + B  <===> C
   //
-  double AssociationReaction::calcEquilibriumConstant() {
+  double AssociationReaction::calcEquilibriumConstant(bool regardCemetery) {
 
     // equilibrium constant:
     double Keq(0.0) ;
     const double beta = getEnv().beta ;
 
     // partition function for each reactant
-    double Qrcts = rctsRovibronicGrnCanPrtnFn();
+    double Qrcts = rctsRovibronicGrnCanPrtnFn(false);
 
     // rovibronic partition function for reactants multiplied by translation contribution
     Qrcts *= translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
 
     // rovibronic partition function for product
-    const double Qpdt1 = m_pdt1->getDOS().rovibronicGrnCanPrtnFn() ;
+    const double Qpdt1 = m_pdt1->getDOS().rovibronicGrnCanPrtnFn(regardCemetery) ;
 
     Keq = Qpdt1 / Qrcts;
 
@@ -386,7 +386,7 @@ namespace mesmer
     set_rvsGrnCanonicalRate(k_b_grained);
     set_rvsCellCanonicalRate(k_b_cell);
 
-    double Keq = calcEquilibriumConstant();
+    double Keq = calcEquilibriumConstant(false);
     k_f_grained = get_rvsGrnCanonicalRate() * Keq;
     k_f_cell = get_rvsCellCanonicalRate() * Keq;
 

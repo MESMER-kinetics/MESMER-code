@@ -1,3 +1,29 @@
+_2009_09_17__16_50_43_ Chi-Hsiu Liang
+
+  * An example is checked in at example folder. 
+  * a2d.h: index changed from int to size_t
+  * Changes for cemetery states: some arguments of the following functions are modified.
+      calcEquilibriumConstant()
+      normalizedGrnBoltzmannDistribution()
+      rctsRovibronicGrnCanPrtnFn()
+      pdtsRovibronicGrnCanPrtnFn()
+    where 
+      rovibronicGrnCanPrtnFn() is modified to take account of cemetery state while necessary.
+  * m_GrainKdmc is added to well properties to take account of the deactivation rate to the
+    cemetery state.
+  * On the treatment of cemetery state method, the active states are seen as a well and thus
+    the normalization of the well is taken against only on the active states. The downward
+    collision terms to the cemetery state are normalized using the same normalization constants
+    of the active states. These terms to the cemetery state are then summed up deactivation
+    rates and stored in m_GrainKdmc.
+  * Relavent modifications to Bartis-Widom phenological rates and time evolution function are
+    also done for cemetery state method.
+  * Need to check for bugs before the diagonalization process that makes some rows in eigenvectors 
+    not summed to one.
+  * TMatrix.h:
+      normalizeProbabilityMatrix() is modified with an additional argument, allows it to normalize
+      the matrix over a certain portion of the matrix.
+
 _2009_09_17__14_10_10_ Chi-Hsiu Liang
 
   * Species profile change in cyclopropene isomerization reservoir state due to modification on Version 438.

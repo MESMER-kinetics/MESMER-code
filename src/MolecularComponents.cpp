@@ -621,19 +621,29 @@ namespace mesmer
   //
   // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
   //
-  double gDensityOfStates::rovibronicGrnCanPrtnFn() {
+  double gDensityOfStates::rovibronicGrnCanPrtnFn(bool regardCemetery = false) {
     // If density of states have not already been calculated then do so.
     if (!calcDensityOfStates())
       cerr << "Failed calculating DOS";
 
+    double CanPrtnFn = 0.0;
     // Calculate the rovibronic partition function based on the grain DOS
     // The following catches the case where the molecule is a single atom
-    double CanPrtnFn = max(canonicalPartitionFunction(m_grainDOS, m_grainEne, m_host->getEnv().beta), 1.0) ;
-    if (CanPrtnFn == 1.0){
-      // Electronic partition function for atom is accounted here.
-      CanPrtnFn = double(getSpinMultiplicity()) ;
+    if (regardCemetery && m_host->getColl().isCemetery()){ // In this case we should send only part of the dos an ene to get active state partition functions.
+      vector<double> tempGrainDOS, tempGrainEne;
+      for (size_t i(m_host->getColl().getNumberOfGroupedGrains()); i < m_grainEne.size(); ++i){
+        tempGrainDOS.push_back(m_grainDOS[i]);
+        tempGrainEne.push_back(m_grainEne[i]);
+      }
+      CanPrtnFn = canonicalPartitionFunction(tempGrainDOS, tempGrainEne, m_host->getEnv().beta) ;
     }
-
+    else{
+      CanPrtnFn = max(canonicalPartitionFunction(m_grainDOS, m_grainEne, m_host->getEnv().beta), 1.0) ;
+      if (CanPrtnFn == 1.0){
+        // Electronic partition function for atom is accounted here.
+        CanPrtnFn = double(getSpinMultiplicity()) ;
+      }
+    }
     return CanPrtnFn ;
   }
 
@@ -736,6 +746,7 @@ namespace mesmer
     m_lowestBarrier(9e23),
     m_numGroupedGrains(0),
     m_isCemetery(false),
+    m_GrainKdmc(NULL),
     m_pDistributionCalculator(NULL),
     m_DeltaEdown_chk(-1),
     m_grainFracBeta(0.),
@@ -940,7 +951,7 @@ namespace mesmer
         else{
           cemeteryTemperature = 0.0;
         }
-        if (cemeteryTemperature != 0.0) 
+        if (cemeteryTemperature != 0.0)
           ctest << "Reservoir state of " << m_host->getName()
                 << " turns into a cemetery state under " << cemeteryTemperature << " K." << endl;
         break;
@@ -1083,42 +1094,41 @@ namespace mesmer
       tempEGME->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
     }
 
-    //Normalisation
-    tempEGME->normalizeProbabilityMatrix();
-
-    if (m_host->getFlags().showCollisionOperator >= 1){
-      ctest << "\nCollision operator of " << m_host->getName() << " after normalization:\n";
-      tempEGME->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
-    }
-
-    // print out of column sums to check normalization results
-    if (m_host->getFlags().reactionOCSEnabled){
-      ctest << endl << "Collision operator column Sums" << endl << "{" << endl ;
-      for (int i(0) ; i < m_ncolloptrsize; ++i ) {
-        double columnSum(0.0) ;
-        for (int j(0) ; j < m_ncolloptrsize; ++j ){
-          columnSum += to_double((*tempEGME)[j][i]) ;
-        }
-        ctest << columnSum << endl ;
-      }
-      ctest << "}" << endl;
-    }
-
-
     //-------------------- The part doing the same jobs as making a whole collision operator ------------
     //---------------------------------------------------------------------------------------------------
 
-
-    //--------------------------------
-    // COPY, SUMMATION AND SUBSTITUTE
-    // Need to copy things over, the active states first.
-    for (int i(m_numGroupedGrains) ; i < m_ncolloptrsize ; ++i ) {
-      for (int j(m_numGroupedGrains); j < m_ncolloptrsize ; ++j ) {
-        (*m_egme)[i - m_numGroupedGrains + nrg][j - m_numGroupedGrains + nrg] = (*tempEGME)[i][j];
-      }
-    }
-
     if (nrg){
+
+      //Normalisation
+      tempEGME->normalizeProbabilityMatrix(0);
+
+      if (m_host->getFlags().showCollisionOperator >= 1){
+        ctest << "\nCollision operator of " << m_host->getName() << " after normalization:\n";
+        tempEGME->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+      }
+
+      // print out of column sums to check normalization results
+      if (m_host->getFlags().reactionOCSEnabled){
+        ctest << endl << "Collision operator column Sums" << endl << "{" << endl ;
+        for (int i(0) ; i < m_ncolloptrsize; ++i ) {
+          double columnSum(0.0) ;
+          for (int j(0) ; j < m_ncolloptrsize; ++j ){
+            columnSum += to_double((*tempEGME)[j][i]) ;
+          }
+          ctest << columnSum << endl ;
+        }
+        ctest << "}" << endl;
+      }
+
+      //--------------------------------
+      // COPY, SUMMATION AND SUBSTITUTE
+      // Need to copy things over, the active states first.
+      for (int i(m_numGroupedGrains) ; i < m_ncolloptrsize ; ++i ) {
+        for (int j(m_numGroupedGrains); j < m_ncolloptrsize ; ++j ) {
+          (*m_egme)[i - m_numGroupedGrains + nrg][j - m_numGroupedGrains + nrg] = (*tempEGME)[i][j];
+        }
+      }
+
       // Sum up the downward transition terms for the reservoir grain
       double sumOfDeactivation(0.0), ptfReservoir(0.0);
       for (int j(0); j < m_ncolloptrsize ; ++j ) {
@@ -1166,6 +1176,47 @@ namespace mesmer
 
     }
     else{
+      //--------------------------------
+      // COPY, SUMMATION AND SUBSTITUTE
+      //Normalisation (Normalize the lower-right part of the matrix)
+      tempEGME->normalizeProbabilityMatrix(m_numGroupedGrains);
+
+      // Need to copy things over, the active states first.
+      // Deduct the population to the sink.
+      // populate m_GrainKdmc vector for species profile etc.
+      if (m_GrainKdmc.size()) m_GrainKdmc.clear();
+      for (int i(m_numGroupedGrains) ; i < m_ncolloptrsize ; ++i ) {
+        double downwardSum(0.0);
+        for (int j(0); j < m_ncolloptrsize ; ++j ) {
+          if (j < m_numGroupedGrains){
+            downwardSum += (*tempEGME)[j][i];
+          }
+          else{
+            (*m_egme)[i - m_numGroupedGrains + nrg][j - m_numGroupedGrains + nrg] = (*tempEGME)[i][j];
+          }
+        }
+        m_GrainKdmc.push_back(downwardSum);
+        (*m_egme)[i - m_numGroupedGrains + nrg][i - m_numGroupedGrains + nrg] -= downwardSum; // loss of the active state to the cemetery state
+      }
+
+      if (m_host->getFlags().showCollisionOperator >= 1){
+        ctest << "\nCollision operator of " << m_host->getName() << " after normalization:\n";
+        m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+      }
+
+      // print out of column sums to check normalization results
+      if (m_host->getFlags().reactionOCSEnabled){
+        ctest << endl << "Collision operator column Sums" << endl << "{" << endl ;
+        for (int i(0) ; i < m_ncolloptrsize; ++i ) {
+          double columnSum(0.0) ;
+          for (int j(0) ; j < m_ncolloptrsize; ++j ){
+            columnSum += to_double((*m_egme)[j][i]) ;
+          }
+          ctest << columnSum << endl ;
+        }
+        ctest << "}" << endl;
+      }
+
       // Symmetrization of the collision matrix.
       vector<double> popDist; // grained population distribution
       for (int idx(m_numGroupedGrains); idx < m_ncolloptrsize; ++idx){
@@ -1178,7 +1229,6 @@ namespace mesmer
         }
       }
     }
-
 
     //account for collisional loss by subrtacting unity from the leading diagonal.
     for (int i(nrg) ; i < reducedCollOptrSize + nrg; ++i ) {
@@ -1290,7 +1340,7 @@ namespace mesmer
     }
 
     //Normalisation
-    m_egme->normalizeProbabilityMatrix();
+    m_egme->normalizeProbabilityMatrix(0);
 
     if (m_host->getFlags().showCollisionOperator >= 1){
       ctest << "\nCollision operator of " << m_host->getName() << " after normalization:\n";
@@ -1551,19 +1601,29 @@ namespace mesmer
     m_host->getDOS().getGrainEnergies(gEne);
     m_host->getDOS().getGrainDensityOfStates(gDOS);
 
-    // Calculate unnormalized Boltzmann dist.
-    // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
-    const double firstPartition = exp(log(gDOS[0]) - m_host->getEnv().beta * gEne[0] + 10.0);
-    tempGrnFrac.push_back(firstPartition);
-    double prtfn(firstPartition);
-    for (int i = 1; i < totalGrnNumber; ++i) {
-      const double thisPartition = exp(log(gDOS[i]) - m_host->getEnv().beta * gEne[i] + 10.0);
-      prtfn += thisPartition;
-      if (i < numberOfGroupedGrains){
-        tempGrnFrac[0] += thisPartition;
-      }
-      else{
+    double prtfn(0.0);
+    if (m_host->getColl().isCemetery()){
+      for (int i = numberOfGroupedGrains; i < totalGrnNumber; ++i) {
+        const double thisPartition = exp(log(gDOS[i]) - m_host->getEnv().beta * gEne[i] + 10.0);
+        prtfn += thisPartition;
         tempGrnFrac.push_back(thisPartition);
+      }
+    }
+    else{
+      // Calculate unnormalized Boltzmann dist.
+      // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
+      const double firstPartition = exp(log(gDOS[0]) - m_host->getEnv().beta * gEne[0] + 10.0);
+      tempGrnFrac.push_back(firstPartition);
+      prtfn = firstPartition;
+      for (int i = 1; i < totalGrnNumber; ++i) {
+        const double thisPartition = exp(log(gDOS[i]) - m_host->getEnv().beta * gEne[i] + 10.0);
+        prtfn += thisPartition;
+        if (i < numberOfGroupedGrains){
+          tempGrnFrac[0] += thisPartition;
+        }
+        else{
+          tempGrnFrac.push_back(thisPartition);
+        }
       }
     }
 

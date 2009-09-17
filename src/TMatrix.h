@@ -46,14 +46,14 @@ namespace mesmer
       for (size_t i = 0; i < size; ++i){
         rr[i] = rrProxy[i];
       }
-      
+
       bool diagnostic(false) ;
       if (diagnostic) {
         ctest << endl ;
         ctest << "Largest eigenvalue:  " << rr[0] << endl ;
         ctest << "Smallest eigenvalue: " << rr[size-2] << endl ;
         ctest << "Ratio:               " << rr[0]/rr[size-2] << endl << endl ;
-      }        
+      }
 
       delete [] work ;
       delete [] rrProxy ;
@@ -89,7 +89,7 @@ namespace mesmer
     // Matrix inversion method by adjoint cofactors
     int invertAdjointCofactors();
 
-    void normalizeProbabilityMatrix();
+    void normalizeProbabilityMatrix(const int ngg);
 
     //
     // EISPACK methods for diagonalizing matrix.
@@ -319,7 +319,7 @@ namespace mesmer
 
 
   //-------------------------------------------------------------------------------------------
-  // Function tqlev - eigenvalue only method based on tqli. 
+  // Function tqlev - eigenvalue only method based on tqli.
   //
   // QL algorithm with implicit shifts, to determine the eigenvalues and eigenvectors of a real,
   // symmetric, tridiagonal matrix, or of a real, symmetric matrix previously reduced by tred2.
@@ -338,7 +338,7 @@ namespace mesmer
   {
     size_t m,l,iter,i,k;
     T s,r,p,g,f,dd,c,b;
-    
+
     if (n==0) return ;
 
     for (i=2;i<=n;++i) e[i-2]=e[i-1];
@@ -803,7 +803,7 @@ label_1: return(p);
   // Normalize collision operator
   //
   template<class T>
-  void TMatrix<T>::normalizeProbabilityMatrix(){
+  void TMatrix<T>::normalizeProbabilityMatrix(const int ngg){
 
     //
     // Normalization of Probability matrix.
@@ -817,34 +817,68 @@ label_1: return(p);
     int optrsize(int(this->size()));
     vector<T> work(optrsize) ;// Work space.
 
-    T scaledRemain(0.0) ;
-    for ( i = optrsize - 1 ; i >= 0 ; --i ) {
+    if (!ngg){
+      T scaledRemain(0.0) ;
+      for ( i = optrsize - 1 ; i >= 0 ; --i ) {
 
-      T upperSum(0.0) ;
-      for ( j = 0 ; j <= i ; ++j )
-        upperSum += (*this)[j][i] ;
+        T upperSum(0.0) ;
+        for ( j = 0 ; j <= i ; ++j )
+          upperSum += (*this)[j][i] ;
 
-      if (upperSum > 0.0){
-        if (i < optrsize - 1){
-          scaledRemain = 0.0;
-          for ( j = i + 1 ; j < optrsize ; ++j ){
-            T scale = work[j];
-            scaledRemain += (*this)[j][i] * scale ;
+        if (upperSum > 0.0){
+          if (i < optrsize - 1){
+            scaledRemain = 0.0;
+            for ( j = i + 1 ; j < optrsize ; ++j ){
+              T scale = work[j];
+              scaledRemain += (*this)[j][i] * scale ;
+            }
           }
+          work[i] = (1.0 - scaledRemain) / upperSum ;
         }
-        work[i] = (1.0 - scaledRemain) / upperSum ;
+      }
+
+      //
+      // Apply normalization coefficients
+      //
+      for ( i = 0 ; i < optrsize ; ++i ) {
+        (*this)[i][i] *= work[i] ;
+        //T value = (*this)[i][i];
+        for ( j = i + 1 ; j < optrsize ; ++j ) {
+          (*this)[j][i] *= work[j] ;
+          (*this)[i][j] *= work[j] ;
+        }
       }
     }
+    else{
+      T scaledRemain(0.0) ;
+      for ( i = optrsize - 1 ; i >= ngg ; --i ) {
 
-    //
-    // Apply normalization coefficients
-    //
-    for ( i = 0 ; i < optrsize ; ++i ) {
-      (*this)[i][i] *= work[i] ;
-      //T value = (*this)[i][i];
-      for ( j = i + 1 ; j < optrsize ; ++j ) {
-        (*this)[j][i] *= work[j] ;
-        (*this)[i][j] *= work[j] ;
+        T upperSum(0.0) ;
+        for ( j = ngg ; j <= i ; ++j )
+          upperSum += (*this)[j][i] ;
+
+        if (upperSum > 0.0){
+          if (i < optrsize - 1){
+            scaledRemain = 0.0;
+            for ( j = i + 1 ; j < optrsize ; ++j ){
+              T scale = work[j];
+              scaledRemain += (*this)[j][i] * scale ;
+            }
+          }
+          work[i] = (1.0 - scaledRemain) / upperSum ;
+        }
+      }
+
+      //
+      // Apply normalization coefficients
+      //
+      for ( i = ngg ; i < optrsize ; ++i ) {
+        (*this)[i][i] *= work[i] ;
+        //T value = (*this)[i][i];
+        for ( j = i + 1 ; j < optrsize ; ++j ) {
+          (*this)[j][i] *= work[j] ;
+          (*this)[i][j] *= work[j] ;
+        }
       }
     }
 

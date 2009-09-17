@@ -97,7 +97,7 @@ namespace mesmer
     if (g_dos){
       g_dos->get_VibFreq(vibFreq);
     }
-    unsigned int numFreq = vibFreq.size();
+    size_t numFreq = vibFreq.size();
     if (m_atomNumber > 1 && numFreq == 0){
       cinfo << "No vibrational frequencies were assigned for " << getName() << ", assuming it to be a sink term.\n";
       return true;

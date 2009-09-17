@@ -174,15 +174,8 @@ namespace mesmer
       if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();
 
        m_CalcMethod = CalcMethod::GetCalcMethod(ppControl);
-     
-      /*
-      if      (ppControl->XmlReadBoolean("me:gridSearch"))          m_Flags.searchMethod = GRIDSEARCH;
-      else if (ppControl->XmlReadBoolean("me:fitting"))             m_Flags.searchMethod = FITTING;
-      else if (ppControl->XmlReadBoolean("me:gridSearchWithPunch")) m_Flags.searchMethod = GRIDSEARCHWITHPUNCH;
-      else m_Flags.searchMethod = SINGLECALCULATION;
-      */
 
-      if (m_Flags.grainedProfileEnabled && (m_Flags.speciesProfileEnabled /*|| m_Flags.searchMethod*/)){
+      if (m_Flags.grainedProfileEnabled && (m_Flags.speciesProfileEnabled)){
         cinfo << "Turn off grained species profile to prevent disk flooding." << endl;
         m_Flags.grainedProfileEnabled = false;
       }
@@ -409,11 +402,9 @@ namespace mesmer
       dMatrix mesmerRates(1);
       m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates, m_Flags, ppList);
 
-      //if (m_Flags.searchMethod){
         vector<conditionSet> expRates;
         PandTs[calPoint].get_experimentalRates(expRates);
         chiSquare += m_pReactionManager->calcChiSquare(mesmerRates, expRates);
-      //}
 
       ctest << "}\n";
     }

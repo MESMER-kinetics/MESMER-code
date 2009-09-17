@@ -76,7 +76,7 @@ namespace mesmer
     virtual double get_relative_TSZPE(void) const {return m_TransitionState->getDOS().get_zpe() - getEnv().EMin;};
     
     // Calculate reaction equilibrium constant.
-    virtual double calcEquilibriumConstant() ;
+    virtual double calcEquilibriumConstant(bool regardCemetery) ;
 
     // returns the reaction type
     virtual int getReactionType(){return IRREVERSIBLE_EXCHANGE;};
@@ -93,8 +93,8 @@ namespace mesmer
     bool calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
     void getRctsCellDensityOfStates(vector<double> &cellDOS);
     void getPdtsCellDensityOfStates(vector<double> &cellDOS);
-    virtual double pdtsRovibronicGrnCanPrtnFn();
-    virtual double rctsRovibronicGrnCanPrtnFn();
+    virtual double pdtsRovibronicGrnCanPrtnFn(bool regardCemetery);
+    virtual double rctsRovibronicGrnCanPrtnFn(bool regardCemetery);
 
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;

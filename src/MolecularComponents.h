@@ -167,7 +167,7 @@ namespace mesmer
     void getGrainEnergies(std::vector<double> &grainEne) ;
 
     // Get Grain canonical partition function.
-    double rovibronicGrnCanPrtnFn() ;
+    double rovibronicGrnCanPrtnFn(bool regardCemetery) ;
 
   private:
 
@@ -294,6 +294,7 @@ namespace mesmer
     double              m_lowestBarrier;       // lowest barrier associatied with this species
     int                 m_numGroupedGrains;    // Number of grains grouped into a reservoir grain.
     bool                m_isCemetery;          // Whether this is a cemetery state.
+    std::vector<double> m_GrainKdmc;           // downward grained microcanonical rate coefficients to cemetery state.
     DistributionCalculator* m_pDistributionCalculator;
 
     //================================================
@@ -335,7 +336,7 @@ namespace mesmer
     void   setDeltaEdownExponent(const double value){m_DeltaEdownExponent = value;};
     double getDeltaEdownRefTemp (){return m_DeltaEdownRefTemp; }
     double getDeltaEdownExponent(){return m_DeltaEdownExponent;}
-
+    
   public:
 
     //
@@ -375,6 +376,7 @@ namespace mesmer
 
     const int getNumberOfGroupedGrains() {return m_numGroupedGrains; }
     const bool isCemetery(){return m_isCemetery;}
+    const std::vector<double>& get_GrainKdmc(void){return m_GrainKdmc;}
   };
 
 

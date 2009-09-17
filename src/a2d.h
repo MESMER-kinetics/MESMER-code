@@ -20,7 +20,7 @@
 using namespace mesmer;
 using namespace std;
 
-template <class V, class K=int>
+template <class V, class K=size_t>
 class a2d_t{
 public:
   typedef std::map< K, V > leaf_t; //the leaf (container) of the whole structure
@@ -61,8 +61,8 @@ public:
 
   void print(const K rows, const K columns){
     ctest << "{" << endl;
-    for(int i(0); i<rows; ++i){
-      for(int j(0); j<columns; ++j){
+    for(size_t i(0); i<rows; ++i){
+      for(size_t j(0); j<columns; ++j){
         ctest << setw(20) << (*this)[i][j];
       }
       ctest << endl;
@@ -70,7 +70,7 @@ public:
     ctest << "}" << endl;
   }
 
-  a2d_t(const int x_size, const int y_size):root(new proxy2_t()){
+  a2d_t(const size_t x_size, const size_t y_size):root(new proxy2_t()){
     /* here x_size, y_size are dummy */
   }
   a2d_t():root(new proxy2_t()){}

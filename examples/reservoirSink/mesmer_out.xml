@@ -1,0 +1,2223 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+    <title>Acetyl O2 association</title>
+    <moleculeList>
+        <molecule id="acetyl" description="CH_3CO">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="H" />
+                <atom id="a5" elementType="C" />
+                <atom id="a6" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a4" order="1" />
+                <bond atomRefs2="a1 a5" order="1" />
+                <bond atomRefs2="a5 a6" order="2" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">139.5</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">1.573140 0.3155 0.3330</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">110.8594 469.8360 852.9605 955.5673 1049.6839 1359.1474 1454.3118 1459.6421 1930.1084 3014.0596 3104.5876 3110.7727</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">43</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:deltaEDown" default="NEEDS TO BE CHECKED**">
+                    <scalar>130.0</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+            <me:DistributionCalcMethod default="true">Boltzmann</me:DistributionCalcMethod>
+        </molecule>
+        <molecule id="TSabs">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="H" />
+                <atom id="a5" elementType="C" />
+                <atom id="a6" elementType="O" />
+                <atom id="a7" elementType="O" />
+                <atom id="a8" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a4" order="1" />
+                <bond atomRefs2="a1 a5" order="1" />
+                <bond atomRefs2="a5 a6" order="2" />
+                <bond atomRefs2="a7 a8" order="2" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">335.06</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">0.614 0.057 0.056</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">74 103 211 316 406 531 912 965 1014 1110 1325 1379 1409 2151 2278 2797</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">75</scalar>
+                </property>
+                <property dictRef="me:imFreqs">
+                    <array units="cm-1">533.0</array>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+        </molecule>
+        <molecule id="O_2" description="oxygen">
+            <atomarray>
+                <atom id="a1" elementType="O" />
+                <atom id="a2" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="2" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">0.0</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">1.44914</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">1665.4292</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">32</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>3</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+        </molecule>
+        <molecule id="OH" description="OH radical">
+            <atomarray>
+                <atom id="a1" elementType="O" />
+                <atom id="a2" elementType="H" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">0.0</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">19.2438</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">3722.0</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">17</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:eletronicExcitation">
+                    <array units="cm-1">139.7</array>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+        </molecule>
+        <molecule id="Int1" description="peroxy acetyl O_2 adduct">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="H" />
+                <atom id="a5" elementType="C" />
+                <atom id="a6" elementType="O" />
+                <atom id="a7" elementType="O" />
+                <atom id="a8" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a4" order="1" />
+                <bond atomRefs2="a1 a5" order="1" />
+                <bond atomRefs2="a5 a6" order="2" />
+                <bond atomRefs2="a5 a7" order="1" />
+                <bond atomRefs2="a7 a8" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">0.0</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">0.1081 0.161 0.3105</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">138.9727 166.6422 324.9740 506.7799 542.6734 550.0846 733.6783 982.3224 1047.8019 1130.4775 1195.2988 1402.4804 1463.1799 1467.7251 1893.8762 3059.8972 3120.2416 3160.5853</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">75</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:epsilon">
+                    <scalar>473.17</scalar>
+                </property>
+                <property dictRef="me:sigma">
+                    <scalar>5.09</scalar>
+                </property>
+                <property dictRef="me:deltaEDown">
+                    <scalar units="cm-1">130.0</scalar>
+                </property>
+            </propertyList>
+            <me:reservoirSize units="kJ/mol" turnCemeteryWhenUnder="500">-2.0</me:reservoirSize>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+            <me:DistributionCalcMethod default="true">Boltzmann</me:DistributionCalcMethod>
+            <me:densityOfStatesList calculated="20090917_181739">
+                <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
+                <me:densityOfStates>
+                    <me:T>200</me:T>
+                    <me:qtot>218488</me:qtot>
+                    <me:sumc>219630</me:sumc>
+                    <me:sumg>215076</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>300</me:T>
+                    <me:qtot>964284</me:qtot>
+                    <me:sumc>970883</me:sumc>
+                    <me:sumg>961734</me:sumg>
+                </me:densityOfStates>
+            </me:densityOfStatesList>
+        </molecule>
+        <molecule id="TS1" description="TS1a: peroxy -&gt; peroxide">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="H" />
+                <atom id="a5" elementType="C" />
+                <atom id="a6" elementType="O" />
+                <atom id="a7" elementType="O" />
+                <atom id="a8" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a5" order="1" />
+                <bond atomRefs2="a5 a6" order="2" />
+                <bond atomRefs2="a5 a7" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">118.0</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">0.1132 0.1635 0.3428</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">154.0756 307.2675 490.3402 544.8189 604.1097 684.6515 844.1110 947.0026 1034.5115 1037.5541 1106.2784 1148.9625 1420.1279 1723.3141 1864.7200 3109.0068 3192.0922</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">75</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:imFreqs">
+                    <scalar units="cm-1">1688.0</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+            <me:densityOfStatesList calculated="20090917_181755">
+                <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
+                <me:densityOfStates>
+                    <me:T>200</me:T>
+                    <me:qtot>134109</me:qtot>
+                    <me:sumc>134652</me:sumc>
+                    <me:sumg>131941</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>300</me:T>
+                    <me:qtot>474744</me:qtot>
+                    <me:sumc>477437</me:sumc>
+                    <me:sumg>472976</me:sumg>
+                </me:densityOfStates>
+            </me:densityOfStatesList>
+        </molecule>
+        <molecule id="TS2" description="peroxy -&gt; HO_2 + ketene">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="H" />
+                <atom id="a5" elementType="C" />
+                <atom id="a6" elementType="O" />
+                <atom id="a7" elementType="O" />
+                <atom id="a8" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a5" order="2" />
+                <bond atomRefs2="a5 a6" order="1" />
+                <bond atomRefs2="a7 a8" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">151.09</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">0.0902 0.1249 0.3048</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">58.9178 210.6371 351.1485 471.5286 493.1359 549.9057 656.6765 885.5224 1027.6419 1089.9743 1276.4269 1311.1723 1388.6216 1701.6942 2181.6392 3091.2077 3164.8605</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">75</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:imFreqs">
+                    <scalar units="cm-1">1063.0</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+            <me:densityOfStatesList calculated="20090917_181757">
+                <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
+                <me:densityOfStates>
+                    <me:T>200</me:T>
+                    <me:qtot>451426</me:qtot>
+                    <me:sumc>452583</me:sumc>
+                    <me:sumg>443314</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>300</me:T>
+                    <me:qtot>2.13518e+006</me:qtot>
+                    <me:sumc>2.14329e+006</me:sumc>
+                    <me:sumg>2.12313e+006</me:sumg>
+                </me:densityOfStates>
+            </me:densityOfStatesList>
+        </molecule>
+        <molecule id="ketene" description="CH_2CO">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="C" />
+                <atom id="a5" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a4" order="2" />
+                <bond atomRefs2="a4 a5" order="2" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">115.6</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">9.478 0.344 0.332</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">450 552 593 994 1176 1414 2246 3194 3290</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">42</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>1</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+        </molecule>
+        <molecule id="HO_2">
+            <atomarray>
+                <atom id="a1" elementType="H" />
+                <atom id="a2" elementType="O" />
+                <atom id="a3" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a2 a3" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">0.0</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">20.648 1.131 1.072</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">1184 1449 3580</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">42</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>1</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+        </molecule>
+        <molecule id="Int2" description="peroxide_isomer_opt">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="H" />
+                <atom id="a5" elementType="C" />
+                <atom id="a6" elementType="O" />
+                <atom id="a7" elementType="O" />
+                <atom id="a8" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a5" order="1" />
+                <bond atomRefs2="a5 a6" order="2" />
+                <bond atomRefs2="a5 a7" order="1" />
+                <bond atomRefs2="a7 a8" order="1" />
+                <bond atomRefs2="a8 a4" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">12.33</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">0.1089 0.1531 0.3768</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">206.2304 322.6668 336.7996 425.9810 499.7561 639.0242 683.9563 768.2432 873.4549 1008.2554 1029.8794 1248.4029 1451.2159 1502.3398 1710.3720 3169.9573 3289.8637 3474.3897</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">75</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:epsilon">
+                    <scalar>473.17</scalar>
+                </property>
+                <property dictRef="me:sigma">
+                    <scalar>5.09</scalar>
+                </property>
+                <property dictRef="me:deltaEDown">
+                    <scalar units="cm-1">130.0</scalar>
+                </property>
+            </propertyList>
+            <me:reservoirSize units="kJ/mol">-2.0</me:reservoirSize>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+            <me:DistributionCalcMethod default="true">Boltzmann</me:DistributionCalcMethod>
+            <me:densityOfStatesList calculated="20090917_181756">
+                <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
+                <me:densityOfStates>
+                    <me:T>200</me:T>
+                    <me:qtot>130039</me:qtot>
+                    <me:sumc>130358</me:sumc>
+                    <me:sumg>127776</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>300</me:T>
+                    <me:qtot>516238</me:qtot>
+                    <me:sumc>518462</me:sumc>
+                    <me:sumg>513624</me:sumg>
+                </me:densityOfStates>
+            </me:densityOfStatesList>
+        </molecule>
+        <molecule id="TS3" description="TS peroxide -&gt; lactone + OH">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="H" />
+                <atom id="a5" elementType="C" />
+                <atom id="a6" elementType="O" />
+                <atom id="a7" elementType="O" />
+                <atom id="a8" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a5" order="1" />
+                <bond atomRefs2="a5 a6" order="2" />
+                <bond atomRefs2="a5 a7" order="1" />
+                <bond atomRefs2="a8 a4" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">103.98</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">0.1001 0.1422 0.3155</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1">156.7840 187.6845 296.4705 320.1151 378.1544 616.3625 634.0759 819.5867 973.3226 1008.5148 1012.6292 1182.8647 1430.4450 1859.9531 3155.9226 3276.3336 3682.5520</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">75</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:imFreqs">
+                    <scalar units="cm-1">656.0</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+            <me:densityOfStatesList calculated="20090917_181756">
+                <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
+                <me:densityOfStates>
+                    <me:T>200</me:T>
+                    <me:qtot>246864</me:qtot>
+                    <me:sumc>248155</me:sumc>
+                    <me:sumg>242959</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>300</me:T>
+                    <me:qtot>1.24148e+006</me:qtot>
+                    <me:sumc>1.25053e+006</me:sumc>
+                    <me:sumg>1.23871e+006</me:sumg>
+                </me:densityOfStates>
+            </me:densityOfStatesList>
+        </molecule>
+        <molecule id="lactone">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="C" />
+                <atom id="a5" elementType="O" />
+                <atom id="a6" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a4" order="1" />
+                <bond atomRefs2="a1 a5" order="1" />
+                <bond atomRefs2="a4 a5" order="1" />
+                <bond atomRefs2="a4 a6" order="2" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">13.0</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1" />
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1" />
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">58</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>1</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+        </molecule>
+        <molecule id="triplet_C2H2O2">
+            <atomarray>
+                <atom id="a1" elementType="C" />
+                <atom id="a2" elementType="H" />
+                <atom id="a3" elementType="H" />
+                <atom id="a4" elementType="C" />
+                <atom id="a5" elementType="O" />
+                <atom id="a6" elementType="O" />
+            </atomarray>
+            <bondarray>
+                <bond atomRefs2="a1 a2" order="1" />
+                <bond atomRefs2="a1 a3" order="1" />
+                <bond atomRefs2="a1 a4" order="2" />
+                <bond atomRefs2="a4 a5" order="1" />
+                <bond atomRefs2="a4 a6" order="1" />
+            </bondarray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="kJ/mol">186.41</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1" />
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor">
+                    <scalar>0.9854</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <array units="cm-1" />
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">58</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>1</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+        </molecule>
+        <molecule id="He">
+            <atom elementType="He" />
+            <propertyList>
+                <property dictRef="me:epsilon">
+                    <scalar>10.2</scalar>
+                </property>
+                <property dictRef="me:sigma">
+                    <scalar>2.55</scalar>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar units="amu">4.0</scalar>
+                </property>
+            </propertyList>
+        </molecule>
+    </moleculeList>
+    <reactionList>
+        <reaction id="R1">
+            <reactant>
+                <molecule ref="acetyl" me:type="deficientReactant" />
+            </reactant>
+            <reactant>
+                <molecule ref="O_2" me:type="excessReactant" />
+            </reactant>
+            <product>
+                <molecule ref="Int1" me:type="modelled" />
+            </product>
+            <me:MCRCMethod>MesmerILT</me:MCRCMethod>
+            <me:preExponential>6.00e-12</me:preExponential>
+            <me:excessReactantConc>2.25E16</me:excessReactantConc>
+            <me:activationEnergy>0.0</me:activationEnergy>
+            <me:TInfinity>298.0</me:TInfinity>
+            <me:nInfinity>-0.5</me:nInfinity>
+        </reaction>
+        <reaction id="R2">
+            <reactant>
+                <molecule ref="Int1" me:type="modelled" />
+            </reactant>
+            <product>
+                <molecule ref="Int2" me:type="modelled" />
+            </product>
+            <me:transitionState>
+                <molecule ref="TS1" me:type="transitionState" />
+            </me:transitionState>
+            <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+        </reaction>
+        <reaction id="R3">
+            <reactant>
+                <molecule ref="Int2" me:type="modelled" />
+            </reactant>
+            <product>
+                <molecule ref="lactone" me:type="sink" />
+            </product>
+            <product>
+                <molecule ref="OH" me:type="sink" />
+            </product>
+            <me:transitionState>
+                <molecule ref="TS3" me:type="transitionState" />
+            </me:transitionState>
+            <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+        </reaction>
+        <reaction id="R4">
+            <reactant>
+                <molecule ref="Int1" me:type="modelled" />
+            </reactant>
+            <product>
+                <molecule ref="ketene" me:type="sink" />
+            </product>
+            <product>
+                <molecule ref="HO_2" me:type="sink" />
+            </product>
+            <me:transitionState>
+                <molecule ref="TS2" me:type="transitionState" />
+            </me:transitionState>
+            <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+        </reaction>
+    </reactionList>
+    <me:conditions>
+        <me:bathGas>He</me:bathGas>
+        <me:PTs>
+            <me:PTpair me:units="Torr" me:P="37.48" me:T="250.">
+                <me:precision default="true">double</me:precision>
+            </me:PTpair>
+        </me:PTs>
+    </me:conditions>
+    <me:modelParameters>
+        <!--Specify grain size directly...-->
+        <me:grainSize units="cm-1">100</me:grainSize>
+        <!--...or by the total number of grains
+        <me:numberOfGrains> 500 </me:numberOfGrains>-->
+        <!--Specify increased energy range
+        <me:maxTemperature>6000</me:maxTemperature>-->
+        <me:energyAboveTheTopHill>25.0</me:energyAboveTheTopHill>
+    </me:modelParameters>
+    <me:control>
+        <me:printSpeciesProfile />
+        <me:testRateConstants />
+        <me:printGrainkfE />
+        <me:eigenvalues>0</me:eigenvalues>
+        <me:calcMethod default="true">simpleCalc</me:calcMethod>
+    </me:control>
+    <metadataList>
+        <metadata name="dc:title" content="Acetyl O2 association" />
+        <metadata name="dc:creator" content="Mesmer v0.1" />
+        <metadata name="dc:description" content="Calculation of the interaction between collisional energy transfer and chemical reaction for dissociation, isomerization and association processes" />
+        <metadata name="dc:date" content="20090917_181727" />
+        <metadata name="dc:contributor" content="unknown" />
+    </metadataList>
+    <me:analysis calculated="20090917_181727">
+        <me:description>All calculations shown</me:description>
+        <me:eigenvalueList number="160" selection="0">
+            <me:eigenvalue>-6.95229e+010</me:eigenvalue>
+            <me:eigenvalue>-6.62127e+010</me:eigenvalue>
+            <me:eigenvalue>-6.29767e+010</me:eigenvalue>
+            <me:eigenvalue>-5.98492e+010</me:eigenvalue>
+            <me:eigenvalue>-5.68349e+010</me:eigenvalue>
+            <me:eigenvalue>-5.39324e+010</me:eigenvalue>
+            <me:eigenvalue>-5.11392e+010</me:eigenvalue>
+            <me:eigenvalue>-4.84532e+010</me:eigenvalue>
+            <me:eigenvalue>-4.58719e+010</me:eigenvalue>
+            <me:eigenvalue>-4.33929e+010</me:eigenvalue>
+            <me:eigenvalue>-4.10138e+010</me:eigenvalue>
+            <me:eigenvalue>-3.87323e+010</me:eigenvalue>
+            <me:eigenvalue>-3.65459e+010</me:eigenvalue>
+            <me:eigenvalue>-3.60321e+010</me:eigenvalue>
+            <me:eigenvalue>-3.44523e+010</me:eigenvalue>
+            <me:eigenvalue>-3.38798e+010</me:eigenvalue>
+            <me:eigenvalue>-3.24491e+010</me:eigenvalue>
+            <me:eigenvalue>-3.17826e+010</me:eigenvalue>
+            <me:eigenvalue>-3.05339e+010</me:eigenvalue>
+            <me:eigenvalue>-2.97702e+010</me:eigenvalue>
+            <me:eigenvalue>-2.87044e+010</me:eigenvalue>
+            <me:eigenvalue>-2.78476e+010</me:eigenvalue>
+            <me:eigenvalue>-2.69582e+010</me:eigenvalue>
+            <me:eigenvalue>-2.60138e+010</me:eigenvalue>
+            <me:eigenvalue>-2.5293e+010</me:eigenvalue>
+            <me:eigenvalue>-2.42668e+010</me:eigenvalue>
+            <me:eigenvalue>-2.37065e+010</me:eigenvalue>
+            <me:eigenvalue>-2.26044e+010</me:eigenvalue>
+            <me:eigenvalue>-2.21962e+010</me:eigenvalue>
+            <me:eigenvalue>-2.10245e+010</me:eigenvalue>
+            <me:eigenvalue>-2.076e+010</me:eigenvalue>
+            <me:eigenvalue>-1.9525e+010</me:eigenvalue>
+            <me:eigenvalue>-1.93956e+010</me:eigenvalue>
+            <me:eigenvalue>-1.81037e+010</me:eigenvalue>
+            <me:eigenvalue>-1.81006e+010</me:eigenvalue>
+            <me:eigenvalue>-1.68729e+010</me:eigenvalue>
+            <me:eigenvalue>-1.67583e+010</me:eigenvalue>
+            <me:eigenvalue>-1.57101e+010</me:eigenvalue>
+            <me:eigenvalue>-1.54865e+010</me:eigenvalue>
+            <me:eigenvalue>-1.46102e+010</me:eigenvalue>
+            <me:eigenvalue>-1.42862e+010</me:eigenvalue>
+            <me:eigenvalue>-1.35708e+010</me:eigenvalue>
+            <me:eigenvalue>-1.31553e+010</me:eigenvalue>
+            <me:eigenvalue>-1.25898e+010</me:eigenvalue>
+            <me:eigenvalue>-1.20916e+010</me:eigenvalue>
+            <me:eigenvalue>-1.16651e+010</me:eigenvalue>
+            <me:eigenvalue>-1.10927e+010</me:eigenvalue>
+            <me:eigenvalue>-1.07946e+010</me:eigenvalue>
+            <me:eigenvalue>-1.01564e+010</me:eigenvalue>
+            <me:eigenvalue>-9.97611e+009</me:eigenvalue>
+            <me:eigenvalue>-9.28057e+009</me:eigenvalue>
+            <me:eigenvalue>-9.20764e+009</me:eigenvalue>
+            <me:eigenvalue>-8.48714e+009</me:eigenvalue>
+            <me:eigenvalue>-8.46316e+009</me:eigenvalue>
+            <me:eigenvalue>-7.81261e+009</me:eigenvalue>
+            <me:eigenvalue>-7.7017e+009</me:eigenvalue>
+            <me:eigenvalue>-7.18206e+009</me:eigenvalue>
+            <me:eigenvalue>-6.99366e+009</me:eigenvalue>
+            <me:eigenvalue>-6.59357e+009</me:eigenvalue>
+            <me:eigenvalue>-6.33673e+009</me:eigenvalue>
+            <me:eigenvalue>-6.04524e+009</me:eigenvalue>
+            <me:eigenvalue>-5.72876e+009</me:eigenvalue>
+            <me:eigenvalue>-5.53519e+009</me:eigenvalue>
+            <me:eigenvalue>-5.16744e+009</me:eigenvalue>
+            <me:eigenvalue>-5.06159e+009</me:eigenvalue>
+            <me:eigenvalue>-4.65037e+009</me:eigenvalue>
+            <me:eigenvalue>-4.62267e+009</me:eigenvalue>
+            <me:eigenvalue>-4.21667e+009</me:eigenvalue>
+            <me:eigenvalue>-4.17525e+009</me:eigenvalue>
+            <me:eigenvalue>-3.84187e+009</me:eigenvalue>
+            <me:eigenvalue>-3.74017e+009</me:eigenvalue>
+            <me:eigenvalue>-3.49661e+009</me:eigenvalue>
+            <me:eigenvalue>-3.34333e+009</me:eigenvalue>
+            <me:eigenvalue>-3.17927e+009</me:eigenvalue>
+            <me:eigenvalue>-2.98272e+009</me:eigenvalue>
+            <me:eigenvalue>-2.88827e+009</me:eigenvalue>
+            <me:eigenvalue>-2.65615e+009</me:eigenvalue>
+            <me:eigenvalue>-2.62208e+009</me:eigenvalue>
+            <me:eigenvalue>-2.37922e+009</me:eigenvalue>
+            <me:eigenvalue>-2.36162e+009</me:eigenvalue>
+            <me:eigenvalue>-2.15824e+009</me:eigenvalue>
+            <me:eigenvalue>-2.09745e+009</me:eigenvalue>
+            <me:eigenvalue>-1.95778e+009</me:eigenvalue>
+            <me:eigenvalue>-1.86181e+009</me:eigenvalue>
+            <me:eigenvalue>-1.7765e+009</me:eigenvalue>
+            <me:eigenvalue>-1.65258e+009</me:eigenvalue>
+            <me:eigenvalue>-1.61311e+009</me:eigenvalue>
+            <me:eigenvalue>-1.46767e+009</me:eigenvalue>
+            <me:eigenvalue>-1.46639e+009</me:eigenvalue>
+            <me:eigenvalue>-1.33517e+009</me:eigenvalue>
+            <me:eigenvalue>-1.30531e+009</me:eigenvalue>
+            <me:eigenvalue>-1.21834e+009</me:eigenvalue>
+            <me:eigenvalue>-1.16388e+009</me:eigenvalue>
+            <me:eigenvalue>-1.11483e+009</me:eigenvalue>
+            <me:eigenvalue>-1.04162e+009</me:eigenvalue>
+            <me:eigenvalue>-1.02365e+009</me:eigenvalue>
+            <me:eigenvalue>-9.4388e+008</me:eigenvalue>
+            <me:eigenvalue>-9.36807e+008</me:eigenvalue>
+            <me:eigenvalue>-9.32549e+008</me:eigenvalue>
+            <me:eigenvalue>-8.74637e+008</me:eigenvalue>
+            <me:eigenvalue>-8.48208e+008</me:eigenvalue>
+            <me:eigenvalue>-8.15123e+008</me:eigenvalue>
+            <me:eigenvalue>-7.74678e+008</me:eigenvalue>
+            <me:eigenvalue>-7.64583e+008</me:eigenvalue>
+            <me:eigenvalue>-7.22354e+008</me:eigenvalue>
+            <me:eigenvalue>-7.17293e+008</me:eigenvalue>
+            <me:eigenvalue>-7.14857e+008</me:eigenvalue>
+            <me:eigenvalue>-6.87839e+008</me:eigenvalue>
+            <me:eigenvalue>-6.67961e+008</me:eigenvalue>
+            <me:eigenvalue>-6.60543e+008</me:eigenvalue>
+            <me:eigenvalue>-6.40097e+008</me:eigenvalue>
+            <me:eigenvalue>-6.34594e+008</me:eigenvalue>
+            <me:eigenvalue>-6.33149e+008</me:eigenvalue>
+            <me:eigenvalue>-6.26396e+008</me:eigenvalue>
+            <me:eigenvalue>-6.19607e+008</me:eigenvalue>
+            <me:eigenvalue>-6.18737e+008</me:eigenvalue>
+            <me:eigenvalue>-6.16903e+008</me:eigenvalue>
+            <me:eigenvalue>-6.14486e+008</me:eigenvalue>
+            <me:eigenvalue>-6.13519e+008</me:eigenvalue>
+            <me:eigenvalue>-6.08513e+008</me:eigenvalue>
+            <me:eigenvalue>-6.06717e+008</me:eigenvalue>
+            <me:eigenvalue>-6.02006e+008</me:eigenvalue>
+            <me:eigenvalue>-5.96604e+008</me:eigenvalue>
+            <me:eigenvalue>-5.94048e+008</me:eigenvalue>
+            <me:eigenvalue>-5.84587e+008</me:eigenvalue>
+            <me:eigenvalue>-5.84084e+008</me:eigenvalue>
+            <me:eigenvalue>-5.73493e+008</me:eigenvalue>
+            <me:eigenvalue>-5.68961e+008</me:eigenvalue>
+            <me:eigenvalue>-5.60621e+008</me:eigenvalue>
+            <me:eigenvalue>-5.50996e+008</me:eigenvalue>
+            <me:eigenvalue>-5.45811e+008</me:eigenvalue>
+            <me:eigenvalue>-5.29879e+008</me:eigenvalue>
+            <me:eigenvalue>-5.28875e+008</me:eigenvalue>
+            <me:eigenvalue>-5.09606e+008</me:eigenvalue>
+            <me:eigenvalue>-5.05276e+008</me:eigenvalue>
+            <me:eigenvalue>-4.87792e+008</me:eigenvalue>
+            <me:eigenvalue>-4.76836e+008</me:eigenvalue>
+            <me:eigenvalue>-4.6322e+008</me:eigenvalue>
+            <me:eigenvalue>-4.44233e+008</me:eigenvalue>
+            <me:eigenvalue>-4.35689e+008</me:eigenvalue>
+            <me:eigenvalue>-4.07196e+008</me:eigenvalue>
+            <me:eigenvalue>-4.05044e+008</me:eigenvalue>
+            <me:eigenvalue>-3.71192e+008</me:eigenvalue>
+            <me:eigenvalue>-3.6558e+008</me:eigenvalue>
+            <me:eigenvalue>-3.34151e+008</me:eigenvalue>
+            <me:eigenvalue>-3.19457e+008</me:eigenvalue>
+            <me:eigenvalue>-2.94107e+008</me:eigenvalue>
+            <me:eigenvalue>-2.69238e+008</me:eigenvalue>
+            <me:eigenvalue>-2.51434e+008</me:eigenvalue>
+            <me:eigenvalue>-2.15843e+008</me:eigenvalue>
+            <me:eigenvalue>-2.06966e+008</me:eigenvalue>
+            <me:eigenvalue>-1.61956e+008</me:eigenvalue>
+            <me:eigenvalue>-1.60958e+008</me:eigenvalue>
+            <me:eigenvalue>-1.18227e+008</me:eigenvalue>
+            <me:eigenvalue>-1.07488e+008</me:eigenvalue>
+            <me:eigenvalue>-7.95336e+007</me:eigenvalue>
+            <me:eigenvalue>-6.06658e+007</me:eigenvalue>
+            <me:eigenvalue>-5.16032e+007</me:eigenvalue>
+            <me:eigenvalue>-77013.2</me:eigenvalue>
+            <me:eigenvalue>-1.47426e-006</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:populationList T="250" conc="1.4477e+018">
+            <me:population time="1e-011" logTime="-11">
+                <me:pop ref="acetyl">0.999998</me:pop>
+                <me:pop ref="Int1(+)">1.51384e-006</me:pop>
+                <me:pop ref="Int2">4.39808e-010</me:pop>
+                <me:pop ref="Int1(-)">0</me:pop>
+                <me:pop ref="lactone">0</me:pop>
+                <me:pop ref="ketene">0</me:pop>
+            </me:population>
+            <me:population time="1.25893e-011" logTime="-10.9">
+                <me:pop ref="acetyl">0.999998</me:pop>
+                <me:pop ref="Int1(+)">1.90538e-006</me:pop>
+                <me:pop ref="Int2">4.82467e-010</me:pop>
+                <me:pop ref="Int1(-)">0</me:pop>
+                <me:pop ref="lactone">0</me:pop>
+                <me:pop ref="ketene">0</me:pop>
+            </me:population>
+            <me:population time="1.58489e-011" logTime="-10.8">
+                <me:pop ref="acetyl">0.999998</me:pop>
+                <me:pop ref="Int1(+)">2.39805e-006</me:pop>
+                <me:pop ref="Int2">5.49563e-010</me:pop>
+                <me:pop ref="Int1(-)">0</me:pop>
+                <me:pop ref="lactone">0</me:pop>
+                <me:pop ref="ketene">0</me:pop>
+            </me:population>
+            <me:population time="1.99526e-011" logTime="-10.7">
+                <me:pop ref="acetyl">0.999997</me:pop>
+                <me:pop ref="Int1(+)">3.01789e-006</me:pop>
+                <me:pop ref="Int2">6.5496e-010</me:pop>
+                <me:pop ref="Int1(-)">0</me:pop>
+                <me:pop ref="lactone">0</me:pop>
+                <me:pop ref="ketene">0</me:pop>
+            </me:population>
+            <me:population time="2.51189e-011" logTime="-10.6">
+                <me:pop ref="acetyl">0.999996</me:pop>
+                <me:pop ref="Int1(+)">3.79758e-006</me:pop>
+                <me:pop ref="Int2">8.20236e-010</me:pop>
+                <me:pop ref="Int1(-)">0</me:pop>
+                <me:pop ref="lactone">0</me:pop>
+                <me:pop ref="ketene">0</me:pop>
+            </me:population>
+            <me:population time="3.16228e-011" logTime="-10.5">
+                <me:pop ref="acetyl">0.999995</me:pop>
+                <me:pop ref="Int1(+)">4.77817e-006</me:pop>
+                <me:pop ref="Int2">1.07883e-009</me:pop>
+                <me:pop ref="Int1(-)">0</me:pop>
+                <me:pop ref="lactone">0</me:pop>
+                <me:pop ref="ketene">0</me:pop>
+            </me:population>
+            <me:population time="3.98107e-011" logTime="-10.4">
+                <me:pop ref="acetyl">0.999994</me:pop>
+                <me:pop ref="Int1(+)">6.0111e-006</me:pop>
+                <me:pop ref="Int2">1.48229e-009</me:pop>
+                <me:pop ref="Int1(-)">0</me:pop>
+                <me:pop ref="lactone">0</me:pop>
+                <me:pop ref="ketene">0</me:pop>
+            </me:population>
+            <me:population time="5.01187e-011" logTime="-10.3">
+                <me:pop ref="acetyl">0.999992</me:pop>
+                <me:pop ref="Int1(+)">7.5608e-006</me:pop>
+                <me:pop ref="Int2">2.10954e-009</me:pop>
+                <me:pop ref="Int1(-)">0</me:pop>
+                <me:pop ref="lactone">0</me:pop>
+                <me:pop ref="ketene">0</me:pop>
+            </me:population>
+            <me:population time="6.30957e-011" logTime="-10.2">
+                <me:pop ref="acetyl">0.99999</me:pop>
+                <me:pop ref="Int1(+)">9.50788e-006</me:pop>
+                <me:pop ref="Int2">3.08047e-009</me:pop>
+                <me:pop ref="Int1(-)">0</me:pop>
+                <me:pop ref="lactone">0</me:pop>
+                <me:pop ref="ketene">0</me:pop>
+            </me:population>
+            <me:population time="7.94328e-011" logTime="-10.1">
+                <me:pop ref="acetyl">0.999988</me:pop>
+                <me:pop ref="Int1(+)">1.1953e-005</me:pop>
+                <me:pop ref="Int2">4.57533e-009</me:pop>
+                <me:pop ref="Int1(-)">6.18123e-016</me:pop>
+                <me:pop ref="lactone">5.68871e-011</me:pop>
+                <me:pop ref="ketene">4.50442e-013</me:pop>
+            </me:population>
+            <me:population time="1e-010" logTime="-10">
+                <me:pop ref="acetyl">0.999985</me:pop>
+                <me:pop ref="Int1(+)">1.50218e-005</me:pop>
+                <me:pop ref="Int2">6.86199e-009</me:pop>
+                <me:pop ref="Int1(-)">4.2246e-015</me:pop>
+                <me:pop ref="lactone">4.52185e-010</me:pop>
+                <me:pop ref="ketene">2.87328e-012</me:pop>
+            </me:population>
+            <me:population time="1.25893e-010" logTime="-9.9">
+                <me:pop ref="acetyl">0.999981</me:pop>
+                <me:pop ref="Int1(+)">1.88703e-005</me:pop>
+                <me:pop ref="Int2">1.03328e-008</me:pop>
+                <me:pop ref="Int1(-)">9.89733e-015</me:pop>
+                <me:pop ref="lactone">1.20855e-009</me:pop>
+                <me:pop ref="ketene">6.18529e-012</me:pop>
+            </me:population>
+            <me:population time="1.58489e-010" logTime="-9.8">
+                <me:pop ref="acetyl">0.999976</me:pop>
+                <me:pop ref="Int1(+)">2.36923e-005</me:pop>
+                <me:pop ref="Int2">1.55525e-008</me:pop>
+                <me:pop ref="Int1(-)">1.94023e-014</me:pop>
+                <me:pop ref="lactone">2.64254e-009</me:pop>
+                <me:pop ref="ketene">1.09348e-011</me:pop>
+            </me:population>
+            <me:population time="1.99526e-010" logTime="-9.7">
+                <me:pop ref="acetyl">0.99997</me:pop>
+                <me:pop ref="Int1(+)">2.9727e-005</me:pop>
+                <me:pop ref="Int2">2.33177e-008</me:pop>
+                <me:pop ref="Int1(-)">3.60492e-014</me:pop>
+                <me:pop ref="lactone">5.33393e-009</me:pop>
+                <me:pop ref="ketene">1.79183e-011</me:pop>
+            </me:population>
+            <me:population time="2.51189e-010" logTime="-9.6">
+                <me:pop ref="acetyl">0.999963</me:pop>
+                <me:pop ref="Int1(+)">3.72693e-005</me:pop>
+                <me:pop ref="Int2">3.47256e-008</me:pop>
+                <me:pop ref="Int1(-)">6.62501e-014</me:pop>
+                <me:pop ref="lactone">1.03288e-008</me:pop>
+                <me:pop ref="ketene">2.829e-011</me:pop>
+            </me:population>
+            <me:population time="3.16228e-010" logTime="-9.5">
+                <me:pop ref="acetyl">0.999953</me:pop>
+                <me:pop ref="Int1(+)">4.66801e-005</me:pop>
+                <me:pop ref="Int2">5.12456e-008</me:pop>
+                <me:pop ref="Int1(-)">1.22845e-013</me:pop>
+                <me:pop ref="lactone">1.94831e-008</me:pop>
+                <me:pop ref="ketene">4.37098e-011</me:pop>
+            </me:population>
+            <me:population time="3.98107e-010" logTime="-9.4">
+                <me:pop ref="acetyl">0.999941</me:pop>
+                <me:pop ref="Int1(+)">5.83993e-005</me:pop>
+                <me:pop ref="Int2">7.47834e-008</me:pop>
+                <me:pop ref="Int1(-)">2.32452e-013</me:pop>
+                <me:pop ref="lactone">3.60289e-008</me:pop>
+                <me:pop ref="ketene">6.65345e-011</me:pop>
+            </me:population>
+            <me:population time="5.01187e-010" logTime="-9.3">
+                <me:pop ref="acetyl">0.999927</me:pop>
+                <me:pop ref="Int1(+)">7.29592e-005</me:pop>
+                <me:pop ref="Int2">1.07722e-007</me:pop>
+                <me:pop ref="Int1(-)">4.52297e-013</me:pop>
+                <me:pop ref="lactone">6.54847e-008</me:pop>
+                <me:pop ref="ketene">1.0006e-010</me:pop>
+            </me:population>
+            <me:population time="6.30957e-010" logTime="-9.2">
+                <me:pop ref="acetyl">0.999909</me:pop>
+                <me:pop ref="Int1(+)">9.09991e-005</me:pop>
+                <me:pop ref="Int2">1.52922e-007</me:pop>
+                <me:pop ref="Int1(-)">9.10296e-013</me:pop>
+                <me:pop ref="lactone">1.17076e-007</me:pop>
+                <me:pop ref="ketene">1.48819e-010</me:pop>
+            </me:population>
+            <me:population time="7.94328e-010" logTime="-9.1">
+                <me:pop ref="acetyl">0.999886</me:pop>
+                <me:pop ref="Int1(+)">0.000113281</me:pop>
+                <me:pop ref="Int2">2.13666e-007</me:pop>
+                <me:pop ref="Int1(-)">1.9044e-012</me:pop>
+                <me:pop ref="lactone">2.0589e-007</me:pop>
+                <me:pop ref="ketene">2.18925e-010</me:pop>
+            </me:population>
+            <me:population time="1e-009" logTime="-9">
+                <me:pop ref="acetyl">0.999859</me:pop>
+                <me:pop ref="Int1(+)">0.000140703</me:pop>
+                <me:pop ref="Int2">2.93553e-007</me:pop>
+                <me:pop ref="Int1(-)">4.15946e-012</me:pop>
+                <me:pop ref="lactone">3.56065e-007</me:pop>
+                <me:pop ref="ketene">3.18471e-010</me:pop>
+            </me:population>
+            <me:population time="1.25893e-009" logTime="-8.9">
+                <me:pop ref="acetyl">0.999825</me:pop>
+                <me:pop ref="Int1(+)">0.000174318</me:pop>
+                <me:pop ref="Int2">3.96348e-007</me:pop>
+                <me:pop ref="Int1(-)">9.52082e-012</me:pop>
+                <me:pop ref="lactone">6.05384e-007</me:pop>
+                <me:pop ref="ketene">4.57964e-010</me:pop>
+            </me:population>
+            <me:population time="1.58489e-009" logTime="-8.8">
+                <me:pop ref="acetyl">0.999783</me:pop>
+                <me:pop ref="Int1(+)">0.000215344</me:pop>
+                <me:pop ref="Int2">5.25841e-007</me:pop>
+                <me:pop ref="Int1(-)">2.29131e-011</me:pop>
+                <me:pop ref="lactone">1.01176e-006</me:pop>
+                <me:pop ref="ketene">6.5079e-010</me:pop>
+            </me:population>
+            <me:population time="1.99526e-009" logTime="-8.7">
+                <me:pop ref="acetyl">0.999732</me:pop>
+                <me:pop ref="Int1(+)">0.000265181</me:pop>
+                <me:pop ref="Int2">6.85751e-007</me:pop>
+                <me:pop ref="Int1(-)">5.81266e-011</me:pop>
+                <me:pop ref="lactone">1.66223e-006</me:pop>
+                <me:pop ref="ketene">9.13737e-010</me:pop>
+            </me:population>
+            <me:population time="2.51189e-009" logTime="-8.6">
+                <me:pop ref="acetyl">0.999671</me:pop>
+                <me:pop ref="Int1(+)">0.000325434</me:pop>
+                <me:pop ref="Int2">8.79717e-007</me:pop>
+                <me:pop ref="Int1(-)">1.55696e-010</me:pop>
+                <me:pop ref="lactone">2.68528e-006</me:pop>
+                <me:pop ref="ketene">1.2676e-009</me:pop>
+            </me:population>
+            <me:population time="3.16228e-009" logTime="-8.5">
+                <me:pop ref="acetyl">0.999597</me:pop>
+                <me:pop ref="Int1(+)">0.000397932</me:pop>
+                <me:pop ref="Int2">1.11135e-006</me:pop>
+                <me:pop ref="Int1(-)">4.40579e-010</me:pop>
+                <me:pop ref="lactone">4.26741e-006</me:pop>
+                <me:pop ref="ketene">1.73792e-009</me:pop>
+            </me:population>
+            <me:population time="3.98107e-009" logTime="-8.4">
+                <me:pop ref="acetyl">0.999507</me:pop>
+                <me:pop ref="Int1(+)">0.000484784</me:pop>
+                <me:pop ref="Int2">1.38433e-006</me:pop>
+                <me:pop ref="Int1(-)">1.31584e-009</me:pop>
+                <me:pop ref="lactone">6.67519e-006</me:pop>
+                <me:pop ref="ketene">2.35607e-009</me:pop>
+            </me:population>
+            <me:population time="5.01187e-009" logTime="-8.3">
+                <me:pop ref="acetyl">0.9994</me:pop>
+                <me:pop ref="Int1(+)">0.000588451</me:pop>
+                <me:pop ref="Int2">1.70248e-006</me:pop>
+                <me:pop ref="Int1(-)">4.13617e-009</me:pop>
+                <me:pop ref="lactone">1.02838e-005</me:pop>
+                <me:pop ref="ketene">3.1606e-009</me:pop>
+            </me:population>
+            <me:population time="6.30957e-009" logTime="-8.2">
+                <me:pop ref="acetyl">0.99927</me:pop>
+                <me:pop ref="Int1(+)">0.000711882</me:pop>
+                <me:pop ref="Int2">2.06979e-006</me:pop>
+                <me:pop ref="Int1(-)">1.36136e-008</me:pop>
+                <me:pop ref="lactone">1.56127e-005</me:pop>
+                <me:pop ref="ketene">4.19922e-009</me:pop>
+            </me:population>
+            <me:population time="7.94328e-009" logTime="-8.1">
+                <me:pop ref="acetyl">0.999115</me:pop>
+                <me:pop ref="Int1(+)">0.000858707</me:pop>
+                <me:pop ref="Int2">2.49041e-006</me:pop>
+                <me:pop ref="Int1(-)">4.65435e-008</me:pop>
+                <me:pop ref="lactone">2.33688e-005</me:pop>
+                <me:pop ref="ketene">5.53088e-009</me:pop>
+            </me:population>
+            <me:population time="1e-008" logTime="-8">
+                <me:pop ref="acetyl">0.998929</me:pop>
+                <me:pop ref="Int1(+)">0.00103352</me:pop>
+                <me:pop ref="Int2">2.96866e-006</me:pop>
+                <me:pop ref="Int1(-)">1.63414e-007</me:pop>
+                <me:pop ref="lactone">3.44902e-005</me:pop>
+                <me:pop ref="ketene">7.2277e-009</me:pop>
+            </me:population>
+            <me:population time="1.25893e-008" logTime="-7.9">
+                <me:pop ref="acetyl">0.998704</me:pop>
+                <me:pop ref="Int1(+)">0.00124222</me:pop>
+                <me:pop ref="Int2">3.50888e-006</me:pop>
+                <me:pop ref="Int1(-)">5.80148e-007</me:pop>
+                <me:pop ref="lactone">5.01753e-005</me:pop>
+                <me:pop ref="ketene">9.37404e-009</me:pop>
+            </me:population>
+            <me:population time="1.58489e-008" logTime="-7.8">
+                <me:pop ref="acetyl">0.99843</me:pop>
+                <me:pop ref="Int1(+)">0.00149225</me:pop>
+                <me:pop ref="Int2">4.11502e-006</me:pop>
+                <me:pop ref="Int1(-)">2.04092e-006</me:pop>
+                <me:pop ref="lactone">7.18429e-005</me:pop>
+                <me:pop ref="ketene">1.20574e-008</me:pop>
+            </me:population>
+            <me:population time="1.99526e-008" logTime="-7.7">
+                <me:pop ref="acetyl">0.998095</me:pop>
+                <me:pop ref="Int1(+)">0.00179242</me:pop>
+                <me:pop ref="Int2">4.78967e-006</me:pop>
+                <me:pop ref="Int1(-)">6.9368e-006</me:pop>
+                <me:pop ref="lactone">0.000100929</me:pop>
+                <me:pop ref="ketene">1.53435e-008</me:pop>
+            </me:population>
+            <me:population time="2.51189e-008" logTime="-7.6">
+                <me:pop ref="acetyl">0.997683</me:pop>
+                <me:pop ref="Int1(+)">0.00215118</me:pop>
+                <me:pop ref="Int2">5.53252e-006</me:pop>
+                <me:pop ref="Int1(-)">2.21302e-005</me:pop>
+                <me:pop ref="lactone">0.000138543</me:pop>
+                <me:pop ref="ketene">1.92494e-008</me:pop>
+            </me:population>
+            <me:population time="3.16228e-008" logTime="-7.5">
+                <me:pop ref="acetyl">0.997172</me:pop>
+                <me:pop ref="Int1(+)">0.00257168</me:pop>
+                <me:pop ref="Int2">6.33842e-006</me:pop>
+                <me:pop ref="Int1(-)">6.45588e-005</me:pop>
+                <me:pop ref="lactone">0.000185728</me:pop>
+                <me:pop ref="ketene">2.38107e-008</me:pop>
+            </me:population>
+            <me:population time="3.98107e-008" logTime="-7.4">
+                <me:pop ref="acetyl">0.996535</me:pop>
+                <me:pop ref="Int1(+)">0.00304203</me:pop>
+                <me:pop ref="Int2">7.19633e-006</me:pop>
+                <me:pop ref="Int1(-)">0.000169852</me:pop>
+                <me:pop ref="lactone">0.000245604</me:pop>
+                <me:pop ref="ketene">2.93435e-008</me:pop>
+            </me:population>
+            <me:population time="5.01187e-008" logTime="-7.3">
+                <me:pop ref="acetyl">0.99574</me:pop>
+                <me:pop ref="Int1(+)">0.00352434</me:pop>
+                <me:pop ref="Int2">8.09126e-006</me:pop>
+                <me:pop ref="Int1(-)">0.000402268</me:pop>
+                <me:pop ref="lactone">0.000325686</me:pop>
+                <me:pop ref="ketene">3.66328e-008</me:pop>
+            </me:population>
+            <me:population time="6.30957e-008" logTime="-7.2">
+                <me:pop ref="acetyl">0.994742</me:pop>
+                <me:pop ref="Int1(+)">0.00395553</me:pop>
+                <me:pop ref="Int2">9.01209e-006</me:pop>
+                <me:pop ref="Int1(-)">0.000856749</me:pop>
+                <me:pop ref="lactone">0.000436521</me:pop>
+                <me:pop ref="ketene">4.66884e-008</me:pop>
+            </me:population>
+            <me:population time="7.94328e-008" logTime="-7.1">
+                <me:pop ref="acetyl">0.99349</me:pop>
+                <me:pop ref="Int1(+)">0.00427357</me:pop>
+                <me:pop ref="Int2">9.96544e-006</me:pop>
+                <me:pop ref="Int1(-)">0.00163799</me:pop>
+                <me:pop ref="lactone">0.000588449</me:pop>
+                <me:pop ref="ketene">6.04122e-008</me:pop>
+            </me:population>
+            <me:population time="1e-007" logTime="-7">
+                <me:pop ref="acetyl">0.991917</me:pop>
+                <me:pop ref="Int1(+)">0.00445569</me:pop>
+                <me:pop ref="Int2">1.09896e-005</me:pop>
+                <me:pop ref="Int1(-)">0.00282601</me:pop>
+                <me:pop ref="lactone">0.000790257</me:pop>
+                <me:pop ref="ketene">7.85283e-008</me:pop>
+            </me:population>
+            <me:population time="1.25893e-007" logTime="-6.9">
+                <me:pop ref="acetyl">0.989941</me:pop>
+                <me:pop ref="Int1(+)">0.0045295</me:pop>
+                <me:pop ref="Int2">1.2157e-005</me:pop>
+                <me:pop ref="Int1(-)">0.00446739</me:pop>
+                <me:pop ref="lactone">0.00105006</me:pop>
+                <me:pop ref="ketene">1.01711e-007</me:pop>
+            </me:population>
+            <me:population time="1.58489e-007" logTime="-6.8">
+                <me:pop ref="acetyl">0.987459</me:pop>
+                <me:pop ref="Int1(+)">0.00454388</me:pop>
+                <me:pop ref="Int2">1.35613e-005</me:pop>
+                <me:pop ref="Int1(-)">0.00660597</me:pop>
+                <me:pop ref="lactone">0.00137774</me:pop>
+                <me:pop ref="ketene">1.30819e-007</me:pop>
+            </me:population>
+            <me:population time="1.99526e-007" logTime="-6.7">
+                <me:pop ref="acetyl">0.984343</me:pop>
+                <me:pop ref="Int1(+)">0.00453491</me:pop>
+                <me:pop ref="Int2">1.53014e-005</me:pop>
+                <me:pop ref="Int1(-)">0.00931918</me:pop>
+                <me:pop ref="lactone">0.00178756</me:pop>
+                <me:pop ref="ketene">1.67119e-007</me:pop>
+            </me:population>
+            <me:population time="2.51189e-007" logTime="-6.6">
+                <me:pop ref="acetyl">0.980434</me:pop>
+                <me:pop ref="Int1(+)">0.00451759</me:pop>
+                <me:pop ref="Int2">1.74788e-005</me:pop>
+                <me:pop ref="Int1(-)">0.012731</me:pop>
+                <me:pop ref="lactone">0.00229945</me:pop>
+                <me:pop ref="ketene">2.12384e-007</me:pop>
+            </me:population>
+            <me:population time="3.16228e-007" logTime="-6.5">
+                <me:pop ref="acetyl">0.975536</me:pop>
+                <me:pop ref="Int1(+)">0.00449507</me:pop>
+                <me:pop ref="Int2">2.02069e-005</me:pop>
+                <me:pop ref="Int1(-)">0.0170096</me:pop>
+                <me:pop ref="lactone">0.00293917</me:pop>
+                <me:pop ref="ketene">2.68902e-007</me:pop>
+            </me:population>
+            <me:population time="3.98107e-007" logTime="-6.4">
+                <me:pop ref="acetyl">0.969404</me:pop>
+                <me:pop ref="Int1(+)">0.00446682</me:pop>
+                <me:pop ref="Int2">2.36218e-005</me:pop>
+                <me:pop ref="Int1(-)">0.022367</me:pop>
+                <me:pop ref="lactone">0.00373867</me:pop>
+                <me:pop ref="ketene">3.39501e-007</me:pop>
+            </me:population>
+            <me:population time="5.01187e-007" logTime="-6.3">
+                <me:pop ref="acetyl">0.961738</me:pop>
+                <me:pop ref="Int1(+)">0.0044315</me:pop>
+                <me:pop ref="Int2">2.78905e-005</me:pop>
+                <me:pop ref="Int1(-)">0.0290647</me:pop>
+                <me:pop ref="lactone">0.00473711</me:pop>
+                <me:pop ref="ketene">4.27643e-007</me:pop>
+            </me:population>
+            <me:population time="6.30957e-007" logTime="-6.2">
+                <me:pop ref="acetyl">0.952175</me:pop>
+                <me:pop ref="Int1(+)">0.00438743</me:pop>
+                <me:pop ref="Int2">3.32165e-005</me:pop>
+                <me:pop ref="Int1(-)">0.037422</me:pop>
+                <me:pop ref="lactone">0.00598218</me:pop>
+                <me:pop ref="ketene">5.37539e-007</me:pop>
+            </me:population>
+            <me:population time="7.94328e-007" logTime="-6.1">
+                <me:pop ref="acetyl">0.94027</me:pop>
+                <me:pop ref="Int1(+)">0.00433258</me:pop>
+                <me:pop ref="Int2">3.98463e-005</me:pop>
+                <me:pop ref="Int1(-)">0.0478257</me:pop>
+                <me:pop ref="lactone">0.00753154</me:pop>
+                <me:pop ref="ketene">6.7428e-007</me:pop>
+            </me:population>
+            <me:population time="1e-006" logTime="-6">
+                <me:pop ref="acetyl">0.925494</me:pop>
+                <me:pop ref="Int1(+)">0.00426449</me:pop>
+                <me:pop ref="Int2">4.8075e-005</me:pop>
+                <me:pop ref="Int1(-)">0.0607388</me:pop>
+                <me:pop ref="lactone">0.0094542</me:pop>
+                <me:pop ref="ketene">8.43956e-007</me:pop>
+            </me:population>
+            <me:population time="1.25893e-006" logTime="-5.9">
+                <me:pop ref="acetyl">0.907221</me:pop>
+                <me:pop ref="Int1(+)">0.0041803</me:pop>
+                <me:pop ref="Int2">5.82507e-005</me:pop>
+                <me:pop ref="Int1(-)">0.0767074</me:pop>
+                <me:pop ref="lactone">0.0118315</me:pop>
+                <me:pop ref="ketene">1.05375e-006</me:pop>
+            </me:population>
+            <me:population time="1.58489e-006" logTime="-5.8">
+                <me:pop ref="acetyl">0.88473</me:pop>
+                <me:pop ref="Int1(+)">0.00407666</me:pop>
+                <me:pop ref="Int2">7.0776e-005</me:pop>
+                <me:pop ref="Int1(-)">0.0963635</me:pop>
+                <me:pop ref="lactone">0.0147575</me:pop>
+                <me:pop ref="ketene">1.31196e-006</me:pop>
+            </me:population>
+            <me:population time="1.99526e-006" logTime="-5.7">
+                <me:pop ref="acetyl">0.857207</me:pop>
+                <me:pop ref="Int1(+)">0.00394984</me:pop>
+                <me:pop ref="Int2">8.61038e-005</me:pop>
+                <me:pop ref="Int1(-)">0.120418</me:pop>
+                <me:pop ref="lactone">0.0183381</me:pop>
+                <me:pop ref="ketene">1.62792e-006</me:pop>
+            </me:population>
+            <me:population time="2.51189e-006" logTime="-5.6">
+                <me:pop ref="acetyl">0.823771</me:pop>
+                <me:pop ref="Int1(+)">0.00379577</me:pop>
+                <me:pop ref="Int2">0.000104724</me:pop>
+                <me:pop ref="Int1(-)">0.149639</me:pop>
+                <me:pop ref="lactone">0.0226876</me:pop>
+                <me:pop ref="ketene">2.01175e-006</me:pop>
+            </me:population>
+            <me:population time="3.16228e-006" logTime="-5.5">
+                <me:pop ref="acetyl">0.783525</me:pop>
+                <me:pop ref="Int1(+)">0.00361033</me:pop>
+                <me:pop ref="Int2">0.000127136</me:pop>
+                <me:pop ref="Int1(-)">0.184812</me:pop>
+                <me:pop ref="lactone">0.027923</me:pop>
+                <me:pop ref="ketene">2.47373e-006</me:pop>
+            </me:population>
+            <me:population time="3.98107e-006" logTime="-5.4">
+                <me:pop ref="acetyl">0.735643</me:pop>
+                <me:pop ref="Int1(+)">0.0033897</me:pop>
+                <me:pop ref="Int2">0.000153802</me:pop>
+                <me:pop ref="Int1(-)">0.226658</me:pop>
+                <me:pop ref="lactone">0.0341517</me:pop>
+                <me:pop ref="ketene">3.02338e-006</me:pop>
+            </me:population>
+            <me:population time="5.01187e-006" logTime="-5.3">
+                <me:pop ref="acetyl">0.679502</me:pop>
+                <me:pop ref="Int1(+)">0.00313101</me:pop>
+                <me:pop ref="Int2">0.000185067</me:pop>
+                <me:pop ref="Int1(-)">0.275723</me:pop>
+                <me:pop ref="lactone">0.0414548</me:pop>
+                <me:pop ref="ketene">3.66784e-006</me:pop>
+            </me:population>
+            <me:population time="6.30957e-006" logTime="-5.2">
+                <me:pop ref="acetyl">0.614876</me:pop>
+                <me:pop ref="Int1(+)">0.00283322</me:pop>
+                <me:pop ref="Int2">0.000221057</me:pop>
+                <me:pop ref="Int1(-)">0.332204</me:pop>
+                <me:pop ref="lactone">0.0498618</me:pop>
+                <me:pop ref="ketene">4.4097e-006</me:pop>
+            </me:population>
+            <me:population time="7.94328e-006" logTime="-5.1">
+                <me:pop ref="acetyl">0.542183</me:pop>
+                <me:pop ref="Int1(+)">0.00249827</me:pop>
+                <me:pop ref="Int2">0.000261539</me:pop>
+                <me:pop ref="Int1(-)">0.395734</me:pop>
+                <me:pop ref="lactone">0.0593183</me:pop>
+                <me:pop ref="ketene">5.24419e-006</me:pop>
+            </me:population>
+            <me:population time="1e-005" logTime="-5">
+                <me:pop ref="acetyl">0.46276</me:pop>
+                <me:pop ref="Int1(+)">0.00213231</me:pop>
+                <me:pop ref="Int2">0.000305769</me:pop>
+                <me:pop ref="Int1(-)">0.465145</me:pop>
+                <me:pop ref="lactone">0.0696505</me:pop>
+                <me:pop ref="ketene">6.15595e-006</me:pop>
+            </me:population>
+            <me:population time="1.25893e-005" logTime="-4.9">
+                <me:pop ref="acetyl">0.379101</me:pop>
+                <me:pop ref="Int1(+)">0.00174682</me:pop>
+                <me:pop ref="Int2">0.000352359</me:pop>
+                <me:pop ref="Int1(-)">0.538259</me:pop>
+                <me:pop ref="lactone">0.0805341</me:pop>
+                <me:pop ref="ketene">7.11638e-006</me:pop>
+            </me:population>
+            <me:population time="1.58489e-005" logTime="-4.8">
+                <me:pop ref="acetyl">0.294938</me:pop>
+                <me:pop ref="Int1(+)">0.00135901</me:pop>
+                <me:pop ref="Int2">0.000399229</me:pop>
+                <me:pop ref="Int1(-)">0.611812</me:pop>
+                <me:pop ref="lactone">0.0914837</me:pop>
+                <me:pop ref="ketene">8.08264e-006</me:pop>
+            </me:population>
+            <me:population time="1.99526e-005" logTime="-4.7">
+                <me:pop ref="acetyl">0.215019</me:pop>
+                <me:pop ref="Int1(+)">0.000990764</me:pop>
+                <me:pop ref="Int2">0.000443735</me:pop>
+                <me:pop ref="Int1(-)">0.681656</me:pop>
+                <me:pop ref="lactone">0.101882</me:pop>
+                <me:pop ref="ketene">9.00025e-006</me:pop>
+            </me:population>
+            <me:population time="2.51189e-005" logTime="-4.6">
+                <me:pop ref="acetyl">0.144439</me:pop>
+                <me:pop ref="Int1(+)">0.000665546</me:pop>
+                <me:pop ref="Int2">0.000483041</me:pop>
+                <me:pop ref="Int1(-)">0.743337</me:pop>
+                <me:pop ref="lactone">0.111065</me:pop>
+                <me:pop ref="ketene">9.8107e-006</me:pop>
+            </me:population>
+            <me:population time="3.16228e-005" logTime="-4.5">
+                <me:pop ref="acetyl">0.087529</me:pop>
+                <me:pop ref="Int1(+)">0.000403316</me:pop>
+                <me:pop ref="Int2">0.000514733</me:pop>
+                <me:pop ref="Int1(-)">0.793072</me:pop>
+                <me:pop ref="lactone">0.118471</me:pop>
+                <me:pop ref="ketene">1.04643e-005</me:pop>
+            </me:population>
+            <me:population time="3.98107e-005" logTime="-4.4">
+                <me:pop ref="acetyl">0.0465902</me:pop>
+                <me:pop ref="Int1(+)">0.000214678</me:pop>
+                <me:pop ref="Int2">0.000537532</me:pop>
+                <me:pop ref="Int1(-)">0.828848</me:pop>
+                <me:pop ref="lactone">0.123799</me:pop>
+                <me:pop ref="ketene">1.09345e-005</me:pop>
+            </me:population>
+            <me:population time="5.01187e-005" logTime="-4.3">
+                <me:pop ref="acetyl">0.0210634</me:pop>
+                <me:pop ref="Int1(+)">9.7056e-005</me:pop>
+                <me:pop ref="Int2">0.000551748</me:pop>
+                <me:pop ref="Int1(-)">0.851155</me:pop>
+                <me:pop ref="lactone">0.127122</me:pop>
+                <me:pop ref="ketene">1.12278e-005</me:pop>
+            </me:population>
+            <me:population time="6.30957e-005" logTime="-4.2">
+                <me:pop ref="acetyl">0.00775344</me:pop>
+                <me:pop ref="Int1(+)">3.57263e-005</me:pop>
+                <me:pop ref="Int2">0.00055916</me:pop>
+                <me:pop ref="Int1(-)">0.862785</me:pop>
+                <me:pop ref="lactone">0.128855</me:pop>
+                <me:pop ref="ketene">1.13808e-005</me:pop>
+            </me:population>
+            <me:population time="7.94328e-005" logTime="-4.1">
+                <me:pop ref="acetyl">0.00220332</me:pop>
+                <me:pop ref="Int1(+)">1.01525e-005</me:pop>
+                <me:pop ref="Int2">0.000562251</me:pop>
+                <me:pop ref="Int1(-)">0.867635</me:pop>
+                <me:pop ref="lactone">0.129578</me:pop>
+                <me:pop ref="ketene">1.14446e-005</me:pop>
+            </me:population>
+            <me:population time="0.0001" logTime="-4">
+                <me:pop ref="acetyl">0.000452043</me:pop>
+                <me:pop ref="Int1(+)">2.08292e-006</me:pop>
+                <me:pop ref="Int2">0.000563226</me:pop>
+                <me:pop ref="Int1(-)">0.869165</me:pop>
+                <me:pop ref="lactone">0.129806</me:pop>
+                <me:pop ref="ketene">1.14647e-005</me:pop>
+            </me:population>
+            <me:population time="0.000125893" logTime="-3.9">
+                <me:pop ref="acetyl">6.15414e-005</me:pop>
+                <me:pop ref="Int1(+)">2.8357e-007</me:pop>
+                <me:pop ref="Int2">0.000563444</me:pop>
+                <me:pop ref="Int1(-)">0.869507</me:pop>
+                <me:pop ref="lactone">0.129857</me:pop>
+                <me:pop ref="ketene">1.14692e-005</me:pop>
+            </me:population>
+            <me:population time="0.000158489" logTime="-3.8">
+                <me:pop ref="acetyl">4.99945e-006</me:pop>
+                <me:pop ref="Int1(+)">2.30365e-008</me:pop>
+                <me:pop ref="Int2">0.000563475</me:pop>
+                <me:pop ref="Int1(-)">0.869556</me:pop>
+                <me:pop ref="lactone">0.129864</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.000199526" logTime="-3.7">
+                <me:pop ref="acetyl">2.12024e-007</me:pop>
+                <me:pop ref="Int1(+)">9.76965e-010</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.000251189" logTime="-3.6">
+                <me:pop ref="acetyl">3.96701e-009</me:pop>
+                <me:pop ref="Int1(+)">1.82792e-011</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.000316228" logTime="-3.5">
+                <me:pop ref="acetyl">2.64935e-011</me:pop>
+                <me:pop ref="Int1(+)">1.22077e-013</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.000398107" logTime="-3.4">
+                <me:pop ref="acetyl">4.8369e-014</me:pop>
+                <me:pop ref="Int1(+)">2.22876e-016</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.000501187" logTime="-3.3">
+                <me:pop ref="acetyl">1.72549e-017</me:pop>
+                <me:pop ref="Int1(+)">8.04059e-020</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.000630957" logTime="-3.2">
+                <me:pop ref="acetyl">8.5946e-022</me:pop>
+                <me:pop ref="Int1(+)">9.02789e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.000794328" logTime="-3.1">
+                <me:pop ref="acetyl">7.13885e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.001" logTime="-3">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.00125893" logTime="-2.9">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.00158489" logTime="-2.8">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.00199526" logTime="-2.7">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.00251189" logTime="-2.6">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.00316228" logTime="-2.5">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.00398107" logTime="-2.4">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.00501187" logTime="-2.3">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.00630957" logTime="-2.2">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.00794328" logTime="-2.1">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.01" logTime="-2">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.0125893" logTime="-1.9">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.0158489" logTime="-1.8">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.0199526" logTime="-1.7">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.0251189" logTime="-1.6">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.0316228" logTime="-1.5">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.0398107" logTime="-1.4">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.0501187" logTime="-1.3">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.0630957" logTime="-1.2">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.0794328" logTime="-1.1">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.1" logTime="-1">
+                <me:pop ref="acetyl">7.13858e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.125893" logTime="-0.9">
+                <me:pop ref="acetyl">7.13857e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.158489" logTime="-0.8">
+                <me:pop ref="acetyl">7.13857e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.199526" logTime="-0.7">
+                <me:pop ref="acetyl">7.13857e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.251189" logTime="-0.6">
+                <me:pop ref="acetyl">7.13857e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.316228" logTime="-0.5">
+                <me:pop ref="acetyl">7.13857e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.398107" logTime="-0.4">
+                <me:pop ref="acetyl">7.13857e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563478</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.501187" logTime="-0.3">
+                <me:pop ref="acetyl">7.13857e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563477</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.630957" logTime="-0.2">
+                <me:pop ref="acetyl">7.13857e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99157e-022</me:pop>
+                <me:pop ref="Int2">0.000563477</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="0.794328" logTime="-0.1">
+                <me:pop ref="acetyl">7.13857e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99156e-022</me:pop>
+                <me:pop ref="Int2">0.000563477</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="1" logTime="0">
+                <me:pop ref="acetyl">7.13857e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99156e-022</me:pop>
+                <me:pop ref="Int2">0.000563477</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="1.25893" logTime="0.1">
+                <me:pop ref="acetyl">7.13856e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99156e-022</me:pop>
+                <me:pop ref="Int2">0.000563477</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="1.58489" logTime="0.2">
+                <me:pop ref="acetyl">7.13856e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99155e-022</me:pop>
+                <me:pop ref="Int2">0.000563477</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="1.99526" logTime="0.3">
+                <me:pop ref="acetyl">7.13856e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99155e-022</me:pop>
+                <me:pop ref="Int2">0.000563476</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="2.51189" logTime="0.4">
+                <me:pop ref="acetyl">7.13855e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99154e-022</me:pop>
+                <me:pop ref="Int2">0.000563476</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="3.16228" logTime="0.5">
+                <me:pop ref="acetyl">7.13854e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99153e-022</me:pop>
+                <me:pop ref="Int2">0.000563475</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="3.98107" logTime="0.6">
+                <me:pop ref="acetyl">7.13853e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99152e-022</me:pop>
+                <me:pop ref="Int2">0.000563475</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="5.01187" logTime="0.7">
+                <me:pop ref="acetyl">7.13852e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99151e-022</me:pop>
+                <me:pop ref="Int2">0.000563474</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="6.30957" logTime="0.8">
+                <me:pop ref="acetyl">7.13851e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99149e-022</me:pop>
+                <me:pop ref="Int2">0.000563473</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="7.94328" logTime="0.9">
+                <me:pop ref="acetyl">7.13849e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99147e-022</me:pop>
+                <me:pop ref="Int2">0.000563471</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="10" logTime="1">
+                <me:pop ref="acetyl">7.13847e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99144e-022</me:pop>
+                <me:pop ref="Int2">0.00056347</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="12.5893" logTime="1.1">
+                <me:pop ref="acetyl">7.13844e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99141e-022</me:pop>
+                <me:pop ref="Int2">0.000563467</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="15.8489" logTime="1.2">
+                <me:pop ref="acetyl">7.13841e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99136e-022</me:pop>
+                <me:pop ref="Int2">0.000563465</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="19.9526" logTime="1.3">
+                <me:pop ref="acetyl">7.13837e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99131e-022</me:pop>
+                <me:pop ref="Int2">0.000563461</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="25.1189" logTime="1.4">
+                <me:pop ref="acetyl">7.13831e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99124e-022</me:pop>
+                <me:pop ref="Int2">0.000563457</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="31.6228" logTime="1.5">
+                <me:pop ref="acetyl">7.13824e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99115e-022</me:pop>
+                <me:pop ref="Int2">0.000563452</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="39.8107" logTime="1.6">
+                <me:pop ref="acetyl">7.13816e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99105e-022</me:pop>
+                <me:pop ref="Int2">0.000563445</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="50.1187" logTime="1.7">
+                <me:pop ref="acetyl">7.13805e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99091e-022</me:pop>
+                <me:pop ref="Int2">0.000563436</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="63.0957" logTime="1.8">
+                <me:pop ref="acetyl">7.13791e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99074e-022</me:pop>
+                <me:pop ref="Int2">0.000563425</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="79.4328" logTime="1.9">
+                <me:pop ref="acetyl">7.13774e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99052e-022</me:pop>
+                <me:pop ref="Int2">0.000563412</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="100" logTime="2">
+                <me:pop ref="acetyl">7.13752e-023</me:pop>
+                <me:pop ref="Int1(+)">8.99025e-022</me:pop>
+                <me:pop ref="Int2">0.000563395</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="125.893" logTime="2.1">
+                <me:pop ref="acetyl">7.13725e-023</me:pop>
+                <me:pop ref="Int1(+)">8.9899e-022</me:pop>
+                <me:pop ref="Int2">0.000563373</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="158.489" logTime="2.2">
+                <me:pop ref="acetyl">7.13691e-023</me:pop>
+                <me:pop ref="Int1(+)">8.98947e-022</me:pop>
+                <me:pop ref="Int2">0.000563346</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="199.526" logTime="2.3">
+                <me:pop ref="acetyl">7.13648e-023</me:pop>
+                <me:pop ref="Int1(+)">8.98893e-022</me:pop>
+                <me:pop ref="Int2">0.000563312</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="251.189" logTime="2.4">
+                <me:pop ref="acetyl">7.13593e-023</me:pop>
+                <me:pop ref="Int1(+)">8.98824e-022</me:pop>
+                <me:pop ref="Int2">0.000563269</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="316.228" logTime="2.5">
+                <me:pop ref="acetyl">7.13525e-023</me:pop>
+                <me:pop ref="Int1(+)">8.98738e-022</me:pop>
+                <me:pop ref="Int2">0.000563215</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="398.107" logTime="2.6">
+                <me:pop ref="acetyl">7.13439e-023</me:pop>
+                <me:pop ref="Int1(+)">8.9863e-022</me:pop>
+                <me:pop ref="Int2">0.000563147</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="501.187" logTime="2.7">
+                <me:pop ref="acetyl">7.1333e-023</me:pop>
+                <me:pop ref="Int1(+)">8.98493e-022</me:pop>
+                <me:pop ref="Int2">0.000563062</me:pop>
+                <me:pop ref="Int1(-)">0.86956</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="630.957" logTime="2.8">
+                <me:pop ref="acetyl">7.13194e-023</me:pop>
+                <me:pop ref="Int1(+)">8.98321e-022</me:pop>
+                <me:pop ref="Int2">0.000562954</me:pop>
+                <me:pop ref="Int1(-)">0.869561</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="794.328" logTime="2.9">
+                <me:pop ref="acetyl">7.13022e-023</me:pop>
+                <me:pop ref="Int1(+)">8.98105e-022</me:pop>
+                <me:pop ref="Int2">0.000562818</me:pop>
+                <me:pop ref="Int1(-)">0.869561</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="1000" logTime="3">
+                <me:pop ref="acetyl">7.12806e-023</me:pop>
+                <me:pop ref="Int1(+)">8.97833e-022</me:pop>
+                <me:pop ref="Int2">0.000562648</me:pop>
+                <me:pop ref="Int1(-)">0.869561</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="1258.93" logTime="3.1">
+                <me:pop ref="acetyl">7.12534e-023</me:pop>
+                <me:pop ref="Int1(+)">8.9749e-022</me:pop>
+                <me:pop ref="Int2">0.000562433</me:pop>
+                <me:pop ref="Int1(-)">0.869561</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="1584.89" logTime="3.2">
+                <me:pop ref="acetyl">7.12192e-023</me:pop>
+                <me:pop ref="Int1(+)">8.97059e-022</me:pop>
+                <me:pop ref="Int2">0.000562163</me:pop>
+                <me:pop ref="Int1(-)">0.869561</me:pop>
+                <me:pop ref="lactone">0.129865</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="1995.26" logTime="3.3">
+                <me:pop ref="acetyl">7.11761e-023</me:pop>
+                <me:pop ref="Int1(+)">8.96516e-022</me:pop>
+                <me:pop ref="Int2">0.000561823</me:pop>
+                <me:pop ref="Int1(-)">0.869561</me:pop>
+                <me:pop ref="lactone">0.129866</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="2511.89" logTime="3.4">
+                <me:pop ref="acetyl">7.11219e-023</me:pop>
+                <me:pop ref="Int1(+)">8.95834e-022</me:pop>
+                <me:pop ref="Int2">0.000561395</me:pop>
+                <me:pop ref="Int1(-)">0.869561</me:pop>
+                <me:pop ref="lactone">0.129866</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="3162.28" logTime="3.5">
+                <me:pop ref="acetyl">7.10537e-023</me:pop>
+                <me:pop ref="Int1(+)">8.94975e-022</me:pop>
+                <me:pop ref="Int2">0.000560857</me:pop>
+                <me:pop ref="Int1(-)">0.869561</me:pop>
+                <me:pop ref="lactone">0.129866</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="3981.07" logTime="3.6">
+                <me:pop ref="acetyl">7.0968e-023</me:pop>
+                <me:pop ref="Int1(+)">8.93896e-022</me:pop>
+                <me:pop ref="Int2">0.00056018</me:pop>
+                <me:pop ref="Int1(-)">0.869562</me:pop>
+                <me:pop ref="lactone">0.129867</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="5011.87" logTime="3.7">
+                <me:pop ref="acetyl">7.08603e-023</me:pop>
+                <me:pop ref="Int1(+)">8.92538e-022</me:pop>
+                <me:pop ref="Int2">0.00055933</me:pop>
+                <me:pop ref="Int1(-)">0.869562</me:pop>
+                <me:pop ref="lactone">0.129867</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="6309.57" logTime="3.8">
+                <me:pop ref="acetyl">7.07248e-023</me:pop>
+                <me:pop ref="Int1(+)">8.90832e-022</me:pop>
+                <me:pop ref="Int2">0.000558261</me:pop>
+                <me:pop ref="Int1(-)">0.869563</me:pop>
+                <me:pop ref="lactone">0.129868</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
+            </me:population>
+            <me:population time="7943.28" logTime="3.9">
+                <me:pop ref="acetyl">7.05547e-023</me:pop>
+                <me:pop ref="Int1(+)">8.88689e-022</me:pop>
+                <me:pop ref="Int2">0.000556918</me:pop>
+                <me:pop ref="Int1(-)">0.869563</me:pop>
+                <me:pop ref="lactone">0.129868</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
+            </me:population>
+            <me:population time="10000" logTime="4">
+                <me:pop ref="acetyl">7.03411e-023</me:pop>
+                <me:pop ref="Int1(+)">8.85999e-022</me:pop>
+                <me:pop ref="Int2">0.000555232</me:pop>
+                <me:pop ref="Int1(-)">0.869564</me:pop>
+                <me:pop ref="lactone">0.129869</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
+            </me:population>
+            <me:population time="12589.3" logTime="4.1">
+                <me:pop ref="acetyl">7.00731e-023</me:pop>
+                <me:pop ref="Int1(+)">8.82623e-022</me:pop>
+                <me:pop ref="Int2">0.000553116</me:pop>
+                <me:pop ref="Int1(-)">0.869565</me:pop>
+                <me:pop ref="lactone">0.129871</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
+            </me:population>
+            <me:population time="15848.9" logTime="4.2">
+                <me:pop ref="acetyl">6.97371e-023</me:pop>
+                <me:pop ref="Int1(+)">8.78392e-022</me:pop>
+                <me:pop ref="Int2">0.000550465</me:pop>
+                <me:pop ref="Int1(-)">0.869566</me:pop>
+                <me:pop ref="lactone">0.129872</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
+            </me:population>
+            <me:population time="19952.6" logTime="4.3">
+                <me:pop ref="acetyl">6.93165e-023</me:pop>
+                <me:pop ref="Int1(+)">8.73094e-022</me:pop>
+                <me:pop ref="Int2">0.000547144</me:pop>
+                <me:pop ref="Int1(-)">0.869568</me:pop>
+                <me:pop ref="lactone">0.129874</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
+            </me:population>
+            <me:population time="25118.9" logTime="4.4">
+                <me:pop ref="acetyl">6.87906e-023</me:pop>
+                <me:pop ref="Int1(+)">8.66469e-022</me:pop>
+                <me:pop ref="Int2">0.000542993</me:pop>
+                <me:pop ref="Int1(-)">0.869569</me:pop>
+                <me:pop ref="lactone">0.129876</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
+            </me:population>
+            <me:population time="31622.8" logTime="4.5">
+                <me:pop ref="acetyl">6.81341e-023</me:pop>
+                <me:pop ref="Int1(+)">8.58201e-022</me:pop>
+                <me:pop ref="Int2">0.000537811</me:pop>
+                <me:pop ref="Int1(-)">0.869572</me:pop>
+                <me:pop ref="lactone">0.129879</me:pop>
+                <me:pop ref="ketene">1.14701e-005</me:pop>
+            </me:population>
+            <me:population time="39810.7" logTime="4.6">
+                <me:pop ref="acetyl">6.73166e-023</me:pop>
+                <me:pop ref="Int1(+)">8.47904e-022</me:pop>
+                <me:pop ref="Int2">0.000531358</me:pop>
+                <me:pop ref="Int1(-)">0.869575</me:pop>
+                <me:pop ref="lactone">0.129883</me:pop>
+                <me:pop ref="ketene">1.14701e-005</me:pop>
+            </me:population>
+            <me:population time="50118.7" logTime="4.7">
+                <me:pop ref="acetyl">6.63014e-023</me:pop>
+                <me:pop ref="Int1(+)">8.35116e-022</me:pop>
+                <me:pop ref="Int2">0.000523345</me:pop>
+                <me:pop ref="Int1(-)">0.869578</me:pop>
+                <me:pop ref="lactone">0.129887</me:pop>
+                <me:pop ref="ketene">1.14702e-005</me:pop>
+            </me:population>
+            <me:population time="63095.7" logTime="4.8">
+                <me:pop ref="acetyl">6.5045e-023</me:pop>
+                <me:pop ref="Int1(+)">8.19291e-022</me:pop>
+                <me:pop ref="Int2">0.000513427</me:pop>
+                <me:pop ref="Int1(-)">0.869583</me:pop>
+                <me:pop ref="lactone">0.129893</me:pop>
+                <me:pop ref="ketene">1.14702e-005</me:pop>
+            </me:population>
+            <me:population time="79432.8" logTime="4.9">
+                <me:pop ref="acetyl">6.34971e-023</me:pop>
+                <me:pop ref="Int1(+)">7.99794e-022</me:pop>
+                <me:pop ref="Int2">0.000501209</me:pop>
+                <me:pop ref="Int1(-)">0.869588</me:pop>
+                <me:pop ref="lactone">0.129899</me:pop>
+                <me:pop ref="ketene">1.14703e-005</me:pop>
+            </me:population>
+        </me:populationList>
+        <me:rateList T="250" conc="1.4477e+018" me:units="s-1">
+            <me:warning>&#x0A;Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)&#x0A;&#x0A;The last CSE = -5.16032e+007 and the first IERE = -6.06658e+007&#x0A;(last CSE)/(first IERE) ratio = 0.850613, which is less than an order of magnitude&#x0A;&#x0A;Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable&#x0A;</me:warning>
+            <me:firstOrderLoss ref="Int1(+)">-5.16027e+007</me:firstOrderLoss>
+            <me:firstOrderLoss ref="Int2">-1.47426e-006</me:firstOrderLoss>
+            <me:firstOrderLoss ref="acetyl">-77479.5</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="Int1(+)" toRef="Int2" reactionType="isomerization">-58943.9</me:firstOrderRate>
+            <me:firstOrderRate fromRef="Int1(+)" toRef="acetyl" reactionType="isomerization">101201</me:firstOrderRate>
+            <me:firstOrderRate fromRef="Int2" toRef="Int1(+)" reactionType="isomerization">8.23138e-011</me:firstOrderRate>
+            <me:firstOrderRate fromRef="Int2" toRef="acetyl" reactionType="isomerization">-1.51674e-013</me:firstOrderRate>
+            <me:firstOrderRate fromRef="acetyl" toRef="Int1(+)" reactionType="isomerization">237420</me:firstOrderRate>
+            <me:firstOrderRate fromRef="acetyl" toRef="Int2" reactionType="isomerization">314.49</me:firstOrderRate>
+            <me:firstOrderRate fromRef="Int1" toRef="lactone+OH" reactionType="irreversible">280517</me:firstOrderRate>
+            <me:firstOrderRate fromRef="Int2" toRef="lactone+OH" reactionType="irreversible">6.45246e-007</me:firstOrderRate>
+            <me:firstOrderRate fromRef="acetyl" toRef="lactone+OH" reactionType="irreversible">8720.64</me:firstOrderRate>
+            <me:firstOrderRate fromRef="Int1" toRef="ketene+HO_2" reactionType="irreversible">0.0381605</me:firstOrderRate>
+            <me:firstOrderRate fromRef="Int2" toRef="ketene+HO_2" reactionType="irreversible">-5.83058e-020</me:firstOrderRate>
+            <me:firstOrderRate fromRef="acetyl" toRef="ketene+HO_2" reactionType="irreversible">0.883369</me:firstOrderRate>
+            <me:firstOrderRate fromRef="Int1(+)" toRef="Int1(-)" reactionType="deactivation">5.12794e+007</me:firstOrderRate>
+            <me:firstOrderRate fromRef="Int2" toRef="Int1(-)" reactionType="deactivation">2.83676e-011</me:firstOrderRate>
+            <me:firstOrderRate fromRef="acetyl" toRef="Int1(-)" reactionType="deactivation">-168996</me:firstOrderRate>
+        </me:rateList>
+    </me:analysis>
+</me:mesmer>
