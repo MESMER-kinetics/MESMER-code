@@ -116,9 +116,18 @@ namespace mesmer
       const char* pUppertxt = ppActEne->XmlReadValue("upper", optional);
       const char* pStepStxt = ppActEne->XmlReadValue("stepsize", optional);
       double value(getConvertedEnergy(unitsInput, tmpvalue));
+      if(value<0.0)
+      {
+        cerr << "activation energy should not be negative when used with ILT" << endl;
+        return false;
+      }
       if (pLowertxt && pUppertxt){
         double tmpvalueL(0.0), tmpvalueU(0.0), tmpstepsize(0.0);
         stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
+        if(value<0.0){
+          cerr << "lower bound of activation energy should not be negative when used with ILT";
+          return false;
+        }
         s3 >> tmpvalueL; s4 >> tmpvalueU; s5 >> tmpstepsize;
         double valueL(getConvertedEnergy(unitsInput, tmpvalueL));
         double valueU(getConvertedEnergy(unitsInput, tmpvalueU));

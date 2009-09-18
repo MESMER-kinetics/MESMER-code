@@ -211,8 +211,8 @@ namespace mesmer
   double Reaction::get_ThresholdEnergy(void) {
     // ILT
     if (usesILT()){
-      if (m_EInf < 0.0)
-        cerr << "Providing negative E_infinity in Reaction " << getName() << " is invalid.";
+      //if (m_EInf < 0.0) now checked during parsing
+      //  cerr << "Providing negative E_infinity in Reaction " << getName() << " is invalid.";
      
       if (m_isRvsILTpara){
         const double tempv = m_EInf ;

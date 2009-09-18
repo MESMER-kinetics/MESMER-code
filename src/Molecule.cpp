@@ -137,6 +137,11 @@ namespace mesmer
     return true;
   }
 
+  bool Molecule::isCemetery()
+  {
+    return g_coll && g_coll->isCemetery();
+  }
+
   const MesmerEnv& Molecule::getEnv() const        {
     return m_Env;
   }

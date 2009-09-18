@@ -77,6 +77,7 @@ namespace mesmer
     MesmerFlags& getFlags();
 
     bool checkFrequencies();
+    bool isCemetery(); //Returns true for modelled molecules marked a cemetery state, false for others 
 
 //    double getMass() ;
 //    void   setMass(double value);

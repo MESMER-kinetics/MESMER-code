@@ -1,3 +1,17 @@
+2009-September-18 Chris Morley
+
+	* src/MicroRate.cpp, src/Reaction.cpp: move the check on the activation energy
+	being positive with ILT reactions from the calculation to the parsing phase,
+	so that it is found earlier and the program terminated.
+	
+	* src/ReactionManager.cpp: during parsing, continue after an error to find further
+	errors, but retainthe updated readStatus to terminate before calculation.
+	
+	* src/Molecule.h,src/Molecule.cpp,src.ReactionManager.cpp: Added new function
+	Molecule::isCemeteryState(). Avoids the construction of a gWellProperties member
+	if it didn't already have one and the making of inappropriate default values of
+	deltaEDown, which occurred with getColl().isCemeteryState().	 
+
 _2009_09_18__13_21_13_ Chi-Hsiu Liang
 
   * Coorect an indices error on AssociationReaction.cpp

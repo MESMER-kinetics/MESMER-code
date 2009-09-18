@@ -78,11 +78,11 @@ namespace mesmer
 
       PersistPtr ppReactant1  = ppReactantList->XmlMoveTo("reactant");
       if(ppReactant1) {
-        readStatus = GetMoleculeInfo(ppReactant1, rct1Name, rct1Type) ;
+        readStatus = readStatus && GetMoleculeInfo(ppReactant1, rct1Name, rct1Type) ;
 
         PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
         if(ppReactant2) {
-          readStatus = (readStatus && GetMoleculeInfo(ppReactant2, rct2Name, rct2Type)) ;
+          readStatus = readStatus && (readStatus && GetMoleculeInfo(ppReactant2, rct2Name, rct2Type)) ;
           bRct2 = true;
         }
       }
@@ -103,8 +103,8 @@ namespace mesmer
         }
       }
 
-      if (!readStatus)
-        return false ;
+      //if (!readStatus)
+      //  return false ;
 
       //
       // Create a new Reaction.  For association & exchange reactions, if rct1Type == reactant,
@@ -129,15 +129,10 @@ namespace mesmer
       // surface. In addition, for dissociation reaction with QM tunneling, Mesmer also
       // needs to know the barrier height on the products side.
 
-      //
-      // Initialize Reaction from input stream.
-      //
-      readStatus = preaction->InitializeReaction(ppReac);
-      if(!readStatus){
-        //delete preaction;
-        //return false;
+      readStatus = readStatus && preaction->InitializeReaction(ppReac);
+      if(!readStatus)
         cerr << "UNSATISFACTORY REACTION\n"; //but keep parsing
-      }
+      
 
       //
       // Add reaction to map.
@@ -695,7 +690,7 @@ namespace mesmer
       int seqMatrixLoc = itr1->second;                          //in the Eq frac map
       Molecule* key = itr1->first;
       key->getPop().setEqFraction(eqMatrix[seqMatrixLoc][counter-1]);    //set Eq fraction to last column in eqMatrix
-      string speciesName = key->getColl().isCemetery() ? key->getName() + "(+)" : key->getName();
+      string speciesName = key->isCemetery() ? key->getName() + "(+)" : key->getName();
       ctest << "Equilibrium Fraction for " << speciesName << " = " << key->getPop().getEqFraction() << endl;
     }
     return true;
@@ -1381,7 +1376,7 @@ namespace mesmer
     for(lossitr=m_SpeciesSequence.begin(); lossitr!=m_SpeciesSequence.end(); ++lossitr){
       Molecule* iso = lossitr->first;
       int losspos = lossitr->second;
-      string isomerName = iso->getColl().isCemetery() ? iso->getName() + "(+)" : iso->getName();
+      string isomerName = iso->isCemetery() ? iso->getName() + "(+)" : iso->getName();
       ctest << isomerName << " loss = " << Kr[losspos][losspos] << endl;
       PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", Kr[losspos][losspos]);
       ppItem->XmlWriteAttribute("ref", isomerName);
@@ -1399,11 +1394,11 @@ namespace mesmer
       // print pseudo first order connecting ks
       for (rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
         Molecule* rct = rctitr->first;
-        string rctName = rct->getColl().isCemetery() ? rct->getName() + "(+)" : rct->getName();
+        string rctName = rct->isCemetery() ? rct->getName() + "(+)" : rct->getName();
         int rctpos = rctitr->second;
         for (pdtitr=m_SpeciesSequence.begin(); pdtitr!=m_SpeciesSequence.end(); ++pdtitr){
           Molecule* pdt = pdtitr->first;
-          string pdtName = pdt->getColl().isCemetery() ? pdt->getName() + "(+)" : pdt->getName();
+          string pdtName = pdt->isCemetery() ? pdt->getName() + "(+)" : pdt->getName();
           int pdtpos = pdtitr->second;
           if(rctpos != pdtpos){
             ctest << rctName << " -> " << pdtName << " = " << Kr[pdtpos][rctpos] << endl;
@@ -1467,11 +1462,11 @@ namespace mesmer
       ctest << "\nFirst order & pseudo first order rate coefficients for cemetery states:\n{\n";
       for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
         Molecule* isomer = ipos->first;
-        if (isomer->getColl().isCemetery()){ // if it is in cemetery state
+        if (isomer->isCemetery()){ // if it is in cemetery state
           string cemName = isomer->getName() + "(-)";
           for (speciesitr=m_SpeciesSequence.begin(); speciesitr!=m_SpeciesSequence.end(); ++speciesitr){
             Molecule* rct = speciesitr->first;
-            string rctName = rct->getColl().isCemetery() ? rct->getName() + "(+)" : rct->getName();
+            string rctName = rct->isCemetery() ? rct->getName() + "(+)" : rct->getName();
             int rctpos = speciesitr->second;
             ctest << rctName << " -> " << cemName << " = " << Kp[m_sinkRxns.size()+tempNumCemetery][rctpos] << endl;
 
