@@ -2823,12 +2823,12 @@ acetyl -> Int2 = 380.14
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-Int1 -> lactone = 2.17049e-008
-Int2 -> lactone = 0.00105704
-acetyl -> lactone = 8095.66
-Int1 -> ketene = 3.65068e-015
-Int2 -> ketene = 5.09258e-015
-acetyl -> ketene = 1.99252
+Int1 -> lactone+OH = 2.17049e-008
+Int2 -> lactone+OH = 0.00105704
+acetyl -> lactone+OH = 8095.66
+Int1 -> ketene+HO2 = 3.65068e-015
+Int2 -> ketene+HO2 = 5.09258e-015
+acetyl -> ketene+HO2 = 1.99252
 }
 
 }

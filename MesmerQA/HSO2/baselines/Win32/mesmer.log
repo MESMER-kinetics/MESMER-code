@@ -34,11 +34,14 @@ PT Grid 0
 Build Collison Operator
 Cell number = 13400, Grain number = 134
 In H: The default value of me:DOSCMethod was used.
+In H: No value of me:deltaEDown was supplied and the default value NEEDS TO BE CHECKED**
+In H: The default value of me:DistributionCalcMethod was used.
 Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
 
 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 2 seconds.
- -- Total time elapsed: 6 seconds.
+Finish Calculation -- Time elapsed: 9 seconds.
+ -- Total time elapsed: 22 seconds.
 
 System saved to out.xml
+m_DeltaEdown is provided but not used in H.
 m_scaleFactor is provided but not used in H.

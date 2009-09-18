@@ -136,11 +136,11 @@ namespace mesmer
 
     for ( int i = reverseThreshE, j = fluxStartIdx; i < colloptrsize; ++i, ++j) {
       int ii(pdtLoc + i - pShiftedGrains) ;
-
+      int kk (i - pShiftedGrains);
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[j] / pdtDOS[i]);                                // Loss of the adduct to the source
-      (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[j] * sqrt(adductPopFrac[ii] * Keq) / pdtDOS[i]);// Reactive gain of the source
+      (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[j] * sqrt(adductPopFrac[kk] * Keq) / pdtDOS[i]);// Reactive gain of the source
       (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                                                      // Reactive gain (symmetrization)
-      DissRateCoeff       += qd_real(m_GrainFlux[j] * adductPopFrac[ii] / pdtDOS[i]);
+      DissRateCoeff       += qd_real(m_GrainFlux[j] * adductPopFrac[kk] / pdtDOS[i]);
     }
     (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * DissRateCoeff * Keq);       // Loss of the source from detailed balance.
   }
