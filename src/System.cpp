@@ -342,7 +342,7 @@ namespace mesmer
     if(Rdouble::withRange().size()!=0)
     {
       PersistPtr ppParams = ppAnalysis->XmlWriteElement("me:parameters");
-      for(int i=0;i!=Rdouble::withRange().size();++i)
+      for(size_t i=0;i!=Rdouble::withRange().size();++i)
       {
         stringstream ss;
         ss << *Rdouble::withRange()[i];

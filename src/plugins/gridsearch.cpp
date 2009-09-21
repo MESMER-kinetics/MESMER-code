@@ -44,7 +44,7 @@ bool GridSearch::CalcAndReport(System* pSys)
   double chiSquare(1000.0);
   ctest << "Parameter Grid\n";
 
-  for(int i=0;i!=Rdouble::withRange().size();++i)
+  for(size_t i=0;i!=Rdouble::withRange().size();++i)
   {
     cerr  << ' ' << Rdouble::withRange()[i]->get_varname() << '=' << *Rdouble::withRange()[i];
     ctest << ' ' << Rdouble::withRange()[i]->get_varname() << '=' << *Rdouble::withRange()[i];

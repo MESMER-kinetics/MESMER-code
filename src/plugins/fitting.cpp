@@ -158,3 +158,4 @@ bool Fitting::DoCalculation(System* pSys)
 
 
 }//namespace
+

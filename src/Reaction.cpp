@@ -45,12 +45,12 @@ namespace mesmer
     m_NInf(0.0),
     m_TInf(298.0),
     m_EInf(0.0),
+    m_usesILT(false),
     m_isRvsILTpara(false),
     m_kfwd(0.0),
     m_GrnFluxFirstNonZeroIdx(0),
     m_EffGrainedFwdThreshold(0),
-    m_EffGrainedRvsThreshold(0),
-    m_usesILT(false)
+    m_EffGrainedRvsThreshold(0)
   {}
 
   Reaction::~Reaction(){}

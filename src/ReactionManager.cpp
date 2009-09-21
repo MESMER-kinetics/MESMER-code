@@ -1290,6 +1290,9 @@ namespace mesmer
           KofEs.clear();
         }
       }
+
+      Y_matrix.print((int)(m_sinkRxns.size()) + numberOfCemeteries, (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
+
       // calculate Y_matrix matrix elements for cemetery states
       for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
         Molecule* isomer = ipos->first;
@@ -1310,9 +1313,11 @@ namespace mesmer
           ++numberOfCemeteries;
         }
       }
+
+      Y_matrix.print((int)(m_sinkRxns.size()) + numberOfCemeteries, (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
     }
 
-    //Y_matrix.print((int)(m_sinkRxns.size()) + numberOfCemeteries, (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
+    Y_matrix.print((int)(m_sinkRxns.size()) + numberOfCemeteries, (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
 
     dMatrix Zinv(Z_matrix), Zidentity(nchem), Kr(nchem);
     db2D Kp;
@@ -1440,15 +1445,17 @@ namespace mesmer
             }
           }
           else{
-            ctest << rcts->getName() << " -> "  << pdtsName << " = " << Kp[sinkpos][rctpos] << endl;
+            string rctName = rcts->getColl().isCemetery() ? rcts->getName() + "(+)" : rcts->getName();
+
+            ctest << rctName << " -> "  << pdtsName << " = " << Kp[sinkpos][rctpos] << endl;
 
             PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", Kp[sinkpos][rctpos]);
-            ppItem->XmlWriteAttribute("fromRef", rcts->getName());
+            ppItem->XmlWriteAttribute("fromRef", rctName);
             ppItem->XmlWriteAttribute("toRef",   pdtsName);
             ppItem->XmlWriteAttribute("reactionType", "irreversible");
             puNumbers << Kp[sinkpos][rctpos] << "\t";
             if (punchSymbolGathered == false){
-              puSymbols << rcts->getName() << " -> " << pdtsName << "\t";
+              puSymbols << rctName << " -> " << pdtsName << "\t";
             }
           }
         }

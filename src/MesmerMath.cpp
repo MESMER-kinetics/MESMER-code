@@ -877,3 +877,4 @@ void nrerror(std::string message)
 }
 
 #undef SIGN
+

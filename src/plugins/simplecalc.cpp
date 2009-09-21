@@ -28,3 +28,4 @@ bool SimpleCalc::DoCalculation(System* pSys)
 }
 
 }//namespace
+
