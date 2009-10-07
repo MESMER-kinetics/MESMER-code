@@ -41,14 +41,14 @@ Association ILT calculation completed
 20 values in the FFT convolution routine were replaced by standard convolution
 
 20 values in the FFT convolution routine were replaced by standard convolution
-In OH: No value of me:deltaEDown was supplied and the default value NEEDS TO BE CHECKED**
-In OH: The default value of me:DistributionCalcMethod was used.
 Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
 In mesmer::ReactionManager::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
+In OH: No value of me:deltaEDown was supplied and the default value NEEDS TO BE CHECKED**
+In OH: The default value of me:DistributionCalcMethod was used.
 
 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 64 seconds.
- -- Total time elapsed: 110 seconds.
+Finish Calculation -- Time elapsed: 40 seconds.
+ -- Total time elapsed: 69 seconds.
 
 System saved to out.xml
 m_DeltaEdown is provided but not used in OH.

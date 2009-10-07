@@ -176,10 +176,10 @@ namespace mesmer
 
        m_CalcMethod = CalcMethod::GetCalcMethod(ppControl);
 
-      if (m_Flags.grainedProfileEnabled && (m_Flags.speciesProfileEnabled)){
-        cinfo << "Turn off grained species profile to prevent disk flooding." << endl;
-        m_Flags.grainedProfileEnabled = false;
-      }
+      //if (m_Flags.grainedProfileEnabled && (m_Flags.speciesProfileEnabled)){
+      //  cinfo << "Turn off grained species profile to prevent disk flooding." << endl;
+      //  m_Flags.grainedProfileEnabled = false;
+      //}
 
       const char* txtPCOP = ppControl->XmlReadValue("me:printCollisionOperatorLevel",false);
       if(txtPCOP) {

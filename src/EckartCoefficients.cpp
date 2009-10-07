@@ -82,6 +82,7 @@ namespace mesmer
       }
       else
       {
+        // a, b, and c are unitless
         double a = (4.0 * M_PI * SpeedOfLight_in_cm /imFreq)* sqrt(E + V0) * 1.0/(1.0/sqrt(V0) + 1.0/sqrt(V1));
         double b = (4.0 * M_PI * SpeedOfLight_in_cm /imFreq)* sqrt(E + V1) * 1.0/(1.0/sqrt(V0) + 1.0/sqrt(V1));
         double c = 2.0 * M_PI * sqrt(V0 * V1 / (pow(imFreq/SpeedOfLight_in_cm ,2.0)) - 1.0/16.0);
@@ -95,7 +96,7 @@ namespace mesmer
       ctest << "\nTunneling coefficients for: " << pReact->getName()
         << "\nV0 = " << V0 << ", V1 = " << V1
         << ", barrier0 = " << barrier0 << ", barrier1 = " << barrier1
-        << ", imFreq = " << imFreq << "\n{\n";
+        << ", imFreq = " << imFreq << " Hz\n{\n";
       for(int i = 0; i < MaximumCell; ++i){
         ctest << TunnelingProbability[i] << endl;
       }

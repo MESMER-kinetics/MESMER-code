@@ -31,6 +31,6 @@ In mesmer::ReactionManager::timeEvolution: Initialize a Boltzmann distribution i
 
 1 temperature/concentration-pressure points calculated.
 Finish Calculation -- Time elapsed: 11 seconds.
- -- Total time elapsed: 12 seconds.
+ -- Total time elapsed: 13 seconds.
 
 System saved to out.xml

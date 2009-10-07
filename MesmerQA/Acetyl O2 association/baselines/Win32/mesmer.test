@@ -2770,6 +2770,11 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 2
 
 There should be 3 chemically significant eigenvalues (CSEs)
+Y_matrix:
+{
+         -0.00114581       -6.40678e-005        1.28783e-006
+       -2.82008e-007       -2.54097e-015        3.96058e-014
+}
 
 Z_matrix: {
 -1.41533e-007	-1.15647e-015	1.80457e-014	

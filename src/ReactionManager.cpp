@@ -132,7 +132,7 @@ namespace mesmer
       readStatus = readStatus && preaction->InitializeReaction(ppReac);
       if(!readStatus)
         cerr << "UNSATISFACTORY REACTION\n"; //but keep parsing
-      
+
 
       //
       // Add reaction to map.
@@ -907,14 +907,14 @@ namespace mesmer
       double numColl = m_meanOmega * timePoints[timestep];
       for (int j = 0; j < smsize; ++j) {
         work2[j] = r_0[j] * exp(to_double(m_eigenvalues[j]) * numColl);
-      } // now |wk2> = exp(Dt)*V^(T)*|init> = exp(Dt)*U^(-1)*|n_0>
+      } // now |wk2> = exp(Lambda*t)*V^(T)*|init> = exp(Lambda*t)*U^(-1)*|n_0>
       for (int j = 0; j < smsize; ++j) {
         double sum = 0.;
         for (int l = 0; l < smsize; ++l) {
           sum += work2[l] * totalEigenVecs[j][l];
         }
         grnProfile[j][timestep] = sum;
-      } // now |grnProfile(t)> = |grnProfile(i)> = F*V*exp(Dt)*V^(T)*|init> = U*exp(Dt)*U^(-1)*|n_0>
+      } // now |grnProfile(t)> = |grnProfile(i)> = F*V*exp(Lambda*t)*V^(T)*|init> = U*exp(Lambda*t)*U^(-1)*|n_0>
     }
 
     //------------------------------
@@ -1167,7 +1167,7 @@ namespace mesmer
         assymEigenVec[j][i] = m_eqVector[j] * (*m_eigenvectors)[j][i] ; //calculation of U = FV
         sm += assymEigenVec[j][i] ;
       }
-   }
+    }
 
     //------------------------- TEST block ----------------------------------------
     for(size_t i(nchemIdx) ; i<smsize ; ++i){         // multiply U*U^(-1) for testing
@@ -1291,8 +1291,6 @@ namespace mesmer
         }
       }
 
-      Y_matrix.print((int)(m_sinkRxns.size()) + numberOfCemeteries, (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
-
       // calculate Y_matrix matrix elements for cemetery states
       for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
         Molecule* isomer = ipos->first;
@@ -1313,11 +1311,12 @@ namespace mesmer
           ++numberOfCemeteries;
         }
       }
-
-      Y_matrix.print((int)(m_sinkRxns.size()) + numberOfCemeteries, (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
     }
 
-    Y_matrix.print((int)(m_sinkRxns.size()) + numberOfCemeteries, (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
+    if (m_sinkRxns.size() + numberOfCemeteries){
+      ctest << "Y_matrix:" << endl;
+      Y_matrix.print((int)(m_sinkRxns.size()) + numberOfCemeteries, (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
+    }
 
     dMatrix Zinv(Z_matrix), Zidentity(nchem), Kr(nchem);
     db2D Kp;
@@ -1613,8 +1612,8 @@ namespace mesmer
       Molecule *isomer = isomeritr->first ;
       int colloptrsize = isomer->getColl().getNumberOfGroupedGrains() != 0
         ? ( isomer->getColl().isCemetery()
-          ? isomer->getColl().get_colloptrsize() - isomer->getColl().getNumberOfGroupedGrains()
-          : isomer->getColl().get_colloptrsize() - isomer->getColl().getNumberOfGroupedGrains() + 1)
+        ? isomer->getColl().get_colloptrsize() - isomer->getColl().getNumberOfGroupedGrains()
+        : isomer->getColl().get_colloptrsize() - isomer->getColl().getNumberOfGroupedGrains() + 1)
         : isomer->getColl().get_colloptrsize();
       double omega = isomer->getColl().get_collisionFrequency();
       int idx = isomeritr->second ;
