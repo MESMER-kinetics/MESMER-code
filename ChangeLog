@@ -1,3 +1,8 @@
+_2009_10_12__09_13_20_ Chi-Hsiu Liang
+
+  * Modify some terms in Bartis-Widom rates to QD in order to avoid some diagonalization problem
+    after converting from QD to double.
+
 _2009_10_07__16_11_46_ Chi-Hsiu Liang
 
   * Minor modifications

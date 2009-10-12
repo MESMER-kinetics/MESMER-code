@@ -400,7 +400,7 @@ namespace mesmer
       ppList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
       ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
       ppList->XmlWriteAttribute("me:units", "s-1");
-      dMatrix mesmerRates(1);
+      qdMatrix mesmerRates(1);
       m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates, m_Flags, ppList);
 
         vector<conditionSet> expRates;

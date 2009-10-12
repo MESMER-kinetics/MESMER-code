@@ -996,37 +996,37 @@ Number of sinks in this system: 0
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
 Z_matrix: {
-0.164709	0.0282069	
--0.164859	0.971793	
+1.647092e-01	2.820686e-02	
+-1.648585e-01	9.717931e-01	
 }
 
 Z_matrix^(-1):
 {
-5.8999	-0.171248	
-1.00088	0.999974	
+5.899902e+00	-1.712481e-01	
+1.000881e+00	9.999744e-01	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1	-3.46945e-018	
--2.22045e-016	1	
+1.000000e+00	-5.934730e-67	
+3.798227e-65	1.000000e+00	
 }
 
 Kr matrix:
 {
--1.12649e-005	3.2697e-007	
-1.12751e-005	-3.27266e-007	
+-1.126488e-05	3.269698e-07	
+1.127510e-05	-3.272662e-07	
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-2-pentyl loss = -3.27266e-007
-n-pentyl loss = -1.12649e-005
+2-pentyl loss = -3.272662e-07
+n-pentyl loss = -1.126488e-05
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-2-pentyl -> n-pentyl = 3.2697e-007
-n-pentyl -> 2-pentyl = 1.12751e-005
+2-pentyl -> n-pentyl = 3.269698e-07
+n-pentyl -> 2-pentyl = 1.127510e-05
 }
 }

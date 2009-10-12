@@ -1150,7 +1150,7 @@ namespace mesmer
     return true;
   }
 
-  bool ReactionManager::BartisWidomPhenomenologicalRates(dMatrix& mesmerRates, MesmerFlags& mFlags, PersistPtr ppList)
+  bool ReactionManager::BartisWidomPhenomenologicalRates(qdMatrix& mesmerRates, MesmerFlags& mFlags, PersistPtr ppList)
   {
     // Constants.
     const size_t smsize   = m_eigenvectors->size() ;
@@ -1184,8 +1184,8 @@ namespace mesmer
     }
     //------------------------- TEST block ----------------------------------------
 
-    dMatrix Z_matrix(nchem);  // definitions of Y_matrix and Z_matrix taken from PCCP 2007(9), p.4085
-    db2D Y_matrix;
+    qdMatrix Z_matrix(nchem);  // definitions of Y_matrix and Z_matrix taken from PCCP 2007(9), p.4085
+    qdb2D Y_matrix;
     Reaction::molMapType::iterator ipos;  // set up an iterator through the isomer map
     Reaction::molMapType::iterator spos;  // set up an iterator through the source map
     sinkMap::iterator sinkpos;           // set up an iterator through the irreversible rxn map
@@ -1235,7 +1235,7 @@ namespace mesmer
         for(int j(0) ; j<colloptrsize ; ++j){
           sm += assymEigenVec[rxnMatrixLoc-j][nchemIdx+i];
         }
-        Z_matrix[seqMatrixLoc][i] = to_double(sm);
+        Z_matrix[seqMatrixLoc][i] = sm;
       }
 
       // Calculate Z_matrix matrix elements for all sources in the system.
@@ -1244,7 +1244,7 @@ namespace mesmer
         Molecule* pPseudoIsomer = spos->first ;
         const int rxnMatrixLoc = spos->second;
         const int seqMatrixLoc = m_SpeciesSequence[pPseudoIsomer];
-        Z_matrix[seqMatrixLoc][i] = to_double(assymEigenVec[rxnMatrixLoc][nchemIdx+i]);
+        Z_matrix[seqMatrixLoc][i] = assymEigenVec[rxnMatrixLoc][nchemIdx+i];
       }
 
       // Calculate Y_matrix elements for sinks.
@@ -1286,7 +1286,7 @@ namespace mesmer
           for(int j(0);j<colloptrsize;++j){
             sm += assymEigenVec[rxnMatrixLoc+j][nchemIdx+i] * KofEsTemp[j];
           }
-          Y_matrix[seqMatrixLoc][i] = to_double(sm);
+          Y_matrix[seqMatrixLoc][i] = sm;
           KofEs.clear();
         }
       }
@@ -1306,7 +1306,7 @@ namespace mesmer
           for(int j(0);j<colloptrsize;++j){
             sm += assymEigenVec[rxnMatrixLoc+j][nchemIdx+i] * KofEs[j] * m_meanOmega;
           }
-          Y_matrix[seqMatrixLoc][i] = to_double(sm);
+          Y_matrix[seqMatrixLoc][i] = sm;
           KofEs.clear();
           ++numberOfCemeteries;
         }
@@ -1318,8 +1318,8 @@ namespace mesmer
       Y_matrix.print((int)(m_sinkRxns.size()) + numberOfCemeteries, (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
     }
 
-    dMatrix Zinv(Z_matrix), Zidentity(nchem), Kr(nchem);
-    db2D Kp;
+    qdMatrix Zinv(Z_matrix), Zidentity(nchem), Kr(nchem);
+    qdb2D Kp;
 
     if(Zinv.invertGaussianJordan()){
       cerr << "Inversion of Z_matrix failed.  Matrix before inversion is: ";
@@ -1334,7 +1334,7 @@ namespace mesmer
 
     for(size_t i(0);i<nchem;++i){          // multiply Z_matrix*Z_matrix^(-1) for testing
       for(size_t j(0);j<nchem;++j){
-        double sm = 0.0;
+        qd_real sm = 0.0;
         for(size_t k(0);k<nchem;++k){
           sm += Z_matrix[i][k] * Zinv[k][j];
         }
@@ -1347,7 +1347,7 @@ namespace mesmer
 
     for(size_t i(0);i<nchem;++i){          // calculate Kr (definition taken from PCCP 2007(9), p.4085)
       for(size_t j(0);j<nchem;++j){
-        double sm = 0.0;
+        qd_real sm = 0.0;
         for(size_t k(0);k<nchem;++k){
           sm += Z_matrix[i][k] * to_double(m_eigenvalues[nchemIdx+k]) * Zinv[k][j];
         }
@@ -1360,7 +1360,7 @@ namespace mesmer
     if(m_sinkRxns.size()!=0){
       for(size_t i(0); i != m_sinkRxns.size() + numberOfCemeteries; ++i){    // calculate Kp (definition taken from PCCP 2007(9), p.4085)
         for(size_t j(0);j<nchem;++j){
-          double sm = 0.0;
+          qd_real sm = 0.0;
           for(size_t k(0);k<nchem;++k){
             sm += Y_matrix[i][k] * Zinv[k][j];
           }
@@ -1382,7 +1382,7 @@ namespace mesmer
       int losspos = lossitr->second;
       string isomerName = iso->isCemetery() ? iso->getName() + "(+)" : iso->getName();
       ctest << isomerName << " loss = " << Kr[losspos][losspos] << endl;
-      PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", Kr[losspos][losspos]);
+      PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", to_double(Kr[losspos][losspos]));
       ppItem->XmlWriteAttribute("ref", isomerName);
 
       puNumbers << Kr[losspos][losspos] << "\t";
@@ -1407,7 +1407,7 @@ namespace mesmer
           if(rctpos != pdtpos){
             ctest << rctName << " -> " << pdtName << " = " << Kr[pdtpos][rctpos] << endl;
 
-            PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", Kr[pdtpos][rctpos]);
+            PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kr[pdtpos][rctpos]));
             ppItem->XmlWriteAttribute("fromRef", rctName);
             ppItem->XmlWriteAttribute("toRef",   pdtName);
             ppItem->XmlWriteAttribute("reactionType", "isomerization");
@@ -1448,7 +1448,7 @@ namespace mesmer
 
             ctest << rctName << " -> "  << pdtsName << " = " << Kp[sinkpos][rctpos] << endl;
 
-            PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", Kp[sinkpos][rctpos]);
+            PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kp[sinkpos][rctpos]));
             ppItem->XmlWriteAttribute("fromRef", rctName);
             ppItem->XmlWriteAttribute("toRef",   pdtsName);
             ppItem->XmlWriteAttribute("reactionType", "irreversible");
@@ -1476,7 +1476,7 @@ namespace mesmer
             int rctpos = speciesitr->second;
             ctest << rctName << " -> " << cemName << " = " << Kp[m_sinkRxns.size()+tempNumCemetery][rctpos] << endl;
 
-            PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", Kp[m_sinkRxns.size()+tempNumCemetery][rctpos]);
+            PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kp[m_sinkRxns.size()+tempNumCemetery][rctpos]));
             ppItem->XmlWriteAttribute("fromRef", rctName);
             ppItem->XmlWriteAttribute("toRef",   cemName);
             ppItem->XmlWriteAttribute("reactionType", "deactivation");
@@ -1539,7 +1539,7 @@ namespace mesmer
     }
   }
 
-  double ReactionManager::calcChiSquare(const dMatrix& mesmerRates, vector<conditionSet>& expRates){
+  double ReactionManager::calcChiSquare(const qdMatrix& mesmerRates, vector<conditionSet>& expRates){
     double chiSquare = 0.0;
 
     for (size_t i(0); i < expRates.size(); ++i){
@@ -1569,7 +1569,7 @@ namespace mesmer
         break;
       }
 
-      double diff = (mesmerRates[seqMatrixLoc1][seqMatrixLoc2] - expRate);
+      double diff = (to_double(mesmerRates[seqMatrixLoc1][seqMatrixLoc2]) - expRate);
       chiSquare += (diff * diff) / (expErr * expErr);
     }
 

@@ -1515,53 +1515,53 @@ Number of sinks in this system: 1
 There should be 2 chemically significant eigenvalues (CSEs)
 Y_matrix:
 {
-       -6.29246e-006        1.03177e-012
+       -6.292458e-06        1.031771e-12
 }
 
 Z_matrix: {
--2.18507e-008	4.75584e-016	
-2.17651e-008	1	
+-2.185068e-08	4.755837e-16	
+2.176510e-08	1.000000e+00	
 }
 
 Z_matrix^(-1):
 {
--4.57652e+007	2.17652e-008	
-0.996083	1	
+-4.576517e+07	2.176517e-08	
+9.960835e-01	1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1	0	
-0	1	
+1.000000e+00	-1.686752e-80	
+-1.899114e-65	1.000000e+00	
 }
 
 Kr matrix:
 {
--73528.3	3.49688e-011	
-73240.3	9.10556e-006	
+-7.352825e+04	3.496884e-11	
+7.324028e+04	9.105560e-06	
 }
 
 Kp matrix:
 {
-             287.975        8.94815e-013
+        2.879754e+02        8.948147e-13
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-OH loss = -73528.3
-OH_acetylene_adduct loss = 9.10556e-006
+OH loss = -7.352825e+04
+OH_acetylene_adduct loss = 9.105560e-06
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-OH -> OH_acetylene_adduct = 73240.3
-OH_acetylene_adduct -> OH = 3.49688e-011
+OH -> OH_acetylene_adduct = 7.324028e+04
+OH_acetylene_adduct -> OH = 3.496884e-11
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-OH -> OCHCH2 = 287.975
-OH_acetylene_adduct -> OCHCH2 = 8.94815e-013
+OH -> OCHCH2 = 2.879754e+02
+OH_acetylene_adduct -> OCHCH2 = 8.948147e-13
 }
 
 }

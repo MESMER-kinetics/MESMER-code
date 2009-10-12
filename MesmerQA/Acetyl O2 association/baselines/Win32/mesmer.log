@@ -52,8 +52,8 @@ In acetyl: No value of me:deltaEDown was supplied and the default value NEEDS TO
 In acetyl: The default value of me:DistributionCalcMethod was used.
 
 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 49 seconds.
- -- Total time elapsed: 167 seconds.
+Finish Calculation -- Time elapsed: 41 seconds.
+ -- Total time elapsed: 133 seconds.
 
 System saved to out.xml
 m_ImFreq is provided but not used in TS2.

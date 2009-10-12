@@ -2772,68 +2772,68 @@ Number of sinks in this system: 2
 There should be 3 chemically significant eigenvalues (CSEs)
 Y_matrix:
 {
-         -0.00114581       -6.40678e-005        1.28783e-006
-       -2.82008e-007       -2.54097e-015        3.96058e-014
+       -1.145805e-03       -6.406782e-05        1.287831e-06
+       -2.820083e-07       -2.540969e-15        3.960582e-14
 }
 
 Z_matrix: {
--1.41533e-007	-1.15647e-015	1.80457e-014	
-1.2706e-007	0.0197204	0.997966	
-6.47786e-010	-0.060611	0.00119771	
+-1.415333e-07	-1.156471e-15	1.804570e-14	
+1.270599e-07	1.972036e-02	9.979659e-01	
+6.477865e-10	-6.061104e-02	1.197708e-03	
 }
 
 Z_matrix^(-1):
 {
--7.06548e+006	1.2755e-007	1.7631e-007	
--0.0577145	0.0197931	-16.4922	
-0.900709	1.00165	0.325895	
+-7.065477e+06	1.275498e-07	1.763102e-07	
+-5.771447e-02	1.979310e-02	-1.649220e+01	
+9.007088e-01	1.001647e+00	3.258951e-01	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1	9.46633e-030	3.9443e-030	
-0	1	0	
-8.91214e-017	-2.91217e-016	1	
+1.000000e+00	0.000000e+00	-8.096408e-79	
+9.495568e-65	1.000000e+00	7.566781e-66	
+2.537097e-65	-1.703221e-65	1.000000e+00	
 }
 
 Kr matrix:
 {
--83055.8	1.49937e-009	2.07256e-009	
-74562.4	-1.81055e-006	0.000508815	
-380.14	1.87686e-006	-0.00156506	
+-8.305581e+04	1.499368e-09	2.072555e-09	
+7.456240e+04	-1.810548e-06	5.088154e-04	
+3.801398e+02	1.876862e-06	-1.565062e-03	
 }
 
 Kp matrix:
 {
-             8095.66        2.17049e-008          0.00105704
-             1.99252        3.65068e-015        5.09258e-015
+        8.095661e+03        2.170495e-08        1.057039e-03
+        1.992523e+00        3.650675e-15        5.092579e-15
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-Int1 loss = -1.81055e-006
-Int2 loss = -0.00156506
-acetyl loss = -83055.8
+Int1 loss = -1.810548e-06
+Int2 loss = -1.565062e-03
+acetyl loss = -8.305581e+04
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-Int1 -> Int2 = 1.87686e-006
-Int1 -> acetyl = 1.49937e-009
-Int2 -> Int1 = 0.000508815
-Int2 -> acetyl = 2.07256e-009
-acetyl -> Int1 = 74562.4
-acetyl -> Int2 = 380.14
+Int1 -> Int2 = 1.876862e-06
+Int1 -> acetyl = 1.499368e-09
+Int2 -> Int1 = 5.088154e-04
+Int2 -> acetyl = 2.072555e-09
+acetyl -> Int1 = 7.456240e+04
+acetyl -> Int2 = 3.801398e+02
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-Int1 -> lactone+OH = 2.17049e-008
-Int2 -> lactone+OH = 0.00105704
-acetyl -> lactone+OH = 8095.66
-Int1 -> ketene+HO2 = 3.65068e-015
-Int2 -> ketene+HO2 = 5.09258e-015
-acetyl -> ketene+HO2 = 1.99252
+Int1 -> lactone+OH = 2.170495e-08
+Int2 -> lactone+OH = 1.057039e-03
+acetyl -> lactone+OH = 8.095661e+03
+Int1 -> ketene+HO2 = 3.650675e-15
+Int2 -> ketene+HO2 = 5.092579e-15
+acetyl -> ketene+HO2 = 1.992523e+00
 }
 
 }

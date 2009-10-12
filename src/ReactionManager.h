@@ -86,9 +86,9 @@ namespace mesmer
 
     bool calculateEquilibriumFractions(const double beta);
 
-    bool BartisWidomPhenomenologicalRates(dMatrix& rates, MesmerFlags& mFlags,PersistPtr ppBase);
+    bool BartisWidomPhenomenologicalRates(qdMatrix& rates, MesmerFlags& mFlags,PersistPtr ppBase);
 
-    double calcChiSquare(const dMatrix& mesmerRates, vector<conditionSet>& expRates);
+    double calcChiSquare(const qdMatrix& mesmerRates, vector<conditionSet>& expRates);
 
   private:
 
