@@ -23,6 +23,7 @@ namespace mesmer{
     grainedProfileEnabled(false),
     speciesProfileEnabled(false),
     viewEvents(false),
+    shortestTimeOfInterest(1.0e100),
     maxEvolutionTime(0.),
     printEigenValuesNum(-1),
     printReactionOperatorNum(0),

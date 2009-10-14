@@ -33,6 +33,7 @@ namespace mesmer
     bool   grainedProfileEnabled;         // Option to print out grained species profile (before summation to individual species)
     bool   speciesProfileEnabled;         // Option to print species profile
     bool   viewEvents;                    // Print events timestamps
+    double shortestTimeOfInterest;        // Shortest time of interest
     double maxEvolutionTime;              // Maximum time of evolution for the species profile
     int printEigenValuesNum;              // Number of eigen values to be printed: -1 for all of them, otherwise specified.
     int printReactionOperatorNum;         // Size of printed reaction operator before and after diagonalization: -1

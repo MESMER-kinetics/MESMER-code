@@ -852,20 +852,27 @@ namespace mesmer
     // |r_0> = U^-1 |n_0>
     vector<double> r_0(smsize, 0.);
 
+    double shortestTime = 0.;
+    // set the default maximum evolution time
+    if (mFlags.shortestTimeOfInterest < 1.0e-15 || mFlags.shortestTimeOfInterest > 1.0)
+      shortestTime = 1.0e-11;
+    else
+      shortestTime = mFlags.shortestTimeOfInterest;
+
     double maxEvoTime = 0.;
     // set the default maximum evolution time
-    if (mFlags.maxEvolutionTime <= 0. || mFlags.maxEvolutionTime > 1.0e8)
-      maxEvoTime = 1.0e8;
+    if (mFlags.maxEvolutionTime <= 0.001 || mFlags.maxEvolutionTime > 1.0e8)
+      maxEvoTime = 1.2e5;
     else
       maxEvoTime = mFlags.maxEvolutionTime;
 
     // Calculates the time points
     vector<double> timePoints;
-    for (int i = 0; i <= 160; ++i){
-      double time = pow(10., static_cast<double>(i) / 10. - 11.);
-      if (time > maxEvoTime)
-        break;
-      timePoints.push_back(time);
+    for (int i = 0; i <= 300; ++i){
+      double thetime = pow(10., static_cast<double>(i) / 10. - 15.);
+      if (thetime < shortestTime) continue;
+      if (thetime > maxEvoTime) break;
+      timePoints.push_back(thetime);
     }
 
     //Initialises dt vector for calculating product yields

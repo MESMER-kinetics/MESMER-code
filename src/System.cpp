@@ -199,6 +199,12 @@ namespace mesmer
         sROS >> m_Flags.printReactionOperatorNum;
       }
 
+      const char* txtSTI = ppControl->XmlReadValue("me:shortestTimeOfInterest", optional);
+      if (txtSTI){
+        istringstream ss(txtSTI);
+        ss >> m_Flags.shortestTimeOfInterest;
+      }
+
       const char* txtMET = ppControl->XmlReadValue("me:MaximumEvolutionTime", optional);
       if (txtMET){
         istringstream ss(txtMET);

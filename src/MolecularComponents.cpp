@@ -1094,14 +1094,14 @@ namespace mesmer
       tempEGME->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
     }
 
+    //Normalisation
+    tempEGME->normalizeProbabilityMatrix();
+
     //-------------------- The part doing the same jobs as making a whole collision operator ------------
     //---------------------------------------------------------------------------------------------------
 
+
     if (nrg){
-
-      //Normalisation
-      tempEGME->normalizeProbabilityMatrix(0);
-
       if (m_host->getFlags().showCollisionOperator >= 1){
         ctest << "\nCollision operator of " << m_host->getName() << " after normalization:\n";
         tempEGME->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
@@ -1178,8 +1178,6 @@ namespace mesmer
     else{
       //--------------------------------
       // COPY, SUMMATION AND SUBSTITUTE
-      //Normalisation (Normalize the lower-right part of the matrix)
-      tempEGME->normalizeProbabilityMatrix(m_numGroupedGrains);
 
       // Need to copy things over, the active states first.
       // Deduct the population to the sink.
@@ -1192,11 +1190,11 @@ namespace mesmer
             downwardSum += (*tempEGME)[j][i];
           }
           else{
-            (*m_egme)[i - m_numGroupedGrains + nrg][j - m_numGroupedGrains + nrg] = (*tempEGME)[i][j];
+            (*m_egme)[i - m_numGroupedGrains][j - m_numGroupedGrains] = (*tempEGME)[i][j];
           }
         }
         m_GrainKdmc.push_back(downwardSum);
-        (*m_egme)[i - m_numGroupedGrains + nrg][i - m_numGroupedGrains + nrg] -= downwardSum; // loss of the active state to the cemetery state
+        (*m_egme)[i - m_numGroupedGrains][i - m_numGroupedGrains] -= downwardSum; // loss of the active state to the cemetery state
       }
 
       if (m_host->getFlags().showCollisionOperator >= 1){
@@ -1340,7 +1338,7 @@ namespace mesmer
     }
 
     //Normalisation
-    m_egme->normalizeProbabilityMatrix(0);
+    m_egme->normalizeProbabilityMatrix();
 
     if (m_host->getFlags().showCollisionOperator >= 1){
       ctest << "\nCollision operator of " << m_host->getName() << " after normalization:\n";
