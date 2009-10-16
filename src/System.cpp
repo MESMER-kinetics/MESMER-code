@@ -400,7 +400,7 @@ namespace mesmer
         ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
       }
         // Time steps loop
-        m_pReactionManager->timeEvolution(m_Flags, ppPopList); //shortened if speciesProfileEnabled==false
+      m_pReactionManager->timeEvolution(m_Flags, ppPopList); //shortened if speciesProfileEnabled==false
 
       PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
       ppList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));

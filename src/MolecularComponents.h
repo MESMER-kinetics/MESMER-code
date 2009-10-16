@@ -167,7 +167,7 @@ namespace mesmer
     void getGrainEnergies(std::vector<double> &grainEne) ;
 
     // Get Grain canonical partition function.
-    double rovibronicGrnCanPrtnFn(bool regardCemetery) ;
+    double rovibronicGrnCanPrtnFn() ;
 
   private:
 
@@ -259,6 +259,7 @@ namespace mesmer
   private:
 
     double m_initPopulation ;   // initial population of the molecule.
+    double m_initCemPop;        // initial cemetery population. (for species profile)
     double m_eqFraction ;       // equilibrium fraction of the species
 
   public:
@@ -272,6 +273,8 @@ namespace mesmer
     void setInitPopulation(double value) { m_initPopulation = value;};
     double getEqFraction() const { return m_eqFraction;};
     void setEqFraction(double value){ m_eqFraction = value;};
+    double getInitCemeteryPopulation() const {return m_initCemPop; }
+    void setInitCemeteryPopulation(double value) { m_initCemPop = value;};
 
   };
 

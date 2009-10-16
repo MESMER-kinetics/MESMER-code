@@ -204,11 +204,11 @@ namespace mesmer
     virtual int getReactionType(){return UNDEFINED_REACTION;};
 
     // Calculate reaction equilibrium constant.
-    virtual double calcEquilibriumConstant(bool regardCemetery) = 0 ;
+    virtual double calcEquilibriumConstant() = 0 ;
 
     // Calculate rovibronic canonical partition function in the grain level for product(s) or reactant(s)
-    virtual double pdtsRovibronicGrnCanPrtnFn(bool regardCemetery) = 0;
-    virtual double rctsRovibronicGrnCanPrtnFn(bool regardCemetery) = 0;
+    virtual double pdtsRovibronicGrnCanPrtnFn() = 0;
+    virtual double rctsRovibronicGrnCanPrtnFn() = 0;
 
     // Check if the activation energy provided for ILT is for reverse direction
     bool isReverseReactionILT_Ea() {return m_isRvsILTpara;}

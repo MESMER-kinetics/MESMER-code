@@ -690,7 +690,7 @@ namespace mesmer
       int seqMatrixLoc = itr1->second;                          //in the Eq frac map
       Molecule* key = itr1->first;
       key->getPop().setEqFraction(eqMatrix[seqMatrixLoc][counter-1]);    //set Eq fraction to last column in eqMatrix
-      string speciesName = key->isCemetery() ? key->getName() + "(+)" : key->getName();
+      string speciesName = key->getName();
       ctest << "Equilibrium Fraction for " << speciesName << " = " << key->getPop().getEqFraction() << endl;
     }
     return true;
@@ -729,8 +729,11 @@ namespace mesmer
           }
         }
         else{
-          for (int i = 0; i < colloptrsize - numberGrouped + nrg; ++i){
-            n_0[i + rxnMatrixLoc] = initFrac * boltzFrac[i];
+          if (!nrg){
+            isomer->getPop().setInitCemeteryPopulation(initFrac * boltzFrac[0]);
+          }
+          for (int i(1-nrg), j(0); i < colloptrsize - numberGrouped + 1; ++i, ++j){
+            n_0[j + rxnMatrixLoc] = initFrac * boltzFrac[i];
           }
         }
       }
@@ -812,8 +815,8 @@ namespace mesmer
         }
       }
       else{
-        for(int i(0);i<colloptrsize - numberGrouped + nrg;++i){
-          m_eqVector[rxnMatrixLoc + i] = sqrt(eqFrac * qd_real(boltzFrac[i]) ) ;
+        for(int i(1-nrg), j(0);i<colloptrsize - numberGrouped + 1;++i, ++j){
+          m_eqVector[rxnMatrixLoc + j] = sqrt(eqFrac * qd_real(boltzFrac[i]) ) ;
         }
       }
     }
@@ -1064,7 +1067,7 @@ namespace mesmer
           ctest << setw(16) << cemName;
           speciesNames.push_back(cemName);
           int rxnMatrixLoc = ipos->second;                       // get isomer location
-          double TimeIntegratedCemeteryPop(0.0);
+          double TimeIntegratedCemeteryPop(isomer->getPop().getInitCemeteryPopulation());
           for (int timestep = 0; timestep < maxTimeStep; ++timestep){
             for(size_t i = 0; i < grainKdmc.size(); ++i){
               speciesProfile[speciesProfileidx][timestep] += m_meanOmega * grainKdmc[i]*grnProfile[i+rxnMatrixLoc][timestep]*dt[timestep];;

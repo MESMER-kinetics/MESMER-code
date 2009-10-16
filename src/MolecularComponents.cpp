@@ -621,7 +621,7 @@ namespace mesmer
   //
   // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
   //
-  double gDensityOfStates::rovibronicGrnCanPrtnFn(bool regardCemetery = false) {
+  double gDensityOfStates::rovibronicGrnCanPrtnFn() {
     // If density of states have not already been calculated then do so.
     if (!calcDensityOfStates())
       cerr << "Failed calculating DOS";
@@ -629,20 +629,10 @@ namespace mesmer
     double CanPrtnFn = 0.0;
     // Calculate the rovibronic partition function based on the grain DOS
     // The following catches the case where the molecule is a single atom
-    if (regardCemetery && m_host->getColl().isCemetery()){ // In this case we should send only part of the dos an ene to get active state partition functions.
-      vector<double> tempGrainDOS, tempGrainEne;
-      for (size_t i(m_host->getColl().getNumberOfGroupedGrains()); i < m_grainEne.size(); ++i){
-        tempGrainDOS.push_back(m_grainDOS[i]);
-        tempGrainEne.push_back(m_grainEne[i]);
-      }
-      CanPrtnFn = canonicalPartitionFunction(tempGrainDOS, tempGrainEne, m_host->getEnv().beta) ;
-    }
-    else{
-      CanPrtnFn = max(canonicalPartitionFunction(m_grainDOS, m_grainEne, m_host->getEnv().beta), 1.0) ;
-      if (CanPrtnFn == 1.0){
-        // Electronic partition function for atom is accounted here.
-        CanPrtnFn = double(getSpinMultiplicity()) ;
-      }
+    CanPrtnFn = max(canonicalPartitionFunction(m_grainDOS, m_grainEne, m_host->getEnv().beta), 1.0) ;
+    if (CanPrtnFn == 1.0){
+      // Electronic partition function for atom is accounted here.
+      CanPrtnFn = double(getSpinMultiplicity()) ;
     }
     return CanPrtnFn ;
   }
@@ -714,6 +704,7 @@ namespace mesmer
 
   gPopulation::gPopulation(Molecule* pMol)
     :m_initPopulation(0.0),
+    m_initCemPop(0.0),
     m_eqFraction(0.0)
   {
     ErrorContext c(pMol->getName());
@@ -1194,7 +1185,6 @@ namespace mesmer
           }
         }
         m_GrainKdmc.push_back(downwardSum);
-        (*m_egme)[i - m_numGroupedGrains][i - m_numGroupedGrains] -= downwardSum; // loss of the active state to the cemetery state
       }
 
       if (m_host->getFlags().showCollisionOperator >= 1){
@@ -1600,28 +1590,19 @@ namespace mesmer
     m_host->getDOS().getGrainDensityOfStates(gDOS);
 
     double prtfn(0.0);
-    if (m_host->getColl().isCemetery()){
-      for (int i = numberOfGroupedGrains; i < totalGrnNumber; ++i) {
-        const double thisPartition = exp(log(gDOS[i]) - m_host->getEnv().beta * gEne[i] + 10.0);
-        prtfn += thisPartition;
-        tempGrnFrac.push_back(thisPartition);
+    // Calculate unnormalized Boltzmann dist.
+    // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
+    const double firstPartition = exp(log(gDOS[0]) - m_host->getEnv().beta * gEne[0] + 10.0);
+    tempGrnFrac.push_back(firstPartition);
+    prtfn = firstPartition;
+    for (int i = 1; i < totalGrnNumber; ++i) {
+      const double thisPartition = exp(log(gDOS[i]) - m_host->getEnv().beta * gEne[i] + 10.0);
+      prtfn += thisPartition;
+      if (i < numberOfGroupedGrains){
+        tempGrnFrac[0] += thisPartition;
       }
-    }
-    else{
-      // Calculate unnormalized Boltzmann dist.
-      // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
-      const double firstPartition = exp(log(gDOS[0]) - m_host->getEnv().beta * gEne[0] + 10.0);
-      tempGrnFrac.push_back(firstPartition);
-      prtfn = firstPartition;
-      for (int i = 1; i < totalGrnNumber; ++i) {
-        const double thisPartition = exp(log(gDOS[i]) - m_host->getEnv().beta * gEne[i] + 10.0);
-        prtfn += thisPartition;
-        if (i < numberOfGroupedGrains){
-          tempGrnFrac[0] += thisPartition;
-        }
-        else{
-          tempGrnFrac.push_back(thisPartition);
-        }
+      else{
+        tempGrnFrac.push_back(thisPartition);
       }
     }
 

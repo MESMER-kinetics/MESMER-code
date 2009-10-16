@@ -95,7 +95,7 @@ namespace mesmer
   //
   // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
   //
-  double IrreversibleExchangeReaction::rctsRovibronicGrnCanPrtnFn(bool regardCemetery) {
+  double IrreversibleExchangeReaction::rctsRovibronicGrnCanPrtnFn() {
     vector<double> rctGrainDOS;
     vector<double> rctGrainEne;
     calcRctsGrainDensityOfStates(rctGrainDOS, rctGrainEne);
@@ -114,7 +114,7 @@ namespace mesmer
   //
   // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
   //
-  double IrreversibleExchangeReaction::pdtsRovibronicGrnCanPrtnFn(bool regardCemetery) {
+  double IrreversibleExchangeReaction::pdtsRovibronicGrnCanPrtnFn() {
     vector<double> pdtGrainDOS;
     vector<double> pdtGrainEne;
     calcPdtsGrainDensityOfStates(pdtGrainDOS, pdtGrainEne);
@@ -129,14 +129,14 @@ namespace mesmer
     return CanPrtnFn ;
   }
 
-  double IrreversibleExchangeReaction::calcEquilibriumConstant(bool regardCemetery) {   // Calculate reaction equilibrium constant.
+  double IrreversibleExchangeReaction::calcEquilibriumConstant() {   // Calculate reaction equilibrium constant.
     // equilibrium constant:
     double Keq(0.0) ;
     const double beta = getEnv().beta ;
 
     // rovibronic partition function for products/reactants
-    double Qrcts = rctsRovibronicGrnCanPrtnFn(false);
-    double Qpdts = pdtsRovibronicGrnCanPrtnFn(false);
+    double Qrcts = rctsRovibronicGrnCanPrtnFn();
+    double Qpdts = pdtsRovibronicGrnCanPrtnFn();
 
     // rovibronic partition function for reactants/products multiplied by translation contribution
     Qrcts *= translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);

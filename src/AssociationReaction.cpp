@@ -115,7 +115,7 @@ namespace mesmer
     const int jj     = (*m_sourceMap)[get_pseudoIsomer()] ;
 
     // Get equilibrium constant.
-    const double Keq = calcEquilibriumConstant(true) ;
+    const double Keq = calcEquilibriumConstant() ;
 
     // Get Boltzmann distribution for detailed balance.
     const int MaximumGrain = getEnv().MaxGrn ;
@@ -126,7 +126,8 @@ namespace mesmer
     qd_real DissRateCoeff(0.0) ;
 
     const bool isCemetery(m_pdt1->getColl().isCemetery());
-    const int pShiftedGrains(pNGG == 0 ? 0 : (isCemetery ? pNGG : pNGG - 1));
+    const int pdtRxnOptPos(pdtLoc - (pNGG == 0 ? 0 : (isCemetery ? pNGG : pNGG - 1)));
+    const int adductPopFracShift(pNGG == 0 ? 0 : pNGG - 1);
     const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
     //const int forwardThreshE = get_EffGrnFwdThreshold();
     const int reverseThreshE = get_EffGrnRvsThreshold();
@@ -135,8 +136,8 @@ namespace mesmer
     // Note: reverseThreshE will always be greater than pNGG here
 
     for ( int i = reverseThreshE, j = fluxStartIdx; i < colloptrsize; ++i, ++j) {
-      int ii(pdtLoc + i - pShiftedGrains) ;
-      int kk (i - pShiftedGrains);
+      int ii(pdtRxnOptPos + i) ;
+      int kk (i - adductPopFracShift);
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[j] / pdtDOS[i]);                                // Loss of the adduct to the source
       (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[j] * sqrt(adductPopFrac[kk] * Keq) / pdtDOS[i]);// Reactive gain of the source
       (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                                                      // Reactive gain (symmetrization)
@@ -156,7 +157,7 @@ namespace mesmer
     m_pdt1->getDOS().getGrainDensityOfStates(pdtDOS) ;
 
     // Get equilibrium constant.
-    const double Keq = calcEquilibriumConstant(false) ;
+    const double Keq = calcEquilibriumConstant() ;
 
     // Get Boltzmann distribution for detailed balance.
     const int MaximumGrain = getEnv().MaxGrn ;
@@ -233,7 +234,7 @@ namespace mesmer
   //
   // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
   //
-  double AssociationReaction::rctsRovibronicGrnCanPrtnFn(bool regardCemetery) {
+  double AssociationReaction::rctsRovibronicGrnCanPrtnFn() {
     vector<double> rctGrainDOS;
     vector<double> rctGrainEne;
     calcRctsGrainDensityOfStates(rctGrainDOS, rctGrainEne);
@@ -248,14 +249,14 @@ namespace mesmer
 
     return CanPrtnFn ;
   }
-  double AssociationReaction::pdtsRovibronicGrnCanPrtnFn(bool regardCemetery) { return m_pdt1->getDOS().rovibronicGrnCanPrtnFn(regardCemetery);}
+  double AssociationReaction::pdtsRovibronicGrnCanPrtnFn() { return m_pdt1->getDOS().rovibronicGrnCanPrtnFn();}
 
 
   // Is reaction equilibrating and therefore contributes
   // to the calculation of equilibrium fractions.
   bool AssociationReaction::isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) {
 
-    Keq = calcEquilibriumConstant(true) ;
+    Keq = calcEquilibriumConstant() ;
 
     *rct = m_rct1 ;
     *pdt = m_pdt1 ;
@@ -267,25 +268,25 @@ namespace mesmer
   // Calculate reaction equilibrium constant for the general reaction
   //        A + B  <===> C
   //
-  double AssociationReaction::calcEquilibriumConstant(bool regardCemetery) {
+  double AssociationReaction::calcEquilibriumConstant() {
 
     // equilibrium constant:
     double Keq(0.0) ;
     const double beta = getEnv().beta ;
 
     // partition function for each reactant
-    double Qrcts = rctsRovibronicGrnCanPrtnFn(false);
+    double Qrcts = rctsRovibronicGrnCanPrtnFn();
 
     // rovibronic partition function for reactants multiplied by translation contribution
     Qrcts *= translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
 
     // rovibronic partition function for product
-    const double Qpdt1 = m_pdt1->getDOS().rovibronicGrnCanPrtnFn(regardCemetery) ;
+    const double Qpdt1 = m_pdt1->getDOS().rovibronicGrnCanPrtnFn() ;
 
     Keq = Qpdt1 / Qrcts;
 
     // Heat of reaction: use heat of reaction to calculate the zpe weighing of different wells
-    const double HeatOfReaction = getHeatOfReaction() ;
+    const double HeatOfReaction = getHeatOfReaction();
     const double _expon = -beta * HeatOfReaction;
     Keq *= exp(_expon) ;
 
@@ -393,7 +394,7 @@ namespace mesmer
     set_rvsGrnCanonicalRate(k_b_grained);
     set_rvsCellCanonicalRate(k_b_cell);
 
-    double Keq = calcEquilibriumConstant(false);
+    double Keq = calcEquilibriumConstant();
     k_f_grained = get_rvsGrnCanonicalRate() * Keq;
     k_f_cell = get_rvsCellCanonicalRate() * Keq;
 

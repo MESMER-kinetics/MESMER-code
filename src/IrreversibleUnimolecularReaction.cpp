@@ -85,14 +85,14 @@ namespace mesmer
   //
   // Calculate reaction equilibrium constant.
   //
-  double IrreversibleUnimolecularReaction::calcEquilibriumConstant(bool regardCemetery) {
+  double IrreversibleUnimolecularReaction::calcEquilibriumConstant() {
 
     // equilibrium constant:
     double Keq(0.0) ;
     const double beta = getEnv().beta ;
 
     // partition function for each products
-    double Qpdts = pdtsRovibronicGrnCanPrtnFn(false);
+    double Qpdts = pdtsRovibronicGrnCanPrtnFn();
 
     // rovibronic partition function for products multiplied by translation contribution
     if (m_pdt2){
@@ -100,7 +100,7 @@ namespace mesmer
     }
 
     // rovibronic partition function for reactant
-    const double Qrct1 = m_rct1->getDOS().rovibronicGrnCanPrtnFn(regardCemetery) ;
+    const double Qrct1 = m_rct1->getDOS().rovibronicGrnCanPrtnFn() ;
 
     Keq = Qpdts / Qrct1;
 
@@ -337,10 +337,10 @@ namespace mesmer
   //
   // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
   //
-  double IrreversibleUnimolecularReaction::rctsRovibronicGrnCanPrtnFn(bool regardCemetery) { return m_rct1->getDOS().rovibronicGrnCanPrtnFn(regardCemetery);}
-  double IrreversibleUnimolecularReaction::pdtsRovibronicGrnCanPrtnFn(bool regardCemetery) {
+  double IrreversibleUnimolecularReaction::rctsRovibronicGrnCanPrtnFn() { return m_rct1->getDOS().rovibronicGrnCanPrtnFn();}
+  double IrreversibleUnimolecularReaction::pdtsRovibronicGrnCanPrtnFn() {
     if (!m_pdt2){ // Irreversible isomerization
-      return m_pdt1->getDOS().rovibronicGrnCanPrtnFn(false);
+      return m_pdt1->getDOS().rovibronicGrnCanPrtnFn();
     }
     else{         // Irreversible dissociation
       vector<double> pdtGrainDOS;

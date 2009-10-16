@@ -52,7 +52,7 @@ namespace mesmer
     const int get_pdtsGrnZPE();
 
     // Calculate reaction equilibrium constant.
-    virtual double calcEquilibriumConstant(bool regardCemetery) ;
+    virtual double calcEquilibriumConstant() ;
 
     // Get products cell density of states.
     void getPdtsCellDensityOfStates(std::vector<double> &cellDOS) ;
@@ -86,8 +86,8 @@ namespace mesmer
     bool calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
 
     // Calculate rovibronic canonical partition function in the grain level for product or reactant
-    virtual double pdtsRovibronicGrnCanPrtnFn(bool regardCemetery);
-    virtual double rctsRovibronicGrnCanPrtnFn(bool regardCemetery);
+    virtual double pdtsRovibronicGrnCanPrtnFn();
+    virtual double rctsRovibronicGrnCanPrtnFn();
 
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;

@@ -82,7 +82,7 @@ namespace mesmer
     virtual double get_relative_TSZPE(void) const { return m_TransitionState->getDOS().get_zpe() - getEnv().EMin; };
 
     // Calculate reaction equilibrium constant.
-    virtual double calcEquilibriumConstant(bool regardCemetery) ;
+    virtual double calcEquilibriumConstant() ;
 
     // Is reaction equilibrating and therefore contributes
     // to the calculation of equilibrium fractions.
@@ -110,8 +110,8 @@ namespace mesmer
     bool calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
 
     // Calculate rovibronic canonical partition function in the grain level for product or reactant
-    virtual double rctsRovibronicGrnCanPrtnFn(bool regardCemetery);
-    virtual double pdtsRovibronicGrnCanPrtnFn(bool regardCemetery);
+    virtual double rctsRovibronicGrnCanPrtnFn();
+    virtual double pdtsRovibronicGrnCanPrtnFn();
 
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;

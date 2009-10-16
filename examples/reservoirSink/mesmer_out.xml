@@ -217,7 +217,7 @@
             <me:reservoirSize units="kJ/mol" turnCemeteryWhenUnder="500">-2.0</me:reservoirSize>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
             <me:DistributionCalcMethod default="true">Boltzmann</me:DistributionCalcMethod>
-            <me:densityOfStatesList calculated="20091014_155235">
+            <me:densityOfStatesList calculated="20091016_125059">
                 <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
                 <me:densityOfStates>
                     <me:T>200</me:T>
@@ -278,7 +278,7 @@
                 </property>
             </propertyList>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
-            <me:densityOfStatesList calculated="20091014_155315">
+            <me:densityOfStatesList calculated="20091016_125111">
                 <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
                 <me:densityOfStates>
                     <me:T>200</me:T>
@@ -339,7 +339,7 @@
                 </property>
             </propertyList>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
-            <me:densityOfStatesList calculated="20091014_155319">
+            <me:densityOfStatesList calculated="20091016_125113">
                 <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
                 <me:densityOfStates>
                     <me:T>200</me:T>
@@ -484,7 +484,7 @@
             <me:reservoirSize units="kJ/mol">-2.0</me:reservoirSize>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
             <me:DistributionCalcMethod default="true">Boltzmann</me:DistributionCalcMethod>
-            <me:densityOfStatesList calculated="20091014_155316">
+            <me:densityOfStatesList calculated="20091016_125112">
                 <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
                 <me:densityOfStates>
                     <me:T>200</me:T>
@@ -546,7 +546,7 @@
                 </property>
             </propertyList>
             <me:DOSCMethod>Classical rotors</me:DOSCMethod>
-            <me:densityOfStatesList calculated="20091014_155318">
+            <me:densityOfStatesList calculated="20091016_125112">
                 <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
                 <me:densityOfStates>
                     <me:T>200</me:T>
@@ -749,10 +749,10 @@
         <metadata name="dc:title" content="Acetyl O2 association" />
         <metadata name="dc:creator" content="Mesmer v0.1" />
         <metadata name="dc:description" content="Calculation of the interaction between collisional energy transfer and chemical reaction for dissociation, isomerization and association processes" />
-        <metadata name="dc:date" content="20091014_155158" />
+        <metadata name="dc:date" content="20091016_125044" />
         <metadata name="dc:contributor" content="unknown" />
     </metadataList>
-    <me:analysis calculated="20091014_155158">
+    <me:analysis calculated="20091016_125044">
         <me:description>All calculations shown</me:description>
         <me:eigenvalueList number="160" selection="0">
             <me:eigenvalue>-6.95229e+010</me:eigenvalue>
@@ -856,7 +856,6 @@
             <me:eigenvalue>-8.74637e+008</me:eigenvalue>
             <me:eigenvalue>-8.48208e+008</me:eigenvalue>
             <me:eigenvalue>-8.15123e+008</me:eigenvalue>
-            <me:eigenvalue>-8.01937e+008</me:eigenvalue>
             <me:eigenvalue>-7.74678e+008</me:eigenvalue>
             <me:eigenvalue>-7.64583e+008</me:eigenvalue>
             <me:eigenvalue>-7.22354e+008</me:eigenvalue>
@@ -864,63 +863,64 @@
             <me:eigenvalue>-6.87839e+008</me:eigenvalue>
             <me:eigenvalue>-6.67961e+008</me:eigenvalue>
             <me:eigenvalue>-6.60543e+008</me:eigenvalue>
-            <me:eigenvalue>-6.56681e+008</me:eigenvalue>
             <me:eigenvalue>-6.40097e+008</me:eigenvalue>
             <me:eigenvalue>-6.34594e+008</me:eigenvalue>
             <me:eigenvalue>-6.26396e+008</me:eigenvalue>
             <me:eigenvalue>-6.19607e+008</me:eigenvalue>
-            <me:eigenvalue>-6.19327e+008</me:eigenvalue>
-            <me:eigenvalue>-6.18434e+008</me:eigenvalue>
-            <me:eigenvalue>-6.15529e+008</me:eigenvalue>
+            <me:eigenvalue>-6.18744e+008</me:eigenvalue>
+            <me:eigenvalue>-6.174e+008</me:eigenvalue>
+            <me:eigenvalue>-6.15148e+008</me:eigenvalue>
             <me:eigenvalue>-6.14486e+008</me:eigenvalue>
-            <me:eigenvalue>-6.11403e+008</me:eigenvalue>
+            <me:eigenvalue>-6.11836e+008</me:eigenvalue>
+            <me:eigenvalue>-6.07449e+008</me:eigenvalue>
             <me:eigenvalue>-6.06717e+008</me:eigenvalue>
-            <me:eigenvalue>-6.05889e+008</me:eigenvalue>
-            <me:eigenvalue>-5.99021e+008</me:eigenvalue>
+            <me:eigenvalue>-6.01975e+008</me:eigenvalue>
             <me:eigenvalue>-5.96604e+008</me:eigenvalue>
-            <me:eigenvalue>-5.90784e+008</me:eigenvalue>
+            <me:eigenvalue>-5.95389e+008</me:eigenvalue>
+            <me:eigenvalue>-5.87625e+008</me:eigenvalue>
             <me:eigenvalue>-5.84084e+008</me:eigenvalue>
-            <me:eigenvalue>-5.81083e+008</me:eigenvalue>
-            <me:eigenvalue>-5.6978e+008</me:eigenvalue>
+            <me:eigenvalue>-5.78577e+008</me:eigenvalue>
             <me:eigenvalue>-5.68961e+008</me:eigenvalue>
-            <me:eigenvalue>-5.56733e+008</me:eigenvalue>
+            <me:eigenvalue>-5.6812e+008</me:eigenvalue>
+            <me:eigenvalue>-5.56122e+008</me:eigenvalue>
             <me:eigenvalue>-5.50996e+008</me:eigenvalue>
-            <me:eigenvalue>-5.41776e+008</me:eigenvalue>
+            <me:eigenvalue>-5.42428e+008</me:eigenvalue>
             <me:eigenvalue>-5.29879e+008</me:eigenvalue>
-            <me:eigenvalue>-5.24719e+008</me:eigenvalue>
-            <me:eigenvalue>-5.05356e+008</me:eigenvalue>
+            <me:eigenvalue>-5.26863e+008</me:eigenvalue>
+            <me:eigenvalue>-5.09237e+008</me:eigenvalue>
             <me:eigenvalue>-5.05276e+008</me:eigenvalue>
-            <me:eigenvalue>-4.83476e+008</me:eigenvalue>
+            <me:eigenvalue>-4.8935e+008</me:eigenvalue>
             <me:eigenvalue>-4.76836e+008</me:eigenvalue>
-            <me:eigenvalue>-4.58867e+008</me:eigenvalue>
+            <me:eigenvalue>-4.66999e+008</me:eigenvalue>
             <me:eigenvalue>-4.44233e+008</me:eigenvalue>
-            <me:eigenvalue>-4.31331e+008</me:eigenvalue>
+            <me:eigenvalue>-4.41983e+008</me:eigenvalue>
+            <me:eigenvalue>-4.14132e+008</me:eigenvalue>
             <me:eigenvalue>-4.07196e+008</me:eigenvalue>
-            <me:eigenvalue>-4.00719e+008</me:eigenvalue>
-            <me:eigenvalue>-3.66944e+008</me:eigenvalue>
+            <me:eigenvalue>-3.83322e+008</me:eigenvalue>
             <me:eigenvalue>-3.6558e+008</me:eigenvalue>
-            <me:eigenvalue>-3.30036e+008</me:eigenvalue>
+            <me:eigenvalue>-3.49507e+008</me:eigenvalue>
             <me:eigenvalue>-3.19457e+008</me:eigenvalue>
-            <me:eigenvalue>-2.90191e+008</me:eigenvalue>
+            <me:eigenvalue>-3.12783e+008</me:eigenvalue>
+            <me:eigenvalue>-2.73398e+008</me:eigenvalue>
             <me:eigenvalue>-2.69238e+008</me:eigenvalue>
-            <me:eigenvalue>-2.47808e+008</me:eigenvalue>
+            <me:eigenvalue>-2.31889e+008</me:eigenvalue>
             <me:eigenvalue>-2.15843e+008</me:eigenvalue>
-            <me:eigenvalue>-2.03751e+008</me:eigenvalue>
+            <me:eigenvalue>-1.89259e+008</me:eigenvalue>
             <me:eigenvalue>-1.60959e+008</me:eigenvalue>
-            <me:eigenvalue>-1.59275e+008</me:eigenvalue>
-            <me:eigenvalue>-1.16237e+008</me:eigenvalue>
+            <me:eigenvalue>-1.46831e+008</me:eigenvalue>
             <me:eigenvalue>-1.07488e+008</me:eigenvalue>
-            <me:eigenvalue>-7.83866e+007</me:eigenvalue>
+            <me:eigenvalue>-1.06745e+008</me:eigenvalue>
+            <me:eigenvalue>-7.27668e+007</me:eigenvalue>
             <me:eigenvalue>-6.06658e+007</me:eigenvalue>
-            <me:eigenvalue>-5.12248e+007</me:eigenvalue>
-            <me:eigenvalue>-77013.1</me:eigenvalue>
-            <me:eigenvalue>6.05369e-007</me:eigenvalue>
+            <me:eigenvalue>-4.93202e+007</me:eigenvalue>
+            <me:eigenvalue>-77012.8</me:eigenvalue>
+            <me:eigenvalue>-1.58066e-006</me:eigenvalue>
         </me:eigenvalueList>
         <me:populationList T="250" conc="1.4477e+018">
             <me:population time="1e-011" logTime="-11">
                 <me:pop ref="acetyl">0.999998</me:pop>
                 <me:pop ref="Int1(+)">1.51384e-006</me:pop>
-                <me:pop ref="Int2">1.00794e-010</me:pop>
+                <me:pop ref="Int2">4.97277e-010</me:pop>
                 <me:pop ref="Int1(-)">0</me:pop>
                 <me:pop ref="lactone">0</me:pop>
                 <me:pop ref="ketene">0</me:pop>
@@ -928,7 +928,7 @@
             <me:population time="1.25893e-011" logTime="-10.9">
                 <me:pop ref="acetyl">0.999998</me:pop>
                 <me:pop ref="Int1(+)">1.90538e-006</me:pop>
-                <me:pop ref="Int2">1.43173e-010</me:pop>
+                <me:pop ref="Int2">5.39812e-010</me:pop>
                 <me:pop ref="Int1(-)">0</me:pop>
                 <me:pop ref="lactone">0</me:pop>
                 <me:pop ref="ketene">0</me:pop>
@@ -936,7 +936,7 @@
             <me:population time="1.58489e-011" logTime="-10.8">
                 <me:pop ref="acetyl">0.999998</me:pop>
                 <me:pop ref="Int1(+)">2.39805e-006</me:pop>
-                <me:pop ref="Int2">2.09916e-010</me:pop>
+                <me:pop ref="Int2">6.06753e-010</me:pop>
                 <me:pop ref="Int1(-)">0</me:pop>
                 <me:pop ref="lactone">0</me:pop>
                 <me:pop ref="ketene">0</me:pop>
@@ -944,7 +944,7 @@
             <me:population time="1.99526e-011" logTime="-10.7">
                 <me:pop ref="acetyl">0.999997</me:pop>
                 <me:pop ref="Int1(+)">3.01789e-006</me:pop>
-                <me:pop ref="Int2">3.1487e-010</me:pop>
+                <me:pop ref="Int2">7.11956e-010</me:pop>
                 <me:pop ref="Int1(-)">0</me:pop>
                 <me:pop ref="lactone">0</me:pop>
                 <me:pop ref="ketene">0</me:pop>
@@ -952,7 +952,7 @@
             <me:population time="2.51189e-011" logTime="-10.6">
                 <me:pop ref="acetyl">0.999996</me:pop>
                 <me:pop ref="Int1(+)">3.79758e-006</me:pop>
-                <me:pop ref="Int2">4.79589e-010</me:pop>
+                <me:pop ref="Int2">8.76988e-010</me:pop>
                 <me:pop ref="Int1(-)">0</me:pop>
                 <me:pop ref="lactone">0</me:pop>
                 <me:pop ref="ketene">0</me:pop>
@@ -960,1264 +960,1264 @@
             <me:population time="3.16228e-011" logTime="-10.5">
                 <me:pop ref="acetyl">0.999995</me:pop>
                 <me:pop ref="Int1(+)">4.77817e-006</me:pop>
-                <me:pop ref="Int2">7.37486e-010</me:pop>
-                <me:pop ref="Int1(-)">2.77718e-017</me:pop>
-                <me:pop ref="lactone">2.75316e-012</me:pop>
-                <me:pop ref="ketene">5.41205e-014</me:pop>
+                <me:pop ref="Int2">1.13528e-009</me:pop>
+                <me:pop ref="Int1(-)">0</me:pop>
+                <me:pop ref="lactone">0</me:pop>
+                <me:pop ref="ketene">0</me:pop>
             </me:population>
             <me:population time="3.98107e-011" logTime="-10.4">
                 <me:pop ref="acetyl">0.999994</me:pop>
                 <me:pop ref="Int1(+)">6.0111e-006</me:pop>
-                <me:pop ref="Int2">1.14007e-009</me:pop>
-                <me:pop ref="Int1(-)">2.56303e-016</me:pop>
-                <me:pop ref="lactone">3.10493e-011</me:pop>
-                <me:pop ref="ketene">4.8513e-013</me:pop>
+                <me:pop ref="Int2">1.53836e-009</me:pop>
+                <me:pop ref="Int1(-)">0</me:pop>
+                <me:pop ref="lactone">0</me:pop>
+                <me:pop ref="ketene">0</me:pop>
             </me:population>
             <me:population time="5.01187e-011" logTime="-10.3">
                 <me:pop ref="acetyl">0.999992</me:pop>
                 <me:pop ref="Int1(+)">7.5608e-006</me:pop>
-                <me:pop ref="Int2">1.76623e-009</me:pop>
-                <me:pop ref="Int1(-)">5.87114e-016</me:pop>
-                <me:pop ref="lactone">8.6248e-011</me:pop>
-                <me:pop ref="ketene">1.07147e-012</me:pop>
+                <me:pop ref="Int2">2.16514e-009</me:pop>
+                <me:pop ref="Int1(-)">0</me:pop>
+                <me:pop ref="lactone">0</me:pop>
+                <me:pop ref="ketene">0</me:pop>
             </me:population>
             <me:population time="6.30957e-011" logTime="-10.2">
                 <me:pop ref="acetyl">0.99999</me:pop>
                 <me:pop ref="Int1(+)">9.50788e-006</me:pop>
-                <me:pop ref="Int2">2.73578e-009</me:pop>
-                <me:pop ref="Int1(-)">1.09816e-015</me:pop>
-                <me:pop ref="lactone">1.93432e-010</me:pop>
-                <me:pop ref="ketene">1.91535e-012</me:pop>
+                <me:pop ref="Int2">3.13547e-009</me:pop>
+                <me:pop ref="Int1(-)">0</me:pop>
+                <me:pop ref="lactone">0</me:pop>
+                <me:pop ref="ketene">0</me:pop>
             </me:population>
             <me:population time="7.94328e-011" logTime="-10.1">
                 <me:pop ref="acetyl">0.999988</me:pop>
                 <me:pop ref="Int1(+)">1.1953e-005</me:pop>
-                <me:pop ref="Int2">4.22894e-009</me:pop>
-                <me:pop ref="Int1(-)">1.92308e-015</me:pop>
-                <me:pop ref="lactone">4.00546e-010</me:pop>
-                <me:pop ref="ketene">3.1716e-012</me:pop>
+                <me:pop ref="Int2">4.6296e-009</me:pop>
+                <me:pop ref="Int1(-)">1.46165e-017</me:pop>
+                <me:pop ref="lactone">3.04112e-012</me:pop>
+                <me:pop ref="ketene">2.40801e-014</me:pop>
             </me:population>
             <me:population time="1e-010" logTime="-10">
                 <me:pop ref="acetyl">0.999985</me:pop>
                 <me:pop ref="Int1(+)">1.50218e-005</me:pop>
-                <me:pop ref="Int2">6.51347e-009</me:pop>
-                <me:pop ref="Int1(-)">3.29585e-015</me:pop>
-                <me:pop ref="lactone">7.98493e-010</me:pop>
-                <me:pop ref="ketene">5.0738e-012</me:pop>
+                <me:pop ref="Int2">6.91536e-009</me:pop>
+                <me:pop ref="Int1(-)">1.64905e-015</me:pop>
+                <me:pop ref="lactone">3.99154e-010</me:pop>
+                <me:pop ref="ketene">2.53631e-012</me:pop>
             </me:population>
             <me:population time="1.25893e-010" logTime="-9.9">
                 <me:pop ref="acetyl">0.999981</me:pop>
                 <me:pop ref="Int1(+)">1.88703e-005</me:pop>
-                <me:pop ref="Int2">9.98162e-009</me:pop>
-                <me:pop ref="Int1(-)">5.63595e-015</me:pop>
-                <me:pop ref="lactone">1.55792e-009</me:pop>
-                <me:pop ref="ketene">7.9733e-012</me:pop>
+                <me:pop ref="Int2">1.0385e-008</me:pop>
+                <me:pop ref="Int1(-)">4.18741e-015</me:pop>
+                <me:pop ref="lactone">1.15656e-009</me:pop>
+                <me:pop ref="ketene">5.9192e-012</me:pop>
             </me:population>
             <me:population time="1.58489e-010" logTime="-9.8">
                 <me:pop ref="acetyl">0.999976</me:pop>
                 <me:pop ref="Int1(+)">2.36923e-005</me:pop>
-                <me:pop ref="Int2">1.5198e-008</me:pop>
-                <me:pop ref="Int1(-)">9.71437e-015</me:pop>
-                <me:pop ref="lactone">2.99549e-009</me:pop>
-                <me:pop ref="ketene">1.23954e-011</me:pop>
+                <me:pop ref="Int2">1.56034e-008</me:pop>
+                <me:pop ref="Int1(-)">8.41213e-015</me:pop>
+                <me:pop ref="lactone">2.59184e-009</me:pop>
+                <me:pop ref="ketene">1.07251e-011</me:pop>
             </me:population>
             <me:population time="1.99526e-010" logTime="-9.7">
                 <me:pop ref="acetyl">0.99997</me:pop>
                 <me:pop ref="Int1(+)">2.9727e-005</me:pop>
-                <me:pop ref="Int2">2.29592e-008</me:pop>
-                <me:pop ref="Int1(-)">1.69865e-014</me:pop>
-                <me:pop ref="lactone">5.69118e-009</me:pop>
-                <me:pop ref="ketene">1.91184e-011</me:pop>
+                <me:pop ref="Int2">2.3367e-008</me:pop>
+                <me:pop ref="Int1(-)">1.57879e-014</me:pop>
+                <me:pop ref="lactone">5.28484e-009</me:pop>
+                <me:pop ref="ketene">1.77533e-011</me:pop>
             </me:population>
             <me:population time="2.51189e-010" logTime="-9.6">
                 <me:pop ref="acetyl">0.999963</me:pop>
                 <me:pop ref="Int1(+)">3.72693e-005</me:pop>
-                <me:pop ref="Int2">3.43622e-008</me:pop>
-                <me:pop ref="Int1(-)">3.02798e-014</me:pop>
-                <me:pop ref="lactone">1.06912e-008</me:pop>
-                <me:pop ref="ketene">2.92826e-011</me:pop>
+                <me:pop ref="Int2">3.47729e-008</me:pop>
+                <me:pop ref="Int1(-)">2.91525e-014</me:pop>
+                <me:pop ref="lactone">1.02817e-008</me:pop>
+                <me:pop ref="ketene">2.81608e-011</me:pop>
             </me:population>
             <me:population time="3.16228e-010" logTime="-9.5">
                 <me:pop ref="acetyl">0.999953</me:pop>
                 <me:pop ref="Int1(+)">4.66801e-005</me:pop>
-                <me:pop ref="Int2">5.08762e-008</me:pop>
-                <me:pop ref="Int1(-)">5.52617e-014</me:pop>
-                <me:pop ref="lactone">1.98517e-008</me:pop>
-                <me:pop ref="ketene">4.45366e-011</me:pop>
+                <me:pop ref="Int2">5.12906e-008</me:pop>
+                <me:pop ref="Int1(-)">5.41922e-014</me:pop>
+                <me:pop ref="lactone">1.94382e-008</me:pop>
+                <me:pop ref="ketene">4.36091e-011</me:pop>
             </me:population>
             <me:population time="3.98107e-010" logTime="-9.4">
                 <me:pop ref="acetyl">0.999941</me:pop>
                 <me:pop ref="Int1(+)">5.83993e-005</me:pop>
-                <me:pop ref="Int2">7.44068e-008</me:pop>
-                <me:pop ref="Int1(-)">1.03682e-013</me:pop>
-                <me:pop ref="lactone">3.64049e-008</me:pop>
-                <me:pop ref="ketene">6.72288e-011</me:pop>
+                <me:pop ref="Int2">7.48257e-008</me:pop>
+                <me:pop ref="Int1(-)">1.02706e-013</me:pop>
+                <me:pop ref="lactone">3.59867e-008</me:pop>
+                <me:pop ref="ketene">6.64565e-011</me:pop>
             </me:population>
             <me:population time="5.01187e-010" logTime="-9.3">
                 <me:pop ref="acetyl">0.999927</me:pop>
                 <me:pop ref="Int1(+)">7.29592e-005</me:pop>
-                <me:pop ref="Int2">1.07337e-007</me:pop>
-                <me:pop ref="Int1(-)">2.00802e-013</me:pop>
-                <me:pop ref="lactone">6.58695e-008</me:pop>
-                <me:pop ref="ketene">1.00648e-010</me:pop>
+                <me:pop ref="Int2">1.07761e-007</me:pop>
+                <me:pop ref="Int1(-)">2.00104e-013</me:pop>
+                <me:pop ref="lactone">6.54455e-008</me:pop>
+                <me:pop ref="ketene">1e-010</me:pop>
             </me:population>
             <me:population time="6.30957e-010" logTime="-9.2">
                 <me:pop ref="acetyl">0.999909</me:pop>
                 <me:pop ref="Int1(+)">9.09991e-005</me:pop>
-                <me:pop ref="Int2">1.52526e-007</me:pop>
-                <me:pop ref="Int1(-)">4.03082e-013</me:pop>
-                <me:pop ref="lactone">1.17471e-007</me:pop>
-                <me:pop ref="ketene">1.49321e-010</me:pop>
+                <me:pop ref="Int2">1.52958e-007</me:pop>
+                <me:pop ref="Int1(-)">4.03304e-013</me:pop>
+                <me:pop ref="lactone">1.1704e-007</me:pop>
+                <me:pop ref="ketene">1.48773e-010</me:pop>
             </me:population>
             <me:population time="7.94328e-010" logTime="-9.1">
                 <me:pop ref="acetyl">0.999886</me:pop>
                 <me:pop ref="Int1(+)">0.000113281</me:pop>
-                <me:pop ref="Int2">2.13259e-007</me:pop>
-                <me:pop ref="Int1(-)">8.42026e-013</me:pop>
-                <me:pop ref="lactone">2.06297e-007</me:pop>
-                <me:pop ref="ketene">2.19358e-010</me:pop>
+                <me:pop ref="Int2">2.13699e-007</me:pop>
+                <me:pop ref="Int1(-)">8.45263e-013</me:pop>
+                <me:pop ref="lactone">2.05857e-007</me:pop>
+                <me:pop ref="ketene">2.18891e-010</me:pop>
             </me:population>
             <me:population time="1e-009" logTime="-9">
                 <me:pop ref="acetyl">0.999859</me:pop>
                 <me:pop ref="Int1(+)">0.000140703</me:pop>
-                <me:pop ref="Int2">2.93133e-007</me:pop>
-                <me:pop ref="Int1(-)">1.83757e-012</me:pop>
-                <me:pop ref="lactone">3.56487e-007</me:pop>
-                <me:pop ref="ketene">3.18849e-010</me:pop>
+                <me:pop ref="Int2">2.93582e-007</me:pop>
+                <me:pop ref="Int1(-)">1.85064e-012</me:pop>
+                <me:pop ref="lactone">3.56036e-007</me:pop>
+                <me:pop ref="ketene">3.18446e-010</me:pop>
             </me:population>
             <me:population time="1.25893e-009" logTime="-8.9">
                 <me:pop ref="acetyl">0.999825</me:pop>
                 <me:pop ref="Int1(+)">0.000174318</me:pop>
-                <me:pop ref="Int2">3.95913e-007</me:pop>
-                <me:pop ref="Int1(-)">4.20438e-012</me:pop>
-                <me:pop ref="lactone">6.05823e-007</me:pop>
-                <me:pop ref="ketene">4.58296e-010</me:pop>
+                <me:pop ref="Int2">3.96374e-007</me:pop>
+                <me:pop ref="Int1(-)">4.25002e-012</me:pop>
+                <me:pop ref="lactone">6.05358e-007</me:pop>
+                <me:pop ref="ketene">4.57945e-010</me:pop>
             </me:population>
             <me:population time="1.58489e-009" logTime="-8.8">
                 <me:pop ref="acetyl">0.999783</me:pop>
                 <me:pop ref="Int1(+)">0.000215344</me:pop>
-                <me:pop ref="Int2">5.25389e-007</me:pop>
-                <me:pop ref="Int1(-)">1.01173e-011</me:pop>
-                <me:pop ref="lactone">1.01222e-006</me:pop>
-                <me:pop ref="ketene">6.51087e-010</me:pop>
+                <me:pop ref="Int2">5.25865e-007</me:pop>
+                <me:pop ref="Int1(-)">1.02738e-011</me:pop>
+                <me:pop ref="lactone">1.01174e-006</me:pop>
+                <me:pop ref="ketene">6.50776e-010</me:pop>
             </me:population>
             <me:population time="1.99526e-009" logTime="-8.7">
                 <me:pop ref="acetyl">0.999732</me:pop>
                 <me:pop ref="Int1(+)">0.000265181</me:pop>
-                <me:pop ref="Int2">6.85283e-007</me:pop>
-                <me:pop ref="Int1(-)">2.56707e-011</me:pop>
-                <me:pop ref="lactone">1.66273e-006</me:pop>
-                <me:pop ref="ketene">9.14009e-010</me:pop>
+                <me:pop ref="Int2">6.85775e-007</me:pop>
+                <me:pop ref="Int1(-)">2.62177e-011</me:pop>
+                <me:pop ref="lactone">1.66221e-006</me:pop>
+                <me:pop ref="ketene">9.13728e-010</me:pop>
             </me:population>
             <me:population time="2.51189e-009" logTime="-8.6">
                 <me:pop ref="acetyl">0.999671</me:pop>
                 <me:pop ref="Int1(+)">0.000325434</me:pop>
-                <me:pop ref="Int2">8.79231e-007</me:pop>
-                <me:pop ref="Int1(-)">6.87947e-011</me:pop>
-                <me:pop ref="lactone">2.68584e-006</me:pop>
-                <me:pop ref="ketene">1.26786e-009</me:pop>
+                <me:pop ref="Int2">8.79742e-007</me:pop>
+                <me:pop ref="Int1(-)">7.07757e-011</me:pop>
+                <me:pop ref="lactone">2.68527e-006</me:pop>
+                <me:pop ref="ketene">1.26759e-009</me:pop>
             </me:population>
             <me:population time="3.16228e-009" logTime="-8.5">
                 <me:pop ref="acetyl">0.999597</me:pop>
                 <me:pop ref="Int1(+)">0.000397932</me:pop>
-                <me:pop ref="Int2">1.11085e-006</me:pop>
-                <me:pop ref="Int1(-)">1.94839e-010</me:pop>
-                <me:pop ref="lactone">4.26812e-006</me:pop>
-                <me:pop ref="ketene">1.73821e-009</me:pop>
+                <me:pop ref="Int2">1.11138e-006</me:pop>
+                <me:pop ref="Int1(-)">2.02317e-010</me:pop>
+                <me:pop ref="lactone">4.26744e-006</me:pop>
+                <me:pop ref="ketene">1.73793e-009</me:pop>
             </me:population>
             <me:population time="3.98107e-009" logTime="-8.4">
                 <me:pop ref="acetyl">0.999507</me:pop>
                 <me:pop ref="Int1(+)">0.000484784</me:pop>
-                <me:pop ref="Int2">1.38382e-006</me:pop>
-                <me:pop ref="Int1(-)">5.82687e-010</me:pop>
-                <me:pop ref="lactone">6.67633e-006</me:pop>
-                <me:pop ref="ketene">2.35647e-009</me:pop>
+                <me:pop ref="Int2">1.38437e-006</me:pop>
+                <me:pop ref="Int1(-)">6.12173e-010</me:pop>
+                <me:pop ref="lactone">6.67533e-006</me:pop>
+                <me:pop ref="ketene">2.35611e-009</me:pop>
             </me:population>
             <me:population time="5.01187e-009" logTime="-8.3">
                 <me:pop ref="acetyl">0.9994</me:pop>
-                <me:pop ref="Int1(+)">0.000588452</me:pop>
-                <me:pop ref="Int2">1.70196e-006</me:pop>
-                <me:pop ref="Int1(-)">1.83519e-009</me:pop>
-                <me:pop ref="lactone">1.02863e-005</me:pop>
-                <me:pop ref="ketene">3.16137e-009</me:pop>
+                <me:pop ref="Int1(+)">0.000588453</me:pop>
+                <me:pop ref="Int2">1.70253e-006</me:pop>
+                <me:pop ref="Int1(-)">1.95644e-009</me:pop>
+                <me:pop ref="lactone">1.02843e-005</me:pop>
+                <me:pop ref="ketene">3.16077e-009</me:pop>
             </me:population>
             <me:population time="6.30957e-009" logTime="-8.2">
                 <me:pop ref="acetyl">0.99927</me:pop>
-                <me:pop ref="Int1(+)">0.000711883</me:pop>
-                <me:pop ref="Int2">2.06926e-006</me:pop>
-                <me:pop ref="Int1(-)">6.05723e-009</me:pop>
-                <me:pop ref="lactone">1.56198e-005</me:pop>
-                <me:pop ref="ketene">4.2011e-009</me:pop>
+                <me:pop ref="Int1(+)">0.000711887</me:pop>
+                <me:pop ref="Int2">2.06985e-006</me:pop>
+                <me:pop ref="Int1(-)">6.57499e-009</me:pop>
+                <me:pop ref="lactone">1.56147e-005</me:pop>
+                <me:pop ref="ketene">4.19974e-009</me:pop>
             </me:population>
             <me:population time="7.94328e-009" logTime="-8.1">
                 <me:pop ref="acetyl">0.999115</me:pop>
-                <me:pop ref="Int1(+)">0.00085871</me:pop>
-                <me:pop ref="Int2">2.48988e-006</me:pop>
-                <me:pop ref="Int1(-)">2.07918e-008</me:pop>
-                <me:pop ref="lactone">2.33916e-005</me:pop>
-                <me:pop ref="ketene">5.53627e-009</me:pop>
+                <me:pop ref="Int1(+)">0.000858723</me:pop>
+                <me:pop ref="Int2">2.4905e-006</me:pop>
+                <me:pop ref="Int1(-)">2.30701e-008</me:pop>
+                <me:pop ref="lactone">2.33757e-005</me:pop>
+                <me:pop ref="ketene">5.53251e-009</me:pop>
             </me:population>
             <me:population time="1e-008" logTime="-8">
                 <me:pop ref="acetyl">0.998929</me:pop>
-                <me:pop ref="Int1(+)">0.00103353</me:pop>
-                <me:pop ref="Int2">2.96815e-006</me:pop>
-                <me:pop ref="Int1(-)">7.34259e-008</me:pop>
-                <me:pop ref="lactone">3.4569e-005</me:pop>
-                <me:pop ref="ketene">7.2442e-009</me:pop>
+                <me:pop ref="Int1(+)">0.00103358</me:pop>
+                <me:pop ref="Int2">2.96878e-006</me:pop>
+                <me:pop ref="Int1(-)">8.36313e-008</me:pop>
+                <me:pop ref="lactone">3.45145e-005</me:pop>
+                <me:pop ref="ketene">7.23278e-009</me:pop>
             </me:population>
             <me:population time="1.25893e-008" logTime="-7.9">
                 <me:pop ref="acetyl">0.998704</me:pop>
-                <me:pop ref="Int1(+)">0.00124226</me:pop>
-                <me:pop ref="Int2">3.5084e-006</me:pop>
-                <me:pop ref="Int1(-)">2.63022e-007</me:pop>
-                <me:pop ref="lactone">5.04533e-005</me:pop>
-                <me:pop ref="ketene">9.42598e-009</me:pop>
+                <me:pop ref="Int1(+)">0.00124241</me:pop>
+                <me:pop ref="Int2">3.50904e-006</me:pop>
+                <me:pop ref="Int1(-)">3.08733e-007</me:pop>
+                <me:pop ref="lactone">5.02585e-005</me:pop>
+                <me:pop ref="ketene">9.38958e-009</me:pop>
             </me:population>
             <me:population time="1.58489e-008" logTime="-7.8">
                 <me:pop ref="acetyl">0.99843</me:pop>
-                <me:pop ref="Int1(+)">0.00149239</me:pop>
-                <me:pop ref="Int2">4.11457e-006</me:pop>
-                <me:pop ref="Int1(-)">9.39241e-007</me:pop>
-                <me:pop ref="lactone">7.28133e-005</me:pop>
-                <me:pop ref="ketene">1.22203e-008</me:pop>
+                <me:pop ref="Int1(+)">0.00149289</me:pop>
+                <me:pop ref="Int2">4.11523e-006</me:pop>
+                <me:pop ref="Int1(-)">1.13873e-006</me:pop>
+                <me:pop ref="lactone">7.21125e-005</me:pop>
+                <me:pop ref="ketene">1.21027e-008</me:pop>
             </me:population>
             <me:population time="1.99526e-008" logTime="-7.7">
                 <me:pop ref="acetyl">0.998095</me:pop>
-                <me:pop ref="Int1(+)">0.00179284</me:pop>
-                <me:pop ref="Int2">4.78927e-006</me:pop>
-                <me:pop ref="Int1(-)">3.27849e-006</me:pop>
-                <me:pop ref="lactone">0.000104166</me:pop>
-                <me:pop ref="ketene">1.58357e-008</me:pop>
+                <me:pop ref="Int1(+)">0.00179448</me:pop>
+                <me:pop ref="Int2">4.78999e-006</me:pop>
+                <me:pop ref="Int1(-)">4.09576e-006</me:pop>
+                <me:pop ref="lactone">0.000101713</me:pop>
+                <me:pop ref="ketene">1.54627e-008</me:pop>
             </me:population>
             <me:population time="2.51189e-008" logTime="-7.6">
                 <me:pop ref="acetyl">0.997683</me:pop>
-                <me:pop ref="Int1(+)">0.00215244</me:pop>
-                <me:pop ref="Int2">5.53223e-006</me:pop>
-                <me:pop ref="Int1(-)">1.09657e-005</me:pop>
-                <me:pop ref="lactone">0.000148444</me:pop>
-                <me:pop ref="ketene">2.06252e-008</me:pop>
+                <me:pop ref="Int1(+)">0.00215747</me:pop>
+                <me:pop ref="Int2">5.53314e-006</me:pop>
+                <me:pop ref="Int1(-)">1.39506e-005</me:pop>
+                <me:pop ref="lactone">0.000140429</me:pop>
+                <me:pop ref="ketene">1.95115e-008</me:pop>
             </me:population>
             <me:population time="3.16228e-008" logTime="-7.5">
                 <me:pop ref="acetyl">0.997172</me:pop>
-                <me:pop ref="Int1(+)">0.00257511</me:pop>
-                <me:pop ref="Int2">6.33839e-006</me:pop>
-                <me:pop ref="Int1(-)">3.45092e-005</me:pop>
-                <me:pop ref="lactone">0.000212339</me:pop>
-                <me:pop ref="ketene">2.72222e-008</me:pop>
+                <me:pop ref="Int1(+)">0.00258924</me:pop>
+                <me:pop ref="Int2">6.33992e-006</me:pop>
+                <me:pop ref="Int1(-)">4.36463e-005</me:pop>
+                <me:pop ref="lactone">0.000189071</me:pop>
+                <me:pop ref="ketene">2.4239e-008</me:pop>
             </me:population>
             <me:population time="3.98107e-008" logTime="-7.4">
                 <me:pop ref="acetyl">0.996535</me:pop>
-                <me:pop ref="Int1(+)">0.00305027</me:pop>
-                <me:pop ref="Int2">7.19697e-006</me:pop>
-                <me:pop ref="Int1(-)">0.000100374</me:pop>
-                <me:pop ref="lactone">0.000306836</me:pop>
-                <me:pop ref="ketene">3.66591e-008</me:pop>
+                <me:pop ref="Int1(+)">0.00308542</me:pop>
+                <me:pop ref="Int2">7.20029e-006</me:pop>
+                <me:pop ref="Int1(-)">0.000122736</me:pop>
+                <me:pop ref="lactone">0.000249324</me:pop>
+                <me:pop ref="ketene">2.97876e-008</me:pop>
             </me:population>
             <me:population time="5.01187e-008" logTime="-7.3">
                 <me:pop ref="acetyl">0.99574</me:pop>
-                <me:pop ref="Int1(+)">0.00354128</me:pop>
-                <me:pop ref="Int2">8.09355e-006</me:pop>
-                <me:pop ref="Int1(-)">0.000264136</me:pop>
-                <me:pop ref="lactone">0.000446861</me:pop>
-                <me:pop ref="ketene">5.02619e-008</me:pop>
+                <me:pop ref="Int1(+)">0.00361653</me:pop>
+                <me:pop ref="Int2">8.10149e-006</me:pop>
+                <me:pop ref="Int1(-)">0.00030848</me:pop>
+                <me:pop ref="lactone">0.000327266</me:pop>
+                <me:pop ref="ketene">3.68093e-008</me:pop>
             </me:population>
             <me:population time="6.30957e-008" logTime="-7.2">
                 <me:pop ref="acetyl">0.994742</me:pop>
-                <me:pop ref="Int1(+)">0.0039849</me:pop>
-                <me:pop ref="Int2">9.01783e-006</me:pop>
-                <me:pop ref="Int1(-)">0.000615571</me:pop>
-                <me:pop ref="lactone">0.000648307</me:pop>
-                <me:pop ref="ketene">6.93389e-008</me:pop>
+                <me:pop ref="Int1(+)">0.00412078</me:pop>
+                <me:pop ref="Int2">9.03611e-006</me:pop>
+                <me:pop ref="Int1(-)">0.000693997</me:pop>
+                <me:pop ref="lactone">0.000434004</me:pop>
+                <me:pop ref="ketene">4.64161e-008</me:pop>
             </me:population>
             <me:population time="7.94328e-008" logTime="-7.1">
                 <me:pop ref="acetyl">0.99349</me:pop>
-                <me:pop ref="Int1(+)">0.00431637</me:pop>
-                <me:pop ref="Int2">9.97726e-006</me:pop>
-                <me:pop ref="Int1(-)">0.00125801</me:pop>
-                <me:pop ref="lactone">0.000925582</me:pop>
-                <me:pop ref="ketene">9.50203e-008</me:pop>
+                <me:pop ref="Int1(+)">0.00452204</me:pop>
+                <me:pop ref="Int2">1.00151e-005</me:pop>
+                <me:pop ref="Int1(-)">0.00139617</me:pop>
+                <me:pop ref="lactone">0.000581748</me:pop>
+                <me:pop ref="ketene">5.97167e-008</me:pop>
             </me:population>
             <me:population time="1e-007" logTime="-7">
                 <me:pop ref="acetyl">0.991917</me:pop>
-                <me:pop ref="Int1(+)">0.0045091</me:pop>
-                <me:pop ref="Int2">1.10105e-005</me:pop>
-                <me:pop ref="Int1(-)">0.00227131</me:pop>
-                <me:pop ref="lactone">0.00129148</me:pop>
-                <me:pop ref="ketene">1.28328e-007</me:pop>
+                <me:pop ref="Int1(+)">0.00477368</me:pop>
+                <me:pop ref="Int2">1.10792e-005</me:pop>
+                <me:pop ref="Int1(-)">0.00251735</me:pop>
+                <me:pop ref="lactone">0.00078084</me:pop>
+                <me:pop ref="ketene">7.75765e-008</me:pop>
             </me:population>
             <me:population time="1.25893e-007" logTime="-6.9">
                 <me:pop ref="acetyl">0.989941</me:pop>
-                <me:pop ref="Int1(+)">0.00458881</me:pop>
-                <me:pop ref="Int2">1.21899e-005</me:pop>
-                <me:pop ref="Int1(-)">0.00369905</me:pop>
-                <me:pop ref="lactone">0.00175898</me:pop>
-                <me:pop ref="ketene">1.70367e-007</me:pop>
+                <me:pop ref="Int1(+)">0.00488843</me:pop>
+                <me:pop ref="Int2">1.23011e-005</me:pop>
+                <me:pop ref="Int1(-)">0.00411844</me:pop>
+                <me:pop ref="lactone">0.00103994</me:pop>
+                <me:pop ref="ketene">1.00701e-007</me:pop>
             </me:population>
             <me:population time="1.58489e-007" logTime="-6.8">
                 <me:pop ref="acetyl">0.987459</me:pop>
-                <me:pop ref="Int1(+)">0.00460535</me:pop>
-                <me:pop ref="Int2">1.36091e-005</me:pop>
-                <me:pop ref="Int1(-)">0.00557696</me:pop>
-                <me:pop ref="lactone">0.00234514</me:pop>
-                <me:pop ref="ketene">2.22655e-007</me:pop>
+                <me:pop ref="Int1(+)">0.00491881</me:pop>
+                <me:pop ref="Int2">1.37739e-005</me:pop>
+                <me:pop ref="Int1(-)">0.00624015</me:pop>
+                <me:pop ref="lactone">0.00136841</me:pop>
+                <me:pop ref="ketene">1.29883e-007</me:pop>
             </me:population>
             <me:population time="1.99526e-007" logTime="-6.7">
                 <me:pop ref="acetyl">0.984343</me:pop>
-                <me:pop ref="Int1(+)">0.00459676</me:pop>
-                <me:pop ref="Int2">1.53676e-005</me:pop>
-                <me:pop ref="Int1(-)">0.00796942</me:pop>
-                <me:pop ref="lactone">0.00307527</me:pop>
-                <me:pop ref="ketene">2.87476e-007</me:pop>
+                <me:pop ref="Int1(+)">0.00491314</me:pop>
+                <me:pop ref="Int2">1.55987e-005</me:pop>
+                <me:pop ref="Int1(-)">0.00894862</me:pop>
+                <me:pop ref="lactone">0.00177957</me:pop>
+                <me:pop ref="ketene">1.66297e-007</me:pop>
             </me:population>
             <me:population time="2.51189e-007" logTime="-6.6">
                 <me:pop ref="acetyl">0.980434</me:pop>
-                <me:pop ref="Int1(+)">0.00457929</me:pop>
-                <me:pop ref="Int2">1.75679e-005</me:pop>
-                <me:pop ref="Int1(-)">0.0109835</me:pop>
-                <me:pop ref="lactone">0.00398498</me:pop>
-                <me:pop ref="ketene">3.68021e-007</me:pop>
+                <me:pop ref="Int1(+)">0.00489505</me:pop>
+                <me:pop ref="Int2">1.78815e-005</me:pop>
+                <me:pop ref="Int1(-)">0.0123598</me:pop>
+                <me:pop ref="lactone">0.00229276</me:pop>
+                <me:pop ref="ketene">2.11659e-007</me:pop>
             </me:population>
             <me:population time="3.16228e-007" logTime="-6.5">
                 <me:pop ref="acetyl">0.975536</me:pop>
-                <me:pop ref="Int1(+)">0.00455647</me:pop>
-                <me:pop ref="Int2">2.03246e-005</me:pop>
-                <me:pop ref="Int1(-)">0.0147668</me:pop>
-                <me:pop ref="lactone">0.0051202</me:pop>
-                <me:pop ref="ketene">4.68383e-007</me:pop>
+                <me:pop ref="Int1(+)">0.00487071</me:pop>
+                <me:pop ref="Int2">2.07416e-005</me:pop>
+                <me:pop ref="Int1(-)">0.0166389</me:pop>
+                <me:pop ref="lactone">0.00293361</me:pop>
+                <me:pop ref="ketene">2.68247e-007</me:pop>
             </me:population>
             <me:population time="3.98107e-007" logTime="-6.4">
                 <me:pop ref="acetyl">0.969404</me:pop>
-                <me:pop ref="Int1(+)">0.00452783</me:pop>
-                <me:pop ref="Int2">2.37755e-005</me:pop>
-                <me:pop ref="Int1(-)">0.0195065</me:pop>
-                <me:pop ref="lactone">0.00653777</me:pop>
-                <me:pop ref="ketene">5.93603e-007</me:pop>
+                <me:pop ref="Int1(+)">0.0048401</me:pop>
+                <me:pop ref="Int2">2.43218e-005</me:pop>
+                <me:pop ref="Int1(-)">0.0219975</me:pop>
+                <me:pop ref="lactone">0.00373418</me:pop>
+                <me:pop ref="ketene">3.38897e-007</me:pop>
             </me:population>
             <me:population time="5.01187e-007" logTime="-6.3">
                 <me:pop ref="acetyl">0.961738</me:pop>
-                <me:pop ref="Int1(+)">0.00449203</me:pop>
-                <me:pop ref="Int2">2.8089e-005</me:pop>
-                <me:pop ref="Int1(-)">0.0254336</me:pop>
-                <me:pop ref="lactone">0.00830721</me:pop>
-                <me:pop ref="ketene">7.49829e-007</me:pop>
+                <me:pop ref="Int1(+)">0.00480183</me:pop>
+                <me:pop ref="Int2">2.87969e-005</me:pop>
+                <me:pop ref="Int1(-)">0.0286968</me:pop>
+                <me:pop ref="lactone">0.00473369</me:pop>
+                <me:pop ref="ketene">4.27075e-007</me:pop>
             </me:population>
             <me:population time="6.30957e-007" logTime="-6.2">
                 <me:pop ref="acetyl">0.952175</me:pop>
-                <me:pop ref="Int1(+)">0.00444736</me:pop>
-                <me:pop ref="Int2">3.3471e-005</me:pop>
-                <me:pop ref="Int1(-)">0.0328305</me:pop>
-                <me:pop ref="lactone">0.0105131</me:pop>
-                <me:pop ref="ketene">9.44533e-007</me:pop>
+                <me:pop ref="Int1(+)">0.00475408</me:pop>
+                <me:pop ref="Int2">3.43806e-005</me:pop>
+                <me:pop ref="Int1(-)">0.0370563</me:pop>
+                <me:pop ref="lactone">0.00597992</me:pop>
+                <me:pop ref="ketene">5.36999e-007</me:pop>
             </me:population>
             <me:population time="7.94328e-007" logTime="-6.1">
                 <me:pop ref="acetyl">0.94027</me:pop>
-                <me:pop ref="Int1(+)">0.00439175</me:pop>
-                <me:pop ref="Int2">4.01704e-005</me:pop>
-                <me:pop ref="Int1(-)">0.0420396</me:pop>
-                <me:pop ref="lactone">0.0132576</me:pop>
-                <me:pop ref="ketene">1.18674e-006</me:pop>
+                <me:pop ref="Int1(+)">0.00469464</me:pop>
+                <me:pop ref="Int2">4.13311e-005</me:pop>
+                <me:pop ref="Int1(-)">0.0474629</me:pop>
+                <me:pop ref="lactone">0.0075306</me:pop>
+                <me:pop ref="ketene">6.73762e-007</me:pop>
             </me:population>
             <me:population time="1e-006" logTime="-6">
                 <me:pop ref="acetyl">0.925494</me:pop>
-                <me:pop ref="Int1(+)">0.00432274</me:pop>
-                <me:pop ref="Int2">4.84856e-005</me:pop>
-                <me:pop ref="Int1(-)">0.0534706</me:pop>
-                <me:pop ref="lactone">0.0166629</me:pop>
-                <me:pop ref="ketene">1.48724e-006</me:pop>
+                <me:pop ref="Int1(+)">0.00462087</me:pop>
+                <me:pop ref="Int2">4.99578e-005</me:pop>
+                <me:pop ref="Int1(-)">0.0603796</me:pop>
+                <me:pop ref="lactone">0.0094548</me:pop>
+                <me:pop ref="ketene">8.43456e-007</me:pop>
             </me:population>
             <me:population time="1.25893e-006" logTime="-5.9">
                 <me:pop ref="acetyl">0.907222</me:pop>
-                <me:pop ref="Int1(+)">0.00423739</me:pop>
-                <me:pop ref="Int2">5.87682e-005</me:pop>
-                <me:pop ref="Int1(-)">0.0676071</me:pop>
-                <me:pop ref="lactone">0.0208733</me:pop>
-                <me:pop ref="ketene">1.85875e-006</me:pop>
+                <me:pop ref="Int1(+)">0.00452963</me:pop>
+                <me:pop ref="Int2">6.06258e-005</me:pop>
+                <me:pop ref="Int1(-)">0.0763529</me:pop>
+                <me:pop ref="lactone">0.0118339</me:pop>
+                <me:pop ref="ketene">1.05326e-006</me:pop>
             </me:population>
             <me:population time="1.58489e-006" logTime="-5.8">
-                <me:pop ref="acetyl">0.88473</me:pop>
-                <me:pop ref="Int1(+)">0.00413234</me:pop>
-                <me:pop ref="Int2">7.1425e-005</me:pop>
-                <me:pop ref="Int1(-)">0.0850084</me:pop>
-                <me:pop ref="lactone">0.0260552</me:pop>
-                <me:pop ref="ketene">2.31597e-006</me:pop>
+                <me:pop ref="acetyl">0.884731</me:pop>
+                <me:pop ref="Int1(+)">0.00441734</me:pop>
+                <me:pop ref="Int2">7.37569e-005</me:pop>
+                <me:pop ref="Int1(-)">0.0960147</me:pop>
+                <me:pop ref="lactone">0.0147622</me:pop>
+                <me:pop ref="ketene">1.31149e-006</me:pop>
             </me:population>
             <me:population time="1.99526e-006" logTime="-5.7">
                 <me:pop ref="acetyl">0.857207</me:pop>
-                <me:pop ref="Int1(+)">0.00400379</me:pop>
-                <me:pop ref="Int2">8.69138e-005</me:pop>
-                <me:pop ref="Int1(-)">0.106304</me:pop>
-                <me:pop ref="lactone">0.0323962</me:pop>
-                <me:pop ref="ketene">2.87545e-006</me:pop>
+                <me:pop ref="Int1(+)">0.00427992</me:pop>
+                <me:pop ref="Int2">8.98262e-005</me:pop>
+                <me:pop ref="Int1(-)">0.120076</me:pop>
+                <me:pop ref="lactone">0.0183454</me:pop>
+                <me:pop ref="ketene">1.62746e-006</me:pop>
             </me:population>
             <me:population time="2.51189e-006" logTime="-5.6">
                 <me:pop ref="acetyl">0.823771</me:pop>
-                <me:pop ref="Int1(+)">0.00384762</me:pop>
-                <me:pop ref="Int2">0.00010573</me:pop>
-                <me:pop ref="Int1(-)">0.132173</me:pop>
-                <me:pop ref="lactone">0.0400989</me:pop>
-                <me:pop ref="ketene">3.55507e-006</me:pop>
+                <me:pop ref="Int1(+)">0.00411298</me:pop>
+                <me:pop ref="Int2">0.000109347</me:pop>
+                <me:pop ref="Int1(-)">0.149306</me:pop>
+                <me:pop ref="lactone">0.0226982</me:pop>
+                <me:pop ref="ketene">2.0113e-006</me:pop>
             </me:population>
             <me:population time="3.16228e-006" logTime="-5.5">
                 <me:pop ref="acetyl">0.783526</me:pop>
-                <me:pop ref="Int1(+)">0.00365964</me:pop>
-                <me:pop ref="Int2">0.000128378</me:pop>
-                <me:pop ref="Int1(-)">0.163312</me:pop>
-                <me:pop ref="lactone">0.0493701</me:pop>
-                <me:pop ref="ketene">4.37307e-006</me:pop>
+                <me:pop ref="Int1(+)">0.00391204</me:pop>
+                <me:pop ref="Int2">0.000132844</me:pop>
+                <me:pop ref="Int1(-)">0.184489</me:pop>
+                <me:pop ref="lactone">0.0279374</me:pop>
+                <me:pop ref="ketene">2.4733e-006</me:pop>
             </me:population>
             <me:population time="3.98107e-006" logTime="-5.4">
                 <me:pop ref="acetyl">0.735644</me:pop>
-                <me:pop ref="Int1(+)">0.003436</me:pop>
-                <me:pop ref="Int2">0.000155323</me:pop>
-                <me:pop ref="Int1(-)">0.200359</me:pop>
-                <me:pop ref="lactone">0.0604005</me:pop>
-                <me:pop ref="ketene">5.34628e-006</me:pop>
+                <me:pop ref="Int1(+)">0.00367297</me:pop>
+                <me:pop ref="Int2">0.000160799</me:pop>
+                <me:pop ref="Int1(-)">0.226348</me:pop>
+                <me:pop ref="lactone">0.0341707</me:pop>
+                <me:pop ref="ketene">3.02297e-006</me:pop>
             </me:population>
             <me:population time="5.01187e-006" logTime="-5.3">
-                <me:pop ref="acetyl">0.679502</me:pop>
-                <me:pop ref="Int1(+)">0.00317378</me:pop>
-                <me:pop ref="Int2">0.000186916</me:pop>
-                <me:pop ref="Int1(-)">0.243797</me:pop>
-                <me:pop ref="lactone">0.0733335</me:pop>
-                <me:pop ref="ketene">6.48735e-006</me:pop>
+                <me:pop ref="acetyl">0.679503</me:pop>
+                <me:pop ref="Int1(+)">0.00339267</me:pop>
+                <me:pop ref="Int2">0.000193576</me:pop>
+                <me:pop ref="Int1(-)">0.275428</me:pop>
+                <me:pop ref="lactone">0.0414793</me:pop>
+                <me:pop ref="ketene">3.66745e-006</me:pop>
             </me:population>
             <me:population time="6.30957e-006" logTime="-5.2">
-                <me:pop ref="acetyl">0.614876</me:pop>
-                <me:pop ref="Int1(+)">0.00287192</me:pop>
-                <me:pop ref="Int2">0.000223285</me:pop>
-                <me:pop ref="Int1(-)">0.2938</me:pop>
-                <me:pop ref="lactone">0.0882211</me:pop>
-                <me:pop ref="ketene">7.80089e-006</me:pop>
+                <me:pop ref="acetyl">0.614877</me:pop>
+                <me:pop ref="Int1(+)">0.00307</me:pop>
+                <me:pop ref="Int2">0.000231307</me:pop>
+                <me:pop ref="Int1(-)">0.331925</me:pop>
+                <me:pop ref="lactone">0.0498925</me:pop>
+                <me:pop ref="ketene">4.40934e-006</me:pop>
             </me:population>
             <me:population time="7.94328e-006" logTime="-5.1">
-                <me:pop ref="acetyl">0.542183</me:pop>
-                <me:pop ref="Int1(+)">0.00253239</me:pop>
-                <me:pop ref="Int2">0.000264192</me:pop>
-                <me:pop ref="Int1(-)">0.350044</me:pop>
-                <me:pop ref="lactone">0.104967</me:pop>
-                <me:pop ref="ketene">9.2784e-006</me:pop>
+                <me:pop ref="acetyl">0.542184</me:pop>
+                <me:pop ref="Int1(+)">0.00270705</me:pop>
+                <me:pop ref="Int2">0.000273748</me:pop>
+                <me:pop ref="Int1(-)">0.395474</me:pop>
+                <me:pop ref="lactone">0.059356</me:pop>
+                <me:pop ref="ketene">5.24385e-006</me:pop>
             </me:population>
             <me:population time="1e-005" logTime="-5">
-                <me:pop ref="acetyl">0.46276</me:pop>
-                <me:pop ref="Int1(+)">0.00216143</me:pop>
-                <me:pop ref="Int2">0.000308887</me:pop>
-                <me:pop ref="Int1(-)">0.411494</me:pop>
-                <me:pop ref="lactone">0.123264</me:pop>
-                <me:pop ref="ketene">1.08927e-005</me:pop>
+                <me:pop ref="acetyl">0.462762</me:pop>
+                <me:pop ref="Int1(+)">0.00231051</me:pop>
+                <me:pop ref="Int2">0.000320118</me:pop>
+                <me:pop ref="Int1(-)">0.464906</me:pop>
+                <me:pop ref="lactone">0.0696958</me:pop>
+                <me:pop ref="ketene">6.15564e-006</me:pop>
             </me:population>
             <me:population time="1.25893e-005" logTime="-4.9">
-                <me:pop ref="acetyl">0.379101</me:pop>
-                <me:pop ref="Int1(+)">0.00177068</me:pop>
-                <me:pop ref="Int2">0.000355966</me:pop>
-                <me:pop ref="Int1(-)">0.476222</me:pop>
-                <me:pop ref="lactone">0.142537</me:pop>
-                <me:pop ref="ketene">1.25932e-005</me:pop>
+                <me:pop ref="acetyl">0.379102</me:pop>
+                <me:pop ref="Int1(+)">0.00189281</me:pop>
+                <me:pop ref="Int2">0.000368961</me:pop>
+                <me:pop ref="Int1(-)">0.538041</me:pop>
+                <me:pop ref="lactone">0.0805876</me:pop>
+                <me:pop ref="ketene">7.11611e-006</me:pop>
             </me:population>
             <me:population time="1.58489e-005" logTime="-4.8">
-                <me:pop ref="acetyl">0.294938</me:pop>
-                <me:pop ref="Int1(+)">0.00137758</me:pop>
-                <me:pop ref="Int2">0.000403329</me:pop>
-                <me:pop ref="Int1(-)">0.54134</me:pop>
-                <me:pop ref="lactone">0.161927</me:pop>
-                <me:pop ref="ketene">1.43041e-005</me:pop>
+                <me:pop ref="acetyl">0.294939</me:pop>
+                <me:pop ref="Int1(+)">0.00147259</me:pop>
+                <me:pop ref="Int2">0.000418099</me:pop>
+                <me:pop ref="Int1(-)">0.611616</me:pop>
+                <me:pop ref="lactone">0.0915454</me:pop>
+                <me:pop ref="ketene">8.08242e-006</me:pop>
             </me:population>
             <me:population time="1.99526e-005" logTime="-4.7">
-                <me:pop ref="acetyl">0.215019</me:pop>
-                <me:pop ref="Int1(+)">0.0010043</me:pop>
-                <me:pop ref="Int2">0.000448303</me:pop>
-                <me:pop ref="Int1(-)">0.603172</me:pop>
-                <me:pop ref="lactone">0.18034</me:pop>
-                <me:pop ref="ketene">1.59287e-005</me:pop>
+                <me:pop ref="acetyl">0.21502</me:pop>
+                <me:pop ref="Int1(+)">0.00107357</me:pop>
+                <me:pop ref="Int2">0.000464759</me:pop>
+                <me:pop ref="Int1(-)">0.681481</me:pop>
+                <me:pop ref="lactone">0.101951</me:pop>
+                <me:pop ref="ketene">9.00007e-006</me:pop>
             </me:population>
             <me:population time="2.51189e-005" logTime="-4.6">
-                <me:pop ref="acetyl">0.144439</me:pop>
-                <me:pop ref="Int1(+)">0.000674638</me:pop>
-                <me:pop ref="Int2">0.000488021</me:pop>
-                <me:pop ref="Int1(-)">0.657778</me:pop>
-                <me:pop ref="lactone">0.196603</me:pop>
-                <me:pop ref="ketene">1.73637e-005</me:pop>
+                <me:pop ref="acetyl">0.14444</me:pop>
+                <me:pop ref="Int1(+)">0.000721171</me:pop>
+                <me:pop ref="Int2">0.000505966</me:pop>
+                <me:pop ref="Int1(-)">0.743181</me:pop>
+                <me:pop ref="lactone">0.111142</me:pop>
+                <me:pop ref="ketene">9.81058e-006</me:pop>
             </me:population>
             <me:population time="3.16228e-005" logTime="-4.5">
-                <me:pop ref="acetyl">0.0875292</me:pop>
-                <me:pop ref="Int1(+)">0.000408826</me:pop>
-                <me:pop ref="Int2">0.000520047</me:pop>
-                <me:pop ref="Int1(-)">0.701807</me:pop>
-                <me:pop ref="lactone">0.209717</me:pop>
-                <me:pop ref="ketene">1.85208e-005</me:pop>
+                <me:pop ref="acetyl">0.08753</me:pop>
+                <me:pop ref="Int1(+)">0.000437025</me:pop>
+                <me:pop ref="Int2">0.000539192</me:pop>
+                <me:pop ref="Int1(-)">0.79293</me:pop>
+                <me:pop ref="lactone">0.118553</me:pop>
+                <me:pop ref="ketene">1.04642e-005</me:pop>
             </me:population>
             <me:population time="3.98107e-005" logTime="-4.4">
-                <me:pop ref="acetyl">0.0465904</me:pop>
-                <me:pop ref="Int1(+)">0.000217611</me:pop>
-                <me:pop ref="Int2">0.000543085</me:pop>
-                <me:pop ref="Int1(-)">0.733478</me:pop>
-                <me:pop ref="lactone">0.219152</me:pop>
-                <me:pop ref="ketene">1.93534e-005</me:pop>
+                <me:pop ref="acetyl">0.0465909</me:pop>
+                <me:pop ref="Int1(+)">0.000232622</me:pop>
+                <me:pop ref="Int2">0.000563094</me:pop>
+                <me:pop ref="Int1(-)">0.828717</me:pop>
+                <me:pop ref="lactone">0.123886</me:pop>
+                <me:pop ref="ketene">1.09345e-005</me:pop>
             </me:population>
             <me:population time="5.01187e-005" logTime="-4.3">
-                <me:pop ref="acetyl">0.0210635</me:pop>
-                <me:pop ref="Int1(+)">9.83821e-005</me:pop>
-                <me:pop ref="Int2">0.00055745</me:pop>
-                <me:pop ref="Int1(-)">0.753225</me:pop>
-                <me:pop ref="lactone">0.225036</me:pop>
-                <me:pop ref="ketene">1.98726e-005</me:pop>
+                <me:pop ref="acetyl">0.0210638</me:pop>
+                <me:pop ref="Int1(+)">0.000105169</me:pop>
+                <me:pop ref="Int2">0.000577998</me:pop>
+                <me:pop ref="Int1(-)">0.85103</me:pop>
+                <me:pop ref="lactone">0.127212</me:pop>
+                <me:pop ref="ketene">1.12278e-005</me:pop>
             </me:population>
             <me:population time="6.30957e-005" logTime="-4.2">
-                <me:pop ref="acetyl">0.00775349</me:pop>
-                <me:pop ref="Int1(+)">3.62145e-005</me:pop>
-                <me:pop ref="Int2">0.000564941</me:pop>
-                <me:pop ref="Int1(-)">0.763521</me:pop>
-                <me:pop ref="lactone">0.228104</me:pop>
-                <me:pop ref="ketene">2.01434e-005</me:pop>
+                <me:pop ref="acetyl">0.00775363</me:pop>
+                <me:pop ref="Int1(+)">3.87128e-005</me:pop>
+                <me:pop ref="Int2">0.000585769</me:pop>
+                <me:pop ref="Int1(-)">0.862665</me:pop>
+                <me:pop ref="lactone">0.128946</me:pop>
+                <me:pop ref="ketene">1.13808e-005</me:pop>
             </me:population>
             <me:population time="7.94328e-005" logTime="-4.1">
-                <me:pop ref="acetyl">0.00220334</me:pop>
-                <me:pop ref="Int1(+)">1.02912e-005</me:pop>
-                <me:pop ref="Int2">0.000568064</me:pop>
-                <me:pop ref="Int1(-)">0.767814</me:pop>
-                <me:pop ref="lactone">0.229384</me:pop>
-                <me:pop ref="ketene">2.02564e-005</me:pop>
+                <me:pop ref="acetyl">0.00220339</me:pop>
+                <me:pop ref="Int1(+)">1.10012e-005</me:pop>
+                <me:pop ref="Int2">0.000589009</me:pop>
+                <me:pop ref="Int1(-)">0.867516</me:pop>
+                <me:pop ref="lactone">0.129669</me:pop>
+                <me:pop ref="ketene">1.14446e-005</me:pop>
             </me:population>
             <me:population time="0.0001" logTime="-4">
-                <me:pop ref="acetyl">0.000452047</me:pop>
-                <me:pop ref="Int1(+)">2.11139e-006</me:pop>
-                <me:pop ref="Int2">0.000569049</me:pop>
-                <me:pop ref="Int1(-)">0.769168</me:pop>
-                <me:pop ref="lactone">0.229788</me:pop>
-                <me:pop ref="ketene">2.02921e-005</me:pop>
+                <me:pop ref="acetyl">0.00045206</me:pop>
+                <me:pop ref="Int1(+)">2.25707e-006</me:pop>
+                <me:pop ref="Int2">0.000590032</me:pop>
+                <me:pop ref="Int1(-)">0.869046</me:pop>
+                <me:pop ref="lactone">0.129898</me:pop>
+                <me:pop ref="ketene">1.14648e-005</me:pop>
             </me:population>
             <me:population time="0.000125893" logTime="-3.9">
-                <me:pop ref="acetyl">6.15421e-005</me:pop>
-                <me:pop ref="Int1(+)">2.87447e-007</me:pop>
-                <me:pop ref="Int2">0.000569269</me:pop>
-                <me:pop ref="Int1(-)">0.76947</me:pop>
-                <me:pop ref="lactone">0.229878</me:pop>
-                <me:pop ref="ketene">2.03e-005</me:pop>
+                <me:pop ref="acetyl">6.15443e-005</me:pop>
+                <me:pop ref="Int1(+)">3.07282e-007</me:pop>
+                <me:pop ref="Int2">0.00059026</me:pop>
+                <me:pop ref="Int1(-)">0.869388</me:pop>
+                <me:pop ref="lactone">0.129949</me:pop>
+                <me:pop ref="ketene">1.14693e-005</me:pop>
             </me:population>
             <me:population time="0.000158489" logTime="-3.8">
-                <me:pop ref="acetyl">4.99952e-006</me:pop>
-                <me:pop ref="Int1(+)">2.33515e-008</me:pop>
-                <me:pop ref="Int2">0.000569301</me:pop>
-                <me:pop ref="Int1(-)">0.769514</me:pop>
-                <me:pop ref="lactone">0.229891</me:pop>
-                <me:pop ref="ketene">2.03012e-005</me:pop>
+                <me:pop ref="acetyl">4.99975e-006</me:pop>
+                <me:pop ref="Int1(+)">2.49631e-008</me:pop>
+                <me:pop ref="Int2">0.000590293</me:pop>
+                <me:pop ref="Int1(-)">0.869437</me:pop>
+                <me:pop ref="lactone">0.129956</me:pop>
+                <me:pop ref="ketene">1.14699e-005</me:pop>
             </me:population>
             <me:population time="0.000199526" logTime="-3.7">
-                <me:pop ref="acetyl">2.12028e-007</me:pop>
-                <me:pop ref="Int1(+)">9.90327e-010</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">2.1204e-007</me:pop>
+                <me:pop ref="Int1(+)">1.05869e-009</me:pop>
+                <me:pop ref="Int2">0.000590295</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.000251189" logTime="-3.6">
-                <me:pop ref="acetyl">3.9671e-009</me:pop>
-                <me:pop ref="Int1(+)">1.85293e-011</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">3.96739e-009</me:pop>
+                <me:pop ref="Int1(+)">1.98086e-011</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.000316228" logTime="-3.5">
-                <me:pop ref="acetyl">2.64942e-011</me:pop>
-                <me:pop ref="Int1(+)">1.23748e-013</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">2.64967e-011</me:pop>
+                <me:pop ref="Int1(+)">1.32294e-013</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.000398107" logTime="-3.4">
-                <me:pop ref="acetyl">4.83708e-014</me:pop>
-                <me:pop ref="Int1(+)">2.25928e-016</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">4.83763e-014</me:pop>
+                <me:pop ref="Int1(+)">2.41538e-016</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.000501187" logTime="-3.3">
-                <me:pop ref="acetyl">1.72557e-017</me:pop>
-                <me:pop ref="Int1(+)">8.15611e-020</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">1.72582e-017</me:pop>
+                <me:pop ref="Int1(+)">8.74706e-020</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.000630957" logTime="-3.2">
-                <me:pop ref="acetyl">8.60988e-022</me:pop>
-                <me:pop ref="Int1(+)">9.68456e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">8.66605e-022</me:pop>
+                <me:pop ref="Int1(+)">1.30724e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.000794328" logTime="-3.1">
-                <me:pop ref="acetyl">7.28723e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83451e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.001" logTime="-3">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.00125893" logTime="-2.9">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.00158489" logTime="-2.8">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.00199526" logTime="-2.7">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.00251189" logTime="-2.6">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.00316228" logTime="-2.5">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.00398107" logTime="-2.4">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.00501187" logTime="-2.3">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.00630957" logTime="-2.2">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.00794328" logTime="-2.1">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.01" logTime="-2">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.0125893" logTime="-1.9">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.0158489" logTime="-1.8">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.0199526" logTime="-1.7">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.0251189" logTime="-1.6">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.0316228" logTime="-1.5">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590296</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.0398107" logTime="-1.4">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590295</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.0501187" logTime="-1.3">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590295</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.0630957" logTime="-1.2">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590295</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.0794328" logTime="-1.1">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590295</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.1" logTime="-1">
-                <me:pop ref="acetyl">7.28695e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590295</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.125893" logTime="-0.9">
-                <me:pop ref="acetyl">7.28696e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590295</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.158489" logTime="-0.8">
-                <me:pop ref="acetyl">7.28696e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590295</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.199526" logTime="-0.7">
-                <me:pop ref="acetyl">7.28696e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590295</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.251189" logTime="-0.6">
-                <me:pop ref="acetyl">7.28696e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590295</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.316228" logTime="-0.5">
-                <me:pop ref="acetyl">7.28696e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83424e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590295</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.398107" logTime="-0.4">
-                <me:pop ref="acetyl">7.28696e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83423e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590295</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.501187" logTime="-0.3">
-                <me:pop ref="acetyl">7.28696e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64775e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83423e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590295</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.630957" logTime="-0.2">
-                <me:pop ref="acetyl">7.28696e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64776e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83423e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590295</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="0.794328" logTime="-0.1">
-                <me:pop ref="acetyl">7.28696e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64776e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83423e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590295</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="1" logTime="0">
-                <me:pop ref="acetyl">7.28696e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64776e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83423e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30331e-021</me:pop>
+                <me:pop ref="Int2">0.000590295</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="1.25893" logTime="0.1">
-                <me:pop ref="acetyl">7.28696e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64776e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83422e-023</me:pop>
+                <me:pop ref="Int1(+)">1.3033e-021</me:pop>
+                <me:pop ref="Int2">0.000590294</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="1.58489" logTime="0.2">
-                <me:pop ref="acetyl">7.28696e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64776e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83422e-023</me:pop>
+                <me:pop ref="Int1(+)">1.3033e-021</me:pop>
+                <me:pop ref="Int2">0.000590294</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="1.99526" logTime="0.3">
-                <me:pop ref="acetyl">7.28696e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64776e-022</me:pop>
-                <me:pop ref="Int2">0.000569304</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83422e-023</me:pop>
+                <me:pop ref="Int1(+)">1.3033e-021</me:pop>
+                <me:pop ref="Int2">0.000590294</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="2.51189" logTime="0.4">
-                <me:pop ref="acetyl">7.28697e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64777e-022</me:pop>
-                <me:pop ref="Int2">0.000569305</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83421e-023</me:pop>
+                <me:pop ref="Int1(+)">1.3033e-021</me:pop>
+                <me:pop ref="Int2">0.000590293</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="3.16228" logTime="0.5">
-                <me:pop ref="acetyl">7.28697e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64777e-022</me:pop>
-                <me:pop ref="Int2">0.000569305</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.8342e-023</me:pop>
+                <me:pop ref="Int1(+)">1.3033e-021</me:pop>
+                <me:pop ref="Int2">0.000590293</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="3.98107" logTime="0.6">
-                <me:pop ref="acetyl">7.28697e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64778e-022</me:pop>
-                <me:pop ref="Int2">0.000569305</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83419e-023</me:pop>
+                <me:pop ref="Int1(+)">1.3033e-021</me:pop>
+                <me:pop ref="Int2">0.000590292</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="5.01187" logTime="0.7">
-                <me:pop ref="acetyl">7.28698e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64778e-022</me:pop>
-                <me:pop ref="Int2">0.000569306</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83418e-023</me:pop>
+                <me:pop ref="Int1(+)">1.3033e-021</me:pop>
+                <me:pop ref="Int2">0.000590291</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="6.30957" logTime="0.8">
-                <me:pop ref="acetyl">7.28698e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64779e-022</me:pop>
-                <me:pop ref="Int2">0.000569306</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83416e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30329e-021</me:pop>
+                <me:pop ref="Int2">0.00059029</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="7.94328" logTime="0.9">
-                <me:pop ref="acetyl">7.28699e-023</me:pop>
-                <me:pop ref="Int1(+)">9.6478e-022</me:pop>
-                <me:pop ref="Int2">0.000569307</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83414e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30329e-021</me:pop>
+                <me:pop ref="Int2">0.000590288</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="10" logTime="1">
-                <me:pop ref="acetyl">7.287e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64781e-022</me:pop>
-                <me:pop ref="Int2">0.000569307</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83412e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30329e-021</me:pop>
+                <me:pop ref="Int2">0.000590286</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="12.5893" logTime="1.1">
-                <me:pop ref="acetyl">7.28701e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64783e-022</me:pop>
-                <me:pop ref="Int2">0.000569308</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83408e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30328e-021</me:pop>
+                <me:pop ref="Int2">0.000590284</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="15.8489" logTime="1.2">
-                <me:pop ref="acetyl">7.28702e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64784e-022</me:pop>
-                <me:pop ref="Int2">0.000569309</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83404e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30327e-021</me:pop>
+                <me:pop ref="Int2">0.000590281</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="19.9526" logTime="1.3">
-                <me:pop ref="acetyl">7.28704e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64787e-022</me:pop>
-                <me:pop ref="Int2">0.000569311</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83399e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30327e-021</me:pop>
+                <me:pop ref="Int2">0.000590277</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="25.1189" logTime="1.4">
-                <me:pop ref="acetyl">7.28707e-023</me:pop>
-                <me:pop ref="Int1(+)">9.6479e-022</me:pop>
-                <me:pop ref="Int2">0.000569312</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83393e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30326e-021</me:pop>
+                <me:pop ref="Int2">0.000590272</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="31.6228" logTime="1.5">
-                <me:pop ref="acetyl">7.28709e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64794e-022</me:pop>
-                <me:pop ref="Int2">0.000569315</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83385e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30324e-021</me:pop>
+                <me:pop ref="Int2">0.000590266</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="39.8107" logTime="1.6">
-                <me:pop ref="acetyl">7.28713e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64798e-022</me:pop>
-                <me:pop ref="Int2">0.000569318</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83375e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30323e-021</me:pop>
+                <me:pop ref="Int2">0.000590258</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="50.1187" logTime="1.7">
-                <me:pop ref="acetyl">7.28718e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64804e-022</me:pop>
-                <me:pop ref="Int2">0.000569321</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83362e-023</me:pop>
+                <me:pop ref="Int1(+)">1.3032e-021</me:pop>
+                <me:pop ref="Int2">0.000590249</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="63.0957" logTime="1.8">
-                <me:pop ref="acetyl">7.28723e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64812e-022</me:pop>
-                <me:pop ref="Int2">0.000569326</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83346e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30318e-021</me:pop>
+                <me:pop ref="Int2">0.000590237</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="79.4328" logTime="1.9">
-                <me:pop ref="acetyl">7.2873e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64822e-022</me:pop>
-                <me:pop ref="Int2">0.000569331</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83326e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30314e-021</me:pop>
+                <me:pop ref="Int2">0.000590221</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="100" logTime="2">
-                <me:pop ref="acetyl">7.2874e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64834e-022</me:pop>
-                <me:pop ref="Int2">0.000569338</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.833e-023</me:pop>
+                <me:pop ref="Int1(+)">1.3031e-021</me:pop>
+                <me:pop ref="Int2">0.000590202</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="125.893" logTime="2.1">
-                <me:pop ref="acetyl">7.28751e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64849e-022</me:pop>
-                <me:pop ref="Int2">0.000569347</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83268e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30305e-021</me:pop>
+                <me:pop ref="Int2">0.000590178</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="158.489" logTime="2.2">
-                <me:pop ref="acetyl">7.28765e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64868e-022</me:pop>
-                <me:pop ref="Int2">0.000569358</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83228e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30298e-021</me:pop>
+                <me:pop ref="Int2">0.000590148</me:pop>
+                <me:pop ref="Int1(-)">0.869441</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="199.526" logTime="2.3">
-                <me:pop ref="acetyl">7.28783e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64892e-022</me:pop>
-                <me:pop ref="Int2">0.000569373</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229892</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83177e-023</me:pop>
+                <me:pop ref="Int1(+)">1.3029e-021</me:pop>
+                <me:pop ref="Int2">0.000590109</me:pop>
+                <me:pop ref="Int1(-)">0.869442</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="251.189" logTime="2.4">
-                <me:pop ref="acetyl">7.28806e-023</me:pop>
-                <me:pop ref="Int1(+)">9.64922e-022</me:pop>
-                <me:pop ref="Int2">0.00056939</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229893</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83113e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30279e-021</me:pop>
+                <me:pop ref="Int2">0.000590061</me:pop>
+                <me:pop ref="Int1(-)">0.869442</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="316.228" logTime="2.5">
-                <me:pop ref="acetyl">7.28835e-023</me:pop>
-                <me:pop ref="Int1(+)">9.6496e-022</me:pop>
-                <me:pop ref="Int2">0.000569413</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229893</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.83032e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30266e-021</me:pop>
+                <me:pop ref="Int2">0.000590001</me:pop>
+                <me:pop ref="Int1(-)">0.869442</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="398.107" logTime="2.6">
-                <me:pop ref="acetyl">7.28871e-023</me:pop>
-                <me:pop ref="Int1(+)">9.65008e-022</me:pop>
-                <me:pop ref="Int2">0.000569441</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229893</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.82931e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30249e-021</me:pop>
+                <me:pop ref="Int2">0.000589924</me:pop>
+                <me:pop ref="Int1(-)">0.869442</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="501.187" logTime="2.7">
-                <me:pop ref="acetyl">7.28917e-023</me:pop>
-                <me:pop ref="Int1(+)">9.65068e-022</me:pop>
-                <me:pop ref="Int2">0.000569477</me:pop>
-                <me:pop ref="Int1(-)">0.769518</me:pop>
-                <me:pop ref="lactone">0.229893</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.82804e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30228e-021</me:pop>
+                <me:pop ref="Int2">0.000589828</me:pop>
+                <me:pop ref="Int1(-)">0.869442</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="630.957" logTime="2.8">
-                <me:pop ref="acetyl">7.28974e-023</me:pop>
-                <me:pop ref="Int1(+)">9.65144e-022</me:pop>
-                <me:pop ref="Int2">0.000569521</me:pop>
-                <me:pop ref="Int1(-)">0.769517</me:pop>
-                <me:pop ref="lactone">0.229893</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.82643e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30201e-021</me:pop>
+                <me:pop ref="Int2">0.000589707</me:pop>
+                <me:pop ref="Int1(-)">0.869442</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="794.328" logTime="2.9">
-                <me:pop ref="acetyl">7.29046e-023</me:pop>
-                <me:pop ref="Int1(+)">9.65239e-022</me:pop>
-                <me:pop ref="Int2">0.000569578</me:pop>
-                <me:pop ref="Int1(-)">0.769517</me:pop>
-                <me:pop ref="lactone">0.229893</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.82441e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30167e-021</me:pop>
+                <me:pop ref="Int2">0.000589555</me:pop>
+                <me:pop ref="Int1(-)">0.869442</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="1000" logTime="3">
-                <me:pop ref="acetyl">7.29137e-023</me:pop>
-                <me:pop ref="Int1(+)">9.65359e-022</me:pop>
-                <me:pop ref="Int2">0.000569649</me:pop>
-                <me:pop ref="Int1(-)">0.769517</me:pop>
-                <me:pop ref="lactone">0.229893</me:pop>
-                <me:pop ref="ketene">2.03013e-005</me:pop>
+                <me:pop ref="acetyl">7.82187e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30125e-021</me:pop>
+                <me:pop ref="Int2">0.000589363</me:pop>
+                <me:pop ref="Int1(-)">0.869442</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="1258.93" logTime="3.1">
-                <me:pop ref="acetyl">7.29251e-023</me:pop>
-                <me:pop ref="Int1(+)">9.65511e-022</me:pop>
-                <me:pop ref="Int2">0.000569738</me:pop>
-                <me:pop ref="Int1(-)">0.769517</me:pop>
-                <me:pop ref="lactone">0.229893</me:pop>
-                <me:pop ref="ketene">2.03012e-005</me:pop>
+                <me:pop ref="acetyl">7.81867e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30072e-021</me:pop>
+                <me:pop ref="Int2">0.000589122</me:pop>
+                <me:pop ref="Int1(-)">0.869442</me:pop>
+                <me:pop ref="lactone">0.129957</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="1584.89" logTime="3.2">
-                <me:pop ref="acetyl">7.29395e-023</me:pop>
-                <me:pop ref="Int1(+)">9.65701e-022</me:pop>
-                <me:pop ref="Int2">0.00056985</me:pop>
-                <me:pop ref="Int1(-)">0.769517</me:pop>
-                <me:pop ref="lactone">0.229893</me:pop>
-                <me:pop ref="ketene">2.03012e-005</me:pop>
+                <me:pop ref="acetyl">7.81464e-023</me:pop>
+                <me:pop ref="Int1(+)">1.30005e-021</me:pop>
+                <me:pop ref="Int2">0.000588819</me:pop>
+                <me:pop ref="Int1(-)">0.869442</me:pop>
+                <me:pop ref="lactone">0.129958</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="1995.26" logTime="3.3">
-                <me:pop ref="acetyl">7.29576e-023</me:pop>
-                <me:pop ref="Int1(+)">9.65941e-022</me:pop>
-                <me:pop ref="Int2">0.000569992</me:pop>
-                <me:pop ref="Int1(-)">0.769516</me:pop>
-                <me:pop ref="lactone">0.229893</me:pop>
-                <me:pop ref="ketene">2.03012e-005</me:pop>
+                <me:pop ref="acetyl">7.80957e-023</me:pop>
+                <me:pop ref="Int1(+)">1.2992e-021</me:pop>
+                <me:pop ref="Int2">0.000588437</me:pop>
+                <me:pop ref="Int1(-)">0.869442</me:pop>
+                <me:pop ref="lactone">0.129958</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="2511.89" logTime="3.4">
-                <me:pop ref="acetyl">7.29804e-023</me:pop>
-                <me:pop ref="Int1(+)">9.66243e-022</me:pop>
-                <me:pop ref="Int2">0.00057017</me:pop>
-                <me:pop ref="Int1(-)">0.769516</me:pop>
-                <me:pop ref="lactone">0.229894</me:pop>
-                <me:pop ref="ketene">2.03012e-005</me:pop>
+                <me:pop ref="acetyl">7.8032e-023</me:pop>
+                <me:pop ref="Int1(+)">1.29814e-021</me:pop>
+                <me:pop ref="Int2">0.000587956</me:pop>
+                <me:pop ref="Int1(-)">0.869443</me:pop>
+                <me:pop ref="lactone">0.129958</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="3162.28" logTime="3.5">
-                <me:pop ref="acetyl">7.30092e-023</me:pop>
-                <me:pop ref="Int1(+)">9.66624e-022</me:pop>
-                <me:pop ref="Int2">0.000570395</me:pop>
-                <me:pop ref="Int1(-)">0.769515</me:pop>
-                <me:pop ref="lactone">0.229894</me:pop>
-                <me:pop ref="ketene">2.03012e-005</me:pop>
+                <me:pop ref="acetyl">7.79518e-023</me:pop>
+                <me:pop ref="Int1(+)">1.29681e-021</me:pop>
+                <me:pop ref="Int2">0.000587352</me:pop>
+                <me:pop ref="Int1(-)">0.869443</me:pop>
+                <me:pop ref="lactone">0.129958</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="3981.07" logTime="3.6">
-                <me:pop ref="acetyl">7.30454e-023</me:pop>
-                <me:pop ref="Int1(+)">9.67103e-022</me:pop>
-                <me:pop ref="Int2">0.000570677</me:pop>
-                <me:pop ref="Int1(-)">0.769515</me:pop>
-                <me:pop ref="lactone">0.229894</me:pop>
-                <me:pop ref="ketene">2.03012e-005</me:pop>
+                <me:pop ref="acetyl">7.7851e-023</me:pop>
+                <me:pop ref="Int1(+)">1.29513e-021</me:pop>
+                <me:pop ref="Int2">0.000586593</me:pop>
+                <me:pop ref="Int1(-)">0.869443</me:pop>
+                <me:pop ref="lactone">0.129959</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="5011.87" logTime="3.7">
-                <me:pop ref="acetyl">7.3091e-023</me:pop>
-                <me:pop ref="Int1(+)">9.67707e-022</me:pop>
-                <me:pop ref="Int2">0.000571034</me:pop>
-                <me:pop ref="Int1(-)">0.769514</me:pop>
-                <me:pop ref="lactone">0.229895</me:pop>
-                <me:pop ref="ketene">2.03012e-005</me:pop>
+                <me:pop ref="acetyl">7.77242e-023</me:pop>
+                <me:pop ref="Int1(+)">1.29302e-021</me:pop>
+                <me:pop ref="Int2">0.000585638</me:pop>
+                <me:pop ref="Int1(-)">0.869444</me:pop>
+                <me:pop ref="lactone">0.129959</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="6309.57" logTime="3.8">
-                <me:pop ref="acetyl">7.31484e-023</me:pop>
-                <me:pop ref="Int1(+)">9.68467e-022</me:pop>
-                <me:pop ref="Int2">0.000571482</me:pop>
-                <me:pop ref="Int1(-)">0.769513</me:pop>
-                <me:pop ref="lactone">0.229895</me:pop>
-                <me:pop ref="ketene">2.03011e-005</me:pop>
+                <me:pop ref="acetyl">7.7565e-023</me:pop>
+                <me:pop ref="Int1(+)">1.29037e-021</me:pop>
+                <me:pop ref="Int2">0.000584438</me:pop>
+                <me:pop ref="Int1(-)">0.869444</me:pop>
+                <me:pop ref="lactone">0.12996</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="7943.28" logTime="3.9">
-                <me:pop ref="acetyl">7.32208e-023</me:pop>
-                <me:pop ref="Int1(+)">9.69426e-022</me:pop>
-                <me:pop ref="Int2">0.000572048</me:pop>
-                <me:pop ref="Int1(-)">0.769511</me:pop>
-                <me:pop ref="lactone">0.229896</me:pop>
-                <me:pop ref="ketene">2.03011e-005</me:pop>
+                <me:pop ref="acetyl">7.73649e-023</me:pop>
+                <me:pop ref="Int1(+)">1.28705e-021</me:pop>
+                <me:pop ref="Int2">0.00058293</me:pop>
+                <me:pop ref="Int1(-)">0.869445</me:pop>
+                <me:pop ref="lactone">0.129961</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="10000" logTime="4">
-                <me:pop ref="acetyl">7.3312e-023</me:pop>
-                <me:pop ref="Int1(+)">9.70633e-022</me:pop>
-                <me:pop ref="Int2">0.000572761</me:pop>
-                <me:pop ref="Int1(-)">0.76951</me:pop>
-                <me:pop ref="lactone">0.229897</me:pop>
-                <me:pop ref="ketene">2.03011e-005</me:pop>
+                <me:pop ref="acetyl">7.71138e-023</me:pop>
+                <me:pop ref="Int1(+)">1.28287e-021</me:pop>
+                <me:pop ref="Int2">0.000581038</me:pop>
+                <me:pop ref="Int1(-)">0.869446</me:pop>
+                <me:pop ref="lactone">0.129962</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="12589.3" logTime="4.1">
-                <me:pop ref="acetyl">7.3427e-023</me:pop>
-                <me:pop ref="Int1(+)">9.72156e-022</me:pop>
-                <me:pop ref="Int2">0.000573659</me:pop>
-                <me:pop ref="Int1(-)">0.769508</me:pop>
-                <me:pop ref="lactone">0.229898</me:pop>
-                <me:pop ref="ketene">2.0301e-005</me:pop>
+                <me:pop ref="acetyl">7.67989e-023</me:pop>
+                <me:pop ref="Int1(+)">1.27763e-021</me:pop>
+                <me:pop ref="Int2">0.000578665</me:pop>
+                <me:pop ref="Int1(-)">0.869447</me:pop>
+                <me:pop ref="lactone">0.129963</me:pop>
+                <me:pop ref="ketene">1.147e-005</me:pop>
             </me:population>
             <me:population time="15848.9" logTime="4.2">
-                <me:pop ref="acetyl">7.35721e-023</me:pop>
-                <me:pop ref="Int1(+)">9.74076e-022</me:pop>
-                <me:pop ref="Int2">0.000574792</me:pop>
-                <me:pop ref="Int1(-)">0.769505</me:pop>
-                <me:pop ref="lactone">0.2299</me:pop>
-                <me:pop ref="ketene">2.03009e-005</me:pop>
+                <me:pop ref="acetyl">7.64042e-023</me:pop>
+                <me:pop ref="Int1(+)">1.27106e-021</me:pop>
+                <me:pop ref="Int2">0.000575691</me:pop>
+                <me:pop ref="Int1(-)">0.869448</me:pop>
+                <me:pop ref="lactone">0.129965</me:pop>
+                <me:pop ref="ketene">1.14701e-005</me:pop>
             </me:population>
             <me:population time="19952.6" logTime="4.3">
-                <me:pop ref="acetyl">7.37551e-023</me:pop>
-                <me:pop ref="Int1(+)">9.76499e-022</me:pop>
-                <me:pop ref="Int2">0.000576222</me:pop>
-                <me:pop ref="Int1(-)">0.769501</me:pop>
-                <me:pop ref="lactone">0.229902</me:pop>
-                <me:pop ref="ketene">2.03008e-005</me:pop>
+                <me:pop ref="acetyl">7.59102e-023</me:pop>
+                <me:pop ref="Int1(+)">1.26284e-021</me:pop>
+                <me:pop ref="Int2">0.000571969</me:pop>
+                <me:pop ref="Int1(-)">0.86945</me:pop>
+                <me:pop ref="lactone">0.129966</me:pop>
+                <me:pop ref="ketene">1.14701e-005</me:pop>
             </me:population>
             <me:population time="25118.9" logTime="4.4">
-                <me:pop ref="acetyl">7.39861e-023</me:pop>
-                <me:pop ref="Int1(+)">9.79558e-022</me:pop>
-                <me:pop ref="Int2">0.000578027</me:pop>
-                <me:pop ref="Int1(-)">0.769497</me:pop>
-                <me:pop ref="lactone">0.229905</me:pop>
-                <me:pop ref="ketene">2.03007e-005</me:pop>
+                <me:pop ref="acetyl">7.52928e-023</me:pop>
+                <me:pop ref="Int1(+)">1.25257e-021</me:pop>
+                <me:pop ref="Int2">0.000567317</me:pop>
+                <me:pop ref="Int1(-)">0.869452</me:pop>
+                <me:pop ref="lactone">0.129969</me:pop>
+                <me:pop ref="ketene">1.14701e-005</me:pop>
             </me:population>
             <me:population time="31622.8" logTime="4.5">
-                <me:pop ref="acetyl">7.4278e-023</me:pop>
-                <me:pop ref="Int1(+)">9.83422e-022</me:pop>
-                <me:pop ref="Int2">0.000580307</me:pop>
-                <me:pop ref="Int1(-)">0.769492</me:pop>
-                <me:pop ref="lactone">0.229908</me:pop>
-                <me:pop ref="ketene">2.03006e-005</me:pop>
+                <me:pop ref="acetyl">7.45227e-023</me:pop>
+                <me:pop ref="Int1(+)">1.23976e-021</me:pop>
+                <me:pop ref="Int2">0.000561515</me:pop>
+                <me:pop ref="Int1(-)">0.869455</me:pop>
+                <me:pop ref="lactone">0.129972</me:pop>
+                <me:pop ref="ketene">1.14702e-005</me:pop>
             </me:population>
             <me:population time="39810.7" logTime="4.6">
-                <me:pop ref="acetyl">7.4647e-023</me:pop>
-                <me:pop ref="Int1(+)">9.88309e-022</me:pop>
-                <me:pop ref="Int2">0.000583191</me:pop>
-                <me:pop ref="Int1(-)">0.769485</me:pop>
-                <me:pop ref="lactone">0.229912</me:pop>
-                <me:pop ref="ketene">2.03004e-005</me:pop>
+                <me:pop ref="acetyl">7.35645e-023</me:pop>
+                <me:pop ref="Int1(+)">1.22382e-021</me:pop>
+                <me:pop ref="Int2">0.000554295</me:pop>
+                <me:pop ref="Int1(-)">0.869458</me:pop>
+                <me:pop ref="lactone">0.129976</me:pop>
+                <me:pop ref="ketene">1.14702e-005</me:pop>
             </me:population>
             <me:population time="50118.7" logTime="4.7">
-                <me:pop ref="acetyl">7.51143e-023</me:pop>
-                <me:pop ref="Int1(+)">9.94495e-022</me:pop>
-                <me:pop ref="Int2">0.000586841</me:pop>
-                <me:pop ref="Int1(-)">0.769476</me:pop>
-                <me:pop ref="lactone">0.229917</me:pop>
-                <me:pop ref="ketene">2.03002e-005</me:pop>
+                <me:pop ref="acetyl">7.23755e-023</me:pop>
+                <me:pop ref="Int1(+)">1.20404e-021</me:pop>
+                <me:pop ref="Int2">0.000545336</me:pop>
+                <me:pop ref="Int1(-)">0.869463</me:pop>
+                <me:pop ref="lactone">0.12998</me:pop>
+                <me:pop ref="ketene">1.14703e-005</me:pop>
             </me:population>
             <me:population time="63095.7" logTime="4.8">
-                <me:pop ref="acetyl">7.57067e-023</me:pop>
-                <me:pop ref="Int1(+)">1.00234e-021</me:pop>
-                <me:pop ref="Int2">0.00059147</me:pop>
-                <me:pop ref="Int1(-)">0.769465</me:pop>
-                <me:pop ref="lactone">0.229923</me:pop>
-                <me:pop ref="ketene">2.02999e-005</me:pop>
+                <me:pop ref="acetyl">7.09061e-023</me:pop>
+                <me:pop ref="Int1(+)">1.1796e-021</me:pop>
+                <me:pop ref="Int2">0.000534264</me:pop>
+                <me:pop ref="Int1(-)">0.869468</me:pop>
+                <me:pop ref="lactone">0.129986</me:pop>
+                <me:pop ref="ketene">1.14703e-005</me:pop>
             </me:population>
             <me:population time="79432.8" logTime="4.9">
-                <me:pop ref="acetyl">7.64592e-023</me:pop>
-                <me:pop ref="Int1(+)">1.0123e-021</me:pop>
-                <me:pop ref="Int2">0.000597348</me:pop>
-                <me:pop ref="Int1(-)">0.769451</me:pop>
-                <me:pop ref="lactone">0.229932</me:pop>
-                <me:pop ref="ketene">2.02995e-005</me:pop>
+                <me:pop ref="acetyl">6.90985e-023</me:pop>
+                <me:pop ref="Int1(+)">1.14953e-021</me:pop>
+                <me:pop ref="Int2">0.000520644</me:pop>
+                <me:pop ref="Int1(-)">0.869475</me:pop>
+                <me:pop ref="lactone">0.129993</me:pop>
+                <me:pop ref="ketene">1.14704e-005</me:pop>
             </me:population>
         </me:populationList>
         <me:rateList T="250" conc="1.4477e+018" me:units="s-1">
-            <me:warning>&#x0A;Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)&#x0A;&#x0A;The last CSE = -5.12248e+007 and the first IERE = -6.06658e+007&#x0A;(last CSE)/(first IERE) ratio = 0.844376, which is less than an order of magnitude&#x0A;&#x0A;Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable&#x0A;</me:warning>
-            <me:firstOrderLoss ref="Int1(+)">-5.12243e+007</me:firstOrderLoss>
-            <me:firstOrderLoss ref="Int2">6.05369e-007</me:firstOrderLoss>
-            <me:firstOrderLoss ref="acetyl">-77441.8</me:firstOrderLoss>
-            <me:firstOrderRate fromRef="Int1(+)" toRef="Int2" reactionType="isomerization">-53882.2</me:firstOrderRate>
-            <me:firstOrderRate fromRef="Int1(+)" toRef="acetyl" reactionType="isomerization">91785.3</me:firstOrderRate>
-            <me:firstOrderRate fromRef="Int2" toRef="Int1(+)" reactionType="isomerization">8.67771e-011</me:firstOrderRate>
-            <me:firstOrderRate fromRef="Int2" toRef="acetyl" reactionType="isomerization">-1.45632e-013</me:firstOrderRate>
-            <me:firstOrderRate fromRef="acetyl" toRef="Int1(+)" reactionType="isomerization">238896</me:firstOrderRate>
-            <me:firstOrderRate fromRef="acetyl" toRef="Int2" reactionType="isomerization">295.009</me:firstOrderRate>
-            <me:firstOrderRate fromRef="Int1(+)" toRef="lactone+OH" reactionType="irreversible">259862</me:firstOrderRate>
+            <me:warning>&#x0A;Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)&#x0A;&#x0A;The last CSE = -4.93202e+007 and the first IERE = -6.06658e+007&#x0A;(last CSE)/(first IERE) ratio = 0.812982, which is less than an order of magnitude&#x0A;&#x0A;Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable&#x0A;</me:warning>
+            <me:firstOrderLoss ref="Int1(+)">-4.93199e+007</me:firstOrderLoss>
+            <me:firstOrderLoss ref="Int2">-1.58066e-006</me:firstOrderLoss>
+            <me:firstOrderLoss ref="acetyl">-77286.3</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="Int1(+)" toRef="Int2" reactionType="isomerization">-33255.8</me:firstOrderRate>
+            <me:firstOrderRate fromRef="Int1(+)" toRef="acetyl" reactionType="isomerization">54773.8</me:firstOrderRate>
+            <me:firstOrderRate fromRef="Int2" toRef="Int1(+)" reactionType="isomerization">1.0886e-010</me:firstOrderRate>
+            <me:firstOrderRate fromRef="Int2" toRef="acetyl" reactionType="isomerization">-1.10677e-013</me:firstOrderRate>
+            <me:firstOrderRate fromRef="acetyl" toRef="Int1(+)" reactionType="isomerization">245863</me:firstOrderRate>
+            <me:firstOrderRate fromRef="acetyl" toRef="Int2" reactionType="isomerization">211.005</me:firstOrderRate>
+            <me:firstOrderRate fromRef="Int1(+)" toRef="lactone+OH" reactionType="irreversible">172341</me:firstOrderRate>
             <me:firstOrderRate fromRef="Int2" toRef="lactone+OH" reactionType="irreversible">6.45246e-007</me:firstOrderRate>
-            <me:firstOrderRate fromRef="acetyl" toRef="lactone+OH" reactionType="irreversible">8801.09</me:firstOrderRate>
-            <me:firstOrderRate fromRef="Int1(+)" toRef="ketene+HO_2" reactionType="irreversible">0.0345183</me:firstOrderRate>
-            <me:firstOrderRate fromRef="Int2" toRef="ketene+HO_2" reactionType="irreversible">-5.55754e-020</me:firstOrderRate>
-            <me:firstOrderRate fromRef="acetyl" toRef="ketene+HO_2" reactionType="irreversible">0.883384</me:firstOrderRate>
-            <me:firstOrderRate fromRef="Int1(+)" toRef="Int1(-)" reactionType="deactivation">2.54631e+007</me:firstOrderRate>
-            <me:firstOrderRate fromRef="Int2" toRef="Int1(-)" reactionType="deactivation">1.19675e-011</me:firstOrderRate>
-            <me:firstOrderRate fromRef="acetyl" toRef="Int1(-)" reactionType="deactivation">-85285.4</me:firstOrderRate>
+            <me:firstOrderRate fromRef="acetyl" toRef="lactone+OH" reactionType="irreversible">9159.82</me:firstOrderRate>
+            <me:firstOrderRate fromRef="Int1(+)" toRef="ketene+HO_2" reactionType="irreversible">0.0203271</me:firstOrderRate>
+            <me:firstOrderRate fromRef="Int2" toRef="ketene+HO_2" reactionType="irreversible">-4.17152e-020</me:firstOrderRate>
+            <me:firstOrderRate fromRef="acetyl" toRef="ketene+HO_2" reactionType="irreversible">0.883443</me:firstOrderRate>
+            <me:firstOrderRate fromRef="Int1(+)" toRef="Int1(-)" reactionType="deactivation">4.91258e+007</me:firstOrderRate>
+            <me:firstOrderRate fromRef="Int2" toRef="Int1(-)" reactionType="deactivation">1.71635e-012</me:firstOrderRate>
+            <me:firstOrderRate fromRef="acetyl" toRef="Int1(-)" reactionType="deactivation">-177969</me:firstOrderRate>
         </me:rateList>
     </me:analysis>
 </me:mesmer>

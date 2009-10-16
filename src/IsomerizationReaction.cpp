@@ -74,7 +74,7 @@ namespace mesmer
   // to the calculation of equilibrium fractions.
   bool IsomerizationReaction::isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) {
 
-    Keq = calcEquilibriumConstant(true) ;
+    Keq = calcEquilibriumConstant() ;
 
     *rct = m_rct1 ;
     *pdt = m_pdt1 ;
@@ -85,13 +85,13 @@ namespace mesmer
   //
   // Calculate reaction equilibrium constant.
   //
-  double IsomerizationReaction::calcEquilibriumConstant(bool regardCemetery) {
+  double IsomerizationReaction::calcEquilibriumConstant() {
 
     double Keq(0.0) ;
 
     // Get Canonical partition functions.
-    double Qrct1 = m_rct1->getDOS().rovibronicGrnCanPrtnFn(regardCemetery) ;
-    double Qpdt1 = m_pdt1->getDOS().rovibronicGrnCanPrtnFn(regardCemetery) ;
+    double Qrct1 = m_rct1->getDOS().rovibronicGrnCanPrtnFn() ;
+    double Qpdt1 = m_pdt1->getDOS().rovibronicGrnCanPrtnFn() ;
 
     double beta = getEnv().beta ;
 
@@ -359,7 +359,7 @@ namespace mesmer
   //
   // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
   //
-  double IsomerizationReaction::rctsRovibronicGrnCanPrtnFn(bool regardCemetery) { return m_rct1->getDOS().rovibronicGrnCanPrtnFn(regardCemetery);}
-  double IsomerizationReaction::pdtsRovibronicGrnCanPrtnFn(bool regardCemetery) { return m_pdt1->getDOS().rovibronicGrnCanPrtnFn(regardCemetery);}
+  double IsomerizationReaction::rctsRovibronicGrnCanPrtnFn() { return m_rct1->getDOS().rovibronicGrnCanPrtnFn();}
+  double IsomerizationReaction::pdtsRovibronicGrnCanPrtnFn() { return m_pdt1->getDOS().rovibronicGrnCanPrtnFn();}
 
 }//namespace

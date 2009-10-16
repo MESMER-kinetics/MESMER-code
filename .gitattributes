@@ -63,6 +63,7 @@ examples/benzene_oxidation/mesmer.test -text
 examples/i-propyl/ipropyl_test.xml -text
 examples/isopropylHinderedRotor/isopropyl.xml -text
 examples/makedata.bat -text
+examples/reservoirSink/full.test -text
 examples/reservoirSink/mesmer_out.xml -text
 examples/reservoirSink/reservoirSinkAcetylO2.test -text
 examples/reservoirSink/reservoirSinkAcetylO2.xml -text
