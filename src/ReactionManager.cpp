@@ -857,7 +857,7 @@ namespace mesmer
 
     double shortestTime = 0.;
     // set the default maximum evolution time
-    if (mFlags.shortestTimeOfInterest < 1.0e-15 || mFlags.shortestTimeOfInterest > 1.0)
+    if (mFlags.shortestTimeOfInterest < 1.0e-20 || mFlags.shortestTimeOfInterest > 1.0)
       shortestTime = 1.0e-11;
     else
       shortestTime = mFlags.shortestTimeOfInterest;
@@ -872,7 +872,7 @@ namespace mesmer
     // Calculates the time points
     vector<double> timePoints;
     for (int i = 0; i <= 300; ++i){
-      double thetime = pow(10., static_cast<double>(i) / 10. - 15.);
+      double thetime = pow(10., static_cast<double>(i) / 10. - 20.);
       if (thetime < shortestTime) continue;
       if (thetime > maxEvoTime) break;
       timePoints.push_back(thetime);
