@@ -30,7 +30,7 @@ In mesmer::ReactionManager::timeEvolution: No population was assigned, and there
 In mesmer::ReactionManager::timeEvolution: Initialize a Boltzmann distribution in the first isomer.
 
 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 8 seconds.
- -- Total time elapsed: 10 seconds.
+Finish Calculation -- Time elapsed: 16 seconds.
+ -- Total time elapsed: 20 seconds.
 
 System saved to out.xml

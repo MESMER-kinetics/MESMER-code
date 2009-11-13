@@ -1722,11 +1722,11 @@ Canonical rate coefficients for R2, calculated from microcanonical rates
     900        2145.18
 }
 The reservoir is set to 120 grains, which is about 24000 cm-1 from the well bottom.
-6.07176e-006 of the allene population is in the active states. Reservoir size = 24000 cm-1, which is 287.105 kJ/mol.
+6.07176e-006 of the allene population is in the active states. The reservoir size = 24000 cm-1, which is 287.105 kJ/mol.
 The reservoir is set to 73 grains, which is about 14600 cm-1 from the well bottom.
-0.00234099 of the cyclopropene population is in the active states. Reservoir size = 14600 cm-1, which is 174.656 kJ/mol.
+0.00234099 of the cyclopropene population is in the active states. The reservoir size = 14600 cm-1, which is 174.656 kJ/mol.
 The reservoir is set to 111 grains, which is about 22200 cm-1 from the well bottom.
-1.84563e-005 of the propyne population is in the active states. Reservoir size = 22200 cm-1, which is 265.572 kJ/mol.
+1.84563e-005 of the propyne population is in the active states. The reservoir size = 22200 cm-1, which is 265.572 kJ/mol.
 
 Eq fraction matrix:
 {
@@ -4021,11 +4021,11 @@ Canonical rate coefficients for R2, calculated from microcanonical rates
    1100         181201
 }
 The reservoir is set to 120 grains, which is about 24000 cm-1 from the well bottom.
-0.000254125 of the allene population is in the active states. Reservoir size = 24000 cm-1, which is 287.105 kJ/mol.
+0.000254125 of the allene population is in the active states. The reservoir size = 24000 cm-1, which is 287.105 kJ/mol.
 The reservoir is set to 73 grains, which is about 14600 cm-1 from the well bottom.
-0.0192226 of the cyclopropene population is in the active states. Reservoir size = 14600 cm-1, which is 174.656 kJ/mol.
+0.0192226 of the cyclopropene population is in the active states. The reservoir size = 14600 cm-1, which is 174.656 kJ/mol.
 The reservoir is set to 111 grains, which is about 22200 cm-1 from the well bottom.
-0.000573229 of the propyne population is in the active states. Reservoir size = 22200 cm-1, which is 265.572 kJ/mol.
+0.000573229 of the propyne population is in the active states. The reservoir size = 22200 cm-1, which is 265.572 kJ/mol.
 
 Eq fraction matrix:
 {

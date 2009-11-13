@@ -11,14 +11,13 @@ In R2: Parsing reaction...
 In Int2: The default value of me:DistributionCalcMethod was used.
 In R2: No crossing method was found for R2
 In R3: Parsing reaction...
+In lactone: Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion.
+In lactone: Cannot find argument me:rotConsts. Assumes that it is an atom or atomic ion.
 In R3: No vibrational frequencies were assigned for lactone, assuming it to be a sink term.
-No vibrational frequencies were assigned for OH, assuming it to be a sink term.
 No tunneling method was found for R3
 In R3: No crossing method was found for R3
 In R4: Parsing reaction...
-In R4: No vibrational frequencies were assigned for ketene, assuming it to be a sink term.
-No vibrational frequencies were assigned for HO2, assuming it to be a sink term.
-No tunneling method was found for R4
+In R4: No tunneling method was found for R4
 In R4: No crossing method was found for R4
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
@@ -52,10 +51,23 @@ In acetyl: No value of me:deltaEDown was supplied and the default value NEEDS TO
 In acetyl: The default value of me:DistributionCalcMethod was used.
 
 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 41 seconds.
- -- Total time elapsed: 133 seconds.
+Finish Calculation -- Time elapsed: 56 seconds.
+ -- Total time elapsed: 188 seconds.
 
 System saved to out.xml
+m_Sym is provided but not used in HO2.
+m_ZPE is provided but not used in HO2.
+m_SpinMultiplicity is provided but not used in HO2.
+m_Sym is provided but not used in OH.
+m_ZPE is provided but not used in OH.
+m_SpinMultiplicity is provided but not used in OH.
 m_ImFreq is provided but not used in TS2.
 m_ImFreq is provided but not used in TS3.
 m_DeltaEdown is provided but not used in acetyl.
+m_Sym is provided but not used in ketene.
+m_ZPE is provided but not used in ketene.
+m_SpinMultiplicity is provided but not used in ketene.
+m_Sym is provided but not used in lactone.
+m_ZPE is provided but not used in lactone.
+m_scaleFactor is provided but not used in lactone.
+m_SpinMultiplicity is provided but not used in lactone.

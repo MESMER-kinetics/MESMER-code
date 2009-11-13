@@ -12,8 +12,8 @@ In R1: No tunneling method was found for R1
 In R1: No crossing method was found for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R2: Parsing reaction...
-In TS_1a: No vibrational frequencies were assigned for OCHCH2, assuming it to be a sink term.
-The default value of me:frequenciesScaleFactor was used.
+In OCHCH2: The default value of me:frequenciesScaleFactor was used.
+In TS_1a: The default value of me:frequenciesScaleFactor was used.
 In R2: No imaginary vibrational frequency. Check if there is tunneling.
 No tunneling method was found for R2
 In R2: No crossing method was found for R2
@@ -47,8 +47,11 @@ In OH: No value of me:deltaEDown was supplied and the default value NEEDS TO BE 
 In OH: The default value of me:DistributionCalcMethod was used.
 
 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 36 seconds.
- -- Total time elapsed: 63 seconds.
+Finish Calculation -- Time elapsed: 49 seconds.
+ -- Total time elapsed: 86 seconds.
 
 System saved to out.xml
+m_Sym is provided but not used in OCHCH2.
+m_ZPE is provided but not used in OCHCH2.
+m_SpinMultiplicity is provided but not used in OCHCH2.
 m_DeltaEdown is provided but not used in OH.
