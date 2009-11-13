@@ -89,7 +89,7 @@
       </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
-          <scalar units="cm-1" lower="10000" upper="30000" stepsize="10">12275.0</scalar>
+          <scalar units="cm-1" lower="11000" upper="13000" stepsize="10">12275.0</scalar>
         </property>
         <property dictRef="me:rotConsts">
           <array units="cm-1">

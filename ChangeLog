@@ -1,3 +1,8 @@
+
+2009-November-13 Struan Robertson
+
+	* ReactionManager.cpp: Minor correction to the calculation of Chi^2.
+
 _2009_11_13__15_35_43_ Chi-Hsiu Liang
 
   * Modify the way specifying cemetery state

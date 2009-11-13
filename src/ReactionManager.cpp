@@ -1579,7 +1579,13 @@ namespace mesmer
         break;
       }
 
-      double diff = (to_double(mesmerRates[seqMatrixLoc1][seqMatrixLoc2]) - expRate);
+      // 
+      // In the following it is assumed that experimental rate coefficients will always 
+      // be quoted as a absolute values. Since the diagonal values of the BW matrix are
+      // negative, their absolute value is required for comparision with experimental
+      // values hence the fabs invocation.
+      //
+      double diff = fabs(to_double(mesmerRates[seqMatrixLoc1][seqMatrixLoc2])) - expRate ;
       chiSquare += (diff * diff) / (expErr * expErr);
     }
 
