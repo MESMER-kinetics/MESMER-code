@@ -1,8 +1,9 @@
 // fitting.cpp
-// This class implements the Powell Convergent direaction
+// This class implements the Powell Convergent direction
 // method to determine the minimum in the chi-squared surface.
 
 #include "../calcmethod.h"
+#include <fstream>
 
 namespace mesmer
 {
@@ -75,14 +76,23 @@ bool Fitting::DoCalculation(System* pSys)
 
     static const double Gold = (3.0 - sqrt(5.0))/2.0 ;
     static const double GRatio = (1.0 - Gold)/Gold ;
-    static const double tol = 1.0e-8 ;
-    static const int limit = 100 ;
+    static const double tol = 1.0e-8 ;                 // This number should be an estimate of the square root of machine precision.
+    static const int limit = 10 ;
+    
+    ofstream cfit("Fitting.res") ;
+
+    cfit << endl << "Begin line search" << endl ;
 
     // First catch your hare ... need to bracket the minimum. To do this
     // use the parameter limits supplied. 
 
     double a, b, stepsize ;
     Rdouble::withRange()[varID]->get_range(a, b, stepsize);
+    
+    double diff = (a - b)/100.0  ;
+    double mean = (a + b)/2.0 ;
+    a = mean + diff ;
+    b = mean - diff ;
 
     // Calculate chi2 at the upper and lower points.
     *Rdouble::withRange()[varID]=a ;
@@ -104,19 +114,27 @@ bool Fitting::DoCalculation(System* pSys)
       chi2b = tmp ;
     }
 
-    // Follow gradient down hill to estimate loation of the next point.
+    // Follow gradient down hill to estimate location of the next point.
 
     double c = b + GRatio*(b - a) ;
 
     // Calculate a new value of chi2 for the new parameter value. 
 
-    *Rdouble::withRange()[varID]=c ;
+    *Rdouble::withRange()[varID] = c ;
     double chi2c ;
     pSys->calculate(chi2c);
 
+    formatFloat(cfit, a,     6, 15) ;
+    formatFloat(cfit, b,     6, 15) ;
+    formatFloat(cfit, c,     6, 15) ;
+    formatFloat(cfit, chi2a, 6, 15) ;
+    formatFloat(cfit, chi2b, 6, 15) ;
+    formatFloat(cfit, chi2c, 6, 15) ;
+    cfit << endl ;
+
     // Repeat the search until a minimum has been bracketed or
     // the search limit has been reached. 
-
+    
     int count(0) ;
     while (count < limit && chi2c < chi2b) {
       count++ ;
@@ -132,28 +150,59 @@ bool Fitting::DoCalculation(System* pSys)
       c = b + GRatio*(b - a) ;
       *Rdouble::withRange()[varID]=c ;
       pSys->calculate(chi2c);
+
+      formatFloat(cfit, a,     6, 15) ;
+      formatFloat(cfit, b,     6, 15) ;
+      formatFloat(cfit, c,     6, 15) ;
+      formatFloat(cfit, chi2a, 6, 15) ;
+      formatFloat(cfit, chi2b, 6, 15) ;
+      formatFloat(cfit, chi2c, 6, 15) ;
+      cfit << endl ;
+
     }
 
     // At this point the minimum should be bracketed, so 
     // use golden section search to refine the minimum.
 
-    double x = b + Gold*(c - b) ;
-    *Rdouble::withRange()[varID]=x ;
+    double x = c - Gold*(c - a) ;
+    *Rdouble::withRange()[varID] = x ;
     double chi2x ;
     pSys->calculate(chi2x);
 
-    while(true){
+    count = 0 ;
+    while(count < limit && fabs(c-a) > tol*(fabs(b)+fabs(x)) ){
+      count++ ;
+      
       if (chi2x < chi2b) {
         a = b ;
-        chi2a = chi2b ;
         b = x ;
+        x = c - Gold*(c - a) ;
+        chi2a = chi2b ;
         chi2b = chi2x ;
-
+        *Rdouble::withRange()[varID] = x ;
+        pSys->calculate(chi2x);
       } else {
         c = x ;
+        x = b ;
+        b = a + Gold*(c - a) ;
         chi2c = chi2x ;
+        chi2x = chi2b ;
+        *Rdouble::withRange()[varID] = b ;
+        pSys->calculate(chi2b);
       }
+      
+      // Calculate chi2 for the new estimate of the minimum.
+      
+      formatFloat(cfit, a,     6, 15) ;
+      formatFloat(cfit, b,     6, 15) ;
+      formatFloat(cfit, c,     6, 15) ;
+      formatFloat(cfit, chi2a, 6, 15) ;
+      formatFloat(cfit, chi2b, 6, 15) ;
+      formatFloat(cfit, chi2c, 6, 15) ;
+      cfit << endl ;
+
     }
+    
   }
 
 

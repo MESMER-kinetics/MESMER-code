@@ -56,7 +56,8 @@
           <scalar>4.94</scalar>
         </property>
         <property dictRef="me:deltaEDown">
-          <scalar units="cm-1" lower="220" upper="240" stepsize="10">230.0</scalar>
+          <scalar units="cm-1">230.0</scalar>
+          <!--<scalar units="cm-1" lower="220" upper="240" stepsize="10">230.0</scalar>-->
         </property>
         <property dictRef="me:spinMultiplicity">
           <scalar>2</scalar>
@@ -88,7 +89,7 @@
       </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
-          <scalar units="cm-1">12275.0</scalar>
+          <scalar units="cm-1" lower="10000" upper="30000" stepsize="10">12275.0</scalar>
         </property>
         <property dictRef="me:rotConsts">
           <array units="cm-1">
@@ -185,13 +186,13 @@
       <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="740.">
          <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">55.5</me:experimentalRate>
       </me:PTpair>
-      <!--<me:PTpair me:units="PPCC" me:P="24.0e16" me:T="740.">
+      <me:PTpair me:units="PPCC" me:P="24.0e16" me:T="740.">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">70.1</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="740.">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">71.1</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="12.0e16" me:T="750.">
+      <!--<me:PTpair me:units="PPCC" me:P="12.0e16" me:T="750.">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">55.3</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="PPCC" me:P="18.0e16" me:T="750.">
@@ -400,17 +401,17 @@
   </me:modelParameters>
 
   <me:control>
-    <me:calcMethod>gridSearch</me:calcMethod>
+    <me:calcMethod>fitting</me:calcMethod>
     <!--<me:testDOS />-->
-    <me:testMicroRates />
+    <!--<me:testMicroRates />-->
     <!--<me:printGrainDOS />-->
     <!--<me:printCellDOS />-->
     <!--<me:printReactionOperatorColumnSums />-->
     <!--<me:printGrainkfE />-->
     <!--<me:printGrainBoltzmann />-->
     <!--<me:printGrainkbE />-->
-    <me:printSpeciesProfile />
-    <me:eigenvalues>3</me:eigenvalues>
+    <!--<me:printSpeciesProfile />-->
+    <me:eigenvalues>1</me:eigenvalues>
   </me:control>
 
 </me:mesmer>

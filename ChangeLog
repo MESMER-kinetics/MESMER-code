@@ -1,3 +1,8 @@
+
+2009-November-13 Struan Robertson
+
+	* fitting.cpp: Rough sketch of golden section line search added.
+
 _2009_10_27__17_47_36_ Chi-Hsiu Liang
 
   * Changed the boundary of the shortest integration time of species profile.

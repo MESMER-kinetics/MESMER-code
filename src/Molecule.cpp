@@ -157,7 +157,7 @@ namespace mesmer
     if (molType == "bathGas" || molType == "modelled")
       getBath();
 
-    if (molType == "modelled" || molType == "deficientReactant" //  || molType == "sink" CM g_dos to be added later if needed for reverse ILT
+    if (molType == "modelled" || molType == "deficientReactant" || molType == "sink" // CM g_dos to be added later if needed for reverse ILT
       || molType == "transitionState" || molType == "excessReactant")
       getDOS();
 
