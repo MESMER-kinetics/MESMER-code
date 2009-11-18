@@ -10,7 +10,6 @@
 //-------------------------------------------------------------------------------------------
 #include "System.h"
 #include <fstream>
-#include "Rdouble.h"
 
 using namespace std ;
 using namespace Constants ;

@@ -12,49 +12,38 @@ namespace mesmer
 
 
   bool EckartCoefficients::calculateCellTunnelingCoeffs(Reaction* pReact, vector<double>& TunnelingProbability){
-    std::vector<Molecule *> unimolecularspecies;
-    pReact->get_unimolecularspecies(unimolecularspecies);
-    Molecule * pReactant = unimolecularspecies[0];
 
-    double pdtZPE(NaN), pdtClassicalEnergy(NaN);
+    double rctClassicalEnergy(pReact->get_reactant()->getDOS().getClassicalEnergy());
+    if (pReact->getReactionType() == IRREVERSIBLE_EXCHANGE){
+      IrreversibleExchangeReaction* irex = static_cast<IrreversibleExchangeReaction*>(pReact);
+      rctClassicalEnergy += irex->get_excessReactant()->getDOS().getClassicalEnergy();
+    }
+    else if (pReact->getReactionType() == ASSOCIATION){
+      AssociationReaction* asso = static_cast<AssociationReaction*>(pReact);
+      rctClassicalEnergy += asso->get_excessReactant()->getDOS().getClassicalEnergy();
+    }
 
-    // For association reaction and dissociation reaction, the tunneling correction of hydrogen transfer is
-    // usually relatively unimportant, where the problem is dealed alternatively through ILT. Therefore in this
-    // section, only irreversible and reversible unimolecular reactions are considered.
-    Molecule * p_Product(NULL);
-    if (pReact->getReactionType() == ISOMERIZATION){ // In this case, it is an isomerization reaction.
-      p_Product = unimolecularspecies[1];
-      pdtZPE = p_Product->getDOS().get_zpe();
-      pdtClassicalEnergy = p_Product->getDOS().getClassicalEnergy();
-    }
-    else if (pReact->getReactionType() == IRREVERSIBLE_ISOMERIZATION){ // a irreversible unimolecular reaction
-      std::vector<Molecule *> pdt_temp;
-      pReact->get_products(pdt_temp);
-      Molecule* p_pdt = pdt_temp[0];
-      pdtZPE = p_pdt->getDOS().get_zpe();
-      pdtClassicalEnergy = p_pdt->getDOS().getClassicalEnergy();
-    }
-    else{
-      return false;
-    }
+    std::vector<Molecule *> pdt_temp;
+    pReact->get_products(pdt_temp);
+    const double pdtClassicalEnergy(pdt_temp.size() == 1
+      ? pdt_temp[0]->getDOS().getClassicalEnergy()
+      : pdt_temp[0]->getDOS().getClassicalEnergy() + pdt_temp[1]->getDOS().getClassicalEnergy());
 
     Molecule * p_TransitionState = pReact->get_TransitionState();
 
     // PLEASE CHECK THIS SECTION FOR NUMBERS CHRIS
     const double TZPE = p_TransitionState->getDOS().get_zpe();
-    const double oz1 = pReactant->getDOS().get_zpe();
-    const double oz2 = pdtZPE;
+    const double oz1 = pReact->get_relative_rctZPE();
+    const double oz2 = pReact->get_relative_pdtZPE();
     const double ZPE0 = TZPE - oz1;
     const double ZPE1 = TZPE - oz2;
     const double diff = ZPE0 - ZPE1;
-    const double odiff = pReactant->getDOS().get_zpe() - pdtZPE;
-    const double zeroNumber = odiff + diff;
     // PLEASE CHECK THIS SECTION FOR NUMBERS CHRIS
 
     //TC is the classical energy of the TS
     const double TC = p_TransitionState->getDOS().getClassicalEnergy();
     //V0 & V1 are the classical barrier heights in the forward/reverse directions
-    const double V0 = TC - pReactant->getDOS().getClassicalEnergy();
+    const double V0 = TC - rctClassicalEnergy;
     const double V1 = TC - pdtClassicalEnergy;
 
     //TZ is the zpe of the TS
@@ -67,7 +56,7 @@ namespace mesmer
     const double imFreq = pReact->get_TSImFreq() * SpeedOfLight_in_cm; // convert im_freq from cm-1 -> Hz
 
     //get properties of vectors in which to include transmission coefficients
-    const int MaximumCell = pReactant->getEnv().MaxCell;
+    const int MaximumCell = pReact->get_reactant()->getEnv().MaxCell;
     TunnelingProbability.clear();
     TunnelingProbability.resize(MaximumCell);
 

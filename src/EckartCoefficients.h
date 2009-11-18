@@ -12,6 +12,8 @@
 #include <cmath>
 #include <string>
 #include "System.h"
+#include "AssociationReaction.h"
+#include "IrreversibleExchangeReaction.h"
 
 namespace mesmer
 {
