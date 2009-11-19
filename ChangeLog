@@ -1,3 +1,16 @@
+2009-November-19 Chris Morley
+
+	* Windows VC9/distribution/NSISScriptToCreateInstaller.nsi:
+	the install directory is now added to the front of PATH
+	and to the front of MESMER_DIR. To version 0.11
+	
+	* src/main.cpp:use only the first directory in MESMER_DIR
+	
+	These changes should allow a second or later installation to work ok.
+	If it is uninstalled the earlier version should work again.
+	There may be issues with the start menu items needing to be deleted
+	manually sometimes (I haven't sorted out exactly when).
+
 _2009_11_19__12_24_19_ Chi-Hsiu Liang
 
   * Updated video tutorial plan

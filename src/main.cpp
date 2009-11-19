@@ -161,9 +161,12 @@ int main(int argc,char *argv[])
   //or if that fails, from two levels above the current directory
   //This contains librarymols.xml, defaults.xml.
   const char* pdir = getenv("MESMER_DIR");
-  if(!pdir)
+  if(!pdir || *pdir=='\0') //env var absent or empty
     pdir = "../..";
   string MesmerDir(pdir);
+  string::size_type pos = MesmerDir.find(';');
+  if(pos!=string::npos)
+    MesmerDir.erase(pos); //Use the first directory in the env var
 
   //-------------------------------
    //

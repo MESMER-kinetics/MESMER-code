@@ -12,6 +12,7 @@
 ; ======================================
 
 ;--------------------------------
+;AddToPath and AddToEnvVar now add to the front of the variables: mods in L92 and L244 (CM)
 ;AddToPath functions taken from "Path Manipulation" on NSIS wiki
 
 !ifndef _AddToPath_nsh
@@ -87,7 +88,8 @@ Function AddToPath
       Push $1
       Call Trim
       Pop $1
-      StrCpy $0 "$1;$0"
+      ;StrCpy $0 "$1;$0" edited by CM
+      StrCpy $0 "$0;$1"
     AddToPath_NTdoIt:
       WriteRegExpandStr ${WriteEnvStr_RegKey} "PATH" $0
       SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
@@ -238,7 +240,8 @@ Function AddToEnvVar
     StrCmp $3 ";" 0 +2 # if last char == ;
       StrCpy $2 $2 -1 # remove last char
     StrCmp $2 "" AddToEnvVar_NTdoIt
-      StrCpy $1 "$2;$1"
+      ;StrCpy $1 "$2;$1" edited by CM
+      StrCpy $1 "$1;$2"
     AddToEnvVar_NTdoIt:
       WriteRegExpandStr ${WriteEnvStr_RegKey} $0 $1
       SendMessage ${HWND_BROADCAST} ${WM_WININICHANGE} 0 "STR:Environment" /TIMEOUT=5000
@@ -454,7 +457,7 @@ FunctionEnd
 ;General
 
   ;Mesmer version
-  !define MesmerVersion 0.1
+  !define MesmerVersion 0.11
 
   ;Name and file
   Name "Mesmer ${MESMERVERSION}"
@@ -634,11 +637,11 @@ Section "Uninstall"
   DeleteRegKey          HKCU "Software\Mesmer"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}"
   
-  ; Remove env vars    Duplication?
+  ; Remove env vars 
   push "MESMER_DIR"
   push $INSTDIR
   Call un.RemoveFromEnvVar
-  DeleteRegValue        HKCU "Environment" "MESMER_DIR"
+  ;DeleteRegValue        HKCU "Environment" "MESMER_DIR" Old value still there
   DeleteRegValue        HKCU "Environment" "MESMER_AUTHOR"
 
 SectionEnd
