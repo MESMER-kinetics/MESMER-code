@@ -670,7 +670,7 @@ namespace mesmer
     }
     else {
       istringstream idata(txt); double x;
-      while (idata >> x) m_ImFreq = x;
+      while (idata >> x) m_ImFreq = abs(x); // make sure this number is positive
       hasImFreq = true;
       m_ImFreq_chk = 0;
     }
