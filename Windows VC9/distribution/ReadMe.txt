@@ -13,14 +13,17 @@ Mesmer is a command line program and should be run by first opening a DOS window
   
 A Start Menu Programs item contains links to:
 
+ - The Mesmer folder. Subfolders contain examples and it is recommended that you base your own initial datafiles in parallel subfolders.
+
  - MESMER manual.doc
 
  - a tutorial, Constructing a Datafile from Gaussian output.html
 
- - the wiki at http://mesmer.wiki.sourceforge.net/ with links to a forum and a bug reporting system
-
+ 
 
 To edit and recompile the C++ source code for Mesmer, download the project from SourceForge via SVN.
+
+Mesmer on SourceForge: https://sourceforge.net/projects/mesmer/
    
 ----------------------------------------------------------------------------------------------------
 * Struan H. Robertson                   struanhrobertson@gmail.com

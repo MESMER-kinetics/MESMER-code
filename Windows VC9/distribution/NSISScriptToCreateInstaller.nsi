@@ -558,12 +558,14 @@ Section "Dummy Section" SecDummy
     SetOutPath "$DESKTOP" ;side-effect is to set working dir for shortcuts
     CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
 
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Wiki (on SourceForge).lnk" "http://mesmer.wiki.sourceforge.net/"
+    ;CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Wiki (on SourceForge).lnk" "http://mesmer.wiki.sourceforge.net/"
        ; "" "$SYSDIR\winhlp32.exe" 
 
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Mesmer Manual.lnk" "$INSTDIR\Documentation\MESMER manual.doc"
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Make datafile from Gaussian output.lnk" "$INSTDIR\Documentation\Constructing a Datafile from Gaussian output.html"
+
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Mesmer Folder.lnk" "$INSTDIR"
 
   !insertmacro MUI_STARTMENU_WRITE_END
 
