@@ -1,3 +1,7 @@
+_2009_11_27__13_16_47_ Chi-Hsiu Liang
+
+  * Resolved a problem in reverse ILT that only the energy of the first product was taken into account. Thanks to Robin Shannon.
+
 2009-November-19 Chris Morley
 
 	* Windows VC9/distribution/NSISScriptToCreateInstaller.nsi:

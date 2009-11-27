@@ -44,7 +44,9 @@ namespace mesmer
     // return relative reactant, product and transition state zero-point energy
     virtual double get_relative_rctZPE() const {return m_rct1->getDOS().get_zpe() - getEnv().EMin;}
     virtual double get_relative_pdtZPE() const {
-      double zpe = m_pdt1->getDOS().get_zpe() - getEnv().EMin;
+      const double zpepdt1 = m_pdt1->getDOS().get_zpe();
+      const double zpepdt2 = m_pdt2 ? m_pdt2->getDOS().get_zpe() : 0.0;
+      double zpe = zpepdt1 + zpepdt2 - getEnv().EMin;
       return zpe;
     }
     virtual double get_relative_TSZPE(void) const {return m_TransitionState->getDOS().get_zpe() - getEnv().EMin;};
