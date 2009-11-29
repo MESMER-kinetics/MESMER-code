@@ -1,3 +1,8 @@
+
+2009-November-29 Struan Robertson
+
+	* fitting.cpp: Rough sketch of multi-dimensional search added.
+
 _2009_11_27__13_16_47_ Chi-Hsiu Liang
 
   * Resolved a problem in reverse ILT that only the energy of the first product was taken into account. Thanks to Robin Shannon.

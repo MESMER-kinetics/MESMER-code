@@ -56,8 +56,7 @@
           <scalar>4.94</scalar>
         </property>
         <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">230.0</scalar>
-          <!--<scalar units="cm-1" lower="220" upper="240" stepsize="10">230.0</scalar>-->
+          <scalar units="cm-1" lower="160" upper="200" stepsize="10">230.0</scalar>
         </property>
         <property dictRef="me:spinMultiplicity">
           <scalar>2</scalar>
@@ -89,7 +88,7 @@
       </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
-          <scalar units="cm-1" lower="11000" upper="13000" stepsize="10">12275.0</scalar>
+          <scalar units="cm-1" lower="10000" upper="14000" stepsize="10">12275.0</scalar>
         </property>
         <property dictRef="me:rotConsts">
           <array units="cm-1">
@@ -380,7 +379,7 @@
       </me:PTpair>
       <me:PTpair me:units="PPCC" me:P="3.01e16" me:T="860.">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">378.</me:experimentalRate>
-      </me:PTpair>
+      </me:PTpair>-->
       <me:PTpair me:units="PPCC" me:P="6.03e16" me:T="860.">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">535.</me:experimentalRate>
       </me:PTpair>
@@ -389,7 +388,7 @@
       </me:PTpair>
       <me:PTpair me:units="PPCC" me:P="3.00e16" me:T="880.">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">535.</me:experimentalRate>
-      </me:PTpair>-->
+      </me:PTpair>
     </me:PTs>
   </me:conditions>
 

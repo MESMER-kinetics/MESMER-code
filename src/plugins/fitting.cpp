@@ -1,105 +1,153 @@
+//-------------------------------------------------------------------------------------------
+//
 // fitting.cpp
-// This class implements the Powell Convergent direction
-// method to determine the minimum in the chi-squared surface.
+//
+// Author: Struan Robertson
+// Date:   29/Nov/2009
+//
+// This class implements the methods to determine the minimum in the chi-squared surface.
+//
+//-------------------------------------------------------------------------------------------
 
 #include "../calcmethod.h"
 #include <fstream>
 
 namespace mesmer
 {
-class Fitting : public CalcMethod
-{
-public:
-  Fitting(const std::string& id) : CalcMethod(id) {}
-  virtual ~Fitting() {}
+  class Fitting : public CalcMethod
+  {
+  public:
+    Fitting(const std::string& id) : CalcMethod(id) {}
+    virtual ~Fitting() {}
 
-  //Function to do the work
-  virtual bool DoCalculation(System* pSys);
+    //Function to do the work
+    virtual bool DoCalculation(System* pSys);
 
-protected:
-  void LineSearch(System* pSys, const int varID);
-};
+  protected:
 
-////////////////////////////////////////////////
-//Global instance
-Fitting theFitting("fitting");
-///////////////////////////////////////////////
+  private:
 
-bool Fitting::DoCalculation(System* pSys)
-{
- //
-  //
+    // Locate the starting point of the search as the middle of the allowed range. 
+    double StartingPoint(System* pSys, size_t nVar) const ;
+
+    // Perform a golden search for a specified variable.
+    void LineSearch(System* pSys, const int varID, double &currentChi2) const ;
+  };
+
+  ////////////////////////////////////////////////
+  //Global instance
+  Fitting theFitting("fitting");
+  ///////////////////////////////////////////////
+
+  bool Fitting::DoCalculation(System* pSys)
+  {
     size_t nVar = Rdouble::withRange().size() ;
 
     if (nVar < 1) { 
 
       // Return error.
 
-    } else if (nVar == 1) {
-
-      // Do a simple line search.
-      LineSearch(pSys, 0);
-
     } else {
 
-      int MaxNumSteps = 100 ;
+      //
+      // Begin by finding the starting point of the search.
+      //
 
+      double chiSquare = StartingPoint(pSys, nVar) ;
+
+      //
+      // Next, loop sequentially over each variable, optimizing it in each direction.
+      // SHR, 29/Nov/2009: tests with the isopropyl system show that this is not optimal
+      // and the something like to Powell conjugate direction method would improve the 
+      // rate of convergence.
+      //
+      int MaxNumSteps(5) ;
       bool converged(false) ;
+      double tol(0.1) ;
 
-      double chiSquare(0.0);
+      cout << endl ;
+      size_t iVar ;
+      for(iVar = 0 ; iVar < nVar ; iVar++) {
 
-      pSys->calculate(chiSquare);
+        double var = *Rdouble::withRange()[iVar] ;
+        formatFloat(cout, var, 6, 15) ;
 
-      vector<double> currentPosition(nVar,0.0) ;
-
-      dMatrix searchVectors(nVar);  // Create matrix of search directions.
-
-      for (size_t i(0) ; i < nVar ; i++) { 
-        searchVectors[i][i] = 1.0 ;
-        currentPosition[i] = *Rdouble::withRange()[i];
       }
+      cout << endl ;
 
-      for (int step(0); step < MaxNumSteps && !converged ; step++ ){
+      for (int step(1); step <= MaxNumSteps && !converged ; step++ ){
 
-        for (size_t obj(0); obj < nVar ; ++obj){
+        cout << "Step " << step << " of fitting. chiSquare = " << chiSquare << endl;
+
+        int varID = step % nVar ;
+
+        double oldChiSquare = chiSquare ;
+        LineSearch(pSys, varID, chiSquare);
+
+        cout << endl ;
+        for(iVar = 0 ; iVar < nVar ; iVar++) {
+
+          double var = *Rdouble::withRange()[iVar] ;
+          formatFloat(cout, var, 6, 15) ;
 
         }
+        cout << endl ;
 
-        ctest << "Step " << step << " of fitting. chiSquare = " << chiSquare << endl;
+        // converged = ( (oldChiSquare - chiSquare)/oldChiSquare ) < tol ;
+
       }
 
     }
     return true;
   }
 
-  void Fitting::LineSearch(System* pSys, const int varID) {
+  //
+  // Locate the starting point of the search as the middle of the allowed range. 
+  //
+  double Fitting::StartingPoint(System* pSys, size_t nVar) const {
+
+    // Locate starting point of search as the middle of the range.
+
+    for(size_t varID(0) ; varID < nVar ; varID++) {
+
+      double a, b, stepsize ;
+
+      Rdouble::withRange()[varID]->get_range(a, b, stepsize);
+      *Rdouble::withRange()[varID] = (a + b)/2.0 ;
+
+    }
+
+    double chi2 ;
+    pSys->calculate(chi2) ;
+
+    return chi2 ;
+
+  }
+
+  void Fitting::LineSearch(System* pSys, const int varID, double &currentChi2) const {
 
     static const double Gold = (3.0 - sqrt(5.0))/2.0 ;
     static const double GRatio = (1.0 - Gold)/Gold ;
     static const double tol = 1.0e-8 ;                 // This number should be an estimate of the square root of machine precision.
     static const int limit = 10 ;
-    
-    ofstream cfit("Fitting.res") ;
 
-    cfit << endl << "Begin line search" << endl ;
+    cout << endl << "Begin line search" << endl ;
+
+    double chi2a = currentChi2 ;
 
     // First catch your hare ... need to bracket the minimum. To do this
     // use the parameter limits supplied. 
 
     double a, b, stepsize ;
     Rdouble::withRange()[varID]->get_range(a, b, stepsize);
-    
-    double diff = (a - b)/100.0  ;
-    double mean = (a + b)/2.0 ;
-    a = mean + diff ;
-    b = mean - diff ;
 
-    // Calculate chi2 at the upper and lower points.
-    *Rdouble::withRange()[varID]=a ;
-    double chi2a ;
-    pSys->calculate(chi2a);
+    double diff = (a - b)/100.0 ;
+    a = *Rdouble::withRange()[varID] ;
+    b = a - diff ;
 
-    *Rdouble::withRange()[varID]=b ;
+    // Calculate for new point.
+
+    *Rdouble::withRange()[varID] = b ;
     double chi2b ;
     pSys->calculate(chi2b);
 
@@ -124,20 +172,15 @@ bool Fitting::DoCalculation(System* pSys)
     double chi2c ;
     pSys->calculate(chi2c);
 
-    formatFloat(cfit, a,     6, 15) ;
-    formatFloat(cfit, b,     6, 15) ;
-    formatFloat(cfit, c,     6, 15) ;
-    formatFloat(cfit, chi2a, 6, 15) ;
-    formatFloat(cfit, chi2b, 6, 15) ;
-    formatFloat(cfit, chi2c, 6, 15) ;
-    cfit << endl ;
+    formatFloat(cout, chi2a, 6, 15) ;
+    formatFloat(cout, chi2b, 6, 15) ;
+    formatFloat(cout, chi2c, 6, 15) ;
+    cout << endl ;
 
     // Repeat the search until a minimum has been bracketed or
     // the search limit has been reached. 
-    
-    int count(0) ;
-    while (count < limit && chi2c < chi2b) {
-      count++ ;
+
+    while (chi2c < chi2b) {
 
       // Shift values so as to maintain bracketing.
       a     = b ;
@@ -151,13 +194,10 @@ bool Fitting::DoCalculation(System* pSys)
       *Rdouble::withRange()[varID]=c ;
       pSys->calculate(chi2c);
 
-      formatFloat(cfit, a,     6, 15) ;
-      formatFloat(cfit, b,     6, 15) ;
-      formatFloat(cfit, c,     6, 15) ;
-      formatFloat(cfit, chi2a, 6, 15) ;
-      formatFloat(cfit, chi2b, 6, 15) ;
-      formatFloat(cfit, chi2c, 6, 15) ;
-      cfit << endl ;
+      formatFloat(cout, chi2a, 6, 15) ;
+      formatFloat(cout, chi2b, 6, 15) ;
+      formatFloat(cout, chi2c, 6, 15) ;
+      cout << endl ;
 
     }
 
@@ -169,10 +209,16 @@ bool Fitting::DoCalculation(System* pSys)
     double chi2x ;
     pSys->calculate(chi2x);
 
-    count = 0 ;
+    formatFloat(cout, chi2a, 6, 15) ;
+    formatFloat(cout, chi2b, 6, 15) ;
+    formatFloat(cout, chi2x, 6, 15) ;
+    formatFloat(cout, chi2c, 6, 15) ;
+    cout << endl ;
+
+    int count = 0 ;
     while(count < limit && fabs(c-a) > tol*(fabs(b)+fabs(x)) ){
       count++ ;
-      
+
       if (chi2x < chi2b) {
         a = b ;
         b = x ;
@@ -181,6 +227,7 @@ bool Fitting::DoCalculation(System* pSys)
         chi2b = chi2x ;
         *Rdouble::withRange()[varID] = x ;
         pSys->calculate(chi2x);
+
       } else {
         c = x ;
         x = b ;
@@ -189,18 +236,25 @@ bool Fitting::DoCalculation(System* pSys)
         chi2x = chi2b ;
         *Rdouble::withRange()[varID] = b ;
         pSys->calculate(chi2b);
-      }
-      
-      // Calculate chi2 for the new estimate of the minimum.
-      
-      formatFloat(cfit, a,     6, 15) ;
-      formatFloat(cfit, b,     6, 15) ;
-      formatFloat(cfit, c,     6, 15) ;
-      formatFloat(cfit, chi2a, 6, 15) ;
-      formatFloat(cfit, chi2b, 6, 15) ;
-      formatFloat(cfit, chi2c, 6, 15) ;
-      cfit << endl ;
 
+      }
+
+      formatFloat(cout, chi2a, 6, 15) ;
+      formatFloat(cout, chi2b, 6, 15) ;
+      formatFloat(cout, chi2x, 6, 15) ;
+      formatFloat(cout, chi2c, 6, 15) ;
+      cout << endl ;
+
+    }
+
+    // Save the value with the best Chi^2 value.
+    
+    if (chi2x < chi2b) {
+      currentChi2 = chi2x ;
+      *Rdouble::withRange()[varID] = x ;
+    } else {
+      currentChi2 = chi2b ;
+      *Rdouble::withRange()[varID] = b ;
     }
     
   }
