@@ -17,6 +17,7 @@ namespace mesmer
   class Fitting : public CalcMethod
   {
   public:
+
     Fitting(const std::string& id) : CalcMethod(id) {}
     virtual ~Fitting() {}
 
@@ -27,11 +28,12 @@ namespace mesmer
 
   private:
 
-    // Locate the starting point of the search as the middle of the allowed range. 
-    double StartingPoint(System* pSys, size_t nVar) const ;
-
     // Perform a golden search for a specified variable.
     void LineSearch(System* pSys, const int varID, double &currentChi2) const ;
+
+    // Write out current variable values.
+    void WriteVarVals(size_t nVar) const ;
+
   };
 
   ////////////////////////////////////////////////
@@ -47,13 +49,17 @@ namespace mesmer
 
       // Return error.
 
+      return false ;
+
     } else {
 
       //
-      // Begin by finding the starting point of the search.
+      // Begin by finding the starting point chi-squared value.
       //
 
-      double chiSquare = StartingPoint(pSys, nVar) ;
+      double chiSquare(0.0) ;
+
+      pSys->calculate(chiSquare) ;
 
       //
       // Next, loop sequentially over each variable, optimizing it in each direction.
@@ -61,20 +67,12 @@ namespace mesmer
       // and the something like to Powell conjugate direction method would improve the 
       // rate of convergence.
       //
-      int MaxNumSteps(5) ;
+      int MaxNumSteps(4) ;
       bool converged(false) ;
       double tol(0.1) ;
 
-      cout << endl ;
-      size_t iVar ;
-      for(iVar = 0 ; iVar < nVar ; iVar++) {
-
-        double var = *Rdouble::withRange()[iVar] ;
-        formatFloat(cout, var, 6, 15) ;
-
-      }
-      cout << endl ;
-
+      WriteVarVals(nVar) ;
+      
       for (int step(1); step <= MaxNumSteps && !converged ; step++ ){
 
         cout << "Step " << step << " of fitting. chiSquare = " << chiSquare << endl;
@@ -84,44 +82,14 @@ namespace mesmer
         double oldChiSquare = chiSquare ;
         LineSearch(pSys, varID, chiSquare);
 
-        cout << endl ;
-        for(iVar = 0 ; iVar < nVar ; iVar++) {
-
-          double var = *Rdouble::withRange()[iVar] ;
-          formatFloat(cout, var, 6, 15) ;
-
-        }
-        cout << endl ;
-
+        WriteVarVals(nVar) ;
+        
         // converged = ( (oldChiSquare - chiSquare)/oldChiSquare ) < tol ;
 
       }
 
     }
     return true;
-  }
-
-  //
-  // Locate the starting point of the search as the middle of the allowed range. 
-  //
-  double Fitting::StartingPoint(System* pSys, size_t nVar) const {
-
-    // Locate starting point of search as the middle of the range.
-
-    for(size_t varID(0) ; varID < nVar ; varID++) {
-
-      double a, b, stepsize ;
-
-      Rdouble::withRange()[varID]->get_range(a, b, stepsize);
-      *Rdouble::withRange()[varID] = (a + b)/2.0 ;
-
-    }
-
-    double chi2 ;
-    pSys->calculate(chi2) ;
-
-    return chi2 ;
-
   }
 
   void Fitting::LineSearch(System* pSys, const int varID, double &currentChi2) const {
@@ -248,7 +216,7 @@ namespace mesmer
     }
 
     // Save the value with the best Chi^2 value.
-    
+
     if (chi2x < chi2b) {
       currentChi2 = chi2x ;
       *Rdouble::withRange()[varID] = x ;
@@ -256,7 +224,24 @@ namespace mesmer
       currentChi2 = chi2b ;
       *Rdouble::withRange()[varID] = b ;
     }
-    
+
+  }
+
+  //
+  // Write out current variable values.
+  //
+  void Fitting::WriteVarVals(size_t nVar) const {
+
+    cout << endl ;
+    size_t iVar ;
+    for(iVar = 0 ; iVar < nVar ; iVar++) {
+
+      double var = *Rdouble::withRange()[iVar] ;
+      formatFloat(cout, var, 6, 15) ;
+
+    }
+    cout << endl ;
+
   }
 
 

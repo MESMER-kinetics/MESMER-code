@@ -1,4 +1,9 @@
 
+
+2009-December-5 Struan Robertson
+
+	* fitting.cpp: Minor tidying of fitting method.
+
 2009-November-29 Struan Robertson
 
 	* fitting.cpp: Rough sketch of multi-dimensional search added.

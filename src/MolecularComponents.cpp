@@ -197,6 +197,7 @@ namespace mesmer
         valueU(getConvertedEnergy(unitsInput, tempUV)),
         stepsize(getConvertedEnergy(unitsInput, tempSS));
       set_zpe(valueL, valueU, stepsize);
+      set_zpe(value);
     }
     else{
       set_zpe(value);
@@ -775,6 +776,7 @@ namespace mesmer
         stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
         setDeltaEdown(NaN);
         Rdouble::set_range_indirect(valueL, valueU, stepsize, "deltaEdown");
+        setDeltaEdown(value);
       }
       else{
         setDeltaEdown(value);
