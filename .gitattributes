@@ -252,7 +252,10 @@ src/Molecule.cpp -text
 src/Molecule.h -text
 src/MoleculeManager.cpp -text
 src/MoleculeManager.h -text
+src/OneDimensionalFGH.cpp -text
 src/Persistence.h -text
+src/QMHinderedRotorPotential.cpp -text
+src/QMHinderedRotorPotential.h -text
 src/QMRotor.cpp -text
 src/QMRotor.h -text
 src/Reaction.cpp -text

@@ -9,10 +9,11 @@ namespace mesmer
   ClassicalRotor oldClassicalRotor("Classical rotors");
   //************************************************************
 
+
   // Provide a function to define particular counts of the DOS of a molecule.
   bool ClassicalRotor::countCellDOS(gDensityOfStates* pDOS, int MaximumCell, PersistPtr ppDOSC)
   {
-    vector<double> VibFreq ; 
+    vector<double> VibFreq ;
     pDOS->get_VibFreq(VibFreq) ;
 
     vector<double> cellEne;
@@ -23,7 +24,7 @@ namespace mesmer
     // Initialize density of states array using calculated rotational
     // density of state from inverse Laplace transform of rotors.
     //
-    vector<double> rotConst; 
+    vector<double> rotConst;
     int rotorType = pDOS->get_rotConsts(rotConst);
     double sym = pDOS->get_Sym();
     double qele = pDOS->getSpinMultiplicity();
@@ -32,12 +33,12 @@ namespace mesmer
     switch (rotorType){
     case 2: //3-D symmetric/asymmetric/spherical top
       cnt = qele * sqrt(4./(rotConst[0] * rotConst[1] * rotConst[2]))/sym ;
-      for (int i = 0 ; i < MaximumCell ; ++i ) 
+      for (int i = 0 ; i < MaximumCell ; ++i )
         cellDOS[i] = cnt*sqrt(cellEne[i]) ;
       break;
     case 0: //2-D linear
       cnt = qele / (rotConst[0] * sym);
-      for (int i = 0 ; i < MaximumCell ; ++i ) 
+      for (int i = 0 ; i < MaximumCell ; ++i )
         cellDOS[i] = cnt ;
       break;
     default:
