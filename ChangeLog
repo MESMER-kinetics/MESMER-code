@@ -1,3 +1,8 @@
+
+2009-December-13 Struan Robertson
+
+	* fitting.cpp: Generalized line search method to use vectors.
+
 _2009_12_10__16_29_46_ Chi-Hsiu Liang
 
   * Some stuff about one-dimensional Fourier grid Hamiltonian for hindered rotors.
