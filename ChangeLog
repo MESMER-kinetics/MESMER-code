@@ -1,6 +1,10 @@
 
 2009-December-21 Struan Robertson
 
+	* fitting.cpp: Initial implementation of the Powell algorithm.
+
+2009-December-21 Struan Robertson
+
 	* fitting.cpp: Re-arrangement and tidy-up.
 
 2009-December-13 Struan Robertson

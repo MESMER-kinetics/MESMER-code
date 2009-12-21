@@ -9,8 +9,10 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include "../calcmethod.h"
 #include <fstream>
+
+#include "../calcmethod.h"
+#include "../dMatrix.h"
 
 namespace mesmer
 {
@@ -56,6 +58,11 @@ namespace mesmer
     // Check for line search convergence.
     bool CheckLineSearchConvergence(const vector<double> &X) const ;
 
+    // Initialize the direcion vectors.
+    void Fitting::initializeDirections(dMatrix &A) const ;
+
+    // Update direction matrix in accord with the Powell algorithm.
+    void Fitting::cycleDirections(dMatrix &A, const vector<double> &X) const ;
 
     // Constants used in bracketing and Golden section search in a line minimizaton.
     // Note that the number tol should be an estimate of the square root of machine precision.
@@ -110,7 +117,15 @@ namespace mesmer
       //
       double chiSquare(0.0) ;
 
+      vector<double> initialLocation(m_nVar,0.0) ; 
+
+      GetLocation(initialLocation) ;
+
       pSys->calculate(chiSquare) ;
+
+      double oldChiSquare = chiSquare ;
+
+      WriteVarVals() ;
 
       //
       // Next, loop sequentially over each variable, optimizing it in each direction.
@@ -118,32 +133,84 @@ namespace mesmer
       // and the something like to Powell conjugate direction method would improve the 
       // rate of convergence.
       //
-      int MaxNumSteps(4) ;
-      bool converged(false) ;
-      double tol(0.1) ;
+      //int MaxNumSteps(4) ;
+      //bool converged(false) ;
+      //double tol(0.1) ;
 
-      WriteVarVals() ;
+      //WriteVarVals() ;
 
-      for (int step(1); step <= MaxNumSteps && !converged ; step++ ){
+      //for (int step(1); step <= MaxNumSteps && !converged ; step++ ){
 
-        cout << "Step " << step << " of fitting. chiSquare = " << chiSquare << endl;
+      //  cout << "Step " << step << " of fitting. chiSquare = " << chiSquare << endl;
 
-        // Determine direction of search.
+      //  // Determine direction of search.
 
-        vector<double> direction(m_nVar,0.0) ;
-        int varID = step % m_nVar ;
-        direction[varID] = 1.0 ;
+      //  vector<double> direction(m_nVar,0.0) ;
+      //  int varID = step % m_nVar ;
+      //  direction[varID] = 1.0 ;
 
-        double oldChiSquare = chiSquare ;
+      //  double oldChiSquare = chiSquare ;
+      //  LineSearch(pSys, direction, chiSquare);
+
+      //  WriteVarVals() ;
+
+      //  // converged = ( (oldChiSquare - chiSquare)/oldChiSquare ) < tol ;
+
+      //}
+
+      // Setup initial search directions.
+
+      dMatrix directions(m_nVar,0.0); 
+
+      initializeDirections(directions) ;                   
+
+      vector<double> direction(m_nVar,0.0) ;
+
+      for (size_t itr(1), count(0) ; itr <= 10 ; itr++) {
+
+        // Perform an initial sweep across all vectors.
+
+        for (size_t isweep(0); isweep < m_nVar ; isweep++) {
+
+          cout << "Step " << ++count << " of fitting. chiSquare = " << chiSquare << endl;
+
+          // Determine direction of search.
+
+          for (size_t i(0); i < m_nVar ; i++ ) {
+            direction[i] = directions[isweep][i] ;
+          }
+
+          oldChiSquare = chiSquare ;
+          LineSearch(pSys, direction, chiSquare);
+
+          WriteVarVals() ;
+        }
+
+        // Calculate new search direction.
+
+        vector<double> currentLocation(m_nVar,0.0) ;
+
+        GetLocation(currentLocation) ;
+
+        direction = VectorAdd(1.0, currentLocation, -1.0, initialLocation) ;
+
+        oldChiSquare = chiSquare ;
         LineSearch(pSys, direction, chiSquare);
 
         WriteVarVals() ;
 
-        // converged = ( (oldChiSquare - chiSquare)/oldChiSquare ) < tol ;
+        // Update direction vectors in accord with the modified Powell algorithm.
 
-      }
+        if ((itr % (m_nVar+1)) == 0 ) { 
+          initializeDirections(directions) ;                   
+        } else {
+          cycleDirections(directions,direction);
+        }
+
+      }  
 
     }
+
     return true;
   }
 
@@ -408,6 +475,48 @@ namespace mesmer
 
     return !converged ;
   }
+
+  //
+  // Initialize the direcion vectors.
+  //
+  void Fitting::initializeDirections(dMatrix &A) const {
+
+    if (A.size() == 0) {
+      // Throw an error.
+    }
+
+    size_t i, j ;
+    for(i = 0 ; i < A.size() ; i++) {
+      for(j = 0 ; j < A.size() ; j++) {
+        A[j][i] = 0.0 ;
+      }
+      A[i][i] = 1.0 ;
+    }
+
+  }
+
+  //
+  // Update direction matrix in accord with the Powell algorithm.
+  //
+  void Fitting::cycleDirections(dMatrix &A, const vector<double> &X) const {
+
+    if (A.size() == 0) {
+      // Throw an error.
+    }
+
+    size_t i, j, isize(A.size()-1) ;
+    for(i = 0 ; i < isize ; i++) {
+      for(j = 0 ; j < A.size() ; j++) {
+        A[j][i] = A[j][i+1] ;
+      }
+    }
+
+    for(j = 0 ; j < A.size() ; j++) {
+      A[j][isize] = X[j] ;
+    }
+
+  }
+
 
 }//namespace
 
