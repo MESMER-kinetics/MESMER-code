@@ -1,4 +1,8 @@
 
+2009-December-21 Struan Robertson
+
+	* fitting.cpp: Re-arrangement and tidy-up.
+
 2009-December-13 Struan Robertson
 
 	* fitting.cpp: Generalized line search method to use vectors.

@@ -35,6 +35,9 @@ namespace mesmer
     // Bracket minimum along a given line direction.    
     void BracketMinimum(System* pSys, const vector<double> &direction) ;
 
+    // Golden section search on a bracketed minimum.
+    void GoldenSectionSearch(System* pSys, double &currentChi2) ;
+
     // Get the current location.
     void GetLocation(vector<double> &loc) ;
 
@@ -51,7 +54,7 @@ namespace mesmer
     void WriteVarVals() const ;
 
     // Check for line search convergence.
-    bool CheckLineSerachConvergence(const vector<double> &X) const ;
+    bool CheckLineSearchConvergence(const vector<double> &X) const ;
 
 
     // Constants used in bracketing and Golden section search in a line minimizaton.
@@ -146,8 +149,6 @@ namespace mesmer
 
   void Fitting::LineSearch(System* pSys, const vector<double> &direction, double &currentChi2) {
 
-    static const int limit = 10 ;
-
     cout << endl << "Begin line search" << endl ;
 
     m_chi2a = currentChi2 ;
@@ -159,20 +160,100 @@ namespace mesmer
     // At this point the minimum should be bracketed, so 
     // use golden section search to refine the minimum.
 
+    GoldenSectionSearch(pSys, currentChi2) ;
+
+  }
+
+  //
+  // First catch your hare ... need to bracket the minimum. To do this
+  // use the parameter limits supplied. 
+  //
+  void Fitting::BracketMinimum(System* pSys, const vector<double> &direction) {
+
+    // Get the current best estimate of the location of the chi2 minimum.
+
+    GetLocation(m_A) ;
+
+    //
+    // SHR 13/Dec/2009: Need some criteria, probably based on range, that can be
+    // used to determine how far in the direction of search to proceed.
+    //
+
+    m_B = VectorAdd(1.0, m_A, 1.0, direction) ;
+
+    // Calculate chi2 for new point.
+
+    SetLocation(m_B) ;
+    pSys->calculate(m_chi2b);
+
+    // Alter the direction of search so that we are always going down hill.
+
+    if (m_chi2a < m_chi2b) {
+      vector<double> vtmp = m_A ;
+      m_A = m_B ;
+      m_B = vtmp ;
+      double tmp = m_chi2a ;
+      m_chi2a = m_chi2b ;
+      m_chi2b = tmp ;
+    }
+
+    // Follow gradient down hill to estimate location of the next point.
+
+    // c = b + m_GRatio*(b - a) ;
+    m_C = VectorAdd( (1.0 + m_GRatio), m_B, (-m_GRatio), m_A) ;
+
+    // Calculate a new value of chi2 for the new parameter value. 
+
+    SetLocation(m_C) ;
+    pSys->calculate(m_chi2c);
+
+    cout << formatFloat(m_chi2a, 6, 15) << formatFloat(m_chi2b, 6, 15) << formatFloat(m_chi2c, 6, 15) << endl ;
+
+    // Repeat the search until a minimum has been bracketed or
+    // the search limit has been reached. 
+
+    while (m_chi2c < m_chi2b) {
+
+      // Shift values so as to maintain bracketing.
+      m_A     = m_B ;
+      m_chi2a = m_chi2b ;
+      m_B     = m_C ;
+      m_chi2b = m_chi2c ;
+
+      // Determine next estimate of lower bracket point.
+
+      // c = b + m_GRatio*(b - a) ;
+      m_C = VectorAdd( (1.0 + m_GRatio), m_B, (-m_GRatio), m_A) ;
+
+      SetLocation(m_C) ;
+      pSys->calculate(m_chi2c);
+
+      cout << formatFloat(m_chi2a, 6, 15) << formatFloat(m_chi2b, 6, 15) << formatFloat(m_chi2c, 6, 15) << endl ;
+
+    }
+
+  }
+
+  //
+  // Golden section search on a bracketed minimum.
+  //
+  void Fitting::GoldenSectionSearch(System* pSys, double &currentChi2) {
+
+    static const int limit = 10 ;
+    static const double tol = 1.e-04 ;
+
     // x = c - m_Gold*(c - a) ;
     vector<double> X = VectorAdd( (1.0 - m_Gold), m_C, m_Gold, m_A) ;
     SetLocation(X) ;
     double chi2x ;
     pSys->calculate(chi2x);
 
-    formatFloat(cout, m_chi2a, 6, 15) ;
-    formatFloat(cout, m_chi2b, 6, 15) ;
-    formatFloat(cout, chi2x, 6, 15) ;
-    formatFloat(cout, m_chi2c, 6, 15) ;
-    cout << endl ;
+    cout << formatFloat(m_chi2a, 6, 15) << formatFloat(m_chi2b, 6, 15) 
+      << formatFloat(  chi2x, 6, 15) << formatFloat(m_chi2c, 6, 15) << endl ;
 
     int count = 0 ;
-    while(count < limit && CheckLineSerachConvergence(X)) {
+    bool converged(false) ;
+    while(count < limit && !converged) {
       count++ ;
 
       if (chi2x < m_chi2b) {
@@ -187,11 +268,13 @@ namespace mesmer
 
         pSys->calculate(chi2x);
 
+        converged = ( ((chi2x/m_chi2b) - 1.0) < tol) ;
+
       } else {
         m_C     = X ;
         m_chi2c = chi2x ;
         X       = m_B ;
-        chi2x = m_chi2b ;
+        chi2x   = m_chi2b ;
 
         // b = a + m_Gold*(c - a) ;
         m_B = VectorAdd( (1.0 - m_Gold), m_A, m_Gold, m_C) ;
@@ -199,13 +282,12 @@ namespace mesmer
 
         pSys->calculate(m_chi2b);
 
+        converged = ( ((m_chi2b/chi2x) - 1.0) < tol) ;
+
       }
 
-      formatFloat(cout, m_chi2a, 6, 15) ;
-      formatFloat(cout, m_chi2b, 6, 15) ;
-      formatFloat(cout, chi2x, 6, 15) ;
-      formatFloat(cout, m_chi2c, 6, 15) ;
-      cout << endl ;
+      cout << formatFloat(m_chi2a, 6, 15) << formatFloat(m_chi2b, 6, 15) 
+        << formatFloat(  chi2x, 6, 15) << formatFloat(m_chi2c, 6, 15) << endl ;
 
     }
 
@@ -309,88 +391,10 @@ namespace mesmer
   }
 
   //
-  // First catch your hare ... need to bracket the minimum. To do this
-  // use the parameter limits supplied. 
-  //
-  void Fitting::BracketMinimum(System* pSys, const vector<double> &direction) {
-
-    // Get the current best estimate of the location of the chi2 minimum.
-
-    GetLocation(m_A) ;
-
-    //
-    // double diff = (a - b)/100.0 ;
-    // b = a - diff ;
-    // SHR 13/Dec/2009: Need some criteria, probably based on range, that can be
-    // used to determine how far in the direction of search to proceed.
-    //
-
-    m_B = VectorAdd(1.0, m_A, 1.0, direction) ;
-
-    // Calculate chi2 for new point.
-
-    SetLocation(m_B) ;
-    pSys->calculate(m_chi2b);
-
-    // Alter the direction of search so that we are always going down hill.
-
-    if (m_chi2a < m_chi2b) {
-      vector<double> vtmp = m_A ;
-      m_A = m_B ;
-      m_B = vtmp ;
-      double tmp = m_chi2a ;
-      m_chi2a = m_chi2b ;
-      m_chi2b = tmp ;
-    }
-
-    // Follow gradient down hill to estimate location of the next point.
-
-    // c = b + m_GRatio*(b - a) ;
-    m_C = VectorAdd( (1.0 + m_GRatio), m_B, (-m_GRatio), m_A) ;
-
-    // Calculate a new value of chi2 for the new parameter value. 
-
-    SetLocation(m_C) ;
-    pSys->calculate(m_chi2c);
-
-    formatFloat(cout, m_chi2a, 6, 15) ;
-    formatFloat(cout, m_chi2b, 6, 15) ;
-    formatFloat(cout, m_chi2c, 6, 15) ;
-    cout << endl ;
-
-    // Repeat the search until a minimum has been bracketed or
-    // the search limit has been reached. 
-
-    while (m_chi2c < m_chi2b) {
-
-      // Shift values so as to maintain bracketing.
-      m_A     = m_B ;
-      m_chi2a = m_chi2b ;
-      m_B     = m_C ;
-      m_chi2b = m_chi2c ;
-
-      // Determine next estimate of lower bracket point.
-
-      // c = b + m_GRatio*(b - a) ;
-      m_C = VectorAdd( (1.0 + m_GRatio), m_B, (-m_GRatio), m_A) ;
-
-      SetLocation(m_C) ;
-      pSys->calculate(m_chi2c);
-
-      formatFloat(cout, m_chi2a, 6, 15) ;
-      formatFloat(cout, m_chi2b, 6, 15) ;
-      formatFloat(cout, m_chi2c, 6, 15) ;
-      cout << endl ;
-
-    }
-
-  }
-
-  //
   // Check for line search convergence.
   // fabs(|c-a|) > m_tol*(fabs(b)+fabs(x)) )
   //
-  bool Fitting::CheckLineSerachConvergence(const vector<double> &X) const {
+  bool Fitting::CheckLineSearchConvergence(const vector<double> &X) const {
 
     bool converged(false) ;
 
@@ -399,7 +403,7 @@ namespace mesmer
 
     vtmp = VectorAdd( 1.0, m_B, 1.0, X) ;
     double radius = VectorLength(vtmp) ;
-    
+
     converged = (interval < m_tol*radius) ;
 
     return !converged ;
