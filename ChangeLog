@@ -1,4 +1,8 @@
 
+2009-December-29 Struan Robertson
+
+	* fitting.cpp: Addition of limit checks to line search of fitting method.
+
 2009-December-21 Struan Robertson
 
 	* fitting.cpp: Initial implementation of the Powell algorithm.

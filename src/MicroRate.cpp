@@ -132,12 +132,9 @@ namespace mesmer
         double valueL(getConvertedEnergy(unitsInput, tmpvalueL));
         double valueU(getConvertedEnergy(unitsInput, tmpvalueU));
         double stepsize(getConvertedEnergy(unitsInput, tmpstepsize));
-        pReact->set_EInf(NaN);
         Rdouble::set_range_indirect(valueL,valueU,stepsize, "me:activationEnergy");
       }
-      else{
-        pReact->set_EInf(value);
-      }
+      pReact->set_EInf(value);
     }
     else{
       cerr << "Specifying ILT without activation energy provided in reaction "
@@ -147,7 +144,7 @@ namespace mesmer
 
     if (pPreExptxt)
     {
-      double value = 0.0;
+      double value(0.0) ;
       stringstream s2(pPreExptxt); s2 >> value ;
       const char* pLowertxt = ppPreExponential->XmlReadValue("lower", optional);
       const char* pUppertxt = ppPreExponential->XmlReadValue("upper", optional);
@@ -156,13 +153,9 @@ namespace mesmer
         double valueL(0.0), valueU(0.0), stepsize(0.0);
         stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
         s3 >> valueL; s4 >> valueU; s5 >> stepsize;
-        pReact->set_PreExp(NaN);
         Rdouble::set_range_indirect(valueL,valueU,stepsize, "me:preExponential");
-
       }
-      else{
-        pReact->set_PreExp(value);
-      }
+      pReact->set_PreExp(value);
     }
     else{
       cerr << "Specifying ILT without pre-exponential term provided in reaction " << this->getName() << ". Please correct input file.";
@@ -181,12 +174,9 @@ namespace mesmer
       if (pLowertxt && pUppertxt){
         double valueL(0.0), valueU(0.0), stepsize(0.0);
         stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
-        pReact->set_NInf(NaN);
         Rdouble::set_range_indirect(valueL,valueU,stepsize, "me:nInfinity");
       }
-      else{
-        pReact->set_NInf(value);
-      }
+      pReact->set_NInf(value);
     }
 
     double TInf = ppReac->XmlReadDouble("me:TInfinity");

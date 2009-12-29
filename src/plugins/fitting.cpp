@@ -32,13 +32,13 @@ namespace mesmer
   private:
 
     // Perform a golden search for a specified variable.
-    void LineSearch(System* pSys, const vector<double> &direction, double &currentChi2) ;
+    void LineSearch(System* pSys, const vector<double> &direction, double &currentChi2, double tol) ;
 
     // Bracket minimum along a given line direction.    
-    void BracketMinimum(System* pSys, const vector<double> &direction) ;
+    bool BracketMinimum(System* pSys, const vector<double> &direction) ;
 
     // Golden section search on a bracketed minimum.
-    void GoldenSectionSearch(System* pSys, double &currentChi2) ;
+    void GoldenSectionSearch(System* pSys, double &currentChi2, double tol) ;
 
     // Get the current location.
     void GetLocation(vector<double> &loc) ;
@@ -51,6 +51,12 @@ namespace mesmer
 
     // Calculate the cartesian length of a vector.
     double VectorLength(const vector<double> &A) const ;
+
+    // Normalize a vector.
+    void VectorNormalize(vector<double> &A) const ;
+
+    // Check that the a point falls within the limits defined by the user.
+    bool CheckBounds(const vector<double> &A) const ;
 
     // Write out current variable values.
     void WriteVarVals() const ;
@@ -126,6 +132,10 @@ namespace mesmer
       double oldChiSquare = chiSquare ;
 
       WriteVarVals() ;
+      
+      // Set initial tolerance to be 1%
+      
+      double tol(0.01) ;
 
       //
       // Next, loop sequentially over each variable, optimizing it in each direction.
@@ -133,30 +143,9 @@ namespace mesmer
       // and the something like to Powell conjugate direction method would improve the 
       // rate of convergence.
       //
-      //int MaxNumSteps(4) ;
-      //bool converged(false) ;
-      //double tol(0.1) ;
-
-      //WriteVarVals() ;
-
-      //for (int step(1); step <= MaxNumSteps && !converged ; step++ ){
-
-      //  cout << "Step " << step << " of fitting. chiSquare = " << chiSquare << endl;
-
-      //  // Determine direction of search.
-
-      //  vector<double> direction(m_nVar,0.0) ;
-      //  int varID = step % m_nVar ;
-      //  direction[varID] = 1.0 ;
-
-      //  double oldChiSquare = chiSquare ;
-      //  LineSearch(pSys, direction, chiSquare);
-
-      //  WriteVarVals() ;
 
       //  // converged = ( (oldChiSquare - chiSquare)/oldChiSquare ) < tol ;
 
-      //}
 
       // Setup initial search directions.
 
@@ -181,7 +170,7 @@ namespace mesmer
           }
 
           oldChiSquare = chiSquare ;
-          LineSearch(pSys, direction, chiSquare);
+          LineSearch(pSys, direction, chiSquare, tol);
 
           WriteVarVals() ;
         }
@@ -193,16 +182,21 @@ namespace mesmer
         GetLocation(currentLocation) ;
 
         direction = VectorAdd(1.0, currentLocation, -1.0, initialLocation) ;
+        VectorNormalize(direction) ;
 
         oldChiSquare = chiSquare ;
-        LineSearch(pSys, direction, chiSquare);
+        LineSearch(pSys, direction, chiSquare, tol);
 
         WriteVarVals() ;
 
         // Update direction vectors in accord with the modified Powell algorithm.
 
-        if ((itr % (m_nVar+1)) == 0 ) { 
-          initializeDirections(directions) ;                   
+        if ((itr % m_nVar) == 0 ) { 
+          cout << endl << "Direction Matrix Reset." << endl;
+
+          initializeDirections(directions) ;
+          
+          // tol = max(m_tol, tol/10.) ;                   
         } else {
           cycleDirections(directions,direction);
         }
@@ -214,7 +208,7 @@ namespace mesmer
     return true;
   }
 
-  void Fitting::LineSearch(System* pSys, const vector<double> &direction, double &currentChi2) {
+  void Fitting::LineSearch(System* pSys, const vector<double> &direction, double &currentChi2, double tol) {
 
     cout << endl << "Begin line search" << endl ;
 
@@ -222,12 +216,16 @@ namespace mesmer
 
     // First bracket minimum.
 
-    BracketMinimum(pSys, direction) ;
+    if (!BracketMinimum(pSys, direction)) {
+      // failed to bracket minimum within user defined limits. 
+      // Simply return for now.
+      return ;
+    }
 
     // At this point the minimum should be bracketed, so 
     // use golden section search to refine the minimum.
 
-    GoldenSectionSearch(pSys, currentChi2) ;
+    GoldenSectionSearch(pSys, currentChi2, tol) ;
 
   }
 
@@ -235,7 +233,7 @@ namespace mesmer
   // First catch your hare ... need to bracket the minimum. To do this
   // use the parameter limits supplied. 
   //
-  void Fitting::BracketMinimum(System* pSys, const vector<double> &direction) {
+  bool Fitting::BracketMinimum(System* pSys, const vector<double> &direction) {
 
     // Get the current best estimate of the location of the chi2 minimum.
 
@@ -247,6 +245,12 @@ namespace mesmer
     //
 
     m_B = VectorAdd(1.0, m_A, 1.0, direction) ;
+
+    // Check bounds.    
+    if (!CheckBounds(m_B)) {
+      // Should throw, but will simply return for now.
+      return false ;
+    }
 
     // Calculate chi2 for new point.
 
@@ -268,6 +272,12 @@ namespace mesmer
 
     // c = b + m_GRatio*(b - a) ;
     m_C = VectorAdd( (1.0 + m_GRatio), m_B, (-m_GRatio), m_A) ;
+
+    // Check bounds.    
+    if (!CheckBounds(m_C)) {
+      // Should throw, but will simply return for now.
+      return false ;
+    }
 
     // Calculate a new value of chi2 for the new parameter value. 
 
@@ -292,6 +302,12 @@ namespace mesmer
       // c = b + m_GRatio*(b - a) ;
       m_C = VectorAdd( (1.0 + m_GRatio), m_B, (-m_GRatio), m_A) ;
 
+      // Check bounds.    
+      if (!CheckBounds(m_C)) {
+        // Should throw, but will simply return for now.
+        return false ;
+      }
+
       SetLocation(m_C) ;
       pSys->calculate(m_chi2c);
 
@@ -299,15 +315,16 @@ namespace mesmer
 
     }
 
+    return true ;
+
   }
 
   //
   // Golden section search on a bracketed minimum.
   //
-  void Fitting::GoldenSectionSearch(System* pSys, double &currentChi2) {
+  void Fitting::GoldenSectionSearch(System* pSys, double &currentChi2, double tol) {
 
     static const int limit = 10 ;
-    static const double tol = 1.e-04 ;
 
     // x = c - m_Gold*(c - a) ;
     vector<double> X = VectorAdd( (1.0 - m_Gold), m_C, m_Gold, m_A) ;
@@ -335,7 +352,7 @@ namespace mesmer
 
         pSys->calculate(chi2x);
 
-        converged = ( ((chi2x/m_chi2b) - 1.0) < tol) ;
+        converged = (fabs((chi2x/m_chi2b) - 1.0) < tol) || CheckLineSearchConvergence(X) ;
 
       } else {
         m_C     = X ;
@@ -349,7 +366,7 @@ namespace mesmer
 
         pSys->calculate(m_chi2b);
 
-        converged = ( ((m_chi2b/chi2x) - 1.0) < tol) ;
+        converged = (fabs((m_chi2b/chi2x) - 1.0) < tol) || CheckLineSearchConvergence(X) ;
 
       }
 
@@ -439,6 +456,29 @@ namespace mesmer
   }
 
   //
+  // Check that the a point falls within the limits defined by the user.
+  //
+  bool Fitting::CheckBounds(const vector<double> &A) const {
+
+    bool check(true) ;
+
+    size_t iVar ;
+    for(iVar = 0 ; iVar < m_nVar && check ; iVar++) {
+
+      double var = A[iVar] ;
+      double lower(0.0), upper(0.0), stepsize(0.0) ;
+
+      Rdouble::withRange()[iVar]->get_range(lower, upper, stepsize) ;
+
+      check = ((var > lower) && (var < upper)) ;
+
+    }
+
+    return check ;
+
+  }
+
+  //
   // Calculate the cartesian length of a vector.
   //
   double Fitting::VectorLength(const vector<double> &A) const {
@@ -458,12 +498,33 @@ namespace mesmer
   }
 
   //
+  // Normalize a vector.
+  //
+  void Fitting::VectorNormalize(vector<double> &A) const {
+
+    if (A.size() == 0) {
+      // Throw an error.
+    }
+
+    vector<double>::size_type iVar ;
+    double norm = VectorLength(A) ;
+    if ( norm > 0.0) {
+      for(iVar = 0 ; iVar < A.size() ; iVar++) {
+        A[iVar] /= norm ;
+      }
+    } else {
+      // Throw an error.
+    }
+
+  }
+
+  //
   // Check for line search convergence.
   // fabs(|c-a|) > m_tol*(fabs(b)+fabs(x)) )
   //
   bool Fitting::CheckLineSearchConvergence(const vector<double> &X) const {
 
-    bool converged(false) ;
+    // bool converged(false) ;
 
     vector<double> vtmp = VectorAdd(1.0, m_C, -1.0, m_A) ;
     double interval = VectorLength(vtmp) ;
@@ -471,9 +532,11 @@ namespace mesmer
     vtmp = VectorAdd( 1.0, m_B, 1.0, X) ;
     double radius = VectorLength(vtmp) ;
 
-    converged = (interval < m_tol*radius) ;
+    // converged = (interval < m_tol*radius) ;
 
-    return !converged ;
+    // return !converged ;
+    
+    return !(interval > m_tol*radius) ;
   }
 
   //
