@@ -771,7 +771,8 @@ namespace mesmer
       if (pLowertxt && pUppertxt){
         double valueL(0.0), valueU(0.0), stepsize(0.0);
         stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
-        Rdouble::set_range_indirect(valueL, valueU, stepsize, "deltaEdown");
+        m_DeltaEdown.set_range(valueL, valueU, stepsize, "deltaEdown");
+        // Rdouble::set_range_indirect(valueL, valueU, stepsize, "deltaEdown");
       }
       setDeltaEdown(value);
 

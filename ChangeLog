@@ -1,6 +1,10 @@
 
 2009-December-29 Struan Robertson
 
+	* MolecularComponents.cpp: Minor change needed for i-propyl fitting example.
+
+2009-December-29 Struan Robertson
+
 	* fitting.cpp: Addition of limit checks to line search of fitting method.
 
 2009-December-21 Struan Robertson
