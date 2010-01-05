@@ -145,7 +145,7 @@ namespace mesmer
       m_Flags.microRateEnabled            = ppControl->XmlReadBoolean("me:testMicroRates");
       m_Flags.grainBoltzmannEnabled       = ppControl->XmlReadBoolean("me:printGrainBoltzmann");
       m_Flags.grainDOSEnabled             = ppControl->XmlReadBoolean("me:printGrainDOS");
-			m_Flags.grainTSsosEnabled           = ppControl->XmlReadBoolean("me:printTSsos");
+      m_Flags.grainTSsosEnabled           = ppControl->XmlReadBoolean("me:printTSsos");
       m_Flags.cellDOSEnabled              = ppControl->XmlReadBoolean("me:printCellDOS");
       m_Flags.reactionOCSEnabled          = ppControl->XmlReadBoolean("me:printReactionOperatorColumnSums");
       m_Flags.kfEGrainsEnabled            = ppControl->XmlReadBoolean("me:printGrainkfE");
@@ -155,7 +155,7 @@ namespace mesmer
       if (!m_Flags.TunnellingCoeffEnabled)
         m_Flags.TunnellingCoeffEnabled    = ppControl->XmlReadBoolean("me:printTunnelingCoefficients");
       m_Flags.CrossingCoeffEnabled        = ppControl->XmlReadBoolean("me:printCrossingCoefficients");
-	  m_Flags.cellFluxEnabled             = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
+      m_Flags.cellFluxEnabled             = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
       m_Flags.grainFluxEnabled            = ppControl->XmlReadBoolean("me:printGrainTransitionStateFlux");
       m_Flags.rateCoefficientsOnly        = ppControl->XmlReadBoolean("me:calculateRateCoefficientsOnly");
       m_Flags.useTheSameCellNumber        = ppControl->XmlReadBoolean("me:useTheSameCellNumberForAllConditions");
@@ -164,8 +164,15 @@ namespace mesmer
       m_Flags.viewEvents                  = ppControl->XmlReadBoolean("me:printEventsTimeStamps");
       m_Flags.allowSmallerDEDown          = ppControl->XmlReadBoolean("me:allowSmallerDeltaEDown");
       m_Flags.print_TabbedMatrices        = ppControl->XmlReadBoolean("me:printTabbedMatrices");
-      m_Flags.useDOSweightedDT             = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
+      m_Flags.useDOSweightedDT            = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
       m_Flags.doBasisSetMethod            = ppControl->XmlReadBoolean("me:runBasisSetMethodroutines");
+
+      // Having turned this time-independent yield solution option on, the user will be provided by a set of 
+      // yields that relates to sinks and cemetery states if there is any. The way of conducting this is placing
+      // extra rows (columns as well) in the normalized population transition matrix counting on the transitions
+      // of populations to the sinks/cemeteries. Multiplying the matrix with the initial populations vector 
+      // many times until it converges. Usually the population converges around 30 operations. 
+      m_Flags.timeIndependent             = ppControl->XmlReadBoolean("me:timeIndependentSolution");
       if (!m_Flags.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
         m_Flags.useTheSameCellNumber = true;
       }
@@ -292,7 +299,7 @@ namespace mesmer
         if (!strcmp(txt,"quad-double")) this_precision = 2;
       }
       CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision);
-      cinfo << this_P << this_units << ", " << this_T << "K at " << txt << " precision" <<endl; 
+      cinfo << this_P << this_units << ", " << this_T << "K at " << txt << " precision" <<endl;
 
       // Set experimental conditions for chiSquare calculation
       txt = ppPTpair->XmlReadValue("me:experimentalRate", false);
@@ -339,7 +346,7 @@ namespace mesmer
     //XML output
     //Considered putting this output under each PT pair in me:conditions.
     //But doesn't work with a range of Ps or Ts. So has to have its own section.
-    
+
     bool overwrite = false; //There will be an <analysis> section for every calculate()
     //This may not be appropriate when fitting
     string comment = overwrite ?  "Only selected calculations shown here" : "All calculations shown";
@@ -372,10 +379,10 @@ namespace mesmer
       // Build collison matrix for system.
       cinfo << "Build Collison Operator" << endl;
       if (!m_pReactionManager->BuildReactionOperator(m_Env, m_Flags))
-        throw (std::runtime_error("Failed building system collison operator.")); 
+        throw (std::runtime_error("Failed building system collison operator."));
 
       if (!m_pReactionManager->calculateEquilibriumFractions(m_Env.beta))
-        throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
+        throw (std::runtime_error("Failed calculating equilibrium fractions."));
 
       // Calculate eigenvectors and eigenvalues.
       {string thisEvent = "Diagonalize the Reaction Operator";
@@ -390,7 +397,7 @@ namespace mesmer
       m_pReactionManager->diagReactionOperator(m_Flags, precision, ppAnalysis) ;
 
       if (m_Flags.doBasisSetMethod) return true;
- 
+
       PersistPtr ppPopList;
       if(m_Flags.speciesProfileEnabled)
       {

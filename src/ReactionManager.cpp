@@ -1250,7 +1250,7 @@ namespace mesmer
 
       // Calculate Z_matrix matrix elements for all sources in the system.
 
-      for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  
+      for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){
         Molecule* pPseudoIsomer = spos->first ;
         const int rxnMatrixLoc = spos->second;
         const int seqMatrixLoc = m_SpeciesSequence[pPseudoIsomer];
@@ -1579,8 +1579,8 @@ namespace mesmer
         break;
       }
 
-      // 
-      // In the following it is assumed that experimental rate coefficients will always 
+      //
+      // In the following it is assumed that experimental rate coefficients will always
       // be quoted as a absolute values. Since the diagonal values of the BW matrix are
       // negative, their absolute value is required for comparision with experimental
       // values hence the fabs invocation.

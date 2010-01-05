@@ -57,8 +57,7 @@
 #include <cmath>
 #include "TMatrix.h"
 
-int oneDimensionalFourierGridHamiltonian(const double ima,
-                                         const double imb,
+int oneDimensionalFourierGridHamiltonian(const double imu,
                                          void (*vsub)(double),
                                          std::vector<double>& eigenvalues,
                                          dMatrix& eigenvectors,
@@ -108,7 +107,7 @@ int oneDimensionalFourierGridHamiltonian(const double ima,
   if (*eigenvectors != NULL){
     for (int i(0); i < numberGridPoint; ++i){
       for (int j(0); j < numberGridPoint; ++j){
-        eigenvalues[i][j] = hamiltonian[i][j];
+        eigenvectors[i][j] = hamiltonian[i][j];
       }
     }
   }
