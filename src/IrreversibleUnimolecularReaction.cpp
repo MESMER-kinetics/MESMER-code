@@ -275,10 +275,10 @@ namespace mesmer
   //
   // Get products cell density of states.
   //
-  void IrreversibleUnimolecularReaction::getPdtsCellDensityOfStates(vector<double> &cellDOS) {
+/*X  void IrreversibleUnimolecularReaction::getPdtsCellDensityOfStates(vector<double> &cellDOS) {
     countDimerCellDOS(m_pdt1->getDOS(), m_pdt2->getDOS(), cellDOS);
   }
-
+*/
   const int IrreversibleUnimolecularReaction::get_pdtsGrnZPE(){
     double zpe = m_pdt1->getDOS().get_zpe() - getEnv().EMin;
     if (m_pdt2) zpe += m_pdt2->getDOS().get_zpe();
@@ -292,7 +292,7 @@ namespace mesmer
   //
   // Calculate the rovibrational density of states of products.
   //
-  bool IrreversibleUnimolecularReaction::calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne)
+/*X bool IrreversibleUnimolecularReaction::calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne)
   {
     std::vector<double> pdtsCellDOS;
     getPdtsCellDensityOfStates(pdtsCellDOS);
@@ -333,12 +333,13 @@ namespace mesmer
 
     return true;
   }
-
+*/
   //
   // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
   //
   double IrreversibleUnimolecularReaction::rctsRovibronicGrnCanPrtnFn() { return m_rct1->getDOS().rovibronicGrnCanPrtnFn();}
-  double IrreversibleUnimolecularReaction::pdtsRovibronicGrnCanPrtnFn() {
+
+  /*X  double IrreversibleUnimolecularReaction::pdtsRovibronicGrnCanPrtnFn() {
     if (!m_pdt2){ // Irreversible isomerization
       return m_pdt1->getDOS().rovibronicGrnCanPrtnFn();
     }
@@ -357,5 +358,5 @@ namespace mesmer
       return CanPrtnFn ;
     }
   }
-
+*/
 }//namespace

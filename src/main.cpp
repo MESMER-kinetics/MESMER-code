@@ -388,13 +388,13 @@ bool QACompare(string infilename)
 Mesmer outputs:
                         Source                           Destination
 --------------------------------------------------------------------------------------
-Main output       Functions in IPersist                Decided by -o option
+Main XML output   Functions in IPersist                Decided by -o option
                   like XmlWriteElement                 Usually file,or cout for piping
 
-Error messages    cerr <<...    or                     Console unless -w0
+Error messages    cerr <<...    or                     Console (unless -w0)
                   meErrorLog.ThrowError( , ,obError)   and mesmer.log
 
-Warning messages  cwarn <<...   or                     Console unless -w0 or w1
+Warning messages  cwarn <<...   or                     Console (unless -w0 or w1)
                   meErrorLog.ThrowError( , ,obWarn)    and mesmer.log
 
 Logging messages  cinfo <<...   or                     Console if -w2
@@ -402,9 +402,9 @@ Logging messages  cinfo <<...   or                     Console if -w2
 
 QA test output    ctest <<...                          mesmer.test
 
-Temporary debug   cout <<...                           File when redirected
-                  Use for bulky                        from commandline with >
-                  debug output                         (Otherwise console)
+Temporary debug   cout <<...                           File when redirected from
+                  Use for bulky debug output           commandline with >
+                                                       (Otherwise console)
 
 Temporary debug   clog <<...                           Console
                   Use for short debug output

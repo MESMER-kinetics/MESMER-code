@@ -207,7 +207,8 @@ namespace mesmer
     virtual double calcEquilibriumConstant() = 0 ;
 
     // Calculate rovibronic canonical partition function in the grain level for product(s) or reactant(s)
-    virtual double pdtsRovibronicGrnCanPrtnFn() = 0;
+    virtual double pdtsRovibronicGrnCanPrtnFn()
+      { return 0.0; }//for irreversible reactions
     virtual double rctsRovibronicGrnCanPrtnFn() = 0;
 
     // Check if the activation energy provided for ILT is for reverse direction

@@ -57,7 +57,7 @@ namespace mesmer
     virtual double calcEquilibriumConstant() ;
 
     // Get products cell density of states.
-    void getPdtsCellDensityOfStates(std::vector<double> &cellDOS) ;
+//X    void getPdtsCellDensityOfStates(std::vector<double> &cellDOS) ;
 
     // return the colloptrsize of the reactants
     virtual int getRctColloptrsize(){return m_rct1->getColl().get_colloptrsize();}
@@ -85,10 +85,10 @@ namespace mesmer
     // with a negative threshold energy
     void calcEffGrnThresholds(void);
 
-    bool calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
+//X    bool calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
 
     // Calculate rovibronic canonical partition function in the grain level for product or reactant
-    virtual double pdtsRovibronicGrnCanPrtnFn();
+//X    virtual double pdtsRovibronicGrnCanPrtnFn();
     virtual double rctsRovibronicGrnCanPrtnFn();
 
     // Add reaction terms to the reaction matrix.
