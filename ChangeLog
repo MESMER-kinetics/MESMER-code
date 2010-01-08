@@ -1,3 +1,7 @@
+_2010_01_08__14_27_52_ Chi-Hsiu Liang
+
+  * Minor modification about the nInfinity in the manual. n > 1.5 changed to n > -1.5.
+
 2010-January-08 Chris Morley
 
 	Save the PersistPtr of source of range variables:
