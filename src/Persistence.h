@@ -42,7 +42,7 @@ namespace mesmer
     virtual bool XmlInclude(const std::string& filename)=0;
 
     //Reading methods
-    /// Returns an PersistPtr which can be used to read further down the input or output data
+    /// Returns a PersistPtr which can be used to read further down the input or output data
     //  (child or sibling element)
     virtual PersistPtr XmlMoveTo(const std::string& name)const =0;
 
@@ -61,6 +61,9 @@ namespace mesmer
     /// Returns the data associated with name (CML property element) or NULL
     virtual const char* XmlReadProperty( const std::string& name, bool MustBeThere=true)=0;
 
+    /// Returns a PersistPtr to the scalar or array  element of a CML property element
+    virtual PersistPtr XmlMoveToProperty(const std::string& name)=0;
+
     /// Returns the value associated with name (CML property element)
     virtual double XmlReadPropertyDouble(const std::string& name, bool MustBeThere=true)=0;
 
@@ -75,6 +78,10 @@ namespace mesmer
     virtual bool XmlReadBoolean( const std::string& name)=0;
 
     //Writing methods
+
+    /// Writes a value to the element
+    virtual void XmlWrite(const::std::string value)=0;
+
     /// Inserts into XML document a new element
     virtual PersistPtr XmlWriteElement(const std::string& name)=0;
 

@@ -1,3 +1,24 @@
+2010-January-08 Chris Morley
+
+	Save the PersistPtr of source of range variables:
+	* src/unitsConversion.cpp, src/unitsConversion.h: store in global vector.
+	* src/MicroRate.cpp, src/MolecularComponents.cpp: extra line when 
+	range variable is set.
+	
+	* src/plugins/fitting.cpp: modify output XML file with fitted params;
+	 provide extra user control, reduce console output.
+	* mesmer1.xsl: Firefox output of fitted params
+	* defaults.xml, examples/i-propyl/ipropyl_test.xml,popDiag.xsl:
+	consequent changes
+	
+	* src/oberror.h: RAII class to change error level reporting
+	
+	* src/Persistence.h, src/XMLPersist.cpp,src/XMLPersist.h: Add two
+	new functions XmlMoveToProperty() and XmlWrite()
+
+	* src/ReactionManager.cpp,src/ReactionManager.h,src/System.cpp,src/System.h:
+	Move calcChiSquare to System but make new ReactionManager::getSpeciesSequenceIndex().
+	Start of rationalization.
 
 2009-December-29 Struan Robertson
 

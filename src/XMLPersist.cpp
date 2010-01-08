@@ -216,6 +216,34 @@ namespace mesmer
     return NULL;
   }
 
+  PersistPtr XMLPersist::XmlMoveToProperty(const string& name)
+  {
+    TiXmlElement* pnPropList = pnNode->FirstChildElement("propertyList");
+    if(!pnPropList)
+      pnPropList = pnNode; //Be forgiving; we can get by without a propertyList element
+    TiXmlElement* pnProp = pnPropList->FirstChildElement("property");
+
+    while(pnProp)
+    {
+      size_t pos=0;
+      const char* pAtt = pnProp->Attribute("dictRef");
+      if(!pAtt)
+      {
+        pAtt = pnProp->Attribute("title");
+        //The position of the start of the localname(the bit after the colon)
+        pos=name.find(':') + 1; //ok even if there is no colon (if npos=-1)
+      }
+      if(pAtt && name.compare(pos, name.size()-pos, pAtt)==0)
+        break;
+      pnProp = pnProp->NextSiblingElement();
+    }
+    if(!pnProp)
+      return PersistPtr(NULL);
+
+    TiXmlElement* pnChild = pnProp->FirstChildElement(); //returns <array> or <scalar> or <string>
+    return PersistPtr(new XMLPersist(pnChild)); 
+  }
+
   double XMLPersist::XmlReadPropertyDouble(const std::string& name, bool MustBeThere)
   {
     double val=0.0;
@@ -292,6 +320,13 @@ namespace mesmer
     return false;
   }
 
+  /// Writes a value to the element
+  void XMLPersist::XmlWrite(const::std::string value)
+  {
+    TiXmlNode* val = pnNode->FirstChild();
+    if(val)
+      val->SetValue(value);
+  }
 
   PersistPtr XMLPersist::XmlWriteValueElement(const std::string& name,
     const double datum, const int precision)
@@ -383,7 +418,7 @@ namespace mesmer
   <scalar calculated="20081122_230151" units="kJ/mol">139.5</scalar>
   </property>
 
-  Returns a PersistPtr to the <scalar> element (so that more attributes can abe added).
+  Returns a PersistPtr to the <scalar> element (so that more attributes can be added).
   **/
   PersistPtr XMLPersist::XmlWriteProperty( const std::string& name, 
     const std::string& content, const std::string& units)

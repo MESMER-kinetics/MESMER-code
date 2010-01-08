@@ -9,7 +9,10 @@ using namespace std;
 using namespace Constants;
 
 namespace mesmer
-{ 
+{
+  //Global variable for the XML addresses of range variables
+  std::vector<PersistPtr> RangeXmlPtrs; 
+
   void initializeConversionMaps(){
     // define rule of conversion for concentration 
     concentrationMap["particles per cubic centimeter"] = 0;

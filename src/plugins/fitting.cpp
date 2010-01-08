@@ -10,6 +10,7 @@
 //-------------------------------------------------------------------------------------------
 
 #include <fstream>
+#include <iomanip>
 
 #include "../calcmethod.h"
 #include "../dMatrix.h"
@@ -101,108 +102,119 @@ namespace mesmer
 
   bool Fitting::DoCalculation(System* pSys)
   {
+
+//*** To redirect output back to screen change all cinfo to cout ***
+
     m_nVar = Rdouble::withRange().size() ;
+    assert(m_nVar == RangeXmlPtrs.size());
 
     if (m_nVar < 1) { 
-
-      // Return error.
-
+      cerr << "Fitting requires at least one range variable to be set." << endl;
       return false ;
+    }
 
-    } else {
+    //Read in fitting parameters, or use values from defaults.xml.
+    PersistPtr ppControl = pSys->getPersistPtr()->XmlMoveTo("me:control");
+    unsigned maxIterations= ppControl->XmlReadInteger("me:fittingIterations");
+    double tol = ppControl->XmlReadDouble("me:fittingTolerance");
 
-      //
-      // Initialize position vectors.
-      //
-      m_A.resize(m_nVar,0.0) ;
-      m_B.resize(m_nVar,0.0) ;
-      m_C.resize(m_nVar,0.0) ;
+    //
+    // Initialize position vectors.
+    //
+    m_A.resize(m_nVar,0.0) ;
+    m_B.resize(m_nVar,0.0) ;
+    m_C.resize(m_nVar,0.0) ;
 
-      //
-      // Begin by finding the starting point chi-squared value.
-      //
-      double chiSquare(0.0) ;
+    //
+    // Begin by finding the starting point chi-squared value.
+    //
+    double chiSquare(0.0) ;
 
-      vector<double> initialLocation(m_nVar,0.0) ; 
+    vector<double> initialLocation(m_nVar,0.0) ; 
 
-      GetLocation(initialLocation) ;
+    GetLocation(initialLocation) ;
 
-      pSys->calculate(chiSquare) ;
+    pSys->calculate(chiSquare) ;
 
-      double oldChiSquare = chiSquare ;
+    double oldChiSquare = chiSquare ;
 
-      WriteVarVals() ;
-      
-      // Set initial tolerance to be 1%
-      
-      double tol(0.01) ;
+    WriteVarVals() ;
 
-      //
-      // Next, loop sequentially over each variable, optimizing it in each direction.
-      // SHR, 29/Nov/2009: tests with the isopropyl system show that this is not optimal
-      // and the something like to Powell conjugate direction method would improve the 
-      // rate of convergence.
-      //
+    ChangeErrorLevel e(obError); //warnings and less not sent to console
 
-      //  // converged = ( (oldChiSquare - chiSquare)/oldChiSquare ) < tol ;
+    //
+    // Next, loop sequentially over each variable, optimizing it in each direction.
+    // SHR, 29/Nov/2009: tests with the isopropyl system show that this is not optimal
+    // and the something like to Powell conjugate direction method would improve the 
+    // rate of convergence.
+    //
+
+    //  // converged = ( (oldChiSquare - chiSquare)/oldChiSquare ) < tol ;
 
 
-      // Setup initial search directions.
+    // Setup initial search directions.
 
-      dMatrix directions(m_nVar,0.0); 
+    dMatrix directions(m_nVar,0.0); 
 
-      initializeDirections(directions) ;                   
+    initializeDirections(directions) ;                   
 
-      vector<double> direction(m_nVar,0.0) ;
+    vector<double> direction(m_nVar,0.0) ;
 
-      for (size_t itr(1), count(0) ; itr <= 10 ; itr++) {
+    for (size_t itr(1), count(0) ; itr <= maxIterations ; itr++) {
 
-        // Perform an initial sweep across all vectors.
+      // Perform an initial sweep across all vectors.
 
-        for (size_t isweep(0); isweep < m_nVar ; isweep++) {
+      for (size_t isweep(0); isweep < m_nVar ; isweep++) {
 
-          cout << "Step " << ++count << " of fitting. chiSquare = " << chiSquare << endl;
+        cerr << "Step " << ++count << " of fitting. chiSquare = " << chiSquare << endl;
 
-          // Determine direction of search.
+        // Determine direction of search.
 
-          for (size_t i(0); i < m_nVar ; i++ ) {
-            direction[i] = directions[isweep][i] ;
-          }
-
-          oldChiSquare = chiSquare ;
-          LineSearch(pSys, direction, chiSquare, tol);
-
-          WriteVarVals() ;
+        for (size_t i(0); i < m_nVar ; i++ ) {
+          direction[i] = directions[isweep][i] ;
         }
-
-        // Calculate new search direction.
-
-        vector<double> currentLocation(m_nVar,0.0) ;
-
-        GetLocation(currentLocation) ;
-
-        direction = VectorAdd(1.0, currentLocation, -1.0, initialLocation) ;
-        VectorNormalize(direction) ;
 
         oldChiSquare = chiSquare ;
         LineSearch(pSys, direction, chiSquare, tol);
 
         WriteVarVals() ;
+      }
 
-        // Update direction vectors in accord with the modified Powell algorithm.
+      // Calculate new search direction.
 
-        if ((itr % m_nVar) == 0 ) { 
-          cout << endl << "Direction Matrix Reset." << endl;
+      vector<double> currentLocation(m_nVar,0.0) ;
 
-          initializeDirections(directions) ;
-          
-          // tol = max(m_tol, tol/10.) ;                   
-        } else {
-          cycleDirections(directions,direction);
-        }
+      GetLocation(currentLocation) ;
 
-      }  
+      direction = VectorAdd(1.0, currentLocation, -1.0, initialLocation) ;
+      VectorNormalize(direction) ;
 
+      oldChiSquare = chiSquare ;
+      LineSearch(pSys, direction, chiSquare, tol);
+
+      WriteVarVals() ;
+
+      // Update direction vectors in accord with the modified Powell algorithm.
+
+      if ((itr % m_nVar) == 0 ) { 
+        cinfo << endl << "Direction Matrix Reset." << endl;
+
+        initializeDirections(directions) ;
+        
+        // tol = max(m_tol, tol/10.) ;                   
+      } else {
+        cycleDirections(directions,direction);
+      }
+
+    }
+
+    //Write the optimized result to the XML file
+    for (size_t i(0); i < m_nVar ; i++ ) {
+      RangeXmlPtrs[i]->XmlWrite(toString(*Rdouble::withRange()[i]));
+      
+      TimeCount events;
+      std::string timeString;
+      RangeXmlPtrs[i]->XmlWriteAttribute("fitted", events.setTimeStamp(timeString));
     }
 
     return true;
@@ -210,7 +222,7 @@ namespace mesmer
 
   void Fitting::LineSearch(System* pSys, const vector<double> &direction, double &currentChi2, double tol) {
 
-    cout << endl << "Begin line search" << endl ;
+    cinfo << endl << "Begin line search" << endl ;
 
     m_chi2a = currentChi2 ;
 
@@ -284,7 +296,7 @@ namespace mesmer
     SetLocation(m_C) ;
     pSys->calculate(m_chi2c);
 
-    cout << formatFloat(m_chi2a, 6, 15) << formatFloat(m_chi2b, 6, 15) << formatFloat(m_chi2c, 6, 15) << endl ;
+    cinfo << formatFloat(m_chi2a, 6, 15) << formatFloat(m_chi2b, 6, 15) << formatFloat(m_chi2c, 6, 15) << endl ;
 
     // Repeat the search until a minimum has been bracketed or
     // the search limit has been reached. 
@@ -311,7 +323,7 @@ namespace mesmer
       SetLocation(m_C) ;
       pSys->calculate(m_chi2c);
 
-      cout << formatFloat(m_chi2a, 6, 15) << formatFloat(m_chi2b, 6, 15) << formatFloat(m_chi2c, 6, 15) << endl ;
+      cinfo << formatFloat(m_chi2a, 6, 15) << formatFloat(m_chi2b, 6, 15) << formatFloat(m_chi2c, 6, 15) << endl ;
 
     }
 
@@ -332,7 +344,7 @@ namespace mesmer
     double chi2x ;
     pSys->calculate(chi2x);
 
-    cout << formatFloat(m_chi2a, 6, 15) << formatFloat(m_chi2b, 6, 15) 
+    cinfo << formatFloat(m_chi2a, 6, 15) << formatFloat(m_chi2b, 6, 15) 
       << formatFloat(  chi2x, 6, 15) << formatFloat(m_chi2c, 6, 15) << endl ;
 
     int count = 0 ;
@@ -370,7 +382,7 @@ namespace mesmer
 
       }
 
-      cout << formatFloat(m_chi2a, 6, 15) << formatFloat(m_chi2b, 6, 15) 
+      cinfo << formatFloat(m_chi2a, 6, 15) << formatFloat(m_chi2b, 6, 15) 
         << formatFloat(  chi2x, 6, 15) << formatFloat(m_chi2c, 6, 15) << endl ;
 
     }
@@ -392,15 +404,16 @@ namespace mesmer
   //
   void Fitting::WriteVarVals() const {
 
-    cout << endl ;
+    cerr << endl ;
     size_t iVar ;
     for(iVar = 0 ; iVar < m_nVar ; iVar++) {
 
-      double var = *Rdouble::withRange()[iVar] ;
-      formatFloat(cout, var, 6, 15) ;
+      Rdouble var = *Rdouble::withRange()[iVar] ;
+      cerr << var.get_varname() << "=" << setprecision(6) << (double)var << "  "; 
+      //formatFloat(cout, var, 6, 15) ;
 
     }
-    cout << endl ;
+    cerr << endl ;
 
   }
 
@@ -583,3 +596,31 @@ namespace mesmer
 
 }//namespace
 
+/*
+Writing the fitted result to the XML file
+The fitted variable came originally from a structure like:
+<property dictRef="me:ZPE">
+ <scalar units="cm-1" lower="10000" upper="14000" stepsize="10">
+  13000.0
+ </scalar>
+</property>
+
+The result should be like:
+<property dictRef="me:ZPE">
+ <scalar units="cm-1" lower="10000" upper="14000" stepsize="10" fitted="20080705_104810">
+  11234.5
+ </scalar>
+</property>
+
+The result file could be used to:
+  repeat the fitting run,        leaving <me:calcMethod> at Fitting;
+  do a normal range calculation, after changing the <me:calcMethod> to GridSearch;
+  use only the fitted value,     after changing <me:calcMethod> to SimpleCalc.
+This currently happens like this.
+
+A PersistPtr to <scalar> (or equivalent element) needs to be stored. Then 
+  stringsteam ss;
+  ss << fittedval;
+  pp->XmlWrite(ss.str()); //needs to be written
+  pp->XmlWriteAttribute("fitted",events.setTimeStamp(timeString)); 
+*/

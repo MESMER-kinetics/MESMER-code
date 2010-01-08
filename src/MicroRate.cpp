@@ -132,7 +132,8 @@ namespace mesmer
         double valueL(getConvertedEnergy(unitsInput, tmpvalueL));
         double valueU(getConvertedEnergy(unitsInput, tmpvalueU));
         double stepsize(getConvertedEnergy(unitsInput, tmpstepsize));
-        Rdouble::set_range_indirect(valueL,valueU,stepsize, "me:activationEnergy");
+        Rdouble::set_range_indirect(valueL,valueU,stepsize, "activationEnergy");
+        RangeXmlPtrs.push_back(ppActEne);
       }
       pReact->set_EInf(value);
     }
@@ -154,6 +155,7 @@ namespace mesmer
         stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
         s3 >> valueL; s4 >> valueU; s5 >> stepsize;
         Rdouble::set_range_indirect(valueL,valueU,stepsize, "me:preExponential");
+        RangeXmlPtrs.push_back(ppPreExponential);
       }
       pReact->set_PreExp(value);
     }
@@ -175,6 +177,7 @@ namespace mesmer
         double valueL(0.0), valueU(0.0), stepsize(0.0);
         stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
         Rdouble::set_range_indirect(valueL,valueU,stepsize, "me:nInfinity");
+        RangeXmlPtrs.push_back(ppNInf);
       }
       pReact->set_NInf(value);
     }

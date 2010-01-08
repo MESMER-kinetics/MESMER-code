@@ -141,8 +141,27 @@ namespace mesmer
     std::streambuf *_oldcerrbuf, *_oldcwarnbuf, *_oldcinfobuf, *_oldctestbuf;
   };
 
-//Global message handler (I would not to have this here)
+//Global message handler (I would prefer not to have this here)
 extern MessageHandler meErrorLog;
+
+//Class to temporarily change the error output level. Make an object of it on the stack:
+//  ChangeErrorLevel e(obError);
+//The old error level value will be restored when the object goes out of context.
+class ChangeErrorLevel
+{
+public:
+  ChangeErrorLevel(obMessageLevel newLevel)
+  {
+    oldLevel = meErrorLog.GetOutputLevel();
+    meErrorLog.SetOutputLevel(newLevel);
+  }
+  ~ChangeErrorLevel()
+  {
+     meErrorLog.SetOutputLevel(oldLevel);
+  }
+private:
+  obMessageLevel oldLevel;
+};
 
 } // end namespace
 

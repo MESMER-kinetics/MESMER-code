@@ -12,11 +12,15 @@
 #include <string>
 #include <vector>
 #include "Constants.h"
+#include "Persistence.h"
 
 using namespace std;
 
 namespace mesmer
 {
+  //Global variable for the XML addresses of range variables. Definition in unitsConversion.cpp.
+  extern std::vector<PersistPtr> RangeXmlPtrs; 
+
   struct conditionSet{
   public:
 

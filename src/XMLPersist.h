@@ -81,11 +81,15 @@ public:
   virtual int XmlReadInteger(const std::string& name, bool MustBeThere=true);
 
   virtual const char* XmlReadProperty( const std::string& name, bool MustBeThere=true);
+  virtual PersistPtr XmlMoveToProperty(const std::string& name);
   virtual double XmlReadPropertyDouble(const std::string& name, bool MustBeThere);
   virtual int XmlReadPropertyInteger(const std::string& name, bool MustBeThere);
   virtual const char* XmlReadPropertyAttribute(const std::string& name, const std::string& attName, bool MustBeThere=true);
   virtual bool XmlReadBoolean( const std::string& name);
 
+
+  /// Writes a value to the element
+  virtual void XmlWrite(const std::string value);
 
   /// Inserts into XML document a new element
   virtual PersistPtr XmlWriteElement(const std::string& name);

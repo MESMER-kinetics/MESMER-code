@@ -1454,7 +1454,7 @@ namespace mesmer
             }
           }
           else{
-            string rctName = rcts->getColl().isCemetery() ? rcts->getName() + "(+)" : rcts->getName();
+            string rctName = rcts->isCemetery() ? rcts->getName() + "(+)" : rcts->getName();
 
             ctest << rctName << " -> "  << pdtsName << " = " << Kp[sinkpos][rctpos] << endl;
 
@@ -1547,50 +1547,6 @@ namespace mesmer
         // Issue error and stop.
       }
     }
-  }
-
-  double ReactionManager::calcChiSquare(const qdMatrix& mesmerRates, vector<conditionSet>& expRates){
-    double chiSquare = 0.0;
-
-    for (size_t i(0); i < expRates.size(); ++i){
-      string ref1, ref2; double expRate(0.0), expErr(0.0); int seqMatrixLoc1(-1), seqMatrixLoc2(-1);
-      expRates[i].get_conditionSet(ref1, ref2, expRate, expErr);
-
-      // check and get the position of ref1 and ref2 inside m_SpeciesSequence vector
-      Reaction::molMapType::iterator spcitr;
-      for (spcitr = m_SpeciesSequence.begin(); spcitr != m_SpeciesSequence.end(); ++spcitr){
-        if (ref1 == (spcitr->first)->getName()) {
-          seqMatrixLoc1 = spcitr->second;
-          break;
-        }
-      }
-      if (seqMatrixLoc1 == -1){
-        cerr << "No molecule named " << ref1 << " is available in the reaction species.";
-        break;
-      }
-      for (spcitr = m_SpeciesSequence.begin(); spcitr != m_SpeciesSequence.end(); ++spcitr){
-        if (ref2 == (spcitr->first)->getName()) {
-          seqMatrixLoc2 = spcitr->second;
-          break;
-        }
-      }
-      if (seqMatrixLoc2 == -1){
-        cerr << "No molecule named " << ref2 << " is available in the reaction species.";
-        break;
-      }
-
-      // 
-      // In the following it is assumed that experimental rate coefficients will always 
-      // be quoted as a absolute values. Since the diagonal values of the BW matrix are
-      // negative, their absolute value is required for comparision with experimental
-      // values hence the fabs invocation.
-      //
-      double diff = fabs(to_double(mesmerRates[seqMatrixLoc1][seqMatrixLoc2])) - expRate ;
-      chiSquare += (diff * diff) / (expErr * expErr);
-    }
-
-
-    return chiSquare;
   }
 
   // This method constructs a transition matrix based on energy grains.
@@ -1737,6 +1693,18 @@ namespace mesmer
     }
 
     return true;
+  }
+
+  int ReactionManager::getSpeciesSequenceIndex(const std::string ref)
+  {
+    Reaction::molMapType::iterator spcitr;
+    for (spcitr = m_SpeciesSequence.begin(); spcitr != m_SpeciesSequence.end(); ++spcitr)
+    {
+      if (ref == (spcitr->first)->getName())
+        return spcitr->second;
+    }
+    cerr << "No molecule named " << ref << " is available in the reaction species.";
+    return -1;
   }
 
 }//namespace

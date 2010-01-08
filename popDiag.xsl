@@ -21,11 +21,13 @@
       </xsl:template>
 -->  
   <xsl:template match="//me:analysis" mode="diagram">
-    <p class="paramheader">
-      <xsl:for-each select="me:parameters/@*">
-        <xsl:value-of select="concat(name(),'=',.,'  ')"/>
-      </xsl:for-each>
-    </p>
+    <xsl:if test="me:populationList">
+      <p class="paramheader">
+        <xsl:for-each select="me:parameters/@*">
+          <xsl:value-of select="concat(name(),'=',.,'  ')"/>
+        </xsl:for-each>
+      </p>
+    </xsl:if>
     <xsl:apply-templates select="me:populationList" mode="diagram"/>
   </xsl:template>
   <xsl:template name="populationDiagram" match="me:populationList" mode="diagram">

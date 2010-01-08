@@ -176,6 +176,15 @@
         <xsl:apply-templates select="//me:populationList"/>
       </div>
     </xsl:if>
+
+    <xsl:if test="//@fitted">
+      <h3 id="FittedParams-title" class="handcursor">Fitted Parameters</h3>
+      <div id="FittedParams" class="switchgroup6">
+        <table>
+          <xsl:apply-templates select="//@fitted"/>
+        </table>
+      </div>
+    </xsl:if>
       
       <!--Show toggle for inactive display if the file contains any-->
     <xsl:if test="//*[@active='false']">
@@ -356,18 +365,20 @@
          At <xsl:value-of select="concat(@T,' K, ', @conc, ' molecules cm')"/>
        </td>
      </tr>
-     <tr>
-       <td class="tablehead2" colspan="5" align="center">Conversion Rate Coefficients</td>
-     </tr>
-     <xsl:for-each select="me:firstOrderRate">
-        <tr>
-          <td><xsl:value-of select="@fromRef"/></td>
-          <td>&#8195;&#8594;&#8195;</td>
-          <td><xsl:value-of select="@toRef"/></td>
-          <td> <xsl:value-of select="."/></td>
-          <td>s<sup>-1</sup></td>
-        </tr>
-      </xsl:for-each>
+      <xsl:if test="me:firstOrderRate">
+       <tr>
+         <td class="tablehead2" colspan="5" align="center">Conversion Rate Coefficients</td>
+       </tr>
+       <xsl:for-each select="me:firstOrderRate">
+          <tr>
+            <td><xsl:value-of select="@fromRef"/></td>
+            <td>&#8195;&#8594;&#8195;</td>
+            <td><xsl:value-of select="@toRef"/></td>
+            <td> <xsl:value-of select="."/></td>
+            <td>s<sup>-1</sup></td>
+          </tr>
+        </xsl:for-each>
+      </xsl:if>
       <tr>
         <td class="tablehead2" colspan="5" align="center">Loss Rate Coefficients</td>
       </tr>
@@ -413,7 +424,27 @@
         </tr>
       </xsl:for-each>
     </table>
-  </xsl:template>  
+  </xsl:template>
+
+  <xsl:template match="//@fitted">
+    <tr>
+      <td> <xsl:value-of select="ancestor::*[@id]/@id"/> </td>
+      <td>
+        <xsl:choose>
+          <xsl:when test="local-name(../..)='property'">
+            <xsl:value-of select="../../@dictRef"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="name(..)"/>
+          </xsl:otherwise>
+      </xsl:choose>
+      </td>
+      <td> <xsl:value-of select=".."/> </td>
+      <td> <xsl:value-of select="../@units"/> </td>
+      <td> <xsl:value-of select="concat('(fitted ', ., ')')"/></td>
+    </tr>
+  </xsl:template>
+
 
     <xsl:template match="cml:metadataList">
     <div id="metadata">

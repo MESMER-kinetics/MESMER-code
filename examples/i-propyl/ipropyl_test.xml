@@ -401,6 +401,8 @@
 
   <me:control>
     <me:calcMethod>fitting</me:calcMethod>
+    <!--<me:fittingTolerance>0.1</me:fittingTolerance>-->
+    <me:fittingIterations>2</me:fittingIterations>
     <!--<me:testDOS />-->
     <!--<me:testMicroRates />-->
     <!--<me:printGrainDOS />-->

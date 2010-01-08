@@ -31,7 +31,8 @@
     <scalar>0.0</scalar>
   </property>
   <me:MCRCMethod default="IS UNSATISFACTORY. CHOOSE ONE FROM LIST**">
-    SimpleRRKM SimpleILT MesmerILT</me:MCRCMethod>
+    SimpleRRKM SimpleILT MesmerILT
+  </me:MCRCMethod>
   <me:DOSCMethod default="true">ClassicalRotors</me:DOSCMethod>
   <me:DOSCType default="true">external</me:DOSCType>
   <me:DistributionCalcMethod default="true">Boltzmann</me:DistributionCalcMethod>
@@ -42,5 +43,7 @@
   <me:grainSize units="cm-1" default="true">100</me:grainSize>
   <me:energyAboveTheTopHill units="kT" default="true">25</me:energyAboveTheTopHill>
   <me:calcMethod default="true">simpleCalc</me:calcMethod>
+  <me:fittingTolerance default="true">0.01</me:fittingTolerance>
+  <me:fittingIterations default="true">10</me:fittingIterations>
 </defaults>
 

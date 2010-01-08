@@ -410,7 +410,7 @@ namespace mesmer
 
         vector<conditionSet> expRates;
         PandTs[calPoint].get_experimentalRates(expRates);
-        chiSquare += m_pReactionManager->calcChiSquare(mesmerRates, expRates);
+        chiSquare += calcChiSquare(mesmerRates, expRates);
 
       ctest << "}\n";
     }
@@ -424,6 +424,33 @@ namespace mesmer
     if (m_Flags.viewEvents) cinfo << events;
     return true;
   }
+
+  double System::calcChiSquare(const qdMatrix& mesmerRates, vector<conditionSet>& expRates){
+    double chiSquare = 0.0;
+
+    for (size_t i(0); i < expRates.size(); ++i){
+      string ref1, ref2; double expRate(0.0), expErr(0.0); int seqMatrixLoc1(-1), seqMatrixLoc2(-1);
+      expRates[i].get_conditionSet(ref1, ref2, expRate, expErr);
+
+      // Get the position of ref1 and ref2 inside m_SpeciesSequence vector
+      seqMatrixLoc1 = m_pReactionManager->getSpeciesSequenceIndex(ref1);
+      seqMatrixLoc2 = m_pReactionManager->getSpeciesSequenceIndex(ref2);
+
+      if(seqMatrixLoc1>=0 && seqMatrixLoc2>=0)
+        break;
+
+      // 
+      // In the following it is assumed that experimental rate coefficients will always 
+      // be quoted as a absolute values. Since the diagonal values of the BW matrix are
+      // negative, their absolute value is required for comparision with experimental
+      // values hence the fabs invocation.
+      //
+      double diff = fabs(to_double(mesmerRates[seqMatrixLoc1][seqMatrixLoc2])) - expRate ;
+      chiSquare += (diff * diff) / (expErr * expErr);
+    }
+    return chiSquare;
+  }
+
 
   bool System::ReadRange(const string& name, vector<double>& vals, PersistPtr ppbase, bool MustBeThere)
   {

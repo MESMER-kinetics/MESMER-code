@@ -88,7 +88,7 @@ namespace mesmer
 
     bool BartisWidomPhenomenologicalRates(qdMatrix& rates, MesmerFlags& mFlags,PersistPtr ppBase);
 
-    double calcChiSquare(const qdMatrix& mesmerRates, vector<conditionSet>& expRates);
+   int getSpeciesSequenceIndex(const std::string ref);
 
   private:
 

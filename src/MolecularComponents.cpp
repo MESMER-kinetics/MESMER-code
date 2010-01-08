@@ -196,7 +196,10 @@ namespace mesmer
       double valueL(getConvertedEnergy(unitsInput, tempLV)),
         valueU(getConvertedEnergy(unitsInput, tempUV)),
         stepsize(getConvertedEnergy(unitsInput, tempSS));
+      //Make an Rdouble
       set_zpe(valueL, valueU, stepsize);
+      //Save PersistPtr of the XML source of this Rdouble
+      RangeXmlPtrs.push_back(ppPropList->XmlMoveToProperty("me:ZPE"));
     }
     set_zpe(value);
     m_ZPE_chk = 0;
@@ -753,41 +756,37 @@ namespace mesmer
 
     const char* txt;
 
-    //TODO make essential for appropriate molecules
     txt= ppPropList->XmlReadProperty("me:deltaEDown");
-    if(!txt){
-      cinfo << "No me:deltaEDown provided." << endl;
-      // deltaEDown is not always necessary. Hoever, it is not wise to provide a default value.
-    }
-    else {
-      istringstream idata(txt);
-      double value(0.0);
-      idata >> value;
-      const char* pLowertxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "lower", optional);
-      const char* pUppertxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "upper", optional);
-      const char* pStepStxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "stepsize" ,optional);
-      const char* pRefTemptxt  = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "referenceTemperature", optional );
-      const char* pExponenttxt = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "exponent", optional);
-      if (pLowertxt && pUppertxt){
-        double valueL(0.0), valueU(0.0), stepsize(0.0);
-        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
-        m_DeltaEdown.set_range(valueL, valueU, stepsize, "deltaEdown");
-        // Rdouble::set_range_indirect(valueL, valueU, stepsize, "deltaEdown");
-      }
-      setDeltaEdown(value);
 
-      if(pRefTemptxt){
-        double ref_t(298.);
-        stringstream s_temp(pRefTemptxt); s_temp >> ref_t;
-        setDeltaEdownRefTemp(ref_t);
-      }
-      if(pExponenttxt){
-        double ref_exp(0.0);
-        stringstream s_exp(pExponenttxt); s_exp >> ref_exp;
-        setDeltaEdownExponent(ref_exp);
-      }
-      m_DeltaEdown_chk = 0;
+    istringstream idata(txt);
+    double value(0.0);
+    idata >> value;
+    const char* pLowertxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "lower", optional);
+    const char* pUppertxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "upper", optional);
+    const char* pStepStxt    = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "stepsize" ,optional);
+    const char* pRefTemptxt  = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "referenceTemperature", optional );
+    const char* pExponenttxt = ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "exponent", optional);
+    if (pLowertxt && pUppertxt){
+      double valueL(0.0), valueU(0.0), stepsize(0.0);
+      stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
+      m_DeltaEdown.set_range(valueL, valueU, stepsize, "deltaEdown");
+      //Save PersistPtr of the XML source of this Rdouble
+      RangeXmlPtrs.push_back(ppPropList->XmlMoveToProperty("me:deltaEDown"));
     }
+    setDeltaEdown(value);
+
+    if(pRefTemptxt){
+      double ref_t(298.);
+      stringstream s_temp(pRefTemptxt); s_temp >> ref_t;
+      setDeltaEdownRefTemp(ref_t);
+    }
+    if(pExponenttxt){
+      double ref_exp(0.0);
+      stringstream s_exp(pExponenttxt); s_exp >> ref_exp;
+      setDeltaEdownExponent(ref_exp);
+    }
+    m_DeltaEdown_chk = 0;
+    
 
     // Determine the method of DOS calculation.
     const char* pDistCalcMethodtxt = pp->XmlReadValue("me:DistributionCalcMethod") ;

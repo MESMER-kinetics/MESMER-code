@@ -34,9 +34,6 @@ namespace mesmer
     // Begin calculation.
     void executeCalculation() ;
 
-    // Begin fitting.
-    void fitting(void);
-
     // Begin single calculation.
     bool calculate(double& chiSquare) ;
   
@@ -48,6 +45,9 @@ namespace mesmer
     
     void WriteMetadata();
 
+    PersistPtr getPersistPtr() { return m_ppIOPtr; }
+
+    double calcChiSquare(const qdMatrix& mesmerRates, vector<conditionSet>& expRates);
     // Mesmer control flags.
     MesmerFlags m_Flags;
 
