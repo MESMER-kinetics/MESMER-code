@@ -4,6 +4,13 @@ _2010_01_08__14_27_52_ Chi-Hsiu Liang
 
 2010-January-08 Chris Morley
 
+	* src/Reaction.h, src/IrreversibleUnimolecularReaction.cpp,
+	src/IrreversibleUnimolecularReaction.h: changes to do with not requiring
+	information on the products of irreversible reactions.
+	At least, I think they are; they are old mods which didn't get committed.
+
+2010-January-08 Chris Morley
+
 	Save the PersistPtr of source of range variables:
 	* src/unitsConversion.cpp, src/unitsConversion.h: store in global vector.
 	* src/MicroRate.cpp, src/MolecularComponents.cpp: extra line when 

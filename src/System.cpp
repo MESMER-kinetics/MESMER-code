@@ -436,7 +436,7 @@ namespace mesmer
       seqMatrixLoc1 = m_pReactionManager->getSpeciesSequenceIndex(ref1);
       seqMatrixLoc2 = m_pReactionManager->getSpeciesSequenceIndex(ref2);
 
-      if(seqMatrixLoc1>=0 && seqMatrixLoc2>=0)
+      if(seqMatrixLoc1<0 || seqMatrixLoc2<0)
         break;
 
       // 
