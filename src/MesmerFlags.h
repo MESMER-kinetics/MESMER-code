@@ -49,6 +49,7 @@ namespace mesmer
     std::string punchSymbols;             // a string holds the symbols of rates.
     std::string punchNumbers;
     std::string punchFileName;
+    bool overwriteXmlAnalysis;            // Set when fitting so that all the intermediate results are not output to XML
   };
 }//namespace
 

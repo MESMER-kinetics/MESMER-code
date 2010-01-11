@@ -118,6 +118,9 @@ namespace mesmer
     unsigned maxIterations= ppControl->XmlReadInteger("me:fittingIterations");
     double tol = ppControl->XmlReadDouble("me:fittingTolerance");
 
+    //Do not output all the intermediate results to XML
+    pSys->m_Flags.overwriteXmlAnalysis = true; 
+
     //
     // Initialize position vectors.
     //

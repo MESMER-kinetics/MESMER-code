@@ -34,7 +34,8 @@ namespace mesmer{
     doBasisSetMethod(false),
     punchSymbols(),
     punchNumbers(),
-    punchFileName()
+    punchFileName(),
+    overwriteXmlAnalysis(false)
     {}
 }//namespace
 

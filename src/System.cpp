@@ -340,10 +340,11 @@ namespace mesmer
     //Considered putting this output under each PT pair in me:conditions.
     //But doesn't work with a range of Ps or Ts. So has to have its own section.
     
-    bool overwrite = false; //There will be an <analysis> section for every calculate()
-    //This may not be appropriate when fitting
-    string comment = overwrite ?  "Only selected calculations shown here" : "All calculations shown";
-    PersistPtr ppAnalysis = m_ppIOPtr->XmlWriteMainElement("me:analysis", comment, overwrite);
+    //There will usually be an <analysis> section for every calculate()
+    //When fitting set m_Flags.overwriteXmlAnalysis true
+    string comment = m_Flags.overwriteXmlAnalysis ?
+      "Only selected calculations shown here" : "All calculations shown";
+    PersistPtr ppAnalysis = m_ppIOPtr->XmlWriteMainElement("me:analysis", comment, m_Flags.overwriteXmlAnalysis);
     if(Rdouble::withRange().size()!=0)
     {
       PersistPtr ppParams = ppAnalysis->XmlWriteElement("me:parameters");

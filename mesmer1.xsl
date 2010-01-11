@@ -354,15 +354,17 @@
   </xsl:template>
 
   <xsl:template match="me:rateList">
-    <p class="paramheader">
-      <xsl:for-each select="../me:parameters/@*">
-        <xsl:value-of select="concat(name(),'=',.,', ')"/>
-      </xsl:for-each>
-    </p>
+    <xsl:if test="not(//@fitted)"><!--don't show params when fitting-->
+      <p class="paramheader">
+        <xsl:for-each select="../me:parameters/@*">
+          <xsl:value-of select="concat(name(),'=',.,', ')"/>
+        </xsl:for-each>
+      </p>
+    </xsl:if>
     <table>
      <tr>
        <td class="tablehead1" colspan="5" align="center">
-         At <xsl:value-of select="concat(@T,' K, ', @conc, ' molecules cm')"/>
+         At <xsl:value-of select="concat(@T,' K, ', @conc, ' molecules cm')"/><sup>-3</sup>
        </td>
      </tr>
       <xsl:if test="me:firstOrderRate">
