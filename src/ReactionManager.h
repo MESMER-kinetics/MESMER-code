@@ -81,6 +81,9 @@ namespace mesmer
     // Calculate the time evolution of the system
     bool timeEvolution(MesmerFlags& mFlags, PersistPtr ppPopList);
 
+    // Calculate the time independent yields from the provided sinks and cemetery states.
+    bool timeIndependentSolution(MesmerFlags& mFlags, PersistPtr ppPopList);
+
     // Set Initial population for individual species
     void setInitialPopulation(PersistPtr);
 
@@ -95,6 +98,9 @@ namespace mesmer
     // Construct a transition matrix based on grains.
     void constructGrainMatrix(int msize);
     
+    // TConstructs a transition matrix based on energy grains for time independent solution
+    void constructTimeIndependentGrainMatrix(int msize, int csize);
+
     // Construct a transition matrix based on collision operator eigenfunctions.
     void constructBasisMatrix(void);
 
@@ -138,7 +144,7 @@ namespace mesmer
     // sets grain parameters and determines system environment
     bool SetGrainParams(MesmerEnv &mEnv, const MesmerFlags& mFlags, const double minEne, const double maxEne);
 
-    bool produceInitialPopulationVector(vector<double>& initDist);
+    bool produceInitialPopulationVector(vector<double>& initDist, const MesmerFlags &mFlags);
 
     bool produceEquilibriumVector();
 

@@ -146,6 +146,47 @@ namespace mesmer
   }
 
   //
+  // Add Nonsymmetrized reaction terms to the reaction matrix.
+  //
+  void IsomerizationReaction::AddNonsymmetrizedReactionTerms(qdMatrix         *CollOptr,
+    molMapType       &isomermap,
+    const double    rMeanOmega)
+  {
+    // Get densities of states for detailed balance.
+    vector<double> rctDOS;
+    vector<double> pdtDOS;
+    m_rct1->getDOS().getGrainDensityOfStates(rctDOS) ;
+    m_pdt1->getDOS().getGrainDensityOfStates(pdtDOS) ;
+
+    // Locate isomers in system matrix.
+    const int rctLocation = isomermap[m_rct1] ;
+    const int pdtLocation = isomermap[m_pdt1] ;
+
+    // Need to know the number of grouped grains in both wells.
+    const int rNGG(m_rct1->getColl().getNumberOfGroupedGrains());
+    const int pNGG(m_pdt1->getColl().getNumberOfGroupedGrains());
+    const int rShiftedGrains(rNGG == 0 ? 0 : rNGG - 1);
+    const int pShiftedGrains(pNGG == 0 ? 0 : pNGG - 1);
+
+    const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
+
+    const int forwardThreshE = get_EffGrnFwdThreshold();
+    const int reverseThreshE = get_EffGrnRvsThreshold();
+    const int fluxStartIdx = get_fluxFirstNonZeroIdx();
+
+    for ( int i=fluxStartIdx, j = reverseThreshE, k=0; j < colloptrsize; ++i, ++j, ++k) {
+      int ll = k + forwardThreshE;
+      int mm = k + reverseThreshE;
+      int ii(rctLocation + ll - rShiftedGrains) ;
+      int jj(pdtLocation + mm - pShiftedGrains) ;
+      //(*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]) ;                    // Forward loss reaction.
+      //(*CollOptr)[jj][jj] -= qd_real(rMeanOmega * m_GrainFlux[i] / pdtDOS[mm]) ;                    // Backward loss reaction from detailed balance.
+      (*CollOptr)[ii][jj]  = qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]) ;                    // Reactive gain.
+      (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[i] / pdtDOS[mm]) ;                    // Reactive gain.
+    }
+  }
+
+  //
   // Add isomer reaction terms to contracted basis reaction matrix.
   //
   void IsomerizationReaction::AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap)
@@ -170,7 +211,7 @@ namespace mesmer
       int ll = k + forwardThreshE;
       int mm = k + reverseThreshE;
       fwdMicroRateCoef[ll] = m_GrainFlux[i] / rctDOS[ll] ;                    // Forward loss reaction.
-      RvsMicroRateCoef[mm] = m_GrainFlux[i] / pdtDOS[mm] ;                    // Backward loss reaction. 
+      RvsMicroRateCoef[mm] = m_GrainFlux[i] / pdtDOS[mm] ;                    // Backward loss reaction.
       CrsMicroRateCoef[mm] = m_GrainFlux[i] / sqrt(rctDOS[ll] * pdtDOS[mm]) ; // Reactive gain from detailed balance.
     }
 
@@ -214,7 +255,7 @@ namespace mesmer
       for (int j=0, pdtEgv(pdtColloptrsize-1)  ; j < pdtBasisSize ; j++, --pdtEgv) {
         int jj(pdtLocation + j) ;
         qd_real tmp(0.0) ;
-               
+
         if (i==0 && j==0 ) {
 
           // Special case for equilibrium eigenvectors which obey a detailed balance relation.
@@ -223,11 +264,11 @@ namespace mesmer
           qd_real elmti = (*CollOptr)[ii][ii] ;
           qd_real elmtj = (*CollOptr)[jj][jj] ;
           tmp = sqrt(elmti*elmtj) ;
- 
+
         } else {
-        
+
           // General case.
-          
+
           m_pdt1->getColl().eigenVector(pdtEgv, pdtBasisVector) ;
           double sum = 0.0 ;
           for (int k(rctColloptrsize-reverseThreshE), m(rctColloptrsize-1), n(pdtColloptrsize-1); k >=0 ; --m, --n, --k) {
@@ -236,14 +277,14 @@ namespace mesmer
             // tmp += rctBasisVector[m]*pdtBasisVector[n]*RvsMicroRateCoef[n]*sqrt(pdtDOS[n]/rctDOS[m]);
             sum += rctBasisVector[m]*pdtBasisVector[n]*CrsMicroRateCoef[n];
           }
-          
+
           tmp = qd_real(sum) ;
         }
         (*CollOptr)[ii][jj] += tmp ;
         (*CollOptr)[jj][ii] += tmp ;
       }
     }
-    
+
   }
 
   //
@@ -325,9 +366,9 @@ namespace mesmer
     set_fwdGrnCanonicalRate(k_forward);
     set_rvsGrnCanonicalRate(k_backward);
 
-    ctest << endl << "Canonical pseudo first order forward rate constant of isomerization reaction " 
+    ctest << endl << "Canonical pseudo first order forward rate constant of isomerization reaction "
       << getName() << " = " << get_fwdGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
-    ctest << "Canonical pseudo first order backward rate constant of isomerization reaction " 
+    ctest << "Canonical pseudo first order backward rate constant of isomerization reaction "
       << getName() << " = " << get_rvsGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
   }
 

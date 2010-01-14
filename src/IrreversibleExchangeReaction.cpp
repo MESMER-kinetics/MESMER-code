@@ -159,6 +159,14 @@ namespace mesmer
     (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * get_fwdGrnCanonicalRate());
   }
 
+  // Add Nonsymmetrized reaction terms to the reaction matrix.
+  void IrreversibleExchangeReaction::AddNonsymmetrizedReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, 
+    const double rMeanOmega)              // Add exchange reaction terms to collision matrix.
+  {
+    const int jj     = (*m_sourceMap)[get_pseudoIsomer()] ;
+    (*CollOptr)[jj][m_sinkPos] = qd_real(rMeanOmega * get_fwdGrnCanonicalRate());
+  }
+
   bool IrreversibleExchangeReaction::calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne)    // Calculate rovibrational reactant DOS
   {
     std::vector<double> rctsCellDOS;

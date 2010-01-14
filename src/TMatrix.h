@@ -91,6 +91,12 @@ namespace mesmer
 
     void normalizeProbabilityMatrix();
 
+    void normalizeColumns();
+
+    bool square();
+
+    void trimMatrix(vector<int> ignoreRows);
+
     //
     // EISPACK methods for diagonalizing matrix.
     //
@@ -848,6 +854,108 @@ label_1: return(p);
       }
     }
 
+  }
+
+  //
+  // Normalize operator columns
+  //
+  template<class T>
+  void TMatrix<T>::normalizeColumns(){
+    int optrsize(int(this->size()));
+    for (int j = 0 ; j < optrsize ; ++j ) {
+      T sum(0.0);
+      for (int  i = 0 ; i < optrsize ; ++i ) sum += (*this)[i][j];
+      for (int  i = 0 ; i < optrsize ; ++i ) (*this)[i][j] /= sum;
+    }
+  }
+
+  //
+  // Square of the operator
+  //
+  template<class T>
+  bool TMatrix<T>::square(){
+    int optrsize(int(this->size()));
+
+    //-------------------------------
+    Matrix<T> m1(optrsize);
+    Matrix<T> m2(optrsize);
+    for (int i = 0; i < optrsize; ++i){
+      for (int j = 0; j < optrsize; ++j){
+        m2[i][j] = this->m_matrix[i][j];
+      }
+    }
+    //-------------------------------
+
+    for(int i(0); i < optrsize; ++i){
+      for(int j(0); j < optrsize; ++j){
+        for(int k(0); k < optrsize; ++k){
+          m1[i][j] += m2[i][k] * m2[k][j];
+        }
+      }
+    }
+
+    bool isconvergent(true);
+    // Compare with m2
+    for (int i = 0; i < optrsize; ++i){
+      for (int j = 0; j < optrsize; ++j){
+        if (abs(m1[i][j] - m2[i][j]) > 1e-20){
+          isconvergent = false;
+          break;
+        }
+      }
+      if (!isconvergent) break;
+    }
+
+    // copy the matrix back
+    for (int i = 0; i < optrsize; ++i){
+      for (int j = 0; j < optrsize; ++j){
+        this->m_matrix[i][j] = m1[i][j];
+      }
+    }
+
+    return isconvergent;
+
+  }
+
+  //
+  // Trim entries in the operator for the specific column if its
+  // probability for going into the cemetery states is close to 1.
+  //
+  template<class T>
+  void TMatrix<T>::trimMatrix(vector<int> ignoreRows){
+    int optrsize(int(this->size()));
+
+    vector<T> sumOther(optrsize, 0.0);
+    for (int i = 0; i < optrsize; ++i){
+      bool unused(false);
+      for (size_t ig(0); ig < ignoreRows.size(); ++ig){
+        if (i == ignoreRows[ig]){
+          unused = true;
+          break;
+        }
+      }
+      if (unused) continue;
+      for (int j = 0; j < optrsize; ++j){
+        sumOther[j] += this->m_matrix[i][j];
+      }
+    }
+
+    for (int j = 0; j < optrsize; ++j){
+      if (sumOther[j] != 0.0 && sumOther[j] < 1e-10){
+        for (int i = 0; i < optrsize; ++i){
+          bool unused(false);
+          for (size_t ig(0); ig < ignoreRows.size(); ++ig){
+            if (i == ignoreRows[ig]){
+              unused = true;
+              break;
+            }
+          }
+          if (!unused){ // set these numbers to zero
+            this->m_matrix[i][j] = 0.0;
+          }
+        }
+      }
+    }
   }
 
 }//namespacer mesmer

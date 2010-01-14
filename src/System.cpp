@@ -167,11 +167,11 @@ namespace mesmer
       m_Flags.useDOSweightedDT            = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
       m_Flags.doBasisSetMethod            = ppControl->XmlReadBoolean("me:runBasisSetMethodroutines");
 
-      // Having turned this time-independent yield solution option on, the user will be provided by a set of 
+      // Having turned this time-independent yield solution option on, the user will be provided by a set of
       // yields that relates to sinks and cemetery states if there is any. The way of conducting this is placing
       // extra rows (columns as well) in the normalized population transition matrix counting on the transitions
-      // of populations to the sinks/cemeteries. Multiplying the matrix with the initial populations vector 
-      // many times until it converges. Usually the population converges around 30 operations. 
+      // of populations to the sinks/cemeteries. Multiplying the matrix with the initial populations vector
+      // many times until it converges. Usually the population converges around 30 operations.
       m_Flags.timeIndependent             = ppControl->XmlReadBoolean("me:timeIndependentSolution");
       if (!m_Flags.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
         m_Flags.useTheSameCellNumber = true;
@@ -381,45 +381,58 @@ namespace mesmer
       if (!m_pReactionManager->BuildReactionOperator(m_Env, m_Flags))
         throw (std::runtime_error("Failed building system collison operator."));
 
-      if (!m_pReactionManager->calculateEquilibriumFractions(m_Env.beta))
-        throw (std::runtime_error("Failed calculating equilibrium fractions."));
-
-      // Calculate eigenvectors and eigenvalues.
-      {string thisEvent = "Diagonalize the Reaction Operator";
-      cinfo << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds." << endl;;
-      events.setTimeStamp(thisEvent, timeElapsed);}
-
-      //-------------------------------
-      // Total reaction matrix operator
-      //-------------------------------
-
-      // This is where the collision operator being diagonalised.
-      m_pReactionManager->diagReactionOperator(m_Flags, precision, ppAnalysis) ;
-
-      if (m_Flags.doBasisSetMethod) return true;
-
-      PersistPtr ppPopList;
-      if(m_Flags.speciesProfileEnabled)
-      {
-        ppPopList  = ppAnalysis->XmlWriteElement("me:populationList");
-        ppPopList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
-        ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
+      if (m_Flags.timeIndependent){
+        PersistPtr ppPopList;
+        if(m_Flags.speciesProfileEnabled)
+        {
+          ppPopList  = ppAnalysis->XmlWriteElement("me:populationList");
+          ppPopList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
+          ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
+        }
+        //Analyse the yields
+        m_pReactionManager->timeIndependentSolution(m_Flags, ppPopList);
       }
-        // Time steps loop
-      m_pReactionManager->timeEvolution(m_Flags, ppPopList); //shortened if speciesProfileEnabled==false
+      else{
+        if (!m_pReactionManager->calculateEquilibriumFractions(m_Env.beta))
+          throw (std::runtime_error("Failed calculating equilibrium fractions."));
 
-      PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
-      ppList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
-      ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
-      ppList->XmlWriteAttribute("me:units", "s-1");
-      qdMatrix mesmerRates(1);
-      m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates, m_Flags, ppList);
+        // Calculate eigenvectors and eigenvalues.
+        {string thisEvent = "Diagonalize the Reaction Operator";
+        cinfo << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds." << endl;;
+        events.setTimeStamp(thisEvent, timeElapsed);}
 
-        vector<conditionSet> expRates;
-        PandTs[calPoint].get_experimentalRates(expRates);
-        chiSquare += m_pReactionManager->calcChiSquare(mesmerRates, expRates);
+        //-------------------------------
+        // Total reaction matrix operator
+        //-------------------------------
 
-      ctest << "}\n";
+        // This is where the collision operator being diagonalised.
+        m_pReactionManager->diagReactionOperator(m_Flags, precision, ppAnalysis) ;
+
+        if (m_Flags.doBasisSetMethod) return true;
+
+        PersistPtr ppPopList;
+        if(m_Flags.speciesProfileEnabled)
+        {
+          ppPopList  = ppAnalysis->XmlWriteElement("me:populationList");
+          ppPopList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
+          ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
+        }
+          // Time steps loop
+        m_pReactionManager->timeEvolution(m_Flags, ppPopList); //shortened if speciesProfileEnabled==false
+
+        PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
+        ppList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
+        ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
+        ppList->XmlWriteAttribute("me:units", "s-1");
+        qdMatrix mesmerRates(1);
+        m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates, m_Flags, ppList);
+
+          vector<conditionSet> expRates;
+          PandTs[calPoint].get_experimentalRates(expRates);
+          chiSquare += m_pReactionManager->calcChiSquare(mesmerRates, expRates);
+
+        ctest << "}\n";
+      }
     }
     //---------------------------------------------
 

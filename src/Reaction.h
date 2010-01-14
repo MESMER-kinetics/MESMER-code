@@ -193,6 +193,9 @@ namespace mesmer
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) = 0;
 
+    // Add Nonsymmetrized reaction terms to the reaction matrix.
+    virtual void AddNonsymmetrizedReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) = 0;
+
     // Add contracted basis set reaction terms to the reaction matrix.
     virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) = 0 ;
 
@@ -215,6 +218,11 @@ namespace mesmer
     
     // For reactions involving a source update pseudoisomer map.
     virtual void updateSourceMap(molMapType& sourcemap) { /* For reactions without source terms this is a NULL operation. */} ;
+
+    // For sink reactions
+    virtual bool updateSinkPos(int sinkposition) { return false; /* For non-sink reactions this is a NULL operation. */} ;
+
+    virtual bool getSinkInformation(int& sinkPos, string& sinkName) { return false; /* For non-sink reactions this is a NULL operation. */};
 
   protected:
 

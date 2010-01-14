@@ -320,7 +320,8 @@ namespace mesmer
       // Shift all wells to the same origin, calculate the size of the reaction operator,
       // calculate the mean collision frequency and initialize all collision operators.
       //
-      int msize(0) ; // size of the collision matrix
+      int msize(0);  // size of the collision matrix
+      int csize(0);  // number of cemeteries
       m_meanOmega = 0.0;
 
       Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
@@ -344,7 +345,7 @@ namespace mesmer
         int nGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
         if (nGroupedGrains != 0){
           msize -= (nGroupedGrains - 1);
-          if (isomer->getColl().isCemetery()) msize -= 1;
+          if (isomer->getColl().isCemetery()) {msize -= 1; csize += 1;}
         }
 
         m_meanOmega += isomer->getColl().get_collisionFrequency() ;
@@ -370,14 +371,16 @@ namespace mesmer
 
       if (!mFlags.doBasisSetMethod) {
 
-        // Full energy grained reaction operator.
-
-        constructGrainMatrix(msize);
+        if (mFlags.timeIndependent){// Time independent yields operator
+          constructTimeIndependentGrainMatrix(msize, csize);
+        }
+        else{// Full energy grained reaction operator.
+          constructGrainMatrix(msize);
+        }
 
       } else {
 
         // Contracted basis set reaction operator.
-
         constructBasisMatrix();
 
       }
@@ -696,7 +699,7 @@ namespace mesmer
     return true;
   }
 
-  bool ReactionManager::produceInitialPopulationVector(vector<double>& n_0){
+  bool ReactionManager::produceInitialPopulationVector(vector<double>& n_0, const MesmerFlags &mFlags){
 
     double populationSum = 0.0;
 
@@ -722,7 +725,7 @@ namespace mesmer
         const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();
         vector<double> boltzFrac;
         isomer->getColl().normalizedGrnBoltzmannDistribution(boltzFrac, colloptrsize, numberGrouped);
-        const int nrg = isomer->getColl().isCemetery() ? 0 : 1 ;
+        const int nrg = (isomer->getColl().isCemetery() && !mFlags.timeIndependent) ? 0 : 1 ;
         if (numberGrouped == 0){
           for (int i = 0; i < colloptrsize; ++i){
             n_0[i + rxnMatrixLoc] = initFrac * boltzFrac[i];
@@ -753,7 +756,7 @@ namespace mesmer
       const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();
       vector<double> boltzFrac;
       isomer->getColl().normalizedInitialDistribution(boltzFrac, colloptrsize, numberGrouped);
-      const int nrg = isomer->getColl().isCemetery() ? 0 : 1 ;
+      const int nrg = (isomer->getColl().isCemetery() && !mFlags.timeIndependent) ? 0 : 1 ;
       if (numberGrouped == 0){
         for (int i = 0; i < colloptrsize; ++i){
           n_0[i + rxnMatrixLoc] = initFrac * boltzFrac[i];
@@ -823,6 +826,60 @@ namespace mesmer
     return true;
   }
 
+  bool ReactionManager::timeIndependentSolution(MesmerFlags& mFlags, PersistPtr ppPopList)
+  {
+    ErrorContext c(__FUNCTION__);
+    int smsize = int(m_reactionOperator->size());
+
+    vector<int> sinkLocs;
+    vector<string> sinkNames;
+    //Update the sink location to the above vectors.
+    for (size_t i(0) ; i < size() ; ++i) {
+      int sinkPos(0); string sinkName;
+      if (m_reactions[i]->getSinkInformation(sinkPos, sinkName)){
+        sinkLocs.push_back(sinkPos);
+        sinkNames.push_back(sinkName);
+      }
+    }
+    //Update the cemetery location to the above vectors.
+    Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
+    for (; isomeritr != m_isomers.end() ; ++isomeritr) {
+      if(isomeritr->first->isCemetery()){
+        string cemeteryName(isomeritr->first->getName());
+        int cemeteryPos(isomeritr->second);
+        sinkLocs.push_back(cemeteryPos);
+        sinkNames.push_back(cemeteryName);
+      }
+    }
+
+    dMatrix transOptr(smsize);
+    for ( int i = 0 ; i < smsize ; ++i )
+      for ( int j = 0 ; j < smsize ; ++j )
+        transOptr[i][j] = to_double((*m_reactionOperator)[i][j]) ;
+
+    vector<double> n_0(smsize, 0.); // initial distribution
+    if (!produceInitialPopulationVector(n_0, mFlags)){
+      cerr << "Calculation of initial conditions vector failed.";
+      return false;
+    }
+
+    // produce a convergent set of transition operator to represent the transition in time infinity.
+    bool tConvergent(false);
+    int m2n(1);
+    while (!tConvergent){
+      if (transOptr.square()) tConvergent = true;
+      m2n *= 2;
+      transOptr.normalizeColumns();
+      transOptr.trimMatrix(sinkLocs);
+      transOptr.normalizeColumns();
+      ctest << "\nreaction operator: " << m2n << "orders." << endl;
+      transOptr.showFinalBits(0, true);
+    }
+
+
+    return true;
+  }
+
   bool ReactionManager::timeEvolution(MesmerFlags& mFlags, PersistPtr ppPopList)
   {
     ErrorContext c(__FUNCTION__);
@@ -834,7 +891,7 @@ namespace mesmer
     }
 
     vector<double> n_0(smsize, 0.); // initial distribution
-    if (!produceInitialPopulationVector(n_0)){
+    if (!produceInitialPopulationVector(n_0, mFlags)){
       cerr << "Calculation of initial conditions vector failed.";
       return false;
     }
@@ -977,10 +1034,10 @@ namespace mesmer
         Molecule* rctnt = reaction->get_reactant();
         if((m_reactions[i])->getReactionType() == IRREVERSIBLE_ISOMERIZATION ||
           (m_reactions[i])->getReactionType() == DISSOCIATION                 ){
-            int rxnMatrixLoc = m_isomers[rctnt];
-            m_sinkRxns[reaction] = rxnMatrixLoc;
-            m_SinkSequence[reaction] = sinkpos;               // populate SinkSequence map with Irreversible Rxns
-            ++sinkpos;
+          int rxnMatrixLoc = m_isomers[rctnt];
+          m_sinkRxns[reaction] = rxnMatrixLoc;
+          m_SinkSequence[reaction] = sinkpos;               // populate SinkSequence map with Irreversible Rxns
+          ++sinkpos;
         }
         else{ // In this case it is irreversible exchange reaction
           int rxnMatrixLoc = m_sources[rctnt];
@@ -1643,6 +1700,55 @@ namespace mesmer
       m_reactions[i]->AddReactionTerms(m_reactionOperator,m_isomers,1.0/m_meanOmega) ;
     }
 
+  }
+
+  // This method constructs a transition matrix based on energy grains for time independent solution
+  //
+  void ReactionManager::constructTimeIndependentGrainMatrix(int msize, int csize){
+
+    // Determine the size and location of various blocks.
+    // 2. Pseudoisomers.
+
+    Reaction::molMapType::iterator pseudoIsomeritr = m_sources.begin() ;
+    for (; pseudoIsomeritr != m_sources.end() ; ++pseudoIsomeritr) {
+      pseudoIsomeritr->second = static_cast<int>(msize) ; //set location
+      msize++ ;
+    }
+
+    int ssize(0);
+    int sinkposition(msize + csize);
+    for (size_t i(0) ; i < size() ; ++i) {
+      if (m_reactions[i]->updateSinkPos(sinkposition)) {++ssize; ++sinkposition;}
+    }
+
+    // Allocate space for the full system collision operator.
+    if (m_reactionOperator) delete m_reactionOperator;
+    m_reactionOperator = new qdMatrix(msize+csize+ssize, 0.0) ;
+
+    // Insert collision operators to reaction operator from individual wells.
+    Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
+    for (isomeritr = m_isomers.begin() ; isomeritr != m_isomers.end() ; ++isomeritr) {
+
+      Molecule *isomer = isomeritr->first ;
+      int colloptrsize = isomer->getColl().getNumberOfGroupedGrains() != 0
+        ? isomer->getColl().get_colloptrsize() - isomer->getColl().getNumberOfGroupedGrains() + 1
+        : isomer->getColl().get_colloptrsize();
+      double omega = isomer->getColl().get_collisionFrequency();
+      int idx = isomeritr->second ;
+
+      isomer->getColl().copyCollisionOperator(m_reactionOperator, colloptrsize, idx, omega/m_meanOmega) ;
+
+    }
+
+    // Add connecting rate coefficients.
+    for (size_t i(0) ; i < size() ; ++i) {
+      m_reactions[i]->AddNonsymmetrizedReactionTerms(m_reactionOperator,m_isomers,1.0/m_meanOmega) ;
+    }
+
+    m_reactionOperator->normalizeColumns();
+
+    ctest << "\nAssymetrized reaction operator befor normalization: " << endl;
+    m_reactionOperator->showFinalBits(0, true);
   }
 
   // This is a routine to construct the big basis matrix based on the alternative basis set method.

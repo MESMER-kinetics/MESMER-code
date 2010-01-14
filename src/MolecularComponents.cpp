@@ -994,7 +994,7 @@ namespace mesmer
   //
   bool gWellProperties::collisionOperatorWithReservoirState(double beta, const int reducedCollOptrSize)
   {
-    const int nrg = m_isCemetery ? 0 : 1; // number of reservoir grain
+    const int nrg = m_isCemetery ? (m_host->getFlags().timeIndependent ? 1: 0) : 1; // number of reservoir grain
     if (m_host->getDOS().test_rotConsts() < 0) return true;
     //
     //     i) Determine Probabilities of Energy Transfer.
@@ -1134,24 +1134,35 @@ namespace mesmer
 
       (*m_egme)[0][0] = -sumOfDeactivation;
 
-      // Symmetrization of the collision matrix.
-      vector<double> popDist; // grained population distribution
-      const double firstPop = exp(log(gDOS[0]) - beta * gEne[0] + 10.0);
-      popDist.push_back(firstPop);
-      for (int idx(1); idx < m_ncolloptrsize; ++idx){
-        if (idx < m_numGroupedGrains){
-          popDist[0] += exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0);
-        }
-        else{
-          popDist.push_back(sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0)));
+      // If running time independent solution, upward activation is required for reservoir state but not for cemetery state
+      // However, this might not matter too much as in most cases the reactivation from reservoir state is close to zero.
+      if (m_host->getFlags().timeIndependent){
+        (*m_egme)[0][0] = 1.0;
+        if (!m_host->isCemetery()){
+          
         }
       }
-      popDist[0] = sqrt(popDist[0]); // This is the square root of partition function in the reservoir grain
 
-      for (int i(1) ; i < reducedCollOptrSize + 1; ++i ) {
-        for (int j(0) ; j < i ; ++j ){
-          (*m_egme)[j][i] *= popDist[i]/popDist[j] ;
-          (*m_egme)[i][j]  = (*m_egme)[j][i] ;
+      if (!m_host->getFlags().timeIndependent){
+        // Symmetrization of the collision matrix.
+        vector<double> popDist; // grained population distribution
+        const double firstPop = exp(log(gDOS[0]) - beta * gEne[0] + 10.0);
+        popDist.push_back(firstPop);
+        for (int idx(1); idx < m_ncolloptrsize; ++idx){
+          if (idx < m_numGroupedGrains){
+            popDist[0] += exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0);
+          }
+          else{
+            popDist.push_back(sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0)));
+          }
+        }
+        popDist[0] = sqrt(popDist[0]); // This is the square root of partition function in the reservoir grain
+
+        for (int i(1) ; i < reducedCollOptrSize + 1; ++i ) {
+          for (int j(0) ; j < i ; ++j ){
+            (*m_egme)[j][i] *= popDist[i]/popDist[j] ;
+            (*m_egme)[i][j]  = (*m_egme)[j][i] ;
+          }
         }
       }
 
@@ -1195,24 +1206,28 @@ namespace mesmer
         ctest << "}" << endl;
       }
 
-      // Symmetrization of the collision matrix.
-      vector<double> popDist; // grained population distribution
-      for (int idx(m_numGroupedGrains); idx < m_ncolloptrsize; ++idx){
-        popDist.push_back(sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0)));
-      }
-      for (int i(1) ; i < reducedCollOptrSize; ++i ) {
-        for (int j(0) ; j < i ; ++j ){
-          (*m_egme)[j][i] *= popDist[i]/popDist[j] ;
-          (*m_egme)[i][j]  = (*m_egme)[j][i] ;
+      if (!m_host->getFlags().timeIndependent){
+
+        // Symmetrization of the collision matrix.
+        vector<double> popDist; // grained population distribution
+        for (int idx(m_numGroupedGrains); idx < m_ncolloptrsize; ++idx){
+          popDist.push_back(sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0)));
+        }
+        for (int i(1) ; i < reducedCollOptrSize; ++i ) {
+          for (int j(0) ; j < i ; ++j ){
+            (*m_egme)[j][i] *= popDist[i]/popDist[j] ;
+            (*m_egme)[i][j]  = (*m_egme)[j][i] ;
+          }
         }
       }
     }
 
     //account for collisional loss by subrtacting unity from the leading diagonal.
-    for (int i(nrg) ; i < reducedCollOptrSize + nrg; ++i ) {
-      (*m_egme)[i][i] -= 1.0 ;
+    if (!m_host->getFlags().timeIndependent){
+      for (int i(nrg) ; i < reducedCollOptrSize + nrg; ++i ) {
+        (*m_egme)[i][i] -= 1.0 ;
+      }
     }
-
     if (m_host->getFlags().showCollisionOperator >= 2){
       ctest << "Collision operator of " << m_host->getName() << " after :\n";
       m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);

@@ -42,6 +42,17 @@ namespace mesmer
       m_sourceMap = &sourcemap ; 
     } ;
 
+    bool updateSinkPos(int sinkposition){
+      m_sinkPos = sinkposition;
+      return true;
+    } ;
+    
+    bool getSinkInformation(int& sinkPos, string& sinkName) {
+      sinkPos = m_sinkPos;
+      sinkName = m_pdt1->getName();
+      return true;
+    };
+
     // Get unimolecular species information:
     virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const 
     {return 0;} ;
@@ -99,6 +110,9 @@ namespace mesmer
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;
 
+    // Add Nonsymmetrized reaction terms to the reaction matrix.
+    virtual void AddNonsymmetrizedReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;
+
     // Add contracted basis set reaction terms to the reaction matrix.
 		virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap){} ;
 
@@ -112,6 +126,7 @@ namespace mesmer
     virtual void testRateConstant();
 
     molMapType *m_sourceMap ;
+    int m_sinkPos;
 
     Molecule    *m_rct1 ;                 // Reactant Molecule.
     Molecule    *m_rct2 ;                 // Subsidiary reactant molecule. 
