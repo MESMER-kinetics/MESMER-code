@@ -1111,11 +1111,13 @@ namespace mesmer
       }
 
       // Sum up the downward transition terms for the reservoir grain
-      double sumOfDeactivation(0.0), ptfReservoir(0.0);
+      double sumOfDeactivation(0.0), ptfReservoir(0.0), eneReservoir(0.0), dosReservoir(0.0);
       for (int j(0); j < m_ncolloptrsize ; ++j ) {
         if (j < m_numGroupedGrains){
           // summing up the partition function of reservoir state
+          dosReservoir += gDOS[j];
           ptfReservoir += exp(log(gDOS[j]) - beta * gEne[j] + 10.0);
+          eneReservoir += exp(log(gDOS[j]) - beta * gEne[j] + 10.0) * gEne[j];
         }
         else{
           double downwardSum(0.0);
@@ -1128,6 +1130,7 @@ namespace mesmer
           (*m_egme)[0][j - m_numGroupedGrains + 1] = downwardSum;
         }
       }
+      eneReservoir /= ptfReservoir;
       sumOfDeactivation /= ptfReservoir; // k_a * x_r = k_d(E) * f(E) / Q_a * x_a
       // where Q_a is equal to x_a and cancelled out.
       // So, k_a = k_d(E) * f(E) / x_r;
@@ -1139,8 +1142,30 @@ namespace mesmer
       if (m_host->getFlags().timeIndependent){
         (*m_egme)[0][0] = 1.0;
         if (!m_host->isCemetery()){
-          
+          double sumUpward(0.0);
+          if (m_host->getFlags().useDOSweightedDT){
+            for (int j(m_numGroupedGrains) ; j < m_ncolloptrsize ; ++j ) {
+              // Transfer to higher Energy (via detailed balance) -
+              double transferUp = exp(-(alpha + beta)*(gEne[j] - eneReservoir));
+              (*m_egme)[j - m_numGroupedGrains + 1][0] = transferUp;
+              sumUpward += transferUp;
+            }
+          }
+          else{
+            for (int j(m_numGroupedGrains) ; j < m_ncolloptrsize ; ++j ) {
+              // Transfer to higher Energy (via detailed balance) -
+              double transferUp = exp(-alpha*(gEne[j] - eneReservoir)) 
+                                  * (gDOS[j]/dosReservoir) * exp(-beta*(gEne[j] - eneReservoir)) ;
+              (*m_egme)[j - m_numGroupedGrains + 1][0] = transferUp;
+              sumUpward += transferUp;
+            }
+          }
+          sumUpward += 1.0;
+          for (int j(0) ; j < reducedCollOptrSize + 1 ; ++j ) {
+            (*m_egme)[j][0] /= sumUpward;
+          }
         }
+
       }
 
       if (!m_host->getFlags().timeIndependent){
