@@ -898,9 +898,16 @@ label_1: return(p);
     // Compare with m2
     for (int i = 0; i < optrsize; ++i){
       for (int j = 0; j < optrsize; ++j){
-        if (abs(m1[i][j] - m2[i][j]) > 1e-20){
-          isconvergent = false;
-          break;
+        if (m2[i][j] == 0.0){
+          if(m1[i][j] == 0.0) {continue;}
+          else{isconvergent = false; break;}
+        }
+        double before(m2[i][j]);
+        double after(m1[i][j]);
+        double dif(abs(m1[i][j] - m2[i][j]));
+        double div(dif/m2[i][j]);
+        if (div > 0.01){
+          isconvergent = false; break;
         }
       }
       if (!isconvergent) break;

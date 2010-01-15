@@ -833,6 +833,9 @@ namespace mesmer
 
     vector<int> sinkLocs;
     vector<string> sinkNames;
+    vector<int> reservoirLocs;
+    vector<string> reservoirNames;
+
     //Update the sink location to the above vectors.
     for (size_t i(0) ; i < size() ; ++i) {
       int sinkPos(0); string sinkName;
@@ -850,6 +853,12 @@ namespace mesmer
         sinkLocs.push_back(cemeteryPos);
         sinkNames.push_back(cemeteryName);
       }
+      else if (isomeritr->first->isReservoir()){
+        string reservoirName(isomeritr->first->getName());
+        int reservoirPos(isomeritr->second);
+        reservoirLocs.push_back(reservoirPos);
+        reservoirNames.push_back(reservoirName);
+      }
     }
 
     dMatrix transOptr(smsize);
@@ -857,25 +866,55 @@ namespace mesmer
       for ( int j = 0 ; j < smsize ; ++j )
         transOptr[i][j] = to_double((*m_reactionOperator)[i][j]) ;
 
+    // produce a convergent set of transition operator to represent the transition in time infinity.
+    bool tConvergent(false);
+    int m2n(1);
+    while (!tConvergent && m2n < 1e5){
+      tConvergent = transOptr.square();
+      m2n *= 2;
+      transOptr.normalizeColumns();
+      transOptr.trimMatrix(sinkLocs);
+      transOptr.normalizeColumns();
+      if (mFlags.showTimeIndependentMatrices){
+        ctest << "\nreaction operator: " << m2n << "orders." << endl;
+        transOptr.showFinalBits(0, true);
+      }
+    }
+
+    if (tConvergent){
+      ctest << "Transition matrix converge at " << m2n << " multiplications." << endl;
+    }
+    else{
+      ctest << "Transition matrix is not converged after " << m2n << " multiplications." << endl;
+      ctest << "Population may accumulted in reservoir states." << endl;
+      ctest << "Try lowering reservoir size if it is too high until it converges." << endl;
+    }
+
     vector<double> n_0(smsize, 0.); // initial distribution
     if (!produceInitialPopulationVector(n_0, mFlags)){
       cerr << "Calculation of initial conditions vector failed.";
       return false;
     }
 
-    // produce a convergent set of transition operator to represent the transition in time infinity.
-    bool tConvergent(false);
-    int m2n(1);
-    while (!tConvergent){
-      if (transOptr.square()) tConvergent = true;
-      m2n *= 2;
-      transOptr.normalizeColumns();
-      transOptr.trimMatrix(sinkLocs);
-      transOptr.normalizeColumns();
-      ctest << "\nreaction operator: " << m2n << "orders." << endl;
-      transOptr.showFinalBits(0, true);
+    vector<double> vYields(smsize, 0.0);
+    //Multiplying the initial population vector with with probability matrix.
+    for (int i(0); i < smsize; ++i){
+      for (int j(0); j < smsize; ++j){
+        vYields[i] += n_0[j] * transOptr[i][j];
+      }
     }
 
+    ctest << "Yields:\n{\n";
+    for (int i(0); i < sinkLocs.size(); ++i){
+      ctest << sinkNames[i] << " = " << vYields[sinkLocs[i]] << endl;
+    }
+
+    if (!tConvergent){
+      for (int i(0); i < reservoirLocs.size(); ++i){
+        ctest << "Reservoir: " << reservoirNames[i] << " = " << vYields[reservoirLocs[i]] << endl;
+      }
+    }
+    ctest << "}\n";
 
     return true;
   }

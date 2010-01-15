@@ -47,6 +47,7 @@ namespace mesmer
     bool useDOSweightedDT;                // Use number of states to weigh the downward transition in collisionOperator()
     bool doBasisSetMethod;                // Run basis set method related routines.
     bool timeIndependent;                 // Run time independent solution only
+    bool showTimeIndependentMatrices;     // Show transition matrices
     std::string punchSymbols;             // a string holds the symbols of rates.
     std::string punchNumbers;
     std::string punchFileName;

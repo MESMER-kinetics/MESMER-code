@@ -157,8 +157,9 @@ namespace mesmer
     for ( int i=fluxStartIdx, j = forwardThreshE, k=0; j < colloptrsize; ++i, ++j, ++k) {
       int ll = k + forwardThreshE;
       int ii(rctLocation + ll - rShiftedGrains) ;
-      (*CollOptr)[ii][m_sinkPos] = qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
+      (*CollOptr)[m_sinkPos][ii] = qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
     }
+    (*CollOptr)[m_sinkPos][m_sinkPos] = 1.0;
   }
 
   //

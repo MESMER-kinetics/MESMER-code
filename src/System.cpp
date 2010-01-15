@@ -173,6 +173,7 @@ namespace mesmer
       // of populations to the sinks/cemeteries. Multiplying the matrix with the initial populations vector
       // many times until it converges. Usually the population converges around 30 operations.
       m_Flags.timeIndependent             = ppControl->XmlReadBoolean("me:timeIndependentSolution");
+      m_Flags.showTimeIndependentMatrices = ppControl->XmlReadBoolean("me:showTimeIndependentTransitionMatrices");
       if (!m_Flags.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
         m_Flags.useTheSameCellNumber = true;
       }

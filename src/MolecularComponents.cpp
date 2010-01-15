@@ -1142,27 +1142,26 @@ namespace mesmer
       if (m_host->getFlags().timeIndependent){
         (*m_egme)[0][0] = 1.0;
         if (!m_host->isCemetery()){
-          double sumUpward(0.0);
-          if (m_host->getFlags().useDOSweightedDT){
-            for (int j(m_numGroupedGrains) ; j < m_ncolloptrsize ; ++j ) {
-              // Transfer to higher Energy (via detailed balance) -
-              double transferUp = exp(-(alpha + beta)*(gEne[j] - eneReservoir));
-              (*m_egme)[j - m_numGroupedGrains + 1][0] = transferUp;
-              sumUpward += transferUp;
+          // calculate the upward transitions from the reservoir state using detailed balance.
+          vector<double> popDist; // grained population distribution
+          const double firstPop = exp(log(gDOS[0]) - beta * gEne[0] + 10.0);
+          popDist.push_back(firstPop);
+          for (int idx(1); idx < m_ncolloptrsize; ++idx){
+            if (idx < m_numGroupedGrains){
+              popDist[0] += exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0);
+            }
+            else{
+              popDist.push_back(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0));
             }
           }
-          else{
-            for (int j(m_numGroupedGrains) ; j < m_ncolloptrsize ; ++j ) {
-              // Transfer to higher Energy (via detailed balance) -
-              double transferUp = exp(-alpha*(gEne[j] - eneReservoir)) 
-                                  * (gDOS[j]/dosReservoir) * exp(-beta*(gEne[j] - eneReservoir)) ;
-              (*m_egme)[j - m_numGroupedGrains + 1][0] = transferUp;
-              sumUpward += transferUp;
-            }
+          
+          for (int j(1) ; j < reducedCollOptrSize + 1; ++j ){
+            (*m_egme)[j][0] = popDist[j]/popDist[0] * (*m_egme)[0][j];
           }
-          sumUpward += 1.0;
-          for (int j(0) ; j < reducedCollOptrSize + 1 ; ++j ) {
-            (*m_egme)[j][0] /= sumUpward;
+          double sumOfColumn(0.0);
+          for (int j(0) ; j < reducedCollOptrSize + 1; ++j ) sumOfColumn += (*m_egme)[j][0];
+          for (int j(0) ; j < reducedCollOptrSize + 1; ++j ){
+            (*m_egme)[j][0] /= sumOfColumn;
           }
         }
 

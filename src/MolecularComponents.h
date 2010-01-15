@@ -379,6 +379,7 @@ namespace mesmer
 
     const int getNumberOfGroupedGrains() {return m_numGroupedGrains; }
     const bool isCemetery(){return m_isCemetery;}
+    const bool isReservoir(){return m_numGroupedGrains && !m_isCemetery ? true: false;}
     const std::vector<double>& get_GrainKdmc(void){return m_GrainKdmc;}
   };
 

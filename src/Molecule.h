@@ -78,6 +78,7 @@ namespace mesmer
 
     bool checkFrequencies();
     bool isCemetery(); //Returns true for modelled molecules marked a cemetery state, false for others 
+    bool isReservoir(); //Returns true for modelled molecules marked a reservoir state, false for others 
 
 //    double getMass() ;
 //    void   setMass(double value);
