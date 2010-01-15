@@ -1,12 +1,14 @@
+//-------------------------------------------------------------------------------------------
 // MolecularComponents.h
 //
 // Author: Chi-Hsiu Liang
 //
-// This file contains property groups of class Molecule. These groups give molecules variables and functions to perform
-// tasks; from the definitions of these groups a molecule can play roles when it is required to do so.
-// Classes in this file do not depend on each other and thus they can be seperated. Any of them can be added into
-// a molecule (with a new() to construct an object and then pass the pointer to the molecule) when the role of the molecule
-// requires the information in that group.
+// This file contains property groups of class Molecule. These groups give molecules variables
+// and functions to perform tasks; from the definitions of these groups a molecule can play
+// roles when it is required to do so. Classes in this file do not depend on each other and
+// thus they can be seperated. Any of them can be added into a molecule (with a new() to construct
+// an object and then pass the pointer to the molecule) when the role of the molecule requires
+// the information in that group.
 //-------------------------------------------------------------------------------------------
 
 #ifndef GUARD_MolecularComponents_h
@@ -19,6 +21,7 @@
 #include "MesmerEnv.h"
 #include "MesmerFlags.h"
 #include "Rdouble.h"
+#include "EnergyTransferModel.h"
 
 using namespace std ;
 using namespace Constants ;
@@ -298,7 +301,9 @@ namespace mesmer
     int                 m_numGroupedGrains;    // Number of grains grouped into a reservoir grain.
     bool                m_isCemetery;          // Whether this is a cemetery state.
     std::vector<double> m_GrainKdmc;           // downward grained microcanonical rate coefficients to cemetery state.
-    DistributionCalculator* m_pDistributionCalculator;
+
+	DistributionCalculator* m_pDistributionCalculator;
+	EnergyTransferModel* m_pEnergyTransferModel ; 
 
     //================================================
     // CHECK FOR INPUTFILE PARAMETERS

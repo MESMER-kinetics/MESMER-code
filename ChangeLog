@@ -1,3 +1,8 @@
+
+2009-December-29 Struan Robertson
+
+	* MolecularComponents.h: Minor change to introduce a generic energy transfer model.
+
 _2010_01_08__14_27_52_ Chi-Hsiu Liang
 
   * Minor modification about the nInfinity in the manual. n > 1.5 changed to n > -1.5.

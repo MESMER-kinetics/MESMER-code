@@ -740,6 +740,7 @@ namespace mesmer
     m_isCemetery(false),
     m_GrainKdmc(NULL),
     m_pDistributionCalculator(NULL),
+	m_pEnergyTransferModel(NULL),
     m_DeltaEdown_chk(-1),
     m_grainFracBeta(0.),
     m_grainDist(0),
