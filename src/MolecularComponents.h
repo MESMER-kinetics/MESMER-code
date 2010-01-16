@@ -285,16 +285,13 @@ namespace mesmer
   class gWellProperties:public MolecularComponent
   {
     //-------------------------------------------------------------------------------------------------
-    // Collisional redistribution related properties
+    // Collisional transfer related properties
     //-------------------------------------------------------------------------------------------------
 
   private:
 
-    double              m_DeltaEdownExponent;  // Exponent of <Delta E down> according to the relation
-    // <delta_E_down>(T) = <delta_E_down>_ref * (T / m_DeltaEdownRefTemp)^n
-    // where m_DeltaEdownExponent is the exponent n
-    // By default, n = 0, which means delta_E_down does not depend on temperature.
-    double              m_DeltaEdownRefTemp;   // reference temperature of <Delta E down>, default 298.
+    PersistPtr          m_ppPropList ;         // Location of properties for this species
+    
     Rdouble             m_DeltaEdown ;         // <Delta E down> for the exponential down model.
     double              m_collisionFrequency ; // Current value of collision frequency.
     int                 m_ncolloptrsize ;      // Size of the collision operator matrix.
@@ -316,10 +313,10 @@ namespace mesmer
     double collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule) ;
 
     // Calculate collision operator.
-    bool   collisionOperator (double beta) ;
+    bool collisionOperator (double beta) ;
 
     // Calculate collision operator with reservoir state.
-    bool   collisionOperatorWithReservoirState(double beta, int reducedCollOptrSize) ;
+    bool collisionOperatorWithReservoirState(double beta, int reducedCollOptrSize) ;
 
     double getBoltzmannWeightedEnergy(int numberOfGrains, const vector<double>& gEne, const vector<double>& gDos, double beta, double& totalDOS);
 
@@ -330,9 +327,7 @@ namespace mesmer
     void grainDistribution(vector<double> &grainFrac, const int numberOfGrains);
 
     // DeltaEdown operators
-    void   setDeltaEdown(const double value){ m_DeltaEdown = value; };
-    void   setDeltaEdownRefTemp(const double value){m_DeltaEdownRefTemp = value;};
-    void   setDeltaEdownExponent(const double value){m_DeltaEdownExponent = value;};
+    void setDeltaEdown(const double value){ m_DeltaEdown = value; };
     
   public:
 
@@ -360,9 +355,14 @@ namespace mesmer
     void normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int numberOfGrains, const int numberOfGroupedGrains = 0);
 
     // Accessors.
+    
+    const PersistPtr get_MolProp() const { return m_ppPropList ; } ; // Molecular properties for this species
+    
     double get_collisionFrequency() const ;
+
     void set_colloptrsize(int ncolloptrsize) ;
     int  get_colloptrsize() const ;
+
 		size_t  get_nbasis() const { return 10 ; } ;
 
     const int get_grnZPE();
@@ -377,9 +377,7 @@ namespace mesmer
     const std::vector<double>& get_GrainKdmc(void){return m_GrainKdmc;}
 
     // DeltaEdown operators
-    double getDeltaEdownRefTemp()  const {return m_DeltaEdownRefTemp; }
-    double getDeltaEdownExponent() const {return m_DeltaEdownExponent; }
-    double getDeltaEdown()         const {return m_DeltaEdown; }
+    double getDeltaEdown() const { return m_DeltaEdown; }
   };
 
 

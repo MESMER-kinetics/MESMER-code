@@ -1,6 +1,10 @@
 
 2010-January-16 Struan Robertson
 
+	* MolecularComponents.h/.cpp: Tidy-up wellproperties constructor.
+
+2010-January-16 Struan Robertson
+
 	* MolecularComponents.h/.cpp: Move exponential down model material onto specfic model.
 
 2010-January-16 Struan Robertson
