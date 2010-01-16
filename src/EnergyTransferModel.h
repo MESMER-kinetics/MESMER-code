@@ -17,17 +17,18 @@
 //  They have a single global instance, the constructor of which registers
 //  the class with the base class. Subsequently, a pointer to the class is
 //  obtained by supplying the id (a string) to the Find function.
-//  **/
 //
 //-------------------------------------------------------------------------------------------
 
 #include <map>
 #include <string>
-//#include "XMLPersist.h"
 
 namespace mesmer
 {
-
+  // Forward declarations:
+  
+  class gWellProperties ;
+  
   class EnergyTransferModel
   {
   public:
@@ -52,7 +53,7 @@ namespace mesmer
 
     virtual double calculateTransitionProbability(double Ei, double Ej) = 0 ;
 
-    virtual void ReadParameters(double) = 0 ; 
+    virtual bool ReadParameters(const gWellProperties* pgWellProperties) = 0 ; 
 
   private:
     // Returns a reference to the map of EnergyTransferModel classes

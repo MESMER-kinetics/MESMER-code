@@ -87,9 +87,6 @@ namespace mesmer
   std::string Molecule::getDescription() const            {
     return m_Description ;
   } ;
-  MesmerFlags& Molecule::getFlags()         {
-    return m_Flags;
-  }
 
   // check whether the total vibrational frequencies (include the imaginary freq) number = 3N-6
   bool Molecule::checkFrequencies(){
@@ -140,10 +137,6 @@ namespace mesmer
   bool Molecule::isCemetery()
   {
     return g_coll && g_coll->isCemetery();
-  }
-
-  const MesmerEnv& Molecule::getEnv() const        {
-    return m_Env;
   }
 
   //Make dummy calls to initialize the MolecularComponents now, during parse, before calculation.

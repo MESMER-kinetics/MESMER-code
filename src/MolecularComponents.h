@@ -34,6 +34,7 @@ namespace mesmer
   class MolecularComponent{
   public:
     Molecule* getHost() { return m_host; }
+    const Molecule* getHost() const { return m_host; }
 
   protected:
     Molecule* m_host;
@@ -305,11 +306,6 @@ namespace mesmer
 	  DistributionCalculator* m_pDistributionCalculator;
 	  EnergyTransferModel* m_pEnergyTransferModel ; 
 
-    //================================================
-    // CHECK FOR INPUTFILE PARAMETERS
-    int m_DeltaEdown_chk;
-    //================================================
-
     double m_grainFracBeta;                    // beta used to calculate grain distribution fraction
     std::vector<double> m_grainDist ;          // Grain distribution (not normalized)
     dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
@@ -334,16 +330,9 @@ namespace mesmer
     void grainDistribution(vector<double> &grainFrac, const int numberOfGrains);
 
     // DeltaEdown operators
-    double getDeltaEdown();
-    void   setDeltaEdown(const double value){ m_DeltaEdown = value; m_DeltaEdown_chk = 0;};
-  //  void   setDeltaEdown(const double valueL, const double valueU, const double stepsize){
-  //   m_DeltaEdown.set_range(valueL, valueU, stepsize);
-  //    m_DeltaEdown_chk = 0;
-  //  };
+    void   setDeltaEdown(const double value){ m_DeltaEdown = value; };
     void   setDeltaEdownRefTemp(const double value){m_DeltaEdownRefTemp = value;};
     void   setDeltaEdownExponent(const double value){m_DeltaEdownExponent = value;};
-    double getDeltaEdownRefTemp (){return m_DeltaEdownRefTemp; }
-    double getDeltaEdownExponent(){return m_DeltaEdownExponent;}
     
   public:
 
@@ -386,6 +375,11 @@ namespace mesmer
     const int getNumberOfGroupedGrains() {return m_numGroupedGrains; }
     const bool isCemetery(){return m_isCemetery;}
     const std::vector<double>& get_GrainKdmc(void){return m_GrainKdmc;}
+
+    // DeltaEdown operators
+    double getDeltaEdownRefTemp()  const {return m_DeltaEdownRefTemp; }
+    double getDeltaEdownExponent() const {return m_DeltaEdownExponent; }
+    double getDeltaEdown()         const {return m_DeltaEdown; }
   };
 
 

@@ -69,12 +69,12 @@ namespace mesmer
     PersistPtr  get_PersistentPointer();
 
     std::string getDescription() const;
-    const MesmerEnv& getEnv() const;
+    const MesmerEnv& getEnv() const { return m_Env; } ;
 
     std::string getName() const;
     void   setName(string name) ;
 
-    MesmerFlags& getFlags();
+    const MesmerFlags& getFlags() const { return m_Flags;} ;
 
     bool checkFrequencies();
     bool isCemetery(); //Returns true for modelled molecules marked a cemetery state, false for others 

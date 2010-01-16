@@ -1,7 +1,6 @@
 #ifndef GUARD_ExponentialDown_h
 #define GUARD_ExponentialDown_h
 
-//#include "System.h"
 #include "EnergyTransferModel.h"
 namespace mesmer
 {
@@ -16,7 +15,7 @@ namespace mesmer
 
     virtual double calculateTransitionProbability(double Ei, double Ej);
 
-    virtual void ReadParameters(double deltaEdown) ; 
+    virtual bool ReadParameters(const gWellProperties* pgWellProperties) ; 
 
   private:
 

@@ -732,7 +732,6 @@ namespace mesmer
     m_GrainKdmc(NULL),
     m_pDistributionCalculator(NULL),
 	  m_pEnergyTransferModel(NULL),
-    m_DeltaEdown_chk(-1),
     m_grainFracBeta(0.),
     m_grainDist(0),
     m_egme(NULL),
@@ -776,9 +775,7 @@ namespace mesmer
       double ref_exp(0.0);
       stringstream s_exp(pExponenttxt); s_exp >> ref_exp;
       setDeltaEdownExponent(ref_exp);
-    }
-    m_DeltaEdown_chk = 0;
-    
+    }    
 
     // Determine the method of DOS calculation.
     const char* pDistCalcMethodtxt = pp->XmlReadValue("me:DistributionCalcMethod") ;
@@ -802,9 +799,6 @@ namespace mesmer
 
   gWellProperties::~gWellProperties()
   {
-    if (m_DeltaEdown_chk == 0){
-      cinfo << "m_DeltaEdown is provided but not used in " << m_host->getName() << "." << endl;
-    }
     if (m_egme != NULL) delete m_egme ;
     if (m_grainDist.size()) m_grainDist.clear();
   }
@@ -851,19 +845,6 @@ namespace mesmer
 
     return int(grnZpe);
   }
-
-  double gWellProperties::getDeltaEdown() {
-    if (m_DeltaEdown_chk >= 0){
-      ++m_DeltaEdown_chk;
-      const double refTemp = getDeltaEdownRefTemp();
-      const double dEdExp = getDeltaEdownExponent();
-      const double dEdRef = m_DeltaEdown;
-      const double temperature = 1. / (boltzmann_RCpK * m_host->getEnv().beta);
-      return dEdRef * pow((temperature/refTemp),dEdExp);
-    }
-    else
-      throw (std::runtime_error("m_DeltaEdown was not defined but requested."));
-  } ;
 
   //
   // Initialize the Collision Operator.
@@ -1044,14 +1025,8 @@ namespace mesmer
       }
     }
 
-    double DEDown = getDeltaEdown();
-    double alpha = 1.0/DEDown ;
-
-    // issue a warning message and exit if delta_E_down is smaller than grain size.
-    if (DEDown < double(m_host->getEnv().GrainSize) && !m_host->getFlags().allowSmallerDEDown){
-      cerr << "Delta E down is smaller than grain size: the solution may not converge.";
-      return false;
-    }
+    // Initialize energy transfer model.
+    if (!m_pEnergyTransferModel->ReadParameters(this)) return false ;
 
     // Allocate memory.
     if (m_egme) delete m_egme ;                       // Delete any existing matrix.
@@ -1071,12 +1046,15 @@ namespace mesmer
           double ej = gEne[j];
           double nj = gDOS[j];
           // Transfer to lower Energy -
-          double transferDown = exp(-alpha*(ej - ei)) * (ni/nj);
-          (*tempEGME)[i][j] = transferDown;
+          // double transferDown = exp(-alpha*(ej - ei)) * (ni/nj);
+          // (*m_egme)[i][j] = transferDown;
+          double transferDown = m_pEnergyTransferModel->calculateTransitionProbability(ej,ei) ;
+          (*tempEGME)[i][j] = transferDown * (ni/nj);
 
           // Transfer to higher Energy (via detailed balance) -
-          double transferUp = exp(-(alpha + beta)*(ej - ei));
-          (*tempEGME)[j][i] = transferUp;
+          // double transferUp = exp(-(alpha + beta)*(ej - ei));
+          // (*m_egme)[j][i] = transferUp;
+          (*tempEGME)[j][i] = transferDown * exp(-beta*(ej - ei));
         }
       }
     }
@@ -1089,12 +1067,11 @@ namespace mesmer
           const double ej = gEne[j];
           const double nj = gDOS[j];
           // Transfer to lower Energy -
-          const double transferDown = exp(-alpha*(ej - ei)) ;
+          double transferDown = m_pEnergyTransferModel->calculateTransitionProbability(ej,ei) ;
           (*tempEGME)[i][j] = transferDown;
 
           // Transfer to higher Energy (via detailed balance) -
-          const double transferUp = exp(-alpha*(ej - ei)) * (nj/ni) * exp(-beta*(ej - ei)) ;
-          (*tempEGME)[j][i] = transferUp;
+          (*tempEGME)[j][i] = transferDown * (nj/ni) * exp(-beta*(ej - ei)) ;
         }
       }
     }
@@ -1276,16 +1253,8 @@ namespace mesmer
     //   iii) Symmetrise Collision Matrix.
     //
 
-    double DEDown = getDeltaEdown();
-    double alpha = 1.0/DEDown ;
-    
-    m_pEnergyTransferModel->ReadParameters(DEDown) ;
-
-    // issue a warning message and exit if delta_E_down is smaller than grain size.
-    if (DEDown < double(m_host->getEnv().GrainSize) && !m_host->getFlags().allowSmallerDEDown){
-      cerr << "Delta E down is smaller than grain size: the solution may not converge.";
-      return false;
-    }
+    // Initialize energy transfer model.
+    if (!m_pEnergyTransferModel->ReadParameters(this)) return false ;
 
     // Allocate memory.
     if (m_egme) delete m_egme ;                       // Delete any existing matrix.
@@ -1305,7 +1274,7 @@ namespace mesmer
       }
     }
 
-    // Use number of states to weigh the downward transition
+    // Use number of states to weight the downward transition
     if (m_host->getFlags().useDOSweightedDT){
       // The collision operator.
       for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
@@ -1315,12 +1284,15 @@ namespace mesmer
           double ej = gEne[j];
           double nj = gDOS[j];
           // Transfer to lower Energy -
-          double transferDown = exp(-alpha*(ej - ei)) * (ni/nj);
-          (*m_egme)[i][j] = transferDown;
+          // double transferDown = exp(-alpha*(ej - ei)) * (ni/nj);
+          // (*m_egme)[i][j] = transferDown;
+          double transferDown = m_pEnergyTransferModel->calculateTransitionProbability(ej,ei) ;
+          (*m_egme)[i][j] = transferDown * (ni/nj);
 
           // Transfer to higher Energy (via detailed balance) -
-          double transferUp = exp(-(alpha + beta)*(ej - ei));
-          (*m_egme)[j][i] = transferUp;
+          // double transferUp = exp(-(alpha + beta)*(ej - ei));
+          // (*m_egme)[j][i] = transferUp;
+          (*m_egme)[j][i] = transferDown * exp(-beta*(ej - ei));
         }
       }
     } else {
@@ -1332,7 +1304,6 @@ namespace mesmer
           double ej = gEne[j];
           double nj = gDOS[j];
           // Transfer to lower Energy -
-          // double transferDown = exp(-alpha*(ej - ei)) ;
           double transferDown = m_pEnergyTransferModel->calculateTransitionProbability(ej,ei) ;
           (*m_egme)[i][j] = transferDown;
 
