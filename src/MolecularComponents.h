@@ -302,8 +302,8 @@ namespace mesmer
     bool                m_isCemetery;          // Whether this is a cemetery state.
     std::vector<double> m_GrainKdmc;           // downward grained microcanonical rate coefficients to cemetery state.
 
-	DistributionCalculator* m_pDistributionCalculator;
-	EnergyTransferModel* m_pEnergyTransferModel ; 
+	  DistributionCalculator* m_pDistributionCalculator;
+	  EnergyTransferModel* m_pEnergyTransferModel ; 
 
     //================================================
     // CHECK FOR INPUTFILE PARAMETERS
@@ -352,6 +352,7 @@ namespace mesmer
     //
     gWellProperties(Molecule* pMol);
     virtual ~gWellProperties();
+    bool initialization();
 
     // Initialize the Collision Operator.
     bool initCollisionOperator(double beta, Molecule *pBathGasMolecule) ;

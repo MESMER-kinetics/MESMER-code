@@ -720,15 +720,6 @@ namespace mesmer
   //
   // Constructor, destructor and initialization
   //
-  gWellProperties::~gWellProperties()
-  {
-    if (m_DeltaEdown_chk == 0){
-      cinfo << "m_DeltaEdown is provided but not used in " << m_host->getName() << "." << endl;
-    }
-    if (m_egme != NULL) delete m_egme ;
-    if (m_grainDist.size()) m_grainDist.clear();
-  }
-
   gWellProperties::gWellProperties(Molecule* pMol)
     :m_DeltaEdownExponent(0.0),
     m_DeltaEdownRefTemp(298.0),
@@ -740,7 +731,7 @@ namespace mesmer
     m_isCemetery(false),
     m_GrainKdmc(NULL),
     m_pDistributionCalculator(NULL),
-	m_pEnergyTransferModel(NULL),
+	  m_pEnergyTransferModel(NULL),
     m_DeltaEdown_chk(-1),
     m_grainFracBeta(0.),
     m_grainDist(0),
@@ -809,6 +800,38 @@ namespace mesmer
     }
   }
 
+  gWellProperties::~gWellProperties()
+  {
+    if (m_DeltaEdown_chk == 0){
+      cinfo << "m_DeltaEdown is provided but not used in " << m_host->getName() << "." << endl;
+    }
+    if (m_egme != NULL) delete m_egme ;
+    if (m_grainDist.size()) m_grainDist.clear();
+  }
+  
+  bool gWellProperties::initialization(){
+
+    // Specify the energy transfer probability model.
+
+    string strETPModeltxt = "ExponentialDown" ;
+    // const char* pETPModeltxt = ppReac->XmlReadValue("me:ETPModel") ;
+    const char* pETPModeltxt = strETPModeltxt.c_str() ;
+    if(!pETPModeltxt) {
+        cerr << "No energy transfer model specified for species" << m_host->getName() << endl;
+        return false;
+    } else {
+      m_pEnergyTransferModel = EnergyTransferModel::Find(pETPModeltxt);
+      if(!m_pEnergyTransferModel)
+      {
+        cerr << "Unknown energy transfer model" << pETPModeltxt << " for species" << m_host->getName() << endl;
+        return false;
+      }
+    } 
+    
+    return true ;
+
+  } ;
+
   double gWellProperties::get_collisionFrequency() const {
     return m_collisionFrequency ;
   } ;
@@ -829,7 +852,7 @@ namespace mesmer
     return int(grnZpe);
   }
 
-  double gWellProperties::getDeltaEdown()                    {
+  double gWellProperties::getDeltaEdown() {
     if (m_DeltaEdown_chk >= 0){
       ++m_DeltaEdown_chk;
       const double refTemp = getDeltaEdownRefTemp();
@@ -952,7 +975,13 @@ namespace mesmer
         }
       }
     }
-    if (m_host->getFlags().doBasisSetMethod) diagonalizeCollisionOperator();
+    
+    //
+    // For the basis set method diagonalize the collision operator to obtain
+    // the contracted basis set.
+    //
+    if (m_host->getFlags().doBasisSetMethod) 
+      diagonalizeCollisionOperator();
 
     return true;
   }
@@ -1249,6 +1278,8 @@ namespace mesmer
 
     double DEDown = getDeltaEdown();
     double alpha = 1.0/DEDown ;
+    
+    m_pEnergyTransferModel->ReadParameters(DEDown) ;
 
     // issue a warning message and exit if delta_E_down is smaller than grain size.
     if (DEDown < double(m_host->getEnv().GrainSize) && !m_host->getFlags().allowSmallerDEDown){
@@ -1292,8 +1323,7 @@ namespace mesmer
           (*m_egme)[j][i] = transferUp;
         }
       }
-    }
-    else{
+    } else {
       // The collision operator.
       for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
         double ei = gEne[i] ;
@@ -1302,12 +1332,12 @@ namespace mesmer
           double ej = gEne[j];
           double nj = gDOS[j];
           // Transfer to lower Energy -
-          double transferDown = exp(-alpha*(ej - ei)) ;
+          // double transferDown = exp(-alpha*(ej - ei)) ;
+          double transferDown = m_pEnergyTransferModel->calculateTransitionProbability(ej,ei) ;
           (*m_egme)[i][j] = transferDown;
 
           // Transfer to higher Energy (via detailed balance) -
-          double transferUp = exp(-alpha*(ej - ei)) * (nj/ni) * exp(-beta*(ej - ei)) ;
-          (*m_egme)[j][i] = transferUp;
+          (*m_egme)[j][i] = transferDown * (nj/ni) * exp(-beta*(ej - ei)) ;
         }
       }
     }

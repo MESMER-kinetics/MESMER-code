@@ -52,7 +52,7 @@ namespace mesmer
 
     virtual double calculateTransitionProbability(double Ei, double Ej) = 0 ;
 
-    virtual bool ReadParameters() = 0 ; 
+    virtual void ReadParameters(double) = 0 ; 
 
   private:
     // Returns a reference to the map of EnergyTransferModel classes

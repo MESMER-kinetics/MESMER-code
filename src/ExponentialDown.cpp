@@ -10,11 +10,13 @@ namespace mesmer
   //************************************************************
 
   double ExponentialDown::calculateTransitionProbability(double Ei, double Ej) {
-    return exp(-(Ei -Ej)/m_deltaEdown) ;
+    // return exp(-(Ei -Ej)/m_deltaEdown) ;
+    return exp(-m_alpha*(Ei -Ej)) ;
   }
 
-  bool ExponentialDown::ReadParameters() { 
-    return true ;
+  void ExponentialDown::ReadParameters(double deltaEdown) { 
+    m_deltaEdown =  deltaEdown;
+    m_alpha      =  1.0/deltaEdown;
   }
 
 }//namespace

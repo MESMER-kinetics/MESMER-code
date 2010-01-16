@@ -1,5 +1,9 @@
 
-2009-December-29 Struan Robertson
+2010-January-16 Struan Robertson
+
+	* MolecularComponents.h/.cpp: Initial changes to allow for specification of energy transfer model.
+
+2010-January-15 Struan Robertson
 
 	* MolecularComponents.h: Minor change to introduce a generic energy transfer model.
 

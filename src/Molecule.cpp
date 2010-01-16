@@ -198,14 +198,23 @@ namespace mesmer
       g_pop = new gPopulation(this);
     return *g_pop ;
   }
+  
   gWellProperties&        Molecule::getColl() {
-    if (!g_coll)
+    if (!g_coll) {
       g_coll = new gWellProperties(this);
-     return *g_coll;
+
+      if (!g_coll->initialization()) {
+        // Throw error
+      }
+    }
+
+    return *g_coll;
   }
+  
   gStructure&        Molecule::getStruc() {
     if (!g_struc)
       g_struc = new gStructure(this);
+
      return *g_struc;
   }
 

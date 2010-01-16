@@ -16,11 +16,12 @@ namespace mesmer
 
     virtual double calculateTransitionProbability(double Ei, double Ej);
 
-    virtual bool ReadParameters(); 
+    virtual void ReadParameters(double deltaEdown) ; 
 
   private:
 
     double m_deltaEdown ;
+    double m_alpha ;
 
   };
 }//namespace
