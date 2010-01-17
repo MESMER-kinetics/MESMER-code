@@ -315,6 +315,9 @@ namespace mesmer
     // Calculate collision operator.
     bool collisionOperator (double beta) ;
 
+    // Calculate raw transition matrix.
+    bool rawTransitionMatrix(double beta, vector<double> &gEne,  vector<double> &gDOS, dMatrix *egme) ;
+
     // Calculate collision operator with reservoir state.
     bool collisionOperatorWithReservoirState(double beta, int reducedCollOptrSize) ;
 

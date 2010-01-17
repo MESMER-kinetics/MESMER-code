@@ -1,4 +1,8 @@
 
+2010-January-17 Struan Robertson
+
+	* MolecularComponents.h/.cpp: Refactoring of collision operator initialization code.
+
 2010-January-16 Struan Robertson
 
 	* MolecularComponents.h/.cpp: Tidy-up wellproperties constructor.

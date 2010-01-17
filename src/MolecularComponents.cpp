@@ -1012,9 +1012,6 @@ namespace mesmer
       }
     }
 
-    // Initialize energy transfer model.
-    if (!m_pEnergyTransferModel->ReadParameters(this)) return false ;
-
     // Allocate memory.
     if (m_egme) delete m_egme ;                       // Delete any existing matrix.
     m_egme = new dMatrix(reducedCollOptrSize + nrg) ;
@@ -1023,45 +1020,8 @@ namespace mesmer
     //-------------------- The part doing the same jobs as making a whole collision operator ------------
     dMatrix* tempEGME = new dMatrix(m_ncolloptrsize);
 
-    // Use number of states to weigh the downward transition
-    if (m_host->getFlags().useDOSweightedDT){
-      // The collision operator.
-      for (int i(0) ; i < m_ncolloptrsize ; ++i ) {
-        double ei = gEne[i] ;
-        double ni = gDOS[i] ;
-        for (int j(i) ; j < m_ncolloptrsize ; ++j ) {
-          double ej = gEne[j];
-          double nj = gDOS[j];
-          // Transfer to lower Energy -
-          // double transferDown = exp(-alpha*(ej - ei)) * (ni/nj);
-          // (*m_egme)[i][j] = transferDown;
-          double transferDown = m_pEnergyTransferModel->calculateTransitionProbability(ej,ei) ;
-          (*tempEGME)[i][j] = transferDown * (ni/nj);
-
-          // Transfer to higher Energy (via detailed balance) -
-          // double transferUp = exp(-(alpha + beta)*(ej - ei));
-          // (*m_egme)[j][i] = transferUp;
-          (*tempEGME)[j][i] = transferDown * exp(-beta*(ej - ei));
-        }
-      }
-    }
-    else{
-      // The collision operator.
-      for (int i(0) ; i < m_ncolloptrsize ; ++i ) {
-        const double ei = gEne[i] ;
-        const double ni = gDOS[i] ;
-        for (int j(i); j < m_ncolloptrsize ; ++j ) {
-          const double ej = gEne[j];
-          const double nj = gDOS[j];
-          // Transfer to lower Energy -
-          double transferDown = m_pEnergyTransferModel->calculateTransitionProbability(ej,ei) ;
-          (*tempEGME)[i][j] = transferDown;
-
-          // Transfer to higher Energy (via detailed balance) -
-          (*tempEGME)[j][i] = transferDown * (nj/ni) * exp(-beta*(ej - ei)) ;
-        }
-      }
-    }
+    // Calculate raw transition matrix.
+    if (!rawTransitionMatrix(beta, gEne, gDOS, tempEGME)) return false ;
 
     if (m_host->getFlags().showCollisionOperator != 0){
       ctest << "\nCollision operator of " << m_host->getName() << " before normalization:\n";
@@ -1240,13 +1200,6 @@ namespace mesmer
     //   iii) Symmetrise Collision Matrix.
     //
 
-    // Initialize energy transfer model.
-    if (!m_pEnergyTransferModel->ReadParameters(this)) return false ;
-
-    // Allocate memory.
-    if (m_egme) delete m_egme ;                       // Delete any existing matrix.
-    m_egme = new dMatrix(m_ncolloptrsize) ;           // Collision operator matrix.
-
     vector<double> gEne;
     vector<double> gDOS;
     m_host->getDOS().getGrainEnergies(gEne);
@@ -1261,44 +1214,12 @@ namespace mesmer
       }
     }
 
-    // Use number of states to weight the downward transition
-    if (m_host->getFlags().useDOSweightedDT){
-      // The collision operator.
-      for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
-        double ei = gEne[i] ;
-        double ni = gDOS[i] ;
-        for ( j = i ; j < m_ncolloptrsize ; ++j ) {
-          double ej = gEne[j];
-          double nj = gDOS[j];
-          // Transfer to lower Energy -
-          // double transferDown = exp(-alpha*(ej - ei)) * (ni/nj);
-          // (*m_egme)[i][j] = transferDown;
-          double transferDown = m_pEnergyTransferModel->calculateTransitionProbability(ej,ei) ;
-          (*m_egme)[i][j] = transferDown * (ni/nj);
+    // Allocate memory.
+    if (m_egme) delete m_egme ;                       // Delete any existing matrix.
+    m_egme = new dMatrix(m_ncolloptrsize) ;           // Collision operator matrix.
 
-          // Transfer to higher Energy (via detailed balance) -
-          // double transferUp = exp(-(alpha + beta)*(ej - ei));
-          // (*m_egme)[j][i] = transferUp;
-          (*m_egme)[j][i] = transferDown * exp(-beta*(ej - ei));
-        }
-      }
-    } else {
-      // The collision operator.
-      for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
-        double ei = gEne[i] ;
-        double ni = gDOS[i] ;
-        for ( j = i ; j < m_ncolloptrsize ; ++j ) {
-          double ej = gEne[j];
-          double nj = gDOS[j];
-          // Transfer to lower Energy -
-          double transferDown = m_pEnergyTransferModel->calculateTransitionProbability(ej,ei) ;
-          (*m_egme)[i][j] = transferDown;
-
-          // Transfer to higher Energy (via detailed balance) -
-          (*m_egme)[j][i] = transferDown * (nj/ni) * exp(-beta*(ej - ei)) ;
-        }
-      }
-    }
+    // Calculate raw transition matrix.
+    if (!rawTransitionMatrix(beta, gEne, gDOS, m_egme)) return false ;
 
     if (m_host->getFlags().showCollisionOperator != 0){
       ctest << "\nCollision operator of " << m_host->getName() << " before normalization:\n";
@@ -1349,6 +1270,58 @@ namespace mesmer
     }
 
     return true;
+  }
+
+  //
+  // Calculate raw transition matrix.
+  //
+  bool gWellProperties::rawTransitionMatrix(double beta, vector<double> &gEne, vector<double> &gDOS, dMatrix *egme)
+  {
+ 
+    // Initialize energy transfer model.
+    if (!m_pEnergyTransferModel->ReadParameters(this)) return false ;
+
+    // Use number of states to weight the downward transition
+    if (m_host->getFlags().useDOSweightedDT){
+      // The collision operator.
+      for ( int i = 0 ; i < m_ncolloptrsize ; ++i ) {
+        double ei = gEne[i] ;
+        double ni = gDOS[i] ;
+        for ( int j = i ; j < m_ncolloptrsize ; ++j ) {
+          double ej = gEne[j];
+          double nj = gDOS[j];
+          // Transfer to lower Energy -
+          // double transferDown = exp(-alpha*(ej - ei)) * (ni/nj);
+          // (*m_egme)[i][j] = transferDown;
+          double transferDown = m_pEnergyTransferModel->calculateTransitionProbability(ej,ei) ;
+          (*egme)[i][j] = transferDown * (ni/nj);
+
+          // Transfer to higher Energy (via detailed balance) -
+          // double transferUp = exp(-(alpha + beta)*(ej - ei));
+          // (*m_egme)[j][i] = transferUp;
+          (*egme)[j][i] = transferDown * exp(-beta*(ej - ei));
+        }
+      }
+    } else {
+      // The collision operator.
+      for ( int i = 0 ; i < m_ncolloptrsize ; ++i ) {
+        double ei = gEne[i] ;
+        double ni = gDOS[i] ;
+        for ( int j = i ; j < m_ncolloptrsize ; ++j ) {
+          double ej = gEne[j];
+          double nj = gDOS[j];
+          // Transfer to lower Energy -
+          double transferDown = m_pEnergyTransferModel->calculateTransitionProbability(ej,ei) ;
+          (*egme)[i][j] = transferDown;
+
+          // Transfer to higher Energy (via detailed balance) -
+          (*egme)[j][i] = transferDown * (nj/ni) * exp(-beta*(ej - ei)) ;
+        }
+      }
+    }
+    
+    return true ;
+
   }
 
   //
