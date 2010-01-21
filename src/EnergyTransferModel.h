@@ -27,7 +27,7 @@ namespace mesmer
 {
   // Forward declarations:
   
-  class gWellProperties ;
+ class Molecule;
   
   class EnergyTransferModel
   {
@@ -35,25 +35,32 @@ namespace mesmer
     typedef std::map<std::string, EnergyTransferModel*> EnergyTransferModelMap;
 
     // Base class constructor adds the derived class instance to the map
-    EnergyTransferModel(const std::string& id) {
+    EnergyTransferModel(const std::string& id) : m_name(id),m_parent(NULL){
       get_Map()[id] = this;
-      m_name = id;
     }
 
     virtual ~EnergyTransferModel(){}
 
-    // Get a pointer to a derived class by providing its id.
+    virtual EnergyTransferModel* Clone() = 0;
+
+    // Get a pointer to a new instance of a derived class by providing its id.
+    // Returns NULL if not recognized.
     static EnergyTransferModel* Find(const std::string& id)
     {
       EnergyTransferModelMap::iterator pos = get_Map().find(id);
-      return (pos==get_Map().end()) ? NULL : pos->second;
+      if(pos==get_Map().end())
+        return NULL; 
+      return (pos->second)->Clone();
     } ;
-
-    virtual std::string getName() const {return m_name;} ;
 
     virtual double calculateTransitionProbability(double Ei, double Ej) = 0 ;
 
-    virtual bool ReadParameters(const gWellProperties* pgWellProperties) = 0 ; 
+    virtual bool ReadParameters(const Molecule* parent) = 0 ; 
+
+    std::string getName() const {return m_name;} ;
+    const Molecule* getParent() const {return m_parent;} ;
+    void setParent(const Molecule* parent) { m_parent = parent;} ;
+
 
   private:
     // Returns a reference to the map of EnergyTransferModel classes
@@ -65,7 +72,9 @@ namespace mesmer
       return m;
     }
 
-    std::string m_name;
+  private:
+    const std::string m_name;
+    const Molecule* m_parent;
   };
 
 }//namespace

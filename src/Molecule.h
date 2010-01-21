@@ -66,7 +66,7 @@ namespace mesmer
     // or if no description attribute and <molecule> has no child elements. Probably just a placeholder.
     virtual bool InitializeMolecule(PersistPtr pp);
 
-    PersistPtr  get_PersistentPointer();
+    PersistPtr  get_PersistentPointer() const;
 
     std::string getDescription() const;
     const MesmerEnv& getEnv() const { return m_Env; } ;

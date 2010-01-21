@@ -721,8 +721,6 @@ namespace mesmer
   // Constructor, destructor and initialization
   //
   gWellProperties::gWellProperties(Molecule* pMol) : MolecularComponent(),
-    m_ppPropList(NULL),
-    m_DeltaEdown(0.0),
     m_collisionFrequency(0.0),
     m_ncolloptrsize(0),
     m_lowestBarrier(9e23),
@@ -739,27 +737,6 @@ namespace mesmer
   {
     ErrorContext c(pMol->getName());
     m_host = pMol;
-    PersistPtr pp = m_host->get_PersistentPointer();
-    m_ppPropList = pp->XmlMoveTo("propertyList");
-    if(!m_ppPropList)
-      m_ppPropList=pp; //Be forgiving; we can get by without a propertyList element
-
-    const char* txt = m_ppPropList->XmlReadProperty("me:deltaEDown");
-
-    istringstream idata(txt);
-    double value(0.0);
-    idata >> value;
-    const char* pLowertxt = m_ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "lower", optional);
-    const char* pUppertxt = m_ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "upper", optional);
-    const char* pStepStxt = m_ppPropList->XmlReadPropertyAttribute("me:deltaEDown", "stepsize" ,optional);
-    if (pLowertxt && pUppertxt){
-      double valueL(0.0), valueU(0.0), stepsize(0.0);
-      stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
-      m_DeltaEdown.set_range(valueL, valueU, stepsize, "deltaEdown");
-      //Save PersistPtr of the XML source of this Rdouble
-      RangeXmlPtrs.push_back(m_ppPropList->XmlMoveToProperty("me:deltaEDown"));
-    }
-    setDeltaEdown(value);
 
   }
 
@@ -767,6 +744,7 @@ namespace mesmer
   {
     if (m_egme != NULL) delete m_egme ;
     if (m_grainDist.size()) m_grainDist.clear();
+    delete m_pEnergyTransferModel;
   }
   
   bool gWellProperties::initialization(){
@@ -793,25 +771,21 @@ namespace mesmer
     }
 
     // Specify the energy transfer probability model.
+    // The default value is specified in defaults.xml
+    const char* pETPModeltxt = pp->XmlReadValue("me:energyTransferModel") ;
+    if(!pETPModeltxt)
+      return false;
 
-    string strETPModeltxt = "ExponentialDown" ;
-    // const char* pETPModeltxt = pp->XmlReadValue("me:ETPModel") ;
-    const char* pETPModeltxt = strETPModeltxt.c_str() ;
-    if(!pETPModeltxt) {
-        cerr << "No energy transfer model specified for species" << m_host->getName() << endl;
-        return false;
-    } else {
-      m_pEnergyTransferModel = EnergyTransferModel::Find(pETPModeltxt);
-      if(!m_pEnergyTransferModel)
-      {
-        cerr << "Unknown energy transfer model" << pETPModeltxt << " for species" << m_host->getName() << endl;
-        return false;
-      }
-    } 
-    
-    return true ;
+    m_pEnergyTransferModel = EnergyTransferModel::Find(pETPModeltxt);//new instance, deleted in destructor
+    if(!m_pEnergyTransferModel)
+    {
+      cerr << "Unknown energy transfer model" << pETPModeltxt << " for species" << m_host->getName() << endl;
+      return false;
+    }
 
-  } ;
+    // Initialize energy transfer model.
+    return m_pEnergyTransferModel->ReadParameters(getHost());
+  }
 
   double gWellProperties::get_collisionFrequency() const {
     return m_collisionFrequency ;
@@ -1277,11 +1251,7 @@ namespace mesmer
   //
   bool gWellProperties::rawTransitionMatrix(double beta, vector<double> &gEne, vector<double> &gDOS, dMatrix *egme)
   {
- 
-    // Initialize energy transfer model.
-    if (!m_pEnergyTransferModel->ReadParameters(this)) return false ;
-
-    // Use number of states to weight the downward transition
+     // Use number of states to weight the downward transition
     if (m_host->getFlags().useDOSweightedDT){
       // The collision operator.
       for ( int i = 0 ; i < m_ncolloptrsize ; ++i ) {

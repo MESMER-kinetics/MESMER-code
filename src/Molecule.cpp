@@ -78,7 +78,7 @@ namespace mesmer
     return true;
   }
 
-  PersistPtr  Molecule::get_PersistentPointer()     {
+  PersistPtr  Molecule::get_PersistentPointer() const {
     return m_ppPersist;
   };
   std::string Molecule::getName() const            {
@@ -198,6 +198,7 @@ namespace mesmer
 
       if (!g_coll->initialization()) {
         // Throw error
+        cerr << "gWellProperties initialization failed." << endl;
       }
     }
 

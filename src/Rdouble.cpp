@@ -27,7 +27,8 @@ void Rdouble::set_range(const double valueL, const double valueU, const double v
 
   //Push on to the vector of Rdouble objects which have a range
   withRange().push_back(this);
-  value    = lower = valueL;
+  //value is NOT set
+  lower    = valueL; 
   upper    = valueU;
   stepsize = valueS;
   varname  = txt;

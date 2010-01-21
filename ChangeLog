@@ -1,3 +1,21 @@
+2010-January-21 Chris Morley
+
+	src/EnergyTransferModel.h,src/ExponentialDown.cpp,src/ExponentialDown.h,
+	src/MolecularComponents.cpp,src/MolecularComponents.h:
+	Plugin class derived from EnergyTransfer model now provide a new instance
+	from Find so that they can contain information specific to a molecule.
+	Move delta E down from gWellProperties to ExponentialDown. 
+	The plugin class carries a pointer to a Molecule - more meaningful 
+	than gWellProperties. Read data at parse time rather than when calculating.
+	Allow energy transfer model to be user-chosen, default in defaults.xml.
+	
+	NOTE: The QA does not verify, but probably just needs baselines updating.
+	I'll leave this until somebody knowlegeable can review the acceptability
+	of the errors.
+	
+	src/Rdouble.cpp(set_range): do not set value to lower 
+	
+	src/main.cpp: Version to 0.11 
 
 2010-January-17 Struan Robertson
 

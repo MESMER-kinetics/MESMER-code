@@ -45,5 +45,6 @@
   <me:calcMethod default="true">simpleCalc</me:calcMethod>
   <me:fittingTolerance default="true">0.01</me:fittingTolerance>
   <me:fittingIterations default="true">10</me:fittingIterations>
+  <me:energyTransferModel default="true">ExponentialDown</me:energyTransferModel>
 </defaults>
 

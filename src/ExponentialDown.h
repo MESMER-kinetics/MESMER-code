@@ -15,7 +15,7 @@
 // <delta_E_down>(T) = <delta_E_down>_ref * (T / m_DeltaEdownRefTemp)^n
 //
 //-------------------------------------------------------------------------------------------
-
+#include "Rdouble.h"
 #include "EnergyTransferModel.h"
 namespace mesmer
 {
@@ -24,18 +24,22 @@ namespace mesmer
   public:
 
     ///Constructor which registers with the list of energy transfer models in the base class
-    ExponentialDown(const std::string& id) : EnergyTransferModel(id) {}
+    ExponentialDown(const std::string& id) : EnergyTransferModel(id),
+      m_deltaEdown(0.0), m_refTemp(298), m_dEdExp(0.0) {}
 
     virtual ~ExponentialDown() {}
 
+    virtual ExponentialDown* Clone();
+
     virtual double calculateTransitionProbability(double Ei, double Ej);
 
-    virtual bool ReadParameters(const gWellProperties* pgWellProperties) ; 
+    virtual bool ReadParameters(const Molecule* parent) ; 
 
   private:
 
-    double m_deltaEdown ;
-    double m_alpha ;
+    Rdouble m_deltaEdown ;
+    double m_refTemp;
+    double m_dEdExp ;
 
   };
 }//namespace

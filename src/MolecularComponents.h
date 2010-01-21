@@ -290,9 +290,6 @@ namespace mesmer
 
   private:
 
-    PersistPtr          m_ppPropList ;         // Location of properties for this species
-    
-    Rdouble             m_DeltaEdown ;         // <Delta E down> for the exponential down model.
     double              m_collisionFrequency ; // Current value of collision frequency.
     int                 m_ncolloptrsize ;      // Size of the collision operator matrix.
     double              m_lowestBarrier;       // lowest barrier associatied with this species
@@ -329,9 +326,6 @@ namespace mesmer
     // Get Grain Boltzmann distribution.
     void grainDistribution(vector<double> &grainFrac, const int numberOfGrains);
 
-    // DeltaEdown operators
-    void setDeltaEdown(const double value){ m_DeltaEdown = value; };
-    
   public:
 
     //
@@ -359,8 +353,6 @@ namespace mesmer
 
     // Accessors.
     
-    const PersistPtr get_MolProp() const { return m_ppPropList ; } ; // Molecular properties for this species
-    
     double get_collisionFrequency() const ;
 
     void set_colloptrsize(int ncolloptrsize) ;
@@ -379,8 +371,6 @@ namespace mesmer
     const bool isCemetery(){return m_isCemetery;}
     const std::vector<double>& get_GrainKdmc(void){return m_GrainKdmc;}
 
-    // DeltaEdown operators
-    double getDeltaEdown() const { return m_DeltaEdown; }
   };
 
 

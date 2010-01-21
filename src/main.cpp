@@ -359,7 +359,7 @@ void usage()
 string version()
 {
   stringstream ss;
-  ss << "Mesmer " << "v0.1" << " compiled: -- "  << __DATE__ << " -- " << __TIME__ << endl;
+  ss << "Mesmer " << "v0.11" << " compiled: -- "  << __DATE__ << " -- " << __TIME__ << endl;
   return ss.str();
 }
 
