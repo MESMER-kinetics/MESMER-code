@@ -1,3 +1,8 @@
+
+2010-January-23 Struan Robertson
+
+	* Update of QA baselines following changes to exponetial down class.
+
 2010-January-21 Chris Morley
 
 	src/EnergyTransferModel.h,src/ExponentialDown.cpp,src/ExponentialDown.h,

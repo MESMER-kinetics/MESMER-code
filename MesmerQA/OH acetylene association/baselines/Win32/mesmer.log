@@ -7,6 +7,7 @@ In OH: The default value of me:frequenciesScaleFactor was used.
 In acetylene: The default value of me:frequenciesScaleFactor was used.
 In OH_acetylene_adduct: The default value of me:frequenciesScaleFactor was used.
 In OH_acetylene_adduct: The default value of me:DistributionCalcMethod was used.
+In OH_acetylene_adduct: The default value of me:energyTransferModel was used.
 In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method was found for R1
 In R1: No crossing method was found for R1
@@ -43,15 +44,12 @@ Association ILT calculation completed
 20 values in the FFT convolution routine were replaced by standard convolution
 Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
 In mesmer::ReactionManager::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
-In OH: No value of me:deltaEDown was supplied and the default value NEEDS TO BE CHECKED**
-In OH: The default value of me:DistributionCalcMethod was used.
 
 1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 49 seconds.
- -- Total time elapsed: 86 seconds.
+Finish Calculation -- Time elapsed: 4 seconds.
+ -- Total time elapsed: 5 seconds.
 
 System saved to out.xml
 m_Sym is provided but not used in OCHCH2.
 m_ZPE is provided but not used in OCHCH2.
 m_SpinMultiplicity is provided but not used in OCHCH2.
-m_DeltaEdown is provided but not used in OH.
