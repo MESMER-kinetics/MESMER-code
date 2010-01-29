@@ -183,7 +183,7 @@ namespace mesmer
       int ii(pdtRxnOptPos + i) ;
       int kk (i - adductPopFracShift);
       //(*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[j] / pdtDOS[i]);                                // Loss of the adduct to the source
-      (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[j] / pdtDOS[i]);// Reactive gain of the source
+      (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[j] * adductPopFrac[kk] * Keq / pdtDOS[i]);// Reactive gain of the source
       (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] / Keq;                                                      // Reactive gain (symmetrization)
       //DissRateCoeff       += qd_real(m_GrainFlux[j] * adductPopFrac[kk] / pdtDOS[i]);
     }

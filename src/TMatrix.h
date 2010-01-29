@@ -899,14 +899,20 @@ label_1: return(p);
     for (int i = 0; i < optrsize; ++i){
       for (int j = 0; j < optrsize; ++j){
         if (m2[i][j] == 0.0){
-          if(m1[i][j] == 0.0) {continue;}
-          else{isconvergent = false; break;}
+          if(m1[i][j] == 0.0) 
+          {
+            continue;
+          }
+          else{
+            isconvergent = false;
+            break;
+          }
         }
         double before(m2[i][j]);
         double after(m1[i][j]);
         double dif(abs(m1[i][j] - m2[i][j]));
         double div(dif/m2[i][j]);
-        if (div > 0.01){
+        if (div > 0.01 && dif > 1e-60){
           isconvergent = false; break;
         }
       }

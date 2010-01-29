@@ -1,3 +1,7 @@
+_2010_01_29__11_11_12_ Chi-Hsiu Liang
+
+  * Corrected the source term population for time independent model.
+
 _2010_01_15__20_34_45_ Chi-Hsiu Liang
 
   * Final checkin. Not very sure about the source term transition probabilities. 

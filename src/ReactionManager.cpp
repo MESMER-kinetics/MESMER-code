@@ -372,7 +372,7 @@ namespace mesmer
       if (!mFlags.doBasisSetMethod) {
 
         if (mFlags.timeIndependent){// Time independent yields operator
-          constructTimeIndependentGrainMatrix(msize, csize);
+          constructTimeIndependentGrainMatrix(msize, csize, mFlags);
         }
         else{// Full energy grained reaction operator.
           constructGrainMatrix(msize);
@@ -840,6 +840,9 @@ namespace mesmer
     for (size_t i(0) ; i < size() ; ++i) {
       int sinkPos(0); string sinkName;
       if (m_reactions[i]->getSinkInformation(sinkPos, sinkName)){
+        sinkName += " (";
+        sinkName += m_reactions[i]->get_reactant()->getName();
+        sinkName += ")";
         sinkLocs.push_back(sinkPos);
         sinkNames.push_back(sinkName);
       }
@@ -861,6 +864,9 @@ namespace mesmer
       }
     }
 
+    vector<int> ignoreLocs(sinkLocs);
+    for (size_t i(0); i < reservoirLocs.size(); ++i) ignoreLocs.push_back(reservoirLocs[i]);
+
     dMatrix transOptr(smsize);
     for ( int i = 0 ; i < smsize ; ++i )
       for ( int j = 0 ; j < smsize ; ++j )
@@ -869,11 +875,14 @@ namespace mesmer
     // produce a convergent set of transition operator to represent the transition in time infinity.
     bool tConvergent(false);
     int m2n(1);
-    while (!tConvergent && m2n < 1e5){
+    while (!tConvergent && m2n < 1e7){
+      if (m2n == 2048){
+        m2n = m2n;
+      }
       tConvergent = transOptr.square();
       m2n *= 2;
       transOptr.normalizeColumns();
-      transOptr.trimMatrix(sinkLocs);
+      transOptr.trimMatrix(ignoreLocs);
       transOptr.normalizeColumns();
       if (mFlags.showTimeIndependentMatrices){
         ctest << "\nreaction operator: " << m2n << "orders." << endl;
@@ -905,15 +914,14 @@ namespace mesmer
     }
 
     ctest << "Yields:\n{\n";
-    for (int i(0); i < sinkLocs.size(); ++i){
+    for (size_t i(0); i < sinkLocs.size(); ++i){
       ctest << sinkNames[i] << " = " << vYields[sinkLocs[i]] << endl;
     }
 
-    if (!tConvergent){
-      for (int i(0); i < reservoirLocs.size(); ++i){
-        ctest << "Reservoir: " << reservoirNames[i] << " = " << vYields[reservoirLocs[i]] << endl;
-      }
+    for (size_t i(0); i < reservoirLocs.size(); ++i){
+      ctest << "Reservoir: " << reservoirNames[i] << " = " << vYields[reservoirLocs[i]] << endl;
     }
+
     ctest << "}\n";
 
     return true;
@@ -1743,7 +1751,7 @@ namespace mesmer
 
   // This method constructs a transition matrix based on energy grains for time independent solution
   //
-  void ReactionManager::constructTimeIndependentGrainMatrix(int msize, int csize){
+  void ReactionManager::constructTimeIndependentGrainMatrix(int msize, int csize, const MesmerFlags& mFlags){
 
     // Determine the size and location of various blocks.
     // 2. Pseudoisomers.
@@ -1786,8 +1794,10 @@ namespace mesmer
 
     m_reactionOperator->normalizeColumns();
 
-    ctest << "\nAssymetrized reaction operator befor normalization: " << endl;
-    m_reactionOperator->showFinalBits(0, true);
+    if (mFlags.showTimeIndependentMatrices){
+      ctest << "\nAssymetrized reaction operator after normalization: " << endl;
+      m_reactionOperator->showFinalBits(0, true);
+    }
   }
 
   // This is a routine to construct the big basis matrix based on the alternative basis set method.

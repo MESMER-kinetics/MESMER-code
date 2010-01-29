@@ -392,6 +392,7 @@ namespace mesmer
         }
         //Analyse the yields
         m_pReactionManager->timeIndependentSolution(m_Flags, ppPopList);
+        ctest << "}\n";
       }
       else{
         if (!m_pReactionManager->calculateEquilibriumFractions(m_Env.beta))
