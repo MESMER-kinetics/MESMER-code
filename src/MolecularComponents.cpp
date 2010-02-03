@@ -1140,31 +1140,33 @@ namespace mesmer
       // If running time independent solution, upward activation is required for reservoir state but not for cemetery state
       // However, this might not matter too much as in most cases the reactivation from reservoir state is close to zero.
       if (m_host->getFlags().timeIndependent){
-        (*m_egme)[0][0] = 1.0;
-        if (!m_host->isCemetery()){
-          // calculate the upward transitions from the reservoir state using detailed balance.
-          vector<double> popDist; // grained population distribution
-          const double firstPop = exp(log(gDOS[0]) - beta * gEne[0] + 10.0);
-          popDist.push_back(firstPop);
-          for (int idx(1); idx < m_ncolloptrsize; ++idx){
-            if (idx < m_numGroupedGrains){
-              popDist[0] += exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0);
-            }
-            else{
-              popDist.push_back(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0));
-            }
+        (*m_egme)[0][0] = m_host->isCemetery() ? 1.0 : 0.0;
+        // calculate the upward transitions from the reservoir state using detailed balance.
+
+        vector<double> popDist; // grained population distribution
+        const double firstPop = exp(log(gDOS[0]) - beta * gEne[0] + 10.0);
+        popDist.push_back(firstPop);
+        for (int idx(1); idx < m_ncolloptrsize; ++idx){
+          if (idx < m_numGroupedGrains){
+            popDist[0] += exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0);
           }
-          
-          for (int j(1) ; j < reducedCollOptrSize + 1; ++j ){
-            (*m_egme)[j][0] = popDist[j]/popDist[0] * (*m_egme)[0][j];
-          }
-          double sumOfColumn(0.0);
-          for (int j(0) ; j < reducedCollOptrSize + 1; ++j ) sumOfColumn += (*m_egme)[j][0];
-          for (int j(0) ; j < reducedCollOptrSize + 1; ++j ){
-            (*m_egme)[j][0] /= sumOfColumn;
+          else{
+            popDist.push_back(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0));
           }
         }
 
+        // Fill in the numbers for upward transitions.
+        for (int j(1) ; j < reducedCollOptrSize + 1; ++j ){
+          (*m_egme)[j][0] = popDist[j]/popDist[0] * (*m_egme)[0][j];
+        }
+
+        // remove the diagonal terms except the cemetery state if there is one.
+        for (int j(1) ; j < reducedCollOptrSize + 1; ++j ){
+          (*m_egme)[j][j] = 0.0;
+        }
+
+        //Normalisation
+        m_egme->normalizeProbabilityMatrix();
       }
 
       if (!m_host->getFlags().timeIndependent){

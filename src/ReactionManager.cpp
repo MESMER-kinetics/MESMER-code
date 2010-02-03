@@ -828,6 +828,11 @@ namespace mesmer
 
   bool ReactionManager::timeIndependentSolution(MesmerFlags& mFlags, PersistPtr ppPopList)
   {
+    // Reference of this methodology: Stochastic simulation of chemically activated unimolecular reactions
+    // J. Chem. Phys. 106, 6564 (1997); doi:10.1063/1.473656
+    // Author: Luc Vereecken, Guido Huyberechts, and Jozef Peeters
+    // Department of Chemistry, University of Leuven, Celestijnenlaan 200 F, B-3001 Leuven, Belgium
+
     ErrorContext c(__FUNCTION__);
     int smsize = int(m_reactionOperator->size());
 
