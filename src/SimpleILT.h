@@ -15,6 +15,7 @@ namespace mesmer
     SimpleILT(const std::string& id) : MicroRateCalculator(id){}
 
     virtual ~SimpleILT() {}
+    virtual SimpleILT* Clone() { return new SimpleILT(*this); }
 
   virtual bool calculateMicroRateCoeffs(Reaction* pReact);
 

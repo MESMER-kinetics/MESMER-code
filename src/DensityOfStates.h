@@ -8,7 +8,9 @@
 
 namespace mesmer
 {
+  class Molecule;
   class gDensityOfStates;
+
   /** Abstract base class for cell Density Of States (DOS) calculators for energy grained master equation (EGME).
   The derived concrete classes are plugin classes:
   -- New classes can be added without changing any of the existing code.
@@ -24,16 +26,23 @@ namespace mesmer
     ///Base class constructor adds the derived class instance to the map
     DensityOfStatesCalculator(const std::string& id, bool isExtra){ get_Map(isExtra)[id] = this; }
 
+    virtual ~DensityOfStatesCalculator(){};
+    virtual DensityOfStatesCalculator* Clone()=0;
+
     //Get a pointer to a derived class by providing its id.
     static DensityOfStatesCalculator* Find(const std::string& id, bool extraType=false)
     {
       DensityOfStatesMap::iterator pos = get_Map(extraType).find(id);
-      return (pos==get_Map(extraType).end()) ? NULL : pos->second;
+      if(pos==get_Map(extraType).end())
+        return NULL; 
+      return (pos->second)->Clone();
     }
 
+    //Read any data from XML and store in this instance. Default is do nothing.
+    virtual bool ReadParameters(Molecule* pMol, PersistPtr ppDOSC=NULL){ return true; };
+
     // provide a function to define particular counts of the DOS of a molecule
-    virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell,
-        PersistPtr ppDOSC = NULL)=0;
+    virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell)=0;
 
   private:
     /// Returns a reference to the map of DensityOfStatesCalculator classes
@@ -45,6 +54,7 @@ namespace mesmer
       static DensityOfStatesMap mextra;
       return extra ? mextra : m;
     }
+
   };
 
 }//namespace

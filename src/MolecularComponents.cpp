@@ -102,6 +102,11 @@ namespace mesmer
     if (m_cellDOS.size()) m_cellDOS.clear();
     if (m_VibFreq.size()) m_VibFreq.clear();
     if (m_eleExc.size()) m_eleExc.clear();
+
+    //Delete the density of state calculators because they are cloned instances
+    delete m_pDOSCalculator;
+    for(unsigned i=0; i<m_ExtraDOSCalculators.size(); ++i)
+      delete m_ExtraDOSCalculators[i];
   }
 
   gDensityOfStates::gDensityOfStates(Molecule* pMol)
@@ -126,11 +131,15 @@ namespace mesmer
   {
     m_host = pMol;
     ErrorContext c(pMol->getName());
+
+    //Read main and extra method and their data
+    ReadDOSMethods();
+
     PersistPtr pp = pMol->get_PersistentPointer();
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
-      ppPropList=pp; //Be forgiving; we can get by without a propertyList element
+      ppPropList=pp; //a propertyList element is not essential
 
     const char* txt;
 
@@ -279,6 +288,51 @@ namespace mesmer
     return true;
   }
 
+  bool gDensityOfStates::ReadDOSMethods()
+  {
+    /* Two types of DOSCMethod:
+       main methods like ClassicalRotors, which can be standalone;
+       extra methods like hindered rotor, which must correct for replaced vibrations.
+       Currently both are plugin classes derived from DensityOfStatesCalculator, but with
+       separate lists, so an error is flagged if the wrong type is used,
+    */
+    ErrorContext c(getHost()->getName());
+    PersistPtr pp = getHost()->get_PersistentPointer();
+    string dosMethod(pp->XmlReadValue("me:DOSCMethod"));
+    m_pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod);
+
+    string msg = m_pDOSCalculator ? "" : "was unknown";
+    if(m_pDOSCalculator)
+    {
+      while(pp = pp->XmlMoveTo("me:ExtraDOSCMethod"))
+      {
+        dosMethod.clear();
+        const char* name;
+        if( (name = pp->XmlRead()) || (name = pp->XmlReadValue("name", optional)))
+          dosMethod = name;
+        DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod, true);
+        if(!pDOSCalculator)
+        {
+          msg = "was unknown";
+          break;
+        }
+        m_ExtraDOSCalculators.push_back(pDOSCalculator);
+        if(!pDOSCalculator->ReadParameters(getHost(), pp))
+        {
+          msg = "failed to initialize correctly";
+          break;
+        }
+      }
+    }
+    if(!msg.empty())
+    {
+      cerr << "The method, " << dosMethod << 
+        ", for the calculation of Density of States " <<msg << endl;
+      return false;
+    }
+    return true;
+  }
+
   //
   // Get Electronic excitations
   //
@@ -333,38 +387,13 @@ namespace mesmer
     if (sizeOfVector && vectorSizeConstant && !recalc)
       return true;
 
-    /* Two types of DOSCMethod:
-         main methods like ClassicalRotors, can be standalone;
-         extra methods like hindered rotor, which must correct for replaced vibrations.
-       Currently both are plugin classes derived from DensityOfStatesCalculator, but with
-       separate lists, so an error is flagged if the wrong type is used,
-    */
-    ErrorContext c(m_host->getName());
-    PersistPtr pp = m_host->get_PersistentPointer();
-    string dosMethod(pp->XmlReadValue("me:DOSCMethod"));
-    DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod);
-    bool ret=false;
-    if(pDOSCalculator)
-    {
-      ret = pDOSCalculator->countCellDOS(this, MaximumCell);
-      while(ret && (pp = pp->XmlMoveTo("me:ExtraDOSCMethod")))
-      {
-        dosMethod.clear();
-        const char* name;
-        if( (name = pp->XmlRead()) || (name = pp->XmlReadValue("name", optional)))
-          dosMethod = name;
-        pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod, true);
-        if(!pDOSCalculator)
-          break;
-        ret = pDOSCalculator->countCellDOS(this, MaximumCell, pp  );
-      }
-    }
-    if(!ret || !pDOSCalculator)
-    {
-      cerr << "The method, " << dosMethod << ", for the calculation of Density of States was unknown or failed; check spelling." << endl;
-      return false; //XML file would otherwise have false info: one method specified and another used.
-    }
-
+    //Call Main DOSCalculator method
+    bool ret = m_pDOSCalculator->countCellDOS(this, MaximumCell);
+    //Call all extra methods, which correct main method
+    for(unsigned i=0; ret && i<m_ExtraDOSCalculators.size(); ++i)
+      ret = ret && m_ExtraDOSCalculators[i]->countCellDOS(this, MaximumCell);
+    if(!ret)
+      return false;
     //-------------------------------------------------------------
 
     std::vector<double> shiftedCellDOS;

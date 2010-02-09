@@ -12,7 +12,7 @@ namespace mesmer
   /** Abstract base class for Microcanonical rate calculators
   The derived concrete classes are plugin classes:
   -- New classes can be added without changing any of the existing code.
-  They have a single global instance, the constructor of which registers
+  A new instance is made for each use, the constructor of which registers
   the class with the base class. Subsequently, a pointer to the class is
   obtained by supplying the id (a string) to the Find function.
   **/
@@ -28,12 +28,15 @@ namespace mesmer
     }
 
     virtual ~MicroRateCalculator(){}
+    virtual MicroRateCalculator* Clone() = 0;
 
     //Get a pointer to a derived class by providing its id.
     static MicroRateCalculator* Find(const std::string& id)
     {
       MicroRateMap::iterator pos = get_Map().find(id);
-      return (pos==get_Map().end()) ? NULL : pos->second;
+      if(pos==get_Map().end())
+        return NULL; 
+      return (pos->second)->Clone();
     }
 
     virtual std::string getName();
@@ -42,7 +45,7 @@ namespace mesmer
 
     virtual bool testMicroRateCoeffs(Reaction* pReact, PersistPtr ppbase) const;
   
-    virtual bool ReadParameters(Reaction* pReac); //Used bu MesmerILT and SimpleILT
+    virtual bool ReadParameters(Reaction* pReac); //Used by MesmerILT and SimpleILT
 
   private:
     /// Returns a reference to the map of MicroRateCalculator classes

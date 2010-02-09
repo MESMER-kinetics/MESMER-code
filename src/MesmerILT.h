@@ -13,6 +13,7 @@ namespace mesmer
     MesmerILT(const std::string& id) : MicroRateCalculator(id) {}
 
     virtual ~MesmerILT() {}
+    virtual MesmerILT* Clone() { return new MesmerILT(*this); }
 
     virtual bool calculateMicroRateCoeffs(Reaction* pReact) ;
 

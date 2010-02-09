@@ -1,3 +1,16 @@
+2010-Febuary-09 Chris Morley
+
+	* src/MicroRate.h,src/MesmerILT.h,src/SimpleILT.h,src/SimpleRRKM.h
+	Rework MicroRateCalculator classes to have cloned instances. Read
+	the XML data by the class at parse time although rate data is still
+	stored (for the time being) in Reaction.
+
+	* src/DensityOfStates.h,src/ClassicalRotor.cpp,src/ClassicalRotor.h,
+	src/HinderedRotorA.cpp,src/HinderedRotorA.h,src/QMRotor.cpp,src/QMRotor.h
+	Similarly for DensityOfStatesCalculator classes.
+
+	* src/MolecularComponents.cpp,src/MolecularComponents.h:
+	Apply the above.
 
 2010-January-23 Struan Robertson
 

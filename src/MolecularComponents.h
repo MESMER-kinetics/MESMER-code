@@ -80,6 +80,8 @@ namespace mesmer
     //-------------------------------------------------------------------------------------------------
 
   private:
+    DensityOfStatesCalculator*              m_pDOSCalculator; //main density of states calculator
+    std::vector<DensityOfStatesCalculator*> m_ExtraDOSCalculators;
 
     double m_RotCstA ;          // Moment of inertia A.
     double m_RotCstB ;          // Moment of inertia B.
@@ -125,6 +127,8 @@ namespace mesmer
   public:
     gDensityOfStates(Molecule* pMol);
     virtual ~gDensityOfStates();
+
+    bool ReadDOSMethods();
 
     // Get cell density of states. No recalculation if bcalc==false.
     bool getCellDensityOfStates(std::vector<double> &cellDOS, int startingCell = 0, bool bcalc=true) ;
@@ -265,6 +269,8 @@ namespace mesmer
     double m_initPopulation ;   // initial population of the molecule.
     double m_initCemPop;        // initial cemetery population. (for species profile)
     double m_eqFraction ;       // equilibrium fraction of the species
+    DensityOfStatesCalculator* m_pDOSCalculator;
+    vector<DensityOfStatesCalculator*> m_ExtraDOSCalculators;
 
   public:
 
@@ -305,6 +311,9 @@ namespace mesmer
     dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
     dMatrix             *m_egvec ;             // Eigenvectors used to diagonalize (P - I) matrix.
     std::vector<double>  m_egval;
+
+    //Read main and extra method and their data
+    bool ReadDOSMethods();
 
     // Calculate collision frequency.
     double collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule) ;
