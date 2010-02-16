@@ -1,3 +1,13 @@
+2010-Febuary-16 Chris Morley
+
+	Moved derived plugin classes from src to src/plugins. The abstract
+	base class header file remains in src.
+	
+	Provided extra commenting in EnergyTransferModel.h and ExponentialDown.cpp
+	as a tutorial for writing plugin classes. Combined ExponentialDown.cpp
+	with its header file to make this easier (and also for nefarious
+	idealogical reasons).
+
 2010-Febuary-09 Chris Morley
 
 	* src/MicroRate.h,src/MesmerILT.h,src/SimpleILT.h,src/SimpleRRKM.h

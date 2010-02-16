@@ -14,9 +14,8 @@ namespace mesmer
   /** Abstract base class for cell Density Of States (DOS) calculators for energy grained master equation (EGME).
   The derived concrete classes are plugin classes:
   -- New classes can be added without changing any of the existing code.
-  They have a single global instance, the constructor of which registers
-  the class with the base class. Subsequently, a pointer to the class is
-  obtained by supplying the id (a string) to the Find function.
+  The constructor of a global instance registers the class with the base class.
+  Subsequently, supplying the id (a string) to the Find function returns a pointer to a new instance.
   **/
   class DensityOfStatesCalculator
   {
@@ -44,7 +43,14 @@ namespace mesmer
     // provide a function to define particular counts of the DOS of a molecule
     virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell)=0;
 
+    std::string getName() const {return m_name;} ;
+    const Molecule* getParent() const {return m_parent;} ;
+    void setParent(const Molecule* parent) { m_parent = parent;} ;
+
   private:
+    const std::string m_name;
+    const Molecule* m_parent;
+
     /// Returns a reference to the map of DensityOfStatesCalculator classes
     /// Is a function rather than a static member variable to avoid initialization problems.
     ///There are different maps for main (e.g. ClassicalRotors)and extra (e.g. HinderedRotorA) classes: 
