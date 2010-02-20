@@ -43,7 +43,7 @@
 				AdditionalOptions="/D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE"
 				Optimization="0"
 				EnableIntrinsicFunctions="false"
-				AdditionalIncludeDirectories="&quot;..\..\src;..\..\tinyxml;..\..\qd\include&quot;"
+				AdditionalIncludeDirectories="../../src/plugins;../../src;../../tinyxml;../../qd/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -120,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../src;../../tinyxml;../../qd/include"
+				AdditionalIncludeDirectories="../../src/plugins;../../src;../../tinyxml;../../qd/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
