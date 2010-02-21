@@ -290,6 +290,9 @@
     <!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
     <!--<me:maxTemperature>3000</me:maxTemperature>-->
     <me:energyAboveTheTopHill>100.</me:energyAboveTheTopHill>
+    <me:runBasisSetMethodroutines>
+      <me:numberBasisFunctions>2</me:numberBasisFunctions>
+    </me:runBasisSetMethodroutines>
   </me:modelParameters>
 
   <me:control>
@@ -301,7 +304,6 @@
     <!--<me:printReactionOperatorColumnSums />-->
     <!--<me:printCollisionOperatorLevel>1</me:printCollisionOperatorLevel>-->
     <!--<me:useDOSweighedDownWardTransition />-->
-    <me:runBasisSetMethodroutines />
     <!--<me:printGrainkfE />-->
     <!--<me:printGrainBoltzmann />-->
     <!--<me:printGrainkbE />-->

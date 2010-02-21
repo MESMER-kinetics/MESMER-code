@@ -31,7 +31,6 @@ namespace mesmer{
     print_TabbedMatrices(true),
     showCollisionOperator(0),
     useDOSweightedDT(false),
-    doBasisSetMethod(false),
     punchSymbols(),
     punchNumbers(),
     punchFileName(),

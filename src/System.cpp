@@ -46,10 +46,20 @@ namespace mesmer
     PersistPtr ppParams = ppIOPtr->XmlMoveTo("me:modelParameters");
     if(ppParams)
     {
-      m_Env.GrainSize = ppParams->XmlReadInteger("me:grainSize");
+      m_Env.GrainSize          = ppParams->XmlReadInteger("me:grainSize");
 
       m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
-      m_Env.EAboveHill = ppParams->XmlReadDouble("me:energyAboveTheTopHill");
+      m_Env.EAboveHill         = ppParams->XmlReadDouble("me:energyAboveTheTopHill");
+      m_Env.useBasisSetMethod  = ppParams->XmlReadBoolean("me:runBasisSetMethodroutines");
+      if (m_Env.useBasisSetMethod) {
+        PersistPtr ppBasisSet = ppParams->XmlMoveTo("me:runBasisSetMethodroutines");
+        if(ppBasisSet) {
+          m_Env.nBasisSet = ppBasisSet->XmlReadInteger("me:numberBasisFunctions");
+        } else {
+          cerr << "Basis set method requested but number of basis functions unspecified.";
+          return false;
+        }
+      }
     }
     cinfo.flush();
 
@@ -165,7 +175,6 @@ namespace mesmer
       m_Flags.allowSmallerDEDown          = ppControl->XmlReadBoolean("me:allowSmallerDeltaEDown");
       m_Flags.print_TabbedMatrices        = ppControl->XmlReadBoolean("me:printTabbedMatrices");
       m_Flags.useDOSweightedDT             = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
-      m_Flags.doBasisSetMethod            = ppControl->XmlReadBoolean("me:runBasisSetMethodroutines");
       if (!m_Flags.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
         m_Flags.useTheSameCellNumber = true;
       }
@@ -388,9 +397,9 @@ namespace mesmer
       //-------------------------------
 
       // This is where the collision operator being diagonalised.
-      m_pReactionManager->diagReactionOperator(m_Flags, precision, ppAnalysis) ;
+      m_pReactionManager->diagReactionOperator(m_Flags, m_Env, precision, ppAnalysis) ;
 
-      if (!m_Flags.doBasisSetMethod) {
+      if (!m_Env.useBasisSetMethod) {
 
         PersistPtr ppPopList;
         if(m_Flags.speciesProfileEnabled)

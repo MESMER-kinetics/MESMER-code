@@ -1,6 +1,10 @@
 
 2010-February-21 Struan Robertson
 
+	* src/MolecularComponents.cpp,.h and System.cpp: More minor changes to related to the basis set method.
+
+2010-February-21 Struan Robertson
+
 	* src/MolecularComponents.cpp,.h: Minor changes to related to the basis set method.
 
 2010-Febuary-16 Chris Morley

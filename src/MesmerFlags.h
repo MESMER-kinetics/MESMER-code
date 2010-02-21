@@ -45,7 +45,6 @@ namespace mesmer
                                           // 1: after normalization, 2: after deducting with I
                                           // 0 or anything else: before normalization
     bool useDOSweightedDT;                 // Use number of states to weigh the downward transition in collisionOperator()
-    bool doBasisSetMethod;                // Run basis set method related routines.
     std::string punchSymbols;             // a string holds the symbols of rates.
     std::string punchNumbers;
     std::string punchFileName;

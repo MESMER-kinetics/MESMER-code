@@ -368,7 +368,7 @@ namespace mesmer
       // set is generated from the individual collision operators and a
       // representation of the reaction operator build upon this basis.
 
-      if (!mFlags.doBasisSetMethod) {
+      if (!mEnv.useBasisSetMethod) {
 
         // Full energy grained reaction operator.
 
@@ -446,7 +446,7 @@ namespace mesmer
     }
   }
 
-  void ReactionManager::diagReactionOperator(const MesmerFlags &mFlags, const int precision, PersistPtr ppAnalysis)
+  void ReactionManager::diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv, const int precision, PersistPtr ppAnalysis)
   {
     // Allocate space for eigenvalues.
     const size_t smsize = m_reactionOperator->size() ;
@@ -524,7 +524,7 @@ namespace mesmer
     ctest << "\nTotal number of eigenvalues = " << smsize << endl;
     ctest << "Eigenvalues\n{\n";
     for (size_t i = numberStarted ; i < smsize; ++i) {
-      qd_real tmp = (mFlags.doBasisSetMethod)? m_eigenvalues[i] : m_eigenvalues[i] * m_meanOmega ;
+      qd_real tmp = (mEnv.useBasisSetMethod)? m_eigenvalues[i] : m_eigenvalues[i] * m_meanOmega ;
       formatFloat(ctest, tmp, 6, 15) ;
       ctest << endl ;
       ppEigenList->XmlWriteValueElement("me:eigenvalue", to_double(tmp), 6);

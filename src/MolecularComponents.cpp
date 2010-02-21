@@ -951,7 +951,7 @@ namespace mesmer
     // For the basis set method diagonalize the collision operator to obtain
     // the contracted basis set.
     //
-    if (m_host->getFlags().doBasisSetMethod) 
+    if (m_host->getEnv().useBasisSetMethod) 
       diagonalizeCollisionOperator();
 
     return true;
@@ -1444,7 +1444,7 @@ namespace mesmer
   {
     // Check that the contracted basis method has been specifed.
 
-    if (!m_host->getFlags().doBasisSetMethod)
+    if (!m_host->getEnv().useBasisSetMethod)
       throw (std::runtime_error("Error: Contracted basis representation not requested."));
 
     // Find size of system matrix.
@@ -1569,9 +1569,9 @@ namespace mesmer
   }
 
   //
-  // Accessor for number of basis functins to be used in contracted basis set method.
+  // Accessor for number of basis functions to be used in contracted basis set method.
   //
-  size_t gWellProperties::get_nbasis() const { return 2 ; } ;
+  size_t gWellProperties::get_nbasis() const { return m_host->getEnv().nBasisSet ; }
 
 
   gStructure::gStructure(mesmer::Molecule *pMol) : m_MolecularWeight(-1)
