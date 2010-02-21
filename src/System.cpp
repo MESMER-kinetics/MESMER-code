@@ -145,7 +145,7 @@ namespace mesmer
       m_Flags.microRateEnabled            = ppControl->XmlReadBoolean("me:testMicroRates");
       m_Flags.grainBoltzmannEnabled       = ppControl->XmlReadBoolean("me:printGrainBoltzmann");
       m_Flags.grainDOSEnabled             = ppControl->XmlReadBoolean("me:printGrainDOS");
-			m_Flags.grainTSsosEnabled           = ppControl->XmlReadBoolean("me:printTSsos");
+      m_Flags.grainTSsosEnabled           = ppControl->XmlReadBoolean("me:printTSsos");
       m_Flags.cellDOSEnabled              = ppControl->XmlReadBoolean("me:printCellDOS");
       m_Flags.reactionOCSEnabled          = ppControl->XmlReadBoolean("me:printReactionOperatorColumnSums");
       m_Flags.kfEGrainsEnabled            = ppControl->XmlReadBoolean("me:printGrainkfE");
@@ -155,7 +155,7 @@ namespace mesmer
       if (!m_Flags.TunnellingCoeffEnabled)
         m_Flags.TunnellingCoeffEnabled    = ppControl->XmlReadBoolean("me:printTunnelingCoefficients");
       m_Flags.CrossingCoeffEnabled        = ppControl->XmlReadBoolean("me:printCrossingCoefficients");
-	  m_Flags.cellFluxEnabled             = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
+      m_Flags.cellFluxEnabled             = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
       m_Flags.grainFluxEnabled            = ppControl->XmlReadBoolean("me:printGrainTransitionStateFlux");
       m_Flags.rateCoefficientsOnly        = ppControl->XmlReadBoolean("me:calculateRateCoefficientsOnly");
       m_Flags.useTheSameCellNumber        = ppControl->XmlReadBoolean("me:useTheSameCellNumberForAllConditions");
@@ -173,7 +173,7 @@ namespace mesmer
       // System configuration information
       if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();
 
-       m_CalcMethod = CalcMethod::GetCalcMethod(ppControl);
+      m_CalcMethod = CalcMethod::GetCalcMethod(ppControl);
 
       //if (m_Flags.grainedProfileEnabled && (m_Flags.speciesProfileEnabled)){
       //  cinfo << "Turn off grained species profile to prevent disk flooding." << endl;
@@ -339,7 +339,7 @@ namespace mesmer
     //XML output
     //Considered putting this output under each PT pair in me:conditions.
     //But doesn't work with a range of Ps or Ts. So has to have its own section.
-    
+
     //There will usually be an <analysis> section for every calculate()
     //When fitting set m_Flags.overwriteXmlAnalysis true
     string comment = m_Flags.overwriteXmlAnalysis ?
@@ -390,30 +390,32 @@ namespace mesmer
       // This is where the collision operator being diagonalised.
       m_pReactionManager->diagReactionOperator(m_Flags, precision, ppAnalysis) ;
 
-      if (m_Flags.doBasisSetMethod) return true;
- 
-      PersistPtr ppPopList;
-      if(m_Flags.speciesProfileEnabled)
-      {
-        ppPopList  = ppAnalysis->XmlWriteElement("me:populationList");
-        ppPopList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
-        ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
-      }
-        // Time steps loop
-      m_pReactionManager->timeEvolution(m_Flags, ppPopList); //shortened if speciesProfileEnabled==false
+      if (!m_Flags.doBasisSetMethod) {
 
-      PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
-      ppList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
-      ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
-      ppList->XmlWriteAttribute("me:units", "s-1");
-      qdMatrix mesmerRates(1);
-      m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates, m_Flags, ppList);
+        PersistPtr ppPopList;
+        if(m_Flags.speciesProfileEnabled)
+        {
+          ppPopList  = ppAnalysis->XmlWriteElement("me:populationList");
+          ppPopList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
+          ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
+        }
+        // Time steps loop
+        m_pReactionManager->timeEvolution(m_Flags, ppPopList); //shortened if speciesProfileEnabled==false
+
+        PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
+        ppList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
+        ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
+        ppList->XmlWriteAttribute("me:units", "s-1");
+        qdMatrix mesmerRates(1);
+        m_pReactionManager->BartisWidomPhenomenologicalRates(mesmerRates, m_Flags, ppList);
 
         vector<conditionSet> expRates;
         PandTs[calPoint].get_experimentalRates(expRates);
         chiSquare += calcChiSquare(mesmerRates, expRates);
 
-      ctest << "}\n";
+        ctest << "}\n";
+
+      }
     }
     //---------------------------------------------
 

@@ -11,6 +11,17 @@
         <atom id="a3" elementType="C"/>
         <atom id="a4" elementType="C"/>
         <atom id="a5" elementType="C"/>
+        <atom id="a6" elementType="H"/>
+        <atom id="a7" elementType="H"/>
+        <atom id="a8" elementType="H"/>
+        <atom id="a9" elementType="H"/>
+        <atom id="a10" elementType="H"/>
+        <atom id="a11" elementType="H"/>
+        <atom id="a12" elementType="H"/>
+        <atom id="a13" elementType="H"/>
+        <atom id="a14" elementType="H"/>
+        <atom id="a15" elementType="H"/>
+        <atom id="a16" elementType="H"/>
       </atomArray>
       <bondArray>
         <bond atomRefs2="a1 a2" order="1"/>
@@ -33,8 +44,8 @@
             3141.95 3034.04 3001.20 2998.59 2966.71 2946.43 2932.42 2914.61 2911.95 2902.81
             2855.02 1451.18 1444.25 1438.67 1429.42 1419.77 1412.88 1355.84 1348.58 1305.15
             1274.01 1255.27 1221.53 1187.11 1127.08 1063.72 1057.18 1035.47  994.26  913.53
-            879.26  833.96  744.69  701.15  434.79  384.85  367.80  238.27  170.27  146.11
-            115.47   98.17
+             879.26  833.96  744.69  701.15  434.79  384.85  367.80  238.27  170.27  146.11
+             115.47   98.17
           </array>
         </property>
         <property dictRef="me:MW">
@@ -62,6 +73,17 @@
         <atom id="a3" elementType="C"/>
         <atom id="a4" elementType="C"/>
         <atom id="a5" elementType="C"/>
+        <atom id="a6" elementType="H"/>
+        <atom id="a7" elementType="H"/>
+        <atom id="a8" elementType="H"/>
+        <atom id="a9" elementType="H"/>
+        <atom id="a10" elementType="H"/>
+        <atom id="a11" elementType="H"/>
+        <atom id="a12" elementType="H"/>
+        <atom id="a13" elementType="H"/>
+        <atom id="a14" elementType="H"/>
+        <atom id="a15" elementType="H"/>
+        <atom id="a16" elementType="H"/>
       </atomArray>
       <bondArray>
         <bond atomRefs2="a1 a2" order="1"/>
@@ -153,6 +175,17 @@
         <atom id="a3" elementType="C"/>
         <atom id="a4" elementType="C"/>
         <atom id="a5" elementType="C"/>
+        <atom id="a6" elementType="H"/>
+        <atom id="a7" elementType="H"/>
+        <atom id="a8" elementType="H"/>
+        <atom id="a9" elementType="H"/>
+        <atom id="a10" elementType="H"/>
+        <atom id="a11" elementType="H"/>
+        <atom id="a12" elementType="H"/>
+        <atom id="a13" elementType="H"/>
+        <atom id="a14" elementType="H"/>
+        <atom id="a15" elementType="H"/>
+        <atom id="a16" elementType="H"/>
       </atomArray>
       <bondArray>
         <bond atomRefs2="a1 a2" order="1"/>
@@ -242,7 +275,13 @@
   <me:conditions>
     <me:bathGas>Ar</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="Torr" me:P="1.0e2" me:T="800" />
+      <me:PTpair me:units="Torr" me:P="1.0e-4" me:T="800" />
+      <me:PTpair me:units="Torr" me:P="1.0e-3" me:T="800" />
+      <me:PTpair me:units="Torr" me:P="1.0e-2" me:T="800" />
+      <me:PTpair me:units="Torr" me:P="1.0e-1" me:T="800" />
+      <me:PTpair me:units="Torr" me:P="1.0"    me:T="800" />
+      <me:PTpair me:units="Torr" me:P="1.0e1"  me:T="800" />
+      <me:PTpair me:units="Torr" me:P="1.0e2"  me:T="800" />
     </me:PTs>
   </me:conditions>
 
@@ -256,16 +295,16 @@
   <me:control>
     <me:testDOS />
     <me:testMicroRates />
-    <me:printGrainDOS />
+    <!--<me:printGrainDOS />-->
     <me:testRateConstants />
     <!--<me:printCellDOS />-->
     <!--<me:printReactionOperatorColumnSums />-->
-    <me:printCollisionOperatorLevel>1</me:printCollisionOperatorLevel>
-    <me:useDOSweighedDownWardTransition />
+    <!--<me:printCollisionOperatorLevel>1</me:printCollisionOperatorLevel>-->
+    <!--<me:useDOSweighedDownWardTransition />-->
     <me:runBasisSetMethodroutines />
-    <me:printGrainkfE />
+    <!--<me:printGrainkfE />-->
     <!--<me:printGrainBoltzmann />-->
-    <me:printGrainkbE />
+    <!--<me:printGrainkbE />-->
     <me:printSpeciesProfile />
     <me:printTabbedMatrices />
     <me:eigenvalues>0</me:eigenvalues>

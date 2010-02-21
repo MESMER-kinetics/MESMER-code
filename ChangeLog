@@ -1,3 +1,8 @@
+
+2010-February-21 Struan Robertson
+
+	* src/MolecularComponents.cpp,.h: Minor changes to related to the basis set method.
+
 2010-Febuary-16 Chris Morley
 
 	Moved derived plugin classes from src to src/plugins. The abstract

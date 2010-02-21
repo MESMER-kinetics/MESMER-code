@@ -291,10 +291,10 @@ namespace mesmer
   bool gDensityOfStates::ReadDOSMethods()
   {
     /* Two types of DOSCMethod:
-       main methods like ClassicalRotors, which can be standalone;
-       extra methods like hindered rotor, which must correct for replaced vibrations.
-       Currently both are plugin classes derived from DensityOfStatesCalculator, but with
-       separate lists, so an error is flagged if the wrong type is used,
+    main methods like ClassicalRotors, which can be standalone;
+    extra methods like hindered rotor, which must correct for replaced vibrations.
+    Currently both are plugin classes derived from DensityOfStatesCalculator, but with
+    separate lists, so an error is flagged if the wrong type is used,
     */
     ErrorContext c(getHost()->getName());
     PersistPtr pp = getHost()->get_PersistentPointer();
@@ -757,7 +757,7 @@ namespace mesmer
     m_isCemetery(false),
     m_GrainKdmc(NULL),
     m_pDistributionCalculator(NULL),
-	  m_pEnergyTransferModel(NULL),
+    m_pEnergyTransferModel(NULL),
     m_grainFracBeta(0.),
     m_grainDist(0),
     m_egme(NULL),
@@ -775,7 +775,7 @@ namespace mesmer
     if (m_grainDist.size()) m_grainDist.clear();
     delete m_pEnergyTransferModel;
   }
-  
+
   bool gWellProperties::initialization(){
 
     // Determine the method of DOS calculation.
@@ -913,7 +913,7 @@ namespace mesmer
           }
         }
         ctest << "The " << typeOfWell << " is set to " << grainLoc << " grains, which is about " << grainLoc * m_host->getEnv().GrainSize
-              << " cm-1 from the well bottom." << endl;
+          << " cm-1 from the well bottom." << endl;
 
         // Second find out the partition fraction of active states in the current temperature
         double popAbove(0.0), totalPartition(0.0);
@@ -928,8 +928,8 @@ namespace mesmer
 
         m_numGroupedGrains = grainLoc;
         ctest << popAbove << " of the " << m_host->getName() << " population is in the active states. "
-              << "The " << typeOfWell << " size = " << m_numGroupedGrains * m_host->getEnv().GrainSize
-              << " cm-1, which is " << m_numGroupedGrains * m_host->getEnv().GrainSize / 83.593 << " kJ/mol." << endl;
+          << "The " << typeOfWell << " size = " << m_numGroupedGrains * m_host->getEnv().GrainSize
+          << " cm-1, which is " << m_numGroupedGrains * m_host->getEnv().GrainSize / 83.593 << " kJ/mol." << endl;
         break;
       }
 
@@ -946,7 +946,7 @@ namespace mesmer
         }
       }
     }
-    
+
     //
     // For the basis set method diagonalize the collision operator to obtain
     // the contracted basis set.
@@ -977,16 +977,19 @@ namespace mesmer
 
     m_egvec->diagonalize(&m_egval[0]) ;
 
-    ctest << "\nEigenvectors of: " << m_host->getName() << endl;
-    m_egvec->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+    bool reportBasisSetDetails(false) ;
+    if (reportBasisSetDetails) {
+      ctest << "\nEigenvectors of: " << m_host->getName() << endl;
+      m_egvec->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
 
-    // The eigenvalues in this series should contain a zero eigenvalue (lambda_0) which addresses the conserveness
-    // of the system, the second smallest eigenvalue in magnitude is lamda_1.
-    ctest << "\nEigenvalues of: " << m_host->getName() << "\n{\n";
-    for(int i(0); i < m_ncolloptrsize; ++i){
-      ctest << m_egval[i] << endl;
+      // The eigenvalues in this series should contain a zero eigenvalue as 
+      // energy transfer operators are conservative.
+      ctest << "\nEigenvalues of: " << m_host->getName() << "\n{\n";
+      for(int i(0); i < m_ncolloptrsize; ++i){
+        ctest << m_egval[i] << endl;
+      }
+      ctest << "}\n";
     }
-    ctest << "}\n";
   }
 
   //
@@ -1280,7 +1283,7 @@ namespace mesmer
   //
   bool gWellProperties::rawTransitionMatrix(double beta, vector<double> &gEne, vector<double> &gDOS, dMatrix *egme)
   {
-     // Use number of states to weight the downward transition
+    // Use number of states to weight the downward transition
     if (m_host->getFlags().useDOSweightedDT){
       // The collision operator.
       for ( int i = 0 ; i < m_ncolloptrsize ; ++i ) {
@@ -1318,7 +1321,7 @@ namespace mesmer
         }
       }
     }
-    
+
     return true ;
 
   }
@@ -1564,6 +1567,12 @@ namespace mesmer
     grainFrac = tempGrnFrac;
 
   }
+
+  //
+  // Accessor for number of basis functins to be used in contracted basis set method.
+  //
+  size_t gWellProperties::get_nbasis() const { return 2 ; } ;
+
 
   gStructure::gStructure(mesmer::Molecule *pMol) : m_MolecularWeight(-1)
   {

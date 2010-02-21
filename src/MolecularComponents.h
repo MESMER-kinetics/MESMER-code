@@ -303,8 +303,8 @@ namespace mesmer
     bool                m_isCemetery;          // Whether this is a cemetery state.
     std::vector<double> m_GrainKdmc;           // downward grained microcanonical rate coefficients to cemetery state.
 
-	  DistributionCalculator* m_pDistributionCalculator;
-	  EnergyTransferModel* m_pEnergyTransferModel ; 
+    DistributionCalculator* m_pDistributionCalculator;
+    EnergyTransferModel* m_pEnergyTransferModel ; 
 
     double m_grainFracBeta;                    // beta used to calculate grain distribution fraction
     std::vector<double> m_grainDist ;          // Grain distribution (not normalized)
@@ -349,7 +349,7 @@ namespace mesmer
 
     // Calculate a reaction matrix element.
     qd_real matrixElement(int eigveci, int eigvecj, std::vector<double> &k) const;
-    
+
     // Accessor a collision operator eigenvector.
     void eigenVector(int eigveci, std::vector<double> &evec) const ;
 
@@ -361,13 +361,13 @@ namespace mesmer
     void normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int numberOfGrains, const int numberOfGroupedGrains = 0);
 
     // Accessors.
-    
+
     double get_collisionFrequency() const ;
 
     void set_colloptrsize(int ncolloptrsize) ;
     int  get_colloptrsize() const ;
 
-		size_t  get_nbasis() const { return 10 ; } ;
+    size_t get_nbasis() const ;
 
     const int get_grnZPE();
 
