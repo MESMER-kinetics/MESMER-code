@@ -1166,7 +1166,7 @@ namespace mesmer
         }
 
         //Normalisation
-        m_egme->normalizeProbabilityMatrix();
+        m_egme->normalizeColumns();
       }
 
       if (!m_host->getFlags().timeIndependent){

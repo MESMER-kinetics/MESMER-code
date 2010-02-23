@@ -940,14 +940,9 @@ label_1: return(p);
 
     vector<T> sumOther(optrsize, 0.0);
     for (int i = 0; i < optrsize; ++i){
-      bool unused(false);
-      for (size_t ig(0); ig < ignoreRows.size(); ++ig){
-        if (i == ignoreRows[ig]){
-          unused = true;
-          break;
-        }
-      }
-      if (unused) continue;
+      bool ignored(false);
+      ignored = find(sumOther.begin(), sumOther.end(), i) != sumOther.end() ? true : false;
+      if (ignored) continue;
       for (int j = 0; j < optrsize; ++j){
         sumOther[j] += this->m_matrix[i][j];
       }
@@ -956,14 +951,14 @@ label_1: return(p);
     for (int j = 0; j < optrsize; ++j){
       if (sumOther[j] != 0.0 && sumOther[j] < 1e-10){
         for (int i = 0; i < optrsize; ++i){
-          bool unused(false);
+          bool ignored(false);
           for (size_t ig(0); ig < ignoreRows.size(); ++ig){
             if (i == ignoreRows[ig]){
-              unused = true;
+              ignored = true;
               break;
             }
           }
-          if (!unused){ // set these numbers to zero
+          if (!ignored){ // set these numbers to zero
             this->m_matrix[i][j] = 0.0;
           }
         }
