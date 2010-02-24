@@ -870,7 +870,7 @@ namespace mesmer
     }
 
     vector<int> ignoreLocs(sinkLocs);
-    for (size_t i(0); i < reservoirLocs.size(); ++i) ignoreLocs.push_back(reservoirLocs[i]);
+    //for (size_t i(0); i < reservoirLocs.size(); ++i) ignoreLocs.push_back(reservoirLocs[i]);
 
     dMatrix transOptr(smsize);
     for ( int i = 0 ; i < smsize ; ++i )
@@ -880,8 +880,8 @@ namespace mesmer
     // produce a convergent set of transition operator to represent the transition in time infinity.
     bool tConvergent(false);
     int m2n(1);
-    while (!tConvergent && m2n < 1e7){
-      if (m2n == 2048){
+    while (!tConvergent && m2n < 1e17){
+      if (m2n >= 1e8){
         m2n = m2n;
       }
       tConvergent = transOptr.square();
