@@ -1156,8 +1156,10 @@ namespace mesmer
         }
 
         // Fill in the numbers for upward transitions.
-        for (int j(1) ; j < reducedCollOptrSize + 1; ++j ){
-          (*m_egme)[j][0] = popDist[j]/popDist[0] * (*m_egme)[0][j];
+        if (!m_host->isCemetery()){
+          for (int j(1) ; j < reducedCollOptrSize + 1; ++j ){
+            (*m_egme)[j][0] = popDist[j]/popDist[0] * (*m_egme)[0][j];
+          }
         }
 
         // remove the diagonal terms except the cemetery state if there is one.

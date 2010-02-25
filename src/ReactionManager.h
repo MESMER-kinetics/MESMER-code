@@ -99,7 +99,7 @@ namespace mesmer
     void constructGrainMatrix(int msize);
     
     // TConstructs a transition matrix based on energy grains for time independent solution
-    void constructTimeIndependentGrainMatrix(int msize, int csize, const MesmerFlags& mFlags);
+    void constructTimeIndependentGrainMatrix(int msize, const MesmerFlags& mFlags);
 
     // Construct a transition matrix based on collision operator eigenfunctions.
     void constructBasisMatrix(void);

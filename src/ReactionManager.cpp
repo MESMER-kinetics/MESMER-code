@@ -372,7 +372,7 @@ namespace mesmer
       if (!mFlags.doBasisSetMethod) {
 
         if (mFlags.timeIndependent){// Time independent yields operator
-          constructTimeIndependentGrainMatrix(msize, csize, mFlags);
+          constructTimeIndependentGrainMatrix(msize, mFlags);
         }
         else{// Full energy grained reaction operator.
           constructGrainMatrix(msize);
@@ -870,7 +870,7 @@ namespace mesmer
     }
 
     vector<int> ignoreLocs(sinkLocs);
-    //for (size_t i(0); i < reservoirLocs.size(); ++i) ignoreLocs.push_back(reservoirLocs[i]);
+    for (size_t i(0); i < reservoirLocs.size(); ++i) ignoreLocs.push_back(reservoirLocs[i]);
 
     dMatrix transOptr(smsize);
     for ( int i = 0 ; i < smsize ; ++i )
@@ -880,10 +880,10 @@ namespace mesmer
     // produce a convergent set of transition operator to represent the transition in time infinity.
     bool tConvergent(false);
     int m2n(1);
-    while (!tConvergent && m2n < 1e17){
-      if (m2n >= 1e8){
-        m2n = m2n;
-      }
+    while (!tConvergent && m2n < 1e20){
+      //if (m2n >= 1e8){
+      //  m2n = m2n;
+      //}
       tConvergent = transOptr.square();
       m2n *= 2;
       transOptr.normalizeColumns();
@@ -1756,7 +1756,7 @@ namespace mesmer
 
   // This method constructs a transition matrix based on energy grains for time independent solution
   //
-  void ReactionManager::constructTimeIndependentGrainMatrix(int msize, int csize, const MesmerFlags& mFlags){
+  void ReactionManager::constructTimeIndependentGrainMatrix(int msize, const MesmerFlags& mFlags){
 
     // Determine the size and location of various blocks.
     // 2. Pseudoisomers.
@@ -1768,14 +1768,14 @@ namespace mesmer
     }
 
     int ssize(0);
-    int sinkposition(msize + csize);
+    int sinkposition(msize);
     for (size_t i(0) ; i < size() ; ++i) {
       if (m_reactions[i]->updateSinkPos(sinkposition)) {++ssize; ++sinkposition;}
     }
 
     // Allocate space for the full system collision operator.
     if (m_reactionOperator) delete m_reactionOperator;
-    m_reactionOperator = new qdMatrix(msize+csize+ssize, 0.0) ;
+    m_reactionOperator = new qdMatrix(msize+ssize, 0.0) ;
 
     // Insert collision operators to reaction operator from individual wells.
     Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
