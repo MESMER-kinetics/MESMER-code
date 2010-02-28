@@ -67,7 +67,7 @@ namespace mesmer
     // or dissociation direction and then invoke the appropriate algorithm.
     //
     double relative_ZPE(0.0) ;
-    if (pReact->isReverseReactionILT_Ea()){
+    if (m_isRvsILTpara){
 
       vector<Molecule *> products ; 
       int numberOfProducts = pReact->get_products(products) ;
@@ -100,7 +100,7 @@ namespace mesmer
       relative_ZPE = pReact->get_relative_rctZPE() ;
 
     }
-    pReact->setCellFluxBottom(relative_ZPE + pReact->get_EInf());
+    pReact->setCellFluxBottom(relative_ZPE + m_EInf);
 
     cinfo << "Unimolecular ILT calculation completed" << endl;
     return true;
@@ -135,7 +135,7 @@ namespace mesmer
     BimolecularConvolution(pReact, rctsCellDOS, ma, mb, mc) ;
 
     // the flux bottom energy is equal to the well bottom of the reactant
-    pAssocReaction->setCellFluxBottom(pReact->get_relative_rctZPE() + pReact->get_EInf());
+    pAssocReaction->setCellFluxBottom(pReact->get_relative_rctZPE() + m_EInf);
 
     cinfo << "Association ILT calculation completed" << endl;
 
@@ -147,9 +147,9 @@ namespace mesmer
     //
     // Obtain Arrhenius parameters. Note constraint: Ninf >= 0.0
     //
-    const double Ninf = pReact->get_NInf(); 
-    const double Tinf = pReact->get_TInf();
-    const double Ainf = pReact->get_PreExp();
+    const double Ninf = m_NInf ;     
+    const double Tinf = m_TInf ;
+    const double Ainf = m_PreExp ;
 
     Molecule* p_rct = pReact->get_reactant();
     int MaximumCell = pReact->getEnv().MaxCell;
@@ -201,9 +201,9 @@ namespace mesmer
     //
     // Obtain Arrhenius parameters. Note constraint: Ninf > -1.5
     //
-    const double Ninf = pReact->get_NInf(); 
-    const double Tinf = pReact->get_TInf();
-    const double Ainf = pReact->get_PreExp();
+    const double Ninf = m_NInf ; 
+    const double Tinf = m_TInf ;
+    const double Ainf = m_PreExp ;
 
     //
     // Initialize reaction flux vector.

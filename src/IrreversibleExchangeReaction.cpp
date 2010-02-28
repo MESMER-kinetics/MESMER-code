@@ -340,7 +340,7 @@ namespace mesmer
     int rct_en = get_rctsGrnZPE();
     //This function uses product properties, although the reaction is irreversible
     //This is only appropriate for reverse ILT.
-    if(!isReverseReactionILT_Ea())
+    if(!m_pMicroRateCalculator->isReverseReactionILT_Ea())
     {
       set_EffGrnFwdThreshold(TS_en-rct_en);
       return;
@@ -355,7 +355,7 @@ namespace mesmer
   }
   void IrreversibleExchangeReaction::calcFluxFirstNonZeroIdx(void) {
   //Use base class function(which references product properties) only with reverse ILT
-  if(isReverseReactionILT_Ea())
+  if(m_pMicroRateCalculator->isReverseReactionILT_Ea())
     Reaction::calcFluxFirstNonZeroIdx();
   else
     m_GrnFluxFirstNonZeroIdx = 0;

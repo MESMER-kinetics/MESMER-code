@@ -3,6 +3,7 @@
 
 #include <map>
 #include "XMLPersist.h"
+#include "Rdouble.h"
 
 namespace mesmer
 {
@@ -22,12 +23,19 @@ namespace mesmer
     typedef std::map<std::string, MicroRateCalculator*> MicroRateMap;
 
     ///Base class constructor adds the derived class instance to the map
-    MicroRateCalculator(const std::string& id) {
+    MicroRateCalculator(const std::string& id) :
+      m_PreExp(0.0),
+      m_NInf(0.0),
+      m_TInf(298.0),
+      m_EInf(0.0),
+      m_usesILT(false), 
+      m_isRvsILTpara(false)
+    {
       get_Map()[id] = this;
       name = id;
     }
 
-    virtual ~MicroRateCalculator(){}
+    virtual ~MicroRateCalculator() {}
     virtual MicroRateCalculator* Clone() = 0;
 
     //Get a pointer to a derived class by providing its id.
@@ -46,6 +54,10 @@ namespace mesmer
     virtual bool testMicroRateCoeffs(Reaction* pReact, PersistPtr ppbase) const;
   
     virtual bool ReadParameters(Reaction* pReac); //Used by MesmerILT and SimpleILT
+    
+    virtual double get_ThresholdEnergy(Reaction* pReac) ;
+    
+    bool isReverseReactionILT_Ea() {return m_isRvsILTpara;}
 
   private:
     /// Returns a reference to the map of MicroRateCalculator classes
@@ -57,6 +69,17 @@ namespace mesmer
     }
 
     std::string name;
+    
+ protected:   
+
+    // All the parameters that follow are for an arrhenius expression of the type:
+    // k(T) = Ainf*(T/Tinf)^ninf * exp(-Einf/(RT))
+    Rdouble m_PreExp ;           // Preexponetial factor
+    Rdouble m_NInf ;             // Modified Arrhenius parameter
+    double  m_TInf ;             // T infinity
+    Rdouble m_EInf ;             // E infinity
+    bool    m_usesILT;
+    bool    m_isRvsILTpara;      // The ILT parameters provided are for reverse direction.
   };
 
 }//namespace

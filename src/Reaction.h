@@ -15,7 +15,6 @@
 #include "MoleculeManager.h"
 #include "Tunneling.h"
 #include "Crossing.h"
-#include "Rdouble.h"
 
 namespace mesmer
 {
@@ -29,7 +28,6 @@ namespace mesmer
     UNDEFINED_REACTION
   };
 
-  class Rdouble;
   class Reaction
   {
   public:
@@ -61,15 +59,7 @@ namespace mesmer
     PersistPtr get_PersistentPointer()const { return m_ppPersist; }
 
     const std::string& getName() const    { return m_Name ; }
-    double get_PreExp()                   { return m_PreExp ; }
-    void set_PreExp(double value)         { m_PreExp = value;}
-    double get_NInf()                     { return m_NInf; } 
-    void set_NInf(double value)           { m_NInf = value;}
-    double get_TInf()                     { return m_TInf ; }
-    void set_TInf(double value)           { m_TInf = value;}
-    double get_EInf()                     { return m_EInf; }
-    void set_EInf(double value)           { m_EInf = value;}
-    void set_revILT(bool rev)             { m_isRvsILTpara = rev; }
+
     double getHeatOfReaction() const      {
       const double pdtZPE = get_relative_pdtZPE();
       const double rctZPE = get_relative_rctZPE();
@@ -90,7 +80,7 @@ namespace mesmer
     virtual double get_relative_TSZPE(void) const = 0;
 
     // Get threshold energy
-    virtual double get_ThresholdEnergy(void);
+    virtual double get_ThresholdEnergy(void) {return m_pMicroRateCalculator->get_ThresholdEnergy(this) ; };
     /* This function should be considered as a function to get Einf.
     In ILT, not the theoretical threshold energy but the experimental Einf is used.
     This function returns user defined m_EInf, otherwise zero.
@@ -126,9 +116,6 @@ namespace mesmer
     void calculateCellCrossingCoeffs(std::vector<double>& CrossingProbability) {m_pCrossingCalculator->calculateCellCrossingCoeffs(this, CrossingProbability); } ;
 
     // End Spin Forbidden Crossing interface
-
-    void setUsesILT(bool b=true){ m_usesILT=b;}
-    bool usesILT(){ return m_usesILT; }
 
     // calculate flux in grains
     void fluxCellToGrain(const std::vector<double>& shiftedCellFlux);
@@ -211,9 +198,6 @@ namespace mesmer
       { return 0.0; }//for irreversible reactions
     virtual double rctsRovibronicGrnCanPrtnFn() = 0;
 
-    // Check if the activation energy provided for ILT is for reverse direction
-    bool isReverseReactionILT_Ea() {return m_isRvsILTpara;}
-    
     // For reactions involving a source update pseudoisomer map.
     virtual void updateSourceMap(molMapType& sourcemap) { /* For reactions without source terms this is a NULL operation. */} ;
 
@@ -267,8 +251,6 @@ namespace mesmer
 
   private:
 
-    //   Reaction();
-
     // Copy constructor.
     //   Reaction(const Reaction& reaction) ;
 
@@ -281,9 +263,6 @@ namespace mesmer
     // Read excess reactant concentration
     bool ReadExcessReactantConcentration(PersistPtr ppReac);
 
-    // Read ILT parameters now in  MicroRateCalculator class
-   // bool ReadILTParameters(PersistPtr ppReac);
-    
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs() = 0;
 
@@ -299,15 +278,7 @@ namespace mesmer
     MesmerFlags& m_Flags;
     std::string m_Name ;        // Reaction name.
 
-    bool reCalcDOS;             // re-calculation on DOS
-    // all the parameters that follow are for an arrhenius expression of the type:
-    // k(T) = Ainf*(T/Tinf)^ninf * exp(-Einf/(RT))
-    Rdouble m_PreExp ;           // Preexponetial factor
-    Rdouble m_NInf ;             // Modified Arrhenius parameter
-    double m_TInf ;             // T infinity
-    Rdouble m_EInf ;             // E infinity
-    bool   m_usesILT;
-    bool   m_isRvsILTpara;      // The ILT parameters provided are for reverse direction.
+    bool   reCalcDOS;           // re-calculation on DOS
     double m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
 
 protected: //previously private but needed in IrreversibleUnimolecularReaction::calcFluxFirstNonZeroIdx(void)

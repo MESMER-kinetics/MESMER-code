@@ -38,7 +38,7 @@ namespace mesmer
     // Obtain the Arrhenius parameters.
 
     const int nEinf = int(pReact->get_ThresholdEnergy()) ;  //<-- SHR: This should be activation energy NOT threshold energy!!
-    const double preExp = pReact->get_PreExp();
+    const double preExp = m_PreExp ;
 
     // Calculate microcanonical rate coefficients using simple ILT expression.
 

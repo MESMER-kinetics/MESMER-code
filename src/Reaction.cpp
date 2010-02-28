@@ -41,12 +41,6 @@ namespace mesmer
     m_Flags(Flags),
     m_Name(id),
     reCalcDOS(true),
-    m_PreExp(0.0),
-    m_NInf(0.0),
-    m_TInf(298.0),
-    m_EInf(0.0),
-    m_usesILT(false),
-    m_isRvsILTpara(false),
     m_kfwd(0.0),
     m_GrnFluxFirstNonZeroIdx(0),
     m_EffGrainedFwdThreshold(0),
@@ -205,31 +199,6 @@ namespace mesmer
     }
   }
  
-  //
-  // This function retrieves the activation/threshold energy for an association reaction.
-  //
-  double Reaction::get_ThresholdEnergy(void) {
-    // ILT
-    if (usesILT()){
-      //if (m_EInf < 0.0) now checked during parsing
-      //  cerr << "Providing negative E_infinity in Reaction " << getName() << " is invalid.";
-     
-      if (m_isRvsILTpara){
-        const double tempv = m_EInf ;
-        return (tempv > 0.0) ? tempv + getHeatOfReaction() : getHeatOfReaction();
-      }
-      return m_EInf;
-    }
-
-    // Not ILT
-    if (!m_TransitionState) {
-      string s("No Transition State for " + getName());
-      throw (std::runtime_error(s)); 
-    }
-
-    return (get_relative_TSZPE() - get_relative_rctZPE());
-  }
-
   void Reaction::calcFluxFirstNonZeroIdx(void) {
     double thresh = get_ThresholdEnergy();
     double RxnHeat = getHeatOfReaction();

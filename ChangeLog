@@ -1,6 +1,12 @@
 
 2010-February-21 Struan Robertson
 
+	* src/Reaction.cpp,.h and MicroRate.cpp,.h: Initial changes related to removal of ILT data from
+        the reaction class and onto the mictrorate calculators. More work is still required to rationalize the
+        microrate calculators.
+
+2010-February-21 Struan Robertson
+
 	* src/MolecularComponents.cpp,.h and System.cpp: More minor changes to related to the basis set method.
 
 2010-February-21 Struan Robertson

@@ -74,7 +74,9 @@ namespace mesmer
     // Read ILT parameters
   bool MicroRateCalculator::ReadParameters(Reaction* pReact) {
 
-    pReact->setUsesILT();
+    // pReact->setUsesILT();
+    
+    m_usesILT = true ;
 
     PersistPtr ppReac = pReact->get_PersistentPointer();
 
@@ -101,17 +103,12 @@ namespace mesmer
 
     if (pActEnetxt)
     {
-      pReact->set_revILT(ppActEne->XmlReadBoolean("reverse")); //specify the direction of the following ILT parameters
+      m_isRvsILTpara = ppActEne->XmlReadBoolean("reverse") ; //specify the direction of the following ILT parameters
       double tmpvalue = 0.0;
       stringstream s2(pActEnetxt); s2 >> tmpvalue ;
       const char* unitsTxt = ppActEne->XmlReadValue("units", false);
-      string unitsInput;
-      if (unitsTxt){
-        unitsInput = unitsTxt;
-      }
-      else{
-        unitsInput = "kJ/mol";
-      }
+      string unitsInput = (unitsTxt) ? unitsTxt : "kJ/mol" ;
+
       const char* pLowertxt = ppActEne->XmlReadValue("lower", optional);
       const char* pUppertxt = ppActEne->XmlReadValue("upper", optional);
       const char* pStepStxt = ppActEne->XmlReadValue("stepsize", optional);
@@ -135,7 +132,7 @@ namespace mesmer
         Rdouble::set_range_indirect(valueL,valueU,stepsize, "activationEnergy");
         RangeXmlPtrs.push_back(ppActEne);
       }
-      pReact->set_EInf(value);
+      m_EInf = value ;
     }
     else{
       cerr << "Specifying ILT without activation energy provided in reaction "
@@ -157,7 +154,7 @@ namespace mesmer
         Rdouble::set_range_indirect(valueL,valueU,stepsize, "me:preExponential");
         RangeXmlPtrs.push_back(ppPreExponential);
       }
-      pReact->set_PreExp(value);
+      m_PreExp = value ;
     }
     else{
       cerr << "Specifying ILT without pre-exponential term provided in reaction " << this->getName() << ". Please correct input file.";
@@ -179,16 +176,17 @@ namespace mesmer
         Rdouble::set_range_indirect(valueL,valueU,stepsize, "me:nInfinity");
         RangeXmlPtrs.push_back(ppNInf);
       }
-      pReact->set_NInf(value);
+      m_NInf = value ;
     }
 
     double TInf = ppReac->XmlReadDouble("me:TInfinity");
     if(TInf <= 0) {
       cinfo << "Tinfinity is less than or equal to 0; set to the default value of 298 K" << endl;
-      TInf = 298;
+      TInf = 298.0 ;
+    } else {
+       // Set Tinf to the value in the input.
+       m_TInf = TInf ;   
     }
-    else
-      pReact->set_TInf(TInf);         // else set Tinf to the value in the input
 
     //A few checks on features not allowed in ILT methods
     if (pReact->get_TransitionState())
@@ -212,6 +210,41 @@ namespace mesmer
     }
 
     return true;
+  }
+
+  //
+  // This function retrieves the activation/threshold energy for an association reaction.
+  //
+  double MicroRateCalculator::get_ThresholdEnergy(Reaction* pReac) {
+    // ILT
+    if (m_usesILT){
+      //if (m_EInf < 0.0) now checked during parsing
+      //  cerr << "Providing negative E_infinity in Reaction " << getName() << " is invalid.";
+     
+      double RxnHeat = pReac->getHeatOfReaction(); 
+      
+      if (m_isRvsILTpara){
+        const double tempv = m_EInf ;
+        return (tempv > 0.0) ? tempv + RxnHeat : RxnHeat ;
+      }
+      return m_EInf;
+    }
+    //
+    // SHR, 28/Feb/2010: The following code was taken from AssociationReaction::calcEffGrnThresholds.
+    // This check should be performed here. 
+    //
+    //if (threshold < RxnHeat && usesILT()){
+    //  cerr << "E_infinity should be equal to or greater than the heat of reaction in ILT.";
+    //  exit(1);
+    //}
+
+    // Not ILT
+    if (!pReac->get_TransitionState()) {
+      string s("No Transition State for " + getName());
+      throw (std::runtime_error(s)); 
+    }
+
+    return (pReac->get_relative_TSZPE() - pReac->get_relative_rctZPE());
   }
 
 }//namespace

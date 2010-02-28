@@ -483,12 +483,8 @@ namespace mesmer
   }
 
   void AssociationReaction::calcEffGrnThresholds(void){  // calculate the effective forward and reverse
-    double threshold = get_ThresholdEnergy();  // threshold energy for an association reaction
-    double RxnHeat   = getHeatOfReaction();
-    if (threshold < RxnHeat && usesILT()){
-      cerr << "E_infinity should be equal to or greater than the heat of reaction in ILT.";
-      exit(1);
-    }
+    double threshold = get_ThresholdEnergy();            // threshold energy for an association reaction
+    double RxnHeat   = getHeatOfReaction(); 
 
     int fluxGrnBottom   = get_fluxGrnZPE();
     int pdtGrnZPE       = m_pdt1->getColl().get_grnZPE();
