@@ -1,5 +1,9 @@
 
-2010-February-21 Struan Robertson
+2010-March-1 Struan Robertson
+
+	* MicroRate.cpp,.h, SimpleILT.cpp, MesmerILT.cpp: Elimination of UseILT function and related variables.
+
+2010-February-28 Struan Robertson
 
 	* src/Reaction.cpp,.h and MicroRate.cpp,.h: Initial changes related to removal of ILT data from
         the reaction class and onto the mictrorate calculators. More work is still required to rationalize the

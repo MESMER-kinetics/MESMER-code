@@ -17,6 +17,8 @@ namespace mesmer
 
     virtual bool calculateMicroRateCoeffs(Reaction* pReact) ;
 
+    virtual double get_ThresholdEnergy(Reaction* pReac) ;
+    
   private:
 
     bool calculateAssociationMicroRates(Reaction* pReact);

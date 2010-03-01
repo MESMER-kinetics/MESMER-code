@@ -74,10 +74,6 @@ namespace mesmer
     // Read ILT parameters
   bool MicroRateCalculator::ReadParameters(Reaction* pReact) {
 
-    // pReact->setUsesILT();
-    
-    m_usesILT = true ;
-
     PersistPtr ppReac = pReact->get_PersistentPointer();
 
     // OpenBabel outputs <rateParameters> <A> <n> <E>
@@ -216,29 +212,7 @@ namespace mesmer
   // This function retrieves the activation/threshold energy for an association reaction.
   //
   double MicroRateCalculator::get_ThresholdEnergy(Reaction* pReac) {
-    // ILT
-    if (m_usesILT){
-      //if (m_EInf < 0.0) now checked during parsing
-      //  cerr << "Providing negative E_infinity in Reaction " << getName() << " is invalid.";
-     
-      double RxnHeat = pReac->getHeatOfReaction(); 
-      
-      if (m_isRvsILTpara){
-        const double tempv = m_EInf ;
-        return (tempv > 0.0) ? tempv + RxnHeat : RxnHeat ;
-      }
-      return m_EInf;
-    }
-    //
-    // SHR, 28/Feb/2010: The following code was taken from AssociationReaction::calcEffGrnThresholds.
-    // This check should be performed here. 
-    //
-    //if (threshold < RxnHeat && usesILT()){
-    //  cerr << "E_infinity should be equal to or greater than the heat of reaction in ILT.";
-    //  exit(1);
-    //}
 
-    // Not ILT
     if (!pReac->get_TransitionState()) {
       string s("No Transition State for " + getName());
       throw (std::runtime_error(s)); 

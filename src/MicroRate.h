@@ -28,7 +28,6 @@ namespace mesmer
       m_NInf(0.0),
       m_TInf(298.0),
       m_EInf(0.0),
-      m_usesILT(false), 
       m_isRvsILTpara(false)
     {
       get_Map()[id] = this;
@@ -78,7 +77,6 @@ namespace mesmer
     Rdouble m_NInf ;             // Modified Arrhenius parameter
     double  m_TInf ;             // T infinity
     Rdouble m_EInf ;             // E infinity
-    bool    m_usesILT;
     bool    m_isRvsILTpara;      // The ILT parameters provided are for reverse direction.
   };
 

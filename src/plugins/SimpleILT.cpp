@@ -52,4 +52,29 @@ namespace mesmer
     return true;
   }
 
+  //
+  // This function retrieves the activation/threshold energy for an association reaction.
+  //
+  double SimpleILT::get_ThresholdEnergy(Reaction* pReac) {
+
+    //if (m_EInf < 0.0) now checked during parsing
+    //  cerr << "Providing negative E_infinity in Reaction " << getName() << " is invalid.";
+
+    double RxnHeat = pReac->getHeatOfReaction(); 
+    double threshold(0.0) ;
+
+    if (m_isRvsILTpara){
+      threshold = (m_EInf > 0.0) ? m_EInf + RxnHeat : RxnHeat ;
+    } else {
+      threshold = m_EInf ;
+    }
+
+    if (threshold < RxnHeat){
+      cerr << "E_infinity should be equal to or greater than the heat of reaction in ILT.";
+      exit(1);
+    }
+
+    return threshold ;
+
+  }
 }//namespace

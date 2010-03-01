@@ -17,7 +17,9 @@ namespace mesmer
     virtual ~SimpleILT() {}
     virtual SimpleILT* Clone() { return new SimpleILT(*this); }
 
-  virtual bool calculateMicroRateCoeffs(Reaction* pReact);
+    virtual bool calculateMicroRateCoeffs(Reaction* pReact);
+
+    virtual double get_ThresholdEnergy(Reaction* pReac) ;
 
   };
 }//namespace
