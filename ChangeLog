@@ -1,6 +1,11 @@
 
 2010-March-6 Struan Robertson
 
+	* SimpleILT.cpp,.h, MesmerILT.cpp,h MicroRate.cpp,.h: Refactored to remove protected data and place
+        ILT specific data and methods on ILT classes.
+
+2010-March-6 Struan Robertson
+
 	* IrreversibleExchangeReaction.cpp, IrreversibleUnimolecularReaction.cpp: Refactoring of 
         isReverseReactionILT_Ea() method.
 

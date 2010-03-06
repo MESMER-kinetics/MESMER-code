@@ -23,13 +23,7 @@ namespace mesmer
     typedef std::map<std::string, MicroRateCalculator*> MicroRateMap;
 
     ///Base class constructor adds the derived class instance to the map
-    MicroRateCalculator(const std::string& id) :
-      m_PreExp(0.0),
-      m_NInf(0.0),
-      m_TInf(298.0),
-      m_EInf(0.0),
-      m_isRvsILTpara(false)
-    {
+    MicroRateCalculator(const std::string& id) {
       get_Map()[id] = this;
       name = id;
     }
@@ -52,7 +46,7 @@ namespace mesmer
 
     virtual bool testMicroRateCoeffs(Reaction* pReact, PersistPtr ppbase) const;
   
-    virtual bool ReadParameters(Reaction* pReac); //Used by MesmerILT and SimpleILT
+    virtual bool ReadParameters(Reaction* pReac) = 0 ;
     
     virtual double get_ThresholdEnergy(Reaction* pReac) ;
     
@@ -66,16 +60,7 @@ namespace mesmer
     }
 
     std::string name;
-    
- protected:   
 
-    // All the parameters that follow are for an arrhenius expression of the type:
-    // k(T) = Ainf*(T/Tinf)^ninf * exp(-Einf/(RT))
-    Rdouble m_PreExp ;           // Preexponetial factor
-    Rdouble m_NInf ;             // Modified Arrhenius parameter
-    double  m_TInf ;             // T infinity
-    Rdouble m_EInf ;             // E infinity
-    bool    m_isRvsILTpara;      // The ILT parameters provided are for reverse direction.
   };
 
 }//namespace
