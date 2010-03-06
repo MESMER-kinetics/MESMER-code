@@ -56,8 +56,6 @@ namespace mesmer
     
     virtual double get_ThresholdEnergy(Reaction* pReac) ;
     
-    bool isReverseReactionILT_Ea() {return m_isRvsILTpara;}
-
   private:
     /// Returns a reference to the map of MicroRateCalculator classes
     /// Is a function rather than a static member variable to avoid initialization problems.

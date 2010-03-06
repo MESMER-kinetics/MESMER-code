@@ -201,8 +201,8 @@ namespace mesmer
       }
       ctest << "}\n";
     }
-	  if (getFlags().grainTSsosEnabled){
-			ctest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_reactant())->getName() << " energy):\n{\n";
+    if (getFlags().grainTSsosEnabled){
+      ctest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_reactant())->getName() << " energy):\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
         ctest << m_GrainKfmc[i]*rctGrainDOS[i]/SpeedOfLight_in_cm << endl;
       }
@@ -213,10 +213,6 @@ namespace mesmer
   }
 
   void IrreversibleUnimolecularReaction::calcFluxFirstNonZeroIdx(void) {
-    //Use base class function(which references product properties) only with reverse ILT
-    if(m_pMicroRateCalculator->isReverseReactionILT_Ea())
-      Reaction::calcFluxFirstNonZeroIdx();
-    else
       m_GrnFluxFirstNonZeroIdx = 0;
   }
 
@@ -246,14 +242,6 @@ namespace mesmer
     int TS_en = get_fluxGrnZPE();
     int rct_en = m_rct1->getColl().get_grnZPE();
 
-    //This function uses product properties, although the reaction is irreversible
-    //This is only appropriate for reverse ILT.
-    if(!m_pMicroRateCalculator->isReverseReactionILT_Ea())
-    {
-      set_EffGrnFwdThreshold(TS_en-rct_en);
-      return;
-    }
-
     double RxnHeat   = getHeatOfReaction();    // see the comments in
     double threshold = get_ThresholdEnergy();  // calcEffGrnThresholds under AssociationReaction.cpp
 
@@ -275,10 +263,10 @@ namespace mesmer
   //
   // Get products cell density of states.
   //
-/*X  void IrreversibleUnimolecularReaction::getPdtsCellDensityOfStates(vector<double> &cellDOS) {
-    countDimerCellDOS(m_pdt1->getDOS(), m_pdt2->getDOS(), cellDOS);
+  /*X  void IrreversibleUnimolecularReaction::getPdtsCellDensityOfStates(vector<double> &cellDOS) {
+  countDimerCellDOS(m_pdt1->getDOS(), m_pdt2->getDOS(), cellDOS);
   }
-*/
+  */
   const int IrreversibleUnimolecularReaction::get_pdtsGrnZPE(){
     double zpe = m_pdt1->getDOS().get_zpe() - getEnv().EMin;
     if (m_pdt2) zpe += m_pdt2->getDOS().get_zpe();
@@ -292,71 +280,71 @@ namespace mesmer
   //
   // Calculate the rovibrational density of states of products.
   //
-/*X bool IrreversibleUnimolecularReaction::calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne)
+  /*X bool IrreversibleUnimolecularReaction::calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne)
   {
-    std::vector<double> pdtsCellDOS;
-    getPdtsCellDensityOfStates(pdtsCellDOS);
+  std::vector<double> pdtsCellDOS;
+  getPdtsCellDensityOfStates(pdtsCellDOS);
 
-    std::vector<double> shiftedCellDOS;
-    std::vector<double> shiftedCellEne;
-    const int MaximumCell = getEnv().MaxCell;
-    const int cellOffset = m_pdt1->getDOS().get_cellOffset(); // ** temporary statement to get cellOffset from one of the molecules.
-    std::vector<double> pdtsCellEne;
-    getCellEnergies(MaximumCell, pdtsCellEne);
-    shiftCells(MaximumCell, cellOffset, pdtsCellDOS, pdtsCellEne, shiftedCellDOS, shiftedCellEne);
+  std::vector<double> shiftedCellDOS;
+  std::vector<double> shiftedCellEne;
+  const int MaximumCell = getEnv().MaxCell;
+  const int cellOffset = m_pdt1->getDOS().get_cellOffset(); // ** temporary statement to get cellOffset from one of the molecules.
+  std::vector<double> pdtsCellEne;
+  getCellEnergies(MaximumCell, pdtsCellEne);
+  shiftCells(MaximumCell, cellOffset, pdtsCellDOS, pdtsCellEne, shiftedCellDOS, shiftedCellEne);
 
-    const string catName = m_pdt1->getName() + " + " + m_pdt2->getName();
+  const string catName = m_pdt1->getName() + " + " + m_pdt2->getName();
 
-    if (getFlags().cyclePrintCellDOS){
-      ctest << endl << "Cell rovibronic density of states of " << catName << endl << "{" << endl;
-      for (int i = 0; i < MaximumCell; ++i){
-        formatFloat(ctest, pdtsCellEne[i],  6,  15) ;
-        formatFloat(ctest, pdtsCellDOS[i],  6,  15) ;
-        ctest << endl ;
-      }
-      ctest << "}" << endl;
-      getFlags().cyclePrintCellDOS = false;
-    }
-
-    calcGrainAverages(getEnv().MaxGrn, getEnv().GrainSize, shiftedCellDOS, shiftedCellEne, grainDOS, grainEne);
-
-    if (getFlags().cyclePrintGrainDOS){
-      ctest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;
-      for (int i = 0; i < getEnv().MaxGrn; ++i){
-        formatFloat(ctest, grainEne[i],  6,  15) ;
-        formatFloat(ctest, grainDOS[i],  6,  15) ;
-        ctest << endl ;
-      }
-      ctest << "}" << endl;
-      getFlags().cyclePrintGrainDOS = false;
-    }
-
-    return true;
+  if (getFlags().cyclePrintCellDOS){
+  ctest << endl << "Cell rovibronic density of states of " << catName << endl << "{" << endl;
+  for (int i = 0; i < MaximumCell; ++i){
+  formatFloat(ctest, pdtsCellEne[i],  6,  15) ;
+  formatFloat(ctest, pdtsCellDOS[i],  6,  15) ;
+  ctest << endl ;
   }
-*/
+  ctest << "}" << endl;
+  getFlags().cyclePrintCellDOS = false;
+  }
+
+  calcGrainAverages(getEnv().MaxGrn, getEnv().GrainSize, shiftedCellDOS, shiftedCellEne, grainDOS, grainEne);
+
+  if (getFlags().cyclePrintGrainDOS){
+  ctest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;
+  for (int i = 0; i < getEnv().MaxGrn; ++i){
+  formatFloat(ctest, grainEne[i],  6,  15) ;
+  formatFloat(ctest, grainDOS[i],  6,  15) ;
+  ctest << endl ;
+  }
+  ctest << "}" << endl;
+  getFlags().cyclePrintGrainDOS = false;
+  }
+
+  return true;
+  }
+  */
   //
   // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
   //
   double IrreversibleUnimolecularReaction::rctsRovibronicGrnCanPrtnFn() { return m_rct1->getDOS().rovibronicGrnCanPrtnFn();}
 
   /*X  double IrreversibleUnimolecularReaction::pdtsRovibronicGrnCanPrtnFn() {
-    if (!m_pdt2){ // Irreversible isomerization
-      return m_pdt1->getDOS().rovibronicGrnCanPrtnFn();
-    }
-    else{         // Irreversible dissociation
-      vector<double> pdtGrainDOS;
-      vector<double> pdtGrainEne;
-      calcPdtsGrainDensityOfStates(pdtGrainDOS, pdtGrainEne);
-
-      // Calculate the rovibronic partition function based on the grain DOS
-      // The following catches the case where the molecule is a single atom
-      double CanPrtnFn = max(canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, getEnv().beta), 1.0) ;
-      if (CanPrtnFn == 1.0){
-        // Electronic partition function for atom is accounted here.
-        CanPrtnFn = double(m_pdt1->getDOS().getSpinMultiplicity() * m_pdt2->getDOS().getSpinMultiplicity()) ;
-      }
-      return CanPrtnFn ;
-    }
+  if (!m_pdt2){ // Irreversible isomerization
+  return m_pdt1->getDOS().rovibronicGrnCanPrtnFn();
   }
-*/
+  else{         // Irreversible dissociation
+  vector<double> pdtGrainDOS;
+  vector<double> pdtGrainEne;
+  calcPdtsGrainDensityOfStates(pdtGrainDOS, pdtGrainEne);
+
+  // Calculate the rovibronic partition function based on the grain DOS
+  // The following catches the case where the molecule is a single atom
+  double CanPrtnFn = max(canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, getEnv().beta), 1.0) ;
+  if (CanPrtnFn == 1.0){
+  // Electronic partition function for atom is accounted here.
+  CanPrtnFn = double(m_pdt1->getDOS().getSpinMultiplicity() * m_pdt2->getDOS().getSpinMultiplicity()) ;
+  }
+  return CanPrtnFn ;
+  }
+  }
+  */
 }//namespace

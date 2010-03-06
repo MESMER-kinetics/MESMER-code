@@ -1,4 +1,9 @@
 
+2010-March-6 Struan Robertson
+
+	* IrreversibleExchangeReaction.cpp, IrreversibleUnimolecularReaction.cpp: Refactoring of 
+        isReverseReactionILT_Ea() method.
+
 2010-March-1 Struan Robertson
 
 	* MicroRate.cpp,.h, SimpleILT.cpp, MesmerILT.cpp: Elimination of UseILT function and related variables.

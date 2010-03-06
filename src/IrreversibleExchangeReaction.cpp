@@ -287,8 +287,8 @@ namespace mesmer
       }
       ctest << "}\n";
     }
-	  if (getFlags().grainTSsosEnabled){
-			ctest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_pseudoIsomer())->getName() << " energy):\n{\n";
+    if (getFlags().grainTSsosEnabled){
+      ctest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_pseudoIsomer())->getName() << " energy):\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
         ctest << m_GrainKfmc[i]*rctGrainDOS[i]/SpeedOfLight_in_cm << endl;
       }
@@ -338,13 +338,7 @@ namespace mesmer
   void IrreversibleExchangeReaction::calcEffGrnThresholds(void){           
     int TS_en = get_fluxGrnZPE();// see the comments in calcEffGrnThresholds under AssociationReaction.cpp  
     int rct_en = get_rctsGrnZPE();
-    //This function uses product properties, although the reaction is irreversible
-    //This is only appropriate for reverse ILT.
-    if(!m_pMicroRateCalculator->isReverseReactionILT_Ea())
-    {
-      set_EffGrnFwdThreshold(TS_en-rct_en);
-      return;
-    }
+
     double thresh = get_ThresholdEnergy();
     if(thresh<0.0){
       set_EffGrnFwdThreshold(0);
@@ -353,13 +347,9 @@ namespace mesmer
       set_EffGrnFwdThreshold(TS_en-rct_en);
     }
   }
-  void IrreversibleExchangeReaction::calcFluxFirstNonZeroIdx(void) {
-  //Use base class function(which references product properties) only with reverse ILT
-  if(m_pMicroRateCalculator->isReverseReactionILT_Ea())
-    Reaction::calcFluxFirstNonZeroIdx();
-  else
-    m_GrnFluxFirstNonZeroIdx = 0;
-  }
 
+  void IrreversibleExchangeReaction::calcFluxFirstNonZeroIdx(void) {
+      m_GrnFluxFirstNonZeroIdx = 0;
+  }
 
 }//namespace
