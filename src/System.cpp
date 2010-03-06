@@ -424,6 +424,11 @@ namespace mesmer
 
         ctest << "}\n";
 
+      } else {
+      
+        qdMatrix mesmerRates(1);
+        m_pReactionManager->BartisWidomBasisSetRates(mesmerRates, m_Flags);
+        
       }
     }
     //---------------------------------------------

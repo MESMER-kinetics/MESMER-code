@@ -86,9 +86,17 @@ namespace mesmer
 
     bool calculateEquilibriumFractions(const double beta);
 
-    bool BartisWidomPhenomenologicalRates(qdMatrix& rates, MesmerFlags& mFlags,PersistPtr ppBase);
+    //
+    // Calculates the Bartis-Widom macroscopic rate coefficients.
+    //
+    bool BartisWidomPhenomenologicalRates(qdMatrix& rates, MesmerFlags& mFlags, PersistPtr ppBase);
+    
+    //
+    // Calculates the Bartis-Widom macroscopic rate coefficients, using the contracted basis set eigenvectors.
+    //
+    bool BartisWidomBasisSetRates(qdMatrix& rates, MesmerFlags& mFlags);
 
-   int getSpeciesSequenceIndex(const std::string ref);
+    int getSpeciesSequenceIndex(const std::string ref);
 
   private:
 

@@ -1517,6 +1517,98 @@ namespace mesmer
     return true;
   }
 
+  //
+  // Calculates the Bartis-Widom macroscopic rate coefficients, using the contracted basis set eigenvectors.
+  //
+  bool ReactionManager::BartisWidomBasisSetRates(qdMatrix& mesmerRates, MesmerFlags& mFlags) {
+
+    // Constants.
+    const size_t smsize   = m_eigenvectors->size() ;
+    const size_t nchem    = m_isomers.size() + m_sources.size() ;  // number of isomers+pseudoisomers
+    const size_t nchemIdx = smsize - nchem ;                       // idx for chemically significant eigenvalues & vectors
+
+    // Print out eigenvector matrix.
+
+    ctest << endl << "Eigenvector matrix:" << endl << endl ;
+    for (size_t i(0) ; i < smsize ; ++i) {
+      for (size_t j(0) ; j < smsize ; ++j) {
+        formatFloat(ctest, (*m_eigenvectors)[i][j],  6,  15) ;
+      }
+      ctest << endl ;
+    }
+    
+    qdMatrix Z(nchem), Zinv(nchem), Kr(nchem);
+
+    if (m_sinkRxns.size()==0){
+    
+      //
+      // Conservative system.
+      //
+      
+      // 1. Isomers.
+
+      size_t location(0) ;
+      Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
+      for (size_t i(0); isomeritr != m_isomers.end() ; ++i, ++isomeritr) {
+        location = isomeritr->second ;
+        for (size_t j(1); j<=nchem; ++j){
+          Z[i][nchem - j] = (*m_eigenvectors)[location][smsize - j] ;
+        }
+      }
+    
+      // Invert Z matrix. 
+    
+      ctest << endl << "BW coefficient matrix:" << endl << endl ;
+      for (size_t i(0) ; i < nchem ; ++i) {
+        for (size_t j(0) ; j < nchem ; ++j) {
+          formatFloat(ctest, Z[i][j],  6,  15) ;
+          Zinv[j][i] = Z[i][j] ;
+        }
+        ctest << endl ;
+      }
+      
+      // Calculate symmetric rate matrix.
+      
+      m_eigenvalues[smsize - 1] = 0.0 ;
+      
+      for (size_t i(0) ; i < nchem ; ++i) {
+        for (size_t j(0) ; j < nchem ; ++j) {
+          qd_real sm = 0.0;
+          for (size_t k(0) ; k < nchem ; ++k) {
+            // sm += Z[i][k] * to_double(m_eigenvalues[nchemIdx+k]) * Zinv[k][j];
+            sm += Zinv[i][k]*Z[k][j] ;
+          }
+          Kr[i][j] = sm ; // * m_meanOmega;
+        }
+      }
+      
+      // Apply similarity transform. 
+    
+      ctest << endl << "Rate coefficient matrix:" << endl << endl ;
+      for (size_t i(0) ; i < nchem ; ++i) {
+        for (size_t j(0) ; j < nchem ; ++j) {
+          // Kr[i][j] *= Z[i][nchem]/Z[j][nchem];
+          formatFloat(ctest, Kr[i][j],  6,  15) ;
+        }
+        ctest << endl ;
+      }
+      
+      ctest << endl ;
+
+    } else {
+    
+      //
+      // Non-conservative system.
+      //
+    
+    }
+
+    mesmerRates = Kr;
+
+    return true;
+
+  }
+
   // Set Initial population for individual species
   void ReactionManager::setInitialPopulation(PersistPtr anchor)
   {
