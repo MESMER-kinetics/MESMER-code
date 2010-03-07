@@ -1529,13 +1529,13 @@ namespace mesmer
 
     // Print out eigenvector matrix.
 
-    ctest << endl << "Eigenvector matrix:" << endl << endl ;
-    for (size_t i(0) ; i < smsize ; ++i) {
-      for (size_t j(0) ; j < smsize ; ++j) {
-        formatFloat(ctest, (*m_eigenvectors)[i][j],  6,  15) ;
-      }
-      ctest << endl ;
-    }
+    //ctest << endl << "Eigenvector matrix:" << endl << endl ;
+    //for (size_t i(0) ; i < smsize ; ++i) {
+    //  for (size_t j(0) ; j < smsize ; ++j) {
+    //    formatFloat(ctest, (*m_eigenvectors)[i][j],  6,  15) ;
+    //  }
+    //  ctest << endl ;
+    //}
     
     qdMatrix Z(nchem), Zinv(nchem), Kr(nchem);
 
@@ -1584,16 +1584,13 @@ namespace mesmer
       
       // Apply similarity transform. 
     
-      ctest << endl << "Rate coefficient matrix:" << endl << endl ;
-      for (size_t i(0) ; i < nchem ; ++i) {
-        for (size_t j(0) ; j < nchem ; ++j) {
-          // Kr[i][j] *= Z[i][nchem]/Z[j][nchem];
-          formatFloat(ctest, Kr[i][j],  6,  15) ;
-        }
-        ctest << endl ;
-      }
-      
-      ctest << endl ;
+      //for (size_t i(0) ; i < nchem ; ++i) {
+      //  for (size_t j(0) ; j < nchem ; ++j) {
+      //    Kr[i][j] *= Z[i][nchem]/Z[j][nchem];
+      //  }
+      //}
+
+      Kr.print(string("Rate coefficient matrix:"), ctest) ;
 
     } else {
     

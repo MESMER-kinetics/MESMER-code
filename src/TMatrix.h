@@ -91,6 +91,12 @@ namespace mesmer
 
     void normalizeProbabilityMatrix();
 
+    // Print out the contents of the matrix.
+    void print(std::string& title, std::ostream& output_stream ) const ;
+
+    // Apply the Gram-Schmidt procedure to orthogonalize the current matrix.
+    void GramSchimdt(size_t root_vector ) ;
+
     //
     // EISPACK methods for diagonalizing matrix.
     //
@@ -846,6 +852,65 @@ label_1: return(p);
         (*this)[j][i] *= work[j] ;
         (*this)[i][j] *= work[j] ;
       }
+    }
+
+  }
+
+  //
+  // Print out the contents of the matrix.
+  //
+  template<class T>
+  void TMatrix<T>::print(std::string& title, std::ostream& output_stream ) const {
+
+    output_stream << endl << title << endl << endl ;
+    for (size_t i(0) ; i < size() ; ++i) {
+      for (size_t j(0) ; j < size() ; ++j) {
+        formatFloat(output_stream, (*this)[i][j],  6,  15) ;
+      }
+      output_stream << endl ;
+    }
+    output_stream << endl ;
+
+  }
+
+  //
+  // Apply the Gram-Schmidt procedure to orthogonalize the current matrix.
+  //
+  template<class T>
+  void TMatrix<T>::GramSchimdt(size_t root_vector )  {
+
+    size_t size = size() ;
+
+    for (size_t i(size-1); size > -1 ; --i) {
+
+      size_t j(size-1) ;
+      T sum(0.0) ;
+      //
+      // Orthogonalize vectors (Remove projections).
+      //
+      for (; j > i + 1 ; j--) {
+        sum = 0.0 ;
+        for (k = 0 ; k < size ; k++) {
+          sum += (*this)[k][j] * (*this)[k][i] ;
+        }
+
+        for (k = 0 ; k < size ; k++) {
+          (*this)[k][j] -= sum * (*this)[k][i] ;
+        }
+      }
+
+      //
+      // Normalize vectors
+      //
+      sum = 0.0 ;
+      for (j = 0 ; j < size ; j++) {
+        sum += (*this)[j][i] * (*this)[j][i] ;
+      }
+      sum = sqrt(sum) ;
+      for (j = 0 ; j < size ; j++) {
+        (*this)[j][i] /= sum ;
+      }
+
     }
 
   }

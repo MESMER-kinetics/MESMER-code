@@ -1,4 +1,8 @@
 
+2010-March-7 Struan Robertson
+
+	* TMatrix.h: Addition of some matrix utilities.
+
 2010-March-6 Struan Robertson
 
 	* System.cpp,.h, ReactionManager.cpp,h: Initial changes for basis set BW rate coefficient method.
