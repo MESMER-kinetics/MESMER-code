@@ -1,6 +1,7 @@
 #ifndef GUARD_MesmerEnv_h
 #define GUARD_MesmerEnv_h
 
+#include <stddef.h>
 namespace mesmer
 {
   struct MesmerEnv

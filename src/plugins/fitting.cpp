@@ -66,10 +66,10 @@ namespace mesmer
     bool CheckLineSearchConvergence(const vector<double> &X) const ;
 
     // Initialize the direcion vectors.
-    void Fitting::initializeDirections(dMatrix &A) const ;
+    void initializeDirections(dMatrix &A) const ;
 
     // Update direction matrix in accord with the Powell algorithm.
-    void Fitting::cycleDirections(dMatrix &A, const vector<double> &X) const ;
+    void cycleDirections(dMatrix &A, const vector<double> &X) const ;
 
     // Constants used in bracketing and Golden section search in a line minimizaton.
     // Note that the number tol should be an estimate of the square root of machine precision.

@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "System.h"
+#include "../System.h"
 
 namespace mesmer
 {

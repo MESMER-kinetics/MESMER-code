@@ -1,5 +1,5 @@
 #include "MesmerILT.h"
-#include "AssociationReaction.h"
+#include "../AssociationReaction.h"
 
 using namespace std;
 using namespace Constants;

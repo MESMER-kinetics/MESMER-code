@@ -1590,7 +1590,8 @@ namespace mesmer
       //  }
       //}
 
-      Kr.print(string("Rate coefficient matrix:"), ctest) ;
+			string rcm(string("Rate coefficient matrix:"));
+      Kr.print(rcm, ctest) ;
 
     } else {
     

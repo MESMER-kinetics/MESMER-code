@@ -1,7 +1,7 @@
 #ifndef GUARD_MesmerILT_h
 #define GUARD_MesmerILT_h
 
-#include "System.h"
+#include "../System.h"
 
 namespace mesmer
 {

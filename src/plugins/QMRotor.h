@@ -1,8 +1,8 @@
 #ifndef GUARD_QMRotor_h
 #define GUARD_QMRotor_h
 
-#include "DensityOfStates.h"
-#include "MolecularComponents.h"
+#include "../DensityOfStates.h"
+#include "../MolecularComponents.h"
 
 namespace mesmer
 {

@@ -1,8 +1,8 @@
 #ifndef GUARD_HinderedRotorA_h
 #define GUARD_HinderedRotorA_h
 
-#include "DensityOfStates.h"
-#include "MolecularComponents.h"
+#include "../DensityOfStates.h"
+#include "../MolecularComponents.h"
 
 namespace mesmer
 {

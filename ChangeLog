@@ -1,4 +1,7 @@
+2010-March-11 Ch-Hsiu Liang
 
+  * Clean up some gcc build problem.
+	
 2010-March-7 Struan Robertson
 
 	* TMatrix.h: Addition of some matrix utilities.

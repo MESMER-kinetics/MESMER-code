@@ -863,8 +863,8 @@ label_1: return(p);
   void TMatrix<T>::print(std::string& title, std::ostream& output_stream ) const {
 
     output_stream << endl << title << endl << endl ;
-    for (size_t i(0) ; i < size() ; ++i) {
-      for (size_t j(0) ; j < size() ; ++j) {
+    for (size_t i(0) ; i < this->size() ; ++i) {
+      for (size_t j(0) ; j < this->size() ; ++j) {
         formatFloat(output_stream, (*this)[i][j],  6,  15) ;
       }
       output_stream << endl ;
@@ -879,7 +879,7 @@ label_1: return(p);
   template<class T>
   void TMatrix<T>::GramSchimdt(size_t root_vector )  {
 
-    size_t size = size() ;
+    size_t size = this->size() ;
 
     for (size_t i(size-1); size > -1 ; --i) {
 
@@ -890,11 +890,11 @@ label_1: return(p);
       //
       for (; j > i + 1 ; j--) {
         sum = 0.0 ;
-        for (k = 0 ; k < size ; k++) {
+        for (size_t k = 0 ; k < size ; k++) {
           sum += (*this)[k][j] * (*this)[k][i] ;
         }
 
-        for (k = 0 ; k < size ; k++) {
+        for (size_t k = 0 ; k < size ; k++) {
           (*this)[k][j] -= sum * (*this)[k][i] ;
         }
       }

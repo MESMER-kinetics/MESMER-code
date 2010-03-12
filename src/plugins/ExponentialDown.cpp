@@ -17,10 +17,10 @@ convenient for the declaration to be also in the .cpp file, so that the plugin i
 all in one file, as here.
 ********************************************************************************/
 
-#include "EnergyTransferModel.h"
-#include "Rdouble.h"
-#include "MolecularComponents.h"
-#include "Molecule.h"
+#include "../EnergyTransferModel.h"
+#include "../Rdouble.h"
+#include "../MolecularComponents.h"
+#include "../Molecule.h"
 #include <cmath>
 
 using namespace std ;
@@ -43,7 +43,7 @@ public:
   for each one. This is done by EnergyTransferModel::Find() calling Clone(); a
   function of the following form is required for each derived class.
   ******************************************************************************/
-  ExponentialDown* ExponentialDown::Clone() { return new ExponentialDown(*this); }
+  ExponentialDown* Clone() { return new ExponentialDown(*this); }
 
   /*************************************************************
   Read the parameters needed by the class from the XML datafile
