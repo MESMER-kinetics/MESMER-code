@@ -19,7 +19,9 @@ using namespace std;
 namespace mesmer
 {
   //Global variable for the XML addresses of range variables. Definition in unitsConversion.cpp.
-  extern std::vector<PersistPtr> RangeXmlPtrs; 
+  extern std::vector<PersistPtr> RangeXmlPtrs;
+
+  double atomMass(std::string symb);
 
   struct conditionSet{
   public:

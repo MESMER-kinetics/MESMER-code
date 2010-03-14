@@ -22,6 +22,7 @@
 #include "MesmerFlags.h"
 #include "Rdouble.h"
 #include "EnergyTransferModel.h"
+#include "vector3.h"
 
 using namespace std ;
 using namespace Constants ;
@@ -392,15 +393,46 @@ namespace mesmer
 
   private:
     double m_MolecularWeight;
-
-    //
-    // Constructor, destructor and initialization
-    //
+    struct atom
+    {
+      std::string id;
+      std::string element;
+      OpenBabel::vector3 coords;
+      std::vector<std::string> connects; //other atom ids
+    };
+    std::map<std::string, atom> Atoms;
+    std::map<std::string, std::pair<std::string, std::string> > Bonds;
+    bool m_HasCoords;
 
   private:
     gStructure();
   public:
     gStructure(Molecule* pMol);
+
+    //Returns true if atoms have coordinates
+    bool ReadStructure();
+
+    double gStructure::CalcMW();
+
+    std::pair<std::string,std::string> GetAtomsOfBond(const std::string& bondID)
+    {
+      return Bonds[bondID];
+    }
+
+    OpenBabel::vector3 GetAtomCoords(const std::string atomID)
+    {
+      return Atoms[atomID].coords;
+    }
+
+    // Returns in atoms the IDs of all the atoms atttached to atomID via bonds, but
+    // does not include prevID or atoms beyond it. 
+    void GetAttachedAtoms(std::vector<std::string>& atomset, 
+                          const std::string& atomID, const std::string& prevID);
+
+    //Calculates moment of inertia of a set of atoms about an axis define by at1 and at2
+    double CalcMomentAboutAxis(std::vector<std::string> atomset,
+                               OpenBabel::vector3 at1, OpenBabel::vector3 at2);
+    
 
     double getMass() const { return m_MolecularWeight;};
     void setMass(double value) { m_MolecularWeight = value;};

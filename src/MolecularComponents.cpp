@@ -9,6 +9,7 @@
 
 using namespace std ;
 using namespace Constants ;
+using class OpenBabel::vector3;
 
 namespace mesmer
 {
@@ -1574,7 +1575,7 @@ namespace mesmer
   size_t gWellProperties::get_nbasis() const { return m_host->getEnv().nBasisSet ; }
 
 
-  gStructure::gStructure(mesmer::Molecule *pMol) : m_MolecularWeight(-1)
+  gStructure::gStructure(mesmer::Molecule *pMol) : m_MolecularWeight(-1), m_HasCoords(false)
   {
     ErrorContext c(pMol->getName());
     m_host = pMol;
@@ -1582,7 +1583,17 @@ namespace mesmer
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
       ppPropList=pp; //Be forgiving; we can get by without a propertyList element
-    setMass(ppPropList->XmlReadPropertyDouble("me:MW"));
+    double MW = ppPropList->XmlReadPropertyDouble("me:MW", optional);
+    if(MW==0.0)
+    {
+      ReadStructure();
+      if(Atoms.empty())
+        cerr << "If no chemical structure is provided,"
+                "Molecular Weight must be input as an XML property." << endl;
+      else
+        MW = CalcMW();
+    }
+    setMass(MW);       
   }
 
   // Provide a function to define particular counts of the convolved DOS of two molecules.
@@ -1605,5 +1616,99 @@ namespace mesmer
       return true;
   }
 
+//Returns true if atoms have coordinates
+bool gStructure::ReadStructure()
+{
+  if(!Atoms.empty())
+    return m_HasCoords;
+  PersistPtr ppMol = getHost()->get_PersistentPointer();
+  PersistPtr ppAtom = ppMol->XmlMoveTo("atomArray");
+  while(ppAtom=ppAtom->XmlMoveTo("atom"))
+  {
+    atom at;
+    const char* pId = ppAtom->XmlReadValue("id");
+    if(pId) at.id = pId;
+    at.element = ppAtom->XmlReadValue("elementType");
+
+    double x3, y3, z3;
+    x3 = ppAtom->XmlReadDouble("x3", optional);
+    y3 = ppAtom->XmlReadDouble("y3", optional);
+    z3 = ppAtom->XmlReadDouble("z3", optional);
+    at.coords.Set(x3, y3, z3);
+    if(x3!=0 || y3!=0 || z3!=0)
+      m_HasCoords = true; //at least one atom with non-zero coordinates
+
+    Atoms[pId] = at;
+  }
+
+  //Read all the bonds. For each bond add a connect to each atom
+  PersistPtr ppBond = ppMol->XmlMoveTo("bondArray");
+  int ibond=1;
+  while(ppBond=ppBond->XmlMoveTo("bond"))
+  {
+    const char* pId = ppBond->XmlReadValue("id", optional);
+    string id;
+    if(pId)
+      id = pId;
+    else
+    {
+      //id is e.g. "bond3", if not provided
+      stringstream ss;
+      ss << " bond" << ibond;
+      id=ss.str();
+    }
+
+    const char* pRefs = ppBond->XmlReadValue("atomRefs2");
+    if(!pRefs) return false;
+    string refs(pRefs);
+    string::size_type pos = refs.find_first_of(" ,");
+    string::size_type pos2 = refs.find_last_of(" ,");
+    if(pos==string::npos) return false;
+    string atomref1 = refs.substr(0, pos);
+    string atomref2 = refs.substr(pos2+1);
+    Bonds[id] = make_pair(atomref1,atomref2);
+    Atoms[atomref1].connects.push_back(atomref2);
+    Atoms[atomref2].connects.push_back(atomref1);
+    ++ibond;
+  }
+  
+  return m_HasCoords;
+}
+
+double gStructure::CalcMW()
+{
+  map<string, atom>::iterator iter;
+  double MW = 0.0;
+  for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter)
+    MW += atomMass(iter->second.element);
+  return MW;
+}
+
+// Returns in atoms the IDs of all the atoms atttached to atomID via bonds, but
+// does not include prevID or atoms beyond it. (Recursive function) 
+void gStructure::GetAttachedAtoms(vector<string>& atomset, const string& atomID, const string& prevID)
+{
+  atomset.push_back(atomID);
+  vector<string>::iterator coniter;
+  for(coniter=Atoms[atomID].connects.begin(); coniter!=Atoms[atomID].connects.end();++coniter)
+  {
+    if(*coniter==prevID)
+      continue;
+    GetAttachedAtoms(atomset, *coniter, atomID);    
+  }
+}
+
+double gStructure::CalcMomentAboutAxis(vector<string> atomset, vector3 at1, vector3 at2)
+{
+  double sumMoment = 0.0;
+  vector<string>::iterator iter;
+  for(iter=atomset.begin(); iter!=atomset.end(); ++iter)
+  {
+    vector3 a = Atoms[*iter].coords;
+    double d = Point2Line(a, at1, at2);
+    sumMoment += atomMass(Atoms[*iter].element) * d * d;
+  }
+  return sumMoment;
+}
 
 }//namespace

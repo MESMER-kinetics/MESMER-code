@@ -8,29 +8,51 @@ namespace mesmer
 //Global instance, defining its id
 HinderedRotorA theHinderedRotorA("HinderedRotorA");
 //************************************************************
-
+using OpenBabel::vector3;
 //Read data from XML and store in this instance.
 bool HinderedRotorA::ReadParameters(Molecule* pMol, PersistPtr ppDOSC)
 {
-  //if bond is needed
+  gStructure& gs = pMol->getStruc();
+  if(!gs.ReadStructure())
+  {
+    cerr << "A complete set of atom coordinates are required for hindered rotor calculations" <<endl;
+    return false;
+  }
+
   const char* bondID = ppDOSC->XmlReadValue("bondRef",optional);    
   if(bondID)
   {
-    PersistPtr ppMol = pMol->get_PersistentPointer();
-    PersistPtr ppBond = ppMol->XmlMoveTo("bondArray");
-    const char* id = NULL;
-    while(ppBond=ppBond->XmlMoveTo("bond"))
+    pair<string,string> bondats = gs.GetAtomsOfBond(bondID);
+    if(bondats.first.empty())
     {
-      id = ppBond->XmlReadValue("id");
-      if(id && !strcmp(id, bondID))
-        break;
+      cerr << "Unknown bond reference " << bondID << endl;
+      return false;
     }
-    if(id)
-    {
-      m_bondID = id;
-      cinfo << "Hindered rotor " << m_bondID << endl;
-      //...etc.
-    }
+    m_bondID = bondID;
+    cinfo << "Hindered rotor " << m_bondID << endl;
+
+    vector3 coords1 = gs.GetAtomCoords(bondats.first);
+    vector3 coords2 = gs.GetAtomCoords(bondats.second);
+
+    //calc Moment of inertia about bond axis of atoms on one side of bond...
+    vector<string> atomset;
+    gs.GetAttachedAtoms(atomset, bondats.first, bondats.second);   
+    double mm1 = gs.CalcMomentAboutAxis(atomset, coords1, coords2); 
+    
+    //...and the other side of the bond
+    atomset.clear();
+    gs.GetAttachedAtoms(atomset, bondats.second, bondats.first);   
+    double mm2 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);  
+    
+    /*
+    Is the reduced moment of inertia need about the bond axis or, separately for the set of
+    atoms on each side of the bond, about a parallel axis through their centre of mass?
+    See:
+    http://www.ccl.net/chemistry/resources/messages/2001/03/21.005-dir/index.html
+    http://www.ccl.net/chemistry/resources/messages/2001/03/31.002-dir/index.html
+    The bond axis is used here.
+    */
+    m_reducedMomentInertia = mm1 * mm2 / ( mm1 + mm2 );//units a.u.*Angstrom*Angstrom
   }
 
   m_barrier  = ppDOSC->XmlReadDouble("me:barrierZPE",optional);
@@ -45,7 +67,8 @@ bool HinderedRotorA::ReadParameters(Molecule* pMol, PersistPtr ppDOSC)
   pp = ppDOSC->XmlMoveTo("me:vibFreq");
   p = pp->XmlReadValue("units", optional);
   units = p ? p : "cm-1";
-//...etc
+
+  // other inputs...
   return true;
 }
 
@@ -64,9 +87,5 @@ bool HinderedRotorA::countCellDOS(gDensityOfStates* pDOS, int MaximumCell)
 
   return true;
 }
-/*
-double HinderedRotorA::CalcReducedMomentOfInertia()
-{
-}
-*/
+
 }//namespace

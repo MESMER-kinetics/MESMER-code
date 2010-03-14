@@ -37,6 +37,7 @@ static const double NaN = NAN;
 #pragma warning( disable : 4800 )
 const char FileSeparatorChar = '\\';
 static const double NaN = std::numeric_limits<double>::quiet_NaN();
+#define isfinite _finite
 
 #else                     //suppose it is LINUX but not defined
 

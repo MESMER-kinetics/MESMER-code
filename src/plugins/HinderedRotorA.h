@@ -9,6 +9,8 @@ namespace mesmer
   class HinderedRotorA : public DensityOfStatesCalculator
   {
   public:
+    //Read data from XML. Some is stored hear and some in a MolecularComponent class.
+    virtual bool ReadParameters(Molecule* pMol, PersistPtr ppDOSC=NULL);
 
     // Provide a function to define particular counts of the DOS of a molecule.
     virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell);
@@ -21,14 +23,13 @@ namespace mesmer
     virtual ~HinderedRotorA() {}
     virtual HinderedRotorA* Clone() { return new HinderedRotorA(*this); }
 
-    //Read data from XML and store in this instance.
-    virtual bool ReadParameters(Molecule* pMol, PersistPtr ppDOSC=NULL);
-
+  private:
   private:
     std::string m_bondID;
     double      m_barrier;
     int         m_periodicity;
     double      m_vibFreq;
+    double      m_reducedMomentInertia;
   } ;
 
 }//namespace

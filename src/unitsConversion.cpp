@@ -13,6 +13,25 @@ namespace mesmer
   //Global variable for the XML addresses of range variables
   std::vector<PersistPtr> RangeXmlPtrs; 
 
+  //Lookup table for atomic masses
+  double atomMass(std::string symb)
+  {
+    static std::map<std::string, double> mass;
+    if(mass.empty())
+    {
+      //Masses of most common isotope
+      mass["H"]  =  1.007825032;
+      mass["D"]  =  2.014101778;
+      mass["C"]  = 12.000000000;
+      mass["N"]  = 14.003074005;
+      mass["O"]  = 15.994914620;
+      mass["F"]  = 18.998403220;
+      mass["S"]  = 31.972071000;
+      mass["Cl"] = 34.968852680;
+    }
+    return mass[symb];
+  }
+
   void initializeConversionMaps(){
     // define rule of conversion for concentration 
     concentrationMap["particles per cubic centimeter"] = 0;
