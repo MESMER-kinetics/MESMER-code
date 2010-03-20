@@ -276,8 +276,10 @@ namespace mesmer
         this_units = default_unit;
       }
 
-      // if user does not input any value for temperature and concentration, give a Default set of concentration and pressure
-      // for simulation
+      //
+      // If user does not input any value for temperature and concentration,
+      // give a Default set of concentration and pressurefor simulation.
+      // 
       std::vector<double> Pvals, Tvals;
       if(!ReadRange("me:Prange", Pvals, ppPTset)) Pvals.push_back(default_P);
       if(!ReadRange("me:Trange", Tvals, ppPTset)) Tvals.push_back(default_T);

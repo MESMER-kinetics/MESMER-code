@@ -1,8 +1,11 @@
+
 #include "MesmerILT.h"
+#include "SimpleILT.h"
 #include "../AssociationReaction.h"
 
 using namespace std;
 using namespace Constants;
+
 namespace mesmer
 {
   //************************************************************
@@ -55,6 +58,7 @@ namespace mesmer
     //**TODO preExponential
     PersistPtr ppActEne, ppPreExponential;
     const char* pActEnetxt=NULL, *pPreExptxt=NULL;
+    bool rangeSet(false) ;
     PersistPtr ppRateParams = ppReac->XmlMoveTo("rateParameters") ;
 
     if(ppRateParams) {
@@ -78,30 +82,22 @@ namespace mesmer
       const char* unitsTxt = ppActEne->XmlReadValue("units", false);
       string unitsInput = (unitsTxt) ? unitsTxt : "kJ/mol" ;
 
-      const char* pLowertxt = ppActEne->XmlReadValue("lower", optional);
-      const char* pUppertxt = ppActEne->XmlReadValue("upper", optional);
-      const char* pStepStxt = ppActEne->XmlReadValue("stepsize", optional);
       double value(getConvertedEnergy(unitsInput, tmpvalue));
-      //if(value<0.0)
-      //{
-      //  cerr << "activation energy should not be negative when used with ILT" << endl;
-      //  return false;
-      //}
-      if (pLowertxt && pUppertxt){
-        double tmpvalueL(0.0), tmpvalueU(0.0), tmpstepsize(0.0);
-        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
-        //if(value<0.0){
-        //  cerr << "lower bound of activation energy should not be negative when used with ILT";
-        //  return false;
-        //}
-        s3 >> tmpvalueL; s4 >> tmpvalueU; s5 >> tmpstepsize;
-        double valueL(getConvertedEnergy(unitsInput, tmpvalueL));
-        double valueU(getConvertedEnergy(unitsInput, tmpvalueU));
-        double stepsize(getConvertedEnergy(unitsInput, tmpstepsize));
-        Rdouble::set_range_indirect(valueL,valueU,stepsize, "activationEnergy");
-        RangeXmlPtrs.push_back(ppActEne);
+      if(value<0.0)
+      {
+        cerr << "activation energy should not be negative when used with ILT" << endl;
+        return false;
       }
+      SimpleILT::ReadRange(string("activationEnergy"), ppPreExponential, m_EInf, value/tmpvalue, rangeSet) ;
       m_EInf = value ;
+      if (rangeSet) {
+        double valueL, valueU, stepsize ;
+        m_EInf.get_range(valueL,valueU,stepsize) ;
+        if(valueL<0.0){
+          cerr << "lower bound of activation energy should not be negative when used with ILT";
+          return false;
+        }
+      }
     }
     else{
       cerr << "Specifying ILT without activation energy provided in reaction "
@@ -113,19 +109,9 @@ namespace mesmer
     {
       double value(0.0) ;
       stringstream s2(pPreExptxt); s2 >> value ;
-      const char* pLowertxt = ppPreExponential->XmlReadValue("lower", optional);
-      const char* pUppertxt = ppPreExponential->XmlReadValue("upper", optional);
-      const char* pStepStxt = ppPreExponential->XmlReadValue("stepsize", optional);
-      if (pLowertxt && pUppertxt){
-        double valueL(0.0), valueU(0.0), stepsize(0.0);
-        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
-        s3 >> valueL; s4 >> valueU; s5 >> stepsize;
-        Rdouble::set_range_indirect(valueL,valueU,stepsize, "me:preExponential");
-        RangeXmlPtrs.push_back(ppPreExponential);
-      }
+      SimpleILT::ReadRange(string("me:preExponential"), ppPreExponential, m_PreExp, 1.0, rangeSet) ;
       m_PreExp = value ;
-    }
-    else{
+    } else {
       cerr << "Specifying ILT without pre-exponential term provided in reaction " << this->getName() << ". Please correct input file.";
       return false;
     }
@@ -136,15 +122,16 @@ namespace mesmer
       PersistPtr ppNInf = ppReac->XmlMoveTo("me:nInfinity") ;
       double value = 0.0;
       stringstream s2(pNInftxt); s2 >> value ;
-      const char* pLowertxt = ppNInf->XmlReadValue("lower", false);
-      const char* pUppertxt = ppNInf->XmlReadValue("upper", false);
-      const char* pStepStxt = ppNInf->XmlReadValue("stepsize", false);
-      if (pLowertxt && pUppertxt){
-        double valueL(0.0), valueU(0.0), stepsize(0.0);
-        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
-        Rdouble::set_range_indirect(valueL,valueU,stepsize, "me:nInfinity");
-        RangeXmlPtrs.push_back(ppNInf);
-      }
+      SimpleILT::ReadRange(string("me:nInfinity"), ppNInf, m_NInf, 1.0, rangeSet) ;
+      //const char* pLowertxt = ppNInf->XmlReadValue("lower", false);
+      //const char* pUppertxt = ppNInf->XmlReadValue("upper", false);
+      //const char* pStepStxt = ppNInf->XmlReadValue("stepsize", false);
+      //if (pLowertxt && pUppertxt){
+      //  double valueL(0.0), valueU(0.0), stepsize(0.0);
+      //  stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
+      //  Rdouble::set_range_indirect(valueL,valueU,stepsize, "me:nInfinity");
+      //  RangeXmlPtrs.push_back(ppNInf);
+      //}
       m_NInf = value ;
     }
 
@@ -153,32 +140,10 @@ namespace mesmer
       cinfo << "Tinfinity is less than or equal to 0; set to the default value of 298 K" << endl;
       TInf = 298.0 ;
     } else {
-       // Set Tinf to the value in the input.
        m_TInf = TInf ;   
     }
 
-    //A few checks on features not allowed in ILT methods
-    if (pReact->get_TransitionState())
-    {
-      cerr << "Reaction " << pReact->getName() 
-        << " uses ILT method, which should not have transition state."<<endl;
-      return false;
-    }
-    const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling", optional) ;
-    if(pTunnelingtxt)
-    {
-      cerr << "Tunneling parameter in Reaction " << getName() << " is invalid in ILT."<<endl;
-      return false;
-    }
-
-    const char* pCrossingtxt = ppReac->XmlReadValue("me:crossing", optional) ;
-    if(pCrossingtxt)
-    {
-      cerr << "Crossing parameter in Reaction " << getName() << " is invalid in ILT."<<endl;
-      return false;
-    }
-
-    return true;
+    return SimpleILT::ILTCheck(pReact, ppReac) ; 
   }
 
   bool MesmerILT::calculateMicroRateCoeffs(Reaction* pReact)

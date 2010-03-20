@@ -1,5 +1,9 @@
 
-2010-March-7 Struan Robertson
+2010-March-20 Struan Robertson
+
+	* SimpleILT.h/.cpp, MesmerILT.h/.cpp: More refactoring to eliminate code duplication.
+
+2010-March-20 Struan Robertson
 
 	* ReactionManager.h/.cpp, System.h/.cpp: Transition matrix construction moved from 
       ReactionManager to System.

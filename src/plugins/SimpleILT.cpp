@@ -2,6 +2,7 @@
 
 using namespace std;
 using namespace Constants;
+
 namespace mesmer
 {
   //************************************************************
@@ -17,9 +18,9 @@ namespace mesmer
     // OpenBabel outputs <rateParameters> <A> <n> <E>
     // Attempt to read these first; 
     // if not present read the mesmer version which will add the default if necessary.
-    //**TODO preExponential
     PersistPtr ppActEne, ppPreExponential;
     const char* pActEnetxt=NULL, *pPreExptxt=NULL;
+    bool rangeSet(false) ;
     PersistPtr ppRateParams = ppReac->XmlMoveTo("rateParameters") ;
 
     if(ppRateParams) {
@@ -42,30 +43,22 @@ namespace mesmer
       const char* unitsTxt = ppActEne->XmlReadValue("units", false);
       string unitsInput = (unitsTxt) ? unitsTxt : "kJ/mol" ;
 
-      const char* pLowertxt = ppActEne->XmlReadValue("lower", optional);
-      const char* pUppertxt = ppActEne->XmlReadValue("upper", optional);
-      const char* pStepStxt = ppActEne->XmlReadValue("stepsize", optional);
       double value(getConvertedEnergy(unitsInput, tmpvalue));
       if(value<0.0)
       {
         cerr << "activation energy should not be negative when used with ILT" << endl;
         return false;
       }
-      if (pLowertxt && pUppertxt){
-        double tmpvalueL(0.0), tmpvalueU(0.0), tmpstepsize(0.0);
-        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
-        s3 >> tmpvalueL; s4 >> tmpvalueU; s5 >> tmpstepsize;
-        double valueL(getConvertedEnergy(unitsInput, tmpvalueL));
-        double valueU(getConvertedEnergy(unitsInput, tmpvalueU));
-        double stepsize(getConvertedEnergy(unitsInput, tmpstepsize));
-        if(value<0.0){
+      ReadRange(string("activationEnergy"), ppPreExponential, m_EInf, value/tmpvalue, rangeSet) ;
+      m_EInf = value ;
+      if (rangeSet) {
+        double valueL, valueU, stepsize ;
+        m_EInf.get_range(valueL,valueU,stepsize) ;
+        if(valueL<0.0){
           cerr << "lower bound of activation energy should not be negative when used with ILT";
           return false;
         }
-        Rdouble::set_range_indirect(valueL,valueU,stepsize, "activationEnergy");
-        RangeXmlPtrs.push_back(ppActEne);
       }
-      m_EInf = value ;
     }
     else{
       cerr << "Specifying ILT without activation energy provided in reaction "
@@ -77,45 +70,14 @@ namespace mesmer
     {
       double value(0.0) ;
       stringstream s2(pPreExptxt); s2 >> value ;
-      const char* pLowertxt = ppPreExponential->XmlReadValue("lower", optional);
-      const char* pUppertxt = ppPreExponential->XmlReadValue("upper", optional);
-      const char* pStepStxt = ppPreExponential->XmlReadValue("stepsize", optional);
-      if (pLowertxt && pUppertxt){
-        double valueL(0.0), valueU(0.0), stepsize(0.0);
-        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
-        s3 >> valueL; s4 >> valueU; s5 >> stepsize;
-        Rdouble::set_range_indirect(valueL,valueU,stepsize, "me:preExponential");
-        RangeXmlPtrs.push_back(ppPreExponential);
-      }
+      ReadRange(string("me:preExponential"), ppPreExponential, m_PreExp, 1.0, rangeSet) ;
       m_PreExp = value ;
     } else {
       cerr << "Specifying ILT without pre-exponential term provided in reaction " << this->getName() << ". Please correct input file.";
       return false;
     }
 
-    // A few checks on features not allowed in ILT methods.
-    
-    if (pReact->get_TransitionState())
-    {
-      cerr << "Reaction " << pReact->getName() 
-        << " uses ILT method, which should not have transition state."<<endl;
-      return false;
-    }
-    const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling", optional) ;
-    if(pTunnelingtxt)
-    {
-      cerr << "Tunneling parameter in Reaction " << getName() << " is invalid in ILT."<<endl;
-      return false;
-    }
-
-    const char* pCrossingtxt = ppReac->XmlReadValue("me:crossing", optional) ;
-    if(pCrossingtxt)
-    {
-      cerr << "Crossing parameter in Reaction " << getName() << " is invalid in ILT."<<endl;
-      return false;
-    }
-
-    return true;
+    return ILTCheck(pReact, ppReac) ; 
   }
 
   //
@@ -177,4 +139,68 @@ namespace mesmer
     return m_EInf ;
 
   }
+  
+//-----------------------------------------------------------------------------------------------
+//
+// ILT Utility methods
+//
+
+  //
+  // Utility function to read parameter range. 
+  //   The parameter cnvrsnFctr applies any conversion factor that is required.
+  //   The parameter rangeSet indicates if a range has actually been set for the rdouble variable.
+  //
+  bool SimpleILT::ReadRange(const string& name, PersistPtr ppbase, Rdouble& rdouble, double cnvrsnFctr, bool& rangeSet)
+  {
+    PersistPtr pp = ppbase ;
+
+    const char* pLowertxt = pp->XmlReadValue("lower", optional);
+    const char* pUppertxt = pp->XmlReadValue("upper", optional);
+    const char* pStepStxt = pp->XmlReadValue("stepsize", optional);
+
+    if (pLowertxt && pUppertxt){
+      rangeSet = true ;
+      double valueL(0.0), valueU(0.0), stepsize(0.0);
+      stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
+      s3 >> valueL; s4 >> valueU; s5 >> stepsize;
+      rdouble.set_range(valueL*cnvrsnFctr,valueU*cnvrsnFctr,stepsize*cnvrsnFctr, name.c_str());
+      RangeXmlPtrs.push_back(pp);
+    } else {
+      rangeSet = false ;
+    }
+
+    return true;
+  }
+
+  //
+  // Utility function to check for inconsistencies. 
+  //
+  bool SimpleILT::ILTCheck(Reaction* pReac, PersistPtr ppReac)
+  {
+    // A few checks on features not allowed in ILT methods.
+    
+    if (pReac->get_TransitionState())
+    {
+      cerr << "Reaction " << pReac->getName() 
+        << " uses ILT method, which should not have transition state."<<endl;
+      return false;
+    }
+    const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling", optional) ;
+    if(pTunnelingtxt)
+    {
+      cerr << "Tunneling parameter in Reaction " << pReac->getName() << " is invalid in ILT."<<endl;
+      return false;
+    }
+
+    const char* pCrossingtxt = ppReac->XmlReadValue("me:crossing", optional) ;
+    if(pCrossingtxt)
+    {
+      cerr << "Crossing parameter in Reaction " << pReac->getName() << " is invalid in ILT."<<endl;
+      return false;
+    }
+    
+    return true ;
+
+  }
+    
 }//namespace

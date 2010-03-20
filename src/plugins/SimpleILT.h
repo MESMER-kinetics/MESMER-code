@@ -20,12 +20,18 @@ namespace mesmer
     virtual ~SimpleILT() {}
     virtual SimpleILT* Clone() { return new SimpleILT(*this); }
 
-    virtual bool calculateMicroRateCoeffs(Reaction* pReact);
+    virtual bool calculateMicroRateCoeffs(Reaction* pReac);
 
     virtual double get_ThresholdEnergy(Reaction* pReac) ;
 
     virtual bool ReadParameters(Reaction* pReac) ;
-     
+    
+    // Utility function to read parameter range. 
+    static bool ReadRange(const string& name, PersistPtr ppbase, Rdouble& rdouble, double cnvrsnFctr, bool& rangeSet) ;
+
+    // Utility function to check for inconsistencies. 
+    static bool ILTCheck(Reaction* pReac, PersistPtr ppReac) ;
+    
   private:
    
     // All the parameters that follow are for an Arrhenius expression of the type:
