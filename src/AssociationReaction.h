@@ -89,7 +89,7 @@ namespace mesmer
     virtual bool isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) ;
 
     // returns the reaction type
-    virtual int getReactionType(){return ASSOCIATION;};
+    virtual ReactionType getReactionType(){return ASSOCIATION;};
 
     // Get reactants cell density of states.
     void getRctsCellDensityOfStates(std::vector<double> &cellDOS) ;

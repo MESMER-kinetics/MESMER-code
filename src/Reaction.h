@@ -188,7 +188,7 @@ namespace mesmer
     virtual bool isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) { return false ; } ;
 
     // returns the reaction type
-    virtual int getReactionType(){return UNDEFINED_REACTION;};
+    virtual ReactionType getReactionType(){return UNDEFINED_REACTION;};
 
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() = 0 ;

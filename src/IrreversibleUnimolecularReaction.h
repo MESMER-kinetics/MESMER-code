@@ -74,7 +74,7 @@ namespace mesmer
     } ;
 
     // returns the reaction type
-    virtual int getReactionType(){
+    virtual ReactionType getReactionType(){
       return m_pdt2 ? DISSOCIATION : IRREVERSIBLE_ISOMERIZATION;
     };
 

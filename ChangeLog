@@ -1,3 +1,9 @@
+
+2010-March-7 Struan Robertson
+
+	* ReactionManager.h/.cpp, System.h/.cpp: Transition matrix construction moved from 
+      ReactionManager to System.
+
 2010-March-14 Chris Morley
 
 	* src/vector3.cpp,src/vector3.h: class foratom coordinates from OpenBabel,

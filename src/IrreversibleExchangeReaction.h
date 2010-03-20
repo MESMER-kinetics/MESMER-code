@@ -79,7 +79,7 @@ namespace mesmer
     virtual double calcEquilibriumConstant() ;
 
     // returns the reaction type
-    virtual int getReactionType(){return IRREVERSIBLE_EXCHANGE;};
+    virtual ReactionType getReactionType(){return IRREVERSIBLE_EXCHANGE;};
 
     // get the reactant, which reacts in a first order or pseudo first order process
     virtual Molecule *get_reactant(void) const {return m_rct1;};

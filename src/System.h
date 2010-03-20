@@ -48,11 +48,31 @@ namespace mesmer
     PersistPtr getPersistPtr() { return m_ppIOPtr; }
 
     double calcChiSquare(const qdMatrix& mesmerRates, vector<conditionSet>& expRates);
+
     // Mesmer control flags.
     MesmerFlags m_Flags;
 
+    // Build reaction operator for system.
+    bool BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags) ;
+
+    // Calculate the equilibrium fraction of each species in the system.
+    bool calculateEquilibriumFractions(const double beta);
+
+    // Diagonalize the reaction operator.
+    void diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv, const int precision, PersistPtr ppAnalysis) ;
+
+    // Calculate the time evolution of the system
+    bool timeEvolution(MesmerFlags& mFlags, PersistPtr ppPopList);
+
+    // Calculates the Bartis-Widom macroscopic rate coefficients.
+    bool BartisWidomPhenomenologicalRates(qdMatrix& rates, MesmerFlags& mFlags, PersistPtr ppBase);
+    
+    // Calculates the Bartis-Widom macroscopic rate coefficients, using the contracted basis set eigenvectors.
+    bool BartisWidomBasisSetRates(qdMatrix& rates, MesmerFlags& mFlags);
+
   private:
 
+    typedef std::map<Reaction* , int, Reaction::ReactionPtrLess> sinkMap ;
 
     void readPTs(PersistPtr);
 
@@ -60,6 +80,27 @@ namespace mesmer
       std::vector<double>&  vals,
       PersistPtr            ppbase,
       bool                  MustBeThere=true);
+
+    // sets grain parameters and determines system environment
+    bool SetGrainParams(MesmerEnv &mEnv, const MesmerFlags& mFlags, const double minEne, const double maxEne);
+
+    // Construct a transition matrix based on grains.
+    void constructGrainMatrix(int msize);
+    
+    // Construct a transition matrix based on collision operator eigenfunctions.
+    void constructBasisMatrix(void);
+
+    void printReactionOperator(const MesmerFlags &mFlags);
+
+    void printEigenvectors(const MesmerFlags &mFlags, std::ostream& os);
+
+    bool produceEquilibriumVector();
+
+    bool produceInitialPopulationVector(vector<double>& initDist);
+
+    int getSpeciesSequenceIndex(const std::string ref);
+
+
 
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;
@@ -80,6 +121,31 @@ namespace mesmer
     CalcMethod* m_CalcMethod;
 
     const char* m_pTitle;
+
+    // Maps the location of individual reactant collision operator and source terms in the reaction operator.
+    Reaction::molMapType    m_isomers;
+    Reaction::molMapType    m_sources;
+    sinkMap                 m_sinkRxns;
+
+    // Mean collision frequency.
+    double                  m_meanOmega;
+
+    // The system transition matrix and associated eigenvalues and eigenvectors.
+    qdMatrix               *m_reactionOperator ;
+    qdMatrix               *m_eigenvectors;
+    std::vector<qd_real>    m_eigenvalues;
+
+    // Map modelled molecules (isomers + sources) with their sequence in the transition matrix.
+    Reaction::molMapType    m_SpeciesSequence;
+
+
+    // Equilibrium distribution.
+    std::vector<qd_real>    m_eqVector;
+
+    sinkMap                 m_SinkSequence;
+
+    bool                    m_punchSymbolGathered;
+    
   } ;
 }//namespace
 #endif // GUARD_System_h
