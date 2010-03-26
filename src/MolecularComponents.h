@@ -412,7 +412,7 @@ namespace mesmer
     //Returns true if atoms have coordinates
     bool ReadStructure();
 
-    double gStructure::CalcMW();
+    double CalcMW();
 
     std::pair<std::string,std::string> GetAtomsOfBond(const std::string& bondID)
     {

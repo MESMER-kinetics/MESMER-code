@@ -7,10 +7,9 @@
 #include "Molecule.h"
 //#include "Rdouble.h"
 
-using namespace std ;
-using namespace Constants ;
-using class OpenBabel::vector3;
-
+using namespace std;
+using namespace Constants;
+using namespace OpenBabel;
 namespace mesmer
 {
 

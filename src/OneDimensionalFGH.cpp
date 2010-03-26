@@ -55,63 +55,70 @@
 //    All quantities in au (unless otherwise stated)
 //------------------------------------------------------------------------------------------
 #include <cmath>
-#include "TMatrix.h"
+#include "dMatrix.h"
 
-int oneDimensionalFourierGridHamiltonian(const double ima,
-                                         const double imb,
-                                         void (*vsub)(double),
-                                         std::vector<double>& eigenvalues,
-                                         dMatrix& eigenvectors,
-                                         int numberGridPoint
-                                        ){
+namespace mesmer{
 
-  const double imu = ima * imb / (ima + imb); // reduced moment of inertia
-  const double psq = M_PI * M_PI;
-  const double const1 = psq / (imu * (gridLength * gridLength));
-  const double nfact1 = (numberGridPoint - 1) * (numberGridPoint - 2);
-  const double nfact2 = (numberGridPoint - 2) / 2;
-  const double const2 = const1 * (double(nfact1) / 6.0 + 1.0 + double(nfact2));
-  const double darg = M_PI / double(numberGridPoint);
+	int oneDimensionalFourierGridHamiltonian(const double ima,
+																					 const double imb,
+																					 double (*vsub)(double),
+																					 std::vector<double>& eigenvalues,
+																					 dMatrix& eigenvectors,
+																					 int numberGridPoint
+																					 ){
+		
+		const double imu = ima * imb / (ima + imb); // reduced moment of inertia
+		const double psq = M_PI * M_PI;
+		const double gridLength = 1.0; // temporary assigned value
+		const double const1 = psq / (imu * (gridLength * gridLength));
+		const double nfact1 = (numberGridPoint - 1) * (numberGridPoint - 2);
+		const double nfact2 = (numberGridPoint - 2) / 2;
+		const double const2 = const1 * (double(nfact1) / 6.0 + 1.0 + double(nfact2));
+		const double darg = M_PI / double(numberGridPoint);
+		
+		dMatrix hamiltonian(numberGridPoint, numberGridPoint);
 
-  dMatrix hamiltonian(numberGridPoint, numberGridPoint);
+		double x = 0.0; // temporary
+		double dx = .01; // temporary
+		for (int i(0); i < numberGridPoint; ++i){
+			for (int j(0); j <= i; ++j){
+				double ijD = (i - j);
+				if (!ijD){
+					hamiltonian[i][j] = const2;
+				}
+				else{
+					const double ratio=1.0 / sin(darg * double(ijD));
+					hamiltonian[i][j]=(int(ijD) % 2 ? 1.0 : -1.0) * const1 * ratio * ratio;
+				}
+			}
+			// Find the potential value at x
+			// Add the potential value when the kronecker delta function
+			// equals to one, i.e. when i and j are equal
 
-  for (int i(0); i < numberGridPoint; ++i){
-    for (int j(0); j <= i; ++j){
-      ijD = (i - j);
-      if (!ijD){
-        hamiltonian[i][j] = const2;
-      }
-      else{
-        const double ratio=1.0 / sin(darg * double(ijD));
-        hamiltonian(i,j)=(ijD % 2 ? 1.0 : -1.0) * const1 * ratio * ratio;
-      }
-    }
-    // Find the potential value at x
-    // Add the potential value when the kronecker delta function
-    // equals to one, i.e. when i and j are equal
-    hamiltonian[i][i] += (*vsub)(x);
-    x += dx;
-  }
-
-  // Now fill out Hamiltonian matrix.
-  for (int i(0); i < numberGridPoint; ++i){
-    for (int j(0); j <= i; ++j){
-      hamiltonian[j][i] = hamiltonian[i][j];
-    }
-  }
-
-  // Now call eigenvalue solvers.
-  eigenvalues.clear();
-  eigenvalues.resize(numberGridPoint, 0.0);
-  hamiltonian.diagonalize(&dEigenValue[0]);
-
-  if (*eigenvectors != NULL){
-    for (int i(0); i < numberGridPoint; ++i){
-      for (int j(0); j < numberGridPoint; ++j){
-        eigenvalues[i][j] = hamiltonian[i][j];
-      }
-    }
-  }
-
-  return 0;
-}
+			hamiltonian[i][i] += (*vsub)(x);
+			x += dx;
+		}
+		
+		// Now fill out Hamiltonian matrix.
+		for (int i(0); i < numberGridPoint; ++i){
+			for (int j(0); j <= i; ++j){
+				hamiltonian[j][i] = hamiltonian[i][j];
+			}
+		}
+		
+		// Now call eigenvalue solvers.
+		eigenvalues.clear();
+		eigenvalues.resize(numberGridPoint, 0.0);
+		hamiltonian.diagonalize(&eigenvalues[0]);
+		
+		if (eigenvectors[0] != NULL){
+			for (int i(0); i < numberGridPoint; ++i){
+				for (int j(0); j < numberGridPoint; ++j){
+					eigenvectors[i][j] = hamiltonian[i][j];
+				}
+			}
+		}
+		
+		return 0;
+	}
+};

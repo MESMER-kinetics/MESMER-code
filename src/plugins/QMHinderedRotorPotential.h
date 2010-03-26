@@ -11,8 +11,9 @@ namespace mesmer
   public:
 
     // Provide a function to define particular counts of the DOS of a molecule.
-    virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell,
-      PersistPtr ppDOSC=NULL);
+    virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell);
+
+		virtual QMHinderedRotorPotential* Clone() { return new QMHinderedRotorPotential(*this); }
 
     ///Constructor which registers with the list of DensityOfStatesCalculators in the base class
     //This class is an extra DOS class: there needs to be a non-extra DensityOfStatesCalculator class
