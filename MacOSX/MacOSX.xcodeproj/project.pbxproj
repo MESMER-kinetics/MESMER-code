@@ -6,6 +6,20 @@
 	objectVersion = 44;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		57A5B415115E5664006FE5D7 /* qdconfigure */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 57A5B418115E5682006FE5D7 /* Build configuration list for PBXAggregateTarget "qdconfigure" */;
+			buildPhases = (
+				57A5B414115E5664006FE5D7 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = qdconfigure;
+			productName = qdconfigure;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		5764150F115C35C1002C7AAB /* tinystr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 576414FF115C35C1002C7AAB /* tinystr.cpp */; };
 		57641510115C35C1002C7AAB /* tinystr.h in Headers */ = {isa = PBXBuildFile; fileRef = 57641500115C35C1002C7AAB /* tinystr.h */; };
@@ -34,7 +48,6 @@
 		57641600115C37B0002C7AAB /* dd_const.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 576415B4115C37B0002C7AAB /* dd_const.cpp */; };
 		57641602115C37B0002C7AAB /* dd_real.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 576415B6115C37B0002C7AAB /* dd_real.cpp */; };
 		57641604115C37B0002C7AAB /* fpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 576415B8115C37B0002C7AAB /* fpu.cpp */; };
-		57641606115C37B0002C7AAB /* libqd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 576415BA115C37B0002C7AAB /* libqd.a */; };
 		57641608115C37B0002C7AAB /* qd_const.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 576415BE115C37B0002C7AAB /* qd_const.cpp */; };
 		5764160A115C37B0002C7AAB /* qd_real.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 576415C0115C37B0002C7AAB /* qd_real.cpp */; };
 		5764160C115C37B0002C7AAB /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 576415C2115C37B0002C7AAB /* util.cpp */; };
@@ -94,6 +107,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		57A5B419115E569F006FE5D7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 57A5B415115E5664006FE5D7 /* qdconfigure */;
+			remoteInfo = qdconfigure;
+		};
 		57E6CD87115CEBD500FB8DFD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
@@ -340,7 +360,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57641606115C37B0002C7AAB /* libqd.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -777,6 +796,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				57A5B41A115E569F006FE5D7 /* PBXTargetDependency */,
 			);
 			name = qd;
 			productName = qd;
@@ -818,9 +838,26 @@
 				8DD76FA90486AB0100D96B5E /* mesmer */,
 				576414BC115C3531002C7AAB /* tinyxml */,
 				57641528115C3790002C7AAB /* qd */,
+				57A5B415115E5664006FE5D7 /* qdconfigure */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		57A5B414115E5664006FE5D7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here\ncd ../qd\nchmod 755 configure\n./configure\nexit 0";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		576414BA115C3531002C7AAB /* Sources */ = {
@@ -910,6 +947,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		57A5B41A115E569F006FE5D7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 57A5B415115E5664006FE5D7 /* qdconfigure */;
+			targetProxy = 57A5B419115E569F006FE5D7 /* PBXContainerItemProxy */;
+		};
 		57E6CD88115CEBD500FB8DFD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 576414BC115C3531002C7AAB /* tinyxml */;
@@ -1047,6 +1089,27 @@
 			};
 			name = Release;
 		};
+		57A5B416115E5664006FE5D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = qdconfigure;
+			};
+			name = Debug;
+		};
+		57A5B417115E5664006FE5D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = qdconfigure;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1082,6 +1145,15 @@
 			buildConfigurations = (
 				5764152A115C3790002C7AAB /* Debug */,
 				5764152B115C3790002C7AAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		57A5B418115E5682006FE5D7 /* Build configuration list for PBXAggregateTarget "qdconfigure" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57A5B416115E5664006FE5D7 /* Debug */,
+				57A5B417115E5664006FE5D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
