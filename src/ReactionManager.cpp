@@ -328,7 +328,7 @@ namespace mesmer
       for (; isomeritr != m_isomers.end() ; ++isomeritr) {
 
         Molecule *isomer = isomeritr->first ;
-        isomeritr->second = msize ; //set location
+        isomeritr->second = mFlags.timeIndependent ? msize + csize : msize; //set location
 
         int grnZpe = isomer->getColl().get_grnZPE() ; //set grain ZPE (with respect to the minimum of all wells)
 
@@ -372,7 +372,7 @@ namespace mesmer
       if (!mFlags.doBasisSetMethod) {
 
         if (mFlags.timeIndependent){// Time independent yields operator
-          constructTimeIndependentGrainMatrix(msize, mFlags);
+          constructTimeIndependentGrainMatrix(msize+csize, mFlags);
         }
         else{// Full energy grained reaction operator.
           constructGrainMatrix(msize);
@@ -1797,7 +1797,7 @@ namespace mesmer
       m_reactions[i]->AddNonsymmetrizedReactionTerms(m_reactionOperator,m_isomers,1.0/m_meanOmega) ;
     }
 
-    m_reactionOperator->normalizeColumns();
+    //m_reactionOperator->normalizeColumns();
 
     if (mFlags.showTimeIndependentMatrices){
       ctest << "\nAssymetrized reaction operator after normalization: " << endl;

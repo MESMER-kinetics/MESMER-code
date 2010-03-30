@@ -173,7 +173,6 @@ namespace mesmer
     const int pdtRxnOptPos(pdtLoc - (pNGG == 0 ? 0 : pNGG - 1));
     const int adductPopFracShift(pNGG == 0 ? 0 : pNGG - 1);
     const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
-    //const int forwardThreshE = get_EffGrnFwdThreshold();
     const int reverseThreshE = get_EffGrnRvsThreshold();
     const int fluxStartIdx = get_fluxFirstNonZeroIdx();
 
@@ -182,12 +181,10 @@ namespace mesmer
     for ( int i = reverseThreshE, j = fluxStartIdx; i < colloptrsize; ++i, ++j) {
       int ii(pdtRxnOptPos + i) ;
       int kk (i - adductPopFracShift);
-      //(*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[j] / pdtDOS[i]);                                // Loss of the adduct to the source
-      (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[j] * adductPopFrac[kk] * Keq / pdtDOS[i]);// Reactive gain of the source
-      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] / Keq;                                                      // Reactive gain (symmetrization)
-      //DissRateCoeff       += qd_real(m_GrainFlux[j] * adductPopFrac[kk] / pdtDOS[i]);
+      (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[j] / pdtDOS[i]); // k(e) for adduct => source
+      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] * adductPopFrac[kk] * Keq;    // k(e) for source -> adduct
+      (*CollOptr)[jj][ii]  = 0.0;
     }
-    //(*CollOptr)[jj][jj] -= qd_real(rMeanOmega * DissRateCoeff * Keq);       // Loss of the source from detailed balance.
   }
 
   //

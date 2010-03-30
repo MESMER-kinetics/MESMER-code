@@ -181,8 +181,14 @@ namespace mesmer
       int jj(pdtLocation + mm - pShiftedGrains) ;
       //(*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]) ;                    // Forward loss reaction.
       //(*CollOptr)[jj][jj] -= qd_real(rMeanOmega * m_GrainFlux[i] / pdtDOS[mm]) ;                    // Backward loss reaction from detailed balance.
-      (*CollOptr)[ii][jj]  = qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]) ;                    // Reactive gain.
-      (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[i] / pdtDOS[mm]) ;                    // Reactive gain.
+      double tempKE1 = m_GrainFlux[i] / rctDOS[ll];
+      double tempKE2 = m_GrainFlux[i] / pdtDOS[mm];
+      double tempKEm1 = rMeanOmega * m_GrainFlux[i] / rctDOS[ll];
+      double tempKEm2 = rMeanOmega * m_GrainFlux[i] / pdtDOS[mm];
+      //(*CollOptr)[ii][jj]  = qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]) ;                    // Reactive gain.
+      //(*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[i] / pdtDOS[mm]) ;                    // Reactive gain.
+      (*CollOptr)[ii][jj]  = qd_real(rMeanOmega * m_GrainFlux[i] / pdtDOS[mm]) ;                    // Reactive gain.
+      (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]) ;                    // Reactive gain.
     }
   }
 

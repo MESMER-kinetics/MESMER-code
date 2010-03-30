@@ -1167,8 +1167,6 @@ namespace mesmer
           (*m_egme)[j][j] = 0.0;
         }
 
-        //Normalisation
-        m_egme->normalizeColumns();
       }
 
       if (!m_host->getFlags().timeIndependent){
