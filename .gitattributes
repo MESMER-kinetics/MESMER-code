@@ -79,6 +79,7 @@ examples/reservoirSink/reservoirSinkAcetylO2.xml -text
 /mesmerDiag.xsl -text
 /popDiag.xsl -text
 /punch.xsl -text
+/punchout.bat -text
 qd/AUTHORS -text
 qd/COPYING -text
 qd/ChangeLog -text

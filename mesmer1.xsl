@@ -35,19 +35,21 @@
         <!--If we had used src="switchcontent.js" it would have been relative to the
         position of the xml file. The href in xsl:include is relative to the xsl file.-->
       </script>
-      <script>
-        function toggle()
-        {
-          var oRule = document.getElementsByTagName('style')[1].sheet.cssRules[0];
-          if(oRule.style.visibility=='hidden')
+      <script type="text/javascript">
+        <![CDATA[
+          function toggle()
           {
+            var oRule = document.getElementsByTagName('style')[1].sheet.cssRules[0];
+            if(oRule.style.visibility=='hidden')
+            {
             oRule.style.visibility = 'visible';
-          }
-          else
-          {
+            }
+            else
+            {
             oRule.style.visibility = 'hidden';
+            }
           }
-        }
+          ]]>
       </script>
       <style>
         <![CDATA[
@@ -79,6 +81,7 @@
         table{background-color:#e0f8f8; margin-bottom:12px;}
         td{padding:0px 4px;}
         h3{color:teal;font-family: Arial, Helvetica, sans-serif;}
+        hh5{color:black;font-family: Arial, Helvetica, sans-serif;font-weight:bold;font-size:smaller;}
         .normal{color:black; font-size:smaller;}
         .handcursor{cursor:hand; cursor:pointer;}
         .inactive{color:silver;stroke:silver;}
@@ -87,6 +90,7 @@
         #title{font-size:larger;font-weight:bold;}
         #metadata{color:teal;font-size:smaller;}
         #hide{font-size:small;text-decoration:underline;color:blue;cursor:pointer;}
+        #Punchout{font-size:12px;color:gray;}
         ]]>
       </style>
       <xsl:variable name="inactval">
@@ -166,6 +170,11 @@
     <xsl:if test="//me:rateList">
       <h3 id="BWrates-title" class="handcursor">Bartis-Widom Phenomenological Rate Coefficients</h3>
       <div id="BWrates" class="switchgroup5">
+        <hh5 id="Punchout-title" class="handcursor">Copy and paste for spreadsheets, etc.</hh5>
+        <div id="Punchout" class="switchgroup8">
+          <xsl:call-template name="punchheader"/>
+          <xsl:call-template name="punchoutput"/>
+        </div>
         <xsl:apply-templates select="//me:rateList"/>
       </div>
     </xsl:if>
@@ -179,7 +188,7 @@
 
     <xsl:if test="//@fitted">
       <h3 id="FittedParams-title" class="handcursor">Fitted Parameters</h3>
-      <div id="FittedParams" class="switchgroup6">
+      <div id="FittedParams" class="switchgroup7">
         <table>
           <xsl:apply-templates select="//@fitted"/>
         </table>
@@ -194,7 +203,7 @@
     <!--Script for expanding an contracting sections-->
     <script type="text/javascript">
       <![CDATA[
-        for(var i=1; i <=6; i++)
+        for(var i=1; i <=8; i++)
         {
           var mc=new switchcontent("switchgroup" + i)
           mc.setStatus('- ','+ ')
@@ -461,4 +470,29 @@
       "//cml:property[@dictRef='me:ZPE']/cml:scalar/@units | //me:activationEnergy/@units"/>
   </xsl:template>
 
-  </xsl:stylesheet> 
+  <xsl:template name="punchheader">
+    <xsl:value-of select="concat(/me:mesmer/cml:title,' calculated ',//me:analysis[1]/@calculated)"/>
+    <br/>
+    <xsl:for-each select="//me:analysis[1]/me:parameters/@*">
+      <xsl:value-of select="concat(name(),',')"/>
+    </xsl:for-each>
+    <xsl:value-of select="concat('T',',','conc',',')"/>
+    <xsl:for-each select="//me:analysis[1]/me:rateList[1]/me:firstOrderRate">
+      <xsl:value-of select="concat(@fromRef,'->',@toRef,',')"/>
+    </xsl:for-each>
+  </xsl:template>
+  
+  <xsl:template name="punchoutput">
+    <xsl:for-each select ="//me:rateList">
+      <br/>
+      <xsl:for-each select="../me:parameters/@*">
+        <xsl:value-of select="concat(.,',')"/>
+      </xsl:for-each>
+      <xsl:value-of select="concat(@T,',',@conc,',')"/>
+      <xsl:for-each select="me:firstOrderRate">
+        <xsl:value-of select="concat(.,',')"/>
+      </xsl:for-each>
+    </xsl:for-each>
+  </xsl:template>
+
+</xsl:stylesheet> 
