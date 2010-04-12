@@ -1049,25 +1049,25 @@ There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemic
 
 Z_matrix: {
 2.453392e-02	9.993977e-01	
--2.453391e-02	6.022757e-04	
+-2.453392e-02	6.022759e-04	
 }
 
 Z_matrix^(-1):
 {
-2.454870e-02	-4.073536e+01	
+2.454870e-02	-4.073535e+01	
 1.000000e+00	1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	1.899114e-65	
-3.819555e-65	1.000000e+00	
+1.000000e+00	0.000000e+00	
+-1.007977e-65	1.000000e+00	
 }
 
 Kr matrix:
 {
--4.249028e+02	7.050709e+05	
-4.249028e+02	-7.050706e+05	
+-4.249028e+02	7.050706e+05	
+4.249030e+02	-7.050706e+05	
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -1078,7 +1078,7 @@ HSO2 loss = -7.050706e+05
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-H -> HSO2 = 4.249028e+02
-HSO2 -> H = 7.050709e+05
+H -> HSO2 = 4.249030e+02
+HSO2 -> H = 7.050706e+05
 }
 }

@@ -2115,30 +2115,30 @@ Number of sinks in this system: 0
 There should be 1 zero eigenvalue (zero within numerical precision) and 2 chemically significant eigenvalues (CSEs)
 
 Z_matrix: {
-9.174821e-06	4.692964e-01	3.006070e-01	
--7.019030e-04	-3.064610e-07	4.998583e-07	
-6.934431e-04	-4.478473e-01	6.991625e-01	
+8.879532e-06	4.541922e-01	2.909320e-01	
+-7.121466e-04	-3.109336e-07	5.071533e-07	
+7.032671e-04	-4.541919e-01	7.090675e-01	
 }
 
 Z_matrix^(-1):
 {
-2.953870e-05	-1.424697e+03	1.005871e-03	
-1.510917e+00	-6.220434e-01	-6.496229e-01	
-9.678153e-01	1.014594e+00	1.014167e+00	
+3.052101e-05	-1.404204e+03	9.918200e-04	
+1.561163e+00	-6.130958e-01	-6.405483e-01	
+1.000000e+00	1.000000e+00	1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	1.127599e-65	-1.899114e-65	
-3.975465e-63	1.000000e+00	3.357242e-63	
--2.415732e-63	1.633238e-63	1.000000e+00	
+1.000000e+00	-2.848670e-65	-4.747784e-66	
+-9.721404e-64	1.000000e+00	6.157071e-64	
+-6.200606e-63	-7.691410e-64	1.000000e+00	
 }
 
 Kr matrix:
 {
--5.761420e-06	5.368802e-01	2.418805e-06	
-8.515803e-07	-4.107284e+01	2.899842e-05	
-5.368622e-06	4.057780e+01	-3.056183e-05	
+-5.761420e-06	5.121268e-01	2.308255e-06	
+8.927410e-07	-4.107284e+01	2.901064e-05	
+5.625742e-06	4.056071e+01	-3.056183e-05	
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -2150,12 +2150,12 @@ propyne loss = -3.056183e-05
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-allene -> cyclopropene = 8.515803e-07
-allene -> propyne = 5.368622e-06
-cyclopropene -> allene = 5.368802e-01
-cyclopropene -> propyne = 4.057780e+01
-propyne -> allene = 2.418805e-06
-propyne -> cyclopropene = 2.899842e-05
+allene -> cyclopropene = 8.927410e-07
+allene -> propyne = 5.625742e-06
+cyclopropene -> allene = 5.121268e-01
+cyclopropene -> propyne = 4.056071e+01
+propyne -> allene = 2.308255e-06
+propyne -> cyclopropene = 2.901064e-05
 }
 }
 PT Grid 1 Condition: conc = 2.41412e+018, temp = 1000, diagonalization precision: double
@@ -4456,30 +4456,30 @@ Number of sinks in this system: 0
 There should be 1 zero eigenvalue (zero within numerical precision) and 2 chemically significant eigenvalues (CSEs)
 
 Z_matrix: {
-5.574966e-05	4.663211e-01	3.200067e-01	
--2.627279e-03	-4.425850e-06	6.907225e-06	
-2.573637e-03	-4.666319e-01	6.799863e-01	
+5.577528e-05	4.665355e-01	3.201538e-01	
+-2.628856e-03	-4.428506e-06	6.911370e-06	
+2.573081e-03	-4.665310e-01	6.798393e-01	
 }
 
 Z_matrix^(-1):
 {
-1.743189e-04	-3.806182e+02	3.784241e-03	
-1.457893e+00	-6.411449e-01	-6.860888e-01	
-1.000460e+00	1.000600e+00	9.997838e-01	
+1.742388e-04	-3.803899e+02	3.785060e-03	
+1.457223e+00	-6.407604e-01	-6.862372e-01	
+1.000000e+00	1.000000e+00	1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	-2.848670e-65	1.424335e-65	
--5.052254e-63	1.000000e+00	-3.615478e-64	
-2.788136e-63	-5.127607e-64	1.000000e+00	
+1.000000e+00	-5.697341e-65	-4.747784e-65	
+2.145445e-63	1.000000e+00	7.091605e-64	
+4.548377e-63	-3.874192e-63	1.000000e+00	
 }
 
 Kr matrix:
 {
--3.343720e-02	9.336355e+01	1.478756e-02	
-2.015098e-03	-4.399194e+03	4.373819e-02	
-3.144335e-02	4.309359e+03	-5.857117e-02	
+-3.343720e-02	9.335044e+01	1.479756e-02	
+2.015381e-03	-4.399194e+03	4.377391e-02	
+3.142211e-02	4.305843e+03	-5.857117e-02	
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -4491,11 +4491,11 @@ propyne loss = -5.857117e-02
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-allene -> cyclopropene = 2.015098e-03
-allene -> propyne = 3.144335e-02
-cyclopropene -> allene = 9.336355e+01
-cyclopropene -> propyne = 4.309359e+03
-propyne -> allene = 1.478756e-02
-propyne -> cyclopropene = 4.373819e-02
+allene -> cyclopropene = 2.015381e-03
+allene -> propyne = 3.142211e-02
+cyclopropene -> allene = 9.335044e+01
+cyclopropene -> propyne = 4.305843e+03
+propyne -> allene = 1.479756e-02
+propyne -> cyclopropene = 4.377391e-02
 }
 }

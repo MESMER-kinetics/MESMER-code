@@ -1,3 +1,8 @@
+
+2010-April-12 Struan Robertson
+
+	* System.h/.cpp: Minor change to Bartis-Widom method.
+
 2010-April101 Chris Morley
 
 	* mesmer1.xsl: add facility to copy punchfile-like data from Firefox output

@@ -82,7 +82,7 @@ namespace mesmer
 
     // Check whether the activated molecule pertains correct number of vibrational frequencies
     if (!pmolecule->checkFrequencies()){
-      string errorMsg = "Incorrect number of virbtaional frequencies were provided in " + molName;
+      string errorMsg = "Incorrect number of vibrtaional frequencies were provided in " + molName;
       throw (std::runtime_error(errorMsg)); 
     }
 

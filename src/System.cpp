@@ -1716,8 +1716,34 @@ namespace mesmer
     // Constants.
     const size_t smsize   = m_eigenvectors->size() ;
     const size_t nchem    = m_isomers.size() + m_sources.size() ;  // number of isomers+pseudoisomers
-    const size_t nchemIdx = smsize - nchem ;       // idx for chemically significant eigenvalues & vectors
+    const size_t nchemIdx = smsize - nchem ;       // Location of chemically significant eigenvalues & vectors
+    const size_t nsinks   = m_sinkRxns.size() ;    // Number of Sinks.
 
+    ctest << "\nBartis Widom eigenvalue/eigenvector analysis\n" << endl ;
+    ctest << "Number of sinks in this system: " << nsinks << endl;
+
+    if(nsinks>0){
+      ctest << "\nThere should be " << nchem << " chemically significant eigenvalues (CSEs)" << endl;
+    }
+    else{
+      ctest << "\nThere should be 1 zero eigenvalue (zero within numerical precision) and " << nchem-1
+        << " chemically significant eigenvalues (CSEs)" << endl;
+    }
+    
+    //
+    // If there are no sinks, replace the equilibrium vector with the eigenvector whose
+    // associated eigenvalue is zero, as this is a better estimate of the equilibrium 
+    // distribution.
+    //
+    if (nsinks < 1) {
+      for(size_t i(0) ; i<smsize ; ++i){
+        m_eqVector[i] = (*m_eigenvectors)[i][smsize-1];
+      }
+    }
+
+    //
+    // Construct assymmetric eigenvectors reuquied for the z matrix.
+    //
     qdMatrix assymInvEigenVec(smsize);   // U^(-1)
     qdMatrix assymEigenVec(smsize);      // U
     for(size_t i(0) ; i<smsize ; ++i){
@@ -1751,17 +1777,6 @@ namespace mesmer
     Reaction::molMapType::iterator spos;  // set up an iterator through the source map
     sinkMap::iterator sinkpos;           // set up an iterator through the irreversible rxn map
 
-    ctest << "\nBartis Widom eigenvalue/eigenvector analysis\n";
-    ctest << endl << "Number of sinks in this system: " << m_sinkRxns.size() << endl;
-
-    if(m_sinkRxns.size()>0){
-      ctest << "\nThere should be " << nchem << " chemically significant eigenvalues (CSEs)" << endl;
-    }
-    else{
-      ctest << "\nThere should be 1 zero eigenvalue (zero within numerical precision) and " << nchem-1
-        << " chemically significant eigenvalues (CSEs)" << endl;
-    }
-
     // check the separation between chemically significant eigenvalues (CSEs)
     // and internal energy relaxation eigenvalues (IEREs); if it's not good, print a warning
 
@@ -1779,11 +1794,14 @@ namespace mesmer
     }
 
     int numberOfCemeteries(0); // initialize the number of cemeteries to zero
-
     for(size_t i(0); i<nchem; ++i){
+
       numberOfCemeteries = 0; // re-initialize for every nchem calculation.
-      for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // calculate Z_matrix matrix elements for
-        qd_real sm = 0.0;                                                // all isomers in the system
+
+     // Calculate Z matrix elements for all the isomers in the system.
+
+     for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
+        qd_real sm(0.0) ; 
         Molecule* isomer = ipos->first;
         const int nrg = isomer->getColl().isCemetery() ? 0 : 1;
         const int numberGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
