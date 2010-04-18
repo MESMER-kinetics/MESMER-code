@@ -48,25 +48,21 @@ Association ILT calculation completed
 
 20 values in the FFT convolution routine were replaced by standard convolution
 Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-In mesmer::ReactionManager::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
+In mesmer::System::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 
 1 temperature/concentration-pressure points calculated.
 Finish Calculation -- Time elapsed: 5 seconds.
- -- Total time elapsed: 9 seconds.
+ -- Total time elapsed: 11 seconds.
 
 System saved to out.xml
 m_Sym is provided but not used in HO2.
-m_ZPE is provided but not used in HO2.
 m_SpinMultiplicity is provided but not used in HO2.
 m_Sym is provided but not used in OH.
-m_ZPE is provided but not used in OH.
 m_SpinMultiplicity is provided but not used in OH.
 m_ImFreq is provided but not used in TS2.
 m_ImFreq is provided but not used in TS3.
 m_Sym is provided but not used in ketene.
-m_ZPE is provided but not used in ketene.
 m_SpinMultiplicity is provided but not used in ketene.
 m_Sym is provided but not used in lactone.
-m_ZPE is provided but not used in lactone.
 m_scaleFactor is provided but not used in lactone.
 m_SpinMultiplicity is provided but not used in lactone.

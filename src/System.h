@@ -70,6 +70,9 @@ namespace mesmer
     // Calculates the Bartis-Widom macroscopic rate coefficients, using the contracted basis set eigenvectors.
     bool BartisWidomBasisSetRates(qdMatrix& rates, MesmerFlags& mFlags);
 
+    // Write out phenomenological rate coefficients.
+    bool PrintPhenomenologicalRates(qdMatrix& Kr, qdb2D& Kp, int numberOfCemeteries, MesmerFlags& mFlags, PersistPtr ppList) ;
+
   private:
 
     typedef std::map<Reaction* , int, Reaction::ReactionPtrLess> sinkMap ;
@@ -99,8 +102,6 @@ namespace mesmer
     bool produceInitialPopulationVector(vector<double>& initDist);
 
     int getSpeciesSequenceIndex(const std::string ref);
-
-
 
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;

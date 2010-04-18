@@ -1805,9 +1805,8 @@ namespace mesmer
         Molecule* isomer = ipos->first;
         const int nrg = isomer->getColl().isCemetery() ? 0 : 1;
         const int numberGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
-        const int colloptrsize = (!numberGroupedGrains)
-          ? isomer->getColl().get_colloptrsize()
-          : isomer->getColl().get_colloptrsize() - numberGroupedGrains + nrg;
+        int colloptrsize  = isomer->getColl().get_colloptrsize() ;
+        colloptrsize += (numberGroupedGrains) ? nrg - numberGroupedGrains : 0 ;
         // get colloptrsize for isomer
         int rxnMatrixLoc = ipos->second + colloptrsize - 1 ;            // get location for isomer in the rxn matrix
         int seqMatrixLoc = m_SpeciesSequence[isomer];                   // get sequence position for isomer
@@ -1828,7 +1827,7 @@ namespace mesmer
 
       // Calculate Y_matrix elements for sinks.
 
-      if(m_sinkRxns.size()!=0) {
+      if(nsinks) {
         for(sinkpos=m_sinkRxns.begin(); sinkpos!=m_sinkRxns.end(); ++sinkpos){
           qd_real sm = 0.0;
           vector<double> KofEs;                                         // vector to hold sink k(E)s
@@ -1838,27 +1837,19 @@ namespace mesmer
           if(colloptrsize == 1){  // if the collision operator size is 1, there is one canonical loss rate coefficient
             KofEs.push_back(sinkReaction->get_fwdGrnCanonicalRate());
             KofEsTemp.push_back(KofEs[0]);
-          }
-          else{                   // if the collision operator size is >1, there are k(E)s for the irreversible loss
+          } else {                   // if the collision operator size is >1, there are k(E)s for the irreversible loss
             KofEs = sinkReaction->get_GrainKfmc();                      // assign sink k(E)s, the vector size == maxgrn
             Molecule* isomer = sinkReaction->get_reactant();
             const int nrg = isomer->getColl().isCemetery() ? 0 : 1;
             const int numberGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
 
             // DO NOT MOVE THIS SECTION --- INDEX SENSITIVE
-            if (numberGroupedGrains != 0){
-              for (int i(numberGroupedGrains - nrg); i < colloptrsize; ++i)
-                KofEsTemp.push_back(KofEs[i]);
-            }
-            else{
-              for (int i(0); i < colloptrsize; ++i)
-                KofEsTemp.push_back(KofEs[i]);
-            }
+            int ll = (numberGroupedGrains != 0) ? numberGroupedGrains - nrg : 0 ;
+            for (int i(ll) ; i < colloptrsize ; ++i)
+              KofEsTemp.push_back(KofEs[i]);
             // DO NOT MOVE THIS SECTION --- INDEX SENSITIVE
 
-            colloptrsize = (!numberGroupedGrains)
-              ? colloptrsize
-              : colloptrsize - numberGroupedGrains + nrg;
+            colloptrsize -= ll ;
           }
           int rxnMatrixLoc = sinkpos->second;                               // get sink location
           int seqMatrixLoc = m_SinkSequence[sinkReaction];                  // get sink sequence position
@@ -1897,7 +1888,7 @@ namespace mesmer
       Y_matrix.print((int)(m_sinkRxns.size()) + numberOfCemeteries, (int)(m_SpeciesSequence.size())); // print out Y_matrix for testing
     }
 
-    qdMatrix Zinv(Z_matrix), Zidentity(nchem), Kr(nchem);
+    qdMatrix Zinv(Z_matrix), Kr(nchem);
     qdb2D Kp;
 
     if(Zinv.invertGaussianJordan()){
@@ -1911,15 +1902,7 @@ namespace mesmer
     ctest << endl << "Z_matrix^(-1):" << endl;
     Zinv.showFinalBits(nchem, true);
 
-    for(size_t i(0);i<nchem;++i){          // multiply Z_matrix*Z_matrix^(-1) for testing
-      for(size_t j(0);j<nchem;++j){
-        qd_real sm = 0.0;
-        for(size_t k(0);k<nchem;++k){
-          sm += Z_matrix[i][k] * Zinv[k][j];
-        }
-        Zidentity[i][j] = sm;
-      }
-    }
+    qdMatrix Zidentity = Z_matrix * Zinv ;
 
     ctest << "\nZ_matrix * Z_matrix^(-1) [Identity matrix]:" << endl;
     Zidentity.showFinalBits(nchem, true);
@@ -1949,6 +1932,18 @@ namespace mesmer
       ctest << "\nKp matrix:" << endl;    // print out Kp_matrix
       Kp.print(m_sinkRxns.size() + numberOfCemeteries, m_SpeciesSequence.size());
     }
+    
+    // Write out phenomenological rate coefficients.
+    PrintPhenomenologicalRates(Kr, Kp, numberOfCemeteries, mFlags, ppList) ;
+    
+    mesmerRates = Kr;
+    return true;    
+  }
+
+  // Write out phenomenological rate coefficients.
+  bool System::PrintPhenomenologicalRates(qdMatrix& Kr, qdb2D& Kp, int numberOfCemeteries, MesmerFlags& mFlags, PersistPtr ppList) {
+  
+    Reaction::molMapType::iterator ipos;  // set up an iterator through the isomer map
 
     ctest << "\nFirst order & pseudo first order rate coefficients for loss rxns:\n{\n";
     Reaction::molMapType::iterator lossitr, rctitr, pdtitr;
@@ -2082,7 +2077,6 @@ namespace mesmer
       mFlags.punchNumbers = puNumbers.str();
     }
 
-    mesmerRates = Kr;
     return true;
   }
 

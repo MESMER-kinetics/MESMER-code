@@ -18,24 +18,17 @@
 namespace mesmer
 {
   // double version of Matrix
-  class dMatrix : public TMatrix<double>{
-    public: dMatrix(size_t n, const double init = 0.0) : TMatrix<double>(n, init) { } ;
-  };
+  typedef TMatrix<double> dMatrix;
 
   // double-double version of Matrix
-  class ldMatrix : public TMatrix<long double>{
-    public: ldMatrix(size_t n, const long double init = 0.0) : TMatrix<long double>(n, init) { } ;
-  };
+  typedef TMatrix<long double> ldMatrix;
 
   // double-double version of Matrix
-  class ddMatrix : public TMatrix<dd_real>{
-    public: ddMatrix(size_t n, const dd_real init = 0.0) : TMatrix<dd_real>(n, init) { } ;
-  };
+  typedef TMatrix<dd_real> ddMatrix;
 
   // quad-double version of Matrix
-  class qdMatrix : public TMatrix<qd_real>{
-    public: qdMatrix(size_t n, const qd_real init = 0.0) : TMatrix<qd_real>(n, init) { } ;
-  };
+  typedef TMatrix<qd_real> qdMatrix;
+
 }//namespacer mesmer
 
 

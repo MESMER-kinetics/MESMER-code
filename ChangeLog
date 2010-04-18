@@ -1,4 +1,8 @@
 
+2010-April-18 Struan Robertson
+
+	* System.h/.cpp: Refactoring of the Bartis-Widom method.
+
 2010-April-12 Struan Robertson
 
 	* System.h/.cpp: Minor change to Bartis-Widom method.

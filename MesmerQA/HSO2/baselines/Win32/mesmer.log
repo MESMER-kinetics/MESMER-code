@@ -3,6 +3,7 @@ Parsing input xml file...
 HSO2_test.xml
 
 In R1: Parsing reaction...
+In H: The default value of me:DOSCMethod was used.
 In H: Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion.
 In H: Cannot find argument me:rotConsts. Assumes that it is an atom or atomic ion.
 In H: The default value of me:symmetryNumber was used.
@@ -34,12 +35,11 @@ Calculate EGME
 PT Grid 0
 Build Collison Operator
 Cell number = 13400, Grain number = 134
-In H: The default value of me:DOSCMethod was used.
 Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
 
 1 temperature/concentration-pressure points calculated.
 Finish Calculation -- Time elapsed: 1 seconds.
- -- Total time elapsed: 7 seconds.
+ -- Total time elapsed: 8 seconds.
 
 System saved to out.xml
 m_scaleFactor is provided but not used in H.

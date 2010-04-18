@@ -3,12 +3,15 @@ Parsing input xml file...
 pentyl_isomerization_test.xml
 
 In R1: Parsing reaction...
+In n-pentyl: The default value of me:DOSCMethod was used.
 In n-pentyl: The default value of me:frequenciesScaleFactor was used.
 In n-pentyl: The default value of me:DistributionCalcMethod was used.
 In n-pentyl: The default value of me:energyTransferModel was used.
+In 2-pentyl: The default value of me:DOSCMethod was used.
 In 2-pentyl: The default value of me:frequenciesScaleFactor was used.
 In 2-pentyl: The default value of me:DistributionCalcMethod was used.
 In 2-pentyl: The default value of me:energyTransferModel was used.
+In n-pentyl=TS=2-pentyl: The default value of me:DOSCMethod was used.
 In n-pentyl=TS=2-pentyl: The default value of me:frequenciesScaleFactor was used.
 In R1: No imaginary vibrational frequency. Check if there is tunneling.
 No tunneling method was found for R1
@@ -24,12 +27,9 @@ Calculate EGME
 PT Grid 0
 Build Collison Operator
 Cell number = 16050, Grain number = 107
-In n-pentyl=TS=2-pentyl: The default value of me:DOSCMethod was used.
-In n-pentyl: The default value of me:DOSCMethod was used.
-In 2-pentyl: The default value of me:DOSCMethod was used.
 Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-In mesmer::ReactionManager::timeEvolution: No population was assigned, and there is no source term.
-In mesmer::ReactionManager::timeEvolution: Initialize a Boltzmann distribution in the first isomer.
+In mesmer::System::timeEvolution: No population was assigned, and there is no source term.
+In mesmer::System::timeEvolution: Initialize a Boltzmann distribution in the first isomer.
 
 1 temperature/concentration-pressure points calculated.
 Finish Calculation -- Time elapsed: 2 seconds.

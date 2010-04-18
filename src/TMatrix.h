@@ -120,6 +120,31 @@ namespace mesmer
 
   } ;
 
+  // Matrix mutiplication operator.
+  template<class T>
+  TMatrix<T> operator*(const TMatrix<T>& lhs, const TMatrix<T>& rhs) {
+
+    size_t msize = lhs.size() ;
+    if (rhs.size() != msize) {
+      // Throw error.
+    }
+
+    TMatrix<T> result(msize) ;
+
+    for (size_t i(0) ; i < msize ; i++) {
+      for (size_t j(0) ; j < msize ; j++) {
+        T sm(0.0) ;
+        for (size_t k(0) ; k < msize ; k++) {
+          sm += lhs[i][k]*rhs[k][j] ;
+        }
+        result[i][j] = sm ;
+      }
+    }  
+
+    return result ;
+
+  }
+
   //-------------------------------------------------------------------------------------------
   // EISPACK tred2 function.
   //
