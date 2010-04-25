@@ -1,4 +1,10 @@
 
+2010-April-25 Struan Robertson
+
+	* System.h/.cpp, TMatrix.h: Addition of Gram-Schmidt analysis to Bartis-Widom calculation,
+      to improve mass conservation.
+      * Update of associated baselines.
+
 2010-April-18 Struan Robertson
 
 	* System.h/.cpp: Refactoring of the Bartis-Widom method.

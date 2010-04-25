@@ -1061,18 +1061,18 @@ Z_matrix^(-1):
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
 1.000000e+00	0.000000e+00	
--1.007977e-65	1.000000e+00	
+-1.854603e-68	1.000000e+00	
 }
 
 Kr matrix:
 {
--4.249028e+02	7.050706e+05	
+-4.249030e+02	7.050706e+05	
 4.249030e+02	-7.050706e+05	
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-H loss = -4.249028e+02
+H loss = -4.249030e+02
 HSO2 loss = -7.050706e+05
 }
 

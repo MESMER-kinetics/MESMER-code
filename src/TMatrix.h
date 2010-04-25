@@ -27,7 +27,7 @@ namespace mesmer
   public:
 
     // Constructor
-    TMatrix( size_t n, const T& init = T()) : Matrix<T>(n, init) { } ;
+    TMatrix( size_t n, const T& init = T(0.0)) : Matrix<T>(n, init) { } ;
 
     //
     // Wrapped call to EISPACK routine to diagonalise matrix.
@@ -96,6 +96,9 @@ namespace mesmer
 
     // Apply the Gram-Schmidt procedure to orthogonalize the current matrix.
     void GramSchimdt(size_t root_vector ) ;
+
+    // Transpose matrix.
+    void Transpose() ;
 
     //
     // EISPACK methods for diagonalizing matrix.
@@ -905,35 +908,58 @@ label_1: return(p);
   void TMatrix<T>::GramSchimdt(size_t root_vector )  {
 
     size_t size = this->size() ;
+    
+    for (int i(size-1) ; i > -1 ; i--) { // Need to use int here as size_t is unsigned.
 
-    for (size_t i(size-1); size > -1 ; --i) {
-
-      size_t j(size-1) ;
+      size_t j ;
       T sum(0.0) ;
       //
-      // Orthogonalize vectors (Remove projections).
+      // Orthogonalize vector (Remove projections).
       //
-      for (; j > i + 1 ; j--) {
+      for (j = (size-1) ; j > size_t(i) ; j--) {
         sum = 0.0 ;
         for (size_t k = 0 ; k < size ; k++) {
           sum += (*this)[k][j] * (*this)[k][i] ;
         }
 
         for (size_t k = 0 ; k < size ; k++) {
-          (*this)[k][j] -= sum * (*this)[k][i] ;
+          (*this)[k][i] -= sum * (*this)[k][j] ;
         }
       }
 
       //
-      // Normalize vectors
+      // Normalize vector.
       //
       sum = 0.0 ;
-      for (j = 0 ; j < size ; j++) {
-        sum += (*this)[j][i] * (*this)[j][i] ;
+      size_t l ;
+      for (l = 0 ; l < size ; l++) {
+        sum += (*this)[l][i] * (*this)[l][i] ;
       }
       sum = sqrt(sum) ;
-      for (j = 0 ; j < size ; j++) {
-        (*this)[j][i] /= sum ;
+      for (l = 0 ; l < size ; l++) {
+        (*this)[l][i] /= sum ;
+      }
+
+    }
+
+  }
+
+  //
+  // Transpose matrix the current matrix.
+  //
+  template<class T>
+  void TMatrix<T>::Transpose()  {
+
+    size_t size = this->size() ;
+
+    for (size_t i(0); i < size ; ++i) {
+
+      for (size_t j(i+1); j < size ; ++j) {
+
+        T tmp = (*this)[i][j] ;
+        (*this)[i][j] = (*this)[j][i] ;
+        (*this)[j][i] = tmp ;
+
       }
 
     }

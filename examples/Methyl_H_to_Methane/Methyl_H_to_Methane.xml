@@ -154,9 +154,6 @@
       <me:PTpair me:units="Torr" me:P="25.1" me:T="301." me:precision="dd">
         <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">1.26e-11</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="Torr" me:P="25.1" me:T="301." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">1.26e-11</me:experimentalRate>
-      </me:PTpair>
       <me:PTpair me:units="Torr" me:P="50.8" me:T="301." me:precision="dd">
         <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">3.52e-11</me:experimentalRate>
       </me:PTpair>
