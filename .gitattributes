@@ -70,8 +70,6 @@ examples/reservoirSink/mesmer_out.xml -text
 examples/reservoirSink/reservoirSinkAcetylO2.test -text
 examples/reservoirSink/reservoirSinkAcetylO2.xml -text
 /librarymols.xml -text
-mesmer.xcodeproj/chi-hsiuliang.mode1v3 -text
-mesmer.xcodeproj/chi-hsiuliang.pbxuser -text
 mesmer.xcodeproj/project.pbxproj -text
 /mesmer1.xsl -text
 /mesmer2.xsl -text
