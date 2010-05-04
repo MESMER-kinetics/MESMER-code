@@ -465,6 +465,11 @@
 		577A1505118EC18F00BD303A /* vector3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector3.h; sourceTree = "<group>"; };
 		577A1506118EC18F00BD303A /* XMLPersist.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XMLPersist.cpp; sourceTree = "<group>"; };
 		577A1507118EC18F00BD303A /* XMLPersist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLPersist.h; sourceTree = "<group>"; };
+		5791CA50118FD39D000F8923 /* Constructing a Datafile from Gaussian output.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html.documentation; name = "Constructing a Datafile from Gaussian output.html"; path = "Documentation/Constructing a Datafile from Gaussian output.html"; sourceTree = "<group>"; };
+		5791CA51118FD39D000F8923 /* MESMER manual.doc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MESMER manual.doc"; path = "Documentation/MESMER manual.doc"; sourceTree = "<group>"; };
+		5791CA52118FD39D000F8923 /* MESMER manual.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "MESMER manual.pdf"; path = "Documentation/MESMER manual.pdf"; sourceTree = "<group>"; };
+		5791CA53118FD39D000F8923 /* Procedure_to_configure_MESMER_under_XCode.doc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Procedure_to_configure_MESMER_under_XCode.doc; path = Documentation/Procedure_to_configure_MESMER_under_XCode.doc; sourceTree = "<group>"; };
+		5791CA54118FD39D000F8923 /* Video tutorial plan of MESMER.doc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Video tutorial plan of MESMER.doc"; path = "Documentation/Video tutorial plan of MESMER.doc"; sourceTree = "<group>"; };
 		8DD76FB20486AB0100D96B5E /* mesmer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mesmer; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -972,6 +977,11 @@
 		C6A0FF2B0290797F04C91782 /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
+				5791CA50118FD39D000F8923 /* Constructing a Datafile from Gaussian output.html */,
+				5791CA51118FD39D000F8923 /* MESMER manual.doc */,
+				5791CA52118FD39D000F8923 /* MESMER manual.pdf */,
+				5791CA53118FD39D000F8923 /* Procedure_to_configure_MESMER_under_XCode.doc */,
+				5791CA54118FD39D000F8923 /* Video tutorial plan of MESMER.doc */,
 			);
 			name = Documentation;
 			sourceTree = "<group>";
