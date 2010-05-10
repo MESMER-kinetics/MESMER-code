@@ -6,7 +6,7 @@ using namespace std;
 namespace mesmer
 {
   //-------------------------------------------------------------
-  //Global instance, defining its id (usually the only instance)
+  //Global instance, defining the id
   QMHinderedRotorPotential theQMHinderedRotorPotential("QMHinderedRotorPotential");
   //-------------------------------------------------------------
 
@@ -94,7 +94,11 @@ namespace mesmer
     // Lines to read in the PES from the hindered rotor. The energies shall cover a full circle of the rotation, evenly
     // separated. More points would be required if the PES is complicated.
     vector<double> pesEnes;
-    //ppDOSC->
+    PersistPtr ppPes = ppDOSC->XmlMoveTo("me:hinderedpes");
+    stringstream ss(ppPes->XmlReadValue("array", false));
+    double val;
+    while(ss >> val)
+      pesEnes.push_back(val);
 
     // Routine to call function in order to convert the PES into ak, bk and a0. 
     //convertToFourierCoefficients(ak, bk, a0, pesEnes);
