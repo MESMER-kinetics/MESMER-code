@@ -1,8 +1,8 @@
 #ifndef GUARD_QMHinderedRotorPotential_h
 #define GUARD_QMHinderedRotorPotential_h
 
-#include "DensityOfStates.h"
-#include "MolecularComponents.h"
+#include "../DensityOfStates.h"
+#include "../MolecularComponents.h"
 
 namespace mesmer
 {

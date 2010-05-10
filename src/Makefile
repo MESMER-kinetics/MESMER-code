@@ -142,41 +142,44 @@ SRCS := \
 	AssignMolTypes.cpp \
 	AssociationReaction.cpp	\
 	BoltzmannDistribution.cpp	\
-	plugins/ClassicalRotor.cpp \
 	DensityOfStates.cpp \
-	plugins/EckartCoefficients.cpp \
-	plugins/ExponentialDown.cpp \
 	formatfloat.cpp \
-	plugins/HinderedRotorA.cpp \
 	IrreversibleExchangeReaction.cpp \
 	IrreversibleUnimolecularReaction.cpp \
 	IsomerizationReaction.cpp \
 	main.cpp \
-	plugins/LandauZenerCrossingCoeff.cpp \
 	MesmerEnv.cpp \
 	MesmerFlags.cpp \
-	plugins/MesmerILT.cpp \
 	MesmerMath.cpp \
 	MesmerTools.cpp \
 	MicroRate.cpp \
-	Molecule.cpp \
 	MolecularComponents.cpp \
+	Molecule.cpp \
 	MoleculeManager.cpp \
 	oberror.cpp \
-	plugins/fitting.cpp \
-	plugins/gridsearch.cpp \
-	plugins/simplecalc.cpp \
-	plugins/QMRotor.cpp \
+        OneDimensionalFGH.cpp \
 	Rdouble.cpp \
 	Reaction.cpp \
 	ReactionManager.cpp \
-	plugins/SimpleILT.cpp \
-	plugins/SimpleRRKM.cpp \
 	System.cpp \
 	TimeCounter.cpp \
 	unitsConversion.cpp \
-	plugins/WKBCrossingCoeff.cpp \
-	XMLPersist.cpp 
+        vector3.cpp \
+	XMLPersist.cpp \
+	plugins/ClassicalRotor.cpp \
+	plugins/EckartCoefficients.cpp \
+	plugins/ExponentialDown.cpp \
+	plugins/fitting.cpp \
+	plugins/gridsearch.cpp \
+	plugins/HinderedRotorA.cpp \
+	plugins/LandauZenerCrossingCoeff.cpp \
+	plugins/MesmerILT.cpp \
+        plugins/QMHinderedRotorPotential.cpp \
+	plugins/QMRotor.cpp \
+	plugins/simplecalc.cpp \
+	plugins/SimpleILT.cpp \
+	plugins/SimpleRRKM.cpp \
+	plugins/WKBCrossingCoeff.cpp 
 
 # Add on the sources for libraries
 SRCS := ${SRCS}

@@ -1,6 +1,10 @@
 2010-May-10 Dave Glowacki
 
-	* System.cpp, make some changes to get correct behavior when RateCoefficientsOnly is specified
+      * changes to MakeFile and Hindered Rotor *.h files to get LINUX compilation working
+
+2010-May-10 Dave Glowacki
+
+      * System.cpp, make some changes to get correct behavior when RateCoefficientsOnly is specified
       * IrreversibleExchangeReaction.cpp & IrreversibleUnimolecularReaction.cpp: make changes for 
         correct behavior in the case of a negative barrier
       * MesmerTools.cpp, make changes to avoid numerical errors for QMrotor routines

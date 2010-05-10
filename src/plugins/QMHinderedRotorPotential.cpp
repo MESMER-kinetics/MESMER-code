@@ -1,4 +1,4 @@
-#include "Molecule.h"
+#include "../Molecule.h"
 #include "../OneDimensionalFGH.h"
 #include "QMHinderedRotorPotential.h"
 
