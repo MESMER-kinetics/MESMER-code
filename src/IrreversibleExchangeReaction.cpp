@@ -277,7 +277,8 @@ namespace mesmer
     m_GrainKfmc.resize(MaximumGrain , 0.0);
 
     for (int i = forwardTE, j = fluxStartIdx; i < MaximumGrain; ++i, ++j){
-      m_GrainKfmc[i] = m_GrainFlux[j] / rctGrainDOS[i];
+			if(rctGrainDOS[i]==0.0){m_GrainKfmc[i]=0.0;}
+			else{m_GrainKfmc[i] = m_GrainFlux[j] / rctGrainDOS[i];}
     }
 
     if (getFlags().kfEGrainsEnabled){               // printing of the forward k(E)s
@@ -341,15 +342,17 @@ namespace mesmer
 
     double thresh = get_ThresholdEnergy();
     if(thresh<0.0){
-      set_EffGrnFwdThreshold(0);
+			set_EffGrnFwdThreshold(0/getEnv().GrainSize);
     }
     else{
-      set_EffGrnFwdThreshold(TS_en-rct_en);
+      set_EffGrnFwdThreshold((TS_en-rct_en)/getEnv().GrainSize);
     }
   }
 
   void IrreversibleExchangeReaction::calcFluxFirstNonZeroIdx(void) {
-      m_GrnFluxFirstNonZeroIdx = 0;
+		  double thresh = get_ThresholdEnergy();
+			if(thresh<0.0){m_GrnFluxFirstNonZeroIdx = int(-thresh/getEnv().GrainSize);}
+			else{m_GrnFluxFirstNonZeroIdx = 0;}
   }
 
 }//namespace

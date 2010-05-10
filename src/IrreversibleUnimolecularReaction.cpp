@@ -213,7 +213,9 @@ namespace mesmer
   }
 
   void IrreversibleUnimolecularReaction::calcFluxFirstNonZeroIdx(void) {
-      m_GrnFluxFirstNonZeroIdx = 0;
+		  double thresh = get_ThresholdEnergy();
+			if(thresh<0.0){m_GrnFluxFirstNonZeroIdx = int(-thresh/getEnv().GrainSize);}
+			else{m_GrnFluxFirstNonZeroIdx = 0;}
   }
 
   // Test k(T)

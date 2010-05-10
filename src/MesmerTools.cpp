@@ -89,6 +89,10 @@ namespace mesmer
         else{
           grainEne[idx2] = shiftedCellEne[idx3-1];
         }
+        // in case the grain DOS is less than zero, set it to zero; this problem arose when QM rotors
+			  // are invoked, due to very small sums over the grain
+				if(grainDOS[idx2]<=0.0){grainDOS[idx2]=0.0;}
+
         idx2++ ;
       }
 

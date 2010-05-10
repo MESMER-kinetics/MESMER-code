@@ -30,6 +30,8 @@ MesmerQA/pentyl/baselines/Win32/mesmer.test -text
 MesmerQA/pentyl/pentyl_isomerization_basisset_test.xml -text
 MesmerQA/pentyl/pentyl_isomerization_test.xml -text
 MesmerQA/pentyl/pentyl_isomerize_dissocn.xml -text
+MesmerQA/spin_forbidden_kinetics/HCCH_methylene.test -text
+MesmerQA/spin_forbidden_kinetics/HCCH_methylene.xml -text
 MesmerQA/spin_forbidden_kinetics/LZ_test.test -text
 MesmerQA/spin_forbidden_kinetics/LZ_test.xml -text
 MesmerQA/spin_forbidden_kinetics/WKB_test.test -text

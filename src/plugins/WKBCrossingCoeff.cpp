@@ -35,9 +35,6 @@ namespace mesmer
 
 		// end read input data section
 
-		std::vector<Molecule *> unimolecularspecies;
-		pReact->get_unimolecularspecies(unimolecularspecies);
-		Molecule * pReactant = unimolecularspecies[0];
 		double ZPE_corr_barrier_height;
 
 		// get threshold energy:
@@ -47,7 +44,7 @@ namespace mesmer
 		const double ReducedMassAU = ReducedMass * 1.822888e+3;
 
 		//get properties of vectors in which to include Crossing coefficients
-		const int MaximumCell = pReactant->getEnv().MaxCell;
+		const int MaximumCell = pReact->getEnv().MaxCell;
 		CrossingProbability.clear();
 		CrossingProbability.resize(MaximumCell);
 

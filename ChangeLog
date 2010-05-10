@@ -1,3 +1,13 @@
+2010-May-10 Dave Glowacki
+
+	* System.cpp, make some changes to get correct behavior when RateCoefficientsOnly is specified
+      * IrreversibleExchangeReaction.cpp & IrreversibleUnimolecularReaction.cpp: make changes for 
+        correct behavior in the case of a negative barrier
+      * MesmerTools.cpp, make changes to avoid numerical errors for QMrotor routines
+      * LandauZenerCrossingCoeff.cpp, WKBCrossingCoeff.cpp, SimpleRRKM.cpp: changes to give correction
+        behavior in the case that RRKM Crossing Coefficients are requested for reactions with a negative
+        barrier
+      * add HCCH_methylene.xml & HCCH_methylene.test in MesmerQA\spin_forbidden_kinetics
 
 2010-April-25 Struan Robertson
 

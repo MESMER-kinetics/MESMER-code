@@ -39,19 +39,16 @@ namespace mesmer
 
 		// end read input data section
 
-		std::vector<Molecule *> unimolecularspecies;
-		pReact->get_unimolecularspecies(unimolecularspecies);
-		Molecule * pReactant = unimolecularspecies[0];
+ 	  // get threshold energy:
 		double ZPE_corr_barrier_height;
-
-		// get threshold energy:
 		ZPE_corr_barrier_height  = pReact->get_ThresholdEnergy();
 
 		const double SOCelementAU = SOCelement * (1/Hartree_in_RC);
 		const double ReducedMassAU = ReducedMass * 1.822888e+3;
 
 		//get properties of vectors in which to include Crossing coefficients
-		const int MaximumCell = pReactant->getEnv().MaxCell;
+		const int MaximumCell = pReact->getEnv().MaxCell;
+//		const int MaximumCell = pReactant->getEnv().MaxCell;
 		CrossingProbability.clear();
 		CrossingProbability.resize(MaximumCell);
 
@@ -60,8 +57,16 @@ namespace mesmer
 		//as described by Harvey & Aschi, Faraday Discuss, 2003 (124) 129-143
 
 		for(int i = 0; i < MaximumCell; ++i){
-			double E = double(i) - ZPE_corr_barrier_height;
-			if (E <= 0){
+
+			double E;
+			if (ZPE_corr_barrier_height < 0.0){ 	//if the barrier height is negative
+				E = double(i) + 0.5;                //set E to the avg energy of the cell in cm-1
+			}
+			else{                                 //otherwise if the barrier is gt.or.eq zero
+   			E = double(i) - ZPE_corr_barrier_height + 0.5;
+			}
+
+			if (E < 0){
 				CrossingProbability[i] = 0.0;
 			}
 			else
