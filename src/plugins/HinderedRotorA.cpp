@@ -4,10 +4,10 @@
 using namespace std;
 namespace mesmer
 {
-//************************************************************
+//-------------------------------------------------------------
 //Global instance, defining its id
 HinderedRotorA theHinderedRotorA("HinderedRotorA");
-//************************************************************
+//-------------------------------------------------------------
 using OpenBabel::vector3;
 //Read data from XML and store in this instance.
 bool HinderedRotorA::ReadParameters(Molecule* pMol, PersistPtr ppDOSC)
@@ -19,7 +19,7 @@ bool HinderedRotorA::ReadParameters(Molecule* pMol, PersistPtr ppDOSC)
     return false;
   }
 
-  const char* bondID = ppDOSC->XmlReadValue("bondRef",optional);    
+  const char* bondID = ppDOSC->XmlReadValue("bondRef",optional);
   if(bondID)
   {
     pair<string,string> bondats = gs.GetAtomsOfBond(bondID);
@@ -36,14 +36,14 @@ bool HinderedRotorA::ReadParameters(Molecule* pMol, PersistPtr ppDOSC)
 
     //calc Moment of inertia about bond axis of atoms on one side of bond...
     vector<string> atomset;
-    gs.GetAttachedAtoms(atomset, bondats.first, bondats.second);   
-    double mm1 = gs.CalcMomentAboutAxis(atomset, coords1, coords2); 
-    
+    gs.GetAttachedAtoms(atomset, bondats.first, bondats.second);
+    double mm1 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);
+
     //...and the other side of the bond
     atomset.clear();
-    gs.GetAttachedAtoms(atomset, bondats.second, bondats.first);   
-    double mm2 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);  
-    
+    gs.GetAttachedAtoms(atomset, bondats.second, bondats.first);
+    double mm2 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);
+
     /*
     Is the reduced moment of inertia need about the bond axis or, separately for the set of
     atoms on each side of the bond, about a parallel axis through their centre of mass?

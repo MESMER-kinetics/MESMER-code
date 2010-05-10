@@ -54,20 +54,16 @@
 //
 //    All quantities in au (unless otherwise stated)
 //------------------------------------------------------------------------------------------
-#include <cmath>
-#include "dMatrix.h"
+#include "OneDimensionalFGH.h"
 
 namespace mesmer{
 
-	int oneDimensionalFourierGridHamiltonian(const double ima,
-																					 const double imb,
+	int oneDimensionalFourierGridHamiltonian(const double imu, // reduced moment of inertia
 																					 double (*vsub)(double),
 																					 std::vector<double>& eigenvalues,
 																					 dMatrix& eigenvectors,
-																					 int numberGridPoint
+																					 const int numberGridPoint
 																					 ){
-		
-		const double imu = ima * imb / (ima + imb); // reduced moment of inertia
 		const double psq = M_PI * M_PI;
 		const double gridLength = 1.0; // temporary assigned value
 		const double const1 = psq / (imu * (gridLength * gridLength));
@@ -75,7 +71,7 @@ namespace mesmer{
 		const double nfact2 = (numberGridPoint - 2) / 2;
 		const double const2 = const1 * (double(nfact1) / 6.0 + 1.0 + double(nfact2));
 		const double darg = M_PI / double(numberGridPoint);
-		
+
 		dMatrix hamiltonian(numberGridPoint, numberGridPoint);
 
 		double x = 0.0; // temporary
@@ -98,19 +94,19 @@ namespace mesmer{
 			hamiltonian[i][i] += (*vsub)(x);
 			x += dx;
 		}
-		
+
 		// Now fill out Hamiltonian matrix.
 		for (int i(0); i < numberGridPoint; ++i){
 			for (int j(0); j <= i; ++j){
 				hamiltonian[j][i] = hamiltonian[i][j];
 			}
 		}
-		
+
 		// Now call eigenvalue solvers.
 		eigenvalues.clear();
 		eigenvalues.resize(numberGridPoint, 0.0);
 		hamiltonian.diagonalize(&eigenvalues[0]);
-		
+
 		if (eigenvectors[0] != NULL){
 			for (int i(0); i < numberGridPoint; ++i){
 				for (int j(0); j < numberGridPoint; ++j){
@@ -118,7 +114,7 @@ namespace mesmer{
 				}
 			}
 		}
-		
+
 		return 0;
 	}
 };

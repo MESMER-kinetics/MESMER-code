@@ -1683,7 +1683,7 @@ double gStructure::CalcMW()
   return MW;
 }
 
-// Returns in atoms the IDs of all the atoms atttached to atomID via bonds, but
+// Returns in atoms the IDs of all the atoms attached to atomID via bonds, but
 // does not include prevID or atoms beyond it. (Recursive function) 
 void gStructure::GetAttachedAtoms(vector<string>& atomset, const string& atomID, const string& prevID)
 {

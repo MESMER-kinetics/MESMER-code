@@ -24,7 +24,6 @@ namespace mesmer
     virtual HinderedRotorA* Clone() { return new HinderedRotorA(*this); }
 
   private:
-  private:
     std::string m_bondID;
     double      m_barrier;
     int         m_periodicity;
