@@ -247,6 +247,39 @@ void getCellEnergies(int cellNumber, std::vector<double>& cellEne)
 	}
 }
 
+bool convertToFourierCoefficients(const size_t expansion, vector<double>& ak, vector<double>& bk, double& a0, vector<double> pesEnes){
+  a0 = 0.0;
+  size_t n = pesEnes.size();
+  for(size_t i(0); i < n; ++i) {
+    a0 += pesEnes[i] / double(n);
+  }
+
+  ak.resize(expansion, 0.0);
+  bk.resize(expansion, 0.0);
+
+  size_t sizeofak = ak.size();
+  
+  for(size_t k(0); k < expansion; ++k) {
+    for(size_t i(0); i < n; ++i) {
+      double theta = (2.0 * double(i) / double(n) - 0.95) * M_PI;
+      double nTheta = (double(k)+1.0) * theta;
+      ak[k] += 2.0 * pesEnes[i] * cos(nTheta) / double(n);
+      bk[k] += 2.0 * pesEnes[i] * sin(nTheta) / double(n);
+    }
+  }
+
+  return true;
+}
+
+double getEnergyFromFourierCoefficients(double theta, const vector<double> ak, const vector<double> bk, const double a0){
+  size_t expansion = bk.size();
+  double returnValue = a0;
+  for(size_t k(0); k < expansion; k++) {
+    returnValue += (ak[k] * cos((double(k)+1.0) * theta) + bk[k] * sin((double(k)+1.0) * theta));
+  }
+  return returnValue;
+}
+
 
 void airy(double x, double& ai, double& aip, double& bi, double& bip)
 

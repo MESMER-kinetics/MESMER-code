@@ -1,4 +1,5 @@
 #include "../Molecule.h"
+#include "../MesmerMath.h"
 #include "../OneDimensionalFGH.h"
 #include "QMHinderedRotorPotential.h"
 
@@ -21,7 +22,10 @@ namespace mesmer
       return false;
     }
 
-    const char* bondID = ppDOSC->XmlReadValue("bondRef",optional);
+    stringstream freqStrn(ppDOSC->XmlReadValue("me:vibFreq", optional));
+    freqStrn >> m_vibFreq;
+    
+    const char* bondID = ppDOSC->XmlReadValue("bondRef", optional);
     if(bondID)
     {
       pair<string,string> bondats = gs.GetAtomsOfBond(bondID);
@@ -91,19 +95,28 @@ namespace mesmer
     bk.clear();
     a0 = 0.0;
     
-    // Lines to read in the PES from the hindered rotor. The energies shall cover a full circle of the rotation, evenly
+    // Lines to read in the classical PES from the hindered rotor. The energies shall cover a full circle of the rotation, evenly
     // separated. More points would be required if the PES is complicated.
     vector<double> pesEnes;
     PersistPtr ppPes = ppDOSC->XmlMoveTo("me:hinderedpes");
+    const char* p = ppPes->XmlReadValue("units", optional);
+    string units = p ? p : "kJ/mol";
     stringstream ss(ppPes->XmlReadValue("array", false));
     double val;
     while(ss >> val)
-      pesEnes.push_back(val);
+      pesEnes.push_back(getConvertedEnergy(units, val));
 
-    // Routine to call function in order to convert the PES into ak, bk and a0. 
-    //convertToFourierCoefficients(ak, bk, a0, pesEnes);
+    // might need some code to ground the energies to a minimum values? (Does it matter?)
+    // Routine to call function in order to convert the PES into ak, bk and a0.
     
+    // Ground the energies (make the lowest energy 0.0)
+    double minimalE = pesEnes[0];
+    for (size_t i(1); i < pesEnes.size(); ++i) if (minimalE > pesEnes[i]) minimalE = pesEnes[i];
+    for (size_t i(0); i < pesEnes.size(); ++i) pesEnes[i] -= minimalE;
+    //
     
+    size_t expansion = 8;
+    convertToFourierCoefficients(expansion, ak, bk, a0, pesEnes);
 
     return true;
   }
@@ -111,44 +124,27 @@ namespace mesmer
   //Adjusts DOS for the specified vibrations being treated as hindered rotors
   bool QMHinderedRotorPotential::countCellDOS(gDensityOfStates* pDOS, int MaximumCell)
   {
-    //bond is needed, and the PES is recorded in the bond as an array.
-    //const char* bondID = ppDOSC->XmlReadValue("bondRef",optional);
-    const char* bondID = "";    // temporary
-    if(bondID)
-    {
-      PersistPtr ppMol = pDOS->getHost()->get_PersistentPointer();
-      PersistPtr ppBond = ppMol->XmlMoveTo("bondArray");
-      while(ppBond=ppBond->XmlMoveTo("bond"))
-      {
-        const char* id = ppBond->XmlReadValue("id");
-        if(id && !strcmp(id, bondID))
-          break;
-      }
-      // The PES information about the dihedral torsion of the bond should be recorded in here.
-      if(ppBond){
-        //ppBond->
-      }
-      else{
-        cerr << "Cannot find the specified bond.";
-      }
-    }
-    cinfo << "Hindered rotor " << bondID << endl;
+    cinfo << "Hindered rotor " << m_bondID << endl;
 
-    //double barrier  = ppDOSC->XmlReadDouble("me:barrierZPE");
-    double barrier  = 0.0; // temporary
-    //PersistPtr pp = ppDOSC->XmlMoveTo("me:barrierZPE");
-    PersistPtr pp = NULL; // temporary
-    //const char* p = pp->XmlReadValue("units", optional);
-    const char* p = ""; //temporary
-    string units = p ? p : "kJ/mol";
-    barrier = getConvertedEnergy(units, barrier);
-
-    //...
     vector<double> cellDOS;
     if(!pDOS->getCellDensityOfStates(cellDOS, 0, false)) // retrieve the DOS vector without recalculating
       return false;
 
-    //***TODO remove contribution from vibration and add contribution from hindered rotor
+    // Remove contribution from vibration and add contribution from hindered rotor
+    
+    // 1. Calculate the required energy levels (eigenvalues) from the hindered rotation.
+    // How many cm-1 are required ? Estimate the number of states thru the multiple of the first hindered PES vibrational energy
+    numberGridPoint = 100;
+    vector<double> energylevels;
+    dMatrix wavefunctions(numberGridPoint, numberGridPoint);
+    oneDimensionalFourierGridHamiltonian(m_reducedMomentInertia, &getEnergyFromFourierCoefficients, energylevels, wavefunctions, numberGridPoint, ak, bk, a0);
+    
+    
+    // 2. Remove the contribution of the harmonic vibration to zero point energy.
+    
+    // 3. Add the contribution of hindered vibration to zero point energy.
+    
+    // 4. 
 
     pDOS->setCellDensityOfStates(cellDOS) ;
 

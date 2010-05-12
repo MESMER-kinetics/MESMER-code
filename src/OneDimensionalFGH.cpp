@@ -59,10 +59,13 @@
 namespace mesmer{
 
 	int oneDimensionalFourierGridHamiltonian(const double imu, // reduced moment of inertia
-																					 double (*vsub)(double),
+																					 double (*vsub)(double, const std::vector<double>, const std::vector<double>, const double),
 																					 std::vector<double>& eigenvalues,
 																					 dMatrix& eigenvectors,
-																					 const int numberGridPoint
+																					 const int numberGridPoint,
+																					 const std::vector<double> ak,
+																					 const std::vector<double> bk,
+																					 const double a0
 																					 ){
 		const double psq = M_PI * M_PI;
 		const double gridLength = 1.0; // temporary assigned value
@@ -75,7 +78,7 @@ namespace mesmer{
 		dMatrix hamiltonian(numberGridPoint, numberGridPoint);
 
 		double x = 0.0; // temporary
-		double dx = .01; // temporary
+		double dx = 2.0 * M_PI / double(numberGridPoint); // temporary
 		for (int i(0); i < numberGridPoint; ++i){
 			for (int j(0); j <= i; ++j){
 				double ijD = (i - j);
@@ -90,8 +93,8 @@ namespace mesmer{
 			// Find the potential value at x
 			// Add the potential value when the kronecker delta function
 			// equals to one, i.e. when i and j are equal
-
-			hamiltonian[i][i] += (*vsub)(x);
+      const double temp = (*vsub)(x, ak, bk, a0);
+			hamiltonian[i][i] += temp;
 			x += dx;
 		}
 

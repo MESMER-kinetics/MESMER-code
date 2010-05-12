@@ -16,7 +16,7 @@ namespace mesmer
     // Provide a function to define particular counts of the DOS of a molecule.
     virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell);
 
-              virtual QMHinderedRotorPotential* Clone() { return new QMHinderedRotorPotential(*this); }
+    virtual QMHinderedRotorPotential* Clone() { return new QMHinderedRotorPotential(*this); }
 
     ///Constructor which registers with the list of DensityOfStatesCalculators in the base class
     //This class is an extra DOS class: there needs to be a non-extra DensityOfStatesCalculator class
@@ -30,15 +30,13 @@ namespace mesmer
 		vector<double> bk; // Fourier coefficients for cosine functions
 		double a0; 					// 
     
-		//store the pes in a Fourier series. According to the fineness of the 
+		//store the PES in a Fourier series. According to the fineness of the 
     //data set, the complexity of the PES can be achieved.
     
     int         numberGridPoint;
     double      m_vibFreq;
     double      m_reducedMomentInertia;
 
-	//Let the function be expanded as 
-	// $y(\theta)=a_0+a_1 \sin(\theta)+a_2 \sin(\theta)+$
   } ;
 
 }//namespace

@@ -100,6 +100,10 @@ void FastLaplaceConvolution(const std::vector<double> &data, const std::vector<d
 
 void getCellEnergies(int cellNumber, std::vector<double>& cellEne);
 
+bool convertToFourierCoefficients(const size_t expansion, vector<double>& ak, vector<double>& bk, double& a0, vector<double> pesEnes);
+
+double getEnergyFromFourierCoefficients(double theta, const vector<double> ak, const vector<double> bk, const double a0);
+
 // airy function used for WKB transmission probabilities, which is approximate for deep tunnelling
 // but accurate in the shallow tunnelling regime
 

@@ -7,10 +7,13 @@
 namespace mesmer{
 
 	int oneDimensionalFourierGridHamiltonian(const double imu, // reduced moment of inertia
-																					 double (*vsub)(double),
+																					 double (*vsub)(double, const std::vector<double>, const std::vector<double>, const double),
 																					 std::vector<double>& eigenvalues,
 																					 dMatrix& eigenvectors,
-																					 const int numberGridPoint
+																					 const int numberGridPoint,
+																					 const std::vector<double> ak,
+																					 const std::vector<double> bk,
+																					 const double a0
 																					 );
 };
 
