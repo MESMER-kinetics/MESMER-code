@@ -495,6 +495,7 @@
 		57D021D61190044C0044AD1B /* mesmer_out.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = mesmer_out.xml; sourceTree = "<group>"; };
 		57D021D71190044C0044AD1B /* reservoirSinkAcetylO2.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reservoirSinkAcetylO2.test; sourceTree = "<group>"; };
 		57D021D81190044C0044AD1B /* reservoirSinkAcetylO2.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = reservoirSinkAcetylO2.xml; sourceTree = "<group>"; };
+		57FCC2E1119AB27200A54178 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
 		8DD76FB20486AB0100D96B5E /* mesmer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mesmer; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -528,6 +529,7 @@
 		08FB7794FE84155DC02AAC07 /* mesmer */ = {
 			isa = PBXGroup;
 			children = (
+				57FCC2E1119AB27200A54178 /* ChangeLog */,
 				57D021B51190044C0044AD1B /* examples */,
 				577A14AA118EC18F00BD303A /* src */,
 				577A143E118EBCAB00BD303A /* tinyxml */,

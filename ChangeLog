@@ -1,3 +1,7 @@
+2010-May-12 Chi-Hsiu Liang
+
+  * modified the output path of mesmer_out.xml to make it clear.
+
 2010-May-10 Dave Glowacki
 
       * changes to MakeFile and Hindered Rotor *.h files to get LINUX compilation working

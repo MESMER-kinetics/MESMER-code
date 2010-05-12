@@ -32,6 +32,7 @@ void usage();
 string version();
 bool QACompare(string infilename);
 string duplicateFileName(const string& inName, const string& suffix, const string& newTimeStamp = "");
+string replaceFilename(const string& inName, const string& newFilename);
 int main(int argc,char *argv[])
 {
   //
@@ -135,6 +136,11 @@ int main(int argc,char *argv[])
     }
   }
 
+  if(!usecout && outfilename.empty()){
+    string repname = "mesmer_out.xml";
+    outfilename = overwriteinput ? infilename : replaceFilename(infilename, repname);
+  }
+  
   //-----------------------------------
   //Start the error handling system
   //
@@ -247,9 +253,6 @@ int main(int argc,char *argv[])
   string saveTimeStamp = '.' + currentTimeStamp;
   cinfo << " -- Total time elapsed: " << timeElapsed << " seconds.\n" << endl;
 
-  if(!usecout && outfilename.empty())
-    outfilename = overwriteinput ? infilename : "mesmer_out.xml";
-
   //Any existing file with the same name as the one being written is renamed with a _prev suffix
   //Any old _prev file is not deleted unless the write of the new file is successful
   if(!usecout)
@@ -327,6 +330,20 @@ string duplicateFileName(const string& inName, const string& suffix, const strin
     duplicatedName += oldTimeStamp + newTimeStamp;
   duplicatedName += suffix;
   return duplicatedName;
+}
+
+string replaceFilename(const string& inName, const string& newFilename){
+  string replacedName = inName;
+  string::size_type posf = replacedName.rfind('/');
+  string::size_type posr = replacedName.rfind('\\');
+  string::size_type pos;
+  if (posf != string::npos) pos = posf;
+  else if (posr != string::npos) pos = posr;
+  
+  replacedName.erase(pos+1);
+  replacedName+=newFilename;
+  
+  return replacedName;
 }
 
 void usage()
