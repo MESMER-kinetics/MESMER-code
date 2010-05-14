@@ -12,9 +12,20 @@ otfn=mesmer.test
 
 # To execute the 
 if [ -f "../bin/mesmer" ]; then
-  echo testfile exists!
+  executable="../../bin/mesmer"
+else
+  echo "----------------------------------------------------------------------"
+  echo "The executable mesmer cannot be found, the QA test stopped."
+  echo "Please make sure the executable mesmer is located in the \"bin\" folder."
+  if [ "$TERM_PROGRAM" == "Apple_Terminal" ]; then 
+    echo "If you use XCode to compile mesmer, make sure you set the \"Copy Files\""
+    echo "build phase of target mesmer to have Destination \"Absolute Path\", copying the full"
+    echo "path of mesmer\bin to the \"Full Path\" box. This will make sure you get a fresh executable"
+    echo "each time you compile mesmer."
+    echo "----------------------------------------------------------------------"
+    exit
+  fi
 fi
-executable="../../bin/mesmer"
 
 tfn=mesmer.test
 lfn=mesmer.log
