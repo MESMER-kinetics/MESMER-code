@@ -115,6 +115,7 @@ namespace mesmer
     m_RotCstC(0.0),
     m_Sym(1.0),
     m_ZPE(0.0),
+    m_ClassicalEnergy(0.0),
     m_scaleFactor(1.0),
     m_SpinMultiplicity(1),
     m_RC_chk(-1),

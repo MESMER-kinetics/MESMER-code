@@ -9,8 +9,6 @@ namespace mesmer
   EckartCoefficients theEckartCoefficients("Eckart");
   //************************************************************
 
-
-
   bool EckartCoefficients::calculateCellTunnelingCoeffs(Reaction* pReact, vector<double>& TunnelingProbability){
 
     double rctClassicalEnergy(pReact->get_reactant()->getDOS().getClassicalEnergy());

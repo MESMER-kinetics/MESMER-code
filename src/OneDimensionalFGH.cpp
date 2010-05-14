@@ -78,7 +78,7 @@ namespace mesmer{
 		dMatrix hamiltonian(numberGridPoint, numberGridPoint);
 
 		double x = 0.0; // temporary
-		double dx = 2.0 * M_PI / double(numberGridPoint); // temporary
+		const double dx(2.0 * M_PI / double(numberGridPoint)); // temporary
 		for (int i(0); i < numberGridPoint; ++i){
 			for (int j(0); j <= i; ++j){
 				double ijD = (i - j);

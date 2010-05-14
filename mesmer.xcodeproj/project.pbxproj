@@ -103,6 +103,7 @@
 		577A1531118EC18F00BD303A /* XMLPersist.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577A1506118EC18F00BD303A /* XMLPersist.cpp */; };
 		577A1536118EC28200BD303A /* libqd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 577A1348118EB7D700BD303A /* libqd.a */; };
 		577A1537118EC28200BD303A /* tinyxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 577A143B118EBC8F00BD303A /* tinyxml.a */; };
+		5795EBA6119D1323008F3F11 /* mesmer in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8DD76FB20486AB0100D96B5E /* mesmer */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,16 +133,25 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		8DD76FAF0486AB0100D96B5E /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
-			dstPath = /usr/share/man/man1/;
+			buildActionMask = 12;
+			dstPath = "/Users/chi-hsiuliang/codes/mesmer/bin";
 			dstSubfolderSpec = 0;
 			files = (
+				5795EBA6119D1323008F3F11 /* mesmer in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		57148BC9119CDC76000730F5 /* defaults.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = defaults.xml; sourceTree = "<group>"; };
+		57148BCA119CDC76000730F5 /* librarymols.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = librarymols.xml; sourceTree = "<group>"; };
+		57148BCB119CDC76000730F5 /* mesmer1.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = mesmer1.xsl; sourceTree = "<group>"; };
+		57148BCC119CDC76000730F5 /* mesmer2.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = mesmer2.xsl; sourceTree = "<group>"; };
+		57148BCD119CDC76000730F5 /* mesmerDiag.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = mesmerDiag.xsl; sourceTree = "<group>"; };
+		57148BCE119CDC76000730F5 /* popDiag.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = popDiag.xsl; sourceTree = "<group>"; };
+		57148BCF119CDC76000730F5 /* punch.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = punch.xsl; sourceTree = "<group>"; };
+		57148BD0119CDC76000730F5 /* switchcontent.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = switchcontent.xsl; sourceTree = "<group>"; };
 		5764F34B118F2CB9002166C2 /* MacOSX.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MacOSX.xcodeproj; path = "/Users/chi-hsiuliang/codes/mesmer/MacOSX/MacOSX.xcodeproj"; sourceTree = "<absolute>"; };
 		577A1348118EB7D700BD303A /* libqd.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libqd.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		577A134E118EB7F200BD303A /* aclocal.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = aclocal.m4; sourceTree = "<group>"; };
@@ -470,6 +480,13 @@
 		5791CA52118FD39D000F8923 /* MESMER manual.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "MESMER manual.pdf"; path = "Documentation/MESMER manual.pdf"; sourceTree = "<group>"; };
 		5791CA53118FD39D000F8923 /* Procedure_to_configure_MESMER_under_XCode.doc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Procedure_to_configure_MESMER_under_XCode.doc; path = Documentation/Procedure_to_configure_MESMER_under_XCode.doc; sourceTree = "<group>"; };
 		5791CA54118FD39D000F8923 /* Video tutorial plan of MESMER.doc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Video tutorial plan of MESMER.doc"; path = "Documentation/Video tutorial plan of MESMER.doc"; sourceTree = "<group>"; };
+		5795EB0F119D0160008F3F11 /* test.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = test.sh; sourceTree = "<group>"; };
+		5795EBBB119D3109008F3F11 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
+		5795EBBD119D3122008F3F11 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
+		5795EBBF119D313A008F3F11 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
+		5795EBC1119D314F008F3F11 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
+		5795EBC3119D3165008F3F11 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
+		5795EBC5119D317C008F3F11 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
 		57D021B71190044C0044AD1B /* acetyl.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acetyl.log; sourceTree = "<group>"; };
 		57D021B81190044C0044AD1B /* Acetyl_O2_associationEx.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Acetyl_O2_associationEx.xml; sourceTree = "<group>"; };
 		57D021B91190044C0044AD1B /* acetylO2.ck */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acetylO2.ck; sourceTree = "<group>"; };
@@ -496,6 +513,38 @@
 		57D021D71190044C0044AD1B /* reservoirSinkAcetylO2.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = reservoirSinkAcetylO2.test; sourceTree = "<group>"; };
 		57D021D81190044C0044AD1B /* reservoirSinkAcetylO2.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = reservoirSinkAcetylO2.xml; sourceTree = "<group>"; };
 		57FCC2E1119AB27200A54178 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
+		57FCC33E119BEB7400A54178 /* Acetyl_O2_association.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Acetyl_O2_association.xml; sourceTree = "<group>"; };
+		57FCC33F119BEB7400A54178 /* Acetyl_O2_association_mytest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Acetyl_O2_association_mytest.xml; sourceTree = "<group>"; };
+		57FCC340119BEB7400A54178 /* Acetyl_O2_Eoffset.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Acetyl_O2_Eoffset.xml; sourceTree = "<group>"; };
+		57FCC341119BEB7400A54178 /* Acetyl_O2minimal.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Acetyl_O2minimal.xml; sourceTree = "<group>"; };
+		57FCC344119BEB7400A54178 /* mesmer.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.log; sourceTree = "<group>"; };
+		57FCC345119BEB7400A54178 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
+		57FCC349119BEB7400A54178 /* mesmer.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.log; sourceTree = "<group>"; };
+		57FCC34A119BEB7400A54178 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
+		57FCC34B119BEB7400A54178 /* Cyclopropene_isomerization_test.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Cyclopropene_isomerization_test.xml; sourceTree = "<group>"; };
+		57FCC34F119BEB7400A54178 /* mesmer.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.log; sourceTree = "<group>"; };
+		57FCC350119BEB7400A54178 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
+		57FCC351119BEB7400A54178 /* Cyclopropene_isomerization_reservoir_state_test.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Cyclopropene_isomerization_reservoir_state_test.xml; sourceTree = "<group>"; };
+		57FCC356119BEB7400A54178 /* mesmer.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.log; sourceTree = "<group>"; };
+		57FCC357119BEB7400A54178 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
+		57FCC358119BEB7400A54178 /* HSO2.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = HSO2.xml; sourceTree = "<group>"; };
+		57FCC359119BEB7400A54178 /* HSO2_test.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = HSO2_test.xml; sourceTree = "<group>"; };
+		57FCC35D119BEB7400A54178 /* mesmer.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.log; sourceTree = "<group>"; };
+		57FCC35E119BEB7400A54178 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
+		57FCC35F119BEB7400A54178 /* OH_acetylene_association_test.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = OH_acetylene_association_test.xml; sourceTree = "<group>"; };
+		57FCC364119BEB7400A54178 /* mesmer.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.log; sourceTree = "<group>"; };
+		57FCC365119BEB7400A54178 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
+		57FCC366119BEB7400A54178 /* pentyl_isomerization_basisset_test.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = pentyl_isomerization_basisset_test.xml; sourceTree = "<group>"; };
+		57FCC367119BEB7400A54178 /* pentyl_isomerization_test.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = pentyl_isomerization_test.xml; sourceTree = "<group>"; };
+		57FCC368119BEB7400A54178 /* pentyl_isomerize_dissocn.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = pentyl_isomerize_dissocn.xml; sourceTree = "<group>"; };
+		57FCC369119BEB7400A54178 /* QA.bat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = QA.bat; sourceTree = "<group>"; };
+		57FCC36B119BEB7400A54178 /* HCCH_methylene.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HCCH_methylene.test; sourceTree = "<group>"; };
+		57FCC36C119BEB7400A54178 /* HCCH_methylene.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = HCCH_methylene.xml; sourceTree = "<group>"; };
+		57FCC36D119BEB7400A54178 /* LZ_test.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LZ_test.test; sourceTree = "<group>"; };
+		57FCC36E119BEB7400A54178 /* LZ_test.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LZ_test.xml; sourceTree = "<group>"; };
+		57FCC36F119BEB7400A54178 /* WKB_test.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WKB_test.test; sourceTree = "<group>"; };
+		57FCC370119BEB7400A54178 /* WKB_test.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = WKB_test.xml; sourceTree = "<group>"; };
+		57FCC374119C3C2400A54178 /* qashell.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = qashell.sh; sourceTree = "<group>"; };
 		8DD76FB20486AB0100D96B5E /* mesmer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mesmer; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -529,6 +578,15 @@
 		08FB7794FE84155DC02AAC07 /* mesmer */ = {
 			isa = PBXGroup;
 			children = (
+				57148BC9119CDC76000730F5 /* defaults.xml */,
+				57148BCA119CDC76000730F5 /* librarymols.xml */,
+				57148BCB119CDC76000730F5 /* mesmer1.xsl */,
+				57148BCC119CDC76000730F5 /* mesmer2.xsl */,
+				57148BCD119CDC76000730F5 /* mesmerDiag.xsl */,
+				57148BCE119CDC76000730F5 /* popDiag.xsl */,
+				57148BCF119CDC76000730F5 /* punch.xsl */,
+				57148BD0119CDC76000730F5 /* switchcontent.xsl */,
+				57FCC33C119BEB7400A54178 /* MesmerQA */,
 				57FCC2E1119AB27200A54178 /* ChangeLog */,
 				57D021B51190044C0044AD1B /* examples */,
 				577A14AA118EC18F00BD303A /* src */,
@@ -1002,6 +1060,54 @@
 			path = plugins;
 			sourceTree = "<group>";
 		};
+		5795EBBA119D3109008F3F11 /* MacOSX */ = {
+			isa = PBXGroup;
+			children = (
+				5795EBBB119D3109008F3F11 /* mesmer.test */,
+			);
+			path = MacOSX;
+			sourceTree = "<group>";
+		};
+		5795EBBC119D3122008F3F11 /* MacOSX */ = {
+			isa = PBXGroup;
+			children = (
+				5795EBBD119D3122008F3F11 /* mesmer.test */,
+			);
+			path = MacOSX;
+			sourceTree = "<group>";
+		};
+		5795EBBE119D313A008F3F11 /* MacOSX */ = {
+			isa = PBXGroup;
+			children = (
+				5795EBBF119D313A008F3F11 /* mesmer.test */,
+			);
+			path = MacOSX;
+			sourceTree = "<group>";
+		};
+		5795EBC0119D314F008F3F11 /* MacOSX */ = {
+			isa = PBXGroup;
+			children = (
+				5795EBC1119D314F008F3F11 /* mesmer.test */,
+			);
+			path = MacOSX;
+			sourceTree = "<group>";
+		};
+		5795EBC2119D3165008F3F11 /* MacOSX */ = {
+			isa = PBXGroup;
+			children = (
+				5795EBC3119D3165008F3F11 /* mesmer.test */,
+			);
+			path = MacOSX;
+			sourceTree = "<group>";
+		};
+		5795EBC4119D317C008F3F11 /* MacOSX */ = {
+			isa = PBXGroup;
+			children = (
+				5795EBC5119D317C008F3F11 /* mesmer.test */,
+			);
+			path = MacOSX;
+			sourceTree = "<group>";
+		};
 		57D021B51190044C0044AD1B /* examples */ = {
 			isa = PBXGroup;
 			children = (
@@ -1112,6 +1218,220 @@
 				57D021D81190044C0044AD1B /* reservoirSinkAcetylO2.xml */,
 			);
 			path = reservoirSink;
+			sourceTree = "<group>";
+		};
+		57FCC33C119BEB7400A54178 /* MesmerQA */ = {
+			isa = PBXGroup;
+			children = (
+				5795EB0F119D0160008F3F11 /* test.sh */,
+				57FCC374119C3C2400A54178 /* qashell.sh */,
+				57FCC33D119BEB7400A54178 /* Acetyl O2 association */,
+				57FCC346119BEB7400A54178 /* cyclopropene isomerization */,
+				57FCC34C119BEB7400A54178 /* cyclopropene isomerization reservoir state */,
+				57FCC352119BEB7400A54178 /* HSO2 */,
+				57FCC35A119BEB7400A54178 /* OH acetylene association */,
+				57FCC360119BEB7400A54178 /* pentyl */,
+				57FCC369119BEB7400A54178 /* QA.bat */,
+				57FCC36A119BEB7400A54178 /* spin_forbidden_kinetics */,
+			);
+			path = MesmerQA;
+			sourceTree = "<group>";
+		};
+		57FCC33D119BEB7400A54178 /* Acetyl O2 association */ = {
+			isa = PBXGroup;
+			children = (
+				57FCC33E119BEB7400A54178 /* Acetyl_O2_association.xml */,
+				57FCC33F119BEB7400A54178 /* Acetyl_O2_association_mytest.xml */,
+				57FCC340119BEB7400A54178 /* Acetyl_O2_Eoffset.xml */,
+				57FCC341119BEB7400A54178 /* Acetyl_O2minimal.xml */,
+				57FCC342119BEB7400A54178 /* baselines */,
+			);
+			path = "Acetyl O2 association";
+			sourceTree = "<group>";
+		};
+		57FCC342119BEB7400A54178 /* baselines */ = {
+			isa = PBXGroup;
+			children = (
+				5795EBBA119D3109008F3F11 /* MacOSX */,
+				57FCC343119BEB7400A54178 /* Win32 */,
+			);
+			path = baselines;
+			sourceTree = "<group>";
+		};
+		57FCC343119BEB7400A54178 /* Win32 */ = {
+			isa = PBXGroup;
+			children = (
+				57FCC344119BEB7400A54178 /* mesmer.log */,
+				57FCC345119BEB7400A54178 /* mesmer.test */,
+			);
+			path = Win32;
+			sourceTree = "<group>";
+		};
+		57FCC346119BEB7400A54178 /* cyclopropene isomerization */ = {
+			isa = PBXGroup;
+			children = (
+				57FCC347119BEB7400A54178 /* baselines */,
+				57FCC34B119BEB7400A54178 /* Cyclopropene_isomerization_test.xml */,
+			);
+			path = "cyclopropene isomerization";
+			sourceTree = "<group>";
+		};
+		57FCC347119BEB7400A54178 /* baselines */ = {
+			isa = PBXGroup;
+			children = (
+				5795EBBC119D3122008F3F11 /* MacOSX */,
+				57FCC348119BEB7400A54178 /* Win32 */,
+			);
+			path = baselines;
+			sourceTree = "<group>";
+		};
+		57FCC348119BEB7400A54178 /* Win32 */ = {
+			isa = PBXGroup;
+			children = (
+				57FCC349119BEB7400A54178 /* mesmer.log */,
+				57FCC34A119BEB7400A54178 /* mesmer.test */,
+			);
+			path = Win32;
+			sourceTree = "<group>";
+		};
+		57FCC34C119BEB7400A54178 /* cyclopropene isomerization reservoir state */ = {
+			isa = PBXGroup;
+			children = (
+				57FCC34D119BEB7400A54178 /* baselines */,
+				57FCC351119BEB7400A54178 /* Cyclopropene_isomerization_reservoir_state_test.xml */,
+			);
+			path = "cyclopropene isomerization reservoir state";
+			sourceTree = "<group>";
+		};
+		57FCC34D119BEB7400A54178 /* baselines */ = {
+			isa = PBXGroup;
+			children = (
+				5795EBBE119D313A008F3F11 /* MacOSX */,
+				57FCC34E119BEB7400A54178 /* Win32 */,
+			);
+			path = baselines;
+			sourceTree = "<group>";
+		};
+		57FCC34E119BEB7400A54178 /* Win32 */ = {
+			isa = PBXGroup;
+			children = (
+				57FCC34F119BEB7400A54178 /* mesmer.log */,
+				57FCC350119BEB7400A54178 /* mesmer.test */,
+			);
+			path = Win32;
+			sourceTree = "<group>";
+		};
+		57FCC352119BEB7400A54178 /* HSO2 */ = {
+			isa = PBXGroup;
+			children = (
+				57FCC353119BEB7400A54178 /* baselines */,
+				57FCC358119BEB7400A54178 /* HSO2.xml */,
+				57FCC359119BEB7400A54178 /* HSO2_test.xml */,
+			);
+			path = HSO2;
+			sourceTree = "<group>";
+		};
+		57FCC353119BEB7400A54178 /* baselines */ = {
+			isa = PBXGroup;
+			children = (
+				5795EBC0119D314F008F3F11 /* MacOSX */,
+				57FCC354119BEB7400A54178 /* Cygwin 32-bit double */,
+				57FCC355119BEB7400A54178 /* Win32 */,
+			);
+			path = baselines;
+			sourceTree = "<group>";
+		};
+		57FCC354119BEB7400A54178 /* Cygwin 32-bit double */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Cygwin 32-bit double";
+			sourceTree = "<group>";
+		};
+		57FCC355119BEB7400A54178 /* Win32 */ = {
+			isa = PBXGroup;
+			children = (
+				57FCC356119BEB7400A54178 /* mesmer.log */,
+				57FCC357119BEB7400A54178 /* mesmer.test */,
+			);
+			path = Win32;
+			sourceTree = "<group>";
+		};
+		57FCC35A119BEB7400A54178 /* OH acetylene association */ = {
+			isa = PBXGroup;
+			children = (
+				57FCC35B119BEB7400A54178 /* baselines */,
+				57FCC35F119BEB7400A54178 /* OH_acetylene_association_test.xml */,
+			);
+			path = "OH acetylene association";
+			sourceTree = "<group>";
+		};
+		57FCC35B119BEB7400A54178 /* baselines */ = {
+			isa = PBXGroup;
+			children = (
+				5795EBC2119D3165008F3F11 /* MacOSX */,
+				57FCC35C119BEB7400A54178 /* Win32 */,
+			);
+			path = baselines;
+			sourceTree = "<group>";
+		};
+		57FCC35C119BEB7400A54178 /* Win32 */ = {
+			isa = PBXGroup;
+			children = (
+				57FCC35D119BEB7400A54178 /* mesmer.log */,
+				57FCC35E119BEB7400A54178 /* mesmer.test */,
+			);
+			path = Win32;
+			sourceTree = "<group>";
+		};
+		57FCC360119BEB7400A54178 /* pentyl */ = {
+			isa = PBXGroup;
+			children = (
+				57FCC361119BEB7400A54178 /* baselines */,
+				57FCC366119BEB7400A54178 /* pentyl_isomerization_basisset_test.xml */,
+				57FCC367119BEB7400A54178 /* pentyl_isomerization_test.xml */,
+				57FCC368119BEB7400A54178 /* pentyl_isomerize_dissocn.xml */,
+			);
+			path = pentyl;
+			sourceTree = "<group>";
+		};
+		57FCC361119BEB7400A54178 /* baselines */ = {
+			isa = PBXGroup;
+			children = (
+				5795EBC4119D317C008F3F11 /* MacOSX */,
+				57FCC362119BEB7400A54178 /* Cygwin 32-bit double */,
+				57FCC363119BEB7400A54178 /* Win32 */,
+			);
+			path = baselines;
+			sourceTree = "<group>";
+		};
+		57FCC362119BEB7400A54178 /* Cygwin 32-bit double */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Cygwin 32-bit double";
+			sourceTree = "<group>";
+		};
+		57FCC363119BEB7400A54178 /* Win32 */ = {
+			isa = PBXGroup;
+			children = (
+				57FCC364119BEB7400A54178 /* mesmer.log */,
+				57FCC365119BEB7400A54178 /* mesmer.test */,
+			);
+			path = Win32;
+			sourceTree = "<group>";
+		};
+		57FCC36A119BEB7400A54178 /* spin_forbidden_kinetics */ = {
+			isa = PBXGroup;
+			children = (
+				57FCC36B119BEB7400A54178 /* HCCH_methylene.test */,
+				57FCC36C119BEB7400A54178 /* HCCH_methylene.xml */,
+				57FCC36D119BEB7400A54178 /* LZ_test.test */,
+				57FCC36E119BEB7400A54178 /* LZ_test.xml */,
+				57FCC36F119BEB7400A54178 /* WKB_test.test */,
+				57FCC370119BEB7400A54178 /* WKB_test.xml */,
+			);
+			path = spin_forbidden_kinetics;
 			sourceTree = "<group>";
 		};
 		C6A0FF2B0290797F04C91782 /* Documentation */ = {

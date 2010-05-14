@@ -139,12 +139,17 @@ namespace mesmer
     dMatrix wavefunctions(numberGridPoint, numberGridPoint);
     oneDimensionalFourierGridHamiltonian(m_reducedMomentInertia, &getEnergyFromFourierCoefficients, energylevels, wavefunctions, numberGridPoint, ak, bk, a0);
     
-    
+    ////----------  The following adjustments of ZPE need to be reconsidered. The energy has to be stored as classical energy in order to be clear.
     // 2. Remove the contribution of the harmonic vibration to zero point energy.
+    // energy to be removed from the ZPE = m_vibFreq / 2.0
+    // 3. Add the contribution of ground state hindered vibration to zero point energy.
+    ////----------
     
-    // 3. Add the contribution of hindered vibration to zero point energy.
+    // 4. De-convolute the harmonic vibrational energy levels from the DOS. 
     
-    // 4. 
+    
+    // 5. Convolute the hindered rotor energy levels to the DOS. The first vibrational state is ignored and treated as harmonic. It's energy 
+    //    is divided by two and counted as the contribution to the Zero point energy.
 
     pDOS->setCellDensityOfStates(cellDOS) ;
 

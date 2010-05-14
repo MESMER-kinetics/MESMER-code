@@ -1,3 +1,8 @@
+2010-May-14 Chi-Hsiu Liang
+
+  * Addition of MacOSX mesmer.test files in MesmerQA test projects.
+  * Some progress on the QM Hindered Rotor approach.
+
 2010-May-12 Chi-Hsiu Liang
 
   * modified the output path of mesmer_out.xml to make it clear.

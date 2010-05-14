@@ -20,11 +20,19 @@ namespace mesmer
     if(mass.empty())
     {
       //Masses of most common isotope
+      // reference page http://pntpm.ulb.ac.be/private/divers.htm
       mass["H"]  =  1.007825032;
       mass["D"]  =  2.014101778;
+      mass["2H"] =  2.014101778;
+      mass["3H"] =  3.016049268;
       mass["C"]  = 12.000000000;
-      mass["N"]  = 14.003074005;
+      mass["13C"]= 13.003354838;
+      mass["14C"]= 14.003241991;
+      mass["13N"]= 13.005738584;
+      mass["N"]  = 14.003074007;
+      mass["15O"]= 15.003065460;
       mass["O"]  = 15.994914620;
+      mass["17O"]= 16.999131501;
       mass["F"]  = 18.998403220;
       mass["S"]  = 31.972071000;
       mass["Cl"] = 34.968852680;
