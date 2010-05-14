@@ -480,7 +480,6 @@
 		5791CA52118FD39D000F8923 /* MESMER manual.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "MESMER manual.pdf"; path = "Documentation/MESMER manual.pdf"; sourceTree = "<group>"; };
 		5791CA53118FD39D000F8923 /* Procedure_to_configure_MESMER_under_XCode.doc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Procedure_to_configure_MESMER_under_XCode.doc; path = Documentation/Procedure_to_configure_MESMER_under_XCode.doc; sourceTree = "<group>"; };
 		5791CA54118FD39D000F8923 /* Video tutorial plan of MESMER.doc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Video tutorial plan of MESMER.doc"; path = "Documentation/Video tutorial plan of MESMER.doc"; sourceTree = "<group>"; };
-		5795EB0F119D0160008F3F11 /* test.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = test.sh; sourceTree = "<group>"; };
 		5795EBBB119D3109008F3F11 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
 		5795EBBD119D3122008F3F11 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
 		5795EBBF119D313A008F3F11 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
@@ -1223,7 +1222,6 @@
 		57FCC33C119BEB7400A54178 /* MesmerQA */ = {
 			isa = PBXGroup;
 			children = (
-				5795EB0F119D0160008F3F11 /* test.sh */,
 				57FCC374119C3C2400A54178 /* qashell.sh */,
 				57FCC33D119BEB7400A54178 /* Acetyl O2 association */,
 				57FCC346119BEB7400A54178 /* cyclopropene isomerization */,
