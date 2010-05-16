@@ -336,12 +336,17 @@ string replaceFilename(const string& inName, const string& newFilename){
   string replacedName = inName;
   string::size_type posf = replacedName.rfind('/');
   string::size_type posr = replacedName.rfind('\\');
-  string::size_type pos;
-  if (posf != string::npos) pos = posf;
-  else if (posr != string::npos) pos = posr;
-  
-  replacedName.erase(pos+1);
-  replacedName+=newFilename;
+  if (posf != string::npos){      // found '/'
+    replacedName.erase(posf+1);
+    replacedName+=newFilename;
+  }
+  else if (posr != string::npos){ // found '\\' 
+    replacedName.erase(posr+1);
+    replacedName+=newFilename;
+  }
+  else{                           // no '/' or '\\' found
+    replacedName = newFilename;   // meaning the filename has no directory structure --> simply a filename
+  }
   
   return replacedName;
 }
