@@ -25,17 +25,17 @@ namespace mesmer
     virtual ~QMHinderedRotorPotential() {}
 
   private:
-    std::string m_bondID;
-   	vector<double> ak; // Fourier coefficients for sine functions
-		vector<double> bk; // Fourier coefficients for cosine functions
+    std::string     m_bondID;
+   	vector<double>  ak; // Fourier coefficients for sine functions
+		vector<double>  bk; // Fourier coefficients for cosine functions
 		double a0; 					// 
     
 		//store the PES in a Fourier series. According to the fineness of the 
     //data set, the complexity of the PES can be achieved.
-    
-    int         numberGridPoint;
-    double      m_vibFreq;
-    double      m_reducedMomentInertia;
+      
+    int             m_numberGridPoint;
+    double          m_vibFreq;
+    double          m_reducedMomentInertia;
 
   } ;
 

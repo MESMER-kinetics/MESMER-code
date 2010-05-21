@@ -1,3 +1,8 @@
+2010-May-21 Chi-Hsiu Liang
+
+  * Update some changes to QM Hindered Rotor approximation.
+  * Need a real system to test against the code.
+
 2010-May-14 Chi-Hsiu Liang
 
   * Addition of MacOSX mesmer.test files in MesmerQA test projects.

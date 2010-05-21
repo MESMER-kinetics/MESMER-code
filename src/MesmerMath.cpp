@@ -116,9 +116,9 @@ void realft(std::vector<double> &data, const int isign)
 
 
 
-void FastLaplaceConvolution(const std::vector<double> &data1original, 
-														const std::vector<double> &data2original, 
-														std::vector<double> &convolution)
+void FastLaplaceConvolution(const vector<double> &data1original, 
+														const vector<double> &data2original, 
+														vector<double> &convolution)
 { /* this routine takes as input three identically sized vectors, data1, data2, and convolution.
 	It takes the FFT of data1 & data2, multiplies them in the frequency domain, and performs an inverse
 	FFT of their product to the time domain.  the time convolution is returned in the convolution
@@ -195,14 +195,14 @@ void FastLaplaceConvolution(const std::vector<double> &data1original,
 
 	no2 = n/2;                        // normalization for inverse FFT
 
-	for(i=2;i<n;i+=2){                // perform convolution by multiplying the FFTS in the frequency domain 
-		tmp=ans[i];
-		ans[i]=(ans[i]*temp[i]-ans[i+1]*temp[i+1])/no2;
-		ans[i+1]=(ans[i+1]*temp[i]+tmp*temp[i+1])/no2;
-	}
-	ans[0]=ans[0]*temp[0]/no2;
-	ans[1]=ans[1]*temp[1]/no2;
-
+  for(i=2;i<n;i+=2){                // perform convolution by multiplying the FFTS in the frequency domain 
+    tmp=ans[i];
+    ans[i]=(ans[i]*temp[i]-ans[i+1]*temp[i+1])/no2;
+    ans[i+1]=(ans[i+1]*temp[i]+tmp*temp[i+1])/no2;
+  }
+  ans[0]=ans[0]*temp[0]/no2;
+  ans[1]=ans[1]*temp[1]/no2;
+  
 	realft(ans, -1);                   // inverse FFT back to the time/energy domain
 
 	int chk(20),replace(0);    // chk specifies how many values are required to demonstrate that

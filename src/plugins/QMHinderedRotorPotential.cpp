@@ -24,7 +24,11 @@ namespace mesmer
 
     stringstream freqStrn(ppDOSC->XmlReadValue("me:vibFreq", optional));
     freqStrn >> m_vibFreq;
-    
+    // Alvyn's comment: One mode of hindered rotation is represented by a single conjugated vibrational mode in QM packages.
+    // The vibration in the vicinity obeys normal mode analysis, meaning it includes the coupled motion of all atoms.
+    // The normal mode motion conserves moments of inertia (Im). Where equally, a rigid rotation of the bond with other coordinates
+    // fixed also conserves Im. However, a fully relaxed calculation will introduce noise to the conservation of Im.
+
     const char* bondID = ppDOSC->XmlReadValue("bondRef", optional);
     if(bondID)
     {
@@ -71,30 +75,30 @@ namespace mesmer
      \usepackage{amsfonts}
      \usepackage{amssymb}
      \begin{document}
-     Let the function be expanded as 
-     
+     Let the function be expanded as
+
      \begin{equation}
      y(\theta)=a_0+a_1 \sin(\theta)+a_2 \sin(2\theta)+\ldots+a_m \sin(m\theta)+b_1 \cos(\theta)+b_2 \cos(2\theta)+\ldots+b_m \cos(m\theta)
      \end{equation}
-     
+
      where m is a positive integer (the larger the better).
      The Fourier coefficients are given by
-     
+
      \begin{eqnarray}
      a_0 = \frac{\sum_{i=1}^{n}y_i}{n} \\
      a_k = \frac{2}{n}\sum_{i=1}^{n} y_i \sin(k\theta_i)\\
      b_k = \frac{2}{n}\sum_{i=1}^{n} y_i \cos(k\theta_i)
      \end{eqnarray}
-     
+
      where $(y_1, \theta_1), (y_2, \theta_2),\ldots, (y_n, \theta_n)$ are ordered pairs in $0 \leq \theta \leq \pi$
      \end{document}
      */
-    
+
     // initialize the values for Fourier expansion
     ak.clear();
     bk.clear();
     a0 = 0.0;
-    
+
     // Lines to read in the classical PES from the hindered rotor. The energies shall cover a full circle of the rotation, evenly
     // separated. More points would be required if the PES is complicated.
     vector<double> pesEnes;
@@ -108,13 +112,13 @@ namespace mesmer
 
     // might need some code to ground the energies to a minimum values? (Does it matter?)
     // Routine to call function in order to convert the PES into ak, bk and a0.
-    
+
     // Ground the energies (make the lowest energy 0.0)
     double minimalE = pesEnes[0];
     for (size_t i(1); i < pesEnes.size(); ++i) if (minimalE > pesEnes[i]) minimalE = pesEnes[i];
     for (size_t i(0); i < pesEnes.size(); ++i) pesEnes[i] -= minimalE;
     //
-    
+
     size_t expansion = 8;
     convertToFourierCoefficients(expansion, ak, bk, a0, pesEnes);
 
@@ -131,27 +135,41 @@ namespace mesmer
       return false;
 
     // Remove contribution from vibration and add contribution from hindered rotor
-    
+
     // 1. Calculate the required energy levels (eigenvalues) from the hindered rotation.
     // How many cm-1 are required ? Estimate the number of states thru the multiple of the first hindered PES vibrational energy
-    numberGridPoint = 100;
-    vector<double> energylevels;
-    dMatrix wavefunctions(numberGridPoint, numberGridPoint);
-    oneDimensionalFourierGridHamiltonian(m_reducedMomentInertia, &getEnergyFromFourierCoefficients, energylevels, wavefunctions, numberGridPoint, ak, bk, a0);
-    
+    size_t MaxCell = cellDOS.size();
+    m_numberGridPoint = int(MaxCell) * 5 / int(m_vibFreq); // make a guess of how many hindered rotor energy levels there may be.
+    vector<double> eigenvalues;
+    dMatrix wavefunctions(m_numberGridPoint, m_numberGridPoint);
+    oneDimensionalFourierGridHamiltonian(m_reducedMomentInertia, &getEnergyFromFourierCoefficients,
+                                         eigenvalues, wavefunctions, m_numberGridPoint, ak, bk, a0);
+
+    vector<double> hinderedLevels(MaxCell, 0.0);
+    for(size_t i(0); i < eigenvalues.size(); ++i){
+      int eneLevel = int(abs(eigenvalues[i]));
+      if (eneLevel < int(MaxCell)){
+        hinderedLevels[eneLevel] += 1.0;
+      }
+    }
+
     ////----------  The following adjustments of ZPE need to be reconsidered. The energy has to be stored as classical energy in order to be clear.
     // 2. Remove the contribution of the harmonic vibration to zero point energy.
     // energy to be removed from the ZPE = m_vibFreq / 2.0
     // 3. Add the contribution of ground state hindered vibration to zero point energy.
+    // need to think about how...
     ////----------
-    
-    // 4. De-convolute the harmonic vibrational energy levels from the DOS. 
-    
-    
-    // 5. Convolute the hindered rotor energy levels to the DOS. The first vibrational state is ignored and treated as harmonic. It's energy 
-    //    is divided by two and counted as the contribution to the Zero point energy.
 
-    pDOS->setCellDensityOfStates(cellDOS) ;
+    // 4. De-convolute the harmonic vibrational energy levels from the DOS.
+    reverseBeyer_Swinehart(m_vibFreq, cellDOS);
+
+    // 5. Convolute the hindered rotor energy levels to the DOS. The first vibrational state is ignored and treated as harmonic. It's energy
+    //    is divided by two and counted as the contribution to the Zero point energy.
+    vector<double> tempCellDOS;
+    FastLaplaceConvolution(cellDOS, hinderedLevels, tempCellDOS);
+
+    // 6. Set density of states
+    pDOS->setCellDensityOfStates(tempCellDOS);
 
     return true;
   }

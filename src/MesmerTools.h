@@ -15,6 +15,8 @@ using namespace std;
 namespace mesmer
 {
   void Beyer_Swinehart(const vector<double>& VibFreq, vector<double>& cellDOS);
+  
+  void reverseBeyer_Swinehart(double VibFreq, vector<double>& cellDOS);
 
   // translation contribution for the partition function of two molecules
   double translationalContribution(const double m1, const double m2, const double beta);
