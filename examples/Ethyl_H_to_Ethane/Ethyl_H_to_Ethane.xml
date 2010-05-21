@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+  <title>Ethyl + H association</title>
+
+  <!-- 
+  This example is based on data from the Methyl + H example and its main purpose is 
+  to test internal rotor treatments.
+  -->
+
+  <moleculeList>
+    <molecule id="Ethane">
+      <atomArray>
+        <atom id="a1" elementType="C"/>
+        <atom id="a2" elementType="C"/>
+        <atom id="a3" elementType="H"/>
+        <atom id="a4" elementType="H"/>
+        <atom id="a5" elementType="H"/>
+        <atom id="a6" elementType="H"/>
+        <atom id="a7" elementType="H"/>
+        <atom id="a8" elementType="H"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a1 a3" order="1"/>
+        <bond atomRefs2="a1 a4" order="1"/>
+        <bond atomRefs2="a1 a5" order="1"/>
+        <bond atomRefs2="a2 a6" order="1"/>
+        <bond atomRefs2="a2 a7" order="1"/>
+        <bond atomRefs2="a2 a8" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">0.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">2.7335 0.67411 0.67411</array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>6</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+             263.9962834
+             826.9839523
+             826.9839523
+            1040.232051
+            1249.14541
+            1249.14541
+            1431.098795
+            1444.525919
+            1542.216174
+            1542.216174
+            1545.705111
+            1545.705111
+            3115.727061
+            3118.05302
+            3175.673354
+            3175.673354
+            3199.461565
+            3199.461565
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>30.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.79</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>153.0</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1" referenceTemperature="298." exponent="0.6">210.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+    <molecule id="Ethyl" spinMultiplicity="2">
+      <atomArray>
+        <atom id="a1" elementType="C"/>
+        <atom id="a2" elementType="C" spinMultiplicity="2"/>
+        <atom id="a3" elementType="H"/>
+        <atom id="a4" elementType="H"/>
+        <atom id="a5" elementType="H"/>
+        <atom id="a6" elementType="H"/>
+        <atom id="a7" elementType="H"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a1 a3" order="1"/>
+        <bond atomRefs2="a1 a4" order="1"/>
+        <bond atomRefs2="a1 a5" order="1"/>
+        <bond atomRefs2="a2 a6" order="1"/>
+        <bond atomRefs2="a2 a7" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">36600.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">3.4901 0.7712 0.7144</array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>3</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            185.7594994
+            495.3234232
+            845.3801691
+            1034.417155
+            1092.777567
+            1246.079374
+            1472.22597
+            1531.009283
+            1553.634515
+            1572.876535
+            2974.055047
+            3090.352969
+            3134.651905
+            3225.68146
+            3321.468658
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>29.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+
+    <molecule id="H">
+      <atom elementType="H"/>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">0.0</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>1.0</scalar>
+        </property>
+      </propertyList>
+      <property dictRef="me:spinMultiplicity">
+        <scalar>2</scalar>
+      </property>
+    </molecule>
+
+    <molecule id="He">
+      <atom elementType="He"/>
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>10.22</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>2.511</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>4.04</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+  </moleculeList>
+
+  <reactionList>
+
+    <reaction id="R1" reversible="true">
+      <reactant>
+        <molecule ref="Ethyl"  me:type="deficientReactant" />
+      </reactant>
+
+      <reactant>
+        <molecule ref="H"  me:type="excessReactant" />
+      </reactant>
+
+      <product>
+        <molecule ref="Ethane"  me:type="modelled" />
+      </product>
+
+      <me:MCRCMethod>MesmerILT</me:MCRCMethod>
+      <me:preExponential>3.e-10</me:preExponential>
+      <me:activationEnergy  units="cm-1">0.0</me:activationEnergy>
+      <me:TInfinity>300.0</me:TInfinity>
+      <me:nInfinity>0.8</me:nInfinity>
+
+    </reaction>
+
+  </reactionList>
+
+  <me:conditions>
+    <me:bathGas>He</me:bathGas>
+    <me:PTs>
+      <me:PTpair me:units="Torr" me:P="25.1" me:T="301." me:precision="dd">
+      </me:PTpair>
+    </me:PTs>
+  </me:conditions>
+
+  <me:modelParameters>
+    <me:grainSize units="cm-1">100</me:grainSize>
+    <!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
+    <!--<me:maxTemperature>3000</me:maxTemperature>-->
+    <me:energyAboveTheTopHill>10.</me:energyAboveTheTopHill>
+  </me:modelParameters>
+
+  <me:control>
+    <me:calcMethod>simpleCalc</me:calcMethod>
+    <!--<me:fittingTolerance>0.1</me:fittingTolerance>-->
+    <me:fittingIterations>2</me:fittingIterations>
+    <me:testDOS />
+    <!--<me:testMicroRates />-->
+    <!--<me:printGrainDOS />-->
+    <!--<me:printCellDOS />-->
+    <!--<me:printReactionOperatorColumnSums />-->
+    <!--<me:printGrainkfE />-->
+    <!--<me:printGrainBoltzmann />-->
+    <!--<me:printGrainkbE />-->
+    <!--<me:printSpeciesProfile />-->
+    <me:eigenvalues>5</me:eigenvalues>
+  </me:control>
+
+</me:mesmer>

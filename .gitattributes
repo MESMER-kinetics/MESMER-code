@@ -67,6 +67,7 @@ examples/AcetylO2/acetyl.log -text
 examples/AcetylO2/acetylO2.ck -text
 examples/AcetylO2/lactone.log -text
 examples/DiagramTest/HSO2.xml -text
+examples/Ethyl_H_to_Ethane/Ethyl_H_to_Ethane.xml -text
 examples/MesmerTemplate.text -text
 examples/Methyl_H_to_Methane/Methyl_H_to_Methane.xml -text
 examples/benzene_oxidation/benzene_oxidation_test.xml -text
