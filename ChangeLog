@@ -1,3 +1,9 @@
+
+2010-May-22 Struan Robertson
+
+	* QMRotor.cpp: Minor correction to improve agreement with classical results.
+      * Update of Ethyl + H example with experimental numbers.
+
 2010-May-21 Chi-Hsiu Liang
 
   * Update some changes to QM Hindered Rotor approximation.

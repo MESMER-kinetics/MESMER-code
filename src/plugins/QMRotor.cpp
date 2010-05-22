@@ -33,12 +33,12 @@ namespace mesmer
     double rcA(rotConst[0]), rcB(rotConst[1]), rcC(rotConst[2]);
 
     switch (rotorType) {
-    
+
     case 2: //3-D symmetric/asymmetric/spherical top
 
       // The following code tests for the type of top and where possible uses an analytic 
       // solution for the energy levels.
-      
+
       if (rcA == rcC || ((rcA - rcC)/rcC < .01)) { // spherical top
 
         rcA = (rcA + rcB + rcC) / 3.0;
@@ -54,39 +54,41 @@ namespace mesmer
         // Asymmetry parameter Kappa varies from -1 for a prolate symmetric top to 1 for an oblate symmetric top.
         double Kappa = (2. * rcB - rcA - rcC)/(rcA - rcC);
 
-        if (Kappa > 0.95) { // Near oblate symmetric top.
-        
-          // A true oblate symmetric top has rotational constants A = B > C.
-          // The closer Kappa is to 1, the closer it is an oblate rotor.
-          rcB = (rcB + rcA) / 2.0 ;
-          // Determine the maximum J possible for MaximumCell.
-          int maxJ = int((-rcB + sqrt(rcB*rcB + 4.0*rcC * double(MaximumCell)))/(2.0*rcC)); 
+        if (abs(Kappa) > 0.95) { // Near symmetric top.
+
+          double rcDiff(0.0) ;
+          int maxJ(0) ;
+
+          if (Kappa > 0.95) { // Near oblate symmetric top.
+
+            // A true oblate symmetric top has rotational constants A = B > C.
+            // Energy given by: E = B J (J + 1) + (C - B) K^2
+            // The closer Kappa is to 1, the closer it is an oblate rotor.
+            rcB    = (rcB + rcA) / 2.0 ;
+            rcDiff = rcC - rcB ;
+            // Determine the maximum J possible for MaximumCell.
+            maxJ = int((-rcB + sqrt(rcB*rcB + 4.0*rcC * double(MaximumCell)))/(2.0*rcC)); 
+
+          } else { // Near prolate symmetric top.
+
+            // A true prolate symmetric top has rotational constants A > B = C.
+            // Energy given by: E = B J (J + 1) + (A - B) K^2
+            // The closer Kappa is to -1, the closer it is an prolate rotor.
+            rcB    = (rcB + rcC) / 2.0 ;
+            rcDiff = rcA - rcB ;
+            // Determine the maximum J possible for MaximumCell.
+            maxJ = int((-rcB + sqrt(rcB*rcB + 4.0*rcB * double(MaximumCell)))/(2.0*rcB)); 
+
+          }
+
           for (int j(0); j <= maxJ; ++j ){
             double d_ei = rcB * double(j * (j + 1)); // B J (J + 1)
             for (int k(-j) ; k <= j; ++k ){
-              i_e = int (d_ei + (rcC - rcB) * double(k * k)); // B J (J + 1) + (C - B) K^2
-              if (i_e >= MaximumCell){
-                if (k < 0) k = -k;
-                continue;
-              }
-              cellDOS[i_e] += qele * double(2 * j + 1) / sym;
+              i_e = int (d_ei + rcDiff * double(k * k)); 
+              if (i_e < MaximumCell)
+                cellDOS[i_e] += qele * double(2 * j + 1) / sym;
             }
-          }
-          
-        } else if (Kappa < -0.95) { // Near prolate symmetric top.
-
-          // A true prolate symmetric top has rotational constants A > B = C.
-          // The closer Kappa is to -1, the closer it is an prolate rotor.
-          rcB = (rcB + rcC) / 2.0 ;
-          for (int j(0);; ++j ){
-            double d_ei = rcB * double(j * (j + 1)); // B J (J + 1)
-            if (int(d_ei) >= MaximumCell) break; // if J exceeds the energy level, K contribution also ignored as A>B.
-            for (int k(-j) ; k <= j; ++k ){
-              i_e = int (d_ei + (rcA - rcB) * double(k * k)); // B J (J + 1) + (A - B) K^2
-              if (i_e >= MaximumCell) break;
-              cellDOS[i_e] += qele * double(2 * j + 1) / sym;
-            }
-          }
+          }          
 
         } else { // General asymmetric top.
 
