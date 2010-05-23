@@ -161,6 +161,10 @@ namespace mesmer
     int test_rotConsts(void);
     int  get_rotConsts(std::vector<double> &mmtsInt);
     virtual void get_VibFreq(std::vector<double>& vibFreq);
+    
+    // Returns the number of internal degrees of freedom. 
+    // (Assumes the each extra DOS calculator contributes one degrees of freedom.)
+    size_t get_nInternalDegreesOfFreedom() { return m_VibFreq.size() + m_ExtraDOSCalculators.size() ; }
 
     virtual int getSpinMultiplicity();
 

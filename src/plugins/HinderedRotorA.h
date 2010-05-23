@@ -15,9 +15,13 @@ namespace mesmer
     // Provide a function to define particular counts of the DOS of a molecule.
     virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell);
 
-    ///Constructor which registers with the list of DensityOfStatesCalculators in the base class
-    //This class is an extra DOS class: a non-extra DensityOfStatesCalculator class also
-    //needs to be specified.
+    // Provide a function to calculate contribution to canonical partition function.
+    // (Mostly for testing purposes.)
+    virtual double canPrtnFnCntrb(const double beta) ;
+
+    // Constructor which registers with the list of DensityOfStatesCalculators in the base class
+    // This class is an extra DOS class: a non-extra DensityOfStatesCalculator class also
+    // needs to be specified.
     HinderedRotorA(const std::string& id) : DensityOfStatesCalculator(id, true){}
 
     virtual ~HinderedRotorA() {}
@@ -29,6 +33,7 @@ namespace mesmer
     int         m_periodicity;
     double      m_vibFreq;
     double      m_reducedMomentInertia;
+
   } ;
 
 }//namespace

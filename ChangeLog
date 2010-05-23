@@ -1,4 +1,10 @@
 
+2010-May-23 Struan Robertson
+
+	* HinderRotorA.h/.cpp: Initial implementation of hindered rotor. QM one-
+        dimensional free rotor density of states convolved with the other density
+        of states.
+
 2010-May-22 Struan Robertson
 
 	* QMRotor.cpp: Minor correction to improve agreement with classical results.

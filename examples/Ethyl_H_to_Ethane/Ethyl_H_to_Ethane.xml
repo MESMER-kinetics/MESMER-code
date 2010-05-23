@@ -12,23 +12,23 @@
   <moleculeList>
     <molecule id="Ethane">
       <atomArray>
-        <atom id="a1" elementType="C"/>
-        <atom id="a2" elementType="C"/>
-        <atom id="a3" elementType="H"/>
-        <atom id="a4" elementType="H"/>
-        <atom id="a5" elementType="H"/>
-        <atom id="a6" elementType="H"/>
-        <atom id="a7" elementType="H"/>
-        <atom id="a8" elementType="H"/>
+        <atom id="a1" elementType="C" x3="0.0"     y3="0.0"     z3="0.0"/>
+        <atom id="a2" elementType="C" x3="0.0"     y3="0.0"     z3="1.5"/>
+        <atom id="a3" elementType="H" x3="0.8165"  y3="0.0"     z3="-0.5774"/>
+        <atom id="a4" elementType="H" x3="-0.4082" y3="-0.7071" z3="-0.5774"/>
+        <atom id="a5" elementType="H" x3="-0.4082" y3="0.7071"  z3="-0.5774"/>
+        <atom id="a6" elementType="H" x3="-0.8165" y3="0.0"     z3="2.0774"/>
+        <atom id="a7" elementType="H" x3="0.4082"  y3="0.7071"  z3="2.0774"/>
+        <atom id="a8" elementType="H" x3="0.4082"  y3="-0.7071" z3="2.0774"/>
       </atomArray>
       <bondArray>
-        <bond atomRefs2="a1 a2" order="1"/>
-        <bond atomRefs2="a1 a3" order="1"/>
-        <bond atomRefs2="a1 a4" order="1"/>
-        <bond atomRefs2="a1 a5" order="1"/>
-        <bond atomRefs2="a2 a6" order="1"/>
-        <bond atomRefs2="a2 a7" order="1"/>
-        <bond atomRefs2="a2 a8" order="1"/>
+        <bond id="b1" atomRefs2="a1 a2" order="1"/>
+        <bond id="b2" atomRefs2="a1 a3" order="1"/>
+        <bond id="b3" atomRefs2="a1 a4" order="1"/>
+        <bond id="b4" atomRefs2="a1 a5" order="1"/>
+        <bond id="b5" atomRefs2="a2 a6" order="1"/>
+        <bond id="b6" atomRefs2="a2 a7" order="1"/>
+        <bond id="b7" atomRefs2="a2 a8" order="1"/>
       </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
@@ -40,9 +40,10 @@
         <property dictRef="me:symmetryNumber">
           <scalar>6</scalar>
         </property>
+        <!--  Frequency 289. has been eliminated in favour of a 1 Dimensional rotor. -->
         <property dictRef="me:vibFreqs">
           <array units="cm-1">
-             289.   821.   821.  995. 1206.
+             821.   821.  995. 1206.
             1206.  1379.  1388. 1469. 1469.
             1472.  1472.  2896. 2954. 2969.
             2969.  2985.  2985.
@@ -64,7 +65,16 @@
           <scalar units="cm-1" referenceTemperature="298." exponent="0.6">210.0</scalar>
         </property>
       </propertyList>
+      
       <me:DOSCMethod>QMRotors</me:DOSCMethod>
+
+      <me:ExtraDOSCMethod name="HinderedRotorA">
+        <bondRef>b1</bondRef>
+        <me:vibFreq units="cm-1">300</me:vibFreq>
+        <me:barrierZPE units="kJ/mol">12.4</me:barrierZPE>
+        <me:periodicity>3</me:periodicity>
+      </me:ExtraDOSCMethod>
+      
     </molecule>
 
     <molecule id="Ethyl" spinMultiplicity="2">

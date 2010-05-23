@@ -432,8 +432,6 @@ namespace mesmer
     std::vector<double> cellEne;
     getCellEnergies(MaximumCell, cellEne);
 
-
-
     // Partition functions that are higher than the current simulation temperature will not be output.
     const double temperature = 1. / (boltzmann_RCpK * m_host->getEnv().beta);
     const int max_nplus1 = int(temperature / 100.);
@@ -491,6 +489,13 @@ namespace mesmer
           default:
             qtot = 0.;
         }
+        
+        // Add contribution from other internal degrees of freeedom.
+        
+        for ( vector<DensityOfStatesCalculator*>::size_type j = 0 ; j < m_ExtraDOSCalculators.size() ; ++j ) {
+           qtot *= m_ExtraDOSCalculators[j]->canPrtnFnCntrb(beta) ;
+        }        
+        
         qtot *= double(getSpinMultiplicity());
         qtot = max(qtot, 1.0);
         if (qtot == 1.0){

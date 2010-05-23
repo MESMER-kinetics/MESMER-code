@@ -43,6 +43,10 @@ namespace mesmer
     // provide a function to define particular counts of the DOS of a molecule
     virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell)=0;
 
+    // Provide a function to calculate contribution to canonical partition function.
+    // (Mostly for testing purposes.)
+    virtual double canPrtnFnCntrb(const double beta)=0;
+
     std::string getName() const {return m_name;} ;
     const Molecule* getParent() const {return m_parent;} ;
     void setParent(const Molecule* parent) { m_parent = parent;} ;

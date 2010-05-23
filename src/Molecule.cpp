@@ -90,11 +90,11 @@ namespace mesmer
 
   // check whether the total vibrational frequencies (include the imaginary freq) number = 3N-6
   bool Molecule::checkFrequencies(){
-    std::vector<double> vibFreq;
+
+    size_t numFreq(0) ;
     if (g_dos){
-      g_dos->get_VibFreq(vibFreq);
+      numFreq = g_dos->get_nInternalDegreesOfFreedom() ;
     }
-    size_t numFreq = vibFreq.size();
     if (m_atomNumber > 1 && numFreq == 0){
       cinfo << "No vibrational frequencies were assigned for " << getName() << ", assuming it to be a sink term.\n";
       return true;
