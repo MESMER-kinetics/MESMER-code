@@ -94,14 +94,31 @@ namespace mesmer
     double bint = conMntInt2RotCnt/m_reducedMomentInertia ;
     double root = sqrt(double(MaximumCell)/bint) ;
     int kmax    = int(root + 1.0) ;
+	int nstates = 2*kmax +1 ;
+
+	dMatrix hamiltonian(nstates) ;
+
+	for (int k(1), i(1); k <= kmax ; k++) {
+		double energy = bint*double(k*k);
+		hamiltonian[i][i] = energy ;
+		i++ ;
+		hamiltonian[i][i] = energy ;
+		i++ ;
+	}
+
+	// Now call eigenvalue solvers.
+
+	vector<double> eigenvalues(nstates,0.0) ;
+
+	hamiltonian.diagonalize(&eigenvalues[0]);
 
     // Now convolve with the density of states for the other degrees of freedom.
 
-    for (int k(1) ; k < kmax ; k++ ) {
-      int nr = int(bint*double(k*k)) ;
+    for (int k(1) ; k < nstates ; k++ ) {
+      int nr = int(eigenvalues[k]) ;
       if (nr < MaximumCell) {
         for (int i(0) ; i < MaximumCell - nr ; i++ ) {
-          tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + 2.0*cellDOS[i] ;
+          tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + cellDOS[i] ;
         }
       }
     }
