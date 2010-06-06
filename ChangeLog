@@ -1,5 +1,9 @@
 
 
+2010-June-06 Struan Robertson
+
+	* HinderRotorA.cpp/.h: Addition of QM hindered rotor torsion potential.
+
 2010-June-03 Struan Robertson
 
 	* HinderRotorA.cpp: Addition of QM Hamiltonian matrix in preparation for

@@ -94,28 +94,44 @@ namespace mesmer
     double bint = conMntInt2RotCnt/m_reducedMomentInertia ;
     double root = sqrt(double(MaximumCell)/bint) ;
     int kmax    = int(root + 1.0) ;
-	int nstates = 2*kmax +1 ;
+    int nstates = 2*kmax +1 ;
 
-	dMatrix hamiltonian(nstates) ;
+    dMatrix hamiltonian(nstates) ;
 
-	for (int k(1), i(1); k <= kmax ; k++) {
-		double energy = bint*double(k*k);
-		hamiltonian[i][i] = energy ;
-		i++ ;
-		hamiltonian[i][i] = energy ;
-		i++ ;
-	}
+    // Add diagonal kinteic and potential terms first.
 
-	// Now call eigenvalue solvers.
+    hamiltonian[0][0] = m_barrier/2.0 ;
+    for (int k(1), i(1); k <= kmax ; k++) {
+      double energy = bint*double(k*k) + m_barrier/2.0 ;
+      hamiltonian[i][i] = energy ;
+      i++ ;                         // Need to account for the two direactions of rotation.
+      hamiltonian[i][i] = energy ;
+      i++ ;
+    }
 
-	vector<double> eigenvalues(nstates,0.0) ;
+    // Add off-diagonal potential terms.
 
-	hamiltonian.diagonalize(&eigenvalues[0]);
+    int idx = 2*m_periodicity - 1 ;
+    hamiltonian[idx][0] = hamiltonian[0][idx] = -m_barrier/4.0 ;
+    idx++ ;
+    hamiltonian[idx][0] = hamiltonian[0][idx] = -m_barrier/4.0 ;
+    idx++ ;
+    for (int k(1) ; idx < nstates ; idx++, k++) {
+      hamiltonian[idx][k] = hamiltonian[k][idx] = -m_barrier/4.0 ;
+    }
 
-    // Now convolve with the density of states for the other degrees of freedom.
+    // Now diagonalize hamiltonian matrix to determine energy levels.
 
+    vector<double> eigenvalues(nstates,0.0) ;
+
+    hamiltonian.diagonalize(&eigenvalues[0]);
+
+    // Shift eigenvalues by the zero point energy and convolve with the 
+    // density of states for the other degrees of freedom.
+
+    double zeroPointEnergy(eigenvalues[0]) ;
     for (int k(1) ; k < nstates ; k++ ) {
-      int nr = int(eigenvalues[k]) ;
+      int nr = int(eigenvalues[k] - zeroPointEnergy) ;
       if (nr < MaximumCell) {
         for (int i(0) ; i < MaximumCell - nr ; i++ ) {
           tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + cellDOS[i] ;
@@ -143,7 +159,46 @@ namespace mesmer
   //
   double HinderedRotorA::canPrtnFnCntrb(const double beta)
   {
-    return sqrt(M_PI*m_reducedMomentInertia/conMntInt2RotCnt/beta)/double(m_periodicity) ;
+    double Qintrot = sqrt(M_PI*m_reducedMomentInertia/conMntInt2RotCnt/beta)/double(m_periodicity) ;
+
+    Qintrot *= exp(-beta*m_barrier/2.0) * ModifiedBessalFuncion(beta*m_barrier/2.0) ;
+
+    return Qintrot ;
+  }
+
+  //
+  // Calculation of the modifed Bessel function, Io(x), for real x.
+  //
+  double HinderedRotorA::ModifiedBessalFuncion(const double x) const 
+  {
+    static double p1(1.0),          p2(3.5156229),     p3(3.0899424) ;
+    static double p4(1.2067492),    p5(0.2659732),     p6(0.360768e-1) ;
+    static double p7(0.45813e-2) ;
+
+    static double q1(0.39894228),   q2(0.1328592e-1),  q3(0.225319e-2) ;
+    static double q4(-0.157565e-2), q5(0.916281e-2),   q6(-0.2057706e-1) ;
+    static double q7(0.2635537e-1), q8(-0.1647633e-1), q9(0.392377e-2) ;
+
+    //  Bessel index
+
+    if (abs(x) < 3.75) {
+
+      double y1 = (x/3.75) ;
+      y1 *= y1 ;
+
+      return (p1+y1* (p2+y1* (p3+y1* (p4+y1* (p5+y1* (p6+ y1*p7)))))) ;
+
+    } else {
+
+      double ax = abs(x) ;
+      double y1 = 3.75/ax ;
+      double b1 = (exp(ax)/sqrt(ax)) ;
+      double fd = (q6+y1* (q7+y1* (q8+y1*q9))) ;
+      double b2 = (q1+y1* (q2+y1* (q3+y1* (q4+y1* (q5+y1*fd))))) ;
+
+      return b1*b2 ;
+
+    }
   }
 
 }//namespace
