@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
@@ -12,14 +12,14 @@
   <moleculeList>
     <molecule id="Ethane">
       <atomArray>
-        <atom id="a1" elementType="C" x3="0.0"     y3="0.0"     z3="0.0"/>
-        <atom id="a2" elementType="C" x3="0.0"     y3="0.0"     z3="1.5"/>
-        <atom id="a3" elementType="H" x3="0.8165"  y3="0.0"     z3="-0.5774"/>
-        <atom id="a4" elementType="H" x3="-0.4082" y3="-0.7071" z3="-0.5774"/>
-        <atom id="a5" elementType="H" x3="-0.4082" y3="0.7071"  z3="-0.5774"/>
-        <atom id="a6" elementType="H" x3="-0.8165" y3="0.0"     z3="2.0774"/>
-        <atom id="a7" elementType="H" x3="0.4082"  y3="0.7071"  z3="2.0774"/>
-        <atom id="a8" elementType="H" x3="0.4082"  y3="-0.7071" z3="2.0774"/>
+        <atom id="a1" elementType="C" x3=" 0.0000"  y3=" 0.0000"     z3=" 0.0000"/>
+        <atom id="a2" elementType="C" x3=" 1.5267"  y3=" 0.0000"     z3=" 0.0000"/>
+        <atom id="a3" elementType="H" x3="-0.3848"  y3=" 1.0254"     z3=" 0.0000"/>
+        <atom id="a4" elementType="H" x3="-0.3848"  y3="-0.5127"     z3="-0.5774"/>
+        <atom id="a5" elementType="H" x3="-0.2826"  y3="-0.5229"     z3=" 0.9719"/>
+        <atom id="a6" elementType="H" x3=" 1.7625"  y3=" 0.6046"     z3="-1.0500"/>
+        <atom id="a7" elementType="H" x3=" 1.9546"  y3="-0.9276"     z3="-0.1724"/>
+        <atom id="a8" elementType="H" x3=" 1.9563"  y3=" 0.61064"    z3=" 0.7155"/>
       </atomArray>
       <bondArray>
         <bond id="b1" atomRefs2="a1 a2" order="1"/>
