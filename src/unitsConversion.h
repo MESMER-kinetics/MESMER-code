@@ -26,23 +26,25 @@ namespace mesmer
   struct conditionSet{
   public:
 
-    conditionSet(string ref1_, string ref2_, double value_, double error_):
-      ref1(ref1_), ref2(ref2_), value(value_), error(error_)
+    conditionSet(string ref1, string ref2, string refReaction, double value, double error):
+      m_ref1(ref1), m_ref2(ref2), m_refReaction(refReaction), m_value(value), m_error(error)
     {}
 
-    void get_conditionSet(string& ref1_, string& ref2_, double& value_, double& error_){
-      ref1_ = ref1;
-      ref2_ = ref2;
-      value_ = value;
-      error_ = error;
+    void get_conditionSet(string& ref1, string& ref2, string& refReaction, double& value, double& error) {
+      ref1        = m_ref1 ;
+      ref2        = m_ref2 ;
+      refReaction = m_refReaction ;
+      value       = m_value ;
+      error       = m_error ;
     }
 
   private:
 
-    string ref1;
-    string ref2;
-    double value;
-    double error;
+    string m_ref1;
+    string m_ref2;
+    string m_refReaction;
+    double m_value;
+    double m_error;
 
   };
 
@@ -58,8 +60,8 @@ namespace mesmer
     const double get_temperature()  { return temperature;   }
     const int    get_precision()    { return precision;     }
 
-    void set_experimentalRate(string ref1_, string ref2_, double value_, double error_){
-      conditionSet tCS(ref1_, ref2_, value_, error_);
+    void set_experimentalRate(string ref1, string ref2, string refReaction, double value, double error){
+      conditionSet tCS(ref1, ref2, refReaction, value, error);
       rates.push_back(tCS);
     }
 

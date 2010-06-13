@@ -329,15 +329,20 @@ void System::readPTs(PersistPtr anchor)
 		txt = ppPTpair->XmlReadValue("me:experimentalRate", false);
 		PersistPtr ppExpRate = ppPTpair->XmlMoveTo("me:experimentalRate");
 		while (ppExpRate){
-			double rateValue(0.0), errorValue(0.0); string ref1, ref2;
+			double rateValue(0.0), errorValue(0.0); 
+			string ref1, ref2, refReaction;
 			stringstream s1(txt); s1 >> rateValue;
 			txt = ppExpRate->XmlReadValue("ref1");
 			stringstream s2(txt); s2 >> ref1;
 			txt = ppExpRate->XmlReadValue("ref2");
 			stringstream s3(txt); s3 >> ref2;
+			txt = ppExpRate->XmlReadValue("refReaction", false);
+			if (txt) {
+			   stringstream s3(txt); s3 >> refReaction ;
+			}
 			txt = ppExpRate->XmlReadValue("error");
 			stringstream s4(txt); s4 >> errorValue;
-			thisPair.set_experimentalRate(ref1, ref2, rateValue, errorValue);
+			thisPair.set_experimentalRate(ref1, ref2, refReaction, rateValue, errorValue);
 			ppExpRate = ppExpRate->XmlMoveTo("me:experimentalRate");
 		}
 
@@ -402,25 +407,23 @@ bool System::calculate(double& chiSquare)
 				default: ctest << ", diagonalization precision: double\n{\n";
 		}
 		// Build collison matrix for system.
-		cinfo << "Build Collison Operator" << endl;
 		if (!BuildReactionOperator(m_Env, m_Flags))
 			throw (std::runtime_error("Failed building system collison operator.")); 
 
+		{string thisEvent = "Build Collison Operator" ;
+		 events.setTimeStamp(thisEvent, timeElapsed) ;
+		 cinfo << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds." << endl ;}
+    
 		if (!m_Flags.rateCoefficientsOnly){
 			if (!calculateEquilibriumFractions(m_Env.beta))
 				throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
 
-			// Calculate eigenvectors and eigenvalues.
-			{string thisEvent = "Diagonalize the Reaction Operator";
-			cinfo << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds." << endl;;
-			events.setTimeStamp(thisEvent, timeElapsed);}
-
-			//-------------------------------
-			// Total reaction matrix operator
-			//-------------------------------
-
-			// This is where the collision operator being diagonalised.
+			// Diagonalise the collision operator being.
 			diagReactionOperator(m_Flags, m_Env, precision, ppAnalysis) ;
+
+			{string thisEvent = "Diagonalize the Reaction Operator" ;
+ 			 events.setTimeStamp(thisEvent, timeElapsed) ;
+			 cinfo << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds." << endl ;}
 
 			if (!m_Env.useBasisSetMethod) {
 
@@ -467,26 +470,49 @@ bool System::calculate(double& chiSquare)
 }
 
 double System::calcChiSquare(const qdMatrix& mesmerRates, vector<conditionSet>& expRates){
-	double chiSquare = 0.0;
+
+	double chiSquare(0.0) ;
 
 	for (size_t i(0); i < expRates.size(); ++i){
-		string ref1, ref2; double expRate(0.0), expErr(0.0); int seqMatrixLoc1(-1), seqMatrixLoc2(-1);
-		expRates[i].get_conditionSet(ref1, ref2, expRate, expErr);
+		string ref1, ref2, refReaction; 
+		double expRate(0.0), expErr(0.0); 
+		int seqMatrixLoc1(-1), seqMatrixLoc2(-1);
+		
+		expRates[i].get_conditionSet(ref1, ref2, refReaction, expRate, expErr);
 
 		// Get the position of ref1 and ref2 inside m_SpeciesSequence vector
 		seqMatrixLoc1 = getSpeciesSequenceIndex(ref1);
 		seqMatrixLoc2 = getSpeciesSequenceIndex(ref2);
 
 		if(seqMatrixLoc1<0 || seqMatrixLoc2<0)
-			break;
-
+			throw(std::runtime_error("Failed to locate species in rate coefficient matrix.")) ;
+			
 		// 
 		// In the following it is assumed that experimental rate coefficients will always 
 		// be quoted as a absolute values. Since the diagonal values of the BW matrix are
 		// negative, their absolute value is required for comparision with experimental
 		// values hence the fabs invocation.
 		//
-		double diff = fabs(to_double(mesmerRates[seqMatrixLoc1][seqMatrixLoc2])) - expRate ;
+		double rateCoeff = fabs(to_double(mesmerRates[seqMatrixLoc2][seqMatrixLoc1])) ;
+
+    // Is a bimolecular rate coefficient required?
+    
+    Reaction *reaction = m_pReactionManager->find(refReaction) ;
+    if (reaction && reaction->getReactionType() == ASSOCIATION ) {
+       double concExcessReactant = reaction->get_concExcessReactant() ;
+       
+       // Test concentration and reaction sense.
+       
+       if (concExcessReactant > 0.0 && (reaction->get_reactant()->getName() == ref1)) {
+          rateCoeff /= concExcessReactant ;
+       }
+    } else {
+      // No reference reaction. Assume reaction is unimolecular.
+    }
+    
+    // rateCoeff *= (IsBimoleculr()) ? excessSpeciesConc() : 1.0 ;
+
+		double diff = rateCoeff  - expRate ;
 		chiSquare += (diff * diff) / (expErr * expErr);
 	}
 	return chiSquare;

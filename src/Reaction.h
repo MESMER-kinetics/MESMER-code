@@ -188,19 +188,22 @@ namespace mesmer
     virtual bool isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) { return false ; } ;
 
     // returns the reaction type
-    virtual ReactionType getReactionType(){return UNDEFINED_REACTION;};
+    virtual ReactionType getReactionType() = 0 ; 
 
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() = 0 ;
 
     // Calculate rovibronic canonical partition function in the grain level for product(s) or reactant(s)
-    virtual double pdtsRovibronicGrnCanPrtnFn()
-      { return 0.0; }//for irreversible reactions
+    virtual double pdtsRovibronicGrnCanPrtnFn() { return 0.0; } // For irreversible reactions.
+    
     virtual double rctsRovibronicGrnCanPrtnFn() = 0;
 
     // For reactions involving a source update pseudoisomer map.
     virtual void updateSourceMap(molMapType& sourcemap) { /* For reactions without source terms this is a NULL operation. */} ;
 
+    // Get the concentration of the excess reactant. 
+    double get_concExcessReactant() const { return m_ERConc ; } ;
+    
   protected:
 
     // Read a molecule name from the XML file and look it up

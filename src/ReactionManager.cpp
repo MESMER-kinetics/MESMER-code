@@ -183,6 +183,21 @@ namespace mesmer
     }
   }
 
+  // Find a reaction from its id
+  Reaction* ReactionManager::find(const std::string& id) const 
+  {
+
+    bool found(false) ;
+    size_t idx ;
+    for (size_t i(0) ; i < m_reactions.size() && !found; i++) {
+      idx = i ;
+      found = (m_reactions[i]->getName() == id) ; 
+    }
+
+    return found ?  m_reactions[idx] : NULL ;
+
+  }
+
 }//namespace
 
 
