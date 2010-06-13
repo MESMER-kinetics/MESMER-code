@@ -89,7 +89,6 @@
       </propertyList>
     </molecule>
 
-
     <molecule id="H">
       <atom elementType="H"/>
       <propertyList>
@@ -152,115 +151,115 @@
     <me:bathGas>He</me:bathGas>
     <me:PTs>
       <me:PTpair me:units="Torr" me:P="25.1" me:T="301." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">1.26e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1" error="1.0">1.26e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="50.8" me:T="301." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">3.52e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">3.52e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="101.3" me:T="301." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">6.36e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">6.36e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="152.4" me:T="301." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">9.37e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">9.37e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="205.5" me:T="301." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">10.50e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">10.50e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="255.8" me:T="301." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">13.40e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">13.40e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="306.5" me:T="301." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">14.00e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">14.00e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="356.5" me:T="301." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">14.00e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">14.00e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="408.3" me:T="301." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">16.10e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">16.10e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="509.5" me:T="301." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">18.20e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">18.20e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="25.2" me:T="401." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">2.35e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">2.35e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="50.2" me:T="401." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">2.52e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">2.52e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="100.2" me:T="401." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">4.44e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">4.44e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="152.9" me:T="401." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">6.06e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">6.06e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="200.2" me:T="401." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">7.56e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">7.56e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="254.2" me:T="401." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">9.00e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">9.00e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="350.0" me:T="401." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">10.10e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">10.10e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="455.9" me:T="401." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">12.10e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">12.10e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="508.5" me:T="401." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">13.10e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">13.10e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="610.5" me:T="401." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">14.40e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">14.40e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="25.2" me:T="504." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">1.14e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">1.14e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="50.2" me:T="504." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">1.66e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">1.66e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="100.5" me:T="504." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">3.44e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">3.44e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="153.5" me:T="504." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">4.68e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">4.68e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="200.8" me:T="504." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">5.31e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">5.31e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="255.8" me:T="504." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">5.78e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">5.78e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="356.8" me:T="504." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">6.82e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">6.82e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="400.2" me:T="504." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">7.75e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">7.75e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="509.0" me:T="504." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">8.32e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">8.32e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="611.7" me:T="504." me:precision="dd">
         <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">9.69e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="105.3" me:T="601." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">2.11e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">2.11e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="208.5" me:T="601." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">3.35e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">3.35e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="304.5" me:T="601." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">3.78e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">3.78e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="411.0" me:T="601." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">4.50e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">4.50e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="515.0" me:T="601." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">4.84e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">4.84e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="614.5" me:T="601." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">5.75e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">5.75e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="711.0" me:T="601." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">6.18e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">6.18e-11</me:experimentalRate>
       </me:PTpair>
     </me:PTs>
   </me:conditions>

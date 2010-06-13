@@ -1,6 +1,12 @@
 
 2010-June-13 Struan Robertson
 
+	* MesmerTools.cpp: Rolling some changes back to 286 for grain averaging 
+      method to catch possible divide by zero error.
+      * Methyl_H_to_Methane.xml: Updated to include reference reaction.
+
+2010-June-13 Struan Robertson
+
 	* System.cpp/.h: Chi-squared method altered to account for excess 
       concentration in the case of a bimolecular association reaction.
 

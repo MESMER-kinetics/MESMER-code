@@ -87,22 +87,13 @@ namespace mesmer
       }
 
       // Calculate average energy of the grain if it contains sum states.
-      if (1) {
+       if ( gNOS > 0.0 ){
         double gSE = 0.0 ; // grain sum of state energy
         for (int j = 0 ; j < GrainSize ; ++j, ++idx3 ){
           gSE += shiftedCellEne[idx3] * shiftedCellDOS[idx3] ;
         }
         grainDOS[idx2] = gNOS ;
-        if ( gNOS > 0.0 ){
-          grainEne[idx2] = gSE/gNOS ;
-        }
-        else{
-          grainEne[idx2] = shiftedCellEne[idx3-1];
-        }
-        // in case the grain DOS is less than zero, set it to zero; this problem arose when QM rotors
-			  // are invoked, due to very small sums over the grain
-				if(grainDOS[idx2]<=0.0){grainDOS[idx2]=0.0;}
-
+        grainEne[idx2] = gSE/gNOS ;
         idx2++ ;
       }
 
