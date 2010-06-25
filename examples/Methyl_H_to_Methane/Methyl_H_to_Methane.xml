@@ -137,10 +137,10 @@
       </product>
 
       <me:MCRCMethod>MesmerILT</me:MCRCMethod>
-      <me:preExponential>3.e-10</me:preExponential>
+      <me:preExponential lower="1.e-10" upper="5.e-10" stepsize="1.e-11">3.e-10</me:preExponential>
       <me:activationEnergy  units="cm-1">0.0</me:activationEnergy>
       <me:TInfinity>300.0</me:TInfinity>
-      <me:nInfinity>0.8</me:nInfinity>
+      <me:nInfinity lower="0.4" upper="1.2" stepsize="0.01">0.8</me:nInfinity>
 
     </reaction>
 
@@ -272,9 +272,9 @@
   </me:modelParameters>
 
   <me:control>
-    <me:calcMethod>simpleCalc</me:calcMethod>
+    <me:calcMethod>fitting</me:calcMethod>
     <!--<me:fittingTolerance>0.1</me:fittingTolerance>-->
-    <me:fittingIterations>2</me:fittingIterations>
+    <me:fittingIterations>5</me:fittingIterations>
     <!--<me:testDOS />-->
     <!--<me:testMicroRates />-->
     <!--<me:printGrainDOS />-->
