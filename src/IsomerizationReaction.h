@@ -25,7 +25,8 @@ namespace mesmer
     IsomerizationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char *id)
       : Reaction(pMoleculeManager, Env, Flags, id),
       m_rct1(NULL),
-      m_pdt1(NULL) {} ;
+      m_pdt1(NULL),
+      m_GrainKbmc() {} ;
 
     // Destructor.
     virtual ~IsomerizationReaction() {} ;
@@ -94,6 +95,7 @@ namespace mesmer
     Molecule   *m_rct1 ;                 // Reactant Molecule.
     Molecule   *m_pdt1 ;                 // Product Molecule.
 
+    std::vector<double>  m_GrainKbmc ;           // Grained averaged backward microcanonical rates.
   } ;
 
 }//namespace

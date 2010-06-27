@@ -1,8 +1,14 @@
 
 2010-June-27 Struan Robertson
 
+	* Reaction.h: Minor update to remove m_GrainKbmc variable and place it only 
+      on those reaction that require it.
+      * MolecularCmponents.cpp: Minor code changes to improve readability.
+
+2010-June-27 Struan Robertson
+
 	* fitting.cpp, MesmerILT: Changes to parameter reading and fitting algorithm to 
-        improve the fitting of the Methyl+H example.
+      improve the fitting of the Methyl+H example.
       * Methyl_H_to_Methane.xml: Minor changes to allow for testing.
 
 2010-June-13 Struan Robertson

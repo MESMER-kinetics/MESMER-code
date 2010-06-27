@@ -31,7 +31,6 @@ namespace mesmer
     m_CellFlux(),
     m_GrainFlux(),
     m_GrainKfmc(),
-    m_GrainKbmc(),
     m_ERConc(0.0),
     m_fwdGrnCanonicalRate(0.0),
     m_rvsGrnCanonicalRate(0.0),

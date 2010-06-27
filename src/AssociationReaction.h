@@ -38,8 +38,8 @@ namespace mesmer
       m_rct1(NULL),
       m_rct2(NULL),
       m_pdt1(NULL),
-      deficientReactantLocation(isReactant)
-    {}
+      deficientReactantLocation(isReactant),
+      m_GrainKbmc() {} ;
 
     // Destructor.
     virtual ~AssociationReaction(){}
@@ -136,6 +136,8 @@ namespace mesmer
     Molecule    *m_pdt1 ;   // Product Molecule.
 
     bool deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
+
+    std::vector<double>  m_GrainKbmc ;           // Grained averaged backward microcanonical rates.
   } ;
 
 

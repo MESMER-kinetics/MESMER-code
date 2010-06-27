@@ -540,37 +540,27 @@ namespace mesmer
     }
   }
 
-
   double gDensityOfStates::get_zpe() {
     if (m_ZPE_chk == -1) {
       cinfo << "m_ZPE was not defined but requested in " << m_host->getName() << ". Default value " << m_ZPE << " is given." << endl;
       --m_ZPE_chk;
-      double zpe = m_ZPE;
-      return zpe;
-    }
-    else if (m_ZPE_chk < -1){
+    } else if (m_ZPE_chk < -1) {
       --m_ZPE_chk;
-      double zpe = m_ZPE;
-      return zpe;
+    } else {
+      ++m_ZPE_chk;
     }
-    ++m_ZPE_chk;
-    double zpe = m_ZPE;
-    return zpe;
+    return double(m_ZPE);
   }
-
-
 
   double gDensityOfStates::get_scaleFactor() {
     if (m_scaleFactor_chk == -1){
       cinfo << "m_scaleFactor was not defined but requested in " << m_host->getName() << ". Default value " << m_scaleFactor << " is given." << endl;
       --m_scaleFactor_chk;
-      return m_scaleFactor;
-    }
-    else if (m_scaleFactor_chk < -1){
+    } else if (m_scaleFactor_chk < -1) {
       --m_scaleFactor_chk;
-      return m_scaleFactor;
+    } else {
+      ++m_scaleFactor_chk;
     }
-    ++m_scaleFactor_chk;
     return m_scaleFactor ;
   }
 
@@ -578,13 +568,11 @@ namespace mesmer
     if (m_Sym_chk == -1){
       cinfo << "m_Sym was not defined but requested in " << m_host->getName() << ". Default value " << m_Sym << " is given." << endl;
       --m_Sym_chk;
-      return m_Sym;
-    }
-    else if (m_Sym_chk < -1){
+    } else if (m_Sym_chk < -1) {
       --m_Sym_chk;
-      return m_Sym;
+    } else {
+      ++m_Sym_chk;
     }
-    ++m_Sym_chk;
     return m_Sym ;
   }
 
@@ -598,14 +586,12 @@ namespace mesmer
   }
 
   int gDensityOfStates::getSpinMultiplicity(){
-    if (m_SpinMultiplicity_chk >= 0){
+    if (m_SpinMultiplicity_chk >= 0) {
       ++m_SpinMultiplicity_chk;
-      return m_SpinMultiplicity ;
-    }
-    else{
+    } else {
       cinfo << "m_SpinMultiplicity was not defined but requested in " << m_host->getName() << ". Default value " << m_SpinMultiplicity << " is given." << endl;
-      return m_SpinMultiplicity;
     }
+    return m_SpinMultiplicity ;
   }
 
   int gDensityOfStates::get_cellOffset(void) {
