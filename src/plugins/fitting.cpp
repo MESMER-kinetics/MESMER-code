@@ -143,17 +143,15 @@ namespace mesmer
 
     WriteVarVals() ;
 
-    ChangeErrorLevel e(obError); //warnings and less not sent to console
+    ChangeErrorLevel e(obError); // Warnings and less not sent to console.
 
     //
-    // Next, loop sequentially over each variable, optimizing it in each direction.
-    // SHR, 29/Nov/2009: tests with the isopropyl system show that this is not optimal
-    // and the something like to Powell conjugate direction method would improve the 
-    // rate of convergence.
+    // The following implementation is loosely based on the Powell method. An initial
+    // sweep is performed over all directions and from these a new direction for 
+    // search is calculated and is substituted for the last vector in the direction 
+    // matrix. The direaction matrix is periodically re-initialized to prevent linear
+    // dependence problems.
     //
-
-    //  // converged = ( (oldChiSquare - chiSquare)/oldChiSquare ) < tol ;
-
 
     // Setup initial search directions.
 
@@ -190,7 +188,7 @@ namespace mesmer
       GetLocation(currentLocation) ;
 
       direction = VectorAdd(1.0, currentLocation, -1.0, initialLocation) ;
-      VectorNormalize(direction) ;
+      // VectorNormalize(direction) ;
 
       oldChiSquare = chiSquare ;
       LineSearch(pSys, direction, chiSquare, tol);
@@ -234,6 +232,7 @@ namespace mesmer
     if (!BracketMinimum(pSys, direction)) {
       // failed to bracket minimum within user defined limits. 
       // Simply return for now.
+      currentChi2 = m_chi2b ;
       return ;
     }
 
@@ -319,7 +318,7 @@ namespace mesmer
 
       // Check bounds.    
       if (!CheckBounds(m_C)) {
-        // Should throw, but will simply return for now.
+        cinfo << endl << "Bound check failed in bracket search." << endl ;
         return false ;
       }
 
@@ -413,7 +412,6 @@ namespace mesmer
 
       Rdouble var = *Rdouble::withRange()[iVar] ;
       cerr << var.get_varname() << "=" << setprecision(6) << (double)var << "  "; 
-      //formatFloat(cout, var, 6, 15) ;
 
     }
     cerr << endl ;
@@ -569,7 +567,9 @@ namespace mesmer
       for(j = 0 ; j < A.size() ; j++) {
         A[j][i] = 0.0 ;
       }
-      A[i][i] = 1.0 ;
+      double lower(0.0), upper(0.0), stepsize(0.0) ;
+      Rdouble::withRange()[i]->get_range(lower, upper, stepsize) ;
+      A[i][i] = (stepsize > 0.0) ? stepsize : 1.0 ;
     }
 
   }

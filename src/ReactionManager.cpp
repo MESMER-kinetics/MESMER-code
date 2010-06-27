@@ -114,14 +114,13 @@ namespace mesmer
 
       readStatus = readStatus && preaction->InitializeReaction(ppReac);
       if(!readStatus)
-        cerr << "UNSATISFACTORY REACTION\n"; //but keep parsing
-
+        cerr << endl << "UNSATISFACTORY REACTION" << endl; //but keep parsing
 
       //
       // Add reaction to map.
       //
 
-      //need to check if there is duplicate reaction name/species: CHL
+      // Need to check if there is duplicate reaction name/species: CHL
 
       m_reactions.push_back(preaction) ;
     }

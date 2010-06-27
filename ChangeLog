@@ -1,4 +1,10 @@
 
+2010-June-27 Struan Robertson
+
+	* fitting.cpp, MesmerILT: Changes to parameter reading and fitting algorithm to 
+        improve the fitting of the Methyl+H example.
+      * Methyl_H_to_Methane.xml: Minor changes to allow for testing.
+
 2010-June-13 Struan Robertson
 
 	* MesmerTools.cpp: Rolling some changes back to 286 for grain averaging 

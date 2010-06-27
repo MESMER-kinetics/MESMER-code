@@ -53,9 +53,9 @@ namespace mesmer
     PersistPtr ppReac = pReact->get_PersistentPointer();
 
     // OpenBabel outputs <rateParameters> <A> <n> <E>
-    // Attempt to read these first; 
-    // if not present read the mesmer version which will add the default if necessary.
-    //**TODO preExponential
+    // Attempt to read these first and if not present read the mesmer 
+    // version which will add the default if necessary.
+    
     PersistPtr ppActEne, ppPreExponential;
     const char* pActEnetxt=NULL, *pPreExptxt=NULL;
     bool rangeSet(false) ;
@@ -66,53 +66,64 @@ namespace mesmer
       pActEnetxt = ppRateParams->XmlReadValue("E", optional);
       ppPreExponential = ppRateParams->XmlMoveTo("A") ;
       pPreExptxt = ppRateParams->XmlReadValue("A");
-    }
-    else {
+    } else {
       ppActEne = ppReac->XmlMoveTo("me:activationEnergy") ;
       pActEnetxt = ppReac->XmlReadValue("me:activationEnergy");
       ppPreExponential = ppReac->XmlMoveTo("me:preExponential") ;
       pPreExptxt = ppReac->XmlReadValue("me:preExponential");
     }
 
-    if (pActEnetxt)
-    {
-      m_isRvsILTpara = ppActEne->XmlReadBoolean("reverse") ; //specify the direction of the following ILT parameters
+    // Specify the direction of the following ILT parameters.
+    m_isRvsILTpara = ppActEne->XmlReadBoolean("reverse") ;
+   
+    // Activation energy details.    
+    if (pActEnetxt) {
       double tmpvalue = 0.0;
       stringstream s2(pActEnetxt); s2 >> tmpvalue ;
       const char* unitsTxt = ppActEne->XmlReadValue("units", false);
       string unitsInput = (unitsTxt) ? unitsTxt : "kJ/mol" ;
-
       double value(getConvertedEnergy(unitsInput, tmpvalue));
-      if(value<0.0)
-      {
-        cerr << "activation energy should not be negative when used with ILT" << endl;
+      
+      if (value<0.0) {
+        cerr << "Activation energy should not be negative when used with ILT." << endl;
         return false;
       }
-      SimpleILT::ReadRange(string("activationEnergy"), ppPreExponential, m_EInf, value/tmpvalue, rangeSet) ;
+      SimpleILT::ReadRange(string("me:activationEnergy"), ppActEne, m_EInf, value/tmpvalue, rangeSet) ;
       m_EInf = value ;
       if (rangeSet) {
         double valueL, valueU, stepsize ;
         m_EInf.get_range(valueL,valueU,stepsize) ;
         if(valueL<0.0){
-          cerr << "lower bound of activation energy should not be negative when used with ILT";
+          cerr << "Lower bound of activation energy should not be negative when used with ILT.";
           return false;
         }
       }
-    }
-    else{
-      cerr << "Specifying ILT without activation energy provided in reaction "
-           << this->getName() << ". Please correct input file.";
+    } else {
+      cerr << "No activation energy specified for ILT method in reaction " << this->getName() << ". Please correct input file.";
       return false;
     }
 
-    if (pPreExptxt)
-    {
+    // Pre-exponential factor details.
+    if (pPreExptxt) {
       double value(0.0) ;
       stringstream s2(pPreExptxt); s2 >> value ;
+
+      if (value<0.0) {
+        cerr << "Pre-exponential factor should not be negative when used with ILT." << endl;
+        return false;
+      }
       SimpleILT::ReadRange(string("me:preExponential"), ppPreExponential, m_PreExp, 1.0, rangeSet) ;
       m_PreExp = value ;
+      if (rangeSet) {
+        double valueL, valueU, stepsize ;
+        m_PreExp.get_range(valueL,valueU,stepsize) ;
+        if(valueL<0.0){
+          cerr << "Lower bound of pre-exponential factor should not be negative when used with ILT.";
+          return false;
+        }
+      }
     } else {
-      cerr << "Specifying ILT without pre-exponential term provided in reaction " << this->getName() << ". Please correct input file.";
+      cerr << "No pre-exponential factor specified for ILT method in reaction " << this->getName() << ". Please correct input file.";
       return false;
     }
 
@@ -123,24 +134,15 @@ namespace mesmer
       double value = 0.0;
       stringstream s2(pNInftxt); s2 >> value ;
       SimpleILT::ReadRange(string("me:nInfinity"), ppNInf, m_NInf, 1.0, rangeSet) ;
-      //const char* pLowertxt = ppNInf->XmlReadValue("lower", false);
-      //const char* pUppertxt = ppNInf->XmlReadValue("upper", false);
-      //const char* pStepStxt = ppNInf->XmlReadValue("stepsize", false);
-      //if (pLowertxt && pUppertxt){
-      //  double valueL(0.0), valueU(0.0), stepsize(0.0);
-      //  stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt); s3 >> valueL; s4 >> valueU; s5 >> stepsize;
-      //  Rdouble::set_range_indirect(valueL,valueU,stepsize, "me:nInfinity");
-      //  RangeXmlPtrs.push_back(ppNInf);
-      //}
       m_NInf = value ;
     }
 
     double TInf = ppReac->XmlReadDouble("me:TInfinity");
     if(TInf <= 0) {
       cinfo << "Tinfinity is less than or equal to 0; set to the default value of 298 K" << endl;
-      TInf = 298.0 ;
+      m_TInf = 298.0 ;
     } else {
-       m_TInf = TInf ;   
+      m_TInf = TInf ;   
     }
 
     return SimpleILT::ILTCheck(pReact, ppReac) ; 

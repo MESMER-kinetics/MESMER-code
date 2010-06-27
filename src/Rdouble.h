@@ -2,6 +2,7 @@
 #define GUARD_Rdouble_h
 
 #include <vector>
+#include <string>
 #include "Constants.h"
 #include "MesmerConfig.h"
 #include "oberror.h"
@@ -13,11 +14,11 @@ class Rdouble
 {
 private:
   double value, lower, upper, stepsize, prev;
-  const char* varname;
+  std::string varname;
   static Rdouble* pendingVar;
   static const double eps;
 public:
-  Rdouble(double val=0.0):value(val),lower(NaN),upper(NaN),stepsize(NaN), prev(NaN), varname(NULL){}
+  Rdouble(double val=0.0):value(val),lower(NaN),upper(NaN),stepsize(NaN), prev(NaN), varname(){}
   
   operator double() const  { return value; }
   Rdouble& operator = (const double& val);
@@ -39,7 +40,7 @@ public:
 
   bool get_range(double& lower_, double& upper_, double& stepsize_)const;
 
-  const char* get_varname(){ return varname; }
+  const char* get_varname(){ return varname.c_str(); }
   int get_numsteps(){ return (int)(1 + eps + (upper - lower) / stepsize); } 
 
   //Returns true if the value is the same as when setUnchanged was last called.
