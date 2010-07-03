@@ -32,6 +32,9 @@ namespace mesmer
     // Calculation of the modifed Bessel function, Io(x), for real x.
     double ModifiedBessalFuncion(const double x) const ;
 
+	// Supplies the hindered rotor potential cosine coefficients.
+	void potentialCosCoeff(vector<double> &potentialCoeff) ;
+
     std::string m_bondID;
     double      m_barrier;
     int         m_periodicity;

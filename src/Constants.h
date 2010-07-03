@@ -43,22 +43,26 @@ namespace Constants {
   // Derived constants (do not alter contents below)
   //
 
-  static const double boltzmann_RCpK          = boltzmann_C /(SpeedOfLight_in_cm * PlancksConstant_in_JouleSecond); //0.695035612 ;
+  static const double boltzmann_RCpK   = boltzmann_C /(SpeedOfLight_in_cm * PlancksConstant_in_JouleSecond); //0.695035612 ;
                                                                 // Boltzmann constant (cm*K)-1. (Reciprocal Centimeter per Kelvin)
                                                                 // boltzmann_C /(SpeedOfLight_in_cm * PlancksConstant_in_JouleSecond);
-  static const double kJPerMol_in_RC          = 1.0e3 / (AvogadroC * PlancksConstant_in_JouleSecond * SpeedOfLight_in_cm);
+  static const double kJPerMol_in_RC   = 1.0e3 / (AvogadroC * PlancksConstant_in_JouleSecond * SpeedOfLight_in_cm);
                                                                 // kilo Joule per mol to reciprocal centimeter
                                                                 // 1.0e3 / (AvogadroC * PlancksConstant_in_JouleSecond * SpeedOfLight_in_cm);
-  static const double kCalPerMol_in_RC        = kJPerMol_in_RC * Calorie_in_Joule;       // 349.757 ;
+  static const double kCalPerMol_in_RC = kJPerMol_in_RC * Calorie_in_Joule;       // 349.757 ;
                                                                 // kilo Calorie per mol in reciprocal centimeter
   
-	static const double Hartree_in_RC           = kJPerMol_in_RC * Hartree_In_kJperMol;    // 2.1947e5 ;
+  static const double Hartree_in_RC    = kJPerMol_in_RC * Hartree_In_kJperMol;    // 2.1947e5 ;
                                                                 // kilo Calorie per mol in reciprocal centimeter
 
 
-  static const double tp_C                    = pow((2.0 * M_PI * SpeedOfLight_in_cm) / (1.0e3 * PlancksConstant_in_JouleSecond * AvogadroC * 1.0e4),1.5);    //3.24331e+20;
-  static const double amu                     = 1.0 / (AvogadroC * 1.0e3);
-  static const double idealGasC               = boltzmann_C * AvogadroC;
+  static const double tp_C             = pow((2.0 * M_PI * SpeedOfLight_in_cm) / (1.0e3 * PlancksConstant_in_JouleSecond * AvogadroC * 1.0e4),1.5);    //3.24331e+20;
+  static const double amu              = 1.0 / (AvogadroC * 1.0e3);
+  static const double idealGasC        = boltzmann_C * AvogadroC;
+
+  // Convertion factor needed to obtain rotational constant (cm-1) from moment of Inertia (amu Ang^2).
+
+  static const double conMntInt2RotCnt = 16.85917 ;
 
 }
 #endif // GUARD_Constants_h

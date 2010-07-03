@@ -1,6 +1,10 @@
 
 2010-July-03 Struan Robertson
 
+	* HinderRotorA.cpp/.h: Changes required for asymmetric hindered rotor potential.
+
+2010-July-03 Struan Robertson
+
 	* System.cpp: Additional output of rate coefficient table to cinfo stream.
         * Methyl_H_to_Methane.xml: Corrected for missing reference reaction.
 
