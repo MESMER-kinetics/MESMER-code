@@ -47,8 +47,6 @@ namespace mesmer
 
     PersistPtr getPersistPtr() { return m_ppIOPtr; }
 
-    double calcChiSquare(const qdMatrix& mesmerRates, vector<conditionSet>& expRates);
-
     // Mesmer control flags.
     MesmerFlags m_Flags;
 
@@ -103,6 +101,8 @@ namespace mesmer
 
     int getSpeciesSequenceIndex(const std::string ref);
 
+    double calcChiSquare(const qdMatrix& mesmerRates, vector<conditionSet>& expRates, stringstream &rateCoeffTable) ;
+
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;
 
@@ -127,6 +127,7 @@ namespace mesmer
     Reaction::molMapType    m_isomers;
     Reaction::molMapType    m_sources;
     sinkMap                 m_sinkRxns;
+    sinkMap                 m_SinkSequence;
 
     // Mean collision frequency.
     double                  m_meanOmega;
@@ -139,11 +140,8 @@ namespace mesmer
     // Map modelled molecules (isomers + sources) with their sequence in the transition matrix.
     Reaction::molMapType    m_SpeciesSequence;
 
-
     // Equilibrium distribution.
     std::vector<qd_real>    m_eqVector;
-
-    sinkMap                 m_SinkSequence;
 
     bool                    m_punchSymbolGathered;
     

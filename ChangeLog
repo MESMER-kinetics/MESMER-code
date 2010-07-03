@@ -1,26 +1,31 @@
 
+2010-July-03 Struan Robertson
+
+	* System.cpp: Additional output of rate coefficient table to cinfo stream.
+        * Methyl_H_to_Methane.xml: Corrected for missing reference reaction.
+
 2010-June-27 Struan Robertson
 
-	* Reaction.h: Minor update to remove m_GrainKbmc variable and place it only 
-      on those reaction that require it.
-      * MolecularCmponents.cpp: Minor code changes to improve readability.
+	* Reaction.h: Minor update to remove m_GrainKbmc variable and place it only
+        on those reaction that require it.
+        * MolecularCmponents.cpp: Minor code changes to improve readability.
 
 2010-June-27 Struan Robertson
 
-	* fitting.cpp, MesmerILT: Changes to parameter reading and fitting algorithm to 
-      improve the fitting of the Methyl+H example.
-      * Methyl_H_to_Methane.xml: Minor changes to allow for testing.
+	* fitting.cpp, MesmerILT: Changes to parameter reading and fitting algorithm to
+        improve the fitting of the Methyl+H example.
+        * Methyl_H_to_Methane.xml: Minor changes to allow for testing.
 
 2010-June-13 Struan Robertson
 
-	* MesmerTools.cpp: Rolling some changes back to 286 for grain averaging 
-      method to catch possible divide by zero error.
-      * Methyl_H_to_Methane.xml: Updated to include reference reaction.
+	* MesmerTools.cpp: Rolling some changes back to 286 for grain averaging
+        method to catch possible divide by zero error.
+        * Methyl_H_to_Methane.xml: Updated to include reference reaction.
 
 2010-June-13 Struan Robertson
 
-	* System.cpp/.h: Chi-squared method altered to account for excess 
-      concentration in the case of a bimolecular association reaction.
+	* System.cpp/.h: Chi-squared method altered to account for excess
+        concentration in the case of a bimolecular association reaction.
 
 2010-June-06 Struan Robertson
 
@@ -40,7 +45,7 @@
 2010-May-22 Struan Robertson
 
 	* QMRotor.cpp: Minor correction to improve agreement with classical results.
-      * Update of Ethyl + H example with experimental numbers.
+        * Update of Ethyl + H example with experimental numbers.
 
 2010-May-21 Chi-Hsiu Liang
 

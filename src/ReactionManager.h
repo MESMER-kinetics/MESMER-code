@@ -39,9 +39,6 @@ namespace mesmer
   {
   public:
 
-    // Type defs
-    typedef std::map<Reaction* , int, Reaction::ReactionPtrLess> sinkMap ;
-
     ReactionManager(MoleculeManager *pMoleculeManager);
 
     // Destructor.

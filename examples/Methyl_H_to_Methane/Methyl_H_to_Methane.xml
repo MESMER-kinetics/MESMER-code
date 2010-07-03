@@ -238,7 +238,7 @@
         <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">8.32e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="611.7" me:T="504." me:precision="dd">
-        <me:experimentalRate ref1="Methyl" ref2="Methane" error="1.0">9.69e-11</me:experimentalRate>
+        <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">9.69e-11</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="Torr" me:P="105.3" me:T="601." me:precision="dd">
         <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">2.11e-11</me:experimentalRate>
@@ -274,7 +274,7 @@
   <me:control>
     <me:calcMethod>fitting</me:calcMethod>
     <!--<me:fittingTolerance>0.1</me:fittingTolerance>-->
-    <me:fittingIterations>5</me:fittingIterations>
+    <me:fittingIterations>1</me:fittingIterations>
     <!--<me:testDOS />-->
     <!--<me:testMicroRates />-->
     <!--<me:printGrainDOS />-->
