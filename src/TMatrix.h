@@ -275,7 +275,10 @@ namespace mesmer
         }
         if (m != l) {
           // if (iter++ == 30) fprintf(stderr, "Too many iterations in TQLI");
-          if (iter++ == 60) fprintf(stderr, "Too many iterations in TQLI");
+		  if (iter++ == 60) { 
+			fprintf(stderr, "Too many iterations in TQLI");
+            exit(1) ;
+		  }
           /* CHL
           Source: http://www.nr.com/forum/showthread.php?t=592
           I hope that bellow words will be useful for you.
@@ -385,8 +388,11 @@ namespace mesmer
           if (abs(e[m-1])+dd == dd) break;
         }
         if (m != l) {
-          // if (iter++ == 30) fprintf(stderr, "Too many iterations in TQLI");
-          if (iter++ == 60) fprintf(stderr, "Too many iterations in TQLI");
+          // if (iter++ == 30) fprintf(stderr, "Too many iterations in tqlev");
+		  if (iter++ == 60) {
+			fprintf(stderr, "Too many iterations in tqlev");
+			exit(1) ;
+		  }
           /* CHL
           Source: http://www.nr.com/forum/showthread.php?t=592
           I hope that bellow words will be useful for you.

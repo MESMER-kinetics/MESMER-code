@@ -61,20 +61,51 @@ namespace mesmer
 	  m_reducedMomentInertia = mm1 * mm2 / ( mm1 + mm2 );//units a.u.*Angstrom*Angstrom
 	}
 
+	// Read in potential information.
+
+	PersistPtr pp ;
 	m_barrier  = ppDOSC->XmlReadDouble("me:barrierZPE",optional);
-	PersistPtr pp = ppDOSC->XmlMoveTo("me:barrierZPE");
-	const char* p = pp->XmlReadValue("units", optional);
-	string units = p ? p : "kJ/mol";
-	m_barrier = getConvertedEnergy(units, m_barrier);
+	if (m_barrier > 0.0) {
 
-	m_periodicity = ppDOSC->XmlReadInteger("me:periodicity",optional);
+	  // Analytical potential.
 
-	m_vibFreq = ppDOSC->XmlReadDouble("me:vibFreq",optional);
-	pp = ppDOSC->XmlMoveTo("me:vibFreq");
-	p = pp->XmlReadValue("units", optional);
-	units = p ? p : "cm-1";
+	  pp = ppDOSC->XmlMoveTo("me:barrierZPE");
+	  const char* p = pp->XmlReadValue("units", optional);
+	  string units = p ? p : "kJ/mol";
+	  m_barrier = getConvertedEnergy(units, m_barrier);
+	  m_periodicity = ppDOSC->XmlReadInteger("me:periodicity",optional);
 
-	// other inputs...
+	  m_potentialType = ANALYTICAL ;
+
+	} else if (pp = ppDOSC->XmlMoveTo("me:HinderedRotorPotential")) {
+
+	  // Data potential.
+
+	  const char* p = pp->XmlReadValue("units", optional);
+	  string units = p ? p : "kJ/mol";
+      m_expansion = pp->XmlReadInteger("expansionSize",optional);
+	  while(pp = pp->XmlMoveTo("me:PotentialPoint"))
+	  {
+		double angle = pp->XmlReadDouble("angle", optional);
+		m_angle.push_back(angle) ;
+
+		double potential = pp->XmlReadDouble("potential", optional);
+		potential = getConvertedEnergy(units, potential);
+		m_potential.push_back(potential) ;
+	  }
+
+	  m_potentialType = DATA ;
+
+	} else {
+
+	  // Default : free rotor.
+
+	  cinfo << "No potentiail defined for " << bondID << ", assuming free rotor." <<endl;
+
+	  m_potentialType = UNDEFINED ;
+
+	}
+
 	return true;
   }
 
@@ -218,17 +249,78 @@ namespace mesmer
   void HinderedRotorA::potentialCosCoeff(vector<double> &potentialCoeff)
   {
 
-	// Simple potential form supplied. 
+	switch(m_potentialType) {
+	  case ANALYTICAL:
 
-	potentialCoeff.push_back(m_barrier/2.0) ;
+		potentialCoeff.push_back(m_barrier/2.0) ;
+		for (int i(1) ; i < m_periodicity ; i++ ) {
+		  potentialCoeff.push_back(0.0) ;
+		}
+		potentialCoeff.push_back(-m_barrier/2.0) ;
 
-	for (int i(1) ; i < m_periodicity ; i++ ) {
-	  potentialCoeff.push_back(0.0) ;
+		break;
+	  case DATA:
+
+		CosineFourierCoeffs(potentialCoeff) ;
+
+		break;
+	  default:
+		potentialCoeff.push_back(0.0) ;
+	}
+  }
+
+  //
+  // Calculate cosine coefficients from potential data points.
+  //
+  void HinderedRotorA::CosineFourierCoeffs(vector<double> &potentialCoeff)
+  {
+	size_t ndata = m_potential.size() ;
+
+	// Locate the potential minimum and shift to that minimum.
+
+	double vmin(m_potential[0]), amin(m_angle[0]) ;
+	for (size_t i(1); i < ndata; ++i) {
+	  if (m_potential[i] < vmin){
+		vmin = m_potential[i] ;
+		amin = m_angle[i] ;
+	  }
 	}
 
-	potentialCoeff.push_back(-m_barrier/2.0) ;
+	for (size_t i(0); i < ndata; ++i) {
+	  m_potential[i] -= vmin ;
+	  m_angle[i]     -= amin ;
+	  m_angle[i]     *= M_PI/180. ;
+	}
+
+	// Now determine the cosine coefficients.
+
+	for(size_t k(0); k < m_expansion; ++k) {
+	  double sum(0.0) ;
+	  for(size_t i(0); i < ndata; ++i) {
+		double nTheta = double(k) * m_angle[i];
+		sum += m_potential[i] * cos(nTheta);
+	  }
+	  potentialCoeff.push_back(2.0*sum/double(ndata)) ;
+	}
+    potentialCoeff[0] /= 2.0 ;
+
+	// Test potential
+
+	cinfo << endl ;
+	cinfo << "          Angle      Potential         Series" << endl ;
+	cinfo << endl ;
+	for (size_t i(0); i < ndata; ++i) {
+      double sum(0.0) ;
+	  for(size_t k(0); k < m_expansion; ++k) {
+		  double nTheta = double(k) * m_angle[i];
+		  sum += potentialCoeff[k] * cos(nTheta);
+	  }
+   	  cinfo << formatFloat(m_angle[i], 6, 15) << formatFloat(m_potential[i], 6, 15) << formatFloat(sum, 6, 15) << endl ;
+	}
+	cinfo << endl ;
 
 	return ;
+
   }
 
 }//namespace

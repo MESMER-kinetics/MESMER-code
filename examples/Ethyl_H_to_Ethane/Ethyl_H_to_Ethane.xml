@@ -68,11 +68,53 @@
       
       <me:DOSCMethod>QMRotors</me:DOSCMethod>
 
-      <me:ExtraDOSCMethod name="HinderedRotorA">
+      <!--<me:ExtraDOSCMethod name="HinderedRotorA">
         <bondRef>b1</bondRef>
         <me:vibFreq units="cm-1">300</me:vibFreq>
         <me:barrierZPE units="kJ/mol">12.4</me:barrierZPE>
         <me:periodicity>3</me:periodicity>
+      </me:ExtraDOSCMethod>-->
+
+      <me:ExtraDOSCMethod name="HinderedRotorA">
+        <bondRef>b1</bondRef>
+        <me:HinderedRotorPotential units="kcal/mol" expansionSize="7">
+          <me:PotentialPoint angle="10	"  potential="-878.99179655"/>
+          <me:PotentialPoint angle="20	"  potential="-879.36121138"/>
+          <me:PotentialPoint angle="30	"  potential="-879.96042017"/>
+          <me:PotentialPoint angle="40	"  potential="-880.71719659"/>
+          <me:PotentialPoint angle="50	"  potential="-881.48878223"/>
+          <me:PotentialPoint angle="60	"  potential="-882.12865364"/>
+          <me:PotentialPoint angle="70	"  potential="-882.59884648"/>
+          <me:PotentialPoint angle="80	"  potential="-882.86967957"/>
+          <me:PotentialPoint angle="90	"  potential="-882.95276183"/>
+          <me:PotentialPoint angle="100	"  potential="-882.89936077"/>
+          <me:PotentialPoint angle="110	"  potential="-882.75854765"/>
+          <me:PotentialPoint angle="120	"  potential="-882.68682331"/>
+          <me:PotentialPoint angle="130	"  potential="-882.70006376"/>
+          <me:PotentialPoint angle="140	"  potential="-882.82016908"/>
+          <me:PotentialPoint angle="150	"  potential="-883.01262623"/>
+          <me:PotentialPoint angle="160	"  potential="-883.19937305"/>
+          <me:PotentialPoint angle="170	"  potential="-883.35417963"/>
+          <me:PotentialPoint angle="180	"  potential="-883.44096419"/>
+          <me:PotentialPoint angle="190	"  potential="-883.41686783"/>
+          <me:PotentialPoint angle="200	"  potential="-883.23570585"/>
+          <me:PotentialPoint angle="210	"  potential="-883.01036720"/>
+          <me:PotentialPoint angle="220	"  potential="-882.83158975"/>
+          <me:PotentialPoint angle="230	"  potential="-882.71286496"/>
+          <me:PotentialPoint angle="240	"  potential="-882.71945381"/>
+          <me:PotentialPoint angle="250	"  potential="-882.82362038"/>
+          <me:PotentialPoint angle="260	"  potential="-882.91724479"/>
+          <me:PotentialPoint angle="270	"  potential="-882.98150176"/>
+          <me:PotentialPoint angle="280	"  potential="-882.92408464"/>
+          <me:PotentialPoint angle="290	"  potential="-882.65111802"/>
+          <me:PotentialPoint angle="300	"  potential="-882.20470779"/>
+          <me:PotentialPoint angle="310	"  potential="-881.53710046"/>
+          <me:PotentialPoint angle="320	"  potential="-880.77448820"/>
+          <me:PotentialPoint angle="330	"  potential="-880.01463699"/>
+          <me:PotentialPoint angle="340	"  potential="-879.40488603"/>
+          <me:PotentialPoint angle="350	"  potential="-879.02059923"/>
+          <me:PotentialPoint angle="360	"  potential="-878.88480619"/>
+        </me:HinderedRotorPotential>
       </me:ExtraDOSCMethod>
       
     </molecule>
@@ -187,7 +229,7 @@
   </me:conditions>
 
   <me:modelParameters>
-    <me:grainSize units="cm-1">100</me:grainSize>
+    <me:grainSize units="cm-1">200</me:grainSize>
     <!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
     <!--<me:maxTemperature>3000</me:maxTemperature>-->
     <me:energyAboveTheTopHill>10.</me:energyAboveTheTopHill>
