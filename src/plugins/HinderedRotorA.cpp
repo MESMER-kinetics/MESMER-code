@@ -63,46 +63,67 @@ namespace mesmer
 
 	// Read in potential information.
 
-	PersistPtr pp ;
-	m_barrier  = ppDOSC->XmlReadDouble("me:barrierZPE",optional);
-	if (m_barrier > 0.0) {
+	m_periodicity = max(m_periodicity, ppDOSC->XmlReadInteger("me:periodicity",optional));
 
-	  // Analytical potential.
+	PersistPtr pp = ppDOSC->XmlMoveTo("me:HinderedRotorPotential") ;
 
-	  pp = ppDOSC->XmlMoveTo("me:barrierZPE");
-	  const char* p = pp->XmlReadValue("units", optional);
+	if (pp) {
+
+	  const char* p = pp->XmlReadValue("format", true);
+	  string format(p) ;
+
+	  p = pp->XmlReadValue("units", optional);
 	  string units = p ? p : "kJ/mol";
-	  m_barrier = getConvertedEnergy(units, m_barrier);
-	  m_periodicity = ppDOSC->XmlReadInteger("me:periodicity",optional);
 
-	  m_potentialType = ANALYTICAL ;
+	  if (format == "analytical") {
 
-	} else if (pp = ppDOSC->XmlMoveTo("me:HinderedRotorPotential")) {
+		// Analytical potential.
 
-	  // Data potential.
+		vector<int> indicies ;
+		vector<double> coefficients ;
+		int maxIndex(0) ;
+		while(pp = pp->XmlMoveTo("me:PotentialPoint"))
+		{
+		  int index = pp->XmlReadInteger("index", optional);
+		  indicies.push_back(index) ;
+		  maxIndex = max(maxIndex,index) ;
 
-	  const char* p = pp->XmlReadValue("units", optional);
-	  string units = p ? p : "kJ/mol";
-      m_expansion = pp->XmlReadInteger("expansionSize",optional);
-	  while(pp = pp->XmlMoveTo("me:PotentialPoint"))
-	  {
-		double angle = pp->XmlReadDouble("angle", optional);
-		m_angle.push_back(angle) ;
+		  double coefficient = pp->XmlReadDouble("coefficient", optional);
+		  coefficient = getConvertedEnergy(units, coefficient);
+		  coefficients.push_back(coefficient) ;
+		}
 
-		double potential = pp->XmlReadDouble("potential", optional);
-		potential = getConvertedEnergy(units, potential);
-		m_potential.push_back(potential) ;
+		m_potentialCosCoeff.resize(++maxIndex) ;
+		for (size_t i(0) ; i < coefficients.size() ; i++ ) {
+		  m_potentialCosCoeff[indicies[i]] = coefficients[i] ;
+		}
+
+	  } else if (format == "numerical") {
+
+		// Numerical potential.
+
+		m_expansion = pp->XmlReadInteger("expansionSize",optional);
+		while(pp = pp->XmlMoveTo("me:PotentialPoint"))
+		{
+		  double angle = pp->XmlReadDouble("angle", optional);
+		  m_angle.push_back(angle) ;
+
+		  double potential = pp->XmlReadDouble("potential", optional);
+		  potential = getConvertedEnergy(units, potential);
+		  m_potential.push_back(potential) ;
+		}
+
+		CosineFourierCoeffs() ;
+
 	  }
-
-	  m_potentialType = DATA ;
 
 	} else {
 
 	  // Default : free rotor.
 
-	  cinfo << "No potentiail defined for " << bondID << ", assuming free rotor." <<endl;
+	  cinfo << "No potential defined for " << bondID << ", assuming free rotor." <<endl;
 
-	  m_potentialType = UNDEFINED ;
+	  m_potentialCosCoeff.push_back(0.0) ;
 
 	}
 
@@ -131,17 +152,11 @@ namespace mesmer
 
 	dMatrix hamiltonian(nstates) ;
 
-	// Get the cosine coefficients of the hindered rotor potential.
-
-	vector<double> potentialCoeff ;
-
-	potentialCosCoeff(potentialCoeff) ;
-
 	// Add diagonal kinetic and potential terms first.
 
-	hamiltonian[0][0] = potentialCoeff[0] ;
+	hamiltonian[0][0] = m_potentialCosCoeff[0] ;
 	for (int k(1), i(1); k <= kmax ; k++) {
-	  double energy = bint*double(k*k) + potentialCoeff[0] ;
+	  double energy = bint*double(k*k) + m_potentialCosCoeff[0] ;
 	  hamiltonian[i][i] = energy ;
 	  i++ ;                         // Need to account for the two direactions of rotation.
 	  hamiltonian[i][i] = energy ;
@@ -150,9 +165,9 @@ namespace mesmer
 
 	// Add off-diagonal potential terms.
 
-	for (int n(1); n < int(potentialCoeff.size()) && n <= kmax ; n++) {
+	for (int n(1); n < int(m_potentialCosCoeff.size()) && n <= kmax ; n++) {
 	  int idx = 2*n - 1 ;
-	  double matrixElement = potentialCoeff[n]/2.0 ; 
+	  double matrixElement = m_potentialCosCoeff[n]/2.0 ; 
 	  hamiltonian[idx][0] = hamiltonian[0][idx] = matrixElement ;
 	  idx++ ;
 	  hamiltonian[idx][0] = hamiltonian[0][idx] = matrixElement ;
@@ -244,35 +259,9 @@ namespace mesmer
   }
 
   //
-  // Supplies the hindered rotor potential cosine coefficients.
-  //
-  void HinderedRotorA::potentialCosCoeff(vector<double> &potentialCoeff)
-  {
-
-	switch(m_potentialType) {
-	  case ANALYTICAL:
-
-		potentialCoeff.push_back(m_barrier/2.0) ;
-		for (int i(1) ; i < m_periodicity ; i++ ) {
-		  potentialCoeff.push_back(0.0) ;
-		}
-		potentialCoeff.push_back(-m_barrier/2.0) ;
-
-		break;
-	  case DATA:
-
-		CosineFourierCoeffs(potentialCoeff) ;
-
-		break;
-	  default:
-		potentialCoeff.push_back(0.0) ;
-	}
-  }
-
-  //
   // Calculate cosine coefficients from potential data points.
   //
-  void HinderedRotorA::CosineFourierCoeffs(vector<double> &potentialCoeff)
+  void HinderedRotorA::CosineFourierCoeffs()
   {
 	size_t ndata = m_potential.size() ;
 
@@ -300,9 +289,9 @@ namespace mesmer
 		double nTheta = double(k) * m_angle[i];
 		sum += m_potential[i] * cos(nTheta);
 	  }
-	  potentialCoeff.push_back(2.0*sum/double(ndata)) ;
+	  m_potentialCosCoeff.push_back(2.0*sum/double(ndata)) ;
 	}
-    potentialCoeff[0] /= 2.0 ;
+	m_potentialCosCoeff[0] /= 2.0 ;
 
 	// Test potential
 
@@ -310,12 +299,12 @@ namespace mesmer
 	cinfo << "          Angle      Potential         Series" << endl ;
 	cinfo << endl ;
 	for (size_t i(0); i < ndata; ++i) {
-      double sum(0.0) ;
+	  double sum(0.0) ;
 	  for(size_t k(0); k < m_expansion; ++k) {
-		  double nTheta = double(k) * m_angle[i];
-		  sum += potentialCoeff[k] * cos(nTheta);
+		double nTheta = double(k) * m_angle[i];
+		sum += m_potentialCosCoeff[k] * cos(nTheta);
 	  }
-   	  cinfo << formatFloat(m_angle[i], 6, 15) << formatFloat(m_potential[i], 6, 15) << formatFloat(sum, 6, 15) << endl ;
+	  cinfo << formatFloat(m_angle[i], 6, 15) << formatFloat(m_potential[i], 6, 15) << formatFloat(sum, 6, 15) << endl ;
 	}
 	cinfo << endl ;
 

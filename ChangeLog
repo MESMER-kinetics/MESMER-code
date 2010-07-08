@@ -1,8 +1,13 @@
 
+
+2010-July-08 Struan Robertson
+
+	* HinderRotorA.cpp/.h: Altered to allow for a more generic analytical potential.
+
 2010-July-05 Struan Robertson
 
-	* HinderRotorA.cpp/.h: Input method extended to allow hindering potential data 
-        points at equal intervals to be read and and transformed to give a cosine 
+	* HinderRotorA.cpp/.h: Input method extended to allow hindering potential data
+        points at equal intervals to be read and and transformed to give a cosine
         expansion.
 
 2010-July-03 Struan Robertson

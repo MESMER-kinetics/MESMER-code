@@ -68,16 +68,9 @@
       
       <me:DOSCMethod>QMRotors</me:DOSCMethod>
 
-      <!--<me:ExtraDOSCMethod name="HinderedRotorA">
-        <bondRef>b1</bondRef>
-        <me:vibFreq units="cm-1">300</me:vibFreq>
-        <me:barrierZPE units="kJ/mol">12.4</me:barrierZPE>
-        <me:periodicity>3</me:periodicity>
-      </me:ExtraDOSCMethod>-->
-
       <me:ExtraDOSCMethod name="HinderedRotorA">
         <bondRef>b1</bondRef>
-        <me:HinderedRotorPotential units="kcal/mol" expansionSize="7">
+        <me:HinderedRotorPotential format="numerical" units="kcal/mol" expansionSize="7">
           <me:PotentialPoint angle="10	"  potential="-878.99179655"/>
           <me:PotentialPoint angle="20	"  potential="-879.36121138"/>
           <me:PotentialPoint angle="30	"  potential="-879.96042017"/>
@@ -120,23 +113,25 @@
     </molecule>
 
     <molecule id="Ethyl" spinMultiplicity="2">
+
       <atomArray>
-        <atom id="a1" elementType="C"/>
-        <atom id="a2" elementType="C" spinMultiplicity="2"/>
-        <atom id="a3" elementType="H"/>
-        <atom id="a4" elementType="H"/>
-        <atom id="a5" elementType="H"/>
-        <atom id="a6" elementType="H"/>
-        <atom id="a7" elementType="H"/>
+        <atom id="a1" elementType="C" x3=" 0.0000"  y3=" 0.0000"     z3=" 0.0000"/>
+        <atom id="a2" elementType="C" x3=" 1.5267"  y3=" 0.0000"     z3=" 0.0000"/>
+        <atom id="a3" elementType="H" x3="-0.3848"  y3=" 1.0254"     z3=" 0.0000"/>
+        <atom id="a4" elementType="H" x3="-0.3848"  y3="-0.5127"     z3="-0.5774"/>
+        <atom id="a5" elementType="H" x3="-0.2826"  y3="-0.5229"     z3=" 0.9719"/>
+        <atom id="a6" elementType="H" x3=" 1.7625"  y3=" 0.6046"     z3="-1.0500"/>
+        <atom id="a7" elementType="H" x3=" 1.9546"  y3="-0.9276"     z3="-0.1724"/>
       </atomArray>
       <bondArray>
-        <bond atomRefs2="a1 a2" order="1"/>
-        <bond atomRefs2="a1 a3" order="1"/>
-        <bond atomRefs2="a1 a4" order="1"/>
-        <bond atomRefs2="a1 a5" order="1"/>
-        <bond atomRefs2="a2 a6" order="1"/>
-        <bond atomRefs2="a2 a7" order="1"/>
+        <bond id="b1" atomRefs2="a1 a2" order="1"/>
+        <bond id="b2" atomRefs2="a1 a3" order="1"/>
+        <bond id="b3" atomRefs2="a1 a4" order="1"/>
+        <bond id="b4" atomRefs2="a1 a5" order="1"/>
+        <bond id="b5" atomRefs2="a2 a6" order="1"/>
+        <bond id="b6" atomRefs2="a2 a7" order="1"/>
       </bondArray>
+
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="cm-1">36600.0</scalar>
@@ -147,9 +142,10 @@
         <property dictRef="me:symmetryNumber">
           <scalar>3</scalar>
         </property>
+        <!--  Frequency 186. has been eliminated in favour of a 1 Dimensional rotor. -->
         <property dictRef="me:vibFreqs">
           <array units="cm-1">
-             186.   540.   802.  1138.  1175.
+             540.   802.  1138.  1175.
             1186.  1366.  1439.  1440.  1440.
             2842.  2920.  2987.  3033.  3112.
           </array>
@@ -161,6 +157,16 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
+
+      <me:ExtraDOSCMethod name="HinderedRotorA">
+        <bondRef>b1</bondRef>
+        <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+          <me:PotentialPoint index="0"  coefficient="6.2"/>
+          <me:PotentialPoint index="3"  coefficient="-6.2"/>
+        </me:HinderedRotorPotential>
+        <me:periodicity>3</me:periodicity>
+      </me:ExtraDOSCMethod>
+
     </molecule>
 
     <molecule id="H">
