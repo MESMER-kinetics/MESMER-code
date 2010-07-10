@@ -103,6 +103,10 @@ namespace mesmer
 
     double calcChiSquare(const qdMatrix& mesmerRates, vector<conditionSet>& expRates, stringstream &rateCoeffTable) ;
 
+	// This method locates all sinks and determines their location in the relevant
+    // isomer or source map. 
+    void locateSinks() ;
+
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;
 

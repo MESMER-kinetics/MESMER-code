@@ -1,4 +1,8 @@
 
+2010-July-10 Struan Robertson
+
+	* System.cpp/.h: Altered so as to always find the location of sinks. (Bug found 
+        when running the i-propyle example.)
 
 2010-July-08 Struan Robertson
 
