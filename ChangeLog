@@ -1,7 +1,15 @@
 
+
 2010-July-10 Struan Robertson
 
-	* System.cpp/.h: Altered so as to always find the location of sinks. (Bug found 
+	* HinderRotorA.cpp/.h: Tidying up of the numerical potential input.
+	* Rdouble.cpp: Altered the equality operator to set prev value as this was
+	causing the IsUnchanged() method to always fail causing the density of states
+	to be recalulated for each pressure and temperature point.
+
+2010-July-10 Struan Robertson
+
+	* System.cpp/.h: Altered so as to always find the location of sinks. (Bug found
         when running the i-propyle example.)
 
 2010-July-08 Struan Robertson

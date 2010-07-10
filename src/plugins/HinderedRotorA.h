@@ -26,10 +26,7 @@ namespace mesmer
       m_bondID(),
       m_reducedMomentInertia(0.0),
       m_potentialCosCoeff(),
-	  m_barrier(0.0),
       m_periodicity(1),
-      m_potential(),
-      m_angle(),
       m_expansion(4) {}
 
     virtual ~HinderedRotorA() {}
@@ -41,23 +38,14 @@ namespace mesmer
     double ModifiedBessalFuncion(const double x) const ;
 
     // Calculate cosine coefficients from potential data points.
-    void CosineFourierCoeffs() ;
+    void CosineFourierCoeffs(vector<double> &angle, vector<double> &potential) ;
 
     std::string m_bondID;
 
-    double      m_reducedMomentInertia;
-
-	vector<double> m_potentialCosCoeff ;	// The cosine coefficients of the hindered rotor potential.
-
-    // Analytical potential.
-
-    double m_barrier;
+    double m_reducedMomentInertia;
     int    m_periodicity;
 
-    // Numerical potential.
-
-    std::vector<double> m_potential ;
-    std::vector<double> m_angle ;
+	vector<double> m_potentialCosCoeff ;	// The cosine coefficients of the hindered rotor potential.
 
     size_t m_expansion ; // Number of coefficients in the cosine expansion.
 

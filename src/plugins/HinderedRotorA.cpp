@@ -93,6 +93,7 @@ namespace mesmer
 		  coefficients.push_back(coefficient) ;
 		}
 
+		// As coefficients can be supplied in any order, they are sorted here.
 		m_potentialCosCoeff.resize(++maxIndex) ;
 		for (size_t i(0) ; i < coefficients.size() ; i++ ) {
 		  m_potentialCosCoeff[indicies[i]] = coefficients[i] ;
@@ -102,19 +103,29 @@ namespace mesmer
 
 		// Numerical potential.
 
+		vector<double> potential ;
+		vector<double> angle ;
 		m_expansion = pp->XmlReadInteger("expansionSize",optional);
 		while(pp = pp->XmlMoveTo("me:PotentialPoint"))
 		{
-		  double angle = pp->XmlReadDouble("angle", optional);
-		  m_angle.push_back(angle) ;
+		  double anglePoint = pp->XmlReadDouble("angle", optional);
+		  angle.push_back(anglePoint) ;
 
-		  double potential = pp->XmlReadDouble("potential", optional);
-		  potential = getConvertedEnergy(units, potential);
-		  m_potential.push_back(potential) ;
+		  double potentialPoint = pp->XmlReadDouble("potential", optional);
+		  potentialPoint = getConvertedEnergy(units, potentialPoint);
+		  potential.push_back(potentialPoint) ;
 		}
 
-		CosineFourierCoeffs() ;
+		CosineFourierCoeffs(angle, potential) ;
 
+	  } else {
+
+		// Unknown format.
+
+		cinfo << "Unknown hindering potential format for " << bondID << ", assuming free rotor." <<endl;
+
+		m_potentialCosCoeff.push_back(0.0) ;
+		
 	  }
 
 	} else {
@@ -218,7 +229,10 @@ namespace mesmer
   {
 	double Qintrot = sqrt(M_PI*m_reducedMomentInertia/conMntInt2RotCnt/beta)/double(m_periodicity) ;
 
-	Qintrot *= exp(-beta*m_barrier/2.0) * ModifiedBessalFuncion(beta*m_barrier/2.0) ;
+    Qintrot = exp(-beta*m_potentialCosCoeff[0]) ;
+	for (size_t n(1); n < m_potentialCosCoeff.size() ; n++) {
+      Qintrot *= ModifiedBessalFuncion(beta*m_potentialCosCoeff[n]) ;
+	}
 
 	return Qintrot ;
   }
@@ -261,24 +275,24 @@ namespace mesmer
   //
   // Calculate cosine coefficients from potential data points.
   //
-  void HinderedRotorA::CosineFourierCoeffs()
+  void HinderedRotorA::CosineFourierCoeffs(vector<double> &angle, vector<double> &potential)
   {
-	size_t ndata = m_potential.size() ;
+	size_t ndata = potential.size() ;
 
 	// Locate the potential minimum and shift to that minimum.
 
-	double vmin(m_potential[0]), amin(m_angle[0]) ;
+	double vmin(potential[0]), amin(angle[0]) ;
 	for (size_t i(1); i < ndata; ++i) {
-	  if (m_potential[i] < vmin){
-		vmin = m_potential[i] ;
-		amin = m_angle[i] ;
+	  if (potential[i] < vmin){
+		vmin = potential[i] ;
+		amin = angle[i] ;
 	  }
 	}
 
 	for (size_t i(0); i < ndata; ++i) {
-	  m_potential[i] -= vmin ;
-	  m_angle[i]     -= amin ;
-	  m_angle[i]     *= M_PI/180. ;
+	  potential[i] -= vmin ;
+	  angle[i]     -= amin ;
+	  angle[i]     *= M_PI/180. ;
 	}
 
 	// Now determine the cosine coefficients.
@@ -286,8 +300,8 @@ namespace mesmer
 	for(size_t k(0); k < m_expansion; ++k) {
 	  double sum(0.0) ;
 	  for(size_t i(0); i < ndata; ++i) {
-		double nTheta = double(k) * m_angle[i];
-		sum += m_potential[i] * cos(nTheta);
+		double nTheta = double(k) * angle[i];
+		sum += potential[i] * cos(nTheta);
 	  }
 	  m_potentialCosCoeff.push_back(2.0*sum/double(ndata)) ;
 	}
@@ -301,10 +315,10 @@ namespace mesmer
 	for (size_t i(0); i < ndata; ++i) {
 	  double sum(0.0) ;
 	  for(size_t k(0); k < m_expansion; ++k) {
-		double nTheta = double(k) * m_angle[i];
+		double nTheta = double(k) * angle[i];
 		sum += m_potentialCosCoeff[k] * cos(nTheta);
 	  }
-	  cinfo << formatFloat(m_angle[i], 6, 15) << formatFloat(m_potential[i], 6, 15) << formatFloat(sum, 6, 15) << endl ;
+	  cinfo << formatFloat(angle[i], 6, 15) << formatFloat(potential[i], 6, 15) << formatFloat(sum, 6, 15) << endl ;
 	}
 	cinfo << endl ;
 

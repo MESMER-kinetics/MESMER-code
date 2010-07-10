@@ -187,8 +187,7 @@ namespace mesmer
 
     // This function checks if any of the DPoint values is different then a DOS recalculation will take place
     bool needReCalculateDOS(void){
-      if (!m_ZPE.isUnchanged()) return true;
-      return false;
+      return !m_ZPE.isUnchanged() ;
     }
 
     // This function explicitly tell all DPoint values in this Molecule that a DOS recalculation is completed.

@@ -10,7 +10,8 @@ const double Rdouble::eps = 1e-7;
 
 Rdouble& Rdouble::operator = (const double& val)
 {
-  value = val;
+  prev = value ;
+  value = val ;
 
   if(IsNan(val))
     pendingVar =this;
