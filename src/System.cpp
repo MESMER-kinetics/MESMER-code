@@ -29,13 +29,13 @@ m_pTitle(NULL),
 m_isomers(),
 m_sources(),
 m_sinkRxns(),
+m_SinkSequence(),
 m_meanOmega(0.0),
 m_reactionOperator(0),
 m_eigenvectors(0),
 m_eigenvalues(),
 m_SpeciesSequence(),
-m_eqVector(),
-m_SinkSequence()
+m_eqVector()
 {
   m_pMoleculeManager = new MoleculeManager(libraryfilename) ;
   m_pReactionManager = new ReactionManager(m_pMoleculeManager) ;

@@ -89,7 +89,7 @@ namespace mesmer
   bool SimpleILT::calculateMicroRateCoeffs(Reaction* pReact)
   {
     vector<Molecule *> Isomers ;
-    int nIsomers = pReact->get_unimolecularspecies(Isomers) ;  
+    pReact->get_unimolecularspecies(Isomers) ;  
     Molecule *p_rcts = Isomers[0] ;
 
     const int MaximumCell = pReact->getEnv().MaxCell;

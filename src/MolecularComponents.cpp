@@ -747,14 +747,14 @@ namespace mesmer
     m_lowestBarrier(9e23),
     m_numGroupedGrains(0),
     m_isCemetery(false),
-    m_GrainKdmc(NULL),
+    m_GrainKdmc(),
     m_pDistributionCalculator(NULL),
     m_pEnergyTransferModel(NULL),
     m_grainFracBeta(0.),
-    m_grainDist(0),
+    m_grainDist(),
     m_egme(NULL),
     m_egvec(NULL),
-    m_egval(0)
+    m_egval()
   {
     ErrorContext c(pMol->getName());
     m_host = pMol;

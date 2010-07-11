@@ -257,8 +257,6 @@ bool convertToFourierCoefficients(const size_t expansion, vector<double>& ak, ve
   ak.resize(expansion, 0.0);
   bk.resize(expansion, 0.0);
 
-  size_t sizeofak = ak.size();
-  
   for(size_t k(0); k < expansion; ++k) {
     for(size_t i(0); i < n; ++i) {
       double theta = (2.0 * double(i) / double(n) - 0.95) * M_PI;

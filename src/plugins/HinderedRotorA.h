@@ -25,8 +25,8 @@ namespace mesmer
     HinderedRotorA(const std::string& id) : DensityOfStatesCalculator(id, true),
       m_bondID(),
       m_reducedMomentInertia(0.0),
-      m_potentialCosCoeff(),
       m_periodicity(1),
+      m_potentialCosCoeff(),
       m_expansion(4) {}
 
     virtual ~HinderedRotorA() {}

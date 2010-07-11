@@ -174,7 +174,6 @@ SRCS := \
 	plugins/HinderedRotorA.cpp \
 	plugins/LandauZenerCrossingCoeff.cpp \
 	plugins/MesmerILT.cpp \
-        plugins/QMHinderedRotorPotential.cpp \
 	plugins/QMRotor.cpp \
 	plugins/simplecalc.cpp \
 	plugins/SimpleILT.cpp \

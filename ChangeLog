@@ -1,6 +1,12 @@
 
 
-2010-July-08 Struan Robertson
+2010-July-11 Struan Robertson
+
+	* TimeCounter.cpp, Sytem.cpp, MolecularComponents.cpp : Minor changes to address
+        compiler warnings.
+        * Makefile: Reference to QMHinderedRotorPotential.cpp removed.
+
+2010-July-11 Struan Robertson
 
 	* MesmerQA: Initial revisions of Linux 64 baselines.
 
