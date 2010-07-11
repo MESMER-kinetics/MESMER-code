@@ -1,5 +1,9 @@
 
 
+2010-July-08 Struan Robertson
+
+	* MesmerQA: Initial revisions of Linux 64 baselines.
+
 2010-July-10 Struan Robertson
 
 	* HinderRotorA.cpp/.h: Tidying up of the numerical potential input.
