@@ -1,10 +1,14 @@
 //------------------------------------------------------------------------------------------
-//    Translated to C and import to MESMER by Chi-Hsiu Liang
+//    Translated to C and modified to fit the usage of MESMER by Chi-Hsiu Liang
 //
+//    =========================
+//    Original file information
 //    FGHEVEN
 //    F. Gogtas, G.G. Balint-Kurti and C.C. Marston,
 //    QCPE Program No. 647, (1993).
-//
+//    =========================
+//    
+//    The following information may be different from 
 //    This program solves one dimensional Schrodinger equation for
 //    bound state eigenvalues and eigenfunctions corresponding to a
 //    potential V(x).
@@ -48,9 +52,9 @@
 //                                     X : Wavefunction.
 //                                     Y : Energy level.
 //    The folowing data constans represent :
-//       ima, imb             : Moments of inertia of the fragments
-//       gridLength           : Grid length (360 degree or of radian 2 pi, default to be degree)
-//       gridSpacing          : Grid spacings (degree or radian)
+//       imu                  : Moments of inertia of the fragments
+//       zl                   : Grid length (360 degree or of radian 2 pi, default to be degree)
+//       dx                   : Grid spacings (degree or radian)
 //
 //    All quantities in au (unless otherwise stated)
 //------------------------------------------------------------------------------------------
@@ -60,60 +64,58 @@ namespace mesmer{
 
 	int oneDimensionalFourierGridHamiltonian(const double imu, // reduced moment of inertia
 																					 double (*vsub)(double, const std::vector<double>, const std::vector<double>, const double),
-																					 std::vector<double>& eigenvalues,
-																					 dMatrix& eigenvectors,
-																					 const int numberGridPoint,
+																					 std::vector<double>& eValues,
+																					 dMatrix& eVectors,
+																					 const int nx,
 																					 const std::vector<double> ak,
 																					 const std::vector<double> bk,
 																					 const double a0
 																					 ){
 		const double psq = M_PI * M_PI;
-		const double gridLength = 1.0; // temporary assigned value
-		const double const1 = psq / (imu * (gridLength * gridLength));
-		const double nfact1 = (numberGridPoint - 1) * (numberGridPoint - 2);
-		const double nfact2 = (numberGridPoint - 2) / 2;
-		const double const2 = const1 * (double(nfact1) / 6.0 + 1.0 + double(nfact2));
-		const double darg = M_PI / double(numberGridPoint);
+		const double zl = 2.0 * M_PI; // temporary assigned value
+		const double const1 = psq / (imu * (zl * zl));
+		const double const2 = const1 * ((nx + 2) * (nx - 2) / 6.0 + 1.0);
+		const double darg = M_PI / double(nx);
 
-		dMatrix hamiltonian(numberGridPoint, numberGridPoint);
+		dMatrix ar(nx, nx); // Hamiltonian matrix
 
-		double x = 0.0; // temporary
-		const double dx(2.0 * M_PI / double(numberGridPoint)); // temporary
-		for (int i(0); i < numberGridPoint; ++i){
+		double xa = 0.0; // initial value
+		const double dx(2.0 * M_PI / double(nx)); // stepsize
+		for (int i(0); i < nx; ++i){
 			for (int j(0); j <= i; ++j){
 				double ijD = (i - j);
 				if (!ijD){
-					hamiltonian[i][j] = const2;
+					ar[i][j] = const2;
 				}
 				else{
 					const double ratio=1.0 / sin(darg * double(ijD));
-					hamiltonian[i][j]=(int(ijD) % 2 ? 1.0 : -1.0) * const1 * ratio * ratio;
+					ar[i][j]=(int(ijD) % 2 ? 1.0 : -1.0) * const1 * ratio * ratio;
 				}
 			}
 			// Find the potential value at x
 			// Add the potential value when the kronecker delta function
 			// equals to one, i.e. when i and j are equal
-      const double temp = (*vsub)(x, ak, bk, a0);
-			hamiltonian[i][i] += temp;
-			x += dx;
+      const double temp = (*vsub)(xa, ak, bk, a0);
+			ar[i][i] += temp;
+			xa += dx;
 		}
 
 		// Now fill out Hamiltonian matrix.
-		for (int i(0); i < numberGridPoint; ++i){
+		for (int i(0); i < nx; ++i){
 			for (int j(0); j <= i; ++j){
-				hamiltonian[j][i] = hamiltonian[i][j];
+				ar[j][i] = ar[i][j];
 			}
 		}
 
 		// Now call eigenvalue solvers.
-		eigenvalues.clear();
-		eigenvalues.resize(numberGridPoint, 0.0);
-		hamiltonian.diagonalize(&eigenvalues[0]);
+		eValues.clear();
+		eValues.resize(nx, 0.0);
+		ar.diagonalize(&eValues[0]);
 
-		if (eigenvectors[0] != NULL){
-			for (int i(0); i < numberGridPoint; ++i){
-				for (int j(0); j < numberGridPoint; ++j){
-					eigenvectors[i][j] = hamiltonian[i][j];
+		if (eVectors[0] != NULL){
+			for (int i(0); i < nx; ++i){
+				for (int j(0); j < nx; ++j){
+					eVectors[i][j] = ar[i][j];
 				}
 			}
 		}

@@ -16,8 +16,12 @@ namespace mesmer
     // Provide a function to define particular counts of the DOS of a molecule.
     virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell);
 
+    // Provide a function to calculate contribution to canonical partition function.
+    // (Mostly for testing purposes.)
+    virtual double canPrtnFnCntrb(const double beta) { return 1.0 ;}
+    
     virtual QMHinderedRotorPotential* Clone() { return new QMHinderedRotorPotential(*this); }
-
+    
     ///Constructor which registers with the list of DensityOfStatesCalculators in the base class
     //This class is an extra DOS class: there needs to be a non-extra DensityOfStatesCalculator class
     QMHinderedRotorPotential(const std::string& id) : DensityOfStatesCalculator(id, true){}

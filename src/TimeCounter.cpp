@@ -85,5 +85,3 @@ namespace mesmer
     return os;
   }
 };
-
-

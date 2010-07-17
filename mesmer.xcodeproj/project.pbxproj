@@ -486,6 +486,14 @@
 		5795EBC1119D314F008F3F11 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
 		5795EBC3119D3165008F3F11 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
 		5795EBC5119D317C008F3F11 /* mesmer.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mesmer.test; sourceTree = "<group>"; };
+		579B1C2711A928A900C40F16 /* Ethyl_H_to_Ethane.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Ethyl_H_to_Ethane.xml; sourceTree = "<group>"; };
+		579B1C3111A92BF500C40F16 /* isopropyl.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = isopropyl.log; sourceTree = "<group>"; };
+		579B1C3211A92BF500C40F16 /* isopropyl.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = isopropyl.test; sourceTree = "<group>"; };
+		579B1C3311A92BF500C40F16 /* isopropyl.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = isopropyl.xml; sourceTree = "<group>"; };
+		579B1C3411A92BF500C40F16 /* mesmer_out.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = mesmer_out.xml; sourceTree = "<group>"; };
+		579B1C3511A92BF500C40F16 /* mesmer_out_prev.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = mesmer_out_prev.xml; sourceTree = "<group>"; };
+		579B1C3611A92C5F00C40F16 /* Readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.txt; sourceTree = "<group>"; };
+		579B1C4411A944E200C40F16 /* Ethyl_H_to_Ethane_FGH.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Ethyl_H_to_Ethane_FGH.xml; sourceTree = "<group>"; };
 		57D021B71190044C0044AD1B /* acetyl.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acetyl.log; sourceTree = "<group>"; };
 		57D021B81190044C0044AD1B /* Acetyl_O2_associationEx.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Acetyl_O2_associationEx.xml; sourceTree = "<group>"; };
 		57D021B91190044C0044AD1B /* acetylO2.ck */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = acetylO2.ck; sourceTree = "<group>"; };
@@ -1107,9 +1115,32 @@
 			path = MacOSX;
 			sourceTree = "<group>";
 		};
+		579B1C2611A928A900C40F16 /* Ethyl_H_to_Ethane */ = {
+			isa = PBXGroup;
+			children = (
+				579B1C4411A944E200C40F16 /* Ethyl_H_to_Ethane_FGH.xml */,
+				579B1C2711A928A900C40F16 /* Ethyl_H_to_Ethane.xml */,
+			);
+			path = Ethyl_H_to_Ethane;
+			sourceTree = "<group>";
+		};
+		579B1C3011A92BF500C40F16 /* isopropylFGHindered */ = {
+			isa = PBXGroup;
+			children = (
+				579B1C3111A92BF500C40F16 /* isopropyl.log */,
+				579B1C3211A92BF500C40F16 /* isopropyl.test */,
+				579B1C3311A92BF500C40F16 /* isopropyl.xml */,
+				579B1C3411A92BF500C40F16 /* mesmer_out.xml */,
+				579B1C3511A92BF500C40F16 /* mesmer_out_prev.xml */,
+			);
+			path = isopropylFGHindered;
+			sourceTree = "<group>";
+		};
 		57D021B51190044C0044AD1B /* examples */ = {
 			isa = PBXGroup;
 			children = (
+				579B1C3011A92BF500C40F16 /* isopropylFGHindered */,
+				579B1C2611A928A900C40F16 /* Ethyl_H_to_Ethane */,
 				57D021B61190044C0044AD1B /* AcetylO2 */,
 				57D021C21190044C0044AD1B /* benzene_oxidation */,
 				57D021C61190044C0044AD1B /* DiagramTest */,
@@ -1119,6 +1150,7 @@
 				57D021D11190044C0044AD1B /* MesmerTemplate.text */,
 				57D021D21190044C0044AD1B /* Methyl_H_to_Methane */,
 				57D021D41190044C0044AD1B /* reservoirSink */,
+				579B1C3611A92C5F00C40F16 /* Readme.txt */,
 			);
 			path = examples;
 			sourceTree = "<group>";

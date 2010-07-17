@@ -58,6 +58,7 @@ namespace mesmer
 	  http://www.ccl.net/chemistry/resources/messages/2001/03/31.002-dir/index.html
 	  The bond axis is used here.
 	  */
+    
 	  m_reducedMomentInertia = mm1 * mm2 / ( mm1 + mm2 );//units a.u.*Angstrom*Angstrom
 	}
 

@@ -161,7 +161,7 @@ namespace mesmer
     ////----------
 
     // 4. De-convolute the harmonic vibrational energy levels from the DOS.
-    reverseBeyer_Swinehart(m_vibFreq, cellDOS);
+    //reverseBeyer_Swinehart(m_vibFreq, cellDOS);
 
     // 5. Convolute the hindered rotor energy levels to the DOS. The first vibrational state is ignored and treated as harmonic. It's energy
     //    is divided by two and counted as the contribution to the Zero point energy.
