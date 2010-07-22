@@ -138,17 +138,22 @@ namespace mesmer
 
     // 1. Calculate the required energy levels (eigenvalues) from the hindered rotation.
     // How many cm-1 are required ? Estimate the number of states thru the multiple of the first hindered PES vibrational energy
-    size_t MaxCell = cellDOS.size();
-    m_numberGridPoint = int(MaxCell) * 5 / int(m_vibFreq); // make a guess of how many hindered rotor energy levels there may be.
+    // Find maximum quantum No. for rotor.
+
+    double bint = conMntInt2RotCnt/m_reducedMomentInertia ;
+    double root = sqrt(double(MaximumCell)/bint) ;
+    int kmax    = int(root + 1.0) ;
+
+    m_numberGridPoint = 2*kmax +1 ;
     vector<double> eigenvalues;
     dMatrix wavefunctions(m_numberGridPoint, m_numberGridPoint);
     oneDimensionalFourierGridHamiltonian(m_reducedMomentInertia, &getEnergyFromFourierCoefficients,
                                          eigenvalues, wavefunctions, m_numberGridPoint, ak, bk, a0);
 
-    vector<double> hinderedLevels(MaxCell, 0.0);
+    vector<double> hinderedLevels(MaximumCell, 0.0);
     for(size_t i(0); i < eigenvalues.size(); ++i){
       int eneLevel = int(abs(eigenvalues[i]));
-      if (eneLevel < int(MaxCell)){
+      if (eneLevel < int(MaximumCell)){
         hinderedLevels[eneLevel] += 1.0;
       }
     }

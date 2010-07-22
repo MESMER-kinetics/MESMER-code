@@ -170,7 +170,7 @@ namespace mesmer
 	for (int k(1), i(1); k <= kmax ; k++) {
 	  double energy = bint*double(k*k) + m_potentialCosCoeff[0] ;
 	  hamiltonian[i][i] = energy ;
-	  i++ ;                         // Need to account for the two direactions of rotation.
+	  i++ ;                         // Need to account for the two directions of rotation.
 	  hamiltonian[i][i] = energy ;
 	  i++ ;
 	}
