@@ -74,9 +74,10 @@ namespace mesmer{
 																					 const std::vector<double> bk,
 																					 const double a0
 																					 ){
-    const double psq = M_PI * M_PI;
 		const double zl = 2.0 * M_PI; // The total length of the system
-		const double const1 = psq / (imu * (zl * zl)); // c^2 * (2 * pi)^2 / (4 * mu * zl^2)
+    const double imuKgM2 = imu * amu * 1.0e-20;
+		const double const1 = PlancksConstant_in_JouleSecond / (4.0 * SpeedOfLight_in_cm * imuKgM2 * (zl * zl)); 
+    // h / (4 * mu * c * zl^2)
 		const double const2 = const1 * ((nx + 2) * (nx - 2) / 6.0 + 1.0);
 		const double darg = M_PI / double(nx);
 
@@ -93,7 +94,8 @@ namespace mesmer{
 				}
 				else{
 					const double ratio = 1.0 / sin(darg * double(ijD));
-					ar[i][j]=(int(ijD) % 2 ? 1.0 : -1.0) * const1 * ratio * ratio;
+          double dsign = int(ijD) % 2 ? -1.0 : 1.0;
+					ar[i][j]= dsign * const1 * ratio * ratio;
 				}
 			}
 			// Find the potential value at x
@@ -130,7 +132,7 @@ namespace mesmer{
     if (1){
       ctest << "Rotational eigenvalues:\n{\n";
       for (unsigned int i(0); i < nx; ++i){
-        ctest << eValues[i] * Hartree_in_RC << endl;
+        ctest << eValues[i] << endl;
       }
       ctest << "}\n\nWavefunctions:\n{\n";
       for (unsigned int i(0); i < nx; ++i){

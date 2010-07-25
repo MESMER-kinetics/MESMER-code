@@ -57,7 +57,7 @@ namespace Constants {
 
 
   static const double tp_C             = pow((2.0 * M_PI * SpeedOfLight_in_cm) / (1.0e3 * PlancksConstant_in_JouleSecond * AvogadroC * 1.0e4),1.5);    //3.24331e+20;
-  static const double amu              = 1.0 / (AvogadroC * 1.0e3);
+  static const double amu              = 1.0 / (AvogadroC * 1.0e3); // Atomic mass unit in kg
   static const double idealGasC        = boltzmann_C * AvogadroC;
 
   // Convertion factor needed to obtain rotational constant (cm-1) from moment of Inertia (amu Ang^2).
