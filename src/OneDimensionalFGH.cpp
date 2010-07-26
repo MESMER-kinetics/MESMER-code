@@ -7,8 +7,8 @@
 //    F. Gogtas, G.G. Balint-Kurti and C.C. Marston,
 //    QCPE Program No. 647, (1993).
 //    =========================
-//    
-//    The following information may be different from 
+//
+//    The following information may be different from
 //    This program solves one dimensional Schrodinger equation for
 //    bound state eigenvalues and eigenfunctions corresponding to a
 //    potential V(x).
@@ -76,7 +76,7 @@ namespace mesmer{
 																					 ){
 		const double zl = 2.0 * M_PI; // The total length of the system
     const double imuKgM2 = imu * amu * 1.0e-20;
-		const double const1 = PlancksConstant_in_JouleSecond / (4.0 * SpeedOfLight_in_cm * imuKgM2 * (zl * zl)); 
+		const double const1 = PlancksConstant_in_JouleSecond / (4.0 * SpeedOfLight_in_cm * imuKgM2 * (zl * zl));
     // h / (4 * mu * c * zl^2)
 		const double const2 = const1 * ((nx + 2) * (nx - 2) / 6.0 + 1.0);
 		const double darg = M_PI / double(nx);
@@ -85,7 +85,34 @@ namespace mesmer{
 
 		double xa = 0.0; // initial value
 		const double dx = 2.0 * M_PI / double(nx); // stepsize
-    ctest << "Energies in Hartree:\n{\n";
+    
+    //---------------------------------------------------------------------------------
+    // collect the energies and make sure the energy in the edges are the highest ones.
+    vector<double> pes; double highestE = -9.0e23; int highestIdx = 0;
+    double lowestE = 9.0e23;
+    for (int i(0); i < nx; ++i){
+      const double vv = (*vsub)(xa, ak, bk, a0);
+      if (vv > highestE){
+        highestE = vv;
+        highestIdx = i;
+      }
+      if (vv < lowestE){
+        lowestE = vv;
+      }
+      pes.push_back(vv);
+      xa += dx;
+    }
+    
+    // sort the pes so that 0 degree be the highest point of the curve
+    vector<double> pesSorted;
+    for (int i(highestIdx), j(0); j < nx; ++i, ++j){
+      if (i == nx) i = 0;
+      pesSorted.push_back(pes[i] - lowestE); // correct the lowest energy of the pes
+    }
+    //---------------------------------------------------------------------------------
+    
+    xa = 0.0; // reset the number
+    ctest << "Energies in cm^-1:\n{\n";
 		for (int i(0); i < nx; ++i){
 			for (int j(0); j <= i; ++j){
 				double ijD = double(i) - double(j);
@@ -101,9 +128,8 @@ namespace mesmer{
 			// Find the potential value at x
 			// Add the potential value when the kronecker delta function
 			// equals to one, i.e. when i and j are equal
-      const double vv = (*vsub)(xa, ak, bk, a0);
-      ctest << xa << "\t" << vv << endl;
-			ar[i][i] += vv;
+      ctest << xa << "\t" << pesSorted[i] << endl;
+			ar[i][i] += pesSorted[i];
 			xa += dx;
 		}
     ctest << "}\n";
@@ -123,7 +149,7 @@ namespace mesmer{
 		if (eVectors[0] != NULL){
 			for (int i(0); i < nx; ++i){
 				for (int j(0); j < nx; ++j){
-					eVectors[i][j] = ar[i][j];
+					eVectors[j][i] = ar[i][j]; // transpose the vectors for better viewing
 				}
 			}
 		}
@@ -132,9 +158,9 @@ namespace mesmer{
     if (1){
       ctest << "Rotational eigenvalues:\n{\n";
       for (unsigned int i(0); i < nx; ++i){
-        ctest << eValues[i] << endl;
+        ctest << eValues[i] << "\t";
       }
-      ctest << "}\n\nWavefunctions:\n{\n";
+      ctest << "\n}\n\nWavefunctions:\n{\n";
       for (unsigned int i(0); i < nx; ++i){
         for (unsigned int j(0); j < nx; ++j){
           ctest << eVectors[j][i] << "\t";
