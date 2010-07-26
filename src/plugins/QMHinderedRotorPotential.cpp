@@ -151,8 +151,9 @@ namespace mesmer
                                          eigenvalues, wavefunctions, m_numberGridPoint, ak, bk, a0);
 
     vector<double> hinderedLevels(MaximumCell, 0.0);
-    for(size_t i(0); i < eigenvalues.size(); ++i){
-      int eneLevel = int(abs(eigenvalues[i]));
+    double zpe = eigenvalues[0];
+    for(size_t i(1); i < eigenvalues.size(); ++i){
+      int eneLevel = int(eigenvalues[i] - zpe);
       if (eneLevel < int(MaximumCell)){
         hinderedLevels[eneLevel] += 1.0;
       }
