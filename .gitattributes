@@ -56,6 +56,7 @@ MesmerQA/spin_forbidden_kinetics/LZ_test.xml -text
 MesmerQA/spin_forbidden_kinetics/WKB_test.test -text
 MesmerQA/spin_forbidden_kinetics/WKB_test.xml -text
 /README -text
+/ToDo -text
 /defaults.xml -text
 examples/AcetylO2/Acetyl_O2_associationEx.xml -text
 examples/AcetylO2/Int1.log -text
