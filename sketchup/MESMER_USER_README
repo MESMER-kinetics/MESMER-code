@@ -1,0 +1,24 @@
+#
+#  MESMER code SketchUp developer README
+#
+
+To debug this script, one has to do the following:
+
+1. Install Google Sketchup. It is free!
+
+2. Install a full version of Ruby inside your computer if you are using
+   Windows. Please ensure Ruby is installed in its default location:
+
+   c:\ruby
+
+   If you use Mac, you don't need to do anything as all Mac come with
+   full version Ruby.
+   
+3. Open SketchUp, in Windows -> Ruby Console, enter the following line
+
+   load 'M:\codes\Mesmer\sketchup\mesmer_data.rb'
+
+   Please note the path of this depends on where this file is located.
+
+4. Go to File -> Import, select File of Type: MESMER XML Importer, and find
+   the file you want sketchup to plot.
