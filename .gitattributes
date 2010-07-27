@@ -270,8 +270,6 @@ src/Molecule.cpp -text
 src/Molecule.h -text
 src/MoleculeManager.cpp -text
 src/MoleculeManager.h -text
-src/OneDimensionalFGH.cpp -text
-src/OneDimensionalFGH.h -text
 src/Persistence.h -text
 src/Reaction.cpp -text
 src/Reaction.h -text
@@ -303,8 +301,6 @@ src/plugins/LandauZenerCrossingCoeff.cpp -text
 src/plugins/LandauZenerCrossingCoeff.h -text
 src/plugins/MesmerILT.cpp -text
 src/plugins/MesmerILT.h -text
-src/plugins/QMHinderedRotorPotential.cpp -text
-src/plugins/QMHinderedRotorPotential.h -text
 src/plugins/QMRotor.cpp -text
 src/plugins/QMRotor.h -text
 src/plugins/SimpleILT.cpp -text

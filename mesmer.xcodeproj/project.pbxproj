@@ -78,7 +78,6 @@
 		577A1518118EC18F00BD303A /* Molecule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577A14D3118EC18F00BD303A /* Molecule.cpp */; };
 		577A1519118EC18F00BD303A /* MoleculeManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577A14D5118EC18F00BD303A /* MoleculeManager.cpp */; };
 		577A151A118EC18F00BD303A /* oberror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577A14D7118EC18F00BD303A /* oberror.cpp */; };
-		577A151B118EC18F00BD303A /* OneDimensionalFGH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577A14D9118EC18F00BD303A /* OneDimensionalFGH.cpp */; };
 		577A151C118EC18F00BD303A /* ClassicalRotor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577A14DC118EC18F00BD303A /* ClassicalRotor.cpp */; };
 		577A151D118EC18F00BD303A /* EckartCoefficients.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577A14DE118EC18F00BD303A /* EckartCoefficients.cpp */; };
 		577A151E118EC18F00BD303A /* ExponentialDown.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577A14E0118EC18F00BD303A /* ExponentialDown.cpp */; };
@@ -87,7 +86,6 @@
 		577A1521118EC18F00BD303A /* HinderedRotorA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577A14E4118EC18F00BD303A /* HinderedRotorA.cpp */; };
 		577A1522118EC18F00BD303A /* LandauZenerCrossingCoeff.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577A14E6118EC18F00BD303A /* LandauZenerCrossingCoeff.cpp */; };
 		577A1523118EC18F00BD303A /* MesmerILT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577A14E8118EC18F00BD303A /* MesmerILT.cpp */; };
-		577A1524118EC18F00BD303A /* QMHinderedRotorPotential.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577A14EA118EC18F00BD303A /* QMHinderedRotorPotential.cpp */; };
 		577A1525118EC18F00BD303A /* QMRotor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577A14EC118EC18F00BD303A /* QMRotor.cpp */; };
 		577A1526118EC18F00BD303A /* simplecalc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577A14EE118EC18F00BD303A /* simplecalc.cpp */; };
 		577A1527118EC18F00BD303A /* SimpleILT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 577A14EF118EC18F00BD303A /* SimpleILT.cpp */; };
@@ -152,7 +150,6 @@
 		57148BCE119CDC76000730F5 /* popDiag.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = popDiag.xsl; sourceTree = "<group>"; };
 		57148BCF119CDC76000730F5 /* punch.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = punch.xsl; sourceTree = "<group>"; };
 		57148BD0119CDC76000730F5 /* switchcontent.xsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = switchcontent.xsl; sourceTree = "<group>"; };
-		5730D80911F2C137001C3D77 /* OneDimensionalFGH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneDimensionalFGH.h; sourceTree = "<group>"; };
 		5764F34B118F2CB9002166C2 /* MacOSX.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MacOSX.xcodeproj; path = "/Users/chi-hsiuliang/codes/mesmer/MacOSX/MacOSX.xcodeproj"; sourceTree = "<absolute>"; };
 		577A1348118EB7D700BD303A /* libqd.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libqd.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		577A134E118EB7F200BD303A /* aclocal.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = aclocal.m4; sourceTree = "<group>"; };
@@ -430,7 +427,6 @@
 		577A14D6118EC18F00BD303A /* MoleculeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoleculeManager.h; sourceTree = "<group>"; };
 		577A14D7118EC18F00BD303A /* oberror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = oberror.cpp; sourceTree = "<group>"; };
 		577A14D8118EC18F00BD303A /* oberror.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oberror.h; sourceTree = "<group>"; };
-		577A14D9118EC18F00BD303A /* OneDimensionalFGH.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OneDimensionalFGH.cpp; sourceTree = "<group>"; };
 		577A14DA118EC18F00BD303A /* Persistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Persistence.h; sourceTree = "<group>"; };
 		577A14DC118EC18F00BD303A /* ClassicalRotor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClassicalRotor.cpp; sourceTree = "<group>"; };
 		577A14DD118EC18F00BD303A /* ClassicalRotor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassicalRotor.h; sourceTree = "<group>"; };
@@ -446,8 +442,6 @@
 		577A14E7118EC18F00BD303A /* LandauZenerCrossingCoeff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LandauZenerCrossingCoeff.h; sourceTree = "<group>"; };
 		577A14E8118EC18F00BD303A /* MesmerILT.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MesmerILT.cpp; sourceTree = "<group>"; };
 		577A14E9118EC18F00BD303A /* MesmerILT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MesmerILT.h; sourceTree = "<group>"; };
-		577A14EA118EC18F00BD303A /* QMHinderedRotorPotential.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QMHinderedRotorPotential.cpp; sourceTree = "<group>"; };
-		577A14EB118EC18F00BD303A /* QMHinderedRotorPotential.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMHinderedRotorPotential.h; sourceTree = "<group>"; };
 		577A14EC118EC18F00BD303A /* QMRotor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QMRotor.cpp; sourceTree = "<group>"; };
 		577A14ED118EC18F00BD303A /* QMRotor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMRotor.h; sourceTree = "<group>"; };
 		577A14EE118EC18F00BD303A /* simplecalc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simplecalc.cpp; sourceTree = "<group>"; };
@@ -1010,8 +1004,6 @@
 				577A14D6118EC18F00BD303A /* MoleculeManager.h */,
 				577A14D7118EC18F00BD303A /* oberror.cpp */,
 				577A14D8118EC18F00BD303A /* oberror.h */,
-				577A14D9118EC18F00BD303A /* OneDimensionalFGH.cpp */,
-				5730D80911F2C137001C3D77 /* OneDimensionalFGH.h */,
 				577A14DA118EC18F00BD303A /* Persistence.h */,
 				577A14DB118EC18F00BD303A /* plugins */,
 				577A14F5118EC18F00BD303A /* Rdouble.cpp */,
@@ -1054,8 +1046,6 @@
 				577A14E7118EC18F00BD303A /* LandauZenerCrossingCoeff.h */,
 				577A14E8118EC18F00BD303A /* MesmerILT.cpp */,
 				577A14E9118EC18F00BD303A /* MesmerILT.h */,
-				577A14EA118EC18F00BD303A /* QMHinderedRotorPotential.cpp */,
-				577A14EB118EC18F00BD303A /* QMHinderedRotorPotential.h */,
 				577A14EC118EC18F00BD303A /* QMRotor.cpp */,
 				577A14ED118EC18F00BD303A /* QMRotor.h */,
 				577A14EE118EC18F00BD303A /* simplecalc.cpp */,
@@ -1671,7 +1661,6 @@
 				577A1518118EC18F00BD303A /* Molecule.cpp in Sources */,
 				577A1519118EC18F00BD303A /* MoleculeManager.cpp in Sources */,
 				577A151A118EC18F00BD303A /* oberror.cpp in Sources */,
-				577A151B118EC18F00BD303A /* OneDimensionalFGH.cpp in Sources */,
 				577A151C118EC18F00BD303A /* ClassicalRotor.cpp in Sources */,
 				577A151D118EC18F00BD303A /* EckartCoefficients.cpp in Sources */,
 				577A151E118EC18F00BD303A /* ExponentialDown.cpp in Sources */,
@@ -1680,7 +1669,6 @@
 				577A1521118EC18F00BD303A /* HinderedRotorA.cpp in Sources */,
 				577A1522118EC18F00BD303A /* LandauZenerCrossingCoeff.cpp in Sources */,
 				577A1523118EC18F00BD303A /* MesmerILT.cpp in Sources */,
-				577A1524118EC18F00BD303A /* QMHinderedRotorPotential.cpp in Sources */,
 				577A1525118EC18F00BD303A /* QMRotor.cpp in Sources */,
 				577A1526118EC18F00BD303A /* simplecalc.cpp in Sources */,
 				577A1527118EC18F00BD303A /* SimpleILT.cpp in Sources */,

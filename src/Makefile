@@ -157,7 +157,6 @@ SRCS := \
 	Molecule.cpp \
 	MoleculeManager.cpp \
 	oberror.cpp \
-        OneDimensionalFGH.cpp \
 	Rdouble.cpp \
 	Reaction.cpp \
 	ReactionManager.cpp \
