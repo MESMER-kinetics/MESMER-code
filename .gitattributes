@@ -34,3 +34,4 @@ examples/reservoirSink/mesmer_out.xml -text
 examples/reservoirSink/reservoirSinkAcetylO2.test -text
 examples/reservoirSink/reservoirSinkAcetylO2.xml -text
 /librarymols.xml -text
+mesmer.xcodeproj/project.pbxproj -text
