@@ -1,0 +1,2982 @@
+2010-July-17 Chi-Hsiu Liang
+
+  * Some modifications to QMHinderedRotorPotential and related files.
+
+2010-July-11 Struan Robertson
+
+	* TimeCounter.cpp, Sytem.cpp, MolecularComponents.cpp : Minor changes to address
+        compiler warnings.
+        * Makefile: Reference to QMHinderedRotorPotential.cpp removed.
+
+2010-July-11 Struan Robertson
+
+	* MesmerQA: Initial revisions of Linux 64 baselines.
+
+2010-July-10 Struan Robertson
+
+	* HinderRotorA.cpp/.h: Tidying up of the numerical potential input.
+	* Rdouble.cpp: Altered the equality operator to set prev value as this was
+	causing the IsUnchanged() method to always fail causing the density of states
+	to be recalulated for each pressure and temperature point.
+
+2010-July-10 Struan Robertson
+
+	* System.cpp/.h: Altered so as to always find the location of sinks. (Bug found
+        when running the i-propyle example.)
+
+2010-July-08 Struan Robertson
+
+	* HinderRotorA.cpp/.h: Altered to allow for a more generic analytical potential.
+
+2010-July-05 Struan Robertson
+
+	* HinderRotorA.cpp/.h: Input method extended to allow hindering potential data
+        points at equal intervals to be read and and transformed to give a cosine
+        expansion.
+
+2010-July-03 Struan Robertson
+
+	* HinderRotorA.cpp/.h: Changes required for asymmetric hindered rotor potential.
+
+2010-July-03 Struan Robertson
+
+	* System.cpp: Additional output of rate coefficient table to cinfo stream.
+        * Methyl_H_to_Methane.xml: Corrected for missing reference reaction.
+
+2010-June-27 Struan Robertson
+
+	* Reaction.h: Minor update to remove m_GrainKbmc variable and place it only
+        on those reaction that require it.
+        * MolecularCmponents.cpp: Minor code changes to improve readability.
+
+2010-June-27 Struan Robertson
+
+	* fitting.cpp, MesmerILT: Changes to parameter reading and fitting algorithm to
+        improve the fitting of the Methyl+H example.
+        * Methyl_H_to_Methane.xml: Minor changes to allow for testing.
+
+2010-June-13 Struan Robertson
+
+	* MesmerTools.cpp: Rolling some changes back to 286 for grain averaging
+        method to catch possible divide by zero error.
+        * Methyl_H_to_Methane.xml: Updated to include reference reaction.
+
+2010-June-13 Struan Robertson
+
+	* System.cpp/.h: Chi-squared method altered to account for excess
+        concentration in the case of a bimolecular association reaction.
+
+2010-June-06 Struan Robertson
+
+	* HinderRotorA.cpp/.h: Addition of QM hindered rotor torsion potential.
+
+2010-June-03 Struan Robertson
+
+	* HinderRotorA.cpp: Addition of QM Hamiltonian matrix in preparation for
+	adding torsion potential.
+
+2010-May-23 Struan Robertson
+
+	* HinderRotorA.h/.cpp: Initial implementation of hindered rotor. QM one-
+        dimensional free rotor density of states convolved with the other density
+        of states.
+
+2010-May-22 Struan Robertson
+
+	* QMRotor.cpp: Minor correction to improve agreement with classical results.
+        * Update of Ethyl + H example with experimental numbers.
+
+2010-May-21 Chi-Hsiu Liang
+
+  * Update some changes to QM Hindered Rotor approximation.
+  * Need a real system to test against the code.
+
+2010-May-14 Chi-Hsiu Liang
+
+  * Addition of MacOSX mesmer.test files in MesmerQA test projects.
+  * Some progress on the QM Hindered Rotor approach.
+
+2010-May-12 Chi-Hsiu Liang
+
+  * modified the output path of mesmer_out.xml to make it clear.
+
+2010-May-10 Dave Glowacki
+
+      * changes to MakeFile and Hindered Rotor *.h files to get LINUX compilation working
+
+2010-May-10 Dave Glowacki
+
+      * System.cpp, make some changes to get correct behavior when RateCoefficientsOnly is specified
+      * IrreversibleExchangeReaction.cpp & IrreversibleUnimolecularReaction.cpp: make changes for 
+        correct behavior in the case of a negative barrier
+      * MesmerTools.cpp, make changes to avoid numerical errors for QMrotor routines
+      * LandauZenerCrossingCoeff.cpp, WKBCrossingCoeff.cpp, SimpleRRKM.cpp: changes to give correction
+        behavior in the case that RRKM Crossing Coefficients are requested for reactions with a negative
+        barrier
+      * add HCCH_methylene.xml & HCCH_methylene.test in MesmerQA\spin_forbidden_kinetics
+
+2010-April-25 Struan Robertson
+
+	* System.h/.cpp, TMatrix.h: Addition of Gram-Schmidt analysis to Bartis-Widom calculation,
+      to improve mass conservation.
+      * Update of associated baselines.
+
+2010-April-18 Struan Robertson
+
+	* System.h/.cpp: Refactoring of the Bartis-Widom method.
+
+2010-April-12 Struan Robertson
+
+	* System.h/.cpp: Minor change to Bartis-Widom method.
+
+2010-April101 Chris Morley
+
+	* mesmer1.xsl: add facility to copy punchfile-like data from Firefox output
+	
+	* punchout.bat: script to use punch.xsl to make punch file, usable from
+	SendTo menu.
+
+2010-March-26 Chi-Hsiu Liang
+
+  * Set up project to debug under Apple Xcode. Some incompitabilities were removed.
+
+2010-March-20 Struan Robertson
+
+	* SimpleILT.h/.cpp, MesmerILT.h/.cpp: More refactoring to eliminate code duplication.
+
+2010-March-20 Struan Robertson
+
+	* ReactionManager.h/.cpp, System.h/.cpp: Transition matrix construction moved from 
+      ReactionManager to System.
+
+2010-March-14 Chris Morley
+
+	* src/vector3.cpp,src/vector3.h: class foratom coordinates from OpenBabel,
+	with new function Point2Line.
+	
+	* src/MolecularComponents.cpp,src/MolecularComponents.h,src/unitsConversion.cpp,
+	src/unitsConversion.h: Store and read chemical structure, with some functions to
+	retrieve info.
+	
+	* src/plugins/HinderedRotorA.cpp,src/plugins/HinderedRotorA.h: code to read
+	structure and other data. Needs completing.
+
+2010-March-11 Ch-Hsiu Liang
+
+  * Clean up some gcc build problem.
+	
+2010-March-7 Struan Robertson
+
+	* TMatrix.h: Addition of some matrix utilities.
+
+2010-March-6 Struan Robertson
+
+	* System.cpp,.h, ReactionManager.cpp,h: Initial changes for basis set BW rate coefficient method.
+
+2010-March-6 Struan Robertson
+
+	* SimpleILT.cpp,.h, MesmerILT.cpp,h MicroRate.cpp,.h: Refactored to remove protected data and place
+        ILT specific data and methods on ILT classes.
+
+2010-March-6 Struan Robertson
+
+	* IrreversibleExchangeReaction.cpp, IrreversibleUnimolecularReaction.cpp: Refactoring of 
+        isReverseReactionILT_Ea() method.
+
+2010-March-1 Struan Robertson
+
+	* MicroRate.cpp,.h, SimpleILT.cpp, MesmerILT.cpp: Elimination of UseILT function and related variables.
+
+2010-February-28 Struan Robertson
+
+	* src/Reaction.cpp,.h and MicroRate.cpp,.h: Initial changes related to removal of ILT data from
+        the reaction class and onto the mictrorate calculators. More work is still required to rationalize the
+        microrate calculators.
+
+2010-February-21 Struan Robertson
+
+	* src/MolecularComponents.cpp,.h and System.cpp: More minor changes to related to the basis set method.
+
+2010-February-21 Struan Robertson
+
+	* src/MolecularComponents.cpp,.h: Minor changes to related to the basis set method.
+
+2010-Febuary-16 Chris Morley
+
+	Moved derived plugin classes from src to src/plugins. The abstract
+	base class header file remains in src.
+	
+	Provided extra commenting in EnergyTransferModel.h and ExponentialDown.cpp
+	as a tutorial for writing plugin classes. Combined ExponentialDown.cpp
+	with its header file to make this easier (and also for nefarious
+	idealogical reasons).
+
+2010-Febuary-09 Chris Morley
+
+	* src/MicroRate.h,src/MesmerILT.h,src/SimpleILT.h,src/SimpleRRKM.h
+	Rework MicroRateCalculator classes to have cloned instances. Read
+	the XML data by the class at parse time although rate data is still
+	stored (for the time being) in Reaction.
+
+	* src/DensityOfStates.h,src/ClassicalRotor.cpp,src/ClassicalRotor.h,
+	src/HinderedRotorA.cpp,src/HinderedRotorA.h,src/QMRotor.cpp,src/QMRotor.h
+	Similarly for DensityOfStatesCalculator classes.
+
+	* src/MolecularComponents.cpp,src/MolecularComponents.h:
+	Apply the above.
+
+2010-January-23 Struan Robertson
+
+	* Update of QA baselines following changes to exponetial down class.
+
+2010-January-21 Chris Morley
+
+	src/EnergyTransferModel.h,src/ExponentialDown.cpp,src/ExponentialDown.h,
+	src/MolecularComponents.cpp,src/MolecularComponents.h:
+	Plugin class derived from EnergyTransfer model now provide a new instance
+	from Find so that they can contain information specific to a molecule.
+	Move delta E down from gWellProperties to ExponentialDown. 
+	The plugin class carries a pointer to a Molecule - more meaningful 
+	than gWellProperties. Read data at parse time rather than when calculating.
+	Allow energy transfer model to be user-chosen, default in defaults.xml.
+	
+	NOTE: The QA does not verify, but probably just needs baselines updating.
+	I'll leave this until somebody knowlegeable can review the acceptability
+	of the errors.
+	
+	src/Rdouble.cpp(set_range): do not set value to lower 
+	
+	src/main.cpp: Version to 0.11 
+
+2010-January-17 Struan Robertson
+
+	* MolecularComponents.h/.cpp: Refactoring of collision operator initialization code.
+
+2010-January-16 Struan Robertson
+
+	* MolecularComponents.h/.cpp: Tidy-up wellproperties constructor.
+
+2010-January-16 Struan Robertson
+
+	* MolecularComponents.h/.cpp: Move exponential down model material onto specfic model.
+
+2010-January-16 Struan Robertson
+
+	* MolecularComponents.h/.cpp: Initial changes to allow for specification of energy transfer model.
+
+2010-January-15 Struan Robertson
+
+	* MolecularComponents.h: Minor change to introduce a generic energy transfer model.
+
+_2010_01_08__14_27_52_ Chi-Hsiu Liang
+
+  * Minor modification about the nInfinity in the manual. n > 1.5 changed to n > -1.5.
+
+2010-January-08 Chris Morley
+
+	* src/Reaction.h, src/IrreversibleUnimolecularReaction.cpp,
+	src/IrreversibleUnimolecularReaction.h: changes to do with not requiring
+	information on the products of irreversible reactions.
+	At least, I think they are; they are old mods which didn't get committed.
+
+2010-January-08 Chris Morley
+
+	Save the PersistPtr of source of range variables:
+	* src/unitsConversion.cpp, src/unitsConversion.h: store in global vector.
+	* src/MicroRate.cpp, src/MolecularComponents.cpp: extra line when 
+	range variable is set.
+	
+	* src/plugins/fitting.cpp: modify output XML file with fitted params;
+	 provide extra user control, reduce console output.
+	* mesmer1.xsl: Firefox output of fitted params
+	* defaults.xml, examples/i-propyl/ipropyl_test.xml,popDiag.xsl:
+	consequent changes
+	
+	* src/oberror.h: RAII class to change error level reporting
+	
+	* src/Persistence.h, src/XMLPersist.cpp,src/XMLPersist.h: Add two
+	new functions XmlMoveToProperty() and XmlWrite()
+
+	* src/ReactionManager.cpp,src/ReactionManager.h,src/System.cpp,src/System.h:
+	Move calcChiSquare to System but make new ReactionManager::getSpeciesSequenceIndex().
+	Start of rationalization.
+
+2009-December-29 Struan Robertson
+
+	* MolecularComponents.cpp: Minor change needed for i-propyl fitting example.
+
+2009-December-29 Struan Robertson
+
+	* fitting.cpp: Addition of limit checks to line search of fitting method.
+
+2009-December-21 Struan Robertson
+
+	* fitting.cpp: Initial implementation of the Powell algorithm.
+
+2009-December-21 Struan Robertson
+
+	* fitting.cpp: Re-arrangement and tidy-up.
+
+2009-December-13 Struan Robertson
+
+	* fitting.cpp: Generalized line search method to use vectors.
+
+_2009_12_10__16_29_46_ Chi-Hsiu Liang
+
+  * Some stuff about one-dimensional Fourier grid Hamiltonian for hindered rotors.
+
+2009-December-5 Struan Robertson
+
+	* fitting.cpp: Minor tidying of fitting method.
+
+2009-November-29 Struan Robertson
+
+	* fitting.cpp: Rough sketch of multi-dimensional search added.
+
+_2009_11_27__13_16_47_ Chi-Hsiu Liang
+
+  * Resolved a problem in reverse ILT that only the energy of the first product was taken into account. Thanks to Robin Shannon.
+
+2009-November-19 Chris Morley
+
+	* Windows VC9/distribution/NSISScriptToCreateInstaller.nsi:
+	the install directory is now added to the front of PATH
+	and to the front of MESMER_DIR. To version 0.11
+	
+	* src/main.cpp:use only the first directory in MESMER_DIR
+	
+	These changes should allow a second or later installation to work ok.
+	If it is uninstalled the earlier version should work again.
+	There may be issues with the start menu items needing to be deleted
+	manually sometimes (I haven't sorted out exactly when).
+
+_2009_11_19__12_24_19_ Chi-Hsiu Liang
+
+  * Updated video tutorial plan
+
+_2009_11_19__10_23_25_ Chi-Hsiu Liang
+
+  * Make sure imFreq is positive.
+  * Mesmer video tutorial plan
+
+_2009_11_18__12_14_08_ Chi-Hsiu Liang
+
+  * Tunneling for bimolecular reactions
+
+_2009_11_17__14_26_41_ Chi-Hsiu Liang
+
+  * Update the manual for shortest integration time of species profile
+
+_2009_11_13__19_32_06_ Chi-Hsiu Liang
+
+  * Update the manual for gridSearch
+
+2009-November-13 Struan Robertson
+
+	* ReactionManager.cpp: Minor correction to the calculation of Chi^2.
+
+_2009_11_13__15_35_43_ Chi-Hsiu Liang
+
+  * Modify the way specifying cemetery state
+
+2009-November-13 Struan Robertson
+
+	* fitting.cpp: Rough sketch of golden section line search added.
+
+_2009_10_27__17_47_36_ Chi-Hsiu Liang
+
+  * Changed the boundary of the shortest integration time of species profile.
+
+_2009_10_16__11_55_04_ Chi-Hsiu Liang
+
+  * Corrected the cemetery state method.
+
+_2009_10_14__16_13_57_ Chi-Hsiu Liang
+
+  * Removed the renormalization method. 
+
+_2009_10_12__09_13_20_ Chi-Hsiu Liang
+
+  * Modify some terms in Bartis-Widom rates to QD in order to avoid some diagonalization problem
+    after converting from QD to double.
+
+_2009_10_07__16_11_46_ Chi-Hsiu Liang
+
+  * Minor modifications
+
+_2009_09_21__17_11_36_ Chi-Hsiu Liang
+
+  * A few modifications related with compiler complaints and Bartis-Widom output.
+
+2009-September-18 Chris Morley
+
+	* src/MicroRate.cpp, src/Reaction.cpp: move the check on the activation energy
+	being positive with ILT reactions from the calculation to the parsing phase,
+	so that it is found earlier and the program terminated.
+	
+	* src/ReactionManager.cpp: during parsing, continue after an error to find further
+	errors, but retainthe updated readStatus to terminate before calculation.
+	
+	* src/Molecule.h,src/Molecule.cpp,src.ReactionManager.cpp: Added new function
+	Molecule::isCemeteryState(). Avoids the construction of a gWellProperties member
+	if it didn't already have one and the making of inappropriate default values of
+	deltaEDown, which occurred with getColl().isCemeteryState().	 
+
+_2009_09_18__13_21_13_ Chi-Hsiu Liang
+
+  * Coorect an indices error on AssociationReaction.cpp
+
+2009-September-14 Dave Glowacki 
+
+  *updates to manual and add print option for TS N(E)
+
+_2009_09_17__16_50_43_ Chi-Hsiu Liang
+
+  * An example is checked in at example folder. 
+  * a2d.h: index changed from int to size_t
+  * Changes for cemetery states: some arguments of the following functions are modified.
+      calcEquilibriumConstant()
+      normalizedGrnBoltzmannDistribution()
+      rctsRovibronicGrnCanPrtnFn()
+      pdtsRovibronicGrnCanPrtnFn()
+    where 
+      rovibronicGrnCanPrtnFn() is modified to take account of cemetery state while necessary.
+  * m_GrainKdmc is added to well properties to take account of the deactivation rate to the
+    cemetery state.
+  * On the treatment of cemetery state method, the active states are seen as a well and thus
+    the normalization of the well is taken against only on the active states. The downward
+    collision terms to the cemetery state are normalized using the same normalization constants
+    of the active states. These terms to the cemetery state are then summed up deactivation
+    rates and stored in m_GrainKdmc.
+  * Relavent modifications to Bartis-Widom phenological rates and time evolution function are
+    also done for cemetery state method.
+  * Need to check for bugs before the diagonalization process that makes some rows in eigenvectors 
+    not summed to one.
+  * TMatrix.h:
+      normalizeProbabilityMatrix() is modified with an additional argument, allows it to normalize
+      the matrix over a certain portion of the matrix.
+
+_2009_09_17__14_10_10_ Chi-Hsiu Liang
+
+  * Species profile change in cyclopropene isomerization reservoir state due to modification on Version 438.
+
+2009-September-14 Dave Glowacki 
+
+  * fixed a bug which prevented compatibility between the spin forbidden crossing
+    code and the reservoir & cemetary state approximations
+  * update the spin forbidden crossing baselines
+
+2009-September-14 Dave Glowacki 
+
+  * update Makefile to compile successfully under Linux/Mac
+
+2009-September-14 Dave Glowacki 
+
+  * update manual and alter source code to compile successfully under Linux/Mac
+
+
+2009-September-13 Struan Robertson
+
+	* ReactionManager.cpp: More minor changes in preparation to introduce extended 
+        precision into Bartis-Widom methods.
+
+2009-September-11 Dave Glowacki
+
+  * update manual to add information on Spin Forbidden Crossing Code
+
+2009-September-11 Dave Glowacki
+
+  * add and test microcanonical Spin Forbidden Crossing code to MESMER against that described by 
+    Harvey & Aschi, Farad. Disc., 2003(124), 129-143.  Two flavors of the spin forbidden
+    transmission coefficients are available:
+	- Landau-Zener theory transmission coefficients which does not include tunneling below threshold
+	- WKB theory transmission coefficients, which include tunneling below threshold
+
+  * spin-forbidden specific changes to code include:
+	1) add Crossing.h abstract base class
+	2) add LandauZenerCrossingCoeff.cpp and LandauZenerCrossingCoeff.h plug-in classes
+	3) add WKBCrossingCoeff.cpp and WKBCrossingCoeff.h plug-in classes
+	4) Constants.h: add constants required in the new code
+	5) MesmerFlags.h, MesmerFlags.cpp, and System.cpp: add CrossingCoeffEnabled flags
+	6) Reaction.h and Reaction.cpp: add CrossingCalculator info
+	7) SimpleRRKM.cpp: add convolution of CrossingProbability vectors and TScellDOS
+
+  * miscellaneous changes to code include
+	1) MicroRate.cpp, so that TST coefficients are not printed out at temperatures much higher
+	   than the ME simulation temperature; because the TST rate coefficients are calculated from
+ 	   grained data, the rate coefficients are most accurate at temperatures less than or equal to the 
+	   simulation temperature; the code has been amended to reflect this, so as not to confuse the user
+	2) MesmerMath.h & MesmerMath.cpp: add Airy functions for WKB transmission coefficients
+	3) MesmerMath.h & MesmerMath.cpp: optimize and improve the FastLaplaceConvolution function
+
+  * spin_forbidden_kinetics/ folder added to MesmerQA; it is not part of MesmerQA.bat, 
+    but it is provided for user reference.  it includes sample input & output files for both WKB and LZ calculations
+
+  * the Makefile has been updated for the new source code
+
+  * the baselines have been updated; changes are on account of the more accurate optimized 
+    FastLaplaceConvolution function and the changes to the temperature range over which the 
+    canonical rate coefficients are calculated
+
+_2009_09_10__16_43_26_ Chi-Hsiu Liang
+
+  * Minor fix on reservoir state isomer initial population vector
+
+_2009_09_07__12_41_10_ Chi-Hsiu Liang
+
+  * Prepare for cemetery reservoir
+
+_2009_09_02__14_11_49_ Chi-Hsiu Liang
+
+  * Add missed things in Mesmer.vcproj
+
+_2009_08_28__10_42_05_ Chi-Hsiu Liang
+
+  * Ability to draw 3D molecules in SketchUp.
+  * Planning to make drawMolecule and drawAtom member functions of Molecule and Atom themselves.
+
+_2009_08_24__11_49_48_ Chi-Hsiu Liang
+
+  * Draw colors in SketchUp by random number.
+
+2009-Aug-21 Chi-Hsiu Liang
+
+  * Add some code using SketchUp to plot PES.
+
+2009-August-16 Struan Robertson
+
+	* ReactionManager.cpp: Some minor changes in preparation to introduce extended 
+        precision into Bartis-Widom methods.
+
+2009-August-16 Struan Robertson
+
+	* main.cpp: Add QD library methods to fix extended precision problems on x86.
+
+2009-July-28 Chris Morley
+
+  * Add new folder for plugin classes (but not all moved yet)
+  * Make new abstract class CalcMethod with derived plugin classes in
+    src/plugins/fitting.cpp,src/plugins/gridsearch.cpp,src/plugins/simplecalc.cpp
+  *	src/MesmerFlags.cpp,src/MesmerFlags.h,src/ReactionManager.cpp,src/System.cpp,
+    src/System.h: Use new method for doing the calculations. Remove punch file
+    output.
+
+  * punch.xsl: for making a simplifed file from the output xml file.
+
+  * Replace atomarray and bondarray by atomArray and bondArray in example and QA files,
+  and in src/Molecule.cpp. (The embarassing error message with i-propyl was because
+  the molecules had implicit hydrogen. We will ban this in Mesmer.
+
+  * src/Persistence.h,src/XMLPersist.cpp,src/XMLPersist.h: added XmlWriteValueElement().
+
+_2009_07_23__14_24_24_ Chi-Hsiu Liang
+
+Some comments
+
+_2009_07_22__15_32_17_ Chi-Hsiu Liang
+
+  * Moved i-propyl and benzene_oxidation to example folder
+  * removed the atom array and bond array blocks for i-propyl system, as this
+    will encourage MESMER to check whether the number of vibrational frequencies is making
+    sense or not.
+  * Fixed the error of benzene_oxidation_test.xml. This is from the calculation
+    microcanonical rate constants of irreversible exchange reaction, which is
+    unavailable.
+
+2009-July-19 Struan Robertson
+
+	* EnergyTransferModel.h: Addition of base class for energy transfer models.
+	* ExponentialDown.cpp/.h: Addition of implentation class for exponential gap model.
+ 
+2009-July-15 Chris Morley
+
+	* examples/isopropylHinderedRotor:	Add an example data file and some
+	notes on hindered rotors.
+	
+	* src/XMLPersist.cpp: extra endl to improve log file output.
+	
+2009-July-15 Chris Morley
+
+	* src/MicroRate.cpp: included XML names in the range variables because
+	 they mean more to users.
+	 
+	* src/Rdouble.h,src/Rdouble.cpp: some new functions. Take account of
+	floating point rounding errors. Fixes bug #2818103.
+
+	* src/System.cpp, src/System.h: redo (sorry, I know this is a character
+	defect) gridSearch with a simpler, more	transparent recursive function.
+	This may have messed up the punch file output. 
+	Enable multiple <analysis> sections in XML file
+	
+	* mesmer1.xsl: can now view multiple <analysis> sections.
+	
+2009-July-11 Struan Robertson
+
+	* System.cpp: More LineSearch material.
+
+2009-July-11 Struan Robertson
+
+	* System.cpp: Addition of LineSearch method required by automated search.
+
+2009-June-28 Struan Robertson
+
+	* System.cpp: Initial changes toward automated fitting and some minor corrections.
+
+_2009_06_24__12_56_03_ Chi-Hsiu Liang
+
+  * Correct a template function in TMatrix.h
+
+_2009_06_19__08_37_56_ Chi-Hsiu Liang
+
+  * Fixed a compilation bug Josh Allen reported on line 109 of IrreversibleExchangeReaction.h.
+
+_2009_06_15__15_45_40_ Chi-Hsiu Liang
+
+  * Fixed a Cygwin compile problem on NaN and _isnan.
+
+2009-June-15 Chris Morley
+
+	* Windows VC9/distribution/ReadMe.txt: same change of details
+	
+2009-June-15 Struan Robertson
+
+	* README: Change of details.
+
+_2009_06_12__14_24_18_ Chi-Hsiu Liang
+
+  * Make manual pdf
+
+2009-June-12 Chris Morley
+
+  * Removed change tracking in manual
+  * Moved License.txt from VC9 to top level folder
+  * README added reference to Licence.txt, corrected my email address
+  * MesmerQA/QA.bat Added another conditional statement so that it
+    will find Mesmer.exe in the installed version (in the top level folder)
+  * Windows VC9/distribution/NSISScriptToCreateInstaller.nsi: mods appropriate
+    for the above.
+  * Documentation/Proposal.doc: delete
+
+_2009_06_11__16_44_59_ Chi-Hsiu Liang
+
+  * fixed counter error in m_SpeciesSequence
+  * fixed irreversibleUnimolecularReaction sink term species profile with reservoir state in the isomer.
+
+_2009_06_11__09_16_34_ Chi-Hsiu Liang _2009_06_11__09_16_40_
+
+  * Fixed IrreversibleExchangeReaction
+
+2009-June-9 Struan Robertson
+
+	* MESMER manual.doc: More tidying up.
+
+2009-June-7 Struan Robertson
+
+	* MESMER manual.doc: Addition of contracted basis set material.
+	* HSO2_test.xml: Update test to use QM rotor.
+
+_2009_06_02__11_11_27_ Chi-Hsiu Liang
+
+  * Replaced isUnimolecular() and isIrreversible() check functions by getReactionType().
+
+_2009_06_02__09_26_48_ Chi-Hsiu Liang
+
+  * Enabled tunneling into unimolecular sink term.
+
+_2009_06_01__10_58_13_ Chi-Hsiu Liang
+
+  * Update manual
+  * Add hydrogen atoms in the atom arrays of pentyl system. This is for checking the number of vibrational frequencies.
+    In the meantime, if the user did not define the atomarray, this check is not performed.
+
+2009-May-30 Struan Robertson
+
+	* MESMER manual.doc: Correction to ILT formula.
+	* QMRotor.cpp: Corrected and extended non-linear top density of states section.
+
+2009-May-30 Struan Robertson
+
+	* MESMER manual.doc: Review of theory section.
+
+_2009_05_27__10_50_02_ Chi-Hsiu Liang
+
+  * include #include <stdexcept> to remove the following error on Linux
+      MesmerTools.cpp:64: `runtime_error' undeclared in namespace `std'
+
+SET executable="../../Windows VC8/Mesmer/Mesmer.exe"
+	* src/Reaction.cpp, src/Reaction.h,src/AssociationReaction.cpp,
+	  src/MicroRate.cpp: add m_useILT to remove dependendence on 
+	  MesmerILT plugin name. Pragmatic rather than elegant.
+	  
+	* src/MesmerTools.cpp,src/MolecularComponents.cpp,src/System.cpp:
+	  replace exit(1)  by throw statements. Perhaps this
+      will lead to a more complete mesmer.log after a crash.
+      
+	* src/MoleculeManager.cpp: add support for molecule aliases in 
+	  librarymols.xml
+	  
+	* defaults.xml: add default for <A>
+	* examples/AcetylO2/acetylO2.ck: replace acetyl_radical by acetyl
+	* librarymols.xml: remove ketene and HO2 and add an alias example
+
+	* Documentation/MESMER manual.doc:4.2.1 modified title and added bit on
+	  aliases.
+
+_2009_05_19__09_05_27_ Chi-Hsiu Liang
+
+  * Updated manual 1. some font typesets; 2. related change about the XML input.
+
+2009-May-18 Chris Morley
+
+	* a couple of additions to 3.2.5
+	Is section 3.3.1 necessary? It does basic XML stuff, which, even
+	if it were needed would come earlier. It also does propertyList
+	which IIRC is actually optional.
+	
+	* src/ClassicalRotor.cpp,src/MesmerILT.cpp,src/QMRotor.cpp,
+      src/SimpleILT.cpp,src/SimpleRRKM.cpp: 
+      Alternative names for plugin methods
+
+	* examples/AcetylO2/acetylO2.ck, popDiag.xsl: forgot to upload
+
+_2009_05_18__14_24_11_ Chi-Hsiu Liang
+
+  * Solved gridsearch NaN problem on Linux by writing platform dependent NaN definitions.
+
+2009-May-18 Dave Glowacki
+
+	* Review changes to Mesmer Manual
+
+2009-May-17 Struan Robertson
+
+	* Mesmer Manual.doc: Documentation review.
+
+2009-May-17 Chris Morley
+
+	* Grand renaming.Affects QA files, exampl file and some src files.
+	O_2              -> O2
+	HO_2             -> HO2
+	N_2	             -> N2
+	CH_2CCH_2        -> CH2CCH2
+	CH_2CO           -> CH2CO
+	acetyl_radical   -> acetyl
+	Classical rotors -> ClassicalRotors
+	QM rotors        -> QMRotors
+	Mesmer ILT       -> MesmerILT
+	Simple ILT       -> SimpleILT
+
+	* Delete a few old example files
+	
+	* Modify tutorial (now ready to use)
+
+_2009_05_15__17_06_19_ Chi-Hsiu Liang
+
+  * A check section in "EckartCoefficients.cpp" requires examination / LINE 21 to LINE 29
+  * Fixed CellOffset in source term in AssociationReaction.cpp, which also corrects the baseline for OH acetylene system.
+
+2009-May-15 Chris Morley
+
+	* src/MolecularComponents.cpp, src/AssignMolTypes.cpp,
+	MesmerQA/Acetyl O2 association/Acetyl_O2minimal.xml, defaults.xml:
+	Put spinMultiplicity default as an attribute on <molecule>, rather
+	than as	a property. Either can be used for input, but the attribute
+	(as an existing CML	feature)is now preferred.
+	
+	* src/Constants.h, src/Rdouble.h: Make NAN a const double and change
+	the return type of Rdouble operator++ and -- This possibly might
+	have an effect on the Linux difficulties.
+
+	mesmer1.xsl, mesmer2.xsl. popDiag.xsl is just a stub at the moment.
+	
+	* Windows VC9/distribution/NSISScriptToCreateInstaller.nsi:
+	Include in Add and Remove Programs.
+	
+_2009_05_15__13_28_06_ Chi-Hsiu Liang
+
+  * Do not output grainDOS for individual source term molecules
+
+_2009_05_15__10_45_44_ Chi-Hsiu Liang
+
+  * Added pdf version of the manual
+
+_2009_05_15__10_37_29_ Chi-Hsiu Liang
+
+  * Update the page numbers in the Table of Contents.
+
+_2009_05_15__10_20_39_ Chi-HSiu Liang
+
+  * Deleted unused files in Documentation folder.
+
+2009-May-14 Dave Glowacki
+
+  * Manual Edit
+  * get rid of methylene_D2 association folder
+  * fix some spelling errors in the code
+
+2009-May-11 Dave Glowacki
+
+  * ReactionManager.cpp: fix a bug for printing rate coefficients
+
+_2009_05_11__15_53_25_ Chi-Hsiu Liang
+
+  * reordered some initiation of variables.
+
+2009-May-10 Chris Morley
+
+	* Change Rdouble to use an internal static rather than a global variable,
+	  Syntax for setting a range externally is different.
+	  
+	* src/ReactionManager.cpp, src/ReactionManager.h, mesmer1.xsl: 
+	output populations v time to XML. Is the displayed text appropriate?
+	Diagram log(pops) v log(t)to follow, I hope.
+
+_2009_05_02__10_32_28_ Chi-Hsiu Liang
+
+   * Fixed ZPE determination in ReactionManager.cpp. In this part, minEnergy and maxEnergy should always be compared with the ZPE values entered in
+     the XML input. The ZPE of the dissociation pair here is not under consideration, as the sink pair do not have any energy property associated
+     with the reaction operator. Therefore, the sink pair thresholdEstimate here is replaced by the barrier ZPE calculated from adding the threshold
+     energy with reactant ZPE.
+
+   * Updated VC8 compile file list and Linux Makefile
+
+2009-May-02 Chris Morley
+
+	Remove product dependence for irreversible reactions, except for reverse ILT
+	
+	* src/IrreversibleExchangeReaction.h,src/IrreversibleUnimolecularReaction.h
+	added their own virtual calcFluxFirstNonZeroIdx()
+	* src/IrreversibleUnimolecularReaction.cpp,src/IrreversibleExchangeReaction.cpp
+	avoid calculating heat of reaction in :calcEffGrnThresholds()
+	
+	* src/MesmerILT.cpp,src/MicroRate.cpp: put ReadParameters in the correct file
+	* src/Reaction.cpp,src/Reaction.h,src/SimpleRRKM.cpp,src/SimpleRRKM.h
+	move more specific operations to MicroRateCalculator classes.
+	
+	* src/MoleculeManager.cpp:ignore library molecules with active=false attributes.
+	* librarymols.xml: make ketene OH and HO_2 inactive
+	
+	* acetyl_O2minimal.xml, without product properties, now validates ok 
+
+2009-Apr-30 Chris Morley
+	
+	Move the reading of ILT parameters from Reaction to MicroRateCalculator
+	used by ILT classes but nit SimpleRRKM
+	src/RDouble.h: Remove the SETRANGE macro. (It was working at one time...)
+	src/System.cpp: add improved log message on precision
+	
+_2009_04_30__11_21_48_ Chi-Hsiu Liang
+
+   * Updated manual for the usage of environmental variable MESMER_DIR.
+
+2009-Apr-30 Chris Morley
+   Replace DPoint by the very similar Rdouble to make handling of range and
+   ordinary variables consistent.  See Rdouble.h
+   
+   * src/Pointer.cpp, src/Pointer.h replaced by src/Rdouble.cpp and src/Rdouble.h
+   src/Reaction.cpp
+  
+   Consequent changes to
+   src/MolecularComponents.cpp, src/MolecularComponents.h, src/Reaction.cpp
+   src/Reaction.h, src/System.cpp
+    
+   * src/Constants.h: define NaN
+   
+   * Windows VC9/Mesmer/Mesmer.vcproj updated. Do we need to still support VC8?
+   
+_2009_04_28__17_18_03_ Chi-Hsiu Liang
+
+   * Correct the punch file issue again.
+
+_2009_04_28__14_08_25_ Chi-Hsiu Liang
+   
+   * Naming consistencies of flags in the manual and code.
+     Please make sure that in your input files all me:testRateConstant are changed to me:testRateConstants
+
+_2009_04_28__12_59_50_ Chi-Hsiu Liang
+
+   * Add/delete file names in the makefile and VC8 file list.
+   * Trim unnecessary variables in MesmerILT.cpp
+   * Partition functions that are higher than the current simulation temperature will not be output.
+   * Corrected reservoir state location units.
+   * Corrected initialization of variables in Reaction.cpp
+   * Corrected the action taken to produce punch file.
+      Currently two options as described before <me:gridSearchWithPunch /> and <me:gridSearch />
+
+2009-Apr-28 Chris Morley
+   Reshape DOS method classes: main and extra
+   * src/DensityOfStates.h, src/ClassicalRotor.h, src/QMRotor.h : main DOS methods
+   * src/HinderedRotorA.cpp, src/HinderedRotorA.h: extra DOS methods added
+     (in skeleton form only)
+   * src/MolecularComponents.cpp: requires one main DOS class (default if necessary)
+     and allows multiple extra classes
+
+   * src/ClassicalRotor.cpp : remove const in countCellDOS() to be consistent
+   * src/MolecularComponents.h: added a public function to access parent, and added
+     parameter in getCellDensity OfStates() to prevent recalculation.
+     (Otherwise get recursion in extra DOS classes.) 
+
+   * src/ReactionManager.cpp,src/MesmerILT.cpp,src/SimpleILT.cpp,src/SimpleRRKM.cpp:
+     add bool return to some functions to allow bailout on error
+   * src/System.cpp: minor documentation and error message changes
+   
+   * Windows VC9/Mesmer/Mesmer.vcproj: updated (Windows VC8 abandoned)
+
+2009-Apr-28 Struan Robertson
+
+   * QMRotor.cpp/TMatrix.h: Initial implementation of asymmetric QM rotor energy level algorithm.
+
+2009-Apr-27 Chris Morley
+
+   * MesmerQA/QA.bat: correct VC9 mod and add display of mesmer version.
+   * src/main.cpp: catch unknown options
+   * src/XMLPersist.cpp: change wording of commment
+
+2009-Apr-23 Chris Morley
+
+   * mesmer1.xsl: display energy units correctly in molecule table.
+       check that all energy units are the same and display an error message if not. 
+   * mesmerDiag.xsl: display energy units below diagram
+   * MesmerQA/i-propyl/ipropyl_test.xml: corrected title and 546.D0 which may be valid in
+       some obsolete programming languages but isn't here.
+       Now gives a more informative diagram. 
+
+_2009_04_23__09_11_27_ Chi-Hsiu Liang
+
+  * Move DPoint to a higher level. For the moment, DPoint is almist visible to any file in MESMER folder. Declaration of an DPoint value will
+    increment the DPoint vector, and the access of the DPoint value is just like any other variables.
+  * Fixed collision operator column sum in reservoir state.
+  * Fixed VC8/VC9 qa.bat link so that it finds the newer version of the executables. Need to think about if letting user choose which executable to run.
+
+2009-Apr-23 Chris Morley
+
+  * Windows VC9/: Add VC++ 2009 project files. Dave mentioned he had tweaked
+  the optimization but I could see where. Perhaps he could check that it is correct
+  in the VC++2009 files.
+
+  * src/ReactionManager.cpp, src/System.cpp:added cinfo.flush() at 
+    various points during the parsing, to get a log output even in a crash.
+     
+  * MesmerQA/QA.bat: update executable to VC9
+
+2009-Apr-19 Struan Robertson
+  
+  * System.h/.cpp: Minor tidying in preparation for fitting method.
+  
+2009-Apr-19 Struan Robertson
+  
+  * QMRotor.h/ClassicalRotor.h: More header file dependency decoupling.
+  
+2009-Apr-19 Struan Robertson
+  
+  * ReactionManage.h/MesmerILT.h: Replace derived class headers with base class to break include dependencies.
+  
+2009-Apr-19 Struan Robertson
+  
+  * ReactionManager.cpp/Reaction.h: Source term discovery pushed onto to derived reaction classes.
+  
+2009-Apr-19 Struan Robertson
+  
+  * ReactionManager.cpp: Minor change related to basis set methods.
+  
+2009-Apr-23 Chris Morley
+
+  * Windows VC9/: Add VC++ 2009 project files. Dave mentioned he had tweakedt
+  the optimization but I could see where. Perhaps he could check that it is correct
+  in the VC++2009 files.
+
+  * src/ReactionManager.cpp, src/System.cpp:added cinfo.flush() at 
+    various points during the parsing, to get a log output even in a crash. 
+  * MesmerQA/QA.bat: update executable to VC9
+
+2009-Apr-19 Struan Robertson
+  
+  * ReactionManager.cpp: Minor change to correct for QA failure.
+  
+2009-Apr-17 Chris Morley
+  
+  * mesmer1.xsl: minor revision of wording of output.
+  
+2009-Apr-13 Struan Robertson
+
+  * MesmerQA: Update of isopropyl test.
+
+2009-Apr-7 Dave Glowacki
+  *ReactionManager.cpp: fix some bugs which came to light for testing the i-propyl system- the case of 1 isomer with only irrreversible channels
+  *clean up some other stuff
+
+2009-Apr-5 Struan Robertson
+
+  * ReactionManager.cpp: Fix for grid search, values for Einf where being calculated incorrectly.
+  * MesmerQA: Update of isopropyl test.
+
+2009-Apr-5 Struan Robertson
+
+  * ReactionManager.cpp: New section added to estimate threshold of irreversible reaction, which is then used to determined energy limits.
+
+2009-Apr-4 Struan Robertson
+
+  * MesmerILT.cpp: Fixed problem with Unimoleculer ILT calculation.
+  * MesmerQA: Update of isopropyl test.
+
+2009-Mar-31 Dave Glowacki
+  *add a few changes to LINUX MakeFile
+
+2009-Mar-31 Dave Glowacki
+  * updates to manual: (1) discussion of Linux compilation issues & (2) discussion of Bartis Widom output
+  * add to Bartis Widom code so that it checks separation between CSEs and IEREs and generates warning messages if appropriate
+  * update baselines
+
+2009-Mar-30 Struan Robertson
+
+  * MesmerQA: Initial checkin of isopropyl test.
+
+2009-Mar-30 Dave Glowacki
+  * fixed GCC compiler problem that showed up when testing 64 bit compilation
+
+2009-Mar-26 Dave Glowacki
+  * fixed GCC compiler problem that showed up when testing 64 bit compilation
+
+2009-Mar-21 Struan Robertson
+
+  * src/ReactionManager.cpp: Tidy-up of BuildReactionOperator method.
+
+2009-Mar-21 Struan Robertson
+
+  * src/AssociationReaction.cpp: Added code relating to contracted basis set method.
+
+2009-03-14 Chris Morley
+  
+  * src/Persistence.h: make PersistPtr work with NULL content.
+    (Previously only partially implemented.)
+  * src/XMLPersist.cpp, src/XMLPersist.h: Move loading of defaults.xml until
+  it is used, so that a fully formed XML file doesn't need it. Make more robust
+  to missing defaults.xml and librarymols.xml.
+
+_2009_03_13__11_48_50_ Chi-Hsiu Liang
+
+  * Updated manual for reservoir state method
+  * Added a QA for reservoir state method; about additional 1 minute will add to the QA test. 
+    In these moderately high temperatures, 800K and 1000K, for the cyclopropene isomerization system,
+    the approximation is not perfect and also the computational gaining is only about three times.
+    From the suggestion of Dave, we are thinking about implementing a new species profile method
+    that takes the values from the Bartis-Windom matrix, which could possibly save some additional time.
+
+_2009_03_10__16_52_59_ Chi-Hsiu Liang
+
+  * Corrected the Bartis-Widom rate code for irreversible terms.
+
+_2009_03_10__12_40_45_ Chi-Hsiu Liang
+
+  * Tidy up some unused code.
+
+_2009_03_10__11_07_28_ Chi-Hsiu Liang
+
+  * Corrected the lowest barrier calculation for wells.
+
+2009-Mar-08 Struan Robertson
+
+  * src/IsomeriationReaction.cpp: Added code relating to contracted basis set method.
+
+2009-03-08 Chris Morley
+  * src/main.cpp: Make overwriting the input file more difficult, needs an option:
+     mesmer infile -o outfile      to outfile
+     mesmer infile -n              to infile
+     mesmer infile                 to "mesmer_out.xml"
+    Copies of all overwritten files are saved with a _prev suffix.
+  
+  * Support for specifying multiple input files on the commandline.
+    The first is normal and the molecules reactions etc from the subsequent
+    ones are inserted into it in an intelligent way before use.
+    Uses an additional function XMLPersist::Include().
+    Example (files in examples/AcetylO2):
+    mesmer AcetylO2reduced.xml O2OH.xml -o out.xml
+
+  * mesmer1.xsl: Make display of inactive reactions and molecules interactive.
+    It would have been better for them to be removed by CSS display:none but
+    I couldn't find a suitable alternative value for the active state.
+    Example file: examples/AcetylO2/Acetyl_O2_associationEx.xml
+    Shows can possibly improve display by rearranging the order of the *reactions*.
+
+_2009_03_06__23_08_04_ Chi-Hsiu Liang
+
+  * Read the reservoir size information directly in  initCollisionOperator()
+  * Corrected some code in BartisWidomPhenomenologicalRates() for reservoir grain method
+
+_2009_03_06__14_35_05_ Chi-Hsiu Liang
+
+  * Temporarily make MESMER not to overwrite the input file. Need to check if this is doing right.
+  * Reports the reservoir grain location in wavenumber and kJ/mol
+  * Fixed Bartis-Widom rates.
+  * Fixed XMLPersist.h for compiling in 64 bits.
+
+_2009_03_05__19_30_56_ Chi-Hsiu Liang
+
+  * Fixed the AddReactionTermsWithReservoirState in all methods.
+
+_2009_03_05__17_01_13_ Chi-Hsiu Liang
+
+  * Improved the way of calculating the loss of reservoir entry. Cleaned up some unecessary code.
+
+_2009_03_04__20_02_21_ Chi-Hsiu Liang
+
+  * The reservoir grain approach now works. This is a snapshot of it. The input file Acetyl_O2_association_mytest.xml
+    explains how to use this method. Now it works on association reaction. However, there are things to do:
+    1. AddReactionTerms for all other reaction types
+    2. Change the way of calculating "loss of the reservoir entry" in collision operator from summation of Boltzmann weighted 
+       upward and downward transition terms to only the summation of downward transition terms and then multiplied by equilibrium 
+       constant. This way can avoid numerical error through the summation processes.
+
+_2009_03_04__11_56_32_ Chi-Hsiu Liang
+
+  * Construction of another path of reservoir state treatment on low and inactive grains. (still debugging)
+    This path simply assumes the reservoir grain to behave Boltzmann, which act like a source term.
+  * Moved     void MolecularComponent::normalizeCollisionOperator(); from  to void TMatrix::normalizeProbabilityMatrix();
+  * Added routines --     virtual void Reaction::AddReactionTermsWithReservoirState() = 0;
+
+2009-03-01 Struan Robertson
+
+  * ReactionManager.cpp/IsomerizationReaction.cpp: Minor changes related to contracted basis set method.  
+
+_2009_02_25__15_31_59_ Chi-Hsiu Liang
+
+  * Updated a bit of the manual.
+
+_2009_02_25__11_28_06_ Chi-Hsiu Liang
+
+  * Fixed compile problem in Cygwin. Converted some size_type to size_t.
+    Reference: C++ International Standard clause 20.1.5.4. (part)
+    The typedef members pointer, const_pointer, size_type, and difference_type are required to be T*, T const*, size_t, 
+    and ptrdiff_t, respectively.
+
+_2009_02_24__16_16_14_ Chi-Hsiu Liang
+
+  * Moved countDimerCellDOS() to the end of MolecularComponent
+  * Removed  m_pDensityOfStatesCalculator variable from MolecularComponent as this will be read in from XML and use directly.
+  * Modified gDensityOfStates::calcDensityOfStates() so that it reads the DOSCMethod by itself.
+  * Further prepared for other DOS calculator plugin
+  * Reformat code to remove tabs. Please check the setting of tabs and spaces and make sure to use Ctrl+K Ctrl+F to 
+    remove tabs in the code before check-in.
+
+2009-02-22 Struan Robertson
+
+  * ReactionManager.cpp/IsomerizationReaction.cpp: Sketch of contracted basis method added.  
+
+2009-02-22 Struan Robertson
+
+  * ReactionManager.cpp: Removed initial population code from BuildReactionOperator method to setInitialPopulation method, in
+preparation for basis set work.
+  * Updated baselines that have altered as a consequence of the above changes.
+
+2009-02-21 Struan Robertson
+
+  * TMatrix.h: Reviewed use of type int and replaced with size_type where appropriate.
+  * Removed warning messages concerning double to int conversion by adding two new functions to XMLPersist.
+
+_2009_02_20__16_17_31_ Chi-Hsiu Liang
+
+  * Accounts for QM rotors that are close to prolate/oblate symmetric or spherical.
+
+_2009_02_20__13_06_31_ Chi-Hsiu Liang
+
+  * Intemediate version while building SS-RS-ME and QM rotors.
+  * Add     bool doSSRSMethod;                    // Run steady state and reservoir state routine
+    in MesmerFlags.
+  * Does empty DOS grain checking. Put the highest cell energy as the grain energy if no average grain energy is available.
+  * QM rotor plugin class is examed. Now modifying it again to add near-symmetric top rotor.
+
+_2009_02_16__14_00_39_ Chi-Hsiu Liang
+
+  * Correct an missing part of mesmer.log during merge in main.cpp
+  * Commit the change in mesmer.log
+
+2009-02-15 Chris Morley
+
+	* MesmerQA/QA.bat: add an output file to avoid overwriting the
+	input file with new non-timestamp interface.
+	
+	* src/main.cpp: cosmetic change to remove "in main" from cerr output.
+
+	* mesmerDiag.xsl: use also alternative <rateParameters> form
+	(as well as <me:activationEnergy>) to show pseudo ILT TS.
+	Add check that ILT is being used for the reaction.
+
+2009-02-14 Chris Morley
+
+	* Documentation/Getting StartedTutorial.html: added
+	* librarymols.xml,mesmer1.xsl,mesmer2.xsl,mesmerDiag.xsl:
+	updated. (Didn't seem to happen at last merge.)
+	* src/main.cpp: Remove timestamps from XML filenames and save
+	with _prev suffix any existing files about to be overwritten.
+	* src/MolecularComponents.cpp,src/System.cpp,src/System.h:
+	Further simplification of parsing (more to be done).
+
+_2009_02_13__18_22_02_ Chris Morley  -- Change merged by Chi-Hsiu Liang from branch WithDefaults
+
+  * If a required property/element or attribute is missing a default version is added to XML file, possibly with text 
+    to alert user to check the default values.
+
+  * Improved XSLT files: can normalise large E values; handles missing E on products; shows or hides active="false" 
+    molecules or reactions;crude horizontal scaling for files with large number of wells.
+
+_2009_02_11__19_01_57_ Chi-Hsiu Liang
+
+  * Removed an unused routine declaration void calculateGrainTunnelingCoeffs() in Reaction.h
+  * Some progress in making the construction of SS/RS-ME (commented out).
+  * m_locSizeMap is a vector storing the location and size information of the isomer and source terms in the full matrix 
+    and reduced matrix. See declaration of struct locationIdx in ReactionManager.h
+  * Added the diagonalization part of the reduced basis matrix.
+  
+  Note: To use reduced basis sets please look into pentyl_isomerization_mytest.xml in pentyl folder. 
+        <me:runBasisSetMethodroutines /> in <me:control> turns on the routine.
+
+_2009_02_03__14_14_06_ Chi-Hsiu Liang
+
+  * Constructed reduced basis matrix. Time to think about how to use this matrix. 
+    There are several candidates at the moment:
+      1. Basis set method suggested by Struan;
+      2. SSME suggested by Nick;
+      3. Reweighting the phase space of the modified potential used in protein folding.
+    However, the current objective will be first finishing the basis set method.
+    Bartis-Widom rate for basis set method is now under construction.
+
+_2009_01_30__17_50_04_ Chi-Hsiu Liang
+
+  * The difference of the k_infinity is identified as that the k(E)s in the reaction operator is normalized unit of time.
+    So if one wants to get back the k_infinities he needs to multiply the values by omega.
+
+_2009_01_30__11_53_42_ Chi-Hsiu Liang
+
+  * Added a test file in pentyl system for basisset method.
+
+_2009_01_29__20_05_31_ Chi-Hsiu Liang
+
+  * Changed the names of isomerMap and sourceMap to molMapType.
+  * Added a routine matrices_multiplication() in MesmerMath.h
+  * Added a routine   void ReactionManager::constructBasisMatrix(void)
+    which constructs a basis matrix M''. This matrix is the reaction operator transformed by the conserve-well eigenvectors.
+    The whole idea is still under testing. It is made sure that when there is no isomerization by commenting out the reaction 
+    terms in IsomerizationReaction.cpp, the basis matrix is simply a matrix filled with diagonal terms, which are the eigenvalues
+    of the conserved-well, whereas the rest entries of the matrix are nearly zero.
+    Now it is required to test: 1. whether the lower-right members of the respective wells are k_infinity's. It is observed that
+    the values are propotional to k_infinity's but it is unsure why they are different.
+
+_2009_01_26__16_47_26_ Chi-Hsiu Liang
+
+  * Tidied up and made sure MESMER also compile on cygwin.
+
+2009-01-25 Chris Morley -- Version merged from v284-285 in branch FlattenedMolecule
+
+  If get functions (like Molecule::getDOS()) for MolecularComponents fail 
+  they now make a new object.
+  
+  The initialization of MolecularComponents has been moved from InitializeProperies()
+  to the constructors. This prevents the use of an unitialized MolecularComponent.
+  
+  Remove Molecule::activateRole() and roleIsActivated() so that the properties
+  are read from the XML file only when they are needed in the calculation.
+  This was really just to that it could be done. Something similar will have to
+  be added back so that the the presence of all the required data can be checked
+  in a parsing phase, before the big calculation starts.
+   
+  * src/main.cpp: added try/catch around parsing and calculating. 
+  Needed for errors in MolecularComponents constructors. When the new way of 
+  handling default values is added, this exception will be activated only rarely
+  when there is a mistake in the permanent file defaults.xml. User mistakes in 
+  their input XML files should not throw an exception, but will do something more
+  helpful.
+  On with modifying the defaults handling code...
+  
+  There are small numerical differences in Acetyl O2 association QA test 
+  between the Debug and Release builds. The baseline mesmer.test is for the
+  Debug build.
+    
+_2009_01_26__12_20_35_ Chi-Hsiu Liang -- Version merged from v283-284 in branch FlattenedMolecule
+
+  * Change the MolecularComponent pointers in Molecule to be private, and provide manipulator functions for these member pointers.
+
+_2009_01_26__12_16_12_ Chi-Hsiu Liang -- Version merged from v282-283 in branch FlattenedMolecule
+
+  * Changed some variable and function names related with "system collision operator" to "reaction operator"
+  * Add a flag to switch on the DOS weighted downward collision in transition matrix.
+  * Add a flag to show collision matrix for any well.
+  * Add a flag to turn on basis set method. Basis set method is not yet applied in this version.
+  * Modified matrices_multiplication() in MesmerMath.h
+  * Add a function diagonalizeCollisionOperator() in MolecularComponent
+  * Declared two variables
+      dMatrix             *m_egvec ;               // Eigenvectors used to diagonalize (P - I) matrix.
+      std::vector<double>  m_egval;
+    in MolecularComponent.h
+  * In ReactionManager:
+    Added several variables for building the basis set method.
+    Change m_pReactionOperator to m_reactionOperator.
+  * Other minor modifications.
+  * Will start to inspect the int issue regarding to the migration of MESMER to 64 bit platform.
+  
+_2009_01_26__12_09_11_ Chi-Hsiu Liang -- Version merged from v281-282 in branch FlattenedMolecule
+
+Add forgotten namespace declaration.
+
+_2009_01_26__12_09_11_ Chi-Hsiu Liang -- Version merged from v280-281 in branch FlattenedMolecule
+
+Checked in for a a prepared routine in matrix multiplication. (not tested)
+
+_2009_01_26__12_06_20_ Chris Morley -- Version merged from v279-280 in branch FlattenedMolecule
+
+Some formatting of XSL files.
+
+_2009_01_26__12_01_50_ Chris Morley -- Version merged from v278-279 in branch FlattenedMolecule
+
+Display (reverse) for reverse ILT
+
+_2009_01_26__11_59_00_ Chris Morley -- Version merged from v277-278 in branch FlattenedMolecule
+
+Shows activation barrier from reverse ILT
+
+_2009_01_26__11_53_26_ Chi-Hsiu Liang -- Version merged from v276-277 in branch FlattenedMolecule
+
+A tagged version that flattens class Molecule 
+
+2008-12-16 Chris Morley
+
+  * Added project title: XML tag, member variable in System, displayed when
+    XML transformed by mesmer1.xsl.
+    Add a title to XML files in MesmerQA.
+    
+  * Output Bartis-Widom rates to XML file in a new section <analysis>
+    Update mesmer1/xsl to display this section and with other cosmetic changes.
+    
+  * Update mesmerdiag.xsl to show activation energy barriers, and handle
+    reactions with no product energy.
+    
+  * Corrected some memory leaks by deleting reactions in the ReactionManager
+    destructor. This showed up incorrect deletion of m_sourcemap (not assigned
+    by new) in AssociatioReaction and IrreversibleExhangeReaction.
+    
+  * Added licence text at the top of main.cpp. This will need to be in every file.
+  
+  * Trivial numerical differences in Acetyl O2 association QA test, which I don't
+    think I caused. Assuming ok, but needs updating.     
+
+_2008_12_14__16_26_45_ Chi-Hsiu Liang
+
+  * Added a punch file option with grid search. 
+    Syntax:     <me:gridSearchWithPunch />
+  * Updated manual.
+
+_2008_12_10__11_41_02_ Chi-Hsiu Liang
+
+  * Updated Manaul: Firefox usage, compression of release, deltaEdown syntax, etc.
+
+_2008_12_03__12_16_02_ Chi-Hsiu Liang
+
+  * Corrected a forgotten plugin class object compilation in Makefile
+
+2008-12-2 David Glowacki
+
+   * Updated some comments in the code
+
+_2008_12_02__11_36_08_ Chi-Hsiu Liang
+
+  * Changed manaul auto-formatting on Normal style
+
+_2008_12_02__11_33_34_ Chi-Hsiu Liang
+
+  * Updated manual
+
+_2008_12_01__18_46_06_ Chi-Hsiu Liang
+
+  * Updated a parameter list in Mesmer manual
+
+_2008_12_01__16_51_58_ Chi-Hsiu Liang
+
+  * Revert Mesmer manual to 253 and reapply changes.
+
+_2008_12_01__11_25_49_ Chi-Hsiu Liang
+
+  * Corrected an initialization order error in ModelledMolecule.
+  * RRKM method checks the existence of transition state.
+  * Corrected a compiler error for Linux system in TMatrix.h
+
+_2008_11_28__12_56_33_ Chi-Hsiu Liang
+
+  * Further modified QA.bat to make it clearer to users and developers. Corrected a small problem.
+  * Minor modifications on timeEvolution(). Make sure the integration of species profile not to give negative values for isomers.
+  * Introduced one more inversion methods in TMatrix.h uses LU decomposition: invertLUdecomposition()
+  * Updated manual
+
+_2008_11_27__15_32_52_ Chi-Hsiu Liang
+
+  * Modified QA.bat so that it issues -q flag when normal "qa" command is requested; copies mesmet.test into the baseline
+    folder as test.test
+    When "qa -o" is requested, it does not issue -q flag, but overwrites baseline files by the current output files.
+
+_2008_11_26__17_32_30_ Chi-Hsiu Liang
+
+  * Replace fabs by abs (STL has already overloaded all precisions for abs)
+  * Changed inver() to invertGaussianJordan() and added another inversion option invertAdjointCofactors() in TMatrix.h
+  * Added a control flag bool me:printTabbedMatrices, default false to prevent user from entering delta E down smaller than
+    gransize.
+  * me:printTabbedMatrices to control whether to output matrices in tabbed form instead of inserting spaces.
+  * Added a flag to control the size of the matrix that is going to ctest stream. See void Matrix<T>::showFinalBits().
+  * Reduced some warning message in compiling time by giving Visual Studio
+    AdditionalOptions="/D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE"
+
+2008-11-23 Chris Morley
+
+  * Added me:Hf298 property to be use if me:ZPE not present.
+    ZPE calculated fron Hf298 and written back. 
+    *** But calculation is currently not correct and needs attention ***
+    
+  * Add XmlWriteProperty()
+  
+  *  Add m_EnergyConvention to ModelledMolecule and check it is the same
+    for all molecules.
+    
+  * Get context working for error messages, simplify some ifo message in
+    ModelledMolecule::InitializeMolecule. Simplify console messages.
+    Make -n option notimestamps work and change its description.
+  
+  * Simplify UnitsConversion and add more erro checking. 
+    
+2008-11-23 Struan Robertson
+
+   * Updated Mesmer documentation with a discussion on the origin on the C' constant.
+
+2008-11-18 Chris Morley
+
+  * Make datafiles work with with XSLT tab in XMLNotepad.
+    Now two stylesheet declarations:
+    <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+    <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+    The first is used by XMLNotepad; mesmer2.xsl is without diagram which uses
+    XSLT extensions. The second by Firefox3. Not sure how robust the choice is...
+
+_2008_10_28__09_47_18_ Chi-Hsiu Liang
+
+  * Added the error report for delta_E_down smaller than grain size.
+  * showFinalBits() takes input 0 to print the whole matrix.
+
+_2008_10_13__13_38_48_ Chi-Hsiu Liang
+
+  * Simplify the dt vector and updated Acetyl+O2 baseline. Ketene species profile should not reduce in the beginning as this is
+    an irreversible reaction.
+
+_2008_10_10__12_41_53_ Chi-Hsiu Liang
+
+  * Give irreversible reactions a equilibrium constant function. Although there is no equilibrium but according to the partition functions, 
+    one can still define a first order equilibrium constant.
+  * Define functions pdtsRovibronicGrnCanPrtnFn() and rctsRovibronicGrnCanPrtnFn() in all reactions.
+  * Allow user to input ILT parameters in reverse direction for irreversible unimolecular reactions.
+
+_2008_10_02__14_26_22_ Chi-Hsiu Liang
+
+  * Removed many instances of TSFlux to simply flux to reflect that flux does not directly relate with transition state.
+  * Added a commented out section trying to fix the low temperature deviation in association k_infinity from the Arrhenius expression.
+  * Modified some naming of variables and functions.
+  * AssociationReaction::testRateConstant() now calculates dissociation k(E)s in cells for more accurate canonical rates.
+  * Added function CollidingMolecule::normalizedCellBoltzmannDistribution(vector<double> &cellFrac, const int startingCell)
+    for calculation of Boltzmann distribution in cell level.
+  * Note: This version still have problem reproducing correct association rate in low temperatures.
+  * Updated two baselines.
+
+_2008_09_15__13_46_24_ Chi-Hsiu Liang
+
+  * Make tunneling unavailable in ILT (need more thought)
+  * Make user clearly defines ILT parameters.
+  * In ILT, E_infinity should always be positive and also higher than heat of reaction.
+
+_2008_09_15__10_26_45_ Chi-Hsiu Liang
+
+  * Further clean up the code in ReadRateCoeffParameters() and InitializeReaction()
+  * Updated Manual
+
+_2008_09_12__16_11_05_ Chi-Hsiu Liang
+
+  * Check in the changes Dave made on unimolecular ILT and corrections on the work vector in ILT. Please check the changes
+    in MesmerILT.
+  * Reorganize ReadRateCoeffParameters() in different reactions into one function in Reaction.
+
+_2008_09_10__14_28_16_ Chi-Hsiu Liang
+
+  * Separated out control flags from MesmerEnv to MesmerFlags
+  * Re-enable printing DOS of source term when flag is turned on
+  * Renamed m_pSystemCollisionOperator to m_pReactionOperator to reflect that this operator does operate on reactions.
+  * Updated manual
+
+2008-9-8 Dave Glowacki
+
+* fixed a bug in Association Reaction and MesmerILT which incorrectly calculated Tinf
+* updated the baseline input file for acetylene-OH + O2 in order to get rid of confusing structure
+
+_2008_09_08__15_54_34_ Chi-Hsiu Liang
+
+  * Add a section to turn on the printing of reaction operator.
+  * Updated the manual.
+
+_2008_08_29__18_20_54_ Chi-Hsiu Liang
+
+  * Clean up some console and log messages/time stamps.
+
+2008-8-29 Dave Glowacki
+
+* fixed a bug in testRateConstant() routine in irreversible exchange reaction class which did not reset the canonical loss rate to 0 in a grid search
+* changed reaction class member data m_forwardCanonicalRate and m_backwardCanonicalRate from protected to private, added set and get functions for
+  this member data, and made appropriate changes to other derived reaction classes
+
+_2008_08_29__11_45_44_ Chi-Hsiu Liang
+
+  * Removed Overloading of countCellDOS() in ClassicalRotor and update baselines.
+
+_2008_08_29__11_06_12_ Chi-Hsiu Liang
+
+  * Modified README
+  * Provide the class DensityOfStatesCalculator a virtual function that convolutes reactants DOS directly by 
+    fast Laplace transform. In which, removed some unnecessary functions, variables from AssociationReaction and 
+    IrreversibleExchangeReaction. countDimerCellDOS() is kept in this version.
+  * Add a section to explain output file in the Manual.
+  * Modified QA.bat so that beep the calculation is finished and also copy mesmer.log.
+  * Baseline changes
+
+Note: The convoluted DOS of reactants are higher in the leading numbers compared with the DOS from analytical convolution,
+      which causes higher microcanonical rates in the leading grains. 
+
+2008-8-27 Dave Glowacki
+
+* alter the code in order that it can handle negative threshold energies for the RRKM k(E) calculations
+* a new function, calculateTSfluxStartidx, has been added to Reaction.cpp in order to calculate which grain is the first grain for
+  calculation of k(E)s from the TS flux vector
+* a new pure virtual function, calculateEffectiveGrainedThreshEn, has been added to Reaction.  appropriate versions of this function 
+  have been added to Reaction's derived classes 
+* the AddreactionTerms function in each of the derived reaction classes has been updated to cope with negative threshold energies  
+* a bug which calculated an incorrect cell offset in the HOSO2 test system has been corrected; it involved small changes on
+  ReactionManager and Molecule 
+* the code in MesmerILT for coping with negative activation energies has been removed, as a negative activation energy is nonsensical
+  for the association ILT routine
+* miscellaneous changes to clean up comments and spelling errors
+* update all baselines
+
+_2008_08_27__11_37_58_ Chi-Hsiu Liang
+
+  * Change baselines
+
+2008-08-23 Chris Morley
+
+	* src/Reaction.h, src/ReactionManager.h: 
+	The maps types which have Molecule* or Reaction* as keys, isomerMap,
+	sourceMap, sinkMap, given a functor parameter which orders them by name.
+	Ordering by pointer value was unpredictable.
+	
+	* src/ReactionManager.cpp: Iterators defined in terms of typedef
+	of map.
+	
+	*** QA test failed - the reason needs to be found, since they should not
+	happen by changing only the order in the maps.
+
+2008-08-21 Chris Morley
+
+	* src/ReactionManager.cpp: improve error handling in addreactions()
+	and GetMoleculeInfo(). Was crashing on ill-formed datafiles. 
+	* src/Persistence.h: add comment that XmlRead, etc can return NULL
+	* src/oberror.h: add AppendContext()
+	* src/main.cpp: restore spacing in output stream documentation
+
+_2008_08_20__16_42_31_ Chi-Hsiu Liang
+  
+  * Update manual 
+
+2008-08-20 Chris Morley
+
+	* mesmerDiag.xsl: Sort out vertical scaling
+
+_2008_08_19__12_52_01_ Chi-Hsiu Liang
+
+  * Updated manual
+
+_2008_08_18__15_26_21_ Chi-Hsiu Liang
+
+  * Add variables for additional <delta_E_down> dependency to temperature.
+    The function is
+    // Exponent of <Delta E down> according to the relation
+    // <delta_E_down>(T) = <delta_E_down>_ref * (T / m_DeltaEdownRefTemp)^n
+    // where m_DeltaEdownExponent is the exponent n
+    // By default, n = 0, which means delta_E_down does not depend on temperature.
+  * Recover the section printing grained species profile
+
+_2008_08_11__18_07_40_ Chi-Hsiu Liang
+
+  * Add an additional flag for command line mode, -N, which force the name of the test and log to be the same as the input XML
+    For example, if input XML is Acetyl_O2_association.xml, then the test file will be Acetyl_O2_association.test, and the
+    log file will be Acetyl_O2_association.log. However, the timestamp of the input file will be discarded. So, if the input
+    file name is Acetyl_O2_association.20080811_181138.xml, the test file will still be Acetyl_O2_association.test.
+    This flag will allow user to run multiple jobs in the same folder without having the test files overwriting each other.
+  * Corrected the initialization order of class variables in Reaction classes.
+  * Compile OK in cygwin.
+
+2008-8-08 Dave Glowacki
+
+* irreversible exchange reactions are now working in the recently added benzene oxidation system
+* addReactionTerms routine has been added in IrreversibleExchangeReaction class
+* irreversible and exchange reaction class have been replaced by irreversibleunimolecular reaction and irreversibleexchange reaction classes
+  and changes to MESMER have been implemented in order to incorporate these classes
+* implement testRateConstant routines in all reaction classes
+* correct output stream printing in microrate.cpp
+* added forwardcanonicalrate and backwardcanonical rate data & corresponding handling functions to reaction class
+* changes to reactionmanager in order to incorporate printing of product yields and phenomenological rate that correspond to
+  irreversible exchange reactions
+* update all baselines
+* manual updates
+
+_2008_08_07__11_59_16_ Chi-Hsiu Liang
+
+  * Corrected flux bottom ZPE for transition state (a fix for ZPE lower than 0.0)
+  * Minor correction on   bool AssociationReaction::InitializeReaction(PersistPtr ppReac)
+  * updated manual
+
+2008-08-06 Chris Morley
+
+	* mesmerDiag.xsl: make <propertyList> optional. Diagram for
+	HSO2.xml now works.
+
+	* examples/DiagramTest/HSO2.xml, MesmerQA/HSO2/HSO2.xml:
+	add MW and spinMultiplicity properties and a conditions section.
+
+	* Windows VC8/Mesmer/mesmer1.xsl, Windows VC8/Mesmer/mesmerDiag.xsl,
+	Windows VC8/Mesmer/switchcontent.js: delete. (Now in toplevel directory.)
+
+_2008_08_05__11_19_05_ Chi-Hsiu Liang
+
+  * Corrected the way calculating reactants ZPE in AssociationReaction
+      See: const int rctGrainZPE = get_rctsGrnZpe();
+      Also:     int get_cellOffset(void)  for AssociationReaction
+  * Removed   const int ModelledMolecule::get_grnZpe()
+      to      const int CollidingMolecule::get_grnZpe()
+      so that it calculates relative ZPE to the lowest well directly.
+      and remove   double ModelledMolecule::get_relative_ZPE()
+  * Calculates  configuration() when user explicitly requests it in XML input.
+  * Corrected the initialization of deficientReactantLocation in ExchangeReaction.h
+  * Updated OH acetylene baseline
+
+2008-8-04 Dave Glowacki
+
+* make changes to Association Reaction and Exchange reaction in preparation for sorting out exchange reaction
+* update baselines
+* manual updates
+
+_2008_08_04__11_20_17_ Chi-Hsiu Liang
+
+  * Change the format of grid parameter list
+
+2008-8-03 Struan Robertson
+
+  * ReactionManager.cpp: Further minor tidying.
+
+2008-8-03 Struan Robertson
+
+  * ReactionManager.cpp: Minor tidying and removal of unnecessary down casts.
+
+_2008_08_03__12_15_44_ Chi-Hsiu Liang
+
+Update the manual and check for chmlin14 usage.
+
+_2008_08_02__23_04_32_ Chi-Hsiu Liang
+
+  * Removed some variables related with heat of reaction, cell offset and grain ZPE. These variables should be calculated
+    on the fly. This solves inconsistency problem in grid search.
+  * Updated baselines. Most baselines changes are due to the correction in shifting wells of source term and transition states.
+    All corrections are in good agreement with the baselines based on version 179.
+  * The difference in the species profile of pentyl baseline between version 201 and version 198 is due to the population starts
+    from alternative species.
+
+2008-8-01 Dave Glowacki
+
+* fixed a bug in fast laplace transform routine in mesmermath.cpp
+
+_2008_08_01__15_35_33_ Chi-Hsiu Liang
+
+  * Corrected the cell offset error produced during the process of removing SuperMolecule. Some functions are added for
+    AssociationReaction.
+    Variables added in AssociationReaction:
+      std::vector<double> m_rctsCellEne ;   // Cell energies of reactants.
+      std::vector<double> m_rctsCellDOS ;   // Convoluted cell density of states of reactants.
+      std::vector<double> m_rctsGrainEne ;  // Grain average energy array.
+      std::vector<double> m_rctsGrainDOS ;  // Grain density of states array.
+
+    Functions added in AssociationReaction:
+      rctsRovibronicGrnCanPrtnFn()
+      calcRctsDensityOfStates()
+      getRctsCellDensityOfStates(vector<double> &cellDOS)
+      getRctsCellEnergies(vector<double> &CellEne)
+      getRctsGrainDensityOfStates(vector<double> &grainDOS)
+      getRctsGrainEnergies(vector<double> &grainEne)
+
+  * Make countDimerCellDOS() a virtual function of class DensityOfStatesCalculator.
+  * Removed SuperMolecule.cpp
+  * Removed m_pDensityOfStatesCalculator from MesmerILT
+  * Moved shiftCells() and calcGrainAverages()
+    function from ModelledMolecule to MesmerTools. This is more of a tool than a molecular specific function.
+    AssociationReaction now uses these function.
+  * Updated part of the manual.
+  * Updated baseline for Acetyl+O2 and OH+acetylene systems.
+
+2008-7-30 Dave Glowacki
+
+* added Bartis Widom eigenvalue eigenvector analysis to get phenomenological rates for irreversible reactions
+* added a member function to a2d.h to print out db2d matrices
+* updated all baselines
+
+2008-7-30 Dave Glowacki
+
+* miscellaneous small changes to reaction manager.cpp for output file printing
+* updated all baselines
+* changed QA.bat to include acetyl + O2 test system
+
+2008-7-27 Struan Robertson
+
+  * Mesmer.vcproj updated to account for the deletion of SuperMolecule.cpp.
+
+2008-7-27 Struan Robertson
+
+  * Molecule.h, ClassicalRoror.cpp: Public data changed to protected.
+
+2008-7-27 Struan Robertson
+
+  * Molecule.h etc.: Removal of SuperMolecules and minor baseline updates.
+
+2008-7-26 Struan Robertson
+
+  * ClassicalRotor.cpp/.h, MesmerILT.cpp: Further rationalization of SuperMolecules.
+
+2008-7-26 Struan Robertson
+
+  * Baseline update following fixes in version 192.
+
+2008-7-26 Struan Robertson
+
+  * AssociationReaction.cpp: Found bug in equilibrium constant of association reaction which was using SuperMolecule. Altered to use
+individual reactant partition functions and reinstated code rolled
+back earlier.
+
+2008-7-26 Struan Robertson
+
+  * Winding back other changes to fix broken HOSO test.
+
+2008-7-26 Struan Robertson
+
+  * ReactionManager.cpp: Temporary fix for broken HOSO test.
+
+2008-7-25 Struan Robertson
+
+  * Removed broken header file references from Mesmer project file.
+
+_2008_07_14__13_22_07_ Chi-Hsiu Liang
+
+  * Updated baselines using Version 179
+
+Chi-Hsiu Liang
+
+  * Altered  if(nologging) flag in oberror.cpp
+  * Corrected the initialization (new) and destruction of m_pSystemCollisionOperator. This causes Mesmer to crash after hundreds
+    of calculations.
+  * rr[i] = to_double(rrProxy[i]); =>  rr[i] = rrProxy[i];
+
+2008-7-13 Struan Robertson
+
+  * MesmerILT.h/.cpp : Altered so that the convolved density of states is calculated by explicit invocation and not via the modelled molecule route. This is possible because this method can only be used in conjunction with MesmerILT. This allows the removal of some SuperMolecule references in ClassicalRotor.cpp.
+
+2008-07-06 Chris Morley
+
+  * src/main: Documentation of mesmer output streams
+
+2008-7-13 Struan Robertson
+
+  * ReactionManager.cpp: Removal of reference to SuperMolecules. This reference was used to store the combined zero point energy location of the reactants. This is now stored on the pseudo-isomer.
+  * AssociationReaction.h/.cpp, Reaction.h: Changes related to the above.
+
+2008-7-13 Struan Robertson
+
+  * ReactionManager.cpp: Removal of unnecessary reference to SuperMolecule class.
+  * MesmerILT.cpp: Check of reaction type (Mesmer ILT only applies to association reactions) and minor changes to use AssociationReaction rather than SuperMolecule.
+  * AssociationReaction.h: Addition of method to obtain pointer to
+reactant in excess.
+
+2008-7-12 Struan Robertson
+
+  * AssociationReaction.cpp/Molecule.h: Remove of unnecessary methods from SuperMolecule class.
+
+2008-7-12 Struan Robertson
+
+  * ReactionManager.cpp/.h: Replaced an invocation of get_bi_molecularspecies with get_pseudoIsomer as part of the rationalization of SuperMolecules.
+
+2008-07-06 Chris Morley
+
+  Provide -g option which turns off cinfo and ctest streams and may solve the problems
+  Alvyn was having with overflowing buffers.
+
+_2008_07_09__15_39_30_ Chi-Hsiu Liang
+
+  * Make zeroCount in matrix inversion routine an int array instead of an int vector. This removes address deallocation problem.
+
+_2008_07_09__14_08_28_ Chi-Hsiu Liang
+
+  * Removed all long double for cross platform consistency (Windows Visual C++ compiler maps long double to double)
+  * Changed m_pSystemCollisionOperator to quad double.
+    I suspect some diagonalization problem caused by the accumulated error when the addition of values in AddReactionTerms
+    are done in double instead of higher precision. For every variable type such as double, long double, double double and
+    quad double, there is a limit called epsilon. Epsilon is the smallest non-trivial number you can add with 1.000.
+    If many number smaller than this number is added/deducted in the collision operator and later divided, it may have big
+    difference. For example,
+    m = 3.14159265 + 0.000000001 = 3.141592651 but if truncated it will remain as 3.14159265
+    And if many number smaller than 0.000000001 are added to m and later m is substracted by 3.14159265 and divided by something
+    else, the result will be very wrong.
+    So when numbers are multiplied their magnitude is more important than their tailing numbers, but when numbers
+    are added/deducted and then perform multiplication and division, their tailing numbers have increased importance.
+  * Move m_ActivationEnergy from AssociationReaction to Reaction, as not only AssociationReaction can use ILT.
+  * Added a class DPoint to store numbers that can be modified later. See definition of Pointer.h and Pointer.cpp
+  * Added grid search function for paramters (Ninf, Ainf, ZPE, Einf and delta_E_down) with the assist of Pointer.
+    Check get_range() and set_range() to see how values are initialized and modified.
+  * Corrected dMatrix.h so that all matrices are always properly initialized to zeros.
+  * Added System::configuration() to print out platform dependent precision information.
+  * Added a fitting routine (search method to be added later, planned to be genetic algorithm)
+  * Added a reset() function for Matrix.h
+    corrected line 143 of Matrix.h
+    if (this != rhs) {
+    if (this != &rhs) {
+  * Relocated a line
+    const std::string TestSubFolder("baselines\\Win32\\mesmer.test"); //relative to the data file
+    in MesmerConfig.h
+  * Added a routine to calculate chiSquare (least square method) to compare with experimental values. experimental values
+    can be input by syntax like the following
+
+    <me:PTs>
+      <me:PTpair me:units="Torr" me:P="100.0" me:T="500" me:precision="double" >
+        <me:experimentalRate ref1="acetyl" ref2="acetyl" error="2.93e+03">7.04e+04</me:experimentalRate>
+      </me:PTpair>
+    </me:PTs>
+
+    where ref1 and ref2 are molecular IDs. if ref1 == ref2, this value will indicate the loss rate.
+    if ref1 != ref2, this value will indicate the rate from ref1 to ref2.
+    See struct conditionSet for the definition of experimental value and error.
+
+2008-07-06 Chris Morley
+
+  Give Reaction::GetMolRef() a default molecule type to be used if no me:type.
+  Allows simplification of:
+  <me:transitionState>
+    <molecule ref="TS_1a" me:type="transitionState" />
+  </me:transitionState>
+
+  Added library facility for molecules. Missing molecules are looked for in LibraryMols.xml
+  in a folder specified by the Environment Variable MESMER_LIBRARY. Unless the -l option
+  is specified, they are copied into the datafile (with an element describing their origin)
+  if the parsing is successful.
+  Searching all files in the specifed folder (like other mesmer files) would be better,
+  but requires platform-dependent code. Maybe later.
+
+  Added XmlCopyElement and XmlWriteMetadata to IPersist and XMLPersist for the above.
+
+  Alternative form for <property> element accepted (to suit OpenBabel output):
+  <property title="localname">
+  as well as:
+  <property dictRef="name">
+
+  -q option does a QA test, comparing the current mesmer.test with the baseline file two folders
+  down from the datafile. Doing it this way, rather than all by scripting, makes routine testing
+  while debugging easier.
+
+_2008_07_02__14_15_31_ CHi-Hsiu Liang
+
+  * Minor change of formatting that goes to update baselines
+  * Addtion of OH acetylene association system into the QA
+  * Added a DOS batch for QA, which located in MesmerQA folder. Need to write another bash script for Linux baselines.
+
+2008-6-30 Chris Morley
+
+* added examples and examples/DiagramTest and versions of xml files. These work with
+  the xsl files in the top directory.
+
+* mesmer1.xsl, mesmerDiag.xsl: modified to handle bimolecular reactants and products.
+  NOTE: needs Firefox 3 and you need to:
+    1) type about:config in the address bar
+    2) right click security.fileuri.strict_origin_policy and change it to false
+  Not all examples work yet - work in progress - but Acetyl_O2_association.xml looks ok.
+
+* src/main.cpp: added bail out if there is a gross error on the input file.
+
+2008-6-30 Dave Glowacki
+
+* added routines to reactionmanager.cpp in order to calculate product yields as a function of time.  because the product yields are calculated
+  based on a numerical integration and require a finite timestep, there is some residual numerical error in their calculation - i.e., the sum
+  of the product yields vs time doesnt agree EXACTLY with the calculated total product population calculated as 1 - (the total isomer population).
+  the error is very small (within 1%), but the product populations are nonetheless normalized in order to agree exactly with the total
+  product population
+* changed the routines for printing isomer species profiles and the print format
+* made changes to IrreversibleReaction.cpp in order to (1) clean it up and (2) facilitate calculating and printing out time dependent sink profiles
+* got rid of the sink molecule class
+* updated baselines: acetyl + O2, HSO2, pentyl, OH+acetylene, and cyclopropene
+
+_2008_06_27__16_44_38_ Chi-Hsiu Liang
+
+  * Corrected MesmerILT so that it can deal with negative Einf
+  * Corrected AssociationReaction::testRateConstant(). Now the rate of association (loss rate of source) will asymptotically
+    approach k_inf(T) as the pressure going higher.
+
+_2008_06_24__13_00_37_ Chi-Hsiu Liang
+
+  * Added testRateConstant() which displays k(T) for AssociationReaction
+  * Added a flag MesmerEnv speciesProfileEnabled for printing species profile
+
+_2008_06_23__15_49_31_ Chi-Hsiu Liang
+
+  * Removed the account for electronic degeneracies in MesmerILT.cpp as electronic degeneracies are already accounted for in
+    the DOS calculation.
+
+_2008_06_23__12_21_17_ Chi-Hsiu Liang
+
+  * Minor corrections. Removed the check of partition function difference on calcEquilibriumConstant() of AssociationReaction.cpp
+
+_2008_06_20__14_23_40_ Chi-Hsiu Liang
+
+  * Minor modifications on TMatrix.h for Linux compiler error.
+  * Updated Manual
+  * Removed unnecessary bits in Makefile
+
+_2008_06_19__15_01_20_ Chi-Hsiu Liang
+
+  * Minor modifications
+
+2008-6-18 Dave Glowacki
+
+* added an implementation of FFT algorithm in Memsermath
+* added a routine called FastLaplaceConvolution in Mesmermath for fast convolution of data.  several tests were performed
+  comparing the output with the standard convolution output.  in the FastLaplaceConvolution output, it was found that the values of the
+  initial elements suffer from precision issues.  For the ILT convolution, only the first few elements are unreliable, but a substantial fraction
+  of the elements following the tunneling convolution are unreliable.  this is due to the very small values for several elements in
+  in the tunneling probabilities vector, at energies far below the classical threshold.  thus, FastLaplaceConvolution includes a standard
+  convolution algorithm to fix values that are in error by more than 1%.
+* fixed an error in MesmerILT that convoluted the wrong data sets
+* increased the precision in timeEvolution routine to long double to get better species profiles at long times
+* updated baselines:  pentyl, HSO2, and cyclopropene are essentially unchanged, and the differences in the acetyl+O2 and
+  acetylene + OH baselines result from the changes listed above.  with the FFT, both of these simulations are now much faster, and should be
+  added to the standard baseline testing protocol for subsequent changes.
+
+_2008_06_18__14_15_13_ Chi-Hsiu Liang
+
+  * add normalizedBoltzmannDistribution() to distinguish from   void CollidingMolecule::normalizedInitialDistribution()
+  * added ldMatrix for long double matrix
+  * added options for user to calculate diagonalization at higher precisions dd and qd
+
+_2008_06_17__14_22_17_ Chi-Hsiu Liang
+
+  * Created a templated class TMatrix.
+  * Added ddMatrix and qdMatrix
+  * Added additional precision option for marry.h
+
+_2008_06_17__10_39_47_ Chi-Hsiu Liang
+
+  * Renamed DissociationReaction to IrreversibleReaction
+  * Cleaned up InitializeReaction() in several Reaction classes.
+  * Cleaned up MesmerPrecision.h (now we can start to define ddMatrix and qdMatrix)
+
+2008-6-13 Dave Glowacki
+* added Bartis Widom method for calculating first order & psuedo first phenomenological rate coefficients for
+  isomers.  the method has been added to reaction manager, and does not presently include orthogonalization
+  of the Z matrix.  it has been tested on all systems except methylene D2 association, and the results are sensible.
+  in order to test, several of the baseline input files were changed in order to give eigenvalues that were:
+  (1) all negative, and (2) showed good separation between the CSEs and IEREs.  the rate coefficients and a few accompanying
+  diagnostics for determining reliability of the eigenvectors are now printed in mesmer.test
+* added a Species Sequence map to reaction manager for use in equilibrium fraction matrix inversion and
+  bartis widom method
+* fixed the following bug: in the previous version of MESMER, when more than 1 grid point was calculated,
+  MESMER give different results for identical conditions.  this is because several vectors for holding reaction flux,
+  DOS, tunneling coefficients, etc. were updated using only the .restart operator, and were not reinitialized to 0 from run to run.
+* updated baselines for all systems except methylene D2 association
+
+2008-6-09 Dave Glowacki
+
+* change the timeEvolution and produceInitialPopulationVector member functions in reaction.cpp in order to integrate
+  a new member function, produceEquilibriumVector
+* perform timeEvolution calculations using long double precision, necessitating changes of variable from double to long
+  double in some other functions
+* decrease the number of time steps for which output data is printed in mesmer.test
+
+2008-6-09 Dave Glowacki
+
+* change the calculateEquilibriumFractions routine in ReactionManager.cpp so that eq fractions are calculated
+  by inverting a matrix whose elements contain the equations describing the equilibrated system
+* baselines updated
+
+_2008_06_04__13_32_37_ Chi-Hsiu Liang
+
+  * Delete FFTW first. Will add it back later when the test is completed.
+
+2008-6-04 Dave Glowacki
+
+* updates to manual
+
+_2008_06_04__12_34_00_ Chi-Hsiu Liang
+
+  * Add a folder to store fast-Fourier transform library.
+  * Added an inversion function in dMatrix
+
+2008-6-03 Dave Glowacki
+
+* add comments to code
+
+_2008_06_03__09_50_25_ Chi-Hsiu Liang
+
+  * Correction on the Boltzmann distribution on symmetrizing collision operator of CollidingMolecule
+  * Removed unnecessary code in IsomerizationReaction.cpp
+  * Corrected   bool ReactionManager::produceInitialPopulationVector()
+
+2008-6-02 Dave Glowacki
+
+* updates to manual
+
+2008-6-02 Dave Glowacki
+
+* updates to manual
+
+_2008_06_02__10_08_50_ Chi-Hsiu Liang
+
+* Minor modification to   bool ReactionManager::timeEvolution(int maxTimeStep, const MesmerEnv mEnv)
+
+2008-6-01 Struan Robertson
+
+  * dMatrix.h: Introduction of inversion method and other minor changes requied to remove Supermolecules.
+
+2008-6-01 Struan Robertson
+
+  * Reaction.h: Moved reactant definitions onto to derived classes.
+  * Minor tidying up.
+
+_2008_05_31__17_18_15_ Chi-Hsiu Liang
+
+  * Update baselines.
+    The equilibrium constant for an association reaction of previous baselines were calculated from dividing product
+    rovibronic partition function by combined contribution of the rovibronic partition function of reactant 1 and reactant 2,
+    translation, and then time the expression by the excess reactant concentration. Since the density of states for 2-D linear
+    rotors were not correct, so the baseline of OH acetylene system has to be updated.
+    Also in the equilibrium constant of association reaction, from Version 141, dividing Qpdt1 by Qrcts, instead of (Qrct1 * Qrct2),
+    and added a checkpoint there to see the difference between (Qrct1 * Qrct2) and Qrcts.
+    I have changed the code of 2-D linear rotors in Version 141 but only update the baselines in this version. The eigenvalues
+    of OH-acetylene system is now closer to Dave's old code.
+
+2008-5-31 Struan Robertson
+
+  * CollidingMolecule.cpp/Matrix.h: Move normalization method back to colliding molecule class for the present. Matrix class should be used for linear algebra only.
+
+_2008_05_30__16_46_28_ Chi-Hsiu Liang
+
+  * Move double m_ERConc (excess reactant concentration) from AssociationReaction to be a SuperMolecule member variable.
+  * Added bool MesmerEnv::grainedProfileEnabled   --> print species profile before summation
+          double MesmerEnv::maxEvolutionTime      --> for user to choose maximum length of time the species profile can evolve.
+  * Updated   bool ReactionManager::calculateEquilibriumFractions(const double beta) to include excess reactant concentration.
+  * Updated   bool ReactionManager::timeEvolution(int maxTimeStep, const double beta) to print out individual species profile.
+  * Added comment for equilibrium fraction routine. See the end of ReactionManager.cpp: _2008_05_30__12_48_35_
+  * Still need to sort out the specie profile for sink terms. Also need to consider if the sink term has only one product.
+
+2008-5-30 David Glowacki
+
+* add manual (oops!)
+
+2008-5-30 David Glowacki
+
+* add and delete various comments
+* add an initial version of the MESMER User's manual to the documentation section
+
+_2008_05_24__15_59_03_ Chi-Hsiu Liang
+
+  * Corrected the population fraction routine so that it only gives the population fraction of the range we are interested.
+    -- please refer to normalizedGrainDistribution()
+  * Renamed grnCanPrtnFn() to rovibronicGrnCanPrtnFn() to indicate that it includes the rotation, vibration and electronic degeneracies
+  * Isolate out translational contribution of two molecules to a function called translationalContribution() in MesmerTools.h
+  * Corrected the calculation of DOS on 2-D linear rotors.
+  * Not sure if the Boltzmann distribution of HSO2 is right?
+  * Basic structure of producing species profile is done; needs debugging.
+    -- please refer to calculateEquilibriumFractions(), produceInitialPopulationVector() and timeEvolution().
+  * Add m_eigenvalues to ReactionManager
+
+_2008_05_21__10_51_16_ Chi-Hsiu Liang
+
+  * Update baselines for all test systems.
+  * There is probably a memory leak in Mesmer. Need to find out what variables are not initialized properly.
+    -- Problem: When turn on <me:printGrainDOS /> in pentyl_isomreization.xml, the eigenvalues calculated deviate from when this flag
+                is off, however the differences are small. The problem maybe from the precision change in the calculation.
+
+_2008_05_19__16_34_38_ Chi-Hsiu Liang
+
+  * Added a plug-in class for calculating distribution. This plug-in can be used to produce either cell or grain
+    distribution fractions. Please check for calculateDistributionFractions()
+    -- This function will be responsible for the distribution of a species. In case not a Boltzmann distribution, an additional
+       plug-in class will be required.
+  * isomers and sources are now member varaibles of ReactionManager. They are cleared every time when the system collision operator
+    is built.
+  * Add a function for time evolution calculation, which generates time-dependent species profiles. (not complete)
+  * Added a variable m_population in all CollidingMolecule and SinkMolecule.
+  * Force 1st member of SuperMolecule be CollidingMolecule. Need to think about how to treat association of identical molecules.
+  * Added a class a2d_t for making dynamic two-dimensional matrix.
+  * Need to adjust cellEne for offset.
+
+2008-5-18 Struan Robertson
+
+  * SimpleILT.cpp: remove dependency on Supermolecules.
+  * 0ther minor tidying.
+
+_2008_05_13__09_30_00_ Chi-Hsiu Liang
+
+  * Mesmer now force an DissociationReaction to have two products. Zero-point energy of the products are required for drawing
+    potential energy surface in XML output and tunneling calculation.
+  * Added virtual functions get_rctZPE() and get_pdtZPE() in Reaction, they return the ZPE's of reactant(s) and product(s),
+    relative to the deepest well bottom. (Considering to prevent user from using get_zpe(), as this
+    function returns raw ZPE's of the molecules. Will make it private/protected later.)
+  * Microrate Calculator now calculates transition state flux instead of k(E)s
+  * removed virtual bool grnAvrgMicroRateCoeffs(); added virtual void calcGrainRateCoeffs() in all reaction
+    types for converting TSFlux to k(E)s
+  * Added  m_ActivationEnergy   in AssociationReaction
+  * An additional option for getting k(E)s only, without building collision operators (me:calculateRateCoefficinetsOnly)
+    -- Removed AddMicroRates() and rearranged codes within BuildSystemCollisionOperator(MesmerEnv &Env) for control purposes.
+  * calcDensityOfStates() now decides whether to recalculate the DOS or not.
+  * Added cell offset variable in ModelledMolecule to account for the cell shifts when converting from cell to grain
+    -- see shiftCells(), set_grainValues() and m_cellOffset
+  * Added a function double ModelledMolecule::get_relative_ZPE() that returns ZPE in wavenumber relative to the ZPE
+    of the deepest well bottom.
+  * change m_grnZpe from int to double
+  * bool SetGrainParams() is now moved to ReactionManager, user can choose whether to use the same number of cells
+    throughout various conditions.
+  * Added getHeatOfReactionInt() in Reaction, which force all energy values in integral wavenumbers. If energy values are
+    in double the calculation of heat of reaction may differ by one wavenumber. For example,
+    If the product ZPE is 9.1, and reactant ZPE is 42.8, the heat of reaction calculated in double will be -33.7, which
+    is -34 when rounded to int. But if these ZPE are rounded before the HoR is calculated, the HoR will be -33.
+  * Move m_pdt1 to all derived classes of Reation. In DissociationReaction and ExchangeReaction, it is only a ModelledMolecule.
+  * Added
+    virtual double get_relative_rctZPE(void) const = 0;
+    virtual double get_relative_pdtZPE(void) const = 0;
+    virtual double get_relative_TSZPE(void) const = 0;
+    for class Reaction. These functions return species ZPE's of a reaction in wavenumber relative to the deepest well bottom.
+  * Updated Makefile
+  * Added a derived class SinkMolecule
+    -- Moved m_Mass to ModelledMolecule and BathGasMolecule, moved m_Sigma and m_Epsilon to CollidingMolecule
+       and BathGasMolecule.
+  * qd_real and dd_real are still not working in this version; therefore, I commented them out.
+
+2008-04-26 Chris Morley
+
+  * Made projects for static libraries for TinyXML and qd within the solution.
+    Left only linux qd files and used the source files for the Windows build.
+    Configuration files are copied as a pre-build event.
+    Although its not implemented yet, it looks like the choice of precision is
+    expected to be at compile-time, but would it not be better to be an option
+    in the input file? (i.e. at runtime)
+
+2008-4-23 David Glowacki
+
+  * change the name of Cyclopropene_isomerization.xml to Cyclopropene_isomerization_test.xml
+  * add comments to simpleRRKM class
+  * update the pentyl baseline, which had not been done since version 106
+
+_2008_04_23__10_12_19_ Chi-Hsiu Liang
+
+  * Added a comment on equilibrium constant
+  * Added a planning block for the TimeEvolution() loop (not yet defined)
+
+_2008_04_22__11_14_43_ Chi-Hsiu Liang
+
+Updated file dependencies
+
+_2008_04_22__10_55_37_ Chi-Hsiu Liang
+
+  * Convert zero-point energy to wavenumber and concentration to number density while parsing.
+  * Further clean up some error report messages.
+  * Added a function XmlReadPropertyAttribute() to Persistence.h and XmlPersist.h/.cpp for reading attribute of the property
+   (such as unit of energy)
+  * reset initialization of m_HeatOfReaction to nothing. For dissociation, this value should be NaN if not defined.
+  * Added unitConversion.h/.cpp for converting units.
+
+_2008_04_21__10_17_30_ Chi-Hsiu Liang
+
+  * Further tidy up the errorMsg and some previous debug flags.
+
+2008-4-18 David Glowacki
+
+  * replace supermolecule pointers with modelledmolecule pointers
+  * alter simplerrkm, remove reference to supermolecule
+  * update HSO2 baseline
+
+2008-4-18 David Glowacki
+
+  * clean up reaction manager.cpp
+  * clean up mesmerilt.cpp
+  * clean up AssociationReaction.cpp
+
+_2008_04_18__11_28_41_ Ch-Hsiu Liang
+
+  * Input the units of concentration by a string instead of meaningless number
+  * removed some debugflags
+
+2008-4-18 David Glowacki
+
+  * moved subsidiary reactant 2 from reaction.h to the derived classes association and exchange
+  * change ActivationEnergy to ThresholdEnergy
+
+2008-4-18 David Glowacki
+
+  * moved subsidiary product 2 from reaction.h to the derived classes dissociation and exchange
+
+_2008_04_18__09_28_31_ Chi-Hsiu Liang
+
+Change back MesmerHP to double in dMatrix.h
+
+2008-4-17 David Glowacki
+
+  * created pure virtual methods in reaction.h for describing detailed balance in association, isomerization, exchange, and dissociation reactions
+  * updated baselines for HSO2 & cyclopropene
+  * replace max grain size variable to use member data m_ncolloptrsize in collidingmolecule
+
+2008-4-17 David Glowacki
+
+  * corrected collision operator initialization routine
+  * added cyclopropene baseline + input file
+
+2008_04_17__11_44_02_ Chi-Hsiu Liang
+
+  * Updated baseline for association reaction
+  * review of association equilibrium constant
+
+
+2008-4-17 David Glowacki
+
+  * EckartCoefficients.cpp:  add comments to clarify.
+
+2008-1-27 Struan Robertson
+
+  * Reaction.h:  Declare methods InitializeReaction and calcEquilibriumConstant
+  pure virtual, and associated changes.
+
+2008-1-27 Struan Robertson
+
+  * Reaction.h:  Move all public data to protected data, and concomitant changes.
+
+_2008_04_04__14_25_39_ Chi-Hsiu Liang
+
+  * renamed grnDensityOfStates() -> getGrainDensityOfStates()
+  * Changed detailed balance on the cell level to the grain level
+  * Corrected codes where DOS and rate coefficients are not referenced to the well bottom.
+  * EAboveWell renamed to EAboveHill to reflect that this energy value is above the highest hilltop
+    but not the highest well bottom
+  * Code for setting grain ZPE of all speices
+  * Corrected getClassicalEnergy()
+  * rename grnAvg() -> rateConstantGrnAvg()
+  * put minEnergy in ReactionManager.cpp to ReactionManager.h as m_minEnergy
+  * Add a short section in ReactionManager.cpp (Line 147 - 182) to set grain ZPE for all speices
+  * setup basic constants and derived constants in Constants.h
+
+_2008_03_27__14_49_28_ Chi-Hsiu Liang
+
+  * Added a plugin class for Tunneling
+  * Added getClassicalEnergy() for calculating classical electronic for molecules (without ZPE corrections)
+  * Added a member m_Description in Molecule class for more detailed description of any molecule.
+  * Added m_ImFreq for Tunneling parameter in TransitionState
+  * Renamed BeyerSwinehart.h to convolution.h
+  * Added EckartCoefficients.h (method for Tunneling )
+  * Added condition loop (DOS only calculated once, other parameters updated in every loop).
+  * Problem: If there are several conditions defined, it seems XML file only records the final calculated condition.
+
+_2008_03_14__17_43_39_ Chi-Hsiu Liang
+
+  * Concentrations and pressures are not directly interconvertable. They relate each other with temperature
+  and other factors. Inputting concentration by particles per cubic centimeter and converting it to mols is direct
+  , but for pressures we need conversion through idea gas constant and temperature. So these parameters has to come
+  in pairs: <concentration, temperature> or <pressure, temperature>.
+
+    //--------------
+    //  The concentration/pressure units are of following formats:
+    //  units:
+    //   0: particles per cubic centimeter
+    //   1: Torr
+    //
+    //  Allowed input formats are shown below (example units in particles per cubic centimeter).
+    //
+    //  <me:CPTs>
+    //    <me:CPTset me:units="0">
+    //      <me:CPrange initial="1e8" increment="2e7" final="2e8">
+    //      <me:Trange initial="100" increment="20" final="200">
+    //    </me:CPTset>
+    //  </me:CPTs>
+    //
+    //  The above example will create a matrix of concentration/temperature points of the size:
+    //      (number of CP points) x (number of T points)
+    //
+    //  Another example of specifying small numbers of CPT points (example units in Torr):
+    //
+    //  <me:CPTs>
+    //    <me:CPTpair me:units="1" me:CP="100" me:T="200">
+    //    <me:CPTpair me:units="0" me:CP="1e18" me:T="298">
+    //  </me:CPTs>
+    //
+    //  The looping of the CPT points are easy, they are first parsed and all the points are stored in pairs in
+    //  vector CPandTs, and Mesmer simply loop through all its members.
+    //--------------
+
+_2008_03_13__15_53_37_ Chi-Hsiu Liang
+
+  Change the zpe numbers of pentyl system and HSO2 system so that they are kJ/mol
+
+_2008_03_13__12_14_38_ Chi-Hsiu Liang
+
+  Return the constants changed from 107-108.
+
+_2008_01_31__19_01_16_ Chi-Hsiu Liang
+
+  * Removed all KcalPerMolToRC in Mesmer. This made the calculation slow. The input units are SI.
+    (It might be worthwhile to convert the activation energy to RC directly from the function get_ActivationEnergy()
+    can provide automatic unit conversion if the input units are not SI.)
+  * See whether destructors of base/derived classes are virtual.
+  * Implementation of Bayer_Swinehart.h
+  * Add a function Matrix<T>::showFinalBits(int) in Matrix.h to print out the final bits of the matrix.
+  * Added forward and backward cell/grain microcanonical rate constants
+  * Change the number of digits on the exponents in cygwin. (formatfloat.h)
+  * Modified a bit on Matrix<T>::normalize()
+  * Added several flags to print data in mesmer.test. Check MesmerEnv.cpp and System.cpp line 133-142 for detail.
+  * calculateMicroRateCoeffs() now has only one input parameter.
+  * Created files for each class in Molecule.cpp to
+      TransitionState.cpp
+      SuperMolecule.cpp
+      ModelledMolecule.cpp
+      CollidingMolecule.cpp
+      BathGasMolecule.cpp
+  * Removed most of the accessor functions from Molecule.h to cpp files.
+  * Moved destructor definition for MoleculeManager to MoleculeManager.cpp
+  * Corrected the sequence of initialization of MessageHandler on oberror.h
+  * Things about the activation energy has to be reconsidered. The experimental activation energy does not have to be
+    consistent with the relative zero-point energy of the transition state. An option to add activation energy in the
+    reaction list by user can also to be considered (not implemented yet).
+  * Added a function detailedBalance(int) to interconvert forward and backward microcanonical rate constants.
+  * Can also virtualize grnAvrgMicroRateCoeffs() for variations in different reaction classes later.
+  * Should there only be either H or SO2 have ZPE = 39.44?
+  * Added QD for Windows in qd folder.
+      Additional steps to add QD library in Windows VC: (to be placed in documentation)
+        1. One might build QD using qd.vcproj in debug mode to see if there are any errors.
+        2. Build the project as a Release.
+        3. In Mesmer property pages -> Configuration Properties -> C/C++ -> General -> Additional include directories
+           Put "../../qd/Windows VC/include" into the list.
+        4. In Mesmer property pages -> Configuration Properties -> Linker -> Input -> Additional dependencies
+           Put "qd.lib" into the list.
+        5. ?? How to link qd.dll? Program cannot execute!!
+
+  * Other minor modifications.
+
+2008-1-27 Struan Robertson
+
+  * Re-implemented association reaction initialization and equilibrium constant
+    methods.
+  * Introduced excess reactant concentration for association reactions.
+
+
+_2008_01_14__16_48_41_ Chi-Hsiu Liang
+
+  * Modified Mesmer.dvi, Mesmer.tex.
+  * Corrected OH_acetylene_association.xml. Updated OH_acetylene_association baseline.
+  * Added several control sequence printing values. See MesmerEnv.h for additional control flags.
+    Printing:
+      grain density of states
+      cell density of states
+      collision operator column sums
+      cell k(e)'s
+      number of eigenvalues being printed
+    Also, values are enclosed by braces, easier for copying and comparing.
+  * Moved some longer definitions of accessors in Molecule.h to Molecule.cpp
+  * Note: There should have a complaint over missing parameter on epsilon and sigma from HSO2, but the program will run with
+          default values. (Need to give correct values.)
+  * Updated pentyl and HSO2 baselines. HSO2 baseline does not change but pentyl baseline change because of the rounding
+    difference between two versions. There are three differences on ClassicalRotor.cpp. also for the electron excitation
+    energy. Another difference is on the starting count of electron excitation energy.
+  * Other minor modifications.
+
+2008-1-13 Struan Robertson
+
+  * Elimination of the reaction type enumerated variable.
+
+2008-1-13 Struan Robertson
+
+  * Declared method InitializeReaction virtual and re-implemented it for
+    isomerization class.
+
+_2008_01_08__09_35_40_ Chi-Hsiu Liang
+
+  * Deleted logged test files in \trunk\Windows VC8\Mesmer (anyone needs them shall copy them from the history)
+  * Cleaned up the code. (No tabs, one tab converts to two spaces.)
+  * removed a bug in source term persistent pointer locating.
+  * Added a test system OH acetylene association.
+  * Added a variable m_ERConc for excess reactant concentration in the Reaction.
+
+2007-12-30 Struan Robertson
+
+  * Made method get_unimolecularspecies pure virtual and re-implemented it on
+    the derived classes.
+
+2007-12-30 Struan Robertson
+
+  * Added four new classes for each of the reaction types. These classes derive
+    from the Reaction calss whihc is now an abstract class.
+
+  * Updated QA files to reflect changes made to I/O.
+
+2007-12-14 Chris Morley
+
+  * Re-write of error handling and commandline. Big changes to
+    oberro.h, oberror.cpp and main.cpp.
+
+  * rename obErroLog to meErrorLog.
+
+  * persistence.h: note about function names starting with Xml.
+  * XMLPersist.cpp part of implementation to read from stdin (incomplete).
+
+_2007_12_13__15_58_20_ Chi-Hsiu Liang
+
+  * Prevented Elements of source molecule from duplication.
+
+_2007_12_13__10_49_05_ Chi-Hsiu Liang
+
+  * Corrected some default pointer types for ModelledMolecule and CollidingMolecule
+  * Change back the default value for EAboveWell
+  * Change the order of parsing molecule list and reaction list, this including:
+    1. addmols() -> addmol()
+    2. source term numbering (initially source_0)
+    3. Modified GetMolRef() to add molecule and return its pointer
+
+_2007_12_07__16_30_57_ Chi-Hsiu Liang
+
+  * Check redundancy for m_deltaEDown, m_RotConsts, m_Sym, m_ZPE
+  * privatize m_VibFreq
+  * add get_deltaEDown()
+  * Added m_NInf in Reaction
+  * There seems to be something wrong in the code but I cannot tell where it is. I have set a flag
+    if you look for this timestamp in the code: _2007_12_07__16_01_51_
+    So if anyone has time to check what's wrong with it. I will keep on doing what I was doing.
+    The problem looks like if I change this line (I know the syntax is wrong so I have modified it to the correct one),
+    the collision operator will not be initialized correctly, which is a bit strange.
+
+_2007_12_05__19_19_09_ Chi-Hsiu Liang
+
+  * Added codes for input file parameters redundancy check in Molecule
+  * Updated destructors in System to Molecule level. Let distructors report redundancies.
+  * Added electronic excitation. (in DOS calculation and xml input.)
+  * Set EAboveWell as a member of m_Env (later will add it into the xml input)
+  * still need to put ninf in somewhere of xml.
+  * other minor modifications
+
+_2007_12_04__11_17_27_ Chi-Hsiu Liang
+
+Updated baseline for Cygwin 32-bit double.
+
+_2007_12_04__10_04_16_ Chi-Hsiu Liang
+
+Allow user to input filename after program starts.
+
+2007-12-2  Struan Robertson
+
+  * Corrected the method of addition of isomer collision opertators to overall
+  collision matrix.
+  * Checked-in initial revision of Mesmer QA.
+
+2007-11-30 Chris Morley
+
+  * Removed Mesmer.exe from SVN. Compiled files are not usually in SVN
+   and it always caused error messages when updating.
+
+  * mEnv revamp.
+  I've given Molecule and Reaction a member variable m_Env - a constant
+  reference which is initiallised in the constructors. This avoids it
+  being a parameter in lots of functions, reducing clutter in the place
+  where the action is, even if the constructors are more complicated.
+  Affects a large number of files.
+
+
+_2007_11_28__17_40_29_ Chi-Hsiu Liang
+
+  * Added some more error report in Molecule.cpp
+  * some other corrections
+  ToDo: 1. Automatically calculate the mass of a molecule from the atom list if the user forgot to provide it.
+
+_2007_11_28__13_21_33_ Chi-Hsiu Liang
+
+  * Corrected some issues in the order calculating density of states for molecules
+  * If no pDOSCMethod or wrong is provided default method Classical rotors is used.
+  * Added test_rotConsts() in Molecule.cpp
+  * modified calcEquilibriumConstant() in Reaction.cpp (added the check for the consistency of partition function
+    in SuperMolecule and the product of respective partition function of reactants. They should be equal.
+    May include error later.)
+
+_2007_11_27__12_39_58_ Chi-Hsiu Liang
+
+  * Some corrections over the error checking on parsing.
+  * Added spin multiplicity in the multiplication of DOS in monomer.
+  * Modified the return type of get_unimolecularspecies(), the old method is not clear whether the inserted argument
+    is for output or input.
+  * Add a source term in m_molmap whenever if there isn't one. No matter if it is necessary to have a source or not. (See
+    the end of addmols() in MoleculeManager.cpp)
+  * Problem: sL variable out of range in the vector in AddAssocReactionTerms(), the reason is that the m_CellDOS not initialized
+    properly for source term.
+  * Added Windows VC8/Mesmer/HSO2_test.xml for test.
+
+_2007_11_26__14_10_23_ Chi-Hsiu Liang
+
+  * Corrected the usage on GetNextMolecule() in line 110 of Reaction.cpp
+  * Todo: 1. need to check testDensityOfStates() for both ModelledMolecule and SuperMolecule
+          2. test systems, check AddAssocReactionTerms()
+
+_2007_11_23__17_26_41_ Chi-Hsiu Liang
+
+  * Added two static variables sigmaDefault, and epsilonDefault.
+  * Some comments on dMatrix.cpp
+  * Modified some information reports.
+  * reorganised some orders of molecular initialization.
+  * Added setPersistentPointer() for Molecule
+  * Added some codes in MoleculeManager.cpp & Reaction.cpp about adding SuperMolecule (some errors still exist)
+  * Problem for SuperMolecule: 1. After adding a SuperMolecule into m_molmap, still cannot use GetNextMolecule() to
+                               retrieve it!?
+                               2. Matrix diagonalization does not converge.
+
+_2007_11_22__10_57_55_ Chi-Hsiu Liang
+
+  * modified some tags in bin/pentyl_isomerizationJul.xml
+                          bin/OH_acetylene_association.xml
+                          Windows VC8/Mesmer/pentyl_isomerization.xml
+                          Windows VC8/Mesmer/pentyl_isomerizationJul.xml
+
+  * modified function names: cellEnergies() -> getCellEnergies
+                             cellDensityOfStates -> getCellDensityOfStates
+    for the fact that these two functions only performs get functionality. Note: Result credibility should check before
+    execution.
+  * Added files ClassicalRotor.cpp/h, DensityOfStates.cpp/h
+  * Moved counterDimerDOS() to a plugin class DensityOfStatesCalculator (DensityOfStates.h)
+  * modified the original ModelledMolecule::calcDensityOfStates() so that it governs the calculation of DOS in both
+    ModelledMolecule and SuperMolecule
+  * m_VibFreq temporarily become a public variable (if necessary will add accessors and privatize it later)
+  * Added DensityOfStatesCalculator *m_pDensityOfStatesCalculator ; in ModelledMolecule.
+  * Added functions to get individual member of participant Molecules in SuperMolecule
+  * Important: Now all isomers have to be specified `colliding' instead of being only `modelled' in xml.
+               Both second reactant/product are ModelledMolecule. Please read MoleculeManager.cpp
+               line 33 to line 44.
+  * Important: Added a tag me:DOSCMethod in each molecular element of XML input.
+               This makes it possible to use different methods to calculate the DOS in different species.
+  * Added a new function addSuperMol() in MoleculeManager
+  * rearranged the variable definition and function declaration order in Reaction.h
+  * Add bool return to BuildSystemCollisionOperator()
+  * Add another test file Windows VC8\Mesmer\OH_acetylene_association.xml
+
+  To do Next: 1. Debug
+              2. Add an element in xml file for SuperMolecule.
+              3. Test systems.
+
+_2007_11_15__18_37_45_ Chi-Hsiu Liang
+
+  * Added a new class SuperMolecule (originally pairedMoleucles)
+    Note: This new class is derived from CollidingMolecule; in addition, it includes two pointers to CollidingMolecule and
+          ModelledMolecule respectively. This class takes the position of the source terms, any of which composed of two
+          reactant molecules in an association reaction. All SuperMolecule(s) go into sources.
+  * Added a new member SuperMolecule* m_srct in Reaction to represent the reactants.
+  * Added int return values for get_unimolecularspecies and get_bi_molecularspecies (to differntiate reactions on the fly)
+  * Errors, warnings and progress information all report to oberror.
+  * rearranged the order of variables/functions in Molecule.h
+  * Other minor modifications
+  * Note: Need to solve initialization of some pointers here. Later develop plugin to calculate density of states etc of
+          whatever.
+
+_2007_11_13__11_17_57_ Chi-Hsiu Liang
+
+  * modified the starting position of iteration in AddAssocReactionTerms() (consider revising)
+  * Added a new class pairedMoleucles
+  * privatise protected member variables in Molecule.h & setup accessors/mutators for these variables
+  * rearranged the order initializing a molecule in classes
+  * Changed temp into beta
+  * include dMartix and Matrix into namespace mesmer
+  * removed some typecast warnings in VC compiler
+  * removed m_alloc
+  * Add lines in bool MoleculeManager::addmols() preventing user from inputting duplicated molecules
+  * Modified oberror report level from obWarning to obInfo.
+  * moved m_SpinMultiplicity to ModelledMolecule
+  * some other minor modifications
+
+2007-10-21  Struan Robertson
+
+	* Molecule.cpp/Reaction.cpp: Added methods to calcualte equilibrium
+        constant.
+        * Reaction.cpp: Altered secondary reactant and product to be
+        ModelledMolecule.
+
+_2007_11_02__16_40_03_ Chi-Hsiu Liang
+
+  * modified the way of classifying rotors
+  * modified calcDensityOfStates() & testDensityOfStates() for additional rotors
+  * still cannot calculate microcanonical rate constants correctly, keep on checking.
+  * A sample file OH_acetylene_association.xml is provided to check association.
+
+_2007_11_02__15_08_13_ Chi-Hsiu Liang
+
+  * modified MesmerILT.cpp --- now it is a working (testing not complete) version of ILT, but need to modify
+    ModelledMolecule::calcDensityOfStates() to account for 2-D linear rotors & non-rotors.
+  * Added some error reporting for InitializeMolecule()
+  * Added get_VibFreq() in Molecule.h
+  * other minor modifications
+
+_2007_11_01__18_14_46_ Chi-Hsiu Liang
+
+  * Modified MesmerILT.cpp
+  * renamed variables: m_MmtIntA, m_MmtIntB, m_MmtIntC to m_RotCstA, m_RotCstB, m_RotCstC respectively.
+
+_2007_10_31__15_47_13_ Chi-Hsiu Liang
+
+  * Added lines to sort rotational constants
+  * Added a function countDimerCellDOS() to deal with convolution of DOS for two rotors (not complete)
+  * Some other minor modifications
+
+_2007_10_26__13_54_21_ Chi-Hsiu Liang
+
+  * removed parenthesis after constructor of Reaction (looks like more than a declaration)
+  * commented out default constructor of ReactionManager (if do nothing let the compiler choose what to do)
+  * Modified naming of function:  XmlLoad() -> XmlCreate()
+  * Modified class MesmerEnv to struct
+  * Modified MesmerILT.cpp
+  * Put convolution in MesmerMath.h
+  * Added m_SpinMultiplicity as a member of Molecule
+  * Modified namings of variables: m_Reactant -> m_rct1
+                                   m_Reactant1 -> m_rct2
+                                   m_Product -> m_pdt1
+                                   m_Product1 -> m_pdt2
+  * Added Reaction::get_bi_molecularspecies()
+  * Added MesmerMath.cpp
+  * Compiled MesmerILT.cpp (some variables and DOS formulations are not complete)
+  * Updated source.ps
+  * Some other minor modifications
+
+2007-10-21  Struan Robertson
+
+	* Molecule.cpp: Added method to calculate Bolzmann distribution.
+	* Reaction.cpp: Added material to assocation reaction section. Note
+          need a method to calcualte equilibrium constant.
+
+_2007_10_10__08_20_39_ Chi-Hsiu Liang
+
+  * removed pSys, GetSys() and m_pSys
+  *-----------------------------------------
+  * About MesmerEnv
+  * added `MesmerEnv.h' and `MesmerEnv.cpp'
+  * moved environmental variables from `System.h' to `MesmerEnv.h'
+  * environmental variables are now included in a variable instance mEnv
+  * mEnv is a public member of System, lives and dies with System object
+  * mEnv is passed down to functions in const, instead of passing whole system
+  * New instance of System can be threaded safely with all variables self-contained. e.g. vector of systems
+  *-----------------------------------------
+  * replace <math.h> by <cmath> (for several math function auto-conversions)
+  * renamed `System' variable in main.cpp to _sys
+  * reorganised file dependencies
+  * updated source.ps
+  * removed ReactionConnectivity.cpp/h
+
+_2007_10_08__13_38_55_ Chi-Hsiu Liang
+
+  * Removed QD/DD/double flags in files: dMatrix.h, Molecule.cpp
+  * Modified platform specific definition checks: MesmerConfig.h
+  * Commented out TimeString()
+  * use ctime instead of time.h
+  * Writes new style time stamp in xml files
+  * Now checks with compilation in VC++
+  * Updated source.ps
+
+_2007_10_05__14_00_29_ Chi-Hsiu Liang
+
+  * Removed CXSC
+
+_2007_10_05__13_30_14_ Chi-Hsiu Liang
+
+  * Some CXSC flags
+    CXSC is considered too slow. So will be deleted afterward. This version is only a record for future reference.
+
+_2007_10_04__11_59_35_ Chi-Hsiu Liang
+
+  * Updated "Mesmer FAQ.doc"
+  * Updated source.ps
+  * modified main.cpp so that the output filename is date stamped.
+  * added TimeCounter.cpp
+  * Modified TimeCounter.h
+    Time stamp can now be applied to occasions where proper. Please check TimeCounter.h for usage.
+
+_2007_10_03__11_06_49_ Chi-Hsiu Liang
+
+  * Added the CXSC library source code folder
+    Sorry, forgot to add CXSC library code for everyone. Please install it in your own computer, e.g. /usr/cxsc , etc..
+    Usage (in UNIX/Linux/Mac?):
+    Type the following command in command line mode under the directory of cxsc.
+    ./install_cxsc
+  * variable declarations in MesmerPrecision.h
+
+_2007_10_03__10_42_44_ Chi-Hsiu Liang
+
+  * Added selection of QD/DD/CXSC (CXSC not yet implemented/tested, but has linked)
+  * Removed the error from the previous commit in Matrix.h
+  * Added TimeCount header for time measuring and stamping
+    TimeCount can be accessed through several functions listed in TimeCount.h to be used by anyone uses Mesmer.
+    Examples are also listed.
+  * Commented out some unused type definitions in matrix.h
+  * Some other minor modifications
+
+_2007_09_28__14_16_39_ Chi-Hsiu Liang
+
+  * QD for double-double and quad-double precisions.
+  * Move normalization function into matrix.h
+  * Completed writing of MesmerILT.cpp but not linked and tested.
+  * Modified namings of variables:  ngrn -> MaximumGrain
+  * Add README, MesmerPrecision.h
+  * Mesmer FAQ file in documentation folder
+  * Other minor modifications
+
+_2007_09_25__10_31_44_ Chi-Hsiu Liang
+
+  * Add a ToDo file
+  * Add qd source into trunk directory
+  * Precision definitions in MesmerConfig.h
+  * More edits to MesmerILT.cpp
+  * Modified namings of variables:  kfmc -> cellKfmc
+                                    m_kfgrn -> m_GrainKfmc
+                                    m_kfmc -> m_CellKfmc
+                                    dosGrn -> grainDOS
+                                    eGrn -> grainEne
+                                    m_gdos -> m_grainDOS
+                                    m_egrn -> m_grainEne
+                                    rctDos -> rctDOS
+                                    pdtDos -> pdtDOS
+
+  * change CellEne and CellDOS to vectors
+  * some other minor modifications
+
+_2007_09_14__16_30_42_ Chi-Hsiu Liang
+
+  * checked for new and delete declarations
+  * reordered some dependencies
+  * Modified namings of variables:  decll -> CellEne,
+                                    ddos -> CellDOS,
+                                    m_cdos -> m_CellDOS,
+                                    m_ecll -> m_CellEne,
+                                    pcollidingmolecule -> pCollidingMolecule,
+                                    KCMLTOPCM -> KcalPerMolToRC,
+                                    ddosTS -> TScellDOS,
+                                    boltzmann -> boltzmann_RCpK
+                                    pi -> M_PI
+
+  * Modified naming of functions: Initialize() -> InitializeMolecule(),
+                                  Initialize() -> InitializeReaction(),
+                                  igsz() -> getGrainSize(),
+
+  * updated source.ps
+  * added MesmerILT.cpp, MesmerILT.h, MesmerMath.h (for Gamma function)
+
+2007-09-04 Chi-Hsiu Liang
+
+	* in Molecule.cpp, function void CollidingMolecule::collisionOperator(double beta):
+			vector<double> work only needs to have size GetSys()->MAXGrn()
+	* Question:
+			In Molecule.cpp, line 388, double ei = log(m_gdos[i]) - beta*m_egrn[i] + 10.0; why adding 10.0
+			if the 10.0 power of ten will be cancelled in line 397:         (*m_egme)[j][i] *= (work[i]/work[j]);
+			Any special meaning?
+	* Removed duplicated files MicroRateCalculator.cpp & .h
+	* pre-fix function names of XML operations with Xml to remove ambiguity.
+	* added some varieties for MesmerConfig.h (not sure about platform specification rules)
+	* altered some i++, j++ to ++i, ++j for better efficiency
+	* other minor modifications
+	* Now compile with i386 RedHat Linux
+
+2007-09-02 Chris Morley
+
+	* added a partial data file for Dave's benzene system
+	(enough for the diagram) Updated the xsl files to improve
+	diagram.
+
+2007-08-31 Chi-Hsiu Liang
+
+	* cygwin rules
+	* formatfloat.h includes
+	* additional Makefile commands
+	* Now compile with cywgin
+	* Updated source.ps
+	* Other minor code format adjustments (Molecule.h/cpp, MoleculeManager.cpp, etc.)
+	* Resolved some g++ compiler complaints.
+
+2007-08-29 Chi-Hsiu Liang
+
+	Minor modifications on three header files, and merge with the
+	current modifications.
+	Update the dependency tree.
+
+2007-08-29 Chris Morley
+
+	Make separate headers for SimpleRRKM.cpp and SimpleILT.cpp.
+	Rename x versions.
+
+	* src/MesmerConfig.h: separate header to take all platform-
+	dependent defines.
+
+	Remove global pSys. Add member variable m_pSys and GetSys()
+	to MoleculeManager, ReactionManager, Molecule and Reaction.
+	Pass down a pointer to the System during construction or
+	Initialization.
+
+	* src/main.cpp: add mesmer:: to obErrorLog. Remove pSys.
+
+	Include math.h in MicroRate.cpp and Molecule.cpp
+
+2007-08-23 Chi-Hsiu Liang
+
+	1. The dependencies are reorganised for simplicity.
+	2. util.cpp deleted (conflict with formatfloat.cpp/h)
+	3. Incoporated oberror.h functions into mesmer.
+	4. Tabs are reformatted into two spaces.
+	5. Removed tailing spaces for some files.
+	6. A file source.ps provided to explain the dependencies for the current version.
+
+2007-08-19  Struan Robertson
+
+	* Minor changes relating to the Linux build.
+
+2007-08-18  Struan Robertson
+
+	* src/ReactionManager.cpp:  Added material related to association
+        reactions together with some minor changes relating to dissociation
+        reactions.
+
+        * Windows VC8/Mesmer/pentyl_isomerization.xml: Updated the pentyl
+        isomerization input file to include dissociation reactions.
+
+2007-08-08  Chris Morley
+
+	Add the error handling files oberror.h and oberror.cpp. These are
+	slightly modified OpenBabel files. Not yet used in Mesmer code.
+
+2007-07-28  Chris Morley
+
+	Various xml, xsl, etc file. Display of output file has energy level
+	diagram  and collapsable data sections.
+
+2007-07-28  Chris Morley
+
+	* src/MicroRate.cpp, .h, src/SimpleILTx.cpp, src/SimpleRRKMx.cpp:
+	Mod of MicroRateCalulator classes to be plugin classes and to keep
+	all their data in the Reaction class.
+
+	* src/Molecule.h, .cpp: Remove diagCollisionOperator which is also
+	in ReactionManager
+
+	* Persistence.h, XMLPersist.h,.cpp:Add ReadBoolean() and WriteAttribute
+	methods. Activate Read() and modify WriteMainElement(). More flexibilty
+	found to be necessary.
+
+	* src.System.h,.cpp:Add ReadRange() method and use it for T, P and conc.
+	Not yet used properly in calculation.
+
+2007-07-21  Struan Robertson
+
+        * src/MicroRateCalculator.cpp/.h: Separated micro-rate calcuator base
+        class into separate file and added test method to this class.
+
+        * src/SimpleILT.cpp/.h: Added implementation of simple dissociation ILT
+        method.
+
+2007-07-09  Struan Robertson
+
+        * src/Reaction.cpp/.h: Separated micro-rate calcuation code into
+        calculator classes.
+
+        * src/SimpleRRKM.cpp/.h and SimpleILT.ccp/.h calculator classes added to
+        calculate micro. rate coeffs. via RKKM and ILT respectively.
+
+2007-06-12  Struan Robertson
+
+        * src/Reaction.cpp/.h: Isomer reaction terms reviewed and simplified,
+        unnecessary methods and variables removed.
+
+2007-06-10  Struan Robertson
+
+	* src/ReactionManager.cpp:  Altered to invoke reaction objects to add details
+        of reaction to collision operator.
+
+        * src/Reaction.cpp/.h: altered to include detailed balancing and others
+        methods for adding isomer reaction terms to the collision operator
+
+        * Minor changes to System and Molecule classes to support the above
+        changes.
+
+        * Update of Linux Makefile.
+
+2007-06-07  Chris Morley
+
+	* src/Molecule.h: Remove MAXCELL and MAXGRN and (unused)
+	member variables. Make calcDensityOfStates public.
+
+	* src/System.cpp: Read <me:ModelParameters> for(at present)
+	grain sizes and set in SetGrainParams().
+
+	* src/main.cpp: Add pSys as a global variable to System.
+	Catch a couple of input errors.
+
+	* src/MoleculeManager.h: Add templated function
+	GetNextMolecule() for iterating through the molecules of
+	a requested type.
+
+	src/Reaction.h,cpp: Save and access reaction id.
+
+2007-05-22  Struan Robertson
+
+	* Minor update to allow collision frequency to be calculated for all isomers.
+
+2007-05-20  Struan Robertson
+
+	* src/ReactionManager.cpp/.h: Altered so that it no longer uses the
+        ReactionConnectivety class.
+
+        * src/MoleculeManager.cpp/.h: Accessor methods added to locate the bath
+        gas molecule. This is required in the calculation of bath collision
+        frequencies. Knock on changes required to Molecule.cpp/.h and System.cpp/
+        .h
+
+2007-01-29  Chris Morley
+
+	I/O rewritten to improve code isolation and allow TinyXML
+	to be replaced if necessary. See description in Persistence.h
+
+	* src/XMLPersist.h, src/XMLPersist.cpp added.
+	* src/Persistence.cpp removed
+	* src/util.cpp added. Contains formatFloat(), now a global
+	function.
+
+	Extensive changes to:
+	* src/Persistence.h, (IPersistObject rename to IPersist)
+	and most other files.
+
+2007-01-18  Chris Morley
+
+	* src/Persistence.h, Persistence.cpp: Added output utility
+	functions WriteElement(), WriteMainElement() and
+	WriteValueElement(). In IPersistObject at present, but maybe
+	they should be elswhere.
+
+	* src/Molecule.h, Reaction.h: Added member variable to retain
+	object address in XML document.
+
+	* src/Molecule.cpp(testDensityOfStates): Output also to XML
+
+	* src/Reaction.cpp(testMicroRateCoeffs): Output also to XML
+
+	* src/pentyl_isomerization.xml: Correct extra " typos
+
+	* Windows VC8/Mesmer/mesmer1.xsl: Added. Provides formating when
+	XML file viewed in a browser.
+
+2007-01-18  Chris Morley
+
+	* tinyxml/tinyxmlparser.cpp: small patch to allow xml-stylesheet
+	instuction to be passed on. See:
+	http://sourceforge.net/tracker/index.php?func=detail&aid=1618031&group_id=13559&atid=313559
+
+	* src/main.cpp: Can specify output file with default of adding
+	out before extension on inputfile name. Added usage function and some exit codes.
+
