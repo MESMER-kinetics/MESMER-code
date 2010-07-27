@@ -1,3 +1,8 @@
 * text=auto !eol
 /ChangeLog -text
+Documentation/Constructing[!!-~]a[!!-~]Datafile[!!-~]from[!!-~]Gaussian[!!-~]output.html -text
+Documentation/MESMER[!!-~]manual.doc -text
+Documentation/MESMER[!!-~]manual.pdf -text
+Documentation/Procedure_to_configure_MESMER_under_XCode.doc -text
+Documentation/Video[!!-~]tutorial[!!-~]plan[!!-~]of[!!-~]MESMER.doc -text
 /defaults.xml -text
