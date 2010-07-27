@@ -306,3 +306,4 @@ src/plugins/WKBCrossingCoeff.h -text
 src/source.ps -text
 src/unitsConversion.cpp -text
 src/unitsConversion.h -text
+/switchcontent.xsl -text
