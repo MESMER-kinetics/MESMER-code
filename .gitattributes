@@ -33,3 +33,4 @@ examples/reservoirSink/full.test -text
 examples/reservoirSink/mesmer_out.xml -text
 examples/reservoirSink/reservoirSinkAcetylO2.test -text
 examples/reservoirSink/reservoirSinkAcetylO2.xml -text
+/librarymols.xml -text

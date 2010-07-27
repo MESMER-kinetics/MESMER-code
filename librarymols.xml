@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<moleculeList xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+  <!--Entries can be deactivated by adding an attribute active="false"-->
+  <!--Put alias entries at the top of file-->
+  <molecule id="oh" ref="OH"/>
+  
+  <molecule id="He">
+    <atomArray>
+      <atom elementType="He"/>
+    </atomArray>
+    <propertyList>
+      <property dictRef="me:epsilon">
+        <scalar>10.2</scalar>
+      </property>
+      <property dictRef="me:sigma">
+        <scalar>2.55</scalar>
+      </property>
+      <property dictRef="me:MW">
+        <scalar units="amu">4.0</scalar>
+      </property>
+    </propertyList>
+  </molecule>
+  <molecule id="Ar">
+    <atomArray>
+      <atom elementType="Ar"/>
+    </atomArray>
+    <propertyList>
+      <property dictRef="me:epsilon">
+        <scalar>114</scalar>
+      </property>
+      <property dictRef="me:sigma">
+        <scalar>3.47</scalar>
+      </property>
+      <property dictRef="me:MW">
+        <scalar>39.45</scalar>
+        <!--Should this be 39.950 as in Wikipedia?-->
+      </property>
+      </propertyList>
+  </molecule>
+  <molecule id="N2">
+    <atomArray>
+      <atom id="a1" elementType="N" />
+      <atom id="a2" elementType="N" />
+    </atomArray>
+    <bondArray>
+      <bond atomRefs2="a2 a1" order="3"/>
+    </bondArray>
+    <propertyList>
+      <property dictRef="me:epsilon">
+        <scalar>48.0</scalar>
+      </property>
+      <property dictRef="me:sigma">
+        <scalar>3.90</scalar>
+      </property>
+      <property dictRef="me:MW">
+        <scalar units="amu">28.0</scalar>
+      </property>
+    </propertyList>
+  </molecule>
+  <molecule id="O2">
+    <atomArray>
+      <atom id="a1" elementType="O" x3="0.000000" y3="0.000000" z3="0.601629" />
+      <atom id="a2" elementType="O" x3="0.000000" y3="0.000000" z3="-0.601629" />
+    </atomArray>
+    <bondArray>
+      <bond atomRefs2="a2 a1" order="2" />
+    </bondArray>
+    <propertyList>
+      <property title="MW">
+        <scalar>31.9988</scalar>
+      </property>
+      <property title="Energy" dictRef="me:ZPE">
+        <scalar units="kJ/mol" convention="computational">-394594.52</scalar>
+      </property>
+      <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
+        <array units="cm-1">1645.28</array>
+      </property>
+      <property title="Rotational Constants" dictRef="me:rotConsts">
+        <array units="cm-1">1.455</array>
+      </property>
+      <property title="Symmetry Number" dictRef="me:symmetryNumber">
+        <scalar>2</scalar>
+      </property>
+      <property dictRef="me:electronicExcitation" default="true">
+        <scalar>1.0</scalar>
+        <!--is this right?-->
+      </property>
+      <property dictRef="me:frequenciesScaleFactor" default="true">
+        <scalar>1</scalar>
+      </property>
+      <property dictRef="me:spinMultiplicity">
+        <scalar>3</scalar>
+      </property>
+    </propertyList>
+    <me:DOSCMethod default="true">ClassicalRotors</me:DOSCMethod>
+  </molecule>
+  <molecule id="OH">
+    <atomArray>
+      <atom id="a1" elementType="O" spinMultiplicity="2" x3="0.000000" y3="0.000000" z3="0.108216" />
+      <atom id="a2" elementType="H" x3="0.000000" y3="0.000000" z3="-0.865729" />
+    </atomArray>
+    <bondArray>
+      <bond atomRefs2="a2 a1" order="1" />
+    </bondArray>
+    <propertyList>
+      <property title="MW">
+        <scalar>17.0073</scalar>
+      </property>
+      <property title="Energy" dictRef="me:ZPE">
+        <scalar units="kJ/mol" convention="computational">-198808.23</scalar>
+      </property>
+      <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
+        <array units="cm-1">3721.79</array>
+      </property>
+      <property title="Rotational Constants" dictRef="me:rotConsts">
+        <array units="cm-1">18.732</array>
+      </property>
+      <property title="Symmetry Number" dictRef="me:symmetryNumber">
+        <scalar>1</scalar>
+      </property>
+      <property dictRef="me:spinMultiplicity">
+        <scalar>2</scalar>
+      </property>
+    </propertyList>
+  </molecule>
+</moleculeList>
+
