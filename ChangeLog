@@ -1,3 +1,7 @@
+2010-July-27 Chi-Hsiu Liang
+
+  * Removed 1D FGH approach from the trunk
+
 2010-July-17 Chi-Hsiu Liang
 
   * Some modifications to QMHinderedRotorPotential and related files.
