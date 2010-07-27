@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+  <!--J. Phys. Chem. A 2005, 109, 1890-1896-->
+  <moleculeList>
+    <molecule id="singlet_methylene" description="1CH_2">
+      <atomarray>
+        <atom id="a1" elementType="C" />
+        <atom id="a2" elementType="H" />
+        <atom id="a3" elementType="H" />
+      </atomarray>
+      <bondarray>
+        <bond atomRefs2="a1 a2" order="1" />
+        <bond atomRefs2="a1 a3" order="1" />
+      </bondarray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">40.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">6.98 11.10366 17.8953 </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">1418. 2914. 2988.</array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">14</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+    </molecule>
+    <molecule id="acetylene" description="C_2H_2">
+      <atomarray>
+        <atom id="a1" elementType="C" />
+        <atom id="a2" elementType="C" />
+        <atom id="a3" elementType="H" />
+        <atom id="a4" elementType="H" />
+      </atomarray>
+      <bondarray>
+        <bond atomRefs2="a1 a2" order="3" />
+        <bond atomRefs2="a1 a3" order="1" />
+        <bond atomRefs2="a2 a4" order="1" />
+      </bondarray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">0.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">1.14436</array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">580. 580. 755. 755. 2030. 3426. 3521.</array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">26</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+    </molecule>
+    <molecule id="Xe">
+      <atom id="Xenon" elementType="Xe"/>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">0.0</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">131.9</scalar>
+        </property>
+        <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      </propertyList>
+    </molecule>
+    <molecule id="triplet" description="CH2CCH2">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">0.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            2.36572
+            0.35402
+            0.30794
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            416
+            793
+            1016
+            1414
+            3163
+            535
+            830
+            1219
+            1502
+            3250
+            563
+            909
+            1238
+            3047
+            3261
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">40</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">250.0</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>473.1</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.5</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+    </molecule>
+    <molecule id="MECP1" description="HCCH-CH2 MECP">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">20.0</scalar>
+        </property>
+        <property dictRef="me:RMS_SOC_element">
+          <scalar units="cm-1">6.61</scalar>
+        </property>
+        <property dictRef="me:GradientDifferenceMagnitude">
+          <scalar units="a.u./Bohr">0.079742</scalar>
+        </property>
+        <property dictRef="me:GradientReducedMass">
+          <scalar units="a.m.u.">8.2323</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            1.1213
+            0.2276
+            0.1970
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            3508.656
+            3410.000
+            3209.483
+            2965.979
+            2036.986
+            772.530
+            758.069
+            665.747
+            640.949
+            524.274
+            313.688
+            199.035
+            136.665
+            130.880
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">40.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>3</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+    </molecule>
+    <molecule id="MECP2" description="HCCH-Xe MECP">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">35.0</scalar>
+        </property>
+        <property dictRef="me:RMS_SOC_element">
+          <scalar units="cm-1">11.45</scalar>
+        </property>
+        <property dictRef="me:GradientDifferenceMagnitude">
+          <scalar units="a.u./Bohr">0.07973144</scalar>
+        </property>
+        <property dictRef="me:GradientReducedMass">
+          <scalar units="a.m.u.">11.4326</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            7.2803
+            0.1357
+            0.1347
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            3092.296
+            2883.278
+             444.434
+             335.047
+             115.819
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">40.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>3</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+    </molecule>
+    <molecule id="dummy_product" description="dummy product for trip diss">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">0.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            2.36572
+            0.35402
+            0.30794
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            416
+            793
+            1016
+            1414
+            3163
+            535
+            830
+            1219
+            1502
+            3250
+            563
+            909
+            1238
+            3047
+            3261
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">40</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">250.0</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>473.1</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.5</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+    </molecule>
+  </moleculeList>
+  <reactionList>
+    <reaction id="R1">
+      <reactant>
+        <molecule ref="singlet_methylene" me:type="deficientReactant" />
+      </reactant>
+      <reactant>
+        <molecule ref="acetylene" me:type="excessReactant" />
+      </reactant>
+      <product>
+        <molecule ref="triplet" me:type="sink" />
+      </product>
+      <product>
+        <molecule ref="dummy_product" me:type="sink" />
+      </product>
+      <me:transitionState>
+        <molecule ref="MECP1" me:type="transitionState" />
+      </me:transitionState>
+      <me:excessReactantConc>2.25E15</me:excessReactantConc>
+      <me:crossing>LZ</me:crossing>
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+    </reaction>
+    <!--<reaction id="R2">
+      <reactant>
+        <molecule ref="singlet_methylene" me:type="deficientReactant" />
+      </reactant>
+      <reactant>
+        <molecule ref="Xe" me:type="excessReactant" />
+      </reactant>
+      <product>
+        <molecule ref="triplet" me:type="sink" />
+      </product>
+      <product>
+        <molecule ref="dummy_product" me:type="sink" />
+      </product>
+      <me:transitionState>
+        <molecule ref="MECP2" me:type="transitionState" />
+      </me:transitionState>
+      <me:excessReactantConc>2.25E15</me:excessReactantConc>
+      <me:crossing>LZ</me:crossing>
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+    </reaction>-->
+  </reactionList>
+  <me:conditions>
+    <me:bathGas>He</me:bathGas>
+    <me:PTs>
+      <me:PTpair me:units="Torr" me:P="1.000" me:T="195.0" />
+      <me:PTpair me:units="Torr" me:P="1.000" me:T="298.0" />
+      <!--<me:PTpair me:units="Torr" me:P="1.000" me:T="300." me:precision="qd" />
+      <me:PTpair me:units="Torr" me:P="1.000" me:T="398.0" />
+      <me:PTpair me:units="Torr" me:P="1.000" me:T="498.0" />
+      <me:PTpair me:units="Torr" me:P="1.000" me:T="600.0" />
+      <me:PTpair me:units="Torr" me:P="1.000" me:T="700.0" />
+      <me:PTpair me:units="Torr" me:P="1.000" me:T="800.0" />-->
+    </me:PTs>
+  </me:conditions>
+  <me:modelParameters>
+    <me:grainSize units="cm-1">20</me:grainSize>
+    <me:energyAboveTheTopHill>200.</me:energyAboveTheTopHill>
+  </me:modelParameters>
+  <me:control>
+    <me:printCrossingCoefficients />
+    <me:printTSsos />
+    <me:printGrainDOS />
+    <me:testRateConstants />
+    <me:printGrainkfE />
+    <me:printGrainkbE />
+    <me:printSpeciesProfile />
+    <me:calculateRateCoefficientsOnly />
+    <!--<me:eigenvalues>6</me:eigenvalues>-->
+  </me:control>
+</me:mesmer>

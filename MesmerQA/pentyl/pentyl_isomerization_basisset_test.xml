@@ -1,0 +1,315 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+  <title>Pentyl isomerization</title>
+  <moleculeList>
+    <molecule id="n-pentyl">
+      <atomArray>
+        <atom id="a1" elementType="C"/>
+        <atom id="a2" elementType="C"/>
+        <atom id="a3" elementType="C"/>
+        <atom id="a4" elementType="C"/>
+        <atom id="a5" elementType="C"/>
+        <atom id="a6" elementType="H"/>
+        <atom id="a7" elementType="H"/>
+        <atom id="a8" elementType="H"/>
+        <atom id="a9" elementType="H"/>
+        <atom id="a10" elementType="H"/>
+        <atom id="a11" elementType="H"/>
+        <atom id="a12" elementType="H"/>
+        <atom id="a13" elementType="H"/>
+        <atom id="a14" elementType="H"/>
+        <atom id="a15" elementType="H"/>
+        <atom id="a16" elementType="H"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a2 a3" order="1"/>
+        <bond atomRefs2="a3 a4" order="1"/>
+        <bond atomRefs2="a4 a5" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">2.140</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">0.60318 0.06728 0.06356</array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>6</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            3141.95 3034.04 3001.20 2998.59 2966.71 2946.43 2932.42 2914.61 2911.95 2902.81
+            2855.02 1451.18 1444.25 1438.67 1429.42 1419.77 1412.88 1355.84 1348.58 1305.15
+            1274.01 1255.27 1221.53 1187.11 1127.08 1063.72 1057.18 1035.47  994.26  913.53
+             879.26  833.96  744.69  701.15  434.79  384.85  367.80  238.27  170.27  146.11
+             115.47   98.17
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>71</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>347</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.93</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">230.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+    <molecule id="n-pentyl=TS=2-pentyl">
+      <atomArray>
+        <atom id="a1" elementType="C"/>
+        <atom id="a2" elementType="C"/>
+        <atom id="a3" elementType="C"/>
+        <atom id="a4" elementType="C"/>
+        <atom id="a5" elementType="C"/>
+        <atom id="a6" elementType="H"/>
+        <atom id="a7" elementType="H"/>
+        <atom id="a8" elementType="H"/>
+        <atom id="a9" elementType="H"/>
+        <atom id="a10" elementType="H"/>
+        <atom id="a11" elementType="H"/>
+        <atom id="a12" elementType="H"/>
+        <atom id="a13" elementType="H"/>
+        <atom id="a14" elementType="H"/>
+        <atom id="a15" elementType="H"/>
+        <atom id="a16" elementType="H"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a2 a3" order="1"/>
+        <bond atomRefs2="a3 a4" order="1" me:active="true"/>
+        <bond atomRefs2="a4 a5" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">21.7</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            0.3026
+            0.1046
+            0.0880
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>3</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            3065.36
+            2999.08
+            2982.09
+            2972.35
+            2969.34
+            2965.23
+            2957.98
+            2924.37
+            2911.43
+            2892.39
+            1620.09
+            1440.48
+            1436.81
+            1431.35
+            1425.23
+            1403.24
+            1381.99
+            1349.26
+            1314.77
+            1279.01
+            1243.02
+            1197.01
+            1174.52
+            1135.74
+            1095.89
+            1061.30
+            1003.56
+            965.86
+            942.79
+            891.15
+            873.20
+            838.54
+            820.90
+            778.62
+            548.21
+            528.24
+            459.61
+            328.11
+            214.23
+            202.23
+            139.50
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>71</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>347</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.93</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">230.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+    <molecule id="2-pentyl">
+      <atomArray>
+        <atom id="a1" elementType="C"/>
+        <atom id="a2" elementType="C"/>
+        <atom id="a3" elementType="C"/>
+        <atom id="a4" elementType="C"/>
+        <atom id="a5" elementType="C"/>
+        <atom id="a6" elementType="H"/>
+        <atom id="a7" elementType="H"/>
+        <atom id="a8" elementType="H"/>
+        <atom id="a9" elementType="H"/>
+        <atom id="a10" elementType="H"/>
+        <atom id="a11" elementType="H"/>
+        <atom id="a12" elementType="H"/>
+        <atom id="a13" elementType="H"/>
+        <atom id="a14" elementType="H"/>
+        <atom id="a15" elementType="H"/>
+        <atom id="a16" elementType="H"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a2 a3" order="1"/>
+        <bond atomRefs2="a3 a4" order="1"/>
+        <bond atomRefs2="a4 a5" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">0.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            0.6389
+            0.0650
+            0.0619
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>9</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            3048.08 3001.66 3000.67 2998.19 2964.82 2948.99 2918.72 2914.09 2909.65
+            2869.44 2837.85 1450.21 1443.44 1437.71 1433.47 1422.45 1412.60 1370.88
+            1356.39 1348.11 1309.93 1267.19 1223.08 1203.34 1133.43 1103.76 1056.18
+            1035.41 1005.25  940.65  905.08  847.37  823.93  711.78  407.42  385.24
+             367.69  234.39  177.17  137.92  101.63   55.88
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>71</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>347</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.93</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">230.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+    <molecule id="Ar">
+      <atom elementType="Ar"/>
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>114</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.47</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>39.95</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+  </moleculeList>
+
+  <reactionList>
+
+    <reaction id="R1">
+      <reactant>
+        <molecule ref="n-pentyl"  me:type="modelled" />
+      </reactant>
+
+      <product>
+        <molecule ref="2-pentyl"  me:type="modelled" />
+      </product>
+
+      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+
+      <me:transitionState>
+        <molecule ref="n-pentyl=TS=2-pentyl" me:type="transitionState" />
+      </me:transitionState>
+
+    </reaction>
+
+  </reactionList>
+
+  <me:conditions>
+    <me:bathGas>Ar</me:bathGas>
+    <me:PTs>
+      <me:PTpair me:units="Torr" me:P="1.0e-4" me:T="800" />
+      <me:PTpair me:units="Torr" me:P="1.0e-3" me:T="800" />
+      <me:PTpair me:units="Torr" me:P="1.0e-2" me:T="800" />
+      <me:PTpair me:units="Torr" me:P="1.0e-1" me:T="800" />
+      <me:PTpair me:units="Torr" me:P="1.0"    me:T="800" />
+      <me:PTpair me:units="Torr" me:P="1.0e1"  me:T="800" />
+      <me:PTpair me:units="Torr" me:P="1.0e2"  me:T="800" />
+    </me:PTs>
+  </me:conditions>
+
+  <me:modelParameters>
+    <me:grainSize units="cm-1"> 200</me:grainSize>
+    <!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
+    <!--<me:maxTemperature>3000</me:maxTemperature>-->
+    <me:energyAboveTheTopHill>100.</me:energyAboveTheTopHill>
+    <me:runBasisSetMethodroutines>
+      <me:numberBasisFunctions>2</me:numberBasisFunctions>
+    </me:runBasisSetMethodroutines>
+  </me:modelParameters>
+
+  <me:control>
+    <me:testDOS />
+    <me:testMicroRates />
+    <!--<me:printGrainDOS />-->
+    <me:testRateConstants />
+    <!--<me:printCellDOS />-->
+    <!--<me:printReactionOperatorColumnSums />-->
+    <!--<me:printCollisionOperatorLevel>1</me:printCollisionOperatorLevel>-->
+    <!--<me:useDOSweighedDownWardTransition />-->
+    <!--<me:printGrainkfE />-->
+    <!--<me:printGrainBoltzmann />-->
+    <!--<me:printGrainkbE />-->
+    <me:printSpeciesProfile />
+    <me:printTabbedMatrices />
+    <me:eigenvalues>0</me:eigenvalues>
+  </me:control>
+
+</me:mesmer>
