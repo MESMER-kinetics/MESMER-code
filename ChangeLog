@@ -1,3 +1,9 @@
+
+2010-October-21 Struan Robertson
+
+	* QMRotor.cpp: Corrected Fortran (1 based)/C (0 based) array mis-match
+	error of QM asymmetric top method.
+
 2010-October-20 Chris Morley
 
 	* src/MolecularComponents.cpp, src/MolecularComponents.h:

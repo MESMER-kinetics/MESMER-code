@@ -54,6 +54,7 @@ namespace mesmer
         // Asymmetry parameter Kappa varies from -1 for a prolate symmetric top to 1 for an oblate symmetric top.
         double Kappa = (2. * rcB - rcA - rcC)/(rcA - rcC);
 
+        // if (0) { // Near symmetric top.
         if (abs(Kappa) > 0.95) { // Near symmetric top.
 
           double rcDiff(0.0) ;
@@ -178,9 +179,9 @@ namespace mesmer
       Ef[k] = h*sqrt(Ee) ;
     }
 
-    Ef[2] *= sqrt(2.0) ;
-    double Ed1 = Ed[1] + Ef[1] ;
-    double Ed2 = Ed[1] - Ef[1] ;
+    Ef[1] *= sqrt(2.0) ;
+    double Ed1 = Ed[0] + Ef[0] ;
+    double Ed2 = Ed[0] - Ef[0] ;
 
     //
     // E+ Block.
@@ -188,9 +189,10 @@ namespace mesmer
     int i(0) ;
     int N = J/2 + 1 ;
     R[0] = Ed0 ;
-    for (i = 0 ; i < N-1 ; i++) {
-      E[i+1] = Ef[i*2] ;
-      R[i+1] = Ed[i*2] ;
+	E[0] = 0.0 ;
+    for (i = 1 ; i < N ; i++) {
+      E[i] = Ef[i*2-1] ;
+      R[i] = Ed[i*2-1] ;
     }
 
     TMatrix<double>::tqlev(&R[0], &E[0], N) ;
@@ -206,8 +208,8 @@ namespace mesmer
     //
     N = J/2 ;
     for (i = 0 ; i < N ; i++) {
-      E[i+1] = Ef[i*2+2] ;
-      R[i]   = Ed[i*2] ;
+      E[i+1] = Ef[i*2+3] ;
+      R[i]   = Ed[i*2+1] ;
     }
 
     TMatrix<double>::tqlev(&R[0], &E[0], N) ;
@@ -220,10 +222,11 @@ namespace mesmer
     // O+ Block.
     //
     N = (J+1)/2 ;
-    R[1] = Ed1 ;
-    for (i = 0 ; i < N-1 ; i++) {
-      E[i+1] = Ef[i*2+1] ;
-      R[i+1] = Ed[i*2+1] ;
+    R[0] = Ed1 ;
+	E[0] = 0.0 ;
+    for (i = 1 ; i < N ; i++) {
+      E[i] = Ef[i*2] ;
+      R[i] = Ed[i*2] ;
     }
 
     TMatrix<double>::tqlev(&R[0], &E[0], N) ;
@@ -236,10 +239,11 @@ namespace mesmer
     // O- Block.
     //
     N = (J+1)/2 ;
-    R[1] = Ed2 ;
-    for (i = 0 ; i < N-1 ; i++) {
-      E[i+1] = Ef[i*2+1] ;
-      R[i+1] = Ed[i*2+1] ;
+    R[0] = Ed2 ;
+	E[0] = 0.0 ;
+    for (i = 1 ; i < N ; i++) {
+      E[i] = Ef[i*2] ;
+      R[i] = Ed[i*2] ;
     }
 
     TMatrix<double>::tqlev(&R[0], &E[0], N) ;
