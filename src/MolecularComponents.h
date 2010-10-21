@@ -416,6 +416,11 @@ namespace mesmer
     //Returns true if atoms have coordinates
     bool ReadStructure();
 
+    int NumAtoms() 
+    { 
+      return m_HasCoords ? Atoms.size() : -1;
+    }
+
     double CalcMW();
 
     std::pair<std::string,std::string> GetAtomsOfBond(const std::string& bondID)
@@ -437,6 +442,8 @@ namespace mesmer
     double CalcMomentAboutAxis(std::vector<std::string> atomset,
                                OpenBabel::vector3 at1, OpenBabel::vector3 at2);
     
+    //Calculate moment of inertia matrix
+    vector<double> CalcRotConsts(); 
 
     double getMass() const { return m_MolecularWeight;};
     void setMass(double value) { m_MolecularWeight = value;};

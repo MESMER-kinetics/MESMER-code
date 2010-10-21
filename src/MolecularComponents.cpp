@@ -153,18 +153,29 @@ namespace mesmer
     }
     else { istringstream idata(txt); double x; while (idata >> x) m_VibFreq.push_back(x); m_VibFreq_chk = 0;}
 
+    std::vector<double> rCnst(3);
     txt= ppPropList->XmlReadProperty("me:rotConsts", optional);
     if(!txt){
-      hasRotConst = false;
-      cinfo << "Cannot find argument me:rotConsts. Assumes that it is an atom or atomic ion." << endl;
-      m_RC_chk = -1;
+      gStructure& gs = pMol->getStruc();
+      if(!gs.ReadStructure() || gs.NumAtoms()==1) {
+        hasRotConst = false;
+        cinfo << "No rotational constants from <me:rotConsts> or structure.Assuming to be an atom or atomic ion." << endl;
+        m_RC_chk = -1;
+      }
+      else {
+        //data from atom coordinates
+        rCnst = gs.CalcRotConsts();
+      }
     }
     else {
+      //data from <me:rotConsts>
       istringstream idata(txt);
-      std::vector<double> rCnst(3);
       idata >> rCnst[0]
       >> rCnst[1]
       >> rCnst[2];
+    }
+    if(hasRotConst)
+    {
       rCnst[0] = abs(rCnst[0]);
       rCnst[1] = abs(rCnst[1]);
       rCnst[2] = abs(rCnst[2]);
@@ -1614,13 +1625,20 @@ bool gStructure::ReadStructure()
     return m_HasCoords;
   PersistPtr ppMol = getHost()->get_PersistentPointer();
   PersistPtr ppAtom = ppMol->XmlMoveTo("atomArray");
+  if(!ppAtom) // there may not be an <atomArray> element
+    ppAtom = ppMol; 
   while(ppAtom=ppAtom->XmlMoveTo("atom"))
   {
     atom at;
-    const char* pId = ppAtom->XmlReadValue("id");
+    const char* pId = ppAtom->XmlReadValue("id", optional);
     if(pId) at.id = pId;
-    at.element = ppAtom->XmlReadValue("elementType");
-
+    const char* el = ppAtom->XmlReadValue("elementType");
+    if(!el)
+    {
+      cerr << "<atom> elements must have an elementType attribute" << endl;
+      return false;
+    }
+    at.element =el;
     double x3, y3, z3;
     x3 = ppAtom->XmlReadDouble("x3", optional);
     y3 = ppAtom->XmlReadDouble("y3", optional);
@@ -1635,6 +1653,8 @@ bool gStructure::ReadStructure()
   //Read all the bonds. For each bond add a connect to each atom
   PersistPtr ppBond = ppMol->XmlMoveTo("bondArray");
   int ibond=1;
+  if(!ppBond) // there may not be an <bondArray> element
+    ppBond = ppMol;
   while(ppBond=ppBond->XmlMoveTo("bond"))
   {
     const char* pId = ppBond->XmlReadValue("id", optional);
@@ -1700,6 +1720,68 @@ double gStructure::CalcMomentAboutAxis(vector<string> atomset, vector3 at1, vect
     sumMoment += atomMass(Atoms[*iter].element) * d * d;
   }
   return sumMoment;
+}
+    
+//Returns the rotational constants (in cm-1) in a vector
+//OK for atoms and diatomics but currently no recognition of symmetry
+vector<double> gStructure::CalcRotConsts()
+{
+  vector<double> RotConsts(3, 0.0); //cm-1
+  if(NumAtoms()<2)
+    return RotConsts; //empty
+  //Determine centre of mass
+  map<string, atom>::iterator iter;
+  vector3 centreOfMass; 
+  double mt = 0.0;
+  for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter)
+  {
+    double mass = atomMass(iter->second.element);
+    centreOfMass += iter->second.coords * mass;
+    mt  += mass;
+  }
+  centreOfMass /= mt ;
+  
+  dMatrix MI(3);
+  double sxx = 0.0, syy = 0.0, szz = 0.0, sxy = 0.0, sxz = 0.0, syz = 0.0;
+  for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter)
+  {
+    vector3 c = iter->second.coords - centreOfMass;
+    double  m = atomMass(iter->second.element);
+    sxx += m * c.x() * c.x();
+    syy += m * c.y() * c.y();
+    szz += m * c.z() * c.z();
+    sxy += m * c.x() * c.y();
+    sxz += m * c.x() * c.z();
+    syz += m * c.y() * c.z();
+  }
+
+  vector<double> PrincipalMI(3, 0.0);//initially amuAng2, eventually gcm2
+  if(NumAtoms()==2)
+    PrincipalMI[0] = szz;
+  else
+  {
+    MI[0][0] = syy+szz;
+    MI[0][1] = -sxy;
+    MI[0][2] = -sxz; 
+    MI[1][0] = -sxy;
+    MI[1][1] = sxx+szz;
+    MI[0][2] = -syz; 
+    MI[2][0] = -sxz;
+    MI[2][1] = -syz; 
+    MI[2][2] = sxx + syy;
+
+    MI.diagonalize(&PrincipalMI[0]);
+  }
+  
+  const double amuA2TOgcm2 = 1.0E-16/AvogadroC;
+  for(unsigned i=0; i<3;++i)
+  {
+    RotConsts[i] = PrincipalMI[i]==0.0 ? 0.0 : conMntInt2RotCnt/PrincipalMI[i];
+    PrincipalMI[i] *= amuA2TOgcm2;
+  }
+  
+  return RotConsts;
+
 }
 
 }//namespace

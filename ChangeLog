@@ -1,3 +1,18 @@
+2010-October-20 Chris Morley
+
+	* src/MolecularComponents.cpp, src/MolecularComponents.h:
+	If <me:rotConsts> not present, calculate rotational constants from
+	structure if coordinates provided. (I have not seen rot consts in MolPro
+	files.)
+	(ReadStructure) Make robust to to absence of <atomArray> and <bondArray>
+	
+	* src/plugins/ExponentialDown.cpp: make robust to absence of <atomArray>
+
+	* Documentation/Constructing a Datafile from Gaussian output.html:
+	Updated for 2.3.0 release of OpenBabel, etc.
+	
+	* examples/makedata.bat: works with .out as well as .log
+ 
 2010-July-27 Chi-Hsiu Liang
 
   * Removed 1D FGH approach from the trunk

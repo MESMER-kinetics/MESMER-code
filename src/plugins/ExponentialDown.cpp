@@ -85,7 +85,11 @@ private:
 
     setParent(parent);
     PersistPtr pp = parent->get_PersistentPointer();
-    PersistPtr ppProp = pp->XmlMoveToProperty("me:deltaEDown");
+    // There may or may not be a <propertyList> element. If not, the <property>
+    //  elements are children of <molecule>
+    PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
+    if(!ppPropList)
+      ppPropList=pp;
 
     /******************************************************************************
     The following statement reads the value of the CML property "me:deltaEDown". If
@@ -96,7 +100,7 @@ private:
     use of the default, and provides error messages, including optional exhortations
     for the user to check the default (see the manual).
     ******************************************************************************/
-    const char* txt = (parent->get_PersistentPointer())->XmlReadProperty("me:deltaEDown"); //required
+    const char* txt = ppPropList->XmlReadProperty("me:deltaEDown"); //required
     if(!txt)
       return false;
     istringstream idata(txt);
@@ -110,9 +114,10 @@ private:
     search and fitting routines. The me:deltaEDown property having both "lower" and
     "upper" attributes, together with and the following code, sets this up.
     ******************************************************************************/
-    double valueL   = ppProp->XmlReadDouble("lower", optional);
-    double valueU   = ppProp->XmlReadDouble("upper", optional);
-    double stepsize = ppProp->XmlReadDouble("stepsize" ,optional);
+    PersistPtr ppProp = ppPropList->XmlMoveToProperty("me:deltaEDown"); //needed to read the attributes
+    double valueL     = ppProp->XmlReadDouble("lower", optional);
+    double valueU     = ppProp->XmlReadDouble("upper", optional);
+    double stepsize   = ppProp->XmlReadDouble("stepsize" ,optional);
     if (valueL!=0.0 && valueU!=0.0){
       // make a range variable
       m_deltaEdown.set_range(valueL, valueU, stepsize, "deltaEdown");//incl parent in name?

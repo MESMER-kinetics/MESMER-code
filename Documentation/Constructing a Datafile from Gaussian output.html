@@ -35,8 +35,7 @@
 
 <p>Install Mesmer with the Windows Installer.</p>
 
-<p>Download the OpenBabel installer from <a href="http://www.gaseq.co.uk/OB/openbabel2.3.0cm_windows_installer.exe">here</a> and run it. This is a development version of OpenBabel;
-the current version does not yet have all the required features.</p>
+<p>Install OpenBabel from its Windows Installer at <a href="http://sourceforge.net/projects/openbabel/files/">here</a>. You will need version 2.3.0 or later.</p>
 
   <p>
     Although XML can be edited by a basic text editor, it is easier with one that
@@ -65,7 +64,7 @@ will be added to it. Open a command window with this folder as the current folde
 
 <p><em>If you want use your own set of files, they need to be in another
 sub-folder of the examples folder to ensure that that various commands and the
-display of data in Firefox work properly.</em></p>
+display of data in Firefox work properly. </em></p>
 
 <p>A file with a .ck extension is needed that contains a description of the reaction mechanism
 of the system being modelled, including the names of the chemical species of interest. The file <code>acetylO2.ck</code> file contains:</p>
@@ -98,14 +97,17 @@ R4  Int1 =&gt; ketene + HO2
 <pre>
   babel ..\mesmerTemplate.text *.log acetylO2.ck -ocmlr acetylO2.xml -aL -e -xp -xx --add MW
 </pre>
-<p>mesmerTemplate.text contains some boilerplate text for Mesmer datafiles, and is provided in the examples folder.
-All the Gaussian .log files in the current folder are used (OpenBabel deduces the format), together with the acetylO2.ck prepared above. The resulting Mesmer datafile is acetylO2.xml. The meaning of the options are: -ocmlr the output format (CML reaction); -aL read reaction labels; -e continue after any errors; -xp include CML properties; -xx omit the XML header; --add MW include the species molecular weights.</p>
+<p>
+  mesmerTemplate.text contains some boilerplate text for Mesmer datafiles, and is provided in the examples folder.
+  All the Gaussian .log files in the current folder are used (OpenBabel deduces the format), together with the acetylO2.ck prepared above. The resulting Mesmer datafile is acetylO2.xml. The meaning of the options are: -ocmlr the output format (CML reaction); -aL read reaction labels; -e continue after any errors; -xp include CML properties; -xx omit the XML header; --add MW include the species molecular weights.
+ (If you have Gaussian files with a .out extension rather than .log, change the OpenBabel command   appropriately.)
+</p>
 
-<p>To save typing, a batch file to do this for any system is provided in the examples folder. With the folder with the Gaussian files as the currrent directory, typing the following will prepare the Mesmer datafile acetylO2.xml. (Note the backslash.)</p>
+<p>To save typing, a batch file to do run the OpenBabel command for any system is provided in the examples folder. With the folder with the Gaussian files as the currrent directory, typing the following will prepare the Mesmer datafile acetylO2.xml. (Note the backslash.)</p>
 <pre>
   ..\makedata acetylO2
 </pre>
-<p><em>(If you get an error message "Problems reading an output file...", it may be due to mesmer.log, which is not a Gaussian file, being read. The message can be ignored. If necessay, the *.log in the babel command can be replaced by a list of the filenames that are to be included.)</em></p>
+<p><em>(If you get an error message "Problems reading an output file...", it may be due to mesmer.log, being read. This is not a Gaussian file and is produced whenever Mesmer is run. The message can be ignored. If necessay, the *.log in the babel command can be replaced by a list of the filenames that are to be included.)</em></p>
 
 <h4>Adding Mesmer features</h4>
 
