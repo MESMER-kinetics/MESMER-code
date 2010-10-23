@@ -1,3 +1,26 @@
+2010-October-23 Chris Morley
+
+	* src/Molecule.cpp: remove sink from types of molecule needing a
+	gDensityOfStates component. I think this must have been changed
+	by mistake.
+	
+	* src/ReactionManager.cpp: mods to keep parsing reactions even if one is
+	not perfect. Necessary for input from Gaussian files. I thought it used
+	to be like this...
+	
+	* defaults.xml,Documentation/Constructing a Datafile from Gaussian output.html:
+	change default for <me:MCRCMethod> to make constructing	a datafile
+	slightly easier. However they are currently failing because they do
+	not contain data for sink species, even though it is not necessary; a
+	problem that needs resolving.	
+		
+	* src/AssignMolTypes.cpp: small change in a message
+	
+	* src/MolecularComponents.cpp: comment out in the destructors the
+	reporting to mesmer.test of the non-use of various properties. I
+	don't think this is useful.
+	
+	Add a logging message when calculating rotational constants.
 
 2010-October-21 Struan Robertson
 

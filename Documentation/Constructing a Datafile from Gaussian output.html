@@ -86,7 +86,7 @@ R4  Int1 =&gt; ketene + HO2
 
 <p>Some of the species which Mesmer models (acetyl, Int1 and Int2 in the mechanism above) need extensive data, such as provided by Gaussian. Others (O2 and OH ) can be provided by Mesmer from a library of simple molecules if not otherwise supplied. The rest (HO2, lactone and ketene) do not need any data at this stage, but may benefit from some being added later, if it is available. </p>
 
-<p>The first reaction will be modelled by Inverse Lapace Transform and needs the rate constant, which is entered as shown. The parameters are A(cm<sup>3</sup>molecule<sup>-1</sup>s<sup>-1</sup>), n, and E(kJ/mol) and k = a T^n exp(-E/RT), but currently n must be 0. If this data is not provided here, you will be prompted for it later in the process. This also applies for other data which may be missing.</p>
+<p>The first reaction will be modelled by Inverse Lapace Transform(ILT) and needs the rate constant, which is entered as shown. The parameters are A(cm<sup>3</sup>molecule<sup>-1</sup>s<sup>-1</sup>), n, and E(kJ/mol) and k = a T^n exp(-E/RT), but currently n must be 0. If this data is not provided here, you will be prompted for it later in the process. This also applies for other data which may be missing.</p>
 
 <p>Whether the reaction is marked as reversible, &lt;=&gt; , or irreversible , =&gt; , can be significant.</p>
 
@@ -137,14 +137,14 @@ R4  Int1 =&gt; ketene + HO2
           &lt;scalar>130.0&lt;/scalar&gt;
         &lt;/property>
 </pre>
-If you want to accept this default value, change the attribute to <code>default="true"</code>. If you want to use a different value, enter it and delete the whole of the default attribute. A common error is to make a mistake with the quote characters, so take care. There should be a space before each attribute name.</p>
+If you want to accept this default value, change the attribute to <code>default="true"</code>. If you want to use a different value, enter it and delete the whole of the default attribute. A common error is to make a mistake with the quote characters, so take care. Each attribute name (like <code>default</code>) should be preceded by a space.</p>
 
-<p>Similarly in the reactions
+<p>Similarly in the reactions,
 <pre>
-  &lt;me:MCRCMethod default="IS UNSATISFACTORY. CHOOSE ONE FROM LIST"&gt;
-                          SimpleRRKM SimpleILT MesmerILT&lt;/me:MCRCMethod&gt;
+  &lt;me:MCRCMethod default="NEEDS TO BE CHECKED. COULD ALSO BE SimpleILT MesmerILT**"&gt;
+                          SimpleRRKM&lt;/me:MCRCMethod&gt;
 </pre>
-erase all but the required method (<code>MesmerILT</code> for R1 and <code>SimpleRRKM</code> for the others) and erase whole of the default attribute. Save acetylO2.xml. </p>
+Change <code>SimpleRRKM</code> to <code>MesmerILT</code> for R1 and leave it as it is for the other reactions. Erase whole of the default attribute for all of them. Save acetylO2.xml. </p>
 
 <h4>Refining the XML</h4>
 <p>Use the up arrow key in the command window to retrieve <code>mesmer acetylO2.xml -p -n</code> , and run it again. This may show up more defaults in upper case that need attention.</p>

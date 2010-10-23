@@ -22,13 +22,13 @@ namespace mesmer
   //
   gBathProperties::~gBathProperties()
   {
-    if (m_Sigma_chk == 0){
+/*  if (m_Sigma_chk == 0){
       cinfo << "m_Sigma is provided but not used in " << m_host->getName() << "." << endl;
     }
     if (m_Epsilon_chk == 0){
       cinfo << "m_Epsilon is provided but not used in " << m_host->getName() << "." << endl;
     }
-  };
+*/};
 
   gBathProperties::gBathProperties(Molecule* pMol)
     :m_Sigma(sigmaDefault),
@@ -89,13 +89,13 @@ namespace mesmer
   //
   gDensityOfStates::~gDensityOfStates()
   {
-    if (m_RC_chk == 0) cinfo << "Rotational constants are provided but not used in " << m_host->getName() << "." << endl;
+/*    if (m_RC_chk == 0) cinfo << "Rotational constants are provided but not used in " << m_host->getName() << "." << endl;
     if (m_Sym_chk == 0) cinfo << "m_Sym is provided but not used in " << m_host->getName() << "." << endl;
     if (m_ZPE_chk == 0) cinfo << "m_ZPE is provided but not used in " << m_host->getName() << "." << endl;
     if (m_scaleFactor_chk == 0) cinfo << "m_scaleFactor is provided but not used in " << m_host->getName() << "." << endl;
     if (m_SpinMultiplicity_chk == 0) cinfo << "m_SpinMultiplicity is provided but not used in " << m_host->getName() << "." << endl;
     if (m_VibFreq_chk == 0) cinfo << "m_VibFreq is provided but not used in " << m_host->getName() << "." << endl;
-
+*/
     // Free any memory assigned for calculating densities of states. (must be in reverse order)
     if (m_grainDOS.size()) m_grainDOS.clear();
     if (m_grainEne.size()) m_grainEne.clear();
@@ -185,6 +185,12 @@ namespace mesmer
       m_RotCstC = rCnst[0];
       m_RC_chk = 0;
     }
+    
+    if(!txt && hasRotConst)
+    {
+      cinfo << "Rotational constants were calculated from atom coordinates: "
+            << m_RotCstA << ' ' << m_RotCstB << ' ' << m_RotCstC << " cm-1" << endl;
+    }  
 
     if (hasVibFreq != hasRotConst){
       cerr << "Improper setting on vibrational frequencies or rotational constants. Check input file to remove this error.";
@@ -679,7 +685,7 @@ namespace mesmer
   //
   gTransitionState::~gTransitionState()
   {
-    if (m_ImFreq_chk == 0) cinfo << "m_ImFreq is provided but not used in " << m_host->getName() << "." << endl;
+    //if (m_ImFreq_chk == 0) cinfo << "m_ImFreq is provided but not used in " << m_host->getName() << "." << endl;
   }
 
   gTransitionState::gTransitionState(Molecule* pMol)

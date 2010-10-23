@@ -117,7 +117,7 @@ namespace mesmer
 
       ppReac = ppReac->XmlMoveTo("reaction");
     }
-    cerr << "Check in the XML file that the assigned types are reasonable." << endl;
+    cerr << "You should check in the XML file that the assigned types are reasonable." << endl;
     return true;
   }
 }//namespace mesmer

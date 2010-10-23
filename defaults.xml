@@ -30,9 +30,8 @@
   <property dictRef="me:MW" default="IS UNSATISFACTORY. A VALUE NEEDS TO BE PROVIDED**">
     <scalar>0.0</scalar>
   </property>
-  <me:MCRCMethod default="IS UNSATISFACTORY. CHOOSE ONE FROM LIST**">
-    SimpleRRKM SimpleILT MesmerILT
-  </me:MCRCMethod>
+  <me:MCRCMethod default="NEEDS TO BE CHECKED. COULD ALSO BE SimpleILT MesmerILT**">
+    SimpleRRKM</me:MCRCMethod>
   <me:DOSCMethod default="true">ClassicalRotors</me:DOSCMethod>
   <me:DOSCType default="true">external</me:DOSCType>
   <me:DistributionCalcMethod default="true">Boltzmann</me:DistributionCalcMethod>

@@ -30,10 +30,14 @@ namespace mesmer
   //
   bool ReactionManager::addreactions(PersistPtr ppReacList, const MesmerEnv& mEnv, MesmerFlags& mFlags)
   {
-    bool readStatus(true);
+    bool readStatus(true), allReactionsOK(true);
     PersistPtr ppReac = ppReacList;
     while(ppReac = ppReac->XmlMoveTo("reaction"))
     {
+      if(!readStatus)
+        allReactionsOK = false; //parsing of previous reaction failed, but keep parsing
+      readStatus =true; //for current reaction
+
       //ignore reactions with attribute active="false"
       const char* active = ppReac->XmlReadValue("active", optional);
       if(active && !strcmp(active, "false"))
@@ -85,10 +89,6 @@ namespace mesmer
           bPdt2 = true ;
         }
       }
-
-      //if (!readStatus)
-      //  return false ;
-
       //
       // Create a new Reaction.  For association & exchange reactions, if rct1Type == reactant,
       // bool is true and rct1 is the pseudoisomer.  if not, bool is false, and rct1 is the excess
@@ -125,7 +125,7 @@ namespace mesmer
       m_reactions.push_back(preaction) ;
     }
 
-    return readStatus;
+    return allReactionsOK;
   }
 
   //
