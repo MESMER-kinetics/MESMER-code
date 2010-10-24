@@ -63,6 +63,8 @@
         </property>
       </propertyList>
 
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+
       <me:ExtraDOSCMethod name="HinderedRotorA">
         <bondRef>b1</bondRef>
         <me:HinderedRotorPotential format="analytical" units="kJ/mol">
@@ -131,7 +133,9 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      
+
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+
       <me:ExtraDOSCMethod name="HinderedRotorA">
         <bondRef>b1</bondRef>
         <me:HinderedRotorPotential format="analytical" units="kJ/mol">
@@ -429,7 +433,7 @@
 
   <me:control>
     <me:calcMethod>fitting</me:calcMethod>
-    <me:fittingIterations>5</me:fittingIterations>
+    <me:fittingIterations>2</me:fittingIterations>
     <me:testDOS />
     <!--<me:testMicroRates />-->
     <me:eigenvalues>1</me:eigenvalues>

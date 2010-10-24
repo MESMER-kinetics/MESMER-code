@@ -154,7 +154,7 @@ namespace mesmer
   // 
   // ED(K)=E(K,K) are the diagonal elements of the energy matrix, 
   // ED0=E(0,0). EF(K)=E(K-2,K) are the off-diagonal elements of the 
-  // energy matrix.  ED1=E(1,1)+E(-1,1), ED2=E(1,1)-E(-1,1).
+  // energy matrix.
   //
 
   void QMRotor::asymmetricRotor(double A, double B, double C, int J, double kpp, vector<double> &Er) {
@@ -166,7 +166,7 @@ namespace mesmer
     vector<double> Ef(NMAX,0.0) ;
 
     double jj   = double(J) ;
-    double jsqd = jj*(jj + 1.0) ;
+    double jsqd = double(J*(J + 1)) ;
     double f    =  (kpp - 1.0)/2.0 ;
     double h    = -(kpp + 1.0)/2.0 ;
 
@@ -178,10 +178,7 @@ namespace mesmer
       double Ee = (jsqd - (kk-2.0)*(kk-1.0))*(jsqd - (kk-1.0)*kk)/4.0 ;
       Ef[k] = h*sqrt(Ee) ;
     }
-
     Ef[1] *= sqrt(2.0) ;
-    double Ed1 = Ed[0] + Ef[0] ;
-    double Ed2 = Ed[0] - Ef[0] ;
 
     //
     // E+ Block.
@@ -222,7 +219,7 @@ namespace mesmer
     // O+ Block.
     //
     N = (J+1)/2 ;
-    R[0] = Ed1 ;
+    R[0] = Ed[0] + Ef[0] ; // E(1,1) + E(-1,1)
 	E[0] = 0.0 ;
     for (i = 1 ; i < N ; i++) {
       E[i] = Ef[i*2] ;
@@ -239,7 +236,7 @@ namespace mesmer
     // O- Block.
     //
     N = (J+1)/2 ;
-    R[0] = Ed2 ;
+    R[0] = Ed[0] - Ef[0] ; // E(1,1) - E(-1,1)
 	E[0] = 0.0 ;
     for (i = 1 ; i < N ; i++) {
       E[i] = Ef[i*2] ;

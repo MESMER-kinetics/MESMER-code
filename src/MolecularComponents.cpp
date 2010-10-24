@@ -1636,15 +1636,15 @@ bool gStructure::ReadStructure()
   while(ppAtom=ppAtom->XmlMoveTo("atom"))
   {
     atom at;
-    const char* pId = ppAtom->XmlReadValue("id", optional);
-    if(pId) at.id = pId;
     const char* el = ppAtom->XmlReadValue("elementType");
     if(!el)
     {
       cerr << "<atom> elements must have an elementType attribute" << endl;
       return false;
     }
-    at.element =el;
+    at.element = el;
+    const char* pId = ppAtom->XmlReadValue("id", optional);
+	at.id = (pId)? pId : at.element ;
     double x3, y3, z3;
     x3 = ppAtom->XmlReadDouble("x3", optional);
     y3 = ppAtom->XmlReadDouble("y3", optional);
@@ -1653,7 +1653,7 @@ bool gStructure::ReadStructure()
     if(x3!=0 || y3!=0 || z3!=0)
       m_HasCoords = true; //at least one atom with non-zero coordinates
 
-    Atoms[pId] = at;
+    Atoms[at.id] = at;
   }
 
   //Read all the bonds. For each bond add a connect to each atom

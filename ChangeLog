@@ -1,3 +1,18 @@
+2010-October-24 Struan Robertson
+
+	* src/Molecule.cpp: Roll-back previous change, i.e. add sink to types 
+	of molecule needing a gDensityOfStates component. This broke the i-propyl
+	example because one the variable parameters is a property on one of the
+	sink molecules (propene) and is used in the ILT method.
+
+	* src/MolecularComponents.cpp:(ReadStructure) Make even more robust, use
+	element name if ID is missing.
+	
+	* src/QMRotor.cpp: Minor tiding up.
+	
+	* examples/i-propyl: Update of input document to use quantum rotational 
+	states.
+
 2010-October-23 Chris Morley
 
 	* src/Molecule.cpp: remove sink from types of molecule needing a
