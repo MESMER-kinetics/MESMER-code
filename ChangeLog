@@ -1,3 +1,35 @@
+2010-October-26 Chris Morley
+
+	* src/Reaction.cpp, src/Reaction.h, src/IrreversibleExchangeReaction.h,
+	src/IrreversibleUnimolecularReaction.cpp: add new flag m_UsesProductProperties
+	with get and set methods. It is false for irreversible reactions unless
+	set in MesmerILT.cpp if there is reverse ILT. setUsesProductProperties()
+	also ensures that the product gDensityOfStates data is loaded before the
+	start of the calculation, so that product energy can be used as a range
+	variable, as in ipropyl_test.xml. 
+	
+	* src/IrreversibleUnimolecularReaction.cpp: handle the case of the
+	reverse threshold energy being negative, which requires knowledge
+	of the product energies, only if flagged as above. Allows sink molecules
+	to be input without properties (as in Gaussian file input tutorial).
+    
+	* src/MolecularComponents.cpp,src/MolecularComponents.h
+	(gDensityOfStates::gDensityOfStates) delay call to ReadDOSMethods()
+	until after the vibrational frequencies have been read in, so that they
+	can be altered by...	
+
+	* src/plugins/HinderedRotorA.cpp: provide <me:replaceVibFreq> which
+	removes the specified frequency from m_vibFreqand allows it to remain in
+	the XML file, which is self documenting. The previous method still works.
+	
+	* src/DensityOfStates.h,src/plugins/HinderedRotorA.cpp(ReadParameters):
+	change parameter from Molecule* to gDensityOfStates* because used from
+	gDensityOfStates constructor when Molecule does not know about it yet.
+    
+    * src/Molecule.cpp: revert the roll-back in the last commit. The changes
+    allow ipropyl_test.xml to run with two variables, but I don't know how
+    sensible the results are.
+
 2010-October-24 Struan Robertson
 
 	* src/Molecule.cpp: Roll-back previous change, i.e. add sink to types 

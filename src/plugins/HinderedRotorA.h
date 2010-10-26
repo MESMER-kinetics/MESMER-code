@@ -10,7 +10,7 @@ namespace mesmer
   {
   public:
     //Read data from XML. Some is stored hear and some in a MolecularComponent class.
-    virtual bool ReadParameters(Molecule* pMol, PersistPtr ppDOSC=NULL);
+    virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC=NULL);
 
     // Provide a function to define particular counts of the DOS of a molecule.
     virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell);

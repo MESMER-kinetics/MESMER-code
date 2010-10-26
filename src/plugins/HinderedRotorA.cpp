@@ -16,9 +16,9 @@ namespace mesmer
 
   using OpenBabel::vector3;
   //Read data from XML and store in this instance.
-  bool HinderedRotorA::ReadParameters(Molecule* pMol, PersistPtr ppDOSC)
+  bool HinderedRotorA::ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC)
   {
-	gStructure& gs = pMol->getStruc();
+    gStructure& gs = gdos->getHost()->getStruc();
 	if(!gs.ReadStructure())
 	{
 	  cerr << "A complete set of atom coordinates are required for hindered rotor calculations" <<endl;
@@ -35,7 +35,20 @@ namespace mesmer
 		return false;
 	  }
 	  m_bondID = bondID;
-	  cinfo << "Hindered rotor " << m_bondID << endl;
+	  cinfo << "Hindered rotor " << m_bondID;  
+
+    //Remove the vibrational frequency that this hindered rotation replaces
+	  const char* vibFreq = ppDOSC->XmlReadValue("me:replaceVibFreq",optional);
+    if(vibFreq)
+    {
+      if(!gdos->removeVibFreq(atof(vibFreq)))
+      {
+        cerr << "Cannot find vibrational frequency " << vibFreq << " to replace it with hindered rotor" <<endl;
+        return false;
+      }
+      cinfo << " replacing vib freq " << vibFreq;      
+    }
+    cinfo << endl;
 
 	  vector3 coords1 = gs.GetAtomCoords(bondats.first);
 	  vector3 coords2 = gs.GetAtomCoords(bondats.second);

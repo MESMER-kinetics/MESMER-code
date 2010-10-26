@@ -30,7 +30,7 @@ namespace mesmer
       m_pdt1(NULL), 
       m_pdt2(NULL),
       deficientReactantLocation(isReactant)
-      {} 
+      { m_UsesProductProperties = false; } 
 
     // Destructor.
     virtual ~IrreversibleExchangeReaction(){}

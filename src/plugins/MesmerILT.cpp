@@ -145,6 +145,11 @@ namespace mesmer
       m_TInf = TInf ;   
     }
 
+    if (m_isRvsILTpara)
+      // Read product properties and set flag in Reaction to indicate
+      // that even irreversible reactions may use these.
+      pReact->setUsesProductProperties();
+
     return SimpleILT::ILTCheck(pReact, ppReac) ; 
   }
 
@@ -172,7 +177,6 @@ namespace mesmer
     //
     double relative_ZPE(0.0) ;
     if (m_isRvsILTpara){
-
       vector<Molecule *> products ; 
       int numberOfProducts = pReact->get_products(products) ;
 
@@ -189,7 +193,7 @@ namespace mesmer
 
       // Allocate some work space for density of states and extract densities of states from molecules.
       vector<double> pdtsCellDOS; // Convoluted cell density of states of reactants.
-
+      
       if(!countDimerCellDOS(p_pdt1->getDOS(), p_pdt2->getDOS(), pdtsCellDOS))
         return false;
 

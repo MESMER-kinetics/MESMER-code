@@ -43,7 +43,8 @@ namespace mesmer
     m_kfwd(0.0),
     m_GrnFluxFirstNonZeroIdx(0),
     m_EffGrainedFwdThreshold(0),
-    m_EffGrainedRvsThreshold(0)
+    m_EffGrainedRvsThreshold(0),
+    m_UsesProductProperties(true)
   {}
 
   Reaction::~Reaction(){}
@@ -299,5 +300,25 @@ namespace mesmer
     return true ;
   }
 
+  //Returns true if the XML input contains ZPE for all products, but does not read them
+  bool Reaction::ProductEnergiesSupplied() const
+  {
+    vector<Molecule*> prods;
+    unsigned nprods = get_products(prods);
+    for(unsigned i=0;i<nprods;++i)
+      if(!(prods[i]->get_PersistentPointer())->XmlMoveToProperty("me:ZPE"))
+        return false;
+
+    return true;
+  }
+
+  void Reaction::setUsesProductProperties(bool b)
+  {
+    m_UsesProductProperties = b;
+
+    //Ensure appropriate product properties have been read in..
+    if(b)
+      getHeatOfReaction();
+  }
 
 }//namespace

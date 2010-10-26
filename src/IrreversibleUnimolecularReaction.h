@@ -26,7 +26,8 @@ namespace mesmer
       : Reaction(pMoleculeManager, Env, Flags, id),
       m_rct1(NULL),
       m_pdt1(NULL),
-      m_pdt2(NULL) {} 
+      m_pdt2(NULL)
+    { m_UsesProductProperties = false; }  
 
     // Destructor.
     virtual ~IrreversibleUnimolecularReaction(){} ;

@@ -128,7 +128,7 @@ namespace mesmer
     //
   public:
     gDensityOfStates(Molecule* pMol);
-    virtual ~gDensityOfStates();
+    ~gDensityOfStates();
 
     bool ReadDOSMethods();
 
@@ -148,7 +148,7 @@ namespace mesmer
     double getClassicalEnergy();
 
     // Accessors.
-    virtual double get_zpe();
+    double get_zpe();
     void set_zpe(const double value){ m_ZPE = value; m_ZPE_chk = 0;};
     void set_zpe(const double valueL, const double valueU, const double stepsize){
       m_ZPE.set_range(valueL, valueU, stepsize, "ZPE");
@@ -160,13 +160,14 @@ namespace mesmer
     double get_Sym(void);
     int test_rotConsts(void);
     int  get_rotConsts(std::vector<double> &mmtsInt);
-    virtual void get_VibFreq(std::vector<double>& vibFreq);
+    void get_VibFreq(std::vector<double>& vibFreq);
+    bool removeVibFreq(double freq); 
     
     // Returns the number of internal degrees of freedom. 
     // (Assumes the each extra DOS calculator contributes one degrees of freedom.)
     size_t get_nInternalDegreesOfFreedom() { return m_VibFreq.size() + m_ExtraDOSCalculators.size() ; }
 
-    virtual int getSpinMultiplicity();
+    int getSpinMultiplicity();
 
     int get_cellOffset(void);
 
@@ -196,7 +197,7 @@ namespace mesmer
     }
 
     // Test the rovibrational density of states.
-    virtual void testDensityOfStates() ;
+    void testDensityOfStates() ;
 
     // Get scale factor for vibrational frequencies
     double get_scaleFactor();

@@ -38,7 +38,7 @@ namespace mesmer
     }
 
     //Read any data from XML and store in this instance. Default is do nothing.
-    virtual bool ReadParameters(Molecule* pMol, PersistPtr ppDOSC=NULL){ return true; };
+    virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC=NULL){ return true; };
 
     // provide a function to define particular counts of the DOS of a molecule
     virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell)=0;

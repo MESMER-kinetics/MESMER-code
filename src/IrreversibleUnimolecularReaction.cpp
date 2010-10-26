@@ -244,17 +244,23 @@ namespace mesmer
     int TS_en = get_fluxGrnZPE();
     int rct_en = m_rct1->getColl().get_grnZPE();
 
-    double RxnHeat   = getHeatOfReaction();    // see the comments in
-    double threshold = get_ThresholdEnergy();  // calcEffGrnThresholds under AssociationReaction.cpp
+    // Handle the case of the reverse threshold energy being negative only if the 
+    // reaction can use product properties. (Probably set because ofreverse ILT).
 
-    int pdtsGrnZPE = get_pdtsGrnZPE();
-    int rctGrnZPE  = m_rct1->getColl().get_grnZPE();
-    int GrainedRxnHeat  = pdtsGrnZPE - rctGrnZPE;
+    double RxnHeat;
+    int pdtsGrnZPE = 0;
+    double threshold   = get_ThresholdEnergy();// see the comments in
+    if(UsesProductProperties()) {
+      RxnHeat          = getHeatOfReaction();  // calcEffGrnThresholds under AssociationReaction.cpp
+      pdtsGrnZPE       = get_pdtsGrnZPE();
+    }
+    int rctGrnZPE      = m_rct1->getColl().get_grnZPE();
+    int GrainedRxnHeat = pdtsGrnZPE - rctGrnZPE;
 
     if(threshold<0.0){
       set_EffGrnFwdThreshold(0);
     }
-    else if(threshold>0.0 && threshold<RxnHeat){// if the reverse threshold energy is negative
+    else if(UsesProductProperties() && threshold>0.0 && threshold<RxnHeat){// if the reverse threshold energy is negative
       set_EffGrnFwdThreshold( GrainedRxnHeat);  // forward grained flux threshold energy = heat of reaction
     }
     else{

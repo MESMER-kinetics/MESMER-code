@@ -203,12 +203,19 @@ namespace mesmer
 
     // Get the concentration of the excess reactant. 
     double get_concExcessReactant() const { return m_ERConc ; } ;
+
+    void setUsesProductProperties(bool b = true);
+    bool UsesProductProperties() const{ return m_UsesProductProperties; } 
     
   protected:
 
     // Read a molecule name from the XML file and look it up
     // The defaultType is used if there is no me:type attribute
     Molecule* GetMolRef(PersistPtr pp, const char* defaultType = NULL);
+
+    //Returns true if the XML input contains ZPE for all products
+    bool ProductEnergiesSupplied() const;
+
 
     // I/O and control
     PersistPtr           m_ppPersist;            // Conduit for I/O
@@ -284,10 +291,10 @@ namespace mesmer
     double m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
 
 protected: //previously private but needed in IrreversibleUnimolecularReaction::calcFluxFirstNonZeroIdx(void)
+    bool m_UsesProductProperties;
     int m_GrnFluxFirstNonZeroIdx;  // idx of the starting grain for calculating forward/backward k(E)s from flux
     int m_EffGrainedFwdThreshold;  // effective threshold energy (in grains) for forward flux calculations
     int m_EffGrainedRvsThreshold;  // effective threshold energy (in grains) for backward flux calculations
-
   } ;
 
   // _2008_04_24__12_35_40_

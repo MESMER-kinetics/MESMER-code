@@ -133,9 +133,6 @@ namespace mesmer
     m_host = pMol;
     ErrorContext c(pMol->getName());
 
-    //Read main and extra method and their data
-    ReadDOSMethods();
-
     PersistPtr pp = pMol->get_PersistentPointer();
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
@@ -283,6 +280,9 @@ namespace mesmer
     }
     else if(m_ZPE_chk < 0)
       cwarn << "No energy specified (as me:ZPE or me:Hf298 properties)" << endl;
+
+    //Read main and extra method and their data
+    ReadDOSMethods();
   }
 
   //
@@ -335,7 +335,7 @@ namespace mesmer
           break;
         }
         m_ExtraDOSCalculators.push_back(pDOSCalculator);
-        if(!pDOSCalculator->ReadParameters(getHost(), pp))
+        if(!pDOSCalculator->ReadParameters(this, pp))
         {
           msg = "failed to initialize correctly";
           break;
@@ -600,6 +600,14 @@ namespace mesmer
         vibFreq.push_back(m_VibFreq[i] * scalefactor);
       ++m_VibFreq_chk;
     }
+  }
+
+  bool gDensityOfStates::removeVibFreq(double freq) {
+    vector<double>::iterator pos = find(m_VibFreq.begin(),m_VibFreq.end(), freq);
+    if(pos==m_VibFreq.end())
+      return false;
+    m_VibFreq.erase(pos);
+    return true;
   }
 
   int gDensityOfStates::getSpinMultiplicity(){
