@@ -64,12 +64,6 @@ MesmerQA/pentyl/pentyl_isomerization_basisset_test.xml -text
 MesmerQA/pentyl/pentyl_isomerization_test.xml -text
 MesmerQA/pentyl/pentyl_isomerize_dissocn.xml -text
 MesmerQA/qashell.sh -text
-MesmerQA/spin_forbidden_kinetics/HCCH_methylene.test -text
-MesmerQA/spin_forbidden_kinetics/HCCH_methylene.xml -text
-MesmerQA/spin_forbidden_kinetics/LZ_test.test -text
-MesmerQA/spin_forbidden_kinetics/LZ_test.xml -text
-MesmerQA/spin_forbidden_kinetics/WKB_test.test -text
-MesmerQA/spin_forbidden_kinetics/WKB_test.xml -text
 /README -text
 /ToDo -text
 Windows[!!-~]VC8/MESMER.sln -text
@@ -108,6 +102,12 @@ examples/reservoirSink/full.test -text
 examples/reservoirSink/mesmer_out.xml -text
 examples/reservoirSink/reservoirSinkAcetylO2.test -text
 examples/reservoirSink/reservoirSinkAcetylO2.xml -text
+examples/spin_forbidden_kinetics/HCCH_methylene.test -text
+examples/spin_forbidden_kinetics/HCCH_methylene.xml -text
+examples/spin_forbidden_kinetics/LZ_test.test -text
+examples/spin_forbidden_kinetics/LZ_test.xml -text
+examples/spin_forbidden_kinetics/WKB_test.test -text
+examples/spin_forbidden_kinetics/WKB_test.xml -text
 /librarymols.xml -text
 mesmer.xcodeproj/project.pbxproj -text
 /mesmer1.xsl -text

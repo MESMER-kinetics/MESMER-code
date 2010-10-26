@@ -1,6 +1,10 @@
 
 2010-October-26 Struan Robertson
 
+	* Move spin forbidden kinetics examples to examples folder.
+
+2010-October-26 Struan Robertson
+
 	* Add i-propyl test to smoke test QA. This will test hindered rotors and 
 	reverse ILT.
 
