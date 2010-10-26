@@ -1,3 +1,7 @@
+2010-October-26 Struan Robertson
+
+	* Add Linux 32 baselines.
+
 2010-October-26 Chris Morley
 
 	* src/Reaction.cpp, src/Reaction.h, src/IrreversibleExchangeReaction.h,
