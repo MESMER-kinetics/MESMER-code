@@ -1,3 +1,9 @@
+
+2010-October-26 Struan Robertson
+
+	* Add i-propyl test to smoke test QA. This will test hindered rotors and 
+	reverse ILT.
+
 2010-October-26 Struan Robertson
 
 	* Add Linux 32 baselines.

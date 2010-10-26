@@ -1,0 +1,92 @@
+PT Grid 0 Condition: conc = 3e+017, temp = 720, diagonalization precision: double
+{
+
+Test rovibronic density of states for: i-propyl
+{
+      T           qtot           sumc           sumg
+    200        53.4852        1009.02        988.162
+    300        209.968        5176.45        5127.72
+    400        691.344        20545.4        20435.6
+    500        2109.57        72512.2        72263.3
+    600        6150.92         238636         238066
+    700        17308.2         745805         744495
+    800        47182.3   2.23205e+006   2.22905e+006
+}
+
+Canonical rate coefficients for R1, calculated from microcanonical rates
+{
+    100   1.72112e-071
+    200   4.63862e-029
+    300   6.67974e-015
+    400   8.07441e-008
+    500     0.00141573
+    600        0.89783
+    700        80.1173
+    800        2006.45
+}
+
+Eq fraction matrix:
+{
+            1
+}
+inverse of Eq fraction matrix:
+{
+            1
+}
+Equilibrium Fraction for i-propyl = 1
+
+Total number of eigenvalues = 186
+Eigenvalues
+{
+ -6.438153e+006
+ -4.381069e+006
+ -2.768861e+006
+ -1.569575e+006
+ -4.581456e+001
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 1
+
+There should be 1 chemically significant eigenvalues (CSEs)
+Y_matrix:
+{
+        4.581439e+01
+}
+
+Z_matrix: {
+9.999963e-01	
+}
+
+Z_matrix^(-1):
+{
+1.000004e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	
+}
+
+Kr matrix:
+{
+-4.581456e+01	
+}
+
+Kp matrix:
+{
+        4.581456e+01
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+i-propyl loss = -4.581456e+01
+}
+
+First order & pseudo first order rate coefficients for irreversible rxns:
+{
+i-propyl -> propene+H = 4.581456e+01
+}
+
+}
