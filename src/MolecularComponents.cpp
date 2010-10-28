@@ -1709,17 +1709,18 @@ double gStructure::CalcMW()
   return MW;
 }
 
-// Returns in atoms the IDs of all the atoms attached to atomID via bonds, but
-// does not include prevID or atoms beyond it. (Recursive function) 
-void gStructure::GetAttachedAtoms(vector<string>& atomset, const string& atomID, const string& prevID)
+// Returns in atomset the IDs of all the atoms attached to atomID via bonds,
+// but does not include any atoms already in atomset or atoms beyond them.
+// Handles rings. (Recursive function) 
+void gStructure::GetAttachedAtoms(vector<string>& atomset, const string& atomID)
 {
   atomset.push_back(atomID);
   vector<string>::iterator coniter;
   for(coniter=Atoms[atomID].connects.begin(); coniter!=Atoms[atomID].connects.end();++coniter)
   {
-    if(*coniter==prevID)
+    if(find(atomset.begin(), atomset.end(), *coniter)!=atomset.end())
       continue;
-    GetAttachedAtoms(atomset, *coniter, atomID);    
+    GetAttachedAtoms(atomset, *coniter);    
   }
 }
 

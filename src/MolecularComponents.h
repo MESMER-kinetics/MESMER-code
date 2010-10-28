@@ -434,10 +434,9 @@ namespace mesmer
       return Atoms[atomID].coords;
     }
 
-    // Returns in atoms the IDs of all the atoms atttached to atomID via bonds, but
-    // does not include prevID or atoms beyond it. 
-    void GetAttachedAtoms(std::vector<std::string>& atomset, 
-                          const std::string& atomID, const std::string& prevID);
+    // Returns in atomset the IDs of all the atoms attached to atomID via bonds, but
+    // does not include any atoms already in atomset or atoms beyond them.
+    void GetAttachedAtoms(std::vector<std::string>& atomset, const std::string& atomID);
 
     //Calculates moment of inertia of a set of atoms about an axis define by at1 and at2
     double CalcMomentAboutAxis(std::vector<std::string> atomset,

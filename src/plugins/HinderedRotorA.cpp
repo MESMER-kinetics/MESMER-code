@@ -53,18 +53,22 @@ namespace mesmer
 	  vector3 coords1 = gs.GetAtomCoords(bondats.first);
 	  vector3 coords2 = gs.GetAtomCoords(bondats.second);
 
-	  //calc Moment of inertia about bond axis of atoms on one side of bond...
+	  //Calc moment of inertia about bond axis of atoms on one side of bond...
 	  vector<string> atomset;
-	  gs.GetAttachedAtoms(atomset, bondats.first, bondats.second);
+    atomset.push_back(bondats.second); //will not look beyond this atom on the other side of the bond
+	  gs.GetAttachedAtoms(atomset, bondats.first);
+    atomset.erase(atomset.begin()); //the other side of the bond is not in this set
 	  double mm1 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);
 
 	  //...and the other side of the bond
 	  atomset.clear();
-	  gs.GetAttachedAtoms(atomset, bondats.second, bondats.first);
+    atomset.push_back(bondats.first);
+	  gs.GetAttachedAtoms(atomset, bondats.second);
+    atomset.erase(atomset.begin());
 	  double mm2 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);
 
 	  /*
-	  Is the reduced moment of inertia need about the bond axis or, separately for the set of
+	  Is the reduced moment of inertia needed about the bond axis or, separately for the set of
 	  atoms on each side of the bond, about a parallel axis through their centre of mass?
 	  See:
 	  http://www.ccl.net/chemistry/resources/messages/2001/03/21.005-dir/index.html
