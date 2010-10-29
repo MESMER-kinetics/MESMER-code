@@ -51,7 +51,10 @@
           <scalar units="cm-1" referenceTemperature="298." exponent="0.6">210.0</scalar>
         </property>
       </propertyList>
-    </molecule>
+
+	  <me:DOSCMethod>QMRotors</me:DOSCMethod>
+
+	</molecule>
 
     <molecule id="Methyl" spinMultiplicity="2">
       <atomArray>
@@ -87,7 +90,10 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-    </molecule>
+
+	  <me:DOSCMethod>QMRotors</me:DOSCMethod>
+
+	</molecule>
 
     <molecule id="H">
       <atom elementType="H"/>
@@ -266,24 +272,14 @@
 
   <me:modelParameters>
     <me:grainSize units="cm-1">200</me:grainSize>
-    <!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
-    <!--<me:maxTemperature>3000</me:maxTemperature>-->
     <me:energyAboveTheTopHill>10.</me:energyAboveTheTopHill>
   </me:modelParameters>
 
   <me:control>
     <me:calcMethod>fitting</me:calcMethod>
     <!--<me:fittingTolerance>0.1</me:fittingTolerance>-->
-    <me:fittingIterations>1</me:fittingIterations>
-    <!--<me:testDOS />-->
-    <!--<me:testMicroRates />-->
-    <!--<me:printGrainDOS />-->
-    <!--<me:printCellDOS />-->
-    <!--<me:printReactionOperatorColumnSums />-->
-    <!--<me:printGrainkfE />-->
-    <!--<me:printGrainBoltzmann />-->
-    <!--<me:printGrainkbE />-->
-    <!--<me:printSpeciesProfile />-->
+    <me:fittingIterations>5</me:fittingIterations>
+    <me:testDOS />
     <me:eigenvalues>5</me:eigenvalues>
   </me:control>
 

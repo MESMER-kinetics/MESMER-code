@@ -165,12 +165,10 @@ namespace mesmer
     vector<double> Ed(NMAX,0.0) ;
     vector<double> Ef(NMAX,0.0) ;
 
-    double jj   = double(J) ;
     double jsqd = double(J*(J + 1)) ;
     double f    =  (kpp - 1.0)/2.0 ;
     double h    = -(kpp + 1.0)/2.0 ;
-
-    double Ed0 = f*jsqd ;
+    double Ed0  = f*jsqd ;
 
     for (int k = 0 ; k < J ; k++) {
       double kk = double(k + 1) ;

@@ -1,4 +1,12 @@
+2010-October-26 Struan Robertson
+
+	* QMRotor.cpp: Minor tidying.
+	* examples/Methyl_H_to_Methane.xml: Update of the Methyl + H example to use QM
+	rotors.
+
 2010-October-28 Chris Morley
+
+    * HinderedRotorA.cpp: Checked for rings added.
 
 2010-October-26 Struan Robertson
 
