@@ -217,7 +217,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\plugins\HinderedRotorA.cpp"
+				RelativePath="..\..\src\plugins\HinderedRotorQM1D.cpp"
 				>
 			</File>
 			<File
@@ -391,7 +391,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\plugins\HinderedRotorA.h"
+				RelativePath="..\..\src\plugins\HinderedRotorQM1D.h"
 				>
 			</File>
 			<File

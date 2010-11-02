@@ -419,7 +419,7 @@ namespace mesmer
 
     int NumAtoms() 
     { 
-      return m_HasCoords ? Atoms.size() : -1;
+      return m_HasCoords ? int(Atoms.size()) : -1;
     }
 
     double CalcMW();

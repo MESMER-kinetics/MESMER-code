@@ -1,3 +1,9 @@
+2010-November-2 Struan Robertson
+
+	* HinderedRotorQM1D.cpp/.h: Renamed class to give a better indication of content.
+	Updated all test, VC proj and Make files to reflect change. Also altered partition 
+	function test methods so that partition functions now agree.
+
 2010-October-26 Struan Robertson
 
 	* QMRotor.cpp: Minor tidying.

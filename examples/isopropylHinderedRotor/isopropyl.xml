@@ -65,14 +65,14 @@
       </propertyList>
 
       <!--No explicit main DOSCMethod. Default is inserted-->
-      <me:ExtraDOSCMethod>HinderedRotorA
+      <me:ExtraDOSCMethod>HinderedRotorQM1D
         <bondRef>b1</bondRef>
         <me:vibFreq units="cm-1">300</me:vibFreq>
         <me:barrierZPE units="kJ/mol">12.4</me:barrierZPE>
         <me:periodicity>3</me:periodicity>
       </me:ExtraDOSCMethod>
 
-      <me:ExtraDOSCMethod name="HinderedRotorA">
+      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
         <bondRef>b2</bondRef>
         <me:vibFreq units="cm-1">300</me:vibFreq>
         <me:barrierZPE units="kJ/mol">12.4</me:barrierZPE>
@@ -132,7 +132,7 @@
       </propertyList>
 
       <me:DOSCMethod>Classical rotors</me:DOSCMethod>
-      <me:ExtraDOSCMethod>HinderedRotorA
+      <me:ExtraDOSCMethod>HinderedRotorQM1D
         <bondRef>b1</bondRef>
         <me:vibFreq units="cm-1">300</me:vibFreq>
         <me:barrierZPE units="kJ/mol">12.4</me:barrierZPE>

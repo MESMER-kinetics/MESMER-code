@@ -68,7 +68,7 @@
       
       <me:DOSCMethod>QMRotors</me:DOSCMethod>
 
-      <me:ExtraDOSCMethod name="HinderedRotorA">
+      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
         <bondRef>b1</bondRef>
         <me:HinderedRotorPotential format="numerical" units="kcal/mol" expansionSize="7">
           <me:PotentialPoint angle="10	"  potential="-878.99179655"/>
@@ -158,7 +158,7 @@
         </property>
       </propertyList>
 
-      <me:ExtraDOSCMethod name="HinderedRotorA">
+      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
         <bondRef>b1</bondRef>
         <me:HinderedRotorPotential format="analytical" units="kJ/mol">
           <me:PotentialPoint index="0"  coefficient="6.2"/>

@@ -4,13 +4,13 @@ PT Grid 0 Condition: conc = 3e+017, temp = 720, diagonalization precision: doubl
 Test rovibronic density of states for: i-propyl
 {
       T           qtot           sumc           sumg
-    200        53.4852        1009.02        988.162
-    300        209.968        5176.45        5127.72
-    400        691.344        20545.4        20435.6
-    500        2109.57        72512.2        72263.3
-    600        6150.92         238636         238066
-    700        17308.2         745805         744495
-    800        47182.3   2.23205e+006   2.22905e+006
+    200        1006.33        1009.02        988.162
+    300        5163.27        5176.45        5127.72
+    400        20494.5        20545.4        20435.6
+    500        72336.1        72512.2        72263.3
+    600         238064         238636         238066
+    700         744035         745805         744495
+    800    2.2268e+006   2.23205e+006   2.22905e+006
 }
 
 Canonical rate coefficients for R1, calculated from microcanonical rates

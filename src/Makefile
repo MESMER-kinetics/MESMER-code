@@ -170,7 +170,7 @@ SRCS := \
 	plugins/ExponentialDown.cpp \
 	plugins/fitting.cpp \
 	plugins/gridsearch.cpp \
-	plugins/HinderedRotorA.cpp \
+	plugins/HinderedRotorQM1D.cpp \
 	plugins/LandauZenerCrossingCoeff.cpp \
 	plugins/MesmerILT.cpp \
 	plugins/QMRotor.cpp \

@@ -57,7 +57,7 @@ namespace mesmer
 
     /// Returns a reference to the map of DensityOfStatesCalculator classes
     /// Is a function rather than a static member variable to avoid initialization problems.
-    ///There are different maps for main (e.g. ClassicalRotors)and extra (e.g. HinderedRotorA) classes: 
+    /// There are different maps for main (e.g. ClassicalRotors)and extra (e.g. HinderedRotorQM1D) classes: 
     static DensityOfStatesMap& get_Map(bool extra)
     {
       static DensityOfStatesMap m;

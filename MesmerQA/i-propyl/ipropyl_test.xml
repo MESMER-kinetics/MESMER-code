@@ -65,7 +65,7 @@
 
       <me:DOSCMethod>QMRotors</me:DOSCMethod>
 
-      <me:ExtraDOSCMethod name="HinderedRotorA">
+      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
         <bondRef>b1</bondRef>
         <me:HinderedRotorPotential format="analytical" units="kJ/mol">
           <me:PotentialPoint index="0"  coefficient="6.2"/>
@@ -74,7 +74,7 @@
         <me:periodicity>3</me:periodicity>
       </me:ExtraDOSCMethod>
 
-      <me:ExtraDOSCMethod name="HinderedRotorA">
+      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
         <bondRef>b2</bondRef>
         <me:HinderedRotorPotential format="analytical" units="kJ/mol">
           <me:PotentialPoint index="0"  coefficient="6.2"/>
@@ -136,7 +136,7 @@
 
       <me:DOSCMethod>QMRotors</me:DOSCMethod>
 
-      <me:ExtraDOSCMethod name="HinderedRotorA">
+      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
         <bondRef>b1</bondRef>
         <me:HinderedRotorPotential format="analytical" units="kJ/mol">
           <me:PotentialPoint index="0"  coefficient="6.2"/>

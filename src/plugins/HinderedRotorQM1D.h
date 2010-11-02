@@ -1,12 +1,12 @@
-#ifndef GUARD_HinderedRotorA_h
-#define GUARD_HinderedRotorA_h
+#ifndef GUARD_HinderedRotorQM1D_h
+#define GUARD_HinderedRotorQM1D_h
 
 #include "../DensityOfStates.h"
 #include "../MolecularComponents.h"
 
 namespace mesmer
 {
-  class HinderedRotorA : public DensityOfStatesCalculator
+  class HinderedRotorQM1D : public DensityOfStatesCalculator
   {
   public:
     //Read data from XML. Some is stored hear and some in a MolecularComponent class.
@@ -22,20 +22,18 @@ namespace mesmer
     // Constructor which registers with the list of DensityOfStatesCalculators in the base class
     // This class is an extra DOS class: a non-extra DensityOfStatesCalculator class also
     // needs to be specified.
-    HinderedRotorA(const std::string& id) : DensityOfStatesCalculator(id, true),
+    HinderedRotorQM1D(const std::string& id) : DensityOfStatesCalculator(id, true),
       m_bondID(),
       m_reducedMomentInertia(0.0),
       m_periodicity(1),
       m_potentialCosCoeff(),
-      m_expansion(4) {}
+      m_expansion(4),
+	  m_energyLevels() {}
 
-    virtual ~HinderedRotorA() {}
-    virtual HinderedRotorA* Clone() { return new HinderedRotorA(*this); }
+    virtual ~HinderedRotorQM1D() {}
+    virtual HinderedRotorQM1D* Clone() { return new HinderedRotorQM1D(*this); }
 
   private:
-
-    // Calculation of the modifed Bessel function, Io(x), for real x.
-    double ModifiedBessalFuncion(const double x) const ;
 
     // Calculate cosine coefficients from potential data points.
     void CosineFourierCoeffs(vector<double> &angle, vector<double> &potential) ;
@@ -45,12 +43,14 @@ namespace mesmer
     double m_reducedMomentInertia;
     int    m_periodicity;
 
-	vector<double> m_potentialCosCoeff ;	// The cosine coefficients of the hindered rotor potential.
+	vector<double> m_potentialCosCoeff ; // The cosine coefficients of the hindered rotor potential.
 
-    size_t m_expansion ; // Number of coefficients in the cosine expansion.
+    size_t m_expansion ;                 // Number of coefficients in the cosine expansion.
+
+	vector<double> m_energyLevels ;	     // The energies of the hindered rotor states.
 
   } ;
 
 }//namespace
 
-#endif // GUARD_HinderedRotorA_h
+#endif // GUARD_HinderedRotorQM1D_h
