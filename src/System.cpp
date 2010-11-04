@@ -355,7 +355,7 @@ void System::readPTs(PersistPtr anchor)
 //
 // Begin calculation.
 // over all PT values, constant parameters
-bool System::calculate(double& chiSquare)
+bool System::calculate(double& chiSquare, bool writeReport)
 {
   // Controls the print-out of grain/cell DOS in each cycle (This is only for source term)
   if (m_Flags.cellDOSEnabled) m_Flags.cyclePrintCellDOS = true;
@@ -478,7 +478,7 @@ bool System::calculate(double& chiSquare)
 
   rateCoeffTable << endl ;
 
-  cinfo << rateCoeffTable.str() ;
+  if (writeReport) cinfo << rateCoeffTable.str() ;
 
   {string thisEvent = "Finish Calculation";
   events.setTimeStamp(thisEvent, timeElapsed);

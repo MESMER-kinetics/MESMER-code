@@ -35,7 +35,7 @@ namespace mesmer
     void executeCalculation() ;
 
     // Begin single calculation.
-    bool calculate(double& chiSquare) ;
+    bool calculate(double& chiSquare, bool writeReport = false) ;
   
     // Print system configuration
     void configuration(void);

@@ -218,6 +218,10 @@ namespace mesmer
       RangeXmlPtrs[i]->XmlWriteAttribute("fitted", events.setTimeStamp(timeString));
     }
 
+	// Calculate model values with optimum parameters.
+
+    pSys->calculate(chiSquare, true) ;
+
     return true;
   }
 
