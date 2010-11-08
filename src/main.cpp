@@ -222,7 +222,7 @@ int main(int argc,char *argv[])
       if(!nocalc)
         return returnCode;
     }
-    _sys.WriteMetadata();
+    _sys.WriteMetadata(infilename);
 
     if (!nocalc)
     {
@@ -381,7 +381,7 @@ void usage()
 string version()
 {
   stringstream ss;
-  ss << "Mesmer " << "v0.11" << " compiled: -- "  << __DATE__ << " -- " << __TIME__ << endl;
+  ss << "Mesmer v" << MESMER_VERSION << " compiled: -- "  << __DATE__ << " -- " << __TIME__ << endl;
   return ss.str();
 }
 

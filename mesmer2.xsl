@@ -2,7 +2,8 @@
 
 <xsl:stylesheet version="1.0"  xmlns:cml="http://www.xml-cml.org/schema"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+  xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+  xmlns:dc="http://purl.org/dc/elements/1.1/">
 
   <xsl:include href="switchcontent.xsl"/>
 
@@ -11,7 +12,7 @@
 <xsl:variable name="title">
   <xsl:choose>
     <xsl:when test="//cml:metadataList">
-      <xsl:value-of select="//cml:metadataList/cml:metadata[@name='dc:title']/@content"/>
+      <xsl:value-of select="//cml:metadataList/dc:title"/>
     </xsl:when>
     <xsl:when test="//cml:title">
       <xsl:value-of select="//cml:title"/>
@@ -33,7 +34,8 @@
         <!--If we had used src="switchcontent.js" it would have been relative to the
         position of the xml file. The href in xsl:include is relative to the xsl file.-->
       </script>
-      <script>
+      <script type="text/javascript">
+        <![CDATA[
         function toggle()
         {
           var oRule = document.getElementsByTagName('style')[1].sheet.cssRules[0];
@@ -46,6 +48,7 @@
             oRule.style.visibility = 'hidden';
           }
         }
+          ]]>
       </script>
       <style>
         <![CDATA[
@@ -67,17 +70,26 @@
         }
         .tablehead2{text-decoration:underline;padding-top:10px;}
         .tablehead3{font-weight:bold;padding-top:10px;text-align:center}
+        .paramheader{
+          font-family: Arial, Helvetica, sans-serif;
+          color:black;
+          font-weight:bold;
+          text-decoration: underline;
+        }
         table{background-color:#e0f8f8; margin-bottom:12px;}
         td{padding:0px 4px;}
         h3{color:teal;font-family: Arial, Helvetica, sans-serif;}
+        hh5{color:black;font-family: Arial, Helvetica, sans-serif;font-weight:bold;font-size:smaller;}
         .normal{color:black; font-size:smaller;}
         .handcursor{cursor:hand; cursor:pointer;}
         .inactive{color:silver;stroke:silver;}
         .error{font-weight:bold;font-size:large;background-color:red;padding:20px;}
         #header{color:black;font-family: Arial, Helvetica, sans-serif;font-weight:bold;}
         #title{font-size:larger;font-weight:bold;}
-        #metadata{color:teal;font-size:smaller;}
+        #description{color:black;font-size:60%;}
+        #metadata{color:teal;font-size:60%;}
         #hide{font-size:small;text-decoration:underline;color:blue;cursor:pointer;}
+        #Punchout{font-size:12px;color:gray;}
         ]]>
       </style>
       <xsl:variable name="inactval">
@@ -98,6 +110,9 @@
       <div id="header">
         <p id="title">
           <xsl:value-of select="$title"/>
+        </p>
+        <p id="description">
+          <xsl:value-of select="/me:mesmer/cml:description"/>
         </p>
         <xsl:apply-templates select="//cml:metadataList"/>
       </div>
@@ -157,6 +172,11 @@
     <xsl:if test="//me:rateList">
       <h3 id="BWrates-title" class="handcursor">Bartis-Widom Phenomenological Rate Coefficients</h3>
       <div id="BWrates" class="switchgroup5">
+        <hh5 id="Punchout-title" class="handcursor">Copy and paste for spreadsheets, etc.</hh5>
+        <div id="Punchout" class="switchgroup8">
+          <xsl:call-template name="punchheader"/>
+          <xsl:call-template name="punchoutput"/>
+        </div>
         <xsl:apply-templates select="//me:rateList"/>
       </div>
     </xsl:if>
@@ -165,6 +185,15 @@
       <h3 id="Populations-title" class="handcursor">Species / time profiles</h3>
       <div id="Populations" class="switchgroup6">
         <xsl:apply-templates select="//me:populationList"/>
+      </div>
+    </xsl:if>
+
+    <xsl:if test="//@fitted">
+      <h3 id="FittedParams-title" class="handcursor">Fitted Parameters</h3>
+      <div id="FittedParams" class="switchgroup7">
+        <table>
+          <xsl:apply-templates select="//@fitted"/>
+        </table>
       </div>
     </xsl:if>
       
@@ -176,7 +205,7 @@
     <!--Script for expanding an contracting sections-->
     <script type="text/javascript">
       <![CDATA[
-        for(var i=1; i <=6; i++)
+        for(var i=1; i <=8; i++)
         {
           var mc=new switchcontent("switchgroup" + i)
           mc.setStatus('- ','+ ')
@@ -260,6 +289,10 @@
           <xsl:value-of select="concat('A = ', me:preExponential, 
               ' E = ', me:activationEnergy, me:activationEnergy/@units)"/>
         </xsl:if>
+        <xsl:if test="me:preExponential/@stepsize | me:activationEnergy/@stepsize">
+          <xsl:value-of select="' with range of parameters'"/>
+        </xsl:if>
+                  
         <xsl:if test="cml:rateParameters">
           <xsl:value-of select="concat( 'A = ', cml:rateParameters/cml:A,
               ' E = ', cml:rateParameters/cml:E, cml:rateParameters/cml:E/@units)"/>
@@ -329,12 +362,20 @@
   </xsl:template>
 
   <xsl:template match="me:rateList">
+    <xsl:if test="not(//@fitted)"><!--don't show params when fitting-->
+      <p class="paramheader">
+        <xsl:for-each select="../me:parameters/@*">
+          <xsl:value-of select="concat(name(),'=',.,', ')"/>
+        </xsl:for-each>
+      </p>
+    </xsl:if>
     <table>
      <tr>
        <td class="tablehead1" colspan="5" align="center">
          At <xsl:value-of select="concat(@T,' K, ', @conc, ' molecules cm')"/>
        </td>
      </tr>
+      <xsl:if test="me:firstOrderRate">
      <tr>
        <td class="tablehead2" colspan="5" align="center">Conversion Rate Coefficients</td>
      </tr>
@@ -347,6 +388,7 @@
           <td>s<sup>-1</sup></td>
         </tr>
       </xsl:for-each>
+      </xsl:if>
       <tr>
         <td class="tablehead2" colspan="5" align="center">Loss Rate Coefficients</td>
       </tr>
@@ -364,6 +406,11 @@
 
   <xsl:template match="//me:populationList">
     <xsl:variable name="speciesNames" select="me:population[1]/me:pop/@ref"/>
+    <p class="paramheader">
+      <xsl:for-each select="../me:parameters/@*">
+        <xsl:value-of select="concat(name(),'=',.,', ')"/>
+      </xsl:for-each>
+    </p>
     <table>
       <tr><td class="tablehead1" colspan="5" align="center">
         <xsl:value-of select="concat('Populations (mole fractions) at ',@T,'K ',
@@ -389,11 +436,31 @@
     </table>
   </xsl:template>  
 
+  <xsl:template match="//@fitted">
+    <tr>
+      <td> <xsl:value-of select="ancestor::*[@id]/@id"/> </td>
+      <td>
+        <xsl:choose>
+          <xsl:when test="local-name(../..)='property'">
+            <xsl:value-of select="../../@dictRef"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="name(..)"/>
+          </xsl:otherwise>
+      </xsl:choose>
+      </td>
+      <td> <xsl:value-of select=".."/> </td>
+      <td> <xsl:value-of select="../@units"/> </td>
+      <td> <xsl:value-of select="concat('(fitted ', ., ')')"/></td>
+    </tr>
+  </xsl:template>
+
+
     <xsl:template match="cml:metadataList">
     <div id="metadata">
-        <xsl:value-of select="cml:metadata[@name='dc:creator']/@content"/>:
-        <xsl:value-of select="cml:metadata[@name='dc:date']/@content"/>,
-        <xsl:value-of select="cml:metadata[@name='dc:contributor']/@content"/>
+        <xsl:value-of select="dc:creator"/>:
+        <xsl:value-of select="dc:date"/>,
+        <xsl:value-of select="dc:contributor"/>
     </div>
   </xsl:template>
 
@@ -402,4 +469,29 @@
       "//cml:property[@dictRef='me:ZPE']/cml:scalar/@units | //me:activationEnergy/@units"/>
   </xsl:template>
 
-  </xsl:stylesheet> 
+  <xsl:template name="punchheader">
+    <xsl:value-of select="concat(/me:mesmer/cml:title,' calculated ',//me:analysis[1]/@calculated)"/>
+    <br/>
+    <xsl:for-each select="//me:analysis[1]/me:parameters/@*">
+      <xsl:value-of select="concat(name(),',')"/>
+    </xsl:for-each>
+    <xsl:value-of select="concat('T',',','conc',',')"/>
+    <xsl:for-each select="//me:analysis[1]/me:rateList[1]/me:firstOrderRate">
+      <xsl:value-of select="concat(@fromRef,'->',@toRef,',')"/>
+    </xsl:for-each>
+  </xsl:template>
+  
+  <xsl:template name="punchoutput">
+    <xsl:for-each select ="//me:rateList">
+      <br/>
+      <xsl:for-each select="../me:parameters/@*">
+        <xsl:value-of select="concat(.,',')"/>
+      </xsl:for-each>
+      <xsl:value-of select="concat(@T,',',@conc,',')"/>
+      <xsl:for-each select="me:firstOrderRate">
+        <xsl:value-of select="concat(.,',')"/>
+      </xsl:for-each>
+    </xsl:for-each>
+  </xsl:template>
+
+</xsl:stylesheet> 

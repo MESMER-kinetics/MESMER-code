@@ -119,7 +119,9 @@ namespace mesmer
     double tol = ppControl->XmlReadDouble("me:fittingTolerance");
 
     //Do not output all the intermediate results to XML
-    pSys->m_Flags.overwriteXmlAnalysis = true; 
+    pSys->m_Flags.overwriteXmlAnalysis = true;
+    //Default is to disable ctest during fitting. Restored when leaving this function.
+    //StopCTestOutput stop(!ppControl->XmlReadBoolean("me:ctestOutputWhenFitting")) ;
 
     //
     // Initialize position vectors.

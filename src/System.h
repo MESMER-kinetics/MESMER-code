@@ -18,6 +18,8 @@
 #include "ReactionManager.h"
 #include "calcmethod.h"
 
+#define MESMER_VERSION "0.2"
+
 namespace mesmer
 {
   class CalcMethod;
@@ -43,7 +45,7 @@ namespace mesmer
     // Deduce the me:type of each molecule and add it to the XML file 
     bool assignMolTypes(PersistPtr ppIOPtr) ;
     
-    void WriteMetadata();
+    void WriteMetadata(const std::string& infilename);
 
     PersistPtr getPersistPtr() { return m_ppIOPtr; }
 
@@ -126,6 +128,7 @@ namespace mesmer
     CalcMethod* m_CalcMethod;
 
     const char* m_pTitle;
+    const char* m_pDescription;
 
     // Maps the location of individual reactant collision operator and source terms in the reaction operator.
     Reaction::molMapType    m_isomers;

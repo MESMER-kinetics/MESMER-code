@@ -26,6 +26,7 @@ namespace mesmer
 m_pMoleculeManager(0), 
 m_pReactionManager(0), 
 m_pTitle(NULL),
+m_pDescription(NULL),
 m_isomers(),
 m_sources(),
 m_sinkRxns(),
@@ -55,7 +56,8 @@ bool System::parse(PersistPtr ppIOPtr)
   initializeConversionMaps();
   m_ppIOPtr = ppIOPtr;
 
-  m_pTitle = ppIOPtr->XmlReadValue("title", false);
+  m_pTitle       = ppIOPtr->XmlReadValue("title", false);
+  m_pDescription = ppIOPtr->XmlReadValue("description", false);
 
   //-------------
   //Molecule List (parse this part inside Reaction)
@@ -576,50 +578,30 @@ bool System::ReadRange(const string& name, vector<double>& vals, PersistPtr ppba
   return true;
 }
 
-void System::WriteMetadata()
+void System::WriteMetadata(const string& infilename)
 {
   PersistPtr ppList = m_ppIOPtr->XmlWriteMainElement("metadataList", "");
+  ppList->XmlWriteAttribute("xmlns:dc", "http://purl.org/dc/elements/1.1/");
   if(m_pTitle)
-  {
-	PersistPtr ppItem = ppList->XmlWriteElement("metadata");
-	ppItem->XmlWriteAttribute("name", "dc:title");
-	ppItem->XmlWriteAttribute("content", m_pTitle);
-  }
+    ppList->XmlWriteValueElement("dc:title", m_pTitle);
+  if(m_pDescription)
+    ppList->XmlWriteValueElement("dc:description", m_pDescription);
+  ppList->XmlWriteValueElement("dc:source", infilename);
 
-  PersistPtr ppItem = ppList->XmlWriteElement("metadata");
-  ppItem->XmlWriteAttribute("name", "dc:creator");
-  ppItem->XmlWriteAttribute("content", "Mesmer v0.1");
-
-  ppItem = ppList->XmlWriteElement("metadata");
-  ppItem->XmlWriteAttribute("name", "dc:description");
-  ppItem->XmlWriteAttribute("content",
-	"Calculation of the interaction between collisional energy transfer and chemical reaction"
-	" for dissociation, isomerization and association processes");
-
-  ppItem = ppList->XmlWriteElement("metadata");
-  ppItem->XmlWriteAttribute("name", "dc:date");
-
-  //----------------------------------------
+  ppList->XmlWriteValueElement("dc:creator","Mesmer v"+string(MESMER_VERSION));
   TimeCount events;
-  string thisEvent, timeString;
-  {
-	thisEvent = "Write metadata";
-	timeString = events.setTimeStamp(thisEvent);
-	cinfo << thisEvent << endl;
-  }
-  ppItem->XmlWriteAttribute("content", timeString);
-  //----------------------------------------
+  string timeString = events.setTimeStamp("");
+  cinfo << "Write metadata " << timeString << endl;
+  ppList->XmlWriteValueElement("dc:date", timeString);
 
   //The user's name should be in an environment variable attached to his account (not a System variable)
   const char* author = getenv("MESMER_AUTHOR");
   if(!author)
-	author = "unknown";
-  ppItem = ppList->XmlWriteElement("metadata");
-  ppItem->XmlWriteAttribute("name", "dc:contributor");
-  ppItem->XmlWriteAttribute("content", author);
+    author = "unknown";
+  ppList->XmlWriteValueElement("dc:contributor", author);
 }
 
-void System::configuration(void){
+  void System::configuration(void){
   clog << "\nPrinting system precision configuration:" << endl;
   clog << "Size of float = " << sizeof(float) << endl;
   clog << "Size of double = " << sizeof(double) << endl;

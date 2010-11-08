@@ -3,7 +3,7 @@
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
   <title>Cyclopropene isomerization</title>
-  <!--J. Phys. Chem. A 2003, 107, 2680-2692-->
+  <description>J. Phys. Chem. A 2003, 107, 2680-2692</description>
   <moleculeList>
     <molecule id="propyne" description="CH_3CCH">
       <atomArray>
@@ -243,7 +243,7 @@
     </molecule>
   </moleculeList>
   <reactionList>
-    <reaction id="R1">
+    <reaction id="R1" reversible="true">
       <reactant>
         <molecule ref="allene" me:type="modelled" />
       </reactant>
@@ -255,7 +255,7 @@
       </me:transitionState>
       <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
     </reaction>
-    <reaction id="R2">
+    <reaction id="R2" reversible="true">
       <reactant>
         <molecule ref="cyclopropene" me:type="modelled" />
       </reactant>

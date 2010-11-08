@@ -4,10 +4,8 @@
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
   <title>Ethyl + H association</title>
 
-  <!-- 
-  This example is based on data from the Methyl + H example and its main purpose is 
-  to test internal rotor treatments.
-  -->
+  <description>  This example is based on data from the Methyl + H example and its main purpose is to test internal rotor treatments.
+  </description>
 
   <moleculeList>
     <molecule id="Ethane">

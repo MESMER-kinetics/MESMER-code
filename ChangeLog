@@ -1,3 +1,25 @@
+2010-November-8 Chris Morley
+
+	* src/main.cpp,src/System.cpp,src/System.h,mesmer1.xsl,mesmer2.xsl:
+	Add <description> element so that less information gets put in
+	XML comments.
+	Revamp metadata to be more compliant with Dublin Core recommendations.
+	http://dublincore.org/documents/dc-xml-guidelines/ 
+
+	* examples/Ethyl_H_to_Ethane/Ethyl_H_to_Ethane.xml,
+	MesmerQA/cyclopropene isomerization/Cyclopropene_isomerization_test.xml:
+	make comment into <description>
+
+	* src/oberror.h, src/plugins/fitting.cpp: Way of supressing
+	 ctest output, not currently used
+
+	* examples/DiagramTest: remove
+
+2010-November-6 Chris Morley
+
+	* src/MolecularComponents.cpp, src/MolecularComponents.h,
+	src/plugins/HinderedRotorA.cpp: modify gStructure::GetAttachedAtoms()
+	so that it works with molecules with rings.
 
 2010-November-4 Struan Robertson
 

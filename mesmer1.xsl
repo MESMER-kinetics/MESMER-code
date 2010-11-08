@@ -2,7 +2,8 @@
 
 <xsl:stylesheet version="1.0"  xmlns:cml="http://www.xml-cml.org/schema"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+  xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+  xmlns:dc="http://purl.org/dc/elements/1.1/">
 
   <xsl:include href="mesmerDiag.xsl"/>
   <xsl:include href="switchcontent.xsl"/>
@@ -13,7 +14,7 @@
 <xsl:variable name="title">
   <xsl:choose>
     <xsl:when test="//cml:metadataList">
-      <xsl:value-of select="//cml:metadataList/cml:metadata[@name='dc:title']/@content"/>
+      <xsl:value-of select="//cml:metadataList/dc:title"/>
     </xsl:when>
     <xsl:when test="//cml:title">
       <xsl:value-of select="//cml:title"/>
@@ -88,7 +89,8 @@
         .error{font-weight:bold;font-size:large;background-color:red;padding:20px;}
         #header{color:black;font-family: Arial, Helvetica, sans-serif;font-weight:bold;}
         #title{font-size:larger;font-weight:bold;}
-        #metadata{color:teal;font-size:smaller;}
+        #description{color:black;font-size:60%;}
+        #metadata{color:teal;font-size:60%;}
         #hide{font-size:small;text-decoration:underline;color:blue;cursor:pointer;}
         #Punchout{font-size:12px;color:gray;}
         ]]>
@@ -111,6 +113,9 @@
       <div id="header">
         <p id="title">
           <xsl:value-of select="$title"/>
+        </p>
+        <p id="description">
+          <xsl:value-of select="/me:mesmer/cml:description"/>
         </p>
         <xsl:apply-templates select="//cml:metadataList"/>
       </div>
@@ -459,9 +464,9 @@
 
     <xsl:template match="cml:metadataList">
     <div id="metadata">
-        <xsl:value-of select="cml:metadata[@name='dc:creator']/@content"/>:
-        <xsl:value-of select="cml:metadata[@name='dc:date']/@content"/>,
-        <xsl:value-of select="cml:metadata[@name='dc:contributor']/@content"/>
+        <xsl:value-of select="dc:creator"/>:
+        <xsl:value-of select="dc:date"/>,
+        <xsl:value-of select="dc:contributor"/>
     </div>
   </xsl:template>
 

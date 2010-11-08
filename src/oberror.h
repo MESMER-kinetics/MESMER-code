@@ -141,6 +141,22 @@ namespace mesmer
     std::streambuf *_oldcerrbuf, *_oldcwarnbuf, *_oldcinfobuf, *_oldctestbuf;
   };
 
+//*********************************************************************************
+  //!RAII class to lose any output to ctest. No effect if active=false. 
+  ///Cannot use an if statement when instantiating an object because would be in local scope.
+  struct StopCTestOutput
+  {
+    StopCTestOutput(bool active = true) 
+    {
+      if(active)
+      {  
+        ctest << "CTest output disabled" << std::endl;
+        ctest.clear(std::ios::failbit);
+      }
+    }
+    ~StopCTestOutput(){ ctest.clear(); }
+  };
+
 //Global message handler (I would prefer not to have this here)
 extern MessageHandler meErrorLog;
 
