@@ -1,11 +1,28 @@
-#include "SimpleRRKM.h"
-
+#include <vector>
+#include <string>
+#include "../System.h"
 
 using namespace std;
 using namespace Constants;
 namespace mesmer
 {
-	//************************************************************
+  class SimpleRRKM : public MicroRateCalculator
+  {
+  public:
+  
+    ///Constructor which registers with the list of MicroRateCalculators in the base class
+    SimpleRRKM(const std::string& id) : MicroRateCalculator(id){}
+  
+    virtual ~SimpleRRKM() {}
+
+    virtual SimpleRRKM* Clone() { return new SimpleRRKM(*this); }
+
+    virtual bool ReadParameters(Reaction* pReac);
+  
+    virtual bool calculateMicroRateCoeffs(Reaction* pReact);
+  };
+
+  //************************************************************
 	//Global instance, defining its id (usually the only instance)
 	SimpleRRKM theSimpleRRKM("SimpleRRKM");
 	SimpleRRKM oldSimpleRRKM("Simple RRKM");

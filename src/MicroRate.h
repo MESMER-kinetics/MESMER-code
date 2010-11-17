@@ -3,6 +3,7 @@
 
 #include <map>
 #include "XMLPersist.h"
+#include "Rdouble.h"
 
 namespace mesmer
 {
@@ -48,6 +49,12 @@ namespace mesmer
     virtual bool ReadParameters(Reaction* pReac) = 0 ;
     
     virtual double get_ThresholdEnergy(Reaction* pReac) ;
+
+    // Utility function to read parameter range. 
+    static bool ReadRange(const string& name, PersistPtr ppbase, Rdouble& rdouble, double cnvrsnFctr, bool& rangeSet) ;
+
+    // Utility function to check for inconsistencies. 
+    static bool ILTCheck(Reaction* pReac, PersistPtr ppReac) ;
     
   private:
     /// Returns a reference to the map of MicroRateCalculator classes

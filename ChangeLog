@@ -1,3 +1,14 @@
+2010-November-17 Chris Morley
+	
+	* Transferred the declarations of plugin classes to their .cpp
+	files and deleted the .h files.
+	
+	* src/MicroRate.cpp, src/MicroRate.h: moved utility functions
+	ReadRange() and ILTCheck from SimpleILT
+	
+	* Windows VC8: delete build files for Visual Studio 2005
+	
+	* Documentation/MESMER manual.doc: minor edits in XML section.		
 
 2010-November-14 Struan Robertson
 
