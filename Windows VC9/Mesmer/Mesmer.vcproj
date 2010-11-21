@@ -355,10 +355,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\plugins\ClassicalRotor.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Constants.h"
 				>
 			</File>
@@ -379,19 +375,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\plugins\EckartCoefficients.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\EnergyTransferModel.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\formatfloat.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\plugins\HinderedRotorQM1D.h"
 				>
 			</File>
 			<File
@@ -404,10 +392,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\IsomerizationReaction.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\plugins\LandauZenerCrossingCoeff.h"
 				>
 			</File>
 			<File
@@ -428,10 +412,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\MesmerFlags.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\plugins\MesmerILT.h"
 				>
 			</File>
 			<File
@@ -471,10 +451,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\plugins\QMRotor.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Rdouble.h"
 				>
 			</File>
@@ -484,14 +460,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ReactionManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\plugins\SimpleILT.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\plugins\SimpleRRKM.h"
 				>
 			</File>
 			<File
@@ -520,10 +488,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\vector3.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\plugins\WKBCrossingCoeff.h"
 				>
 			</File>
 			<File

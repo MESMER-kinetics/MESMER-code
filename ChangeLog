@@ -1,3 +1,8 @@
+
+2010-November-21 Struan Robertson
+
+    * MESMER.sln: Removed references to deleted header files.
+
 2010-November-17 Chris Morley
 	
 	* Transferred the declarations of plugin classes to their .cpp
