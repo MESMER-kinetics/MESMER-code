@@ -11,7 +11,7 @@
 #include <vector>
 #include <cmath>
 #include <string>
-#include "Distribution.h"
+#include "../Distribution.h"
 
 namespace mesmer
 {

@@ -1,5 +1,12 @@
 
-2010-November-21 Struan Robertson
+2010-November-27 Struan Robertson
+
+    * Makefile: Updated to reflect changes to the BoltzmannDistribution 
+    plugin class.
+    
+    * MesmerQa/i-propyl: Linux baselines added.
+    
+2010-November-27 Struan Robertson
 
     * BoltzmannDistribution.cpp: Move to plug-in area and consolidated
     with header file.

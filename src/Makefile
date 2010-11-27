@@ -141,7 +141,6 @@ all: ${OUTPUT}
 SRCS := \
 	AssignMolTypes.cpp \
 	AssociationReaction.cpp	\
-	BoltzmannDistribution.cpp	\
 	DensityOfStates.cpp \
 	formatfloat.cpp \
 	IrreversibleExchangeReaction.cpp \
@@ -165,6 +164,7 @@ SRCS := \
 	unitsConversion.cpp \
         vector3.cpp \
 	XMLPersist.cpp \
+	plugins/BoltzmannDistribution.cpp	\
 	plugins/ClassicalRotor.cpp \
 	plugins/EckartCoefficients.cpp \
 	plugins/ExponentialDown.cpp \
