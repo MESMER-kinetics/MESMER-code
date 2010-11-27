@@ -189,7 +189,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\BoltzmannDistribution.cpp"
+				RelativePath="..\..\src\plugins\BoltzmannDistribution.cpp"
 				>
 			</File>
 			<File
@@ -344,10 +344,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\AssociationReaction.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\BoltzmannDistribution.h"
 				>
 			</File>
 			<File

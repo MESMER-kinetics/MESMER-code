@@ -1,3 +1,14 @@
+//-------------------------------------------------------------------------------------------
+//
+// SimpleRRKM.cpp
+//
+// Authors: Struan Robertson, David Glowacki and Alyn Liang
+// Date:    Jul/2007
+//
+// Calculates microcanonical rate coefficients for a well defined transition state, 
+// applying tunnelling corrections if requested.
+//
+//-------------------------------------------------------------------------------------------
 #include <vector>
 #include <string>
 #include "../System.h"

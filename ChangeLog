@@ -1,6 +1,15 @@
 
 2010-November-21 Struan Robertson
 
+    * BoltzmannDistribution.cpp: Move to plug-in area and consolidated
+    with header file.
+    
+    * Remove duplicate i-propyl example.
+    
+    * SimpleRRKM: Added comments.
+
+2010-November-21 Struan Robertson
+
     * MESMER.sln: Removed references to deleted header files.
 
 2010-November-17 Chris Morley
