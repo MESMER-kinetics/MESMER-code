@@ -72,7 +72,7 @@ namespace mesmer
     };
     const MesmerEnv& getEnv() const { return m_Env; } ;
     MesmerFlags& getFlags() { return m_Flags; } ;
-    void resetCalcFlag(){ reCalcDOS = true; };
+    void resetCalcFlag(){ m_reCalcMicroRateCoeffs = true; };
 
     // return reactant and product zero-point energy
     virtual double get_relative_rctZPE(void) const = 0;
@@ -285,10 +285,10 @@ namespace mesmer
 
     const MesmerEnv& m_Env;
     MesmerFlags& m_Flags;
-    std::string m_Name ;        // Reaction name.
+    std::string m_Name ;            // Reaction name.
 
-    bool   reCalcDOS;           // re-calculation on DOS
-    double m_kfwd ;             // Forward canonical (high pressure) rate coefficient.
+    bool   m_reCalcMicroRateCoeffs; // re-calculation on DOS
+    double m_kfwd ;                 // Forward canonical (high pressure) rate coefficient.
 
 protected: //previously private but needed in IrreversibleUnimolecularReaction::calcFluxFirstNonZeroIdx(void)
     bool m_UsesProductProperties;

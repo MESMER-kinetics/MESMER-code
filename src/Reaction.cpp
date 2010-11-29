@@ -39,7 +39,7 @@ namespace mesmer
     m_Env(Env),
     m_Flags(Flags),
     m_Name(id),
-    reCalcDOS(true),
+    m_reCalcMicroRateCoeffs(true),
     m_kfwd(0.0),
     m_GrnFluxFirstNonZeroIdx(0),
     m_EffGrainedFwdThreshold(0),
@@ -102,7 +102,7 @@ namespace mesmer
   // Calculate grain averaged microcanonical rate coefficients.
   //
   bool Reaction::calcGrnAvrgMicroRateCoeffs() {
-    if (reCalcDOS){
+    if (m_reCalcMicroRateCoeffs){
       if (m_CellFlux.size()) m_CellFlux.clear();
 
       // Calculate microcanonical rate coefficients.
@@ -127,7 +127,7 @@ namespace mesmer
       if (getFlags().microRateEnabled && !m_pMicroRateCalculator->testMicroRateCoeffs(this, m_ppPersist) )
         return false;
     }
-    reCalcDOS = false; // reset the flag
+    m_reCalcMicroRateCoeffs = false; // reset the flag
     return true;
   }
 

@@ -1,4 +1,9 @@
 
+2010-November-29 Struan Robertson
+
+    * System.cpp, fitting.cpp: Altered so that microcanonical rates calculated 
+    only once per parameter cycle during fitting, to improve performance.
+    
 2010-November-27 Struan Robertson
 
     * Makefile: Updated to reflect changes to the BoltzmannDistribution 

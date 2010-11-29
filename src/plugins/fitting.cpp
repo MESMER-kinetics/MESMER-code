@@ -102,9 +102,6 @@ namespace mesmer
 
   bool Fitting::DoCalculation(System* pSys)
   {
-
-//*** To redirect output back to screen change all cinfo to cout ***
-
     m_nVar = Rdouble::withRange().size() ;
     assert(m_nVar == RangeXmlPtrs.size());
 
@@ -120,6 +117,11 @@ namespace mesmer
 
     //Do not output all the intermediate results to XML
     pSys->m_Flags.overwriteXmlAnalysis = true;
+    
+    // Use the same grain numbers for for all calcuations regardless of 
+    // temperature (i.e. reduce the number of times micro-rates are caluclated).
+    pSys->m_Flags.useTheSameCellNumber = true;
+    
     //Default is to disable ctest during fitting. Restored when leaving this function.
     //StopCTestOutput stop(!ppControl->XmlReadBoolean("me:ctestOutputWhenFitting")) ;
 
