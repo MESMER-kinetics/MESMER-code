@@ -1,3 +1,10 @@
+2010-December-14 Chris Morley
+
+	* Windows VC9/distribution/NSISScriptToCreateInstaller.nsi:
+	Change default install folder from Program Files, which is read only
+	on Windows 7 to C:\Mesmer-0.2. Add punch files.
+	
+	* Windows VC9/distribution/ReadMe.txt: updated email ads
 
 2010-November-29 Struan Robertson
 

@@ -457,14 +457,14 @@ FunctionEnd
 ;General
 
   ;Mesmer version
-  !define MesmerVersion 0.11
+  !define MesmerVersion 0.2
 
   ;Name and file
   Name "Mesmer ${MESMERVERSION}"
   OutFile "Mesmer${MESMERVERSION}_Windows_Installer.exe"
 
-  ;Default installation folder
-  InstallDir "$PROGRAMFILES\Mesmer-${MESMERVERSION}"
+  ;Default installation folder. Tutorials etc assume it to be writable by the user
+  InstallDir "C:\Mesmer-${MESMERVERSION}"
   
   ;Get installation folder from registry if available
   InstallDirRegKey HKCU "Software\OpenBabel ${MESMERVERSION}" ""
@@ -526,7 +526,7 @@ Section "Dummy Section" SecDummy
   File /r /x .svn ..\..\examples\*.*
 
   SetOutPath "$INSTDIR\MesmerQA"
-  File /r /x .svn /x test.test /x *_prev.* /x *_out.xml ..\..\MesmerQA\*.*
+  File /r /x .svn /x test.test /x *_prev.* /x *_out.xml /x *.sh ..\..\MesmerQA\*.*
 
   SetOutPath "$INSTDIR" 
   File ..\..\License.txt
@@ -536,9 +536,11 @@ Section "Dummy Section" SecDummy
   File ..\..\mesmer2.xsl
   File ..\..\mesmerDiag.xsl
   File ..\..\popDiag.xsl
+  File ..\..\punch.xsl
   File ..\..\switchcontent.xsl
   File ..\..\librarymols.xml
   File ..\..\defaults.xml
+  File ..\..\punchout.bat
   File ReadMe.txt
   
   ;Store installation folder
@@ -604,9 +606,11 @@ Section "Uninstall"
   Delete $INSTDIR\mesmer2.xsl
   Delete $INSTDIR\mesmerDiag.xsl
   Delete $INSTDIR\popDiag.xsl
+  Delete $INSTDIR\punch.xsl
   Delete $INSTDIR\switchcontent.xsl
   Delete $INSTDIR\librarymols.xml
   Delete $INSTDIR\defaults.xml
+  Delete $INSTDIR\punchout.bat
   Delete $INSTDIR\ReadMe.txt
   Delete $INSTDIR\uninstall.exe
   RMDir /r "$INSTDIR\Documentation"

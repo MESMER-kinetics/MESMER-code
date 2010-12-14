@@ -27,8 +27,8 @@ Mesmer on SourceForge: https://sourceforge.net/projects/mesmer/
    
 ----------------------------------------------------------------------------------------------------
 * Struan H. Robertson                   struanhrobertson@gmail.com
-* Chi-Hsiu Liang         Univ. Leeds    c.h.liang@leeds.ac.uk
-* David Glowacki         Univ. Leeds    chmdrgl@leeds.ac.uk
+* Chi-Hsiu Liang                        alvyn.liang@gmail.com
+* David Glowacki         Univ. Bristol  David.R.Glowacki@bristol.ac.uk
 * Chris Morley                          c.morley@gaseq.co.uk
 * Michael Pilling        Univ. Leeds    M.J.Pilling@leeds.ac.uk
 
