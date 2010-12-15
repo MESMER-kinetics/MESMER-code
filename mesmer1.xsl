@@ -84,6 +84,7 @@
         h3{color:teal;font-family: Arial, Helvetica, sans-serif;}
         hh5{color:black;font-family: Arial, Helvetica, sans-serif;font-weight:bold;font-size:smaller;}
         .normal{color:black; font-size:smaller;}
+        .normal2{color:black; background-color:#e0f8f8}
         .handcursor{cursor:hand; cursor:pointer;}
         .inactive{color:silver;stroke:silver;}
         .error{font-weight:bold;font-size:large;background-color:red;padding:20px;}
@@ -191,7 +192,14 @@
       </div>
     </xsl:if>
 
-    <xsl:if test="//@fitted">
+      <xsl:if test="//me:eigenvalueList">
+        <h3 id="Eigenvalues-title" class="handcursor">Eigenvalues</h3>
+        <div id="Eigenvalues" class="switchgroup9">
+          <xsl:apply-templates select="//me:eigenvalueList"/>
+        </div>
+      </xsl:if>
+
+      <xsl:if test="//@fitted">
       <h3 id="FittedParams-title" class="handcursor">Fitted Parameters</h3>
       <div id="FittedParams" class="switchgroup7">
         <table>
@@ -208,7 +216,7 @@
     <!--Script for expanding an contracting sections-->
     <script type="text/javascript">
       <![CDATA[
-        for(var i=1; i <=8; i++)
+        for(var i=1; i <=9; i++)
         {
           var mc=new switchcontent("switchgroup" + i)
           mc.setStatus('- ','+ ')
@@ -442,7 +450,22 @@
     </table>
   </xsl:template>
 
-  <xsl:template match="//@fitted">
+  <xsl:template match="//me:eigenvalueList">
+    <p class="normal2">
+      <span class="tableheader">
+        <xsl:value-of select="@selection"/>
+        <xsl:text> out of </xsl:text>
+        <xsl:value-of select="@number"/>
+         eigenvalues (sec<sup>-1</sup>) are shown
+      </span>
+      <br/>
+      <xsl:for-each select="me:eigenvalue">
+        <xsl:value-of select="concat(.,', ')"/>
+      </xsl:for-each>
+    </p>
+  </xsl:template>
+
+    <xsl:template match="//@fitted">
     <tr>
       <td> <xsl:value-of select="ancestor::*[@id]/@id"/> </td>
       <td>

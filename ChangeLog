@@ -1,3 +1,7 @@
+2010-December-15 Chris Morley
+
+	* mesmer1.xsl: display the eigenvalues that are present in XML file
+
 2010-December-14 Chris Morley
 
 	* Windows VC9/distribution/NSISScriptToCreateInstaller.nsi:
