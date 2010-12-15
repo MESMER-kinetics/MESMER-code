@@ -275,41 +275,59 @@
   <me:conditions>
     <me:bathGas>Ar</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="Torr" me:P="1.0e-4" me:T="800" />
-      <me:PTpair me:units="Torr" me:P="1.0e-3" me:T="800" />
-      <me:PTpair me:units="Torr" me:P="1.0e-2" me:T="800" />
-      <me:PTpair me:units="Torr" me:P="1.0e-1" me:T="800" />
-      <me:PTpair me:units="Torr" me:P="1.0"    me:T="800" />
-      <me:PTpair me:units="Torr" me:P="1.0e1"  me:T="800" />
-      <me:PTpair me:units="Torr" me:P="1.0e2"  me:T="800" />
+      <me:PTpair me:units="PPCC" me:P="1.0e12" me:T="600" />
+      <me:PTpair me:units="PPCC" me:P="1.0e13" me:T="600" />
+      <me:PTpair me:units="PPCC" me:P="1.0e14" me:T="600" />
+      <me:PTpair me:units="PPCC" me:P="1.0e15" me:T="600" />
+      <me:PTpair me:units="PPCC" me:P="1.0e16" me:T="600" />
+      <me:PTpair me:units="PPCC" me:P="1.0e17" me:T="600" />
+      <me:PTpair me:units="PPCC" me:P="1.0e18" me:T="600" />
+      <me:PTpair me:units="PPCC" me:P="1.0e19" me:T="600" />
+      <me:PTpair me:units="PPCC" me:P="1.0e20" me:T="600" />
+      <me:PTpair me:units="PPCC" me:P="1.0e12" me:T="800" />
+      <me:PTpair me:units="PPCC" me:P="1.0e13" me:T="800" />
+      <me:PTpair me:units="PPCC" me:P="1.0e14" me:T="800" />
+      <me:PTpair me:units="PPCC" me:P="1.0e15" me:T="800" />
+      <me:PTpair me:units="PPCC" me:P="1.0e16" me:T="800" />
+      <me:PTpair me:units="PPCC" me:P="1.0e17" me:T="800" />
+      <me:PTpair me:units="PPCC" me:P="1.0e18" me:T="800" />
+      <me:PTpair me:units="PPCC" me:P="1.0e19" me:T="800" />
+      <me:PTpair me:units="PPCC" me:P="1.0e20" me:T="800" />
+      <me:PTpair me:units="PPCC" me:P="1.0e12" me:T="1000" />
+      <me:PTpair me:units="PPCC" me:P="1.0e13" me:T="1000" />
+      <me:PTpair me:units="PPCC" me:P="1.0e14" me:T="1000" />
+      <me:PTpair me:units="PPCC" me:P="1.0e15" me:T="1000" />
+      <me:PTpair me:units="PPCC" me:P="1.0e16" me:T="1000" />
+      <me:PTpair me:units="PPCC" me:P="1.0e17" me:T="1000" />
+      <me:PTpair me:units="PPCC" me:P="1.0e18" me:T="1000" />
+      <me:PTpair me:units="PPCC" me:P="1.0e19" me:T="1000" />
+      <me:PTpair me:units="PPCC" me:P="1.0e20" me:T="1000" />
+      <me:PTpair me:units="PPCC" me:P="1.0e12" me:T="1200" />
+      <me:PTpair me:units="PPCC" me:P="1.0e13" me:T="1200" />
+      <me:PTpair me:units="PPCC" me:P="1.0e14" me:T="1200" />
+      <me:PTpair me:units="PPCC" me:P="1.0e15" me:T="1200" />
+      <me:PTpair me:units="PPCC" me:P="1.0e16" me:T="1200" />
+      <me:PTpair me:units="PPCC" me:P="1.0e17" me:T="1200" />
+      <me:PTpair me:units="PPCC" me:P="1.0e18" me:T="1200" />
+      <me:PTpair me:units="PPCC" me:P="1.0e19" me:T="1200" />
+      <me:PTpair me:units="PPCC" me:P="1.0e20" me:T="1200" />
     </me:PTs>
   </me:conditions>
 
   <me:modelParameters>
-    <me:grainSize units="cm-1"> 200</me:grainSize>
-    <!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
-    <!--<me:maxTemperature>3000</me:maxTemperature>-->
-    <me:energyAboveTheTopHill>100.</me:energyAboveTheTopHill>
+    <me:grainSize units="cm-1">100</me:grainSize>
     <me:runBasisSetMethodroutines>
-      <me:numberBasisFunctions>2</me:numberBasisFunctions>
+      <me:numberBasisFunctions>100</me:numberBasisFunctions>
     </me:runBasisSetMethodroutines>
   </me:modelParameters>
 
   <me:control>
     <me:testDOS />
     <me:testMicroRates />
-    <!--<me:printGrainDOS />-->
     <me:testRateConstants />
-    <!--<me:printCellDOS />-->
-    <!--<me:printReactionOperatorColumnSums />-->
-    <!--<me:printCollisionOperatorLevel>1</me:printCollisionOperatorLevel>-->
-    <!--<me:useDOSweighedDownWardTransition />-->
-    <!--<me:printGrainkfE />-->
-    <!--<me:printGrainBoltzmann />-->
-    <!--<me:printGrainkbE />-->
-    <me:printSpeciesProfile />
+    <me:useTheSameCellNumberForAllConditions />
     <me:printTabbedMatrices />
-    <me:eigenvalues>0</me:eigenvalues>
+    <me:eigenvalues>10</me:eigenvalues>
   </me:control>
 
 </me:mesmer>
