@@ -34,6 +34,7 @@ MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/MacOSX/mesmer.test -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Win32/mesmer.log -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Win32/mesmer.test -text
 MesmerQA/QA.bat -text
+MesmerQA/QA.sh -text
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/Cyclopropene_isomerization_reservoir_state_test.xml -text
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Linux32/mesmer.log -text
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Linux32/mesmer.test -text
@@ -67,7 +68,6 @@ MesmerQA/pentyl/baselines/Win32/mesmer.test -text
 MesmerQA/pentyl/pentyl_isomerization_basisset_test.xml -text
 MesmerQA/pentyl/pentyl_isomerization_test.xml -text
 MesmerQA/pentyl/pentyl_isomerize_dissocn.xml -text
-MesmerQA/qashell.sh -text
 /README -text
 /ToDo -text
 Windows[!!-~]VC9/MESMER.sln -text
