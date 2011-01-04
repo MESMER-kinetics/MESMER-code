@@ -1,0 +1,82 @@
+PT Grid 0 Condition: conc = 8.05242e+17, temp = 301, diagonalization precision: double-double
+{
+
+Test rovibronic density of states for: Ethane
+{
+      T           qtot           sumc           sumg
+    200        990.274        993.353        916.168
+    300        2759.15        2765.81        2665.82
+    400        6307.26        6319.65        6188.21
+}
+
+Eq fraction matrix:
+{
+ -2.2279e+068            1
+            1            1
+}
+inverse of Eq fraction matrix:
+{
+ -4.4886e-069  4.4886e-069
+  4.4886e-069            1
+}
+Equilibrium Fraction for Ethane = 1
+Equilibrium Fraction for Ethyl = 4.48862e-69
+
+Total number of eigenvalues = 194
+Eigenvalues
+{
+ -2.255679e+007
+ -2.098638e+007
+ -1.790736e+007
+ -6.880878e+006
+ -3.426495e-008
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+
+The last CSE = -6.88088e+06 and the first IERE = -1.79074e+07
+(last CSE)/(first IERE) ratio = 0.384249, which is less than an order of magnitude
+
+Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
+
+Z_matrix: {
+-1.863537e-34	3.472769e-68	
+1.863537e-34	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-5.366140e+33	1.863537e-34	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	4.710811e-132	
+-1.811630e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-6.880878e+06	2.389570e-61	
+6.880878e+06	-2.389570e-61	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+Ethane loss = -2.389570e-61
+Ethyl loss = -6.880878e+06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+Ethane -> Ethyl = 2.389570e-61
+Ethyl -> Ethane = 6.880878e+06
+}
+}
