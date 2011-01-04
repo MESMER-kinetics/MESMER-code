@@ -11,6 +11,10 @@ DEBUG          := YES
 # PROFILE can be set to YES to include profiling info, or NO otherwise
 PROFILE        := NO
 
+# TINYXML_USE_STL can be used to turn on STL support. NO, then STL
+# will not be used. YES will include the STL files.
+TINYXML_USE_STL := YES
+
 #****************************************************************************
 
 CC     := gcc
@@ -71,6 +75,16 @@ ifeq (YES, ${PROFILE})
    CFLAGS   := ${CFLAGS} -pg -O2
    CXXFLAGS := ${CXXFLAGS} -pg -O2
    LDFLAGS  := ${LDFLAGS} -pg
+endif
+
+#****************************************************************************
+# Preprocessor directives
+#****************************************************************************
+
+ifeq (YES, ${TINYXML_USE_STL})
+  DEFS := -DTIXML_USE_STL
+else
+  DEFS :=
 endif
 
 #****************************************************************************

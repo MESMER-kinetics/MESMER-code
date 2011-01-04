@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# qashell.sh
+# QA.sh
 # mesmer
 #
 # Created by Chi-Hsiu Liang on 13/05/2010.
@@ -60,7 +60,7 @@ case $1 in
     echo ""
     echo "Syntax:"
     echo ""
-    echo "    \MESMER_PATH\MesmerQA>./qashell.sh -u"
+    echo "    \MESMER_PATH\MesmerQA>./QA.sh -u"
     echo ""
     echo "2. developer SVN test mode; it overwrites mesmer.test files in the baseline"
     echo "   folders, thus the developer can use SVN check for modifications from the "
@@ -70,7 +70,7 @@ case $1 in
     echo ""
     echo "Syntax:"
     echo ""
-    echo "    \MESMER_PATH\MesmerQA>./qashell.sh -o"
+    echo "    \MESMER_PATH\MesmerQA>./QA.sh -o"
     echo "----------------------------------------------------------------------"
     echo ""
     ;;
