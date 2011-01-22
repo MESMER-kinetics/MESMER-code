@@ -22,6 +22,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
+			BuildLogFile=""
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -48,7 +49,7 @@
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -87,6 +88,7 @@
 			ConfigurationType="4"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
+			BuildLogFile=""
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -109,7 +111,7 @@
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 			/>
 			<Tool

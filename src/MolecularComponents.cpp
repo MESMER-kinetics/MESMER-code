@@ -4,8 +4,9 @@
 //
 //-------------------------------------------------------------------------------------------
 #include <stdexcept>
+#include <numeric>
 #include "Molecule.h"
-//#include "Rdouble.h"
+#include "System.h"
 
 using namespace std;
 using namespace Constants;
@@ -148,7 +149,13 @@ namespace mesmer
       cinfo << "Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion." << endl;
       m_VibFreq_chk = -1;
     }
-    else { istringstream idata(txt); double x; while (idata >> x) m_VibFreq.push_back(x); m_VibFreq_chk = 0;}
+    else 
+    { 
+      istringstream idata(txt);
+      double x; 
+      while (idata >> x)
+        m_VibFreq.push_back(x); m_VibFreq_chk = 0;
+    }
 
     std::vector<double> rCnst(3);
     txt= ppPropList->XmlReadProperty("me:rotConsts", optional);
@@ -204,32 +211,85 @@ namespace mesmer
     m_Sym = ppPropList->XmlReadPropertyDouble("me:symmetryNumber");
     m_Sym_chk = 0;
 
-    double tempzpe = ppPropList->XmlReadPropertyDouble("me:ZPE");
-    string unitsInput = ppPropList->XmlReadPropertyAttribute("me:ZPE", "units");
-    txt= ppPropList->XmlReadPropertyAttribute("me:ZPE", "convention", optional);
-    m_EnergyConvention = txt ? txt : "arbitary";
+    double tempzpe = ppPropList->XmlReadPropertyDouble("me:ZPE", optional);
+    if(!IsNan(tempzpe))
+    {
+      // me:ZPE is present
+      string unitsInput = ppPropList->XmlReadPropertyAttribute("me:ZPE", "units");
+      txt= ppPropList->XmlReadPropertyAttribute("me:ZPE", "convention", optional);
+      m_EnergyConvention = txt ? txt : "arbitary";
 
-    const char* pLowertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "lower", optional);
-    const char* pUppertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "upper", optional);
-    const char* pStepStxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "stepsize", optional);
-    double value(getConvertedEnergy(unitsInput, tempzpe));
-    if (pLowertxt && pUppertxt){
-      double tempLV(0.0), tempUV(0.0), tempSS(0.0);
-      stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
-      s3 >> tempLV; s4 >> tempUV; s5 >> tempSS;
-      double valueL(getConvertedEnergy(unitsInput, tempLV)),
-        valueU(getConvertedEnergy(unitsInput, tempUV)),
-        stepsize(getConvertedEnergy(unitsInput, tempSS));
-      //Make an Rdouble
-      set_zpe(valueL, valueU, stepsize);
-      //Save PersistPtr of the XML source of this Rdouble
-      RangeXmlPtrs.push_back(ppPropList->XmlMoveToProperty("me:ZPE"));
+      double zpCorrection=0.0; //cm-1
+      txt= ppPropList->XmlReadPropertyAttribute("me:ZPE", "zeroPointVibEnergyAdded", optional);
+      if(txt && strcmp(txt, "false")==0)
+      {
+        // Mesmer assumes that the ZPE is the true zero point energy, unless
+        // an attribute zeroPointVibEnergyAdded="false" is present. This indicates
+        // that the value provided is a computed energy at the bottom of the well
+        // and it is corrected here by adding 0.5*Sum(vib freqs).
+        if(hasVibFreq)
+        {
+          zpCorrection = accumulate(m_VibFreq.begin(),m_VibFreq.end(), 0.0);
+          zpCorrection *= 0.5;
+        }
+      }
+      const char* pLowertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "lower", optional);
+      const char* pUppertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "upper", optional);
+      const char* pStepStxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "stepsize", optional);
+      if (pLowertxt && pUppertxt)
+      {
+        double tempLV(0.0), tempUV(0.0), tempSS(0.0);
+        stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
+        s3 >> tempLV; s4 >> tempUV; s5 >> tempSS;
+        double valueL(getConvertedEnergy(unitsInput, tempLV)),
+          valueU(getConvertedEnergy(unitsInput, tempUV)),
+          stepsize(getConvertedEnergy(unitsInput, tempSS));
+        //Make an Rdouble
+        set_zpe(valueL+zpCorrection, valueU+zpCorrection, stepsize+zpCorrection);
+        //Save PersistPtr of the XML source of this Rdouble
+        RangeXmlPtrs.push_back(ppPropList->XmlMoveToProperty("me:ZPE"));
+      }
+      set_zpe(getConvertedEnergy(unitsInput, tempzpe) + zpCorrection);
+      m_ZPE_chk = 0;
     }
-    set_zpe(value);
-    m_ZPE_chk = 0;
+    else
+    {
+      //me:ZPE not present; try me:Hf0
+      double Hf0 = ppPropList->XmlReadPropertyDouble("me:Hf0", optional);
+      if(IsNan(Hf0))
+      {
+        //me:Hf0 not present; use a default ZPE
+        tempzpe = ppPropList->XmlReadPropertyDouble("me:ZPE", true);
+      }
+      else
+      {
+        // Convert Hf0 and write back a me:ZPE property which will be used in future
+        // Currently, Hf0 cannot be used as a range variable
+        /*
+        Atomize species X into atoms
+        delta H  = Sum(Hf0(atom i) - Hf0(X) 
+                 = Sum(E(atom i)   - E(X) where E is a compchem energy
+        We have E and Hf0 for each element as gas phase atom in librarymols.xml,
+        so E(X) = Hf0(X) + Sum over all atoms( E - Hf0 )
+        */
+        const char* utxt= ppPropList->XmlReadPropertyAttribute("me:Hf0", "units");
+        utxt = utxt ? utxt : "kJ/mol";
+        Hf0 = getConvertedEnergy(utxt, Hf0); //cm-1
+        tempzpe = Hf0 + getConvertedEnergy("kJ/mol", getHost()->getStruc().CalcSumEMinusHf0());//cm-1
+        set_zpe(tempzpe);
+        m_ZPE_chk = 0;
 
-    // The reason why me:frequenciesScaleFactor stands out to be a separate property in the propertyList is that
-    // this value is not usually necessary. The default value is 1.0 and it is usually the case.
+        //Write the converted value back to a me:ZPE element in the XML file
+        stringstream ss;
+        ss << ConvertFromWavenumbers(utxt, tempzpe);
+        PersistPtr ppScalar = ppPropList->XmlWriteProperty("me:ZPE", ss.str(), utxt);
+        ppScalar->XmlWriteAttribute("source", "Hf0");
+        ppScalar->XmlWriteAttribute("convention", "computational");//orig units
+        m_EnergyConvention = "computational";
+        cinfo << "New me:ZPE element written with data from me:Hf0" << endl;
+      }
+    }
+
     m_scaleFactor = ppPropList->XmlReadPropertyDouble("me:frequenciesScaleFactor");
     m_scaleFactor_chk = 0;
 
@@ -240,22 +300,14 @@ namespace mesmer
     m_SpinMultiplicity_chk = 0;
 
     /* For molecular energy me:ZPE is used if it is present. If it is not, a value
-    calculated from meHf298 is used and written back to the datafile as a me:ZPE
+    calculated from me:Hf0 is used and written back to the datafile as a me:ZPE
     property. It is consequently used in the next run and available to be varied
     or optimized. The original calculated value remains recorded in an attribute.
     */
-    txt = ppPropList->XmlReadProperty("me:Hf298", false);
-    if(txt && m_ZPE_chk < 0){ //ignore if there is a me:ZPE
-      double Hf298;
-      istringstream idata(txt);
-      idata >> Hf298; //orig units
-      const char* utxt= ppPropList->XmlReadPropertyAttribute("me:ZPE", "units");
-      utxt = utxt ? utxt : "kJ/mol";
-      Hf298 = getConvertedEnergy(utxt, Hf298); //cm-1
 
-      //Calculate ZPE from Thermodynamic Heat of Formation
+/*      //Calculate ZPE from Thermodynamic Heat of Formation
 
-      //*** This is INCOMPLETE and will calculate an incorrect result. NEEDS REVISITING ***
+      *** This is INCOMPLETE and will calculate an incorrect result. NEEDS REVISITING ***
 
       //The general way is to calculate dln(rot/vib partition function)/dBeta + 1.5kT
       //calcDensityOfStates(); //but this calls get_zpe and ZPE hasn't been set yet
@@ -280,7 +332,7 @@ namespace mesmer
     }
     else if(m_ZPE_chk < 0)
       cwarn << "No energy specified (as me:ZPE or me:Hf298 properties)" << endl;
-
+*/
     //Read main and extra method and their data
     ReadDOSMethods();
   }
@@ -1600,7 +1652,7 @@ namespace mesmer
     if(!ppPropList)
       ppPropList=pp; //Be forgiving; we can get by without a propertyList element
     double MW = ppPropList->XmlReadPropertyDouble("me:MW", optional);
-    if(MW==0.0)
+    if(IsNan(MW))
     {
       ReadStructure();
       if(Atoms.empty())
@@ -1657,10 +1709,12 @@ bool gStructure::ReadStructure()
     x3 = ppAtom->XmlReadDouble("x3", optional);
     y3 = ppAtom->XmlReadDouble("y3", optional);
     z3 = ppAtom->XmlReadDouble("z3", optional);
-    at.coords.Set(x3, y3, z3);
-    if(x3!=0 || y3!=0 || z3!=0)
-      m_HasCoords = true; //at least one atom with non-zero coordinates
-
+    if(!IsNan(x3) && !IsNan(y3) && !IsNan(z3))
+    {
+      at.coords.Set(x3, y3, z3);
+      if(x3!=0 || y3!=0 || z3!=0)
+        m_HasCoords = true; //at least one atom with non-zero coordinates
+    }
     Atoms[at.id] = at;
   }
 
@@ -1797,6 +1851,44 @@ vector<double> gStructure::CalcRotConsts()
   
   return RotConsts;
 
+}
+
+double gStructure::CalcSumEMinusHf0()
+{
+  //calculate for each atom (ab initio E - Hf0) and return sum
+  if(!ReadStructure())
+  {
+    cerr << "To use me::Hf0 the molecule needs chemical structure (an atomList at least)" << endl;
+    return false;
+  }
+  double sum = 0.0;
+  map<string, double> atomdiffs; //el symbol, diff
+  map<string, atom>::iterator iter;
+  for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter)
+  {
+    string el =iter->second.element;
+    if(atomdiffs.find(el)==atomdiffs.end())
+    {
+      //get vals from librarymols.xml
+      PersistPtr ppMol = GetFromLibrary(el, PersistPtr());
+      double diff;
+      if(ppMol)
+        diff = ppMol->XmlReadPropertyDouble("me:ZPE",optional)
+             - ppMol->XmlReadPropertyDouble("me:Hf0",optional);
+      if(!ppMol || IsNan(diff))
+      {
+        cerr << "The value of Hf0 for " << getHost()->getName()
+             << " will be incorrect because one or more of its elements"
+             << " was not in the library, or lacked me:ZPE and me:Hf0 properties" << endl;
+        return 0.0;
+      }
+      atomdiffs[el] = diff; //save diff for this el in atomdiffs
+      sum += diff;
+    }
+    else //diff for this el already known
+      sum += atomdiffs[el];
+  }
+  return sum;
 }
 
 }//namespace

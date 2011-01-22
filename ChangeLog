@@ -1,3 +1,36 @@
+2011-January-22 Chris Morley
+
+  * src/MolecularComponents.cpp,src/MolecularComponents.h,
+  librarymols.xml: If me:ZPE not found, read me:Hf0 and convert to
+  a computational basis using gStructure::CalcSumEMinusHf0()
+  and ZPE and HF0 data for atoms in librarymols.xml.
+  
+  me:ZPE property can have an attribute zeroPointVibEnergyAdded="false".
+  If present, the value of me:ZPE is corrected before being
+  used internally. Allows direct input from OpenBabel, etc.
+  mesmerDiag.xsl has not yet been corrected for this.  
+
+  * src/XMLPersist.cpp: XmlReadDouble(), XmlReadPropertyDouble()
+  return NaN rather than 0.0 if not found. Distinguishes a real
+  0.0 value, but has required extra precautionary statements in
+  several places in the code in case 0.0 was really intended.
+  
+  * Documentation/MESMER manual.doc, src/Persistence.h: documentation
+  of above.
+  
+  * Documentation/Adding a molecule to the library.html: new tutorial.   
+
+  * src/MoleculeManager.cpp,src/MoleculeManager.h,
+  src/System.cpp,src/System.h: Move GetFromLibrary() and libfile
+  from being members of MoleculeManager to being global in the
+  System files. This clearly needs to be re-addressed when System
+  is reorganised. It was necessary to access the library while
+  converting Hf0 in gStructure.
+  
+  * Windows VC9/qd/qd.vcproj,Windows VC9/TinyXML/TinyXML.vcproj:
+  remove build logging (makes possible multithread building?) and
+  deprecated 64bit compatibility option. 
+ 
 
 2011-January-8 Struan Robertson
 

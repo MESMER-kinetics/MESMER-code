@@ -145,7 +145,7 @@ namespace mesmer
 
   double XMLPersist::XmlReadDouble(const std::string& name, bool MustBeThere)
   {
-    double val=0.0;
+    double val=NaN; //was 0.0;
     const char* ptxt = XmlReadValue(name, MustBeThere);
     if(ptxt)
     {
@@ -246,7 +246,7 @@ namespace mesmer
 
   double XMLPersist::XmlReadPropertyDouble(const std::string& name, bool MustBeThere)
   {
-    double val=0.0;
+    double val=NaN; //was 0.0;
     const char* ptxt = XmlReadProperty(name, MustBeThere);
     if(ptxt)
     {
@@ -368,11 +368,13 @@ namespace mesmer
   //e.g. <metadata name="dc:source" content="LibraryMols.xml" timestamp="20080705_104810" />
   PersistPtr XMLPersist::XmlWriteMetadata(const std::string& name, const std::string& content)
   {
+    TiXmlElement* pn = pnNode->NextSiblingElement("metadataList");
+    if(pn)
+      pnNode = pn;
     TiXmlElement* item = new TiXmlElement("metadata");
     pnNode->LinkEndChild(item);
     TimeCount events;
     std::string timeString;
-    item->SetAttribute("name",name);
     item->SetAttribute("name",name);
     item->SetAttribute("content",content);
     item->SetAttribute("timestamp",events.setTimeStamp(timeString));
@@ -466,8 +468,8 @@ namespace mesmer
   Inserts a default value found by searching defaults.xml
   Handles elements, atrributes and cml properties.
   Call as follows:
-  For property with dictref == name            : InsertDefault("property", propname)
-  For element with element or attribute == name: InsertDefault(name)
+  For property with dictref == propname         : InsertDefault("property", propname)
+  For element with element or attribute == name : InsertDefault(name)
 
   If the default attribute in defaults file is "true" an entry is made in the log file.
   If it is anything else (usually meaning that manual editing is required)

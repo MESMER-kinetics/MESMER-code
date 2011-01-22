@@ -152,6 +152,8 @@ namespace mesmer
           maxIndex = max(maxIndex,index) ;
 
           double coefficient = pp->XmlReadDouble("coefficient", optional);
+          if(IsNan(coefficient))
+            coefficient = 0.0;
           coefficient = getConvertedEnergy(units, coefficient);
           coefficients.push_back(coefficient) ;
         }
@@ -172,9 +174,13 @@ namespace mesmer
         while(pp = pp->XmlMoveTo("me:PotentialPoint"))
         {
           double anglePoint = pp->XmlReadDouble("angle", optional);
+          if(IsNan(anglePoint))
+            anglePoint = 0.0;
           angle.push_back(anglePoint) ;
 
           double potentialPoint = pp->XmlReadDouble("potential", optional);
+          if(IsNan(potentialPoint))
+            potentialPoint = 0.0;
           potentialPoint = getConvertedEnergy(units, potentialPoint);
           potential.push_back(potentialPoint) ;
         }

@@ -161,11 +161,13 @@ namespace mesmer
       if(sRef.size()){ // if got the name of the molecule
         Molecule* pMolecule = m_pMoleculeManager->find(sRef) ;
         double population = ppInitMol->XmlReadDouble("me:population", optional) ;
-        if (population > 0.0){
+        if (!IsNan(population)){
           populationSum += population;
           pMolecule->getPop().setInitPopulation(population);
           ctest << "Initial population of " << pMolecule->getName() << " = " << population << endl;
         }
+        else
+          population = 0.0;
       }
       ppInitMol = ppInitMol->XmlMoveTo("molecule");
     }

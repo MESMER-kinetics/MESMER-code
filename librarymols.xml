@@ -123,5 +123,156 @@
       </property>
     </propertyList>
   </molecule>
+  <molecule id="H2O">
+    <metadataList>
+      <metadata name="dc:description" content="Listing of experimental data for H2O (Water)"/>
+      <metadata name="dc:source" content="http://cccbdb.nist.gov/"/>
+      <metadata name="dc:creator" content="OpenBabel version 2.3.1"/>
+      <metadata name="dc:contributor" content="Chris Morley"/>
+      <metadata name="dc:date" content="Wed Jan 05 11:31:08 GMT Standard Time 2011"/>
+    </metadataList>
+    <atomArray>
+      <atom id="a1" elementType="O" x3="0.000000" y3="0.000000" z3="0.117300"/>
+      <atom id="a2" elementType="H" x3="0.000000" y3="0.757200" z3="-0.469200"/>
+      <atom id="a3" elementType="H" x3="0.000000" y3="-0.757200" z3="-0.469200"/>
+    </atomArray>
+    <bondArray>
+      <bond atomRefs2="a2 a1" order="1"/>
+      <bond atomRefs2="a3 a1" order="1"/>
+    </bondArray>
+    <propertyList>
+      <property title="Hf0">
+        <scalar units="kJ/mol">-238.90</scalar>
+      </property>
+      <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
+        <array units="cm-1">3657.00 1595.00 3756.00 </array>
+      </property>
+      <property title="Rotational Constants" dictRef="me:rotConsts">
+        <array units="cm-1">27.877 14.512 9.285 </array>
+      </property>
+      <property title="Symmetry Number" dictRef="me:symmetryNumber">
+        <scalar>1 </scalar>
+      </property>
+    </propertyList>
+  </molecule>
+  <molecule id="C">
+    <metadataList>
+      <metadata name="dc:description" content="Gaussian 03 #PBEPBE/cc-pVTZ"/>
+      <metadata name="dc:source" content="unknown"/>
+      <metadata name="dc:creator" content="OpenBabel version 2.3.0"/>
+      <metadata name="dc:contributor" content="unknown"/>
+      <metadata name="dc:date" content="Thu Jan 13 09:35:55 GMT Standard Time 2011"/>
+    </metadataList>
+    <atomArray>
+      <atom id="a1" elementType="C" spinMultiplicity="5" x3="0.000000" y3="0.000000" z3="0.000000"/>
+    </atomArray>
+    <propertyList>
+      <property title="Hf0">
+        <scalar units="kJ/mol">711.19</scalar>
+      </property>
+      <property title="Energy" dictRef="me:ZPE">
+        <scalar units="kJ/mol" convention="computational" zeroPointVibEnergyAdded="false">-99230.53 </scalar>
+      </property>
+      <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
+        <scalar>3.00 </scalar>
+      </property>
+    </propertyList>
+  </molecule>
+  <molecule id="Cl">
+    <atomArray>
+      <atom id="a1" elementType="Cl" spinMultiplicity="2" x3="0.000000" y3="0.000000" z3="0.000000"/>
+    </atomArray>
+    <propertyList>
+      <property title="Hf0">
+        <scalar units="kJ/mol">119.63</scalar>
+      </property>
+      <property title="Energy" dictRef="me:ZPE">
+        <scalar units="kJ/mol" convention="computational" zeroPointVibEnergyAdded="false">-1207639.02 </scalar>
+      </property>
+      <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
+        <scalar>2.00 </scalar>
+      </property>
+    </propertyList>
+  </molecule>
+  <molecule id="F">
+    <atomArray>
+      <atom id="a1" elementType="F" spinMultiplicity="2" x3="0.000000" y3="0.000000" z3="0.000000"/>
+    </atomArray>
+    <propertyList>
+      <property title="Hf0">
+        <scalar units="kJ/mol">77.27</scalar>
+      </property>
+      <property title="Energy" dictRef="me:ZPE">
+        <scalar units="kJ/mol" convention="computational" zeroPointVibEnergyAdded="false">-261660.78 </scalar>
+      </property>
+      <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
+        <scalar>2.00 </scalar>
+      </property>
+    </propertyList>
+  </molecule>
+  <molecule id="H">
+    <atomArray>
+      <atom id="a1" elementType="H" spinMultiplicity="2" x3="0.000000" y3="0.000000" z3="0.000000"/>
+    </atomArray>
+    <propertyList>
+      <property title="Hf0">
+        <scalar units="kJ/mol">216.04</scalar>
+      </property>
+      <property title="Energy" dictRef="me:ZPE">
+        <scalar units="kJ/mol" convention="computational" zeroPointVibEnergyAdded="false">-1311.75 </scalar>
+      </property>
+      <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
+        <scalar>2.00 </scalar>
+      </property>
+    </propertyList>
+  </molecule>
+  <molecule id="N">
+    <atomArray>
+      <atom id="a1" elementType="N" spinMultiplicity="4" x3="0.000000" y3="0.000000" z3="0.000000"/>
+    </atomArray>
+    <propertyList>
+      <property title="Hf0">
+        <scalar units="kJ/mol">470.82</scalar>
+      </property>
+      <property title="Energy" dictRef="me:ZPE">
+        <scalar units="kJ/mol" convention="computational" zeroPointVibEnergyAdded="false">-143167.60 </scalar>
+      </property>
+      <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
+        <scalar>4.00 </scalar>
+      </property>
+    </propertyList>
+  </molecule>
+  <molecule id="O">
+    <atomArray>
+      <atom id="a1" elementType="O" spinMultiplicity="3" x3="0.000000" y3="0.000000" z3="0.000000"/>
+    </atomArray>
+    <propertyList>
+      <property title="Hf0">
+        <scalar units="kJ/mol">246.84</scalar>
+      </property>
+      <property title="Energy" dictRef="me:ZPE">
+        <scalar units="kJ/mol" convention="computational" zeroPointVibEnergyAdded="false">-196925.32 </scalar>
+      </property>
+      <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
+        <scalar>3.00 </scalar>
+      </property>
+    </propertyList>
+  </molecule>
+  <molecule id="S">
+    <atomArray>
+      <atom id="a1" elementType="S" spinMultiplicity="3" x3="0.000000" y3="0.000000" z3="0.000000"/>
+    </atomArray>
+    <propertyList>
+      <property title="Hf0">
+        <scalar units="kJ/mol">274.92</scalar>
+      </property>
+      <property title="Energy" dictRef="me:ZPE">
+        <scalar units="kJ/mol" convention="computational" zeroPointVibEnergyAdded="false">-1044801.89 </scalar>
+      </property>
+      <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
+        <scalar>3.00 </scalar>
+      </property>
+    </propertyList>
+  </molecule>
 </moleculeList>
 

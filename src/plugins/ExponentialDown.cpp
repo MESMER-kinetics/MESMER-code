@@ -115,10 +115,10 @@ private:
     "upper" attributes, together with and the following code, sets this up.
     ******************************************************************************/
     PersistPtr ppProp = ppPropList->XmlMoveToProperty("me:deltaEDown"); //needed to read the attributes
-    double valueL     = ppProp->XmlReadDouble("lower", optional);
-    double valueU     = ppProp->XmlReadDouble("upper", optional);
-    double stepsize   = ppProp->XmlReadDouble("stepsize" ,optional);
-    if (valueL!=0.0 && valueU!=0.0){
+    double valueL     = ppProp->XmlReadDouble("lower",    optional);
+    double valueU     = ppProp->XmlReadDouble("upper",    optional);
+    double stepsize   = ppProp->XmlReadDouble("stepsize", optional);
+    if (!IsNan(valueL) && !IsNan(valueU) && !IsNan(stepsize)){
       // make a range variable
       m_deltaEdown.set_range(valueL, valueU, stepsize, "deltaEdown");//incl parent in name?
       //Save PersistPtr of the XML source of this Rdouble
@@ -133,10 +133,12 @@ private:
     // Reference temperature of <Delta E down>, refTemp, has default 298.
 
     m_refTemp = ppProp->XmlReadDouble("referenceTemperature", optional );
-    if(m_refTemp==0.0)
+    if(IsNan(m_refTemp))
       m_refTemp = 298.;
 
-    m_dEdExp = ppProp->XmlReadDouble("exponent", optional); //defaults to 0.0
+    m_dEdExp = ppProp->XmlReadDouble("exponent", optional);
+    if(IsNan(m_dEdExp))
+      m_dEdExp = 0.0;
 
     return true ; 
   }

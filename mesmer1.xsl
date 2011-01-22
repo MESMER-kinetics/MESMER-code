@@ -453,9 +453,15 @@
   <xsl:template match="//me:eigenvalueList">
     <p class="normal2">
       <span class="tableheader">
+        <xsl:choose>
+          <xsl:when test="@selection=0">
+            <xsl:text>All of </xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text> out of </xsl:text>
+          </xsl:otherwise>
+        </xsl:choose><xsl:value-of select="@number"/>        
         <xsl:value-of select="@selection"/>
-        <xsl:text> out of </xsl:text>
-        <xsl:value-of select="@number"/>
          eigenvalues (sec<sup>-1</sup>) are shown
       </span>
       <br/>

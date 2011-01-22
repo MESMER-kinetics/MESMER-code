@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <stdlib.h>
+#include "System.h"
 #include "MoleculeManager.h"
 
 using namespace std ;
@@ -107,78 +108,6 @@ namespace mesmer
     }
 
     return it->second ;
-  }
-
-  PersistPtr MoleculeManager::GetFromLibrary(const std::string molName, PersistPtr ppMolList)
-  {
-    //Search the library of molecules, copy to the main XML file and return a pointer to the copy.
-    PersistPtr ppNewMol;
-    if(molName.empty())
-      return ppNewMol;
-    static PersistPtr ppLib; //initiallized by system to NULL
-    if(!ppLib)
-    {
-      ppLib = XMLPersist::XmlLoad(m_libfile,"");
-      if(m_libfile.empty() || !ppLib)
-      {
-        cwarn << "Could not find Library file to search it for missing molecule(s)."<<endl;
-        return false;
-      }
-    }
-    PersistPtr ppLibMolList   = ppLib->XmlMoveTo("moleculeList");
-    if(!ppLibMolList)
-      ppLibMolList = ppLib; //Can do without <moleculeList>
-    PersistPtr ppMol = ppLibMolList->XmlMoveTo("molecule");
-    string tmolName(molName);
-    const char* libId = NULL;
-    while(ppMol)
-    {
-      if(tmolName==ppMol->XmlReadValue("id", false))
-      {
-        //ignore library molecules with attribute active="false"
-        const char* active = ppMol->XmlReadValue("active", optional);
-        if(!active || strcmp(active, "false"))
-        {
-          //Check whether this match is an alias, e.g.
-          // <molecule id="aliasName" ref="libraryName"/> 
-          const char* txt = ppMol->XmlReadValue("ref",optional);
-          if(txt)
-          {
-            libId = txt;
-            tmolName = libId; //continue looking for real molecule
-          }
-          else //not an alias
-          {            
-            //Delete a molecule of same name in datafile, if present
-            PersistPtr ppOldMol = ppMolList;
-            while(ppOldMol = ppOldMol->XmlMoveTo("molecule"))
-            {
-              if(molName == ppOldMol->XmlReadValue("id", false))
-                break;
-            }
-
-            //Copy a matching molecule from library to the main XML file
-            //Replace old version if present
-            ppMol = ppMolList->XmlCopy(ppMol, ppOldMol);
-            
-            cinfo << molName << " copied from " << m_libfile;
-            //Write its provenance
-            ppMol->XmlWriteMetadata("source", m_libfile);
-            if(libId)//originally an alias 
-            {
-              ppMol->XmlWriteAttribute("id",molName);
-              ppMol->XmlWriteAttribute("libId",libId);
-              cinfo << " Original library id = " << libId;
-            }
-            cinfo << endl;
-            return ppMol;
-          }
-        }
-      }
-      ppMol = ppMol->XmlMoveTo("molecule");
-    }
-    cinfo << "Could not find " << molName << " in " << m_libfile << endl;
-    return ppMol; // empty, no suitable molecule found
   }
 
   //Return the Energy convention if all  molecules with _gDOS components have the same,

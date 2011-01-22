@@ -204,40 +204,6 @@ namespace mesmer
 
   };
 
-  //  Molecule energy specified in property elements with two dictRefs:
-  //  me:ZPE and me:Hf298
-  //  For example:
-  //      <property dictRef="me:ZPE">
-  //        <scalar convention="thermodynamic" units="kJ/mol">139.5</scalar>
-  //      </property>
-  //      <property dictRef="me:Hf298">
-  //        <scalar units="kJ/mol">139.5</scalar>
-  //      </property>
-  //
-  //  me:ZPE  - is used preferentially if it is present
-  //          - can use any baseline, but all the molecules in the file must use the same baseline
-  //          - the scalar can have the attribute convention="thermodynamic", in which case the
-  //            baseline is the same as for Hf298
-  //          - if not originally present, is calculated from me:Hf298 and inserted into the datafile
-  //            with attributes convention="thermodynamic" and calculated=TIMESTAMP.
-  //          - can have multiple values if the attributes lower, higher and stepsize are present.
-  //          - can have a units attribute. The follow values are recognized:
-  //            "kJ/mol" "kJ per mol" "kcal/mol" "kcal per mol" "wavenumber" "cm-1" "Hartree" "au"
-  //            If the attribute is missing the default is kJ/mol.
-  //
-  //  me:Hf298  - is the Enthalpy of formation at 298K, commonly used for thermodynamic data.
-  //              This baseline is common to all molecules so that it is possible to implement
-  //              a library of molecules.
-  //            - is used if me:ZPE is not present
-  //            - can have a units attribute see above
-  //
-  //  The energy of a set of reactants and products is obtained by adding the me:ZPEs of
-  //  each of the molecules. If an arbitary baseline is used for the modelled molecules,
-  //  like C2H2 and adduct in the reaction C2H2 + OH => adduct, the ancillary molecules, like OH,
-  //  must have me:ZPE specified as zero. If a thermodynamic baseline is used for any molecule
-  //  it must be used for all, and this is checked.
-
-
   class gTransitionState:public MolecularComponent
   {
 
@@ -442,6 +408,11 @@ namespace mesmer
     double CalcMomentAboutAxis(std::vector<std::string> atomset,
                                OpenBabel::vector3 at1, OpenBabel::vector3 at2);
     
+    // Read librarymols.xml to obtain the ab initio energy and enthalpy at zero K
+    // for an isolated atom of each atom type in the molecule.
+    // Return the sums of (E - Hf0) over the molecule in kJ/mol.
+    double CalcSumEMinusHf0();
+
     //Calculate moment of inertia matrix
     vector<double> CalcRotConsts(); 
 

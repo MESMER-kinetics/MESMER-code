@@ -22,7 +22,14 @@
 
 namespace mesmer
 {
+  ///Search the library of molecules. If PPMolList is valid copy to the main XML file,
+  // replacing an existing molecule of same name. Return a pointer to the copy (or the librymol).
+  extern PersistPtr GetFromLibrary(const std::string molName, PersistPtr ppMolList);
+  //global variable
+  extern std::string libfile;
+
   class CalcMethod;
+
   class System 
   {
   public:

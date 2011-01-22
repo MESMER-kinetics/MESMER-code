@@ -27,15 +27,15 @@ class MoleculeManager {
   std::string                                               m_BathGasMolecule ;
   PersistPtr                                                m_ppPersist;
   int                                                       sourceNumber;
-  const std::string                                         m_libfile;
+
 private:
   void clear(void);
 
 public:
 
   // Default constructor.
-  MoleculeManager(const std::string& libraryfilename) 
-    : m_molmap(), m_BathGasMolecule(), m_ppPersist(NULL), sourceNumber(0), m_libfile(libraryfilename) { } ;
+  MoleculeManager() 
+    : m_molmap(), m_BathGasMolecule(), m_ppPersist(NULL), sourceNumber(0) { } ;
 
   // Default destructor.
   ~MoleculeManager();
@@ -115,10 +115,6 @@ public:
     }
     return false;
   }
-
-  ///Search the library of molecules, copy to the main XML file,
-  // replacing an existing molecule of same name. Return a pointer to the copy.
-  PersistPtr GetFromLibrary(const std::string molName, PersistPtr ppMolList);
 
   // Accessors and Modifers for bath gas molecule.
 

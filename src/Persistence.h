@@ -53,6 +53,8 @@ namespace mesmer
     virtual const char* XmlReadValue(const std::string& name, bool MustBeThere=true)=0;
 
     /// Returns the value of a specified child element or attribute.
+    // If the element or attribute is not found and the default is either not requested
+    // or is not found, then NaN is returned.
     virtual double XmlReadDouble(const std::string& name, bool MustBeThere=true)=0;
 
     /// Returns the value of a specified child element or attribute.
@@ -65,6 +67,8 @@ namespace mesmer
     virtual PersistPtr XmlMoveToProperty(const std::string& name)=0;
 
     /// Returns the value associated with name (CML property element)
+    // If the property is not found and the default is either not requested
+    // or is not found, then NaN is returned.
     virtual double XmlReadPropertyDouble(const std::string& name, bool MustBeThere=true)=0;
 
     /// Returns the value associated with name (CML property element)

@@ -1,5 +1,6 @@
 * text=auto !eol
 /ChangeLog -text
+Documentation/Adding[!!-~]a[!!-~]molecule[!!-~]to[!!-~]the[!!-~]library.html -text
 Documentation/Constructing[!!-~]a[!!-~]Datafile[!!-~]from[!!-~]Gaussian[!!-~]output.html -text
 Documentation/MESMER[!!-~]manual.doc -text
 Documentation/MESMER[!!-~]manual.pdf -text

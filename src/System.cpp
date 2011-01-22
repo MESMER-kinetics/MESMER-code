@@ -21,6 +21,87 @@ using namespace Constants ;
 
 namespace mesmer
 {
+  //Global varaiable and function declared in System.h
+  std::string libfile;
+  
+  PersistPtr GetFromLibrary(const std::string molName, PersistPtr ppMolList)
+  {
+    //Search the library of molecules, copy to the main XML file and return a pointer to the copy
+    // (or library version if ot copied).
+    PersistPtr ppNewMol;
+    if(molName.empty())
+      return ppNewMol;
+    static PersistPtr ppLib; //initiallized by system to NULL
+    if(!ppLib)
+    {
+      ppLib = XMLPersist::XmlLoad(libfile,"");
+      if(libfile.empty() || !ppLib)
+      {
+        cwarn << "Could not find Library file to search it for missing molecule(s)."<<endl;
+        return false;
+      }
+    }
+    PersistPtr ppLibMolList   = ppLib->XmlMoveTo("moleculeList");
+    if(!ppLibMolList)
+      ppLibMolList = ppLib; //Can do without <moleculeList>
+    PersistPtr ppMol = ppLibMolList->XmlMoveTo("molecule");
+    string tmolName(molName);
+    const char* libId = NULL;
+    while(ppMol)
+    {
+      if(tmolName==ppMol->XmlReadValue("id", false))
+      {
+        //ignore library molecules with attribute active="false"
+        const char* active = ppMol->XmlReadValue("active", optional);
+        if(!active || strcmp(active, "false"))
+        {
+          //Check whether this match is an alias, e.g.
+          // <molecule id="aliasName" ref="libraryName"/> 
+          const char* txt = ppMol->XmlReadValue("ref",optional);
+          if(txt)
+          {
+            libId = txt;
+            tmolName = libId; //continue looking for real molecule
+          }
+          else //not an alias
+          {            
+            if(ppMolList) //no copy if not specified
+            {
+            //Delete a molecule of same name in datafile, if present
+            PersistPtr ppOldMol = ppMolList;
+            while(ppOldMol = ppOldMol->XmlMoveTo("molecule"))
+            {
+              if(molName == ppOldMol->XmlReadValue("id", false))
+                break;
+            }
+
+              //Copy a matching molecule from library to the main XML file
+              //Replace old version if present
+              ppMol = ppMolList->XmlCopy(ppMol, ppOldMol);
+              
+              cinfo << molName << " copied from " << libfile;
+              //Write its provenance, under metadatList if present
+              PersistPtr pp = ppMol->XmlMoveTo("metadataList");
+              pp = pp ? pp : ppMol;
+              pp->XmlWriteMetadata("copiedFrom", libfile);
+              if(libId)//originally an alias 
+              {
+                ppMol->XmlWriteAttribute("id",molName);
+                ppMol->XmlWriteAttribute("libId",libId);
+                cinfo << " Original library id = " << libId;
+              }
+              cinfo << endl;
+            }
+            return ppMol;
+          }
+        }
+      }
+      ppMol = ppMol->XmlMoveTo("molecule");
+    }
+    cinfo << "Could not find " << molName << " in " << libfile << endl;
+    return ppMol; // empty, no suitable molecule found
+  }
+
 
   System::System(const std::string& libraryfilename): 
 m_pMoleculeManager(0), 
@@ -38,8 +119,9 @@ m_eigenvalues(),
 m_SpeciesSequence(),
 m_eqVector()
 {
-  m_pMoleculeManager = new MoleculeManager(libraryfilename) ;
+  m_pMoleculeManager = new MoleculeManager() ;
   m_pReactionManager = new ReactionManager(m_pMoleculeManager) ;
+  libfile = libraryfilename;
 }
 
 System::~System() {
@@ -72,6 +154,8 @@ bool System::parse(PersistPtr ppIOPtr)
     m_Env.GrainSize          = ppParams->XmlReadInteger("me:grainSize");
 
     m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
+    if(IsNan(m_Env.MaximumTemperature))
+      m_Env.MaximumTemperature = 0.0;
     m_Env.EAboveHill         = ppParams->XmlReadDouble("me:energyAboveTheTopHill");
     m_Env.useBasisSetMethod  = ppParams->XmlReadBoolean("me:runBasisSetMethodroutines");
     if (m_Env.useBasisSetMethod) {

@@ -66,7 +66,7 @@ namespace mesmer
                 break;
             }
             if(!ppMol) //not found, try library. (Adds to datafile if found.)
-              ppMol = m_pMoleculeManager->GetFromLibrary(pmolname, ppMolList);
+              ppMol = GetFromLibrary(pmolname, ppMolList);
             if(!ppMol) //if still not found cannot add types
               break;
 
