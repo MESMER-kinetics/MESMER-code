@@ -1,4 +1,16 @@
 
+//-------------------------------------------------------------------------------------------
+//
+// HinderedRotorQM1D.cpp
+//
+// This file contains the implementation of the methods for calculating and testing the 
+// density of states of a one dimensional quantum mechanical hindered rotor.
+//
+// The Hamiltonian is represented in a basis of one-dimensional free rotor functions and 
+// then diagonalized.
+//
+//-------------------------------------------------------------------------------------------
+
 #include "../DensityOfStates.h"
 #include "../MolecularComponents.h"
 #include "../Molecule.h"
@@ -12,7 +24,7 @@ namespace mesmer
   class HinderedRotorQM1D : public DensityOfStatesCalculator
   {
   public:
-    //Read data from XML. Some is stored hear and some in a MolecularComponent class.
+    //Read data from XML. 
     virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC=NULL);
 
     // Provide a function to define particular counts of the DOS of a molecule.

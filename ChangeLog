@@ -1,3 +1,11 @@
+
+
+2011-January-30 Struan Robertson
+
+	* HinderedRotorCM1D.cpp: Initial implementation of classical 1D
+	hindered rotor DOS class. This class has been added for comparative
+	purposes.
+
 2011-January-22 Chris Morley
 
   * src/MolecularComponents.cpp,src/MolecularComponents.h,

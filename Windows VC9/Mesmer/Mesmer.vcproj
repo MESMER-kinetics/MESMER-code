@@ -217,6 +217,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\plugins\HinderedRotorCM1D.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\plugins\HinderedRotorQM1D.cpp"
 				>
 			</File>
