@@ -122,6 +122,8 @@ void beschb(const double x, double &gam1, double &gam2, double &gampl, double &g
 
 double chebev(const double a, const double b, std::vector<double> &c, const int m, const double x);
 
+double ModifiedBessalFunction(const double x) ;
+
 void nrerror(std::string message);
 
 // end airy2 functions

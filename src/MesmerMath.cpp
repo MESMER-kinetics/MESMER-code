@@ -915,7 +915,7 @@ void nrerror(std::string message)
 //
 // Calculation of the modifed Bessel function, Io(x), for real x.
 //
-double ModifiedBessalFuncion(const double x)  
+double ModifiedBessalFunction(const double x)  
 {
   static double p1(1.0),          p2(3.5156229),     p3(3.0899424) ;
   static double p4(1.2067492),    p5(0.2659732),     p6(0.360768e-1) ;

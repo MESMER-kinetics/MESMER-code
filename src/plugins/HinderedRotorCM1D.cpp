@@ -230,24 +230,56 @@ namespace mesmer
     if(!pDOS->getCellDensityOfStates(cellDOS, 0, false)) // retrieve the DOS vector without recalculating
       return false;
 
-	vector<double> cellEne;
+    vector<double> cellEne;
     getCellEnergies(MaximumCell, cellEne);
 
-	vector<double> hndrRtrDOS(MaximumCell,0.0) ;
-
     // Calculate the one dimensional rotor constant and adjust for symmetry.
-    double bint = conMntInt2RotCnt/m_reducedMomentInertia/double(m_periodicity) ;
-    for (int i(0) ; i < MaximumCell ; i++ ) {
-      hndrRtrDOS[i] = bint/sqrt(cellEne[i]) ;
+    double bint = sqrt(m_reducedMomentInertia/conMntInt2RotCnt)/double(m_periodicity) ;
+
+    // Calculate the free rotor density of states.
+    vector<double> freeRtrDOS(MaximumCell,0.0) ;
+    for (size_t i(0) ; i < MaximumCell ; i++ ) {
+      freeRtrDOS[i] = bint/sqrt(cellEne[i]) ;
     }
 
-	// Convolve one dimensional rotor states with overall density of states.
+    // Calculate the correction for the hindering potential. 
+    vector<double> tmpCellDOS(MaximumCell,0.0) ;
 
-	vector<double> tmpCellDOS(MaximumCell,0.0) ;
-	FastLaplaceConvolution(cellDOS, hndrRtrDOS, tmpCellDOS) ;
+    const int npnts(1000) ;
+    const double intvl(2*M_PI/double(npnts)) ;
+
+    vector<double>  ptnl(npnts,0.0) ;
+    vector<double> dptnl(npnts,0.0) ;
+    for (size_t i(0); i < npnts; ++i) {
+      double angle(double(i)*intvl) ;
+      for(size_t k(0); k < m_expansion; ++k) {
+        double nTheta = double(k) * angle;
+        ptnl[i] +=  m_potentialCosCoeff[k] * cos(nTheta);
+        dptnl[i] += -m_potentialCosCoeff[k] * double(k) * sin(nTheta);
+      }
+    }
+
+    size_t emax = 2*int(m_potentialCosCoeff[0]) + 1 ;
+    for (size_t i(0); i < emax ; ++i) {
+      double ene = cellEne[i] ;
+      for (size_t j(0); j < npnts -1; ++j) {
+        const double v1(ptnl[j]), v2(ptnl[j+1]) ;
+        if ((ene > v1 && ene < v2)||(ene > v2 && ene < v1)) {
+          double dp = dptnl[j] - (dptnl[j] - dptnl[j+1])*(v1 - ene)/(v1 - v2) ;
+          tmpCellDOS[i] += 1.0/fabs(dp) ;
+        }
+      }
+      tmpCellDOS[i] /= 2.0*M_PI ;
+    }
+
+    // Convolve free rotor and hindering potential terms to give the hindered rotor density of states.
+    vector<double> hndrRtrDOS(MaximumCell,0.0) ;
+    FastLaplaceConvolution(freeRtrDOS, tmpCellDOS, hndrRtrDOS) ;
+
+    // Convolve one dimensional rotor states with overall density of states.
+    FastLaplaceConvolution(cellDOS, hndrRtrDOS, tmpCellDOS) ;
 
     // Replace existing density of states.   
-
     pDOS->setCellDensityOfStates(tmpCellDOS) ;
 
     return true;
@@ -260,14 +292,28 @@ namespace mesmer
   //
   double HinderedRotorCM1D::canPrtnFnCntrb(const double beta)
   {
+    //
+    // Calculate the free rotor term first.
+    //
     double Qintrot = sqrt(M_PI*m_reducedMomentInertia/conMntInt2RotCnt/beta)/double(m_periodicity) ;
 
-    //Qintrot = exp(-beta*m_potentialCosCoeff[0]) ;
-    //for (size_t n(1); n < m_potentialCosCoeff.size() ; n++) {
-    //  Qintrot *= ModifiedBessalFuncion(beta*m_potentialCosCoeff[n]) ;
-    //}
+    //
+    // Calculate the hindering potential correction via numerical integration.
+    //
+    const int npnts(1000) ;
+    const double intvl(2*M_PI/double(npnts)) ;
+    double Qhdr(0.0) ;
+    for (size_t i(0); i < npnts; ++i) {
+      double ptnl(0.0) ;
+      double angle(double(i)*intvl) ;
+      for(size_t k(0); k < m_expansion; ++k) {
+        double nTheta = double(k) * angle;
+        ptnl += m_potentialCosCoeff[k] * cos(nTheta);
+      }
+      Qhdr += exp(-beta*ptnl);
+    }
 
-    return Qintrot ;
+    return Qintrot*Qhdr/double(npnts) ;
   }
 
   //

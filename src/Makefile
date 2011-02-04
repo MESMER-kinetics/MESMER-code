@@ -169,6 +169,7 @@ SRCS := \
 	plugins/fitting.cpp \
 	plugins/gridsearch.cpp \
 	plugins/HinderedRotorQM1D.cpp \
+	plugins/HinderedRotorCM1D.cpp \
 	plugins/LandauZenerCrossingCoeff.cpp \
 	plugins/MesmerILT.cpp \
 	plugins/QMRotor.cpp \
