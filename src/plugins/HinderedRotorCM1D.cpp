@@ -225,7 +225,6 @@ namespace mesmer
   //
   bool HinderedRotorCM1D::countCellDOS(gDensityOfStates* pDOS, int MaximumCell)
   {
-
     vector<double> cellDOS;
     if(!pDOS->getCellDensityOfStates(cellDOS, 0, false)) // retrieve the DOS vector without recalculating
       return false;
@@ -236,43 +235,84 @@ namespace mesmer
     // Calculate the one dimensional rotor constant and adjust for symmetry.
     double bint = sqrt(m_reducedMomentInertia/conMntInt2RotCnt)/double(m_periodicity) ;
 
-    // Calculate the free rotor density of states.
+	//
+    // Calculate the free rotor density of states. The density of states goes as
+	// (Energy)^(-1/2), howwever, to get a good estimate of the density of states
+	// it is better to use the average of this function across the cell, hence the
+	// slightly strange formula below.
+	//
     vector<double> freeRtrDOS(MaximumCell,0.0) ;
     for (size_t i(0) ; i < MaximumCell ; i++ ) {
-      freeRtrDOS[i] = bint/sqrt(cellEne[i]) ;
+	  const double ene = cellEne[i] - 0.5 ;
+      freeRtrDOS[i] = 2.0*bint*(sqrt(ene+1.0)-sqrt(ene)) ;
     }
 
-    // Calculate the correction for the hindering potential. 
-    vector<double> tmpCellDOS(MaximumCell,0.0) ;
+	//
+    // Calculate the configuraton integral contribution to the density of states.
+	// The configuration integral features a delta function of the differnce between
+	// the required energy an the hindering potential and so it is necessary to 
+	// determine the roots of this difference and the gradient of the potential at
+	// these points.
+	//
+	// The configuation intergral evaluation is done in three steps:
+	//   1) The potential is eveluated at number of angles.
+	//   2) The configuration integral is determined for fine intervals of energy
+	//      by bracketing and interpolating the energy and related functions.
+	//   3) The cell (note cell not grain) values are determined by integration.
+	//
+	// Step 3) seems to be require as mid cell energies tend under estimate the 
+	// the configuration integral contribution.
+	//
 
-    const int npnts(1000) ;
-    const double intvl(2*M_PI/double(npnts)) ;
-
+	// 1) Set-up array of potential points.
+    const int npnts(2000) ;
+    const double intvl(2.0*M_PI/double(npnts)) ;
     vector<double>  ptnl(npnts,0.0) ;
     vector<double> dptnl(npnts,0.0) ;
     for (size_t i(0); i < npnts; ++i) {
       double angle(double(i)*intvl) ;
       for(size_t k(0); k < m_expansion; ++k) {
         double nTheta = double(k) * angle;
-        ptnl[i] +=  m_potentialCosCoeff[k] * cos(nTheta);
+        ptnl[i]  +=  m_potentialCosCoeff[k] * cos(nTheta);
         dptnl[i] += -m_potentialCosCoeff[k] * double(k) * sin(nTheta);
       }
     }
 
-    size_t emax = 2*int(m_potentialCosCoeff[0]) + 1 ;
+	// 2) Locate roots via bracketing and interpolate the potential gradient.
+	const int    nintvl   = 10 ;
+    const double cellsize = 1.0 ;
+    const double dene     = cellsize/double(nintvl) ;
+	size_t       emax     = 2*nintvl*(int(m_potentialCosCoeff[0]) + 1) + 1 ;
+	vector<double> cfgHdr(emax,0.0) ;
     for (size_t i(0); i < emax ; ++i) {
-      double ene = cellEne[i] ;
-      for (size_t j(0); j < npnts -1; ++j) {
-        const double v1(ptnl[j]), v2(ptnl[j+1]) ;
+      const double ene = dene*double(i) ;
+      for (size_t j(0); j < npnts; ++j) {
+        const double v1(ptnl[j]), v2(ptnl[(j+1)%npnts]) ;
         if ((ene > v1 && ene < v2)||(ene > v2 && ene < v1)) {
-          double dp = dptnl[j] - (dptnl[j] - dptnl[j+1])*(v1 - ene)/(v1 - v2) ;
-          tmpCellDOS[i] += 1.0/fabs(dp) ;
+          const double dp = fabs(dptnl[j] - (dptnl[j] - dptnl[j+1])*(v1 - ene)/(v1 - v2)) ;
+		  cfgHdr[i] += (dp > 0.0) ? 1.0/dp : 0.0 ;
         }
       }
-      tmpCellDOS[i] /= 2.0*M_PI ;
+      cfgHdr[i] /= 2.0*M_PI ;
     }
 
-    // Convolve free rotor and hindering potential terms to give the hindered rotor density of states.
+	// 3) Integrate using the trapezium rule to get an averages across a cells.
+    vector<double> tmpCellDOS(MaximumCell,0.0) ;
+	emax = 2*(int(m_potentialCosCoeff[0]) + 1) ;
+    for (size_t i(0), idx(0); i < emax ; ++i) {
+      double sum(0.0) ;
+	  sum += 0.5*cfgHdr[idx] ;
+      for (size_t j(1); j < nintvl; ++j, ++idx) {
+		sum += cfgHdr[idx] ;
+      }
+	  sum += 0.5*cfgHdr[++idx] ;
+      tmpCellDOS[i] = sum/double(nintvl) ;
+    }
+
+    //
+	// Convolve free rotor and configuration integral terms to give the
+	// hindered rotor density of states.
+	//
     vector<double> hndrRtrDOS(MaximumCell,0.0) ;
     FastLaplaceConvolution(freeRtrDOS, tmpCellDOS, hndrRtrDOS) ;
 

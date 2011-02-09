@@ -1,7 +1,11 @@
 
 2011-February-04 Struan Robertson
 
-	* HinderedRotorCM1D.cpp: Approximate treatment of hindered rotor 
+	* HinderedRotorCM1D.cpp: Hindered rotor configuration integral extended. 
+
+2011-February-04 Struan Robertson
+
+	* HinderedRotorCM1D.cpp: Approximate treatment of hindering 
 	potential added.
 	* Makefile: Addition of HinderedRotorCM1D.cpp to build. 
 
