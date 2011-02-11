@@ -60,7 +60,7 @@ namespace mesmer
     MesmerFlags m_Flags;
 
     // Build reaction operator for system.
-    bool BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags) ;
+    bool BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags, bool writeReport) ;
 
     // Calculate the equilibrium fraction of each species in the system.
     bool calculateEquilibriumFractions(const double beta);
@@ -92,7 +92,7 @@ namespace mesmer
       bool                  MustBeThere=true);
 
     // sets grain parameters and determines system environment
-    bool SetGrainParams(MesmerEnv &mEnv, const MesmerFlags& mFlags, const double minEne, const double maxEne);
+    bool SetGrainParams(MesmerEnv &mEnv, const MesmerFlags& mFlags, const double minEne, const double maxEne, bool writeReport);
 
     // Construct a transition matrix based on grains.
     void constructGrainMatrix(int msize);

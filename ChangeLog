@@ -1,5 +1,10 @@
 
-2011-February-04 Struan Robertson
+2011-February-11 Struan Robertson
+
+	* fitting.cpp: Fix made to the direction search which was being incorrectly 
+	read from the direction matrix. 
+
+2011-February-09 Struan Robertson
 
 	* HinderedRotorCM1D.cpp: Hindered rotor configuration integral extended. 
 

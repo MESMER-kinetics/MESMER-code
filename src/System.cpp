@@ -500,7 +500,7 @@ bool System::calculate(double& chiSquare, bool writeReport)
     m_Env.conc = PandTs[calPoint].get_concentration();
     // unit of conc: particles per cubic centimeter
 
-    cinfo << "PT Grid " << calPoint << endl;
+	if (writeReport) {cinfo << "PT Grid " << calPoint << endl;}
     int precision = PandTs[calPoint].get_precision();
     ctest << "PT Grid " << calPoint << " Condition: conc = " << m_Env.conc << ", temp = " << PandTs[calPoint].get_temperature();
 
@@ -511,10 +511,10 @@ bool System::calculate(double& chiSquare, bool writeReport)
     }
 
     // Build collison matrix for system.
-    if (!BuildReactionOperator(m_Env, m_Flags))
+    if (!BuildReactionOperator(m_Env, m_Flags, writeReport))
       throw (std::runtime_error("Failed building system collison operator.")); 
 
-    {string thisEvent = "Build Collison Operator" ;
+    if (writeReport) {string thisEvent = "Build Collison Operator" ;
     events.setTimeStamp(thisEvent, timeElapsed) ;
     cinfo << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds." << endl ;}
 
@@ -526,7 +526,7 @@ bool System::calculate(double& chiSquare, bool writeReport)
       // Diagonalise the collision operator.
       diagReactionOperator(m_Flags, m_Env, precision, ppAnalysis) ;
 
-      {string thisEvent = "Diagonalize the Reaction Operator" ;
+      if (writeReport) {string thisEvent = "Diagonalize the Reaction Operator" ;
       events.setTimeStamp(thisEvent, timeElapsed) ;
       cinfo << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds." << endl ;}
 
@@ -578,7 +578,7 @@ bool System::calculate(double& chiSquare, bool writeReport)
   {string thisEvent = "Finish Calculation";
   events.setTimeStamp(thisEvent, timeElapsed);
   cinfo << endl << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds.\n";
-  cwarn << calPoint << " temperature/concentration-pressure points calculated." << endl;}
+  if (writeReport) cwarn << calPoint << " temperature/concentration-pressure points calculated." << endl;}
 
   if (m_Flags.viewEvents) cinfo << events;
 
@@ -723,7 +723,7 @@ void System::configuration(void){
 }
 
 
-bool System::BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags)
+bool System::BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags, bool writeReport)
 {
   const double SUPREMUM =  9e23 ;
   const double INFIMUM  = -SUPREMUM ;
@@ -834,7 +834,7 @@ bool System::BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags)
   }
 
   // set grain parameters for the current Temperature/pressure condition
-  if(!SetGrainParams(mEnv, mFlags, minEnergy, maxEnergy))
+  if(!SetGrainParams(mEnv, mFlags, minEnergy, maxEnergy, writeReport))
     return false;
 
   // Calculate flux and k(E)s
@@ -914,7 +914,7 @@ bool System::BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags)
   return true;
 }
 
-bool System::SetGrainParams(MesmerEnv &mEnv, const MesmerFlags& mFlags, const double minEne, const double maxEne)
+bool System::SetGrainParams(MesmerEnv &mEnv, const MesmerFlags& mFlags, const double minEne, const double maxEne, bool writeReport)
 {
   //  Grain size and number of grain:
   //
@@ -949,7 +949,7 @@ bool System::SetGrainParams(MesmerEnv &mEnv, const MesmerFlags& mFlags, const do
   mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/mEnv.GrainSize + 0.5);
   mEnv.MaxCell = mEnv.GrainSize * mEnv.MaxGrn;
 
-  cinfo << "Cell number = " << mEnv.MaxCell << ", Grain number = " << mEnv.MaxGrn << endl;
+  if (writeReport) cinfo << "Cell number = " << mEnv.MaxCell << ", Grain number = " << mEnv.MaxGrn << endl;
 
   return true;
 }

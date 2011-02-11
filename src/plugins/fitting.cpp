@@ -117,11 +117,11 @@ namespace mesmer
 
     //Do not output all the intermediate results to XML
     pSys->m_Flags.overwriteXmlAnalysis = true;
-    
+
     // Use the same grain numbers for for all calcuations regardless of 
     // temperature (i.e. reduce the number of times micro-rates are caluclated).
     pSys->m_Flags.useTheSameCellNumber = true;
-    
+
     //Default is to disable ctest during fitting. Restored when leaving this function.
     //StopCTestOutput stop(!ppControl->XmlReadBoolean("me:ctestOutputWhenFitting")) ;
 
@@ -167,16 +167,18 @@ namespace mesmer
 
     for (size_t itr(1), count(0) ; itr <= maxIterations ; itr++) {
 
+	  cinfo << "Iteration: " << itr << " of fitting. chiSquare = " << chiSquare << endl;
+
       // Perform an initial sweep across all vectors.
 
       for (size_t isweep(0); isweep < m_nVar ; isweep++) {
 
-        cerr << "Step " << ++count << " of fitting. chiSquare = " << chiSquare << endl;
+		cinfo << "Direction sweep:" << isweep << " of fitting. chiSquare = " << chiSquare << endl;
 
         // Determine direction of search.
 
         for (size_t i(0); i < m_nVar ; i++ ) {
-          direction[i] = directions[isweep][i] ;
+          direction[i] = directions[i][isweep] ;
         }
 
         oldChiSquare = chiSquare ;
@@ -205,7 +207,7 @@ namespace mesmer
         cinfo << endl << "Direction Matrix Reset." << endl;
 
         initializeDirections(directions) ;
-        
+
         // tol = max(m_tol, tol/10.) ;                   
       } else {
         cycleDirections(directions,direction);
@@ -216,13 +218,13 @@ namespace mesmer
     //Write the optimized result to the XML file
     for (size_t i(0); i < m_nVar ; i++ ) {
       RangeXmlPtrs[i]->XmlWrite(toString(*Rdouble::withRange()[i]));
-      
+
       TimeCount events;
       std::string timeString;
       RangeXmlPtrs[i]->XmlWriteAttribute("fitted", events.setTimeStamp(timeString));
     }
 
-	// Calculate model values with optimum parameters.
+    // Calculate model values with optimum parameters.
 
     pSys->calculate(chiSquare, true) ;
 
@@ -557,7 +559,7 @@ namespace mesmer
     // converged = (interval < m_tol*radius) ;
 
     // return !converged ;
-    
+
     return !(interval > m_tol*radius) ;
   }
 
@@ -611,27 +613,27 @@ namespace mesmer
 Writing the fitted result to the XML file
 The fitted variable came originally from a structure like:
 <property dictRef="me:ZPE">
- <scalar units="cm-1" lower="10000" upper="14000" stepsize="10">
-  13000.0
- </scalar>
+<scalar units="cm-1" lower="10000" upper="14000" stepsize="10">
+13000.0
+</scalar>
 </property>
 
 The result should be like:
 <property dictRef="me:ZPE">
- <scalar units="cm-1" lower="10000" upper="14000" stepsize="10" fitted="20080705_104810">
-  11234.5
- </scalar>
+<scalar units="cm-1" lower="10000" upper="14000" stepsize="10" fitted="20080705_104810">
+11234.5
+</scalar>
 </property>
 
 The result file could be used to:
-  repeat the fitting run,        leaving <me:calcMethod> at Fitting;
-  do a normal range calculation, after changing the <me:calcMethod> to GridSearch;
-  use only the fitted value,     after changing <me:calcMethod> to SimpleCalc.
+repeat the fitting run,        leaving <me:calcMethod> at Fitting;
+do a normal range calculation, after changing the <me:calcMethod> to GridSearch;
+use only the fitted value,     after changing <me:calcMethod> to SimpleCalc.
 This currently happens like this.
 
 A PersistPtr to <scalar> (or equivalent element) needs to be stored. Then 
-  stringsteam ss;
-  ss << fittedval;
-  pp->XmlWrite(ss.str()); //needs to be written
-  pp->XmlWriteAttribute("fitted",events.setTimeStamp(timeString)); 
+stringsteam ss;
+ss << fittedval;
+pp->XmlWrite(ss.str()); //needs to be written
+pp->XmlWriteAttribute("fitted",events.setTimeStamp(timeString)); 
 */
