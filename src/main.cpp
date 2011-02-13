@@ -287,7 +287,7 @@ int main(int argc,char *argv[])
     osout.close();
     if(!QACompare(infilename))
     {
-      cerr << "QA test failed" << endl;
+      cerr << "QA test *** FAILED ***" << endl;
       return -5;
     }
     else

@@ -266,6 +266,6 @@
     <me:printGrainkbE />
     <me:printSpeciesProfile />
     <me:testRateConstants />
-    <me:eigenvalues>0</me:eigenvalues>
+    <me:eigenvalues>all</me:eigenvalues>
   </me:control>
 </me:mesmer>

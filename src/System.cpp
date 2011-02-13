@@ -147,25 +147,25 @@ bool System::parse(PersistPtr ppIOPtr)
   m_pMoleculeManager->set_PersistPtr(ppMolList);
 
   //-------------
-  //Model Parameters
-  PersistPtr ppParams = ppIOPtr->XmlMoveTo("me:modelParameters");
-  if(ppParams)
-  {
-    m_Env.GrainSize          = ppParams->XmlReadInteger("me:grainSize");
+  //Model Parameters 
+  PersistPtr ppParams;
+  //Add this section if it does not exist, to contain defaults
+  while(!(ppParams = ppIOPtr->XmlMoveTo("me:modelParameters")))
+    ppIOPtr->XmlWriteElement("me:modelParameters");
 
-    m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
-    if(IsNan(m_Env.MaximumTemperature))
-      m_Env.MaximumTemperature = 0.0;
-    m_Env.EAboveHill         = ppParams->XmlReadDouble("me:energyAboveTheTopHill");
-    m_Env.useBasisSetMethod  = ppParams->XmlReadBoolean("me:runBasisSetMethodroutines");
-    if (m_Env.useBasisSetMethod) {
-      PersistPtr ppBasisSet = ppParams->XmlMoveTo("me:runBasisSetMethodroutines");
-      if(ppBasisSet) {
-        m_Env.nBasisSet = ppBasisSet->XmlReadInteger("me:numberBasisFunctions");
-      } else {
-        cerr << "Basis set method requested but number of basis functions unspecified.";
-        return false;
-      }
+  m_Env.GrainSize          = ppParams->XmlReadInteger("me:grainSize");
+  m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
+  if(IsNan(m_Env.MaximumTemperature))
+    m_Env.MaximumTemperature = 0.0;
+  m_Env.EAboveHill         = ppParams->XmlReadDouble("me:energyAboveTheTopHill");
+  m_Env.useBasisSetMethod  = ppParams->XmlReadBoolean("me:runBasisSetMethodroutines");
+  if (m_Env.useBasisSetMethod) {
+    PersistPtr ppBasisSet = ppParams->XmlMoveTo("me:runBasisSetMethodroutines");
+    if(ppBasisSet) {
+      m_Env.nBasisSet = ppBasisSet->XmlReadInteger("me:numberBasisFunctions");
+    } else {
+      cerr << "Basis set method requested but number of basis functions unspecified.";
+      return false;
     }
   }
   cinfo.flush();
@@ -302,11 +302,11 @@ bool System::parse(PersistPtr ppIOPtr)
       ss >> m_Flags.showCollisionOperator;
     }
 
-    const char* txtEV = ppControl->XmlReadValue("me:eigenvalues",false);
-    if(txtEV) {
-      istringstream ss(txtEV);
-      ss >> m_Flags.printEigenValuesNum;
-    }
+    if(strcmp(ppControl->XmlReadValue("me:eigenvalues"), "all")==0)
+      m_Flags.printEigenValuesNum = -1;
+    else
+      //now uses defaults.xml
+      m_Flags.printEigenValuesNum = ppControl->XmlReadInteger("me:eigenvalues");
 
     const char* txtROS = ppControl->XmlReadValue("me:printReactionOperatorSize",optional);
     if(txtROS) {
@@ -1285,26 +1285,25 @@ void System::diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mE
     ctest << os.str();
   }
 
-  size_t numberStarted = 0;
-  size_t numberPrinted = smsize; // Default prints all of the eigenvalues
-  if (mFlags.printEigenValuesNum > 0 && mFlags.printEigenValuesNum <= int(smsize)){ //at least prints 1 eigenvalue
-    numberPrinted = mFlags.printEigenValuesNum;
-    numberStarted = smsize - mFlags.printEigenValuesNum;
-  }
+  if(mFlags.printEigenValuesNum!=0)
+  {
+    size_t numberStarted = 0; //will apply when mFlags.printEigenValuesNum<0: print all
+    if (mFlags.printEigenValuesNum > 0 && mFlags.printEigenValuesNum <= int(smsize))
+      numberStarted = smsize - mFlags.printEigenValuesNum;
 
-  PersistPtr ppEigenList = ppAnalysis->XmlWriteElement("me:eigenvalueList");
-  ppEigenList->XmlWriteAttribute("number",toString(smsize));
-  ppEigenList->XmlWriteAttribute("selection",toString(mFlags.printEigenValuesNum));//TODO improve this
-  ctest << "\nTotal number of eigenvalues = " << smsize << endl;
-  ctest << "Eigenvalues\n{\n";
-  for (size_t i = numberStarted ; i < smsize; ++i) {
-    qd_real tmp = (mEnv.useBasisSetMethod)? m_eigenvalues[i] : m_eigenvalues[i] * m_meanOmega ;
-    formatFloat(ctest, tmp, 6, 15) ;
-    ctest << endl ;
-    ppEigenList->XmlWriteValueElement("me:eigenvalue", to_double(tmp), 6);
+    PersistPtr ppEigenList = ppAnalysis->XmlWriteElement("me:eigenvalueList");
+    ppEigenList->XmlWriteAttribute("number",toString(smsize));
+    ppEigenList->XmlWriteAttribute("selection",toString(mFlags.printEigenValuesNum));//TODO improve this
+    ctest << "\nTotal number of eigenvalues = " << smsize << endl;
+    ctest << "Eigenvalues\n{\n";
+    for (size_t i = numberStarted ; i < smsize; ++i) {
+      qd_real tmp = (mEnv.useBasisSetMethod)? m_eigenvalues[i] : m_eigenvalues[i] * m_meanOmega ;
+      formatFloat(ctest, tmp, 6, 15) ;
+      ctest << endl ;
+      ppEigenList->XmlWriteValueElement("me:eigenvalue", to_double(tmp), 6);
+    }
+    ctest << "}\n";
   }
-  ctest << "}\n";
-
 
 }
 

@@ -25,7 +25,7 @@ namespace mesmer{
     viewEvents(false),
     shortestTimeOfInterest(1.0e100),
     maxEvolutionTime(0.),
-    printEigenValuesNum(-1),
+    printEigenValuesNum(0),
     printReactionOperatorNum(0),
     allowSmallerDEDown(false),
     print_TabbedMatrices(true),

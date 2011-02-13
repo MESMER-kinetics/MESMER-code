@@ -39,6 +39,7 @@
   <me:precision default="true">double</me:precision>
   <me:bathgas default="true">He</me:bathgas>
   <me:TInfinity default="true">298</me:TInfinity>
+  <me:eigenvalues>0</me:eigenvalues>
   <me:grainSize units="cm-1" default="true">100</me:grainSize>
   <me:energyAboveTheTopHill units="kT" default="true">25</me:energyAboveTheTopHill>
   <me:calcMethod default="true">simpleCalc</me:calcMethod>

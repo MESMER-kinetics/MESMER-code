@@ -1,3 +1,20 @@
+2011-February-13 Chris Morley
+
+	* src/System.cpp: Redo <me:eigenvalues> so that a value of -1
+	or "all" prints all the eigenvalues (ctest and XML), otherwise
+	the number specified. The default (in defaults.xml) is 0.
+	Previously there was no way of printing 0;
+
+	* MesmerQA/Acetyl O2 association/Acetyl_O2_association.xml,
+	MesmerQA/cyclopropene isomerization reservoir state/
+	Cyclopropene_isomerization_reservoir_state_test.xml,
+	MesmerQA/cyclopropene isomerization/Cyclopropene_isomerization_test.xml,
+	MesmerQA/HSO2/HSO2_test.xml,
+	MesmerQA/OH acetylene association/OH_acetylene_association_test.xml,
+	MesmerQA/pentyl/pentyl_isomerization_test.xml,
+	<me:eigenvalues> modified, generally 0 to all to retain same QA output.
+	
+	*src/main.cpp: make QA test failure more visible
 
 2011-February-11 Struan Robertson
 
