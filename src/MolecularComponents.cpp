@@ -211,11 +211,18 @@ namespace mesmer
     m_Sym = ppPropList->XmlReadPropertyDouble("me:symmetryNumber");
     m_Sym_chk = 0;
 
+    /* For molecular energy me:ZPE is used if it is present. If it is not, a value
+    calculated from me:Hf0 or HfAT0 is used and a converted value is written back
+    to the datafile as a me:ZPE property. It is consequently used in the next run
+    and available to be varied or optimized. The original source is recorded in an
+    attribute.
+    */
+    string unitsInput;
     double tempzpe = ppPropList->XmlReadPropertyDouble("me:ZPE", optional);
     if(!IsNan(tempzpe))
     {
       // me:ZPE is present
-      string unitsInput = ppPropList->XmlReadPropertyAttribute("me:ZPE", "units");
+      unitsInput = ppPropList->XmlReadPropertyAttribute("me:ZPE", "units");
       txt= ppPropList->XmlReadPropertyAttribute("me:ZPE", "convention", optional);
       m_EnergyConvention = txt ? txt : "arbitary";
 
@@ -232,6 +239,10 @@ namespace mesmer
           zpCorrection = accumulate(m_VibFreq.begin(),m_VibFreq.end(), 0.0);
           zpCorrection *= 0.5;
         }
+          //Write back a corrected value and change attribute to zeroPointVibEnergyAdded="true"
+          PersistPtr ppScalar = ppPropList->XmlMoveToProperty("me:ZPE");
+          ppScalar->XmlWrite(toString(tempzpe + ConvertFromWavenumbers(unitsInput, zpCorrection)));
+          ppScalar->XmlWriteAttribute("zeroPointVibEnergyAdded", "true");
       }
       const char* pLowertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "lower", optional);
       const char* pUppertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "upper", optional);
@@ -254,11 +265,12 @@ namespace mesmer
     }
     else
     {
-      //me:ZPE not present; try me:Hf0
+      //me:ZPE not present; try me:Hf0 and HAT0 (enthalpy of atomization at 0K)
       double Hf0 = ppPropList->XmlReadPropertyDouble("me:Hf0", optional);
-      if(IsNan(Hf0))
+      double HfAT0 = ppPropList->XmlReadPropertyDouble("me:HfAT0", optional);
+      if(IsNan(Hf0) && IsNan(HfAT0))
       {
-        //me:Hf0 not present; use a default ZPE
+        //me:Hf0 and meHAT0 are not present; use a default ZPE
         tempzpe = ppPropList->XmlReadPropertyDouble("me:ZPE", true);
       }
       else
@@ -266,16 +278,28 @@ namespace mesmer
         // Convert Hf0 and write back a me:ZPE property which will be used in future
         // Currently, Hf0 cannot be used as a range variable
         /*
-        Atomize species X into atoms
-        delta H  = Sum(Hf0(atom i) - Hf0(X) 
-                 = Sum(E(atom i)   - E(X) where E is a compchem energy
+        Atomize species X into atoms (at 0K)
+        delta H  = Sum(Hf0(atom i)) - Hf0(X)
+                 = Sum(E(atom i))   - E(X) where E is a compchem energy
+                 =                  - HAT0 (enthalpy of atomization at 0K)
         We have E and Hf0 for each element as gas phase atom in librarymols.xml,
         so E(X) = Hf0(X) + Sum over all atoms( E - Hf0 )
         */
-        const char* utxt= ppPropList->XmlReadPropertyAttribute("me:Hf0", "units");
+        string origElement = IsNan(Hf0) ? "me:HfAT0" : "me:Hf0";
+        const char* utxt= ppPropList->XmlReadPropertyAttribute(origElement, "units");
         utxt = utxt ? utxt : "kJ/mol";
-        Hf0 = getConvertedEnergy(utxt, Hf0); //cm-1
-        tempzpe = Hf0 + getConvertedEnergy("kJ/mol", getHost()->getStruc().CalcSumEMinusHf0());//cm-1
+        if(!IsNan(Hf0))
+        {
+          //Use Hf0 if provided
+          Hf0 = getConvertedEnergy(utxt, Hf0); //cm-1
+          tempzpe = Hf0 + getConvertedEnergy("kJ/mol", getHost()->getStruc().CalcSumEMinusHf0(false));//cm-1
+        }
+        else
+        {
+          //Use HfAT0 (atom-based thermochemistry, see DOI: 10.1002/chem.200903252)
+          HfAT0 = getConvertedEnergy(utxt, HfAT0); //cm-1
+          tempzpe = HfAT0 + getConvertedEnergy("kJ/mol", getHost()->getStruc().CalcSumEMinusHf0(true));//cm-1
+        }
         set_zpe(tempzpe);
         m_ZPE_chk = 0;
 
@@ -283,10 +307,10 @@ namespace mesmer
         stringstream ss;
         ss << ConvertFromWavenumbers(utxt, tempzpe);
         PersistPtr ppScalar = ppPropList->XmlWriteProperty("me:ZPE", ss.str(), utxt);
-        ppScalar->XmlWriteAttribute("source", "Hf0");
+        ppScalar->XmlWriteAttribute("source", origElement);
         ppScalar->XmlWriteAttribute("convention", "computational");//orig units
         m_EnergyConvention = "computational";
-        cinfo << "New me:ZPE element written with data from me:Hf0" << endl;
+        cinfo << "New me:ZPE element written with data from " << origElement << endl;
       }
     }
 
@@ -298,12 +322,6 @@ namespace mesmer
     if(m_SpinMultiplicity==0)
       m_SpinMultiplicity = pp->XmlReadInteger("spinMultiplicity");
     m_SpinMultiplicity_chk = 0;
-
-    /* For molecular energy me:ZPE is used if it is present. If it is not, a value
-    calculated from me:Hf0 is used and written back to the datafile as a me:ZPE
-    property. It is consequently used in the next run and available to be varied
-    or optimized. The original calculated value remains recorded in an attribute.
-    */
 
 /*      //Calculate ZPE from Thermodynamic Heat of Formation
 
@@ -1853,7 +1871,7 @@ vector<double> gStructure::CalcRotConsts()
 
 }
 
-double gStructure::CalcSumEMinusHf0()
+double gStructure::CalcSumEMinusHf0(bool UsingAtomBasedThermo)
 {
   //calculate for each atom (ab initio E - Hf0) and return sum
   if(!ReadStructure())
@@ -1873,8 +1891,11 @@ double gStructure::CalcSumEMinusHf0()
       PersistPtr ppMol = GetFromLibrary(el, PersistPtr());
       double diff;
       if(ppMol)
-        diff = ppMol->XmlReadPropertyDouble("me:ZPE",optional)
-             - ppMol->XmlReadPropertyDouble("me:Hf0",optional);
+      {
+        diff = ppMol->XmlReadPropertyDouble("me:ZPE",optional);
+        if(!UsingAtomBasedThermo)
+          diff -= ppMol->XmlReadPropertyDouble("me:Hf0",optional);
+      }
       if(!ppMol || IsNan(diff))
       {
         cerr << "The value of Hf0 for " << getHost()->getName()

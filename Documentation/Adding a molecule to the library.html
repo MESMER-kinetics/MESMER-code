@@ -4,15 +4,15 @@
   <title>Mesmer library tutorial</title>
   <style type="text/css">
     /*<![CDATA[*/
-  body {width:640px;font-family:Verdana;font-size:12px}
-  pre,code {color:navy;font-family:courier;}
+  body {width:640px;font-family:Verdana;font-size:10pt}
+  pre,code {color:navy;font-family:courier;;font-size:12pt}
   ul{text-indent:-3em;list-style-position:inside;}
   /*]]>*/
   </style>
 </head>
 <body>
   <h1>Adding molecules to the library</h1>
-   <p>The library contains data for common molecules. In the project's XML file they need to be specified in &lt;moleculeList&gt; only by their id, for example:</p>
+   <p>Mesmer has a library to contain data for common molecules. If a molecule is in the library, it needs to be specified in the &lt;moleculeList&gt; section of the project's XML file only by its id, for example:</p>
     <pre>    &lt;molecule id="OH"/&gt;  </pre>
    <p>When it runs, Mesmer will copy the version from the library and add information to the project datafile to confirm this.</p>
    <p>The library is a CML file <code>librarymols.xml</code>. The following shows how to add data to it, taken from a NIST website.
@@ -20,11 +20,14 @@
 
   <h2>From computational chemistry files</h2>
 
-  <p>A large collection of Gaussian files are available at <a href="http://cccbdb.nist.gov"> http://cccbdb.nist.gov.</a> The procedure is illustrated for dimethyl ether from this source.</p>
+  <p>A large collection of Gaussian files are available at <a href="http://cccbdb.nist.gov"> http://cccbdb.nist.gov</a>. The procedure is illustrated for dimethyl ether from this source.</p>
 
-  <p>Select "VI Input and output files", "A. Input and Output from runs using the Gaussian package". On the next screen enter "CH3OCH3" and then select "Dimethyl ether". Choose a method and basis-set and download an output file (Save Link As...), making its filename the your choice of the molecule's id, e.g. DME.out. (The filename is case-sensitive.)</p>
+  <p>Select "VI Input and output files", "A. Input and Output from runs using the Gaussian package". On the next screen enter "CH3OCH3" and then select "Dimethyl ether". Choose a method and basis-set and download an output file (Save Link As...), making its filename the your choice of the molecule's ID, e.g. DME.out. (The ID iscase-sensitive.)</p>
 
-  <p><a href="http://openbabel.org">OpenBabel</a> (v2.3.1 or later) is used to convert to CML. On Windows, open a DOS window and move to the folder where DME.out was downloaded, and type</p>
+  <p><a href="http://openbabel.org">OpenBabel</a> (v2.3.1 or later) is used to convert to CML.
+   (Prior to the release of this version, there is a Windows Installer for a snapshot
+   <a href="http://gaseq.co.uk/OB/2-3-1/OpenBabel2.3.1cm_Windows_Installer.exe"> here</a>.)
+   On Windows, open a DOS window and move to the folder where DME.out was downloaded, and type</p>
   <pre>    obabel DME.out -O DME.cml -xp -xm -xx  </pre>
   <p>The <code>-xp</code>  and <code>-xm</code> ensure that the CML file contains molecular properties and metadata, and the <code>-xx</code> omits the xml header. Although Mesmer does not use it, some editing of the metadata in this file is recommended. Identify the source and the person who downloaded it:</p>
   <pre>    &lt;metadata name="dc:source" content="http://cccbdb.nist.gov/"/&gt;
@@ -40,12 +43,20 @@
 
   <p>The site at <a href="http://cccbdb.nist.gov">http://cccbdb.nist.gov</a> also contains experimental data. An OpenBabel format has been written to assist in converting this. Otherwise, an existing molecule in librarymols.xml can be copied and manually edited.</p>
 
-  <p>Select "II. Experimental data", "1. All experimental data for one molecule" Enter a formula - "SO" will be used here. The raw text from the  next screen (which has all the data) is used as input to OpenBabel. Right click and choose Select All, right click again and choose Copy. The text could be pasted into an editor and saved as a file, but it is also possible to paste it directly into the OpenBabel GUI. Select the input format "cccdbd" and check the "Input below" checkbox and paste the copied text into the yellow textbox. Choose "cml" for the output format have "Output below(no outputfile)" checked. At the bottom of the middle section, also check "write metadata", "omit XML and namespace declarations" and "write properties". Click "Convert" and paste all the output into librarymols.xml just before the final tag. The metadata should be edited as in the previous section. Adding units and a dictRef to the enthalpy at 0K is also necessary:</p>
+  <p>Select "II. Experimental data", "1. All experimental data for one molecule".   Choose a molecule.</p>
+
+  <p>The raw text from the  next screen (which has all the data) is used as input to OpenBabel. Right click and choose Select  All, right click again and choose Copy.</p>
+ 
+ <p>The text could be pasted into an editor and saved as a file, but it is also possible to paste it directly into the OpenBabel GUI.  Select the input format "cccdbd" and check the "Input below" checkbox and paste the copied text into the yellow textbox.</p> 
+
+  <p>Choose "cml" for the output format have "Output below(no outputfile)" checked. At the bottom of the middle section, also check "write metadata", "omit XML and namespace declarations" and "write properties".  Click "Convert"</p>
+ 
+  <p>Paste all the output into librarymols.xml just before the final tag. The metadata should be edited as in the previous section. Adding units and a dictRef to the enthalpy at 0K is also necessary:</p>
   <pre>    &lt;property title="Hf0" dictRef="me:Hf0"&gt;
       &lt;scalar units="kJ/mol"&gt;5.03&lt;/scalar&gt;
     &lt;/property>  </pre>
   <p>If the OpenBabel GUI is not used, the command line would be something like:</p>
-  <pre>    obabel -i cccbdb SO.txt -o cml -xp -xm -xx  </pre>
+  <pre>    obabel -i cccbdb  copied.txt  -o cml  -xp -xm -xx  </pre>
 
   <h2>Record any modifications</h2>
   <ul>
@@ -55,7 +66,7 @@
   </li>
   <li>If you want to use a library molecule but with an id different from the one in the library, add an element at the top of <code>librarymols.xml</code>
   <pre>    &lt;molecule id="yourid" ref="libraryid"/&gt;  </pre></li>
-  <li><Molecules in <code>librarymols.xml></code> with an attribute <code>active="false"</code> are ignored. This can be used to temporarily deactivate an entry without deleting it, while trying a new version.</li>
+  <li>Molecules in <code>librarymols.xml</code> with an attribute <code>active="false"</code> are ignored. This can be used to temporarily deactivate an entry without deleting it, while trying a new version.</li>
   </ul>
 </body>
 </html>

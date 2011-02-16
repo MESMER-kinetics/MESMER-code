@@ -411,7 +411,8 @@ namespace mesmer
     // Read librarymols.xml to obtain the ab initio energy and enthalpy at zero K
     // for an isolated atom of each atom type in the molecule.
     // Return the sums of (E - Hf0) over the molecule in kJ/mol.
-    double CalcSumEMinusHf0();
+    // Parameter is true when atom-based thermochemistry is used, see DOI: 10.1002/chem.200903252
+    double CalcSumEMinusHf0(bool UsingAtomBasedThermo);
 
     //Calculate moment of inertia matrix
     vector<double> CalcRotConsts(); 

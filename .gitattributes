@@ -95,6 +95,7 @@ examples/Ethyl_H_to_Ethane/baselines/Linux64/mesmer.test -text
 examples/Ethyl_H_to_Ethane/baselines/Win32/mesmer.test -text
 examples/Examples.bat -text
 examples/Examples.sh -text
+examples/H2Ominimal/H2Ominimal.xml -text
 examples/MesmerTemplate.text -text
 examples/Methyl_H_to_Methane/Methyl_H_to_Methane.xml -text
 examples/Methyl_H_to_Methane/baselines/Linux64/mesmer.log -text

@@ -141,9 +141,15 @@
       <bond atomRefs2="a3 a1" order="1"/>
     </bondArray>
     <propertyList>
+      <!--
       <property title="Hf0">
         <scalar units="kJ/mol">-238.90</scalar>
       </property>
+      -->
+      <property title="HfAT0">
+        <scalar units="kJ/mol">-918.05</scalar>
+      </property>
+
       <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
         <array units="cm-1">3657.00 1595.00 3756.00 </array>
       </property>
@@ -171,7 +177,7 @@
         <scalar units="kJ/mol">711.19</scalar>
       </property>
       <property title="Energy" dictRef="me:ZPE">
-        <scalar units="kJ/mol" convention="computational" zeroPointVibEnergyAdded="false">-99230.53 </scalar>
+        <scalar units="kJ/mol" convention="computational">-99230.53 </scalar>
       </property>
       <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
         <scalar>3.00 </scalar>
@@ -187,7 +193,7 @@
         <scalar units="kJ/mol">119.63</scalar>
       </property>
       <property title="Energy" dictRef="me:ZPE">
-        <scalar units="kJ/mol" convention="computational" zeroPointVibEnergyAdded="false">-1207639.02 </scalar>
+        <scalar units="kJ/mol" convention="computational">-1207639.02 </scalar>
       </property>
       <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
         <scalar>2.00 </scalar>
@@ -203,7 +209,7 @@
         <scalar units="kJ/mol">77.27</scalar>
       </property>
       <property title="Energy" dictRef="me:ZPE">
-        <scalar units="kJ/mol" convention="computational" zeroPointVibEnergyAdded="false">-261660.78 </scalar>
+        <scalar units="kJ/mol" convention="computational">-261660.78 </scalar>
       </property>
       <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
         <scalar>2.00 </scalar>
@@ -219,7 +225,7 @@
         <scalar units="kJ/mol">216.04</scalar>
       </property>
       <property title="Energy" dictRef="me:ZPE">
-        <scalar units="kJ/mol" convention="computational" zeroPointVibEnergyAdded="false">-1311.75 </scalar>
+        <scalar units="kJ/mol" convention="computational">-1311.75 </scalar>
       </property>
       <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
         <scalar>2.00 </scalar>
@@ -235,7 +241,7 @@
         <scalar units="kJ/mol">470.82</scalar>
       </property>
       <property title="Energy" dictRef="me:ZPE">
-        <scalar units="kJ/mol" convention="computational" zeroPointVibEnergyAdded="false">-143167.60 </scalar>
+        <scalar units="kJ/mol" convention="computational">-143167.60 </scalar>
       </property>
       <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
         <scalar>4.00 </scalar>
@@ -251,7 +257,7 @@
         <scalar units="kJ/mol">246.84</scalar>
       </property>
       <property title="Energy" dictRef="me:ZPE">
-        <scalar units="kJ/mol" convention="computational" zeroPointVibEnergyAdded="false">-196925.32 </scalar>
+        <scalar units="kJ/mol" convention="computational">-196925.32 </scalar>
       </property>
       <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
         <scalar>3.00 </scalar>
@@ -267,7 +273,7 @@
         <scalar units="kJ/mol">274.92</scalar>
       </property>
       <property title="Energy" dictRef="me:ZPE">
-        <scalar units="kJ/mol" convention="computational" zeroPointVibEnergyAdded="false">-1044801.89 </scalar>
+        <scalar units="kJ/mol" convention="computational">-1044801.89 </scalar>
       </property>
       <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
         <scalar>3.00 </scalar>

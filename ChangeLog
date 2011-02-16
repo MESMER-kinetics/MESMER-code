@@ -1,3 +1,15 @@
+2011-February-16 Chris Morley
+
+	* src/MolecularComponents.cpp,src/MolecularComponents.h: added
+	alternative input me:HfAT0 for atom based heat of formation.
+	
+	* librarymols.xml has an example of this
+	* examples/H2Ominimal/H2Ominimal.xml: a not very realistic example
+	intended to demontrate use of library molecules
+
+	* Documentation/Adding a molecule to the library.html,
+	Documentation/MESMER manual.doc updated (and edited a bit).
+
 2011-February-13 Chris Morley
 
 	* src/System.cpp: Redo <me:eigenvalues> so that a value of -1

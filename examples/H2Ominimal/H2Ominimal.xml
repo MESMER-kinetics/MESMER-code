@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+  <title>Minimal H2O</title>
+  <moleculeList>
+    <molecule id="H2O"/>
+    <molecule id="oh"/>
+    <molecule id="H"/>
+  </moleculeList>
+  <reactionList>
+    <reaction id="R1" reversible="true">
+      <reactant>
+        <molecule ref="oh"  me:type="excessReactant" />
+      </reactant>
+      <reactant>
+        <molecule ref="H"  me:type="deficientReactant" />
+      </reactant>
+      <product>
+        <molecule ref="H2O"  me:type="modelled" />
+      </product>
+      <me:MCRCMethod>MesmerILT</me:MCRCMethod>
+      <me:preExponential>3.e-10</me:preExponential>
+      <me:activationEnergy>0.0</me:activationEnergy>
+      <me:nInfinity>0.8</me:nInfinity>
+      <me:excessReactantConc>1.0e14</me:excessReactantConc>
+    </reaction>
+  </reactionList>
+  <me:conditions>
+    <me:bathGas>H2O</me:bathGas>
+    <me:PTs>
+      <me:PTpair me:units="Torr" me:P="7600" me:T="560" />
+    </me:PTs>
+  </me:conditions>
+  <me:control>
+    <me:diagramEnergyOffset>0</me:diagramEnergyOffset>
+  </me:control>
+</me:mesmer>
