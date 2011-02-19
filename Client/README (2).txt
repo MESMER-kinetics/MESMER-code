@@ -1,0 +1,1 @@
+To launch the MESMER GUI go to the directory called /dist then double click MESMER_v3.jar.  
