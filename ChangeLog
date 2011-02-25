@@ -1,3 +1,8 @@
+
+2011-February-25 Struan Robertson
+
+	* fitting.cpp: Altered to write Chi^2 to output stream. 
+
 2011-February-16 Chris Morley
 
 	* src/MolecularComponents.cpp,src/MolecularComponents.h: added

@@ -60,7 +60,7 @@ namespace mesmer
     bool CheckBounds(const vector<double> &A) const ;
 
     // Write out current variable values.
-    void WriteVarVals() const ;
+    void WriteVarVals(const double chiSquare) const ;
 
     // Check for line search convergence.
     bool CheckLineSearchConvergence(const vector<double> &X) const ;
@@ -145,7 +145,7 @@ namespace mesmer
 
     double oldChiSquare = chiSquare ;
 
-    WriteVarVals() ;
+    WriteVarVals(chiSquare) ;
 
     ChangeErrorLevel e(obError); // Warnings and less not sent to console.
 
@@ -184,7 +184,7 @@ namespace mesmer
         oldChiSquare = chiSquare ;
         LineSearch(pSys, direction, chiSquare, tol);
 
-        WriteVarVals() ;
+        WriteVarVals(chiSquare) ;
       }
 
       // Calculate new search direction.
@@ -194,12 +194,12 @@ namespace mesmer
       GetLocation(currentLocation) ;
 
       direction = VectorAdd(1.0, currentLocation, -1.0, initialLocation) ;
-      // VectorNormalize(direction) ;
+      VectorNormalize(direction) ;
 
       oldChiSquare = chiSquare ;
       LineSearch(pSys, direction, chiSquare, tol);
 
-      WriteVarVals() ;
+      WriteVarVals(chiSquare) ;
 
       // Update direction vectors in accord with the modified Powell algorithm.
 
@@ -414,9 +414,10 @@ namespace mesmer
   //
   // Write out current variable values.
   //
-  void Fitting::WriteVarVals() const {
+  void Fitting::WriteVarVals(const double chiSquare) const {
 
-    cerr << endl ;
+    cerr << endl << "Chi^2 = " << chiSquare << endl ;
+
     size_t iVar ;
     for(iVar = 0 ; iVar < m_nVar ; iVar++) {
 
