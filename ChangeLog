@@ -1,4 +1,9 @@
 
+2011-February-26 Struan Robertson
+
+	* CollisionOperator.h/cpp: Addition of a new class to encapsulate the 
+	collision operator, as part of the refactoring of system.h/.cpp. 
+
 2011-February-25 Struan Robertson
 
 	* fitting.cpp: Altered to write Chi^2 to output stream. 

@@ -197,6 +197,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\CollisionOperator.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\plugins\EckartCoefficients.cpp"
 				>
 			</File>
@@ -352,6 +356,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\calcmethod.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\CollisionOperator.h"
 				>
 			</File>
 			<File

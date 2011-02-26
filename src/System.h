@@ -17,8 +17,9 @@
 
 #include "ReactionManager.h"
 #include "calcmethod.h"
+#include "CollisionOperator.h"
 
-#define MESMER_VERSION "0.2"
+#define MESMER_VERSION "0.3"
 
 namespace mesmer
 {
@@ -147,6 +148,7 @@ namespace mesmer
     double                  m_meanOmega;
 
     // The system transition matrix and associated eigenvalues and eigenvectors.
+	CollisionOperator       m_collisionOperator ;
     qdMatrix               *m_reactionOperator ;
     qdMatrix               *m_eigenvectors;
     std::vector<qd_real>    m_eigenvalues;

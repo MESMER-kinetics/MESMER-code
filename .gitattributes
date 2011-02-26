@@ -445,6 +445,8 @@ sketchup/mesmer_data.rb -text
 src/AssignMolTypes.cpp -text
 src/AssociationReaction.cpp -text
 src/AssociationReaction.h -text
+src/CollisionOperator.cpp -text
+src/CollisionOperator.h -text
 src/Constants.h -text
 src/Crossing.h -text
 src/DensityOfStates.cpp -text
