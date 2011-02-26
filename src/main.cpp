@@ -180,6 +180,9 @@ int main(int argc,char *argv[])
   // about reaction systems and all molecular data.
   //
   System _sys(MesmerDir + "/librarymols.xml");
+  if(!_sys.initialize())
+    cerr << "Failed to create System object" << endl; 
+
   _sys.m_Flags.punchFileName = punchfilename;
 
   TimeCount events; unsigned int timeElapsed;

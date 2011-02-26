@@ -1,6 +1,11 @@
 
 2011-February-26 Struan Robertson
 
+	* CollisionOperator.h/cpp, System.h/.cpp: Collision operator code moved
+	from the System class to the Collision operator class. 
+
+2011-February-26 Struan Robertson
+
 	* CollisionOperator.h/cpp: Addition of a new class to encapsulate the 
 	collision operator, as part of the refactoring of system.h/.cpp. 
 

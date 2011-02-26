@@ -139,6 +139,7 @@ all: ${OUTPUT}
 SRCS := \
 	AssignMolTypes.cpp \
 	AssociationReaction.cpp	\
+	CollisionOperator.cpp	\
 	DensityOfStates.cpp \
 	formatfloat.cpp \
 	IrreversibleExchangeReaction.cpp \
