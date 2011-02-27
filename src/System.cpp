@@ -508,7 +508,7 @@ namespace mesmer
 
 	  if (!m_Flags.rateCoefficientsOnly){
 
-		if (!m_collisionOperator.calculateEquilibriumFractions(m_Env.beta))
+		if (!m_collisionOperator.calculateEquilibriumFractions())
 		  throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
 
 		// Diagonalise the collision operator.

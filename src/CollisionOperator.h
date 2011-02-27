@@ -33,7 +33,7 @@ namespace mesmer
 	bool initialize(MoleculeManager *pMoleculeManager, ReactionManager *pReactionManager) ;
 
     // Calculate the equilibrium fraction of each species in the system.
-    bool calculateEquilibriumFractions(const double beta) ;
+    bool calculateEquilibriumFractions() ;
 
     // Build reaction operator for system.
     bool BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags, bool writeReport) ;

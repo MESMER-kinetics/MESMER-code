@@ -405,7 +405,7 @@ namespace mesmer
 
   }
 
-  bool CollisionOperator::calculateEquilibriumFractions(const double beta)
+  bool CollisionOperator::calculateEquilibriumFractions()
   { /* Consider a three well system: e.g., A <-> B <-> C where A <-> B has Keq = K1 & B <-> C has Keq = K2.
 	This routine uses the fact that the normalized equilibrated system may be described
 	by a 3x3 matrix and a vector which satisfy the following:

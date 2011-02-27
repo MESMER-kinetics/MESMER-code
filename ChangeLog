@@ -1,4 +1,12 @@
 
+2011-February-27 Struan Robertson
+
+	* TMatrix.h: Shifted indicies to reduce integer arithmatic.
+	* calcmethod.h: Removed header dependence (further work needed to
+	remove dependency on TMatrix.h).
+	* CollisionOperator.h/.cpp: Minor tidying, removal of unnecessary 
+	argument. 
+
 2011-February-26 Struan Robertson
 
 	* CollisionOperator.h/cpp, System.h/.cpp: Collision operator code moved

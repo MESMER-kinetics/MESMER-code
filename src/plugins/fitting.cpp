@@ -12,6 +12,7 @@
 #include <fstream>
 #include <iomanip>
 
+#include "../System.h"
 #include "../calcmethod.h"
 #include "../dMatrix.h"
 

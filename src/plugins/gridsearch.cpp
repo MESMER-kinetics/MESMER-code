@@ -2,6 +2,7 @@
 // Calculates for all combinations of values of range variables.
 // Each calculation has a range of pressure/temperature conditions.
 
+#include "../System.h"
 #include "../calcmethod.h"
 
 namespace mesmer

@@ -165,74 +165,77 @@ namespace mesmer
     size_t l, k, j, i;
     T scale, hh, h, g, f;
 
-    for (i=n;i>=2;--i) {
-      l=i-1;
+    for (i=n-1; i>0; i--) {
+      l=i-1 ;
       h=scale=0.0;
-      if (l > 1) {
+      if (l > 0) {
 
-        for (k=1;k<=l;++k)
-          scale += abs(a[i-1][k-1]);
+        for (k=0; k<l+1; k++)
+          scale += abs(a[i][k]);
         if (scale == 0.0)
-          e[i-1]=a[i-1][l-1];
+          e[i]=a[i][l];
         else {
-          for (k=1;k<=l;++k) {
-            a[i-1][k-1] /= scale;
-            h += a[i-1][k-1]*a[i-1][k-1];
+          for (k=0; k<l+1; k++) {
+            a[i][k] /= scale;
+            h += a[i][k]*a[i][k];
           }
-          f=a[i-1][l-1];
-          g = f > 0.0 ? -sqrt(h) : sqrt(h);
-          e[i-1]=scale*g;
+          f=a[i][l];
+          g = (f > 0.0) ? -sqrt(h) : sqrt(h);
+          e[i]=scale*g;
           h -= f*g;
-          a[i-1][l-1]=f-g;
+          a[i][l]=f-g;
           f=0.0;
-          for (j=1;j<=l;++j) {
-            /* Next statement can be omitted if eigenvectors not wanted */
-            a[j-1][i-1]=a[i-1][j-1]/h;
+          for (j=0; j<l+1; j++) {
+            // Next statement can be omitted if eigenvectors not wanted.
+            a[j][i]=a[i][j]/h;
             g=0.0;
 
-            for (k=1;k<=j;++k)
-              g += a[j-1][k-1]*a[i-1][k-1];
+            for (k=0; k<j+1; k++)
+              g += a[j][k]*a[i][k];
 
-            for (k=j+1;k<=l;++k)
-              g += a[k-1][j-1]*a[i-1][k-1];
-            e[j-1]=g/h;
-            f += e[j-1]*a[i-1][j-1];
+            for (k=j+1; k<l+1; k++)
+              g += a[k][j]*a[i][k];
+
+			e[j]=g/h;
+            f += e[j]*a[i][j];
           }
           hh=f/(h+h);
-          for (j=1;j<=l;++j) {
-            f=a[i-1][j-1];
-            e[j-1]=g=e[j-1]-hh*f;
+          for (j=0; j<l+1; j++) {
+            f=a[i][j];
+            e[j]=g=e[j]-hh*f;
 
-            for (k=1;k<=j;++k)
-              a[j-1][k-1] -= (f*e[k-1]+g*a[i-1][k-1]);
+            for (k=0; k<j+1; k++)
+              a[j][k] -= (f*e[k]+g*a[i][k]);
           }
         }
       } else
-        e[i-1]=a[i-1][l-1];
-      d[i-1]=h;
+        e[i]=a[i][l];
+
+      d[i] = h;
     }
-    /* Next statement can be omitted if eigenvectors not wanted */
+    // Next statement can be omitted if eigenvectors not wanted.
     d[0]=0.0;
     e[0]=0.0;
-    /* Contents of this loop can be omitted if eigenvectors not
-    wanted except for statement d[i-1]=a[i-1][i-1]; */
-    for (i=1;i<=n;++i) {
-      l=i-1;
-      if (d[i-1] != .0) {
-        for (j=1;j<=l;++j) {
+    // Contents of this loop can be omitted if eigenvectors not
+    // wanted except for statement "d[i]=a[i][i];".
+    for (i=0; i<n; i++) {
+      l=i;
+      if (d[i] != 0.0) {
+        for (j=0; j<=l; j++) {
           g=0.0;
 
-          for (k=1;k<=l;++k)
-            g += a[i-1][k-1]*a[k-1][j-1];
+          for (k=0; k<l; k++)
+            g += a[i][k]*a[k][j];
 
-          for (k=1;k<=l;++k)
-            a[k-1][j-1] -= g*a[k-1][i-1];
+          for (k=0; k<l; k++)
+            a[k][j] -= g*a[k][i];
         }
       }
-      d[i-1]=a[i-1][i-1];
-      a[i-1][i-1]=1.0;
+      d[i] = a[i][i];
+      a[i][i] = 1.0;
 
-      for (j=1;j<=l;++j) a[j-1][i-1]=a[i-1][j-1]=0.0;
+      for (j=0; j<l; j++) 
+		a[j][i] = a[i][j] = 0.0;
     }
   }
 

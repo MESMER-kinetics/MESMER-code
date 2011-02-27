@@ -2,6 +2,7 @@
 // Calculates for a range of pressure/temperature conditions but
 // with other model parameters held constant.
 
+#include "../System.h"
 #include "../calcmethod.h"
 
 namespace mesmer
