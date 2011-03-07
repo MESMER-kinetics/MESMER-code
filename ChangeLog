@@ -1,7 +1,17 @@
 
+2011-March-07 Struan Robertson
+
+	* TMatrix.h: Introduced and tested routines to permute the collision 
+	matrix so that its largest (in magnitude) diagonal elements are at the
+	lower right hand corner, as this is supposed to improve numerical 
+	stability in the householder transform. The results of the tests showed
+	limited improvement, but as I suspect that we may need such permutations
+	in the future, I have retained the methods and commented out the permutation 
+	calls for the present.
+
 2011-February-27 Struan Robertson
 
-	* TMatrix.h: Shifted indicies to reduce integer arithmatic.
+	* TMatrix.h: Shifted indicies to reduce integer arithmetic.
 	* calcmethod.h: Removed header dependence (further work needed to
 	remove dependency on TMatrix.h).
 	* CollisionOperator.h/.cpp: Minor tidying, removal of unnecessary 

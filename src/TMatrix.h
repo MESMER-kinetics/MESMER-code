@@ -9,7 +9,7 @@
 // Date:   30/Mar/2003
 //
 // This header file contains the declaration of the TMatrix class.  This class inherits from
-// Matrix and wraps calls to LAPACK functions.
+// Matrix and wraps calls to EISPACK functions.
 //
 //-------------------------------------------------------------------------------------------
 #include "Matrix.h"
@@ -40,8 +40,11 @@ namespace mesmer
       T *work = new T[size] ;
       T *rrProxy = new T[size] ;
 
+	  // vector<size_t> index(size, 0) ;
+      // permuteMatrix(this->m_matrix, index) ;
       tred2(this->m_matrix, size, rrProxy, work) ;
       tqli(rrProxy, work, size, this->m_matrix) ;
+      // unPermuteEigenEigenvectors(this->m_matrix, index) ;
 
       for (size_t i = 0; i < size; ++i){
         rr[i] = rrProxy[i];
@@ -109,6 +112,17 @@ namespace mesmer
     static T    pythag(T a, T b) ;
 
   private:
+
+    //
+    // The following two methods permute a matrix, in order to reduce the effects
+    // of numerical rounding in the Househlider method (see numerical recipes) and
+    // unpermute the associated eignvector matrix. SHR 7/Mar/2011: this experiment
+	// appeared to have only a minor effect on numerical values, hence the statements
+	// in diagonalize() have been commented out as the benefits do not appear to out
+	// way the cost in CPU time at present.
+    //
+    void permuteMatrix(T **a, vector<size_t>& index) ;
+    void unPermuteEigenEigenvectors(T **a, vector<size_t>& index) ;
 
     //
     // NR LU methods for linear equation solving.
@@ -196,7 +210,7 @@ namespace mesmer
             for (k=j+1; k<l+1; k++)
               g += a[k][j]*a[i][k];
 
-			e[j]=g/h;
+            e[j]=g/h;
             f += e[j]*a[i][j];
           }
           hh=f/(h+h);
@@ -235,7 +249,7 @@ namespace mesmer
       a[i][i] = 1.0;
 
       for (j=0; j<l; j++) 
-		a[j][i] = a[i][j] = 0.0;
+        a[j][i] = a[i][j] = 0.0;
     }
   }
 
@@ -278,10 +292,10 @@ namespace mesmer
         }
         if (m != l) {
           // if (iter++ == 30) fprintf(stderr, "Too many iterations in TQLI");
-		  if (iter++ == 60) { 
-			fprintf(stderr, "Too many iterations in TQLI");
+          if (iter++ == 60) { 
+            fprintf(stderr, "Too many iterations in TQLI");
             exit(1) ;
-		  }
+          }
           /* CHL
           Source: http://www.nr.com/forum/showthread.php?t=592
           I hope that bellow words will be useful for you.
@@ -392,10 +406,10 @@ namespace mesmer
         }
         if (m != l) {
           // if (iter++ == 30) fprintf(stderr, "Too many iterations in tqlev");
-		  if (iter++ == 60) {
-			fprintf(stderr, "Too many iterations in tqlev");
-			exit(1) ;
-		  }
+          if (iter++ == 60) {
+            fprintf(stderr, "Too many iterations in tqlev");
+            exit(1) ;
+          }
           /* CHL
           Source: http://www.nr.com/forum/showthread.php?t=592
           I hope that bellow words will be useful for you.
@@ -485,6 +499,79 @@ label_2: t = 4. + r;
 
     goto label_2;
 label_1: return(p);
+  }
+
+  //
+  // This method permutes the matrix, in order to reduce the effects
+  // of numerical rounding in the Householder method (see numerical recipes).
+  //
+  template<class T>
+  void TMatrix<T>::permuteMatrix(T **a, vector<size_t>& index) {
+
+    size_t size = this->size() ;
+    vector<T> diagonalElements(size,0.0) ;
+
+    for (size_t i(0) ; i < size ; i++) {
+      diagonalElements[i] = fabs(a[i][i]) ;
+      index[i] = i ;
+    }
+
+    // Order matrix columns based on the magnitude of the diagonal elements.
+
+    for (size_t ii(1); ii < size; ++ii) {
+      size_t i = ii - 1;
+      size_t k = i;
+      T p = diagonalElements[i];
+      for (size_t j(ii); j < size ; ++j) {
+        if (diagonalElements[j] < p) {
+          k = j;
+          p = diagonalElements[j];
+        }
+      }
+      if (k != i) {
+        diagonalElements[k] = diagonalElements[i];
+        diagonalElements[i] = p;
+        swap(index[i],index[k]) ;
+
+        // Swap columns.
+        for (size_t j(0); j < size; ++j) {
+          swap(a[j][i], a[j][k]) ;
+        }
+
+        // Swap rows.
+        for (size_t j(0); j < size; ++j) {
+          swap(a[i][j], a[k][j]) ;
+        }
+      }
+    }
+
+  }
+
+  //
+  // This method unpermutes the eignvector matrix rows following diagonalization.
+  //
+  template<class T>
+  void TMatrix<T>::unPermuteEigenEigenvectors(T **a, vector<size_t>& index) {
+
+    size_t size = this->size() ;
+
+    vector<size_t> invIndex(size, 0) ;
+    for (size_t i(0) ; i < size ; i++) {
+      invIndex[index[i]] = i ;
+    }
+	
+	for (size_t i(0) ; i < size ; i++) {
+      size_t k = invIndex[i] ; 
+      if (k != i) {
+        invIndex[index[i]] = k ;
+		invIndex[i] = i ; 
+		swap(index[i],index[k]) ;
+        for (size_t j(0) ; j < size ; j++) {
+          swap(a[i][j],a[k][j]) ;
+        }
+	  }
+    }
+
   }
 
   //
@@ -917,7 +1004,7 @@ label_1: return(p);
   void TMatrix<T>::GramSchimdt(size_t root_vector )  {
 
     size_t size = this->size() ;
-    
+
     for (int i(size-1) ; i > -1 ; i--) { // Need to use int here as size_t is unsigned.
 
       size_t j ;
