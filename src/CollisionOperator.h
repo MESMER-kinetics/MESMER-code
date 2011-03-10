@@ -23,14 +23,14 @@ namespace mesmer
   {
   public:
 
-	// Constructor
-	CollisionOperator() ;
+    // Constructor
+    CollisionOperator() ;
 
-	// Destructor.
-	virtual ~CollisionOperator() ;
+    // Destructor.
+    virtual ~CollisionOperator() ;
 
-	// Initialize the collision operator object.
-	bool initialize(MoleculeManager *pMoleculeManager, ReactionManager *pReactionManager) ;
+    // Initialize the collision operator object.
+    bool initialize(MoleculeManager *pMoleculeManager, ReactionManager *pReactionManager) ;
 
     // Calculate the equilibrium fraction of each species in the system.
     bool calculateEquilibriumFractions() ;
@@ -46,7 +46,7 @@ namespace mesmer
 
     // Calculates the Bartis-Widom macroscopic rate coefficients.
     bool BartisWidomPhenomenologicalRates(qdMatrix& rates, MesmerFlags& mFlags, PersistPtr ppBase);
-    
+
     // Calculates the Bartis-Widom macroscopic rate coefficients, using the contracted basis set eigenvectors.
     bool BartisWidomBasisSetRates(qdMatrix& rates, MesmerFlags& mFlags);
 
@@ -55,7 +55,7 @@ namespace mesmer
 
     int getSpeciesSequenceIndex(const std::string ref);
 
-	// This method locates all sinks and determines their location in the relevant
+    // This method locates all sinks and determines their location in the relevant
     // isomer or source map. 
     void locateSinks() ;
 
@@ -64,9 +64,9 @@ namespace mesmer
     // Sets grain parameters and determines system environment.
     bool SetGrainParams(MesmerEnv &mEnv, const MesmerFlags& mFlags, const double minEne, const double maxEne, bool writeReport);
 
-	// Construct a transition matrix based on grains.
+    // Construct a transition matrix based on grains.
     void constructGrainMatrix(int msize);
-    
+
     // Construct a transition matrix based on collision operator eigenfunctions.
     void constructBasisMatrix(void);
 
@@ -74,9 +74,9 @@ namespace mesmer
 
     void printEigenvectors(const MesmerFlags &mFlags, std::ostream& os);
 
-	bool produceEquilibriumVector();
+    bool produceEquilibriumVector();
 
-	bool produceInitialPopulationVector(vector<double>& initDist);
+    bool produceInitialPopulationVector(vector<double>& initDist);
 
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;
@@ -87,19 +87,19 @@ namespace mesmer
     // Maps the location of individual reactant collision operator and source terms in the reaction operator.
     Reaction::molMapType    m_isomers;
     Reaction::molMapType    m_sources;
-	
+
     typedef std::map<Reaction* , int, Reaction::ReactionPtrLess> sinkMap ;
 
-	sinkMap                 m_sinkRxns;
+    sinkMap                 m_sinkRxns;
     sinkMap                 m_SinkSequence;
 
     // Mean collision frequency.
     double                  m_meanOmega;
 
-	// The system transition matrix and associated eigenvalues and eigenvectors.
-	qdMatrix               *m_reactionOperator ;
-	qdMatrix               *m_eigenvectors;
-	std::vector<qd_real>    m_eigenvalues;
+    // The system transition matrix and associated eigenvalues and eigenvectors.
+    qdMatrix               *m_reactionOperator ;
+    qdMatrix               *m_eigenvectors;
+    std::vector<qd_real>    m_eigenvalues;
 
     // Map modelled molecules (isomers + sources) with their sequence in the transition matrix.
     Reaction::molMapType    m_SpeciesSequence ;
@@ -107,7 +107,7 @@ namespace mesmer
     // Equilibrium distribution.
     std::vector<qd_real>    m_eqVector;
 
-	bool                    m_punchSymbolGathered;
+    bool                    m_punchSymbolGathered;
 
   } ;
 

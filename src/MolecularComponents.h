@@ -184,6 +184,9 @@ namespace mesmer
     // Get Grain canonical partition function.
     double rovibronicGrnCanPrtnFn() ;
 
+    // Calculate standard thermodynamic quantities as a function of temperature.
+    bool thermodynamicsFunctions(double temp, double unitFctr, double& enthalpy, double& entropy, double& gibssFreeEnergy) ;
+
   private:
 
     // This function checks if any of the DPoint values is different then a DOS recalculation will take place

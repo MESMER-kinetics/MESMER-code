@@ -510,6 +510,7 @@ src/plugins/MesmerILT.cpp -text
 src/plugins/QMRotor.cpp -text
 src/plugins/SimpleILT.cpp -text
 src/plugins/SimpleRRKM.cpp -text
+src/plugins/ThermodynamicTable.cpp -text
 src/plugins/WKBCrossingCoeff.cpp -text
 src/source.ps -text
 src/unitsConversion.cpp -text

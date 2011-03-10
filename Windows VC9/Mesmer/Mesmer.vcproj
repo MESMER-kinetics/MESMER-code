@@ -321,6 +321,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\plugins\ThermodynamicTable.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\TimeCounter.cpp"
 				>
 			</File>

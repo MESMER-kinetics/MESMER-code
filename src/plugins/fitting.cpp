@@ -168,13 +168,13 @@ namespace mesmer
 
     for (size_t itr(1), count(0) ; itr <= maxIterations ; itr++) {
 
-	  cinfo << "Iteration: " << itr << " of fitting. chiSquare = " << chiSquare << endl;
+      cinfo << "Iteration: " << itr << " of fitting. chiSquare = " << chiSquare << endl;
 
       // Perform an initial sweep across all vectors.
 
       for (size_t isweep(0); isweep < m_nVar ; isweep++) {
 
-		cinfo << "Direction sweep:" << isweep << " of fitting. chiSquare = " << chiSquare << endl;
+        cinfo << "Direction sweep:" << isweep << " of fitting. chiSquare = " << chiSquare << endl;
 
         // Determine direction of search.
 

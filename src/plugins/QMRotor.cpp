@@ -144,9 +144,9 @@ namespace mesmer
         cellDOS[i_e] += qele * double(2 * j + 1) / sym;
       }
       break;
-    default:
+    default: // Assume atom.
+      cellDOS[0] += 1.0 ;
       break;
-      //DO nothing
     }
 
     // Implementation of the Beyer-Swinehart algorithm.

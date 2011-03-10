@@ -62,7 +62,8 @@ namespace mesmer
       for (int i = 0 ; i < MaximumCell ; ++i )
         cellDOS[i] = cnt ;
       break;
-    default:
+    default: // Assume atom.
+      cellDOS[0] += 1.0 ;
       break;
       //DO nothing
     }

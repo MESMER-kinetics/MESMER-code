@@ -38,8 +38,8 @@ namespace mesmer
     System(const std::string& libraryfilename) ;
     ~System() ;
 
-	// Initialize the System object.
-	bool initialize(void) ;
+    // Initialize the System object.
+    bool initialize(void) ;
 
     // Read and parse a data input file.
     bool parse(PersistPtr ppIOPtr) ;
@@ -49,19 +49,23 @@ namespace mesmer
 
     // Begin single calculation.
     bool calculate(double& chiSquare, bool writeReport = false) ;
-  
+
     // Print system configuration
     void configuration(void);
 
     // Deduce the me:type of each molecule and add it to the XML file 
     bool assignMolTypes(PersistPtr ppIOPtr) ;
-    
+
     void WriteMetadata(const std::string& infilename);
 
     PersistPtr getPersistPtr() { return m_ppIOPtr; }
 
+    const MoleculeManager* getMoleculeManager() { return m_pMoleculeManager; } ;
+
     // Mesmer control flags.
     MesmerFlags m_Flags;
+    
+    MesmerEnv& getEnv() { return m_Env; } ;
 
   private:
 
@@ -85,7 +89,7 @@ namespace mesmer
 
     // Physical variables. Reference to this are passed to all Molecule and Reaction constructors.
     MesmerEnv m_Env;
-    
+
     // level in XML file under <mesemer>
     PersistPtr m_ppIOPtr;
 
@@ -95,7 +99,7 @@ namespace mesmer
     const char* m_pTitle;
     const char* m_pDescription;
 
-	CollisionOperator m_collisionOperator ;
+    CollisionOperator m_collisionOperator ;
 
   } ;
 

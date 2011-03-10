@@ -21,17 +21,9 @@ namespace mesmer
 {
 class MoleculeManager {
 
-  std::map<std::string, Molecule*>                          m_molmap ;
-  typedef std::map<std::string, Molecule*>::iterator        molIter ;
-  typedef std::map<std::string, Molecule*>::const_iterator  constMolIter ;
-  std::string                                               m_BathGasMolecule ;
-  PersistPtr                                                m_ppPersist;
-  int                                                       sourceNumber;
-
-private:
-  void clear(void);
-
 public:
+
+  typedef std::map<std::string, Molecule*>::const_iterator  constMolIter ;
 
   // Default constructor.
   MoleculeManager() 
@@ -50,52 +42,16 @@ public:
   void remove() {} ;
 
   // Total number of molecules in the list.
-  void size() const {} ;
+  size_t size() const { return m_molmap.size() ; } ;
+
+  constMolIter begin() const { return m_molmap.begin() ; } ;
+
+  constMolIter end() const { return m_molmap.end() ; } ;
 
   //Return the Energy convention if all  molecules with _gDOS components have the same,
   //and an empty string otherwise
   std::string checkEnergyConventions();
   
-
-/* I don't think these functions are needed within a flat Molecule
-  Iterate through the molecules
-   When id is empty, starts at beginning,
-   When id contains the name of a molecule, the function recovers the
-   next molecule of a class castable to that of pmol and returns true.
-   Returns false when no molecules has been found.
-   Use like:
-     std::string id;
-..   Molecule* pmol;
-     while(GetNextMolecule(id, pmol))
-     { //use id and pmol }
- */
-/*
-  bool GetNextMolecule(std::string& id, Molecule*& pmol)
-  {
-    pmol=NULL;
-    molIter iter;
-    if(id.empty())
-      iter=m_molmap.begin();
-    else
-    {
-      //Set iter to the molecule after the one with name==id
-      iter=m_molmap.find(id);
-      if(iter!=m_molmap.end())
-        ++iter;
-    }
-
-    for(;iter!=m_molmap.end();++iter)
-    {
-      pmol = iter->second;
-      if(pmol) //molecule of requested class found
-      {
-        id = iter->first;
-        return true;
-      }
-    }
-    return false;
-  }
-*/  
   /*Give the molecular name returns pointer*/
   bool GetThisMolecule(std::string& id, Molecule*& pmol)
   {
@@ -122,6 +78,16 @@ public:
   void set_PersistPtr(PersistPtr value) {m_ppPersist = value;}
   Molecule *get_BathGasMolecule() {return m_molmap[m_BathGasMolecule]; } ;
   void set_BathGasMolecule(const std::string &s_bgm){m_BathGasMolecule = s_bgm ; } ;
+
+private:
+
+  std::map<std::string, Molecule*>                          m_molmap ;
+  typedef std::map<std::string, Molecule*>::iterator        molIter ;
+  std::string                                               m_BathGasMolecule ;
+  PersistPtr                                                m_ppPersist;
+  int                                                       sourceNumber;
+
+  void clear(void);
 
 } ;
 }//namespace

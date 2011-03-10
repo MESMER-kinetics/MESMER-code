@@ -174,6 +174,7 @@ SRCS := \
 	plugins/LandauZenerCrossingCoeff.cpp \
 	plugins/MesmerILT.cpp \
 	plugins/QMRotor.cpp \
+	plugins/ThermodynamicTable.cpp \
 	plugins/simplecalc.cpp \
 	plugins/SimpleILT.cpp \
 	plugins/SimpleRRKM.cpp \

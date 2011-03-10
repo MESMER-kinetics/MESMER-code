@@ -1,6 +1,12 @@
 
 2011-March-07 Struan Robertson
 
+	* MolecularComponents.h/.cpp,ThermodynamicsTables.cpp: An initial revision
+	of methods to calculate the thermodynamic functions and the addition of a 
+	plug-in class to display their values.
+
+2011-March-07 Struan Robertson
+
 	* TMatrix.h: Introduced and tested routines to permute the collision 
 	matrix so that its largest (in magnitude) diagonal elements are at the
 	lower right hand corner, as this is supposed to improve numerical 

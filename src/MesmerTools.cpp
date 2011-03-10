@@ -36,13 +36,28 @@ namespace mesmer
   }
 
   double canonicalPartitionFunction(const vector<double>& DOS, const vector<double>& Ene, const double beta){
-    double CanPrtnFn(0.);
-    int vsize = static_cast<int>(DOS.size());
-    for (int i = 0; i < vsize; ++i) {
-      if (DOS[i] > 0.0)
-        CanPrtnFn += exp( log(DOS[i]) - beta*Ene[i] ) ;
+
+    double CanPrtnFn(0.0) ;
+    for (size_t i(0), j(DOS.size()-1); i < DOS.size(); i++, j--) {
+      if (DOS[j] > 0.0)
+        CanPrtnFn += exp( log(DOS[j]) - beta*Ene[j] ) ;
     }
     return CanPrtnFn;
+
+  }
+
+  double canonicalMeanEnergy(const vector<double>& DOS, const vector<double>& Ene, const double beta){
+
+    double meanEnergy(0.0), CanPrtnFn(0.0) ;
+    for (size_t i(0), j(DOS.size()-1); i < DOS.size(); i++, j--) {
+      if (DOS[j] > 0.0) {
+        double tmp  = exp( log(DOS[j]) - beta*Ene[j] ) ;
+        CanPrtnFn  += tmp ;
+        meanEnergy += Ene[j]*tmp ;
+      }
+    }
+    return meanEnergy/CanPrtnFn ;
+
   }
 
   //

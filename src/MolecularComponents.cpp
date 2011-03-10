@@ -5,6 +5,7 @@
 //-------------------------------------------------------------------------------------------
 #include <stdexcept>
 #include <numeric>
+#include <cmath>
 #include "Molecule.h"
 #include "System.h"
 
@@ -23,13 +24,13 @@ namespace mesmer
   //
   gBathProperties::~gBathProperties()
   {
-/*  if (m_Sigma_chk == 0){
-      cinfo << "m_Sigma is provided but not used in " << m_host->getName() << "." << endl;
+    /*  if (m_Sigma_chk == 0){
+    cinfo << "m_Sigma is provided but not used in " << m_host->getName() << "." << endl;
     }
     if (m_Epsilon_chk == 0){
-      cinfo << "m_Epsilon is provided but not used in " << m_host->getName() << "." << endl;
+    cinfo << "m_Epsilon is provided but not used in " << m_host->getName() << "." << endl;
     }
-*/};
+    */};
 
   gBathProperties::gBathProperties(Molecule* pMol)
     :m_Sigma(sigmaDefault),
@@ -90,13 +91,13 @@ namespace mesmer
   //
   gDensityOfStates::~gDensityOfStates()
   {
-/*    if (m_RC_chk == 0) cinfo << "Rotational constants are provided but not used in " << m_host->getName() << "." << endl;
+    /*    if (m_RC_chk == 0) cinfo << "Rotational constants are provided but not used in " << m_host->getName() << "." << endl;
     if (m_Sym_chk == 0) cinfo << "m_Sym is provided but not used in " << m_host->getName() << "." << endl;
     if (m_ZPE_chk == 0) cinfo << "m_ZPE is provided but not used in " << m_host->getName() << "." << endl;
     if (m_scaleFactor_chk == 0) cinfo << "m_scaleFactor is provided but not used in " << m_host->getName() << "." << endl;
     if (m_SpinMultiplicity_chk == 0) cinfo << "m_SpinMultiplicity is provided but not used in " << m_host->getName() << "." << endl;
     if (m_VibFreq_chk == 0) cinfo << "m_VibFreq is provided but not used in " << m_host->getName() << "." << endl;
-*/
+    */
     // Free any memory assigned for calculating densities of states. (must be in reverse order)
     if (m_grainDOS.size()) m_grainDOS.clear();
     if (m_grainEne.size()) m_grainEne.clear();
@@ -189,11 +190,11 @@ namespace mesmer
       m_RotCstC = rCnst[0];
       m_RC_chk = 0;
     }
-    
+
     if(!txt && hasRotConst)
     {
       cinfo << "Rotational constants were calculated from atom coordinates: "
-            << m_RotCstA << ' ' << m_RotCstB << ' ' << m_RotCstC << " cm-1" << endl;
+        << m_RotCstA << ' ' << m_RotCstB << ' ' << m_RotCstC << " cm-1" << endl;
     }  
 
     if (hasVibFreq != hasRotConst){
@@ -239,10 +240,10 @@ namespace mesmer
           zpCorrection = accumulate(m_VibFreq.begin(),m_VibFreq.end(), 0.0);
           zpCorrection *= 0.5;
         }
-          //Write back a corrected value and change attribute to zeroPointVibEnergyAdded="true"
-          PersistPtr ppScalar = ppPropList->XmlMoveToProperty("me:ZPE");
-          ppScalar->XmlWrite(toString(tempzpe + ConvertFromWavenumbers(unitsInput, zpCorrection)));
-          ppScalar->XmlWriteAttribute("zeroPointVibEnergyAdded", "true");
+        //Write back a corrected value and change attribute to zeroPointVibEnergyAdded="true"
+        PersistPtr ppScalar = ppPropList->XmlMoveToProperty("me:ZPE");
+        ppScalar->XmlWrite(toString(tempzpe + ConvertFromWavenumbers(unitsInput, zpCorrection)));
+        ppScalar->XmlWriteAttribute("zeroPointVibEnergyAdded", "true");
       }
       const char* pLowertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "lower", optional);
       const char* pUppertxt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "upper", optional);
@@ -280,8 +281,8 @@ namespace mesmer
         /*
         Atomize species X into atoms (at 0K)
         delta H  = Sum(Hf0(atom i)) - Hf0(X)
-                 = Sum(E(atom i))   - E(X) where E is a compchem energy
-                 =                  - HAT0 (enthalpy of atomization at 0K)
+        = Sum(E(atom i))   - E(X) where E is a compchem energy
+        =                  - HAT0 (enthalpy of atomization at 0K)
         We have E and Hf0 for each element as gas phase atom in librarymols.xml,
         so E(X) = Hf0(X) + Sum over all atoms( E - Hf0 )
         */
@@ -323,34 +324,34 @@ namespace mesmer
       m_SpinMultiplicity = pp->XmlReadInteger("spinMultiplicity");
     m_SpinMultiplicity_chk = 0;
 
-/*      //Calculate ZPE from Thermodynamic Heat of Formation
+    /*      //Calculate ZPE from Thermodynamic Heat of Formation
 
-      *** This is INCOMPLETE and will calculate an incorrect result. NEEDS REVISITING ***
+    *** This is INCOMPLETE and will calculate an incorrect result. NEEDS REVISITING ***
 
-      //The general way is to calculate dln(rot/vib partition function)/dBeta + 1.5kT
-      //calcDensityOfStates(); //but this calls get_zpe and ZPE hasn't been set yet
-      //double Z = max(canonicalPartitionFunction(m_grainDOS, m_grainEne, boltzmann_RCpK * 298), 1.0);
+    //The general way is to calculate dln(rot/vib partition function)/dBeta + 1.5kT
+    //calcDensityOfStates(); //but this calls get_zpe and ZPE hasn't been set yet
+    //double Z = max(canonicalPartitionFunction(m_grainDOS, m_grainEne, boltzmann_RCpK * 298), 1.0);
 
-      //Vibrations are treated classically, rotational constants are considered small:
-      // 0.5kT for linear mols, 1.5kT for non-linear polyatomics
-      std::vector<double> rotConsts;
-      int ret = get_rotConsts(rotConsts);
-      double Hf0 = Hf298 - 0.5 * boltzmann_RCpK * 298 *(3 + (ret==0) + 2*(ret==2)); //***Vib TODO
-      set_zpe(Hf0); //cm-1
-      m_ZPE_chk=0;
+    //Vibrations are treated classically, rotational constants are considered small:
+    // 0.5kT for linear mols, 1.5kT for non-linear polyatomics
+    std::vector<double> rotConsts;
+    int ret = get_rotConsts(rotConsts);
+    double Hf0 = Hf298 - 0.5 * boltzmann_RCpK * 298 *(3 + (ret==0) + 2*(ret==2)); //***Vib TODO
+    set_zpe(Hf0); //cm-1
+    m_ZPE_chk=0;
 
-      //Write the converted value back to a me:ZPE element in the XML file
-      stringstream ss;
-      ss << ConvertFromWavenumbers(utxt, Hf0);
-      PersistPtr ppScalar = ppPropList->XmlWriteProperty("me:ZPE", ss.str(), utxt);
-      ppScalar->XmlWriteAttribute("convention", "thermodynamic");//orig units
-      ppScalar->XmlWriteAttribute("origValue", ss.str());
-      m_EnergyConvention = "thermodynamic";
-      cinfo << "New me:ZPE element written with data from me:Hf298" << endl;
+    //Write the converted value back to a me:ZPE element in the XML file
+    stringstream ss;
+    ss << ConvertFromWavenumbers(utxt, Hf0);
+    PersistPtr ppScalar = ppPropList->XmlWriteProperty("me:ZPE", ss.str(), utxt);
+    ppScalar->XmlWriteAttribute("convention", "thermodynamic");//orig units
+    ppScalar->XmlWriteAttribute("origValue", ss.str());
+    m_EnergyConvention = "thermodynamic";
+    cinfo << "New me:ZPE element written with data from me:Hf298" << endl;
     }
     else if(m_ZPE_chk < 0)
-      cwarn << "No energy specified (as me:ZPE or me:Hf298 properties)" << endl;
-*/
+    cwarn << "No energy specified (as me:ZPE or me:Hf298 properties)" << endl;
+    */
     //Read main and extra method and their data
     ReadDOSMethods();
   }
@@ -576,13 +577,13 @@ namespace mesmer
           default:
             qtot = 0.;
         }
-        
+
         // Add contribution from other internal degrees of freeedom.
-        
+
         for ( vector<DensityOfStatesCalculator*>::size_type j = 0 ; j < m_ExtraDOSCalculators.size() ; ++j ) {
-           qtot *= m_ExtraDOSCalculators[j]->canPrtnFnCntrb(beta) ;
+          qtot *= m_ExtraDOSCalculators[j]->canPrtnFnCntrb(beta) ;
         }        
-        
+
         qtot *= double(getSpinMultiplicity());
         qtot = max(qtot, 1.0);
         if (qtot == 1.0){
@@ -752,6 +753,47 @@ namespace mesmer
       CanPrtnFn = double(getSpinMultiplicity()) ;
     }
     return CanPrtnFn ;
+  }
+
+  //
+  // Calculate standard thermodynamic quantities as a function of temperature.
+  // The calculation is based on cell densities of states.
+  //
+  bool gDensityOfStates::thermodynamicsFunctions(double temp, double unitFctr, double& enthalpy, double& entropy, double& gibbsFreeEnergy) {
+
+    std::vector<double> cellEne;
+    getCellEnergies(m_host->getEnv().MaxCell, cellEne);
+    
+    calcDensityOfStates() ;
+
+    double beta ;
+    if ( temp > 0.0 ) { 
+      beta = 1.0/(boltzmann_RCpK*temp) ;
+    } else {
+      return false ;
+    }
+
+    // Calculate rovibronic partition functions based on cells.
+    // The following catches the case where the molecule is a single atom
+    double cellCanPrtnFn = max(canonicalPartitionFunction(m_cellDOS, cellEne, beta), 1.0) ;
+    if (cellCanPrtnFn == 1.0){
+      // Electronic partition function for atom is accounted here.
+      cellCanPrtnFn = double(getSpinMultiplicity()) ;
+    }
+
+    // The following calculates the mean internal molecular energy.
+    double internalEnergy = canonicalMeanEnergy(m_cellDOS, cellEne, beta) ;
+
+    // The rovibronic partition function must be corrected for translation 
+    // and (assuming an ideal gas) molecular indistinguishability.
+    gibbsFreeEnergy = unitFctr*(-log(cellCanPrtnFn) - log(tp_C * pow((m_host->getStruc().getMass() / beta), 1.5)) + log(AvogadroC))/beta ;
+
+    // The enthalpy must be corrected for translation by an additional 3kT/2.
+    enthalpy        = unitFctr*(internalEnergy + 5.0/(2.0*beta)) ;
+
+    entropy         = (enthalpy - gibbsFreeEnergy)/temp  ;
+
+    return true ;
   }
 
   //-------------------------------------------------------------------------------------------------
@@ -1675,7 +1717,7 @@ namespace mesmer
       ReadStructure();
       if(Atoms.empty())
         cerr << "If no chemical structure is provided,"
-                "Molecular Weight must be input as an XML property." << endl;
+        "Molecular Weight must be input as an XML property." << endl;
       else
         MW = CalcMW();
     }
@@ -1702,214 +1744,214 @@ namespace mesmer
       return true;
   }
 
-//Returns true if atoms have coordinates
-bool gStructure::ReadStructure()
-{
-  if(!Atoms.empty())
-    return m_HasCoords;
-  PersistPtr ppMol = getHost()->get_PersistentPointer();
-  PersistPtr ppAtom = ppMol->XmlMoveTo("atomArray");
-  if(!ppAtom) // there may not be an <atomArray> element
-    ppAtom = ppMol; 
-  while(ppAtom=ppAtom->XmlMoveTo("atom"))
+  //Returns true if atoms have coordinates
+  bool gStructure::ReadStructure()
   {
-    atom at;
-    const char* el = ppAtom->XmlReadValue("elementType");
-    if(!el)
+    if(!Atoms.empty())
+      return m_HasCoords;
+    PersistPtr ppMol = getHost()->get_PersistentPointer();
+    PersistPtr ppAtom = ppMol->XmlMoveTo("atomArray");
+    if(!ppAtom) // there may not be an <atomArray> element
+      ppAtom = ppMol; 
+    while(ppAtom=ppAtom->XmlMoveTo("atom"))
     {
-      cerr << "<atom> elements must have an elementType attribute" << endl;
-      return false;
+      atom at;
+      const char* el = ppAtom->XmlReadValue("elementType");
+      if(!el)
+      {
+        cerr << "<atom> elements must have an elementType attribute" << endl;
+        return false;
+      }
+      at.element = el;
+      const char* pId = ppAtom->XmlReadValue("id", optional);
+      at.id = (pId)? pId : at.element ;
+      double x3, y3, z3;
+      x3 = ppAtom->XmlReadDouble("x3", optional);
+      y3 = ppAtom->XmlReadDouble("y3", optional);
+      z3 = ppAtom->XmlReadDouble("z3", optional);
+      if(!IsNan(x3) && !IsNan(y3) && !IsNan(z3))
+      {
+        at.coords.Set(x3, y3, z3);
+        if(x3!=0 || y3!=0 || z3!=0)
+          m_HasCoords = true; //at least one atom with non-zero coordinates
+      }
+      Atoms[at.id] = at;
     }
-    at.element = el;
-    const char* pId = ppAtom->XmlReadValue("id", optional);
-	at.id = (pId)? pId : at.element ;
-    double x3, y3, z3;
-    x3 = ppAtom->XmlReadDouble("x3", optional);
-    y3 = ppAtom->XmlReadDouble("y3", optional);
-    z3 = ppAtom->XmlReadDouble("z3", optional);
-    if(!IsNan(x3) && !IsNan(y3) && !IsNan(z3))
+
+    //Read all the bonds. For each bond add a connect to each atom
+    PersistPtr ppBond = ppMol->XmlMoveTo("bondArray");
+    int ibond=1;
+    if(!ppBond) // there may not be an <bondArray> element
+      ppBond = ppMol;
+    while(ppBond=ppBond->XmlMoveTo("bond"))
     {
-      at.coords.Set(x3, y3, z3);
-      if(x3!=0 || y3!=0 || z3!=0)
-        m_HasCoords = true; //at least one atom with non-zero coordinates
+      const char* pId = ppBond->XmlReadValue("id", optional);
+      string id;
+      if(pId)
+        id = pId;
+      else
+      {
+        //id is e.g. "bond3", if not provided
+        stringstream ss;
+        ss << " bond" << ibond;
+        id=ss.str();
+      }
+
+      const char* pRefs = ppBond->XmlReadValue("atomRefs2");
+      if(!pRefs) return false;
+      string refs(pRefs);
+      string::size_type pos = refs.find_first_of(" ,");
+      string::size_type pos2 = refs.find_last_of(" ,");
+      if(pos==string::npos) return false;
+      string atomref1 = refs.substr(0, pos);
+      string atomref2 = refs.substr(pos2+1);
+      Bonds[id] = make_pair(atomref1,atomref2);
+      Atoms[atomref1].connects.push_back(atomref2);
+      Atoms[atomref2].connects.push_back(atomref1);
+      ++ibond;
     }
-    Atoms[at.id] = at;
+
+    return m_HasCoords;
   }
 
-  //Read all the bonds. For each bond add a connect to each atom
-  PersistPtr ppBond = ppMol->XmlMoveTo("bondArray");
-  int ibond=1;
-  if(!ppBond) // there may not be an <bondArray> element
-    ppBond = ppMol;
-  while(ppBond=ppBond->XmlMoveTo("bond"))
+  double gStructure::CalcMW()
   {
-    const char* pId = ppBond->XmlReadValue("id", optional);
-    string id;
-    if(pId)
-      id = pId;
+    map<string, atom>::iterator iter;
+    double MW = 0.0;
+    for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter)
+      MW += atomMass(iter->second.element);
+    return MW;
+  }
+
+  // Returns in atomset the IDs of all the atoms attached to atomID via bonds,
+  // but does not include any atoms already in atomset or atoms beyond them.
+  // Handles rings. (Recursive function) 
+  void gStructure::GetAttachedAtoms(vector<string>& atomset, const string& atomID)
+  {
+    atomset.push_back(atomID);
+    vector<string>::iterator coniter;
+    for(coniter=Atoms[atomID].connects.begin(); coniter!=Atoms[atomID].connects.end();++coniter)
+    {
+      if(find(atomset.begin(), atomset.end(), *coniter)!=atomset.end())
+        continue;
+      GetAttachedAtoms(atomset, *coniter);    
+    }
+  }
+
+  double gStructure::CalcMomentAboutAxis(vector<string> atomset, vector3 at1, vector3 at2)
+  {
+    double sumMoment = 0.0;
+    vector<string>::iterator iter;
+    for(iter=atomset.begin(); iter!=atomset.end(); ++iter)
+    {
+      vector3 a = Atoms[*iter].coords;
+      double d = Point2Line(a, at1, at2);
+      sumMoment += atomMass(Atoms[*iter].element) * d * d;
+    }
+    return sumMoment;
+  }
+
+  //Returns the rotational constants (in cm-1) in a vector
+  //OK for atoms and diatomics but currently no recognition of symmetry
+  vector<double> gStructure::CalcRotConsts()
+  {
+    vector<double> RotConsts(3, 0.0); //cm-1
+    if(NumAtoms()<2)
+      return RotConsts; //empty
+    //Determine centre of mass
+    map<string, atom>::iterator iter;
+    vector3 centreOfMass; 
+    double mt = 0.0;
+    for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter)
+    {
+      double mass = atomMass(iter->second.element);
+      centreOfMass += iter->second.coords * mass;
+      mt  += mass;
+    }
+    centreOfMass /= mt ;
+
+    dMatrix MI(3);
+    double sxx = 0.0, syy = 0.0, szz = 0.0, sxy = 0.0, sxz = 0.0, syz = 0.0;
+    for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter)
+    {
+      vector3 c = iter->second.coords - centreOfMass;
+      double  m = atomMass(iter->second.element);
+      sxx += m * c.x() * c.x();
+      syy += m * c.y() * c.y();
+      szz += m * c.z() * c.z();
+      sxy += m * c.x() * c.y();
+      sxz += m * c.x() * c.z();
+      syz += m * c.y() * c.z();
+    }
+
+    vector<double> PrincipalMI(3, 0.0);//initially amuAng2, eventually gcm2
+    if(NumAtoms()==2)
+      PrincipalMI[0] = szz;
     else
     {
-      //id is e.g. "bond3", if not provided
-      stringstream ss;
-      ss << " bond" << ibond;
-      id=ss.str();
+      MI[0][0] = syy+szz;
+      MI[0][1] = -sxy;
+      MI[0][2] = -sxz; 
+      MI[1][0] = -sxy;
+      MI[1][1] = sxx+szz;
+      MI[0][2] = -syz; 
+      MI[2][0] = -sxz;
+      MI[2][1] = -syz; 
+      MI[2][2] = sxx + syy;
+
+      MI.diagonalize(&PrincipalMI[0]);
     }
 
-    const char* pRefs = ppBond->XmlReadValue("atomRefs2");
-    if(!pRefs) return false;
-    string refs(pRefs);
-    string::size_type pos = refs.find_first_of(" ,");
-    string::size_type pos2 = refs.find_last_of(" ,");
-    if(pos==string::npos) return false;
-    string atomref1 = refs.substr(0, pos);
-    string atomref2 = refs.substr(pos2+1);
-    Bonds[id] = make_pair(atomref1,atomref2);
-    Atoms[atomref1].connects.push_back(atomref2);
-    Atoms[atomref2].connects.push_back(atomref1);
-    ++ibond;
-  }
-  
-  return m_HasCoords;
-}
-
-double gStructure::CalcMW()
-{
-  map<string, atom>::iterator iter;
-  double MW = 0.0;
-  for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter)
-    MW += atomMass(iter->second.element);
-  return MW;
-}
-
-// Returns in atomset the IDs of all the atoms attached to atomID via bonds,
-// but does not include any atoms already in atomset or atoms beyond them.
-// Handles rings. (Recursive function) 
-void gStructure::GetAttachedAtoms(vector<string>& atomset, const string& atomID)
-{
-  atomset.push_back(atomID);
-  vector<string>::iterator coniter;
-  for(coniter=Atoms[atomID].connects.begin(); coniter!=Atoms[atomID].connects.end();++coniter)
-  {
-    if(find(atomset.begin(), atomset.end(), *coniter)!=atomset.end())
-      continue;
-    GetAttachedAtoms(atomset, *coniter);    
-  }
-}
-
-double gStructure::CalcMomentAboutAxis(vector<string> atomset, vector3 at1, vector3 at2)
-{
-  double sumMoment = 0.0;
-  vector<string>::iterator iter;
-  for(iter=atomset.begin(); iter!=atomset.end(); ++iter)
-  {
-    vector3 a = Atoms[*iter].coords;
-    double d = Point2Line(a, at1, at2);
-    sumMoment += atomMass(Atoms[*iter].element) * d * d;
-  }
-  return sumMoment;
-}
-    
-//Returns the rotational constants (in cm-1) in a vector
-//OK for atoms and diatomics but currently no recognition of symmetry
-vector<double> gStructure::CalcRotConsts()
-{
-  vector<double> RotConsts(3, 0.0); //cm-1
-  if(NumAtoms()<2)
-    return RotConsts; //empty
-  //Determine centre of mass
-  map<string, atom>::iterator iter;
-  vector3 centreOfMass; 
-  double mt = 0.0;
-  for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter)
-  {
-    double mass = atomMass(iter->second.element);
-    centreOfMass += iter->second.coords * mass;
-    mt  += mass;
-  }
-  centreOfMass /= mt ;
-  
-  dMatrix MI(3);
-  double sxx = 0.0, syy = 0.0, szz = 0.0, sxy = 0.0, sxz = 0.0, syz = 0.0;
-  for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter)
-  {
-    vector3 c = iter->second.coords - centreOfMass;
-    double  m = atomMass(iter->second.element);
-    sxx += m * c.x() * c.x();
-    syy += m * c.y() * c.y();
-    szz += m * c.z() * c.z();
-    sxy += m * c.x() * c.y();
-    sxz += m * c.x() * c.z();
-    syz += m * c.y() * c.z();
-  }
-
-  vector<double> PrincipalMI(3, 0.0);//initially amuAng2, eventually gcm2
-  if(NumAtoms()==2)
-    PrincipalMI[0] = szz;
-  else
-  {
-    MI[0][0] = syy+szz;
-    MI[0][1] = -sxy;
-    MI[0][2] = -sxz; 
-    MI[1][0] = -sxy;
-    MI[1][1] = sxx+szz;
-    MI[0][2] = -syz; 
-    MI[2][0] = -sxz;
-    MI[2][1] = -syz; 
-    MI[2][2] = sxx + syy;
-
-    MI.diagonalize(&PrincipalMI[0]);
-  }
-  
-  const double amuA2TOgcm2 = 1.0E-16/AvogadroC;
-  for(unsigned i=0; i<3;++i)
-  {
-    RotConsts[i] = PrincipalMI[i]==0.0 ? 0.0 : conMntInt2RotCnt/PrincipalMI[i];
-    PrincipalMI[i] *= amuA2TOgcm2;
-  }
-  
-  return RotConsts;
-
-}
-
-double gStructure::CalcSumEMinusHf0(bool UsingAtomBasedThermo)
-{
-  //calculate for each atom (ab initio E - Hf0) and return sum
-  if(!ReadStructure())
-  {
-    cerr << "To use me::Hf0 the molecule needs chemical structure (an atomList at least)" << endl;
-    return false;
-  }
-  double sum = 0.0;
-  map<string, double> atomdiffs; //el symbol, diff
-  map<string, atom>::iterator iter;
-  for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter)
-  {
-    string el =iter->second.element;
-    if(atomdiffs.find(el)==atomdiffs.end())
+    const double amuA2TOgcm2 = 1.0E-16/AvogadroC;
+    for(unsigned i=0; i<3;++i)
     {
-      //get vals from librarymols.xml
-      PersistPtr ppMol = GetFromLibrary(el, PersistPtr());
-      double diff;
-      if(ppMol)
-      {
-        diff = ppMol->XmlReadPropertyDouble("me:ZPE",optional);
-        if(!UsingAtomBasedThermo)
-          diff -= ppMol->XmlReadPropertyDouble("me:Hf0",optional);
-      }
-      if(!ppMol || IsNan(diff))
-      {
-        cerr << "The value of Hf0 for " << getHost()->getName()
-             << " will be incorrect because one or more of its elements"
-             << " was not in the library, or lacked me:ZPE and me:Hf0 properties" << endl;
-        return 0.0;
-      }
-      atomdiffs[el] = diff; //save diff for this el in atomdiffs
-      sum += diff;
+      RotConsts[i] = PrincipalMI[i]==0.0 ? 0.0 : conMntInt2RotCnt/PrincipalMI[i];
+      PrincipalMI[i] *= amuA2TOgcm2;
     }
-    else //diff for this el already known
-      sum += atomdiffs[el];
+
+    return RotConsts;
+
   }
-  return sum;
-}
+
+  double gStructure::CalcSumEMinusHf0(bool UsingAtomBasedThermo)
+  {
+    //calculate for each atom (ab initio E - Hf0) and return sum
+    if(!ReadStructure())
+    {
+      cerr << "To use me::Hf0 the molecule needs chemical structure (an atomList at least)" << endl;
+      return false;
+    }
+    double sum = 0.0;
+    map<string, double> atomdiffs; //el symbol, diff
+    map<string, atom>::iterator iter;
+    for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter)
+    {
+      string el =iter->second.element;
+      if(atomdiffs.find(el)==atomdiffs.end())
+      {
+        //get vals from librarymols.xml
+        PersistPtr ppMol = GetFromLibrary(el, PersistPtr());
+        double diff;
+        if(ppMol)
+        {
+          diff = ppMol->XmlReadPropertyDouble("me:ZPE",optional);
+          if(!UsingAtomBasedThermo)
+            diff -= ppMol->XmlReadPropertyDouble("me:Hf0",optional);
+        }
+        if(!ppMol || IsNan(diff))
+        {
+          cerr << "The value of Hf0 for " << getHost()->getName()
+            << " will be incorrect because one or more of its elements"
+            << " was not in the library, or lacked me:ZPE and me:Hf0 properties" << endl;
+          return 0.0;
+        }
+        atomdiffs[el] = diff; //save diff for this el in atomdiffs
+        sum += diff;
+      }
+      else //diff for this el already known
+        sum += atomdiffs[el];
+    }
+    return sum;
+  }
 
 }//namespace
