@@ -145,7 +145,7 @@ namespace mesmer
       }
       break;
     default: // Assume atom.
-      cellDOS[0] += 1.0 ;
+      cellDOS[0] = qele ;
       break;
     }
 

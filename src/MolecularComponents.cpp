@@ -539,27 +539,18 @@ namespace mesmer
         double beta = 1.0/(boltzmann_RCpK*temp) ;
 
         // Calculate rovibronic partition functions based on cells.
-        // The following catches the case where the molecule is a single atom
-        double cellCanPrtnFn = max(canonicalPartitionFunction(m_cellDOS, cellEne, beta), 1.0) ;
-        if (cellCanPrtnFn == 1.0){
-          // Electronic partition function for atom is accounted here.
-          cellCanPrtnFn = double(getSpinMultiplicity()) ;
-        }
+        double cellCanPrtnFn = canonicalPartitionFunction(m_cellDOS, cellEne, beta) ;
 
         // Calculate rovibronic partition functions based on grains.
-        // The following catches the case where the molecule is a single atom
-        double grainCanPrtnFn = max(canonicalPartitionFunction(m_grainDOS, m_grainEne, beta), 1.0) ;
-        if (grainCanPrtnFn == 1.0){
-          // Electronic partition function for atom is accounted here.
-          grainCanPrtnFn = double(getSpinMultiplicity()) ;
-        }
+        double grainCanPrtnFn = canonicalPartitionFunction(m_grainDOS, m_grainEne, beta) ;
 
         // Calculate rovibronic partition functions using analytical formula (treat vibrations classically).
-        double qtot = 1.0 ;
-        vector<double> rotConst; int rotorType;
-        rotorType = get_rotConsts(rotConst);
+        double qtot(1.0) ;
+        vector<double> rotConst;
+        int rotorType = get_rotConsts(rotConst);
 
-        vector<double> vibFreq; get_VibFreq(vibFreq);
+        vector<double> vibFreq; 
+        get_VibFreq(vibFreq);
 
         switch(rotorType){
           case 2://3-D symmetric/asymmetric/spherical top
@@ -575,7 +566,7 @@ namespace mesmer
             qtot /= rotConst[0]* get_Sym()*beta ;
             break;
           default:
-            qtot = 0.;
+            ; // Assume atom.
         }
 
         // Add contribution from other internal degrees of freeedom.
@@ -585,17 +576,14 @@ namespace mesmer
         }        
 
         qtot *= double(getSpinMultiplicity());
-        qtot = max(qtot, 1.0);
-        if (qtot == 1.0){
-          // Electronic partition function for atom is accounted here.
-          qtot = double(getSpinMultiplicity()) ;
-        }
 
-        if (m_host->getFlags().testDOSEnabled) formatFloat(ctest, temp,  6,  7) ;
-        if (m_host->getFlags().testDOSEnabled) formatFloat(ctest, qtot,  6, 15) ;
-        if (m_host->getFlags().testDOSEnabled) formatFloat(ctest, cellCanPrtnFn,  6, 15) ;
-        if (m_host->getFlags().testDOSEnabled) formatFloat(ctest, grainCanPrtnFn,  6, 15) ;
-        if (m_host->getFlags().testDOSEnabled) ctest << endl ;
+        if (m_host->getFlags().testDOSEnabled) { 
+          formatFloat(ctest, temp,  6,  7) ;
+          formatFloat(ctest, qtot,  6, 15) ;
+          formatFloat(ctest, cellCanPrtnFn,  6, 15) ;
+          formatFloat(ctest, grainCanPrtnFn,  6, 15) ;
+          ctest << endl ;
+        }
 
         //Add to XML document
         PersistPtr ppItem = ppList->XmlWriteElement("me:densityOfStates");
@@ -740,19 +728,13 @@ namespace mesmer
   // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
   //
   double gDensityOfStates::rovibronicGrnCanPrtnFn() {
+
     // If density of states have not already been calculated then do so.
     if (!calcDensityOfStates())
       cerr << "Failed calculating DOS";
 
-    double CanPrtnFn = 0.0;
-    // Calculate the rovibronic partition function based on the grain DOS
-    // The following catches the case where the molecule is a single atom
-    CanPrtnFn = max(canonicalPartitionFunction(m_grainDOS, m_grainEne, m_host->getEnv().beta), 1.0) ;
-    if (CanPrtnFn == 1.0){
-      // Electronic partition function for atom is accounted here.
-      CanPrtnFn = double(getSpinMultiplicity()) ;
-    }
-    return CanPrtnFn ;
+    return canonicalPartitionFunction(m_grainDOS, m_grainEne, m_host->getEnv().beta) ;
+
   }
 
   //
@@ -763,7 +745,7 @@ namespace mesmer
 
     std::vector<double> cellEne;
     getCellEnergies(m_host->getEnv().MaxCell, cellEne);
-    
+
     calcDensityOfStates() ;
 
     double beta ;
@@ -774,12 +756,7 @@ namespace mesmer
     }
 
     // Calculate rovibronic partition functions based on cells.
-    // The following catches the case where the molecule is a single atom
-    double cellCanPrtnFn = max(canonicalPartitionFunction(m_cellDOS, cellEne, beta), 1.0) ;
-    if (cellCanPrtnFn == 1.0){
-      // Electronic partition function for atom is accounted here.
-      cellCanPrtnFn = double(getSpinMultiplicity()) ;
-    }
+    double cellCanPrtnFn = canonicalPartitionFunction(m_cellDOS, cellEne, beta) ;
 
     // The following calculates the mean internal molecular energy.
     double internalEnergy = canonicalMeanEnergy(m_cellDOS, cellEne, beta) ;

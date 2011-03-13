@@ -1,5 +1,10 @@
 
-2011-March-07 Struan Robertson
+2011-March-13 Struan Robertson
+
+	* MolecularComponents.h/.cpp: Remove redundent code relating to atomic spin
+	multiplicity, which is now treated in the DOS calculation methods.
+
+2011-March-10 Struan Robertson
 
 	* MolecularComponents.h/.cpp,ThermodynamicsTables.cpp: An initial revision
 	of methods to calculate the thermodynamic functions and the addition of a 

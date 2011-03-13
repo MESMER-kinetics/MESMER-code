@@ -240,17 +240,10 @@ namespace mesmer
     calcRctsGrainDensityOfStates(rctGrainDOS, rctGrainEne);
 
     // Calculate the rovibronic partition function based on the grain DOS
-    // The following catches the case where the molecule is a single atom
-    double CanPrtnFn = max(canonicalPartitionFunction(rctGrainDOS, rctGrainEne, getEnv().beta), 1.0) ;
-    if (CanPrtnFn == 1.0){
-      // Electronic partition function for atom is accounted here.
-      CanPrtnFn = double(m_rct1->getDOS().getSpinMultiplicity() * m_rct2->getDOS().getSpinMultiplicity()) ;
-    }
-
-    return CanPrtnFn ;
+    return canonicalPartitionFunction(rctGrainDOS, rctGrainEne, getEnv().beta) ;
   }
+  
   double AssociationReaction::pdtsRovibronicGrnCanPrtnFn() { return m_pdt1->getDOS().rovibronicGrnCanPrtnFn();}
-
 
   // Is reaction equilibrating and therefore contributes
   // to the calculation of equilibrium fractions.
