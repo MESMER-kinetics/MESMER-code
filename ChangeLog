@@ -1,4 +1,9 @@
 
+2011-March-19 Struan Robertson
+
+	* ThermodynamicsTables.cpp: Addition of a read method to give some flexibility
+	to table output.
+
 2011-March-13 Struan Robertson
 
 	* MolecularComponents.h/.cpp: Remove redundent code relating to atomic spin

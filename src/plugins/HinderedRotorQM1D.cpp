@@ -7,7 +7,8 @@
 // density of states of a one dimensional quantum mechanical hindered rotor.
 //
 // The Hamiltonian is represented in a basis of one-dimensional free rotor functions and 
-// then diagonalized.
+// then diagonalized. (The implementation given here is closely related to that described
+// by J.D. Lewis in J. Mol. Struct. p. 427, Vol. 12 (1972).)
 //
 //-------------------------------------------------------------------------------------------
 
