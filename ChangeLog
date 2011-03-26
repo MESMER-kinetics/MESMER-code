@@ -1,4 +1,9 @@
 
+2011-March-26 Struan Robertson
+
+	* CollisionOperator.cpp/.h: Minor refactoring.
+	* BoltzmannDistribution.cpp: Normalization of distribution.
+
 2011-March-19 Struan Robertson
 
 	* ThermodynamicsTables.cpp: Addition of a read method to give some flexibility

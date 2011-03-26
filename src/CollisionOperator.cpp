@@ -23,7 +23,6 @@ namespace mesmer
     m_isomers(),
     m_sources(),
     m_sinkRxns(),
-    m_SinkSequence(),
     m_meanOmega(0.0),
     m_reactionOperator(0),
     m_eigenvectors(0),
@@ -1245,8 +1244,9 @@ namespace mesmer
         // Calculate Y_matrix elements for sinks.
 
         if(nsinks) {
-          for(sinkpos=m_sinkRxns.begin(); sinkpos!=m_sinkRxns.end(); ++sinkpos){
-            qd_real sm = 0.0;
+          int seqMatrixLoc(0) ;
+          for(sinkpos = m_sinkRxns.begin() ; sinkpos != m_sinkRxns.end() ; ++sinkpos, ++seqMatrixLoc) {
+            qd_real sm(0.0);
             vector<double> KofEs;                                         // vector to hold sink k(E)s
             vector<double> KofEsTemp;                                     // vector to hold sink k(E)s
             Reaction* sinkReaction = sinkpos->first;
@@ -1265,7 +1265,6 @@ namespace mesmer
               colloptrsize -= ll ;
             }
             int rxnMatrixLoc = sinkpos->second;                               // get sink location
-            int seqMatrixLoc = m_SinkSequence[sinkReaction];                  // get sink sequence position
             for(int j(0);j<colloptrsize;++j){
               sm += assymEigenVec[rxnMatrixLoc+j][nchemIdx+i] * KofEsTemp[j];
             }
@@ -1451,11 +1450,10 @@ namespace mesmer
 
     if(m_sinkRxns.size()!=0){
       ctest << "\nFirst order & pseudo first order rate coefficients for irreversible rxns:\n{\n";
-      sinkMap::iterator sinkitr;
+      sinkMap::iterator sinkitr = m_sinkRxns.begin();
 
-      for(sinkitr=m_SinkSequence.begin(); sinkitr!=m_SinkSequence.end(); ++sinkitr){
+      for (int sinkpos(0) ; sinkitr!=m_sinkRxns.end() ; ++sinkitr, ++sinkpos) {
         Reaction* sinkReaction = sinkitr->first;          // get Irreversible Rxn
-        int sinkpos = m_SinkSequence[sinkReaction];                   // get products & their position
         vector<Molecule*> pdts;
         sinkReaction->get_products(pdts);
         string pdtsName = pdts[0]->getName();
@@ -1466,11 +1464,10 @@ namespace mesmer
           if(sinkReaction->getRctColloptrsize()==1){
             ctest << rcts->getName() << " -> "  << pdtsName << "(bim) = " << Kp[sinkpos][rctpos] << endl;
             puNumbers << Kp[sinkpos][rctpos] << "\t";
-            if (m_punchSymbolGathered == false){
+            if (!m_punchSymbolGathered) {
               puSymbols << rcts->getName() << " -> " << pdtsName << "(bim)\t";
             }
-          }
-          else{
+          } else {
             string rctName = rcts->isCemetery() ? rcts->getName() + "(+)" : rcts->getName();
 
             ctest << rctName << " -> "  << pdtsName << " = " << Kp[sinkpos][rctpos] << endl;
@@ -1637,9 +1634,7 @@ namespace mesmer
 
   void CollisionOperator::locateSinks()
   {
-    int sinkpos(0);
     m_sinkRxns.clear();
-    m_SinkSequence.clear();                      
     for (size_t i(0) ; i < m_pReactionManager->size() ; ++i) {
 
       Reaction* pReaction = (*m_pReactionManager)[i];
@@ -1649,15 +1644,11 @@ namespace mesmer
       if (Irreversible && m_sinkRxns.find(pReaction) == m_sinkRxns.end()) {   
         // Add an irreversible rxn to the map.
         Molecule* rctnt = pReaction->get_reactant();
-        int rxnMatrixLoc ;
         if(reactionType == IRREVERSIBLE_ISOMERIZATION || reactionType == DISSOCIATION ){
-          rxnMatrixLoc = m_isomers[rctnt];
+          m_sinkRxns[pReaction] = m_isomers[rctnt];
         } else { // Irreversible exchange reaction.
-          rxnMatrixLoc = m_sources[rctnt];
+          m_sinkRxns[pReaction] = m_sources[rctnt];
         }
-        m_sinkRxns[pReaction] = rxnMatrixLoc;
-        m_SinkSequence[pReaction] = sinkpos;
-        ++sinkpos;
       }
     }
 

@@ -91,7 +91,6 @@ namespace mesmer
     typedef std::map<Reaction* , int, Reaction::ReactionPtrLess> sinkMap ;
 
     sinkMap                 m_sinkRxns;
-    sinkMap                 m_SinkSequence;
 
     // Mean collision frequency.
     double                  m_meanOmega;

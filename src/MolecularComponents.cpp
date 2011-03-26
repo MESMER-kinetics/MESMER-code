@@ -1611,14 +1611,12 @@ namespace mesmer
       prtfn += tempGrainFrac[i];
       if (i < numberOfGroupedGrains){
         grainFrac[0] += tempGrainFrac[i];
-      }
-      else{
+      } else {
         grainFrac.push_back(tempGrainFrac[i]);
       }
     }
 
-    int grainFracSize = int(grainFrac.size());
-    for (int i = 0; i < grainFracSize; ++i){
+    for (size_t i(0) ; i < grainFrac.size() ; ++i) {
       grainFrac[i] /= prtfn;
     }
 
