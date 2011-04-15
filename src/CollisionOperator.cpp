@@ -544,7 +544,7 @@ namespace mesmer
     return true;
   }
 
-  void CollisionOperator::diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv, const int precision, PersistPtr ppAnalysis)
+  void CollisionOperator::diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv, Precision precision, PersistPtr ppAnalysis)
   {
     // Allocate space for eigenvalues.
     const size_t smsize = m_reactionOperator->size() ;
@@ -562,41 +562,41 @@ namespace mesmer
     //-------------------------------------------------------------
     // diagonalize the whole matrix
     switch (precision){
-  case 0: // diagonalize in double
-    {
-      dMatrix dDiagM(smsize);
-      for ( size_t i = 0 ; i < smsize ; ++i )
-        for ( size_t j = 0 ; j < smsize ; ++j )
-          dDiagM[i][j] = to_double((*m_reactionOperator)[i][j]) ;
-      vector<double>  dEigenValue(smsize, 0.0);
-      dDiagM.diagonalize(&dEigenValue[0]) ;
-      for ( size_t i = 0 ; i < smsize ; ++i )
-        m_eigenvalues[i] = dEigenValue[i];
-      for ( size_t i = 0 ; i < smsize ; ++i )
-        for ( size_t j = 0 ; j < smsize ; ++j )
-          (*m_eigenvectors)[i][j] = dDiagM[i][j] ;
-      break;
-    }
-  case 1: // diagonalize in double double
-    {
-      ddMatrix ddDiagM(smsize);
-      for ( size_t i = 0 ; i < smsize ; ++i )
-        for ( size_t j = 0 ; j < smsize ; ++j )
-          ddDiagM[i][j] = to_dd_real((*m_reactionOperator)[i][j]) ;
-      vector<dd_real> ddEigenValue(smsize, 0.0);
-      ddDiagM.diagonalize(&ddEigenValue[0]) ;
-      for ( size_t i = 0 ; i < smsize ; ++i )
-        m_eigenvalues[i] = ddEigenValue[i];
-      for ( size_t i = 0 ; i < smsize ; ++i )
-        for ( size_t j = 0 ; j < smsize ; ++j )
-          (*m_eigenvectors)[i][j] = ddDiagM[i][j] ;
-      break;
-    }
-  default: // diagonalize in quad double
-    {
-      (*m_eigenvectors) = (*m_reactionOperator) ;
-      m_eigenvectors->diagonalize(&m_eigenvalues[0]) ;
-    }
+	case DOUBLE: 
+	  {
+		dMatrix dDiagM(smsize);
+		for ( size_t i = 0 ; i < smsize ; ++i )
+		  for ( size_t j = 0 ; j < smsize ; ++j )
+			dDiagM[i][j] = to_double((*m_reactionOperator)[i][j]) ;
+		vector<double>  dEigenValue(smsize, 0.0);
+		dDiagM.diagonalize(&dEigenValue[0]) ;
+		for ( size_t i = 0 ; i < smsize ; ++i )
+		  m_eigenvalues[i] = dEigenValue[i];
+		for ( size_t i = 0 ; i < smsize ; ++i )
+		  for ( size_t j = 0 ; j < smsize ; ++j )
+			(*m_eigenvectors)[i][j] = dDiagM[i][j] ;
+		break;
+	  }
+	case DOUBLE_DOUBLE: 
+	  {
+		ddMatrix ddDiagM(smsize);
+		for ( size_t i = 0 ; i < smsize ; ++i )
+		  for ( size_t j = 0 ; j < smsize ; ++j )
+			ddDiagM[i][j] = to_dd_real((*m_reactionOperator)[i][j]) ;
+		vector<dd_real> ddEigenValue(smsize, 0.0);
+		ddDiagM.diagonalize(&ddEigenValue[0]) ;
+		for ( size_t i = 0 ; i < smsize ; ++i )
+		  m_eigenvalues[i] = ddEigenValue[i];
+		for ( size_t i = 0 ; i < smsize ; ++i )
+		  for ( size_t j = 0 ; j < smsize ; ++j )
+			(*m_eigenvectors)[i][j] = ddDiagM[i][j] ;
+		break;
+	  }
+	default: // diagonalize in quad double
+	  {
+		(*m_eigenvectors) = (*m_reactionOperator) ;
+		m_eigenvectors->diagonalize(&m_eigenvalues[0]) ;
+	  }
 
     }
     // diagonalize the whole matrix

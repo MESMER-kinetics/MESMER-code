@@ -19,7 +19,6 @@
 #include <limits>
 #include <vector>
 #include "Matrix.h"
-#include "a2d.h"
 
 using namespace mesmer;
 

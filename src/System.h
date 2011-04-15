@@ -64,7 +64,7 @@ namespace mesmer
 
     // Mesmer control flags.
     MesmerFlags m_Flags;
-    
+
     MesmerEnv& getEnv() { return m_Env; } ;
 
   private:

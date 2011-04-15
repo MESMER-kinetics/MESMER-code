@@ -111,7 +111,7 @@ namespace mesmer
 	delete m_pMoleculeManager;
   }
 
-	// Initialize the System object.
+  // Initialize the System object.
   bool System::initialize(void) {
 	m_pMoleculeManager = new MoleculeManager() ;
 	m_pReactionManager = new ReactionManager(m_pMoleculeManager) ;
@@ -359,8 +359,8 @@ namespace mesmer
 	  if(!ReadRange("me:Prange", Pvals, ppPTset)) Pvals.push_back(default_P);
 	  if(!ReadRange("me:Trange", Tvals, ppPTset)) Tvals.push_back(default_T);
 
-	  for (unsigned int i = 0; i < Pvals.size(); ++i){
-		for (unsigned int j = 0; j < Tvals.size(); ++j){
+	  for (size_t i(0) ; i < Pvals.size(); ++i){
+		for (size_t j(0) ; j < Tvals.size(); ++j){
 		  CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j]);
 		  PandTs.push_back(thisPair);
 		}
@@ -377,25 +377,26 @@ namespace mesmer
 	  txt = ppPTpair->XmlReadValue("me:units", optional);
 	  if (txt)
 		this_units = txt;
-	  double this_P = default_P;
-	  double this_T = default_T;
-	  int this_precision = 0;
 
-	  txt = ppPTpair->XmlReadValue("me:P", optional);
-	  if (txt){ stringstream s1(txt); s1 >> this_P; }
-	  txt = ppPTpair->XmlReadValue("me:T", optional);
-	  if (txt){ stringstream s1(txt); s1 >> this_T; }
+	  double this_P(default_P), this_T(default_T) ;
+	  this_P = ppPTpair->XmlReadDouble("me:P", true);
+	  this_T = ppPTpair->XmlReadDouble("me:T", true);
+
+	  Precision this_precision = DOUBLE ;
 	  txt = ppPTpair->XmlReadValue("me:precision");
 	  // Can specify abbreviation
 	  if (txt){
-		if (!strcmp(txt,"1d")) this_precision = 0;
-		if (!strcmp(txt,"double")) this_precision = 0;
-		if (!strcmp(txt,"2d")) this_precision = 1;
-		if (!strcmp(txt,"dd")) this_precision = 1;
-		if (!strcmp(txt,"double-double")) this_precision = 1;
-		if (!strcmp(txt,"4d")) this_precision = 2;
-		if (!strcmp(txt,"qd")) this_precision = 2;
-		if (!strcmp(txt,"quad-double")) this_precision = 2;
+		string strPrcsn(txt) ;
+		if      (strPrcsn == "1d" || strPrcsn == "double")  
+		  this_precision = DOUBLE ;
+		else if (strPrcsn == "2d" || strPrcsn == "dd" || strPrcsn == "double-double") 
+		  this_precision = DOUBLE_DOUBLE ;
+		else if (strPrcsn == "4d" || strPrcsn == "qd" || strPrcsn == "quad-double")
+		  this_precision = QUAD_DOUBLE ;
+		else {
+		  cerr << "Unknown precision. Calculation will be run using double precision" << endl ;
+		  this_precision = DOUBLE ;
+		}
 	  }
 	  CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision);
 	  cinfo << this_P << this_units << ", " << this_T << "K at " << txt << " precision" <<endl; 
@@ -489,14 +490,19 @@ namespace mesmer
 	  // unit of conc: particles per cubic centimeter
 
 	  if (writeReport) {cinfo << "PT Grid " << calPoint << endl;}
-	  int precision = PandTs[calPoint].get_precision();
+	  Precision precision = PandTs[calPoint].get_precision();
 	  ctest << "PT Grid " << calPoint << " Condition: conc = " << m_Env.conc << ", temp = " << PandTs[calPoint].get_temperature();
 
 	  switch (precision) {
-	case 1: ctest << ", diagonalization precision: double-double\n{\n"; break;
-	case 2: ctest << ", diagonalization precision: quad-double\n{\n"; break;
-	default: ctest << ", diagonalization precision: double\n{\n";
-	  }
+      case DOUBLE_DOUBLE:
+        ctest << ", diagonalization precision: double-double\n{\n"; 
+        break;
+      case QUAD_DOUBLE: 
+        ctest << ", diagonalization precision: quad-double\n{\n"; 
+        break;
+      default: 
+        ctest << ", diagonalization precision: double\n{\n";
+      }
 
 	  // Build collison matrix for system.
 	  if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags, writeReport))

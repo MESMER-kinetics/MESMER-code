@@ -13,7 +13,10 @@
       <property dictRef="me:MW">
         <scalar>1</scalar>
       </property>
-    </molecule>
+	  <property dictRef="me:spinMultiplicity">
+		<scalar>2</scalar>
+	  </property>
+	</molecule>
     <molecule id="SO2">
       <atomArray>
         <atom id="a1" elementType="O"/>
@@ -78,7 +81,10 @@
       <property dictRef="me:deltaEDown">
         <scalar units="cm-1">230.0</scalar>
       </property>
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+	  <property dictRef="me:spinMultiplicity">
+		<scalar>2</scalar>
+	  </property>
+	  <me:DOSCMethod>QMRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS1">
       <atomArray>
@@ -106,7 +112,10 @@
           347 358 517 117 1381
         </array>
       </property>
-      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+	  <property dictRef="me:spinMultiplicity">
+		<scalar>2</scalar>
+	  </property>
+	  <me:DOSCMethod>QMRotors</me:DOSCMethod>
     </molecule>
     <molecule id="Ar">
       <atom elementType="Ar"/>
@@ -144,24 +153,22 @@
   <me:conditions>
     <me:bathGas>Ar</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="Torr" me:P="100000000" me:T="500" />
-    </me:PTs>
+      <me:PTpair me:units="Torr" me:P="100000000" me:T="200" me:precision ="double" />
+	  <me:PTpair me:units="Torr" me:P="100000000" me:T="200" me:precision ="dd" />
+	  <me:PTpair me:units="Torr" me:P="100000000" me:T="200" me:precision ="qd" />
+	</me:PTs>
     <me:InitalPopulation>
       <molecule ref="H" me:population="1.0" />
     </me:InitalPopulation>
   </me:conditions>
   <me:modelParameters>
     <me:grainSize units="cm-1"> 100 </me:grainSize>
-    <!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
-    <!--<me:maxTemperature>1000</me:maxTemperature>-->
     <me:energyAboveTheTopHill>20.</me:energyAboveTheTopHill>
   </me:modelParameters>
   <me:control>
     <me:testDOS />
     <me:testMicroRates />
     <me:printGrainDOS />
-    <!--<me:printCellDOS />-->
-    <!--<me:printReactionOperatorColumnSums />-->
     <me:printGrainkfE />
     <me:printGrainkbE />
     <me:printSpeciesProfile />

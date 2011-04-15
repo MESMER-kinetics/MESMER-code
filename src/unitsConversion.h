@@ -23,6 +23,13 @@ namespace mesmer
 
   double atomMass(std::string symb);
 
+  enum Precision {
+    DOUBLE,
+    DOUBLE_DOUBLE,
+    QUAD_DOUBLE,
+    UNDEFINED_PRECISION
+  } ;
+
   struct conditionSet{
   public:
 
@@ -52,13 +59,13 @@ namespace mesmer
   class CandTpair{
   public:
 
-    CandTpair(double cp_, double t_): concentration(cp_), temperature(t_), precision(0){}
-    CandTpair(double cp_, double t_, int _pre): concentration(cp_), temperature(t_), precision(_pre){}
+	CandTpair(double cp_, double t_): concentration(cp_), temperature(t_), precision(DOUBLE){}
+    CandTpair(double cp_, double t_, Precision _pre): concentration(cp_), temperature(t_), precision(_pre){}
 
     // Accessors
-    const double get_concentration(){ return concentration; }
-    const double get_temperature()  { return temperature;   }
-    const int    get_precision()    { return precision;     }
+    const double    get_concentration(){ return concentration; }
+    const double    get_temperature()  { return temperature;   }
+    const Precision get_precision()    { return precision;     }
 
     void set_experimentalRate(string ref1, string ref2, string refReaction, double value, double error){
       conditionSet tCS(ref1, ref2, refReaction, value, error);
@@ -71,9 +78,9 @@ namespace mesmer
 
   private:
 
-    double  concentration; // particles per cubic centimeter
-    double  temperature; // Kelvin
-    int     precision;
+    double    concentration; // particles per cubic centimeter
+    double    temperature; // Kelvin
+    Precision precision;
 
     vector<conditionSet> rates;
     vector<conditionSet> yields;

@@ -1,4 +1,9 @@
 
+2011-April-15 Struan Robertson
+
+	* CollisionOperator.cpp/.h,System.cpp/.h: Introduced precision enum for clarity.
+	* MesmerQA/HSO2: Baseline updated to test all precisions.
+
 2011-March-26 Struan Robertson
 
 	* CollisionOperator.cpp/.h: Minor refactoring.
