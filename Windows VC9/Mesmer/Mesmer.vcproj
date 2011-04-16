@@ -341,6 +341,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\plugins\WKBTunnellingCoefficients.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\XMLPersist.cpp"
 				>
 			</File>

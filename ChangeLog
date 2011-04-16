@@ -1,4 +1,12 @@
+
+2011-April-16 Struan Robertson
+
+	* WKBTunnellingCoefficients.cpp: Initial revision of WKB tunnelling method (checked 
+	in on behalf of Robin Shannon).
+	* Examples/Tunnelling: WKB tunnelling test and baseline.
+
 2011-April-16 Chris Morley
+
 	* mesmer1.xsl, punch.xsl: added loss rates to 'punch' output, as requested
 	by Robin.
 

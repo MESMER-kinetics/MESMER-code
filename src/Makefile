@@ -161,7 +161,7 @@ SRCS := \
 	System.cpp \
 	TimeCounter.cpp \
 	unitsConversion.cpp \
-        vector3.cpp \
+  vector3.cpp \
 	XMLPersist.cpp \
 	plugins/BoltzmannDistribution.cpp	\
 	plugins/ClassicalRotor.cpp \
@@ -178,7 +178,8 @@ SRCS := \
 	plugins/simplecalc.cpp \
 	plugins/SimpleILT.cpp \
 	plugins/SimpleRRKM.cpp \
-	plugins/WKBCrossingCoeff.cpp 
+	plugins/WKBCrossingCoeff.cpp \
+	plugins/WKBTunnellingCoefficients.cpp 
 
 # Add on the sources for libraries
 SRCS := ${SRCS}
