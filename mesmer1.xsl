@@ -514,6 +514,9 @@
     <xsl:for-each select="//me:analysis[1]/me:rateList[1]/me:firstOrderRate">
       <xsl:value-of select="concat(@fromRef,'->',@toRef,',')"/>
     </xsl:for-each>
+    <xsl:for-each select="//me:analysis[1]/me:rateList[1]/me:firstOrderLoss">
+      <xsl:value-of select="concat('Loss of ',@ref,',')"/>
+    </xsl:for-each>
   </xsl:template>
   
   <xsl:template name="punchoutput">
@@ -524,6 +527,9 @@
       </xsl:for-each>
       <xsl:value-of select="concat(@T,',',@conc,',')"/>
       <xsl:for-each select="me:firstOrderRate">
+        <xsl:value-of select="concat(.,',')"/>
+      </xsl:for-each>
+      <xsl:for-each select="me:firstOrderLoss">
         <xsl:value-of select="concat(.,',')"/>
       </xsl:for-each>
     </xsl:for-each>
