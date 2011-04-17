@@ -1,6 +1,11 @@
 
 2011-April-17 Struan Robertson
 
+	* MolecularComponents.h/.cpp: Transition state imaginary frequencies are now
+	of type Rdouble to allow for fitting.
+
+2011-April-17 Struan Robertson
+
 	* WKBTunnellingCoefficients.cpp: Refactoring of WKB tunnelling method.
 
 2011-April-16 Struan Robertson

@@ -162,7 +162,7 @@ namespace mesmer
     int  get_rotConsts(std::vector<double> &mmtsInt);
     void get_VibFreq(std::vector<double>& vibFreq);
     bool removeVibFreq(double freq); 
-    
+
     // Returns the number of internal degrees of freedom. 
     // (Assumes the each extra DOS calculator contributes one degrees of freedom.)
     size_t get_nInternalDegreesOfFreedom() { return m_VibFreq.size() + m_ExtraDOSCalculators.size() ; }
@@ -215,7 +215,7 @@ namespace mesmer
     //-------------------------------------------------------------------------------------------------
 
   private:
-    double m_ImFreq;            // Imaginary frequency of this barrier (For tunneling in QM calculations)
+    Rdouble m_ImFreq;            // Imaginary frequency of this barrier (For tunneling in QM calculations)
     //================================================
     // CHECK FOR INPUTFILE PARAMETERS
     int m_ImFreq_chk;
@@ -229,6 +229,11 @@ namespace mesmer
     virtual ~gTransitionState();
 
     double get_ImFreq();
+    void set_imFreq(const double value){ m_ImFreq = value; m_ImFreq_chk = 0;};
+    void set_imFreq(const double valueL, const double valueU, const double stepsize){
+      m_ImFreq.set_range(valueL, valueU, stepsize, "imFreqs");
+      m_ImFreq_chk = 0;
+    }
 
   };
 
@@ -409,8 +414,8 @@ namespace mesmer
 
     //Calculates moment of inertia of a set of atoms about an axis define by at1 and at2
     double CalcMomentAboutAxis(std::vector<std::string> atomset,
-                               OpenBabel::vector3 at1, OpenBabel::vector3 at2);
-    
+      OpenBabel::vector3 at1, OpenBabel::vector3 at2);
+
     // Read librarymols.xml to obtain the ab initio energy and enthalpy at zero K
     // for an isolated atom of each atom type in the molecule.
     // Return the sums of (E - Hf0) over the molecule in kJ/mol.

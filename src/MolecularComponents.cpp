@@ -806,9 +806,28 @@ namespace mesmer
     }
     else {
       istringstream idata(txt); double x;
-      while (idata >> x) m_ImFreq = abs(x); // make sure this number is positive
-      hasImFreq = true;
-      m_ImFreq_chk = 0;
+      while (idata >> x) {
+        // make sure this number is positive
+        const char* pLowertxt = ppPropList->XmlReadPropertyAttribute("me:imFreqs", "lower", optional);
+        const char* pUppertxt = ppPropList->XmlReadPropertyAttribute("me:imFreqs", "upper", optional);
+        const char* pStepStxt = ppPropList->XmlReadPropertyAttribute("me:imFreqs", "stepsize", optional);
+
+        if (pLowertxt && pUppertxt){
+          double tempLV(0.0), tempUV(0.0), tempSS(0.0);
+          stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
+          s3 >> tempLV; s4 >> tempUV; s5 >> tempSS;
+
+          //Make an Rdouble
+          set_imFreq(tempLV, tempUV, tempSS);
+          //Save PersistPtr of the XML source of this Rdouble
+          RangeXmlPtrs.push_back(ppPropList->XmlMoveToProperty("me:imFreqs"));
+          set_imFreq(tempLV);
+        } else {
+          set_imFreq(x);
+        }
+        m_ImFreq_chk = 0;
+        
+      }
     }
   }
 
