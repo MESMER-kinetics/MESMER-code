@@ -1,4 +1,8 @@
 
+2011-April-17 Struan Robertson
+
+	* WKBTunnellingCoefficients.cpp: Refactoring of WKB tunnelling method.
+
 2011-April-16 Struan Robertson
 
 	* WKBTunnellingCoefficients.cpp: Initial revision of WKB tunnelling method (checked 
