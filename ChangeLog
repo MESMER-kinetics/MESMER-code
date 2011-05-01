@@ -1,4 +1,9 @@
 
+
+2011-May-1 Struan Robertson
+
+	* MESMER manual.doc: Added text on WKB tunnelling.
+
 2011-April-17 Struan Robertson
 
 	* MolecularComponents.h/.cpp: Transition state imaginary frequencies are now
