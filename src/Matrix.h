@@ -49,8 +49,8 @@ namespace mesmer
     // Operators
 
     Matrix& operator=(const Matrix& rhs) ;
-    T* operator[](const size_t i) { return m_matrix[i] ; }
-    const T* operator[](const size_t i) const { return m_matrix[i] ; }
+    inline T* operator[](const size_t i) { return m_matrix[i] ; }
+    inline const T* operator[](const size_t i) const { return m_matrix[i] ; }
 
     // Accessors
 

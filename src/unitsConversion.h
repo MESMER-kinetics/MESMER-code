@@ -34,16 +34,16 @@ namespace mesmer
   public:
 
     conditionSet(string ref1, string ref2, string refReaction, double value, double error):
-      m_ref1(ref1), m_ref2(ref2), m_refReaction(refReaction), m_value(value), m_error(error)
-    {}
+        m_ref1(ref1), m_ref2(ref2), m_refReaction(refReaction), m_value(value), m_error(error)
+        {}
 
-    void get_conditionSet(string& ref1, string& ref2, string& refReaction, double& value, double& error) {
-      ref1        = m_ref1 ;
-      ref2        = m_ref2 ;
-      refReaction = m_refReaction ;
-      value       = m_value ;
-      error       = m_error ;
-    }
+        void get_conditionSet(string& ref1, string& ref2, string& refReaction, double& value, double& error) {
+          ref1        = m_ref1 ;
+          ref2        = m_ref2 ;
+          refReaction = m_refReaction ;
+          value       = m_value ;
+          error       = m_error ;
+        }
 
   private:
 
@@ -57,33 +57,44 @@ namespace mesmer
 
   // to make sure if there is a concentration or pressure definition, there is a temperature definition.
   class CandTpair{
+
   public:
 
-	CandTpair(double cp_, double t_): concentration(cp_), temperature(t_), precision(DOUBLE){}
-    CandTpair(double cp_, double t_, Precision _pre): concentration(cp_), temperature(t_), precision(_pre){}
+    CandTpair(double cp_, double t_): m_concentration(cp_), m_temperature(t_), m_precision(DOUBLE){}
+    CandTpair(double cp_, double t_, Precision _pre): m_concentration(cp_), m_temperature(t_), m_precision(_pre){}
 
     // Accessors
-    const double    get_concentration(){ return concentration; }
-    const double    get_temperature()  { return temperature;   }
-    const Precision get_precision()    { return precision;     }
+    const double    get_concentration(){ return m_concentration; }
+    const double    get_temperature()  { return m_temperature;   }
+    const Precision get_precision()    { return m_precision;     }
 
-    void set_experimentalRate(string ref1, string ref2, string refReaction, double value, double error){
-      conditionSet tCS(ref1, ref2, refReaction, value, error);
-      rates.push_back(tCS);
+    void set_experimentalRates(string ref1, string ref2, string refReaction, double value, double error){
+      m_rates.push_back(conditionSet(ref1, ref2, refReaction, value, error));
     }
 
-    void get_experimentalRates(std::vector<conditionSet>& rates_){
-      rates_ = rates;
+    void get_experimentalRates(std::vector<conditionSet>& rates){ rates = m_rates; }
+
+    void set_experimentalYields(string ref1, string ref2, double value, double error){
+      m_yields.push_back(conditionSet(ref1, ref2, string(""), value, error)) ;
     }
+
+    void get_experimentalYields(std::vector<conditionSet>& yields){ yields = m_yields ; }
+
+    void set_experimentalEigenvalues(string ref1, string ref2, double value, double error){
+      m_eigenvalues.push_back(conditionSet(ref1, ref2, string(""), value, error)) ;
+    }
+
+    void get_experimentalEigenvalues(std::vector<conditionSet>& eigenvalues){ eigenvalues = m_eigenvalues ; }
 
   private:
 
-    double    concentration; // particles per cubic centimeter
-    double    temperature; // Kelvin
-    Precision precision;
+    double    m_concentration; // particles per cubic centimeter
+    double    m_temperature; // Kelvin
+    Precision m_precision;
 
-    vector<conditionSet> rates;
-    vector<conditionSet> yields;
+    vector<conditionSet> m_rates;
+    vector<conditionSet> m_yields;
+    vector<conditionSet> m_eigenvalues;
   };
 
   // mapping the conversion of concentration, pressure

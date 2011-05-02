@@ -90,3 +90,83 @@ i-propyl -> propene+H = 4.581456e+01
 }
 
 }
+PT Grid 1 Condition: conc = 3.01e+017, temp = 730, diagonalization precision: double
+{
+
+Canonical rate coefficients for R1, calculated from microcanonical rates
+{
+    100   1.72112e-071
+    200   4.63862e-029
+    300   6.67974e-015
+    400   8.07441e-008
+    500     0.00141573
+    600        0.89783
+    700        80.1173
+    800        2006.45
+}
+
+Eq fraction matrix:
+{
+            1
+}
+inverse of Eq fraction matrix:
+{
+            1
+}
+Equilibrium Fraction for i-propyl = 1
+
+Total number of eigenvalues = 186
+Eigenvalues
+{
+ -6.474110e+006
+ -4.388167e+006
+ -2.750177e+006
+ -1.538235e+006
+ -6.240657e+001
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 1
+
+There should be 1 chemically significant eigenvalues (CSEs)
+Y_matrix:
+{
+        6.240624e+01
+}
+
+Z_matrix: {
+9.999947e-01	
+}
+
+Z_matrix^(-1):
+{
+1.000005e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	
+}
+
+Kr matrix:
+{
+-6.240657e+01	
+}
+
+Kp matrix:
+{
+        6.240657e+01
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+i-propyl loss = -6.240657e+01
+}
+
+First order & pseudo first order rate coefficients for irreversible rxns:
+{
+i-propyl -> propene+H = 6.240657e+01
+}
+
+}

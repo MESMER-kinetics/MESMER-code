@@ -1,4 +1,8 @@
 
+2011-May-2 Struan Robertson
+
+	* System.cpp,unitsConversion.h: Initial changes toward an extended Chi^2
+	definition.
 
 2011-May-1 Struan Robertson
 

@@ -24,31 +24,26 @@ In R1: No crossing method was found for R1
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
 3e+017PPCC, 720K at double precision
-Write metadata
+The default value of me:precision was used.
+3.01e+017PPCC, 730K at double precision
+Write metadata 20110502_195245
 
 File: "ipropyl_test.xml" successfully parsed.
 Calculate EGME
-PT Grid 0
-Cell number = 18600, Grain number = 186
 Rotational constants were not defined but requested.
 Number of grains produced is not equal to that requested
 Number of grains requested: 186
-Number of grains produced : 0
+Number of grains produced : 1
 
 140 values in the FFT convolution routine were replaced by standard convolution
 Unimolecular ILT calculation completed
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-In mesmer::System::timeEvolution: No population was assigned, and there is no source term.
-In mesmer::System::timeEvolution: Initialize a Boltzmann distribution in the first isomer.
+In mesmer::CollisionOperator::timeEvolution: No population was assigned, and there is no source term.
+In mesmer::CollisionOperator::timeEvolution: Initialize a Boltzmann distribution in the first isomer.
 
-    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+140 values in the FFT convolution routine were replaced by standard convolution
+Unimolecular ILT calculation completed
 
-            720         3e+017           41.5        45.8146
-
-
-1 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 1 seconds.
- -- Total time elapsed: 1 seconds.
+Finish Calculation -- Time elapsed: 0 seconds.
+ -- Total time elapsed: 3 seconds.
 
 System saved to out.xml
