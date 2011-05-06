@@ -72,19 +72,19 @@ namespace mesmer
       m_rates.push_back(conditionSet(ref1, ref2, refReaction, value, error));
     }
 
-    void get_experimentalRates(std::vector<conditionSet>& rates){ rates = m_rates; }
+    void get_experimentalRates(std::vector<conditionSet>& rates) const { rates = m_rates; }
 
     void set_experimentalYields(string ref1, string ref2, double value, double error){
       m_yields.push_back(conditionSet(ref1, ref2, string(""), value, error)) ;
     }
 
-    void get_experimentalYields(std::vector<conditionSet>& yields){ yields = m_yields ; }
+    void get_experimentalYields(std::vector<conditionSet>& yields) const { yields = m_yields ; }
 
     void set_experimentalEigenvalues(string ref1, string ref2, double value, double error){
       m_eigenvalues.push_back(conditionSet(ref1, ref2, string(""), value, error)) ;
     }
 
-    void get_experimentalEigenvalues(std::vector<conditionSet>& eigenvalues){ eigenvalues = m_eigenvalues ; }
+    void get_experimentalEigenvalues(std::vector<conditionSet>& eigenvalues) const { eigenvalues = m_eigenvalues ; }
 
   private:
 

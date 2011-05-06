@@ -76,7 +76,9 @@ namespace mesmer
       PersistPtr            ppbase,
       bool                  MustBeThere=true);
 
-    double calcChiSquare(const qdMatrix& mesmerRates, vector<conditionSet>& expRates, stringstream &rateCoeffTable) ;
+    double calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const CandTpair& expData, stringstream &rateCoeffTable) ;
+    double calcChiSqYields(const CandTpair& expData,  stringstream &rateCoeffTable);
+    double calcChiSqEigenvalues(const CandTpair& expData,  stringstream &rateCoeffTable);
 
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;
