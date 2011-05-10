@@ -387,7 +387,7 @@ namespace mesmer
 	  // Can specify abbreviation
 	  if (txt){
 		string strPrcsn(txt) ;
-		if      (strPrcsn == "1d" || strPrcsn == "double")  
+		if      (strPrcsn == "1d" || strPrcsn == "d"  || strPrcsn == "double")  
 		  this_precision = DOUBLE ;
 		else if (strPrcsn == "2d" || strPrcsn == "dd" || strPrcsn == "double-double") 
 		  this_precision = DOUBLE_DOUBLE ;
@@ -443,16 +443,12 @@ namespace mesmer
 	  ppExpRate = ppPTpair->XmlMoveTo("me:experimentalEigenvalue");
 	  while (ppExpRate){
 		double eigenValue(0.0), errorValue(0.0); 
-		string ref1, ref2 ;
 		txt = ppExpRate->XmlRead();
 		stringstream s1(txt); s1 >> eigenValue;
-		txt = ppExpRate->XmlReadValue("ref1");
-		stringstream s2(txt); s2 >> ref1;
-		txt = ppExpRate->XmlReadValue("ref2");
-		stringstream s3(txt); s3 >> ref2;
+		string EigenvalueID(ppExpRate->XmlReadValue("EigenvalueID")) ;
 		txt = ppExpRate->XmlReadValue("error");
 		stringstream s4(txt); s4 >> errorValue;
-		thisPair.set_experimentalEigenvalues(ref1, ref2, eigenValue, errorValue);
+		thisPair.set_experimentalEigenvalues(EigenvalueID, eigenValue, errorValue);
 		ppExpRate = ppExpRate->XmlMoveTo("me:experimentalEigenvalue");
 	  }
 
@@ -624,13 +620,13 @@ namespace mesmer
 	vector<conditionSet> expRates;
 	expData.get_experimentalRates(expRates);
 	for (size_t i(0); i < expRates.size(); ++i){
+
 	  string ref1, ref2, refReaction; 
 	  double expRate(0.0), expErr(0.0); 
-	  int seqMatrixLoc1(-1), seqMatrixLoc2(-1);
-
 	  expRates[i].get_conditionSet(ref1, ref2, refReaction, expRate, expErr);
 
 	  // Get the position of ref1 and ref2 inside m_SpeciesSequence vector
+	  int seqMatrixLoc1(-1), seqMatrixLoc2(-1);
 	  seqMatrixLoc1 = m_collisionOperator.getSpeciesSequenceIndex(ref1);
 	  seqMatrixLoc2 = m_collisionOperator.getSpeciesSequenceIndex(ref2);
 
@@ -676,7 +672,20 @@ namespace mesmer
 	vector<conditionSet> expYields;
 	expData.get_experimentalRates(expYields);
 	for (size_t i(0); i < expYields.size(); ++i){
+
+	  string ref1, ref2, refReaction; 
+	  double expYield(0.0), expErr(0.0); 
+	  expYields[i].get_conditionSet(ref1, ref2, refReaction, expYield, expErr);
+
+	  double yield(0.0) ; // = fabs(to_double(mesmerRates[seqMatrixLoc1][seqMatrixLoc1])) / fabs(to_double(mesmerRates[seqMatrixLoc2][seqMatrixLoc1])) ;
+
+	  double diff = yield - expYield ;
+	  chiSquare += (diff * diff) / (expErr * expErr);
+
+	  rateCoeffTable << formatFloat(expYield, 6, 15) << formatFloat(yield, 6, 15) << endl ;
+
 	}
+
 	return chiSquare;
   }
 
@@ -687,6 +696,27 @@ namespace mesmer
 	vector<conditionSet> expEigenvalues;
 	expData.get_experimentalEigenvalues(expEigenvalues);
 	for (size_t i(0); i < expEigenvalues.size(); ++i){
+
+	  string ref1, ref2, strIdEigenvalue; 
+	  double expEigenvalue(0.0), expErr(0.0); 
+	  expEigenvalues[i].get_conditionSet(ref1, ref2, strIdEigenvalue, expEigenvalue, expErr);
+
+	  size_t idEigenvalue ;
+	  stringstream s1(strIdEigenvalue); s1 >> idEigenvalue ;
+
+	  double eigenvalue(0.0) ;
+	  try {
+		eigenvalue = m_collisionOperator.getEigenvalue(idEigenvalue) ;
+	  } catch (std::runtime_error& e) {
+		cerr << e.what() << endl ;
+		continue ;
+	  }
+
+	  double diff = eigenvalue - expEigenvalue ;
+	  chiSquare += (diff * diff) / (expErr * expErr);
+
+	  rateCoeffTable << formatFloat(expEigenvalue, 6, 15) << formatFloat(eigenvalue, 6, 15) << endl ;
+
 	}
 
 	return chiSquare;

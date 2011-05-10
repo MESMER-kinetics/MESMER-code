@@ -80,8 +80,8 @@ namespace mesmer
 
     void get_experimentalYields(std::vector<conditionSet>& yields) const { yields = m_yields ; }
 
-    void set_experimentalEigenvalues(string ref1, string ref2, double value, double error){
-      m_eigenvalues.push_back(conditionSet(ref1, ref2, string(""), value, error)) ;
+    void set_experimentalEigenvalues(string eigenvalueID, double value, double error){
+      m_eigenvalues.push_back(conditionSet(string(""), string(""), eigenvalueID, value, error)) ;
     }
 
     void get_experimentalEigenvalues(std::vector<conditionSet>& eigenvalues) const { eigenvalues = m_eigenvalues ; }

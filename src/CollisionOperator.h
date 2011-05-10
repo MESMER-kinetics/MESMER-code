@@ -55,6 +55,9 @@ namespace mesmer
 
     int getSpeciesSequenceIndex(const std::string ref);
 
+	// Accessor to get specified eigenvalue.
+	double getEigenvalue(size_t idEigenvalue) const ;
+
     // This method locates all sinks and determines their location in the relevant
     // isomer or source map. 
     void locateSinks() ;

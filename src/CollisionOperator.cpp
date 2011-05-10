@@ -562,41 +562,41 @@ namespace mesmer
     //-------------------------------------------------------------
     // diagonalize the whole matrix
     switch (precision){
-	case DOUBLE: 
-	  {
-		dMatrix dDiagM(smsize);
-		for ( size_t i = 0 ; i < smsize ; ++i )
-		  for ( size_t j = 0 ; j < smsize ; ++j )
-			dDiagM[i][j] = to_double((*m_reactionOperator)[i][j]) ;
-		vector<double>  dEigenValue(smsize, 0.0);
-		dDiagM.diagonalize(&dEigenValue[0]) ;
-		for ( size_t i = 0 ; i < smsize ; ++i )
-		  m_eigenvalues[i] = dEigenValue[i];
-		for ( size_t i = 0 ; i < smsize ; ++i )
-		  for ( size_t j = 0 ; j < smsize ; ++j )
-			(*m_eigenvectors)[i][j] = dDiagM[i][j] ;
-		break;
-	  }
-	case DOUBLE_DOUBLE: 
-	  {
-		ddMatrix ddDiagM(smsize);
-		for ( size_t i = 0 ; i < smsize ; ++i )
-		  for ( size_t j = 0 ; j < smsize ; ++j )
-			ddDiagM[i][j] = to_dd_real((*m_reactionOperator)[i][j]) ;
-		vector<dd_real> ddEigenValue(smsize, 0.0);
-		ddDiagM.diagonalize(&ddEigenValue[0]) ;
-		for ( size_t i = 0 ; i < smsize ; ++i )
-		  m_eigenvalues[i] = ddEigenValue[i];
-		for ( size_t i = 0 ; i < smsize ; ++i )
-		  for ( size_t j = 0 ; j < smsize ; ++j )
-			(*m_eigenvectors)[i][j] = ddDiagM[i][j] ;
-		break;
-	  }
-	default: // diagonalize in quad double
-	  {
-		(*m_eigenvectors) = (*m_reactionOperator) ;
-		m_eigenvectors->diagonalize(&m_eigenvalues[0]) ;
-	  }
+    case DOUBLE: 
+      {
+        dMatrix dDiagM(smsize);
+        for ( size_t i = 0 ; i < smsize ; ++i )
+          for ( size_t j = 0 ; j < smsize ; ++j )
+            dDiagM[i][j] = to_double((*m_reactionOperator)[i][j]) ;
+        vector<double>  dEigenValue(smsize, 0.0);
+        dDiagM.diagonalize(&dEigenValue[0]) ;
+        for ( size_t i = 0 ; i < smsize ; ++i )
+          m_eigenvalues[i] = dEigenValue[i];
+        for ( size_t i = 0 ; i < smsize ; ++i )
+          for ( size_t j = 0 ; j < smsize ; ++j )
+            (*m_eigenvectors)[i][j] = dDiagM[i][j] ;
+        break;
+      }
+    case DOUBLE_DOUBLE: 
+      {
+        ddMatrix ddDiagM(smsize);
+        for ( size_t i = 0 ; i < smsize ; ++i )
+          for ( size_t j = 0 ; j < smsize ; ++j )
+            ddDiagM[i][j] = to_dd_real((*m_reactionOperator)[i][j]) ;
+        vector<dd_real> ddEigenValue(smsize, 0.0);
+        ddDiagM.diagonalize(&ddEigenValue[0]) ;
+        for ( size_t i = 0 ; i < smsize ; ++i )
+          m_eigenvalues[i] = ddEigenValue[i];
+        for ( size_t i = 0 ; i < smsize ; ++i )
+          for ( size_t j = 0 ; j < smsize ; ++j )
+            (*m_eigenvectors)[i][j] = ddDiagM[i][j] ;
+        break;
+      }
+    default: // diagonalize in quad double
+      {
+        (*m_eigenvectors) = (*m_reactionOperator) ;
+        m_eigenvectors->diagonalize(&m_eigenvalues[0]) ;
+      }
 
     }
     // diagonalize the whole matrix
@@ -1654,5 +1654,15 @@ namespace mesmer
 
   }
 
+  // Accessor to get specified eigenvalue.
+  double CollisionOperator::getEigenvalue(size_t idEigenvalue) const {
+
+    // Check id is sensible.
+    if (idEigenvalue > m_eigenvalues.size()) {
+      throw std::runtime_error("Eigenvalue ID greater than collision operator size.");
+    }
+
+    return -m_meanOmega*to_double(m_eigenvalues[m_eigenvalues.size()-idEigenvalue]) ;
+  }
 
 }  //namespace
