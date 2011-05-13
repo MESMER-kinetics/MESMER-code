@@ -405,19 +405,16 @@ namespace mesmer
 	  PersistPtr ppExpRate = ppPTpair->XmlMoveTo("me:experimentalRate");
 	  while (ppExpRate){
 		double rateValue(0.0), errorValue(0.0); 
-		string ref1, ref2, refReaction;
+		string refReaction;
 		txt = ppExpRate->XmlRead();
 		stringstream s1(txt); s1 >> rateValue;
-		txt = ppExpRate->XmlReadValue("ref1");
-		stringstream s2(txt); s2 >> ref1;
-		txt = ppExpRate->XmlReadValue("ref2");
-		stringstream s3(txt); s3 >> ref2;
+		string ref1(ppExpRate->XmlReadValue("ref1")) ;
+		string ref2(ppExpRate->XmlReadValue("ref2")) ;
 		txt = ppExpRate->XmlReadValue("refReaction", false);
 		if (txt) {
 		  stringstream s3(txt); s3 >> refReaction ;
 		}
-		txt = ppExpRate->XmlReadValue("error");
-		stringstream s4(txt); s4 >> errorValue;
+		stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
 		thisPair.set_experimentalRates(ref1, ref2, refReaction, rateValue, errorValue);
 		ppExpRate = ppExpRate->XmlMoveTo("me:experimentalRate");
 	  }
@@ -426,13 +423,10 @@ namespace mesmer
 	  ppExpRate = ppPTpair->XmlMoveTo("me:experimentalYield");
 	  while (ppExpRate){
 		double yield(0.0), errorValue(0.0); 
-		string ref1, ref2 ;
 		txt = ppExpRate->XmlRead();
 		stringstream s1(txt); s1 >> yield;
-		txt = ppExpRate->XmlReadValue("ref1");
-		stringstream s2(txt); s2 >> ref1;
-		txt = ppExpRate->XmlReadValue("ref2");
-		stringstream s3(txt); s3 >> ref2;
+		string ref1(ppExpRate->XmlReadValue("ref1")) ;
+		string ref2(ppExpRate->XmlReadValue("ref2")) ;
 		txt = ppExpRate->XmlReadValue("error");
 		stringstream s4(txt); s4 >> errorValue;
 		thisPair.set_experimentalYields(ref1, ref2, yield, errorValue);
@@ -446,8 +440,7 @@ namespace mesmer
 		txt = ppExpRate->XmlRead();
 		stringstream s1(txt); s1 >> eigenValue;
 		string EigenvalueID(ppExpRate->XmlReadValue("EigenvalueID")) ;
-		txt = ppExpRate->XmlReadValue("error");
-		stringstream s4(txt); s4 >> errorValue;
+		stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
 		thisPair.set_experimentalEigenvalues(EigenvalueID, eigenValue, errorValue);
 		ppExpRate = ppExpRate->XmlMoveTo("me:experimentalEigenvalue");
 	  }
@@ -670,7 +663,7 @@ namespace mesmer
 	double chiSquare(0.0) ;
 
 	vector<conditionSet> expYields;
-	expData.get_experimentalRates(expYields);
+	expData.get_experimentalYields(expYields);
 	for (size_t i(0); i < expYields.size(); ++i){
 
 	  string ref1, ref2, refReaction; 

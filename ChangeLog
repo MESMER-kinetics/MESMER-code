@@ -1,4 +1,10 @@
 
+
+2011-May-13 Struan Robertson
+
+	* System.cpp: Minor change relating to addition of expt. 
+	eigenvalues to the Chi^2 definition.
+
 2011-May-10 Struan Robertson
 
 	* System.cpp,unitsConversion.h,CollisionOperator.h/.cpp: Addition of expt. 
