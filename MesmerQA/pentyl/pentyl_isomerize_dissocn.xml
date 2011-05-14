@@ -11,6 +11,17 @@
         <atom id="a3" elementType="C"/>
         <atom id="a4" elementType="C"/>
         <atom id="a5" elementType="C"/>
+        <atom id="a6" elementType="H"/>
+        <atom id="a7" elementType="H"/>
+        <atom id="a8" elementType="H"/>
+        <atom id="a9" elementType="H"/>
+        <atom id="a10" elementType="H"/>
+        <atom id="a11" elementType="H"/>
+        <atom id="a12" elementType="H"/>
+        <atom id="a13" elementType="H"/>
+        <atom id="a14" elementType="H"/>
+        <atom id="a15" elementType="H"/>
+        <atom id="a16" elementType="H"/>
       </atomArray>
       <bondArray>
         <bond atomRefs2="a1 a2" order="1"/>
@@ -62,6 +73,17 @@
         <atom id="a3" elementType="C"/>
         <atom id="a4" elementType="C"/>
         <atom id="a5" elementType="C"/>
+        <atom id="a6" elementType="H"/>
+        <atom id="a7" elementType="H"/>
+        <atom id="a8" elementType="H"/>
+        <atom id="a9" elementType="H"/>
+        <atom id="a10" elementType="H"/>
+        <atom id="a11" elementType="H"/>
+        <atom id="a12" elementType="H"/>
+        <atom id="a13" elementType="H"/>
+        <atom id="a14" elementType="H"/>
+        <atom id="a15" elementType="H"/>
+        <atom id="a16" elementType="H"/>
       </atomArray>
       <bondArray>
         <bond atomRefs2="a1 a2" order="1"/>
@@ -153,6 +175,17 @@
         <atom id="a3" elementType="C"/>
         <atom id="a4" elementType="C"/>
         <atom id="a5" elementType="C"/>
+        <atom id="a6" elementType="H"/>
+        <atom id="a7" elementType="H"/>
+        <atom id="a8" elementType="H"/>
+        <atom id="a9" elementType="H"/>
+        <atom id="a10" elementType="H"/>
+        <atom id="a11" elementType="H"/>
+        <atom id="a12" elementType="H"/>
+        <atom id="a13" elementType="H"/>
+        <atom id="a14" elementType="H"/>
+        <atom id="a15" elementType="H"/>
+        <atom id="a16" elementType="H"/>
       </atomArray>
       <bondArray>
         <bond atomRefs2="a1 a2" order="1"/>
@@ -241,7 +274,7 @@
     
     <reaction id="R2">
       <reactant>
-        <molecule ref="n-pentyl" />
+        <molecule ref="n-pentyl" me:type="modelled" />
       </reactant>
       <product>
         <molecule ref="dummy2" me:type="sink"/>
@@ -253,7 +286,7 @@
 
     <reaction id="R3">
       <reactant>
-        <molecule ref="2-pentyl" />
+        <molecule ref="2-pentyl" me:type="modelled" />
       </reactant>
       <product>
         <molecule ref="dummy3" me:type="sink"/>
@@ -268,8 +301,10 @@
   <me:conditions>
     <me:bathGas>Ar</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="PPCC" me:P="1.0e8" me:T="500" />
-    </me:PTs>
+      <me:PTpair me:units="Torr" me:P="10" me:T="800" me:precision="dd">
+		<me:experimentalYield ref="dummy2" error="0.01">0.1</me:experimentalYield>
+	  </me:PTpair>
+	</me:PTs>
   </me:conditions>
 
   <me:modelParameters>
@@ -281,15 +316,15 @@
 
   <me:control>
     <me:testDOS />
-    <me:testMicroRates />
+    <!--<me:testMicroRates />
     <me:printGrainDOS />
-    <!--<me:printCellDOS />-->
-    <!--<me:printReactionOperatorColumnSums />-->
-    <me:printGrainkfE />
-    <!--<me:printGrainBoltzmann />-->
-    <me:printGrainkbE />
+    <me:printCellDOS />
+    <me:printReactionOperatorColumnSums />
+	<me:printGrainkfE />
+    <me:printGrainBoltzmann />
+	<me:printGrainkbE />-->
     <me:printSpeciesProfile />
-    <me:eigenvalues>0</me:eigenvalues>
+    <me:eigenvalues>5</me:eigenvalues>
   </me:control>
 
 </me:mesmer>

@@ -1,3 +1,9 @@
+
+2011-May-14 Struan Robertson
+
+	* System.cpp,CollisionOperator.h/.cpp: Addition of expt. yields to
+	the Chi^2 definition.
+
 2011-May-14 Chris Morley
 
 	* src/plugins/fitting.cpp: add Chi^2 to XML file	

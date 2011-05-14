@@ -19,6 +19,8 @@
 namespace mesmer
 {
 
+  typedef std::map<Reaction* , double, Reaction::ReactionPtrLess> YieldMap ;
+
   class CollisionOperator
   {
   public:
@@ -62,6 +64,9 @@ namespace mesmer
     // isomer or source map. 
     void locateSinks() ;
 
+	// Calculate Yields
+	void calculateYields (YieldMap &yieldMap) const ;
+
   private:
 
     // Sets grain parameters and determines system environment.
@@ -79,7 +84,7 @@ namespace mesmer
 
     bool produceEquilibriumVector();
 
-    bool produceInitialPopulationVector(vector<double>& initDist);
+    bool produceInitialPopulationVector(vector<double>& initDist) const ;
 
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;

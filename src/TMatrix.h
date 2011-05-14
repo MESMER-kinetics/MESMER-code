@@ -158,9 +158,33 @@ namespace mesmer
       }
     }  
 
-    return result ;
+    return result ; // Note result goes via the stack!
 
   }
+
+  // Matrix vector mutiplication operator.
+  template<class T>
+  void operator*=(vector<T>& rhs, const TMatrix<T>& lhs) {
+
+    size_t msize = lhs.size() ;
+    if (rhs.size() != msize) {
+      // Throw error.
+    }
+
+    vector<T> result(msize) ;
+
+    for (size_t j(0) ; j < msize ; j++) {
+      T sm(0.0) ;
+      for (size_t k(0) ; k < msize ; k++) {
+        sm += lhs[j][k]*rhs[k] ;
+      }
+      result[j] = sm ;
+    }
+
+    rhs = result ; 
+
+  }
+
 
   //-------------------------------------------------------------------------------------------
   // EISPACK tred2 function.
