@@ -428,7 +428,7 @@ namespace mesmer
         string ref(ppExpRate->XmlReadValue("ref")) ;
         txt = ppExpRate->XmlReadValue("error");
         stringstream s4(txt); s4 >> errorValue;
-		thisPair.set_experimentalYields(ppExpRate, ref1, ref2, yield, errorValue);
+		thisPair.set_experimentalYields(ppExpRate, ref, yield, errorValue);
         ppExpRate = ppExpRate->XmlMoveTo("me:experimentalYield");
       }
 
