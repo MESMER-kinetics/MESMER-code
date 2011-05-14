@@ -415,7 +415,7 @@ namespace mesmer
 		  stringstream s3(txt); s3 >> refReaction ;
 		}
 		stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
-		thisPair.set_experimentalRates(ref1, ref2, refReaction, rateValue, errorValue);
+		thisPair.set_experimentalRates(ppExpRate, ref1, ref2, refReaction, rateValue, errorValue);
 		ppExpRate = ppExpRate->XmlMoveTo("me:experimentalRate");
 	  }
 
@@ -429,7 +429,7 @@ namespace mesmer
 		string ref2(ppExpRate->XmlReadValue("ref2")) ;
 		txt = ppExpRate->XmlReadValue("error");
 		stringstream s4(txt); s4 >> errorValue;
-		thisPair.set_experimentalYields(ref1, ref2, yield, errorValue);
+		thisPair.set_experimentalYields(ppExpRate, ref1, ref2, yield, errorValue);
 		ppExpRate = ppExpRate->XmlMoveTo("me:experimentalYield");
 	  }
 
@@ -441,7 +441,7 @@ namespace mesmer
 		stringstream s1(txt); s1 >> eigenValue;
 		string EigenvalueID(ppExpRate->XmlReadValue("EigenvalueID")) ;
 		stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
-		thisPair.set_experimentalEigenvalues(EigenvalueID, eigenValue, errorValue);
+		thisPair.set_experimentalEigenvalues(ppExpRate, EigenvalueID, eigenValue, errorValue);
 		ppExpRate = ppExpRate->XmlMoveTo("me:experimentalEigenvalue");
 	  }
 
@@ -653,6 +653,7 @@ namespace mesmer
 	  chiSquare += (diff * diff) / (expErr * expErr);
 
 	  rateCoeffTable << formatFloat(expRate, 6, 15) << formatFloat(rateCoeff, 6, 15) << endl ;
+    AddCalcValToXml(expData, i, rateCoeff);
 
 	}
 	return chiSquare;
@@ -676,7 +677,7 @@ namespace mesmer
 	  chiSquare += (diff * diff) / (expErr * expErr);
 
 	  rateCoeffTable << formatFloat(expYield, 6, 15) << formatFloat(yield, 6, 15) << endl ;
-
+    AddCalcValToXml(expData, i, yield);
 	}
 
 	return chiSquare;
@@ -709,10 +710,23 @@ namespace mesmer
 	  chiSquare += (diff * diff) / (expErr * expErr);
 
 	  rateCoeffTable << formatFloat(expEigenvalue, 6, 15) << formatFloat(eigenvalue, 6, 15) << endl ;
-
+    AddCalcValToXml(expData, i, eigenvalue);
 	}
 
 	return chiSquare;
+  }
+
+  void System::AddCalcValToXml(const CandTpair& expData, size_t i, double val) const
+  {
+    //Add extra attributes) containing calculated value and timestamp to <me:experimentalRate> (or similar element)
+    PersistPtr pp = expData.get_experimentalDataPtr(i);
+    TimeCount events;
+    string timeString;
+    pp->XmlWriteAttribute("calculated", events.setTimeStamp(timeString));
+    stringstream ss;
+    ss << val;
+    pp->XmlWriteAttribute("calcVal", ss.str());
+    double rval = pp->XmlReadDouble("calcVal",false);
   }
 
   bool System::ReadRange(const string& name, vector<double>& vals, PersistPtr ppbase, bool MustBeThere)

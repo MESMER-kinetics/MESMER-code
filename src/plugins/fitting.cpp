@@ -223,6 +223,9 @@ namespace mesmer
       TimeCount events;
       std::string timeString;
       RangeXmlPtrs[i]->XmlWriteAttribute("fitted", events.setTimeStamp(timeString));
+      stringstream cs;
+      cs << chiSquare;
+      RangeXmlPtrs[i]->XmlWriteAttribute("chiSquared", cs.str());
     }
 
     // Calculate model values with optimum parameters.

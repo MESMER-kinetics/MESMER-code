@@ -1,4 +1,11 @@
+2011-May-14 Chris Morley
 
+	* src/plugins/fitting.cpp: add Chi^2 to XML file	
+	* mesmer1.xsl: ...and to Firefox output
+	
+	* src/System.h, src/System.cpp, src/unitsConversion.h: when reading
+	<experimentalRates>,etc., save the PersistPointer and add the calculated
+	values as an attribute after fitting.
 
 2011-May-13 Struan Robertson
 

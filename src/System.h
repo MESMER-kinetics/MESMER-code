@@ -80,6 +80,9 @@ namespace mesmer
     double calcChiSqYields(const CandTpair& expData,  stringstream &rateCoeffTable);
     double calcChiSqEigenvalues(const CandTpair& expData,  stringstream &rateCoeffTable);
 
+    //Add extra attributes) containing calculated value and timestamp to <me:experimentalRate> (or similar element)
+    void AddCalcValToXml(const CandTpair& expData, size_t i, double val) const;
+
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;
 

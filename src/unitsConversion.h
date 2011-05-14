@@ -68,23 +68,28 @@ namespace mesmer
     const double    get_temperature()  { return m_temperature;   }
     const Precision get_precision()    { return m_precision;     }
 
-    void set_experimentalRates(string ref1, string ref2, string refReaction, double value, double error){
+    void set_experimentalRates(PersistPtr ppData, string ref1, string ref2, string refReaction, double value, double error){
       m_rates.push_back(conditionSet(ref1, ref2, refReaction, value, error));
+      m_expDataPtrs.push_back(ppData);
     }
 
     void get_experimentalRates(std::vector<conditionSet>& rates) const { rates = m_rates; }
 
-    void set_experimentalYields(string ref1, string ref2, double value, double error){
+    void set_experimentalYields(PersistPtr ppData, string ref1, string ref2, double value, double error){
       m_yields.push_back(conditionSet(ref1, ref2, string(""), value, error)) ;
+      m_expDataPtrs.push_back(ppData);
     }
 
     void get_experimentalYields(std::vector<conditionSet>& yields) const { yields = m_yields ; }
 
-    void set_experimentalEigenvalues(string eigenvalueID, double value, double error){
+    void set_experimentalEigenvalues(PersistPtr ppData, string eigenvalueID, double value, double error){
       m_eigenvalues.push_back(conditionSet(string(""), string(""), eigenvalueID, value, error)) ;
+      m_expDataPtrs.push_back(ppData);
     }
 
     void get_experimentalEigenvalues(std::vector<conditionSet>& eigenvalues) const { eigenvalues = m_eigenvalues ; }
+
+    PersistPtr get_experimentalDataPtr(size_t i) const { return m_expDataPtrs[i]; }
 
   private:
 
@@ -95,6 +100,7 @@ namespace mesmer
     vector<conditionSet> m_rates;
     vector<conditionSet> m_yields;
     vector<conditionSet> m_eigenvalues;
+    vector<PersistPtr> m_expDataPtrs;
   };
 
   // mapping the conversion of concentration, pressure

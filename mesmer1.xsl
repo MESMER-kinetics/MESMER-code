@@ -486,6 +486,7 @@
       </td>
       <td> <xsl:value-of select=".."/> </td>
       <td> <xsl:value-of select="../@units"/> </td>
+	  <td> <xsl:value-of select="concat('ChiSquared=',../@chiSquared)"/> </td>
       <td> <xsl:value-of select="concat('(fitted ', ., ')')"/></td>
     </tr>
   </xsl:template>
