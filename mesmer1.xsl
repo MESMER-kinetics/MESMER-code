@@ -71,6 +71,7 @@
           font-weight:bold;
           
         }
+		.warn{color:red;}
         .tablehead2{text-decoration:underline;padding-top:10px;}
         .tablehead3{font-weight:bold;padding-top:10px;text-align:center}
         .paramheader{
@@ -176,6 +177,9 @@
     <xsl:if test="//me:rateList">
       <h3 id="BWrates-title" class="handcursor">Bartis-Widom Phenomenological Rate Coefficients</h3>
       <div id="BWrates" class="switchgroup5">
+        <div class="warn">
+		  <xsl:value-of select="//me:rateList/me:warning"/>
+		</div>
         <hh5 id="Punchout-title" class="handcursor">Copy and paste for spreadsheets, etc.</hh5>
         <div id="Punchout" class="switchgroup8">
           <xsl:call-template name="punchheader"/>
@@ -207,7 +211,14 @@
         </table>
       </div>
     </xsl:if>
-      
+
+      <xsl:if test="//me:experimentalRate | //me:experimentalYield | //experimentalEigenvalue">
+      <h3 id="ExperimentalData-title" class="handcursor">Comparison with Experimental Data</h3>
+      <div id="ExperimentalData" class="switchgroup10">
+    <xsl:apply-templates select="//me:PTs"/>
+      </div>
+    </xsl:if>
+  
       <!--Show toggle for inactive display if the file contains any-->
     <xsl:if test="//*[@active='false']">
       <p id="hide" onclick="toggle()">Hide/show inactive</p>
@@ -216,7 +227,7 @@
     <!--Script for expanding an contracting sections-->
     <script type="text/javascript">
       <![CDATA[
-        for(var i=1; i <=9; i++)
+        for(var i=1; i <=10; i++)
         {
           var mc=new switchcontent("switchgroup" + i)
           mc.setStatus('- ','+ ')
@@ -454,14 +465,14 @@
     <p class="normal2">
       <span class="tableheader">
         <xsl:choose>
-          <xsl:when test="@selection=0">
+          <xsl:when test="@selection&lt;=0">
             <xsl:text>All of </xsl:text>
           </xsl:when>
           <xsl:otherwise>
+        <xsl:value-of select="@selection"/>
             <xsl:text> out of </xsl:text>
           </xsl:otherwise>
         </xsl:choose><xsl:value-of select="@number"/>        
-        <xsl:value-of select="@selection"/>
          eigenvalues (sec<sup>-1</sup>) are shown
       </span>
       <br/>
@@ -486,10 +497,51 @@
       </td>
       <td> <xsl:value-of select=".."/> </td>
       <td> <xsl:value-of select="../@units"/> </td>
-	  <td> <xsl:value-of select="concat('ChiSquared=',../@chiSquared)"/> </td>
+    <td> <xsl:value-of select="concat('ChiSquared=',../@chiSquared)"/> </td>
       <td> <xsl:value-of select="concat('(fitted ', ., ')')"/></td>
     </tr>
   </xsl:template>
+  
+  <xsl:template match="//me:PTs">
+  <div class="tablehead1">
+    <!--"R1 => R2" or "R1 loss"(when ref1=ref2) or "R yield"-->
+    <xsl:choose>
+      <xsl:when test="me:PTpair/*/@ref1[1]=me:PTpair/*/@ref2[1]">
+        <xsl:value-of select="concat(me:PTpair/*/@ref1[1], ' loss')" />
+      </xsl:when>
+      <xsl:when test="me:PTpair/me:experimentalYield/@ref[1]">
+        <xsl:value-of select="concat(me:PTpair/me:experimentalYield/@ref[1], ' yield')" />
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="concat(me:PTpair/*/@ref1[1], ' => ', me:PTpair/*/@ref2[1])"/>
+      </xsl:otherwise>
+    </xsl:choose>	  
+  </div>
+    <xsl:value-of select="concat('  calculated ', me:PTpair/*/@calculated[1])"/>
+    <table>
+    <tr class="tablehead1">
+      <td>Temperature(K)</td>
+      <td>
+        <xsl:value-of select="concat('Concentration(', me:PTpair/@me:units, ')')"/>
+      </td>
+      <xsl:for-each select="me:PTpair[1]/me:experimentalRate|me:PTpair[1]/me:experimentalYield|me:PTpair[1]/me:experimentalEigenvalue">
+        <!--just the first node is selected-->
+        <td> <xsl:value-of select="local-name()"/> </td>
+        <td> <xsl:value-of select="concat('calculated', substring-after(local-name(),'experimental'))"/> </td>
+      </xsl:for-each>
+
+    </tr>
+    <xsl:for-each select="me:PTpair/me:experimentalRate|me:PTpair/me:experimentalYield|me:PTpair/me:experimentalEigenvalue">
+      <tr style="text-align:center">
+        <td> <xsl:value-of select="../@me:T"/></td>
+        <td> <xsl:value-of select="../@me:P"/></td>
+        <td> <xsl:value-of select="."/></td>
+        <td> <xsl:value-of select="@calcVal"/></td>
+      </tr>
+    </xsl:for-each>
+      </table>
+  </xsl:template>	  
+
 
 
     <xsl:template match="cml:metadataList">

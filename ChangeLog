@@ -1,4 +1,9 @@
+2011-May-14 Chris Morley
 
+	* mesmer1.xsl: Add a section that compares experimental and calculated
+	rates, yields and eigenvalues.
+	Display Bartis Widom warning if present.
+	Display "All eigenvalues" if @selection <=0
 
 2011-May-14 Struan Robertson
 
