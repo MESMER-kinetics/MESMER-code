@@ -1,3 +1,8 @@
+2011-May-15 Struan Robertson
+
+	* CollisionOperator.cpp: Tidying up of time evolution method.
+	* HinderedRotorQM1D.cpp: Add provision to plot hindered rotor states.
+
 2011-May-14 Chris Morley
 
 	* mesmer1.xsl: Add a section that compares experimental and calculated

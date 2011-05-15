@@ -778,11 +778,11 @@ namespace mesmer
 	  }
 	}
 
-	const int maxTimeStep = int(dt.size());
+	const size_t maxTimeStep = dt.size();
 	db2D grnProfile(smsize, maxTimeStep); // numbers inside the parentheses are dummies
 	vector<double> work2(smsize, 0.);
 
-	for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+	for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
 	  double numColl = m_meanOmega * timePoints[timestep];
 	  for (int j = 0; j < smsize; ++j) {
 		work2[j] = r_0[j] * exp(to_double(m_eigenvalues[j]) * numColl);
@@ -800,12 +800,12 @@ namespace mesmer
 	// print grained species profile
 	if (mFlags.grainedProfileEnabled) {
 	  ctest << "\nGrained species profile (the first row is time points in unit of second):\n{\n";
-	  for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+	  for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
 		formatFloat(ctest, timePoints[timestep], 6,  15);
 	  }
 	  ctest << endl;
 	  for (int j = 0; j < smsize; ++j) {
-		for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+		for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
 		  formatFloat(ctest, grnProfile[j][timestep], 6,  15);
 		}
 		ctest << endl;
@@ -819,7 +819,7 @@ namespace mesmer
 	vector<double> totalIsomerPop(maxTimeStep, 0.);
 	vector<double> totalPdtPop(maxTimeStep, 0.);
 
-	for(int timestep(0); timestep<maxTimeStep; ++timestep){
+	for(size_t timestep(0); timestep<maxTimeStep; ++timestep){
 	  for(int j(0);j<smsize;++j){
 		totalIsomerPop[timestep] += grnProfile[j][timestep];
 	  }
@@ -860,7 +860,7 @@ namespace mesmer
 		ctest << setw(16) << source->getName();
 		speciesNames.push_back(source->getName());
 		int rxnMatrixLoc = spos->second;
-		for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+		for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
 		  double gPf = grnProfile[rxnMatrixLoc][timestep];
 		  speciesProfile[speciesProfileidx][timestep] = gPf;
 		}
@@ -884,14 +884,14 @@ namespace mesmer
 		const int colloptrsize = isomer->getColl().get_colloptrsize();
 		const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();
 		if (numberGrouped == 0){
-		  for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+		  for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
 			for(int i = 0; i < colloptrsize; ++i){
 			  speciesProfile[speciesProfileidx][timestep] += grnProfile[i+rxnMatrixLoc][timestep];
 			}
 		  }
 		}
 		else{
-		  for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+		  for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
 			for(int i = 0; i < colloptrsize - numberGrouped + nrg; ++i){
 			  speciesProfile[speciesProfileidx][timestep] += grnProfile[i+rxnMatrixLoc][timestep];
 			}
@@ -912,7 +912,7 @@ namespace mesmer
 		  speciesNames.push_back(cemName);
 		  int rxnMatrixLoc = ipos->second;                       // get isomer location
 		  double TimeIntegratedCemeteryPop(isomer->getPop().getInitCemeteryPopulation());
-		  for (int timestep = 0; timestep < maxTimeStep; ++timestep){
+		  for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
 			for(size_t i = 0; i < grainKdmc.size(); ++i){
 			  speciesProfile[speciesProfileidx][timestep] += m_meanOmega * grainKdmc[i]*grnProfile[i+rxnMatrixLoc][timestep]*dt[timestep];;
 			}
@@ -931,7 +931,7 @@ namespace mesmer
 		vector<Molecule*> pdts;                               // in the sink reaction
 		sinkReaction->get_products(pdts);
 
-		int numberGrouped(0);
+		size_t numberGrouped(0);
 		string pdtName = pdts[0]->getName();
 		if(colloptrsize == 1){  // if the collision operator size is 1, there is one canonical loss rate coefficient
 		  KofEs.push_back(sinkReaction->get_fwdGrnCanonicalRate());
@@ -946,33 +946,25 @@ namespace mesmer
 		speciesNames.push_back(pdtName);
 		int rxnMatrixLoc = pos->second;                       // get sink location
 		double TimeIntegratedProductPop(0.0);
-		if (numberGrouped == 0){
-		  for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-			for(int i = 0; i < colloptrsize; ++i){
-			  speciesProfile[speciesProfileidx][timestep] += KofEs[i]*grnProfile[i+rxnMatrixLoc][timestep]*dt[timestep];
-			}
-			TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];
-			speciesProfile[speciesProfileidx][timestep]= TimeIntegratedProductPop;
-		  }
-		  ++speciesProfileidx;
-		}
-		else{
+
+        size_t idx(0) ;
+		if (numberGrouped != 0){
 		  Molecule* rctMol = pos->first->get_reactant();
 		  int nrg = rctMol->getColl().isCemetery() ? 0 : 1;
-		  for (int timestep = 0; timestep < maxTimeStep; ++timestep){
-			for(int i = 0; i < colloptrsize - numberGrouped + nrg; ++i){
-			  speciesProfile[speciesProfileidx][timestep] += KofEs[i + numberGrouped - nrg]*grnProfile[i+rxnMatrixLoc][timestep]*dt[timestep];
-			}
-			TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];
-			speciesProfile[speciesProfileidx][timestep]= TimeIntegratedProductPop;
-		  }
-		  ++speciesProfileidx;
+		  idx = numberGrouped - nrg ;
 		}
-		KofEs.clear();
+        for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
+          for(size_t i(0); i < colloptrsize - idx; ++i){
+            speciesProfile[speciesProfileidx][timestep] += KofEs[i + idx]*grnProfile[i+rxnMatrixLoc][timestep]*dt[timestep];
+          }
+          TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];
+          speciesProfile[speciesProfileidx][timestep] = TimeIntegratedProductPop;
+        }
+        ++speciesProfileidx ;
 	  }
 
 	  if (pdtProfileStartIdx < speciesProfileidx){
-		for(int timestep = 0; timestep < maxTimeStep; ++timestep){    // normalize product profile to account for small
+		for(size_t timestep(0); timestep < maxTimeStep; ++timestep){    // normalize product profile to account for small
 		  double normConst(0.0);                          // numerical errors in TimeIntegratedProductPop
 		  double pdtYield(0.0);
 		  for(int i(pdtProfileStartIdx); i<speciesProfileidx; ++i){   // calculate normalization constant
@@ -987,7 +979,7 @@ namespace mesmer
 
 	  //Write to ctest and XML
 	  ctest << setw(16)<< "totalIsomerPop" << setw(16)<< "totalPdtPop"  << endl;
-	  for(int timestep = 0; timestep < maxTimeStep; ++timestep){
+	  for(size_t timestep(0); timestep < maxTimeStep; ++timestep){
 		ctest << setw(16) << timePoints[timestep];
 		PersistPtr ppPop =  ppPopList->XmlWriteElement("me:population");
 		ppPop->XmlWriteAttribute("time", toString(timePoints[timestep]));
