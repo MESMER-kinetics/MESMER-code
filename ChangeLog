@@ -1,3 +1,8 @@
+
+2011-May-15 Struan Robertson
+
+	* HinderedRotorQM1D.cpp: Output of hindered rotor states.
+
 2011-May-15 Struan Robertson
 
 	* CollisionOperator.cpp: Tidying up of time evolution method.

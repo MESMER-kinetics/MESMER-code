@@ -44,8 +44,8 @@ namespace mesmer
       m_periodicity(1),
       m_potentialCosCoeff(),
       m_expansion(4),
-	  m_energyLevels(),
-	  m_plotStates(false) {}
+      m_energyLevels(),
+      m_plotStates(false) {}
 
     virtual ~HinderedRotorQM1D() {}
     virtual HinderedRotorQM1D* Clone() { return new HinderedRotorQM1D(*this); }
@@ -55,21 +55,21 @@ namespace mesmer
     // Calculate cosine coefficients from potential data points.
     void CosineFourierCoeffs(vector<double> &angle, vector<double> &potential) ;
 
-	// Provide data for plotting states against potential.
-	void outputPlotData() ;
+    // Provide data for plotting states against potential.
+    void outputPlotData() ;
 
     std::string m_bondID;
 
     double m_reducedMomentInertia;
     int    m_periodicity;
 
-	vector<double> m_potentialCosCoeff ; // The cosine coefficients of the hindered rotor potential.
+    vector<double> m_potentialCosCoeff ; // The cosine coefficients of the hindered rotor potential.
 
     size_t m_expansion ;                 // Number of coefficients in the cosine expansion.
 
-	vector<double> m_energyLevels ;	     // The energies of the hindered rotor states.
-	
-	bool m_plotStates ;                  // If true output data for plotting. 
+    vector<double> m_energyLevels ;	     // The energies of the hindered rotor states.
+
+    bool m_plotStates ;                  // If true output data for plotting. 
 
   } ;
 
@@ -230,10 +230,10 @@ namespace mesmer
 
     pp = ppDOSC->XmlMoveTo("me:PlotStates") ;
     if (pp) {
-	  m_plotStates = true ;
-	}
+      m_plotStates = true ;
+    }
 
-	return true;
+    return true;
   }
 
   //
@@ -316,9 +316,9 @@ namespace mesmer
 
     pDOS->setCellDensityOfStates(tmpCellDOS) ;
 
-	// If required, created graphical date.
-	if (m_plotStates) 
-	  outputPlotData() ;
+    // If required, created graphical date.
+    if (m_plotStates) 
+      outputPlotData() ;
 
     return true;
 
@@ -398,18 +398,25 @@ namespace mesmer
   void HinderedRotorQM1D::outputPlotData() {
 
     cinfo << endl << "Hindered rotor data for plotting." << endl << endl ;
-    size_t npoints(1000) ;
-	double dAngle = M_PI/double(npoints) ;
-    for (size_t i(0); i < npoints; ++i) {
+    int npoints(500) ;
+    double dAngle = M_PI/double(npoints) ;
+    for (int i(-npoints); i < npoints; ++i) {
       double sum(0.0) ;
-	  double angle = double(i)*dAngle ;
+      double angle = double(i)*dAngle ;
       for(size_t k(0); k < m_expansion; ++k) {
         double nTheta = double(k) * angle;
         sum += m_potentialCosCoeff[k] * cos(nTheta);
       }
-      cinfo << formatFloat(angle, 6, 15) << formatFloat(sum, 6, 15) << endl ;
+      cinfo << formatFloat(angle, 6, 15) << ", "<< formatFloat(sum, 6, 15) << endl ;
     }
     cinfo << endl ;
+    
+    for (size_t i(0); i < m_energyLevels.size() ; i++) {
+      cinfo << formatFloat(-M_PI, 6, 15) << ", "<< formatFloat(m_energyLevels[i], 6, 15) << endl ;
+      cinfo << formatFloat( M_PI, 6, 15) << ", "<< formatFloat(m_energyLevels[i], 6, 15) << endl ;    
+      cinfo << endl ;
+    }
+    
   }
 
 }//namespace
