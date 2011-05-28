@@ -18,6 +18,7 @@
 #include <climits>
 #include <stdio.h>
 #include <vector>
+#include <complex>
 
 namespace mesmer
 {
@@ -30,7 +31,7 @@ namespace mesmer
     TMatrix( size_t n, const T& init = T(0.0)) : Matrix<T>(n, init) { } ;
 
     //
-    // Wrapped call to EISPACK routine to diagonalise matrix.
+    // Wrapped calls to EISPACK routines to diagonalise matrix.
     //
     void diagonalize(T *rr) {
 
@@ -40,7 +41,7 @@ namespace mesmer
       T *work = new T[size] ;
       T *rrProxy = new T[size] ;
 
-	  // vector<size_t> index(size, 0) ;
+      // vector<size_t> index(size, 0) ;
       // permuteMatrix(this->m_matrix, index) ;
       tred2(this->m_matrix, size, rrProxy, work) ;
       tqli(rrProxy, work, size, this->m_matrix) ;
@@ -117,9 +118,9 @@ namespace mesmer
     // The following two methods permute a matrix, in order to reduce the effects
     // of numerical rounding in the Househlider method (see numerical recipes) and
     // unpermute the associated eignvector matrix. SHR 7/Mar/2011: this experiment
-	// appeared to have only a minor effect on numerical values, hence the statements
-	// in diagonalize() have been commented out as the benefits do not appear to out
-	// way the cost in CPU time at present.
+    // appeared to have only a minor effect on numerical values, hence the statements
+    // in diagonalize() have been commented out as the benefits do not appear to out
+    // way the cost in CPU time at present.
     //
     void permuteMatrix(T **a, vector<size_t>& index) ;
     void unPermuteEigenEigenvectors(T **a, vector<size_t>& index) ;
@@ -136,6 +137,15 @@ namespace mesmer
     T CalcDeterminant( T **mat, int order);
 
   } ;
+
+
+  //
+  // Template specialization for complex numbers.
+  //
+  template<>
+  void TMatrix<complex<double> >::diagonalize(complex<double> *rr)  {
+    throw std::runtime_error("The direct diagonalization of complex matrices is not yet implemented.");
+  }
 
   // Matrix mutiplication operator.
   template<class T>
@@ -583,17 +593,17 @@ label_1: return(p);
     for (size_t i(0) ; i < size ; i++) {
       invIndex[index[i]] = i ;
     }
-	
-	for (size_t i(0) ; i < size ; i++) {
+
+    for (size_t i(0) ; i < size ; i++) {
       size_t k = invIndex[i] ; 
       if (k != i) {
         invIndex[index[i]] = k ;
-		invIndex[i] = i ; 
-		swap(index[i],index[k]) ;
+        invIndex[i] = i ; 
+        swap(index[i],index[k]) ;
         for (size_t j(0) ; j < size ; j++) {
           swap(a[i][j],a[k][j]) ;
         }
-	  }
+      }
     }
 
   }

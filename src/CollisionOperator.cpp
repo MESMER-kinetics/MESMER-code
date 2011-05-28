@@ -1699,6 +1699,7 @@ namespace mesmer
 	  sum    += to_double(wrk[j]) ;
 	}
 
+    double totalYield(0.0) ;
 	sinkMap::const_iterator sinkitr = m_sinkRxns.begin();
 	for (; sinkitr != m_sinkRxns.end() ; ++sinkitr) {
 
@@ -1732,6 +1733,13 @@ namespace mesmer
 		yield += to_double(ktemp[idx + i] * wrk[rxnMatrixLoc + i]) ;
 	  }
 	  yieldMap[sinkReaction] = yield ;
+	  totalYield            += yield ;
+	}
+
+	// Normalize yields.
+	YieldMap::iterator itr = yieldMap.begin();
+	for (; itr != yieldMap.end() ; ++itr) {
+      itr->second /= totalYield ;
 	}
 
   }

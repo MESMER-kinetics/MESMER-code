@@ -29,6 +29,9 @@ namespace mesmer
   // quad-double version of Matrix
   typedef TMatrix<qd_real> qdMatrix;
 
+  // complex version of Matrix
+  typedef TMatrix<complex<double> > cMatrix;
+
 }//namespacer mesmer
 
 

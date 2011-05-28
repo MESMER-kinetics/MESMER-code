@@ -1,6 +1,14 @@
 
 2011-May-15 Struan Robertson
 
+	* HinderedRotorQM1D.cpp: Altered to include sine terms in the potential. 
+	This as the result that the Hamiltonian is complex (but Hermitian), the 
+	eigenvalues for which are obtained by the augmented matrix approach. A
+	minor correction the cosine only Hamiltonian was also fixed.
+	* CollisionOperator.cpp: Altered so that yields are normalized.
+
+2011-May-15 Struan Robertson
+
 	* HinderedRotorQM1D.cpp: Output of hindered rotor states.
 
 2011-May-15 Struan Robertson

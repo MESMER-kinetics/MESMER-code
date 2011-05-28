@@ -72,7 +72,7 @@
           <me:PotentialPoint index="3"  coefficient="-6.2"/>
         </me:HinderedRotorPotential>
         <me:periodicity>3</me:periodicity>
-        <!--<me:PlotStates/>-->
+        <me:PlotStates/>
       </me:ExtraDOSCMethod>
 
       <me:ExtraDOSCMethod name="HinderedRotorQM1D">

@@ -43,17 +43,19 @@ namespace mesmer
       m_reducedMomentInertia(0.0),
       m_periodicity(1),
       m_potentialCosCoeff(),
+      m_potentialSinCoeff(),
       m_expansion(4),
       m_energyLevels(),
-      m_plotStates(false) {}
+      m_plotStates(false),
+      m_useSinTerms(false) {}
 
     virtual ~HinderedRotorQM1D() {}
     virtual HinderedRotorQM1D* Clone() { return new HinderedRotorQM1D(*this); }
 
   private:
 
-    // Calculate cosine coefficients from potential data points.
-    void CosineFourierCoeffs(vector<double> &angle, vector<double> &potential) ;
+    // Calculate the Fourier coefficients from potential data points.
+    void FourierCoeffs(vector<double> &angle, vector<double> &potential) ;
 
     // Provide data for plotting states against potential.
     void outputPlotData() ;
@@ -64,6 +66,7 @@ namespace mesmer
     int    m_periodicity;
 
     vector<double> m_potentialCosCoeff ; // The cosine coefficients of the hindered rotor potential.
+    vector<double> m_potentialSinCoeff ; // The sine coefficients of the hindered rotor potential.
 
     size_t m_expansion ;                 // Number of coefficients in the cosine expansion.
 
@@ -71,6 +74,7 @@ namespace mesmer
 
     bool m_plotStates ;                  // If true output data for plotting. 
 
+    bool m_useSinTerms ;                 // If true sine terms are used in the representation of the potential.
   } ;
 
   //-------------------------------------------------------------
@@ -179,8 +183,10 @@ namespace mesmer
 
         // As coefficients can be supplied in any order, they are sorted here.
         m_potentialCosCoeff.resize(++maxIndex) ;
+        m_potentialSinCoeff.resize(++maxIndex) ;
         for (size_t i(0) ; i < coefficients.size() ; i++ ) {
           m_potentialCosCoeff[indicies[i]] = coefficients[i] ;
+          m_potentialSinCoeff[i]           = 0.0 ;
         }
 
       } else if (format == "numerical") {
@@ -190,6 +196,14 @@ namespace mesmer
         vector<double> potential ;
         vector<double> angle ;
         m_expansion = pp->XmlReadInteger("expansionSize",optional);
+
+		// Check if sine terms are to be used.
+
+		const char *pUseSineTerms(pp->XmlReadValue("UseSineTerms",optional)) ;
+		if (pUseSineTerms && string(pUseSineTerms) == "yes") {
+		  m_useSinTerms = true ;
+		}
+
         while(pp = pp->XmlMoveTo("me:PotentialPoint"))
         {
           double anglePoint = pp->XmlReadDouble("angle", optional);
@@ -204,7 +218,7 @@ namespace mesmer
           potential.push_back(potentialPoint) ;
         }
 
-        CosineFourierCoeffs(angle, potential) ;
+        FourierCoeffs(angle, potential) ;
 
       } else {
 
@@ -251,12 +265,18 @@ namespace mesmer
 
     // Find maximum quantum No. for rotor.
 
-    double bint = conMntInt2RotCnt/m_reducedMomentInertia ;
-    double root = sqrt(double(MaximumCell)/bint) ;
-    int kmax    = int(root + 1.0) ;
-    int nstates = 2*kmax +1 ;
+    double bint    = conMntInt2RotCnt/m_reducedMomentInertia ;
+    double root    = sqrt(double(MaximumCell)/bint) ;
+    int kmax       = int(root + 1.0) ;
+    size_t nstates = 2*kmax +1 ;
 
-    dMatrix hamiltonian(nstates) ;
+    // Check if sine terms are required and if so use the augmented matrix approach. See NR Sec. 11.4.
+
+    size_t msize = (m_useSinTerms) ? 2*nstates : nstates ; 
+
+    dMatrix hamiltonian(msize) ;
+
+    vector<int> stateIndicies(nstates,0) ;
 
     // Add diagonal kinetic and potential terms first.
 
@@ -264,41 +284,80 @@ namespace mesmer
     for (int k(1), i(1); k <= kmax ; k++) {
       double energy = bint*double(k*k) + m_potentialCosCoeff[0] ;
       hamiltonian[i][i] = energy ;
+      stateIndicies[i]  = -k ;
       i++ ;                         // Need to account for the two directions of rotation.
       hamiltonian[i][i] = energy ;
+      stateIndicies[i]  = k ;
       i++ ;
     }
 
-    // Add off-diagonal potential terms.
+    // Add off-diagonal cosine potential terms.
 
     for (int n(1); n < int(m_potentialCosCoeff.size()) && n <= kmax ; n++) {
-      int idx = 2*n - 1 ;
       double matrixElement = m_potentialCosCoeff[n]/2.0 ; 
-      hamiltonian[idx][0] = hamiltonian[0][idx] = matrixElement ;
-      idx++ ;
-      hamiltonian[idx][0] = hamiltonian[0][idx] = matrixElement ;
-      idx++ ;
-      for (int k(1) ; idx < nstates ; idx++, k++) {
-        hamiltonian[idx][k] = hamiltonian[k][idx] = matrixElement ;
+      for (size_t i(0) ; i < nstates; i++) {
+        for (size_t j(0) ; j < nstates; j++) {
+          hamiltonian[i][j] += matrixElement*(((abs(stateIndicies[j] - stateIndicies[i]) - n) == 0) ? 1.0 : 0.0)  ;
+        }
       }
+    }
+
+    if (m_useSinTerms) {
+
+      // Following the augmented matrix approach, first copy the cosine part to the lower right hand block.
+
+      for (size_t i(0), ii(nstates); i < nstates; i++, ii++) {
+        for (size_t j(0), jj(nstates); j < nstates; j++, jj++) {
+          hamiltonian[ii][jj] = hamiltonian[i][j] ;
+        }
+      }
+
+      // Now, construct the off-diagonal sine potential terms, placing result in the lower left off-diagoanl block.
+
+      for (int n(1); n < int(m_potentialSinCoeff.size()) && n <= kmax ; n++) {
+        double matrixElement = m_potentialSinCoeff[n]/2.0 ; 
+        for (size_t i(0) ; i < nstates; i++) {
+          for (size_t j(0) ; j < nstates; j++) {
+            hamiltonian[nstates + i][j] += matrixElement*( 
+                (((stateIndicies[j] - stateIndicies[i] - n) == 0) ? 1.0 : 0.0)
+              -	(((stateIndicies[j] - stateIndicies[i] + n) == 0) ? 1.0 : 0.0) ) ;
+          }
+        }
+      }
+
+      // Now, copy the negated off-diagonal sine potential terms to the upper right off-diagonal block.
+
+      for (size_t i(0), ii(nstates); i < nstates; i++, ii++) {
+        for (size_t j(0), jj(nstates); j < nstates; j++, jj++) {
+          hamiltonian[i][jj] = -hamiltonian[ii][j] ;
+        }
+      }
+
     }
 
     // Now diagonalize hamiltonian matrix to determine energy levels.
 
-    vector<double> eigenvalues(nstates,0.0) ;
+    vector<double> eigenvalues(msize,0.0) ;
 
     hamiltonian.diagonalize(&eigenvalues[0]);
 
     // Save energy levels for partition function calculations.
 
-    m_energyLevels = eigenvalues ;
+    if (m_useSinTerms) {
+      for (size_t j(0) ; j < nstates; j++) {
+        m_energyLevels.push_back(eigenvalues[2*j]) ;
+      }
+    } else {
+      m_energyLevels = eigenvalues ;
+    }
+
 
     // Shift eigenvalues by the zero point energy and convolve with the 
     // density of states for the other degrees of freedom.
 
-    double zeroPointEnergy(eigenvalues[0]) ;
+    double zeroPointEnergy(m_energyLevels[0]) ;
     for (int k(1) ; k < nstates ; k++ ) {
-      int nr = int(eigenvalues[k] - zeroPointEnergy) ;
+      int nr = int(m_energyLevels[k] - zeroPointEnergy) ;
       if (nr < MaximumCell) {
         for (int i(0) ; i < MaximumCell - nr ; i++ ) {
           tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + cellDOS[i] ;
@@ -343,7 +402,7 @@ namespace mesmer
   //
   // Calculate cosine coefficients from potential data points.
   //
-  void HinderedRotorQM1D::CosineFourierCoeffs(vector<double> &angle, vector<double> &potential)
+  void HinderedRotorQM1D::FourierCoeffs(vector<double> &angle, vector<double> &potential)
   {
     size_t ndata = potential.size() ;
 
@@ -363,7 +422,7 @@ namespace mesmer
       angle[i]     *= M_PI/180. ;
     }
 
-    // Now determine the cosine coefficients.
+    // Determine the cosine coefficients.
 
     for(size_t k(0); k < m_expansion; ++k) {
       double sum(0.0) ;
@@ -375,18 +434,37 @@ namespace mesmer
     }
     m_potentialCosCoeff[0] /= 2.0 ;
 
+    // Determine the sine coefficients.
+
+    if (m_useSinTerms) {
+      for(size_t k(0); k < m_expansion; ++k) {
+        double sum(0.0) ;
+        for(size_t i(0); i < ndata; ++i) {
+          double nTheta = double(k) * angle[i];
+          sum += potential[i] * sin(nTheta);
+        }
+        m_potentialSinCoeff.push_back(2.0*sum/double(ndata)) ;
+      }
+      m_potentialSinCoeff[0] = 0.0 ;
+    } else {
+      for(size_t k(0); k < m_expansion; ++k) {
+        m_potentialSinCoeff.push_back(0.0) ;
+      }
+    }
+
     // Test potential
 
     cinfo << endl ;
-    cinfo << "          Angle      Potential         Series" << endl ;
+    cinfo << "          Angle       Potential          Series" << endl ;
     cinfo << endl ;
     for (size_t i(0); i < ndata; ++i) {
       double sum(0.0) ;
       for(size_t k(0); k < m_expansion; ++k) {
         double nTheta = double(k) * angle[i];
         sum += m_potentialCosCoeff[k] * cos(nTheta);
+        sum += m_potentialSinCoeff[k] * sin(nTheta);
       }
-      cinfo << formatFloat(angle[i], 6, 15) << formatFloat(potential[i], 6, 15) << formatFloat(sum, 6, 15) << endl ;
+      cinfo << formatFloat(angle[i], 6, 15) << ", " <<  formatFloat(potential[i], 6, 15) << ", " <<  formatFloat(sum, 6, 15) << endl ;
     }
     cinfo << endl ;
 
@@ -406,17 +484,18 @@ namespace mesmer
       for(size_t k(0); k < m_expansion; ++k) {
         double nTheta = double(k) * angle;
         sum += m_potentialCosCoeff[k] * cos(nTheta);
+        sum += m_potentialSinCoeff[k] * sin(nTheta);
       }
       cinfo << formatFloat(angle, 6, 15) << ", "<< formatFloat(sum, 6, 15) << endl ;
     }
     cinfo << endl ;
-    
+
     for (size_t i(0); i < m_energyLevels.size() ; i++) {
       cinfo << formatFloat(-M_PI, 6, 15) << ", "<< formatFloat(m_energyLevels[i], 6, 15) << endl ;
       cinfo << formatFloat( M_PI, 6, 15) << ", "<< formatFloat(m_energyLevels[i], 6, 15) << endl ;    
       cinfo << endl ;
     }
-    
+
   }
 
 }//namespace
