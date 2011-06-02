@@ -1,5 +1,25 @@
 2011-June-02 Chris Morley
 
+	* src/MolecularComponents.cpp, src/MolecularComponents.h: Energy
+	input from me:Hf298 (at last) using thermodynamicsFunctions().
+	Priority is me:ZPE, me:Hf0, me:HfAT0, me:Hf298 and the conversion
+	to me:ZPE is written to XML output to allow it to be used for fitting.
+	HNO2 and NO ZPEs for Hf0 and Hf298 agree but 0.4kJ/mol difference
+	for OH, apparently from thermodynamicsFunctions() (v NIST CCCBDB).
+	 
+	* src/MesmerEnv.cpp: initiallise Maxcell to 10000 for above because
+	not otherwise set when system being parsed.
+	
+	* librarymols.xml: add extra data on atoms to support the above.
+
+	* Documentation/MESMER manual.doc: updated
+
+	* src/plugins/ThermodynamicTable.cpp: add name of species to table
+
+	* src/XMLPersist.cpp: small message change
+
+2011-June-02 Chris Morley
+
 	* Add Visual Studio Build files
 	
 	* MesmerQA/QA.bat Update to VC10. The Acetyl O2 association example

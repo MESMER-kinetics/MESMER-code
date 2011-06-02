@@ -212,6 +212,17 @@ namespace mesmer
     m_Sym = ppPropList->XmlReadPropertyDouble("me:symmetryNumber");
     m_Sym_chk = 0;
 
+    m_scaleFactor = ppPropList->XmlReadPropertyDouble("me:frequenciesScaleFactor");
+    m_scaleFactor_chk = 0;
+
+    // Read attribute on the property and then, if not present, on the attribute (with a a default).
+    m_SpinMultiplicity = ppPropList->XmlReadPropertyInteger("me:spinMultiplicity", optional);
+    if(m_SpinMultiplicity==0)
+      m_SpinMultiplicity = pp->XmlReadInteger("spinMultiplicity");
+    m_SpinMultiplicity_chk = 0;
+
+    ReadDOSMethods();
+
     /* For molecular energy me:ZPE is used if it is present. If it is not, a value
     calculated from me:Hf0 or HfAT0 is used and a converted value is written back
     to the datafile as a me:ZPE property. It is consequently used in the next run
@@ -266,46 +277,67 @@ namespace mesmer
     }
     else
     {
-      //me:ZPE not present; try me:Hf0 and HAT0 (enthalpy of atomization at 0K)
+      // me:ZPE not present; try me:Hf0 and HAT0 (enthalpy of atomization at 0K)
+      // and Hf298 (enthalpy of formation at 298K)
       double Hf0 = ppPropList->XmlReadPropertyDouble("me:Hf0", optional);
       double HfAT0 = ppPropList->XmlReadPropertyDouble("me:HfAT0", optional);
-      if(IsNan(Hf0) && IsNan(HfAT0))
+      double Hf298 = ppPropList->XmlReadPropertyDouble("me:Hf298", optional);
+      if(IsNan(Hf0) && IsNan(HfAT0) && IsNan(Hf298))
       {
-        //me:Hf0 and meHAT0 are not present; use a default ZPE
+        //None of me:ZPE, me:Hf0, me:HAT0 and meHf298 are present; use a default ZPE.
         tempzpe = ppPropList->XmlReadPropertyDouble("me:ZPE", true);
       }
       else
       {
-        // Convert Hf0 and write back a me:ZPE property which will be used in future
-        // Currently, Hf0 cannot be used as a range variable
+        // Convert Hf0,etc. and write back a me:ZPE property which will be used in future
+        // Currently, Hf0,etc. cannot be used as a range variables
         /*
         Atomize species X into atoms (at 0K)
         delta H  = Sum(Hf0(atom i)) - Hf0(X)
-        = Sum(E(atom i))   - E(X) where E is a compchem energy
-        =                  - HAT0 (enthalpy of atomization at 0K)
+          = Sum(E(atom i)) - E(X) where E is a compchem energy
+          =                - HAT0 (enthalpy of atomization at 0K)
         We have E and Hf0 for each element as gas phase atom in librarymols.xml,
         so E(X) = Hf0(X) + Sum over all atoms( E - Hf0 )
         */
-        string origElement = IsNan(Hf0) ? "me:HfAT0" : "me:Hf0";
-        const char* utxt= ppPropList->XmlReadPropertyAttribute(origElement, "units");
+        string origElement = !IsNan(Hf0) ? "me:Hf0" : (!IsNan(HfAT0) ? "me:HfAT0" : "me:Hf298");
+        const char* utxt= ppPropList->XmlReadPropertyAttribute(origElement, "units", optional);
         utxt = utxt ? utxt : "kJ/mol";
         if(!IsNan(Hf0))
         {
           //Use Hf0 if provided
           Hf0 = getConvertedEnergy(utxt, Hf0); //cm-1
-          tempzpe = Hf0 + getConvertedEnergy("kJ/mol", getHost()->getStruc().CalcSumEMinusHf0(false));//cm-1
+          tempzpe = Hf0 + getConvertedEnergy("kJ/mol", getHost()->getStruc().CalcSumEMinusHf0(false, false));//cm-1
         }
-        else
+        else if(!IsNan(HfAT0))
         {
           //Use HfAT0 (atom-based thermochemistry, see DOI: 10.1002/chem.200903252)
           HfAT0 = getConvertedEnergy(utxt, HfAT0); //cm-1
-          tempzpe = HfAT0 + getConvertedEnergy("kJ/mol", getHost()->getStruc().CalcSumEMinusHf0(true));//cm-1
+          tempzpe = HfAT0 + getConvertedEnergy("kJ/mol", getHost()->getStruc().CalcSumEMinusHf0(true, false));//cm-1
+        }
+        else
+        {
+          //Use Hf298
+          //cerr << "me:Hf298 is currently not supported; use me:ZPE, me:Hf0 or me:HfAT0 to specify molecular energies." <<endl;
+          //throw std::runtime_error("Hf298 not supported");
+          /*Atomize species X at 298K
+          deltaH  = Sum over atoms(Hf298)) - Hf298(X)
+                  = Sum(E + Sum(H(298K)) - (E(X) + H(298K))
+          E(X) = (Hf298 - H(298K))(X) + Sum over atoms(E - Hf298 + H(298K))
+          */
+          // H is the enthalpy in cm-1 and 298K calculated with m_ZPE=0.
+          // Hf0 is the real enthalpy of formation at 0K in cm-1.
+          double H, S, G;
+          set_zpe(0.0);
+          thermodynamicsFunctions(298, 1.0, H, S, G);
+          //Hf298 = getConvertedEnergy(utxt, Hf298) + H; //cm-1 sign changed
+          tempzpe = getConvertedEnergy(utxt, Hf298) - H 
+            + getConvertedEnergy("kJ/mol", getHost()->getStruc().CalcSumEMinusHf0(false, true));//cm-1
         }
         set_zpe(tempzpe);
         m_ZPE_chk = 0;
-
         //Write the converted value back to a me:ZPE element in the XML file
         stringstream ss;
+        ss.precision(9);
         ss << ConvertFromWavenumbers(utxt, tempzpe);
         PersistPtr ppScalar = ppPropList->XmlWriteProperty("me:ZPE", ss.str(), utxt);
         ppScalar->XmlWriteAttribute("source", origElement);
@@ -314,46 +346,6 @@ namespace mesmer
         cinfo << "New me:ZPE element written with data from " << origElement << endl;
       }
     }
-
-    m_scaleFactor = ppPropList->XmlReadPropertyDouble("me:frequenciesScaleFactor");
-    m_scaleFactor_chk = 0;
-
-    // Read attribute on the property and then, if not present, on the attribute (with a a default).
-    m_SpinMultiplicity = ppPropList->XmlReadPropertyInteger("me:spinMultiplicity", optional);
-    if(m_SpinMultiplicity==0)
-      m_SpinMultiplicity = pp->XmlReadInteger("spinMultiplicity");
-    m_SpinMultiplicity_chk = 0;
-
-    /*      //Calculate ZPE from Thermodynamic Heat of Formation
-
-    *** This is INCOMPLETE and will calculate an incorrect result. NEEDS REVISITING ***
-
-    //The general way is to calculate dln(rot/vib partition function)/dBeta + 1.5kT
-    //calcDensityOfStates(); //but this calls get_zpe and ZPE hasn't been set yet
-    //double Z = max(canonicalPartitionFunction(m_grainDOS, m_grainEne, boltzmann_RCpK * 298), 1.0);
-
-    //Vibrations are treated classically, rotational constants are considered small:
-    // 0.5kT for linear mols, 1.5kT for non-linear polyatomics
-    std::vector<double> rotConsts;
-    int ret = get_rotConsts(rotConsts);
-    double Hf0 = Hf298 - 0.5 * boltzmann_RCpK * 298 *(3 + (ret==0) + 2*(ret==2)); //***Vib TODO
-    set_zpe(Hf0); //cm-1
-    m_ZPE_chk=0;
-
-    //Write the converted value back to a me:ZPE element in the XML file
-    stringstream ss;
-    ss << ConvertFromWavenumbers(utxt, Hf0);
-    PersistPtr ppScalar = ppPropList->XmlWriteProperty("me:ZPE", ss.str(), utxt);
-    ppScalar->XmlWriteAttribute("convention", "thermodynamic");//orig units
-    ppScalar->XmlWriteAttribute("origValue", ss.str());
-    m_EnergyConvention = "thermodynamic";
-    cinfo << "New me:ZPE element written with data from me:Hf298" << endl;
-    }
-    else if(m_ZPE_chk < 0)
-    cwarn << "No energy specified (as me:ZPE or me:Hf298 properties)" << endl;
-    */
-    //Read main and extra method and their data
-    ReadDOSMethods();
   }
 
   //
@@ -1907,12 +1899,12 @@ namespace mesmer
 
   }
 
-  double gStructure::CalcSumEMinusHf0(bool UsingAtomBasedThermo)
+  double gStructure::CalcSumEMinusHf0(bool UsingAtomBasedThermo, bool useHf298)
   {
     //calculate for each atom (ab initio E - Hf0) and return sum
     if(!ReadStructure())
     {
-      cerr << "To use me::Hf0 the molecule needs chemical structure (an atomList at least)" << endl;
+      cerr << "To use me::Hf0 or Hf298 the molecule needs chemical structure (an atomList at least)" << endl;
       return false;
     }
     double sum = 0.0;
@@ -1929,14 +1921,19 @@ namespace mesmer
         if(ppMol)
         {
           diff = ppMol->XmlReadPropertyDouble("me:ZPE",optional);
-          if(!UsingAtomBasedThermo)
+          if(useHf298)
+          {
+            diff -= ppMol->XmlReadPropertyDouble("me:Hf298",optional);
+            diff += ppMol->XmlReadPropertyDouble("me:H0-H298",optional);
+          }
+          else if(!UsingAtomBasedThermo)
             diff -= ppMol->XmlReadPropertyDouble("me:Hf0",optional);
         }
         if(!ppMol || IsNan(diff))
         {
           cerr << "The value of Hf0 for " << getHost()->getName()
             << " will be incorrect because one or more of its elements"
-            << " was not in the library, or lacked me:ZPE and me:Hf0 properties" << endl;
+            << " was not in the library, or lacked me:ZPE and me:Hf0 or me:Hf298 properties" << endl;
           return 0.0;
         }
         atomdiffs[el] = diff; //save diff for this el in atomdiffs

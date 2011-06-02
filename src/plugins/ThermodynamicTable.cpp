@@ -109,7 +109,7 @@ namespace mesmer
 
     sstrdatum.setf(ios::right, ios::adjustfield) ;
 
-    ctest << endl << endl << " " ;
+    ctest << "\n" << text << "\n " ;
     sstrdatum << setw(10) << "Temp" ;
     sstrdatum << setw(15) << "H(T)" ;
     sstrdatum << setw(15) << "S(T)" ;

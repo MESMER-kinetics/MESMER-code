@@ -174,8 +174,15 @@
     </atomArray>
     <propertyList>
       <property title="Hf0">
+        <scalar units="kJ/mol">716.68</scalar>
+      </property>
+      <property title="Hf298">
         <scalar units="kJ/mol">711.19</scalar>
       </property>
+      <property title="H0-H298" dictRef="me:H0-H298">
+        <scalar units="kJ/mol">6.54</scalar>
+      </property>
+
       <property title="Energy" dictRef="me:ZPE">
         <scalar units="kJ/mol" convention="computational">-99230.53 </scalar>
       </property>
@@ -191,6 +198,12 @@
     <propertyList>
       <property title="Hf0">
         <scalar units="kJ/mol">119.63</scalar>
+      </property>
+      <property title="Hf298">
+        <scalar units="kJ/mol">121.31</scalar>
+      </property>
+      <property title="H0-H298" dictRef="me:H0-H298">
+        <scalar units="kJ/mol">6.27</scalar>
       </property>
       <property title="Energy" dictRef="me:ZPE">
         <scalar units="kJ/mol" convention="computational">-1207639.02 </scalar>
@@ -208,6 +221,13 @@
       <property title="Hf0">
         <scalar units="kJ/mol">77.27</scalar>
       </property>
+    <property title="Hf298">
+      <scalar units="kJ/mol">79.38</scalar>
+    </property>
+    <property title="H0-H298" dictRef="me:H0-H298">
+      <scalar units="kJ/mol">6.52</scalar>
+    </property>
+
       <property title="Energy" dictRef="me:ZPE">
         <scalar units="kJ/mol" convention="computational">-261660.78 </scalar>
       </property>
@@ -223,6 +243,12 @@
     <propertyList>
       <property title="Hf0">
         <scalar units="kJ/mol">216.04</scalar>
+      </property>
+      <property title="Hf298">
+        <scalar units="kJ/mol">218.00</scalar>
+      </property>
+      <property title="H0-H298" dictRef="me:H0-H298">
+        <scalar units="kJ/mol">6.20</scalar>
       </property>
       <property title="Energy" dictRef="me:ZPE">
         <scalar units="kJ/mol" convention="computational">-1311.75 </scalar>
@@ -240,6 +266,12 @@
       <property title="Hf0">
         <scalar units="kJ/mol">470.82</scalar>
       </property>
+      <property title="Hf298">
+        <scalar units="kJ/mol">472.68</scalar>
+      </property>
+      <property title="H0-H298" dictRef="me:H0-H298">
+        <scalar units="kJ/mol">6.20</scalar>
+      </property>
       <property title="Energy" dictRef="me:ZPE">
         <scalar units="kJ/mol" convention="computational">-143167.60 </scalar>
       </property>
@@ -256,6 +288,12 @@
       <property title="Hf0">
         <scalar units="kJ/mol">246.84</scalar>
       </property>
+      <property title="Hf298">
+        <scalar units="kJ/mol">249.23</scalar>
+      </property>
+      <property title="H0-H298" dictRef="me:H0-H298">
+        <scalar units="kJ/mol">6.72</scalar>
+      </property>
       <property title="Energy" dictRef="me:ZPE">
         <scalar units="kJ/mol" convention="computational">-196925.32 </scalar>
       </property>
@@ -271,6 +309,12 @@
     <propertyList>
       <property title="Hf0">
         <scalar units="kJ/mol">274.92</scalar>
+      </property>
+      <property title="Hf298">
+        <scalar units="kJ/mol">277.17</scalar>
+      </property>
+      <property title="H0-H298" dicRef="me:H0-H298">
+        <scalar units="kJ/mol">6.66</scalar>
       </property>
       <property title="Energy" dictRef="me:ZPE">
         <scalar units="kJ/mol" convention="computational">-1044801.89 </scalar>

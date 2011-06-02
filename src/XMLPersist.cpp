@@ -516,7 +516,7 @@ namespace mesmer
           string attrtext(pattr);
           pnNode->SetAttribute("default", attrtext);
           if(attrtext=="true")
-            cinfo << "The default value of " << name << " was used." << endl;
+            cinfo << "The default value of " << name << " (or one of its attributes) was used." << endl;
           else
             cerr << "No value of " << name << " was supplied and the default value " << attrtext << endl;
           return true;       
