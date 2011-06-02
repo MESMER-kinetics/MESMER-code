@@ -1,3 +1,10 @@
+2011-June-02 Chris Morley
+
+	* Add Visual Studio Build files
+	
+	* MesmerQA/QA.bat Update to VC10. The Acetyl O2 association example
+	mesmer.test has small differences, but I will leave it to somebody more
+	knowlegeable to update the baseline file.
 
 2011-May-15 Struan Robertson
 
