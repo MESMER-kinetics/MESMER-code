@@ -329,6 +329,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\TMatrix.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\unitsConversion.cpp"
 				>
 			</File>

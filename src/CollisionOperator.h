@@ -65,7 +65,7 @@ namespace mesmer
     void locateSinks() ;
 
 	// Calculate Yields
-	void calculateYields (YieldMap &yieldMap) const ;
+	void calculateYields (YieldMap &yieldMap, double &time) const ;
 
   private:
 

@@ -75,8 +75,8 @@ namespace mesmer
 
     void get_experimentalRates(std::vector<conditionSet>& rates) const { rates = m_rates; }
 
-    void set_experimentalYields(PersistPtr ppData, string ref, double value, double error){
-      m_yields.push_back(conditionSet(ref, string(""), string(""), value, error)) ;
+    void set_experimentalYields(PersistPtr ppData, string ref,  string yieldTime, double value, double error){
+      m_yields.push_back(conditionSet(ref, yieldTime, string(""), value, error)) ;
       m_expDataPtrs.push_back(ppData);
     }
 

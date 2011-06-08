@@ -1,3 +1,10 @@
+
+2011-June-08 Struan Robertson
+
+	* TMatrix.h/.cpp, Makefile: Updated to fix build problem for linux.
+	* System.cpp,CollisionOperator.cpp: Altered so that yields can be 
+	computed for a specified time.
+
 2011-June-02 Chris Morley
 
 	* src/MolecularComponents.cpp, src/MolecularComponents.h: Energy

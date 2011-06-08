@@ -489,6 +489,7 @@ src/ReactionManager.cpp -text
 src/ReactionManager.h -text
 src/System.cpp -text
 src/System.h -text
+src/TMatrix.cpp -text
 src/TMatrix.h -text
 src/TimeCounter.cpp -text
 src/TimeCounter.h -text

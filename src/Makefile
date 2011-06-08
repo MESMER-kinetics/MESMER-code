@@ -160,8 +160,9 @@ SRCS := \
 	ReactionManager.cpp \
 	System.cpp \
 	TimeCounter.cpp \
+	TMatrix.cpp \
 	unitsConversion.cpp \
-  vector3.cpp \
+	vector3.cpp \
 	XMLPersist.cpp \
 	plugins/BoltzmannDistribution.cpp	\
 	plugins/ClassicalRotor.cpp \

@@ -426,9 +426,15 @@ namespace mesmer
         txt = ppExpRate->XmlRead();
         stringstream s1(txt); s1 >> yield;
         string ref(ppExpRate->XmlReadValue("ref")) ;
-        txt = ppExpRate->XmlReadValue("error");
-        stringstream s4(txt); s4 >> errorValue;
-		thisPair.set_experimentalYields(ppExpRate, ref, yield, errorValue);
+        txt = ppExpRate->XmlReadValue("yieldTime", false);
+        string yieldTime ;
+		if (txt) {
+          stringstream s3(txt); s3 >> yieldTime ;
+		} else {
+          yieldTime = "-1.0" ;
+		}
+        stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
+		thisPair.set_experimentalYields(ppExpRate, ref, yieldTime, yield, errorValue);
         ppExpRate = ppExpRate->XmlMoveTo("me:experimentalYield");
       }
 
@@ -667,11 +673,18 @@ namespace mesmer
       return chiSquare ;
 
     //
-    // Calculate yields for these conditions.
+    // Calculate yields for these conditions. Assume all yields are measured at the same time.
     //
     YieldMap yieldMap ;
     try {
-      m_collisionOperator.calculateYields(yieldMap) ;
+      string product, yieldTime, ref; 
+      double expYield(0.0), expErr(0.0); 
+	  expYields[0].get_conditionSet(product, yieldTime, ref, expYield, expErr);
+
+	  double time ;
+      stringstream s1(yieldTime); s1 >> time ;
+	  
+	  m_collisionOperator.calculateYields(yieldMap, time) ;
     } catch (std::runtime_error& e) {
       cerr << "Error: during calculation of Chi^2 for yields:" << endl ;
       cerr << e.what() << endl ;

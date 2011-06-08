@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <vector>
 #include <complex>
+#include <stdexcept>
 
 namespace mesmer
 {
@@ -137,15 +138,6 @@ namespace mesmer
     T CalcDeterminant( T **mat, int order);
 
   } ;
-
-
-  //
-  // Template specialization for complex numbers.
-  //
-  template<>
-  void TMatrix<complex<double> >::diagonalize(complex<double> *rr)  {
-    throw std::runtime_error("The direct diagonalization of complex matrices is not yet implemented.");
-  }
 
   // Matrix mutiplication operator.
   template<class T>
