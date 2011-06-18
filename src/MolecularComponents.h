@@ -30,6 +30,16 @@ using namespace Constants ;
 namespace mesmer
 {
 
+  enum RotationalTop {
+    LINEAR,
+    NONLINEAR,
+    SPHERICAL,
+    OBLATE,
+	PROLATE,
+	ASYMMETRIC,
+	UNDEFINED_TOP
+  } ;
+
   class Molecule;
 
   class MolecularComponent{
@@ -154,12 +164,14 @@ namespace mesmer
       m_ZPE.set_range(valueL, valueU, stepsize, "ZPE");
       m_ZPE_chk = 0;
     }
+
     std::string getEnergyConvention()const {
       return m_EnergyConvention.empty() ? "arbitary" : m_EnergyConvention;
     }
+
     double get_Sym(void);
-    int test_rotConsts(void);
-    int  get_rotConsts(std::vector<double> &mmtsInt);
+    RotationalTop test_rotConsts(void);
+    RotationalTop get_rotConsts(std::vector<double> &mmtsInt);
     void get_VibFreq(std::vector<double>& vibFreq);
     bool removeVibFreq(double freq); 
 

@@ -246,7 +246,7 @@ namespace mesmer
     if (!BracketMinimum(pSys, direction)) {
       // failed to bracket minimum within user defined limits. 
       // Simply return for now.
-      currentChi2 = m_chi2b ;
+      currentChi2 = m_chi2a ;
       return ;
     }
 
@@ -418,7 +418,7 @@ namespace mesmer
   //
   // Write out current variable values.
   //
-  void Fitting::WriteVarVals(const double chiSquare) const {
+  void Fitting::WriteVarVals(double chiSquare) const {
 
     cerr << endl << "Chi^2 = " << chiSquare << endl ;
 
@@ -426,7 +426,7 @@ namespace mesmer
     for(iVar = 0 ; iVar < m_nVar ; iVar++) {
 
       Rdouble var = *Rdouble::withRange()[iVar] ;
-      cerr << var.get_varname() << "=" << setprecision(6) << (double)var << "  "; 
+      cerr << var.get_varname() << "=" << setprecision(6) << double(var) << "  "; 
 
     }
     cerr << endl ;

@@ -41,7 +41,7 @@ namespace mesmer
     virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC=NULL){ return true; };
 
     // provide a function to define particular counts of the DOS of a molecule
-    virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell)=0;
+    virtual bool countCellDOS(gDensityOfStates* mol, size_t MaximumCell)=0;
 
     // Provide a function to calculate contribution to canonical partition function.
     // (Mostly for testing purposes.)

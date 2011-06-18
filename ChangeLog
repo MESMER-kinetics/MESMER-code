@@ -1,7 +1,15 @@
 
+2011-June-18 Struan Robertson
+
+	* fitting.cpp: Minor fix to fitting method, previous Chi^2 value returned 
+	if boundary encountered.
+	* MolecularComponents.h/.cpp : Enum introduced for rotational top 
+	specification.
+	* Plugins: size_t applied in favour of int.
+
 2011-June-08 Struan Robertson
 
-	* TMatrix.h/.cpp, Makefile: Updated to fix build problem for linux.
+	* TMatrix.h/.cpp, Makefile: Updated to fix build problem for Linux.
 	* System.cpp,CollisionOperator.cpp: Altered so that yields can be 
 	computed for a specified time.
 

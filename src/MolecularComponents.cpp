@@ -294,8 +294,8 @@ namespace mesmer
         /*
         Atomize species X into atoms (at 0K)
         delta H  = Sum(Hf0(atom i)) - Hf0(X)
-          = Sum(E(atom i)) - E(X) where E is a compchem energy
-          =                - HAT0 (enthalpy of atomization at 0K)
+        = Sum(E(atom i)) - E(X) where E is a compchem energy
+        =                - HAT0 (enthalpy of atomization at 0K)
         We have E and Hf0 for each element as gas phase atom in librarymols.xml,
         so E(X) = Hf0(X) + Sum over all atoms( E - Hf0 )
         */
@@ -321,7 +321,7 @@ namespace mesmer
           //throw std::runtime_error("Hf298 not supported");
           /*Atomize species X at 298K
           deltaH  = Sum over atoms(Hf298)) - Hf298(X)
-                  = Sum(E + Sum(H(298K)) - (E(X) + H(298K))
+          = Sum(E + Sum(H(298K)) - (E(X) + H(298K))
           E(X) = (Hf298 - H(298K))(X) + Sum over atoms(E - Hf298 + H(298K))
           */
           // H is the enthalpy in cm-1 and 298K calculated with m_ZPE=0.
@@ -424,34 +424,36 @@ namespace mesmer
     }
   }
 
-  int gDensityOfStates::test_rotConsts()
+  RotationalTop gDensityOfStates::test_rotConsts()
   {
     std::vector<double> mmtsInt;
     return get_rotConsts(mmtsInt);
   }
 
-  int gDensityOfStates::get_rotConsts(std::vector<double> &mmtsInt)
+  RotationalTop gDensityOfStates::get_rotConsts(std::vector<double> &mmtsInt)
   {
-    if (m_RC_chk == -1){
-      cinfo << "Rotational constants were not defined but requested." << endl;
+    if (m_RC_chk <= -1){
+      if (m_RC_chk == -1)
+        cinfo << "Rotational constants were not defined but requested." << endl;
       --m_RC_chk;
-      return -4; // treat as a non-rotor
+      return UNDEFINED_TOP; // treat as a non-rotor
     }
-    else if (m_RC_chk < -1){
-      --m_RC_chk;
-      return -4;
-    }
+
     mmtsInt.clear();
     mmtsInt.push_back(m_RotCstA);
     mmtsInt.push_back(m_RotCstB);
     mmtsInt.push_back(m_RotCstC);
-    /* now the classification of rotors is simplified to only three following types. 3-D rotors may have other
-    attributes different from one another but in ILT they are treated as the same type. The function return values
-    are temporary shorthand representations. */
     ++m_RC_chk;
-    if      ((mmtsInt[0] + mmtsInt[1] + mmtsInt[2]) == 0.) return -4; // not a rotor
-    else if ((mmtsInt[0] * mmtsInt[1] * mmtsInt[2]) == 0.) return  0; // 2-D linear
-    else                                                   return  2; // 3-D symmetric/asymmetric/spherical top
+
+    // The classification of rotors is simplified to only three following types.
+    // 3-D rotors may have other attributes, but in ILT they are treated as the same type. 
+
+    if      ((mmtsInt[0] + mmtsInt[1] + mmtsInt[2]) == 0.) 
+      return UNDEFINED_TOP; // not a rotor
+    else if ((mmtsInt[0] * mmtsInt[1] * mmtsInt[2]) == 0.) 
+      return LINEAR;        // 2-D linear
+    else                                                   
+      return NONLINEAR;     // 3-D symmetric/asymmetric/spherical top
   }
 
 
@@ -539,19 +541,19 @@ namespace mesmer
         // Calculate rovibronic partition functions using analytical formula (treat vibrations classically).
         double qtot(1.0) ;
         vector<double> rotConst;
-        int rotorType = get_rotConsts(rotConst);
+        RotationalTop rotorType = get_rotConsts(rotConst);
 
         vector<double> vibFreq; 
         get_VibFreq(vibFreq);
 
         switch(rotorType){
-          case 2://3-D symmetric/asymmetric/spherical top
+          case NONLINEAR://3-D symmetric/asymmetric/spherical top
             for ( vector<double>::size_type j = 0 ; j < vibFreq.size() ; ++j ) {
               qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
             }
             qtot *= (sqrt(M_PI/(rotConst[0] * rotConst[1] * rotConst[2]))*(pow(beta,-1.5))/get_Sym()) ;
             break;
-          case 0://2-D linear
+          case LINEAR://2-D linear
             for ( vector<double>::size_type j = 0 ; j < vibFreq.size() ; ++j ) {
               qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
             }
@@ -818,7 +820,7 @@ namespace mesmer
           set_imFreq(x);
         }
         m_ImFreq_chk = 0;
-        
+
       }
     }
   }
@@ -1115,7 +1117,7 @@ namespace mesmer
   bool gWellProperties::collisionOperatorWithReservoirState(double beta, const int reducedCollOptrSize)
   {
     const int nrg = m_isCemetery ? 0 : 1; // number of reservoir grain
-    if (m_host->getDOS().test_rotConsts() < 0) return true;
+    if (m_host->getDOS().test_rotConsts() == UNDEFINED_TOP) return true;
     //
     //     i) Determine Probabilities of Energy Transfer.
     //    ii) Normalisation of Probability matrix.
@@ -1316,7 +1318,7 @@ namespace mesmer
   //
   bool gWellProperties::collisionOperator(double beta)
   {
-    if (m_host->getDOS().test_rotConsts() < 0) return true;
+    if (m_host->getDOS().test_rotConsts() == UNDEFINED_TOP) return true;
     //
     //     i) Determine Probabilities of Energy Transfer.
     //    ii) Normalisation of Probability matrix.
@@ -1718,10 +1720,10 @@ namespace mesmer
       if(! pDOS1.getCellDensityOfStates(rct1CellDOS)|| !pDOS2.getCellDensityOfStates(rct2CellDOS))
         return false;
       std::vector<double> rotConsts;
-      if (pDOS1.get_rotConsts(rotConsts) == -4){
+      if (pDOS1.get_rotConsts(rotConsts) == UNDEFINED_TOP){
         rctsCellDOS = rct2CellDOS;
       }
-      else if(pDOS2.get_rotConsts(rotConsts) == -4){
+      else if(pDOS2.get_rotConsts(rotConsts) == UNDEFINED_TOP){
         rctsCellDOS = rct1CellDOS;
       }
       else{

@@ -9,7 +9,7 @@ namespace mesmer
   public:
 
     // Provide a function to define particular counts of the DOS of a molecule.
-    virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell);
+    virtual bool countCellDOS(gDensityOfStates* mol, size_t MaximumCell);
 
     // Provide a function to calculate contribution to canonical partition function.
     // (Mostly for testing purposes.)
@@ -35,7 +35,7 @@ namespace mesmer
   //************************************************************
 
   // Provide a function to define particular counts of the DOS of a molecule.
-  bool QMRotor::countCellDOS(gDensityOfStates* pDOS, int MaximumCell)
+  bool QMRotor::countCellDOS(gDensityOfStates* pDOS, size_t MaximumCell)
   {
     vector<double> VibFreq ; 
     pDOS->get_VibFreq(VibFreq) ;
@@ -49,26 +49,26 @@ namespace mesmer
     // rotational density of state.
     //
     vector<double> rotConst; 
-    int rotorType = pDOS->get_rotConsts(rotConst);
+    RotationalTop rotorType = pDOS->get_rotConsts(rotConst);
     double sym = pDOS->get_Sym();
     double qele = pDOS->getSpinMultiplicity();
-    int i_e(0);
+    size_t i_e(0);
 
     // Note: rotConst[0] (A) >= rotConst[1] (B) >= rotConst[2] (C)
     double rcA(rotConst[0]), rcB(rotConst[1]), rcC(rotConst[2]);
 
     switch (rotorType) {
 
-    case 2: //3-D symmetric/asymmetric/spherical top
+    case NONLINEAR: //3-D symmetric/asymmetric/spherical top
 
-      // The following code tests for the type of top and where possible uses an analytic 
+      // The following code tests for the type of top and, where possible, uses an analytic 
       // solution for the energy levels.
 
       if (rcA == rcC || ((rcA - rcC)/rcC < .01)) { // spherical top
 
         rcA = (rcA + rcB + rcC) / 3.0;
         for (int j(0);; ++j ){
-          i_e = int(rcA * (double)(j * (j + 1)));
+          i_e = size_t(rcA * double(j * (j + 1)));
           if (i_e > MaximumCell) break;
           int sqrdg(2 * j + 1);
           cellDOS[i_e] = qele * double(sqrdg * sqrdg) / sym;
@@ -110,7 +110,7 @@ namespace mesmer
           for (int j(0); j <= maxJ; ++j ){
             double d_ei = rcB * double(j * (j + 1)); // B J (J + 1)
             for (int k(-j) ; k <= j; ++k ){
-              i_e = int (d_ei + rcDiff * double(k * k)); 
+              i_e = size_t (d_ei + rcDiff * double(k * k)); 
               if (i_e < MaximumCell)
                 cellDOS[i_e] += qele * double(2 * j + 1) / sym;
             }
@@ -124,7 +124,7 @@ namespace mesmer
             asymmetricRotor(rcA, rcB, rcC, j, Kappa, Er) ;
             withInRange = false ;
             for (size_t k(0); k < Er.size() ; ++k ){
-              i_e = static_cast<int>(Er[k]) ;
+              i_e = static_cast<size_t>(Er[k]) ;
               if (i_e < MaximumCell) {
                 withInRange = true ;
                 cellDOS[i_e] += qele * double(2 * j + 1) / sym;
@@ -135,9 +135,9 @@ namespace mesmer
         }
       }
       break;
-    case 0: //2-D linear
+    case LINEAR: //2-D linear
       for (int j(0);; ++j ){
-        i_e = int(rcA * double(j * (j + 1)));
+        i_e = size_t(rcA * double(j * (j + 1)));
         if (i_e > MaximumCell){
           break;
         }

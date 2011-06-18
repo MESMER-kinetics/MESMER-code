@@ -29,7 +29,7 @@ namespace mesmer
     virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC=NULL);
 
     // Provide a function to define particular counts of the DOS of a molecule.
-    virtual bool countCellDOS(gDensityOfStates* mol, int MaximumCell);
+    virtual bool countCellDOS(gDensityOfStates* mol, size_t MaximumCell);
 
     // Provide a function to calculate contribution to canonical partition function.
     // (Mostly for testing purposes.)
@@ -254,7 +254,7 @@ namespace mesmer
   // Calculate quantum mechanical 1D rotor densities of states of a free 
   // rotor and convolve them with the main density of states.
   //
-  bool HinderedRotorQM1D::countCellDOS(gDensityOfStates* pDOS, int MaximumCell)
+  bool HinderedRotorQM1D::countCellDOS(gDensityOfStates* pDOS, size_t MaximumCell)
   {
 
     vector<double> cellDOS;
@@ -356,10 +356,10 @@ namespace mesmer
     // density of states for the other degrees of freedom.
 
     double zeroPointEnergy(m_energyLevels[0]) ;
-    for (int k(1) ; k < nstates ; k++ ) {
-      int nr = int(m_energyLevels[k] - zeroPointEnergy) ;
+    for (size_t k(1) ; k < nstates ; k++ ) {
+      size_t nr = int(m_energyLevels[k] - zeroPointEnergy) ;
       if (nr < MaximumCell) {
-        for (int i(0) ; i < MaximumCell - nr ; i++ ) {
+        for (size_t i(0) ; i < MaximumCell - nr ; i++ ) {
           tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + cellDOS[i] ;
         }
       }
@@ -367,7 +367,7 @@ namespace mesmer
 
     // Apply symmetry number.
 
-    for (int i(0) ; i < MaximumCell ; i++ ) {
+    for (size_t i(0) ; i < MaximumCell ; i++ ) {
       tmpCellDOS[i] /= double(m_periodicity) ;
     }
 

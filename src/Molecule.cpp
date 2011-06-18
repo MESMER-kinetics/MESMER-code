@@ -105,10 +105,11 @@ namespace mesmer
 
     // get symmety number
     std::vector<double> mmtsInt;
-    int rotorType(2), isLinearRotor(0);
+    RotationalTop rotorType(NONLINEAR);
+	int isLinearRotor(0);
     if (g_dos){
       rotorType = g_dos->get_rotConsts(mmtsInt);
-      if (rotorType == 0)
+      if (rotorType == LINEAR)
         isLinearRotor = 1;
     }
     else{

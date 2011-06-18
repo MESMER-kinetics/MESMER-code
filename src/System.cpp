@@ -464,8 +464,6 @@ namespace mesmer
     if (m_Flags.cellDOSEnabled) m_Flags.cyclePrintCellDOS = true;
     if (m_Flags.grainDOSEnabled) m_Flags.cyclePrintGrainDOS = true;
 
-    chiSquare = 0.0; // reset the value to zero
-
     TimeCount events; unsigned int timeElapsed =0;
 
     //
@@ -510,6 +508,8 @@ namespace mesmer
     rateCoeffTable << endl ;
     rateCoeffTable << "    Temperature  Concentration    Exp. Coeff.    Cal. Coeff." << endl ;
     rateCoeffTable << endl ;
+
+    chiSquare = 0.0; // reset the value to zero
 
     for (calPoint = 0; calPoint < PandTs.size(); ++calPoint) {
 
