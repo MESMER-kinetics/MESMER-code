@@ -1,4 +1,9 @@
 
+2011-June-19 Struan Robertson
+
+	* Marquardt.cpp: Addition of plug-in that will implement the Marquardt 
+	algorithm.
+
 2011-June-18 Struan Robertson
 
 	* fitting.cpp: Minor fix to fitting method, previous Chi^2 value returned 

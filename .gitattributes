@@ -292,6 +292,7 @@ examples/benzene_oxidation/mesmer.log -text
 examples/benzene_oxidation/mesmer.test -text
 examples/i-propyl/baselines/Linux64/mesmer.log -text
 examples/i-propyl/baselines/Win32/mesmer.log -text
+examples/i-propyl/ipropyl_LM.xml -text
 examples/i-propyl/ipropyl_test.xml -text
 examples/makedata.bat -text
 examples/reservoirSink/baselines/Linux64/mesmer.test -text
@@ -510,6 +511,7 @@ src/plugins/EckartCoefficients.cpp -text
 src/plugins/ExponentialDown.cpp -text
 src/plugins/HinderedRotorCM1D.cpp -text
 src/plugins/LandauZenerCrossingCoeff.cpp -text
+src/plugins/Marquardt.cpp -text
 src/plugins/MesmerILT.cpp -text
 src/plugins/QMRotor.cpp -text
 src/plugins/SimpleILT.cpp -text
