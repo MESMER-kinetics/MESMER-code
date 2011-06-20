@@ -204,7 +204,13 @@ namespace mesmer
       {
         TiXmlElement* pnChild = pnProp->FirstChildElement(); //could be <array> or <scalar> or <string>
         if(pnChild)
-          return pnChild->GetText();
+        {
+          const char * ptxt = pnChild->GetText();
+          if(ptxt)
+            return ptxt;
+        }
+        cerr << "Malformed property: " << name << endl;
+        return NULL;
       }
       pnProp = pnProp->NextSiblingElement();
     }

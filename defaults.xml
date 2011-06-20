@@ -15,6 +15,9 @@
    <property dictRef="me:ZPE" default="NEEDS TO BE CHECKED**">
     <scalar units="kJ/mol">0</scalar>
   </property>
+  <property dictRef="me:Hf0" default="true">
+    <scalar units="kJ/mol">0</scalar>
+  </property>
   <property dictRef="me:epsilon" default="true">
     <scalar>50.0</scalar>
   </property>
@@ -46,5 +49,6 @@
   <me:fittingTolerance default="true">0.01</me:fittingTolerance>
   <me:fittingIterations default="true">10</me:fittingIterations>
   <me:energyTransferModel default="true">ExponentialDown</me:energyTransferModel>
+  <me:MarquardtDerivDelta>1.e-03</me:MarquardtDerivDelta>
 </defaults>
 

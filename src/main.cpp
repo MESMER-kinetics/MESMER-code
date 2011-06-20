@@ -220,12 +220,16 @@ int main(int argc,char *argv[])
   try {
     if(!ppIOPtr || !_sys.parse(ppIOPtr))
     {
+      if(plog)
+        plog->flush();
       cerr << "\nSystem parse failed." << endl;
       returnCode = -2;
       if(!nocalc)
         return returnCode;
     }
     _sys.WriteMetadata(infilename);
+    if(plog)
+      plog->flush();
 
     if (!nocalc)
     {
