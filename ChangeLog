@@ -1,5 +1,16 @@
 2011-June-20 Chris Morley
 
+	Better error reporting for failing file from Paul Marshall's group.
+
+	* src/main.cpp: flush log file after parsing so messages can be seen
+	even if fails later.
+
+	* src/XMLPersist.cpp: Error message for malformed CML property.
+
+	* defaults.xml: add a default for <me:MarquardtDerivDelta> to prevent
+	a crash if not specified. Other params probably need a default too.
+
+
 2011-June-19 Struan Robertson
 
 	* Marquardt.cpp: Addition of plug-in that will implement the Marquardt 
