@@ -1,3 +1,8 @@
+
+2011-June-19 Struan Robertson
+
+	* Marquardt.cpp: First pass implementation of Marquardt algorithm.
+
 2011-June-20 Chris Morley
 
 	Better error reporting for failing file from Paul Marshall's group.
@@ -9,7 +14,6 @@
 
 	* defaults.xml: add a default for <me:MarquardtDerivDelta> to prevent
 	a crash if not specified. Other params probably need a default too.
-
 
 2011-June-19 Struan Robertson
 

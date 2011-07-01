@@ -34,7 +34,7 @@ namespace mesmer
   private:
 
     // Numerical derivatives.
-    void NumericalDerivatives(System* pSys, double currentChiSquare, vector<double> &gradient) const ;
+    void NumericalDerivatives(System* pSys, vector<double> &residuals, vector<double> &gradient, dMatrix &hessian) const ;
 
     // Perform a golden search for a specified variable.
     void LineSearch(System* pSys, const vector<double> &direction, double &currentChi2, double tol) ;
@@ -64,7 +64,7 @@ namespace mesmer
     bool CheckBounds(const vector<double> &A) const ;
 
     // Write out current variable values.
-    void WriteVarVals(const double chiSquare) const ;
+    void WriteVarVals(double chiSquare, double lambda) const ;
 
     // Check for line search convergence.
     bool CheckLineSearchConvergence(const vector<double> &X) const ;
@@ -143,17 +143,19 @@ namespace mesmer
     //
     // Begin by finding the starting point chi-squared value.
     //
-    double chiSquare(0.0) ;
 
-    vector<double> initialLocation(m_nVar,0.0) ; 
+    vector<double> currentLocation(m_nVar,0.0) ; 
+    vector<double> newLocation(m_nVar,0.0) ; 
 
-    GetLocation(initialLocation) ;
+    GetLocation(currentLocation) ;
 
-    pSys->calculate(chiSquare) ;
+    double chiSquare(0.0), lambda(1.0) ;
+    vector<double> residuals ;
+    pSys->calculate(chiSquare, residuals) ;
 
-    double oldChiSquare = chiSquare ;
+    double bestChiSquare = chiSquare ;
 
-    WriteVarVals(chiSquare) ;
+    WriteVarVals(chiSquare, lambda) ;
 
     ChangeErrorLevel e(obError); // Warnings and less not sent to console.
 
@@ -165,22 +167,54 @@ namespace mesmer
     // dependence problems.
     //
 
-    // Setup initial search directions.
-
     vector<double> gradient(m_nVar,0.0) ;
+
+    dMatrix hessian(m_nVar,0.0); 
+
+    NumericalDerivatives(pSys, residuals, gradient, hessian) ;
 
     for (size_t itr(1), count(0) ; itr <= maxIterations ; itr++) {
 
-      NumericalDerivatives(pSys, chiSquare, gradient) ;
+      newLocation = currentLocation ;
 
-      VectorNormalize(gradient) ;
+      dMatrix invHessian = hessian ;
 
-      oldChiSquare = chiSquare ;
-      LineSearch(pSys, gradient, chiSquare, tol);
+      for (size_t iVar(0) ; iVar < m_nVar ; iVar++) {
+        invHessian[iVar][iVar] *= (1.0 + lambda) ;
+      }
 
-      WriteVarVals(chiSquare) ;
+      invHessian.invertGaussianJordan() ;
 
-      cinfo << "Iteration: " << itr << " of Marquardt. chiSquare = " << chiSquare << endl;
+      gradient *= invHessian ;
+
+      for (size_t iVar(0) ; iVar < m_nVar ; iVar++) {
+        newLocation[iVar] += gradient[iVar] ;
+      }
+
+      // Check bounds.    
+      if (!CheckBounds(newLocation)) {
+        lambda *= 10.0 ;
+        WriteVarVals(bestChiSquare, lambda) ;
+        continue ;
+      }
+
+      SetLocation(newLocation) ;
+
+      pSys->calculate(chiSquare, residuals) ;
+
+      if (chiSquare > bestChiSquare) {
+        lambda *= 10.0 ;
+        SetLocation(currentLocation) ;
+      } else {
+        lambda /= 10.0 ;
+        GetLocation(currentLocation) ;
+        bestChiSquare = chiSquare ;
+        NumericalDerivatives(pSys, residuals, gradient, hessian) ;
+      }
+
+      WriteVarVals(bestChiSquare, lambda) ;
+
+      cinfo << "Iteration: " << itr << " of Marquardt. chiSquare = " << chiSquare << lambda << endl;
 
     }
 
@@ -206,13 +240,14 @@ namespace mesmer
   //
   // Numerical derivatives.
   //
-  void Marquardt::NumericalDerivatives(System* pSys, double currentChiSquare, vector<double> &gradient) const {
+  void Marquardt::NumericalDerivatives(System* pSys, vector<double> &residuals, vector<double> &gradient, dMatrix &hessian) const {
 
     if (gradient.size() != m_nVar) {
       // Throw an error.
     }
 
     vector<double> location(m_nVar,0.0), update(m_nVar,0.0) ;
+    vector<double> derivatives ;
     GetLocation(location) ;
     for (size_t iVar(0) ; iVar < m_nVar ; iVar++) {
 
@@ -220,12 +255,40 @@ namespace mesmer
       update[iVar] *= (1.0 + m_delta) ;
       SetLocation(update) ;
 
-      double chiSquare ;
-      pSys->calculate(chiSquare) ;
+      double chiSquare(0.0) ;
+      vector<double> newResiduals ;
+      pSys->calculate(chiSquare, newResiduals) ;
 
-      gradient[iVar] = (chiSquare - currentChiSquare)/(m_delta*location[iVar]) ;
+      size_t sizeRes = residuals.size() ;
+      if (newResiduals.size() != sizeRes) {
+        cerr << "Error: residual vectors are of different size" ;
+      }
+
+      // gradient[iVar] = (chiSquare - currentChiSquare)/(m_delta*location[iVar]) ;
+
+      double grad(0.0), hess(0.0) ; 
+      for (size_t i(0) ; i < sizeRes ; i++) {
+        double deriv = (newResiduals[i] - residuals[i])/(m_delta*location[iVar]) ;
+        grad += residuals[i]*deriv ;
+        hess += deriv*deriv ;
+        derivatives.push_back(deriv) ;
+      }
+      gradient[iVar] = -grad ;
+      hessian[iVar][iVar] = hess ;
+
+      for (size_t jVar(0) ; jVar < iVar ; jVar++) {
+        hess = 0.0 ;
+        for (size_t i(0),ii(iVar*sizeRes),jj(jVar*sizeRes) ; i < sizeRes ; i++, ii++, jj++) {
+          hess += derivatives[ii]*derivatives[jj] ;
+        }
+        hessian[iVar][jVar] = hessian[jVar][iVar] = hess ;
+      }
 
     }
+
+    hessian.print(string("Hessian matrix:"),cerr) ;
+
+
     SetLocation(location) ;
 
   }
@@ -414,9 +477,9 @@ namespace mesmer
   //
   // Write out current variable values.
   //
-  void Marquardt::WriteVarVals(double chiSquare) const {
+  void Marquardt::WriteVarVals(double chiSquare, double lambda) const {
 
-    cerr << endl << "Chi^2 = " << chiSquare << endl ;
+    cerr << endl << "Chi^2 = " << chiSquare << " Lambda = " << lambda << endl ;
 
     size_t iVar ;
     for(iVar = 0 ; iVar < m_nVar ; iVar++) {

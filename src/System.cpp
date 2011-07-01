@@ -458,7 +458,7 @@ namespace mesmer
   //
   // Begin calculation.
   // over all PT values, constant parameters
-  bool System::calculate(double& chiSquare, bool writeReport)
+  bool System::calculate(double& chiSquare, vector<double> &residuals, bool writeReport)
   {
     // Controls the print-out of grain/cell DOS in each cycle (This is only for source term)
     if (m_Flags.cellDOSEnabled) m_Flags.cyclePrintCellDOS = true;
@@ -510,6 +510,7 @@ namespace mesmer
     rateCoeffTable << endl ;
 
     chiSquare = 0.0; // reset the value to zero
+	residuals.clear() ;
 
     for (calPoint = 0; calPoint < PandTs.size(); ++calPoint) {
 
@@ -579,11 +580,11 @@ namespace mesmer
           // For these conditions calculate the contribution to the chi^2 merit function
           // for any of the experimentally observable data types. 
 
-          chiSquare += calcChiSqRateCoefficients(mesmerRates, PandTs[calPoint], rateCoeffTable);
+          chiSquare += calcChiSqRateCoefficients(mesmerRates, PandTs[calPoint], rateCoeffTable, residuals);
 
-          chiSquare += calcChiSqYields(PandTs[calPoint], rateCoeffTable);
+          chiSquare += calcChiSqYields(PandTs[calPoint], rateCoeffTable, residuals);
 
-          chiSquare += calcChiSqEigenvalues(PandTs[calPoint], rateCoeffTable);
+          chiSquare += calcChiSqEigenvalues(PandTs[calPoint], rateCoeffTable, residuals);
 
           ctest << "}\n";
 
@@ -611,7 +612,7 @@ namespace mesmer
     return true;
   }
 
-  double System::calcChiSqRateCoefficients(const qdMatrix& mesmerRates,  const CandTpair& expData, stringstream &rateCoeffTable){
+  double System::calcChiSqRateCoefficients(const qdMatrix& mesmerRates,  const CandTpair& expData, stringstream &rateCoeffTable, vector<double> &residuals){
 
     double chiSquare(0.0) ;
 
@@ -654,8 +655,9 @@ namespace mesmer
         // No reference reaction. Assume reaction is unimolecular.
       }
 
-      double diff = rateCoeff  - expRate ;
-      chiSquare += (diff * diff) / (expErr * expErr);
+      double diff = (rateCoeff  - expRate)/expErr ;
+	  residuals.push_back(diff) ;
+      chiSquare +=  diff * diff ;
 
       rateCoeffTable << formatFloat(expRate, 6, 15) << formatFloat(rateCoeff, 6, 15) << endl ;
       AddCalcValToXml(expData, i, rateCoeff);
@@ -664,7 +666,7 @@ namespace mesmer
     return chiSquare;
   }
 
-  double System::calcChiSqYields(const CandTpair& expData, stringstream &rateCoeffTable) {
+  double System::calcChiSqYields(const CandTpair& expData, stringstream &rateCoeffTable, vector<double> &residuals) {
 
     double chiSquare(0.0) ;
     vector<conditionSet> expYields;
@@ -711,8 +713,9 @@ namespace mesmer
 
       }
 
-      double diff = yield - expYield ;
-      chiSquare += (diff * diff) / (expErr * expErr);
+      double diff = (yield - expYield)/expErr ;
+	  residuals.push_back(diff) ;
+      chiSquare += (diff * diff);
 
       rateCoeffTable << formatFloat(expYield, 6, 15) << formatFloat(yield, 6, 15) << endl ;
       AddCalcValToXml(expData, i, yield);
@@ -721,7 +724,7 @@ namespace mesmer
     return chiSquare;
   }
 
-  double System::calcChiSqEigenvalues(const CandTpair& expData, stringstream &rateCoeffTable) {
+  double System::calcChiSqEigenvalues(const CandTpair& expData, stringstream &rateCoeffTable, vector<double> &residuals) {
 
     double chiSquare(0.0) ;
 
@@ -744,8 +747,9 @@ namespace mesmer
         continue ;
       }
 
-      double diff = eigenvalue - expEigenvalue ;
-      chiSquare += (diff * diff) / (expErr * expErr);
+      double diff = (eigenvalue - expEigenvalue)/expErr ;
+	  residuals.push_back(diff) ;
+      chiSquare += (diff * diff); 
 
       rateCoeffTable << formatFloat(expEigenvalue, 6, 15) << formatFloat(eigenvalue, 6, 15) << endl ;
       AddCalcValToXml(expData, i, eigenvalue);

@@ -47,8 +47,14 @@ namespace mesmer
     // Begin calculation.
     void executeCalculation() ;
 
-    // Begin single calculation.
-    bool calculate(double& chiSquare, bool writeReport = false) ;
+	// Begin single calculation.
+    bool calculate(double& chiSquare, vector<double> &residuals, bool writeReport = false) ;
+
+	// Begin single calculation - wrapper function.
+	bool calculate(double& chiSquare, bool writeReport = false) {
+      vector<double> residuals ;
+      return calculate(chiSquare, residuals, writeReport) ;
+	} ;
 
     // Print system configuration
     void configuration(void);
@@ -76,9 +82,9 @@ namespace mesmer
       PersistPtr            ppbase,
       bool                  MustBeThere=true);
 
-    double calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const CandTpair& expData, stringstream &rateCoeffTable) ;
-    double calcChiSqYields(const CandTpair& expData,  stringstream &rateCoeffTable);
-    double calcChiSqEigenvalues(const CandTpair& expData,  stringstream &rateCoeffTable);
+    double calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const CandTpair& expData, stringstream &rateCoeffTable, vector<double> &residuals) ;
+    double calcChiSqYields(const CandTpair& expData,  stringstream &rateCoeffTable, vector<double> &residuals);
+    double calcChiSqEigenvalues(const CandTpair& expData,  stringstream &rateCoeffTable, vector<double> &residuals);
 
     //Add extra attributes) containing calculated value and timestamp to <me:experimentalRate> (or similar element)
     void AddCalcValToXml(const CandTpair& expData, size_t i, double val) const;
