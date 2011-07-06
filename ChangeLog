@@ -1,5 +1,9 @@
 
-2011-June-19 Struan Robertson
+2011-July-06 Struan Robertson
+
+	* Marquardt.cpp: Tidying up of Marquardt class.
+
+2011-July-01 Struan Robertson
 
 	* Marquardt.cpp: First pass implementation of Marquardt algorithm.
 

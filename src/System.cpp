@@ -655,7 +655,7 @@ namespace mesmer
         // No reference reaction. Assume reaction is unimolecular.
       }
 
-      double diff = (rateCoeff  - expRate)/expErr ;
+      double diff = (expRate - rateCoeff)/expErr ;
 	  residuals.push_back(diff) ;
       chiSquare +=  diff * diff ;
 
@@ -713,7 +713,7 @@ namespace mesmer
 
       }
 
-      double diff = (yield - expYield)/expErr ;
+      double diff = (expYield - yield)/expErr ;
 	  residuals.push_back(diff) ;
       chiSquare += (diff * diff);
 
@@ -747,7 +747,7 @@ namespace mesmer
         continue ;
       }
 
-      double diff = (eigenvalue - expEigenvalue)/expErr ;
+      double diff = (expEigenvalue - eigenvalue)/expErr ;
 	  residuals.push_back(diff) ;
       chiSquare += (diff * diff); 
 
