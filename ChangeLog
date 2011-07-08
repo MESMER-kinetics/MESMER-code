@@ -1,4 +1,8 @@
 
+2011-July-08 Struan Robertson
+
+	* Marquardt.cpp: Add parameter error estimates.
+
 2011-July-06 Struan Robertson
 
 	* Marquardt.cpp: Tidying up of Marquardt class.

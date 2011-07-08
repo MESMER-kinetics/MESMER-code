@@ -173,6 +173,7 @@ SRCS := \
 	plugins/HinderedRotorQM1D.cpp \
 	plugins/HinderedRotorCM1D.cpp \
 	plugins/LandauZenerCrossingCoeff.cpp \
+	plugins/Marquardt.cpp \
 	plugins/MesmerILT.cpp \
 	plugins/QMRotor.cpp \
 	plugins/ThermodynamicTable.cpp \
