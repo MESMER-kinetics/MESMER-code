@@ -217,9 +217,12 @@ namespace mesmer
       }
 
     }
+
     // Goodness of fit.
 
     cinfo << endl << "Goodness of Fit:" << endl << endl ;
+	cinfo << "Number of degrees of Freedom = " << residuals.size() - m_nVar << endl ;
+	// cinfo << "Chi^2 probability = " << ChiSquaredPrbFn(chiSquare, double(residuals.size() - m_nVar)) << endl ;
 
     return true;
   }

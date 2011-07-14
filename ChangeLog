@@ -1,4 +1,9 @@
 
+2011-July-14 Struan Robertson
+
+	* Marquardt.cpp, MesmerMaths.cpp/.h: Initial implementation of goodness 
+	of fit test.
+
 2011-July-08 Struan Robertson
 
 	* Marquardt.cpp: Add parameter error estimates.
