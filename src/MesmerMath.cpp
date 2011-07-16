@@ -964,35 +964,35 @@ double ChiSquaredPrbFn(double x, double a) {
     double ap(a) ;
     double sum(1.0/a) ;
     double del(sum) ; 
-	size_t i(0) ;
+    size_t i(0) ;
     for ( ; i < maxItr && (abs(del) >= abs(sum)*eps) ; i++) {
       ap  += 1.0 ;
       del *= x/ap ;
       sum += del ;
     }
     if (i >= maxItr)
-	  cinfo << "Warning: Maximum iterations exceed in calculation of Gamma function." << endl ;
+      cinfo << "Warning: Maximum iterations exceed in calculation of Gamma function." << endl ;
     chiSquaredPrb = 1.0 - sum*exp(-x + a*log(x))/MesmerGamma(a) ;
   } else {
-	double b(x + 1.0 - a) ; 
-	double c(1.0/fpMin) ;
-	double d(1.0/b) ;
-	double h(d) ;
-	double del ;
-	size_t i(0) ;
+    double b(x + 1.0 - a) ; 
+    double c(1.0/fpMin) ;
+    double d(1.0/b) ;
+    double h(d) ;
+    double del(0.0) ;
+    size_t i(0) ;
     for ( ; i < maxItr && (abs(del - 1.0) >= eps) ; i++) {
-	  double an = -double(i)*(double(i) - a) ;
-	  b += 2.0 ; 
-	  d = an*d + b ;
-	  if (abs(d) < fpMin) d = fpMin ;
-	  c = b + an/c ;
-	  if (abs(c) < fpMin) c = fpMin ;
-	  d = 1.0/d ;
+      double an = -double(i)*(double(i) - a) ;
+      b += 2.0 ; 
+      d = an*d + b ;
+      if (abs(d) < fpMin) d = fpMin ;
+      c = b + an/c ;
+      if (abs(c) < fpMin) c = fpMin ;
+      d = 1.0/d ;
       del = d*c ;
       h *= del ;
     }
     if (i >= maxItr)
-	  cinfo << "Warning: Maximum iterations exceed in calculation of Gamma function." << endl ;
+      cinfo << "Warning: Maximum iterations exceed in calculation of Gamma function." << endl ;
     chiSquaredPrb = h*exp(-x + a*log(x))/MesmerGamma(a) ;
   }
 

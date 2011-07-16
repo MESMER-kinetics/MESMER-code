@@ -1,4 +1,9 @@
 
+
+2011-July-16 Struan Robertson
+
+	* Marquardt.cpp, MesmerMaths.cpp/.h: Tidying up of goodness of fit test.
+
 2011-July-14 Struan Robertson
 
 	* Marquardt.cpp, MesmerMaths.cpp/.h: Initial implementation of goodness 

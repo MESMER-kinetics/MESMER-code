@@ -153,12 +153,11 @@ namespace mesmer
           SetLocation(currentLocation) ;
         } else {
           double relativeChange = 1.0 - chiSquare/bestChiSquare ;
-          cerr << relativeChange << endl ;
-		  converged = (relativeChange < 0.001)? true : false ;
-		  lambda /= m_lambdaScale ;
-		  GetLocation(currentLocation) ;
-		  bestChiSquare = chiSquare ;
-		  NumericalDerivatives(pSys, residuals, gradient, hessian) ;
+          converged = (relativeChange < 0.001) ;
+          lambda /= m_lambdaScale ;
+          GetLocation(currentLocation) ;
+          bestChiSquare = chiSquare ;
+          NumericalDerivatives(pSys, residuals, gradient, hessian) ;
         }
       } else {
         lambda *= m_lambdaScale ;
@@ -221,8 +220,8 @@ namespace mesmer
     // Goodness of fit.
 
     cinfo << endl << "Goodness of Fit:" << endl << endl ;
-	cinfo << "Number of degrees of Freedom = " << residuals.size() - m_nVar << endl ;
-	// cinfo << "Chi^2 probability = " << ChiSquaredPrbFn(chiSquare, double(residuals.size() - m_nVar)) << endl ;
+    cinfo << "Number of degrees of Freedom = " << residuals.size() - m_nVar << endl ;
+    cinfo << "Chi^2 probability = " << ChiSquaredPrbFn(chiSquare/2.0, double(residuals.size() - m_nVar)/2.0) << endl << endl ;
 
     return true;
   }
