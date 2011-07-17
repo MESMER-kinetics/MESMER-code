@@ -509,6 +509,8 @@ src/plugins/BoltzmannDistribution.cpp -text
 src/plugins/ClassicalRotor.cpp -text
 src/plugins/EckartCoefficients.cpp -text
 src/plugins/ExponentialDown.cpp -text
+src/plugins/FittingUtils.cpp -text
+src/plugins/FittingUtils.h -text
 src/plugins/HinderedRotorCM1D.cpp -text
 src/plugins/LandauZenerCrossingCoeff.cpp -text
 src/plugins/Marquardt.cpp -text

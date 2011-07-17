@@ -213,6 +213,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\plugins\FittingUtils.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\formatfloat.cpp"
 				>
 			</File>
@@ -400,6 +404,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\EnergyTransferModel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\plugins\FittingUtils.h"
 				>
 			</File>
 			<File

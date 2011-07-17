@@ -49,6 +49,7 @@
   <me:fittingTolerance default="true">0.01</me:fittingTolerance>
   <me:fittingIterations default="true">10</me:fittingIterations>
   <me:energyTransferModel default="true">ExponentialDown</me:energyTransferModel>
-  <me:MarquardtDerivDelta>1.e-03</me:MarquardtDerivDelta>
+  <me:MarquardtDerivDelta default="true">1.e-03</me:MarquardtDerivDelta>
+  <me:MarquardtTolerance default="true">1.e-03</me:MarquardtTolerance>
 </defaults>
 

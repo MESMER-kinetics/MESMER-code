@@ -168,6 +168,7 @@ SRCS := \
 	plugins/ClassicalRotor.cpp \
 	plugins/EckartCoefficients.cpp \
 	plugins/ExponentialDown.cpp \
+	plugins/FittingUtils.cpp \
 	plugins/fitting.cpp \
 	plugins/gridsearch.cpp \
 	plugins/HinderedRotorQM1D.cpp \

@@ -15,14 +15,15 @@
 #include "../System.h"
 #include "../calcmethod.h"
 #include "../dMatrix.h"
+#include "FittingUtils.h"
 
 namespace mesmer
 {
-  class Fitting : public CalcMethod
+  class Fitting : public CalcMethod, private FittingUtils
   {
   public:
 
-    Fitting(const std::string& id) : CalcMethod(id), m_nVar(0), m_A(), m_B(), m_C(), m_chi2a(0.0), m_chi2b(0.0), m_chi2c(0.0) {}
+    Fitting(const std::string& id) : CalcMethod(id), FittingUtils(), m_nVar(0), m_A(), m_B(), m_C(), m_chi2a(0.0), m_chi2b(0.0), m_chi2c(0.0) {}
 
     virtual ~Fitting() {}
 
@@ -42,12 +43,6 @@ namespace mesmer
     // Golden section search on a bracketed minimum.
     void GoldenSectionSearch(System* pSys, double &currentChi2, double tol) ;
 
-    // Get the current location.
-    void GetLocation(vector<double> &loc) ;
-
-    // Set the current location.
-    void SetLocation(vector<double> &loc) const ;
-
     // Calculate the weighted sum of two vectors.
     vector<double> VectorAdd(const double a, const vector<double> &A, const double b, const vector<double> &B) const ;
 
@@ -56,9 +51,6 @@ namespace mesmer
 
     // Normalize a vector.
     void VectorNormalize(vector<double> &A) const ;
-
-    // Check that the a point falls within the limits defined by the user.
-    bool CheckBounds(const vector<double> &A) const ;
 
     // Write out current variable values.
     void WriteVarVals(const double chiSquare) const ;
@@ -228,9 +220,16 @@ namespace mesmer
       RangeXmlPtrs[i]->XmlWriteAttribute("chiSquared", cs.str());
     }
 
-    // Calculate model values with optimum parameters.
+    // Write out the results and the statisitics of the fit.
+    vector<double> residuals ;
+    pSys->calculate(chiSquare, residuals) ;
 
-    pSys->calculate(chiSquare, true) ;
+    vector<double> gradient(m_nVar,0.0) ;
+    dMatrix hessian(m_nVar,0.0); 
+    double delta(0.001) ;
+    NumericalDerivatives(pSys, residuals, delta, gradient, hessian) ;
+
+    ResultsAndStatistics(pSys, hessian) ;
 
     return true;
   }
@@ -433,37 +432,6 @@ namespace mesmer
 
   }
 
-  //
-  // Get the current location.
-  //
-  void Fitting::GetLocation(vector<double> &loc) {
-
-    if (loc.size() != m_nVar) {
-      // Throw an error.
-    }
-
-    size_t iVar ;
-    for(iVar = 0 ; iVar < m_nVar ; iVar++) {
-      loc[iVar] = *Rdouble::withRange()[iVar] ;
-    }
-
-  }
-
-  //
-  // Set the current location.
-  //
-  void Fitting::SetLocation(vector<double> &loc) const {
-
-    if (loc.size() != m_nVar) {
-      // Throw an error.
-    }
-
-    size_t iVar ;
-    for(iVar = 0 ; iVar < m_nVar ; iVar++) {
-      *Rdouble::withRange()[iVar] = loc[iVar] ;
-    }
-
-  }
 
   //
   // Calculate the weighted sum of two vectors.
@@ -481,29 +449,6 @@ namespace mesmer
     }
 
     return sum ;
-
-  }
-
-  //
-  // Check that the a point falls within the limits defined by the user.
-  //
-  bool Fitting::CheckBounds(const vector<double> &A) const {
-
-    bool check(true) ;
-
-    size_t iVar ;
-    for(iVar = 0 ; iVar < m_nVar && check ; iVar++) {
-
-      double var = A[iVar] ;
-      double lower(0.0), upper(0.0), stepsize(0.0) ;
-
-      Rdouble::withRange()[iVar]->get_range(lower, upper, stepsize) ;
-
-      check = ((var > lower) && (var < upper)) ;
-
-    }
-
-    return check ;
 
   }
 
