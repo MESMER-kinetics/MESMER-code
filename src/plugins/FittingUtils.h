@@ -32,7 +32,7 @@ namespace mesmer
     void NumericalDerivatives(System* pSys, vector<double> &residuals, double delta, vector<double> &gradient, dMatrix &hessian) const ;
 
     // Write out the results and statistics of the fit. 
-    void FittingUtils::ResultsAndStatistics(System* pSys, dMatrix &hessian) const ;
+    void ResultsAndStatistics(System* pSys, dMatrix &hessian) const ;
   } ;
 
 }  //namespace
