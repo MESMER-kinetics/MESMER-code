@@ -45,7 +45,7 @@ namespace mesmer
 
     // Provide a function to calculate contribution to canonical partition function.
     // (Mostly for testing purposes.)
-    virtual double canPrtnFnCntrb(const double beta)=0;
+    virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta)=0;
 
     std::string getName() const {return m_name;} ;
     const Molecule* getParent() const {return m_parent;} ;

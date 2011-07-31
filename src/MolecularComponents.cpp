@@ -538,35 +538,14 @@ namespace mesmer
         // Calculate rovibronic partition functions based on grains.
         double grainCanPrtnFn = canonicalPartitionFunction(m_grainDOS, m_grainEne, beta) ;
 
-        // Calculate rovibronic partition functions using analytical formula (treat vibrations classically).
+        // Calculate rovibronic partition functions using analytical formula.
         double qtot(1.0) ;
-        vector<double> rotConst;
-        RotationalTop rotorType = get_rotConsts(rotConst);
-
-        vector<double> vibFreq; 
-        get_VibFreq(vibFreq);
-
-        switch(rotorType){
-          case NONLINEAR://3-D symmetric/asymmetric/spherical top
-            for ( vector<double>::size_type j = 0 ; j < vibFreq.size() ; ++j ) {
-              qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
-            }
-            qtot *= (sqrt(M_PI/(rotConst[0] * rotConst[1] * rotConst[2]))*(pow(beta,-1.5))/get_Sym()) ;
-            break;
-          case LINEAR://2-D linear
-            for ( vector<double>::size_type j = 0 ; j < vibFreq.size() ; ++j ) {
-              qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
-            }
-            qtot /= rotConst[0]* get_Sym()*beta ;
-            break;
-          default:
-            ; // Assume atom.
-        }
+        qtot *= m_pDOSCalculator->canPrtnFnCntrb(this, beta) ;
 
         // Add contribution from other internal degrees of freeedom.
 
         for ( vector<DensityOfStatesCalculator*>::size_type j = 0 ; j < m_ExtraDOSCalculators.size() ; ++j ) {
-          qtot *= m_ExtraDOSCalculators[j]->canPrtnFnCntrb(beta) ;
+          qtot *= m_ExtraDOSCalculators[j]->canPrtnFnCntrb(this, beta) ;
         }        
 
         qtot *= double(getSpinMultiplicity());
@@ -591,7 +570,7 @@ namespace mesmer
 
     if (m_host->getFlags().cellDOSEnabled){
       ctest << endl << "Cell rovibronic density of states of " << m_host->getName() << endl << "{" << endl;
-      for (int i = 0; i < MaximumCell; ++i){
+      for (int i(0); i < MaximumCell; ++i){
         formatFloat(ctest, cellEne[i],  6,  15) ;
         formatFloat(ctest, m_cellDOS[i],  6,  15) ;
         ctest << endl ;
@@ -601,7 +580,7 @@ namespace mesmer
 
     if (m_host->getFlags().grainDOSEnabled && (m_host->isMolType("modelled") || m_host->isMolType("transitionState"))){
       ctest << endl << "Grain rovibronic density of states of " << m_host->getName() << endl << "{" << endl;
-      for (int i = 0; i < MaximumGrain; ++i){
+      for (int i(0); i < MaximumGrain; ++i){
         formatFloat(ctest, m_grainEne[i],  6,  15) ;
         formatFloat(ctest, m_grainDOS[i],  6,  15) ;
         ctest << endl ;

@@ -12,8 +12,7 @@ namespace mesmer
     virtual bool countCellDOS(gDensityOfStates* mol, size_t MaximumCell);
 
     // Provide a function to calculate contribution to canonical partition function.
-    // (Mostly for testing purposes.)
-    virtual double canPrtnFnCntrb(const double beta) { return 1.0 ;} ;
+    virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
 
     ///Constructor which registers with the list of DensityOfStatesCalculators in the base class
     //This class calculates a complete DOS: it is not an extra class. 
@@ -52,19 +51,19 @@ namespace mesmer
     double cnt = 0.;
 
     switch (rotorType){
-    case NONLINEAR: //3-D symmetric/asymmetric/spherical top
-      cnt = qele * sqrt(4./(rotConst[0] * rotConst[1] * rotConst[2]))/sym ;
-      for (size_t i(0) ; i < MaximumCell ; ++i )
-        cellDOS[i] = cnt*sqrt(cellEne[i]) ;
-      break;
-    case LINEAR: //2-D linear
-      cnt = qele / (rotConst[0] * sym);
-      for (size_t i(0) ; i < MaximumCell ; ++i )
-        cellDOS[i] = cnt ;
-      break;
-    default: // Assume atom.
-      cellDOS[0] = qele  ;
-      break;
+      case NONLINEAR: //3-D symmetric/asymmetric/spherical top
+        cnt = qele * sqrt(4./(rotConst[0] * rotConst[1] * rotConst[2]))/sym ;
+        for (size_t i(0) ; i < MaximumCell ; ++i )
+          cellDOS[i] = cnt*sqrt(cellEne[i]) ;
+        break;
+      case LINEAR: //2-D linear
+        cnt = qele / (rotConst[0] * sym);
+        for (size_t i(0) ; i < MaximumCell ; ++i )
+          cellDOS[i] = cnt ;
+        break;
+      default: // Assume atom.
+        cellDOS[0] = qele  ;
+        break;
     }
 
     // Implementation of the Beyer-Swinehart algorithm.
@@ -85,6 +84,35 @@ namespace mesmer
     pDOS->setCellDensityOfStates(cellDOS) ;
 
     return true;
+  }
+
+  // Calculate contribution to canonical partition function.
+  double ClassicalRotor::canPrtnFnCntrb(gDensityOfStates* gdos, double beta) {
+
+    vector<double> rotConst;
+    RotationalTop rotorType = gdos->get_rotConsts(rotConst);
+    double sym = gdos->get_Sym();
+    vector<double> vibFreq; 
+    gdos->get_VibFreq(vibFreq);
+
+    double qtot(1.0) ; 
+    switch(rotorType){
+      case NONLINEAR://3-D symmetric/asymmetric/spherical top
+        for ( size_t j(0) ; j < vibFreq.size() ; ++j ) {
+          qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
+        }
+        qtot *= (sqrt(M_PI/(rotConst[0] * rotConst[1] * rotConst[2]))*(pow(beta,-1.5))/sym) ;
+        break;
+      case LINEAR://2-D linear
+        for ( size_t j(0) ; j < vibFreq.size() ; ++j ) {
+          qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
+        }
+        qtot /= (rotConst[0]*sym*beta) ;
+        break;
+      default:
+        break; // Assume atom.
+    }
+    return qtot ;
   }
 
 }//namespace

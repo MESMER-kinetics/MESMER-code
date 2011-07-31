@@ -1,4 +1,10 @@
 
+2011-July-31 Struan Robertson
+
+	* ClassicalRotor.cpp, QMRotor.cpp, MolecularComponents.cpp/.h: Initial 
+	refactoring of partition function methods as part of improved 
+	thermodynamic function calculation.
+	
 2011-July-17 Struan Robertson
 
 	* Marquardt.cpp, fitting.cpp, FittingUtils.cpp/.h: Refactor of fitting

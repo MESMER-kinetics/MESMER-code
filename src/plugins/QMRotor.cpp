@@ -12,8 +12,7 @@ namespace mesmer
     virtual bool countCellDOS(gDensityOfStates* mol, size_t MaximumCell);
 
     // Provide a function to calculate contribution to canonical partition function.
-    // (Mostly for testing purposes.)
-    virtual double canPrtnFnCntrb(const double beta) { return 1.0 ;} ;
+    virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
 
     ///Constructor which registers with the list of DensityOfStatesCalculators in the base class
     //This class calculates a complete DOS: it is not an extra class. 
@@ -274,5 +273,34 @@ namespace mesmer
 
     return ;
   }
+  
+  // Calculate contribution to canonical partition function.
+  double QMRotor::canPrtnFnCntrb(gDensityOfStates* gdos, double beta) {
+
+    vector<double> rotConst;
+    RotationalTop rotorType = gdos->get_rotConsts(rotConst);
+    double sym = gdos->get_Sym();
+    vector<double> vibFreq; 
+    gdos->get_VibFreq(vibFreq);
+
+    double qtot(1.0) ; 
+    switch(rotorType){
+      case NONLINEAR://3-D symmetric/asymmetric/spherical top
+        for ( size_t j(0) ; j < vibFreq.size() ; ++j ) {
+          qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
+        }
+        qtot *= (sqrt(M_PI/(rotConst[0] * rotConst[1] * rotConst[2]))*(pow(beta,-1.5))/sym) ;
+        break;
+      case LINEAR://2-D linear
+        for ( size_t j(0) ; j < vibFreq.size() ; ++j ) {
+          qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
+        }
+        qtot /= (rotConst[0]*sym*beta) ;
+        break;
+      default:
+        break; // Assume atom.
+    }
+    return qtot ;
+  }  
 
 }//namespace

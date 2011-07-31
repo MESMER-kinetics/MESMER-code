@@ -33,7 +33,7 @@ namespace mesmer
 
     // Provide a function to calculate contribution to canonical partition function.
     // (Mostly for testing purposes.)
-    virtual double canPrtnFnCntrb(const double beta) ;
+    virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
 
     // Constructor which registers with the list of DensityOfStatesCalculators in the base class
     // This class is an extra DOS class: a non-extra DensityOfStatesCalculator class also
@@ -387,7 +387,7 @@ namespace mesmer
   // Provide a function to calculate contribution to canonical partition function.
   // (Mostly for testing purposes.)
   //
-  double HinderedRotorQM1D::canPrtnFnCntrb(const double beta)
+  double HinderedRotorQM1D::canPrtnFnCntrb(gDensityOfStates* gdos, double beta)
   {
     double Qintrot(0.0) ;
 
