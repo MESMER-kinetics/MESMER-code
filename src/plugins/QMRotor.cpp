@@ -151,19 +151,20 @@ namespace mesmer
     // Implementation of the Beyer-Swinehart algorithm.
     Beyer_Swinehart(VibFreq, cellDOS);
 
-    //electronic degeneracy
+    // Electronic excited states.
     vector<double> eleExc;
     pDOS->getEleExcitation(eleExc);
-    if (!eleExc.empty()){
-      for (int j(0); j < int(eleExc.size()) ; ++j){
-        int iele = static_cast<int>(eleExc[j]);
-        for (int i = (MaximumCell - 1); i >= (iele - 1); --i){
-          cellDOS[i] += cellDOS[i - iele + 1];
+	vector<double> tmpCellDOS(cellDOS);
+    for (size_t j(0) ; j < eleExc.size() ; ++j){
+      size_t nr = int(eleExc[j]) ;
+      if (nr < MaximumCell) {
+        for (size_t i(0) ; i < MaximumCell - nr ; i++ ) {
+          tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + cellDOS[i] ;
         }
       }
     }
 
-    pDOS->setCellDensityOfStates(cellDOS) ;
+    pDOS->setCellDensityOfStates(tmpCellDOS) ;
 
     return true;
   }
@@ -280,26 +281,34 @@ namespace mesmer
     vector<double> rotConst;
     RotationalTop rotorType = gdos->get_rotConsts(rotConst);
     double sym = gdos->get_Sym();
-    vector<double> vibFreq; 
-    gdos->get_VibFreq(vibFreq);
 
     double qtot(1.0) ; 
-    switch(rotorType){
+    qtot *= double(gdos->getSpinMultiplicity());
+
+	switch(rotorType){
       case NONLINEAR://3-D symmetric/asymmetric/spherical top
-        for ( size_t j(0) ; j < vibFreq.size() ; ++j ) {
-          qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
-        }
         qtot *= (sqrt(M_PI/(rotConst[0] * rotConst[1] * rotConst[2]))*(pow(beta,-1.5))/sym) ;
         break;
       case LINEAR://2-D linear
-        for ( size_t j(0) ; j < vibFreq.size() ; ++j ) {
-          qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
-        }
         qtot /= (rotConst[0]*sym*beta) ;
         break;
       default:
         break; // Assume atom.
     }
+
+    vector<double> vibFreq; 
+    gdos->get_VibFreq(vibFreq);
+    for ( size_t j(0) ; j < vibFreq.size() ; ++j ) {
+      qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
+    }
+
+    // Electronic excited states.
+    vector<double> eleExc;
+    gdos->getEleExcitation(eleExc);
+    for (size_t j(0) ; j < eleExc.size() ; ++j){
+	  qtot += qtot*exp(-beta*eleExc[j]) ;
+    }
+
     return qtot ;
   }  
 

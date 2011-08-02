@@ -1,4 +1,10 @@
 
+2011-August-02 Struan Robertson
+
+	* ClassicalRotor.cpp, QMRotor.cpp: Corrected for missing electronic 
+	excitation term.
+	* Marquardt.cpp: Corrected output statement.	
+	
 2011-July-31 Struan Robertson
 
 	* ClassicalRotor.cpp, QMRotor.cpp, MolecularComponents.cpp/.h: Initial 

@@ -548,8 +548,6 @@ namespace mesmer
           qtot *= m_ExtraDOSCalculators[j]->canPrtnFnCntrb(this, beta) ;
         }        
 
-        qtot *= double(getSpinMultiplicity());
-
         if (m_host->getFlags().testDOSEnabled) { 
           formatFloat(ctest, temp,  6,  7) ;
           formatFloat(ctest, qtot,  6, 15) ;

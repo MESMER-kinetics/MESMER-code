@@ -150,7 +150,7 @@ namespace mesmer
 
       WriteVarVals(bestChiSquare, lambda) ;
 
-      cinfo << "Iteration: " << itr << " of Marquardt. chiSquare = " << chiSquare << lambda << endl;
+      cinfo << "Iteration: " << itr << " of Marquardt. ChiSquare = " << bestChiSquare << ", Lambda = " << lambda << endl;
 
     }
 
