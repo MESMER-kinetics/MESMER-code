@@ -5,27 +5,6 @@
 namespace mesmer
 {
 
-  void Beyer_Swinehart(const vector<double>& VibFreq, vector<double>& cellDOS){
-    // Implementation of the Beyer-Swinehart algorithm.
-    const int MaximumCell = int(cellDOS.size());
-    for ( vector<double>::size_type j = 0 ; j < VibFreq.size() ; ++j ) {
-      int freq = static_cast<int>(VibFreq[j]) ;
-      for (int i = 0 ; i < MaximumCell - freq ; ++i ){
-        cellDOS[i + freq] += cellDOS[i] ;
-      }
-    }
-  }
-  
-  void reverseBeyer_Swinehart(double VibFreq, vector<double>& cellDOS){
-    // Implementation of the reverse Beyer-Swinehart algorithm for removing one vibrational frequency
-    vector<double> tempCellDOS(cellDOS); // copy the original vector
-    const int MaximumCell = int(cellDOS.size());
-    int freq = static_cast<int>(VibFreq) ;
-    for (int i = 0 ; i < MaximumCell - freq ; ++i ){
-      cellDOS[i + freq] -= tempCellDOS[i] ; // remove the convolved vibration frequency out of the original copy
-    }
-  }
-
   // translation contribution for the partition function of two molecules
   double translationalContribution(const double m1, const double m2, const double beta){
     // Translational contribution

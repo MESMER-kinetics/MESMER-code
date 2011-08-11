@@ -66,9 +66,6 @@ namespace mesmer
         break;
     }
 
-    // Implementation of the Beyer-Swinehart algorithm.
-    Beyer_Swinehart(VibFreq, cellDOS);
-
     // Electronic excited states.
     vector<double> eleExc;
     pDOS->getEleExcitation(eleExc);
@@ -106,12 +103,6 @@ namespace mesmer
         break;
       default:
         break; // Assume atom.
-    }
-
-    vector<double> vibFreq; 
-    gdos->get_VibFreq(vibFreq);
-    for (size_t j(0) ; j < vibFreq.size() ; ++j ) {
-      qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
     }
 
     // Electronic excited states.

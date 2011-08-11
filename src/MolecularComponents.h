@@ -176,8 +176,16 @@ namespace mesmer
     bool removeVibFreq(double freq); 
 
     // Returns the number of internal degrees of freedom. 
-    // (Assumes the each extra DOS calculator contributes one degrees of freedom.)
-    size_t get_nInternalDegreesOfFreedom() { return m_VibFreq.size() + m_ExtraDOSCalculators.size() ; }
+	// The vibrational degrees of freedom are are treated using a single class
+	// an instance of which is currently added to the extra DOS calculator 
+	// array. All other extra DOS calcualtors are assumed to contributes one
+	// degrees of freedom. This assumptions is exploited in calculating the 
+	// internal degrees of freedom but the POSSIBLE presence of the vibrational 
+	// state calculator in this list means that there can be over counting by 1.
+	// (Need a more robust test!)
+    size_t get_nInternalDegreesOfFreedom() { 
+	  return (m_VibFreq.size() > 0)? m_ExtraDOSCalculators.size() + m_VibFreq.size() - 1 : 0 ;
+	}
 
     int getSpinMultiplicity();
 

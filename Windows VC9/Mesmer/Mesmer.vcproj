@@ -189,6 +189,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\plugins\BeyerSwinehart.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\plugins\BoltzmannDistribution.cpp"
 				>
 			</File>

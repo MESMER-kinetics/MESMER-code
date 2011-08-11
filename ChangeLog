@@ -1,4 +1,11 @@
 
+2011-August-10 Struan Robertson
+
+	* BeyerSwinehart.cpp: Added a separate implementation of Beyer-Swinehart
+	algorithm.  
+	* ClassicalRotor.cpp, QMRotor.cpp, MolecularComponents.h/.cpp: 
+	Refactored to account for new BeyerSwinehart class.	
+	
 2011-August-02 Struan Robertson
 
 	* ClassicalRotor.cpp, QMRotor.cpp: Corrected for missing electronic 

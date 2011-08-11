@@ -91,20 +91,6 @@ namespace mesmer
   //
   gDensityOfStates::~gDensityOfStates()
   {
-    /*    if (m_RC_chk == 0) cinfo << "Rotational constants are provided but not used in " << m_host->getName() << "." << endl;
-    if (m_Sym_chk == 0) cinfo << "m_Sym is provided but not used in " << m_host->getName() << "." << endl;
-    if (m_ZPE_chk == 0) cinfo << "m_ZPE is provided but not used in " << m_host->getName() << "." << endl;
-    if (m_scaleFactor_chk == 0) cinfo << "m_scaleFactor is provided but not used in " << m_host->getName() << "." << endl;
-    if (m_SpinMultiplicity_chk == 0) cinfo << "m_SpinMultiplicity is provided but not used in " << m_host->getName() << "." << endl;
-    if (m_VibFreq_chk == 0) cinfo << "m_VibFreq is provided but not used in " << m_host->getName() << "." << endl;
-    */
-    // Free any memory assigned for calculating densities of states. (must be in reverse order)
-    if (m_grainDOS.size()) m_grainDOS.clear();
-    if (m_grainEne.size()) m_grainEne.clear();
-    if (m_cellDOS.size()) m_cellDOS.clear();
-    if (m_VibFreq.size()) m_VibFreq.clear();
-    if (m_eleExc.size()) m_eleExc.clear();
-
     //Delete the density of state calculators because they are cloned instances
     delete m_pDOSCalculator;
     for(unsigned i=0; i<m_ExtraDOSCalculators.size(); ++i)
@@ -156,6 +142,20 @@ namespace mesmer
       double x; 
       while (idata >> x)
         m_VibFreq.push_back(x); m_VibFreq_chk = 0;
+
+	  DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("BeyerSwinehart", false);
+      if(!pDOSCalculator)
+      {
+        //msg = "was unknown";
+        //break;
+        // Hmmm... Should be doing this sort of thing in a constructor?
+      }
+      m_ExtraDOSCalculators.push_back(pDOSCalculator);
+      if(!pDOSCalculator->ReadParameters(this, pp))
+      {
+        //msg = "failed to initialize correctly";
+        //break;
+      }
     }
 
     std::vector<double> rCnst(3);
