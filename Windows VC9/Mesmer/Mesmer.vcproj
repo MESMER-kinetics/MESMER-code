@@ -205,6 +205,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\plugins\DefinedStatesRotor.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\plugins\EckartCoefficients.cpp"
 				>
 			</File>

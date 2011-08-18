@@ -167,6 +167,7 @@ SRCS := \
 	plugins/BeyerSwinehart.cpp \
 	plugins/BoltzmannDistribution.cpp	\
 	plugins/ClassicalRotor.cpp \
+	plugins/DefinedStatesRotor.cpp \
 	plugins/EckartCoefficients.cpp \
 	plugins/ExponentialDown.cpp \
 	plugins/FittingUtils.cpp \

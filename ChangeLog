@@ -1,4 +1,12 @@
 
+2011-August-18 Struan Robertson
+
+	* DefinedStatesRotor.cpp: Added a new rotor type to deal with 
+	specific cases where the states are enumerated explicitly, e.g. 
+	the case of the OH radical.  
+	* ThermodynamicTable.cpp: Updated to include the specific case
+	of temperature = 298.15, for comparison with other tables.
+	
 2011-August-10 Struan Robertson
 
 	* BeyerSwinehart.cpp: Added a separate implementation of Beyer-Swinehart

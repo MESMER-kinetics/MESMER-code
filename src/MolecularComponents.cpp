@@ -385,6 +385,8 @@ namespace mesmer
     string msg = m_pDOSCalculator ? "" : "was unknown";
     if(m_pDOSCalculator)
     {
+      m_pDOSCalculator->ReadParameters(this, pp->XmlMoveTo("me:DOSCMethod")) ;
+
       while(pp = pp->XmlMoveTo("me:ExtraDOSCMethod"))
       {
         dosMethod.clear();
