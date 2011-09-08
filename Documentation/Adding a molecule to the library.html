@@ -15,8 +15,7 @@
    <p>Mesmer has a library to contain data for common molecules. If a molecule is in the library, it needs to be specified in the &lt;moleculeList&gt; section of the project's XML file only by its id, for example:</p>
     <pre>    &lt;molecule id="OH"/&gt;  </pre>
    <p>When it runs, Mesmer will copy the version from the library and add information to the project datafile to confirm this.</p>
-   <p>The library is a CML file <code>librarymols.xml</code>. The following shows how to add data to it, taken from a NIST website.
-   
+   <p>The library is a CML file <code>librarymols.xml</code>. The following shows how to add data to it, taken from a NIST website. Of course you can add molecules to your own data files in essentially the same way.
 
   <h2>From computational chemistry files</h2>
 
@@ -24,19 +23,26 @@
 
   <p>Select "VI Input and output files", "A. Input and Output from runs using the Gaussian package". On the next screen enter "CH3OCH3" and then select "Dimethyl ether". Choose a method and basis-set and download an output file (Save Link As...), making its filename the your choice of the molecule's ID, e.g. DME.out. (The ID iscase-sensitive.)</p>
 
-  <p><a href="http://openbabel.org">OpenBabel</a> (v2.3.1 or later) is used to convert to CML.
-   (Prior to the release of this version, there is a Windows Installer for a snapshot
-   <a href="http://gaseq.co.uk/OB/2-3-1/OpenBabel2.3.1cm_Windows_Installer.exe"> here</a>.)
-   On Windows, open a DOS window and move to the folder where DME.out was downloaded, and type</p>
+     <p>
+       <a href="http://openbabel.org">OpenBabel</a> (v2.3.1 or later) is used to convert to CML.
+       (Prior to the release of this version, there is a Windows Installer for a snapshot
+       <a href="http://gaseq.co.uk/OB/OpenBabel2.3.90_Windows_Installer.exe"> here</a>.)</p>
+       <p><em>Using the GUI</em><br/>
+       Select "out -- Generic Output file format" as the input format and cml -- "Chemical Markup Language" as the output format. Near the bottom of the input column, tick the checkboxes "write metadata", "omit XML and namespace declarations" and "write properties" and then click Convert.
+     </p>
+    <em>Using the command line</em><br/>
+    On Windows, open a DOS window and move to the folder where DME.out was downloaded, and type</p>
   <pre>    obabel DME.out -O DME.cml -xp -xm -xx  </pre>
-  <p>The <code>-xp</code>  and <code>-xm</code> ensure that the CML file contains molecular properties and metadata, and the <code>-xx</code> omits the xml header. Although Mesmer does not use it, some editing of the metadata in this file is recommended. Identify the source and the person who downloaded it:</p>
+  <p>The <code>-xp</code>  and <code>-xm</code> ensure that the CML file contains molecular properties and metadata, and the <code>-xx</code> omits the xml header.</p>
+  <p>
+  Although Mesmer does not use it, some editing of the metadata in this file is recommended. Identify the source and the person who downloaded it:</p>
   <pre>    &lt;metadata name="dc:source" content="http://cccbdb.nist.gov/"/&gt;
     &lt;metadata name="dc:contributor" content="Chris Morley"/&gt;  </pre>
   <p>and you might like to add a more explanatory title:</p>
   <pre>    &lt;metadata name="dc:title" content="Dimethyl Ether CH3OCH3"/&gt;</pre>
   <p>Copy the whole file and paste it into librarymols.xml just before the final tag (&lt;/moleculeList&gt; or &lt;/cml&gt;).</p>
   
-  <p>The energy that is imported in the property with <code>dictRef="me:ZPE"</code> is the 'equilibrium' energy at the bottom of the well and so also has the attribute <code>zeroPointVibEnergyAdded="false"</code>. Mesmer will automatically add the vibrational zeropoint energy before use. If this is inconvenient, the number should be corrected manually and the attribute deleted.>/p>
+  <p>The energy that is imported in the property with <code>dictRef="me:ZPE"</code> is the 'equilibrium' energy at the bottom of the well and so also has the attribute <code>zeroPointVibEnergyAdded="false"</code>. Mesmer will automatically add the vibrational zeropoint energy before use. If this is inconvenient, the number should be corrected manually and the attribute deleted.</p>
 
 
   <h2>From experimental data</h2>
