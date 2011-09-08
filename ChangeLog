@@ -1,5 +1,6 @@
-2011-Septemeber-08 Chris Morley
-
+2011-September-08 Chris Morley
+	* Documentation\Adding a molecule to the library.html: minor update
+	
 2011-August-18 Struan Robertson
 
 	* DefinedStatesRotor.cpp: Added a new rotor type to deal with 
