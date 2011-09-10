@@ -100,7 +100,7 @@ namespace mesmer
     double m_Sym ;              // Rotational symmetry number.
 
     Rdouble m_ZPE ;             // Zero Point Energy. (kJ/mol)
-    Rdouble m_ClassicalEnergy;  // Classical energy (kJ/mol)
+    //Rdouble m_ClassicalEnergy;  // Classical energy (kJ/mol)
 
     double m_scaleFactor ;      // scale factor for input real/imaginary vibrational frequencies
     int    m_SpinMultiplicity ; // spin multiplicity
@@ -249,11 +249,12 @@ namespace mesmer
     virtual ~gTransitionState();
 
     double get_ImFreq();
-    void set_imFreq(const double value){ m_ImFreq = value; m_ImFreq_chk = 0;};
-    void set_imFreq(const double valueL, const double valueU, const double stepsize){
-      m_ImFreq.set_range(valueL, valueU, stepsize, "imFreqs");
-      m_ImFreq_chk = 0;
-    }
+    void set_imFreq(const double value){ m_ImFreq = value; m_ImFreq_chk = 0;}
+    //void set_imFreq(const double valueL, const double valueU, const double stepsize){
+      //std::string rname(m_host->getName()+":imFreqs");
+      //m_ImFreq.set_range(valueL, valueU, stepsize, rname.c_str());
+      //m_ImFreq_chk = 0;
+    //}
 
   };
 

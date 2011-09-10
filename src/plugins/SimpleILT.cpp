@@ -80,7 +80,7 @@ namespace mesmer
         cerr << "activation energy should not be negative when used with ILT" << endl;
         return false;
       }
-      ReadRange(string("activationEnergy"), ppPreExponential, m_EInf, value/tmpvalue, rangeSet) ;
+      ReadRange(string(pReact->getName()+":EInf"), ppPreExponential, m_EInf, value/tmpvalue, rangeSet) ;
       m_EInf = value ;
       if (rangeSet) {
         double valueL, valueU, stepsize ;
@@ -101,7 +101,7 @@ namespace mesmer
     {
       double value(0.0) ;
       stringstream s2(pPreExptxt); s2 >> value ;
-      ReadRange(string("me:preExponential"), ppPreExponential, m_PreExp, 1.0, rangeSet) ;
+      ReadRange(string(pReact->getName()+":preExp"), ppPreExponential, m_PreExp, 1.0, rangeSet) ;
       m_PreExp = value ;
     } else {
       cerr << "Specifying ILT without pre-exponential term provided in reaction " << this->getName() << ". Please correct input file.";

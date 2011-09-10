@@ -1,3 +1,11 @@
+2011-September-10 Chris Morley
+
+	* src/MolecularComponents.cpp,src/MolecularComponents.h,
+	src/plugins/ExponentialDown.cpp,src/plugins/MesmerILT.cpp,
+	src/plugins/SimpleILT.cpp: Make the names of the range variables,
+	which are displayed during fitting, include the name of the molecule
+	or the reaction. Fixes bug #3406422.
+
 2011-September-08 Chris Morley
 	* Documentation\Adding a molecule to the library.html: minor update
 	

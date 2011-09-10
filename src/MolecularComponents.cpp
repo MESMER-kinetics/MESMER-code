@@ -103,7 +103,7 @@ namespace mesmer
     m_RotCstC(0.0),
     m_Sym(1.0),
     m_ZPE(0.0),
-    m_ClassicalEnergy(0.0),
+    //m_ClassicalEnergy(0.0),
     m_scaleFactor(1.0),
     m_SpinMultiplicity(1),
     m_RC_chk(-1),
@@ -268,7 +268,10 @@ namespace mesmer
           valueU(getConvertedEnergy(unitsInput, tempUV)),
           stepsize(getConvertedEnergy(unitsInput, tempSS));
         //Make an Rdouble
-        set_zpe(valueL+zpCorrection, valueU+zpCorrection, stepsize+zpCorrection);
+        //set_zpe(valueL+zpCorrection, valueU+zpCorrection, stepsize+zpCorrection);
+        string rname(m_host->getName()+":ZPE");
+        m_ZPE.set_range(valueL+zpCorrection, valueU+zpCorrection, stepsize+zpCorrection,
+          rname.c_str());
         //Save PersistPtr of the XML source of this Rdouble
         RangeXmlPtrs.push_back(ppPropList->XmlMoveToProperty("me:ZPE"));
       }
@@ -791,7 +794,8 @@ namespace mesmer
           s3 >> tempLV; s4 >> tempUV; s5 >> tempSS;
 
           //Make an Rdouble
-          set_imFreq(tempLV, tempUV, tempSS);
+          std::string rname(m_host->getName()+":imFreqs");
+          m_ImFreq.set_range(tempLV, tempUV, tempSS, rname.c_str());
           //Save PersistPtr of the XML source of this Rdouble
           RangeXmlPtrs.push_back(ppPropList->XmlMoveToProperty("me:imFreqs"));
           set_imFreq(tempLV);

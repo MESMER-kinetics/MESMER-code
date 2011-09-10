@@ -120,7 +120,8 @@ private:
     double stepsize   = ppProp->XmlReadDouble("stepsize", optional);
     if (!IsNan(valueL) && !IsNan(valueU) && !IsNan(stepsize)){
       // make a range variable
-      m_deltaEdown.set_range(valueL, valueU, stepsize, "deltaEdown");//incl parent in name?
+      string rname(parent->getName()+":deltaEdown");
+      m_deltaEdown.set_range(valueL, valueU, stepsize, rname.c_str() );
       //Save PersistPtr of the XML source of this Rdouble
       RangeXmlPtrs.push_back(ppProp);
     }

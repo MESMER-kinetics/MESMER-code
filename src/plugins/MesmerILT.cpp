@@ -127,7 +127,7 @@ namespace mesmer
         cerr << "Activation energy should not be negative when used with ILT." << endl;
         return false;
       }
-      ReadRange(string("me:activationEnergy"), ppActEne, m_EInf, value/tmpvalue, rangeSet) ;
+      ReadRange(string(pReact->getName()+":activationEnergy"), ppActEne, m_EInf, value/tmpvalue, rangeSet) ;
       m_EInf = value ;
       if (rangeSet) {
         double valueL, valueU, stepsize ;
@@ -151,7 +151,7 @@ namespace mesmer
         cerr << "Pre-exponential factor should not be negative when used with ILT." << endl;
         return false;
       }
-      ReadRange(string("me:preExponential"), ppPreExponential, m_PreExp, 1.0, rangeSet) ;
+      ReadRange(string(pReact->getName()+":preExp"), ppPreExponential, m_PreExp, 1.0, rangeSet) ;
       m_PreExp = value ;
       if (rangeSet) {
         double valueL, valueU, stepsize ;
@@ -172,7 +172,7 @@ namespace mesmer
       PersistPtr ppNInf = ppReac->XmlMoveTo("me:nInfinity") ;
       double value = 0.0;
       stringstream s2(pNInftxt); s2 >> value ;
-      ReadRange(string("me:nInfinity"), ppNInf, m_NInf, 1.0, rangeSet) ;
+      ReadRange(string(pReact->getName()+":nInf"), ppNInf, m_NInf, 1.0, rangeSet) ;
       m_NInf = value ;
     }
 
