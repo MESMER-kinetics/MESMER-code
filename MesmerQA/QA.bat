@@ -126,6 +126,12 @@ copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
+cd "ThermodynamicTable"
+%executable% ThermodynamicTable.xml -o %outf% %directive%
+copy "./%tfn%" "./%bline%%otfn%"
+IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+cd ..
+
 echo Start Time=%starttime% - End Time=%time%
 
 :: This line below makes DOS to create a system Beep (err yup)

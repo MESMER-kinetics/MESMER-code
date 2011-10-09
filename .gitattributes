@@ -218,6 +218,13 @@ MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Win32/mesmer.log -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Win32/mesmer.test -text
 MesmerQA/QA.bat -text
 MesmerQA/QA.sh -text
+MesmerQA/ThermodynamicTable/ThermodynamicTable.xml -text
+MesmerQA/ThermodynamicTable/baselines/Linux32/mesmer.log -text
+MesmerQA/ThermodynamicTable/baselines/Linux32/mesmer.test -text
+MesmerQA/ThermodynamicTable/baselines/Linux64/mesmer.log -text
+MesmerQA/ThermodynamicTable/baselines/Linux64/mesmer.test -text
+MesmerQA/ThermodynamicTable/baselines/Win32/mesmer.log -text
+MesmerQA/ThermodynamicTable/baselines/Win32/mesmer.test -text
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/Cyclopropene_isomerization_reservoir_state_test.xml -text
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Linux32/mesmer.log -text
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Linux32/mesmer.test -text
