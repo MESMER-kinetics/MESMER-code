@@ -103,7 +103,6 @@ namespace mesmer
     m_RotCstC(0.0),
     m_Sym(1.0),
     m_ZPE(0.0),
-    //m_ClassicalEnergy(0.0),
     m_scaleFactor(1.0),
     m_SpinMultiplicity(1),
     m_RC_chk(-1),
@@ -116,9 +115,12 @@ namespace mesmer
     m_eleExc(),
     m_VibFreq(),
     m_grainEne(),
-    m_grainDOS()
-  {
-    m_host = pMol;
+    m_grainDOS() { m_host = pMol; }
+    
+  bool gDensityOfStates::initialization() {
+  
+    Molecule* pMol = m_host ;
+  
     ErrorContext c(pMol->getName());
 
     PersistPtr pp = pMol->get_PersistentPointer();
@@ -349,6 +351,7 @@ namespace mesmer
         cinfo << "New me:ZPE element written with data from " << origElement << endl;
       }
     }
+     return true ;
   }
 
   //

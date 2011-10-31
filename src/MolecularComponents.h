@@ -83,9 +83,9 @@ namespace mesmer
     void   setEpsilon(double value);
   };
 
-  class gDensityOfStates:public MolecularComponent
+  class gDensityOfStates: public MolecularComponent
   {
-
+    friend Molecule ;
     //-------------------------------------------------------------------------------------------------
     // Cell density of states related properties
     //-------------------------------------------------------------------------------------------------
@@ -100,7 +100,6 @@ namespace mesmer
     double m_Sym ;              // Rotational symmetry number.
 
     Rdouble m_ZPE ;             // Zero Point Energy. (kJ/mol)
-    //Rdouble m_ClassicalEnergy;  // Classical energy (kJ/mol)
 
     double m_scaleFactor ;      // scale factor for input real/imaginary vibrational frequencies
     int    m_SpinMultiplicity ; // spin multiplicity
@@ -209,15 +208,13 @@ namespace mesmer
 
   private:
 
+    bool initialization() ;
+
     // This function checks if any of the DPoint values is different then a DOS recalculation will take place
-    bool needReCalculateDOS(void){
-      return !m_ZPE.isUnchanged() ;
-    }
+    bool needReCalculateDOS(void){ return !m_ZPE.isUnchanged() ; }
 
     // This function explicitly tell all DPoint values in this Molecule that a DOS recalculation is completed.
-    void recalculateDOScompleted(void){
-      m_ZPE.setUnchanged();
-    }
+    void recalculateDOScompleted(void){ m_ZPE.setUnchanged() ; }
 
     // Test the rovibrational density of states.
     void testDensityOfStates() ;

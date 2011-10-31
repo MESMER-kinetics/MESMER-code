@@ -15,8 +15,7 @@ namespace mesmer
   //
   //Constructor
   //
-  Molecule::Molecule(const MesmerEnv& Env, MesmerFlags& Flags, const string& molType):
-    m_Env(Env),
+  Molecule::Molecule(const MesmerEnv& Env, MesmerFlags& Flags, const string& molType): m_Env(Env),
     m_Flags(Flags),
     m_atomNumber(0),
     m_ppPersist(NULL),
@@ -41,7 +40,7 @@ namespace mesmer
     if (g_ts    != NULL) delete g_ts;
     if (g_dos  != NULL) delete g_dos;
     if (g_bath  != NULL) delete g_bath;
-    }
+  }
 
   //
   //Initialization
@@ -78,16 +77,6 @@ namespace mesmer
     return true;
   }
 
-  PersistPtr  Molecule::get_PersistentPointer() const {
-    return m_ppPersist;
-  };
-  std::string Molecule::getName() const            {
-    return m_Name ;
-  } ;
-  std::string Molecule::getDescription() const            {
-    return m_Description ;
-  } ;
-
   // check whether the total vibrational frequencies (include the imaginary freq) number = 3N-6
   bool Molecule::checkFrequencies(){
 
@@ -106,7 +95,7 @@ namespace mesmer
     // get symmety number
     std::vector<double> mmtsInt;
     RotationalTop rotorType(NONLINEAR);
-	int isLinearRotor(0);
+    int isLinearRotor(0);
     if (g_dos){
       rotorType = g_dos->get_rotConsts(mmtsInt);
       if (rotorType == LINEAR)
@@ -176,23 +165,27 @@ namespace mesmer
     return *g_bath;
   }
 
-
   gDensityOfStates&       Molecule::getDOS()  {
-    if (!g_dos)
+    if (!g_dos) {
       g_dos = new gDensityOfStates(this);
-     return *g_dos;
+      if (!g_dos->initialization()) {
+        cerr << "gDensityOfStates initialization failed." << endl;
+      }
+    }
+    return *g_dos;
   }
+
   gTransitionState&       Molecule::getTS()   {
     if (!g_ts)
       g_ts = new gTransitionState(this);
-   return *g_ts  ;  }
+    return *g_ts  ;  }
 
   gPopulation&            Molecule::getPop()  {
     if (!g_pop)
       g_pop = new gPopulation(this);
     return *g_pop ;
   }
-  
+
   gWellProperties&        Molecule::getColl() {
     if (!g_coll) {
       g_coll = new gWellProperties(this);
@@ -205,12 +198,12 @@ namespace mesmer
 
     return *g_coll;
   }
-  
+
   gStructure&        Molecule::getStruc() {
     if (!g_struc)
       g_struc = new gStructure(this);
 
-     return *g_struc;
+    return *g_struc;
   }
 
 }//namespace
