@@ -1,21 +1,21 @@
 /*  Copyright (C) 2009 by
-    Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
-    Chris Morley, Michael J. Pilling and contributors
-    This file is a part of
-    Mesmer: Master Equation Solver for Multi-Energy well Reactions
+Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
+Chris Morley, Michael J. Pilling and contributors
+This file is a part of
+Mesmer: Master Equation Solver for Multi-Energy well Reactions
 
-    Mesmer is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Lesser Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+Mesmer is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    Mesmer is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser Public License for more details.
+Mesmer is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser Public License for more details.
 
-    You should have received a copy of the GNU Lesser Public License
-    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU Lesser Public License
+along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <iostream>
@@ -30,6 +30,7 @@ using namespace mesmer ;
 
 void usage();
 string version();
+void banner(); 
 bool QACompare(string infilename);
 string duplicateFileName(const string& inName, const string& suffix, const string& newTimeStamp = "");
 string replaceFilename(const string& inName, const string& newFilename);
@@ -140,7 +141,7 @@ int main(int argc,char *argv[])
     string repname = "mesmer_out.xml";
     outfilename = overwriteinput ? infilename : replaceFilename(infilename, repname);
   }
-  
+
   //-----------------------------------
   //Start the error handling system
   //
@@ -162,6 +163,8 @@ int main(int argc,char *argv[])
   //Original streams restored when this goes out of context
   OStreamRedirector osr(&meErrorLog, &osout, nologging);
 
+  banner() ;
+
   //-----------------------------------------------
   //Get the top level directory from an environment variable,
   //or if that fails, from two levels above the current directory
@@ -175,7 +178,7 @@ int main(int argc,char *argv[])
     MesmerDir.erase(pos); //Use the first directory in the env var
 
   //-------------------------------
-   //
+  //
   // Instantiate the System collection. This holds all information
   // about reaction systems and all molecular data.
   //
@@ -280,9 +283,9 @@ int main(int argc,char *argv[])
       {
         string::size_type pos = outfilename.rfind('.');
         string prevname(outfilename);
-          prevname = pos==string::npos ?
+        prevname = pos==string::npos ?
           prevname + "_prev" :
-          prevname.replace(pos, 1, "_prev.");
+        prevname.replace(pos, 1, "_prev.");
         remove(prevname.c_str());
         rename("temp", prevname.c_str());
       }
@@ -354,7 +357,7 @@ string replaceFilename(const string& inName, const string& newFilename){
   else{                           // no '/' or '\\' found
     replacedName = newFilename;   // meaning the filename has no directory structure --> simply a filename
   }
-  
+
   return replacedName;
 }
 
@@ -392,6 +395,36 @@ string version()
   return ss.str();
 }
 
+void banner() 
+{
+  cinfo << endl ;
+  cinfo << "            /|      /|                        \\   " << endl ;
+  cinfo << "           / |     / | ________________________\\  " << endl ;
+  cinfo << "          /  |    /  |  _   _             _   _   " << endl ;
+  cinfo << "         /   |   /   | / \\ / \\ |\\     /| / \\ / \\  " << endl ;
+  cinfo << "        /    |  /    | \\_/ \\_  | \\   / | \\_/ |_/  " << endl ;
+  cinfo << "       /     | /     | /     \\ |  \\ /  | /   | \\  " << endl ;
+  cinfo << "    \\_/      |/      | \\_/ \\_/ |   V   | \\_/ |  \\ " << endl ;
+  cinfo << endl ;
+  cinfo << "     Mesmer: Master Equation Solver for Multi-Energy well Reactions" << endl ;
+  cinfo << "     " << version() << endl ;
+  cinfo << "     Copyright (C) 2009-2012 by" << endl ;
+  cinfo << "     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang," << endl ;
+  cinfo << "     Chris Morley, Michael J. Pilling and contributors" << endl ;
+  cinfo << endl ;
+  cinfo << "     Mesmer is free software: you can redistribute it and/or modify" << endl ;
+  cinfo << "     it under the terms of the GNU Lesser Public License as published by" << endl ;
+  cinfo << "     the Free Software Foundation, either version 3 of the License, or" << endl ;
+  cinfo << "     (at your option) any later version." << endl ;
+  cinfo << endl ;
+  cinfo << "     But WITHOUT ANY WARRANTY; without even the implied warranty of" << endl ;
+  cinfo << "     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the" << endl ;
+  cinfo << "     GNU Lesser Public License for more details." << endl ;
+  cinfo << endl ;
+  cinfo << "    You should have received a copy of the GNU Lesser Public License" << endl ;
+  cinfo << "    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>." << endl ;
+}
+
 bool QACompare(string infilename)
 {
   //Read the baseline file
@@ -415,28 +448,28 @@ bool QACompare(string infilename)
 }
 /*
 Mesmer outputs:
-                        Source                           Destination
+Source                           Destination
 --------------------------------------------------------------------------------------
 Main XML output   Functions in IPersist                Decided by -o option
-                  like XmlWriteElement                 Usually file,or cout for piping
+like XmlWriteElement                 Usually file,or cout for piping
 
 Error messages    cerr <<...    or                     Console (unless -w0)
-                  meErrorLog.ThrowError( , ,obError)   and mesmer.log
+meErrorLog.ThrowError( , ,obError)   and mesmer.log
 
 Warning messages  cwarn <<...   or                     Console (unless -w0 or w1)
-                  meErrorLog.ThrowError( , ,obWarn)    and mesmer.log
+meErrorLog.ThrowError( , ,obWarn)    and mesmer.log
 
 Logging messages  cinfo <<...   or                     Console if -w2
-                  meErrorLog.ThrowError( , ,obInfo)    and mesmer.log
+meErrorLog.ThrowError( , ,obInfo)    and mesmer.log
 
 QA test output    ctest <<...                          mesmer.test
 
 Temporary debug   cout <<...                           File when redirected from
-                  Use for bulky debug output           commandline with >
-                                                       (Otherwise console)
+Use for bulky debug output           commandline with >
+(Otherwise console)
 
 Temporary debug   clog <<...                           Console
-                  Use for short debug output
+Use for short debug output
 
 
 Output to mesmer.log can be turned off with the -g option.

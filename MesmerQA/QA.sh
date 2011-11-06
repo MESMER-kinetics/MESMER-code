@@ -29,7 +29,7 @@ fi
 
 tfn=mesmer.test
 lfn=mesmer.log
-bline=baselines/Linux32/
+bline=baselines/Linux64/
 outf=out.xml
 
 case $1 in

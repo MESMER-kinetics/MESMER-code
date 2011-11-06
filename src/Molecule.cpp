@@ -83,7 +83,7 @@ namespace mesmer
     if (m_atomNumber < 1) // No atoms defined, so no test can be done.
        return true ;
 
-    int nDOF(0) ;
+    unsigned int nDOF(0) ;
     if (g_dos){
       nDOF = g_dos->getNoOfDegOfFreeedom() ;
     } else {
@@ -91,15 +91,19 @@ namespace mesmer
       return true;
     }
     if (m_atomNumber > 1 && nDOF == 0){
-      cinfo << "No vibrational frequencies were assigned for " << getName() << ", assuming it to be a sink term.\n";
+      cinfo << "No molecular data assigned for " << getName() << ", assuming it to be a sink term.\n";
       return true;
     }
 
-    // If species is a transition state, assume a imaginary frequency exists no matter if user provide it or not.
+    // If species is a transition state, assume a imaginary frequency exists regardless if provided.
     if (g_ts) 
        nDOF++;
 
-    return (nDOF == (3 * m_atomNumber - 3));
+	// Add translational degrees of freedom.
+
+	nDOF += 3 ;
+
+    return (nDOF == (3 * m_atomNumber));
   }
 
   bool Molecule::isCemetery()

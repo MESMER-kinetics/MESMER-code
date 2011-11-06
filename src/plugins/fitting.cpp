@@ -158,7 +158,7 @@ namespace mesmer
 
     vector<double> direction(m_nVar,0.0) ;
 
-    for (size_t itr(1), count(0) ; itr <= maxIterations ; itr++) {
+    for (size_t itr(1) ; itr <= maxIterations ; itr++) {
 
       cinfo << "Iteration: " << itr << " of fitting. chiSquare = " << chiSquare << endl;
 

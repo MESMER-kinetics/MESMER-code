@@ -1,4 +1,31 @@
 
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v0.3 compiled: -- Nov  6 2011 -- 16:24:30
+
+     Copyright (C) 2009-2012 by
+     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
+     Chris Morley, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Lesser Public License as published by
+     the Free Software Foundation, either version 3 of the License, or
+     (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Lesser Public License for more details.
+
+    You should have received a copy of the GNU Lesser Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
 Parsing input xml file...
 ipropyl_test.xml
 
@@ -8,16 +35,15 @@ In i-propyl: Hindered rotor b1
 In i-propyl: Hindered rotor b2
 In i-propyl: The default value of me:DistributionCalcMethod was used.
 In i-propyl: The default value of me:energyTransferModel was used.
-In i-propyl: deltaEdown was given a range with 15 steps 
-In propene: No vibrational frequencies were assigned for propene, assuming it to be a sink term.
-ZPE was given a range with 401 steps 
+In i-propyl: i-propyl:deltaEdown was given a range with 15 steps 
 In propene: The default value of me:frequenciesScaleFactor was used.
 In propene: Hindered rotor b1
+In propene: propene:ZPE was given a range with 401 steps 
 In H: Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion.
 In H: No rotational constants from <me:rotConsts> or structure.Assuming to be an atom or atomic ion.
 In H: The default value of me:symmetryNumber was used.
 In H: The default value of me:frequenciesScaleFactor was used.
-In H: The default value of spinMultiplicity was used.
+In H: The default value of spinMultiplicity (or one of its attributes) was used.
 In H: The default value of me:DOSCMethod was used.
 In R1: No tunneling method was found for R1
 In R1: No crossing method was found for R1
@@ -26,7 +52,7 @@ The default value of me:precision was used.
 3e+017PPCC, 720K at double precision
 The default value of me:precision was used.
 3.01e+017PPCC, 730K at double precision
-Write metadata 20110528_174905
+Write metadata 20111106_170955
 
 File: "ipropyl_test.xml" successfully parsed.
 Calculate EGME
@@ -1393,6 +1419,6 @@ In mesmer::CollisionOperator::timeEvolution: Initialize a Boltzmann distribution
 Unimolecular ILT calculation completed
 
 Finish Calculation -- Time elapsed: 0 seconds.
- -- Total time elapsed: 2 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml

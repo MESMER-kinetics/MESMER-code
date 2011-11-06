@@ -150,54 +150,42 @@ namespace mesmer
       {
         //msg = "was unknown";
         //break;
-        // Hmmm... Should be doing this sort of thing in a constructor?
       }
       m_ExtraDOSCalculators.push_back(pDOSCalculator);
-      if(!pDOSCalculator->ReadParameters(this, pp))
-      {
-        //msg = "failed to initialize correctly";
-        //break;
-      }
     }
 
     std::vector<double> rCnst(3);
-    txt= ppPropList->XmlReadProperty("me:rotConsts", optional);
+    txt = ppPropList->XmlReadProperty("me:rotConsts", optional);
     if(!txt){
       gStructure& gs = pMol->getStruc();
       if(!gs.ReadStructure() || gs.NumAtoms()==1) {
         hasRotConst = false;
         cinfo << "No rotational constants from <me:rotConsts> or structure.Assuming to be an atom or atomic ion." << endl;
         m_RC_chk = -1;
-      }
-      else {
+      } else {
         //data from atom coordinates
         rCnst = gs.CalcRotConsts();
+        cinfo << "Rotational constants were calculated from atom coordinates: "
+        << m_RotCstA << ' ' << m_RotCstB << ' ' << m_RotCstC << " cm-1" << endl;
       }
-    }
-    else {
+    } else {
       //data from <me:rotConsts>
       istringstream idata(txt);
-      idata >> rCnst[0]
-      >> rCnst[1]
-      >> rCnst[2];
+      idata >> rCnst[0] >> rCnst[1] >> rCnst[2];
     }
-    if(hasRotConst)
-    {
-      rCnst[0] = abs(rCnst[0]);
-      rCnst[1] = abs(rCnst[1]);
-      rCnst[2] = abs(rCnst[2]);
-      std::sort(rCnst.begin(), rCnst.end()); // make sure the rotational constants are in ascending order.
-      m_RotCstA = rCnst[2]; // order the rotational constants in descending order (largest in the beginning)
+    if(hasRotConst) {
+	  // Check rotational constants are valid.
+	  if (rCnst[0] < 0.0 || rCnst[1] < 0.0 || rCnst[2] < 0.0) {
+		cerr << "A negative rotational constant found for " << pMol->getName() << "." << endl ;
+		throw (std::runtime_error("A negative rotational constant found."));
+	  }
+	  // Make sure the rotational constants are in ascending order.
+      std::sort(rCnst.begin(), rCnst.end()); 
+      m_RotCstA = rCnst[2]; 
       m_RotCstB = rCnst[1];
       m_RotCstC = rCnst[0];
       m_RC_chk = 0;
     }
-
-    if(!txt && hasRotConst)
-    {
-      cinfo << "Rotational constants were calculated from atom coordinates: "
-        << m_RotCstA << ' ' << m_RotCstB << ' ' << m_RotCstC << " cm-1" << endl;
-    }  
 
     if (hasVibFreq != hasRotConst){
       cerr << "Improper setting on vibrational frequencies or rotational constants. Check input file to remove this error.";
@@ -225,19 +213,25 @@ namespace mesmer
 
     ReadDOSMethods();
 
+	return ReadZeroPointEnergy(ppPropList) ;
+  }
+
+  bool gDensityOfStates::ReadZeroPointEnergy(PersistPtr &ppPropList) {
+
     /* For molecular energy me:ZPE is used if it is present. If it is not, a value
-    calculated from me:Hf0 or HfAT0 is used and a converted value is written back
+    calculated from me:Hf0 or HAT0 is used and a converted value is written back
     to the datafile as a me:ZPE property. It is consequently used in the next run
     and available to be varied or optimized. The original source is recorded in an
     attribute.
     */
+    const char* txt;
     string unitsInput;
     double tempzpe = ppPropList->XmlReadPropertyDouble("me:ZPE", optional);
     if(!IsNan(tempzpe))
     {
       // me:ZPE is present
       unitsInput = ppPropList->XmlReadPropertyAttribute("me:ZPE", "units");
-      txt= ppPropList->XmlReadPropertyAttribute("me:ZPE", "convention", optional);
+      txt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "convention", optional);
       m_EnergyConvention = txt ? txt : "arbitary";
 
       double zpCorrection=0.0; //cm-1
@@ -248,7 +242,7 @@ namespace mesmer
         // an attribute zeroPointVibEnergyAdded="false" is present. This indicates
         // that the value provided is a computed energy at the bottom of the well
         // and it is corrected here by adding 0.5*Sum(vib freqs).
-        if(hasVibFreq)
+        if(m_VibFreq.size() > 0)
         {
           zpCorrection = accumulate(m_VibFreq.begin(),m_VibFreq.end(), 0.0);
           zpCorrection *= 0.5;
@@ -351,6 +345,7 @@ namespace mesmer
         cinfo << "New me:ZPE element written with data from " << origElement << endl;
       }
     }
+
     return true ;
   }
 
@@ -790,7 +785,6 @@ namespace mesmer
     if(!ppPropList)
       ppPropList=pp; //Be forgiving; we can get by without a propertyList element
 
-    bool hasImFreq = false;
     const char* txt;
     txt= ppPropList->XmlReadProperty("me:imFreqs", optional);
     if(!txt){

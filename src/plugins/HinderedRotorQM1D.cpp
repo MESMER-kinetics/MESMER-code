@@ -35,7 +35,7 @@ namespace mesmer
     virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
 
     // Function to return the number of degrees of freedom associated with this count.
-    virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) {return unsigned int(1) ; } ;
+    virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) {return 1 ; } ;
 
     // Constructor which registers with the list of DensityOfStatesCalculators in the base class
     // This class is an extra DOS class: a non-extra DensityOfStatesCalculator class also

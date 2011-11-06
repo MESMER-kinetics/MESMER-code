@@ -140,9 +140,7 @@ namespace mesmer
     ~gDensityOfStates();
 
     // Get the number of degrees of freedom for this species.
-    unsigned int gDensityOfStates::getNoOfDegOfFreeedom() ;
-
-    bool ReadDOSMethods();
+    unsigned int getNoOfDegOfFreeedom() ;
 
     // Get cell density of states. No recalculation if bcalc==false.
     bool getCellDensityOfStates(std::vector<double> &cellDOS, int startingCell = 0, bool bcalc=true) ;
@@ -200,6 +198,10 @@ namespace mesmer
   private:
 
     bool initialization() ;
+
+    bool ReadDOSMethods();
+
+	bool ReadZeroPointEnergy(PersistPtr &ppPropList) ;
 
     // This function checks if any of the DPoint values is different then a DOS recalculation will take place
     bool needReCalculateDOS(void){ return !m_ZPE.isUnchanged() ; }
@@ -300,9 +302,6 @@ namespace mesmer
     dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
     dMatrix             *m_egvec ;             // Eigenvectors used to diagonalize (P - I) matrix.
     std::vector<double>  m_egval;
-
-    //Read main and extra method and their data
-    bool ReadDOSMethods();
 
     // Calculate collision frequency.
     double collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule) ;

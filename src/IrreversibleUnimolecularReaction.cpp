@@ -247,7 +247,7 @@ namespace mesmer
     // Handle the case of the reverse threshold energy being negative only if the 
     // reaction can use product properties. (Probably set because ofreverse ILT).
 
-    double RxnHeat;
+    double RxnHeat(0.0);
     int pdtsGrnZPE = 0;
     double threshold   = get_ThresholdEnergy();// see the comments in
     if(UsesProductProperties()) {

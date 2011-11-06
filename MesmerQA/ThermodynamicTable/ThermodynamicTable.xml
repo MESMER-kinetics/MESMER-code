@@ -36,11 +36,15 @@
 		<property title="Symmetry Number" dictRef="me:symmetryNumber">
 		  <scalar>1 </scalar>
 		</property>
+		<property dictRef="me:deltaEDown">
+		  <scalar units="cm-1">190.0</scalar>
+		</property>
 		<!--<property dictRef="me:ZPE">
           <scalar calculated="20110602_152335" units="kJ/mol" source="me:Hf0" convention="computational">-539583.33</scalar>
         </property>-->
 	  </propertyList>
 	</molecule>
+
 	<molecule id="OH">
 	  <metadataList>
 		<metadata name="dc:description" content="Listing of experimental data for OH (Hydroxyl radical)"/>
@@ -77,6 +81,9 @@
 		</property>
 		<property title="Electronic Excitation" dictRef="me:electronicExcitation">
 		  <scalar units="cm-1">139.21</scalar>
+		</property>
+		<property dictRef="me:deltaEDown">
+		  <scalar units="cm-1">190.0</scalar>
 		</property>
 		<!--<property dictRef="me:ZPE">
           <scalar calculated="20110602_152731" units="kJ/mol" source="me:Hf0" convention="computational">-198662.84</scalar>
@@ -129,6 +136,7 @@
 	  </me:States>
 
 	</molecule>
+
 	<molecule id="NO">
 	  <metadataList>
 		<metadata name="dc:description" content="Listing of experimental data for NO (Nitric oxide)"/>
@@ -166,9 +174,30 @@
 		<property title="Electronic Excitation" dictRef="me:electronicExcitation">
 		  <scalar units="cm-1">119.8</scalar>
 		</property>
+		<property dictRef="me:deltaEDown">
+		  <scalar units="cm-1">190.0</scalar>
+		</property>
 		<!--<property dictRef="me:ZPE">
           <scalar calculated="20110602_152733" units="kJ/mol" source="me:Hf0" convention="computational">-340720.04</scalar>
         </property>-->
+	  </propertyList>
+	</molecule>
+
+	<molecule id="He">
+	  <atom elementType="He"/>
+	  <propertyList>
+		<property dictRef="me:epsilon">
+		  <scalar>10.0</scalar>
+		</property>
+		<property dictRef="me:sigma">
+		  <scalar>2.55</scalar>
+		</property>
+		<property dictRef="me:MW">
+		  <scalar>4.0</scalar>
+		</property>
+		<property dictRef="me:ZPE">
+		  <scalar units="cm-1">0.0</scalar>
+		</property>
 	  </propertyList>
 	</molecule>
 
@@ -176,14 +205,20 @@
   <reactionList>
 	<reaction id="R1" reversible="true">
 	  <reactant>
-		<molecule ref="HNO2"  me:type="modelled" />
+		<molecule ref="NO"  me:type="excessReactant" />
 	  </reactant>
 	  <reactant>
-		<molecule ref="OH"  me:type="modelled" />
+		<molecule ref="OH"  me:type="deficientReactant" />
 	  </reactant>
 	  <product>
-		<molecule ref="NO"  me:type="modelled" />
+		<molecule ref="HNO2"  me:type="modelled" />
 	  </product>
+	  <me:MCRCMethod>MesmerILT</me:MCRCMethod>
+	  <me:preExponential>6.00e-12</me:preExponential>
+	  <me:activationEnergy  units="cm-1" reverse="true">546.0</me:activationEnergy>
+	  <me:TInfinity>1.0</me:TInfinity>
+	  <me:nInfinity>0.0</me:nInfinity>
+	  <me:excessReactantConc>1e14</me:excessReactantConc>
 	</reaction>
   </reactionList>
 
@@ -196,7 +231,7 @@
 
   <me:control>
 	<me:testDOS />
-	<me:calcMethod>ThermodynamicTable</me:calcMethod>
+	<me:calcMethod me:units="kJ/mol">ThermodynamicTable</me:calcMethod>
   </me:control>
 
 </me:mesmer>
