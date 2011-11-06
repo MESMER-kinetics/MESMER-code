@@ -32,8 +32,10 @@ namespace mesmer
     virtual bool countCellDOS(gDensityOfStates* mol, size_t MaximumCell);
 
     // Provide a function to calculate contribution to canonical partition function.
-    // (Mostly for testing purposes.)
     virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
+
+    // Function to return the number of degrees of freedom associated with this count.
+    virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) {return unsigned int(1) ; } ;
 
     // Constructor which registers with the list of DensityOfStatesCalculators in the base class
     // This class is an extra DOS class: a non-extra DensityOfStatesCalculator class also

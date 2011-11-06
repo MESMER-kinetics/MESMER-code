@@ -8,14 +8,17 @@ namespace mesmer
   {
   public:
 
-    // Provide a function to define particular counts of the DOS of a molecule.
+    // Function to define particular counts of the DOS of a molecule.
     virtual bool countCellDOS(gDensityOfStates* mol, size_t MaximumCell);
 
-    // Provide a function to calculate contribution to canonical partition function.
+    // Function to calculate contribution to canonical partition function.
     virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
 
-    ///Constructor which registers with the list of DensityOfStatesCalculators in the base class
-    //This class calculates a complete DOS: it is not an extra class. 
+    // Function to return the number of degrees of freedom associated with this count.
+    virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
+
+    // Constructor which registers with the list of DensityOfStatesCalculators in the base class
+    // This class calculates a complete DOS: it is not an extra class. 
     ClassicalRotor(const std::string& id) : DensityOfStatesCalculator(id, false){}
 
     virtual ~ClassicalRotor() {}
@@ -113,6 +116,28 @@ namespace mesmer
     }
 
 	return qtot ;
+  }
+  
+  // Function to return the number of degrees of freedom associated with this count.
+  unsigned int ClassicalRotor::NoDegOfFreedom(gDensityOfStates* gdos) {
+
+    vector<double> rotConst;
+    RotationalTop rotorType = gdos->get_rotConsts(rotConst);
+
+    unsigned int nDOF(0) ;
+    switch(rotorType){
+      case NONLINEAR:
+        nDOF = 3 ;
+        break;
+      case LINEAR:
+        nDOF = 2 ;
+        break;
+      default:
+        // Assume atom.
+        break; 
+    }
+
+    return nDOF ;
   }
 
 }//namespace

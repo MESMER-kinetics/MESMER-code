@@ -76,11 +76,8 @@ namespace mesmer
 
     const MesmerFlags& getFlags() const { return m_Flags;} ;
 
-    bool checkFrequencies();
+    bool checkDegOfFreedom();
     bool isCemetery(); //Returns true for modelled molecules marked a cemetery state, false for others 
-
-//    double getMass() ;
-//    void   setMass(double value);
 
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     // Manipulators of component pointers

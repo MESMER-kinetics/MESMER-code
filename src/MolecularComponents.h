@@ -35,9 +35,9 @@ namespace mesmer
     NONLINEAR,
     SPHERICAL,
     OBLATE,
-	PROLATE,
-	ASYMMETRIC,
-	UNDEFINED_TOP
+    PROLATE,
+    ASYMMETRIC,
+    UNDEFINED_TOP
   } ;
 
   class Molecule;
@@ -85,7 +85,7 @@ namespace mesmer
 
   class gDensityOfStates: public MolecularComponent
   {
-    friend Molecule ;
+    friend class Molecule ;
     //-------------------------------------------------------------------------------------------------
     // Cell density of states related properties
     //-------------------------------------------------------------------------------------------------
@@ -139,6 +139,9 @@ namespace mesmer
     gDensityOfStates(Molecule* pMol);
     ~gDensityOfStates();
 
+    // Get the number of degrees of freedom for this species.
+    unsigned int gDensityOfStates::getNoOfDegOfFreeedom() ;
+
     bool ReadDOSMethods();
 
     // Get cell density of states. No recalculation if bcalc==false.
@@ -173,18 +176,6 @@ namespace mesmer
     RotationalTop get_rotConsts(std::vector<double> &mmtsInt);
     void get_VibFreq(std::vector<double>& vibFreq);
     bool removeVibFreq(double freq); 
-
-    // Returns the number of internal degrees of freedom. 
-	// The vibrational degrees of freedom are are treated using a single class
-	// an instance of which is currently added to the extra DOS calculator 
-	// array. All other extra DOS calcualtors are assumed to contributes one
-	// degrees of freedom. This assumptions is exploited in calculating the 
-	// internal degrees of freedom but the POSSIBLE presence of the vibrational 
-	// state calculator in this list means that there can be over counting by 1.
-	// (Need a more robust test!)
-    size_t get_nInternalDegreesOfFreedom() { 
-	  return (m_VibFreq.size() > 0)? m_ExtraDOSCalculators.size() + m_VibFreq.size() - 1 : 0 ;
-	}
 
     int getSpinMultiplicity();
 
@@ -248,9 +239,9 @@ namespace mesmer
     double get_ImFreq();
     void set_imFreq(const double value){ m_ImFreq = value; m_ImFreq_chk = 0;}
     //void set_imFreq(const double valueL, const double valueU, const double stepsize){
-      //std::string rname(m_host->getName()+":imFreqs");
-      //m_ImFreq.set_range(valueL, valueU, stepsize, rname.c_str());
-      //m_ImFreq_chk = 0;
+    //std::string rname(m_host->getName()+":imFreqs");
+    //m_ImFreq.set_range(valueL, valueU, stepsize, rname.c_str());
+    //m_ImFreq_chk = 0;
     //}
 
   };
@@ -455,7 +446,6 @@ namespace mesmer
 
   // Provide a function to define particular counts of the convolved DOS of two molecules.
   bool countDimerCellDOS(gDensityOfStates& pDOS1, gDensityOfStates& pDOS2, std::vector<double>& rctsCellDOS);
-
 
 }//namespace
 

@@ -77,51 +77,29 @@ namespace mesmer
     return true;
   }
 
-  // check whether the total vibrational frequencies (include the imaginary freq) number = 3N-6
-  bool Molecule::checkFrequencies(){
+  // Check whether the total degrees of freeedom are consistent with the number of atoms.
+  bool Molecule::checkDegOfFreedom(){
 
-    size_t numFreq(0) ;
+    if (m_atomNumber < 1) // No atoms defined, so no test can be done.
+       return true ;
+
+    int nDOF(0) ;
     if (g_dos){
-      numFreq = g_dos->get_nInternalDegreesOfFreedom() ;
+      nDOF = g_dos->getNoOfDegOfFreeedom() ;
+    } else {
+      // Maybe a bath gas molecule.
+      return true;
     }
-    if (m_atomNumber > 1 && numFreq == 0){
+    if (m_atomNumber > 1 && nDOF == 0){
       cinfo << "No vibrational frequencies were assigned for " << getName() << ", assuming it to be a sink term.\n";
       return true;
     }
 
-    // if it is a transition state, assuming a imaginary frequency exists no matter user provide it or not.
-    if (g_ts) numFreq++;
+    // If species is a transition state, assume a imaginary frequency exists no matter if user provide it or not.
+    if (g_ts) 
+       nDOF++;
 
-    // get symmety number
-    std::vector<double> mmtsInt;
-    RotationalTop rotorType(NONLINEAR);
-    int isLinearRotor(0);
-    if (g_dos){
-      rotorType = g_dos->get_rotConsts(mmtsInt);
-      if (rotorType == LINEAR)
-        isLinearRotor = 1;
-    }
-    else{
-      // Maybe a bath gas molecule.
-      return true;
-    }
-
-    switch (m_atomNumber){
-      case 0:
-        break; // provide no check to cases where user did not provide a frequencies vector.
-      case 1:
-        if (numFreq != 0)
-          return false; // single atom should not have vibrational frequencies
-        break;
-      case 2:
-        if (numFreq != (3 * m_atomNumber - 5))
-          return false; // must be a linear rotor
-        break;
-      default:
-        if (numFreq != (3 * m_atomNumber - 6 + isLinearRotor))
-          return false;
-    }
-    return true;
+    return (nDOF == (3 * m_atomNumber - 3));
   }
 
   bool Molecule::isCemetery()

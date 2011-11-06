@@ -1,3 +1,9 @@
+2011-November-06 Struan Robertson
+
+	* MolecularComponents.cpp/.h, Molecule.cpp/.h and all DOS plugin 
+	classes: Add methods to allow the calculation of the number of 
+	degrees of freedom.  
+
 2011-October-30 Struan Robertson
 
 	* MolecularComponents.cpp/.h, Molecule.cpp/.h: Tidying up of some 

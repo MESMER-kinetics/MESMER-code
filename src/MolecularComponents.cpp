@@ -116,11 +116,11 @@ namespace mesmer
     m_VibFreq(),
     m_grainEne(),
     m_grainDOS() { m_host = pMol; }
-    
+
   bool gDensityOfStates::initialization() {
-  
+
     Molecule* pMol = m_host ;
-  
+
     ErrorContext c(pMol->getName());
 
     PersistPtr pp = pMol->get_PersistentPointer();
@@ -145,7 +145,7 @@ namespace mesmer
       while (idata >> x)
         m_VibFreq.push_back(x); m_VibFreq_chk = 0;
 
-	  DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("BeyerSwinehart", false);
+      DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("BeyerSwinehart", false);
       if(!pDOSCalculator)
       {
         //msg = "was unknown";
@@ -351,7 +351,22 @@ namespace mesmer
         cinfo << "New me:ZPE element written with data from " << origElement << endl;
       }
     }
-     return true ;
+    return true ;
+  }
+
+  //
+  // Get the number of degrees of freedom for this species.
+  //
+  unsigned int gDensityOfStates::getNoOfDegOfFreeedom() {
+
+    unsigned int nDOF = m_pDOSCalculator->NoDegOfFreedom(this) ;
+
+    // Add contribution from other internal degrees of freeedom.
+
+    for ( vector<DensityOfStatesCalculator*>::size_type j = 0 ; j < m_ExtraDOSCalculators.size() ; ++j ) {
+      nDOF += m_ExtraDOSCalculators[j]->NoDegOfFreedom(this) ;
+    }
+    return nDOF ;
   }
 
   //

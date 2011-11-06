@@ -8,11 +8,14 @@ namespace mesmer
   {
   public:
 
-    // Provide a function to define particular counts of the DOS of a molecule.
+    // Function to define particular counts of the DOS of a molecule.
     virtual bool countCellDOS(gDensityOfStates* mol, size_t MaximumCell);
 
-    // Provide a function to calculate contribution to canonical partition function.
+    // Function to calculate contribution to canonical partition function.
     virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
+
+    // Function to return the number of degrees of freedom associated with this count.
+    virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
 
     ///Constructor which registers with the list of DensityOfStatesCalculators in the base class
     //This class calculates a complete DOS: it is not an extra class. 
@@ -46,7 +49,7 @@ namespace mesmer
         cellDOS[i + freq] += cellDOS[i] ;
       }
     }
-	pDOS->setCellDensityOfStates(cellDOS) ;
+    pDOS->setCellDensityOfStates(cellDOS) ;
 
     return true;
   }
@@ -61,7 +64,16 @@ namespace mesmer
       qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
     }
 
-	return qtot ;
+    return qtot ;
+  }
+
+  // Function to return the number of degrees of freedom associated with this count.
+  unsigned int BeyerSwinehart::NoDegOfFreedom(gDensityOfStates* gdos) {
+
+    vector<double> vibFreq; 
+    gdos->get_VibFreq(vibFreq);
+
+    return vibFreq.size() ;
   }
 
 }//namespace

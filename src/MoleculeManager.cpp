@@ -81,9 +81,9 @@ namespace mesmer
       return NULL;
     }
 
-    // Check whether the activated molecule pertains correct number of vibrational frequencies
-    if (!pmolecule->checkFrequencies()){
-      string errorMsg = "Incorrect number of vibrational frequencies were provided in " + molName;
+    // Check whether the activated molecule correct number of degrees of freedom.
+    if (!pmolecule->checkDegOfFreedom()){
+      string errorMsg = "Incorrect number of degrees of freedom compared with atom count for" + molName;
       throw (std::runtime_error(errorMsg)); 
     }
 
