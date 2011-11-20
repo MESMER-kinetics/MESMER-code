@@ -159,7 +159,7 @@
         </property>
       </propertyList>
       <property dictRef="me:spinMultiplicity">
-        <scalar>1</scalar>
+        <scalar>2</scalar>
       </property>
     </molecule>
 
@@ -205,14 +205,15 @@
 
   </reactionList>
 
+  <!-- Data taken from Seakins et al, J. Phys. Chem. Vol. 97, p. 4450 (1993). -->
   <me:conditions>
     <me:bathGas>He</me:bathGas>
     <me:PTs>
       <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="720.">
-        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">41.5</me:experimentalRate>
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">41.5</me:experimentalRate>
       </me:PTpair>
       <me:PTpair me:units="PPCC" me:P="30.1e16" me:T="730.">
-        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="1.0">51.1</me:experimentalRate>
+        <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">51.1</me:experimentalRate>
       </me:PTpair>
     </me:PTs>
   </me:conditions>
