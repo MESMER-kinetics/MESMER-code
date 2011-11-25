@@ -41,10 +41,11 @@ namespace mesmer
     bool BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags, bool writeReport) ;
 
     // Diagonalize the reaction operator.
-    void diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv, Precision precision, PersistPtr ppAnalysis) ;
+    void diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv,
+      Precision precision, PersistPtr ppAnalysis) ;
 
     // Calculate the time evolution of the system
-    bool timeEvolution(MesmerFlags& mFlags, PersistPtr ppPopList);
+    bool timeEvolution(MesmerFlags& mFlags,PersistPtr ppAnalysis, PersistPtr ppPopList);
 
     // Calculates the Bartis-Widom macroscopic rate coefficients.
     bool BartisWidomPhenomenologicalRates(qdMatrix& rates, MesmerFlags& mFlags, PersistPtr ppBase);
@@ -66,6 +67,9 @@ namespace mesmer
 
 	// Calculate Yields
 	void calculateYields (YieldMap &yieldMap, double &time) const ;
+
+  bool parseDataForGrainProfileAtTime(PersistPtr pp);
+  bool printGrainProfileAtTime();
 
   private:
 
@@ -115,6 +119,9 @@ namespace mesmer
     std::vector<qd_real>    m_eqVector;
 
     bool                    m_punchSymbolGathered;
+
+    // Species, times for printDataForGrainProfileAtTime
+    std::vector<std::pair<Molecule*, std::vector<double> > > GrainProfileAtTimeData;
 
   } ;
 

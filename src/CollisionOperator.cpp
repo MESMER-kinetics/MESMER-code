@@ -544,7 +544,8 @@ namespace mesmer
     return true;
   }
 
-  void CollisionOperator::diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv, Precision precision, PersistPtr ppAnalysis)
+  void CollisionOperator::diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv,
+    Precision precision, PersistPtr ppAnalysis)
   {
     // Allocate space for eigenvalues.
     const size_t smsize = m_reactionOperator->size() ;
@@ -692,7 +693,7 @@ namespace mesmer
     }
   }  
 
-  bool CollisionOperator::timeEvolution(MesmerFlags& mFlags, PersistPtr ppPopList)
+  bool CollisionOperator::timeEvolution(MesmerFlags& mFlags, PersistPtr ppAnalysis, PersistPtr ppPopList)
   {
     ErrorContext c(__FUNCTION__);
     int smsize = int(m_eigenvectors->size());
@@ -811,8 +812,30 @@ namespace mesmer
         ctest << endl;
       }
       ctest << "}\n";
-    }
+
+
+      //------------------------------
+      PersistPtr ppGrainList = ppAnalysis->XmlWriteElement("me:grainPopulationList");
+      size_t timestep = maxTimeStep/2; //temporary value
+      { 
+        PersistPtr ppGrainPop = ppGrainList->XmlWriteElement("me:grainPopulation");
+        ppGrainPop->XmlWriteAttribute("time", toString(timePoints[timestep]));
+        ppGrainPop->XmlWriteAttribute("logTime", toString(log10(timePoints[timestep])));
+        for(int j = 0; j < smsize; j+=5)  
+        {
+          PersistPtr ppGrain = ppGrainPop->XmlWriteValueElement("me:grain", to_double(grnProfile[j][timestep]), 6);
+          ppGrain->XmlWriteAttribute("index", toString(j));
+
+//          stringstream ss;
+//          for(int j = 0; j < smsize; ++j)
+//            ss << toString(grnProfile[j][timestep]) << ' ';
+//          PersistPtr ppGrains = ppGrainPop->XmlWriteValueElement("me:grains", ss.str().c_str());
+//          ppGrains->XmlWriteAttribute("number", toString(smsize)); 
+    
+        }
+      }
     //------------------------------
+    }
 
     ctest<<"mean collision frequency = " << m_meanOmega << "/s" << endl;
 
@@ -1748,4 +1771,51 @@ namespace mesmer
 
   }
 
+  bool CollisionOperator::parseDataForGrainProfileAtTime(PersistPtr ppData)
+  {
+    //This is called from System::parse()
+    do
+    {
+      const char* pRef = ppData->XmlReadValue("ref", optional);
+      if(!pRef)
+      {
+        cerr << "Need to specify the species with a \"ref\" attribute on me:printGrainProfileAtTime" << endl;
+        return false;
+      }
+
+      Molecule* pMol = m_pMoleculeManager->find(pRef);
+      if(!pMol)
+        return false; //error message is in find()
+      double tim;
+      vector<double> times;
+      PersistPtr pp = ppData;
+      while( pp = pp->XmlMoveTo("me:time"))
+      {
+        const char* ptimtxt =pp->XmlRead();
+        stringstream ss(ptimtxt);
+        ss >>tim;
+        times.push_back(tim);
+      }
+      if(times.empty())
+      {
+        cerr << "Need to specify at least one time in a \"time\" element in me:printGrainProfileAtTime";
+        return false;
+      }
+      GrainProfileAtTimeData.push_back(make_pair(pMol, times));
+      //go for next species
+      ppData = ppData->XmlMoveTo("me:printGrainProfileAtTime");
+    } while(ppData);
+    return true;
+  }
+
+  bool CollisionOperator::printGrainProfileAtTime()
+  {
+    // I don't know where this should be called from.
+
+    // Use GrainProfileAtTimeData to calculate population
+    // at each grain energy of each pMol at each time (Struan)
+
+    // Output to XML (Chris)
+    return true;
+  }
 }  //namespace

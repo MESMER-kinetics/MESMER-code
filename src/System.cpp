@@ -313,6 +313,11 @@ namespace mesmer
         istringstream ss(txtMET);
         ss >> m_Flags.maxEvolutionTime;
       }
+
+      PersistPtr pp = ppControl->XmlMoveTo("me:printGrainProfileAtTime");
+      if(pp)
+        if(!m_collisionOperator.parseDataForGrainProfileAtTime(pp))
+          return false;
     }
 
     return true;
@@ -566,7 +571,7 @@ namespace mesmer
             ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
           }
           // Time steps loop
-          m_collisionOperator.timeEvolution(m_Flags, ppPopList); 
+          m_collisionOperator.timeEvolution(m_Flags, ppAnalysis, ppPopList); 
           PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
           ppList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
           ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
