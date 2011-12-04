@@ -515,7 +515,7 @@ namespace mesmer
     rateCoeffTable << endl ;
 
     chiSquare = 0.0; // reset the value to zero
-	residuals.clear() ;
+	  residuals.clear() ;
 
     for (calPoint = 0; calPoint < PandTs.size(); ++calPoint) {
 
@@ -570,8 +570,13 @@ namespace mesmer
             ppPopList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
             ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
           }
-          // Time steps loop
-          m_collisionOperator.timeEvolution(m_Flags, ppAnalysis, ppPopList); 
+
+          // Calculate time-dependent properties.
+          m_collisionOperator.timeEvolution(m_Flags, ppAnalysis, ppPopList);
+          m_collisionOperator.printGrainProfileAtTime();
+
+          // Calculate rate coefficients. 
+          
           PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
           ppList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
           ppList->XmlWriteAttribute("conc", toString(m_Env.conc));

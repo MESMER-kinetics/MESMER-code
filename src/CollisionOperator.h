@@ -58,18 +58,19 @@ namespace mesmer
 
     int getSpeciesSequenceIndex(const std::string ref);
 
-	// Accessor to get specified eigenvalue.
-	double getEigenvalue(size_t idEigenvalue) const ;
+    // Accessor to get specified eigenvalue.
+    double getEigenvalue(size_t idEigenvalue) const ;
 
     // This method locates all sinks and determines their location in the relevant
     // isomer or source map. 
     void locateSinks() ;
 
-	// Calculate Yields
-	void calculateYields (YieldMap &yieldMap, double &time) const ;
+    // Calculate Yields
+    void calculateYields (YieldMap &yieldMap, double &time) const ;
 
-  bool parseDataForGrainProfileAtTime(PersistPtr pp);
-  bool printGrainProfileAtTime();
+    bool parseDataForGrainProfileAtTime(PersistPtr pp);
+
+    bool printGrainProfileAtTime();
 
   private:
 
@@ -89,6 +90,8 @@ namespace mesmer
     bool produceEquilibriumVector();
 
     bool produceInitialPopulationVector(vector<double>& initDist) const ;
+    
+    bool projectedInitialDistrbtn(vector<double>& initDist) const ;
 
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;
@@ -121,7 +124,7 @@ namespace mesmer
     bool                    m_punchSymbolGathered;
 
     // Species, times for printDataForGrainProfileAtTime
-    std::vector<std::pair<Molecule*, std::vector<double> > > GrainProfileAtTimeData;
+    std::vector<std::pair<Molecule*, std::vector<double> > > m_GrainProfileAtTimeData;
 
   } ;
 

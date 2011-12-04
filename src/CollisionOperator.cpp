@@ -541,6 +541,13 @@ namespace mesmer
       string speciesName = key->getName();
       ctest << "Equilibrium Fraction for " << speciesName << " = " << key->getPop().getEqFraction() << endl;
     }
+    
+    // Calculate equilibrium vector.
+    if (!produceEquilibriumVector()){
+      cerr << "Calculation of equilibrium vector failed.";
+      return false;
+    }
+    
     return true;
   }
 
@@ -696,34 +703,17 @@ namespace mesmer
   bool CollisionOperator::timeEvolution(MesmerFlags& mFlags, PersistPtr ppAnalysis, PersistPtr ppPopList)
   {
     ErrorContext c(__FUNCTION__);
-    int smsize = int(m_eigenvectors->size());
 
-    if (!produceEquilibriumVector()){
-      cerr << "Calculation of equilibrium vector failed.";
-      return false;
-    }
-
-    vector<double> n_0(smsize, 0.); // initial distribution
-    if (!produceInitialPopulationVector(n_0)){
-      cerr << "Calculation of initial conditions vector failed.";
-      return false;
-    }
-
-    //Cut short if species profiles not needed
+    // Cut short if species profiles not needed.
     if(!mFlags.speciesProfileEnabled)
       return true;
 
-    // |n_0> = F^(-1)*|n_0>
-    for (int j = 0; j < smsize; ++j) {
-      n_0[j] /= to_double(m_eqVector[j]) ;
-    }
-    // Converts the initial population vector into Boltzmann weighted population vector.
-    // All transitions in the reaction matrix are Boltzmann weighted for symmetry.
-
-    // |n_0> is the initial populations of the grains for all species
-    // |n_t> = U exp(Lamda t) U^-1 |n_0>
-    // |r_0> = U^-1 |n_0>
+    size_t smsize = m_eigenvectors->size();
     vector<double> r_0(smsize, 0.);
+    if (!projectedInitialDistrbtn(r_0)) {
+      cerr << "Projection of initial disttribution failed.";
+      return false;
+    }
 
     double shortestTime = 0.;
     // set the default maximum evolution time
@@ -755,27 +745,11 @@ namespace mesmer
       dt[i] = timePoints[i] - timePoints[i-1];
     }
 
-
     dMatrix totalEigenVecs(smsize); // copy full eigenvectors of the system
-    for ( int i = 0 ; i < smsize ; ++i )
-      for ( int j = 0 ; j < smsize ; ++j )
-        totalEigenVecs[i][j] = to_double((*m_eigenvectors)[i][j]);
-
-
-    for (int i = 0; i < smsize; ++i) {
-      double sum = 0.;
-      for (int j = 0; j < smsize; ++j) {
-        sum += n_0[j] * totalEigenVecs[j][i];
-      }
-      r_0[i] = sum;  // now |r_0> = V^(T)*|init> = U^(-1)*|n_0>
-      // Times the initial population with the inverse of the eigenvector
-      // which converts the populations into the "decay modes" domain.
-    }
-
-    for (int i = 0; i < smsize; ++i) {
+    for (size_t i = 0; i < smsize; ++i) {
       double tmp = to_double(m_eqVector[i]);
-      for (int j = 0; j < smsize; ++j) {
-        totalEigenVecs[i][j] *= tmp;
+      for (size_t j = 0; j < smsize; ++j) {
+        totalEigenVecs[i][j] = tmp*to_double((*m_eigenvectors)[i][j]);
       }
     }
 
@@ -785,12 +759,12 @@ namespace mesmer
 
     for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
       double numColl = m_meanOmega * timePoints[timestep];
-      for (int j = 0; j < smsize; ++j) {
+      for (size_t j = 0; j < smsize; ++j) {
         work2[j] = r_0[j] * exp(to_double(m_eigenvalues[j]) * numColl);
       } // now |wk2> = exp(Lambda*t)*V^(T)*|init> = exp(Lambda*t)*U^(-1)*|n_0>
-      for (int j = 0; j < smsize; ++j) {
+      for (size_t j = 0; j < smsize; ++j) {
         double sum = 0.;
-        for (int l = 0; l < smsize; ++l) {
+        for (size_t l = 0; l < smsize; ++l) {
           sum += work2[l] * totalEigenVecs[j][l];
         }
         grnProfile[j][timestep] = sum;
@@ -805,7 +779,7 @@ namespace mesmer
         formatFloat(ctest, timePoints[timestep], 6,  15);
       }
       ctest << endl;
-      for (int j = 0; j < smsize; ++j) {
+      for (size_t j = 0; j < smsize; ++j) {
         for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
           formatFloat(ctest, grnProfile[j][timestep], 6,  15);
         }
@@ -821,7 +795,7 @@ namespace mesmer
         PersistPtr ppGrainPop = ppGrainList->XmlWriteElement("me:grainPopulation");
         ppGrainPop->XmlWriteAttribute("time", toString(timePoints[timestep]));
         ppGrainPop->XmlWriteAttribute("logTime", toString(log10(timePoints[timestep])));
-        for(int j = 0; j < smsize; j+=5)  
+        for(size_t j = 0; j < smsize; j+=5)  
         {
           PersistPtr ppGrain = ppGrainPop->XmlWriteValueElement("me:grain", to_double(grnProfile[j][timestep]), 6);
           ppGrain->XmlWriteAttribute("index", toString(j));
@@ -843,7 +817,7 @@ namespace mesmer
     vector<double> totalPdtPop(maxTimeStep, 0.);
 
     for(size_t timestep(0); timestep<maxTimeStep; ++timestep){
-      for(int j(0);j<smsize;++j){
+      for(size_t j(0);j<smsize;++j){
         totalIsomerPop[timestep] += grnProfile[j][timestep];
       }
       double popTime = totalIsomerPop[timestep];
@@ -1174,7 +1148,7 @@ namespace mesmer
     }
 
     //
-    // Construct assymmetric eigenvectors reuquied for the z matrix.
+    // Construct assymmetric eigenvectors required for the z matrix.
     //
     qdMatrix assymInvEigenVec(smsize);   // U^(-1)
     qdMatrix assymEigenVec(smsize);      // U
@@ -1801,21 +1775,59 @@ namespace mesmer
         cerr << "Need to specify at least one time in a \"time\" element in me:printGrainProfileAtTime";
         return false;
       }
-      GrainProfileAtTimeData.push_back(make_pair(pMol, times));
+      m_GrainProfileAtTimeData.push_back(make_pair(pMol, times));
       //go for next species
       ppData = ppData->XmlMoveTo("me:printGrainProfileAtTime");
     } while(ppData);
     return true;
   }
 
-  bool CollisionOperator::printGrainProfileAtTime()
-  {
-    // I don't know where this should be called from.
+  bool CollisionOperator::printGrainProfileAtTime() {
 
     // Use GrainProfileAtTimeData to calculate population
     // at each grain energy of each pMol at each time (Struan)
 
+    size_t smsize = m_eigenvectors->size();
+    vector<double> r_0(smsize, 0.); // initial distribution
+    if (!projectedInitialDistrbtn(r_0)) {
+      cerr << "Projection of initial disttribution failed.";
+      return false;
+    }
+
     // Output to XML (Chris)
     return true;
   }
+  
+  bool CollisionOperator::projectedInitialDistrbtn(vector<double>& r_0) const {
+  
+    // This method calculates the projection of the initial distribution on to the
+    // eigenspace of the collision matrix.
+        
+    vector<double> n_0 = r_0 ; 
+    if (!produceInitialPopulationVector(n_0)){
+      cerr << "Calculation of initial conditions vector failed.";
+      return false;
+    }
+
+    // Convert the initial population vector into Boltzmann weighted population vector.
+    // All transitions in the reaction matrix are Boltzmann weighted for symmetry.
+    // |n_0> = F^(-1)*|n_0>
+    for (size_t j(0) ; j < n_0.size() ; ++j) {
+      n_0[j] /= to_double(m_eqVector[j]) ;
+    }
+    
+    // Multiply the initial population with the inverse of the eigenvector
+    // which converts the populations into the "decay modes" domain.
+    // |r_0> = V^(T)*F^(-1)*|n_0> = U^(-1)*|n_0>
+    for (size_t i(0) ; i < r_0.size() ; ++i) {
+      double sum = 0.;
+      for (size_t j(0) ; j < r_0.size() ; ++j) {
+        sum += n_0[j] * to_double((*m_eigenvectors)[j][i]);
+      }
+      r_0[i] = sum;  
+    }
+    
+    return true;
+  }
+  
 }  //namespace
