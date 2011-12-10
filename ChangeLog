@@ -1,3 +1,8 @@
+2011-December-10 Struan Robertson
+
+	* CollisionOperator.cpp: Initial implementation of species profile 
+	method.  
+
 2011-December-04 Struan Robertson
 
 	* CollisionOperator.cpp/.h and System.cpp: Refactoring of timeEvolution

@@ -541,13 +541,13 @@ namespace mesmer
       string speciesName = key->getName();
       ctest << "Equilibrium Fraction for " << speciesName << " = " << key->getPop().getEqFraction() << endl;
     }
-    
+
     // Calculate equilibrium vector.
     if (!produceEquilibriumVector()){
       cerr << "Calculation of equilibrium vector failed.";
       return false;
     }
-    
+
     return true;
   }
 
@@ -800,15 +800,15 @@ namespace mesmer
           PersistPtr ppGrain = ppGrainPop->XmlWriteValueElement("me:grain", to_double(grnProfile[j][timestep]), 6);
           ppGrain->XmlWriteAttribute("index", toString(j));
 
-//          stringstream ss;
-//          for(int j = 0; j < smsize; ++j)
-//            ss << toString(grnProfile[j][timestep]) << ' ';
-//          PersistPtr ppGrains = ppGrainPop->XmlWriteValueElement("me:grains", ss.str().c_str());
-//          ppGrains->XmlWriteAttribute("number", toString(smsize)); 
-    
+          //          stringstream ss;
+          //          for(int j = 0; j < smsize; ++j)
+          //            ss << toString(grnProfile[j][timestep]) << ' ';
+          //          PersistPtr ppGrains = ppGrainPop->XmlWriteValueElement("me:grains", ss.str().c_str());
+          //          ppGrains->XmlWriteAttribute("number", toString(smsize)); 
+
         }
       }
-    //------------------------------
+      //------------------------------
     }
 
     ctest<<"mean collision frequency = " << m_meanOmega << "/s" << endl;
@@ -886,8 +886,7 @@ namespace mesmer
               speciesProfile[speciesProfileidx][timestep] += grnProfile[i+rxnMatrixLoc][timestep];
             }
           }
-        }
-        else{
+        } else {
           for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
             for(int i = 0; i < colloptrsize - numberGrouped + nrg; ++i){
               speciesProfile[speciesProfileidx][timestep] += grnProfile[i+rxnMatrixLoc][timestep];
@@ -1685,7 +1684,7 @@ namespace mesmer
 
     if (time > 0.0) {
 
-	  // Experimental time.
+      // Experimental time.
 
       for (size_t j(0); j < smsize; ++j) {
         wrk[j] *= (exp(m_meanOmega*m_eigenvalues[j]*time) - 1.0)/(m_meanOmega*m_eigenvalues[j]) ;
@@ -1784,6 +1783,10 @@ namespace mesmer
 
   bool CollisionOperator::printGrainProfileAtTime() {
 
+    // Check there is something to do.
+    if (!m_GrainProfileAtTimeData.size())
+      return true ;
+
     // Use GrainProfileAtTimeData to calculate population
     // at each grain energy of each pMol at each time (Struan)
 
@@ -1794,15 +1797,65 @@ namespace mesmer
       return false;
     }
 
-    // Output to XML (Chris)
+    // Copy full eigenvectors of the system.
+    dMatrix totalEigenVecs(smsize); 
+    for (size_t i(0) ; i < smsize; ++i) {
+      double tmp = to_double(m_eqVector[i]);
+      for (size_t j(0) ; j < smsize; ++j) {
+        totalEigenVecs[i][j] = tmp*to_double((*m_eigenvectors)[i][j]);
+      }
+    }
+
+    // Iterate overall species.
+    for (size_t iMol(0) ; iMol < smsize; ++iMol) {
+
+      // Find the location of the species in the density vector.
+      Molecule*  pMol = m_GrainProfileAtTimeData[iMol].first ;
+      int iLoc(-1), slsize(0) ;
+      if        (m_isomers.find(pMol) != m_isomers.end()) {
+        iLoc   = m_isomers[pMol] ;
+        slsize = pMol->getColl().get_colloptrsize(); ; 
+      } else if (m_sources.find(pMol) != m_sources.end()) {
+        iLoc = m_sources[pMol] ; 
+        slsize = 1 ; 
+      } else {
+        cerr << "Could not calculates species profile for " << pMol->getName() << "." << endl;
+        continue;
+      }
+      
+      const vector<double> Times(m_GrainProfileAtTimeData[iMol].second) ;
+
+      for (size_t iTime(0); iTime < Times.size(); ++iTime){
+        double numColl = m_meanOmega * Times[iTime];
+        vector<double> p_t(smsize,0.0) ;
+
+        // |p_t> = exp(Lambda*t)*V^(T)*|init> = exp(Lambda*t)*U^(-1)*|n_0>
+        for (size_t j(0) ; j < smsize; ++j) {
+          p_t[j] = r_0[j] * exp(to_double(m_eigenvalues[j]) * numColl);
+        } 
+
+        // |p_t> =  F*V*exp(Lambda*t)*V^(T)*|init> = U*exp(Lambda*t)*U^(-1)*|n_0> 
+
+        p_t *= totalEigenVecs ;
+        
+        // Copy densities for output.
+        
+        vector<double> density(p_t.begin() + iLoc, p_t.begin() + (iLoc + slsize - 1)) ;
+        
+        // Output density to XML (Chris)
+
+      }
+
+    }
+
     return true;
   }
-  
+
   bool CollisionOperator::projectedInitialDistrbtn(vector<double>& r_0) const {
-  
+
     // This method calculates the projection of the initial distribution on to the
     // eigenspace of the collision matrix.
-        
+
     vector<double> n_0 = r_0 ; 
     if (!produceInitialPopulationVector(n_0)){
       cerr << "Calculation of initial conditions vector failed.";
@@ -1815,7 +1868,7 @@ namespace mesmer
     for (size_t j(0) ; j < n_0.size() ; ++j) {
       n_0[j] /= to_double(m_eqVector[j]) ;
     }
-    
+
     // Multiply the initial population with the inverse of the eigenvector
     // which converts the populations into the "decay modes" domain.
     // |r_0> = V^(T)*F^(-1)*|n_0> = U^(-1)*|n_0>
@@ -1826,8 +1879,8 @@ namespace mesmer
       }
       r_0[i] = sum;  
     }
-    
+
     return true;
   }
-  
+
 }  //namespace
