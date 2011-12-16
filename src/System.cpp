@@ -573,7 +573,7 @@ namespace mesmer
 
           // Calculate time-dependent properties.
           m_collisionOperator.timeEvolution(m_Flags, ppAnalysis, ppPopList);
-          m_collisionOperator.printGrainProfileAtTime();
+          m_collisionOperator.printGrainProfileAtTime(ppAnalysis);
 
           // Calculate rate coefficients. 
           

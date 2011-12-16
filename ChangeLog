@@ -1,3 +1,8 @@
+2011-December-16 Chris Morley
+
+	* src/CollisionOperator.cpp,src/CollisionOperator.h,
+	src/System.cpp: Some XML output grain profile
+
 2011-December-10 Struan Robertson
 
 	* CollisionOperator.cpp: Initial implementation of species profile 

@@ -1781,7 +1781,7 @@ namespace mesmer
     return true;
   }
 
-  bool CollisionOperator::printGrainProfileAtTime() {
+  bool CollisionOperator::printGrainProfileAtTime(PersistPtr ppAnalysis) {
 
     // Check there is something to do.
     if (!m_GrainProfileAtTimeData.size())
@@ -1806,20 +1806,24 @@ namespace mesmer
       }
     }
 
+    PersistPtr ppGrainList = ppAnalysis->XmlWriteElement("me:grainPopulationList");
+    // Iterate over species requested for output
+    for (size_t iMol(0); iMol<m_GrainProfileAtTimeData.size(); ++iMol) { 
     // Iterate overall species.
-    for (size_t iMol(0) ; iMol < smsize; ++iMol) {
+    //for (size_t iMol(0) ; iMol < smsize; ++iMol) {
 
       // Find the location of the species in the density vector.
       Molecule*  pMol = m_GrainProfileAtTimeData[iMol].first ;
-      int iLoc(-1), slsize(0) ;
-      if        (m_isomers.find(pMol) != m_isomers.end()) {
+      int iLoc(-1);
+      size_t slsize(0);
+      if (m_isomers.find(pMol) != m_isomers.end()) {
         iLoc   = m_isomers[pMol] ;
         slsize = pMol->getColl().get_colloptrsize(); ; 
       } else if (m_sources.find(pMol) != m_sources.end()) {
         iLoc = m_sources[pMol] ; 
         slsize = 1 ; 
       } else {
-        cerr << "Could not calculates species profile for " << pMol->getName() << "." << endl;
+        cerr << "Could not calculate species profile for " << pMol->getName() << "." << endl;
         continue;
       }
       
@@ -1843,6 +1847,26 @@ namespace mesmer
         vector<double> density(p_t.begin() + iLoc, p_t.begin() + (iLoc + slsize - 1)) ;
         
         // Output density to XML (Chris)
+        PersistPtr ppGrainPop = ppGrainList->XmlWriteElement("me:grainPopulation");
+        { 
+          ppGrainPop->XmlWriteAttribute("ref", pMol->getName());
+          ppGrainPop->XmlWriteAttribute("time", toString(Times[iTime]));
+          ppGrainPop->XmlWriteAttribute("logTime", toString(log10(Times[iTime])));
+          ppGrainPop->XmlWriteAttribute("units", "cm-1");
+          for(size_t j = 0; j < slsize-1; ++j)  
+          {
+            PersistPtr ppGrain = ppGrainPop->XmlWriteValueElement("me:grain", density[j], 6);
+            ppGrain->XmlWriteAttribute("energy", toString((j+0.5) * pMol->getEnv().GrainSize)); //cm-1
+
+            /*stringstream ss;
+            for(int j = 0; j < smsize; ++j)
+              ss << toString(grnProfile[j][timestep]) << ' ';
+            PersistPtr ppGrains = ppGrainPop->XmlWriteValueElement("me:grains", ss.str().c_str());
+            ppGrains->XmlWriteAttribute("number", toString(smsize)); 
+            */
+          }
+          
+	      }
 
       }
 
