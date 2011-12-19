@@ -1,3 +1,8 @@
+
+2011-December-19 Struan Robertson
+
+	* CollisionOperator.cpp: Tidying-up of time evolution method.  
+
 2011-December-16 Chris Morley
 
 	* src/CollisionOperator.cpp,src/CollisionOperator.h,

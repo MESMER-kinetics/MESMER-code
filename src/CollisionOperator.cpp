@@ -755,20 +755,20 @@ namespace mesmer
 
     const size_t maxTimeStep = dt.size();
     db2D grnProfile(smsize, maxTimeStep); // numbers inside the parentheses are dummies
-    vector<double> work2(smsize, 0.);
+    vector<double> p_t(smsize, 0.);
 
     for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
       double numColl = m_meanOmega * timePoints[timestep];
-      for (size_t j = 0; j < smsize; ++j) {
-        work2[j] = r_0[j] * exp(to_double(m_eigenvalues[j]) * numColl);
-      } // now |wk2> = exp(Lambda*t)*V^(T)*|init> = exp(Lambda*t)*U^(-1)*|n_0>
-      for (size_t j = 0; j < smsize; ++j) {
-        double sum = 0.;
-        for (size_t l = 0; l < smsize; ++l) {
-          sum += work2[l] * totalEigenVecs[j][l];
-        }
-        grnProfile[j][timestep] = sum;
+      for (size_t j(0); j < smsize; ++j) {
+        p_t[j] = r_0[j] * exp(to_double(m_eigenvalues[j]) * numColl);
+      } // now |p_t> = exp(Lambda*t)*V^(T)*|init> = exp(Lambda*t)*U^(-1)*|n_0>
+      
+      p_t *= totalEigenVecs ;
+
+      for (size_t j(0); j < smsize; ++j) {
+        grnProfile[j][timestep] = p_t[j];
       } // now |grnProfile(t)> = |grnProfile(i)> = F*V*exp(Lambda*t)*V^(T)*|init> = U*exp(Lambda*t)*U^(-1)*|n_0>
+
     }
 
     //------------------------------
@@ -779,7 +779,7 @@ namespace mesmer
         formatFloat(ctest, timePoints[timestep], 6,  15);
       }
       ctest << endl;
-      for (size_t j = 0; j < smsize; ++j) {
+      for (size_t j(0); j < smsize; ++j) {
         for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
           formatFloat(ctest, grnProfile[j][timestep], 6,  15);
         }
@@ -787,8 +787,6 @@ namespace mesmer
       }
       ctest << "}\n";
 
-
-      //------------------------------
       PersistPtr ppGrainList = ppAnalysis->XmlWriteElement("me:grainPopulationList");
       size_t timestep = maxTimeStep/2; //temporary value
       { 
@@ -799,16 +797,8 @@ namespace mesmer
         {
           PersistPtr ppGrain = ppGrainPop->XmlWriteValueElement("me:grain", to_double(grnProfile[j][timestep]), 6);
           ppGrain->XmlWriteAttribute("index", toString(j));
-
-          //          stringstream ss;
-          //          for(int j = 0; j < smsize; ++j)
-          //            ss << toString(grnProfile[j][timestep]) << ' ';
-          //          PersistPtr ppGrains = ppGrainPop->XmlWriteValueElement("me:grains", ss.str().c_str());
-          //          ppGrains->XmlWriteAttribute("number", toString(smsize)); 
-
         }
       }
-      //------------------------------
     }
 
     ctest<<"mean collision frequency = " << m_meanOmega << "/s" << endl;
@@ -850,47 +840,42 @@ namespace mesmer
 
       ctest << setw(16) << "Timestep/s";
 
+      // Iterate through the source map, to determine the total source 
+      // density as a function of time.
       vector<string> speciesNames;
       Reaction::molMapType::iterator spos;
-      for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map
-        Molecule* source = spos->first ;                        // to get source profile vs t
+      for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  
+        Molecule* source = spos->first ;
         ctest << setw(16) << source->getName();
         speciesNames.push_back(source->getName());
         int rxnMatrixLoc = spos->second;
         for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
-          double gPf = grnProfile[rxnMatrixLoc][timestep];
-          speciesProfile[speciesProfileidx][timestep] = gPf;
+          speciesProfile[speciesProfileidx][timestep] = grnProfile[rxnMatrixLoc][timestep];
         }
         ++speciesProfileidx;
       }
 
+      // Iterate through the isomer map, to calculate the total isomer 
+      // density as a function of time.
       Reaction::molMapType::iterator ipos;
-      for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
-        Molecule* isomer = ipos->first;                        // to get isomer profile vs t
-        const int nrg = isomer->getColl().isCemetery() ? 0 : 1;
+      for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  
+        Molecule* isomer = ipos->first;                        
         string isomerName = isomer->getName();
-        if (nrg){
-          ctest << setw(16) << isomerName;
-        }
-        else{
+        if (isomer->getColl().isCemetery()){
           isomerName += "(+)"; // active states
-          ctest << setw(16) << isomerName;
         }
+        ctest << setw(16) << isomerName;
         speciesNames.push_back(isomerName);
         int rxnMatrixLoc = ipos->second;
-        const int colloptrsize = isomer->getColl().get_colloptrsize();
+        int colloptrsize = isomer->getColl().get_colloptrsize();
         const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();
-        if (numberGrouped == 0){
-          for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
-            for(int i = 0; i < colloptrsize; ++i){
-              speciesProfile[speciesProfileidx][timestep] += grnProfile[i+rxnMatrixLoc][timestep];
-            }
-          }
-        } else {
-          for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
-            for(int i = 0; i < colloptrsize - numberGrouped + nrg; ++i){
-              speciesProfile[speciesProfileidx][timestep] += grnProfile[i+rxnMatrixLoc][timestep];
-            }
+        if (numberGrouped != 0) { 
+          const int nrg = isomer->getColl().isCemetery() ? 0 : 1;
+          colloptrsize -= (numberGrouped - nrg) ;
+        }
+        for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
+          for(int i = 0; i < colloptrsize; ++i){
+            speciesProfile[speciesProfileidx][timestep] += grnProfile[i+rxnMatrixLoc][timestep];
           }
         }
         ++speciesProfileidx;
@@ -946,7 +931,7 @@ namespace mesmer
         size_t idx(0) ;
         if (numberGrouped != 0){
           Molecule* rctMol = pos->first->get_reactant();
-          int nrg = rctMol->getColl().isCemetery() ? 0 : 1;
+          const int nrg = rctMol->getColl().isCemetery() ? 0 : 1;
           idx = numberGrouped - nrg ;
         }
         for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
@@ -1808,9 +1793,7 @@ namespace mesmer
 
     PersistPtr ppGrainList = ppAnalysis->XmlWriteElement("me:grainPopulationList");
     // Iterate over species requested for output
-    for (size_t iMol(0); iMol<m_GrainProfileAtTimeData.size(); ++iMol) { 
-    // Iterate overall species.
-    //for (size_t iMol(0) ; iMol < smsize; ++iMol) {
+    for (size_t iMol(0); iMol < m_GrainProfileAtTimeData.size(); ++iMol) { 
 
       // Find the location of the species in the density vector.
       Molecule*  pMol = m_GrainProfileAtTimeData[iMol].first ;
@@ -1826,7 +1809,7 @@ namespace mesmer
         cerr << "Could not calculate species profile for " << pMol->getName() << "." << endl;
         continue;
       }
-      
+
       const vector<double> Times(m_GrainProfileAtTimeData[iMol].second) ;
 
       for (size_t iTime(0); iTime < Times.size(); ++iTime){
@@ -1841,11 +1824,11 @@ namespace mesmer
         // |p_t> =  F*V*exp(Lambda*t)*V^(T)*|init> = U*exp(Lambda*t)*U^(-1)*|n_0> 
 
         p_t *= totalEigenVecs ;
-        
+
         // Copy densities for output.
-        
+
         vector<double> density(p_t.begin() + iLoc, p_t.begin() + (iLoc + slsize - 1)) ;
-        
+
         // Output density to XML (Chris)
         PersistPtr ppGrainPop = ppGrainList->XmlWriteElement("me:grainPopulation");
         { 
@@ -1853,23 +1836,13 @@ namespace mesmer
           ppGrainPop->XmlWriteAttribute("time", toString(Times[iTime]));
           ppGrainPop->XmlWriteAttribute("logTime", toString(log10(Times[iTime])));
           ppGrainPop->XmlWriteAttribute("units", "cm-1");
-          for(size_t j = 0; j < slsize-1; ++j)  
+          for(size_t j(0); j < slsize-1; ++j)  
           {
             PersistPtr ppGrain = ppGrainPop->XmlWriteValueElement("me:grain", density[j], 6);
             ppGrain->XmlWriteAttribute("energy", toString((j+0.5) * pMol->getEnv().GrainSize)); //cm-1
-
-            /*stringstream ss;
-            for(int j = 0; j < smsize; ++j)
-              ss << toString(grnProfile[j][timestep]) << ' ';
-            PersistPtr ppGrains = ppGrainPop->XmlWriteValueElement("me:grains", ss.str().c_str());
-            ppGrains->XmlWriteAttribute("number", toString(smsize)); 
-            */
           }
-          
-	      }
-
+        }
       }
-
     }
 
     return true;
