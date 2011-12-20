@@ -99,9 +99,9 @@ namespace mesmer
     if (g_ts) 
        nDOF++;
 
-	// Add translational degrees of freedom.
+    // Add translational degrees of freedom.
 
-	nDOF += 3 ;
+    nDOF += 3 ;
 
     return (nDOF == (3 * m_atomNumber));
   }

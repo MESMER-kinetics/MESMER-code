@@ -27,40 +27,40 @@ using namespace std ;
 
 namespace mesmer
 {
-class ExponentialDown : public EnergyTransferModel
-{
-public:
+  class ExponentialDown : public EnergyTransferModel
+  {
+  public:
 
-/********************************************************************************
-  Constructor which registers this class with the map of energy transfer models
-  kept by the base class.
-********************************************************************************/
-  ExponentialDown(const std::string& id) : EnergyTransferModel(id),
-    m_deltaEdown(0.0), m_refTemp(298), m_dEdExp(0.0) {}
+    /********************************************************************************
+    Constructor which registers this class with the map of energy transfer models
+    kept by the base class.
+    ********************************************************************************/
+    ExponentialDown(const std::string& id) : EnergyTransferModel(id),
+      m_deltaEdown(0.0), m_refTemp(298), m_dEdExp(0.0) {}
 
-  /******************************************************************************
-  Because the class can be used for more than one molecule, a new instance is made
-  for each one. This is done by EnergyTransferModel::Find() calling Clone(); a
-  function of the following form is required for each derived class.
-  ******************************************************************************/
-  ExponentialDown* Clone() { return new ExponentialDown(*this); }
+    /******************************************************************************
+    Because the class can be used for more than one molecule, a new instance is made
+    for each one. This is done by EnergyTransferModel::Find() calling Clone(); a
+    function of the following form is required for each derived class.
+    ******************************************************************************/
+    ExponentialDown* Clone() { return new ExponentialDown(*this); }
 
-  /*************************************************************
-  Read the parameters needed by the class from the XML datafile
-  *************************************************************/
-  virtual bool ReadParameters(const Molecule* parent) ; 
+    /*************************************************************
+    Read the parameters needed by the class from the XML datafile
+    *************************************************************/
+    virtual bool ReadParameters(const Molecule* parent) ; 
 
-  /*************************************************************
-  This is the function which does the real work of the plugin
-  *************************************************************/
-  virtual double calculateTransitionProbability(double Ei, double Ej);
+    /*************************************************************
+    This is the function which does the real work of the plugin
+    *************************************************************/
+    virtual double calculateTransitionProbability(double Ei, double Ej);
 
-private:
-  Rdouble m_deltaEdown ;
-  double m_refTemp;
-  double m_dEdExp ;
+  private:
+    Rdouble m_deltaEdown ;
+    double m_refTemp;
+    Rdouble m_dEdExp ;
 
-};
+  };
 
   /******************************************************************************
   Declaration of a global instance of the class. This makes the class known to
@@ -114,7 +114,8 @@ private:
     search and fitting routines. The me:deltaEDown property having both "lower" and
     "upper" attributes, together with and the following code, sets this up.
     ******************************************************************************/
-    PersistPtr ppProp = ppPropList->XmlMoveToProperty("me:deltaEDown"); //needed to read the attributes
+    // Needed to read the attributes.
+    PersistPtr ppProp = ppPropList->XmlMoveToProperty("me:deltaEDown"); 
     double valueL     = ppProp->XmlReadDouble("lower",    optional);
     double valueU     = ppProp->XmlReadDouble("upper",    optional);
     double stepsize   = ppProp->XmlReadDouble("stepsize", optional);
@@ -137,9 +138,33 @@ private:
     if(IsNan(m_refTemp))
       m_refTemp = 298.;
 
+    // First test to see if the the exponent is specified as an attribute.
     m_dEdExp = ppProp->XmlReadDouble("exponent", optional);
-    if(IsNan(m_dEdExp))
-      m_dEdExp = 0.0;
+    if (IsNan(m_dEdExp)) {
+    
+      // If not an attribute test to see if it is child and whether it is
+      // to be treated as a floating parameter. Otherwise set it to a default
+      // value.   
+      PersistPtr ppPropExp = ppProp->XmlMoveTo("exponent");
+      if (ppPropExp) {
+        txt = ppPropExp->XmlRead() ;
+        stringstream expData(txt);
+        expData >> value ;
+        m_dEdExp = value ;
+        double valueL   = ppPropExp->XmlReadDouble("lower",    optional);
+        double valueU   = ppPropExp->XmlReadDouble("upper",    optional);
+        double stepsize = ppPropExp->XmlReadDouble("stepsize", optional);
+        if (!IsNan(valueL) && !IsNan(valueU) && !IsNan(stepsize)){
+          // make a range variable
+          string rname(parent->getName()+":exponent");
+          m_dEdExp.set_range(valueL, valueU, stepsize, rname.c_str() );
+          //Save PersistPtr of the XML source of this Rdouble
+          RangeXmlPtrs.push_back(ppProp);
+        }  
+      } else {
+        m_dEdExp = 0.0;
+      }
+    }
 
     return true ; 
   }
@@ -164,18 +189,18 @@ private:
 
   /******************************************************************************
   In summary, to make a plugin class with a new energy transfer model:
-    - Copy this file, changing all the "ExponentialDown" to your class name.
-    - Change the code in calculateTransitionProbability() to your model.
-    - Alter ReadParameters() to input any data your model needs from the XML file.
-       Any data that is essential should preferably have an entry in defaults.xml,
-       The "default" attribute of this should be in uppercase if it is necessary
-       for the user to review the value of the default.
-       If the data does not need to be provided, add an optional parameter to the
-       call to an XmlRead function.
-    - In the XML file, add or change
-        <me:energyTransferModel>yourID</me:energyTransferModel>
-        Add your data, which should usually have an me: prefix.
-     
+  - Copy this file, changing all the "ExponentialDown" to your class name.
+  - Change the code in calculateTransitionProbability() to your model.
+  - Alter ReadParameters() to input any data your model needs from the XML file.
+  Any data that is essential should preferably have an entry in defaults.xml,
+  The "default" attribute of this should be in uppercase if it is necessary
+  for the user to review the value of the default.
+  If the data does not need to be provided, add an optional parameter to the
+  call to an XmlRead function.
+  - In the XML file, add or change
+  <me:energyTransferModel>yourID</me:energyTransferModel>
+  Add your data, which should usually have an me: prefix.
+
   ******************************************************************************/
 
 }//namespace

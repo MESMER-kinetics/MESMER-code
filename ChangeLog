@@ -1,4 +1,9 @@
 
+2011-December-20 Struan Robertson
+
+	* ExponentialDown.cpp: Altered to allow the "exponent" variable of 
+	<DeltaE>d	to be treated as a parameter.  
+
 2011-December-19 Struan Robertson
 
 	* CollisionOperator.cpp: Tidying-up of time evolution method.  
