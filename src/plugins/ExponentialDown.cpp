@@ -133,39 +133,28 @@ namespace mesmer
     //
     // By default, dEdExp = 0, which means delta_E_down does not depend on temperature.
     // Reference temperature of <Delta E down>, refTemp, has default 298.
+    txt = ppPropList->XmlReadProperty("me:deltaEDownTExponent"); //required in datafile or defaults.xml
+    if(!txt)
+      return false;
+    istringstream iidata(txt);
+    value = 0.0;
+    iidata >> value;
+    m_dEdExp = value;
 
-    m_refTemp = ppProp->XmlReadDouble("referenceTemperature", optional );
+    PersistPtr ppPropExp = ppPropList->XmlMoveToProperty("me:deltaEDownTExponent"); 
+    m_refTemp = ppPropExp->XmlReadDouble("referenceTemperature", optional );
     if(IsNan(m_refTemp))
       m_refTemp = 298.;
-
-    // First test to see if the the exponent is specified as an attribute.
-    m_dEdExp = ppProp->XmlReadDouble("exponent", optional);
-    if (IsNan(m_dEdExp)) {
-    
-      // If not an attribute test to see if it is child and whether it is
-      // to be treated as a floating parameter. Otherwise set it to a default
-      // value.   
-      PersistPtr ppPropExp = ppProp->XmlMoveTo("exponent");
-      if (ppPropExp) {
-        txt = ppPropExp->XmlRead() ;
-        stringstream expData(txt);
-        expData >> value ;
-        m_dEdExp = value ;
-        double valueL   = ppPropExp->XmlReadDouble("lower",    optional);
-        double valueU   = ppPropExp->XmlReadDouble("upper",    optional);
-        double stepsize = ppPropExp->XmlReadDouble("stepsize", optional);
-        if (!IsNan(valueL) && !IsNan(valueU) && !IsNan(stepsize)){
-          // make a range variable
-          string rname(parent->getName()+":exponent");
-          m_dEdExp.set_range(valueL, valueU, stepsize, rname.c_str() );
-          //Save PersistPtr of the XML source of this Rdouble
-          RangeXmlPtrs.push_back(ppProp);
-        }  
-      } else {
-        m_dEdExp = 0.0;
-      }
+    valueL   = ppPropExp->XmlReadDouble("lower",    optional);
+    valueU   = ppPropExp->XmlReadDouble("upper",    optional);
+    stepsize = ppPropExp->XmlReadDouble("stepsize", optional);
+    if (!IsNan(valueL) && !IsNan(valueU) && !IsNan(stepsize)){
+      // make a range variable
+      string rname(parent->getName()+":exponent");
+      m_dEdExp.set_range(valueL, valueU, stepsize, rname.c_str() );
+      //Save PersistPtr of the XML source of this Rdouble
+      RangeXmlPtrs.push_back(ppProp);
     }
-
     return true ; 
   }
   /******************************************************************************

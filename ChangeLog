@@ -1,4 +1,13 @@
+2011-December-31 Chris Morley
 
+	In XML input, change DeltaEDown temperature exponent from a child of 
+	DeltaEDown Property to its own property.
+	* defaults.xml, src/plugins/ExponentialDown.cpp: Adjust parsing.
+	
+	* src/main.cpp: minor formatting of mesmerlog header
+	* src/XMLPersist.cpp: correct defaults file name
+	* Windows VC9/Mesmer/Mesmer.vcproj: reduce MS warnings about some
+	  standard C++ functions
 
 2011-December-31 Struan Robertson
 

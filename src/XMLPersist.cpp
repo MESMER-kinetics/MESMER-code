@@ -515,7 +515,7 @@ namespace mesmer
           const char* pattr = pnDefProp->Attribute("default");
           if(!pattr)
           {
-            cerr << "The entry for " << name << " in defaults.txt does not have a default attribute."
+            cerr << "The entry for " << name << " in defaults.xml does not have a default attribute."
               << "\n THIS NEEDS TO BE CORRECTED.\n";
             return true;
           }
@@ -544,7 +544,7 @@ namespace mesmer
             const char* pattr = pnDefProp->Attribute("default");
             if(!pattr)
             {
-              cerr << "The entry for " << name << " in defaults.txt does not have a default attribute."
+              cerr << "The entry for " << name << " in defaults.xml does not have a default attribute."
                 << "\n THIS NEEDS TO BE CORRECTED.\n";
               return true;
             }

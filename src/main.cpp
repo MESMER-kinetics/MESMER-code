@@ -423,6 +423,7 @@ void banner()
   cinfo << endl ;
   cinfo << "    You should have received a copy of the GNU Lesser Public License" << endl ;
   cinfo << "    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>." << endl ;
+  cinfo << endl ;
 }
 
 bool QACompare(string infilename)
