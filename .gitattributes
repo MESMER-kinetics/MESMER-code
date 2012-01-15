@@ -261,6 +261,13 @@ MesmerQA/pentyl/pentyl_isomerize_dissocn.xml -text
 /README -text
 /ToDo -text
 Windows[!!-~]VC10/MESMER.sln -text
+Windows[!!-~]VC10/Mesmer/Mesmer.vcxproj -text
+Windows[!!-~]VC10/TinyXML/TinyXML.vcxproj -text
+Windows[!!-~]VC10/distribution/NSISScriptToCreateInstaller.nsi -text
+Windows[!!-~]VC10/distribution/ReadMe.txt -text
+Windows[!!-~]VC10/qd/config.h -text
+Windows[!!-~]VC10/qd/qd.vcxproj -text
+Windows[!!-~]VC10/qd/qd_config.h -text
 Windows[!!-~]VC9/MESMER.sln -text
 Windows[!!-~]VC9/Mesmer/Mesmer.vcproj -text
 Windows[!!-~]VC9/TinyXML/TinyXML.vcproj -text

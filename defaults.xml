@@ -28,7 +28,7 @@
     <scalar>130.0</scalar>
   </property>
   <property dictRef="me:deltaEDownTExponent" default="true">
-    <scalar referenceTemperature="298">1.0</scalar>
+    <scalar referenceTemperature="298">0.0</scalar>
   </property>
   <molecule spinMultiplicity="1" default="true"/>
   <molecule me:type="deficientReactant excessReactant modelled transitionState sink"

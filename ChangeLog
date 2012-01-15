@@ -1,3 +1,10 @@
+
+2011-January-15 Struan Robertson
+
+	* defaults.xml: Altered default of me:deltaEDownTExponent to 0.0 
+	so that MesmerQA tests pass.  
+	* Windows VC10: Added missing project files.
+
 2011-December-31 Chris Morley
 
 	In XML input, change DeltaEDown temperature exponent from a child of 
