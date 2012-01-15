@@ -1,6 +1,10 @@
 
 2011-January-15 Struan Robertson
 
+	* MESMER manual.doc: Documentation update.  
+
+2011-January-15 Struan Robertson
+
 	* defaults.xml: Altered default of me:deltaEDownTExponent to 0.0 
 	so that MesmerQA tests pass.  
 	* Windows VC10: Added missing project files.
