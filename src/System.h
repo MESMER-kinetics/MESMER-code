@@ -19,7 +19,7 @@
 #include "calcmethod.h"
 #include "CollisionOperator.h"
 
-#define MESMER_VERSION "0.3"
+#define MESMER_VERSION "1.0"
 
 namespace mesmer
 {

@@ -1,9 +1,13 @@
 
-2011-January-15 Struan Robertson
+2012-February-03 Struan Robertson
+
+	* System.h: Mesmer Version altered to 1.0.  
+
+2012-January-15 Struan Robertson
 
 	* MESMER manual.doc: Documentation update.  
 
-2011-January-15 Struan Robertson
+2012-January-15 Struan Robertson
 
 	* defaults.xml: Altered default of me:deltaEDownTExponent to 0.0 
 	so that MesmerQA tests pass.  
