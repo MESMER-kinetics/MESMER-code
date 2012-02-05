@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v0.3 compiled: -- Nov  6 2011 -- 16:24:30
+     Mesmer v1.0 compiled: -- Feb  4 2012 -- 11:10:20
 
      Copyright (C) 2009-2012 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -26,6 +26,7 @@
     You should have received a copy of the GNU Lesser Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+
 Parsing input xml file...
 OH_acetylene_association_test.xml
 
@@ -35,6 +36,7 @@ In acetylene: The default value of me:frequenciesScaleFactor was used.
 In OH_acetylene_adduct: The default value of me:frequenciesScaleFactor was used.
 In OH_acetylene_adduct: The default value of me:DistributionCalcMethod was used.
 In OH_acetylene_adduct: The default value of me:energyTransferModel was used.
+In OH_acetylene_adduct: The default value of me:deltaEDownTExponent was used.
 In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method was found for R1
 In R1: No crossing method was found for R1
@@ -48,7 +50,7 @@ All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
 1000Torr, 298K at double precision
 The default value of me:calcMethod was used.
-Write metadata 20111106_170948
+Write metadata 20120204_111242
 
 File: "OH_acetylene_association_test.xml" successfully parsed.
 Calculate EGME
@@ -68,6 +70,6 @@ Association ILT calculation completed
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 
 Finish Calculation -- Time elapsed: 0 seconds.
- -- Total time elapsed: 2 seconds.
+ -- Total time elapsed: 0 seconds.
 
 System saved to out.xml

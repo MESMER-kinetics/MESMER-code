@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v0.3 compiled: -- Nov  6 2011 -- 16:24:30
+     Mesmer v1.0 compiled: -- Feb  4 2012 -- 11:10:20
 
      Copyright (C) 2009-2012 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -26,6 +26,7 @@
     You should have received a copy of the GNU Lesser Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+
 Parsing input xml file...
 ipropyl_test.xml
 
@@ -36,6 +37,7 @@ In i-propyl: Hindered rotor b2
 In i-propyl: The default value of me:DistributionCalcMethod was used.
 In i-propyl: The default value of me:energyTransferModel was used.
 In i-propyl: i-propyl:deltaEdown was given a range with 15 steps 
+In i-propyl: The default value of me:deltaEDownTExponent was used.
 In propene: The default value of me:frequenciesScaleFactor was used.
 In propene: Hindered rotor b1
 In propene: propene:ZPE was given a range with 401 steps 
@@ -52,7 +54,7 @@ The default value of me:precision was used.
 3e+017PPCC, 720K at double precision
 The default value of me:precision was used.
 3.01e+017PPCC, 730K at double precision
-Write metadata 20111106_170955
+Write metadata 20120204_111244
 
 File: "ipropyl_test.xml" successfully parsed.
 Calculate EGME
@@ -1412,13 +1414,11 @@ Hindered rotor data for plotting.
        -3.14159,         19681.6
         3.14159,         19681.6
 
-In mesmer::CollisionOperator::timeEvolution: No population was assigned, and there is no source term.
-In mesmer::CollisionOperator::timeEvolution: Initialize a Boltzmann distribution in the first isomer.
 
 80 values in the FFT convolution routine were replaced by standard convolution
 Unimolecular ILT calculation completed
 
 Finish Calculation -- Time elapsed: 0 seconds.
- -- Total time elapsed: 1 seconds.
+ -- Total time elapsed: 0 seconds.
 
 System saved to out.xml
