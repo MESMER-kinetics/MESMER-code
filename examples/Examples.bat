@@ -98,7 +98,7 @@ IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
 cd i-propyl
-%executable% ipropyl_test.xml -o %outf% %directive%
+%executable% ipropyl_LM.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..

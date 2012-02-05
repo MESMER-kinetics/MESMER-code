@@ -104,7 +104,7 @@ fi
 cd ..
 
 cd i-propyl
-$executable ipropyl_test.xml -o $outf $directive
+$executable ipropyl_LM.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
