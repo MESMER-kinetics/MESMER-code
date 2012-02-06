@@ -95,32 +95,130 @@
     <me:DOSCMethod default="true">ClassicalRotors</me:DOSCMethod>
   </molecule>
   <molecule id="OH">
+    <metadataList>
+      <metadata name="dc:description" content="Listing of experimental data for OH (Hydroxyl radical)"/>
+      <metadata name="dc:source" content="http://cccbdb.nist.gov/. Energy levels see 'Documentation/OH energy levels.docx'"/>/>
+      <metadata name="dc:contributor" content="Mike Pilling/Struan Robertson"/>
+      <metadata name="dc:date" content="Thurs Aug 18 16:00:36 GMT Daylight Time 2011"/>
+    </metadataList>
     <atomArray>
-      <atom id="a1" elementType="O" spinMultiplicity="2" x3="0.000000" y3="0.000000" z3="0.108216" />
-      <atom id="a2" elementType="H" x3="0.000000" y3="0.000000" z3="-0.865729" />
+      <atom id="a1" elementType="O" spinMultiplicity="2" x3="0.000000" y3="0.000000" z3="0.000000"/>
+      <atom id="a2" elementType="H" x3="0.000000" y3="0.000000" z3="0.969700"/>
     </atomArray>
     <bondArray>
-      <bond atomRefs2="a2 a1" order="1" />
+      <bond atomRefs2="a1 a2" order="1"/>
     </bondArray>
     <propertyList>
-      <property title="MW">
-        <scalar>17.0073</scalar>
+      <property title="Hf298">
+        <scalar>37.36</scalar>
       </property>
-      <property title="Energy" dictRef="me:ZPE">
-        <scalar units="kJ/mol" convention="computational">-198808.23</scalar>
+      <!--<property title="Hf0">
+          <scalar>37.11</scalar>
+        </property>-->
+      <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
+        <scalar>2.00 </scalar>
       </property>
       <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
-        <array units="cm-1">3721.79</array>
+        <array units="cm-1">3738.00 </array>
       </property>
       <property title="Rotational Constants" dictRef="me:rotConsts">
-        <array units="cm-1">18.732</array>
+        <array units="cm-1">18.898 </array>
       </property>
       <property title="Symmetry Number" dictRef="me:symmetryNumber">
         <scalar>1</scalar>
       </property>
-      <property dictRef="me:spinMultiplicity">
-        <scalar>2</scalar>
+      <property title="Electronic Excitation" dictRef="me:electronicExcitation">
+        <scalar units="cm-1">139.21</scalar>
       </property>
+      <!--<property dictRef="me:ZPE">
+          <scalar calculated="20110602_152731" units="kJ/mol" source="me:Hf0" convention="computational">-198662.84</scalar>
+        </property>-->
+    </propertyList>
+    <me:DOSCMethod>DefinedStatesRotors</me:DOSCMethod>
+    <me:States units="cm-1">
+      <!--F1 Branch-->
+      <me:State energy="0.0"       degeneracy="4"/>
+      <me:State energy="83.98599"  degeneracy="6"/>
+      <me:State energy="202.6942"  degeneracy="8"/>
+      <me:State energy="356.7499"  degeneracy="10"/>
+      <me:State energy="546.6330"  degeneracy="12"/>
+      <me:State energy="772.6894"  degeneracy="14"/>
+      <me:State energy="1035.163"  degeneracy="16"/>
+      <me:State energy="1334.224"  degeneracy="18"/>
+      <me:State energy="1669.996"  degeneracy="20"/>
+      <me:State energy="2042.565"  degeneracy="22"/>
+      <me:State energy="2451.995"  degeneracy="24"/>
+      <me:State energy="2898.334"  degeneracy="26"/>
+      <me:State energy="3381.619"  degeneracy="28"/>
+      <me:State energy="3901.876"  degeneracy="30"/>
+      <me:State energy="4459.128"  degeneracy="32"/>
+      <me:State energy="5053.391"  degeneracy="34"/>
+      <me:State energy="5684.678"  degeneracy="36"/>
+      <me:State energy="6353.001"  degeneracy="38"/>
+      <me:State energy="7058.368"  degeneracy="40"/>
+      <!--F2 Branch-->
+      <me:State energy="126.331"   degeneracy="2"/>
+      <me:State energy="187.65"    degeneracy="4"/>
+      <me:State energy="289.154"   degeneracy="6"/>
+      <me:State energy="430.1318"  degeneracy="8"/>
+      <me:State energy="609.9581"  degeneracy="10"/>
+      <me:State energy="828.153"   degeneracy="12"/>
+      <me:State energy="1084.371"  degeneracy="14"/>
+      <me:State energy="1378.367"  degeneracy="16"/>
+      <me:State energy="1709.972"  degeneracy="18"/>
+      <me:State energy="2079.062"  degeneracy="20"/>
+      <me:State energy="2485.551"  degeneracy="22"/>
+      <me:State energy="2929.375"  degeneracy="24"/>
+      <me:State energy="3410.486"  degeneracy="26"/>
+      <me:State energy="3928.847"  degeneracy="28"/>
+      <me:State energy="4484.432"  degeneracy="30"/>
+      <me:State energy="5077.218"  degeneracy="32"/>
+      <me:State energy="5707.189"  degeneracy="34"/>
+      <me:State energy="6374.332"  degeneracy="36"/>
+      <me:State energy="7078.635"  degeneracy="38"/>
+      <me:State energy="7820.09"   degeneracy="40"/>
+    </me:States>
+  </molecule>
+  <molecule id="NO">
+    <metadataList>
+      <metadata name="dc:description" content="Listing of experimental data for NO (Nitric oxide)"/>
+      <metadata name="dc:source" content="unknown"/>
+      <metadata name="dc:creator" content="OpenBabel version 2.3.90"/>
+      <metadata name="dc:contributor" content="unknown"/>
+      <metadata name="dc:date" content="Mon May 30 16:19:30 GMT Daylight Time 2011"/>
+    </metadataList>
+    <atomArray>
+      <atom id="a1" elementType="O" x3="0.000000" y3="0.000000" z3="0.000000"/>
+      <atom id="a2" elementType="N" spinMultiplicity="2" x3="0.000000" y3="0.000000" z3="1.150800"/>
+    </atomArray>
+    <bondArray>
+      <bond atomRefs2="a1 a2" order="2"/>
+    </bondArray>
+    <propertyList>
+      <property title="Hf298">
+        <scalar>91.04</scalar>
+      </property>
+      <!--<property title="Hf0">
+          <scalar>90.54</scalar>
+        </property>-->
+      <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
+        <scalar>2.00 </scalar>
+      </property>
+      <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
+        <array units="cm-1">1904.00 </array>
+      </property>
+      <property title="Rotational Constants" dictRef="me:rotConsts">
+        <array units="cm-1">1.671 </array>
+      </property>
+      <property title="Symmetry Number" dictRef="me:symmetryNumber">
+        <scalar>1 </scalar>
+      </property>
+      <property title="Electronic Excitation" dictRef="me:electronicExcitation">
+        <scalar units="cm-1">119.8</scalar>
+      </property>
+      <!--<property dictRef="me:ZPE">
+          <scalar calculated="20110602_152733" units="kJ/mol" source="me:Hf0" convention="computational">-340720.04</scalar>
+        </property>-->
     </propertyList>
   </molecule>
   <molecule id="H2O">
@@ -164,9 +262,9 @@
   <molecule id="C">
     <metadataList>
       <metadata name="dc:description" content="Gaussian 03 #PBEPBE/cc-pVTZ"/>
-      <metadata name="dc:source" content="unknown"/>
+      <metadata name="dc:source" content="http://cccbdb.nist.gov"/>
       <metadata name="dc:creator" content="OpenBabel version 2.3.0"/>
-      <metadata name="dc:contributor" content="unknown"/>
+      <metadata name="dc:contributor" content="Chris Morley"/>
       <metadata name="dc:date" content="Thu Jan 13 09:35:55 GMT Standard Time 2011"/>
     </metadataList>
     <atomArray>
@@ -192,6 +290,13 @@
     </propertyList>
   </molecule>
   <molecule id="Cl">
+    <metadataList>
+      <metadata name="dc:description" content="Gaussian 03 #PBEPBE/cc-pVTZ"/>
+      <metadata name="dc:source" content="http://cccbdb.nist.gov"/>
+      <metadata name="dc:creator" content="OpenBabel version 2.3.0"/>
+      <metadata name="dc:contributor" content="Chris Morley"/>
+      <metadata name="dc:date" content="Thu Jan 13 09:35:55 GMT Standard Time 2011"/>
+    </metadataList>
     <atomArray>
       <atom id="a1" elementType="Cl" spinMultiplicity="2" x3="0.000000" y3="0.000000" z3="0.000000"/>
     </atomArray>
@@ -214,6 +319,13 @@
     </propertyList>
   </molecule>
   <molecule id="F">
+    <metadataList>
+      <metadata name="dc:description" content="Gaussian 03 #PBEPBE/cc-pVTZ"/>
+      <metadata name="dc:source" content="http://cccbdb.nist.gov"/>
+      <metadata name="dc:creator" content="OpenBabel version 2.3.0"/>
+      <metadata name="dc:contributor" content="Chris Morley"/>
+      <metadata name="dc:date" content="Thu Jan 13 09:35:55 GMT Standard Time 2011"/>
+    </metadataList>
     <atomArray>
       <atom id="a1" elementType="F" spinMultiplicity="2" x3="0.000000" y3="0.000000" z3="0.000000"/>
     </atomArray>
@@ -237,6 +349,13 @@
     </propertyList>
   </molecule>
   <molecule id="H">
+    <metadataList>
+      <metadata name="dc:description" content="Gaussian 03 #PBEPBE/cc-pVTZ"/>
+      <metadata name="dc:source" content="http://cccbdb.nist.gov"/>
+      <metadata name="dc:creator" content="OpenBabel version 2.3.0"/>
+      <metadata name="dc:contributor" content="Chris Morley"/>
+      <metadata name="dc:date" content="Thu Jan 13 09:35:55 GMT Standard Time 2011"/>
+    </metadataList>
     <atomArray>
       <atom id="a1" elementType="H" spinMultiplicity="2" x3="0.000000" y3="0.000000" z3="0.000000"/>
     </atomArray>
@@ -259,6 +378,13 @@
     </propertyList>
   </molecule>
   <molecule id="N">
+    <metadataList>
+      <metadata name="dc:description" content="Gaussian 03 #PBEPBE/cc-pVTZ"/>
+      <metadata name="dc:source" content="http://cccbdb.nist.gov"/>
+      <metadata name="dc:creator" content="OpenBabel version 2.3.0"/>
+      <metadata name="dc:contributor" content="Chris Morley"/>
+      <metadata name="dc:date" content="Thu Jan 13 09:35:55 GMT Standard Time 2011"/>
+    </metadataList>
     <atomArray>
       <atom id="a1" elementType="N" spinMultiplicity="4" x3="0.000000" y3="0.000000" z3="0.000000"/>
     </atomArray>
@@ -281,6 +407,13 @@
     </propertyList>
   </molecule>
   <molecule id="O">
+    <metadataList>
+      <metadata name="dc:description" content="Gaussian 03 #PBEPBE/cc-pVTZ"/>
+      <metadata name="dc:source" content="http://cccbdb.nist.gov"/>
+      <metadata name="dc:creator" content="OpenBabel version 2.3.0"/>
+      <metadata name="dc:contributor" content="Chris Morley"/>
+      <metadata name="dc:date" content="Thu Jan 13 09:35:55 GMT Standard Time 2011"/>
+    </metadataList>
     <atomArray>
       <atom id="a1" elementType="O" spinMultiplicity="3" x3="0.000000" y3="0.000000" z3="0.000000"/>
     </atomArray>
@@ -303,6 +436,13 @@
     </propertyList>
   </molecule>
   <molecule id="S">
+    <metadataList>
+      <metadata name="dc:description" content="Gaussian 03 #PBEPBE/cc-pVTZ"/>
+      <metadata name="dc:source" content="http://cccbdb.nist.gov"/>
+      <metadata name="dc:creator" content="OpenBabel version 2.3.0"/>
+      <metadata name="dc:contributor" content="Chris Morley"/>
+      <metadata name="dc:date" content="Thu Jan 13 09:35:55 GMT Standard Time 2011"/>
+    </metadataList>
     <atomArray>
       <atom id="a1" elementType="S" spinMultiplicity="3" x3="0.000000" y3="0.000000" z3="0.000000"/>
     </atomArray>

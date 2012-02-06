@@ -1,6 +1,15 @@
+2012-February-06 Chris Morley
 
+<<<<<<< .mine
+	* librarymols.xml: update OH to use the DefinedStatesRotors method. Add more source metadata.
+=======
 2012-February-05 Struan Robertson
+>>>>>>> .r702
 
+<<<<<<< .mine
+2012-January-15 Struan Robertson
+
+=======
 	* Examples.bat/.sh: Updated to use i-propyl LM fitting example.  
 
 2012-February-05 Struan Robertson
@@ -14,6 +23,7 @@
 
 2012-January-15 Struan Robertson
 
+>>>>>>> .r702
 	* MESMER manual.doc: Documentation update.  
 
 2012-January-15 Struan Robertson
