@@ -457,7 +457,7 @@ FunctionEnd
 ;General
 
   ;Mesmer version
-  !define MesmerVersion 0.2
+  !define MesmerVersion 1.0
 
   ;Name and file
   Name "Mesmer ${MESMERVERSION}"
@@ -467,7 +467,7 @@ FunctionEnd
   InstallDir "C:\Mesmer-${MESMERVERSION}"
   
   ;Get installation folder from registry if available
-  InstallDirRegKey HKCU "Software\OpenBabel ${MESMERVERSION}" ""
+  InstallDirRegKey HKCU "Software\Mesmer ${MESMERVERSION}" ""
 
 ;--------------------------------
 ;Variables
@@ -520,7 +520,8 @@ Section "Dummy Section" SecDummy
   
   SetOutPath "$INSTDIR\Documentation"
   File  "..\..\Documentation\Constructing a Datafile from Gaussian output.html"
-  File  "..\..\Documentation\MESMER manual.doc"
+  File  "..\..\Documentation\Adding a molecule to the library.html"
+  File  "..\..\Documentation\MESMER manual.pdf"
 
   SetOutPath "$INSTDIR\examples"
   File /r /x .svn ..\..\examples\*.*
@@ -546,7 +547,7 @@ Section "Dummy Section" SecDummy
   ;Store installation folder
   WriteRegStr HKCU "Software\Mesmer ${MESMERVERSION}" "" $INSTDIR
   
-  ;Install VC++ 2008 redistributable
+  ;Install VC++ 2010 redistributable
   ExecWait '"$INSTDIR/vcredist_x86.exe" /q:a'
 
   ;Create uninstaller
@@ -564,8 +565,9 @@ Section "Dummy Section" SecDummy
        ; "" "$SYSDIR\winhlp32.exe" 
 
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Mesmer Manual.lnk" "$INSTDIR\Documentation\MESMER manual.doc"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Mesmer Manual.lnk" "$INSTDIR\Documentation\MESMER manual.docx"
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Make datafile from Gaussian output.lnk" "$INSTDIR\Documentation\Constructing a Datafile from Gaussian output.html"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Adding a molecule to the library.lnk" "$INSTDIR\Documentation\Adding a molecule to the library.html"
 
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Mesmer Folder.lnk" "$INSTDIR"
 

@@ -1,15 +1,18 @@
 2012-February-06 Chris Morley
 
-<<<<<<< .mine
-	* librarymols.xml: update OH to use the DefinedStatesRotors method. Add more source metadata.
-=======
-2012-February-05 Struan Robertson
->>>>>>> .r702
+	* Windows VC10/distribution/NSISScriptToCreateInstaller.nsi: update installer.
+	  Use pdf rather than docx because docx equations no good in OpenOffice
+	* Windows VC10/distribution/ReadMe.txt: Update including mentioning QA run.
+	* Windows VC10/qd/qd.vcxproj, Windows VC10/TinyXML/TinyXML.vcxproj: remove some
+	MS warnings
 
-<<<<<<< .mine
+2012-February-06 Chris Morley
+
+	* librarymols.xml: update OH to use the DefinedStatesRotors method. Add more source metadata.
+2012-February-05 Struan Robertson
+
 2012-January-15 Struan Robertson
 
-=======
 	* Examples.bat/.sh: Updated to use i-propyl LM fitting example.  
 
 2012-February-05 Struan Robertson
@@ -23,7 +26,6 @@
 
 2012-January-15 Struan Robertson
 
->>>>>>> .r702
 	* MESMER manual.doc: Documentation update.  
 
 2012-January-15 Struan Robertson
