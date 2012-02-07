@@ -2241,9 +2241,9 @@ mean collision frequency = 2.14921e+09/s
 Print time dependent species and product profiles
 {
       Timestep/s          allene    cyclopropene         propyne  totalIsomerPop     totalPdtPop
-           1e-11     5.40327e-11               1     1.02545e-09               1               0
+           1e-11     5.40326e-11               1     1.02545e-09               1               0
      1.25893e-11     6.77295e-11               1     1.28986e-09               1               0
-     1.58489e-11     8.48849e-11               1     1.62225e-09               1               0
+     1.58489e-11     8.48848e-11               1     1.62225e-09               1               0
      1.99526e-11     1.06346e-10               1     2.03994e-09               1               0
      2.51189e-11     1.33154e-10               1     2.56459e-09               1               0
      3.16228e-11      1.6658e-10               1     3.22324e-09               1               0

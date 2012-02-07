@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v0.3 compiled: -- Nov  6 2011 -- 16:43:02
+     Mesmer v1.0 compiled: -- Feb  3 2012 -- 18:26:53
 
      Copyright (C) 2009-2012 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -26,6 +26,7 @@
     You should have received a copy of the GNU Lesser Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+
 Parsing input xml file...
 Cyclopropene_isomerization_reservoir_state_test.xml
 
@@ -33,15 +34,18 @@ In R1: Parsing reaction...
 In allene: The default value of spinMultiplicity (or one of its attributes) was used.
 In allene: The default value of me:DistributionCalcMethod was used.
 In allene: The default value of me:energyTransferModel was used.
+In allene: The default value of me:deltaEDownTExponent was used.
 In cyclopropene: The default value of spinMultiplicity (or one of its attributes) was used.
 In cyclopropene: The default value of me:DistributionCalcMethod was used.
 In cyclopropene: The default value of me:energyTransferModel was used.
+In cyclopropene: The default value of me:deltaEDownTExponent was used.
 In R1: No imaginary vibrational frequency. Check if there is tunneling.
 No tunneling method was found for R1
 In R1: No crossing method was found for R1
 In R2: Parsing reaction...
 In propyne: The default value of me:DistributionCalcMethod was used.
 In propyne: The default value of me:energyTransferModel was used.
+In propyne: The default value of me:deltaEDownTExponent was used.
 In R2: No imaginary vibrational frequency. Check if there is tunneling.
 No tunneling method was found for R2
 In R2: No crossing method was found for R2
@@ -51,7 +55,7 @@ The default value of me:precision was used.
 The default value of me:precision was used.
 250Torr, 1000K at double precision
 The default value of me:calcMethod was used.
-Write metadata 20111106_165129
+Write metadata 20120203_183016
 
 File: "Cyclopropene_isomerization_reservoir_state_test.xml" successfully parsed.
 Calculate EGME

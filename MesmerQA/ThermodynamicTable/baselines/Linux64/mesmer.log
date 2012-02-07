@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v0.3 compiled: -- Nov  6 2011 -- 16:43:02
+     Mesmer v1.0 compiled: -- Feb  3 2012 -- 18:26:53
 
      Copyright (C) 2009-2012 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -25,6 +25,7 @@
 
     You should have received a copy of the GNU Lesser Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
 
 Parsing input xml file...
 ThermodynamicTable.xml
@@ -45,6 +46,7 @@ In HNO2: The default value of me:DOSCMethod was used.
 In HNO2: New me:ZPE element written with data from me:Hf298
 In HNO2: The default value of me:DistributionCalcMethod was used.
 In HNO2: The default value of me:energyTransferModel was used.
+In HNO2: The default value of me:deltaEDownTExponent was used.
 In R1: No tunneling method was found for R1
 In R1: No crossing method was found for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
@@ -52,7 +54,7 @@ All molecules are on the same energy basis: computational
 The default value of me:precision was used.
 760Torr, 560K at double precision
 The default value of me:eigenvalues was used.
-Write metadata 20111106_165136
+Write metadata 20120203_183022
 
 File: "ThermodynamicTable.xml" successfully parsed.
 Calculate EGME
@@ -63,6 +65,6 @@ In He: The default value of me:frequenciesScaleFactor was used.
 In He: The default value of spinMultiplicity (or one of its attributes) was used.
 In He: The default value of me:DOSCMethod was used.
 Rotational constants were not defined but requested.
- -- Total time elapsed: 2 seconds.
+ -- Total time elapsed: 3 seconds.
 
 System saved to out.xml

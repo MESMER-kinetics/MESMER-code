@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v1.0 compiled: -- Feb  4 2012 -- 11:10:20
+     Mesmer v0.3 compiled: -- Jan 27 2012 -- 13:35:38
 
      Copyright (C) 2009-2012 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -55,12 +55,12 @@ The default value of me:precision was used.
 The default value of me:precision was used.
 250Torr, 1000K at double precision
 The default value of me:calcMethod was used.
-Write metadata 20120204_111241
+Write metadata 20120127_133741
 
 File: "Cyclopropene_isomerization_reservoir_state_test.xml" successfully parsed.
 Calculate EGME
 
 Finish Calculation -- Time elapsed: 0 seconds.
- -- Total time elapsed: 1 seconds.
+ -- Total time elapsed: 2 seconds.
 
 System saved to out.xml
