@@ -199,6 +199,7 @@ MesmerQA/Acetyl[!!-~]O2[!!-~]association/baselines/Linux64/mesmer.test -text
 MesmerQA/Acetyl[!!-~]O2[!!-~]association/baselines/MacOSX/mesmer.test -text
 MesmerQA/Acetyl[!!-~]O2[!!-~]association/baselines/Win32/mesmer.log -text
 MesmerQA/Acetyl[!!-~]O2[!!-~]association/baselines/Win32/mesmer.test -text
+MesmerQA/Acetyl[!!-~]O2[!!-~]association/baselines/Win32/readme.txt -text
 MesmerQA/HSO2/HSO2.xml -text
 MesmerQA/HSO2/HSO2_test.xml -text
 MesmerQA/HSO2/baselines/Linux32/mesmer.log -text

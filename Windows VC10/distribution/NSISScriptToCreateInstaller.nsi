@@ -463,6 +463,8 @@ FunctionEnd
   Name "Mesmer ${MESMERVERSION}"
   OutFile "Mesmer${MESMERVERSION}_Windows_Installer.exe"
 
+  RequestExecutionLevel admin
+  
   ;Default installation folder. Tutorials etc assume it to be writable by the user
   InstallDir "C:\Mesmer-${MESMERVERSION}"
   
@@ -527,7 +529,7 @@ Section "Dummy Section" SecDummy
   File /r /x .svn ..\..\examples\*.*
 
   SetOutPath "$INSTDIR\MesmerQA"
-  File /r /x .svn /x test.test /x *_prev.* /x *_out.xml /x *.sh ..\..\MesmerQA\*.*
+  File /r /x .svn /x test.test /x *_prev.* /x *_out.xml /x *.sh /x Linux32 /x Linux64 /x MacOSX ..\..\MesmerQA\*.*
 
   SetOutPath "$INSTDIR" 
   File ..\..\License.txt
@@ -553,8 +555,10 @@ Section "Dummy Section" SecDummy
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
   ;Add to Add and Remove Programs
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}" "DisplayName" "Mesmer-${MESMERVERSION}"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}" "DisplayName" "Mesmer ${MESMERVERSION}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}" "UninstallString" "$INSTDIR\Uninstall.exe"
+
+  SetShellVarContext all
 
   ;Create shortcuts
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
@@ -573,6 +577,7 @@ Section "Dummy Section" SecDummy
 
   !insertmacro MUI_STARTMENU_WRITE_END
 
+  SetShellVarContext current
   ;Add to PATH
   Push $INSTDIR
   Call AddToPath
@@ -599,6 +604,7 @@ SectionEnd
 ;Uninstaller Section
 
 Section "Uninstall"
+  SetShellVarContext current
 
   ;ADD YOUR OWN FILES HERE...
   Delete "$INSTDIR\License.txt"
@@ -620,36 +626,25 @@ Section "Uninstall"
   RMDir /r "$INSTDIR\MesmerQA"
 
   RMDir "$INSTDIR"
+  DeleteRegValue        HKCU "Environment" "MESMER_DIR"
+  DeleteRegValue        HKCU "Environment" "MESMER_AUTHOR"
   
-  !insertmacro MUI_STARTMENU_GETFOLDER Application $MUI_TEMP
-  RMDir /r "$SMPROGRAMS\$MUI_TEMP"
-    
   ;Remove from PATH
   push $INSTDIR
   Call un.RemoveFromPath
     
-  ;Delete empty start menu parent diretories
-  StrCpy $MUI_TEMP "$SMPROGRAMS\$MUI_TEMP"
- 
-  startMenuDeleteLoop:
-	ClearErrors
-    RMDir $MUI_TEMP
-    GetFullPathName $MUI_TEMP "$MUI_TEMP\.."
-    
-    IfErrors startMenuDeleteLoopDone
-  
-    StrCmp $MUI_TEMP $SMPROGRAMS startMenuDeleteLoopDone startMenuDeleteLoop
-  startMenuDeleteLoopDone:
-
   DeleteRegKey /ifempty HKCU "Software\Mesmer ${MESMERVERSION}"
   DeleteRegKey          HKCU "Software\Mesmer"
-  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}"
-  
-  ; Remove env vars 
-  push "MESMER_DIR"
-  push $INSTDIR
-  Call un.RemoveFromEnvVar
-  ;DeleteRegValue        HKCU "Environment" "MESMER_DIR" Old value still there
-  DeleteRegValue        HKCU "Environment" "MESMER_AUTHOR"
 
+  SetShellVarContext all
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}"
+
+  !insertmacro MUI_STARTMENU_GETFOLDER Application $MUI_TEMP
+  Delete "$SMPROGRAMS\$MUI_TEMP\Uninstall.lnk"
+  Delete "$SMPROGRAMS\$MUI_TEMP\Mesmer Manual.lnk"
+  Delete "$SMPROGRAMS\$MUI_TEMP\Adding a molecule to the library.lnk"
+  Delete "$SMPROGRAMS\$MUI_TEMP\Make datafile from Gaussian output.lnk"
+  Delete "$SMPROGRAMS\$MUI_TEMP\Mesmer Folder.lnk"
+  RMDir  "$SMPROGRAMS\$MUI_TEMP"
+      
 SectionEnd

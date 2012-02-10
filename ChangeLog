@@ -1,3 +1,13 @@
+2012-February-10 Chris Morley
+
+	* MesmerQA/Acetyl O2 association/baselines/Win32/mesmer.test,
+	MesmerQA/Acetyl O2 association/baselines/Win32/readme.txt
+	Update WIN32 baseline and add note that it is for Release version;
+	Debug version is slightly different.
+	
+	* Windows VC10/distribution/NSISScriptToCreateInstaller.nsi:
+	After much struggling, I think this now installs and uninstalls ok on
+	Window 7, at least.
 
 2012-February-07 Struan Robertson
 
