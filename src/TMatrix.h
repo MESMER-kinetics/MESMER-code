@@ -20,6 +20,9 @@
 #include <vector>
 #include <complex>
 #include <stdexcept>
+#include <stdlib.h>
+#include "qd/dd_real.h"
+#include "qd/qd_real.h"
 
 namespace mesmer
 {
