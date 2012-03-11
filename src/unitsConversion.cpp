@@ -10,9 +10,6 @@ using namespace Constants;
 
 namespace mesmer
 {
-  //Global variable for the XML addresses of range variables
-  std::vector<PersistPtr> RangeXmlPtrs; 
-
   //Lookup table for atomic masses
   double atomMass(std::string symb)
   {

@@ -50,9 +50,6 @@ namespace mesmer
     
     virtual double get_ThresholdEnergy(Reaction* pReac) ;
 
-    // Utility function to read parameter range. 
-    static bool ReadRange(const string& name, PersistPtr ppbase, Rdouble& rdouble, double cnvrsnFctr, bool& rangeSet) ;
-
     // Utility function to check for inconsistencies. 
     static bool ILTCheck(Reaction* pReac, PersistPtr ppReac) ;
     

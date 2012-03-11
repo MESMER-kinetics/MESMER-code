@@ -1,4 +1,10 @@
 
+2012-March-10 Struan Robertson
+
+	* Rdouble.cpp/.h: Added a general Rdouble range setting method, and 
+	propagated it to other classes, as part of the refactoring needed to 
+	implement linked parameters.  
+
 2012-February-17 Struan Robertson
 
 	* TMatrix.h: Altered includes to address template compilation issue on 

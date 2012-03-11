@@ -115,17 +115,9 @@ namespace mesmer
     "upper" attributes, together with and the following code, sets this up.
     ******************************************************************************/
     // Needed to read the attributes.
+	bool rangeSet ;
     PersistPtr ppProp = ppPropList->XmlMoveToProperty("me:deltaEDown"); 
-    double valueL     = ppProp->XmlReadDouble("lower",    optional);
-    double valueU     = ppProp->XmlReadDouble("upper",    optional);
-    double stepsize   = ppProp->XmlReadDouble("stepsize", optional);
-    if (!IsNan(valueL) && !IsNan(valueU) && !IsNan(stepsize)){
-      // make a range variable
-      string rname(parent->getName()+":deltaEdown");
-      m_deltaEdown.set_range(valueL, valueU, stepsize, rname.c_str() );
-      //Save PersistPtr of the XML source of this Rdouble
-      RangeXmlPtrs.push_back(ppProp);
-    }
+	ReadRdoubleRange(string(parent->getName()+":exponent"), ppProp, m_deltaEdown, rangeSet) ;
 
     // The temperature dependence of <delta_E_down> is accounted for as:
     //
@@ -145,17 +137,9 @@ namespace mesmer
     m_refTemp = ppPropExp->XmlReadDouble("referenceTemperature", optional );
     if(IsNan(m_refTemp))
       m_refTemp = 298.;
-    valueL   = ppPropExp->XmlReadDouble("lower",    optional);
-    valueU   = ppPropExp->XmlReadDouble("upper",    optional);
-    stepsize = ppPropExp->XmlReadDouble("stepsize", optional);
-    if (!IsNan(valueL) && !IsNan(valueU) && !IsNan(stepsize)){
-      // make a range variable
-      string rname(parent->getName()+":exponent");
-      m_dEdExp.set_range(valueL, valueU, stepsize, rname.c_str() );
-      //Save PersistPtr of the XML source of this Rdouble
-      RangeXmlPtrs.push_back(ppProp);
-    }
-    return true ; 
+	ReadRdoubleRange(string(parent->getName()+":exponent"), ppPropExp, m_dEdExp, rangeSet) ;
+
+	return true ; 
   }
   /******************************************************************************
   This is the function which does the real work of the plugin

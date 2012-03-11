@@ -240,11 +240,6 @@ namespace mesmer
 
     double get_ImFreq();
     void set_imFreq(const double value){ m_ImFreq = value; m_ImFreq_chk = 0;}
-    //void set_imFreq(const double valueL, const double valueU, const double stepsize){
-    //std::string rname(m_host->getName()+":imFreqs");
-    //m_ImFreq.set_range(valueL, valueU, stepsize, rname.c_str());
-    //m_ImFreq_chk = 0;
-    //}
 
   };
 

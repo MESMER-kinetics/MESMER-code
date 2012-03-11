@@ -88,31 +88,6 @@ namespace mesmer
 //
 // ILT Utility methods
 //
-  //
-  // Utility function to read parameter range. 
-  //   The parameter cnvrsnFctr applies any conversion factor that is required.
-  //   The parameter rangeSet indicates if a range has actually been set for the rdouble variable.
-  //
-  bool MicroRateCalculator::ReadRange(const string& name,
-          PersistPtr pp, Rdouble& rdouble, double cnvrsnFctr, bool& rangeSet)
-  {
-    const char* pLowertxt = pp->XmlReadValue("lower", optional);
-    const char* pUppertxt = pp->XmlReadValue("upper", optional);
-    const char* pStepStxt = pp->XmlReadValue("stepsize", optional);
-
-    if (pLowertxt && pUppertxt){
-      rangeSet = true ;
-      double valueL(0.0), valueU(0.0), stepsize(0.0);
-      stringstream s3(pLowertxt), s4(pUppertxt), s5(pStepStxt);
-      s3 >> valueL; s4 >> valueU; s5 >> stepsize;
-      rdouble.set_range(valueL*cnvrsnFctr, valueU*cnvrsnFctr, stepsize*cnvrsnFctr, name.c_str());
-      RangeXmlPtrs.push_back(pp);
-    } else {
-      rangeSet = false ;
-    }
-
-    return true;
-  }
 
   //
   // Utility function to check for inconsistencies. 
