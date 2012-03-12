@@ -108,6 +108,9 @@ namespace mesmer
     unsigned maxIterations= ppControl->XmlReadInteger("me:fittingIterations");
     double tol = ppControl->XmlReadDouble("me:fittingTolerance");
 
+	// Read in parameter constraints.
+	ReadParameterConstraints(ppControl) ;
+
     //Do not output all the intermediate results to XML
     pSys->m_Flags.overwriteXmlAnalysis = true;
 

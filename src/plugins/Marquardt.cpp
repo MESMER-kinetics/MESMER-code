@@ -61,11 +61,14 @@ namespace mesmer
       return false ;
     }
 
-    //Read in Marquardt parameters, or use values from defaults.xml.
+    // Read in Marquardt parameters, or use values from defaults.xml.
     PersistPtr ppControl = pSys->getPersistPtr()->XmlMoveTo("me:control");
     m_delta = ppControl->XmlReadDouble("me:MarquardtDerivDelta");
     unsigned maxIterations= ppControl->XmlReadInteger("me:MarquardtIterations");
     double tol = ppControl->XmlReadDouble("me:MarquardtTolerance");
+
+	// Read in parameter constraints.
+	ReadParameterConstraints(ppControl) ;
 
     //Do not output all the intermediate results to XML
     pSys->m_Flags.overwriteXmlAnalysis = true;

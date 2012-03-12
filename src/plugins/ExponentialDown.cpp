@@ -117,7 +117,7 @@ namespace mesmer
     // Needed to read the attributes.
 	bool rangeSet ;
     PersistPtr ppProp = ppPropList->XmlMoveToProperty("me:deltaEDown"); 
-	ReadRdoubleRange(string(parent->getName()+":exponent"), ppProp, m_deltaEdown, rangeSet) ;
+	ReadRdoubleRange(string(parent->getName()+":deltaEDown"), ppProp, m_deltaEdown, rangeSet) ;
 
     // The temperature dependence of <delta_E_down> is accounted for as:
     //

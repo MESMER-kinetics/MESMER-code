@@ -17,63 +17,76 @@ namespace mesmer
   class Rdouble
   {
   private:
-	double value, lower, upper, stepsize, prev;
-	std::string varname, m_userLabel;
-	static Rdouble* pendingVar;
-	static const double eps;
+    double value, lower, upper, stepsize, prev;
+    std::string varname, m_userLabel;
+    static Rdouble* pendingVar;
+    static const double eps;
   public:
-	Rdouble(double val=0.0):value(val),lower(NaN),upper(NaN),stepsize(NaN), prev(NaN), varname(), m_userLabel(){}
+    Rdouble(double val=0.0):value(val),lower(NaN),upper(NaN),stepsize(NaN), prev(NaN), varname(), m_userLabel(){}
 
-	operator double() const  { return value; }
-	Rdouble& operator = (const double& val);
+    operator double() const  { return value; }
+    Rdouble& operator = (const double& val);
 
-	double set_to_lower() { return value = lower; }
-	void test(){return;}
+    double set_to_lower() { return value = lower; }
+    void test(){return;}
 
-	//Vector of RDoubles that have a range. 
-	//A function, rather than static member variable, for proper initialization.   
-	static std::vector<Rdouble*>& withRange()
-	{
-	  static std::vector<Rdouble*> wr;
-	  return wr;
-	}
+    // Vector of RDoubles that have a range. 
+    // A function, rather than static member variable, for proper initialization.   
+    static std::vector<Rdouble*>& withRange()
+    {
+      static std::vector<Rdouble*> wr;
+      return wr;
+    }
 
-	void set_range(const double valueL, const double valueU, const double valueS,const char* txt=NULL);
-	static void set_range_indirect
-	  (const double valueL, const double valueU, const double valueS,const char* txt=NULL);
+    void set_range(const double valueL, const double valueU, const double valueS,const char* txt=NULL);
+    static void set_range_indirect
+      (const double valueL, const double valueU, const double valueS,const char* txt=NULL);
 
-	bool get_range(double& lower_, double& upper_, double& stepsize_)const;
+    bool get_range(double& lower_, double& upper_, double& stepsize_)const;
 
-	const char* get_varname(){ return varname.c_str(); }
-	int get_numsteps(){ return (int)(1 + eps + (upper - lower) / stepsize); } 
+    const char* get_varname(){ return varname.c_str(); }
+    int get_numsteps(){ return (int)(1 + eps + (upper - lower) / stepsize); } 
 
-	void set_label(const std::string& label) {m_userLabel = label ;}
-	std::string get_label() const {return m_userLabel ;}
+    // Vector of RDoubles that have a range. 
+    // c.f. withRange above.  
+    static std::vector<Rdouble*>& withLabel()
+    {
+      static std::vector<Rdouble*> lr;
+      return lr;
+    }
 
-	//Returns true if the value is the same as when setUnchanged was last called.
-	bool isUnchanged() { return (prev==value); }
+    void set_label(const std::string& label) {
+      //Push on to the vector of Rdouble objects which have a range
+      withLabel().push_back(this);
+      m_userLabel = label ;
+    }
 
-	void setUnchanged() { prev = value; }
+    std::string get_label() const {return m_userLabel ;}
 
-	// Increment the current value by stepsize if the result will be <= upper
-	// and return the result. If not incremented return NaN and the value is reset to lower.
-	//This is pre-increment: it is the new value after incrementing that is returned. 
-	const double& operator++()
-	{
-	  value += stepsize;
-	  if(value-upper < eps*stepsize)
-		return value; 
-	  value = lower;
-	  return NaN;
-	}
-	const double& operator--()
-	{
-	  value -= stepsize;
-	  if(lower-value < eps*stepsize)
-		return value; 
-	  value = upper;
-	  return NaN;
-	}
+    //Returns true if the value is the same as when setUnchanged was last called.
+    bool isUnchanged() { return (prev==value); }
+
+    void setUnchanged() { prev = value; }
+
+    // Increment the current value by stepsize if the result will be <= upper
+    // and return the result. If not incremented return NaN and the value is reset to lower.
+    //This is pre-increment: it is the new value after incrementing that is returned. 
+    const double& operator++()
+    {
+      value += stepsize;
+      if(value-upper < eps*stepsize)
+        return value; 
+      value = lower;
+      return NaN;
+    }
+    const double& operator--()
+    {
+      value -= stepsize;
+      if(lower-value < eps*stepsize)
+        return value; 
+      value = upper;
+      return NaN;
+    }
   };
 
   /*
@@ -107,7 +120,7 @@ namespace mesmer
   // Utility function to read parameter range. 
   //
   bool ReadRdoubleRange(const std::string& name, PersistPtr pp, Rdouble& rdouble, 
-	bool& rangeSet, double cnvrsnFctr = 1.0, double shift = 0.0) ;
+    bool& rangeSet, double cnvrsnFctr = 1.0, double shift = 0.0) ;
 
 }//namespace
 #endif

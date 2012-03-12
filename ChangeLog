@@ -1,9 +1,14 @@
 
-2012-March-10 Struan Robertson
+2012-March-12 Struan Robertson
+
+	* FittingUtil.cpp/.h, Rdouble.cpp/.h: Added a class and containers to
+	hold information regarding parameter constaints.  
+
+2012-March-11 Struan Robertson
 
 	* Rdouble.cpp/.h: Added a general Rdouble range setting method, and 
 	propagated it to other classes, as part of the refactoring needed to 
-	implement linked parameters.  
+	implement parameter constraints.  
 
 2012-February-17 Struan Robertson
 
