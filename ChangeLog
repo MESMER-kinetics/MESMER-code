@@ -1,8 +1,13 @@
 
+2012-March-15 Struan Robertson
+
+	* FittingUtil.cpp/.h, Rdouble.cpp/.h: Added first pass implementation 
+	of parameter constraints.  
+
 2012-March-12 Struan Robertson
 
 	* FittingUtil.cpp/.h, Rdouble.cpp/.h: Added a class and containers to
-	hold information regarding parameter constaints.  
+	hold information regarding parameter constraints.  
 
 2012-March-11 Struan Robertson
 

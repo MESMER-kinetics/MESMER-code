@@ -11,8 +11,9 @@ namespace mesmer
 {
   class PersistPtr;
 
-  //Global variable for the XML addresses of range variables. Definition in unitsConversion.cpp.
+  //Global variable for the XML addresses of range and labelled variables. 
   extern std::vector<PersistPtr> RangeXmlPtrs;
+  extern std::vector<PersistPtr> LabelXmlPtrs;
 
   class Rdouble
   {
@@ -30,7 +31,7 @@ namespace mesmer
     double set_to_lower() { return value = lower; }
     void test(){return;}
 
-    // Vector of RDoubles that have a range. 
+    // Vector of Rdoubles that have a range. 
     // A function, rather than static member variable, for proper initialization.   
     static std::vector<Rdouble*>& withRange()
     {
@@ -47,18 +48,25 @@ namespace mesmer
     const char* get_varname(){ return varname.c_str(); }
     int get_numsteps(){ return (int)(1 + eps + (upper - lower) / stepsize); } 
 
-    // Vector of RDoubles that have a range. 
-    // c.f. withRange above.  
-    static std::vector<Rdouble*>& withLabel()
+    // Map of Rdoubles that have a label. 
+    // c.f. withRange above. 
+    typedef std::map<std::string, Rdouble*> labelmap ; 
+    static labelmap& withLabel()
     {
-      static std::vector<Rdouble*> lr;
+      static labelmap lr;
       return lr;
     }
 
     void set_label(const std::string& label) {
-      //Push on to the vector of Rdouble objects which have a range
-      withLabel().push_back(this);
-      m_userLabel = label ;
+      // Check to see if label aralready used.
+      labelmap::iterator itrlabel = withLabel().find(label) ;
+
+	  if (itrlabel != withLabel().end()) {
+		throw std::runtime_error("Error: Parameter label redefined." + label);
+	  } else {
+		withLabel()[label] = this ;
+        m_userLabel = label ;
+	  }
     }
 
     std::string get_label() const {return m_userLabel ;}

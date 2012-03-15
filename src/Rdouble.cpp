@@ -1,14 +1,15 @@
+#include <map>
 #include "Rdouble.h"
 #include "Persistence.h"
-#include "unitsConversion.h"
 
 using namespace std;
 using namespace Constants;
 
 namespace mesmer
 {
-  //Global variable for the XML addresses of range variables
+  //Global variable for the XML addresses of range and labelled variables.
   std::vector<PersistPtr> RangeXmlPtrs; 
+  std::vector<PersistPtr> LabelXmlPtrs;
 
   //static variable
   Rdouble*  Rdouble::pendingVar;
@@ -101,6 +102,7 @@ namespace mesmer
 	if (pLabel) {
 	  string strLable(pLowertxt) ;
 	  rdouble.set_label(string(pLabel));
+	  LabelXmlPtrs.push_back(pp);
 	}
 
 	return true;

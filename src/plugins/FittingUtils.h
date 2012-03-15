@@ -49,7 +49,7 @@ namespace mesmer
 	//
 	class ParameterConstraint {
 	public:
-	  ParameterConstraint(std::string indpndPmtr, std::string dpndPmtr, double factor, double addand ): m_indpndPmtr(indpndPmtr), 
+	  ParameterConstraint(Rdouble* indpndPmtr, Rdouble* dpndPmtr, double factor, double addand ): m_indpndPmtr(indpndPmtr), 
 		m_dpndPmtr(dpndPmtr), 
 		m_factor(factor), 
 		m_addand(addand) {} 
@@ -57,12 +57,12 @@ namespace mesmer
 
 	  // Calculate dependent parameter values.
 
-	  void calcDpndPmtrValues() ;
+	  void calcDpndPmtrValues() const { *m_dpndPmtr = m_factor * (*m_indpndPmtr) + m_addand ; } ;
 
 	private:
 	  ParameterConstraint() {}  
-	  std::string m_indpndPmtr ; 
-	  std::string m_dpndPmtr ;
+	  Rdouble* m_indpndPmtr ; 
+	  Rdouble* m_dpndPmtr ;
 	  double m_factor, m_addand ;
 	} ;
 

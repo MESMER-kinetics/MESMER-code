@@ -18,6 +18,41 @@ namespace mesmer
   // Read parameter constraints.
   //
   void FittingUtils::ReadParameterConstraints(PersistPtr ppControl) {
+
+	PersistPtr pp = ppControl->XmlMoveTo("me:ParameterConstraints") ;
+
+    if (pp) {
+
+      while(pp = pp->XmlMoveTo("me:Constraint")) {
+
+		  // Read independent and dependent parameter labels.
+
+		  const char* pIndpnd = pp->XmlReadValue("me:Independent", true);
+		  const char* pDpnd   = pp->XmlReadValue("me:Dependent",   true);
+
+          // If either label missing issue a warning and skip constraint.
+
+		  if (!pIndpnd || !pDpnd) {
+              throw std::runtime_error("Error: Incomplete parameter constraint definition.");
+		  }
+
+		  // Search for associated Rdouble parameter.
+
+		  Rdouble* indpndPmtr = Rdouble::withLabel()[string(pIndpnd)] ;
+		  Rdouble* dpndPmtr   = Rdouble::withLabel()[string(pDpnd)] ;
+
+		  // Read linear constraint values, if these are not present default values of 1 and 0 are assumed.
+
+		  double factor = pp->XmlReadDouble("me:ConstraintFactor", optional);
+		  double addand = pp->XmlReadDouble("me:ConstraintAddand", optional);
+
+		  // Create new constraint.
+
+		  m_parameterConstraints.push_back(ParameterConstraint(indpndPmtr, dpndPmtr, factor, addand)) ;
+          
+	  }
+	}
+
   }
 
   //
@@ -40,7 +75,11 @@ namespace mesmer
 	  *Rdouble::withRange()[iVar] = loc[iVar] ;
 	}
 
-	// Need somthing in here to set linked variables.
+	// Set the value of constrained parameters.
+
+	for (size_t iCnstr(0) ; iCnstr < m_parameterConstraints.size() ; iCnstr++) {
+	  m_parameterConstraints[iCnstr].calcDpndPmtrValues() ;
+	}
 
   }
 
