@@ -137,6 +137,9 @@ namespace mesmer
 
     GetLocation(initialLocation) ;
 
+	// Invoke SetLocation to catch any constrained parameters.
+    SetLocation(initialLocation) ;
+
     pSys->calculate(chiSquare) ;
 
     double oldChiSquare = chiSquare ;
@@ -211,10 +214,8 @@ namespace mesmer
 
     }
 
-    //Write the optimized result to the XML file
+    // Write meta data to the XML file.
     for (size_t i(0); i < m_nVar ; i++ ) {
-      RangeXmlPtrs[i]->XmlWrite(toString(*Rdouble::withRange()[i]));
-
       TimeCount events;
       std::string timeString;
       RangeXmlPtrs[i]->XmlWriteAttribute("fitted", events.setTimeStamp(timeString));

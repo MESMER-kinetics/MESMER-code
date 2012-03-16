@@ -21,38 +21,48 @@ namespace mesmer
 
 	PersistPtr pp = ppControl->XmlMoveTo("me:ParameterConstraints") ;
 
-    if (pp) {
+	if (pp) {
 
-      while(pp = pp->XmlMoveTo("me:Constraint")) {
+	  while(pp = pp->XmlMoveTo("me:Constraint")) {
 
-		  // Read independent and dependent parameter labels.
+		// Read independent and dependent parameter labels.
 
-		  const char* pIndpnd = pp->XmlReadValue("me:Independent", true);
-		  const char* pDpnd   = pp->XmlReadValue("me:Dependent",   true);
+		const char* pIndpnd = pp->XmlReadValue("me:Independent", true);
+		const char* pDpnd   = pp->XmlReadValue("me:Dependent",   true);
 
-          // If either label missing issue a warning and skip constraint.
+		// If either label missing issue a warning and skip constraint.
 
-		  if (!pIndpnd || !pDpnd) {
-              throw std::runtime_error("Error: Incomplete parameter constraint definition.");
-		  }
+		if (!pIndpnd || !pDpnd) {
+		  throw std::runtime_error("Error: Incomplete parameter constraint definition.");
+		}
 
-		  // Search for associated Rdouble parameter.
+		string strIndpnd(pIndpnd) ;
+		string strDpnd(pDpnd) ;
 
-		  Rdouble* indpndPmtr = Rdouble::withLabel()[string(pIndpnd)] ;
-		  Rdouble* dpndPmtr   = Rdouble::withLabel()[string(pDpnd)] ;
+		if (strIndpnd == strDpnd) {
+		  throw std::runtime_error("Error: parameter " + strDpnd + " constrained to itself.");
+		}
 
-		  // Read linear constraint values, if these are not present default values of 1 and 0 are assumed.
+		// Search for associated Rdouble parameter.
 
-		  double factor = pp->XmlReadDouble("me:ConstraintFactor", optional);
-		  double addand = pp->XmlReadDouble("me:ConstraintAddand", optional);
+        Rdouble::labelmap::iterator indpndPmtr = Rdouble::withLabel().find(strIndpnd) ;
+        Rdouble::labelmap::iterator dpndPmtr   = Rdouble::withLabel().find(strDpnd) ;
 
-		  // Create new constraint.
+		if (indpndPmtr == Rdouble::withLabel().end() || dpndPmtr == Rdouble::withLabel().end()) {
+		  throw std::runtime_error("Error: constrained parameter not defined.");
+		}
 
-		  m_parameterConstraints.push_back(ParameterConstraint(indpndPmtr, dpndPmtr, factor, addand)) ;
-          
+		// Read linear constraint values, if these are not present default values of 1 and 0 are assumed.
+
+		double factor = pp->XmlReadDouble("me:ConstraintFactor", optional);
+		double addand = pp->XmlReadDouble("me:ConstraintAddand", optional);
+
+		// Create new constraint.
+
+		m_parameterConstraints.push_back(ParameterConstraint(indpndPmtr->second.first, dpndPmtr->second.first, factor, addand)) ;
+
 	  }
 	}
-
   }
 
   //
@@ -73,6 +83,7 @@ namespace mesmer
 
 	for(size_t iVar(0) ; iVar < loc.size() ; iVar++) {
 	  *Rdouble::withRange()[iVar] = loc[iVar] ;
+      RangeXmlPtrs[iVar]->XmlWrite(toString(loc[iVar]));
 	}
 
 	// Set the value of constrained parameters.
@@ -81,6 +92,7 @@ namespace mesmer
 	  m_parameterConstraints[iCnstr].calcDpndPmtrValues() ;
 	}
 
+	Rdouble::UpdateXMLLabelVariables() ;
   }
 
   //

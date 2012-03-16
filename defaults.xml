@@ -54,5 +54,7 @@
   <me:energyTransferModel default="true">ExponentialDown</me:energyTransferModel>
   <me:MarquardtDerivDelta default="true">1.e-03</me:MarquardtDerivDelta>
   <me:MarquardtTolerance default="true">1.e-03</me:MarquardtTolerance>
+  <me:ConstraintFactor default="true">1.0</me:ConstraintFactor>
+  <me:ConstraintAddand default="true">0.0</me:ConstraintAddand>
 </defaults>
 

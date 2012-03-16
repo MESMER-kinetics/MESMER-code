@@ -1,4 +1,10 @@
 
+
+2012-March-15 Struan Robertson
+
+	* FittingUtil.cpp/.h, Rdouble.cpp/.h: Constrained parameters: added 
+	error checking and parameter writing.  
+
 2012-March-15 Struan Robertson
 
 	* FittingUtil.cpp/.h, Rdouble.cpp/.h: Added first pass implementation 

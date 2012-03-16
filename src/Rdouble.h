@@ -11,9 +11,8 @@ namespace mesmer
 {
   class PersistPtr;
 
-  //Global variable for the XML addresses of range and labelled variables. 
+  //Global variable for the XML addresses of range variables. 
   extern std::vector<PersistPtr> RangeXmlPtrs;
-  extern std::vector<PersistPtr> LabelXmlPtrs;
 
   class Rdouble
   {
@@ -50,26 +49,16 @@ namespace mesmer
 
     // Map of Rdoubles that have a label. 
     // c.f. withRange above. 
-    typedef std::map<std::string, Rdouble*> labelmap ; 
+	typedef std::map<std::string, std::pair<Rdouble*, PersistPtr> > labelmap ; 
     static labelmap& withLabel()
     {
       static labelmap lr;
       return lr;
     }
 
-    void set_label(const std::string& label) {
-      // Check to see if label aralready used.
-      labelmap::iterator itrlabel = withLabel().find(label) ;
-
-	  if (itrlabel != withLabel().end()) {
-		throw std::runtime_error("Error: Parameter label redefined." + label);
-	  } else {
-		withLabel()[label] = this ;
-        m_userLabel = label ;
-	  }
-    }
-
-    std::string get_label() const {return m_userLabel ;}
+    void set_label(const std::string& label, PersistPtr pp) ;
+	   
+	static void UpdateXMLLabelVariables() ;
 
     //Returns true if the value is the same as when setUnchanged was last called.
     bool isUnchanged() { return (prev==value); }
