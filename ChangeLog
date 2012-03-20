@@ -1,5 +1,11 @@
 
 
+
+2012-March-20 Struan Robertson
+
+	* FittingUtil.cpp/.h: Altered so that constrained parameter values
+	are written to the error channel during a fitting run.  
+
 2012-March-15 Struan Robertson
 
 	* FittingUtil.cpp/.h, Rdouble.cpp/.h: Constrained parameters: added 

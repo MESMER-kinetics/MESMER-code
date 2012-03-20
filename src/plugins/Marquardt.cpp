@@ -190,6 +190,8 @@ namespace mesmer
     }
     cerr << endl ;
 
+    WriteConstrainedVals() ;
+
   }
 
 } //namespace

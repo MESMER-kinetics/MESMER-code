@@ -33,6 +33,9 @@ namespace mesmer
 	// Set the current location.
 	void SetLocation(vector<double> &loc) const ;
 
+	// Write constrained variables, if present, to error output.
+	void WriteConstrainedVals() const ;
+
 	// Check that the a point falls within the limits defined by the user.
 	bool CheckBounds(const vector<double> &A) const ;
 
@@ -57,7 +60,11 @@ namespace mesmer
 
 	  // Calculate dependent parameter values.
 
-	  void calcDpndPmtrValues() const { *m_dpndPmtr = m_factor * (*m_indpndPmtr) + m_addand ; } ;
+	  void calcDpndPmtrValues() const { *m_dpndPmtr = m_factor * (*m_indpndPmtr) + m_addand ; } 
+
+	  // Right constrained values.
+
+	  void WriteConstrainedVals() const { cerr << m_indpndPmtr->get_varname() << "=" << setprecision(6) << double(*m_indpndPmtr) << "  "; } 
 
 	private:
 	  ParameterConstraint() {}  
