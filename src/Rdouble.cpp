@@ -1,4 +1,5 @@
 #include <map>
+#include <stdexcept>
 #include "Rdouble.h"
 
 using namespace std;
