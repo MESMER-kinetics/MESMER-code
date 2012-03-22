@@ -64,7 +64,7 @@ namespace mesmer
 
 	  // Right constrained values.
 
-	  void WriteConstrainedVals() const { cerr << m_indpndPmtr->get_varname() << "=" << setprecision(6) << double(*m_indpndPmtr) << "  "; } 
+	  void WriteConstrainedVals() const { cerr << m_dpndPmtr->get_varname() << "=" << setprecision(6) << double(*m_dpndPmtr) << "  "; } 
 
 	private:
 	  ParameterConstraint() {}  

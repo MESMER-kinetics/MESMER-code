@@ -1,15 +1,11 @@
 #include <map>
 #include "Rdouble.h"
-#include "Persistence.h"
 
 using namespace std;
 using namespace Constants;
 
 namespace mesmer
 {
-  //Global variable for the XML addresses of range variables.
-  std::vector<PersistPtr> RangeXmlPtrs; 
-
   //static variable
   Rdouble*  Rdouble::pendingVar;
   const double Rdouble::eps = 1e-7;
@@ -76,8 +72,7 @@ namespace mesmer
     if (itrlabel != withLabel().end()) {
       throw std::runtime_error("Error: Parameter label " + label + " redefined.");
     } else {
-      withLabel()[label] = std::pair<Rdouble*, PersistPtr>(this, pp) ;
-      m_userLabel = label ;
+      withLabel()[label] = this ;
     }
   }
 
@@ -87,10 +82,7 @@ namespace mesmer
   void Rdouble::UpdateXMLLabelVariables() {
     labelmap::iterator itrlabel = withLabel().begin() ;
     for ( ;itrlabel != withLabel().end() ; itrlabel++) {
-      std::pair<Rdouble*, PersistPtr> labelPair = itrlabel->second ;
-      std::ostringstream s; 
-	  s << *(labelPair.first) ;
-      labelPair.second->XmlWrite(s.str());
+      itrlabel->second->XmlWriteValue() ;
     }
   }
 
@@ -117,7 +109,6 @@ namespace mesmer
       valueU   = cnvrsnFctr*valueU   + shift; 
       stepsize = cnvrsnFctr*stepsize + shift; 
       rdouble.set_range(valueL, valueU, stepsize, name.c_str());
-      RangeXmlPtrs.push_back(pp);
     } else {
       rangeSet = false ;
     }
@@ -127,7 +118,12 @@ namespace mesmer
     const char* pLabel = pp->XmlReadValue("label", optional);
     if (pLabel) {
       rdouble.set_label(string(pLabel), pp);
+	  if (!rangeSet) rdouble.set_varname(name) ;
     }
+
+	// Save a pointer to XML location for result update.
+
+	rdouble.set_XMLPtr(pp) ;
 
     return true;
   }

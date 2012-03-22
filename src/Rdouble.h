@@ -6,23 +6,21 @@
 #include "Constants.h"
 #include "MesmerConfig.h"
 #include "oberror.h"
+#include "Persistence.h"
 
 namespace mesmer
 {
-  class PersistPtr;
-
-  //Global variable for the XML addresses of range variables. 
-  extern std::vector<PersistPtr> RangeXmlPtrs;
 
   class Rdouble
   {
   private:
     double value, lower, upper, stepsize, prev;
-    std::string varname, m_userLabel;
+    std::string varname ;
+	PersistPtr m_XMLPtr ;
     static Rdouble* pendingVar;
     static const double eps;
   public:
-    Rdouble(double val=0.0):value(val),lower(NaN),upper(NaN),stepsize(NaN), prev(NaN), varname(), m_userLabel(){}
+    Rdouble(double val=0.0):value(val),lower(NaN),upper(NaN),stepsize(NaN), prev(NaN), varname(), m_XMLPtr(NULL){}
 
     operator double() const  { return value; }
     Rdouble& operator = (const double& val);
@@ -45,11 +43,13 @@ namespace mesmer
     bool get_range(double& lower_, double& upper_, double& stepsize_)const;
 
     const char* get_varname(){ return varname.c_str(); }
+	void set_varname(const std::string& name) { varname = name; }
+
     int get_numsteps(){ return (int)(1 + eps + (upper - lower) / stepsize); } 
 
     // Map of Rdoubles that have a label. 
     // c.f. withRange above. 
-	typedef std::map<std::string, std::pair<Rdouble*, PersistPtr> > labelmap ; 
+	typedef std::map<std::string, Rdouble* > labelmap ; 
     static labelmap& withLabel()
     {
       static labelmap lr;
@@ -57,6 +57,18 @@ namespace mesmer
     }
 
     void set_label(const std::string& label, PersistPtr pp) ;
+
+	void set_XMLPtr(PersistPtr pp) { m_XMLPtr = pp ;}
+
+	void XmlWriteValue() {
+      std::ostringstream s; 
+	  s << *(this) ;
+      m_XMLPtr->XmlWrite(s.str());
+	}
+
+	void XmlWriteAttribute(const std::string& name, const std::string& value) {
+	  m_XMLPtr->XmlWriteAttribute(name, value) ;
+	}
 	   
 	static void UpdateXMLLabelVariables() ;
 

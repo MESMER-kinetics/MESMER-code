@@ -59,7 +59,7 @@ namespace mesmer
 
         // Create new constraint.
 
-        m_parameterConstraints.push_back(ParameterConstraint(indpndPmtr->second.first, dpndPmtr->second.first, factor, addand)) ;
+        m_parameterConstraints.push_back(ParameterConstraint(indpndPmtr->second, dpndPmtr->second, factor, addand)) ;
 
       }
     }
@@ -83,7 +83,7 @@ namespace mesmer
 
     for(size_t iVar(0) ; iVar < loc.size() ; iVar++) {
       *Rdouble::withRange()[iVar] = loc[iVar] ;
-      RangeXmlPtrs[iVar]->XmlWrite(toString(loc[iVar]));
+      Rdouble::withRange()[iVar]->XmlWriteValue() ;
     }
 
     // Set the value of constrained parameters.

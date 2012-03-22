@@ -54,7 +54,6 @@ namespace mesmer
   bool Marquardt::DoCalculation(System* pSys)
   {
     m_nVar = Rdouble::withRange().size() ;
-    assert(m_nVar == RangeXmlPtrs.size());
 
     if (m_nVar < 1) { 
       cerr << "Marquardt requires at least one range variable to be set." << endl;
@@ -164,10 +163,10 @@ namespace mesmer
     for (size_t i(0); i < m_nVar ; i++ ) {
       TimeCount events;
       std::string timeString;
-      RangeXmlPtrs[i]->XmlWriteAttribute("fitted", events.setTimeStamp(timeString));
+      Rdouble::withRange()[i]->XmlWriteAttribute("fitted", events.setTimeStamp(timeString));
       stringstream cs;
       cs << chiSquare;
-      RangeXmlPtrs[i]->XmlWriteAttribute("chiSquared", cs.str());
+      Rdouble::withRange()[i]->XmlWriteAttribute("chiSquared", cs.str());
     }
     
     // Write out the results and the statisitics of the fit.
