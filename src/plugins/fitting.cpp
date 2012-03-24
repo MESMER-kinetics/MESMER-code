@@ -117,6 +117,9 @@ namespace mesmer
     // temperature (i.e. reduce the number of times micro-rates are caluclated).
     pSys->m_Flags.useTheSameCellNumber = true;
 
+    // Warnings and less not sent to console.
+    ChangeErrorLevel e(obError); 
+
     //Default is to disable ctest during fitting. Restored when leaving this function.
     //StopCTestOutput stop(!ppControl->XmlReadBoolean("me:ctestOutputWhenFitting")) ;
 
@@ -145,9 +148,7 @@ namespace mesmer
 
     WriteVarVals(chiSquare) ;
 
-    ChangeErrorLevel e(obError); // Warnings and less not sent to console.
-
-    //
+	//
     // The following implementation is loosely based on the Powell method. An initial
     // sweep is performed over all directions and from these a new direction for 
     // search is calculated and is substituted for the last vector in the direction 

@@ -1,6 +1,13 @@
 
+2012-March-24 Struan Robertson
 
-2012-March-23 Struan Robertson
+	* DefinedSumOfStates.cpp: New class added to read, e.g. FTST sums of states.
+	  
+	* UnitTests.cpp: New class added to allow the running of internal checks.  
+
+	* examples: Added HO + NO -> HONO example.  
+
+2012-March-24 Struan Robertson
 
 	* Documentation update: Material added regarding parameter constraints.  
 

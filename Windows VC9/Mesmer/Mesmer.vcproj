@@ -209,6 +209,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\plugins\DefinedSumOfStates.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\plugins\EckartCoefficients.cpp"
 				>
 			</File>
@@ -350,6 +354,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\unitsConversion.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\plugins\UnitTests.cpp"
 				>
 			</File>
 			<File

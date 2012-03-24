@@ -66,8 +66,8 @@ namespace mesmer
     unsigned maxIterations= ppControl->XmlReadInteger("me:MarquardtIterations");
     double tol = ppControl->XmlReadDouble("me:MarquardtTolerance");
 
-	// Read in parameter constraints.
-	ReadParameterConstraints(ppControl) ;
+    // Read in parameter constraints.
+    ReadParameterConstraints(ppControl) ;
 
     //Do not output all the intermediate results to XML
     pSys->m_Flags.overwriteXmlAnalysis = true;
@@ -75,6 +75,9 @@ namespace mesmer
     // Use the same grain numbers for for all calcuations regardless of 
     // temperature (i.e. reduce the number of times micro-rates are caluclated).
     pSys->m_Flags.useTheSameCellNumber = true;
+
+    // Warnings and less not sent to console.
+    ChangeErrorLevel e(obError); 
 
     //Default is to disable ctest during Marquardt. Restored when leaving this function.
     //StopCTestOutput stop(!ppControl->XmlReadBoolean("me:ctestOutputWhenMarquardt")) ;
@@ -88,7 +91,7 @@ namespace mesmer
 
     GetLocation(currentLocation) ;
 
-	// Invoke SetLocation to catch any constrained parameters.
+    // Invoke SetLocation to catch any constrained parameters.
     SetLocation(currentLocation) ;
 
     double chiSquare(0.0), lambda(1.0) ;
@@ -98,8 +101,6 @@ namespace mesmer
     double bestChiSquare = chiSquare ;
 
     WriteVarVals(chiSquare, lambda) ;
-
-    ChangeErrorLevel e(obError); // Warnings and less not sent to console.
 
     //
     // The following is slightly modified implementation of the Marquardt
@@ -168,7 +169,7 @@ namespace mesmer
       cs << chiSquare;
       Rdouble::withRange()[i]->XmlWriteAttribute("chiSquared", cs.str());
     }
-    
+
     // Write out the results and the statisitics of the fit.
     ResultsAndStatistics(pSys, hessian) ;
 
