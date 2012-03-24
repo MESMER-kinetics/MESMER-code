@@ -1,4 +1,9 @@
 
+
+2012-March-23 Struan Robertson
+
+	* Documentation update: Material added regarding parameter constraints.  
+
 2012-March-21 Struan Robertson
 
 	* FittingUtil.cpp/.h, Rdouble.cpp/.h: Simplified parameter constraint 
