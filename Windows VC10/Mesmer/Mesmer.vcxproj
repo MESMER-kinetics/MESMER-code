@@ -100,6 +100,7 @@
     <ClCompile Include="..\..\src\plugins\ClassicalRotor.cpp" />
     <ClCompile Include="..\..\src\CollisionOperator.cpp" />
     <ClCompile Include="..\..\src\plugins\DefinedStatesRotor.cpp" />
+    <ClCompile Include="..\..\src\plugins\DefinedSumOfStates.cpp" />
     <ClCompile Include="..\..\src\plugins\EckartCoefficients.cpp" />
     <ClCompile Include="..\..\src\plugins\ExponentialDown.cpp" />
     <ClCompile Include="..\..\src\plugins\fitting.cpp" />
@@ -125,6 +126,7 @@
     <ClCompile Include="..\..\src\MoleculeManager.cpp" />
     <ClCompile Include="..\..\src\oberror.cpp" />
     <ClCompile Include="..\..\src\plugins\QMRotor.cpp" />
+    <ClCompile Include="..\..\src\plugins\UnitTests.cpp" />
     <ClCompile Include="..\..\src\Rdouble.cpp" />
     <ClCompile Include="..\..\src\Reaction.cpp" />
     <ClCompile Include="..\..\src\ReactionManager.cpp" />

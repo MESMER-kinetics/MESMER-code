@@ -130,6 +130,11 @@ IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 
 cd ..
 
+cd OH_NO_to HONO
+%executable% OH_NO_to HONO.xml -o %outf% %directive%
+copy "./%tfn%" "./%bline%%otfn%"
+IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+cd ..
 
 echo Start Time=%starttime% - End Time=%time%
 

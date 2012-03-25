@@ -147,6 +147,14 @@ if [ "$1" == "-o" ] ; then
 fi
 cd ..
 
+cd OH_NO_to HONO
+$executable OH_NO_to HONO.xml -o $outf $directive
+cp ./$tfn ./$bline$otfn
+if [ "$1" == "-o" ] ; then
+  cp ./$lfn ./$bline$lfn 
+fi
+cd ..
+
 echo Start Time=$starttime - End Time=`date`
 
 # This line below makes shell to create a system Beep (err yup)

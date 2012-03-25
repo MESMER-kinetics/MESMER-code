@@ -1,4 +1,10 @@
 
+2012-March-25 Struan Robertson
+
+	* Project and Makefile updates for new classes.
+
+	* Baselines updates.
+	  
 2012-March-24 Struan Robertson
 
 	* DefinedSumOfStates.cpp: New class added to read, e.g. FTST sums of states.

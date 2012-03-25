@@ -5,7 +5,6 @@
 #
 # Created by Chi-Hsiu Liang on 13/05/2010.
 
-
 starttime=`date`
 directive=
 otfn=mesmer.test
@@ -137,6 +136,14 @@ cd ..
 
 cd "ThermodynamicTable"
 $executable ThermodynamicTable.xml -o $outf $directive
+cp ./$tfn ./$bline$otfn
+if [ "$1" == "-o" ] ; then
+  cp ./$lfn ./$bline$lfn 
+fi
+cd ..
+
+cd "UnitTests"
+$executable UnitTests.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 

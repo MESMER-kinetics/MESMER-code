@@ -168,6 +168,7 @@ SRCS := \
 	plugins/BoltzmannDistribution.cpp	\
 	plugins/ClassicalRotor.cpp \
 	plugins/DefinedStatesRotor.cpp \
+	plugins/DefinedSumOfStates.cpp \
 	plugins/EckartCoefficients.cpp \
 	plugins/ExponentialDown.cpp \
 	plugins/FittingUtils.cpp \
@@ -180,6 +181,7 @@ SRCS := \
 	plugins/MesmerILT.cpp \
 	plugins/QMRotor.cpp \
 	plugins/ThermodynamicTable.cpp \
+	plugins/UnitTests.cpp \
 	plugins/simplecalc.cpp \
 	plugins/SimpleILT.cpp \
 	plugins/SimpleRRKM.cpp \
