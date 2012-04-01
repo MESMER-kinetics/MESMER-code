@@ -115,9 +115,9 @@ namespace mesmer
     "upper" attributes, together with and the following code, sets this up.
     ******************************************************************************/
     // Needed to read the attributes.
-	bool rangeSet ;
+    bool rangeSet ;
     PersistPtr ppProp = ppPropList->XmlMoveToProperty("me:deltaEDown"); 
-	ReadRdoubleRange(string(parent->getName()+":deltaEDown"), ppProp, m_deltaEdown, rangeSet) ;
+    ReadRdoubleRange(string(parent->getName()+":deltaEDown"), ppProp, m_deltaEdown, rangeSet) ;
 
     // The temperature dependence of <delta_E_down> is accounted for as:
     //
@@ -137,9 +137,9 @@ namespace mesmer
     m_refTemp = ppPropExp->XmlReadDouble("referenceTemperature", optional );
     if(IsNan(m_refTemp))
       m_refTemp = 298.;
-	ReadRdoubleRange(string(parent->getName()+":exponent"), ppPropExp, m_dEdExp, rangeSet) ;
+    ReadRdoubleRange(string(parent->getName()+":exponent"), ppPropExp, m_dEdExp, rangeSet) ;
 
-	return true ; 
+    return true ; 
   }
   /******************************************************************************
   This is the function which does the real work of the plugin

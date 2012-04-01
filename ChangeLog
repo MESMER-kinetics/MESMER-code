@@ -1,3 +1,14 @@
+2012-April-01 Chris Morley
+
+	* src/Rdouble.cpp, src/Rdouble.h, src/System.cpp: change xml syntax for
+	linked variables.Most of the code is now in Rdouble class
+	
+	* src/plugins/FittingUtils.cpp, src/plugins/FittingUtils.h,
+	* src/plugins/Marquardt.cpp: ...and removed from here.
+
+	* src/plugins/HinderedRotorQM1D.cpp: format changes in cinfo output
+
+	* src/MolecularComponents.cpp: remove outdated comment
 
 2012-March-25 Struan Robertson
 

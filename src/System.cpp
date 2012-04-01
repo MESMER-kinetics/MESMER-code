@@ -320,6 +320,9 @@ namespace mesmer
           return false;
     }
 
+    if(!Rdouble::SetUpLinkedVars())
+      return false;
+
     return true;
   }
 

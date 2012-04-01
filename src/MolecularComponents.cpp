@@ -301,8 +301,6 @@ namespace mesmer
 		else
 		{
 		  //Use Hf298
-		  //cerr << "me:Hf298 is currently not supported; use me:ZPE, me:Hf0 or me:HfAT0 to specify molecular energies." <<endl;
-		  //throw std::runtime_error("Hf298 not supported");
 		  /*Atomize species X at 298K
 		  deltaH  = Sum over atoms(Hf298)) - Hf298(X)
 		  = Sum(E + Sum(H(298K)) - (E(X) + H(298K))

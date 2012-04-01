@@ -67,7 +67,7 @@ namespace mesmer
     double tol = ppControl->XmlReadDouble("me:MarquardtTolerance");
 
     // Read in parameter constraints.
-    ReadParameterConstraints(ppControl) ;
+//    ReadParameterConstraints(ppControl) ;
 
     //Do not output all the intermediate results to XML
     pSys->m_Flags.overwriteXmlAnalysis = true;
@@ -190,7 +190,7 @@ namespace mesmer
     }
     cerr << endl ;
 
-    WriteConstrainedVals() ;
+//    WriteConstrainedVals() ;
 
   }
 

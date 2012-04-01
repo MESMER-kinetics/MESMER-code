@@ -14,7 +14,7 @@
 
 namespace mesmer
 {
-  //
+/*  //
   // Read parameter constraints.
   //
   void FittingUtils::ReadParameterConstraints(PersistPtr ppControl) {
@@ -64,7 +64,7 @@ namespace mesmer
       }
     }
   }
-
+*/
   //
   // Get the current location.
   //
@@ -86,15 +86,16 @@ namespace mesmer
       Rdouble::withRange()[iVar]->XmlWriteValue() ;
     }
 
-    // Set the value of constrained parameters.
+/*    // Set the value of constrained parameters.
 
     for (size_t iCnstr(0) ; iCnstr < m_parameterConstraints.size() ; iCnstr++) {
       m_parameterConstraints[iCnstr].calcDpndPmtrValues() ;
     }
 
     Rdouble::UpdateXMLLabelVariables() ;
+*/
   }
-
+/*
   //
   // Write constrained variables, if present, to error output.
   //
@@ -106,7 +107,7 @@ namespace mesmer
       cerr << endl ;
     }
   }
-
+*/
   //
   // Check that the a point falls within the limits defined by the user.
   //

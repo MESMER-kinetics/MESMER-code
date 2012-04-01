@@ -19,13 +19,13 @@ namespace mesmer
   {
   public:
 
-	FittingUtils() : m_parameterConstraints() {} ;
+//	FittingUtils() : m_parameterConstraints() {} ;
 	~FittingUtils() {} ; 
 
   protected:
 
-	// Read parameter constraints.
-	void ReadParameterConstraints(PersistPtr ppControl) ;
+//	// Read parameter constraints.
+//	void ReadParameterConstraints(PersistPtr ppControl) ;
 
 	// Get the current location.
 	void GetLocation(vector<double> &loc) const ;
@@ -34,7 +34,7 @@ namespace mesmer
 	void SetLocation(vector<double> &loc) const ;
 
 	// Write constrained variables, if present, to error output.
-	void WriteConstrainedVals() const ;
+//	void WriteConstrainedVals() const ;
 
 	// Check that the a point falls within the limits defined by the user.
 	bool CheckBounds(const vector<double> &A) const ;
@@ -44,7 +44,7 @@ namespace mesmer
 
 	// Write out the results and statistics of the fit. 
 	void ResultsAndStatistics(System* pSys, dMatrix &hessian) const ;
-
+/*
   private :
 
 	//
@@ -74,7 +74,7 @@ namespace mesmer
 	} ;
 
 	std::vector<ParameterConstraint> m_parameterConstraints ;
-
+*/
   } ;
 
 }  //namespace

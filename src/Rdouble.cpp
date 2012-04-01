@@ -11,6 +11,11 @@ namespace mesmer
   Rdouble*  Rdouble::pendingVar;
   const double Rdouble::eps = 1e-7;
 
+  Rdouble::operator double() const
+  {
+    return link ? *link * factor + addand : value;
+  }
+
   Rdouble& Rdouble::operator = (const double& val)
   {
     prev = value ;
@@ -65,13 +70,14 @@ namespace mesmer
     return true;
   }
 
-  void Rdouble::set_label(const std::string& label, PersistPtr pp) {
+
+  void Rdouble::set_label(const std::string& label) {
 
     // Check to see if label already used.
     labelmap::iterator itrlabel = withLabel().find(label) ;
 
     if (itrlabel != withLabel().end()) {
-      throw std::runtime_error("Error: Parameter label " + label + " redefined.");
+      cerr << "Error: Parameter label " << label << " redefined." << endl;
     } else {
       withLabel()[label] = this ;
     }
@@ -87,6 +93,36 @@ namespace mesmer
     }
   }
 
+  // Called after all the xml data has been read
+  // Look up the linked variable names
+  bool Rdouble::SetUpLinkedVars()
+  {
+    bool ok=true;
+    labelmap::iterator it;
+    for(it=withLabel().begin();it!=withLabel().end();++it)
+    {
+      Rdouble* depvar = it->second;
+      if(depvar->linkedname)
+      {
+        labelmap::iterator pos = withLabel().find(depvar->linkedname);
+        if(pos!=withLabel().end())
+        {
+          depvar->link = pos->second; //pointer to independent variable
+          cinfo << it->first << " is derived from " << depvar->linkedname << endl;
+          //Debug:
+          cinfo << it->first << " = " << *(it->second) << endl;
+        }
+        else
+        {
+          cerr << "In linking to " <<  it->first << ", " 
+               <<depvar->linkedname << " could not be found" << endl;
+          ok = false;
+        }
+      }
+    }
+    return ok;
+  }
+
 
   // Utility function to read parameter range. 
   //   The parameter cnvrsnFctr applies any conversion factor that is required.
@@ -95,6 +131,10 @@ namespace mesmer
   bool ReadRdoubleRange(const std::string& name, PersistPtr pp, Rdouble& rdouble, 
     bool& rangeSet, double cnvrsnFctr, double shift)
   {
+    // Store the names of all the potential range variables in case they are referred to
+    // in a derivedFrom attribute of another linked variable
+    rdouble.set_label(name);
+
     const char* pLowertxt = pp->XmlReadValue("lower", optional);
     const char* pUppertxt = pp->XmlReadValue("upper", optional);
     const char* pStepStxt = pp->XmlReadValue("stepsize", optional);
@@ -114,21 +154,33 @@ namespace mesmer
       rangeSet = false ;
     }
 
-    // Check for constraint label.
+    // If there is a derivedFrom attribute, a pointer to its value is put in
+    // 
+    const char* pDerivedtxt = pp->XmlReadValue("me:derivedFrom", optional);
+    if(pDerivedtxt)
+    {
+      rdouble.set_link_params(
+        pDerivedtxt,
+        pp->XmlReadDouble("factor", optional),
+        pp->XmlReadDouble("addand", optional));
+
+      cinfo << name << " will be derived from " << pDerivedtxt
+            << ". Check below that this has been found." << endl;
+    }
+
+/*    // Check for constraint label.
 
     const char* pLabel = pp->XmlReadValue("label", optional);
     if (pLabel) {
       rdouble.set_label(string(pLabel), pp);
-	  if (!rangeSet) rdouble.set_varname(name) ;
+    if (!rangeSet) rdouble.set_varname(name) ;
     }
-
-	// Save a pointer to XML location for result update.
-
-	rdouble.set_XMLPtr(pp) ;
+*/
+    // Save a pointer to XML location for result update.
+    rdouble.set_XMLPtr(pp) ;
 
     return true;
   }
-
 
 }//namespace
 

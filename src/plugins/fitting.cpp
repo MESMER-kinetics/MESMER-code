@@ -108,7 +108,7 @@ namespace mesmer
     double tol = ppControl->XmlReadDouble("me:fittingTolerance");
 
 	// Read in parameter constraints.
-	ReadParameterConstraints(ppControl) ;
+//	ReadParameterConstraints(ppControl) ;
 
     //Do not output all the intermediate results to XML
     pSys->m_Flags.overwriteXmlAnalysis = true;

@@ -16,13 +16,19 @@ namespace mesmer
   private:
     double value, lower, upper, stepsize, prev;
     std::string varname ;
-	PersistPtr m_XMLPtr ;
+    PersistPtr m_XMLPtr ;
+    //linked variable
+    const char* linkedname;
+    Rdouble* link; //NULL if this is an independent variable
+    double factor, addand;
+
     static Rdouble* pendingVar;
     static const double eps;
   public:
-    Rdouble(double val=0.0):value(val),lower(NaN),upper(NaN),stepsize(NaN), prev(NaN), varname(), m_XMLPtr(NULL){}
+    Rdouble(double val=0.0):value(val),lower(NaN),upper(NaN),stepsize(NaN), prev(NaN),
+      varname(), m_XMLPtr(NULL), linkedname(NULL), link(NULL), factor(1.0), addand(0.0){}
 
-    operator double() const  { return value; }
+    operator double() const;
     Rdouble& operator = (const double& val);
 
     double set_to_lower() { return value = lower; }
@@ -43,34 +49,45 @@ namespace mesmer
     bool get_range(double& lower_, double& upper_, double& stepsize_)const;
 
     const char* get_varname(){ return varname.c_str(); }
-	void set_varname(const std::string& name) { varname = name; }
+    void set_varname(const std::string& name) { varname = name; }
 
     int get_numsteps(){ return (int)(1 + eps + (upper - lower) / stepsize); } 
 
-    // Map of Rdoubles that have a label. 
+    // Map of Rdouble names
     // c.f. withRange above. 
-	typedef std::map<std::string, Rdouble* > labelmap ; 
+    typedef std::map<std::string, Rdouble* > labelmap ; 
     static labelmap& withLabel()
     {
       static labelmap lr;
       return lr;
     }
 
-    void set_label(const std::string& label, PersistPtr pp) ;
+    void set_label(const std::string& label) ;
+    void set_link_params(const char* name, double fac, double add)
+    {
+      linkedname = name;
+      if(!IsNan(fac))
+        factor = fac;
+      if(!IsNan(add))
+        addand = add;
+    }
 
-	void set_XMLPtr(PersistPtr pp) { m_XMLPtr = pp ;}
+    static bool SetUpLinkedVars();
 
-	void XmlWriteValue() {
+    void set_XMLPtr(PersistPtr pp) { m_XMLPtr = pp ;}
+
+    void XmlWriteValue() {
       std::ostringstream s; 
-	  s << *(this) ;
+      s << *(this) ;
       m_XMLPtr->XmlWrite(s.str());
-	}
+    }
 
-	void XmlWriteAttribute(const std::string& name, const std::string& value) {
-	  m_XMLPtr->XmlWriteAttribute(name, value) ;
-	}
-	   
-	static void UpdateXMLLabelVariables() ;
+    void XmlWriteAttribute(const std::string& name, const std::string& value) 
+    {
+      m_XMLPtr->XmlWriteAttribute(name, value) ;
+    }
+     
+    static void UpdateXMLLabelVariables() ;
 
     //Returns true if the value is the same as when setUnchanged was last called.
     bool isUnchanged() { return (prev==value); }
@@ -123,6 +140,24 @@ namespace mesmer
   Alternatively, an Rdouble can be incremented using ++. Normally the return
   is the value after incrementing but at the end of the range NaN is returned
   and the value is reset to the lower value.
+
+  A Rdouble variable can be linked to the value of another Rdouble variable
+  by adding a me:derivedFrom attribute to its definition, e.g.
+
+  <molecule id="IM2">
+ ...
+    <property dictRef="me:deltaEDown">
+     <scalar me:derivedFrom="IM1:DeltaEDown">161</scalar>
+    </property>
+ ...
+  </molecule>
+  
+  IM2:DeltaEDown will always have the same value as IM1:DeltaEDown (the 161 value
+  is ignored but must be present). Optionally a factor and addand attribute can
+  be included: 
+   <scalar derivedFrom="IM1:DeltaEDown" factor="1.0 addand="0.0>161</scalar>
+  when (in this case)
+   IM2:DeltaEDown = IM1:DeltaEDown * factor  +  (addand)
 
   */
 

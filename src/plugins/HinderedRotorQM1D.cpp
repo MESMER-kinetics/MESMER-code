@@ -118,7 +118,7 @@ namespace mesmer
         }
         cinfo << " replacing vib freq " << vibFreq;      
       }
-      cinfo << endl;
+      cinfo << '\n';
 
       vector3 coords1 = gs.GetAtomCoords(bondats.first);
       vector3 coords2 = gs.GetAtomCoords(bondats.second);
@@ -455,10 +455,7 @@ namespace mesmer
     }
 
     // Test potential
-
-    cinfo << endl ;
-    cinfo << "          Angle       Potential          Series" << endl ;
-    cinfo << endl ;
+    cinfo << "          Angle         Potential          Series\n";
     for (size_t i(0); i < ndata; ++i) {
       double sum(0.0) ;
       for(size_t k(0); k < m_expansion; ++k) {
@@ -466,7 +463,7 @@ namespace mesmer
         sum += m_potentialCosCoeff[k] * cos(nTheta);
         sum += m_potentialSinCoeff[k] * sin(nTheta);
       }
-      cinfo << formatFloat(angle[i], 6, 15) << ", " <<  formatFloat(potential[i], 6, 15) << ", " <<  formatFloat(sum, 6, 15) << endl ;
+      cinfo << formatFloat(angle[i], 6, 15) << ", " <<  formatFloat(potential[i], 6, 15) << ", " <<  formatFloat(sum, 6, 15) <<'\n' ;
     }
     cinfo << endl ;
 
