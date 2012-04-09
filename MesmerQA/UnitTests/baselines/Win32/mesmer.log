@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Mar 22 2012 -- 00:52:50
+     Mesmer v2.0 compiled: -- Apr  9 2012 -- 15:56:23
 
      Copyright (C) 2009-2012 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -54,7 +54,7 @@ All molecules are on the same energy basis: computational
 The default value of me:precision was used.
 760Torr, 560K at double precision
 The default value of me:eigenvalues was used.
-Write metadata 20120325_173243
+Write metadata 20120409_165130
 
 File: "UnitTests.xml" successfully parsed.
 Calculate EGME

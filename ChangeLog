@@ -1,3 +1,14 @@
+
+2012-April-08 Struan Robertson
+
+	* UnitTests.cpp, MesmerMaths.h/.cpp: Added unit test for incomplete 
+	gamma function (chi2 signifcance test) and corrected gamma function
+	method. New MesmerQA tests added.
+	
+	* DefinedSumOfStates.cpp: Initial implementation of of the 
+	defined transition states sum of states SumOfStates method  and 
+	sample input file.
+	
 2012-April-01 Chris Morley
 
 	* src/Rdouble.cpp, src/Rdouble.h, src/System.cpp: change xml syntax for

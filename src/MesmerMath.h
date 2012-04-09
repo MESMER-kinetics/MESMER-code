@@ -64,7 +64,7 @@ const T MesmerGamma(const T& x)
   if ((to_double(x) - double(int(to_double(x)))) < 1.e-14) {
     if (x > 0.0) {
       ga = 1.0;               // use factorial
-      for (i=2; i<=x; i++) 
+      for (i=2; i<x; i++) 
         ga *= i;
     }
     else 

@@ -956,9 +956,9 @@ double ChiSquaredPrbFn(double x, double a) {
   if (x < 0.0 || a < 0.0)
     throw(std::runtime_error("Incorrect parameters to __func__.")) ;
 
-  static const size_t maxItr(100) ; 
-  static const double eps(3.e-07) ;
-  static const double fpMin(1.e-30) ;
+  static const size_t maxItr(200) ; 
+  static const double eps(2.22e-16) ;
+  static const double fpMin(2.23e-308) ;
 
   double chiSquaredPrb(0.0) ;
   if (x < (a + 1.0)) {
@@ -980,7 +980,7 @@ double ChiSquaredPrbFn(double x, double a) {
     double d(1.0/b) ;
     double h(d) ;
     double del(0.0) ;
-    size_t i(0) ;
+    size_t i(1) ;
     for ( ; i < maxItr && (abs(del - 1.0) >= eps) ; i++) {
       double an = -double(i)*(double(i) - a) ;
       b += 2.0 ; 
