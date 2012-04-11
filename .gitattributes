@@ -228,6 +228,8 @@ MesmerQA/ThermodynamicTable/baselines/Linux64/mesmer.test -text
 MesmerQA/ThermodynamicTable/baselines/Win32/mesmer.log -text
 MesmerQA/ThermodynamicTable/baselines/Win32/mesmer.test -text
 MesmerQA/UnitTests/UnitTests.xml -text
+MesmerQA/UnitTests/baselines/Linux64/mesmer.log -text
+MesmerQA/UnitTests/baselines/Linux64/mesmer.test -text
 MesmerQA/UnitTests/baselines/Win32/mesmer.log -text
 MesmerQA/UnitTests/baselines/Win32/mesmer.test -text
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/Cyclopropene_isomerization_reservoir_state_test.xml -text

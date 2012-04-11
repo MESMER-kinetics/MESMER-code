@@ -1,5 +1,12 @@
 
-2012-April-08 Struan Robertson
+2012-April-11 Struan Robertson
+
+	* ExponentialDown.cpp, MesmerILT.cpp: Fix for constrained value string
+	mapping bug.
+	
+	* Add Linux64 baseline for UnitTest.xml smoke test.
+	
+2012-April-09 Struan Robertson
 
 	* UnitTests.cpp, MesmerMaths.h/.cpp: Added unit test for incomplete 
 	gamma function (chi2 signifcance test) and corrected gamma function

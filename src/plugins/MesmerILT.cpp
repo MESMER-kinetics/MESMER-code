@@ -151,7 +151,7 @@ namespace mesmer
         cerr << "Pre-exponential factor should not be negative when used with ILT." << endl;
         return false;
       }
-      ReadRdoubleRange(string(pReact->getName()+":preExp"), ppPreExponential, m_PreExp, rangeSet) ;  
+      ReadRdoubleRange(string(pReact->getName()+":preExponential"), ppPreExponential, m_PreExp, rangeSet) ;  
       m_PreExp = value ;
       if (rangeSet) {
         double valueL, valueU, stepsize ;
@@ -172,7 +172,7 @@ namespace mesmer
       PersistPtr ppNInf = ppReac->XmlMoveTo("me:nInfinity") ;
       double value = 0.0;
       stringstream s2(pNInftxt); s2 >> value ;
-      ReadRdoubleRange(string(pReact->getName()+":nInf"), ppNInf, m_NInf, rangeSet) ;  
+      ReadRdoubleRange(string(pReact->getName()+":nInfinity"), ppNInf, m_NInf, rangeSet) ;  
       m_NInf = value ;
     }
 

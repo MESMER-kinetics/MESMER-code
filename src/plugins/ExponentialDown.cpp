@@ -137,7 +137,7 @@ namespace mesmer
     m_refTemp = ppPropExp->XmlReadDouble("referenceTemperature", optional );
     if(IsNan(m_refTemp))
       m_refTemp = 298.;
-    ReadRdoubleRange(string(parent->getName()+":exponent"), ppPropExp, m_dEdExp, rangeSet) ;
+    ReadRdoubleRange(string(parent->getName()+":deltaEDownTExponent"), ppPropExp, m_dEdExp, rangeSet) ;
 
     return true ; 
   }
