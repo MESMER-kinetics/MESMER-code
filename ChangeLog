@@ -1,4 +1,8 @@
 
+2012-April-22 Struan Robertson
+
+	* Documentation changes following update for derived parameters.
+	
 2012-April-11 Struan Robertson
 
 	* ExponentialDown.cpp, MesmerILT.cpp: Fix for constrained value string
