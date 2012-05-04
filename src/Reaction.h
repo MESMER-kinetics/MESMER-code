@@ -216,6 +216,11 @@ namespace mesmer
     //Returns true if the XML input contains ZPE for all products
     bool ProductEnergiesSupplied() const;
 
+    // Grain averaged microcanonical rate coefficients.
+    virtual void calcGrainRateCoeffs() = 0;
+
+    // Test k(T)
+    virtual void testRateConstant() = 0;
 
     // I/O and control
     PersistPtr           m_ppPersist;            // Conduit for I/O
@@ -271,12 +276,6 @@ namespace mesmer
 
     // Read excess reactant concentration
     bool ReadExcessReactantConcentration(PersistPtr ppReac);
-
-    // Grain averaged microcanonical rate coefficients.
-    virtual void calcGrainRateCoeffs() = 0;
-
-    // Test k(T)
-    virtual void testRateConstant() = 0;
 
     double m_fwdGrnCanonicalRate;
     double m_rvsGrnCanonicalRate;

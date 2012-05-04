@@ -14,57 +14,6 @@
 
 namespace mesmer
 {
-/*  //
-  // Read parameter constraints.
-  //
-  void FittingUtils::ReadParameterConstraints(PersistPtr ppControl) {
-
-    PersistPtr pp = ppControl->XmlMoveTo("me:ParameterConstraints") ;
-
-    if (pp) {
-
-      while(pp = pp->XmlMoveTo("me:Constraint")) {
-
-        // Read independent and dependent parameter labels.
-
-        const char* pIndpnd = pp->XmlReadValue("me:Independent", true);
-        const char* pDpnd   = pp->XmlReadValue("me:Dependent",   true);
-
-        // If either label missing issue a warning and skip constraint.
-
-        if (!pIndpnd || !pDpnd) {
-          throw std::runtime_error("Error: Incomplete parameter constraint definition.");
-        }
-
-        string strIndpnd(pIndpnd) ;
-        string strDpnd(pDpnd) ;
-
-        if (strIndpnd == strDpnd) {
-          throw std::runtime_error("Error: parameter " + strDpnd + " constrained to itself.");
-        }
-
-        // Search for associated Rdouble parameter.
-
-        Rdouble::labelmap::iterator indpndPmtr = Rdouble::withLabel().find(strIndpnd) ;
-        Rdouble::labelmap::iterator dpndPmtr   = Rdouble::withLabel().find(strDpnd) ;
-
-        if (indpndPmtr == Rdouble::withLabel().end() || dpndPmtr == Rdouble::withLabel().end()) {
-          throw std::runtime_error("Error: constrained parameter not defined.");
-        }
-
-        // Read linear constraint values, if these are not present default values of 1 and 0 are assumed.
-
-        double factor = pp->XmlReadDouble("me:ConstraintFactor", true);
-        double addand = pp->XmlReadDouble("me:ConstraintAddand", true);
-
-        // Create new constraint.
-
-        m_parameterConstraints.push_back(ParameterConstraint(indpndPmtr->second, dpndPmtr->second, factor, addand)) ;
-
-      }
-    }
-  }
-*/
   //
   // Get the current location.
   //
@@ -86,28 +35,8 @@ namespace mesmer
       Rdouble::withRange()[iVar]->XmlWriteValue() ;
     }
 
-/*    // Set the value of constrained parameters.
-
-    for (size_t iCnstr(0) ; iCnstr < m_parameterConstraints.size() ; iCnstr++) {
-      m_parameterConstraints[iCnstr].calcDpndPmtrValues() ;
-    }
-
-    Rdouble::UpdateXMLLabelVariables() ;
-*/
   }
-/*
-  //
-  // Write constrained variables, if present, to error output.
-  //
-  void FittingUtils::WriteConstrainedVals() const {
-    if (m_parameterConstraints.size()) {
-      for (size_t iCnstr(0) ; iCnstr < m_parameterConstraints.size() ; iCnstr++) {
-        m_parameterConstraints[iCnstr].WriteConstrainedVals() ;
-      }
-      cerr << endl ;
-    }
-  }
-*/
+
   //
   // Check that the a point falls within the limits defined by the user.
   //

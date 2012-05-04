@@ -1,4 +1,10 @@
 
+2012-May-04 Struan Robertson
+
+	* DefinedSumOfStates.cpp: Code added to parse data in XML structures.
+	
+	* FittingUtils.cpp/.h: Redundant code removed.
+
 2012-April-22 Struan Robertson
 
 	* Documentation changes following update for derived parameters.

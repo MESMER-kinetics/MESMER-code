@@ -168,14 +168,6 @@ namespace mesmer
             << ". Check below that this has been found." << endl;
     }
 
-/*    // Check for constraint label.
-
-    const char* pLabel = pp->XmlReadValue("label", optional);
-    if (pLabel) {
-      rdouble.set_label(string(pLabel), pp);
-    if (!rangeSet) rdouble.set_varname(name) ;
-    }
-*/
     // Save a pointer to XML location for result update.
     rdouble.set_XMLPtr(pp) ;
 
