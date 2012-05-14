@@ -337,6 +337,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Spline.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\System.cpp"
 				>
 			</File>
@@ -508,6 +512,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ReactionManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Spline.h"
 				>
 			</File>
 			<File
