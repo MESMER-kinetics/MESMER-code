@@ -1,4 +1,9 @@
 
+2012-May-19 Struan Robertson
+
+	* Spline.cpp/.h, UnitTest.cpp: Added test for spline class and fixed 
+	bugs in spline class.
+	
 2012-May-14 Struan Robertson
 
 	* Spline.cpp/.h: Initial revision of Spline class added.

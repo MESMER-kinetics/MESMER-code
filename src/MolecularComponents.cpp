@@ -154,7 +154,7 @@ namespace mesmer
 	  m_ExtraDOSCalculators.push_back(pDOSCalculator);
 	}
 
-	std::vector<double> rCnst(3);
+	std::vector<double> rCnst(3, 0.0);
 	txt = ppPropList->XmlReadProperty("me:rotConsts", optional);
 	if(!txt){
 	  gStructure& gs = pMol->getStruc();
