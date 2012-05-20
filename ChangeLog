@@ -1,4 +1,9 @@
 
+2012-May-20 Struan Robertson
+
+	* BeyerSwinehart.cpp, EckartCoefficients.cpp: Bug fixes to address 
+	problems encountered for very shallow wells.
+	
 2012-May-19 Struan Robertson
 
 	* Spline.cpp/.h, UnitTest.cpp: Added test for spline class and fixed 

@@ -45,6 +45,12 @@ namespace mesmer
     // Implementation of the Beyer-Swinehart algorithm.
     for (size_t j(0) ; j < VibFreq.size() ; ++j ) {
       size_t freq = static_cast<size_t>(VibFreq[j]) ;
+	  if (freq > MaximumCell) {
+		// This is to catch those occassional cases where the first excited 
+		// vibrational state is above the cutoff, which can occur at low 
+		// temperatures. 
+		continue ;
+	  }
       for (size_t i(0) ; i < MaximumCell - freq ; ++i ){
         cellDOS[i + freq] += cellDOS[i] ;
       }
