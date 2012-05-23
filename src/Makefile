@@ -158,6 +158,7 @@ SRCS := \
 	Rdouble.cpp \
 	Reaction.cpp \
 	ReactionManager.cpp \
+	Spline.cpp \
 	System.cpp \
 	TimeCounter.cpp \
 	TMatrix.cpp \
