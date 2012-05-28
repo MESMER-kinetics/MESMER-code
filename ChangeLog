@@ -1,4 +1,9 @@
 
+2012-May-28 Struan Robertson
+
+	* MesmerMaths.cpp: Convolution method refactored and additional 
+	checks added.
+	
 2012-May-20 Struan Robertson
 
 	* BeyerSwinehart.cpp, EckartCoefficients.cpp: Bug fixes to address 
