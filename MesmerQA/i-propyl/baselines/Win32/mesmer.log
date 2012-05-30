@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v1.0 compiled: -- Feb  4 2012 -- 11:10:20
+     Mesmer v2.0 compiled: -- May 30 2012 -- 18:40:12
 
      Copyright (C) 2009-2012 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -33,28 +33,28 @@ ipropyl_test.xml
 In R1: Parsing reaction...
 In i-propyl: The default value of me:frequenciesScaleFactor was used.
 In i-propyl: Hindered rotor b1
-In i-propyl: Hindered rotor b2
-In i-propyl: The default value of me:DistributionCalcMethod was used.
+Hindered rotor b2
+The default value of me:DistributionCalcMethod was used.
 In i-propyl: The default value of me:energyTransferModel was used.
-In i-propyl: i-propyl:deltaEdown was given a range with 15 steps 
+In i-propyl: i-propyl:deltaEDown was given a range with 15 steps 
 In i-propyl: The default value of me:deltaEDownTExponent was used.
 In propene: The default value of me:frequenciesScaleFactor was used.
 In propene: Hindered rotor b1
-In propene: propene:ZPE was given a range with 401 steps 
+propene:ZPE was given a range with 401 steps 
 In H: Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion.
 In H: No rotational constants from <me:rotConsts> or structure.Assuming to be an atom or atomic ion.
 In H: The default value of me:symmetryNumber was used.
 In H: The default value of me:frequenciesScaleFactor was used.
 In H: The default value of spinMultiplicity (or one of its attributes) was used.
 In H: The default value of me:DOSCMethod was used.
-In R1: No tunneling method was found for R1
-In R1: No crossing method was found for R1
+In R1: No tunneling method requested for R1
+In R1: No crossing method requested for R1
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
 3e+017PPCC, 720K at double precision
 The default value of me:precision was used.
 3.01e+017PPCC, 730K at double precision
-Write metadata 20120204_111244
+Write metadata 20120530_200126
 
 File: "ipropyl_test.xml" successfully parsed.
 Calculate EGME
@@ -1419,6 +1419,6 @@ Hindered rotor data for plotting.
 Unimolecular ILT calculation completed
 
 Finish Calculation -- Time elapsed: 0 seconds.
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 7 seconds.
 
 System saved to out.xml

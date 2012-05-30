@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- May 19 2012 -- 15:53:16
+     Mesmer v2.0 compiled: -- May 30 2012 -- 18:40:12
 
      Copyright (C) 2009-2012 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -47,14 +47,14 @@ In HNO2: New me:ZPE element written with data from me:Hf298
 In HNO2: The default value of me:DistributionCalcMethod was used.
 In HNO2: The default value of me:energyTransferModel was used.
 In HNO2: The default value of me:deltaEDownTExponent was used.
-In R1: No tunneling method was found for R1
-In R1: No crossing method was found for R1
+In R1: No tunneling method requested for R1
+In R1: No crossing method requested for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 All molecules are on the same energy basis: computational
 The default value of me:precision was used.
 760Torr, 560K at double precision
 The default value of me:eigenvalues was used.
-Write metadata 20120519_160446
+Write metadata 20120530_200148
 
 File: "UnitTests.xml" successfully parsed.
 Calculate EGME
