@@ -14,6 +14,7 @@
 #include "IrreversibleUnimolecularReaction.h"
 #include "IsomerizationReaction.h"
 #include "IrreversibleExchangeReaction.h"
+#include "BimolecularSinkReaction.h"
 
 using namespace Constants ;
 using namespace std ;
@@ -94,14 +95,21 @@ namespace mesmer
       // bool is true and rct1 is the pseudoisomer.  if not, bool is false, and rct1 is the excess
       //
       Reaction *preaction ;
-      if     (!bRct2 && bPdt1 && pdt1Type == "modelled" && !bPdt2)
+			if     (!bRct2 && bPdt1 && pdt1Type == "modelled" && !bPdt2){
         preaction = new IsomerizationReaction(m_pMoleculeManager, mEnv, mFlags, id) ;
-      else if( bRct2 && bPdt1 && !bPdt2)
+			}
+			else if( bRct2 && (rct1Type == "modelled" || rct2Type == "modelled" )){
+				preaction = new BimolecularSinkReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "excessReactant")) ;
+			}
+			else if( bRct2 && bPdt1 && !bPdt2){
         preaction = new AssociationReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "deficientReactant")) ;
-      else if(!bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink"))
+			}
+			else if(!bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink")){
         preaction = new IrreversibleUnimolecularReaction(m_pMoleculeManager, mEnv, mFlags, id) ;
-      else if( bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink"))
+			}
+			else if( bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink")){
         preaction = new IrreversibleExchangeReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "deficientReactant")) ;
+			}
       else {
         cinfo << "Unknown reaction type.\n";
         return false ;
@@ -150,7 +158,7 @@ namespace mesmer
     return pmolname && pmoltype;
   }
 
-  // Set Initial population for individual species
+  // Set Initial population for individual species and/or grains
   void ReactionManager::setInitialPopulation(PersistPtr anchor)
   {
     PersistPtr pp=anchor;
@@ -160,16 +168,22 @@ namespace mesmer
       string sRef = ppInitMol->XmlReadValue("ref");
       if(sRef.size()){ // if got the name of the molecule
         Molecule* pMolecule = m_pMoleculeManager->find(sRef) ;
-        double population = ppInitMol->XmlReadDouble("me:population", optional) ;
-        if (!IsNan(population)){
+        double population = ppInitMol->XmlReadDouble("me:population", optional);
+				int grainIdx = ppInitMol->XmlReadInteger("me:grain",optional);
+        if (!IsNan(population) && grainIdx==0){  // what to do if population, but not grain has been specified
           populationSum += population;
           pMolecule->getPop().setInitPopulation(population);
           ctest << "Initial population of " << pMolecule->getName() << " = " << population << endl;
         }
+				else if(!IsNan(population) && !IsNan(grainIdx)){  // what to do if population and grain have been specified
+          populationSum += population;       
+					pMolecule->getPop().setInitGrainPopulation(grainIdx,population);
+					ctest << "Initial population of grain " << grainIdx << " in " << pMolecule->getName() << " = " << population << endl;
+				}
         else
           population = 0.0;
       }
-      ppInitMol = ppInitMol->XmlMoveTo("molecule");
+      ppInitMol = ppInitMol->XmlMoveTo("molecule");  // note: the same molecule should occur more than once ONLY to specify different grain populations
     }
     if (populationSum != 1.0){
       if (populationSum > 0.0){

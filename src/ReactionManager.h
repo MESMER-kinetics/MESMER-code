@@ -66,7 +66,7 @@ namespace mesmer
     // Find a reaction from its id
     Reaction* find(const std::string& id) const ;
 
-    // Set Initial population for individual species
+    // Set Initial population for individual grains and/or species
     void setInitialPopulation(PersistPtr);
 
   private:

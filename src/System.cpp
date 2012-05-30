@@ -237,10 +237,10 @@ namespace mesmer
     if (!PandTs.size())
       cerr << "No pressure and temperature specified.";
 
-    // read initial population (needs to be normalized later if their sum not equals to 1.0)
-    PersistPtr ppInitalPopulation = ppConditions->XmlMoveTo("me:InitalPopulation");
-    if (ppInitalPopulation)
-      m_pReactionManager->setInitialPopulation(ppInitalPopulation);
+    // read initial isomer populations (need to be normalized later if their sum's not equal to 1.0)
+    PersistPtr ppInitialPopulation = ppConditions->XmlMoveTo("me:InitialPopulation");
+    if (ppInitialPopulation)
+      m_pReactionManager->setInitialPopulation(ppInitialPopulation);
 
     PersistPtr ppControl = ppIOPtr->XmlMoveTo("me:control");
     if(ppControl)

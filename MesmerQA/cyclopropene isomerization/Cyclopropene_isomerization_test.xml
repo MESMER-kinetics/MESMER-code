@@ -274,9 +274,9 @@
       <me:PTpair me:units="Torr" me:P="200.72" me:T="800." />
       <me:PTpair me:units="Torr" me:P="250.00" me:T="1000." />
     </me:PTs>
-    <me:InitalPopulation>
+    <me:InitialPopulation>
       <molecule ref="cyclopropene" me:population="1.0" />
-    </me:InitalPopulation>
+    </me:InitialPopulation>
   </me:conditions>
   <me:modelParameters>
     <!--Specify grain size directly...-->

@@ -193,6 +193,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\BimolecularSinkReaction.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\plugins\BoltzmannDistribution.cpp"
 				>
 			</File>
@@ -325,6 +329,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\SimpleBimolecularSink.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\plugins\simplecalc.cpp"
 				>
 			</File>
@@ -392,6 +400,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\AssociationReaction.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\BimolecularSinkReaction.h"
 				>
 			</File>
 			<File

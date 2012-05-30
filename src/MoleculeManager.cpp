@@ -123,8 +123,10 @@ namespace mesmer
         string thisConvention = iter->second->getDOS().getEnergyConvention();
         if(firstConvention.empty())
           firstConvention = thisConvention;
-        if(firstConvention!=thisConvention)
+				if(firstConvention!=thisConvention){
+					cerr << "cannot find an energy convention for molecule " << iter->second->getName() << endl;
           return string();
+				}
       }
     }
     return firstConvention;

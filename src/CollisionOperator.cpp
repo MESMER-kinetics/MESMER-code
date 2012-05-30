@@ -14,6 +14,7 @@
 #include "IrreversibleUnimolecularReaction.h"
 #include "IsomerizationReaction.h"
 #include "IrreversibleExchangeReaction.h"
+#include "BimolecularSinkReaction.h"
 
 namespace mesmer
 {
@@ -140,7 +141,7 @@ namespace mesmer
       }
 
       //
-      // For dissociation reactions determine zero point energy location of the barrier
+      // For irreversible unimolecular reactions determine zero point energy location of the barrier
       //
       IrreversibleUnimolecularReaction *pDissnRtn = dynamic_cast<IrreversibleUnimolecularReaction*>(pReaction) ;
       if (pDissnRtn) {
@@ -154,6 +155,17 @@ namespace mesmer
           unimolecules[0]->getColl().setLowestBarrier(barrierZPE);
         }
       }
+
+			// drg 15 Dec 2011
+			// For bimolecular sink reactions, determine the zero point energy of the bimolecular barrier (presently zero)
+			//
+			BimolecularSinkReaction *pBimSinkRxn = dynamic_cast<BimolecularSinkReaction*>(pReaction) ;
+      if (pBimSinkRxn){
+				const double rctZPE = pBimSinkRxn->get_reactant()->getDOS().get_zpe();
+				double barrierZPE = rctZPE + pBimSinkRxn->get_ThresholdEnergy();
+				minEnergy = min(minEnergy, barrierZPE);
+				maxEnergy = max(maxEnergy, barrierZPE);
+			}
 
     }
 
@@ -774,12 +786,27 @@ namespace mesmer
     //------------------------------
     // print grained species profile
     if (mFlags.grainedProfileEnabled) {
-      ctest << "\nGrained species profile (the first row is time points in unit of second):\n{\n";
+			ctest << "\nGrained species profile:(first row is the time point in units of second & first column is the grain index)\n{\n";
+      Reaction::molMapType::iterator ipos;
+      for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
+        Molecule* isomer = ipos->first;                        // to print out which grains are spanned by which isomers
+				ctest << " isomer " << isomer->getName() << " spans grains " << ipos->second << " to " 
+					<< ipos->second + isomer->getColl().get_colloptrsize() - 1 << endl;  // offset of 1 is b/c grain idx starts at 0
+			}
+
+      Reaction::molMapType::iterator spos;
+      for (spos = m_sources.begin(); spos != m_sources.end(); ++spos){  // iterate through source map
+        Molecule* source = spos->first ;                        // to print out which grains are spanned by which sources
+  			ctest << " source " << source->getName() << " is in grain " << spos->second << endl;
+			}
+
+			ctest << "\n\t";
       for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
         formatFloat(ctest, timePoints[timestep], 6,  15);
       }
       ctest << endl;
       for (size_t j(0); j < smsize; ++j) {
+				ctest << j << "\t";
         for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
           formatFloat(ctest, grnProfile[j][timestep], 6,  15);
         }
@@ -1031,44 +1058,66 @@ namespace mesmer
       populationSum += source->getPop().getInitPopulation();
     }
 
-    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
-      Molecule* isomer = ipos->first;                        // get initial population of each isomer
-      double initFrac = isomer->getPop().getInitPopulation();
-      if (initFrac != 0.0){                                           // if isomer initial populations are nonzero
-        initFrac /= populationSum;                                    // normalize initial pop fraction
-        int rxnMatrixLoc = ipos->second;
-        const int colloptrsize = isomer->getColl().get_colloptrsize();
-        const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();
-        vector<double> boltzFrac;
-        isomer->getColl().normalizedGrnBoltzmannDistribution(boltzFrac, colloptrsize, numberGrouped);
-        const int nrg = isomer->getColl().isCemetery() ? 0 : 1 ;
-        if (numberGrouped == 0){
-          for (int i = 0; i < colloptrsize; ++i){
-            n_0[i + rxnMatrixLoc] = initFrac * boltzFrac[i];
-          }
-        }
-        else{
-          if (!nrg){
-            isomer->getPop().setInitCemeteryPopulation(initFrac * boltzFrac[0]);
-          }
-          for (int i(1-nrg), j(0); i < colloptrsize - numberGrouped + 1; ++i, ++j){
-            n_0[j + rxnMatrixLoc] = initFrac * boltzFrac[i];
-          }
-        }
-      }
-    }
+		for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
+			Molecule* isomer = ipos->first;                        // get initial population of each isomer
+			double initFrac = isomer->getPop().getInitPopulation();
+			if (initFrac != 0.0){                                           // if isomer initial populations are nonzero
+				initFrac /= populationSum;                                    // normalize initial pop fraction
+				int rxnMatrixLoc = ipos->second;
+				const int colloptrsize = isomer->getColl().get_colloptrsize();
+				const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();
+				const int nrg = isomer->getColl().isCemetery() ? 0 : 1 ;
 
-    // if there is no source term and the populationSum is still zero, set population = 1.0 for the first isomer
-    int sizeSource = static_cast<int>(m_sources.size());
-    if (populationSum == 0. && sizeSource == 0){
-      ipos = m_isomers.begin();
-      Molecule* isomer = ipos->first;
-      isomer->getPop().setInitPopulation(1.0); // set initial population for the first isomer
-      double initFrac = isomer->getPop().getInitPopulation();
-      cinfo << "No population was assigned, and there is no source term."  << endl
-        << "Initialize a Boltzmann distribution in the first isomer." << endl;
-      int rxnMatrixLoc = ipos->second;
-      const int colloptrsize = isomer->getColl().get_colloptrsize();
+				map<int,double> grainMap;                            // get the grain pop map and check to see if any grain populations are specified
+				isomer->getPop().getInitGrainPopulation(grainMap);
+
+				if(grainMap.size() != 0){   // if grain populations have been specified, then use them
+					for (int i = 0; i < colloptrsize - numberGrouped; ++i){
+						n_0[i + rxnMatrixLoc] = 0.0;  // set elements of initial distribution vector to zero
+					}
+					map<int,double>::iterator grainIt;
+					for(grainIt = grainMap.begin(); grainIt != grainMap.end(); ++grainIt){
+						if((grainIt->first) < int(n_0.size())){
+							n_0[grainIt->first + rxnMatrixLoc-1] = initFrac * grainIt->second;    // put populations in grain n where n=GrainMap->first	
+						}
+						else{
+							cerr << "you requested population in grain " << grainIt->first << " of isomer " << isomer->getName() << ", which exceeds the number of grains in the isomer" << endl;
+							cerr << "you must respecify the system to accomodate your request... exiting execution " << endl;
+							exit(1);
+						}
+					}
+				}
+				else{												// otherwise if no grain population has been specified, use a boltzmann population
+					vector<double> boltzFrac;
+					isomer->getColl().normalizedGrnBoltzmannDistribution(boltzFrac, colloptrsize, numberGrouped);
+					if (numberGrouped == 0){
+						for (int i = 0; i < colloptrsize; ++i){
+							n_0[i + rxnMatrixLoc] = initFrac * boltzFrac[i];
+						}
+					}
+					else{
+						if (!nrg){
+							isomer->getPop().setInitCemeteryPopulation(initFrac * boltzFrac[0]);
+						}
+						for (int i(1-nrg), j(0); i < colloptrsize - numberGrouped + 1; ++i, ++j){
+							n_0[j + rxnMatrixLoc] = initFrac * boltzFrac[i];
+						}
+					}
+				}
+			}
+		}
+
+		// if there is no source term and the populationSum is still zero, set population = 1.0 for the first isomer
+		int sizeSource = static_cast<int>(m_sources.size());
+		if (populationSum == 0. && sizeSource == 0){
+			ipos = m_isomers.begin();
+			Molecule* isomer = ipos->first;
+			isomer->getPop().setInitPopulation(1.0); // set initial population for the first isomer
+			double initFrac = isomer->getPop().getInitPopulation();
+			cinfo << "No population was assigned, and there is no source term."  << endl
+				<< "Initialize a Boltzmann distribution in the first isomer." << endl;
+			int rxnMatrixLoc = ipos->second;
+			const int colloptrsize = isomer->getColl().get_colloptrsize();
       const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();
       vector<double> boltzFrac;
       isomer->getColl().normalizedInitialDistribution(boltzFrac, colloptrsize, numberGrouped);
@@ -1612,11 +1661,12 @@ namespace mesmer
       Reaction* pReaction = (*m_pReactionManager)[i];
       ReactionType reactionType = pReaction->getReactionType() ;
 
-      bool Irreversible = (reactionType == IRREVERSIBLE_ISOMERIZATION || reactionType == IRREVERSIBLE_EXCHANGE || reactionType == DISSOCIATION );
+      bool Irreversible = (reactionType == IRREVERSIBLE_ISOMERIZATION || reactionType == IRREVERSIBLE_EXCHANGE || 
+													 reactionType == DISSOCIATION || reactionType == BIMOLECULAR_SINK);
       if (Irreversible && m_sinkRxns.find(pReaction) == m_sinkRxns.end()) {   
         // Add an irreversible rxn to the map.
         Molecule* rctnt = pReaction->get_reactant();
-        if(reactionType == IRREVERSIBLE_ISOMERIZATION || reactionType == DISSOCIATION ){
+        if(reactionType == IRREVERSIBLE_ISOMERIZATION || reactionType == DISSOCIATION || reactionType == BIMOLECULAR_SINK){
           m_sinkRxns[pReaction] = m_isomers[rctnt];
         } else { // Irreversible exchange reaction.
           m_sinkRxns[pReaction] = m_sources[rctnt];

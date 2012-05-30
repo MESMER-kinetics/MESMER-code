@@ -15,6 +15,15 @@
    <property dictRef="me:ZPE" default="NEEDS TO BE CHECKED**">
     <scalar units="kJ/mol">0</scalar>
   </property>
+  <property dictRef="me:RMS_SOC_element" default="NEEDS TO BE CHECKED**">
+    <scalar units="cm-1">10.0</scalar>
+  </property>
+  <property dictRef="me:GradientDifferenceMagnitude" default="NEEDS TO BE CHECKED**">
+    <scalar units="a.u./Bohr">0.1</scalar>
+  </property>
+  <property dictRef="me:GradientReducedMass" default="NEEDS TO BE CHECKED**">
+    <scalar units="a.m.u.">16.0</scalar>
+  </property>
   <property dictRef="me:Hf0" default="true">
     <scalar units="kJ/mol">0</scalar>
   </property>

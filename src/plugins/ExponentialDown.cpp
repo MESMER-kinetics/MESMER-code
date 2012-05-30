@@ -154,10 +154,11 @@ namespace mesmer
     }
 
     // issue a warning message and exit if delta_E_down is smaller than grain size.
-    if (deltaEDown < double(getParent()->getEnv().GrainSize) && !getParent()->getFlags().allowSmallerDEDown)
+		if (deltaEDown < double(getParent()->getEnv().GrainSize) && !getParent()->getFlags().allowSmallerDEDown){
       cerr << "Delta E down is smaller than grain size: the solution may not converge.";
-
-    return exp(-(Ei -Ej)/deltaEDown) ;
+      exit(1);
+		}
+		return exp(-(Ei -Ej)/deltaEDown) ;
   }
 
   /******************************************************************************

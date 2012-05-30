@@ -267,7 +267,7 @@ namespace mesmer
         }
       }
       else{
-        cinfo << "No tunneling method was found for " << getName() << endl;
+        cinfo << "No tunneling method requested for " << getName() << endl;
       }
 
       // Determine the method of estimating crossing coefficients.
@@ -284,7 +284,7 @@ namespace mesmer
         }
       }
       else{
-        cinfo << "No crossing method was found for " << getName() << endl;
+        cinfo << "No crossing method requested for " << getName() << endl;
       }
 
     //
@@ -292,7 +292,7 @@ namespace mesmer
 
 
 
-    if (getReactionType() == ASSOCIATION || getReactionType() == IRREVERSIBLE_EXCHANGE){
+    if (getReactionType() == ASSOCIATION || getReactionType() == IRREVERSIBLE_EXCHANGE || getReactionType() == BIMOLECULAR_SINK){
       cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;
       if (!ReadExcessReactantConcentration(ppReac)) return false;
     }

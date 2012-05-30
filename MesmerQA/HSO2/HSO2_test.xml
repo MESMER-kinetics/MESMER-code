@@ -157,9 +157,9 @@
 	  <me:PTpair me:units="Torr" me:P="100000000" me:T="200" me:precision ="dd" />
 	  <me:PTpair me:units="Torr" me:P="100000000" me:T="200" me:precision ="qd" />
 	</me:PTs>
-    <me:InitalPopulation>
+    <me:InitialPopulation>
       <molecule ref="H" me:population="1.0" />
-    </me:InitalPopulation>
+    </me:InitialPopulation>
   </me:conditions>
   <me:modelParameters>
     <me:grainSize units="cm-1"> 100 </me:grainSize>
