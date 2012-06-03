@@ -1,4 +1,23 @@
 
+2012-June-03 Struan Robertson
+
+	* Acetyl O2 association\baselines\mesmer.test: Rolling back David's 
+	change to the release VS 10 results as agreed for the release MESMER
+	1.0. Since version 706 there has been a marginal improvement in 
+	agreement between VS 10 release and debug results as indicated by the
+	two largest eigenvalues:
+
+	Version 706:                                         -1.563027e-003
+                                                         -1.220829e-006
+
+	VS 10 debug (= VS 9 release or debug = Version 731): -1.569795e-003
+                                                         -3.155523e-006
+
+	VS 10 release:                                       -1.568043e-003
+                                                         -2.798432e-007
+
+    Further investigation required.
+	
 2012-May-28 Struan Robertson
 
 	* MesmerMaths.cpp: Convolution method refactored and additional 
