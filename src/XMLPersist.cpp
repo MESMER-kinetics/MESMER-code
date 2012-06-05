@@ -335,13 +335,14 @@ namespace mesmer
   }
 
   PersistPtr XMLPersist::XmlWriteValueElement(const std::string& name,
-    const double datum, const int precision)
+    const double datum, const int precision, const bool fixedOnly)
   {
     ostringstream sstrdatum ;
     if(precision>=0)
-      sstrdatum << setprecision(precision) << datum ;
-    else
-      sstrdatum << datum ;
+      sstrdatum.precision(precision);
+    if(fixedOnly) //no scientific format
+      sstrdatum.setf(ios::fixed,ios::floatfield);
+    sstrdatum << datum ;
 
 
     TiXmlElement* item = new TiXmlElement(name);

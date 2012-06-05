@@ -1,3 +1,22 @@
+2012-June-05 Chris Morley
+
+	* src/CollisionOperator.cpp: make grain population output normalised
+	  - for a given species at a a given time output sum to 1.0. Do not
+	  output very small populations. Used fixed format (XSLT flakey with
+	  scientific format.)
+
+	* src/Persistence.h,src/XMLPersist.h,src/XMLPersist.cpp: added
+	extra optional parameter to XmlWriteValueElement() to force
+	fixed rather than scientific format.
+
+	* MesmerQA/pentyl/pentyl_isomerization_test.xml: added request for
+	grain population output. (Doesn't affect QA.)
+
+	* popDiag.xsl: Firefox output now with grain population diagrams.
+	But not satisfactory as yet - different times are on separate graphs,
+	rather than multiple lines for the same species being on the same
+	graph. Multiple sets of conditions and range parameters untested.
+	The XSLT is proving difficult - still trying to improve this.	
 
 2012-June-03 Struan Robertson
 

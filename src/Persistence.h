@@ -92,9 +92,9 @@ namespace mesmer
     /// Adds an XML attribute (or equivalent)
     virtual void XmlWriteAttribute(const std::string& name, const std::string& value)=0;
 
-    /// Inserts into XML document a new element  containing a formatted number
+    /// Inserts into XML document a new element containing a formatted number
     virtual PersistPtr XmlWriteValueElement(const std::string& name,
-                                   const double datum, const int precision=-1)=0;
+                     const double datum, const int precision=-1, const bool fixedOnly=false)=0;
 
     /// Inserts into XML document a new element  containing a string
     virtual PersistPtr XmlWriteValueElement(const std::string& name, const std::string& value)=0;

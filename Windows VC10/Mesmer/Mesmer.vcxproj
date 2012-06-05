@@ -95,6 +95,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\AssignMolTypes.cpp" />
     <ClCompile Include="..\..\src\AssociationReaction.cpp" />
+    <ClCompile Include="..\..\src\BimolecularSinkReaction.cpp" />
     <ClCompile Include="..\..\src\plugins\BeyerSwinehart.cpp" />
     <ClCompile Include="..\..\src\plugins\BoltzmannDistribution.cpp" />
     <ClCompile Include="..\..\src\plugins\ClassicalRotor.cpp" />
@@ -147,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\a2d.h" />
     <ClInclude Include="..\..\src\AssociationReaction.h" />
+    <ClInclude Include="..\..\src\BimolecularSinkReaction.h" />
     <ClInclude Include="..\..\src\calcmethod.h" />
     <ClInclude Include="..\..\src\CollisionOperator.h" />
     <ClInclude Include="..\..\src\Constants.h" />
@@ -191,8 +193,16 @@
     <None Include="..\..\defaults.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="..\..\mesmer1.xsl" />
-    <None Include="..\..\mesmerDiag.xsl" />
+    <None Include="..\..\librarymols.xml" />
+    <None Include="..\..\mesmer1.xsl">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\..\mesmerDiag.xsl">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\..\popDiag.xsl">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\qd\qd.vcxproj">

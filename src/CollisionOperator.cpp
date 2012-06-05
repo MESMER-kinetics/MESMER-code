@@ -8,6 +8,7 @@
 // This file contains implementation of the master equation collision operator class.
 //
 //-------------------------------------------------------------------------------------------
+#include <numeric>
 #include "CollisionOperator.h"
 
 #include "AssociationReaction.h"
@@ -1878,17 +1879,24 @@ namespace mesmer
         // Copy densities for output.
 
         vector<double> density(p_t.begin() + iLoc, p_t.begin() + (iLoc + slsize - 1)) ;
+        double totalPop = accumulate(density.begin(), density.end(),0.0);
 
         // Output density to XML (Chris)
         PersistPtr ppGrainPop = ppGrainList->XmlWriteElement("me:grainPopulation");
         { 
           ppGrainPop->XmlWriteAttribute("ref", pMol->getName());
           ppGrainPop->XmlWriteAttribute("time", toString(Times[iTime]));
-          ppGrainPop->XmlWriteAttribute("logTime", toString(log10(Times[iTime])));
+          //ppGrainPop->XmlWriteAttribute("logTime", toString(log10(Times[iTime])));
+          ppGrainPop->XmlWriteAttribute("me:pop", toString(totalPop));
           ppGrainPop->XmlWriteAttribute("units", "cm-1");
           for(size_t j(0); j < slsize-1; ++j)  
           {
-            PersistPtr ppGrain = ppGrainPop->XmlWriteValueElement("me:grain", density[j], 6);
+            // Output normalised grain population at each grain energy
+            // but not if very small
+            double gpop = density[j]/totalPop;
+            if(abs(gpop)<1e-7)
+              continue;
+            PersistPtr ppGrain = ppGrainPop->XmlWriteValueElement("me:grain", gpop, 6, true); //fixed format only
             ppGrain->XmlWriteAttribute("energy", toString((j+0.5) * pMol->getEnv().GrainSize)); //cm-1
           }
         }

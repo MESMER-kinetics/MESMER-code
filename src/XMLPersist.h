@@ -103,7 +103,7 @@ public:
 
   /// Inserts into XML document a new element  containing a formatted number
   virtual PersistPtr XmlWriteValueElement(const std::string& name,
-                                 const double datum, const int precision=-1);
+                       const double datum, const int precision=-1, const bool fixedOnly=false);
 
   /// Inserts into XML document a new element  containing a string
   virtual PersistPtr XmlWriteValueElement(const std::string& name, const std::string& value);
