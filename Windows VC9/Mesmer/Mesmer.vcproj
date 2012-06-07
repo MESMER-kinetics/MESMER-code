@@ -329,7 +329,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\SimpleBimolecularSink.cpp"
+				RelativePath="..\..\src\plugins\SimpleBimolecularSink.cpp"
 				>
 			</File>
 			<File

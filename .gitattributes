@@ -516,7 +516,6 @@ src/Reaction.cpp -text
 src/Reaction.h -text
 src/ReactionManager.cpp -text
 src/ReactionManager.h -text
-src/SimpleBimolecularSink.cpp -text
 src/Spline.cpp -text
 src/Spline.h -text
 src/System.cpp -text
@@ -550,6 +549,7 @@ src/plugins/LandauZenerCrossingCoeff.cpp -text
 src/plugins/Marquardt.cpp -text
 src/plugins/MesmerILT.cpp -text
 src/plugins/QMRotor.cpp -text
+src/plugins/SimpleBimolecularSink.cpp -text
 src/plugins/SimpleILT.cpp -text
 src/plugins/SimpleRRKM.cpp -text
 src/plugins/ThermodynamicTable.cpp -text

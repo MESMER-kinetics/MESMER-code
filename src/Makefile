@@ -139,6 +139,7 @@ all: ${OUTPUT}
 SRCS := \
 	AssignMolTypes.cpp \
 	AssociationReaction.cpp	\
+	BimolecularSinkReaction.cpp	\
 	CollisionOperator.cpp	\
 	DensityOfStates.cpp \
 	formatfloat.cpp \
@@ -184,6 +185,7 @@ SRCS := \
 	plugins/ThermodynamicTable.cpp \
 	plugins/UnitTests.cpp \
 	plugins/simplecalc.cpp \
+	plugins/SimpleBimolecularSink.cpp \
 	plugins/SimpleILT.cpp \
 	plugins/SimpleRRKM.cpp \
 	plugins/WKBCrossingCoeff.cpp \
