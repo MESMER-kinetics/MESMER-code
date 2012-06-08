@@ -70,7 +70,9 @@ namespace mesmer
 
     bool parseDataForGrainProfileAtTime(PersistPtr pp);
 
-    bool printGrainProfileAtTime(PersistPtr ppAnalysis);
+    bool printGrainProfileAtTime(PersistPtr ppGrainList);
+
+    bool hasGrainProfileData() { return !m_GrainProfileAtTimeData.empty(); }
 
   private:
 

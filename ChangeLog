@@ -1,3 +1,23 @@
+2012-June-08 Chris Morley
+
+	* src/plugins/gridsearch.cpp: set all range variable values to their
+	lower bound at the start. Allows the value attribute to be freely set
+	and single or range runs to chosen by <me:calcMethod> alone.
+	
+	* src/plugins/MesmerILT.cpp, src/plugins/SimpleILT.cpp: correct bug
+	which caused energy conversion during setup of a range variable to 
+	be wrong when the value was 0.
+	
+	* src/CollisionOperator.cpp, src/CollisionOperator.h, src/System.cpp:
+	modify writing of grain population XML output so that include T and
+	conc are included. 
+
+	* src/System.cpp: modify range variable names in the XML output because
+	':' is incompatible with XML.
+	 
+	* mesmer1.xsl, popDiag.xsl: grain population diagram improved but
+	not yet ok when there are multiple conditions.
+
 2012-June-05 Chris Morley
 
 	* src/CollisionOperator.cpp: make grain population output normalised

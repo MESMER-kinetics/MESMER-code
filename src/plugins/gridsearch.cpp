@@ -26,6 +26,10 @@ GridSearch theGridSearch("gridSearch");
 
 inline bool GridSearch::DoCalculation(System* pSys)
 {
+  //Set the values of all range variables to the bottom of their range
+  for(size_t i=0;i!=Rdouble::withRange().size();++i)
+    Rdouble::withRange()[i]->set_to_lower();
+  
   return DoRangeCalcs(0, pSys);
 }
 
@@ -36,7 +40,10 @@ bool GridSearch::DoRangeCalcs(unsigned startvar, System* pSys)
   if(startvar >= Rdouble::withRange().size())
     return CalcAndReport(pSys);
   //Do later variables exhaustively at each iteration
-  do { DoRangeCalcs(startvar+1, pSys); } while(!IsNan(++(*Rdouble::withRange()[startvar])));
+  do 
+  { 
+    DoRangeCalcs(startvar+1, pSys);
+  } while(!IsNan(++(*Rdouble::withRange()[startvar])));
   return true;
 }
 

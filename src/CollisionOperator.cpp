@@ -1817,7 +1817,7 @@ namespace mesmer
     return true;
   }
 
-  bool CollisionOperator::printGrainProfileAtTime(PersistPtr ppAnalysis) {
+  bool CollisionOperator::printGrainProfileAtTime(PersistPtr ppGrainList) {
 
     // Check there is something to do.
     if (!m_GrainProfileAtTimeData.size())
@@ -1842,7 +1842,6 @@ namespace mesmer
       }
     }
 
-    PersistPtr ppGrainList = ppAnalysis->XmlWriteElement("me:grainPopulationList");
     // Iterate over species requested for output
     for (size_t iMol(0); iMol < m_GrainProfileAtTimeData.size(); ++iMol) { 
 

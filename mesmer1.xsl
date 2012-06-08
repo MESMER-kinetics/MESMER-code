@@ -80,6 +80,8 @@
           font-weight:bold;
           text-decoration: underline;
         }
+        .poplabel{color:black; font-weight:bold;} 
+
         table{background-color:#e0f8f8; margin-bottom:12px;}
         td{padding:0px 4px;}
         h3{color:teal;font-family: Arial, Helvetica, sans-serif;}

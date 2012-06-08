@@ -80,7 +80,8 @@ namespace mesmer
         cerr << "activation energy should not be negative when used with ILT" << endl;
         return false;
       }
-      ReadRdoubleRange(string(pReact->getName()+":EInf"), ppPreExponential, m_EInf, rangeSet, value/tmpvalue) ;  
+      ReadRdoubleRange(string(pReact->getName()+":EInf"), ppPreExponential, m_EInf,
+        rangeSet, getConvertedEnergy(unitsInput, 1.0)) ;  
       m_EInf = value ;
       if (rangeSet) {
         double valueL, valueU, stepsize ;

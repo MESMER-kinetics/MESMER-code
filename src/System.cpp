@@ -505,9 +505,12 @@ namespace mesmer
       PersistPtr ppParams = ppAnalysis->XmlWriteElement("me:parameters");
       for(size_t i=0;i!=Rdouble::withRange().size();++i)
       {
+        string varname = Rdouble::withRange()[i]->get_varname();
+        //The varnames contain ':' which is incompatible with XML. replace by '-'.
+        replace(varname.begin(), varname.end(), ':', '-');
         stringstream ss;
         ss << *Rdouble::withRange()[i];
-        ppParams->XmlWriteAttribute(Rdouble::withRange()[i]->get_varname(), ss.str());
+        ppParams->XmlWriteAttribute(varname, ss.str());
       }
     }
 
@@ -576,10 +579,15 @@ namespace mesmer
 
           // Calculate time-dependent properties.
           m_collisionOperator.timeEvolution(m_Flags, ppAnalysis, ppPopList);
-          m_collisionOperator.printGrainProfileAtTime(ppAnalysis);
+          if(m_collisionOperator.hasGrainProfileData())
+          {
+            PersistPtr ppGrainList  = ppAnalysis->XmlWriteElement("me:grainPopulationList");
+            ppGrainList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
+            ppGrainList->XmlWriteAttribute("conc", toString(m_Env.conc));
+            m_collisionOperator.printGrainProfileAtTime(ppGrainList);
+          }
 
           // Calculate rate coefficients. 
-          
           PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
           ppList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
           ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
