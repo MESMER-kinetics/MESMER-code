@@ -18,15 +18,10 @@
     <c>black</c>
     <c>teal</c>
   </xsl:variable>
-  <xsl:variable name="linetypes">
-    <c>0 0</c>  
-    <c>5 5</c>
-    <c>2 2</c>
-    <c>5 2</c>
-    <c>5 2 2 5</c>
-  </xsl:variable>
+  
   <xsl:variable name="popspecies" select="//me:analysis[1]/me:populationList[1]/me:population[1]/me:pop/@ref"/>
-  <!--Make a list of the species being used for grain populations-->
+  
+  <!--Make lists of the species and times being used for grain populations-->
   <xsl:variable name="grainspecies" select="set:distinct(//me:grainPopulation/@ref)"/>
   <xsl:variable name="graintimes" select="set:distinct(//me:grainPopulation/@time)"/>
 
@@ -42,14 +37,15 @@
     <xsl:if test="count($popspecies)">
       <p class="poplabel">Species Populations</p>
     </xsl:if>
+    
     <xsl:apply-templates select="me:populationList" mode="diagram"/>
 
     <xsl:if test="count($grainspecies)">
       <p class="poplabel">Grain Populations</p>
     </xsl:if>
-    <xsl:for-each select="$grainspecies">
-      <xsl:apply-templates select="//me:grainPopulationList/me:grainPopulation[@ref=current()]" mode="diagram"/>
-    </xsl:for-each>
+
+    <xsl:apply-templates select="me:grainPopulationList"/>
+    
   </xsl:template>
 
   <!--=========================================================================-->
@@ -120,65 +116,6 @@
     </svg:svg>
   </xsl:template>
 
-  <!--===============================================================================-->
-  <xsl:template name="grainPopulationDiagram" match="me:grainPopulation" mode="diagram">
-    <xsl:variable name="p" select="me:grainPopulation"/>
-    <xsl:variable name="ymax" select="math:max(//me:grainPopulation/me:grain)"/>
-    <xsl:if test="position()=1">
-      <xsl:if test="//me:grainPopulation[1]=current()">
-        <xsl:call-template name="legend">
-          <xsl:with-param name="nodes" select="$graintimes"/>
-          <xsl:with-param name="ytext" select="'normalised grain pop'"/>
-          <xsl:with-param name="maxy" select="$ymax"/>
-          <xsl:with-param name="miny" select="'0.0'"/>
-        </xsl:call-template>
-      </xsl:if>
-      <xsl:variable name="startval" select="0"/>
-      <xsl:variable name="endval" select="math:max(//me:grainPopulation/me:grain/@energy)"/>
-      <!--Frame of graph-->
-      <svg:svg version="1.1" width="200px" height="220px">
-        <!--species title on top of graph-->
-        <svg:text x="1" y="14" font-family="Verdana" font-size="13" stroke="teal">
-          <xsl:value-of select="@ref"/>
-        </svg:text>
-        <svg:text x="190" y="14"  text-anchor="end" font-family="Verdana" font-size="13">
-          <xsl:value-of select="concat(../@T, 'K ', ../@conc)"/>
-        </svg:text>
-        <svg:rect x="1" y="21" width="198" height="158" fill="white" stroke="black" stroke-width="1"/>
-        <xsl:variable name="every" select="4000"/>
-        <xsl:call-template name="xaxis">
-          <xsl:with-param name="val" select="$startval"/>
-          <xsl:with-param name="maxval" select="$endval"/>
-          <xsl:with-param name="pxperstep" select="(200 * $every) div ($endval - $startval)"/>
-          <xsl:with-param name="xpx" select="200 div ($endval - $startval)"/>
-          <xsl:with-param name="ypx" select="180"/>
-          <xsl:with-param name="every" select="$every"/>
-        </xsl:call-template>
-        <svg:text text-anchor="middle"  font-family="Verdana" font-size="10">
-          <xsl:attribute name="x">
-            <xsl:value-of select="100"/>
-          </xsl:attribute>
-          <xsl:attribute name="y">
-            <xsl:value-of select="208"/>
-          </xsl:attribute>
-          <xsl:value-of select="concat('grain energy, ', @units)"/>
-        </svg:text>
-
-        <!--Contents of graph-->
-        <!--Viewbox puts -ymax at top and 0 at bottom. Values are negated before plotting.-->
-        <svg:svg y="20" height="160" preserveAspectRatio="none" stroke="teal">
-          <xsl:attribute name="viewBox">
-            <xsl:value-of select="concat($startval, ' ', -$ymax, ' ', $endval - $startval, ' ',$ymax)"/>
-          </xsl:attribute>
-          <xsl:call-template name="grainPopLines">
-            <xsl:with-param name="nodes" select="../me:grainPopulation[@ref=current()/@ref]"/>
-          </xsl:call-template>
-
-        </svg:svg>
-      </svg:svg>
-    </xsl:if>
-  </xsl:template>
-
   <!--===================================================-->
   <!--Draw legend and y axis labelling-->
   <xsl:template name="legend">
@@ -186,17 +123,23 @@
     <xsl:param name="ytext"/>
     <xsl:param name="maxy"/>
     <xsl:param name="miny"/>
+    <xsl:param name="headertext"/>
     <svg:svg width="160" height="200">
 
       <!--legend-->
+      <xsl:if test="$headertext">
+        <svg:text x="10" y="10" font-family="Verdana" font-size="12">
+          <xsl:value-of select="$headertext"/>
+        </svg:text>
+      </xsl:if>
       <xsl:for-each select="$nodes">
         <xsl:variable name="pos" select="(position()-1)"/>
         <svg:line stroke-width="4" x1="10" x2="40">
           <xsl:attribute name="y1">
-            <xsl:value-of select="15 + $pos*20"/>
+            <xsl:value-of select="24 + $pos*18"/>
           </xsl:attribute>
           <xsl:attribute name="y2">
-            <xsl:value-of select="15 + $pos*20"/>
+            <xsl:value-of select="24 + $pos*18"/>
           </xsl:attribute>
           <xsl:attribute name="stroke">
             <xsl:value-of select="exsl:node-set($colors)/c[$pos+1]"/>
@@ -204,7 +147,7 @@
         </svg:line>
         <svg:text x="50" font-family="Verdana" font-size="12">
           <xsl:attribute name="y">
-            <xsl:value-of select="20 + $pos*20"/>
+            <xsl:value-of select="29 + $pos*18"/>
           </xsl:attribute>
           <xsl:value-of select="."/>
         </svg:text>
@@ -263,21 +206,6 @@
     </xsl:if>
   </xsl:template>
 
-<!--  
-  <xsl:template name="grainPopYAxisLabel">
-    <xsl:param name="maxy"/>
-    <svg:svg width="50" height="200">
-      <svg:g font-family="Verdana" font-size="10">
-        <svg:text x="-138" y="36" transform="rotate(-90)">normalised grain pop</svg:text>
-        <svg:text x="18" y="8">
-          <xsl:value-of select="$maxy"/>
-        </svg:text>
-        <svg:text x="18" y="160">0.0</svg:text>
-      </svg:g>
-    </svg:svg>
-  </xsl:template>
--->
-  
   <!--===================================================-->
   <!--Draw the lines for each time-->
   <xsl:template name="grainPopLines">
@@ -290,7 +218,7 @@
         </xsl:attribute>
         <xsl:attribute name="d">
           <xsl:variable name="curtime" select="."/>
-          <xsl:value-of select="concat('M ', $nodes/me:grain/@energy ,' -', $nodes/me:grain,' L ')"/>
+          <xsl:value-of select="concat('M 0 0',' L ')"/>
           <xsl:for-each select="$nodes[@time=$curtime]/me:grain">
             <xsl:value-of select="concat(' ',./@energy, ' -', .)"/>
           </xsl:for-each>
@@ -299,6 +227,67 @@
     </xsl:for-each>
   </xsl:template>
 
+  <!--===================================================-->
+  <xsl:template match="me:grainPopulation">
+    <xsl:variable name="ymax" select="math:max(//me:grainPopulation/me:grain)"/>
+    <xsl:if test="position()=count($graintimes)">
+      <div/> <!--to put each set of conditions on a separate line-->
+      <xsl:call-template name="legend">
+        <xsl:with-param name="nodes" select="$graintimes"/>
+        <xsl:with-param name="ytext" select="'normalised grain pop'"/>
+        <xsl:with-param name="maxy" select="$ymax"/>
+        <xsl:with-param name="miny" select="'0.0'"/>
+        <xsl:with-param name="headertext" select="'Time, seconds'"/>
+      </xsl:call-template>
+    </xsl:if>
+    
+    <xsl:variable name="startval" select="0"/>
+    <xsl:variable name="endval" select="math:max(//me:grainPopulation/me:grain/@energy)"/>
+    <xsl:if test="@time=$graintimes[1]">
+      <!--Frame of graph, drawn only once for each set of times-->
+      <svg:svg version="1.1" width="200px" height="220px">
+        <!--species title on top of graph-->
+        <svg:text x="1" y="14" font-family="Verdana" font-size="13" stroke="teal">
+          <xsl:value-of select="@ref"/>
+        </svg:text>
+        <svg:text x="190" y="14"  text-anchor="end" font-family="Verdana" font-size="13">
+          <xsl:value-of select="concat(../@T, 'K ', ../@conc)"/>
+        </svg:text>
+        <svg:rect x="1" y="21" width="198" height="158" fill="white" stroke="black" stroke-width="1"/>
+        <xsl:variable name="every" select="4000"/>
+        <xsl:call-template name="xaxis">
+          <xsl:with-param name="val" select="$startval"/>
+          <xsl:with-param name="maxval" select="$endval"/>
+          <xsl:with-param name="pxperstep" select="(200 * $every) div ($endval - $startval)"/>
+          <xsl:with-param name="xpx" select="200 div ($endval - $startval)"/>
+          <xsl:with-param name="ypx" select="180"/>
+          <xsl:with-param name="every" select="$every"/>
+        </xsl:call-template>
+        <svg:text text-anchor="middle"  font-family="Verdana" font-size="10">
+          <xsl:attribute name="x">
+            <xsl:value-of select="100"/>
+          </xsl:attribute>
+          <xsl:attribute name="y">
+            <xsl:value-of select="208"/>
+          </xsl:attribute>
+          <xsl:value-of select="concat('grain energy, ', @units)"/>
+        </svg:text>
+        
+        <!--Contents of graph-->
+        <!--Viewbox puts -ymax at top and 0 at bottom. Values are negated before plotting.-->
+        <svg:svg y="20" height="160" preserveAspectRatio="none" stroke="teal">
+          <xsl:attribute name="viewBox">
+            <xsl:value-of select="concat($startval, ' ', -$ymax, ' ', $endval - $startval, ' ',$ymax)"/>
+          </xsl:attribute>
+          <!--Draw lines a single species and all times-->
+          <xsl:call-template name="grainPopLines">
+            <xsl:with-param name="nodes" select="../me:grainPopulation[@ref=current()/@ref]"/>
+          </xsl:call-template>
+        </svg:svg>
+      </svg:svg>
+    </xsl:if>
+  </xsl:template>
+  
   <!-- Probably because XPath 1.0 doesn't use scientific numbers, some numbers give NaN when  
        arithmetic is done on them in XSLT before passing on to SVG. Consequently, the minus
        sign needed to invert the y axis is provided separately and the number is presumably
