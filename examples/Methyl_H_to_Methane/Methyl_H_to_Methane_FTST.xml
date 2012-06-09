@@ -110,40 +110,22 @@
       </property>
     </molecule>
 
-    <molecule id="He">
-      <atom elementType="He"/>
+    <molecule id="TS1" description="TransistionState">
       <propertyList>
-        <property dictRef="me:epsilon">
-          <scalar>10.22</scalar>
-        </property>
-        <property dictRef="me:sigma">
-          <scalar>2.511</scalar>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">103.43</scalar>
         </property>
         <property dictRef="me:MW">
-          <scalar>4.04</scalar>
+          <scalar units="amu">40</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>6</scalar>
         </property>
       </propertyList>
-    </molecule>
-
-  </moleculeList>
-
-  <reactionList>
-
-    <reaction id="R1" reversible="true">
-      <reactant>
-        <molecule ref="Methyl"  me:type="deficientReactant" />
-      </reactant>
-
-      <reactant>
-        <molecule ref="H"  me:type="excessReactant" />
-      </reactant>
-
-      <product>
-        <molecule ref="Methane"  me:type="modelled" />
-      </product>
-
-      <me:MCRCMethod>DefinedSumOfStates</me:MCRCMethod>
-      <me:SumOfStates units="cm-1" angularMomentum="true">
+      <me:SumOfStates units="cm-1" angularMomentum="true" noLogSpline="false">
         <me:SumOfStatesPoint energy="  154.87240" angMomMag=" 0"> 0.12620E+02 </me:SumOfStatesPoint>
         <me:SumOfStatesPoint energy="  247.90776" angMomMag=" 0"> 0.24010E+02 </me:SumOfStatesPoint>
         <me:SumOfStatesPoint energy="  413.06302" angMomMag=" 0"> 0.42410E+02 </me:SumOfStatesPoint>
@@ -553,6 +535,45 @@
         <me:SumOfStatesPoint energy="22216.56464" angMomMag="80"> 0.27680E+09 </me:SumOfStatesPoint>
 
       </me:SumOfStates>
+    </molecule>
+
+    <molecule id="He">
+      <atom elementType="He"/>
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>10.22</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>2.511</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>4.04</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+  </moleculeList>
+
+  <reactionList>
+
+    <reaction id="R1" reversible="true">
+      <reactant>
+        <molecule ref="Methyl"  me:type="deficientReactant" />
+      </reactant>
+
+      <reactant>
+        <molecule ref="H"  me:type="excessReactant" />
+      </reactant>
+
+      <product>
+        <molecule ref="Methane"  me:type="modelled" />
+      </product>
+
+      <me:transitionState>
+        <molecule ref="TS1" me:type="transitionState" />
+      </me:transitionState>
+
+      <me:MCRCMethod>DefinedSumOfStates</me:MCRCMethod>
 
     </reaction>
 

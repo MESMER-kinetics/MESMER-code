@@ -1,3 +1,7 @@
+2012-June-09 Struan Robertson
+
+	* DefinedSumOfStates.cpp: Splines added to calculate reaction flux.
+	
 2012-June-08 Chris Morley
 
 	* src/plugins/gridsearch.cpp: set all range variable values to their

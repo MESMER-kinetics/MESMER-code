@@ -29,6 +29,7 @@ namespace mesmer
 		~Spline() {} ;
 
 		bool Initialize(const std::vector<double> &x, const std::vector<double> &y, double lower = naturalLimit, double upper = naturalLimit) ; 
+		bool Initialize(const std::vector<std::pair<double,double> >* data,         double lower = naturalLimit, double upper = naturalLimit) ; 
 
 		double Calculate(double x) const ;
 

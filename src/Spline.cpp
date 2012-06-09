@@ -90,6 +90,17 @@ namespace mesmer
 	return m_splineDefined ;
   }
 
+  bool Spline::Initialize(const std::vector<std::pair<double,double> >* pdata,  double lower, double upper) {
+
+	size_t nsize = pdata->size() ;
+	vector<double> x(nsize, 0.0),  y(nsize, 0.0) ;
+	for (size_t i(0) ; i < nsize ; i++ ) {
+	  x[i] = (*pdata)[i].first ;
+	  y[i] = (*pdata)[i].second ;
+	}
+	return Initialize(x, y, lower, upper) ;
+  }
+
   double Spline::Calculate(double x) const {
 	double y(0.0) ;
 
