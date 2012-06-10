@@ -23,7 +23,6 @@
   
   <!--Make lists of the species and times being used for grain populations-->
   <xsl:variable name="grainspecies" select="set:distinct(//me:grainPopulation/@ref)"/>
-  <xsl:variable name="graintimes" select="set:distinct(//me:grainPopulation/@time)"/>
 
   <!--============================================-->
   <xsl:template match="//me:analysis" mode="diagram">
@@ -229,8 +228,10 @@
 
   <!--===================================================-->
   <xsl:template match="me:grainPopulation">
+    <xsl:variable name="pos" select="position()"/>
+    <xsl:variable name="graintimes" select="set:distinct(../me:grainPopulation[@ref=current()/@ref]/@time)"/>
     <xsl:variable name="ymax" select="math:max(//me:grainPopulation/me:grain)"/>
-    <xsl:if test="position()=count($graintimes)">
+    <xsl:if test="position()=2"> <!--why 2 and not 1?-->
       <div/> <!--to put each set of conditions on a separate line-->
       <xsl:call-template name="legend">
         <xsl:with-param name="nodes" select="$graintimes"/>

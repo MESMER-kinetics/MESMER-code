@@ -1,3 +1,15 @@
+2012-June-10 Chris Morley
+
+	* src/CollisionOperator.cpp, MesmerQA/pentyl/pentyl_isomerization_test.xml:
+	change XML syntax to request grain populations, which are now output
+	at the same times for each species. This should be good enough and avoids
+	complicating the XSLT display. Data structure in m_GrainProfileAtTimeData
+	is unchanged.
+
+	* popDiag.xsl: another try to get grain population diagram right.
+	
+	* src/System.cpp: use sources other than %MESMER_AUTHOR% for author in
+	metadata.
 
 2012-June-10 Struan Robertson
 

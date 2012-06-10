@@ -300,12 +300,10 @@
     <me:eigenvalues>all</me:eigenvalues>
     
     <me:printGrainProfileAtTime ref="n-pentyl">
-      <me:time>1e-07</me:time>
-      <me:time>1e-04</me:time>
-    </me:printGrainProfileAtTime>
-    <me:printGrainProfileAtTime ref="2-pentyl">
-      <me:time>1e-07/</me:time>
-      <me:time>1e-04</me:time>
+      <ref>n-pentyl</ref>
+      <ref>2-pentyl</ref>
+      <me:time>1e-08</me:time>
+      <me:time>1e-03</me:time>
     </me:printGrainProfileAtTime>
 
   </me:control>

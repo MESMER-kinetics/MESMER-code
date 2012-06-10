@@ -843,8 +843,11 @@ namespace mesmer
     cinfo << "Write metadata " << timeString << endl;
     ppList->XmlWriteValueElement("dc:date", timeString);
 
-    //The user's name should be in an environment variable attached to his account (not a System variable)
     const char* author = getenv("MESMER_AUTHOR");
+    if(!author)
+      author = getenv("USERNAME"); //Windows
+    if(!author)
+      author = getenv("LOGNAME"); //Unix?
     if(!author)
       author = "unknown";
     ppList->XmlWriteValueElement("dc:contributor", author);

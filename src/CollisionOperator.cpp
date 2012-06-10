@@ -1783,37 +1783,45 @@ namespace mesmer
   bool CollisionOperator::parseDataForGrainProfileAtTime(PersistPtr ppData)
   {
     //This is called from System::parse()
-    do
+    //Grain Populations are now calculated at the same times for each species.
+    //This means that m_GrainProfileAtTimeData is overcomplicated, but has
+    //not been changed.
+    PersistPtr pp = ppData;
+    vector<Molecule*> refs;
+    while( (pp = pp->XmlMoveTo("ref")) )
     {
-      const char* pRef = ppData->XmlReadValue("ref", optional);
-      if(!pRef)
-      {
-        cerr << "Need to specify the species with a \"ref\" attribute on me:printGrainProfileAtTime" << endl;
-        return false;
-      }
-
+      const char* pRef =pp->XmlRead();
       Molecule* pMol = m_pMoleculeManager->find(pRef);
       if(!pMol)
         return false; //error message is in find()
-      double tim;
-      vector<double> times;
-      PersistPtr pp = ppData;
-      while( pp = pp->XmlMoveTo("me:time"))
-      {
-        const char* ptimtxt =pp->XmlRead();
-        stringstream ss(ptimtxt);
-        ss >>tim;
-        times.push_back(tim);
-      }
-      if(times.empty())
-      {
-        cerr << "Need to specify at least one time in a \"time\" element in me:printGrainProfileAtTime";
-        return false;
-      }
-      m_GrainProfileAtTimeData.push_back(make_pair(pMol, times));
-      //go for next species
-      ppData = ppData->XmlMoveTo("me:printGrainProfileAtTime");
-    } while(ppData);
+      refs.push_back(pMol);
+    }
+    if(refs.empty())
+    {
+      cerr << " me:printGrainProfileAtTime needs one or more <ref> element to specify the species"
+        " (Not <me:ref>)" << endl;
+      return false;
+    }
+
+    pp = ppData;
+    double tim;
+    vector<double> times;
+    while( pp = pp->XmlMoveTo("me:time"))
+    {
+      const char* ptimtxt =pp->XmlRead();
+      stringstream ss(ptimtxt);
+      ss >> tim;
+      times.push_back(tim);
+    }
+    if(times.empty())
+    {
+      cerr << "Need to specify at least one time in a <time> element in me:printGrainProfileAtTime";
+      return false;
+    }
+    
+    for(unsigned i=0; i<refs.size(); ++i)
+      m_GrainProfileAtTimeData.push_back(make_pair(refs[i], times));
+    
     return true;
   }
 
