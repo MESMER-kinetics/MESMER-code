@@ -1,3 +1,11 @@
+
+2012-June-10 Struan Robertson
+
+	* CollisionOperator.cpp/.h: Fixed bug relating to basis set method.
+
+	* ExponentialDown.cpp: Removed exit(1) statement as this prevented error 
+	statements from being written.
+
 2012-June-10 Chris Morley
 
 	* src/CollisionOperator.cpp, MesmerQA/pentyl/pentyl_isomerization_test.xml:
@@ -13,7 +21,7 @@
 
 2012-June-10 Struan Robertson
 
-	* SimpleILT.cpp: Fixed bug relating to readin of activation energy.
+	* SimpleILT.cpp: Fixed bug relating to reading of activation energy.
 
 	* Reaction.h: Minor refactoring.
 

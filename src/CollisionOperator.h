@@ -122,6 +122,7 @@ namespace mesmer
 
     // Equilibrium distribution.
     std::vector<qd_real>    m_eqVector;
+	size_t                  m_eqVecSize ;
 
     bool                    m_punchSymbolGathered;
 

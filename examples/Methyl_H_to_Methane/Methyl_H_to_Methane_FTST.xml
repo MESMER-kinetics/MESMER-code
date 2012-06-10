@@ -48,7 +48,8 @@
           <scalar>153.0</scalar>
         </property>
         <property dictRef="me:deltaEDown">
-          <scalar units="cm-1" referenceTemperature="298." exponent="0.6">210.0</scalar>
+          <!--<scalar units="cm-1" referenceTemperature="298." exponent="0.6">210.0</scalar>-->
+          <scalar units="cm-1" lower="160" upper="300" stepsize="10">190.0</scalar>
         </property>
       </propertyList>
 
@@ -70,7 +71,8 @@
       </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
-          <scalar units="cm-1">36600.0</scalar>
+          <!--<scalar units="cm-1">36600.0</scalar>-->
+          <scalar units="kcal/mol">103.43</scalar>
         </property>
         <property dictRef="me:rotConsts">
           <array units="cm-1">4.723 9.471 9.471</array>
@@ -113,7 +115,7 @@
     <molecule id="TS1" description="TransistionState">
       <propertyList>
         <property dictRef="me:ZPE">
-          <scalar units="kJ/mol">103.43</scalar>
+          <scalar units="kcal/mol" lower="93.0" upper="113.0" stepsize="10">103.43</scalar>
         </property>
         <property dictRef="me:MW">
           <scalar units="amu">40</scalar>
@@ -703,9 +705,10 @@
   </me:modelParameters>
 
   <me:control>
-    <me:calcMethod>simpleCalc</me:calcMethod>
-    <!--<me:fittingTolerance>0.1</me:fittingTolerance>-->
-    <me:fittingIterations>5</me:fittingIterations>
+    <me:calcMethod>marquardt</me:calcMethod>
+    <me:MarquardtIterations>10</me:MarquardtIterations>
+    <me:MarquardtTolerance>0.01</me:MarquardtTolerance>
+    <me:MarquardtDerivDelta>1.e-03</me:MarquardtDerivDelta>
     <me:testDOS />
     <me:eigenvalues>5</me:eigenvalues>
   </me:control>
