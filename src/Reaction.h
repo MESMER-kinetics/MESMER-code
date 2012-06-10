@@ -66,11 +66,7 @@ namespace mesmer
       const double rctZPE = get_relative_rctZPE();
       return pdtZPE - rctZPE;
     };
-    int getHeatOfReactionInt() const      {
-      const int pdtZPE = int(get_relative_pdtZPE());
-      const int rctZPE = int(get_relative_rctZPE());
-      return pdtZPE - rctZPE;
-    };
+    int getHeatOfReactionInt() const      { return int(getHeatOfReaction()) ; }
     const MesmerEnv& getEnv() const { return m_Env; } ;
     MesmerFlags& getFlags() { return m_Flags; } ;
     void resetCalcFlag(){ m_reCalcMicroRateCoeffs = true; };

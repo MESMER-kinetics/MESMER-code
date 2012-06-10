@@ -4,6 +4,8 @@
 #include <iomanip>
 #include <stdexcept>
 #include "XMLPersist.h"
+#include "TimeCounter.h"
+#include "MesmerConfig.h"
 
 using namespace std;
 

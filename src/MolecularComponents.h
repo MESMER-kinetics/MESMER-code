@@ -23,6 +23,7 @@
 #include "Rdouble.h"
 #include "EnergyTransferModel.h"
 #include "vector3.h"
+#include "dMatrix.h"
 
 using namespace std ;
 using namespace Constants ;
@@ -40,6 +41,7 @@ namespace mesmer
     UNDEFINED_TOP
   } ;
 
+  // Forward class declarations.
   class Molecule;
 
   class MolecularComponent{

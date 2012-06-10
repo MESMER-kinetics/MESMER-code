@@ -1,3 +1,12 @@
+
+2012-June-10 Struan Robertson
+
+	* SimpleILT.cpp: Fixed bug relating to readin of activation energy.
+
+	* Reaction.h: Minor refactoring.
+
+	* Revised header file include strategy.
+	
 2012-June-09 Struan Robertson
 
 	* DefinedSumOfStates.cpp: Splines added to calculate reaction flux.

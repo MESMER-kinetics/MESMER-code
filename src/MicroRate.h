@@ -3,6 +3,7 @@
 
 #include <map>
 #include "XMLPersist.h"
+#include "MesmerTools.h"
 #include "Rdouble.h"
 
 namespace mesmer
