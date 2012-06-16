@@ -1,3 +1,14 @@
+2012-June-16 Chris Morley
+
+	* src/CollisionOperator.cpp: Add unnormalised log output for grain
+	populations.
+
+	* mesmer1.xsl: Add another text section in Firefox output for grain
+	populations, to make cutting and pasting for speadsheets possible.
+	 
+	* popDiag.xsl: Add unnormalised log plots for grain populations. Include
+	energies of transition states on plot. Maybe duplicated code should be
+	tidied.
 
 2012-June-10 Struan Robertson
 

@@ -1901,15 +1901,21 @@ namespace mesmer
           //ppGrainPop->XmlWriteAttribute("logTime", toString(log10(Times[iTime])));
           ppGrainPop->XmlWriteAttribute("me:pop", toString(totalPop));
           ppGrainPop->XmlWriteAttribute("units", "cm-1");
+          
+          // Output grain population at each grain energy in two forms:
+          // normalised - sum of all = 1; and log of unnormalised value
+          stringstream ssgpop;
           for(size_t j(0); j < slsize-1; ++j)  
           {
-            // Output normalised grain population at each grain energy
-            // but not if very small
-            double gpop = density[j]/totalPop;
-            if(abs(gpop)<1e-7)
-              continue;
-            PersistPtr ppGrain = ppGrainPop->XmlWriteValueElement("me:grain", gpop, 6, true); //fixed format only
-            ppGrain->XmlWriteAttribute("energy", toString((j+0.5) * pMol->getEnv().GrainSize)); //cm-1
+            if(density[j]>=1e-11) //ignore point if density is very small
+            {
+              ssgpop.str("");
+              ssgpop << fixed << setprecision(6) << density[j]/totalPop;
+              PersistPtr ppGrain = ppGrainPop->XmlWriteElement("me:grain");
+              ppGrain->XmlWriteAttribute("energy", toString((j+0.5) * pMol->getEnv().GrainSize)); //cm-1
+              ppGrain->XmlWriteAttribute("normpop", ssgpop.str());
+              ppGrain->XmlWriteAttribute("logpop", toString(log10(density[j])));
+            }
           }
         }
       }

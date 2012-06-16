@@ -198,6 +198,13 @@
       </div>
     </xsl:if>
 
+    <xsl:if test="//me:grainPopulationList">
+      <h3 id="GrainPopulations-title" class="handcursor">Grain populations at selected times</h3>
+      <div id="GrainPopulations" class="switchgroup11">
+        <xsl:apply-templates select="//me:grainPopulationList"/>
+      </div>
+    </xsl:if>
+      
       <xsl:if test="//me:eigenvalueList">
         <h3 id="Eigenvalues-title" class="handcursor">Eigenvalues</h3>
         <div id="Eigenvalues" class="switchgroup9">
@@ -216,7 +223,7 @@
 
       <xsl:if test="//me:experimentalRate | //me:experimentalYield | //experimentalEigenvalue">
       <h3 id="ExperimentalData-title" class="handcursor">Comparison with Experimental Data</h3>
-      <div id="ExperimentalData" class="switchgroup10">
+      <div id="ExperimentalData" class=" ">
     <xsl:apply-templates select="//me:PTs"/>
       </div>
     </xsl:if>
@@ -229,7 +236,7 @@
     <!--Script for expanding an contracting sections-->
     <script type="text/javascript">
       <![CDATA[
-        for(var i=1; i <=10; i++)
+        for(var i=1; i <=12; i++)
         {
           var mc=new switchcontent("switchgroup" + i)
           mc.setStatus('- ','+ ')
@@ -463,6 +470,48 @@
     </table>
   </xsl:template>
 
+<!--===========================================================-->
+  <xsl:template match="//me:grainPopulation">
+    <xsl:if test="position()=2"><!--why 2 not 1?-->
+      <p>See graphs below. This section is mainly for copying and pasting to a spreadsheet.</p>
+    </xsl:if>
+    <p class="paramheader">
+      <xsl:for-each select="../../me:parameters/@*">
+        <xsl:value-of select="concat(name(),'=',.,', ')"/>
+      </xsl:for-each>
+    </p>
+    <table>
+      <tr>
+        <td class="tablehead1" colspan="3" align="center">
+          <xsl:value-of select="concat(@ref,' at ',@time,' ',../@T,'K ', ../@conc,' molecules cm')"/>
+          <sup>-3</sup>
+        </td>
+      </tr>
+      <tr><td class="tablehead3">Grain Energy,cm-1</td>
+          <td class="tablehead3">Normalised Pop</td>
+          <td class="tablehead3">Log Pop</td>
+      </tr>
+      <xsl:apply-templates select="me:grain"/>
+    </table>
+  </xsl:template>
+  
+  <!--===========================================================-->
+  <xsl:template match="me:grain">
+    <!--Writes a row in the grain population table--> 
+    <tr>
+      <td>
+        <xsl:value-of select="@energy"/>
+      </td>
+      <td>
+        <xsl:value-of select="@normpop"/>
+      </td>
+      <td>
+        <xsl:value-of select="@logpop"/>
+      </td>
+    </tr>
+  </xsl:template>
+
+  <!--===========================================================-->
   <xsl:template match="//me:eigenvalueList">
     <p class="normal2">
       <span class="tableheader">
