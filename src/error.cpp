@@ -1,6 +1,6 @@
 /**********************************************************************
-oberror.cpp - Handle error messages.
-Details at end of oberror.cpp
+error.cpp - Handle error messages.
+Details at end of error.cpp
 
 Copyright (C) 2007 by Chris Morley
 Based on original code from OpenBabel 
@@ -8,7 +8,7 @@ Copyright (C) 2002 by Stefan Kebekus, 2002-2006 by Geoffrey R. Hutchison
 ***********************************************************************/
 
 #include <algorithm>
-#include "oberror.h"
+#include "error.h"
 
 using namespace std;
 

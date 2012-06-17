@@ -16,7 +16,7 @@
 
 //#include <stdexcept>
 #include <sstream>
-#include "oberror.h"
+#include "error.h"
 #include "formatfloat.h"
 
 using namespace std;

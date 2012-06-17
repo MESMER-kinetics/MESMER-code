@@ -6,7 +6,7 @@
 #include <iostream>
 #include <ctime>
 #include <vector>
-#include "oberror.h"
+#include "error.h"
 
 //------------------------
 //Usage:

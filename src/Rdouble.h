@@ -5,7 +5,7 @@
 #include <string>
 #include "Constants.h"
 #include "MesmerConfig.h"
-#include "oberror.h"
+#include "error.h"
 #include "Persistence.h"
 
 namespace mesmer

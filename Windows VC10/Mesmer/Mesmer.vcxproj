@@ -96,6 +96,7 @@
     <ClCompile Include="..\..\src\AssignMolTypes.cpp" />
     <ClCompile Include="..\..\src\AssociationReaction.cpp" />
     <ClCompile Include="..\..\src\BimolecularSinkReaction.cpp" />
+    <ClCompile Include="..\..\src\error.cpp" />
     <ClCompile Include="..\..\src\plugins\BeyerSwinehart.cpp" />
     <ClCompile Include="..\..\src\plugins\BoltzmannDistribution.cpp" />
     <ClCompile Include="..\..\src\plugins\ClassicalRotor.cpp" />
@@ -125,7 +126,6 @@
     <ClCompile Include="..\..\src\MolecularComponents.cpp" />
     <ClCompile Include="..\..\src\Molecule.cpp" />
     <ClCompile Include="..\..\src\MoleculeManager.cpp" />
-    <ClCompile Include="..\..\src\oberror.cpp" />
     <ClCompile Include="..\..\src\plugins\QMRotor.cpp" />
     <ClCompile Include="..\..\src\plugins\SimpleBimolecularSink.cpp" />
     <ClCompile Include="..\..\src\plugins\UnitTests.cpp" />
@@ -158,6 +158,7 @@
     <ClInclude Include="..\..\src\Distribution.h" />
     <ClInclude Include="..\..\src\dMatrix.h" />
     <ClInclude Include="..\..\src\EnergyTransferModel.h" />
+    <ClInclude Include="..\..\src\error.h" />
     <ClInclude Include="..\..\src\plugins\FittingUtils.h" />
     <ClInclude Include="..\..\src\formatfloat.h" />
     <ClInclude Include="..\..\src\IrreversibleExchangeReaction.h" />
@@ -175,7 +176,6 @@
     <ClInclude Include="..\..\src\MolecularComponents.h" />
     <ClInclude Include="..\..\src\Molecule.h" />
     <ClInclude Include="..\..\src\MoleculeManager.h" />
-    <ClInclude Include="..\..\src\oberror.h" />
     <ClInclude Include="..\..\src\Persistence.h" />
     <ClInclude Include="..\..\src\Rdouble.h" />
     <ClInclude Include="..\..\src\Reaction.h" />

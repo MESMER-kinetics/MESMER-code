@@ -16,7 +16,7 @@
 #ifdef __A2D_DUMP__
 #include <iostream>
 #endif
-#include "oberror.h"
+#include "error.h"
 using namespace mesmer;
 using namespace std;
 

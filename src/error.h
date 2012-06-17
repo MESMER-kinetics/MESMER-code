@@ -1,5 +1,5 @@
 /**********************************************************************
-oberror.h - Handle error messages.
+error.h - Handle error messages.
 Details at end of oberror.cpp
  
 Copyright (C) 2007 by Chris Morley
