@@ -1278,7 +1278,9 @@ namespace mesmer
   //
   bool gWellProperties::collisionOperator(double beta)
   {
-	if (m_host->getDOS().test_rotConsts() == UNDEFINED_TOP) return true;
+	if (m_host->getDOS().test_rotConsts() == UNDEFINED_TOP){   // davidglo, requirement for the diamond work.
+		cinfo << "For " << m_host->getName() << ", there no rotational states are defined... only vibrations will be used to construct the molecular DOS" << endl;
+	}
 	//
 	//     i) Determine Probabilities of Energy Transfer.
 	//    ii) Normalisation of Probability matrix.
@@ -1398,7 +1400,7 @@ namespace mesmer
 		  // Transfer to higher Energy (via detailed balance) -
 		  (*egme)[j][i] = transferDown * (nj/ni) * exp(-beta*(ej - ei)) ;
 		}
-	  }
+		}
 	}
 
 	return true ;

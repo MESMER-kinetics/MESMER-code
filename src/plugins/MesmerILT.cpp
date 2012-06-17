@@ -319,7 +319,7 @@ namespace mesmer
     const double constant   = Ainf * pow(beta0,Ninf)/gammaValue;
 
     vector<double> conv;
-    if (fabs(Ninf) > 0.0 ) {
+    if (Ninf > 0.0 ) {
       //
       // The expression held in the elements of the vector work has been altered from the
       // simple mean to analytic integral_x_to_y{E^(Ninf-1)dE}, where x and y are lower and
@@ -332,10 +332,8 @@ namespace mesmer
       }
       FastLaplaceConvolution(work, rctCellDOS, conv);    // FFT convolution replaces the standard convolution
     } else {
-      // Need to account for the case when Ninf is zero.
-      for (int i = 0; i < MaximumCell; ++i){
-        conv[i] = rctCellDOS[i] ;
-      }
+			cerr << "nInfinity for unimolecular ILT must be greater than zero... if you want zero, respecify as a small number, e.g., 0.0001" << endl;
+			exit(1);
     }
 
     for (int i = 0; i < MaximumCell; ++i)

@@ -751,7 +751,7 @@ namespace mesmer
     vector<double> timePoints;
     for (int i = 0; i <= 300; ++i){
       double thetime = pow(10., static_cast<double>(i) / 10. - 20.);
-      if (thetime < shortestTime) continue;
+      if (thetime < shortestTime) continue;  
       if (thetime > maxEvoTime) break;
       timePoints.push_back(thetime);
     }
@@ -818,7 +818,31 @@ namespace mesmer
         }
         ctest << endl;
       }
+
+      // now print out the average of the grain energy in each isomer
+			ctest << endl << "average energy in each isomer (kJ/mol)" << endl;
+			for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
+				Molecule* isomer = ipos->first;
+				ctest << isomer->getName() << ": " << endl; 
+				ctest << "\t" << endl;
+				for(size_t timestep(0); timestep < maxTimeStep; ++timestep){
+					double averageEnergy(0.0);
+					double totalIsomerPopulation(0.0);
+					for(size_t grain = ipos->second; grain < isomer->getColl().get_colloptrsize(); ++grain){
+						totalIsomerPopulation += grnProfile[grain][timestep];  // determine how much total population in each isomer at time t
+					}
+					double sizeDum = isomer->getEnv().GrainSize;
+					for(size_t grain = ipos->second; grain < isomer->getColl().get_colloptrsize(); ++grain){
+						averageEnergy +=  isomer->getEnv().GrainSize*grain*grnProfile[grain][timestep]/83.59;		 // calculate the average energy in each isomer at time t
+					}
+					formatFloat(ctest,averageEnergy/totalIsomerPopulation, 6, 15);    // normalize by the total population in each isomer
+				}
+				ctest << endl;
+			}
+
       ctest << "}\n";
+
+
 
       PersistPtr ppGrainList = ppAnalysis->XmlWriteElement("me:grainPopulationList");
       size_t timestep = maxTimeStep/2; //temporary value

@@ -237,6 +237,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\plugins\GaussianModel.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\plugins\gridsearch.cpp"
 				>
 			</File>
