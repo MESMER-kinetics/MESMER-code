@@ -139,9 +139,10 @@ all: ${OUTPUT}
 SRCS := \
 	AssignMolTypes.cpp \
 	AssociationReaction.cpp	\
-	BimolecularSinkReaction.cpp	\
-	CollisionOperator.cpp	\
+      BimolecularSinkReaction.cpp \
+	CollisionOperator.cpp \
 	DensityOfStates.cpp \
+	error.cpp \
 	formatfloat.cpp \
 	IrreversibleExchangeReaction.cpp \
 	IrreversibleUnimolecularReaction.cpp \
@@ -155,7 +156,6 @@ SRCS := \
 	MolecularComponents.cpp \
 	Molecule.cpp \
 	MoleculeManager.cpp \
-	oberror.cpp \
 	Rdouble.cpp \
 	Reaction.cpp \
 	ReactionManager.cpp \
@@ -173,8 +173,9 @@ SRCS := \
 	plugins/DefinedSumOfStates.cpp \
 	plugins/EckartCoefficients.cpp \
 	plugins/ExponentialDown.cpp \
-	plugins/FittingUtils.cpp \
 	plugins/fitting.cpp \
+	plugins/FittingUtils.cpp \
+	plugins/GaussianModel.cpp \
 	plugins/gridsearch.cpp \
 	plugins/HinderedRotorQM1D.cpp \
 	plugins/HinderedRotorCM1D.cpp \
@@ -182,12 +183,11 @@ SRCS := \
 	plugins/Marquardt.cpp \
 	plugins/MesmerILT.cpp \
 	plugins/QMRotor.cpp \
-	plugins/ThermodynamicTable.cpp \
-	plugins/UnitTests.cpp \
+      plugins/SimpleBimolecularSink.cpp \
 	plugins/simplecalc.cpp \
-	plugins/SimpleBimolecularSink.cpp \
 	plugins/SimpleILT.cpp \
 	plugins/SimpleRRKM.cpp \
+	plugins/ThermodynamicTable.cpp \
 	plugins/WKBCrossingCoeff.cpp \
 	plugins/WKBTunnellingCoefficients.cpp 
 

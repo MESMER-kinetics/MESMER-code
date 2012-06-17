@@ -221,6 +221,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\error.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\plugins\ExponentialDown.cpp"
 				>
 			</File>
@@ -310,10 +314,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\MoleculeManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\oberror.cpp"
 				>
 			</File>
 			<File
@@ -443,6 +443,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\error.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\plugins\FittingUtils.h"
 				>
 			</File>
@@ -508,10 +512,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\MoleculeManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\oberror.h"
 				>
 			</File>
 			<File

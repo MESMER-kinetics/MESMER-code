@@ -43,7 +43,7 @@ static const double NaN = std::numeric_limits<double>::quiet_NaN();
 
 #define IsNan isnan
 const char FileSeparatorChar = '/';
-static const double NaN = NAN;
+static const double NaN = NaN;
 
 #endif
 // -------------------   Compiler specific configuration
