@@ -28,6 +28,8 @@ namespace mesmer
     obDebug      //!< for messages only useful for debugging purposes
   };
 
+  enum errorQualifier {always, onceOnly};
+
   //******************************************************************
   //Global output streams which by default go to clog
   //They are redirected in a MessageHandler constructor
@@ -48,7 +50,7 @@ namespace mesmer
       //! Throw an error in the specified method with an appropriate level
       //! If context is empty, the default text is used 
       void ThrowError(const std::string &context, const std::string &errorMsg,
-                      obMessageLevel level = obDebug) const;
+                      obMessageLevel level = obDebug, errorQualifier qualifier = always) const;
 
       //! Start logging messages (default)
       void StartLogging() { _logging = true; }
@@ -109,9 +111,10 @@ namespace mesmer
   public:
     //! The constructor sets the destination and level of the messages that are sent.
     obLogBuf(obMessageLevel level, MessageHandler* dest)
-      : _messageLevel(level), _handler(dest) {}
+      : _messageLevel(level), _handler(dest), _qualifier(always) {}
 
     virtual ~obLogBuf() { sync(); } //flush at the end
+    void setOnce() { _qualifier = onceOnly; };
 
   protected:
     //! Call MessageHandler::ThrowError() and flush the buffer
@@ -120,6 +123,7 @@ namespace mesmer
   private:
     obMessageLevel _messageLevel;
     MessageHandler* _handler;
+    errorQualifier _qualifier; 
   };
 
 //********************************************************************************
@@ -178,6 +182,19 @@ public:
 private:
   obMessageLevel oldLevel;
 };
+
+
+// Manipulator to set errorQualifier in the buffer to onceOnly.
+// Has no effect if the output stream does not have a obLogBuf buffer.
+template<class charT, class traits>
+std::basic_ostream<charT,traits>& once(std::basic_ostream<charT,traits>& out)
+{
+  obLogBuf* plogbuf = dynamic_cast<obLogBuf*>(out.rdbuf());
+  if(plogbuf)
+    plogbuf->setOnce();
+  return out;
+}
+
 
 } // end namespace
 

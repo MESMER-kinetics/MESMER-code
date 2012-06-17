@@ -153,9 +153,20 @@ namespace mesmer
 	  deltaEDown = deltaEDown * pow((temperature/m_refTemp),m_dEdExp);
 	}
 
-	// issue a warning message and exit if delta_E_down is smaller than grain size.
+  /******************************************************************************
+	Issue a warning message if delta_E_down is smaller than grain size.
+  When using cerr or cwarn, the message is displayed on the console and also added to
+  the log file (usually mesmer.log). Using cinfo outputs to the log file only.
+  Message may be prefixed by a "context" like "In R1:". Making an ErrorContext object
+  sets the current context, and the previous context is restored when the object goes
+  out of scope.
+  The "once" manipulator causes the error message to be output only once if it is
+  repeated (as this one would be). The message includes the context, so that if more
+  than one molecule has an over-small delta_E_down there is a message for each molecule.
+  ******************************************************************************/
 	if (deltaEDown < double(getParent()->getEnv().GrainSize) && !getParent()->getFlags().allowSmallerDEDown){
-	  cerr << "Delta E down is smaller than grain size: the solution may not converge.";
+	  ErrorContext e(getParent()->getName());
+    cerr << "Delta E down is smaller than grain size: the solution may not converge." << once << endl;
 	}
 	return exp(-(Ei -Ej)/deltaEDown) ;
   }

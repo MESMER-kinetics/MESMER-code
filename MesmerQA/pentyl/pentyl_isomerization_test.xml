@@ -299,7 +299,7 @@
     <me:printSpeciesProfile />
     <me:eigenvalues>all</me:eigenvalues>
     
-    <me:printGrainProfileAtTime ref="n-pentyl">
+    <me:printGrainProfileAtTime>
       <ref>n-pentyl</ref>
       <ref>2-pentyl</ref>
       <me:time>1e-08</me:time>

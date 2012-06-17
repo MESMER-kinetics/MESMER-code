@@ -1,3 +1,18 @@
+2012-June-17 Chris Morley
+
+	* src/oberror.cpp, src/oberror.h: An additional parameter on
+	ThrowError() causes error messages to be output only once.
+	Manipulator 'once' does this for output to cerr etc.
+
+	The files are renamed to error.h and error.cpp because they are
+	considerably different from the OpenBabel versions.
+	 
+	* src/plugins/ExponentialDown.cpp: Change the error "Delta E down is
+	smaller	than grain size" to use this facility.
+
+	* src/MolecularComponents.cpp: minor tidying on an error message to
+	make it more consistent with current error handling.
+
 2012-June-16 Chris Morley
 
 	* src/CollisionOperator.cpp: Add unnormalised log output for grain

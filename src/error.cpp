@@ -7,6 +7,7 @@ Based on original code from OpenBabel
 Copyright (C) 2002 by Stefan Kebekus, 2002-2006 by Geoffrey R. Hutchison
 ***********************************************************************/
 
+#include <algorithm>
 #include "oberror.h"
 
 using namespace std;
@@ -33,7 +34,8 @@ namespace mesmer
   ///////////////////////////////////////////////////////////////////
   void MessageHandler::ThrowError(const std::string &context, 
     const std::string &errorMsg,
-    obMessageLevel level) const
+    obMessageLevel level,
+    errorQualifier qualifier) const
   {
     if (!_logging || errorMsg.empty())
       return;
@@ -50,6 +52,16 @@ namespace mesmer
     //if no new line at end, add one
     //if(txt[txt.size()-1]!='\n')
     //  txt += '\n';
+
+    //ignore errors with a onceOnly qualifier if they have occurred before
+    static vector<string> _messageList;
+    if(qualifier==onceOnly)
+    {
+      if(find(_messageList.begin(), _messageList.end(), txt)==_messageList.end())
+        _messageList.push_back(txt); //first time
+      else
+        return; //subsequent times - no error message
+    }
 
     if(_logStream)
       *_logStream << txt; 
@@ -81,10 +93,11 @@ namespace mesmer
     string s = str();
     if(!s.empty() && s[s.size()-1]=='\n')
     {
-      _handler->ThrowError("", str(), _messageLevel);
+      _handler->ThrowError("", str(), _messageLevel, _qualifier);
       str(std::string()); // clear the buffer
     }
-     return 0;
+    _qualifier = always;
+    return 0;
   }
 
   ////////////////////////////////////////////////////////////////////
@@ -168,6 +181,16 @@ out of scope.
 The reuse of cerr means that old code written using it will automatically use
 the new system. This eases its introduction, since it is operational without
 having to modify the message calling statements.
+
+MessageHandler::ThrowError() now has an optional parameter which if set to onceOnly
+will prevent the same error message being output more than once. Note that the
+error message here includes the context, so that if several molecules contained
+the same error, then there would be an error message for each, even if onceOnly had
+been used. When using cerr, cwarn and cinfo with <<, onceOnly can be set by the
+manipulator 'once', e.g.
+  cerr << "Plotting error" << once << endl;
+The whole of the text sent to error before endl is regarded as the error message
+which is checked for duplication.
 
 The optional parameter on the OStreamRedirector constructor is the stream to which
 ctest should be redirected. This output is independent and not sent to 
