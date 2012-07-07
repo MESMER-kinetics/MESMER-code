@@ -72,7 +72,8 @@
       <propertyList>
         <property dictRef="me:ZPE">
           <!--<scalar units="cm-1">36600.0</scalar>-->
-          <scalar units="kcal/mol">103.43</scalar>
+          <!--<scalar units="kcal/mol">103.43</scalar>-->
+          <scalar units="kcal/mol" lower="93.0" upper="113.0" stepsize="10">103.43</scalar>
         </property>
         <property dictRef="me:rotConsts">
           <array units="cm-1">4.723 9.471 9.471</array>
@@ -115,7 +116,8 @@
     <molecule id="TS1" description="TransistionState">
       <propertyList>
         <property dictRef="me:ZPE">
-          <scalar units="kcal/mol" lower="93.0" upper="113.0" stepsize="10">103.43</scalar>
+            <scalar me:derivedFrom="Methyl:ZPE">103.43</scalar>
+          <!--<scalar units="kcal/mol" lower="93.0" upper="113.0" stepsize="10">103.43</scalar>-->
         </property>
         <property dictRef="me:MW">
           <scalar units="amu">40</scalar>
@@ -700,13 +702,13 @@
   </me:conditions>
 
   <me:modelParameters>
-    <me:grainSize units="cm-1">200</me:grainSize>
+    <me:grainSize units="cm-1">150</me:grainSize>
     <me:energyAboveTheTopHill>10.</me:energyAboveTheTopHill>
   </me:modelParameters>
 
-  <me:control>
+  <me:control me:allowSmallerDeltaEDown="true">
     <me:calcMethod>marquardt</me:calcMethod>
-    <me:MarquardtIterations>10</me:MarquardtIterations>
+    <me:MarquardtIterations>30</me:MarquardtIterations>
     <me:MarquardtTolerance>0.01</me:MarquardtTolerance>
     <me:MarquardtDerivDelta>1.e-03</me:MarquardtDerivDelta>
     <me:testDOS />
