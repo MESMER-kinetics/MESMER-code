@@ -139,7 +139,7 @@ all: ${OUTPUT}
 SRCS := \
 	AssignMolTypes.cpp \
 	AssociationReaction.cpp	\
-      BimolecularSinkReaction.cpp \
+	BimolecularSinkReaction.cpp \
 	CollisionOperator.cpp \
 	DensityOfStates.cpp \
 	error.cpp \
@@ -183,11 +183,12 @@ SRCS := \
 	plugins/Marquardt.cpp \
 	plugins/MesmerILT.cpp \
 	plugins/QMRotor.cpp \
-      plugins/SimpleBimolecularSink.cpp \
+	plugins/SimpleBimolecularSink.cpp \
 	plugins/simplecalc.cpp \
 	plugins/SimpleILT.cpp \
 	plugins/SimpleRRKM.cpp \
 	plugins/ThermodynamicTable.cpp \
+	plugins/UnitTests.cpp \
 	plugins/WKBCrossingCoeff.cpp \
 	plugins/WKBTunnellingCoefficients.cpp 
 
