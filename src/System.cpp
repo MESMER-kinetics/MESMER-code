@@ -550,7 +550,11 @@ namespace mesmer
 
       if (writeReport) {string thisEvent = "Build Collison Operator" ;
       events.setTimeStamp(thisEvent, timeElapsed) ;
-      cinfo << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds." << endl ;}
+      cinfo << thisEvent;
+      if(timeElapsed>0)
+       cinfo << " -- Time elapsed: " << timeElapsed << " seconds.";
+      cinfo << endl;
+      }
 
       if (!m_Flags.rateCoefficientsOnly){
 
@@ -560,9 +564,14 @@ namespace mesmer
         // Diagonalise the collision operator.
         m_collisionOperator.diagReactionOperator(m_Flags, m_Env, precision, ppAnalysis) ;
 
-        if (writeReport) {string thisEvent = "Diagonalize the Reaction Operator" ;
-        events.setTimeStamp(thisEvent, timeElapsed) ;
-        cinfo << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds." << endl ;}
+        if (writeReport) {
+          string thisEvent = "Diagonalize the Reaction Operator" ;
+          events.setTimeStamp(thisEvent, timeElapsed) ;
+          cinfo << thisEvent;
+          if(timeElapsed>0)
+            cinfo << " -- Time elapsed: " << timeElapsed << " seconds.";
+          cinfo << endl;
+        }
 
         // Locate all sink terms.
         m_collisionOperator.locateSinks() ;
@@ -623,10 +632,13 @@ namespace mesmer
 
     if (writeReport) cinfo << rateCoeffTable.str() ;
 
-    {string thisEvent = "Finish Calculation";
+    string thisEvent = "Finish Calculation of P-T case";
     events.setTimeStamp(thisEvent, timeElapsed);
-    cinfo << endl << thisEvent << " -- Time elapsed: " << timeElapsed << " seconds.\n";
-    if (writeReport) cwarn << calPoint << " temperature/concentration-pressure points calculated." << endl;}
+    cinfo << thisEvent;
+    if(timeElapsed>0)
+      cinfo << " -- Time elapsed: " << timeElapsed << " seconds.";
+    cinfo << endl;
+    if (writeReport) cwarn << calPoint << " temperature/concentration-pressure points calculated." << endl;
 
     if (m_Flags.viewEvents) cinfo << events;
 

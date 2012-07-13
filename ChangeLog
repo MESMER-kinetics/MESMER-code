@@ -1,3 +1,19 @@
+2012-July-13 Chris Morley
+
+	* src/error.cpp: flush log file on the way through so there is
+	something to look at after a crash
+
+	* src/CollisionOperator.cpp: Change "Cell number" to 
+	"Number of Cells" and supressed multiple messages.
+	
+	* src/MesmerMath.cpp: add "once" to supress multiple error messages.
+	Moved Error Context() (but may not be significant. 
+
+	* src/MolecularComponents.cpp, src/MolecularComponents.h: remove log
+	messages about atoms not having vibrational frequencies and rot consts.  
+	
+	* src/System.cpp: Don't output elaspsed time unless > 0.
+
 2012-June-17 Chris Morley
 
 	* src/oberror.cpp, src/oberror.h: An additional parameter on

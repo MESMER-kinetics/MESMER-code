@@ -133,6 +133,8 @@ void FastLaplaceConvolution(const vector<double> &data1original,
 	-----
 	k=0                                                                             */
 
+  ErrorContext e(__FUNCTION__);
+
 	// Check the size of data1 and data2, which should be identical.
 	const size_t arraySize = data1original.size(); 
 	if(data2original.size() != arraySize){
@@ -211,7 +213,7 @@ void FastLaplaceConvolution(const vector<double> &data1original,
 		}
 	} while(ctr!=chk);
 
-	cinfo << endl << replace << " values in the FFT convolution routine were replaced by standard convolution" << endl;
+  cinfo << replace << " values in the FFT convolution routine were replaced by standard convolution" << once << endl;
 
 	// Copy the inverse FT into the convolution vector for output.
 	// If there were Leading Zeros, put them back in.
@@ -935,7 +937,7 @@ double ModifiedBessalFunction(const double x)
 double ChiSquaredPrbFn(double x, double a) {
 
 	if (x < 0.0 || a < 0.0)
-		throw(std::runtime_error("Incorrect parameters to __func__.")) ;
+		throw(std::runtime_error("Incorrect parameters to __FUNCTION__.")) ;
 
 	static const size_t maxItr(200) ; 
 	static const double eps(2.22e-16) ;

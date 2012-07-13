@@ -64,7 +64,7 @@ namespace mesmer
     }
 
     if(_logStream)
-      *_logStream << txt; 
+      *_logStream << txt << flush;
 
     if (level <= _outputLevel)
       clog << txt << flush; //write to console
@@ -83,6 +83,8 @@ namespace mesmer
       stack.pop_back();
       meErrorLog.SetContext(stack.empty() ? "" : stack.back());
     }
+    else
+      cerr << "Context Stack empty!" << endl;
   }
 
   ////////////////////////////////////////////////////////////////////

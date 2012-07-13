@@ -135,7 +135,8 @@ namespace mesmer
 	txt= ppPropList->XmlReadProperty("me:vibFreqs", optional);
 	if(!txt){
 	  hasVibFreq = false;
-	  cinfo << "Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion." << endl;
+    if(!pMol->getStruc().IsAtom())
+	    cinfo << "Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion." << endl;
 	  m_VibFreq_chk = -1;
 	}
 	else 
@@ -155,23 +156,24 @@ namespace mesmer
 	}
 
 	std::vector<double> rCnst(3, 0.0);
-	txt = ppPropList->XmlReadProperty("me:rotConsts", optional);
-	if(!txt){
-	  gStructure& gs = pMol->getStruc();
-	  if(!gs.ReadStructure() || gs.NumAtoms()==1) {
-		hasRotConst = false;
-		cinfo << "No rotational constants from <me:rotConsts> or structure.Assuming to be an atom or atomic ion." << endl;
-		m_RC_chk = -1;
-	  } else {
-		//data from atom coordinates
-		rCnst = gs.CalcRotConsts();
-		cinfo << "Rotational constants were calculated from atom coordinates: "
-		  << m_RotCstA << ' ' << m_RotCstB << ' ' << m_RotCstC << " cm-1" << endl;
-	  }
-	} else {
+	hasRotConst = false;
+  txt = ppPropList->XmlReadProperty("me:rotConsts", optional);
+	if(txt) {
 	  //data from <me:rotConsts>
 	  istringstream idata(txt);
 	  idata >> rCnst[0] >> rCnst[1] >> rCnst[2];
+    hasRotConst = true;
+    m_RC_chk = 0;
+  } 
+  else {
+    ////data from atom coordinates
+	  gStructure& gs = pMol->getStruc();
+	  if(gs.ReadStructure()) {
+		  rCnst = gs.CalcRotConsts();
+		  cinfo << "Rotational constants were calculated from atom coordinates: "
+		    << m_RotCstA << ' ' << m_RotCstB << ' ' << m_RotCstC << " cm-1" << endl;
+      hasRotConst = true; 
+	  }
 	}
 	if(hasRotConst) {
 	  // Check rotational constants are valid.
@@ -186,9 +188,15 @@ namespace mesmer
 	  m_RotCstC = rCnst[0];
 	  m_RC_chk = 0;
 	}
+  else if (!pMol->getStruc().IsAtom()){
+    cinfo << "No rotational constants from <me:rotConsts> or structure. "
+             "Assumed to be an atom or atomic ion." << endl;
+    }
+    else
+      m_RC_chk = 0;
 
 	if (hasVibFreq != hasRotConst){
-	  cerr << "Improper setting on vibrational frequencies or rotational constants. Check input file to remove this error.";
+	  cerr << "Improper setting on vibrational frequencies or rotational constants." << endl;
 	}
 
 	txt= ppPropList->XmlReadProperty("me:electronicExcitation", optional);
@@ -434,8 +442,9 @@ namespace mesmer
   RotationalTop gDensityOfStates::get_rotConsts(std::vector<double> &mmtsInt)
   {
 	if (m_RC_chk <= -1){
+    ErrorContext e(this->getHost()->getName());
 	  if (m_RC_chk == -1)
-		cinfo << "Rotational constants were not defined but requested." << endl;
+		  cinfo << "Rotational constants were not defined but requested." << endl;
 	  --m_RC_chk;
 	  return UNDEFINED_TOP; // treat as a non-rotor
 	}

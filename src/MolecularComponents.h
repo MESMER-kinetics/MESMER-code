@@ -428,7 +428,14 @@ namespace mesmer
 
     int NumAtoms() 
     { 
-      return m_HasCoords ? int(Atoms.size()) : -1;
+      return Atoms.size();
+    }
+
+    bool IsAtom()
+    {
+      if(Atoms.empty())
+        ReadStructure();
+      return Atoms.size()==1;
     }
 
     double CalcMW();
