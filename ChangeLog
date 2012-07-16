@@ -1,3 +1,8 @@
+
+2012-July-16 Struan Robertson
+
+	* Morse.cpp: Initial template for Morse density of states class.
+
 2012-July-13 Chris Morley
 
 	* src/error.cpp: flush log file on the way through so there is
