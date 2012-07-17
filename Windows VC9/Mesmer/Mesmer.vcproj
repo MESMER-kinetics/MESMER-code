@@ -317,6 +317,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\plugins\Morse.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\plugins\QMRotor.cpp"
 				>
 			</File>

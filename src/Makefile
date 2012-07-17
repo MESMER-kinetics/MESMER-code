@@ -182,6 +182,7 @@ SRCS := \
 	plugins/LandauZenerCrossingCoeff.cpp \
 	plugins/Marquardt.cpp \
 	plugins/MesmerILT.cpp \
+	plugins/Morse.cpp \
 	plugins/QMRotor.cpp \
 	plugins/SimpleBimolecularSink.cpp \
 	plugins/simplecalc.cpp \
