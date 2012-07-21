@@ -52,6 +52,8 @@ namespace mesmer
 
 	bool Test_Spline() const ;
 
+	bool UnitTests::Test_MEIC_1(System* pSys) const ;
+
 	// Support methods:
 
 	void underlineText(const string& text) const ;
@@ -76,6 +78,10 @@ namespace mesmer
 
 	// Test Spline class.
 	status = ( status && Test_Spline()) ;
+
+	// Test Spline class.
+	status = ( status && Test_MEIC_1(pSys)) ;
+
 
 	ctest << endl ;
 	if (status) {
@@ -237,9 +243,120 @@ namespace mesmer
 	  ctest << endl ;
 	}
 
- 	return status ;
+	return status ;
 
- }
+  }
+
+  bool UnitTests::Test_MEIC_1(System* pSys) const {
+
+	bool status(true) ; 
+
+	ctest << endl ;
+	underlineText("Test: MEIC 1.") ;
+
+	ctest << endl ;
+	ctest << "  Test of Beyer-Swinehart algorithm based on model taken from: " << endl ;
+	ctest << "  Baer & Hase, Unimolecular Reaction Dynamics. Theory and Experiments, " << endl ;
+	ctest << "  [Oxford U. Press, 1996], p. 186." << endl ;
+	ctest << endl ;
+
+	// Parse molecule data. 
+
+	MoleculeManager* pMoleculeManager = pSys->getMoleculeManager() ;
+
+	PersistPtr ppMolList = pMoleculeManager->get_PersistPtr();
+	if(!ppMolList)	{
+	  cerr << "No molecules have been specified." << endl;
+	  return false;
+	}
+
+	PersistPtr ppmol = ppMolList ->XmlMoveTo("molecule") ;
+	Molecule *pMol = NULL ;
+	// Get the name of the molcule.
+	const char* reftxt = ppmol->XmlReadValue("id");
+	if (reftxt) {
+	  pMol = pMoleculeManager->addmol(string(reftxt), string(""), ppMolList, pSys->getEnv(), pSys->m_Flags);
+	}
+
+	DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("BeyerSwinehart", false);
+
+	// Calculate vibrational densities of states.
+
+	size_t MaximumCell(50000) ;
+	vector<double> cellDOS(MaximumCell, 0.0) ;
+	cellDOS[0] = 1.0 ;
+	pMol->getDOS().setCellDensityOfStates(cellDOS) ;
+
+	status = status && pDOSCalculator->countCellDOS(&(pMol->getDOS()), MaximumCell) ;
+
+	// Retrieve the DOS vector without recalculating.
+
+    pMol->getDOS().getCellDensityOfStates(cellDOS, 0, false) ;
+
+	// Calculate grain numbers and averages.
+
+	const int GrainSize    = 10 ;
+	const int MaximumGrain = MaximumCell/GrainSize ;
+	vector<double> cellEne(MaximumCell, 0.0) ; 
+	vector<double> grainDOS(MaximumGrain, 0.0) ;
+	vector<double> grainEne(MaximumGrain, 0.0) ;
+	size_t i(0) ;
+	for (i = 0 ; i < cellDOS.size() ; i++) {
+	  cellEne[i] += double(i) ;
+	}
+
+	calcGrainAverages(MaximumGrain, GrainSize, cellDOS, cellEne, grainDOS, grainEne) ;
+
+	// Calculate cell and grain sums of states.
+
+	for (i = 1 ; i < cellDOS.size() ; i++) {
+	  cellDOS[i] += cellDOS[i-1] ;
+	}
+
+	for (i = 1 ; i < grainDOS.size() ; i++) {
+	  grainDOS[i] += grainDOS[i-1] ;
+	}
+
+	// Now write out results. The selected energies are those defined by the MEIC test.
+
+	ctest << endl ;
+ 	underlineText("  Energy/cm-1                 SoS Cell                SoS Grain") ;
+
+	ctest << formatFloat(cellEne[0],   5, 15) ;
+	ctest << formatFloat(cellDOS[0],  13, 25) ;
+	ctest << formatFloat(grainDOS[0], 13, 25) ;
+	ctest << endl ;
+
+	const double tolerance = 0.04 ;
+	size_t idx(0), jdx(0) ;
+	for (i = 1 ; i < 40 ; i++) {
+	  idx += (idx < 1000) ? 100 : 1000  ;
+	  const double tcDOS = cellDOS[idx] ;
+	  double tgDOS(0.0) ;
+	  const double energy = cellEne[idx] ;
+
+	  // Because grains with no content are elimated there is no simply
+	  // mapping between cells and grains. Consequently the grain whose 
+	  // mean energy does not exceed that of the specified energy is used.
+	  // The following loop searches for that grain.
+
+	  while (grainEne[jdx] <= energy ) {
+		tgDOS = grainDOS[jdx] ;
+		jdx++ ;
+	  }
+	  ctest << formatFloat(energy, 5, 15) ;
+	  ctest << formatFloat(tcDOS, 13, 25) ;
+	  ctest << formatFloat(tgDOS, 13, 25) ;
+	  if (abs(tcDOS - tgDOS)/tcDOS > tolerance) {
+		status = false ;
+		ctest << "*";
+	  }
+	  ctest << endl ;
+	}
+
+	return status ;
+
+  }
 
 
   void UnitTests::underlineText(const string& text) const {

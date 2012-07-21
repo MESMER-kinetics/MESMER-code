@@ -144,7 +144,8 @@ namespace mesmer
     PersistPtr ppMolList = ppIOPtr->XmlMoveTo("moleculeList");
     m_pMoleculeManager->set_PersistPtr(ppMolList);
 
-    if (task == "ThermodynamicTable" ) {
+    if (task == "ThermodynamicTable" || task == "UnitTests") {
+	  // Thermodynamic table and UnitTests do their own file parsing.
       return true ;
     }
 

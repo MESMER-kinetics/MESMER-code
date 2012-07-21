@@ -1,7 +1,11 @@
 
 2012-July-21 Struan Robertson
 
-	* System.cpp/.h, ThermodynamicTable: Altered so that thermodynamic
+	* System.cpp/.h, UnitTests.cpp: Add new MEIC test for sum of states.
+
+2012-July-21 Struan Robertson
+
+	* System.cpp/.h, ThermodynamicTable.cpp: Altered so that thermodynamic
 	table calculations do not need to specify a reaction sequence.
 
 2012-July-16 Struan Robertson
