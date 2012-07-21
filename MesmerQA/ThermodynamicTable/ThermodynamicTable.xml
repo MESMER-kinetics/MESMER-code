@@ -202,7 +202,8 @@
 	</molecule>
 
   </moleculeList>
-  <reactionList>
+  
+  <!--<reactionList>
 	<reaction id="R1" reversible="true">
 	  <reactant>
 		<molecule ref="NO"  me:type="excessReactant" />
@@ -227,7 +228,7 @@
 	<me:PTs>
 	  <me:PTpair me:units="Torr" me:P="760" me:T="560" />
 	</me:PTs>
-  </me:conditions>
+  </me:conditions>-->
 
   <me:control>
 	<me:testDOS />
