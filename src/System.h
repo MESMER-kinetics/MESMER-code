@@ -66,7 +66,7 @@ namespace mesmer
 
     PersistPtr getPersistPtr() { return m_ppIOPtr; }
 
-    const MoleculeManager* getMoleculeManager() { return m_pMoleculeManager; } ;
+    MoleculeManager* getMoleculeManager() { return m_pMoleculeManager; } ;
 
     // Mesmer control flags.
     MesmerFlags m_Flags;

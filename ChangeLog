@@ -1,4 +1,9 @@
 
+2012-July-21 Struan Robertson
+
+	* System.cpp/.h, ThermodynamicTable: Altered so that thermodynamic
+	table calculations do not need to specify a reaction sequence.
+
 2012-July-16 Struan Robertson
 
 	* Morse.cpp: Initial template for Morse density of states class.

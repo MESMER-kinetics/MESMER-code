@@ -34,9 +34,10 @@ namespace mesmer
     //Parses the <me:control> section of the XML input file to find the specified method
     //For instance: <calcMethod>simpleCalc</calcMethod>
     //If there is no <calcMethod> element, the simpleCalc, set in defaults.xml, is used.
-    static CalcMethod* GetCalcMethod(PersistPtr ppControl)
+    static CalcMethod* GetCalcMethod(PersistPtr ppControl, std::string& name)
     {
       const char* type = ppControl->XmlReadValue("me:calcMethod"); //or uses default
+	  name = std::string(type) ;
       return Find(type);
     }
 

@@ -129,10 +129,24 @@ namespace mesmer
     m_pTitle       = ppIOPtr->XmlReadValue("title", false);
     m_pDescription = ppIOPtr->XmlReadValue("description", false);
 
+    // What are we going to do?
+    PersistPtr ppControl = ppIOPtr->XmlMoveTo("me:control");
+
+    if (!ppControl) {
+      cerr << "No control section specified";
+      return false;
+    }
+    string task ;
+    m_CalcMethod = CalcMethod::GetCalcMethod(ppControl,task);
+
     //-------------
-    //Molecule List (parse this part inside Reaction)
+    //Molecule List (parse this part as required ...)
     PersistPtr ppMolList = ppIOPtr->XmlMoveTo("moleculeList");
     m_pMoleculeManager->set_PersistPtr(ppMolList);
+
+    if (task == "ThermodynamicTable" ) {
+      return true ;
+    }
 
     //-------------
     //Model Parameters 
@@ -242,7 +256,6 @@ namespace mesmer
     if (ppInitialPopulation)
       m_pReactionManager->setInitialPopulation(ppInitialPopulation);
 
-    PersistPtr ppControl = ppIOPtr->XmlMoveTo("me:control");
     if(ppControl)
     {
       m_Flags.testDOSEnabled              = ppControl->XmlReadBoolean("me:testDOS");
@@ -277,7 +290,6 @@ namespace mesmer
       // System configuration information
       if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();
 
-      m_CalcMethod = CalcMethod::GetCalcMethod(ppControl);
 
       //if (m_Flags.grainedProfileEnabled && (m_Flags.speciesProfileEnabled)){
       //  cinfo << "Turn off grained species profile to prevent disk flooding." << endl;
@@ -423,7 +435,7 @@ namespace mesmer
           stringstream s3(txt); s3 >> refReaction ;
         }
         stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
-		thisPair.set_experimentalRates(ppExpRate, ref1, ref2, refReaction, rateValue, errorValue);
+        thisPair.set_experimentalRates(ppExpRate, ref1, ref2, refReaction, rateValue, errorValue);
         ppExpRate = ppExpRate->XmlMoveTo("me:experimentalRate");
       }
 
@@ -436,13 +448,13 @@ namespace mesmer
         string ref(ppExpRate->XmlReadValue("ref")) ;
         txt = ppExpRate->XmlReadValue("yieldTime", false);
         string yieldTime ;
-		if (txt) {
+        if (txt) {
           stringstream s3(txt); s3 >> yieldTime ;
-		} else {
+        } else {
           yieldTime = "-1.0" ;
-		}
+        }
         stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
-		thisPair.set_experimentalYields(ppExpRate, ref, yieldTime, yield, errorValue);
+        thisPair.set_experimentalYields(ppExpRate, ref, yieldTime, yield, errorValue);
         ppExpRate = ppExpRate->XmlMoveTo("me:experimentalYield");
       }
 
@@ -454,7 +466,7 @@ namespace mesmer
         stringstream s1(txt); s1 >> eigenValue;
         string EigenvalueID(ppExpRate->XmlReadValue("EigenvalueID")) ;
         stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
-		thisPair.set_experimentalEigenvalues(ppExpRate, EigenvalueID, eigenValue, errorValue);
+        thisPair.set_experimentalEigenvalues(ppExpRate, EigenvalueID, eigenValue, errorValue);
         ppExpRate = ppExpRate->XmlMoveTo("me:experimentalEigenvalue");
       }
 
@@ -521,7 +533,7 @@ namespace mesmer
     rateCoeffTable << endl ;
 
     chiSquare = 0.0; // reset the value to zero
-	  residuals.clear() ;
+    residuals.clear() ;
 
     for (calPoint = 0; calPoint < PandTs.size(); ++calPoint) {
 
@@ -552,7 +564,7 @@ namespace mesmer
       events.setTimeStamp(thisEvent, timeElapsed) ;
       cinfo << thisEvent;
       if(timeElapsed>0)
-       cinfo << " -- Time elapsed: " << timeElapsed << " seconds.";
+        cinfo << " -- Time elapsed: " << timeElapsed << " seconds.";
       cinfo << endl;
       }
 
@@ -689,7 +701,7 @@ namespace mesmer
       }
 
       double diff = (expRate - rateCoeff)/expErr ;
-	  residuals.push_back(diff) ;
+      residuals.push_back(diff) ;
       chiSquare +=  diff * diff ;
 
       rateCoeffTable << formatFloat(expRate, 6, 15) << formatFloat(rateCoeff, 6, 15) << endl ;
@@ -714,12 +726,12 @@ namespace mesmer
     try {
       string product, yieldTime, ref; 
       double expYield(0.0), expErr(0.0); 
-	  expYields[0].get_conditionSet(product, yieldTime, ref, expYield, expErr);
+      expYields[0].get_conditionSet(product, yieldTime, ref, expYield, expErr);
 
-	  double time ;
+      double time ;
       stringstream s1(yieldTime); s1 >> time ;
-	  
-	  m_collisionOperator.calculateYields(yieldMap, time) ;
+
+      m_collisionOperator.calculateYields(yieldMap, time) ;
     } catch (std::runtime_error& e) {
       cerr << "Error: during calculation of Chi^2 for yields:" << endl ;
       cerr << e.what() << endl ;
@@ -747,7 +759,7 @@ namespace mesmer
       }
 
       double diff = (expYield - yield)/expErr ;
-	  residuals.push_back(diff) ;
+      residuals.push_back(diff) ;
       chiSquare += (diff * diff);
 
       rateCoeffTable << formatFloat(expYield, 6, 15) << formatFloat(yield, 6, 15) << endl ;
@@ -781,7 +793,7 @@ namespace mesmer
       }
 
       double diff = (expEigenvalue - eigenvalue)/expErr ;
-	  residuals.push_back(diff) ;
+      residuals.push_back(diff) ;
       chiSquare += (diff * diff); 
 
       rateCoeffTable << formatFloat(expEigenvalue, 6, 15) << formatFloat(eigenvalue, 6, 15) << endl ;
