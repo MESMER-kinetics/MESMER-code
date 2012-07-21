@@ -1,7 +1,11 @@
 
 2012-July-21 Struan Robertson
 
-	* System.cpp/.h, UnitTests.cpp: Add new MEIC test for sum of states.
+	* MoleculeManager.cpp/.h: Minor change to add molecule method.
+
+2012-July-21 Struan Robertson
+
+	* System.cpp/.h, UnitTests.cpp: Add new MEIC unit test for sum of states.
 
 2012-July-21 Struan Robertson
 

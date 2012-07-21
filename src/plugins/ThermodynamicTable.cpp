@@ -98,7 +98,7 @@ namespace mesmer
 	  // Get the name of the molcule.
 	  const char* reftxt = ppmol->XmlReadValue("id");
 	  if (reftxt) {
-		 pMoleculeManager->addmol(string(reftxt), string(""), ppMolList, pSys->getEnv(), pSys->m_Flags);
+		 pMoleculeManager->addmol(string(reftxt), string(""), pSys->getEnv(), pSys->m_Flags);
 	  }
 	}
 

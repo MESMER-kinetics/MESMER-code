@@ -86,7 +86,7 @@ namespace mesmer
           cerr << "No molecules have been specified." << endl;
           return NULL;
         }
-        pMol = m_pMoleculeManager->addmol(string(reftxt), string(typetxt), ppMolList, getEnv(), getFlags());
+        pMol = m_pMoleculeManager->addmol(string(reftxt), string(typetxt), getEnv(), getFlags());
       }
     }
 

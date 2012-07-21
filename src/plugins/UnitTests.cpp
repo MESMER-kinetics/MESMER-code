@@ -275,7 +275,7 @@ namespace mesmer
 	// Get the name of the molcule.
 	const char* reftxt = ppmol->XmlReadValue("id");
 	if (reftxt) {
-	  pMol = pMoleculeManager->addmol(string(reftxt), string(""), ppMolList, pSys->getEnv(), pSys->m_Flags);
+	  pMol = pMoleculeManager->addmol(string(reftxt), string(""), pSys->getEnv(), pSys->m_Flags);
 	}
 
 	DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("BeyerSwinehart", false);

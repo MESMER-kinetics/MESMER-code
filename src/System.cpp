@@ -203,7 +203,7 @@ namespace mesmer
       return false;
     }
     string Bgtxt = ppConditions->XmlReadValue("me:bathGas");
-    if(!m_pMoleculeManager->addmol(Bgtxt, "bathGas", ppMolList, m_Env, m_Flags))
+    if(!m_pMoleculeManager->addmol(Bgtxt, "bathGas", m_Env, m_Flags))
       return false;
     m_pMoleculeManager->set_BathGasMolecule(Bgtxt) ;
 

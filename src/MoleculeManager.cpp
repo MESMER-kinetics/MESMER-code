@@ -31,7 +31,7 @@ namespace mesmer
   //
   // Add a new molecule to the list.
   //
-  Molecule* MoleculeManager::addmol(string molName, string molType, PersistPtr ppMolList, const MesmerEnv& mEnv, MesmerFlags& mFlags) {
+  Molecule* MoleculeManager::addmol(string molName, string molType, const MesmerEnv& mEnv, MesmerFlags& mFlags) {
 
     ErrorContext c(molName);
 
@@ -51,7 +51,7 @@ namespace mesmer
     Molecule *pmolecule = new Molecule(mEnv, mFlags, molType);
 
     //Look for it by name in the datafile
-    PersistPtr ppmol = ppMolList;
+    PersistPtr ppmol = m_ppPersist;
     do{
       ppmol = ppmol->XmlMoveTo("molecule");
     }
@@ -61,7 +61,7 @@ namespace mesmer
     while(!ppmol || !pmolecule->InitializeMolecule(ppmol)){
       //If molecule with correct name not found, or if it does not initiallize properly,
       // or is just a placeholder with no content, try the Library
-      PersistPtr ppmol2 = GetFromLibrary(molName, ppMolList);
+      PersistPtr ppmol2 = GetFromLibrary(molName, m_ppPersist);
       if(!ppmol && !ppmol2){
         //No such molecule in datafile or library
         cerr << "Failed to find missing molecule " << molName << " in data file or library" << endl;
