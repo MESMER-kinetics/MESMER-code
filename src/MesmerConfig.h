@@ -21,6 +21,8 @@ static const double NaN = NAN;
 
 #elif defined (LINUX)     // LINUX
 
+#include <math.h>
+
 #define IsNan isnan
 static const double NaN = NAN;
 

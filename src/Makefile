@@ -23,8 +23,8 @@ LD     := g++
 AR     := ar rc
 RANLIB := ranlib
 
-DEBUG_CFLAGS     := -Wall -Wno-format -g -DDEBUG
-RELEASE_CFLAGS   := -Wall -Wno-format -O2
+DEBUG_CFLAGS     := -Wall -Wno-format -g -DDEBUG -DLINUX
+RELEASE_CFLAGS   := -Wall -Wno-format -O2 -DLINUX
 
 #****************************************************************************
 # LIBS paths

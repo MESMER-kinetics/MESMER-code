@@ -327,7 +327,7 @@ namespace mesmer
 	ctest << formatFloat(grainDOS[0], 13, 25) ;
 	ctest << endl ;
 
-	const double tolerance = 0.04 ;
+	const double tolerance = 0.05 ;
 	size_t idx(0), jdx(0) ;
 	for (i = 1 ; i < 40 ; i++) {
 	  idx += (idx < 1000) ? 100 : 1000  ;

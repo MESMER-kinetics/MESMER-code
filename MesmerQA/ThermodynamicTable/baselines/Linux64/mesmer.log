@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v1.0 compiled: -- Feb  3 2012 -- 18:26:53
+     Mesmer v2.0 compiled: -- Jul 22 2012 -- 15:24:40
 
      Copyright (C) 2009-2012 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -30,41 +30,23 @@
 Parsing input xml file...
 ThermodynamicTable.xml
 
-The default value of me:grainSize was used.
-The default value of me:energyAboveTheTopHill was used.
-In R1: Parsing reaction...
+Write metadata 20120722_152654
+
+File: "ThermodynamicTable.xml" successfully parsed.
+Calculate EGME
+In HNO2: The default value of me:frequenciesScaleFactor was used.
+In HNO2: The default value of spinMultiplicity (or one of its attributes) was used.
+In HNO2: The default value of me:DOSCMethod was used.
+In HNO2: New me:ZPE element written with data from me:Hf298
+In He: The default value of me:symmetryNumber was used.
+In He: The default value of me:frequenciesScaleFactor was used.
+In He: The default value of spinMultiplicity (or one of its attributes) was used.
+In He: The default value of me:DOSCMethod was used.
 In NO: The default value of me:frequenciesScaleFactor was used.
 In NO: The default value of me:DOSCMethod was used.
 In NO: New me:ZPE element written with data from me:Hf298
 In OH: The default value of me:frequenciesScaleFactor was used.
 In OH: New me:ZPE element written with data from me:Hf298
-In HNO2: The default value of me:sigma was used.
-In HNO2: The default value of me:epsilon was used.
-In HNO2: The default value of me:frequenciesScaleFactor was used.
-In HNO2: The default value of spinMultiplicity (or one of its attributes) was used.
-In HNO2: The default value of me:DOSCMethod was used.
-In HNO2: New me:ZPE element written with data from me:Hf298
-In HNO2: The default value of me:DistributionCalcMethod was used.
-In HNO2: The default value of me:energyTransferModel was used.
-In HNO2: The default value of me:deltaEDownTExponent was used.
-In R1: No tunneling method was found for R1
-In R1: No crossing method was found for R1
-In R1: Not a unimolecular reaction: look for excess reactant concentration.
-All molecules are on the same energy basis: computational
-The default value of me:precision was used.
-760Torr, 560K at double precision
-The default value of me:eigenvalues was used.
-Write metadata 20120203_183022
-
-File: "ThermodynamicTable.xml" successfully parsed.
-Calculate EGME
-In He: Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion.
-In He: No rotational constants from <me:rotConsts> or structure.Assuming to be an atom or atomic ion.
-In He: The default value of me:symmetryNumber was used.
-In He: The default value of me:frequenciesScaleFactor was used.
-In He: The default value of spinMultiplicity (or one of its attributes) was used.
-In He: The default value of me:DOSCMethod was used.
-Rotational constants were not defined but requested.
  -- Total time elapsed: 3 seconds.
 
 System saved to out.xml
