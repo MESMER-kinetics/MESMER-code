@@ -250,7 +250,7 @@
         <xsl:with-param name="maxy" select="$ymax"/>
         <xsl:with-param name="miny" select="'0.0'"/>
         <xsl:with-param name="headertext" select="'Time, seconds'"/>
-        <xsl:with-param name="footertext" select="'TS energies'"/>
+        <xsl:with-param name="footertext" select="'TS energies shown'"/>
       </xsl:call-template>
     </xsl:if>
 
@@ -309,7 +309,7 @@
             <xsl:variable name="tsE"
              select="//cml:moleculeList/cml:molecule[@id=current()]//cml:property[@dictRef='me:ZPE']/cml:scalar"/>
             <xsl:variable name="tsX" select="($tsE - $currentE) * 83.593"/><!--kJ/mol=>cm-1-->
-            <svg:line y1="0" stroke="black">
+            <svg:line y1="0" stroke="black" stroke-dasharray="{.015*$ymax} {.015*$ymax}">
               <xsl:attribute name="x1">
                 <xsl:value-of select="$tsX"/>
               </xsl:attribute> 
@@ -317,10 +317,10 @@
                 <xsl:value-of select="$tsX"/>
               </xsl:attribute> 
               <xsl:attribute name="y2">
-                <xsl:value-of select="-0.05 * $ymax"/>
+                <xsl:value-of select="-$ymax"/>
               </xsl:attribute> 
               <xsl:attribute name="stroke-width">
-                <xsl:value-of select="0.01 * ($endval - $startval)"/>
+                <xsl:value-of select="0.001 * ($endval - $startval)"/>
               </xsl:attribute> 
             </svg:line>
           </xsl:for-each>
@@ -347,7 +347,7 @@
         <xsl:with-param name="maxy" select="$ymax"/>
         <xsl:with-param name="miny" select="$ymin"/>
         <xsl:with-param name="headertext" select="'Time, seconds'"/>
-        <xsl:with-param name="footertext" select="'TS energies'"/>
+        <xsl:with-param name="footertext" select="'TS energies shown'"/>
       </xsl:call-template>
     </xsl:if>
 
@@ -404,7 +404,7 @@
             <xsl:variable name="tsE"
              select="//cml:moleculeList/cml:molecule[@id=current()]//cml:property[@dictRef='me:ZPE']/cml:scalar"/>
             <xsl:variable name="tsX" select="($tsE - $currentE) * 83.593"/><!--kJ/mol=>cm-1-->
-            <svg:line y1="0" stroke="black">
+            <svg:line y1="0" stroke="black" stroke-dasharray="{.015*($ymax - $ymin)} {.015*($ymax - $ymin)}">
               <xsl:attribute name="x1">
                 <xsl:value-of select="$tsX"/>
               </xsl:attribute>
@@ -415,10 +415,10 @@
                 <xsl:value-of select="-$ymin"/>
               </xsl:attribute>
               <xsl:attribute name="y2">
-                <xsl:value-of select="-$ymin - 0.05 * ($ymax - $ymin)"/>
+                <xsl:value-of select="-$ymin - ($ymax - $ymin)"/>
               </xsl:attribute>
               <xsl:attribute name="stroke-width">
-                <xsl:value-of select="0.01 * ($endval - $startval)"/>
+                <xsl:value-of select="0.001 * ($endval - $startval)"/>
               </xsl:attribute>
             </svg:line>
           </xsl:for-each>
