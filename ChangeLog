@@ -1,3 +1,11 @@
+2012-July-29 Struan Robertson
+
+	* ThermodynamicTable.cpp: Altered so that partition function data 
+	can be printed.
+
+	* Morse.cpp: Implementation of density of states and canonical 
+	partition function.
+
 2012-July-24 Chris Morley
 
 	* popDiag.xsl TS energies in Grain Population diagrams now as

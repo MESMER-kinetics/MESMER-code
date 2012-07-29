@@ -83,7 +83,7 @@ namespace mesmer
 
     // Check whether the activated molecule correct number of degrees of freedom.
     if (!pmolecule->checkDegOfFreedom()){
-      string errorMsg = "Incorrect number of degrees of freedom compared with atom count for" + molName;
+      string errorMsg = "Incorrect number of degrees of freedom compared with atom count for " + molName;
       throw (std::runtime_error(errorMsg)); 
     }
 

@@ -17,100 +17,130 @@
 using namespace std;
 namespace mesmer
 {
-	class Morse : public DensityOfStatesCalculator
-	{
-	public:
+  class Morse : public DensityOfStatesCalculator
+  {
+  public:
 
-		//Read data from XML. 
-		virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC=NULL);
+    //Read data from XML. 
+    virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC=NULL);
 
-		// Function to define particular counts of the DOS of a molecule.
-		virtual bool countCellDOS(gDensityOfStates* mol, size_t MaximumCell);
+    // Function to define particular counts of the DOS of a molecule.
+    virtual bool countCellDOS(gDensityOfStates* mol, size_t MaximumCell);
 
-		// Function to calculate contribution to canonical partition function.
-		virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
+    // Function to calculate contribution to canonical partition function.
+    virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
 
-		// Function to return the number of degrees of freedom associated with this count.
-		virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
+    // Function to return the number of degrees of freedom associated with this count.
+    virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
 
-		///Constructor which registers with the list of DensityOfStatesCalculators in the base class
-		//This class calculates a complete DOS: it is not an extra class. 
-		Morse(const std::string& id) : DensityOfStatesCalculator(id, false){}
+    ///Constructor which registers with the list of DensityOfStatesCalculators in the base class
+    //This class calculates a complete DOS: it is not an extra class. 
+    Morse(const std::string& id) : DensityOfStatesCalculator(id, true){}
 
-		virtual ~Morse() {}
-		virtual Morse* Clone() { return new Morse(*this); }
+    virtual ~Morse() {}
+    virtual Morse* Clone() { return new Morse(*this); }
 
-	private :
+  private :
 
-		PersistPtr m_ppDOSC ;
+    PersistPtr m_ppDOSC ;
+    vector<double> m_vibFreq ;  // The 0->1 transition of each Morse oscillator in cm-1.
+    vector<double> m_anharmty ; // The associated anharmonicity.
 
-	} ;
 
-	//************************************************************
-	//Global instance, defining its id (usually the only instance) but here with an alternative name
-	Morse theMorse("Morse");
-	//************************************************************
+  } ;
 
-	//Read data from XML. 
-	bool Morse::ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC) {
-		m_ppDOSC = ppDOSC ;
-		return true ;
-	}
+  //************************************************************
+  //Global instance, defining its id (usually the only instance) but here with an alternative name
+  Morse theMorse("Morse");
+  //************************************************************
 
-	// Provide a function to define particular counts of the DOS of a molecule.
-	bool Morse::countCellDOS(gDensityOfStates* pDOS, size_t MaximumCell)
-	{
+  //Read data from XML. 
+  bool Morse::ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC) {
+    m_ppDOSC = ppDOSC ;
+    PersistPtr pp = m_ppDOSC ;
+    while(pp = pp->XmlMoveTo("me:MorseParameters")) {
+      double vibFreq  = pp->XmlReadDouble("vibrationalFrequency", true);
+      double anharmty = pp->XmlReadDouble("anharmoicity",         true);
+      m_vibFreq.push_back(vibFreq) ;
+      m_anharmty.push_back(-fabs(anharmty)) ; // Ensure the anharmonicity is negative.
+    }
 
-		PersistPtr pp = m_ppDOSC ;
-		while(pp = pp->XmlMoveTo("me:PotentialPoint"))
-		{
-		}
+    return true ;
+  }
 
-		vector<double> VibFreq ;
-		pDOS->get_VibFreq(VibFreq) ;
+  // Provide a function to define particular counts of the DOS of a molecule.
+  bool Morse::countCellDOS(gDensityOfStates* pDOS, size_t MaximumCell)
+  {
+    vector<double> cellDOS;
+    if(!pDOS->getCellDensityOfStates(cellDOS, 0, false)) // retrieve the DOS vector without recalculating
+      return false;
 
-		vector<double> cellDOS;
-		if(!pDOS->getCellDensityOfStates(cellDOS, 0, false)) // retrieve the DOS vector without recalculating
-			return false;
+    vector<double> tmpCellDOS(cellDOS) ;
 
-		// Implementation of the Beyer-Swinehart algorithm.
-		for (size_t j(0) ; j < VibFreq.size() ; ++j ) {
-			size_t freq = static_cast<size_t>(VibFreq[j]) ;
-			if (freq > MaximumCell) {
-				// This is to catch those occassional cases where the first excited 
-				// vibrational state is above the cutoff, which can occur at low 
-				// temperatures. 
-				continue ;
-			}
-			for (size_t i(0) ; i < MaximumCell - freq ; ++i ){
-				cellDOS[i + freq] += cellDOS[i] ;
-			}
-		}
-		pDOS->setCellDensityOfStates(cellDOS) ;
+    for (size_t nFrq(0) ; nFrq < m_vibFreq.size() ; nFrq++ )
+    {
+      double vibFreq  = m_vibFreq[nFrq];
+      double anharmty = m_anharmty[nFrq];
 
-		return true;
-	}
+      // Maximum bound energy.
 
-	// Calculate contribution to canonical partition function.
-	double Morse::canPrtnFnCntrb(gDensityOfStates* gdos, double beta) {
+      int nmax = int(-0.5*vibFreq/anharmty)  ;
 
-		double qtot(1.0) ; 
-		vector<double> vibFreq; 
-		gdos->get_VibFreq(vibFreq);
-		for (size_t j(0) ; j < vibFreq.size() ; ++j ) {
-			qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
-		}
+      vector<double> energyLevels ;
+      for (int n(0) ; n < nmax ; n++ ) {
+        double nu = double(n) ;
+        double energy = nu*vibFreq + nu*(nu + 1)*anharmty ;
+        energyLevels.push_back(energy) ;
+      }
 
-		return qtot ;
-	}
+      // Convolve with the density of states for the other degrees of freedom.
 
-	// Function to return the number of degrees of freedom associated with this count.
-	unsigned int Morse::NoDegOfFreedom(gDensityOfStates* gdos) {
+      for (size_t k(1) ; k < energyLevels.size() ; k++ ) {
+        size_t nr = int(energyLevels[k]) ;
+        if (nr < MaximumCell) {
+          for (size_t i(0) ; i < MaximumCell - nr ; i++ ) {
+            tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + cellDOS[i] ;
+          }
+        }
+      }
+    }
 
-		vector<double> vibFreq; 
-		gdos->get_VibFreq(vibFreq);
+    // Replace existing density of states.   
 
-		return vibFreq.size() ;
-	}
+    pDOS->setCellDensityOfStates(tmpCellDOS) ;
+
+    return true;
+  }
+
+  // Calculate contribution to canonical partition function.
+  double Morse::canPrtnFnCntrb(gDensityOfStates* gdos, double beta) {
+
+    double qtot(1.0) ; 
+    for (size_t nFrq(0) ; nFrq < m_vibFreq.size() ; nFrq++ )
+    {
+      double vibFreq  = m_vibFreq[nFrq];
+      double anharmty = m_anharmty[nFrq];
+
+      // Maximum bound energy.
+
+      int nmax = int(-0.5*vibFreq/anharmty)  ;
+
+      double qtmp(0.0) ;
+      for (int n(0) ; n < nmax ; n++ ) {
+        double nu = double(n) ;
+        double energy = nu*vibFreq + nu*(nu + 1)*anharmty ;
+        qtmp = exp(-beta*energy) ;
+      }
+
+      qtot *= qtmp ;
+    }
+
+    return qtot ;
+  }
+
+  // Function to return the number of degrees of freedom associated with this count.
+  unsigned int Morse::NoDegOfFreedom(gDensityOfStates* gdos) {
+    return m_vibFreq.size() ;
+  }
 
 }//namespace

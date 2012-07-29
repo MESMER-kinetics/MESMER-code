@@ -202,36 +202,8 @@
 	</molecule>
 
   </moleculeList>
-  
-  <!--<reactionList>
-	<reaction id="R1" reversible="true">
-	  <reactant>
-		<molecule ref="NO"  me:type="excessReactant" />
-	  </reactant>
-	  <reactant>
-		<molecule ref="OH"  me:type="deficientReactant" />
-	  </reactant>
-	  <product>
-		<molecule ref="HNO2"  me:type="modelled" />
-	  </product>
-	  <me:MCRCMethod>MesmerILT</me:MCRCMethod>
-	  <me:preExponential>6.00e-12</me:preExponential>
-	  <me:activationEnergy  units="cm-1" reverse="true">546.0</me:activationEnergy>
-	  <me:TInfinity>1.0</me:TInfinity>
-	  <me:nInfinity>0.0</me:nInfinity>
-	  <me:excessReactantConc>1e14</me:excessReactantConc>
-	</reaction>
-  </reactionList>
-
-  <me:conditions>
-	<me:bathGas>He</me:bathGas>
-	<me:PTs>
-	  <me:PTpair me:units="Torr" me:P="760" me:T="560" />
-	</me:PTs>
-  </me:conditions>-->
 
   <me:control>
-	<me:testDOS />
 	<me:calcMethod me:units="kJ/mol">ThermodynamicTable</me:calcMethod>
   </me:control>
 

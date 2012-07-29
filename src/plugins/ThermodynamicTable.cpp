@@ -34,11 +34,11 @@ namespace mesmer
 	// Read any data from XML and store in this instance. 
 	bool ReadParameters(PersistPtr ppControl) ;
 
-	void underlineText(const string& text) const ;
+	string underlineText(const string& text) const ;
 
-	void writeTableHeader(const string& text, const string& unit) const ;
+	string writeTableHeader(const string& unit) const ;
 
-	void writeTableEntry(Molecule *pmol, double temp, double unitFctr) const ;
+	void writeTableEntry(Molecule *pmol, double temp, double unitFctr, string & header) const ;
 
 	int m_nTemp ;
 	double m_TempInterval ;
@@ -71,23 +71,24 @@ namespace mesmer
 	bool   tempLessThan298(true) ;
 	double temp289(298.15) ;
 
-	// Suppress the testing output of DOS else it will appear in the table output.
+	// Determine if DOS test information is to appear.
 
-	bool testDOS = pSys->m_Flags.testDOSEnabled ;
-	pSys->m_Flags.testDOSEnabled = false ;
+	pSys->m_Flags.testDOSEnabled = ppControl->XmlReadBoolean("me:testDOS");
+	if (pSys->m_Flags.testDOSEnabled) {
+	  pSys->getEnv().beta = 1.0/(boltzmann_RCpK*double(m_nTemp)*m_TempInterval) ;
+	}
 
 	// Begin table.
 
 	ctest << endl ;
-	underlineText(string("Thermodynamic Tables")) ; 
+	ctest << underlineText(string("Thermodynamic Tables")) ; 
 
 	// Parse molecule data. 
 
 	MoleculeManager* pMoleculeManager = pSys->getMoleculeManager() ;
 
 	PersistPtr ppMolList = pMoleculeManager->get_PersistPtr();
-	if(!ppMolList)
-	{
+	if (!ppMolList) {
 	  cerr << "No molecules have been specified." << endl;
 	  return false;
 	}
@@ -98,7 +99,7 @@ namespace mesmer
 	  // Get the name of the molcule.
 	  const char* reftxt = ppmol->XmlReadValue("id");
 	  if (reftxt) {
-		 pMoleculeManager->addmol(string(reftxt), string(""), pSys->getEnv(), pSys->m_Flags);
+		pMoleculeManager->addmol(string(reftxt), string("modelled"), pSys->getEnv(), pSys->m_Flags);
 	  }
 	}
 
@@ -109,7 +110,11 @@ namespace mesmer
 	for (; molItr != molItrEnd ; molItr++) {
 
 	  Molecule *pmol = molItr->second;
-	  writeTableHeader(pmol->getName(), m_Unit) ;
+
+	  ctest << endl ;
+	  ctest << underlineText(pmol->getName()) ;
+
+	  string header = writeTableHeader(m_Unit) ;
 	  tempLessThan298 = true ;
 	  for (int i(1); i < m_nTemp ; i++) {
 		double temp(m_TempInterval*double(i)) ;
@@ -119,10 +124,10 @@ namespace mesmer
 
 		  tempLessThan298 = false ;
 		  ctest << endl ;
-		  writeTableEntry(pmol, temp289, unitFctr) ;
+		  writeTableEntry(pmol, temp289, unitFctr, header) ;
 		  ctest << endl ;
 		}
-		writeTableEntry(pmol, temp, unitFctr) ;
+		writeTableEntry(pmol, temp, unitFctr, header) ;
 		if (!(i % 5)) 
 		  ctest << endl ;
 	  }
@@ -132,61 +137,69 @@ namespace mesmer
 
 		tempLessThan298 = false ;
 		ctest << endl ;
-		writeTableEntry(pmol, temp289, unitFctr) ;
+		writeTableEntry(pmol, temp289, unitFctr, header) ;
 		ctest << endl ;
 	  }
 
 	}
 
-	// Revert the setting status of DOS testing.
-
-	pSys->m_Flags.testDOSEnabled = testDOS ;
-
 	return true ;
 
   }
 
-  void ThermodynamicTable::underlineText(const string& text) const {
+  string ThermodynamicTable::underlineText(const string& text) const {
 
-	ctest << " " << text << endl ;
-	ctest << " " ;
+	ostringstream sstrdatum ;
+	sstrdatum << " " << text << endl ;
+	sstrdatum << " " ;
 	for (size_t i(0) ; i < text.size() ; i++ ) 
-	  ctest << "-" ;
-	ctest << endl ;
+	  sstrdatum << "-" ;
+	sstrdatum << endl ;
+
+	return sstrdatum.str() ;
 
   }
 
-  void ThermodynamicTable::writeTableHeader(const string& text, const string& unit) const {
+  string ThermodynamicTable::writeTableHeader(const string& unit) const {
 
 	ostringstream sstrdatum ;
 
 	sstrdatum.setf(ios::right, ios::adjustfield) ;
 
-	ctest << "\n" << text << "\n " ;
+	sstrdatum << " " ;
 	sstrdatum << setw(10) << "Temp" ;
 	sstrdatum << setw(15) << "H(T)" ;
 	sstrdatum << setw(15) << "S(T)" ;
 	sstrdatum << setw(15) << "G(T)" ;
-	ctest << sstrdatum.str() << endl ;
+	sstrdatum << endl ;
 
 	ostringstream sstrunit ;
 	sstrunit << "(" << unit << ")" ;
 	ostringstream sstrunitk ;
 	sstrunitk << "(" << unit << "/K)" ;
 
-	sstrdatum.str("") ;
-	sstrdatum << setw(10) << "(K)" ;
-	sstrdatum << setw(15) << sstrunit.str()  ;
-	sstrdatum << setw(15) << sstrunitk.str() ;
-	sstrdatum << setw(15) << sstrunit.str()  ;
+	ostringstream sstrdatum2 ;
+	sstrdatum2 << setw(10) << "(K)" ;
+	sstrdatum2 << setw(15) << sstrunit.str()  ;
+	sstrdatum2 << setw(15) << sstrunitk.str() ;
+	sstrdatum2 << setw(15) << sstrunit.str()  ;
 
-	underlineText(sstrdatum.str());
+	sstrdatum << underlineText(sstrdatum2.str()) ;
+
+	return sstrdatum.str() ;
   }
 
-  void ThermodynamicTable::writeTableEntry(Molecule *pmol, double temp, double unitFctr) const {
+  void ThermodynamicTable::writeTableEntry(Molecule *pmol, double temp, double unitFctr, string& header) const {
+
 	double enthalpy(0.0), entropy(0.0), gibbsFreeEnergy(0.0) ;
 	pmol->getDOS().thermodynamicsFunctions(temp, unitFctr, enthalpy, entropy, gibbsFreeEnergy) ;
-	ctest << formatFloat(temp, 6, 11) << formatFloat(enthalpy, 6, 15) 
+
+	if (header.length() > 0) {
+	  ctest << endl ;
+	  ctest << header ;
+	  header.clear() ;
+	}
+	ctest << formatFloat(temp,    6, 11) << formatFloat(enthalpy,        6, 15) 
 	  << formatFloat(entropy, 6, 15) << formatFloat(gibbsFreeEnergy, 6, 15) << endl ;
   }
 
