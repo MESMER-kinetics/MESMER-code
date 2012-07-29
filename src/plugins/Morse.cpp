@@ -129,7 +129,7 @@ namespace mesmer
       for (int n(0) ; n < nmax ; n++ ) {
         double nu = double(n) ;
         double energy = nu*vibFreq + nu*(nu + 1)*anharmty ;
-        qtmp = exp(-beta*energy) ;
+        qtmp += exp(-beta*energy) ;
       }
 
       qtot *= qtmp ;
