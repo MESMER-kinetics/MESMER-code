@@ -87,16 +87,17 @@ namespace mesmer
 		nmax = MaximumCell/nint(vibFreq) ;
 	  }
 
+	  // Calculate energy levels.
+
       vector<double> energyLevels ;
 	  double energy(0.0) ;
 	  int n(0) ;
       do {
         double nu = double(n) ;
-        energy = nu*vibFreq + nu*nu*anharmty ;
-        // energy = nu*vibFreq + nu*(nu + 1)*anharmty ;
+        energy = nu*vibFreq + nu*(nu + 1)*anharmty ;
         energyLevels.push_back(energy) ;
 		n++ ;
-      } while (energy < double(MaximumCell) && n < nmax) ;
+      } while (energy < double(MaximumCell) && n <= nmax) ;
 
       // Convolve with the density of states for the other degrees of freedom.
 
