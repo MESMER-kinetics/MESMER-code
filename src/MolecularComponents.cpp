@@ -160,7 +160,13 @@ namespace mesmer
 	  //data from <me:rotConsts>
 	  istringstream idata(txt);
 	  idata >> rCnst[0] >> rCnst[1] >> rCnst[2];
-	  // txt = ppPropList->XmlReadPropertyAttribute("me:rotConsts", "units", optional)
+	  txt = ppPropList->XmlReadPropertyAttribute("me:rotConsts", "units", optional) ;
+	  if (string(txt) == "amuA^2") {
+		// The supplied data are moments of inertia with units amuAng^2.
+		rCnst[0] = conMntInt2RotCnt/rCnst[0] ;
+		rCnst[1] = conMntInt2RotCnt/rCnst[1] ;
+		rCnst[2] = conMntInt2RotCnt/rCnst[2] ;
+	  }
 	  hasRotConst = true;
 	  m_RC_chk = 0;
 	} else {

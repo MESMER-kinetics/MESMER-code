@@ -52,6 +52,8 @@ namespace mesmer
 
     bool Test_Spline() const ;
 
+	// MEIC tests:
+
     bool Test_MEIC_1(Molecule* pMol) const ;
 
 	bool Test_MEIC_Anharmonic(Molecule *pMol) const ;
@@ -90,7 +92,10 @@ namespace mesmer
     // Test Spline class.
     status = ( status && Test_Spline()) ;
 
-    // MEIC test: Harmonic oscillator.
+	MesmerEnv& Env = pSys->getEnv() ;
+	Env.MaxCell = 50000 ;
+
+	// MEIC test: Harmonic oscillator.
     Molecule *pMol = pSys->getMoleculeManager()->find("Test Molecule");
     status = ( status && Test_MEIC_1(pMol)) ;
 
@@ -100,7 +105,7 @@ namespace mesmer
 	pMol = pSys->getMoleculeManager()->find("AcO2 Anharmonic");
 	status = ( status && Test_MEIC_Anharmonic(pMol)) ;
 
-	// status = ( status && Test_MEIC_Rotors(pMol)) ;
+	status = ( status && Test_MEIC_Rotors(pMol)) ;
 
     ctest << endl ;
     if (status) {
@@ -270,8 +275,20 @@ namespace mesmer
 
     bool status(true) ; 
 
+	// First, extract the total, i.e. rovibrational, densities of states.
+
     ctest << endl ;
-    underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Harmonic oscillators only.") ) ;
+
+	vector<double> totalCellDOS ;
+	pMol->getDOS().getCellDensityOfStates(totalCellDOS, 0, false) ;
+
+    underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Harmonic oscillators + rotors.") ) ;
+
+	status = status && Test_MEIC_formGrainSOS(totalCellDOS) ;
+
+    ctest << endl ;
+
+	underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Harmonic oscillators only.") ) ;
 
     DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("BeyerSwinehart", false);
 
@@ -288,13 +305,24 @@ namespace mesmer
 
     pMol->getDOS().getCellDensityOfStates(cellDOS, 0, false) ;
 
-	return Test_MEIC_formGrainSOS(cellDOS) ;
+	return (status && Test_MEIC_formGrainSOS(cellDOS)) ;
 
   }
 
   bool UnitTests::Test_MEIC_Anharmonic(Molecule *pMol) const {
 
     bool status(true) ; 
+
+	// First, extract the total, i.e. rovibrational, densities of states.
+
+    ctest << endl ;
+
+	vector<double> totalCellDOS ;
+	pMol->getDOS().getCellDensityOfStates(totalCellDOS, 0, false) ;
+
+    underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Anharmonic oscillators + rotors.") ) ;
+
+	status = status && Test_MEIC_formGrainSOS(totalCellDOS) ;
 
     ctest << endl ;
     underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Anharmonic oscillators only.") ) ;
@@ -329,13 +357,12 @@ namespace mesmer
     ctest << endl ;
     underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Rotors only.") ) ;
 
-    DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("QMRotors", true);
+    DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("QMRotors", false);
 
-    // Calculate vibrational densities of states.
+    // Calculate rotational densities of states.
 
     size_t MaximumCell(50000) ;
     vector<double> cellDOS(MaximumCell, 0.0) ;
-    cellDOS[0] = 1.0 ;
     pMol->getDOS().setCellDensityOfStates(cellDOS) ;
 
     status = status && pDOSCalculator->countCellDOS(&(pMol->getDOS()), MaximumCell) ;

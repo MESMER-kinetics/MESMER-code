@@ -73,7 +73,6 @@ namespace mesmer
     if(!pDOS->getCellDensityOfStates(cellDOS, 0, false)) // retrieve the DOS vector without recalculating
       return false;
 
-
     for (size_t nFrq(0) ; nFrq < m_vibFreq.size() ; nFrq++ )
     {
       double vibFreq  = m_vibFreq[nFrq];
@@ -93,7 +92,8 @@ namespace mesmer
 	  int n(0) ;
       do {
         double nu = double(n) ;
-        energy = nu*vibFreq + nu*(nu + 1)*anharmty ;
+        energy = nu*vibFreq + nu*nu*anharmty ;
+        // energy = nu*vibFreq + nu*(nu + 1)*anharmty ;
         energyLevels.push_back(energy) ;
 		n++ ;
       } while (energy < double(MaximumCell) && n < nmax) ;

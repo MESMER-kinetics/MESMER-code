@@ -13,7 +13,7 @@
           <array units="cm-1">
             3030        3020        3010        3005        1503        1401
             1383         999         951         877         652         333
-            278         250          89
+             278         250          89
           </array>
         </property>
         <property title="Rotational Constants" dictRef="me:rotConsts">
@@ -41,12 +41,13 @@
           </array>
         </property>
         <property title="Rotational Constants" dictRef="me:rotConsts">
-          <array units="cm-1">3.00 3.00 3.00 </array>
+          <array units="amuA^2"> 54.2219 127.6029 127.6029 </array>
         </property>
         <property title="Symmetry Number" dictRef="me:symmetryNumber">
           <scalar>1 </scalar>
         </property>
       </propertyList>
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
     </molecule>
 
     <!-- Details supplied by John Barker for MEIC tests.-->
@@ -56,13 +57,14 @@
           <scalar>0.0</scalar>
         </property>
         <property title="Rotational Constants" dictRef="me:rotConsts">
-          <array units="cm-1">3.00 3.00 3.00 </array>
+          <array units="amuA^2"> 54.2219 127.6029 127.6029 </array>
         </property>
         <property title="Symmetry Number" dictRef="me:symmetryNumber">
           <scalar>1 </scalar>
         </property>
       </propertyList>
 
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
       <me:ExtraDOSCMethod name="Morse">
         <me:MorseParameters vibrationalFrequency="141.8453" anharmoicity="0.0"/>
         <me:MorseParameters vibrationalFrequency="163.6481" anharmoicity="0.0"/>
