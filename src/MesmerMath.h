@@ -1,6 +1,24 @@
 #ifndef GUARD_MesmerMath_h
 #define GUARD_MesmerMath_h
 
+#include <algorithm>
+#include <cmath>
+#include <limits>
+#include <vector>
+#include "Matrix.h"
+#include "MesmerPrecision.h"
+
+using namespace mesmer;
+
+//
+// Some basic utility functions:
+//
+inline int nint(double x) { return (x>0)? int(x+0.5):int(x-0.5) ; } ;
+
+template<class T>
+inline const T SQR(const T a) {return a*a;}
+
+
 
 // This routine is copied from the following source and modified for purpose to used as a template:
 //  ggm.cpp -- computation of ggm function.
@@ -14,14 +32,6 @@
 // NOTE: Returns 1e308 if argument is a negative integer or 0,
 //      or if argument exceeds 171.
 //
-#include <algorithm>
-#include <cmath>
-#include <limits>
-#include <vector>
-#include "Matrix.h"
-#include "MesmerPrecision.h"
-
-using namespace mesmer;
 
 template <class T>
 const T MesmerGamma(const T& x)
@@ -94,9 +104,6 @@ const T MesmerGamma(const T& x)
   }
   return ga;
 }
-template<class T>
-inline const T SQR(const T a) {return a*a;}
-
 
 //convolutes rovibrational DOSs
 void Convolution(const std::vector<double> &f1,

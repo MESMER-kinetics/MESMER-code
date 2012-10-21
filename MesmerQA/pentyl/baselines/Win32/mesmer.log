@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- May 30 2012 -- 18:40:12
+     Mesmer v2.0 compiled: -- Oct 21 2012 -- 15:01:25
 
      Copyright (C) 2009-2012 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -30,6 +30,7 @@
 Parsing input xml file...
 pentyl_isomerization_test.xml
 
+The default value of me:calcMethod was used.
 In R1: Parsing reaction...
 In n-pentyl: The default value of me:frequenciesScaleFactor was used.
 In n-pentyl: The default value of me:DOSCMethod was used.
@@ -49,15 +50,13 @@ In R1: No crossing method requested for R1
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
 1e+008PPCC, 500K at double precision
-The default value of me:calcMethod was used.
-Write metadata 20120530_195905
+Write metadata 20121021_150356
 
 File: "pentyl_isomerization_test.xml" successfully parsed.
 Calculate EGME
 In mesmer::CollisionOperator::timeEvolution: No population was assigned, and there is no source term.
 In mesmer::CollisionOperator::timeEvolution: Initialize a Boltzmann distribution in the first isomer.
-
-Finish Calculation -- Time elapsed: 0 seconds.
- -- Total time elapsed: 5 seconds.
+Finish Calculation of P-T case
+ -- Total time elapsed: 0 seconds.
 
 System saved to out.xml

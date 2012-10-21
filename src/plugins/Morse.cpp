@@ -11,7 +11,6 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include "../DensityOfStates.h"
 #include "../MolecularComponents.h"
 
 using namespace std;
@@ -46,7 +45,6 @@ namespace mesmer
     vector<double> m_vibFreq ;  // The 0->1 transition of each Morse oscillator in cm-1.
     vector<double> m_anharmty ; // The associated anharmonicity.
 
-
   } ;
 
   //************************************************************
@@ -75,7 +73,6 @@ namespace mesmer
     if(!pDOS->getCellDensityOfStates(cellDOS, 0, false)) // retrieve the DOS vector without recalculating
       return false;
 
-    vector<double> tmpCellDOS(cellDOS) ;
 
     for (size_t nFrq(0) ; nFrq < m_vibFreq.size() ; nFrq++ )
     {
@@ -84,30 +81,41 @@ namespace mesmer
 
       // Maximum bound energy.
 
-      int nmax = int(-0.5*vibFreq/anharmty)  ;
+      int nmax(0) ;
+	  if (anharmty < 0.0) {
+		nmax = int(-0.5*(vibFreq + anharmty)/anharmty)  ;
+	  } else {
+		nmax = MaximumCell/nint(vibFreq) ;
+	  }
 
       vector<double> energyLevels ;
-      for (int n(0) ; n < nmax ; n++ ) {
+	  double energy(0.0) ;
+	  int n(0) ;
+      do {
         double nu = double(n) ;
-        double energy = nu*vibFreq + nu*(nu + 1)*anharmty ;
+        energy = nu*vibFreq + nu*(nu + 1)*anharmty ;
         energyLevels.push_back(energy) ;
-      }
+		n++ ;
+      } while (energy < double(MaximumCell) && n < nmax) ;
 
       // Convolve with the density of states for the other degrees of freedom.
 
+      vector<double> tmpCellDOS(cellDOS) ;
       for (size_t k(1) ; k < energyLevels.size() ; k++ ) {
-        size_t nr = int(energyLevels[k]) ;
+        size_t nr = nint(energyLevels[k]) ;
         if (nr < MaximumCell) {
           for (size_t i(0) ; i < MaximumCell - nr ; i++ ) {
             tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + cellDOS[i] ;
           }
         }
       }
+
+	  cellDOS = tmpCellDOS ;
     }
 
     // Replace existing density of states.   
 
-    pDOS->setCellDensityOfStates(tmpCellDOS) ;
+    pDOS->setCellDensityOfStates(cellDOS) ;
 
     return true;
   }

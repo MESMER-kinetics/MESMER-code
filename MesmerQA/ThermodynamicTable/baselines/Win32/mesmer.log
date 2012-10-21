@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Jul 21 2012 -- 22:29:36
+     Mesmer v2.0 compiled: -- Oct 21 2012 -- 15:01:25
 
      Copyright (C) 2009-2012 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -30,7 +30,7 @@
 Parsing input xml file...
 ThermodynamicTable.xml
 
-Write metadata 20120729_195156
+Write metadata 20121021_150404
 
 File: "ThermodynamicTable.xml" successfully parsed.
 Calculate EGME

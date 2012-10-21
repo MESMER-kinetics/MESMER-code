@@ -196,7 +196,9 @@
     <None Include="..\..\defaults.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="..\..\librarymols.xml" />
+    <None Include="..\..\librarymols.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\mesmer1.xsl">
       <SubType>Designer</SubType>
     </None>

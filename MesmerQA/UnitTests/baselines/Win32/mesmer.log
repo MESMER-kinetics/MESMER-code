@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Jul 21 2012 -- 11:03:53
+     Mesmer v2.0 compiled: -- Oct 21 2012 -- 15:01:25
 
      Copyright (C) 2009-2012 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -30,7 +30,7 @@
 Parsing input xml file...
 UnitTests.xml
 
-Write metadata 20120721_183844
+Write metadata 20121021_150405
 
 File: "UnitTests.xml" successfully parsed.
 Calculate EGME
@@ -43,6 +43,26 @@ In Test Molecule: New me:ZPE element written with data from me:Hf298
 Number of grains produced is not equal to that requested
 Number of grains requested: 5000
 Number of grains produced : 4959
+In AcO2 Harmonic: The default value of me:frequenciesScaleFactor was used.
+In AcO2 Harmonic: The default value of spinMultiplicity (or one of its attributes) was used.
+In AcO2 Harmonic: The default value of me:DOSCMethod was used.
+In AcO2 Harmonic: If no chemical structure is provided,Molecular Weight must be input as an XML property.
+In AcO2 Harmonic: To use me::Hf0 or Hf298 the molecule needs chemical structure (an atomList at least)
+In AcO2 Harmonic: New me:ZPE element written with data from me:Hf298
+Number of grains produced is not equal to that requested
+Number of grains requested: 5000
+Number of grains produced : 4945
+In AcO2 Anharmonic: If no chemical structure is provided,Molecular Weight must be input as an XML property.
+In AcO2 Anharmonic: Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion.
+In AcO2 Anharmonic: Improper setting on vibrational frequencies or rotational constants.
+In AcO2 Anharmonic: The default value of me:frequenciesScaleFactor was used.
+In AcO2 Anharmonic: The default value of spinMultiplicity (or one of its attributes) was used.
+In AcO2 Anharmonic: The default value of me:DOSCMethod was used.
+In AcO2 Anharmonic: To use me::Hf0 or Hf298 the molecule needs chemical structure (an atomList at least)
+In AcO2 Anharmonic: New me:ZPE element written with data from me:Hf298
+Number of grains produced is not equal to that requested
+Number of grains requested: 5000
+Number of grains produced : 4941
  -- Total time elapsed: 0 seconds.
 
 System saved to out.xml

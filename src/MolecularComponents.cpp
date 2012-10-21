@@ -131,16 +131,14 @@ namespace mesmer
 
 	const char* txt;
 
-	bool hasVibFreq = true; bool hasRotConst = true;
+	bool hasVibFreq(true), hasRotConst(true) ;
 	txt= ppPropList->XmlReadProperty("me:vibFreqs", optional);
-	if(!txt){
+	if (!txt) {
 	  hasVibFreq = false;
-    if(!pMol->getStruc().IsAtom())
-	    cinfo << "Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion." << endl;
+	  if(!pMol->getStruc().IsAtom())
+		cinfo << "Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion." << endl;
 	  m_VibFreq_chk = -1;
-	}
-	else 
-	{ 
+	} else { 
 	  istringstream idata(txt);
 	  double x; 
 	  while (idata >> x)
@@ -157,25 +155,25 @@ namespace mesmer
 
 	std::vector<double> rCnst(3, 0.0);
 	hasRotConst = false;
-  txt = ppPropList->XmlReadProperty("me:rotConsts", optional);
-	if(txt) {
+	txt = ppPropList->XmlReadProperty("me:rotConsts", optional);
+	if (txt) {
 	  //data from <me:rotConsts>
 	  istringstream idata(txt);
 	  idata >> rCnst[0] >> rCnst[1] >> rCnst[2];
-    hasRotConst = true;
-    m_RC_chk = 0;
-  } 
-  else {
-    ////data from atom coordinates
+	  // txt = ppPropList->XmlReadPropertyAttribute("me:rotConsts", "units", optional)
+	  hasRotConst = true;
+	  m_RC_chk = 0;
+	} else {
+	  ////data from atom coordinates
 	  gStructure& gs = pMol->getStruc();
 	  if(gs.ReadStructure()) {
-		  rCnst = gs.CalcRotConsts();
-		  cinfo << "Rotational constants were calculated from atom coordinates: "
-		    << m_RotCstA << ' ' << m_RotCstB << ' ' << m_RotCstC << " cm-1" << endl;
-      hasRotConst = true; 
+		rCnst = gs.CalcRotConsts();
+		cinfo << "Rotational constants were calculated from atom coordinates: "
+		  << m_RotCstA << ' ' << m_RotCstB << ' ' << m_RotCstC << " cm-1" << endl;
+		hasRotConst = true; 
 	  }
 	}
-	if(hasRotConst) {
+	if (hasRotConst) {
 	  // Check rotational constants are valid.
 	  if (rCnst[0] < 0.0 || rCnst[1] < 0.0 || rCnst[2] < 0.0) {
 		cerr << "A negative rotational constant found "<< endl ;
@@ -188,19 +186,19 @@ namespace mesmer
 	  m_RotCstC = rCnst[0];
 	  m_RC_chk = 0;
 	}
-  else if (!pMol->getStruc().IsAtom()){
-    cinfo << "No rotational constants from <me:rotConsts> or structure. "
-             "Assumed to be an atom or atomic ion." << endl;
-    }
-    else
-      m_RC_chk = 0;
+	else if (!pMol->getStruc().IsAtom()){
+	  cinfo << "No rotational constants from <me:rotConsts> or structure. "
+		"Assumed to be an atom or atomic ion." << endl;
+	}
+	else
+	  m_RC_chk = 0;
 
 	if (hasVibFreq != hasRotConst){
 	  cerr << "Improper setting on vibrational frequencies or rotational constants." << endl;
 	}
 
-	txt= ppPropList->XmlReadProperty("me:electronicExcitation", optional);
-	if(txt) {
+	txt = ppPropList->XmlReadProperty("me:electronicExcitation", optional);
+	if (txt) {
 	  istringstream idata(txt);
 	  m_eleExc.clear();
 	  double _iele;
@@ -442,9 +440,9 @@ namespace mesmer
   RotationalTop gDensityOfStates::get_rotConsts(std::vector<double> &mmtsInt)
   {
 	if (m_RC_chk <= -1){
-    ErrorContext e(this->getHost()->getName());
+	  ErrorContext e(this->getHost()->getName());
 	  if (m_RC_chk == -1)
-		  cinfo << "Rotational constants were not defined but requested." << endl;
+		cinfo << "Rotational constants were not defined but requested." << endl;
 	  --m_RC_chk;
 	  return UNDEFINED_TOP; // treat as a non-rotor
 	}
@@ -1288,7 +1286,7 @@ namespace mesmer
   bool gWellProperties::collisionOperator(double beta)
   {
 	if (m_host->getDOS().test_rotConsts() == UNDEFINED_TOP){   // davidglo, requirement for the diamond work.
-		cinfo << "For " << m_host->getName() << ", there no rotational states are defined... only vibrations will be used to construct the molecular DOS" << endl;
+	  cinfo << "For " << m_host->getName() << ", there no rotational states are defined... only vibrations will be used to construct the molecular DOS" << endl;
 	}
 	//
 	//     i) Determine Probabilities of Energy Transfer.
@@ -1409,7 +1407,7 @@ namespace mesmer
 		  // Transfer to higher Energy (via detailed balance) -
 		  (*egme)[j][i] = transferDown * (nj/ni) * exp(-beta*(ej - ei)) ;
 		}
-		}
+	  }
 	}
 
 	return true ;
