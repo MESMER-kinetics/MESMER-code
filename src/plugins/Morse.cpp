@@ -81,25 +81,23 @@ namespace mesmer
       // Maximum bound energy.
 
       int nmax(0) ;
-	  if (anharmty < 0.0) {
-		nmax = int(-0.5*(vibFreq + anharmty)/anharmty)  ;
-	  } else {
-		nmax = MaximumCell/nint(vibFreq) ;
-	  }
+      if (anharmty < 0.0) {
+        nmax = int(-0.5*(vibFreq + anharmty)/anharmty)  ;
+      } else {
+        nmax = int(double(MaximumCell)/vibFreq) ;
+      }
 
-	  // Calculate energy levels.
+      // Calculate energy levels.
 
       vector<double> energyLevels ;
-	  double energy(0.0) ;
-	  int n(0) ;
-      do {
+      for (int n(0) ; n <= nmax ; n++ ) {
         double nu = double(n) ;
-        energy = nu*vibFreq + nu*(nu + 1)*anharmty ;
+        double energy = nu*vibFreq + nu*(nu + 1)*anharmty ;
         energyLevels.push_back(energy) ;
-		n++ ;
-      } while (energy < double(MaximumCell) && n <= nmax) ;
+      } 
 
       // Convolve with the density of states for the other degrees of freedom.
+			// (Essentially the Stein-Rabinovitch algorithm).
 
       vector<double> tmpCellDOS(cellDOS) ;
       for (size_t k(1) ; k < energyLevels.size() ; k++ ) {
@@ -111,7 +109,7 @@ namespace mesmer
         }
       }
 
-	  cellDOS = tmpCellDOS ;
+      cellDOS = tmpCellDOS ;
     }
 
     // Replace existing density of states.   
@@ -132,10 +130,17 @@ namespace mesmer
 
       // Maximum bound energy.
 
-      int nmax = int(-0.5*vibFreq/anharmty)  ;
+      int nmax(0) ;
+      if (anharmty < 0.0) {
+        nmax = int(-0.5*(vibFreq + anharmty)/anharmty)  ;
+      } else {
+        nmax = int(double(MaximumCell)/vibFreq) ;
+      }
+
+			// Calculate canonical partition function.
 
       double qtmp(0.0) ;
-      for (int n(0) ; n < nmax ; n++ ) {
+      for (int n(0) ; n <= nmax ; n++ ) {
         double nu = double(n) ;
         double energy = nu*vibFreq + nu*(nu + 1)*anharmty ;
         qtmp += exp(-beta*energy) ;
