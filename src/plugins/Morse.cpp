@@ -134,7 +134,7 @@ namespace mesmer
       if (anharmty < 0.0) {
         nmax = int(-0.5*(vibFreq + anharmty)/anharmty)  ;
       } else {
-        nmax = int(double(MaximumCell)/vibFreq) ;
+        nmax = int(15.0*log(10.0)/(beta*vibFreq)) ;
       }
 
 			// Calculate canonical partition function.

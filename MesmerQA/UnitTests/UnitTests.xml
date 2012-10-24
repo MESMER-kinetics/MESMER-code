@@ -88,6 +88,31 @@
 
     </molecule>
 
+      <!-- Details supplied by John Barker for MEIC tests, except rotational constants.-->
+      <molecule id="AcO2 Asymmetric Top">
+          <propertyList>
+              <property title="Hf298">
+                  <scalar>0.0</scalar>
+              </property>
+              <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
+                  <array units="cm-1">
+                      141.8453            163.6481            3161.925            3062.283
+                      1901.381            1460.162            1398.929            1196.828
+                      1136.066             984.196             741.314             555.306
+                      505.558             328.317            3121.741            1466.209
+                      1049.543             546.466
+                  </array>
+              </property>
+              <property title="Rotational Constants" dictRef="me:rotConsts">
+                  <array units="cm-1">0.1081 0.161 0.3105</array>
+              </property>
+              <property title="Symmetry Number" dictRef="me:symmetryNumber">
+                  <scalar>1 </scalar>
+              </property>
+          </propertyList>
+          <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      </molecule>
+
   </moleculeList>
 
   <me:control>
