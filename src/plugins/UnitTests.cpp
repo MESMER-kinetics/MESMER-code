@@ -62,7 +62,7 @@ namespace mesmer
 
     // Support methods:
 
-    bool UnitTests::Test_MEIC_formGrainSOS(vector<double> &cellDOS) const ;
+    bool Test_MEIC_formGrainSOS(vector<double> &cellDOS) const ;
 
     bool parseInput(System* pSys) const ;
 
