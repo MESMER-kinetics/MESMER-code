@@ -61,7 +61,7 @@
           <scalar units="cm-1">230.0</scalar>
         </property>
         <property dictRef="me:spinMultiplicity">
-          <scalar>1</scalar>
+          <scalar>2</scalar>
         </property>
       </propertyList>
     </molecule>
@@ -163,7 +163,7 @@
           <scalar units="cm-1">230.0</scalar>
         </property>
         <property dictRef="me:spinMultiplicity">
-          <scalar>1</scalar>
+          <scalar>2</scalar>
         </property>
       </propertyList>
     </molecule>
@@ -205,7 +205,7 @@
           </array>
         </property>
         <property dictRef="me:symmetryNumber">
-          <scalar>2</scalar>
+          <scalar>9</scalar>
         </property>
         <property dictRef="me:vibFreqs">
           <array units="cm-1">
@@ -230,7 +230,7 @@
           <scalar units="cm-1">230.0</scalar>
         </property>
         <property dictRef="me:spinMultiplicity">
-          <scalar>1</scalar>
+          <scalar>2</scalar>
         </property>
       </propertyList>
     </molecule>
