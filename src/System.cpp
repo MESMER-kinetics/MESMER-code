@@ -187,7 +187,7 @@ namespace mesmer
     string energyConvention = m_pMoleculeManager->checkEnergyConventions();
     if(energyConvention.empty())
     {
-      cerr << "Not all the molecule energies use the same baseline and need to be.\n";
+      cerr << "The zero point energy convention is not the same for all species.\n";
       return false;
     }
     else

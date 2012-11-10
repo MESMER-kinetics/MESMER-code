@@ -40,10 +40,10 @@ namespace mesmer
     if (it != m_molmap.end()) { // found a molecule with the same name --> should check its type as well later.
       // Check if the related properties specified by molType is activated to allow the molecule to play the specific role. 
       // If they are not activated, activate them.
-        if (!((it->second)->activateRole(molType))){
-          cerr << "Failed to initialize some molecular properties";
-          return NULL;
-        }
+      if (!((it->second)->activateRole(molType))){
+        cerr << "Failed to initialize some molecular properties";
+        return NULL;
+      }
       return it->second;
     }
 
@@ -123,10 +123,10 @@ namespace mesmer
         string thisConvention = iter->second->getDOS().getEnergyConvention();
         if(firstConvention.empty())
           firstConvention = thisConvention;
-				if(firstConvention!=thisConvention){
-					cerr << "cannot find an energy convention for molecule " << iter->second->getName() << endl;
+        if(firstConvention!=thisConvention){
+          cerr << "cannot find an energy convention for molecule " << iter->second->getName() << endl;
           return string();
-				}
+        }
       }
     }
     return firstConvention;

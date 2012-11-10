@@ -314,7 +314,7 @@ namespace mesmer
     const double temperature = 1. / (boltzmann_RCpK * beta);
 
     for(int i(0); i < MaximumGrain; ++i){
-      k_forward += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
+      k_forward  += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
       k_backward += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i]);
     }
 
@@ -325,9 +325,9 @@ namespace mesmer
     set_fwdGrnCanonicalRate(k_forward);
     set_rvsGrnCanonicalRate(k_backward);
 
-    ctest << endl << "Canonical pseudo first order forward rate constant of isomerization reaction " 
+    ctest << endl << "Canonical first order forward rate constant of isomerization reaction " 
       << getName() << " = " << get_fwdGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
-    ctest << "Canonical pseudo first order backward rate constant of isomerization reaction " 
+    ctest << "Canonical first order backward rate constant of isomerization reaction " 
       << getName() << " = " << get_rvsGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
   }
 
