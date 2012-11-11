@@ -4,25 +4,25 @@ PT Grid 0 Condition: conc = 3e+17, temp = 720, diagonalization precision: double
 Test rovibronic density of states for: i-propyl
 {
       T           qtot           sumc           sumg
-    200        1865.43        1868.57        1830.34
-    300        7146.05        7160.69        7093.55
-    400        24838.2        24893.9        24761.1
-    500        81816.4        82007.9        81726.6
-    600         258867         259485         258866
-    700         789813         791717         790327
-    800   2.32737e+006   2.33299e+006   2.32986e+006
+    200        1865.43        1862.27        1824.14
+    300        7146.05        7143.76        7076.73
+    400        24838.2        24845.5        24712.9
+    500        81816.4        81864.2        81583.3
+    600         258867         259052         258434
+    700         789813         790423         789035
+    800   2.32737e+006    2.3292e+006   2.32606e+006
 }
 
 Canonical rate coefficients for R1, calculated from microcanonical rates
 {
-    100   8.60702e-072
-    200   3.42436e-029
-    300   5.69477e-015
-    400   7.34816e-008
-    500     0.00133383
-    600       0.864086
-    700        78.2262
-    800        1979.13
+    100   8.59127e-072
+    200   3.42272e-029
+    300   5.69339e-015
+    400   7.34656e-008
+    500     0.00133346
+    600       0.863776
+    700        78.1932
+    800        1978.22
 }
 
 Eq fraction matrix:
@@ -38,11 +38,11 @@ Equilibrium Fraction for i-propyl = 1
 Total number of eigenvalues = 186
 Eigenvalues
 {
- -6.393884e+006
- -4.354017e+006
- -2.754642e+006
- -1.562104e+006
- -4.501867e+001
+ -6.394015e+006
+ -4.354109e+006
+ -2.754710e+006
+ -1.562162e+006
+ -4.500730e+001
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -52,7 +52,7 @@ Number of sinks in this system: 1
 There should be 1 chemically significant eigenvalues (CSEs)
 Y_matrix:
 {
-        4.501851e+01
+        4.500714e+01
 }
 
 Z_matrix: {
@@ -71,22 +71,22 @@ Z_matrix * Z_matrix^(-1) [Identity matrix]:
 
 Kr matrix:
 {
--4.501867e+01	
+-4.500730e+01	
 }
 
 Kp matrix:
 {
-        4.501867e+01
+        4.500730e+01
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-i-propyl loss = -4.501867e+01
+i-propyl loss = -4.500730e+01
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-i-propyl -> propene+H = 4.501867e+01
+i-propyl -> propene+H = 4.500730e+01
 }
 
 }
@@ -95,14 +95,14 @@ PT Grid 1 Condition: conc = 3.01e+17, temp = 730, diagonalization precision: dou
 
 Canonical rate coefficients for R1, calculated from microcanonical rates
 {
-    100   8.60702e-072
-    200   3.42436e-029
-    300   5.69477e-015
-    400   7.34816e-008
-    500     0.00133383
-    600       0.864086
-    700        78.2262
-    800        1979.13
+    100   8.59127e-072
+    200   3.42272e-029
+    300   5.69339e-015
+    400   7.34656e-008
+    500     0.00133346
+    600       0.863776
+    700        78.1932
+    800        1978.22
 }
 
 Eq fraction matrix:
@@ -118,11 +118,11 @@ Equilibrium Fraction for i-propyl = 1
 Total number of eigenvalues = 186
 Eigenvalues
 {
- -6.429671e+006
- -4.361064e+006
- -2.735993e+006
- -1.530991e+006
- -6.137349e+001
+ -6.429800e+006
+ -4.361154e+006
+ -2.736058e+006
+ -1.531047e+006
+ -6.135810e+001
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -132,7 +132,7 @@ Number of sinks in this system: 1
 There should be 1 chemically significant eigenvalues (CSEs)
 Y_matrix:
 {
-        6.137317e+01
+        6.135778e+01
 }
 
 Z_matrix: {
@@ -151,22 +151,22 @@ Z_matrix * Z_matrix^(-1) [Identity matrix]:
 
 Kr matrix:
 {
--6.137349e+01	
+-6.135810e+01	
 }
 
 Kp matrix:
 {
-        6.137349e+01
+        6.135810e+01
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-i-propyl loss = -6.137349e+01
+i-propyl loss = -6.135810e+01
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-i-propyl -> propene+H = 6.137349e+01
+i-propyl -> propene+H = 6.135810e+01
 }
 
 }
