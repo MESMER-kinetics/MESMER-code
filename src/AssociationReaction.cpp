@@ -125,8 +125,7 @@ namespace mesmer
 
     qd_real DissRateCoeff(0.0) ;
 
-    const bool isCemetery(m_pdt1->getColl().isCemetery());
-    const int pdtRxnOptPos(pdtLoc - (pNGG == 0 ? 0 : (isCemetery ? pNGG : pNGG - 1)));
+    const int pdtRxnOptPos(pdtLoc - (pNGG == 0 ? 0 : pNGG - 1));
     const int adductPopFracShift(pNGG == 0 ? 0 : pNGG - 1);
     const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
     //const int forwardThreshE = get_EffGrnFwdThreshold();

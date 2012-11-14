@@ -1,3 +1,8 @@
+2012-November-14 Struan Robertson
+
+	* MolecularComponent.cpp/.h, and related files: Removal of 
+	cemetery state code.
+
 2012-November-10 Struan Robertson
 
 	* MESMER manual.docx: Updated manual with more detail on ZPE 

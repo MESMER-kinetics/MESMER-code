@@ -203,7 +203,7 @@ namespace mesmer
 
     bool ReadDOSMethods();
 
-	bool ReadZeroPointEnergy(PersistPtr &ppPropList) ;
+    bool ReadZeroPointEnergy(PersistPtr &ppPropList) ;
 
     // This function checks if any of the DPoint values is different then a DOS recalculation will take place
     bool needReCalculateDOS(void){ return !m_ZPE.isUnchanged() ; }
@@ -255,11 +255,10 @@ namespace mesmer
   private:
 
     double m_initPopulation ;   // initial population of the molecule.
-    double m_initCemPop;        // initial cemetery population. (for species profile)
     double m_eqFraction ;       // equilibrium fraction of the species
     DensityOfStatesCalculator* m_pDOSCalculator;
     vector<DensityOfStatesCalculator*> m_ExtraDOSCalculators;
-		map <int,double> grainPopulations; // a map which holds any initial grain populations that have been specified
+    map <int,double> grainPopulations; // a map which holds any initial grain populations that have been specified
 
   public:
 
@@ -271,38 +270,36 @@ namespace mesmer
     double getInitPopulation() const { return m_initPopulation;};
 
     void setInitPopulation(double value) {
-			if(grainPopulations.size()==0){
-				m_initPopulation = value;
-			} // only let the population be specified if there's no grain pop specified
-			else{cerr << "initial grain population in this isomer has already been defined... ignoring population specifications " << endl;}
-		};
+      if(grainPopulations.size()==0){
+        m_initPopulation = value;
+      } // only let the population be specified if there's no grain pop specified
+      else{cerr << "initial grain population in this isomer has already been defined... ignoring population specifications " << endl;}
+    };
 
-		void getInitGrainPopulation(map<int,double>& inputMap) { 
-			map<int,double>::iterator it;
-			for(it=grainPopulations.begin(); it!=grainPopulations.end(); ++it){
-				inputMap[it->first]=it->second;
-			}
-		};
+    void getInitGrainPopulation(map<int,double>& inputMap) { 
+      map<int,double>::iterator it;
+      for(it=grainPopulations.begin(); it!=grainPopulations.end(); ++it){
+        inputMap[it->first]=it->second;
+      }
+    };
 
-//  note: any given molecule should have EITHER a total population OR a grain population, BUT NOT BOTH
+    //  note: any given molecule should have EITHER a total population OR a grain population, BUT NOT BOTH
     void setInitGrainPopulation(int grain, double value) { 
-			map<int,double>::iterator it;
-			it = grainPopulations.find(grain);
-			if(it==grainPopulations.end() && m_initPopulation==0){
-				grainPopulations[grain] = value;
-				m_initPopulation += value;
-			}
-			else if(it!=grainPopulations.end()){  // ignore redefinitions of grain populations
-				cerr << "initial population of grain " << grain << " has been defined twice... ignoring redefinition " << endl;
-			}
-			else if(m_initPopulation!=0){ // only let the grain population be specified if there's no total population specified
-				cerr << "initial population in this isomer has already been defined... ignoring grain population specifications " << endl;
-			}
-		};
+      map<int,double>::iterator it;
+      it = grainPopulations.find(grain);
+      if(it==grainPopulations.end() && m_initPopulation==0){
+        grainPopulations[grain] = value;
+        m_initPopulation += value;
+      }
+      else if(it!=grainPopulations.end()){  // ignore redefinitions of grain populations
+        cerr << "initial population of grain " << grain << " has been defined twice... ignoring redefinition " << endl;
+      }
+      else if(m_initPopulation!=0){ // only let the grain population be specified if there's no total population specified
+        cerr << "initial population in this isomer has already been defined... ignoring grain population specifications " << endl;
+      }
+    };
     double getEqFraction() const { return m_eqFraction;};
     void setEqFraction(double value){ m_eqFraction = value;};
-    double getInitCemeteryPopulation() const {return m_initCemPop; }
-    void setInitCemeteryPopulation(double value) { m_initCemPop = value;};
 
   };
 
@@ -318,8 +315,6 @@ namespace mesmer
     int                 m_ncolloptrsize ;      // Size of the collision operator matrix.
     double              m_lowestBarrier;       // lowest barrier associatied with this species
     int                 m_numGroupedGrains;    // Number of grains grouped into a reservoir grain.
-    bool                m_isCemetery;          // Whether this is a cemetery state.
-    std::vector<double> m_GrainKdmc;           // downward grained microcanonical rate coefficients to cemetery state.
 
     DistributionCalculator* m_pDistributionCalculator;
     EnergyTransferModel* m_pEnergyTransferModel ; 
@@ -392,8 +387,6 @@ namespace mesmer
     void setLowestBarrier(double value){ m_lowestBarrier = value;}
 
     const int getNumberOfGroupedGrains() {return m_numGroupedGrains; }
-    const bool isCemetery(){return m_isCemetery;}
-    const std::vector<double>& get_GrainKdmc(void){return m_GrainKdmc;}
 
   };
 

@@ -106,11 +106,6 @@ namespace mesmer
     return (nDOF == (3 * m_atomNumber));
   }
 
-  bool Molecule::isCemetery()
-  {
-    return g_coll && g_coll->isCemetery();
-  }
-
   //Make dummy calls to initialize the MolecularComponents now, during parse, before calculation.
   bool Molecule::activateRole(string molType){
     // see if the molType is true in m_molTypes
