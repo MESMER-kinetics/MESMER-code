@@ -951,32 +951,21 @@ namespace mesmer
       // Determine the energy of the reservoir grain
       PersistPtr pp = m_host->get_PersistentPointer();
       PersistPtr ppReservoirSize = pp->XmlMoveTo("me:reservoirSize");
-      PersistPtr ppCemeterySize = pp->XmlMoveTo("me:cemeterySize");
-
-      // Reservoir and Cemetery cannot co-exist in order to avoid confusion
-      if (ppReservoirSize && ppCemeterySize){
-        cerr << "Either reservoir or cemetery is allowed in any well. Comment out one of the tags." << endl;
-        return false;
-      }
 
       m_numGroupedGrains = 0; // Reset the number of grains grouped into a reservoir grain to zero.
 
-      while (ppReservoirSize || ppCemeterySize){
+      while (ppReservoirSize){
 
-        string typeOfWell = ppReservoirSize ? "reservoir" : "cemetery";
-        //		m_isCemetery = ppReservoirSize ? false : true;
-
-        // Check the size of the reservoir/cemetery.
-        const char* pChunkSizeTxt = ppReservoirSize? pp->XmlReadValue("me:reservoirSize") : pp->XmlReadValue("me:cemeterySize");
+        // Check the size of the reservoir.
+        const char* pChunkSizeTxt = pp->XmlReadValue("me:reservoirSize") ;
         double tmpvalue(0.0); stringstream s2(pChunkSizeTxt); s2 >> tmpvalue ;
 
-        const char* unitsTxt = ppReservoirSize ? ppReservoirSize->XmlReadValue("units", false) : ppCemeterySize->XmlReadValue("units", false);
+        const char* unitsTxt = ppReservoirSize->XmlReadValue("units", false) ;
         string unitsInput;
         if (unitsTxt){
           unitsInput = unitsTxt;
-        }
-        else{
-          ctest << "No unit for " << typeOfWell << " size has been supplied, use kJ/mol." << endl;
+        } else {
+          ctest << "No unit for reservoir size has been supplied, use kJ/mol." << endl;
           unitsInput = "kJ/mol";
         }
 
@@ -986,21 +975,19 @@ namespace mesmer
 
         if (grainLoc > 0){
           if (grainLoc > lowestBarrier){
-            ctest << "The " << typeOfWell << " size provided is too high, corrected according to the lowest barrier height." << endl;
+            ctest << "The reservoir size provided is too high, corrected according to the lowest barrier height." << endl;
             grainLoc = lowestBarrier;
           }
-        }
-        else{
+        } else {
           if (abs(grainLoc) > lowestBarrier){
-            ctest << "The " << typeOfWell << " size provided is too low, corrected to zero." << endl;
+            ctest << "The reservoir size provided is too low, corrected to zero." << endl;
             grainLoc = 0;
             break;
-          }
-          else{
+          } else {
             grainLoc = lowestBarrier + grainLoc;
           }
         }
-        ctest << "The " << typeOfWell << " is set to " << grainLoc << " grains, which is about " << grainLoc * m_host->getEnv().GrainSize
+        ctest << "The reservoir is set to " << grainLoc << " grains, which is about " << grainLoc * m_host->getEnv().GrainSize
           << " cm-1 from the well bottom." << endl;
 
         // Second find out the partition fraction of active states in the current temperature
@@ -1016,7 +1003,7 @@ namespace mesmer
 
         m_numGroupedGrains = grainLoc;
         ctest << popAbove << " of the " << m_host->getName() << " population is in the active states. "
-          << "The " << typeOfWell << " size = " << m_numGroupedGrains * m_host->getEnv().GrainSize
+          << "The reservoir size = " << m_numGroupedGrains * m_host->getEnv().GrainSize
           << " cm-1, which is " << m_numGroupedGrains * m_host->getEnv().GrainSize / 83.593 << " kJ/mol." << endl;
         break;
       }
