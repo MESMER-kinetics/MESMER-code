@@ -1,3 +1,8 @@
+2012-November-18 Chris Morley
+
+	* mesmer1.xsl: Make "Comparison with Experimental Data" in
+	Firefox output collapsable.
+
 2012-November-14 Struan Robertson
 
 	* MolecularComponent.cpp/.h, and related files: Removal of 

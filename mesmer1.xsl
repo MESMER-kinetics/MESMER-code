@@ -223,7 +223,7 @@
 
       <xsl:if test="//me:experimentalRate | //me:experimentalYield | //experimentalEigenvalue">
       <h3 id="ExperimentalData-title" class="handcursor">Comparison with Experimental Data</h3>
-      <div id="ExperimentalData" class=" ">
+      <div id="ExperimentalData" class="switchgroup12">
     <xsl:apply-templates select="//me:PTs"/>
       </div>
     </xsl:if>
@@ -236,7 +236,7 @@
     <!--Script for expanding an contracting sections-->
     <script type="text/javascript">
       <![CDATA[
-        for(var i=1; i <=12; i++)
+        for(var i=1; i <=13; i++)
         {
           var mc=new switchcontent("switchgroup" + i)
           mc.setStatus('- ','+ ')
