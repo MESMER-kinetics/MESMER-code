@@ -1,21 +1,13 @@
-/********************************************************************************
-This file is working code for a class which implements the exponential down model
-for energy transfer during a collision, but it is heavily commented so as to be a
-tutorial on the writing of classes which implement different energy transfer
-models, or, more widely, models for other parts of the calculation. The parent
-class in EnergyTransferModel.h is also commented.
-
-These classes are plugin classes - they can be added or removed without having to
-change any of the existing code. They derived from a base class (here it is
-EnergyTransferModel) which is usually abstract. It has virtual functions which
-are called by the main code and are probably redefined in the derived classes
-like this one.
-
-A plugin class can be declared in a .h file and defined in a .cpp file, as normal.
-But the header file is unlikely ever to be used independently, so it may be
-convenient for the declaration to be also in the .cpp file, so that the plugin is
-all in one file, as here.
-********************************************************************************/
+//-------------------------------------------------------------------------------------------
+//
+// GaussianModel.cpp
+//
+// This file contains the implementation of Gaussian energy transfer model.
+//
+// Author: David Glowacki (additional detail Struan Robertson).
+// Date:   24/Nov/2012
+//
+//-------------------------------------------------------------------------------------------
 
 #include "../EnergyTransferModel.h"
 #include "../Rdouble.h"
@@ -27,7 +19,7 @@ using namespace std ;
 
 namespace mesmer
 {
-  class gaussian : public EnergyTransferModel
+  class Gaussian : public EnergyTransferModel
   {
   public:
 
@@ -35,15 +27,15 @@ namespace mesmer
     Constructor which registers this class with the map of energy transfer models
     kept by the base class.
     ********************************************************************************/
-    gaussian(const std::string& id) : EnergyTransferModel(id),
-      m_gaussianCenter(0.0), m_gaussianWidth(0.0) {}
+    Gaussian(const std::string& id) : EnergyTransferModel(id),
+      m_GaussianCenter(0.0), m_GaussianWidth(0.0) {}
 
     /******************************************************************************
     Because the class can be used for more than one molecule, a new instance is made
     for each one. This is done by EnergyTransferModel::Find() calling Clone(); a
     function of the following form is required for each derived class.
     ******************************************************************************/
-    gaussian* Clone() { return new gaussian(*this); }
+    Gaussian* Clone() { return new Gaussian(*this); }
 
     /*************************************************************
     Read the parameters needed by the class from the XML datafile
@@ -56,16 +48,16 @@ namespace mesmer
     virtual double calculateTransitionProbability(double Ei, double Ej);
 
   private:
-    Rdouble m_gaussianCenter ;
-    Rdouble m_gaussianWidth ;
+    Rdouble m_GaussianCenter ;
+    Rdouble m_GaussianWidth ;
 
   };
 
   /******************************************************************************
   Declaration of a global instance of the class. This makes the class known to
-  Mesmer and also defines its id "ExponentialDown".
+  Mesmer and also defines its id "Gaussian".
   ******************************************************************************/
-  gaussian gaussian("gaussian");
+  Gaussian Gaussian("gaussian");
 
   /******************************************************************************
   The energy transfer model for each modelled molecule is specified in the XML
@@ -75,24 +67,17 @@ namespace mesmer
   is currently "ExponentialDown", but could be changed).
   ******************************************************************************/
 
-  /******************************************************************************
-  Plugin classes usually read the data they require from the XML datafile and may
-  store it themselves, although less specialised data may be stored in Molecule
-  or Reaction.
-  ******************************************************************************/
-  bool gaussian::ReadParameters(const Molecule* parent) { 
+  bool Gaussian::ReadParameters(const Molecule* parent) { 
 
     setParent(parent);
     PersistPtr pp = parent->get_PersistentPointer();
-    // There may or may not be a <propertyList> element. If not, the <property>
-    //  elements are children of <molecule>
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
       ppPropList=pp;
 
     /******************************************************************************
-    The following statement reads the value of the CML property "me:gaussianCenter". If
-    it is not present the default value from defaults.xml is added to the internal
+    The following statement reads the value of the CML property "me:GaussianCenter".
+    If it is not present the default value from defaults.xml is added to the internal
     XML tree and the value returned. This mechanism, which applies for most XmlRead
     operations unless there is a 'optional' parameter, is the recommended way to
     handle default values. It allows the default to be changed by the user, logs the
@@ -105,21 +90,12 @@ namespace mesmer
     istringstream idata(txt);
     double value(0.0);
     idata >> value;
-    m_gaussianCenter = value;
+    m_GaussianCenter = value;
 
-    /******************************************************************************
-    m_gaussianCenter behaves most of the time like a normal variable of type double.
-    But it can be a "range variable", taking a range of values when used in grid
-    search and fitting routines. The me:deltaEDown property having both "lower" and
-    "upper" attributes, together with and the following code, sets this up.
-    ******************************************************************************/
     // Needed to read the attributes.
     bool rangeSet ;
     PersistPtr ppProp = ppPropList->XmlMoveToProperty("me:gaussianCenter"); 
-    ReadRdoubleRange(string(parent->getName()+":gaussianCenter"), ppProp, m_gaussianCenter, rangeSet) ;
-
-    // By default, me:gaussianCenter = 0.0 
-    //             me:gaussianWidth = 0.0
+    ReadRdoubleRange(string(parent->getName()+":gaussianCenter"), ppProp, m_GaussianCenter, rangeSet) ;
 
     txt = ppPropList->XmlReadProperty("me:gaussianWidth"); //required in datafile or defaults.xml
     if(!txt)
@@ -127,69 +103,57 @@ namespace mesmer
     istringstream iidata(txt);
     value = 0.0;
     iidata >> value;
-    m_gaussianWidth = value;
+    m_GaussianWidth = value;
 
     PersistPtr ppPropExp = ppPropList->XmlMoveToProperty("me:gaussianWidth"); 
-    ReadRdoubleRange(string(parent->getName()+":gaussianWidth"), ppPropExp, m_gaussianWidth, rangeSet) ;
+    ReadRdoubleRange(string(parent->getName()+":gaussianWidth"), ppPropExp, m_GaussianWidth, rangeSet) ;
 
-    // issue some warning messages
-		double gaussianCenter = m_gaussianCenter;
-    double gaussianWidth = m_gaussianWidth;
-
-		// issue a warning if the specified width is zero
-    if(gaussianWidth==0.0) {
-			cerr << "me:gaussianWidth is equal to zero... cannot define the gaussian energy transfer function" << endl;
-			exit(1);
+    // Issue a warning if the specified width is zero.
+    if(m_GaussianWidth==0.0) {
+      throw(std::runtime_error("me:gaussianWidth is equal to zero... cannot define the gaussian energy transfer function.")) ;
     }
-    // if m_gaussianCenter is at zero, issue a warning if the grain size is larger than the average downward energy transfer
-		if (gaussianCenter == 0.0){
-			double avgDownwardEnergyTransfer = 2.0*gaussianWidth/(sqrt(2.0*acos(-1.0)));  // this is the analytic average of a normalized gaussian centered at 0
-			if( double(getParent()->getEnv().GrainSize) > avgDownwardEnergyTransfer){
-				cerr << "for a gaussian centered at zero, the average downward energy transfer is" << avgDownwardEnergyTransfer << " which is larger than the grain size..." << endl;
-				cerr << "check your input and try again... exiting." << endl;
-				exit(1);
-			}
-		}
-		else{  // issue a warning if the grain size is larger than the average downward energy transfer 
-			double avgDownwardEnergyTransfer = gaussianCenter;  // this is the average downward energy transferred for a normalized gaussian centered at 0
-			if( double(getParent()->getEnv().GrainSize) > avgDownwardEnergyTransfer){
-				cerr << "for a gaussian centered at " << gaussianCenter << ", the average downward energy transfer is" << avgDownwardEnergyTransfer << " which is larger than the grain size..." << endl;
-				cerr << "check your input and try again... exiting." << endl;
-				exit(1);
-			}
-		}
+    if (m_GaussianCenter == 0.0){
+      // If m_GaussianCenter is at zero, issue a warning if the grain size is larger than the average 
+	  // downward energy transfer.
+      double avgDownwardEnergyTransfer = 2.0*m_GaussianWidth/(sqrt(2.0*acos(-1.0)));  // this is the analytic average of a normalized gaussian centered at 0
+      if( double(getParent()->getEnv().GrainSize) > avgDownwardEnergyTransfer){
+        cerr << "For a gaussian centered at zero, the average downward energy transfer is" << avgDownwardEnergyTransfer << " which is larger than the grain size..." << endl;
+        cerr << "Check your input data." << endl;
+      }
+    } else {  
+	  // issue a warning if the grain size is larger than the average downward energy transfer 
+      double avgDownwardEnergyTransfer = m_GaussianCenter;  // this is the average downward energy transferred for a normalized gaussian centered at 0
+      if( double(getParent()->getEnv().GrainSize) > avgDownwardEnergyTransfer){
+        cerr << "for a gaussian centered at " << m_GaussianCenter << ", the average downward energy transfer is" << avgDownwardEnergyTransfer << " which is larger than the grain size..." << endl;
+        cerr << "Check your input data." << endl;
+      }
+    }
 
     return true ; 
   }
+
   /******************************************************************************
-  This is the function which does the real work of the plugin
+  This is the function which does the real work of the plug-in.
   ******************************************************************************/
-  double gaussian::calculateTransitionProbability(double Ei, double Ej) {
-    // return exp(-(Ei - Ej - gaussianCenter)^2/(2 * gaussianWidth)) ;
+  double Gaussian::calculateTransitionProbability(double Ej, double Ei) {
 
-		double gaussianCenter = m_gaussianCenter;
-    double gaussianWidth = m_gaussianWidth;
-		double dE = Ei - Ej;
+	// The variable m_GaussianCenter makes larger energy transfers more likely
+	// than small ones. However, this has the effect that transition probabilities
+	// from states at energies close to zero are very high, and this can be 
+	// incompatabile with the Boltzmann distribution. The manifestation of this
+	// effect is the negative normalization coefficitents. To attenuate this effect,
+	// a factor has been introduced, that is a function of the initial energy, which
+	// gradually increases the effect of m_GaussianCenter.
 
-//		cout << dE << " " << exp(-0.5*(dE - gaussianCenter)*(dE - gaussianCenter) / (gaussianWidth*gaussianWidth) ) << endl;
+	double ratio(0.0) ;
+	double spread(4.0) ;
+	if (m_GaussianCenter > 0.0) {
+	  ratio = Ej/(spread*m_GaussianCenter) ;
+	}
 
-		return exp(-0.5*(dE - gaussianCenter)*(dE - gaussianCenter) / (gaussianWidth*gaussianWidth) );
+    double dE = (Ej - Ei - m_GaussianCenter * (ratio/(1.0 + ratio)))/m_GaussianWidth ;
+
+    return exp(-0.5*dE*dE);
   }
-
-  /******************************************************************************
-  In summary, to make a plugin class with a new energy transfer model:
-  - Copy this file, changing all the "ExponentialDown" to your class name.
-  - Change the code in calculateTransitionProbability() to your model.
-  - Alter ReadParameters() to input any data your model needs from the XML file.
-  Any data that is essential should preferably have an entry in defaults.xml,
-  The "default" attribute of this should be in uppercase if it is necessary
-  for the user to review the value of the default.
-  If the data does not need to be provided, add an optional parameter to the
-  call to an XmlRead function.
-  - In the XML file, add or change
-  <me:energyTransferModel>yourID</me:energyTransferModel>
-  Add your data, which should usually have an me: prefix.
-
-  ******************************************************************************/
 
 }//namespace

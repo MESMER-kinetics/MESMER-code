@@ -1263,13 +1263,28 @@ namespace mesmer
 
     // print out of column sums to check normalization results
     if (m_host->getFlags().reactionOCSEnabled){
-      ctest << endl << "Collision operator column Sums" << endl << "{" << endl ;
+      ctest << endl << "Collision operator column sums and energy transfer parameters" << endl << "{" << endl ;
+	  ctest << " Column Sums           E   <Delta E>  <Delta E>d  <Delta E>u" << endl ;
       for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
         double columnSum(0.0) ;
+        double meanEnergyTransfer(0.0) ;
+        double meanEnergyTransferDown(0.0) ;
+        double meanEnergyTransferUp(0.0) ;
         for ( j = 0 ; j < m_ncolloptrsize ; ++j ){
           columnSum += to_double((*m_egme)[j][i]) ;
+          meanEnergyTransfer += (gEne[j] - gEne[i])*to_double((*m_egme)[j][i]) ;
+          if (gEne[j] < gEne[i]) {
+            meanEnergyTransferDown += (gEne[j] - gEne[i])*to_double((*m_egme)[j][i]) ;
+          } else {
+            meanEnergyTransferUp += (gEne[j] - gEne[i])*to_double((*m_egme)[j][i]) ;
+          }
         }
-        ctest << columnSum << endl ;
+        ctest << formatFloat(columnSum, 3, 12) 
+		  	  << formatFloat(gEne[i], 3, 12)
+		      << formatFloat(meanEnergyTransfer, 3, 12)
+		      << formatFloat(meanEnergyTransferDown, 3, 12)
+			  << formatFloat(meanEnergyTransferUp, 3, 12)
+			  << endl ;
       }
       ctest << "}" << endl;
     }

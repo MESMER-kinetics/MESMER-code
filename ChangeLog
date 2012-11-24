@@ -1,3 +1,9 @@
+2012-November-24 Struan Robertson
+
+	* MolecularComponent.cpp/.h: Added energy transfer diagnostics.
+	* GaussianModel.cpp: Modified the energy transfer function in 
+	order to improve normalization.
+
 2012-November-18 Chris Morley
 
 	* mesmer1.xsl: Make "Comparison with Experimental Data" in
