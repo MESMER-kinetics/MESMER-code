@@ -88,9 +88,7 @@ namespace mesmer
     if(!txt)
       return false;
     istringstream idata(txt);
-    double value(0.0);
-    idata >> value;
-    m_GaussianCenter = value;
+    idata >> m_GaussianCenter ;
 
     // Needed to read the attributes.
     bool rangeSet ;
@@ -101,9 +99,7 @@ namespace mesmer
     if(!txt)
       return false;
     istringstream iidata(txt);
-    value = 0.0;
-    iidata >> value;
-    m_GaussianWidth = value;
+    iidata >> m_GaussianWidth ;
 
     PersistPtr ppPropExp = ppPropList->XmlMoveToProperty("me:gaussianWidth"); 
     ReadRdoubleRange(string(parent->getName()+":gaussianWidth"), ppPropExp, m_GaussianWidth, rangeSet) ;

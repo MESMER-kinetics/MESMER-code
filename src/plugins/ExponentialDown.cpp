@@ -104,9 +104,7 @@ namespace mesmer
 	if(!txt)
 	  return false;
 	istringstream idata(txt);
-	double value(0.0);
-	idata >> value;
-	m_deltaEdown = value;
+	idata >> m_deltaEdown ;
 
 	/******************************************************************************
 	m_deltaEdown behaves most of the time like a normal variable of type double.
@@ -129,9 +127,7 @@ namespace mesmer
 	if(!txt)
 	  return false;
 	istringstream iidata(txt);
-	value = 0.0;
-	iidata >> value;
-	m_dEdExp = value;
+	iidata >> m_dEdExp;
 
 	PersistPtr ppPropExp = ppPropList->XmlMoveToProperty("me:deltaEDownTExponent"); 
 	m_refTemp = ppPropExp->XmlReadDouble("referenceTemperature", optional );

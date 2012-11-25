@@ -145,15 +145,13 @@ namespace mesmer
 
     // Pre-exponential factor details.
     if (pPreExptxt) {
-      double value(0.0) ;
-      stringstream s2(pPreExptxt); s2 >> value ;
-
-      if (value<0.0) {
+      istringstream s2(pPreExptxt); 
+	  s2 >> m_PreExp ;
+      if (m_PreExp<0.0) {
         cerr << "Pre-exponential factor should not be negative when used with ILT." << endl;
         return false;
       }
       ReadRdoubleRange(string(pReact->getName()+":preExponential"), ppPreExponential, m_PreExp, rangeSet) ;  
-      m_PreExp = value ;
       if (rangeSet) {
         double valueL, valueU, stepsize ;
         m_PreExp.get_range(valueL,valueU,stepsize) ;
@@ -171,10 +169,8 @@ namespace mesmer
     if (pNInftxt)
     {
       PersistPtr ppNInf = ppReac->XmlMoveTo("me:nInfinity") ;
-      double value = 0.0;
-      stringstream s2(pNInftxt); s2 >> value ;
+      istringstream s2(pNInftxt); s2 >> m_NInf ;
       ReadRdoubleRange(string(pReact->getName()+":nInfinity"), ppNInf, m_NInf, rangeSet) ;  
-      m_NInf = value ;
     }
 
     double TInf = ppReac->XmlReadDouble("me:TInfinity");
@@ -201,8 +197,7 @@ namespace mesmer
       pReact->getReactionType() == DISSOCIATION){// if it's unimolecular 
         if(!calculateUnimolecularMicroRates(pReact))  // and the microrate calculation is unsuccessful return false
           return false;
-    }
-    else{            // if it's not unimolecular
+    } else {            // if it's not unimolecular
       if(!calculateAssociationMicroRates(pReact))  // and the microrate calculation is unsuccessful return false
         return false;
     }

@@ -174,6 +174,15 @@ namespace mesmer
     return true;
   }
 
+  std::istringstream& operator>>(std::istringstream& iss, Rdouble& rdouble) {
+
+	double value(0.0);
+	iss >> value;
+	rdouble = value;
+
+	return iss ;
+  }
+
 }//namespace
 
 

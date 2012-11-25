@@ -161,6 +161,8 @@ namespace mesmer
 
   */
 
+  std::istringstream& operator>>(std::istringstream& iss, Rdouble& rdouble) ;
+
   // Utility function to read parameter range. 
   //
   bool ReadRdoubleRange(const std::string& name, PersistPtr pp, Rdouble& rdouble, 

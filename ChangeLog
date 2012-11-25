@@ -1,3 +1,8 @@
+2012-November-25 Struan Robertson
+
+	* Rdouble.cpp/.h: Added operator>> to allow direct reading into
+	Rdouble variable.
+
 2012-November-24 Struan Robertson
 
 	* MolecularComponent.cpp/.h: Added energy transfer diagnostics.
