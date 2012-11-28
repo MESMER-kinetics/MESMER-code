@@ -138,7 +138,8 @@ namespace mesmer
     }
     string task ;
     m_CalcMethod = CalcMethod::GetCalcMethod(ppControl,task);
-
+    if(!m_CalcMethod)
+      return false;
     //-------------
     //Molecule List (parse this part as required ...)
     PersistPtr ppMolList = ppIOPtr->XmlMoveTo("moleculeList");

@@ -23,9 +23,12 @@ namespace mesmer
   {
   public:
 
-    Fitting(const std::string& id) : CalcMethod(id), FittingUtils(), m_nVar(0), m_A(), m_B(), m_C(), m_chi2a(0.0), m_chi2b(0.0), m_chi2c(0.0) {}
+    Fitting(const char* id) : m_id(id), 
+      FittingUtils(), m_nVar(0), m_A(), m_B(), m_C(), m_chi2a(0.0), m_chi2b(0.0), m_chi2c(0.0)
+    { Register(); }
 
     virtual ~Fitting() {}
+    virtual const char* getID() override { return m_id; }
 
     //Function to do the work
     virtual bool DoCalculation(System* pSys);
@@ -78,6 +81,9 @@ namespace mesmer
 
     // Values of the chi2 surface corresponding to the locations above.
     double m_chi2a, m_chi2b, m_chi2c ;
+
+  private:
+    const char* m_id;
 
   };
 

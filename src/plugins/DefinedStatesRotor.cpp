@@ -37,15 +37,17 @@ namespace mesmer
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
 
     // Constructor which registers with the list of DensityOfStatesCalculators in the base class
-    DefinedStatesRotor(const std::string& id) : DensityOfStatesCalculator(id, false), 
+    DefinedStatesRotor(const char* id) : m_id(id), 
       m_energyLevels(), 
-      m_degeneracies() {} ;
+      m_degeneracies() 
+    { Register(false); }
 
     virtual ~DefinedStatesRotor() {}
+    virtual const char* getID() override { return m_id; }
     virtual DefinedStatesRotor* Clone() { return new DefinedStatesRotor(*this); }
 
   private:
-
+    const char* m_id;
     vector<double> m_energyLevels ;   // Energies of the states and their associated degeneracies.
     vector<int>    m_degeneracies ;
 

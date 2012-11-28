@@ -69,16 +69,14 @@ namespace mesmer
     return true;
   }
   
-  std::string MicroRateCalculator::getName() {return name;}
-
   //
   // This function retrieves the activation/threshold energy for an association reaction.
   //
   double MicroRateCalculator::get_ThresholdEnergy(Reaction* pReac) {
 
     if (!pReac->get_TransitionState()) {
-      string s("No Transition State for " + getName());
-      throw (std::runtime_error(s)); 
+      string s("No Transition State for ");
+      throw (std::runtime_error(s + getID())); 
     }
 
     return (pReac->get_relative_TSZPE() - pReac->get_relative_rctZPE());

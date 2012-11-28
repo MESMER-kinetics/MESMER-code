@@ -19,10 +19,15 @@ namespace mesmer
 
     // Constructor which registers with the list of DensityOfStatesCalculators in the base class
     // This class calculates a complete DOS: it is not an extra class. 
-    QMRotor(const std::string& id) : DensityOfStatesCalculator(id, false){}
+    QMRotor(const char* id) : m_id(id) { Register(false); }
+
+    virtual const char* getID() override { return m_id; }
     virtual QMRotor* Clone() { return new QMRotor(*this); }
 
     virtual ~QMRotor() {}
+
+  private:
+    const char* m_id;
 
   private:
 
@@ -33,7 +38,7 @@ namespace mesmer
   //************************************************************
   //Global instance, defining its id (usually the only instance) but here with an alternative name
   QMRotor theQMRotor("QMRotors");
-  QMRotor oldQMRotor("QM rotors");
+
   //************************************************************
 
   // Provide a function to define particular counts of the DOS of a molecule.

@@ -39,8 +39,10 @@ namespace mesmer
   class UnitTests : public CalcMethod
   {
   public:
-    UnitTests(const std::string& id) : CalcMethod(id) {}
+    UnitTests(const char* id) : m_id(id) { Register(); }
     virtual ~UnitTests() {}
+    virtual const char* getID() override { return m_id; }
+
     //Function to do the work
     virtual bool DoCalculation(System* pSys);
 
@@ -67,6 +69,8 @@ namespace mesmer
     bool parseInput(System* pSys) const ;
 
     void underlineText(const string& text) const ;
+  private:
+    const char* m_id;
 
   };
 

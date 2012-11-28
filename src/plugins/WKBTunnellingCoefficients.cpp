@@ -25,9 +25,10 @@ namespace mesmer
   public:
 
     ///Constructor which registers with the list of TunnellingCalculators in the base class
-    WKBTunnellingCoefficients(const std::string& id) : TunnelingCalculator(id){}
+    WKBTunnellingCoefficients(const char* id) : m_id(id){ Register(); }
 
     virtual ~WKBTunnellingCoefficients() {}
+    virtual const char* getID() override { return m_id; }
 
     virtual bool calculateCellTunnelingCoeffs(Reaction* pReact, std::vector<double>& TunnelingProbability);
 
@@ -41,7 +42,8 @@ namespace mesmer
 
     //Integation quadrature for Boltzmann averaging to obtain macroscopic transmission coefficients 
     double Trans(const vector<double> &TunProb , double Vmax, double beta );
-
+  private:
+    const char* m_id;
   };
 
   //************************************************************

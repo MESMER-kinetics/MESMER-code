@@ -285,7 +285,8 @@ namespace mesmer
       }
       else
       {
-        // Convert Hf0,etc. and write back a me:ZPE property which will be used in future
+        // If there is not a convention="thermodynamic" attribute on Hf298,
+        // convert Hf0,etc. and write back a me:ZPE property which will be used in future
         // Currently, Hf0,etc. cannot be used as a range variables
         /*
         Atomize species X into atoms (at 0K)
@@ -313,6 +314,13 @@ namespace mesmer
         else
         {
           //Use Hf298
+          const char* convention = ppPropList->XmlReadPropertyAttribute(origElement, "convention", optional);
+          if(convention && strcmp(convention,"thermodynamic")==0)
+          {
+            m_EnergyConvention = convention;
+            tempzpe = getConvertedEnergy(utxt, Hf298); //Raw Hf298 to cm-1
+            return calcDensityOfStates(); //necessary here for Unit Tests but I don't know why.
+          }
           /*Atomize species X at 298K
           deltaH  = Sum over atoms(Hf298)) - Hf298(X)
           = Sum(E + Sum(H(298K)) - (E(X) + H(298K))
@@ -340,7 +348,6 @@ namespace mesmer
         cinfo << "New me:ZPE element written with data from " << origElement << endl;
       }
     }
-
     return true ;
   }
 
@@ -392,37 +399,31 @@ namespace mesmer
     PersistPtr pp = getHost()->get_PersistentPointer();
     string dosMethod(pp->XmlReadValue("me:DOSCMethod"));
     m_pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod);
-
-    string msg = m_pDOSCalculator ? "" : "was unknown";
-    if(m_pDOSCalculator)
-    {
-      m_pDOSCalculator->ReadParameters(this, pp->XmlMoveTo("me:DOSCMethod")) ;
-
-      while(pp = pp->XmlMoveTo("me:ExtraDOSCMethod"))
-      {
-        dosMethod.clear();
-        const char* name;
-        if( (name = pp->XmlRead()) || (name = pp->XmlReadValue("name", optional)))
-          dosMethod = name;
-        DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod, true);
-        if(!pDOSCalculator)
-        {
-          msg = "was unknown";
-          break;
-        }
-        m_ExtraDOSCalculators.push_back(pDOSCalculator);
-        if(!pDOSCalculator->ReadParameters(this, pp))
-        {
-          msg = "failed to initialize correctly";
-          break;
-        }
-      }
-    }
-    if(!msg.empty())
-    {
-      cerr << "The method, " << dosMethod << 
-        ", for the calculation of Density of States " <<msg << endl;
+    if(!m_pDOSCalculator)
       return false;
+
+    if(!m_pDOSCalculator->ReadParameters(this, pp->XmlMoveTo("me:DOSCMethod")))
+    {
+      cerr << dosMethod << " failed to initialize correctly";
+      return false;
+    }
+
+    while(pp = pp->XmlMoveTo("me:ExtraDOSCMethod"))
+    {
+      dosMethod.clear();
+      const char* name;
+      if( (name = pp->XmlRead()) || (name = pp->XmlReadValue("name", optional)))
+        dosMethod = name;
+      DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod, true);
+      if(!pDOSCalculator)
+        return false;
+
+      m_ExtraDOSCalculators.push_back(pDOSCalculator);
+      if(!pDOSCalculator->ReadParameters(this, pp))
+      {
+        cerr << dosMethod << " failed to initialize correctly";
+        return false;
+      }
     }
     return true;
   }

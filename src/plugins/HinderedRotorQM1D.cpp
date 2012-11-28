@@ -40,7 +40,7 @@ namespace mesmer
     // Constructor which registers with the list of DensityOfStatesCalculators in the base class
     // This class is an extra DOS class: a non-extra DensityOfStatesCalculator class also
     // needs to be specified.
-    HinderedRotorQM1D(const std::string& id) : DensityOfStatesCalculator(id, true),
+    HinderedRotorQM1D(const char* id) : m_id(id),
       m_bondID(),
       m_reducedMomentInertia(0.0),
       m_periodicity(1),
@@ -49,12 +49,15 @@ namespace mesmer
       m_expansion(4),
       m_energyLevels(),
       m_plotStates(false),
-      m_useSinTerms(false) {}
+      m_useSinTerms(false)  
+    { Register(true); }
 
     virtual ~HinderedRotorQM1D() {}
+    virtual const char* getID() override { return m_id; }
     virtual HinderedRotorQM1D* Clone() { return new HinderedRotorQM1D(*this); }
 
   private:
+    const char* m_id;
 
     // Calculate the Fourier coefficients from potential data points.
     void FourierCoeffs(vector<double> &angle, vector<double> &potential) ;

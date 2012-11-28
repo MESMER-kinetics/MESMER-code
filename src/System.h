@@ -14,7 +14,7 @@
 // is stored in the molecule manager.
 //
 //-------------------------------------------------------------------------------------------
-
+#include "plugin.h"
 #include "ReactionManager.h"
 #include "calcmethod.h"
 #include "CollisionOperator.h"

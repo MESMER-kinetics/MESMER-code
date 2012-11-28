@@ -538,6 +538,7 @@ src/formatfloat.cpp -text
 src/formatfloat.h -text
 src/main.cpp -text
 src/marray.h -text
+src/plugin.h -text
 src/plugins/BeyerSwinehart.cpp -text
 src/plugins/BoltzmannDistribution.cpp -text
 src/plugins/ClassicalRotor.cpp -text

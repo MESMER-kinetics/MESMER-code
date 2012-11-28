@@ -10,10 +10,14 @@ namespace mesmer
 class SimpleCalc : public CalcMethod
 {
 public:
-  SimpleCalc(const std::string& id) : CalcMethod(id) {}
+  SimpleCalc(const char* id) : m_id(id) { Register(); }
   virtual ~SimpleCalc() {}
-  //Function to do the work
-  virtual bool DoCalculation(System* pSys);
+  virtual const char* getID() override { return m_id; }
+
+    //Function to do the work
+  virtual bool DoCalculation(System* pSys) override ;
+private:
+  const char* m_id;
 
 };
 

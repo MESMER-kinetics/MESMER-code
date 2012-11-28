@@ -10,13 +10,10 @@ namespace mesmer
   class SimpleILT : public MicroRateCalculator
   {
   public:
-
-    // Constructor which registers with the list of MicroRateCalculators in the base class.
-    SimpleILT(const std::string& id) : 
-      MicroRateCalculator(id), 
-      m_PreExp(0.0),
-      m_EInf(0.0) {}
-
+    SimpleILT(const char* id) : m_id(id),
+      m_PreExp(0.0), m_EInf(0.0)  { Register(); }
+  
+    virtual const char* getID() override { return m_id; }
     virtual ~SimpleILT() {}
     virtual SimpleILT* Clone() { return new SimpleILT(*this); }
 
@@ -27,7 +24,8 @@ namespace mesmer
     virtual bool ReadParameters(Reaction* pReac) ;
     
   private:
-   
+    const char* m_id;
+
     // All the parameters that follow are for an Arrhenius expression of the type:
     // k(T) = Ainf * exp(-Einf/(RT))
 
@@ -37,9 +35,8 @@ namespace mesmer
   };
 
   //************************************************************
-  //Global instance, defining its id (usually the only instance) but here with an alternative name
+  //Global instance, defining its id (usually the only instance)
   SimpleILT theSimpleILT("SimpleILT");
-  SimpleILT oldSimpleILT("Simple ILT");
   //************************************************************
 
   bool SimpleILT::ReadParameters(Reaction* pReact) {
@@ -94,7 +91,7 @@ namespace mesmer
     }
     else{
       cerr << "Specifying ILT without activation energy provided in reaction "
-           << this->getName() << ". Please correct input file.";
+           << this->getID() << ". Please correct input file.";
       return false;
     }
 
@@ -105,7 +102,7 @@ namespace mesmer
       ReadRdoubleRange(string(pReact->getName()+":preExp"), ppPreExponential, m_PreExp, rangeSet) ;  
       m_PreExp = value ;
     } else {
-      cerr << "Specifying ILT without pre-exponential term provided in reaction " << this->getName() << ". Please correct input file.";
+      cerr << "Specifying ILT without pre-exponential term provided in reaction " << this->getID() << ". Please correct input file.";
       return false;
     }
 

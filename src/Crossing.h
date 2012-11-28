@@ -16,34 +16,26 @@ namespace mesmer
 	class Reaction;  //to avoid compile time errors, this declaration tells the compiler that 
 	//Reaction is a class; reaction objects are featured in some functions below
 
-	class CrossingCalculator
+	class CrossingCalculator : public TopPlugin
 	{
 	public:
-		typedef std::map<std::string, CrossingCalculator*> CrossingMap;
+    ~CrossingCalculator(){}
+  virtual const char* getTypeID(){return typeID();}
 
-		///Base class constructor adds the derived class instance to the map
-		CrossingCalculator(const std::string& id) { get_Map()[id] = this; }
 
 		//Get a pointer to a derived class by providing its id.
 		static CrossingCalculator* Find(const std::string& id)
 		{
-			CrossingMap::iterator pos = get_Map().find(id);
-			return (pos==get_Map().end()) ? NULL : pos->second;
-		}
+      return dynamic_cast<CrossingCalculator*>(TopFind(id, typeID()));
+    }
 
 		virtual bool calculateCellCrossingCoeffs(Reaction* pReact, std::vector<double>& CrossingProbability) = 0 ;
 
 		virtual bool ThereIsTunnellingWithCrossing(void) = 0;
 
-	private:
-		/// Returns a reference to the map of CrossingCalculator classes
-		/// Is a function rather than a static member variable to avoid initialization problems.
+private:
+  static const char* typeID(){ return "Crossing Calculators"; }
 
-		static CrossingMap& get_Map()
-		{
-			static CrossingMap m;
-			return m;
-		}
 	};
 
 }//namespace

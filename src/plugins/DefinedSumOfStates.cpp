@@ -24,10 +24,11 @@ namespace mesmer
   public:
 
 	// Constructor which registers with the list of MicroRateCalculators in the base class.
-	DefinedSumOfStates(const std::string& id) : MicroRateCalculator(id) {}
+	DefinedSumOfStates(const char* id) :m_id(id) { Register(); }
 
 	virtual ~DefinedSumOfStates() {}
-	virtual DefinedSumOfStates* Clone() { return new DefinedSumOfStates(*this); }
+  virtual const char* getID() override { return m_id; }
+  virtual DefinedSumOfStates* Clone() { return new DefinedSumOfStates(*this); }
 
 	virtual bool calculateMicroRateCoeffs(Reaction* pReac) ;
 
@@ -46,6 +47,8 @@ namespace mesmer
 	// This method reads in an energy and J dependent sum of states, and interpolates over J.
 	bool readEneAndJDepSOS(vector<double>& WE, vector<double>& E, PersistPtr pp) ;
 
+  private:
+    const char* m_id;
   };
 
   //************************************************************

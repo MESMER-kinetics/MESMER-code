@@ -5,6 +5,7 @@
 #include "XMLPersist.h"
 #include "MesmerTools.h"
 #include "Rdouble.h"
+#include "plugin.h"
 
 namespace mesmer
 {
@@ -18,30 +19,24 @@ namespace mesmer
   the class with the base class. Subsequently, a pointer to the class is
   obtained by supplying the id (a string) to the Find function.
   **/
-  class MicroRateCalculator
+  class MicroRateCalculator :public TopPlugin
   {
   public:
-    typedef std::map<std::string, MicroRateCalculator*> MicroRateMap;
-
-    ///Base class constructor adds the derived class instance to the map
-    MicroRateCalculator(const std::string& id) {
-      get_Map()[id] = this;
-      name = id;
-    }
 
     virtual ~MicroRateCalculator() {}
-    virtual MicroRateCalculator* Clone() = 0;
+    virtual const char* getTypeID(){return typeID();}
 
     //Get a pointer to a derived class by providing its id.
-    static MicroRateCalculator* Find(const std::string& id)
+    static MicroRateCalculator* Find(const std::string& name)
     {
-      MicroRateMap::iterator pos = get_Map().find(id);
-      if(pos==get_Map().end())
-        return NULL; 
-      return (pos->second)->Clone();
+      return dynamic_cast<MicroRateCalculator*>(TopFind(name, typeID()));
     }
 
-    virtual std::string getName();
+    //Get a list of the IDs of plugin classes derived from this one.
+    static std::string List()
+    {
+      return TopPlugin::List(typeID(), comma);
+    }
 
     virtual bool calculateMicroRateCoeffs(Reaction* pReact) = 0 ;
 
@@ -55,16 +50,7 @@ namespace mesmer
     static bool ILTCheck(Reaction* pReac, PersistPtr ppReac) ;
     
   private:
-    /// Returns a reference to the map of MicroRateCalculator classes
-    /// Is a function rather than a static member variable to avoid initialization problems.
-    static MicroRateMap& get_Map()
-    {
-      static MicroRateMap m;
-      return m;
-    }
-
-    std::string name;
-
+    static const char* typeID(){ return "Microcanonical Rate Calculators"; }
   };
 
 }//namespace

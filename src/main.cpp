@@ -98,6 +98,12 @@ int main(int argc,char *argv[])
       case 'q':
         qatest=true;
         break;
+      case 'T': //Table of plugins with descriptions
+        cout << TopPlugin::List(TopPlugin::verbose) << endl;
+        return 0;
+      case 't': //Table of plugins
+        cout << TopPlugin::List() << endl;
+        return 0;
       case 'V':
         cout << version();
         return 0;

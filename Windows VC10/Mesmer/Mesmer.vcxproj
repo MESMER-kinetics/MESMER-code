@@ -161,6 +161,7 @@
     <ClInclude Include="..\..\src\dMatrix.h" />
     <ClInclude Include="..\..\src\EnergyTransferModel.h" />
     <ClInclude Include="..\..\src\error.h" />
+    <ClInclude Include="..\..\src\plugin.h" />
     <ClInclude Include="..\..\src\plugins\FittingUtils.h" />
     <ClInclude Include="..\..\src\formatfloat.h" />
     <ClInclude Include="..\..\src\IrreversibleExchangeReaction.h" />

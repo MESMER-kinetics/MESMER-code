@@ -332,7 +332,7 @@ namespace mesmer
   void IsomerizationReaction::calcEffGrnThresholds(void){  // see the comments in
     double thresh = get_ThresholdEnergy();    // calcEffGrnThresholds under AssociationReaction.cpp
     double RxnHeat = getHeatOfReaction();
-    if (thresh < RxnHeat && m_pMicroRateCalculator->getName() == "MesmerILT"){
+    if (thresh < RxnHeat && m_pMicroRateCalculator->getID() == "MesmerILT"){
       cerr << "E_infinity should be equal to or greater than the heat of reaction in ILT.";
       exit(1);
     }

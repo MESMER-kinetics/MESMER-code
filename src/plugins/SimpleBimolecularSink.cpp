@@ -23,23 +23,26 @@ namespace mesmer
 	public:
 
 		///Constructor which registers with the list of MicroRateCalculators in the base class
-		SimpleBimolecularSink(const std::string& id) : 
-				m_AssociationRateCoeff(0.0),
-					MicroRateCalculator(id){}
+		SimpleBimolecularSink(const char* id) : m_id(id), m_AssociationRateCoeff(0.0)
+    { Register(); }
 
-				virtual ~SimpleBimolecularSink() {}
+    virtual const char* getID() override { return m_id; }
 
-				virtual SimpleBimolecularSink* Clone() { return new SimpleBimolecularSink(*this); }
+		virtual ~SimpleBimolecularSink() {}
 
-				virtual bool ReadParameters(Reaction* pReac);
+		virtual SimpleBimolecularSink* Clone() { return new SimpleBimolecularSink(*this); }
 
-				virtual double get_ThresholdEnergy(Reaction* pReac) ;
+		virtual bool ReadParameters(Reaction* pReac);
 
-				virtual bool calculateMicroRateCoeffs(Reaction* pReact);
+		virtual double get_ThresholdEnergy(Reaction* pReac) ;
+
+		virtual bool calculateMicroRateCoeffs(Reaction* pReact);
 
 	private:
-
 		Rdouble m_AssociationRateCoeff ; // association rate coefficient
+
+  private:
+    const char* m_id;
 
 	};
 
@@ -129,7 +132,7 @@ namespace mesmer
 		}
 		else{
 			cerr << "Requesting Simple Bimolecular Sink without providing the bimolecular loss rate coefficient for reaction "
-				<< this->getName() << ". Please correct input file.";
+				<< this->getID() << ". Please correct input file.";
 			return false;
 		}
 

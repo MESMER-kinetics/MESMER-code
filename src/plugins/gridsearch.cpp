@@ -10,13 +10,16 @@ namespace mesmer
 class GridSearch : public CalcMethod
 {
 public:
-  GridSearch(const std::string& id) : CalcMethod(id) {}
+  GridSearch(const char* id) : m_id(id) { Register();}
   virtual ~GridSearch() {}
+    virtual const char* getID() override { return m_id; }
   virtual bool DoCalculation(System* pSys);
 
 private:
   bool DoRangeCalcs(unsigned startvar, System* pSys);
   bool CalcAndReport(System* pSys);
+private:
+  const char* m_id;
 };
 
 ////////////////////////////////////////////////

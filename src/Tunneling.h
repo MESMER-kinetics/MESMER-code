@@ -15,32 +15,21 @@ namespace mesmer
   **/
   class Reaction;
   
-  class TunnelingCalculator
+  class TunnelingCalculator : public TopPlugin
   {
   public:
-    typedef std::map<std::string, TunnelingCalculator*> TunnelingMap;
-
-    ///Base class constructor adds the derived class instance to the map
-    TunnelingCalculator(const std::string& id) { get_Map()[id] = this; }
+    virtual const char* getTypeID(){return typeID();}
 
     //Get a pointer to a derived class by providing its id.
     static TunnelingCalculator* Find(const std::string& id)
     {
-      TunnelingMap::iterator pos = get_Map().find(id);
-      return (pos==get_Map().end()) ? NULL : pos->second;
+      return dynamic_cast<TunnelingCalculator*>(TopFind(id, typeID()));
     }
 
     virtual bool calculateCellTunnelingCoeffs(Reaction* pReact, std::vector<double>& TunnelingProbability) = 0 ;
 
-  private:
-    /// Returns a reference to the map of TunnelingCalculator classes
-    /// Is a function rather than a static member variable to avoid initialization problems.
-
-    static TunnelingMap& get_Map()
-    {
-      static TunnelingMap m;
-      return m;
-    }
+private:
+  static const char* typeID(){ return "Tunneling Calculators"; }
   };
 
 }//namespace

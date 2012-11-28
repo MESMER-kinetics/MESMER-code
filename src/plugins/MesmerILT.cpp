@@ -11,14 +11,15 @@ namespace mesmer
   public:
 
     ///Constructor which registers with the list of MicroRateCalculators in the base class
-    MesmerILT(const std::string& id) : 
-      MicroRateCalculator(id),
+    MesmerILT(const char* id) : m_id(id),
       m_PreExp(0.0),
       m_NInf(0.0),
       m_TInf(298.0),
       m_EInf(0.0),
-      m_isRvsILTpara(false) {}
-
+      m_isRvsILTpara(false)
+    { Register(); }
+  
+    virtual const char* getID() override { return m_id; }
     virtual ~MesmerILT() {}
     virtual MesmerILT* Clone() { return new MesmerILT(*this); }
 
@@ -36,6 +37,9 @@ namespace mesmer
     bool UnimolecularConvolution(Reaction* pReact);
     bool BimolecularConvolution(Reaction* pReact, vector<double>& ConvolvedCellDOS, double ma, double mb, double mc);
     
+  private:
+    const char* m_id;
+
     // All the parameters that follow are for an Arrhenius expression of the type:
     // k(T) = Ainf*(T/Tinf)^ninf * exp(-Einf/(RT))
 
@@ -50,7 +54,6 @@ namespace mesmer
   //************************************************************
   //Global instance, defining its id (usually the only instance) but here with an alternative name
   MesmerILT theMesmerILT("MesmerILT");
-  MesmerILT oldMesmerILT("Mesmer ILT");
   //************************************************************
 
   //-------------------------------------------------
@@ -139,7 +142,7 @@ namespace mesmer
         }
       }
     } else {
-      cerr << "No activation energy specified for ILT method in reaction " << this->getName() << ". Please correct input file.";
+      cerr << "No activation energy specified for ILT method in reaction " << this->getID() << ". Please correct input file.";
       return false;
     }
 
@@ -161,7 +164,7 @@ namespace mesmer
         }
       }
     } else {
-      cerr << "No pre-exponential factor specified for ILT method in reaction " << this->getName() << ". Please correct input file.";
+      cerr << "No pre-exponential factor specified for ILT method in reaction " << this->getID() << ". Please correct input file.";
       return false;
     }
 

@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include "XMLPersist.h"
+#include "plugin.h"
 
 namespace mesmer
 {
@@ -17,24 +18,19 @@ namespace mesmer
   // instance registers the class with the base class. Subsequently, supplying  
   // the id (a string) to the Find function returns a pointer to a new instance.
 
-  class DensityOfStatesCalculator
+  class DensityOfStatesCalculator : public TopPlugin
   {
   public:
-    typedef std::map<std::string, DensityOfStatesCalculator*> DensityOfStatesMap;
+    DensityOfStatesCalculator(){}
+    virtual ~DensityOfStatesCalculator(){}
+    virtual const char* getTypeID() override {return typeID(false);}
+    virtual const char* getTypeID(bool extra) override {return typeID(extra);}
 
-    // Base class constructor adds the derived class instance to the map
-    DensityOfStatesCalculator(const std::string& id, bool isExtra){ get_Map(isExtra)[id] = this; }
-
-    virtual ~DensityOfStatesCalculator(){};
-    virtual DensityOfStatesCalculator* Clone()=0;
 
     //Get a pointer to a derived class by providing its id.
     static DensityOfStatesCalculator* Find(const std::string& id, bool extraType=false)
     {
-      DensityOfStatesMap::iterator pos = get_Map(extraType).find(id);
-      if(pos==get_Map(extraType).end())
-        return NULL; 
-      return (pos->second)->Clone();
+      return dynamic_cast<DensityOfStatesCalculator*>(TopFind(id, typeID(extraType)));
     }
 
     // Read any data from XML and store in this instance. Default is do nothing.
@@ -49,23 +45,21 @@ namespace mesmer
     // Provide a function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos)=0;
 
-    std::string getName() const {return m_name;} ;
     const Molecule* getParent() const {return m_parent;} ;
     void setParent(const Molecule* parent) { m_parent = parent;} ;
 
   private:
-    const std::string m_name;
     const Molecule* m_parent;
 
-    /// Returns a reference to the map of DensityOfStatesCalculator classes
-    /// Is a function rather than a static member variable to avoid initialization problems.
-    /// There are different maps for main (e.g. ClassicalRotors)and extra (e.g. HinderedRotorQM1D) classes: 
-    static DensityOfStatesMap& get_Map(bool extra)
-    {
-      static DensityOfStatesMap m;
-      static DensityOfStatesMap mextra;
-      return extra ? mextra : m;
+  private:
+    static const char* typeID(bool extraType)
+    {  return extraType ? "Cell Density of States Calculators (Extra)"
+        : "Cell Density of States Calculators";
     }
+    /* There are separate maps in TopPlugin for normal and extra Density of
+       States Calculators, which are Listed separately, but under the same
+       title.
+    */
 
   };
 

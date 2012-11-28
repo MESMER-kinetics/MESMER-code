@@ -23,9 +23,12 @@ namespace mesmer
   {
   public:
 
-    Marquardt(const std::string& id) : CalcMethod(id), FittingUtils(), m_nVar(0), m_delta(0.001), m_lambdaScale(10.0) {}
+    Marquardt(const char* id) : m_id(id),
+      FittingUtils(), m_nVar(0), m_delta(0.001), m_lambdaScale(10.0)
+    { Register(); }
 
     virtual ~Marquardt() {}
+    virtual const char* getID() override { return m_id; }
 
     //Function to do the work
     virtual bool DoCalculation(System* pSys);
@@ -44,6 +47,8 @@ namespace mesmer
     // Factor for scalling lambda by during fitting.
     double m_lambdaScale ;
 
+  private:
+    const char* m_id;
   };
 
   ////////////////////////////////////////////////

@@ -22,16 +22,19 @@ namespace mesmer
 	public:
 
 		///Constructor which registers with the list of CrossingCalculators in the base class
-		WKBCrossingCoeff(const std::string& id) : CrossingCalculator(id){}
+		WKBCrossingCoeff(const char* id) : m_id(id){ Register(); }
 
 		virtual ~WKBCrossingCoeff() {}
+    virtual const char* getID() override { return m_id; }
 
 		virtual bool calculateCellCrossingCoeffs(Reaction* pReact, std::vector<double>& CrossingProbability);
 
 		virtual bool ThereIsTunnellingWithCrossing(void) {return true;};
 
 		bool ReadDoubleAndUnits(double& element, PersistPtr pp, const std::string identifier, const std::string units);
-	};
+  private:
+    const char* m_id;
+  };
 
   //************************************************************
 	//Global instance, defining its id (usually the only instance)

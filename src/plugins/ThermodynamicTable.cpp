@@ -19,12 +19,14 @@ namespace mesmer
   {
   public:
 
-	ThermodynamicTable(const std::string& id) : CalcMethod(id),
+	ThermodynamicTable(const char* id) : m_id(id),
 	  m_nTemp(20),
 	  m_TempInterval(50.0),
-	  m_Unit("kJ/mol") {}
+	  m_Unit("kJ/mol") 
+  { Register(); }
 
 	virtual ~ThermodynamicTable() {}
+  virtual const char* getID() override { return m_id; }
 
 	// Function to do the work
 	virtual bool DoCalculation(System* pSys);
@@ -44,6 +46,8 @@ namespace mesmer
 	double m_TempInterval ;
 	string m_Unit ;
 
+  private:
+    const char* m_id;
   } ;
 
   ////////////////////////////////////////////////
@@ -99,7 +103,8 @@ namespace mesmer
 	  // Get the name of the molcule.
 	  const char* reftxt = ppmol->XmlReadValue("id");
 	  if (reftxt) {
-		pMoleculeManager->addmol(string(reftxt), string("modelled"), pSys->getEnv(), pSys->m_Flags);
+      //Try molType="" rather than "modelled". Avoid deltaEdown being required.
+		pMoleculeManager->addmol(string(reftxt), string(""), pSys->getEnv(), pSys->m_Flags);
 	  }
 	}
 
@@ -218,11 +223,11 @@ namespace mesmer
 	  } else if (unit == "kj/mol") {
 		m_Unit = "kJ/mol" ;
 	  } else {
-		clog << "Un-supported unit, the default units of kJ/mol will be used for thermodynamics tables." ;
+		cwarn << "Un-supported unit, the default units of kJ/mol will be used for thermodynamics tables." << endl;
 	  } 
 
 	} else {
-	  clog << "The default units of kJ/mol will be used for thermodynamics tables." ;
+	  cinfo << "The default units of kJ/mol will be used for thermodynamics tables." << endl;
 	}
 
 	int nTemp = ppProp->XmlReadInteger("me:NumberOfTemp", false) ;

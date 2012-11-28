@@ -20,11 +20,14 @@ namespace mesmer
   public:
   
     ///Constructor which registers with the list of DistributionCalculators in the base class
-    BoltzmannDistribution(const std::string& id) : DistributionCalculator(id){}
+    BoltzmannDistribution(const char* id) :m_id(id){ Register(); }
   
     virtual ~BoltzmannDistribution() {}
-  
+    virtual const char* getID() override { return m_id; }
+
     virtual bool calculateDistribution(std::vector<double> DOS, std::vector<double> ene, const double& beta, std::vector<double>& distribution);
+  private:
+    const char* m_id;
   };
 
   //************************************************************

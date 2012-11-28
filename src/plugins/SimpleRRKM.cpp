@@ -20,23 +20,25 @@ namespace mesmer
   class SimpleRRKM : public MicroRateCalculator
   {
   public:
-  
     ///Constructor which registers with the list of MicroRateCalculators in the base class
-    SimpleRRKM(const std::string& id) : MicroRateCalculator(id){}
+    SimpleRRKM(const char* id) : m_id(id) { Register(); }
   
     virtual ~SimpleRRKM() {}
+    virtual const char* getID() override { return m_id; }
 
     virtual SimpleRRKM* Clone() { return new SimpleRRKM(*this); }
 
     virtual bool ReadParameters(Reaction* pReac);
   
     virtual bool calculateMicroRateCoeffs(Reaction* pReact);
+
+  private:
+    const char* m_id;
   };
 
   //************************************************************
 	//Global instance, defining its id (usually the only instance)
 	SimpleRRKM theSimpleRRKM("SimpleRRKM");
-	SimpleRRKM oldSimpleRRKM("Simple RRKM");
 	//************************************************************
 
 	bool SimpleRRKM::calculateMicroRateCoeffs(Reaction* pReact)

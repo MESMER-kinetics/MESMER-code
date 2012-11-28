@@ -33,14 +33,16 @@ namespace mesmer
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
 
     ///Constructor which registers with the list of DensityOfStatesCalculators in the base class
-    //This class calculates a complete DOS: it is not an extra class. 
-    Morse(const std::string& id) : DensityOfStatesCalculator(id, true){}
+    //This class calculates a complete DOS: it is not an extra class. INCONSISTENT
+    Morse(const char* id) : m_id(id) { Register(true); }
 
     virtual ~Morse() {}
+    virtual const char* getID() override { return m_id; }
+
     virtual Morse* Clone() { return new Morse(*this); }
 
   private :
-
+    const char* m_id;
     PersistPtr m_ppDOSC ;
     vector<double> m_vibFreq ;  // The 0->1 transition of each Morse oscillator in cm-1.
     vector<double> m_anharmty ; // The associated anharmonicity.
@@ -58,7 +60,7 @@ namespace mesmer
     PersistPtr pp = m_ppDOSC ;
     while(pp = pp->XmlMoveTo("me:MorseParameters")) {
       double vibFreq  = pp->XmlReadDouble("vibrationalFrequency", true);
-      double anharmty = pp->XmlReadDouble("anharmoicity",         true);
+      double anharmty = pp->XmlReadDouble("anharmonicity",         true);
       m_vibFreq.push_back(vibFreq) ;
       m_anharmty.push_back(-fabs(anharmty)) ; // Ensure the anharmonicity is negative.
     }

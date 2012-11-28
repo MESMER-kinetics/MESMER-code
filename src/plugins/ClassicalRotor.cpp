@@ -17,19 +17,21 @@ namespace mesmer
     // Function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
 
-    // Constructor which registers with the list of DensityOfStatesCalculators in the base class
+    // Constructor which registers with the list of DensityOfStatesCalculators in TopPlugin
     // This class calculates a complete DOS: it is not an extra class. 
-    ClassicalRotor(const std::string& id) : DensityOfStatesCalculator(id, false){}
+    ClassicalRotor(const char* id) : m_id(id){ Register(false); }
 
     virtual ~ClassicalRotor() {}
-    virtual ClassicalRotor* Clone() { return new ClassicalRotor(*this); }
+    virtual const char* getID() override { return m_id; }
 
+    virtual ClassicalRotor* Clone() { return new ClassicalRotor(*this); }
+  private:
+    const char* m_id;
   } ;
 
   //************************************************************
-  //Global instance, defining its id (usually the only instance) but here with an alternative name
+  //Global instance, defining its id (usually the only instance)
   ClassicalRotor theClassicalRotor("ClassicalRotors");
-  ClassicalRotor oldClassicalRotor("Classical rotors");
   //************************************************************
 
 

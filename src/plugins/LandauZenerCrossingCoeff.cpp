@@ -22,15 +22,18 @@ namespace mesmer
   public:
   
     ///Constructor which registers with the list of CrossingCalculators in the base class
-    LandauZenerCrossingCoeff(const std::string& id) : CrossingCalculator(id){}
+    LandauZenerCrossingCoeff(const char* id) : m_id(id){ Register(); }
   
     virtual ~LandauZenerCrossingCoeff() {}
+    virtual const char* getID() override { return m_id; }
   
     virtual bool calculateCellCrossingCoeffs(Reaction* pReact, std::vector<double>& CrossingProbability);
 
 		virtual bool ThereIsTunnellingWithCrossing(void) {return false;};
 
 		bool ReadDoubleAndUnits(double& element, PersistPtr pp, const std::string identifier, const std::string units);
+  private:
+    const char* m_id;
   };
 
   //************************************************************
