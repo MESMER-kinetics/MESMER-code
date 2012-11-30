@@ -95,7 +95,7 @@ protected:
   {
     // name is converted to lower case so that the search is case insensitive.
     TypeMapType typeMap = allPlugins()[pluginType];
-    auto pos = typeMap.find(toLowercase(name));
+    TypeMapType::iterator pos = typeMap.find(toLowercase(name));
     if(pos==typeMap.end())
     {
       if(useErrorMessage)
