@@ -41,7 +41,7 @@ namespace mesmer
   public:
     UnitTests(const char* id) : m_id(id) { Register(); }
     virtual ~UnitTests() {}
-    virtual const char* getID() override { return m_id; }
+    virtual const char* getID()  { return m_id; }
 
     //Function to do the work
     virtual bool DoCalculation(System* pSys);

@@ -27,7 +27,7 @@ namespace mesmer
 	DefinedSumOfStates(const char* id) :m_id(id) { Register(); }
 
 	virtual ~DefinedSumOfStates() {}
-  virtual const char* getID() override { return m_id; }
+  virtual const char* getID()  { return m_id; }
   virtual DefinedSumOfStates* Clone() { return new DefinedSumOfStates(*this); }
 
 	virtual bool calculateMicroRateCoeffs(Reaction* pReac) ;

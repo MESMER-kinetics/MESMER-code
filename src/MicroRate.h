@@ -25,6 +25,7 @@ namespace mesmer
 
     virtual ~MicroRateCalculator() {}
     virtual const char* getTypeID(){return typeID();}
+    static const char* typeID(){ return "Microcanonical Rate Calculators"; }
 
     //Get a pointer to a derived class by providing its id.
     static MicroRateCalculator* Find(const std::string& name)
@@ -48,10 +49,7 @@ namespace mesmer
 
     // Utility function to check for inconsistencies. 
     static bool ILTCheck(Reaction* pReac, PersistPtr ppReac) ;
-    
-  private:
-    static const char* typeID(){ return "Microcanonical Rate Calculators"; }
-  };
+      };
 
 }//namespace
 

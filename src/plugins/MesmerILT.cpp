@@ -19,7 +19,7 @@ namespace mesmer
       m_isRvsILTpara(false)
     { Register(); }
   
-    virtual const char* getID() override { return m_id; }
+    virtual const char* getID()  { return m_id; }
     virtual ~MesmerILT() {}
     virtual MesmerILT* Clone() { return new MesmerILT(*this); }
 

@@ -1,3 +1,25 @@
+2012-November-28 Chris Morley
+
+	src/plugin.h: Add TopPlugin as parent of plugins. Provides:
+	- case and whitespace insensitivity of plugin names in the input file;
+	- listing of plugins from the command line:  mesmer -t  or mesmer -T ;
+	   The latter displays Descriptions of the type or the plugin if present
+	   (currently only in EnergyTransferModel and ExponentialDown).
+	- error message with a list of the possibilities if an unrecognized
+	   plugin name supplied.
+	- registration of all plugins, rather than being done in type classes;
+	* Changes to housekeeping of all plugin classes
+	* src/plugins/simplecalc.cpp, src/System.cpp, src/System.h: take advantage of
+	  new error messages (more to be done).
+
+	* MesmerQA/pentyl/pentyl_isomerization_test.xml: Use me:derivedFrom attribute
+	to provide a test of it.
+
+	* src/MolecularComponents.cpp, MesmerQA/UnitTests/UnitTests.xml: re-introduce
+	"thermodynamic" energy convention. When used with Hf298 input prevents an
+	unnecessary conversion to the "computational" convention and reduces error
+	messages in UnitTests.
+
 2012-November-25 Struan Robertson
 
 	* Rdouble.cpp/.h: Added operator>> to allow direct reading into

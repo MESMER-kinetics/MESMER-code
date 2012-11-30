@@ -25,7 +25,7 @@ namespace mesmer
     LandauZenerCrossingCoeff(const char* id) : m_id(id){ Register(); }
   
     virtual ~LandauZenerCrossingCoeff() {}
-    virtual const char* getID() override { return m_id; }
+    virtual const char* getID()  { return m_id; }
   
     virtual bool calculateCellCrossingCoeffs(Reaction* pReact, std::vector<double>& CrossingProbability);
 

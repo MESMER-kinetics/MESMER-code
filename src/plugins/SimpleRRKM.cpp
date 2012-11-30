@@ -24,7 +24,7 @@ namespace mesmer
     SimpleRRKM(const char* id) : m_id(id) { Register(); }
   
     virtual ~SimpleRRKM() {}
-    virtual const char* getID() override { return m_id; }
+    virtual const char* getID()  { return m_id; }
 
     virtual SimpleRRKM* Clone() { return new SimpleRRKM(*this); }
 

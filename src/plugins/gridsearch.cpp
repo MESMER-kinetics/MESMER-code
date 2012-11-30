@@ -12,7 +12,7 @@ class GridSearch : public CalcMethod
 public:
   GridSearch(const char* id) : m_id(id) { Register();}
   virtual ~GridSearch() {}
-    virtual const char* getID() override { return m_id; }
+    virtual const char* getID()  { return m_id; }
   virtual bool DoCalculation(System* pSys);
 
 private:

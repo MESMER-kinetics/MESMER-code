@@ -23,8 +23,8 @@ namespace mesmer
   public:
     DensityOfStatesCalculator(){}
     virtual ~DensityOfStatesCalculator(){}
-    virtual const char* getTypeID() override {return typeID(false);}
-    virtual const char* getTypeID(bool extra) override {return typeID(extra);}
+    virtual const char* getTypeID()  {return typeID(false);}
+    virtual const char* getTypeID(bool extra)  {return typeID(extra);}
 
 
     //Get a pointer to a derived class by providing its id.

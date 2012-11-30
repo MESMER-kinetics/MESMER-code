@@ -26,7 +26,7 @@ namespace mesmer
 		SimpleBimolecularSink(const char* id) : m_id(id), m_AssociationRateCoeff(0.0)
     { Register(); }
 
-    virtual const char* getID() override { return m_id; }
+    virtual const char* getID()  { return m_id; }
 
 		virtual ~SimpleBimolecularSink() {}
 

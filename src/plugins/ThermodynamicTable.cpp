@@ -26,7 +26,7 @@ namespace mesmer
   { Register(); }
 
 	virtual ~ThermodynamicTable() {}
-  virtual const char* getID() override { return m_id; }
+  virtual const char* getID()  { return m_id; }
 
 	// Function to do the work
 	virtual bool DoCalculation(System* pSys);

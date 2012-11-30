@@ -23,7 +23,7 @@ namespace mesmer
     BoltzmannDistribution(const char* id) :m_id(id){ Register(); }
   
     virtual ~BoltzmannDistribution() {}
-    virtual const char* getID() override { return m_id; }
+    virtual const char* getID()  { return m_id; }
 
     virtual bool calculateDistribution(std::vector<double> DOS, std::vector<double> ene, const double& beta, std::vector<double>& distribution);
   private:

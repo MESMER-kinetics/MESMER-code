@@ -43,7 +43,7 @@ namespace mesmer
     { Register(false); }
 
     virtual ~DefinedStatesRotor() {}
-    virtual const char* getID() override { return m_id; }
+    virtual const char* getID()  { return m_id; }
     virtual DefinedStatesRotor* Clone() { return new DefinedStatesRotor(*this); }
 
   private:

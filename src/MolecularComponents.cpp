@@ -399,8 +399,8 @@ namespace mesmer
     PersistPtr pp = getHost()->get_PersistentPointer();
     string dosMethod(pp->XmlReadValue("me:DOSCMethod"));
     m_pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod);
-    if(!m_pDOSCalculator)
-      return false;
+//    if(!m_pDOSCalculator) keep going to find other errors
+//      return false;
 
     if(!m_pDOSCalculator->ReadParameters(this, pp->XmlMoveTo("me:DOSCMethod")))
     {
@@ -415,8 +415,8 @@ namespace mesmer
       if( (name = pp->XmlRead()) || (name = pp->XmlReadValue("name", optional)))
         dosMethod = name;
       DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod, true);
-      if(!pDOSCalculator)
-        return false;
+//      if(!pDOSCalculator)
+//        return false;
 
       m_ExtraDOSCalculators.push_back(pDOSCalculator);
       if(!pDOSCalculator->ReadParameters(this, pp))

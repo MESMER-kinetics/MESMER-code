@@ -13,7 +13,7 @@ namespace mesmer
     SimpleILT(const char* id) : m_id(id),
       m_PreExp(0.0), m_EInf(0.0)  { Register(); }
   
-    virtual const char* getID() override { return m_id; }
+    virtual const char* getID()  { return m_id; }
     virtual ~SimpleILT() {}
     virtual SimpleILT* Clone() { return new SimpleILT(*this); }
 

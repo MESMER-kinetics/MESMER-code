@@ -22,7 +22,7 @@ namespace mesmer
     BeyerSwinehart(const char* id) : m_id(id) { Register(false); }
 
     virtual ~BeyerSwinehart() {}
-    virtual const char* getID() override { return m_id; }
+    virtual const char* getID()  { return m_id; }
     virtual BeyerSwinehart* Clone() { return new BeyerSwinehart(*this); }
 
   private:

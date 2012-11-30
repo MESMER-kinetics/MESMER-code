@@ -21,7 +21,7 @@ namespace mesmer
     // This class calculates a complete DOS: it is not an extra class. 
     QMRotor(const char* id) : m_id(id) { Register(false); }
 
-    virtual const char* getID() override { return m_id; }
+    virtual const char* getID()  { return m_id; }
     virtual QMRotor* Clone() { return new QMRotor(*this); }
 
     virtual ~QMRotor() {}

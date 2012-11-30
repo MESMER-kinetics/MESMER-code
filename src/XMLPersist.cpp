@@ -6,6 +6,7 @@
 #include "XMLPersist.h"
 #include "TimeCounter.h"
 #include "MesmerConfig.h"
+#include "plugin.h"
 
 using namespace std;
 
@@ -122,7 +123,7 @@ namespace mesmer
   ///If MustBeThere is true(the default) inserts from defaults.xml and returns its value.
   ///Otherwise returns NULL;
   ///If name is empty, returns NULL if there are no children and an empty string if there are.
-  const char* XMLPersist::XmlReadValue(const std::string& name, bool MustBeThere)
+  const char* XMLPersist::XmlReadValue(const std::string& name, bool MustBeThere, const char* pluginTypeID)
   {
     const char* ptext=NULL;
     TiXmlElement* pnEl;
@@ -140,7 +141,7 @@ namespace mesmer
     else
       ptext = pnNode->Attribute(name.c_str());
 
-    if(!ptext && MustBeThere && !name.empty() && InsertDefault(name))
+    if(!ptext && MustBeThere && !name.empty() && InsertDefault(name, "", pluginTypeID))
       return XmlReadValue(name, MustBeThere); //Try again (recursively). Should succeed.
     return ptext;
   }
@@ -485,7 +486,7 @@ namespace mesmer
   an error message is displayed in the console.
   The "title" alternative and namespace subtlties not used in defaults.
   */
-  bool XMLPersist::InsertDefault(const string& elName, const string& dictRefName)
+  bool XMLPersist::InsertDefault(const string& elName, const string& dictRefName, const char* pluginTypeID)
   {    
     string name = dictRefName.empty() ? elName : dictRefName;
 
@@ -504,6 +505,10 @@ namespace mesmer
       }
     }
 
+    string possibles;
+    if(pluginTypeID)
+      possibles = TopPlugin::List(pluginTypeID,TopPlugin::comma);
+      
     TiXmlElement* pnDefProp = pDefaults->RootElement()->FirstChildElement(elName);
 
     if(!pnDefProp)//no matching elements: the name must refer to an attribute 
@@ -542,7 +547,8 @@ namespace mesmer
         if(dictRefName.empty() || (dictRefText && dictRefName==dictRefText))
         {
           //copy property from defaults.xml to main tree
-          if(pnNode->InsertEndChild(*pnDefProp))
+          TiXmlNode* reInserted;
+          if(reInserted = pnNode->InsertEndChild(*pnDefProp))
           {
             const char* pattr = pnDefProp->Attribute("default");
             if(!pattr)
@@ -551,12 +557,16 @@ namespace mesmer
                 << "\n THIS NEEDS TO BE CORRECTED.\n";
               return true;
             }
-            string attrtext(pattr);
+            string attrtext = pattr;
             if(attrtext=="true")
               cinfo << "The default value of " << name << " was used." <<endl;
             else
-              cerr << "No value of " << name << " was supplied and the default value " << attrtext << endl;
-            return true;
+            {
+              if(pluginTypeID) //write back default attribute with the possible values
+                reInserted->ToElement()->SetAttribute("default", attrtext+possibles);
+              cerr << "No value of " << name << " was supplied and the default value "
+                   << attrtext << possibles << endl;
+            }return true;
           }
         }
         pnDefProp = pnDefProp->NextSiblingElement();

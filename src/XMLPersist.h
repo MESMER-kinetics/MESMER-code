@@ -76,7 +76,7 @@ public:
   ///Returns the first child element with this name, or if not found, the next sibling element with this name
   virtual PersistPtr XmlMoveTo(const std::string& name) const;
   virtual const char* XmlRead()const;
-  virtual const char* XmlReadValue(const std::string& name, bool MustBeThere=true);
+  virtual const char* XmlReadValue(const std::string& name, bool MustBeThere=true, const char* pluginTypeID=NULL);
   virtual double XmlReadDouble(const std::string& name, bool MustBeThere=true);
   virtual int XmlReadInteger(const std::string& name, bool MustBeThere=true);
 
@@ -125,7 +125,7 @@ public:
 
 private:
   ///Insert a copy of the element from defaults.xml as the last child of the current element
-  bool InsertDefault(const std::string& elName, const std::string& dictRefName="");
+  bool InsertDefault(const std::string& elName, const std::string& dictRefName="", const char* pluginTypeID=NULL);
 };
 
 }//namespace mesmer

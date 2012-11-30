@@ -31,11 +31,13 @@ namespace mesmer
 class TopPlugin
   {
 public:
-  typedef std::map<std::string, std::map<std::string, TopPlugin*>> PluginMapType;
+  typedef std::map<std::string, std::map<std::string, TopPlugin*> > PluginMapType;
   typedef std::map<std::string, TopPlugin*> TypeMapType;
 
   //IDs on separate lines, IDs+descriptions on separate lines, comma separated
   enum format {brief, verbose, comma};
+
+  virtual ~TopPlugin() {}
 
   //getID() is public because sometimes used externally
   virtual const char* getID()=0;

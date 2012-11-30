@@ -53,7 +53,7 @@ namespace mesmer
     { Register(true); }
 
     virtual ~HinderedRotorQM1D() {}
-    virtual const char* getID() override { return m_id; }
+    virtual const char* getID()  { return m_id; }
     virtual HinderedRotorQM1D* Clone() { return new HinderedRotorQM1D(*this); }
 
   private:

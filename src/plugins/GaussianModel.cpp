@@ -27,8 +27,10 @@ namespace mesmer
     Constructor which registers this class with the map of energy transfer models
     kept by the base class.
     ********************************************************************************/
-    Gaussian(const std::string& id) : EnergyTransferModel(id),
-      m_GaussianCenter(0.0), m_GaussianWidth(0.0) {}
+    Gaussian(const char* id) : m_id(id),
+      m_GaussianCenter(0.0), m_GaussianWidth(0.0) { Register(); }
+
+    virtual const char* getID()  { return m_id; }
 
     /******************************************************************************
     Because the class can be used for more than one molecule, a new instance is made
@@ -48,6 +50,7 @@ namespace mesmer
     virtual double calculateTransitionProbability(double Ei, double Ej);
 
   private:
+    const char* m_id;
     Rdouble m_GaussianCenter ;
     Rdouble m_GaussianWidth ;
 
@@ -57,7 +60,7 @@ namespace mesmer
   Declaration of a global instance of the class. This makes the class known to
   Mesmer and also defines its id "Gaussian".
   ******************************************************************************/
-  Gaussian Gaussian("gaussian");
+  Gaussian globalGaussian("gaussian");
 
   /******************************************************************************
   The energy transfer model for each modelled molecule is specified in the XML
@@ -67,6 +70,11 @@ namespace mesmer
   is currently "ExponentialDown", but could be changed).
   ******************************************************************************/
 
+  /******************************************************************************
+  Plugin classes usually read the data they require from the XML datafile and may
+  store it in Molecule or Reaction if this is sensible or in the plugin class for
+  more specialized data..
+  ******************************************************************************/
   bool Gaussian::ReadParameters(const Molecule* parent) { 
 
     setParent(parent);

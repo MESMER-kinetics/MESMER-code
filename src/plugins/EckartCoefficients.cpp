@@ -26,7 +26,7 @@ namespace mesmer
     EckartCoefficients(const char* id) : m_id(id){ Register(); }
   
     virtual ~EckartCoefficients() {}
-    virtual const char* getID() override { return m_id; }
+    virtual const char* getID()  { return m_id; }
   
     virtual bool calculateCellTunnelingCoeffs(Reaction* pReact, std::vector<double>& TunnelingProbability);
   private:

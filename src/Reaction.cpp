@@ -227,7 +227,7 @@ namespace mesmer
   bool Reaction::ReadRateCoeffParameters(PersistPtr ppReac) {
 
     // Determine the method of MC rate coefficient calculation.
-    const char* pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod") ;
+    const char* pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod", true, MicroRateCalculator::typeID()) ;
     if(pMCRCMethodtxt)
     {
       m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);

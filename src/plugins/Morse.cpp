@@ -37,7 +37,7 @@ namespace mesmer
     Morse(const char* id) : m_id(id) { Register(true); }
 
     virtual ~Morse() {}
-    virtual const char* getID() override { return m_id; }
+    virtual const char* getID()  { return m_id; }
 
     virtual Morse* Clone() { return new Morse(*this); }
 

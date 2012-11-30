@@ -12,10 +12,10 @@ class SimpleCalc : public CalcMethod
 public:
   SimpleCalc(const char* id) : m_id(id) { Register(); }
   virtual ~SimpleCalc() {}
-  virtual const char* getID() override { return m_id; }
+  virtual const char* getID()  { return m_id; }
 
     //Function to do the work
-  virtual bool DoCalculation(System* pSys) override ;
+  virtual bool DoCalculation(System* pSys)  ;
 private:
   const char* m_id;
 

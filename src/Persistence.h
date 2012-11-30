@@ -50,7 +50,7 @@ namespace mesmer
     virtual const char* XmlRead()const=0;
 
     /// Returns the value of the datatext associated with name (Value of child element or attribute) or NULL
-    virtual const char* XmlReadValue(const std::string& name, bool MustBeThere=true)=0;
+    virtual const char* XmlReadValue(const std::string& name, bool MustBeThere=true, const char* pluginTypeID=NULL)=0;
 
     /// Returns the value of a specified child element or attribute.
     // If the element or attribute is not found and the default is either not requested

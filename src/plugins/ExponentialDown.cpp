@@ -31,40 +31,59 @@ namespace mesmer
   {
   public:
 
-	/********************************************************************************
-	Constructor which registers this class with the map of energy transfer models
-	kept by the base class.
-	********************************************************************************/
-	ExponentialDown(const std::string& id) : EnergyTransferModel(id),
-	  m_deltaEdown(0.0), m_refTemp(298), m_dEdExp(0.0) {}
+  /********************************************************************************
+  Constructor which registers this class with the list of plugins, initializes the ID
+  and also does some initialization specific to this class.
+  ********************************************************************************/
+  ExponentialDown(const char* id) : m_id(id),
+    m_deltaEdown(0.0), m_refTemp(298), m_dEdExp(0.0)
+  { Register(); }
 
-	/******************************************************************************
-	Because the class can be used for more than one molecule, a new instance is made
-	for each one. This is done by EnergyTransferModel::Find() calling Clone(); a
-	function of the following form is required for each derived class.
-	******************************************************************************/
-	ExponentialDown* Clone() { return new ExponentialDown(*this); }
+  virtual const char* getID()  { return m_id; } //always required
 
-	/*************************************************************
-	Read the parameters needed by the class from the XML datafile
-	*************************************************************/
-	virtual bool ReadParameters(const Molecule* parent) ; 
+  /********************************************************************************
+  Optional description which will appear in a verbose listing of plugins.
+  Put two spaces after \n  in Description() for good formatting in thelisting.
+  ********************************************************************************/
+  virtual const char* Description()  { return
+  "This calculates energy transfer probabilities on the basis of\n  "
+  "the exponential down model: the probability of transition from a\n  "
+  "grain of energy E to one of lower energy E1 is given by\n  "
+  "  P(E|E1) = A(E1)exp(-(E - E1)/deltaEdown)\n  "
+  "where A(E1) is a normalization factor. The probabilities of\n  "
+  "activating collisions are found by detailed balance.\n"
+  ;}
 
-	/*************************************************************
-	This is the function which does the real work of the plugin
-	*************************************************************/
-	virtual double calculateTransitionProbability(double Ei, double Ej);
+  /******************************************************************************
+  Because the class can be used for more than one molecule, a new instance is made
+  for each one. This is done by EnergyTransferModel::Find() calling Clone(); a
+  function of the following form is required for each derived class.
+  ******************************************************************************/
+  ExponentialDown* Clone() { return new ExponentialDown(*this); }
+
+  /*************************************************************
+  Read the parameters needed by the class from the XML datafile
+  *************************************************************/
+  virtual bool ReadParameters(const Molecule* parent) ; 
+
+  /*************************************************************
+  This is the function which does the real work of the plugin
+  *************************************************************/
+  virtual double calculateTransitionProbability(double Ei, double Ej);
 
   private:
-	Rdouble m_deltaEdown ;
-	double m_refTemp;
-	Rdouble m_dEdExp ;
+  const char* m_id; //all concrete plugin classes have this 
+  Rdouble m_deltaEdown ;
+  double m_refTemp;
+  Rdouble m_dEdExp ;
 
   };
 
   /******************************************************************************
   Declaration of a global instance of the class. This makes the class known to
   Mesmer and also defines its id "ExponentialDown".
+  Naes should be XML compatible ) so must not contain any of theses characters ><"'&
+  There can be additional global instances with different names (not usually necessary).
   ******************************************************************************/
   ExponentialDown exponentialDown("ExponentialDown");
 
@@ -83,74 +102,78 @@ namespace mesmer
   ******************************************************************************/
   bool ExponentialDown::ReadParameters(const Molecule* parent) { 
 
-	setParent(parent);
-	PersistPtr pp = parent->get_PersistentPointer();
-	// There may or may not be a <propertyList> element. If not, the <property>
-	//  elements are children of <molecule>
-	PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
-	if(!ppPropList)
-	  ppPropList=pp;
+  setParent(parent);
+  PersistPtr pp = parent->get_PersistentPointer();
+  // There may or may not be a <propertyList> element. If not, the <property>
+  //  elements are children of <molecule>
+  PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
+  if(!ppPropList)
+    ppPropList=pp;
 
-	/******************************************************************************
-	The following statement reads the value of the CML property "me:deltaEDown". If
-	it is not present the default value from defaults.xml is added to the internal
-	XML tree and the value returned. This mechanism, which applies for most XmlRead
-	operations unless there is a 'optional' parameter, is the recommended way to
-	handle default values. It allows the default to be changed by the user, logs the
-	use of the default, and provides error messages, including optional exhortations
-	for the user to check the default (see the manual).
-	******************************************************************************/
-	const char* txt = ppPropList->XmlReadProperty("me:deltaEDown"); //required
-	if(!txt)
-	  return false;
-	istringstream idata(txt);
-	idata >> m_deltaEdown ;
+  /******************************************************************************
+  The following statement reads the value of the CML property "me:deltaEDown". If
+  it is not present the default value from defaults.xml is added to the internal
+  XML tree and the value returned. This mechanism, which applies for most XmlRead
+  operations unless there is a 'optional' parameter, is the recommended way to
+  handle default values. It allows the default to be changed by the user, logs the
+  use of the default, and provides error messages, including optional exhortations
+  for the user to check the default (see the manual).
+  ******************************************************************************/
+  const char* txt = ppPropList->XmlReadProperty("me:deltaEDown"); //required
+  if(!txt)
+    return false;
+  istringstream idata(txt);
+  double value(0.0);
+  idata >> value;
+  m_deltaEdown = value;
 
-	/******************************************************************************
-	m_deltaEdown behaves most of the time like a normal variable of type double.
-	But it can be a "range variable", taking a range of values when used in grid
-	search and fitting routines. The me:deltaEDown property having both "lower" and
-	"upper" attributes, together with and the following code, sets this up.
-	******************************************************************************/
-	// Needed to read the attributes.
-	bool rangeSet ;
-	PersistPtr ppProp = ppPropList->XmlMoveToProperty("me:deltaEDown"); 
-	ReadRdoubleRange(string(parent->getName()+":deltaEDown"), ppProp, m_deltaEdown, rangeSet) ;
+  /******************************************************************************
+  m_deltaEdown behaves most of the time like a normal variable of type double.
+  But it can be a "range variable", taking a range of values when used in grid
+  search and fitting routines. The me:deltaEDown property having both "lower" and
+  "upper" attributes, together with and the following code, sets this up.
+  ******************************************************************************/
+  // Needed to read the attributes.
+  bool rangeSet ;
+  PersistPtr ppProp = ppPropList->XmlMoveToProperty("me:deltaEDown"); 
+  ReadRdoubleRange(string(parent->getName()+":deltaEDown"), ppProp, m_deltaEdown, rangeSet) ;
 
-	// The temperature dependence of <delta_E_down> is accounted for as:
-	//
-	// <delta_E_down>(T) = <delta_E_down>_ref * (T / refTemp)^dEdExp
-	//
-	// By default, dEdExp = 0, which means delta_E_down does not depend on temperature.
-	// Reference temperature of <Delta E down>, refTemp, has default 298.
-	txt = ppPropList->XmlReadProperty("me:deltaEDownTExponent"); //required in datafile or defaults.xml
-	if(!txt)
-	  return false;
-	istringstream iidata(txt);
-	iidata >> m_dEdExp;
+  // The temperature dependence of <delta_E_down> is accounted for as:
+  //
+  // <delta_E_down>(T) = <delta_E_down>_ref * (T / refTemp)^dEdExp
+  //
+  // By default, dEdExp = 0, which means delta_E_down does not depend on temperature.
+  // Reference temperature of <Delta E down>, refTemp, has default 298.
+  txt = ppPropList->XmlReadProperty("me:deltaEDownTExponent"); //required in datafile or defaults.xml
+  if(!txt)
+    return false;
+  istringstream iidata(txt);
+  value = 0.0;
+  iidata >> value;
+  m_dEdExp = value;
 
-	PersistPtr ppPropExp = ppPropList->XmlMoveToProperty("me:deltaEDownTExponent"); 
-	m_refTemp = ppPropExp->XmlReadDouble("referenceTemperature", optional );
-	if(IsNan(m_refTemp))
-	  m_refTemp = 298.;
-	ReadRdoubleRange(string(parent->getName()+":deltaEDownTExponent"), ppPropExp, m_dEdExp, rangeSet) ;
+  PersistPtr ppPropExp = ppPropList->XmlMoveToProperty("me:deltaEDownTExponent"); 
+  m_refTemp = ppPropExp->XmlReadDouble("referenceTemperature", optional );
+  if(IsNan(m_refTemp))
+    m_refTemp = 298.;
+  ReadRdoubleRange(string(parent->getName()+":deltaEDownTExponent"), ppPropExp, m_dEdExp, rangeSet) ;
 
-	return true ; 
+  return true ; 
   }
   /******************************************************************************
   This is the function which does the real work of the plugin
   ******************************************************************************/
   double ExponentialDown::calculateTransitionProbability(double Ei, double Ej) {
-	// return exp(-(Ei -Ej)/m_deltaEdown) ;
+  // return exp(-(Ei -Ej)/m_deltaEdown) ;
 
-	double deltaEDown = m_deltaEdown;
-	if(m_dEdExp!=0.0) {
-	  const double temperature = 1.0/(boltzmann_RCpK * getParent()->getEnv().beta);
-	  deltaEDown = deltaEDown * pow((temperature/m_refTemp),m_dEdExp);
-	}
+  double deltaEDown = m_deltaEdown;
+  if(m_dEdExp!=0.0) {
+    const double temperature = 1.0/(boltzmann_RCpK * getParent()->getEnv().beta);
+    deltaEDown = deltaEDown * pow((temperature/m_refTemp),m_dEdExp);
+  }
 
   /******************************************************************************
-	Issue a warning message if delta_E_down is smaller than grain size.
+  Issue a warning message if delta_E_down is smaller than grain size.
   When using cerr or cwarn, the message is displayed on the console and also added to
   the log file (usually mesmer.log). Using cinfo outputs to the log file only.
   Message may be prefixed by a "context" like "In R1:". Making an ErrorContext object
@@ -160,11 +183,11 @@ namespace mesmer
   repeated (as this one would be). The message includes the context, so that if more
   than one molecule has an over-small delta_E_down there is a message for each molecule.
   ******************************************************************************/
-	if (deltaEDown < double(getParent()->getEnv().GrainSize) && !getParent()->getFlags().allowSmallerDEDown){
-	  ErrorContext e(getParent()->getName());
+  if (deltaEDown < double(getParent()->getEnv().GrainSize) && !getParent()->getFlags().allowSmallerDEDown){
+    ErrorContext e(getParent()->getName());
     cerr << "Delta E down is smaller than grain size: the solution may not converge." << once << endl;
-	}
-	return exp(-(Ei -Ej)/deltaEDown) ;
+  }
+  return exp(-(Ei -Ej)/deltaEDown) ;
   }
 
   /******************************************************************************

@@ -45,7 +45,7 @@
   <property dictRef="me:MW" default="IS UNSATISFACTORY. A VALUE NEEDS TO BE PROVIDED**">
     <scalar>0.0</scalar>
   </property>
-  <me:MCRCMethod default="NEEDS TO BE CHECKED. COULD ALSO BE SimpleILT MesmerILT**">
+  <me:MCRCMethod default="NEEDS TO BE CHECKED. COULD BE** ">
     SimpleRRKM</me:MCRCMethod>
   <me:DOSCMethod default="true">ClassicalRotors</me:DOSCMethod>
   <me:DOSCType default="true">external</me:DOSCType>
