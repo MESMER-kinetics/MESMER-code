@@ -1,3 +1,9 @@
+2012-December-2 Struan Robertson
+
+	* Main.cpp and Doc.: License updated to GPLv3.
+
+	* SensitivityAnalysis.cpp: Template added.
+
 2012-November-28 Chris Morley
 
 	src/plugin.h: Add TopPlugin as parent of plugins. Provides:

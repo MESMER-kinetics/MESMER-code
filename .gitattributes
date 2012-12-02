@@ -555,6 +555,7 @@ src/plugins/Marquardt.cpp -text
 src/plugins/MesmerILT.cpp -text
 src/plugins/Morse.cpp -text
 src/plugins/QMRotor.cpp -text
+src/plugins/SensitivityAnalysis.cpp -text
 src/plugins/SimpleBimolecularSink.cpp -text
 src/plugins/SimpleILT.cpp -text
 src/plugins/SimpleRRKM.cpp -text

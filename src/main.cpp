@@ -5,16 +5,16 @@ This file is a part of
 Mesmer: Master Equation Solver for Multi-Energy well Reactions
 
 Mesmer is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser Public License as published by
+it under the terms of the GNU Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
 Mesmer is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser Public License for more details.
+GNU Public License for more details.
 
-You should have received a copy of the GNU Lesser Public License
+You should have received a copy of the GNU Public License
 along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 */
 
@@ -419,15 +419,15 @@ void banner()
   cinfo << "     Chris Morley, Michael J. Pilling and contributors" << endl ;
   cinfo << endl ;
   cinfo << "     Mesmer is free software: you can redistribute it and/or modify" << endl ;
-  cinfo << "     it under the terms of the GNU Lesser Public License as published by" << endl ;
+  cinfo << "     it under the terms of the GNU Public License as published by" << endl ;
   cinfo << "     the Free Software Foundation, either version 3 of the License, or" << endl ;
   cinfo << "     (at your option) any later version." << endl ;
   cinfo << endl ;
   cinfo << "     But WITHOUT ANY WARRANTY; without even the implied warranty of" << endl ;
   cinfo << "     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the" << endl ;
-  cinfo << "     GNU Lesser Public License for more details." << endl ;
+  cinfo << "     GNU Public License for more details." << endl ;
   cinfo << endl ;
-  cinfo << "    You should have received a copy of the GNU Lesser Public License" << endl ;
+  cinfo << "    You should have received a copy of the GNU Public License" << endl ;
   cinfo << "    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>." << endl ;
   cinfo << endl ;
 }

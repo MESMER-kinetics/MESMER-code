@@ -129,6 +129,7 @@
     <ClCompile Include="..\..\src\MoleculeManager.cpp" />
     <ClCompile Include="..\..\src\plugins\Morse.cpp" />
     <ClCompile Include="..\..\src\plugins\QMRotor.cpp" />
+    <ClCompile Include="..\..\src\plugins\SensitivityAnalysis.cpp" />
     <ClCompile Include="..\..\src\plugins\SimpleBimolecularSink.cpp" />
     <ClCompile Include="..\..\src\plugins\UnitTests.cpp" />
     <ClCompile Include="..\..\src\Rdouble.cpp" />
