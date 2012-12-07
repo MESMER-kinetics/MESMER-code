@@ -12,17 +12,19 @@
 
   <xsl:variable name="colors">
     <c>red</c>
-    <c>green</c>
     <c>blue</c>
-    <c>orange</c>
     <c>black</c>
+    <c>orange</c>
+    <c>green</c>
     <c>teal</c>
+    <c>gray</c>
   </xsl:variable>
   
   <xsl:variable name="popspecies" select="//me:analysis[1]/me:populationList[1]/me:population[1]/me:pop/@ref"/>
   
   <!--Make lists of the species and times being used for grain populations-->
   <xsl:variable name="grainspecies" select="set:distinct(//me:grainPopulation/@ref)"/>
+  <xsl:variable name="avEspecies" select="set:distinct(//me:avEnergy/@ref)"/>
 
   <!--============================================-->
   <xsl:template match="//me:analysis" mode="diagram">
@@ -49,6 +51,12 @@
     <xsl:if test="not(//me:printGrainProfileAtTime/@format='normalised')">
       <xsl:apply-templates select="me:grainPopulationList" mode="log"/>
     </xsl:if>                    
+
+    <xsl:if test="count($avEspecies)">
+      <p class="poplabel">Isomer Energies</p>
+      <xsl:apply-templates select="me:avEnergyList" mode="diagram"/>    
+    </xsl:if>
+    
   </xsl:template>
 
   <!--=========================================================================-->
@@ -448,6 +456,81 @@
       </svg:path>
     </xsl:for-each>
   </xsl:template>
+
+  <!--=========================================================================-->
+  <xsl:template name="avEnergyDiagram" match="me:avEnergyList" mode="diagram">
+    <xsl:variable name="p" select="me:avEnergy"/>
+    <xsl:variable name="maxAvE" select="10*round(0.1*math:max(me:avEnergy[1]/me:Av/.)+0.5)"/>
+
+    <xsl:if test="position()=1">
+      <xsl:call-template name="legend">
+        <xsl:with-param name="nodes" select="$popspecies"/><!--sic-->
+        <xsl:with-param name="ytext" select="concat('Average Energy,',@energyUnits)"/>
+        <xsl:with-param name="maxy" select="$maxAvE"/>
+        <xsl:with-param name="miny" select="'0.0'"/>
+      </xsl:call-template>
+    </xsl:if>
+
+    <!--Frame of graph-->
+    <svg:svg version="1.1" width="200px" height="220px">
+      <svg:text x="30" y="14" font-family="Verdana" font-size="13">
+        <xsl:value-of select="concat(@T,'K ',@conc)"/>
+      </svg:text>
+      <svg:rect x="1" y="21" width="198" height="158" fill="white" stroke="black" stroke-width="1"/>
+      <xsl:variable name="startval" select="me:avEnergy[1]/me:Av[1]/@logTime"/>
+      <xsl:variable name="endval" select="me:avEnergy[1]/me:Av[last()]/@logTime"/>
+      <xsl:variable name="every" select="2"/>
+      <!--value increment between ticks-->
+      <xsl:call-template name="xaxis">
+        <xsl:with-param name="val" select="$startval + 1.0"/>
+        <!--label from -->
+        <xsl:with-param name="maxval" select="$endval"/>
+        <xsl:with-param name="pxperstep" select="(200 * $every) div ($endval - $startval)"/>
+        <xsl:with-param name="xpx" select="200 div ($endval - $startval)"/>
+        <xsl:with-param name="ypx" select="180"/>
+        <xsl:with-param name="every" select="$every"/>
+      </xsl:call-template>
+      <svg:text text-anchor="middle"  font-family="Verdana" font-size="10">
+        <xsl:attribute name="x">
+          <xsl:value-of select="100"/>
+        </xsl:attribute>
+        <xsl:attribute name="y">
+          <xsl:value-of select="208"/>
+        </xsl:attribute>
+        log10(time/secs)
+      </svg:text>
+
+      <!--Contents of graph-->
+      <svg:svg y="20" height="160" preserveAspectRatio="none">
+        <xsl:attribute name="viewBox">
+          <xsl:value-of select="concat($startval, ' -', $maxAvE, ' ', $endval - $startval, ' ', $maxAvE)"/>
+        </xsl:attribute>
+        <xsl:for-each select="me:avEnergy"><!--for each species-->
+          <xsl:variable name="sp" select="@ref"/>
+          <xsl:variable name="pos">
+            <xsl:for-each select="$popspecies">
+              <xsl:if test=".=$sp">
+                <xsl:value-of select="position()"/>
+              </xsl:if>
+            </xsl:for-each>
+          </xsl:variable>
+          <svg:path fill="none" stroke-width="0.3"><!--hardwired-->
+            <xsl:attribute name="stroke">
+              <xsl:value-of select="exsl:node-set($colors)/c[$pos+0]"/><!--+0 to make it a number-->
+            </xsl:attribute>
+            <xsl:attribute name="d">
+              <xsl:value-of select="concat('M ', me:Av[1]/@logTime ,' ',-$maxAvE, ' L ')"/>
+              <xsl:for-each select="me:Av">
+                <xsl:value-of select="concat(@logTime,' -', ., ' ')"/>
+                <!--see note at end-->
+              </xsl:for-each>
+            </xsl:attribute>
+          </svg:path>
+        </xsl:for-each>
+      </svg:svg>
+    </svg:svg>
+  </xsl:template>
+
 
   <!-- Probably because XPath 1.0 doesn't use scientific numbers, some numbers give NaN when  
        arithmetic is done on them in XSLT before passing on to SVG. Consequently, in the

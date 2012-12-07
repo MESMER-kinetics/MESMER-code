@@ -1,3 +1,20 @@
+2012-December-7 Chris Morley
+
+	* src/CollisionOperator.cpp, src/CollisionOperator.h,src/System.cpp: XML
+	output for "the average of the grain energy in each isomer" already output to
+	ctest. 
+	XML output is split a bit unhappily between CollisionOperator and
+	System and if we keep adding additional outputs there may need to be a
+	rationalisation.
+	Enabled by <me:printGrainedSpeciesProfile/>. These tags need to be reviewed
+	for consistency.
+	The ctest code is not right - I will pass on to Dave.
+	 
+	* popDiag.xsl: graph of above.  
+
+	* qd/include/qd/dd_real.h, qd/include/qd/qd_real.h: minor mods to reduce
+	compilation warnings
+
 2012-December-2 Struan Robertson
 
 	* Main.cpp and Doc.: License updated to GPLv3.

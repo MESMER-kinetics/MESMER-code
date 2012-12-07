@@ -91,7 +91,7 @@ public:
   static void abort(const char *msg);
 
   bool isnan() const;
-  bool isfinite() const { return QD_ISFINITE(x[0]); }
+  bool isfinite() const { return QD_ISFINITE(x[0])!=0; }
   bool isinf() const { return QD_ISINF(x[0]); }
 
   /* Addition */

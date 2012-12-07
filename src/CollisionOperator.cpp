@@ -641,7 +641,8 @@ namespace mesmer
 
 	  PersistPtr ppEigenList = ppAnalysis->XmlWriteElement("me:eigenvalueList");
 	  ppEigenList->XmlWriteAttribute("number",toString(smsize));
-	  ppEigenList->XmlWriteAttribute("selection",toString(mFlags.printEigenValuesNum));//TODO improve this
+	  ppEigenList->XmlWriteAttribute("selection",
+       mFlags.printEigenValuesNum!=-1 ? toString(mFlags.printEigenValuesNum) : "all");
 	  ctest << "\nTotal number of eigenvalues = " << smsize << endl;
 	  ctest << "Eigenvalues\n{\n";
 	  for (size_t i = numberStarted ; i < smsize; ++i) {
@@ -715,7 +716,8 @@ namespace mesmer
 	}
   }  
 
-  bool CollisionOperator::timeEvolution(MesmerFlags& mFlags, PersistPtr ppAnalysis, PersistPtr ppPopList)
+  bool CollisionOperator::timeEvolution(MesmerFlags& mFlags,
+                     PersistPtr ppAnalysis, PersistPtr ppPopList, PersistPtr ppAvEList)
   {
 	ErrorContext c(__FUNCTION__);
 
@@ -818,41 +820,32 @@ namespace mesmer
 
 	  // now print out the average of the grain energy in each isomer
 	  ctest << endl << "average energy in each isomer (kJ/mol)" << endl;
-	  for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
-		Molecule* isomer = ipos->first;
-		ctest << isomer->getName() << ": " << endl; 
-		ctest << "\t" << endl;
-		for(size_t timestep(0); timestep < maxTimeStep; ++timestep){
-		  double averageEnergy(0.0);
-		  double totalIsomerPopulation(0.0);
-		  for(size_t grain = ipos->second; grain < isomer->getColl().get_colloptrsize(); ++grain){
-			totalIsomerPopulation += grnProfile[grain][timestep];  // determine how much total population in each isomer at time t
+    size_t iisomer = 0;
+	  for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos,++iisomer){
+		  Molecule* isomer = ipos->first;
+		  ctest << isomer->getName() << ": " << endl; 
+		  ctest << "\t" << endl;
+      PersistPtr ppAvEnergy = ppAvEList->XmlWriteElement("me:avEnergy");
+      ppAvEnergy->XmlWriteAttribute("ref", isomer->getName());
+		  for(size_t timestep(0); timestep < maxTimeStep; ++timestep){
+		    double averageEnergy(0.0);
+		    double totalIsomerPopulation(0.0);
+		    for(size_t grain = ipos->second; grain < (size_t)isomer->getColl().get_colloptrsize(); ++grain){
+			    totalIsomerPopulation += grnProfile[grain][timestep];  // determine how much total population in each isomer at time t
+		    }
+		    double sizeDum = isomer->getEnv().GrainSize;
+		    for(size_t grain = ipos->second; grain < (size_t)isomer->getColl().get_colloptrsize(); ++grain){
+			    averageEnergy +=  isomer->getEnv().GrainSize*grain*grnProfile[grain][timestep]/83.59; // calculate the average energy in each isomer at time t
+		    }
+		    formatFloat(ctest,averageEnergy/totalIsomerPopulation, 6, 15);    // normalize by the total population in each isomer
+        PersistPtr ppAv = ppAvEnergy->XmlWriteValueElement("me:Av", averageEnergy/totalIsomerPopulation);
+        ppAv->XmlWriteAttribute("time", toString(timePoints[timestep]));
+        ppAv->XmlWriteAttribute("logTime", toString(log10(timePoints[timestep])));
 		  }
-		  double sizeDum = isomer->getEnv().GrainSize;
-		  for(size_t grain = ipos->second; grain < isomer->getColl().get_colloptrsize(); ++grain){
-			averageEnergy +=  isomer->getEnv().GrainSize*grain*grnProfile[grain][timestep]/83.59;		 // calculate the average energy in each isomer at time t
-		  }
-		  formatFloat(ctest,averageEnergy/totalIsomerPopulation, 6, 15);    // normalize by the total population in each isomer
-		}
-		ctest << endl;
+		  ctest << endl;
 	  }
 
 	  ctest << "}\n";
-
-
-
-	  PersistPtr ppGrainList = ppAnalysis->XmlWriteElement("me:grainPopulationList");
-	  size_t timestep = maxTimeStep/2; //temporary value
-	  { 
-		PersistPtr ppGrainPop = ppGrainList->XmlWriteElement("me:grainPopulation");
-		ppGrainPop->XmlWriteAttribute("time", toString(timePoints[timestep]));
-		ppGrainPop->XmlWriteAttribute("logTime", toString(log10(timePoints[timestep])));
-		for(size_t j = 0; j < smsize; j+=5)  
-		{
-		  PersistPtr ppGrain = ppGrainPop->XmlWriteValueElement("me:grain", to_double(grnProfile[j][timestep]), 6);
-		  ppGrain->XmlWriteAttribute("index", toString(j));
-		}
-	  }
 	}
 
 	ctest<<"mean collision frequency = " << m_meanOmega << "/s" << endl;

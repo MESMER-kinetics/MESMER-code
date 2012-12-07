@@ -600,8 +600,17 @@ namespace mesmer
             ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
           }
 
+          PersistPtr ppAvEList;
+          if(m_Flags.grainedProfileEnabled)
+          {
+            ppAvEList = ppAnalysis->XmlWriteElement("me:avEnergyList");
+            ppAvEList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
+            ppAvEList->XmlWriteAttribute("conc", toString(m_Env.conc));
+            ppAvEList->XmlWriteAttribute("energyUnits", "kJ/mol");
+          }
+
           // Calculate time-dependent properties.
-          m_collisionOperator.timeEvolution(m_Flags, ppAnalysis, ppPopList);
+          m_collisionOperator.timeEvolution(m_Flags, ppAnalysis, ppPopList, ppAvEList);
           if(m_collisionOperator.hasGrainProfileData())
           {
             PersistPtr ppGrainList  = ppAnalysis->XmlWriteElement("me:grainPopulationList");
@@ -609,6 +618,7 @@ namespace mesmer
             ppGrainList->XmlWriteAttribute("conc", toString(m_Env.conc));
             m_collisionOperator.printGrainProfileAtTime(ppGrainList);
           }
+
 
           // Calculate rate coefficients. 
           PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");

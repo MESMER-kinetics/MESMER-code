@@ -108,8 +108,8 @@ public:
   static const int _ndigits;
 
   bool isnan() const { return QD_ISNAN(hi) || QD_ISNAN(lo); }
-  bool isfinite() const { return QD_ISFINITE(hi); }
-  bool isinf() const { return QD_ISINF(hi); }
+  bool isfinite() const { return QD_ISFINITE(hi)!=0; }
+  bool isinf() const { return QD_ISINF(hi)!=0; }
 
   /* Addition */
   friend QD_API dd_real operator+(const dd_real &a, double b);

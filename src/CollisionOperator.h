@@ -45,7 +45,7 @@ namespace mesmer
       Precision precision, PersistPtr ppAnalysis) ;
 
     // Calculate the time evolution of the system
-    bool timeEvolution(MesmerFlags& mFlags,PersistPtr ppAnalysis, PersistPtr ppPopList);
+    bool timeEvolution(MesmerFlags& mFlags,PersistPtr ppAnalysis, PersistPtr ppPopList, PersistPtr ppAvEList);
 
     // Calculates the Bartis-Widom macroscopic rate coefficients.
     bool BartisWidomPhenomenologicalRates(qdMatrix& rates, MesmerFlags& mFlags, PersistPtr ppBase);
@@ -71,6 +71,8 @@ namespace mesmer
     bool parseDataForGrainProfileAtTime(PersistPtr pp);
 
     bool printGrainProfileAtTime(PersistPtr ppGrainList);
+
+    bool CollisionOperator::printAverageEnergies(PersistPtr ppAvList);
 
     bool hasGrainProfileData() { return !m_GrainProfileAtTimeData.empty(); }
 
