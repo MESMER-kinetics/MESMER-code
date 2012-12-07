@@ -38,7 +38,7 @@ const T MesmerGamma(const T& x)
 {
   T T_PI = acos(-1.);
   int i,k,m;
-  T ga,gr,r,z;
+  T ga(0.0),gr(0.0),r(0.0),z(0.0);
 
   static T g[] = {
     1.0,

@@ -1,3 +1,9 @@
+
+2012-December-2 Struan Robertson
+
+	* Miscellaneous changes following to fix Linux 64 bit compiler warnings
+	and to update Linux 64 baselines.
+
 2012-December-7 Chris Morley
 
 	* src/CollisionOperator.cpp, src/CollisionOperator.h,src/System.cpp: XML

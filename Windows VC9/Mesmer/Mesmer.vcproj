@@ -337,6 +337,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\plugins\SensitivityAnalysis.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\plugins\SimpleBimolecularSink.cpp"
 				>
 			</File>
@@ -520,6 +524,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Persistence.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\plugin.h"
 				>
 			</File>
 			<File

@@ -23,8 +23,8 @@ namespace mesmer
   {
   public:
 
-    Marquardt(const char* id) : m_id(id),
-      FittingUtils(), m_nVar(0), m_delta(0.001), m_lambdaScale(10.0)
+    Marquardt(const char* id) : FittingUtils(), m_id(id),
+      m_nVar(0), m_delta(0.001), m_lambdaScale(10.0)
     { Register(); }
 
     virtual ~Marquardt() {}
@@ -38,7 +38,9 @@ namespace mesmer
     // Write out current variable values.
     void WriteVarVals(double chiSquare, double lambda) const ;
 
-    // Dimension of fit.
+    const char* m_id;
+
+		// Dimension of fit.
     size_t m_nVar ;
 
     // Numerical derivative delta.
@@ -46,9 +48,6 @@ namespace mesmer
 
     // Factor for scalling lambda by during fitting.
     double m_lambdaScale ;
-
-  private:
-    const char* m_id;
   };
 
   ////////////////////////////////////////////////

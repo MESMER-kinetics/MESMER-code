@@ -184,6 +184,7 @@ SRCS := \
 	plugins/MesmerILT.cpp \
 	plugins/Morse.cpp \
 	plugins/QMRotor.cpp \
+	plugins/SensitivityAnalysis.cpp \
 	plugins/SimpleBimolecularSink.cpp \
 	plugins/simplecalc.cpp \
 	plugins/SimpleILT.cpp \

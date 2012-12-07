@@ -23,8 +23,8 @@ namespace mesmer
   {
   public:
 
-    Fitting(const char* id) : m_id(id), 
-      FittingUtils(), m_nVar(0), m_A(), m_B(), m_C(), m_chi2a(0.0), m_chi2b(0.0), m_chi2c(0.0)
+    Fitting(const char* id) : FittingUtils(), m_id(id), 
+      m_nVar(0), m_A(), m_B(), m_C(), m_chi2a(0.0), m_chi2b(0.0), m_chi2c(0.0)
     { Register(); }
 
     virtual ~Fitting() {}
@@ -67,6 +67,8 @@ namespace mesmer
     // Update direction matrix in accord with the Powell algorithm.
     void cycleDirections(dMatrix &A, const vector<double> &X) const ;
 
+    const char* m_id;
+
     // Constants used in bracketing and Golden section search in a line minimizaton.
     // Note that the number tol should be an estimate of the square root of machine precision.
     static const double m_Gold ;
@@ -81,10 +83,6 @@ namespace mesmer
 
     // Values of the chi2 surface corresponding to the locations above.
     double m_chi2a, m_chi2b, m_chi2c ;
-
-  private:
-    const char* m_id;
-
   };
 
   ////////////////////////////////////////////////
