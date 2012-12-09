@@ -536,6 +536,7 @@ src/error.cpp -text
 src/error.h -text
 src/formatfloat.cpp -text
 src/formatfloat.h -text
+src/keys.txt -text
 src/main.cpp -text
 src/marray.h -text
 src/plugin.h -text
