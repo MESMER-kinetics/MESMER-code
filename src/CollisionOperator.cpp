@@ -820,8 +820,7 @@ namespace mesmer
 
       // Now print out the average of the grain energy in each isomer.
       ctest << endl << "average energy in each isomer (kJ/mol)" << endl;
-      size_t iisomer = 0;
-      for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos,++iisomer){
+      for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
         Molecule* isomer = ipos->first;
         ctest << isomer->getName() << ": " << endl; 
         ctest << "\t" << endl;
@@ -837,8 +836,9 @@ namespace mesmer
             totalIsomerPopulation += pop;          // Determine how much total population in each isomer at time t.
             averageEnergy +=  grnEne[grain]*pop;	 // Calculate the average energy in each isomer at time t.
           }
-          formatFloat(ctest,ConvertFromWavenumbers("kJ/mol",averageEnergy/totalIsomerPopulation), 6, 15);    // normalize by the total population in each isomer
-          PersistPtr ppAv = ppAvEnergy->XmlWriteValueElement("me:Av", averageEnergy/totalIsomerPopulation);
+          double normAvE= ConvertFromWavenumbers("kJ/mol",averageEnergy/totalIsomerPopulation);
+          formatFloat(ctest,normAvE, 6, 15);    // normalize by the total population in each isomer
+          PersistPtr ppAv = ppAvEnergy->XmlWriteValueElement("me:Av", normAvE);
           ppAv->XmlWriteAttribute("time", toString(timePoints[timestep]));
           ppAv->XmlWriteAttribute("logTime", toString(log10(timePoints[timestep])));
         }
