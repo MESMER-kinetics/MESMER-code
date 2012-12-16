@@ -1,4 +1,10 @@
 
+2012-December-16 Struan Robertson
+
+	* MolecularComponents.cpp/.h: Changes toward the removal of the division 
+	of density of states calculators - all density of states calculator
+	instances now located in the same vector.
+
 2012-December-2 Struan Robertson
 
 	* Miscellaneous changes following to fix Linux 64 bit compiler warnings

@@ -92,9 +92,8 @@ namespace mesmer
   gDensityOfStates::~gDensityOfStates()
   {
     //Delete the density of state calculators because they are cloned instances
-    delete m_pDOSCalculator;
-    for(unsigned i=0; i<m_ExtraDOSCalculators.size(); ++i)
-      delete m_ExtraDOSCalculators[i];
+    for(unsigned i=0; i<m_DOSCalculators.size(); ++i)
+      delete m_DOSCalculators[i];
   }
 
   gDensityOfStates::gDensityOfStates(Molecule* pMol)
@@ -143,14 +142,6 @@ namespace mesmer
       double x; 
       while (idata >> x)
         m_VibFreq.push_back(x); m_VibFreq_chk = 0;
-
-      DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("BeyerSwinehart", false);
-      if(!pDOSCalculator)
-      {
-        //msg = "was unknown";
-        //break;
-      }
-      m_ExtraDOSCalculators.push_back(pDOSCalculator);
     }
 
     std::vector<double> rCnst(3, 0.0);
@@ -355,13 +346,9 @@ namespace mesmer
   // Get the number of degrees of freedom for this species.
   //
   unsigned int gDensityOfStates::getNoOfDegOfFreeedom() {
-
-    unsigned int nDOF = m_pDOSCalculator->NoDegOfFreedom(this) ;
-
-    // Add contribution from other internal degrees of freeedom.
-
-    for ( vector<DensityOfStatesCalculator*>::size_type j = 0 ; j < m_ExtraDOSCalculators.size() ; ++j ) {
-      nDOF += m_ExtraDOSCalculators[j]->NoDegOfFreedom(this) ;
+    unsigned int nDOF(0) ;
+    for ( vector<DensityOfStatesCalculator*>::size_type j = 0 ; j < m_DOSCalculators.size() ; ++j ) {
+      nDOF += m_DOSCalculators[j]->NoDegOfFreedom(this) ;
     }
     return nDOF ;
   }
@@ -387,27 +374,46 @@ namespace mesmer
     return true;
   }
 
-  bool gDensityOfStates::ReadDOSMethods()
-  {
+  bool gDensityOfStates::ReadDOSMethods() {
+
     /* Two types of DOSCMethod:
     main methods like ClassicalRotors, which can be standalone;
     extra methods like hindered rotor, which must correct for replaced vibrations.
     Currently both are plugin classes derived from DensityOfStatesCalculator, but with
-    separate lists, so an error is flagged if the wrong type is used,
+    separate lists, so an error is flagged if the wrong type is used.
+
+    SHR, 16/Dec/2012: The above comment is still holds but the intention at the time
+    of writing is to merge these lists as there is no benefit from keeping them separate.
     */
     ErrorContext c(getHost()->getName());
     PersistPtr pp = getHost()->get_PersistentPointer();
-    string dosMethod(pp->XmlReadValue("me:DOSCMethod"));
-    m_pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod);
-//    if(!m_pDOSCalculator) keep going to find other errors
-//      return false;
 
-    if(!m_pDOSCalculator->ReadParameters(this, pp->XmlMoveTo("me:DOSCMethod")))
+	//
+	// Rotational-electronic densities of states objects:
+	//
+    string dosMethod(pp->XmlReadValue("me:DOSCMethod"));
+    DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod);
+    m_DOSCalculators.push_back(pDOSCalculator);
+    if(!pDOSCalculator->ReadParameters(this, pp->XmlMoveTo("me:DOSCMethod")))
     {
       cerr << dosMethod << " failed to initialize correctly";
       return false;
     }
 
+	//
+	// Beyer-Swinehart object added by default.
+	//
+    pDOSCalculator = DensityOfStatesCalculator::Find("BeyerSwinehart", false);
+    m_DOSCalculators.push_back(pDOSCalculator);
+    if(!pDOSCalculator)
+    {
+      cerr << "Beyer-Swinhart algorithm failed to initialize correctly";
+      return false;
+    }
+
+	//
+	// Additional density of states algorithms, e.g. hindered rotors.
+	//
     while(pp = pp->XmlMoveTo("me:ExtraDOSCMethod"))
     {
       dosMethod.clear();
@@ -415,10 +421,7 @@ namespace mesmer
       if( (name = pp->XmlRead()) || (name = pp->XmlReadValue("name", optional)))
         dosMethod = name;
       DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod, true);
-//      if(!pDOSCalculator)
-//        return false;
-
-      m_ExtraDOSCalculators.push_back(pDOSCalculator);
+      m_DOSCalculators.push_back(pDOSCalculator);
       if(!pDOSCalculator->ReadParameters(this, pp))
       {
         cerr << dosMethod << " failed to initialize correctly";
@@ -485,11 +488,10 @@ namespace mesmer
     if (sizeOfVector && vectorSizeConstant && !recalc)
       return true;
 
-    //Call Main DOSCalculator method
-    bool ret = m_pDOSCalculator->countCellDOS(this, MaximumCell);
-    //Call all extra methods, which correct main method
-    for(unsigned i=0; ret && i<m_ExtraDOSCalculators.size(); ++i)
-      ret = ret && m_ExtraDOSCalculators[i]->countCellDOS(this, MaximumCell);
+    // Calculate density of states.
+    bool ret(true) ; 
+    for(unsigned i=0; ret && i<m_DOSCalculators.size(); ++i)
+      ret = ret && m_DOSCalculators[i]->countCellDOS(this, MaximumCell);
     if(!ret)
       return false;
     //-------------------------------------------------------------
@@ -553,14 +555,10 @@ namespace mesmer
         // Calculate rovibronic partition functions based on grains.
         double grainCanPrtnFn = canonicalPartitionFunction(m_grainDOS, m_grainEne, beta) ;
 
-        // Calculate rovibronic partition functions using analytical formula.
+        // Calculate rovibronic partition functions, using analytical formula where possible.
         double qtot(1.0) ;
-        qtot *= m_pDOSCalculator->canPrtnFnCntrb(this, beta) ;
-
-        // Add contribution from other internal degrees of freeedom.
-
-        for ( vector<DensityOfStatesCalculator*>::size_type j = 0 ; j < m_ExtraDOSCalculators.size() ; ++j ) {
-          qtot *= m_ExtraDOSCalculators[j]->canPrtnFnCntrb(this, beta) ;
+        for ( vector<DensityOfStatesCalculator*>::size_type j = 0 ; j < m_DOSCalculators.size() ; ++j ) {
+          qtot *= m_DOSCalculators[j]->canPrtnFnCntrb(this, beta) ;
         }        
 
         if (m_host->getFlags().testDOSEnabled) { 
@@ -1265,7 +1263,7 @@ namespace mesmer
     // print out of column sums to check normalization results
     if (m_host->getFlags().reactionOCSEnabled){
       ctest << endl << "Collision operator column sums and energy transfer parameters" << endl << "{" << endl ;
-	  ctest << " Column Sums           E   <Delta E>  <Delta E>d  <Delta E>u" << endl ;
+      ctest << " Column Sums           E   <Delta E>  <Delta E>d  <Delta E>u" << endl ;
       for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
         double columnSum(0.0) ;
         double meanEnergyTransfer(0.0) ;
@@ -1281,11 +1279,11 @@ namespace mesmer
           }
         }
         ctest << formatFloat(columnSum, 3, 12) 
-		  	  << formatFloat(gEne[i], 3, 12)
-		      << formatFloat(meanEnergyTransfer, 3, 12)
-		      << formatFloat(meanEnergyTransferDown, 3, 12)
-			  << formatFloat(meanEnergyTransferUp, 3, 12)
-			  << endl ;
+          << formatFloat(gEne[i], 3, 12)
+          << formatFloat(meanEnergyTransfer, 3, 12)
+          << formatFloat(meanEnergyTransferDown, 3, 12)
+          << formatFloat(meanEnergyTransferUp, 3, 12)
+          << endl ;
       }
       ctest << "}" << endl;
     }

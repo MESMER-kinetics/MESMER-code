@@ -93,8 +93,7 @@ namespace mesmer
     //-------------------------------------------------------------------------------------------------
 
   private:
-    DensityOfStatesCalculator*              m_pDOSCalculator; //main density of states calculator
-    std::vector<DensityOfStatesCalculator*> m_ExtraDOSCalculators;
+    std::vector<DensityOfStatesCalculator*> m_DOSCalculators;
 
     double m_RotCstA ;          // Moment of inertia A.
     double m_RotCstB ;          // Moment of inertia B.
@@ -256,8 +255,6 @@ namespace mesmer
 
     double m_initPopulation ;   // initial population of the molecule.
     double m_eqFraction ;       // equilibrium fraction of the species
-    DensityOfStatesCalculator* m_pDOSCalculator;
-    vector<DensityOfStatesCalculator*> m_ExtraDOSCalculators;
     map <int,double> grainPopulations; // a map which holds any initial grain populations that have been specified
 
   public:
