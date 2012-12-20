@@ -43,7 +43,7 @@ namespace mesmer
       m_potentialCosCoeff(),
       m_expansion(4),
       m_energyLevels()
-    { Register(true); }
+    { Register(); }
 
     virtual ~HinderedRotorCM1D() {}
     virtual const char* getID()  { return m_id; }

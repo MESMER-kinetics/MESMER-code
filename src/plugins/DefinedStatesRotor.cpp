@@ -40,7 +40,7 @@ namespace mesmer
     DefinedStatesRotor(const char* id) : m_id(id), 
       m_energyLevels(), 
       m_degeneracies() 
-    { Register(false); }
+    { Register(); }
 
     virtual ~DefinedStatesRotor() {}
     virtual const char* getID()  { return m_id; }

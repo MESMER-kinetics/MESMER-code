@@ -19,7 +19,7 @@ namespace mesmer
 
     ///Constructor which registers with the list of DensityOfStatesCalculators in the base class
     //This class calculates a complete DOS: it is not an extra class. 
-    BeyerSwinehart(const char* id) : m_id(id) { Register(false); }
+    BeyerSwinehart(const char* id) : m_id(id) { Register(); }
 
     virtual ~BeyerSwinehart() {}
     virtual const char* getID()  { return m_id; }

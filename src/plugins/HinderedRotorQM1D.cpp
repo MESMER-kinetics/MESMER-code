@@ -50,7 +50,7 @@ namespace mesmer
       m_energyLevels(),
       m_plotStates(false),
       m_useSinTerms(false)  
-    { Register(true); }
+    { Register(); }
 
     virtual ~HinderedRotorQM1D() {}
     virtual const char* getID()  { return m_id; }

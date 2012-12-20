@@ -1,4 +1,19 @@
 
+2012-December-20 Chris Morley
+
+	* src/DensityOfStates.h,src/MolecularComponents.cpp,src/MolecularComponents.h,
+	src/plugin.h,src/plugins/BeyerSwinehart.cpp,src/plugins/ClassicalRotor.cpp,
+	src/plugins/DefinedStatesRotor.cpp,src/plugins/HinderedRotorCM1D.cpp,
+	src/plugins/HinderedRotorQM1D.cpp,src/plugins/Morse.cpp,src/plugins/QMRotor.cpp:
+	Complete unification of DOS calculators
+	
+	* src/plugin.h: improve formatting of lists of plugins in error messages.
+
+	* src/System.cpp: reinstate reading of me:numberOfGrains, but optimization
+	of number of grains etc. remains to be done.
+
+	There are trivial rounding errors in the i-propyl QA test.
+ 
 2012-December-16 Struan Robertson
 
 	* MolecularComponents.cpp/.h: Changes toward the removal of the division 

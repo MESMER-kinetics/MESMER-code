@@ -23,14 +23,13 @@ namespace mesmer
   public:
     DensityOfStatesCalculator(){}
     virtual ~DensityOfStatesCalculator(){}
-    virtual const char* getTypeID()  {return typeID(false);}
-    virtual const char* getTypeID(bool extra)  {return typeID(extra);}
+    virtual const char* getTypeID()  {return typeID();}
 
 
     //Get a pointer to a derived class by providing its id.
     static DensityOfStatesCalculator* Find(const std::string& id, bool extraType=false)
     {
-      return dynamic_cast<DensityOfStatesCalculator*>(TopFind(id, typeID(extraType)));
+      return dynamic_cast<DensityOfStatesCalculator*>(TopFind(id, typeID()));
     }
 
     // Read any data from XML and store in this instance. Default is do nothing.
@@ -52,15 +51,7 @@ namespace mesmer
     const Molecule* m_parent;
 
   private:
-    static const char* typeID(bool extraType)
-    {  return extraType ? "Cell Density of States Calculators (Extra)"
-        : "Cell Density of States Calculators";
-    }
-    /* There are separate maps in TopPlugin for normal and extra Density of
-       States Calculators, which are Listed separately, but under the same
-       title.
-    */
-
+    static const char* typeID() { return "Cell Density of States Calculators"; }
   };
 
 }//namespace

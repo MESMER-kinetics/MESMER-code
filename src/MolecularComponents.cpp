@@ -375,52 +375,51 @@ namespace mesmer
   }
 
   bool gDensityOfStates::ReadDOSMethods() {
-
-    /* Two types of DOSCMethod:
-    main methods like ClassicalRotors, which can be standalone;
-    extra methods like hindered rotor, which must correct for replaced vibrations.
-    Currently both are plugin classes derived from DensityOfStatesCalculator, but with
-    separate lists, so an error is flagged if the wrong type is used.
-
-    SHR, 16/Dec/2012: The above comment is still holds but the intention at the time
-    of writing is to merge these lists as there is no benefit from keeping them separate.
-    */
+  /* Rotational-electronic densities of states objects are specified in XML file as:
+     and/or   <me:DOSCMethod name=" name "/>                  preferred
+	   multiple <me:DOSCMethod> name </me:DOSCMethod>
+     and/or   <me:ExtraDOSCMethod> name </me:ExtraDOSCMethod> deprecated
+     and/or   <me:ExtraDOSCMethod name=" name "/>             deprecated
+  */
     ErrorContext c(getHost()->getName());
+
     PersistPtr pp = getHost()->get_PersistentPointer();
-
-	//
-	// Rotational-electronic densities of states objects:
-	//
-    string dosMethod(pp->XmlReadValue("me:DOSCMethod"));
-    DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod);
-    m_DOSCalculators.push_back(pDOSCalculator);
-    if(!pDOSCalculator->ReadParameters(this, pp->XmlMoveTo("me:DOSCMethod")))
-    {
-      cerr << dosMethod << " failed to initialize correctly";
+    if(!ReadMethodsFromXml("me:DOSCMethod"))
       return false;
+    if(!ReadMethodsFromXml("me:ExtraDOSCMethod"))
+      return false;
+    if(m_DOSCalculators.empty()) //invoke default method
+    {
+      const char* name = pp->XmlReadValue("me:DOSCMethod");
+      if(!name)
+        return false;
+      DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(string(name));
+      if(!pDOSCalculator)
+        return false;
+      m_DOSCalculators.push_back(pDOSCalculator);
     }
-
 	//
 	// Beyer-Swinehart object added by default.
 	//
-    pDOSCalculator = DensityOfStatesCalculator::Find("BeyerSwinehart", false);
+    DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("BeyerSwinehart");
     m_DOSCalculators.push_back(pDOSCalculator);
     if(!pDOSCalculator)
     {
       cerr << "Beyer-Swinhart algorithm failed to initialize correctly";
       return false;
     }
+    return true;
+  }
 
-	//
-	// Additional density of states algorithms, e.g. hindered rotors.
-	//
-    while(pp = pp->XmlMoveTo("me:ExtraDOSCMethod"))
+  bool gDensityOfStates::ReadMethodsFromXml(const string& keyword) {
+    PersistPtr pp = getHost()->get_PersistentPointer();
+    while(pp = pp->XmlMoveTo(keyword))
     {
-      dosMethod.clear();
+      string dosMethod;
       const char* name;
       if( (name = pp->XmlRead()) || (name = pp->XmlReadValue("name", optional)))
         dosMethod = name;
-      DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod, true);
+      DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod);
       m_DOSCalculators.push_back(pDOSCalculator);
       if(!pDOSCalculator->ReadParameters(this, pp))
       {

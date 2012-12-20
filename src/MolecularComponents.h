@@ -201,6 +201,7 @@ namespace mesmer
     bool initialization() ;
 
     bool ReadDOSMethods();
+    bool gDensityOfStates::ReadMethodsFromXml(const std::string& keyword);
 
     bool ReadZeroPointEnergy(PersistPtr &ppPropList) ;
 

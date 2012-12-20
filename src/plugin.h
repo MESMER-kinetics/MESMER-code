@@ -77,7 +77,11 @@ private:
           ss << piter->second->typeDescription() << '\n';
       }
       if(f==comma)
-        ss  << piter->second->getID() << ", ";
+      {
+        if(piter!=typeMap.begin())
+          ss << ", ";
+        ss  << piter->second->getID();
+      }
       else
         ss << " * " << piter->second->getID() << "\n";
 
@@ -111,7 +115,6 @@ protected:
   }
 
   virtual const char* getTypeID()=0;
-  virtual const char* getTypeID(bool extra){ return ""; }//only for DOSCalculators
   virtual const char* Description() { return ""; };
   virtual const char* typeDescription() { return ""; };
 
@@ -123,14 +126,6 @@ protected:
     allPlugins()[cid][toLowercase(id)] = this;
   }
     
-  //only for DOSCalculators
-  void Register(bool extra)
-  {
-    std::string cid = getTypeID(extra);
-    std::string id  = getID();
-    allPlugins()[cid][toLowercase(id)] = this;
-  }
-
 private:
   static PluginMapType& allPlugins()
   {

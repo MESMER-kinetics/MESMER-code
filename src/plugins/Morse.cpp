@@ -33,8 +33,7 @@ namespace mesmer
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
 
     ///Constructor which registers with the list of DensityOfStatesCalculators in the base class
-    //This class calculates a complete DOS: it is not an extra class. INCONSISTENT
-    Morse(const char* id) : m_id(id) { Register(true); }
+    Morse(const char* id) : m_id(id) { Register(); }
 
     virtual ~Morse() {}
     virtual const char* getID()  { return m_id; }

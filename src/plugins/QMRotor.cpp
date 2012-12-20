@@ -18,8 +18,7 @@ namespace mesmer
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
 
     // Constructor which registers with the list of DensityOfStatesCalculators in the base class
-    // This class calculates a complete DOS: it is not an extra class. 
-    QMRotor(const char* id) : m_id(id) { Register(false); }
+    QMRotor(const char* id) : m_id(id) { Register(); }
 
     virtual const char* getID()  { return m_id; }
     virtual QMRotor* Clone() { return new QMRotor(*this); }
