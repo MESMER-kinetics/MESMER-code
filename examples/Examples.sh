@@ -117,6 +117,12 @@ cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
 fi
+
+$executable -N Methyl_H_to_Methane_FTST.xml $directive
+cp ./Methyl_H_to_Methane_FTST.test ./$bline/Methyl_H_to_Methane_FTST.test
+if [ "$1" == "-o" ] ; then
+  cp ./Methyl_H_to_Methane_FTST.log ./$bline/Methyl_H_to_Methane_FTST.log 
+fi
 cd ..
 
 cd reservoirSink
@@ -128,27 +134,27 @@ fi
 cd ..
 
 cd spin_forbidden_kinetics
-$executable HCCH_methylene.xml -N $directive
+$executable -N HCCH_methylene.xml  $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
 fi
 
-$executable LZ_test.xml -N $directive
+$executable -N LZ_test.xml $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
 fi
 
-$executable WKB_test.xml -N $directive
+$executable -N WKB_test.xml $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
 fi
 cd ..
 
-cd OH_NO_to HONO
-$executable OH_NO_to HONO.xml -o $outf $directive
+cd OH_NO_to\ HONO
+$executable OH_NO_HONO.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
