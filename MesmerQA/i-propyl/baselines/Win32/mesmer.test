@@ -15,10 +15,10 @@ Test rovibronic density of states for: i-propyl
 
 Canonical rate coefficients for R1, calculated from microcanonical rates
 {
-    100    8.5919e-072
-    200   3.42281e-029
-    300   5.69345e-015
-    400   7.34659e-008
+    100    8.5923e-072
+    200   3.42287e-029
+    300   5.69348e-015
+    400   7.34661e-008
     500     0.00133346
     600       0.863776
     700        78.1933
@@ -42,7 +42,7 @@ Eigenvalues
  -4.354109e+006
  -2.754710e+006
  -1.562162e+006
- -4.500733e+001
+ -4.500735e+001
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -52,7 +52,7 @@ Number of sinks in this system: 1
 There should be 1 chemically significant eigenvalues (CSEs)
 Y_matrix:
 {
-        4.500717e+01
+        4.500719e+01
 }
 
 Z_matrix: {
@@ -71,22 +71,22 @@ Z_matrix * Z_matrix^(-1) [Identity matrix]:
 
 Kr matrix:
 {
--4.500733e+01	
+-4.500735e+01	
 }
 
 Kp matrix:
 {
-        4.500733e+01
+        4.500735e+01
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-i-propyl loss = -4.500733e+01
+i-propyl loss = -4.500735e+01
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-i-propyl -> propene+H = 4.500733e+01
+i-propyl -> propene+H = 4.500735e+01
 }
 
 }
@@ -95,10 +95,10 @@ PT Grid 1 Condition: conc = 3.01e+017, temp = 730, diagonalization precision: do
 
 Canonical rate coefficients for R1, calculated from microcanonical rates
 {
-    100    8.5919e-072
-    200   3.42281e-029
-    300   5.69345e-015
-    400   7.34659e-008
+    100    8.5923e-072
+    200   3.42287e-029
+    300   5.69348e-015
+    400   7.34661e-008
     500     0.00133346
     600       0.863776
     700        78.1933
@@ -122,7 +122,7 @@ Eigenvalues
  -4.361154e+006
  -2.736058e+006
  -1.531047e+006
- -6.135814e+001
+ -6.135816e+001
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -132,7 +132,7 @@ Number of sinks in this system: 1
 There should be 1 chemically significant eigenvalues (CSEs)
 Y_matrix:
 {
-        6.135782e+01
+        6.135784e+01
 }
 
 Z_matrix: {
@@ -151,22 +151,22 @@ Z_matrix * Z_matrix^(-1) [Identity matrix]:
 
 Kr matrix:
 {
--6.135814e+01	
+-6.135816e+01	
 }
 
 Kp matrix:
 {
-        6.135814e+01
+        6.135816e+01
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-i-propyl loss = -6.135814e+01
+i-propyl loss = -6.135816e+01
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-i-propyl -> propene+H = 6.135814e+01
+i-propyl -> propene+H = 6.135816e+01
 }
 
 }

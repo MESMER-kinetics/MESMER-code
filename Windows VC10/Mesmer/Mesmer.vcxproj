@@ -128,10 +128,12 @@
     <ClCompile Include="..\..\src\Molecule.cpp" />
     <ClCompile Include="..\..\src\MoleculeManager.cpp" />
     <ClCompile Include="..\..\src\plugins\Morse.cpp" />
+    <ClCompile Include="..\..\src\plugins\PriorDistribution.cpp" />
     <ClCompile Include="..\..\src\plugins\QMRotor.cpp" />
     <ClCompile Include="..\..\src\plugins\SensitivityAnalysis.cpp" />
     <ClCompile Include="..\..\src\plugins\SimpleBimolecularSink.cpp" />
     <ClCompile Include="..\..\src\plugins\UnitTests.cpp" />
+    <ClCompile Include="..\..\src\PseudoIsomerizationReaction.cpp" />
     <ClCompile Include="..\..\src\Rdouble.cpp" />
     <ClCompile Include="..\..\src\Reaction.cpp" />
     <ClCompile Include="..\..\src\ReactionManager.cpp" />
@@ -181,6 +183,7 @@
     <ClInclude Include="..\..\src\Molecule.h" />
     <ClInclude Include="..\..\src\MoleculeManager.h" />
     <ClInclude Include="..\..\src\Persistence.h" />
+    <ClInclude Include="..\..\src\PseudoIsomerizationReaction.h" />
     <ClInclude Include="..\..\src\Rdouble.h" />
     <ClInclude Include="..\..\src\Reaction.h" />
     <ClInclude Include="..\..\src\ReactionManager.h" />

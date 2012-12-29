@@ -183,6 +183,7 @@ SRCS := \
 	plugins/Marquardt.cpp \
 	plugins/MesmerILT.cpp \
 	plugins/Morse.cpp \
+	plugins/PriorDistribution.cpp \
 	plugins/QMRotor.cpp \
 	plugins/SensitivityAnalysis.cpp \
 	plugins/SimpleBimolecularSink.cpp \

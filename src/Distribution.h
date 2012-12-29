@@ -16,7 +16,7 @@
 
 namespace mesmer
 {
-
+  class Molecule;
   /** Abstract base class for distribution calculators
   The derived concrete classes are plugin classes:
   -- New classes can be added without changing any of the existing code.
@@ -35,9 +35,10 @@ namespace mesmer
       return dynamic_cast<DistributionCalculator*>(TopFind(id, typeID()));
     }
 
-    virtual bool calculateDistribution(std::vector<double> DOS, std::vector<double> ene, const double& beta, std::vector<double>& distribution) = 0 ;
+    virtual bool calculateDistribution(Molecule* m_host, std::vector<double>& dist) = 0 ;
 
 private:
+
     static const char* typeID(){ return "Distribution Calculators"; }
   };
 

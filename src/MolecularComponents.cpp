@@ -1515,7 +1515,7 @@ namespace mesmer
     m_host->getDOS().getGrainDensityOfStates(gDOS);
 
     if (m_grainDist.size() != gDOS.size() || m_host->getEnv().beta != m_grainFracBeta){
-      m_pDistributionCalculator->calculateDistribution(gDOS, gEne, m_host->getEnv().beta, m_grainDist);
+      m_pDistributionCalculator->calculateDistribution(m_host, m_grainDist);
       m_grainFracBeta = m_host->getEnv().beta;
     }
 

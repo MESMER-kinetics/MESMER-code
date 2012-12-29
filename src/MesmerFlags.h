@@ -17,7 +17,7 @@ namespace mesmer
     bool   microRateEnabled;              // Whether to output microcanonical rate coefficients
     bool   grainBoltzmannEnabled;         // Enabled printing grain boltzmann distribution
     bool   grainDOSEnabled;               // Enabled printing grain DOS
-		bool   grainTSsosEnabled;							// enables printing of TS sum of states
+    bool   grainTSsosEnabled;							// enables printing of TS sum of states
     bool   cyclePrintGrainDOS;            // Controls the print-out of grain DOS in each cycle (This is only for source term)
     bool   cellDOSEnabled;                // Enabled printing cell DOS
     bool   cyclePrintCellDOS;             // Controls the print-out of cell DOS in each cycle (This is only for source term)
@@ -31,7 +31,8 @@ namespace mesmer
     bool   rateCoefficientsOnly;          // Calculate rate coefficients only without doing collision operators
     bool   useTheSameCellNumber;          // Option to use the same cell number or not in various conditions
     bool   grainedProfileEnabled;         // Option to print out grained species profile (before summation to individual species)
-    bool   speciesProfileEnabled;         // Option to print species profile
+    bool   speciesProfileEnabled;         // Option to print species profile.
+    bool   InitialDistEnabled;            // Option to print initial distribution.
     bool   viewEvents;                    // Print events timestamps
     double shortestTimeOfInterest;        // Shortest time of interest
     double maxEvolutionTime;              // Maximum time of evolution for the species profile
@@ -44,7 +45,7 @@ namespace mesmer
     int  showCollisionOperator;           // Show collision operator before and after normalization for each well.
                                           // 1: after normalization, 2: after deducting with I
                                           // 0 or anything else: before normalization
-    bool useDOSweightedDT;                 // Use number of states to weigh the downward transition in collisionOperator()
+    bool useDOSweightedDT;                // Use number of states to weigh the downward transition in collisionOperator()
     std::string punchSymbols;             // a string holds the symbols of rates.
     std::string punchNumbers;
     std::string punchFileName;

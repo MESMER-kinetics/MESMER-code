@@ -146,7 +146,7 @@ namespace mesmer
     m_pMoleculeManager->set_PersistPtr(ppMolList);
 
     if (task == "ThermodynamicTable" || task == "UnitTests") {
-	  // Thermodynamic table and UnitTests do their own file parsing.
+      // Thermodynamic table and UnitTests do their own file parsing.
       return true ;
     }
 
@@ -284,6 +284,7 @@ namespace mesmer
       m_Flags.useTheSameCellNumber        = ppControl->XmlReadBoolean("me:useTheSameCellNumberForAllConditions");
       m_Flags.grainedProfileEnabled       = ppControl->XmlReadBoolean("me:printGrainedSpeciesProfile");
       m_Flags.speciesProfileEnabled       = ppControl->XmlReadBoolean("me:printSpeciesProfile");
+      m_Flags.InitialDistEnabled          = ppControl->XmlReadBoolean("me:printInitialDistribution");
       m_Flags.viewEvents                  = ppControl->XmlReadBoolean("me:printEventsTimeStamps");
       m_Flags.allowSmallerDEDown          = ppControl->XmlReadBoolean("me:allowSmallerDeltaEDown");
       m_Flags.print_TabbedMatrices        = ppControl->XmlReadBoolean("me:printTabbedMatrices");

@@ -1,13 +1,12 @@
 #include "MesmerFlags.h"
 
 namespace mesmer{
-  MesmerFlags::MesmerFlags():
-    testDOSEnabled(false),
+  MesmerFlags::MesmerFlags() : testDOSEnabled(false),
     testRateConstantEnabled(false),
     microRateEnabled(false),
     grainBoltzmannEnabled(false),
     grainDOSEnabled(false),
-		grainTSsosEnabled(false),
+    grainTSsosEnabled(false),
     cyclePrintGrainDOS(false),
     cellDOSEnabled(false),
     cyclePrintCellDOS(false),
@@ -35,6 +34,6 @@ namespace mesmer{
     punchNumbers(),
     punchFileName(),
     overwriteXmlAnalysis(false)
-    {}
+  {}
 }//namespace
 
