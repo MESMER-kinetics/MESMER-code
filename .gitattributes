@@ -555,6 +555,7 @@ src/plugins/LandauZenerCrossingCoeff.cpp -text
 src/plugins/Marquardt.cpp -text
 src/plugins/MesmerILT.cpp -text
 src/plugins/Morse.cpp -text
+src/plugins/PriorDistribution.cpp -text
 src/plugins/QMRotor.cpp -text
 src/plugins/SensitivityAnalysis.cpp -text
 src/plugins/SimpleBimolecularSink.cpp -text
