@@ -95,21 +95,21 @@ namespace mesmer
       // bool is true and rct1 is the pseudoisomer.  if not, bool is false, and rct1 is the excess
       //
       Reaction *preaction ;
-			if     (!bRct2 && bPdt1 && pdt1Type == "modelled" && !bPdt2){
+      if     (!bRct2 && bPdt1 && pdt1Type == "modelled" && !bPdt2){
         preaction = new IsomerizationReaction(m_pMoleculeManager, mEnv, mFlags, id) ;
-			}
-			else if( bRct2 && (rct1Type == "modelled" || rct2Type == "modelled" )){
-				preaction = new BimolecularSinkReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "excessReactant")) ;
-			}
-			else if( bRct2 && bPdt1 && !bPdt2){
+      }
+      else if( bRct2 && (rct1Type == "modelled" || rct2Type == "modelled" )){
+        preaction = new BimolecularSinkReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "excessReactant")) ;
+      }
+      else if( bRct2 && bPdt1 && !bPdt2){
         preaction = new AssociationReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "deficientReactant")) ;
-			}
-			else if(!bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink")){
+      }
+      else if(!bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink")){
         preaction = new IrreversibleUnimolecularReaction(m_pMoleculeManager, mEnv, mFlags, id) ;
-			}
-			else if( bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink")){
+      }
+      else if( bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink")){
         preaction = new IrreversibleExchangeReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "deficientReactant")) ;
-			}
+      }
       else {
         cinfo << "Unknown reaction type.\n";
         return false ;
@@ -169,17 +169,17 @@ namespace mesmer
       if(sRef.size()){ // if got the name of the molecule
         Molecule* pMolecule = m_pMoleculeManager->find(sRef) ;
         double population = ppInitMol->XmlReadDouble("me:population", optional);
-				int grainIdx = ppInitMol->XmlReadInteger("me:grain",optional);
+        int grainIdx = ppInitMol->XmlReadInteger("me:grain",optional);
         if (!IsNan(population) && grainIdx==0){  // what to do if population, but not grain has been specified
           populationSum += population;
           pMolecule->getPop().setInitPopulation(population);
           ctest << "Initial population of " << pMolecule->getName() << " = " << population << endl;
         }
-				else if(!IsNan(population) && !IsNan(grainIdx)){  // what to do if population and grain have been specified
+        else if(!IsNan(population) && !IsNan(grainIdx)){  // what to do if population and grain have been specified
           populationSum += population;       
-					pMolecule->getPop().setInitGrainPopulation(grainIdx,population);
-					ctest << "Initial population of grain " << grainIdx << " in " << pMolecule->getName() << " = " << population << endl;
-				}
+          pMolecule->getPop().setInitGrainPopulation(grainIdx,population);
+          ctest << "Initial population of grain " << grainIdx << " in " << pMolecule->getName() << " = " << population << endl;
+        }
         else
           population = 0.0;
       }

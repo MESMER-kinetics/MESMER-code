@@ -2,7 +2,7 @@
 //
 // PriorDistribution.cpp
 //
-// Author: Robin Shannon 
+// Author: Robin Shannon (Refactored: SHR)
 // Date:   26/Nov/2012
 //
 // Produces Prior Distribution
@@ -24,23 +24,21 @@ namespace mesmer
   {
   public:
 
-    ///Constructor which registers with the list of DistributionCalculators in the base class
-    PriorDistribution(const char* id) : m_id(id){ Register(); }
+	///Constructor which registers with the list of DistributionCalculators in the base class
+	PriorDistribution(const char* id) : m_id(id){ Register(); }
 
-    virtual ~PriorDistribution() {}
-    virtual const char* getID()  { return m_id; }
+	virtual ~PriorDistribution() {}
+	virtual const char* getID()  { return m_id; }
 
-    virtual bool calculateDistribution( Molecule* m_host, std::vector<double>& distribution);
+	virtual bool calculateDistribution( Molecule* m_host, std::vector<double>& distribution);
 
   private:
 
-    void CoFragDOS(PersistPtr pp,  Molecule* m_host, vector<double>& DOS) ;
+	void GetNormalisedDist(const vector<double>& DOS1, const vector<double>&  DOS2, const vector<double>&  DOS3, vector<double>& Dist) ;
 
-    void GetNormalisedDist(const vector<double>& DOS1, const vector<double>&  DOS2, const vector<double>&  DOS3, vector<double>& Dist) ;
+	void GetGrainAveragedDistribution(const vector<double>& DOS, vector<double>& dist,  Molecule* m_host);
 
-    void GetGrainAveragedDistribution(const vector<double>& DOS, vector<double>& dist,  Molecule* m_host);
-
-    const char* m_id;
+	const char* m_id;
 
   };
 
@@ -51,93 +49,86 @@ namespace mesmer
 
   bool PriorDistribution::calculateDistribution(Molecule* m_host, std::vector<double>& dist) {
 
-    dist.clear();
+	// Get the rovibrational Density of states for the primary species in the prior distribution
 
-    // Get the rovibrational Density of states for the primary species in the prior distribution
+	vector<double> DOS1;
+	m_host->getDOS().getCellDensityOfStates(DOS1);
 
-    vector<double> DOS1;
-    m_host->getDOS().getCellDensityOfStates(DOS1);
+	// Get the rovibrational Density of states for the Cofragment in the prior distribution
 
-    // Get the rovibrational Density of states for the Cofragment in the prior distribution
+	PersistPtr pp = m_host->get_PersistentPointer();
+	pp = pp->XmlMoveTo("me:DistributionCalcMethod");
 
-    PersistPtr pp = m_host->get_PersistentPointer();
+	string MolName(pp->XmlReadValue("CoFragment")) ;
+	if (!MolName.length()) {
+	  throw std::runtime_error("No Co-fragment name specified for Prior distribution.");
+	}
+	MesmerFlags& Flags = const_cast<MesmerFlags&>(m_host->getFlags());
+	Molecule *pMol = m_host->getMoleculeManager()->addmol(MolName, "PriorCoFragment", m_host->getEnv(), Flags) ;
+	vector<double> DOS2; 
+	if (pMol) {
+	  pMol->getDOS().getCellDensityOfStates(DOS2);
+	} else {
+	  throw std::runtime_error("Co-fragment molecule could not be instantiated for Prior distribution.");
+	}
 
-    vector<double> DOS2; 
-    CoFragDOS(pp, m_host, DOS2); 
+	// Get the excess energy
 
-    // Get the excess energy
+	double Xs = pp->XmlReadDouble("EnergyExcess");
+	const char* p = pp->XmlReadValue("units", optional);
+	string units = p ? p : "cm-1";
+	int XsEne = static_cast<int> (getConvertedEnergy(units, Xs));
 
-    double Xs = pp->XmlReadDouble("me:EnergyExcess");
-    const char* p = pp->XmlReadValue("units", optional);
-    string units = p ? p : "cm-1";
-    int XsEne = static_cast<int> (getConvertedEnergy(units, Xs));
+	// Get average cell energies
 
-    // Get average cell energies
+	const int MaximumGrain = m_host->getEnv().MaxGrn;
+	const int MaximumCell  = m_host->getEnv().MaxCell;
 
-    const int MaximumGrain = m_host->getEnv().MaxGrn;
-    const int MaximumCell  = m_host->getEnv().MaxCell;
-    dist.resize(MaximumGrain);
+	// Make sure Excess energy is not larger that the energy of the highest cell.
 
-    //Make sure Excess energy is not larger that the energy of the highest cell.
+	if (XsEne > MaximumCell) {
+	  cwarn << "Excess energy in prior distribution greater that highest cell energy in master equation";
+	  XsEne = MaximumCell;
+	}
 
-    if (XsEne > MaximumCell) {
-      cwarn << "Excess energy in prior distribution greater that highest cell energy in master equation";
-      XsEne = MaximumCell;
-    }
+	// Get the translational density of states.
 
-    // Get the translational density of states.
+	vector<double> Trans_DOS(XsEne, 1.0);
 
-    vector<double> Trans_DOS(XsEne, 1.0);
+	//Resize rovibrational DOS vectors so densities so energies greater than the XsEne are not considered
 
-    //Resize rovibrational DOS vectors so densities so energies greater than the XsEne are not considered
+	DOS1.resize(XsEne);
+	DOS2.resize(XsEne);
 
-    DOS1.resize(XsEne);
-    DOS2.resize(XsEne);
+	// Get cell prior distribution for Reactant.
 
-    // Get cell prior distribution for Reactant.
+	vector<double> ReactCellDist(XsEne, 0.0) ;
+	GetNormalisedDist(DOS1, DOS2, Trans_DOS, ReactCellDist);
 
-    vector<double> ReactCellDist(XsEne, 0.0) ;
-    GetNormalisedDist(DOS1, DOS2, Trans_DOS, ReactCellDist);
+	vector<double> CoReactCellDist(XsEne, 0.0) ;
+	GetNormalisedDist(DOS2, DOS1, Trans_DOS, CoReactCellDist);
 
-    vector<double> CoReactCellDist(XsEne, 0.0) ;
-    GetNormalisedDist(DOS2, DOS1, Trans_DOS, CoReactCellDist);
+	vector<double> TransCellDist(XsEne, 0.0) ;
+	GetNormalisedDist(Trans_DOS, DOS2, DOS1, TransCellDist);
 
-    vector<double> TransCellDist(XsEne, 0.0) ;
-    GetNormalisedDist(Trans_DOS, DOS2, DOS1, TransCellDist);
+	// Print cell distribution if Flag present
 
-    // Print cell distribution if Flag present
+	if (m_host->getFlags().InitialDistEnabled){
+	  ctest << "\nInitial distribution vector" << endl ;
+	  ctest << "\nReactant\tCoProduct\tTranslational" << endl ;
+	  for (int i=0; i < XsEne; i++){
+		formatFloat(ctest, ReactCellDist[i],   6, 15) ;
+		formatFloat(ctest, TransCellDist[i],   6, 15) ;
+		formatFloat(ctest, CoReactCellDist[i], 6, 15) ;
+		ctest << endl ;
+	  }
+	}
 
-    if (m_host->getFlags().InitialDistEnabled){
-      ctest << "\nInitial distribution vector" << endl ;
-      ctest << "\nReactant\tCoProduct\tTranslational" << endl ;
-      for (int i=0; i < XsEne; i++){
-        formatFloat(ctest, ReactCellDist[i],   6, 15) ;
-        formatFloat(ctest, TransCellDist[i],   6, 15) ;
-        formatFloat(ctest, CoReactCellDist[i], 6, 15) ;
-        ctest << endl ;
-      }
-    }
+	dist.clear();
+	dist = vector<double>(MaximumGrain, 0.0) ;
+	GetGrainAveragedDistribution(ReactCellDist, dist, m_host);
 
-    GetGrainAveragedDistribution(ReactCellDist, dist, m_host);
-
-    return true;
-  }
-
-  // Function to get DOS of state in the cofragment species 
-  void PriorDistribution::CoFragDOS(PersistPtr pp,  Molecule* m_host, vector<double>& DOS) {
-
-    PersistPtr pp2 = pp->XmlMoveTo("CoFragment");
-    pp2 = pp2->XmlMoveTo("molecule");
-
-    MesmerFlags Flag = m_host->getFlags();
-
-    const char* typetxt = "PriorCoFragment";
-
-    //Construct a new Molecule corresponding to Cofragment 
-    Molecule *CoFrag = new Molecule(m_host->getEnv(), Flag, typetxt);
-    CoFrag->InitializeMolecule(pp2);
-    CoFrag->activateRole(typetxt);
-    CoFrag->getDOS().getCellDensityOfStates(DOS);
+	return true;
   }
 
   //  Function to perform convolutions required to obtain the prior distribution
@@ -174,32 +165,32 @@ namespace mesmer
   //  Function to perform convolutions required to obtain the prior distribution.
   void PriorDistribution::GetNormalisedDist(const vector<double>& DOS1, const vector<double>&  DOS2, const vector<double>&  DOS3,  vector<double>& Dist)
   {
-    size_t SizeTemp = DOS1.size();
-    double Norm(0.0) ; // Normalization constant.
-    for (size_t i(0) ; i < SizeTemp ; i++) {
-      for (size_t j(0); j < SizeTemp-i ; j++) {
-        size_t jj = SizeTemp- i - j - 1;
-        Dist[i] += (DOS1[i]) * DOS2[j] * DOS3[jj];
-      }
-      Norm += Dist[i] ;
-    }
+	size_t SizeTemp = DOS1.size();
+	double Norm(0.0) ; // Normalization constant.
+	for (size_t i(0) ; i < SizeTemp ; i++) {
+	  for (size_t j(0); j < SizeTemp-i ; j++) {
+		size_t jj = SizeTemp- i - j - 1;
+		Dist[i] += DOS1[i] * DOS2[j] * DOS3[jj];
+	  }
+	  Norm += Dist[i] ;
+	}
 
-    // Calculate the distribution vector for species with DOS1
-    for (size_t i(0) ; i<(SizeTemp); i++) {
-      Dist[i] /= Norm ;
-    }
+	// Calculate the distribution vector for species with DOS1
+	for (size_t i(0) ; i<(SizeTemp); i++) {
+	  Dist[i] /= Norm ;
+	}
 
   }
 
   void PriorDistribution::GetGrainAveragedDistribution(const vector<double>& DOS, vector<double>& dist,  Molecule* m_host) {
-    const int GrainSize = m_host->getEnv().GrainSize;
-    const size_t Size2 = DOS.size();
-    size_t index(0) ;
-    for (size_t i(0) ; i < dist.size() ; i++) {       
-      for (int j=0; j<(GrainSize) && index < Size2; j++, index++ ) {
-        dist[i] += DOS[index];
-      }
-    }
+	const int GrainSize = m_host->getEnv().GrainSize;
+	const size_t Size2 = DOS.size();
+	size_t index(0) ;
+	for (size_t i(0) ; i < dist.size() ; i++) {       
+	  for (int j=0; j<(GrainSize) && index < Size2; j++, index++ ) {
+		dist[i] += DOS[index];
+	  }
+	}
   }
 
 }//namespace

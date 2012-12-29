@@ -515,6 +515,8 @@ src/Molecule.h -text
 src/MoleculeManager.cpp -text
 src/MoleculeManager.h -text
 src/Persistence.h -text
+src/PseudoIsomerizationReaction.cpp -text
+src/PseudoIsomerizationReaction.h -text
 src/Reaction.cpp -text
 src/Reaction.h -text
 src/ReactionManager.cpp -text

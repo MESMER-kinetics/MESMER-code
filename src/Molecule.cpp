@@ -15,12 +15,13 @@ namespace mesmer
   //
   //Constructor
   //
-  Molecule::Molecule(const MesmerEnv& Env, MesmerFlags& Flags, const string& molType): m_Env(Env),
+  Molecule::Molecule(const MesmerEnv& Env, MesmerFlags& Flags, const string& molType, MoleculeManager *pMoleculeManager): m_Env(Env),
     m_Flags(Flags),
     m_atomNumber(0),
     m_ppPersist(NULL),
     m_Name(),
     m_Description(),
+    m_pMoleculeManager(pMoleculeManager),
     m_molTypes(),
     g_bath(NULL),
     g_dos(NULL),

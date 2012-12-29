@@ -1,6 +1,15 @@
 
 2012-December-29 Struan Robertson
 
+	* PriorDistribution.cpp, Molecule.h/.cpp: Further refactoring of
+	prior distribution, cofragment now located and managed by the molecule 
+	manager. This required backward navigation to the molecule manager 
+	from a molecule to be added.
+
+	* Addition of pseudoisomerization class.
+
+2012-December-29 Struan Robertson
+
 	* PriorDistribution.cpp: Refactoring.
 
 2012-December-29 Struan Robertson

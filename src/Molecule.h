@@ -12,10 +12,13 @@
 //
 //-------------------------------------------------------------------------------------------
 
+// #include "MoleculeManager.h"
 #include "MolecularComponents.h"
 
 namespace mesmer
 {
+
+  class MoleculeManager ;
 
   //**************************************************
   /// Basic molecule: has name and some collision parameters.
@@ -29,22 +32,17 @@ namespace mesmer
 
   private:
 
-    const MesmerEnv&     m_Env;
-    MesmerFlags&         m_Flags;
-    unsigned int         m_atomNumber;  // If (m_atomNumber == 0), the atomArray element is missing.
+    const MesmerEnv& m_Env;
+    MesmerFlags&     m_Flags;
+    unsigned int     m_atomNumber;         // If (m_atomNumber == 0), the atomArray element is missing.
 
-    PersistPtr     m_ppPersist;         // Conduit for I/O
-    std::string    m_Name ;             // Molecule name.
-    std::string    m_Description;       // Longer description for the structure
+    PersistPtr       m_ppPersist;          // Conduit for I/O
+    std::string      m_Name ;              // Molecule name.
+    std::string      m_Description;        // Longer description for the structure
+	MoleculeManager *m_pMoleculeManager;   // Pointer molecule manager for navigation purposes.
     std::map<std::string, bool> m_molTypes;
 
-    //================================================
-    // CHECK FOR INPUTFILE PARAMETERS
-    //================================================
-
-
-    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    // Component pointers
+	// Component pointers
     friend class MolecularComponent; // Provide access privalage of MolecularComponent to private members of Molecule.
     gBathProperties*        g_bath;  // Component pointer for bath gas properties
     gDensityOfStates*       g_dos;   // Component pointer for cell density of state properties
@@ -52,14 +50,13 @@ namespace mesmer
     gPopulation*            g_pop;   // Component pointer for population and equilibrium fraction
     gWellProperties*        g_coll;  // Component pointer for collision down model properties
     gStructure*             g_struc; // Component pointer for chemical structural properties
-    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
   public:
 
     //
     // Constructor
     //
-    Molecule(const MesmerEnv& Env, MesmerFlags& m_Flags, const string& molType) ;
+    Molecule(const MesmerEnv& Env, MesmerFlags& m_Flags, const string& molType, MoleculeManager *pMoleculeManager) ;
     virtual ~Molecule();
 
     // Initialize Molecule. Returns false if no id attribute
@@ -75,6 +72,8 @@ namespace mesmer
     std::string getName() const { return m_Name ; } ;
 
     const MesmerFlags& getFlags() const { return m_Flags;} ;
+
+	MoleculeManager* getMoleculeManager() const { return m_pMoleculeManager; } ;
 
     bool checkDegOfFreedom();
 
