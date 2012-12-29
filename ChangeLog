@@ -1,6 +1,10 @@
 
 2012-December-29 Struan Robertson
 
+	* PriorDistribution.cpp: Refactoring.
+
+2012-December-29 Struan Robertson
+
 	* PriorDistribution.cpp: Initial check-in of prior distribution, and 
 	associated changes, on behalf of Robin Shannon.
 
