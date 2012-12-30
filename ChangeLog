@@ -1,4 +1,9 @@
 
+2012-December-30 Struan Robertson
+
+	* PriorDistribution.cpp: Alternative implementation of prior 
+	distribution, based on FFT convolution,	added.  
+
 2012-December-29 Struan Robertson
 
 	* PriorDistribution.cpp, Molecule.h/.cpp: Further refactoring of

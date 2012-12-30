@@ -156,6 +156,7 @@ SRCS := \
 	MolecularComponents.cpp \
 	Molecule.cpp \
 	MoleculeManager.cpp \
+	PseudoIsomerizationReaction.cpp \
 	Rdouble.cpp \
 	Reaction.cpp \
 	ReactionManager.cpp \

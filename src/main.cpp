@@ -245,7 +245,7 @@ int main(int argc,char *argv[])
       //------------------
       // Begin calculation
       {
-        string thisEvent = "Calculate EGME";
+        string thisEvent = "Main Calculation begins";
         cinfo << "\nFile: \"" << infilename << "\" successfully parsed.\n" << thisEvent << endl;
         events.setTimeStamp(thisEvent);
       }
