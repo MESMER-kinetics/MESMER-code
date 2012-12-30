@@ -1,6 +1,11 @@
 
 2012-December-30 Struan Robertson
 
+	* PriorDistribution.cpp: Altered translation density of states to a
+	E^(1/2) dependence. 
+
+2012-December-30 Struan Robertson
+
 	* PriorDistribution.cpp: Alternative implementation of prior 
 	distribution, based on FFT convolution,	added.  
 

@@ -35,7 +35,6 @@ namespace mesmer
   private:
 
     void GetNormalisedDist(const vector<double>& DOS1, const vector<double>&  DOS2, const vector<double>&  DOS3, vector<double>& Dist) ;
-    void GetNormalisedDist2(const vector<double>& DOS1, const vector<double>&  DOS2, const vector<double>&  DOS3, vector<double>& Dist) ;
 
     void GetGrainAveragedDistribution(const vector<double>& DOS, vector<double>& dist,  Molecule* m_host);
 
@@ -92,11 +91,16 @@ namespace mesmer
       XsEne = MaximumCell;
     }
 
-    // Get the translational density of states.
+    // The (classical) translational density of states. Prefactors are not included 
+	// because they cancel on normalization.
 
-    vector<double> Trans_DOS(XsEne, 1.0);
+    vector<double> Trans_DOS ;
+	getCellEnergies(XsEne, Trans_DOS) ;
+    for (int i(0) ; i < XsEne ; i++) {
+      Trans_DOS[i] = sqrt(Trans_DOS[i]) ;
+    }
 
-    //Resize rovibrational DOS vectors so densities so energies greater than the XsEne are not considered
+    // Resize rovibrational DOS vectors so densities so energies greater than the XsEne are not considered.
 
     DOS1.resize(XsEne);
     DOS2.resize(XsEne);
@@ -104,17 +108,17 @@ namespace mesmer
     // Get cell prior distribution for Reactant.
 
     vector<double> ReactCellDist(XsEne, 0.0) ;
-    GetNormalisedDist2(DOS1, DOS2, Trans_DOS, ReactCellDist);
+    GetNormalisedDist(DOS1, DOS2, Trans_DOS, ReactCellDist);
 
     // Print cell distribution if Flag present
 
     if (m_host->getFlags().InitialDistEnabled){
 
       vector<double> CoReactCellDist(XsEne, 0.0) ;
-      GetNormalisedDist2(DOS2, DOS1, Trans_DOS, CoReactCellDist);
+      GetNormalisedDist(DOS2, DOS1, Trans_DOS, CoReactCellDist);
 
       vector<double> TransCellDist(XsEne, 0.0) ;
-      GetNormalisedDist2(Trans_DOS, DOS2, DOS1, TransCellDist);
+      GetNormalisedDist(Trans_DOS, DOS2, DOS1, TransCellDist);
 
       ctest << "\nInitial distribution vector" << endl ;
       ctest << "\nReactant\tCoProduct\tTranslational" << endl ;
@@ -134,7 +138,7 @@ namespace mesmer
   }
 
   //  Function to perform convolutions required to obtain the prior distribution
-  void PriorDistribution::GetNormalisedDist2(const vector<double>& DOS1, const vector<double>&  DOS2, const vector<double>&  DOS3, vector<double>& Dist) {
+  void PriorDistribution::GetNormalisedDist(const vector<double>& DOS1, const vector<double>&  DOS2, const vector<double>&  DOS3, vector<double>& Dist) {
     size_t Size = DOS1.size();
     vector<double> FirstConv(Size, 0.0);
     FastLaplaceConvolution(DOS2, DOS3, FirstConv);
@@ -150,28 +154,6 @@ namespace mesmer
     for (size_t i(0) ; i < Size ; i++) {
       Dist[i] /= Norm ;
     }
-  }
-
-  //  Function to perform convolutions required to obtain the prior distribution.
-  void PriorDistribution::GetNormalisedDist(const vector<double>& DOS1, const vector<double>&  DOS2, const vector<double>&  DOS3,  vector<double>& Dist)
-  {
-
-	// Calculate distribution and normalisation constant.
-    size_t SizeTemp = DOS1.size();
-    double Norm(0.0) ; // Normalization constant.
-    for (size_t i(0) ; i < SizeTemp ; i++) {
-      for (size_t j(0); j < SizeTemp-i ; j++) {
-        size_t jj = SizeTemp- i - j - 1;
-        Dist[i] += DOS1[i] * DOS2[j] * DOS3[jj];
-      }
-      Norm += Dist[i] ;
-    }
-
-    // Normalize the distribution vector.
-    for (size_t i(0) ; i<(SizeTemp); i++) {
-      Dist[i] /= Norm ;
-    }
-
   }
 
   void PriorDistribution::GetGrainAveragedDistribution(const vector<double>& DOS, vector<double>& dist,  Molecule* m_host) {
