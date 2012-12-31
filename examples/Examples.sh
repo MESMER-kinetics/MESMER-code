@@ -163,10 +163,3 @@ cd ..
 
 echo Start Time=$starttime - End Time=`date`
 
-# This line below makes shell to create a system Beep (err yup)
-echo -e "\007"
-echo -e "\007"
-echo -e "\007"
-
-
-

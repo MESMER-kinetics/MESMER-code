@@ -8,22 +8,22 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v1.0 compiled: -- Feb  4 2012 -- 11:10:20
+     Mesmer v2.0 compiled: -- Dec 21 2012 -- 17:05:53
 
      Copyright (C) 2009-2012 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
      Mesmer is free software: you can redistribute it and/or modify
-     it under the terms of the GNU Lesser Public License as published by
+     it under the terms of the GNU Public License as published by
      the Free Software Foundation, either version 3 of the License, or
      (at your option) any later version.
 
      But WITHOUT ANY WARRANTY; without even the implied warranty of
      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU Lesser Public License for more details.
+     GNU Public License for more details.
 
-    You should have received a copy of the GNU Lesser Public License
+    You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -32,8 +32,6 @@ Methyl_H_to_Methane.xml
 
 In R1: Parsing reaction...
 In Methyl: The default value of me:frequenciesScaleFactor was used.
-In H: Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion.
-In H: No rotational constants from <me:rotConsts> or structure.Assuming to be an atom or atomic ion.
 In H: The default value of me:symmetryNumber was used.
 In H: The default value of me:frequenciesScaleFactor was used.
 In H: The default value of spinMultiplicity (or one of its attributes) was used.
@@ -42,10 +40,10 @@ In Methane: The default value of me:frequenciesScaleFactor was used.
 In Methane: The default value of me:DistributionCalcMethod was used.
 In Methane: The default value of me:energyTransferModel was used.
 In Methane: The default value of me:deltaEDownTExponent was used.
-In R1: R1:preExp was given a range with 41 steps 
-In R1: R1:nInf was given a range with 81 steps 
-In R1: No tunneling method was found for R1
-In R1: No crossing method was found for R1
+In R1: R1:preExponential was given a range with 41 steps 
+In R1: R1:nInfinity was given a range with 81 steps 
+In R1: No tunneling method requested for R1
+In R1: No crossing method requested for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
 All molecules are on the same energy basis: arbitary
@@ -86,562 +84,403 @@ All molecules are on the same energy basis: arbitary
 515Torr, 601K at dd precision
 614.5Torr, 601K at dd precision
 711Torr, 601K at dd precision
-Write metadata 20120204_114759
+Write metadata 20121221_180547
 
 File: "Methyl_H_to_Methane.xml" successfully parsed.
 Calculate EGME
 The default value of me:fittingTolerance was used.
-Rotational constants were not defined but requested.
 Number of grains produced is not equal to that requested
 Number of grains requested: 204
 Number of grains produced : 1
-
-80 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 80 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
+Finish Calculation of P-T case
 
+Chi^2 = 3.11012e-020
+R1:preExponential=3e-010  R1:nInfinity=0.8  
+Iteration: 1 of fitting. chiSquare = 3.11012e-020
+Direction sweep:0 of fitting. chiSquare = 3.11012e-020
 
-Chi^2 = 3.10805e-020
-R1:preExp=3e-010  R1:nInf=0.8  
-Finish Calculation -- Time elapsed: 0 seconds.
-Iteration: 1 of fitting. chiSquare = 3.10805e-020
-Direction sweep:0 of fitting. chiSquare = 3.10805e-020
+Begin line search
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Finish Calculation of P-T case
+   3.56344e-020   3.11012e-020   2.44802e-020
+Association ILT calculation completed
+Finish Calculation of P-T case
+   3.11012e-020   2.44802e-020   1.58117e-020
+Association ILT calculation completed
+Finish Calculation of P-T case
+   2.44802e-020   1.58117e-020   8.04031e-021
+Association ILT calculation completed
+Finish Calculation of P-T case
+   1.58117e-020   8.04031e-021   1.73326e-020
+Association ILT calculation completed
+Finish Calculation of P-T case
+   1.58117e-020   8.04031e-021   7.89847e-021   1.73326e-020
+Association ILT calculation completed
+Finish Calculation of P-T case
+   8.04031e-021   7.89847e-021   9.94516e-021   1.73326e-020
+
+Chi^2 = 7.89847e-021
+R1:preExponential=1.89098e-010  R1:nInfinity=0.8  
+Direction sweep:1 of fitting. chiSquare = 7.89847e-021
+
+Begin line search
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Finish Calculation of P-T case
+   7.89847e-021   7.89341e-021    7.8895e-021
+Association ILT calculation completed
+Finish Calculation of P-T case
+   7.89341e-021    7.8895e-021   7.89435e-021
+Association ILT calculation completed
+Finish Calculation of P-T case
+   7.89341e-021    7.8895e-021   7.88972e-021   7.89435e-021
+Association ILT calculation completed
+Finish Calculation of P-T case
+   7.89341e-021   7.89037e-021    7.8895e-021   7.88972e-021
+
+Chi^2 = 7.8895e-021
+R1:preExponential=1.89098e-010  R1:nInfinity=0.82618  
 
 Begin line search
 
-80 values in the FFT convolution routine were replaced by standard convolution
+Chi^2 = 7.8895e-021
+R1:preExponential=1.89098e-010  R1:nInfinity=0.82618  
+Iteration: 2 of fitting. chiSquare = 7.8895e-021
+Direction sweep:0 of fitting. chiSquare = 7.8895e-021
+
+Begin line search
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-80 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   3.56113e-020   3.10805e-020   2.44633e-020
-
-80 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
+   7.88972e-021    7.8895e-021   7.89341e-021
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   3.10805e-020   2.44633e-020   1.57997e-020
-
-80 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
+   7.88972e-021    7.8895e-021   7.89037e-021   7.89341e-021
 Association ILT calculation completed
+Finish Calculation of P-T case
+   7.88972e-021   7.88933e-021    7.8895e-021   7.89037e-021
 
-Finish Calculation -- Time elapsed: 0 seconds.
-   2.44633e-020   1.57997e-020   8.03421e-021
-
-80 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   1.57997e-020   8.03421e-021   1.73291e-020
-
-80 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   1.57997e-020   8.03421e-021   7.89427e-021   1.73291e-020
-
-80 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   8.03421e-021   7.89427e-021   9.94157e-021   1.73291e-020
-
-Chi^2 = 7.89427e-021
-R1:preExp=1.89098e-010  R1:nInf=0.8  
-Direction sweep:1 of fitting. chiSquare = 7.89427e-021
+Chi^2 = 7.88933e-021
+R1:preExponential=1.89098e-010  R1:nInfinity=0.83  
+Direction sweep:1 of fitting. chiSquare = 7.88933e-021
 
 Begin line search
 
-80 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-80 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   7.89427e-021   7.88922e-021   7.88532e-021
-
-80 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   7.88922e-021   7.88532e-021   7.89017e-021
-
-80 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   7.88922e-021   7.88532e-021   7.88555e-021   7.89017e-021
-
-80 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   7.88922e-021   7.88618e-021   7.88532e-021   7.88555e-021
-
-Chi^2 = 7.88532e-021
-R1:preExp=1.89098e-010  R1:nInf=0.82618  
+Chi^2 = 7.88933e-021
+R1:preExponential=1.89098e-010  R1:nInfinity=0.83  
 
 Begin line search
 
-Chi^2 = 7.88532e-021
-R1:preExp=1.89098e-010  R1:nInf=0.82618  
-Iteration: 2 of fitting. chiSquare = 7.88532e-021
-Direction sweep:0 of fitting. chiSquare = 7.88532e-021
-
-Begin line search
-
-80 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-80 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   7.88555e-021   7.88532e-021   7.88922e-021
-
-80 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   7.88555e-021   7.88532e-021   7.88618e-021   7.88922e-021
-
-80 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   7.88555e-021   7.88517e-021   7.88532e-021   7.88618e-021
-
-Chi^2 = 7.88517e-021
-R1:preExp=1.89098e-010  R1:nInf=0.83  
-Direction sweep:1 of fitting. chiSquare = 7.88517e-021
-
-Begin line search
-
-Chi^2 = 7.88517e-021
-R1:preExp=1.89098e-010  R1:nInf=0.83  
-
-Begin line search
-
-Chi^2 = 7.88517e-021
-R1:preExp=1.89098e-010  R1:nInf=0.83  
+Chi^2 = 7.88933e-021
+R1:preExponential=1.89098e-010  R1:nInfinity=0.83  
 
 Direction Matrix Reset.
-Iteration: 3 of fitting. chiSquare = 7.88517e-021
-Direction sweep:0 of fitting. chiSquare = 7.88517e-021
+Iteration: 3 of fitting. chiSquare = 7.88933e-021
+Direction sweep:0 of fitting. chiSquare = 7.88933e-021
 
 Begin line search
-
-80 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-80 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   7.88517e-021   7.37189e-021   7.76577e-021
-
-80 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
+   7.88933e-021   7.37667e-021   7.77193e-021
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   7.88517e-021   7.37189e-021   7.35008e-021   7.76577e-021
-
-80 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
+   7.88933e-021   7.37667e-021   7.35533e-021   7.77193e-021
 Association ILT calculation completed
+Finish Calculation of P-T case
+   7.37667e-021   7.35533e-021   7.45006e-021   7.77193e-021
 
-Finish Calculation -- Time elapsed: 0 seconds.
-   7.37189e-021   7.35008e-021   7.44449e-021   7.76577e-021
-
-Chi^2 = 7.35008e-021
-R1:preExp=2.05279e-010  R1:nInf=0.83  
-Direction sweep:1 of fitting. chiSquare = 7.35008e-021
+Chi^2 = 7.35533e-021
+R1:preExponential=2.05279e-010  R1:nInfinity=0.83  
+Direction sweep:1 of fitting. chiSquare = 7.35533e-021
 
 Begin line search
-
-80 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-80 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   7.35008e-021   7.30035e-021   7.22475e-021
-
-80 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
+   7.35533e-021   7.30549e-021   7.22977e-021
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   7.30035e-021   7.22475e-021   7.11501e-021
-
-100 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
+   7.30549e-021   7.22977e-021   7.12002e-021
+In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   7.22475e-021   7.11501e-021   6.97086e-021
-
-100 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
+   7.22977e-021   7.12002e-021   6.97578e-021
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   7.11501e-021   6.97086e-021   6.82403e-021
-
-120 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
+   7.12002e-021   6.97578e-021   6.82882e-021
+In FastLaplaceConvolution: 120 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   6.97086e-021   6.82403e-021   6.80947e-021
+Finish Calculation of P-T case
+   6.97578e-021   6.82882e-021   6.81412e-021
 
 Bound check failed in bracket search.
 
-Chi^2 = 6.82403e-021
-R1:preExp=2.05279e-010  R1:nInf=1.10416  
+Chi^2 = 6.82882e-021
+R1:preExponential=2.05279e-010  R1:nInfinity=1.10416  
 
 Begin line search
 
-Chi^2 = 6.82403e-021
-R1:preExp=2.05279e-010  R1:nInf=1.10416  
-Iteration: 4 of fitting. chiSquare = 6.82403e-021
-Direction sweep:0 of fitting. chiSquare = 6.82403e-021
+Chi^2 = 6.82882e-021
+R1:preExponential=2.05279e-010  R1:nInfinity=1.10416  
+Iteration: 4 of fitting. chiSquare = 6.82882e-021
+Direction sweep:0 of fitting. chiSquare = 6.82882e-021
+
+Begin line search
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Finish Calculation of P-T case
+   6.82882e-021   6.82621e-021   6.85035e-021
+Association ILT calculation completed
+Finish Calculation of P-T case
+   6.82882e-021   6.82621e-021   6.83481e-021   6.85035e-021
+Association ILT calculation completed
+Finish Calculation of P-T case
+   6.82882e-021   6.82135e-021   6.82621e-021   6.83481e-021
+
+Chi^2 = 6.82135e-021
+R1:preExponential=2.05279e-010  R1:nInfinity=1.11034  
+Direction sweep:1 of fitting. chiSquare = 6.82135e-021
 
 Begin line search
 
-120 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-120 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   6.82403e-021   6.82156e-021   6.84578e-021
-
-120 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   6.82403e-021   6.82156e-021   6.83018e-021   6.84578e-021
-
-120 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   6.82403e-021   6.81673e-021   6.82156e-021   6.83018e-021
-
-Chi^2 = 6.81673e-021
-R1:preExp=2.05279e-010  R1:nInf=1.11034  
-Direction sweep:1 of fitting. chiSquare = 6.81673e-021
+Chi^2 = 6.82135e-021
+R1:preExponential=2.05279e-010  R1:nInfinity=1.11034  
 
 Begin line search
 
-Chi^2 = 6.81673e-021
-R1:preExp=2.05279e-010  R1:nInf=1.11034  
-
-Begin line search
-
-Chi^2 = 6.81673e-021
-R1:preExp=2.05279e-010  R1:nInf=1.11034  
+Chi^2 = 6.82135e-021
+R1:preExponential=2.05279e-010  R1:nInfinity=1.11034  
 
 Direction Matrix Reset.
-Iteration: 5 of fitting. chiSquare = 6.81673e-021
-Direction sweep:0 of fitting. chiSquare = 6.81673e-021
+Iteration: 5 of fitting. chiSquare = 6.82135e-021
+Direction sweep:0 of fitting. chiSquare = 6.82135e-021
 
 Begin line search
-
-120 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-120 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   6.81673e-021   6.33479e-021   6.52669e-021
-
-120 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
+   6.82135e-021   6.33983e-021   6.53263e-021
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   6.81673e-021   6.33479e-021   6.27134e-021   6.52669e-021
-
-120 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
+   6.82135e-021   6.33983e-021   6.27666e-021   6.53263e-021
 Association ILT calculation completed
+Finish Calculation of P-T case
+   6.33983e-021   6.27666e-021   6.32327e-021   6.53263e-021
 
-Finish Calculation -- Time elapsed: 0 seconds.
-   6.33479e-021   6.27134e-021   6.31773e-021   6.52669e-021
-
-Chi^2 = 6.27134e-021
-R1:preExp=2.21459e-010  R1:nInf=1.11034  
-Direction sweep:1 of fitting. chiSquare = 6.27134e-021
+Chi^2 = 6.27666e-021
+R1:preExponential=2.21459e-010  R1:nInfinity=1.11034  
+Direction sweep:1 of fitting. chiSquare = 6.27666e-021
 
 Begin line search
-
-120 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
+In FastLaplaceConvolution: 140 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   6.27134e-021   6.23631e-021   6.18522e-021
-
-120 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
+   6.27666e-021   6.24164e-021   6.19061e-021
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-   6.23631e-021   6.18522e-021   6.11657e-021
+Finish Calculation of P-T case
+   6.24164e-021   6.19061e-021   6.12168e-021
 
 Bound check failed in bracket search.
 
-Chi^2 = 6.18522e-021
-R1:preExp=2.21459e-010  R1:nInf=1.16271  
+Chi^2 = 6.19061e-021
+R1:preExponential=2.21459e-010  R1:nInfinity=1.16271  
 
 Begin line search
 
-Chi^2 = 6.18522e-021
-R1:preExp=2.21459e-010  R1:nInf=1.16271  
-
-120 values in the FFT convolution routine were replaced by standard convolution
+Chi^2 = 6.19061e-021
+R1:preExponential=2.21459e-010  R1:nInfinity=1.16271  
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-120 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Association ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
+Finish Calculation of P-T case
 PT Grid 0
-Cell number = 40800, Grain number = 204
-
-120 values in the FFT convolution routine were replaced by standard convolution
+Number of cells = 40800, Number of grains = 204
 Association ILT calculation completed
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 17 seconds.
 PT Grid 1
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 2
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 3
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 4
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 5
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 6
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 7
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 8
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 9
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 10
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 11
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 12
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 13
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 14
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 15
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 16
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 17
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 18
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 19
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 20
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 21
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 22
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 23
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 24
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 25
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
-PT Grid 26
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 27
-Cell number = 40800, Grain number = 204
 Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 17 seconds.
+PT Grid 2
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 3
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 17 seconds.
+PT Grid 4
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 5
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 6
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 7
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 8
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 9
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 10
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 17 seconds.
+PT Grid 11
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 17 seconds.
+PT Grid 12
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 13
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 17 seconds.
+PT Grid 14
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 15
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 16
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 19 seconds.
+PT Grid 17
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 18
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 19
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 20
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 17 seconds.
+PT Grid 21
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 22
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 23
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 24
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 25
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 26
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
+PT Grid 27
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 19 seconds.
 PT Grid 28
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
 PT Grid 29
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
 PT Grid 30
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
 PT Grid 31
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
 PT Grid 32
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
 PT Grid 33
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
 PT Grid 34
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
 PT Grid 35
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
 PT Grid 36
-Cell number = 40800, Grain number = 204
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 19 seconds.
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            301   8.05242e+017      1.26e-011   4.92996e-011
-            301   1.62973e+018      3.52e-011    6.8992e-011
-            301   3.24984e+018      6.36e-011   9.18219e-011
-            301    4.8892e+018      9.37e-011    1.0655e-010
-            301   6.59272e+018      1.05e-010   1.17669e-010
-            301   8.20641e+018      1.34e-010   1.25896e-010
-            301   9.83294e+018       1.4e-010   1.32692e-010
+            301   8.05242e+017      1.26e-011    4.9309e-011
+            301   1.62973e+018      3.52e-011   6.90094e-011
+            301   3.24984e+018      6.36e-011   9.18394e-011
+            301    4.8892e+018      9.37e-011   1.06563e-010
+            301   6.59272e+018      1.05e-010   1.17678e-010
+            301   8.20641e+018      1.34e-010   1.25902e-010
+            301   9.83294e+018       1.4e-010   1.32694e-010
             301    1.1437e+019       1.4e-010   1.38344e-010
-            301   1.30988e+019      1.61e-010   1.43378e-010
-            301   1.63455e+019      1.82e-010    1.5147e-010
-            401   6.06842e+017      2.35e-011   2.63193e-011
-            401   1.20887e+018      2.52e-011   3.98152e-011
-            401   2.41292e+018      4.44e-011   5.81724e-011
-            401   3.68199e+018      6.06e-011   7.19884e-011
-            401   4.82102e+018      7.56e-011   8.18344e-011
-            401    6.1214e+018         9e-011   9.12084e-011
+            301   1.30988e+019      1.61e-010   1.43375e-010
+            301   1.63455e+019      1.82e-010   1.51463e-010
+            401   6.06842e+017      2.35e-011    2.6324e-011
+            401   1.20887e+018      2.52e-011   3.98249e-011
+            401   2.41292e+018      4.44e-011   5.81837e-011
+            401   3.68199e+018      6.06e-011   7.19976e-011
+            401   4.82102e+018      7.56e-011   8.18411e-011
+            401    6.1214e+018         9e-011   9.12122e-011
             401   8.42836e+018      1.01e-010   1.04659e-010
-            401   1.09785e+019      1.21e-010   1.16477e-010
-            401   1.22452e+019      1.31e-010   1.21521e-010
-            401   1.47015e+019      1.44e-010   1.30154e-010
-            504   4.82825e+017      1.14e-011    1.3615e-011
-            504   9.61817e+017      1.66e-011   2.18075e-011
-            504   1.92555e+018      3.44e-011   3.40178e-011
-            504   2.94101e+018      4.68e-011   4.39189e-011
-            504   3.84727e+018      5.31e-011   5.13052e-011
-            504   4.90105e+018      5.78e-011   5.87546e-011
-            504   6.83618e+018      6.82e-011    7.0283e-011
-            504   7.66771e+018      7.75e-011   7.46154e-011
-            504   9.75229e+018      8.32e-011   8.42927e-011
-            504     1.172e+019      9.69e-011   9.22378e-011
-            601   1.69189e+018      2.11e-011   2.08113e-011
-            601   3.35005e+018      3.35e-011   3.26454e-011
-            601   4.89251e+018      3.78e-011    4.1376e-011
-            601   6.60369e+018       4.5e-011   4.95813e-011
-            601    8.2747e+018      4.84e-011   5.65762e-011
-            601    9.8734e+018      5.75e-011   6.25778e-011
-            601   1.14239e+019      6.18e-011   6.78949e-011
+            401   1.09785e+019      1.21e-010   1.16472e-010
+            401   1.22452e+019      1.31e-010   1.21515e-010
+            401   1.47015e+019      1.44e-010   1.30145e-010
+            504   4.82825e+017      1.14e-011    1.3617e-011
+            504   9.61817e+017      1.66e-011   2.18124e-011
+            504   1.92555e+018      3.44e-011   3.40243e-011
+            504   2.94101e+018      4.68e-011   4.39249e-011
+            504   3.84727e+018      5.31e-011   5.13101e-011
+            504   4.90105e+018      5.78e-011    5.8758e-011
+            504   6.83618e+018      6.82e-011   7.02837e-011
+            504   7.66771e+018      7.75e-011   7.46151e-011
+            504   9.75229e+018      8.32e-011   8.42901e-011
+            504     1.172e+019      9.69e-011   9.22334e-011
+            601   1.69189e+018      2.11e-011   2.08151e-011
+            601   3.35005e+018      3.35e-011   3.26487e-011
+            601   4.89251e+018      3.78e-011   4.13779e-011
+            601   6.60369e+018       4.5e-011   4.95818e-011
+            601    8.2747e+018      4.84e-011   5.65755e-011
+            601    9.8734e+018      5.75e-011   6.25761e-011
+            601   1.14239e+019      6.18e-011   6.78923e-011
 
-
+Finish Calculation of P-T case
 37 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 0 seconds.
 
-Chi^2 = 6.11657e-021
+Chi^2 = 6.12168e-021
 
 Best fit parameters:
 
-R1:preExp = 2.21459e-010 +/- 2.26157
-R1:nInf = 1.16271 +/- 3.04567e+010
+R1:preExponential = 2.21459e-010 +/- 2.27159
+R1:nInfinity = 1.16271 +/- 2.99197e+010
 
 Correlation coefficients:
 
-R1:nInf , R1:preExp = 0.954432
+R1:nInfinity , R1:preExponential = 0.954862
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 35
 Chi^2 probability = 1
 
- -- Total time elapsed: 14800 seconds.
+ -- Total time elapsed: 29273 seconds.
 
 System saved to out.xml

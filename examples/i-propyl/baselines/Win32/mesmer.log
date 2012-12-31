@@ -8,22 +8,22 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v1.0 compiled: -- Feb  4 2012 -- 11:10:20
+     Mesmer v2.0 compiled: -- Dec 21 2012 -- 17:05:53
 
      Copyright (C) 2009-2012 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
      Mesmer is free software: you can redistribute it and/or modify
-     it under the terms of the GNU Lesser Public License as published by
+     it under the terms of the GNU Public License as published by
      the Free Software Foundation, either version 3 of the License, or
      (at your option) any later version.
 
      But WITHOUT ANY WARRANTY; without even the implied warranty of
      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU Lesser Public License for more details.
+     GNU Public License for more details.
 
-    You should have received a copy of the GNU Lesser Public License
+    You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -33,22 +33,20 @@ ipropyl_LM.xml
 In R1: Parsing reaction...
 In i-propyl: The default value of me:frequenciesScaleFactor was used.
 In i-propyl: Hindered rotor b1
-In i-propyl: Hindered rotor b2
-In i-propyl: The default value of me:DistributionCalcMethod was used.
+Hindered rotor b2
+The default value of me:DistributionCalcMethod was used.
 In i-propyl: The default value of me:energyTransferModel was used.
-In i-propyl: i-propyl:deltaEdown was given a range with 15 steps 
+In i-propyl: i-propyl:deltaEDown was given a range with 15 steps 
 In i-propyl: The default value of me:deltaEDownTExponent was used.
 In propene: The default value of me:frequenciesScaleFactor was used.
 In propene: Hindered rotor b1
-In propene: propene:ZPE was given a range with 401 steps 
-In H: Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion.
-In H: No rotational constants from <me:rotConsts> or structure.Assuming to be an atom or atomic ion.
+propene:ZPE was given a range with 401 steps 
 In H: The default value of me:symmetryNumber was used.
 In H: The default value of me:frequenciesScaleFactor was used.
 In H: The default value of spinMultiplicity (or one of its attributes) was used.
 In H: The default value of me:DOSCMethod was used.
-In R1: No tunneling method was found for R1
-In R1: No crossing method was found for R1
+In R1: No tunneling method requested for R1
+In R1: No crossing method requested for R1
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
 3e+017PPCC, 720K at double precision
@@ -192,534 +190,399 @@ The default value of me:precision was used.
 3.01e+016PPCC, 870K at double precision
 The default value of me:precision was used.
 3e+016PPCC, 880K at double precision
-Write metadata 20120205_200803
+Write metadata 20121221_174311
 
 File: "ipropyl_LM.xml" successfully parsed.
 Calculate EGME
-Rotational constants were not defined but requested.
 Number of grains produced is not equal to that requested
 Number of grains requested: 197
 Number of grains produced : 1
-
-140 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 120 values in the FFT convolution routine were replaced by standard convolution
 Unimolecular ILT calculation completed
+Finish Calculation of P-T case
 
-
-Chi^2 = 48.9987 Lambda = 1
-i-propyl:deltaEdown=190  propene:ZPE=13000  
-Finish Calculation -- Time elapsed: 0 seconds.
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Chi^2 = 48.9201 Lambda = 1
+i-propyl:deltaEDown=190  propene:ZPE=13000  
 Unimolecular ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Unimolecular ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Unimolecular ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Unimolecular ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Unimolecular ILT calculation completed
+Finish Calculation of P-T case
 
-
-Chi^2 = 43.9216 Lambda = 0.1
-i-propyl:deltaEdown=189.646  propene:ZPE=13014  
-Finish Calculation -- Time elapsed: 0 seconds.
-Iteration: 1 of Marquardt. ChiSquare = 43.9216, Lambda = 0.1
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Chi^2 = 43.8955 Lambda = 0.1
+i-propyl:deltaEDown=189.659  propene:ZPE=13013.9  
+Iteration: 1 of Marquardt. ChiSquare = 43.8955, Lambda = 0.1
 Unimolecular ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Unimolecular ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Unimolecular ILT calculation completed
+Finish Calculation of P-T case
 
-
-Chi^2 = 34.5169 Lambda = 0.01
-i-propyl:deltaEdown=199.069  propene:ZPE=13065.7  
-Finish Calculation -- Time elapsed: 0 seconds.
-Iteration: 2 of Marquardt. ChiSquare = 34.5169, Lambda = 0.01
+Chi^2 = 34.5058 Lambda = 0.01
+i-propyl:deltaEDown=199.096  propene:ZPE=13065.6  
+Iteration: 2 of Marquardt. ChiSquare = 34.5058, Lambda = 0.01
 Number of grains produced is not equal to that requested
 Number of grains requested: 199
 Number of grains produced : 1
-
-100 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 140 values in the FFT convolution routine were replaced by standard convolution
 Unimolecular ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-100 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Unimolecular ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-100 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Unimolecular ILT calculation completed
+Finish Calculation of P-T case
 
-
-Chi^2 = 20.1868 Lambda = 0.001
-i-propyl:deltaEdown=237.712  propene:ZPE=13234.2  
-Finish Calculation -- Time elapsed: 0 seconds.
-Iteration: 3 of Marquardt. ChiSquare = 20.1868, Lambda = 0.001
+Chi^2 = 20.2148 Lambda = 0.001
+i-propyl:deltaEDown=237.744  propene:ZPE=13234  
+Iteration: 3 of Marquardt. ChiSquare = 20.2148, Lambda = 0.001
 Number of grains produced is not equal to that requested
 Number of grains requested: 200
 Number of grains produced : 1
-
-140 values in the FFT convolution routine were replaced by standard convolution
 Unimolecular ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Unimolecular ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Unimolecular ILT calculation completed
+Finish Calculation of P-T case
 
-
-Chi^2 = 12.2866 Lambda = 0.0001
-i-propyl:deltaEdown=266.872  propene:ZPE=13308.6  
-Finish Calculation -- Time elapsed: 0 seconds.
-Iteration: 4 of Marquardt. ChiSquare = 12.2866, Lambda = 0.0001
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Chi^2 = 12.3082 Lambda = 0.0001
+i-propyl:deltaEDown=266.892  propene:ZPE=13308.3  
+Iteration: 4 of Marquardt. ChiSquare = 12.3082, Lambda = 0.0001
 Unimolecular ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Unimolecular ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Unimolecular ILT calculation completed
+Finish Calculation of P-T case
 
-
-Chi^2 = 11.4954 Lambda = 1e-005
-i-propyl:deltaEdown=270.019  propene:ZPE=13308.3  
-Finish Calculation -- Time elapsed: 0 seconds.
-Iteration: 5 of Marquardt. ChiSquare = 11.4954, Lambda = 1e-005
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Chi^2 = 11.4977 Lambda = 1e-005
+i-propyl:deltaEDown=270.035  propene:ZPE=13307.8  
+Iteration: 5 of Marquardt. ChiSquare = 11.4977, Lambda = 1e-005
 Unimolecular ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Unimolecular ILT calculation completed
-
-Finish Calculation -- Time elapsed: 0 seconds.
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
 Unimolecular ILT calculation completed
+Finish Calculation of P-T case
 
-
-Chi^2 = 11.4947 Lambda = 1e-006
-i-propyl:deltaEdown=270.071  propene:ZPE=13308.1  
-Finish Calculation -- Time elapsed: 0 seconds.
-Iteration: 6 of Marquardt. ChiSquare = 11.4947, Lambda = 1e-006
+Chi^2 = 11.496 Lambda = 1e-006
+i-propyl:deltaEDown=270.084  propene:ZPE=13308.5  
+Iteration: 6 of Marquardt. ChiSquare = 11.496, Lambda = 1e-006
 PT Grid 0
-Cell number = 20000, Grain number = 200
-
-140 values in the FFT convolution routine were replaced by standard convolution
+Number of cells = 20000, Number of grains = 200
 Unimolecular ILT calculation completed
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator
 PT Grid 1
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 2
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 3
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 4
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator
 PT Grid 5
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 6
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 7
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 8
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 9
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 10
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator
 PT Grid 11
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 12
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 13
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 14
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 15
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 16
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator
 PT Grid 17
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 18
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 19
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 20
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 21
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 22
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 23
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 24
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 25
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 26
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 27
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 28
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 29
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 30
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+PT Grid 22
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 23
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
+PT Grid 24
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
+PT Grid 25
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
+PT Grid 26
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
+PT Grid 27
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+PT Grid 28
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+PT Grid 29
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 30
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 31
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 32
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 33
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 34
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 35
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 36
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator
 PT Grid 37
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 38
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 39
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 40
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 41
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 42
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator
 PT Grid 43
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 44
-Cell number = 20000, Grain number = 200
 Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Diagonalize the Reaction Operator
 PT Grid 45
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 46
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 47
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 48
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 49
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 50
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 51
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 52
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 53
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 54
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 55
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 56
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 57
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
-PT Grid 58
-Cell number = 20000, Grain number = 200
 Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Diagonalize the Reaction Operator
+PT Grid 46
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+PT Grid 47
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+PT Grid 48
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 49
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
+PT Grid 50
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
+PT Grid 51
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
+PT Grid 52
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
+PT Grid 53
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+PT Grid 54
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 55
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
+PT Grid 56
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
+PT Grid 57
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
+PT Grid 58
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 59
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 60
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator
 PT Grid 61
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 62
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 63
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 64
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 65
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 66
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator
 PT Grid 67
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 68
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 69
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 70
-Cell number = 20000, Grain number = 200
-Build Collison Operator -- Time elapsed: 0 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 0 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            720         3e+017           41.5        35.8302
-            730      3.01e+017           51.1        49.7473
-            740       1.8e+017           55.5        54.2887
-            740       2.4e+017           70.1        61.8271
-            740         3e+017           71.1         68.103
-            750       1.2e+017           55.3        60.1176
-            750       1.8e+017           67.2        73.2347
-            750      2.41e+017           86.4        83.8035
-            750         3e+017            102        92.3478
-            760      6.02e+016           51.9        55.3136
-            760      9.02e+016           65.7        68.9059
-            760       1.2e+017           76.5        79.9395
-            760      1.81e+017             95        98.0287
-            760       2.4e+017            123        111.988
-            760         3e+017            128        123.917
-            770      6.01e+016           68.9        72.2923
-            770         9e+016           89.2        90.3648
-            770       1.2e+017             99        105.241
-            770       1.8e+017            121        129.215
-            770      2.41e+017            159        148.721
-            770         3e+017            164        164.609
-            780         3e+016           65.5        61.9157
-            780      6.01e+016           89.1        93.6746
-            780         9e+016            114        117.516
-            780       1.2e+017            125        137.226
-            780       1.8e+017            165        169.136
-            780       2.4e+017            203        194.834
-            780         3e+017            213         216.55
-            790         3e+016             77        79.0396
-            790      6.01e+016            119        120.275
-            790         9e+016            154        151.424
-            790       1.2e+017            170        177.285
-            790       1.8e+017            219        219.342
-            790       2.4e+017            258        253.368
-            790         3e+017            288        282.225
-            800         3e+016           96.1        100.024
-            800      6.01e+016            147        153.074
-            800         9e+016            199        193.394
-            800      1.21e+017          223.5        228.041
-            800       1.8e+017            302        281.914
-            800       2.4e+017            341         326.54
-            800         3e+017            350        364.517
-            810         3e+016            124        125.521
-            810         6e+016            185        192.979
-            810         9e+016            248        244.896
-            810      1.21e+017            274        289.526
-            810      1.81e+017            379         360.28
-            810       2.4e+017            402        417.212
-            810         3e+017            492         466.73
-            820         3e+016            160        156.252
-            820      6.01e+016            239         241.79
-            820      9.01e+016            320        307.773
-            820      1.21e+017            363        364.564
-            820       1.8e+017            447        453.945
-            820       2.4e+017            554        528.629
-            820         3e+017            549         592.62
-            830         3e+016            189        193.001
-            830         6e+016            287        299.964
-            830         9e+016            375        383.244
-            830       1.2e+017            447        453.245
-            830       1.8e+017            570        569.062
-            840      3.01e+016            252        237.138
-            840         6e+016            349        369.699
-            840         9e+016            471        473.899
-            840       1.2e+017            559        561.819
-            850         3e+016            314        288.003
-            850         6e+016            444        452.332
-            860      3.01e+016            378        348.914
-            860      6.03e+016            535        551.312
-            870      3.01e+016            436        418.959
-            880         3e+016            535        498.695
+            720         3e+017           41.5        35.8218
+            730      3.01e+017           51.1        49.7357
+            740       1.8e+017           55.5        54.2769
+            740       2.4e+017           70.1        61.8132
+            740         3e+017           71.1        68.0874
+            750       1.2e+017           55.3         60.105
+            750       1.8e+017           67.2        73.2189
+            750      2.41e+017           86.4         83.785
+            750         3e+017            102        92.3269
+            760      6.02e+016           51.9        55.3023
+            760      9.02e+016           65.7        68.8918
+            760       1.2e+017           76.5         79.923
+            760      1.81e+017             95        98.0079
+            760       2.4e+017            123        111.963
+            760         3e+017            128         123.89
+            770      6.01e+016           68.9        72.2779
+            770         9e+016           89.2        90.3467
+            770       1.2e+017             99         105.22
+            770       1.8e+017            121        129.188
+            770      2.41e+017            159        148.689
+            770         3e+017            164        164.573
+            780         3e+016           65.5        61.9034
+            780      6.01e+016           89.1        93.6563
+            780         9e+016            114        117.493
+            780       1.2e+017            125        137.199
+            780       1.8e+017            165        169.101
+            780       2.4e+017            203        194.792
+            780         3e+017            213        216.502
+            790         3e+016             77        79.0242
+            790      6.01e+016            119        120.252
+            790         9e+016            154        151.395
+            790       1.2e+017            170         177.25
+            790       1.8e+017            219        219.297
+            790       2.4e+017            258        253.315
+            790         3e+017            288        282.164
+            800         3e+016           96.1        100.005
+            800      6.01e+016            147        153.045
+            800         9e+016            199        193.357
+            800      1.21e+017          223.5        227.996
+            800       1.8e+017            302        281.858
+            800       2.4e+017            341        326.472
+            800         3e+017            350        364.439
+            810         3e+016            124        125.498
+            810         6e+016            185        192.943
+            810         9e+016            248         244.85
+            810      1.21e+017            274        289.471
+            810      1.81e+017            379        360.209
+            810       2.4e+017            402        417.127
+            810         3e+017            492        466.633
+            820         3e+016            160        156.223
+            820      6.01e+016            239        241.746
+            820      9.01e+016            320        307.716
+            820      1.21e+017            363        364.495
+            820       1.8e+017            447        453.857
+            820       2.4e+017            554        528.523
+            820         3e+017            549        592.497
+            830         3e+016            189        192.966
+            830         6e+016            287         299.91
+            830         9e+016            375        383.175
+            830       1.2e+017            447        453.161
+            830       1.8e+017            570        568.953
+            840      3.01e+016            252        237.096
+            840         6e+016            349        369.635
+            840         9e+016            471        473.815
+            840       1.2e+017            559        561.718
+            850         3e+016            314        287.954
+            850         6e+016            444        452.255
+            860      3.01e+016            378        348.856
+            860      6.03e+016            535         551.22
+            870      3.01e+016            436        418.891
+            880         3e+016            535        498.615
 
-
+Finish Calculation of P-T case
 71 temperature/concentration-pressure points calculated.
-Finish Calculation -- Time elapsed: 0 seconds.
 
-Chi^2 = 11.4947
+Chi^2 = 11.496
 
 Best fit parameters:
 
-i-propyl:deltaEdown = 270.071 +/- 17.1798
-propene:ZPE = 13308.1 +/- 49.4571
+i-propyl:deltaEDown = 270.084 +/- 17.1826
+propene:ZPE = 13308.5 +/- 49.4622
 
 Correlation coefficients:
 
-propene:ZPE , i-propyl:deltaEdown = 0.976894
+propene:ZPE , i-propyl:deltaEDown = 0.976889
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 69
 Chi^2 probability = 1
 
- -- Total time elapsed: 113 seconds.
+ -- Total time elapsed: 1356 seconds.
 
-System saved to mesmer_out.xml
+System saved to out.xml
