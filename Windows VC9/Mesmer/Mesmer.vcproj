@@ -321,6 +321,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\plugins\PriorDistribution.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\PseudoIsomerizationReaction.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\plugins\QMRotor.cpp"
 				>
 			</File>
@@ -528,6 +536,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\plugin.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\PseudoIsomerizationReaction.h"
 				>
 			</File>
 			<File
