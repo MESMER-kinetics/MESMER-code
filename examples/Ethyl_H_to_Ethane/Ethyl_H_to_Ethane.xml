@@ -138,7 +138,7 @@
           <array units="cm-1"> 3.900 0.7712 0.7128 </array>
         </property>
         <property dictRef="me:symmetryNumber">
-          <scalar>3</scalar>
+          <scalar>2</scalar>
         </property>
         <!--  Frequency 186. has been eliminated in favour of a 1 Dimensional rotor. -->
         <property dictRef="me:vibFreqs">
@@ -234,24 +234,12 @@
 
   <me:modelParameters>
     <me:grainSize units="cm-1">200</me:grainSize>
-    <!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
-    <!--<me:maxTemperature>3000</me:maxTemperature>-->
     <me:energyAboveTheTopHill>10.</me:energyAboveTheTopHill>
   </me:modelParameters>
 
   <me:control>
     <me:calcMethod>simpleCalc</me:calcMethod>
-    <!--<me:fittingTolerance>0.1</me:fittingTolerance>-->
-    <me:fittingIterations>2</me:fittingIterations>
     <me:testDOS />
-    <!--<me:testMicroRates />-->
-    <!--<me:printGrainDOS />-->
-    <!--<me:printCellDOS />-->
-    <!--<me:printReactionOperatorColumnSums />-->
-    <!--<me:printGrainkfE />-->
-    <!--<me:printGrainBoltzmann />-->
-    <!--<me:printGrainkbE />-->
-    <!--<me:printSpeciesProfile />-->
     <me:eigenvalues>5</me:eigenvalues>
   </me:control>
 

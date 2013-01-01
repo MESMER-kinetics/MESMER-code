@@ -8,22 +8,22 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Oct 21 2012 -- 15:01:25
+     Mesmer v2.0 compiled: -- Jan  1 2013 -- 13:36:22
 
-     Copyright (C) 2009-2012 by
+     Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
      Mesmer is free software: you can redistribute it and/or modify
-     it under the terms of the GNU Lesser Public License as published by
+     it under the terms of the GNU Public License as published by
      the Free Software Foundation, either version 3 of the License, or
      (at your option) any later version.
 
      But WITHOUT ANY WARRANTY; without even the implied warranty of
      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU Lesser Public License for more details.
+     GNU Public License for more details.
 
-    You should have received a copy of the GNU Lesser Public License
+    You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
 
@@ -50,10 +50,10 @@ In R2: No crossing method requested for R2
 All molecules are on the same energy basis: arbitary
 The default value of me:precision was used.
 1000Torr, 298K at double precision
-Write metadata 20121021_150402
+Write metadata 20130101_134424
 
 File: "OH_acetylene_association_test.xml" successfully parsed.
-Calculate EGME
+Main Calculation begins
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.

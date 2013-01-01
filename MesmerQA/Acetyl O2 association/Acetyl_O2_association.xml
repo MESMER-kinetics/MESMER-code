@@ -34,7 +34,11 @@
           <scalar>0.9854</scalar>
         </property>
         <property dictRef="me:vibFreqs">
-          <array units="cm-1">110.8594 469.8360 852.9605 955.5673 1049.6839 1359.1474 1454.3118 1459.6421 1930.1084 3014.0596 3104.5876 3110.7727 </array>
+          <array units="cm-1">
+             110.8594  469.8360  852.9605  955.5673 
+            1049.6839 1359.1474 1454.3118 1459.6421
+            1930.1084 3014.0596 3104.5876 3110.7727 
+          </array>
         </property>
         <property dictRef="me:MW">
           <scalar units="amu">43</scalar>
@@ -43,8 +47,9 @@
           <scalar>2</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
+
     <molecule id="TSabs">
       <atomArray>
         <atom id="a1" elementType="C" />

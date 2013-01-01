@@ -8,47 +8,42 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Oct 21 2012 -- 15:01:25
+     Mesmer v2.0 compiled: -- Jan  1 2013 -- 13:36:22
 
-     Copyright (C) 2009-2012 by
+     Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
      Mesmer is free software: you can redistribute it and/or modify
-     it under the terms of the GNU Lesser Public License as published by
+     it under the terms of the GNU Public License as published by
      the Free Software Foundation, either version 3 of the License, or
      (at your option) any later version.
 
      But WITHOUT ANY WARRANTY; without even the implied warranty of
      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU Lesser Public License for more details.
+     GNU Public License for more details.
 
-    You should have received a copy of the GNU Lesser Public License
+    You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
 
 Parsing input xml file...
 UnitTests.xml
 
-Write metadata 20121021_150405
+Write metadata 20130101_134427
 
 File: "UnitTests.xml" successfully parsed.
-Calculate EGME
+Main Calculation begins
 In Test Molecule: The default value of me:frequenciesScaleFactor was used.
 In Test Molecule: The default value of spinMultiplicity (or one of its attributes) was used.
 In Test Molecule: The default value of me:DOSCMethod was used.
-In Test Molecule: If no chemical structure is provided,Molecular Weight must be input as an XML property.
-In Test Molecule: To use me::Hf0 or Hf298 the molecule needs chemical structure (an atomList at least)
-In Test Molecule: New me:ZPE element written with data from me:Hf298
+In Test Molecule: m_ZPE was not defined but requested in Test Molecule. Default value 0 is given.
 Number of grains produced is not equal to that requested
 Number of grains requested: 5000
 Number of grains produced : 4959
 In AcO2 Harmonic: The default value of me:frequenciesScaleFactor was used.
 In AcO2 Harmonic: The default value of spinMultiplicity (or one of its attributes) was used.
-In AcO2 Harmonic: The default value of me:DOSCMethod was used.
-In AcO2 Harmonic: If no chemical structure is provided,Molecular Weight must be input as an XML property.
-In AcO2 Harmonic: To use me::Hf0 or Hf298 the molecule needs chemical structure (an atomList at least)
-In AcO2 Harmonic: New me:ZPE element written with data from me:Hf298
+In AcO2 Harmonic: m_ZPE was not defined but requested in AcO2 Harmonic. Default value 0 is given.
 Number of grains produced is not equal to that requested
 Number of grains requested: 5000
 Number of grains produced : 4945
@@ -57,12 +52,13 @@ In AcO2 Anharmonic: Cannot find argument me:vibFreqs. Assumes that it is an atom
 In AcO2 Anharmonic: Improper setting on vibrational frequencies or rotational constants.
 In AcO2 Anharmonic: The default value of me:frequenciesScaleFactor was used.
 In AcO2 Anharmonic: The default value of spinMultiplicity (or one of its attributes) was used.
-In AcO2 Anharmonic: The default value of me:DOSCMethod was used.
-In AcO2 Anharmonic: To use me::Hf0 or Hf298 the molecule needs chemical structure (an atomList at least)
-In AcO2 Anharmonic: New me:ZPE element written with data from me:Hf298
+In AcO2 Anharmonic: m_ZPE was not defined but requested in AcO2 Anharmonic. Default value 0 is given.
 Number of grains produced is not equal to that requested
 Number of grains requested: 5000
 Number of grains produced : 4941
- -- Total time elapsed: 0 seconds.
+In AcO2 Asymmetric Top: The default value of me:frequenciesScaleFactor was used.
+In AcO2 Asymmetric Top: The default value of spinMultiplicity (or one of its attributes) was used.
+In AcO2 Asymmetric Top: m_ZPE was not defined but requested in AcO2 Asymmetric Top. Default value 0 is given.
+ -- Total time elapsed: 8 seconds.
 
 System saved to out.xml

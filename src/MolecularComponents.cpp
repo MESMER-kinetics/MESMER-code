@@ -375,20 +375,25 @@ namespace mesmer
   }
 
   bool gDensityOfStates::ReadDOSMethods() {
-  /* Rotational-electronic densities of states objects are specified in XML file as:
-     and/or   <me:DOSCMethod name=" name "/>                  preferred
-	   multiple <me:DOSCMethod> name </me:DOSCMethod>
-     and/or   <me:ExtraDOSCMethod> name </me:ExtraDOSCMethod> deprecated
-     and/or   <me:ExtraDOSCMethod name=" name "/>             deprecated
-  */
+    /* Rotational-electronic densities of states objects are specified in XML file as:
+    and/or   <me:DOSCMethod name=" name "/>                  preferred
+    multiple <me:DOSCMethod> name </me:DOSCMethod>
+    and/or   <me:ExtraDOSCMethod> name </me:ExtraDOSCMethod> deprecated
+    and/or   <me:ExtraDOSCMethod name=" name "/>             deprecated
+    */
     ErrorContext c(getHost()->getName());
 
+    // For backward compatability, where a default rotational DOS method was
+    // assumed, it is necessary to test that a DOS method for overall rotation
+    // has been added to the DOS method stack, and if not add it explicitly. 
+    bool haveRotStatesMethod(false) ; 
+
     PersistPtr pp = getHost()->get_PersistentPointer();
-    if(!ReadMethodsFromXml("me:DOSCMethod"))
+    if(!ReadMethodsFromXml("me:DOSCMethod", haveRotStatesMethod))
       return false;
-    if(!ReadMethodsFromXml("me:ExtraDOSCMethod"))
+    if(!ReadMethodsFromXml("me:ExtraDOSCMethod", haveRotStatesMethod))
       return false;
-    if(m_DOSCalculators.empty()) //invoke default method
+    if(m_DOSCalculators.empty() || !haveRotStatesMethod) //invoke default method
     {
       const char* name = pp->XmlReadValue("me:DOSCMethod");
       if(!name)
@@ -396,11 +401,16 @@ namespace mesmer
       DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(string(name));
       if(!pDOSCalculator)
         return false;
-      m_DOSCalculators.push_back(pDOSCalculator);
+      m_DOSCalculators.insert(m_DOSCalculators.begin(), pDOSCalculator);
+      if(!pDOSCalculator->ReadParameters(this, pp))
+      {
+        cerr << name << " failed to initialize correctly";
+        return false;
+      }
     }
-	//
-	// Beyer-Swinehart object added by default.
-	//
+    //
+    // Beyer-Swinehart object added by default.
+    //
     DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("BeyerSwinehart");
     m_DOSCalculators.push_back(pDOSCalculator);
     if(!pDOSCalculator)
@@ -411,7 +421,7 @@ namespace mesmer
     return true;
   }
 
-  bool gDensityOfStates::ReadMethodsFromXml(const string& keyword) {
+  bool gDensityOfStates::ReadMethodsFromXml(const string& keyword, bool& haveRotStatesMethod) {
     PersistPtr pp = getHost()->get_PersistentPointer();
     while(pp = pp->XmlMoveTo(keyword))
     {
@@ -419,8 +429,26 @@ namespace mesmer
       const char* name;
       if( (name = pp->XmlRead()) || (name = pp->XmlReadValue("name", optional)))
         dosMethod = name;
+
+      // Following checks to see if an overall rotational DOS method has been added.
+      // haveRotStatesMethod = (haveRotStatesMethod || dosMethod == "ClassicalRotors" || dosMethod == "QMRotors") ;
+      bool newRotStatesMethod = (dosMethod == "ClassicalRotors" || dosMethod == "QMRotors") ;
+      if (newRotStatesMethod) {
+        if (haveRotStatesMethod) {
+          cerr << getHost()->getName() << " appears to have more than one rotational states definition.";
+          return false;
+        } else {
+          haveRotStatesMethod = true ;
+        }
+      }
+
       DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod);
-      m_DOSCalculators.push_back(pDOSCalculator);
+      if (newRotStatesMethod) {
+		// Rotational DOS should be first method in the list.
+        m_DOSCalculators.insert(m_DOSCalculators.begin(), pDOSCalculator);
+      } else {
+        m_DOSCalculators.push_back(pDOSCalculator);
+      }
       if(!pDOSCalculator->ReadParameters(this, pp))
       {
         cerr << dosMethod << " failed to initialize correctly";

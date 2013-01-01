@@ -1,4 +1,11 @@
 
+2013-January-01 Struan Robertson
+
+	* MolecularComponents.cpp/.h: Fixed rotatonal states bug. The refactoring
+	of the density of states classes below removed the default behaviour of 
+	adding a classical rotational states object to the density of states stack 
+	if no such object is specified in the input.  
+
 2012-December-30 Struan Robertson
 
 	* PriorDistribution.cpp: Altered translation density of states to a
