@@ -135,22 +135,21 @@ cd ..
 
 cd spin_forbidden_kinetics
 $executable -N HCCH_methylene.xml  $directive
-cp ./$tfn ./$bline$otfn
+cp ./HCCH_methylene.test ./$bline/HCCH_methylene.test
 if [ "$1" == "-o" ] ; then
-  cp ./$lfn ./$bline$lfn 
+  cp ./HCCH_methylene.log ./$bline/HCCH_methylene.log 
 fi
 
 $executable -N LZ_test.xml $directive
-cp ./$tfn ./$bline$otfn
+cp ./LZ_test.test ./$bline/LZ_test.test
 if [ "$1" == "-o" ] ; then
-  cp ./$lfn ./$bline$lfn 
+  cp ./LZ_test.log ./$bline/LZ_test.log
 fi
 
 $executable -N WKB_test.xml $directive
-cp ./$tfn ./$bline$otfn
+cp ./WKB_test.test ./$bline/WKB_test.test
 if [ "$1" == "-o" ] ; then
-  cp ./$lfn ./$bline$lfn 
-fi
+  cp ./WKB_test.log ./$bline/WKB_test.log
 cd ..
 
 cd OH_NO_to\ HONO

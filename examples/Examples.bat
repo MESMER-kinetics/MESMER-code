@@ -111,7 +111,6 @@ IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 %executable% -N Methyl_H_to_Methane_FTST.xml %directive%
 copy Methyl_H_to_Methane_FTST.test "./%bline%Methyl_H_to_Methane_FTST.test"
 IF "%1"=="-o" copy Methyl_H_to_Methane_FTST.log "./%bline%Methyl_H_to_Methane_FTST.log"
-
 cd ..
 
 cd reservoirSink
@@ -122,17 +121,16 @@ cd ..
 
 cd spin_forbidden_kinetics
 %executable% -N HCCH_methylene.xml %directive%
-copy "./%tfn%" "./%bline%%otfn%"
-IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+copy "./HCCH_methylene.test" "./%bline%HCCH_methylene.test"
+IF "%1"=="-o" copy "./HCCH_methylene.log" "./%bline%HCCH_methylene.log"
 
 %executable% -N LZ_test.xml %directive%
-copy "./%tfn%" "./%bline%%otfn%"
-IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+copy "./LZ_test.test" "./%bline%LZ_test.test"
+IF "%1"=="-o" copy "./LZ_test.log" "./%bline%LZ_test.log"
 
 %executable% -N WKB_test.xml %directive%
-copy "./%tfn%" "./%bline%%otfn%"
-IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
-
+copy "./WKB_test.test" "./%bline%WKB_test.test"
+IF "%1"=="-o" copy "./WKB_test.log" "./%bline%WKB_test.log"
 cd ..
 
 cd "OH_NO_to HONO"
