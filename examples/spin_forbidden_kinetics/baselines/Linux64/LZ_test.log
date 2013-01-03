@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Dec 17 2012 -- 09:41:07
+     Mesmer v2.0 compiled: -- Jan  2 2013 -- 13:05:46
 
-     Copyright (C) 2009-2012 by
+     Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -47,10 +47,10 @@ The default value of me:precision was used.
 200.72Torr, 800K at double precision
 The default value of me:precision was used.
 250Torr, 1000K at double precision
-Write metadata 20121224_125840
+Write metadata 20130102_211739
 
 File: "LZ_test.xml" successfully parsed.
-Calculate EGME
+Main Calculation begins
 
 Spin Forbidden Crossing Data for reaction R1
 me:RMS_SOC_element = 5.08 cm-1
@@ -65,6 +65,6 @@ me:RMS_SOC_element = 5.08 cm-1
 me:GradientDifferenceMagnitude = 0.093273 a.u./Bohr
 me:GradientReducedMass = 10.4098 a.m.u.
 Finish Calculation of P-T case
- -- Total time elapsed: 1 seconds.
+ -- Total time elapsed: 2 seconds.
 
 System saved to mesmer_out.xml

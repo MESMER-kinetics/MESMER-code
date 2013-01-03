@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Dec 17 2012 -- 09:41:07
+     Mesmer v2.0 compiled: -- Jan  2 2013 -- 13:05:46
 
-     Copyright (C) 2009-2012 by
+     Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -42,10 +42,10 @@ The default value of me:precision was used.
 The default value of me:precision was used.
 1Torr, 298K at double precision
 The default value of me:eigenvalues was used.
-Write metadata 20121224_125838
+Write metadata 20130102_211737
 
 File: "HCCH_methylene.xml" successfully parsed.
-Calculate EGME
+Main Calculation begins
 
 Spin Forbidden Crossing Data for reaction R1
 me:RMS_SOC_element = 6.61 cm-1

@@ -150,6 +150,7 @@ $executable -N WKB_test.xml $directive
 cp ./WKB_test.test ./$bline/WKB_test.test
 if [ "$1" == "-o" ] ; then
   cp ./WKB_test.log ./$bline/WKB_test.log
+fi
 cd ..
 
 cd OH_NO_to\ HONO

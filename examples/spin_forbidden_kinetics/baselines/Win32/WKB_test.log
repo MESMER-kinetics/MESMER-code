@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Dec 17 2012 -- 09:41:07
+     Mesmer v2.0 compiled: -- Jan  2 2013 -- 12:54:44
 
-     Copyright (C) 2009-2012 by
+     Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -47,19 +47,19 @@ The default value of me:precision was used.
 200.72Torr, 800K at double precision
 The default value of me:precision was used.
 250Torr, 1000K at double precision
-Write metadata 20121224_125841
+Write metadata 20130102_175329
 
 File: "WKB_test.xml" successfully parsed.
-Calculate EGME
+Main Calculation begins
 
 Spin Forbidden Crossing Data for reaction R1
 me:RMS_SOC_element = 5.08 cm-1
 me:GradientDifferenceMagnitude = 0.093273 a.u./Bohr
 me:GradientReducedMass = 10.4098 a.m.u.
 me:AverageSlope = 0.0352581 a.u./Bohr
-In FastLaplaceConvolution: 11880 values in the FFT convolution routine were replaced by standard convolution
-In timeEvolution: No population was assigned, and there is no source term.
-In timeEvolution: Initialize a Boltzmann distribution in the first isomer.
+In FastLaplaceConvolution: 11900 values in the FFT convolution routine were replaced by standard convolution
+In mesmer::CollisionOperator::timeEvolution: No population was assigned, and there is no source term.
+In mesmer::CollisionOperator::timeEvolution: Initialize a Boltzmann distribution in the first isomer.
 
 Spin Forbidden Crossing Data for reaction R1
 me:RMS_SOC_element = 5.08 cm-1
@@ -68,6 +68,6 @@ me:GradientReducedMass = 10.4098 a.m.u.
 me:AverageSlope = 0.0352581 a.u./Bohr
 In FastLaplaceConvolution: 12020 values in the FFT convolution routine were replaced by standard convolution
 Finish Calculation of P-T case
- -- Total time elapsed: 3 seconds.
+ -- Total time elapsed: 5 seconds.
 
 System saved to mesmer_out.xml

@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Dec 31 2012 -- 09:58:24
+     Mesmer v2.0 compiled: -- Jan  2 2013 -- 13:05:46
 
-     Copyright (C) 2009-2012 by
+     Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -84,7 +84,7 @@ All molecules are on the same energy basis: arbitary
 515Torr, 601K at dd precision
 614.5Torr, 601K at dd precision
 711Torr, 601K at dd precision
-Write metadata 20121231_121128
+Write metadata 20130102_131931
 
 File: "Methyl_H_to_Methane.xml" successfully parsed.
 Main Calculation begins
@@ -312,13 +312,13 @@ PT Grid 0
 Number of cells = 40800, Number of grains = 204
 Association ILT calculation completed
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 1
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 2
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 3
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
@@ -348,13 +348,13 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 12
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 13
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 14
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 15
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
@@ -368,11 +368,11 @@ PT Grid 18
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 19
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 20
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 21
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
@@ -384,18 +384,18 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 24
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 25
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 26
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 27
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
 PT Grid 28
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 29
 Build Collison Operator
@@ -481,6 +481,6 @@ Goodness of Fit:
 Number of degrees of Freedom = 35
 Chi^2 probability = 1
 
- -- Total time elapsed: 4637 seconds.
+ -- Total time elapsed: 4645 seconds.
 
 System saved to out.xml
