@@ -311,7 +311,7 @@ examples/OH-acetylene/OH_HCCH-irreversibleBim-ci-TC-start.xml -text
 examples/OH-acetylene/OH_HCCH-irreversibleBim-publish.xml -text
 examples/OH_NO_to[!!-~]HONO/OH_NO_HONO.xml -text
 examples/OH_NO_to[!!-~]HONO/baselines/Linux64/mesmer.log -text
-examples/OH_NO_to[!!-~]HONO/baselines/Win32/OH_NO_HONO.log -text
+examples/OH_NO_to[!!-~]HONO/baselines/Win32/mesmer.log -text
 examples/Tunnelling/H+H2,T+T2.xml -text
 examples/Tunnelling/baselines/Win32/mesmer.test -text
 examples/benzene_oxidation/baselines/Linux64/mesmer.test -text

@@ -431,8 +431,7 @@ namespace mesmer
         dosMethod = name;
 
       // Following checks to see if an overall rotational DOS method has been added.
-      // haveRotStatesMethod = (haveRotStatesMethod || dosMethod == "ClassicalRotors" || dosMethod == "QMRotors") ;
-      bool newRotStatesMethod = (dosMethod == "ClassicalRotors" || dosMethod == "QMRotors") ;
+      bool newRotStatesMethod = (dosMethod == "ClassicalRotors" || dosMethod == "QMRotors" || dosMethod == "DefinedStatesRotors") ;
       if (newRotStatesMethod) {
         if (haveRotStatesMethod) {
           cerr << getHost()->getName() << " appears to have more than one rotational states definition.";

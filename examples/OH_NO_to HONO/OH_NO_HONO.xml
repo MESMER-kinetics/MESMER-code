@@ -110,11 +110,9 @@
         </property>
         <property dictRef="me:vibFreqs">
           <!--The two lowest frequencies, 91.9741 129.3783 188.3049, have been replaced by a hindered rotor.-->
-
           <array units="cm-1">
             3591 1700	1263 790 596
           </array>
-
         </property>
         <property dictRef="me:MW">
           <scalar units="amu">47</scalar>
@@ -134,7 +132,7 @@
       </propertyList>
       <!--me:reservoirSize units="kcal/mol">-2.0</me:reservoirSize> -->
 
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
 
 
       <!--Rotation about CH2-O bond.-->
@@ -144,7 +142,7 @@
         </bondRef>
         <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7">
 
-          <me:PotentialPoint		angle=	"0"	potential=	"0"	/>
+          <me:PotentialPoint	angle=	"0"	  potential=	"0"	/>
           <me:PotentialPoint	angle=	"15"	potential=	"359.8"	/>
           <me:PotentialPoint	angle=	"30"	potential=	"1307.46"	/>
           <me:PotentialPoint	angle=	"45"	potential=	"2530.7"	/>
