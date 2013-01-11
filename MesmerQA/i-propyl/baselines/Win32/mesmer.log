@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Jan  1 2013 -- 13:36:22
+     Mesmer v2.0 compiled: -- Jan  2 2013 -- 12:54:44
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -52,7 +52,7 @@ The default value of me:precision was used.
 3e+017PPCC, 720K at double precision
 The default value of me:precision was used.
 3.01e+017PPCC, 730K at double precision
-Write metadata 20130101_134426
+Write metadata 20130102_134012
 
 File: "ipropyl_test.xml" successfully parsed.
 Main Calculation begins
@@ -1412,6 +1412,6 @@ Hindered rotor data for plotting.
 
 Unimolecular ILT calculation completed
 Finish Calculation of P-T case
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml

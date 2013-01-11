@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Jan  1 2013 -- 13:36:22
+     Mesmer v2.0 compiled: -- Jan  2 2013 -- 12:54:44
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -55,11 +55,11 @@ The default value of me:precision was used.
 200.72Torr, 800K at double precision
 The default value of me:precision was used.
 250Torr, 1000K at double precision
-Write metadata 20130101_134420
+Write metadata 20130102_133951
 
 File: "Cyclopropene_isomerization_test.xml" successfully parsed.
 Main Calculation begins
 Finish Calculation of P-T case
- -- Total time elapsed: 4 seconds.
+ -- Total time elapsed: 12 seconds.
 
 System saved to out.xml
