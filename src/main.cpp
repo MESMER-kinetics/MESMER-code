@@ -1,4 +1,4 @@
-/*  Copyright (C) 2009 by
+/*  Copyright (C) 2009-2013 by
 Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
 Chris Morley, Michael J. Pilling and contributors
 This file is a part of
@@ -6,8 +6,8 @@ Mesmer: Master Equation Solver for Multi-Energy well Reactions
 
 Mesmer is free software: you can redistribute it and/or modify
 it under the terms of the GNU Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+the Free Software Foundation, either version 2 of the License, 
+or (at your option) any later version.
 
 Mesmer is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -420,8 +420,8 @@ void banner()
   cinfo << endl ;
   cinfo << "     Mesmer is free software: you can redistribute it and/or modify" << endl ;
   cinfo << "     it under the terms of the GNU Public License as published by" << endl ;
-  cinfo << "     the Free Software Foundation, either version 3 of the License, or" << endl ;
-  cinfo << "     (at your option) any later version." << endl ;
+  cinfo << "     the Free Software Foundation, either version 2 of the License," << endl ;
+  cinfo << "     or (at your option) any later version." << endl ;
   cinfo << endl ;
   cinfo << "     But WITHOUT ANY WARRANTY; without even the implied warranty of" << endl ;
   cinfo << "     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the" << endl ;

@@ -129,6 +129,8 @@
           <scalar>6</scalar>
         </property>
       </propertyList>
+      <!--<Sum of states for the reaction CH3+H <==> CH4 taken from 
+      E.E. Aubanel and D.M. Wardlaw, J. Phys. Chem., p. 3117, Vol. 93 (1989). >-->
       <me:SumOfStates units="cm-1" angularMomentum="true" noLogSpline="false">
         <me:SumOfStatesPoint energy="  154.87240" angMomMag=" 0"> 0.12620E+02 </me:SumOfStatesPoint>
         <me:SumOfStatesPoint energy="  247.90776" angMomMag=" 0"> 0.24010E+02 </me:SumOfStatesPoint>
