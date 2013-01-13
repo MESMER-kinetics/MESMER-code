@@ -27,7 +27,7 @@ namespace mesmer
 
 
     //Get a pointer to a derived class by providing its id.
-    static DensityOfStatesCalculator* Find(const std::string& id, bool extraType=false)
+    static DensityOfStatesCalculator* Find(const std::string& id)
     {
       return dynamic_cast<DensityOfStatesCalculator*>(TopFind(id, typeID()));
     }

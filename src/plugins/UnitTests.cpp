@@ -297,7 +297,7 @@ namespace mesmer
 
     underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Harmonic oscillators only.") ) ;
 
-    DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("BeyerSwinehart", false);
+    DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("BeyerSwinehart");
 
     // Calculate vibrational densities of states.
 
@@ -334,7 +334,7 @@ namespace mesmer
     ctest << endl ;
     underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Anharmonic oscillators only.") ) ;
 
-    DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("Morse", true);
+    DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("Morse");
 
     // Calculate vibrational densities of states.
 
@@ -344,7 +344,11 @@ namespace mesmer
     pMol->getDOS().setCellDensityOfStates(cellDOS) ;
 
     PersistPtr pp = pMol->get_PersistentPointer() ;
-    pp = pp->XmlMoveTo("me:ExtraDOSCMethod") ;
+	while (pp = pp->XmlMoveTo("me:DOSCMethod")) {
+	  const char *txt = pp->XmlReadValue("name",optional) ;
+	  if (txt && string(txt) == "Morse")
+		  break ;
+	}
     status = status && pDOSCalculator->ReadParameters(&(pMol->getDOS()), pp) ;
 
     status = status && pDOSCalculator->countCellDOS(&(pMol->getDOS()), MaximumCell) ;
@@ -364,7 +368,7 @@ namespace mesmer
     ctest << endl ;
     underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Rotors only.") ) ;
 
-    DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("QMRotors", false);
+    DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("QMRotors");
 
     // Calculate rotational densities of states.
 
