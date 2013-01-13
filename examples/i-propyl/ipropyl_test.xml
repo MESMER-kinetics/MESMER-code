@@ -65,23 +65,23 @@
 
       <me:DOSCMethod>QMRotors</me:DOSCMethod>
 
-      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
+      <me:DOSCMethod name="HinderedRotorQM1D">
         <bondRef>b1</bondRef>
         <me:HinderedRotorPotential format="analytical" units="kJ/mol">
           <me:PotentialPoint index="0"  coefficient="6.2"/>
           <me:PotentialPoint index="3"  coefficient="-6.2"/>
         </me:HinderedRotorPotential>
         <me:periodicity>3</me:periodicity>
-      </me:ExtraDOSCMethod>
+      </me:DOSCMethod>
 
-      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
+      <me:DOSCMethod name="HinderedRotorQM1D">
         <bondRef>b2</bondRef>
         <me:HinderedRotorPotential format="analytical" units="kJ/mol">
           <me:PotentialPoint index="0"  coefficient="6.2"/>
           <me:PotentialPoint index="3"  coefficient="-6.2"/>
         </me:HinderedRotorPotential>
         <me:periodicity>3</me:periodicity>
-      </me:ExtraDOSCMethod>
+      </me:DOSCMethod>
 
     </molecule>
 
@@ -136,14 +136,14 @@
 
       <me:DOSCMethod>QMRotors</me:DOSCMethod>
 
-      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
+      <me:DOSCMethod name="HinderedRotorQM1D">
         <bondRef>b1</bondRef>
         <me:HinderedRotorPotential format="analytical" units="kJ/mol">
           <me:PotentialPoint index="0"  coefficient="6.2"/>
           <me:PotentialPoint index="3"  coefficient="-6.2"/>
         </me:HinderedRotorPotential>
         <me:periodicity>3</me:periodicity>
-      </me:ExtraDOSCMethod>
+      </me:DOSCMethod>
 
     </molecule>
 

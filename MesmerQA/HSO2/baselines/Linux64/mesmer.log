@@ -8,16 +8,16 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Dec  7 2012 -- 17:23:40
+     Mesmer v2.0 compiled: -- Jan 13 2013 -- 10:52:39
 
-     Copyright (C) 2009-2012 by
+     Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
      Mesmer is free software: you can redistribute it and/or modify
      it under the terms of the GNU Public License as published by
-     the Free Software Foundation, either version 3 of the License, or
-     (at your option) any later version.
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
 
      But WITHOUT ANY WARRANTY; without even the implied warranty of
      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -52,10 +52,10 @@ All molecules are on the same energy basis: arbitary
 1e+08Torr, 200K at double precision
 1e+08Torr, 200K at dd precision
 1e+08Torr, 200K at qd precision
-Write metadata 20121207_172927
+Write metadata 20130113_105516
 
 File: "HSO2_test.xml" successfully parsed.
-Calculate EGME
+Main Calculation begins
 Number of grains produced is not equal to that requested
 Number of grains requested: 92
 Number of grains produced : 1

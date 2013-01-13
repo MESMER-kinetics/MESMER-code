@@ -37,7 +37,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="acetylene" description="C_2H_2">
       <atomarray>
@@ -74,7 +74,7 @@
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="Xe">
       <atom id="Xenon" elementType="Xe"/>
@@ -85,7 +85,7 @@
         <property dictRef="me:MW">
           <scalar units="amu">131.9</scalar>
         </property>
-        <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+        <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
       </propertyList>
     </molecule>
     <molecule id="triplet" description="CH2CCH2">
@@ -138,7 +138,7 @@
           <scalar>5.5</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="MECP1" description="HCCH-CH2 MECP">
       <propertyList>
@@ -192,7 +192,7 @@
           <scalar>3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="MECP2" description="HCCH-Xe MECP">
       <propertyList>
@@ -237,7 +237,7 @@
           <scalar>3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="dummy_product" description="dummy product for trip diss">
       <propertyList>
@@ -289,7 +289,7 @@
           <scalar>5.5</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
   </moleculeList>
   <reactionList>

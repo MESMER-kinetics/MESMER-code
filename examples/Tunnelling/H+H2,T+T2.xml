@@ -36,7 +36,7 @@
           <scalar units="amu">3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
 
 
@@ -72,7 +72,7 @@
           <scalar units="amu">3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
 
       <me:IRCPotential units="kcal/mol" ReducedMass="0.679">
 
@@ -485,7 +485,7 @@
           <scalar units="amu">3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
 
 
@@ -521,7 +521,7 @@
           <scalar units="amu">3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
 
       <me:IRCPotential units="kcal/mol" ReducedMass="1.906">
 
@@ -754,7 +754,7 @@
           <scalar units="amu">3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
 
 

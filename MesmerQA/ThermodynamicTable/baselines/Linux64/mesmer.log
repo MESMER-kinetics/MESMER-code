@@ -8,16 +8,16 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Dec  7 2012 -- 17:23:40
+     Mesmer v2.0 compiled: -- Jan 13 2013 -- 10:52:39
 
-     Copyright (C) 2009-2012 by
+     Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
      Mesmer is free software: you can redistribute it and/or modify
      it under the terms of the GNU Public License as published by
-     the Free Software Foundation, either version 3 of the License, or
-     (at your option) any later version.
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
 
      But WITHOUT ANY WARRANTY; without even the implied warranty of
      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -30,10 +30,10 @@
 Parsing input xml file...
 ThermodynamicTable.xml
 
-Write metadata 20121207_172949
+Write metadata 20130113_105537
 
 File: "ThermodynamicTable.xml" successfully parsed.
-Calculate EGME
+Main Calculation begins
 The default units of kJ/mol will be used for thermodynamics tables.
 In HNO2: The default value of me:frequenciesScaleFactor was used.
 In HNO2: The default value of spinMultiplicity (or one of its attributes) was used.
@@ -48,6 +48,6 @@ In NO: The default value of me:DOSCMethod was used.
 In NO: New me:ZPE element written with data from me:Hf298
 In OH: The default value of me:frequenciesScaleFactor was used.
 In OH: New me:ZPE element written with data from me:Hf298
- -- Total time elapsed: 2 seconds.
+ -- Total time elapsed: 3 seconds.
 
 System saved to out.xml
