@@ -304,7 +304,7 @@ namespace mesmer
     size_t MaximumCell(50000) ;
     vector<double> cellDOS(MaximumCell, 0.0) ;
     cellDOS[0] = 1.0 ;
-    pMol->getDOS().setCellDensityOfStates(cellDOS) ;
+    pMol->getDOS().setCellDensityOfStates(cellDOS) ; 
 
     status = status && pDOSCalculator->countCellDOS(&(pMol->getDOS()), MaximumCell) ;
 
@@ -334,22 +334,15 @@ namespace mesmer
     ctest << endl ;
     underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Anharmonic oscillators only.") ) ;
 
-    DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("Morse");
-
-    // Calculate vibrational densities of states.
-
     size_t MaximumCell(50000) ;
     vector<double> cellDOS(MaximumCell, 0.0) ;
     cellDOS[0] = 1.0 ;
     pMol->getDOS().setCellDensityOfStates(cellDOS) ;
 
-    PersistPtr pp = pMol->get_PersistentPointer() ;
-	while (pp = pp->XmlMoveTo("me:DOSCMethod")) {
-	  const char *txt = pp->XmlReadValue("name",optional) ;
-	  if (txt && string(txt) == "Morse")
-		  break ;
-	}
-    status = status && pDOSCalculator->ReadParameters(&(pMol->getDOS()), pp) ;
+    //Use the instance of Morse plugin initialized earlier.
+    DensityOfStatesCalculator* pDOSCalculator = pMol->getDOS().GetDOSCalculator("Morse");
+    if(pDOSCalculator)
+      return false;
 
     status = status && pDOSCalculator->countCellDOS(&(pMol->getDOS()), MaximumCell) ;
 

@@ -375,86 +375,92 @@ namespace mesmer
   }
 
   bool gDensityOfStates::ReadDOSMethods() {
-    /* Rotational-electronic densities of states objects are specified in XML file as:
-    and/or   <me:DOSCMethod name=" name "/>                  preferred
-    multiple <me:DOSCMethod> name </me:DOSCMethod>
-    and/or   <me:ExtraDOSCMethod> name </me:ExtraDOSCMethod> deprecated
-    and/or   <me:ExtraDOSCMethod name=" name "/>             deprecated
-    */
+    // There must be only one <me:DOSCMethod> specifying a method which
+    // includes the rotations. If not present the default is used.
+    // There can be multiple additional methods:
+    // <me:ExtraDOSCMethod name="..."> optional parameters </me:ExtraDOSCMethod>
+
     ErrorContext c(getHost()->getName());
-
-    // For backward compatability, where a default rotational DOS method was
-    // assumed, it is necessary to test that a DOS method for overall rotation
-    // has been added to the DOS method stack, and if not add it explicitly. 
-    bool haveRotStatesMethod(false) ; 
-
     PersistPtr pp = getHost()->get_PersistentPointer();
-    if(!ReadMethodsFromXml("me:DOSCMethod", haveRotStatesMethod))
-      return false;
-    if(!ReadMethodsFromXml("me:ExtraDOSCMethod", haveRotStatesMethod))
-      return false;
-    if(m_DOSCalculators.empty() || !haveRotStatesMethod) //invoke default method
+
+    //Get the method which includes rotations, or use the default
+    const char* name = pp->XmlReadValue("me:DOSCMethod");
+    if(!*name) // Must be alt form e.g. <me:DOSCMethod name="QMRotors"/>
+      name = pp->XmlMoveTo("me:DOSCMethod")->XmlReadValue("name");
+
+    m_DOSCalculators.push_back(DensityOfStatesCalculator::Find(string(name)));
+    if(!m_DOSCalculators[0])
+      return false; //error message already output
+    if(!m_DOSCalculators[0]->includesRotations())
     {
-      const char* name = pp->XmlReadValue("me:DOSCMethod");
-      if(!name)
-        return false;
-      DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(string(name));
-      if(!pDOSCalculator)
-        return false;
-      m_DOSCalculators.insert(m_DOSCalculators.begin(), pDOSCalculator);
-      if(!pDOSCalculator->ReadParameters(this, pp))
-      {
-        cerr << name << " failed to initialize correctly";
-        return false;
-      }
-    }
-    //
-    // Beyer-Swinehart object added by default.
-    //
-    DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("BeyerSwinehart");
-    m_DOSCalculators.push_back(pDOSCalculator);
-    if(!pDOSCalculator)
-    {
-      cerr << "Beyer-Swinhart algorithm failed to initialize correctly";
+      cerr << "The calculator specified in <me:DOSCMethod>"
+              " should be one that includes the rotations."
+              " Use  <me:ExtraDOSCMethod name=\""
+           << m_DOSCalculators[0]->getID() << "\"> </me:ExtraDOSCMethod> instead."
+           << endl;
       return false;
     }
-    return true;
-  }
 
-  bool gDensityOfStates::ReadMethodsFromXml(const string& keyword, bool& haveRotStatesMethod) {
-    PersistPtr pp = getHost()->get_PersistentPointer();
-    while(pp = pp->XmlMoveTo(keyword))
+    // Beyer-Swinehart object added by default at m_DOSCalculators[1]
+    m_DOSCalculators.push_back(DensityOfStatesCalculator::Find("BeyerSwinehart"));
+    if(!m_DOSCalculators[1])
+    {
+      cerr << "Beyer-Swinehart algorithm failed to initialize correctly" << endl;
+      return false;
+    }
+
+    //Read any additional methods
+    PersistPtr pp2 = pp;
+    while(pp2 = pp2->XmlMoveTo("me:ExtraDOSCMethod"))
     {
       string dosMethod;
       const char* name;
-      if( (name = pp->XmlRead()) || (name = pp->XmlReadValue("name", optional)))
+      if( (name = pp2->XmlRead()) || (name = pp2->XmlReadValue("name", optional)))
         dosMethod = name;
 
-      // Following checks to see if an overall rotational DOS method has been added.
-      bool newRotStatesMethod = (dosMethod == "ClassicalRotors" || dosMethod == "QMRotors" || dosMethod == "DefinedStatesRotors") ;
-      if (newRotStatesMethod) {
-        if (haveRotStatesMethod) {
-          cerr << getHost()->getName() << " appears to have more than one rotational states definition.";
-          return false;
-        } else {
-          haveRotStatesMethod = true ;
-        }
-      }
-
       DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod);
-      if (newRotStatesMethod) {
-		// Rotational DOS should be first method in the list.
-        m_DOSCalculators.insert(m_DOSCalculators.begin(), pDOSCalculator);
-      } else {
-        m_DOSCalculators.push_back(pDOSCalculator);
-      }
-      if(!pDOSCalculator->ReadParameters(this, pp))
-      {
-        cerr << dosMethod << " failed to initialize correctly";
+      if(!pDOSCalculator || !pDOSCalculator->ReadParameters(this, pp2))
         return false;
+      m_DOSCalculators.push_back(pDOSCalculator);
+    }
+
+    //Check there is only one <me:DOSCMethod>
+    PersistPtr pp1 = pp->XmlMoveTo("me:DOSCMethod"); //to the element just found
+    if(pp1->XmlMoveTo("me:DOSCMethod"))
+      cerr << "Too many <me:DOSCMethod> elements on this molecule. "
+           << "Only the first is used. Additional methods should be under <me:ExtraDOSCMethod>." << endl;
+    return true;
+  }
+
+  bool gDensityOfStates::RemoveDOSCalculator(const string& id)
+  {
+    vector<DensityOfStatesCalculator*>::iterator iter;
+    for(iter=m_DOSCalculators.begin();iter!=m_DOSCalculators.end();++iter)
+    {
+      if(id==(*iter)->getID())
+      {
+        delete *iter; //because plugin was a new instance made with Clone()
+        m_DOSCalculators.erase(iter);
+        return true;
       }
     }
-    return true;
+    return false;
+  }
+  bool gDensityOfStates::AddDOSCalculator(const string& id)
+  {
+    m_DOSCalculators.push_back(DensityOfStatesCalculator::Find(id));
+    return m_DOSCalculators.back();
+  }
+
+  DensityOfStatesCalculator* gDensityOfStates::GetDOSCalculator(const string& id)
+  {
+   vector<DensityOfStatesCalculator*>::iterator iter;
+    for(iter=m_DOSCalculators.begin();iter!=m_DOSCalculators.end();++iter)
+    {
+      if(id==(*iter)->getID())
+        return *iter;
+    }
+    return NULL;
   }
 
   //

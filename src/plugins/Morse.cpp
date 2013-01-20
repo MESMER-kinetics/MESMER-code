@@ -49,22 +49,35 @@ namespace mesmer
   } ;
 
   //************************************************************
-  //Global instance, defining its id (usually the only instance) but here with an alternative name
+  //Global instance, defining its id
   Morse theMorse("Morse");
   //************************************************************
-
-  //Read data from XML. 
+  // Read data from XML.
+  // e.g. <me:MorseParameters vibrationalFrequency="3161.925" anharmonicity="-37.593"/>
+  // All vib frequencies must have already appeared in <property dictRef="me:vibFreqs">
+  // Any frequency not specifed here has anharmonicity = 0.0
+  // The BeyerSwinehart method is removed when the Morse method is specified
   bool Morse::ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC) {
+    vector<double> vec;
+    gdos->get_VibFreq(m_vibFreq); //Copy. These are scaled values
+    double scale = gdos->get_scaleFactor();
+    m_anharmty.assign(m_vibFreq.size(), 0.0);
+        
     m_ppDOSC = ppDOSC ;
     PersistPtr pp = m_ppDOSC ;
     while(pp = pp->XmlMoveTo("me:MorseParameters")) {
-      double vibFreq  = pp->XmlReadDouble("vibrationalFrequency", true);
+      double vibFreq  = pp->XmlReadDouble("vibrationalFrequency", optional);
       double anharmty = pp->XmlReadDouble("anharmonicity",         true);
-      m_vibFreq.push_back(vibFreq) ;
-      m_anharmty.push_back(-fabs(anharmty)) ; // Ensure the anharmonicity is negative.
+      for(unsigned i=0; i<=m_vibFreq.size(); ++i) {
+        if(abs(m_vibFreq[i]/scale - vibFreq) < 0.1) { //correct back to raw frequency
+          m_anharmty[i] = anharmty;
+          break;
+        }
+      }
     }
 
-    return true ;
+    //Remove BeyerSwinehart
+    return gdos->RemoveDOSCalculator("BeyerSwinehart");
   }
 
   // Provide a function to define particular counts of the DOS of a molecule.

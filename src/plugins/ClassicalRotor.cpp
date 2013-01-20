@@ -24,6 +24,10 @@ namespace mesmer
     virtual ~ClassicalRotor() {}
     virtual const char* getID()  { return m_id; }
 
+    // Included only in a subset of DensityOfStatesCalculators.
+    // Otherwise the baseclass function returns false.
+    virtual bool includesRotations(){return true;}
+
     virtual ClassicalRotor* Clone() { return new ClassicalRotor(*this); }
   private:
     const char* m_id;

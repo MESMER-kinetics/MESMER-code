@@ -24,7 +24,7 @@ namespace mesmer
     DensityOfStatesCalculator(){}
     virtual ~DensityOfStatesCalculator(){}
     virtual const char* getTypeID()  {return typeID();}
-
+    virtual bool includesRotations(){return false;}
 
     //Get a pointer to a derived class by providing its id.
     static DensityOfStatesCalculator* Find(const std::string& id)

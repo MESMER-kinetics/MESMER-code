@@ -44,6 +44,7 @@ namespace mesmer
 
     virtual ~DefinedStatesRotor() {}
     virtual const char* getID()  { return m_id; }
+    virtual bool includesRotations(){return true;}
     virtual DefinedStatesRotor* Clone() { return new DefinedStatesRotor(*this); }
 
   private:

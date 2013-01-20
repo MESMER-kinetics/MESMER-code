@@ -62,12 +62,20 @@
         <property title="Symmetry Number" dictRef="me:symmetryNumber">
           <scalar>1 </scalar>
         </property>
+        <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
+          <array units="cm-1">
+            141.8453            163.6481            3161.925            3062.283
+            1901.381            1460.162            1398.929            1196.828
+            1136.066             984.196             741.314             555.306
+            505.558             328.317            3121.741            1466.209
+            1049.543             546.466
+          </array>
+        </property>
       </propertyList>
 
       <me:DOSCMethod>QMRotors</me:DOSCMethod>
-      <me:DOSCMethod name="Morse">
-        <me:MorseParameters vibrationalFrequency="141.8453" anharmonicity="0.0"/>
-        <me:MorseParameters vibrationalFrequency="163.6481" anharmonicity="0.0"/>
+      <me:ExtraDOSCMethod name="Morse">
+        <!--Need to include a vibration only when its anaharmonicity is not zero-->
         <me:MorseParameters vibrationalFrequency="3161.925" anharmonicity="-37.593"/>
         <me:MorseParameters vibrationalFrequency="3062.283" anharmonicity="-17.944"/>
         <me:MorseParameters vibrationalFrequency="1901.381" anharmonicity="-11.53"/>
@@ -84,7 +92,7 @@
         <me:MorseParameters vibrationalFrequency="1466.209" anharmonicity="-6.823"/>
         <me:MorseParameters vibrationalFrequency="1049.543" anharmonicity="-1.278"/>
         <me:MorseParameters vibrationalFrequency="546.466"  anharmonicity="0.446"/>
-      </me:DOSCMethod>
+      </me:ExtraDOSCMethod>
 
     </molecule>
 

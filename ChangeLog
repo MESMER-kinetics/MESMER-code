@@ -1,3 +1,25 @@
+2013-January-20 Chris Morley
+
+	src/DensityOfStates.h, src/plugins/ClassicalRotor.cpp,
+	src/plugins/QMRotor.cpp, src/plugins/DefinedStatesRotor.cpp
+	Add includesRotations() virtual function to distinguish DOS methods
+	which include rotations.
+
+	Re-introduce ExtraDOSCMethod keyword and redo parsing. Simplifies setting
+	a default method and assurance of exactly one rotation method.
+	Add public RemoveDOSCalculator, AddDOSCalculator and GetDOSCalculator methods.
+	src/MolecularComponents.h, src/MolecularComponents.cpp
+
+	src/plugins/Morse.cpp: altered XML format for anharmonic vibrations.
+	Frequencies primarily in a property (as before) but used as key in
+	entries for anharmonic vibrations only under <me:MorseParameters> .
+
+	src/plugins/UnitTests.cpp: use the existing Morse instance rather than
+	making a new one.
+
+	MesmerQA/ThermodynamicTable/ThermodynamicTable.xml,
+	MesmerQA/UnitTests/UnitTests.xml, MesmerQA/i-propyl/ipropyl_test.xml:
+	ExtraDOSCMethod keyword reintroduced.
 
 2013-January-13 Struan Robertson
 

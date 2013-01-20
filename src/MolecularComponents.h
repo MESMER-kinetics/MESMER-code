@@ -196,12 +196,18 @@ namespace mesmer
     // Calculate standard thermodynamic quantities as a function of temperature.
     bool thermodynamicsFunctions(double temp, double unitFctr, double& enthalpy, double& entropy, double& gibssFreeEnergy) ;
 
+    bool RemoveDOSCalculator(const string& id);
+    bool AddDOSCalculator(const string& id);
+    DensityOfStatesCalculator* GetDOSCalculator(const string& id);
+
+    // Get scale factor for vibrational frequencies
+    double get_scaleFactor();
+
   private:
 
     bool initialization() ;
 
     bool ReadDOSMethods();
-    bool gDensityOfStates::ReadMethodsFromXml(const std::string& keyword, bool& haveRotStatesMethod);
 
     bool ReadZeroPointEnergy(PersistPtr &ppPropList) ;
 
@@ -213,9 +219,6 @@ namespace mesmer
 
     // Test the rovibrational density of states.
     void testDensityOfStates() ;
-
-    // Get scale factor for vibrational frequencies
-    double get_scaleFactor();
 
   };
 

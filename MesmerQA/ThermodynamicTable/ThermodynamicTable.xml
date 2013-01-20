@@ -90,7 +90,7 @@
         </property>-->
 	  </propertyList>
 
-	  <me:DOSCMethod>DefinedStatesRotors</me:DOSCMethod>
+	  <me:ExtraDOSCMethod>DefinedStatesRotors</me:ExtraDOSCMethod>
 	  <me:States units="cm-1">
 		<!--F1 Branch-->
 		<me:State energy="0.0"       degeneracy="4"/>
