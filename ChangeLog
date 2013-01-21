@@ -1,3 +1,9 @@
+
+2013-January-13 Struan Robertson
+
+	* MolecularComponents.cpp: Fix for DefinedStatesRotor, states now
+	read at creation.
+
 2013-January-20 Chris Morley
 
 	src/DensityOfStates.h, src/plugins/ClassicalRotor.cpp,

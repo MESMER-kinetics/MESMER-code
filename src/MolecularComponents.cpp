@@ -389,7 +389,7 @@ namespace mesmer
       name = pp->XmlMoveTo("me:DOSCMethod")->XmlReadValue("name");
 
     m_DOSCalculators.push_back(DensityOfStatesCalculator::Find(string(name)));
-    if(!m_DOSCalculators[0])
+    if(!m_DOSCalculators[0] || !m_DOSCalculators[0]->ReadParameters(this, pp))
       return false; //error message already output
     if(!m_DOSCalculators[0]->includesRotations())
     {
