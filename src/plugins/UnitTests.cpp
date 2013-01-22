@@ -341,7 +341,7 @@ namespace mesmer
 
     //Use the instance of Morse plugin initialized earlier.
     DensityOfStatesCalculator* pDOSCalculator = pMol->getDOS().GetDOSCalculator("Morse");
-    if(pDOSCalculator)
+    if(!pDOSCalculator)
       return false;
 
     status = status && pDOSCalculator->countCellDOS(&(pMol->getDOS()), MaximumCell) ;
