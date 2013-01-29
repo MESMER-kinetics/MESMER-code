@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Jan  2 2013 -- 12:54:44
+     Mesmer v2.0 compiled: -- Jan 23 2013 -- 11:11:32
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -16,8 +16,8 @@
 
      Mesmer is free software: you can redistribute it and/or modify
      it under the terms of the GNU Public License as published by
-     the Free Software Foundation, either version 3 of the License, or
-     (at your option) any later version.
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
 
      But WITHOUT ANY WARRANTY; without even the implied warranty of
      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -55,11 +55,11 @@ The default value of me:precision was used.
 200.72Torr, 800K at double precision
 The default value of me:precision was used.
 250Torr, 1000K at double precision
-Write metadata 20130102_133951
+Write metadata 20130128_184839
 
 File: "Cyclopropene_isomerization_test.xml" successfully parsed.
 Main Calculation begins
 Finish Calculation of P-T case
- -- Total time elapsed: 12 seconds.
+ -- Total time elapsed: 13 seconds.
 
 System saved to out.xml

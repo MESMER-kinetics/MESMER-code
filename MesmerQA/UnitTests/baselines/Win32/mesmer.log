@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Jan 21 2013 -- 22:42:47
+     Mesmer v2.0 compiled: -- Jan 23 2013 -- 11:11:32
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -30,7 +30,7 @@
 Parsing input xml file...
 UnitTests.xml
 
-Write metadata 20130121_230605
+Write metadata 20130128_184905
 
 File: "UnitTests.xml" successfully parsed.
 Main Calculation begins
@@ -50,6 +50,12 @@ Number of grains produced : 4945
 In AcO2 Anharmonic: The default value of me:frequenciesScaleFactor was used.
 In AcO2 Anharmonic: The default value of spinMultiplicity (or one of its attributes) was used.
 In AcO2 Anharmonic: m_ZPE was not defined but requested in AcO2 Anharmonic. Default value 0 is given.
- -- Total time elapsed: 9 seconds.
+Number of grains produced is not equal to that requested
+Number of grains requested: 5000
+Number of grains produced : 4939
+In AcO2 Asymmetric Top: The default value of me:frequenciesScaleFactor was used.
+In AcO2 Asymmetric Top: The default value of spinMultiplicity (or one of its attributes) was used.
+In AcO2 Asymmetric Top: m_ZPE was not defined but requested in AcO2 Asymmetric Top. Default value 0 is given.
+ -- Total time elapsed: 54 seconds.
 
 System saved to out.xml
