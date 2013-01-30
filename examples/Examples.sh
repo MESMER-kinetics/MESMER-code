@@ -161,5 +161,13 @@ if [ "$1" == "-o" ] ; then
 fi
 cd ..
 
+cd OH-acetylene
+$executable OH_HCCH-irreversibleBim-publish.xml -o $outf $directive
+cp ./$tfn ./$bline$otfn
+if [ "$1" == "-o" ] ; then
+  cp ./$lfn ./$bline$lfn 
+fi
+cd ..
+
 echo Start Time=$starttime - End Time=`date`
 
