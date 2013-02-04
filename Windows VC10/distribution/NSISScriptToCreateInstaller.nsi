@@ -457,7 +457,7 @@ FunctionEnd
 ;General
 
   ;Mesmer version
-  !define MesmerVersion 1.0
+  !define MesmerVersion 2.0
 
   ;Name and file
   Name "Mesmer ${MESMERVERSION}"
@@ -526,7 +526,7 @@ Section "Dummy Section" SecDummy
   File  "..\..\Documentation\MESMER manual.pdf"
 
   SetOutPath "$INSTDIR\examples"
-  File /r /x .svn ..\..\examples\*.*
+  File /r /x .svn /x test.test /x *_prev.* /x *_out.xml /x *.sh /x Linux32 /x Linux64 /x MacOSX ..\..\examples\*.*
 
   SetOutPath "$INSTDIR\MesmerQA"
   File /r /x .svn /x test.test /x *_prev.* /x *_out.xml /x *.sh /x Linux32 /x Linux64 /x MacOSX ..\..\MesmerQA\*.*
@@ -558,6 +558,9 @@ Section "Dummy Section" SecDummy
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}" "DisplayName" "Mesmer ${MESMERVERSION}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}" "UninstallString" "$INSTDIR\Uninstall.exe"
 
+  ;Put item in context menu
+  WriteRegStr HKCR "xmlfile\shell\Open with Mesmer\command" "" "$INSTDIR\Mesmer.exe %1"
+
   SetShellVarContext all
 
   ;Create shortcuts
@@ -569,7 +572,7 @@ Section "Dummy Section" SecDummy
        ; "" "$SYSDIR\winhlp32.exe" 
 
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Mesmer Manual.lnk" "$INSTDIR\Documentation\MESMER manual.docx"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Mesmer Manual.lnk" "$INSTDIR\Documentation\MESMER manual.pdf"
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Make datafile from Gaussian output.lnk" "$INSTDIR\Documentation\Constructing a Datafile from Gaussian output.html"
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Adding a molecule to the library.lnk" "$INSTDIR\Documentation\Adding a molecule to the library.html"
 
@@ -638,6 +641,9 @@ Section "Uninstall"
 
   SetShellVarContext all
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}"
+
+  ;Delete context menu item
+  DeleteRegKey HKCR "xmlfile\shell\Open with Mesmer"
 
   !insertmacro MUI_STARTMENU_GETFOLDER Application $MUI_TEMP
   Delete "$SMPROGRAMS\$MUI_TEMP\Uninstall.lnk"
