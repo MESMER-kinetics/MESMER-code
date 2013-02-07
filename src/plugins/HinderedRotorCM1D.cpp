@@ -94,7 +94,7 @@ namespace mesmer
         return false;
       }
       m_bondID = bondID;
-      cinfo << "Hindered rotor " << m_bondID;  
+      cinfo << "Hindered rotor " << m_bondID << endl;  
 
       //Remove the vibrational frequency that this hindered rotation replaces
       const char* vibFreq = ppDOSC->XmlReadValue("me:replaceVibFreq",optional);

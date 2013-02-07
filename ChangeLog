@@ -1,4 +1,14 @@
 
+2013-February-07 Struan Robertson
+
+    Changes entered on behalf of Robin Shannon.
+
+	* CollisionOperator.cpp: Fix to use specified initial distribution.
+
+	* MolecularComponents.cpp: Check added for zero torsional moment of inertia.
+
+	* unitsConversion.cpp: Atomic mass table updated.
+
 2013-January-22 Chris Morley
 
 	* src/plugins/UnitTests.cpp: correct error which was prematurely

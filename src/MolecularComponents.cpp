@@ -394,10 +394,10 @@ namespace mesmer
     if(!m_DOSCalculators[0]->includesRotations())
     {
       cerr << "The calculator specified in <me:DOSCMethod>"
-              " should be one that includes the rotations."
-              " Use  <me:ExtraDOSCMethod name=\""
-           << m_DOSCalculators[0]->getID() << "\"> </me:ExtraDOSCMethod> instead."
-           << endl;
+        " should be one that includes the rotations."
+        " Use  <me:ExtraDOSCMethod name=\""
+        << m_DOSCalculators[0]->getID() << "\"> </me:ExtraDOSCMethod> instead."
+        << endl;
       return false;
     }
 
@@ -428,7 +428,7 @@ namespace mesmer
     PersistPtr pp1 = pp->XmlMoveTo("me:DOSCMethod"); //to the element just found
     if(pp1->XmlMoveTo("me:DOSCMethod"))
       cerr << "Too many <me:DOSCMethod> elements on this molecule. "
-           << "Only the first is used. Additional methods should be under <me:ExtraDOSCMethod>." << endl;
+      << "Only the first is used. Additional methods should be under <me:ExtraDOSCMethod>." << endl;
     return true;
   }
 
@@ -454,7 +454,7 @@ namespace mesmer
 
   DensityOfStatesCalculator* gDensityOfStates::GetDOSCalculator(const string& id)
   {
-   vector<DensityOfStatesCalculator*>::iterator iter;
+    vector<DensityOfStatesCalculator*>::iterator iter;
     for(iter=m_DOSCalculators.begin();iter!=m_DOSCalculators.end();++iter)
     {
       if(id==(*iter)->getID())
@@ -1784,7 +1784,12 @@ namespace mesmer
       double d = Point2Line(a, at1, at2);
       sumMoment += atomMass(Atoms[*iter].element) * d * d;
     }
-    return sumMoment;
+    if (sumMoment > 0.0){
+      return sumMoment;
+    } else {
+      string errorMsg = "Problem with calculation of reduced moment of inertia. Either there is something wrong with the atom co-ordinates or the atomic symbol is not present in unitsConversion.cpp ";
+      throw (std::runtime_error(errorMsg)); 
+    }
   }
 
   //Returns the rotational constants (in cm-1) in a vector

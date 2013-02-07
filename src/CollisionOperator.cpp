@@ -1064,7 +1064,7 @@ namespace mesmer
           }
         } else {	// otherwise if no grain population has been specified, use a boltzmann population
           vector<double> boltzFrac;
-          isomer->getColl().normalizedGrnBoltzmannDistribution(boltzFrac, colloptrsize, numberGrouped);
+          isomer->getColl().normalizedInitialDistribution(boltzFrac, colloptrsize, numberGrouped);
           int limit = colloptrsize - ( (numberGrouped == 0) ? 0 : numberGrouped - 1 ) ;
           for (int i = 0; i < limit; ++i){
             n_0[i + rxnMatrixLoc] = initFrac * boltzFrac[i];

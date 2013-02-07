@@ -4,7 +4,7 @@
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
   <title>Pentyl isomerization</title>
   <moleculeList>
-    <molecule id="n-pentyl">
+    <molecule id="1-pentyl">
       <atomArray>
         <atom id="a1" elementType="C"/>
         <atom id="a2" elementType="C"/>
@@ -66,7 +66,7 @@
       </propertyList>
     </molecule>
 
-    <molecule id="n-pentyl=TS=2-pentyl">
+    <molecule id="1-pentyl=TS=2-pentyl">
       <atomArray>
         <atom id="a1" elementType="C"/>
         <atom id="a2" elementType="C"/>
@@ -256,7 +256,7 @@
 
     <reaction id="R1">
       <reactant>
-        <molecule ref="n-pentyl"  me:type="modelled" />
+        <molecule ref="1-pentyl"  me:type="modelled" />
       </reactant>
 
       <product>
@@ -266,7 +266,7 @@
       <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
 
       <me:transitionState>
-        <molecule ref="n-pentyl=TS=2-pentyl" me:type="transitionState" />
+        <molecule ref="1-pentyl=TS=2-pentyl" me:type="transitionState" />
       </me:transitionState>
 
     </reaction>
@@ -282,8 +282,6 @@
 
   <me:modelParameters>
     <me:grainSize units="cm-1"> 150</me:grainSize>
-    <!--<me:numberOfGrains> 500 </me:numberOfGrains>-->
-    <!--<me:maxTemperature>3000</me:maxTemperature>-->
     <me:energyAboveTheTopHill>20.</me:energyAboveTheTopHill>
   </me:modelParameters>
 
@@ -291,16 +289,13 @@
     <me:testDOS />
     <me:testMicroRates />
     <me:printGrainDOS />
-    <!--<me:printCellDOS />-->
-    <!--<me:printReactionOperatorColumnSums />-->
     <me:printGrainkfE />
-    <!--<me:printGrainBoltzmann />-->
     <me:printGrainkbE />
     <me:printSpeciesProfile />
     <me:eigenvalues>all</me:eigenvalues>
     
     <me:printGrainProfileAtTime>
-      <ref>n-pentyl</ref>
+      <ref>1-pentyl</ref>
       <ref>2-pentyl</ref>
       <me:time>1e-08</me:time>
       <me:time>1e-03</me:time>
