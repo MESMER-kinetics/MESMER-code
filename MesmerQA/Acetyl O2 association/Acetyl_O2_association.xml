@@ -663,18 +663,22 @@
         <me:maxTemperature>6000</me:maxTemperature>-->
     <me:energyAboveTheTopHill>25.0</me:energyAboveTheTopHill>
   </me:modelParameters>
+
   <me:control>
     <me:testDOS />
     <me:printSpeciesProfile />
-    <!--<me:testMicroRates />-->
     <me:testRateConstants />
     <me:printGrainDOS />
-    <!--<me:printCellDOS />-->
-    <!--<me:printReactionOperatorColumnSums />-->
-    <!--<me:printTunnellingCoefficients />-->
     <me:printGrainkfE />
-    <!--<me:printGrainBoltzmann />-->
     <me:printGrainkbE />
     <me:eigenvalues>all</me:eigenvalues>
+    <me:printGrainedSpeciesProfile/>
+    <me:printGrainProfileAtTime>
+      <ref>Int1</ref>
+      <ref>Int2</ref>
+      <me:time>1e-07/</me:time>
+      <me:time>1e-04</me:time>
+    </me:printGrainProfileAtTime>
   </me:control>
+
 </me:mesmer>

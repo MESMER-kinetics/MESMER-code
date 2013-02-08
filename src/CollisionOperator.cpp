@@ -831,13 +831,15 @@ namespace mesmer
         for(size_t timestep(0); timestep < maxTimeStep; ++timestep){
           double averageEnergy(0.0);
           double totalIsomerPopulation(0.0);
-          for(size_t grain = ipos->second; grain < (size_t)isomer->getColl().get_colloptrsize(); ++grain){
+          for(size_t grain(ipos->second), iene(0) ; iene < (size_t)isomer->getColl().get_colloptrsize(); ++iene, ++grain){
             double pop = grnProfile[grain][timestep];
-            totalIsomerPopulation += pop;          // Determine how much total population in each isomer at time t.
-            averageEnergy +=  grnEne[grain]*pop;	 // Calculate the average energy in each isomer at time t.
+            totalIsomerPopulation += pop;       // Determine how much total population in each isomer at time t.
+            averageEnergy +=  grnEne[iene]*pop;	// Calculate the average energy in each isomer at time t.
           }
           double normAvE= ConvertFromWavenumbers("kJ/mol",averageEnergy/totalIsomerPopulation);
-          formatFloat(ctest,normAvE, 6, 15);    // normalize by the total population in each isomer
+          formatFloat(ctest, timePoints[timestep], 6, 15);
+          formatFloat(ctest, normAvE, 6, 15);
+		  ctest << endl ;
           PersistPtr ppAv = ppAvEnergy->XmlWriteValueElement("me:Av", normAvE);
           ppAv->XmlWriteAttribute("time", toString(timePoints[timestep]));
           ppAv->XmlWriteAttribute("logTime", toString(log10(timePoints[timestep])));

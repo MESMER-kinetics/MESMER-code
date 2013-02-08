@@ -1,4 +1,8 @@
 
+2013-February-08 Struan Robertson
+
+	* CollisionOperator.cpp: Fix for mean energy output added.
+
 2013-February-07 Struan Robertson
 
     Changes entered on behalf of Robin Shannon.
