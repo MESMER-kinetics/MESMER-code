@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Jan 28 2013 -- 17:59:49
+     Mesmer v2.0 compiled: -- Feb  7 2013 -- 17:59:04
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -47,7 +47,7 @@ The default value of me:precision was used.
 200.72Torr, 800K at double precision
 The default value of me:precision was used.
 250Torr, 1000K at double precision
-Write metadata 20130129_212846
+Write metadata 20130207_205944
 
 File: "LZ_test.xml" successfully parsed.
 Main Calculation begins
@@ -65,6 +65,6 @@ me:RMS_SOC_element = 5.08 cm-1
 me:GradientDifferenceMagnitude = 0.093273 a.u./Bohr
 me:GradientReducedMass = 10.4098 a.m.u.
 Finish Calculation of P-T case
- -- Total time elapsed: 2 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to mesmer_out.xml

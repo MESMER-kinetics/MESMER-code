@@ -84,7 +84,7 @@ All molecules are on the same energy basis: arbitary
 515Torr, 601K at dd precision
 614.5Torr, 601K at dd precision
 711Torr, 601K at dd precision
-Write metadata 20130128_190148
+Write metadata 20130207_184320
 
 File: "Methyl_H_to_Methane.xml" successfully parsed.
 Main Calculation begins
@@ -314,7 +314,7 @@ Association ILT calculation completed
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 1
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 2
 Build Collison Operator
@@ -327,25 +327,25 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 5
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 5 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 6
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 7
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 5 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 8
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 5 seconds.
 PT Grid 9
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 5 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 10
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 11
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 5 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 12
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
@@ -363,21 +363,21 @@ Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 17
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 5 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 18
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 5 seconds.
 PT Grid 19
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 5 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 20
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 21
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 5 seconds.
 PT Grid 22
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 23
 Build Collison Operator
@@ -390,30 +390,30 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 26
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 5 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 27
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 28
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 5 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 29
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 30
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 31
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 5 seconds.
 PT Grid 32
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 33
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 5 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 34
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 35
 Build Collison Operator
@@ -462,7 +462,7 @@ Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
             601    9.8734e+018      5.75e-011   6.25761e-011
             601   1.14239e+019      6.18e-011   6.78923e-011
 
-Finish Calculation of P-T case -- Time elapsed: 1 seconds.
+Finish Calculation of P-T case
 37 temperature/concentration-pressure points calculated.
 
 Chi^2 = 6.12168e-021
@@ -481,6 +481,6 @@ Goodness of Fit:
 Number of degrees of Freedom = 35
 Chi^2 probability = 1
 
- -- Total time elapsed: 7046 seconds.
+ -- Total time elapsed: 56064 seconds.
 
 System saved to out.xml
