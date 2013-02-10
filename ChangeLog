@@ -1,7 +1,11 @@
 
-2013-February-08 Struan Robertson
+2013-February-10 Struan Robertson
 
-	* CollisionOperator.cpp: Furhter fix for mean energy output for the case
+	* Acetyl_O2_association.xml: Baseline updated related to VS9/VS10 differences.
+
+2013-February-10 Struan Robertson
+
+	* CollisionOperator.cpp: Further fix for mean energy output for the case
 	where population is zero.
 
 2013-February-08 Struan Robertson
