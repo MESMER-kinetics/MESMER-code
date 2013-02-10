@@ -1,6 +1,11 @@
 
 2013-February-08 Struan Robertson
 
+	* CollisionOperator.cpp: Furhter fix for mean energy output for the case
+	where population is zero.
+
+2013-February-08 Struan Robertson
+
 	* CollisionOperator.cpp: Fix for mean energy output added.
 
 2013-February-07 Struan Robertson

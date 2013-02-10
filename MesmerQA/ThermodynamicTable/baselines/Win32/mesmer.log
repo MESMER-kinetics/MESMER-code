@@ -30,7 +30,7 @@
 Parsing input xml file...
 ThermodynamicTable.xml
 
-Write metadata 20130208_183457
+Write metadata 20130210_112157
 
 File: "ThermodynamicTable.xml" successfully parsed.
 Main Calculation begins
@@ -48,6 +48,6 @@ In NO: The default value of me:DOSCMethod was used.
 In NO: New me:ZPE element written with data from me:Hf298
 In OH: The default value of me:frequenciesScaleFactor was used.
 In OH: New me:ZPE element written with data from me:Hf298
- -- Total time elapsed: 2 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml

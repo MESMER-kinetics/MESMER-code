@@ -30,7 +30,7 @@
 Parsing input xml file...
 UnitTests.xml
 
-Write metadata 20130208_183459
+Write metadata 20130210_112159
 
 File: "UnitTests.xml" successfully parsed.
 Main Calculation begins
@@ -56,6 +56,6 @@ Number of grains produced : 4939
 In AcO2 Asymmetric Top: The default value of me:frequenciesScaleFactor was used.
 In AcO2 Asymmetric Top: The default value of spinMultiplicity (or one of its attributes) was used.
 In AcO2 Asymmetric Top: m_ZPE was not defined but requested in AcO2 Asymmetric Top. Default value 0 is given.
- -- Total time elapsed: 52 seconds.
+ -- Total time elapsed: 51 seconds.
 
 System saved to out.xml

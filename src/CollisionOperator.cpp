@@ -836,7 +836,7 @@ namespace mesmer
             totalIsomerPopulation += pop;       // Determine how much total population in each isomer at time t.
             averageEnergy +=  grnEne[iene]*pop;	// Calculate the average energy in each isomer at time t.
           }
-          double normAvE= ConvertFromWavenumbers("kJ/mol",averageEnergy/totalIsomerPopulation);
+		  double normAvE = (totalIsomerPopulation > 0.0) ? ConvertFromWavenumbers("kJ/mol",averageEnergy/totalIsomerPopulation) : 0.0;
           formatFloat(ctest, timePoints[timestep], 6, 15);
           formatFloat(ctest, normAvE, 6, 15);
 		  ctest << endl ;

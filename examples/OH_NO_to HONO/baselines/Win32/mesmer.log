@@ -93,7 +93,7 @@ All molecules are on the same energy basis: computational
 1.64e+017PPCC, 294K at d precision
 2.63e+017PPCC, 294K at d precision
 3.28e+017PPCC, 294K at d precision
-Write metadata 20130208_131555
+Write metadata 20130208_225222
 
 File: "OH_NO_HONO.xml" successfully parsed.
 Main Calculation begins
@@ -853,11 +853,11 @@ PT Grid 0
 Number of cells = 21425, Number of grains = 857
 Association ILT calculation completed
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 20 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 19 seconds.
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 1
 Build Collison Operator -- Time elapsed: 5 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 19 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 2
 Build Collison Operator -- Time elapsed: 5 seconds.
@@ -865,7 +865,7 @@ Diagonalize the Reaction Operator -- Time elapsed: 19 seconds.
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 3
 Build Collison Operator -- Time elapsed: 5 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 19 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 4
 Build Collison Operator -- Time elapsed: 5 seconds.
@@ -881,14 +881,14 @@ Diagonalize the Reaction Operator -- Time elapsed: 17 seconds.
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 7
 Build Collison Operator -- Time elapsed: 5 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 17 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 16 seconds.
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 8
 Build Collison Operator -- Time elapsed: 5 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 14 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 9
-Build Collison Operator -- Time elapsed: 6 seconds.
+Build Collison Operator -- Time elapsed: 5 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 10
@@ -905,7 +905,7 @@ Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 13
 Build Collison Operator -- Time elapsed: 5 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 14 seconds.
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 14
 Build Collison Operator -- Time elapsed: 5 seconds.
@@ -959,6 +959,6 @@ Goodness of Fit:
 Number of degrees of Freedom = 15
 Chi^2 probability = 7.36744e-006
 
- -- Total time elapsed: 18721 seconds.
+ -- Total time elapsed: 13082 seconds.
 
 System saved to out.xml
