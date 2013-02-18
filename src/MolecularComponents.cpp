@@ -878,7 +878,6 @@ namespace mesmer
     m_numGroupedGrains(0),
     m_pDistributionCalculator(NULL),
     m_pEnergyTransferModel(NULL),
-    m_grainFracBeta(0.),
     m_grainDist(),
     m_egme(NULL),
     m_egvec(NULL),
@@ -1534,46 +1533,24 @@ namespace mesmer
   }
 
   //
-  // calculates p(E)*exp(-EB)
-  //
-  void gWellProperties::grainDistribution(vector<double> &grainFrac, const int totalGrnNumber)
-  {
-    // If density of states have not already been calcualted then do so.
-    if (!m_host->getDOS().calcDensityOfStates())
-      cerr << "Failed calculating DOS";
-
-    vector<double> gEne;
-    vector<double> gDOS;
-    m_host->getDOS().getGrainEnergies(gEne);
-    m_host->getDOS().getGrainDensityOfStates(gDOS);
-
-    if (m_grainDist.size() != gDOS.size() || m_host->getEnv().beta != m_grainFracBeta){
-      m_pDistributionCalculator->calculateDistribution(m_host, m_grainDist);
-      m_grainFracBeta = m_host->getEnv().beta;
-    }
-
-    for (int i = 0; i < totalGrnNumber; ++i){
-      grainFrac.push_back(m_grainDist[i]);
-    }
-  }
-
-  //
   // Get normalized grain distribution.
   //
   void gWellProperties::normalizedInitialDistribution(vector<double> &grainFrac, const int totalGrnNumber, const int numberOfGroupedGrains)
   {
-    vector<double> tempGrainFrac;
-    grainDistribution(tempGrainFrac, totalGrnNumber);
+    if (!m_host->getDOS().calcDensityOfStates())
+      cerr << "Failed calculating DOS";
 
-    const double firstPartition = tempGrainFrac[0];
+    m_pDistributionCalculator->calculateDistribution(m_host, m_grainDist);
+
+    const double firstPartition = m_grainDist[0];
     double prtfn(firstPartition);
     grainFrac.push_back(firstPartition);
     for (int i = 1; i < totalGrnNumber; ++i){
-      prtfn += tempGrainFrac[i];
+      prtfn += m_grainDist[i];
       if (i < numberOfGroupedGrains){
-        grainFrac[0] += tempGrainFrac[i];
+        grainFrac[0] += m_grainDist[i];
       } else {
-        grainFrac.push_back(tempGrainFrac[i]);
+        grainFrac.push_back(m_grainDist[i]);
       }
     }
 

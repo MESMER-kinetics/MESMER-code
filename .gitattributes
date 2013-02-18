@@ -294,6 +294,7 @@ examples/AcetylO2/acetylO2.ck -text
 examples/AcetylO2/baselines/Linux64/mesmer.test -text
 examples/AcetylO2/baselines/Win32/mesmer.test -text
 examples/AcetylO2/lactone.log -text
+examples/Butyl_H_to_Butane/Butyl_H_to_Butane.xml -text
 examples/Ethyl_H_to_Ethane/Ethyl_H_to_Ethane.xml -text
 examples/Ethyl_H_to_Ethane/baselines/Linux64/mesmer.test -text
 examples/Ethyl_H_to_Ethane/baselines/Win32/mesmer.test -text

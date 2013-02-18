@@ -1,4 +1,11 @@
 
+2013-February-18 Struan Robertson
+
+	* MolecularComponents.cpp: Minor refactoring.
+	
+	* Butyl_H_to_Butane.xml: Initial revision - example to be used for eigenmode 
+	projection project.
+
 2013-February-10 Struan Robertson
 
 	* Acetyl_O2_association.xml: Baseline updated related to VS9/VS10 differences.

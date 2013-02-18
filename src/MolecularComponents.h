@@ -320,7 +320,6 @@ namespace mesmer
     DistributionCalculator* m_pDistributionCalculator;
     EnergyTransferModel* m_pEnergyTransferModel ; 
 
-    double m_grainFracBeta;                    // beta used to calculate grain distribution fraction
     std::vector<double> m_grainDist ;          // Grain distribution (not normalized)
     dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
     dMatrix             *m_egvec ;             // Eigenvectors used to diagonalize (P - I) matrix.
@@ -342,9 +341,6 @@ namespace mesmer
 
     // Diagonalize collision operator before adding reaction terms to get eigenvectors and eigenvalues.
     void diagonalizeCollisionOperator();
-
-    // Get Grain Boltzmann distribution.
-    void grainDistribution(vector<double> &grainFrac, const int numberOfGrains);
 
   public:
 
