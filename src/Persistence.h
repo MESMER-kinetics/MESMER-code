@@ -84,7 +84,7 @@ namespace mesmer
     //Writing methods
 
     /// Writes a value to the element
-    virtual void XmlWrite(const::std::string value)=0;
+    virtual void XmlWrite(const std::string& value)=0;
 
     /// Inserts into XML document a new element
     virtual PersistPtr XmlWriteElement(const std::string& name)=0;
@@ -97,7 +97,8 @@ namespace mesmer
                      const double datum, const int precision=-1, const bool fixedOnly=false)=0;
 
     /// Inserts into XML document a new element  containing a string
-    virtual PersistPtr XmlWriteValueElement(const std::string& name, const std::string& value)=0;
+    virtual PersistPtr XmlWriteValueElement(const std::string& name, const std::string& value,
+                                            bool cdatamode=false)=0;
 
     /// Inserts into XML document meta data information
     ///like <metadata name="dc:source" content="LibraryMols.xml" timestamp="20080705_104810" />

@@ -330,7 +330,7 @@ namespace mesmer
   }
 
   /// Writes a value to the element
-  void XMLPersist::XmlWrite(const::std::string value)
+  void XMLPersist::XmlWrite(const std::string& value)
   {
     TiXmlNode* val = pnNode->FirstChild();
     if(val)
@@ -355,11 +355,12 @@ namespace mesmer
   }
 
   /// Inserts into XML document a new element  containing a string
-  PersistPtr XMLPersist::XmlWriteValueElement(const std::string& name, const std::string& value)
+  PersistPtr XMLPersist::XmlWriteValueElement(const std::string& name, const std::string& value, bool cdatamode)
   {
     TiXmlElement* item = new TiXmlElement( name );
     pnNode->LinkEndChild(item);
-    item->LinkEndChild(new TiXmlText(value));
+    TiXmlNode* pn = item->LinkEndChild(new TiXmlText(value));
+    pn->ToText()->SetCDATA(cdatamode);
     return PersistPtr(new XMLPersist(item));
   }
 

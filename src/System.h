@@ -65,6 +65,7 @@ namespace mesmer
     void WriteMetadata(const std::string& infilename);
 
     PersistPtr getPersistPtr() { return m_ppIOPtr; }
+    PersistPtr getAnalysisPtr() { return m_ppAnalysis; }
 
     MoleculeManager* getMoleculeManager() { return m_pMoleculeManager; } ;
 
@@ -103,6 +104,9 @@ namespace mesmer
 
     // level in XML file under <mesemer>
     PersistPtr m_ppIOPtr;
+
+    // current <analysis> element
+    PersistPtr m_ppAnalysis;
 
     // The method used for the main calculation
     CalcMethod* m_CalcMethod;

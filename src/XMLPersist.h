@@ -89,7 +89,7 @@ public:
 
 
   /// Writes a value to the element
-  virtual void XmlWrite(const std::string value);
+  virtual void XmlWrite(const std::string& value);
 
   /// Inserts into XML document a new element
   virtual PersistPtr XmlWriteElement(const std::string& name);
@@ -106,7 +106,8 @@ public:
                        const double datum, const int precision=-1, const bool fixedOnly=false);
 
   /// Inserts into XML document a new element  containing a string
-  virtual PersistPtr XmlWriteValueElement(const std::string& name, const std::string& value);
+  virtual PersistPtr XmlWriteValueElement(const std::string& name, const std::string& value,
+                                          bool cdatamode=false);
 
   ///Insert into XML document a new element, name, and gives it a timestamp attribute and comment
   virtual PersistPtr XmlWriteMainElement( const std::string& name,

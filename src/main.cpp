@@ -261,6 +261,7 @@ int main(int argc,char *argv[])
     cerr << e.what() << endl;
     exit(-1);
   }
+  catch(std::logic_error&){} // Outputs XML before terminating (for debugging)
 
   //--------------------------------
   // Save XML document

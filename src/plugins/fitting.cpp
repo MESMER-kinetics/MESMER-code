@@ -16,6 +16,7 @@
 #include "../calcmethod.h"
 #include "../dMatrix.h"
 #include "FittingUtils.h"
+#include "RWMatrix.h"
 
 namespace mesmer
 {
@@ -238,7 +239,8 @@ namespace mesmer
     NumericalDerivatives(pSys, residuals, delta, gradient, hessian) ;
 
     ResultsAndStatistics(pSys, hessian) ;
-
+    PersistPtr ppHessian = pSys->getAnalysisPtr()->XmlWriteMainElement("me:hessian","");
+    RWMatrix::WriteHessianToXML(hessian, ppHessian);
     return true;
   }
 

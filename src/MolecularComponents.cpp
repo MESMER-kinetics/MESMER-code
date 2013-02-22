@@ -8,6 +8,7 @@
 #include <cmath>
 #include "Molecule.h"
 #include "System.h"
+#include "RWMatrix.h"
 
 using namespace std;
 using namespace Constants;
@@ -213,6 +214,13 @@ namespace mesmer
     if(m_SpinMultiplicity==0)
       m_SpinMultiplicity = pp->XmlReadInteger("spinMultiplicity");
     m_SpinMultiplicity_chk = 0;
+
+    /***TEMPORARY to test reading and writing a matrix
+    dMatrix hessian = RWMatrix::ReadPropertyMatrix("me:Hessian", ppPropList);
+    PersistPtr ppnew = ppPropList->XmlWriteElement("new");
+    RWMatrix::WriteHessianToXML(hessian, ppnew);
+    throw (std::logic_error("Terminating from std::logic_error"));
+    ***/
 
     ReadDOSMethods();
 

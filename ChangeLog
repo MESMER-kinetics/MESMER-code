@@ -1,3 +1,23 @@
+2013-February-22 Chris Morley
+
+	* src/RWmatrix.cpp,	src/RWMatrix.h: functions to read and write Hessian
+	matrices to CML. These files and the RWMatrix class are temporary until
+	a suitable home is found for the functions.
+
+	* examples/Butyl_H_to_Butane/Butyl_H_to_Butane.xml: make experimental
+	  matrix entry more CML compliant.
+	* src/MolecularComponents.cpp: commented out code at line 218 to test
+	  RWMatrix functions.
+
+	* src/plugins/fitting.cpp: output hessian to XML (not fully tested)
+	* src/System.cpp, src/System.h: make PersistPtr to current analysis element
+	  available.
+
+	* src/main.cpp: use throwing std::logic_error to terminate after writing
+	  XML output (for debugging).
+
+	* src/Persistence.h, src/XMLPersist.cpp, src/XMLPersist.h: correct
+	  parameters of XmlWrite().
 
 2013-February-18 Struan Robertson
 

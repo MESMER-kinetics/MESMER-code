@@ -518,6 +518,7 @@ namespace mesmer
     string comment = m_Flags.overwriteXmlAnalysis ?
       "Only selected calculations shown here" : "All calculations shown";
     PersistPtr ppAnalysis = m_ppIOPtr->XmlWriteMainElement("me:analysis", comment, m_Flags.overwriteXmlAnalysis);
+    m_ppAnalysis = ppAnalysis;
     if(Rdouble::withRange().size()!=0)
     {
       PersistPtr ppParams = ppAnalysis->XmlWriteElement("me:parameters");
