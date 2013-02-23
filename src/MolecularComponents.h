@@ -112,7 +112,6 @@ namespace mesmer
     int m_ZPE_chk;
     int m_scaleFactor_chk;
     int m_SpinMultiplicity_chk;
-    int m_VibFreq_chk;
     std::string m_EnergyConvention;
     //================================================
 

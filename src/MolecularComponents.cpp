@@ -110,7 +110,6 @@ namespace mesmer
     m_ZPE_chk(-1),
     m_scaleFactor_chk(-1),
     m_SpinMultiplicity_chk(-1),
-    m_VibFreq_chk(-1),
     m_EnergyConvention("arbitary"),
     m_eleExc(),
     m_VibFreq(),
@@ -118,6 +117,8 @@ namespace mesmer
     m_grainDOS() { m_host = pMol; }
 
   bool gDensityOfStates::initialization() {
+
+    // Define basic molecular parameters. 
 
     Molecule* pMol = m_host ;
 
@@ -127,26 +128,31 @@ namespace mesmer
 
     PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
     if(!ppPropList)
-      ppPropList=pp; //a propertyList element is not essential
+      ppPropList=pp; // A propertyList element is not essential.
 
-    const char* txt;
+    // Vibrational frequencies.
 
-    bool hasVibFreq(true), hasRotConst(true) ;
-    txt= ppPropList->XmlReadProperty("me:vibFreqs", optional);
-    if (!txt) {
-      hasVibFreq = false;
-      if(!pMol->getStruc().IsAtom())
-        cinfo << "Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion." << endl;
-      m_VibFreq_chk = -1;
-    } else { 
+    bool hasVibFreq(true) ;
+    const char* txt = ppPropList->XmlReadProperty("me:Hessian", optional);
+    txt = ppPropList->XmlReadProperty("me:vibFreqs", optional);
+    if (txt) { 
       istringstream idata(txt);
       double x; 
       while (idata >> x)
-        m_VibFreq.push_back(x); m_VibFreq_chk = 0;
-    }
+        m_VibFreq.push_back(x);
+    } else {
+      hasVibFreq = false;
+      if(!pMol->getStruc().IsAtom())
+        cinfo << "Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion." << endl;
+    } 
+	
+    m_scaleFactor = ppPropList->XmlReadPropertyDouble("me:frequenciesScaleFactor");
+    m_scaleFactor_chk = 0;
+
+    // Rotational constants.
 
     std::vector<double> rCnst(3, 0.0);
-    hasRotConst = false;
+    bool hasRotConst(false) ;
     txt = ppPropList->XmlReadProperty("me:rotConsts", optional);
     if (txt) {
       //data from <me:rotConsts>
@@ -191,9 +197,14 @@ namespace mesmer
     else
       m_RC_chk = 0;
 
+    m_Sym = ppPropList->XmlReadPropertyDouble("me:symmetryNumber");
+    m_Sym_chk = 0;
+
     if (hasVibFreq != hasRotConst){
       cerr << "Improper setting on vibrational frequencies or rotational constants." << endl;
     }
+
+    // Electronic excitations.
 
     txt = ppPropList->XmlReadProperty("me:electronicExcitation", optional);
     if (txt) {
@@ -203,14 +214,9 @@ namespace mesmer
       while (idata >> _iele) m_eleExc.push_back(_iele);
     }
 
-    m_Sym = ppPropList->XmlReadPropertyDouble("me:symmetryNumber");
-    m_Sym_chk = 0;
+    // Spin multiplicity.
 
-    m_scaleFactor = ppPropList->XmlReadPropertyDouble("me:frequenciesScaleFactor");
-    m_scaleFactor_chk = 0;
-
-    // Read attribute on the property and then, if not present, on the attribute (with a a default).
-    m_SpinMultiplicity = ppPropList->XmlReadPropertyInteger("me:spinMultiplicity", optional);
+	m_SpinMultiplicity = ppPropList->XmlReadPropertyInteger("me:spinMultiplicity", optional);
     if(m_SpinMultiplicity==0)
       m_SpinMultiplicity = pp->XmlReadInteger("spinMultiplicity");
     m_SpinMultiplicity_chk = 0;
@@ -677,12 +683,9 @@ namespace mesmer
   }
 
   void gDensityOfStates::get_VibFreq(std::vector<double>& vibFreq){
-    if (m_VibFreq_chk >=0){
       const double scalefactor = get_scaleFactor();
       for (unsigned int i = 0; i < m_VibFreq.size(); ++i)
         vibFreq.push_back(m_VibFreq[i] * scalefactor);
-      ++m_VibFreq_chk;
-    }
   }
 
   bool gDensityOfStates::removeVibFreq(double freq) {
