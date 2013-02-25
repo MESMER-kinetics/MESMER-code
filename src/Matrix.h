@@ -14,7 +14,6 @@
 //
 //-------------------------------------------------------------------------------------------
 
-//#include <stdexcept>
 #include <sstream>
 #include "error.h"
 #include "formatfloat.h"
@@ -58,7 +57,6 @@ namespace mesmer
 
     // Modifiers
     void resize(const size_t n) ;
-    void showFinalBits(const size_t n, bool isTabbed = false);
     void reset(const size_t n);
 
   protected:
@@ -209,37 +207,6 @@ namespace mesmer
 
   }
 
-  template<class T>
-  void Matrix<T>::showFinalBits(const size_t n, bool isTabbed){
-
-    // if n == 0, print the whole matrix
-    size_t fb(n);
-    if (n == 0) fb = m_msize;
-
-    //
-    // Show the final n x n square of the current matrix
-    //
-    ctest << "{\n";
-    if (!isTabbed){
-      for (size_t i = m_msize - fb ; i < m_msize ; ++i ) {
-        for (size_t j = m_msize - fb ; j < m_msize ; ++j ) {
-          formatFloat(ctest, m_matrix[i][j], 5,  13) ;
-        }
-        ctest << endl;
-      }
-    }
-    else{
-      for (size_t i = m_msize - fb ; i < m_msize ; ++i ) {
-        for (size_t j = m_msize - fb ; j < m_msize ; ++j ) {
-          ctest << m_matrix[i][j] << "\t";
-        }
-        ctest << endl;
-      }
-    }
-    ctest << "}\n";
-
-
-  }
 }//namespacer mesmer
 
 #endif // GUARD_Matrix_h

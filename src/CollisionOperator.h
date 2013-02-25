@@ -72,7 +72,7 @@ namespace mesmer
 
     bool printGrainProfileAtTime(PersistPtr ppGrainList);
 
-    bool CollisionOperator::printAverageEnergies(PersistPtr ppAvList);
+    bool printAverageEnergies(PersistPtr ppAvList);
 
     bool hasGrainProfileData() { return !m_GrainProfileAtTimeData.empty(); }
 

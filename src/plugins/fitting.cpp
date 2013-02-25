@@ -16,7 +16,6 @@
 #include "../calcmethod.h"
 #include "../dMatrix.h"
 #include "FittingUtils.h"
-#include "RWMatrix.h"
 
 namespace mesmer
 {
@@ -240,7 +239,8 @@ namespace mesmer
 
     ResultsAndStatistics(pSys, hessian) ;
     PersistPtr ppHessian = pSys->getAnalysisPtr()->XmlWriteMainElement("me:hessian","");
-    RWMatrix::WriteHessianToXML(hessian, ppHessian);
+	hessian.WriteToXML(ppHessian) ;
+
     return true;
   }
 

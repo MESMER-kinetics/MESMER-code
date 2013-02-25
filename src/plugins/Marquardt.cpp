@@ -176,6 +176,8 @@ namespace mesmer
 
     // Write out the results and the statisitics of the fit.
     ResultsAndStatistics(pSys, hessian) ;
+    PersistPtr ppHessian = pSys->getAnalysisPtr()->XmlWriteMainElement("me:hessian","");
+	hessian.WriteToXML(ppHessian) ;
 
     return true;
   }

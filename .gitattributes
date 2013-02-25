@@ -529,8 +529,6 @@ src/MoleculeManager.h -text
 src/Persistence.h -text
 src/PseudoIsomerizationReaction.cpp -text
 src/PseudoIsomerizationReaction.h -text
-src/RWMatrix.h -text
-src/RWmatrix.cpp -text
 src/Reaction.cpp -text
 src/Reaction.h -text
 src/ReactionManager.cpp -text

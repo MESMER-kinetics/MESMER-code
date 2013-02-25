@@ -21,6 +21,7 @@
 #include <complex>
 #include <stdexcept>
 #include <stdlib.h>
+#include "Persistence.h"
 #include "qd/dd_real.h"
 #include "qd/qd_real.h"
 
@@ -107,6 +108,11 @@ namespace mesmer
 
     // Transpose matrix.
     void Transpose() ;
+
+    // Write matrix to an XML stream.
+    void WriteToXML(PersistPtr pp) ;
+
+    void showFinalBits(const size_t n, bool isTabbed = false);
 
     //
     // EISPACK methods for diagonalizing matrix.
@@ -1091,7 +1097,92 @@ label_1: return(p);
 
   }
 
-}//namespacer mesmer
+  template<class T>
+  void TMatrix<T>::WriteToXML(PersistPtr pp)
+  {
+    //Write a CML element <matrix> as child of pp
+    stringstream ss;
+    for(size_t i(0) ; i < m_msize ; i++) {
+      for(size_t j(0) ; j <= i ; j++)
+        ss << double(m_matrix[i][j]) << ' ';
+      ss << '\n'; 
+    }
+    PersistPtr ppmatrix = pp->XmlWriteValueElement("matrix", ss.str(),true);
+    // The "true" parameter puts the matrix values in a CDATA wrapper so that
+    // the new lines are preserved. If the parameter is omitted the data
+    // is all space separated. Both form are read identically.
+    ppmatrix->XmlWriteAttribute("matrixType", "squareSymmetricLT");
+    ppmatrix->XmlWriteAttribute("rows", toString(m_msize));
+  }
+
+  template<class T>
+  void TMatrix<T>::showFinalBits(const size_t n, bool isTabbed){
+
+    // if n == 0, print the whole matrix
+    size_t fb(n);
+    if (n == 0) fb = m_msize;
+
+    //
+    // Show the final n x n square of the current matrix
+    //
+    ctest << "{\n";
+    if (!isTabbed){
+      for (size_t i = m_msize - fb ; i < m_msize ; ++i ) {
+        for (size_t j = m_msize - fb ; j < m_msize ; ++j ) {
+          formatFloat(ctest, m_matrix[i][j], 5,  13) ;
+        }
+        ctest << endl;
+      }
+    } else {
+      for (size_t i = m_msize - fb ; i < m_msize ; ++i ) {
+        for (size_t j = m_msize - fb ; j < m_msize ; ++j ) {
+          ctest << m_matrix[i][j] << "\t";
+        }
+        ctest << endl;
+      }
+    }
+    ctest << "}\n";
+  }
+
+  // Read a symmetrical square matrix from a CML <property> element, given
+  // a pointer to the molecule or propertyList. See ReadMatrix() for details.
+  template<class T>
+  TMatrix<T>* ReadPropertyMatrix(const string& name, PersistPtr ppparent) {
+    PersistPtr ppmatrix = ppparent->XmlMoveToProperty(name); //to <matrix>
+    return ReadMatrix<T>(name, ppmatrix);
+  }
+
+  // Read a symmetrical square matrix from a CML <matrix> element:
+  // With ppmatrix at the <matrix> element, reads a square, symmetric matrix
+  // with double values from a list of its whitespace separated lower triangle
+  // values. The <matrix> element must have attributes
+  // matrixType="squareSymmetricLT" rows="n" where n is a non-zero integer.
+  template<class T>
+  TMatrix<T>* ReadMatrix(const string& name, PersistPtr ppmatrix)  {
+    size_t nrows(0);
+    if(ppmatrix
+      && strcmp(ppmatrix->XmlReadValue("matrixType",false),"squareSymmetricLT")==0
+      && (nrows = ppmatrix->XmlReadInteger("rows",false))!=0)
+    {
+      TMatrix<T>* m = new TMatrix<T>(nrows);
+      std::stringstream ss;
+      ss.str(ppmatrix->XmlRead());
+      for(size_t nr=0; nr<nrows; ++nr)
+      {
+        for(size_t nc=0; nc<=nr; ++nc)
+        {
+          double val;
+          ss >> val;
+          (*m)[nr][nc] = (*m)[nc][nr] = val;
+        }
+      }
+      return m;
+    }
+    return NULL; //empty
+  }
+
+
+}//namespace mesmer
 
 
 #endif // GUARD_TMatrix_h

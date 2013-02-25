@@ -1,3 +1,7 @@
+2013-February-25 Struan Robertson
+
+	* TMatrix.h: Moved Matrix CML I/O methods from temporary class onto TMatrix.
+	
 2013-February-22 Chris Morley
 
 	* src/RWmatrix.cpp,	src/RWMatrix.h: functions to read and write Hessian

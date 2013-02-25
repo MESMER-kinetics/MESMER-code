@@ -8,7 +8,6 @@
 #include <cmath>
 #include "Molecule.h"
 #include "System.h"
-#include "RWMatrix.h"
 
 using namespace std;
 using namespace Constants;
@@ -95,6 +94,9 @@ namespace mesmer
     //Delete the density of state calculators because they are cloned instances
     for(unsigned i=0; i<m_DOSCalculators.size(); ++i)
       delete m_DOSCalculators[i];
+
+	if (m_Hessian)
+	  delete m_Hessian;
   }
 
   gDensityOfStates::gDensityOfStates(Molecule* pMol)
@@ -113,6 +115,7 @@ namespace mesmer
     m_EnergyConvention("arbitary"),
     m_eleExc(),
     m_VibFreq(),
+	m_Hessian(NULL),
     m_grainEne(),
     m_grainDOS() { m_host = pMol; }
 
@@ -130,12 +133,14 @@ namespace mesmer
     if(!ppPropList)
       ppPropList=pp; // A propertyList element is not essential.
 
-    // Vibrational frequencies.
+    // Vibrational frequencies. Test for Hessain first and, if absent,
+	// try to read freqeuncies.
 
     bool hasVibFreq(true) ;
-    const char* txt = ppPropList->XmlReadProperty("me:Hessian", optional);
-    txt = ppPropList->XmlReadProperty("me:vibFreqs", optional);
-    if (txt) { 
+	const char *txt ;
+	if (m_Hessian = ReadPropertyMatrix<double>("me:Hessian", ppPropList)) {
+	  // Calculate frequencies from Hessian.
+	} else if (txt = ppPropList->XmlReadProperty("me:vibFreqs", optional)) { 
       istringstream idata(txt);
       double x; 
       while (idata >> x)
@@ -220,13 +225,6 @@ namespace mesmer
     if(m_SpinMultiplicity==0)
       m_SpinMultiplicity = pp->XmlReadInteger("spinMultiplicity");
     m_SpinMultiplicity_chk = 0;
-
-    /***TEMPORARY to test reading and writing a matrix
-    dMatrix hessian = RWMatrix::ReadPropertyMatrix("me:Hessian", ppPropList);
-    PersistPtr ppnew = ppPropList->XmlWriteElement("new");
-    RWMatrix::WriteHessianToXML(hessian, ppnew);
-    throw (std::logic_error("Terminating from std::logic_error"));
-    ***/
 
     ReadDOSMethods();
 
