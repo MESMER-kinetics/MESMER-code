@@ -1082,8 +1082,8 @@ namespace mesmer
       Molecule* isomer = ipos->first;
       isomer->getPop().setInitPopulation(1.0); // set initial population for the first isomer
       double initFrac = isomer->getPop().getInitPopulation();
-      cinfo << "No population was assigned, and there is no source term."  << endl
-        << "Initialize a Boltzmann distribution in the first isomer." << endl;
+     cinfo << "No population was assigned, and there is no source term."  << endl
+        << "Initial poupulation set to 1.0  in the first isomer." << endl;
       int rxnMatrixLoc = ipos->second;
       const int colloptrsize = isomer->getColl().get_colloptrsize();
       const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();

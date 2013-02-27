@@ -123,9 +123,9 @@ namespace mesmer
       ctest << "\nInitial distribution vector" << endl ;
       ctest << "\nReactant\tCoProduct\tTranslational" << endl ;
       for (int i=0; i < XsEne; i++){
-        formatFloat(ctest, ReactCellDist[i],   6, 15) ;
-        formatFloat(ctest, TransCellDist[i],   6, 15) ;
-        formatFloat(ctest, CoReactCellDist[i], 6, 15) ;
+        formatFloat(ctest, ReactCellDist[i],    6, 15) ;
+        formatFloat(ctest,  CoReactCellDist[i], 6, 15) ;
+        formatFloat(ctest, TransCellDist[i],    6, 15) ;
         ctest << endl ;
       }
     }
