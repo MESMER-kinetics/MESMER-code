@@ -1102,9 +1102,9 @@ label_1: return(p);
   {
     //Write a CML element <matrix> as child of pp
     stringstream ss;
-    for(size_t i(0) ; i < m_msize ; i++) {
+    for(size_t i(0) ; i < this->size() ; i++) {
       for(size_t j(0) ; j <= i ; j++)
-        ss << double(m_matrix[i][j]) << ' ';
+        ss << double((*this)[i][j]) << ' ';
       ss << '\n'; 
     }
     PersistPtr ppmatrix = pp->XmlWriteValueElement("matrix", ss.str(),true);
@@ -1112,44 +1112,38 @@ label_1: return(p);
     // the new lines are preserved. If the parameter is omitted the data
     // is all space separated. Both form are read identically.
     ppmatrix->XmlWriteAttribute("matrixType", "squareSymmetricLT");
-    ppmatrix->XmlWriteAttribute("rows", toString(m_msize));
+    ppmatrix->XmlWriteAttribute("rows", toString(this->size()));
   }
 
   template<class T>
   void TMatrix<T>::showFinalBits(const size_t n, bool isTabbed){
 
+    size_t size = this->size() ;
+
     // if n == 0, print the whole matrix
     size_t fb(n);
-    if (n == 0) fb = m_msize;
+    if (n == 0) fb = size;
 
     //
     // Show the final n x n square of the current matrix
     //
     ctest << "{\n";
     if (!isTabbed){
-      for (size_t i = m_msize - fb ; i < m_msize ; ++i ) {
-        for (size_t j = m_msize - fb ; j < m_msize ; ++j ) {
-          formatFloat(ctest, m_matrix[i][j], 5,  13) ;
+      for (size_t i = size - fb ; i < size ; ++i ) {
+        for (size_t j = size - fb ; j < size ; ++j ) {
+          formatFloat(ctest, (*this)[i][j], 5,  13) ;
         }
         ctest << endl;
       }
     } else {
-      for (size_t i = m_msize - fb ; i < m_msize ; ++i ) {
-        for (size_t j = m_msize - fb ; j < m_msize ; ++j ) {
-          ctest << m_matrix[i][j] << "\t";
+      for (size_t i = size - fb ; i < size ; ++i ) {
+        for (size_t j = size - fb ; j < size ; ++j ) {
+          ctest << (*this)[i][j] << "\t";
         }
         ctest << endl;
       }
     }
     ctest << "}\n";
-  }
-
-  // Read a symmetrical square matrix from a CML <property> element, given
-  // a pointer to the molecule or propertyList. See ReadMatrix() for details.
-  template<class T>
-  TMatrix<T>* ReadPropertyMatrix(const string& name, PersistPtr ppparent) {
-    PersistPtr ppmatrix = ppparent->XmlMoveToProperty(name); //to <matrix>
-    return ReadMatrix<T>(name, ppmatrix);
   }
 
   // Read a symmetrical square matrix from a CML <matrix> element:
@@ -1179,6 +1173,14 @@ label_1: return(p);
       return m;
     }
     return NULL; //empty
+  }
+
+  // Read a symmetrical square matrix from a CML <property> element, given
+  // a pointer to the molecule or propertyList. See ReadMatrix() for details.
+  template<class T>
+  TMatrix<T>* ReadPropertyMatrix(const string& name, PersistPtr ppparent) {
+    PersistPtr ppmatrix = ppparent->XmlMoveToProperty(name); //to <matrix>
+    return ReadMatrix<T>(name, ppmatrix);
   }
 
 
