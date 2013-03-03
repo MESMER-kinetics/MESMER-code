@@ -119,7 +119,7 @@ namespace mesmer
     std::vector<double> m_VibFreq ; // Values of vibrational frequencies.
 	dMatrix            *m_Hessian ; // Hessian matrix (If supplied, used to calculate vibrational frequncies).
 
-  protected:
+  // protected:
 
     //------------------------
     // Cell density of states
@@ -219,6 +219,15 @@ namespace mesmer
 
     // Test the rovibrational density of states.
     void testDensityOfStates() ;
+
+	// Calculate vibrational frequencies from molecular Hessian.
+	bool FrqsFromHessian() ;
+
+	// Helper function to create projector.
+	void UpdateProjector(vector<double> &eigenvector, dMatrix  &Projector) ;
+
+    // Helper function to shift translation projection vector.
+    void ShiftTransVector(vector<double> &eigenvector) ;
 
   };
 
@@ -406,6 +415,7 @@ namespace mesmer
     };
     std::map<std::string, atom> Atoms;
     std::map<std::string, std::pair<std::string, std::string> > Bonds;
+	std::vector<double> m_atomicMasses ;
     bool m_HasCoords;
 
   private:
@@ -416,10 +426,7 @@ namespace mesmer
     //Returns true if atoms have coordinates
     bool ReadStructure();
 
-    int NumAtoms() 
-    { 
-      return Atoms.size();
-    }
+    int NumAtoms() { return Atoms.size(); }
 
     bool IsAtom()
     {
@@ -430,8 +437,7 @@ namespace mesmer
 
     double CalcMW();
 
-    std::pair<std::string,std::string> GetAtomsOfBond(const std::string& bondID)
-    {
+    std::pair<std::string,std::string> GetAtomsOfBond(const std::string& bondID) {
       return Bonds[bondID];
     }
 
@@ -459,7 +465,11 @@ namespace mesmer
     vector<double> CalcRotConsts(); 
 
     double getMass() const { return m_MolecularWeight;};
-    void setMass(double value) { m_MolecularWeight = value;};
+    
+	void setMass(double value) { m_MolecularWeight = value;};
+
+	void getAtomicMasses(vector<double> &AtomicMasses) const { AtomicMasses = m_atomicMasses ; } ;
+
   };
 
 

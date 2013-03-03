@@ -64,5 +64,8 @@ namespace Constants {
 
   static const double conMntInt2RotCnt = 16.85917 ;
 
+  // Convertion factor needed to obtain frequencies (cm-1) from mass weighted Hessain (kJ/mol/amu/Ang^2).
+
+  static const double conHess2Freq = 1.e13/SpeedOfLight_in_cm ;
 }
 #endif // GUARD_Constants_h

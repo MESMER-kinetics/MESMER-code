@@ -1,5 +1,10 @@
 2013-March-03 Struan Robertson
 
+	* MolecularComponents.cpp/.h : Initial revision of method to analyse 
+	a Hessain to obtain vibration frequencies.
+	
+2013-March-03 Struan Robertson
+
 	* Rdouble.h/.cpp, fitting.cpp, gridsearch.cpp, Marquardt.cpp : Added methods 
 	to convert fitted parameters back to original units (based on code changes 
 	suggested by Robin).

@@ -95,8 +95,8 @@ namespace mesmer
     for(unsigned i=0; i<m_DOSCalculators.size(); ++i)
       delete m_DOSCalculators[i];
 
-	if (m_Hessian)
-	  delete m_Hessian;
+    if (m_Hessian)
+      delete m_Hessian;
   }
 
   gDensityOfStates::gDensityOfStates(Molecule* pMol)
@@ -115,7 +115,7 @@ namespace mesmer
     m_EnergyConvention("arbitary"),
     m_eleExc(),
     m_VibFreq(),
-	m_Hessian(NULL),
+    m_Hessian(NULL),
     m_grainEne(),
     m_grainDOS() { m_host = pMol; }
 
@@ -134,13 +134,13 @@ namespace mesmer
       ppPropList=pp; // A propertyList element is not essential.
 
     // Vibrational frequencies. Test for Hessain first and, if absent,
-	// try to read freqeuncies.
+    // try to read freqeuncies.
 
     bool hasVibFreq(true) ;
-	const char *txt ;
-	if (m_Hessian = ReadPropertyMatrix<double>("me:Hessian", ppPropList)) {
-	  // Calculate frequencies from Hessian.
-	} else if (txt = ppPropList->XmlReadProperty("me:vibFreqs", optional)) { 
+    const char *txt ;
+    if (m_Hessian = ReadPropertyMatrix<double>("me:Hessian", ppPropList)) {
+      FrqsFromHessian() ;
+    } else if (txt = ppPropList->XmlReadProperty("me:vibFreqs", optional)) { 
       istringstream idata(txt);
       double x; 
       while (idata >> x)
@@ -150,7 +150,7 @@ namespace mesmer
       if(!pMol->getStruc().IsAtom())
         cinfo << "Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion." << endl;
     } 
-	
+
     m_scaleFactor = ppPropList->XmlReadPropertyDouble("me:frequenciesScaleFactor");
     m_scaleFactor_chk = 0;
 
@@ -221,7 +221,7 @@ namespace mesmer
 
     // Spin multiplicity.
 
-	m_SpinMultiplicity = ppPropList->XmlReadPropertyInteger("me:spinMultiplicity", optional);
+    m_SpinMultiplicity = ppPropList->XmlReadPropertyInteger("me:spinMultiplicity", optional);
     if(m_SpinMultiplicity==0)
       m_SpinMultiplicity = pp->XmlReadInteger("spinMultiplicity");
     m_SpinMultiplicity_chk = 0;
@@ -681,9 +681,9 @@ namespace mesmer
   }
 
   void gDensityOfStates::get_VibFreq(std::vector<double>& vibFreq){
-      const double scalefactor = get_scaleFactor();
-      for (unsigned int i = 0; i < m_VibFreq.size(); ++i)
-        vibFreq.push_back(m_VibFreq[i] * scalefactor);
+    const double scalefactor = get_scaleFactor();
+    for (unsigned int i = 0; i < m_VibFreq.size(); ++i)
+      vibFreq.push_back(m_VibFreq[i] * scalefactor);
   }
 
   bool gDensityOfStates::removeVibFreq(double freq) {
@@ -796,6 +796,101 @@ namespace mesmer
     entropy         = (enthalpy - gibbsFreeEnergy)/temp  ;
 
     return true ;
+  }
+
+  // Calculate vibrational frequencies from molecular Hessian.
+  bool gDensityOfStates::FrqsFromHessian() {
+
+    const size_t msize = m_Hessian->size() ;
+
+    gStructure& gs = m_host->getStruc() ;
+    bool HasCoords = gs.ReadStructure() ;
+    if (!HasCoords || 3 * gs.NumAtoms() != msize) {
+      cerr << "The dimension of the defined Hessian for " << getHost()->getName() << " does not match the specified number of atoms." ;
+      return false ; 
+    }
+
+	vector<double> atomicMasses ;
+	gs.getAtomicMasses(atomicMasses) ;
+
+	// Mass weight Hessian.
+
+    size_t i, j, k ;
+	vector<double> massWeights(msize, 0.0) ;
+	double totalMass(0.0) ;
+    for (j = 0, i = 0 ; j < atomicMasses.size() ; j++) {
+	  double weight = sqrt(atomicMasses[j]) ;
+	  totalMass += atomicMasses[j] ;
+	  for (k = 0 ; k < 3 ; k++, i++) {
+        massWeights[i] = weight ;
+	  }
+	}
+	totalMass = sqrt(totalMass) ;
+
+    for (i = 0 ; i < msize ; i++) {
+	  for (j = 0 ; j < msize ; j++) {
+		(*m_Hessian)[i][j] /= (massWeights[i]*massWeights[j]) ;
+	  }
+	}
+
+    // X Translation projector.
+
+    vector<double> eigenvector(msize, 0.0) ;
+    for (i = 0 ; i < msize ; i += 3) 
+      eigenvector[i] = massWeights[i]/totalMass ;
+
+    dMatrix Projector(msize, 0.0) ;
+    UpdateProjector(eigenvector, Projector) ;
+
+    // Y Translation projector.
+
+    ShiftTransVector(eigenvector) ;
+    UpdateProjector(eigenvector, Projector) ;
+
+    // Z Translation projector.
+
+    ShiftTransVector(eigenvector) ;
+    UpdateProjector(eigenvector, Projector) ;	   
+
+    for (i = 0 ; i < msize ; i++) {
+      Projector[i][i] += 1.0 ;
+    }
+
+    dMatrix tmpHessian = Projector*(*m_Hessian)*Projector ;
+
+    vector<double> freqs(msize, 0.0) ;
+    tmpHessian.diagonalize(&freqs[0]) ;
+
+	double scaleFactor = conHess2Freq * sqrt(Calorie_in_Joule) ;
+    for (i = 0 ; i < freqs.size() ; i++) {
+      if (freqs[i] > 0.0) {
+		freqs[i] = scaleFactor*sqrt(freqs[i])/(2.0*M_PI) ;
+	  }
+    }
+
+    return true ;
+
+  }
+
+  // Helper function to shift translation projection vector.
+  void gDensityOfStates::ShiftTransVector(vector<double> &eigenvector) {
+	const size_t msize = eigenvector.size() ;
+    for (size_t i = msize-1 ; i > 0 ; i--) 
+      eigenvector[i] = eigenvector[i-1] ;
+    eigenvector[0] = 0.0 ;
+  }
+
+
+  // Helper function to create projector.
+  void gDensityOfStates::UpdateProjector(vector<double> &eigenvector, dMatrix  &Projector) {
+
+    const size_t msize = eigenvector.size() ;
+    for (size_t i(0) ; i < msize ; i++) {
+      for (size_t j(0)  ; j < msize ; j++) {
+        Projector[i][j] -= eigenvector[i]*eigenvector[j] ;
+      }
+    }
+
   }
 
   //-------------------------------------------------------------------------------------------------
@@ -1625,7 +1720,7 @@ namespace mesmer
   size_t gWellProperties::get_nbasis() const { return m_host->getEnv().nBasisSet ; }
 
 
-  gStructure::gStructure(mesmer::Molecule *pMol) : m_MolecularWeight(-1), m_HasCoords(false)
+  gStructure::gStructure(mesmer::Molecule *pMol) : m_MolecularWeight(-1), m_HasCoords(false), m_atomicMasses()
   {
     ErrorContext c(pMol->getName());
     m_host = pMol;
@@ -1698,6 +1793,7 @@ namespace mesmer
           m_HasCoords = true; //at least one atom with non-zero coordinates
       }
       Atoms[at.id] = at;
+	  m_atomicMasses.push_back(atomMass(el)) ;
     }
 
     //Read all the bonds. For each bond add a connect to each atom
