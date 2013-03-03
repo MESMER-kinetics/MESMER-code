@@ -132,7 +132,7 @@ namespace mesmer
 
       Rdouble var = *Rdouble::withRange()[iVar] ;
       double sigma = sqrt(hessian[iVar][iVar]) ;
-      cinfo << var.get_varname() << " = " << setprecision(6) << double(var) << " +/- " << sigma << endl; 
+      cinfo << var.get_varname() << " = " << setprecision(6) << var.originalUnits() << " +/- " << var.originalUnits(sigma) << endl; 
 
     }
 

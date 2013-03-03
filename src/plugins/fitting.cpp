@@ -435,7 +435,7 @@ namespace mesmer
     for(iVar = 0 ; iVar < m_nVar ; iVar++) {
 
       Rdouble var = *Rdouble::withRange()[iVar] ;
-      cerr << var.get_varname() << "=" << setprecision(6) << double(var) << "  "; 
+      cerr << var.get_varname() << "=" << setprecision(6) << var.originalUnits() << "  "; 
 
     }
     cerr << endl ;

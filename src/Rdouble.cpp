@@ -149,7 +149,10 @@ namespace mesmer
       valueL   = cnvrsnFctr*valueL   + shift; 
       valueU   = cnvrsnFctr*valueU   + shift; 
       stepsize = cnvrsnFctr*stepsize + shift; 
-      rdouble.set_range(valueL, valueU, stepsize, name.c_str());
+
+      rdouble.set_range(valueL, valueU, stepsize, name.c_str());	  
+      rdouble.store_conversion(cnvrsnFctr);
+	 
     } else {
       rangeSet = false ;
     }

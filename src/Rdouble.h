@@ -15,6 +15,7 @@ namespace mesmer
   {
   private:
     double value, lower, upper, stepsize, prev;
+	double m_unitConversion ;
     std::string varname ;
     PersistPtr m_XMLPtr ;
     //linked variable
@@ -25,7 +26,7 @@ namespace mesmer
     static Rdouble* pendingVar;
     static const double eps;
   public:
-    Rdouble(double val=0.0):value(val),lower(NaN),upper(NaN),stepsize(NaN), prev(NaN),
+    Rdouble(double val=0.0):value(val), lower(NaN), upper(NaN), stepsize(NaN), prev(NaN), m_unitConversion(1.0),
       varname(), m_XMLPtr(NULL), linkedname(NULL), link(NULL), factor(1.0), addand(0.0){}
 
     operator double() const;
@@ -82,7 +83,13 @@ namespace mesmer
       m_XMLPtr->XmlWrite(s.str());
     }
 
-    void XmlWriteAttribute(const std::string& name, const std::string& value) 
+	void store_conversion(double conversion_factor) { m_unitConversion = conversion_factor ; }
+
+	double originalUnits() const { return value/((m_unitConversion > 0.0) ? m_unitConversion : 1.0) ; } ;
+
+	double originalUnits(double quantity) const { return quantity/((m_unitConversion > 0.0) ? m_unitConversion : 1.0) ; } ;
+
+	void XmlWriteAttribute(const std::string& name, const std::string& value) 
     {
       m_XMLPtr->XmlWriteAttribute(name, value) ;
     }

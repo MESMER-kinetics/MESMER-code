@@ -57,8 +57,8 @@ bool GridSearch::CalcAndReport(System* pSys)
 
   for(size_t i=0;i!=Rdouble::withRange().size();++i)
   {
-    cerr  << ' ' << Rdouble::withRange()[i]->get_varname() << '=' << *Rdouble::withRange()[i];
-    ctest << ' ' << Rdouble::withRange()[i]->get_varname() << '=' << *Rdouble::withRange()[i];
+    cerr  << ' ' << Rdouble::withRange()[i]->get_varname() << '=' << Rdouble::withRange()[i]->originalUnits();
+    ctest << ' ' << Rdouble::withRange()[i]->get_varname() << '=' << Rdouble::withRange()[i]->originalUnits();
   }
   cerr << endl;
 
