@@ -810,28 +810,28 @@ namespace mesmer
       return false ; 
     }
 
-	vector<double> atomicMasses ;
-	gs.getAtomicMasses(atomicMasses) ;
+    vector<double> atomicMasses ;
+    gs.getAtomicMasses(atomicMasses) ;
 
-	// Mass weight Hessian.
+    // Mass weight Hessian.
 
     size_t i, j, k ;
-	vector<double> massWeights(msize, 0.0) ;
-	double totalMass(0.0) ;
+    vector<double> massWeights(msize, 0.0) ;
+    double totalMass(0.0) ;
     for (j = 0, i = 0 ; j < atomicMasses.size() ; j++) {
-	  double weight = sqrt(atomicMasses[j]) ;
-	  totalMass += atomicMasses[j] ;
-	  for (k = 0 ; k < 3 ; k++, i++) {
+      double weight = sqrt(atomicMasses[j]) ;
+      totalMass += atomicMasses[j] ;
+      for (k = 0 ; k < 3 ; k++, i++) {
         massWeights[i] = weight ;
-	  }
-	}
-	totalMass = sqrt(totalMass) ;
+      }
+    }
+    totalMass = sqrt(totalMass) ;
 
     for (i = 0 ; i < msize ; i++) {
-	  for (j = 0 ; j < msize ; j++) {
-		(*m_Hessian)[i][j] /= (massWeights[i]*massWeights[j]) ;
-	  }
-	}
+      for (j = 0 ; j < msize ; j++) {
+        (*m_Hessian)[i][j] /= (massWeights[i]*massWeights[j]) ;
+      }
+    }
 
     // X Translation projector.
 
@@ -850,7 +850,11 @@ namespace mesmer
     // Z Translation projector.
 
     ShiftTransVector(eigenvector) ;
-    UpdateProjector(eigenvector, Projector) ;	   
+    UpdateProjector(eigenvector, Projector) ;
+
+    // Project out rotational modes
+
+    // ...
 
     for (i = 0 ; i < msize ; i++) {
       Projector[i][i] += 1.0 ;
@@ -858,23 +862,37 @@ namespace mesmer
 
     dMatrix tmpHessian = Projector*(*m_Hessian)*Projector ;
 
+    // Save projected matrix in case other modes need to be projected from it.
+
+    *m_Hessian = tmpHessian ;
+
     vector<double> freqs(msize, 0.0) ;
     tmpHessian.diagonalize(&freqs[0]) ;
 
-	double scaleFactor = conHess2Freq * sqrt(Calorie_in_Joule) ;
+    double convFactor = conHess2Freq * sqrt(Calorie_in_Joule)/(2.0*M_PI) ;
     for (i = 0 ; i < freqs.size() ; i++) {
       if (freqs[i] > 0.0) {
-		freqs[i] = scaleFactor*sqrt(freqs[i])/(2.0*M_PI) ;
-	  }
+        freqs[i] = convFactor*sqrt(freqs[i]) ;
+      }
     }
 
     return true ;
 
   }
 
+  // This method is used to project a mode from the stored Hessian and
+  // re-calculate the remaining frequencies.
+  bool gDensityOfStates::projectMode(std::vector<double> &mode) {
+
+    bool status(true) ;
+
+    return status ;
+
+  }
+
   // Helper function to shift translation projection vector.
   void gDensityOfStates::ShiftTransVector(vector<double> &eigenvector) {
-	const size_t msize = eigenvector.size() ;
+    const size_t msize = eigenvector.size() ;
     for (size_t i = msize-1 ; i > 0 ; i--) 
       eigenvector[i] = eigenvector[i-1] ;
     eigenvector[0] = 0.0 ;
@@ -1793,7 +1811,7 @@ namespace mesmer
           m_HasCoords = true; //at least one atom with non-zero coordinates
       }
       Atoms[at.id] = at;
-	  m_atomicMasses.push_back(atomMass(el)) ;
+      m_atomicMasses.push_back(atomMass(el)) ;
     }
 
     //Read all the bonds. For each bond add a connect to each atom

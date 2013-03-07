@@ -112,7 +112,7 @@ namespace mesmer
 
       //Remove the vibrational frequency that this hindered rotation replaces
       const char* vibFreq = ppDOSC->XmlReadValue("me:replaceVibFreq",optional);
-      if(vibFreq)
+      if (vibFreq)
       {
         if(!gdos->removeVibFreq(atof(vibFreq)))
         {
@@ -202,12 +202,12 @@ namespace mesmer
         vector<double> angle ;
         m_expansion = pp->XmlReadInteger("expansionSize",optional);
 
-		// Check if sine terms are to be used.
+        // Check if sine terms are to be used.
 
-		const char *pUseSineTerms(pp->XmlReadValue("UseSineTerms",optional)) ;
-		if (pUseSineTerms && string(pUseSineTerms) == "yes") {
-		  m_useSinTerms = true ;
-		}
+        const char *pUseSineTerms(pp->XmlReadValue("UseSineTerms",optional)) ;
+        if (pUseSineTerms && string(pUseSineTerms) == "yes") {
+          m_useSinTerms = true ;
+        }
 
         while(pp = pp->XmlMoveTo("me:PotentialPoint"))
         {
@@ -243,6 +243,17 @@ namespace mesmer
 
       m_potentialCosCoeff.push_back(0.0) ;
 
+    }
+
+    // Check if there is a Hessian and knock out the frequency
+    // associated with this internal rotation.
+
+    if (gdos->hasHessian()) {
+      vector<double> mode(3*gs.NumAtoms(), 0.0);
+
+      // ... Bill's vector goes here.
+
+      bool status = gdos->projectMode(mode) ;
     }
 
     // Check if is data for plotting are required.
@@ -324,7 +335,7 @@ namespace mesmer
         for (size_t i(0) ; i < nstates; i++) {
           for (size_t j(0) ; j < nstates; j++) {
             hamiltonian[nstates + i][j] += matrixElement*( 
-                (((stateIndicies[j] - stateIndicies[i] - n) == 0) ? 1.0 : 0.0)
+              (((stateIndicies[j] - stateIndicies[i] - n) == 0) ? 1.0 : 0.0)
               -	(((stateIndicies[j] - stateIndicies[i] + n) == 0) ? 1.0 : 0.0) ) ;
           }
         }

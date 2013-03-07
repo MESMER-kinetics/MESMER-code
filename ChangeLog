@@ -1,3 +1,8 @@
+2013-March-07 Struan Robertson
+
+	* MolecularComponents.cpp/.h, HinderedRotorQM1D.cpp : Infrastructure to
+	project internal rotor modes from Hessian.
+	
 2013-March-03 Struan Robertson
 
 	* MolecularComponents.cpp/.h : Initial revision of method to analyse 

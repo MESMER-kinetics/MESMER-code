@@ -117,15 +117,12 @@ namespace mesmer
 
     std::vector<double> m_eleExc  ; // Electronic excitation (E.g. OH, NO, NS, otherwise no member).
     std::vector<double> m_VibFreq ; // Values of vibrational frequencies.
-	dMatrix            *m_Hessian ; // Hessian matrix (If supplied, used to calculate vibrational frequncies).
-
-  // protected:
+    dMatrix            *m_Hessian ; // Hessian matrix (If supplied, used to calculate vibrational frequncies).
 
     //------------------------
     // Cell density of states
     //------------------------
     std::vector<double> m_cellDOS ;   // Cell density of states array.
-
 
     //------------------------
     // Grain density of states
@@ -203,6 +200,15 @@ namespace mesmer
     // Get scale factor for vibrational frequencies
     double get_scaleFactor();
 
+    // Methods for projecting out modes from the Hessian
+
+    bool hasHessian() const { return m_Hessian ; } ;
+
+    // This method is used to project a mode from the stored Hessian and
+    // re-calculate the remaining frequencies.
+
+    bool projectMode(std::vector<double> &mode) ;
+
   private:
 
     bool initialization() ;
@@ -220,11 +226,11 @@ namespace mesmer
     // Test the rovibrational density of states.
     void testDensityOfStates() ;
 
-	// Calculate vibrational frequencies from molecular Hessian.
-	bool FrqsFromHessian() ;
+    // Calculate vibrational frequencies from molecular Hessian.
+    bool FrqsFromHessian() ;
 
-	// Helper function to create projector.
-	void UpdateProjector(vector<double> &eigenvector, dMatrix  &Projector) ;
+    // Helper function to create projector.
+    void UpdateProjector(vector<double> &eigenvector, dMatrix  &Projector) ;
 
     // Helper function to shift translation projection vector.
     void ShiftTransVector(vector<double> &eigenvector) ;
@@ -415,7 +421,7 @@ namespace mesmer
     };
     std::map<std::string, atom> Atoms;
     std::map<std::string, std::pair<std::string, std::string> > Bonds;
-	std::vector<double> m_atomicMasses ;
+    std::vector<double> m_atomicMasses ;
     bool m_HasCoords;
 
   private:
@@ -465,10 +471,10 @@ namespace mesmer
     vector<double> CalcRotConsts(); 
 
     double getMass() const { return m_MolecularWeight;};
-    
-	void setMass(double value) { m_MolecularWeight = value;};
 
-	void getAtomicMasses(vector<double> &AtomicMasses) const { AtomicMasses = m_atomicMasses ; } ;
+    void setMass(double value) { m_MolecularWeight = value;};
+
+    void getAtomicMasses(vector<double> &AtomicMasses) const { AtomicMasses = m_atomicMasses ; } ;
 
   };
 
