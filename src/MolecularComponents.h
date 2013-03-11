@@ -421,12 +421,19 @@ namespace mesmer
     };
     std::map<std::string, atom> Atoms;
     std::map<std::string, std::pair<std::string, std::string> > Bonds;
-    std::vector<double> m_atomicMasses ;
+    std::vector<std::string> m_atomicOrder ;
     bool m_HasCoords;
 
-  private:
+    enum AxisLabel {X = 0, Y = 1, Z = 2} ;
+
+    // Returns an ordered array of coordinates.
+    void getAtomicCoords(vector<double> &coords, AxisLabel cartLabel) const ;
+
+    // No default construction.
     gStructure();
+
   public:
+
     gStructure(Molecule* pMol);
 
     //Returns true if atoms have coordinates
@@ -474,8 +481,17 @@ namespace mesmer
 
     void setMass(double value) { m_MolecularWeight = value;};
 
-    void getAtomicMasses(vector<double> &AtomicMasses) const { AtomicMasses = m_atomicMasses ; } ;
+    // Returns an ordered array of masses.
+    void getAtomicMasses(vector<double> &AtomicMasses) const ;
 
+    // Returns an ordered array of X coordinates.
+    void getXCoords(vector<double> &coords) const ;
+
+    // Returns an ordered array of Y coordinates.
+    void getYCoords(vector<double> &coords) const ;
+
+    // Returns an ordered array of Z coordinates.
+    void getZCoords(vector<double> &coords) const ;
   };
 
 

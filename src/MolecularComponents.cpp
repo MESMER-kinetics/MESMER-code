@@ -852,7 +852,12 @@ namespace mesmer
     ShiftTransVector(eigenvector) ;
     UpdateProjector(eigenvector, Projector) ;
 
-    // Project out rotational modes
+    // Project out rotational modes.
+
+	vector<double> xx, yy, zz ;
+	gs.getXCoords(xx) ;
+	gs.getYCoords(yy) ;
+	gs.getZCoords(zz) ;
 
     // ...
 
@@ -1738,7 +1743,7 @@ namespace mesmer
   size_t gWellProperties::get_nbasis() const { return m_host->getEnv().nBasisSet ; }
 
 
-  gStructure::gStructure(mesmer::Molecule *pMol) : m_MolecularWeight(-1), m_HasCoords(false), m_atomicMasses()
+  gStructure::gStructure(mesmer::Molecule *pMol) : m_MolecularWeight(-1), m_HasCoords(false), m_atomicOrder()
   {
     ErrorContext c(pMol->getName());
     m_host = pMol;
@@ -1811,7 +1816,7 @@ namespace mesmer
           m_HasCoords = true; //at least one atom with non-zero coordinates
       }
       Atoms[at.id] = at;
-      m_atomicMasses.push_back(atomMass(el)) ;
+      m_atomicOrder.push_back(at.id) ;
     }
 
     //Read all the bonds. For each bond add a connect to each atom
@@ -1897,7 +1902,7 @@ namespace mesmer
   vector<double> gStructure::CalcRotConsts()
   {
     vector<double> RotConsts(3, 0.0); //cm-1
-    if(NumAtoms()<2)
+    if (NumAtoms()<2)
       return RotConsts; //empty
     //Determine centre of mass
     map<string, atom>::iterator iter;
@@ -1994,10 +1999,43 @@ namespace mesmer
         atomdiffs[el] = diff; //save diff for this el in atomdiffs
         sum += diff;
       }
-      else //diff for this el already known
+      else // diff for this el already known
         sum += atomdiffs[el];
     }
     return sum;
+  }
+
+  // Returns an ordered array of masses.
+  void gStructure::getAtomicMasses(vector<double> &AtomicMasses) const {
+    AtomicMasses.clear() ;
+    for (int i(0) ; i < m_atomicOrder.size() ; i++ ){
+      double mass = atomMass( (Atoms.find(m_atomicOrder[i]))->second.element ) ;
+      AtomicMasses.push_back(mass) ;
+    }
+  }
+
+  // Returns an ordered array of coordinates.
+  void gStructure::getAtomicCoords(vector<double> &coords, AxisLabel cartLabel) const {
+    coords.clear() ;
+    for (int i(0) ; i < m_atomicOrder.size() ; i++ ){
+      double coord = (Atoms.find(m_atomicOrder[i]))->second.coords[cartLabel] ;
+      coords.push_back(coord) ;
+    }
+  }
+
+  // Returns an ordered array of X coordinates.
+  void gStructure::getXCoords(vector<double> &coords) const { 
+    getAtomicCoords(coords, X) ;
+  }
+
+  // Returns an ordered array of Y coordinates.
+  void gStructure::getYCoords(vector<double> &coords) const { 
+    getAtomicCoords(coords, Y) ;
+  }
+
+  // Returns an ordered array of Z coordinates.
+  void gStructure::getZCoords(vector<double> &coords) const { 
+    getAtomicCoords(coords, Z) ;
   }
 
 }//namespace

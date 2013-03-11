@@ -1,3 +1,7 @@
+2013-March-11 Struan Robertson
+
+	* MolecularComponents.cpp/.h: Utility methods added to gStructure class.
+	
 2013-March-07 Struan Robertson
 
 	* MolecularComponents.cpp/.h, HinderedRotorQM1D.cpp : Infrastructure to
