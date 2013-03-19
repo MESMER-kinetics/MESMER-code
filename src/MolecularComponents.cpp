@@ -833,13 +833,17 @@ namespace mesmer
       }
     }
 
+    dMatrix Projector(msize, 0.0) ;
+    for (i = 0 ; i < msize ; i++) {
+      Projector[i][i] += 1.0 ;
+    }
+
     // X Translation projector.
 
     vector<double> eigenvector(msize, 0.0) ;
     for (i = 0 ; i < msize ; i += 3) 
       eigenvector[i] = massWeights[i]/totalMass ;
 
-    dMatrix Projector(msize, 0.0) ;
     UpdateProjector(eigenvector, Projector) ;
 
     // Y Translation projector.
@@ -859,11 +863,16 @@ namespace mesmer
 	gs.getYCoords(yy) ;
 	gs.getZCoords(zz) ;
 
-    // ...
+	RotationVector(yy, 2,  1.0, zz, 1, -1.0, massWeights, eigenvector) ;
+    UpdateProjector(eigenvector, Projector) ;
 
-    for (i = 0 ; i < msize ; i++) {
-      Projector[i][i] += 1.0 ;
-    }
+	RotationVector(xx, 2, -1.0, zz, 0,  1.0, massWeights, eigenvector) ;
+    UpdateProjector(eigenvector, Projector) ;
+
+	RotationVector(xx, 1,  1.0, yy, 0, -1.0, massWeights, eigenvector) ;
+    UpdateProjector(eigenvector, Projector) ;
+
+    // Project out translational and rotational modes.
 
     dMatrix tmpHessian = Projector*(*m_Hessian)*Projector ;
 
@@ -915,6 +924,37 @@ namespace mesmer
     }
 
   }
+
+  // Function to calculate the rotational mode vectors.
+  void gDensityOfStates::RotationVector(vector<double> &aa, size_t loca, double sgna, vector<double> &bb, size_t locb, double sgnb, vector<double> &massWeights, vector<double> &eigenvector) {
+
+	eigenvector.clear() ;
+	size_t ncoords = aa.size() ;
+	size_t i(0) ;
+	for (; i < ncoords ; i++) {
+	  vector<double> rcross(3, 0.0) ;
+	  rcross[loca] = sgna*aa[i] ;
+	  rcross[locb] = sgnb*bb[i] ;
+	  for (size_t j(0) ; j < 3 ; j++) {
+		eigenvector.push_back(rcross[j]) ;
+	  }
+	}
+
+    // Mass weight vector ;
+	double sum(0.0) ;
+	for (i = 0 ; i < eigenvector.size() ; i++) {
+	  eigenvector[i] *= massWeights[i] ;
+	  sum += eigenvector[i]*eigenvector[i] ;
+	}
+
+    // Normalize vector ;
+	sum = sqrt(sum) ;
+	for (i = 0 ; i < eigenvector.size() ; i++) {
+	  eigenvector[i] /= sum ;
+	}
+
+  }
+
 
   //-------------------------------------------------------------------------------------------------
   // Transition state related properties

@@ -235,6 +235,8 @@ namespace mesmer
     // Helper function to shift translation projection vector.
     void ShiftTransVector(vector<double> &eigenvector) ;
 
+    // Function to calculate the rotational mode vectors.
+    void RotationVector(vector<double> &aa, size_t loca, double sgna, vector<double> &bb, size_t locb, double sgnb, vector<double> &massWeights, vector<double> &eigenvector) ;
   };
 
   class gTransitionState:public MolecularComponent
