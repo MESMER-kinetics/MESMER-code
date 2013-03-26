@@ -236,7 +236,11 @@ namespace mesmer
     void ShiftTransVector(vector<double> &eigenvector) ;
 
     // Function to calculate the rotational mode vectors.
-    void RotationVector(vector<double> &aa, size_t loca, double sgna, vector<double> &bb, size_t locb, double sgnb, vector<double> &massWeights, vector<double> &eigenvector) ;
+    void RotationVector(vector<double> &aa, size_t loca, double sgna, vector<double> &bb, size_t locb, double sgnb, vector<double> &massWeights, vector<double> &mode) ;
+
+    // Function to calculate the vibrational frequencies from a projected Hessian matrix.
+    bool calculateFreqs(dMatrix &Projector, vector<double> &freqs) ;
+
   };
 
   class gTransitionState:public MolecularComponent
@@ -465,9 +469,11 @@ namespace mesmer
     // does not include any atoms already in atomset or atoms beyond them.
     void GetAttachedAtoms(std::vector<std::string>& atomset, const std::string& atomID);
 
-    //Calculates moment of inertia of a set of atoms about an axis define by at1 and at2
-    double CalcMomentAboutAxis(std::vector<std::string> atomset,
-      OpenBabel::vector3 at1, OpenBabel::vector3 at2);
+    //Calculates moment of inertia of a set of atoms about an axis define by at1 and at2.
+    double CalcMomentAboutAxis(std::vector<std::string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2);
+
+    // Calculates internal rotation eigenvector about an axis define by at1 and at2.
+    bool CalcInternalRotVec(std::vector<string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2, vector<double> &mode) ;
 
     // Read librarymols.xml to obtain the ab initio energy and enthalpy at zero K
     // for an isolated atom of each atom type in the molecule.
@@ -482,6 +488,12 @@ namespace mesmer
     double getMass() const { return m_MolecularWeight;};
 
     void setMass(double value) { m_MolecularWeight = value;};
+
+    int getAtomicOrder(std::string AtomID) const { 
+      size_t i(0) ; 
+      for  (; AtomID != m_atomicOrder[i] && i < m_atomicOrder.size() ; i++ ) ;		
+      return (i < m_atomicOrder.size()) ? int(i) : -1 ;
+    } ;
 
     // Returns an ordered array of masses.
     void getAtomicMasses(vector<double> &AtomicMasses) const ;

@@ -98,6 +98,10 @@ namespace mesmer
       return false;
     }
 
+	// The following vector, "mode", will be used to hold the ther internal rotation 
+	// mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010). 
+    vector<double> mode(3*gs.NumAtoms(), 0.0);
+
     const char* bondID = ppDOSC->XmlReadValue("bondRef",optional);
     if(bondID)
     {
@@ -132,6 +136,7 @@ namespace mesmer
       gs.GetAttachedAtoms(atomset, bondats.first);
       atomset.erase(atomset.begin()); //the other side of the bond is not in this set
       double mm1 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);
+      gs.CalcInternalRotVec(atomset, coords1, coords2, mode) ;
 
       //...and the other side of the bond
       atomset.clear();
@@ -139,6 +144,7 @@ namespace mesmer
       gs.GetAttachedAtoms(atomset, bondats.second);
       atomset.erase(atomset.begin());
       double mm2 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);
+      gs.CalcInternalRotVec(atomset, coords2, coords1, mode) ;
 
       /*
       Is the reduced moment of inertia needed about the bond axis or, separately for the set of
@@ -249,10 +255,6 @@ namespace mesmer
     // associated with this internal rotation.
 
     if (gdos->hasHessian()) {
-      vector<double> mode(3*gs.NumAtoms(), 0.0);
-
-      // ... Bill's vector goes here.
-
       bool status = gdos->projectMode(mode) ;
     }
 

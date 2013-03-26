@@ -1,3 +1,9 @@
+2013-March-26 Struan Robertson
+
+	* MolecularComponents.cpp/.h, HinderedRotorQM1D.cpp: Implementation 
+	of Sharma, Raman and Green algorithm for the elimination of internal 
+	rotational mode frequencies.
+	
 2013-March-19 Struan Robertson
 
 	* MolecularComponents.cpp/.h: Hessian rotational projection added.
