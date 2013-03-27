@@ -1146,24 +1146,34 @@ label_1: return(p);
     ctest << "}\n";
   }
 
-  // Read a symmetrical square matrix from a CML <matrix> element:
-  // With ppmatrix at the <matrix> element, reads a square, symmetric matrix
-  // with double values from a list of its whitespace separated lower triangle
-  // values. The <matrix> element must have attributes
-  // matrixType="squareSymmetricLT" rows="n" where n is a non-zero integer.
+  // Read a square CML <matrix>:
+  // The data type of the values is T and they are separated by whitespace.
+  // ppmatrix points to the <matrix> element, which must have an attribute
+  // rows="n" where n is a non-zero integer.
+  // If it has an attribute matrixType="squareSymmetricUT" the values are the upper triangle;
+  // if it is "squareSymmetricLT" they are the lower triangle; and 
+  // if it is omitted or is anything else all elements are assumed present.
+  // The returned matrix is fully populated.
   template<class T>
   TMatrix<T>* ReadMatrix(const string& name, PersistPtr ppmatrix)  {
     size_t nrows(0);
-    if(ppmatrix
-      && strcmp(ppmatrix->XmlReadValue("matrixType",false),"squareSymmetricLT")==0
-      && (nrows = ppmatrix->XmlReadInteger("rows",false))!=0)
+    if(ppmatrix && (nrows = ppmatrix->XmlReadInteger("rows",false))!=0)
     {
+      bool upper=false, lower=false;
+      const char* ptype = ppmatrix->XmlReadValue("matrixType",false);
+      if(strcmp(ptype,"squareSymmetricLT")==0) 
+        lower=true;
+      else if(strcmp(ptype,"squareSymmetricUT")==0)
+        upper=true;
+
       TMatrix<T>* m = new TMatrix<T>(nrows);
       std::stringstream ss;
       ss.str(ppmatrix->XmlRead());
       for(size_t nr=0; nr<nrows; ++nr)
       {
-        for(size_t nc=0; nc<=nr; ++nc)
+        size_t a = upper ? nr : 0;
+        size_t b = lower ? nr : nrows-1;
+        for(size_t nc=a; nc<=b; ++nc)
         {
           double val;
           ss >> val;

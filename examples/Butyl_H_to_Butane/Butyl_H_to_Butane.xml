@@ -104,7 +104,7 @@
         <property dictRef="me:deltaEDown">
           <scalar units="cm-1" referenceTemperature="298." exponent="0.6">210.0</scalar>
         </property>
-        <property dictRef="me:Hessian">
+        <property dictRef="me:hessian">
           <matrix matrixType="squareSymmetricLT" rows="42" > 
           1.136260240319E+02
           7.667559192423E+00 7.603147191106E+02

@@ -138,7 +138,7 @@ namespace mesmer
 
     bool hasVibFreq(true) ;
     const char *txt ;
-    if (m_Hessian = ReadPropertyMatrix<double>("me:Hessian", ppPropList)) {
+    if (m_Hessian = ReadPropertyMatrix<double>("me:hessian", ppPropList)) {
       FrqsFromHessian() ;
     } else if (txt = ppPropList->XmlReadProperty("me:vibFreqs", optional)) { 
       istringstream idata(txt);
