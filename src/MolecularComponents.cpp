@@ -116,6 +116,7 @@ namespace mesmer
     m_eleExc(),
     m_VibFreq(),
     m_Hessian(NULL),
+    m_HessianUnits(),
     m_grainEne(),
     m_grainDOS() { m_host = pMol; }
 
@@ -139,6 +140,9 @@ namespace mesmer
     bool hasVibFreq(true) ;
     const char *txt ;
     if (m_Hessian = ReadPropertyMatrix<double>("me:hessian", ppPropList)) {
+	  PersistPtr pMtrx = ppPropList->XmlMoveToProperty("me:Hessian") ;
+	  txt = pMtrx->XmlReadValue("units",false) ;
+	  m_HessianUnits = (txt) ? string(txt) : "kJ/mol/amu/Ang^2" ;
       FrqsFromHessian() ;
     } else if (txt = ppPropList->XmlReadProperty("me:vibFreqs", optional)) { 
       istringstream idata(txt);
@@ -173,12 +177,12 @@ namespace mesmer
       hasRotConst = true;
       m_RC_chk = 0;
     } else {
-      ////data from atom coordinates
+      // Attempt to calculate rotational constants from atomic coordinates.
       gStructure& gs = pMol->getStruc();
       if(gs.ReadStructure()) {
         rCnst = gs.CalcRotConsts();
         cinfo << "Rotational constants were calculated from atom coordinates: "
-          << m_RotCstA << ' ' << m_RotCstB << ' ' << m_RotCstC << " cm-1" << endl;
+          << rCnst[2] << ' ' << rCnst[1] << ' ' << rCnst[0] << " cm-1" << endl;
         hasRotConst = true; 
       }
     }
@@ -227,6 +231,12 @@ namespace mesmer
     m_SpinMultiplicity_chk = 0;
 
     ReadDOSMethods();
+
+    // Check whether the molecule has the correct number of degrees of freedom.
+    if (!m_host->checkDegOfFreedom()){
+      string errorMsg = "Incorrect number of degrees of freedom compared with atom count for " + m_host->getName();
+      throw (std::runtime_error(errorMsg)); 
+    }
 
     return ReadZeroPointEnergy(ppPropList) ;
   }
@@ -892,6 +902,12 @@ namespace mesmer
     vector<double> freqs(msize, 0.0) ;
     calculateFreqs(Projector, freqs) ;
 
+	// Save projected frequencies.
+
+    m_VibFreq.clear() ;
+	for (i = 6 ; i < msize ; i++) 
+       m_VibFreq.push_back(freqs[i]) ;
+
     return true ;
   }
 
@@ -906,9 +922,15 @@ namespace mesmer
 
     tmpHessian.diagonalize(&freqs[0]) ;
 
-    // m_Hessian->diagonalize(&freqs[0]) ;
+	double convFactor(0.0) ;
+	if (m_HessianUnits == "kcal/mol/Ang2") {
+	  convFactor = conHess2Freq * sqrt(Calorie_in_Joule)/(2.0*M_PI) ;
+	} else if (m_HessianUnits == "kJ/mol/Ang2") {
+	  convFactor = conHess2Freq / (2.0*M_PI) ;
+	} else {
+      throw (std::runtime_error("Unknown Hessian units."));
+	}
 
-	double convFactor = conHess2Freq * sqrt(Calorie_in_Joule)/(2.0*M_PI) ;
     for (size_t i(0) ; i < freqs.size() ; i++) {
       if (freqs[i] > 0.0) {
         freqs[i] = convFactor*sqrt(freqs[i]) ;
@@ -953,6 +975,13 @@ namespace mesmer
 
     vector<double> freqs(msize, 0.0) ;
     calculateFreqs(Projector, freqs) ;
+
+	// Save projected frequencies.
+
+	size_t nfreq = m_VibFreq.size() ;
+    m_VibFreq.clear() ;
+	for (i = msize - nfreq + 1 ; i < msize ; i++) 
+       m_VibFreq.push_back(freqs[i]) ;
 
     return status ;
 

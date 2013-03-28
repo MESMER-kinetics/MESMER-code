@@ -118,12 +118,12 @@ namespace mesmer
     if (molType == "bathGas" || molType == "modelled")
       getBath();
 
+    if (molType == "transitionState")
+      getTS();
+
     if (molType == "modelled" || molType == "deficientReactant" //|| molType == "sink"   CM g_dos to be added later if needed for reverse ILT
       || molType == "transitionState" || molType == "excessReactant" || molType == "PriorCoFragment"  )
       getDOS();
-
-    if (molType == "transitionState")
-      getTS();
 
     if (molType == "modelled" || molType == "deficientReactant" || molType == "sink")
       getPop();

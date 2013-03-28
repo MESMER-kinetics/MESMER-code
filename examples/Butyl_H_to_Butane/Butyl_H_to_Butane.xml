@@ -50,7 +50,7 @@
           <scalar>6</scalar>
         </property>
         <!--  Frequency 149.1 has been eliminated in favour of a 1 Dimensional rotor. -->
-        <property dictRef="me:vibFreqs">
+        <!--<property dictRef="me:vibFreqs">
           <array units="cm-1">
              241.6 
              264.0 
@@ -88,7 +88,7 @@
             3109.2 
             3110.0 
           </array>
-        </property>
+        </property>-->
         <property dictRef="me:MW">
           <scalar>58.0</scalar>
         </property>
@@ -105,7 +105,7 @@
           <scalar units="cm-1" referenceTemperature="298." exponent="0.6">210.0</scalar>
         </property>
         <property dictRef="me:hessian">
-          <matrix matrixType="squareSymmetricLT" rows="42" > 
+          <matrix matrixType="squareSymmetricLT" rows="42"  units="kcal/mol/Ang2" > 
           1.136260240319E+02
           7.667559192423E+00 7.603147191106E+02
           2.072782661665E-03 -9.019405635901E-03 1.042260106824E+02
@@ -233,7 +233,26 @@
          </me:HinderedRotorPotential>
         <me:PlotStates/>
       </me:ExtraDOSCMethod>
-      
+
+      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
+        <bondRef>b2</bondRef>
+        <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+          <me:PotentialPoint index="0"  coefficient="6.2"/>
+          <me:PotentialPoint index="3"  coefficient="-6.2"/>
+        </me:HinderedRotorPotential>
+        <me:periodicity>3</me:periodicity>
+        <me:PlotStates/>
+      </me:ExtraDOSCMethod>
+
+      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
+        <bondRef>b8</bondRef>
+        <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+          <me:PotentialPoint index="0"  coefficient="6.2"/>
+          <me:PotentialPoint index="3"  coefficient="-6.2"/>
+        </me:HinderedRotorPotential>
+        <me:periodicity>3</me:periodicity>
+      </me:ExtraDOSCMethod>
+
     </molecule>
 
     <molecule id="Butyl" spinMultiplicity="2">

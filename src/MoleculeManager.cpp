@@ -37,9 +37,10 @@ namespace mesmer
 
     //check if the molecule exists in m_molmap
     constMolIter it = m_molmap.find(molName) ;
-    if (it != m_molmap.end()) { // found a molecule with the same name --> should check its type as well later.
-      // Check if the related properties specified by molType is activated to allow the molecule to play the specific role. 
-      // If they are not activated, activate them.
+    if (it != m_molmap.end()) { 
+	  // found a molecule with the same name --> should check its type as well later.
+      // Check if the related properties specified by molType is activated to allow
+	  // the molecule to play the specific role. If they are not activated, activate them.
       if (!((it->second)->activateRole(molType))){
         cerr << "Failed to initialize some molecular properties";
         return NULL;
@@ -79,12 +80,6 @@ namespace mesmer
     if (!(pmolecule->activateRole(molType))){
       cerr << "Failed to initialize some molecular properties in " << molName;
       return NULL;
-    }
-
-    // Check whether the activated molecule correct number of degrees of freedom.
-    if (!pmolecule->checkDegOfFreedom()){
-      string errorMsg = "Incorrect number of degrees of freedom compared with atom count for " + molName;
-      throw (std::runtime_error(errorMsg)); 
     }
 
     // Add molecule to map.

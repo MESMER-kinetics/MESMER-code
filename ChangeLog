@@ -1,7 +1,16 @@
+
+2013-March-28 Struan Robertson
+
+	* MolecularComponents.cpp/.h, Molecule.cpp: Units added for Hessian 
+	and frequencies updated following diagonlization of Hessian.
+
+	* examples/Butyl_H_to_Butane/Butyl_H_to_Butane.xml: Added units for
+	Hessian.
+	
 2013-March-27 Chris Morley
 	* src/MolecularComponents.cpp: transparently read hessian matrices
 	with upper or lower triangle or complete. (CML files from Gaussian
-	use upper triangle.
+	use upper triangle.)
 
 	* examples/Butyl_H_to_Butane/Butyl_H_to_Butane.xml,
 	src/MolecularComponents.cpp: in dictRref use me:hessian rather
