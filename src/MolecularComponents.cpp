@@ -97,6 +97,8 @@ namespace mesmer
 
     if (m_Hessian)
       delete m_Hessian;
+    if (m_Modes)
+      delete m_Modes;
   }
 
   gDensityOfStates::gDensityOfStates(Molecule* pMol)
@@ -116,6 +118,8 @@ namespace mesmer
     m_eleExc(),
     m_VibFreq(),
     m_Hessian(NULL),
+    m_Modes(NULL),
+	m_nModes(0),
     m_HessianUnits(),
     m_grainEne(),
     m_grainDOS() { m_host = pMol; }
@@ -140,9 +144,9 @@ namespace mesmer
     bool hasVibFreq(true) ;
     const char *txt ;
     if (m_Hessian = ReadPropertyMatrix<double>("me:hessian", ppPropList)) {
-	  PersistPtr pMtrx = ppPropList->XmlMoveToProperty("me:Hessian") ;
-	  txt = pMtrx->XmlReadValue("units",false) ;
-	  m_HessianUnits = (txt) ? string(txt) : "kJ/mol/amu/Ang^2" ;
+      PersistPtr pMtrx = ppPropList->XmlMoveToProperty("me:hessian") ;
+      txt = pMtrx->XmlReadValue("units",false) ;
+      m_HessianUnits = (txt) ? string(txt) : "kJ/mol/amu/Ang^2" ;
       FrqsFromHessian() ;
     } else if (txt = ppPropList->XmlReadProperty("me:vibFreqs", optional)) { 
       istringstream idata(txt);
@@ -814,6 +818,7 @@ namespace mesmer
   bool gDensityOfStates::FrqsFromHessian() {
 
     const size_t msize = m_Hessian->size() ;
+	m_Modes = new dMatrix(msize, 0.0) ;
 
     gStructure& gs = m_host->getStruc() ;
     bool HasCoords = gs.ReadStructure() ;
@@ -822,7 +827,7 @@ namespace mesmer
       return false ; 
     }
 
-	// Get atomic massess and coordinates.
+    // Get atomic massess and coordinates.
 
     vector<double> atomicMasses, xx, yy, zz ;
     gs.getAtomicMasses(atomicMasses) ;
@@ -830,29 +835,15 @@ namespace mesmer
     gs.getYCoords(yy) ;
     gs.getZCoords(zz) ;
 
-	// Calculate centre of mass and subtract from coordinates, and calculate mass weights.
-    size_t i, j, k ;
-	double totalMass(0.0), sumx(0.0), sumy(0.0), sumz(0.0) ;
-    vector<double> massWeights(msize, 0.0) ;
-    for (j = 0, i = 0 ; j < atomicMasses.size() ; j++) {
-	  double mass = atomicMasses[j] ;
-      totalMass += mass ;
-	  sumx      += mass*xx[j] ;
-	  sumy      += mass*yy[j] ;
-	  sumz      += mass*zz[j] ;
-      double weight = sqrt(mass) ;
-      for (k = 0 ; k < 3 ; k++, i++) {
-        massWeights[i] = weight ;
-      }
-    }
+    // Initialize mass weights.
 
-	sumx /= totalMass ;
-	sumy /= totalMass ;
-	sumz /= totalMass ;
-    for (j = 0 ; j < atomicMasses.size() ; j++) {
-	  xx[j] -= sumx ;
-	  yy[j] -= sumy ;
-	  zz[j] -= sumz ;
+    vector<double> massWeights ;
+    size_t i(0), j(0) ;
+    for (; i < atomicMasses.size() ; i++) {
+      double weight = sqrt(atomicMasses[i]) ;
+      for (j = 0; j < 3 ; j++) {
+        massWeights.push_back(weight) ;
+      }
     }
 
     // Mass weight Hessian.
@@ -863,75 +854,77 @@ namespace mesmer
       }
     }
 
-    dMatrix Projector(msize, 0.0) ;
-    for (i = 0 ; i < msize ; i++) {
-      Projector[i][i] += 1.0 ;
-    }
-
     // X Translation projector.
 
     vector<double> mode(msize, 0.0) ;
-    double NormFctr = 1.0/sqrt(totalMass) ;
     for (i = 0 ; i < msize ; i += 3) 
-      mode[i] = massWeights[i]*NormFctr ;
+      mode[i] = massWeights[i] ;
 
-    UpdateProjector(mode, Projector) ;
+    UpdateProjector(mode) ;
 
     // Y Translation projector.
 
     ShiftTransVector(mode) ;
-    UpdateProjector(mode, Projector) ;
+    UpdateProjector(mode) ;
 
     // Z Translation projector.
 
     ShiftTransVector(mode) ;
-    UpdateProjector(mode, Projector) ;
+    UpdateProjector(mode) ;
 
     // Project out rotational modes.
     RotationVector(yy, 2,  1.0, zz, 1, -1.0, massWeights, mode) ;
-    UpdateProjector(mode, Projector) ;
+    UpdateProjector(mode) ;
 
     RotationVector(xx, 2, -1.0, zz, 0,  1.0, massWeights, mode) ;
-    UpdateProjector(mode, Projector) ;
+    UpdateProjector(mode) ;
 
     RotationVector(xx, 1,  1.0, yy, 0, -1.0, massWeights, mode) ;
-    UpdateProjector(mode, Projector) ;
+    UpdateProjector(mode) ;
 
     // Project out translational and rotational modes.
 
     vector<double> freqs(msize, 0.0) ;
-    calculateFreqs(Projector, freqs) ;
+    calculateFreqs(freqs) ;
 
-	// Save projected frequencies.
+    // Save projected frequencies.
 
     m_VibFreq.clear() ;
-	for (i = 6 ; i < msize ; i++) 
-       m_VibFreq.push_back(freqs[i]) ;
+    for (i = 6 ; i < msize ; i++) 
+      m_VibFreq.push_back(freqs[i]) ;
 
     return true ;
   }
 
   // Function to calculate the vibrational frequencies from a projected Hessian matrix.
-  bool gDensityOfStates::calculateFreqs(dMatrix &Projector, vector<double> &freqs) {
+  bool gDensityOfStates::calculateFreqs(vector<double> &freqs) {
 
-    dMatrix tmpHessian = Projector*(*m_Hessian)*Projector ;
+    const size_t msize = m_Hessian->size() ;
 
-    // Save projected matrix in case other modes need to be projected from it.
+	dMatrix tmp = *m_Modes ; 
+    tmp.Transpose() ;
+    dMatrix Projector = (*m_Modes)*tmp ; 
+    for (size_t i = 0 ; i < msize ; i++) {
+      for (size_t j = 0 ; j < msize ; j++) {
+        Projector[i][j] *= -1.0 ;
+      }
+	  Projector[i][i] += 1.0 ;
+    }
 
-    *m_Hessian = tmpHessian ;
+	dMatrix tmpHessian = Projector*(*m_Hessian)*Projector ;
 
     tmpHessian.diagonalize(&freqs[0]) ;
 
-	double convFactor(0.0) ;
-	if (m_HessianUnits == "kcal/mol/Ang2") {
-	  convFactor = conHess2Freq * sqrt(Calorie_in_Joule)/(2.0*M_PI) ;
-	} else if (m_HessianUnits == "kJ/mol/Ang2") {
-	  convFactor = conHess2Freq / (2.0*M_PI) ;
-	} else {
+    double convFactor(0.0) ;
+    if (m_HessianUnits == "kcal/mol/Ang2") {
+      convFactor = conHess2Freq * sqrt(Calorie_in_Joule)/(2.0*M_PI) ;
+    } else if (m_HessianUnits == "kJ/mol/Ang2") {
+      convFactor = conHess2Freq / (2.0*M_PI) ;
+    } else {
       throw (std::runtime_error("Unknown Hessian units."));
-	}
+    }
 
-    for (size_t i(0) ; i < freqs.size() ; i++) {
+    for (size_t i(0) ; i < msize ; i++) {
       if (freqs[i] > 0.0) {
         freqs[i] = convFactor*sqrt(freqs[i]) ;
       }
@@ -954,37 +947,40 @@ namespace mesmer
 
     size_t i, j, k ;
     vector<double> massWeights(msize, 0.0) ;
-    double NormFctr(0.0) ;
     for (j = 0, i = 0 ; j < atomicMasses.size() ; j++) {
       double weight = sqrt(atomicMasses[j]) ;
       for (k = 0 ; k < 3 ; k++, i++) {
         mode[i] *= weight ;
-		NormFctr += mode[i]*mode[i] ;
       }
     }
 
-	dMatrix Projector(msize, 0.0) ;
-	NormFctr = 1.0/sqrt(NormFctr) ;
-    for (size_t i = 0 ; i < msize ; i++) {
-      Projector[i][i] += 1.0 ;
-      mode[i] *= NormFctr ;
-    }
-    UpdateProjector(mode, Projector) ;
+	// Orthogonalize against existing modes. 
 
-    // Project out mode.
+    for (i = 0 ; i < m_nModes ; i++) {
+      double sum(0.0) ;
+      for (j = 0 ; j < msize ; j++) {
+		sum += mode[j] * (*m_Modes)[j][i] ;
+      }
+      for (j = 0 ; j < msize ; j++) {
+		mode[j]  -= sum * (*m_Modes)[j][i] ;
+      }
+    }
+
+    UpdateProjector(mode) ;
+
+	// Project out mode.
 
     vector<double> freqs(msize, 0.0) ;
-    calculateFreqs(Projector, freqs) ;
+    calculateFreqs(freqs) ;
 
-	// Save projected frequencies.
+    // Save projected frequencies.
 
-	size_t nfreq = m_VibFreq.size() ;
+    size_t nfreq = m_VibFreq.size() ;
     m_VibFreq.clear() ;
-	for (i = msize - nfreq + 1 ; i < msize ; i++) 
-       m_VibFreq.push_back(freqs[i]) ;
+    for (i = msize - nfreq + 1 ; i < msize ; i++) 
+      m_VibFreq.push_back(freqs[i]) ;
 
     return status ;
-
   }
 
   // Helper function to shift translation projection vector.
@@ -995,16 +991,27 @@ namespace mesmer
     mode[0] = 0.0 ;
   }
 
-
   // Helper function to create projector.
-  void gDensityOfStates::UpdateProjector(vector<double> &mode, dMatrix  &Projector) {
+  void gDensityOfStates::UpdateProjector(vector<double> &mode) {
 
-    const size_t msize = mode.size() ;
-    for (size_t i(0) ; i < msize ; i++) {
-      for (size_t j(0)  ; j < msize ; j++) {
-        Projector[i][j] -= mode[i]*mode[j] ;
-      }
+	// Normalize mode.
+
+    double NormFctr(0.0) ;
+	size_t i(0) ;
+    for (; i < mode.size() ; i++) {
+      NormFctr += mode[i]*mode[i] ;
     }
+
+    NormFctr = 1.0/sqrt(NormFctr) ;
+    for (i = 0 ; i < mode.size() ; i++) {
+      mode[i] *= NormFctr ;
+    }
+
+	// Add mode to exisitng set.
+
+    for (i = 0  ; i < m_Modes->size() ; i++) 
+      (*m_Modes)[i][m_nModes] = mode[i] ;
+    m_nModes++;
 
   }
 
@@ -1024,20 +1031,11 @@ namespace mesmer
     }
 
     // Mass weight vector ;
-    double NormFctr(0.0) ;
     for (i = 0 ; i < mode.size() ; i++) {
       mode[i] *= massWeights[i] ;
-      NormFctr += mode[i]*mode[i] ;
-    }
-
-    // Normalize vector ;
-    NormFctr = 1.0/sqrt(NormFctr) ;
-    for (i = 0 ; i < mode.size() ; i++) {
-      mode[i] *= NormFctr ;
     }
 
   }
-
 
   //-------------------------------------------------------------------------------------------------
   // Transition state related properties
@@ -1866,7 +1864,10 @@ namespace mesmer
   size_t gWellProperties::get_nbasis() const { return m_host->getEnv().nBasisSet ; }
 
 
-  gStructure::gStructure(mesmer::Molecule *pMol) : m_MolecularWeight(-1), m_HasCoords(false), m_atomicOrder()
+  gStructure::gStructure(mesmer::Molecule *pMol) : m_MolecularWeight(-1), 
+    m_PrincipalMI(3, 0.0), 
+    m_HasCoords(false), 
+    m_atomicOrder()
   {
     ErrorContext c(pMol->getName());
     m_host = pMol;
@@ -1942,6 +1943,10 @@ namespace mesmer
       m_atomicOrder.push_back(at.id) ;
     }
 
+    // If coordinates are defined, shift coordinates to the centre of mass/principal axis frame.
+    if (m_HasCoords) 
+      AlignCoords() ;
+
     //Read all the bonds. For each bond add a connect to each atom
     PersistPtr ppBond = ppMol->XmlMoveTo("bondArray");
     int ibond=1;
@@ -1977,6 +1982,72 @@ namespace mesmer
 
     return m_HasCoords;
   }
+
+  // Method to shift coordinates to the centre of mass/principal axis frame. 
+  bool gStructure::AlignCoords() {
+
+    // Calculate centre of mass and subtract from coordinates, and calculate mass weights.
+
+    bool status(true) ;
+
+    //Determine centre of mass
+    map<string, atom>::iterator iter;
+    vector3 centreOfMass; 
+    double mt = 0.0;
+    for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter) {
+      double mass = atomMass(iter->second.element);
+      centreOfMass += iter->second.coords * mass;
+      mt  += mass;
+    }
+    centreOfMass /= mt ;
+
+    dMatrix MI(3);
+    double sxx = 0.0, syy = 0.0, szz = 0.0, sxy = 0.0, sxz = 0.0, syz = 0.0;
+    for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter)
+    {
+      vector3 c = iter->second.coords - centreOfMass;
+      iter->second.coords.Set(c.x(), c.y(), c.z());
+      double  m = atomMass(iter->second.element);
+      sxx += m * c.x() * c.x();
+      syy += m * c.y() * c.y();
+      szz += m * c.z() * c.z();
+      sxy += m * c.x() * c.y();
+      sxz += m * c.x() * c.z();
+      syz += m * c.y() * c.z();
+    }
+
+    if(NumAtoms()==2)
+      m_PrincipalMI[0] = szz;
+    else {
+      MI[0][0] = syy+szz;
+      MI[0][1] = -sxy;
+      MI[0][2] = -sxz; 
+      MI[1][0] = -sxy;
+      MI[1][1] = sxx+szz;
+      MI[0][2] = -syz; 
+      MI[2][0] = -sxz;
+      MI[2][1] = -syz; 
+      MI[2][2] = sxx + syy;
+
+      MI.diagonalize(&m_PrincipalMI[0]);
+
+      // Rotate coordinates to principal axis frame.
+
+      MI.Transpose() ;
+      for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter) {
+        vector3 c = iter->second.coords ;
+        vector<double> r(3,0.0) ;
+        r[0] = c.x() ;
+        r[1] = c.y() ;
+        r[2] = c.z() ;
+        r   *= MI ;
+        iter->second.coords.Set(r[0], r[1], r[2]);
+      }
+    }
+
+    return status ;
+  }
+
 
   double gStructure::CalcMW()
   {
@@ -2045,66 +2116,19 @@ namespace mesmer
     return true ;
   }
 
-  //Returns the rotational constants (in cm-1) in a vector
-  //OK for atoms and diatomics but currently no recognition of symmetry
+  // Returns the rotational constants (in cm-1) in a vector.
   vector<double> gStructure::CalcRotConsts()
   {
-    vector<double> RotConsts(3, 0.0); //cm-1
+    vector<double> RotConsts(m_PrincipalMI.size(), 0.0); //cm-1
     if (NumAtoms()<2)
       return RotConsts; //empty
-    //Determine centre of mass
-    map<string, atom>::iterator iter;
-    vector3 centreOfMass; 
-    double mt = 0.0;
-    for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter)
-    {
-      double mass = atomMass(iter->second.element);
-      centreOfMass += iter->second.coords * mass;
-      mt  += mass;
-    }
-    centreOfMass /= mt ;
-
-    dMatrix MI(3);
-    double sxx = 0.0, syy = 0.0, szz = 0.0, sxy = 0.0, sxz = 0.0, syz = 0.0;
-    for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter)
-    {
-      vector3 c = iter->second.coords - centreOfMass;
-      double  m = atomMass(iter->second.element);
-      sxx += m * c.x() * c.x();
-      syy += m * c.y() * c.y();
-      szz += m * c.z() * c.z();
-      sxy += m * c.x() * c.y();
-      sxz += m * c.x() * c.z();
-      syz += m * c.y() * c.z();
-    }
-
-    vector<double> PrincipalMI(3, 0.0);//initially amuAng2, eventually gcm2
-    if(NumAtoms()==2)
-      PrincipalMI[0] = szz;
-    else
-    {
-      MI[0][0] = syy+szz;
-      MI[0][1] = -sxy;
-      MI[0][2] = -sxz; 
-      MI[1][0] = -sxy;
-      MI[1][1] = sxx+szz;
-      MI[0][2] = -syz; 
-      MI[2][0] = -sxz;
-      MI[2][1] = -syz; 
-      MI[2][2] = sxx + syy;
-
-      MI.diagonalize(&PrincipalMI[0]);
-    }
-
     const double amuA2TOgcm2 = 1.0E-16/AvogadroC;
-    for(unsigned i=0; i<3;++i)
-    {
-      RotConsts[i] = PrincipalMI[i]==0.0 ? 0.0 : conMntInt2RotCnt/PrincipalMI[i];
-      PrincipalMI[i] *= amuA2TOgcm2;
+    for (size_t i=0 ; i<m_PrincipalMI.size()  ; ++i) {
+      RotConsts[i] = (m_PrincipalMI[i]==0.0) ? 0.0 : conMntInt2RotCnt/m_PrincipalMI[i];
+      m_PrincipalMI[i] *= amuA2TOgcm2;
     }
 
     return RotConsts;
-
   }
 
   double gStructure::CalcSumEMinusHf0(bool UsingAtomBasedThermo, bool useHf298)

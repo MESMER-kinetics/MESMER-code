@@ -1,4 +1,9 @@
 
+2013-March-31 Struan Robertson
+
+	* MolecularComponents.cpp/.h: Re-orientation of molecular system and 
+	orthogonalization of projected modes.
+
 2013-March-28 Struan Robertson
 
 	* MolecularComponents.cpp/.h, Molecule.cpp: Units added for Hessian 

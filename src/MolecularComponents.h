@@ -118,6 +118,8 @@ namespace mesmer
     std::vector<double> m_eleExc  ;      // Electronic excitation (E.g. OH, NO, NS, otherwise no member).
     std::vector<double> m_VibFreq ;      // Values of vibrational frequencies.
     dMatrix            *m_Hessian ;      // Hessian matrix (If supplied, used to calculate vibrational frequncies).
+    dMatrix            *m_Modes ;        // Vectors representing modes that are to be projected from Hessian.
+	size_t              m_nModes ;       // Number of projected modes.
 	std::string         m_HessianUnits ; // Hessian matrix units.
     //------------------------
     // Cell density of states
@@ -229,8 +231,8 @@ namespace mesmer
     // Calculate vibrational frequencies from molecular Hessian.
     bool FrqsFromHessian() ;
 
-    // Helper function to create projector.
-    void UpdateProjector(vector<double> &eigenvector, dMatrix  &Projector) ;
+	// Helper function to create projector.
+    void UpdateProjector(vector<double> &eigenvector) ;
 
     // Helper function to shift translation projection vector.
     void ShiftTransVector(vector<double> &eigenvector) ;
@@ -239,7 +241,7 @@ namespace mesmer
     void RotationVector(vector<double> &aa, size_t loca, double sgna, vector<double> &bb, size_t locb, double sgnb, vector<double> &massWeights, vector<double> &mode) ;
 
     // Function to calculate the vibrational frequencies from a projected Hessian matrix.
-    bool calculateFreqs(dMatrix &Projector, vector<double> &freqs) ;
+    bool calculateFreqs(vector<double> &freqs) ;
 
   };
 
@@ -418,6 +420,7 @@ namespace mesmer
 
   private:
     double m_MolecularWeight;
+    vector<double> m_PrincipalMI ; //initially amuAng2, eventually gcm2
     struct atom
     {
       std::string id;
@@ -434,6 +437,9 @@ namespace mesmer
 
     // Returns an ordered array of coordinates.
     void getAtomicCoords(vector<double> &coords, AxisLabel cartLabel) const ;
+
+	// Method to shift coordinates to the centre of mass/principal axis frame. 
+    bool AlignCoords() ;
 
     // No default construction.
     gStructure();
@@ -495,7 +501,7 @@ namespace mesmer
       return (i < m_atomicOrder.size()) ? int(i) : -1 ;
     } ;
 
-    // Returns an ordered array of masses.
+	// Returns an ordered array of masses.
     void getAtomicMasses(vector<double> &AtomicMasses) const ;
 
     // Returns an ordered array of X coordinates.
