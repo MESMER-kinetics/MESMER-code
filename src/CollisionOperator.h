@@ -54,7 +54,7 @@ namespace mesmer
     bool BartisWidomBasisSetRates(qdMatrix& rates, MesmerFlags& mFlags);
 
     // Write out phenomenological rate coefficients.
-    bool PrintPhenomenologicalRates(qdMatrix& Kr, qdb2D& Kp, MesmerFlags& mFlags, PersistPtr ppList) ;
+    bool PrintPhenomenologicalRates(qdMatrix& Kr, qdMatrix& Kp, MesmerFlags& mFlags, PersistPtr ppList) ;
 
     int getSpeciesSequenceIndex(const std::string ref);
 

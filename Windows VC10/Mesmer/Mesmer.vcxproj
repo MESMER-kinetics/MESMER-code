@@ -152,7 +152,6 @@
     <ClCompile Include="..\..\src\XMLPersist.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\a2d.h" />
     <ClInclude Include="..\..\src\AssociationReaction.h" />
     <ClInclude Include="..\..\src\BimolecularSinkReaction.h" />
     <ClInclude Include="..\..\src\calcmethod.h" />
@@ -170,7 +169,6 @@
     <ClInclude Include="..\..\src\IrreversibleExchangeReaction.h" />
     <ClInclude Include="..\..\src\IrreversibleUnimolecularReaction.h" />
     <ClInclude Include="..\..\src\IsomerizationReaction.h" />
-    <ClInclude Include="..\..\src\marray.h" />
     <ClInclude Include="..\..\src\Matrix.h" />
     <ClInclude Include="..\..\src\MesmerConfig.h" />
     <ClInclude Include="..\..\src\MesmerEnv.h" />

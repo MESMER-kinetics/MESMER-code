@@ -101,7 +101,7 @@ namespace mesmer
     void normalizeProbabilityMatrix();
 
     // Print out the contents of the matrix.
-    void print(std::string& title, std::ostream& output_stream ) const ;
+    void print(std::string& title, std::ostream& output_stream, int nr = -1, int nc = -1 ) const ;
 
     // Apply the Gram-Schmidt procedure to orthogonalize the current matrix.
     void GramSchimdt(size_t root_vector ) ;
@@ -1019,16 +1019,20 @@ label_1: return(p);
   // Print out the contents of the matrix.
   //
   template<class T>
-  void TMatrix<T>::print(std::string& title, std::ostream& output_stream ) const {
+  void TMatrix<T>::print(std::string& title, std::ostream& output_stream, int nr = -1, int nc = -1 ) const {
 
-    output_stream << endl << title << endl << endl ;
-    for (size_t i(0) ; i < this->size() ; ++i) {
-      for (size_t j(0) ; j < this->size() ; ++j) {
+	size_t msize = this->size() ;
+	size_t nrows = (nr < 0) ? msize : min(msize,size_t(nr)) ;
+	size_t nclms = (nc < 0) ? msize : min(msize,size_t(nc)) ;
+
+    output_stream << endl << title << endl << "{" << endl ;
+    for (size_t i(0) ; i < nrows ; ++i) {
+      for (size_t j(0) ; j < nclms ; ++j) {
         formatFloat(output_stream, (*this)[i][j],  6,  15) ;
       }
       output_stream << endl ;
     }
-    output_stream << endl ;
+	output_stream << "}" << endl ;
 
   }
 

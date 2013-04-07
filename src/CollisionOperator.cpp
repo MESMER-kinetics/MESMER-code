@@ -771,7 +771,7 @@ namespace mesmer
     }
 
     const size_t maxTimeStep = dt.size();
-    db2D grnProfile(smsize, maxTimeStep); // numbers inside the parentheses are dummies
+	vector<vector<double> > grnProfile(smsize,vector<double>(maxTimeStep)) ;
     vector<double> p_t(smsize, 0.);
 
     for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
@@ -875,7 +875,7 @@ namespace mesmer
       ctest << endl << "Print time dependent species and product profiles" << endl << "{" << endl;
       int numberOfSpecies = static_cast<int>(m_isomers.size() + m_sources.size() + m_sinkRxns.size());
 
-      db2D speciesProfile(numberOfSpecies, maxTimeStep);
+      vector<vector<double> > speciesProfile(numberOfSpecies,vector<double>(maxTimeStep)) ;
       int speciesProfileidx(0);
 
       ctest << setw(16) << "Timestep/s";
@@ -1172,7 +1172,7 @@ namespace mesmer
     //------------------------- TEST block ----------------------------------------
     if (!mFlags.rateCoefficientsOnly){
       qdMatrix Z_matrix(nchem);  // definitions of Y_matrix and Z_matrix taken from PCCP 2007(9), p.4085
-      qdb2D Y_matrix;
+      qdMatrix Y_matrix(max(nchem, nsinks));
       Reaction::molMapType::iterator ipos;  // set up an iterator through the isomer map
       Reaction::molMapType::iterator spos;  // set up an iterator through the source map
       sinkMap::iterator sinkpos;           // set up an iterator through the irreversible rxn map
@@ -1254,8 +1254,7 @@ namespace mesmer
 
       // Print out Y_matrix for testing.
       if (nsinks){
-        ctest << "Y_matrix:" << endl;
-        Y_matrix.print((int)(nsinks), (int)(m_SpeciesSequence.size())); 
+        Y_matrix.print(string("Y_matrix:"), ctest, int(nsinks), int(m_SpeciesSequence.size())); 
       }
 
       qdMatrix Zinv(Z_matrix) ;
@@ -1325,7 +1324,7 @@ namespace mesmer
 
       // Construct loss matrix.
 
-      qdb2D Kp;
+      qdMatrix Kp(max(nsinks,nchem),0.0);
       if (nsinks > 0) {
         for(size_t i(0); i != nsinks; ++i){    // calculate Kp (definition taken from PCCP 2007(9), p.4085)
           for(size_t j(0);j<nchem;++j){
@@ -1336,8 +1335,7 @@ namespace mesmer
             Kp[i][j] = sm;
           }
         }
-        ctest << "\nKp matrix:" << endl;    // print out Kp_matrix
-        Kp.print(nsinks, m_SpeciesSequence.size());
+        Kp.print(string("\nKp matrix:"), ctest, nsinks, m_SpeciesSequence.size());
       }
 
       // Write out phenomenological rate coefficients.
@@ -1350,7 +1348,7 @@ namespace mesmer
   }
 
   // Write out phenomenological rate coefficients.
-  bool CollisionOperator::PrintPhenomenologicalRates(qdMatrix& Kr, qdb2D& Kp, MesmerFlags& mFlags, PersistPtr ppList) {
+  bool CollisionOperator::PrintPhenomenologicalRates(qdMatrix& Kr, qdMatrix& Kp, MesmerFlags& mFlags, PersistPtr ppList) {
 
     Reaction::molMapType::iterator ipos;  // set up an iterator through the isomer map
 

@@ -528,7 +528,6 @@ src/TimeCounter.h -text
 src/Tunneling.h -text
 src/XMLPersist.cpp -text
 src/XMLPersist.h -text
-src/a2d.h -text
 src/dMatrix.h -text
 src/error.cpp -text
 src/error.h -text
@@ -536,7 +535,6 @@ src/formatfloat.cpp -text
 src/formatfloat.h -text
 src/keys.txt -text
 src/main.cpp -text
-src/marray.h -text
 src/plugin.h -text
 src/plugins/BeyerSwinehart.cpp -text
 src/plugins/BoltzmannDistribution.cpp -text

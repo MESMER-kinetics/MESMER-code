@@ -50,9 +50,10 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 1
 
 There should be 1 chemically significant eigenvalues (CSEs)
+
 Y_matrix:
 {
-        4.500717e+01
+  4.500717e+001
 }
 
 Z_matrix: {
@@ -74,9 +75,10 @@ Kr matrix:
 -4.500733e+01	
 }
 
+
 Kp matrix:
 {
-        4.500733e+01
+  4.500733e+001
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -130,9 +132,10 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 1
 
 There should be 1 chemically significant eigenvalues (CSEs)
+
 Y_matrix:
 {
-        6.135782e+01
+  6.135782e+001
 }
 
 Z_matrix: {
@@ -154,9 +157,10 @@ Kr matrix:
 -6.135814e+01	
 }
 
+
 Kp matrix:
 {
-        6.135814e+01
+  6.135814e+001
 }
 
 First order & pseudo first order rate coefficients for loss rxns:

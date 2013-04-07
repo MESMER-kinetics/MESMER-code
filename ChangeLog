@@ -1,6 +1,11 @@
 
 2013-March-31 Struan Robertson
 
+	* CollisionOperator.cpp/.h, TMatrix.h: Replaced d2D types with generic
+	STL types or TMatrix types.
+
+2013-March-31 Struan Robertson
+
 	* MolecularComponents.cpp/.h: Re-orientation of molecular system and 
 	orthogonalization of projected modes.
 
