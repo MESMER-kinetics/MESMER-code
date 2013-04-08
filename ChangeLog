@@ -1,5 +1,31 @@
+2013-April-08 Chris Morley
 
-2013-March-31 Struan Robertson
+	Use different bath gases in the same run
+	* src/plugins/ExponentialDown.cpp,
+	src/EnergyTransferModel.h,src/plugins/GaussianModel.cpp: 
+	parse for deltaEDown for specified bath gases
+	 
+	* src/MolecularComponents.cpp,src/MolecularComponents.h,
+	src/MoleculeManager.h: keep a map of bathGasName/energyTransferModel
+	rather than just m_bathGas.
+
+	* src/System.cpp: do parsing of <me:bathGas> before reactions and
+	molecules
+
+	* src/MesmerEnv.h,src/unitsConversion.h: extra variable to transmit
+	current bath gas.
+
+	* src/Persistence.h,src/XMLPersist.cpp,src/XMLPersist.h: added a
+	parameter to XmlMoveToProperty() to make it easier to move to the
+	next sibling CML property
+
+	* src/CollisionOperator.cpp: error message
+
+	*src/Constants.h,src/MolecularComponents.cpp: units conversion for
+	hessians from Robin
+
+
+2013-April-07 Struan Robertson
 
 	* CollisionOperator.cpp/.h, TMatrix.h: Replaced d2D types with generic
 	STL types or TMatrix types.

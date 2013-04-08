@@ -42,7 +42,7 @@ namespace mesmer
     /*************************************************************
     Read the parameters needed by the class from the XML datafile
     *************************************************************/
-    virtual bool ReadParameters(const Molecule* parent) ; 
+    virtual bool ReadParameters(Molecule* parent) ; 
 
     /*************************************************************
     This is the function which does the real work of the plugin
@@ -75,7 +75,7 @@ namespace mesmer
   store it in Molecule or Reaction if this is sensible or in the plugin class for
   more specialized data..
   ******************************************************************************/
-  bool Gaussian::ReadParameters(const Molecule* parent) { 
+  bool Gaussian::ReadParameters(Molecule* parent) { 
 
     setParent(parent);
     PersistPtr pp = parent->get_PersistentPointer();
@@ -133,7 +133,7 @@ namespace mesmer
       }
     }
 
-    return true ; 
+    return true; //TODO Parse for ref attribute, when this might be the name of a bath gas
   }
 
   /******************************************************************************

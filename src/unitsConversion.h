@@ -59,11 +59,14 @@ namespace mesmer
 
     CandTpair(double cp_, double t_): m_concentration(cp_), m_temperature(t_), m_precision(DOUBLE){}
     CandTpair(double cp_, double t_, Precision _pre): m_concentration(cp_), m_temperature(t_), m_precision(_pre){}
+    CandTpair(double cp_, double t_, Precision _pre, const char* _bathGas)
+      : m_concentration(cp_), m_temperature(t_), m_precision(_pre), m_pBathGasName(_bathGas){}
 
     // Accessors
     const double    get_concentration(){ return m_concentration; }
     const double    get_temperature()  { return m_temperature;   }
     const Precision get_precision()    { return m_precision;     }
+    const char*     getBathGasName()   { return m_pBathGasName;  }
 
     void set_experimentalRates(PersistPtr ppData, string ref1, string ref2, string refReaction, double value, double error){
       m_rates.push_back(conditionSet(ref1, ref2, refReaction, value, error));
@@ -93,6 +96,7 @@ namespace mesmer
     double    m_concentration; // particles per cubic centimeter
     double    m_temperature; // Kelvin
     Precision m_precision;
+    const char* m_pBathGasName;
 
     vector<conditionSet> m_rates;
     vector<conditionSet> m_yields;

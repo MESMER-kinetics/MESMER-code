@@ -63,8 +63,9 @@ namespace mesmer
     /// Returns the data associated with name (CML property element) or NULL
     virtual const char* XmlReadProperty( const std::string& name, bool MustBeThere=true)=0;
 
-    /// Returns a PersistPtr to the scalar or array  element of a CML property element
-    virtual PersistPtr XmlMoveToProperty(const std::string& name)=0;
+    /// Returns a PersistPtr to the scalar or array  element of a CML property element.
+    //  To call from withhin a previous property set NextProperty true.
+    virtual PersistPtr XmlMoveToProperty(const std::string& name,bool ToNextProperty=0)=0;
 
     /// Returns the value associated with name (CML property element)
     // If the property is not found and the default is either not requested

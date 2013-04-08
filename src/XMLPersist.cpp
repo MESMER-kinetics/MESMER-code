@@ -225,12 +225,24 @@ namespace mesmer
     return NULL;
   }
 
-  PersistPtr XMLPersist::XmlMoveToProperty(const string& name)
+  PersistPtr XMLPersist::XmlMoveToProperty(const string& name, bool ToNextProperty)
   {
-    TiXmlElement* pnPropList = pnNode->FirstChildElement("propertyList");
-    if(!pnPropList)
-      pnPropList = pnNode; //Be forgiving; we can get by without a propertyList element
-    TiXmlElement* pnProp = pnPropList->FirstChildElement("property");
+    // Set ToNextProperty false to search from a parent of <property> or
+    // set true to call from <property> or <scalar> of a previous property.
+    TiXmlElement* pnProp;
+    if(ToNextProperty)
+    {
+      if(pnNode->ValueStr()!="property")
+        pnNode = pnNode->Parent()->ToElement();
+      pnProp = pnNode->NextSiblingElement("property");
+    }
+    else
+    {
+      TiXmlElement* pnPropList = pnNode->FirstChildElement("propertyList");
+      if(!pnPropList)
+        pnPropList = pnNode; //Be forgiving; we can get by without a propertyList element
+      pnProp = pnPropList->FirstChildElement("property");
+    }
 
     while(pnProp)
     {
@@ -298,7 +310,7 @@ namespace mesmer
         TiXmlElement* pnChild = pnProp->FirstChildElement(); //could be <array> or <scalar> or <string>
         if(pnChild){
           const char* attrtxt = pnChild->Attribute(attName.c_str());
-          if(attrtxt)
+          //if(attrtxt) Changed CM 13/3/2013 do NOT look on next sibling property if attribute is not present
             return attrtxt;//return if the attribute is on this element; otherwise look on next sibling element
         }
       }

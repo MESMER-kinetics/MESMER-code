@@ -61,7 +61,13 @@ namespace mesmer
 
     double minEnergy(SUPREMUM) ; // The minimum & maximum ZPE amongst all wells, set artificially large and small
     double maxEnergy(INFIMUM) ;  // to guarantee that each is overwritten in setting minEnergy and maxEnergy.
-    Molecule *pBathGasMolecule = m_pMoleculeManager->get_BathGasMolecule();
+
+    Molecule *pBathGasMolecule = m_pMoleculeManager->find(mEnv.bathGasName);
+    if(!pBathGasMolecule)
+    {
+      cerr << "The molecular data for the bath gas " << mEnv.bathGasName << " has not been found" <<endl;
+      return false;
+    }
 
     // populate molMapType with unimolecular species and determine minimum/maximum energy on the PES
     for (size_t i(0) ; i < m_pReactionManager->size() ; ++i) {
@@ -201,7 +207,7 @@ namespace mesmer
         isomer->getColl().set_colloptrsize(colloptrsize) ;
         msize += colloptrsize ;
 
-        if(!isomer->getColl().initCollisionOperator(mEnv.beta, pBathGasMolecule)){
+        if(!isomer->getColl().initCollisionOperator(mEnv, pBathGasMolecule)){
           cerr << "Failed initializing collision operator for " << isomer->getName();
           return false;
         }

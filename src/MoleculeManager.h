@@ -78,7 +78,7 @@ public:
   void set_PersistPtr(PersistPtr value) {m_ppPersist = value;}
   Molecule *get_BathGasMolecule() {return m_molmap[m_BathGasMolecule]; } ;
   void set_BathGasMolecule(const std::string &s_bgm){m_BathGasMolecule = s_bgm ; } ;
-
+  const std::string& get_BathGasName() { return m_BathGasMolecule; } ;
 private:
 
   std::map<std::string, Molecule*>                          m_molmap ;

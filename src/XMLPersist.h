@@ -81,7 +81,7 @@ public:
   virtual int XmlReadInteger(const std::string& name, bool MustBeThere=true);
 
   virtual const char* XmlReadProperty( const std::string& name, bool MustBeThere=true);
-  virtual PersistPtr XmlMoveToProperty(const std::string& name);
+  virtual PersistPtr XmlMoveToProperty(const std::string& name, bool ToNextProperty=0);
   virtual double XmlReadPropertyDouble(const std::string& name, bool MustBeThere);
   virtual int XmlReadPropertyInteger(const std::string& name, bool MustBeThere);
   virtual const char* XmlReadPropertyAttribute(const std::string& name, const std::string& attName, bool MustBeThere=true);

@@ -177,6 +177,19 @@ namespace mesmer
     }
     cinfo.flush();
 
+    //Reaction Conditions
+    PersistPtr ppConditions = ppIOPtr->XmlMoveTo("me:conditions");
+    if(!ppConditions)
+    {
+      cerr << "No conditions specified";
+      return false;
+    }
+    string Bgtxt = ppConditions->XmlReadValue("me:bathGas");
+    if(!m_pMoleculeManager->addmol(Bgtxt, "bathGas", m_Env, m_Flags))
+      return false;
+    m_pMoleculeManager->set_BathGasMolecule(Bgtxt) ;
+    //The rest of the me:conditions are read after the reactions and molecules
+
     //-------------
     //Reaction List
     PersistPtr ppReacList = ppIOPtr->XmlMoveTo("reactionList");
@@ -199,6 +212,7 @@ namespace mesmer
     cinfo.flush();
     //-------------
 
+    /* Move reading of bath gas to before reading of reactions and molecules
     //Reaction Conditions
     PersistPtr ppConditions = ppIOPtr->XmlMoveTo("me:conditions");
     if(!ppConditions)
@@ -210,6 +224,7 @@ namespace mesmer
     if(!m_pMoleculeManager->addmol(Bgtxt, "bathGas", m_Env, m_Flags))
       return false;
     m_pMoleculeManager->set_BathGasMolecule(Bgtxt) ;
+    */
 
     //--------------
     //  The concentration/pressure units are of following formats:
@@ -424,8 +439,14 @@ namespace mesmer
           this_precision = DOUBLE ;
         }
       }
-      CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision);
-      cinfo << this_P << this_units << ", " << this_T << "K at " << txt << " precision" <<endl; 
+
+      // Bath gas specific to this PT 
+      const char* bathGasName = ppPTpair->XmlReadValue("me:bathGas", optional);
+      if(!bathGasName) // if not specified use the general bath gas molecule name
+        bathGasName = getMoleculeManager()->get_BathGasName().c_str();
+      CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision,bathGasName);
+      cinfo << this_P << this_units << ", " << this_T << "K at " << txt 
+            << " precision" << " with " << bathGasName << endl; 
 
       // Extract experimental rate coefficient values for chiSquare calculation.
       PersistPtr ppExpRate = ppPTpair->XmlMoveTo("me:experimentalRate");
@@ -547,6 +568,8 @@ namespace mesmer
       m_Env.beta = 1.0 / (boltzmann_RCpK * PandTs[calPoint].get_temperature()) ; //temporary statements
       m_Env.conc = PandTs[calPoint].get_concentration();
       // unit of conc: particles per cubic centimeter
+
+      m_Env.bathGasName = PandTs[calPoint].getBathGasName();
 
       if (writeReport) {cinfo << "PT Grid " << calPoint << endl;}
       Precision precision = PandTs[calPoint].get_precision();

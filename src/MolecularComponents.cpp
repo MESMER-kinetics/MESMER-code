@@ -920,6 +920,8 @@ namespace mesmer
       convFactor = conHess2Freq * sqrt(Calorie_in_Joule)/(2.0*M_PI) ;
     } else if (m_HessianUnits == "kJ/mol/Ang2") {
       convFactor = conHess2Freq / (2.0*M_PI) ;
+	  } else if (m_HessianUnits == "Hartree/Bohr2") {
+      convFactor = conHess2Freq *sqrt(Hartree_In_kJperMol) / ((2.0*M_PI)*(bohr_in_angstrom) );
     } else {
       throw (std::runtime_error("Unknown Hessian units."));
     }
@@ -1125,7 +1127,7 @@ namespace mesmer
     m_lowestBarrier(9e23),
     m_numGroupedGrains(0),
     m_pDistributionCalculator(NULL),
-    m_pEnergyTransferModel(NULL),
+    //m_pEnergyTransferModel(NULL),
     m_grainDist(),
     m_egme(NULL),
     m_egvec(NULL),
@@ -1139,7 +1141,10 @@ namespace mesmer
   {
     if (m_egme != NULL) delete m_egme ;
     if (m_grainDist.size()) m_grainDist.clear();
-    delete m_pEnergyTransferModel;
+    //delete m_pEnergyTransferModel;
+    for(std::map<string, EnergyTransferModel*>::iterator it = m_EnergyTransferModels.begin();
+        it!=m_EnergyTransferModels.end(); ++it)
+      delete it->second;
   }
 
   bool gWellProperties::initialization(){
@@ -1170,17 +1175,36 @@ namespace mesmer
     const char* pETPModeltxt = pp->XmlReadValue("me:energyTransferModel") ;
     if(!pETPModeltxt)
       return false;
-
-    m_pEnergyTransferModel = EnergyTransferModel::Find(pETPModeltxt);//new instance, deleted in destructor
-    if(!m_pEnergyTransferModel)
+    
+    EnergyTransferModel* pModel = EnergyTransferModel::Find(pETPModeltxt);//new instance, deleted in destructor
+    if(!pModel)
     {
       cerr << "Unknown energy transfer model" << pETPModeltxt << " for species" << m_host->getName() << endl;
       return false;
     }
 
     // Initialize energy transfer model.
-    return m_pEnergyTransferModel->ReadParameters(getHost());
+    return pModel->ReadParameters(getHost());
   }
+
+    EnergyTransferModel* gWellProperties::addBathGas(const char* pbathGasName, EnergyTransferModel* pModel)
+    {
+      // Look up the energy transfer model instance for this bath gas
+      bool isGeneralBG = (pbathGasName==NULL);
+      if(pbathGasName==NULL) // use the general bath gas
+        pbathGasName = getHost()->getMoleculeManager()->get_BathGasName().c_str();
+      EnergyTransferModel* pETModel = m_EnergyTransferModels[string(pbathGasName)];
+      if(pETModel==NULL)
+      {
+        //Unrecognized bath gas.
+        //If it is not the general bath gas make a new model for it and add it to the map.
+        auto flgs = m_host->getFlags();
+        getHost()->getMoleculeManager()->addmol(pbathGasName, "bathGas", m_host->getEnv(), flgs);
+        pETModel = isGeneralBG ? pModel : dynamic_cast<EnergyTransferModel*>(pModel->Clone());
+        m_EnergyTransferModels[string(pbathGasName)] = pETModel;
+      }
+      return pETModel;
+    }
 
   double gWellProperties::get_collisionFrequency() const {
     return m_collisionFrequency ;
@@ -1205,7 +1229,7 @@ namespace mesmer
   //
   // Initialize the Collision Operator.
   //
-  bool gWellProperties::initCollisionOperator(double beta, Molecule *pBathGasMolecule)
+  bool gWellProperties::initCollisionOperator(MesmerEnv& env, Molecule *pBathGasMolecule)
   {
     // If density of states have not already been calcualted then do so.
     if (!m_host->getDOS().calcDensityOfStates()){
@@ -1214,7 +1238,7 @@ namespace mesmer
     }
 
     // Calculate the collision frequency.
-    m_collisionFrequency = collisionFrequency(beta, m_host->getEnv().conc, pBathGasMolecule) ;
+    m_collisionFrequency = collisionFrequency(env, pBathGasMolecule) ;
 
     // Calculate the collision operator.
     {
@@ -1271,7 +1295,7 @@ namespace mesmer
         // Second find out the partition fraction of active states in the current temperature
         double popAbove(0.0), totalPartition(0.0);
         for (int i(0); i < m_ncolloptrsize; ++i){
-          const double ptfn(sqrt(exp(log(gDOS[i]) - beta * gEne[i] + 10.0)));
+          const double ptfn(sqrt(exp(log(gDOS[i]) - env.beta * gEne[i] + 10.0)));
           totalPartition += ptfn;
           if (i >= grainLoc)
             popAbove += ptfn;
@@ -1287,13 +1311,13 @@ namespace mesmer
       }
 
       if (m_numGroupedGrains){
-        if (!collisionOperatorWithReservoirState(beta, m_ncolloptrsize - m_numGroupedGrains)){
+        if (!collisionOperatorWithReservoirState(env, m_ncolloptrsize - m_numGroupedGrains)){
           cerr << "Failed building collision operator with reservoir state.";
           return false;
         }
       }
       else{
-        if (!collisionOperator(beta)){
+        if (!collisionOperator(env)){
           cerr << "Failed building collision operator.";
           return false;
         }
@@ -1348,7 +1372,7 @@ namespace mesmer
   //
   // Calculate collision operator
   //
-  bool gWellProperties::collisionOperatorWithReservoirState(double beta, const int reducedCollOptrSize)
+  bool gWellProperties::collisionOperatorWithReservoirState(MesmerEnv& env, const int reducedCollOptrSize)
   {
     if (m_host->getDOS().test_rotConsts() == UNDEFINED_TOP) return true;
     //
@@ -1379,7 +1403,7 @@ namespace mesmer
     dMatrix* tempEGME = new dMatrix(m_ncolloptrsize);
 
     // Calculate raw transition matrix.
-    if (!rawTransitionMatrix(beta, gEne, gDOS, tempEGME)) return false ;
+    if (!rawTransitionMatrix(env, gEne, gDOS, tempEGME)) return false ;
 
     if (m_host->getFlags().showCollisionOperator != 0){
       ctest << "\nCollision operator of " << m_host->getName() << " before normalization:\n";
@@ -1424,14 +1448,14 @@ namespace mesmer
     for (int j(0); j < m_ncolloptrsize ; ++j ) {
       if (j < m_numGroupedGrains){
         // summing up the partition function of reservoir state
-        ptfReservoir += exp(log(gDOS[j]) - beta * gEne[j] + 10.0);
+        ptfReservoir += exp(log(gDOS[j]) - env.beta * gEne[j] + 10.0);
       }
       else{
         double downwardSum(0.0);
         for (int i(0) ; i < m_numGroupedGrains ; ++i ) {
           downwardSum += (*tempEGME)[i][j]; // sum of the normalized downward prob.
         }
-        double ptfj = exp(log(gDOS[j]) - beta * gEne[j] + 10.0);
+        double ptfj = exp(log(gDOS[j]) - env.beta * gEne[j] + 10.0);
         sumOfDeactivation += downwardSum * ptfj;
 
         (*m_egme)[0][j - m_numGroupedGrains + 1] = downwardSum;
@@ -1445,14 +1469,14 @@ namespace mesmer
 
     // Symmetrization of the collision matrix.
     vector<double> popDist; // grained population distribution
-    const double firstPop = exp(log(gDOS[0]) - beta * gEne[0] + 10.0);
+    const double firstPop = exp(log(gDOS[0]) - env.beta * gEne[0] + 10.0);
     popDist.push_back(firstPop);
     for (int idx(1); idx < m_ncolloptrsize; ++idx){
       if (idx < m_numGroupedGrains){
-        popDist[0] += exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0);
+        popDist[0] += exp(log(gDOS[idx]) - env.beta * gEne[idx] + 10.0);
       }
       else{
-        popDist.push_back(sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0)));
+        popDist.push_back(sqrt(exp(log(gDOS[idx]) - env.beta * gEne[idx] + 10.0)));
       }
     }
     popDist[0] = sqrt(popDist[0]); // This is the square root of partition function in the reservoir grain
@@ -1494,7 +1518,7 @@ namespace mesmer
   //
   // Calculate collision operator
   //
-  bool gWellProperties::collisionOperator(double beta)
+  bool gWellProperties::collisionOperator(MesmerEnv& env)
   {
     if (m_host->getDOS().test_rotConsts() == UNDEFINED_TOP){   // davidglo, requirement for the diamond work.
       cinfo << "For " << m_host->getName() << ", there no rotational states are defined... only vibrations will be used to construct the molecular DOS" << endl;
@@ -1524,7 +1548,7 @@ namespace mesmer
     m_egme = new dMatrix(m_ncolloptrsize) ;           // Collision operator matrix.
 
     // Calculate raw transition matrix.
-    if (!rawTransitionMatrix(beta, gEne, gDOS, m_egme)) return false ;
+    if (!rawTransitionMatrix(env, gEne, gDOS, m_egme)) return false ;
 
     if (m_host->getFlags().showCollisionOperator != 0){
       ctest << "\nCollision operator of " << m_host->getName() << " before normalization:\n";
@@ -1570,7 +1594,7 @@ namespace mesmer
     // Symmetrization of the collision matrix.
     vector<double> popDist; // grained population distribution
     for (int idx(0); idx < m_ncolloptrsize; ++idx){
-      popDist.push_back(sqrt(exp(log(gDOS[idx]) - beta * gEne[idx] + 10.0)));
+      popDist.push_back(sqrt(exp(log(gDOS[idx]) - env.beta * gEne[idx] + 10.0)));
     }
     for ( i = 1 ; i < m_ncolloptrsize ; ++i ) {
       for ( j = 0 ; j < i ; ++j ) {
@@ -1595,8 +1619,9 @@ namespace mesmer
   //
   // Calculate raw transition matrix.
   //
-  bool gWellProperties::rawTransitionMatrix(double beta, vector<double> &gEne, vector<double> &gDOS, dMatrix *egme)
+  bool gWellProperties::rawTransitionMatrix(MesmerEnv& env, vector<double> &gEne, vector<double> &gDOS, dMatrix *egme)
   {
+    EnergyTransferModel* pEnergyTransferModel = m_EnergyTransferModels[env.bathGasName];
     // Use number of states to weight the downward transition
     if (m_host->getFlags().useDOSweightedDT){
       // The collision operator.
@@ -1609,13 +1634,13 @@ namespace mesmer
           // Transfer to lower Energy -
           // double transferDown = exp(-alpha*(ej - ei)) * (ni/nj);
           // (*m_egme)[i][j] = transferDown;
-          double transferDown = m_pEnergyTransferModel->calculateTransitionProbability(ej,ei) ;
+          double transferDown = pEnergyTransferModel->calculateTransitionProbability(ej,ei) ;
           (*egme)[i][j] = transferDown * (ni/nj);
 
           // Transfer to higher Energy (via detailed balance) -
           // double transferUp = exp(-(alpha + beta)*(ej - ei));
           // (*m_egme)[j][i] = transferUp;
-          (*egme)[j][i] = transferDown * exp(-beta*(ej - ei));
+          (*egme)[j][i] = transferDown * exp(-env.beta*(ej - ei));
         }
       }
     } else {
@@ -1627,11 +1652,11 @@ namespace mesmer
           double ej = gEne[j];
           double nj = gDOS[j];
           // Transfer to lower Energy -
-          double transferDown = m_pEnergyTransferModel->calculateTransitionProbability(ej,ei) ;
+          double transferDown = pEnergyTransferModel->calculateTransitionProbability(ej,ei) ;
           (*egme)[i][j] = transferDown;
 
           // Transfer to higher Energy (via detailed balance) -
-          (*egme)[j][i] = transferDown * (nj/ni) * exp(-beta*(ej - ei)) ;
+          (*egme)[j][i] = transferDown * (nj/ni) * exp(-env.beta*(ej - ei)) ;
         }
       }
     }
@@ -1643,7 +1668,7 @@ namespace mesmer
   //
   // Calculate collision frequency.
   //
-  double gWellProperties::collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule)
+  double gWellProperties::collisionFrequency(MesmerEnv env, Molecule *pBathGasMolecule)
   {
     //
     // Lennard-Jones Collision frequency. The collision integral is calculated
@@ -1658,7 +1683,7 @@ namespace mesmer
     double E = 2.16178 ;
     double F = 2.43787 ;
 
-    double temp = 1.0/(boltzmann_RCpK*beta) ;
+    double temp = 1.0/(boltzmann_RCpK*env.beta) ;
 
     // Calculate collision parameter averages.
     double bthMass = 0.0;
@@ -1688,7 +1713,7 @@ namespace mesmer
     // Calculate molecular collision frequency.
     collFrq *= (M_PI * sam * sam * 1.0e-20 * sqrt(8. * boltzmann_C * temp/(M_PI * mu))) ;
     // Calculate overall collision frequency.
-    collFrq *= (conc * 1.0e6) ;
+    collFrq *= (env.conc * 1.0e6) ;
 
     return collFrq;
   }

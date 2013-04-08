@@ -90,9 +90,9 @@ private:
     }
     return ss.str();
   }
-
-protected:
+public:
   virtual TopPlugin* Clone(){ return NULL; }
+protected:
 
   static TopPlugin* TopFind(const std::string& name,const std::string& pluginType,
                             bool useErrorMessage=true)

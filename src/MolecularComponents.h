@@ -341,7 +341,9 @@ namespace mesmer
     int                 m_numGroupedGrains;    // Number of grains grouped into a reservoir grain.
 
     DistributionCalculator* m_pDistributionCalculator;
-    EnergyTransferModel* m_pEnergyTransferModel ; 
+    
+    //EnergyTransferModel* m_pEnergyTransferModel ; //loaded for each PT condition
+    std::map<std::string, EnergyTransferModel*> m_EnergyTransferModels; //with different bath gases
 
     std::vector<double> m_grainDist ;          // Grain distribution (not normalized)
     dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
@@ -349,16 +351,16 @@ namespace mesmer
     std::vector<double>  m_egval;
 
     // Calculate collision frequency.
-    double collisionFrequency(double beta, const double conc, Molecule *pBathGasMolecule) ;
+    double collisionFrequency(MesmerEnv env, Molecule *pBathGasMolecule) ;
 
     // Calculate collision operator.
-    bool collisionOperator (double beta) ;
+    bool collisionOperator (MesmerEnv& env) ;
 
     // Calculate raw transition matrix.
-    bool rawTransitionMatrix(double beta, vector<double> &gEne,  vector<double> &gDOS, dMatrix *egme) ;
+    bool rawTransitionMatrix(MesmerEnv& env, vector<double> &gEne,  vector<double> &gDOS, dMatrix *egme) ;
 
     // Calculate collision operator with reservoir state.
-    bool collisionOperatorWithReservoirState(double beta, int reducedCollOptrSize) ;
+    bool collisionOperatorWithReservoirState(MesmerEnv& env, int reducedCollOptrSize) ;
 
     double getBoltzmannWeightedEnergy(int numberOfGrains, const vector<double>& gEne, const vector<double>& gDos, double beta, double& totalDOS);
 
@@ -374,8 +376,11 @@ namespace mesmer
     virtual ~gWellProperties();
     bool initialization();
 
+    // Returns an existing model associated with the named bath gas or makes a new one
+    EnergyTransferModel* addBathGas(const char* pbathGasName, EnergyTransferModel* pModel);
+
     // Initialize the Collision Operator.
-    bool initCollisionOperator(double beta, Molecule *pBathGasMolecule) ;
+    bool initCollisionOperator(MesmerEnv& env, Molecule *pBathGasMolecule) ;
 
     // Calculate a reaction matrix element.
     qd_real matrixElement(int eigveci, int eigvecj, std::vector<double> &k) const;

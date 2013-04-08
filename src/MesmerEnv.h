@@ -2,6 +2,8 @@
 #define GUARD_MesmerEnv_h
 
 #include <stddef.h>
+#include <string>
+
 namespace mesmer
 {
   struct MesmerEnv
@@ -11,6 +13,7 @@ namespace mesmer
     // environmental values
     double beta;
     double conc;
+    std::string bathGasName;
 
     // granularity of the system
     int    GrainSize;                     // Grain size in cm-1

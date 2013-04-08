@@ -78,7 +78,8 @@ public:
   *************************************************************/
   virtual double calculateTransitionProbability(double Ei, double Ej) = 0 ;
 
-  virtual bool ReadParameters(const Molecule* parent) = 0 ; 
+  //Returns the bath gas name special for this instance, or NULL none specified.
+  virtual bool ReadParameters(Molecule* parent) = 0 ; 
 
   const Molecule* getParent() const {return m_parent;} ;
   void setParent(const Molecule* parent) { m_parent = parent;} ;
