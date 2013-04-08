@@ -1,3 +1,8 @@
+
+2013-April-08 Struan Robertson
+	
+	* CollisionOperator.cpp: Fix for linux build break.
+
 2013-April-08 Chris Morley
 
 	Use different bath gases in the same run

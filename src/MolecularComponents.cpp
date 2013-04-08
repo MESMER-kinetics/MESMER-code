@@ -920,8 +920,8 @@ namespace mesmer
       convFactor = conHess2Freq * sqrt(Calorie_in_Joule)/(2.0*M_PI) ;
     } else if (m_HessianUnits == "kJ/mol/Ang2") {
       convFactor = conHess2Freq / (2.0*M_PI) ;
-	  } else if (m_HessianUnits == "Hartree/Bohr2") {
-      convFactor = conHess2Freq *sqrt(Hartree_In_kJperMol) / ((2.0*M_PI)*(bohr_in_angstrom) );
+    } else if (m_HessianUnits == "Hartree/Bohr2") {
+      convFactor = conHess2Freq *sqrt(Hartree_In_kJperMol) / (2.0*M_PI*bohr_in_angstrom) ;
     } else {
       throw (std::runtime_error("Unknown Hessian units."));
     }
@@ -1198,7 +1198,7 @@ namespace mesmer
       {
         //Unrecognized bath gas.
         //If it is not the general bath gas make a new model for it and add it to the map.
-        auto flgs = m_host->getFlags();
+        MesmerFlags flgs = m_host->getFlags();
         getHost()->getMoleculeManager()->addmol(pbathGasName, "bathGas", m_host->getEnv(), flgs);
         pETModel = isGeneralBG ? pModel : dynamic_cast<EnergyTransferModel*>(pModel->Clone());
         m_EnergyTransferModels[string(pbathGasName)] = pETModel;

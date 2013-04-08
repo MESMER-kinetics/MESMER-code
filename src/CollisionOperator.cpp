@@ -1260,7 +1260,8 @@ namespace mesmer
 
       // Print out Y_matrix for testing.
       if (nsinks){
-        Y_matrix.print(string("Y_matrix:"), ctest, int(nsinks), int(m_SpeciesSequence.size())); 
+		string MatrixTitle("Y_matrix:") ;
+        Y_matrix.print(MatrixTitle, ctest, int(nsinks), int(m_SpeciesSequence.size())); 
       }
 
       qdMatrix Zinv(Z_matrix) ;
@@ -1341,7 +1342,8 @@ namespace mesmer
             Kp[i][j] = sm;
           }
         }
-        Kp.print(string("\nKp matrix:"), ctest, nsinks, m_SpeciesSequence.size());
+		string MatrixTitle("Kp matrix:") ;
+        Kp.print(MatrixTitle, ctest, nsinks, m_SpeciesSequence.size());
       }
 
       // Write out phenomenological rate coefficients.

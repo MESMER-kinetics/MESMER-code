@@ -38,7 +38,7 @@ namespace Constants {
   static const double atm_in_pascal                  = 1.01325e+05;    //Pascal: N*m^-2
   static const double Hartree_In_kJperMol            = 2625.478;
   static const double psi_in_pascal                  = 6894.76;
-  static const double bohr_in_angstrom                  = 0.529177;
+  static const double bohr_in_angstrom               = 0.529177;
 
   //
   // Derived constants (do not alter contents below)

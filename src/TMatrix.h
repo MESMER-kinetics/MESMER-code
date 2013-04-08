@@ -1019,7 +1019,7 @@ label_1: return(p);
   // Print out the contents of the matrix.
   //
   template<class T>
-  void TMatrix<T>::print(std::string& title, std::ostream& output_stream, int nr = -1, int nc = -1 ) const {
+  void TMatrix<T>::print(std::string& title, std::ostream& output_stream, int nr, int nc) const {
 
 	size_t msize = this->size() ;
 	size_t nrows = (nr < 0) ? msize : min(msize,size_t(nr)) ;
