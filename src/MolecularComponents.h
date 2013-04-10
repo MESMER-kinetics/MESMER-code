@@ -424,8 +424,9 @@ namespace mesmer
     //-------------------------------------------------------------------------------------------------
 
   private:
-    double m_MolecularWeight;
+    double m_MolecularWeight ;
     vector<double> m_PrincipalMI ; //initially amuAng2, eventually gcm2
+	dMatrix *m_AxisAlignment ;
     struct atom
     {
       std::string id;
@@ -453,7 +454,9 @@ namespace mesmer
 
     gStructure(Molecule* pMol);
 
-    //Returns true if atoms have coordinates
+	~gStructure() { if(m_AxisAlignment) delete m_AxisAlignment ; } ;
+
+	//Returns true if atoms have coordinates
     bool ReadStructure();
 
     int NumAtoms() { return Atoms.size(); }
@@ -517,6 +520,12 @@ namespace mesmer
 
     // Returns an ordered array of Z coordinates.
     void getZCoords(vector<double> &coords) const ;
+
+	// Returns the alignment matix if it exists
+	void getAlignmentMatrix(dMatrix &rAlignmentMatrix) const { 
+	  if (m_AxisAlignment) 
+		rAlignmentMatrix = *m_AxisAlignment ;
+	} ;
   };
 
 

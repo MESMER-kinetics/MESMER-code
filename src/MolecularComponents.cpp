@@ -847,14 +847,44 @@ namespace mesmer
     }
 
     // Mass weight Hessian.
+
+    double convFactor(1.0) ;
+    if (m_HessianUnits == "kJ/mol/Ang2") {
+      // Nothing to do.
+    } else if (m_HessianUnits == "kcal/mol/Ang2") {
+      convFactor *= Calorie_in_Joule ;
+    } else if (m_HessianUnits == "Hartree/Bohr2") {
+      convFactor *= Hartree_In_kJperMol /(bohr_in_angstrom * bohr_in_angstrom) ;
+    } else {
+      throw (std::runtime_error("Unknown Hessian units."));
+    }
+
     for (i = 0 ; i < msize ; i++) {
       for (j = i ; j < msize ; j++) {
-        (*m_Hessian)[i][j] /= (massWeights[i]*massWeights[j]) ;
-        (*m_Hessian)[j][i] = (*m_Hessian)[i][j] ;
+        (*m_Hessian)[i][j] *= convFactor/(massWeights[i]*massWeights[j]) ;
+        (*m_Hessian)[j][i]  = (*m_Hessian)[i][j] ;
       }
     }
 
-    // X Translation projector.
+    // Rotate Hessian.
+
+	dMatrix axisAlignment(3, 0.0) ;
+	gs.getAlignmentMatrix(axisAlignment) ;
+	dMatrix Transform(msize, 0.0) ;
+	for (i = 0 ; i < msize ; i += 3) {
+      size_t ii(0),jj(0) ;
+      for (ii = 0 ; ii < 3 ; ii++) {
+		for (jj = 0 ; jj < 3 ; jj++) {
+		  Transform[i+ii][i+jj] = axisAlignment[ii][jj] ;
+		}
+      }
+	}
+
+	dMatrix tmpHessian = (*m_Hessian)*Transform ;
+	Transform.Transpose() ;
+	*m_Hessian = Transform*tmpHessian ;
+
+	// X Translation projector.
 
     vector<double> mode(msize, 0.0) ;
     for (i = 0 ; i < msize ; i += 3) 
@@ -872,7 +902,7 @@ namespace mesmer
     ShiftTransVector(mode) ;
     UpdateProjector(mode) ;
 
-    // Project out rotational modes.
+    // Rotational modes.
     RotationVector(yy, 2,  1.0, zz, 1, -1.0, massWeights, mode) ;
     UpdateProjector(mode) ;
 
@@ -915,17 +945,7 @@ namespace mesmer
 
     tmpHessian.diagonalize(&freqs[0]) ;
 
-    double convFactor(0.0) ;
-    if (m_HessianUnits == "kcal/mol/Ang2") {
-      convFactor = conHess2Freq * sqrt(Calorie_in_Joule)/(2.0*M_PI) ;
-    } else if (m_HessianUnits == "kJ/mol/Ang2") {
-      convFactor = conHess2Freq / (2.0*M_PI) ;
-    } else if (m_HessianUnits == "Hartree/Bohr2") {
-      convFactor = conHess2Freq *sqrt(Hartree_In_kJperMol) / (2.0*M_PI*bohr_in_angstrom) ;
-    } else {
-      throw (std::runtime_error("Unknown Hessian units."));
-    }
-
+    double convFactor = conHess2Freq / (2.0*M_PI) ;
     for (size_t i(0) ; i < msize ; i++) {
       if (freqs[i] > 0.0) {
         freqs[i] = convFactor*sqrt(freqs[i]) ;
@@ -1890,9 +1910,12 @@ namespace mesmer
 
 
   gStructure::gStructure(mesmer::Molecule *pMol) : m_MolecularWeight(-1), 
-    m_PrincipalMI(3, 0.0), 
-    m_HasCoords(false), 
-    m_atomicOrder()
+    m_PrincipalMI(3, 0.0),
+	m_AxisAlignment(NULL),
+	Atoms(),
+	Bonds(),
+    m_atomicOrder(),
+    m_HasCoords(false) 
   {
     ErrorContext c(pMol->getName());
     m_host = pMol;
@@ -2056,6 +2079,10 @@ namespace mesmer
 
       MI.diagonalize(&m_PrincipalMI[0]);
 
+	  // Save the Alignment matrix 
+
+	  m_AxisAlignment = new dMatrix(MI) ;
+	  
       // Rotate coordinates to principal axis frame.
 
       MI.Transpose() ;

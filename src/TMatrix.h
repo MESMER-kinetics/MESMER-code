@@ -32,8 +32,11 @@ namespace mesmer
 
   public:
 
-    // Constructor
+    // Constructors
     TMatrix( size_t n, const T& init = T(0.0)) : Matrix<T>(n, init) { } ;
+
+	// Copy constructor
+	TMatrix(const Matrix<T>& rhs ) : Matrix<T>(rhs) { } ;
 
     //
     // Wrapped calls to EISPACK routines to diagonalise matrix.

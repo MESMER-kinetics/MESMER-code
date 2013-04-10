@@ -1,4 +1,9 @@
 
+2013-April-10 Struan Robertson
+	
+	* MolecularComponents.cpp/.h: Re-orientation of Hessian an part of
+	vibrational mode analysis.
+
 2013-April-08 Struan Robertson
 	
 	* CollisionOperator.cpp: Fix for linux build break.
