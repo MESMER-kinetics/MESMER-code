@@ -917,13 +917,14 @@ namespace mesmer
     vector<double> freqs(msize, 0.0) ;
     calculateFreqs(freqs) ;
 
-    // Save projected frequencies.
-
+    // Save projected frequencies. Note need to check if configuration is a transtion state.
+	
+	size_t firstFrqIdx = (m_host->isMolType("transitionState")) ? 7 : 6 ;
     m_VibFreq.clear() ;
-    for (i = 6 ; i < msize ; i++) 
+    for (i = firstFrqIdx ; i < msize ; i++) 
       m_VibFreq.push_back(freqs[i]) ;
 
-    return true ;
+	return true ;
   }
 
   // Function to calculate the vibrational frequencies from a projected Hessian matrix.
