@@ -95,11 +95,19 @@ if [ "$1" == "-o" ] ; then
 fi
 cd ..
 
+cd Butyl_H_to_Butane
+$executable Butyl_H_to_Butane.xml -o $outf $directive
+cp ./$tfn ./$bline$otfn
+if [ "$1" == "-o" ] ; then
+  cp ./$lfn ./$bline$lfn 
+fi
+cd ..
+
 cd Ethyl_H_to_Ethane
 $executable Ethyl_H_to_Ethane.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
-  cp ./$lfn ./$bline$lfn 
+  cp ./$lfn ./$bline$lfn
 fi
 cd ..
 
