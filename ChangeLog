@@ -1,8 +1,14 @@
 
+2013-April-14 Struan Robertson
+	
+	* System.cpp: Update of version to 3.0.
+
+	* MESMER manual.docx: Updated to include material relating to hessian.
+
 2013-April-10 Struan Robertson
 	
-	* MolecularComponents.cpp: Minor change to account for transition state
-	imaginary frequency.
+	* MolecularComponents.cpp: Minor change to account for transition 
+	state imaginary frequency.
 
 2013-April-10 Struan Robertson
 	
