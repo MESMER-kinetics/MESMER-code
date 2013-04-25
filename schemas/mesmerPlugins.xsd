@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://www.chem.leeds.ac.uk/mesmer"
+    elementFormDefault="qualified"
+    xmlns="http://www.chem.leeds.ac.uk/mesmer"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:cml="http://www.xml-cml.org/schema"
+>
+  <xs:import namespace="http://www.xml-cml.org/schema" schemaLocation="CMLforMesmer.xsd"/>
+  
+  <xs:simpleType name="distribCalcName">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Boltzmann"/>
+      <xs:enumeration value="Prior"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="energyTransferModelName">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ExponentialDown"/>
+      <xs:enumeration value="gaussian"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!--<xs:simpleType name="MCRCMethodName">
+    <xs:restriction base="xs:string">
+      --><!--Only those with no data--><!--
+      <xs:enumeration value="SimpleRRKM"/>
+      <xs:enumeration value="DefinedSumOfStates"/>
+      --><!--<xs:enumeration value="MesmerILT"/>
+      <xs:enumeration value="SimpleILT"/>
+      <xs:enumeration value="SimpleBimolecularSink"/>--><!--
+    </xs:restriction>
+  </xs:simpleType>-->
+
+  <xs:simpleType name="MCRCMethodName">
+    <xs:restriction base="xs:string">
+      <!--Only those with no data-->
+      <xs:enumeration value="SimpleRRKM"/>
+      <xs:enumeration value="DefinedSumOfStates"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+ 
+  <xs:complexType name="MCRCMethodct">
+    <xs:sequence></xs:sequence>
+    <xs:attribute name="name"  type="xs:string" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="MesmerILT">
+    <xs:complexContent>
+      <xs:extension base="MCRCMethodct">
+        <xs:sequence>
+          <xs:element name="preExponential">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="lower" type="xs:float" use="optional" />
+                  <xs:attribute name="upper" type="xs:float" use="optional" />
+                  <xs:attribute name="stepsize" type="xs:float" use="optional" />
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="activationEnergy">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" type="xs:string" use="required" />
+                  <xs:attribute name="reverse" type="xs:boolean" use="optional" />
+                  <xs:attribute name="lower" type="xs:float" use="optional" />
+                  <xs:attribute name="upper" type="xs:float" use="optional" />
+                  <xs:attribute name="stepsize" type="xs:float" use="optional" />
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="nInfinity" type="xs:decimal">
+            <xs:annotation>
+              <xs:documentation>
+                The temperature exponentof (T/Tinf), nInfinity,  cannot have a range
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="TInfinity" type="xs:decimal" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                TInfinity is the reference temperature and cannot have a range
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ExtraDOSCt">
+    <xs:sequence></xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:simpleType name="bondRefType">
+    <xs:annotation>
+      <xs:documentation>spaces</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="cml:bondRefType">
+      <xs:whiteSpace value="collapse"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="HinderedRotorQM1D">
+    <xs:complexContent>
+      <xs:extension base="ExtraDOSCt">
+        <xs:sequence>
+          <xs:element name="bondRef" type="bondRefType"/>
+          <xs:element name="replaceVibFreq" type="xs:decimal" minOccurs="0"/>
+          <xs:element name="HinderedRotorPotential">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="PotentialPoint" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:attribute name="index" type="xs:unsignedInt" use="optional" />
+                    <xs:attribute name="coefficient" type="xs:decimal" use="optional" />
+                    <xs:attribute name="angle" type="xs:decimal" use="optional" />
+                    <xs:attribute name="potential" type="xs:decimal" use="optional" />
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="format" type="hinderedRotorFormatType" use="required" />
+              <xs:attribute name="units" type="energyUnitsType" use="required" />
+              <xs:attribute name="expansionSize" type="xs:unsignedInt" use="optional" />
+              <xs:attribute name="useSineTerms" type="xs:boolean" use="optional" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="periodicity" type="xs:unsignedInt" />
+          <xs:element name="PlotStates" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="HinderedRotorCM1D">
+    <xs:complexContent>
+      <xs:extension base="ExtraDOSCt">
+        <xs:sequence>
+          <xs:element name="bondRef" type="cml:bondRefType"/>
+          <xs:element name="replaceVibFreq" type="xs:decimal" minOccurs="0"/>
+          <xs:element name="HinderedRotorPotential">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="PotentialPoint" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:attribute name="index" type="xs:unsignedInt" use="required" />
+                    <xs:attribute name="coefficient" type="xs:decimal" use="required" />
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="format" type="hinderedRotorFormatType" use="required" />
+              <xs:attribute name="units" type="xs:string" use="required" />
+              <xs:attribute name="expansionSize" type="xs:unsignedInt" use="optional" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="periodicity" type="xs:unsignedInt" />
+          <xs:element minOccurs="0" name="PlotStates" />
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="hinderedRotorFormatType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="numerical"/>
+      <xs:enumeration value="analytical"/>  
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="Morse">
+    <xs:complexContent>
+      <xs:extension base="ExtraDOSCt">
+        <xs:sequence>
+          <xs:element name="MorseParameters" maxOccurs="unbounded">
+            <xs:complexType>
+              <xs:attribute name="vibrationalFrequency" type="xs:decimal"/>
+              <xs:attribute name="anharmonicity" type="xs:decimal"/>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="DOSCMethodName">
+    <xs:annotation>
+      <xs:documentation>
+        The default is ClassicalRotors
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction  base="xs:string">
+      <xs:enumeration value=""/>
+      <xs:enumeration value="ClassicalRotors"/>
+      <xs:enumeration value="QMRotors"/>
+      <xs:enumeration value="DefinedStatesRotors"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="calcMethodName">
+    <xs:annotation>
+      <xs:documentation>
+        The default is simpleCalc
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction  base="xs:string">
+      <xs:enumeration value="simpleCalc"/>
+      <xs:enumeration value="fitting"/>
+      <xs:enumeration value="gridSearch"/>
+      <xs:enumeration value="marquardt"/>
+      <xs:enumeration value="ThermodynamicTable"/>
+      <xs:enumeration value="UnitTests"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="calcMethodType">
+  <xs:annotation>
+    <xs:documentation>
+      The default is simpleCalc
+    </xs:documentation>
+  </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="calcMethodName">
+        <xs:attribute name="units" type="energyUnitsType"/>
+        <xs:attribute name="default" type="xs:boolean" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:element name="States">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="State" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="energy" type="xs:decimal" use="required"/>
+            <xs:attribute name="degeneracy" type="xs:integer" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="units" type="energyUnitsType" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  
+</xs:schema>
