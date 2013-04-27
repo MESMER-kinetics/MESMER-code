@@ -232,9 +232,8 @@ namespace mesmer
     TiXmlElement* pnProp;
     if(ToNextProperty)
     {
-      if(pnNode->ValueStr()!="property")
-        pnNode = pnNode->Parent()->ToElement();
-      pnProp = pnNode->NextSiblingElement("property");
+      pnProp = (pnNode->ValueStr()=="property") ? pnNode : pnNode->Parent()->ToElement();
+      pnProp = pnProp->NextSiblingElement();
     }
     else
     {

@@ -1,4 +1,9 @@
 
+2013-April-27 Chris Morley
+
+	src/XMLPersist.cpp:fix for corrupted output XML file bug
+	introduced in bath gas mod.
+
 2013-April-27 Struan Robertson
 	
 	* SensitivityAnalysis.cpp: Altered to read covariance matrix.
