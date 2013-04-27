@@ -12,7 +12,6 @@
 
 #include <fstream>
 #include <iomanip>
-#include <random>
 
 #include "../System.h"
 #include "../calcmethod.h"
@@ -23,9 +22,9 @@ namespace mesmer
   {
   public:
 
-    SensitivityAnalysis(const char* id) : m_id(id) {}
+    SensitivityAnalysis(const char* id) : m_id(id), m_CovMtx(NULL) { Register(); }
 
-    virtual ~SensitivityAnalysis() {}
+    virtual ~SensitivityAnalysis() { if (m_CovMtx) delete m_CovMtx ; }
 
     //Function to do the work
     virtual bool DoCalculation(System* pSys);
@@ -35,6 +34,9 @@ namespace mesmer
   private:
 
     const char* m_id;
+
+	dMatrix *m_CovMtx ;      // Covariance matrix.
+
   };
 
   ////////////////////////////////////////////////
@@ -45,26 +47,21 @@ namespace mesmer
   bool SensitivityAnalysis::DoCalculation(System* pSys)
   {
 
-  const int nrolls=10000;  // number of experiments
-  const int nstars=100;    // maximum number of stars to distribute
+	// Locate covarinance matrix and, if present, read it in. 
 
-  std::default_random_engine generator;
-  std::normal_distribution<double> distribution(5.0,2.0);
+	PersistPtr ppMtx = pSys->getPersistPtr()->XmlMoveTo("me:analysis");
+	if (ppMtx) {
+	  if (ppMtx = ppMtx->XmlMoveTo("me:hessian")) { 
+    	  ppMtx = ppMtx->XmlMoveTo("matrix") ;
+	  }
+	}
 
-  int p[10]={};
+	if (!ppMtx)
+	  return false ;
 
-  for (int i=0; i<nrolls; ++i) {
-    double number = distribution(generator);
-    if ((number>=0.0)&&(number<=10.0)) ++p[int(number)];
-  }
+	m_CovMtx = ReadMatrix<double>(ppMtx) ;
 
-  std::cout << "normal_distribution (5.0,2.0):" << std::endl;
-
-  for (int i=0; i<10; ++i) {
-    std::cout << i << "-" << (i+1) << ": ";
-    std::cout << std::string(p[i]*nstars/nrolls,'*') << std::endl;
-  }
-    return true;
+	return true;
   }
 
 

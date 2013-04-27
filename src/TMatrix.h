@@ -1162,7 +1162,7 @@ label_1: return(p);
   // if it is omitted or is anything else all elements are assumed present.
   // The returned matrix is fully populated.
   template<class T>
-  TMatrix<T>* ReadMatrix(const string& name, PersistPtr ppmatrix)  {
+  TMatrix<T>* ReadMatrix(PersistPtr ppmatrix)  {
     size_t nrows(0);
     if(ppmatrix && (nrows = ppmatrix->XmlReadInteger("rows",false))!=0)
     {
@@ -1197,7 +1197,7 @@ label_1: return(p);
   template<class T>
   TMatrix<T>* ReadPropertyMatrix(const string& name, PersistPtr ppparent) {
     PersistPtr ppmatrix = ppparent->XmlMoveToProperty(name); //to <matrix>
-    return ReadMatrix<T>(name, ppmatrix);
+    return ReadMatrix<T>(ppmatrix);
   }
 
 

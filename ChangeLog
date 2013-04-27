@@ -1,4 +1,8 @@
 
+2013-April-27 Struan Robertson
+	
+	* SensitivityAnalysis.cpp: Altered to read covariance matrix.
+
 2013-April-14 Struan Robertson
 	
 	* System.cpp: Update of version to 3.0.
