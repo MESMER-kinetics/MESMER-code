@@ -42,6 +42,8 @@
   <molecule spinMultiplicity="1" default="true"/>
   <molecule me:type="deficientReactant excessReactant modelled transitionState sink"
             default="IS UNSATISFACTORY. CHOOSE ONE FROM LIST**"></molecule>
+  <molecule role="deficientReactant excessReactant modelled transitionState sink"
+            default="IS UNSATISFACTORY. CHOOSE ONE FROM LIST**"></molecule>
   <property dictRef="me:MW" default="IS UNSATISFACTORY. A VALUE NEEDS TO BE PROVIDED**">
     <scalar>0.0</scalar>
   </property>
@@ -51,7 +53,8 @@
   <me:DOSCType default="true">external</me:DOSCType>
   <me:DistributionCalcMethod default="true">Boltzmann</me:DistributionCalcMethod>
   <me:excessReactantConc default="NEEDS TO BE CHECKED**">2.25e+16</me:excessReactantConc>
-  <me:precision default="true">double</me:precision>
+  <!--<me:precision default="true">double</me:precision>-->
+  <me:PTPair precision="d" P="1.01E17" T="299" default="true"/>
   <me:bathgas default="true">He</me:bathgas>
   <me:TInfinity default="true">298</me:TInfinity>
   <me:eigenvalues default="true">0</me:eigenvalues>

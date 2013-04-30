@@ -76,7 +76,9 @@ namespace mesmer
     const char* reftxt = ppmol->XmlReadValue("ref");//using const char* in case NULL returned
     if(reftxt) // if got the name of the molecule
     {
-      const char* typetxt = ppmol->XmlReadValue("me:type");
+      const char* typetxt = ppmol->XmlReadValue("me:type",optional);
+      if(!typetxt)
+        typetxt = ppmol->XmlReadValue("role");
       if(!typetxt && defaultType)
         typetxt=defaultType;
       if(typetxt){ // initialize molecule here with the specified type (need to know m_ppIOPtr)
@@ -227,17 +229,26 @@ namespace mesmer
   bool Reaction::ReadRateCoeffParameters(PersistPtr ppReac) {
 
     // Determine the method of MC rate coefficient calculation.
-    const char* pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod", true, MicroRateCalculator::typeID()) ;
+    // The name of the method may be in a text element e.g.<me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+    // OR in a name or a xsi:type attribute e.g <me:MCRCMethod xsi:type ="MesmerILT">
+    const char* pMCRCMethodtxt;
+    PersistPtr pp = ppReac->XmlMoveTo("me:MCRCMethod");
+    if(pp)
+      pMCRCMethodtxt = pp->XmlReadValue("xsi:type",optional);
+    if(!pMCRCMethodtxt)
+      pMCRCMethodtxt = pp->XmlReadValue("name",optional);
+    if(!pMCRCMethodtxt)
+      pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod", true, MicroRateCalculator::typeID()) ;
     if(pMCRCMethodtxt)
     {
       m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
       if(!m_pMicroRateCalculator)
-      {
-        cerr << "Unknown method " << pMCRCMethodtxt
-          << " for the determination of Microcanonical rate coefficients in reaction "
-          << getName() << endl;
+      //{
+      //  cerr << "Unknown method " << pMCRCMethodtxt
+      //    << " for the determination of Microcanonical rate coefficients in reaction "
+      //    << getName() << endl;
         return false;
-      }
+      //}
     }
 
     // Read the transition state (if present)

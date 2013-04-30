@@ -1,4 +1,15 @@
 
+2013-April-30 Chris Morley
+
+	Add MesmerQAschema and examplsSchema directories for
+	new(schema-friendly) XML file format versions.
+
+	[Several source files] Make C++ parsing compatible with both old
+	and new XML file formats.
+
+	schemas/CMLforMesmer.xsd,mesmer.xsd,mesmerPlugins.xsd, defaults.xml:
+	 Update
+
 2013-April-27 Chris Morley
 
 	src/XMLPersist.cpp:fix for corrupted output XML file bug

@@ -127,7 +127,11 @@ namespace mesmer
     m_ppIOPtr = ppIOPtr;
 
     m_pTitle       = ppIOPtr->XmlReadValue("title", false);
+    if(!m_pTitle)
+      m_pTitle = ppIOPtr->XmlReadValue("me:title", false);
     m_pDescription = ppIOPtr->XmlReadValue("description", false);
+    if(!m_pDescription)
+      m_pDescription = ppIOPtr->XmlReadValue("me:description", false);
 
     // What are we going to do?
     PersistPtr ppControl = ppIOPtr->XmlMoveTo("me:control");
@@ -392,7 +396,7 @@ namespace mesmer
         this_units = default_unit;
       }
 
-      //
+      // **NEED TO SORT OUT DEFAULT PRESSURE TEMPERATURE AND UNITS**
       // If user does not input any value for temperature and concentration,
       // give a Default set of concentration and pressurefor simulation.
       // 
@@ -415,16 +419,25 @@ namespace mesmer
     PersistPtr ppPTpair = pp->XmlMoveTo("me:PTpair");
     while (ppPTpair){
       string this_units;
-      txt = ppPTpair->XmlReadValue("me:units", optional);
+      txt = ppPTpair->XmlReadValue("units", optional);
+      if(!txt)
+        txt = ppPTpair->XmlReadValue("me:units", optional);
       if (txt)
         this_units = txt;
 
-      double this_P(default_P), this_T(default_T) ;
-      this_P = ppPTpair->XmlReadDouble("me:P", true);
-      this_T = ppPTpair->XmlReadDouble("me:T", true);
+      double this_P, this_T;
+      this_P = ppPTpair->XmlReadDouble("me:P", optional);
+      this_T = ppPTpair->XmlReadDouble("me:T", optional);
+      if(IsNan(this_P))
+        this_P = ppPTpair->XmlReadDouble("P", true); //preferred forms
+      if(IsNan(this_T))
+        this_T = ppPTpair->XmlReadDouble("T", true);
 
-      Precision this_precision = DOUBLE ;
-      txt = ppPTpair->XmlReadValue("me:precision");
+      Precision this_precision;
+      txt = ppPTpair->XmlReadValue("me:precision", optional); //an element
+      if(!txt)
+        txt = ppPTpair->XmlReadValue("precision"); //an attribute
+
       // Can specify abbreviation
       if (txt){
         string strPrcsn(txt) ;

@@ -84,6 +84,7 @@ namespace mesmer
     concentrationMap["PPCC"] = 0;
     concentrationMap["number density"] = 0;
     concentrationMap["Torr"] = 1;
+    concentrationMap["torr"] = 1;
     concentrationMap["mmHg"] = 1;
     concentrationMap["mbar"] = 2;
     concentrationMap["atm"] = 3;

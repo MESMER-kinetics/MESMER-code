@@ -98,21 +98,28 @@ namespace mesmer
     // Attempt to read these first and if not present read the mesmer 
     // version which will add the default if necessary.
     
-    PersistPtr ppActEne, ppPreExponential;
+    PersistPtr ppActEne, ppPreExponential, pp;
     const char* pActEnetxt=NULL, *pPreExptxt=NULL;
     bool rangeSet(false) ;
     PersistPtr ppRateParams = ppReac->XmlMoveTo("rateParameters") ;
-
     if(ppRateParams) {
+      //OpenBabel form
       ppActEne = ppRateParams->XmlMoveTo("E") ;
       pActEnetxt = ppRateParams->XmlReadValue("E", optional);
       ppPreExponential = ppRateParams->XmlMoveTo("A") ;
       pPreExptxt = ppRateParams->XmlReadValue("A");
-    } else {
-      ppActEne = ppReac->XmlMoveTo("me:activationEnergy") ;
-      pActEnetxt = ppReac->XmlReadValue("me:activationEnergy");
-      ppPreExponential = ppReac->XmlMoveTo("me:preExponential") ;
-      pPreExptxt = ppReac->XmlReadValue("me:preExponential");
+    } 
+    else {
+      //Mesmer forms
+      //New form has <me:MCRCMethod name="MesmerILT" xsi:type="MesmerILT">
+      //and parameters as subelement of this. In old form they are siblings.
+      pp = ppReac->XmlMoveTo("me:MCRCMethod");
+      if(pp && !pp->XmlReadValue("xsi:type", optional))
+        pp = ppReac;
+      ppActEne = pp->XmlMoveTo("me:activationEnergy") ;
+      pActEnetxt = pp->XmlReadValue("me:activationEnergy");
+      ppPreExponential = pp->XmlMoveTo("me:preExponential") ;
+      pPreExptxt = pp->XmlReadValue("me:preExponential");
     }
 
     // Specify the direction of the following ILT parameters.
@@ -168,10 +175,10 @@ namespace mesmer
       return false;
     }
 
-    const char* pNInftxt = ppReac->XmlReadValue("me:nInfinity", optional);
+    const char* pNInftxt = pp->XmlReadValue("me:nInfinity", optional);
     if (pNInftxt)
     {
-      PersistPtr ppNInf = ppReac->XmlMoveTo("me:nInfinity") ;
+      PersistPtr ppNInf = pp->XmlMoveTo("me:nInfinity") ;
       istringstream s2(pNInftxt); s2 >> m_NInf ;
       ReadRdoubleRange(string(pReact->getName()+":nInfinity"), ppNInf, m_NInf, rangeSet) ;  
     }

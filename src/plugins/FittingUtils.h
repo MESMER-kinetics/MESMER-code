@@ -37,6 +37,7 @@ namespace mesmer
 
 	// Write out the results and statistics of the fit. 
 	void ResultsAndStatistics(System* pSys, dMatrix &hessian) const ;
+
   } ;
 
 }  //namespace

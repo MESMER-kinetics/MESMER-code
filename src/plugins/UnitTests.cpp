@@ -101,17 +101,25 @@ namespace mesmer
 
     // MEIC test: Harmonic oscillator.
     Molecule *pMol = pSys->getMoleculeManager()->find("Test Molecule");
+    if(!pMol)
+      pMol = pSys->getMoleculeManager()->find("Test_Molecule");
     status = ( status && Test_MEIC_1(pMol)) ;
 
     pMol = pSys->getMoleculeManager()->find("AcO2 Harmonic");
-    status = ( status && Test_MEIC_1(pMol)) ;
+    if(!pMol)
+      pMol = pSys->getMoleculeManager()->find("AcO2_Harmonic");
+   status = ( status && Test_MEIC_1(pMol)) ;
 
     pMol = pSys->getMoleculeManager()->find("AcO2 Anharmonic");
+    if(!pMol)
+      pMol = pSys->getMoleculeManager()->find("AcO2_Anharmonic");
     status = ( status && Test_MEIC_Anharmonic(pMol)) ;
 
     status = ( status && Test_MEIC_Rotors(pMol)) ;
 
     pMol = pSys->getMoleculeManager()->find("AcO2 Asymmetric Top");
+    if(!pMol)
+      pMol = pSys->getMoleculeManager()->find("AcO2_Asymmetric_Top");
     status = ( status && Test_MEIC_Rotors(pMol)) ;	
 
     ctest << endl ;

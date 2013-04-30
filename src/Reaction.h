@@ -207,7 +207,7 @@ namespace mesmer
   protected:
 
     // Read a molecule name from the XML file and look it up
-    // The defaultType is used if there is no me:type attribute
+    // The defaultType is used if there is no me:type or role attribute
     Molecule* GetMolRef(PersistPtr pp, const char* defaultType = NULL);
 
     //Returns true if the XML input contains ZPE for all products

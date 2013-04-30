@@ -33,13 +33,22 @@
                           <xs:complexType>
                         <xs:sequence>
                           <xs:element name="bathGas" type="cml:refType" minOccurs="0"/>
-                          <xs:element name="precision" type="me:precisionType" minOccurs="0"/>
+                          <xs:element name="precision" minOccurs="0">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="me:precisionType">
+                                  <xs:attribute name="default" use="optional"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
                           <xs:element name="experimentalRate" minOccurs="0">
                             <xs:complexType>
                               <xs:simpleContent>
                                 <xs:extension base="xs:float">
                                   <xs:attribute name="ref1" type="cml:moleculeIDType" use="required" />
                                   <xs:attribute name="ref2" type="cml:moleculeIDType" use="required" />
+                                  <xs:attribute name="refReaction" type="cml:idType"/>
                                   <xs:attribute name="error" type="xs:float"/>
                                 </xs:extension>
                               </xs:simpleContent>
@@ -125,20 +134,24 @@
           <xs:complexType>
             <xs:all>
               <xs:element name="calcMethod" type="me:calcMethodType" minOccurs ="0"/>
-              <xs:element name="testDOS" minOccurs="0" />
-              <xs:element name="testMicroRates" minOccurs="0" />
-              <xs:element name="printCellDOS" minOccurs="0"/>
-              <xs:element name="printGrainDOS" minOccurs="0"/>
-              <xs:element name="testRateConstants" minOccurs="0"/>
+              <xs:element name="calculateRateCoefficientsOnly" minOccurs="0"/>
+              <xs:element name="diagramEnergyOffset" type="xs:float" minOccurs="0"/>
               <xs:element name="eigenvalues" minOccurs="0">
                 <xs:simpleType>
                   <xs:union memberTypes="xs:integer me:allType"/>
                 </xs:simpleType>
               </xs:element>
-              
+              <xs:element name="fittingIterations" type="xs:integer" minOccurs="0"/>
+              <xs:element name="hideInactive" minOccurs="0"/>
+              <xs:element name="MaximumEvolutionTime" type="xs:float" minOccurs="0"/>
+              <xs:element name="printCellDOS" minOccurs="0"/>
+              <xs:element name="printCellTransitionStateFlux" minOccurs="0"/>
+              <xs:element name="printCollisionOperatorLevel" type="xs:integer" minOccurs="0"/>
+              <xs:element name="printCrossingCoefficients" minOccurs="0"/>
+              <xs:element name="printGrainBoltzmann" minOccurs="0"/>
+              <xs:element name="printGrainDOS" minOccurs="0"/>
               <xs:element name="printGrainkfE" minOccurs="0"/>
               <xs:element name="printGrainkbE" minOccurs="0"/>
-              <xs:element name="printSpeciesProfile" minOccurs="0"/>
               <xs:element name="printGrainedSpeciesProfile" minOccurs="0"/>
               <xs:element name="printGrainProfileAtTime" minOccurs="0">
                 <xs:complexType>
@@ -148,21 +161,23 @@
                   </xs:sequence>               
                 </xs:complexType>               
               </xs:element>
-              <xs:element name="printCrossingCoefficients" minOccurs="0"/>
-              <xs:element name="printTSsos" minOccurs="0"/>
-              <xs:element name="calculateRateCoefficientsOnly" minOccurs="0"/>
-              <xs:element name="printCellTransitionStateFlux" minOccurs="0"/>
               <xs:element name="printGrainTransitionStateFlux" minOccurs="0"/>
-              <xs:element name="printGrainBoltzmann" minOccurs="0"/>
               <xs:element name="printReactionOperatorColumnSums" minOccurs="0"/>
+              <xs:element name="printSpeciesProfile" minOccurs="0"/>
               <xs:element name="printTabbedMatrices" minOccurs="0"/>
+              <xs:element name="printTSsos" minOccurs="0"/>
+              <xs:element name="printTunnellingCoefficients" minOccurs="0"/>
+              <xs:element name="shortestTimeOfInterest" type="xs:float" minOccurs="0"/>
+              <xs:element name="testDOS" minOccurs="0" />
+              <xs:element name="testMicroRates" minOccurs="0" />
+              <xs:element name="testRateConstant" minOccurs="0" />
+              <xs:element name="testRateConstants" minOccurs="0"/>
               <xs:element name="useTheSameCellNumberForAllConditions" minOccurs="0"/>
               <!--The following should really be sub-elements of
                   <me:calcMethod>marquardt</me:calcMethod>-->
               <xs:element name="MarquardtIterations" type="xs:integer" minOccurs="0"/>
               <xs:element name="MarquardtTolerance" type="xs:float" minOccurs="0"/>
               <xs:element name="MarquardtDerivDelta" type="xs:float" minOccurs="0"/>
-               <xs:element name="printTunnellingCoefficients" minOccurs="0"/>
           </xs:all>
           </xs:complexType>
         </xs:element>
@@ -178,12 +193,13 @@
         <xs:element name="analysis" maxOccurs="1" minOccurs="0">
           <xs:annotation>
             <xs:documentation>
-              The subelements of analysis elements are not checked by the mesmer schema. 
+              The subelements of analysis elements, which are written by Mesmer,
+              are not checked by the mesmer schema.
+              Multiple analysis elements are acceptable, even if the schema says otherwise.
             </xs:documentation>
           </xs:annotation>  
         </xs:element>
-        
-      </xs:all>
+      </xs:all>        
     </xs:complexType>
   </xs:element>
 
@@ -283,7 +299,8 @@
         For methods with no data, the form like &lt;MCRCMethod>SimpleRRKM&lt;/MCRCMethod>
         can still be parsed by Mesmer, but is not validated by the schema.
         Use the form &lt;MCRCMethod name="SimpleRRKM"/> instead.
-        If the method HAS data, it should appear in elements which are
+        If the method HAS data, there should be an attribute xsi:type="MesmerILT",
+        or similar, and the data should appear in elements which are
         CHILDREN of &lt;me:MCRCMethod>, not siblings.>
     </xs:documentation>
     </xs:annotation>

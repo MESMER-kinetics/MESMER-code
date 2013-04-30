@@ -44,54 +44,58 @@ namespace mesmer
     PersistPtr ppReac = pReact->get_PersistentPointer();
 
     // OpenBabel outputs <rateParameters> <A> <n> <E>
-    // Attempt to read these first; 
-    // if not present read the mesmer version which will add the default if necessary.
-    PersistPtr ppActEne, ppPreExponential;
+    // Attempt to read these first and if not present read the mesmer 
+    // version which will add the default if necessary.
+    
+    PersistPtr ppActEne, ppPreExponential, pp;
     const char* pActEnetxt=NULL, *pPreExptxt=NULL;
     bool rangeSet(false) ;
     PersistPtr ppRateParams = ppReac->XmlMoveTo("rateParameters") ;
-
     if(ppRateParams) {
+      //OpenBabel form
       ppActEne = ppRateParams->XmlMoveTo("E") ;
       pActEnetxt = ppRateParams->XmlReadValue("E", optional);
       ppPreExponential = ppRateParams->XmlMoveTo("A") ;
       pPreExptxt = ppRateParams->XmlReadValue("A");
-    }
+    } 
     else {
-      ppActEne = ppReac->XmlMoveTo("me:activationEnergy") ;
-      pActEnetxt = ppReac->XmlReadValue("me:activationEnergy");
-      ppPreExponential = ppReac->XmlMoveTo("me:preExponential") ;
-      pPreExptxt = ppReac->XmlReadValue("me:preExponential");
+      //Mesmer forms
+      //New form has <me:MCRCMethod name="MesmerILT" xsi:type="MesmerILT">
+      //and parameters as subelement of this. In old form they are siblings.
+      pp = ppReac->XmlMoveTo("me:MCRCMethod");
+      if(pp && !pp->XmlReadValue("xsi:type",  optional))
+        pp = ppReac;
+      ppActEne = pp->XmlMoveTo("me:activationEnergy") ;
+      pActEnetxt = pp->XmlReadValue("me:activationEnergy");
+      ppPreExponential = pp->XmlMoveTo("me:preExponential") ;
+      pPreExptxt = pp->XmlReadValue("me:preExponential");
     }
 
-    if (pActEnetxt)
-    {
+    // Activation energy details.    
+    if (pActEnetxt) {
       double tmpvalue = 0.0;
       stringstream s2(pActEnetxt); s2 >> tmpvalue ;
       const char* unitsTxt = ppActEne->XmlReadValue("units", false);
       string unitsInput = (unitsTxt) ? unitsTxt : "kJ/mol" ;
-
       double value(getConvertedEnergy(unitsInput, tmpvalue));
-      if(value<0.0)
-      {
-        cerr << "activation energy should not be negative when used with ILT" << endl;
+      
+      if (value<0.0) {
+        cerr << "Activation energy should not be negative when used with ILT." << endl;
         return false;
       }
-      ReadRdoubleRange(string(pReact->getName()+":EInf"), ppActEne, m_EInf,
+      ReadRdoubleRange(string(pReact->getName()+":activationEnergy"), ppActEne, m_EInf,
         rangeSet, getConvertedEnergy(unitsInput, 1.0)) ;  
       m_EInf = value ;
       if (rangeSet) {
         double valueL, valueU, stepsize ;
         m_EInf.get_range(valueL,valueU,stepsize) ;
         if(valueL<0.0){
-          cerr << "lower bound of activation energy should not be negative when used with ILT";
+          cerr << "Lower bound of activation energy should not be negative when used with ILT.";
           return false;
         }
       }
-    }
-    else{
-      cerr << "Specifying ILT without activation energy provided in reaction "
-           << this->getID() << ". Please correct input file.";
+    } else {
+      cerr << "No activation energy specified for ILT method in reaction " << this->getID() << ". Please correct input file.";
       return false;
     }
 

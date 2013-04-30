@@ -8338,8 +8338,9 @@
           </xsd:documentation>
         </xsd:annotation>
       </xsd:attributeGroup>
-      <!--Attribute description added for MESMER-->
+      <!--Attribute description and active added for MESMER-->
       <xsd:attribute name="description" type="xsd:string"/>
+      <xsd:attribute name="active" type="xsd:boolean"/>
       <xsd:anyAttribute namespace="##other" processContents="lax"/>
     </xsd:complexType>
   </xsd:element>
@@ -9362,8 +9363,9 @@
           </xsd:documentation>
         </xsd:annotation>
       </xsd:attributeGroup>
-      <!--Attribute reversible added for MESMER-->
+      <!--Attributes reversible and active added for MESMER-->
       <xsd:attribute name="reversible" type="xsd:boolean"/>
+      <xsd:attribute name="active" type="xsd:boolean"/>
       <xsd:anyAttribute namespace="##other" processContents="lax" />
     </xsd:complexType>
   </xsd:element>

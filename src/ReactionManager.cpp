@@ -151,7 +151,9 @@ namespace mesmer
     if(pmolname) {
       ErrorContext c(pmolname);
       MolName = pmolname;
-      pmoltype = ppmol->XmlReadValue("me:type");
+      pmoltype = ppmol->XmlReadValue("me:type", optional);
+      if(!pmoltype)
+        pmoltype = ppmol->XmlReadValue("role");
       if(pmoltype)
         MolType = pmoltype;
     }
@@ -164,12 +166,18 @@ namespace mesmer
     PersistPtr pp=anchor;
     double populationSum = 0.0;
     PersistPtr ppInitMol = pp->XmlMoveTo("molecule");
+    if(!ppInitMol)
+      ppInitMol = pp->XmlMoveTo("me:molecule");
     while(ppInitMol){
       string sRef = ppInitMol->XmlReadValue("ref");
       if(sRef.size()){ // if got the name of the molecule
         Molecule* pMolecule = m_pMoleculeManager->find(sRef) ;
         double population = ppInitMol->XmlReadDouble("me:population", optional);
+        if(IsNan(population))
+          population= ppInitMol->XmlReadDouble("population", optional);
         int grainIdx = ppInitMol->XmlReadInteger("me:grain",optional);
+        if(grainIdx==0)
+          grainIdx = ppInitMol->XmlReadInteger("grain",optional);
         if (!IsNan(population) && grainIdx==0){  // what to do if population, but not grain has been specified
           populationSum += population;
           pMolecule->getPop().setInitPopulation(population);
@@ -183,7 +191,10 @@ namespace mesmer
         else
           population = 0.0;
       }
-      ppInitMol = ppInitMol->XmlMoveTo("molecule");  // note: the same molecule should occur more than once ONLY to specify different grain populations
+      PersistPtr pp = ppInitMol->XmlMoveTo("molecule");  // note: the same molecule should occur more than once ONLY to specify different grain populations
+      if(!pp)
+        pp = ppInitMol->XmlMoveTo("me:molecule");
+      ppInitMol = pp;
     }
     if (populationSum != 1.0){
       if (populationSum > 0.0){

@@ -172,6 +172,8 @@ namespace mesmer
     }
 
     // Save a pointer to XML location for result update.
+    if(pp->XmlMoveTo("scalar")) //***DEBUG
+      cinfo << pp << "on property element" << endl;
     rdouble.set_XMLPtr(pp) ;
 
     return true;

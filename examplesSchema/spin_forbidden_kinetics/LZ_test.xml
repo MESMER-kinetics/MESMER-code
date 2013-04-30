@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <me:title>Cyclopropene isomerization</me:title>
+  <moleculeList>
+  <!--J. Phys. Chem. A 2003, 107, 2680-2692-->
+    <molecule id="cyclopropene" description="C_3H_4">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">0.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            1.01092
+            0.73124
+            0.46343
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            634
+            798
+            884
+            944
+            1018
+            1044
+            1077
+            1115
+            1166
+            1526
+            1743
+            3039
+            3101
+            3269
+            3319
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">40</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">250.0</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>473.1</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.5</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+    </molecule>
+    <molecule id="triplet" description="CH2CCH2">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">105.13</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            2.36572
+            0.35402
+            0.30794
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            416
+            793
+            1016
+            1414
+            3163
+            535
+            830
+            1219
+            1502
+            3250
+            563
+            909
+            1238
+            3047
+            3261
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">40</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">250.0</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>473.1</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.5</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+    </molecule>
+    <molecule id="MECP1" description="cyclopropene to triplet">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">152.907</scalar>
+        </property>
+        <property dictRef="me:RMS_SOC_element">
+          <scalar units="cm-1">5.08</scalar>
+        </property>
+        <property dictRef="me:GradientDifferenceMagnitude">
+          <scalar units="a.u./Bohr">0.09327305</scalar>
+        </property>
+        <property dictRef="me:GradientReducedMass">
+          <scalar units="a.m.u.">10.4098</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            1.92561
+            0.38273
+            0.32291
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            396
+            440
+            718
+            964
+            975
+            1009
+            1104
+            1306
+            1417
+            1557
+            2938
+            3059
+            3141
+            3245
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">40.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+    </molecule>
+    <molecule id="He">
+      <atom elementType="He" />
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>10.2</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>2.55</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">4.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+  </moleculeList>
+  <reactionList>
+    <reaction id="R1">
+      <reactant>
+        <molecule ref="cyclopropene" role="modelled" />
+      </reactant>
+      <product>
+        <molecule ref="triplet" role="modelled" />
+      </product>
+      <me:transitionState>
+        <molecule ref="MECP1" role="transitionState" />
+      </me:transitionState>
+      <me:crossing>LZ</me:crossing>
+      <me:MCRCMethod name="SimpleRRKM"/>
+    </reaction>
+  </reactionList>
+  <me:conditions>
+    <me:bathGas>He</me:bathGas>
+    <me:PTs>
+      <me:PTpair units="Torr" P="200.72" T="800." />
+      <me:PTpair units="Torr" P="250.00" T="1000." />
+    </me:PTs>
+    <me:InitialPopulation>
+      <me:molecule ref="cyclopropene" population="1.0" />
+    </me:InitialPopulation>
+  </me:conditions>
+  <me:modelParameters>
+    <!--Specify grain size directly...-->
+    <me:grainSize units="cm-1">200</me:grainSize>
+    <!--...or by the total number of grains
+        <me:numberOfGrains> 500 </me:numberOfGrains>-->
+    <!--Specify increased energy range
+        <me:maxTemperature>6000</me:maxTemperature>-->
+    <me:energyAboveTheTopHill>20.</me:energyAboveTheTopHill>
+  </me:modelParameters>
+  <me:control>
+    <me:testDOS />
+    <me:testMicroRates />
+    <me:printGrainDOS />
+    <me:printTSsos />
+    <!--<me:printCellTransitionStateFlux />-->
+    <!--<me:printGrainTransitionStateFlux />-->
+    <!--<me:printCellDOS />-->
+    <!--<me:printReactionOperatorColumnSums />-->
+    <!--<me:printCrossingCoefficients />-->
+    <me:printGrainkfE />
+    <!--<me:printGrainBoltzmann />-->
+    <me:printGrainkbE />
+    <me:printSpeciesProfile />
+    <me:eigenvalues>0</me:eigenvalues>
+  </me:control>
+</me:mesmer>

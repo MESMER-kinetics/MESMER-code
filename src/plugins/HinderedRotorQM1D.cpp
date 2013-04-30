@@ -103,60 +103,65 @@ namespace mesmer
     vector<double> mode(3*gs.NumAtoms(), 0.0);
 
     const char* bondID = ppDOSC->XmlReadValue("bondRef",optional);
-    if(bondID)
+    if(!bondID)
+      bondID = ppDOSC->XmlReadValue("me:bondRef",optional);
+    if(!bondID || *bondID=='\0')
     {
-      pair<string,string> bondats = gs.GetAtomsOfBond(bondID);
-      if(bondats.first.empty())
+      cerr << "No <bondRef> specified for the hindered rotating bond" <<endl;
+      return false;
+    }
+
+    pair<string,string> bondats = gs.GetAtomsOfBond(bondID);
+    if(bondats.first.empty())
+    {
+      cerr << "Unknown bond reference " << bondID << endl;
+      return false;
+    }
+    m_bondID = bondID;
+    cinfo << "Hindered rotor " << m_bondID;  
+
+    //Remove the vibrational frequency that this hindered rotation replaces
+    const char* vibFreq = ppDOSC->XmlReadValue("me:replaceVibFreq",optional);
+    if (vibFreq)
+    {
+      if(!gdos->removeVibFreq(atof(vibFreq)))
       {
-        cerr << "Unknown bond reference " << bondID << endl;
+        cerr << "Cannot find vibrational frequency " << vibFreq << " to replace it with hindered rotor" <<endl;
         return false;
       }
-      m_bondID = bondID;
-      cinfo << "Hindered rotor " << m_bondID;  
-
-      //Remove the vibrational frequency that this hindered rotation replaces
-      const char* vibFreq = ppDOSC->XmlReadValue("me:replaceVibFreq",optional);
-      if (vibFreq)
-      {
-        if(!gdos->removeVibFreq(atof(vibFreq)))
-        {
-          cerr << "Cannot find vibrational frequency " << vibFreq << " to replace it with hindered rotor" <<endl;
-          return false;
-        }
-        cinfo << " replacing vib freq " << vibFreq;      
-      }
-      cinfo << '\n';
-
-      vector3 coords1 = gs.GetAtomCoords(bondats.first);
-      vector3 coords2 = gs.GetAtomCoords(bondats.second);
-
-      //Calc moment of inertia about bond axis of atoms on one side of bond...
-      vector<string> atomset;
-      atomset.push_back(bondats.second); //will not look beyond this atom on the other side of the bond
-      gs.GetAttachedAtoms(atomset, bondats.first);
-      atomset.erase(atomset.begin()); //the other side of the bond is not in this set
-      double mm1 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);
-      gs.CalcInternalRotVec(atomset, coords1, coords2, mode) ;
-
-      //...and the other side of the bond
-      atomset.clear();
-      atomset.push_back(bondats.first);
-      gs.GetAttachedAtoms(atomset, bondats.second);
-      atomset.erase(atomset.begin());
-      double mm2 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);
-      gs.CalcInternalRotVec(atomset, coords2, coords1, mode) ;
-
-      /*
-      Is the reduced moment of inertia needed about the bond axis or, separately for the set of
-      atoms on each side of the bond, about a parallel axis through their centre of mass?
-      See:
-      http://www.ccl.net/chemistry/resources/messages/2001/03/21.005-dir/index.html
-      http://www.ccl.net/chemistry/resources/messages/2001/03/31.002-dir/index.html
-      The bond axis is used here.
-      */
-
-      m_reducedMomentInertia = mm1 * mm2 / ( mm1 + mm2 );//units a.u.*Angstrom*Angstrom
+      cinfo << " replacing vib freq " << vibFreq;      
     }
+    cinfo << '\n';
+
+    vector3 coords1 = gs.GetAtomCoords(bondats.first);
+    vector3 coords2 = gs.GetAtomCoords(bondats.second);
+
+    //Calc moment of inertia about bond axis of atoms on one side of bond...
+    vector<string> atomset;
+    atomset.push_back(bondats.second); //will not look beyond this atom on the other side of the bond
+    gs.GetAttachedAtoms(atomset, bondats.first);
+    atomset.erase(atomset.begin()); //the other side of the bond is not in this set
+    double mm1 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);
+    gs.CalcInternalRotVec(atomset, coords1, coords2, mode) ;
+
+    //...and the other side of the bond
+    atomset.clear();
+    atomset.push_back(bondats.first);
+    gs.GetAttachedAtoms(atomset, bondats.second);
+    atomset.erase(atomset.begin());
+    double mm2 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);
+    gs.CalcInternalRotVec(atomset, coords2, coords1, mode) ;
+
+    /*
+    Is the reduced moment of inertia needed about the bond axis or, separately for the set of
+    atoms on each side of the bond, about a parallel axis through their centre of mass?
+    See:
+    http://www.ccl.net/chemistry/resources/messages/2001/03/21.005-dir/index.html
+    http://www.ccl.net/chemistry/resources/messages/2001/03/31.002-dir/index.html
+    The bond axis is used here.
+    */
+
+    m_reducedMomentInertia = mm1 * mm2 / ( mm1 + mm2 );//units a.u.*Angstrom*Angstrom
 
     // Read in potential information.
 

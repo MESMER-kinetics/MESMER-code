@@ -2,10 +2,12 @@
 <xs:schema targetNamespace="http://www.chem.leeds.ac.uk/mesmer"
     elementFormDefault="qualified"
     xmlns="http://www.chem.leeds.ac.uk/mesmer"
+    xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:cml="http://www.xml-cml.org/schema"
 >
   <xs:import namespace="http://www.xml-cml.org/schema" schemaLocation="CMLforMesmer.xsd"/>
+  <xs:include schemaLocation="mesmer.xsd"/>
   
   <xs:simpleType name="distribCalcName">
     <xs:restriction base="xs:string">
@@ -127,7 +129,7 @@
                 </xs:element>
               </xs:sequence>
               <xs:attribute name="format" type="hinderedRotorFormatType" use="required" />
-              <xs:attribute name="units" type="energyUnitsType" use="required" />
+              <xs:attribute name="units" type="me:energyUnitsType" use="required" />
               <xs:attribute name="expansionSize" type="xs:unsignedInt" use="optional" />
               <xs:attribute name="useSineTerms" type="xs:boolean" use="optional" />
             </xs:complexType>
@@ -248,5 +250,13 @@
       <xs:attribute name="units" type="energyUnitsType" use="optional"/>
     </xs:complexType>
   </xs:element>
-  
+
+  <xs:element name="tunneling">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="Eckart"/>
+        <xs:enumeration value="WKB"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
 </xs:schema>

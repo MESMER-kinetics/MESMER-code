@@ -59,7 +59,7 @@ namespace mesmer
     // Print system configuration
     void configuration(void);
 
-    // Deduce the me:type of each molecule and add it to the XML file 
+    // Deduce the role of each molecule and add it to the XML file 
     bool assignMolTypes(PersistPtr ppIOPtr) ;
 
     void WriteMetadata(const std::string& infilename);

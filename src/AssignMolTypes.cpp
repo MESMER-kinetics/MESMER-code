@@ -38,8 +38,9 @@ namespace mesmer
       if(pp)
       {
         pp = pp->XmlMoveTo("molecule");
-        if(pp && !pp->XmlReadValue("me:type", false))//ignore if already present
-          pp->XmlWriteAttribute("me:type", "transitionState");
+        //ignore if already present
+        if(pp && (!pp->XmlReadValue("me:type", false) && !pp->XmlReadValue("role", false)))
+          pp->XmlWriteAttribute("role", "transitionState");
       }
 
       //---------------------------------
@@ -51,8 +52,8 @@ namespace mesmer
         for(itr=reactants.begin(); itr!=reactants.end();++itr)
         {
           PersistPtr pprmol = (*itr)->XmlMoveTo("molecule");
-          if(pprmol->XmlReadValue("me:type", false))
-            continue;//ignore if has me:type already
+          if(pprmol->XmlReadValue("me:type", false) || pprmol->XmlReadValue("role", false))
+            continue;//ignore if has me:type or role already
 
           const char* pmolname;
           pmolname = pprmol->XmlReadValue("ref");
@@ -74,11 +75,11 @@ namespace mesmer
               (ppMol->XmlReadPropertyDouble("me:spinMultiplicity", false)>1
                || ppMol->XmlReadInteger("spinMultiplicity", false)>1))
             {
-              pprmol->XmlWriteAttribute("me:type", "deficientReactant"); //first radical
+              pprmol->XmlWriteAttribute("role", "deficientReactant"); //first radical
               HasDeficientReactant=true;
             }
             else
-              pprmol->XmlWriteAttribute("me:type", "excessReactant");
+              pprmol->XmlWriteAttribute("role", "excessReactant");
           }
         }
       }
@@ -89,8 +90,9 @@ namespace mesmer
       else
       {
         PersistPtr ppmol = reactants[0]->XmlMoveTo("molecule");
-        if(ppmol && !ppmol->XmlReadValue("me:type", false)) //ignore if has me:type already
-          ppmol->XmlWriteAttribute("me:type", "modelled");
+        //ignore if has me:type or role already
+        if(ppmol && !ppmol->XmlReadValue("me:type", false) && !ppmol->XmlReadValue("role", false)) 
+          ppmol->XmlWriteAttribute("role", "modelled");
       }
 
       //---------------------------------
@@ -100,9 +102,9 @@ namespace mesmer
       {
         for(itr=products.begin(); itr!=products.end();++itr)
         {
-          PersistPtr ppmol = (*itr)->XmlMoveTo("molecule");
-          if(ppmol && !ppmol->XmlReadValue("me:type", false)) //ignore if has me:type already
-            ppmol->XmlWriteAttribute("me:type", "sink");
+          PersistPtr ppmol = (*itr)->XmlMoveTo("molecule"); //ignore if has me:type already
+          if(ppmol && !ppmol->XmlReadValue("me:type", false) && !ppmol->XmlReadValue("role", false))
+            ppmol->XmlWriteAttribute("role", "sink");
         }
       }
       else
@@ -110,9 +112,9 @@ namespace mesmer
       //With one product, it is "modelled" if the reaction is reversible and "sink" otherwise
       //---------------------------------
       {
-        PersistPtr ppmol = products[0]->XmlMoveTo("molecule");
-        if(ppmol && !ppmol->XmlReadValue("me:type", false)) //ignore if has me:type already
-          ppmol->XmlWriteAttribute("me:type", ppReac->XmlReadBoolean("reversible") ? "modelled" : "sink");
+        PersistPtr ppmol = products[0]->XmlMoveTo("molecule"); //ignore if has me:type already
+        if(ppmol && !ppmol->XmlReadValue("me:type", false) && !ppmol->XmlReadValue("role", false))
+          ppmol->XmlWriteAttribute("role", ppReac->XmlReadBoolean("reversible") ? "modelled" : "sink");
       }
 
       ppReac = ppReac->XmlMoveTo("reaction");

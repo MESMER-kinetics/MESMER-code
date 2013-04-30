@@ -1696,10 +1696,11 @@ namespace mesmer
     //Grain Populations are now calculated at the same times for each species.
     //This means that m_GrainProfileAtTimeData is overcomplicated, but has
     //not been changed.
-    PersistPtr pp = ppData;
+    PersistPtr pp = ppData, pp1;
     vector<Molecule*> refs;
-    while( (pp = pp->XmlMoveTo("ref")) )
+    while( (pp1 = pp->XmlMoveTo("ref")) || (pp1 = pp->XmlMoveTo("me:ref")) )
     {
+      pp = pp1;
       const char* pRef =pp->XmlRead();
       Molecule* pMol = m_pMoleculeManager->find(pRef);
       if(!pMol)
@@ -1708,8 +1709,8 @@ namespace mesmer
     }
     if(refs.empty())
     {
-      cerr << " me:printGrainProfileAtTime needs one or more <ref> element to specify the species"
-        " (Not <me:ref>)" << endl;
+      cerr << " me:printGrainProfileAtTime needs one or more <me:ref> element to specify the species"
+           << endl;
       return false;
     }
 
@@ -1725,7 +1726,7 @@ namespace mesmer
     }
     if(times.empty())
     {
-      cerr << "Need to specify at least one time in a <time> element in me:printGrainProfileAtTime";
+      cerr << "Need to specify at least one time in a <me:time> element in me:printGrainProfileAtTime";
       return false;
     }
 
