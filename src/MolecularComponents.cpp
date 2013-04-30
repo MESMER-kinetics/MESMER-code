@@ -441,8 +441,14 @@ namespace mesmer
     {
       string dosMethod;
       const char* name;
-      if( (name = pp2->XmlRead()) || (name = pp2->XmlReadValue("name", optional)))
-        dosMethod = name;
+      if( (name = pp2->XmlRead()) 
+        || (name = pp2->XmlReadValue("name", optional))
+        || (name = pp2->XmlReadValue("xsi:type", optional))        )
+      {
+        if(name[2]==':')
+         name+=3; //Remove prefix "me:"
+         dosMethod = name;
+      }
 
       DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod);
       if(!pDOSCalculator || !pDOSCalculator->ReadParameters(this, pp2))

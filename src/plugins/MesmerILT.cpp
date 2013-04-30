@@ -111,7 +111,7 @@ namespace mesmer
     } 
     else {
       //Mesmer forms
-      //New form has <me:MCRCMethod name="MesmerILT" xsi:type="MesmerILT">
+      //New form has <me:MCRCMethod name="MesmerILT" xsi:type="me:MesmerILT">
       //and parameters as subelement of this. In old form they are siblings.
       pp = ppReac->XmlMoveTo("me:MCRCMethod");
       if(pp && !pp->XmlReadValue("xsi:type", optional))

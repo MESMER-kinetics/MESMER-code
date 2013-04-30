@@ -233,6 +233,13 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="rateConstUnits">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="cm3molecule-1s-1"/>
+      <xs:enumeration value="cm3mole-1s-1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="rotConstUnitsType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="amuA^2"/>

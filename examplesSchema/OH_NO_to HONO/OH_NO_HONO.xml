@@ -137,7 +137,7 @@
 
 
       <!--Rotation about CH2-O bond.-->
-      <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>
           b2
         </me:bondRef>
@@ -230,9 +230,9 @@
         <molecule ref="HONO" me:type="modelled"/>
       </product>
       <me:excessReactantConc>1.0E16</me:excessReactantConc>
-      <me:MCRCMethod xsi:type ="MesmerILT">
-        <me:preExponential lower="0.9e-11" upper="9e-11" stepsize="1e-12">6.78e-11</me:preExponential>
-        <me:activationEnergy>0.0001</me:activationEnergy>
+      <me:MCRCMethod xsi:type ="me:MesmerILT">
+        <me:preExponential units="cm3molecule-1s-1" lower="0.9e-11" upper="9e-11" stepsize="1e-12">6.78e-11</me:preExponential>
+        <me:activationEnergy units="kJ/mol">0.0001</me:activationEnergy>
         <me:nInfinity>0.08</me:nInfinity>
         <me:TInfinity>298.0</me:TInfinity>
       </me:MCRCMethod>

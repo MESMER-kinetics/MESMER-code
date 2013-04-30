@@ -19,9 +19,9 @@
       <product>
         <molecule ref="H2O"  role="modelled" />
       </product>
-      <me:MCRCMethod xsi:type="MesmerILT">
-        <me:preExponential>3.e-10</me:preExponential>
-        <me:activationEnergy>0.0</me:activationEnergy>
+      <me:MCRCMethod xsi:type="me:MesmerILT">
+        <me:preExponential units="cm3molecule-1s-1">3.e-10</me:preExponential>
+        <me:activationEnergy units="kJ/mol">0.0</me:activationEnergy>
         <me:nInfinity>0.8</me:nInfinity>
       </me:MCRCMethod>
       <me:excessReactantConc>1.0e14</me:excessReactantConc>

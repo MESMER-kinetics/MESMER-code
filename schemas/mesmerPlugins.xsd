@@ -51,11 +51,12 @@
   <xs:complexType name="MesmerILT">
     <xs:complexContent>
       <xs:extension base="MCRCMethodct">
-        <xs:sequence>
+        <xs:all>
           <xs:element name="preExponential">
             <xs:complexType>
               <xs:simpleContent>
                 <xs:extension base="xs:float">
+                  <xs:attribute name="units" type="rateConstUnits" use="required" />
                   <xs:attribute name="lower" type="xs:float" use="optional" />
                   <xs:attribute name="upper" type="xs:float" use="optional" />
                   <xs:attribute name="stepsize" type="xs:float" use="optional" />
@@ -67,7 +68,7 @@
             <xs:complexType>
               <xs:simpleContent>
                 <xs:extension base="xs:float">
-                  <xs:attribute name="units" type="xs:string" use="required" />
+                  <xs:attribute name="units" type="energyUnitsType" use="required" />
                   <xs:attribute name="reverse" type="xs:boolean" use="optional" />
                   <xs:attribute name="lower" type="xs:float" use="optional" />
                   <xs:attribute name="upper" type="xs:float" use="optional" />
@@ -76,12 +77,22 @@
               </xs:simpleContent>
             </xs:complexType>
           </xs:element>
-          <xs:element name="nInfinity" type="xs:decimal">
+          <xs:element name="nInfinity">
             <xs:annotation>
               <xs:documentation>
-                The temperature exponentof (T/Tinf), nInfinity,  cannot have a range
+                The temperature exponent of (T/Tinf)
               </xs:documentation>
             </xs:annotation>
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="lower" type="xs:float" use="optional" />
+                  <xs:attribute name="upper" type="xs:float" use="optional" />
+                  <xs:attribute name="stepsize" type="xs:float" use="optional" />
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+
           </xs:element>
           <xs:element name="TInfinity" type="xs:decimal" minOccurs="0">
             <xs:annotation>
@@ -90,8 +101,8 @@
               </xs:documentation>
             </xs:annotation>
           </xs:element>
-        </xs:sequence>
-        <xs:attribute name="name" type="xs:string" use="required" />
+        </xs:all>
+        <xs:attribute name="name" type="xs:string" use="optional" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -134,10 +145,10 @@
               <xs:attribute name="useSineTerms" type="xs:boolean" use="optional" />
             </xs:complexType>
           </xs:element>
-          <xs:element name="periodicity" type="xs:unsignedInt" />
+          <xs:element name="periodicity" type="xs:unsignedInt" minOccurs="0"/>
           <xs:element name="PlotStates" minOccurs="0" />
         </xs:sequence>
-        <xs:attribute name="name" type="xs:string" use="required" />
+        <xs:attribute name="name" type="xs:string" use="optional" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -163,7 +174,7 @@
               <xs:attribute name="expansionSize" type="xs:unsignedInt" use="optional" />
             </xs:complexType>
           </xs:element>
-          <xs:element name="periodicity" type="xs:unsignedInt" />
+          <xs:element name="periodicity" type="xs:unsignedInt" minOccurs="0"/>
           <xs:element minOccurs="0" name="PlotStates" />
         </xs:sequence>
         <xs:attribute name="name" type="xs:string" use="required" />

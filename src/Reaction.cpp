@@ -230,7 +230,7 @@ namespace mesmer
 
     // Determine the method of MC rate coefficient calculation.
     // The name of the method may be in a text element e.g.<me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
-    // OR in a name or a xsi:type attribute e.g <me:MCRCMethod xsi:type ="MesmerILT">
+    // OR in a name or a xsi:type attribute e.g <me:MCRCMethod xsi:type ="me:MesmerILT">
     const char* pMCRCMethodtxt;
     PersistPtr pp = ppReac->XmlMoveTo("me:MCRCMethod");
     if(pp)
@@ -241,6 +241,8 @@ namespace mesmer
       pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod", true, MicroRateCalculator::typeID()) ;
     if(pMCRCMethodtxt)
     {
+      if(pMCRCMethodtxt[2]==':')
+        pMCRCMethodtxt+=3; //Remove prefix "me:"
       m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
       if(!m_pMicroRateCalculator)
       //{

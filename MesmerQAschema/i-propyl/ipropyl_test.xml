@@ -194,8 +194,8 @@
         <molecule ref="H"  role="sink" />
       </product>
 
-      <me:MCRCMethod xsi:type="MesmerILT">
-        <me:preExponential>6.00e-12</me:preExponential>
+      <me:MCRCMethod xsi:type="me:MesmerILT">
+        <me:preExponential units="cm3molecule-1s-1">6.00e-12</me:preExponential>
         <me:activationEnergy  units="cm-1" reverse="true">546.0</me:activationEnergy>
         <me:TInfinity>1.0</me:TInfinity>
         <me:nInfinity>0.0</me:nInfinity>

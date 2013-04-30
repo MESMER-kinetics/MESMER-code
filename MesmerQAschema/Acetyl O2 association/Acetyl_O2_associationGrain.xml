@@ -614,16 +614,17 @@
             <product>
                 <molecule ref="Int1" me:type="modelled" />
             </product>
-          <me:MCRCMethod xsi:type="MesmerILT">
+          <me:MCRCMethod xsi:type="me:MesmerILT">
             <!--<me:preExponential lower="4.5E-12" upper="7.5E-12" stepsize="3.0e-12">6.00e-12</me:preExponential>-->
-            <me:preExponential>6.00e-12</me:preExponential>
-            <me:excessReactantConc>2.25E16</me:excessReactantConc>
+            <me:preExponential units="cm3molecule-1s-1">6.00e-12</me:preExponential>
+            
             <!--<me:activationEnergy lower="0.0" upper="2.0" stepsize="2.0">0.0</me:activationEnergy>-->
-            <me:activationEnergy>0.0</me:activationEnergy>
+            <me:activationEnergy units="kJ/mol">0.0</me:activationEnergy>
             <me:TInfinity>298.0</me:TInfinity>
             <!--<me:nInfinity lower="-0.65" upper="-0.55" stepsize="0.1">-0.5</me:nInfinity>-->
             <me:nInfinity>-0.5</me:nInfinity>
           </me:MCRCMethod>
+          <me:excessReactantConc>2.25E16</me:excessReactantConc>
         </reaction>
         <reaction id="R2">
             <reactant>

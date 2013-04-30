@@ -596,9 +596,9 @@
       <product>
         <molecule ref="Int1" role="modelled" />
       </product>
-      <me:MCRCMethod xsi:type ="MesmerILT">
-        <me:preExponential>6.00e-12</me:preExponential>
-        <me:activationEnergy>0.0</me:activationEnergy>
+      <me:MCRCMethod xsi:type ="me:MesmerILT">
+        <me:preExponential units="cm3molecule-1s-1">6.00e-12</me:preExponential>
+        <me:activationEnergy units="kJ/mol">0.0</me:activationEnergy>
         <me:TInfinity>298.0</me:TInfinity>
         <me:nInfinity>-0.5</me:nInfinity>
       </me:MCRCMethod>

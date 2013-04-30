@@ -143,8 +143,8 @@
         <molecule ref="Methane"  me:type="modelled" />
       </product>
 
-      <me:MCRCMethod xsi:type="MesmerILT">
-        <me:preExponential lower="1.e-10" upper="5.e-10" stepsize="1.e-11">3.e-10</me:preExponential>
+      <me:MCRCMethod xsi:type="me:MesmerILT">
+        <me:preExponential units="cm3molecule-1s-1" lower="1.e-10" upper="5.e-10" stepsize="1.e-11">3.e-10</me:preExponential>
         <me:activationEnergy  units="cm-1">0.0</me:activationEnergy>
         <me:TInfinity>300.0</me:TInfinity>
         <me:nInfinity lower="0.4" upper="1.2" stepsize="0.01">0.8</me:nInfinity>
