@@ -1,3 +1,10 @@
+2013-May-4 Chris Morley
+
+	src/System.cpp: From a problem Mark was having: ensure XML
+	output is well-formed even when range variable names contain
+	unsuitable characters )( : or space, probably arising from a
+	molecule name (now deprecated of course).
+
 2013-April-30 Chris Morley
 
 	Update to parse xsi:type me:MesmerILT and similar. Mods like

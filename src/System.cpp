@@ -559,8 +559,12 @@ namespace mesmer
       for(size_t i=0;i!=Rdouble::withRange().size();++i)
       {
         string varname = Rdouble::withRange()[i]->get_varname();
-        //The varnames contain ':' which is incompatible with XML. replace by '-'.
+        //The varnames contain ':' or '(' or')' which is incompatible with XML. replace by '-'.
         replace(varname.begin(), varname.end(), ':', '-');
+        replace(varname.begin(), varname.end(), '(', '-');
+        replace(varname.begin(), varname.end(), ')', '-');
+        //Tolerate spaces in varnames
+        replace(varname.begin(), varname.end(), ' ', '_');
         stringstream ss;
         ss << *Rdouble::withRange()[i];
         ppParams->XmlWriteAttribute(varname, ss.str());
