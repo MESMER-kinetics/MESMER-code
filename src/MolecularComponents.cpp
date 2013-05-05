@@ -119,7 +119,7 @@ namespace mesmer
     m_VibFreq(),
     m_Hessian(NULL),
     m_Modes(NULL),
-	m_nModes(0),
+    m_nModes(0),
     m_HessianUnits(),
     m_grainEne(),
     m_grainDOS() { m_host = pMol; }
@@ -446,8 +446,8 @@ namespace mesmer
         || (name = pp2->XmlReadValue("xsi:type", optional))        )
       {
         if(name[2]==':')
-         name+=3; //Remove prefix "me:"
-         dosMethod = name;
+          name+=3; //Remove prefix "me:"
+        dosMethod = name;
       }
 
       DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find(dosMethod);
@@ -824,7 +824,7 @@ namespace mesmer
   bool gDensityOfStates::FrqsFromHessian() {
 
     const size_t msize = m_Hessian->size() ;
-	m_Modes = new dMatrix(msize, 0.0) ;
+    m_Modes = new dMatrix(msize, 0.0) ;
 
     gStructure& gs = m_host->getStruc() ;
     bool HasCoords = gs.ReadStructure() ;
@@ -874,23 +874,23 @@ namespace mesmer
 
     // Rotate Hessian.
 
-	dMatrix axisAlignment(3, 0.0) ;
-	gs.getAlignmentMatrix(axisAlignment) ;
-	dMatrix Transform(msize, 0.0) ;
-	for (i = 0 ; i < msize ; i += 3) {
+    dMatrix axisAlignment(3, 0.0) ;
+    gs.getAlignmentMatrix(axisAlignment) ;
+    dMatrix Transform(msize, 0.0) ;
+    for (i = 0 ; i < msize ; i += 3) {
       size_t ii(0),jj(0) ;
       for (ii = 0 ; ii < 3 ; ii++) {
-		for (jj = 0 ; jj < 3 ; jj++) {
-		  Transform[i+ii][i+jj] = axisAlignment[ii][jj] ;
-		}
+        for (jj = 0 ; jj < 3 ; jj++) {
+          Transform[i+ii][i+jj] = axisAlignment[ii][jj] ;
+        }
       }
-	}
+    }
 
-	dMatrix tmpHessian = (*m_Hessian)*Transform ;
-	Transform.Transpose() ;
-	*m_Hessian = Transform*tmpHessian ;
+    dMatrix tmpHessian = (*m_Hessian)*Transform ;
+    Transform.Transpose() ;
+    *m_Hessian = Transform*tmpHessian ;
 
-	// X Translation projector.
+    // X Translation projector.
 
     vector<double> mode(msize, 0.0) ;
     for (i = 0 ; i < msize ; i += 3) 
@@ -921,41 +921,60 @@ namespace mesmer
     // Project out translational and rotational modes.
 
     vector<double> freqs(msize, 0.0) ;
-    calculateFreqs(freqs) ;
+    calculateFreqs(freqs, m_host->isMolType("transitionState")) ;
 
     // Save projected frequencies. Note need to check if configuration is a transtion state.
-	
-	size_t firstFrqIdx = (m_host->isMolType("transitionState")) ? 7 : 6 ;
+
+    size_t firstFrqIdx = (m_host->isMolType("transitionState")) ? 7 : 6 ;
     m_VibFreq.clear() ;
     for (i = firstFrqIdx ; i < msize ; i++) 
       m_VibFreq.push_back(freqs[i]) ;
 
-	return true ;
+    return true ;
   }
 
   // Function to calculate the vibrational frequencies from a projected Hessian matrix.
-  bool gDensityOfStates::calculateFreqs(vector<double> &freqs) {
+  bool gDensityOfStates::calculateFreqs(vector<double> &freqs, bool projectTransStateMode) {
 
     const size_t msize = m_Hessian->size() ;
 
-	dMatrix tmp = *m_Modes ; 
+    dMatrix tmp = *m_Modes ; 
     tmp.Transpose() ;
     dMatrix Projector = (*m_Modes)*tmp ; 
     for (size_t i = 0 ; i < msize ; i++) {
       for (size_t j = 0 ; j < msize ; j++) {
         Projector[i][j] *= -1.0 ;
       }
-	  Projector[i][i] += 1.0 ;
+      Projector[i][i] += 1.0 ;
     }
 
-	dMatrix tmpHessian = Projector*(*m_Hessian)*Projector ;
+    dMatrix tmpHessian = Projector*(*m_Hessian)*Projector ;
 
     tmpHessian.diagonalize(&freqs[0]) ;
 
     double convFactor = conHess2Freq / (2.0*M_PI) ;
-    for (size_t i(0) ; i < msize ; i++) {
-      if (freqs[i] > 0.0) {
-        freqs[i] = convFactor*sqrt(freqs[i]) ;
+    for (size_t m(0) ; m < msize ; m++) {
+      if (freqs[m] > 0.0) {
+		
+		// Mostly vibration modes.
+		freqs[m] = convFactor*sqrt(freqs[m]) ;
+
+      } else if (projectTransStateMode) { 
+
+		// Add Transition state mode to the projected set after orthogonalization.
+		// The magic number of "1.0" below is 1 cm-1 and used to filter out any 
+		// small -ve frequencies associated with existing projected modes.
+        double imFreq = convFactor*sqrt(fabs(freqs[m])) ;
+        if (imFreq > 1.0) {
+
+          vector<double> mode(msize, 0.0) ;
+          size_t i(0), j(0) ;
+          for (j = 0 ; j < msize ; j++) {
+            mode[j] = tmpHessian[j][m] ;
+          }
+
+          orthogonalizeMode(mode) ;
+        }
       }
     }
 
@@ -964,7 +983,7 @@ namespace mesmer
 
   // This method is used to project a mode from the stored Hessian and
   // re-calculate the remaining frequencies.
-  bool gDensityOfStates::projectMode(std::vector<double> &mode) {
+  bool gDensityOfStates::projectMode(vector<double> &mode) {
 
     bool status(true) ;
 
@@ -983,21 +1002,9 @@ namespace mesmer
       }
     }
 
-	// Orthogonalize against existing modes. 
+    // Orthogonalize and project out mode.
 
-    for (i = 0 ; i < m_nModes ; i++) {
-      double sum(0.0) ;
-      for (j = 0 ; j < msize ; j++) {
-		sum += mode[j] * (*m_Modes)[j][i] ;
-      }
-      for (j = 0 ; j < msize ; j++) {
-		mode[j]  -= sum * (*m_Modes)[j][i] ;
-      }
-    }
-
-    UpdateProjector(mode) ;
-
-	// Project out mode.
+	orthogonalizeMode(mode) ;
 
     vector<double> freqs(msize, 0.0) ;
     calculateFreqs(freqs) ;
@@ -1012,6 +1019,30 @@ namespace mesmer
     return status ;
   }
 
+  // This method is used to orthogonalize a mode against existing
+  // projected modes and then add it to the projected set.
+  bool gDensityOfStates::orthogonalizeMode(vector<double> &mode) {
+
+    const size_t msize = m_Hessian->size() ;
+	
+	// Orthogonalize against existing modes. 
+
+	size_t i(0), j(0) ;
+    for (i = 0 ; i < m_nModes ; i++) {
+      double sum(0.0) ;
+      for (j = 0 ; j < msize ; j++) {
+        sum += mode[j] * (*m_Modes)[j][i] ;
+      }
+      for (j = 0 ; j < msize ; j++) {
+        mode[j]  -= sum * (*m_Modes)[j][i] ;
+      }
+    }
+
+    UpdateProjector(mode) ;
+
+	return true ;
+ }
+
   // Helper function to shift translation projection vector.
   void gDensityOfStates::ShiftTransVector(vector<double> &mode) {
     const size_t msize = mode.size() ;
@@ -1023,10 +1054,10 @@ namespace mesmer
   // Helper function to create projector.
   void gDensityOfStates::UpdateProjector(vector<double> &mode) {
 
-	// Normalize mode.
+    // Normalize mode.
 
     double NormFctr(0.0) ;
-	size_t i(0) ;
+    size_t i(0) ;
     for (; i < mode.size() ; i++) {
       NormFctr += mode[i]*mode[i] ;
     }
@@ -1036,7 +1067,7 @@ namespace mesmer
       mode[i] *= NormFctr ;
     }
 
-	// Add mode to exisitng set.
+    // Add mode to exisitng set.
 
     for (i = 0  ; i < m_Modes->size() ; i++) 
       (*m_Modes)[i][m_nModes] = mode[i] ;
@@ -1170,7 +1201,7 @@ namespace mesmer
     if (m_grainDist.size()) m_grainDist.clear();
     //delete m_pEnergyTransferModel;
     for(std::map<string, EnergyTransferModel*>::iterator it = m_EnergyTransferModels.begin();
-        it!=m_EnergyTransferModels.end(); ++it)
+      it!=m_EnergyTransferModels.end(); ++it)
       delete it->second;
   }
 
@@ -1202,7 +1233,7 @@ namespace mesmer
     const char* pETPModeltxt = pp->XmlReadValue("me:energyTransferModel") ;
     if(!pETPModeltxt)
       return false;
-    
+
     EnergyTransferModel* pModel = EnergyTransferModel::Find(pETPModeltxt);//new instance, deleted in destructor
     if(!pModel)
     {
@@ -1214,24 +1245,24 @@ namespace mesmer
     return pModel->ReadParameters(getHost());
   }
 
-    EnergyTransferModel* gWellProperties::addBathGas(const char* pbathGasName, EnergyTransferModel* pModel)
+  EnergyTransferModel* gWellProperties::addBathGas(const char* pbathGasName, EnergyTransferModel* pModel)
+  {
+    // Look up the energy transfer model instance for this bath gas
+    bool isGeneralBG = (pbathGasName==NULL);
+    if(pbathGasName==NULL) // use the general bath gas
+      pbathGasName = getHost()->getMoleculeManager()->get_BathGasName().c_str();
+    EnergyTransferModel* pETModel = m_EnergyTransferModels[string(pbathGasName)];
+    if(pETModel==NULL)
     {
-      // Look up the energy transfer model instance for this bath gas
-      bool isGeneralBG = (pbathGasName==NULL);
-      if(pbathGasName==NULL) // use the general bath gas
-        pbathGasName = getHost()->getMoleculeManager()->get_BathGasName().c_str();
-      EnergyTransferModel* pETModel = m_EnergyTransferModels[string(pbathGasName)];
-      if(pETModel==NULL)
-      {
-        //Unrecognized bath gas.
-        //If it is not the general bath gas make a new model for it and add it to the map.
-        MesmerFlags flgs = m_host->getFlags();
-        getHost()->getMoleculeManager()->addmol(pbathGasName, "bathGas", m_host->getEnv(), flgs);
-        pETModel = isGeneralBG ? pModel : dynamic_cast<EnergyTransferModel*>(pModel->Clone());
-        m_EnergyTransferModels[string(pbathGasName)] = pETModel;
-      }
-      return pETModel;
+      //Unrecognized bath gas.
+      //If it is not the general bath gas make a new model for it and add it to the map.
+      MesmerFlags flgs = m_host->getFlags();
+      getHost()->getMoleculeManager()->addmol(pbathGasName, "bathGas", m_host->getEnv(), flgs);
+      pETModel = isGeneralBG ? pModel : dynamic_cast<EnergyTransferModel*>(pModel->Clone());
+      m_EnergyTransferModels[string(pbathGasName)] = pETModel;
     }
+    return pETModel;
+  }
 
   double gWellProperties::get_collisionFrequency() const {
     return m_collisionFrequency ;
@@ -1918,9 +1949,9 @@ namespace mesmer
 
   gStructure::gStructure(mesmer::Molecule *pMol) : m_MolecularWeight(-1), 
     m_PrincipalMI(3, 0.0),
-	m_AxisAlignment(NULL),
-	Atoms(),
-	Bonds(),
+    m_AxisAlignment(NULL),
+    Atoms(),
+    Bonds(),
     m_atomicOrder(),
     m_HasCoords(false) 
   {
@@ -2086,10 +2117,10 @@ namespace mesmer
 
       MI.diagonalize(&m_PrincipalMI[0]);
 
-	  // Save the Alignment matrix 
+      // Save the Alignment matrix 
 
-	  m_AxisAlignment = new dMatrix(MI) ;
-	  
+      m_AxisAlignment = new dMatrix(MI) ;
+
       // Rotate coordinates to principal axis frame.
 
       MI.Transpose() ;

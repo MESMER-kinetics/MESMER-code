@@ -241,7 +241,10 @@ namespace mesmer
     void RotationVector(vector<double> &aa, size_t loca, double sgna, vector<double> &bb, size_t locb, double sgnb, vector<double> &massWeights, vector<double> &mode) ;
 
     // Function to calculate the vibrational frequencies from a projected Hessian matrix.
-    bool calculateFreqs(vector<double> &freqs) ;
+    bool calculateFreqs(vector<double> &freqs, bool projectTransStateMode = false) ;
+
+    // This method is used to orthogonalize a mode against existing projected modes and then add it to the projected set.
+    bool orthogonalizeMode(vector<double> &mode) ;
 
   };
 
