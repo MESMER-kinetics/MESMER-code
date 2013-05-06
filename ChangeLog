@@ -1,3 +1,7 @@
+2013-May-6 Struan Robertson
+	
+	* UnitTests.cpp/.h: Linear algebra unit tests added.
+
 2013-May-5 Struan Robertson
 	
 	* MolecularComponents.cpp/.h: Hessian projection method 

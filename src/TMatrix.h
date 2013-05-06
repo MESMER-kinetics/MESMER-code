@@ -219,12 +219,12 @@ namespace mesmer
 
     for (i=n-1; i>0; i--) {
       l=i-1 ;
-      h=scale=0.0;
+      h=scale=T(0.0) ;
       if (l > 0) {
 
         for (k=0; k<l+1; k++)
-          scale += abs(a[i][k]);
-        if (scale == 0.0)
+          scale += fabs(a[i][k]);
+        if (scale == T(0.0))
           e[i]=a[i][l];
         else {
           for (k=0; k<l+1; k++) {
@@ -232,15 +232,15 @@ namespace mesmer
             h += a[i][k]*a[i][k];
           }
           f=a[i][l];
-          g = (f > 0.0) ? -sqrt(h) : sqrt(h);
+          g = (f > T(0.0)) ? -sqrt(h) : sqrt(h);
           e[i]=scale*g;
           h -= f*g;
           a[i][l]=f-g;
-          f=0.0;
+          f=T(0.0);
           for (j=0; j<l+1; j++) {
             // Next statement can be omitted if eigenvectors not wanted.
             a[j][i]=a[i][j]/h;
-            g=0.0;
+            g=T(0.0);
 
             for (k=0; k<j+1; k++)
               g += a[j][k]*a[i][k];
@@ -325,8 +325,8 @@ namespace mesmer
       iter=0;
       do {
         for (m=l;m<=n-1;++m) {
-          dd=abs(d[m-1])+abs(d[m]);
-          if (abs(e[m-1])+dd == dd) break;
+          dd=fabs(d[m-1])+fabs(d[m]);
+          if (fabs(e[m-1])+dd == dd) break;
         }
         if (m != l) {
           // if (iter++ == 30) fprintf(stderr, "Too many iterations in TQLI");
@@ -347,20 +347,23 @@ namespace mesmer
           */
           g=(d[l]-d[l-1])/(2.0*e[l-1]);
           r=sqrt((g*g)+1.0);
-          g=d[m-1]-d[l-1]+e[l-1]/(g + (g < 0.0 ? -abs(r) : abs(r)));
-          s=c=1.0;
+		  //r = pythag(g, 1.0) ;
+          g=d[m-1]-d[l-1]+e[l-1]/(g + (g < 0.0 ? -fabs(r) : fabs(r)));
+          s=c=T(1.0) ;
           p=0.0;
           for (i=m-1;i>=l;--i) {
             f=s*e[i-1];
             b=c*e[i-1];
-            if (abs(f) >= abs(g)) {
+            if (fabs(f) >= fabs(g)) {
               c=g/f;
               r=sqrt((c*c)+1.0);
+			  //r = pythag(c, 1.0) ;
               e[i]=f*r;
               c *= (s=1.0/r);
             } else {
               s=f/g;
-              r=sqrt((s*s)+1.0);
+               r=sqrt((s*s)+1.0);
+			  //r = pythag(s, 1.0) ;
               e[i]=g*r;
               s *= (c=1.0/r);
             }
@@ -439,8 +442,8 @@ namespace mesmer
       iter=0;
       do {
         for (m=l;m<=n-1;++m) {
-          dd=abs(d[m-1])+abs(d[m]);
-          if (abs(e[m-1])+dd == dd) break;
+          dd=fabs(d[m-1])+fabs(d[m]);
+          if (fabs(e[m-1])+dd == dd) break;
         }
         if (m != l) {
           // if (iter++ == 30) fprintf(stderr, "Too many iterations in tqlev");
@@ -461,13 +464,13 @@ namespace mesmer
           */
           g=(d[l]-d[l-1])/(2.0*e[l-1]);
           r=sqrt((g*g)+1.0);
-          g=d[m-1]-d[l-1]+e[l-1]/(g + (g < 0.0 ? -abs(r) : abs(r)));
+          g=d[m-1]-d[l-1]+e[l-1]/(g + (g < 0.0 ? -fabs(r) : fabs(r)));
           s=c=1.0;
           p=0.0;
           for (i=m-1;i>=l;--i) {
             f=s*e[i-1];
             b=c*e[i-1];
-            if (abs(f) >= abs(g)) {
+            if (fabs(f) >= fabs(g)) {
               c=g/f;
               r=sqrt((c*c)+1.0);
               e[i]=f*r;
@@ -521,22 +524,23 @@ namespace mesmer
   T TMatrix<T>::pythag(T a, T b)
   {
     T p,r,s,t,u;
-    if (abs(a) > abs(b)) p = abs(a);
-    else p = abs(b);
-    if (p == 0.) goto label_1;
-    if (abs(a) > abs(b)) r = abs(b);
-    else r = abs(a);
+
+	T absa = fabs(a) ;
+	T absb = fabs(b) ;
+
+    p = (absa > absb) ? absa : absb ;
+    if (p == 0.) return p ;
+    r = (absa > absb) ? absb : absa ;
     r = (r/p)*(r/p);
 
-label_2: t = 4. + r;
-    if (t == 4.) goto label_1;
-    s = r/t;
-    u = 1. + 2. *s;
-    p *= u;
-    r = ((s/u)*(s/u))*r;
+	while ((t = T(4.0) + r) != T(4.0)) {
+	  s  = r/t;
+	  u  = T(1.0) + T(2.0)*s;
+	  p *= u;
+	  r *= ((s/u)*(s/u)) ;
+	}
 
-    goto label_2;
-label_1: return(p);
+    return p ;
   }
 
   //
@@ -638,7 +642,7 @@ label_1: return(p);
     for (size_t i(0); i < n ; ++i) {
       big = 0.0 ;
       for (size_t j(0); j < n ; ++j) {
-        if ((temp = abs(a[i][j])) > big){
+        if ((temp = fabs(a[i][j])) > big){
           big = temp ;
         }
       }
@@ -665,7 +669,7 @@ label_1: return(p);
 
         a[i][j] = sum ;
 
-        if ( (dum = work[i]*abs(sum)) >= big) {
+        if ( (dum = work[i]*fabs(sum)) >= big) {
           big = dum ;
           imax = i ;
         }
@@ -680,13 +684,13 @@ label_1: return(p);
         work[imax] = work[j] ;
       }
       indx[j] = imax ;
-      if (abs(a[j][j]) < tiny){
+      if (fabs(a[j][j]) < tiny){
         a[j][j] = tiny;
       }
 
       if (j != n-1) {
         dum = 1.0/(a[j][j]) ;
-        for (int i(j+1); i < n; ++i)
+        for (size_t i(j+1); i < n; ++i)
           a[i][j] *= dum ;
       }
 

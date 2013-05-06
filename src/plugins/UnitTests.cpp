@@ -13,6 +13,7 @@
 #include "../calcmethod.h"
 #include "../MesmerMath.h"
 #include "../Spline.h"
+#include "dMatrix.h"
 
 namespace mesmer
 {
@@ -54,6 +55,9 @@ namespace mesmer
 
     bool Test_Spline() const ;
 
+	template<class T> 
+	bool Test_LinearAlgebra(string precision) const ;
+
     // MEIC tests:
 
     bool Test_MEIC_1(Molecule* pMol) const ;
@@ -69,8 +73,10 @@ namespace mesmer
     bool parseInput(System* pSys) const ;
 
     void underlineText(const string& text) const ;
+
   private:
-    const char* m_id;
+
+	const char* m_id;
 
   };
 
@@ -95,6 +101,12 @@ namespace mesmer
 
     // Test Spline class.
     status = ( status && Test_Spline()) ;
+
+	// Test Linear Algebra ;
+    status = ( status && Test_LinearAlgebra<double>(string("double"))) ;
+    status = ( status && Test_LinearAlgebra<long double>(string("long-double"))) ;
+    status = ( status && Test_LinearAlgebra<dd_real>(string("double-double"))) ;
+    status = ( status && Test_LinearAlgebra<qd_real>(string("quad-double"))) ;
 
     MesmerEnv& Env = pSys->getEnv() ;
     Env.MaxCell = 50000 ;
@@ -286,7 +298,117 @@ namespace mesmer
 
   }
 
-  bool UnitTests::Test_MEIC_1(Molecule *pMol) const {
+   template<class T> 
+   bool UnitTests::Test_LinearAlgebra(string precision) const {
+
+    bool status(true) ; 
+
+    ctest << endl ;
+	const string Title = string("Test: Linear Algebra: ") + precision ; 
+    underlineText(Title) ;
+
+	// Equilibrium matrix.
+
+	TMatrix<T> Mtx1(3,0.0) ;
+	Mtx1[0][0] = -3.0/2.0 ;
+	Mtx1[0][1] = 1.0 ;
+	Mtx1[1][1] = -10.0/6.0 ;
+	Mtx1[1][2] = 1.0 ;
+	Mtx1[2][0] = 1.0 ;
+	Mtx1[2][1] = 1.0 ;
+	Mtx1[2][2] = 1.0 ;
+
+	string Heading("Test matrix 1") ;
+	Mtx1.print(Heading, ctest) ;
+
+	Mtx1.invertGaussianJordan() ;
+
+	Heading.clear() ;
+	Heading = "Inverse of Test matrix 1" ;
+	Mtx1.print(Heading, ctest) ;
+
+	// Calculate Equilibrum population.
+
+	size_t msize = Mtx1.size() ;
+	vector<T> rhs(msize,0.0) ;
+	rhs[2] = 1.0 ;
+	rhs *= Mtx1 ;
+
+	// Rate coefficient matrix.
+
+	TMatrix<T> Mtx2(msize,0.0) ;
+
+	Mtx2[0][0] = -13.0 ;
+	Mtx2[0][1] =   2.0 ;
+	Mtx2[0][2] =   4.0 ;
+	Mtx2[1][0] =   3.0 ;
+	Mtx2[1][1] = -12.0 ;
+	Mtx2[1][2] =   6.0 ;
+	Mtx2[2][0] =  10.0 ;
+	Mtx2[2][1] =  10.0 ;
+	Mtx2[2][2] = -10.0 ;
+
+	Heading.clear() ;
+	Heading = "Test matrix 2" ;
+	Mtx2.print(Heading, ctest) ;
+
+	// Symmetrize rate coefficient matrix.
+
+	TMatrix<T> Mtx3(msize, 0.0) ;
+	TMatrix<T> Mtx4(Mtx3) ;
+	for (size_t i(0) ; i < msize ; i++) {
+	  Mtx3[i][i] = sqrt(rhs[i]) ;
+	  Mtx4[i][i] = 1.0/Mtx3[i][i] ;
+	  rhs[i] = 0.0 ;
+	}
+
+	TMatrix<T> Mtx5 = Mtx4*Mtx2*Mtx3 ;
+
+	Heading.clear() ;
+	Heading = "Symmetrized test matrix 2" ;
+	Mtx5.print(Heading, ctest) ;
+
+	// Diagonalize symmetrize rate coefficient matrix.
+
+	for (size_t i(0) ; i < msize ; i++) {
+	  for (size_t j(i+1) ; j < msize ; j++) {
+		Mtx3[i][j] = Mtx3[j][i] ;
+	  }
+	}
+
+	Mtx5.diagonalize(&rhs[0]) ;
+
+	Heading.clear() ;
+	Heading = "Eigenvectors of symmetrized test matrix 2" ;
+	Mtx5.print(Heading, ctest) ;
+
+	ctest << endl ;
+	underlineText("Eigenvalues:") ;
+	for (size_t i(0) ; i < msize ; i++) {
+	  ctest << formatFloat(rhs[i], 5, 15) << endl ;
+	}
+
+	TMatrix<T> Mtx6 = Mtx3*Mtx5 ;
+	Heading.clear() ;
+	Heading = "Right eigenvectors of test matrix 2" ;
+	Mtx6.print(Heading, ctest) ;
+
+	Mtx5.Transpose() ;
+	TMatrix<T> Mtx7 = Mtx5*Mtx4 ;
+	Heading.clear() ;
+	Heading = "Left eigenvectors of test matrix 2" ;
+	Mtx7.print(Heading, ctest) ;
+
+	TMatrix<T> Mtx8 = Mtx6*Mtx7 ;
+	Heading.clear() ;
+	Heading = "Check: Left * Right = Identity" ;
+	Mtx8.print(Heading, ctest) ;
+
+    return status ;
+
+   }
+
+   bool UnitTests::Test_MEIC_1(Molecule *pMol) const {
 
     bool status(true) ; 
 
