@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
-  <title>OH Acetylene association</title>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" 
+           xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <me:title>OH Acetylene association</me:title>
   <moleculeList>
     <molecule id="OH_acetylene_adduct">
       <atomArray>
@@ -193,7 +195,7 @@
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="N2">
-      <atom elementType="N2" />
+      <atom elementType="N" />
       <propertyList>
         <property dictRef="me:epsilon">
           <scalar>48.0</scalar>
@@ -210,38 +212,40 @@
   <reactionList>
     <reaction id="R1">
       <reactant>
-        <molecule ref="OH" me:type="deficientReactant" />
+        <molecule ref="OH" role="deficientReactant" />
       </reactant>
       <reactant>
-        <molecule ref="acetylene" me:type="excessReactant" />
+        <molecule ref="acetylene" role="excessReactant" />
       </reactant>
       <product>
-        <molecule ref="OH_acetylene_adduct" me:type="modelled" />
+        <molecule ref="OH_acetylene_adduct" role="modelled" />
       </product>
-      <me:MCRCMethod>MesmerILT</me:MCRCMethod>
-      <me:preExponential>7.00e-12</me:preExponential>
       <me:excessReactantConc>1.00e17</me:excessReactantConc>
-      <me:activationEnergy units="kJ/mol">5.375</me:activationEnergy>
-      <me:nInfinity>0.0</me:nInfinity>
+      <me:MCRCMethod xsi:type="me:MesmerILT">
+        <me:preExponential units="cm3molecule-1s-1">7.00e-12</me:preExponential>
+        <me:activationEnergy units="kJ/mol">5.375</me:activationEnergy>
+        <me:nInfinity>0.0</me:nInfinity>
+      </me:MCRCMethod>
+      <me:excessReactantConc>1.00e17</me:excessReactantConc>
     </reaction>
     <reaction id="R2">
       <reactant>
-        <molecule ref="OH_acetylene_adduct" me:type="reactant" />
+        <molecule ref="OH_acetylene_adduct" role="reactant" />
       </reactant>
       <product>
-        <molecule ref="OCHCH2" me:type="sink" />
+        <molecule ref="OCHCH2" role="sink" />
       </product>
       <me:transitionState>
-        <molecule ref="TS_1a" me:type="transitionState" />
+        <molecule ref="TS_1a" role="transitionState" />
       </me:transitionState>
       <!--Use zero point energies instead-->
-      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+      <me:MCRCMethod name="SimpleRRKM"/>
     </reaction>
   </reactionList>
   <me:conditions>
     <me:bathGas>N2</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="Torr" me:P="1000" me:T="298.0" />
+      <me:PTpair units="torr" P="1000" T="298.0" />
       <!--<me:PTpair me:units="Torr" me:P="1000" me:T="325.0" />
       <me:PTpair me:units="Torr" me:P="1000" me:T="355.0" />-->
     </me:PTs>

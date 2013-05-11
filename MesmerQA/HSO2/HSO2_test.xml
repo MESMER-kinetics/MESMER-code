@@ -2,8 +2,8 @@
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
-  <title>H + SO2</title>
-
+  <me:title>H + SO2</me:title>
+    
   <moleculeList>
     <molecule id="H">
       <atom id="a1" elementType="H"/>
@@ -135,30 +135,30 @@
   <reactionList>
     <reaction id="R1" reversible="true">
       <reactant>
-        <molecule ref="H" me:type="deficientReactant" />
+        <molecule ref="H" role="deficientReactant" />
       </reactant>
       <reactant>
-        <molecule ref="SO2" me:type="excessReactant" />
+        <molecule ref="SO2" role="excessReactant" />
       </reactant>
       <product>
-        <molecule ref="HSO2" me:type="modelled" />
+        <molecule ref="HSO2" role="modelled" />
       </product>
       <me:transitionState>
         <molecule ref="TS1" me:type="transitionState" />
       </me:transitionState>
       <me:excessReactantConc>1e14</me:excessReactantConc>
-      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+      <me:MCRCMethod name="SimpleRRKM"/>
     </reaction>
   </reactionList>
   <me:conditions>
     <me:bathGas>Ar</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="Torr" me:P="100000000" me:T="200" me:precision ="double" />
-	  <me:PTpair me:units="Torr" me:P="100000000" me:T="200" me:precision ="dd" />
-	  <me:PTpair me:units="Torr" me:P="100000000" me:T="200" me:precision ="qd" />
+      <me:PTpair units="Torr" P="100000000" T="200" precision ="double" />
+	  <me:PTpair units="Torr" P="100000000" T="200" precision ="dd" />
+	  <me:PTpair units="Torr" P="100000000" T="200" precision ="qd" />
 	</me:PTs>
     <me:InitialPopulation>
-      <molecule ref="H" me:population="1.0" />
+      <me:molecule ref="H" population="1.0" />
     </me:InitialPopulation>
   </me:conditions>
   <me:modelParameters>

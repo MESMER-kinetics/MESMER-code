@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
-  <title>isopropyl decomposition</title>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <me:title>isopropyl decomposition</me:title>
   <moleculeList>
     <molecule id="i-propyl" spinMultiplicity="2">
       <atomArray>
@@ -64,9 +65,8 @@
       </propertyList>
 
       <me:DOSCMethod>QMRotors</me:DOSCMethod>
-
-      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
-        <bondRef>b1</bondRef>
+      <me:ExtraDOSCMethod name="HinderedRotorQM1D" xsi:type="me:HinderedRotorQM1D">
+        <me:bondRef>b1</me:bondRef>
         <me:HinderedRotorPotential format="analytical" units="kJ/mol">
           <me:PotentialPoint index="0"  coefficient="6.2"/>
           <me:PotentialPoint index="3"  coefficient="-6.2"/>
@@ -75,13 +75,13 @@
         <me:PlotStates/>
       </me:ExtraDOSCMethod>
 
-      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
-        <bondRef>b2</bondRef>
-        <me:HinderedRotorPotential format="analytical" units="kJ/mol">
-          <me:PotentialPoint index="0"  coefficient="6.2"/>
-          <me:PotentialPoint index="3"  coefficient="-6.2"/>
-        </me:HinderedRotorPotential>
-        <me:periodicity>3</me:periodicity>
+      <me:ExtraDOSCMethod name="HinderedRotorQM1D"  xsi:type="me:HinderedRotorQM1D">
+          <me:bondRef>b2</me:bondRef>
+          <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+            <me:PotentialPoint index="0"  coefficient="6.2"/>
+            <me:PotentialPoint index="3"  coefficient="-6.2"/>
+          </me:HinderedRotorPotential>
+          <me:periodicity>3</me:periodicity>
       </me:ExtraDOSCMethod>
 
     </molecule>
@@ -136,8 +136,8 @@
       </propertyList>
 
       <me:DOSCMethod name="QMRotors"/>
-      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
-        <bondRef>b1</bondRef>
+      <me:ExtraDOSCMethod name="HinderedRotorQM1D" xsi:type="me:HinderedRotorQM1D">
+        <me:bondRef>b1</me:bondRef>
         <me:HinderedRotorPotential format="analytical" units="kJ/mol">
           <me:PotentialPoint index="0"  coefficient="6.2"/>
           <me:PotentialPoint index="3"  coefficient="-6.2"/>
@@ -183,23 +183,23 @@
 
     <reaction id="R1">
       <reactant>
-        <molecule ref="i-propyl"  me:type="modelled" />
+        <molecule ref="i-propyl"  role="modelled" />
       </reactant>
 
       <product>
-        <molecule ref="propene"  me:type="sink" />
+        <molecule ref="propene"  role="sink" />
       </product>
 
       <product>
-        <molecule ref="H"  me:type="sink" />
+        <molecule ref="H"  role="sink" />
       </product>
 
-      <me:MCRCMethod>MesmerILT</me:MCRCMethod>
-      <me:preExponential>6.00e-12</me:preExponential>
-      <me:activationEnergy  units="cm-1" reverse="true">546.0</me:activationEnergy>
-      <me:TInfinity>1.0</me:TInfinity>
-      <me:nInfinity>0.0</me:nInfinity>
-
+      <me:MCRCMethod xsi:type="me:MesmerILT">
+        <me:preExponential units="cm3molecule-1s-1">6.00e-12</me:preExponential>
+        <me:activationEnergy  units="cm-1" reverse="true">546.0</me:activationEnergy>
+        <me:TInfinity>1.0</me:TInfinity>
+        <me:nInfinity>0.0</me:nInfinity>
+      </me:MCRCMethod>
     </reaction>
 
   </reactionList>
@@ -208,10 +208,10 @@
   <me:conditions>
     <me:bathGas>He</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="720.">
+      <me:PTpair units="PPCC" P="30.0e16" T="720.">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">41.5</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="30.1e16" me:T="730.">
+      <me:PTpair units="PPCC" P="30.1e16" T="730.">
         <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0">51.1</me:experimentalRate>
       </me:PTpair>
     </me:PTs>

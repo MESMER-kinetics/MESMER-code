@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- May  6 2013 -- 13:08:15
+     Mesmer v3.0 compiled: -- May 11 2013 -- 17:08:48
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -30,32 +30,32 @@
 Parsing input xml file...
 UnitTests.xml
 
-Write metadata 20130506_131027
+Write metadata 20130511_184056
 
 File: "UnitTests.xml" successfully parsed.
 Main Calculation begins
-In Test Molecule: The default value of me:frequenciesScaleFactor was used.
-In Test Molecule: The default value of spinMultiplicity (or one of its attributes) was used.
-In Test Molecule: The default value of me:DOSCMethod was used.
-In Test Molecule: m_ZPE was not defined but requested in Test Molecule. Default value 0 is given.
+In Test_Molecule: The default value of me:frequenciesScaleFactor was used.
+In Test_Molecule: The default value of spinMultiplicity (or one of its attributes) was used.
+In Test_Molecule: The default value of me:DOSCMethod was used.
+In Test_Molecule: m_ZPE was not defined but requested in Test_Molecule. Default value 0 is given.
 Number of grains produced is not equal to that requested
 Number of grains requested: 5000
 Number of grains produced : 4959
-In AcO2 Harmonic: The default value of me:frequenciesScaleFactor was used.
-In AcO2 Harmonic: The default value of spinMultiplicity (or one of its attributes) was used.
-In AcO2 Harmonic: m_ZPE was not defined but requested in AcO2 Harmonic. Default value 0 is given.
+In AcO2_Harmonic: The default value of me:frequenciesScaleFactor was used.
+In AcO2_Harmonic: The default value of spinMultiplicity (or one of its attributes) was used.
+In AcO2_Harmonic: m_ZPE was not defined but requested in AcO2_Harmonic. Default value 0 is given.
 Number of grains produced is not equal to that requested
 Number of grains requested: 5000
 Number of grains produced : 4945
-In AcO2 Anharmonic: The default value of me:frequenciesScaleFactor was used.
-In AcO2 Anharmonic: The default value of spinMultiplicity (or one of its attributes) was used.
-In AcO2 Anharmonic: m_ZPE was not defined but requested in AcO2 Anharmonic. Default value 0 is given.
+In AcO2_Anharmonic: The default value of me:frequenciesScaleFactor was used.
+In AcO2_Anharmonic: The default value of spinMultiplicity (or one of its attributes) was used.
+In AcO2_Anharmonic: m_ZPE was not defined but requested in AcO2_Anharmonic. Default value 0 is given.
 Number of grains produced is not equal to that requested
 Number of grains requested: 5000
 Number of grains produced : 4939
-In AcO2 Asymmetric Top: The default value of me:frequenciesScaleFactor was used.
-In AcO2 Asymmetric Top: The default value of spinMultiplicity (or one of its attributes) was used.
-In AcO2 Asymmetric Top: m_ZPE was not defined but requested in AcO2 Asymmetric Top. Default value 0 is given.
- -- Total time elapsed: 8 seconds.
+In AcO2_Asymmetric_Top: The default value of me:frequenciesScaleFactor was used.
+In AcO2_Asymmetric_Top: The default value of spinMultiplicity (or one of its attributes) was used.
+In AcO2_Asymmetric_Top: m_ZPE was not defined but requested in AcO2_Asymmetric_Top. Default value 0 is given.
+ -- Total time elapsed: 7 seconds.
 
-System saved to out.xml
+Test Molecule is not a known Molecule.AcO2 Harmonic is not a known Molecule.AcO2 Anharmonic is not a known Molecule.AcO2 Asymmetric Top is not a known Molecule.System saved to out.xml

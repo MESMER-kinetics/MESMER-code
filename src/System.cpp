@@ -164,7 +164,7 @@ namespace mesmer
     m_Env.MaxGrn             = ppParams->XmlReadInteger("me:numberOfGrains",optional);
     if(IsNan(m_Env.MaxGrn))
       m_Env.MaxGrn=0;
-    m_Env.GrainSize          = ppParams->XmlReadInteger("me:grainSize");
+    m_Env.GrainSize          = ppParams->XmlReadInteger("me:grainSize", optional);
     m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
     if(IsNan(m_Env.MaximumTemperature))
       m_Env.MaximumTemperature = 0.0;

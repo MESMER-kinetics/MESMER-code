@@ -1,3 +1,11 @@
+
+2013-May-11 Struan Robertson
+	
+	* CollisionOperator.cpp: Fix for grain number problem (checked-in
+	on behalf of Robin).
+	* MesmerQA: Baseline update following the above fix.
+	* MesmerQA: .xml update following the application of schema.
+
 2013-May-6 Struan Robertson
 	
 	* UnitTests.cpp/.h: Linear algebra unit tests added.

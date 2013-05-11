@@ -362,7 +362,7 @@ Check: Left * Right = Identity
   1.424335e-065  4.747784e-066  1.000000e+000
 }
 
-  MEIC Test: "Test Molecule" Harmonic oscillators + rotors.
+  MEIC Test: "Test_Molecule" Harmonic oscillators + rotors.
   ---------------------------------------------------------
 
      Energy/cm-1                  SoS Cell                 SoS Grain
@@ -408,7 +408,7 @@ Check: Left * Right = Identity
           29000,      7.120359384538e+016,      7.117256527804e+016
           30000,      1.094563332288e+017,      1.094099097191e+017
 
-  MEIC Test: "Test Molecule" Harmonic oscillators only.
+  MEIC Test: "Test_Molecule" Harmonic oscillators only.
   -----------------------------------------------------
 
      Energy/cm-1                  SoS Cell                 SoS Grain
@@ -454,7 +454,7 @@ Check: Left * Right = Identity
           29000,            1853719478089,            1852987972381
           30000,            2736275451823,            2735224317606
 
-  MEIC Test: "AcO2 Harmonic" Harmonic oscillators + rotors.
+  MEIC Test: "AcO2_Harmonic" Harmonic oscillators + rotors.
   ---------------------------------------------------------
 
      Energy/cm-1                  SoS Cell                 SoS Grain
@@ -500,7 +500,7 @@ Check: Left * Right = Identity
           29000,      9.486291357592e+019,      9.481512348225e+019
           30000,      1.559683118288e+020,      1.558918020839e+020
 
-  MEIC Test: "AcO2 Harmonic" Harmonic oscillators only.
+  MEIC Test: "AcO2_Harmonic" Harmonic oscillators only.
   -----------------------------------------------------
 
      Energy/cm-1                  SoS Cell                 SoS Grain
@@ -546,7 +546,7 @@ Check: Left * Right = Identity
           29000,       4.36959110262e+013,      4.367565906716e+013
           30000,      6.903279303341e+013,      6.900163402632e+013
 
-  MEIC Test: "AcO2 Anharmonic" Anharmonic oscillators + rotors.
+  MEIC Test: "AcO2_Anharmonic" Anharmonic oscillators + rotors.
   -------------------------------------------------------------
 
      Energy/cm-1                  SoS Cell                 SoS Grain
@@ -592,7 +592,7 @@ Check: Left * Right = Identity
           29000,      1.123279599379e+020,       1.12270779213e+020
           30000,      1.856589027352e+020,      1.855668515001e+020
 
-  MEIC Test: "AcO2 Anharmonic" Anharmonic oscillators only.
+  MEIC Test: "AcO2_Anharmonic" Anharmonic oscillators only.
   ---------------------------------------------------------
 
      Energy/cm-1                  SoS Cell                 SoS Grain
@@ -638,7 +638,7 @@ Check: Left * Right = Identity
           29000,      5.257654962107e+013,      5.255189126749e+013
           30000,      8.353513959375e+013,      8.349697193992e+013
 
-  MEIC Test: "AcO2 Anharmonic" Rotors only.
+  MEIC Test: "AcO2_Anharmonic" Rotors only.
   -----------------------------------------
 
      Energy/cm-1                  SoS Cell                 SoS Grain
@@ -684,7 +684,7 @@ Check: Left * Right = Identity
           29000,                 89376717,                 89370650
           30000,                 94036831,                 94025999
 
-  MEIC Test: "AcO2 Asymmetric Top" Rotors only.
+  MEIC Test: "AcO2_Asymmetric_Top" Rotors only.
   ---------------------------------------------
 
      Energy/cm-1                  SoS Cell                 SoS Grain

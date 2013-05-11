@@ -109,7 +109,9 @@ namespace mesmer
     status = ( status && Test_LinearAlgebra<qd_real>(string("quad-double"))) ;
 
     MesmerEnv& Env = pSys->getEnv() ;
-    Env.MaxCell = 50000 ;
+    Env.GrainSize  = 100 ; 
+	Env.MaxGrn     = 500 ;
+	Env.MaxCell    = Env.GrainSize * Env.MaxGrn ;
 
     // MEIC test: Harmonic oscillator.
     Molecule *pMol = pSys->getMoleculeManager()->find("Test Molecule");

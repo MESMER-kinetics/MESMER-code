@@ -2,8 +2,8 @@
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
-  <title>Cyclopropene isomerization</title>
-  <description>J. Phys. Chem. A 2003, 107, 2680-2692</description>
+  <me:title>Cyclopropene isomerization</me:title>
+  <me:description>J. Phys. Chem. A 2003, 107, 2680-2692</me:description>
   <moleculeList>
     <molecule id="propyne" description="CH_3CCH">
       <atomArray>
@@ -173,8 +173,8 @@
         <bond atomRefs2="a1 a4" order="2" />
         <bond atomRefs2="a4 a5" order="1" />
         <bond atomRefs2="a5 a6" order="1" />
-        <bond atomRefs2="a5 a7" order="1/2" />
-        <bond atomRefs2="a4 a7" order="1/2" />
+        <bond atomRefs2="a5 a7" order="" />
+        <bond atomRefs2="a4 a7" order="" />
       </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
@@ -245,37 +245,37 @@
   <reactionList>
     <reaction id="R1" reversible="true">
       <reactant>
-        <molecule ref="allene" me:type="modelled" />
+        <molecule ref="allene" role="modelled" />
       </reactant>
       <product>
-        <molecule ref="cyclopropene" me:type="modelled" />
+        <molecule ref="cyclopropene" role="modelled" />
       </product>
       <me:transitionState>
-        <molecule ref="TS1" me:type="transitionState" />
+        <molecule ref="TS1" role="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+      <me:MCRCMethod name="SimpleRRKM"/>
     </reaction>
     <reaction id="R2" reversible="true">
       <reactant>
-        <molecule ref="cyclopropene" me:type="modelled" />
+        <molecule ref="cyclopropene" role="modelled" />
       </reactant>
       <product>
-        <molecule ref="propyne" me:type="modelled" />
+        <molecule ref="propyne" role="modelled" />
       </product>
       <me:transitionState>
-        <molecule ref="TS3" me:type="transitionState" />
+        <molecule ref="TS3" role="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+      <me:MCRCMethod name="SimpleRRKM"/>
     </reaction>
   </reactionList>
   <me:conditions>
     <me:bathGas>He</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="Torr" me:P="200.72" me:T="800." />
-      <me:PTpair me:units="Torr" me:P="250.00" me:T="1000." />
+      <me:PTpair units="Torr" P="200.72" T="800." />
+      <me:PTpair units="Torr" P="250.00" T="1000." />
     </me:PTs>
     <me:InitialPopulation>
-      <molecule ref="cyclopropene" me:population="1.0" />
+      <me:molecule ref="cyclopropene" population="1.0" />
     </me:InitialPopulation>
   </me:conditions>
   <me:modelParameters>

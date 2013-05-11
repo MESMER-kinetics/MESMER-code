@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0"?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+<me:mesmer xmlns="http://www.xml-cml.org/schema" 
+           xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <moleculeList>
 
-    <molecule id="Test Molecule">
+    <molecule id="Test_Molecule">
       <propertyList>
         <property title="Hf298">
           <scalar convention="thermodynamic">0.0</scalar>
@@ -26,7 +28,7 @@
     </molecule>
 
     <!-- Details supplied by John Barker for MEIC tests.-->
-    <molecule id="AcO2 Harmonic">
+    <molecule id="AcO2_Harmonic">
       <propertyList>
         <property title="Hf298">
           <scalar convention="thermodynamic">0.0</scalar>
@@ -51,7 +53,7 @@
     </molecule>
 
     <!-- Details supplied by John Barker for MEIC tests.-->
-    <molecule id="AcO2 Anharmonic">
+    <molecule id="AcO2_Anharmonic">
       <propertyList>
         <property title="Hf298">
           <scalar convention="thermodynamic">0.0</scalar>
@@ -74,7 +76,7 @@
       </propertyList>
 
       <me:DOSCMethod>QMRotors</me:DOSCMethod>
-      <me:ExtraDOSCMethod name="Morse">
+      <me:ExtraDOSCMethod name="Morse" xsi:type="me:Morse">
         <!--Need to include a vibration only when its anaharmonicity is not zero-->
         <me:MorseParameters vibrationalFrequency="3161.925" anharmonicity="-37.593"/>
         <me:MorseParameters vibrationalFrequency="3062.283" anharmonicity="-17.944"/>
@@ -97,7 +99,7 @@
     </molecule>
 
       <!-- Details supplied by John Barker for MEIC tests, except rotational constants.-->
-      <molecule id="AcO2 Asymmetric Top">
+      <molecule id="AcO2_Asymmetric_Top">
           <propertyList>
               <property title="Hf298">
                 <scalar convention="thermodynamic">0.0</scalar>
@@ -125,7 +127,7 @@
 
   <me:control>
     <me:testDOS />
-    <me:calcMethod me:units="kJ/mol">UnitTests</me:calcMethod>
+    <me:calcMethod units="kJ/mol">UnitTests</me:calcMethod> 
   </me:control>
 
 </me:mesmer>

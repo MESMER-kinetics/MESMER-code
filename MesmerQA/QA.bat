@@ -87,54 +87,63 @@ cd pentyl
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
+echo --------------------------------------------------------------------
 
 cd HSO2
 %executable% HSO2_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
+echo --------------------------------------------------------------------
 
 cd "cyclopropene isomerization"
 %executable% Cyclopropene_isomerization_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
+echo --------------------------------------------------------------------
 
 cd "cyclopropene isomerization reservoir state"
 %executable% Cyclopropene_isomerization_reservoir_state_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
+echo --------------------------------------------------------------------
 
 cd "OH acetylene association"
 %executable% OH_acetylene_association_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
+echo --------------------------------------------------------------------
 
 cd "Acetyl O2 association"
 %executable% Acetyl_O2_association.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
+echo --------------------------------------------------------------------
 
 cd "i-propyl"
 %executable% ipropyl_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
+echo --------------------------------------------------------------------
 
 cd "ThermodynamicTable"
 %executable% ThermodynamicTable.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
+echo --------------------------------------------------------------------
 
 cd "UnitTests"
 %executable% UnitTests.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
+echo --------------------------------------------------------------------
 
 echo Start Time=%starttime% - End Time=%time%
 

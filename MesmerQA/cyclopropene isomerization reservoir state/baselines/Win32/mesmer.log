@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Apr  2 2013 -- 17:32:18
+     Mesmer v3.0 compiled: -- May 11 2013 -- 17:08:48
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -51,15 +51,15 @@ In R2: No imaginary vibrational frequency. Check if there is tunneling.
 No tunneling method requested for R2
 In R2: No crossing method requested for R2
 All molecules are on the same energy basis: arbitary
-The default value of me:precision was used.
-200.72Torr, 800K at double precision
-The default value of me:precision was used.
-250Torr, 1000K at double precision
-Write metadata 20130402_173832
+The default value of precision (or one of its attributes) was used.
+200.72Torr, 800K at d precision with He
+The default value of precision (or one of its attributes) was used.
+250Torr, 1000K at d precision with He
+Write metadata 20130511_184052
 
 File: "Cyclopropene_isomerization_reservoir_state_test.xml" successfully parsed.
 Main Calculation begins
 Finish Calculation of P-T case
- -- Total time elapsed: 2 seconds.
+ -- Total time elapsed: 1 seconds.
 
-System saved to out.xml
+Both grain size and number of grains specified. Grain size usedSystem saved to out.xml

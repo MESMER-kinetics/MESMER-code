@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
-  <title>Pentyl isomerization</title>
+<me:mesmer xmlns="http://www.xml-cml.org/schema"
+           xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <me:title>Pentyl isomerization</me:title>
   <moleculeList>
     <molecule id="1-pentyl">
       <atomArray>
@@ -263,7 +265,7 @@
         <molecule ref="2-pentyl"  me:type="modelled" />
       </product>
 
-      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+      <me:MCRCMethod name="SimpleRRKM"/>
 
       <me:transitionState>
         <molecule ref="1-pentyl=TS=2-pentyl" me:type="transitionState" />
@@ -276,7 +278,7 @@
   <me:conditions>
     <me:bathGas>Ar</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="PPCC" me:P="1.0e8" me:T="500" />
+      <me:PTpair units="PPCC" P="1.0e8" T="500" />
     </me:PTs>
   </me:conditions>
 
@@ -295,12 +297,12 @@
     <me:eigenvalues>all</me:eigenvalues>
     
     <me:printGrainProfileAtTime>
-      <ref>1-pentyl</ref>
-      <ref>2-pentyl</ref>
+      <me:ref>1-pentyl</me:ref>
+      <me:ref>2-pentyl</me:ref>
       <me:time>1e-08</me:time>
       <me:time>1e-03</me:time>
     </me:printGrainProfileAtTime>
-
+    
   </me:control>
 
 </me:mesmer>

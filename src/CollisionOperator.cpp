@@ -287,12 +287,19 @@ namespace mesmer
     const double thermalEnergy = (mFlags.useTheSameCellNumber) ? MaximumTemperature * boltzmann_RCpK : 1.0/mEnv.beta ;
     mEnv.EMax += mEnv.EAboveHill * thermalEnergy;
 
-    if (mEnv.GrainSize <= 0.0){
+    if (mEnv.MaxGrn>0.0 && mEnv.GrainSize<=0.0){
+      mEnv.GrainSize = int((mEnv.EMax-mEnv.EMin)/double(mEnv.MaxGrn)) + 1; 
+    }else  if (mEnv.GrainSize > 0.0 && mEnv.MaxGrn<=0.0){
+	  mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
+    }else  if (mEnv.GrainSize <= 0.0 && mEnv.MaxGrn<=0.0){
       mEnv.GrainSize = 100; //default 100cm-1
       cerr << "Grain size was invalid. Reset grain size to default: 100";
+	  mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
+    }else  if (mEnv.GrainSize > 0.0 && mEnv.MaxGrn > 0.0){
+      cerr << "Both grain size and number of grains specified. Grain size used";
+	  mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
     }
 
-    mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/mEnv.GrainSize + 0.5);
     mEnv.MaxCell = mEnv.GrainSize * mEnv.MaxGrn;
 
     if (writeReport) cinfo << "Number of cells = " << mEnv.MaxCell << ", Number of grains = " << mEnv.MaxGrn << once << endl;

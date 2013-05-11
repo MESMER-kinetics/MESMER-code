@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0"?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+<me:mesmer xmlns="http://www.xml-cml.org/schema"
+           xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <moleculeList>
 	<molecule id="HNO2">
 	  <metadataList>
@@ -204,7 +206,7 @@
   </moleculeList>
 
   <me:control>
-	<me:calcMethod me:units="kJ/mol">ThermodynamicTable</me:calcMethod>
+	<me:calcMethod units="kJ/mol">ThermodynamicTable</me:calcMethod>
   </me:control>
 
 </me:mesmer>

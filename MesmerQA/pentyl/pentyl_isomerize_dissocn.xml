@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
-  <title>Pentyl isomerization and dissociation</title>
+<me:mesmer xmlns="http://www.xml-cml.org/schema"
+           xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <me:title>Pentyl isomerization and dissociation</me:title>
   <moleculeList>
     <molecule id="n-pentyl">
       <atomArray>
@@ -264,7 +266,7 @@
         <molecule ref="2-pentyl"  me:type="modelled" />
       </product>
 
-      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+      <me:MCRCMethod name="SimpleRRKM"/>
 
       <me:transitionState>
         <molecule ref="n-pentyl=TS=2-pentyl" me:type="transitionState" />
@@ -279,9 +281,10 @@
       <product>
         <molecule ref="dummy2" me:type="sink"/>
       </product>
-      <me:MCRCMethod>SimpleILT</me:MCRCMethod>
-      <me:activationEnergy>32.0</me:activationEnergy>
-      <me:preExponential>8.4e+13</me:preExponential>
+      <me:MCRCMethod xsi:type="SimpleILT">
+        <me:activationEnergy>32.0</me:activationEnergy>
+        <me:preExponential>8.4e+13</me:preExponential>
+      </me:MCRCMethod>
     </reaction>
 
     <reaction id="R3">
@@ -291,9 +294,10 @@
       <product>
         <molecule ref="dummy3" me:type="sink"/>
       </product>
-      <me:MCRCMethod>SimpleILT</me:MCRCMethod>
-      <me:activationEnergy>31.1</me:activationEnergy>
-      <me:preExponential>5.5e+13</me:preExponential>
+      <me:MCRCMethod xsi:type="SimpleILT">
+        <me:activationEnergy>31.1</me:activationEnergy>
+        <me:preExponential>5.5e+13</me:preExponential>
+      </me:MCRCMethod>
     </reaction>
 
   </reactionList>
@@ -301,9 +305,9 @@
   <me:conditions>
     <me:bathGas>Ar</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="Torr" me:P="10" me:T="800" me:precision="dd">
-		<me:experimentalYield ref="dummy2" error="0.01">0.1</me:experimentalYield>
-	  </me:PTpair>
+      <me:PTpair units="Torr" P="10" T="800" precision="dd">
+        <me:experimentalYield ref="dummy2" error="0.01">0.1</me:experimentalYield>
+	    </me:PTpair>
 	</me:PTs>
   </me:conditions>
 

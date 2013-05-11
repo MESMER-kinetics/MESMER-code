@@ -68,7 +68,9 @@ namespace mesmer
 	  unitFctr = 1.0/kCalPerMol_in_RC ;
 
 	MesmerEnv& Env = pSys->getEnv() ;
-	Env.MaxCell = 100000 ;
+    Env.GrainSize  = 100 ; 
+	Env.MaxGrn     = 1000 ;
+	Env.MaxCell    = Env.GrainSize * Env.MaxGrn ;
 
 	// Make provision for the special case of T = 298.15.
 

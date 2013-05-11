@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
-  <title>Pentyl isomerization</title>
+<me:mesmer xmlns="http://www.xml-cml.org/schema"
+           xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <me:title>Pentyl isomerization</me:title>
   <moleculeList>
     <molecule id="n-pentyl">
       <atomArray>
@@ -255,18 +257,18 @@
 
     <reaction id="R1">
       <reactant>
-        <molecule ref="n-pentyl"  me:type="modelled" />
+        <molecule ref="n-pentyl"  role="modelled" />
       </reactant>
 
       <product>
-        <molecule ref="2-pentyl"  me:type="modelled" />
+        <molecule ref="2-pentyl"  role="modelled" />
       </product>
 
-      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+      <me:MCRCMethod name="SimpleRRKM"/>
 
-      <me:transitionState>
-        <molecule ref="n-pentyl=TS=2-pentyl" me:type="transitionState" />
-      </me:transitionState>
+      <transitionState>
+        <molecule ref="n-pentyl=TS=2-pentyl" role="transitionState" />
+      </transitionState>
 
     </reaction>
 
@@ -275,42 +277,42 @@
   <me:conditions>
     <me:bathGas>Ar</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="PPCC" me:P="1.0e12" me:T="600" />
-      <me:PTpair me:units="PPCC" me:P="1.0e13" me:T="600" />
-      <me:PTpair me:units="PPCC" me:P="1.0e14" me:T="600" />
-      <me:PTpair me:units="PPCC" me:P="1.0e15" me:T="600" />
-      <me:PTpair me:units="PPCC" me:P="1.0e16" me:T="600" />
-      <me:PTpair me:units="PPCC" me:P="1.0e17" me:T="600" />
-      <me:PTpair me:units="PPCC" me:P="1.0e18" me:T="600" />
-      <me:PTpair me:units="PPCC" me:P="1.0e19" me:T="600" />
-      <me:PTpair me:units="PPCC" me:P="1.0e20" me:T="600" />
-      <me:PTpair me:units="PPCC" me:P="1.0e12" me:T="800" />
-      <me:PTpair me:units="PPCC" me:P="1.0e13" me:T="800" />
-      <me:PTpair me:units="PPCC" me:P="1.0e14" me:T="800" />
-      <me:PTpair me:units="PPCC" me:P="1.0e15" me:T="800" />
-      <me:PTpair me:units="PPCC" me:P="1.0e16" me:T="800" />
-      <me:PTpair me:units="PPCC" me:P="1.0e17" me:T="800" />
-      <me:PTpair me:units="PPCC" me:P="1.0e18" me:T="800" />
-      <me:PTpair me:units="PPCC" me:P="1.0e19" me:T="800" />
-      <me:PTpair me:units="PPCC" me:P="1.0e20" me:T="800" />
-      <me:PTpair me:units="PPCC" me:P="1.0e12" me:T="1000" />
-      <me:PTpair me:units="PPCC" me:P="1.0e13" me:T="1000" />
-      <me:PTpair me:units="PPCC" me:P="1.0e14" me:T="1000" />
-      <me:PTpair me:units="PPCC" me:P="1.0e15" me:T="1000" />
-      <me:PTpair me:units="PPCC" me:P="1.0e16" me:T="1000" />
-      <me:PTpair me:units="PPCC" me:P="1.0e17" me:T="1000" />
-      <me:PTpair me:units="PPCC" me:P="1.0e18" me:T="1000" />
-      <me:PTpair me:units="PPCC" me:P="1.0e19" me:T="1000" />
-      <me:PTpair me:units="PPCC" me:P="1.0e20" me:T="1000" />
-      <me:PTpair me:units="PPCC" me:P="1.0e12" me:T="1200" />
-      <me:PTpair me:units="PPCC" me:P="1.0e13" me:T="1200" />
-      <me:PTpair me:units="PPCC" me:P="1.0e14" me:T="1200" />
-      <me:PTpair me:units="PPCC" me:P="1.0e15" me:T="1200" />
-      <me:PTpair me:units="PPCC" me:P="1.0e16" me:T="1200" />
-      <me:PTpair me:units="PPCC" me:P="1.0e17" me:T="1200" />
-      <me:PTpair me:units="PPCC" me:P="1.0e18" me:T="1200" />
-      <me:PTpair me:units="PPCC" me:P="1.0e19" me:T="1200" />
-      <me:PTpair me:units="PPCC" me:P="1.0e20" me:T="1200" />
+      <me:PTpair units="PPCC" P="1.0e12" T="600" />
+      <me:PTpair units="PPCC" P="1.0e13" T="600" />
+      <me:PTpair units="PPCC" P="1.0e14" T="600" />
+      <me:PTpair units="PPCC" P="1.0e15" T="600" />
+      <me:PTpair units="PPCC" P="1.0e16" T="600" />
+      <me:PTpair units="PPCC" P="1.0e17" T="600" />
+      <me:PTpair units="PPCC" P="1.0e18" T="600" />
+      <me:PTpair units="PPCC" P="1.0e19" T="600" />
+      <me:PTpair units="PPCC" P="1.0e20" T="600" />
+      <me:PTpair units="PPCC" P="1.0e12" T="800" />
+      <me:PTpair units="PPCC" P="1.0e13" T="800" />
+      <me:PTpair units="PPCC" P="1.0e14" T="800" />
+      <me:PTpair units="PPCC" P="1.0e15" T="800" />
+      <me:PTpair units="PPCC" P="1.0e16" T="800" />
+      <me:PTpair units="PPCC" P="1.0e17" T="800" />
+      <me:PTpair units="PPCC" P="1.0e18" T="800" />
+      <me:PTpair units="PPCC" P="1.0e19" T="800" />
+      <me:PTpair units="PPCC" P="1.0e20" T="800" />
+      <me:PTpair units="PPCC" P="1.0e12" T="1000" />
+      <me:PTpair units="PPCC" P="1.0e13" T="1000" />
+      <me:PTpair units="PPCC" P="1.0e14" T="1000" />
+      <me:PTpair units="PPCC" P="1.0e15" T="1000" />
+      <me:PTpair units="PPCC" P="1.0e16" T="1000" />
+      <me:PTpair units="PPCC" P="1.0e17" T="1000" />
+      <me:PTpair units="PPCC" P="1.0e18" T="1000" />
+      <me:PTpair units="PPCC" P="1.0e19" T="1000" />
+      <me:PTpair units="PPCC" P="1.0e20" T="1000" />
+      <me:PTpair units="PPCC" P="1.0e12" T="1200" />
+      <me:PTpair units="PPCC" P="1.0e13" T="1200" />
+      <me:PTpair units="PPCC" P="1.0e14" T="1200" />
+      <me:PTpair units="PPCC" P="1.0e15" T="1200" />
+      <me:PTpair units="PPCC" P="1.0e16" T="1200" />
+      <me:PTpair units="PPCC" P="1.0e17" T="1200" />
+      <me:PTpair units="PPCC" P="1.0e18" T="1200" />
+      <me:PTpair units="PPCC" P="1.0e19" T="1200" />
+      <me:PTpair units="PPCC" P="1.0e20" T="1200" />
     </me:PTs>
   </me:conditions>
 
