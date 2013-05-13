@@ -293,10 +293,10 @@ namespace mesmer
 	  mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
     }else  if (mEnv.GrainSize <= 0.0 && mEnv.MaxGrn<=0.0){
       mEnv.GrainSize = 100; //default 100cm-1
-      cerr << "Grain size was invalid. Reset grain size to default: 100";
+      cerr << "Grain size was invalid. Reset grain size to default: 100" << endl;
 	  mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
     }else  if (mEnv.GrainSize > 0.0 && mEnv.MaxGrn > 0.0){
-      cerr << "Both grain size and number of grains specified. Grain size used";
+      cerr << "Both grain size and number of grains specified. Grain size used" << endl;
 	  mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
     }
 

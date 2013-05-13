@@ -13,7 +13,7 @@
 #include "../calcmethod.h"
 #include "../MesmerMath.h"
 #include "../Spline.h"
-#include "dMatrix.h"
+#include "../dMatrix.h"
 
 namespace mesmer
 {
