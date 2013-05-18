@@ -89,8 +89,6 @@ namespace mesmer
 
     void printReactionOperator(const MesmerFlags &mFlags);
 
-    void printEigenvectors(const MesmerFlags &mFlags, std::ostream& os);
-
     bool produceEquilibriumVector();
 
     bool produceInitialPopulationVector(vector<double>& initDist) const ;

@@ -290,14 +290,14 @@ namespace mesmer
     if (mEnv.MaxGrn>0.0 && mEnv.GrainSize<=0.0){
       mEnv.GrainSize = int((mEnv.EMax-mEnv.EMin)/double(mEnv.MaxGrn)) + 1; 
     }else  if (mEnv.GrainSize > 0.0 && mEnv.MaxGrn<=0.0){
-	  mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
+      mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
     }else  if (mEnv.GrainSize <= 0.0 && mEnv.MaxGrn<=0.0){
       mEnv.GrainSize = 100; //default 100cm-1
-      cerr << "Grain size was invalid. Reset grain size to default: 100" << endl;
-	  mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
+      cerr << "Grain size was invalid. Reset grain size to default: 100" << once << endl;
+      mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
     }else  if (mEnv.GrainSize > 0.0 && mEnv.MaxGrn > 0.0){
-      cerr << "Both grain size and number of grains specified. Grain size used" << endl;
-	  mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
+      cerr << "Both grain size and number of grains specified. Grain size used" << once << endl;
+      mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
     }
 
     mEnv.MaxCell = mEnv.GrainSize * mEnv.MaxGrn;
@@ -598,53 +598,45 @@ namespace mesmer
     //-------------------------------------------------------------
     // diagonalize the whole matrix
     switch (precision){
-  case DOUBLE: 
-    {
-      dMatrix dDiagM(smsize);
-      for ( size_t i = 0 ; i < smsize ; ++i )
-        for ( size_t j = 0 ; j < smsize ; ++j )
-          dDiagM[i][j] = to_double((*m_reactionOperator)[i][j]) ;
-      vector<double>  dEigenValue(smsize, 0.0);
-      dDiagM.diagonalize(&dEigenValue[0]) ;
-      for ( size_t i = 0 ; i < smsize ; ++i )
-        m_eigenvalues[i] = dEigenValue[i];
-      for ( size_t i = 0 ; i < smsize ; ++i )
-        for ( size_t j = 0 ; j < smsize ; ++j )
-          (*m_eigenvectors)[i][j] = dDiagM[i][j] ;
-      break;
-    }
-  case DOUBLE_DOUBLE: 
-    {
-      ddMatrix ddDiagM(smsize);
-      for ( size_t i = 0 ; i < smsize ; ++i )
-        for ( size_t j = 0 ; j < smsize ; ++j )
-          ddDiagM[i][j] = to_dd_real((*m_reactionOperator)[i][j]) ;
-      vector<dd_real> ddEigenValue(smsize, 0.0);
-      ddDiagM.diagonalize(&ddEigenValue[0]) ;
-      for ( size_t i = 0 ; i < smsize ; ++i )
-        m_eigenvalues[i] = ddEigenValue[i];
-      for ( size_t i = 0 ; i < smsize ; ++i )
-        for ( size_t j = 0 ; j < smsize ; ++j )
-          (*m_eigenvectors)[i][j] = ddDiagM[i][j] ;
-      break;
-    }
-  default: // diagonalize in quad double
-    {
-      (*m_eigenvectors) = (*m_reactionOperator) ;
-      m_eigenvectors->diagonalize(&m_eigenvalues[0]) ;
-    }
+    case DOUBLE: 
+      {
+        dMatrix dDiagM(smsize);
+        for ( size_t i = 0 ; i < smsize ; ++i )
+          for ( size_t j = 0 ; j < smsize ; ++j )
+            dDiagM[i][j] = to_double((*m_reactionOperator)[i][j]) ;
+        vector<double>  dEigenValue(smsize, 0.0);
+        dDiagM.diagonalize(&dEigenValue[0]) ;
+        for ( size_t i = 0 ; i < smsize ; ++i )
+          m_eigenvalues[i] = dEigenValue[i];
+        for ( size_t i = 0 ; i < smsize ; ++i )
+          for ( size_t j = 0 ; j < smsize ; ++j )
+            (*m_eigenvectors)[i][j] = dDiagM[i][j] ;
+        break;
+      }
+    case DOUBLE_DOUBLE: 
+      {
+        ddMatrix ddDiagM(smsize);
+        for ( size_t i = 0 ; i < smsize ; ++i )
+          for ( size_t j = 0 ; j < smsize ; ++j )
+            ddDiagM[i][j] = to_dd_real((*m_reactionOperator)[i][j]) ;
+        vector<dd_real> ddEigenValue(smsize, 0.0);
+        ddDiagM.diagonalize(&ddEigenValue[0]) ;
+        for ( size_t i = 0 ; i < smsize ; ++i )
+          m_eigenvalues[i] = ddEigenValue[i];
+        for ( size_t i = 0 ; i < smsize ; ++i )
+          for ( size_t j = 0 ; j < smsize ; ++j )
+            (*m_eigenvectors)[i][j] = ddDiagM[i][j] ;
+        break;
+      }
+    default: // diagonalize in quad double
+      {
+        (*m_eigenvectors) = (*m_reactionOperator) ;
+        m_eigenvectors->diagonalize(&m_eigenvalues[0]) ;
+      }
 
     }
     // diagonalize the whole matrix
     //-------------------------------------------------------------
-
-    // This block prints Eigenvectors
-    if (mFlags.printReactionOperatorNum){
-      ctest << "Eigenvectors --- ";
-      stringstream os;
-      printEigenvectors(mFlags, os);
-      ctest << os.str();
-    }
 
     if(mFlags.printEigenValuesNum!=0)
     {
@@ -665,6 +657,11 @@ namespace mesmer
         ppEigenList->XmlWriteValueElement("me:eigenvalue", to_double(tmp), 6);
       }
       ctest << "}\n";
+
+      if (mFlags.printEigenVectors) {
+        string title("Eigenvectors:") ;
+        m_eigenvectors->print(title, ctest, -1, -1, -1, numberStarted) ;
+      }
     }
 
   }
@@ -698,36 +695,6 @@ namespace mesmer
       }
     }
   }
-
-  void CollisionOperator::printEigenvectors(const MesmerFlags& mFlags, std::ostream& os)
-  {
-    const size_t smsize = m_eigenvectors->size() ;
-
-    switch (mFlags.printReactionOperatorNum)
-    {
-    case -1:
-      os << "Printing all (" << smsize << ") columns/rows of the eigenvectors:\n";
-      (*m_eigenvectors).showFinalBits(smsize, mFlags.print_TabbedMatrices);
-      break;
-    case -2:
-      os << "Printing final 1/2 (" << smsize/2 << ") columns/rows of the eigenvectors:\n";
-      (*m_eigenvectors).showFinalBits(smsize/2, mFlags.print_TabbedMatrices);
-      break;
-    case -3:
-      os << "Printing final 1/3 (" << smsize/3 << ") columns/rows of the eigenvectors:\n";
-      (*m_eigenvectors).showFinalBits(smsize/3, mFlags.print_TabbedMatrices);
-      break;
-    default: // the number is either smaller than -3 or positive
-      if (abs(mFlags.printReactionOperatorNum) > int(smsize)){
-        os << "Printing all (" << smsize << ") columns/rows of the eigenvectors:\n";
-        (*m_eigenvectors).showFinalBits(smsize, mFlags.print_TabbedMatrices);
-      }
-      else{
-        os << "Printing final " << abs(mFlags.printReactionOperatorNum) << " columns/rows of the eigenvectors:\n";
-        (*m_eigenvectors).showFinalBits(abs(mFlags.printReactionOperatorNum), mFlags.print_TabbedMatrices);
-      }
-    }
-  }  
 
   bool CollisionOperator::timeEvolution(MesmerFlags& mFlags,
     PersistPtr ppAnalysis, PersistPtr ppPopList, PersistPtr ppAvEList)
@@ -784,7 +751,7 @@ namespace mesmer
     }
 
     const size_t maxTimeStep = dt.size();
-	vector<vector<double> > grnProfile(smsize,vector<double>(maxTimeStep)) ;
+    vector<vector<double> > grnProfile(smsize,vector<double>(maxTimeStep)) ;
     vector<double> p_t(smsize, 0.);
 
     for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
@@ -849,10 +816,10 @@ namespace mesmer
             totalIsomerPopulation += pop;       // Determine how much total population in each isomer at time t.
             averageEnergy +=  grnEne[iene]*pop;	// Calculate the average energy in each isomer at time t.
           }
-		  double normAvE = (totalIsomerPopulation > 0.0) ? ConvertFromWavenumbers("kJ/mol",averageEnergy/totalIsomerPopulation) : 0.0;
+          double normAvE = (totalIsomerPopulation > 0.0) ? ConvertFromWavenumbers("kJ/mol",averageEnergy/totalIsomerPopulation) : 0.0;
           formatFloat(ctest, timePoints[timestep], 6, 15);
           formatFloat(ctest, normAvE, 6, 15);
-		  ctest << endl ;
+          ctest << endl ;
           PersistPtr ppAv = ppAvEnergy->XmlWriteValueElement("me:Av", normAvE);
           ppAv->XmlWriteAttribute("time", toString(timePoints[timestep]));
           ppAv->XmlWriteAttribute("logTime", toString(log10(timePoints[timestep])));
@@ -1095,7 +1062,7 @@ namespace mesmer
       Molecule* isomer = ipos->first;
       isomer->getPop().setInitPopulation(1.0); // set initial population for the first isomer
       double initFrac = isomer->getPop().getInitPopulation();
-     cinfo << "No population was assigned, and there is no source term."  << endl
+      cinfo << "No population was assigned, and there is no source term."  << endl
         << "Initial poupulation set to 1.0  in the first isomer." << endl;
       int rxnMatrixLoc = ipos->second;
       const int colloptrsize = isomer->getColl().get_colloptrsize();
@@ -1267,7 +1234,7 @@ namespace mesmer
 
       // Print out Y_matrix for testing.
       if (nsinks){
-		string MatrixTitle("Y_matrix:") ;
+        string MatrixTitle("Y_matrix:") ;
         Y_matrix.print(MatrixTitle, ctest, int(nsinks), int(m_SpeciesSequence.size())); 
       }
 
@@ -1349,7 +1316,7 @@ namespace mesmer
             Kp[i][j] = sm;
           }
         }
-		string MatrixTitle("Kp matrix:") ;
+        string MatrixTitle("Kp matrix:") ;
         Kp.print(MatrixTitle, ctest, nsinks, m_SpeciesSequence.size());
       }
 
@@ -1717,7 +1684,7 @@ namespace mesmer
     if(refs.empty())
     {
       cerr << " me:printGrainProfileAtTime needs one or more <me:ref> element to specify the species"
-           << endl;
+        << endl;
       return false;
     }
 

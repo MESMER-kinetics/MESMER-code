@@ -1,6 +1,11 @@
 
 2013-May-11 Struan Robertson
 	
+	* CollisionOperator.cpp, System.cpp, TMatrix.h: Matrix printing 
+	generalized and applied to eigenvector matrix.
+
+2013-May-11 Struan Robertson
+	
 	* CollisionOperator.cpp: Fix for grain number problem (checked-in
 	on behalf of Robin).
 	* MesmerQA: Baseline update following the above fix.

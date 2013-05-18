@@ -221,12 +221,12 @@ namespace mesmer
     PersistPtr ppConditions = ppIOPtr->XmlMoveTo("me:conditions");
     if(!ppConditions)
     {
-      cerr << "No conditions specified";
-      return false;
+    cerr << "No conditions specified";
+    return false;
     }
     string Bgtxt = ppConditions->XmlReadValue("me:bathGas");
     if(!m_pMoleculeManager->addmol(Bgtxt, "bathGas", m_Env, m_Flags))
-      return false;
+    return false;
     m_pMoleculeManager->set_BathGasMolecule(Bgtxt) ;
     */
 
@@ -307,7 +307,7 @@ namespace mesmer
       m_Flags.viewEvents                  = ppControl->XmlReadBoolean("me:printEventsTimeStamps");
       m_Flags.allowSmallerDEDown          = ppControl->XmlReadBoolean("me:allowSmallerDeltaEDown");
       m_Flags.print_TabbedMatrices        = ppControl->XmlReadBoolean("me:printTabbedMatrices");
-      m_Flags.useDOSweightedDT             = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
+      m_Flags.useDOSweightedDT            = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
       if (!m_Flags.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
         m_Flags.useTheSameCellNumber = true;
       }
@@ -332,6 +332,11 @@ namespace mesmer
       else
         //now uses defaults.xml
         m_Flags.printEigenValuesNum = ppControl->XmlReadInteger("me:eigenvalues");
+
+      // Should eienvectors be printed?
+      if (m_Flags.printEigenValuesNum!=0) {
+        m_Flags.printEigenVectors = ppControl->XmlReadBoolean("me:printEigenVectors");
+      }
 
       const char* txtROS = ppControl->XmlReadValue("me:printReactionOperatorSize",optional);
       if(txtROS) {
@@ -459,7 +464,7 @@ namespace mesmer
         bathGasName = getMoleculeManager()->get_BathGasName().c_str();
       CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision,bathGasName);
       cinfo << this_P << this_units << ", " << this_T << "K at " << txt 
-            << " precision" << " with " << bathGasName << endl; 
+        << " precision" << " with " << bathGasName << endl; 
 
       // Extract experimental rate coefficient values for chiSquare calculation.
       PersistPtr ppExpRate = ppPTpair->XmlMoveTo("me:experimentalRate");
