@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
-  <title>Cyclopropene isomerization</title>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <me:title>Cyclopropene isomerization</me:title>
   <moleculeList>
   <!--J. Phys. Chem. A 2003, 107, 2680-2692-->
     <molecule id="cyclopropene" description="C_3H_4">
@@ -181,27 +182,27 @@
   <reactionList>
     <reaction id="R1">
       <reactant>
-        <molecule ref="cyclopropene" me:type="modelled" />
+        <molecule ref="cyclopropene" role="modelled" />
       </reactant>
       <product>
-        <molecule ref="triplet" me:type="modelled" />
+        <molecule ref="triplet" role="modelled" />
       </product>
       <me:transitionState>
-        <molecule ref="MECP1" me:type="transitionState" />
+        <molecule ref="MECP1" role="transitionState" />
       </me:transitionState>
       <me:crossing>LZ</me:crossing>
-      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+      <me:MCRCMethod name="SimpleRRKM"/>
     </reaction>
   </reactionList>
   <me:conditions>
     <me:bathGas>He</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="Torr" me:P="200.72" me:T="800." />
-      <me:PTpair me:units="Torr" me:P="250.00" me:T="1000." />
+      <me:PTpair units="Torr" P="200.72" T="800." />
+      <me:PTpair units="Torr" P="250.00" T="1000." />
     </me:PTs>
-    <me:InitalPopulation>
-      <molecule ref="cyclopropene" me:population="1.0" />
-    </me:InitalPopulation>
+    <me:InitialPopulation>
+      <me:molecule ref="cyclopropene" population="1.0" />
+    </me:InitialPopulation>
   </me:conditions>
   <me:modelParameters>
     <!--Specify grain size directly...-->

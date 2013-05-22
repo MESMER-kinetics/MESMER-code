@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
-  <title>OH Acetylene association</title>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <me:title>OH Acetylene association</me:title>
   <moleculeList>
     <molecule id="CH3">
       <propertyList>
@@ -108,7 +109,7 @@
         </property>
         <property dictRef="me:gaussianWidth">
           <scalar units="cm-1">500</scalar>
-        </property>-->
+        </property>
         <property dictRef="me:spinMultiplicity">
           <scalar>1</scalar>
         </property>
@@ -117,7 +118,6 @@
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="N2">
-      <atom elementType="N2" />
       <propertyList>
         <property dictRef="me:epsilon">
           <scalar>48.0</scalar>
@@ -134,30 +134,31 @@
   <reactionList>
     <reaction id="R1">
       <reactant>
-        <molecule ref="5AtomActiveSpace" me:type="modelled" />
+        <molecule ref="5AtomActiveSpace" role="modelled" />
       </reactant>
       <product>
-        <molecule ref="CH3" me:type="sink" />
+        <molecule ref="CH3" role="sink" />
       </product>
       <product>
-        <molecule ref="activeSpaceRadical" me:type="sink" />
+        <molecule ref="activeSpaceRadical" role="sink" />
       </product>
-      <me:MCRCMethod>MesmerILT</me:MCRCMethod>
-      <me:preExponential>4.89e19</me:preExponential>
-      <me:activationEnergy  units="kJ/mol" reverse="false">297.0</me:activationEnergy>
-      <me:TInfinity>1253.0</me:TInfinity>
-      <me:nInfinity>0.00001</me:nInfinity>
+      <me:MCRCMethod xsi:type="MesmerILT">
+        <me:preExponential>4.89e19</me:preExponential>
+        <me:activationEnergy  units="kJ/mol" reverse="false">297.0</me:activationEnergy>
+        <me:TInfinity>1253.0</me:TInfinity>
+        <me:nInfinity>0.00001</me:nInfinity>
+      </me:MCRCMethod>
     </reaction>
   </reactionList>
   <me:conditions>
     <me:bathGas>N2</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="Torr" me:P="50000000" me:T="1300.0" />
+      <me:PTpair units="Torr" P="50000000" T="1300.0" />
     </me:PTs>
     <me:InitialPopulation>
-      <molecule ref="5AtomActiveSpace" me:population="1.0" me:grain="171" />
+      <me:molecule ref="5AtomActiveSpace" population="1.0" grain="171" />
       <!--<molecule ref="5AtomActiveSpace" me:population="1.0" />-->
-    </me:InitialPopulation>-->
+    </me:InitialPopulation>
   </me:conditions>
   <me:modelParameters>
     <!--Specify grain size directly...-->

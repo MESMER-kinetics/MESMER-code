@@ -116,7 +116,7 @@
     <molecule id="TS1" description="TransistionState">
       <propertyList>
         <property dictRef="me:ZPE">
-            <scalar me:derivedFrom="Methyl:ZPE">103.43</scalar>
+            <scalar units="kcal/mol" me:derivedFrom="Methyl:ZPE">103.43</scalar>
           <!--<scalar units="kcal/mol" lower="93.0" upper="113.0" stepsize="10">103.43</scalar>-->
         </property>
         <property dictRef="me:MW">

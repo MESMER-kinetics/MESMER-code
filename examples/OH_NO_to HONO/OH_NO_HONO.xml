@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <moleculeList>
 
     <!--<molecule id="NO" description="NO radical">
@@ -136,10 +137,10 @@
 
 
       <!--Rotation about CH2-O bond.-->
-      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
-        <bondRef>
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:bondRef>
           b2
-        </bondRef>
+        </me:bondRef>
         <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7">
 
           <me:PotentialPoint	angle=	"0"	  potential=	"0"	/>
@@ -229,11 +230,12 @@
         <molecule ref="HONO" me:type="modelled"/>
       </product>
       <me:excessReactantConc>1.0E16</me:excessReactantConc>
-      <me:MCRCMethod>MesmerILT</me:MCRCMethod>
-      <me:preExponential lower="0.9e-11" upper="9e-11" stepsize="1e-12">6.78e-11</me:preExponential>
-      <me:activationEnergy>0.0001</me:activationEnergy>
-      <me:nInfinity>0.08</me:nInfinity>
-      <me:TInfinity>298.0</me:TInfinity>
+      <me:MCRCMethod xsi:type ="me:MesmerILT">
+        <me:preExponential units="cm3molecule-1s-1" lower="0.9e-11" upper="9e-11" stepsize="1e-12">6.78e-11</me:preExponential>
+        <me:activationEnergy units="kJ/mol">0.0001</me:activationEnergy>
+        <me:nInfinity>0.08</me:nInfinity>
+        <me:TInfinity>298.0</me:TInfinity>
+      </me:MCRCMethod>
     </reaction>
 
 
@@ -244,133 +246,133 @@
     <me:PTs>
 
 
-      <!--me:PTpair me:units="PPCC" me:P="3.0E21" me:T="250" me:precision="d">
+      <!--me:PTpair units="PPCC" P="3.0E21" T="250" precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="50000">350000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="2.8E21" me:T="250" me:precision="d">
+      <me:PTpair units="PPCC" P="2.8E21" T="250" precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="50000">350000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="2.4e21" me:T="250" me:precision="d">
+      <me:PTpair units="PPCC" P="2.4e21" T="250" precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="50000">340000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="2.1E21" me:T="250" me:precision="d">
+      <me:PTpair units="PPCC" P="2.1E21" T="250" precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="50000">330000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="2.0E21" me:T="250"  me:precision="d">
+      <me:PTpair units="PPCC" P="2.0E21" T="250"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="50000">330000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="1.8E21" me:T="250"  me:precision="d">
+      <me:PTpair units="PPCC" P="1.8E21" T="250"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="50000">340000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="1.5E21" me:T="250"  me:precision="d">
+      <me:PTpair units="PPCC" P="1.5E21" T="250"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="50000">320000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="1.2E21" me:T="250" me:precision="d">
+      <me:PTpair units="PPCC" P="1.2E21" T="250" precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="50000">310000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="1.1E21" me:T="250" me:precision="d">
+      <me:PTpair units="PPCC" P="1.1E21" T="250" precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="50000">300000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="7.7e20" me:T="250" me:precision="d">
+      <me:PTpair units="PPCC" P="7.7e20" T="250" precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="50000">310000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="4.5E20" me:T="250" me:precision="d">
+      <me:PTpair units="PPCC" P="4.5E20" T="250" precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="40000">270000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="3.2E20" me:T="250"  me:precision="d">
+      <me:PTpair units="PPCC" P="3.2E20" T="250"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="40000">260000</me:experimentalRate>
       </me:PTpair>
 
 
-      <me:PTpair me:units="PPCC" me:P="2.7E21" me:T="400"  me:precision="d">
+      <me:PTpair units="PPCC" P="2.7E21" T="400"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="40000">250000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="2.4E21" me:T="400"  me:precision="d">
+      <me:PTpair units="PPCC" P="2.4E21" T="400"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="40000">240000</me:experimentalRate>
       </me:PTpair>
-       <me:PTpair me:units="PPCC" me:P="1.8E21" me:T="400"  me:precision="d">
+       <me:PTpair units="PPCC" P="1.8E21" T="400"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="40000">250000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="1.3E21" me:T="400"  me:precision="d">
+      <me:PTpair units="PPCC" P="1.3E21" T="400"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="30000">230000</me:experimentalRate>
       </me:PTpair>
-        <me:PTpair me:units="PPCC" me:P="8.3E20" me:T="400"  me:precision="d">
+        <me:PTpair units="PPCC" P="8.3E20" T="400"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="30000">200000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="6.0E20" me:T="400"  me:precision="d">
+      <me:PTpair units="PPCC" P="6.0E20" T="400"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="30000">190000</me:experimentalRate>
       </me:PTpair>
-            <me:PTpair me:units="PPCC" me:P="3.9E20" me:T="400"  me:precision="d">
+            <me:PTpair units="PPCC" P="3.9E20" T="400"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="30000">170000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="2.5E20" me:T="400"  me:precision="d">
+      <me:PTpair units="PPCC" P="2.5E20" T="400"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="20000">160000</me:experimentalRate>
       </me:PTpair>
-            <me:PTpair me:units="PPCC" me:P="1.6E20" me:T="400"  me:precision="d">
+            <me:PTpair units="PPCC" P="1.6E20" T="400"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="20000">120000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="9.1E19" me:T="400"  me:precision="d">
+      <me:PTpair units="PPCC" P="9.1E19" T="400"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="20000">100000</me:experimentalRate>
       </me:PTpair-->
 
 
 
-      <me:PTpair me:units="PPCC" me:P="3.2E21" me:T="295"  me:precision="d">
+      <me:PTpair units="PPCC" P="3.2E21" T="295"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="50000">310000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="2.3E21" me:T="295"  me:precision="d">
+      <me:PTpair units="PPCC" P="2.3E21" T="295"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="40000">320000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="1.6E21" me:T="295"  me:precision="d">
+      <me:PTpair units="PPCC" P="1.6E21" T="295"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="40000">290000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="1.2E21" me:T="295"  me:precision="d">
+      <me:PTpair units="PPCC" P="1.2E21" T="295"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="40000">290000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="7.6E20" me:T="295"  me:precision="d">
+      <me:PTpair units="PPCC" P="7.6E20" T="295"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="40000">290000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="3.4E20" me:T="295"  me:precision="d">
+      <me:PTpair units="PPCC" P="3.4E20" T="295"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="40000">250000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="1.7E20" me:T="295"  me:precision="d">
+      <me:PTpair units="PPCC" P="1.7E20" T="295"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="30000">200000</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="9.6E19" me:T="295"  me:precision="d">
+      <me:PTpair units="PPCC" P="9.6E19" T="295"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="20000">170000</me:experimentalRate>
       </me:PTpair>
 
 
-      <me:PTpair me:units="PPCC" me:P="6.57E16" me:T="294"  me:precision="d">
+      <me:PTpair units="PPCC" P="6.57E16" T="294"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="20">217</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="1.64E17" me:T="294"  me:precision="d">
+      <me:PTpair units="PPCC" P="1.64E17" T="294"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="50">542</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="2.63E17" me:T="294"  me:precision="d">
+      <me:PTpair units="PPCC" P="2.63E17" T="294"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="80">867</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="3.28E17" me:T="294"  me:precision="d">
+      <me:PTpair units="PPCC" P="3.28E17" T="294"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="100">1084</me:experimentalRate>
       </me:PTpair>
 
 
 
 
-      <me:PTpair me:units="PPCC" me:P="8.5E17" me:T="296"  me:precision="d">
+      <me:PTpair units="PPCC" P="8.5E17" T="296"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="270">2700</me:experimentalRate>
       </me:PTpair>
 
-      <me:PTpair me:units="PPCC" me:P="6.57E16" me:T="294"  me:precision="d">
+      <me:PTpair units="PPCC" P="6.57E16" T="294"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="30">257</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="1.64E17" me:T="294"  me:precision="d">
+      <me:PTpair units="PPCC" P="1.64E17" T="294"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="70">672</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="2.63E17" me:T="294"  me:precision="d">
+      <me:PTpair units="PPCC" P="2.63E17" T="294"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="110">1078</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="3.28E17" me:T="294"  me:precision="d">
+      <me:PTpair units="PPCC" P="3.28E17" T="294"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="140">1345</me:experimentalRate>
       </me:PTpair>
 
@@ -378,16 +380,16 @@
 
 
 
-      <!--me:PTpair me:units="PPCC" me:P="4.64E16" me:T="416"  me:precision="d">
+      <!--me:PTpair units="PPCC" P="4.64E16" T="416"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="10">88.2</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="1.16E17" me:T="416"  me:precision="d">
+      <me:PTpair units="PPCC" P="1.16E17" T="416"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="20">221</me:experimentalRate>
       </me:PTpair>
-       <me:PTpair me:units="PPCC" me:P="1.86E17" me:T="416"  me:precision="d">
+       <me:PTpair units="PPCC" P="1.86E17" T="416"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="40">353</me:experimentalRate>
       </me:PTpair>
-      <me:PTpair me:units="PPCC" me:P="2.32E17" me:T="416"  me:precision="d">
+      <me:PTpair units="PPCC" P="2.32E17" T="416"  precision="d">
         <me:experimentalRate ref1="OH" ref2="OH"  error="50">441.0</me:experimentalRate>
       </me:PTpair-->
 

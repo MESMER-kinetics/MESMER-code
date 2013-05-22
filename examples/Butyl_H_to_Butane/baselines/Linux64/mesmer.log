@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Apr 12 2013 -- 18:27:41
+     Mesmer v3.0 compiled: -- May 17 2013 -- 19:06:13
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -30,7 +30,7 @@
 Parsing input xml file...
 Butyl_H_to_Butane.xml
 
-Write metadata 20130412_183847
+Write metadata 20130517_191627
 
 File: "Butyl_H_to_Butane.xml" successfully parsed.
 Main Calculation begins
@@ -5000,12 +5000,18 @@ In H: The default value of me:frequenciesScaleFactor was used.
 In H: The default value of me:symmetryNumber was used.
 In H: The default value of spinMultiplicity (or one of its attributes) was used.
 In H: The default value of me:DOSCMethod was used.
+Number of grains produced is not equal to that requested
+Number of grains requested: 1000
+Number of grains produced : 1
 In He: The default value of me:frequenciesScaleFactor was used.
 In He: The default value of me:symmetryNumber was used.
 In He: The default value of spinMultiplicity (or one of its attributes) was used.
 In He: The default value of me:DOSCMethod was used.
 In He: No value of me:ZPE was supplied and the default value NEEDS TO BE CHECKED**
 m_ZPE was not defined but requested in He. Default value 0 is given.
- -- Total time elapsed: 42 seconds.
+Number of grains produced is not equal to that requested
+Number of grains requested: 1000
+Number of grains produced : 1
+ -- Total time elapsed: 20 seconds.
 
 System saved to out.xml

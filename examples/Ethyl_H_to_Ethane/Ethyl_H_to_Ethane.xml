@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
-    <title>Ethyl + H association</title>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" 
+           xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <me:title>Ethyl + H association</me:title>
 
-    <description>
+    <me:description>
         This example is based on data from the Methyl + H example and its main purpose is to test internal rotor treatments.
-    </description>
+    </me:description>
 
     <moleculeList>
         <molecule id="Ethane">
@@ -67,8 +69,8 @@
 
             <me:DOSCMethod>QMRotors</me:DOSCMethod>
 
-            <me:ExtraDOSCMethod name="HinderedRotorQM1D">
-                <bondRef>b1</bondRef>
+            <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+                <me:bondRef>b1</me:bondRef>
                 <me:HinderedRotorPotential format="numerical" units="kcal/mol" expansionSize="7">
                     <me:PotentialPoint angle="10	"  potential="-878.99179655"/>
                     <me:PotentialPoint angle="20	"  potential="-879.36121138"/>
@@ -157,8 +159,8 @@
                 </property>
             </propertyList>
 
-            <me:ExtraDOSCMethod name="HinderedRotorQM1D">
-                <bondRef>b1</bondRef>
+            <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+                <me:bondRef>b1</me:bondRef>
                 <me:HinderedRotorPotential format="analytical" units="kJ/mol">
                     <me:PotentialPoint index="0"  coefficient="6.2"/>
                     <me:PotentialPoint index="3"  coefficient="-6.2"/>
@@ -204,23 +206,23 @@
 
         <reaction id="R1" reversible="true">
             <reactant>
-                <molecule ref="Ethyl"  me:type="deficientReactant" />
+                <molecule ref="Ethyl"  role="deficientReactant" />
             </reactant>
 
             <reactant>
-                <molecule ref="H"  me:type="excessReactant" />
+                <molecule ref="H"  role="excessReactant" />
             </reactant>
 
             <product>
-                <molecule ref="Ethane"  me:type="modelled" />
+                <molecule ref="Ethane"  role="modelled" />
             </product>
 
-            <me:MCRCMethod>MesmerILT</me:MCRCMethod>
-            <me:preExponential>3.e-10</me:preExponential>
-            <me:activationEnergy  units="cm-1">0.0</me:activationEnergy>
+          <me:MCRCMethod xsi:type="me:MesmerILT">
+            <me:preExponential units="cm3molecule-1s-1">3.e-10</me:preExponential>
+            <me:activationEnergy units="cm-1">0.0</me:activationEnergy>
             <me:TInfinity>300.0</me:TInfinity>
             <me:nInfinity>0.8</me:nInfinity>
-
+          </me:MCRCMethod>
         </reaction>
 
     </reactionList>
@@ -228,7 +230,7 @@
     <me:conditions>
         <me:bathGas>He</me:bathGas>
         <me:PTs>
-            <me:PTpair me:units="Torr" me:P="25.1" me:T="301." me:precision="dd">
+            <me:PTpair units="Torr" P="25.1" T="301." precision="dd">
             </me:PTpair>
         </me:PTs>
     </me:conditions>

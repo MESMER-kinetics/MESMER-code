@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
-  <title>OH Acetylene association</title>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" 
+           xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <me:title>OH Acetylene association</me:title>
   <moleculeList>
     <molecule id="OH">
       <atomArray>
@@ -251,7 +253,6 @@
       </propertyList>
     </molecule>
     <molecule id="N2">
-      <atom elementType="N2" />
       <propertyList>
         <property dictRef="me:epsilon">
           <scalar>48.0</scalar>
@@ -268,43 +269,44 @@
   <reactionList>
     <reaction id="R1">
       <reactant>
-        <molecule ref="OH" me:type="deficientReactant" />
+        <molecule ref="OH" role="deficientReactant" />
       </reactant>
       <reactant>
-        <molecule ref="acetylene" me:type="excessReactant" />
+        <molecule ref="acetylene" role="excessReactant" />
       </reactant>
       <product>
-        <molecule ref="CC" me:type="modelled" />
+        <molecule ref="CC" role="modelled" />
       </product>
-      <me:MCRCMethod>MesmerILT</me:MCRCMethod>
-      <me:preExponential>7.10e-12</me:preExponential>
-      <me:excessReactantConc>1.00e17</me:excessReactantConc>
-      <me:activationEnergy units="kJ/mol">5.375</me:activationEnergy>
-      <me:nInfinity>0.0</me:nInfinity>
+      <me:MCRCMethod xsi:type="MesmerILT">
+        <me:preExponential>7.10e-12</me:preExponential>
+        <me:excessReactantConc>1.00e17</me:excessReactantConc>
+        <me:activationEnergy units="kJ/mol">5.375</me:activationEnergy>
+        <me:nInfinity>0.0</me:nInfinity>
+      </me:MCRCMethod>
     </reaction>
     <reaction id="R2">
       <reactant>
-        <molecule ref="TC" me:type="modelled" />
+        <molecule ref="TC" role="modelled" />
       </reactant>
       <product>
-        <molecule ref="CC" me:type="modelled" />
+        <molecule ref="CC" role="modelled" />
       </product>
       <me:transitionState>
-        <molecule ref="TS_CC_TC" me:type="transitionState" />
+        <molecule ref="TS_CC_TC" role="transitionState" />
       </me:transitionState>
-      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+      <me:MCRCMethod name="SimpleRRKM"/>
     </reaction>
     <reaction id="R3a">
       <reactant>
-        <molecule ref="TC" me:type="modelled" />
+        <molecule ref="TC" role="modelled" />
       </reactant>
       <reactant>
-        <molecule ref="O2" me:type="excessReactant" />
+        <molecule ref="O2" role="excessReactant" />
       </reactant>
       <product>
-        <molecule ref="TC_O2" me:type="sink" />
+        <molecule ref="TC_O2" role="sink" />
       </product>
-      <me:MCRCMethod>SimpleBimolecularSink</me:MCRCMethod>
+      <me:MCRCMethod name="SimpleBimolecularSink"/>
       <me:BimolecularLossRateCoefficient>3.348e-12</me:BimolecularLossRateCoefficient>
       <!--for replacement-->
       <me:excessReactantConc>2.48813559322e+17</me:excessReactantConc>
@@ -312,15 +314,15 @@
     </reaction>
     <reaction id="R3b">
       <reactant>
-        <molecule ref="CC" me:type="modelled" />
+        <molecule ref="CC" role="modelled" />
       </reactant>
       <reactant>
-        <molecule ref="O2" me:type="excessReactant" />
+        <molecule ref="O2" role="excessReactant" />
       </reactant>
       <product>
-        <molecule ref="CC_O2" me:type="sink" />
+        <molecule ref="CC_O2" role="sink" />
       </product>
-      <me:MCRCMethod>SimpleBimolecularSink</me:MCRCMethod>
+      <me:MCRCMethod name="SimpleBimolecularSink"/>
       <me:BimolecularLossRateCoefficient>4.104e-12</me:BimolecularLossRateCoefficient>
       <!--for replacement-->
       <me:excessReactantConc>2.48813559322e+17</me:excessReactantConc>
@@ -330,12 +332,12 @@
   <me:conditions>
     <me:bathGas>N2</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="Torr" me:P="760" me:T="298.0" />
+      <me:PTpair units="Torr" P="760" T="298.0" />
       <!--for replacement-->
     </me:PTs>
     <me:InitialPopulation>
-      <molecule ref="TC" me:population="1.0" me:grain="123" />
-    </me:InitialPopulation>-->
+      <me:molecule ref="TC" population="1.0" grain="123" />
+    </me:InitialPopulation>
   </me:conditions>
   <me:modelParameters>
     <!--Specify grain size directly...-->

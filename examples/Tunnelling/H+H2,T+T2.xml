@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <moleculeList>
 
     <molecule id="H2-H" description="R">
-      <atomarray>
+      <atomArray>
         <atom id="a2" elementType="H" />
         <atom id="a3" elementType="H" />
         <atom id="a4" elementType="H" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
         <bond atomRefs2="a2 a3" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kcal/mol">0</scalar>
@@ -42,14 +43,14 @@
 
 
     <molecule id="TS-H" description="R">
-      <atomarray>
+      <atomArray>
         <atom id="a2" elementType="H" />
         <atom id="a3" elementType="H" />
         <atom id="a4" elementType="H" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kcal/mol">9.8</scalar>
@@ -454,15 +455,15 @@
     </molecule>
 
     <molecule id="Cl2-H" description="R">
-      <atomarray>
+      <atomArray>
         <atom id="a2" elementType="H" />
         <atom id="a3" elementType="H" />
         <atom id="a4" elementType="H" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
         <bond atomRefs2="a2 a3" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kcal/mol">0</scalar>
@@ -491,14 +492,14 @@
 
 
     <molecule id="TS-Cl" description="R">
-      <atomarray>
+      <atomArray>
         <atom id="a2" elementType="H" />
         <atom id="a3" elementType="H" />
         <atom id="a4" elementType="H" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kcal/mol">7.6</scalar>
@@ -723,15 +724,15 @@
       </me:IRCPotential>
     </molecule>
     <molecule id="ProdCl2-H" description="R">
-      <atomarray>
+      <atomArray>
         <atom id="a2" elementType="H" />
         <atom id="a3" elementType="H" />
         <atom id="a4" elementType="H" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
         <bond atomRefs2="a2 a3" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kcal/mol">3.01</scalar>
@@ -760,7 +761,6 @@
 
 
     <molecule id="N_2">
-      <atom elementType="N_2" />
       <propertyList>
         <property dictRef="me:epsilon">
           <scalar>48.0</scalar>
@@ -778,39 +778,39 @@
   <reactionList>
     <reaction id="R1">
       <reactant>
-        <molecule ref="H2-H" me:type="modelled" />
+        <molecule ref="H2-H" role="modelled" />
       </reactant>
       <product>
-        <molecule ref="H2-H" me:type="sink" />
+        <molecule ref="H2-H" role="sink" />
       </product>
       <me:transitionState>
-        <molecule ref="TS-H" me:type="transitionState" />
+        <molecule ref="TS-H" role="transitionState" />
       </me:transitionState>
       <me:tunneling>WKB</me:tunneling>
-      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+      <me:MCRCMethod name="SimpleRRKM"/>
     </reaction>
     <reaction id="R2">
       <reactant>
-        <molecule ref="Cl2-H" me:type="modelled" />
+        <molecule ref="Cl2-H" role="modelled" />
       </reactant>
       <product>
-        <molecule ref="ProdCl2-H" me:type="sink" />
+        <molecule ref="ProdCl2-H" role="sink" />
       </product>
       <me:transitionState>
-        <molecule ref="TS-Cl" me:type="transitionState" />
+        <molecule ref="TS-Cl" role="transitionState" />
       </me:transitionState>
       <me:tunneling>WKB</me:tunneling>
-      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+      <me:MCRCMethod name="SimpleRRKM"/>
     </reaction>
   </reactionList>
 
   <me:conditions>
     <me:bathGas>N_2</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="Torr" me:P="750" me:T="200." me:precision="d" />
-      <me:PTpair me:units="Torr" me:P="750" me:T="300" me:precision="d" />
-      <me:PTpair me:units="Torr" me:P="750" me:T="600" me:precision="d" />
-      <me:PTpair me:units="Torr" me:P="750" me:T="1000" me:precision="d" />
+      <me:PTpair units="Torr" P="750" T="200." precision="d" />
+      <me:PTpair units="Torr" P="750" T="300" precision="d" />
+      <me:PTpair units="Torr" P="750" T="600" precision="d" />
+      <me:PTpair units="Torr" P="750" T="1000" precision="d" />
     </me:PTs>
   </me:conditions>
 

@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <!--J. Phys. Chem. A 2005, 109, 1890-1896-->
   <moleculeList>
     <molecule id="singlet_methylene" description="1CH_2">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="H" />
         <atom id="a3" elementType="H" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="1" />
         <bond atomRefs2="a1 a3" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">40.0</scalar>
@@ -40,17 +41,17 @@
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="acetylene" description="C_2H_2">
-      <atomarray>
+      <atomArray>
         <atom id="a1" elementType="C" />
         <atom id="a2" elementType="C" />
         <atom id="a3" elementType="H" />
         <atom id="a4" elementType="H" />
-      </atomarray>
-      <bondarray>
+      </atomArray>
+      <bondArray>
         <bond atomRefs2="a1 a2" order="3" />
         <bond atomRefs2="a1 a3" order="1" />
         <bond atomRefs2="a2 a4" order="1" />
-      </bondarray>
+      </bondArray>
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">0.0</scalar>
@@ -295,39 +296,39 @@
   <reactionList>
     <reaction id="R1">
       <reactant>
-        <molecule ref="singlet_methylene" me:type="deficientReactant" />
+        <molecule ref="singlet_methylene" role="deficientReactant" />
       </reactant>
       <reactant>
-        <molecule ref="acetylene" me:type="excessReactant" />
+        <molecule ref="acetylene" role="excessReactant" />
       </reactant>
       <product>
-        <molecule ref="triplet" me:type="sink" />
+        <molecule ref="triplet" role="sink" />
       </product>
       <product>
-        <molecule ref="dummy_product" me:type="sink" />
+        <molecule ref="dummy_product" role="sink" />
       </product>
       <me:transitionState>
-        <molecule ref="MECP1" me:type="transitionState" />
+        <molecule ref="MECP1" role="transitionState" />
       </me:transitionState>
       <me:excessReactantConc>2.25E15</me:excessReactantConc>
       <me:crossing>LZ</me:crossing>
-      <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+      <me:MCRCMethod name="SimpleRRKM"/>
     </reaction>
     <!--<reaction id="R2">
       <reactant>
-        <molecule ref="singlet_methylene" me:type="deficientReactant" />
+        <molecule ref="singlet_methylene" role="deficientReactant" />
       </reactant>
       <reactant>
-        <molecule ref="Xe" me:type="excessReactant" />
+        <molecule ref="Xe" role="excessReactant" />
       </reactant>
       <product>
-        <molecule ref="triplet" me:type="sink" />
+        <molecule ref="triplet" role="sink" />
       </product>
       <product>
-        <molecule ref="dummy_product" me:type="sink" />
+        <molecule ref="dummy_product" role="sink" />
       </product>
       <me:transitionState>
-        <molecule ref="MECP2" me:type="transitionState" />
+        <molecule ref="MECP2" role="transitionState" />
       </me:transitionState>
       <me:excessReactantConc>2.25E15</me:excessReactantConc>
       <me:crossing>LZ</me:crossing>
@@ -337,8 +338,8 @@
   <me:conditions>
     <me:bathGas>He</me:bathGas>
     <me:PTs>
-      <me:PTpair me:units="Torr" me:P="1.000" me:T="195.0" />
-      <me:PTpair me:units="Torr" me:P="1.000" me:T="298.0" />
+      <me:PTpair units="Torr" P="1.000" T="195.0" />
+      <me:PTpair units="Torr" P="1.000" T="298.0" />
       <!--<me:PTpair me:units="Torr" me:P="1.000" me:T="300." me:precision="qd" />
       <me:PTpair me:units="Torr" me:P="1.000" me:T="398.0" />
       <me:PTpair me:units="Torr" me:P="1.000" me:T="498.0" />
