@@ -305,7 +305,7 @@ namespace mesmer
 
 
 
-    if (getReactionType() == ASSOCIATION || getReactionType() == IRREVERSIBLE_EXCHANGE || getReactionType() == BIMOLECULAR_SINK){
+    if (getReactionType() == ASSOCIATION || getReactionType() == IRREVERSIBLE_EXCHANGE || getReactionType() == BIMOLECULAR_SINK  || getReactionType() == PSEUDOISOMERIZATION){
       cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;
       if (!ReadExcessReactantConcentration(ppReac)) return false;
     }

@@ -82,7 +82,7 @@ namespace mesmer
   bool Molecule::checkDegOfFreedom(){
 
     if (m_atomNumber < 1) // No atoms defined, so no test can be done.
-       return true ;
+      return true ;
 
     unsigned int nDOF(0) ;
     if (g_dos){
@@ -98,7 +98,7 @@ namespace mesmer
 
     // If species is a transition state, assume a imaginary frequency exists regardless if provided.
     if (g_ts) 
-       nDOF++;
+      nDOF++;
 
     // Add translational degrees of freedom.
 
@@ -169,8 +169,8 @@ namespace mesmer
       g_coll = new gWellProperties(this);
 
       if (!g_coll->initialization()) {
-        // Throw error
-        cerr << "gWellProperties initialization failed." << endl;
+        string err("Collision model parameters not defined for " + m_Name + ".\n") ;
+        throw std::runtime_error(err);
       }
     }
 

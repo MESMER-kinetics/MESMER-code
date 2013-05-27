@@ -207,6 +207,7 @@ MesmerQA/HSO2/baselines/MacOSX/mesmer.test -text
 MesmerQA/HSO2/baselines/Win32/mesmer.log -text
 MesmerQA/HSO2/baselines/Win32/mesmer.test -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/OH_acetylene_association_test.xml -text
+MesmerQA/OH[!!-~]acetylene[!!-~]association/OH_acetylene_pseudo_isomerization.xml -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Linux64/mesmer.log -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Linux64/mesmer.test -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/MacOSX/mesmer.test -text

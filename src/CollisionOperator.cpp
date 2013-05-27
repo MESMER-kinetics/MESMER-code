@@ -119,6 +119,8 @@ namespace mesmer
         double pseudoIsomerZPE = pAReaction->get_pseudoIsomer()->getDOS().get_zpe();
         double excessReactantZPE = pAReaction->get_excessReactant()->getDOS().get_zpe();
         double sourceTermZPE = pseudoIsomerZPE + excessReactantZPE;
+        pAReaction->get_pseudoIsomer()->getDOS().set_zpe(sourceTermZPE);
+        pAReaction->get_excessReactant()->getDOS().set_zpe(0.0);
         minEnergy = min(minEnergy, sourceTermZPE) ;
         maxEnergy = max(maxEnergy, sourceTermZPE) ;
 

@@ -38,40 +38,24 @@ namespace mesmer
       ppReactantList=ppReac; //Be forgiving; we can get by without a reactantList element
 
     PersistPtr ppReactant1  = ppReactantList->XmlMoveTo("reactant");
-    Molecule* pMol1 = GetMolRef(ppReactant1);
-    if(!pMol1){
-      cerr << "Cannot find 1st reactant molecule definition for association reaction " << getName() << ".";
-      return false;
-    }
+    m_rct1 = GetMolRef(ppReactant1);
     PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
-    Molecule* pMol2 = GetMolRef(ppReactant2);
-    if(!pMol2)
-    {
-      cerr << "Cannot find 2nd reactant molecule definition for association reaction " << getName() << ".";
-      return false;
-    }
+    m_rct2 = GetMolRef(ppReactant2);
 
-    // if deficientReactantLocation=true, then pMol1 (the first rct
-    // in the XML input) is the deficient reactant (m_rct1)
+    // If deficientReactantLocation=true, then swap the reactant roles.
 
-    Molecule* tmp_rct1 = pMol1;
-    Molecule* tmp_rct2 = pMol2;
-
-    if(deficientReactantLocation){
-      m_rct1 = tmp_rct1;
-      m_rct2 = tmp_rct2;
-    }
-    else {
-      m_rct1 = tmp_rct2;
-      m_rct2 = tmp_rct1;
+    if (m_deficientReactantLocation) {
+      Molecule *tmp = m_rct1 ;
+      m_rct1 = m_rct2;
+	  m_rct2 = tmp ;
     }
 
     if(!m_rct1){
-      cerr << "the deficient reactant in the association reaction is undefined" << endl;
+      cerr << "The deficient reactant in the association reaction " << getName() << " is undefined." << endl;
       return false;
     }
     if(!m_rct2){
-      cerr << "the excess reactant in the association reaction is undefined" << endl;
+      cerr << "The excess reactant in the association reaction " << getName() << " is undefined." << endl;
       return false;
     }
 
@@ -81,19 +65,9 @@ namespace mesmer
       ppProductList=ppReac; //Be forgiving; we can get by without a productList element
 
     PersistPtr ppProduct1 = ppProductList->XmlMoveTo("product");
-    pMol1 = GetMolRef(ppProduct1);
-    if (!pMol1) {
+    m_pdt1 = GetMolRef(ppProduct1);
+    if (!m_pdt1) {
       cerr << "Cannot find product molecule definition for association reaction " << getName() << ".";
-      return false;
-    }
-
-    // Save product as Molecule.
-
-    Molecule* pColMol = pMol1;
-    if(pColMol){
-      m_pdt1 = pColMol;
-    } else {
-      cerr << "Isomer product must be a colliding molecule";
       return false;
     }
 
@@ -279,8 +253,7 @@ namespace mesmer
 
     // Heat of reaction: use heat of reaction to calculate the zpe weighing of different wells
     const double HeatOfReaction = getHeatOfReaction();
-    const double _expon = -beta * HeatOfReaction;
-    Keq *= exp(_expon) ;
+    Keq *= exp(-beta * HeatOfReaction) ;
 
     Keq *= m_ERConc ;
     //

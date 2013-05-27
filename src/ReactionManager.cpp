@@ -15,6 +15,7 @@
 #include "IsomerizationReaction.h"
 #include "IrreversibleExchangeReaction.h"
 #include "BimolecularSinkReaction.h"
+#include "PseudoIsomerizationReaction.h"
 
 using namespace Constants ;
 using namespace std ;
@@ -98,11 +99,14 @@ namespace mesmer
       if     (!bRct2 && bPdt1 && pdt1Type == "modelled" && !bPdt2){
         preaction = new IsomerizationReaction(m_pMoleculeManager, mEnv, mFlags, id) ;
       }
-      else if( bRct2 && (rct1Type == "modelled" || rct2Type == "modelled" )){
+      else if( bRct2 && (rct1Type == "modelled" || rct2Type == "modelled" ) && bPdt1 && (pdt1Type == "sink")){
         preaction = new BimolecularSinkReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "excessReactant")) ;
       }
-      else if( bRct2 && bPdt1 && !bPdt2){
-        preaction = new AssociationReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "deficientReactant")) ;
+      else if( bRct2 && (rct1Type == "deficientReactant" || rct2Type == "deficientReactant" ) && bPdt1 && !bPdt2){
+        preaction = new AssociationReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type != "deficientReactant")) ;
+      }
+      else if( bRct2 && (rct1Type == "modelled" || rct2Type == "modelled" ) && bPdt1 && (pdt1Type == "modelled") && !bPdt2){
+        preaction = new PseudoIsomerizationReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type != "modelled")) ;
       }
       else if(!bRct2 && bPdt1 && (pdt1Type == "sink" || pdt2Type == "sink")){
         preaction = new IrreversibleUnimolecularReaction(m_pMoleculeManager, mEnv, mFlags, id) ;

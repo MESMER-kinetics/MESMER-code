@@ -38,13 +38,13 @@ namespace mesmer
       m_rct1(NULL),
       m_rct2(NULL),
       m_pdt1(NULL),
-      deficientReactantLocation(isReactant),
+      m_deficientReactantLocation(isReactant),
       m_GrainKbmc() {} ;
 
     // Destructor.
     virtual ~AssociationReaction(){}
 
-    void updateSourceMap(molMapType& sourcemap){
+    virtual void updateSourceMap(molMapType& sourcemap) {
       if (m_rct1 && sourcemap.find(m_rct1) == sourcemap.end()){ // Reaction includes a new pseudoisomer.
         sourcemap[m_rct1] = 0 ;
       }
@@ -119,6 +119,16 @@ namespace mesmer
     // Add contracted basis set reaction terms to the reaction matrix.
     virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) ;
 
+  protected:
+
+    // Reaction composition:
+
+    Molecule *m_rct1 ;   // Reactant Molecule.
+    Molecule *m_rct2 ;   // Subsidiary reactant molecule.
+    Molecule *m_pdt1 ;   // Product Molecule.
+
+    molMapType *m_sourceMap ;
+
   private:
 
     // Grain averaged microcanonical rate coefficients.
@@ -127,15 +137,7 @@ namespace mesmer
     // Test k(T)
     virtual void testRateConstant();
 
-    molMapType *m_sourceMap ;
-
-    // Reaction composition:
-
-    Molecule    *m_rct1 ;   // Reactant Molecule.
-    Molecule    *m_rct2 ;   // Subsidiary reactant molecule.
-    Molecule    *m_pdt1 ;   // Product Molecule.
-
-    bool deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
+    bool m_deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
 
     std::vector<double>  m_GrainKbmc ;           // Grained averaged backward microcanonical rates.
   } ;

@@ -1,4 +1,9 @@
 
+2013-May-27 Struan Robertson
+	
+	* PseudoIsomerizationReaction.h/.cpp: Initial revision of pseudo-
+	Isomerization reaction class.
+
 2013-May-11 Struan Robertson
 	
 	* CollisionOperator.cpp, System.cpp, TMatrix.h: Matrix printing 
