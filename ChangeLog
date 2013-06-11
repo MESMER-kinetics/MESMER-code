@@ -1,4 +1,9 @@
 
+2013-June-11 Struan Robertson
+	
+	* PseudoIsomerizationReaction.cpp: Prior distribution (dissociation
+	distribution) calculation method (changes checked in on behalf of Robin).
+
 2013-May-27 Struan Robertson
 	
 	* PseudoIsomerizationReaction.h/.cpp: Initial revision of pseudo-
