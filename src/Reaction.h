@@ -109,7 +109,7 @@ namespace mesmer
 
     bool thereIsCrossing (void) const {return (m_pCrossingCalculator) ? true : false ; } ;
 
-		bool thereIsCrossingWithTunnelling(void) {return(m_pCrossingCalculator->ThereIsTunnellingWithCrossing()); };
+	bool thereIsCrossingWithTunnelling(void) {return(m_pCrossingCalculator->ThereIsTunnellingWithCrossing()); };
 
     void calculateCellCrossingCoeffs(std::vector<double>& CrossingProbability) {m_pCrossingCalculator->calculateCellCrossingCoeffs(this, CrossingProbability); } ;
 
@@ -167,7 +167,6 @@ namespace mesmer
     double get_rvsGrnCanonicalRate(void){return m_rvsGrnCanonicalRate;};
     double get_fwdCellCanonicalRate(void){return m_fwdCellCanonicalRate;};
     double get_rvsCellCanonicalRate(void){return m_rvsCellCanonicalRate;};
-
 
     // get the bottom cell offset of m_CellFlux
     const int getFluxCellOffset(void){return m_FluxCellOffset;};

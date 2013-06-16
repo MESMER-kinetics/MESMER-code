@@ -60,7 +60,7 @@ namespace mesmer
       (*CollOptr)[ii][ii] -= disMicroRateCoeff ;   // Loss from adduct to pseudoisomer.
 
       vector<double> fragDist ;
-      m_fragDist->calculate(pdtEne[i],fragDist, rColloptrsize) ;
+      m_fragDist->calculate(pdtEne[i], fragDist, rColloptrsize) ;
 
       // Distribute adduct loss rate according to fragmentation loss rate.
       // Use detailed balance to determine gain from association reaction.
@@ -78,11 +78,14 @@ namespace mesmer
         (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ; 
       }
     }
+
+    // Return any resources used.
+    m_fragDist->clear() ;
+
   }
 
-
   // Initialize the fragment distribution.
-  void priorDist::initialize(AssociationReaction *pReaction) {
+  void priorDist::initialize(PseudoIsomerizationReaction *pReaction) {
 
     m_pReaction = pReaction ; 
 
@@ -108,57 +111,65 @@ namespace mesmer
 
     FastLaplaceConvolution(m_upperConv, m_rctDOS, m_lowerConv);
 
-
   } ;
 
   // Calculate dissociation distribution
 
   void priorDist::calculate(double Energy, std::vector<double>& dist, size_t size) {
 
-
     // Get the difference in zero point energies between the well and the adduct.
+    const double DeltaH  = m_pReaction->getHeatOfReaction();
 
-    double DeltaH  = m_pReaction->getHeatOfReaction();
-
-    // If the association is formed correctly this should be negative. Want energy difference in the reverse direction.
-
-    if (DeltaH < 0){
-      cwarn << "Aduct is higher in energy than pseudo isomer, for pseudo isomerisation reaction" +  m_pReaction->getName();    
+    // If the association is formed correctly this should be negative, otherwise throw error.
+    if (DeltaH > 0) {
+      string error = "Adduct is higher in energy than pseudo isomer, for pseudo isomerisation reaction" +  m_pReaction->getName();    
+      throw std::runtime_error(error);
     }
 
-	//Get the excess energy available for redistribution among bimolecular species. 
+    // Calcualte threshold for reverse reaction.
+    const double rvsThreshold = m_pReaction->get_ThresholdEnergy() - DeltaH ;
 
-    double XsE = Energy + DeltaH ;
+    // Get the excess energy available for redistribution among bimolecular species. 
+    double XsE = Energy - rvsThreshold ;
 
     if (XsE < 0){
-      cwarn << "Neagative excess energy for fragment distribution in reaction" +  m_pReaction->getName();
+      cwarn << "Negative excess energy for fragment distribution in reaction" +  m_pReaction->getName();
       XsE = 0 ;
     }
 
-    size_t excessEnergy = static_cast<size_t>(XsE);
+    const size_t excessEnergy = static_cast<size_t>(XsE);
 
-    //get grain size for grain averaging
-
-    const int GrainSize = m_pReaction->get_reactant()->getEnv().GrainSize ;
-
-    //Get cell distribution vector
+	const size_t cellOffSet = m_pReaction->getFluxCellOffset() ;
 
     dist.clear() ;
     dist.resize(size,0.0) ;
     if (excessEnergy > 0) {
 
+      // Calculate cell distribution vector. The distribution is shifted by the cell-to-grain
+	  // off set so as to match the shift applied to the reaction flux above.
+
       vector<double> mDist(m_rctDOS.size(), 0.0) ;
-      for (size_t i(0) ; i < excessEnergy ; i++ ) {
-        mDist[i] = m_rctDOS[i]*m_upperConv[excessEnergy - i]/m_lowerConv[excessEnergy] ;
+      for (size_t i(0), j(cellOffSet) ; i < excessEnergy && j < mDist.size() ; i++, j++ ) {
+        mDist[j] = m_rctDOS[i]*m_upperConv[excessEnergy - i]/m_lowerConv[excessEnergy] ;
       }
 
-      // Average cell distribution over grains
+      // Average cell distribution over grains.
 
+      // Get grain size for grain averaging.
+      const size_t GrainSize = m_pReaction->get_reactant()->getEnv().GrainSize ;
+      double sum (0.0) ;
       for (size_t i(0), index(0) ; i < dist.size() ; i++) {       
         for (size_t j=0; j<(GrainSize) && index < mDist.size(); j++, index++ ) {
           dist[i] += mDist[index];
         }
+        sum += dist[i] ;
       }
+
+	  // Normalize fragment distribution.
+	  double rSum = 1.0/sum ;
+      for (size_t i(0) ; i < dist.size() ; i++) {       
+        dist[i] *= rSum;
+	  }
 
     }
     return ;

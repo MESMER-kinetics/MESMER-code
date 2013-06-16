@@ -42,14 +42,14 @@ namespace mesmer
     virtual bool calculateMicroRateCoeffs(Reaction* pReact) = 0 ;
 
     virtual bool testMicroRateCoeffs(Reaction* pReact, PersistPtr ppbase) const;
-  
+
     virtual bool ReadParameters(Reaction* pReac) = 0 ;
-    
+
     virtual double get_ThresholdEnergy(Reaction* pReac) ;
 
     // Utility function to check for inconsistencies. 
     static bool ILTCheck(Reaction* pReac, PersistPtr ppReac) ;
-      };
+  };
 
 }//namespace
 

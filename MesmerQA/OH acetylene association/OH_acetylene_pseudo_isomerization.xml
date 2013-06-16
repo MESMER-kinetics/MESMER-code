@@ -254,7 +254,7 @@
   <me:conditions>
     <me:bathGas>N2</me:bathGas>
     <me:PTs>
-      <me:PTpair units="torr" P="1000" T="298.0" />
+      <me:PTpair units="torr" P="1000" T="298.0" precision ="double" />
     </me:PTs>
   </me:conditions>
   <me:modelParameters>

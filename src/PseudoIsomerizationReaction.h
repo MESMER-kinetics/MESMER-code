@@ -21,12 +21,20 @@
 #include "AssociationReaction.h"
 
 using namespace Constants ;
-// using namespace std;
 using namespace mesmer;
 
 namespace mesmer
 {
 
+  // Forward declatation of PseudoIsomerizationReaction class.
+
+  class PseudoIsomerizationReaction ;
+
+  //
+  // Abstract base class for the calculation of fragment distribution on dissocistion.
+  // SHR 16/Jun/2013: This class definition should probably the base class to a set of
+  // plug-in classes.
+  //
   class FragDist 
   {
   public: 
@@ -38,14 +46,21 @@ namespace mesmer
     virtual ~FragDist(){} ;
 
 	// Initialize the fragment distribution.
-	virtual void initialize(AssociationReaction *pReaction) = 0 ;
+	virtual void initialize(PseudoIsomerizationReaction *pReaction) = 0 ;
 
 	// Calculate distribution.
-
 	virtual void calculate(double excessEnergy, std::vector<double>& dist, size_t size) = 0 ;
+
+	// Return resources
+	virtual void clear() = 0 ;
+	
   } ;
 
-
+  //
+  // Implementation class for the calculation of fragment distribution on dissocistion
+  // for the prior model.
+  // SHR 16/Jun/2013: This class definition should probably be a plug-in class.
+  //
   class priorDist : public FragDist 
   {
   public: 
@@ -57,22 +72,27 @@ namespace mesmer
     virtual ~priorDist(){} ;
 
 	// Initialize the fragment distribution.
-	virtual void initialize(AssociationReaction *pReaction) ;
+	virtual void initialize(PseudoIsomerizationReaction *pReaction) ;
 
 	// Calculate distribution
-
 	virtual void calculate(double excessEnergy, std::vector<double>& dist, size_t size) ;
+
+	// Return resources
+	virtual void clear() {
+	  m_rctDOS.clear() ;
+	  m_upperConv.clear() ;
+	  m_lowerConv.clear() ;
+	};
 
   private: 
 
-	AssociationReaction *m_pReaction ;
+	PseudoIsomerizationReaction *m_pReaction ;
 
 	vector<double> m_rctDOS;
 
 	vector<double> m_upperConv;
     
 	vector<double> m_lowerConv;
-
 
   } ;
 
