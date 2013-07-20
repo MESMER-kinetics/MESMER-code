@@ -729,6 +729,7 @@ src/plugins/ThermodynamicTable.cpp -text
 src/plugins/UnitTests.cpp -text
 src/plugins/WKBCrossingCoeff.cpp -text
 src/plugins/WKBTunnellingCoefficients.cpp -text
+src/qd_test.h -text
 src/source.ps -text
 src/unitsConversion.cpp -text
 src/unitsConversion.h -text

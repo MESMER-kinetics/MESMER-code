@@ -182,6 +182,7 @@
     <ClInclude Include="..\..\src\MoleculeManager.h" />
     <ClInclude Include="..\..\src\Persistence.h" />
     <ClInclude Include="..\..\src\PseudoIsomerizationReaction.h" />
+    <ClInclude Include="..\..\src\qd_test.h" />
     <ClInclude Include="..\..\src\Rdouble.h" />
     <ClInclude Include="..\..\src\Reaction.h" />
     <ClInclude Include="..\..\src\ReactionManager.h" />

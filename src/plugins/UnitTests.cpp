@@ -14,6 +14,7 @@
 #include "../MesmerMath.h"
 #include "../Spline.h"
 #include "../dMatrix.h"
+#include "../qd_test.h"
 
 namespace mesmer
 {
@@ -135,6 +136,29 @@ namespace mesmer
     if(!pMol)
       pMol = pSys->getMoleculeManager()->find("AcO2_Asymmetric_Top");
     status = ( status && Test_MEIC_Rotors(pMol)) ;	
+
+	// Execute QD tests for extended precision.
+
+    ctest << endl ;
+    underlineText("QD Unit Tests.") ;
+
+    ctest << endl ;
+    underlineText("double-double tests:") ;
+
+	TestSuite<dd_real> *testdd = new TestSuite<dd_real> ;
+
+	status = ( status && testdd->testall() ) ;
+
+	delete testdd ;
+
+    ctest << endl ;
+    underlineText("quad-double tests:") ;
+
+	TestSuite<qd_real> *testqd = new TestSuite<qd_real>  ;
+
+	status = ( status && testqd->testall() ) ;
+
+	delete testqd ;
 
     ctest << endl ;
     if (status) {

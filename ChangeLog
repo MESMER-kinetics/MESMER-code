@@ -1,4 +1,9 @@
 
+2013-July-20 Struan Robertson
+	
+	* UnitTests.cpp/qd_test.h: QD unit tests added to MESMER unit
+	tests and unit test baseline updated.
+
 2013-June-16 Struan Robertson
 	
 	* PseudoIsomerizationReaction.h/.cpp: Prior fragmentation distribution 
