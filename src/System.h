@@ -56,7 +56,10 @@ namespace mesmer
       return calculate(chiSquare, residuals, writeReport) ;
 	} ;
 
-    // Print system configuration
+	// Begin single calculation.
+    bool calculate(vector<double> &Temperature, vector<double> &Pressure, vector<double> &RateCoefficients) ;
+
+	// Print system configuration
     void configuration(void);
 
     // Deduce the role of each molecule and add it to the XML file 

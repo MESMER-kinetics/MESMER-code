@@ -367,7 +367,8 @@ namespace mesmer
     // Save energy levels for partition function calculations.
 
     if (m_useSinTerms) {
-      for (size_t j(0) ; j < nstates; j++) {
+      m_energyLevels.clear() ;
+      for (size_t j(0) ; j < nstates ; j++) {
         m_energyLevels.push_back(eigenvalues[2*j]) ;
       }
     } else {

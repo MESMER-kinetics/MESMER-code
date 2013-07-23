@@ -394,8 +394,12 @@ namespace mesmer
     //
     PersistPtr ppPTset = pp->XmlMoveTo("me:PTset");
     while (ppPTset){
-      txt = ppPTset->XmlReadValue("me:units",optional);
-      string this_units = txt;
+      string this_units;
+      txt = ppPTset->XmlReadValue("units", optional);
+      if(!txt)
+        txt = ppPTset->XmlReadValue("me:units", optional);
+      if (txt)
+        this_units = txt;
       if (!txt){
         cerr << "No units provided. Default units " << default_unit << " are used.";
         this_units = default_unit;
@@ -717,6 +721,14 @@ namespace mesmer
     if (m_Flags.viewEvents) cinfo << events;
 
     return true;
+  }
+
+  //
+  // Begin calculation.
+  // over all PT values, constant parameters
+  bool System::calculate(vector<double> &Temperature, vector<double> &Pressure, vector<double> &RateCoefficients)
+  {
+	return true ;
   }
 
   double System::calcChiSqRateCoefficients(const qdMatrix& mesmerRates,  const CandTpair& expData, stringstream &rateCoeffTable, vector<double> &residuals){

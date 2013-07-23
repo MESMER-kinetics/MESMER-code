@@ -97,6 +97,7 @@
     <ClCompile Include="..\..\src\AssociationReaction.cpp" />
     <ClCompile Include="..\..\src\BimolecularSinkReaction.cpp" />
     <ClCompile Include="..\..\src\error.cpp" />
+    <ClCompile Include="..\..\src\plugins\AnalyticalRepresentation.cpp" />
     <ClCompile Include="..\..\src\plugins\BeyerSwinehart.cpp" />
     <ClCompile Include="..\..\src\plugins\BoltzmannDistribution.cpp" />
     <ClCompile Include="..\..\src\plugins\ClassicalRotor.cpp" />

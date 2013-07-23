@@ -1,6 +1,13 @@
 
 2013-July-20 Struan Robertson
 	
+	* AnalyticalRepresentation.cpp: Addition of basic class structure for the 
+	analytical representation method.
+	* HinderedRotorQM1D.cpp, WKBTunnellingCoefficients.cpp: Bug fixes checked 
+	in on behalf of Robin.
+
+2013-July-20 Struan Robertson
+	
 	* UnitTests.cpp/qd_test.h: QD unit tests added to MESMER unit
 	tests and unit test baseline updated.
 

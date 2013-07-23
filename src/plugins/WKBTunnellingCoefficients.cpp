@@ -1,6 +1,6 @@
 //-------------------------------------------------------------------------------------------
 //
-// WKBTunnelingCoefficients.h
+// WKBTunnelingCoefficients.cpp
 //
 // Author: Robin_Shannon
 // Date:   _2011_02_22__10_02_55_
@@ -111,7 +111,7 @@ namespace mesmer
     // Read input data for barrier IRC.
 
     PersistPtr pptran = pReact->get_TransitionState()->get_PersistentPointer();
-    
+
     PersistPtr pp = pptran->XmlMoveTo("me:IRCPotential") ;
     if (!pp) {  
       // Force program to close if not potential information available and print error message
@@ -119,9 +119,23 @@ namespace mesmer
     }
     const char* p = pp->XmlReadValue("units", optional);
     string units = p ? p : "kJ/mol";
-    
+
     mu = pp->XmlReadDouble("ReducedMass", optional);
     if(IsNan(mu)) mu = 1.0 ;
+
+    // Option to scale potential to ab initio barrier height
+
+    bool m_scale(false) ;
+    const char *pScalepotential(pp->XmlReadValue("ScaleToBarrier",optional)) ;
+    if (pScalepotential && string(pScalepotential) == "yes") {
+      m_scale = true ;
+    }
+    double PotentialAtSaddle;
+
+    // Get the barrier height for reaction from MESMER input
+
+    const double BarrierFromInput = pReact->get_relative_TSZPE();
+
 
     while(pp = pp->XmlMoveTo("me:PotentialPoint"))
     {
@@ -135,6 +149,21 @@ namespace mesmer
         double  potentialPoint = 0.0;
       double convertedpotentialPoint = getConvertedEnergy(units, potentialPoint) * SpeedOfLight_in_cm*PlancksConstant_in_JouleSecond ; //Convert potential point into joules
       potential.push_back(convertedpotentialPoint) ;
+
+      //scale potential to barrier height from MESMER input
+
+      if (distancePoint == 0.0) {
+        PotentialAtSaddle = getConvertedEnergy(units, potentialPoint);
+      }
+
+    }
+
+    if (m_scale) {
+      double scalefactor = BarrierFromInput / PotentialAtSaddle ;
+      for (size_t i(0) ; i < potential.size()-1 ; ++i){
+        potential[i] *= scalefactor;
+      }
+
     }
 
     return true ;

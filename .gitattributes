@@ -704,6 +704,7 @@ src/formatfloat.h -text
 src/keys.txt -text
 src/main.cpp -text
 src/plugin.h -text
+src/plugins/AnalyticalRepresentation.cpp -text
 src/plugins/BeyerSwinehart.cpp -text
 src/plugins/BoltzmannDistribution.cpp -text
 src/plugins/ClassicalRotor.cpp -text
