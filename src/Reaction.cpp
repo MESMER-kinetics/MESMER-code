@@ -10,6 +10,7 @@
 //-------------------------------------------------------------------------------------------
 #include <limits>
 #include "Reaction.h"
+#include "ParseForPlugin.h"
 
 using namespace Constants ;
 using namespace std;
@@ -264,46 +265,23 @@ namespace mesmer
     //---------------------------------------------------------
     // Microcanonical rate constants methods dependent section.
       
-      if (!m_pMicroRateCalculator->ReadParameters(this)) return false;
+    if (!m_pMicroRateCalculator->ReadParameters(this)) return false;
+    
+    PersistPtr ppTS = get_TransitionState() ? 
+        get_TransitionState()->get_PersistentPointer() : NULL;
       
-      // Determine the method of estimating crossing coefficients.
-      const char* pTunnelingtxt = ppReac->XmlReadValue("me:tunneling", optional) ;
-      if(pTunnelingtxt)
-      {
-        m_pTunnelingCalculator = TunnelingCalculator::Find(pTunnelingtxt);
-        if(!m_pTunnelingCalculator)
-        {
-          cerr << "Unknown method " << pTunnelingtxt
-            << " for the determination of tunneling coefficients in reaction "
-            << getName();
-          return false;
-        }
-      }
-      else{
-        cinfo << "No tunneling method requested for " << getName() << endl;
-      }
+    // Determine the method of estimating crossing coefficients.
+    m_pTunnelingCalculator = ParseForPlugin<TunnelingCalculator>("me:tunneling", ppReac,
+          optional, ppTS); //data may be in TS
+    if(!m_pTunnelingCalculator)
+      cinfo << "No tunneling method requested for " << getName() << endl;
 
-      // Determine the method of estimating crossing coefficients.
-      const char* pCrossingtxt = ppReac->XmlReadValue("me:crossing", optional) ;
-      if(pCrossingtxt)
-      {
-        m_pCrossingCalculator = CrossingCalculator::Find(pCrossingtxt);
-        if(!m_pCrossingCalculator)
-        {
-          cerr << "Unknown method " << pCrossingtxt
-            << " for the determination of crossing coefficients in reaction "
-            << getName();
-          return false;
-        }
-      }
-      else{
-        cinfo << "No crossing method requested for " << getName() << endl;
-      }
-
-    //
-    //---------------------------------------------------------
-
-
+    // Determine the method of estimating crossing coefficients.
+    m_pCrossingCalculator = ParseForPlugin<CrossingCalculator>("me:crossing", ppReac,
+      optional, ppTS); //data may be in TS)
+       
+    if(!m_pCrossingCalculator)
+      cinfo << "No crossing method requested for " << getName() << endl;
 
     if (getReactionType() == ASSOCIATION || getReactionType() == IRREVERSIBLE_EXCHANGE || getReactionType() == BIMOLECULAR_SINK  || getReactionType() == PSEUDOISOMERIZATION){
       cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;

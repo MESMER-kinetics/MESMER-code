@@ -30,6 +30,8 @@ namespace mesmer
     virtual ~Fitting() {}
     virtual const char* getID()  { return m_id; }
 
+    virtual bool ParseData(PersistPtr pp);
+
     //Function to do the work
     virtual bool DoCalculation(System* pSys);
 
@@ -73,7 +75,10 @@ namespace mesmer
     // Note that the number tol should be an estimate of the square root of machine precision.
     static const double m_Gold ;
     static const double m_GRatio ;
-    static const double m_tol ;
+    static const double m_tol1 ;
+
+    unsigned m_maxIterations;
+    double m_tol;
 
     // Dimension of fit.
     size_t m_nVar ;
@@ -95,7 +100,15 @@ namespace mesmer
   //
   const double Fitting::m_Gold   = (3.0 - sqrt(5.0))/2.0 ;
   const double Fitting::m_GRatio = (1.0 - m_Gold)/m_Gold ;
-  const double Fitting::m_tol    = 1.0e-8 ;
+  const double Fitting::m_tol1    = 1.0e-8 ;
+
+  bool Fitting::ParseData(PersistPtr pp)
+  {
+    //Read in fitting parameters, or use values from defaults.xml.
+    m_maxIterations= pp->XmlReadInteger("me:fittingIterations");
+    m_tol = pp->XmlReadDouble("me:fittingTolerance");
+    return true;
+  }
 
   bool Fitting::DoCalculation(System* pSys)
   {
@@ -106,10 +119,10 @@ namespace mesmer
       return false ;
     }
 
-    //Read in fitting parameters, or use values from defaults.xml.
-    PersistPtr ppControl = pSys->getPersistPtr()->XmlMoveTo("me:control");
-    unsigned maxIterations= ppControl->XmlReadInteger("me:fittingIterations");
-    double tol = ppControl->XmlReadDouble("me:fittingTolerance");
+    ////Read in fitting parameters, or use values from defaults.xml.
+    //PersistPtr ppControl = pSys->getPersistPtr()->XmlMoveTo("me:control");
+    //unsigned maxIterations= ppControl->XmlReadInteger("me:fittingIterations");
+    //double tol = ppControl->XmlReadDouble("me:fittingTolerance");
 
 	// Read in parameter constraints.
 //	ReadParameterConstraints(ppControl) ;
@@ -168,7 +181,7 @@ namespace mesmer
 
     vector<double> direction(m_nVar,0.0) ;
 
-    for (size_t itr(1) ; itr <= maxIterations ; itr++) {
+    for (size_t itr(1) ; itr <= m_maxIterations ; itr++) {
 
       cinfo << "Iteration: " << itr << " of fitting. chiSquare = " << chiSquare << endl;
 
@@ -185,7 +198,7 @@ namespace mesmer
         }
 
         oldChiSquare = chiSquare ;
-        LineSearch(pSys, direction, chiSquare, tol);
+        LineSearch(pSys, direction, chiSquare, m_tol);
 
         WriteVarVals(chiSquare) ;
       }
@@ -200,7 +213,7 @@ namespace mesmer
       VectorNormalize(direction) ;
 
       oldChiSquare = chiSquare ;
-      LineSearch(pSys, direction, chiSquare, tol);
+      LineSearch(pSys, direction, chiSquare, m_tol);
 
       WriteVarVals(chiSquare) ;
 
@@ -211,7 +224,7 @@ namespace mesmer
 
         initializeDirections(directions) ;
 
-        // tol = max(m_tol, tol/10.) ;                   
+        // m_tol = max(m_tol1, tol/10.) ;                   
       } else {
         cycleDirections(directions,direction);
       }
@@ -239,7 +252,7 @@ namespace mesmer
 
     ResultsAndStatistics(pSys, hessian) ;
     PersistPtr ppHessian = pSys->getAnalysisPtr()->XmlWriteMainElement("me:hessian","");
-	hessian.WriteToXML(ppHessian) ;
+    hessian.WriteToXML(ppHessian) ;
 
     return true;
   }
@@ -504,7 +517,7 @@ namespace mesmer
 
   //
   // Check for line search convergence.
-  // fabs(|c-a|) > m_tol*(fabs(b)+fabs(x)) )
+  // fabs(|c-a|) > m_tol1*(fabs(b)+fabs(x)) )
   //
   bool Fitting::CheckLineSearchConvergence(const vector<double> &X) const {
 
@@ -516,11 +529,11 @@ namespace mesmer
     vtmp = VectorAdd( 1.0, m_B, 1.0, X) ;
     double radius = VectorLength(vtmp) ;
 
-    // converged = (interval < m_tol*radius) ;
+    // converged = (interval < m_tol1*radius) ;
 
     // return !converged ;
 
-    return !(interval > m_tol*radius) ;
+    return !(interval > m_tol1*radius) ;
   }
 
   //

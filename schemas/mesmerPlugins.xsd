@@ -226,27 +226,59 @@
     </xs:annotation>
     <xs:restriction  base="xs:string">
       <xs:enumeration value="simpleCalc"/>
-      <xs:enumeration value="fitting"/>
+      <!--<xs:enumeration value="fitting"/>-->
       <xs:enumeration value="gridSearch"/>
-      <xs:enumeration value="marquardt"/>
+      <!--<xs:enumeration value="marquardt"/>-->
       <xs:enumeration value="ThermodynamicTable"/>
       <xs:enumeration value="UnitTests"/>
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:complexType name="calcMethodType">
-  <xs:annotation>
-    <xs:documentation>
-      The default is simpleCalc
-    </xs:documentation>
-  </xs:annotation>
-    <xs:simpleContent>
-      <xs:extension base="calcMethodName">
-        <xs:attribute name="units" type="energyUnitsType"/>
-        <xs:attribute name="default" type="xs:boolean" use="optional"/>
-      </xs:extension>
-    </xs:simpleContent>
+  <!--mixed="true" is an attempt to validate
+  <me:calcMethod>simpleCalc</me:calcMethod>,
+  which is provided as the default. However the text name is not checked,
+  and the validation of any data is over-lax.-->
+  <xs:complexType name="calcMethodct" mixed="true">
+    <xs:sequence></xs:sequence>
+    <xs:attribute name="name"  type="xs:string" use="optional" />
+    <xs:attribute name="units" type="energyUnitsType"/>
+    <xs:attribute name="default"  type="xs:boolean" use="optional" />
   </xs:complexType>
+
+  <xs:complexType name="fitting" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="calcMethodct">
+        <xs:all>
+          <xs:element name="fittingIterations" type="xs:integer" minOccurs="0"/>
+          <xs:element name="fittingTolerance" type="xs:float" minOccurs="0"/>
+        </xs:all>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="analyticalRepresentation" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="calcMethodct">
+        <xs:all>
+          <xs:element name="fittingIterations" type="xs:integer" minOccurs="0"/>
+          <xs:element name="fittingTolerance" type="xs:float" minOccurs="0"/>
+        </xs:all>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="marquardt" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="calcMethodct">
+        <xs:all>
+          <xs:element name="MarquardtIterations" type="xs:integer" minOccurs="0"/>
+          <xs:element name="MarquardtTolerance" type="xs:float" minOccurs="0"/>
+          <xs:element name="MarquardtDerivDelta" type="xs:float" minOccurs="0"/>
+        </xs:all>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
 
   <xs:element name="States">
     <xs:complexType>
@@ -262,12 +294,118 @@
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="tunneling">
+  <!--<xs:element name="tunneling">
     <xs:simpleType>
       <xs:restriction base="xs:string">
         <xs:enumeration value="Eckart"/>
         <xs:enumeration value="WKB"/>
       </xs:restriction>
     </xs:simpleType>
-  </xs:element>
+  </xs:element>-->
+
+  <xs:complexType name="WKB">
+    <xs:complexContent>
+      <xs:extension base ="tunnelingt">
+        <xs:sequence>
+          <xs:element name="IRCPotential">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="PotentialPoint" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute name="ReacCoord" type="xs:float" use="required"/>
+                    <xs:attribute name="potential" type="xs:float" use="required"/>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
+              <xs:attribute name="ReducedMass" type="xs:float" use="required"/>                  
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="LZCrossing">
+    <xs:complexContent>
+      <xs:extension base="crossingt">
+        <xs:sequence>
+          <xs:element name="RMS_SOC_element" >
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" type="energyUnitsType" use="required"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="GradientDifferenceMagnitude">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" use="required"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="GradientReducedMass">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" use="required"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+            </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="WKBCrossing">
+    <xs:complexContent>
+      <xs:extension base="crossingt">
+        <xs:sequence>
+          <xs:element name="RMS_SOC_element" >
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" type="energyUnitsType" use="required"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="GradientDifferenceMagnitude">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" use="required"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="GradientReducedMass">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" use="required"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="AverageSlope" minOccurs="0">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" use="required"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
 </xs:schema>

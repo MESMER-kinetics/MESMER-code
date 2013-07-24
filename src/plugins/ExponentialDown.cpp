@@ -133,9 +133,13 @@ bool ExponentialDown::ReadParameters( Molecule* parent)
     Each bath gas has its own instance of ExponentialDown (made, if necessary, 
     in WellProperties::addBathGas()).
     ******************************************************************************/
-    const char* bathGasName = ppProp->XmlReadValue("ref", optional); //ppProp is at <scalar>
+    const char* bathGasName = NULL;
+    if(ppProp) //May be NULL if default method and deltaEDown value used
+      bathGasName = ppProp->XmlReadValue("ref", optional); //ppProp is at <scalar>
     ExponentialDown* pModel
       = static_cast<ExponentialDown*>(parent->getColl().addBathGas(bathGasName, this));
+    if(!ppProp) //there is no other data
+      return true;
 
     /******************************************************************************
     m_deltaEdown behaves most of the time like a normal variable of type double.

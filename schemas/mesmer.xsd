@@ -133,7 +133,19 @@
         <xs:element name="control" minOccurs="0">
           <xs:complexType>
             <xs:all>
-              <xs:element name="calcMethod" type="me:calcMethodType" minOccurs ="0"/>
+              <xs:element name="allowSmallerDeltaEDown" minOccurs="0"/>
+              <xs:element name="calcMethod" type="me:calcMethodct" minOccurs ="0">
+                <xs:annotation>
+                  <xs:documentation>
+                    For methods with no data, the form like &lt;CalcMethod>simpleCalc&lt;/calcMethod>
+                    can still be parsed by Mesmer, but is not validated by the schema.
+                    Use the form &lt;calcMethod name="simpleCalc"/> instead.
+                    If the method HAS data, there should be an attribute xsi:type="me:marquardt",
+                    or similar, and the data should appear in elements which are
+                    CHILDREN of &lt;me:calcMethod>, not siblings.>
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
               <xs:element name="calculateRateCoefficientsOnly" minOccurs="0"/>
               <xs:element name="diagramEnergyOffset" type="xs:float" minOccurs="0"/>
               <xs:element name="eigenvalues" minOccurs="0">
@@ -173,11 +185,6 @@
               <xs:element name="testRateConstant" minOccurs="0" />
               <xs:element name="testRateConstants" minOccurs="0"/>
               <xs:element name="useTheSameCellNumberForAllConditions" minOccurs="0"/>
-              <!--The following should really be sub-elements of
-                  <me:calcMethod>marquardt</me:calcMethod>-->
-              <xs:element name="MarquardtIterations" type="xs:integer" minOccurs="0"/>
-              <xs:element name="MarquardtTolerance" type="xs:float" minOccurs="0"/>
-              <xs:element name="MarquardtDerivDelta" type="xs:float" minOccurs="0"/>
           </xs:all>
           </xs:complexType>
         </xs:element>
@@ -293,6 +300,7 @@
       <xs:simpleContent>
         <xs:extension base="me:DOSCMethodName">
         <xs:attribute name="name"  type="me:DOSCMethodName" use="optional" />
+        <xs:attribute name="default"  type="xs:boolean" use="optional" />
         </xs:extension>
       </xs:simpleContent>
     </xs:complexType>
@@ -312,6 +320,25 @@
     </xs:documentation>
     </xs:annotation>
   </xs:element>
+
+  <xs:element name="tunneling" type="me:tunnelingt"/>
+  <xs:complexType name="tunnelingt"/>
+
+  <xs:element name="crossing" type="me:crossingt"/>
+  <xs:complexType name="crossingt"/>
+
+  <!--<xs:element name="calcMethod" type="me:calcMethodct">
+    <xs:annotation>
+      <xs:documentation>
+        For methods with no data, the form like &lt;calcMethod>simpleCalc&lt;/calcMethod>
+        can still be parsed by Mesmer, but is not validated by the schema.
+        Use the form &lt;calcMethod name="simpleCalc"/> instead.
+        If the method HAS data, there should be an attribute xsi:type="me:marquandt",
+        or similar, and the data should appear in elements which are
+        CHILDREN of &lt;me:calcMethod>, not siblings.>
+    </xs:documentation>
+    </xs:annotation>
+  </xs:element>-->
 
   <!--<xs:element name="TInfinity" type="xs:decimal" />
   <xs:element name="nInfinity" type="xs:decimal" />-->

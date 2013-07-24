@@ -5,7 +5,7 @@
 // Author: Struan Robertson
 // Date:   21/Jul/2013
 //
-// This class implements the methods to that determinne and analytical representation of a 
+// This class implements the methods to that determine and analytical representation of a 
 // master equation representation.
 //
 //-------------------------------------------------------------------------------------------
@@ -20,15 +20,18 @@
 
 namespace mesmer
 {
-  class AnalyticalReperesentation : public CalcMethod, private FittingUtils
+  class AnalyticalRepresentation : public CalcMethod, private FittingUtils
   {
   public:
 
-    AnalyticalReperesentation(const char* id) : FittingUtils(), m_id(id)
+    AnalyticalRepresentation(const char* id) : FittingUtils(), m_id(id)
     { Register(); }
 
-    virtual ~AnalyticalReperesentation() {}
+    virtual ~AnalyticalRepresentation() {}
     virtual const char* getID()  { return m_id; }
+
+    //Read in data for this method from XML
+    virtual bool ParseData(PersistPtr pp);
 
     //Function to do the work
     virtual bool DoCalculation(System* pSys);
@@ -38,24 +41,40 @@ namespace mesmer
   private:
 
     const char* m_id;
+    unsigned m_maxIterations;
+    double m_tol;
 
   };
 
   ////////////////////////////////////////////////
   //Global instance
-  AnalyticalReperesentation theAnalyticalReperesentation("Analytical Reperesentation");
+  AnalyticalRepresentation theAnalyticalRepresentation("analyticalRepresentation");
   ///////////////////////////////////////////////
 
-  bool AnalyticalReperesentation::DoCalculation(System* pSys)
+  bool AnalyticalRepresentation::ParseData(PersistPtr pp)
   {
+    /* Typical data
+    <me:control>
+      ...
+      <me:calcMethod xsi:type="me:analyticalRepresentation">
+        <me:fittingTolerance>0.1</me:fittingTolerance>
+        <me:fittingIterations>5</me:fittingIterations>
+      </me:calcMethod>
+      ...
+    </me:control>
+    */
     //Read in fitting parameters, or use values from defaults.xml.
-    PersistPtr ppControl = pSys->getPersistPtr()->XmlMoveTo("me:control");
-    unsigned maxIterations= ppControl->XmlReadInteger("me:fittingIterations");
-    double tol = ppControl->XmlReadDouble("me:fittingTolerance");
+    m_maxIterations= pp->XmlReadInteger("me:fittingIterations");
+    m_tol = pp->XmlReadDouble("me:fittingTolerance");
 
-	// Read in parameter constraints.
-//	ReadParameterConstraints(ppControl) ;
+    // Read in parameter constraints.
+    //ReadParameterConstraints(ppControl) ;
 
+    return true;
+  }
+
+  bool AnalyticalRepresentation::DoCalculation(System* pSys)
+  {
     //Do not output all the intermediate results to XML
     pSys->m_Flags.overwriteXmlAnalysis = true;
 

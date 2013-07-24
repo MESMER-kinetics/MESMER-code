@@ -16,6 +16,7 @@
 #include "../calcmethod.h"
 #include "../dMatrix.h"
 #include "FittingUtils.h"
+#include "Persistence.h"
 
 namespace mesmer
 {
@@ -29,6 +30,7 @@ namespace mesmer
 
     virtual ~Marquardt() {}
     virtual const char* getID()  { return m_id; }
+    virtual bool ParseData(PersistPtr pp);
 
     //Function to do the work
     virtual bool DoCalculation(System* pSys);
@@ -48,12 +50,24 @@ namespace mesmer
 
     // Factor for scalling lambda by during fitting.
     double m_lambdaScale ;
+
+    unsigned m_maxIterations ;
+    double m_tol ;
   };
 
   ////////////////////////////////////////////////
   //Global instance
   Marquardt theMarquardt("marquardt");
   ///////////////////////////////////////////////
+
+  bool Marquardt::ParseData(PersistPtr pp)
+  {
+    // Read in Marquardt parameters, or use values from defaults.xml.
+    m_delta = pp->XmlReadDouble("me:MarquardtDerivDelta");
+    m_maxIterations= pp->XmlReadInteger("me:MarquardtIterations");
+    m_tol = pp->XmlReadDouble("me:MarquardtTolerance");
+    return true;
+  }
 
   bool Marquardt::DoCalculation(System* pSys)
   {
@@ -64,11 +78,11 @@ namespace mesmer
       return false ;
     }
 
-    // Read in Marquardt parameters, or use values from defaults.xml.
-    PersistPtr ppControl = pSys->getPersistPtr()->XmlMoveTo("me:control");
-    m_delta = ppControl->XmlReadDouble("me:MarquardtDerivDelta");
-    unsigned maxIterations= ppControl->XmlReadInteger("me:MarquardtIterations");
-    double tol = ppControl->XmlReadDouble("me:MarquardtTolerance");
+    //// Read in Marquardt parameters, or use values from defaults.xml.
+    //PersistPtr ppControl = pSys->getPersistPtr()->XmlMoveTo("me:control");
+    //m_delta = ppControl->XmlReadDouble("me:MarquardtDerivDelta");
+    //unsigned maxIterations= ppControl->XmlReadInteger("me:MarquardtIterations");
+    //double tol = ppControl->XmlReadDouble("me:MarquardtTolerance");
 
     // Read in parameter constraints.
 //    ReadParameterConstraints(ppControl) ;
@@ -119,7 +133,7 @@ namespace mesmer
     NumericalDerivatives(pSys, residuals, m_delta, gradient, hessian) ;
 
     bool converged(false) ;
-    for (size_t itr(1) ; itr <= maxIterations && !converged ; itr++) {
+    for (size_t itr(1) ; itr <= m_maxIterations && !converged ; itr++) {
 
       newLocation = currentLocation ;
       vector<double> deltaLocation = gradient;
@@ -148,7 +162,7 @@ namespace mesmer
           SetLocation(currentLocation) ;
         } else {
           double relativeChange = 1.0 - chiSquare/bestChiSquare ;
-          converged = (relativeChange < tol) ;
+          converged = (relativeChange < m_tol) ;
           lambda /= m_lambdaScale ;
           GetLocation(currentLocation) ;
           bestChiSquare = chiSquare ;

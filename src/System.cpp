@@ -10,6 +10,7 @@
 //-------------------------------------------------------------------------------------------
 #include "System.h"
 #include <fstream>
+#include "ParseForPlugin.h"
 
 using namespace std ;
 using namespace Constants ;
@@ -140,10 +141,17 @@ namespace mesmer
       cerr << "No control section specified";
       return false;
     }
-    string task ;
-    m_CalcMethod = CalcMethod::GetCalcMethod(ppControl,task);
+
+    //string task ;
+    //m_CalcMethod = CalcMethod::GetCalcMethod(ppControl,task);
+    //if(!m_CalcMethod)
+    //  return false;
+    
+    m_CalcMethod = ParseForPlugin<CalcMethod>("me:calcMethod", ppControl);
     if(!m_CalcMethod)
       return false;
+    string task(m_CalcMethod->getID());
+
     //-------------
     //Molecule List (parse this part as required ...)
     PersistPtr ppMolList = ppIOPtr->XmlMoveTo("moleculeList");

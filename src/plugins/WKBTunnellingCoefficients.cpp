@@ -29,7 +29,7 @@ namespace mesmer
 
     virtual ~WKBTunnellingCoefficients() {}
     virtual const char* getID()  { return m_id; }
-
+    virtual bool ParseData(PersistPtr pp);
     virtual bool calculateCellTunnelingCoeffs(Reaction* pReact, std::vector<double>& TunnelingProbability);
 
   private:
@@ -44,12 +44,49 @@ namespace mesmer
     double Trans(const vector<double> &TunProb , double Vmax, double beta );
   private:
     const char* m_id;
+    vector<double> m_potential, m_distance ;
+    double m_mu;
   };
 
   //************************************************************
   //Global instance, defining its id (usually the only instance)
   WKBTunnellingCoefficients theWKBTunnellingCoefficients("WKB");
   //************************************************************
+
+  bool WKBTunnellingCoefficients::ParseData(PersistPtr pptran)
+  {
+    PersistPtr pp = pptran->XmlMoveTo("me:IRCPotential") ;
+    if (!pp) {  
+      // Force program to close if not potential information available and print error message
+      //throw (std::runtime_error("Error: WKB calculation cannot proceed without a PES")); 
+      cinfo << "First look for WKB data" <<endl; //Looks under <reaction> and then under TS 
+      return false;
+    }
+    const char* p = pp->XmlReadValue("units", optional);
+    string units = p ? p : "kJ/mol";
+    
+    m_mu = pp->XmlReadDouble("ReducedMass", optional);
+    if(IsNan(m_mu)) m_mu = 1.0 ;
+
+    int count=0;
+    while(pp = pp->XmlMoveTo("me:PotentialPoint"))
+    {
+      double distancePoint = pp->XmlReadDouble("ReacCoord", optional);
+      if(IsNan(distancePoint))
+        double  distancePoint = 0.0;
+      m_distance.push_back(distancePoint) ;
+
+      double potentialPoint = pp->XmlReadDouble("potential", optional);
+      if(IsNan(potentialPoint))
+        double  potentialPoint = 0.0;
+      double convertedpotentialPoint = getConvertedEnergy(units, potentialPoint) * SpeedOfLight_in_cm*PlancksConstant_in_JouleSecond ; //Convert potential point into joules
+      m_potential.push_back(convertedpotentialPoint) ;
+      count++;
+    }
+    cinfo << count << " PotentialPoints read for WKB tunneling" << endl;
+
+    return true;
+  }
 
   bool WKBTunnellingCoefficients::calculateCellTunnelingCoeffs(Reaction* pReact, vector<double>& TunnelingProbability){
 
@@ -59,11 +96,12 @@ namespace mesmer
     const int barrier0 = int(TZ) - int(pReact->get_relative_rctZPE());
     const int barrier1 = int(TZ) - int(pReact->get_relative_pdtZPE());
 
+    //Now read in ParseData() 
     // Read in potential barrier details.
-    vector<double> potential, distance ;
-    double mu(0.0) ;
-    if (!ReadPotential(pReact, potential, distance, mu))
-      return false ;
+    //vector<double> potential, distance ;
+    //double mu(0.0) ;
+    //if (!ReadPotential(pReact, potential, distance, mu))
+    //  return false ;
 
     // Set transmission coefficients to 0 where no tunneling is possible;
     // where tunneling may occur, the transmission coefficients are calculated using a wkb formalism
@@ -77,10 +115,10 @@ namespace mesmer
       if ((E + barrier1) < 0) {
         TunnelingProbability[i] = 0.0;
       } else if (E <= 0) {
-        TunnelingProbability[i] = 1.0 /(1.0 + ( exp (2.0 * Theta( potential, distance , E + barrier0 , mu)))) ;
+        TunnelingProbability[i] = 1.0 /(1.0 + ( exp (2.0 * Theta( m_potential, m_distance , E + barrier0 , m_mu)))) ;
       } else if (E > 0 && E <= barrier0 ) { 
         //non classical reflection above the barrier
-        TunnelingProbability[i] = 1.0 - (1.0 /(1.0 + ( exp (2.0 * Theta( potential, distance , barrier0 - E, mu))))) ;
+        TunnelingProbability[i] = 1.0 - (1.0 /(1.0 + ( exp (2.0 * Theta( m_potential, m_distance , barrier0 - E, m_mu))))) ;
       } else if (E > barrier0) {
         TunnelingProbability[i] = 1.0 ;
       } else {
@@ -105,6 +143,7 @@ namespace mesmer
     return true;
   }
 
+  /*Not used. Now read in ParseData()
   // Read potential barrier details
   bool WKBTunnellingCoefficients::ReadPotential(Reaction* pReact, vector<double> &potential, vector<double> &distance, double &mu) {
 
@@ -168,6 +207,7 @@ namespace mesmer
 
     return true ;
   }
+  */
 
   double WKBTunnellingCoefficients::Theta(const vector<double> &pot, const vector<double> &MEP, int Ene, double mu){
 

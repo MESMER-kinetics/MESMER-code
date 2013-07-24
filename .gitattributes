@@ -629,6 +629,7 @@ qd/tests/tictoc.h -text
 schemas/CMLforMesmer.xsd -text
 schemas/mesmer.xsd -text
 schemas/mesmerPlugins.xsd -text
+schemas/schemaNotes.txt -text
 sketchup/MESMER_USER_README -text
 sketchup/mesmer/bezier.rb -text
 sketchup/mesmer/element.rb -text
@@ -678,6 +679,7 @@ src/Molecule.cpp -text
 src/Molecule.h -text
 src/MoleculeManager.cpp -text
 src/MoleculeManager.h -text
+src/ParseForPlugin.h -text
 src/Persistence.h -text
 src/PseudoIsomerizationReaction.cpp -text
 src/PseudoIsomerizationReaction.h -text

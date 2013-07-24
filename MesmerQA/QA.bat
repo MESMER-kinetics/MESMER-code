@@ -79,10 +79,10 @@ GOTO END
 
 :RUNNING
 
+cd pentyl
 :: display mesmer version
 %executable% -V
 
-cd pentyl
 %executable% pentyl_isomerization_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"

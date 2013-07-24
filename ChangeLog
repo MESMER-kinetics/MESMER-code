@@ -1,4 +1,22 @@
 
+2013-July-24 Chris Morley
+
+	Support for new format of plugin data. Not all plugins done yet.
+	* schemas/mesmer.xsd,schemas/mesmerPlugins.xsd: updated.
+	* schemas/schemaNotes.txt: added.
+	* examplesSchema/*.xml: put into new format (where supported).
+
+	src/plugins/AnalyticalRepresentation.cpp,src/plugins/ExponentialDown.cpp,
+	src/plugins/fitting.cpp,src/plugins/LandauZenerCrossingCoeff.cpp,
+	src/plugins/Marquardt.cpp,src/plugins/WKBCrossingCoeff.cpp,
+	src/plugins/WKBTunnellingCoefficients.cpp: can parse new (and old) format.
+
+	* src/CollisionOperator.cpp,src/MolecularComponents.cpp,src/ParseForPlugin.h,
+	src/Reaction.cpp,src/System.cpp: Use new ParseForPlugin code for new format XML
+
+	MesmerQA/QA.bat: correct display of Mesmer version
+
+
 2013-July-20 Struan Robertson
 	
 	* AnalyticalRepresentation.cpp: Addition of basic class structure for the 

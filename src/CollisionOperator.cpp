@@ -1171,8 +1171,12 @@ namespace mesmer
         ss1 << "\nThe last CSE = " << last_CSE << " and the first IERE = " << first_IERE << endl;
         ss1 << "(last CSE)/(first IERE) ratio = " << CSE_IERE_separation << ", which is less than an order of magnitude" << endl;
         ss1 << "\nResults obtained from Bartis Widom eigenvalue-vector analysis may be unreliable" << endl;
-        ctest << ss1.str() ;
-        ppList->XmlWriteValueElement("me:warning", ss1.str());
+        string s(ss1.str());
+        ctest << s ;
+        //replace tabs and line feeds (bad for XML) by spaces
+        replace(s.begin(), s.end(), '\t', ' ');
+        replace(s.begin(), s.end(), '\n', ' ');
+        ppList->XmlWriteValueElement("me:warning", s);
       }
 
       for(size_t i(0); i<nchem; ++i){

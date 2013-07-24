@@ -234,7 +234,8 @@ namespace mesmer
       m_SpinMultiplicity = pp->XmlReadInteger("spinMultiplicity");
     m_SpinMultiplicity_chk = 0;
 
-    ReadDOSMethods();
+    if(!ReadDOSMethods())
+      throw(std::runtime_error(""));
 
     // Check whether the molecule has the correct number of degrees of freedom.
     if (!m_host->checkDegOfFreedom()){

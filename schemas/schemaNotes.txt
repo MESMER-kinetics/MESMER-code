@@ -1,0 +1,69 @@
+Changes to the format of mesmer data files so schemas can be used
+
+* Attribute names are better unqualified.
+Using this style fits better with CML and common XML practice.
+So 
+  <me:PTpair units="PPCC" P="30.0e16" T="720.">
+rather than
+  <me:PTpair me:units="PPCC" me:P="30.0e16" me:T="720.">
+
+However, it has been necessary to introduce a qualified attribute name
+to handle plugins with data (see below), as in
+  xsi:type="me:HinderedRotorQM1D"
+
+The attribute name me:type is replaced by role (which already appears in CML)
+So
+  <molecule ref="O2" me:type="excessReactant" />
+becomes
+  <molecule ref="O2" role="excessReactant" />
+
+* <title> <description> <ref> used in Mesmer are not CML elements
+(just CML attributes) and so
+  <me:title> <me:description> and <me:ref> should be used instead.
+
+Because it is not possible to add validatable extra structure to CML elements
+it has be necessary to use <me:molecule> rather than <molecule> in 
+  <me:InitialPopulation>
+    <me:molecule ref="cyclopropene" population="1.0" />
+  </me:InitialPopulation>
+
+* The <mesmer> element should have an extra attribute xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+This is used as an extensible way of validating the elements of
+those plugins which have their own data.
+
+* Plugins with data should have the data as sub-elements of the plugin type. So
+  <me:MCRCMethod>MesmerILT</me:MCRCMethod>
+  <me:preExponential lower="0.9e-11" upper="9e-11" stepsize="1e-12">6.78e-11</me:preExponential>
+  <me:activationEnergy>0.0001</me:activationEnergy>
+becomes
+  <me:MCRCMethod name="MesmerILT" xsi:type="MesmerILT"> 
+    <me:preExponential lower="0.9e-11" upper="9e-11" stepsize="1e-12">6.78e-11</me:preExponential>
+    <me:activationEnergy>0.0001</me:activationEnergy>
+  </me:MCRCMethod>
+
+  Plugins without data can continue to use the old format:
+    <me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
+  but writing a schema that validates this has not proved possible.
+  So use the new form even without data:
+    <me:MCRCMethod name="SimpleRRKM"/>
+  Mesmer can still parse the old form, with or without data.
+
+* The CML schema CMLschema3.xsd has been modified in a few places,
+making it slightly less restrictive. Search for "MESMER" in CMLforMESMER.xsd.
+
+* The molecule names in MESMER (attribute id in <molecule> and ref elswhere)
+do not always conform to the requirement in CML which is that they should start
+with a letter or an underscore, contain only ASCII letter and numbers plus '-'
+and '_' i.e. with no other punctuation or whitespace. In addition they can have
+a prefix (like opt1:TS2). This has been relaxed for Mesmer but it would be good
+practice to make new names conform.
+
+* Use lower camel case for new element and attribute names (except for obvious
+abreviations like the attributes P and T). This helps to make the capitalisation
+more predictable. So me:initialPopulation would have been better than
+me:InitialPopulation, but me:MCRCMethod is ok. 
+
+
+
+H=H2,T+T2.xml
+Should me:IRCPotential be more obviously a plugin?

@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <iterator>
 #include <iostream>
+#include "Persistence.h"
 
 namespace mesmer
 {
@@ -41,6 +42,9 @@ public:
 
   //getID() is public because sometimes used externally
   virtual const char* getID()=0;
+
+  //Get the plugin to parse its data. Plugins with no data use the default here.
+  virtual bool ParseData(PersistPtr pp){ return true; }
 
   // Print out full case versions of ID and TypeID
   // and additionally Description() and typeDescription() if verbose is true.
