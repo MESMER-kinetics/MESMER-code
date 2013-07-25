@@ -167,6 +167,7 @@ SRCS := \
 	unitsConversion.cpp \
 	vector3.cpp \
 	XMLPersist.cpp \
+	plugins/AnalyticalRepresentation.cpp \
 	plugins/BeyerSwinehart.cpp \
 	plugins/BoltzmannDistribution.cpp	\
 	plugins/ClassicalRotor.cpp \

@@ -268,7 +268,7 @@ namespace mesmer
     if (!m_pMicroRateCalculator->ReadParameters(this)) return false;
     
     PersistPtr ppTS = get_TransitionState() ? 
-        get_TransitionState()->get_PersistentPointer() : NULL;
+        get_TransitionState()->get_PersistentPointer() : PersistPtr();
       
     // Determine the method of estimating crossing coefficients.
     m_pTunnelingCalculator = ParseForPlugin<TunnelingCalculator>("me:tunneling", ppReac,

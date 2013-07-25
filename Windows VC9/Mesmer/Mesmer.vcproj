@@ -181,6 +181,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\src\plugins\AnalyticalRepresentation.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\AssignMolTypes.cpp"
 				>
 			</File>
@@ -532,6 +536,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\PseudoIsomerizationReaction.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\qd_test.h"
 				>
 			</File>
 			<File
