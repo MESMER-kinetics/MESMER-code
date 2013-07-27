@@ -1,3 +1,7 @@
+2013-July-20 Struan Robertson
+	
+	* CollisionOperator.cpp, System.cpp: Bug fix for grain size/grain number
+	change with temperature (modified from Robin's original).
 
 2013-July-24 Chris Morley
 
@@ -15,7 +19,6 @@
 	src/Reaction.cpp,src/System.cpp: Use new ParseForPlugin code for new format XML
 
 	MesmerQA/QA.bat: correct display of Mesmer version
-
 
 2013-July-20 Struan Robertson
 	

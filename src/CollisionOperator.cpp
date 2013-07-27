@@ -279,6 +279,9 @@ namespace mesmer
     //  - The required total energy domain extends from the lowest zero point energy of the lowest molecule
     //  to 10 k_B T above the highest.
 
+	static bool bcalGrainSize(false) ;
+	static bool bcalGrainNum(false) ;
+
     mEnv.EMin = minEne;
     mEnv.EMax = maxEne;
 
@@ -289,17 +292,25 @@ namespace mesmer
     const double thermalEnergy = (mFlags.useTheSameCellNumber) ? MaximumTemperature * boltzmann_RCpK : 1.0/mEnv.beta ;
     mEnv.EMax += mEnv.EAboveHill * thermalEnergy;
 
-    if (mEnv.MaxGrn>0.0 && mEnv.GrainSize<=0.0){
+	//Reset max grain and grain size unless they have been specified in the conditions section
+	if (bcalGrainNum)  mEnv.MaxGrn=0 ;
+	if (bcalGrainSize) mEnv.GrainSize=0;
+
+    if (mEnv.MaxGrn>0 && mEnv.GrainSize<=0){
       mEnv.GrainSize = int((mEnv.EMax-mEnv.EMin)/double(mEnv.MaxGrn)) + 1; 
-    }else  if (mEnv.GrainSize > 0.0 && mEnv.MaxGrn<=0.0){
+	  bcalGrainSize = true ;
+    } else if (mEnv.GrainSize > 0 && mEnv.MaxGrn<=0){
       mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
-    }else  if (mEnv.GrainSize <= 0.0 && mEnv.MaxGrn<=0.0){
+	  bcalGrainNum = true ;
+    } else if (mEnv.GrainSize <= 0 && mEnv.MaxGrn<=0){
       mEnv.GrainSize = 100; //default 100cm-1
       cerr << "Grain size was invalid. Reset grain size to default: 100" << once << endl;
       mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
-    }else  if (mEnv.GrainSize > 0.0 && mEnv.MaxGrn > 0.0){
+	  bcalGrainNum = true ;
+    } else if (mEnv.GrainSize > 0 && mEnv.MaxGrn > 0){
       cerr << "Both grain size and number of grains specified. Grain size used" << once << endl;
       mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
+	  bcalGrainNum = true ;
     }
 
     mEnv.MaxCell = mEnv.GrainSize * mEnv.MaxGrn;

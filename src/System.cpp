@@ -146,7 +146,7 @@ namespace mesmer
     //m_CalcMethod = CalcMethod::GetCalcMethod(ppControl,task);
     //if(!m_CalcMethod)
     //  return false;
-    
+
     m_CalcMethod = ParseForPlugin<CalcMethod>("me:calcMethod", ppControl);
     if(!m_CalcMethod)
       return false;
@@ -169,10 +169,17 @@ namespace mesmer
     while(!(ppParams = ppIOPtr->XmlMoveTo("me:modelParameters")))
       ppIOPtr->XmlWriteElement("me:modelParameters");
 
-    m_Env.MaxGrn             = ppParams->XmlReadInteger("me:numberOfGrains",optional);
-    if(IsNan(m_Env.MaxGrn))
-      m_Env.MaxGrn=0;
-    m_Env.GrainSize          = ppParams->XmlReadInteger("me:grainSize", optional);
+	// The grain size and grain number are linked via the total maximum energy,
+	// so only on of then is independent. Look for grain size first and if that
+	// fails look for the Max. number of grains.
+
+    m_Env.GrainSize = ppParams->XmlReadInteger("me:grainSize", optional);
+    if (m_Env.GrainSize==0) {      
+      m_Env.MaxGrn = ppParams->XmlReadInteger("me:numberOfGrains",optional);
+      if (IsNan(m_Env.MaxGrn))
+        m_Env.MaxGrn=0;
+    }
+
     m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
     if(IsNan(m_Env.MaximumTemperature))
       m_Env.MaximumTemperature = 0.0;
@@ -736,7 +743,7 @@ namespace mesmer
   // over all PT values, constant parameters
   bool System::calculate(vector<double> &Temperature, vector<double> &Pressure, vector<double> &RateCoefficients)
   {
-	return true ;
+    return true ;
   }
 
   double System::calcChiSqRateCoefficients(const qdMatrix& mesmerRates,  const CandTpair& expData, stringstream &rateCoeffTable, vector<double> &residuals){
