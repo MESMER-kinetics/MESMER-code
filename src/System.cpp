@@ -169,9 +169,9 @@ namespace mesmer
     while(!(ppParams = ppIOPtr->XmlMoveTo("me:modelParameters")))
       ppIOPtr->XmlWriteElement("me:modelParameters");
 
-	// The grain size and grain number are linked via the total maximum energy,
-	// so only on of then is independent. Look for grain size first and if that
-	// fails look for the Max. number of grains.
+    // The grain size and grain number are linked via the total maximum energy,
+    // so only on of then is independent. Look for grain size first and if that
+    // fails look for the Max. number of grains.
 
     m_Env.GrainSize = ppParams->XmlReadInteger("me:grainSize", optional);
     if (m_Env.GrainSize==0) {      
@@ -420,6 +420,17 @@ namespace mesmer
         this_units = default_unit;
       }
 
+	  Precision precision ;
+      txt = ppPTset->XmlReadValue("precision", optional);
+      if(!txt)
+        txt = ppPTset->XmlReadValue("me:precision", optional);
+      if (txt)
+        this_units = txt;
+      if (!txt){
+        cerr << "No precision specified. Default double used.";
+        precision = DOUBLE ;
+      }
+
       // **NEED TO SORT OUT DEFAULT PRESSURE TEMPERATURE AND UNITS**
       // If user does not input any value for temperature and concentration,
       // give a Default set of concentration and pressurefor simulation.
@@ -428,9 +439,10 @@ namespace mesmer
       if(!ReadRange("me:Prange", Pvals, ppPTset)) Pvals.push_back(default_P);
       if(!ReadRange("me:Trange", Tvals, ppPTset)) Tvals.push_back(default_T);
 
+      const char* bathGasName = getMoleculeManager()->get_BathGasName().c_str();
       for (size_t i(0) ; i < Pvals.size(); ++i){
         for (size_t j(0) ; j < Tvals.size(); ++j){
-          CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j]);
+          CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j], precision, bathGasName);
           PandTs.push_back(thisPair);
         }
       }
@@ -481,7 +493,7 @@ namespace mesmer
       const char* bathGasName = ppPTpair->XmlReadValue("me:bathGas", optional);
       if(!bathGasName) // if not specified use the general bath gas molecule name
         bathGasName = getMoleculeManager()->get_BathGasName().c_str();
-      CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision,bathGasName);
+      CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision, bathGasName);
       cinfo << this_P << this_units << ", " << this_T << "K at " << txt 
         << " precision" << " with " << bathGasName << endl; 
 
@@ -606,10 +618,8 @@ namespace mesmer
 
     for (calPoint = 0; calPoint < PandTs.size(); ++calPoint) {
 
-      m_Env.beta = 1.0 / (boltzmann_RCpK * PandTs[calPoint].get_temperature()) ; //temporary statements
-      m_Env.conc = PandTs[calPoint].get_concentration();
-      // unit of conc: particles per cubic centimeter
-
+      m_Env.beta = 1.0 / (boltzmann_RCpK * PandTs[calPoint].get_temperature()) ; 
+      m_Env.conc = PandTs[calPoint].get_concentration(); // unit of conc: particles per cubic centimeter
       m_Env.bathGasName = PandTs[calPoint].getBathGasName();
 
       if (writeReport) {cinfo << "PT Grid " << calPoint << endl;}
@@ -655,9 +665,6 @@ namespace mesmer
             cinfo << " -- Time elapsed: " << timeElapsed << " seconds.";
           cinfo << endl;
         }
-
-        // Locate all sink terms.
-        m_collisionOperator.locateSinks() ;
 
         if (!m_Env.useBasisSetMethod) {
 
@@ -739,10 +746,41 @@ namespace mesmer
   }
 
   //
-  // Begin calculation.
-  // over all PT values, constant parameters
-  bool System::calculate(vector<double> &Temperature, vector<double> &Pressure, vector<double> &RateCoefficients)
+  // Calculate rate coefficients for conditions other than those 
+  // supplied directly by user e.g. for analytical representation.
+  //
+  bool System::calculate(vector<double> &Temperature, vector<double> &Concentration, vector<qdMatrix *> &RateCoefficients)
   {
+
+	m_Flags.printEigenValuesNum = 0 ;
+    for (size_t calPoint = 0; calPoint < PandTs.size(); ++calPoint) {
+
+      double temp = PandTs[calPoint].get_temperature() ; 
+      m_Env.beta = 1.0 / (boltzmann_RCpK * temp) ;
+      Temperature.push_back(temp) ;
+
+      m_Env.conc = PandTs[calPoint].get_concentration(); // unit of conc: particles per cubic centimeter
+      Concentration.push_back(m_Env.conc) ;
+
+      m_Env.bathGasName = PandTs[calPoint].getBathGasName();
+
+      // Build collison matrix for system.
+      if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags))
+        throw (std::runtime_error("Failed building system collison operator.")); 
+
+      if (!m_collisionOperator.calculateEquilibriumFractions())
+        throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
+
+      // Diagonalise the collision operator.
+      Precision precision = PandTs[calPoint].get_precision();
+      m_collisionOperator.diagReactionOperator(m_Flags, m_Env, precision) ;
+
+      // Calculate rate coefficients.
+      qdMatrix *bwRateCoeff  = new qdMatrix(1) ;
+      m_collisionOperator.BartisWidomPhenomenologicalRates((*bwRateCoeff), m_Flags);
+      RateCoefficients.push_back(bwRateCoeff) ;
+    }
+
     return true ;
   }
 
@@ -777,7 +815,7 @@ namespace mesmer
       // Is a bimolecular rate coefficient required?
 
       Reaction *reaction = m_pReactionManager->find(refReaction) ;
-      if (reaction && reaction->getReactionType() == ASSOCIATION ) {
+      if (reaction && (reaction->getReactionType() == ASSOCIATION || reaction->getReactionType() == PSEUDOISOMERIZATION)) {
         double concExcessReactant = reaction->get_concExcessReactant() ;
 
         // Test concentration and reaction sense.

@@ -38,17 +38,17 @@ namespace mesmer
     bool calculateEquilibriumFractions() ;
 
     // Build reaction operator for system.
-    bool BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags, bool writeReport) ;
+    bool BuildReactionOperator(MesmerEnv &mEnv, MesmerFlags& mFlags, bool writeReport = false) ;
 
     // Diagonalize the reaction operator.
     void diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv,
-      Precision precision, PersistPtr ppAnalysis) ;
+      Precision precision, PersistPtr ppAnalysis = NULL) ;
 
     // Calculate the time evolution of the system
     bool timeEvolution(MesmerFlags& mFlags,PersistPtr ppAnalysis, PersistPtr ppPopList, PersistPtr ppAvEList);
 
     // Calculates the Bartis-Widom macroscopic rate coefficients.
-    bool BartisWidomPhenomenologicalRates(qdMatrix& rates, MesmerFlags& mFlags, PersistPtr ppBase);
+    bool BartisWidomPhenomenologicalRates(qdMatrix& rates, MesmerFlags& mFlags, PersistPtr ppBase = NULL);
 
     // Calculates the Bartis-Widom macroscopic rate coefficients, using the contracted basis set eigenvectors.
     bool BartisWidomBasisSetRates(qdMatrix& rates, MesmerFlags& mFlags);
@@ -60,10 +60,6 @@ namespace mesmer
 
     // Accessor to get specified eigenvalue.
     double getEigenvalue(size_t idEigenvalue) const ;
-
-    // This method locates all sinks and determines their location in the relevant
-    // isomer or source map. 
-    void locateSinks() ;
 
     // Calculate Yields
     void calculateYields (YieldMap &yieldMap, double &time) const ;
@@ -86,6 +82,9 @@ namespace mesmer
 
     // Construct a transition matrix based on collision operator eigenfunctions.
     void constructBasisMatrix(void);
+
+    // Locate all sinks in the relevant isomer or source map. 
+    void locateSinks() ;
 
     void printReactionOperator(const MesmerFlags &mFlags);
 

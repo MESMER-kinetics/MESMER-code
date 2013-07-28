@@ -57,7 +57,7 @@ namespace mesmer
 	} ;
 
 	// Begin single calculation.
-    bool calculate(vector<double> &Temperature, vector<double> &Pressure, vector<double> &RateCoefficients) ;
+    bool calculate(vector<double> &Temperature, vector<double> &Pressure, vector<qdMatrix *> &RateCoefficients) ;
 
 	// Print system configuration
     void configuration(void);

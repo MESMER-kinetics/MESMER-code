@@ -41,8 +41,8 @@ namespace mesmer
   private:
 
     const char* m_id;
-    unsigned m_maxIterations;
-    double m_tol;
+    string m_format ;
+    string m_reactionRef ;
 
   };
 
@@ -64,8 +64,9 @@ namespace mesmer
     </me:control>
     */
     //Read in fitting parameters, or use values from defaults.xml.
-    m_maxIterations= pp->XmlReadInteger("me:fittingIterations");
-    m_tol = pp->XmlReadDouble("me:fittingTolerance");
+
+	m_format      = pp->XmlReadValue("me:analyticalRepType");
+    m_reactionRef = pp->XmlReadValue("me:analyticalRepRef");
 
     // Read in parameter constraints.
     //ReadParameterConstraints(ppControl) ;
@@ -87,7 +88,19 @@ namespace mesmer
 
 	double chiSquare(0.0) ;
 
-    pSys->calculate(chiSquare) ;
+	// First gets some points.
+
+	vector<double> Temperature;
+	vector<double> Concentration;
+	vector<qdMatrix *> RateCoefficients;
+
+    pSys->calculate(Temperature, Concentration, RateCoefficients) ;
+
+	// Release rate coefficient data.
+
+	for (size_t i(0) ; i < RateCoefficients.size() ; i++) {
+	  delete RateCoefficients[i] ;
+	}
 
     return true;
   }

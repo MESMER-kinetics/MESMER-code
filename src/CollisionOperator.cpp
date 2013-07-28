@@ -235,6 +235,9 @@ namespace mesmer
         (*m_pReactionManager)[i]->updateSourceMap(m_sources) ;
       }
 
+      // Locate all sink terms.
+      locateSinks() ;
+
       // Build reaction operator.
       //
       // One of two methods for building the reaction operator are available:
@@ -657,21 +660,27 @@ namespace mesmer
       if (mFlags.printEigenValuesNum > 0 && mFlags.printEigenValuesNum <= int(smsize))
         numberStarted = smsize - mFlags.printEigenValuesNum;
 
-      PersistPtr ppEigenList = ppAnalysis->XmlWriteElement("me:eigenvalueList");
-      ppEigenList->XmlWriteAttribute("number",toString(smsize));
-      ppEigenList->XmlWriteAttribute("selection",
-        mFlags.printEigenValuesNum!=-1 ? toString(mFlags.printEigenValuesNum) : "all");
-      ctest << "\nTotal number of eigenvalues = " << smsize << endl;
+	  ctest << "\nTotal number of eigenvalues = " << smsize << endl;
       ctest << "Eigenvalues\n{\n";
       for (size_t i = numberStarted ; i < smsize; ++i) {
         qd_real tmp = (mEnv.useBasisSetMethod)? m_eigenvalues[i] : m_eigenvalues[i] * m_meanOmega ;
         formatFloat(ctest, tmp, 6, 15) ;
         ctest << endl ;
-        ppEigenList->XmlWriteValueElement("me:eigenvalue", to_double(tmp), 6);
       }
       ctest << "}\n";
 
-      if (mFlags.printEigenVectors) {
+	  if (ppAnalysis) {
+		PersistPtr ppEigenList = ppAnalysis->XmlWriteElement("me:eigenvalueList");
+		ppEigenList->XmlWriteAttribute("number",toString(smsize));
+		ppEigenList->XmlWriteAttribute("selection",
+		  mFlags.printEigenValuesNum!=-1 ? toString(mFlags.printEigenValuesNum) : "all");
+		  for (size_t i = numberStarted ; i < smsize; ++i) {
+			qd_real tmp = (mEnv.useBasisSetMethod)? m_eigenvalues[i] : m_eigenvalues[i] * m_meanOmega ;
+			ppEigenList->XmlWriteValueElement("me:eigenvalue", to_double(tmp), 6);
+		  }
+	  }
+
+	  if (mFlags.printEigenVectors) {
         string title("Eigenvectors:") ;
         m_eigenvectors->print(title, ctest, -1, -1, -1, numberStarted) ;
       }
@@ -1187,7 +1196,7 @@ namespace mesmer
         //replace tabs and line feeds (bad for XML) by spaces
         replace(s.begin(), s.end(), '\t', ' ');
         replace(s.begin(), s.end(), '\n', ' ');
-        ppList->XmlWriteValueElement("me:warning", s);
+        if (ppList) ppList->XmlWriteValueElement("me:warning", s);
       }
 
       for(size_t i(0); i<nchem; ++i){
@@ -1325,7 +1334,7 @@ namespace mesmer
       qdMatrix Kp(max(nsinks,nchem),0.0);
       if (nsinks > 0) {
         for(size_t i(0); i != nsinks; ++i){    // calculate Kp (definition taken from PCCP 2007(9), p.4085)
-          for(size_t j(0);j<nchem;++j){
+          for(size_t j(0) ; j<nchem;++j){
             qd_real sm = 0.0;
             for(size_t k(0);k<nchem;++k){
               sm += Y_matrix[i][k] * Zinv[k][j];
@@ -1362,9 +1371,10 @@ namespace mesmer
       int losspos = lossitr->second;
       string isomerName = iso->getName();
       ctest << isomerName << " loss = " << Kr[losspos][losspos] << endl;
-      PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", to_double(Kr[losspos][losspos]));
-      ppItem->XmlWriteAttribute("ref", isomerName);
-
+	  if (ppList) {
+		PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", to_double(Kr[losspos][losspos]));
+		ppItem->XmlWriteAttribute("ref", isomerName);
+	  }
       puNumbers << Kr[losspos][losspos] << "\t";
       if (m_punchSymbolGathered == false){
         puSymbols << isomerName << " loss\t";
@@ -1386,11 +1396,12 @@ namespace mesmer
           int pdtpos = pdtitr->second;
           if(rctpos != pdtpos){
             ctest << rctName << " -> " << pdtName << " = " << Kr[pdtpos][rctpos] << endl;
-
-            PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kr[pdtpos][rctpos]));
-            ppItem->XmlWriteAttribute("fromRef", rctName);
-            ppItem->XmlWriteAttribute("toRef",   pdtName);
-            ppItem->XmlWriteAttribute("reactionType", "isomerization");
+			if (ppList) {
+			  PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kr[pdtpos][rctpos]));
+			  ppItem->XmlWriteAttribute("fromRef", rctName);
+			  ppItem->XmlWriteAttribute("toRef",   pdtName);
+			  ppItem->XmlWriteAttribute("reactionType", "isomerization");
+			}
           }
 
           puNumbers << Kr[pdtpos][rctpos] << "\t";
@@ -1402,7 +1413,7 @@ namespace mesmer
       ctest << "}\n";
     }
 
-    if(m_sinkRxns.size()!=0){
+    if (m_sinkRxns.size()!=0) {
       ctest << "\nFirst order & pseudo first order rate coefficients for irreversible rxns:\n{\n";
       sinkMap::iterator sinkitr = m_sinkRxns.begin();
 
@@ -1411,7 +1422,7 @@ namespace mesmer
         vector<Molecule*> pdts;
         sinkReaction->get_products(pdts);
         string pdtsName = pdts[0]->getName();
-        if (pdts.size() == 2) {pdtsName += + "+"; pdtsName += pdts[1]->getName();}
+        if (pdts.size() == 2) {pdtsName += "+"; pdtsName += pdts[1]->getName();}
         for(rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
           Molecule* rcts = rctitr->first;     // get reactants & their position
           int rctpos = rctitr->second;
@@ -1423,14 +1434,15 @@ namespace mesmer
             }
           } else {
             string rctName = rcts->getName();
-
             ctest << rctName << " -> "  << pdtsName << " = " << Kp[sinkpos][rctpos] << endl;
 
-            PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kp[sinkpos][rctpos]));
-            ppItem->XmlWriteAttribute("fromRef", rctName);
-            ppItem->XmlWriteAttribute("toRef",   pdtsName);
-            ppItem->XmlWriteAttribute("reactionType", "irreversible");
-            puNumbers << Kp[sinkpos][rctpos] << "\t";
+			if (ppList) {
+			  PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kp[sinkpos][rctpos]));
+			  ppItem->XmlWriteAttribute("fromRef", rctName);
+			  ppItem->XmlWriteAttribute("toRef",   pdtsName);
+			  ppItem->XmlWriteAttribute("reactionType", "irreversible");
+			  puNumbers << Kp[sinkpos][rctpos] << "\t";
+			}
             if (m_punchSymbolGathered == false){
               puSymbols << rctName << " -> " << pdtsName << "\t";
             }

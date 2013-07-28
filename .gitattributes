@@ -404,6 +404,7 @@ examples/diamond/diamond-expDown.xml -text
 examples/diamond/diamond-gaussianModel.xml -text
 examples/i-propyl/baselines/Linux64/mesmer.log -text
 examples/i-propyl/baselines/Win32/mesmer.log -text
+examples/i-propyl/ipropyl_AR.xml -text
 examples/i-propyl/ipropyl_LM.xml -text
 examples/i-propyl/ipropyl_test.xml -text
 examples/makedata.bat -text

@@ -1,4 +1,10 @@
-2013-July-20 Struan Robertson
+2013-July-28 Struan Robertson
+	
+	* CollisionOperator.cpp, System.cpp, AnalyticalRepresentation.cpp: 
+	Addition of method to calculate rate coefficients in bulk as required
+	for analytical representation.
+
+2013-July-27 Struan Robertson
 	
 	* CollisionOperator.cpp, System.cpp: Bug fix for grain size/grain number
 	change with temperature (modified from Robin's original).
