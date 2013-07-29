@@ -107,6 +107,35 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="DefinedSumOfStates">
+    <xs:complexContent>
+      <xs:extension base="MCRCMethodct">
+        <xs:sequence>
+          <xs:element name="SumOfStates">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="SumOfStatesPoint">
+                  <xs:complexType>
+                    <xs:simpleContent>
+                      <xs:extension base="xs:float">
+                        <xs:attribute name="energy" type="xs:float" use="required"/>
+                        <xs:attribute name="angMomMag" type="xs:float" use="optional"/>
+                      </xs:extension>
+                    </xs:simpleContent>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
+              <xs:attribute name="angularMomentum" type="xs:boolean" use="optional"/>
+              <xs:attribute name="noLogSline" type="xs:boolean" use="optional"/>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+
   <xs:complexType name="ExtraDOSCt">
     <xs:sequence></xs:sequence>
     <xs:attribute name="name" type="xs:string" use="optional"/>
@@ -279,6 +308,24 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="Prior">
+    <xs:complexContent>
+      <xs:extension base="distributionMethodct">
+        <xs:sequence>
+          <xs:element name="CoFragment" type="cml:moleculeIDType" minOccurs="1"/>
+          <xs:element name="EnergyExcess" minOccurs="1">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
   <xs:element name="States">
     <xs:complexType>

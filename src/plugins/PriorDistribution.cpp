@@ -30,6 +30,7 @@ namespace mesmer
     virtual ~PriorDistribution() {}
     virtual const char* getID()  { return m_id; }
 
+    virtual bool ParseData(PersistPtr pp);
     virtual bool calculateDistribution( Molecule* m_host, std::vector<double>& distribution);
 
   private:
@@ -39,13 +40,33 @@ namespace mesmer
     void GetGrainAveragedDistribution(const vector<double>& DOS, vector<double>& dist,  Molecule* m_host);
 
     const char* m_id;
-
+    string m_CoFragmentName;
+    int m_XsEne;
   };
 
   //************************************************************
-  //Global instance, defining its id (usually the only instance)
+  //Global instance, defining its id
   PriorDistribution thePriorDistribution("Prior");
   //************************************************************
+
+  bool PriorDistribution::ParseData(PersistPtr pp)
+  {
+    m_CoFragmentName = pp->XmlReadValue("me:CoFragment",optional);
+    if (!m_CoFragmentName.length())
+    {
+      cerr << "No Co-fragment name specified for Prior distribution." << endl;
+      return false;
+    }
+
+    double Xs = pp->XmlReadDouble("me:EnergyExcess");
+    const char* p = pp->XmlReadValue("units", optional);
+    string units = p ? p : "cm-1";
+    m_XsEne = static_cast<int> (getConvertedEnergy(units, Xs));
+
+    //Making a molecule from m_CoFragmentName and checking energy is done
+    //in calculateDistribution() because the current molecule is not available here.
+    return true;
+  }
 
   bool PriorDistribution::calculateDistribution(Molecule* m_host, std::vector<double>& dist) {
 
@@ -56,15 +77,15 @@ namespace mesmer
 
     // Get the rovibrational Density of states for the Cofragment in the prior distribution
 
-    PersistPtr pp = m_host->get_PersistentPointer();
-    pp = pp->XmlMoveTo("me:DistributionCalcMethod");
+    //PersistPtr pp = m_host->get_PersistentPointer();
+    //pp = pp->XmlMoveTo("me:DistributionCalcMethod");
 
-    string MolName(pp->XmlReadValue("CoFragment")) ;
-    if (!MolName.length()) {
-      throw std::runtime_error("No Co-fragment name specified for Prior distribution.");
-    }
+    //string MolName(pp->XmlReadValue("CoFragment")) ;
+    //if (!MolName.length()) {
+    //  throw std::runtime_error("No Co-fragment name specified for Prior distribution.");
+    //}
     MesmerFlags& Flags = const_cast<MesmerFlags&>(m_host->getFlags());
-    Molecule *pMol = m_host->getMoleculeManager()->addmol(MolName, "PriorCoFragment", m_host->getEnv(), Flags) ;
+    Molecule *pMol = m_host->getMoleculeManager()->addmol(m_CoFragmentName, "PriorCoFragment", m_host->getEnv(), Flags) ;
     vector<double> DOS2; 
     if (pMol) {
       pMol->getDOS().getCellDensityOfStates(DOS2);
@@ -72,12 +93,11 @@ namespace mesmer
       throw std::runtime_error("Co-fragment molecule could not be instantiated for Prior distribution.");
     }
 
-    // Get the excess energy
-
-    double Xs = pp->XmlReadDouble("EnergyExcess");
-    const char* p = pp->XmlReadValue("units", optional);
-    string units = p ? p : "cm-1";
-    int XsEne = static_cast<int> (getConvertedEnergy(units, Xs));
+    //// Get the excess energy
+    //double Xs = pp->XmlReadDouble("EnergyExcess");
+    //const char* p = pp->XmlReadValue("units", optional);
+    //string units = p ? p : "cm-1";
+    //int XsEne = static_cast<int> (getConvertedEnergy(units, Xs));
 
     // Get average cell energies
 
@@ -86,43 +106,43 @@ namespace mesmer
 
     // Make sure Excess energy is not larger that the energy of the highest cell.
 
-    if (XsEne > MaximumCell) {
+    if (m_XsEne > MaximumCell) {
       cwarn << "Excess energy in prior distribution greater that highest cell energy in master equation";
-      XsEne = MaximumCell;
+      m_XsEne = MaximumCell;
     }
 
     // The (classical) translational density of states. Prefactors are not included 
 	// because they cancel on normalization.
 
     vector<double> Trans_DOS ;
-	getCellEnergies(XsEne, Trans_DOS) ;
-    for (int i(0) ; i < XsEne ; i++) {
+	getCellEnergies(m_XsEne, Trans_DOS) ;
+    for (int i(0) ; i < m_XsEne ; i++) {
       Trans_DOS[i] = sqrt(Trans_DOS[i]) ;
     }
 
     // Resize rovibrational DOS vectors so densities so energies greater than the XsEne are not considered.
 
-    DOS1.resize(XsEne);
-    DOS2.resize(XsEne);
+    DOS1.resize(m_XsEne);
+    DOS2.resize(m_XsEne);
 
     // Get cell prior distribution for Reactant.
 
-    vector<double> ReactCellDist(XsEne, 0.0) ;
+    vector<double> ReactCellDist(m_XsEne, 0.0) ;
     GetNormalisedDist(DOS1, DOS2, Trans_DOS, ReactCellDist);
 
     // Print cell distribution if Flag present
 
     if (m_host->getFlags().InitialDistEnabled){
 
-      vector<double> CoReactCellDist(XsEne, 0.0) ;
+      vector<double> CoReactCellDist(m_XsEne, 0.0) ;
       GetNormalisedDist(DOS2, DOS1, Trans_DOS, CoReactCellDist);
 
-      vector<double> TransCellDist(XsEne, 0.0) ;
+      vector<double> TransCellDist(m_XsEne, 0.0) ;
       GetNormalisedDist(Trans_DOS, DOS2, DOS1, TransCellDist);
 
       ctest << "\nInitial distribution vector" << endl ;
       ctest << "\nReactant\tCoProduct\tTranslational" << endl ;
-      for (int i=0; i < XsEne; i++){
+      for (int i=0; i < m_XsEne; i++){
         formatFloat(ctest, ReactCellDist[i],    6, 15) ;
         formatFloat(ctest,  CoReactCellDist[i], 6, 15) ;
         formatFloat(ctest, TransCellDist[i],    6, 15) ;

@@ -8,6 +8,7 @@
 #include <cmath>
 #include "Molecule.h"
 #include "System.h"
+#include "ParseForPlugin.h"
 
 using namespace std;
 using namespace Constants;
@@ -1208,26 +1209,30 @@ namespace mesmer
 
   bool gWellProperties::initialization(){
 
-    // Determine the method of DOS calculation.
-
+    // Determine the method of DOS calculation or use method from defaults.xml.
+    // Read and parse data if any is required.
     PersistPtr pp = m_host->get_PersistentPointer();
-    const char* pDistCalcMethodtxt = pp->XmlReadValue("me:DistributionCalcMethod") ;
-    if(pDistCalcMethodtxt)
-    {
-      m_pDistributionCalculator = DistributionCalculator::Find(pDistCalcMethodtxt);
-      if(!m_pDistributionCalculator) // if the provided method cannot be found,
-      {
-        cinfo << "Unknown method " << pDistCalcMethodtxt
-          << " for the calculation of distribution fraction. Please check spelling error. Default method <Boltzmann> is used." << endl;
-        pDistCalcMethodtxt = "Boltzmann";
-        m_pDistributionCalculator = DistributionCalculator::Find(pDistCalcMethodtxt);
-      }
-    }
-    else{ // if no method is provided.
-      cinfo << "No method for the calculation of distribution fraction is provided in " << m_host->getName() << ". Default method <Boltzmann> is used." << endl;
-      pDistCalcMethodtxt = "Boltzmann"; // must exist
-      m_pDistributionCalculator = DistributionCalculator::Find(pDistCalcMethodtxt);
-    }
+    m_pDistributionCalculator 
+      = ParseForPlugin<DistributionCalculator>("me:DistributionCalcMethod", pp);
+
+    //PersistPtr pp = m_host->get_PersistentPointer();
+    //const char* pDistCalcMethodtxt = pp->XmlReadValue("me:DistributionCalcMethod") ;
+    //if(pDistCalcMethodtxt)
+    //{
+    //  m_pDistributionCalculator = DistributionCalculator::Find(pDistCalcMethodtxt);
+    //  if(!m_pDistributionCalculator) // if the provided method cannot be found,
+    //  {
+    //    cinfo << "Unknown method " << pDistCalcMethodtxt
+    //      << " for the calculation of distribution fraction. Please check spelling error. Default method <Boltzmann> is used." << endl;
+    //    pDistCalcMethodtxt = "Boltzmann";
+    //    m_pDistributionCalculator = DistributionCalculator::Find(pDistCalcMethodtxt);
+    //  }
+    //}
+    //else{ // if no method is provided.
+    //  cinfo << "No method for the calculation of distribution fraction is provided in " << m_host->getName() << ". Default method <Boltzmann> is used." << endl;
+    //  pDistCalcMethodtxt = "Boltzmann"; // must exist
+    //  m_pDistributionCalculator = DistributionCalculator::Find(pDistCalcMethodtxt);
+    //}
 
     // Specify the energy transfer probability model.
     // The default value is specified in defaults.xml

@@ -262,27 +262,19 @@
   
   <xs:attribute name="default" type="xs:string"/>
 
-  <xs:element name="DistributionCalcMethod">
-    <xs:complexType mixed="true">
-      <xs:simpleContent>
-        <xs:extension base="me:distribCalcName">
-          <xs:attribute name="CoFragment" type="cml:moleculeIDType" use="optional"/>
-          <xs:attribute name="EnergyExcess" type="xs:decimal" use="optional"/>
-          <xs:attribute name="units" type="me:energyUnitsType" use="optional"/>
-          <xs:attribute name="default" type="xs:string" use="optional"/>
-        </xs:extension>
-      </xs:simpleContent>
-    </xs:complexType>
-  </xs:element>
+  <xs:element name="DistributionCalcMethod" type="me:distributionMethodct"/>
   
+  <xs:complexType name="distributionMethodct">
+    <xs:sequence></xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="optional"/>
+    <xs:attribute name="default" use="optional"/>
+  </xs:complexType>
+
   <xs:element name="energyTransferModel">
    <xs:complexType mixed="true">
       <xs:simpleContent>
         <xs:extension base="me:energyTransferModelName">
-          <xs:attribute name="CoFragment" type="cml:moleculeIDType" use="optional"/>
-          <xs:attribute name="EnergyExcess" type="xs:decimal" use="optional"/>
-          <xs:attribute name="units" type="me:energyUnitsType" use="optional"/>
-          <xs:attribute name="default" type="xs:string" use="optional"/>
+          <xs:attribute name="default" use="optional"/>
         </xs:extension>
       </xs:simpleContent>
     </xs:complexType>
