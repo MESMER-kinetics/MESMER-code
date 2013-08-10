@@ -1,3 +1,7 @@
+2013-August-10 Struan Robertson
+	
+	* Sobol.cpp/*.h, UnitTests.cpp: Addition of Sobol random number sequence.
+
 2013-July-28 Struan Robertson
 	
 	* CollisionOperator.cpp, System.cpp, AnalyticalRepresentation.cpp: 

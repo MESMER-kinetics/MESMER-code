@@ -14,6 +14,7 @@
 #include "../MesmerMath.h"
 #include "../Spline.h"
 #include "../dMatrix.h"
+#include "../Sobol.h"
 #include "../qd_test.h"
 
 namespace mesmer
@@ -56,8 +57,10 @@ namespace mesmer
 
     bool Test_Spline() const ;
 
-	template<class T> 
-	bool Test_LinearAlgebra(string precision) const ;
+    bool Test_Sobol() const ;
+
+    template<class T> 
+    bool Test_LinearAlgebra(string precision) const ;
 
     // MEIC tests:
 
@@ -77,7 +80,7 @@ namespace mesmer
 
   private:
 
-	const char* m_id;
+    const char* m_id;
 
   };
 
@@ -103,7 +106,10 @@ namespace mesmer
     // Test Spline class.
     status = ( status && Test_Spline()) ;
 
-	// Test Linear Algebra ;
+    // Test Sobol random number class.
+    status = ( status && Test_Sobol()) ;
+
+    // Test Linear Algebra ;
     status = ( status && Test_LinearAlgebra<double>(string("double"))) ;
     status = ( status && Test_LinearAlgebra<long double>(string("long-double"))) ;
     status = ( status && Test_LinearAlgebra<dd_real>(string("double-double"))) ;
@@ -111,8 +117,8 @@ namespace mesmer
 
     MesmerEnv& Env = pSys->getEnv() ;
     Env.GrainSize  = 100 ; 
-	Env.MaxGrn     = 500 ;
-	Env.MaxCell    = Env.GrainSize * Env.MaxGrn ;
+    Env.MaxGrn     = 500 ;
+    Env.MaxCell    = Env.GrainSize * Env.MaxGrn ;
 
     // MEIC test: Harmonic oscillator.
     Molecule *pMol = pSys->getMoleculeManager()->find("Test Molecule");
@@ -123,7 +129,7 @@ namespace mesmer
     pMol = pSys->getMoleculeManager()->find("AcO2 Harmonic");
     if(!pMol)
       pMol = pSys->getMoleculeManager()->find("AcO2_Harmonic");
-   status = ( status && Test_MEIC_1(pMol)) ;
+    status = ( status && Test_MEIC_1(pMol)) ;
 
     pMol = pSys->getMoleculeManager()->find("AcO2 Anharmonic");
     if(!pMol)
@@ -137,7 +143,7 @@ namespace mesmer
       pMol = pSys->getMoleculeManager()->find("AcO2_Asymmetric_Top");
     status = ( status && Test_MEIC_Rotors(pMol)) ;	
 
-	// Execute QD tests for extended precision.
+    // Execute QD tests for extended precision.
 
     ctest << endl ;
     underlineText("QD Unit Tests.") ;
@@ -145,20 +151,20 @@ namespace mesmer
     ctest << endl ;
     underlineText("double-double tests:") ;
 
-	TestSuite<dd_real> *testdd = new TestSuite<dd_real> ;
+    TestSuite<dd_real> *testdd = new TestSuite<dd_real> ;
 
-	status = ( status && testdd->testall() ) ;
+    status = ( status && testdd->testall() ) ;
 
-	delete testdd ;
+    delete testdd ;
 
     ctest << endl ;
     underlineText("quad-double tests:") ;
 
-	TestSuite<qd_real> *testqd = new TestSuite<qd_real>  ;
+    TestSuite<qd_real> *testqd = new TestSuite<qd_real>  ;
 
-	status = ( status && testqd->testall() ) ;
+    status = ( status && testqd->testall() ) ;
 
-	delete testqd ;
+    delete testqd ;
 
     ctest << endl ;
     if (status) {
@@ -324,117 +330,175 @@ namespace mesmer
 
   }
 
-   template<class T> 
-   bool UnitTests::Test_LinearAlgebra(string precision) const {
+  bool UnitTests::Test_Sobol() const {
 
     bool status(true) ; 
 
     ctest << endl ;
-	const string Title = string("Test: Linear Algebra: ") + precision ; 
-    underlineText(Title) ;
+    underlineText("Test: Sobol random number class.") ;
 
-	// Equilibrium matrix.
-
-	TMatrix<T> Mtx1(3,0.0) ;
-	Mtx1[0][0] = -3.0/2.0 ;
-	Mtx1[0][1] = 1.0 ;
-	Mtx1[1][1] = -10.0/6.0 ;
-	Mtx1[1][2] = 1.0 ;
-	Mtx1[2][0] = 1.0 ;
-	Mtx1[2][1] = 1.0 ;
-	Mtx1[2][2] = 1.0 ;
-
-	string Heading("Test matrix 1") ;
-	Mtx1.print(Heading, ctest) ;
-
-	Mtx1.invertGaussianJordan() ;
-
-	Heading.clear() ;
-	Heading = "Inverse of Test matrix 1" ;
-	Mtx1.print(Heading, ctest) ;
-
-	// Calculate Equilibrum population.
-
-	size_t msize = Mtx1.size() ;
-	vector<T> rhs(msize,0.0) ;
-	rhs[2] = 1.0 ;
-	rhs *= Mtx1 ;
-
-	// Rate coefficient matrix.
-
-	TMatrix<T> Mtx2(msize,0.0) ;
-
-	Mtx2[0][0] = -13.0 ;
-	Mtx2[0][1] =   2.0 ;
-	Mtx2[0][2] =   4.0 ;
-	Mtx2[1][0] =   3.0 ;
-	Mtx2[1][1] = -12.0 ;
-	Mtx2[1][2] =   6.0 ;
-	Mtx2[2][0] =  10.0 ;
-	Mtx2[2][1] =  10.0 ;
-	Mtx2[2][2] = -10.0 ;
-
-	Heading.clear() ;
-	Heading = "Test matrix 2" ;
-	Mtx2.print(Heading, ctest) ;
-
-	// Symmetrize rate coefficient matrix.
-
-	TMatrix<T> Mtx3(msize, 0.0) ;
-	TMatrix<T> Mtx4(Mtx3) ;
-	for (size_t i(0) ; i < msize ; i++) {
-	  Mtx3[i][i] = sqrt(rhs[i]) ;
-	  Mtx4[i][i] = 1.0/Mtx3[i][i] ;
-	  rhs[i] = 0.0 ;
-	}
-
-	TMatrix<T> Mtx5 = Mtx4*Mtx2*Mtx3 ;
-
-	Heading.clear() ;
-	Heading = "Symmetrized test matrix 2" ;
-	Mtx5.print(Heading, ctest) ;
-
-	// Diagonalize symmetrize rate coefficient matrix.
-
-	for (size_t i(0) ; i < msize ; i++) {
-	  for (size_t j(i+1) ; j < msize ; j++) {
-		Mtx3[i][j] = Mtx3[j][i] ;
-	  }
-	}
-
-	Mtx5.diagonalize(&rhs[0]) ;
-
-	Heading.clear() ;
-	Heading = "Eigenvectors of symmetrized test matrix 2" ;
-	Mtx5.print(Heading, ctest) ;
+	Sobol sobol ;
+	const size_t rnsize(3) ;
 
 	ctest << endl ;
-	underlineText("Eigenvalues:") ;
-	for (size_t i(0) ; i < msize ; i++) {
-	  ctest << formatFloat(rhs[i], 5, 15) << endl ;
+    underlineText("Sobol: single precision") ;
+
+	vector<float> rndmf(rnsize,0.0) ;
+	int seed(0) ;
+    for (size_t i(0) ; i < 20 ; i++) {
+      sobol.sobol(rndmf.size(), &seed, rndmf) ;
+      for (size_t j(0) ; j < rndmf.size() ; j++) {
+	    ctest << formatFloat(rndmf[j], 5, 15) ;
+	  }
+	  ctest << endl ;
 	}
 
-	TMatrix<T> Mtx6 = Mtx3*Mtx5 ;
-	Heading.clear() ;
-	Heading = "Right eigenvectors of test matrix 2" ;
-	Mtx6.print(Heading, ctest) ;
+	ctest << endl ;
+    underlineText("Uniform: single precision") ;
 
-	Mtx5.Transpose() ;
-	TMatrix<T> Mtx7 = Mtx5*Mtx4 ;
-	Heading.clear() ;
-	Heading = "Left eigenvectors of test matrix 2" ;
-	Mtx7.print(Heading, ctest) ;
+	seed = 1;
+    for (size_t i(0) ; i < 20 ; i++) {
+      ctest << "   " << sobol.i4_uniform(0, 1000000, &seed) << endl ;
+	}
 
-	TMatrix<T> Mtx8 = Mtx6*Mtx7 ;
-	Heading.clear() ;
-	Heading = "Check: Left * Right = Identity" ;
-	Mtx8.print(Heading, ctest) ;
+	ctest << endl ;
+    underlineText("Sobol: double precision") ;
+
+	vector<double> rndmd(rnsize,0.0) ;
+	long long seed2(0) ;
+    for (size_t i(0) ; i < 20 ; i++) {
+      sobol.sobol(rndmd.size(), &seed2, rndmd) ;
+      for (size_t j(0) ; j < rndmd.size() ; j++) {
+	    ctest << formatFloat(rndmd[j], 5, 15) ;
+	  }
+	  ctest << endl ;
+	}
+
+	ctest << endl ;
+    underlineText("Uniform: double precision") ;
+
+	seed = 1;
+    for (size_t i(0) ; i < 20 ; i++) {
+      ctest << "   " << sobol.i8_uniform(0, 1000000, &seed) << endl ;
+	}
+
+	ctest << endl ;
 
     return status ;
 
-   }
+  }
 
-   bool UnitTests::Test_MEIC_1(Molecule *pMol) const {
+  template<class T> 
+  bool UnitTests::Test_LinearAlgebra(string precision) const {
+
+    bool status(true) ; 
+
+    ctest << endl ;
+    const string Title = string("Test: Linear Algebra: ") + precision ; 
+    underlineText(Title) ;
+
+    // Equilibrium matrix.
+
+    TMatrix<T> Mtx1(3,0.0) ;
+    Mtx1[0][0] = -3.0/2.0 ;
+    Mtx1[0][1] = 1.0 ;
+    Mtx1[1][1] = -10.0/6.0 ;
+    Mtx1[1][2] = 1.0 ;
+    Mtx1[2][0] = 1.0 ;
+    Mtx1[2][1] = 1.0 ;
+    Mtx1[2][2] = 1.0 ;
+
+    string Heading("Test matrix 1") ;
+    Mtx1.print(Heading, ctest) ;
+
+    Mtx1.invertGaussianJordan() ;
+
+    Heading.clear() ;
+    Heading = "Inverse of Test matrix 1" ;
+    Mtx1.print(Heading, ctest) ;
+
+    // Calculate Equilibrum population.
+
+    size_t msize = Mtx1.size() ;
+    vector<T> rhs(msize,0.0) ;
+    rhs[2] = 1.0 ;
+    rhs *= Mtx1 ;
+
+    // Rate coefficient matrix.
+
+    TMatrix<T> Mtx2(msize,0.0) ;
+
+    Mtx2[0][0] = -13.0 ;
+    Mtx2[0][1] =   2.0 ;
+    Mtx2[0][2] =   4.0 ;
+    Mtx2[1][0] =   3.0 ;
+    Mtx2[1][1] = -12.0 ;
+    Mtx2[1][2] =   6.0 ;
+    Mtx2[2][0] =  10.0 ;
+    Mtx2[2][1] =  10.0 ;
+    Mtx2[2][2] = -10.0 ;
+
+    Heading.clear() ;
+    Heading = "Test matrix 2" ;
+    Mtx2.print(Heading, ctest) ;
+
+    // Symmetrize rate coefficient matrix.
+
+    TMatrix<T> Mtx3(msize, 0.0) ;
+    TMatrix<T> Mtx4(Mtx3) ;
+    for (size_t i(0) ; i < msize ; i++) {
+      Mtx3[i][i] = sqrt(rhs[i]) ;
+      Mtx4[i][i] = 1.0/Mtx3[i][i] ;
+      rhs[i] = 0.0 ;
+    }
+
+    TMatrix<T> Mtx5 = Mtx4*Mtx2*Mtx3 ;
+
+    Heading.clear() ;
+    Heading = "Symmetrized test matrix 2" ;
+    Mtx5.print(Heading, ctest) ;
+
+    // Diagonalize symmetrize rate coefficient matrix.
+
+    for (size_t i(0) ; i < msize ; i++) {
+      for (size_t j(i+1) ; j < msize ; j++) {
+        Mtx3[i][j] = Mtx3[j][i] ;
+      }
+    }
+
+    Mtx5.diagonalize(&rhs[0]) ;
+
+    Heading.clear() ;
+    Heading = "Eigenvectors of symmetrized test matrix 2" ;
+    Mtx5.print(Heading, ctest) ;
+
+    ctest << endl ;
+    underlineText("Eigenvalues:") ;
+    for (size_t i(0) ; i < msize ; i++) {
+      ctest << formatFloat(rhs[i], 5, 15) << endl ;
+    }
+
+    TMatrix<T> Mtx6 = Mtx3*Mtx5 ;
+    Heading.clear() ;
+    Heading = "Right eigenvectors of test matrix 2" ;
+    Mtx6.print(Heading, ctest) ;
+
+    Mtx5.Transpose() ;
+    TMatrix<T> Mtx7 = Mtx5*Mtx4 ;
+    Heading.clear() ;
+    Heading = "Left eigenvectors of test matrix 2" ;
+    Mtx7.print(Heading, ctest) ;
+
+    TMatrix<T> Mtx8 = Mtx6*Mtx7 ;
+    Heading.clear() ;
+    Heading = "Check: Left * Right = Identity" ;
+    Mtx8.print(Heading, ctest) ;
+
+    return status ;
+
+  }
+
+  bool UnitTests::Test_MEIC_1(Molecule *pMol) const {
 
     bool status(true) ; 
 

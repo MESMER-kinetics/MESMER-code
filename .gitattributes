@@ -688,6 +688,8 @@ src/Reaction.cpp -text
 src/Reaction.h -text
 src/ReactionManager.cpp -text
 src/ReactionManager.h -text
+src/Sobol.cpp -text
+src/Sobol.h -text
 src/Spline.cpp -text
 src/Spline.h -text
 src/System.cpp -text

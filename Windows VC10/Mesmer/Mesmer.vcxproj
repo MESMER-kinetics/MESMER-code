@@ -139,6 +139,7 @@
     <ClCompile Include="..\..\src\plugins\simplecalc.cpp" />
     <ClCompile Include="..\..\src\plugins\SimpleILT.cpp" />
     <ClCompile Include="..\..\src\plugins\SimpleRRKM.cpp" />
+    <ClCompile Include="..\..\src\sobol.cpp" />
     <ClCompile Include="..\..\src\Spline.cpp" />
     <ClCompile Include="..\..\src\System.cpp" />
     <ClCompile Include="..\..\src\plugins\ThermodynamicTable.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="..\..\src\Rdouble.h" />
     <ClInclude Include="..\..\src\Reaction.h" />
     <ClInclude Include="..\..\src\ReactionManager.h" />
+    <ClInclude Include="..\..\src\sobol.h" />
     <ClInclude Include="..\..\src\Spline.h" />
     <ClInclude Include="..\..\src\System.h" />
     <ClInclude Include="..\..\src\TimeCounter.h" />
