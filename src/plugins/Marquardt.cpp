@@ -42,7 +42,7 @@ namespace mesmer
 
     const char* m_id;
 
-		// Dimension of fit.
+	// Dimension of fit.
     size_t m_nVar ;
 
     // Numerical derivative delta.
@@ -78,20 +78,11 @@ namespace mesmer
       return false ;
     }
 
-    //// Read in Marquardt parameters, or use values from defaults.xml.
-    //PersistPtr ppControl = pSys->getPersistPtr()->XmlMoveTo("me:control");
-    //m_delta = ppControl->XmlReadDouble("me:MarquardtDerivDelta");
-    //unsigned maxIterations= ppControl->XmlReadInteger("me:MarquardtIterations");
-    //double tol = ppControl->XmlReadDouble("me:MarquardtTolerance");
-
-    // Read in parameter constraints.
-//    ReadParameterConstraints(ppControl) ;
-
     //Do not output all the intermediate results to XML
     pSys->m_Flags.overwriteXmlAnalysis = true;
 
     // Use the same grain numbers for for all calcuations regardless of 
-    // temperature (i.e. reduce the number of times micro-rates are caluclated).
+    // temperature (i.e. reduce the number of times micro-rates are calculated).
     pSys->m_Flags.useTheSameCellNumber = true;
 
     // Warnings and less not sent to console.

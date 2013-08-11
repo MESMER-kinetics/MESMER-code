@@ -27,16 +27,14 @@ class Sobol {
 public:
 
   template<class T, class U> 
-  void sobol ( int dim_num, T *seed,  std::vector<U> &quasi );
+  void sobol ( size_t dim_num, T *seed,  std::vector<U> &quasi );
 
   float *i4_sobol_generate ( int m, int n, int skip );
   int i4_uniform ( int b, int c, int *seed );
+  float r4_uniform_01 ( int *seed );
 
   double *i8_sobol_generate ( int m, int n, int skip );
   long long int i8_uniform ( long long int b, long long int c, int *seed );
-
-  float r4_uniform_01 ( int *seed );
-
   double r8_uniform_01 ( int *seed );
 
   void r8mat_write ( std::string output_filename, int m, int n, double table[] );
@@ -201,7 +199,7 @@ int Sobol::bit_lo0 ( T n )
 
 
 template<class T, class U> 
-void Sobol::sobol ( int dim_num, T *seed, std::vector<U> &quasi )
+void Sobol::sobol ( size_t dim_num, T *seed, std::vector<U> &quasi )
 
 //****************************************************************************80
 //
@@ -291,7 +289,7 @@ void Sobol::sobol ( int dim_num, T *seed, std::vector<U> &quasi )
 
   static T atmost;
   static int dim_num_save = 0;
-  T i;
+  size_t i;
   bool includ[LOG_MAX];
   static bool initialized = false;
   T j;
@@ -12738,7 +12736,7 @@ void Sobol::sobol ( int dim_num, T *seed, std::vector<U> &quasi )
 //
   for ( i = 0; i < dim_num; i++ )
   {
-    quasi[i] = ( U(lastq[i]) ) * recipd;
+    quasi[i] = ( static_cast<U>(lastq[i]) ) * recipd;
 
     lastq[i] = ( lastq[i] ^ v[i][l-1] );
   }

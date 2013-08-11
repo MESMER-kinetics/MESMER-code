@@ -56,8 +56,11 @@ namespace mesmer
       return calculate(chiSquare, residuals, writeReport) ;
 	} ;
 
+    // Calculate rate coefficients etc. for a specific condition.
+    bool calculate(size_t nCond, vector<double> &Quantities, bool writeReport = false) ;
+
 	// Begin single calculation.
-    bool calculate(vector<double> &Temperature, vector<double> &Pressure, vector<qdMatrix *> &RateCoefficients) ;
+    bool calculate(vector<double> &Temperature, vector<double> &Pressure, vector<double> &Quantities) ;
 
 	// Print system configuration
     void configuration(void);
@@ -71,6 +74,12 @@ namespace mesmer
     PersistPtr getAnalysisPtr() { return m_ppAnalysis; }
 
     MoleculeManager* getMoleculeManager() { return m_pMoleculeManager; } ;
+
+	// An accessor method to get conditions and related properties for
+	// use with plugins classes etc.
+	bool getConditions (vector<double> &Temperature, vector<double> &Concentration) ;
+
+	size_t getNumConditions() const { return PandTs.size() ; } ;
 
     // Mesmer control flags.
     MesmerFlags m_Flags;

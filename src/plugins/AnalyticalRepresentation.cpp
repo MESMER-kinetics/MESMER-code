@@ -24,7 +24,16 @@ namespace mesmer
   {
   public:
 
-    AnalyticalRepresentation(const char* id) : FittingUtils(), m_id(id)
+    AnalyticalRepresentation(const char* id) : FittingUtils(), 
+      m_id(id),
+      m_format(),
+      m_reactionRef(),
+      m_TMax(0.0),
+      m_TMin(0.0),
+      m_CMax(0.0),
+      m_CMin(0.0),
+      m_NTpt(0),
+      m_NCpt(0)
     { Register(); }
 
     virtual ~AnalyticalRepresentation() {}
@@ -44,6 +53,19 @@ namespace mesmer
     string m_format ;
     string m_reactionRef ;
 
+    double m_TMax ;
+    double m_TMin ;
+    double m_CMax ;
+    double m_CMin ;
+
+    double m_TSft ;
+    double m_TDiv ;
+    double m_CSft ;
+    double m_CDiv ;
+
+    int    m_NTpt ;
+    int    m_NCpt ;
+
   };
 
   ////////////////////////////////////////////////
@@ -55,21 +77,28 @@ namespace mesmer
   {
     /* Typical data
     <me:control>
-      ...
-      <me:calcMethod xsi:type="me:analyticalRepresentation">
-        <me:fittingTolerance>0.1</me:fittingTolerance>
-        <me:fittingIterations>5</me:fittingIterations>
-      </me:calcMethod>
-      ...
+    ...
+    <me:calcMethod xsi:type="me:analyticalRepresentation">
+    <me:fittingTolerance>0.1</me:fittingTolerance>
+    <me:fittingIterations>5</me:fittingIterations>
+    </me:calcMethod>
+    ...
     </me:control>
     */
     //Read in fitting parameters, or use values from defaults.xml.
 
-	m_format      = pp->XmlReadValue("me:analyticalRepType");
+    m_format      = pp->XmlReadValue("me:analyticalRepType");
     m_reactionRef = pp->XmlReadValue("me:analyticalRepRef");
 
-    // Read in parameter constraints.
-    //ReadParameterConstraints(ppControl) ;
+    double RpTMin = 1.0 / m_TMin ;
+    double RpTMax = 1.0 / m_TMax ;
+    double lgCMin = log10(m_CMin);
+    double lgCMax = log10(m_CMax);
+
+    m_TSft = - RpTMin - RpTMax;
+    m_TDiv = 1.0 / (RpTMax - RpTMin);
+    m_CSft = - lgCMin - lgCMax;
+    m_CDiv = 1.0 / (lgCMax - lgCMin);
 
     return true;
   }
@@ -86,21 +115,13 @@ namespace mesmer
     // Warnings and less not sent to console.
     ChangeErrorLevel e(obError); 
 
-	double chiSquare(0.0) ;
+    // First gets some points.
 
-	// First gets some points.
-
-	vector<double> Temperature;
-	vector<double> Concentration;
-	vector<qdMatrix *> RateCoefficients;
+    vector<double> Temperature;
+    vector<double> Concentration;
+    vector<double> RateCoefficients;
 
     pSys->calculate(Temperature, Concentration, RateCoefficients) ;
-
-	// Release rate coefficient data.
-
-	for (size_t i(0) ; i < RateCoefficients.size() ; i++) {
-	  delete RateCoefficients[i] ;
-	}
 
     return true;
   }

@@ -323,9 +323,6 @@ namespace mesmer
       m_Flags.allowSmallerDEDown          = ppControl->XmlReadBoolean("me:allowSmallerDeltaEDown");
       m_Flags.print_TabbedMatrices        = ppControl->XmlReadBoolean("me:printTabbedMatrices");
       m_Flags.useDOSweightedDT            = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
-      if (!m_Flags.useTheSameCellNumber && m_Env.MaximumTemperature != 0.0){
-        m_Flags.useTheSameCellNumber = true;
-      }
 
       // System configuration information
       if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();
@@ -420,7 +417,7 @@ namespace mesmer
         this_units = default_unit;
       }
 
-	  Precision precision ;
+      Precision precision ;
       txt = ppPTset->XmlReadValue("precision", optional);
       if(!txt)
         txt = ppPTset->XmlReadValue("me:precision", optional);
@@ -444,6 +441,7 @@ namespace mesmer
         for (size_t j(0) ; j < Tvals.size(); ++j){
           CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j], precision, bathGasName);
           PandTs.push_back(thisPair);
+          m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, thisPair.get_temperature());
         }
       }
       ppPTset = ppPTset->XmlMoveTo("me:PTset");
@@ -468,6 +466,8 @@ namespace mesmer
         this_P = ppPTpair->XmlReadDouble("P", true); //preferred forms
       if(IsNan(this_T))
         this_T = ppPTpair->XmlReadDouble("T", true);
+
+	  m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, this_T);
 
       Precision this_precision;
       txt = ppPTpair->XmlReadValue("me:precision", optional); //an element
@@ -746,13 +746,71 @@ namespace mesmer
   }
 
   //
+  // Calculate rate coefficients etc. for a specific condition.
+  //
+  bool System::calculate(size_t nConds, vector<double> &Quantities, bool writeReport )
+  {
+
+    //
+    // Reset microcanonical rate re-calculation flag as parameters, such
+    // as reaction threshold may have been altered between invocations of
+    // this method.
+    //
+    for (size_t i(0) ; i < m_pReactionManager->size() ; ++i) {
+      (*m_pReactionManager)[i]->resetCalcFlag();
+    }
+
+    m_Flags.printEigenValuesNum = 0 ;
+
+    double temp = PandTs[nConds].get_temperature() ; 
+    m_Env.beta = 1.0 / (boltzmann_RCpK * temp) ;
+
+    // unit of conc: particles per cubic centimetre
+    m_Env.conc = PandTs[nConds].get_concentration();
+
+    m_Env.bathGasName = PandTs[nConds].getBathGasName();
+
+    // Build collison matrix for system.
+    if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags))
+      throw (std::runtime_error("Failed building system collison operator.")); 
+
+    if (!m_collisionOperator.calculateEquilibriumFractions())
+      throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
+
+    // Diagonalise the collision operator.
+    Precision precision = PandTs[nConds].get_precision();
+    m_collisionOperator.diagReactionOperator(m_Flags, m_Env, precision) ;
+
+    // Calculate rate coefficients.
+    qdMatrix  mesmerRates(1) ;
+    m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, m_Flags);
+
+    // For this conditions calculate the experimentally observable data types. 
+
+    stringstream rateCoeffTable ;
+    vector<double> residuals ;
+    calcChiSqRateCoefficients(mesmerRates, PandTs[nConds], rateCoeffTable, residuals);
+
+    calcChiSqYields(PandTs[nConds], rateCoeffTable, residuals);
+
+    calcChiSqEigenvalues(PandTs[nConds], rateCoeffTable, residuals);
+
+	double data(0.0) ;
+	while (rateCoeffTable >> data) {
+	  Quantities.push_back(data) ;
+	}
+
+    return true ;
+  }
+
+  //
   // Calculate rate coefficients for conditions other than those 
   // supplied directly by user e.g. for analytical representation.
   //
-  bool System::calculate(vector<double> &Temperature, vector<double> &Concentration, vector<qdMatrix *> &RateCoefficients)
+  bool System::calculate(vector<double> &Temperature, vector<double> &Concentration, vector<double> &Quantities)
   {
 
-	m_Flags.printEigenValuesNum = 0 ;
+    m_Flags.printEigenValuesNum = 0 ;
     for (size_t calPoint = 0; calPoint < PandTs.size(); ++calPoint) {
 
       double temp = PandTs[calPoint].get_temperature() ; 
@@ -778,7 +836,6 @@ namespace mesmer
       // Calculate rate coefficients.
       qdMatrix *bwRateCoeff  = new qdMatrix(1) ;
       m_collisionOperator.BartisWidomPhenomenologicalRates((*bwRateCoeff), m_Flags);
-      RateCoefficients.push_back(bwRateCoeff) ;
     }
 
     return true ;
@@ -1030,6 +1087,25 @@ namespace mesmer
     clog << "long double min == " << numeric_limits<long double>::min() << endl;
     clog << "dd_real min == " << numeric_limits<dd_real>::min() << endl;
     clog << "qd_real min == " << numeric_limits<qd_real>::min() << endl;
+  }
+
+  // An accessor method to get conditions and related properties for
+  // use with plugins classes etc.
+  bool System::getConditions (vector<double> &Temperature, vector<double> &Concentration) {
+
+    bool status(true) ;
+
+    for (size_t calPoint = 0; calPoint < PandTs.size(); ++calPoint) {
+
+      double temp = PandTs[calPoint].get_temperature() ; 
+      Temperature.push_back(temp) ;
+
+      m_Env.conc = PandTs[calPoint].get_concentration(); // unit of conc: particles per cubic centimeter
+      Concentration.push_back(m_Env.conc) ;
+
+    }
+
+    return status ;
   }
 
 } //namespace

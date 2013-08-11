@@ -1,3 +1,9 @@
+2013-August-11 Struan Robertson
+	
+	* System.cpp/*.h, SensitivityAnalysis.cpp: Sensitivity analysis plugin
+	updated to generated data using Sobol random vectors to perturb fitted
+	parameters.
+
 2013-August-10 Struan Robertson
 	
 	* Sobol.cpp/*.h, UnitTests.cpp: Addition of Sobol random number sequence.
