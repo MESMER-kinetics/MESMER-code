@@ -369,6 +369,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Sobol.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Spline.cpp"
 				>
 			</File>
@@ -552,6 +556,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ReactionManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Sobol.h"
 				>
 			</File>
 			<File

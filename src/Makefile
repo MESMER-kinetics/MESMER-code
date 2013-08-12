@@ -161,6 +161,7 @@ SRCS := \
 	Reaction.cpp \
 	ReactionManager.cpp \
 	Spline.cpp \
+	Sobol.cpp \
 	System.cpp \
 	TimeCounter.cpp \
 	TMatrix.cpp \

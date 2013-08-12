@@ -12562,11 +12562,11 @@ void Sobol::sobol ( size_t dim_num, T *seed, std::vector<U> &quasi )
 //
     if ( dim_num < 1 || DIM_MAX2 < dim_num )
     {
-      cout << "\n";
-      cout << "SOBOL - Fatal error!\n";
-      cout << "  The spatial dimension DIM_NUM should satisfy:\n";
-      cout << "    1 <= DIM_NUM <= " << DIM_MAX2 << "\n";
-      cout << "  But this input value is DIM_NUM = " << dim_num << "\n";
+	  std::cout << "\n";
+      std::cout << "SOBOL - Fatal error!\n";
+      std::cout << "  The spatial dimension DIM_NUM should satisfy:\n";
+      std::cout << "    1 <= DIM_NUM <= " << DIM_MAX2 << "\n";
+      std::cout << "  But this input value is DIM_NUM = " << dim_num << "\n";
       exit ( 1 );
     }
 
@@ -12722,12 +12722,12 @@ void Sobol::sobol ( size_t dim_num, T *seed, std::vector<U> &quasi )
 //
   if ( maxcol < l )
   {
-    cout << "\n";
-    cout << "SOBOL - Fatal error!\n";
-    cout << "  The value of SEED seems to be too large!\n";
-    cout << "  SEED =   " << *seed  << "\n";
-    cout << "  MAXCOL = " << maxcol << "\n";
-    cout << "  L =      " << l << "\n";
+    std::cout << "\n";
+    std::cout << "SOBOL - Fatal error!\n";
+    std::cout << "  The value of SEED seems to be too large!\n";
+    std::cout << "  SEED =   " << *seed  << "\n";
+    std::cout << "  MAXCOL = " << maxcol << "\n";
+    std::cout << "  L =      " << l << "\n";
     exit ( 2 );
   }
 //
