@@ -196,7 +196,8 @@ SRCS := \
 	plugins/ThermodynamicTable.cpp \
 	plugins/UnitTests.cpp \
 	plugins/WKBCrossingCoeff.cpp \
-	plugins/WKBTunnellingCoefficients.cpp 
+	plugins/WKBTunnellingCoefficients.cpp \
+	plugins/DefinedTunnelingCoefficients.cpp    
 
 # Add on the sources for libraries
 SRCS := ${SRCS}
