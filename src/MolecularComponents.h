@@ -397,6 +397,7 @@ namespace mesmer
 
     void normalizedInitialDistribution(vector<double> &grainFrac, const int numberOfGrains, const int numberOfGroupedGrains = 0) ;
     void normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int numberOfGrains, const int numberOfGroupedGrains = 0);
+	void normalizedCellBoltzmannDistribution(vector<double> &grainFrac, const int totalCellNumber);
 
     // Accessors.
 

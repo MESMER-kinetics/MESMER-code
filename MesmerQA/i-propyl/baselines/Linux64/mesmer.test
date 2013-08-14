@@ -94,16 +94,28 @@ i-propyl -> propene+H = 4.500730e+01
 PT Grid 1 Condition: conc = 3.01e+17, temp = 730, diagonalization precision: double
 {
 
+Test rovibronic density of states for: i-propyl
+{
+      T           qtot           sumc           sumg
+    200        1865.43        1862.27        1824.14
+    300        7146.05        7143.76        7076.73
+    400        24838.2        24845.5        24712.9
+    500        81816.4        81864.2        81583.3
+    600         258867         259052         258434
+    700         789813         790423         789035
+    800   2.32737e+006    2.3292e+006   2.32606e+006
+}
+
 Canonical rate coefficients for R1, calculated from microcanonical rates
 {
-    100   8.59127e-072
+    100   8.59138e-072
     200   3.42272e-029
-    300   5.69339e-015
-    400   7.34656e-008
-    500     0.00133346
-    600       0.863776
-    700        78.1932
-    800        1978.22
+    300    5.6934e-015
+    400   7.34805e-008
+    500     0.00133649
+    600       0.871116
+    700        79.6245
+    800        2036.73
 }
 
 Eq fraction matrix:
@@ -116,14 +128,14 @@ inverse of Eq fraction matrix:
 }
 Equilibrium Fraction for i-propyl = 1
 
-Total number of eigenvalues = 186
+Total number of eigenvalues = 187
 Eigenvalues
 {
- -6.429800e+006
- -4.361154e+006
- -2.736058e+006
+ -6.429804e+006
+ -4.361155e+006
+ -2.736059e+006
  -1.531047e+006
- -6.135810e+001
+ -6.135820e+001
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -134,16 +146,16 @@ There should be 1 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  6.135778e+001
+ -6.135788e+001
 }
 
 Z_matrix: {
-9.999948e-01	
+-9.999948e-01	
 }
 
 Z_matrix^(-1):
 {
-1.000005e+00	
+-1.000005e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
@@ -153,22 +165,22 @@ Z_matrix * Z_matrix^(-1) [Identity matrix]:
 
 Kr matrix:
 {
--6.135810e+01	
+-6.135820e+01	
 }
 
 Kp matrix:
 {
-  6.135810e+001
+  6.135820e+001
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-i-propyl loss = -6.135810e+01
+i-propyl loss = -6.135820e+01
 }
 
 First order & pseudo first order rate coefficients for irreversible rxns:
 {
-i-propyl -> propene+H = 6.135810e+01
+i-propyl -> propene+H = 6.135820e+01
 }
 
 }

@@ -51,6 +51,8 @@ namespace mesmer
     std::string punchNumbers;
     std::string punchFileName;
     bool overwriteXmlAnalysis;            // Set when fitting so that all the intermediate results are not output to XML
+    bool autoSetMaxEne;
+	double popThreshold;  
   };
 }//namespace
 

@@ -94,6 +94,9 @@ namespace mesmer
     // Get reactants cell density of states.
     void getRctsCellDensityOfStates(std::vector<double> &cellDOS) ;
 
+	// Get Cell Boltzmann distribution for convoluted reactant DOS
+	void normalizedReactantCellBoltzmannDistribution(vector<double> &CellFrac, const int totalCellNumber);
+
     // Get reactants grain ZPE
     const int get_rctsGrnZPE(void);
 
@@ -140,6 +143,7 @@ namespace mesmer
     bool m_deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
 
     std::vector<double>  m_GrainKbmc ;           // Grained averaged backward microcanonical rates.
+
   } ;
 
 

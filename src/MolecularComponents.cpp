@@ -1947,6 +1947,41 @@ namespace mesmer
 
   }
 
+    void gWellProperties::normalizedCellBoltzmannDistribution(vector<double> &CellFrac, const int totalCellNumber)
+  {
+    // If density of states have not already been calcualted then do so.
+    if (!m_host->getDOS().calcDensityOfStates())
+      cerr << "Failed calculating DOS";
+
+    vector<double> tempCellFrac;
+    CellFrac.clear();
+
+    vector<double> gEne;
+    vector<double> gDOS;
+    getCellEnergies(totalCellNumber, gEne);
+    m_host->getDOS().getCellDensityOfStates(gDOS);
+
+    double prtfn(0.0);
+    // Calculate unnormalized Boltzmann dist.
+    // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
+    const double firstPartition = exp(log(gDOS[0]) - m_host->getEnv().beta * gEne[0] + 10.0);
+    tempCellFrac.push_back(firstPartition);
+    prtfn = firstPartition;
+    for (int i = 1; i < totalCellNumber; ++i) {
+      const double thisPartition = exp(log(gDOS[i]) - m_host->getEnv().beta * gEne[i] + 10.0);
+      prtfn += thisPartition;
+	  tempCellFrac.push_back(thisPartition);
+    }
+
+    const int tempCellFracSize = int(tempCellFrac.size());
+    for (int i = 0; i < tempCellFracSize; ++i){
+      tempCellFrac[i] /= prtfn;
+    }
+
+    CellFrac = tempCellFrac;
+
+  }
+
   //
   // Accessor for number of basis functions to be used in contracted basis set method.
   //

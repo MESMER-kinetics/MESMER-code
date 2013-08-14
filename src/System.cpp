@@ -374,7 +374,14 @@ namespace mesmer
           return false;
     }
 
-    if(!Rdouble::SetUpLinkedVars())
+      	PersistPtr pp = ppControl->XmlMoveTo("me:automaticallySetMaxEne");
+      if(pp){
+		  m_Flags.autoSetMaxEne = true;
+		  m_Flags.popThreshold = ppControl->XmlReadDouble("me:automaticallySetMaxEne");
+        
+    } 
+   
+      if(!Rdouble::SetUpLinkedVars())
       return false;
 
     return true;

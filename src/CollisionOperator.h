@@ -34,6 +34,9 @@ namespace mesmer
     // Initialize the collision operator object.
     bool initialize(MoleculeManager *pMoleculeManager, ReactionManager *pReactionManager) ;
 
+	// Set up max energy above the top hill automatically
+	void SetMaximumCellEnergy(MesmerEnv &mEnv, MesmerFlags& mFlags, double minEnergy, double maxEnergy, double m_populationThreshold,MoleculeManager *pMoleculeManager, ReactionManager *pReactionManager);
+
     // Calculate the equilibrium fraction of each species in the system.
     bool calculateEquilibriumFractions() ;
 

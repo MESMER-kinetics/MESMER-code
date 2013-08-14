@@ -179,7 +179,11 @@ namespace mesmer
 
     }
 
-    // set grain parameters for the current Temperature/pressure condition
+	// check wether the maximum height above the top barrier should be set automatically
+	if(mFlags.autoSetMaxEne)
+      SetMaximumCellEnergy(mEnv, mFlags, minEnergy, maxEnergy, mFlags.popThreshold, m_pMoleculeManager, m_pReactionManager);
+
+    // set grain parameters for the current Temperature/pressure condition.
     if(!SetGrainParams(mEnv, mFlags, minEnergy, maxEnergy, writeReport))
       return false;
 
@@ -263,6 +267,64 @@ namespace mesmer
 
     return true;
   }
+
+void  CollisionOperator::SetMaximumCellEnergy(MesmerEnv &mEnv, MesmerFlags& mFlags, double minEnergy, double maxEnergy, double m_populationThreshold, MoleculeManager *m_pMoleculeManager, ReactionManager *m_pReactionManager)
+{	
+//Set overly large max cell for initial DOS calculation. Will be overwritten before calculation begins
+	mEnv.MaxCell = 100000;
+	double HighCell;
+	double maxcell;
+	vector<double> cellFrac(mEnv.MaxCell);
+
+	MoleculeManager::constMolIter molItr = m_pMoleculeManager->begin() ;
+	MoleculeManager::constMolIter molItrEnd = m_pMoleculeManager->end() ;
+	for (; molItr != molItrEnd ; molItr++) {
+
+	  Molecule *pmol = molItr->second;
+
+	// iterate through modelled species
+		if(pmol->isMolType("modelled")){
+			pmol->getColl().normalizedCellBoltzmannDistribution(cellFrac, mEnv.MaxCell);
+		
+			// find cell at which threshold is reached
+			double i = 1;
+			while(cellFrac[i] > m_populationThreshold || cellFrac[i] > cellFrac[i-1] )
+			{
+			 maxcell = i;
+			 ++i;
+			}
+
+			// offset cell size by relative energy of species
+			double  Mol_ZPE = pmol->getDOS().get_zpe();
+			double  Rel_ZPE = (Mol_ZPE - minEnergy);
+			HighCell = max(HighCell,(maxcell + Rel_ZPE));
+		}
+	}
+		//then check pseudoIsomers in Association reactions
+	for (size_t i(0) ; i < m_pReactionManager->size() ; ++i) {
+		Reaction *pReaction = (*m_pReactionManager)[i] ;
+		AssociationReaction *pAReaction = dynamic_cast<AssociationReaction*>(pReaction) ;
+		if (pAReaction) {
+			pAReaction->normalizedReactantCellBoltzmannDistribution(cellFrac, mEnv.MaxCell);
+			// find cell at which threshold is reached
+			double i = 1;
+			while(cellFrac[i] > m_populationThreshold || cellFrac[i] > cellFrac[i-1] )
+			{
+			 maxcell = i;
+			 ++i;
+			}
+
+			// offset cell size by relative energy of species
+			double  Mol_ZPE = pAReaction->get_relative_rctZPE();
+			double  Rel_ZPE = (Mol_ZPE - minEnergy);
+			HighCell = max(HighCell,(maxcell + Rel_ZPE));
+		}
+	}
+    
+	const double thermalEnergy = (mFlags.useTheSameCellNumber) ? mEnv.MaximumTemperature * boltzmann_RCpK : 1.0/mEnv.beta ;
+     mEnv.EAboveHill = (HighCell - maxEnergy) / thermalEnergy;
+}
+	
 
   // Sets grain parameters and determine system environment.
   bool CollisionOperator::SetGrainParams(MesmerEnv &mEnv, const MesmerFlags& mFlags, const double minEne, const double maxEne, bool writeReport)
