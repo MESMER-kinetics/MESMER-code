@@ -270,18 +270,17 @@ namespace mesmer
     PersistPtr ppTS = get_TransitionState() ? 
         get_TransitionState()->get_PersistentPointer() : PersistPtr();
       
-    // Determine the method of estimating crossing coefficients.
+    // Determine the method of estimating tunneling coefficients.
     m_pTunnelingCalculator = ParseForPlugin<TunnelingCalculator>("me:tunneling", ppReac,
           optional, ppTS); //data may be in TS
     if(!m_pTunnelingCalculator)
-      cinfo << "No tunneling method requested for " << getName() << endl;
+      cinfo << "No tunneling method used for " << getName() << endl;
 
     // Determine the method of estimating crossing coefficients.
     m_pCrossingCalculator = ParseForPlugin<CrossingCalculator>("me:crossing", ppReac,
       optional, ppTS); //data may be in TS)
-       
     if(!m_pCrossingCalculator)
-      cinfo << "No crossing method requested for " << getName() << endl;
+      cinfo << "No crossing method used for " << getName() << endl;
 
     if (getReactionType() == ASSOCIATION || getReactionType() == IRREVERSIBLE_EXCHANGE || getReactionType() == BIMOLECULAR_SINK  || getReactionType() == PSEUDOISOMERIZATION){
       cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;

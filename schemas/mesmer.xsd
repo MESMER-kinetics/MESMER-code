@@ -178,7 +178,7 @@
               <xs:element name="printSpeciesProfile" minOccurs="0"/>
               <xs:element name="printTabbedMatrices" minOccurs="0"/>
               <xs:element name="printTSsos" minOccurs="0"/>
-              <xs:element name="printTunnellingCoefficients" minOccurs="0"/>
+              <xs:element name="printTunnelingCoefficients" minOccurs="0"/>
               <xs:element name="shortestTimeOfInterest" type="xs:float" minOccurs="0"/>
               <xs:element name="testDOS" minOccurs="0" />
               <xs:element name="testMicroRates" minOccurs="0" />

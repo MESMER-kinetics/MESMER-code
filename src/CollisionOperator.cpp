@@ -273,7 +273,7 @@ void  CollisionOperator::SetMaximumCellEnergy(MesmerEnv &mEnv, MesmerFlags& mFla
 //Set overly large max cell for initial DOS calculation. Will be overwritten before calculation begins
 	mEnv.MaxCell = 100000;
 	double HighCell;
-	double maxcell;
+	unsigned maxcell;
 	vector<double> cellFrac(mEnv.MaxCell);
 
 	MoleculeManager::constMolIter molItr = m_pMoleculeManager->begin() ;
@@ -287,7 +287,8 @@ void  CollisionOperator::SetMaximumCellEnergy(MesmerEnv &mEnv, MesmerFlags& mFla
 			pmol->getColl().normalizedCellBoltzmannDistribution(cellFrac, mEnv.MaxCell);
 		
 			// find cell at which threshold is reached
-			double i = 1;
+			unsigned i = 1;
+      bool b1 =cellFrac[i] > m_populationThreshold;
 			while(cellFrac[i] > m_populationThreshold || cellFrac[i] > cellFrac[i-1] )
 			{
 			 maxcell = i;
@@ -307,7 +308,7 @@ void  CollisionOperator::SetMaximumCellEnergy(MesmerEnv &mEnv, MesmerFlags& mFla
 		if (pAReaction) {
 			pAReaction->normalizedReactantCellBoltzmannDistribution(cellFrac, mEnv.MaxCell);
 			// find cell at which threshold is reached
-			double i = 1;
+			unsigned i = 1;
 			while(cellFrac[i] > m_populationThreshold || cellFrac[i] > cellFrac[i-1] )
 			{
 			 maxcell = i;

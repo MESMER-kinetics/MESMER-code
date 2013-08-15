@@ -449,6 +449,7 @@ examplesSchema/Butyl_H_to_Butane/baselines/Linux64/mesmer.log -text
 examplesSchema/Butyl_H_to_Butane/baselines/Linux64/mesmer.test -text
 examplesSchema/Butyl_H_to_Butane/baselines/Win32/mesmer.log -text
 examplesSchema/Butyl_H_to_Butane/baselines/Win32/mesmer.test -text
+examplesSchema/DefinedTunellingCoefficients/OH+methanol.xml -text
 examplesSchema/Ethyl_H_to_Ethane/Ethyl_H_to_Ethane.xml -text
 examplesSchema/Ethyl_H_to_Ethane/baselines/Linux64/mesmer.test -text
 examplesSchema/Ethyl_H_to_Ethane/baselines/Win32/mesmer.test -text

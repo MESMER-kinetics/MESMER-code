@@ -110,8 +110,8 @@ bool ExponentialDown::ReadParameters( Molecule* parent)
   PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
   PersistPtr ppTop = ppPropList ? ppPropList : pp;
   PersistPtr ppProp = ppTop->XmlMoveToProperty("me:deltaEDown");
-  if (!ppProp)
-	return false ;
+//  if (!ppProp) Not needed I think, but what problem was it solving?
+//	return false ;
   /******************************************************************************
   The following reads the content of every CML property "me:deltaEDown". If there
   is not one, the default value from defaults.xml is added to the internal XML tree

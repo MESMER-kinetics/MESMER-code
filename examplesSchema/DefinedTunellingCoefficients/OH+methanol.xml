@@ -1,0 +1,824 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <moleculeList>
+    <molecule id="OH" description="R">
+      <atomArray>
+        <atom id="a1" elementType="0"/>
+        <atom id="a2" elementType="H"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">19</array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            3828
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">17</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:eletronicExcitation">
+          <array units="cm-1">0</array>
+        </property>
+      </propertyList>
+      <me:DOSCMethod name="ClassicalRotors"/>
+    </molecule>
+    <molecule id="Methanol" description="R">
+      <atomArray>
+        <atom id="a1" elementType="C" x3="-1.521821" y3="-0.390535" z3="0.018291"/>
+        <atom id="a2" elementType="H" x3="-1.784569" y3="-0.611143" z3="1.051735"/>
+        <atom id="a3" elementType="H" x3="-2.417578" y3="-0.070972" z3="-0.512002"/>
+        <atom id="a4" elementType="H" x3="-1.163701" y3="-1.303184" z3="-0.441937"/>
+        <atom id="a5" elementType="O" x3="-0.488790" y3="0.551327" z3="-0.074532"/>
+        <atom id="a6" elementType="H" x3="-0.772462" y3="1.365427" z3="0.321571"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a3 a1" order="1"/>
+        <bond atomRefs2="a4 a1" order="1"/>
+        <bond  id="b1" atomRefs2="a5 a1" order="1"/>
+        <bond  atomRefs2="a5 a6" order="1"/>
+        <bond atomRefs2="a1 a2" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            4.308623698 0.832010093 0.803205483
+
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+      <!--306.37 replaced by hindered rotor-->
+<array units="cm-1">
+             1036.28
+1066.03
+1158.62
+1372.15
+1456.46
+1479.29
+1491.2
+3004.32
+3068.85
+3129.07
+3818.86
+
+            </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">50</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:eletronicExcitation">
+          <array units="cm-1">0</array>
+        </property>
+
+      </propertyList>
+      <me:DOSCMethod name="ClassicalRotors"/>
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:bondRef>b1</me:bondRef>
+        <me:HinderedRotorPotential format="numerical" units="kcal/mol" expansionSize="7" scale="1">
+
+          <me:PotentialPoint angle= "-9.8669E-06" potential= "0" />
+          <me:PotentialPoint angle= "-10.00000987" potential= "0.064208027" />
+          <me:PotentialPoint angle= "-20.00000987" potential= "0.239020879" />
+          <me:PotentialPoint angle= "-30.00000987" potential= "0.48119311" />
+          <me:PotentialPoint angle= "-40.00000987" potential= "0.727681352" />
+          <me:PotentialPoint angle= "-50.00000987" potential= "0.911707925" />
+          <me:PotentialPoint angle= "-60.00000987" potential= "0.977312788" />
+          <me:PotentialPoint angle= "-70.00000987" potential= "0.900209441" />
+          <me:PotentialPoint angle= "-80.00000987" potential= "0.705095402" />
+          <me:PotentialPoint angle= "-90.00000987" potential= "0.450790275" />
+          <me:PotentialPoint angle= "-100.0000099" potential= "0.211334532" />
+          <me:PotentialPoint angle= "-110.0000099" potential= "0.049134621" />
+          <me:PotentialPoint angle= "-120.0000099" potential= "0.004123992" />
+          <me:PotentialPoint angle= "-130.0000099" potential= "0.084898898" />
+          <me:PotentialPoint angle= "-140.0000099" potential= "0.268429111" />
+          <me:PotentialPoint angle= "-150.0000099" potential= "0.506469193" />
+          <me:PotentialPoint angle= "-160.0000099" potential= "0.742193136" />
+          <me:PotentialPoint angle= "-170.0000099" potential= "0.914718088" />
+          <me:PotentialPoint angle= "-180.0000099" potential= "0.977133321" />
+          <me:PotentialPoint angle= "-190.0000099" potential= "0.910608528" />
+          <me:PotentialPoint angle= "-200.0000099" potential= "0.737867713" />
+          <me:PotentialPoint angle= "-210.0000099" potential= "0.503568216" />
+          <me:PotentialPoint angle= "-220.0000099" potential= "0.263006802" />
+          <me:PotentialPoint angle= "-230.0000099" potential= "0.078995916" />
+          <me:PotentialPoint angle= "-240.0000099" potential= "0.00182919" />
+          <me:PotentialPoint angle= "-250.0000099" potential= "0.050874078" />
+          <me:PotentialPoint angle= "-260.0000099" potential= "0.214230488" />
+          <me:PotentialPoint angle= "-270.0000099" potential= "0.455086832" />
+          <me:PotentialPoint angle= "-280.0000099" potential= "0.71175014" />
+          <me:PotentialPoint angle= "-290.0000099" potential= "0.90523642" />
+          <me:PotentialPoint angle= "-300.0000099" potential= "0.976704732" />
+          <me:PotentialPoint angle= "-310.0000099" potential= "0.909297661" />
+          <me:PotentialPoint angle= "-320.0000099" potential= "0.725490088" />
+          <me:PotentialPoint angle= "-330.0000099" potential= "0.479992684" />
+          <me:PotentialPoint angle= "-340.0000099" potential= "0.240080115" />
+          <me:PotentialPoint angle= "-350.0000099" potential= "0.066840429" />
+          <me:PotentialPoint angle= "-360.0000099" potential= "0.003698541" />
+
+        </me:HinderedRotorPotential>
+ <me:periodicity>3</me:periodicity>
+      </me:ExtraDOSCMethod>
+
+    </molecule>
+    <molecule id="Im1a" description="R">
+      <atomArray>
+        <atom id="a1" elementType="C" x3="-1.522099" y3="-0.396117" z3="0.014393"/>
+        <atom id="a2" elementType="H" x3="-1.742318" y3="-0.618756" z3="1.055283"/>
+        <atom id="a3" elementType="H" x3="-2.430624" y3="-0.069392" z3="-0.484446"/>
+        <atom id="a4" elementType="H" x3="-1.170921" y3="-1.300339" z3="-0.465126"/>
+        <atom id="a5" elementType="O" x3="-0.496800" y3="0.560718" z3="-0.108679"/>
+        <atom id="a6" elementType="H" x3="-0.758743" y3="1.369909" z3="0.313072"/>
+        <atom id="a7" elementType="O" spinMultiplicity="2" x3="2.213544" y3="-0.189692" z3="0.045619"/>
+        <atom id="a8" elementType="H" x3="1.284056" y3="0.085044" z3="-0.023760"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a3 a1" order="1"/>
+        <bond atomRefs2="a4 a1" order="1"/>
+        <bond id="b1" atomRefs2="a5 a1" order="1"/>
+        <bond  atomRefs2="a5 a6" order="1"/>
+        <bond atomRefs2="a8 a7" order="1"/>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond id="b2" atomRefs2="a7 a1" order="1"/>
+
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">-5.5388</scalar>
+ <!--<scalar units="kcal/mol" lower="-6" upper="3" stepsize="0.1" >-5.56</scalar>-->
+
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            1.194469936 0.136256453 0.125511302
+
+
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+        <!-- 53.09 replaced by HR-->
+          <array units="cm-1">
+
+        100.95
+        197.17
+       317.57
+        443.93
+        643.31
+        1026.48
+       1067.71
+       1160.21
+       1368.17
+       1457.44
+       1479.85
+       1490.64
+       3020.96
+       3094.58
+       3143.64
+       3543.35
+        3819.65
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">59</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:eletronicExcitation">
+          <array units="cm-1">0</array>
+        </property>
+       <property dictRef="me:epsilon">
+          <scalar>473.17</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.09</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1">250</scalar>
+          <!--<scalar units="cm-1" lower="51.1" upper="1001.1" stepsize="50" >600</scalar>-->
+        </property>
+      </propertyList>
+      <me:DOSCMethod name="ClassicalRotors"/>
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:bondRef>b1</me:bondRef>
+        <me:HinderedRotorPotential format="numerical" units="kcal/mol" expansionSize="7" scale="1">
+
+          <me:PotentialPoint angle= "-9.8669E-06" potential= "0" />
+          <me:PotentialPoint angle= "-10.00000987" potential= "0.064208027" />
+          <me:PotentialPoint angle= "-20.00000987" potential= "0.239020879" />
+          <me:PotentialPoint angle= "-30.00000987" potential= "0.48119311" />
+          <me:PotentialPoint angle= "-40.00000987" potential= "0.727681352" />
+          <me:PotentialPoint angle= "-50.00000987" potential= "0.911707925" />
+          <me:PotentialPoint angle= "-60.00000987" potential= "0.977312788" />
+          <me:PotentialPoint angle= "-70.00000987" potential= "0.900209441" />
+          <me:PotentialPoint angle= "-80.00000987" potential= "0.705095402" />
+          <me:PotentialPoint angle= "-90.00000987" potential= "0.450790275" />
+          <me:PotentialPoint angle= "-100.0000099" potential= "0.211334532" />
+          <me:PotentialPoint angle= "-110.0000099" potential= "0.049134621" />
+          <me:PotentialPoint angle= "-120.0000099" potential= "0.004123992" />
+          <me:PotentialPoint angle= "-130.0000099" potential= "0.084898898" />
+          <me:PotentialPoint angle= "-140.0000099" potential= "0.268429111" />
+          <me:PotentialPoint angle= "-150.0000099" potential= "0.506469193" />
+          <me:PotentialPoint angle= "-160.0000099" potential= "0.742193136" />
+          <me:PotentialPoint angle= "-170.0000099" potential= "0.914718088" />
+          <me:PotentialPoint angle= "-180.0000099" potential= "0.977133321" />
+          <me:PotentialPoint angle= "-190.0000099" potential= "0.910608528" />
+          <me:PotentialPoint angle= "-200.0000099" potential= "0.737867713" />
+          <me:PotentialPoint angle= "-210.0000099" potential= "0.503568216" />
+          <me:PotentialPoint angle= "-220.0000099" potential= "0.263006802" />
+          <me:PotentialPoint angle= "-230.0000099" potential= "0.078995916" />
+          <me:PotentialPoint angle= "-240.0000099" potential= "0.00182919" />
+          <me:PotentialPoint angle= "-250.0000099" potential= "0.050874078" />
+          <me:PotentialPoint angle= "-260.0000099" potential= "0.214230488" />
+          <me:PotentialPoint angle= "-270.0000099" potential= "0.455086832" />
+          <me:PotentialPoint angle= "-280.0000099" potential= "0.71175014" />
+          <me:PotentialPoint angle= "-290.0000099" potential= "0.90523642" />
+          <me:PotentialPoint angle= "-300.0000099" potential= "0.976704732" />
+          <me:PotentialPoint angle= "-310.0000099" potential= "0.909297661" />
+          <me:PotentialPoint angle= "-320.0000099" potential= "0.725490088" />
+          <me:PotentialPoint angle= "-330.0000099" potential= "0.479992684" />
+          <me:PotentialPoint angle= "-340.0000099" potential= "0.240080115" />
+          <me:PotentialPoint angle= "-350.0000099" potential= "0.066840429" />
+          <me:PotentialPoint angle= "-360.0000099" potential= "0.003698541" />
+
+        </me:HinderedRotorPotential>
+ <me:periodicity>3</me:periodicity>
+      </me:ExtraDOSCMethod>
+
+    </molecule>
+
+
+
+
+    <molecule id="TS2" description="R">
+      <atomArray>
+        <atom id="a1" elementType="C" x3="1.297361" y3="-0.385296" z3="0.011883"/>
+        <atom id="a2" elementType="H" x3="1.146330" y3="-1.040732" z3="-0.837068"/>
+        <atom id="a3" elementType="H" x3="2.310372" y3="0.019796" z3="-0.020104"/>
+        <atom id="a4" elementType="H" x3="1.202840" y3="-0.928574" z3="0.946092"/>
+        <atom id="a5" elementType="O" spinMultiplicity="2" x3="0.474981" y3="0.709877" z3="-0.001337"/>
+        <atom id="a6" elementType="H" x3="-1.040314" y3="0.391241" z3="-0.421401"/>
+        <atom id="a7" elementType="O" x3="-1.659751" y3="-0.239973" z3="-0.063269"/>
+        <atom id="a8" elementType="H" x3="-1.925231" y3="0.110820" z3="0.778034"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a2 a1" order="1"/>
+        <bond atomRefs2="a8 a7" order="1"/>
+        <bond  id="b2" atomRefs2="a5 a1" order="1"/>
+        <bond  atomRefs2="a5 a6" order="1"/>
+        <bond atomRefs2="a1 a4" order="1"/>
+        <bond atomRefs2="a1 a3" order="1"/>
+        <bond atomRefs2="a1 a3" order="1"/>
+        <bond id="b1" atomRefs2="a6 a7" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">1.188</scalar>
+          <!--<scalar units="kcal/mol" lower="1" upper="7" stepsize="0.1" >5.5</scalar> -->
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            1.228528142 0.211133118 0.186693692
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <!-- 120  221.9 -->
+          <array units="cm-1">
+
+            185.93
+
+
+            392.73
+            794.48
+            1017.41
+            1106.28
+            1163.97
+            1274.73
+            1441.9
+            1469.18
+            1488.53
+            1508.54
+            3062.53
+            3158.45
+            3171.95
+            3705.64
+
+
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">67</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:imFreqs">
+          <scalar units="cm-1">2800</scalar>
+          <!--scalar units="cm-1" lower="2000" upper="3100" stepsize="2" >2253.5</scalar> -->
+
+        </property>
+        <property dictRef="me:eletronicExcitation">
+          <array units="cm-1">0</array>
+        </property>
+
+      </propertyList>
+      <me:DOSCMethod name="ClassicalRotors"/>
+      <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
+        <me:bondRef>b1</me:bondRef>
+        <!--<me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7" scale="1"
+          <me:PotentialPoint angle= "0" potential= "0" />
+          <me:PotentialPoint angle= "30" potential= "0.4069786" />
+          <me:PotentialPoint angle= "60" potential= "2.717916565" />
+          <me:PotentialPoint angle= "90" potential= "0.039750055" />
+          <me:PotentialPoint angle= "120" potential= "1.977420827" />
+          <me:PotentialPoint angle= "150" potential= "3.126995564" />
+          <me:PotentialPoint angle= "180" potential= "3.224952932" />
+          <me:PotentialPoint angle= "210" potential= "2" />
+          <me:PotentialPoint angle= "240" potential= "0.2" />
+          <me:PotentialPoint angle= "270" potential= "0.17031612" />
+          <me:PotentialPoint angle= "300" potential= "2.722432423" />
+          <me:PotentialPoint angle= "330" potential= "0.409184019" />
+          <me:PotentialPoint angle= "360" potential= "0" />
+
+        </me:HinderedRotorPotential>-->
+
+      </me:ExtraDOSCMethod>
+      <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
+        <me:bondRef>b2</me:bondRef>
+        <me:HinderedRotorPotential format="numerical" units="kcal/mol" expansionSize="7" scale="1">
+
+          <me:PotentialPoint angle= "-9.8669E-06" potential= "0" />
+          <me:PotentialPoint angle= "-10.00000987" potential= "0.064208027" />
+          <me:PotentialPoint angle= "-20.00000987" potential= "0.239020879" />
+          <me:PotentialPoint angle= "-30.00000987" potential= "0.48119311" />
+          <me:PotentialPoint angle= "-40.00000987" potential= "0.727681352" />
+          <me:PotentialPoint angle= "-50.00000987" potential= "0.911707925" />
+          <me:PotentialPoint angle= "-60.00000987" potential= "0.977312788" />
+          <me:PotentialPoint angle= "-70.00000987" potential= "0.900209441" />
+          <me:PotentialPoint angle= "-80.00000987" potential= "0.705095402" />
+          <me:PotentialPoint angle= "-90.00000987" potential= "0.450790275" />
+          <me:PotentialPoint angle= "-100.0000099" potential= "0.211334532" />
+          <me:PotentialPoint angle= "-110.0000099" potential= "0.049134621" />
+          <me:PotentialPoint angle= "-120.0000099" potential= "0.004123992" />
+          <me:PotentialPoint angle= "-130.0000099" potential= "0.084898898" />
+          <me:PotentialPoint angle= "-140.0000099" potential= "0.268429111" />
+          <me:PotentialPoint angle= "-150.0000099" potential= "0.506469193" />
+          <me:PotentialPoint angle= "-160.0000099" potential= "0.742193136" />
+          <me:PotentialPoint angle= "-170.0000099" potential= "0.914718088" />
+          <me:PotentialPoint angle= "-180.0000099" potential= "0.977133321" />
+          <me:PotentialPoint angle= "-190.0000099" potential= "0.910608528" />
+          <me:PotentialPoint angle= "-200.0000099" potential= "0.737867713" />
+          <me:PotentialPoint angle= "-210.0000099" potential= "0.503568216" />
+          <me:PotentialPoint angle= "-220.0000099" potential= "0.263006802" />
+          <me:PotentialPoint angle= "-230.0000099" potential= "0.078995916" />
+          <me:PotentialPoint angle= "-240.0000099" potential= "0.00182919" />
+          <me:PotentialPoint angle= "-250.0000099" potential= "0.050874078" />
+          <me:PotentialPoint angle= "-260.0000099" potential= "0.214230488" />
+          <me:PotentialPoint angle= "-270.0000099" potential= "0.455086832" />
+          <me:PotentialPoint angle= "-280.0000099" potential= "0.71175014" />
+          <me:PotentialPoint angle= "-290.0000099" potential= "0.90523642" />
+          <me:PotentialPoint angle= "-300.0000099" potential= "0.976704732" />
+          <me:PotentialPoint angle= "-310.0000099" potential= "0.909297661" />
+          <me:PotentialPoint angle= "-320.0000099" potential= "0.725490088" />
+          <me:PotentialPoint angle= "-330.0000099" potential= "0.479992684" />
+          <me:PotentialPoint angle= "-340.0000099" potential= "0.240080115" />
+          <me:PotentialPoint angle= "-350.0000099" potential= "0.066840429" />
+          <me:PotentialPoint angle= "-360.0000099" potential= "0.003698541" />
+
+        </me:HinderedRotorPotential>
+        <me:periodicity>3</me:periodicity>
+      </me:ExtraDOSCMethod>
+
+    </molecule>
+
+   <molecule id="prod" description="trans">
+     <atomArray>
+       <atom id="a1" elementType="C"/>
+       <atom id="a2" elementType="H"/>
+       <atom id="a3" elementType="H"/>
+       <atom id="a4" elementType="H"/>
+       <atom id="a5" elementType="C"/>
+       <atom id="a6" elementType="O"/>
+       <atom id="a7" elementType="C"/>
+       <atom id="a8" elementType="H"/>
+       <atom id="a9" elementType="H"/>
+       <atom id="a10" elementType="H"/>
+       <atom id="a11" elementType="O"/>
+       <atom id="a12" elementType="H"/>
+     </atomArray>
+     <bondArray>
+       <bond atomRefs2="a1 a2" order="1"/>
+       <bond atomRefs2="a1 a3" order="1"/>
+       <bond atomRefs2="a1 a4" order="1"/>
+       <bond atomRefs2="a1 a5" order="1"/>
+       <bond atomRefs2="a5 a6" order="2"/>
+       <bond atomRefs2="a5 a7" order="1"/>
+       <bond atomRefs2="a7 a8" order="1"/>
+       <bond atomRefs2="a7 a9" order="1"/>
+       <bond atomRefs2="a7 a10" order="1"/>
+       <bond atomRefs2="a11 a2" order="1"/>
+       <bond atomRefs2="a12 a6" order="1"/>
+       <bond atomRefs2="a11 a12" order="1"/>
+     </bondArray>
+     <propertyList>
+       <property dictRef="me:ZPE">
+         <scalar units="kcal/mol">-26.7</scalar>
+         <!--<scalar units="kJ/mol" lower="94" upper="110.1" stepsize="1" >24.0</scalar>-->
+       </property>
+       <property dictRef="me:rotConsts">
+         <array units="cm-1">
+           0.285
+           0.184
+           0.129
+         </array>
+       </property>
+       <property dictRef="me:symmetryNumber">
+         <scalar>1</scalar>
+       </property>
+       <property dictRef="me:spinMultiplicity">
+         <scalar>2</scalar>
+       </property>
+       <property dictRef="me:frequenciesScaleFactor">
+         <scalar>1</scalar>
+       </property>
+       <property dictRef="me:vibFreqs">
+         <array units="cm-1">
+           3841
+           3193
+           3136
+           3107
+           3054
+           3037
+           1619
+           1544
+           1520
+           1506
+           1494
+           1292
+           1277
+           1244
+           1206
+           1172
+           1159
+           1017
+           932
+           749
+           357
+           321
+           218
+           211
+           123
+           52
+           1953
+         </array>
+       </property>
+       <property dictRef="me:MW">
+         <scalar units="amu">67</scalar>
+       </property>
+
+
+     </propertyList>
+    <me:DOSCMethod name="ClassicalRotors"/>
+
+   </molecule>
+
+   <molecule id="prod2" description="trans">
+     <atomArray>
+       <atom id="a1" elementType="C"/>
+       <atom id="a2" elementType="H"/>
+       <atom id="a3" elementType="H"/>
+       <atom id="a4" elementType="H"/>
+       <atom id="a5" elementType="C"/>
+       <atom id="a6" elementType="O"/>
+       <atom id="a7" elementType="C"/>
+       <atom id="a8" elementType="H"/>
+       <atom id="a9" elementType="H"/>
+       <atom id="a10" elementType="H"/>
+       <atom id="a11" elementType="O"/>
+       <atom id="a12" elementType="H"/>
+     </atomArray>
+     <bondArray>
+       <bond atomRefs2="a1 a2" order="1"/>
+       <bond atomRefs2="a1 a3" order="1"/>
+       <bond atomRefs2="a1 a4" order="1"/>
+       <bond atomRefs2="a1 a5" order="1"/>
+       <bond atomRefs2="a5 a6" order="2"/>
+       <bond atomRefs2="a5 a7" order="1"/>
+       <bond atomRefs2="a7 a8" order="1"/>
+       <bond atomRefs2="a7 a9" order="1"/>
+       <bond atomRefs2="a7 a10" order="1"/>
+       <bond atomRefs2="a11 a2" order="1"/>
+       <bond atomRefs2="a12 a6" order="1"/>
+       <bond atomRefs2="a11 a12" order="1"/>
+     </bondArray>
+     <propertyList>
+       <property dictRef="me:ZPE">
+         <scalar units="kcal/mol">-16.75</scalar>
+         <!--<scalar units="kJ/mol" lower="94" upper="110.1" stepsize="1" >24.0</scalar>-->
+       </property>
+       <property dictRef="me:rotConsts">
+         <array units="cm-1">
+           0.285
+           0.184
+           0.129
+         </array>
+       </property>
+       <property dictRef="me:symmetryNumber">
+         <scalar>3</scalar>
+       </property>
+       <property dictRef="me:spinMultiplicity">
+         <scalar>2</scalar>
+       </property>
+       <property dictRef="me:frequenciesScaleFactor">
+         <scalar>1</scalar>
+       </property>
+       <property dictRef="me:vibFreqs">
+         <array units="cm-1">
+           3841
+           3193
+           3136
+           3107
+           3054
+           3037
+           1619
+           1544
+           1520
+           1506
+           1494
+           1292
+           1277
+           1244
+           1206
+           1172
+           1159
+           1017
+           932
+           749
+           357
+           321
+           218
+           211
+           123
+           52
+           1953
+         </array>
+       </property>
+       <property dictRef="me:MW">
+         <scalar units="amu">67</scalar>
+       </property>
+
+
+     </propertyList>
+     <me:DOSCMethod name="ClassicalRotors"/>
+   </molecule>
+
+   <molecule id="N_2">
+     <atom elementType="N"/>
+     <propertyList>
+       <property dictRef="me:epsilon">
+         <scalar>48.0</scalar>
+       </property>
+       <property dictRef="me:sigma">
+         <scalar>3.90</scalar>
+       </property>
+       <property dictRef="me:MW">
+         <scalar units="amu">28.0</scalar>
+       </property>
+     </propertyList>
+   </molecule>
+
+  </moleculeList>
+ <reactionList>
+   <reaction id="R1">
+     <reactant>
+       <molecule ref="OH" role="deficientReactant"/>
+     </reactant>
+     <reactant>
+       <molecule ref="Methanol" role="excessReactant"/>
+     </reactant>
+     <product>
+       <molecule ref="Im1a" role="modelled"/>
+     </product>
+    <me:MCRCMethod xsi:type ="MesmerILT">
+      <me:preExponential>3e-10</me:preExponential>
+      <me:excessReactantConc>2.25E14</me:excessReactantConc>
+      <me:activationEnergy>0</me:activationEnergy>
+      <me:nInfinity>0</me:nInfinity>
+    </me:MCRCMethod>
+   </reaction>
+    <reaction id="R3">
+      <reactant>
+        <molecule ref="Im1a" role="modelled"/>
+      </reactant>
+      <product>
+        <molecule ref="prod" role="sink"/>
+      </product>
+      <me:transitionState>
+        <molecule ref="TS2" role="transitionState"/>
+      </me:transitionState>
+      
+      <me:tunneling xsi:type="Defined">
+        <me:DefinedTunnelingCoefficients>
+          <me:DefinedPE energy= " 0  " pE= " 3.96E-15 "/>
+          <me:DefinedPE energy= " 1.89  " pE= " 4.09E-15 "/>
+          <me:DefinedPE energy= " 5.67  " pE= " 4.37E-15 "/>
+          <me:DefinedPE energy= " 11.445  " pE= " 4.83E-15 "/>
+          <me:DefinedPE energy= " 19.075  " pE= " 5.51E-15 "/>
+          <me:DefinedPE energy= " 28.56  " pE= " 6.51E-15 "/>
+          <me:DefinedPE energy= " 39.935  " pE= " 7.96E-15 "/>
+          <me:DefinedPE energy= " 53.2  " pE= " 1.01E-14 "/>
+          <me:DefinedPE energy= " 68.25  " pE= " 1.33E-14 "/>
+          <me:DefinedPE energy= " 85.12  " pE= " 1.81E-14 "/>
+          <me:DefinedPE energy= " 103.775  " pE= " 2.56E-14 "/>
+          <me:DefinedPE energy= " 124.215  " pE= " 3.79E-14 "/>
+          <me:DefinedPE energy= " 146.37  " pE= " 5.85E-14 "/>
+          <me:DefinedPE energy= " 170.205  " pE= " 9.48E-14 "/>
+          <me:DefinedPE energy= " 195.685  " pE= " 1.62E-13 "/>
+          <me:DefinedPE energy= " 222.81  " pE= " 2.98E-13 "/>
+          <me:DefinedPE energy= " 251.51  " pE= " 6.12E-13 "/>
+          <me:DefinedPE energy= " 281.75  " pE= " 1.30E-12 "/>
+          <me:DefinedPE energy= " 313.46  " pE= " 2.80E-12 "/>
+          <me:DefinedPE energy= " 346.605  " pE= " 6.13E-12 "/>
+          <me:DefinedPE energy= " 381.185  " pE= " 1.36E-11 "/>
+          <me:DefinedPE energy= " 417.06  " pE= " 3.03E-11 "/>
+          <me:DefinedPE energy= " 454.23  " pE= " 6.95E-11 "/>
+          <me:DefinedPE energy= " 492.66  " pE= " 1.63E-10 "/>
+          <me:DefinedPE energy= " 532.245  " pE= " 3.84E-10 "/>
+          <me:DefinedPE energy= " 572.915  " pE= " 8.87E-10 "/>
+          <me:DefinedPE energy= " 614.67  " pE= " 2.02E-09 "/>
+          <me:DefinedPE energy= " 657.405  " pE= " 4.63E-09 "/>
+          <me:DefinedPE energy= " 701.05  " pE= " 1.05E-08 "/>
+          <me:DefinedPE energy= " 745.57  " pE= " 2.52E-08 "/>
+          <me:DefinedPE energy= " 790.895  " pE= " 5.99E-08 "/>
+          <me:DefinedPE energy= " 836.92  " pE= " 1.49E-07 "/>
+          <me:DefinedPE energy= " 883.61  " pE= " 3.21E-07 "/>
+          <me:DefinedPE energy= " 930.895  " pE= " 6.65E-07 "/>
+          <me:DefinedPE energy= " 978.67  " pE= " 1.30E-06 "/>
+          <me:DefinedPE energy= " 1026.9  " pE= " 2.49E-06 "/>
+          <me:DefinedPE energy= " 1075.515  " pE= " 4.59E-06 "/>
+          <me:DefinedPE energy= " 1124.375  " pE= " 8.68E-06 "/>
+          <me:DefinedPE energy= " 1173.515  " pE= " 1.63E-05 "/>
+          <me:DefinedPE energy= " 1222.76  " pE= " 2.95E-05 "/>
+          <me:DefinedPE energy= " 1272.11  " pE= " 5.29E-05 "/>
+          <me:DefinedPE energy= " 1321.425  " pE= " 9.39E-05 "/>
+          <me:DefinedPE energy= " 1370.705  " pE= " 1.63E-04 "/>
+          <me:DefinedPE energy= " 1419.81  " pE= " 2.76E-04 "/>
+          <me:DefinedPE energy= " 1468.705  " pE= " 4.57E-04 "/>
+          <me:DefinedPE energy= " 1517.285  " pE= " 7.42E-04 "/>
+          <me:DefinedPE energy= " 1565.515  " pE= " 1.18E-03 "/>
+          <me:DefinedPE energy= " 1613.325  " pE= " 1.84E-03 "/>
+          <me:DefinedPE energy= " 1660.575  " pE= " 2.82E-03 "/>
+          <me:DefinedPE energy= " 1707.265  " pE= " 4.23E-03 "/>
+          <me:DefinedPE energy= " 1753.325  " pE= " 6.21E-03 "/>
+          <me:DefinedPE energy= " 1798.615  " pE= " 8.93E-03 "/>
+          <me:DefinedPE energy= " 1843.135  " pE= " 1.26E-02 "/>
+          <me:DefinedPE energy= " 1886.78  " pE= " 1.75E-02 "/>
+          <me:DefinedPE energy= " 1929.515  " pE= " 2.39E-02 "/>
+          <me:DefinedPE energy= " 1971.27  " pE= " 3.22E-02 "/>
+          <me:DefinedPE energy= " 2011.975  " pE= " 4.25E-02 "/>
+          <me:DefinedPE energy= " 2051.56  " pE= " 5.52E-02 "/>
+          <me:DefinedPE energy= " 2089.955  " pE= " 7.04E-02 "/>
+          <me:DefinedPE energy= " 2127.125  " pE= " 8.84E-02 "/>
+          <me:DefinedPE energy= " 2163.035  " pE= " 1.09E-01 "/>
+          <me:DefinedPE energy= " 2197.58  " pE= " 1.33E-01 "/>
+          <me:DefinedPE energy= " 2230.76  " pE= " 1.60E-01 "/>
+          <me:DefinedPE energy= " 2262.47  " pE= " 1.90E-01 "/>
+          <me:DefinedPE energy= " 2292.675  " pE= " 2.22E-01 "/>
+          <me:DefinedPE energy= " 2321.375  " pE= " 2.55E-01 "/>
+          <me:DefinedPE energy= " 2348.5  " pE= " 2.88E-01 "/>
+          <me:DefinedPE energy= " 2374.015  " pE= " 3.18E-01 "/>
+          <me:DefinedPE energy= " 2397.85  " pE= " 3.47E-01 "/>
+          <me:DefinedPE energy= " 2419.97  " pE= " 3.73E-01 "/>
+          <me:DefinedPE energy= " 2440.41  " pE= " 3.97E-01 "/>
+          <me:DefinedPE energy= " 2459.065  " pE= " 4.18E-01 "/>
+          <me:DefinedPE energy= " 2475.935  " pE= " 4.36E-01 "/>
+          <me:DefinedPE energy= " 2491.02  " pE= " 4.51E-01 "/>
+          <me:DefinedPE energy= " 2504.25  " pE= " 4.64E-01 "/>
+          <me:DefinedPE energy= " 2515.625  " pE= " 4.75E-01 "/>
+          <me:DefinedPE energy= " 2525.11  " pE= " 4.84E-01 "/>
+          <me:DefinedPE energy= " 2532.775  " pE= " 4.90E-01 "/>
+          <me:DefinedPE energy= " 2538.515  " pE= " 4.95E-01 "/>
+          <me:DefinedPE energy= " 2542.33  " pE= " 4.98E-01 "/>
+          <me:DefinedPE energy= " 2544.185  " pE= " 5.00E-01 "/>
+        </me:DefinedTunnelingCoefficients>
+      </me:tunneling>
+
+      <me:MCRCMethod name="SimpleRRKM"/>
+    </reaction>
+  </reactionList>
+  <me:conditions>
+    <me:bathGas>N_2</me:bathGas>
+    <me:PTs>
+   <!--  <me:PTpair units="Torr" P="200" T="900" precision="d" />
+<me:PTpair units="Torr" P="200" T="800" precision="d" />
+<me:PTpair units="Torr" P="200" T="700" precision="d" />
+<me:PTpair units="Torr" P="200" T="600" precision="d" />
+<me:PTpair units="Torr" P="200" T="500" precision="d" />
+<me:PTpair units="Torr" P="200" T="400" precision="d" />  -->
+
+<!--  <me:PTpair units="Torr" P="200" T="300" precision="d" />
+  <me:PTpair units="Torr" P="200" T="250" precision="d" />
+<me:PTpair units="Torr" P="200" T="225" precision="d" />
+<me:PTpair units="Torr" P="200" T="200" precision="d" />
+<me:PTpair units="PPCC" P="6E16" T="175" precision="d" />
+<me:PTpair units="PPCC" P="6E16" T="150" precision="d" />
+<me:PTpair units="PPCC" P="6E16" T="125" precision="d" />
+<me:PTpair units="PPCC" P="6E6" T="1000" precision="d"/>
+<me:PTpair units="PPCC" P="6E16" T="1000" precision="d"/>
+<me:PTpair units="PPCC" P="6E16" T="600" precision="d"/>
+<me:PTpair units="PPCC" P="6E16" T="300" precision="d"/>-->
+<me:PTpair units="PPCC" P="6E16" T="40" precision="d"/>
+
+
+   <!--   <me:PTpair units="Torr" P="200" T="865.5">
+  <me:experimentalEigenvalue EigenvalueID="1"    error="139">1390.5</me:experimentalEigenvalue>
+</me:PTpair>
+      <me:PTpair units="Torr" P="200" T="786">
+        <me:experimentalEigenvalue EigenvalueID="1"  error="113">1136.25</me:experimentalEigenvalue>
+      </me:PTpair>
+      <me:PTpair units="Torr" P="200" T="527">
+        <me:experimentalEigenvalue EigenvalueID="1"  error="52">519.75</me:experimentalEigenvalue>
+      </me:PTpair>
+      <me:PTpair units="Torr" P="200" T="351">
+       <me:experimentalRate ref1="OH" ref2="OH"  error="27">274.5</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P="200" T="298">
+        <me:experimentalRate ref1="OH" ref2="OH" error="19">198.675</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P="252.14" T="210" >
+        <me:experimentalRate ref1="OH" ref2="OH" error="30">135</me:experimentalRate>
+      </me:PTpair>
+
+<me:PTpair units="PPCC" P="9E10" T="60" >
+        <me:experimentalRate ref1="OH" ref2="OH" error="675">6750</me:experimentalRate>
+      </me:PTpair>-->
+
+<!--   <me:PTpair units="PPCC" P="17E16" T="83" >
+   <me:experimentalRate ref1="OH" ref2="OH"  error="675">6750</me:experimentalRate>
+ </me:PTpair>
+ <me:PTpair units="PPCC" P="3E16" T="65" >
+   <me:experimentalRate ref1="OH" ref2="OH"  error="900">9000</me:experimentalRate>
+ </me:PTpair> -->
+
+    </me:PTs>
+  </me:conditions>
+  <me:modelParameters><
+    <!--Specify grain size directly...   -->
+    <me:grainSize units="cm-1">10</me:grainSize>
+    <!--...or by the total number of grains-->
+    <!--<me:numberOfGrains> 1500 </me:numberOfGrains> Can't specify both-->
+    <!--Specify increased energy range
+        <me:maxTemperature>6000</me:maxTemperature>-->
+    <me:energyAboveTheTopHill>100.0</me:energyAboveTheTopHill>
+  </me:modelParameters>
+  <me:control>
+    <me:printGrainkfE/>
+    <me:printGrainkbE/>
+    <me:printTunnelingCoefficients/>
+    <me:eigenvalues>3</me:eigenvalues>
+  </me:control>
+</me:mesmer>
+
+
+

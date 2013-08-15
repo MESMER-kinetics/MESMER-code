@@ -62,7 +62,7 @@ namespace mesmer
       cinfo << "First look for WKB data" <<endl; //Looks under <reaction> and then under TS 
       return false;
     }
-    const char* p = pp->XmlReadValue("units", optional);
+     const char* p = pp->XmlReadValue("units", optional);
     string units = p ? p : "kJ/mol";
     
     m_mu = pp->XmlReadDouble("ReducedMass", optional);

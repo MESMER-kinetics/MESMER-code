@@ -162,9 +162,9 @@
                 <xs:element name="PotentialPoint" maxOccurs="unbounded">
                   <xs:complexType>
                     <xs:attribute name="index" type="xs:unsignedInt" use="optional" />
-                    <xs:attribute name="coefficient" type="xs:decimal" use="optional" />
-                    <xs:attribute name="angle" type="xs:decimal" use="optional" />
-                    <xs:attribute name="potential" type="xs:decimal" use="optional" />
+                    <xs:attribute name="coefficient" type="xs:float" use="optional" />
+                    <xs:attribute name="angle" type="xs:float" use="optional" />
+                    <xs:attribute name="potential" type="xs:float" use="optional" />
                   </xs:complexType>
                 </xs:element>
               </xs:sequence>
@@ -172,6 +172,7 @@
               <xs:attribute name="units" type="me:energyUnitsType" use="required" />
               <xs:attribute name="expansionSize" type="xs:unsignedInt" use="optional" />
               <xs:attribute name="useSineTerms" type="xs:boolean" use="optional" />
+              <xs:attribute name="scale" type="xs:float" use="optional" />
             </xs:complexType>
           </xs:element>
           <xs:element name="periodicity" type="xs:unsignedInt" minOccurs="0"/>
@@ -307,6 +308,17 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  
+  <xs:complexType name="SensitivityAnalysis" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="calcMethodct">
+        <xs:all>
+          <xs:element name="SensitivityAnalysisIterations" type="xs:integer" minOccurs="0"/>
+          <xs:element name="SensitivityAnalysisDelta" type="xs:float" minOccurs="0"/>
+        </xs:all>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
   <xs:complexType name="Prior">
     <xs:complexContent>
@@ -341,15 +353,6 @@
     </xs:complexType>
   </xs:element>
 
-  <!--<xs:element name="tunneling">
-    <xs:simpleType>
-      <xs:restriction base="xs:string">
-        <xs:enumeration value="Eckart"/>
-        <xs:enumeration value="WKB"/>
-      </xs:restriction>
-    </xs:simpleType>
-  </xs:element>-->
-
   <xs:complexType name="WKB">
     <xs:complexContent>
       <xs:extension base ="tunnelingt">
@@ -373,6 +376,30 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+
+  <xs:complexType name="Defined">
+    <xs:complexContent>
+      <xs:extension base ="tunnelingt">
+        <xs:sequence>
+          <xs:element name="DefinedTunnelingCoefficients">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="DefinedPE" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute name="energy" type="xs:float" use="required"/>
+                    <xs:attribute name="pE" type="xs:float" use="required"/>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+    </xs:complexType>
+
   
   <xs:complexType name="LZCrossing">
     <xs:complexContent>

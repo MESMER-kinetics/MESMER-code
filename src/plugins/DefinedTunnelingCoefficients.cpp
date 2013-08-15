@@ -31,15 +31,20 @@ namespace mesmer
     virtual const char* getID()  { return m_id; }
 
     virtual bool calculateCellTunnelingCoeffs(Reaction* pReact, std::vector<double>& TunnelingProbability);
+
   private:
-	
-    // Read potential barrier details
-   virtual bool ReadPE(Reaction* pReact, vector<double> &PE, vector<double> &E, double &Vary) ;
+   // Read potential barrier details. Called from Reaction.cpp ~line 274 via ParseForPlugin
+   // and store in member variables.
+   virtual bool ParseData(PersistPtr pp);
+
    const char* m_id;
+   vector<double> m_Energy;
+   vector<double> m_PE;
+   double m_VariationalThreshold;
   };
 
   //************************************************************
-  //Global instance, defining its id (usually the only instance)
+  //Global instance, defining its id
    DefinedTunnelingCoefficients theDefinedTunnelingCoefficients("Defined");
   //************************************************************
 
@@ -48,33 +53,24 @@ namespace mesmer
     //TZ is the zpe of the TS
     const double TZ = pReact->get_relative_TSZPE();
     //barrier0 & barrier1 are the zpe corrected barrier heights in the forward/reverse directions
-     int barrier0 = int(TZ) - int(pReact->get_relative_rctZPE());
-     int barrier1 = int(TZ) - int(pReact->get_relative_pdtZPE());
+    int barrier0 = int(TZ) - int(pReact->get_relative_rctZPE());
+    int barrier1 = int(TZ) - int(pReact->get_relative_pdtZPE());
 
-    // Read in potential barrier details.
-    	vector<double> PE, E ;
-	E.clear()  ;
-	PE.clear() ;
-	
-	//for the case where read p(E)'s are calculated variationally, therfore barrier0 may need correcting
-	double VariationalThreshold;
+  
+    //Correct barrier1 and barrier0 according to maximum in vibrationally adiabatic curve
+    int VaryCorrection = static_cast<int>(m_VariationalThreshold-barrier0);
     
-    if (!ReadPE(pReact, PE, E, VariationalThreshold))
-      return false ;
-	//Correct barrier1 and barrier0 according to maximum in vibrationally adiabatic curve
-	double VaryCorrection = VariationalThreshold-barrier0;
+    if(VaryCorrection < 0){
+    }
+    else{
+      barrier0 = barrier0 + VaryCorrection;
+          barrier1 = barrier1 + VaryCorrection;
+    }
     
-	if(VaryCorrection < 0){
-	}
-	else{
-		barrier0 = barrier0 + VaryCorrection;
-        barrier1 = barrier1 + VaryCorrection;
-	}
-    
-	// Spline P(E)'s.
+    // Spline P(E)'s.
 
-	Spline spline ;
-	spline.Initialize(E, PE) ;
+    Spline spline ;
+    spline.Initialize(m_Energy, m_PE) ;
 
     // Set transmission coefficients to 0 where no tunneling is possible;
     // where tunneling may occur, the transmission coefficients are calculated using a wkb formalism
@@ -98,7 +94,7 @@ namespace mesmer
       }
     }
 
-    // Calculatate macroscopic transmission coefficient for testing purposes
+    // Calculate macroscopic transmission coefficient for testing purposes
 
     if (pReact->getFlags().TunnellingCoeffEnabled){
       ctest << "\nTunneling coefficients for: " << pReact->getName();
@@ -112,30 +108,40 @@ namespace mesmer
     return true;
   }
 
+  //bool DefinedTunnelingCoefficients::ReadPE(Reaction* pReact, vector<double> &PE, vector<double> &E, double &Vary) {
+  
   // Read potential barrier details
-  bool DefinedTunnelingCoefficients::ReadPE(Reaction* pReact, vector<double> &PE, vector<double> &E, double &Vary) {
-
-    Vary=0;
+  bool DefinedTunnelingCoefficients::ParseData(PersistPtr pp1)
+  {
+    m_VariationalThreshold=0;
     
-	// Read input data for P(E)'s
-
-    PersistPtr pptran = pReact->get_TransitionState()->get_PersistentPointer();
-    
-    PersistPtr pp = pptran->XmlMoveTo("me:DefinedTunnelingCoefficients") ;
-    if (!pp) {  
-      // Force program to close if not p(E) dataavailable and print error message
-      throw (std::runtime_error("Error: DefinedTunnelingCoefficients cannot be computed witout p(E) data")); 
+    // Read input data for P(E)'s
+    //Looks first under <reaction> and then, on second call, under TS 
+    PersistPtr pp = pp1->XmlMoveTo("me:DefinedTunnelingCoefficients") ;
+    if (!pp) {
+      cinfo << "Look for data for DefinedTunnelingCoefficients" << endl;
+      return false;
     }
-	
+
+    bool dataFound=false;
     while(pp = pp->XmlMoveTo("me:DefinedPE"))
-	{
-      double Ene = pp->XmlReadDouble("Energy");
-      E.push_back(Ene) ;
-	  Vary = max(Ene,Vary);
+    {
+      double Ene = pp->XmlReadDouble("energy", optional);
+      m_Energy.push_back(Ene) ;
+      m_VariationalThreshold = std::max(Ene,m_VariationalThreshold);
 
-      double prob = pp->XmlReadDouble("pE");
-      PE.push_back(prob) ;
+      double prob = pp->XmlReadDouble("pE", optional);
+      m_PE.push_back(prob) ;
+      if(IsNan(Ene) || IsNan(prob))
+      {
+        cerr << "Missing energy or PE" << endl;
+        return false;
+      }
+      else
+        dataFound=true;
     }
+    if(dataFound)
+      cinfo << "Data for DefinedTunnelingCoefficients found" << endl;
 
     return true ;
   }

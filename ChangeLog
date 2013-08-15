@@ -1,3 +1,20 @@
+2013-August-15 Chris Morley
+
+	* src/plugins/DefinedTunnelingCoefficients.cpp: modified for new plugin
+	parsing format
+	* examplesSchema/DefinedTunellingCoefficients,
+	examplesSchema/DefinedTunellingCoefficients/OH+methanol.xml: updated
+
+	* schemas/mesmer.xsd, schemas/mesmerPlugins.xsd: Add SensitivityAnalysis
+	DefinedTunnelingCoefficients, + minor tweaks.
+
+	* src/plugins/ExponentialDown.cpp: reversed a change by Struan which
+	prevented default being used. But what was the problem it was solving?
+	* src/Reaction.cpp: minor comment and text changes
+
+	* src/CollisionOperator.cpp(SetMaximumCellEnergy): replace some doubles by
+	unsigned ints to avoid compiler warnings. 
+
 2013-August-11 Struan Robertson
 	
 	* System.cpp/*.h, SensitivityAnalysis.cpp: Sensitivity analysis plugin
