@@ -256,9 +256,15 @@
     <me:energyAboveTheTopHill>10.</me:energyAboveTheTopHill>
   </me:modelParameters>
   <me:control>
-    <me:calcMethod>analyticalRepresentation</me:calcMethod>
-    <me:analyticalRepType>Troe</me:analyticalRepType>
-    <me:analyticalRepRef>R1</me:analyticalRepRef>
+    <me:calcMethod xsi:type="me:analyticalRepresentation">
+      <me:analyticalRepRef>R1</me:analyticalRepRef>
+      <me:chebNumTemp>10</me:chebNumTemp>
+      <me:chebNumConc>10</me:chebNumConc>
+      <me:chebMinTemp>200</me:chebMinTemp>
+      <me:chebMaxTemp>1000</me:chebMaxTemp>
+      <me:chebMinConc>1.0e15</me:chebMinConc>
+      <me:chebMaxConc>1.0e18</me:chebMaxConc>
+    </me:calcMethod>
     <me:testDOS />
     <me:eigenvalues>1</me:eigenvalues>
   </me:control>

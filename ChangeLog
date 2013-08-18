@@ -1,6 +1,11 @@
 
 2013-August-18 Struan Robertson
 	
+	* AnalyticalRepresentation.cpp, ipropyl_AR.xml: Update of parameter
+	reading method and example for Chebyshev representation.
+
+2013-August-18 Struan Robertson
+	
 	* AssociationReaction.cpp/.h, CollisionOperator.cpp/.h, System.cpp: 
 	Re-working of method to use the equilibrium population to determine 
 	energy cut-off.

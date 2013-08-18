@@ -87,8 +87,15 @@ namespace mesmer
     */
     //Read in fitting parameters, or use values from defaults.xml.
 
-    m_format      = pp->XmlReadValue("me:analyticalRepType");
     m_reactionRef = pp->XmlReadValue("me:analyticalRepRef");
+
+    m_NTpt = pp->XmlReadInteger("me:chebNumTemp");
+    m_NCpt = pp->XmlReadInteger("me:chebNumConc");
+
+    m_TMax = pp->XmlReadDouble("me:chebMaxTemp");
+    m_TMin = pp->XmlReadDouble("me:chebMinTemp");
+    m_CMax = pp->XmlReadDouble("me:chebMaxConc");
+    m_CMin = pp->XmlReadDouble("me:chebMinConc");
 
     double RpTMin = 1.0 / m_TMin ;
     double RpTMax = 1.0 / m_TMax ;
