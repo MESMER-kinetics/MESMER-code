@@ -1,3 +1,13 @@
+
+2013-August-18 Struan Robertson
+	
+	* AssociationReaction.cpp/.h, CollisionOperator.cpp/.h, System.cpp: 
+	Re-working of method to use the equilibrium population to determine 
+	energy cut-off.
+
+	* examples/benzene_oxidation_test.xml: Input file altered to test
+	above method.
+
 2013-August-15 Chris Morley
 
 	* src/plugins/DefinedTunnelingCoefficients.cpp: modified for new plugin

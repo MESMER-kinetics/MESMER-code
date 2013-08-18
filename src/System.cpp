@@ -194,6 +194,11 @@ namespace mesmer
         return false;
       }
     }
+	PersistPtr pp = ppParams->XmlMoveTo("me:automaticallySetMaxEne");
+	if (pp) {
+	  m_Flags.autoSetMaxEne = true;
+	  m_Flags.popThreshold = ppParams->XmlReadDouble("me:automaticallySetMaxEne");
+	}
     cinfo.flush();
 
     //Reaction Conditions
@@ -369,19 +374,12 @@ namespace mesmer
       }
 
       PersistPtr pp = ppControl->XmlMoveTo("me:printGrainProfileAtTime");
-      if(pp)
+      if (pp)
         if(!m_collisionOperator.parseDataForGrainProfileAtTime(pp))
           return false;
-    }
-
-      	PersistPtr pp = ppControl->XmlMoveTo("me:automaticallySetMaxEne");
-      if(pp){
-		  m_Flags.autoSetMaxEne = true;
-		  m_Flags.popThreshold = ppControl->XmlReadDouble("me:automaticallySetMaxEne");
-        
     } 
-   
-      if(!Rdouble::SetUpLinkedVars())
+
+    if(!Rdouble::SetUpLinkedVars())
       return false;
 
     return true;
@@ -474,7 +472,7 @@ namespace mesmer
       if(IsNan(this_T))
         this_T = ppPTpair->XmlReadDouble("T", true);
 
-	  m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, this_T);
+      m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, this_T);
 
       Precision this_precision;
       txt = ppPTpair->XmlReadValue("me:precision", optional); //an element
@@ -802,10 +800,10 @@ namespace mesmer
 
     calcChiSqEigenvalues(PandTs[nConds], rateCoeffTable, residuals);
 
-	double data(0.0) ;
-	while (rateCoeffTable >> data) {
-	  Quantities.push_back(data) ;
-	}
+    double data(0.0) ;
+    while (rateCoeffTable >> data) {
+      Quantities.push_back(data) ;
+    }
 
     return true ;
   }

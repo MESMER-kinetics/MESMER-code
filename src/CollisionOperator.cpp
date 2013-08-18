@@ -179,11 +179,7 @@ namespace mesmer
 
     }
 
-	// check wether the maximum height above the top barrier should be set automatically
-	if(mFlags.autoSetMaxEne)
-      SetMaximumCellEnergy(mEnv, mFlags, minEnergy, maxEnergy, mFlags.popThreshold, m_pMoleculeManager, m_pReactionManager);
-
-    // set grain parameters for the current Temperature/pressure condition.
+    // Set grain parameters for the current Temperature/pressure condition.
     if(!SetGrainParams(mEnv, mFlags, minEnergy, maxEnergy, writeReport))
       return false;
 
@@ -268,65 +264,6 @@ namespace mesmer
     return true;
   }
 
-void  CollisionOperator::SetMaximumCellEnergy(MesmerEnv &mEnv, MesmerFlags& mFlags, double minEnergy, double maxEnergy, double m_populationThreshold, MoleculeManager *m_pMoleculeManager, ReactionManager *m_pReactionManager)
-{	
-//Set overly large max cell for initial DOS calculation. Will be overwritten before calculation begins
-	mEnv.MaxCell = 100000;
-	double HighCell;
-	unsigned maxcell;
-	vector<double> cellFrac(mEnv.MaxCell);
-
-	MoleculeManager::constMolIter molItr = m_pMoleculeManager->begin() ;
-	MoleculeManager::constMolIter molItrEnd = m_pMoleculeManager->end() ;
-	for (; molItr != molItrEnd ; molItr++) {
-
-	  Molecule *pmol = molItr->second;
-
-	// iterate through modelled species
-		if(pmol->isMolType("modelled")){
-			pmol->getColl().normalizedCellBoltzmannDistribution(cellFrac, mEnv.MaxCell);
-		
-			// find cell at which threshold is reached
-			unsigned i = 1;
-      bool b1 =cellFrac[i] > m_populationThreshold;
-			while(cellFrac[i] > m_populationThreshold || cellFrac[i] > cellFrac[i-1] )
-			{
-			 maxcell = i;
-			 ++i;
-			}
-
-			// offset cell size by relative energy of species
-			double  Mol_ZPE = pmol->getDOS().get_zpe();
-			double  Rel_ZPE = (Mol_ZPE - minEnergy);
-			HighCell = max(HighCell,(maxcell + Rel_ZPE));
-		}
-	}
-		//then check pseudoIsomers in Association reactions
-	for (size_t i(0) ; i < m_pReactionManager->size() ; ++i) {
-		Reaction *pReaction = (*m_pReactionManager)[i] ;
-		AssociationReaction *pAReaction = dynamic_cast<AssociationReaction*>(pReaction) ;
-		if (pAReaction) {
-			pAReaction->normalizedReactantCellBoltzmannDistribution(cellFrac, mEnv.MaxCell);
-			// find cell at which threshold is reached
-			unsigned i = 1;
-			while(cellFrac[i] > m_populationThreshold || cellFrac[i] > cellFrac[i-1] )
-			{
-			 maxcell = i;
-			 ++i;
-			}
-
-			// offset cell size by relative energy of species
-			double  Mol_ZPE = pAReaction->get_relative_rctZPE();
-			double  Rel_ZPE = (Mol_ZPE - minEnergy);
-			HighCell = max(HighCell,(maxcell + Rel_ZPE));
-		}
-	}
-    
-	const double thermalEnergy = (mFlags.useTheSameCellNumber) ? mEnv.MaximumTemperature * boltzmann_RCpK : 1.0/mEnv.beta ;
-     mEnv.EAboveHill = (HighCell - maxEnergy) / thermalEnergy;
-}
-	
-
   // Sets grain parameters and determine system environment.
   bool CollisionOperator::SetGrainParams(MesmerEnv &mEnv, const MesmerFlags& mFlags, const double minEne, const double maxEne, bool writeReport)
   {
@@ -345,38 +282,43 @@ void  CollisionOperator::SetMaximumCellEnergy(MesmerEnv &mEnv, MesmerFlags& mFla
     //  - The required total energy domain extends from the lowest zero point energy of the lowest molecule
     //  to 10 k_B T above the highest.
 
-	static bool bcalGrainSize(false) ;
-	static bool bcalGrainNum(false) ;
+    static bool bcalGrainSize(false) ;
+    static bool bcalGrainNum(false) ;
 
     mEnv.EMin = minEne;
     mEnv.EMax = maxEne;
 
-    /*For testing purposes, set the maxGrn based on the highest temperature we use in all calculations.*/
-    const double MaximumTemperature = mEnv.MaximumTemperature;
+    // For testing purposes, set the maxGrn based on the highest temperature we use in all calculations.
+	const double MaximumTemperature = mEnv.MaximumTemperature;
 
-    /*EAboveHill: Max energy above the highest hill. The temperature refers to the current condition.*/
-    const double thermalEnergy = (mFlags.useTheSameCellNumber) ? MaximumTemperature * boltzmann_RCpK : 1.0/mEnv.beta ;
-    mEnv.EMax += mEnv.EAboveHill * thermalEnergy;
+	// Calculate the maximum energy cut-off based on temperature.
+	const double thermalEnergy = (mFlags.useTheSameCellNumber) ? MaximumTemperature * boltzmann_RCpK : 1.0/mEnv.beta ;
+	mEnv.EMax += mEnv.EAboveHill * thermalEnergy;
 
-	//Reset max grain and grain size unless they have been specified in the conditions section
+	// Check cut-off against population.
+	if (mFlags.autoSetMaxEne) {
+	  SetMaximumCellEnergy(mEnv, mFlags);
+	} 
+
+	//Reset max grain and grain size unless they have been specified in the conditions section.
 	if (bcalGrainNum)  mEnv.MaxGrn=0 ;
-	if (bcalGrainSize) mEnv.GrainSize=0;
+    if (bcalGrainSize) mEnv.GrainSize=0;
 
     if (mEnv.MaxGrn>0 && mEnv.GrainSize<=0){
       mEnv.GrainSize = int((mEnv.EMax-mEnv.EMin)/double(mEnv.MaxGrn)) + 1; 
-	  bcalGrainSize = true ;
+      bcalGrainSize = true ;
     } else if (mEnv.GrainSize > 0 && mEnv.MaxGrn<=0){
       mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
-	  bcalGrainNum = true ;
+      bcalGrainNum = true ;
     } else if (mEnv.GrainSize <= 0 && mEnv.MaxGrn<=0){
       mEnv.GrainSize = 100; //default 100cm-1
       cerr << "Grain size was invalid. Reset grain size to default: 100" << once << endl;
       mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
-	  bcalGrainNum = true ;
+      bcalGrainNum = true ;
     } else if (mEnv.GrainSize > 0 && mEnv.MaxGrn > 0){
       cerr << "Both grain size and number of grains specified. Grain size used" << once << endl;
       mEnv.MaxGrn = int((mEnv.EMax-mEnv.EMin)/double(mEnv.GrainSize)) + 1;
-	  bcalGrainNum = true ;
+      bcalGrainNum = true ;
     }
 
     mEnv.MaxCell = mEnv.GrainSize * mEnv.MaxGrn;
@@ -384,6 +326,59 @@ void  CollisionOperator::SetMaximumCellEnergy(MesmerEnv &mEnv, MesmerFlags& mFla
     if (writeReport) cinfo << "Number of cells = " << mEnv.MaxCell << ", Number of grains = " << mEnv.MaxGrn << once << endl;
 
     return true;
+  }
+
+  // The following method checks to see if any of the principal species has an equilibrium
+  // population that is greater than that of a specified threshold. If it is, it attempts to
+  // find a new upper limit of the energy cut-off based on population.
+  void  CollisionOperator::SetMaximumCellEnergy(MesmerEnv &mEnv, const MesmerFlags& mFlags)
+  {	
+	// Locate the principal species: Iterate through all isomers.
+	vector<Molecule *> species ;
+	Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
+	for (; isomeritr != m_isomers.end() ; ++isomeritr) {
+	  species.push_back(isomeritr->first) ;
+	}
+
+	// Then through all pseudoIsomers.
+	Reaction::molMapType::iterator pseudoIsomeritr = m_sources.begin() ;
+	for (; pseudoIsomeritr != m_sources.end() ; ++pseudoIsomeritr) {
+	  species.push_back(pseudoIsomeritr->first) ;
+	}
+
+	mEnv.MaxCell = int(mEnv.EMax - mEnv.EMin) ;
+	const double populationThreshold(mFlags.popThreshold) ;
+	double HighCell(0.0) ;
+	for (size_t i(0) ; i < species.size() ; ++i) {
+	  Molecule *pmol = species[i] ;
+	  vector<double> cellFrac(mEnv.MaxCell, 0.0);
+	  pmol->getColl().normalizedCellBoltzmannDistribution(cellFrac, mEnv.MaxCell);
+
+	  // Offset cell size by relative energy of species.
+	  double Rel_ZPE(pmol->getDOS().get_zpe() - mEnv.EMin);
+	  size_t cutoffCell = mEnv.MaxCell - 1 - size_t(Rel_ZPE) ;
+	  if (cellFrac[cutoffCell] > populationThreshold) {
+
+		// Find cell at which population threshold is reached.
+		bool flag(true) ;
+		size_t maxcell(0) ;
+		for (size_t i(1) ; i < cellFrac.size() && flag ; i++) {
+		  if (cellFrac[i] < populationThreshold && cellFrac[i] < cellFrac[i-1] ) {
+			maxcell = i;
+			flag = false ;
+		  }
+		}
+		if (flag) {
+		  maxcell = cellFrac.size() ;
+		  cerr << "Warning: The equilbrum population of species " << pmol->getName() 
+			   << " is greater than the specefied cutt-off " << populationThreshold << endl ;
+		}
+
+		HighCell = max(HighCell, double(maxcell));
+	  }
+	}
+	mEnv.EMax += HighCell ;
+
   }
 
   // This method constructs a transition matrix based on energy grains.
@@ -723,7 +718,7 @@ void  CollisionOperator::SetMaximumCellEnergy(MesmerEnv &mEnv, MesmerFlags& mFla
       if (mFlags.printEigenValuesNum > 0 && mFlags.printEigenValuesNum <= int(smsize))
         numberStarted = smsize - mFlags.printEigenValuesNum;
 
-	  ctest << "\nTotal number of eigenvalues = " << smsize << endl;
+      ctest << "\nTotal number of eigenvalues = " << smsize << endl;
       ctest << "Eigenvalues\n{\n";
       for (size_t i = numberStarted ; i < smsize; ++i) {
         qd_real tmp = (mEnv.useBasisSetMethod)? m_eigenvalues[i] : m_eigenvalues[i] * m_meanOmega ;
@@ -732,18 +727,18 @@ void  CollisionOperator::SetMaximumCellEnergy(MesmerEnv &mEnv, MesmerFlags& mFla
       }
       ctest << "}\n";
 
-	  if (ppAnalysis) {
-		PersistPtr ppEigenList = ppAnalysis->XmlWriteElement("me:eigenvalueList");
-		ppEigenList->XmlWriteAttribute("number",toString(smsize));
-		ppEigenList->XmlWriteAttribute("selection",
-		  mFlags.printEigenValuesNum!=-1 ? toString(mFlags.printEigenValuesNum) : "all");
-		  for (size_t i = numberStarted ; i < smsize; ++i) {
-			qd_real tmp = (mEnv.useBasisSetMethod)? m_eigenvalues[i] : m_eigenvalues[i] * m_meanOmega ;
-			ppEigenList->XmlWriteValueElement("me:eigenvalue", to_double(tmp), 6);
-		  }
-	  }
+      if (ppAnalysis) {
+        PersistPtr ppEigenList = ppAnalysis->XmlWriteElement("me:eigenvalueList");
+        ppEigenList->XmlWriteAttribute("number",toString(smsize));
+        ppEigenList->XmlWriteAttribute("selection",
+          mFlags.printEigenValuesNum!=-1 ? toString(mFlags.printEigenValuesNum) : "all");
+        for (size_t i = numberStarted ; i < smsize; ++i) {
+          qd_real tmp = (mEnv.useBasisSetMethod)? m_eigenvalues[i] : m_eigenvalues[i] * m_meanOmega ;
+          ppEigenList->XmlWriteValueElement("me:eigenvalue", to_double(tmp), 6);
+        }
+      }
 
-	  if (mFlags.printEigenVectors) {
+      if (mFlags.printEigenVectors) {
         string title("Eigenvectors:") ;
         m_eigenvectors->print(title, ctest, -1, -1, -1, numberStarted) ;
       }
@@ -1434,10 +1429,10 @@ void  CollisionOperator::SetMaximumCellEnergy(MesmerEnv &mEnv, MesmerFlags& mFla
       int losspos = lossitr->second;
       string isomerName = iso->getName();
       ctest << isomerName << " loss = " << Kr[losspos][losspos] << endl;
-	  if (ppList) {
-		PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", to_double(Kr[losspos][losspos]));
-		ppItem->XmlWriteAttribute("ref", isomerName);
-	  }
+      if (ppList) {
+        PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderLoss", to_double(Kr[losspos][losspos]));
+        ppItem->XmlWriteAttribute("ref", isomerName);
+      }
       puNumbers << Kr[losspos][losspos] << "\t";
       if (m_punchSymbolGathered == false){
         puSymbols << isomerName << " loss\t";
@@ -1459,12 +1454,12 @@ void  CollisionOperator::SetMaximumCellEnergy(MesmerEnv &mEnv, MesmerFlags& mFla
           int pdtpos = pdtitr->second;
           if(rctpos != pdtpos){
             ctest << rctName << " -> " << pdtName << " = " << Kr[pdtpos][rctpos] << endl;
-			if (ppList) {
-			  PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kr[pdtpos][rctpos]));
-			  ppItem->XmlWriteAttribute("fromRef", rctName);
-			  ppItem->XmlWriteAttribute("toRef",   pdtName);
-			  ppItem->XmlWriteAttribute("reactionType", "isomerization");
-			}
+            if (ppList) {
+              PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kr[pdtpos][rctpos]));
+              ppItem->XmlWriteAttribute("fromRef", rctName);
+              ppItem->XmlWriteAttribute("toRef",   pdtName);
+              ppItem->XmlWriteAttribute("reactionType", "isomerization");
+            }
           }
 
           puNumbers << Kr[pdtpos][rctpos] << "\t";
@@ -1499,13 +1494,13 @@ void  CollisionOperator::SetMaximumCellEnergy(MesmerEnv &mEnv, MesmerFlags& mFla
             string rctName = rcts->getName();
             ctest << rctName << " -> "  << pdtsName << " = " << Kp[sinkpos][rctpos] << endl;
 
-			if (ppList) {
-			  PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kp[sinkpos][rctpos]));
-			  ppItem->XmlWriteAttribute("fromRef", rctName);
-			  ppItem->XmlWriteAttribute("toRef",   pdtsName);
-			  ppItem->XmlWriteAttribute("reactionType", "irreversible");
-			  puNumbers << Kp[sinkpos][rctpos] << "\t";
-			}
+            if (ppList) {
+              PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kp[sinkpos][rctpos]));
+              ppItem->XmlWriteAttribute("fromRef", rctName);
+              ppItem->XmlWriteAttribute("toRef",   pdtsName);
+              ppItem->XmlWriteAttribute("reactionType", "irreversible");
+              puNumbers << Kp[sinkpos][rctpos] << "\t";
+            }
             if (m_punchSymbolGathered == false){
               puSymbols << rctName << " -> " << pdtsName << "\t";
             }

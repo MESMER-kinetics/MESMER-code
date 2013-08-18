@@ -94,9 +94,6 @@ namespace mesmer
     // Get reactants cell density of states.
     void getRctsCellDensityOfStates(std::vector<double> &cellDOS) ;
 
-	// Get Cell Boltzmann distribution for convoluted reactant DOS
-	void normalizedReactantCellBoltzmannDistribution(vector<double> &CellFrac, const int totalCellNumber);
-
     // Get reactants grain ZPE
     const int get_rctsGrnZPE(void);
 

@@ -34,9 +34,6 @@ namespace mesmer
     // Initialize the collision operator object.
     bool initialize(MoleculeManager *pMoleculeManager, ReactionManager *pReactionManager) ;
 
-	// Set up max energy above the top hill automatically
-	void SetMaximumCellEnergy(MesmerEnv &mEnv, MesmerFlags& mFlags, double minEnergy, double maxEnergy, double m_populationThreshold,MoleculeManager *pMoleculeManager, ReactionManager *pReactionManager);
-
     // Calculate the equilibrium fraction of each species in the system.
     bool calculateEquilibriumFractions() ;
 
@@ -80,6 +77,9 @@ namespace mesmer
     // Sets grain parameters and determines system environment.
     bool SetGrainParams(MesmerEnv &mEnv, const MesmerFlags& mFlags, const double minEne, const double maxEne, bool writeReport);
 
+    // Set up max energy above the top hill automatically
+    void SetMaximumCellEnergy(MesmerEnv &mEnv, const MesmerFlags& mFlags);
+
     // Construct a transition matrix based on grains.
     void constructGrainMatrix(int msize);
 
@@ -94,7 +94,7 @@ namespace mesmer
     bool produceEquilibriumVector();
 
     bool produceInitialPopulationVector(vector<double>& initDist) const ;
-    
+
     bool projectedInitialDistrbtn(vector<double>& initDist) const ;
 
     // Location of the molecule manager.
@@ -124,7 +124,7 @@ namespace mesmer
 
     // Equilibrium distribution.
     std::vector<qd_real>    m_eqVector;
-	size_t                  m_eqVecSize ;
+    size_t                  m_eqVecSize ;
 
     bool                    m_punchSymbolGathered;
 
