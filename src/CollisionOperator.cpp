@@ -58,6 +58,7 @@ namespace mesmer
     // Find all the unique wells and lowest zero point energy.
     //
     m_isomers.clear();
+    m_sources.clear(); // Maps the location of source in the system matrix.
 
     double minEnergy(SUPREMUM) ; // The minimum & maximum ZPE amongst all wells, set artificially large and small
     double maxEnergy(INFIMUM) ;  // to guarantee that each is overwritten in setting minEnergy and maxEnergy.
@@ -177,7 +178,13 @@ namespace mesmer
         maxEnergy = max(maxEnergy, barrierZPE);
       }
 
-    }
+      //
+      // Find all source terms. Note: a source term contains the deficient reactant.
+      // It is possible for there to be more than one source term.
+      //
+      pReaction->updateSourceMap(m_sources) ;
+
+	}
 
     // Set grain parameters for the current Temperature/pressure condition.
     if(!SetGrainParams(mEnv, mFlags, minEnergy, maxEnergy, writeReport))
@@ -225,15 +232,6 @@ namespace mesmer
       m_meanOmega /= double(m_isomers.size());
 
       m_eqVecSize = msize ;
-
-      //
-      // Find all source terms. Note: a source term contains the deficient reactant.
-      // It is possible for there to be more than one source term.
-      //
-      m_sources.clear(); // Maps the location of source in the system matrix.
-      for (size_t i(0) ; i < m_pReactionManager->size() ; ++i) {
-        (*m_pReactionManager)[i]->updateSourceMap(m_sources) ;
-      }
 
       // Locate all sink terms.
       locateSinks() ;

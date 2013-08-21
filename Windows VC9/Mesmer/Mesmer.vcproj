@@ -221,6 +221,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\plugins\DefinedTunnelingCoefficients.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\plugins\EckartCoefficients.cpp"
 				>
 			</File>

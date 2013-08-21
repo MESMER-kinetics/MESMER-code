@@ -1,4 +1,9 @@
 
+2013-August-21 Struan Robertson
+	
+	* CollisionOperator.cpp: Fix for energy cut-off method based on 
+	equilibrium population.
+
 2013-August-18 Struan Robertson
 	
 	* AnalyticalRepresentation.cpp, ipropyl_AR.xml: Update of parameter
