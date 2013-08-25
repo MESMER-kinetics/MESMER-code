@@ -328,6 +328,7 @@ namespace mesmer
       m_Flags.allowSmallerDEDown          = ppControl->XmlReadBoolean("me:allowSmallerDeltaEDown");
       m_Flags.print_TabbedMatrices        = ppControl->XmlReadBoolean("me:printTabbedMatrices");
       m_Flags.useDOSweightedDT            = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
+      m_Flags.bForceMacroDetailedBalance  = ppControl->XmlReadBoolean("me:ForceMacroDetailedBalance");
 
       // System configuration information
       if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();

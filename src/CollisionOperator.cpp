@@ -1320,8 +1320,8 @@ namespace mesmer
         Y_matrix.print(MatrixTitle, ctest, int(nsinks), int(m_SpeciesSequence.size())); 
       }
 
-      qdMatrix Zinv(Z_matrix) ;
-      if (nsinks) {
+	  qdMatrix Zinv(Z_matrix) ;
+      if (nsinks && !mFlags.bForceMacroDetailedBalance) {
 
         // Apply standard inversion method.
 
@@ -1338,14 +1338,38 @@ namespace mesmer
         // SHR 25/Apr/2010 : It remains unclear that this is correct at the time
         // of writting, however for some systems it is difficult to realize mass
         // conservation without it.
+		//
+		// SHR 25/Aug/2013 : The above comment refers to conservative systems.
+		// The method has been extended to non-conservative systems by using the
+		// equilibrium distribution calculated previously. It is even less clear
+		// that this is appropriate, as microscopic reversibility is explicitly
+		// broken. However, in situations where -ve rate coefficients are observed,
+		// this method can rectify the problem.
 
         // Decompose the reduced eigenvector matrix.
 
-        qdMatrix Fr(nchem), Fr_inv(nchem) ;
-        for(size_t i(0) ; i<nchem ; ++i){
-          Fr[i][i]     = sqrt(Z_matrix[i][nchem-1]) ;
-          Fr_inv[i][i] = 1.0/Fr[i][i] ;
-        }
+		qdMatrix Fr(nchem), Fr_inv(nchem) ;
+
+		if (nsinks && mFlags.bForceMacroDetailedBalance) { 
+
+		  // Non-conservative case.
+
+		  Reaction::molMapType::iterator spcitr = m_SpeciesSequence.begin();
+		  for (; spcitr != m_SpeciesSequence.end(); ++spcitr) {
+			size_t i     = spcitr->second ;
+			Fr[i][i]     = sqrt((spcitr->first)->getPop().getEqFraction()) ;
+			Fr_inv[i][i] = 1.0/Fr[i][i] ;
+		  }
+		} else {
+
+		  // Conservative case.
+
+		  for(size_t i(0) ; i<nchem ; ++i) {
+			Fr[i][i]     = sqrt(Z_matrix[i][nchem-1]) ;
+			Fr_inv[i][i] = 1.0/Fr[i][i] ;
+		  }
+		}
+
 
         qdMatrix Er = Fr_inv * Z_matrix ;
 

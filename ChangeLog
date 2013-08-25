@@ -1,4 +1,10 @@
 
+2013-August-25 Struan Robertson
+	
+	* CollisionOperator.cpp, System.cpp, MesmerFlags.h/.cpp: Addition
+	of keyword me:ForceMacroDetailedBalance, which enforces macroscopic
+	detailed balance for non-conservative systems.
+
 2013-August-21 Struan Robertson
 	
 	* CollisionOperator.cpp: Fix for energy cut-off method based on 

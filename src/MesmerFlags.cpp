@@ -37,7 +37,8 @@ namespace mesmer{
 	overwriteXmlAnalysis(false),
 	autoSetMaxEne(false),
 	//default poulation threshold for automatic calculation of energy above the top barrier
-	popThreshold(1.0e-5)
+	popThreshold(1.0e-5),
+    bForceMacroDetailedBalance(false)
   {}
 }//namespace
 

@@ -17,7 +17,7 @@ namespace mesmer
     bool   microRateEnabled;              // Whether to output microcanonical rate coefficients
     bool   grainBoltzmannEnabled;         // Enabled printing grain boltzmann distribution
     bool   grainDOSEnabled;               // Enabled printing grain DOS
-    bool   grainTSsosEnabled;							// enables printing of TS sum of states
+    bool   grainTSsosEnabled;			  // enables printing of TS sum of states
     bool   cyclePrintGrainDOS;            // Controls the print-out of grain DOS in each cycle (This is only for source term)
     bool   cellDOSEnabled;                // Enabled printing cell DOS
     bool   cyclePrintCellDOS;             // Controls the print-out of cell DOS in each cycle (This is only for source term)
@@ -41,18 +41,19 @@ namespace mesmer
     int    printReactionOperatorNum;      // Size of printed reaction operator before and after diagonalization: -1
                                           // for all of them, -2 for 1/2 of them, -3 for 1/3 of them, otherwise specified
                                           // by positive integers.
-    bool allowSmallerDEDown;              // decide whether allows <delta E>d to be smaller than grain size.
-    bool print_TabbedMatrices;            // print tabbed instead of fixed-widthed matrices.
-    int  showCollisionOperator;           // Show collision operator before and after normalization for each well.
+    bool   allowSmallerDEDown;            // decide whether allows <delta E>d to be smaller than grain size.
+    bool   print_TabbedMatrices;          // print tabbed instead of fixed-widthed matrices.
+    int    showCollisionOperator;         // Show collision operator before and after normalization for each well.
                                           // 1: after normalization, 2: after deducting with I
                                           // 0 or anything else: before normalization
-    bool useDOSweightedDT;                // Use number of states to weigh the downward transition in collisionOperator()
+    bool   useDOSweightedDT;              // Use number of states to weigh the downward transition in collisionOperator()
     std::string punchSymbols;             // a string holds the symbols of rates.
     std::string punchNumbers;
     std::string punchFileName;
-    bool overwriteXmlAnalysis;            // Set when fitting so that all the intermediate results are not output to XML
-    bool autoSetMaxEne;
-	double popThreshold;  
+    bool   overwriteXmlAnalysis;          // Set when fitting so that all the intermediate results are not output to XML
+    bool   autoSetMaxEne;                 // Check equilibrium population of all species is less than popThreshold at energy cut-off. 
+	double popThreshold;                  // Equilibrium population criteria used in cutt-off check.
+    bool   bForceMacroDetailedBalance;    // Impose detailed balance at the macroscopic level for non-conservative systems.
   };
 }//namespace
 
