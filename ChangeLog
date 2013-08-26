@@ -1,3 +1,6 @@
+2013-August-26 Robin Shannon
+	* System.cpp, System.h, AnalyticalRepresentation.cpp: Intial working check-in
+	of method to calculate coefficients for a chebyshev polynomial represenation
 
 2013-August-25 Struan Robertson
 	

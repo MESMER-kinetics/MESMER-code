@@ -813,20 +813,16 @@ namespace mesmer
   // Calculate rate coefficients for conditions other than those 
   // supplied directly by user e.g. for analytical representation.
   //
-  bool System::calculate(vector<double> &Temperature, vector<double> &Concentration, vector<double> &Quantities)
+  bool System::calculate(double &Temperature, double &Concentration, vector<string> &Ref1, vector<string> &Ref2, vector<double> &Ratecoefficients)
   {
 
     m_Flags.printEigenValuesNum = 0 ;
-    for (size_t calPoint = 0; calPoint < PandTs.size(); ++calPoint) {
+      
+	  m_Env.beta = 1.0 / (boltzmann_RCpK * Temperature) ; //temporary statements
+      m_Env.conc = Concentration;
+      // unit of conc: particles per cubic centimeter
 
-      double temp = PandTs[calPoint].get_temperature() ; 
-      m_Env.beta = 1.0 / (boltzmann_RCpK * temp) ;
-      Temperature.push_back(temp) ;
-
-      m_Env.conc = PandTs[calPoint].get_concentration(); // unit of conc: particles per cubic centimeter
-      Concentration.push_back(m_Env.conc) ;
-
-      m_Env.bathGasName = PandTs[calPoint].getBathGasName();
+      m_Env.bathGasName = getMoleculeManager()->get_BathGasName().c_str();
 
       // Build collison matrix for system.
       if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags))
@@ -836,13 +832,27 @@ namespace mesmer
         throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
 
       // Diagonalise the collision operator.
-      Precision precision = PandTs[calPoint].get_precision();
+	  //Precision needs to be more flexible set to double for now
+      Precision precision = DOUBLE;
       m_collisionOperator.diagReactionOperator(m_Flags, m_Env, precision) ;
 
       // Calculate rate coefficients.
-      qdMatrix *bwRateCoeff  = new qdMatrix(1) ;
-      m_collisionOperator.BartisWidomPhenomenologicalRates((*bwRateCoeff), m_Flags);
-    }
+      qdMatrix BWrates(1);
+      m_collisionOperator.BartisWidomPhenomenologicalRates((BWrates), m_Flags);
+    
+
+      //locate required BW rates and put them in a vector
+       for(int i=0; i < Ref1.size(); ++i){
+  	  int seqMatrixLoc1(-1), seqMatrixLoc2(-1);
+      seqMatrixLoc1 = m_collisionOperator.getSpeciesSequenceIndex(Ref1[i]);
+      seqMatrixLoc2 = m_collisionOperator.getSpeciesSequenceIndex(Ref2[i]);
+
+	  if(seqMatrixLoc1<0 || seqMatrixLoc2<0)
+        throw(std::runtime_error("Failed to locate species in rate coefficient matrix.")) ;
+
+	  double rateCoeff = fabs(to_double(BWrates[seqMatrixLoc2][seqMatrixLoc1])) ;
+	  Ratecoefficients[i]=rateCoeff;
+	  }
 
     return true ;
   }

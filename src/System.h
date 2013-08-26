@@ -60,7 +60,7 @@ namespace mesmer
     bool calculate(size_t nCond, vector<double> &Quantities, bool writeReport = false) ;
 
 	// Begin single calculation.
-    bool calculate(vector<double> &Temperature, vector<double> &Pressure, vector<double> &Quantities) ;
+    bool calculate(double &Temperature, double &Concentration, vector<string> &Ref1, vector<string> &Ref2, vector<double> &Ratecoefficients);
 
 	// Print system configuration
     void configuration(void);
