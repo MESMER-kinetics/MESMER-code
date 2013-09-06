@@ -27,6 +27,8 @@ namespace mesmer
 
 	virtual ~ThermodynamicTable() {}
   virtual const char* getID()  { return m_id; }
+  
+  virtual bool DoesOwnParsing() { return true; }
 
 	// Function to do the work
 	virtual bool DoCalculation(System* pSys);

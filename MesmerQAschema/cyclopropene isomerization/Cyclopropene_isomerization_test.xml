@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <me:title>Cyclopropene isomerization</me:title>
   <me:description>J. Phys. Chem. A 2003, 107, 2680-2692</me:description>
   <moleculeList>
@@ -45,9 +46,9 @@
         <property dictRef="me:spinMultiplicity">
           <scalar>1</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
+        <!--<property dictRef="me:deltaEDown">
           <scalar units="cm-1">250.0</scalar>
-        </property>
+        </property>-->
         <property dictRef="me:epsilon">
           <scalar>473.1</scalar>
         </property>
@@ -56,6 +57,9 @@
         </property>
       </propertyList>
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">250</me:deltaEDown>
+      </me:energyTransferModel>
     </molecule>
     <molecule id="cyclopropene" description="C_3H_4">
       <atomArray>

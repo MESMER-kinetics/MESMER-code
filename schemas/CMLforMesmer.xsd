@@ -8338,9 +8338,10 @@
           </xsd:documentation>
         </xsd:annotation>
       </xsd:attributeGroup>
-      <!--Attribute description and active added for MESMER-->
+      <!--Attribute default(for spinMultiplicity), description and active added for MESMER-->
       <xsd:attribute name="description" type="xsd:string"/>
       <xsd:attribute name="active" type="xsd:boolean"/>
+      <xsd:attribute name="default" type="xsd:boolean"/>
       <xsd:anyAttribute namespace="##other" processContents="lax"/>
     </xsd:complexType>
   </xsd:element>
@@ -9693,6 +9694,8 @@
           <xsd:attribute name="lower" type="xsd:decimal"/>
           <xsd:attribute name="upper" type="xsd:decimal"/>
           <xsd:attribute name="stepsize" type="xsd:decimal"/>
+          <xsd:attribute name="fitted" type="xsd:string"/>
+          <xsd:attribute name="chiSquared" type="xsd:float"/>
           <xsd:attribute name="referenceTemperature" type="xsd:decimal"/>
           <xsd:attribute name="exponent" type="xsd:decimal"/>
           <xsd:attribute name="default" type="xsd:boolean"/>        

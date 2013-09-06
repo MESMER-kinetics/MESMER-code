@@ -12,7 +12,7 @@
 //
 //-------------------------------------------------------------------------------------------
 
-// #include "MoleculeManager.h"
+#include "Base.h"
 #include "MolecularComponents.h"
 
 namespace mesmer

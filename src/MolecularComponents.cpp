@@ -1210,10 +1210,11 @@ namespace mesmer
   bool gWellProperties::initialization(){
 
     // Determine the method of DOS calculation or use method from defaults.xml.
-    // Read and parse data if any is required.
     PersistPtr pp = m_host->get_PersistentPointer();
     m_pDistributionCalculator 
-      = ParseForPlugin<DistributionCalculator>("me:DistributionCalcMethod", pp);
+      = ParseForPlugin<DistributionCalculator>(m_host,"me:DistributionCalcMethod", pp);
+    if(!m_pDistributionCalculator)
+      return false;
 
     //PersistPtr pp = m_host->get_PersistentPointer();
     //const char* pDistCalcMethodtxt = pp->XmlReadValue("me:DistributionCalcMethod") ;
@@ -1235,20 +1236,31 @@ namespace mesmer
     //}
 
     // Specify the energy transfer probability model.
-    // The default value is specified in defaults.xml
-    const char* pETPModeltxt = pp->XmlReadValue("me:energyTransferModel") ;
-    if(!pETPModeltxt)
-      return false;
-
-    EnergyTransferModel* pModel = EnergyTransferModel::Find(pETPModeltxt);//new instance, deleted in destructor
+    // The default value is specified in defaults.xml:
+    //  <me:energyTransferModel xsi:type="ExponentialDown" default=true;/>
+    //New format
+    EnergyTransferModel* pModel = ParseForPlugin<EnergyTransferModel>
+      (m_host, "me:energyTransferModel", pp, true, pp); //
     if(!pModel)
-    {
-      cerr << "Unknown energy transfer model" << pETPModeltxt << " for species" << m_host->getName() << endl;
       return false;
-    }
+    pModel->setParent(m_host);
+    return true;
 
-    // Initialize energy transfer model.
-    return pModel->ReadParameters(getHost());
+    //Old format
+    //const char* pETPModeltxt = pp->XmlReadValue("me:energyTransferModel") ;
+    //if(!pETPModeltxt)
+    //  return false;
+
+    //EnergyTransferModel* pModel = EnergyTransferModel::Find(pETPModeltxt);//new instance, deleted in destructor
+    //if(!pModel)
+    //{
+    //  cerr << "Unknown energy transfer model" << pETPModeltxt << " for species" << m_host->getName() << endl;
+    //  return false;
+    //}
+
+    //// Initialize energy transfer model.
+    //return pModel->ReadParameters(getHost());
+
   }
 
   EnergyTransferModel* gWellProperties::addBathGas(const char* pbathGasName, EnergyTransferModel* pModel)

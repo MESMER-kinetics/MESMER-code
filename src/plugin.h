@@ -24,6 +24,7 @@
 #include <iterator>
 #include <iostream>
 #include "Persistence.h"
+#include "Base.h"
 
 namespace mesmer
 {

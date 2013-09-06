@@ -127,7 +127,7 @@
 
   <me:control>
     <me:testDOS />
-    <me:calcMethod units="kJ/mol">UnitTests</me:calcMethod> 
+    <me:calcMethod units="kJ/mol" name="UnitTests"/>
   </me:control>
 
 </me:mesmer>

@@ -28,12 +28,15 @@ namespace mesmer
 		{
       return dynamic_cast<CrossingCalculator*>(TopFind(id, typeID()));
     }
+    Reaction* getParent() { return m_parent; }
+    void setParent(Reaction* parent) { m_parent = parent; }
 
 		virtual bool calculateCellCrossingCoeffs(Reaction* pReact, std::vector<double>& CrossingProbability) = 0 ;
 
 		virtual bool ThereIsTunnellingWithCrossing(void) = 0;
 
 private:
+  Reaction* m_parent;
   static const char* typeID(){ return "Crossing Calculators"; }
 
 	};

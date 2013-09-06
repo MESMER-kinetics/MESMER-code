@@ -7,13 +7,13 @@
 // parsing the XML input file for a specified plugin type, making an instance
 // of the requested plugin from its name and parsing for its data using the
 // plugin's virtual function. Handles both old and new formats.
-// If the optional parameter ppAltData is supplied, looks in an alternative
-// place for the data e.g. WKB tunneling data in TS rather than in reaction.
 // Returns a pointer to the plugin or NULL if a valid plugin or if required
 // data is not found.
+// The parameter pParent is Molecules*, Reaction* or System* depending on the
+// plugin.
 
-template <class T>
-T* ParseForPlugin(const char* elTypeName, PersistPtr ppTop,
+template <class T,class U>
+T* ParseForPlugin(U* pParent, const char* elTypeName, PersistPtr ppTop,
                   bool MustBeThere=true, PersistPtr ppAltData=NULL)
   {
     // Parse XML input for a specified plugin (with me: prefix), either in a text element
@@ -30,8 +30,12 @@ T* ParseForPlugin(const char* elTypeName, PersistPtr ppTop,
       if(pp)
         ptxt = pp->XmlReadValue("name",optional);
       if(!ptxt)
+      {
         //Plugin name in text element or use value from defaults.xml
-        ptxt = ppTop->XmlReadValue(elTypeName, MustBeThere, elTypeName) ;
+        ptxt = ppTop->XmlReadValue(elTypeName, MustBeThere) ; //older style
+        if(ptxt && !*ptxt) //newer style
+          ptxt = (ppTop->XmlMoveTo(elTypeName))->XmlReadValue("name",optional);
+      }
       // With older formats, the data may be in sibling elements   
       pp = ppTop;
     }
@@ -47,9 +51,8 @@ T* ParseForPlugin(const char* elTypeName, PersistPtr ppTop,
     bool dataOK;
     if(pPlugin)
     {
+      pPlugin->setParent(pParent);
       dataOK = pPlugin->ParseData(pp);//use plugin's virtual function
-      if(!dataOK && ppAltData) // try again with alternative data location
-        dataOK = pPlugin->ParseData(ppAltData);
       if(!dataOK)
       {
         cerr << "Data not found for plugin " << pPlugin->getID() << endl;

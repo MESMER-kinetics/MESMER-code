@@ -32,6 +32,8 @@ namespace mesmer
     {
       return dynamic_cast<MicroRateCalculator*>(TopFind(name, typeID()));
     }
+    Reaction* getParent() {return m_parent;} ;
+    void setParent(Reaction* parent) { m_parent = parent;} ;
 
     //Get a list of the IDs of plugin classes derived from this one.
     static std::string List()
@@ -43,12 +45,15 @@ namespace mesmer
 
     virtual bool testMicroRateCoeffs(Reaction* pReact, PersistPtr ppbase) const;
 
-    virtual bool ReadParameters(Reaction* pReac) = 0 ;
+    //@virtual bool ReadParameters(Reaction* pReac) = 0 ;
 
     virtual double get_ThresholdEnergy(Reaction* pReac) ;
 
     // Utility function to check for inconsistencies. 
     static bool ILTCheck(Reaction* pReac, PersistPtr ppReac) ;
+
+  protected:
+    Reaction* m_parent;
   };
 
 }//namespace

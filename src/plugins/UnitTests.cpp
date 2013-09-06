@@ -45,6 +45,8 @@ namespace mesmer
     UnitTests(const char* id) : m_id(id) { Register(); }
     virtual ~UnitTests() {}
     virtual const char* getID()  { return m_id; }
+    
+    virtual bool DoesOwnParsing() { return true; }
 
     //Function to do the work
     virtual bool DoCalculation(System* pSys);
@@ -121,26 +123,26 @@ namespace mesmer
     Env.MaxCell    = Env.GrainSize * Env.MaxGrn ;
 
     // MEIC test: Harmonic oscillator.
-    Molecule *pMol = pSys->getMoleculeManager()->find("Test Molecule");
+    Molecule *pMol = pSys->getMoleculeManager()->find("Test_Molecule");
     if(!pMol)
-      pMol = pSys->getMoleculeManager()->find("Test_Molecule");
+      pMol = pSys->getMoleculeManager()->find("Test Molecule");
     status = ( status && Test_MEIC_1(pMol)) ;
 
-    pMol = pSys->getMoleculeManager()->find("AcO2 Harmonic");
+    pMol = pSys->getMoleculeManager()->find("AcO2_Harmonic");
     if(!pMol)
-      pMol = pSys->getMoleculeManager()->find("AcO2_Harmonic");
+      pMol = pSys->getMoleculeManager()->find("AcO2 Harmonic");
     status = ( status && Test_MEIC_1(pMol)) ;
 
-    pMol = pSys->getMoleculeManager()->find("AcO2 Anharmonic");
+    pMol = pSys->getMoleculeManager()->find("AcO2_Anharmonic");
     if(!pMol)
-      pMol = pSys->getMoleculeManager()->find("AcO2_Anharmonic");
+      pMol = pSys->getMoleculeManager()->find("AcO2 Anharmonic");
     status = ( status && Test_MEIC_Anharmonic(pMol)) ;
 
     status = ( status && Test_MEIC_Rotors(pMol)) ;
 
-    pMol = pSys->getMoleculeManager()->find("AcO2 Asymmetric Top");
+    pMol = pSys->getMoleculeManager()->find("AcO2_Asymmetric_Top");
     if(!pMol)
-      pMol = pSys->getMoleculeManager()->find("AcO2_Asymmetric_Top");
+      pMol = pSys->getMoleculeManager()->find("AcO2 Asymmetric Top");
     status = ( status && Test_MEIC_Rotors(pMol)) ;	
 
     // Execute QD tests for extended precision.

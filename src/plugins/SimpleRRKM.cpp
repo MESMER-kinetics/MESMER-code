@@ -28,7 +28,7 @@ namespace mesmer
 
     virtual SimpleRRKM* Clone() { return new SimpleRRKM(*this); }
 
-    virtual bool ReadParameters(Reaction* pReac);
+    virtual bool ParseData(PersistPtr);
   
     virtual bool calculateMicroRateCoeffs(Reaction* pReact);
 
@@ -146,11 +146,11 @@ namespace mesmer
 		return true;
 	}
 
-	bool SimpleRRKM::ReadParameters(Reaction* pReact)
+	bool SimpleRRKM::ParseData(PersistPtr)
 	{
-		if (!pReact->get_TransitionState())
+		if (!m_parent->get_TransitionState())
 		{
-			cerr << "Reaction " << pReact->getName() 
+			cerr << "Reaction " <<m_parent->getName() 
 				<< " uses RRKM method, which should have transition state."<<endl;
 			return false;
 		}

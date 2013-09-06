@@ -23,6 +23,57 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:complexType name="ExponentialDown">
+    <xs:complexContent>
+      <xs:extension base="energyTransferct">
+        <xs:group ref="deltaEDownGrp" maxOccurs="unbounded"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:group name="deltaEDownGrp">
+    <xs:sequence>
+      <xs:element name="deltaEDown" minOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            "Attributes bathGas and ref are alternatives.
+            Omit both if the bathGas is the one specified in the
+            &lt;me:conditions> section"
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:float">
+              <xs:attribute name="bathGas" use="optional" />
+              <xs:attribute name="ref" use="optional" />
+              <xs:attribute name="units" type="energyUnitsType" use="required" />
+              <xs:attributeGroup ref="rangeAttributes"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="deltaEDownTExponent" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            "Attributes bathGas and ref are alternatives.
+            Omit both if the bathGas is the one specified in the
+            &lt;me:conditions> section"
+          </xs:documentation>
+        </xs:annotation>
+          <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:float">
+              <xs:attribute name="bathGas" use="optional" />
+              <xs:attribute name="ref" use="optional" />
+              <xs:attribute name="referenceTemperature" type="xs:decimal" use="optional" />
+              <xs:attributeGroup ref="rangeAttributes"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+  
   <!--<xs:simpleType name="MCRCMethodName">
     <xs:restriction base="xs:string">
       --><!--Only those with no data--><!--
@@ -57,9 +108,7 @@
               <xs:simpleContent>
                 <xs:extension base="xs:float">
                   <xs:attribute name="units" type="rateConstUnits" use="required" />
-                  <xs:attribute name="lower" type="xs:float" use="optional" />
-                  <xs:attribute name="upper" type="xs:float" use="optional" />
-                  <xs:attribute name="stepsize" type="xs:float" use="optional" />
+                  <xs:attributeGroup ref="rangeAttributes"/>
                 </xs:extension>
               </xs:simpleContent>
             </xs:complexType>
@@ -69,10 +118,8 @@
               <xs:simpleContent>
                 <xs:extension base="xs:float">
                   <xs:attribute name="units" type="energyUnitsType" use="required" />
-                  <xs:attribute name="reverse" type="xs:boolean" use="optional" />
-                  <xs:attribute name="lower" type="xs:float" use="optional" />
-                  <xs:attribute name="upper" type="xs:float" use="optional" />
-                  <xs:attribute name="stepsize" type="xs:float" use="optional" />
+                  <xs:attribute name="reverse" type="me:ynboolean" use="optional" />
+                  <xs:attributeGroup ref="rangeAttributes"/>
                 </xs:extension>
               </xs:simpleContent>
             </xs:complexType>
@@ -86,9 +133,7 @@
             <xs:complexType>
               <xs:simpleContent>
                 <xs:extension base="xs:float">
-                  <xs:attribute name="lower" type="xs:float" use="optional" />
-                  <xs:attribute name="upper" type="xs:float" use="optional" />
-                  <xs:attribute name="stepsize" type="xs:float" use="optional" />
+                  <xs:attributeGroup ref="rangeAttributes"/>
                 </xs:extension>
               </xs:simpleContent>
             </xs:complexType>
@@ -126,8 +171,8 @@
                 </xs:element>
               </xs:sequence>
               <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
-              <xs:attribute name="angularMomentum" type="xs:boolean" use="optional"/>
-              <xs:attribute name="noLogSline" type="xs:boolean" use="optional"/>
+              <xs:attribute name="angularMomentum" type="me:ynboolean" use="optional"/>
+              <xs:attribute name="noLogSpline" type="me:ynboolean" use="optional"/>
             </xs:complexType>
           </xs:element>
         </xs:sequence>
@@ -171,7 +216,7 @@
               <xs:attribute name="format" type="hinderedRotorFormatType" use="required" />
               <xs:attribute name="units" type="me:energyUnitsType" use="required" />
               <xs:attribute name="expansionSize" type="xs:unsignedInt" use="optional" />
-              <xs:attribute name="useSineTerms" type="xs:boolean" use="optional" />
+              <xs:attribute name="useSineTerms" type="me:ynboolean" use="optional" />
               <xs:attribute name="scale" type="xs:float" use="optional" />
             </xs:complexType>
           </xs:element>
@@ -248,7 +293,7 @@
     </xs:restriction>
   </xs:simpleType>
   
-  <xs:simpleType name="calcMethodName">
+  <!--<xs:simpleType name="calcMethodName">
     <xs:annotation>
       <xs:documentation>
         The default is simpleCalc
@@ -256,26 +301,26 @@
     </xs:annotation>
     <xs:restriction  base="xs:string">
       <xs:enumeration value="simpleCalc"/>
-      <!--<xs:enumeration value="fitting"/>-->
+      --><!--<xs:enumeration value="fitting"/>--><!--
       <xs:enumeration value="gridSearch"/>
-      <!--<xs:enumeration value="marquardt"/>-->
+      --><!--<xs:enumeration value="marquardt"/>--><!--
       <xs:enumeration value="ThermodynamicTable"/>
       <xs:enumeration value="UnitTests"/>
     </xs:restriction>
-  </xs:simpleType>
+  </xs:simpleType>-->
 
   <!--mixed="true" is an attempt to validate
   <me:calcMethod>simpleCalc</me:calcMethod>,
   which is provided as the default. However the text name is not checked,
-  and the validation of any data is over-lax.-->
-  <xs:complexType name="calcMethodct" mixed="true">
+  and the validation of any data is over-lax.
+  <xs:complexType name="calcMethodct">
     <xs:sequence></xs:sequence>
     <xs:attribute name="name"  type="xs:string" use="optional" />
     <xs:attribute name="units" type="energyUnitsType"/>
-    <xs:attribute name="default"  type="xs:boolean" use="optional" />
-  </xs:complexType>
+    <xs:attribute name="default"  type="me:ynboolean" use="optional" />
+  </xs:complexType>-->
 
-  <xs:complexType name="fitting" mixed="true">
+  <xs:complexType name="fitting">
     <xs:complexContent>
       <xs:extension base="calcMethodct">
         <xs:all>
@@ -286,10 +331,30 @@
     </xs:complexContent>
   </xs:complexType>
   
-  <xs:complexType name="analyticalRepresentation" mixed="true">
+  <xs:complexType name="analyticalRepresentation">
     <xs:complexContent>
       <xs:extension base="calcMethodct">
         <xs:all>
+          <xs:element name="analyticalRepRef" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="reaction" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:attribute name="ref1" type="cml:refType" use="required"/>
+                    <xs:attribute name="ref2" type="cml:refType" use="required"/>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element> 
+          <xs:element name="chebNumTemp" type="xs:integer" minOccurs="0"/> 
+          <xs:element name="chebNumConc" type="xs:integer" minOccurs="0"/> 
+          <xs:element name="chebMinTemp" type="xs:decimal" minOccurs="0"/> 
+          <xs:element name="chebMaxTemp" type="xs:decimal" minOccurs="0"/>
+          <xs:element name="chebMinConc" type="xs:float" minOccurs="0"/>
+          <xs:element name="chebMaxConc" type="xs:float" minOccurs="0"/>
+          <xs:element name="chebTExSize" type="xs:integer" minOccurs="0"/>
+          <xs:element name="chebPExSize" type="xs:integer" minOccurs="0"/>
           <xs:element name="fittingIterations" type="xs:integer" minOccurs="0"/>
           <xs:element name="fittingTolerance" type="xs:float" minOccurs="0"/>
         </xs:all>
@@ -297,7 +362,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="marquardt" mixed="true">
+  <xs:complexType name="marquardt">
     <xs:complexContent>
       <xs:extension base="calcMethodct">
         <xs:all>
@@ -309,7 +374,7 @@
     </xs:complexContent>
   </xs:complexType>
   
-  <xs:complexType name="SensitivityAnalysis" mixed="true">
+  <xs:complexType name="SensitivityAnalysis">
     <xs:complexContent>
       <xs:extension base="calcMethodct">
         <xs:all>
@@ -369,7 +434,7 @@
                 </xs:element>
               </xs:sequence>
               <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
-              <xs:attribute name="ReducedMass" type="xs:float" use="required"/>                  
+              <xs:attribute name="ReducedMass" type="xs:float" use="required"/>
             </xs:complexType>
           </xs:element>
         </xs:sequence>

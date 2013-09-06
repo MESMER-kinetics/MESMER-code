@@ -20,8 +20,9 @@ namespace mesmer
     virtual bool calculateMicroRateCoeffs(Reaction* pReac);
 
     virtual double get_ThresholdEnergy(Reaction* pReac) ;
+    virtual bool ParseData(PersistPtr pp);
 
-    virtual bool ReadParameters(Reaction* pReac) ;
+    //@virtual bool ReadParameters(Reaction* pReac) ;
     
   private:
     const char* m_id;
@@ -39,15 +40,20 @@ namespace mesmer
   SimpleILT theSimpleILT("SimpleILT");
   //************************************************************
 
-  bool SimpleILT::ReadParameters(Reaction* pReact) {
+ //@ bool SimpleILT::ReadParameters(Reaction* pReact) {
 
+    // Read ILT parameters
+  //@bool MesmerILT::ReadParameters(Reaction* pReact) {
+  bool SimpleILT::ParseData(PersistPtr pp)
+  {
+    Reaction* pReact = m_parent; //use old var name
     PersistPtr ppReac = pReact->get_PersistentPointer();
 
     // OpenBabel outputs <rateParameters> <A> <n> <E>
     // Attempt to read these first and if not present read the mesmer 
     // version which will add the default if necessary.
     
-    PersistPtr ppActEne, ppPreExponential, pp;
+    PersistPtr ppActEne, ppPreExponential;//@, pp;
     const char* pActEnetxt=NULL, *pPreExptxt=NULL;
     bool rangeSet(false) ;
     PersistPtr ppRateParams = ppReac->XmlMoveTo("rateParameters") ;
@@ -60,11 +66,12 @@ namespace mesmer
     } 
     else {
       //Mesmer forms
-      //New form has <me:MCRCMethod name="MesmerILT" xsi:type="MesmerILT">
+      //New form has <me:MCRCMethod name="SimpleILT" xsi:type="SimpleILT">
       //and parameters as subelement of this. In old form they are siblings.
-      pp = ppReac->XmlMoveTo("me:MCRCMethod");
-      if(pp && !pp->XmlReadValue("xsi:type",  optional))
-        pp = ppReac;
+      //@Now handled in ParseForPlugin
+      //@pp = ppReac->XmlMoveTo("me:MCRCMethod");
+      //@if(pp && !pp->XmlReadValue("xsi:type", optional))
+        //@pp = ppReac;
       ppActEne = pp->XmlMoveTo("me:activationEnergy") ;
       pActEnetxt = pp->XmlReadValue("me:activationEnergy");
       ppPreExponential = pp->XmlMoveTo("me:preExponential") ;

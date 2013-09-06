@@ -25,10 +25,13 @@ namespace mesmer
     {
       return dynamic_cast<TunnelingCalculator*>(TopFind(id, typeID()));
     }
+    Reaction* getParent() { return m_parent; }
+    void setParent(Reaction* parent) { m_parent = parent; }
 
     virtual bool calculateCellTunnelingCoeffs(Reaction* pReact, std::vector<double>& TunnelingProbability) = 0 ;
 
 private:
+  Reaction* m_parent;
   static const char* typeID(){ return "Tunneling Calculators"; }
   };
 

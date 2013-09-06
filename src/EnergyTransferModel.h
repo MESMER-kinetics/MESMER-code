@@ -81,8 +81,8 @@ public:
   //Returns the bath gas name special for this instance, or NULL none specified.
   virtual bool ReadParameters(Molecule* parent) = 0 ; 
 
-  const Molecule* getParent() const {return m_parent;} ;
-  void setParent(const Molecule* parent) { m_parent = parent;} ;
+  Molecule* getParent() {return m_parent;} ;
+  void setParent(Molecule* parent) { m_parent = parent;} ;
 
 private:
   /*************************************************************
@@ -91,9 +91,12 @@ private:
      mesmer -t    or    mesmer -T  
   **************************************************************/
   static const char* typeID(){ return "Energy transfer models"; }
-  const Molecule* m_parent;
+
+protected:
+  Molecule* m_parent;
 };
 
 }//namespace
+
 
 #endif // GUARD_EnergyTransferModels_h

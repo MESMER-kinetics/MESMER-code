@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include "System.h"
 
 namespace mesmer
 {
@@ -17,11 +18,15 @@ namespace mesmer
     virtual ~CalcMethod(){}
     virtual const char* getTypeID(){return typeID();}
 
+    virtual bool DoesOwnParsing() { return false; }
+
     //Get a pointer to a derived class by providing its id.
     static CalcMethod* Find(const std::string& id)
     {
       return dynamic_cast<CalcMethod*>(TopFind(id, typeID()));
     }
+    System* getParent() { return m_parent; }
+    void setParent(System* parent) { m_parent = parent; }
 
     //Function to do the work
     virtual bool DoCalculation(System* pSys)=0;
@@ -39,6 +44,7 @@ namespace mesmer
       return method;
     }
   private:
+    System* m_parent;
     static const char* typeID(){ return "Calculation methods"; }
 
   };

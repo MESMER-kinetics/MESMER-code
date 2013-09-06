@@ -232,29 +232,8 @@ namespace mesmer
     // Determine the method of MC rate coefficient calculation.
     // The name of the method may be in a text element e.g.<me:MCRCMethod>SimpleRRKM</me:MCRCMethod>
     // OR in a name or a xsi:type attribute e.g <me:MCRCMethod xsi:type ="me:MesmerILT">
-    const char* pMCRCMethodtxt;
-    PersistPtr pp = ppReac->XmlMoveTo("me:MCRCMethod");
-    if(pp)
-      pMCRCMethodtxt = pp->XmlReadValue("xsi:type",optional);
-    if(!pMCRCMethodtxt)
-      pMCRCMethodtxt = pp->XmlReadValue("name",optional);
-    if(!pMCRCMethodtxt)
-      pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod", true, MicroRateCalculator::typeID()) ;
-    if(pMCRCMethodtxt)
-    {
-      if(pMCRCMethodtxt[2]==':')
-        pMCRCMethodtxt+=3; //Remove prefix "me:"
-      m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
-      if(!m_pMicroRateCalculator)
-      //{
-      //  cerr << "Unknown method " << pMCRCMethodtxt
-      //    << " for the determination of Microcanonical rate coefficients in reaction "
-      //    << getName() << endl;
-        return false;
-      //}
-    }
 
-    // Read the transition state (if present)
+    // First read the transition state (if present)
     PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState") ;
     if (ppTransitionState)
     {
@@ -262,22 +241,47 @@ namespace mesmer
       if(pTrans) m_TransitionState = pTrans;
     }
 
-    //---------------------------------------------------------
-    // Microcanonical rate constants methods dependent section.
-      
-    if (!m_pMicroRateCalculator->ReadParameters(this)) return false;
+    m_pMicroRateCalculator = ParseForPlugin<MicroRateCalculator>(this, "me:MCRCMethod", ppReac);
+
+    //const char* pMCRCMethodtxt;
+    //PersistPtr pp = ppReac->XmlMoveTo("me:MCRCMethod");
+    //if(pp)
+    //  pMCRCMethodtxt = pp->XmlReadValue("xsi:type",optional);
+    //if(!pMCRCMethodtxt)
+    //  pMCRCMethodtxt = pp->XmlReadValue("name",optional);
+    //if(!pMCRCMethodtxt)
+    //  pMCRCMethodtxt = ppReac->XmlReadValue("me:MCRCMethod", true, MicroRateCalculator::typeID()) ;
+    //if(pMCRCMethodtxt)
+    //{
+    //  if(pMCRCMethodtxt[2]==':')
+    //    pMCRCMethodtxt+=3; //Remove prefix "me:"
+    //  m_pMicroRateCalculator = MicroRateCalculator::Find(pMCRCMethodtxt);
+    //  if(!m_pMicroRateCalculator)
+    //  //{
+    //  //  cerr << "Unknown method " << pMCRCMethodtxt
+    //  //    << " for the determination of Microcanonical rate coefficients in reaction "
+    //  //    << getName() << endl;
+    //    return false;
+    //  //}
+    //}
+
+
+    ////---------------------------------------------------------
+    //// Microcanonical rate constants methods dependent section.
+    //  
+    //if (!m_pMicroRateCalculator->ReadParameters(this)) return false;
     
     PersistPtr ppTS = get_TransitionState() ? 
         get_TransitionState()->get_PersistentPointer() : PersistPtr();
       
     // Determine the method of estimating tunneling coefficients.
-    m_pTunnelingCalculator = ParseForPlugin<TunnelingCalculator>("me:tunneling", ppReac,
+    m_pTunnelingCalculator = ParseForPlugin<TunnelingCalculator>(this, "me:tunneling", ppReac,
           optional, ppTS); //data may be in TS
     if(!m_pTunnelingCalculator)
       cinfo << "No tunneling method used for " << getName() << endl;
 
     // Determine the method of estimating crossing coefficients.
-    m_pCrossingCalculator = ParseForPlugin<CrossingCalculator>("me:crossing", ppReac,
+    m_pCrossingCalculator = ParseForPlugin<CrossingCalculator>(this, "me:crossing", ppReac,
       optional, ppTS); //data may be in TS)
     if(!m_pCrossingCalculator)
       cinfo << "No crossing method used for " << getName() << endl;

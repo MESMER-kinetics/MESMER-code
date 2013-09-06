@@ -206,7 +206,7 @@
   </moleculeList>
 
   <me:control>
-	<me:calcMethod units="kJ/mol">ThermodynamicTable</me:calcMethod>
+    <me:calcMethod units="kJ/mol" name="ThermodynamicTable"/>
   </me:control>
 
 </me:mesmer>

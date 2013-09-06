@@ -126,8 +126,8 @@ namespace mesmer
 	PersistPtr ppARepRef = pp->XmlMoveTo("me:analyticalRepRef");
 	ppARepRef = ppARepRef->XmlMoveTo("me:reaction");
 		while(ppARepRef){
-		m_reactionRef1.push_back(ppARepRef->XmlReadValue("me:ref1"));
-		m_reactionRef2.push_back(ppARepRef->XmlReadValue("me:ref2"));
+		m_reactionRef1.push_back(ppARepRef->XmlReadValue("ref1"));
+		m_reactionRef2.push_back(ppARepRef->XmlReadValue("ref2"));
 		ppARepRef = ppARepRef->XmlMoveTo("me:reaction");
 	}
 

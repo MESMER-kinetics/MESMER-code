@@ -1089,7 +1089,7 @@
     <me:printGrainDOS />
     <!--<me:printCellDOS />-->
     <!--<me:printReactionOperatorColumnSums />-->
-    <me:printTunnellingCoefficients />
+    <me:printTunnelingCoefficients />
     <me:printGrainkfE />
     <!--<me:printGrainBoltzmann />-->
     <me:printGrainkbE />

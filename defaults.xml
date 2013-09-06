@@ -33,9 +33,10 @@
   <property dictRef="me:sigma" default="true">
     <scalar>5.0</scalar>
   </property>
-  <property dictRef="me:deltaEDown" default="NEEDS TO BE CHECKED**">
+  <me:deltaEDown default="NEEDS TO BE CHECKED**">130.0</me:deltaEDown>
+<!--<property dictRef="me:deltaEDown" default="NEEDS TO BE CHECKED**">
     <scalar>130.0</scalar>
-  </property>
+  </property>-->
   <property dictRef="me:deltaEDownTExponent" default="true">
     <scalar referenceTemperature="298">0.0</scalar>
   </property>
@@ -47,11 +48,11 @@
   <property dictRef="me:MW" default="IS UNSATISFACTORY. A VALUE NEEDS TO BE PROVIDED**">
     <scalar>0.0</scalar>
   </property>
-  <me:MCRCMethod default="NEEDS TO BE CHECKED. COULD BE** ">
-    SimpleRRKM</me:MCRCMethod>
-  <me:DOSCMethod default="true">ClassicalRotors</me:DOSCMethod>
+  <me:MCRCMethod default="NEEDS TO BE CHECKED. COULD BE** " name="SimpleRRKM"/>
+  <me:DOSCMethod default="true" name="ClassicalRotors"/>
   <me:DOSCType default="true">external</me:DOSCType>
-  <me:DistributionCalcMethod default="true">Boltzmann</me:DistributionCalcMethod>
+  <!--<me:DistributionCalcMethod default="true">Boltzmann</me:DistributionCalcMethod>-->
+  <me:DistributionCalcMethod default="true" name="Boltzmann"/>
   <me:excessReactantConc default="NEEDS TO BE CHECKED**">2.25e+16</me:excessReactantConc>
   <!--<me:precision default="true">double</me:precision>-->
   <me:PTPair precision="d" P="1.01E17" T="299" default="true"/>
@@ -60,13 +61,16 @@
   <me:eigenvalues default="true">0</me:eigenvalues>
   <me:grainSize units="cm-1" default="true">100</me:grainSize>
   <me:energyAboveTheTopHill units="kT" default="true">25</me:energyAboveTheTopHill>
-  <me:calcMethod default="true">simpleCalc</me:calcMethod>
+  <me:calcMethod default="true" name="simpleCalc"/>
   <me:fittingTolerance default="true">0.01</me:fittingTolerance>
   <me:fittingIterations default="true">10</me:fittingIterations>
-  <me:energyTransferModel default="true">ExponentialDown</me:energyTransferModel>
+  <!--<me:energyTransferModel default="true">ExponentialDown</me:energyTransferModel>-->
+  <me:energyTransferModel name="ExponentialDown" default="true"/>
   <me:MarquardtDerivDelta default="true">1.e-03</me:MarquardtDerivDelta>
   <me:MarquardtTolerance default="true">1.e-03</me:MarquardtTolerance>
   <me:ConstraintFactor default="true">1.0</me:ConstraintFactor>
   <me:ConstraintAddand default="true">0.0</me:ConstraintAddand>
+  <me:SensitivityAnalysisIterations>10</me:SensitivityAnalysisIterations>
+  <me:SensitivityAnalysisDelta>2</me:SensitivityAnalysisDelta>
 </defaults>
 

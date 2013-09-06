@@ -144,7 +144,7 @@
         <molecule ref="HSO2" role="modelled" />
       </product>
       <me:transitionState>
-        <molecule ref="TS1" me:type="transitionState" />
+        <molecule ref="TS1" role="transitionState" />
       </me:transitionState>
       <me:excessReactantConc>1e14</me:excessReactantConc>
       <me:MCRCMethod name="SimpleRRKM"/>

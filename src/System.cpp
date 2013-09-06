@@ -142,23 +142,16 @@ namespace mesmer
       return false;
     }
 
-    //string task ;
-    //m_CalcMethod = CalcMethod::GetCalcMethod(ppControl,task);
-    //if(!m_CalcMethod)
-    //  return false;
-
-    m_CalcMethod = ParseForPlugin<CalcMethod>("me:calcMethod", ppControl);
+    m_CalcMethod = ParseForPlugin<CalcMethod>(this, "me:calcMethod", ppControl);
     if(!m_CalcMethod)
       return false;
-    string task(m_CalcMethod->getID());
 
-    //-------------
     //Molecule List (parse this part as required ...)
     PersistPtr ppMolList = ppIOPtr->XmlMoveTo("moleculeList");
     m_pMoleculeManager->set_PersistPtr(ppMolList);
 
-    if (task == "ThermodynamicTable" || task == "UnitTests") {
-      // Thermodynamic table and UnitTests do their own file parsing.
+    if (m_CalcMethod->DoesOwnParsing()) {
+      // Thermodynamic table, UnitTests,etc. do their own file parsing.
       return true ;
     }
 

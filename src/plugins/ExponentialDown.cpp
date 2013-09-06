@@ -65,7 +65,8 @@ public:
   /*************************************************************
   Read the parameters needed by the class from the XML datafile
   *************************************************************/
-  virtual bool ReadParameters(Molecule* parent) ; 
+  virtual bool ParseData(PersistPtr pp) override;
+  virtual bool ReadParameters(Molecule* parent){return false;}//*****
 
   /*************************************************************
   This is the function which does the real work of the plugin
@@ -101,45 +102,53 @@ public:
   or Reaction.
   Returns the name of a special bath gas molecule or NULL.
   ******************************************************************************/
-bool ExponentialDown::ReadParameters( Molecule* parent)
-{ 
-  setParent(parent);
-  PersistPtr pp = parent->get_PersistentPointer();
-  // There may or may not be a <propertyList> element. If not, the <property>
-  //  elements are children of <molecule>
-  PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
-  PersistPtr ppTop = ppPropList ? ppPropList : pp;
+bool ExponentialDown::ParseData(PersistPtr ppModel)
+{
+  PersistPtr ppTop = m_parent->get_PersistentPointer();
+
+  bool dataInProperty(true);
+  PersistPtr ppPropList = ppTop->XmlMoveTo("propertyList");
+  ppTop = ppPropList ? ppPropList : ppTop; //At <propertyList> if exists, else at <molecule>
   PersistPtr ppProp = ppTop->XmlMoveToProperty("me:deltaEDown");
-//  if (!ppProp) Not needed I think, but what problem was it solving?
-//	return false ;
-  /******************************************************************************
-  The following reads the content of every CML property "me:deltaEDown". If there
-  is not one, the default value from defaults.xml is added to the internal XML tree
-  and the value returned. This mechanism, which applies for most XmlRead
-  operations unless there is a 'optional' parameter, is the recommended way to
-  handle default values. It allows the default to be changed by the user, logs the
-  use of the default, and provides error messages, including optional exhortations
-  for the user to check the default (see the manual).
-  ******************************************************************************/
-  m_deltaEDown = ppTop->XmlReadPropertyDouble("me:deltaEDown"); //required in datafile or defaults.xml
-  if(IsNan(m_deltaEDown)) //unlikely failure
-    return false;
-  do
+
+  if (!ppProp)
+  {
+    //Data is a child of <me:energyTransferModel>
+    dataInProperty=false;
+    //PersistPtr ppModel = pp->XmlMoveTo("me:energyTransferModel");
+    m_deltaEDown = ppModel->XmlReadDouble("me:deltaEDown"); //or use default
+    ppProp = ppModel->XmlMoveTo("me:deltaEDown");
+  }
+  else //Try for data in a property
   {
     /******************************************************************************
-    The bath gas can optionally be specified, or omitted to use the general one
-    specified directly under <me:conditions>. XmlReadValue() reads either attributes
-    or the text value of elements. ("ref" is an attribute.)
-    Each bath gas has its own instance of ExponentialDown (made, if necessary, 
-    in WellProperties::addBathGas()).
+    The following reads the content of every CML property "me:deltaEDown". If there
+    is not one, the default value from defaults.xml is added to the internal XML tree
+    and the value returned. This mechanism, which applies for most XmlRead
+    operations unless there is a 'optional' parameter, is the recommended way to
+    handle default values. It allows the default to be changed by the user, logs the
+    use of the default, and provides error messages, including optional exhortations
+    for the user to check the default (see the manual).
+    ******************************************************************************/
+    m_deltaEDown = ppTop->XmlReadPropertyDouble("me:deltaEDown");
+  }
+  if(IsNan(m_deltaEDown)) //unlikely failure
+    return false;
+
+  do //Loop over all <me:deltaEDown> or equivalent property.
+  {
+    /******************************************************************************
+    The bath gas can optionally be specified (using ref or bathGas or omitted, when the
+    general one specified directly under <me:conditions> is used. Each bath gas has its
+    own instance of ExponentialDown (made, if necessary, in WellProperties::addBathGas()).
     ******************************************************************************/
     const char* bathGasName = NULL;
-    if(ppProp) //May be NULL if default method and deltaEDown value used
-      bathGasName = ppProp->XmlReadValue("ref", optional); //ppProp is at <scalar>
+    bathGasName = ppProp->XmlReadValue("ref", optional);//ppProp is at <scalar> or <me:deltaEDown>
+    if(!bathGasName)
+      bathGasName = ppProp->XmlReadValue("bathGas", optional);
     ExponentialDown* pModel
-      = static_cast<ExponentialDown*>(parent->getColl().addBathGas(bathGasName, this));
-    if(!ppProp) //there is no other data
-      return true;
+      = static_cast<ExponentialDown*>(m_parent->getColl().addBathGas(bathGasName, this));
+    assert(ppProp);
 
     /******************************************************************************
     m_deltaEdown behaves most of the time like a normal variable of type double.
@@ -148,44 +157,44 @@ bool ExponentialDown::ReadParameters( Molecule* parent)
     "upper" attributes, together with and the following code, sets this up.
     ******************************************************************************/
     bool rangeSet ;
-    string varid = parent->getName()+":deltaEDown:"+ (bathGasName ? bathGasName : "");
+    string varid = m_parent->getName()+":deltaEDown:"+ (bathGasName ? bathGasName : "");
     ReadRdoubleRange(varid, ppProp, pModel->m_deltaEDown, rangeSet) ;
 
-    /******************************************************************************
-    The last parameter ToNextProperty is true, so that we loop over all
-    "me:deltaEDown" properties.
-    ******************************************************************************/
-  } while( (ppProp  = ppProp->XmlMoveToProperty("me:deltaEDown",true)) );
+  } while(ppProp  = dataInProperty ? ppProp->XmlMoveToProperty("me:deltaEDown",true)
+                                   : ppProp->XmlMoveTo("me:deltaEDown") );
 
   /******************************************************************************
-  Read the temperature coefficients. First the required value
-  (from defaults.xml if not present).
+  Read the temperature coefficients for all bath gases.
   The temperature dependence of <delta_E_down> is accounted for as:
      <delta_E_down>(T) = <delta_E_down>_ref * (T / refTemp)^dEdExp
-  By default, dEdExp = 0, which means delta_E_down does not depend on temperature.
-  Reference temperature of <Delta E down>, refTemp, has default 298.
+  The default is hardwired at dEdExp = 0, so delta_E_down does not depend on temperature.
+  Reference temperature of <DeltaEDown>, refTemp, also hardwired, has default 298K.
   ******************************************************************************/
-  m_dEdExp = ppTop->XmlReadPropertyDouble("me:deltaEDownTExponent");
-  if(IsNan(!m_dEdExp))
-    return false;
-  PersistPtr ppPropExp = ppTop->XmlMoveToProperty("me:deltaEDownTExponent");
+  m_dEdExp = dataInProperty ?
+    ppTop->XmlReadPropertyDouble("me:deltaEDownTExponent",optional) :
+    ppModel->XmlReadDouble("me:deltaEDownTExponent",optional);
+  if(IsNan(m_dEdExp))
+      m_dEdExp = 0.0;
+  PersistPtr ppPropExp = dataInProperty ? ppTop : ppModel;
 
-  do
+  while(ppPropExp = dataInProperty ?
+           ppPropExp->XmlMoveToProperty("me:deltaEDownTExponent", true) :
+           ppPropExp->XmlMoveTo("me:deltaEDownTExponent"))
   {
-    //PersistPtr ppPropExp = ppProp->XmlMoveToProperty("me:deltaEDownTExponent"); 
     m_refTemp = ppPropExp->XmlReadDouble("referenceTemperature", optional );
     if(IsNan(m_refTemp))
       m_refTemp = 298.;
     const char* bathGasName = ppPropExp->XmlReadValue("ref", optional);
+    if(!bathGasName)
+      bathGasName = ppPropExp->XmlReadValue("bathGas", optional);
     ExponentialDown* pModel
-      = static_cast<ExponentialDown*>(parent->getColl().addBathGas(bathGasName, this));
+      = static_cast<ExponentialDown*>(m_parent->getColl().addBathGas(bathGasName, this));
 
     bool rangeSet ;
-    string varid = parent->getName()+":deltaEDownTExponent:"+ (bathGasName ? bathGasName : "");
+    string varid = m_parent->getName()+":deltaEDownTExponent:"+ (bathGasName ? bathGasName : "");
     ReadRdoubleRange(varid, ppPropExp, pModel->m_dEdExp, rangeSet) ;
+  }
 
-  }while(ppPropExp = ppPropExp->XmlMoveToProperty("me:deltaEDownTExponent", true));
-  
   return true;
 }
 
@@ -234,6 +243,18 @@ bool ExponentialDown::ReadParameters( Molecule* parent)
   Add your data, which should usually have an me: prefix.
 
   ******************************************************************************/
+/*
+Format for unified parsing
+<molecule>
+  ...
+  <me:energyTransferModel xsi:type="me:ExponentialDown">
+    <me:deltaEDown units="cm-1" lower="160" upper="300" stepsize="10">190</me:deltaEDown>
+    <me:deltaEDownTExponent referenceTemperature="300">1.0</me:deltaEDownTExponent>
+    <me:deltaEDown units="cm-1" bathGas="Ar">144.0</me:deltaEDown>
+    <me:deltaEDownTExponent ref="Ar" lower="0.8" upper="1.2" stepsize="0.1">1.0</me:deltaEDownTExponent>
+  </me:energyTransferModel>
+
+*/
 
 }//namespace
 

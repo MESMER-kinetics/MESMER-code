@@ -98,7 +98,7 @@ namespace mesmer
     it = m_molmap.find(name) ;
 
     if (it == m_molmap.end()) {
-      cerr << name << " is not a known Molecule.";
+      cerr << name << " is not a known Molecule." << endl;
       return NULL;
     }
 

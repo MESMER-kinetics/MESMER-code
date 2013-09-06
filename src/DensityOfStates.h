@@ -33,7 +33,7 @@ namespace mesmer
       "(currently ClassicalRotors) is used. The BeyerSwinehart method for vibrations"
       " is normally automatically included.\n\n"
       "Multiple additional methods can be specified like\n"
-      "<me:ExtraDOSCMethod name=\"HinderedRotorQM1D\">\n"
+      "<me:ExtraDOSCMethod xsi:type=\"me:HinderedRotorQM1D\">\n"
       "  data for method...\n"
       "</me:ExtraDOSCMethod>\nn";
     }

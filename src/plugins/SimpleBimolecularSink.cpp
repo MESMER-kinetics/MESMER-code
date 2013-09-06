@@ -32,7 +32,8 @@ namespace mesmer
 
 		virtual SimpleBimolecularSink* Clone() { return new SimpleBimolecularSink(*this); }
 
-		virtual bool ReadParameters(Reaction* pReac);
+		//@virtual bool ReadParameters(Reaction* pReac);
+    virtual bool ParseData(PersistPtr pp);
 
 		virtual double get_ThresholdEnergy(Reaction* pReac) ;
 
@@ -97,8 +98,10 @@ namespace mesmer
 	// for the simple bimolecular sink, all we do is read the BimolecularLossRateCoefficient
 	// the excess species concentration lives on the Reaction class
 
-	bool SimpleBimolecularSink::ReadParameters(Reaction* pReact)
+	//@bool SimpleBimolecularSink::ReadParameters(Reaction* pReact)
+  bool SimpleBimolecularSink::ParseData(PersistPtr pp)
 	{
+    Reaction* pReact = m_parent; //use old var name
 		cinfo << "Reading parameters for Reaction " << pReact->getName() << " which uses the SimpleBimolecularSink method"<<endl;
 
 		PersistPtr ppReac = pReact->get_PersistentPointer();
@@ -107,8 +110,8 @@ namespace mesmer
 		const char* pRateCoefficientTxt=NULL;
 		bool rangeSet(false) ;
 
-		ppRateCoefficient = ppReac->XmlMoveTo("me:BimolecularLossRateCoefficient") ;
-		pRateCoefficientTxt = ppReac->XmlReadValue("me:BimolecularLossRateCoefficient");
+		ppRateCoefficient = pp->XmlMoveTo("me:BimolecularLossRateCoefficient") ;
+		pRateCoefficientTxt = pp->XmlReadValue("me:BimolecularLossRateCoefficient");
 
 		if (pRateCoefficientTxt){
 			double value = 0.0;

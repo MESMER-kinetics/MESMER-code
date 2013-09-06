@@ -495,7 +495,7 @@
   </me:modelParameters>
 
   <me:control>
-    <me:calcMethod>ThermodynamicTable</me:calcMethod>
+    <me:calcMethod name="ThermodynamicTable"/>
     <me:testDOS />
   </me:control>
 

@@ -215,7 +215,7 @@ namespace mesmer
 
         // Check if sine terms are to be used.
 
-        const char *pUseSineTerms(pp->XmlReadValue("UseSineTerms",optional)) ;
+        const char *pUseSineTerms(pp->XmlReadValue("useSineTerms",optional)) ;
         if (pUseSineTerms && string(pUseSineTerms) == "yes") {
           m_useSinTerms = true ;
         }

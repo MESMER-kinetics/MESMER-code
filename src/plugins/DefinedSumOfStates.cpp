@@ -33,6 +33,7 @@ namespace mesmer
 	virtual bool calculateMicroRateCoeffs(Reaction* pReac) ;
 
 	virtual bool ReadParameters(Reaction* pReac)  { return true ; }
+  virtual bool ParseData(PersistPtr pp);
 
   private:
 
@@ -49,46 +50,35 @@ namespace mesmer
 
   private:
     const char* m_id;
+    bool m_logSpline;
+    vector<double> WE, E ;
   };
 
   //************************************************************
-  //Global instance, defining its id (usually the only instance) but here with an alternative name
   DefinedSumOfStates theDefinedSumOfStates("DefinedSumOfStates");
   //************************************************************
 
-  //
-  // This method calculates the reaction flux. 
-  //
+bool DefinedSumOfStates::ParseData(PersistPtr pp)
+{
+  Molecule* pTransitionState = m_parent->get_TransitionState();
 
-  bool DefinedSumOfStates::calculateMicroRateCoeffs(Reaction* pReact)
-  {
-	// Locate the sum of states, which are defined on the transition state.
+	PersistPtr ppSos = pp->XmlMoveTo("me:SumOfStates") ;
+	if (!ppSos)
+    ppSos = (pTransitionState->get_PersistentPointer())->XmlMoveTo("me:SumOfStates");
+	if (!ppSos)
+	  throw(std::runtime_error("No sum of states defined in either "
+    + m_parent->getName() + " or " +pTransitionState->getName()))  ;
 
-	Molecule *pTransitionState = pReact->get_TransitionState() ;
-
-	if (!pTransitionState) {
-	  throw(std::runtime_error("No transition state defined for reaction"+pReact->getName()))  ;
-	}
-
-	PersistPtr ppTS = pTransitionState->get_PersistentPointer() ;
-
-	PersistPtr pp = ppTS->XmlMoveTo("me:SumOfStates") ;
-
-	if (!pp) {
-	  throw(std::runtime_error("No sum of states define for transition state"+pTransitionState->getName()))  ;
-	}
-
-	bool angularMomentum = pp->XmlReadBoolean("angularMomentum");
+	bool m_logSpline = !(ppSos->XmlReadBoolean("nologSpline")) ;
 
 	// Initialize arrays, of possibly J interpolated, sums of states.
-
 	vector<double> WE, E ;
 	E.clear()  ; E.push_back(0.0) ;
 	WE.clear() ; WE.push_back(1.0) ;
 
 	// Read sum of states data from XML representation, interpolating J values if required.
 
-	if (angularMomentum) {
+	if (ppSos->XmlReadBoolean("angularMomentum")) {
 	  readEneAndJDepSOS(WE, E, pp) ;
 	} else {
 	  readEneDepSOS(WE, E, pp) ;
@@ -97,12 +87,19 @@ namespace mesmer
 	// Apply symmetry number.
 
 	double symmetryNumber = pTransitionState->getDOS().get_Sym() ;
-	bool logSpline = !(pp->XmlReadBoolean("nologSpline")) ;
 	for (size_t i(0) ; i < WE.size() ; i++) {
 	  WE[i] /= symmetryNumber ;
-	  if (logSpline) WE[i] = log(WE[i]) ;
+	if (m_logSpline) 
+    WE[i] = log(WE[i]) ;
 	}
+  return true;
+}
+  //
+  // This method calculates the reaction flux. 
+  //
 
+bool DefinedSumOfStates::calculateMicroRateCoeffs(Reaction* pReact)
+{
 	// Allocate space to hold transition state flux and initialize elements to zero.
 	vector<double>& rxnFlux = pReact->get_CellFlux();
 	rxnFlux.clear();
@@ -120,7 +117,7 @@ namespace mesmer
 
 	for (size_t i(0) ; i < MaximumCell ; ++i ) {
 	  double SumOfStates = spline.Calculate(double(min(i,maxEnergy))) ;
-	  if (logSpline) SumOfStates = exp(SumOfStates) ;
+	  if (m_logSpline) SumOfStates = exp(SumOfStates) ;
 	  rxnFlux[i] = SumOfStates * SpeedOfLight_in_cm;
 	}
 
@@ -128,11 +125,11 @@ namespace mesmer
 	pReact->setCellFluxBottom(pReact->get_relative_rctZPE() + pReact->get_ThresholdEnergy());
 
 	return true;
-  }
+}
 
   // This method reads in an energy (only) dependent sum of states.
-  bool DefinedSumOfStates::readEneDepSOS(vector<double>& WE, vector<double>& E, PersistPtr pp) {
-
+bool DefinedSumOfStates::readEneDepSOS(vector<double>& WE, vector<double>& E, PersistPtr pp)
+{
 	const char* txt = pp->XmlReadValue("units", optional);
 	string units = txt ? txt : "kJ/mol";
 
@@ -144,17 +141,17 @@ namespace mesmer
 	  double energy = pp->XmlReadDouble("energy", false);
 	  energy = getConvertedEnergy(units, energy);
 	  E.push_back(energy) ;
-	}
+  }
 
 	return true;
-  } 
+} 
 
   // This method reads in an energy and J dependent sum of states, and interpolates over J.
-  bool DefinedSumOfStates::readEneAndJDepSOS(vector<double>& WE, vector<double>& E, PersistPtr pp) {
+bool DefinedSumOfStates::readEneAndJDepSOS(vector<double>& WE, vector<double>& E, PersistPtr pp)
+{
 
 	const char* txt = pp->XmlReadValue("units", optional);
 	string units = txt ? txt : "kJ/mol";
-	bool logSpline = !(pp->XmlReadBoolean("nologSpline")) ;
 
 	int JMin(0), JMax(0) ;
 	SumOfStatesData WEJ;
@@ -179,7 +176,7 @@ namespace mesmer
 		WEJ[energy] = pJData ;
 	  }
 
-	  SumOfStates = (logSpline) ? log(max(SumOfStates,1.0)) : SumOfStates ;
+	  SumOfStates = (m_logSpline) ? log(max(SumOfStates,1.0)) : SumOfStates ;
 	  pJData->push_back(pair<double,double>(angMomMag, SumOfStates)) ;
 	}
 
@@ -193,7 +190,7 @@ namespace mesmer
 	  double sum(0.0) ;
 	  for (int j(JMin) ; j < JMax ; j++) {
 		double tmp = spline.Calculate(double(j)) ;
-		sum += (logSpline) ? exp(tmp) : tmp ;
+		sum += (m_logSpline) ? exp(tmp) : tmp ;
 	  }
 	  WE.push_back(sum) ;
 	  E.push_back(citr->first) ;
@@ -207,6 +204,6 @@ namespace mesmer
 	}
 
 	return true;
-  }
+}
 
 } //namespace

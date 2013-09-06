@@ -20,7 +20,7 @@ namespace mesmer
   /** Abstract base class for distribution calculators
   The derived concrete classes are plugin classes:
   -- New classes can be added without changing any of the existing code.
-  They have a single global instance, the constructor of which registers
+  They have a global instance, the constructor of which registers
   the class with the base class. Subsequently, a pointer to the class is
   obtained by supplying the id (a string) to the Find function.
   **/
@@ -37,8 +37,11 @@ namespace mesmer
 
     virtual bool calculateDistribution(Molecule* m_host, std::vector<double>& dist) = 0 ;
 
-private:
+    Molecule* getParent() {return m_parent;} ;
+    void setParent(Molecule* parent) { m_parent = parent;} ;
 
+private:
+    Molecule* m_parent;
     static const char* typeID(){ return "Distribution Calculators"; }
   };
 

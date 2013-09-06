@@ -1,3 +1,27 @@
+2013-September 06 Chris Morley
+
+	Progress towards unifying the parsing of plugin data via ParseForPlugin()
+	which scans the XML for a plugin type, makes a new instance, reads its
+	data via the plugin's virtual ParseData() function, and inserts defaults.
+	Most plugins now work this way but DOS calculators are a little more
+	complicated and remain to be done.
+
+	src/ParseForPlugin.h: All plugins given a pointer to a parent which is
+	an instance of Molecule, Reaction or System, depending on the plugin type.
+	
+	src/plugins/ExponentialDown.cpp: Read deltaEDown data in child elements
+	of <me:energyTransferModel> (as well as the old way in CML properties).
+	The complexity of this class makes it unsuitable as an annotated plugin
+	example file which needs to be transferred to another class. 
+
+	Many XML files updated to a schema-friendly format which allows plugin
+	data to be validated by the schema. Old format files should still work,
+	but use the forms in MesmerQAschema and examplesSchema as models. We'll
+	get rid of the original files eventually.
+
+	CMLforMesmer.xsd,mesmer.xsd,mesmerPlugins.xsd: extended and modified but
+	still need work to make them more consistent.
+
 2013-August-26 Robin Shannon
 	* System.cpp, System.h, AnalyticalRepresentation.cpp: Intial working check-in
 	of method to calculate coefficients for a chebyshev polynomial represenation

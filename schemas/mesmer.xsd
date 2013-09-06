@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:me="http://www.chem.leeds.ac.uk/mesmer"  elementFormDefault="qualified"                
+<xs:schema xmlns:me="http://www.chem.leeds.ac.uk/mesmer"  elementFormDefault="qualified"
            targetNamespace="http://www.chem.leeds.ac.uk/mesmer" 
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:cml="http://www.xml-cml.org/schema">
@@ -29,7 +29,25 @@
                 </xs:annotation>
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element maxOccurs="unbounded" name="PTpair">
+                    <xs:element name="PTset" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:all>
+                          <xs:element name="Trange" minOccurs="0">
+                            <xs:complexType>
+                              <xs:attributeGroup ref="me:PTRangeAttributes"/>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Prange" minOccurs="0">
+                            <xs:complexType>
+                              <xs:attributeGroup ref="me:PTRangeAttributes"/>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:all>
+                        <xs:attribute name="units" type="me:concUnitsType"/>
+                      </xs:complexType>
+                    </xs:element>
+                            
+                    <xs:element name="PTpair" minOccurs="0" maxOccurs="unbounded" >
                           <xs:complexType>
                         <xs:sequence>
                           <xs:element name="bathGas" type="cml:refType" minOccurs="0"/>
@@ -50,6 +68,8 @@
                                   <xs:attribute name="ref2" type="cml:moleculeIDType" use="required" />
                                   <xs:attribute name="refReaction" type="cml:idType"/>
                                   <xs:attribute name="error" type="xs:float"/>
+                                  <xs:attribute name="calculated" type="xs:string"/>
+                                  <xs:attribute name="calcVal" type="xs:float"/>
                                 </xs:extension>
                               </xs:simpleContent>
                             </xs:complexType>
@@ -70,7 +90,7 @@
                         <xs:attribute name="P" type="xs:float" use="required" />
                         <xs:attribute name="T" type="xs:float" use="required" />
                         <xs:attribute name="precision" type="me:precisionType" use="optional"/>
-                        <xs:attribute name="default" type="xs:boolean" use="optional"/>
+                        <xs:attribute name="default" type="me:ynboolean" use="optional"/>
                       </xs:complexType>
                     </xs:element>
                   </xs:sequence>
@@ -102,7 +122,7 @@
                     <xs:simpleContent>
                       <xs:extension base="xs:float">
                         <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
-                        <xs:attribute name="default" type="xs:boolean" use="optional"/>
+                        <xs:attribute name="default" type="me:ynboolean" use="optional"/>
                       </xs:extension>
                     </xs:simpleContent>
                   </xs:complexType>
@@ -114,7 +134,7 @@
                   <xs:simpleContent>
                     <xs:extension base="xs:decimal">
                       <xs:attribute name="units" type="me:energyUnitsType" use="optional"/>
-                      <xs:attribute name="default" type="xs:boolean" use="optional"/>
+                      <xs:attribute name="default" type="me:ynboolean" use="optional"/>
                     </xs:extension>
                   </xs:simpleContent>
                 </xs:complexType>
@@ -206,7 +226,7 @@
             </xs:documentation>
           </xs:annotation>  
         </xs:element>
-      </xs:all>        
+      </xs:all>
     </xs:complexType>
   </xs:element>
 
@@ -220,9 +240,9 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="cm-1"/>
       <xs:enumeration value="kJ/mol"/>
-      <xs:enumeration value="kcal/mol"/>    
+      <xs:enumeration value="kcal/mol"/>
       <xs:enumeration value="kT"/>
-      <xs:enumeration value="Hartree"/>      
+      <xs:enumeration value="Hartree"/>
     </xs:restriction>
   </xs:simpleType>
 
@@ -234,7 +254,7 @@
       <xs:enumeration value="PPCC"/>    
       <xs:enumeration value="mmHg"/>
       <xs:enumeration value="mbar"/>
-      <xs:enumeration value="psi"/>    
+      <xs:enumeration value="psi"/>
       <xs:enumeration value="moles/cc"/>
       <xs:enumeration value="particles per cubic centimeter"/>    
     </xs:restriction>
@@ -259,6 +279,20 @@
     <xs:attribute name="population" type="xs:float" use="optional"/>
     <xs:attribute name="grain" type="xs:float" use="optional"/>
   </xs:complexType>
+
+  <xs:attributeGroup name="rangeAttributes">
+    <xs:attribute name="lower" type="xs:float" use="optional" />
+    <xs:attribute name="upper" type="xs:float" use="optional" />
+    <xs:attribute name="stepsize" type="xs:float" use="optional" />
+    <xs:attribute name="fitted" type="xs:string" use="optional" />
+    <xs:attribute name="chiSquared" type="xs:float" use="optional" />
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="PTRangeAttributes">
+    <xs:attribute name="initial" type="xs:float" use="required" />
+    <xs:attribute name="final" type="xs:float" use="required" />
+    <xs:attribute name="increment" type="xs:float" use="required" />
+  </xs:attributeGroup>
   
   <xs:attribute name="default" type="xs:string"/>
 
@@ -270,15 +304,13 @@
     <xs:attribute name="default" use="optional"/>
   </xs:complexType>
 
-  <xs:element name="energyTransferModel">
-   <xs:complexType mixed="true">
-      <xs:simpleContent>
-        <xs:extension base="me:energyTransferModelName">
-          <xs:attribute name="default" use="optional"/>
-        </xs:extension>
-      </xs:simpleContent>
-    </xs:complexType>
-  </xs:element>
+  <xs:element name="energyTransferModel" type="me:energyTransferct"/>
+  
+  <xs:complexType name="energyTransferct">
+    <xs:sequence></xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="optional"/>
+    <xs:attribute name="default" use="optional"/>
+  </xs:complexType>
 
   <xs:element name="DOSCMethod">
     <xs:annotation>
@@ -292,7 +324,7 @@
       <xs:simpleContent>
         <xs:extension base="me:DOSCMethodName">
         <xs:attribute name="name"  type="me:DOSCMethodName" use="optional" />
-        <xs:attribute name="default"  type="xs:boolean" use="optional" />
+        <xs:attribute name="default"  type="me:ynboolean" use="optional" />
         </xs:extension>
       </xs:simpleContent>
     </xs:complexType>
@@ -305,32 +337,47 @@
       <xs:documentation>
         For methods with no data, the form like &lt;MCRCMethod>SimpleRRKM&lt;/MCRCMethod>
         can still be parsed by Mesmer, but is not validated by the schema.
-        Use the form &lt;MCRCMethod name="SimpleRRKM"/> instead.
-        If the method HAS data, there should be an attribute xsi:type="MesmerILT",
-        or similar, and the data should appear in elements which are
+        Prefer the form &lt;MCRCMethod name="SimpleRRKM"/>.
+        If the method HAS data, an attribute like xsi:type="me:MesmerILT"
+        should be used instead, and the data should appear in elements which are
         CHILDREN of &lt;me:MCRCMethod>, not siblings.>
     </xs:documentation>
     </xs:annotation>
   </xs:element>
 
   <xs:element name="tunneling" type="me:tunnelingt"/>
-  <xs:complexType name="tunnelingt"/>
+  <xs:complexType name="tunnelingt">
+    <xs:sequence></xs:sequence>
+    <xs:attribute name="name"  type="xs:string" use="optional" />
+  </xs:complexType>
+
 
   <xs:element name="crossing" type="me:crossingt"/>
-  <xs:complexType name="crossingt"/>
+  <xs:complexType name="crossingt">
+    <xs:sequence></xs:sequence>
+    <xs:attribute name="name"  type="xs:string" use="optional" />
+  </xs:complexType>
 
-  <!--<xs:element name="calcMethod" type="me:calcMethodct">
+
+  <xs:complexType name="calcMethodct">
+    <xs:sequence></xs:sequence>
+    <xs:attribute name="name"  type="xs:string" use="optional" />
+    <xs:attribute name="units" type="me:energyUnitsType"/>
+    <xs:attribute name="default"  type="me:ynboolean" use="optional" />
+  </xs:complexType>
+
+  <xs:element name="calcMethod" type="me:calcMethodct">
     <xs:annotation>
       <xs:documentation>
         For methods with no data, the form like &lt;calcMethod>simpleCalc&lt;/calcMethod>
         can still be parsed by Mesmer, but is not validated by the schema.
-        Use the form &lt;calcMethod name="simpleCalc"/> instead.
-        If the method HAS data, there should be an attribute xsi:type="me:marquandt",
-        or similar, and the data should appear in elements which are
+        Prefer the form &lt;calcMethod name="simpleCalc"/>.
+        If the method HAS data, an attribute like  xsi:type="me:marquandt",
+        and the data should appear in elements which are
         CHILDREN of &lt;me:calcMethod>, not siblings.>
     </xs:documentation>
     </xs:annotation>
-  </xs:element>-->
+  </xs:element>
 
   <!--<xs:element name="TInfinity" type="xs:decimal" />
   <xs:element name="nInfinity" type="xs:decimal" />-->
@@ -350,4 +397,14 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="ynboolean">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="yes"/>
+      <xs:enumeration value="no"/>
+      <xs:enumeration value="true"/>
+      <xs:enumeration value="false"/>
+      <xs:enumeration value="1"/>
+      <xs:enumeration value="0"/>
+    </xs:restriction>
+  </xs:simpleType>
 </xs:schema>
