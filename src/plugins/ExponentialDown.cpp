@@ -83,7 +83,7 @@ public:
   /******************************************************************************
   Declaration of a global instance of the class. This makes the class known to
   Mesmer and also defines its id "ExponentialDown".
-  Names should be XML compatible ) so must not contain any of theses characters ><"'&
+  Names should be XML compatible ) so must not contain any of these characters ><"'&
   There can be additional global instances with different names (not usually necessary).
   ******************************************************************************/
   ExponentialDown exponentialDown("ExponentialDown");

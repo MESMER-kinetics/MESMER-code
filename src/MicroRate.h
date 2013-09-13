@@ -12,20 +12,51 @@ namespace mesmer
 
   class Reaction;
 
-  /** Abstract base class for Microcanonical rate calculators
-  The derived concrete classes are plugin classes:
-  -- New classes can be added without changing any of the existing code.
-  A new instance is made for each use, the constructor of which registers
-  the class with the base class. Subsequently, a pointer to the class is
-  obtained by supplying the id (a string) to the Find function.
-  **/
+/*****************************************************************************
+This header file contains the declaration of the MicroRateCalculator abstract
+class. This class will be inherited by all microcanonical rate models.
+
+The derived concrete classes are plugin classes- new classes can be added
+without changing any of the existing code. MesmerILT.cpp is a file
+containing a derived class and has lots of comments.
+
+At startup the constructor of the derived classes register their presence and
+their IDs, and this is passed to their grandparent class TopPlugin which maintains
+a list of all plugins. This list can be displayed from the command line using:
+  mesmer -t   or   mesmer -T
+With the -T option the output includes descriptions of the plugins classes and
+the plugin types, for those classes which have been provided with a Description()
+function.
+
+The normal way of using a plugin is to call the global function ParseForPlugin,
+as in Reaction.cpp near line 248:
+
+m_pMicroRateCalculator = ParseForPlugin<MicroRateCalculator>(this, "me:MCRCMethod", ppReac);
+
+The template parameter is the plugin-type class and the other parameters are a
+pointer to the parent, the XML type name and a PersistPtr which is a position in
+the XML file. ParseForPlugin will parse the XML input file for the specified
+plugin type, making an instance of the requested plugin from its name and parsing
+for its data using the plugin's virtual function. (See MesmerILT.cpp.) It can also
+insert a default plugin name from defaults.xml (if appropriate) and does most of
+the reporting of errors, like missing or unrecognized names, etc.
+
+Alternatively, supplying an ID (a string like "MesmerILT") to the Find function of
+the plugin type class (MicroRateCalculator here) provides a pointer to a new
+instance of the plugin class.
+*****************************************************************************/
+
   class MicroRateCalculator :public TopPlugin
   {
   public:
 
     virtual ~MicroRateCalculator() {}
     virtual const char* getTypeID(){return typeID();}
-    static const char* typeID(){ return "Microcanonical Rate Calculators"; }
+
+/*****************************************************************************
+The name of the plugin type that appears in the list on the command line.
+*****************************************************************************/
+static const char* typeID(){ return "Microcanonical Rate Calculators"; }
 
     //Get a pointer to a derived class by providing its id.
     static MicroRateCalculator* Find(const std::string& name)
@@ -43,9 +74,13 @@ namespace mesmer
 
     virtual bool calculateMicroRateCoeffs(Reaction* pReact) = 0 ;
 
-    virtual bool testMicroRateCoeffs(Reaction* pReact, PersistPtr ppbase) const;
+/*****************************************************************************
+Any new plugin-type class should contain the above functions. The m_parent
+member variable should be Molecule*, Reaction* or System* as appropriate and 
+the functions getParent and setParent and should be compatible.
+*****************************************************************************/
 
-    //@virtual bool ReadParameters(Reaction* pReac) = 0 ;
+    virtual bool testMicroRateCoeffs(Reaction* pReact, PersistPtr ppbase) const;
 
     virtual double get_ThresholdEnergy(Reaction* pReac) ;
 

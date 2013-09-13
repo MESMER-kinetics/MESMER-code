@@ -29,7 +29,7 @@ namespace mesmer
 
     virtual ~WKBTunnellingCoefficients() {}
     virtual const char* getID()  { return m_id; }
-    virtual bool ParseData(PersistPtr pp);
+    virtual bool ParseData(PersistPtr ppr);
     virtual bool calculateCellTunnelingCoeffs(Reaction* pReact, std::vector<double>& TunnelingProbability);
 
   private:
@@ -53,16 +53,19 @@ namespace mesmer
   WKBTunnellingCoefficients theWKBTunnellingCoefficients("WKB");
   //************************************************************
 
-  bool WKBTunnellingCoefficients::ParseData(PersistPtr pptran)
+  bool WKBTunnellingCoefficients::ParseData(PersistPtr ppr)
   {
-    PersistPtr pp = pptran->XmlMoveTo("me:IRCPotential") ;
-    if (!pp) {  
-      // Force program to close if not potential information available and print error message
-      //throw (std::runtime_error("Error: WKB calculation cannot proceed without a PES")); 
-      cinfo << "First look for WKB data" <<endl; //Looks under <reaction> and then under TS 
-      return false;
+    PersistPtr pp = ppr->XmlMoveTo("me:IRCPotential");
+    //If data is not under <me:tunneling> in <reaction>, look in TS
+    if (!pp)
+    {
+      ppr = getParent()->get_TransitionState()->get_PersistentPointer();
+      pp = ppr->XmlMoveTo("me:IRCPotential");
     }
-     const char* p = pp->XmlReadValue("units", optional);
+    if (!pp)
+      return false;
+
+    const char* p = pp->XmlReadValue("units", optional);
     string units = p ? p : "kJ/mol";
     
     m_mu = pp->XmlReadDouble("ReducedMass", optional);

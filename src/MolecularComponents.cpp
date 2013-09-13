@@ -1240,7 +1240,7 @@ namespace mesmer
     //  <me:energyTransferModel xsi:type="ExponentialDown" default=true;/>
     //New format
     EnergyTransferModel* pModel = ParseForPlugin<EnergyTransferModel>
-      (m_host, "me:energyTransferModel", pp, true, pp); //
+      (m_host, "me:energyTransferModel", pp, true); //
     if(!pModel)
       return false;
     pModel->setParent(m_host);

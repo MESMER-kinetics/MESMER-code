@@ -12,7 +12,6 @@
 //
 //-------------------------------------------------------------------------------------------
 
-#include "Base.h"
 #include "MoleculeManager.h"
 #include "Tunneling.h"
 #include "Crossing.h"

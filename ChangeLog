@@ -1,3 +1,16 @@
+2013-September 13 Chris Morley
+
+	* src/Reaction.h, src/Molecule.h,.src/plugin.h: remove obsolete Base.h
+
+	* src/MicroRate.h, src/plugins/MesmerILT.cpp: use as plugin example files
+	  by adding add verbose comment.
+
+	* src/plugins/LandauZenerCrossingCoeff.cpp,src/plugins/WKBCrossingCoeff.cpp,
+	  src/plugins/WKBTunnellingCoefficients.cpp, src/plugins/DefinedTunnelingCoefficients.cpp
+	  src/Reaction.cpp, src/MolecularComponents.cpp, src/ParseForPlugin.h:
+	  remove two call method of finding data in Reaction or in TS (possible
+	  because plugins now have a pointer to a parent object).
+
 2013-September 06 Chris Morley
 
 	Progress towards unifying the parsing of plugin data via ParseForPlugin()

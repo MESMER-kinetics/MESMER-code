@@ -10,7 +10,10 @@ namespace mesmer
   {
   public:
 
-    ///Constructor which registers with the list of MicroRateCalculators in the base class
+  /********************************************************************************
+  Constructor which registers this class with the list of plugins, initializes the ID
+  and also does some initialization specific to this class.
+  ********************************************************************************/
     MesmerILT(const char* id) : m_id(id),
       m_PreExp(0.0),
       m_NInf(0.0),
@@ -21,14 +24,39 @@ namespace mesmer
   
     virtual const char* getID()  { return m_id; }
     virtual ~MesmerILT() {}
+
+  /******************************************************************************
+  Because the class can be used for more than one reaction, a new instance is made
+  for each use (in addition to the instance made at startup). This is done by
+  EnergyTransferModel::Find() calling Clone(); a function of the following form is
+  required for each derived class.
+  ******************************************************************************/
     virtual MesmerILT* Clone() { return new MesmerILT(*this); }
 
-    virtual bool calculateMicroRateCoeffs(Reaction* pReact) ;
+  /********************************************************************************
+  Optional description which will appear in a verbose listing of plugins.
+  Put two spaces after \n  in Description() for good formatting in thelisting.
+  ********************************************************************************/
+  virtual const char* Description()  { return
+    "Uses Inverse Laplace Transform to calculate of microcanonical rates.\n  "
+    "Standard ILT, unimolecular ILT, and reverse ILT are implemented.\n  "
+    "\n";
+  };
 
-    virtual double get_ThresholdEnergy(Reaction* pReac) ;
-    
-    //@virtual bool ReadParameters(Reaction* pReac); 
-    virtual bool ParseData(PersistPtr pp) override;
+  /*********************************************************************
+  Called by ParseForPlugin to input the plugin's data from the XML file.
+  Can be omitted if the plugins does not need to input its own data.
+  *********************************************************************/
+  virtual bool ParseData(PersistPtr pp);
+
+  /*********************************************************************
+  This is the function which does most of the real work of the plugin.
+  See Reaction.cpp around line 112;
+  *********************************************************************/
+  virtual bool calculateMicroRateCoeffs(Reaction* pReact) ;
+
+  virtual double get_ThresholdEnergy(Reaction* pReac) ;
+
   private:
 
     bool calculateAssociationMicroRates(Reaction* pReact);
@@ -43,7 +71,7 @@ namespace mesmer
     // All the parameters that follow are for an Arrhenius expression of the type:
     // k(T) = Ainf*(T/Tinf)^ninf * exp(-Einf/(RT))
 
-    Rdouble m_PreExp ;           // Preexponetial factor
+    Rdouble m_PreExp ;           // Pre-exponential factor
     Rdouble m_NInf ;             // Modified Arrhenius parameter
     double  m_TInf ;             // T infinity
     Rdouble m_EInf ;             // E infinity
@@ -51,55 +79,37 @@ namespace mesmer
 
   };
 
-  //************************************************************
-  //Global instance, defining its id (usually the only instance) but here with an alternative name
+  /*********************************************************************************
+  Global instance, defining the ID of the plugin.
+  IDs should be XML compatible so must not contain any of these characters ><"'&
+  **********************************************************************************/
   MesmerILT theMesmerILT("MesmerILT");
-  //************************************************************
 
-  //-------------------------------------------------
-  //   Short note for variables & abbreviations in Mesmer: (REVERSIBLE association reaction)
-  //
-  //   zpe_react:           zero-point energy of the reactant
-  //   zpe_prodt:           zero-point energy of the product
-  //   barri_hgt:           Barrier height (equals to theoretical calculated threshold energy)
-  //   Einf:           activation energy (experimental value)
-  //   TS:                  transition state
-  //   PES:                 potential energy surface
-  //   A+B:                 molecules A and B
-  //   A-B:                 complex formed by association of molecules A and B
-  //            |
-  //           /|\          TS
-  //            |         *****       -\ barri_hgt                        -\
-  //  potential |  A+B ***     *      -/               -\         activation\
-  //   energy   |  (+)          *                        \          Energy   \
-  //            |                *                        \                  /
-  //            |                 *                       /                 /
-  //            |                  *                     / zpe_react       /
-  //            |               /-  **** A-B            /                -/
-  //            |   zpe_prodt  /         (-)           /
-  //           O|              \-                    -/
-  //              ------------------------------------------------------------->
-  //                             reaction coordinate
-  //  PES
-  //
-  //   Definition of a REVERSIBLE association reaction in Mesmer:
-  //
-  //   1. A REVERSIBLE association reaction is going forward when the reaction is going from left to right in this
-  //      potential energy surface.
-  //   2. A reaction PES can change in different temperature, caused by rotational contribution to the total energy.
-  //-------------------------------------------------
+  /*********************************************************************
+  The ParseData funtion here is more complicated than normal because it
+  will handle older alternative formats in addition to the preferred
+  "New mesmer form". Here is an example:
 
-    // Read ILT parameters
-  //@bool MesmerILT::ReadParameters(Reaction* pReact) {
+  <reaction>
+  ...
+    <me:MCRCMethod xsi:type="MesmerILT">
+      <me:preExponential>6.00e-12</me:preExponential>
+      <me:activationEnergy  units="cm-1" reverse="true">546.0</me:activationEnergy>
+      <me:TInfinity>1.0</me:TInfinity>
+      <me:nInfinity>0.0</me:nInfinity>
+    </me:MCRCMethod>
+
+  *********************************************************************/
   bool MesmerILT::ParseData(PersistPtr pp)
   {
     Reaction* pReact = m_parent; //use old var name
     PersistPtr ppReac = pReact->get_PersistentPointer();
 
-    // OpenBabel outputs <rateParameters> <A> <n> <E>
-    // Attempt to read these first and if not present read the mesmer 
-    // version which will add the default if necessary.
-    
+    /***************************************************************************
+    The input data can be provided in a number of ways (for historical reasons).
+    OpenBabel outputs <rateParameters> <A> <n> <E>
+    Attempt to read these first, and if not present read the mesmer version.
+    ***************************************************************************/
     PersistPtr ppActEne, ppPreExponential;//@, pp;
     const char* pActEnetxt=NULL, *pPreExptxt=NULL;
     bool rangeSet(false) ;
@@ -112,13 +122,23 @@ namespace mesmer
       pPreExptxt = ppRateParams->XmlReadValue("A");
     } 
     else {
-      //Mesmer forms
-      //New form has <me:MCRCMethod name="MesmerILT" xsi:type="me:MesmerILT">
-      //and parameters as subelement of this. In old form they are siblings.
-      //@Now handled in ParseForPlugin
-      //@pp = ppReac->XmlMoveTo("me:MCRCMethod");
-      //@if(pp && !pp->XmlReadValue("xsi:type", optional))
-        //@pp = ppReac;
+      /***********************************************************************************
+      Read the Mesmer form of the data
+      New form has <me:MCRCMethod name="MesmerILT" xsi:type="me:MesmerILT">
+      and parameters as subelement of this. In old form they are siblings.
+      Now handled in ParseForPlugin
+      pp = ppReac->XmlMoveTo("me:MCRCMethod");
+      if(pp && !pp->XmlReadValue("xsi:type", optional))
+
+      The lines below that read the values of"me:activationEnergy" and "me:preExponential"
+      will use values taken from defaults.xml if the data XML file does not contain them.
+      The appropriate line is added to the internal XML tree, so that when the output XML
+      file is used subsequently as input values are explicit. This mechanism, which
+      applies for most XmlRead operations unless there is a 'optional' parameter, is the
+      recommended way to handle default values. It allows the default to be changed by the
+      user, records the use of the default in mesmer.log, and provides error messages,
+      including optional exhortations for the user to check the default (see the manual).
+      ***********************************************************************************/
       ppActEne = pp->XmlMoveTo("me:activationEnergy") ;
       pActEnetxt = pp->XmlReadValue("me:activationEnergy");
       ppPreExponential = pp->XmlMoveTo("me:preExponential") ;
@@ -140,12 +160,32 @@ namespace mesmer
         cerr << "Activation energy should not be negative when used with ILT." << endl;
         return false;
       }
+
+      /******************************************************************************
+      m_EInf, the activation energy, behaves most of the time like a normal variable
+      of type double.  But it can be a "range variable", taking a range of values
+      when used in grid search and fitting routines. When me:activationEnergy hash
+      "lower", "upper" and "stepsize" attributes, the following code sets this up.
+      Several other data variables can also have this optional feature.
+      The first parameter of ReadRdoubleRange is the variable name that will appear
+      in the log file to confirm the setup of this feature.
+      ******************************************************************************/
       ReadRdoubleRange(string(pReact->getName()+":activationEnergy"), ppActEne, m_EInf,
-        rangeSet, getConvertedEnergy(unitsInput, 1.0)) ;  
+        rangeSet, getConvertedEnergy(unitsInput, 1.0)) ;
       m_EInf = value ;
       if (rangeSet) {
         double valueL, valueU, stepsize ;
         m_EInf.get_range(valueL,valueU,stepsize) ;
+
+        /******************************************************************************
+        Issue an error message and abandon the parsing of the plugin if the activation
+        energy is negative. When using cerr or cwarn, the message is displayed on the
+        console and also added to the log file (usually mesmer.log). Using cinfo outputs
+        to the log file only.
+        The message may be prefixed by a "context" like "In R1:". Making an ErrorContext
+        sets the current context, and the previous context is restored when the object goes
+        out of scope.
+        ******************************************************************************/
         if(valueL<0.0){
           cerr << "Lower bound of activation energy should not be negative when used with ILT.";
           return false;
@@ -159,7 +199,7 @@ namespace mesmer
     // Pre-exponential factor details.
     if (pPreExptxt) {
       istringstream s2(pPreExptxt); 
-	  s2 >> m_PreExp ;
+      s2 >> m_PreExp ;
       if (m_PreExp<0.0) {
         cerr << "Pre-exponential factor should not be negative when used with ILT." << endl;
         return false;
@@ -398,7 +438,7 @@ namespace mesmer
 
   //
   // This function the activation energy as the threshold energy. This is not stricitly correct as 
-  // the activation energy alos includes tunnelling effects and temperature dependencies. However,
+  // the activation energy also includes tunnelling effects and temperature dependencies. However,
   // in terms of getting mircocanonical rates it is functionally appropriate.
   //
   double MesmerILT::get_ThresholdEnergy(Reaction* pReac) {
@@ -423,5 +463,38 @@ namespace mesmer
     return threshold ;
 
   }
+
+  //-------------------------------------------------
+  //   Short note for variables & abbreviations in Mesmer: (REVERSIBLE association reaction)
+  //
+  //   zpe_react:           zero-point energy of the reactant
+  //   zpe_prodt:           zero-point energy of the product
+  //   barri_hgt:           Barrier height (equals to theoretical calculated threshold energy)
+  //   Einf:           activation energy (experimental value)
+  //   TS:                  transition state
+  //   PES:                 potential energy surface
+  //   A+B:                 molecules A and B
+  //   A-B:                 complex formed by association of molecules A and B
+  //            |
+  //           /|\          TS
+  //            |         *****       -\ barri_hgt                        -\
+  //  potential |  A+B ***     *      -/               -\         activation\
+  //   energy   |  (+)          *                        \          Energy   \
+  //            |                *                        \                  /
+  //            |                 *                       /                 /
+  //            |                  *                     / zpe_react       /
+  //            |               /-  **** A-B            /                -/
+  //            |   zpe_prodt  /         (-)           /
+  //           O|              \-                    -/
+  //              ------------------------------------------------------------->
+  //                             reaction coordinate
+  //  PES
+  //
+  //   Definition of a REVERSIBLE association reaction in Mesmer:
+  //
+  //   1. A REVERSIBLE association reaction is going forward when the reaction is going from left to right in this
+  //      potential energy surface.
+  //   2. A reaction PES can change in different temperature, caused by rotational contribution to the total energy.
+  //-------------------------------------------------
 
 }//namespace

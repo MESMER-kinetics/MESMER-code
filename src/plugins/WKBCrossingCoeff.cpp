@@ -49,46 +49,42 @@ namespace mesmer
 
   bool WKBCrossingCoeff::ParseData(PersistPtr pp)
   {
-    if(!dataIsInTS)
+    //Look for data in the reaction as child of <me:crossing>
+    PersistPtr ppData = pp->XmlMoveTo("me:RMS_SOC_element");
+    if(ppData)
     {
-      //Look for data in the reaction as child of <me:crossing>
-      PersistPtr ppData = pp->XmlMoveTo("me:RMS_SOC_element");
-      if(!ppData)
-      {
-        dataIsInTS=true;
-        return false;
-      }
-      //data is in reaction;
-      cinfo << endl << "Spin Forbidden Crossing Data looked for in reaction." << endl;
       return
        ReadDoubleAndUnits2(m_SOCelement, pp, "me:RMS_SOC_element", "cm-1") &&
        ReadDoubleAndUnits2(m_GradDiffMagnitude, pp, "me:GradientDifferenceMagnitude", "a.u./Bohr") &&
        ReadDoubleAndUnits2(m_ReducedMass, pp, "me:GradientReducedMass", "a.m.u.") &&
        ReadDoubleAndUnits2(m_AverageSlope, pp, "me:AverageSlope", "a.u./Bohr");
     }
+    else
+    {
+      // data is in TS
+      pp = getParent()->get_TransitionState()->get_PersistentPointer();
+      if(!pp)
+        return false;
+      PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
+      if(!ppPropList)
+        ppPropList=pp; // we can get by without a propertyList element
 
-    // Come here on second call; data is in TS
-    PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
-    if(!ppPropList)
-      ppPropList=pp; // we can get by without a propertyList element
+      if(!ReadDoubleAndUnits(m_SOCelement, ppPropList, "me:RMS_SOC_element", "cm-1")){
+        return false;
+      }
 
-    cinfo << endl << "Spin Forbidden Crossing Data looked for in transition state molecule." << endl;
+      if(!ReadDoubleAndUnits(m_GradDiffMagnitude, ppPropList, "me:GradientDifferenceMagnitude", "a.u./Bohr")){
+        return false;
+      }
 
-    if(!ReadDoubleAndUnits(m_SOCelement, ppPropList, "me:RMS_SOC_element", "cm-1")){
-      return false;
+      if(!ReadDoubleAndUnits(m_ReducedMass, ppPropList, "me:GradientReducedMass", "a.m.u.")){
+        return false;
+      }
+      if(!ReadDoubleAndUnits(m_AverageSlope, ppPropList, "me:AverageSlope", "a.u./Bohr")){
+        return false;
+      }
+      return true;
     }
-
-    if(!ReadDoubleAndUnits(m_GradDiffMagnitude, ppPropList, "me:GradientDifferenceMagnitude", "a.u./Bohr")){
-      return false;
-    }
-
-    if(!ReadDoubleAndUnits(m_ReducedMass, ppPropList, "me:GradientReducedMass", "a.m.u.")){
-      return false;
-    }
-    if(!ReadDoubleAndUnits(m_AverageSlope, ppPropList, "me:AverageSlope", "a.u./Bohr")){
-      return false;
-    }
-    return true;
   }
 
   bool WKBCrossingCoeff::calculateCellCrossingCoeffs(Reaction* pReact, vector<double>& CrossingProbability)

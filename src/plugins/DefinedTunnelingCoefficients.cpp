@@ -108,20 +108,18 @@ namespace mesmer
     return true;
   }
 
-  //bool DefinedTunnelingCoefficients::ReadPE(Reaction* pReact, vector<double> &PE, vector<double> &E, double &Vary) {
-  
-  // Read potential barrier details
   bool DefinedTunnelingCoefficients::ParseData(PersistPtr pp1)
   {
     m_VariationalThreshold=0;
-    
-    // Read input data for P(E)'s
-    //Looks first under <reaction> and then, on second call, under TS 
-    PersistPtr pp = pp1->XmlMoveTo("me:DefinedTunnelingCoefficients") ;
-    if (!pp) {
-      cinfo << "Look for data for DefinedTunnelingCoefficients" << endl;
-      return false;
+    PersistPtr pp = pp1->XmlMoveTo("me:DefinedTunnelingCoefficients");
+    //If data is not under <me:tunneling> in <reaction>, look in TS
+    if (!pp)
+    {
+      pp1 = getParent()->get_TransitionState()->get_PersistentPointer();
+      pp = pp1->XmlMoveTo("me:DefinedTunnelingCoefficients");
     }
+    if (!pp)
+      return false;
 
     bool dataFound=false;
     while(pp = pp->XmlMoveTo("me:DefinedPE"))
