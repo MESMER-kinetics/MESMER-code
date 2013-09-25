@@ -1,3 +1,9 @@
+
+2013-September-25 Struan Robertson
+
+	* sobol.h/.cpp: Move sobol array initialization to .cpp file in order to 
+	improve compilation time.
+	
 2013-September 13 Chris Morley
 
 	* src/Reaction.h, src/Molecule.h,.src/plugin.h: remove obsolete Base.h
