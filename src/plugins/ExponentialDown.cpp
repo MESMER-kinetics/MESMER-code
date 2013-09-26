@@ -65,7 +65,7 @@ public:
   /*************************************************************
   Read the parameters needed by the class from the XML datafile
   *************************************************************/
-  virtual bool ParseData(PersistPtr pp) override;
+  virtual bool ParseData(PersistPtr pp) ;
   virtual bool ReadParameters(Molecule* parent){return false;}//*****
 
   /*************************************************************

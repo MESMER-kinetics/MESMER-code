@@ -34,10 +34,10 @@ namespace mesmer
     // Constructors.
     AssociationReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char *id, bool isReactant)
       :Reaction(pMoleculeManager, Env, Flags, id),
-      m_sourceMap(NULL),
       m_rct1(NULL),
       m_rct2(NULL),
       m_pdt1(NULL),
+      m_sourceMap(NULL),
       m_deficientReactantLocation(isReactant),
       m_GrainKbmc() {} ;
 
