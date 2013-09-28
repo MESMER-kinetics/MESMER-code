@@ -114,6 +114,11 @@ cd "OH acetylene association"
 %executable% OH_acetylene_association_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+
+set testName="OH_acetylene_pseudo_isomerization"
+%executable% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 echo --------------------------------------------------------------------
 
@@ -147,7 +152,7 @@ echo --------------------------------------------------------------------
 
 echo Start Time=%starttime% - End Time=%time%
 
-:: This line below makes DOS to create a system Beep (err yup)
+:: The line below makes DOS beep (err yup)
 echo 
 echo 
 echo 

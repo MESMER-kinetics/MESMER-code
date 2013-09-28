@@ -214,18 +214,13 @@ namespace mesmer
 
         int colloptrsize = mEnv.MaxGrn - grnZpe ;
         isomer->getColl().set_colloptrsize(colloptrsize) ;
-        msize += colloptrsize ;
 
         if(!isomer->getColl().initCollisionOperator(mEnv, pBathGasMolecule)){
           cerr << "Failed initializing collision operator for " << isomer->getName();
           return false;
         }
 
-        // update the size of the collision operator if it is different.
-        int nGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
-        if (nGroupedGrains != 0){
-          msize -= (nGroupedGrains - 1);
-        }
+        msize += isomer->getColl().get_redColloptrsize() ;
 
         m_meanOmega += isomer->getColl().get_collisionFrequency() ;
       }
@@ -413,13 +408,10 @@ namespace mesmer
     for (isomeritr = m_isomers.begin() ; isomeritr != m_isomers.end() ; ++isomeritr) {
 
       Molecule *isomer = isomeritr->first ;
-      int colloptrsize = isomer->getColl().getNumberOfGroupedGrains() != 0
-        ? ( isomer->getColl().get_colloptrsize() - isomer->getColl().getNumberOfGroupedGrains() + 1)
-        : isomer->getColl().get_colloptrsize();
       double omega = isomer->getColl().get_collisionFrequency();
       int idx = isomeritr->second ;
 
-      isomer->getColl().copyCollisionOperator(m_reactionOperator, colloptrsize, idx, omega/m_meanOmega) ;
+      isomer->getColl().copyCollisionOperator(m_reactionOperator, idx, omega/m_meanOmega) ;
 
     }
 
@@ -962,13 +954,9 @@ namespace mesmer
         ctest << setw(16) << isomerName;
         speciesNames.push_back(isomerName);
         int rxnMatrixLoc = ipos->second;
-        int colloptrsize = isomer->getColl().get_colloptrsize();
-        const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();
-        if (numberGrouped != 0) { 
-          colloptrsize -= (numberGrouped - 1) ;
-        }
+        size_t colloptrsize = isomer->getColl().get_redColloptrsize();
         for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
-          for(int i = 0; i < colloptrsize; ++i){
+          for(size_t i(0); i < colloptrsize; ++i){
             speciesProfile[speciesProfileidx][timestep] += grnProfile[i+rxnMatrixLoc][timestep];
           }
         }
@@ -1067,12 +1055,10 @@ namespace mesmer
       Molecule* isomer = ipos->first;                                 // to get the equilibrium fractions.
       int rxnMatrixLoc = ipos->second;
       qd_real eqFrac = isomer->getPop().getEqFraction();
-      const int colloptrsize = isomer->getColl().get_colloptrsize();
-      const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();
+      const size_t colloptrsize = isomer->getColl().get_redColloptrsize();
       vector<double> boltzFrac;
-      isomer->getColl().normalizedGrnBoltzmannDistribution(boltzFrac, colloptrsize, numberGrouped);
-      int limit = colloptrsize - ( (numberGrouped == 0) ? 0 : numberGrouped - 1 ) ;
-      for(int i(0); i<limit; ++i){
+      isomer->getColl().normalizedGrnBoltzmannDistribution(boltzFrac);
+      for(size_t i(0); i < colloptrsize ; ++i){
         m_eqVector[rxnMatrixLoc + i] = sqrt(eqFrac * qd_real(boltzFrac[i]) ) ;
       }
     }
@@ -1101,22 +1087,20 @@ namespace mesmer
       if (initFrac != 0.0){                                           // if isomer initial populations are nonzero
         initFrac /= populationSum;                                    // normalize initial pop fraction
         int rxnMatrixLoc = ipos->second;
-        const int colloptrsize = isomer->getColl().get_colloptrsize();
-        const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();
+        const size_t colloptrsize = isomer->getColl().get_redColloptrsize();
 
         map<int,double> grainMap;                            // get the grain pop map and check to see if any grain populations are specified
         isomer->getPop().getInitGrainPopulation(grainMap);
 
         if(grainMap.size() != 0){   // if grain populations have been specified, then use them
-          for (int i = 0; i < colloptrsize - numberGrouped; ++i){
+          for (size_t i(0); i < colloptrsize ; ++i){
             n_0[i + rxnMatrixLoc] = 0.0;  // set elements of initial distribution vector to zero
           }
           map<int,double>::iterator grainIt;
           for(grainIt = grainMap.begin(); grainIt != grainMap.end(); ++grainIt){
             if((grainIt->first) < int(n_0.size())){
               n_0[grainIt->first + rxnMatrixLoc-1] = initFrac * grainIt->second;    // put populations in grain n where n=GrainMap->first	
-            }
-            else{
+            } else {
               cerr << "you requested population in grain " << grainIt->first << " of isomer " << isomer->getName() << ", which exceeds the number of grains in the isomer" << endl;
               cerr << "you must respecify the system to accomodate your request... exiting execution " << endl;
               exit(1);
@@ -1124,9 +1108,8 @@ namespace mesmer
           }
         } else {	// otherwise if no grain population has been specified, use a boltzmann population
           vector<double> boltzFrac;
-          isomer->getColl().normalizedInitialDistribution(boltzFrac, colloptrsize, numberGrouped);
-          int limit = colloptrsize - ( (numberGrouped == 0) ? 0 : numberGrouped - 1 ) ;
-          for (int i = 0; i < limit; ++i){
+          isomer->getColl().normalizedInitialDistribution(boltzFrac);
+          for (size_t i(0); i < colloptrsize ; ++i) {
             n_0[i + rxnMatrixLoc] = initFrac * boltzFrac[i];
           }
         }
@@ -1143,12 +1126,10 @@ namespace mesmer
       cinfo << "No population was assigned, and there is no source term."  << endl
         << "Initial poupulation set to 1.0  in the first isomer." << endl;
       int rxnMatrixLoc = ipos->second;
-      const int colloptrsize = isomer->getColl().get_colloptrsize();
-      const int numberGrouped = isomer->getColl().getNumberOfGroupedGrains();
+      const size_t colloptrsize = isomer->getColl().get_redColloptrsize();
       vector<double> boltzFrac;
-      isomer->getColl().normalizedInitialDistribution(boltzFrac, colloptrsize, numberGrouped);
-      int limit = colloptrsize - ( (numberGrouped == 0) ? 0 : numberGrouped - 1 ) ;
-      for (int i = 0; i < limit; ++i){
+      isomer->getColl().normalizedInitialDistribution(boltzFrac);
+      for (size_t i(0); i < colloptrsize; ++i){
         n_0[i + rxnMatrixLoc] = initFrac * boltzFrac[i];
       }
     }
@@ -1259,15 +1240,13 @@ namespace mesmer
 
         // Calculate Z matrix elements for all the isomers in the system.
 
-        for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){
+        for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos) {
           qd_real sm(0.0) ; 
           Molecule* isomer = ipos->first;
-          const int numberGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
-          int colloptrsize = isomer->getColl().get_colloptrsize() ;       // get colloptrsize for isomer
-          colloptrsize += (numberGroupedGrains) ? 1 - numberGroupedGrains : 0 ;
+          size_t colloptrsize = isomer->getColl().get_redColloptrsize() ; // get colloptrsize for isomer
           int rxnMatrixLoc = ipos->second + colloptrsize - 1 ;            // get location for isomer in the rxn matrix
           int seqMatrixLoc = m_SpeciesSequence[isomer];                   // get sequence position for isomer
-          for(int j(0) ; j<colloptrsize ; ++j){
+          for(size_t j(0) ; j < colloptrsize ; ++j){
             sm += assymEigenVec[rxnMatrixLoc-j][nchemIdx+i];
           }
           Z_matrix[seqMatrixLoc][i] = sm;

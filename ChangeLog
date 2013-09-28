@@ -1,4 +1,10 @@
 
+2013-September-28 Struan Robertson
+
+	* CollisionOperator.cpp, MolecularComponent.h/.cpp: Refactoring changes
+	to make the code more transparent to reservoir states. These changes 
+	are like to be the first in a series of changes.
+	
 2013-September-25 Struan Robertson
 
 	* sobol.h/.cpp: Move sobol array initialization to .cpp file in order to 

@@ -187,11 +187,11 @@ namespace mesmer
         return false;
       }
     }
-	PersistPtr pp = ppParams->XmlMoveTo("me:automaticallySetMaxEne");
-	if (pp) {
-	  m_Flags.autoSetMaxEne = true;
-	  m_Flags.popThreshold = ppParams->XmlReadDouble("me:automaticallySetMaxEne");
-	}
+    PersistPtr pp = ppParams->XmlMoveTo("me:automaticallySetMaxEne");
+    if (pp) {
+      m_Flags.autoSetMaxEne = true;
+      m_Flags.popThreshold = ppParams->XmlReadDouble("me:automaticallySetMaxEne");
+    }
     cinfo.flush();
 
     //Reaction Conditions
@@ -810,42 +810,42 @@ namespace mesmer
   {
 
     m_Flags.printEigenValuesNum = 0 ;
-      
-	  m_Env.beta = 1.0 / (boltzmann_RCpK * Temperature) ; //temporary statements
-      m_Env.conc = Concentration;
-      // unit of conc: particles per cubic centimeter
 
-      m_Env.bathGasName = getMoleculeManager()->get_BathGasName().c_str();
+    m_Env.beta = 1.0 / (boltzmann_RCpK * Temperature) ; //temporary statements
+    m_Env.conc = Concentration;
+    // unit of conc: particles per cubic centimeter
 
-      // Build collison matrix for system.
-      if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags))
-        throw (std::runtime_error("Failed building system collison operator.")); 
+    m_Env.bathGasName = getMoleculeManager()->get_BathGasName().c_str();
 
-      if (!m_collisionOperator.calculateEquilibriumFractions())
-        throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
+    // Build collison matrix for system.
+    if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags))
+      throw (std::runtime_error("Failed building system collison operator.")); 
 
-      // Diagonalise the collision operator.
-	  //Precision needs to be more flexible set to double for now
-      Precision precision = DOUBLE;
-      m_collisionOperator.diagReactionOperator(m_Flags, m_Env, precision) ;
+    if (!m_collisionOperator.calculateEquilibriumFractions())
+      throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
 
-      // Calculate rate coefficients.
-      qdMatrix BWrates(1);
-      m_collisionOperator.BartisWidomPhenomenologicalRates((BWrates), m_Flags);
-    
+    // Diagonalise the collision operator.
+    //Precision needs to be more flexible set to double for now
+    Precision precision = DOUBLE;
+    m_collisionOperator.diagReactionOperator(m_Flags, m_Env, precision) ;
 
-      //locate required BW rates and put them in a vector
-       for(int i=0; i < Ref1.size(); ++i){
-  	  int seqMatrixLoc1(-1), seqMatrixLoc2(-1);
+    // Calculate rate coefficients.
+    qdMatrix BWrates(1);
+    m_collisionOperator.BartisWidomPhenomenologicalRates((BWrates), m_Flags);
+
+
+    //locate required BW rates and put them in a vector
+    for(size_t i=0; i < Ref1.size(); ++i){
+      int seqMatrixLoc1(-1), seqMatrixLoc2(-1);
       seqMatrixLoc1 = m_collisionOperator.getSpeciesSequenceIndex(Ref1[i]);
       seqMatrixLoc2 = m_collisionOperator.getSpeciesSequenceIndex(Ref2[i]);
 
-	  if(seqMatrixLoc1<0 || seqMatrixLoc2<0)
+      if(seqMatrixLoc1<0 || seqMatrixLoc2<0)
         throw(std::runtime_error("Failed to locate species in rate coefficient matrix.")) ;
 
-	  double rateCoeff = fabs(to_double(BWrates[seqMatrixLoc2][seqMatrixLoc1])) ;
-	  Ratecoefficients[i]=rateCoeff;
-	  }
+      double rateCoeff = fabs(to_double(BWrates[seqMatrixLoc2][seqMatrixLoc1])) ;
+      Ratecoefficients[i]=rateCoeff;
+    }
 
     return true ;
   }

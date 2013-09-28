@@ -338,10 +338,11 @@ namespace mesmer
 
   private:
 
-    double              m_collisionFrequency ; // Current value of collision frequency.
-    int                 m_ncolloptrsize ;      // Size of the collision operator matrix.
-    double              m_lowestBarrier;       // lowest barrier associatied with this species
-    int                 m_numGroupedGrains;    // Number of grains grouped into a reservoir grain.
+    double m_collisionFrequency ; // Current value of collision frequency.
+    size_t m_ncolloptrsize ;      // Size of the collision operator matrix.
+    size_t m_nRedcolloptrsize ;   // Size of the reduced collision operator matrix.
+    double m_lowestBarrier;       // lowest barrier associatied with this species
+    size_t m_numGroupedGrains;    // Number of grains grouped into a reservoir grain.
 
     DistributionCalculator* m_pDistributionCalculator;
     
@@ -363,7 +364,7 @@ namespace mesmer
     bool rawTransitionMatrix(MesmerEnv& env, vector<double> &gEne,  vector<double> &gDOS, dMatrix *egme) ;
 
     // Calculate collision operator with reservoir state.
-    bool collisionOperatorWithReservoirState(MesmerEnv& env, int reducedCollOptrSize) ;
+    bool collisionOperatorWithReservoirState(MesmerEnv& env) ;
 
     double getBoltzmannWeightedEnergy(int numberOfGrains, const vector<double>& gEne, const vector<double>& gDos, double beta, double& totalDOS);
 
@@ -391,20 +392,21 @@ namespace mesmer
     // Accessor a collision operator eigenvector.
     void eigenVector(int eigveci, std::vector<double> &evec) const ;
 
-    void copyCollisionOperator(qdMatrix *CollOptr, const int size, const int locate, const double RducdOmega) const ;
+    void copyCollisionOperator(qdMatrix *CollOptr, const int locate, const double RducdOmega) const ;
 
     void copyCollisionOperatorEigenValues(qdMatrix *CollOptr, const int locate, const double RducdOmega) const ;
 
-    void normalizedInitialDistribution(vector<double> &grainFrac, const int numberOfGrains, const int numberOfGroupedGrains = 0) ;
-    void normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int numberOfGrains, const int numberOfGroupedGrains = 0);
+    void normalizedInitialDistribution(vector<double> &grainFrac) ;
+    void normalizedGrnBoltzmannDistribution(vector<double> &grainFrac);
 	void normalizedCellBoltzmannDistribution(vector<double> &grainFrac, const int totalCellNumber);
 
     // Accessors.
 
-    double get_collisionFrequency() const ;
+    double get_collisionFrequency() const {return m_collisionFrequency ; } ;
 
     void set_colloptrsize(int ncolloptrsize) ;
-    int  get_colloptrsize() const ;
+    size_t get_colloptrsize() const {return m_ncolloptrsize ; } ;
+    size_t get_redColloptrsize() const {return m_nRedcolloptrsize ; } ;
 
     size_t get_nbasis() const ;
 

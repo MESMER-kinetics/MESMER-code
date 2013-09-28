@@ -92,10 +92,9 @@ namespace mesmer
     const double Keq = calcEquilibriumConstant() ;
 
     // Get Boltzmann distribution for detailed balance.
-    const int MaximumGrain = getEnv().MaxGrn ;
     vector<double> adductPopFrac ; // Population fraction of the adduct
     const int pNGG(m_pdt1->getColl().getNumberOfGroupedGrains());
-    m_pdt1->getColl().normalizedGrnBoltzmannDistribution(adductPopFrac, MaximumGrain, pNGG) ;
+    m_pdt1->getColl().normalizedGrnBoltzmannDistribution(adductPopFrac) ;
 
     qd_real DissRateCoeff(0.0) ;
 
@@ -133,9 +132,8 @@ namespace mesmer
     const double Keq = calcEquilibriumConstant() ;
 
     // Get Boltzmann distribution for detailed balance.
-    const int MaximumGrain = getEnv().MaxGrn ;
     vector<double> adductPopFrac ; // Population fraction of the adduct
-    m_pdt1->getColl().normalizedGrnBoltzmannDistribution(adductPopFrac, MaximumGrain) ;
+    m_pdt1->getColl().normalizedGrnBoltzmannDistribution(adductPopFrac) ;
 
     const int pdtColloptrsize = m_pdt1->getColl().get_colloptrsize();
     const int reverseThreshE  = get_EffGrnRvsThreshold();

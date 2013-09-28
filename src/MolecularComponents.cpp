@@ -957,15 +957,15 @@ namespace mesmer
     double convFactor = conHess2Freq / (2.0*M_PI) ;
     for (size_t m(0) ; m < msize ; m++) {
       if (freqs[m] > 0.0) {
-		
-		// Mostly vibration modes.
-		freqs[m] = convFactor*sqrt(freqs[m]) ;
+
+        // Mostly vibration modes.
+        freqs[m] = convFactor*sqrt(freqs[m]) ;
 
       } else if (projectTransStateMode) { 
 
-		// Add Transition state mode to the projected set after orthogonalization.
-		// The magic number of "1.0" below is 1 cm-1 and used to filter out any 
-		// small -ve frequencies associated with existing projected modes.
+        // Add Transition state mode to the projected set after orthogonalization.
+        // The magic number of "1.0" below is 1 cm-1 and used to filter out any 
+        // small -ve frequencies associated with existing projected modes.
         double imFreq = convFactor*sqrt(fabs(freqs[m])) ;
         if (imFreq > 1.0) {
 
@@ -1006,7 +1006,7 @@ namespace mesmer
 
     // Orthogonalize and project out mode.
 
-	orthogonalizeMode(mode) ;
+    orthogonalizeMode(mode) ;
 
     vector<double> freqs(msize, 0.0) ;
     calculateFreqs(freqs) ;
@@ -1026,10 +1026,10 @@ namespace mesmer
   bool gDensityOfStates::orthogonalizeMode(vector<double> &mode) {
 
     const size_t msize = m_Hessian->size() ;
-	
-	// Orthogonalize against existing modes. 
 
-	size_t i(0), j(0) ;
+    // Orthogonalize against existing modes. 
+
+    size_t i(0), j(0) ;
     for (i = 0 ; i < m_nModes ; i++) {
       double sum(0.0) ;
       for (j = 0 ; j < msize ; j++) {
@@ -1042,8 +1042,8 @@ namespace mesmer
 
     UpdateProjector(mode) ;
 
-	return true ;
- }
+    return true ;
+  }
 
   // Helper function to shift translation projection vector.
   void gDensityOfStates::ShiftTransVector(vector<double> &mode) {
@@ -1184,10 +1184,10 @@ namespace mesmer
   gWellProperties::gWellProperties(Molecule* pMol) : MolecularComponent(),
     m_collisionFrequency(0.0),
     m_ncolloptrsize(0),
+    m_nRedcolloptrsize(0),
     m_lowestBarrier(9e23),
     m_numGroupedGrains(0),
     m_pDistributionCalculator(NULL),
-    //m_pEnergyTransferModel(NULL),
     m_grainDist(),
     m_egme(NULL),
     m_egvec(NULL),
@@ -1282,16 +1282,9 @@ namespace mesmer
     return pETModel;
   }
 
-  double gWellProperties::get_collisionFrequency() const {
-    return m_collisionFrequency ;
-  } ;
-
   void gWellProperties::set_colloptrsize(int ncolloptrsize) {
     m_ncolloptrsize = ncolloptrsize ;
-  } ;
-
-  int  gWellProperties::get_colloptrsize() const {
-    return m_ncolloptrsize ;
+	m_nRedcolloptrsize = ncolloptrsize ;
   } ;
 
   const int gWellProperties::get_grnZPE(){
@@ -1370,10 +1363,10 @@ namespace mesmer
 
         // Second find out the partition fraction of active states in the current temperature
         double popAbove(0.0), totalPartition(0.0);
-        for (int i(0); i < m_ncolloptrsize; ++i){
+        for (size_t i(0); i < m_ncolloptrsize; ++i){
           const double ptfn(sqrt(exp(log(gDOS[i]) - env.beta * gEne[i] + 10.0)));
           totalPartition += ptfn;
-          if (i >= grainLoc)
+          if (int(i) >= grainLoc)
             popAbove += ptfn;
         }
 
@@ -1387,7 +1380,7 @@ namespace mesmer
       }
 
       if (m_numGroupedGrains){
-        if (!collisionOperatorWithReservoirState(env, m_ncolloptrsize - m_numGroupedGrains)){
+        if (!collisionOperatorWithReservoirState(env)){
           cerr << "Failed building collision operator with reservoir state.";
           return false;
         }
@@ -1422,8 +1415,8 @@ namespace mesmer
     m_egvec = new dMatrix(m_ncolloptrsize) ;
 
     // copy the values over
-    for (int i(0); i < m_ncolloptrsize; ++i){
-      for (int j(0); j < m_ncolloptrsize; ++j){
+    for (size_t i(0); i < m_ncolloptrsize; ++i){
+      for (size_t j(0); j < m_ncolloptrsize; ++j){
         (*m_egvec)[i][j] = (*m_egme)[i][j];
       }
     }
@@ -1438,7 +1431,7 @@ namespace mesmer
       // The eigenvalues in this series should contain a zero eigenvalue as 
       // energy transfer operators are conservative.
       ctest << "\nEigenvalues of: " << m_host->getName() << "\n{\n";
-      for(int i(0); i < m_ncolloptrsize; ++i){
+      for(size_t i(0); i < m_ncolloptrsize; ++i){
         ctest << m_egval[i] << endl;
       }
       ctest << "}\n";
@@ -1448,7 +1441,7 @@ namespace mesmer
   //
   // Calculate collision operator
   //
-  bool gWellProperties::collisionOperatorWithReservoirState(MesmerEnv& env, const int reducedCollOptrSize)
+  bool gWellProperties::collisionOperatorWithReservoirState(MesmerEnv& env)
   {
     if (m_host->getDOS().test_rotConsts() == UNDEFINED_TOP) return true;
     //
@@ -1462,8 +1455,10 @@ namespace mesmer
     m_host->getDOS().getGrainEnergies(gEne);
     m_host->getDOS().getGrainDensityOfStates(gDOS);
 
+    const size_t reducedCollOptrSize = m_ncolloptrsize - m_numGroupedGrains + 1 ;
+
     // Initialisation and error checking.
-    for (int i(0) ; i < m_ncolloptrsize ; ++i ) {
+    for (size_t i(0) ; i < m_ncolloptrsize ; ++i ) {
       if (gDOS[i] <= 0.0) {
         cerr << "Data indicates that grain " << i << " of the current colliding molecule has no states.";
         cerr << "Usually for small GrainSize DOSs calculated by QM rotor method some grain may have no states.";
@@ -1472,7 +1467,7 @@ namespace mesmer
 
     // Allocate memory.
     if (m_egme) delete m_egme ;                       // Delete any existing matrix.
-    m_egme = new dMatrix(reducedCollOptrSize + 1) ;
+    m_egme = new dMatrix(reducedCollOptrSize) ;
 
     //---------------------------------------------------------------------------------------------------
     //-------------------- The part doing the same jobs as making a whole collision operator ------------
@@ -1500,9 +1495,9 @@ namespace mesmer
     // print out of column sums to check normalization results
     if (m_host->getFlags().reactionOCSEnabled){
       ctest << endl << "Collision operator column Sums" << endl << "{" << endl ;
-      for (int i(0) ; i < m_ncolloptrsize; ++i ) {
+      for (size_t i(0) ; i < m_ncolloptrsize; ++i ) {
         double columnSum(0.0) ;
-        for (int j(0) ; j < m_ncolloptrsize; ++j ){
+        for (size_t j(0) ; j < m_ncolloptrsize; ++j ){
           columnSum += to_double((*tempEGME)[j][i]) ;
         }
         ctest << columnSum << endl ;
@@ -1513,22 +1508,21 @@ namespace mesmer
     //--------------------------------
     // COPY, SUMMATION AND SUBSTITUTE
     // Need to copy things over, the active states first.
-    for (int i(m_numGroupedGrains) ; i < m_ncolloptrsize ; ++i ) {
-      for (int j(m_numGroupedGrains); j < m_ncolloptrsize ; ++j ) {
+    for (size_t i(m_numGroupedGrains) ; i < m_ncolloptrsize ; ++i ) {
+      for (size_t j(m_numGroupedGrains); j < m_ncolloptrsize ; ++j ) {
         (*m_egme)[i - m_numGroupedGrains + 1][j - m_numGroupedGrains + 1] = (*tempEGME)[i][j];
       }
     }
 
     // Sum up the downward transition terms for the reservoir grain
     double sumOfDeactivation(0.0), ptfReservoir(0.0);
-    for (int j(0); j < m_ncolloptrsize ; ++j ) {
+    for (size_t j(0); j < m_ncolloptrsize ; ++j ) {
       if (j < m_numGroupedGrains){
         // summing up the partition function of reservoir state
         ptfReservoir += exp(log(gDOS[j]) - env.beta * gEne[j] + 10.0);
-      }
-      else{
+      } else {
         double downwardSum(0.0);
-        for (int i(0) ; i < m_numGroupedGrains ; ++i ) {
+        for (size_t i(0) ; i < m_numGroupedGrains ; ++i ) {
           downwardSum += (*tempEGME)[i][j]; // sum of the normalized downward prob.
         }
         double ptfj = exp(log(gDOS[j]) - env.beta * gEne[j] + 10.0);
@@ -1547,25 +1541,24 @@ namespace mesmer
     vector<double> popDist; // grained population distribution
     const double firstPop = exp(log(gDOS[0]) - env.beta * gEne[0] + 10.0);
     popDist.push_back(firstPop);
-    for (int idx(1); idx < m_ncolloptrsize; ++idx){
+    for (size_t idx(1); idx < m_ncolloptrsize; ++idx){
       if (idx < m_numGroupedGrains){
         popDist[0] += exp(log(gDOS[idx]) - env.beta * gEne[idx] + 10.0);
-      }
-      else{
+      } else {
         popDist.push_back(sqrt(exp(log(gDOS[idx]) - env.beta * gEne[idx] + 10.0)));
       }
     }
     popDist[0] = sqrt(popDist[0]); // This is the square root of partition function in the reservoir grain
 
-    for (int i(1) ; i < reducedCollOptrSize + 1; ++i ) {
-      for (int j(0) ; j < i ; ++j ){
+    for (size_t i(1) ; i < reducedCollOptrSize ; ++i ) {
+      for (size_t j(0) ; j < i ; ++j ){
         (*m_egme)[j][i] *= popDist[i]/popDist[j] ;
         (*m_egme)[i][j]  = (*m_egme)[j][i] ;
       }
     }
 
     // Account for collisional loss by subrtacting unity from the leading diagonal.
-    for (int i(1) ; i <= reducedCollOptrSize ; ++i ) {
+    for (size_t i(1) ; i < reducedCollOptrSize ; ++i ) {
       (*m_egme)[i][i] -= 1.0 ;
     }
 
@@ -1573,6 +1566,8 @@ namespace mesmer
       ctest << "Collision operator of " << m_host->getName() << " after :\n";
       m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
     }
+
+    m_nRedcolloptrsize = reducedCollOptrSize ;
 
     delete tempEGME;
 
@@ -1611,7 +1606,7 @@ namespace mesmer
     m_host->getDOS().getGrainDensityOfStates(gDOS);
 
     // Initialisation and error checking.
-    int i, j;
+    size_t i, j;
     for ( i = 0 ; i < m_ncolloptrsize ; ++i ) {
       if (gDOS[i] <= 0.0) {
         cerr << "Data indicates that grain " << i << " of the current colliding molecule has no states.";
@@ -1669,7 +1664,7 @@ namespace mesmer
 
     // Symmetrization of the collision matrix.
     vector<double> popDist; // grained population distribution
-    for (int idx(0); idx < m_ncolloptrsize; ++idx){
+    for (size_t idx(0); idx < m_ncolloptrsize; ++idx){
       popDist.push_back(sqrt(exp(log(gDOS[idx]) - env.beta * gEne[idx] + 10.0)));
     }
     for ( i = 1 ; i < m_ncolloptrsize ; ++i ) {
@@ -1701,10 +1696,10 @@ namespace mesmer
     // Use number of states to weight the downward transition
     if (m_host->getFlags().useDOSweightedDT){
       // The collision operator.
-      for ( int i = 0 ; i < m_ncolloptrsize ; ++i ) {
+      for ( size_t i = 0 ; i < m_ncolloptrsize ; ++i ) {
         double ei = gEne[i] ;
         double ni = gDOS[i] ;
-        for ( int j = i ; j < m_ncolloptrsize ; ++j ) {
+        for ( size_t j = i ; j < m_ncolloptrsize ; ++j ) {
           double ej = gEne[j];
           double nj = gDOS[j];
           // Transfer to lower Energy -
@@ -1721,10 +1716,10 @@ namespace mesmer
       }
     } else {
       // The collision operator.
-      for ( int i = 0 ; i < m_ncolloptrsize ; ++i ) {
+      for ( size_t i = 0 ; i < m_ncolloptrsize ; ++i ) {
         double ei = gEne[i] ;
         double ni = gDOS[i] ;
-        for ( int j = i ; j < m_ncolloptrsize ; ++j ) {
+        for ( size_t j = i ; j < m_ncolloptrsize ; ++j ) {
           double ej = gEne[j];
           double nj = gDOS[j];
           // Transfer to lower Energy -
@@ -1814,7 +1809,7 @@ namespace mesmer
   void gWellProperties::eigenVector(int eigveci, std::vector<double> &evec) const
   {
     // evec.clear() ;
-    for (int i(0) ; i < m_ncolloptrsize ; ++i){
+    for (size_t i(0) ; i < m_ncolloptrsize ; ++i){
       evec[i] =  to_double((*m_egvec)[i][eigveci]) ;
     }
   }
@@ -1822,10 +1817,7 @@ namespace mesmer
   //
   // Copy collision operator to diagonal block of system matrix.
   //
-  void gWellProperties::copyCollisionOperator(qdMatrix *CollOptr,
-    const int size,
-    const int locate,
-    const double RducdOmega) const
+  void gWellProperties::copyCollisionOperator(qdMatrix *CollOptr, const int locate, const double RducdOmega) const
   {
     // Find size of system matrix.
 
@@ -1834,15 +1826,15 @@ namespace mesmer
 
     // Check there is enough space in system matrix.
 
-    if (locate + size > smsize)
+    if (locate + m_nRedcolloptrsize > smsize)
       throw (std::runtime_error("Error in the size of the system matrix."));
 
     // Copy collision operator to the diagonal block indicated by "locate"
     // and multiply by the reduced collision frequencey.
 
-    for (int i(0) ; i < size ; ++i) {
+    for (size_t i(0) ; i < m_nRedcolloptrsize ; ++i) {
       int ii(locate + i) ;
-      for (int j(0) ; j < size ; ++j) {
+      for (size_t j(0) ; j < m_nRedcolloptrsize ; ++j) {
         int jj(locate + j) ;
         (*CollOptr)[ii][jj] = RducdOmega * (*m_egme)[i][j] ;
       }
@@ -1884,7 +1876,7 @@ namespace mesmer
   //
   // Get normalized grain distribution.
   //
-  void gWellProperties::normalizedInitialDistribution(vector<double> &grainFrac, const int totalGrnNumber, const int numberOfGroupedGrains)
+  void gWellProperties::normalizedInitialDistribution(vector<double> &grainFrac)
   {
     if (!m_host->getDOS().calcDensityOfStates())
       cerr << "Failed calculating DOS";
@@ -1894,9 +1886,9 @@ namespace mesmer
     const double firstPartition = m_grainDist[0];
     double prtfn(firstPartition);
     grainFrac.push_back(firstPartition);
-    for (int i = 1; i < totalGrnNumber; ++i){
+    for (size_t i = 1; i < m_ncolloptrsize; ++i){
       prtfn += m_grainDist[i];
-      if (i < numberOfGroupedGrains){
+      if (i < m_numGroupedGrains){
         grainFrac[0] += m_grainDist[i];
       } else {
         grainFrac.push_back(m_grainDist[i]);
@@ -1909,7 +1901,7 @@ namespace mesmer
 
     if (m_host->getFlags().grainBoltzmannEnabled){
       ctest << "\nGrain fraction:\n{\n";
-      for (int i = 0; i < totalGrnNumber; ++i){
+      for (size_t i = 0; i < m_ncolloptrsize; ++i){
         ctest << grainFrac[i] << endl;
       }
       ctest << "}\n";
@@ -1919,7 +1911,7 @@ namespace mesmer
   //
   // Get normalized grain distribution.
   //
-  void gWellProperties::normalizedGrnBoltzmannDistribution(vector<double> &grainFrac, const int totalGrnNumber, const int numberOfGroupedGrains)
+  void gWellProperties::normalizedGrnBoltzmannDistribution(vector<double> &grainFrac)
   {
     // If density of states have not already been calcualted then do so.
     if (!m_host->getDOS().calcDensityOfStates())
@@ -1939,10 +1931,10 @@ namespace mesmer
     const double firstPartition = exp(log(gDOS[0]) - m_host->getEnv().beta * gEne[0] + 10.0);
     tempGrnFrac.push_back(firstPartition);
     prtfn = firstPartition;
-    for (int i = 1; i < totalGrnNumber; ++i) {
+    for (size_t i = 1; i < m_ncolloptrsize; ++i) {
       const double thisPartition = exp(log(gDOS[i]) - m_host->getEnv().beta * gEne[i] + 10.0);
       prtfn += thisPartition;
-      if (i < numberOfGroupedGrains){
+      if (i < m_numGroupedGrains){
         tempGrnFrac[0] += thisPartition;
       }
       else{
@@ -1959,7 +1951,7 @@ namespace mesmer
 
   }
 
-    void gWellProperties::normalizedCellBoltzmannDistribution(vector<double> &CellFrac, const int totalCellNumber)
+  void gWellProperties::normalizedCellBoltzmannDistribution(vector<double> &CellFrac, const int totalCellNumber)
   {
     // If density of states have not already been calcualted then do so.
     if (!m_host->getDOS().calcDensityOfStates())
@@ -1982,7 +1974,7 @@ namespace mesmer
     for (int i = 1; i < totalCellNumber; ++i) {
       const double thisPartition = exp(log(gDOS[i]) - m_host->getEnv().beta * gEne[i] + 10.0);
       prtfn += thisPartition;
-	  tempCellFrac.push_back(thisPartition);
+      tempCellFrac.push_back(thisPartition);
     }
 
     const int tempCellFracSize = int(tempCellFrac.size());

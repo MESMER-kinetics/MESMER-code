@@ -45,11 +45,10 @@ namespace mesmer
     const size_t fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
     // Get Boltzmann distribution for detailed balance.
-    const int MaximumGrain = getEnv().MaxGrn ;
     vector<double> pdtEq ; // Population fraction of the adduct
-    m_pdt1->getColl().normalizedGrnBoltzmannDistribution(pdtEq, MaximumGrain, pNGG) ;
+    m_pdt1->getColl().normalizedGrnBoltzmannDistribution(pdtEq) ;
     vector<double> rctEq ; // Population fraction of the psudoisomer
-    m_rct1->getColl().normalizedGrnBoltzmannDistribution(rctEq, MaximumGrain, rNGG) ;
+    m_rct1->getColl().normalizedGrnBoltzmannDistribution(rctEq) ;
 
     // Note: reverseThreshE will always be greater than pNGG here
 
