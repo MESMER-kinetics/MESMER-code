@@ -43,7 +43,7 @@ namespace mesmer
 
   //************************************************************
   //Global instance, defining its id
-  LandauZenerCrossingCoeff theLandauZenerCrossingCoeff("LZCrossing");
+  LandauZenerCrossingCoeff theLandauZenerCrossingCoeff("LZ");
   //************************************************************
 
   bool LandauZenerCrossingCoeff::ParseData(PersistPtr pp)

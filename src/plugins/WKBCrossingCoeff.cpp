@@ -44,7 +44,7 @@ namespace mesmer
 
   //************************************************************
   //Global instance, defining its id 
-  WKBCrossingCoeff theWKBCrossingCoeff("WKBCrossing");
+  WKBCrossingCoeff theWKBCrossingCoeff("WKB");
   //************************************************************
 
   bool WKBCrossingCoeff::ParseData(PersistPtr pp)
