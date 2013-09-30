@@ -50,6 +50,9 @@ namespace mesmer
     bool get_range(double& lower_, double& upper_, double& stepsize_)const;
 
     const char* get_varname(){ return varname.c_str(); }
+	double get_lower(){ return lower; }
+	double get_upper(){ return upper; }
+
     void set_varname(const std::string& name) { varname = name; }
 
     int get_numsteps(){ return (int)(1 + eps + (upper - lower) / stepsize); } 

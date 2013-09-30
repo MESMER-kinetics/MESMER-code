@@ -1,3 +1,8 @@
+2013-September-30 Robin Shannon
+
+	*SensitivityAnalysis.cpp, Rdouble.h: Changed SensitvityAnalysis to read
+	errors from Rdouble ranges. Rdouble.h changed to allow SensitivityAnalysis
+	read upper and lower values.
 
 2013-September-28 Struan Robertson
 
