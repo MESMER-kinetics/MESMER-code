@@ -31,10 +31,8 @@ namespace mesmer
     const size_t pdtLocation = isomermap[m_pdt1] ;
 
     // Need to know the number of grouped grains in both wells.
-    const size_t rNGG(m_rct1->getColl().getNumberOfGroupedGrains());
-    const size_t pNGG(m_pdt1->getColl().getNumberOfGroupedGrains());
-    const size_t rShiftedGrains(rNGG == 0 ? 0 : rNGG - 1);
-    const size_t pShiftedGrains(pNGG == 0 ? 0 : pNGG - 1);
+    const size_t rShiftedGrains(m_rct1->getColl().reservoirShift());
+    const size_t pShiftedGrains(m_pdt1->getColl().reservoirShift());
 
     // Get equilibrium constant.
     const double Keq = calcEquilibriumConstant() ;

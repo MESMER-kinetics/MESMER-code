@@ -973,26 +973,22 @@ namespace mesmer
         vector<Molecule*> pdts;                               // in the sink reaction
         sinkReaction->get_products(pdts);
 
-        size_t numberGrouped(0);
+        size_t rsrvrGrnShift(0);
         string pdtName = pdts[0]->getName();
         if(colloptrsize == 1){  // if the collision operator size is 1, there is one canonical loss rate coefficient
           KofEs.push_back(sinkReaction->get_fwdGrnCanonicalRate());
           pdtName += "(bim)";
           ctest << setw(16) << pdtName;
-        }
-        else{   // if the collision operator size is >1, there are k(E)s for the irreversible loss
+        } else {   // if the collision operator size is >1, there are k(E)s for the irreversible loss
           KofEs = sinkReaction->get_GrainKfmc();          // assign sink k(E)s, the vector size == maxgrn
           ctest << setw(16) << pdtName;
-          numberGrouped = sinkReaction->get_reactant()->getColl().getNumberOfGroupedGrains();
+          rsrvrGrnShift = sinkReaction->get_reactant()->getColl().reservoirShift();
         }
         speciesNames.push_back(pdtName);
         int rxnMatrixLoc = pos->second;                       // get sink location
         double TimeIntegratedProductPop(0.0);
 
-        size_t idx(0) ;
-        if (numberGrouped != 0){
-          idx = numberGrouped - 1 ;
-        }
+        size_t idx(rsrvrGrnShift) ;
         for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
           for(size_t i(0); i < colloptrsize - idx; ++i){
             speciesProfile[speciesProfileidx][timestep] += KofEs[i + idx]*grnProfile[i+rxnMatrixLoc][timestep]*dt[timestep];
@@ -1277,8 +1273,7 @@ namespace mesmer
             } else {                   // if the collision operator size is >1, there are k(E)s for the irreversible loss
               KofEs = sinkReaction->get_GrainKfmc();                      // assign sink k(E)s, the vector size == maxgrn
               Molecule* isomer = sinkReaction->get_reactant();
-              const int numberGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
-              const int ll = (numberGroupedGrains != 0) ? numberGroupedGrains - 1 : 0 ;
+              const int ll(isomer->getColl().reservoirShift())  ;
               for (int i(ll) ; i < colloptrsize ; ++i)
                 KofEsTemp.push_back(KofEs[i]);
               colloptrsize -= ll ;
@@ -1737,8 +1732,7 @@ namespace mesmer
         // If the collision operator size is >1, there are k(E)s for the irreversible loss.
         ktemp = sinkReaction->get_GrainKfmc();
         Molecule* isomer = sinkReaction->get_reactant();
-        const int numberGroupedGrains = isomer->getColl().getNumberOfGroupedGrains();
-        idx = (numberGroupedGrains != 0) ? numberGroupedGrains - 1 : 0 ;
+        idx = isomer->getColl().reservoirShift() ;
         colloptrsize -= idx ;
       }
 

@@ -119,10 +119,8 @@ namespace mesmer
     const int pdtLocation = isomermap[m_pdt1] ;
 
     // Need to know the number of grouped grains in both wells.
-    const int rNGG(m_rct1->getColl().getNumberOfGroupedGrains());
-    const int pNGG(m_pdt1->getColl().getNumberOfGroupedGrains());
-    const int rShiftedGrains(rNGG == 0 ? 0 : rNGG - 1);
-    const int pShiftedGrains(pNGG == 0 ? 0 : pNGG - 1);
+    const int rShiftedGrains(m_rct1->getColl().reservoirShift());
+    const int pShiftedGrains(m_pdt1->getColl().reservoirShift());
 
     const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
 

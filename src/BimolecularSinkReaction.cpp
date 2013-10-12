@@ -111,8 +111,7 @@ namespace mesmer
 
     // Locate reactant in system matrix.
     const int rctLocation = isomermap[m_rct1] ;
-    int rNGG(m_rct1->getColl().getNumberOfGroupedGrains());
-    const int rShiftedGrains(rNGG == 0 ? 0 : rNGG - 1);
+    const int rShiftedGrains(m_rct1->getColl().reservoirShift());
 
     const int colloptrsize   = m_rct1->getColl().get_colloptrsize();
     const int forwardThreshE = get_EffGrnFwdThreshold();

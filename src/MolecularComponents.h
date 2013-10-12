@@ -417,7 +417,7 @@ namespace mesmer
     const double getLowestBarrier() { return m_lowestBarrier;}
     void setLowestBarrier(double value){ m_lowestBarrier = value;}
 
-    const int getNumberOfGroupedGrains() {return m_numGroupedGrains; }
+    const int reservoirShift() {return m_numGroupedGrains == 0 ? 0 : m_numGroupedGrains - 1; }
 
   };
 

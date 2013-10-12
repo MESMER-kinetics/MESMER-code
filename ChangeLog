@@ -1,3 +1,9 @@
+2013-October-12 Struan Robertson
+
+	* CollisionOperator.cpp, MolecularComponent.h/.cpp and all derived reaction 
+	classes: More refactoring changes to make the code more transparent to 
+	reservoir states. 
+	
 2013-September-30 Robin Shannon
 
 	*SensitivityAnalysis.cpp, Rdouble.h: Changed SensitvityAnalysis to read
@@ -8,7 +14,7 @@
 
 	* CollisionOperator.cpp, MolecularComponent.h/.cpp: Refactoring changes
 	to make the code more transparent to reservoir states. These changes 
-	are like to be the first in a series of changes.
+	are likely to be the first in a series of changes.
 	
 2013-September-25 Struan Robertson
 

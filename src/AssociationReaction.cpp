@@ -93,23 +93,21 @@ namespace mesmer
 
     // Get Boltzmann distribution for detailed balance.
     vector<double> adductPopFrac ; // Population fraction of the adduct
-    const int pNGG(m_pdt1->getColl().getNumberOfGroupedGrains());
+    const int pShiftedGrains(m_pdt1->getColl().reservoirShift());
     m_pdt1->getColl().normalizedGrnBoltzmannDistribution(adductPopFrac) ;
 
     qd_real DissRateCoeff(0.0) ;
 
-    const int pdtRxnOptPos(pdtLoc - (pNGG == 0 ? 0 : pNGG - 1));
-    const int adductPopFracShift(pNGG == 0 ? 0 : pNGG - 1);
+    const int pdtRxnOptPos(pdtLoc - pShiftedGrains);
     const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
-    //const int forwardThreshE = get_EffGrnFwdThreshold();
     const int reverseThreshE = get_EffGrnRvsThreshold();
     const int fluxStartIdx = get_fluxFirstNonZeroIdx();
 
-    // Note: reverseThreshE will always be greater than pNGG here
+    // Note: reverseThreshE will always be greater than pShiftedGrains here.
 
     for ( int i = reverseThreshE, j = fluxStartIdx; i < colloptrsize; ++i, ++j) {
       int ii(pdtRxnOptPos + i) ;
-      int kk (i - adductPopFracShift);
+      int kk (i - pShiftedGrains);
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[j] / pdtDOS[i]);                                // Loss of the adduct to the source
       (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[j] * sqrt(adductPopFrac[kk] * Keq) / pdtDOS[i]);// Reactive gain of the source
       (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                                                      // Reactive gain (symmetrization)

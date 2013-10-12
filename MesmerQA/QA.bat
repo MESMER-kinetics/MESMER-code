@@ -133,6 +133,11 @@ cd "i-propyl"
 %executable% ipropyl_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+
+set testName="ipropyl_reservoir"
+%executable% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 echo --------------------------------------------------------------------
 
