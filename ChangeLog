@@ -1,3 +1,8 @@
+2013-October-13 Struan Robertson
+
+	* AnalyticalRepresentation.cpp: Analytical representation output altered 
+	to be consistent with Cantera format. Baselines added.
+	
 2013-October-12 Struan Robertson
 
 	* CollisionOperator.cpp, MolecularComponent.h/.cpp and all derived reaction 
