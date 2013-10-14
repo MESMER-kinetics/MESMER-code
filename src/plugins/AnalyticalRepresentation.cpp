@@ -67,7 +67,7 @@ namespace mesmer
 	void writeCanteraFormat(const vector<vector<vector<double> > > &ChebyshevCoeff) const ;
 
 	// Test the  Chebyshev representation.
-	void AnalyticalRepresentation::testRepresentation(
+	void testRepresentation(
 	  const vector<vector<vector<double> > > &ChebyshevCoeff,
 	  const vector<vector<vector<double> > > &PTgrid,
 	  const vector<double> &Concentration,
