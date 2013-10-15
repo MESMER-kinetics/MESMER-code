@@ -117,13 +117,16 @@ namespace mesmer
     const int forwardThreshE = get_EffGrnFwdThreshold();
     const int fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
-    for ( int i=fluxStartIdx, j = forwardThreshE, k=0; j < colloptrsize; ++i, ++j, ++k) {
-      int ll = k + forwardThreshE;
-      int ii(rctLocation + ll - rShiftedGrains) ;
-      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
+	m_MtxGrnKf.clear();
+    m_MtxGrnKf.resize(colloptrsize , 0.0);
+
+    for ( int i=fluxStartIdx, j = forwardThreshE; j < colloptrsize; ++i, ++j) {
+      int ii(rctLocation + j - rShiftedGrains) ;
+	  double rtcf = m_GrainFlux[i] / rctDOS[j] ;
+      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * rtcf);  // Forward loss reaction.
+	  m_MtxGrnKf[j - rShiftedGrains] = rtcf ;
     }
   }
-
 
   void BimolecularSinkReaction::AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) {
 		cinfo << "adding reaction terms to the contracted basis matrix " << endl;

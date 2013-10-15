@@ -128,9 +128,14 @@ namespace mesmer
     const int forwardThreshE = get_EffGrnFwdThreshold();
     const int fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
+	m_MtxGrnKf.clear();
+    m_MtxGrnKf.resize(colloptrsize , 0.0);
+
     for ( int i=fluxStartIdx, j = forwardThreshE; j < colloptrsize; ++i, ++j) {
       int ii(rctLocation + j - rShiftedGrains) ;
+	  double rtcf = m_GrainFlux[i] / rctDOS[j] ;
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[j]);  // Forward loss reaction.
+	  m_MtxGrnKf[j - rShiftedGrains] = rtcf ;
     }
   }
 

@@ -245,6 +245,7 @@ MesmerQA/i-propyl/baselines/Win32/ipropyl_reservoir.log -text
 MesmerQA/i-propyl/baselines/Win32/ipropyl_reservoir.test -text
 MesmerQA/i-propyl/baselines/Win32/mesmer.log -text
 MesmerQA/i-propyl/baselines/Win32/mesmer.test -text
+MesmerQA/i-propyl/ipropyl_reservoir.xml -text
 MesmerQA/i-propyl/ipropyl_test.xml -text
 MesmerQA/pentyl/baselines/Linux64/mesmer.log -text
 MesmerQA/pentyl/baselines/Linux64/mesmer.test -text

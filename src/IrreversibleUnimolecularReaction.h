@@ -60,9 +60,6 @@ namespace mesmer
     // Get products cell density of states.
 //X    void getPdtsCellDensityOfStates(std::vector<double> &cellDOS) ;
 
-    // return the colloptrsize of the reactants
-    virtual int getRctColloptrsize(){return m_rct1->getColl().get_colloptrsize();}
-
     // Return products
     virtual int get_products(std::vector<Molecule *> &product) const
     {

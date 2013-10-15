@@ -965,33 +965,26 @@ namespace mesmer
 
       int pdtProfileStartIdx = speciesProfileidx;
 
-      sinkMap::iterator pos;      // iterate through sink map to get product profile vs t
+      sinkMap::iterator pos;      // Iterate through sink map to get product profile vs t.
       for (pos = m_sinkRxns.begin(); pos != m_sinkRxns.end(); ++pos){
-        vector<double> KofEs;                             // vector to hold sink k(E)s
         Reaction* sinkReaction = pos->first;
-        const int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant
-        vector<Molecule*> pdts;                               // in the sink reaction
+        Molecule* isomer = sinkReaction->get_reactant();
+        const int colloptrsize = isomer->getColl().get_redColloptrsize(); // Get reactant collision operator size.
+        const vector<double> KofEs = sinkReaction->get_MtxGrnKf();        // Vector to hold sink k(E)s.
+        vector<Molecule*> pdts;                                           // in the sink reaction
         sinkReaction->get_products(pdts);
-
-        size_t rsrvrGrnShift(0);
         string pdtName = pdts[0]->getName();
-        if(colloptrsize == 1){  // if the collision operator size is 1, there is one canonical loss rate coefficient
-          KofEs.push_back(sinkReaction->get_fwdGrnCanonicalRate());
+        if (colloptrsize == 1) {  
           pdtName += "(bim)";
-          ctest << setw(16) << pdtName;
-        } else {   // if the collision operator size is >1, there are k(E)s for the irreversible loss
-          KofEs = sinkReaction->get_GrainKfmc();          // assign sink k(E)s, the vector size == maxgrn
-          ctest << setw(16) << pdtName;
-          rsrvrGrnShift = sinkReaction->get_reactant()->getColl().reservoirShift();
         }
+        ctest << setw(16) << pdtName;
         speciesNames.push_back(pdtName);
-        int rxnMatrixLoc = pos->second;                       // get sink location
+        int rxnMatrixLoc = pos->second;                                   // Get sink location.
         double TimeIntegratedProductPop(0.0);
 
-        size_t idx(rsrvrGrnShift) ;
-        for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
-          for(size_t i(0); i < colloptrsize - idx; ++i){
-            speciesProfile[speciesProfileidx][timestep] += KofEs[i + idx]*grnProfile[i+rxnMatrixLoc][timestep]*dt[timestep];
+        for (size_t timestep(0); timestep < maxTimeStep; ++timestep) {
+          for (size_t i(0); i < colloptrsize ; ++i) {
+            speciesProfile[speciesProfileidx][timestep] += KofEs[i]*grnProfile[i+rxnMatrixLoc][timestep]*dt[timestep];
           }
           TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];
           speciesProfile[speciesProfileidx][timestep] = TimeIntegratedProductPop;
@@ -1259,28 +1252,17 @@ namespace mesmer
 
         // Calculate Y_matrix elements for sinks.
 
-        if(nsinks) {
+        if (nsinks) {
           int seqMatrixLoc(0) ;
-          for(sinkpos = m_sinkRxns.begin() ; sinkpos != m_sinkRxns.end() ; ++sinkpos, ++seqMatrixLoc) {
-            qd_real sm(0.0);
-            vector<double> KofEs;                                         // vector to hold sink k(E)s
-            vector<double> KofEsTemp;                                     // vector to hold sink k(E)s
+          for (sinkpos = m_sinkRxns.begin() ; sinkpos != m_sinkRxns.end() ; ++sinkpos, ++seqMatrixLoc) {
             Reaction* sinkReaction = sinkpos->first;
-            int colloptrsize = sinkReaction->getRctColloptrsize();  // get collisionoptrsize of reactant
-            if(colloptrsize == 1){  // if the collision operator size is 1, there is one canonical loss rate coefficient
-              KofEs.push_back(sinkReaction->get_fwdGrnCanonicalRate());
-              KofEsTemp.push_back(KofEs[0]);
-            } else {                   // if the collision operator size is >1, there are k(E)s for the irreversible loss
-              KofEs = sinkReaction->get_GrainKfmc();                      // assign sink k(E)s, the vector size == maxgrn
-              Molecule* isomer = sinkReaction->get_reactant();
-              const int ll(isomer->getColl().reservoirShift())  ;
-              for (int i(ll) ; i < colloptrsize ; ++i)
-                KofEsTemp.push_back(KofEs[i]);
-              colloptrsize -= ll ;
-            }
-            int rxnMatrixLoc = sinkpos->second;                               // get sink location
-            for(int j(0);j<colloptrsize;++j){
-              sm += assymEigenVec[rxnMatrixLoc+j][nchemIdx+i] * KofEsTemp[j];
+            Molecule* isomer = sinkReaction->get_reactant();
+            int colloptrsize = isomer->getColl().get_redColloptrsize(); // Get reactant collision operato size.
+            const vector<double> KofEs = sinkReaction->get_MtxGrnKf();  // Vector to hold sink k(E)s.
+            int rxnMatrixLoc = sinkpos->second;                         // Get sink location.
+            qd_real sm(0.0);
+            for (int j(0) ; j<colloptrsize ; ++j) {
+              sm += assymEigenVec[rxnMatrixLoc+j][nchemIdx+i] * KofEs[j];
             }
             Y_matrix[seqMatrixLoc][i] = sm;
           }
@@ -1480,7 +1462,7 @@ namespace mesmer
         for(rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
           Molecule* rcts = rctitr->first;     // get reactants & their position
           int rctpos = rctitr->second;
-          if(sinkReaction->getRctColloptrsize()==1){
+          if (sinkReaction->getReactionType() == IRREVERSIBLE_EXCHANGE) {
             ctest << rcts->getName() << " -> "  << pdtsName << "(bim) = " << Kp[sinkpos][rctpos] << endl;
             puNumbers << Kp[sinkpos][rctpos] << "\t";
             if (!m_punchSymbolGathered) {
@@ -1720,26 +1702,14 @@ namespace mesmer
       size_t rxnMatrixLoc = sinkitr->second ;
 
       // Calculate the total flux through this channel.
-
       // First, determine the mirco rate coefficients for this channel:
-      vector<double> ktemp ;
-      size_t colloptrsize = sinkReaction->getRctColloptrsize();  
-      size_t idx(0) ;
-      if(colloptrsize == 1){  
-        // If the collision operator size is 1, there is one canonical loss rate coefficient.
-        ktemp.push_back(sinkReaction->get_fwdGrnCanonicalRate());
-      } else {
-        // If the collision operator size is >1, there are k(E)s for the irreversible loss.
-        ktemp = sinkReaction->get_GrainKfmc();
-        Molecule* isomer = sinkReaction->get_reactant();
-        idx = isomer->getColl().reservoirShift() ;
-        colloptrsize -= idx ;
-      }
-
+      Molecule* isomer = sinkReaction->get_reactant();
+      int colloptrsize = isomer->getColl().get_redColloptrsize(); // Get reactant collision operato size.
+      const vector<double> ktemp = sinkReaction->get_MtxGrnKf();  // Vector to hold sink k(E)s.
       // Now form the yield fraction. Note more than one channel may produce the same product.
       double yield(0.0) ;
       for (size_t i(0); i < colloptrsize; ++i) {
-        yield += to_double(ktemp[idx + i] * wrk[rxnMatrixLoc + i]) ;
+        yield += to_double(ktemp[i] * wrk[rxnMatrixLoc + i]) ;
       }
       yieldMap[sinkReaction] = yield ;
     }

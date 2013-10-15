@@ -90,9 +90,6 @@ namespace mesmer
     // get the reactant, which reacts in a first order or pseudo first order process
     virtual Molecule *get_reactant(void) const = 0;
 
-    // get reactant collisionoperator size
-    virtual int getRctColloptrsize() = 0;
-
     Molecule* get_TransitionState() const { return m_TransitionState ; } ;
 
     // Get unimolecualr species information:
@@ -126,6 +123,9 @@ namespace mesmer
 
     // returns the forward grain microcanoincal rate coefficients for foreign modifications
     const std::vector<double>& get_GrainKfmc(void) {return m_GrainKfmc; };
+
+    // returns the forward grain microcanoincal rate coefficients for foreign modifications
+    const std::vector<double>& get_MtxGrnKf(void) {return m_MtxGrnKf; };
 
     // get canonical pseudo first order irreversible loss rate coefficient
     virtual double GetCanonicalIrreversibleLossRate(void){return 0.0;};
@@ -253,6 +253,7 @@ namespace mesmer
     std::vector<double>  m_GrainFlux ;         // Grain summed microcanonical transition state fluxes..
 
     std::vector<double>  m_GrainKfmc ;           // Grained averaged forward  microcanonical rates.
+    std::vector<double>  m_MtxGrnKf ;            // Grained averaged forward  microcanonical rates as used in collision operator.
 
     // Read parameters requires to determine reaction heats and rates.
     bool ReadRateCoeffParameters(PersistPtr ppReac);
@@ -284,7 +285,6 @@ namespace mesmer
     std::string m_Name ;            // Reaction name.
 
     bool   m_reCalcMicroRateCoeffs; // re-calculation on DOS
-    double m_kfwd ;                 // Forward canonical (high pressure) rate coefficient.
 
 protected: //previously private but needed in IrreversibleUnimolecularReaction::calcFluxFirstNonZeroIdx(void)
     bool m_UsesProductProperties;

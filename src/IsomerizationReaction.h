@@ -39,9 +39,6 @@ namespace mesmer
       return 2 ;
     } ;
 
-    // return the colloptrsize of the reactants
-    virtual int getRctColloptrsize(){return m_rct1->getColl().get_colloptrsize();}
-
     // Return products
     virtual int get_products(std::vector<Molecule *> &product) const
     {

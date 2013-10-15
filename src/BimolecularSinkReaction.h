@@ -72,9 +72,6 @@ namespace mesmer
     // with a negative threshold energy
     void calcEffGrnThresholds(void);
 
-    // return the colloptrsize of the reactants
-    virtual int getRctColloptrsize(){return m_rct1->getColl().get_colloptrsize();}
-
     // returns the reaction type
     virtual ReactionType getReactionType(){
       return BIMOLECULAR_SINK;

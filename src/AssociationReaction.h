@@ -65,9 +65,6 @@ namespace mesmer
       return 1;
     } ;
 
-    // return the colloptrsize of the reactants
-    virtual int getRctColloptrsize(){return 1;}
-
     // Initialize reaction.
     virtual bool InitializeReaction(PersistPtr ppReac) ;
 
