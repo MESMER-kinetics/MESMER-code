@@ -150,11 +150,11 @@
           </xs:complexType>
         </xs:element>
 
-        <xs:element name="control" minOccurs="0">
+        <xs:element name="control" minOccurs="1">
           <xs:complexType>
             <xs:all>
               <xs:element name="allowSmallerDeltaEDown" minOccurs="0"/>
-              <xs:element name="calcMethod" type="me:calcMethodct" minOccurs ="0">
+              <xs:element name="calcMethod" type="me:calcMethodct" minOccurs ="1">
                 <xs:annotation>
                   <xs:documentation>
                     For methods with no data, the form like &lt;CalcMethod>simpleCalc&lt;/calcMethod>
