@@ -140,7 +140,7 @@ if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
 fi
 
-testName=OH_ipropyl_reservoir
+testName=ipropyl_reservoir
 $executable -N $testName.xml
 cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
