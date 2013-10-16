@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- Oct 12 2013 -- 15:13:40
+     Mesmer v3.0 compiled: -- Oct 14 2013 -- 18:31:09
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -425,13 +425,13 @@ In R5: Parsing reaction...
 In R5: No tunneling method used for R5
 In R5: No crossing method used for R5
 All molecules are on the same energy basis: arbitary
-Write metadata 20131013_150339
+Write metadata 20131015_214750
 
 File: "Chebyshev.xml" successfully parsed.
 Main Calculation begins
 In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 In FastLaplaceConvolution: 900 values in the FFT convolution routine were replaced by standard convolution
- -- Total time elapsed: 22 seconds.
+ -- Total time elapsed: 9 seconds.
 
 No pressure and temperature specified.System saved to mesmer_out.xml
