@@ -1,3 +1,8 @@
+2013-October-25 Struan Robertson
+
+	* CollisionOperator.cpp, and all derived sink reaction classes: Fix for 
+	irreversible exchange reaction broken during refactoring. 
+	
 2013-October-15 Struan Robertson
 
 	* CollisionOperator.cpp, MolecularComponent.h/.cpp and all derived reaction 

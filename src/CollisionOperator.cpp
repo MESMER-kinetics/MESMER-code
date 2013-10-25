@@ -228,9 +228,6 @@ namespace mesmer
 
       m_eqVecSize = msize ;
 
-      // Locate all sink terms.
-      locateSinks() ;
-
       // Build reaction operator.
       //
       // One of two methods for building the reaction operator are available:
@@ -242,16 +239,18 @@ namespace mesmer
       if (!mEnv.useBasisSetMethod) {
 
         // Full energy grained reaction operator.
-
         constructGrainMatrix(msize);
 
       } else {
 
         // Contracted basis set reaction operator.
-
         constructBasisMatrix();
 
       }
+
+	  // Locate all sink terms.
+      locateSinks() ;
+
     }
 
     return true;
@@ -387,7 +386,6 @@ namespace mesmer
     //for (; isomeritr != m_isomers.end() ; ++isomeritr) {
     //  Molecule *isomer = isomeritr->first ;
     //  isomeritr->second = static_cast<int>(msize) ; //set location
-    //  msize += isomer->getColl().get_nbasis() ;
     //}
 
     // 2. Pseudoisomers.
@@ -969,12 +967,11 @@ namespace mesmer
       for (pos = m_sinkRxns.begin(); pos != m_sinkRxns.end(); ++pos){
         Reaction* sinkReaction = pos->first;
         Molecule* isomer = sinkReaction->get_reactant();
-        const int colloptrsize = isomer->getColl().get_redColloptrsize(); // Get reactant collision operator size.
         const vector<double> KofEs = sinkReaction->get_MtxGrnKf();        // Vector to hold sink k(E)s.
         vector<Molecule*> pdts;                                           // in the sink reaction
         sinkReaction->get_products(pdts);
         string pdtName = pdts[0]->getName();
-        if (colloptrsize == 1) {  
+        if (KofEs.size() == 1) {  
           pdtName += "(bim)";
         }
         ctest << setw(16) << pdtName;
@@ -983,7 +980,7 @@ namespace mesmer
         double TimeIntegratedProductPop(0.0);
 
         for (size_t timestep(0); timestep < maxTimeStep; ++timestep) {
-          for (size_t i(0); i < colloptrsize ; ++i) {
+          for (size_t i(0); i < KofEs.size() ; ++i) {
             speciesProfile[speciesProfileidx][timestep] += KofEs[i]*grnProfile[i+rxnMatrixLoc][timestep]*dt[timestep];
           }
           TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];
@@ -1256,12 +1253,10 @@ namespace mesmer
           int seqMatrixLoc(0) ;
           for (sinkpos = m_sinkRxns.begin() ; sinkpos != m_sinkRxns.end() ; ++sinkpos, ++seqMatrixLoc) {
             Reaction* sinkReaction = sinkpos->first;
-            Molecule* isomer = sinkReaction->get_reactant();
-            int colloptrsize = isomer->getColl().get_redColloptrsize(); // Get reactant collision operato size.
             const vector<double> KofEs = sinkReaction->get_MtxGrnKf();  // Vector to hold sink k(E)s.
             int rxnMatrixLoc = sinkpos->second;                         // Get sink location.
             qd_real sm(0.0);
-            for (int j(0) ; j<colloptrsize ; ++j) {
+            for (size_t j(0) ; j < KofEs.size() ; ++j) {
               sm += assymEigenVec[rxnMatrixLoc+j][nchemIdx+i] * KofEs[j];
             }
             Y_matrix[seqMatrixLoc][i] = sm;
@@ -1697,18 +1692,15 @@ namespace mesmer
     for (; sinkitr != m_sinkRxns.end() ; ++sinkitr) {
 
       // Locate the sink reaction.
-
       Reaction* sinkReaction = sinkitr->first ;
       size_t rxnMatrixLoc = sinkitr->second ;
 
       // Calculate the total flux through this channel.
       // First, determine the mirco rate coefficients for this channel:
-      Molecule* isomer = sinkReaction->get_reactant();
-      int colloptrsize = isomer->getColl().get_redColloptrsize(); // Get reactant collision operato size.
       const vector<double> ktemp = sinkReaction->get_MtxGrnKf();  // Vector to hold sink k(E)s.
       // Now form the yield fraction. Note more than one channel may produce the same product.
       double yield(0.0) ;
-      for (size_t i(0); i < colloptrsize; ++i) {
+      for (size_t i(0); i < ktemp.size() ; ++i) {
         yield += to_double(ktemp[i] * wrk[rxnMatrixLoc + i]) ;
       }
       yieldMap[sinkReaction] = yield ;

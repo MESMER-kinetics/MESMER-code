@@ -124,14 +124,14 @@ namespace mesmer
     const int rctLocation = isomermap[m_rct1] ;
     const int rShiftedGrains(m_rct1->getColl().reservoirShift());
 
-    const int colloptrsize   = m_rct1->getColl().get_colloptrsize();
+    const int colloptrsize   = m_rct1->getColl().get_redColloptrsize();
     const int forwardThreshE = get_EffGrnFwdThreshold();
     const int fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
 	m_MtxGrnKf.clear();
     m_MtxGrnKf.resize(colloptrsize , 0.0);
 
-    for ( int i=fluxStartIdx, j = forwardThreshE; j < colloptrsize; ++i, ++j) {
+    for ( int i=fluxStartIdx, j = forwardThreshE; j < colloptrsize + rShiftedGrains; ++i, ++j) {
       int ii(rctLocation + j - rShiftedGrains) ;
 	  double rtcf = m_GrainFlux[i] / rctDOS[j] ;
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[j]);  // Forward loss reaction.

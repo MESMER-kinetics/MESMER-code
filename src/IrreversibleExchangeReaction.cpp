@@ -49,8 +49,7 @@ namespace mesmer
     if(deficientReactantLocation){
       m_rct1 = tmp_rct1;
       m_rct2 = tmp_rct2;
-    }
-    else {
+    } else {
       m_rct1 = tmp_rct2;
       m_rct2 = tmp_rct1;
     }
@@ -133,8 +132,7 @@ namespace mesmer
 
     // Heat of reaction: use heat of reaction to calculate the zpe weighing of different wells
     const double HeatOfReaction = getHeatOfReaction() ;
-    const double _expon = -beta * HeatOfReaction;
-    Keq *= exp(_expon);
+    Keq *= exp( -beta * HeatOfReaction);
 
     return Keq ;
   }
