@@ -124,7 +124,7 @@ namespace mesmer
     const int rctLocation = isomermap[m_rct1] ;
     const int rShiftedGrains(m_rct1->getColl().reservoirShift());
 
-    const int colloptrsize   = m_rct1->getColl().get_redColloptrsize();
+    const int colloptrsize   = m_rct1->getColl().get_colloptrsize();
     const int forwardThreshE = get_EffGrnFwdThreshold();
     const int fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
@@ -153,9 +153,8 @@ namespace mesmer
     const int fluxStartIdx    = get_fluxFirstNonZeroIdx();
 
     vector<double> fwdMicroRateCoef(rctColloptrsize, 0.0) ;
-    for ( int i=fluxStartIdx, j = forwardThreshE, k=0; j < rctColloptrsize; ++i, ++j, ++k) {
-      int ll = k + forwardThreshE;
-      fwdMicroRateCoef[ll] = m_GrainFlux[i] / rctDOS[ll] ;    // Forward loss reaction.
+    for ( int i=fluxStartIdx, j = forwardThreshE ; j < rctColloptrsize; ++i, ++j) {
+      fwdMicroRateCoef[j] = m_GrainFlux[i] / rctDOS[j] ;    // Forward loss reaction.
     }
 
     // Locate isomers in system matrix.

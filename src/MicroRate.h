@@ -72,7 +72,8 @@ static const char* typeID(){ return "Microcanonical Rate Calculators"; }
       return TopPlugin::List(typeID(), comma);
     }
 
-    virtual bool calculateMicroRateCoeffs(Reaction* pReact) = 0 ;
+	// Method to calculate the microcanoical flux (W(E)/h) at the transition state.
+    virtual bool calculateMicroCnlFlux(Reaction* pReact) = 0 ;
 
 /*****************************************************************************
 Any new plugin-type class should contain the above functions. The m_parent

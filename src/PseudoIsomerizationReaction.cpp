@@ -37,8 +37,8 @@ namespace mesmer
     // Get equilibrium constant.
     const double Keq = calcEquilibriumConstant() ;
 
-    const size_t pColloptrsize  = m_pdt1->getColl().get_colloptrsize();
-    const size_t rColloptrsize  = m_rct1->getColl().get_colloptrsize();
+    const size_t pColloptrsize  = m_pdt1->getColl().get_colloptrsize() + pShiftedGrains ;
+    const size_t rColloptrsize  = m_rct1->getColl().get_colloptrsize() + rShiftedGrains ;
     const size_t reverseThreshE = get_EffGrnRvsThreshold();
     const size_t fluxStartIdx   = get_fluxFirstNonZeroIdx();
 

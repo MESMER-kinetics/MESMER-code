@@ -30,7 +30,7 @@ namespace mesmer
     virtual const char* getID()  { return m_id; }
     virtual DefinedSumOfStates* Clone() { return new DefinedSumOfStates(*this); }
 
-    virtual bool calculateMicroRateCoeffs(Reaction* pReac) ;
+    virtual bool calculateMicroCnlFlux(Reaction* pReac) ;
 
     virtual bool ReadParameters(Reaction* pReac)  { return true ; }
     virtual bool ParseData(PersistPtr pp);
@@ -97,7 +97,7 @@ namespace mesmer
   // This method calculates the reaction flux. 
   //
 
-  bool DefinedSumOfStates::calculateMicroRateCoeffs(Reaction* pReact)
+  bool DefinedSumOfStates::calculateMicroCnlFlux(Reaction* pReact)
   {
     // Allocate space to hold transition state flux and initialize elements to zero.
     vector<double>& rxnFlux = pReact->get_CellFlux();

@@ -122,7 +122,7 @@ namespace mesmer
     const int rShiftedGrains(m_rct1->getColl().reservoirShift());
     const int pShiftedGrains(m_pdt1->getColl().reservoirShift());
 
-    const int colloptrsize = m_pdt1->getColl().get_redColloptrsize() + pShiftedGrains ;
+    const int colloptrsize = m_pdt1->getColl().get_colloptrsize() + pShiftedGrains ;
 
     const int forwardThreshE = get_EffGrnFwdThreshold();
     const int reverseThreshE = get_EffGrnRvsThreshold();

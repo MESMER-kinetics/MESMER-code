@@ -220,7 +220,7 @@ namespace mesmer
           return false;
         }
 
-        msize += isomer->getColl().get_redColloptrsize() ;
+        msize += isomer->getColl().get_colloptrsize() ;
 
         m_meanOmega += isomer->getColl().get_collisionFrequency() ;
       }
@@ -841,8 +841,9 @@ namespace mesmer
     if (mFlags.grainedProfileEnabled) {
       ctest << "\nGrained species profile:(first row is the time point in units of second & first column is the grain index)\n{\n";
       Reaction::molMapType::iterator ipos;
-      for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  // iterate through isomer map
-        Molecule* isomer = ipos->first;                        // to print out which grains are spanned by which isomers
+	  // Iterate through isomer map to print out which grains are spanned by which isomers.
+      for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  
+        Molecule* isomer = ipos->first;
         ctest << " isomer " << isomer->getName() << " spans grains " << ipos->second << " to " 
           << ipos->second + isomer->getColl().get_colloptrsize() - 1 << endl;  // offset of 1 is b/c grain idx starts at 0
       }
@@ -952,7 +953,7 @@ namespace mesmer
         ctest << setw(16) << isomerName;
         speciesNames.push_back(isomerName);
         int rxnMatrixLoc = ipos->second;
-        size_t colloptrsize = isomer->getColl().get_redColloptrsize();
+        size_t colloptrsize = isomer->getColl().get_colloptrsize();
         for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
           for(size_t i(0); i < colloptrsize; ++i){
             speciesProfile[speciesProfileidx][timestep] += grnProfile[i+rxnMatrixLoc][timestep];
@@ -1041,7 +1042,7 @@ namespace mesmer
       Molecule* isomer = ipos->first;                                 // to get the equilibrium fractions.
       int rxnMatrixLoc = ipos->second;
       qd_real eqFrac = isomer->getPop().getEqFraction();
-      const size_t colloptrsize = isomer->getColl().get_redColloptrsize();
+      const size_t colloptrsize = isomer->getColl().get_colloptrsize();
       vector<double> boltzFrac;
       isomer->getColl().normalizedGrnBoltzmannDistribution(boltzFrac);
       for(size_t i(0); i < colloptrsize ; ++i){
@@ -1073,7 +1074,7 @@ namespace mesmer
       if (initFrac != 0.0){                                           // if isomer initial populations are nonzero
         initFrac /= populationSum;                                    // normalize initial pop fraction
         int rxnMatrixLoc = ipos->second;
-        const size_t colloptrsize = isomer->getColl().get_redColloptrsize();
+        const size_t colloptrsize = isomer->getColl().get_colloptrsize();
 
         map<int,double> grainMap;                            // get the grain pop map and check to see if any grain populations are specified
         isomer->getPop().getInitGrainPopulation(grainMap);
@@ -1112,7 +1113,7 @@ namespace mesmer
       cinfo << "No population was assigned, and there is no source term."  << endl
         << "Initial poupulation set to 1.0  in the first isomer." << endl;
       int rxnMatrixLoc = ipos->second;
-      const size_t colloptrsize = isomer->getColl().get_redColloptrsize();
+      const size_t colloptrsize = isomer->getColl().get_colloptrsize();
       vector<double> boltzFrac;
       isomer->getColl().normalizedInitialDistribution(boltzFrac);
       for (size_t i(0); i < colloptrsize; ++i){
@@ -1229,7 +1230,7 @@ namespace mesmer
         for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos) {
           qd_real sm(0.0) ; 
           Molecule* isomer = ipos->first;
-          size_t colloptrsize = isomer->getColl().get_redColloptrsize() ; // get colloptrsize for isomer
+          size_t colloptrsize = isomer->getColl().get_colloptrsize() ; // get colloptrsize for isomer
           int rxnMatrixLoc = ipos->second + colloptrsize - 1 ;            // get location for isomer in the rxn matrix
           int seqMatrixLoc = m_SpeciesSequence[isomer];                   // get sequence position for isomer
           for(size_t j(0) ; j < colloptrsize ; ++j){

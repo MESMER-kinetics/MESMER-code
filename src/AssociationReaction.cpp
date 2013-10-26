@@ -99,7 +99,7 @@ namespace mesmer
     qd_real DissRateCoeff(0.0) ;
 
     const int pdtRxnOptPos(pdtLoc - pShiftedGrains);
-    const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
+    const int colloptrsize = m_pdt1->getColl().get_colloptrsize() + pShiftedGrains ;
     const int reverseThreshE = get_EffGrnRvsThreshold();
     const int fluxStartIdx = get_fluxFirstNonZeroIdx();
 

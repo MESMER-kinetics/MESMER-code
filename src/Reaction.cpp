@@ -109,7 +109,7 @@ namespace mesmer
       if (m_CellFlux.size()) m_CellFlux.clear();
 
       // Calculate microcanonical rate coefficients.
-      if(!m_pMicroRateCalculator->calculateMicroRateCoeffs(this))
+      if(!m_pMicroRateCalculator->calculateMicroCnlFlux(this))
         return false;
 
       // report Transition State Flux in cells to test output

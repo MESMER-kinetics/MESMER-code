@@ -37,7 +37,7 @@ namespace mesmer
 
 		virtual double get_ThresholdEnergy(Reaction* pReac) ;
 
-		virtual bool calculateMicroRateCoeffs(Reaction* pReact);
+		virtual bool calculateMicroCnlFlux(Reaction* pReact);
 
 	private:
 		Rdouble m_AssociationRateCoeff ; // association rate coefficient
@@ -52,7 +52,7 @@ namespace mesmer
 	SimpleBimolecularSink theSimpleBimolecularSink("SimpleBimolecularSink");
 	//************************************************************
 
-	bool SimpleBimolecularSink::calculateMicroRateCoeffs(Reaction* pReact)
+	bool SimpleBimolecularSink::calculateMicroCnlFlux(Reaction* pReact)
 	{
 		cinfo << "calculating cell flux for reaction " << pReact->getName() << " which is a SimpleBimolecularSink method"<<endl;
 

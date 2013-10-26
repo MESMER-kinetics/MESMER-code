@@ -53,7 +53,7 @@ namespace mesmer
   This is the function which does most of the real work of the plugin.
   See Reaction.cpp around line 112;
   *********************************************************************/
-  virtual bool calculateMicroRateCoeffs(Reaction* pReact) ;
+  virtual bool calculateMicroCnlFlux(Reaction* pReact) ;
 
   virtual double get_ThresholdEnergy(Reaction* pReac) ;
 
@@ -242,7 +242,7 @@ namespace mesmer
     return ILTCheck(pReact, ppReac) ; 
   }
 
-  bool MesmerILT::calculateMicroRateCoeffs(Reaction* pReact)
+  bool MesmerILT::calculateMicroCnlFlux(Reaction* pReact)
   {
     // Check to see what type of reaction we have
     if (pReact->getReactionType() == ISOMERIZATION || 

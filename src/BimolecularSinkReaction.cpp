@@ -111,7 +111,7 @@ namespace mesmer
     const int rctLocation = isomermap[m_rct1] ;
     const int rShiftedGrains(m_rct1->getColl().reservoirShift());
 
-    const int colloptrsize   = m_rct1->getColl().get_redColloptrsize();
+    const int colloptrsize   = m_rct1->getColl().get_colloptrsize();
     const int forwardThreshE = get_EffGrnFwdThreshold();
     const int fluxStartIdx   = get_fluxFirstNonZeroIdx();
 

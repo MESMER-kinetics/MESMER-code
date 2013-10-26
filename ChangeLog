@@ -1,3 +1,11 @@
+2013-October-26 Struan Robertson
+
+	* CollisionOperator.cpp, and all derived reaction classes: removed the 
+	(temporary) method that got the reduced collision operator size. 
+
+	* MicroRate.h and dreived classes: renamed microcanoical flux method to
+	make it clearer what it does.
+	
 2013-October-25 Struan Robertson
 
 	* CollisionOperator.cpp, and all derived sink reaction classes: Fix for 

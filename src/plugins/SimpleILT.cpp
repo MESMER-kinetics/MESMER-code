@@ -17,7 +17,7 @@ namespace mesmer
     virtual ~SimpleILT() {}
     virtual SimpleILT* Clone() { return new SimpleILT(*this); }
 
-    virtual bool calculateMicroRateCoeffs(Reaction* pReac);
+    virtual bool calculateMicroCnlFlux(Reaction* pReac);
 
     virtual double get_ThresholdEnergy(Reaction* pReac) ;
     virtual bool ParseData(PersistPtr pp);
@@ -126,7 +126,7 @@ namespace mesmer
   // unimolecular direction.
   //
 
-  bool SimpleILT::calculateMicroRateCoeffs(Reaction* pReact)
+  bool SimpleILT::calculateMicroCnlFlux(Reaction* pReact)
   {
     vector<Molecule *> Isomers ;
     pReact->get_unimolecularspecies(Isomers) ;  
