@@ -1,3 +1,9 @@
+
+2013-October-26 Struan Robertson
+
+	* AnalyticalRepresentation.cpp: Altered analytical representation to 
+	allow for different pressure units. 
+
 2013-October-26 Struan Robertson
 
 	* CollisionOperator.cpp, and all derived reaction classes: removed the 

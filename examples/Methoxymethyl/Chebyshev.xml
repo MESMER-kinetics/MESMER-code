@@ -1075,15 +1075,17 @@
 
     </me:PTs>
   </me:conditions>
+  
   <me:modelParameters>
     <!--Specify grain size directly...-->
     <me:grainSize units="cm-1">100</me:grainSize>
     <me:energyAboveTheTopHill>25.0</me:energyAboveTheTopHill>
   </me:modelParameters>
+  
   <me:control>
     <me:calcMethod>AnalyticalRepresentation</me:calcMethod>
     <me:chebNumTemp>7</me:chebNumTemp>
-    <me:chebNumConc>5</me:chebNumConc>
+    <me:chebNumConc me:units ="PPCC">5</me:chebNumConc>
     <me:chebMaxTemp>1000</me:chebMaxTemp>
     <me:chebMinTemp>200</me:chebMinTemp>
     <me:chebMaxConc>1E+20</me:chebMaxConc>

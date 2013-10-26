@@ -52,7 +52,7 @@ namespace mesmer
 
   };
 
-  // to make sure if there is a concentration or pressure definition, there is a temperature definition.
+  // To make sure if there is a concentration or pressure definition, there is a temperature definition.
   class CandTpair{
 
   public:
