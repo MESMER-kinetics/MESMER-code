@@ -122,21 +122,19 @@ namespace mesmer
     const int rShiftedGrains(m_rct1->getColl().reservoirShift());
     const int pShiftedGrains(m_pdt1->getColl().reservoirShift());
 
-    const int colloptrsize = m_pdt1->getColl().get_colloptrsize();
+    const int colloptrsize = m_pdt1->getColl().get_redColloptrsize() + pShiftedGrains ;
 
     const int forwardThreshE = get_EffGrnFwdThreshold();
     const int reverseThreshE = get_EffGrnRvsThreshold();
     const int fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
-    for ( int i=fluxStartIdx, j = reverseThreshE, k=0; j < colloptrsize; ++i, ++j, ++k) {
-      int ll = k + forwardThreshE;
-      int mm = k + reverseThreshE;
-      int ii(rctLocation + ll - rShiftedGrains) ;
-      int jj(pdtLocation + mm - pShiftedGrains) ;
-      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[ll]);                     // Forward loss reaction.
-      (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * m_GrainFlux[i] / pdtDOS[mm]) ;                    // Backward loss reaction from detailed balance.
-      (*CollOptr)[ii][jj]  = qd_real(rMeanOmega * m_GrainFlux[i] / sqrt(rctDOS[ll] * pdtDOS[mm])) ; // Reactive gain.
-      (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                                  // Reactive gain.
+    for ( int i=fluxStartIdx, j = reverseThreshE, k = forwardThreshE; j < colloptrsize; ++i, ++j, ++k) {
+      int ii(rctLocation + k - rShiftedGrains) ;
+      int jj(pdtLocation + j - pShiftedGrains) ;
+      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[k]);                    // Forward loss reaction.
+      (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * m_GrainFlux[i] / pdtDOS[j]) ;                   // Backward loss reaction from detailed balance.
+      (*CollOptr)[ii][jj]  = qd_real(rMeanOmega * m_GrainFlux[i] / sqrt(rctDOS[k] * pdtDOS[j])) ; // Reactive gain.
+      (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                                // Reactive gain.
     }
 
   }

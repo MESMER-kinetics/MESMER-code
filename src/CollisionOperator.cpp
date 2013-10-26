@@ -1612,10 +1612,10 @@ namespace mesmer
       if (Irreversible && m_sinkRxns.find(pReaction) == m_sinkRxns.end()) {   
         // Add an irreversible rxn to the map.
         Molecule* rctnt = pReaction->get_reactant();
-        if(reactionType == IRREVERSIBLE_ISOMERIZATION || reactionType == DISSOCIATION || reactionType == BIMOLECULAR_SINK){
-          m_sinkRxns[pReaction] = m_isomers[rctnt];
-        } else { // Irreversible exchange reaction.
+        if (reactionType == IRREVERSIBLE_EXCHANGE) {
           m_sinkRxns[pReaction] = m_sources[rctnt];
+        } else { // Irreversible exchange reaction.
+          m_sinkRxns[pReaction] = m_isomers[rctnt];
         }
       }
     }

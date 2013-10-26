@@ -415,9 +415,6 @@ examples/OH_NO_to[!!-~]HONO/baselines/Linux64/mesmer.log -text
 examples/OH_NO_to[!!-~]HONO/baselines/Win32/mesmer.log -text
 examples/Tunnelling/H+H2,T+T2.xml -text
 examples/Tunnelling/baselines/Win32/mesmer.test -text
-examples/benzene_oxidation/baselines/Linux64/mesmer.test -text
-examples/benzene_oxidation/baselines/Win32/mesmer.test -text
-examples/benzene_oxidation/benzene_oxidation_test.xml -text
 examples/diamond/diamond-expDown.xml -text
 examples/diamond/diamond-gaussianModel.xml -text
 examples/i-propyl/baselines/Linux64/mesmer.log -text

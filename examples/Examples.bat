@@ -85,12 +85,6 @@ copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
-cd benzene_oxidation
-%executable% benzene_oxidation_test.xml -o %outf% %directive%
-copy "./%tfn%" "./%bline%%otfn%"
-IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
-cd ..
-
 cd Ethyl_H_to_Ethane
 %executable% Ethyl_H_to_Ethane.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
