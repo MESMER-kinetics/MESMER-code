@@ -202,38 +202,29 @@ namespace mesmer
       Concentration[i] = pow(10,(Concentration[i])) ;
     }
 
-    vector<CTpoint> CTGrid ;
-    vector<CTpoint> CTPoints ;
-    for (size_t i(0); i< m_NTpt; ++i) {
-      double Temp = Temperature[i] ;
-      for (size_t j(0); j < m_NCpt; ++j) {
-        double Conc = getConvertedP(m_PUnits, Concentration[j], Temp) ;
-        CTPoints.push_back(CTpoint(Temp,Conc)) ;
-        CTGrid.push_back(CTpoint(TGrid[i],CGrid[j])) ;
-      }
-    }
-
-    vector<double> RateCoefficients(m_reactionRef1.size());
-
     // Get rate coefficients.
-    vector<vector<double> > RCGrid(CTPoints.size(), vector<double>(m_reactionRef1.size()));
-    for (size_t i(0) ; i < CTPoints.size() ; ++i ) {
-      double Temp = CTPoints[i].first ;
-      double Conc = CTPoints[i].second ;
-      pSys->calculate(Temp, Conc, m_reactionRef1, m_reactionRef2, RateCoefficients) ;
-      for(size_t k(0) ; k < m_reactionRef1.size(); ++k){
-        RCGrid[i][k] = RateCoefficients[k];
-      } 
+    vector<CTpoint> CTGrid ;
+    vector<double> RateCoefficients(m_reactionRef1.size());
+    vector<vector<double> > RCGrid(m_NTpt*m_NCpt, vector<double>(m_reactionRef1.size(), 0.0));
+    for (size_t i(0), idx(0); i< m_NTpt; ++i) {
+      double Temp = Temperature[i] ;
+      for (size_t j(0); j < m_NCpt; ++j, ++idx) {
+        double Conc = getConvertedP(m_PUnits, Concentration[j], Temp) ;
+        CTGrid.push_back(CTpoint(TGrid[i],CGrid[j])) ;
+		pSys->calculate(Temp, Conc, m_reactionRef1, m_reactionRef2, RateCoefficients) ;
+		for(size_t k(0) ; k < m_reactionRef1.size(); ++k) {
+		  RCGrid[idx][k] = RateCoefficients[k];
+		} 
+      }
     }
 
     // Calculate chebyshev coefficients. Three indicies are required in order 
     // to calculate Chebyshev coefficients for each specified BW rate.
-    vector<double> v3(m_reactionRef1.size());
-    vector<vector<double> >v4(m_ExpanSizeC,v3);	
-    vector<vector<vector<double> > > ChebyshevCoeff(m_ExpanSizeT,v4);
-    for (size_t i(0); i < m_ExpanSizeT; ++i ) {
+    vector<vector<double> > v(m_ExpanSizeC, vector<double>(m_reactionRef1.size(), 0.0));	
+    vector<vector<vector<double> > > ChebyshevCoeff(m_ExpanSizeT,v);
+    for (size_t i(0); i < m_ExpanSizeT ; ++i ) {
       for (size_t j(0); j < m_ExpanSizeC ; ++j ) {
-        for (size_t k(0); k < m_reactionRef1.size(); ++k) {
+        for (size_t k(0); k < m_reactionRef1.size() ; ++k) {
           for (size_t m(0); m < RCGrid.size() ; ++m ) {
             ChebyshevCoeff[i][j][k] += log10(RCGrid[m][k])*Cheb_poly(i, CTGrid[m].first)*Cheb_poly(j, CTGrid[m].second);
           }				
@@ -328,16 +319,14 @@ namespace mesmer
 
         for (size_t m(0), idx(0) ; m <m_NTpt ; ++m) {
           ctest << setw(10) << Temperature[m] << " | " ;
-          for (size_t n(0); n <m_NCpt ; ++n) {
+          for (size_t n(0); n <m_NCpt ; ++n, ++idx) {
             double ChebRate(0.);
-            for (size_t i(0); i < m_ExpanSizeT; ++i ){    
+            for (size_t i(0); i < m_ExpanSizeT; ++i) {    
               for(size_t j(0); j < m_ExpanSizeC ; ++j ){
                 ChebRate += ChebyshevCoeff[i][j][k]*Cheb_poly(i, TGrid[m])*Cheb_poly(j, CGrid[n]);
               }
             }	
-            ChebRate = pow(10.0,ChebRate);
-            ctest << setw(14) << ChebRate <<"/" << RCGrid[idx][k];
-            idx++ ;
+            ctest << setw(14) << pow(10.0,ChebRate) <<"/" << RCGrid[idx][k];
           }
           ctest << endl;
         }
