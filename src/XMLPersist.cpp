@@ -141,7 +141,7 @@ namespace mesmer
     else
       ptext = pnNode->Attribute(name.c_str());
 
-    if(!ptext && MustBeThere && !name.empty() && InsertDefault(name, "", pluginTypeID))
+    if(!ptext && MustBeThere && !name.empty() && InsertDefault(name, pnNode->Value(), pluginTypeID))
       return XmlReadValue(name, MustBeThere); //Try again (recursively). Should succeed.
     return ptext;
   }
@@ -490,8 +490,10 @@ namespace mesmer
   Inserts a default value found by searching defaults.xml
   Handles elements, atrributes and cml properties.
   Call as follows:
-  For property with dictref == propname         : InsertDefault("property", propname)
-  For element with element or attribute == name : InsertDefault(name)
+  For element                                   : InsertDefault(elname)
+  For property with dictref == propname         : InsertDefault("property", propname,)
+  For attribute of an element...................: InsertDefault(attname, elname)
+   (there must be no element in defaults.xml with a name the same as attname)
 
   If the default attribute in defaults file is "true" an entry is made in the log file.
   If it is anything else (usually meaning that manual editing is required)
@@ -500,7 +502,9 @@ namespace mesmer
   */
   bool XMLPersist::InsertDefault(const string& elName, const string& dictRefName, const char* pluginTypeID)
   {    
-    string name = dictRefName.empty() ? elName : dictRefName;
+//    string name = dictRefName.empty() ? elName : dictRefName;
+    bool isProperty = elName=="property";
+    string name = !isProperty ? elName : dictRefName;
 
     //Find the default element in defaults.xml
     if(!pDefaults)
@@ -520,12 +524,14 @@ namespace mesmer
     string possibles;
     if(pluginTypeID)
       possibles = TopPlugin::List(pluginTypeID,TopPlugin::comma);
-      
+    
+    // look for a matching element or the first
     TiXmlElement* pnDefProp = pDefaults->RootElement()->FirstChildElement(elName);
 
     if(!pnDefProp)//no matching elements: the name must refer to an attribute 
     {
-      pnDefProp = pDefaults->RootElement()->FirstChildElement();
+      //look for an element dictRefName with attribute elName
+      pnDefProp = pDefaults->RootElement()->FirstChildElement(dictRefName);
       while(pnDefProp)
       {
         const char* txt = pnDefProp->Attribute(name.c_str());
@@ -547,7 +553,7 @@ namespace mesmer
             cerr << "No value of " << name << " was supplied and the default value " << attrtext << endl;
           return true;       
         }
-        pnDefProp = pnDefProp->NextSiblingElement();
+        pnDefProp = pnDefProp->NextSiblingElement(dictRefName);
       }
 
     }
@@ -556,7 +562,7 @@ namespace mesmer
       while(pnDefProp)
       {
         const char* dictRefText = pnDefProp->Attribute("dictRef");
-        if(dictRefName.empty() || (dictRefText && dictRefName==dictRefText))
+        if(!isProperty || (dictRefText && dictRefName==dictRefText))
         {
           //copy property from defaults.xml to main tree
           TiXmlNode* reInserted;

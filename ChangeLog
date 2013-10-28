@@ -1,3 +1,9 @@
+2013-October 28 Chris Morley
+
+	* src/XMLPersist.cpp: Improve default handling for attributes. The
+	element name is now also matched. Allows the default units to be
+	depent on the context. 
+	* defaults.xml: correct PTpair mis-spelling.
 
 2013-October-26 Struan Robertson
 
