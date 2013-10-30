@@ -316,6 +316,14 @@ MesmerQAschema/UnitTests/baselines/Win32/mesmer[!!-~](8).test -text
 MesmerQAschema/UnitTests/baselines/Win32/mesmer.log -text
 MesmerQAschema/UnitTests/baselines/Win32/mesmer.test -text
 MesmerQAschema/UnitTests/baselines/Win32/test.test -text
+MesmerQAschema/benzene_oxidation/baselines/Linux64/mesmer.log -text
+MesmerQAschema/benzene_oxidation/baselines/Linux64/mesmer.test -text
+MesmerQAschema/benzene_oxidation/baselines/Win32/mesmer.log -text
+MesmerQAschema/benzene_oxidation/baselines/Win32/mesmer.test -text
+MesmerQAschema/benzene_oxidation/baselines/Win32/test.test -text
+MesmerQAschema/benzene_oxidation/benzene_oxidation_test.xml -text
+MesmerQAschema/benzene_oxidation/out.xml -text
+MesmerQAschema/benzene_oxidation/out_prev.xml -text
 MesmerQAschema/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/Cyclopropene_isomerization_reservoir_state_test.xml -text
 MesmerQAschema/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Linux32/mesmer.log -text
 MesmerQAschema/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Linux32/mesmer.test -text
@@ -341,6 +349,7 @@ MesmerQAschema/i-propyl/baselines/Linux64/mesmer.test -text
 MesmerQAschema/i-propyl/baselines/Win32/mesmer.log -text
 MesmerQAschema/i-propyl/baselines/Win32/mesmer.test -text
 MesmerQAschema/i-propyl/baselines/Win32/test.test -text
+MesmerQAschema/i-propyl/ipropyl_reservoir.xml -text
 MesmerQAschema/i-propyl/ipropyl_test.xml -text
 MesmerQAschema/pentyl/baselines/Linux32/mesmer.log -text
 MesmerQAschema/pentyl/baselines/Linux32/mesmer.test -text
@@ -396,8 +405,8 @@ examples/Examples.sh -text
 examples/H2Ominimal/H2Ominimal.xml -text
 examples/MesmerTemplate.text -text
 examples/Methoxymethyl/Chebyshev.xml -text
-examples/Methoxymethyl/baselines/Linux64/Chebyshev.log -text
-examples/Methoxymethyl/baselines/Linux64/Chebyshev.test -text
+examples/Methoxymethyl/baselines/Linux64/mesmer.log -text
+examples/Methoxymethyl/baselines/Linux64/mesmer.test -text
 examples/Methoxymethyl/baselines/Win32/Chebyshev.log -text
 examples/Methoxymethyl/baselines/Win32/Chebyshev.test -text
 examples/Methyl_H_to_Methane/Methyl_H_to_Methane.xml -text

@@ -139,6 +139,7 @@
                   </xs:simpleContent>
                 </xs:complexType>
               </xs:element>
+              <xs:element name="automaticallySetMaxEne" type="xs:float" minOccurs="0"/>
               <xs:element name="runBasisSetMethodroutines" minOccurs="0">
                 <xs:complexType>
                   <xs:sequence>
@@ -154,7 +155,7 @@
           <xs:complexType>
             <xs:all>
               <xs:element name="allowSmallerDeltaEDown" minOccurs="0"/>
-              <xs:element name="calcMethod" type="me:calcMethodct" minOccurs ="1">
+              <xs:element name="calcMethod" type="me:calcMethodct" minOccurs ="0">
                 <xs:annotation>
                   <xs:documentation>
                     For methods with no data, the form like &lt;CalcMethod>simpleCalc&lt;/calcMethod>
@@ -199,6 +200,7 @@
               <xs:element name="printTabbedMatrices" minOccurs="0"/>
               <xs:element name="printTSsos" minOccurs="0"/>
               <xs:element name="printTunnelingCoefficients" minOccurs="0"/>
+              <xs:element name="printTunnellingCoefficients" minOccurs="0"/>
               <xs:element name="shortestTimeOfInterest" type="xs:float" minOccurs="0"/>
               <xs:element name="testDOS" minOccurs="0" />
               <xs:element name="testMicroRates" minOccurs="0" />

@@ -86,6 +86,14 @@ if [ "$1" == "-o" ]; then
 fi
 cd ..
 
+cd benzene_oxidation
+$executable benzene_oxidation_test.xml -o $outf $directive
+cp ./$tfn ./$bline$otfn
+if [ "$1" == "-o" ] ; then
+  cp ./$lfn ./$bline$lfn 
+fi
+cd ..
+
 cd HSO2
 $executable HSO2_test.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
@@ -116,6 +124,13 @@ cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
 fi
+
+testName=OH_acetylene_pseudo_isomerization
+$executable -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log 
+fi
 cd ..
 
 cd "Acetyl O2 association"
@@ -131,6 +146,13 @@ $executable ipropyl_test.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
+fi
+
+testName=ipropyl_reservoir
+$executable -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log 
 fi
 cd ..
 

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <me:title>Benzene oxidation</me:title>
   <moleculeList>
     <molecule id="O2" description="oxygen">
@@ -12,9 +13,9 @@
         <property dictRef="me:rotConsts">
           <array units="cm-1">1.44914</array>
         </property>
-        <!--<property dictRef="me:symmetryNumber">
+        <property dictRef="me:symmetryNumber">
           <scalar>2</scalar>
-        </property>-->
+        </property>
         <property dictRef="me:frequenciesScaleFactor">
           <scalar>0.9854</scalar>
         </property>
@@ -1059,14 +1060,11 @@
       </me:transitionState>
       <me:MCRCMethod name="SimpleRRKM"/>
     </reaction>
-  </reactionList> 
+  </reactionList>
   <me:conditions>
     <me:bathGas>N2</me:bathGas>
     <me:PTs>
       <me:PTpair units="Torr" P="760.00" T="298." />
-      <!--<me:PTpair me:units="Torr" me:P="201.60" me:T="298." />-->
-      <!--<me:PTpair me:units="Torr" me:P="10.06" me:T="298." />-->
-      <!--<me:PTpair me:units="Torr" me:P="15.01" me:T="298." />-->
     </me:PTs>
     <me:InitialPopulation>
       <me:molecule ref="I1" population="1.0" />
@@ -1080,6 +1078,7 @@
     <!--Specify increased energy range
         <me:maxTemperature>6000</me:maxTemperature>-->
     <me:energyAboveTheTopHill>25.0</me:energyAboveTheTopHill>
+    <me:automaticallySetMaxEne>1.0e-09</me:automaticallySetMaxEne>
   </me:modelParameters>
   <me:control>
     <me:testDOS />
@@ -1087,11 +1086,8 @@
     <me:testMicroRates />
     <me:testRateConstants />
     <me:printGrainDOS />
-    <!--<me:printCellDOS />-->
-    <!--<me:printReactionOperatorColumnSums />-->
-    <me:printTunnelingCoefficients />
+    <me:printTunnellingCoefficients />
     <me:printGrainkfE />
-    <!--<me:printGrainBoltzmann />-->
     <me:printGrainkbE />
     <me:eigenvalues>0</me:eigenvalues>
   </me:control>

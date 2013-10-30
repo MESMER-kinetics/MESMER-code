@@ -286,7 +286,7 @@ namespace mesmer
     if(ppPTs)
       readPTs(ppPTs);
     if (!PandTs.size())
-      cerr << "No pressure and temperature specified.";
+      cerr << "No pressure and temperature specified." << endl;
 
     // read initial isomer populations (need to be normalized later if their sum's not equal to 1.0)
     PersistPtr ppInitialPopulation = ppConditions->XmlMoveTo("me:InitialPopulation");
