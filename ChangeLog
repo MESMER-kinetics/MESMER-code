@@ -1,4 +1,12 @@
 2013-October 31 Robin Shannon
+   *src/System.cpp, System.h, CollisionOperator.cpp, CollisionOpperator.h: 
+   Changes to the calculate function for the analytical representation. Also added code to get
+   Kp matrix from bartis widom analysis. 
+
+   *src/Plugins/AnalyticalRepresentation.cpp:
+   Changes to recognise Bimolecular and Ireversible reactions correctly.
+
+2013-October 31 Robin Shannon
 
 	*src/Plugins/DefinedTunnelingCoefficients.cpp: Refactoring and correcting.
 
