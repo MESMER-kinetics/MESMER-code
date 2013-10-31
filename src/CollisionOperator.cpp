@@ -1136,7 +1136,7 @@ namespace mesmer
     return true;
   }
 
-  bool CollisionOperator::BartisWidomPhenomenologicalRates(qdMatrix& mesmerRates, MesmerFlags& mFlags, PersistPtr ppList)
+  bool CollisionOperator::BartisWidomPhenomenologicalRates(qdMatrix& mesmerRates, qdMatrix& lossRates, MesmerFlags& mFlags, PersistPtr ppList)
   {
     // Constants.
     const size_t smsize   = m_eigenvectors->size() ;
@@ -1382,6 +1382,7 @@ namespace mesmer
       PrintPhenomenologicalRates(Kr, Kp, mFlags, ppList) ;
 
       mesmerRates = Kr;
+	  lossRates = Kp;
     }
     return true;    
 
@@ -1597,6 +1598,21 @@ namespace mesmer
         return spcitr->second;
     }
     cerr << "No molecule named " << ref << " is available in the reaction species.";
+    return -1;
+  }
+
+    int CollisionOperator::getSinkSequenceIndex(const std::string ref)
+  {
+      sinkMap::iterator sinkitr = m_sinkRxns.begin();
+      for (int sinkpos(0) ; sinkitr!=m_sinkRxns.end() ; ++sinkitr, ++sinkpos)
+    {
+	  Reaction* sinkReaction = sinkitr->first;
+	  vector<Molecule*> Prod;
+	  sinkReaction->get_products(Prod);
+	  if (ref == Prod[0]->getName() || ref == Prod[1]->getName()  )
+        return sinkpos;
+    }
+    cerr << "No molecule named " << ref << " is available in the reaction sinks.";
     return -1;
   }
 

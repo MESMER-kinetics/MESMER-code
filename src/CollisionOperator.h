@@ -48,7 +48,7 @@ namespace mesmer
     bool timeEvolution(MesmerFlags& mFlags,PersistPtr ppAnalysis, PersistPtr ppPopList, PersistPtr ppAvEList);
 
     // Calculates the Bartis-Widom macroscopic rate coefficients.
-    bool BartisWidomPhenomenologicalRates(qdMatrix& rates, MesmerFlags& mFlags, PersistPtr ppBase = NULL);
+    bool BartisWidomPhenomenologicalRates(qdMatrix& rates, qdMatrix& lossRates, MesmerFlags& mFlags, PersistPtr ppBase = NULL);
 
     // Calculates the Bartis-Widom macroscopic rate coefficients, using the contracted basis set eigenvectors.
     bool BartisWidomBasisSetRates(qdMatrix& rates, MesmerFlags& mFlags);
@@ -57,6 +57,8 @@ namespace mesmer
     bool PrintPhenomenologicalRates(qdMatrix& Kr, qdMatrix& Kp, MesmerFlags& mFlags, PersistPtr ppList) ;
 
     int getSpeciesSequenceIndex(const std::string ref);
+
+	int getSinkSequenceIndex(const std::string ref);
 
     // Accessor to get specified eigenvalue.
     double getEigenvalue(size_t idEigenvalue) const ;

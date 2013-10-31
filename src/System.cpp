@@ -492,7 +492,7 @@ namespace mesmer
       const char* bathGasName = ppPTpair->XmlReadValue("me:bathGas", optional);
       if(!bathGasName) // if not specified use the general bath gas molecule name
         bathGasName = getMoleculeManager()->get_BathGasName().c_str();
-      CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision, bathGasName);
+      CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision , bathGasName);
       cinfo << this_P << this_units << ", " << this_T << "K at " << txt 
         << " precision" << " with " << bathGasName << endl; 
 
@@ -701,7 +701,8 @@ namespace mesmer
           ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
           ppList->XmlWriteAttribute("me:units", "s-1");
           qdMatrix mesmerRates(1);
-          m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, m_Flags, ppList);
+		  qdMatrix lossRates(1);
+          m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, ppList);
 
           rateCoeffTable << formatFloat(PandTs[calPoint].get_temperature(), 6, 15) ;
           rateCoeffTable << formatFloat(PandTs[calPoint].get_concentration(), 6, 15) ;
@@ -782,7 +783,8 @@ namespace mesmer
 
     // Calculate rate coefficients.
     qdMatrix  mesmerRates(1) ;
-    m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, m_Flags);
+	qdMatrix lossRates(1);
+    m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates,lossRates, m_Flags);
 
     // For this conditions calculate the experimentally observable data types. 
 
@@ -806,12 +808,13 @@ namespace mesmer
   // Calculate rate coefficients for conditions other than those 
   // supplied directly by user e.g. for analytical representation.
   //
-  bool System::calculate(double &Temperature, double &Concentration, vector<string> &Ref1, vector<string> &Ref2, vector<double> &Ratecoefficients)
+  bool System::calculate(double &Temperature, double &Concentration, vector<string> &Ref1, vector<string> &Ref2, vector<string> &refReaction, vector<double> &Ratecoefficients, double &MaxT)
   {
 
     m_Flags.printEigenValuesNum = 0 ;
 
     m_Env.beta = 1.0 / (boltzmann_RCpK * Temperature) ; //temporary statements
+	m_Env.MaximumTemperature =MaxT;
     m_Env.conc = Concentration;
     // unit of conc: particles per cubic centimeter
 
@@ -831,23 +834,47 @@ namespace mesmer
 
     // Calculate rate coefficients.
     qdMatrix BWrates(1);
-    m_collisionOperator.BartisWidomPhenomenologicalRates((BWrates), m_Flags);
+    qdMatrix lossRates(1);
+    m_collisionOperator.BartisWidomPhenomenologicalRates((BWrates), lossRates, m_Flags);
 
 
-    //locate required BW rates and put them in a vector
-    for(size_t i=0; i < Ref1.size(); ++i){
-      int seqMatrixLoc1(-1), seqMatrixLoc2(-1);
+      //locate required BW rates and put them in a vector
+       for(int i=0; i < Ref1.size(); ++i){
+	  double rateCoeff;
+  	  int seqMatrixLoc1(-1), seqMatrixLoc2(-1);
       seqMatrixLoc1 = m_collisionOperator.getSpeciesSequenceIndex(Ref1[i]);
+	  
+      //if cannot locate in isomers try sinks
       seqMatrixLoc2 = m_collisionOperator.getSpeciesSequenceIndex(Ref2[i]);
+	  if(seqMatrixLoc2<0){
+		  seqMatrixLoc2 = m_collisionOperator.getSinkSequenceIndex(Ref2[i]);
+	  	  rateCoeff = fabs(to_double(lossRates[seqMatrixLoc2][seqMatrixLoc1])) ;
+	      
+	  }
+	  else{
 
-      if(seqMatrixLoc1<0 || seqMatrixLoc2<0)
+	  if(seqMatrixLoc1<0 || seqMatrixLoc2<0)
         throw(std::runtime_error("Failed to locate species in rate coefficient matrix.")) ;
+	  	  
+	  
+	  rateCoeff = fabs(to_double(lossRates[seqMatrixLoc2][seqMatrixLoc1])) ;
+	      
+	  }
 
-      double rateCoeff = fabs(to_double(BWrates[seqMatrixLoc2][seqMatrixLoc1])) ;
-      Ratecoefficients[i]=rateCoeff;
-    }
+      // check if Reaction is bimolecular
+	  Reaction *reaction = m_pReactionManager->find(refReaction[i]) ;
+      if (reaction && (reaction->getReactionType() == ASSOCIATION || reaction->getReactionType() == PSEUDOISOMERIZATION)) {
+        double concExcessReactant = reaction->get_concExcessReactant() ;
 
-    return true ;
+      // Test concentration and reaction sense.
+
+        if (concExcessReactant > 0.0 && (reaction->get_reactant()->getName() == Ref1[i])) 
+        rateCoeff /= concExcessReactant ;
+        
+		Ratecoefficients[i]=rateCoeff;
+	  }
+	   }
+      return true ;	   
   }
 
   double System::calcChiSqRateCoefficients(const qdMatrix& mesmerRates,  const CandTpair& expData, stringstream &rateCoeffTable, vector<double> &residuals){

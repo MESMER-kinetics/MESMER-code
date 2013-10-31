@@ -88,6 +88,7 @@ namespace mesmer
     string m_format ;
     vector<string> m_reactionRef1 ;
     vector<string> m_reactionRef2 ;
+    vector<string> m_reactionID ;
 
     double m_TMax ;
     double m_TMin ;
@@ -161,6 +162,8 @@ namespace mesmer
       m_reactionRef1.push_back(string(txt1));
       const char* txt2 = ppARepRef->XmlReadValue("me:ref2") ;
       m_reactionRef2.push_back(string(txt2));
+	  const char* txt3 = ppARepRef->XmlReadValue("me:ID", optional) ;
+	  m_reactionID.push_back(string(txt3));
       ppARepRef = ppARepRef->XmlMoveTo("me:reaction");
     }
 
@@ -211,7 +214,7 @@ namespace mesmer
       for (size_t j(0); j < m_NCpt; ++j, ++idx) {
         double Conc = getConvertedP(m_PUnits, Concentration[j], Temp) ;
         CTGrid.push_back(CTpoint(TGrid[i],CGrid[j])) ;
-		pSys->calculate(Temp, Conc, m_reactionRef1, m_reactionRef2, RateCoefficients) ;
+		pSys->calculate(Temp, Conc, m_reactionRef1, m_reactionRef2, m_reactionID, RateCoefficients, Temperature[m_NTpt-1]);
 		for(size_t k(0) ; k < m_reactionRef1.size(); ++k) {
 		  RCGrid[idx][k] = RateCoefficients[k];
 		} 
