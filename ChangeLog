@@ -1,3 +1,7 @@
+2013-October 31 Robin Shannon
+
+	*src/Plugins/DefinedTunnelingCoefficients.cpp: Refactoring and correcting.
+
 2013-October 28 Chris Morley
 
 	* src/XMLPersist.cpp: Improve default handling for attributes. The

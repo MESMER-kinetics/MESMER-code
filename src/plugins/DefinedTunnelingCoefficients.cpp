@@ -9,13 +9,12 @@
 //
 //-------------------------------------------------------------------------------------------
 #include <vector>
-#include <cmath>
 #include <string>
 #include <stdexcept>
 #include "../System.h"
 #include "../Spline.h"
-#include "../AssociationReaction.h"
-#include "../IrreversibleExchangeReaction.h"
+#include "../Reaction.h"
+
 using namespace Constants;
 
 namespace mesmer
@@ -25,7 +24,7 @@ namespace mesmer
   public:
 
     ///Constructor which registers with the list of TunnellingCalculators in the base class
-    DefinedTunnelingCoefficients(const char* id) : m_id(id){ Register(); }
+    DefinedTunnelingCoefficients(const char* id) : m_id(id),m_Energy(), m_PE(),m_VariationalThreshold(0.0){ Register(); }
 
     virtual ~DefinedTunnelingCoefficients() {}
     virtual const char* getID()  { return m_id; }
@@ -33,68 +32,62 @@ namespace mesmer
     virtual bool calculateCellTunnelingCoeffs(Reaction* pReact, std::vector<double>& TunnelingProbability);
 
   private:
-   // Read potential barrier details. Called from Reaction.cpp ~line 274 via ParseForPlugin
-   // and store in member variables.
-   virtual bool ParseData(PersistPtr pp);
+    // Read potential barrier details. Called from Reaction.cpp ~line 274 via ParseForPlugin
+    // and store in member variables.
+    virtual bool ParseData(PersistPtr pp);
 
-   const char* m_id;
-   vector<double> m_Energy;
-   vector<double> m_PE;
-   double m_VariationalThreshold;
+    const char* m_id;
+    vector<double> m_Energy;
+    vector<double> m_PE;
+    double m_VariationalThreshold;
   };
 
   //************************************************************
   //Global instance, defining its id
-   DefinedTunnelingCoefficients theDefinedTunnelingCoefficients("Defined");
+  DefinedTunnelingCoefficients theDefinedTunnelingCoefficients("DefinedTunnelingCoefficient");
   //************************************************************
 
   bool DefinedTunnelingCoefficients::calculateCellTunnelingCoeffs(Reaction* pReact, vector<double>& TunnelingProbability){
 
-    //TZ is the zpe of the TS
+    //TZ is the zpe of the TS.
     const double TZ = pReact->get_relative_TSZPE();
-    //barrier0 & barrier1 are the zpe corrected barrier heights in the forward/reverse directions
-    int barrier0 = int(TZ) - int(pReact->get_relative_rctZPE());
-    int barrier1 = int(TZ) - int(pReact->get_relative_pdtZPE());
+    //barrier0 & barrier1 are the zpe corrected barrier heights in the forward/reverse directions.
+    int barrier0 = int(TZ - pReact->get_relative_rctZPE());
+    int barrier1 = int(TZ - pReact->get_relative_pdtZPE());
 
-  
+
     //Correct barrier1 and barrier0 according to maximum in vibrationally adiabatic curve
     int VaryCorrection = static_cast<int>(m_VariationalThreshold-barrier0);
-    
-    if(VaryCorrection < 0){
+
+    if(VaryCorrection > 0){
+      barrier0 += VaryCorrection;
+      barrier1 += VaryCorrection;
     }
-    else{
-      barrier0 = barrier0 + VaryCorrection;
-          barrier1 = barrier1 + VaryCorrection;
-    }
-    
+
     // Spline P(E)'s.
 
     Spline spline ;
     spline.Initialize(m_Energy, m_PE) ;
 
     // Set transmission coefficients to 0 where no tunneling is possible;
-    // where tunneling may occur, the transmission coefficients are calculated using a wkb formalism
-    // as described by  B. C. Garrett and D. G. Truhlar, J. Phys. Chem., 1979, 83, 292
+    // where tunneling may occur, the transmission coefficients are obtained from a spline fit 
+	//to the user defined tunneling coefficients.
     const int MaximumCell = pReact->get_reactant()->getEnv().MaxCell;
     TunnelingProbability.clear();
-    TunnelingProbability.resize(MaximumCell);
-    for(int i = 0; i < MaximumCell; ++i){
+    TunnelingProbability.resize(MaximumCell,0.0);
+    for(size_t i = 0; i < TunnelingProbability.size() ; ++i){
       int E = i - barrier0;
-      if ((E + barrier1) < 0) {
-        TunnelingProbability[i] = 0.0;
-      } else if (E <= 0) {
-        TunnelingProbability[i] = spline.Calculate(double(i)) ;;
+	  if (E <= 0) {
+        TunnelingProbability[i] = spline.Calculate(double(i));
       } else if (E > 0 && E <= barrier0 ) { 
         //non classical reflection above the barrier
-        TunnelingProbability[i] = 1.0 - spline.Calculate(double(barrier0-(i-barrier0))) ;
+        TunnelingProbability[i] = 1.0 - spline.Calculate(double(2*barrier0-i)) ;
       } else if (E > barrier0) {
         TunnelingProbability[i] = 1.0 ;
-      } else {
-        // This branch should never be executed.
-      }
+      } 
     }
 
-    // Calculate macroscopic transmission coefficient for testing purposes
+    // Writing out tunneling coefficients.
 
     if (pReact->getFlags().TunnellingCoeffEnabled){
       ctest << "\nTunneling coefficients for: " << pReact->getName();
@@ -103,7 +96,7 @@ namespace mesmer
         ctest << TunnelingProbability[i] << endl;
       }
       ctest << "}\n";
-	}
+    }
 
     return true;
   }
@@ -126,7 +119,7 @@ namespace mesmer
     {
       double Ene = pp->XmlReadDouble("energy", optional);
       m_Energy.push_back(Ene) ;
-      m_VariationalThreshold = std::max(Ene,m_VariationalThreshold);
+      m_VariationalThreshold = Ene;
 
       double prob = pp->XmlReadDouble("pE", optional);
       m_PE.push_back(prob) ;
@@ -143,5 +136,5 @@ namespace mesmer
 
     return true ;
   }
-  }
+}
 //namespace
