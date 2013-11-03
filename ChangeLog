@@ -1,3 +1,13 @@
+2013-November 3 Chris Morley
+
+	* schemas/mesmerPlugins.xsd: add gaussian EnergyTransferModel
+	* src/EnergyTransferModel.h, src/plugins/ExponentialDown.cpp: remove
+	  ReadParameters(). (Replaced by ParseData()).
+	* src/plugins/GaussianModel.cpp: Rewrite parsing to work with old and
+	  new formats.
+	* examplesSchema/diamond/diamond-expDown.xml,
+	  examplesSchema/diamond/diamond-gaussianModel.xml: made schema friendly.
+
 2013-October 31 Robin Shannon
    *src/System.cpp, System.h, CollisionOperator.cpp, CollisionOpperator.h: 
    Changes to the calculate function for the analytical representation. Also added code to get
@@ -10,7 +20,6 @@
 
 	*src/Plugins/DefinedTunnelingCoefficients.cpp: Refactoring and correcting.
 
-2013-October 28 Chris Morley
 
 	* src/XMLPersist.cpp: Improve default handling for attributes. The
 	element name is now also matched. Allows the default units to be

@@ -16,12 +16,12 @@
     </xs:restriction>
   </xs:simpleType>
   
-  <xs:simpleType name="energyTransferModelName">
+  <!--<xs:simpleType name="energyTransferModelName">
     <xs:restriction base="xs:string">
       <xs:enumeration value="ExponentialDown"/>
       <xs:enumeration value="gaussian"/>
     </xs:restriction>
-  </xs:simpleType>
+  </xs:simpleType>-->
 
   <xs:complexType name="ExponentialDown">
     <xs:complexContent>
@@ -73,7 +73,34 @@
       </xs:element>
     </xs:sequence>
   </xs:group>
-  
+
+  <xs:complexType name="gaussian">
+    <xs:complexContent>
+      <xs:extension base="energyTransferct">
+        <xs:all>
+          <xs:element name="gaussianCenter">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" type="me:energyUnitsType" use="optional"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="gaussianWidth">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" type="me:energyUnitsType" use="optional"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:all>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
   <!--<xs:simpleType name="MCRCMethodName">
     <xs:restriction base="xs:string">
       --><!--Only those with no data--><!--

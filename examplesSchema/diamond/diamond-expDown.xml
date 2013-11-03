@@ -102,14 +102,17 @@
         <property dictRef="me:sigma">
           <scalar>5.0</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
+        <!--<property dictRef="me:deltaEDown">
           <scalar units="cm-1">600</scalar>
-        </property>
+        </property>-->
         <property dictRef="me:spinMultiplicity">
           <scalar>1</scalar>
         </property>
       </propertyList>
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">600</me:deltaEDown>
+      </me:energyTransferModel>
     </molecule>
     <molecule id="N2">
       <propertyList>

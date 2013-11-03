@@ -42,7 +42,7 @@ namespace mesmer
     /*************************************************************
     Read the parameters needed by the class from the XML datafile
     *************************************************************/
-    virtual bool ReadParameters(Molecule* parent) ; 
+    virtual bool ParseData(PersistPtr pp) ;
 
     /*************************************************************
     This is the function which does the real work of the plugin
@@ -55,83 +55,81 @@ namespace mesmer
     Rdouble m_GaussianWidth ;
 
   };
-
-  /******************************************************************************
-  Declaration of a global instance of the class. This makes the class known to
-  Mesmer and also defines its id "Gaussian".
-  ******************************************************************************/
+//*************************************
   Gaussian globalGaussian("gaussian");
+//*************************************
 
-  /******************************************************************************
-  The energy transfer model for each modelled molecule is specified in the XML
-  datafile by a child element of <molecule>:
-  <me:energyTransferModel>gaussian</me:energyTransferModel>
-  If this is omitted, the default method specified in defaults.xml is used (which
-  is currently "ExponentialDown", but could be changed).
-  ******************************************************************************/
+  bool Gaussian::ParseData(PersistPtr pp) {
 
-  /******************************************************************************
-  Plugin classes usually read the data they require from the XML datafile and may
-  store it in Molecule or Reaction if this is sensible or in the plugin class for
-  more specialized data..
-  ******************************************************************************/
-  bool Gaussian::ReadParameters(Molecule* parent) { 
+  bool rangeSet ;
+  PersistPtr ppTop = m_parent->get_PersistentPointer();
 
-    setParent(parent);
-    PersistPtr pp = parent->get_PersistentPointer();
-    PersistPtr ppPropList = pp->XmlMoveTo("propertyList");
-    if(!ppPropList)
-      ppPropList=pp;
+  PersistPtr ppPropList = ppTop->XmlMoveTo("propertyList");
+  ppTop = ppPropList ? ppPropList : ppTop; //At <propertyList> if exists, else at <molecule>
+  PersistPtr ppProp = ppTop->XmlMoveToProperty("me:gaussianCenter"); 
 
-    /******************************************************************************
-    The following statement reads the value of the CML property "me:GaussianCenter".
-    If it is not present the default value from defaults.xml is added to the internal
-    XML tree and the value returned. This mechanism, which applies for most XmlRead
-    operations unless there is a 'optional' parameter, is the recommended way to
-    handle default values. It allows the default to be changed by the user, logs the
-    use of the default, and provides error messages, including optional exhortations
-    for the user to check the default (see the manual).
-    ******************************************************************************/
-    const char* txt = ppPropList->XmlReadProperty("me:gaussianCenter"); //required
-    if(!txt)
+  if (!ppProp)
+  {
+    //Data is a child of <me:energyTransferModel>
+    PersistPtr ppCent = pp->XmlMoveTo("me:gaussianCenter");
+    PersistPtr ppWidth = pp->XmlMoveTo("me:gaussianWidth");
+    if(!ppCent || !ppWidth)
+    {
+      cerr << "Both <me:gaussianCenter> and <me:gaussianWidth> must be specified" << endl;
       return false;
-    istringstream idata(txt);
-    idata >> m_GaussianCenter ;
-
-    // Needed to read the attributes.
-    bool rangeSet ;
-    PersistPtr ppProp = ppPropList->XmlMoveToProperty("me:gaussianCenter"); 
-    ReadRdoubleRange(string(parent->getName()+":gaussianCenter"), ppProp, m_GaussianCenter, rangeSet) ;
-
-    txt = ppPropList->XmlReadProperty("me:gaussianWidth"); //required in datafile or defaults.xml
-    if(!txt)
-      return false;
-    istringstream iidata(txt);
-    iidata >> m_GaussianWidth ;
-
-    PersistPtr ppPropExp = ppPropList->XmlMoveToProperty("me:gaussianWidth"); 
-    ReadRdoubleRange(string(parent->getName()+":gaussianWidth"), ppPropExp, m_GaussianWidth, rangeSet) ;
-
-    // Issue a warning if the specified width is zero.
-    if(m_GaussianWidth==0.0) {
-      throw(std::runtime_error("me:gaussianWidth is equal to zero... cannot define the gaussian energy transfer function.")) ;
     }
-    if (m_GaussianCenter == 0.0){
-      // If m_GaussianCenter is at zero, issue a warning if the grain size is larger than the average 
-	  // downward energy transfer.
-      double avgDownwardEnergyTransfer = 2.0*m_GaussianWidth/(sqrt(2.0*acos(-1.0)));  // this is the analytic average of a normalized gaussian centered at 0
-      if( double(getParent()->getEnv().GrainSize) > avgDownwardEnergyTransfer){
-        cerr << "For a gaussian centered at zero, the average downward energy transfer is" << avgDownwardEnergyTransfer << " which is larger than the grain size..." << endl;
-        cerr << "Check your input data." << endl;
-      }
-    } else {  
-	  // issue a warning if the grain size is larger than the average downward energy transfer 
-      double avgDownwardEnergyTransfer = m_GaussianCenter;  // this is the average downward energy transferred for a normalized gaussian centered at 0
-      if( double(getParent()->getEnv().GrainSize) > avgDownwardEnergyTransfer){
-        cerr << "for a gaussian centered at " << m_GaussianCenter << ", the average downward energy transfer is" << avgDownwardEnergyTransfer << " which is larger than the grain size..." << endl;
-        cerr << "Check your input data." << endl;
-      }
+    const char* units = ppCent->XmlReadValue("units", optional);
+    m_GaussianCenter = getConvertedEnergy(units ? units : "cm-1",
+      pp->XmlReadDouble("me:gaussianCenter")); //read from defaults.xml if not present
+    ReadRdoubleRange(string(m_parent->getName()+":gaussianCenter"), ppCent, m_GaussianCenter,
+      rangeSet, getConvertedEnergy((units ? units : "cm-1"),1.0)) ;
+
+
+    units = ppWidth->XmlReadValue("units");
+    m_GaussianWidth = getConvertedEnergy(units ? units : "cm-1",
+      pp->XmlReadDouble("me:gaussianWidth")); //read from defaults.xml if not present
+    ReadRdoubleRange(string(m_parent->getName()+":gaussianWidth"), ppWidth, m_GaussianWidth,
+      rangeSet, getConvertedEnergy((units ? units : "cm-1"),1.0)) ;
+  }
+  else
+  {
+    const char* units = ppProp->XmlReadPropertyAttribute("me:gaussianCenter", "units", optional);
+    m_GaussianCenter = getConvertedEnergy(units ? units : "cm-1",
+      ppTop->XmlReadPropertyDouble("me:gaussianCenter")); //read from defaults.xml if not present
+    ReadRdoubleRange(string(m_parent->getName()+":gaussianCenter"), ppProp, m_GaussianCenter,
+      rangeSet, getConvertedEnergy((units ? units : "cm-1"),1.0)) ;
+
+    units = ppProp->XmlReadPropertyAttribute("me:gaussianWidth", "units", optional);
+    m_GaussianWidth = getConvertedEnergy(units ? units : "cm-1",
+      ppTop->XmlReadPropertyDouble("me:gaussianWidth")); //read from defaults.xml if not present
+    ReadRdoubleRange(string(m_parent->getName()+":gaussianWidth"), ppProp, m_GaussianCenter,
+      rangeSet, getConvertedEnergy((units ? units : "cm-1"),1.0)) ;
+  }
+
+  // ExponentialDown can use several bath gases with different energy transfer parameters.
+  // This would also be possible for GaussianModel, but currently only the bathgas specified
+  // in <me:conditions> is used.
+  m_parent->getColl().addBathGas(NULL, this);
+
+  // Issue a warning if the specified width is zero.
+  if(m_GaussianWidth==0.0) {
+    throw(std::runtime_error("me:gaussianWidth is equal to zero... cannot define the gaussian energy transfer function.")) ;
+  }
+  if (m_GaussianCenter == 0.0){
+    // If m_GaussianCenter is at zero, issue a warning if the grain size is larger than the average 
+  // downward energy transfer.
+    double avgDownwardEnergyTransfer = 2.0*m_GaussianWidth/(sqrt(2.0*acos(-1.0)));  // this is the analytic average of a normalized gaussian centered at 0
+    if( double(getParent()->getEnv().GrainSize) > avgDownwardEnergyTransfer){
+      cerr << "For a gaussian centered at zero, the average downward energy transfer is" << avgDownwardEnergyTransfer << " which is larger than the grain size..." << endl;
+      cerr << "Check your input data." << endl;
     }
+  } else {    // issue a warning if the grain size is larger than the average downward energy transfer 
+    double avgDownwardEnergyTransfer = m_GaussianCenter;  // this is the average downward energy transferred for a normalized gaussian centered at 0
+    if( double(getParent()->getEnv().GrainSize) > avgDownwardEnergyTransfer){
+      cerr << "for a gaussian centered at " << m_GaussianCenter << ", the average downward energy transfer is" << avgDownwardEnergyTransfer << " which is larger than the grain size..." << endl;
+      cerr << "Check your input data." << endl;
+    }
+  }
 
     return true; //TODO Parse for ref attribute, when this might be the name of a bath gas
   }

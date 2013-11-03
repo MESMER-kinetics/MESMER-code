@@ -78,8 +78,9 @@ public:
   *************************************************************/
   virtual double calculateTransitionProbability(double Ei, double Ej) = 0 ;
 
+  //ReadParameters has been replaced by ParseData()
   //Returns the bath gas name special for this instance, or NULL none specified.
-  virtual bool ReadParameters(Molecule* parent) = 0 ; 
+  //virtual bool ReadParameters(Molecule* parent) = 0 ; 
 
   Molecule* getParent() {return m_parent;} ;
   void setParent(Molecule* parent) { m_parent = parent;} ;

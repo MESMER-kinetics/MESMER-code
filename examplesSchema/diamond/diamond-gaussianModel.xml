@@ -104,18 +104,21 @@
         <!--<property dictRef="me:deltaEDown">
           <scalar units="cm-1">600</scalar>
         </property>-->
-        <property dictRef="me:gaussianCenter">
+        <!--<property dictRef="me:gaussianCenter">
           <scalar units="cm-1">4000</scalar>
         </property>
         <property dictRef="me:gaussianWidth">
           <scalar units="cm-1">500</scalar>
-        </property>
+        </property>-->
         <property dictRef="me:spinMultiplicity">
           <scalar>1</scalar>
         </property>
       </propertyList>
-      <me:energyTransferModel>gaussian</me:energyTransferModel>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:energyTransferModel xsi:type="me:gaussian">
+        <me:gaussianCenter units="cm-1">4000</me:gaussianCenter>
+        <me:gaussianWidth units="cm-1">500</me:gaussianWidth>
+      </me:energyTransferModel>
+      <me:DOSCMethod name="ClassicalRotors"/>
     </molecule>
     <molecule id="N2">
       <propertyList>

@@ -66,7 +66,7 @@ public:
   Read the parameters needed by the class from the XML datafile
   *************************************************************/
   virtual bool ParseData(PersistPtr pp) ;
-  virtual bool ReadParameters(Molecule* parent){return false;}//*****
+//  virtual bool ReadParameters(Molecule* parent){return false;}//*****
 
   /*************************************************************
   This is the function which does the real work of the plugin
