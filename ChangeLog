@@ -1,3 +1,12 @@
+2013-October-26 Struan Robertson
+
+	* AnalyticalRepresentation.cpp, System.cpp, CollisionOperator.cpp: 
+	Altered analytical representation to fit all reaction data, add reaction 
+	expression to Cantera output and write Cantera input to .log file. 
+
+	* HinderedRotorQM1D.cpp: Altered output stream of potential data to
+	.test file.
+
 2013-November 3 Chris Morley
 
 	* schemas/mesmerPlugins.xsd: add gaussian EnergyTransferModel

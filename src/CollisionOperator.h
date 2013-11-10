@@ -58,8 +58,6 @@ namespace mesmer
 
     int getSpeciesSequenceIndex(const std::string ref);
 
-	int getSinkSequenceIndex(const std::string ref);
-
     // Accessor to get specified eigenvalue.
     double getEigenvalue(size_t idEigenvalue) const ;
 
@@ -73,6 +71,9 @@ namespace mesmer
     bool printAverageEnergies(PersistPtr ppAvList);
 
     bool hasGrainProfileData() { return !m_GrainProfileAtTimeData.empty(); }
+
+	// Accessor for phenomenological rates.
+	void get_phenRates(std::map<std::string, double> &phenRates) const {phenRates = m_phenomenlogicalRates ; } ;
 
   private:
 
@@ -133,6 +134,8 @@ namespace mesmer
     // Species, times for printDataForGrainProfileAtTime
     std::vector<std::pair<Molecule*, std::vector<double> > > m_GrainProfileAtTimeData;
 
+    // Map relating reactions with phenomenological rate coefficients.
+    std::map<std::string, double> m_phenomenlogicalRates ;
   } ;
 
 }

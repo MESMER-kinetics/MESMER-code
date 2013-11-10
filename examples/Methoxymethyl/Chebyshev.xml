@@ -1092,11 +1092,8 @@
     <me:chebMinConc>1E+17</me:chebMinConc>
     <me:chebTExSize>6</me:chebTExSize>
     <me:chebPExSize>4</me:chebPExSize>
-    <me:analyticalRepRef>
-      <me:reaction me:ref1="CH3OCH2" me:ref2="CH3OCH2"/>
-      <me:reaction me:ref1="CH3OCH2" me:ref2="IM2"/>
-    </me:analyticalRepRef>
     <me:eigenvalues>6</me:eigenvalues>
+    <me:ForceMacroDetailedBalance/>
   </me:control>
 </me:mesmer>
 

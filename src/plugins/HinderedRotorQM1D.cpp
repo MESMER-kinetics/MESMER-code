@@ -477,7 +477,7 @@ namespace mesmer
     }
 
     // Test potential
-    cinfo << "          Angle         Potential          Series\n";
+    ctest << "          Angle         Potential          Series\n";
     for (size_t i(0); i < ndata; ++i) {
       double sum(0.0) ;
       for(size_t k(0); k < m_expansion; ++k) {
@@ -485,9 +485,9 @@ namespace mesmer
         sum += m_potentialCosCoeff[k] * cos(nTheta);
         sum += m_potentialSinCoeff[k] * sin(nTheta);
       }
-      cinfo << formatFloat(angle[i], 6, 15) << ", " <<  formatFloat(potential[i], 6, 15) << ", " <<  formatFloat(sum, 6, 15) <<'\n' ;
+      ctest << formatFloat(angle[i], 6, 15) << ", " <<  formatFloat(potential[i], 6, 15) << ", " <<  formatFloat(sum, 6, 15) <<'\n' ;
     }
-    cinfo << endl ;
+    ctest << endl ;
 
     return ;
 
@@ -496,7 +496,7 @@ namespace mesmer
   // Provide data for plotting states against potential.
   void HinderedRotorQM1D::outputPlotData() {
 
-    cinfo << endl << "Hindered rotor data for plotting." << endl << endl ;
+    ctest << endl << "Hindered rotor data for plotting." << endl << endl ;
     int npoints(500) ;
     double dAngle = M_PI/double(npoints) ;
     for (int i(-npoints); i < npoints; ++i) {
@@ -507,14 +507,14 @@ namespace mesmer
         sum += m_potentialCosCoeff[k] * cos(nTheta);
         sum += m_potentialSinCoeff[k] * sin(nTheta);
       }
-      cinfo << formatFloat(angle, 6, 15) << ", "<< formatFloat(sum, 6, 15) << endl ;
+      ctest << formatFloat(angle, 6, 15) << ", "<< formatFloat(sum, 6, 15) << endl ;
     }
-    cinfo << endl ;
+    ctest << endl ;
 
     for (size_t i(0); i < m_energyLevels.size() ; i++) {
-      cinfo << formatFloat(-M_PI, 6, 15) << ", "<< formatFloat(m_energyLevels[i], 6, 15) << endl ;
-      cinfo << formatFloat( M_PI, 6, 15) << ", "<< formatFloat(m_energyLevels[i], 6, 15) << endl ;    
-      cinfo << endl ;
+      ctest << formatFloat(-M_PI, 6, 15) << ", "<< formatFloat(m_energyLevels[i], 6, 15) << endl ;
+      ctest << formatFloat( M_PI, 6, 15) << ", "<< formatFloat(m_energyLevels[i], 6, 15) << endl ;    
+      ctest << endl ;
     }
 
   }

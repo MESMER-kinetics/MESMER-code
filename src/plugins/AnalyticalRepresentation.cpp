@@ -27,8 +27,6 @@ namespace mesmer
     AnalyticalRepresentation(const char* id) : FittingUtils(), 
       m_id(id),
       m_format(),
-      m_reactionRef1(),
-      m_reactionRef2(),
       m_TMax(0.0),
       m_TMin(0.0),
       m_CMax(0.0),
@@ -41,7 +39,8 @@ namespace mesmer
       m_lgCMin(0),
       m_lgCMax(0),
       m_ExpanSizeT(0),
-      m_ExpanSizeC(0)
+      m_ExpanSizeC(0),
+	  m_reactions()
     { Register(); }
 
     virtual ~AnalyticalRepresentation() {}
@@ -86,9 +85,6 @@ namespace mesmer
 
     const char* m_id;
     string m_format ;
-    vector<string> m_reactionRef1 ;
-    vector<string> m_reactionRef2 ;
-    vector<string> m_reactionID ;
 
     double m_TMax ;
     double m_TMin ;
@@ -106,6 +102,8 @@ namespace mesmer
 
     size_t m_ExpanSizeT;
     size_t m_ExpanSizeC;
+
+    vector<string> m_reactions ;
 
   };
 
@@ -155,18 +153,6 @@ namespace mesmer
     if (m_ExpanSizeT > m_NTpt || m_ExpanSizeC > m_NCpt )
       throw(std::runtime_error("Analytical Represention: Requested expansion coefficients exceed grid specificaton.")) ;
 
-    PersistPtr ppARepRef = pp->XmlMoveTo("me:analyticalRepRef");
-    ppARepRef = ppARepRef->XmlMoveTo("me:reaction");
-    while(ppARepRef) {
-      const char* txt1 = ppARepRef->XmlReadValue("me:ref1") ;
-      m_reactionRef1.push_back(string(txt1));
-      const char* txt2 = ppARepRef->XmlReadValue("me:ref2") ;
-      m_reactionRef2.push_back(string(txt2));
-	  const char* txt3 = ppARepRef->XmlReadValue("me:ID", optional) ;
-	  m_reactionID.push_back(string(txt3));
-      ppARepRef = ppARepRef->XmlMoveTo("me:reaction");
-    }
-
     return true;
   }
 
@@ -206,30 +192,39 @@ namespace mesmer
     }
 
     // Get rate coefficients.
+    m_reactions.clear() ;
     vector<CTpoint> CTGrid ;
-    vector<double> RateCoefficients(m_reactionRef1.size());
-    vector<vector<double> > RCGrid(m_NTpt*m_NCpt, vector<double>(m_reactionRef1.size(), 0.0));
-    for (size_t i(0), idx(0); i< m_NTpt; ++i) {
+	bool flag(true) ;
+    vector<vector<double> > RCGrid;
+    for (size_t i(0); i < m_NTpt; ++i) {
       double Temp = Temperature[i] ;
-      for (size_t j(0); j < m_NCpt; ++j, ++idx) {
+      for (size_t j(0); j < m_NCpt; ++j) {
         double Conc = getConvertedP(m_PUnits, Concentration[j], Temp) ;
         CTGrid.push_back(CTpoint(TGrid[i],CGrid[j])) ;
-		pSys->calculate(Temp, Conc, m_reactionRef1, m_reactionRef2, m_reactionID, RateCoefficients, Temperature[m_NTpt-1]);
-		for(size_t k(0) ; k < m_reactionRef1.size(); ++k) {
-		  RCGrid[idx][k] = RateCoefficients[k];
-		} 
+        map<string, double> phenRates ;
+		pSys->calculate(Temp, Conc, phenRates, m_TMax);
+		vector<double> rate ;
+		for (map<string, double>::const_iterator itr = phenRates.begin() ; itr != phenRates.end(); ++itr) {
+		  rate.push_back(itr->second) ;
+		  if (flag) {
+			m_reactions.push_back(itr->first) ;
+		  }
+		}
+		flag = false ;
+		RCGrid.push_back(rate) ;
       }
     }
 
     // Calculate chebyshev coefficients. Three indicies are required in order 
     // to calculate Chebyshev coefficients for each specified BW rate.
-    vector<vector<double> > v(m_ExpanSizeC, vector<double>(m_reactionRef1.size(), 0.0));	
+    vector<vector<double> > v(m_ExpanSizeC, vector<double>(m_reactions.size(), 0.0));	
     vector<vector<vector<double> > > ChebyshevCoeff(m_ExpanSizeT,v);
     for (size_t i(0); i < m_ExpanSizeT ; ++i ) {
       for (size_t j(0); j < m_ExpanSizeC ; ++j ) {
-        for (size_t k(0); k < m_reactionRef1.size() ; ++k) {
+        for (size_t k(0); k < m_reactions.size() ; ++k) {
           for (size_t m(0); m < RCGrid.size() ; ++m ) {
-            ChebyshevCoeff[i][j][k] += log10(RCGrid[m][k])*Cheb_poly(i, CTGrid[m].first)*Cheb_poly(j, CTGrid[m].second);
+			// The absolute value is taken below as small rate coefficients occasionally computed to be negative.
+            ChebyshevCoeff[i][j][k] += log10(fabs(RCGrid[m][k]))*Cheb_poly(i, CTGrid[m].first)*Cheb_poly(j, CTGrid[m].second);
           }				
           ChebyshevCoeff[i][j][k] *= Coefficient(i, j) / (double(m_NTpt) * double(m_NCpt)) ;
         }			
@@ -273,28 +268,30 @@ namespace mesmer
   }
 
   // Write Chebyshev coefficients in Cantera format.
+  // See http://cantera.github.io/docs/sphinx/html/cti/reactions.html.
   void AnalyticalRepresentation::writeCanteraFormat(const vector<vector<vector<double> > > &ChebyshevCoeff) const {
 
     string header("chebyshev_reaction(") ;
     string coeffs("coeffs=[") ;
-    for (size_t k=0; k < m_reactionRef1.size(); ++k ){
+	cinfo << endl ;
+    for (size_t k=0; k < m_reactions.size(); ++k ){
       string indent = padText(header.size()) ;
-      ctest << header << "' <=> '," << endl ;
-      ctest << indent << "Tmin="  << setw(6) << m_TMin << ", Tmax=" << setw(6) << m_TMax << "," << endl  ;
-      ctest << indent << "Pmin=(" << setw(6) << m_CMin << ", '" << m_PUnits << "'), " 
+      cinfo << header << "'" << m_reactions[k] << "'," << endl ;
+      cinfo << indent << "Tmin="  << setw(6) << m_TMin << ", Tmax=" << setw(6) << m_TMax << "," << endl  ;
+      cinfo << indent << "Pmin=(" << setw(6) << m_CMin << ", '" << m_PUnits << "'), " 
             << "Pmax=(" << setw(6) << m_CMax << ", '" << m_PUnits << "'), "  << endl;
-      ctest << indent << coeffs << "[" ;
+      cinfo << indent << coeffs << "[" ;
       indent += padText(coeffs.size()) ;
       for (size_t i(0); i < m_ExpanSizeT; ++i ) {
         for(size_t j(0); j < m_ExpanSizeC ; ++j ) {
-          ctest << formatFloat(ChebyshevCoeff[i][j][k], 6, 14) ;
+          cinfo << formatFloat(ChebyshevCoeff[i][j][k], 6, 14) ;
           if (j < m_ExpanSizeC-1 ) 
-            ctest << "," ;
+            cinfo << "," ;
         }
         if (i < m_ExpanSizeT-1) {
-          ctest << "]," << endl << indent << "[";
+          cinfo << "]," << endl << indent << "[";
         } else {  
-          ctest << "]])" << endl << endl ;
+          cinfo << "]])" << endl << endl ;
         }
       }
     }
@@ -309,8 +306,8 @@ namespace mesmer
     const vector<double> &CGrid,
     const vector<double> &TGrid ) const {
 
-      for (size_t k=0; k < m_reactionRef1.size(); ++k ){
-        ctest << "Comparison of fitted rate coefficients for reaction " << k << endl;
+      for (size_t k=0; k < m_reactions.size() ; ++k ){
+        ctest << "Comparison of fitted rate coefficients for reaction " << m_reactions[k] << endl;
 
         ostringstream concText ;	  
         string indent = padText(10) ;

@@ -32,7 +32,9 @@ namespace mesmer
     m_SpeciesSequence(),
     m_eqVector(),
     m_eqVecSize(0),
-    m_punchSymbolGathered(false) {}
+    m_punchSymbolGathered(false),
+    m_GrainProfileAtTimeData(),
+    m_phenomenlogicalRates() {}
 
   CollisionOperator::~CollisionOperator() {
     if (m_reactionOperator) delete m_reactionOperator;
@@ -1231,8 +1233,8 @@ namespace mesmer
           qd_real sm(0.0) ; 
           Molecule* isomer = ipos->first;
           size_t colloptrsize = isomer->getColl().get_colloptrsize() ; // get colloptrsize for isomer
-          int rxnMatrixLoc = ipos->second + colloptrsize - 1 ;            // get location for isomer in the rxn matrix
-          int seqMatrixLoc = m_SpeciesSequence[isomer];                   // get sequence position for isomer
+          int rxnMatrixLoc = ipos->second + colloptrsize - 1 ;         // get location for isomer in the rxn matrix
+          int seqMatrixLoc = m_SpeciesSequence[isomer];                // get sequence position for isomer
           for(size_t j(0) ; j < colloptrsize ; ++j){
             sm += assymEigenVec[rxnMatrixLoc-j][nchemIdx+i];
           }
@@ -1420,16 +1422,19 @@ namespace mesmer
 
       // print pseudo first order connecting ks
       for (rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
-        Molecule* rct = rctitr->first;
-        string rctName = rct->getName();
+        string rctName = rctitr->first->getName();
         int rctpos = rctitr->second;
         for (pdtitr=m_SpeciesSequence.begin(); pdtitr!=m_SpeciesSequence.end(); ++pdtitr){
-          Molecule* pdt = pdtitr->first;
-          string pdtName = pdt->getName();
+          string pdtName = pdtitr->first->getName();
           int pdtpos = pdtitr->second;
           if(rctpos != pdtpos){
             ctest << rctName << " -> " << pdtName << " = " << Kr[pdtpos][rctpos] << endl;
-            if (ppList) {
+
+			ostringstream reaction ;
+			reaction << rctName << " => " << pdtName ;
+			m_phenomenlogicalRates[reaction.str()] = to_double(Kr[pdtpos][rctpos]) ;
+ 
+			if (ppList) {
               PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kr[pdtpos][rctpos]));
               ppItem->XmlWriteAttribute("fromRef", rctName);
               ppItem->XmlWriteAttribute("toRef",   pdtName);
@@ -1459,16 +1464,25 @@ namespace mesmer
         for(rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
           Molecule* rcts = rctitr->first;     // get reactants & their position
           int rctpos = rctitr->second;
+          string rctName = rcts->getName();
           if (sinkReaction->getReactionType() == IRREVERSIBLE_EXCHANGE) {
-            ctest << rcts->getName() << " -> "  << pdtsName << "(bim) = " << Kp[sinkpos][rctpos] << endl;
+            ctest << rctName << " -> "  << pdtsName << "(bim) = " << Kp[sinkpos][rctpos] << endl;
+
+			ostringstream reaction ;
+			reaction << rctName << " => " << pdtsName ;
+			m_phenomenlogicalRates[reaction.str()] = to_double(Kp[sinkpos][rctpos]) ;
+ 
             puNumbers << Kp[sinkpos][rctpos] << "\t";
             if (!m_punchSymbolGathered) {
               puSymbols << rcts->getName() << " -> " << pdtsName << "(bim)\t";
             }
           } else {
-            string rctName = rcts->getName();
             ctest << rctName << " -> "  << pdtsName << " = " << Kp[sinkpos][rctpos] << endl;
 
+			ostringstream reaction ;
+			reaction << rctName << " => " << pdtsName ;
+			m_phenomenlogicalRates[reaction.str()] = to_double(Kp[sinkpos][rctpos]) ;
+ 
             if (ppList) {
               PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kp[sinkpos][rctpos]));
               ppItem->XmlWriteAttribute("fromRef", rctName);
@@ -1598,21 +1612,6 @@ namespace mesmer
         return spcitr->second;
     }
     cerr << "No molecule named " << ref << " is available in the reaction species.";
-    return -1;
-  }
-
-    int CollisionOperator::getSinkSequenceIndex(const std::string ref)
-  {
-      sinkMap::iterator sinkitr = m_sinkRxns.begin();
-      for (int sinkpos(0) ; sinkitr!=m_sinkRxns.end() ; ++sinkitr, ++sinkpos)
-    {
-	  Reaction* sinkReaction = sinkitr->first;
-	  vector<Molecule*> Prod;
-	  sinkReaction->get_products(Prod);
-	  if (ref == Prod[0]->getName() || ref == Prod[1]->getName()  )
-        return sinkpos;
-    }
-    cerr << "No molecule named " << ref << " is available in the reaction sinks.";
     return -1;
   }
 

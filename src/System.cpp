@@ -701,7 +701,7 @@ namespace mesmer
           ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
           ppList->XmlWriteAttribute("me:units", "s-1");
           qdMatrix mesmerRates(1);
-		  qdMatrix lossRates(1);
+          qdMatrix lossRates(1);
           m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, ppList);
 
           rateCoeffTable << formatFloat(PandTs[calPoint].get_temperature(), 6, 15) ;
@@ -783,8 +783,8 @@ namespace mesmer
 
     // Calculate rate coefficients.
     qdMatrix  mesmerRates(1) ;
-	qdMatrix lossRates(1);
-    m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates,lossRates, m_Flags);
+    qdMatrix lossRates(1);
+    m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags);
 
     // For this conditions calculate the experimentally observable data types. 
 
@@ -808,13 +808,13 @@ namespace mesmer
   // Calculate rate coefficients for conditions other than those 
   // supplied directly by user e.g. for analytical representation.
   //
-  bool System::calculate(double &Temperature, double &Concentration, vector<string> &Ref1, vector<string> &Ref2, vector<string> &refReaction, vector<double> &Ratecoefficients, double &MaxT)
+  bool System::calculate(double &Temperature, double &Concentration, map<string, double> &phenRates, double &MaxT)
   {
 
     m_Flags.printEigenValuesNum = 0 ;
 
     m_Env.beta = 1.0 / (boltzmann_RCpK * Temperature) ; //temporary statements
-	m_Env.MaximumTemperature =MaxT;
+    m_Env.MaximumTemperature =MaxT;
     m_Env.conc = Concentration;
     // unit of conc: particles per cubic centimeter
 
@@ -835,46 +835,26 @@ namespace mesmer
     // Calculate rate coefficients.
     qdMatrix BWrates(1);
     qdMatrix lossRates(1);
-    m_collisionOperator.BartisWidomPhenomenologicalRates((BWrates), lossRates, m_Flags);
+    m_collisionOperator.BartisWidomPhenomenologicalRates(BWrates, lossRates, m_Flags);
+    m_collisionOperator.get_phenRates(phenRates);
 
 
-      //locate required BW rates and put them in a vector
-       for(int i=0; i < Ref1.size(); ++i){
-	  double rateCoeff;
-  	  int seqMatrixLoc1(-1), seqMatrixLoc2(-1);
-      seqMatrixLoc1 = m_collisionOperator.getSpeciesSequenceIndex(Ref1[i]);
-	  
-      //if cannot locate in isomers try sinks
-      seqMatrixLoc2 = m_collisionOperator.getSpeciesSequenceIndex(Ref2[i]);
-	  if(seqMatrixLoc2<0){
-		  seqMatrixLoc2 = m_collisionOperator.getSinkSequenceIndex(Ref2[i]);
-	  	  rateCoeff = fabs(to_double(lossRates[seqMatrixLoc2][seqMatrixLoc1])) ;
-	      
-	  }
-	  else{
+    //// Locate required BW rates and put them in a vector.
+    //for (int i=0; i < Ref1.size(); ++i) {
+    //  // check if Reaction is bimolecular
+    //  Reaction *reaction = m_pReactionManager->find(refReaction[i]) ;
+    //  if (reaction && (reaction->getReactionType() == ASSOCIATION || reaction->getReactionType() == PSEUDOISOMERIZATION)) {
+    //    double concExcessReactant = reaction->get_concExcessReactant() ;
 
-	  if(seqMatrixLoc1<0 || seqMatrixLoc2<0)
-        throw(std::runtime_error("Failed to locate species in rate coefficient matrix.")) ;
-	  	  
-	  
-	  rateCoeff = fabs(to_double(lossRates[seqMatrixLoc2][seqMatrixLoc1])) ;
-	      
-	  }
+    //    // Test concentration and reaction sense.
 
-      // check if Reaction is bimolecular
-	  Reaction *reaction = m_pReactionManager->find(refReaction[i]) ;
-      if (reaction && (reaction->getReactionType() == ASSOCIATION || reaction->getReactionType() == PSEUDOISOMERIZATION)) {
-        double concExcessReactant = reaction->get_concExcessReactant() ;
+    //    if (concExcessReactant > 0.0 && (reaction->get_reactant()->getName() == Ref1[i])) 
+    //      rateCoeff /= concExcessReactant ;
 
-      // Test concentration and reaction sense.
-
-        if (concExcessReactant > 0.0 && (reaction->get_reactant()->getName() == Ref1[i])) 
-        rateCoeff /= concExcessReactant ;
-        
-		Ratecoefficients[i]=rateCoeff;
-	  }
-	   }
-      return true ;	   
+    //    Ratecoefficients[i]=rateCoeff;
+    //  }
+    //}
+    return true ;	   
   }
 
   double System::calcChiSqRateCoefficients(const qdMatrix& mesmerRates,  const CandTpair& expData, stringstream &rateCoeffTable, vector<double> &residuals){
