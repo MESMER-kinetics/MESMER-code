@@ -53,5 +53,6 @@ static const double NaN = NaN;
 
 
 const std::string TestSubFolder("baselines\\Win32\\mesmer.test"); //relative to the data file
+const std::string TestFolder("baselines\\Win32\\"); //relative to the data file
 
 #endif // GUARD_MesmerConfig_h

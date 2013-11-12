@@ -1,4 +1,17 @@
-2013-October-26 Struan Robertson
+2013-November-12 Chris Morley
+
+	* src/main.cpp,src/MesmerConfig.h: Change QACompare() to use .test files
+    with same name as .xml file if the -N option used. 
+	-N option now does not need to be before xmlfile name.
+
+	* src/MesmerConfig.h: change baseline  folder name for Windows.
+	(Why is there no Linux entry?)
+
+	* MesmerQAschema/QA.bat: subsidiary projects like ipropyl_reservoir.xml
+	now checked. NOTE: not altered in MesmerQA folder which I shall soon
+	replace with the MesmerQAschema folder.
+
+2013-Nov-10 Struan Robertson
 
 	* AnalyticalRepresentation.cpp, System.cpp, CollisionOperator.cpp: 
 	Altered analytical representation to fit all reaction data, add reaction 
@@ -7,7 +20,7 @@
 	* HinderedRotorQM1D.cpp: Altered output stream of potential data to
 	.test file.
 
-2013-November 3 Chris Morley
+2013-November-3 Chris Morley
 
 	* schemas/mesmerPlugins.xsd: add gaussian EnergyTransferModel
 	* src/EnergyTransferModel.h, src/plugins/ExponentialDown.cpp: remove

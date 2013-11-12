@@ -121,9 +121,10 @@ cd "OH acetylene association"
 %executable% OH_acetylene_association_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+echo --------------------------------------------------------------------
 
 set testName="OH_acetylene_pseudo_isomerization"
-%executable% -N %testName%.xml
+%executable% %testName%.xml -N -q
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
@@ -140,9 +141,10 @@ cd "i-propyl"
 %executable% ipropyl_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+echo --------------------------------------------------------------------
 
 set testName="ipropyl_reservoir"
-%executable% -N %testName%.xml
+%executable% %testName%.xml -N -q
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..

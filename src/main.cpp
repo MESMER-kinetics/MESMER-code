@@ -31,7 +31,7 @@ using namespace mesmer ;
 void usage();
 string version();
 void banner(); 
-bool QACompare(string infilename);
+bool QACompare(string infilename, bool NOptionUsed);
 string duplicateFileName(const string& inName, const string& suffix, const string& newTimeStamp = "");
 string replaceFilename(const string& inName, const string& newFilename);
 int main(int argc,char *argv[])
@@ -126,21 +126,21 @@ int main(int argc,char *argv[])
         infilename = p;
       else
         extraInfilenames.push_back(p);
-
-      if (changetestname){
-        string testSuffix(".test");
-        string logSuffix(".log");
-        string punchSuffix(".punch");
-        testfilename = duplicateFileName(infilename, testSuffix);
-        logfilename = duplicateFileName(infilename, logSuffix);
-        punchfilename = duplicateFileName(infilename, punchSuffix);
-      }
-      else{ // default test and log names
-        testfilename = "mesmer.test";
-        logfilename = "mesmer.log";
-        punchfilename = "mesmer.punch";
-      }
     }
+  }
+
+  if (changetestname){
+    string testSuffix(".test");
+    string logSuffix(".log");
+    string punchSuffix(".punch");
+    testfilename = duplicateFileName(infilename, testSuffix);
+    logfilename = duplicateFileName(infilename, logSuffix);
+    punchfilename = duplicateFileName(infilename, punchSuffix);
+  }
+  else{ // default test and log names
+    testfilename = "mesmer.test";
+    logfilename = "mesmer.log";
+    punchfilename = "mesmer.punch";
   }
 
   if(!usecout && outfilename.empty()){
@@ -302,7 +302,7 @@ int main(int argc,char *argv[])
   if(qatest)
   {
     osout.close();
-    if(!QACompare(infilename))
+    if(!QACompare(infilename, changetestname))
     {
       cerr << "QA test *** FAILED ***" << endl;
       return -5;
@@ -433,17 +433,23 @@ void banner()
   cinfo << endl ;
 }
 
-bool QACompare(string infilename)
+bool QACompare(string infilename, bool NOptionUsed)
 {
-  //Read the baseline file
   string::size_type pos = infilename.find_last_of("/\\:");
-  infilename.erase(pos+1); //may erase everything if has no path
-  infilename.append(TestSubFolder);
+  string filename = pos!=string::npos ? infilename.substr(pos) : infilename; //name without path
+  infilename.erase(pos+1); //path; may erase everything if has no path
+  pos = filename.find('.');
+  filename.erase(pos+1).append("test"); // e.g. "ipropyl_reservoir.test"
+  if(!NOptionUsed)
+    filename = "mesmer.test";
+
+  //Access the baseline file
+  infilename.append(TestFolder).append(filename);
   ifstream QAfile(infilename.c_str());
-  ifstream CurrentTest("mesmer.test");
+  ifstream CurrentTest(filename);
   if(!QAfile || !CurrentTest)
   {
-    cerr << "Cannot open " << infilename << " or current mesmer.test" << endl;
+    cerr << "Cannot open " << infilename << " or " << filename << endl;
     return false;
   }
   typedef std::istreambuf_iterator<char> istreambuf_iterator;
