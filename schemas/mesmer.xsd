@@ -80,6 +80,7 @@
                                 <xs:extension base="xs:float">
                                   <xs:attribute name="ref" type="cml:moleculeIDType" use="required" />
                                   <xs:attribute name="error" type="xs:float"/>
+                                  <xs:attribute name="yieldTime" type="xs:float"/>
                                 </xs:extension>
                               </xs:simpleContent>
                             </xs:complexType>

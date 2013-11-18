@@ -1387,7 +1387,7 @@ namespace mesmer
       }
       else{
         if (!collisionOperator(env)){
-          cerr << "Failed building collision operator.";
+          cerr << "Failed building collision operator." << endl;
           return false;
         }
       }
@@ -1694,7 +1694,10 @@ namespace mesmer
   {
     EnergyTransferModel* pEnergyTransferModel = m_EnergyTransferModels[env.bathGasName];
     if(!pEnergyTransferModel)
+    {
       cerr << "No energyTransferModel for " << m_host->getName() << " with " << env.bathGasName << endl;
+      return false;
+    }
     // Use number of states to weight the downward transition
     if (m_host->getFlags().useDOSweightedDT){
       // The collision operator.

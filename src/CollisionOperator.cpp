@@ -218,7 +218,7 @@ namespace mesmer
         isomer->getColl().set_colloptrsize(colloptrsize) ;
 
         if(!isomer->getColl().initCollisionOperator(mEnv, pBathGasMolecule)){
-          cerr << "Failed initializing collision operator for " << isomer->getName();
+          cerr << "Failed initializing collision operator for " << isomer->getName() << endl;
           return false;
         }
 
