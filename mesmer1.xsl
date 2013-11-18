@@ -13,11 +13,11 @@
   
 <xsl:variable name="title">
   <xsl:choose>
-    <xsl:when test="//cml:metadataList">
-      <xsl:value-of select="//cml:metadataList/dc:title"/>
+    <xsl:when test="/me:mesmer/cml:metadataList/dc:title">
+      <xsl:value-of select="/me:mesmer/cml:metadataList/dc:title"/>
     </xsl:when>
-    <xsl:when test="//cml:title">
-      <xsl:value-of select="//cml:title"/>
+    <xsl:when test="//me:title|//cml:title">
+      <xsl:value-of select="//me:title|//cml:title"/>
     </xsl:when>
     <xsl:otherwise>
       Mesmer datafile
@@ -119,7 +119,7 @@
           <xsl:value-of select="$title"/>
         </p>
         <p id="description">
-          <xsl:value-of select="/me:mesmer/cml:description"/>
+          <xsl:value-of select="/me:mesmer/cml:description|me:description"/>
         </p>
         <xsl:apply-templates select="//cml:metadataList"/>
       </div>
@@ -407,6 +407,7 @@
      <tr>
        <td class="tablehead1" colspan="5" align="center">
          At <xsl:value-of select="concat(@T,' K, ', @conc, ' molecules cm')"/><sup>-3</sup>
+         <xsl:value-of select="concat(' in ', @bathGas)"/>
        </td>
      </tr>
       <xsl:if test="me:firstOrderRate">
@@ -573,8 +574,9 @@
     <tr class="tablehead1">
       <td>Temperature(K)</td>
       <td>
-        <xsl:value-of select="concat('Concentration(', me:PTpair/@me:units, ')')"/>
+        <xsl:value-of select="concat('Concentration(', me:PTpair/@units|@me:units, ')')"/>
       </td>
+      <td>bathGas</td>
       <xsl:for-each select="me:PTpair[1]/me:experimentalRate|me:PTpair[1]/me:experimentalYield|me:PTpair[1]/me:experimentalEigenvalue">
         <!--just the first node is selected-->
         <td> <xsl:value-of select="local-name()"/> </td>
@@ -584,8 +586,9 @@
     </tr>
     <xsl:for-each select="me:PTpair/me:experimentalRate|me:PTpair/me:experimentalYield|me:PTpair/me:experimentalEigenvalue">
       <tr style="text-align:center">
-        <td> <xsl:value-of select="../@me:T"/></td>
-        <td> <xsl:value-of select="../@me:P"/></td>
+        <td> <xsl:value-of select="../@T|@me:T"/></td>
+        <td> <xsl:value-of select="../@P|@me:P"/></td>
+        <td> <xsl:value-of select="../me:bathGas"/></td>
         <td> <xsl:value-of select="."/></td>
         <td> <xsl:value-of select="@calcVal"/></td>
       </tr>

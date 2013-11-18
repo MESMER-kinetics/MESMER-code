@@ -491,6 +491,7 @@ examplesSchema/OH-acetylene/OH_HCCH-irreversibleBim-publish.xml -text
 examplesSchema/OH-acetylene/baselines/Linux64/mesmer.test -text
 examplesSchema/OH-acetylene/baselines/Win32/mesmer.test -text
 examplesSchema/OH_NO_to[!!-~]HONO/OH_NO_HONO.xml -text
+examplesSchema/OH_NO_to[!!-~]HONO/SimpleDerived.xml -text
 examplesSchema/OH_NO_to[!!-~]HONO/baselines/Linux64/mesmer.log -text
 examplesSchema/OH_NO_to[!!-~]HONO/baselines/Win32/mesmer.log -text
 examplesSchema/Tunnelling/H+H2,T+T2.xml -text

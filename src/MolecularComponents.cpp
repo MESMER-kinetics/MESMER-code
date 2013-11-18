@@ -1693,6 +1693,8 @@ namespace mesmer
   bool gWellProperties::rawTransitionMatrix(MesmerEnv& env, vector<double> &gEne, vector<double> &gDOS, dMatrix *egme)
   {
     EnergyTransferModel* pEnergyTransferModel = m_EnergyTransferModels[env.bathGasName];
+    if(!pEnergyTransferModel)
+      cerr << "No energyTransferModel for " << m_host->getName() << " with " << env.bathGasName << endl;
     // Use number of states to weight the downward transition
     if (m_host->getFlags().useDOSweightedDT){
       // The collision operator.

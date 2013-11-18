@@ -47,7 +47,8 @@
               <xs:attribute name="bathGas" use="optional" />
               <xs:attribute name="ref" use="optional" />
               <xs:attribute name="units" type="energyUnitsType" use="required" />
-              <xs:attributeGroup ref="rangeAttributes"/>
+              <xs:attributeGroup ref="me:rangeAttributes"/>
+              <xs:attributeGroup ref="me:linkAttributes"/>
             </xs:extension>
           </xs:simpleContent>
         </xs:complexType>
@@ -378,9 +379,25 @@
           <xs:element name="chebNumConc" type="xs:integer" minOccurs="0"/> 
           <xs:element name="chebMinTemp" type="xs:decimal" minOccurs="0"/> 
           <xs:element name="chebMaxTemp" type="xs:decimal" minOccurs="0"/>
-          <xs:element name="chebMinConc" type="xs:float" minOccurs="0"/>
-          <xs:element name="chebMaxConc" type="xs:float" minOccurs="0"/>
-          <xs:element name="chebTExSize" type="xs:integer" minOccurs="0"/>
+          <xs:element name="chebMinConc" minOccurs="0">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" type="me:concUnitsType" use="optional"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="chebMaxConc" minOccurs="0">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:float">
+                  <xs:attribute name="units" type="me:concUnitsType" use="optional"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+            <xs:element name="chebTExSize" type="xs:integer" minOccurs="0"/>
           <xs:element name="chebPExSize" type="xs:integer" minOccurs="0"/>
           <xs:element name="fittingIterations" type="xs:integer" minOccurs="0"/>
           <xs:element name="fittingTolerance" type="xs:float" minOccurs="0"/>

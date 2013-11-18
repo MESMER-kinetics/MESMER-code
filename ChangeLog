@@ -1,3 +1,12 @@
+2013-November-18 Chris Morley
+
+	* mesmer1.xsl,src/System.cpp: make Firefox output report bath gas
+	* schemas/mesmer.xsd,schemas/mesmerPlugins.xsd,schemas/CMLforMesmer.xsd:
+	  add derivedFrom, etc.
+	* src/MolecularComponents.cpp,src/plugins/ExponentialDown.cpp: label name
+	  or general bath gas is always like HONO:deltaEDown without : or :He
+	* src/Rdouble.cpp: use derivedFrom as well as me:derivedFrom.
+
 2013-November-12 Chris Morley
 
 	* src/main.cpp,src/MesmerConfig.h: Change QACompare() to use .test files

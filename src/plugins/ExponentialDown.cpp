@@ -157,7 +157,9 @@ bool ExponentialDown::ParseData(PersistPtr ppModel)
     "upper" attributes, together with and the following code, sets this up.
     ******************************************************************************/
     bool rangeSet ;
-    string varid = m_parent->getName()+":deltaEDown:"+ (bathGasName ? bathGasName : "");
+    string varid = m_parent->getName()+":deltaEDown";
+    if(bathGasName)
+      varid += string(":") += bathGasName;
     ReadRdoubleRange(varid, ppProp, pModel->m_deltaEDown, rangeSet) ;
 
   } while(ppProp  = dataInProperty ? ppProp->XmlMoveToProperty("me:deltaEDown",true)
@@ -191,7 +193,9 @@ bool ExponentialDown::ParseData(PersistPtr ppModel)
       = static_cast<ExponentialDown*>(m_parent->getColl().addBathGas(bathGasName, this));
 
     bool rangeSet ;
-    string varid = m_parent->getName()+":deltaEDownTExponent:"+ (bathGasName ? bathGasName : "");
+    string varid = m_parent->getName()+":deltaEDownTExponent";
+    if(bathGasName)
+      varid += string(":") += bathGasName;
     ReadRdoubleRange(varid, ppPropExp, pModel->m_dEdExp, rangeSet) ;
   }
 

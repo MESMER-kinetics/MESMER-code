@@ -19,7 +19,7 @@
           <xs:complexType>
             <xs:all>
               <xs:element name="bathGas" type="cml:moleculeIDType" minOccurs="0"/>
-              <xs:element name="PTs">
+              <xs:element name="PTs" minOccurs="0">
                 <xs:annotation>
                   <xs:documentation>
                     The attributes me:P me:T and me:units on &lt;me:PTPair> are still parsed
@@ -276,6 +276,12 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="linkNameType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[A-Za-z_][A-Za-z0-9_\-\)\(]*(:[A-Za-z0-9_\-]*)(:[[A-Za-z0-9_\-]*)?"/>
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:complexType name="initMoleculeRefType">
     <xs:attribute name="ref" type="cml:moleculeIDType" use="required"/>
     <xs:attribute name="population" type="xs:float" use="optional"/>
@@ -288,6 +294,12 @@
     <xs:attribute name="stepsize" type="xs:float" use="optional" />
     <xs:attribute name="fitted" type="xs:string" use="optional" />
     <xs:attribute name="chiSquared" type="xs:float" use="optional" />
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="linkAttributes">
+    <xs:attribute name="derivedFrom" type="me:linkNameType" use="optional"/>
+    <xs:attribute name="factor" type="xs:float" use="optional"/>
+    <xs:attribute name="addand" type="xs:float" use="optional"/>
   </xs:attributeGroup>
 
   <xs:attributeGroup name="PTRangeAttributes">

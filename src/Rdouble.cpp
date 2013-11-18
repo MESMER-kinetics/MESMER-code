@@ -160,6 +160,8 @@ namespace mesmer
     // If there is a derivedFrom attribute, a pointer to its value is put in
     // 
     const char* pDerivedtxt = pp->XmlReadValue("me:derivedFrom", optional);
+    if(!pDerivedtxt)
+      pDerivedtxt = pp->XmlReadValue("derivedFrom", optional);
     if(pDerivedtxt)
     {
       rdouble.set_link_params(

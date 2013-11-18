@@ -965,6 +965,7 @@
         <h:div class="description">
           <h:p>
             This is not formally of type ID (an XML NAME which must start with a letter and contain only letters, digits and <h:tt>.-_:</h:tt>). It is recommended that IDs start with a letter, and contain no punctuation or whitespace. The function in XSLT will generate semantically void unique IDs.
+Relaxed in MESMER to allow also<h:tt>)(</h:tt> because chemical formula are common.
           </h:p>
           <h:p>
             It is difficult to ensure uniqueness when documents are merged. We suggest
@@ -976,7 +977,7 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:restriction base="xsd:string">
-      <xsd:pattern value="[A-Za-z][A-Za-z0-9\.\-_]*"/>
+      <xsd:pattern value="[A-Za-z][A-Za-z0-9()\.\-_]*"/>
     </xsd:restriction>
   </xsd:simpleType>
   <xsd:simpleType id="st.inheritType" name="inheritType">
@@ -8215,6 +8216,7 @@
           <xsd:attributeGroup ref="id"/>
           <xsd:attributeGroup ref="metadataType"/>
           <xsd:attributeGroup ref="title"/>
+          <xsd:attribute name="timestamp"/><!--MESMER-->
           <xsd:anyAttribute namespace="##other" processContents="lax"/>
         </xsd:extension>
       </xsd:simpleContent>
@@ -9698,8 +9700,13 @@
           <xsd:attribute name="chiSquared" type="xsd:float"/>
           <xsd:attribute name="referenceTemperature" type="xsd:decimal"/>
           <xsd:attribute name="exponent" type="xsd:decimal"/>
-          <xsd:attribute name="default" type="xsd:boolean"/>        
-          
+          <xsd:attribute name="default" type="xsd:boolean"/>
+          <xsd:attribute name="calculated" type="xsd:string"/>
+          <xsd:attribute name="source" type="xsd:string"/>
+          <xsd:attribute name="derivedFrom" type="xsd:string"/>
+          <xsd:attribute name="factor" type="xsd:float"/>
+          <xsd:attribute name="addand" type="xsd:float"/>
+
           <xsd:attributeGroup ref="constantToSI">
             <xsd:annotation>
               <xsd:documentation>

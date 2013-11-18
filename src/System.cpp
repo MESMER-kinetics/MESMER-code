@@ -699,6 +699,7 @@ namespace mesmer
           PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
           ppList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
           ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
+          ppList->XmlWriteAttribute("bathGas", m_Env.bathGasName);
           ppList->XmlWriteAttribute("me:units", "s-1");
           qdMatrix mesmerRates(1);
           qdMatrix lossRates(1);
