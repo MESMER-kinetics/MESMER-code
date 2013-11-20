@@ -24,7 +24,7 @@ namespace mesmer
   {
   public:
 
-    SensitivityAnalysis(const char* id) : m_id(id), m_nVar(0), m_maxIterations(0), m_delta(0.0) { Register(); }
+    SensitivityAnalysis(const char* id) : m_id(id), m_nVar(0), m_maxIterations(0), m_delta(0) { Register(); }
 
     virtual ~SensitivityAnalysis() {}
     virtual const char* getID()  { return m_id; }

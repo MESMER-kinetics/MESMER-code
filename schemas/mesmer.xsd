@@ -176,6 +176,7 @@
                 </xs:simpleType>
               </xs:element>
               <xs:element name="fittingIterations" type="xs:integer" minOccurs="0"/>
+              <xs:element name="ForceMacroDetailedBalance" minOccurs="0"/>
               <xs:element name="hideInactive" minOccurs="0"/>
               <xs:element name="MaximumEvolutionTime" type="xs:float" minOccurs="0"/>
               <xs:element name="printCellDOS" minOccurs="0"/>

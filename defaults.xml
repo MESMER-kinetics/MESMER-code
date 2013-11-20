@@ -72,6 +72,6 @@
   <me:ConstraintAddand default="true">0.0</me:ConstraintAddand>
   <me:SensitivityAnalysisIterations>10</me:SensitivityAnalysisIterations>
   <me:SensitivityAnalysisDelta>2</me:SensitivityAnalysisDelta>
-  <me:chebNumConc units="particles per cubic centimeter"/>
+  <me:chebMinConc units="particles per cubic centimeter"/>
 </defaults>
 

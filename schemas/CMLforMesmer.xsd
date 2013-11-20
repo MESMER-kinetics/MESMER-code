@@ -1976,7 +1976,7 @@ Relaxed in MESMER to allow also<h:tt>)(</h:tt> because chemical formula are comm
       </xsd:documentation>
     </xsd:annotation>
     <xsd:restriction base="xsd:string">
-      <xsd:pattern value="[A-Za-z_][A-Za-z0-9_\-]*(:[A-Za-z0-9_\-]+)?"/>
+      <xsd:pattern value="[A-Za-z_][A-Za-z0-9_\(\)\-]*(:[A-Za-z0-9_\-]+)?"/>
     </xsd:restriction>
   </xsd:simpleType>
   <xsd:simpleType name="moleculeRefArrayType" id="st.moleculeRefArrayType">

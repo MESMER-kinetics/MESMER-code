@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Jan 23 2013 -- 11:11:32
+     Mesmer v3.0 compiled: -- May 11 2013 -- 17:08:48
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -35,6 +35,7 @@ In R1: Parsing reaction...
 In Int1: The default value of me:DistributionCalcMethod was used.
 In Int1: The default value of me:energyTransferModel was used.
 In Int1: The default value of me:deltaEDownTExponent was used.
+In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method requested for R1
 In R1: No crossing method requested for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
@@ -50,19 +51,19 @@ In R4: Parsing reaction...
 In R4: No tunneling method requested for R4
 In R4: No crossing method requested for R4
 All molecules are on the same energy basis: arbitary
-The default value of me:precision was used.
-200.72Torr, 298K at double precision
-Write metadata 20130210_112151
+The default value of precision (or one of its attributes) was used.
+200.72Torr, 298K at d precision with He
+Write metadata 20130511_184053
 
 File: "Acetyl_O2_association.xml" successfully parsed.
 Main Calculation begins
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 60 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-In FastLaplaceConvolution: 7460 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 7480 values in the FFT convolution routine were replaced by standard convolution
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 No population was assigned. Initialize the first source term to 1.0.
 Finish Calculation of P-T case
- -- Total time elapsed: 4 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml

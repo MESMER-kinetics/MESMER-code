@@ -1,3 +1,15 @@
+2013-November-19 Chris Morley
+
+	* examplesSchema/Methoxymethyl: Chebyshev.xml modified to be
+	  schema-friendly and added to examplesSchema.
+
+	* src/plugins/AnalyticalRepresentation.cpp, defaults.xml:
+	  Update parsing and get concentration units from an attribute on either
+	  concentration value or from defaults.xml.
+
+	* src/MesmerEnv.cpp, src/plugins/SensitivityAnalysis.cpp: remove 
+	  some minor compiler warnings.
+
 2013-November-18 Chris Morley
 
 	* mesmer1.xsl,src/System.cpp: make Firefox output report bath gas

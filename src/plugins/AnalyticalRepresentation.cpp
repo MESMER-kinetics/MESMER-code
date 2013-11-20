@@ -24,7 +24,7 @@ namespace mesmer
   {
   public:
 
-    AnalyticalRepresentation(const char* id) : FittingUtils(), 
+    AnalyticalRepresentation(const char* id) : FittingUtils(),
       m_id(id),
       m_format(),
       m_TMax(0.0),
@@ -124,13 +124,24 @@ namespace mesmer
     ...
     </me:control>
     */
-    //Read in fitting parameters, or use values from defaults.xml.
 
+    // Units can be an attribute on either <me:chebMaxConc> or <me:chebMinConc>;
+    // if on neither the units in defaults.xml are used.
+    PersistPtr pPUnits = pp->XmlMoveTo("me:chebMaxConc") ;
+    const char* txt = pPUnits->XmlReadValue("units", optional) ;
+    if(!txt)
+    {
+      pPUnits = pp->XmlMoveTo("me:chebMinConc") ;
+      txt = pPUnits->XmlReadValue("units") ; //or from defaults.xml
+    }
+    m_PUnits = string(txt) ;
+
+    //Read in fitting parameters, or use values from defaults.xml.
     m_NTpt = pp->XmlReadInteger("me:chebNumTemp");
     m_NCpt = pp->XmlReadInteger("me:chebNumConc");
-    PersistPtr pPUnits = pp->XmlMoveTo("me:chebNumConc") ;
-    const char* txt = pPUnits->XmlReadValue("me:units") ;
-    m_PUnits = string(txt) ; 
+    //pPUnits = pp->XmlMoveTo("me:chebNumConc") ;
+    //const char* txt = pPUnits->XmlReadValue("me:units") ;
+    //m_PUnits = string(txt) ; 
 
     m_TMax = pp->XmlReadDouble("me:chebMaxTemp");
     m_TMin = pp->XmlReadDouble("me:chebMinTemp");
