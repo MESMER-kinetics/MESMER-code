@@ -1,3 +1,8 @@
+2013-Nov-10 Struan Robertson
+
+	* HinderedRotorQM1D.cpp, UnitTests.cpp, UnitTests.xml: MEIC test 
+	for hindered rotors added.
+
 2013-November-19 Chris Morley
 
 	* examplesSchema/Methoxymethyl: Chebyshev.xml modified to be

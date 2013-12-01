@@ -72,6 +72,8 @@ namespace mesmer
 
     bool Test_MEIC_Rotors(Molecule *pMol) const ;
 
+    bool Test_MEIC_HinderedRotor(Molecule *pMol) const ;
+
     // Support methods:
 
     bool Test_MEIC_formGrainSOS(vector<double> &cellDOS) const ;
@@ -143,7 +145,10 @@ namespace mesmer
     pMol = pSys->getMoleculeManager()->find("AcO2_Asymmetric_Top");
     if(!pMol)
       pMol = pSys->getMoleculeManager()->find("AcO2 Asymmetric Top");
-    status = ( status && Test_MEIC_Rotors(pMol)) ;	
+    status = ( status && Test_MEIC_Rotors(pMol)) ;
+
+    pMol = pSys->getMoleculeManager()->find("Ethane");
+    status = ( status && Test_MEIC_HinderedRotor(pMol)) ;
 
     // Execute QD tests for extended precision.
 
@@ -601,9 +606,35 @@ namespace mesmer
 
   }
 
+  bool UnitTests::Test_MEIC_HinderedRotor(Molecule *pMol) const {
 
+    bool status(true) ; 
 
+    ctest << endl ;
+    underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Hindered Rotor only.") ) ;
 
+    ctest << endl ;
+    ctest << "  State values should be compared with:" << endl ;
+    ctest << "  Waage & Rabinovitch, IJCK, 3, 105 (1971)" << endl ;
+    ctest << endl ;
+	
+    DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("HinderedRotorQM1D");
+
+    // Calculate internal rotational densities of states.
+
+    size_t MaximumCell(50000) ;
+    vector<double> cellDOS(MaximumCell, 0.0) ;
+	cellDOS[0] = 1.0 ;
+    pMol->getDOS().setCellDensityOfStates(cellDOS) ;
+
+    PersistPtr ppMol = pMol->get_PersistentPointer() ;
+	ppMol = ppMol->XmlMoveTo("me:ExtraDOSCMethod") ;
+    status = status && pDOSCalculator->ReadParameters(&(pMol->getDOS()), ppMol) ;
+    status = status && pDOSCalculator->countCellDOS(&(pMol->getDOS()), MaximumCell) ;
+
+    return status ;
+
+  }
 
   // Support methods.
   //----------------------------------------------------------

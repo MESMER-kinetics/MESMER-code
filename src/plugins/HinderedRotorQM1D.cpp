@@ -49,7 +49,8 @@ namespace mesmer
       m_expansion(4),
       m_energyLevels(),
       m_plotStates(false),
-      m_useSinTerms(false)  
+	  m_writeStates(false),
+      m_useSinTerms(false)
     { Register(); }
 
     virtual ~HinderedRotorQM1D() {}
@@ -63,7 +64,10 @@ namespace mesmer
     void FourierCoeffs(vector<double> &angle, vector<double> &potential) ;
 
     // Provide data for plotting states against potential.
-    void outputPlotData() ;
+    void outputPlotData() const ;
+
+    // Print the hindered rotor states.
+    void outputStateData() const ;
 
     std::string m_bondID;
 
@@ -78,6 +82,7 @@ namespace mesmer
     vector<double> m_energyLevels ;	     // The energies of the hindered rotor states.
 
     bool m_plotStates ;                  // If true output data for plotting. 
+    bool m_writeStates ;                 // If true energy levels written to output. 
 
     bool m_useSinTerms ;                 // If true sine terms are used in the representation of the potential.
   } ;
@@ -270,12 +275,19 @@ namespace mesmer
       m_plotStates = true ;
     }
 
+    // Check if is energy level values are to be written.
+
+    pp = ppDOSC->XmlMoveTo("me:WriteStates") ;
+    if (pp) {
+      m_writeStates = true ;
+    }
+
     return true;
   }
 
   //
-  // Calculate quantum mechanical 1D rotor densities of states of a free 
-  // rotor and convolve them with the main density of states.
+  // Calculate quantum mechanical 1D rotor densities of states of an 
+  // internal rotor and convolve them with the main density of states.
   //
   bool HinderedRotorQM1D::countCellDOS(gDensityOfStates* pDOS, size_t MaximumCell)
   {
@@ -403,6 +415,10 @@ namespace mesmer
     if (m_plotStates) 
       outputPlotData() ;
 
+    // If required, created graphical date.
+    if (m_writeStates) 
+      outputStateData() ;
+
     return true;
 
   }
@@ -494,7 +510,7 @@ namespace mesmer
   }
 
   // Provide data for plotting states against potential.
-  void HinderedRotorQM1D::outputPlotData() {
+  void HinderedRotorQM1D::outputPlotData() const {
 
     ctest << endl << "Hindered rotor data for plotting." << endl << endl ;
     int npoints(500) ;
@@ -517,6 +533,16 @@ namespace mesmer
       ctest << endl ;
     }
 
+  }
+
+  // Print the hindered rotor states.
+  void HinderedRotorQM1D::outputStateData() const {
+
+    ctest << endl << "Hindered rotor states (cm-1)." << endl << endl ;
+    for (size_t i(0); i < m_energyLevels.size() ; i++) {
+      ctest << formatFloat(m_energyLevels[i], 6, 15) << endl ;
+    }
+    ctest << endl ;
   }
 
 }//namespace
