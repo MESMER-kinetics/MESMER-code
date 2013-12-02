@@ -394,6 +394,7 @@ examples/Examples.sh -text
 examples/H2Ominimal/H2Ominimal.xml -text
 examples/MesmerTemplate.text -text
 examples/Methoxymethyl/Chebyshev.xml -text
+examples/Methoxymethyl/baselines/Linux64/Chebyshev.test -text
 examples/Methoxymethyl/baselines/Linux64/mesmer.log -text
 examples/Methoxymethyl/baselines/Linux64/mesmer.test -text
 examples/Methoxymethyl/baselines/Win32/Chebyshev.log -text

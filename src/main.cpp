@@ -446,7 +446,7 @@ bool QACompare(string infilename, bool NOptionUsed)
   //Access the baseline file
   infilename.append(TestFolder).append(filename);
   ifstream QAfile(infilename.c_str());
-  ifstream CurrentTest(filename);
+  ifstream CurrentTest(filename.c_str());
   if(!QAfile || !CurrentTest)
   {
     cerr << "Cannot open " << infilename << " or " << filename << endl;
