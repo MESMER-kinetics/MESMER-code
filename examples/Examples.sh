@@ -87,6 +87,14 @@ if [ "$1" == "-o" ]; then
 fi
 cd ..
 
+cd benzene_oxidation
+$executable benzene_oxidation_test.xml -o $outf $directive
+cp ./$tfn ./$bline$otfn
+if [ "$1" == "-o" ] ; then
+  cp ./$lfn ./$bline$lfn 
+fi
+cd ..
+
 cd Butyl_H_to_Butane
 $executable Butyl_H_to_Butane.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
@@ -166,15 +174,6 @@ $executable OH_HCCH-irreversibleBim-publish.xml -o $outf $directive
 cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
-fi
-cd ..
-
-cd "Methoxymethyl"
-testName=Chebyshev
-$executable -N $testName.xml
-cp ./$testName.test ./$bline$testName.test
-if [ "$1" == "-o" ] ; then
-  cp ./$testName.log ./$bline$testName.log
 fi
 cd ..
 

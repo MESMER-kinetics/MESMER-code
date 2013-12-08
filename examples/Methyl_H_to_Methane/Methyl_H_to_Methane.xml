@@ -278,9 +278,10 @@
   </me:modelParameters>
 
   <me:control>
-    <me:calcMethod>fitting</me:calcMethod>
-    <!--<me:fittingTolerance>0.1</me:fittingTolerance>-->
-    <me:fittingIterations>5</me:fittingIterations>
+    <me:calcMethod xsi:type="me:fitting">
+      <!--<me:fittingTolerance>0.1</me:fittingTolerance>-->
+      <me:fittingIterations>5</me:fittingIterations>
+    </me:calcMethod>
     <me:testDOS />
     <me:eigenvalues>5</me:eigenvalues>
   </me:control>

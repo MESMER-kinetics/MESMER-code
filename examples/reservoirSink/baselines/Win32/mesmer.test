@@ -899,11 +899,10 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 2
 
 There should be 3 chemically significant eigenvalues (CSEs)
-
 Y_matrix:
 {
-  5.760802e-006  2.472442e-008  8.611874e-010
-  5.079759e-010 -4.478180e-021  2.606428e-019
+        5.760802e-06        2.472442e-08        8.611874e-10
+        5.079759e-10       -4.478180e-21        2.606428e-19
 }
 
 Z_matrix: {
@@ -935,8 +934,8 @@ Kr matrix:
 
 Kp matrix:
 {
-  9.994752e+003  4.713811e-013  6.442665e-007
-  8.813171e-001  5.897950e-021  2.675359e-021
+        9.994752e+03        4.713811e-13        6.442665e-07
+        8.813171e-01        5.897950e-21        2.675359e-21
 }
 
 First order & pseudo first order rate coefficients for loss rxns:

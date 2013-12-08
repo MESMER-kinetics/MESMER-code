@@ -11,7 +11,7 @@
         <scalar units="kJmol-1">165</scalar>
       </property>
     </molecule>
-    <molecule id="SO2" me:type="modelled">
+    <molecule id="SO2" role="modelled">
       <atomArray>
         <atom id="a1" elementType="O"/>
         <atom id="a2" elementType="S"/>
@@ -33,7 +33,7 @@
         </array>
       </property>
     </molecule>
-    <molecule id="HSO2" me:type="modelled">
+    <molecule id="HSO2" role="modelled">
       <atomArray>
         <atom id="a1" elementType="S"/>
         <atom id="a2" elementType="H"/>
@@ -57,7 +57,7 @@
         </array>
       </property>
     </molecule>
-    <molecule id="HOSO" me:type="modelled">
+    <molecule id="HOSO" role="modelled">
       <atomArray>
         <atom id="a1" elementType="O"/>
         <atom id="a2" elementType="H"/>
@@ -101,7 +101,7 @@
         </array>
       </property>
     </molecule>
-    <molecule id="SO" me:type="modelled">
+    <molecule id="SO" role="modelled">
       <atomArray>
         <atom id="a1" elementType="S"/>
         <atom id="a2" elementType="O"/>
@@ -121,7 +121,7 @@
         </array>
       </property>
     </molecule>
-    <molecule id="TS1" me:type="transitionState">
+    <molecule id="TS1" role="transitionState">
       <atomArray>
         <atom id="a1" elementType="S"/>
         <atom id="a2" elementType="H"/>
@@ -145,7 +145,7 @@
         </array>
       </property>
     </molecule>
-    <molecule id="TS2" me:type="transitionState">
+    <molecule id="TS2" role="transitionState">
       <atomArray>
         <atom id="a1" elementType="O"/>
         <atom id="a2" elementType="H"/>
@@ -169,7 +169,7 @@
         </array>
       </property>
     </molecule>
-    <molecule id="TS4" me:type="transitionState">
+    <molecule id="TS4" role="transitionState">
       <atomArray>
         <atom id="a1" elementType="O"/>
         <atom id="a2" elementType="H"/>
@@ -193,7 +193,7 @@
         </array>
       </property>
     </molecule>
-    <molecule id="TS6" me:type="transitionState">
+    <molecule id="TS6" role="transitionState">
       <atomArray>
         <atom id="a1" elementType="O"/>
         <atom id="a2" elementType="H"/>

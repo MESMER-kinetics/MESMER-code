@@ -75,8 +75,144 @@
       </propertyList>
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
 
-      <me:IRCPotential units="kcal/mol" ReducedMass="0.679">
+    </molecule>
 
+    <molecule id="Cl2-H" description="R">
+      <atomArray>
+        <atom id="a2" elementType="H" />
+        <atom id="a3" elementType="H" />
+        <atom id="a4" elementType="H" />
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1" />
+        <bond atomRefs2="a2 a3" order="1" />
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <!--aritrary constants since the purpose of this input is to test tunneling transmission coefficients-->
+          <array units="cm-1">
+            4.235295302
+            0.811582793
+            0.783771765
+          </array>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <!--aritrary frequencies since the purpose of this input is to test tunneling transmission coefficients-->
+          <array units="cm-1">
+            100 110 120
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">3</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+    </molecule>
+
+
+
+    <molecule id="TS-Cl" description="R">
+      <atomArray>
+        <atom id="a2" elementType="H" />
+        <atom id="a3" elementType="H" />
+        <atom id="a4" elementType="H" />
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1" />
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">7.6</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <!--aritrary constants since the purpose of this input is to test tunneling transmission coefficients-->
+          <array units="cm-1">
+            4.235295302
+            0.811582793
+            0.783771765
+          </array>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <!--aritrary frequencies since the purpose of this input is to test tunneling transmission coefficients-->
+          <array units="cm-1">
+            100 100
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">3</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+    </molecule>
+    
+    <molecule id="ProdCl2-H" description="R">
+      <atomArray>
+        <atom id="a2" elementType="H" />
+        <atom id="a3" elementType="H" />
+        <atom id="a4" elementType="H" />
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1" />
+        <bond atomRefs2="a2 a3" order="1" />
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kcal/mol">3.01</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <!--aritrary constants since the purpose of this input is to test tunneling transmission coefficients-->
+          <array units="cm-1">
+            4.235295302
+            0.811582793
+            0.783771765
+          </array>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <!--aritrary frequencies since the purpose of this input is to test tunneling transmission coefficients-->
+          <array units="cm-1">
+            100 110 120
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">3</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+    </molecule>
+
+
+
+    <molecule id="N_2">
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>48.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.90</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">28.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+  </moleculeList>
+
+  <reactionList>
+    <reaction id="R1">
+      <reactant>
+        <molecule ref="H2-H" role="modelled" />
+      </reactant>
+      <product>
+        <molecule ref="H2-H" role="sink" />
+      </product>
+      <me:transitionState>
+        <molecule ref="TS-H" role="transitionState" />
+      </me:transitionState>
+      <me:tunneling xsi:type="me:WKB">
+        <me:IRCPotential units="kcal/mol" ReducedMass="0.679">
         <me:PotentialPoint	ReacCoord=	"	-1.30E-10	"	potential=	"	2.23E-01	"	/>
         <me:PotentialPoint	ReacCoord=	"	-1.29E-10	"	potential=	"	2.32E-01	"	/>
         <me:PotentialPoint	ReacCoord=	"	-1.28E-10	"	potential=	"	2.41E-01	"	/>
@@ -452,341 +588,7 @@
         <me:PotentialPoint	ReacCoord=	"	2.42E-10	"	potential=	"	2.65E-03	"	/>
         <me:PotentialPoint	ReacCoord=	"	2.43E-10	"	potential=	"	2.54E-03	"	/>
       </me:IRCPotential>
-    </molecule>
-
-    <molecule id="Cl2-H" description="R">
-      <atomArray>
-        <atom id="a2" elementType="H" />
-        <atom id="a3" elementType="H" />
-        <atom id="a4" elementType="H" />
-      </atomArray>
-      <bondArray>
-        <bond atomRefs2="a1 a2" order="1" />
-        <bond atomRefs2="a2 a3" order="1" />
-      </bondArray>
-      <propertyList>
-        <property dictRef="me:ZPE">
-          <scalar units="kcal/mol">0</scalar>
-        </property>
-        <property dictRef="me:rotConsts">
-          <!--aritrary constants since the purpose of this input is to test tunneling transmission coefficients-->
-          <array units="cm-1">
-            4.235295302
-            0.811582793
-            0.783771765
-          </array>
-        </property>
-        <property dictRef="me:vibFreqs">
-          <!--aritrary frequencies since the purpose of this input is to test tunneling transmission coefficients-->
-          <array units="cm-1">
-            100 110 120
-          </array>
-        </property>
-        <property dictRef="me:MW">
-          <scalar units="amu">3</scalar>
-        </property>
-      </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
-    </molecule>
-
-
-
-    <molecule id="TS-Cl" description="R">
-      <atomArray>
-        <atom id="a2" elementType="H" />
-        <atom id="a3" elementType="H" />
-        <atom id="a4" elementType="H" />
-      </atomArray>
-      <bondArray>
-        <bond atomRefs2="a1 a2" order="1" />
-      </bondArray>
-      <propertyList>
-        <property dictRef="me:ZPE">
-          <scalar units="kcal/mol">7.6</scalar>
-        </property>
-        <property dictRef="me:rotConsts">
-          <!--aritrary constants since the purpose of this input is to test tunneling transmission coefficients-->
-          <array units="cm-1">
-            4.235295302
-            0.811582793
-            0.783771765
-          </array>
-        </property>
-        <property dictRef="me:vibFreqs">
-          <!--aritrary frequencies since the purpose of this input is to test tunneling transmission coefficients-->
-          <array units="cm-1">
-            100 100
-          </array>
-        </property>
-        <property dictRef="me:MW">
-          <scalar units="amu">3</scalar>
-        </property>
-      </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
-
-      <me:IRCPotential units="kcal/mol" ReducedMass="1.906">
-
-        <me:PotentialPoint	ReacCoord=	"	-1.30E-10	"	potential=	"	1.66E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.29E-10	"	potential=	"	1.83E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.28E-10	"	potential=	"	2.01E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.27E-10	"	potential=	"	2.20E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.26E-10	"	potential=	"	2.42E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.25E-10	"	potential=	"	2.66E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.24E-10	"	potential=	"	2.93E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.23E-10	"	potential=	"	3.21E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.22E-10	"	potential=	"	3.53E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.21E-10	"	potential=	"	3.88E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.20E-10	"	potential=	"	4.27E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.19E-10	"	potential=	"	4.69E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.18E-10	"	potential=	"	5.15E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.17E-10	"	potential=	"	5.66E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.16E-10	"	potential=	"	6.22E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.15E-10	"	potential=	"	6.83E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.14E-10	"	potential=	"	7.51E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.13E-10	"	potential=	"	8.25E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.12E-10	"	potential=	"	9.07E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.11E-10	"	potential=	"	9.97E-04	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.10E-10	"	potential=	"	1.10E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.09E-10	"	potential=	"	1.20E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.08E-10	"	potential=	"	1.32E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.07E-10	"	potential=	"	1.45E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.06E-10	"	potential=	"	1.60E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.05E-10	"	potential=	"	1.75E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.04E-10	"	potential=	"	1.93E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.03E-10	"	potential=	"	2.12E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.02E-10	"	potential=	"	2.33E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.01E-10	"	potential=	"	2.56E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.00E-10	"	potential=	"	2.81E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-9.90E-11	"	potential=	"	3.09E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-9.80E-11	"	potential=	"	3.39E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-9.70E-11	"	potential=	"	3.73E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-9.60E-11	"	potential=	"	4.10E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-9.50E-11	"	potential=	"	4.50E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-9.40E-11	"	potential=	"	4.95E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-9.30E-11	"	potential=	"	5.44E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-9.20E-11	"	potential=	"	5.98E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-9.10E-11	"	potential=	"	6.57E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-9.00E-11	"	potential=	"	7.22E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-8.90E-11	"	potential=	"	7.93E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-8.80E-11	"	potential=	"	8.71E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-8.70E-11	"	potential=	"	9.57E-03	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-8.60E-11	"	potential=	"	1.05E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-8.50E-11	"	potential=	"	1.16E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-8.40E-11	"	potential=	"	1.27E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-8.30E-11	"	potential=	"	1.40E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-8.20E-11	"	potential=	"	1.53E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-8.10E-11	"	potential=	"	1.69E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-8.00E-11	"	potential=	"	1.85E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-7.90E-11	"	potential=	"	2.03E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-7.80E-11	"	potential=	"	2.24E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-7.70E-11	"	potential=	"	2.46E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-7.60E-11	"	potential=	"	2.70E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-7.50E-11	"	potential=	"	2.96E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-7.40E-11	"	potential=	"	3.26E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-7.30E-11	"	potential=	"	3.58E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-7.20E-11	"	potential=	"	3.93E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-7.10E-11	"	potential=	"	4.32E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-7.00E-11	"	potential=	"	4.74E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-6.90E-11	"	potential=	"	5.21E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-6.80E-11	"	potential=	"	5.73E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-6.70E-11	"	potential=	"	6.29E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-6.60E-11	"	potential=	"	6.91E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-6.50E-11	"	potential=	"	7.59E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-6.40E-11	"	potential=	"	8.33E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-6.30E-11	"	potential=	"	9.15E-02	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-6.20E-11	"	potential=	"	1.01E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-6.10E-11	"	potential=	"	1.10E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-6.00E-11	"	potential=	"	1.21E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-5.90E-11	"	potential=	"	1.33E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-5.80E-11	"	potential=	"	1.46E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-5.70E-11	"	potential=	"	1.60E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-5.60E-11	"	potential=	"	1.76E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-5.50E-11	"	potential=	"	1.93E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-5.40E-11	"	potential=	"	2.12E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-5.30E-11	"	potential=	"	2.33E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-5.20E-11	"	potential=	"	2.55E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-5.10E-11	"	potential=	"	2.80E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-5.00E-11	"	potential=	"	3.07E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-4.90E-11	"	potential=	"	3.37E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-4.80E-11	"	potential=	"	3.69E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-4.70E-11	"	potential=	"	4.05E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-4.60E-11	"	potential=	"	4.43E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-4.50E-11	"	potential=	"	4.86E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-4.40E-11	"	potential=	"	5.32E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-4.30E-11	"	potential=	"	5.83E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-4.20E-11	"	potential=	"	6.38E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-4.10E-11	"	potential=	"	6.97E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-4.00E-11	"	potential=	"	7.63E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-3.90E-11	"	potential=	"	8.34E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-3.80E-11	"	potential=	"	9.11E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-3.70E-11	"	potential=	"	9.94E-01	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-3.60E-11	"	potential=	"	1.09E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-3.50E-11	"	potential=	"	1.18E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-3.40E-11	"	potential=	"	1.29E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-3.30E-11	"	potential=	"	1.40E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-3.20E-11	"	potential=	"	1.53E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-3.10E-11	"	potential=	"	1.66E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-3.00E-11	"	potential=	"	1.80E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-2.90E-11	"	potential=	"	1.96E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-2.80E-11	"	potential=	"	2.12E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-2.70E-11	"	potential=	"	2.29E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-2.60E-11	"	potential=	"	2.48E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-2.50E-11	"	potential=	"	2.67E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-2.40E-11	"	potential=	"	2.88E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-2.30E-11	"	potential=	"	3.09E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-2.20E-11	"	potential=	"	3.32E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-2.10E-11	"	potential=	"	3.56E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-2.00E-11	"	potential=	"	3.80E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.90E-11	"	potential=	"	4.06E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.80E-11	"	potential=	"	4.31E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.70E-11	"	potential=	"	4.58E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.60E-11	"	potential=	"	4.85E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.50E-11	"	potential=	"	5.12E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.40E-11	"	potential=	"	5.38E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.30E-11	"	potential=	"	5.65E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.20E-11	"	potential=	"	5.91E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.10E-11	"	potential=	"	6.16E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.00E-11	"	potential=	"	6.40E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-9.00E-12	"	potential=	"	6.62E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-8.00E-12	"	potential=	"	6.83E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-7.00E-12	"	potential=	"	7.02E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-6.00E-12	"	potential=	"	7.19E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-5.00E-12	"	potential=	"	7.34E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-4.00E-12	"	potential=	"	7.46E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-3.00E-12	"	potential=	"	7.55E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-2.00E-12	"	potential=	"	7.62E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	-1.00E-12	"	potential=	"	7.66E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	0.00E+00	"	potential=	"	7.67E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	1.00E-12	"	potential=	"	7.66E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	2.00E-12	"	potential=	"	7.62E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	3.00E-12	"	potential=	"	7.56E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	4.00E-12	"	potential=	"	7.47E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	5.00E-12	"	potential=	"	7.37E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	6.00E-12	"	potential=	"	7.25E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	7.00E-12	"	potential=	"	7.12E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	8.00E-12	"	potential=	"	6.97E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	9.00E-12	"	potential=	"	6.81E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	1.00E-11	"	potential=	"	6.65E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	1.10E-11	"	potential=	"	6.48E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	1.20E-11	"	potential=	"	6.30E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	1.30E-11	"	potential=	"	6.13E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	1.40E-11	"	potential=	"	5.96E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	1.50E-11	"	potential=	"	5.78E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	1.60E-11	"	potential=	"	5.61E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	1.70E-11	"	potential=	"	5.45E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	1.80E-11	"	potential=	"	5.29E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	1.90E-11	"	potential=	"	5.14E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	2.00E-11	"	potential=	"	4.99E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	2.10E-11	"	potential=	"	4.85E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	2.20E-11	"	potential=	"	4.71E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	2.30E-11	"	potential=	"	4.59E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	2.40E-11	"	potential=	"	4.47E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	2.50E-11	"	potential=	"	4.36E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	2.60E-11	"	potential=	"	4.25E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	2.70E-11	"	potential=	"	4.15E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	2.80E-11	"	potential=	"	4.06E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	2.90E-11	"	potential=	"	3.98E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	3.00E-11	"	potential=	"	3.90E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	3.10E-11	"	potential=	"	3.83E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	3.20E-11	"	potential=	"	3.76E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	3.30E-11	"	potential=	"	3.70E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	3.40E-11	"	potential=	"	3.64E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	3.50E-11	"	potential=	"	3.59E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	3.60E-11	"	potential=	"	3.54E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	3.70E-11	"	potential=	"	3.49E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	3.80E-11	"	potential=	"	3.45E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	3.90E-11	"	potential=	"	3.41E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	4.00E-11	"	potential=	"	3.38E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	4.10E-11	"	potential=	"	3.35E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	4.20E-11	"	potential=	"	3.32E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	4.30E-11	"	potential=	"	3.29E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	4.40E-11	"	potential=	"	3.26E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	4.50E-11	"	potential=	"	3.24E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	4.60E-11	"	potential=	"	3.22E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	4.70E-11	"	potential=	"	3.20E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	4.80E-11	"	potential=	"	3.19E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	4.90E-11	"	potential=	"	3.17E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	5.00E-11	"	potential=	"	3.16E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	5.10E-11	"	potential=	"	3.14E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	5.20E-11	"	potential=	"	3.13E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	5.30E-11	"	potential=	"	3.12E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	5.40E-11	"	potential=	"	3.11E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	5.50E-11	"	potential=	"	3.10E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	5.60E-11	"	potential=	"	3.09E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	5.70E-11	"	potential=	"	3.09E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	5.80E-11	"	potential=	"	3.08E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	5.90E-11	"	potential=	"	3.07E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	6.00E-11	"	potential=	"	3.07E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	6.10E-11	"	potential=	"	3.06E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	6.20E-11	"	potential=	"	3.06E+00	"	/>
-        <me:PotentialPoint	ReacCoord=	"	6.30E-11	"	potential=	"	3.05E+00	"	/>
-
-      </me:IRCPotential>
-    </molecule>
-    <molecule id="ProdCl2-H" description="R">
-      <atomArray>
-        <atom id="a2" elementType="H" />
-        <atom id="a3" elementType="H" />
-        <atom id="a4" elementType="H" />
-      </atomArray>
-      <bondArray>
-        <bond atomRefs2="a1 a2" order="1" />
-        <bond atomRefs2="a2 a3" order="1" />
-      </bondArray>
-      <propertyList>
-        <property dictRef="me:ZPE">
-          <scalar units="kcal/mol">3.01</scalar>
-        </property>
-        <property dictRef="me:rotConsts">
-          <!--aritrary constants since the purpose of this input is to test tunneling transmission coefficients-->
-          <array units="cm-1">
-            4.235295302
-            0.811582793
-            0.783771765
-          </array>
-        </property>
-        <property dictRef="me:vibFreqs">
-          <!--aritrary frequencies since the purpose of this input is to test tunneling transmission coefficients-->
-          <array units="cm-1">
-            100 110 120
-          </array>
-        </property>
-        <property dictRef="me:MW">
-          <scalar units="amu">3</scalar>
-        </property>
-      </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
-    </molecule>
-
-
-
-    <molecule id="N_2">
-      <propertyList>
-        <property dictRef="me:epsilon">
-          <scalar>48.0</scalar>
-        </property>
-        <property dictRef="me:sigma">
-          <scalar>3.90</scalar>
-        </property>
-        <property dictRef="me:MW">
-          <scalar units="amu">28.0</scalar>
-        </property>
-      </propertyList>
-    </molecule>
-  </moleculeList>
-
-  <reactionList>
-    <reaction id="R1">
-      <reactant>
-        <molecule ref="H2-H" role="modelled" />
-      </reactant>
-      <product>
-        <molecule ref="H2-H" role="sink" />
-      </product>
-      <me:transitionState>
-        <molecule ref="TS-H" role="transitionState" />
-      </me:transitionState>
-      <me:tunneling>WKB</me:tunneling>
+      </me:tunneling>
       <me:MCRCMethod name="SimpleRRKM"/>
     </reaction>
     <reaction id="R2">
@@ -799,7 +601,204 @@
       <me:transitionState>
         <molecule ref="TS-Cl" role="transitionState" />
       </me:transitionState>
-      <me:tunneling>WKB</me:tunneling>
+      <me:tunneling xsi:type="me:WKB">
+        <me:IRCPotential units="kcal/mol" ReducedMass="1.906">
+          <me:PotentialPoint	ReacCoord=	"	-1.30E-10	"	potential=	"	1.66E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.29E-10	"	potential=	"	1.83E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.28E-10	"	potential=	"	2.01E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.27E-10	"	potential=	"	2.20E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.26E-10	"	potential=	"	2.42E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.25E-10	"	potential=	"	2.66E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.24E-10	"	potential=	"	2.93E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.23E-10	"	potential=	"	3.21E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.22E-10	"	potential=	"	3.53E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.21E-10	"	potential=	"	3.88E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.20E-10	"	potential=	"	4.27E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.19E-10	"	potential=	"	4.69E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.18E-10	"	potential=	"	5.15E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.17E-10	"	potential=	"	5.66E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.16E-10	"	potential=	"	6.22E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.15E-10	"	potential=	"	6.83E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.14E-10	"	potential=	"	7.51E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.13E-10	"	potential=	"	8.25E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.12E-10	"	potential=	"	9.07E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.11E-10	"	potential=	"	9.97E-04	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.10E-10	"	potential=	"	1.10E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.09E-10	"	potential=	"	1.20E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.08E-10	"	potential=	"	1.32E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.07E-10	"	potential=	"	1.45E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.06E-10	"	potential=	"	1.60E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.05E-10	"	potential=	"	1.75E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.04E-10	"	potential=	"	1.93E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.03E-10	"	potential=	"	2.12E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.02E-10	"	potential=	"	2.33E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.01E-10	"	potential=	"	2.56E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.00E-10	"	potential=	"	2.81E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-9.90E-11	"	potential=	"	3.09E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-9.80E-11	"	potential=	"	3.39E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-9.70E-11	"	potential=	"	3.73E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-9.60E-11	"	potential=	"	4.10E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-9.50E-11	"	potential=	"	4.50E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-9.40E-11	"	potential=	"	4.95E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-9.30E-11	"	potential=	"	5.44E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-9.20E-11	"	potential=	"	5.98E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-9.10E-11	"	potential=	"	6.57E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-9.00E-11	"	potential=	"	7.22E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-8.90E-11	"	potential=	"	7.93E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-8.80E-11	"	potential=	"	8.71E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-8.70E-11	"	potential=	"	9.57E-03	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-8.60E-11	"	potential=	"	1.05E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-8.50E-11	"	potential=	"	1.16E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-8.40E-11	"	potential=	"	1.27E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-8.30E-11	"	potential=	"	1.40E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-8.20E-11	"	potential=	"	1.53E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-8.10E-11	"	potential=	"	1.69E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-8.00E-11	"	potential=	"	1.85E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-7.90E-11	"	potential=	"	2.03E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-7.80E-11	"	potential=	"	2.24E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-7.70E-11	"	potential=	"	2.46E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-7.60E-11	"	potential=	"	2.70E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-7.50E-11	"	potential=	"	2.96E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-7.40E-11	"	potential=	"	3.26E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-7.30E-11	"	potential=	"	3.58E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-7.20E-11	"	potential=	"	3.93E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-7.10E-11	"	potential=	"	4.32E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-7.00E-11	"	potential=	"	4.74E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-6.90E-11	"	potential=	"	5.21E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-6.80E-11	"	potential=	"	5.73E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-6.70E-11	"	potential=	"	6.29E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-6.60E-11	"	potential=	"	6.91E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-6.50E-11	"	potential=	"	7.59E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-6.40E-11	"	potential=	"	8.33E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-6.30E-11	"	potential=	"	9.15E-02	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-6.20E-11	"	potential=	"	1.01E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-6.10E-11	"	potential=	"	1.10E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-6.00E-11	"	potential=	"	1.21E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-5.90E-11	"	potential=	"	1.33E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-5.80E-11	"	potential=	"	1.46E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-5.70E-11	"	potential=	"	1.60E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-5.60E-11	"	potential=	"	1.76E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-5.50E-11	"	potential=	"	1.93E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-5.40E-11	"	potential=	"	2.12E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-5.30E-11	"	potential=	"	2.33E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-5.20E-11	"	potential=	"	2.55E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-5.10E-11	"	potential=	"	2.80E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-5.00E-11	"	potential=	"	3.07E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-4.90E-11	"	potential=	"	3.37E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-4.80E-11	"	potential=	"	3.69E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-4.70E-11	"	potential=	"	4.05E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-4.60E-11	"	potential=	"	4.43E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-4.50E-11	"	potential=	"	4.86E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-4.40E-11	"	potential=	"	5.32E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-4.30E-11	"	potential=	"	5.83E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-4.20E-11	"	potential=	"	6.38E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-4.10E-11	"	potential=	"	6.97E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-4.00E-11	"	potential=	"	7.63E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-3.90E-11	"	potential=	"	8.34E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-3.80E-11	"	potential=	"	9.11E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-3.70E-11	"	potential=	"	9.94E-01	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-3.60E-11	"	potential=	"	1.09E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-3.50E-11	"	potential=	"	1.18E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-3.40E-11	"	potential=	"	1.29E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-3.30E-11	"	potential=	"	1.40E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-3.20E-11	"	potential=	"	1.53E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-3.10E-11	"	potential=	"	1.66E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-3.00E-11	"	potential=	"	1.80E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-2.90E-11	"	potential=	"	1.96E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-2.80E-11	"	potential=	"	2.12E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-2.70E-11	"	potential=	"	2.29E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-2.60E-11	"	potential=	"	2.48E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-2.50E-11	"	potential=	"	2.67E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-2.40E-11	"	potential=	"	2.88E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-2.30E-11	"	potential=	"	3.09E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-2.20E-11	"	potential=	"	3.32E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-2.10E-11	"	potential=	"	3.56E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-2.00E-11	"	potential=	"	3.80E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.90E-11	"	potential=	"	4.06E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.80E-11	"	potential=	"	4.31E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.70E-11	"	potential=	"	4.58E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.60E-11	"	potential=	"	4.85E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.50E-11	"	potential=	"	5.12E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.40E-11	"	potential=	"	5.38E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.30E-11	"	potential=	"	5.65E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.20E-11	"	potential=	"	5.91E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.10E-11	"	potential=	"	6.16E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.00E-11	"	potential=	"	6.40E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-9.00E-12	"	potential=	"	6.62E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-8.00E-12	"	potential=	"	6.83E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-7.00E-12	"	potential=	"	7.02E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-6.00E-12	"	potential=	"	7.19E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-5.00E-12	"	potential=	"	7.34E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-4.00E-12	"	potential=	"	7.46E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-3.00E-12	"	potential=	"	7.55E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-2.00E-12	"	potential=	"	7.62E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	-1.00E-12	"	potential=	"	7.66E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	0.00E+00	"	potential=	"	7.67E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	1.00E-12	"	potential=	"	7.66E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	2.00E-12	"	potential=	"	7.62E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	3.00E-12	"	potential=	"	7.56E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	4.00E-12	"	potential=	"	7.47E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	5.00E-12	"	potential=	"	7.37E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	6.00E-12	"	potential=	"	7.25E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	7.00E-12	"	potential=	"	7.12E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	8.00E-12	"	potential=	"	6.97E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	9.00E-12	"	potential=	"	6.81E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	1.00E-11	"	potential=	"	6.65E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	1.10E-11	"	potential=	"	6.48E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	1.20E-11	"	potential=	"	6.30E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	1.30E-11	"	potential=	"	6.13E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	1.40E-11	"	potential=	"	5.96E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	1.50E-11	"	potential=	"	5.78E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	1.60E-11	"	potential=	"	5.61E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	1.70E-11	"	potential=	"	5.45E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	1.80E-11	"	potential=	"	5.29E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	1.90E-11	"	potential=	"	5.14E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	2.00E-11	"	potential=	"	4.99E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	2.10E-11	"	potential=	"	4.85E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	2.20E-11	"	potential=	"	4.71E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	2.30E-11	"	potential=	"	4.59E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	2.40E-11	"	potential=	"	4.47E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	2.50E-11	"	potential=	"	4.36E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	2.60E-11	"	potential=	"	4.25E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	2.70E-11	"	potential=	"	4.15E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	2.80E-11	"	potential=	"	4.06E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	2.90E-11	"	potential=	"	3.98E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	3.00E-11	"	potential=	"	3.90E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	3.10E-11	"	potential=	"	3.83E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	3.20E-11	"	potential=	"	3.76E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	3.30E-11	"	potential=	"	3.70E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	3.40E-11	"	potential=	"	3.64E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	3.50E-11	"	potential=	"	3.59E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	3.60E-11	"	potential=	"	3.54E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	3.70E-11	"	potential=	"	3.49E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	3.80E-11	"	potential=	"	3.45E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	3.90E-11	"	potential=	"	3.41E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	4.00E-11	"	potential=	"	3.38E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	4.10E-11	"	potential=	"	3.35E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	4.20E-11	"	potential=	"	3.32E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	4.30E-11	"	potential=	"	3.29E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	4.40E-11	"	potential=	"	3.26E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	4.50E-11	"	potential=	"	3.24E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	4.60E-11	"	potential=	"	3.22E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	4.70E-11	"	potential=	"	3.20E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	4.80E-11	"	potential=	"	3.19E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	4.90E-11	"	potential=	"	3.17E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	5.00E-11	"	potential=	"	3.16E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	5.10E-11	"	potential=	"	3.14E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	5.20E-11	"	potential=	"	3.13E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	5.30E-11	"	potential=	"	3.12E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	5.40E-11	"	potential=	"	3.11E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	5.50E-11	"	potential=	"	3.10E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	5.60E-11	"	potential=	"	3.09E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	5.70E-11	"	potential=	"	3.09E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	5.80E-11	"	potential=	"	3.08E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	5.90E-11	"	potential=	"	3.07E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	6.00E-11	"	potential=	"	3.07E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	6.10E-11	"	potential=	"	3.06E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	6.20E-11	"	potential=	"	3.06E+00	"	/>
+          <me:PotentialPoint	ReacCoord=	"	6.30E-11	"	potential=	"	3.05E+00	"	/>
+        </me:IRCPotential>
+      </me:tunneling>
       <me:MCRCMethod name="SimpleRRKM"/>
     </reaction>
   </reactionList>

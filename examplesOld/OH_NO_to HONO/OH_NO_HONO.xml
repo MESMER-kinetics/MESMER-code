@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <moleculeList>
+
+    <!--<molecule id="NO" description="NO radical">
+      <atomArray>
+        <atom id="a1" elementType="O"/>
+        <atom id="a2" elementType="N"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="2"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">90.54</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">1.67195</array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">1904</array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">30</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:eletronicExcitation">
+          <array units="cm-1">119.8</array>
+        </property>
+      </propertyList>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+
+    </molecule>-->
+    <!--<molecule id="OH" description="OH">
+      <atomArray>
+        <atom id="a1" elementType="O"/>
+        <atom id="a2" elementType="H"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">37.11</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">18.91</array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">3738.0</array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">17</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:eletronicExcitation">
+          <array units="cm-1">139.21</array>
+        </property>
+      </propertyList>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>-->
+
+    <!--</molecule>-->
+    <molecule id="HONO" description="HONO radical">
+      <atomArray>
+        <atom id="a1"  elementType="H" x3="1.7545" y3="-0.1823" z3=" 0.0000"/>
+        <atom id="a2"  elementType="O" x3="0.8942" y3="-0.6061" z3=" 0.0000"/>
+        <atom id="a3"  elementType="N" x3="0.000" y3="0.5252" z3="0.0000"/>
+        <atom id="a4"  elementType="O" x3="-1.1135" y3="0.1693" z3=" 0.0000"/>
+      </atomArray>
+      <bondArray>
+        <bond id="b1" atomRefs2="a1 a2" order="1"/>
+        <bond id="b2" atomRefs2="a2 a3" order="1"/>
+        <bond id="b3" atomRefs2="a3 a4" order="1"/>
+      </bondArray>
+
+      <propertyList>
+        <property title="Hf298">
+          <scalar>-72.8</scalar>
+        </property>
+        <!--<property dictRef="me:ZPE">
+          <scalar units="kJ/mol">-72.8</scalar>
+          --><!--scalar units="kcal/mol" lower="-35.8" upper="-28.0" stepsize="0.2">-30.6</scalar--><!--
+        </property>-->
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">3.09855 0.41778 0.36749</array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1.0</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <!--The two lowest frequencies, 91.9741 129.3783 188.3049, have been replaced by a hindered rotor.-->
+          <array units="cm-1">
+            3591 1700	1263 790 596
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">47</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>200</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>5.0</scalar>
+        </property>
+        <property dictRef="me:deltaEDown">
+          <scalar units="cm-1" lower="25" upper="250" stepsize="0.5" exponent="1.0">58</scalar>
+        </property>
+      </propertyList>
+      <!--me:reservoirSize units="kcal/mol">-2.0</me:reservoirSize> -->
+
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+
+
+      <!--Rotation about CH2-O bond.-->
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:bondRef>
+          b2
+        </me:bondRef>
+        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7">
+
+          <me:PotentialPoint	angle=	"0"	  potential=	"0"	/>
+          <me:PotentialPoint	angle=	"15"	potential=	"359.8"	/>
+          <me:PotentialPoint	angle=	"30"	potential=	"1307.46"	/>
+          <me:PotentialPoint	angle=	"45"	potential=	"2530.7"	/>
+          <me:PotentialPoint	angle=	"60"	potential=	"3674.96"	/>
+          <me:PotentialPoint	angle=	"75"	potential=	"4440.19"	/>
+          <me:PotentialPoint	angle=	"90"	potential=	"4653.42"	/>
+          <me:PotentialPoint	angle=	"105"	potential=	"4294.35"	/>
+          <me:PotentialPoint	angle=	"120"	potential=	"3474.91"	/>
+          <me:PotentialPoint	angle=	"135"	potential=	"2411.88"	/>
+          <me:PotentialPoint	angle=	"150"	potential=	"1380.23"	/>
+          <me:PotentialPoint	angle=	"165"	potential=	"640.26"	/>
+          <me:PotentialPoint	angle=	"180"	potential=	"372.33"	/>
+          <me:PotentialPoint	angle=	"195"	potential=	"640.26"	/>
+          <me:PotentialPoint	angle=	"210"	potential=	"1380.23"	/>
+          <me:PotentialPoint	angle=	"225"	potential=	"2411.88"	/>
+          <me:PotentialPoint	angle=	"240"	potential=	"3474.91"	/>
+          <me:PotentialPoint	angle=	"255"	potential=	"4294.35"	/>
+          <me:PotentialPoint	angle=	"270"	potential=	"4653.42"	/>
+          <me:PotentialPoint	angle=	"285"	potential=	"4440.19"	/>
+          <me:PotentialPoint	angle=	"300"	potential=	"3674.96"	/>
+          <me:PotentialPoint	angle=	"315"	potential=	"2530.7"	/>
+          <me:PotentialPoint	angle=	"330"	potential=	"1307.46"	/>
+          <me:PotentialPoint	angle=	"345"	potential=	"359.8"	/>
+          <me:PotentialPoint	angle=	"360"	potential=	"0"	/>
+
+
+        </me:HinderedRotorPotential>
+        <me:periodicity>1</me:periodicity>
+
+      </me:ExtraDOSCMethod>
+
+
+    </molecule>
+    <molecule id="N2">
+      <atomArray>
+        <atom id="a1" elementType="N"/>
+        <atom id="a2" elementType="N"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a2 a1" order="3"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>48.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.90</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">28.0</scalar>
+        </property>
+
+      </propertyList>
+    </molecule>
+
+    <molecule id="He">
+      <atom elementType="He"/>
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>10.2</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>2.55</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">4.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+
+
+  </moleculeList>
+
+  <reactionList>
+    <reaction id="R1">
+      <reactant>
+        <molecule ref="OH" me:type="deficientReactant"/>
+      </reactant>
+      <reactant>
+        <molecule ref="NO" me:type="excessReactant"/>
+      </reactant>
+      <product>
+        <molecule ref="HONO" me:type="modelled"/>
+      </product>
+      <me:excessReactantConc>1.0E16</me:excessReactantConc>
+      <me:MCRCMethod xsi:type ="me:MesmerILT">
+        <me:preExponential units="cm3molecule-1s-1" lower="0.9e-11" upper="9e-11" stepsize="1e-12">6.78e-11</me:preExponential>
+        <me:activationEnergy units="kJ/mol">0.0001</me:activationEnergy>
+        <me:nInfinity>0.08</me:nInfinity>
+        <me:TInfinity>298.0</me:TInfinity>
+      </me:MCRCMethod>
+    </reaction>
+
+
+  </reactionList>
+
+  <me:conditions>
+    <me:bathGas>He</me:bathGas>
+    <me:PTs>
+
+
+      <!--me:PTpair units="PPCC" P="3.0E21" T="250" precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="50000">350000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="2.8E21" T="250" precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="50000">350000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="2.4e21" T="250" precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="50000">340000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="2.1E21" T="250" precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="50000">330000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="2.0E21" T="250"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="50000">330000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.8E21" T="250"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="50000">340000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.5E21" T="250"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="50000">320000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.2E21" T="250" precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="50000">310000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.1E21" T="250" precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="50000">300000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="7.7e20" T="250" precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="50000">310000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="4.5E20" T="250" precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="40000">270000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="3.2E20" T="250"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="40000">260000</me:experimentalRate>
+      </me:PTpair>
+
+
+      <me:PTpair units="PPCC" P="2.7E21" T="400"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="40000">250000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="2.4E21" T="400"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="40000">240000</me:experimentalRate>
+      </me:PTpair>
+       <me:PTpair units="PPCC" P="1.8E21" T="400"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="40000">250000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.3E21" T="400"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="30000">230000</me:experimentalRate>
+      </me:PTpair>
+        <me:PTpair units="PPCC" P="8.3E20" T="400"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="30000">200000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="6.0E20" T="400"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="30000">190000</me:experimentalRate>
+      </me:PTpair>
+            <me:PTpair units="PPCC" P="3.9E20" T="400"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="30000">170000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="2.5E20" T="400"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="20000">160000</me:experimentalRate>
+      </me:PTpair>
+            <me:PTpair units="PPCC" P="1.6E20" T="400"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="20000">120000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="9.1E19" T="400"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="20000">100000</me:experimentalRate>
+      </me:PTpair-->
+
+
+
+      <me:PTpair units="PPCC" P="3.2E21" T="295"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="50000">310000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="2.3E21" T="295"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="40000">320000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.6E21" T="295"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="40000">290000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.2E21" T="295"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="40000">290000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="7.6E20" T="295"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="40000">290000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="3.4E20" T="295"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="40000">250000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.7E20" T="295"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="30000">200000</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="9.6E19" T="295"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="20000">170000</me:experimentalRate>
+      </me:PTpair>
+
+
+      <me:PTpair units="PPCC" P="6.57E16" T="294"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="20">217</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.64E17" T="294"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="50">542</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="2.63E17" T="294"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="80">867</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="3.28E17" T="294"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="100">1084</me:experimentalRate>
+      </me:PTpair>
+
+
+
+
+      <me:PTpair units="PPCC" P="8.5E17" T="296"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="270">2700</me:experimentalRate>
+      </me:PTpair>
+
+      <me:PTpair units="PPCC" P="6.57E16" T="294"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="30">257</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.64E17" T="294"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="70">672</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="2.63E17" T="294"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="110">1078</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="3.28E17" T="294"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="140">1345</me:experimentalRate>
+      </me:PTpair>
+
+
+
+
+
+      <!--me:PTpair units="PPCC" P="4.64E16" T="416"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="10">88.2</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="1.16E17" T="416"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="20">221</me:experimentalRate>
+      </me:PTpair>
+       <me:PTpair units="PPCC" P="1.86E17" T="416"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="40">353</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="PPCC" P="2.32E17" T="416"  precision="d">
+        <me:experimentalRate ref1="OH" ref2="OH"  error="50">441.0</me:experimentalRate>
+      </me:PTpair-->
+
+
+
+
+    </me:PTs>
+  </me:conditions>
+
+
+  <me:modelParameters>
+    <!--Specify grain size directly...-->
+    <me:grainSize units="cm-1">25</me:grainSize>
+    <!--...or by the total number of grains
+        <me:numberOfGrains> 500 </me:numberOfGrains>-->
+    <!--Specify increased energy range
+        <me:maxTemperature>6000</me:maxTemperature>-->
+    <me:energyAboveTheTopHill>25.0</me:energyAboveTheTopHill>
+  </me:modelParameters>
+
+  <me:control>
+    <me:calcMethod>marquardt</me:calcMethod>
+    <me:MarquardtIterations>20</me:MarquardtIterations>
+    <me:MarquardtTolerance>1e-6</me:MarquardtTolerance>
+    <me:MarquardtDerivDelta>0.025</me:MarquardtDerivDelta>
+    <me:printSpeciesProfile/>
+    <me:eigenvalues>6</me:eigenvalues>
+  </me:control>
+
+
+
+
+</me:mesmer>
+

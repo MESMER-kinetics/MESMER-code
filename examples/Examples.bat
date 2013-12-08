@@ -85,6 +85,12 @@ copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
+cd benzene_oxidation
+%executable% benzene_oxidation_test.xml -o %outf% %directive%
+copy "./%tfn%" "./%bline%%otfn%"
+IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+cd ..
+
 cd Ethyl_H_to_Ethane
 %executable% Ethyl_H_to_Ethane.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
@@ -137,13 +143,6 @@ cd "OH-acetylene"
 %executable% OH_HCCH-irreversibleBim-publish.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
-cd ..
-
-cd "Methoxymethyl"
-set testName="Chebyshev"
-%executable% -N %testName%.xml
-copy "./%testName%.test" "./%bline%%testName%.test"
-IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
 echo Start Time=%starttime% - End Time=%time%
