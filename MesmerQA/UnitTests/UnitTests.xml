@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0"?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" 
+<me:mesmer xmlns="http://www.xml-cml.org/schema"
            xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <moleculeList>
@@ -15,7 +15,7 @@
           <array units="cm-1">
             3030        3020        3010        3005        1503        1401
             1383         999         951         877         652         333
-             278         250          89
+            278         250          89
           </array>
         </property>
         <property title="Rotational Constants" dictRef="me:rotConsts">
@@ -38,7 +38,7 @@
             141.8453            163.6481            3161.925            3062.283
             1901.381            1460.162            1398.929            1196.828
             1136.066             984.196             741.314             555.306
-             505.558             328.317            3121.741            1466.209
+            505.558             328.317            3121.741            1466.209
             1049.543             546.466
           </array>
         </property>
@@ -98,42 +98,42 @@
 
     </molecule>
 
-      <!-- Details supplied by John Barker for MEIC tests, except rotational constants.-->
-      <molecule id="AcO2_Asymmetric_Top">
-          <propertyList>
-              <property title="Hf298">
-                <scalar convention="thermodynamic">0.0</scalar>
-              </property>
-              <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
-                  <array units="cm-1">
-                      141.8453            163.6481            3161.925            3062.283
-                      1901.381            1460.162            1398.929            1196.828
-                      1136.066             984.196             741.314             555.306
-                      505.558             328.317            3121.741            1466.209
-                      1049.543             546.466
-                  </array>
-              </property>
-              <property title="Rotational Constants" dictRef="me:rotConsts">
-                  <array units="cm-1">0.1081 0.161 0.3105</array>
-              </property>
-              <property title="Symmetry Number" dictRef="me:symmetryNumber">
-                  <scalar>1 </scalar>
-              </property>
-          </propertyList>
-          <me:DOSCMethod>QMRotors</me:DOSCMethod>
-      </molecule>
+    <!-- Details supplied by John Barker for MEIC tests, except rotational constants.-->
+    <molecule id="AcO2_Asymmetric_Top">
+      <propertyList>
+        <property title="Hf298">
+          <scalar convention="thermodynamic">0.0</scalar>
+        </property>
+        <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
+          <array units="cm-1">
+            141.8453            163.6481            3161.925            3062.283
+            1901.381            1460.162            1398.929            1196.828
+            1136.066             984.196             741.314             555.306
+            505.558             328.317            3121.741            1466.209
+            1049.543             546.466
+          </array>
+        </property>
+        <property title="Rotational Constants" dictRef="me:rotConsts">
+          <array units="cm-1">0.1081 0.161 0.3105</array>
+        </property>
+        <property title="Symmetry Number" dictRef="me:symmetryNumber">
+          <scalar>1 </scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+    </molecule>
 
     <!-- Details supplied by John Barker for MEIC tests, hondering potential taken from Waage & Rabinovitch, IJCK, 3, 105 (1971).-->
     <molecule id="Ethane">
       <atomArray>
-        <atom id="a1" elementType="C" x3=" 0.0000"  y3=" 0.0000"     z3=" 0.0000"/>
-        <atom id="a2" elementType="C" x3=" 1.5267"  y3=" 0.0000"     z3=" 0.0000"/>
-        <atom id="a3" elementType="H" x3="-0.3848"  y3=" 1.0254"     z3=" 0.0000"/>
-        <atom id="a4" elementType="H" x3="-0.3848"  y3="-0.5127"     z3="-0.5774"/>
-        <atom id="a5" elementType="H" x3="-0.2826"  y3="-0.5229"     z3=" 0.9719"/>
-        <atom id="a6" elementType="H" x3=" 1.7625"  y3=" 0.6046"     z3="-1.0500"/>
-        <atom id="a7" elementType="H" x3=" 1.9546"  y3="-0.9276"     z3="-0.1724"/>
-        <atom id="a8" elementType="H" x3=" 1.9563"  y3=" 0.61064"    z3=" 0.7155"/>
+        <atom id="a1" elementType="C" x3="-0.536749374" y3=" 0.148283506" z3="-0.000489242"/>
+        <atom id="a2" elementType="C" x3=" 0.965839374" y3=" 0.080076494" z3=" 0.000199242"/>
+        <atom id="a3" elementType="H" x3="-0.900585296" y3=" 1.051901094" z3="-0.507066047"/>
+        <atom id="a4" elementType="H" x3="-0.980746353" y3="-0.714112734" z3="-0.514941174"/>
+        <atom id="a5" elementType="H" x3="-0.941675142" y3=" 0.162112911" z3=" 1.019983811"/>
+        <atom id="a6" elementType="H" x3=" 1.409836353" y3=" 0.942472734" z3=" 0.514651174"/>
+        <atom id="a7" elementType="H" x3=" 1.329675296" y3="-0.823541094" z3=" 0.506776047"/>
+        <atom id="a8" elementType="H" x3=" 1.370765142" y3=" 0.066247089" z3="-1.020273811"/>
       </atomArray>
       <bondArray>
         <bond id="b1" atomRefs2="a1 a2" order="1"/>
@@ -198,7 +198,7 @@
 
   <me:control>
     <me:testDOS />
-    <me:calcMethod units="kJ/mol" name="UnitTests"/>
+    <me:calcMethod units="kJ/mol">UnitTests</me:calcMethod>
   </me:control>
 
 </me:mesmer>
