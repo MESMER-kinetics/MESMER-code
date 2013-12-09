@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- Oct 15 2013 -- 23:12:06
+     Mesmer v3.0 compiled: -- Dec  7 2013 -- 20:16:54
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -59,7 +59,7 @@ In R_2_6c: No crossing method used for R_2_6c
 All molecules are on the same energy basis: arbitary
 The default value of precision (or one of its attributes) was used.
 760Torr, 298K at d precision with N2
-Write metadata 20131026_112653
+Write metadata 20131209_230852
 
 File: "benzene_oxidation_test.xml" successfully parsed.
 Main Calculation begins

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Jan 23 2013 -- 11:11:32
+     Mesmer v3.0 compiled: -- Dec  7 2013 -- 20:16:54
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -32,27 +32,26 @@ HSO2_test.xml
 
 The default value of me:calcMethod was used.
 In R1: Parsing reaction...
-In H: The default value of me:symmetryNumber was used.
 In H: The default value of me:frequenciesScaleFactor was used.
+In H: The default value of me:symmetryNumber was used.
 In H: The default value of me:DOSCMethod was used.
 In SO2: The default value of me:frequenciesScaleFactor was used.
 In SO2: The default value of spinMultiplicity (or one of its attributes) was used.
-In HSO2: The default value of me:symmetryNumber was used.
 In HSO2: The default value of me:frequenciesScaleFactor was used.
+In HSO2: The default value of me:symmetryNumber was used.
 In HSO2: The default value of me:DistributionCalcMethod was used.
 In HSO2: The default value of me:energyTransferModel was used.
-In HSO2: The default value of me:deltaEDownTExponent was used.
+In TS1: No imaginary vibrational frequency. Check if there is tunneling.
+The default value of me:frequenciesScaleFactor was used.
 In TS1: The default value of me:symmetryNumber was used.
-In TS1: The default value of me:frequenciesScaleFactor was used.
-In R1: No imaginary vibrational frequency. Check if there is tunneling.
-No tunneling method requested for R1
-In R1: No crossing method requested for R1
+In R1: No tunneling method used for R1
+In R1: No crossing method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 All molecules are on the same energy basis: arbitary
-1e+008Torr, 200K at double precision
-1e+008Torr, 200K at dd precision
-1e+008Torr, 200K at qd precision
-Write metadata 20130210_112128
+1e+008Torr, 200K at double precision with Ar
+1e+008Torr, 200K at dd precision with Ar
+1e+008Torr, 200K at qd precision with Ar
+Write metadata 20131209_230853
 
 File: "HSO2_test.xml" successfully parsed.
 Main Calculation begins
@@ -60,6 +59,6 @@ Number of grains produced is not equal to that requested
 Number of grains requested: 92
 Number of grains produced : 1
 Finish Calculation of P-T case
- -- Total time elapsed: 6 seconds.
+ -- Total time elapsed: 2 seconds.
 
 System saved to out.xml
