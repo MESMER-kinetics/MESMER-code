@@ -177,5 +177,14 @@ if [ "$1" == "-o" ] ; then
 fi
 cd ..
 
+cd "Methoxymethyl"
+testName=Chebyshev
+$executable -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+cd ..
+
 echo Start Time=$starttime - End Time=`date`
 

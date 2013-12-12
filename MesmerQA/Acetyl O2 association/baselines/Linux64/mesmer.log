@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v2.0 compiled: -- Feb  7 2013 -- 17:59:04
+     Mesmer v3.0 compiled: -- Dec 12 2013 -- 13:15:13
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -34,35 +34,34 @@ The default value of me:calcMethod was used.
 In R1: Parsing reaction...
 In Int1: The default value of me:DistributionCalcMethod was used.
 In Int1: The default value of me:energyTransferModel was used.
-In Int1: The default value of me:deltaEDownTExponent was used.
-In R1: No tunneling method requested for R1
-In R1: No crossing method requested for R1
+In R1: The default value of me:TInfinity was used.
+In R1: No tunneling method used for R1
+In R1: No crossing method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R2: Parsing reaction...
 In Int2: The default value of me:DistributionCalcMethod was used.
 In Int2: The default value of me:energyTransferModel was used.
-In Int2: The default value of me:deltaEDownTExponent was used.
-In R2: No crossing method requested for R2
+In R2: No crossing method used for R2
 In R3: Parsing reaction...
-In R3: No tunneling method requested for R3
-In R3: No crossing method requested for R3
+In R3: No tunneling method used for R3
+In R3: No crossing method used for R3
 In R4: Parsing reaction...
-In R4: No tunneling method requested for R4
-In R4: No crossing method requested for R4
+In R4: No tunneling method used for R4
+In R4: No crossing method used for R4
 All molecules are on the same energy basis: arbitary
-The default value of me:precision was used.
-200.72Torr, 298K at double precision
-Write metadata 20130208_171635
+The default value of precision (or one of its attributes) was used.
+200.72Torr, 298K at d precision with He
+Write metadata 20131212_131702
 
 File: "Acetyl_O2_association.xml" successfully parsed.
 Main Calculation begins
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 60 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
-In FastLaplaceConvolution: 7460 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 7520 values in the FFT convolution routine were replaced by standard convolution
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 No population was assigned. Initialize the first source term to 1.0.
 Finish Calculation of P-T case
- -- Total time elapsed: 3 seconds.
+ -- Total time elapsed: 0 seconds.
 
 System saved to out.xml

@@ -28,33 +28,44 @@
 
 
 Parsing input xml file...
-pentyl_isomerization_test.xml
+ipropyl_reservoir.xml
 
-The default value of me:calcMethod was used.
 In R1: Parsing reaction...
-In 1-pentyl: The default value of me:frequenciesScaleFactor was used.
-In 1-pentyl: The default value of me:DOSCMethod was used.
-In 1-pentyl: The default value of me:DistributionCalcMethod was used.
-In 1-pentyl: The default value of me:energyTransferModel was used.
-In 2-pentyl: The default value of me:frequenciesScaleFactor was used.
-In 2-pentyl: The default value of me:DOSCMethod was used.
-In 2-pentyl: The default value of me:DistributionCalcMethod was used.
-In 2-pentyl: The default value of me:energyTransferModel was used.
-In 1-pentyl=TS=2-pentyl: No imaginary vibrational frequency. Check if there is tunneling.
-The default value of me:frequenciesScaleFactor was used.
-In 1-pentyl=TS=2-pentyl: The default value of me:DOSCMethod was used.
+In i-propyl: The default value of me:frequenciesScaleFactor was used.
+In i-propyl: Hindered rotor b1
+Hindered rotor b2
+The default value of me:DistributionCalcMethod was used.
+In i-propyl: The default value of me:energyTransferModel was used.
+In i-propyl: i-propyl:deltaEDown was given a range with 15 steps 
+In R1: The default value of me:TInfinity was used.
+In propene: The default value of me:frequenciesScaleFactor was used.
+In propene: Hindered rotor b1
+propene:ZPE was given a range with 401 steps 
+In H: The default value of me:frequenciesScaleFactor was used.
+In H: The default value of me:symmetryNumber was used.
+In H: The default value of spinMultiplicity (or one of its attributes) was used.
+In H: The default value of me:DOSCMethod was used.
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
 All molecules are on the same energy basis: arbitary
 The default value of precision (or one of its attributes) was used.
-1e+08PPCC, 500K at d precision with Ar
-Write metadata 20131212_131654
+3e+17PPCC, 720K at d precision with He
+The default value of precision (or one of its attributes) was used.
+3.01e+17PPCC, 730K at d precision with He
+Write metadata 20131212_131703
 
-File: "pentyl_isomerization_test.xml" successfully parsed.
+File: "ipropyl_reservoir.xml" successfully parsed.
 Main Calculation begins
-In timeEvolution: No population was assigned, and there is no source term.
-In timeEvolution: Initial poupulation set to 1.0  in the first isomer.
+Number of grains produced is not equal to that requested
+Number of grains requested: 186
+Number of grains produced : 1
+In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
+Unimolecular ILT calculation completed
+Number of grains produced is not equal to that requested
+Number of grains requested: 187
+Number of grains produced : 1
+Unimolecular ILT calculation completed
 Finish Calculation of P-T case
- -- Total time elapsed: 1 seconds.
+ -- Total time elapsed: 0 seconds.
 
-System saved to out.xml
+System saved to mesmer_out.xml

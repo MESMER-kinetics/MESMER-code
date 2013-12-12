@@ -204,6 +204,8 @@ MesmerQA/HSO2/baselines/Linux64/mesmer.test -text
 MesmerQA/HSO2/baselines/Win32/mesmer.log -text
 MesmerQA/HSO2/baselines/Win32/mesmer.test -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/OH_acetylene_association_test.xml -text
+MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Linux64/OH_acetylene_pseudo_isomerization.log -text
+MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Linux64/OH_acetylene_pseudo_isomerization.test -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Linux64/mesmer.log -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Linux64/mesmer.test -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Win32/mesmer.log -text
@@ -238,6 +240,8 @@ MesmerQA/cyclopropene[!!-~]isomerization/baselines/Linux64/mesmer.test -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/mesmer.log -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/mesmer.test -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/test.test -text
+MesmerQA/i-propyl/baselines/Linux64/ipropyl_reservoir.log -text
+MesmerQA/i-propyl/baselines/Linux64/ipropyl_reservoir.test -text
 MesmerQA/i-propyl/baselines/Linux64/mesmer.log -text
 MesmerQA/i-propyl/baselines/Linux64/mesmer.test -text
 MesmerQA/i-propyl/baselines/Win32/mesmer.log -text
@@ -368,8 +372,8 @@ examples/Examples.sh -text
 examples/H2Ominimal/H2Ominimal.xml -text
 examples/MesmerTemplate.text -text
 examples/Methoxymethyl/Chebyshev.xml -text
-examples/Methoxymethyl/baselines/Linux64/mesmer.log -text
-examples/Methoxymethyl/baselines/Linux64/mesmer.test -text
+examples/Methoxymethyl/baselines/Linux64/Chebyshev.log -text
+examples/Methoxymethyl/baselines/Linux64/Chebyshev.test -text
 examples/Methoxymethyl/baselines/Win32/Chebyshev.log -text
 examples/Methoxymethyl/baselines/Win32/Chebyshev.test -text
 examples/Methyl_H_to_Methane/Methyl_H_to_Methane.xml -text
