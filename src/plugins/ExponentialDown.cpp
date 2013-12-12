@@ -149,7 +149,8 @@ bool ExponentialDown::ParseData(PersistPtr ppModel)
     ExponentialDown* pModel
       = static_cast<ExponentialDown*>(m_parent->getColl().addBathGas(bathGasName, this));
     assert(ppProp);
-
+    istringstream ss(ppProp->XmlRead());
+    ss >> pModel->m_deltaEDown; 
     /******************************************************************************
     m_deltaEdown behaves most of the time like a normal variable of type double.
     But it can be a "range variable", taking a range of values when used in grid
