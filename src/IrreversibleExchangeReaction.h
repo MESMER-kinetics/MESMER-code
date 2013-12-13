@@ -61,6 +61,13 @@ namespace mesmer
       return 1;
     } ;
 
+    virtual int get_reactants(std::vector<Molecule *> &reactants) const
+    {
+      reactants.push_back(m_rct1);
+      reactants.push_back(m_rct2);
+      return 2;
+    } ;
+
     // Initialize reaction.
     virtual bool InitializeReaction(PersistPtr ppReac) ;
 

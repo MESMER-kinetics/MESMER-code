@@ -1,3 +1,21 @@
+2013-December-13 Chris Morley
+
+	Fix crash with Methyl_H_to_Methane_FTST.xml
+	* src/MolecularComponents.cpp,src/Rdouble.cpp,src/unitsConversion.cpp:
+	  Make "units" attribute on me:ZPE optional. On any range variable it
+	  is ignored when there is a "derivedFrom" attribute. Provide more
+	  meaningful cinfo message.
+
+	Extra functions which may be needed for AnalyticalRepresentation.
+	* src/Reaction.cpp,src/Reaction.h,src/AssociationReaction.h,
+	  src/BimolecularSinkReaction.h,src/IrreversibleExchangeReaction.h,
+	  src/IrreversibleUnimolecularReaction.h,src/IsomerizationReaction.h:
+	  Provide a virtual functions to get reactants and to output a reaction
+	  string.
+	* src/System.h: add getReactionManager()
+
+	MesmerQA/UnitTests/UnitTests.xml: make more schema friendly
+
 2013-Nov-10 Struan Robertson
 
 	* HinderedRotorQM1D.cpp, UnitTests.cpp, UnitTests.xml: MEIC test 

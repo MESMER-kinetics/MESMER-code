@@ -84,8 +84,9 @@ namespace mesmer
     This function returns user defined m_EInf, otherwise zero.
     ILT can be used in all reaction types if necessary. */
 
-    // get products
+    // get products and reactants
     virtual int get_products(std::vector<Molecule *> &product) const = 0;
+    virtual int get_reactants(std::vector<Molecule *> &reactants) const = 0;
 
     // get the reactant, which reacts in a first order or pseudo first order process
     virtual Molecule *get_reactant(void) const = 0;
@@ -94,6 +95,8 @@ namespace mesmer
 
     // Get unimolecualr species information:
     virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const = 0 ;
+
+    std::string getReactionString();
 
     // Get the imaginary frequency of the transitions state.
     double get_TSImFreq(void) const {return m_TransitionState->getTS().get_ImFreq() ; } ;

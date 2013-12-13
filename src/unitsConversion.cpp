@@ -132,7 +132,12 @@ namespace mesmer
   // Returns particles cm-1 no matter what unit the user has provided.
   double getConvertedEnergy(const string& unitInput, const double energyInput)
   {
-    if(energyMap.count(unitInput)==0) {
+    if(unitInput.empty())
+    {
+      cinfo << "No energy units specified" << endl;
+      return energyInput;
+    }
+    else if(energyMap.count(unitInput)==0) {
       cerr << "Unrecognized energy unit: " + unitInput << endl;
       return 0.;
     }

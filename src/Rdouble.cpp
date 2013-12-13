@@ -127,6 +127,7 @@ namespace mesmer
   // Utility function to read parameter range. 
   //   The parameter cnvrsnFctr applies any conversion factor that is required.
   //   The parameter rangeSet indicates if a range has actually been set for the rdouble variable.
+  //   If there is a derivedFrom attribute, the cnvrsnFctr and shift parameters are ignored.
   //
   bool ReadRdoubleRange(const std::string& name, PersistPtr pp, Rdouble& rdouble, 
     bool& rangeSet, double cnvrsnFctr, double shift)

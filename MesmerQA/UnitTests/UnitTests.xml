@@ -175,12 +175,13 @@
         <property dictRef="me:epsilon">
           <scalar>153.0</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1" referenceTemperature="298." exponent="0.6">210.0</scalar>
-        </property>
       </propertyList>
 
       <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">210</me:deltaEDown>
+        <me:deltaEDownTExponent>0.6</me:deltaEDownTExponent>
+      </me:energyTransferModel>
 
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
@@ -198,7 +199,7 @@
 
   <me:control>
     <me:testDOS />
-    <me:calcMethod units="kJ/mol">UnitTests</me:calcMethod>
+    <me:calcMethod units="kJ/mol" name="UnitTests"/>
   </me:control>
 
 </me:mesmer>

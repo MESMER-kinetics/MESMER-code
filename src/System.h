@@ -74,6 +74,7 @@ namespace mesmer
     PersistPtr getAnalysisPtr() { return m_ppAnalysis; }
 
     MoleculeManager* getMoleculeManager() { return m_pMoleculeManager; } ;
+    ReactionManager* getReactionManager() { return m_pReactionManager; } ;
 
 	// An accessor method to get conditions and related properties for
 	// use with plugins classes etc.

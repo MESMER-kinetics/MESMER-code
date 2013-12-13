@@ -235,6 +235,8 @@ namespace mesmer
 
     // Read the transition state (if present)
     PersistPtr ppTransitionState = ppReac->XmlMoveTo("me:transitionState") ;
+    if(!ppTransitionState)
+      ppTransitionState = ppReac->XmlMoveTo("transitionState") ;
     if (ppTransitionState)
     {
       Molecule* pTrans = GetMolRef(ppTransitionState,"transitionState");
@@ -288,4 +290,25 @@ namespace mesmer
       getHeatOfReaction();
   }
 
+  string Reaction::getReactionString()
+  {
+    string s;
+    vector<Molecule*> reactants, products;
+    int n = get_reactants(reactants);
+    for(int i=0; i<n; ++i)
+    {
+      s += reactants[i]->getName();
+      if(i<n-1)
+        s += " + ";
+    }
+    s += " => ";
+    n = get_products(products);
+    for(int i=0; i<n; ++i)
+    {
+      s += products[i]->getName();
+      if(i<n-1)
+        s += " + ";
+    }
+    return s;
+  }
 }//namespace

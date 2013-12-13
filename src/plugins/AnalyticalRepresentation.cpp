@@ -12,6 +12,7 @@
 
 #include <fstream>
 #include <iomanip>
+#include <sstream>
 
 #include "../System.h"
 #include "../calcmethod.h"
@@ -66,7 +67,7 @@ namespace mesmer
     vector<double> Transform(const vector<double> &gridpoints, const double &max, const double &min);
 
     // Write Chebyshev coefficients in Cantera format.
-    void writeCanteraFormat(const vector<vector<vector<double> > > &ChebyshevCoeff) const ;
+    void writeCanteraFormat(const vector<vector<vector<double> > > &ChebyshevCoeff, System* pSys) const ;
 
     // Test the  Chebyshev representation.
     void testRepresentation(
@@ -205,7 +206,7 @@ namespace mesmer
     // Get rate coefficients.
     m_reactions.clear() ;
     vector<CTpoint> CTGrid ;
-	bool flag(true) ;
+    bool flag(true) ;
     vector<vector<double> > RCGrid;
     for (size_t i(0); i < m_NTpt; ++i) {
       double Temp = Temperature[i] ;
@@ -213,16 +214,18 @@ namespace mesmer
         double Conc = getConvertedP(m_PUnits, Concentration[j], Temp) ;
         CTGrid.push_back(CTpoint(TGrid[i],CGrid[j])) ;
         map<string, double> phenRates ;
-		pSys->calculate(Temp, Conc, phenRates, m_TMax);
-		vector<double> rate ;
-		for (map<string, double>::const_iterator itr = phenRates.begin() ; itr != phenRates.end(); ++itr) {
-		  rate.push_back(itr->second) ;
-		  if (flag) {
-			m_reactions.push_back(itr->first) ;
-		  }
-		}
-		flag = false ;
-		RCGrid.push_back(rate) ;
+        pSys->calculate(Temp, Conc, phenRates, m_TMax);
+        vector<double> rate ;
+        for (map<string, double>::const_iterator itr = phenRates.begin() ; itr != phenRates.end(); ++itr) {
+          rate.push_back(itr->second) ;
+          if (flag) {
+            //Expand the string in phenRates to include all the reactants and products
+            Reaction* r = pSys->getReactionManager()->findFromModelledMols(itr->first);
+            m_reactions.push_back(r ? r->getReactionString() : itr->first) ;
+          }
+        }
+        flag = false ;
+        RCGrid.push_back(rate) ;
       }
     }
 
@@ -244,7 +247,7 @@ namespace mesmer
 
     // Print out table of Chebyshev coefficients for each BW rate specified.
 
-    writeCanteraFormat(ChebyshevCoeff) ;
+    writeCanteraFormat(ChebyshevCoeff, pSys) ;
 
     // Test expansion.
 
@@ -280,7 +283,7 @@ namespace mesmer
 
   // Write Chebyshev coefficients in Cantera format.
   // See http://cantera.github.io/docs/sphinx/html/cti/reactions.html.
-  void AnalyticalRepresentation::writeCanteraFormat(const vector<vector<vector<double> > > &ChebyshevCoeff) const {
+  void AnalyticalRepresentation::writeCanteraFormat(const vector<vector<vector<double> > > &ChebyshevCoeff, System* pSys) const {
 
     string header("chebyshev_reaction(") ;
     string coeffs("coeffs=[") ;
@@ -305,6 +308,15 @@ namespace mesmer
           cinfo << "]])" << endl << endl ;
         }
       }
+
+      /*XML output under <reaction>
+      <rateConstant format="Cantera" units="PPCC">
+        <![CDATA[chebyshev_reaction('CH3OCH2 => IM1',etc]]>
+      </rateConstant>
+      */
+      std::stringstream ss;
+      ss << cinfo.rdbuf();
+      string s = ss.str();
     }
   }
 

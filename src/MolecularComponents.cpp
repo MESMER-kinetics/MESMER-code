@@ -261,7 +261,9 @@ namespace mesmer
     if(!IsNan(tempzpe))
     {
       // me:ZPE is present
-      unitsInput = ppPropList->XmlReadPropertyAttribute("me:ZPE", "units");
+      txt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "units");
+      if(txt) //No units specified.
+        unitsInput = txt;
       txt = ppPropList->XmlReadPropertyAttribute("me:ZPE", "convention", optional);
       m_EnergyConvention = txt ? txt : "arbitary";
 
@@ -286,7 +288,8 @@ namespace mesmer
 
       bool rangeSet ;
       PersistPtr ppProp = ppPropList->XmlMoveToProperty("me:ZPE"); 
-      ReadRdoubleRange(string(m_host->getName()+":ZPE"), ppProp, m_ZPE, rangeSet, getConvertedEnergy(unitsInput, 1.0), zpCorrection) ;
+      ReadRdoubleRange(string(m_host->getName()+":ZPE"), ppProp, m_ZPE, rangeSet,
+        getConvertedEnergy(unitsInput, 1.0), zpCorrection) ;
       set_zpe(getConvertedEnergy(unitsInput, tempzpe) + zpCorrection);
       m_ZPE_chk = 0;
 

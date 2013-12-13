@@ -71,6 +71,12 @@ namespace mesmer
       return 1;
     } ;
 
+    virtual int get_reactants(std::vector<Molecule *> &reactants) const
+    {
+      reactants.push_back(m_rct1);
+      return 1;
+    } ;
+
     // returns the reaction type
     virtual ReactionType getReactionType(){
       return m_pdt2 ? DISSOCIATION : IRREVERSIBLE_ISOMERIZATION;
