@@ -208,6 +208,8 @@ MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Linux64/OH_acetylene_pseud
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Linux64/OH_acetylene_pseudo_isomerization.test -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Linux64/mesmer.log -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Linux64/mesmer.test -text
+MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Win32/OH_acetylene_pseudo_isomerization.log -text
+MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Win32/OH_acetylene_pseudo_isomerization.test -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Win32/mesmer.log -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/baselines/Win32/mesmer.test -text
 MesmerQA/QA.bat -text
@@ -244,9 +246,10 @@ MesmerQA/i-propyl/baselines/Linux64/ipropyl_reservoir.log -text
 MesmerQA/i-propyl/baselines/Linux64/ipropyl_reservoir.test -text
 MesmerQA/i-propyl/baselines/Linux64/mesmer.log -text
 MesmerQA/i-propyl/baselines/Linux64/mesmer.test -text
+MesmerQA/i-propyl/baselines/Win32/ipropyl_reservoir.log -text
+MesmerQA/i-propyl/baselines/Win32/ipropyl_reservoir.test -text
 MesmerQA/i-propyl/baselines/Win32/mesmer.log -text
 MesmerQA/i-propyl/baselines/Win32/mesmer.test -text
-MesmerQA/i-propyl/baselines/Win32/test.test -text
 MesmerQA/i-propyl/ipropyl_reservoir.xml -text
 MesmerQA/i-propyl/ipropyl_test.xml -text
 MesmerQA/pentyl/baselines/Linux64/mesmer.log -text

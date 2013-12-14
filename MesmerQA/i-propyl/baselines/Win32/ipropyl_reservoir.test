@@ -1373,6 +1373,8 @@ Canonical rate coefficients for R1, calculated from microcanonical rates
     700        78.1933
     800        1978.22
 }
+The reservoir is set to 10 grains, which is about 1000 cm-1 from the well bottom.
+0.947833 of the i-propyl population is in the active states. The reservoir size = 1000 cm-1, which is 11.9627 kJ/mol.
 
 Eq fraction matrix:
 {
@@ -1384,13 +1386,13 @@ inverse of Eq fraction matrix:
 }
 Equilibrium Fraction for i-propyl = 1
 
-Total number of eigenvalues = 186
+Total number of eigenvalues = 177
 Eigenvalues
 {
- -6.394015e+006
- -4.354109e+006
- -2.754710e+006
- -1.562162e+006
+ -6.398043e+006
+ -4.355559e+006
+ -2.755117e+006
+ -1.562266e+006
  -4.500733e+001
 }
 
@@ -2815,6 +2817,8 @@ Canonical rate coefficients for R1, calculated from microcanonical rates
     700        79.6245
     800        2036.73
 }
+The reservoir is set to 10 grains, which is about 1000 cm-1 from the well bottom.
+0.950653 of the i-propyl population is in the active states. The reservoir size = 1000 cm-1, which is 11.9627 kJ/mol.
 
 Eq fraction matrix:
 {
@@ -2826,13 +2830,13 @@ inverse of Eq fraction matrix:
 }
 Equilibrium Fraction for i-propyl = 1
 
-Total number of eigenvalues = 187
+Total number of eigenvalues = 178
 Eigenvalues
 {
- -6.429803e+006
- -4.361155e+006
- -2.736058e+006
- -1.531047e+006
+ -6.433664e+006
+ -4.362527e+006
+ -2.736436e+006
+ -1.531139e+006
  -6.135816e+001
 }
 
