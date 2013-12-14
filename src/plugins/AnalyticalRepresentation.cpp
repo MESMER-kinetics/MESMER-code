@@ -41,7 +41,7 @@ namespace mesmer
       m_lgCMax(0),
       m_ExpanSizeT(0),
       m_ExpanSizeC(0),
-	  m_reactions()
+      m_reactions()
     { Register(); }
 
     virtual ~AnalyticalRepresentation() {}
@@ -68,6 +68,9 @@ namespace mesmer
 
     // Write Chebyshev coefficients in Cantera format.
     void writeCanteraFormat(const vector<vector<vector<double> > > &ChebyshevCoeff, System* pSys) const ;
+
+    // Write Chebyshev coefficients in Chemkin format.
+    void writeChemkinFormat(const vector<vector<vector<double> > > &ChebyshevCoeff, System* pSys) const ;
 
     // Test the  Chebyshev representation.
     void testRepresentation(
@@ -126,10 +129,14 @@ namespace mesmer
     </me:control>
     */
 
+    // Determine the required format, default to Cantera if not supplied.
+    const char* txt = pp->XmlReadValue("me:Format", optional) ;
+    m_format = (txt) ? string(txt) : string("cantera") ;
+
     // Units can be an attribute on either <me:chebMaxConc> or <me:chebMinConc>;
     // if on neither the units in defaults.xml are used.
     PersistPtr pPUnits = pp->XmlMoveTo("me:chebMaxConc") ;
-    const char* txt = pPUnits->XmlReadValue("units", optional) ;
+    txt = pPUnits->XmlReadValue("units", optional) ;
     if(!txt)
     {
       pPUnits = pp->XmlMoveTo("me:chebMinConc") ;
@@ -137,12 +144,13 @@ namespace mesmer
     }
     m_PUnits = string(txt) ;
 
+	// Chemkin only supports pressure units of atm.
+	if ( m_format == "chemkin" && m_PUnits != "atm")
+	   throw(std::runtime_error("Chemkin only supports pressure units of atm.")) ;
+
     //Read in fitting parameters, or use values from defaults.xml.
     m_NTpt = pp->XmlReadInteger("me:chebNumTemp");
     m_NCpt = pp->XmlReadInteger("me:chebNumConc");
-    //pPUnits = pp->XmlMoveTo("me:chebNumConc") ;
-    //const char* txt = pPUnits->XmlReadValue("me:units") ;
-    //m_PUnits = string(txt) ; 
 
     m_TMax = pp->XmlReadDouble("me:chebMaxTemp");
     m_TMin = pp->XmlReadDouble("me:chebMinTemp");
@@ -180,7 +188,7 @@ namespace mesmer
     // Warnings and less not sent to console.
     ChangeErrorLevel e(obError); 
 
-   // First gets some points. Need to get chebyshev grid points and transform back to (T,P) condition set.
+    // First gets some points. Need to get chebyshev grid points and transform back to (T,P) condition set.
 
     vector<double> TGrid(m_NTpt);
     for (size_t i(0); i < m_NTpt; ++i){
@@ -220,8 +228,9 @@ namespace mesmer
           rate.push_back(itr->second) ;
           if (flag) {
             //Expand the string in phenRates to include all the reactants and products
-            Reaction* r = pSys->getReactionManager()->findFromModelledMols(itr->first);
-            m_reactions.push_back(r ? r->getReactionString() : itr->first) ;
+            // Reaction* r = pSys->getReactionManager()->findFromModelledMols(itr->first);
+            // m_reactions.push_back(r ? r->getReactionString() : itr->first) ;
+            m_reactions.push_back(itr->first) ;
           }
         }
         flag = false ;
@@ -237,7 +246,7 @@ namespace mesmer
       for (size_t j(0); j < m_ExpanSizeC ; ++j ) {
         for (size_t k(0); k < m_reactions.size() ; ++k) {
           for (size_t m(0); m < RCGrid.size() ; ++m ) {
-			// The absolute value is taken below as small rate coefficients occasionally computed to be negative.
+            // The absolute value is taken below as small rate coefficients occasionally computed to be negative.
             ChebyshevCoeff[i][j][k] += log10(fabs(RCGrid[m][k]))*Cheb_poly(i, CTGrid[m].first)*Cheb_poly(j, CTGrid[m].second);
           }				
           ChebyshevCoeff[i][j][k] *= Coefficient(i, j) / (double(m_NTpt) * double(m_NCpt)) ;
@@ -247,7 +256,13 @@ namespace mesmer
 
     // Print out table of Chebyshev coefficients for each BW rate specified.
 
-    writeCanteraFormat(ChebyshevCoeff, pSys) ;
+    if (m_format == string("cantera")) {
+      writeCanteraFormat(ChebyshevCoeff, pSys) ;
+    } else if (m_format == string("chemkin")) {
+      writeChemkinFormat(ChebyshevCoeff, pSys) ;
+    } else {
+      writeCanteraFormat(ChebyshevCoeff, pSys) ;
+    }
 
     // Test expansion.
 
@@ -287,13 +302,13 @@ namespace mesmer
 
     string header("chebyshev_reaction(") ;
     string coeffs("coeffs=[") ;
-	cinfo << endl ;
+    cinfo << endl ;
     for (size_t k=0; k < m_reactions.size(); ++k ){
       string indent = padText(header.size()) ;
       cinfo << header << "'" << m_reactions[k] << "'," << endl ;
       cinfo << indent << "Tmin="  << setw(6) << m_TMin << ", Tmax=" << setw(6) << m_TMax << "," << endl  ;
       cinfo << indent << "Pmin=(" << setw(6) << m_CMin << ", '" << m_PUnits << "'), " 
-            << "Pmax=(" << setw(6) << m_CMax << ", '" << m_PUnits << "'), "  << endl;
+        << "Pmax=(" << setw(6) << m_CMax << ", '" << m_PUnits << "'), "  << endl;
       cinfo << indent << coeffs << "[" ;
       indent += padText(coeffs.size()) ;
       for (size_t i(0); i < m_ExpanSizeT; ++i ) {
@@ -308,6 +323,36 @@ namespace mesmer
           cinfo << "]])" << endl << endl ;
         }
       }
+
+      /*XML output under <reaction>
+      <rateConstant format="Cantera" units="PPCC">
+        <![CDATA[chebyshev_reaction('CH3OCH2 => IM1',etc]]>
+      </rateConstant>
+      */
+      std::stringstream ss;
+      ss << cinfo.rdbuf();
+      string s = ss.str();
+    }
+  }
+
+  // Write Chebyshev coefficients in Chemkin format.
+  void AnalyticalRepresentation::writeChemkinFormat(const vector<vector<vector<double> > > &ChebyshevCoeff, System* pSys) const {
+
+    cinfo << endl ;
+    for (size_t k=0; k < m_reactions.size(); ++k ) {
+      cinfo << m_reactions[k] << " (+M)  1.00  0.0  0.0" << endl ;
+	  cinfo << "! Data generated by MESMER " << MESMER_VERSION << " on " << __DATE__ << "." << endl ;
+      cinfo << "    TCHEB/ " << formatFloat(m_TMin, 6, 14) << formatFloat(m_TMax, 6, 14) << "/" << endl ;
+      cinfo << "    PCHEB/ " << formatFloat(m_CMin, 6, 14) << formatFloat(m_CMax, 6, 14) << "/" << endl ;
+      cinfo << "    CHEB/"   << setw(6) << m_ExpanSizeT << setw(6) << m_ExpanSizeC << "/" << endl ;
+      for (size_t i(0); i < m_ExpanSizeT; ++i ) {
+		cinfo << "    CHEB/" ;
+        for (size_t j(0); j < m_ExpanSizeC ; ++j ) {
+          cinfo << formatFloat(ChebyshevCoeff[i][j][k], 6, 14) ;
+        }
+        cinfo << "/" << endl ;
+      }
+      cinfo << endl ;
 
       /*XML output under <reaction>
       <rateConstant format="Cantera" units="PPCC">

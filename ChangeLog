@@ -1,3 +1,8 @@
+
+2013-December-07 Struan Robertson
+
+	* AnalyticalRepresentation.cpp: Initial revision of Chemkin format writer.
+
 2013-December-13 Chris Morley
 
 	Fix crash with Methyl_H_to_Methane_FTST.xml
@@ -16,7 +21,7 @@
 
 	MesmerQA/UnitTests/UnitTests.xml: make more schema friendly
 
-2013-Nov-10 Struan Robertson
+2013-December-07 Struan Robertson
 
 	* HinderedRotorQM1D.cpp, UnitTests.cpp, UnitTests.xml: MEIC test 
 	for hindered rotors added.
@@ -55,7 +60,7 @@
 	now checked. NOTE: not altered in MesmerQA folder which I shall soon
 	replace with the MesmerQAschema folder.
 
-2013-Nov-10 Struan Robertson
+2013-November-10 Struan Robertson
 
 	* AnalyticalRepresentation.cpp, System.cpp, CollisionOperator.cpp: 
 	Altered analytical representation to fit all reaction data, add reaction 

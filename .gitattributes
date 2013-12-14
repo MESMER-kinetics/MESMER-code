@@ -375,10 +375,13 @@ examples/Examples.sh -text
 examples/H2Ominimal/H2Ominimal.xml -text
 examples/MesmerTemplate.text -text
 examples/Methoxymethyl/Chebyshev.xml -text
+examples/Methoxymethyl/ChebyshevCK.xml -text
 examples/Methoxymethyl/baselines/Linux64/Chebyshev.log -text
 examples/Methoxymethyl/baselines/Linux64/Chebyshev.test -text
 examples/Methoxymethyl/baselines/Win32/Chebyshev.log -text
 examples/Methoxymethyl/baselines/Win32/Chebyshev.test -text
+examples/Methoxymethyl/baselines/Win32/ChebyshevCK.log -text
+examples/Methoxymethyl/baselines/Win32/ChebyshevCK.test -text
 examples/Methyl_H_to_Methane/Methyl_H_to_Methane.xml -text
 examples/Methyl_H_to_Methane/Methyl_H_to_Methane_FTST.xml -text
 examples/Methyl_H_to_Methane/baselines/Linux64/Methyl_H_to_Methane_FTST.log -text
