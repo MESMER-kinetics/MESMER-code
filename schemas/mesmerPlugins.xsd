@@ -375,10 +375,18 @@
                 </xs:element>
               </xs:sequence>
             </xs:complexType>
+          </xs:element>
+          <xs:element name="format" minOccurs="0">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="chemkin"/>
+                <xs:enumeration value="cantera"/>
+              </xs:restriction>
+            </xs:simpleType>
           </xs:element> 
           <xs:element name="chebNumTemp" type="xs:integer" minOccurs="0"/> 
           <xs:element name="chebNumConc" type="xs:integer" minOccurs="0"/> 
-          <xs:element name="chebMinTemp" type="xs:decimal" minOccurs="0"/> 
+          <xs:element name="chebMinTemp" type="xs:decimal" minOccurs="0"/>
           <xs:element name="chebMaxTemp" type="xs:decimal" minOccurs="0"/>
           <xs:element name="chebMinConc" minOccurs="0">
             <xs:complexType>

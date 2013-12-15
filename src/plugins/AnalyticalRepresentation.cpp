@@ -130,7 +130,7 @@ namespace mesmer
     */
 
     // Determine the required format, default to Cantera if not supplied.
-    const char* txt = pp->XmlReadValue("me:Format", optional) ;
+    const char* txt = pp->XmlReadValue("me:format", optional) ;
     m_format = (txt) ? string(txt) : string("cantera") ;
 
     // Units can be an attribute on either <me:chebMaxConc> or <me:chebMinConc>;
