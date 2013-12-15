@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- Dec 14 2013 -- 13:39:38
+     Mesmer v3.0 compiled: -- Dec 14 2013 -- 19:01:12
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -28,7 +28,7 @@
 
 
 Parsing input xml file...
-Chebyshev.xml
+ChebyshevCK.xml
 
 In R1: Parsing reaction...
 In CH3OCH2: The default value of me:DOSCMethod was used.
@@ -67,9 +67,9 @@ In R5: No tunneling method used for R5
 In R5: No crossing method used for R5
 All molecules are on the same energy basis: arbitary
 No pressure and temperature specified.
-Write metadata 20131214_180850
+Write metadata 20131214_223534
 
-File: "Chebyshev.xml" successfully parsed.
+File: "ChebyshevCK.xml" successfully parsed.
 Main Calculation begins
 In FastLaplaceConvolution: 840 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 900 values in the FFT convolution routine were replaced by standard convolution
@@ -256,6 +256,6 @@ IM2 => OH-3 (+M)  1.00  0.0  0.0
     CHEB/     -0.129836    -0.0866672     0.0104912     0.0471886/
     CHEB/    -0.0264354    -0.0670102    -0.0628849     0.0144363/
 
- -- Total time elapsed: 68 seconds.
+ -- Total time elapsed: 86 seconds.
 
 System saved to mesmer_out.xml

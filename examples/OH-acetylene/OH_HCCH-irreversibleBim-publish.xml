@@ -279,10 +279,10 @@
       </product>
       <me:MCRCMethod xsi:type="MesmerILT">
         <me:preExponential>7.10e-12</me:preExponential>
-        <me:excessReactantConc>1.00e17</me:excessReactantConc>
         <me:activationEnergy units="kJ/mol">5.375</me:activationEnergy>
         <me:nInfinity>0.0</me:nInfinity>
       </me:MCRCMethod>
+      <me:excessReactantConc>1.00e17</me:excessReactantConc>
     </reaction>
     <reaction id="R2">
       <reactant>
