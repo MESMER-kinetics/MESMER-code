@@ -237,13 +237,11 @@ MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Lin
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Linux64/mesmer.test -text
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Win32/mesmer.log -text
 MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Win32/mesmer.test -text
-MesmerQA/cyclopropene[!!-~]isomerization[!!-~]reservoir[!!-~]state/baselines/Win32/test.test -text
 MesmerQA/cyclopropene[!!-~]isomerization/Cyclopropene_isomerization_test.xml -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Linux64/mesmer.log -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Linux64/mesmer.test -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/mesmer.log -text
 MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/mesmer.test -text
-MesmerQA/cyclopropene[!!-~]isomerization/baselines/Win32/test.test -text
 MesmerQA/i-propyl/baselines/Linux64/ipropyl_reservoir.log -text
 MesmerQA/i-propyl/baselines/Linux64/ipropyl_reservoir.test -text
 MesmerQA/i-propyl/baselines/Linux64/mesmer.log -text
