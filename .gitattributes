@@ -378,6 +378,8 @@ examples/Methoxymethyl/Chebyshev.xml -text
 examples/Methoxymethyl/ChebyshevCK.xml -text
 examples/Methoxymethyl/baselines/Linux64/Chebyshev.log -text
 examples/Methoxymethyl/baselines/Linux64/Chebyshev.test -text
+examples/Methoxymethyl/baselines/Linux64/ChebyshevCK.log -text
+examples/Methoxymethyl/baselines/Linux64/ChebyshevCK.test -text
 examples/Methoxymethyl/baselines/Win32/Chebyshev.log -text
 examples/Methoxymethyl/baselines/Win32/Chebyshev.test -text
 examples/Methoxymethyl/baselines/Win32/ChebyshevCK.log -text

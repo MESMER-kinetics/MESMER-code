@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- May 17 2013 -- 19:06:13
+     Mesmer v3.0 compiled: -- Dec 16 2013 -- 09:30:22
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -38,43 +38,15 @@ In NO: NO copied from ../../librarymols.xml
 In NO: The default value of me:frequenciesScaleFactor was used.
 In NO: The default value of me:DOSCMethod was used.
 In NO: New me:ZPE element written with data from me:Hf298
-In HONO: Hindered rotor b2
-          Angle         Potential          Series
-              0,               0,          1.9493
-       0.261799,           359.8,         344.685
-       0.523599,         1307.46,         1253.84
-       0.785398,          2530.7,         2431.01
-         1.0472,         3674.96,         3528.12
-          1.309,         4440.19,         4261.22
-         1.5708,         4653.42,          4467.9
-         1.8326,         4294.35,         4123.33
-         2.0944,         3474.91,         3335.12
-        2.35619,         2411.88,         2315.11
-        2.61799,         1380.23,         1325.74
-        2.87979,          640.26,         614.716
-        3.14159,          372.33,         356.774
-        3.40339,          640.26,         614.716
-        3.66519,         1380.23,         1325.74
-        3.92699,         2411.88,         2315.11
-        4.18879,         3474.91,         3335.12
-        4.45059,         4294.35,         4123.33
-        4.71239,         4653.42,          4467.9
-        4.97419,         4440.19,         4261.22
-        5.23599,         3674.96,         3528.12
-        5.49779,          2530.7,         2431.01
-        5.75959,         1307.46,         1253.84
-        6.02139,           359.8,         344.685
-        6.28319,               0,          1.9493
-
-In HONO: New me:ZPE element written with data from me:Hf298
+In HONO: Hindered rotor b2 replacing vib freq 543
+New me:ZPE element written with data from me:Hf298
 In HONO: The default value of me:DistributionCalcMethod was used.
 In HONO: The default value of me:energyTransferModel was used.
-In HONO: HONO:deltaEDown: was given a range with 451 steps 
-In HONO: The default value of me:deltaEDownTExponent was used.
+In HONO: HONO:deltaEDown was given a range with 451 steps 
 In R1: R1:preExponential was given a range with 82 steps 
 In R1: The default value of me:TInfinity was used.
-In R1: No tunneling method requested for R1
-In R1: No crossing method requested for R1
+In R1: No tunneling method used for R1
+In R1: No crossing method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 All molecules are on the same energy basis: computational
 3.2e+21PPCC, 295K at d precision with He
@@ -94,7 +66,7 @@ All molecules are on the same energy basis: computational
 1.64e+17PPCC, 294K at d precision with He
 2.63e+17PPCC, 294K at d precision with He
 3.28e+17PPCC, 294K at d precision with He
-Write metadata 20130517_201947
+Write metadata 20131216_103230
 
 File: "OH_NO_HONO.xml" successfully parsed.
 Main Calculation begins
@@ -104,7 +76,6 @@ Number of grains produced : 197
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
-Both grain size and number of grains specified. Grain size used
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -124,7 +95,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 202.115 Lambda = 1
-HONO:deltaEDown:=58  R1:preExponential=6.78e-11  
+HONO:deltaEDown=58  R1:preExponential=6.78e-11  
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -222,7 +193,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 87.7322 Lambda = 0.1
-HONO:deltaEDown:=68.7623  R1:preExponential=7.55073e-11  
+HONO:deltaEDown=68.7623  R1:preExponential=7.55073e-11  
 Iteration: 1 of Marquardt. ChiSquare = 87.7322, Lambda = 0.1
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -283,7 +254,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.9163 Lambda = 0.01
-HONO:deltaEDown:=79.3641  R1:preExponential=6.40718e-11  
+HONO:deltaEDown=79.3641  R1:preExponential=6.40718e-11  
 Iteration: 2 of Marquardt. ChiSquare = 51.9163, Lambda = 0.01
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -344,7 +315,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3017 Lambda = 0.001
-HONO:deltaEDown:=80.6437  R1:preExponential=6.46978e-11  
+HONO:deltaEDown=80.6437  R1:preExponential=6.46978e-11  
 Iteration: 3 of Marquardt. ChiSquare = 51.3017, Lambda = 0.001
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -367,7 +338,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3017 Lambda = 0.01
-HONO:deltaEDown:=80.6437  R1:preExponential=6.46978e-11  
+HONO:deltaEDown=80.6437  R1:preExponential=6.46978e-11  
 Iteration: 4 of Marquardt. ChiSquare = 51.3017, Lambda = 0.01
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -428,7 +399,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3013 Lambda = 0.001
-HONO:deltaEDown:=80.6482  R1:preExponential=6.47121e-11  
+HONO:deltaEDown=80.6482  R1:preExponential=6.47121e-11  
 Iteration: 5 of Marquardt. ChiSquare = 51.3013, Lambda = 0.001
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -451,7 +422,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3013 Lambda = 0.01
-HONO:deltaEDown:=80.6482  R1:preExponential=6.47121e-11  
+HONO:deltaEDown=80.6482  R1:preExponential=6.47121e-11  
 Iteration: 6 of Marquardt. ChiSquare = 51.3013, Lambda = 0.01
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -474,7 +445,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3013 Lambda = 0.1
-HONO:deltaEDown:=80.6482  R1:preExponential=6.47121e-11  
+HONO:deltaEDown=80.6482  R1:preExponential=6.47121e-11  
 Iteration: 7 of Marquardt. ChiSquare = 51.3013, Lambda = 0.1
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -497,7 +468,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3013 Lambda = 1
-HONO:deltaEDown:=80.6482  R1:preExponential=6.47121e-11  
+HONO:deltaEDown=80.6482  R1:preExponential=6.47121e-11  
 Iteration: 8 of Marquardt. ChiSquare = 51.3013, Lambda = 1
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -520,7 +491,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3013 Lambda = 10
-HONO:deltaEDown:=80.6482  R1:preExponential=6.47121e-11  
+HONO:deltaEDown=80.6482  R1:preExponential=6.47121e-11  
 Iteration: 9 of Marquardt. ChiSquare = 51.3013, Lambda = 10
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -543,7 +514,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3013 Lambda = 100
-HONO:deltaEDown:=80.6482  R1:preExponential=6.47121e-11  
+HONO:deltaEDown=80.6482  R1:preExponential=6.47121e-11  
 Iteration: 10 of Marquardt. ChiSquare = 51.3013, Lambda = 100
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -566,7 +537,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3013 Lambda = 1000
-HONO:deltaEDown:=80.6482  R1:preExponential=6.47121e-11  
+HONO:deltaEDown=80.6482  R1:preExponential=6.47121e-11  
 Iteration: 11 of Marquardt. ChiSquare = 51.3013, Lambda = 1000
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -589,7 +560,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3013 Lambda = 10000
-HONO:deltaEDown:=80.6482  R1:preExponential=6.47121e-11  
+HONO:deltaEDown=80.6482  R1:preExponential=6.47121e-11  
 Iteration: 12 of Marquardt. ChiSquare = 51.3013, Lambda = 10000
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -612,7 +583,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3013 Lambda = 100000
-HONO:deltaEDown:=80.6482  R1:preExponential=6.47121e-11  
+HONO:deltaEDown=80.6482  R1:preExponential=6.47121e-11  
 Iteration: 13 of Marquardt. ChiSquare = 51.3013, Lambda = 100000
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -635,7 +606,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3013 Lambda = 1e+06
-HONO:deltaEDown:=80.6482  R1:preExponential=6.47121e-11  
+HONO:deltaEDown=80.6482  R1:preExponential=6.47121e-11  
 Iteration: 14 of Marquardt. ChiSquare = 51.3013, Lambda = 1e+06
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -658,7 +629,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3013 Lambda = 1e+07
-HONO:deltaEDown:=80.6482  R1:preExponential=6.47121e-11  
+HONO:deltaEDown=80.6482  R1:preExponential=6.47121e-11  
 Iteration: 15 of Marquardt. ChiSquare = 51.3013, Lambda = 1e+07
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -681,7 +652,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3013 Lambda = 1e+08
-HONO:deltaEDown:=80.6482  R1:preExponential=6.47121e-11  
+HONO:deltaEDown=80.6482  R1:preExponential=6.47121e-11  
 Iteration: 16 of Marquardt. ChiSquare = 51.3013, Lambda = 1e+08
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -704,7 +675,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3013 Lambda = 1e+09
-HONO:deltaEDown:=80.6482  R1:preExponential=6.47121e-11  
+HONO:deltaEDown=80.6482  R1:preExponential=6.47121e-11  
 Iteration: 17 of Marquardt. ChiSquare = 51.3013, Lambda = 1e+09
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -727,7 +698,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3013 Lambda = 1e+10
-HONO:deltaEDown:=80.6482  R1:preExponential=6.47121e-11  
+HONO:deltaEDown=80.6482  R1:preExponential=6.47121e-11  
 Iteration: 18 of Marquardt. ChiSquare = 51.3013, Lambda = 1e+10
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -750,7 +721,7 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3013 Lambda = 1e+11
-HONO:deltaEDown:=80.6482  R1:preExponential=6.47121e-11  
+HONO:deltaEDown=80.6482  R1:preExponential=6.47121e-11  
 Iteration: 19 of Marquardt. ChiSquare = 51.3013, Lambda = 1e+11
 Association ILT calculation completed
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
@@ -773,77 +744,77 @@ In timeEvolution: No population was assigned. Initialize the first source term t
 Finish Calculation of P-T case
 
 Chi^2 = 51.3013 Lambda = 1e+12
-HONO:deltaEDown:=80.6482  R1:preExponential=6.47121e-11  
+HONO:deltaEDown=80.6482  R1:preExponential=6.47121e-11  
 Iteration: 20 of Marquardt. ChiSquare = 51.3013, Lambda = 1e+12
 PT Grid 0
 Number of cells = 21450, Number of grains = 858
 Association ILT calculation completed
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 27 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 1
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 27 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 2
-Build Collison Operator -- Time elapsed: 13 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 40 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 17 seconds.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 3
-Build Collison Operator -- Time elapsed: 2 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 27 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 18 seconds.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 4
 Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 26 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 17 seconds.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 5
 Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 24 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 17 seconds.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 6
-Build Collison Operator -- Time elapsed: 2 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 26 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 17 seconds.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 7
-Build Collison Operator -- Time elapsed: 2 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 23 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 8
 Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 21 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 14 seconds.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 9
-Build Collison Operator -- Time elapsed: 10 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 21 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 14 seconds.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 10
 Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 21 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 11
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 21 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 15 seconds.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 12
 Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 22 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 14 seconds.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 13
-Build Collison Operator -- Time elapsed: 2 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 62 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 14 seconds.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 14
-Build Collison Operator -- Time elapsed: 2 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 21 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 14 seconds.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 15
-Build Collison Operator -- Time elapsed: 12 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 21 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 14 seconds.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 PT Grid 16
 Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 21 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 14 seconds.
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -873,18 +844,18 @@ Chi^2 = 51.3013
 
 Best fit parameters:
 
-HONO:deltaEDown: = 80.6482 +/- 2.05194
+HONO:deltaEDown = 80.6482 +/- 2.05194
 R1:preExponential = 6.47121e-11 +/- 6.02752e-12
 
 Correlation coefficients:
 
-R1:preExponential , HONO:deltaEDown: = -0.484244
+R1:preExponential , HONO:deltaEDown = -0.484244
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 15
 Chi^2 probability = 7.36583e-06
 
- -- Total time elapsed: 13759 seconds.
+ -- Total time elapsed: 9743 seconds.
 
 System saved to out.xml
