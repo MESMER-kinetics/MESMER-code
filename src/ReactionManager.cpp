@@ -228,6 +228,68 @@ namespace mesmer
 
   }
 
+pair<string,Reaction*> ReactionManager::getCompleteReactantsAndProducts(const string& modelledMols) const
+{
+    //assume mol ids do not contain any of =><+ or spaces
+    string rname, pname, result;
+    string::size_type pos = modelledMols.find_first_of(" <=>");
+    if(pos!=string::npos)
+      rname = modelledMols.substr(0, pos);
+    pos = modelledMols.find_first_not_of(" <=>", pos);
+    if(pos!=string::npos)
+    {
+      pname = modelledMols.substr(pos);
+      //remove second and third product names (added back below) 
+      pos = pname.find('+');
+      if(pos!=string::npos)
+        pname.erase(pos);
+    }
+
+    Reaction* r(NULL); //of reactants
+    //Find the reactant isomer in some reaction's reactants and use complete reactants
+    for (unsigned ir=0; ir<m_reactions.size(); ir++)
+    {
+      if(m_reactions[ir]->get_reactant()->getName()==rname)
+      {
+        result = m_reactions[ir]->getReactionString(Reaction::reactantsOnly);
+        r = m_reactions[ir];
+        break;
+      }
+    }
+
+    //Find the product isomer in some reaction's products
+    bool found(false);
+    for (unsigned i=0; i<m_reactions.size() && !found; i++)
+    {
+      vector<Molecule*> products;
+      m_reactions[i]->get_products(products);
+      for(unsigned j=0; j<products.size() && !found; ++j)
+      {
+        if(products[j]->getName()==pname)
+        {
+          result += " => ";
+          result += m_reactions[i]->getReactionString(Reaction::productsOnly);
+          found = true;
+        }
+      }
+    }
+
+    if(!found)
+    {
+      //Find the product isomer in some reaction's reactants
+      for (unsigned ir=0; ir<m_reactions.size(); ir++)
+      {
+        if(m_reactions[ir]->get_reactant()->getName()==pname)
+        {
+          result += " => ";
+          result += m_reactions[ir]->getReactionString(Reaction::reactantsOnly);
+          break;
+        }
+      }
+    }
+    return make_pair(result, r);
+}
+
 }//namespace
 
 

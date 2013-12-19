@@ -1,4 +1,4 @@
-//-------------------------------------------------------------------------------------------
+ //-------------------------------------------------------------------------------------------
 //
 // BimolecularSinkReaction.cpp
 //
@@ -86,6 +86,13 @@ namespace mesmer
         pMol2 = GetMolRef(ppProduct2);
         if (pMol2){
           m_pdt2 = pMol2;
+          Molecule* pMol3 = NULL ;
+          PersistPtr ppProduct3  = ppProduct2->XmlMoveTo("product");
+          if (ppProduct3) {
+            pMol3 = GetMolRef(ppProduct3);
+            if (pMol3)
+              m_pdt3 = pMol3;
+          }
         }
         else {
           cinfo << "Irreversible reaction " << getName() << " has only one product defined." << endl;

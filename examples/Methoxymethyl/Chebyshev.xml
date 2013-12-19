@@ -982,6 +982,8 @@
         </property>
       </propertyList>
     </molecule>
+    <molecule id="cycCH2OCH2O"/>
+    <molecule id="CH2O"/>
   </moleculeList>
   <reactionList>
     <reaction id="R1">
@@ -1022,6 +1024,12 @@
       <product>
         <molecule ref="OH-1" role="sink"/>
       </product>
+      <product>
+        <molecule ref="CH2O" role="sink"/>
+      </product>
+      <product>
+        <molecule ref="CH2O" role="sink"/>
+      </product>
       <me:transitionState>
         <molecule ref="TS5" role="transitionState"/>
       </me:transitionState>
@@ -1035,7 +1043,13 @@
       <product>
         <molecule ref="OH-2" role="sink"/>
       </product>
-      <me:transitionState>
+      <product>
+       <molecule ref="CH2O" role="sink"/>
+      </product>
+      <product>
+        <molecule ref="CH2O" role="sink"/>
+      </product>
+        <me:transitionState>
         <molecule ref="TS3" role="transitionState"/>
       </me:transitionState>
       <me:MCRCMethod name="SimpleRRKM"/>
@@ -1047,6 +1061,9 @@
       </reactant>
       <product>
         <molecule ref="OH-3" role="sink"/>
+      </product>
+      <product>
+        <molecule ref="cycCH2OCH2O" role="sink"/>
       </product>
       <me:transitionState>
         <molecule ref="TS4" role="transitionState"/>

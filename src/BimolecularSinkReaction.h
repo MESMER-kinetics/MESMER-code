@@ -31,6 +31,7 @@ namespace mesmer
       m_rct2(NULL),
       m_pdt1(NULL),
       m_pdt2(NULL),
+      m_pdt3(NULL),
       excessReactantLocation(isReactant)
     { m_UsesProductProperties = false; }  
 
@@ -58,6 +59,10 @@ namespace mesmer
       product.push_back(m_pdt1) ;
       if(m_pdt2){
         product.push_back(m_pdt2) ;
+        if(m_pdt3){
+          product.push_back(m_pdt3) ;
+          return 3;
+        }
         return 2;
       }
       return 1;
@@ -109,6 +114,7 @@ namespace mesmer
     Molecule    *m_rct2 ;                 // Reactant Molecule.
     Molecule    *m_pdt1 ;                 // Product Molecule.
     Molecule    *m_pdt2 ;                 // Subsidiary product molecule.
+    Molecule    *m_pdt3 ;                 // Subsidiary product molecule.
 
     bool excessReactantLocation;				// true if 1st rct in XML file is deficient false if 2nd reactant is deficient
 

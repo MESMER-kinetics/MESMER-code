@@ -1,3 +1,16 @@
+2013-December-19 Chris Morley
+
+	* src/plugins/AnalyticalRepresentation.cpp: expand reaction strings
+	to include all the species for easier pasting to Cantera.
+
+	* src/BimolecularSinkReaction.cpp,src/BimolecularSinkReaction.h,
+	src/IrreversibleUnimolecularReaction.cpp,src/IrreversibleUnimolecularReaction.h,
+	src/CollisonOperator.cpp: increase possible number of sink products to three.
+	
+	* src/Reaction.cpp,src/Reaction.h,src/ReactionManager.cpp,
+	src/ReactionManager.h,src/CollisionOperator.cpp: add some reasonably
+	gereneral functions for reaction strings.
+
 
 2013-December-07 Struan Robertson
 

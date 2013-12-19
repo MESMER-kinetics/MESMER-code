@@ -290,24 +290,34 @@ namespace mesmer
       getHeatOfReaction();
   }
 
-  string Reaction::getReactionString()
+  string Reaction::getReactionString(reactionType type)
   {
     string s;
+    int n;
     vector<Molecule*> reactants, products;
-    int n = get_reactants(reactants);
-    for(int i=0; i<n; ++i)
+    if(type != productsOnly)
     {
-      s += reactants[i]->getName();
-      if(i<n-1)
-        s += " + ";
+      n = get_reactants(reactants);
+      for(int i=0; i<n; ++i)
+      {
+        s += reactants[i]->getName();
+        if(i<n-1)
+          s += " + ";
+      }
     }
-    s += " => ";
-    n = get_products(products);
-    for(int i=0; i<n; ++i)
+    if(type==all)
+      s += " => ";
+    if(type==rev)
+      s += " => ";
+    if(type!=reactantsOnly)
     {
-      s += products[i]->getName();
-      if(i<n-1)
-        s += " + ";
+      n = get_products(products);
+      for(int i=0; i<n; ++i)
+      {
+        s += products[i]->getName();
+        if(i<n-1)
+          s += " + ";
+      }
     }
     return s;
   }

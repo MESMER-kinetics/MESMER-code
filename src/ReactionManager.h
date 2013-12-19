@@ -66,6 +66,10 @@ namespace mesmer
     // Find a reaction from its id
     Reaction* find(const std::string& id) const ;
 
+    //Find a reaction from its modelled reactant and product e.g. from "CH3OCH2 => IM2"
+    std::pair<std::string,Reaction*> ReactionManager::getCompleteReactantsAndProducts
+      (const std::string& modelledMols) const;
+
     // Set Initial population for individual grains and/or species
     void setInitialPopulation(PersistPtr);
 

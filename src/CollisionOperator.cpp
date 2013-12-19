@@ -1460,7 +1460,8 @@ namespace mesmer
         vector<Molecule*> pdts;
         sinkReaction->get_products(pdts);
         string pdtsName = pdts[0]->getName();
-        if (pdts.size() == 2) {pdtsName += "+"; pdtsName += pdts[1]->getName();}
+        if (pdts.size() >= 2) {pdtsName += "+"; pdtsName += pdts[1]->getName();}
+        if (pdts.size() >= 3) {pdtsName += "+"; pdtsName += pdts[2]->getName();}
         for(rctitr=m_SpeciesSequence.begin(); rctitr!=m_SpeciesSequence.end(); ++rctitr){
           Molecule* rcts = rctitr->first;     // get reactants & their position
           int rctpos = rctitr->second;

@@ -26,7 +26,8 @@ namespace mesmer
       : Reaction(pMoleculeManager, Env, Flags, id),
       m_rct1(NULL),
       m_pdt1(NULL),
-      m_pdt2(NULL)
+      m_pdt2(NULL),
+      m_pdt3(NULL)
     { m_UsesProductProperties = false; }  
 
     // Destructor.
@@ -66,6 +67,10 @@ namespace mesmer
       product.push_back(m_pdt1) ;
       if(m_pdt2){
         product.push_back(m_pdt2) ;
+        if(m_pdt3){
+          product.push_back(m_pdt3) ;
+          return 3;
+        }
         return 2;
       }
       return 1;
@@ -114,6 +119,7 @@ namespace mesmer
     Molecule    *m_rct1 ;                 // Reactant Molecule.
     Molecule    *m_pdt1 ;                 // Product Molecule.
     Molecule    *m_pdt2 ;                 // Subsidiary product molecule.
+    Molecule    *m_pdt3 ;                 // Subsidiary product molecule.
 
   } ;
 

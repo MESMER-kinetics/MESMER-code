@@ -96,7 +96,8 @@ namespace mesmer
     // Get unimolecualr species information:
     virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const = 0 ;
 
-    std::string getReactionString();
+    enum reactionType{all, rev, reactantsOnly, productsOnly};
+    std::string getReactionString(reactionType=all);
 
     // Get the imaginary frequency of the transitions state.
     double get_TSImFreq(void) const {return m_TransitionState->getTS().get_ImFreq() ; } ;

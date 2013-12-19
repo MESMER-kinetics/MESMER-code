@@ -225,13 +225,20 @@ namespace mesmer
         pSys->calculate(Temp, Conc, phenRates, m_TMax);
         vector<double> rate ;
         for (map<string, double>::const_iterator itr = phenRates.begin() ; itr != phenRates.end(); ++itr) {
-          rate.push_back(itr->second) ;
+          double concExcessReactant(0);
           if (flag) {
             //Expand the string in phenRates to include all the reactants and products
-            // Reaction* r = pSys->getReactionManager()->findFromModelledMols(itr->first);
-            // m_reactions.push_back(r ? r->getReactionString() : itr->first) ;
-            m_reactions.push_back(itr->first) ;
+            pair<string,Reaction*> presult= pSys->getReactionManager()->getCompleteReactantsAndProducts
+              (itr->first);
+            Reaction* r = presult.second;
+            m_reactions.push_back(presult.first) ;
+
+            // concExcessReactant is zero for first order reactions and when reaction not found
+            concExcessReactant = r ? 
+              r->get_concExcessReactant()/getConvertedP(m_PUnits, 1.0, Temp) : 0.0;
           }
+          //Adjust rate if a second order reaction
+          rate.push_back(concExcessReactant>0 ? itr->second/concExcessReactant : itr->second) ;
         }
         flag = false ;
         RCGrid.push_back(rate) ;
