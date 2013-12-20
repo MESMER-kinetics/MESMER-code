@@ -1187,7 +1187,6 @@ namespace mesmer
   gWellProperties::gWellProperties(Molecule* pMol) : MolecularComponent(),
     m_collisionFrequency(0.0),
     m_ncolloptrsize(0),
-    m_nRedcolloptrsize(0),
     m_lowestBarrier(9e23),
     m_numGroupedGrains(0),
     m_pDistributionCalculator(NULL),
@@ -1286,8 +1285,7 @@ namespace mesmer
   }
 
   void gWellProperties::set_colloptrsize(int ncolloptrsize) {
-    m_ncolloptrsize = ncolloptrsize ;
-	m_nRedcolloptrsize = ncolloptrsize ;
+	m_ncolloptrsize = ncolloptrsize ;
   } ;
 
   const int gWellProperties::get_grnZPE(){
@@ -1570,7 +1568,7 @@ namespace mesmer
       m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
     }
 
-    m_nRedcolloptrsize = reducedCollOptrSize ;
+    m_ncolloptrsize = reducedCollOptrSize ;
 
     delete tempEGME;
 
@@ -1834,15 +1832,15 @@ namespace mesmer
 
     // Check there is enough space in system matrix.
 
-    if (locate + m_nRedcolloptrsize > smsize)
+    if (locate + m_ncolloptrsize > smsize)
       throw (std::runtime_error("Error in the size of the system matrix."));
 
     // Copy collision operator to the diagonal block indicated by "locate"
     // and multiply by the reduced collision frequencey.
 
-    for (size_t i(0) ; i < m_nRedcolloptrsize ; ++i) {
+    for (size_t i(0) ; i < m_ncolloptrsize ; ++i) {
       int ii(locate + i) ;
-      for (size_t j(0) ; j < m_nRedcolloptrsize ; ++j) {
+      for (size_t j(0) ; j < m_ncolloptrsize ; ++j) {
         int jj(locate + j) ;
         (*CollOptr)[ii][jj] = RducdOmega * (*m_egme)[i][j] ;
       }
@@ -1891,10 +1889,9 @@ namespace mesmer
 
     m_pDistributionCalculator->calculateDistribution(m_host, m_grainDist);
 
-    const double firstPartition = m_grainDist[0];
-    double prtfn(firstPartition);
-    grainFrac.push_back(firstPartition);
-    for (size_t i = 1; i < m_ncolloptrsize; ++i){
+    double prtfn(m_grainDist[0]);
+    grainFrac.push_back(prtfn);
+    for (size_t i = 1; i < m_ncolloptrsize + reservoirShift() ; ++i){
       prtfn += m_grainDist[i];
       if (i < m_numGroupedGrains){
         grainFrac[0] += m_grainDist[i];
@@ -1909,7 +1906,7 @@ namespace mesmer
 
     if (m_host->getFlags().grainBoltzmannEnabled){
       ctest << "\nGrain fraction:\n{\n";
-      for (size_t i = 0; i < m_ncolloptrsize; ++i){
+      for (size_t i(0) ; i < grainFrac.size() ; ++i){
         ctest << grainFrac[i] << endl;
       }
       ctest << "}\n";
@@ -1933,25 +1930,21 @@ namespace mesmer
     m_host->getDOS().getGrainEnergies(gEne);
     m_host->getDOS().getGrainDensityOfStates(gDOS);
 
-    double prtfn(0.0);
     // Calculate unnormalized Boltzmann dist.
     // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
-    const double firstPartition = exp(log(gDOS[0]) - m_host->getEnv().beta * gEne[0] + 10.0);
-    tempGrnFrac.push_back(firstPartition);
-    prtfn = firstPartition;
-    for (size_t i = 1; i < m_ncolloptrsize; ++i) {
+    double prtfn = exp(log(gDOS[0]) - m_host->getEnv().beta * gEne[0] + 10.0);
+    tempGrnFrac.push_back(prtfn);
+    for (size_t i = 1; i < m_ncolloptrsize + reservoirShift() ; ++i) {
       const double thisPartition = exp(log(gDOS[i]) - m_host->getEnv().beta * gEne[i] + 10.0);
       prtfn += thisPartition;
       if (i < m_numGroupedGrains){
         tempGrnFrac[0] += thisPartition;
-      }
-      else{
+      } else {
         tempGrnFrac.push_back(thisPartition);
       }
     }
 
-    const int tempGrnFracSize = int(tempGrnFrac.size());
-    for (int i = 0; i < tempGrnFracSize; ++i){
+    for (size_t i(0); i < tempGrnFrac.size(); ++i){
       tempGrnFrac[i] /= prtfn;
     }
 

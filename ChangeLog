@@ -1,3 +1,8 @@
+2013-December-20 Struan Robertson
+
+	* MolecularComponents.h/.cpp: Minor changes related to the rationalization
+	of the reservoir state code.
+
 2013-December-19 Chris Morley
 
 	* src/plugins/AnalyticalRepresentation.cpp: expand reaction strings
@@ -11,8 +16,7 @@
 	src/ReactionManager.h,src/CollisionOperator.cpp: add some reasonably
 	gereneral functions for reaction strings.
 
-
-2013-December-07 Struan Robertson
+2013-December-14 Struan Robertson
 
 	* AnalyticalRepresentation.cpp: Initial revision of Chemkin format writer.
 

@@ -340,7 +340,6 @@ namespace mesmer
 
     double m_collisionFrequency ; // Current value of collision frequency.
     size_t m_ncolloptrsize ;      // Size of the collision operator matrix.
-    size_t m_nRedcolloptrsize ;   // Size of the reduced collision operator matrix.
     double m_lowestBarrier;       // lowest barrier associatied with this species
     size_t m_numGroupedGrains;    // Number of grains grouped into a reservoir grain.
 
@@ -405,7 +404,7 @@ namespace mesmer
     double get_collisionFrequency() const {return m_collisionFrequency ; } ;
 
     void set_colloptrsize(int ncolloptrsize) ;
-    size_t get_colloptrsize() const {return m_nRedcolloptrsize ; } ;
+    size_t get_colloptrsize() const {return m_ncolloptrsize ; } ;
 
     size_t get_nbasis() const ;
 
