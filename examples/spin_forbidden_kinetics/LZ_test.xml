@@ -5,7 +5,7 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <me:title>Cyclopropene isomerization</me:title>
   <moleculeList>
-  <!--J. Phys. Chem. A 2003, 107, 2680-2692-->
+    <!--J. Phys. Chem. A 2003, 107, 2680-2692-->
     <molecule id="cyclopropene" description="C_3H_4">
       <propertyList>
         <property dictRef="me:ZPE">
@@ -181,8 +181,8 @@
       <me:transitionState>
         <molecule ref="MECP1" role="transitionState" />
       </me:transitionState>
-      <me:crossing xsi:type="me:LZCrossing">
-          <me:RMS_SOC_element units="cm-1">5.08</me:RMS_SOC_element>
+      <me:crossing xsi:type="me:LZ">
+        <me:RMS_SOC_element units="cm-1">5.08</me:RMS_SOC_element>
         <me:GradientDifferenceMagnitude units="a.u./Bohr">0.09327305</me:GradientDifferenceMagnitude>
         <me:GradientReducedMass units="a.m.u.">10.4098</me:GradientReducedMass>
       </me:crossing>
@@ -213,13 +213,8 @@
     <me:testMicroRates />
     <me:printGrainDOS />
     <me:printTSsos />
-    <!--<me:printCellTransitionStateFlux />-->
-    <!--<me:printGrainTransitionStateFlux />-->
-    <!--<me:printCellDOS />-->
-    <!--<me:printReactionOperatorColumnSums />-->
     <!--<me:printCrossingCoefficients />-->
     <me:printGrainkfE />
-    <!--<me:printGrainBoltzmann />-->
     <me:printGrainkbE />
     <me:printSpeciesProfile />
     <me:eigenvalues>0</me:eigenvalues>
