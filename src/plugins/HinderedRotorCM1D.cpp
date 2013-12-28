@@ -270,7 +270,7 @@ namespace mesmer
     //
 
     // 1) Set-up array of potential points.
-    const int npnts(2000) ;
+    const size_t npnts(2000) ;
     const double intvl(2.0*M_PI/double(npnts)) ;
     vector<double>  ptnl(npnts,0.0) ;
     vector<double> dptnl(npnts,0.0) ;
@@ -307,7 +307,7 @@ namespace mesmer
     for (size_t i(0), idx(0); i < emax ; ++i) {
       double sum(0.0) ;
       sum += 0.5*cfgHdr[idx] ;
-      for (size_t j(1); j < nintvl; ++j, ++idx) {
+      for (size_t j(1); j < size_t(nintvl); ++j, ++idx) {
         sum += cfgHdr[idx] ;
       }
       sum += 0.5*cfgHdr[++idx] ;
@@ -345,7 +345,7 @@ namespace mesmer
     //
     // Calculate the hindering potential correction via numerical integration.
     //
-    const int npnts(1000) ;
+    const size_t npnts(1000) ;
     const double intvl(2*M_PI/double(npnts)) ;
     double Qhdr(0.0) ;
     for (size_t i(0); i < npnts; ++i) {

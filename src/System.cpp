@@ -468,7 +468,7 @@ namespace mesmer
 
       m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, this_T);
 
-      Precision this_precision;
+      Precision this_precision(UNDEFINED_PRECISION);
       txt = ppPTpair->XmlReadValue("me:precision", optional); //an element
       if(!txt)
         txt = ppPTpair->XmlReadValue("precision"); //an attribute
@@ -1006,7 +1006,7 @@ namespace mesmer
 
   void System::AddCalcValToXml(const CandTpair& expData, size_t i, double val) const
   {
-    //Add extra attributes) containing calculated value and timestamp to <me:experimentalRate> (or similar element)
+    // Add extra attribute(s) containing calculated value and timestamp to <me:experimentalRate> (or similar element).
     PersistPtr pp = expData.get_experimentalDataPtr(i);
     TimeCount events;
     string timeString;
@@ -1014,7 +1014,7 @@ namespace mesmer
     stringstream ss;
     ss << val;
     pp->XmlWriteAttribute("calcVal", ss.str());
-    double rval = pp->XmlReadDouble("calcVal",false);
+    pp->XmlReadDouble("calcVal",false);
   }
 
   bool System::ReadRange(const string& name, vector<double>& vals, PersistPtr ppbase, bool MustBeThere)

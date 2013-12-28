@@ -44,12 +44,12 @@ namespace mesmer
 
 	void writeTableEntry(Molecule *pmol, double temp, double unitFctr, string & header) const ;
 
+    const char* m_id;
+
 	int m_nTemp ;
 	double m_TempInterval ;
 	string m_Unit ;
 
-  private:
-    const char* m_id;
   } ;
 
   ////////////////////////////////////////////////

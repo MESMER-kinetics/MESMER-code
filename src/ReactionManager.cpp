@@ -150,8 +150,8 @@ namespace mesmer
       cerr << "Ill formed molecule tag." << endl;
       return false;
     }
-    const char *pmolname, *pmoltype;
-    pmolname = ppmol->XmlReadValue("ref", false);
+    const char *pmoltype(NULL);
+    const char *pmolname = ppmol->XmlReadValue("ref", false);
     if(pmolname) {
       ErrorContext c(pmolname);
       MolName = pmolname;
@@ -218,7 +218,7 @@ namespace mesmer
   {
 
     bool found(false) ;
-    size_t idx ;
+    size_t idx(0) ;
     for (size_t i(0) ; i < m_reactions.size() && !found; i++) {
       idx = i ;
       found = (m_reactions[i]->getName() == id) ; 

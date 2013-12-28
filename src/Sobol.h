@@ -291,14 +291,14 @@ void Sobol::sobol ( size_t dim_num, T *seed, std::vector<U> &quasi )
 //
 {
   static T atmost;
-  static int dim_num_save = 0;
+  static size_t dim_num_save = 0;
   size_t i;
   bool includ[LOG_MAX];
   static bool initialized = false;
   T j;
   T j2;
   T k;
-  T l;
+  T l(0);
   static T lastq[DIM_MAX2];
   T m;
   static T maxcol;
@@ -427,7 +427,7 @@ void Sobol::sobol ( size_t dim_num, T *seed, std::vector<U> &quasi )
     initialized = true;
     for ( i = 0; i < DIM_MAX2; i++ )
     {
-      for ( j = 0; j < LOG_MAX; j++ )
+      for ( j = 0; j < T(LOG_MAX) ; j++ )
       {
         v[i][j] = 0;
       }

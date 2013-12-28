@@ -833,7 +833,7 @@ namespace mesmer
 
     gStructure& gs = m_host->getStruc() ;
     bool HasCoords = gs.ReadStructure() ;
-    if (!HasCoords || 3 * gs.NumAtoms() != msize) {
+    if (!HasCoords || 3 * size_t(gs.NumAtoms()) != msize) {
       cerr << "The dimension of the defined Hessian for " << getHost()->getName() << " does not match the specified number of atoms." ;
       return false ; 
     }
@@ -973,8 +973,7 @@ namespace mesmer
         if (imFreq > 1.0) {
 
           vector<double> mode(msize, 0.0) ;
-          size_t i(0), j(0) ;
-          for (j = 0 ; j < msize ; j++) {
+          for (size_t j(0) ; j < msize ; j++) {
             mode[j] = tmpHessian[j][m] ;
           }
 
@@ -1827,12 +1826,11 @@ namespace mesmer
   {
     // Find size of system matrix.
 
-    int smsize = static_cast<int>(CollOptr->size()) ;
-    //int MaximumGrain = m_host->getEnv().MaxGrn;
+    size_t smsize = CollOptr->size() ;
 
     // Check there is enough space in system matrix.
 
-    if (locate + m_ncolloptrsize > smsize)
+    if (size_t(locate) + m_ncolloptrsize > smsize)
       throw (std::runtime_error("Error in the size of the system matrix."));
 
     // Copy collision operator to the diagonal block indicated by "locate"
@@ -2285,7 +2283,7 @@ namespace mesmer
       {
         //get vals from librarymols.xml
         PersistPtr ppMol = GetFromLibrary(el, PersistPtr());
-        double diff;
+        double diff(0.0);
         if(ppMol)
         {
           diff = ppMol->XmlReadPropertyDouble("me:ZPE",optional);

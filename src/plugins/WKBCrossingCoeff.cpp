@@ -54,10 +54,10 @@ namespace mesmer
     if(ppData)
     {
       return
-       ReadDoubleAndUnits2(m_SOCelement, pp, "me:RMS_SOC_element", "cm-1") &&
-       ReadDoubleAndUnits2(m_GradDiffMagnitude, pp, "me:GradientDifferenceMagnitude", "a.u./Bohr") &&
-       ReadDoubleAndUnits2(m_ReducedMass, pp, "me:GradientReducedMass", "a.m.u.") &&
-       ReadDoubleAndUnits2(m_AverageSlope, pp, "me:AverageSlope", "a.u./Bohr");
+        ReadDoubleAndUnits2(m_SOCelement, pp, "me:RMS_SOC_element", "cm-1") &&
+        ReadDoubleAndUnits2(m_GradDiffMagnitude, pp, "me:GradientDifferenceMagnitude", "a.u./Bohr") &&
+        ReadDoubleAndUnits2(m_ReducedMass, pp, "me:GradientReducedMass", "a.m.u.") &&
+        ReadDoubleAndUnits2(m_AverageSlope, pp, "me:AverageSlope", "a.u./Bohr");
     }
     else
     {
@@ -115,8 +115,8 @@ namespace mesmer
       double E = double(i) - ZPE_corr_barrier_height;
       double E_AU = E / Hartree_in_RC;
       double xvalue = -1.0e+0* E_AU * DT_2;
-      double Aip(0), Bi(0), Bip(0); //airy returns Ai, Bi, and their derivatives, Aip & Bip
       airy2(xvalue, Ai);            //airy2 accurate over entire tunnelling regime
+      // double Aip(0), Bi(0), Bip(0); //airy returns Ai, Bi, and their derivatives, Aip & Bip
       //airy(xvalue, Ai, Aip, Bi, Bip); //airy accurate in shallow tunnelling regime; less so for deep tunnelling
       CrossingProbability[i] = DT_1 * pow(Ai,2.0e+0);
       // following if statement to avoid nan
@@ -145,8 +145,7 @@ namespace mesmer
         cinfo << "MESMER could not read units for " << identifier << "; assuming " << units << "." << endl;
       }
       cinfo << identifier << " = " << element << " " << units << endl;
-    }  
-    else{
+    } else {
       cerr << "Spin forbidden crossing: failed to read " << identifier << " (" << units << ")." << endl; 
       return false;
     }
@@ -154,27 +153,25 @@ namespace mesmer
   }
 
   bool WKBCrossingCoeff::ReadDoubleAndUnits2
-      (double& element, PersistPtr pp, const std::string identifier, const std::string units)
+    (double& element, PersistPtr pp, const std::string identifier, const std::string units)
   {
     PersistPtr ppData = pp->XmlMoveTo(identifier);
     if(!ppData)
       return false;
-		element = pp->XmlReadDouble(identifier); //or default
+    element = pp->XmlReadDouble(identifier); //or default
     if(!IsNan(element))
     {
       string unitsTxt = ppData->XmlReadValue("units", false);
-		  if (unitsTxt!=units){
-			  cinfo << "MESMER could not read units for " << identifier << "; assuming " << units << "." << endl;
-  	  cinfo << identifier << " = " << element << " " << units << endl;
+      if (unitsTxt!=units){
+        cinfo << "MESMER could not read units for " << identifier << "; assuming " << units << "." << endl;
+        cinfo << identifier << " = " << element << " " << units << endl;
       }
+    } else {
+      cerr << "Spin forbidden crossing: failed to read " << identifier << " (" << units << ")." << endl; 
+      return false;
     }
-		else
-    {
-			cerr << "Spin forbidden crossing: failed to read " << identifier << " (" << units << ")." << endl; 
-			return false;
-		}
-		return true;
-	}
+    return true;
+  }
 
 }//namespace
 

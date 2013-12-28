@@ -62,3 +62,4 @@ T* ParseForPlugin(U* pParent, const char* elTypeName, PersistPtr ppTop, bool Mus
 }
 
 #endif
+

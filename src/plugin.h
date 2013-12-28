@@ -27,26 +27,26 @@
 namespace mesmer
 {
 
-//Parent of all plugin-type classes (e.g. DensityOfStatesCalculator)
-class TopPlugin
+  //Parent of all plugin-type classes (e.g. DensityOfStatesCalculator)
+  class TopPlugin
   {
-public:
-  typedef std::map<std::string, std::map<std::string, TopPlugin*> > PluginMapType;
-  typedef std::map<std::string, TopPlugin*> TypeMapType;
+  public:
+    typedef std::map<std::string, std::map<std::string, TopPlugin*> > PluginMapType;
+    typedef std::map<std::string, TopPlugin*> TypeMapType;
 
-  //IDs on separate lines, IDs+descriptions on separate lines, comma separated
-  enum format {brief, verbose, comma};
+    //IDs on separate lines, IDs+descriptions on separate lines, comma separated
+    enum format {brief, verbose, comma};
 
-  virtual ~TopPlugin() {}
+    virtual ~TopPlugin() {}
 
-  //getID() is public because sometimes used externally
-  virtual const char* getID()=0;
+    //getID() is public because sometimes used externally
+    virtual const char* getID()=0;
 
-  //Get the plugin to parse its data. Plugins with no data use the default here.
-  virtual bool ParseData(PersistPtr pp){ return true; }
+    //Get the plugin to parse its data. Plugins with no data use the default here.
+    virtual bool ParseData(PersistPtr pp){ return true; }
 
-  // Print out full case versions of ID and TypeID
-  // and additionally Description() and typeDescription() if verbose is true.
+    // Print out full case versions of ID and TypeID
+    // and additionally Description() and typeDescription() if verbose is true.
     // For a single plugintype:
     static std::string List(const char* pluginType, format f=brief)
     {
@@ -68,85 +68,86 @@ public:
       return ss.str();
     }
 
-private:
-  static std::string ListofType(TypeMapType typeMap, std::stringstream& ss, format f)
-  {
-    for(TypeMapType::iterator piter=typeMap.begin(); piter!=typeMap.end(); ++piter)
+  private:
+    static std::string ListofType(TypeMapType typeMap, std::stringstream& ss, format f)
     {
-      if(piter==typeMap.begin() && f!=comma)
+      for(TypeMapType::iterator piter=typeMap.begin(); piter!=typeMap.end(); ++piter)
       {
-        ss << piter->second->getTypeID() << '\n';
+        if(piter==typeMap.begin() && f!=comma)
+        {
+          ss << piter->second->getTypeID() << '\n';
+          if(f==verbose)
+            ss << piter->second->typeDescription() << '\n';
+        }
+        if(f==comma)
+        {
+          if(piter!=typeMap.begin())
+            ss << ", ";
+          ss  << piter->second->getID();
+        }
+        else
+          ss << " * " << piter->second->getID() << "\n";
+
         if(f==verbose)
-          ss << piter->second->typeDescription() << '\n';
+          ss << "  " << piter->second->Description() << '\n';
       }
-      if(f==comma)
-      {
-        if(piter!=typeMap.begin())
-          ss << ", ";
-        ss  << piter->second->getID();
-      }
-      else
-        ss << " * " << piter->second->getID() << "\n";
-
-      if(f==verbose)
-        ss << "  " << piter->second->Description() << '\n';
+      return ss.str();
     }
-    return ss.str();
-  }
-public:
-  virtual TopPlugin* Clone(){ return NULL; }
-protected:
+  public:
+    virtual TopPlugin* Clone(){ return NULL; }
+  protected:
 
-  static TopPlugin* TopFind(const std::string& name,const std::string& pluginType,
-                            bool useErrorMessage=true)
-  {
-    // name is converted to lower case so that the search is case insensitive.
-    TypeMapType typeMap = allPlugins()[pluginType];
-    TypeMapType::iterator pos = typeMap.find(toLowercase(name));
-    if(pos==typeMap.end())
+    static TopPlugin* TopFind(const std::string& name,const std::string& pluginType,
+      bool useErrorMessage=true)
     {
-      if(useErrorMessage)
-        std::cerr << "\"" << name << "\" not recognized as one of the \n "
-                  << pluginType << " plugins. Possibilities are:\n "
-                  << List(pluginType.c_str(), comma) << std::endl;
-      return NULL;
+      // name is converted to lower case so that the search is case insensitive.
+      TypeMapType typeMap = allPlugins()[pluginType];
+      TypeMapType::iterator pos = typeMap.find(toLowercase(name));
+      if(pos==typeMap.end())
+      {
+        if(useErrorMessage)
+          std::cerr << "\"" << name << "\" not recognized as one of the \n "
+          << pluginType << " plugins. Possibilities are:\n "
+          << List(pluginType.c_str(), comma) << std::endl;
+        return NULL;
+      }
+
+      //Return a new instance, or the original instance if there is no Clone function.
+      TopPlugin* newp = (pos->second)->Clone();
+      return newp ? newp : pos->second;
     }
 
-    //Return a new instance, or the original instance if there is no Clone function.
-    TopPlugin* newp = (pos->second)->Clone();
-    return newp ? newp : pos->second;
-  }
+    virtual const char* getTypeID()=0;
+    virtual const char* Description() { return ""; };
+    virtual const char* typeDescription() { return ""; };
 
-  virtual const char* getTypeID()=0;
-  virtual const char* Description() { return ""; };
-  virtual const char* typeDescription() { return ""; };
+    void Register()
+    {
+      // The id strings in allPlugins are lower case/no white space versions
+      std::string cid = getTypeID();
+      std::string id  = getID();
+      allPlugins()[cid][toLowercase(id)] = this;
+    }
 
-  void Register()
-  {
-    // The id strings in allPlugins are lower case/no white space versions
-    std::string cid = getTypeID();
-    std::string id  = getID();
-    allPlugins()[cid][toLowercase(id)] = this;
-  }
-    
-private:
-  static PluginMapType& allPlugins()
-  {
-    static PluginMapType m;
-    return m;
-  }
+  private:
+    static PluginMapType& allPlugins()
+    {
+      static PluginMapType m;
+      return m;
+    }
 
-  static std::string toLowercase(const std::string& txt)
-  {
-    //Also removes whitespace
-    std::string lctxt;
-    std::remove_copy_if(txt.begin(), txt.end(), back_inserter(lctxt), ::isspace);
-    std::transform(lctxt.begin(), lctxt.end(), lctxt.begin(), ::tolower);
-    return lctxt;
-  }
+    static std::string toLowercase(const std::string& txt)
+    {
+      //Also removes whitespace
+      std::string lctxt;
+      std::remove_copy_if(txt.begin(), txt.end(), back_inserter(lctxt), ::isspace);
+      std::transform(lctxt.begin(), lctxt.end(), lctxt.begin(), ::tolower);
+      return lctxt;
+    }
 
-};
+  };
 
 }//namespace
 
 #endif
+

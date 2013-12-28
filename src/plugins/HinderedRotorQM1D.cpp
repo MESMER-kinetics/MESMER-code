@@ -265,7 +265,10 @@ namespace mesmer
     // associated with this internal rotation.
 
     if (gdos->hasHessian()) {
-      bool status = gdos->projectMode(mode) ;
+      if(!gdos->projectMode(mode)) {
+        cerr << "Failed to project out internal rotation." <<endl;
+        return false;
+      }
     }
 
     // Check if is data for plotting are required.

@@ -1383,7 +1383,7 @@ static const  int V12 [] = {
 	6541 } ; 
 
 static void copyVector(int v[DIM_MAX2][LOG_MAX], size_t idx, const int vec[]) {
-    for ( int i = 0; i < DIM_MAX2; i++ ) {
+    for ( size_t i(0); i < DIM_MAX2; i++ ) {
         v[i][idx] = vec[i] ;
     }
 }
@@ -1405,7 +1405,7 @@ void Sobol::initializeV ( int v[DIM_MAX2][LOG_MAX] ) {
 }
     
 static void copyVector(long long v[DIM_MAX2][LOG_MAX], size_t idx, const int vec[]) {
-    for ( int i = 0; i < DIM_MAX2; i++ ) {
+    for ( size_t i(0); i < DIM_MAX2; i++ ) {
         v[i][idx] = vec[i] ;
     }
 }

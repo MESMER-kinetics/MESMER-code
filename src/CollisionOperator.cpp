@@ -969,7 +969,6 @@ namespace mesmer
       sinkMap::iterator pos;      // Iterate through sink map to get product profile vs t.
       for (pos = m_sinkRxns.begin(); pos != m_sinkRxns.end(); ++pos){
         Reaction* sinkReaction = pos->first;
-        Molecule* isomer = sinkReaction->get_reactant();
         const vector<double> KofEs = sinkReaction->get_MtxGrnKf();        // Vector to hold sink k(E)s.
         vector<Molecule*> pdts;                                           // in the sink reaction
         sinkReaction->get_products(pdts);

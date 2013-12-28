@@ -42,10 +42,10 @@ namespace mesmer
     m_Flags(Flags),
     m_Name(id),
     m_reCalcMicroRateCoeffs(true),
+    m_UsesProductProperties(true),
     m_GrnFluxFirstNonZeroIdx(0),
     m_EffGrainedFwdThreshold(0),
-    m_EffGrainedRvsThreshold(0),
-    m_UsesProductProperties(true)
+    m_EffGrainedRvsThreshold(0)
   {}
 
   Reaction::~Reaction(){}
