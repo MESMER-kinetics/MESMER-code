@@ -1,3 +1,11 @@
+2014-January-10 Chris Morley
+	* src/error.h: StopCTestOutput works only when ErrorLevel is > obDebug,
+	  i.e. ctest output is enabled with -w5 option in command or 
+	  ChangeErrorLevel e(obDebug); in C++ code if fitting function.
+
+	* src/plugins/fitting.cpp,src/plugins/Marquardt.cpp,
+	  src/plugins/SensitivityAnalysis.cpp: ctest output supressed by default.
+
 2013-December-29 Struan Robertson
 
 	* MESMER manual.docx: Added content regarding XML Schema.

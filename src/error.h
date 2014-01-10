@@ -146,13 +146,19 @@ namespace mesmer
   };
 
 //*********************************************************************************
-  //!RAII class to lose any output to ctest. No effect if active=false. 
+//Global message handler (I would prefer not to have this here)
+extern MessageHandler meErrorLog;
+
+  //!RAII class to lose any output to ctest. No effect if active=false.
+  //The command also has no effect when the error level is 5 (obDebug) or greater,
+  // set by a -w5 option on the mesmer command on the command line 
+  // or by a C++ statement meErrorLog.SetOutputLevel(obDebug) in the fitting code.
   ///Cannot use an if statement when instantiating an object because would be in local scope.
   struct StopCTestOutput
   {
     StopCTestOutput(bool active = true) 
     {
-      if(active)
+      if(active && meErrorLog.GetOutputLevel()<obDebug)
       {  
         ctest << "CTest output disabled" << std::endl;
         ctest.clear(std::ios::failbit);
@@ -160,9 +166,6 @@ namespace mesmer
     }
     ~StopCTestOutput(){ ctest.clear(); }
   };
-
-//Global message handler (I would prefer not to have this here)
-extern MessageHandler meErrorLog;
 
 //Class to temporarily change the error output level. Make an object of it on the stack:
 //  ChangeErrorLevel e(obError);

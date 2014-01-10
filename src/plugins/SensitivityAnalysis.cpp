@@ -84,11 +84,11 @@ namespace mesmer
     // temperature (i.e. reduce the number of times micro-rates are calculated).
     pSys->m_Flags.useTheSameCellNumber = true;
 
-    // Warnings and less not sent to console.
-    ChangeErrorLevel e(obError); 
+    // Uncomment to enable ctest output during fitting. Or use -w5 option in command.
+    //ChangeErrorLevel e(obDebug); 
 
-    //Default is to disable ctest during Marquardt. Restored when leaving this function.
-    //StopCTestOutput stop(!ppControl->XmlReadBoolean("me:ctestOutputWhenMarquardt")) ;
+    //Default is to disable ctest during fitting. Restored when leaving this function.
+    StopCTestOutput stop(true) ;
 
     //
     // Begin by finding the starting point chi-squared value.
