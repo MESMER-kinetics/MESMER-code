@@ -1,3 +1,7 @@
+2014-January-14 Struan Robertson
+
+	* MESMER manual.docx: Added documentation for analytical representation.
+
 2014-January-10 Chris Morley
 	* src/error.h: StopCTestOutput works only when ErrorLevel is > obDebug,
 	  i.e. ctest output is enabled with -w5 option in command or 
