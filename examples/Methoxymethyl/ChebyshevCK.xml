@@ -1081,7 +1081,7 @@
   
   <me:control>
     <me:calcMethod xsi:type="me:analyticalRepresentation">
-      <me:format>chemkin</me:format>
+      <me:format rateUnits="cm3mole-1s-1">chemkin</me:format>
       <me:chebNumTemp>7</me:chebNumTemp>
       <me:chebNumConc>5</me:chebNumConc>
       <me:chebMaxTemp>1000</me:chebMaxTemp>

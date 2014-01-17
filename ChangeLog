@@ -1,8 +1,18 @@
+2014-January-15 Chris Morley
+
+	* src/plugins/AnalyticalRepresentation.cpp: rateUnits attribute on
+	  <format> to choose units of output bimolecular rate constants.
+	  Correct previous incorrect calculation of bimolecular rates.
+
+	* examples/Methoxymethyl/ChebyshevCK.xml: now outputs in moles units
+	* schemas/mesmerPlugins.xsd; update schema
+
 2014-January-14 Struan Robertson
 
 	* MESMER manual.docx: Added documentation for analytical representation.
 
 2014-January-10 Chris Morley
+
 	* src/error.h: StopCTestOutput works only when ErrorLevel is > obDebug,
 	  i.e. ctest output is enabled with -w5 option in command or 
 	  ChangeErrorLevel e(obDebug); in C++ code if fitting function.

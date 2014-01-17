@@ -103,12 +103,13 @@ namespace mesmer
     size_t m_NTpt ;
     size_t m_NCpt ;
     string m_PUnits ;
+    string m_RateUnits;
 
     size_t m_ExpanSizeT;
     size_t m_ExpanSizeC;
 
     vector<string> m_reactions ;
-
+    vector<double> m_ExcessConc;
   };
 
   ////////////////////////////////////////////////
@@ -130,6 +131,7 @@ namespace mesmer
     */
 
     // Determine the required format, default to Cantera if not supplied.
+
     const char* txt = pp->XmlReadValue("me:format", optional) ;
     m_format = (txt) ? string(txt) : string("cantera") ;
 
@@ -143,10 +145,23 @@ namespace mesmer
       txt = pPUnits->XmlReadValue("units") ; //or from defaults.xml
     }
     m_PUnits = string(txt) ;
+    if(m_PUnits=="molescm-3" || m_PUnits=="mol/cc" || m_PUnits=="moles/cc")
+      m_RateUnits = "cm3mole-1s-1";
+    else
+      m_RateUnits = "cm3molecule-1s-1";
 
-	// Chemkin only supports pressure units of atm.
-	if ( m_format == "chemkin" && m_PUnits != "atm")
-	   throw(std::runtime_error("Chemkin only supports pressure units of atm.")) ;
+    //Use rate units specified as attribute on format element if present
+    PersistPtr ppFormat = pp->XmlMoveTo("me:format");
+    if(ppFormat)
+    {
+      const char* rUnits = ppFormat->XmlReadValue("rateUnits", optional);
+      if(rUnits)
+        m_RateUnits = rUnits;
+    }
+
+    // Chemkin only supports pressure units of atm.
+    if ( m_format == "chemkin" && m_PUnits != "atm")
+       throw(std::runtime_error("Chemkin only supports pressure units of atm.")) ;
 
     //Read in fitting parameters, or use values from defaults.xml.
     m_NTpt = pp->XmlReadInteger("me:chebNumTemp");
@@ -212,9 +227,11 @@ namespace mesmer
     }
 
     // Get rate coefficients.
+    bool moleUnits = (m_RateUnits=="cm3mole-1s-1");
     m_reactions.clear() ;
+    m_ExcessConc.clear();
     vector<CTpoint> CTGrid ;
-    bool flag(true) ;
+    bool flag(true);
     vector<vector<double> > RCGrid;
     for (size_t i(0); i < m_NTpt; ++i) {
       double Temp = Temperature[i] ;
@@ -223,22 +240,24 @@ namespace mesmer
         CTGrid.push_back(CTpoint(TGrid[i],CGrid[j])) ;
         map<string, double> phenRates ;
         pSys->calculate(Temp, Conc, phenRates, m_TMax);
-        vector<double> rate ;
-        for (map<string, double>::const_iterator itr = phenRates.begin() ; itr != phenRates.end(); ++itr) {
+        vector<double> rate ; 
+        int ir=0;
+        map<string, double>::const_iterator itr;
+        for (itr = phenRates.begin() ; itr != phenRates.end(); ++itr, ++ir) {
           double concExcessReactant(0);
           if (flag) {
             //Expand the string in phenRates to include all the reactants and products
             pair<string,Reaction*> presult= pSys->getReactionManager()->getCompleteReactantsAndProducts
               (itr->first);
-            Reaction* r = presult.second;
-            m_reactions.push_back(presult.first) ;
-
-            // concExcessReactant is zero for first order reactions and when reaction not found
-            concExcessReactant = r ? 
-              r->get_concExcessReactant()/getConvertedP(m_PUnits, 1.0, Temp) : 0.0;
+            Reaction*r = presult.second;
+            concExcessReactant = r ? r->get_concExcessReactant() : 0.0;
+            if(moleUnits)
+              concExcessReactant /= Constants::AvogadroC;
+            m_reactions.push_back(presult.first);
+            m_ExcessConc.push_back(concExcessReactant);
           }
-          //Adjust rate if a second order reaction
-          rate.push_back(concExcessReactant>0 ? itr->second/concExcessReactant : itr->second) ;
+
+          rate.push_back(m_ExcessConc[ir]>0 ? itr->second/m_ExcessConc[ir] : itr->second) ;
         }
         flag = false ;
         RCGrid.push_back(rate) ;
@@ -303,10 +322,18 @@ namespace mesmer
     return coeff;
   }
 
+  // The rate constants can be specified as cm3molecule-1s-1 or cm3mole-1s-1
+  // in a rateUnits attribute on the <format> element. If this is not present
+  // The rate constant output is in cm3molecule-1s-1 unless the concentrations
+  // are specified in cm3moles-1 when the rate constants are in are in cm3mole-1s-1.
+  // The units are written to a units line in Cantera or a REACTIONS line in Chemkin.
+
   // Write Chebyshev coefficients in Cantera format.
   // See http://cantera.github.io/docs/sphinx/html/cti/reactions.html.
   void AnalyticalRepresentation::writeCanteraFormat(const vector<vector<vector<double> > > &ChebyshevCoeff, System* pSys) const {
 
+    cinfo << "units(length = 'cm', quantity = '" 
+          << ((m_RateUnits=="cm3mole-1s-1") ? "mole')" : "molecule')") << endl;
     string header("chebyshev_reaction(") ;
     string coeffs("coeffs=[") ;
     cinfo << endl ;
@@ -330,15 +357,6 @@ namespace mesmer
           cinfo << "]])" << endl << endl ;
         }
       }
-
-      /*XML output under <reaction>
-      <rateConstant format="Cantera" units="PPCC">
-        <![CDATA[chebyshev_reaction('CH3OCH2 => IM1',etc]]>
-      </rateConstant>
-      */
-      std::stringstream ss;
-      ss << cinfo.rdbuf();
-      string s = ss.str();
     }
   }
 
@@ -346,29 +364,21 @@ namespace mesmer
   void AnalyticalRepresentation::writeChemkinFormat(const vector<vector<vector<double> > > &ChebyshevCoeff, System* pSys) const {
 
     cinfo << endl ;
+    cinfo << "REACTIONS" << ((m_RateUnits=="cm3mole-1s-1") ? " MOLES" : " MOLECULES") << '\n' << endl;
     for (size_t k=0; k < m_reactions.size(); ++k ) {
       cinfo << m_reactions[k] << " (+M)  1.00  0.0  0.0" << endl ;
-	  cinfo << "! Data generated by MESMER " << MESMER_VERSION << " on " << __DATE__ << "." << endl ;
+      cinfo << "! Data generated by MESMER " << MESMER_VERSION << " on " << __DATE__ << "." << endl ;
       cinfo << "    TCHEB/ " << formatFloat(m_TMin, 6, 14) << formatFloat(m_TMax, 6, 14) << "/" << endl ;
       cinfo << "    PCHEB/ " << formatFloat(m_CMin, 6, 14) << formatFloat(m_CMax, 6, 14) << "/" << endl ;
       cinfo << "    CHEB/"   << setw(6) << m_ExpanSizeT << setw(6) << m_ExpanSizeC << "/" << endl ;
       for (size_t i(0); i < m_ExpanSizeT; ++i ) {
-		cinfo << "    CHEB/" ;
+        cinfo << "    CHEB/" ;
         for (size_t j(0); j < m_ExpanSizeC ; ++j ) {
           cinfo << formatFloat(ChebyshevCoeff[i][j][k], 6, 14) ;
         }
         cinfo << "/" << endl ;
       }
       cinfo << endl ;
-
-      /*XML output under <reaction>
-      <rateConstant format="Cantera" units="PPCC">
-        <![CDATA[chebyshev_reaction('CH3OCH2 => IM1',etc]]>
-      </rateConstant>
-      */
-      std::stringstream ss;
-      ss << cinfo.rdbuf();
-      string s = ss.str();
     }
   }
 
