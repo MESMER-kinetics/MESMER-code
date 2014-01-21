@@ -1,3 +1,9 @@
+
+2014-January-21 Struan Robertson
+
+	* src/plugins/AnalyticalRepresentation.cpp: Fix for inverse temperature
+	bug.
+
 2014-January-15 Chris Morley
 
 	* src/plugins/AnalyticalRepresentation.cpp: rateUnits attribute on

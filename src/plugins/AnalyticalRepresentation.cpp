@@ -216,12 +216,13 @@ namespace mesmer
     }
 
     // Create a grid of temperature and concentration (in ppcc) values.
+	// For temperature we must account for the fact that 1/Tmax < 1/Tmin.
     vector<double> Temperature=Transform(TGrid, m_RpTMin, m_RpTMax);
     for (size_t i(0); i < m_NTpt; ++i) {
       Temperature[i] = 1/Temperature[i] ;
     }
 
-    vector<double> Concentration=Transform(CGrid, m_lgCMin, m_lgCMax);
+    vector<double> Concentration=Transform(CGrid, m_lgCMax, m_lgCMin);
     for (size_t i(0); i < m_NCpt; ++i) {
       Concentration[i] = pow(10,(Concentration[i])) ;
     }
