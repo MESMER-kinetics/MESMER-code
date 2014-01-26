@@ -1,4 +1,10 @@
 
+
+2014-January-26 Struan Robertson
+
+	* examples: Update of tests and baseline files to use supported energy
+	transfer model syntax.
+
 2014-January-21 Struan Robertson
 
 	* src/plugins/AnalyticalRepresentation.cpp: Fix for inverse temperature

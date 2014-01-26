@@ -56,13 +56,14 @@
         <property dictRef="me:sigma">
           <scalar>4.94</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1" lower="160" upper="300" stepsize="10">190.0</scalar>
-        </property>
         <property dictRef="me:spinMultiplicity">
           <scalar>2</scalar>
         </property>
       </propertyList>
+
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1" lower="160" upper="300" stepsize="10">190.0</me:deltaEDown>
+      </me:energyTransferModel>
 
       <me:DOSCMethod>QMRotors</me:DOSCMethod>
 

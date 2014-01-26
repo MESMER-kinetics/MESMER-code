@@ -101,15 +101,6 @@
         <property dictRef="me:sigma">
           <scalar>5.0</scalar>
         </property>
-        <!--<property dictRef="me:deltaEDown">
-          <scalar units="cm-1">600</scalar>
-        </property>-->
-        <!--<property dictRef="me:gaussianCenter">
-          <scalar units="cm-1">4000</scalar>
-        </property>
-        <property dictRef="me:gaussianWidth">
-          <scalar units="cm-1">500</scalar>
-        </property>-->
         <property dictRef="me:spinMultiplicity">
           <scalar>1</scalar>
         </property>

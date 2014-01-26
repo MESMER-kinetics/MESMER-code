@@ -63,11 +63,11 @@ Equilibrium Fraction for Ethyl = 7.81139e-069
 Total number of eigenvalues = 195
 Eigenvalues
 {
- -2.234346e+007
- -2.078914e+007
- -1.774493e+007
- -7.112296e+006
- -1.849209e-008
+ -2.256242e+007
+ -2.099554e+007
+ -1.792575e+007
+ -7.112324e+006
+ -3.841275e-008
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -78,43 +78,43 @@ There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemic
 
 Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
 
-The last CSE = -7.1123e+006 and the first IERE = -1.77449e+007
-(last CSE)/(first IERE) ratio = 0.400807, which is less than an order of magnitude
+The last CSE = -7.11232e+006 and the first IERE = -1.79258e+007
+(last CSE)/(first IERE) ratio = 0.396766, which is less than an order of magnitude
 
 Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
 
 Z_matrix: {
--7.084478e-35	5.018984e-69	
-7.084478e-35	1.000000e+00	
+2.996844e-34	8.981073e-68	
+-2.996844e-34	1.000000e+00	
 }
 
 Z_matrix^(-1):
 {
--1.411537e+34	7.084478e-35	
+3.336844e+33	-2.996844e-34	
 1.000000e+00	1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	0.000000e+00	
--1.040115e-66	1.000000e+00	
+1.000000e+00	3.522102e-133	
+1.664258e-65	1.000000e+00	
 }
 
 Kr matrix:
 {
--7.112296e+06	3.569650e-62	
-7.112296e+06	-3.569650e-62	
+-7.112324e+06	6.387630e-61	
+7.112324e+06	-6.387630e-61	
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-Ethane loss = -3.569650e-62
-Ethyl loss = -7.112296e+06
+Ethane loss = -6.387630e-61
+Ethyl loss = -7.112324e+06
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-Ethane -> Ethyl = 3.569650e-62
-Ethyl -> Ethane = 7.112296e+06
+Ethane -> Ethyl = 6.387630e-61
+Ethyl -> Ethane = 7.112324e+06
 }
 }
