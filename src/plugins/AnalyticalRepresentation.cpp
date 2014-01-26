@@ -28,6 +28,7 @@ namespace mesmer
     AnalyticalRepresentation(const char* id) : FittingUtils(),
       m_id(id),
       m_format(),
+	  m_precision(DOUBLE),
       m_TMax(0.0),
       m_TMin(0.0),
       m_CMax(0.0),
@@ -89,6 +90,7 @@ namespace mesmer
 
     const char* m_id;
     string m_format ;
+    Precision m_precision ;
 
     double m_TMax ;
     double m_TMin ;
@@ -134,6 +136,13 @@ namespace mesmer
 
     const char* txt = pp->XmlReadValue("me:format", optional) ;
     m_format = (txt) ? string(txt) : string("cantera") ;
+
+    // Determine the required precision, default to double if not supplied.
+
+    txt = pp->XmlReadValue("me:precision", optional) ;
+	if (txt) {
+	  m_precision = txtToPrecision(txt) ;
+	};
 
     // Units can be an attribute on either <me:chebMaxConc> or <me:chebMinConc>;
     // if on neither the units in defaults.xml are used.
@@ -240,7 +249,7 @@ namespace mesmer
         double Conc = getConvertedP(m_PUnits, Concentration[j], Temp) ;
         CTGrid.push_back(CTpoint(TGrid[i],CGrid[j])) ;
         map<string, double> phenRates ;
-        pSys->calculate(Temp, Conc, phenRates, m_TMax);
+        pSys->calculate(Temp, Conc, m_precision, phenRates, m_TMax);
         vector<double> rate ; 
         int ir=0;
         map<string, double>::const_iterator itr;

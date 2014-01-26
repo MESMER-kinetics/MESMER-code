@@ -474,18 +474,8 @@ namespace mesmer
         txt = ppPTpair->XmlReadValue("precision"); //an attribute
 
       // Can specify abbreviation
-      if (txt){
-        string strPrcsn(txt) ;
-        if      (strPrcsn == "1d" || strPrcsn == "d"  || strPrcsn == "double")  
-          this_precision = DOUBLE ;
-        else if (strPrcsn == "2d" || strPrcsn == "dd" || strPrcsn == "double-double") 
-          this_precision = DOUBLE_DOUBLE ;
-        else if (strPrcsn == "4d" || strPrcsn == "qd" || strPrcsn == "quad-double")
-          this_precision = QUAD_DOUBLE ;
-        else {
-          cerr << "Unknown precision. Calculation will be run using double precision" << endl ;
-          this_precision = DOUBLE ;
-        }
+      if (txt) {
+        this_precision = txtToPrecision(txt) ;
       }
 
       // Bath gas specific to this PT 
@@ -809,13 +799,13 @@ namespace mesmer
   // Calculate rate coefficients for conditions other than those 
   // supplied directly by user e.g. for analytical representation.
   //
-  bool System::calculate(double &Temperature, double &Concentration, map<string, double> &phenRates, double &MaxT)
+  bool System::calculate(double &Temperature, double &Concentration, Precision precision, map<string, double> &phenRates, double &MaxT)
   {
 
     m_Flags.printEigenValuesNum = 0 ;
 
     m_Env.beta = 1.0 / (boltzmann_RCpK * Temperature) ; //temporary statements
-    m_Env.MaximumTemperature =MaxT;
+    m_Env.MaximumTemperature = MaxT;
     m_Env.conc = Concentration;
     // unit of conc: particles per cubic centimeter
 
@@ -829,8 +819,6 @@ namespace mesmer
       throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
 
     // Diagonalise the collision operator.
-    //Precision needs to be more flexible set to double for now
-    Precision precision = DOUBLE;
     m_collisionOperator.diagReactionOperator(m_Flags, m_Env, precision) ;
 
     // Calculate rate coefficients.
@@ -839,22 +827,6 @@ namespace mesmer
     m_collisionOperator.BartisWidomPhenomenologicalRates(BWrates, lossRates, m_Flags);
     m_collisionOperator.get_phenRates(phenRates);
 
-
-    //// Locate required BW rates and put them in a vector.
-    //for (int i=0; i < Ref1.size(); ++i) {
-    //  // check if Reaction is bimolecular
-    //  Reaction *reaction = m_pReactionManager->find(refReaction[i]) ;
-    //  if (reaction && (reaction->getReactionType() == ASSOCIATION || reaction->getReactionType() == PSEUDOISOMERIZATION)) {
-    //    double concExcessReactant = reaction->get_concExcessReactant() ;
-
-    //    // Test concentration and reaction sense.
-
-    //    if (concExcessReactant > 0.0 && (reaction->get_reactant()->getName() == Ref1[i])) 
-    //      rateCoeff /= concExcessReactant ;
-
-    //    Ratecoefficients[i]=rateCoeff;
-    //  }
-    //}
     return true ;	   
   }
 

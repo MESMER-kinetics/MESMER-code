@@ -164,4 +164,20 @@ namespace mesmer
     return energyInput / energyMap[unitInput];
   }    
 
+  Precision txtToPrecision (const char *txt) {
+	string strPrcsn(txt) ;
+	Precision precision;
+	if      (strPrcsn == "1d" || strPrcsn == "d"  || strPrcsn == "double")  
+	  precision = DOUBLE ;
+	else if (strPrcsn == "2d" || strPrcsn == "dd" || strPrcsn == "double-double") 
+	  precision = DOUBLE_DOUBLE ;
+	else if (strPrcsn == "4d" || strPrcsn == "qd" || strPrcsn == "quad-double")
+	  precision = QUAD_DOUBLE ;
+	else {
+	  cerr << "Unknown precision. Calculation will be run using double precision" << endl ;
+	  precision = DOUBLE ;
+	}
+	return precision ;
+  }
+
 }

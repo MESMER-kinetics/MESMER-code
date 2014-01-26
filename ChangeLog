@@ -1,6 +1,11 @@
 
 2014-January-26 Struan Robertson
 
+	* AnalyticalRepresentation.cpp, System.cpp, unitsConvertsion.cpp/.h: Added 
+	precision to analytical representation method.
+
+2014-January-26 Struan Robertson
+
 	* MesmerQA: Update of smoke tests and baseline files to use supported energy
 	transfer model syntax.
 
