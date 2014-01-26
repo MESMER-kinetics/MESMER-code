@@ -38,9 +38,6 @@
 		<property title="Symmetry Number" dictRef="me:symmetryNumber">
 		  <scalar>1 </scalar>
 		</property>
-		<property dictRef="me:deltaEDown">
-		  <scalar units="cm-1">190.0</scalar>
-		</property>
 		<!--<property dictRef="me:ZPE">
           <scalar calculated="20110602_152335" units="kJ/mol" source="me:Hf0" convention="computational">-539583.33</scalar>
         </property>-->
@@ -83,9 +80,6 @@
 		</property>
 		<property title="Electronic Excitation" dictRef="me:electronicExcitation">
 		  <scalar units="cm-1">139.21</scalar>
-		</property>
-		<property dictRef="me:deltaEDown">
-		  <scalar units="cm-1">190.0</scalar>
 		</property>
 		<!--<property dictRef="me:ZPE">
           <scalar calculated="20110602_152731" units="kJ/mol" source="me:Hf0" convention="computational">-198662.84</scalar>
@@ -175,9 +169,6 @@
 		</property>
 		<property title="Electronic Excitation" dictRef="me:electronicExcitation">
 		  <scalar units="cm-1">119.8</scalar>
-		</property>
-		<property dictRef="me:deltaEDown">
-		  <scalar units="cm-1">190.0</scalar>
 		</property>
 		<!--<property dictRef="me:ZPE">
           <scalar calculated="20110602_152733" units="kJ/mol" source="me:Hf0" convention="computational">-340720.04</scalar>

@@ -214,10 +214,10 @@
         <property dictRef="me:sigma">
           <scalar>5.09</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">130.0</scalar>
-        </property>
       </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">130.0</me:deltaEDown>
+      </me:energyTransferModel>
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS1" description="TS1a: peroxy -> peroxide">
@@ -434,10 +434,10 @@
         <property dictRef="me:sigma">
           <scalar>5.09</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">130.0</scalar>
-        </property>
       </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">130.0</me:deltaEDown>
+      </me:energyTransferModel>
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS3" description="TS peroxide -> lactone + OH">

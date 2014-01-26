@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+<me:mesmer xmlns="http://www.xml-cml.org/schema"
+           xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <title> Acetyl O2 with Eoffset</title>
   <moleculeList>
     <molecule id="acetyl">
@@ -78,10 +80,10 @@
         <property dictRef="me:sigma">
           <scalar>5.09</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">130.0</scalar>
-        </property>
       </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">130.0</me:deltaEDown>
+      </me:energyTransferModel>
     </molecule>
     <molecule id="TS1">
       <propertyList>
@@ -164,10 +166,10 @@
         <property dictRef="me:sigma">
           <scalar>5.09</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">130.0</scalar>
-        </property>
       </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">130.0</me:deltaEDown>
+      </me:energyTransferModel>
     </molecule>
     <molecule id="TS3">
       <propertyList>

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- Dec  7 2013 -- 20:16:54
+     Mesmer v3.0 compiled: -- Jan 11 2014 -- 12:03:24
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -30,7 +30,7 @@
 Parsing input xml file...
 UnitTests.xml
 
-Write metadata 20131209_230904
+Write metadata 20140126_173128
 
 File: "UnitTests.xml" successfully parsed.
 Main Calculation begins
@@ -59,6 +59,6 @@ In AcO2_Asymmetric_Top: m_ZPE was not defined but requested in AcO2_Asymmetric_T
 In Ethane: The default value of me:frequenciesScaleFactor was used.
 Hindered rotor b1
 Hindered rotor b1
- -- Total time elapsed: 9 seconds.
+ -- Total time elapsed: 8 seconds.
 
 System saved to out.xml

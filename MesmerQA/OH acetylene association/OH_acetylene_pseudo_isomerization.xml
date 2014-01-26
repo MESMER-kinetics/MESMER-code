@@ -44,13 +44,13 @@
         <property dictRef="me:sigma">
           <scalar>5.0</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">250.0</scalar>
-        </property>
         <property dictRef="me:spinMultiplicity">
           <scalar>2</scalar>
         </property>
       </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
+      </me:energyTransferModel>
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="TS_1a">
@@ -163,10 +163,10 @@
         <property dictRef="me:sigma">
           <scalar>3.90</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">250.0</scalar>
-        </property>
       </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
+      </me:energyTransferModel>
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="acetylene">

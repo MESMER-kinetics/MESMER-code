@@ -59,13 +59,13 @@
         <property dictRef="me:sigma">
           <scalar>5.93</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">230.0</scalar>
-        </property>
         <property dictRef="me:spinMultiplicity">
           <scalar>1</scalar>
         </property>
       </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">230.0</me:deltaEDown>
+      </me:energyTransferModel>
     </molecule>
 
     <molecule id="n-pentyl=TS=2-pentyl">
@@ -161,13 +161,13 @@
         <property dictRef="me:sigma">
           <scalar>5.93</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">230.0</scalar>
-        </property>
         <property dictRef="me:spinMultiplicity">
           <scalar>1</scalar>
         </property>
       </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">230.0</me:deltaEDown>
+      </me:energyTransferModel>
     </molecule>
 
     <molecule id="2-pentyl">
@@ -228,13 +228,13 @@
         <property dictRef="me:sigma">
           <scalar>5.93</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">230.0</scalar>
-        </property>
         <property dictRef="me:spinMultiplicity">
           <scalar>1</scalar>
         </property>
       </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">230.0</me:deltaEDown>
+      </me:energyTransferModel>
     </molecule>
 
     <molecule id="Ar">

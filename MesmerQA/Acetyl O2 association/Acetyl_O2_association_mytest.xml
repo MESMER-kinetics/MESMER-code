@@ -208,10 +208,10 @@
         <property dictRef="me:sigma">
           <scalar>5.09</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">130.0</scalar>
-        </property>
       </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">130.0</me:deltaEDown>
+      </me:energyTransferModel>
       <me:reservoirSize units="kJ/mol">-2.0</me:reservoirSize>
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
@@ -429,10 +429,10 @@
         <property dictRef="me:sigma">
           <scalar>5.09</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">130.0</scalar>
-        </property>
       </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">130.0</me:deltaEDown>
+      </me:energyTransferModel>
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
       <me:reservoirSize units="kJ/mol">-3.0</me:reservoirSize>
     </molecule>
