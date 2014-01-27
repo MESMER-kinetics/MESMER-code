@@ -364,18 +364,6 @@
     <xs:complexContent>
       <xs:extension base="calcMethodct">
         <xs:all>
-          <xs:element name="analyticalRepRef" minOccurs="0">
-            <xs:complexType>
-              <xs:sequence>
-                <xs:element name="reaction" maxOccurs="unbounded">
-                  <xs:complexType>
-                    <xs:attribute name="ref1" type="cml:refType" use="required"/>
-                    <xs:attribute name="ref2" type="cml:refType" use="required"/>
-                  </xs:complexType>
-                </xs:element>
-              </xs:sequence>
-            </xs:complexType>
-          </xs:element>
           <xs:element name="format" minOccurs="0">
             <xs:complexType>
               <xs:simpleContent>
@@ -384,7 +372,8 @@
                 </xs:extension>
               </xs:simpleContent>
            </xs:complexType>
-          </xs:element> 
+          </xs:element>
+          <xs:element name="precision" type="me:precisionType" minOccurs="0"/>
           <xs:element name="chebNumTemp" type="xs:integer" minOccurs="0"/> 
           <xs:element name="chebNumConc" type="xs:integer" minOccurs="0"/> 
           <xs:element name="chebMinTemp" type="xs:decimal" minOccurs="0"/>
