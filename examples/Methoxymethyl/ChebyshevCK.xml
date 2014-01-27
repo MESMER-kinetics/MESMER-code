@@ -214,16 +214,12 @@
         <property dictRef="me:sigma">
           <scalar>5.0</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <!--scalar units="cm-1"  >176.271</scalar-->
-          <!--scalar units="cm-1" referenceTemperature="298" exponent="0.2">200.0</scalar-->
-          <!--scalar units="cm-1" lower="90" upper="450" stepsize="0.2" exponent="0">200.4</scalar-->
-          <scalar units="cm-1" >176</scalar>
-
-        </property>
-
-
       </propertyList>
+
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">176.0</me:deltaEDown>
+      </me:energyTransferModel>
+
       <!--me:reservoirSize units="kcal/mol">-2.0</me:reservoirSize> -->
       <me:DOSCMethod name="ClassicalRotors" />
       <!--Rotation about CH2-O bond.-->
@@ -444,13 +440,12 @@
         <property dictRef="me:sigma">
           <scalar>5.0</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar>170</scalar>
-          <!--scalar units="cm-1">164.731</scalar-->
-          <!--scalar units="cm-1" referenceTemperature="298" exponent="0.0" >150.0</scalar-->
-          <!--scalar units="cm-1">190.0</scalar-->
-        </property>
       </propertyList>
+
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">170.0</me:deltaEDown>
+      </me:energyTransferModel>
+
       <!--me:reservoirSize units="kcal/mol">-2.0</me:reservoirSize> -->
       <me:DOSCMethod name="ClassicalRotors" />
       <!--Rotation about CH2-O bond.-->

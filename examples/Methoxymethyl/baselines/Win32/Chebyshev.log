@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- Jan 11 2014 -- 12:03:24
+     Mesmer v3.0 compiled: -- Jan 26 2014 -- 22:37:32
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -38,7 +38,6 @@ Hindered rotor b5
 Hindered rotor b4
 Hindered rotor b8
 The default value of me:DistributionCalcMethod was used.
-In IM1: The default value of me:energyTransferModel was used.
 In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
@@ -49,7 +48,6 @@ Hindered rotor b2
 Hindered rotor b3
 Hindered rotor b4
 The default value of me:DistributionCalcMethod was used.
-In IM2: The default value of me:energyTransferModel was used.
 In R2: No crossing method used for R2
 In R3: Parsing reaction...
 In CH2O: Could not find CH2O in ../../librarymols.xml
@@ -69,7 +67,7 @@ In R5: No tunneling method used for R5
 In R5: No crossing method used for R5
 All molecules are on the same energy basis: arbitary
 No pressure and temperature specified.
-Write metadata 20140126_002926
+Write metadata 20140127_233130
 
 File: "Chebyshev.xml" successfully parsed.
 Main Calculation begins
@@ -229,6 +227,6 @@ chebyshev_reaction('IM2 => OH-3 + cycCH2OCH2O',
                            [     -0.138809,      0.100012,    0.00429407,    -0.0389037],
                            [     0.0035796,     0.0562214,     -0.107296,     0.0487237]])
 
- -- Total time elapsed: 68 seconds.
+ -- Total time elapsed: 69 seconds.
 
 System saved to mesmer_out.xml

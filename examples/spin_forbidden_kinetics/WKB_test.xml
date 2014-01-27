@@ -46,9 +46,6 @@
         <property dictRef="me:MW">
           <scalar units="amu">40</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">250.0</scalar>
-        </property>
         <property dictRef="me:epsilon">
           <scalar>473.1</scalar>
         </property>
@@ -56,6 +53,11 @@
           <scalar>5.5</scalar>
         </property>
       </propertyList>
+
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
+      </me:energyTransferModel>
+
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="triplet" description="CH2CCH2">
@@ -98,9 +100,6 @@
         <property dictRef="me:MW">
           <scalar units="amu">40</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">250.0</scalar>
-        </property>
         <property dictRef="me:epsilon">
           <scalar>473.1</scalar>
         </property>
@@ -108,6 +107,11 @@
           <scalar>5.5</scalar>
         </property>
       </propertyList>
+
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">250.0</me:deltaEDown>
+      </me:energyTransferModel>
+
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
     <molecule id="MECP1" description="cyclopropene to triplet">

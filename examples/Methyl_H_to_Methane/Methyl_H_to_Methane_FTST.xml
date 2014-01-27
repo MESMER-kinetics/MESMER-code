@@ -48,13 +48,13 @@
         <property dictRef="me:epsilon">
           <scalar>153.0</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <!--<scalar units="cm-1" referenceTemperature="298." exponent="0.6">210.0</scalar>-->
-          <scalar units="cm-1" lower="160" upper="300" stepsize="10">190.0</scalar>
-        </property>
       </propertyList>
 
-	  <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1" lower="160" upper="300" stepsize="10">190.0</me:deltaEDown>
+      </me:energyTransferModel>
+
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
 
 	</molecule>
 

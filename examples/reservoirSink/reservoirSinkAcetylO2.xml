@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <me:title> Acetyl O2 association</me:title>
   <moleculeList>
     <molecule id="acetyl" description="CH_3CO">
@@ -206,10 +207,12 @@
         <property dictRef="me:sigma">
           <scalar>5.09</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">130.0</scalar>
-        </property>
       </propertyList>
+
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">130.0</me:deltaEDown>
+      </me:energyTransferModel>
+
       <me:reservoirSize units="kJ/mol" turnCemeteryWhenUnder="500" >-2.0</me:reservoirSize>
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
@@ -427,10 +430,12 @@
         <property dictRef="me:sigma">
           <scalar>5.09</scalar>
         </property>
-        <property dictRef="me:deltaEDown">
-          <scalar units="cm-1">130.0</scalar>
-        </property>
       </propertyList>
+
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">130.0</me:deltaEDown>
+      </me:energyTransferModel>
+
       <me:reservoirSize units="kJ/mol">-2.0</me:reservoirSize>
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
