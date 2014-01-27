@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- Dec 12 2013 -- 13:15:13
+     Mesmer v3.0 compiled: -- Jan 27 2014 -- 17:02:15
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -35,7 +35,6 @@ In i-propyl: The default value of me:frequenciesScaleFactor was used.
 In i-propyl: Hindered rotor b1
 Hindered rotor b2
 The default value of me:DistributionCalcMethod was used.
-In i-propyl: The default value of me:energyTransferModel was used.
 In i-propyl: i-propyl:deltaEDown was given a range with 15 steps 
 In R1: The default value of me:TInfinity was used.
 In propene: The default value of me:frequenciesScaleFactor was used.
@@ -52,7 +51,7 @@ The default value of precision (or one of its attributes) was used.
 3e+17PPCC, 720K at d precision with He
 The default value of precision (or one of its attributes) was used.
 3.01e+17PPCC, 730K at d precision with He
-Write metadata 20131212_131703
+Write metadata 20140127_170405
 
 File: "ipropyl_reservoir.xml" successfully parsed.
 Main Calculation begins

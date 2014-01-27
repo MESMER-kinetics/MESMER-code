@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- Dec 12 2013 -- 13:15:13
+     Mesmer v3.0 compiled: -- Jan 27 2014 -- 17:02:15
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -26,6 +26,38 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
-Could not load file OH_acetylene_pseudo_isomerization.xml
-It may not exist, it may be being used by another program,
-or it may not consist of well-formed XML.
+
+Parsing input xml file...
+OH_acetylene_pseudo_isomerization.xml
+
+The default value of me:calcMethod was used.
+In R1: Parsing reaction...
+In OH: The default value of me:frequenciesScaleFactor was used.
+In OH: The default value of me:DistributionCalcMethod was used.
+In acetylene: The default value of me:frequenciesScaleFactor was used.
+In OH_acetylene_adduct: The default value of me:frequenciesScaleFactor was used.
+In OH_acetylene_adduct: The default value of me:DistributionCalcMethod was used.
+In R1: The default value of me:TInfinity was used.
+In R1: No tunneling method used for R1
+In R1: No crossing method used for R1
+In R1: Not a unimolecular reaction: look for excess reactant concentration.
+In R2: Parsing reaction...
+In TS_1a: No imaginary vibrational frequency. Check if there is tunneling.
+The default value of me:frequenciesScaleFactor was used.
+In R2: No tunneling method used for R2
+In R2: No crossing method used for R2
+All molecules are on the same energy basis: arbitary
+1000torr, 298K at double precision with N2
+Write metadata 20140127_170403
+
+File: "OH_acetylene_pseudo_isomerization.xml" successfully parsed.
+Main Calculation begins
+In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
+Association ILT calculation completed
+In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
+In timeEvolution: No population was assigned, and there is no source term.
+In timeEvolution: Initial poupulation set to 1.0  in the first isomer.
+Finish Calculation of P-T case
+ -- Total time elapsed: 0 seconds.
+
+System saved to mesmer_out.xml

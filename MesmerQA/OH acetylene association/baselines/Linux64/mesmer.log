@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- Dec 12 2013 -- 13:15:13
+     Mesmer v3.0 compiled: -- Jan 27 2014 -- 17:02:15
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -36,7 +36,6 @@ In OH: The default value of me:frequenciesScaleFactor was used.
 In acetylene: The default value of me:frequenciesScaleFactor was used.
 In OH_acetylene_adduct: The default value of me:frequenciesScaleFactor was used.
 In OH_acetylene_adduct: The default value of me:DistributionCalcMethod was used.
-In OH_acetylene_adduct: The default value of me:energyTransferModel was used.
 In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
@@ -49,7 +48,7 @@ In R2: No crossing method used for R2
 All molecules are on the same energy basis: arbitary
 The default value of precision (or one of its attributes) was used.
 1000torr, 298K at d precision with N2
-Write metadata 20131212_131701
+Write metadata 20140127_170402
 
 File: "OH_acetylene_association_test.xml" successfully parsed.
 Main Calculation begins
