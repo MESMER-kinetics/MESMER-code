@@ -1,4 +1,9 @@
 
+2014-January-27 Struan Robertson
+
+	* MESMER manual.docx: Added content on analytical representation and command 
+	line options.
+
 2014-January-26 Struan Robertson
 
 	* AnalyticalRepresentation.cpp, System.cpp, unitsConvertsion.cpp/.h: Added 
