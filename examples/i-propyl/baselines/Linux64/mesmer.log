@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- Dec 12 2013 -- 13:15:13
+     Mesmer v3.0 compiled: -- Jan 28 2014 -- 12:44:47
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -35,7 +35,6 @@ In i-propyl: The default value of me:frequenciesScaleFactor was used.
 In i-propyl: Hindered rotor b1
 Hindered rotor b2
 The default value of me:DistributionCalcMethod was used.
-In i-propyl: The default value of me:energyTransferModel was used.
 In i-propyl: i-propyl:deltaEDown was given a range with 15 steps 
 In R1: The default value of me:TInfinity was used.
 In propene: The default value of me:frequenciesScaleFactor was used.
@@ -190,7 +189,7 @@ The default value of precision (or one of its attributes) was used.
 3.01e+16PPCC, 870K at d precision with He
 The default value of precision (or one of its attributes) was used.
 3e+16PPCC, 880K at d precision with He
-Write metadata 20131212_133852
+Write metadata 20140128_124736
 
 File: "ipropyl_LM.xml" successfully parsed.
 Main Calculation begins
@@ -298,7 +297,7 @@ PT Grid 5
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 6
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 7
 Build Collison Operator
@@ -314,7 +313,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 11
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 12
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -344,7 +343,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 21
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 22
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -352,7 +351,7 @@ PT Grid 23
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 24
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
 PT Grid 25
 Build Collison Operator
@@ -428,13 +427,13 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 49
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 50
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 51
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 52
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -464,7 +463,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 61
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 62
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -479,7 +478,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 66
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 67
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -586,6 +585,6 @@ Goodness of Fit:
 Number of degrees of Freedom = 69
 Chi^2 probability = 1
 
- -- Total time elapsed: 105 seconds.
+ -- Total time elapsed: 127 seconds.
 
 System saved to out.xml
