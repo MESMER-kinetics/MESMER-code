@@ -9,7 +9,7 @@
 // plugin's virtual function. Handles both old and new formats.
 // Returns a pointer to the plugin or NULL if a valid plugin or if required
 // data is not found.
-// The parameter pParent is Molecules*, Reaction* or System* depending on the
+// The parameter pParent is Molecule*, Reaction* or System* depending on the
 // plugin.
 
 template <class T,class U>

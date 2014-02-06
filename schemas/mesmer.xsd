@@ -85,6 +85,16 @@
                               </xs:simpleContent>
                             </xs:complexType>
                           </xs:element>
+                          <xs:element name="experimentalEigenvalue" minOccurs="0">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:float">
+                                  <xs:attribute name="EigenvalueID" type="xs:positiveInteger" use="required"/>
+                                  <xs:attribute name="error" type="xs:float" use="required"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
                         </xs:sequence>
                         <xs:attribute name="units" type="me:concUnitsType" use="required" />
                         <!--Current usage is me:units, but don't know how to specify this-->

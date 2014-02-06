@@ -434,6 +434,18 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  
+  <xs:complexType name="ThermodynamicTable">
+    <xs:complexContent>
+      <xs:extension base="calcMethodct">
+        <xs:all>
+          <xs:element name="units" type="me:energyUnitsType" minOccurs="0"/>
+          <xs:element name="NumberOfTemp" type="xs:positiveInteger" minOccurs="0"/>
+          <xs:element name="TempInterval" type="xs:float" minOccurs="0"/>
+        </xs:all>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
   <xs:complexType name="Prior">
     <xs:complexContent>

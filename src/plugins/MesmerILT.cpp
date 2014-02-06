@@ -28,8 +28,9 @@ namespace mesmer
   /******************************************************************************
   Because the class can be used for more than one reaction, a new instance is made
   for each use (in addition to the instance made at startup). This is done by
-  EnergyTransferModel::Find() calling Clone(); a function of the following form is
-  required for each derived class.
+  ParseForPlugin()(Reaction.cpp near line 250), after finding MesmerILT requested
+  in the XML input file, calling Clone(); a function of the following form is
+  required in each derived class.
   ******************************************************************************/
     virtual MesmerILT* Clone() { return new MesmerILT(*this); }
 
@@ -156,6 +157,10 @@ namespace mesmer
       string unitsInput = (unitsTxt) ? unitsTxt : "kJ/mol" ;
       double value(getConvertedEnergy(unitsInput, tmpvalue));
       
+      // The output streams cerr, cwarn and cinfo are for progressively less
+      // important messages. cerr and cwarn probably appear monthe command line
+      // and all arewritten to the log file (usually mesmer.log).
+      // All messages should have a std::endl.
       if (value<0.0) {
         cerr << "Activation energy should not be negative when used with ILT." << endl;
         return false;

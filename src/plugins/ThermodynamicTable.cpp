@@ -216,7 +216,7 @@ namespace mesmer
 
 	PersistPtr ppProp = ppControl->XmlMoveTo("me:calcMethod") ;
 
-	const char* utxt= ppProp->XmlReadValue("me:Units", false);
+	const char* utxt= ppProp->XmlReadValue("me:units", false);
 	if (utxt) {
 	  string unit(utxt) ;
 	  for (size_t i(0) ; i < unit.size(); i++)
