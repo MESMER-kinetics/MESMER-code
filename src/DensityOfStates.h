@@ -57,6 +57,9 @@ namespace mesmer
     // Provide a function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos)=0;
 
+    // Provide a function to calculate the zero point energy of a molecule.
+	virtual double ZeroPointEnergy(gDensityOfStates* gdos) { return 0.0 ; } ;
+
     const Molecule* getParent() const {return m_parent;} ;
     void setParent(const Molecule* parent) { m_parent = parent;} ;
 

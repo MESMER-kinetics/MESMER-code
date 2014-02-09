@@ -17,6 +17,9 @@ namespace mesmer
     // Function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
 
+    // Provide a function to calculate the zero point energy of a molecule.
+	virtual double ZeroPointEnergy(gDensityOfStates* gdos) ;
+
     ///Constructor which registers with the list of DensityOfStatesCalculators in the base class
     //This class calculates a complete DOS: it is not an extra class. 
     BeyerSwinehart(const char* id) : m_id(id) { Register(); }
@@ -83,6 +86,19 @@ namespace mesmer
     gdos->get_VibFreq(vibFreq);
 
     return vibFreq.size() ;
+  }
+
+  // Provide a function to calculate the zero point energy of a molecule.
+  double BeyerSwinehart::ZeroPointEnergy(gDensityOfStates* gdos) {
+
+	vector<double> vibFreq; 
+    gdos->get_VibFreq(vibFreq);
+
+	double ZPE(0.0) ;
+    for (size_t j(0) ; j < vibFreq.size() ; ++j ) {
+      ZPE += vibFreq[j] ;
+    }
+    return ZPE*0.5 ;
   }
 
 }//namespace

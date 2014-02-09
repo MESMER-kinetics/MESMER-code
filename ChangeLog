@@ -1,4 +1,12 @@
 
+2014-February-09 Struan Robertson
+
+	* HinderRotorQM1D.cpp: Added methods to locate the minimum in a hindered
+	rotor potential and shift the potential so that the minimum is at zero.
+
+	* DensityOfStates.h, HinderRotorQM1D.cpp, Morse.cpp, BeyerSwineehart.cpp:
+	Introduce methods for calculating the zero point energy.
+
 2014-January-27 Struan Robertson
 
 	* MESMER manual.docx: Added content on analytical representation and command 

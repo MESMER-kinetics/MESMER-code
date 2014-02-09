@@ -32,7 +32,10 @@ namespace mesmer
     // Function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
 
-    ///Constructor which registers with the list of DensityOfStatesCalculators in the base class
+    // Provide a function to calculate the zero point energy of a molecule.
+	virtual double ZeroPointEnergy(gDensityOfStates* gdos) ;
+
+	///Constructor which registers with the list of DensityOfStatesCalculators in the base class
     Morse(const char* id) : m_id(id) { Register(); }
 
     virtual ~Morse() {}
@@ -111,7 +114,7 @@ namespace mesmer
       } 
 
       // Convolve with the density of states for the other degrees of freedom.
-			// (Essentially the Stein-Rabinovitch algorithm).
+      // (Essentially the Stein-Rabinovitch algorithm).
 
       vector<double> tmpCellDOS(cellDOS) ;
       for (size_t k(1) ; k < energyLevels.size() ; k++ ) {
@@ -151,7 +154,7 @@ namespace mesmer
         nmax = int(15.0*log(10.0)/(beta*vibFreq)) ;
       }
 
-			// Calculate canonical partition function.
+      // Calculate canonical partition function.
 
       double qtmp(0.0) ;
       for (int n(0) ; n <= nmax ; n++ ) {
@@ -169,6 +172,16 @@ namespace mesmer
   // Function to return the number of degrees of freedom associated with this count.
   unsigned int Morse::NoDegOfFreedom(gDensityOfStates* gdos) {
     return m_vibFreq.size() ;
+  }
+
+  // Provide a function to calculate the zero point energy of a molecule.
+  double Morse::ZeroPointEnergy(gDensityOfStates* gdos) {
+
+	double ZPE(0.0) ;
+    for (size_t j(0) ; j < m_vibFreq.size() ; ++j ) {
+      ZPE += m_vibFreq[j] + m_anharmty[j]*0.5 ;
+    }
+    return ZPE*0.5 ;
   }
 
 }//namespace

@@ -37,6 +37,9 @@ namespace mesmer
     // Function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) {return 1 ; } ;
 
+    // Provide a function to calculate the zero point energy of a molecule.
+	virtual double ZeroPointEnergy(gDensityOfStates* gdos) {return m_ZPE ; } ;
+
     // Constructor which registers with the list of DensityOfStatesCalculators in the base class
     // This class is an extra DOS class: a non-extra DensityOfStatesCalculator class also
     // needs to be specified.
@@ -48,8 +51,9 @@ namespace mesmer
       m_potentialSinCoeff(),
       m_expansion(4),
       m_energyLevels(),
+	  m_ZPE(0.0),
       m_plotStates(false),
-	  m_writeStates(false),
+      m_writeStates(false),
       m_useSinTerms(false)
     { Register(); }
 
@@ -62,6 +66,15 @@ namespace mesmer
 
     // Calculate the Fourier coefficients from potential data points.
     void FourierCoeffs(vector<double> &angle, vector<double> &potential) ;
+
+    // Calculate potential.
+    double CalculatePotential(double angle) const ;
+
+    // Calculate gradient.
+    double CalculateGradient(double angle) const ;
+
+    // Shift potential to origin.
+    void ShiftPotential() ;
 
     // Provide data for plotting states against potential.
     void outputPlotData() const ;
@@ -80,6 +93,7 @@ namespace mesmer
     size_t m_expansion ;                 // Number of coefficients in the cosine expansion.
 
     vector<double> m_energyLevels ;	     // The energies of the hindered rotor states.
+    double m_ZPE ;                       // Zero point energy. 
 
     bool m_plotStates ;                  // If true output data for plotting. 
     bool m_writeStates ;                 // If true energy levels written to output. 
@@ -103,8 +117,8 @@ namespace mesmer
       return false;
     }
 
-	// The following vector, "mode", will be used to hold the ther internal rotation 
-	// mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010). 
+    // The following vector, "mode", will be used to hold the ther internal rotation 
+    // mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010). 
     vector<double> mode(3*gs.NumAtoms(), 0.0);
 
     const char* bondID = ppDOSC->XmlReadValue("bondRef",optional);
@@ -209,6 +223,10 @@ namespace mesmer
           m_potentialCosCoeff[indicies[i]] = coefficients[i] ;
           m_potentialSinCoeff[i]           = 0.0 ;
         }
+
+        // Shift potential so that lowest minimum is at zero.
+
+        ShiftPotential() ;
 
       } else if (format == "numerical") {
 
@@ -394,9 +412,9 @@ namespace mesmer
     // Shift eigenvalues by the zero point energy and convolve with the 
     // density of states for the other degrees of freedom.
 
-    double zeroPointEnergy(m_energyLevels[0]) ;
+    m_ZPE = m_energyLevels[0] ;
     for (size_t k(1) ; k < nstates ; k++ ) {
-      size_t nr = int(m_energyLevels[k] - zeroPointEnergy) ;
+      size_t nr = int(m_energyLevels[k] - m_ZPE) ;
       if (nr < MaximumCell) {
         for (size_t i(0) ; i < MaximumCell - nr ; i++ ) {
           tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + cellDOS[i] ;
@@ -498,18 +516,84 @@ namespace mesmer
     // Test potential
     ctest << "          Angle         Potential          Series\n";
     for (size_t i(0); i < ndata; ++i) {
-      double sum(0.0) ;
-      for(size_t k(0); k < m_expansion; ++k) {
-        double nTheta = double(k) * angle[i];
-        sum += m_potentialCosCoeff[k] * cos(nTheta);
-        sum += m_potentialSinCoeff[k] * sin(nTheta);
-      }
-      ctest << formatFloat(angle[i], 6, 15) << ", " <<  formatFloat(potential[i], 6, 15) << ", " <<  formatFloat(sum, 6, 15) <<'\n' ;
+      double clcPtnl = CalculatePotential(angle[i]) ;
+      ctest << formatFloat(angle[i], 6, 15) << ", " <<  formatFloat(potential[i], 6, 15) << ", " <<  formatFloat(clcPtnl, 6, 15) <<'\n' ;
     }
     ctest << endl ;
 
     return ;
+  }
 
+  // Calculate potential.
+  double HinderedRotorQM1D::CalculatePotential(double angle) const {
+
+    if (m_potentialCosCoeff.size() == 0)
+      return 0.0 ;
+
+    double sum(0.0) ;
+    for(size_t k(0); k < m_potentialCosCoeff.size(); ++k) {
+      double nTheta = double(k) * angle;
+      sum += m_potentialCosCoeff[k] * cos(nTheta) + m_potentialSinCoeff[k] * sin(nTheta);
+    }
+
+    return sum ;
+  }
+
+  // Calculate potential gradient.
+  double HinderedRotorQM1D::CalculateGradient(double angle) const {
+
+    if (m_potentialCosCoeff.size() == 0)
+      return 0.0 ;
+
+    double sum(0.0) ;
+    for(size_t k(0); k < m_potentialCosCoeff.size(); ++k) {
+      double nTheta = double(k) * angle;
+      sum += double(k)*(-m_potentialCosCoeff[k]*sin(nTheta) + m_potentialSinCoeff[k]*cos(nTheta)) ;
+    }
+
+    return sum ;
+  }
+
+  // Shift potential to origin.
+  void HinderedRotorQM1D::ShiftPotential() {
+
+	// A coarse search for minima is done over intervals of 1 degree a minima 
+	// being located when the gradient changes sign from -ve to +ve. Then a 
+	// Newton-Raphson type iteration is applied to get a better estimate of
+	// the location of the minimum. Finally, the potential is shifted.
+
+	double minPotential(1.e10) ; 
+	double anga(0.0), grda(0.0) ; 
+	size_t nDegrees(360) ;
+    for (size_t i(0); i <= nDegrees; ++i) {
+	  double angb = double(i) * M_PI/180. ;
+      double grdb = CalculateGradient(angb) ;
+      if (grdb < 0.0) {
+	     anga = angb ;
+		 grda = grdb ;
+	  } else if (grda < 0.0) {
+		double angc(0.0), grdc(1.0), tol( 1.e-05) ;
+		int n(0) ;
+		while (fabs(grdc) > tol && n < 10) {
+		  angc = (grdb*anga - grda*angb)/(grdb - grda) ;
+		  grdc = CalculateGradient(angc) ;
+		  if (grdc > 0.0) {
+			anga = angc ;
+			grda = grdc ;
+		  } else {
+			angb = angc ;
+			grdb = grdc ;
+		  }
+		  n++ ;
+		}
+		double potential = CalculatePotential(angc) ;
+		minPotential = min(minPotential, potential) ;
+	  }
+    }
+
+	m_potentialCosCoeff[0] -= minPotential ;
+
+	return ;
   }
 
   // Provide data for plotting states against potential.
@@ -518,15 +602,10 @@ namespace mesmer
     ctest << endl << "Hindered rotor data for plotting." << endl << endl ;
     int npoints(500) ;
     double dAngle = M_PI/double(npoints) ;
-    for (int i(-npoints); i < npoints; ++i) {
-      double sum(0.0) ;
+    for (int i(-npoints); i < npoints; ++i) {     
       double angle = double(i)*dAngle ;
-      for(size_t k(0); k < m_expansion; ++k) {
-        double nTheta = double(k) * angle;
-        sum += m_potentialCosCoeff[k] * cos(nTheta);
-        sum += m_potentialSinCoeff[k] * sin(nTheta);
-      }
-      ctest << formatFloat(angle, 6, 15) << ", "<< formatFloat(sum, 6, 15) << endl ;
+      double potential = CalculatePotential(angle) ;
+      ctest << formatFloat(angle, 6, 15) << ", "<< formatFloat(potential, 6, 15) << endl ;
     }
     ctest << endl ;
 
