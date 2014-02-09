@@ -1,6 +1,10 @@
 
 2014-February-09 Struan Robertson
 
+	* MESMER manual.docx: Added documentation corrections from CM and RS.
+
+2014-February-09 Struan Robertson
+
 	* HinderRotorQM1D.cpp: Added methods to locate the minimum in a hindered
 	rotor potential and shift the potential so that the minimum is at zero.
 
