@@ -1,1 +1,0 @@
-With Visual C++ 10, the Debug and Release modes give slightly different versions of tes.test. (Maybe a bug in VC++10?) The baseline mesmer.test here is for the Release version. 
