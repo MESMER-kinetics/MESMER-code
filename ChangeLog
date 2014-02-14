@@ -1,4 +1,9 @@
 
+2014-February-14 Struan Robertson
+
+	* CollisionOperator.cpp: Minor change to make eigenvalue convergence 
+	warning more visible.
+
 2014-February-09 Struan Robertson
 
 	* MESMER manual.docx: Added documentation corrections from CM and RS.
