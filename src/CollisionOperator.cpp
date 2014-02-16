@@ -1212,7 +1212,7 @@ namespace mesmer
       const double CSE_IERE_separation = to_double(m_eigenvalues[nchemIdx]/m_eigenvalues[nchemIdx-1]);
       if(CSE_IERE_separation > 0.1){
         stringstream ss1 ;
-        ss1 << "\nWARNING: CSEs not well separated from internal energy relaxation eigenvals (IEREs)" << endl;
+        ss1 << "\nWARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs)." << endl;
         ss1 << "\nThe last CSE = " << last_CSE << " and the first IERE = " << first_IERE << endl;
         ss1 << "(last CSE)/(first IERE) ratio = " << CSE_IERE_separation << ", which is less than an order of magnitude" << endl;
         ss1 << "\nResults obtained from Bartis Widom eigenvalue-vector analysis may be unreliable" << endl;

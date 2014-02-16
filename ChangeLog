@@ -1,4 +1,9 @@
 
+2014-February-16 Struan Robertson
+
+	* MESMER manual.docx: Added content on examples, distribution plots and 
+	convergent eigenvalues.
+
 2014-February-14 Struan Robertson
 
 	* CollisionOperator.cpp: Minor change to make eigenvalue convergence 
