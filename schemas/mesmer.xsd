@@ -187,8 +187,17 @@
               </xs:element>
               <xs:element name="fittingIterations" type="xs:integer" minOccurs="0"/>
               <xs:element name="ForceMacroDetailedBalance" minOccurs="0"/>
-              <xs:element name="hideInactive" minOccurs="0"/>
+              <xs:element name="hideInactive" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>
+                    In the Firefox energy level (PES) diagram do not show any Molecules
+                    or Reactions that have an attribute active="false". There is a control
+                    on the diagram that allows this to be toggled.
+                  </xs:documentation>
+                </xs:annotation>
+              </xs:element>
               <xs:element name="MaximumEvolutionTime" type="xs:float" minOccurs="0"/>
+              <xs:element name="maxTemperature" type="xs:float" minOccurs="0"/>
               <xs:element name="printCellDOS" minOccurs="0"/>
               <xs:element name="printCellTransitionStateFlux" minOccurs="0"/>
               <xs:element name="printCollisionOperatorLevel" type="xs:integer" minOccurs="0"/>

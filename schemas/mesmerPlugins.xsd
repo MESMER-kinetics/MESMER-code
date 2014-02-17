@@ -16,13 +16,6 @@
     </xs:restriction>
   </xs:simpleType>
   
-  <!--<xs:simpleType name="energyTransferModelName">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="ExponentialDown"/>
-      <xs:enumeration value="gaussian"/>
-    </xs:restriction>
-  </xs:simpleType>-->
-
   <xs:complexType name="ExponentialDown">
     <xs:complexContent>
       <xs:extension base="energyTransferct">

@@ -457,7 +457,7 @@ FunctionEnd
 ;General
 
   ;Mesmer version
-  !define MesmerVersion 2.0
+  !define MesmerVersion 3.0
 
   ;Name and file
   Name "Mesmer ${MESMERVERSION}"
@@ -480,13 +480,8 @@ FunctionEnd
 ;--------------------------------
 ;Interface Settings
 
-  ;!define MUI_ICON "babel.ico"
-  ;!define MUI_UNICON "babel.ico"
   !define MUI_ABORTWARNING
   !define MUI_HEADERIMAGE
-  ;!define MUI_HEADERIMAGE_BITMAP "logo_small.bmp"
-  ;!define MUI_WELCOMEFINISHPAGE_BITMAP "logo_big.bmp"
-  ;!define MUI_FINISHPAGE_RUN "$INSTDIR/Mesmer.exe -?"
   !define MUI_FINISHPAGE_SHOWREADME "$INSTDIR/ReadMe.txt"
 
 ;--------------------------------
@@ -531,6 +526,10 @@ Section "Dummy Section" SecDummy
   SetOutPath "$INSTDIR\MesmerQA"
   File /r /x .svn /x test.test /x *_prev.* /x *_out.xml /x *.sh /x Linux32 /x Linux64 /x MacOSX ..\..\MesmerQA\*.*
 
+  SetOutPath "$INSTDIR\schemas"
+  File ..\..\schemas\*.xsd
+  File ..\..\schemas\schemaNotes.txt
+  
   SetOutPath "$INSTDIR" 
   File ..\..\License.txt
   File ..\Mesmer\Mesmer.exe
@@ -568,7 +567,7 @@ Section "Dummy Section" SecDummy
     SetOutPath "$DESKTOP" ;side-effect is to set working dir for shortcuts
     CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
 
-    ;CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Wiki (on SourceForge).lnk" "http://mesmer.wiki.sourceforge.net/"
+    ;CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Wiki (on SourceForge).lnk" "https://sourceforge.net/projects/mesmer/"
        ; "" "$SYSDIR\winhlp32.exe" 
 
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
@@ -627,6 +626,7 @@ Section "Uninstall"
   RMDir /r "$INSTDIR\Documentation"
   RMDir /r "$INSTDIR\examples"
   RMDir /r "$INSTDIR\MesmerQA"
+  RMDir /r "$INSTDIR\schemas"
 
   RMDir "$INSTDIR"
   DeleteRegValue        HKCU "Environment" "MESMER_DIR"

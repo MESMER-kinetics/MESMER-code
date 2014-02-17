@@ -591,7 +591,7 @@ namespace mesmer
       }
     }
   
-    cerr << "No element, or dictRef of a property, = " << name << " was found in defaults.xml or it could not be copied."
+    cerr << "No element, attribute or dictRef of a property, = " << name << " was found in defaults.xml or it could not be copied."
       << "\nTHIS NEEDS TO BE CORRECTED.\n";
     return false;
   }
