@@ -76,7 +76,7 @@ Number of sinks in this system: 0
 
 There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
 
-Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
 The last CSE = -7.11235e+06 and the first IERE = -1.79258e+07
 (last CSE)/(first IERE) ratio = 0.396767, which is less than an order of magnitude
