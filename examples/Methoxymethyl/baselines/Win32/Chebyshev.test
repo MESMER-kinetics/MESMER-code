@@ -1712,7 +1712,7 @@ Number of sinks in this system: 3
 There should be 3 chemically significant eigenvalues (CSEs)
 row 572 of the U*U^(-1) matrix does not equal unity. It sums to -2.394121e+02
 
-Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
 The last CSE = -338418 and the first IERE = -3.19372e+006
 (last CSE)/(first IERE) ratio = 0.105964, which is less than an order of magnitude
@@ -2098,7 +2098,7 @@ Number of sinks in this system: 3
 There should be 3 chemically significant eigenvalues (CSEs)
 row 572 of the U*U^(-1) matrix does not equal unity. It sums to 9.981896e-01
 
-Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
 The last CSE = -1.04772e+006 and the first IERE = -7.29971e+006
 (last CSE)/(first IERE) ratio = 0.143529, which is less than an order of magnitude
@@ -2200,7 +2200,7 @@ Number of sinks in this system: 3
 There should be 3 chemically significant eigenvalues (CSEs)
 row 572 of the U*U^(-1) matrix does not equal unity. It sums to 9.933734e-01
 
-Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
 The last CSE = -786400 and the first IERE = -2.08182e+006
 (last CSE)/(first IERE) ratio = 0.377746, which is less than an order of magnitude
@@ -2489,7 +2489,7 @@ Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
 
-Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
 The last CSE = -5.39908e+006 and the first IERE = -3.03924e+007
 (last CSE)/(first IERE) ratio = 0.177646, which is less than an order of magnitude
@@ -2590,7 +2590,7 @@ Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
 
-Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
 The last CSE = -3.08624e+006 and the first IERE = -4.03158e+006
 (last CSE)/(first IERE) ratio = 0.765516, which is less than an order of magnitude
@@ -2691,7 +2691,7 @@ Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
 
-Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
 The last CSE = -1.13615e+006 and the first IERE = -1.80403e+006
 (last CSE)/(first IERE) ratio = 0.629788, which is less than an order of magnitude
@@ -2792,7 +2792,7 @@ Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
 
-Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
 The last CSE = -4.2706e+007 and the first IERE = -4.01629e+008
 (last CSE)/(first IERE) ratio = 0.106332, which is less than an order of magnitude
@@ -2893,7 +2893,7 @@ Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
 
-Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
 The last CSE = -3.08744e+007 and the first IERE = -1.17502e+008
 (last CSE)/(first IERE) ratio = 0.262757, which is less than an order of magnitude
@@ -2994,7 +2994,7 @@ Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
 
-Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
 The last CSE = -1.46448e+007 and the first IERE = -1.92818e+007
 (last CSE)/(first IERE) ratio = 0.759515, which is less than an order of magnitude
@@ -3095,7 +3095,7 @@ Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
 
-Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
 The last CSE = -2.30492e+006 and the first IERE = -5.11678e+006
 (last CSE)/(first IERE) ratio = 0.450464, which is less than an order of magnitude
@@ -3196,7 +3196,7 @@ Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
 
-Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
 The last CSE = -702079 and the first IERE = -1.6078e+006
 (last CSE)/(first IERE) ratio = 0.43667, which is less than an order of magnitude
@@ -3297,7 +3297,7 @@ Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
 
-Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
 The last CSE = -1.5696e+008 and the first IERE = -2.95218e+008
 (last CSE)/(first IERE) ratio = 0.531677, which is less than an order of magnitude
@@ -3398,7 +3398,7 @@ Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
 
-Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
 The last CSE = -7.90226e+007 and the first IERE = -9.90892e+007
 (last CSE)/(first IERE) ratio = 0.79749, which is less than an order of magnitude
@@ -3499,7 +3499,7 @@ Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
 
-Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
 The last CSE = -1.53287e+007 and the first IERE = -3.37736e+007
 (last CSE)/(first IERE) ratio = 0.453868, which is less than an order of magnitude
@@ -3600,7 +3600,7 @@ Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
 
-Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
 The last CSE = -2.60857e+006 and the first IERE = -6.22416e+006
 (last CSE)/(first IERE) ratio = 0.419103, which is less than an order of magnitude
@@ -3701,7 +3701,7 @@ Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
 
-Warning: CSEs not well separated from internal energy relaxation eigenvals (IEREs)
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
 The last CSE = -848118 and the first IERE = -2.02572e+006
 (last CSE)/(first IERE) ratio = 0.418674, which is less than an order of magnitude
