@@ -1,3 +1,9 @@
+2014-March-01 Struan Robertson
+
+	* MESMER manual.docx, System.h: Version changes.
+
+	* Qa.bat, QA.sh: Updated to include AcetylPrior test.
+
 2014-February-21 Robin Shannon
 
 	* Examples\AcetylPrior: Example file added in order to demonstrate

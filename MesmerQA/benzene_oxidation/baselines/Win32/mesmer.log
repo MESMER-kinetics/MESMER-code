@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- Jan 11 2014 -- 12:03:24
+     Mesmer v4.0 compiled: -- Mar  1 2014 -- 11:57:14
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -57,7 +57,7 @@ In R_2_6c: No crossing method used for R_2_6c
 All molecules are on the same energy basis: arbitary
 The default value of precision (or one of its attributes) was used.
 760Torr, 298K at d precision with N2
-Write metadata 20140126_173116
+Write metadata 20140301_115845
 
 File: "benzene_oxidation_test.xml" successfully parsed.
 Main Calculation begins
@@ -66,6 +66,6 @@ The default value of me:energyTransferModel was used.
 No value of me:deltaEDown was supplied and the default value NEEDS TO BE CHECKED**
 In FastLaplaceConvolution: 140 values in the FFT convolution routine were replaced by standard convolution
 Finish Calculation of P-T case
- -- Total time elapsed: 2 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml

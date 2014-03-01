@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- Jan 11 2014 -- 12:03:24
+     Mesmer v4.0 compiled: -- Mar  1 2014 -- 11:57:14
 
      Copyright (C) 2009-2013 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -48,7 +48,7 @@ In R2: No crossing method used for R2
 All molecules are on the same energy basis: arbitary
 The default value of precision (or one of its attributes) was used.
 1000torr, 298K at d precision with N2
-Write metadata 20140126_173124
+Write metadata 20140301_115852
 
 File: "OH_acetylene_association_test.xml" successfully parsed.
 Main Calculation begins
@@ -56,6 +56,6 @@ In FastLaplaceConvolution: 20 values in the FFT convolution routine were replace
 Association ILT calculation completed
 In mesmer::CollisionOperator::timeEvolution: No population was assigned. Initialize the first source term to 1.0.
 Finish Calculation of P-T case
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml

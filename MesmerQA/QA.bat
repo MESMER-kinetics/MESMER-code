@@ -89,6 +89,13 @@ IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 echo --------------------------------------------------------------------
 
+cd AcetylPrior
+%executable% AcetylPrior.xml -o %outf% %directive%
+copy "./%tfn%" "./%bline%%otfn%"
+IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+cd ..
+echo --------------------------------------------------------------------
+
 cd benzene_oxidation
 %executable% benzene_oxidation_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
