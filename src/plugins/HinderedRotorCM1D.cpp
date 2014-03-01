@@ -12,22 +12,23 @@
 #include "../MolecularComponents.h"
 #include "../Molecule.h"
 #include "../Constants.h"
+#include "HinderedRotorUtils.h"
 
 using namespace std;
 using namespace Constants;
 
 namespace mesmer
 {
-  class HinderedRotorCM1D : public DensityOfStatesCalculator
+  class HinderedRotorCM1D : public DensityOfStatesCalculator, HinderedRotorUtils
   {
   public:
     //Read data from XML. 
     virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC=NULL);
 
-    // Function to define particular counts of the DOS of a molecule.
+    // Provide a function to define particular counts of the DOS of a molecule.
     virtual bool countCellDOS(gDensityOfStates* mol, size_t MaximumCell);
 
-    // Function to calculate contribution to canonical partition function.
+    // Provide a function to calculate contribution to canonical partition function.
     virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
 
     // Function to return the number of degrees of freedom associated with this count.
@@ -40,8 +41,6 @@ namespace mesmer
       m_bondID(),
       m_reducedMomentInertia(0.0),
       m_periodicity(1),
-      m_potentialCosCoeff(),
-      m_expansion(4),
       m_energyLevels()
     { Register(); }
 
@@ -52,17 +51,10 @@ namespace mesmer
   private:
     const char* m_id;
 
-    // Calculate cosine coefficients from potential data points.
-    void CosineFourierCoeffs(vector<double> &angle, vector<double> &potential) ;
-
     std::string m_bondID;
 
     double m_reducedMomentInertia;
     int    m_periodicity;
-
-    vector<double> m_potentialCosCoeff ; // The cosine coefficients of the hindered rotor potential.
-
-    size_t m_expansion ;                 // Number of coefficients in the cosine expansion.
 
     vector<double> m_energyLevels ;	     // The energies of the hindered rotor states.
 
@@ -84,59 +76,44 @@ namespace mesmer
       return false;
     }
 
+    // The following vector, "mode", will be used to hold the internal rotation 
+    // mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010). 
+    vector<double> mode(3*gs.NumAtoms(), 0.0);
+
     const char* bondID = ppDOSC->XmlReadValue("bondRef",optional);
-    if(bondID)
+    if(!bondID)
+      bondID = ppDOSC->XmlReadValue("me:bondRef",optional);
+    if (!bondID || *bondID=='\0')
     {
-      pair<string,string> bondats = gs.GetAtomsOfBond(bondID);
-      if(bondats.first.empty())
+      cerr << "No <bondRef> specified for the hindered rotating bond" <<endl;
+      return false;
+    }
+
+    pair<string,string> bondats = gs.GetAtomsOfBond(bondID);
+    if(bondats.first.empty())
+    {
+      cerr << "Unknown bond reference " << bondID << endl;
+      return false;
+    }
+    m_bondID = bondID;
+    cinfo << "Hindered rotor " << m_bondID << endl;  
+
+    //Remove the vibrational frequency that this hindered rotation replaces
+    const char* vibFreq = ppDOSC->XmlReadValue("me:replaceVibFreq",optional);
+    if(vibFreq)
+    {
+      if(!gdos->removeVibFreq(atof(vibFreq)))
       {
-        cerr << "Unknown bond reference " << bondID << endl;
+        cerr << "Cannot find vibrational frequency " << vibFreq << " to replace it with hindered rotor" <<endl;
         return false;
       }
-      m_bondID = bondID;
-      cinfo << "Hindered rotor " << m_bondID << endl;  
-
-      //Remove the vibrational frequency that this hindered rotation replaces
-      const char* vibFreq = ppDOSC->XmlReadValue("me:replaceVibFreq",optional);
-      if(vibFreq)
-      {
-        if(!gdos->removeVibFreq(atof(vibFreq)))
-        {
-          cerr << "Cannot find vibrational frequency " << vibFreq << " to replace it with hindered rotor" <<endl;
-          return false;
-        }
-        cinfo << " replacing vib freq " << vibFreq;      
-      }
-      cinfo << endl;
-
-      vector3 coords1 = gs.GetAtomCoords(bondats.first);
-      vector3 coords2 = gs.GetAtomCoords(bondats.second);
-
-      //Calc moment of inertia about bond axis of atoms on one side of bond...
-      vector<string> atomset;
-      atomset.push_back(bondats.second); //will not look beyond this atom on the other side of the bond
-      gs.GetAttachedAtoms(atomset, bondats.first);
-      atomset.erase(atomset.begin()); //the other side of the bond is not in this set
-      double mm1 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);
-
-      //...and the other side of the bond
-      atomset.clear();
-      atomset.push_back(bondats.first);
-      gs.GetAttachedAtoms(atomset, bondats.second);
-      atomset.erase(atomset.begin());
-      double mm2 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);
-
-      /*
-      Is the reduced moment of inertia needed about the bond axis or, separately for the set of
-      atoms on each side of the bond, about a parallel axis through their centre of mass?
-      See:
-      http://www.ccl.net/chemistry/resources/messages/2001/03/21.005-dir/index.html
-      http://www.ccl.net/chemistry/resources/messages/2001/03/31.002-dir/index.html
-      The bond axis is used here.
-      */
-
-      m_reducedMomentInertia = mm1 * mm2 / ( mm1 + mm2 );//units a.u.*Angstrom*Angstrom
+      cinfo << " replacing vib freq " << vibFreq;      
     }
+    cinfo << endl;
+
+    // Calculate reduced moment of inertia.
+
+    m_reducedMomentInertia = reducedMomentInertia(gs, bondats, mode);  //units a.u.*Angstrom*Angstrom
 
     // Read in potential information.
 
@@ -185,6 +162,14 @@ namespace mesmer
         vector<double> potential ;
         vector<double> angle ;
         m_expansion = pp->XmlReadInteger("expansionSize",optional);
+
+		// Check if sine terms are to be used.
+
+		const char *pUseSineTerms(pp->XmlReadValue("useSineTerms",optional)) ;
+		if (pUseSineTerms && string(pUseSineTerms) == "yes") {
+		  m_useSinTerms = true ;
+		}
+
         while(pp = pp->XmlMoveTo("me:PotentialPoint"))
         {
           double anglePoint = pp->XmlReadDouble("angle", optional);
@@ -199,7 +184,7 @@ namespace mesmer
           potential.push_back(potentialPoint) ;
         }
 
-        CosineFourierCoeffs(angle, potential) ;
+		FourierCoeffs(angle, potential) ;
 
       } else {
 
@@ -359,60 +344,6 @@ namespace mesmer
     }
 
     return Qintrot*Qhdr/double(npnts) ;
-  }
-
-  //
-  // Calculate cosine coefficients from potential data points.
-  //
-  void HinderedRotorCM1D::CosineFourierCoeffs(vector<double> &angle, vector<double> &potential)
-  {
-    size_t ndata = potential.size() ;
-
-    // Locate the potential minimum and shift to that minimum.
-
-    double vmin(potential[0]), amin(angle[0]) ;
-    for (size_t i(1); i < ndata; ++i) {
-      if (potential[i] < vmin){
-        vmin = potential[i] ;
-        amin = angle[i] ;
-      }
-    }
-
-    for (size_t i(0); i < ndata; ++i) {
-      potential[i] -= vmin ;
-      angle[i]     -= amin ;
-      angle[i]     *= M_PI/180. ;
-    }
-
-    // Now determine the cosine coefficients.
-
-    for(size_t k(0); k < m_expansion; ++k) {
-      double sum(0.0) ;
-      for(size_t i(0); i < ndata; ++i) {
-        double nTheta = double(k) * angle[i];
-        sum += potential[i] * cos(nTheta);
-      }
-      m_potentialCosCoeff.push_back(2.0*sum/double(ndata)) ;
-    }
-    m_potentialCosCoeff[0] /= 2.0 ;
-
-    // Test potential
-
-    cinfo << endl ;
-    cinfo << "          Angle      Potential         Series" << endl ;
-    cinfo << endl ;
-    for (size_t i(0); i < ndata; ++i) {
-      double sum(0.0) ;
-      for(size_t k(0); k < m_expansion; ++k) {
-        double nTheta = double(k) * angle[i];
-        sum += m_potentialCosCoeff[k] * cos(nTheta);
-      }
-      cinfo << formatFloat(angle[i], 6, 15) << formatFloat(potential[i], 6, 15) << formatFloat(sum, 6, 15) << endl ;
-    }
-    cinfo << endl ;
-
-    return ;
-
   }
 
 }//namespace

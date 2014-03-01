@@ -180,6 +180,7 @@ SRCS := \
 	plugins/FittingUtils.cpp \
 	plugins/GaussianModel.cpp \
 	plugins/gridsearch.cpp \
+	plugins/HinderedRotorUtils.cpp \
 	plugins/HinderedRotorQM1D.cpp \
 	plugins/HinderedRotorCM1D.cpp \
 	plugins/LandauZenerCrossingCoeff.cpp \

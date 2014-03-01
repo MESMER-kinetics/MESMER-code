@@ -16,89 +16,74 @@
 #include "../MolecularComponents.h"
 #include "../Molecule.h"
 #include "../Constants.h"
+#include "HinderedRotorUtils.h"
 
 using namespace std;
 using namespace Constants;
 
 namespace mesmer
 {
-  class HinderedRotorQM1D : public DensityOfStatesCalculator
+  class HinderedRotorQM1D : public DensityOfStatesCalculator, HinderedRotorUtils
   {
   public:
-    //Read data from XML. 
-    virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC=NULL);
+	//Read data from XML. 
+	virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC=NULL);
 
-    // Provide a function to define particular counts of the DOS of a molecule.
-    virtual bool countCellDOS(gDensityOfStates* mol, size_t MaximumCell);
+	// Provide a function to define particular counts of the DOS of a molecule.
+	virtual bool countCellDOS(gDensityOfStates* mol, size_t MaximumCell);
 
-    // Provide a function to calculate contribution to canonical partition function.
-    virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
+	// Provide a function to calculate contribution to canonical partition function.
+	virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
 
-    // Function to return the number of degrees of freedom associated with this count.
-    virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) {return 1 ; } ;
+	// Function to return the number of degrees of freedom associated with this count.
+	virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) {return 1 ; } ;
 
-    // Provide a function to calculate the zero point energy of a molecule.
+	// Provide a function to calculate the zero point energy of a molecule.
 	virtual double ZeroPointEnergy(gDensityOfStates* gdos) {return m_ZPE ; } ;
 
-    // Constructor which registers with the list of DensityOfStatesCalculators in the base class
-    // This class is an extra DOS class: a non-extra DensityOfStatesCalculator class also
-    // needs to be specified.
-    HinderedRotorQM1D(const char* id) : m_id(id),
-      m_bondID(),
-      m_reducedMomentInertia(0.0),
-      m_periodicity(1),
-      m_potentialCosCoeff(),
-      m_potentialSinCoeff(),
-      m_expansion(4),
-      m_energyLevels(),
+	// Constructor which registers with the list of DensityOfStatesCalculators in the base class
+	// This class is an extra DOS class: a non-extra DensityOfStatesCalculator class also
+	// needs to be specified.
+	HinderedRotorQM1D(const char* id) : DensityOfStatesCalculator(),
+	  HinderedRotorUtils(),
+	  m_id(id),
+	  m_bondID(),
+	  m_periodicity(1),
+	  m_kineticCosCoeff(),
+	  m_energyLevels(),
 	  m_ZPE(0.0),
-      m_plotStates(false),
-      m_writeStates(false),
-      m_useSinTerms(false)
-    { Register(); }
+	  m_plotStates(false),
+	  m_writeStates(false)
+	{ Register(); }
 
-    virtual ~HinderedRotorQM1D() {}
-    virtual const char* getID()  { return m_id; }
-    virtual HinderedRotorQM1D* Clone() { return new HinderedRotorQM1D(*this); }
+	virtual ~HinderedRotorQM1D() {}
+	virtual const char* getID()  { return m_id; }
+	virtual HinderedRotorQM1D* Clone() { return new HinderedRotorQM1D(*this); }
 
   private:
-    const char* m_id;
+	const char* m_id;
 
-    // Calculate the Fourier coefficients from potential data points.
-    void FourierCoeffs(vector<double> &angle, vector<double> &potential) ;
+	// Shift potential to origin.
+	void ShiftPotential() ;
 
-    // Calculate potential.
-    double CalculatePotential(double angle) const ;
+	// Provide data for plotting states against potential.
+	void outputPlotData() const ;
 
-    // Calculate gradient.
-    double CalculateGradient(double angle) const ;
+	// Print the hindered rotor states.
+	void outputStateData() const ;
 
-    // Shift potential to origin.
-    void ShiftPotential() ;
+	std::string m_bondID;
 
-    // Provide data for plotting states against potential.
-    void outputPlotData() const ;
+	int    m_periodicity;
 
-    // Print the hindered rotor states.
-    void outputStateData() const ;
+	vector<double> m_kineticCosCoeff ;   // The cosine coefficients of the internal rotor inertia term.
 
-    std::string m_bondID;
+	vector<double> m_energyLevels ;	     // The energies of the hindered rotor states.
+	double m_ZPE ;                       // Zero point energy. 
 
-    double m_reducedMomentInertia;
-    int    m_periodicity;
+	bool m_plotStates ;                  // If true output data for plotting. 
+	bool m_writeStates ;                 // If true energy levels written to output. 
 
-    vector<double> m_potentialCosCoeff ; // The cosine coefficients of the hindered rotor potential.
-    vector<double> m_potentialSinCoeff ; // The sine coefficients of the hindered rotor potential.
-
-    size_t m_expansion ;                 // Number of coefficients in the cosine expansion.
-
-    vector<double> m_energyLevels ;	     // The energies of the hindered rotor states.
-    double m_ZPE ;                       // Zero point energy. 
-
-    bool m_plotStates ;                  // If true output data for plotting. 
-    bool m_writeStates ;                 // If true energy levels written to output. 
-
-    bool m_useSinTerms ;                 // If true sine terms are used in the representation of the potential.
   } ;
 
   //-------------------------------------------------------------
@@ -110,200 +95,209 @@ namespace mesmer
   //Read data from XML and store in this instance.
   bool HinderedRotorQM1D::ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC)
   {
-    gStructure& gs = gdos->getHost()->getStruc();
-    if(!gs.ReadStructure())
-    {
-      cerr << "A complete set of atom coordinates are required for hindered rotor calculations" <<endl;
-      return false;
-    }
+	gStructure& gs = gdos->getHost()->getStruc();
+	if(!gs.ReadStructure())
+	{
+	  cerr << "A complete set of atom coordinates are required for hindered rotor calculations" <<endl;
+	  return false;
+	}
 
-    // The following vector, "mode", will be used to hold the ther internal rotation 
-    // mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010). 
-    vector<double> mode(3*gs.NumAtoms(), 0.0);
+	// The following vector, "mode", will be used to hold the internal rotation 
+	// mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010). 
+	vector<double> mode(3*gs.NumAtoms(), 0.0);
 
-    const char* bondID = ppDOSC->XmlReadValue("bondRef",optional);
-    if(!bondID)
-      bondID = ppDOSC->XmlReadValue("me:bondRef",optional);
-    if(!bondID || *bondID=='\0')
-    {
-      cerr << "No <bondRef> specified for the hindered rotating bond" <<endl;
-      return false;
-    }
+	const char* bondID = ppDOSC->XmlReadValue("bondRef",optional);
+	if(!bondID)
+	  bondID = ppDOSC->XmlReadValue("me:bondRef",optional);
+	if (!bondID || *bondID=='\0')
+	{
+	  cerr << "No <bondRef> specified for the hindered rotating bond" <<endl;
+	  return false;
+	}
 
-    pair<string,string> bondats = gs.GetAtomsOfBond(bondID);
-    if(bondats.first.empty())
-    {
-      cerr << "Unknown bond reference " << bondID << endl;
-      return false;
-    }
-    m_bondID = bondID;
-    cinfo << "Hindered rotor " << m_bondID;  
+	pair<string,string> bondats = gs.GetAtomsOfBond(bondID);
+	if(bondats.first.empty())
+	{
+	  cerr << "Unknown bond reference " << bondID << endl;
+	  return false;
+	}
+	m_bondID = bondID;
+	cinfo << "Hindered rotor " << m_bondID << endl;  
 
-    //Remove the vibrational frequency that this hindered rotation replaces
-    const char* vibFreq = ppDOSC->XmlReadValue("me:replaceVibFreq",optional);
-    if (vibFreq)
-    {
-      if(!gdos->removeVibFreq(atof(vibFreq)))
-      {
-        cerr << "Cannot find vibrational frequency " << vibFreq << " to replace it with hindered rotor" <<endl;
-        return false;
-      }
-      cinfo << " replacing vib freq " << vibFreq;      
-    }
-    cinfo << '\n';
+	//Remove the vibrational frequency that this hindered rotation replaces
+	const char* vibFreq = ppDOSC->XmlReadValue("me:replaceVibFreq",optional);
+	if (vibFreq)
+	{
+	  if(!gdos->removeVibFreq(atof(vibFreq)))
+	  {
+		cerr << "Cannot find vibrational frequency " << vibFreq << " to replace it with hindered rotor" <<endl;
+		return false;
+	  }
+	  cinfo << " replacing vib freq " << vibFreq;      
+	}
+	cinfo << endl;
 
-    vector3 coords1 = gs.GetAtomCoords(bondats.first);
-    vector3 coords2 = gs.GetAtomCoords(bondats.second);
+	// Determine reduced moment of inertia function. These can either 
+	// be read in or calculated if the coordinates are available.
 
-    //Calc moment of inertia about bond axis of atoms on one side of bond...
-    vector<string> atomset;
-    atomset.push_back(bondats.second); //will not look beyond this atom on the other side of the bond
-    gs.GetAttachedAtoms(atomset, bondats.first);
-    atomset.erase(atomset.begin()); //the other side of the bond is not in this set
-    double mm1 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);
-    gs.CalcInternalRotVec(atomset, coords1, coords2, mode) ;
+	m_kineticCosCoeff.clear() ;
+	PersistPtr pp = ppDOSC->XmlMoveTo("me:InternalRotorInertia") ;
 
-    //...and the other side of the bond
-    atomset.clear();
-    atomset.push_back(bondats.first);
-    gs.GetAttachedAtoms(atomset, bondats.second);
-    atomset.erase(atomset.begin());
-    double mm2 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);
-    gs.CalcInternalRotVec(atomset, coords2, coords1, mode) ;
+	if (pp) {
+	  const char* p = pp->XmlReadValue("units", optional);
+	  string units = p ? p : "cm-1";
 
-    /*
-    Is the reduced moment of inertia needed about the bond axis or, separately for the set of
-    atoms on each side of the bond, about a parallel axis through their centre of mass?
-    See:
-    http://www.ccl.net/chemistry/resources/messages/2001/03/21.005-dir/index.html
-    http://www.ccl.net/chemistry/resources/messages/2001/03/31.002-dir/index.html
-    The bond axis is used here.
-    */
+	  vector<int> indicies ;
+	  vector<double> coefficients ;
+	  int maxIndex(0) ;
+	  while(pp = pp->XmlMoveTo("me:InertiaPoint"))
+	  {
+		int index = pp->XmlReadInteger("index", optional);
+		indicies.push_back(index) ;
+		maxIndex = max(maxIndex,index) ;
 
-    m_reducedMomentInertia = mm1 * mm2 / ( mm1 + mm2 );//units a.u.*Angstrom*Angstrom
+		double coefficient = pp->XmlReadDouble("coefficient", optional);
+		if(IsNan(coefficient))
+		  coefficient = 0.0;
+		coefficient = getConvertedEnergy(units, coefficient);
+		coefficients.push_back(coefficient) ;
+	  }
 
-    // Read in potential information.
+	  // As coefficients can be supplied in any order, they are sorted here.
+	  m_kineticCosCoeff.resize(++maxIndex) ;
+	  for (size_t i(0) ; i < coefficients.size() ; i++ ) {
+		m_kineticCosCoeff[indicies[i]] = coefficients[i] ;
+	  }
+	} else {
 
-    m_periodicity = max(m_periodicity, ppDOSC->XmlReadInteger("me:periodicity",optional));
+	  // Calculate reduced moment of inertia.
 
-    PersistPtr pp = ppDOSC->XmlMoveTo("me:HinderedRotorPotential") ;
+	  double reducedMomentInertia(reducedMomentInertia(gs, bondats, mode)) ;  //units a.u.*Angstrom*Angstrom
+	  m_kineticCosCoeff.push_back(conMntInt2RotCnt/reducedMomentInertia) ;
+	}
 
-    if (pp) {
+	// Read in potential information.
 
-      const char* p = pp->XmlReadValue("format", true);
-      string format(p) ;
+	m_periodicity = max(m_periodicity, ppDOSC->XmlReadInteger("me:periodicity",optional));
 
-      p = pp->XmlReadValue("units", optional);
-      string units = p ? p : "kJ/mol";
+	pp = ppDOSC->XmlMoveTo("me:HinderedRotorPotential") ;
 
-      if (format == "analytical") {
+	if (pp) {
 
-        // Analytical potential.
+	  const char* p = pp->XmlReadValue("format", true);
+	  string format(p) ;
 
-        vector<int> indicies ;
-        vector<double> coefficients ;
-        int maxIndex(0) ;
-        while(pp = pp->XmlMoveTo("me:PotentialPoint"))
-        {
-          int index = pp->XmlReadInteger("index", optional);
-          indicies.push_back(index) ;
-          maxIndex = max(maxIndex,index) ;
+	  p = pp->XmlReadValue("units", optional);
+	  string units = p ? p : "kJ/mol";
 
-          double coefficient = pp->XmlReadDouble("coefficient", optional);
-          if(IsNan(coefficient))
-            coefficient = 0.0;
-          coefficient = getConvertedEnergy(units, coefficient);
-          coefficients.push_back(coefficient) ;
-        }
+	  if (format == "analytical") {
 
-        // As coefficients can be supplied in any order, they are sorted here.
-        m_potentialCosCoeff.resize(++maxIndex) ;
-        m_potentialSinCoeff.resize(++maxIndex) ;
-        for (size_t i(0) ; i < coefficients.size() ; i++ ) {
-          m_potentialCosCoeff[indicies[i]] = coefficients[i] ;
-          m_potentialSinCoeff[i]           = 0.0 ;
-        }
+		// Analytical potential.
 
-        // Shift potential so that lowest minimum is at zero.
+		vector<int> indicies ;
+		vector<double> coefficients ;
+		int maxIndex(0) ;
+		while(pp = pp->XmlMoveTo("me:PotentialPoint"))
+		{
+		  int index = pp->XmlReadInteger("index", optional);
+		  indicies.push_back(index) ;
+		  maxIndex = max(maxIndex,index) ;
 
-        ShiftPotential() ;
+		  double coefficient = pp->XmlReadDouble("coefficient", optional);
+		  if(IsNan(coefficient))
+			coefficient = 0.0;
+		  coefficient = getConvertedEnergy(units, coefficient);
+		  coefficients.push_back(coefficient) ;
+		}
 
-      } else if (format == "numerical") {
+		// As coefficients can be supplied in any order, they are sorted here.
+		m_potentialCosCoeff.resize(++maxIndex) ;
+		m_potentialSinCoeff.resize(++maxIndex) ;
+		for (size_t i(0) ; i < coefficients.size() ; i++ ) {
+		  m_potentialCosCoeff[indicies[i]] = coefficients[i] ;
+		  m_potentialSinCoeff[i]           = 0.0 ;
+		}
 
-        // Numerical potential.
+		// Shift potential so that lowest minimum is at zero.
 
-        vector<double> potential ;
-        vector<double> angle ;
-        m_expansion = pp->XmlReadInteger("expansionSize",optional);
+		ShiftPotential() ;
 
-        // Check if sine terms are to be used.
+	  } else if (format == "numerical") {
 
-        const char *pUseSineTerms(pp->XmlReadValue("useSineTerms",optional)) ;
-        if (pUseSineTerms && string(pUseSineTerms) == "yes") {
-          m_useSinTerms = true ;
-        }
+		// Numerical potential.
 
-        while(pp = pp->XmlMoveTo("me:PotentialPoint"))
-        {
-          double anglePoint = pp->XmlReadDouble("angle", optional);
-          if(IsNan(anglePoint))
-            anglePoint = 0.0;
-          angle.push_back(anglePoint) ;
+		vector<double> potential ;
+		vector<double> angle ;
+		m_expansion = pp->XmlReadInteger("expansionSize",optional);
 
-          double potentialPoint = pp->XmlReadDouble("potential", optional);
-          if(IsNan(potentialPoint))
-            potentialPoint = 0.0;
-          potentialPoint = getConvertedEnergy(units, potentialPoint);
-          potential.push_back(potentialPoint) ;
-        }
+		// Check if sine terms are to be used.
 
-        FourierCoeffs(angle, potential) ;
+		const char *pUseSineTerms(pp->XmlReadValue("useSineTerms",optional)) ;
+		if (pUseSineTerms && string(pUseSineTerms) == "yes") {
+		  m_useSinTerms = true ;
+		}
 
-      } else {
+		while(pp = pp->XmlMoveTo("me:PotentialPoint"))
+		{
+		  double anglePoint = pp->XmlReadDouble("angle", optional);
+		  if(IsNan(anglePoint))
+			anglePoint = 0.0;
+		  angle.push_back(anglePoint) ;
 
-        // Unknown format.
+		  double potentialPoint = pp->XmlReadDouble("potential", optional);
+		  if(IsNan(potentialPoint))
+			potentialPoint = 0.0;
+		  potentialPoint = getConvertedEnergy(units, potentialPoint);
+		  potential.push_back(potentialPoint) ;
+		}
 
-        cinfo << "Unknown hindering potential format for " << bondID << ", assuming free rotor." <<endl;
+		FourierCoeffs(angle, potential) ;
 
-        m_potentialCosCoeff.push_back(0.0) ;
+	  } else {
 
-      }
+		// Unknown format.
 
-    } else {
+		cinfo << "Unknown hindering potential format for " << bondID << ", assuming free rotor." <<endl;
 
-      // Default : free rotor.
+		m_potentialCosCoeff.push_back(0.0) ;
 
-      cinfo << "No potential defined for " << bondID << ", assuming free rotor." <<endl;
+	  }
 
-      m_potentialCosCoeff.push_back(0.0) ;
+	} else {
 
-    }
+	  // Default : free rotor.
 
-    // Check if there is a Hessian and knock out the frequency
-    // associated with this internal rotation.
+	  cinfo << "No potential defined for " << bondID << ", assuming free rotor." <<endl;
 
-    if (gdos->hasHessian()) {
-      if(!gdos->projectMode(mode)) {
-        cerr << "Failed to project out internal rotation." <<endl;
-        return false;
-      }
-    }
+	  m_potentialCosCoeff.push_back(0.0) ;
 
-    // Check if is data for plotting are required.
+	}
 
-    pp = ppDOSC->XmlMoveTo("me:PlotStates") ;
-    if (pp) {
-      m_plotStates = true ;
-    }
+	// Check if there is a Hessian and knock out the frequency
+	// associated with this internal rotation.
 
-    // Check if is energy level values are to be written.
+	if (gdos->hasHessian()) {
+	  if(!gdos->projectMode(mode)) {
+		cerr << "Failed to project out internal rotation." <<endl;
+		return false;
+	  }
+	}
 
-    pp = ppDOSC->XmlMoveTo("me:WriteStates") ;
-    if (pp) {
-      m_writeStates = true ;
-    }
+	// Check if is data for plotting are required.
 
-    return true;
+	pp = ppDOSC->XmlMoveTo("me:PlotStates") ;
+	if (pp) {
+	  m_plotStates = true ;
+	}
+
+	// Check if is energy level values are to be written.
+
+	pp = ppDOSC->XmlMoveTo("me:WriteStates") ;
+	if (pp) {
+	  m_writeStates = true ;
+	}
+
+	return true;
   }
 
   //
@@ -313,134 +307,134 @@ namespace mesmer
   bool HinderedRotorQM1D::countCellDOS(gDensityOfStates* pDOS, size_t MaximumCell)
   {
 
-    vector<double> cellDOS;
-    if(!pDOS->getCellDensityOfStates(cellDOS, 0, false)) // retrieve the DOS vector without recalculating
-      return false;
+	vector<double> cellDOS;
+	if(!pDOS->getCellDensityOfStates(cellDOS, 0, false)) // retrieve the DOS vector without recalculating
+	  return false;
 
-    vector<double> tmpCellDOS(cellDOS) ;
+	vector<double> tmpCellDOS(cellDOS) ;
 
-    // Find maximum quantum No. for rotor.
+	// Find maximum quantum No. for rotor.
 
-    double bint    = conMntInt2RotCnt/m_reducedMomentInertia ;
-    double root    = sqrt(double(MaximumCell)/bint) ;
-    int kmax       = int(root + 1.0) ;
-    size_t nstates = 2*kmax +1 ;
+	double bint    = m_kineticCosCoeff[0] ;
+	double root    = sqrt(double(MaximumCell)/bint) ;
+	int kmax       = int(root + 1.0) ;
+	size_t nstates = 2*kmax +1 ;
 
-    // Check if sine terms are required and if so use the augmented matrix approach. See NR Sec. 11.4.
+	// Check if sine terms are required and if so use the augmented matrix approach. See NR Sec. 11.4.
 
-    size_t msize = (m_useSinTerms) ? 2*nstates : nstates ; 
+	size_t msize = (m_useSinTerms) ? 2*nstates : nstates ; 
 
-    dMatrix hamiltonian(msize) ;
+	dMatrix hamiltonian(msize) ;
 
-    vector<int> stateIndicies(nstates,0) ;
+	vector<int> stateIndicies(nstates,0) ;
 
-    // Add diagonal kinetic and potential terms first.
+	// Add diagonal kinetic and potential terms first.
 
-    hamiltonian[0][0] = m_potentialCosCoeff[0] ;
-    for (int k(1), i(1); k <= kmax ; k++) {
-      double energy = bint*double(k*k) + m_potentialCosCoeff[0] ;
-      hamiltonian[i][i] = energy ;
-      stateIndicies[i]  = -k ;
-      i++ ;                         // Need to account for the two directions of rotation.
-      hamiltonian[i][i] = energy ;
-      stateIndicies[i]  = k ;
-      i++ ;
-    }
+	hamiltonian[0][0] = m_potentialCosCoeff[0] ;
+	for (int k(1), i(1); k <= kmax ; k++) {
+	  double energy = bint*double(k*k) + m_potentialCosCoeff[0] ;
+	  hamiltonian[i][i] = energy ;
+	  stateIndicies[i]  = -k ;
+	  i++ ;                         // Need to account for the two directions of rotation.
+	  hamiltonian[i][i] = energy ;
+	  stateIndicies[i]  = k ;
+	  i++ ;
+	}
 
-    // Add off-diagonal cosine potential terms.
+	// Add off-diagonal cosine potential terms.
 
-    for (int n(1); n < int(m_potentialCosCoeff.size()) && n <= kmax ; n++) {
-      double matrixElement = m_potentialCosCoeff[n]/2.0 ; 
-      for (size_t i(0) ; i < nstates; i++) {
-        for (size_t j(0) ; j < nstates; j++) {
-          hamiltonian[i][j] += matrixElement*(((abs(stateIndicies[j] - stateIndicies[i]) - n) == 0) ? 1.0 : 0.0)  ;
-        }
-      }
-    }
+	for (int n(1); n < int(m_potentialCosCoeff.size()) && n <= kmax ; n++) {
+	  double matrixElement = m_potentialCosCoeff[n]/2.0 ; 
+	  for (size_t i(0) ; i < nstates; i++) {
+		for (size_t j(0) ; j < nstates; j++) {
+		  hamiltonian[i][j] += matrixElement*(((abs(stateIndicies[j] - stateIndicies[i]) - n) == 0) ? 1.0 : 0.0)  ;
+		}
+	  }
+	}
 
-    if (m_useSinTerms) {
+	if (m_useSinTerms) {
 
-      // Following the augmented matrix approach, first copy the cosine part to the lower right hand block.
+	  // Following the augmented matrix approach, first copy the cosine part to the lower right hand block.
 
-      for (size_t i(0), ii(nstates); i < nstates; i++, ii++) {
-        for (size_t j(0), jj(nstates); j < nstates; j++, jj++) {
-          hamiltonian[ii][jj] = hamiltonian[i][j] ;
-        }
-      }
+	  for (size_t i(0), ii(nstates); i < nstates; i++, ii++) {
+		for (size_t j(0), jj(nstates); j < nstates; j++, jj++) {
+		  hamiltonian[ii][jj] = hamiltonian[i][j] ;
+		}
+	  }
 
-      // Now, construct the off-diagonal sine potential terms, placing result in the lower left off-diagoanl block.
+	  // Now, construct the off-diagonal sine potential terms, placing result in the lower left off-diagoanl block.
 
-      for (int n(1); n < int(m_potentialSinCoeff.size()) && n <= kmax ; n++) {
-        double matrixElement = m_potentialSinCoeff[n]/2.0 ; 
-        for (size_t i(0) ; i < nstates; i++) {
-          for (size_t j(0) ; j < nstates; j++) {
-            hamiltonian[nstates + i][j] += matrixElement*( 
-              (((stateIndicies[j] - stateIndicies[i] - n) == 0) ? 1.0 : 0.0)
-              -	(((stateIndicies[j] - stateIndicies[i] + n) == 0) ? 1.0 : 0.0) ) ;
-          }
-        }
-      }
+	  for (int n(1); n < int(m_potentialSinCoeff.size()) && n <= kmax ; n++) {
+		double matrixElement = m_potentialSinCoeff[n]/2.0 ; 
+		for (size_t i(0) ; i < nstates; i++) {
+		  for (size_t j(0) ; j < nstates; j++) {
+			hamiltonian[nstates + i][j] += matrixElement*( 
+			  (((stateIndicies[j] - stateIndicies[i] - n) == 0) ? 1.0 : 0.0)
+			  -	(((stateIndicies[j] - stateIndicies[i] + n) == 0) ? 1.0 : 0.0) ) ;
+		  }
+		}
+	  }
 
-      // Now, copy the negated off-diagonal sine potential terms to the upper right off-diagonal block.
+	  // Now, copy the negated off-diagonal sine potential terms to the upper right off-diagonal block.
 
-      for (size_t i(0), ii(nstates); i < nstates; i++, ii++) {
-        for (size_t j(0), jj(nstates); j < nstates; j++, jj++) {
-          hamiltonian[i][jj] = -hamiltonian[ii][j] ;
-        }
-      }
+	  for (size_t i(0), ii(nstates); i < nstates; i++, ii++) {
+		for (size_t j(0), jj(nstates); j < nstates; j++, jj++) {
+		  hamiltonian[i][jj] = -hamiltonian[ii][j] ;
+		}
+	  }
 
-    }
+	}
 
-    // Now diagonalize hamiltonian matrix to determine energy levels.
+	// Now diagonalize hamiltonian matrix to determine energy levels.
 
-    vector<double> eigenvalues(msize,0.0) ;
+	vector<double> eigenvalues(msize,0.0) ;
 
-    hamiltonian.diagonalize(&eigenvalues[0]);
+	hamiltonian.diagonalize(&eigenvalues[0]);
 
-    // Save energy levels for partition function calculations.
+	// Save energy levels for partition function calculations.
 
-    if (m_useSinTerms) {
-      m_energyLevels.clear() ;
-      for (size_t j(0) ; j < nstates ; j++) {
-        m_energyLevels.push_back(eigenvalues[2*j]) ;
-      }
-    } else {
-      m_energyLevels = eigenvalues ;
-    }
+	if (m_useSinTerms) {
+	  m_energyLevels.clear() ;
+	  for (size_t j(0) ; j < nstates ; j++) {
+		m_energyLevels.push_back(eigenvalues[2*j]) ;
+	  }
+	} else {
+	  m_energyLevels = eigenvalues ;
+	}
 
 
-    // Shift eigenvalues by the zero point energy and convolve with the 
-    // density of states for the other degrees of freedom.
+	// Shift eigenvalues by the zero point energy and convolve with the 
+	// density of states for the other degrees of freedom.
 
-    m_ZPE = m_energyLevels[0] ;
-    for (size_t k(1) ; k < nstates ; k++ ) {
-      size_t nr = int(m_energyLevels[k] - m_ZPE) ;
-      if (nr < MaximumCell) {
-        for (size_t i(0) ; i < MaximumCell - nr ; i++ ) {
-          tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + cellDOS[i] ;
-        }
-      }
-    }
+	m_ZPE = m_energyLevels[0] ;
+	for (size_t k(1) ; k < nstates ; k++ ) {
+	  size_t nr = int(m_energyLevels[k] - m_ZPE) ;
+	  if (nr < MaximumCell) {
+		for (size_t i(0) ; i < MaximumCell - nr ; i++ ) {
+		  tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + cellDOS[i] ;
+		}
+	  }
+	}
 
-    // Apply symmetry number.
+	// Apply symmetry number.
 
-    for (size_t i(0) ; i < MaximumCell ; i++ ) {
-      tmpCellDOS[i] /= double(m_periodicity) ;
-    }
+	for (size_t i(0) ; i < MaximumCell ; i++ ) {
+	  tmpCellDOS[i] /= double(m_periodicity) ;
+	}
 
-    // Replace existing density of states.   
+	// Replace existing density of states.   
 
-    pDOS->setCellDensityOfStates(tmpCellDOS) ;
+	pDOS->setCellDensityOfStates(tmpCellDOS) ;
 
-    // If required, created graphical date.
-    if (m_plotStates) 
-      outputPlotData() ;
+	// If required, created graphical date.
+	if (m_plotStates) 
+	  outputPlotData() ;
 
-    // If required, created graphical date.
-    if (m_writeStates) 
-      outputStateData() ;
+	// If required, created graphical date.
+	if (m_writeStates) 
+	  outputStateData() ;
 
-    return true;
+	return true;
 
   }
 
@@ -450,108 +444,14 @@ namespace mesmer
   //
   double HinderedRotorQM1D::canPrtnFnCntrb(gDensityOfStates* gdos, double beta)
   {
-    double Qintrot(0.0) ;
+	double Qintrot(0.0) ;
 
-    double zeroPointEnergy(m_energyLevels[0]) ; 
-    for (size_t i(0) ; i < m_energyLevels.size() ; i++ ) {
-      Qintrot += exp(-beta*(m_energyLevels[i] - zeroPointEnergy)) ;
-    }
+	double zeroPointEnergy(m_energyLevels[0]) ; 
+	for (size_t i(0) ; i < m_energyLevels.size() ; i++ ) {
+	  Qintrot += exp(-beta*(m_energyLevels[i] - zeroPointEnergy)) ;
+	}
 
-    return Qintrot/double(m_periodicity) ;
-  }
-
-  //
-  // Calculate cosine coefficients from potential data points.
-  //
-  void HinderedRotorQM1D::FourierCoeffs(vector<double> &angle, vector<double> &potential)
-  {
-    size_t ndata = potential.size() ;
-
-    // Locate the potential minimum and shift to that minimum.
-
-    double vmin(potential[0]), amin(angle[0]) ;
-    for (size_t i(1); i < ndata; ++i) {
-      if (potential[i] < vmin){
-        vmin = potential[i] ;
-        amin = angle[i] ;
-      }
-    }
-
-    for (size_t i(0); i < ndata; ++i) {
-      potential[i] -= vmin ;
-      angle[i]     -= amin ;
-      angle[i]     *= M_PI/180. ;
-    }
-
-    // Determine the cosine coefficients.
-
-    for(size_t k(0); k < m_expansion; ++k) {
-      double sum(0.0) ;
-      for(size_t i(0); i < ndata; ++i) {
-        double nTheta = double(k) * angle[i];
-        sum += potential[i] * cos(nTheta);
-      }
-      m_potentialCosCoeff.push_back(2.0*sum/double(ndata)) ;
-    }
-    m_potentialCosCoeff[0] /= 2.0 ;
-
-    // Determine the sine coefficients.
-
-    if (m_useSinTerms) {
-      for(size_t k(0); k < m_expansion; ++k) {
-        double sum(0.0) ;
-        for(size_t i(0); i < ndata; ++i) {
-          double nTheta = double(k) * angle[i];
-          sum += potential[i] * sin(nTheta);
-        }
-        m_potentialSinCoeff.push_back(2.0*sum/double(ndata)) ;
-      }
-      m_potentialSinCoeff[0] = 0.0 ;
-    } else {
-      for(size_t k(0); k < m_expansion; ++k) {
-        m_potentialSinCoeff.push_back(0.0) ;
-      }
-    }
-
-    // Test potential
-    ctest << "          Angle         Potential          Series\n";
-    for (size_t i(0); i < ndata; ++i) {
-      double clcPtnl = CalculatePotential(angle[i]) ;
-      ctest << formatFloat(angle[i], 6, 15) << ", " <<  formatFloat(potential[i], 6, 15) << ", " <<  formatFloat(clcPtnl, 6, 15) <<'\n' ;
-    }
-    ctest << endl ;
-
-    return ;
-  }
-
-  // Calculate potential.
-  double HinderedRotorQM1D::CalculatePotential(double angle) const {
-
-    if (m_potentialCosCoeff.size() == 0)
-      return 0.0 ;
-
-    double sum(0.0) ;
-    for(size_t k(0); k < m_potentialCosCoeff.size(); ++k) {
-      double nTheta = double(k) * angle;
-      sum += m_potentialCosCoeff[k] * cos(nTheta) + m_potentialSinCoeff[k] * sin(nTheta);
-    }
-
-    return sum ;
-  }
-
-  // Calculate potential gradient.
-  double HinderedRotorQM1D::CalculateGradient(double angle) const {
-
-    if (m_potentialCosCoeff.size() == 0)
-      return 0.0 ;
-
-    double sum(0.0) ;
-    for(size_t k(0); k < m_potentialCosCoeff.size(); ++k) {
-      double nTheta = double(k) * angle;
-      sum += double(k)*(-m_potentialCosCoeff[k]*sin(nTheta) + m_potentialSinCoeff[k]*cos(nTheta)) ;
-    }
-
-    return sum ;
+	return Qintrot/double(m_periodicity) ;
   }
 
   // Shift potential to origin.
@@ -565,12 +465,12 @@ namespace mesmer
 	double minPotential(1.e10) ; 
 	double anga(0.0), grda(0.0) ; 
 	size_t nDegrees(360) ;
-    for (size_t i(0); i <= nDegrees; ++i) {
+	for (size_t i(0); i <= nDegrees; ++i) {
 	  double angb = double(i) * M_PI/180. ;
-      double grdb = CalculateGradient(angb) ;
-      if (grdb < 0.0) {
-	     anga = angb ;
-		 grda = grdb ;
+	  double grdb = CalculateGradient(angb) ;
+	  if (grdb < 0.0) {
+		anga = angb ;
+		grda = grdb ;
 	  } else if (grda < 0.0) {
 		double angc(0.0), grdc(1.0), tol( 1.e-05) ;
 		int n(0) ;
@@ -589,7 +489,7 @@ namespace mesmer
 		double potential = CalculatePotential(angc) ;
 		minPotential = min(minPotential, potential) ;
 	  }
-    }
+	}
 
 	m_potentialCosCoeff[0] -= minPotential ;
 
@@ -599,32 +499,32 @@ namespace mesmer
   // Provide data for plotting states against potential.
   void HinderedRotorQM1D::outputPlotData() const {
 
-    ctest << endl << "Hindered rotor data for plotting." << endl << endl ;
-    int npoints(500) ;
-    double dAngle = M_PI/double(npoints) ;
-    for (int i(-npoints); i < npoints; ++i) {     
-      double angle = double(i)*dAngle ;
-      double potential = CalculatePotential(angle) ;
-      ctest << formatFloat(angle, 6, 15) << ", "<< formatFloat(potential, 6, 15) << endl ;
-    }
-    ctest << endl ;
+	ctest << endl << "Hindered rotor data for plotting." << endl << endl ;
+	int npoints(500) ;
+	double dAngle = M_PI/double(npoints) ;
+	for (int i(-npoints); i < npoints; ++i) {     
+	  double angle = double(i)*dAngle ;
+	  double potential = CalculatePotential(angle) ;
+	  ctest << formatFloat(angle, 6, 15) << ", "<< formatFloat(potential, 6, 15) << endl ;
+	}
+	ctest << endl ;
 
-    for (size_t i(0); i < m_energyLevels.size() ; i++) {
-      ctest << formatFloat(-M_PI, 6, 15) << ", "<< formatFloat(m_energyLevels[i], 6, 15) << endl ;
-      ctest << formatFloat( M_PI, 6, 15) << ", "<< formatFloat(m_energyLevels[i], 6, 15) << endl ;    
-      ctest << endl ;
-    }
+	for (size_t i(0); i < m_energyLevels.size() ; i++) {
+	  ctest << formatFloat(-M_PI, 6, 15) << ", "<< formatFloat(m_energyLevels[i], 6, 15) << endl ;
+	  ctest << formatFloat( M_PI, 6, 15) << ", "<< formatFloat(m_energyLevels[i], 6, 15) << endl ;    
+	  ctest << endl ;
+	}
 
   }
 
   // Print the hindered rotor states.
   void HinderedRotorQM1D::outputStateData() const {
 
-    ctest << endl << "Hindered rotor states (cm-1)." << endl << endl ;
-    for (size_t i(0); i < m_energyLevels.size() ; i++) {
-      ctest << formatFloat(m_energyLevels[i], 6, 15) << endl ;
-    }
-    ctest << endl ;
+	ctest << endl << "Hindered rotor states (cm-1)." << endl << endl ;
+	for (size_t i(0); i < m_energyLevels.size() ; i++) {
+	  ctest << formatFloat(m_energyLevels[i], 6, 15) << endl ;
+	}
+	ctest << endl ;
   }
 
 }//namespace

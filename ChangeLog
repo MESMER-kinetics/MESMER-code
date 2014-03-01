@@ -1,5 +1,13 @@
 2014-March-01 Struan Robertson
 
+	* HinderedRotorQM1D.cpp, HinderedRotorCM1D.cpp, HinderedRotorUtils.cpp/.h: 
+	Changes to hindered rotor methods to allow the reading of kinetic energy 
+	tensor components.
+
+	* UnitTest.xml: updated to include HOOH example.
+
+2014-March-01 Struan Robertson
+
 	* MESMER manual.docx, System.h: Version changes.
 
 	* Qa.bat, QA.sh: Updated to include AcetylPrior test.

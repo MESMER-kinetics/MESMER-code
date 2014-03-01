@@ -115,6 +115,7 @@
     <ClCompile Include="..\..\src\IrreversibleExchangeReaction.cpp" />
     <ClCompile Include="..\..\src\IrreversibleUnimolecularReaction.cpp" />
     <ClCompile Include="..\..\src\IsomerizationReaction.cpp" />
+    <ClCompile Include="..\..\src\plugins\HinderedRotorUtils.cpp" />
     <ClCompile Include="..\..\src\plugins\LandauZenerCrossingCoeff.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\plugins\Marquardt.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="..\..\src\Molecule.h" />
     <ClInclude Include="..\..\src\MoleculeManager.h" />
     <ClInclude Include="..\..\src\Persistence.h" />
+    <ClInclude Include="..\..\src\plugins\HinderedRotorUtils.h" />
     <ClInclude Include="..\..\src\PseudoIsomerizationReaction.h" />
     <ClInclude Include="..\..\src\qd_test.h" />
     <ClInclude Include="..\..\src\Rdouble.h" />

@@ -150,6 +150,14 @@ namespace mesmer
     pMol = pSys->getMoleculeManager()->find("Ethane");
     status = ( status && Test_MEIC_HinderedRotor(pMol)) ;
 
+    ctest << endl ;
+    ctest << "  Ethane state values should be compared with:" << endl ;
+    ctest << "  Waage & Rabinovitch, IJCK, 3, 105 (1971)" << endl ;
+    ctest << endl ;
+	
+    pMol = pSys->getMoleculeManager()->find("HOOH");
+    status = ( status && Test_MEIC_HinderedRotor(pMol)) ;
+
     // Execute QD tests for extended precision.
 
     ctest << endl ;
@@ -613,16 +621,11 @@ namespace mesmer
     ctest << endl ;
     underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Hindered Rotor only.") ) ;
 
-    ctest << endl ;
-    ctest << "  State values should be compared with:" << endl ;
-    ctest << "  Waage & Rabinovitch, IJCK, 3, 105 (1971)" << endl ;
-    ctest << endl ;
-	
     DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("HinderedRotorQM1D");
 
     // Calculate internal rotational densities of states.
 
-    size_t MaximumCell(50000) ;
+    size_t MaximumCell(100000) ;
     vector<double> cellDOS(MaximumCell, 0.0) ;
 	cellDOS[0] = 1.0 ;
     pMol->getDOS().setCellDensityOfStates(cellDOS) ;

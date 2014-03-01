@@ -581,6 +581,8 @@ src/plugins/FittingUtils.cpp -text
 src/plugins/FittingUtils.h -text
 src/plugins/GaussianModel.cpp -text
 src/plugins/HinderedRotorCM1D.cpp -text
+src/plugins/HinderedRotorUtils.cpp -text
+src/plugins/HinderedRotorUtils.h -text
 src/plugins/LandauZenerCrossingCoeff.cpp -text
 src/plugins/Marquardt.cpp -text
 src/plugins/MesmerILT.cpp -text
