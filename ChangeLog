@@ -1,3 +1,10 @@
+2014-March-02 Struan Robertson
+
+	* HinderedRotorQM1D.cpp: Addition of angle dependent internal rotation 
+	moment of inertia terms.
+
+	* UnitTest.xml: updated to include ClOOCl example.
+
 2014-March-01 Struan Robertson
 
 	* HinderedRotorQM1D.cpp, HinderedRotorCM1D.cpp, HinderedRotorUtils.cpp/.h: 

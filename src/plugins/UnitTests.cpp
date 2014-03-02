@@ -158,6 +158,9 @@ namespace mesmer
     pMol = pSys->getMoleculeManager()->find("HOOH");
     status = ( status && Test_MEIC_HinderedRotor(pMol)) ;
 
+    pMol = pSys->getMoleculeManager()->find("ClOOCl");
+    status = ( status && Test_MEIC_HinderedRotor(pMol)) ;
+
     // Execute QD tests for extended precision.
 
     ctest << endl ;

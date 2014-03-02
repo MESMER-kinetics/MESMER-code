@@ -236,6 +236,7 @@
         <property dictRef="me:epsilon">
           <scalar>153.0</scalar>
         </property>
+
       </propertyList>
 
       <me:DOSCMethod>QMRotors</me:DOSCMethod>
@@ -261,6 +262,85 @@
       </me:ExtraDOSCMethod>
 
     </molecule>
+
+    <!-- Details supplied by John Barker for MEIC tests. -->
+    <molecule id="ClOOCl">
+      <atomArray>
+        <atom id="a1" elementType="O"  x3=" 0.00000" y3=" 0.7279" z3="-0.0544"/>
+        <atom id="a2" elementType="O"  x3=" 0.00000" y3="-0.7279" z3="-0.0544"/>
+        <atom id="a3" elementType="Cl" x3=" 0.78083" y3=" 0.8916" z3=" 0.4354"/>
+        <atom id="a4" elementType="Cl" x3="-0.78083" y3="-0.8916" z3=" 0.4354"/>
+      </atomArray>
+      <bondArray>
+        <bond id="b1" atomRefs2="a1 a2" order="1"/>
+        <bond id="b2" atomRefs2="a1 a3" order="1"/>
+        <bond id="b3" atomRefs2="a2 a4" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">0.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1"> 2.6710 0.6631 0.6631 </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>2</scalar>
+        </property>
+        <!--  Frequency 254.55 has been eliminated in favour of a 1 Dimensional rotor. -->
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            877.93 1273.68 1393.5 3618.84 3617.95
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar> 102.905 </scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.79</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>153.0</scalar>
+        </property>
+
+      </propertyList>
+
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">210</me:deltaEDown>
+        <me:deltaEDownTExponent>0.6</me:deltaEDownTExponent>
+      </me:energyTransferModel>
+
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:bondRef>b1</me:bondRef>
+        <me:InternalRotorInertia units="cm-1">
+          <me:InertiaPoint index="0"  coefficient="11.831"/>
+          <me:InertiaPoint index="1"  coefficient="-4.9066"/>
+          <me:InertiaPoint index="2"  coefficient="-3.1732"/>
+          <me:InertiaPoint index="3"  coefficient="-0.46872"/>
+          <me:InertiaPoint index="4"  coefficient="1.0715"/>
+          <me:InertiaPoint index="5"  coefficient="0.74663"/>
+          <me:InertiaPoint index="6"  coefficient="-0.19779"/>
+          <me:InertiaPoint index="7"  coefficient="-0.42143"/>
+        </me:InternalRotorInertia>
+        <me:HinderedRotorPotential format="analytical" units="cm-1">
+          <me:PotentialPoint index="0"  coefficient="1581.3"/>
+          <me:PotentialPoint index="1"  coefficient="231.05"/>
+          <me:PotentialPoint index="2"  coefficient="1345.9"/>
+          <me:PotentialPoint index="3"  coefficient="480.4"/>
+          <me:PotentialPoint index="4"  coefficient="-107.26"/>
+          <me:PotentialPoint index="5"  coefficient="-55.538"/>
+          <me:PotentialPoint index="6"  coefficient="-3.0586"/>
+          <me:PotentialPoint index="7"  coefficient="0.067678"/>
+        </me:HinderedRotorPotential>
+        <me:periodicity>1</me:periodicity>
+        <me:WriteStates/>
+      </me:ExtraDOSCMethod>
+
+    </molecule>
+
   </moleculeList>
 
   <me:control>

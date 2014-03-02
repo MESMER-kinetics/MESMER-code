@@ -30,7 +30,7 @@
 Parsing input xml file...
 UnitTests.xml
 
-Write metadata 20140301_195454
+Write metadata 20140302_163846
 
 File: "UnitTests.xml" successfully parsed.
 Main Calculation begins
@@ -58,14 +58,13 @@ In AcO2_Asymmetric_Top: The default value of spinMultiplicity (or one of its att
 In AcO2_Asymmetric_Top: m_ZPE was not defined but requested in AcO2_Asymmetric_Top. Default value 0 is given.
 In Ethane: The default value of me:frequenciesScaleFactor was used.
 In Ethane: Hindered rotor b1
-
 Hindered rotor b1
-
 In HOOH: The default value of me:frequenciesScaleFactor was used.
 In HOOH: Hindered rotor b1
-
 Hindered rotor b1
-
- -- Total time elapsed: 7 seconds.
+In ClOOCl: The default value of me:frequenciesScaleFactor was used.
+In ClOOCl: Hindered rotor b1
+Hindered rotor b1
+ -- Total time elapsed: 8 seconds.
 
 System saved to out.xml
