@@ -23,7 +23,7 @@ using namespace Constants;
 
 namespace mesmer
 {
-  class HinderedRotorQM1D : public DensityOfStatesCalculator, HinderedRotorUtils
+  class HinderedRotorQM1D : public DensityOfStatesCalculator, protected HinderedRotorUtils
   {
   public:
     //Read data from XML. 
@@ -71,6 +71,9 @@ namespace mesmer
 
     // Print the hindered rotor states.
     void outputStateData() const ;
+
+    // Determine the Fourier components of the reciprocal moment of inertia.
+    void MoIFourierCoeffs() ;
 
     std::string m_bondID;
 
@@ -159,7 +162,6 @@ namespace mesmer
         double coefficient = pp->XmlReadDouble("coefficient", optional);
         if(IsNan(coefficient))
           coefficient = 0.0;
-        coefficient = getConvertedEnergy(units, coefficient);
         coefficients.push_back(coefficient) ;
       }
 
@@ -168,15 +170,23 @@ namespace mesmer
       for (size_t i(0) ; i < coefficients.size() ; i++ ) {
         m_kineticCosCoeff[indicies[i]] = coefficients[i] ;
       }
+
+      if (units == "amuA^2") {
+        MoIFourierCoeffs() ;
+      }
+
     } else {
 
       // Calculate reduced moment of inertia.
 
-      double reducedMomentInertia(reducedMomentInertia(gs, bondats, mode)) ;  //units a.u.*Angstrom*Angstrom
-      m_kineticCosCoeff.push_back(conMntInt2RotCnt/reducedMomentInertia) ;
+      double reducedMoI(reducedMomentInertia(gs, bondats, mode)) ;  //units a.u.*Angstrom*Angstrom
+      m_kineticCosCoeff.push_back(conMntInt2RotCnt/reducedMoI) ;
     }
 
     // Read in potential information.
+
+    vector<double>&  potentialCosCoeff = get_PotentialCosCoeff() ;
+    vector<double>&  potentialSinCoeff = get_PotentialSinCoeff() ;
 
     m_periodicity = max(m_periodicity, ppDOSC->XmlReadInteger("me:periodicity",optional));
 
@@ -211,11 +221,11 @@ namespace mesmer
         }
 
         // As coefficients can be supplied in any order, they are sorted here.
-        m_potentialCosCoeff.resize(++maxIndex) ;
-        m_potentialSinCoeff.resize(++maxIndex) ;
+        potentialCosCoeff.resize(++maxIndex) ;
+        potentialSinCoeff.resize(++maxIndex) ;
         for (size_t i(0) ; i < coefficients.size() ; i++ ) {
-          m_potentialCosCoeff[indicies[i]] = coefficients[i] ;
-          m_potentialSinCoeff[i]           = 0.0 ;
+          potentialCosCoeff[indicies[i]] = coefficients[i] ;
+          potentialSinCoeff[i]           = 0.0 ;
         }
 
         // Shift potential so that lowest minimum is at zero.
@@ -228,13 +238,13 @@ namespace mesmer
 
         vector<double> potential ;
         vector<double> angle ;
-        m_expansion = pp->XmlReadInteger("expansionSize",optional);
+        set_Expansion(pp->XmlReadInteger("expansionSize",optional));
 
         // Check if sine terms are to be used.
 
         const char *pUseSineTerms(pp->XmlReadValue("useSineTerms",optional)) ;
         if (pUseSineTerms && string(pUseSineTerms) == "yes") {
-          m_useSinTerms = true ;
+          set_UseSinTerms(true) ;
         }
 
         while(pp = pp->XmlMoveTo("me:PotentialPoint"))
@@ -259,7 +269,7 @@ namespace mesmer
 
         cinfo << "Unknown hindering potential format for " << bondID << ", assuming free rotor." <<endl;
 
-        m_potentialCosCoeff.push_back(0.0) ;
+        potentialCosCoeff.push_back(0.0) ;
 
       }
 
@@ -269,7 +279,7 @@ namespace mesmer
 
       cinfo << "No potential defined for " << bondID << ", assuming free rotor." <<endl;
 
-      m_potentialCosCoeff.push_back(0.0) ;
+      potentialCosCoeff.push_back(0.0) ;
 
     }
 
@@ -313,6 +323,10 @@ namespace mesmer
 
     vector<double> tmpCellDOS(cellDOS) ;
 
+    const vector<double>&  potentialCosCoeff = get_PotentialCosCoeff() ;
+    const vector<double>&  potentialSinCoeff = get_PotentialSinCoeff() ;
+    const bool useSinTerms = get_UseSinTerms() ;
+
     // Find maximum quantum No. for rotor.
 
     double bint    = m_kineticCosCoeff[0] ;
@@ -322,7 +336,7 @@ namespace mesmer
 
     // Check if sine terms are required and if so use the augmented matrix approach. See NR Sec. 11.4.
 
-    size_t msize = (m_useSinTerms) ? 2*nstates : nstates ; 
+    size_t msize = (useSinTerms) ? 2*nstates : nstates ; 
 
     dMatrix hamiltonian(msize) ;
 
@@ -330,9 +344,9 @@ namespace mesmer
 
     // Add diagonal kinetic and potential terms first.
 
-    hamiltonian[0][0] = m_potentialCosCoeff[0] ;
+    hamiltonian[0][0] = potentialCosCoeff[0] ;
     for (int k(1), i(1); k <= kmax ; k++) {
-      double energy = bint*double(k*k) + m_potentialCosCoeff[0] ;
+      double energy = bint*double(k*k) + potentialCosCoeff[0] ;
       hamiltonian[i][i] = energy ;
       stateIndicies[i]  = -k ;
       i++ ;                         // Need to account for the two directions of rotation.
@@ -343,8 +357,8 @@ namespace mesmer
 
     // Add off-diagonal cosine potential terms.
 
-    for (int n(1); n < int(m_potentialCosCoeff.size()) && n <= kmax ; n++) {
-      double matrixElement = m_potentialCosCoeff[n]/2.0 ; 
+    for (int n(1); n < int(potentialCosCoeff.size()) && n <= kmax ; n++) {
+      double matrixElement = potentialCosCoeff[n]/2.0 ; 
       for (size_t i(0) ; i < nstates; i++) {
         for (size_t j(0) ; j < nstates; j++) {
           hamiltonian[i][j] += matrixElement*(((abs(stateIndicies[j] - stateIndicies[i]) - n) == 0) ? 1.0 : 0.0)  ;
@@ -362,13 +376,13 @@ namespace mesmer
           for (size_t j(0) ; j < nstates; j++) {
             int jj = stateIndicies[j] ;
             hamiltonian[i][j] += matrixElement*( (((k - jj + m) == 0) ? double(k*(k + m)) : 0.0) +
-                                                 (((k - jj - m) == 0) ? double(k*(k - m)) : 0.0) ) ;
+              (((k - jj - m) == 0) ? double(k*(k - m)) : 0.0) ) ;
           }
         }
       }
     }
 
-    if (m_useSinTerms) {
+    if (useSinTerms) {
 
       // Following the augmented matrix approach, first copy the cosine part to the lower right hand block.
 
@@ -380,8 +394,8 @@ namespace mesmer
 
       // Now, construct the off-diagonal sine potential terms, placing result in the lower left off-diagoanl block.
 
-      for (int n(1); n < int(m_potentialSinCoeff.size()) && n <= kmax ; n++) {
-        double matrixElement = m_potentialSinCoeff[n]/2.0 ; 
+      for (int n(1); n < int(potentialSinCoeff.size()) && n <= kmax ; n++) {
+        double matrixElement = potentialSinCoeff[n]/2.0 ; 
         for (size_t i(0) ; i < nstates; i++) {
           for (size_t j(0) ; j < nstates; j++) {
             hamiltonian[nstates + i][j] += matrixElement*( 
@@ -414,7 +428,7 @@ namespace mesmer
 
     // Save energy levels for partition function calculations.
 
-    if (m_useSinTerms) {
+    if (useSinTerms) {
       m_energyLevels.clear() ;
       for (size_t j(0) ; j < nstates ; j++) {
         m_energyLevels.push_back(eigenvalues[2*j]) ;
@@ -512,7 +526,8 @@ namespace mesmer
       }
     }
 
-    m_potentialCosCoeff[0] -= minPotential ;
+    vector<double>&  potentialCosCoeff = get_PotentialCosCoeff() ;
+    potentialCosCoeff[0] -= minPotential ;
 
     return ;
   }
@@ -546,6 +561,40 @@ namespace mesmer
       ctest << formatFloat(m_energyLevels[i], 6, 15) << endl ;
     }
     ctest << endl ;
+  }
+
+  // Determine the Fourier components of the reciprocal moment of inertia.
+  void HinderedRotorQM1D::MoIFourierCoeffs() {
+
+    size_t ndata = m_kineticCosCoeff.size() ;
+
+    // Calculate the Moment of inertia at a set of points.
+
+    const size_t nAngle(360) ;
+
+    vector<double> MoI(nAngle, 0.0) ;
+    vector<double> angle(nAngle, 0.0) ;
+    for (size_t i(0); i < nAngle; ++i) {
+      angle[i] = double(i)*M_PI/180.0 ;
+      double sum(0.0) ;
+      for (size_t j(0); j < ndata; ++j) {
+        double nTheta = double(j) * angle[i];
+        sum += m_kineticCosCoeff[j] * cos(nTheta);
+      }
+      MoI[i] = conMntInt2RotCnt/sum ;
+    }
+
+    // Determine the cosine coefficients.
+
+    for (size_t j(0); j < ndata; ++j) {
+      double sum(0.0) ;
+      for (size_t i(0); i < nAngle; ++i) {
+        double nTheta = double(j) * angle[i];
+        sum += MoI[i] * cos(nTheta);
+      }
+      m_kineticCosCoeff[j] = 2.0*sum/double(nAngle) ;
+    }
+    m_kineticCosCoeff[0] /= 2.0 ;
   }
 
 }//namespace

@@ -19,7 +19,7 @@ using namespace Constants;
 
 namespace mesmer
 {
-  class HinderedRotorCM1D : public DensityOfStatesCalculator, HinderedRotorUtils
+  class HinderedRotorCM1D : public DensityOfStatesCalculator, protected HinderedRotorUtils
   {
   public:
     //Read data from XML. 
@@ -117,6 +117,8 @@ namespace mesmer
 
     // Read in potential information.
 
+	vector<double>&  potentialCosCoeff = get_PotentialCosCoeff() ;
+
     m_periodicity = max(m_periodicity, ppDOSC->XmlReadInteger("me:periodicity",optional));
 
     PersistPtr pp = ppDOSC->XmlMoveTo("me:HinderedRotorPotential") ;
@@ -150,9 +152,9 @@ namespace mesmer
         }
 
         // As coefficients can be supplied in any order, they are sorted here.
-        m_potentialCosCoeff.resize(++maxIndex) ;
+        potentialCosCoeff.resize(++maxIndex) ;
         for (size_t i(0) ; i < coefficients.size() ; i++ ) {
-          m_potentialCosCoeff[indicies[i]] = coefficients[i] ;
+          potentialCosCoeff[indicies[i]] = coefficients[i] ;
         }
 
       } else if (format == "numerical") {
@@ -161,13 +163,13 @@ namespace mesmer
 
         vector<double> potential ;
         vector<double> angle ;
-        m_expansion = pp->XmlReadInteger("expansionSize",optional);
+        set_Expansion(pp->XmlReadInteger("expansionSize",optional));
 
 		// Check if sine terms are to be used.
 
 		const char *pUseSineTerms(pp->XmlReadValue("useSineTerms",optional)) ;
 		if (pUseSineTerms && string(pUseSineTerms) == "yes") {
-		  m_useSinTerms = true ;
+		  set_UseSinTerms(true) ;
 		}
 
         while(pp = pp->XmlMoveTo("me:PotentialPoint"))
@@ -192,7 +194,7 @@ namespace mesmer
 
         cinfo << "Unknown hindering potential format for " << bondID << ", assuming free rotor." <<endl;
 
-        m_potentialCosCoeff.push_back(0.0) ;
+        potentialCosCoeff.push_back(0.0) ;
 
       }
 
@@ -202,7 +204,7 @@ namespace mesmer
 
       cinfo << "No potential defined for " << bondID << ", assuming free rotor." <<endl;
 
-      m_potentialCosCoeff.push_back(0.0) ;
+      potentialCosCoeff.push_back(0.0) ;
 
     }
 
@@ -254,6 +256,8 @@ namespace mesmer
     // the configuration integral contribution.
     //
 
+	const vector<double>&  potentialCosCoeff = get_PotentialCosCoeff() ;
+
     // 1) Set-up array of potential points.
     const size_t npnts(2000) ;
     const double intvl(2.0*M_PI/double(npnts)) ;
@@ -261,10 +265,10 @@ namespace mesmer
     vector<double> dptnl(npnts,0.0) ;
     for (size_t i(0); i < npnts; ++i) {
       double angle(double(i)*intvl) ;
-      for(size_t k(0); k < m_expansion; ++k) {
+      for(size_t k(0); k < get_Expansion() ; ++k) {
         double nTheta = double(k) * angle;
-        ptnl[i]  +=  m_potentialCosCoeff[k] * cos(nTheta);
-        dptnl[i] += -m_potentialCosCoeff[k] * double(k) * sin(nTheta);
+        ptnl[i]  +=  potentialCosCoeff[k] * cos(nTheta);
+        dptnl[i] += -potentialCosCoeff[k] * double(k) * sin(nTheta);
       }
     }
 
@@ -272,7 +276,7 @@ namespace mesmer
     const int    nintvl   = 10 ;
     const double cellsize = 1.0 ;
     const double dene     = cellsize/double(nintvl) ;
-    size_t       emax     = 2*nintvl*(int(m_potentialCosCoeff[0]) + 1) + 1 ;
+    size_t       emax     = 2*nintvl*(int(potentialCosCoeff[0]) + 1) + 1 ;
     vector<double> cfgHdr(emax,0.0) ;
     for (size_t i(0); i < emax ; ++i) {
       const double ene = dene*double(i) ;
@@ -288,7 +292,7 @@ namespace mesmer
 
     // 3) Integrate using the trapezium rule to get an averages across a cells.
     vector<double> tmpCellDOS(MaximumCell,0.0) ;
-    emax = 2*(int(m_potentialCosCoeff[0]) + 1) ;
+    emax = 2*(int(potentialCosCoeff[0]) + 1) ;
     for (size_t i(0), idx(0); i < emax ; ++i) {
       double sum(0.0) ;
       sum += 0.5*cfgHdr[idx] ;
@@ -330,15 +334,17 @@ namespace mesmer
     //
     // Calculate the hindering potential correction via numerical integration.
     //
+	const vector<double>&  potentialCosCoeff = get_PotentialCosCoeff() ;
+
     const size_t npnts(1000) ;
     const double intvl(2*M_PI/double(npnts)) ;
     double Qhdr(0.0) ;
     for (size_t i(0); i < npnts; ++i) {
       double ptnl(0.0) ;
       double angle(double(i)*intvl) ;
-      for(size_t k(0); k < m_expansion; ++k) {
+      for(size_t k(0); k < get_Expansion() ; ++k) {
         double nTheta = double(k) * angle;
-        ptnl += m_potentialCosCoeff[k] * cos(nTheta);
+        ptnl += potentialCosCoeff[k] * cos(nTheta);
       }
       Qhdr += exp(-beta*ptnl);
     }

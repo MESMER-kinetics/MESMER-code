@@ -1,3 +1,8 @@
+2014-March-06 Struan Robertson
+
+	* HinderedRotorQM1D.cpp: Further updates for angle dependent internal 
+	rotation moment of inertia terms.
+
 2014-March-02 Struan Robertson
 
 	* HinderedRotorQM1D.cpp: Addition of angle dependent internal rotation 

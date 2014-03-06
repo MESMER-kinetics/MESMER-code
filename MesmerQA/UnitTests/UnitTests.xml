@@ -315,7 +315,7 @@
 
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
-        <me:InternalRotorInertia units="cm-1">
+        <me:InternalRotorInertia units="amuA^2">
           <me:InertiaPoint index="0"  coefficient="11.831"/>
           <me:InertiaPoint index="1"  coefficient="-4.9066"/>
           <me:InertiaPoint index="2"  coefficient="-3.1732"/>

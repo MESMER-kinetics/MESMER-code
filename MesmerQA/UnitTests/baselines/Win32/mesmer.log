@@ -30,7 +30,7 @@
 Parsing input xml file...
 UnitTests.xml
 
-Write metadata 20140302_163846
+Write metadata 20140306_002219
 
 File: "UnitTests.xml" successfully parsed.
 Main Calculation begins
@@ -65,6 +65,6 @@ Hindered rotor b1
 In ClOOCl: The default value of me:frequenciesScaleFactor was used.
 In ClOOCl: Hindered rotor b1
 Hindered rotor b1
- -- Total time elapsed: 8 seconds.
+ -- Total time elapsed: 9 seconds.
 
 System saved to out.xml
