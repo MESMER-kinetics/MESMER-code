@@ -265,6 +265,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\plugins\HinderedRotorUtils.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\IrreversibleExchangeReaction.cpp"
 				>
 			</File>
@@ -476,6 +480,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\formatfloat.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\plugins\HinderedRotorUtils.h"
 				>
 			</File>
 			<File

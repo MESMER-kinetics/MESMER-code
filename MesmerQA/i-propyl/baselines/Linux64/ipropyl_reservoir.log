@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- Jan 27 2014 -- 17:02:15
+     Mesmer v4.0 compiled: -- Mar  6 2014 -- 13:02:36
 
-     Copyright (C) 2009-2013 by
+     Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -33,13 +33,13 @@ ipropyl_reservoir.xml
 In R1: Parsing reaction...
 In i-propyl: The default value of me:frequenciesScaleFactor was used.
 In i-propyl: Hindered rotor b1
-Hindered rotor b2
-The default value of me:DistributionCalcMethod was used.
+In i-propyl: Hindered rotor b2
+In i-propyl: The default value of me:DistributionCalcMethod was used.
 In i-propyl: i-propyl:deltaEDown was given a range with 15 steps 
 In R1: The default value of me:TInfinity was used.
 In propene: The default value of me:frequenciesScaleFactor was used.
 In propene: Hindered rotor b1
-propene:ZPE was given a range with 401 steps 
+In propene: propene:ZPE was given a range with 401 steps 
 In H: The default value of me:frequenciesScaleFactor was used.
 In H: The default value of me:symmetryNumber was used.
 In H: The default value of spinMultiplicity (or one of its attributes) was used.
@@ -51,7 +51,7 @@ The default value of precision (or one of its attributes) was used.
 3e+17PPCC, 720K at d precision with He
 The default value of precision (or one of its attributes) was used.
 3.01e+17PPCC, 730K at d precision with He
-Write metadata 20140127_170405
+Write metadata 20140306_130816
 
 File: "ipropyl_reservoir.xml" successfully parsed.
 Main Calculation begins

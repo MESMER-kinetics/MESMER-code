@@ -10,7 +10,7 @@
 //-------------------------------------------------------------------------------------------
 
 #include "HinderedRotorUtils.h"
-#include "..\vector3.h"
+#include "../vector3.h"
 
 namespace mesmer
 {

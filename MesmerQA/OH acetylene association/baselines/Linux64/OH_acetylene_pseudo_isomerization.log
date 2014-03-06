@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- Jan 27 2014 -- 17:02:15
+     Mesmer v4.0 compiled: -- Mar  6 2014 -- 13:02:36
 
-     Copyright (C) 2009-2013 by
+     Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -48,7 +48,7 @@ In R2: No tunneling method used for R2
 In R2: No crossing method used for R2
 All molecules are on the same energy basis: arbitary
 1000torr, 298K at double precision with N2
-Write metadata 20140127_170403
+Write metadata 20140306_130814
 
 File: "OH_acetylene_pseudo_isomerization.xml" successfully parsed.
 Main Calculation begins
@@ -58,6 +58,6 @@ In FastLaplaceConvolution: 40 values in the FFT convolution routine were replace
 In timeEvolution: No population was assigned, and there is no source term.
 In timeEvolution: Initial poupulation set to 1.0  in the first isomer.
 Finish Calculation of P-T case
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to mesmer_out.xml

@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- Jan 27 2014 -- 17:02:15
+     Mesmer v4.0 compiled: -- Mar  6 2014 -- 13:02:36
 
-     Copyright (C) 2009-2013 by
+     Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -48,7 +48,7 @@ In R2: No crossing method used for R2
 All molecules are on the same energy basis: arbitary
 The default value of precision (or one of its attributes) was used.
 1000torr, 298K at d precision with N2
-Write metadata 20140127_170402
+Write metadata 20140306_130813
 
 File: "OH_acetylene_association_test.xml" successfully parsed.
 Main Calculation begins
