@@ -173,7 +173,7 @@ bool ExponentialDown::ParseData(PersistPtr ppModel)
   The default is hardwired at dEdExp = 0, so delta_E_down does not depend on temperature.
   Reference temperature of <DeltaEDown>, refTemp, also hardwired, has default 298K.
   ******************************************************************************/
-  m_dEdExp = dataInProperty ?
+  double m_dEdExp = dataInProperty ?
     ppTop->XmlReadPropertyDouble("me:deltaEDownTExponent",optional) :
     ppModel->XmlReadDouble("me:deltaEDownTExponent",optional);
   if(IsNan(m_dEdExp))
@@ -192,6 +192,9 @@ bool ExponentialDown::ParseData(PersistPtr ppModel)
       bathGasName = ppPropExp->XmlReadValue("bathGas", optional);
     ExponentialDown* pModel
       = static_cast<ExponentialDown*>(m_parent->getColl().addBathGas(bathGasName, this));
+
+    istringstream ss(ppPropExp->XmlRead());
+    ss >> pModel->m_dEdExp; 
 
     bool rangeSet ;
     string varid = m_parent->getName()+":deltaEDownTExponent";
