@@ -182,7 +182,7 @@ int main(int argc,char *argv[])
   string::size_type pos = MesmerDir.find(';');
   if(pos!=string::npos)
     MesmerDir.erase(pos); //Use the first directory in the env var
-
+  cinfo << "defaults.xml, librarymols.xml are in " << MesmerDir << endl;
   //-------------------------------
   //
   // Instantiate the System collection. This holds all information

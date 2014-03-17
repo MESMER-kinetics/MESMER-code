@@ -282,9 +282,7 @@ namespace mesmer
     //  The description above will do first a double-double precision calculation and a quad-double calculation.
     //--------------
 
-    PersistPtr ppPTs = ppConditions->XmlMoveTo("me:PTs");
-    if(ppPTs)
-      readPTs(ppPTs);
+    readPTs(ppConditions);
     if (!PandTs.size())
       cerr << "No pressure and temperature specified." << endl;
 
@@ -392,151 +390,183 @@ namespace mesmer
   // This is a function for reading concentration/pressure and temperature conditions.
   void System::readPTs(PersistPtr anchor)
   {
-    PersistPtr pp=anchor;
-    const char* txt;
+    PersistPtr pp= anchor;
+    while(pp = pp->XmlMoveTo("me:PTs")) //can have multiple <me:PTs>
+    {
+      const char* txt;
 
-    //default unit, pressure and temperature
-    const string default_unit = "PPCC";
-    const double default_P = 1e17;
-    const double default_T = 298.;
+      //default unit, pressure and temperature //now in defaults.xml
+      //const string default_unit = "PPCC";
+      //const double default_P = 1e17;
+      //const double default_T = 298.;
 
-    //
-    // check for grid values of temperatures and concentrations
-    //
-    PersistPtr ppPTset = pp->XmlMoveTo("me:PTset");
-    while (ppPTset){
-      string this_units;
-      txt = ppPTset->XmlReadValue("units", optional);
-      if(!txt)
+      // check for grid values of temperatures and concentrations
+      PersistPtr ppPTset = pp->XmlMoveTo("me:PTset");
+      while (ppPTset)
+      {
+        string this_units;
         txt = ppPTset->XmlReadValue("me:units", optional);
-      if (txt)
-        this_units = txt;
-      if (!txt){
-        cerr << "No units provided. Default units " << default_unit << " are used.";
-        this_units = default_unit;
-      }
+        if(!txt)
+          txt = ppPTset->XmlReadValue("units");
+        if (txt)
+          this_units = txt;
 
-      Precision precision ;
-      txt = ppPTset->XmlReadValue("precision", optional);
-      if(!txt)
+
+        Precision this_precision ;
         txt = ppPTset->XmlReadValue("me:precision", optional);
-      if (txt)
-        this_units = txt;
-      if (!txt){
-        cerr << "No precision specified. Default double used.";
-        precision = DOUBLE ;
-      }
+        if(!txt)
+          txt = ppPTset->XmlReadValue("precision");
+        if (txt)
+          this_precision = txtToPrecision(txt) ;
 
-      // **NEED TO SORT OUT DEFAULT PRESSURE TEMPERATURE AND UNITS**
-      // If user does not input any value for temperature and concentration,
-      // give a Default set of concentration and pressurefor simulation.
-      // 
-      std::vector<double> Pvals, Tvals;
-      if(!ReadRange("me:Prange", Pvals, ppPTset)) Pvals.push_back(default_P);
-      if(!ReadRange("me:Trange", Tvals, ppPTset)) Tvals.push_back(default_T);
+        std::vector<double> Pvals, Tvals;
+        if(!ReadRange("me:Prange", Pvals, ppPTset) || !ReadRange("me:Trange", Tvals, ppPTset))
+          return;
 
-      const char* bathGasName = getMoleculeManager()->get_BathGasName().c_str();
-      for (size_t i(0) ; i < Pvals.size(); ++i){
-        for (size_t j(0) ; j < Tvals.size(); ++j){
-          CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j], precision, bathGasName);
-          PandTs.push_back(thisPair);
-          m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, thisPair.get_temperature());
+        const char* bathGasName = getMoleculeManager()->get_BathGasName().c_str();
+        for (size_t i(0) ; i < Pvals.size(); ++i){
+          for (size_t j(0) ; j < Tvals.size(); ++j){
+            CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j], this_precision, bathGasName);
+            PandTs.push_back(thisPair);
+            m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, thisPair.get_temperature());
+          }
         }
-      }
-      ppPTset = ppPTset->XmlMoveTo("me:PTset");
-    }
-
-    //
-    // Check for individually specified concentration/temperature points.
-    //
-    PersistPtr ppPTpair = pp->XmlMoveTo("me:PTpair");
-    while (ppPTpair){
-      string this_units;
-      txt = ppPTpair->XmlReadValue("units", optional);
-      if(!txt)
-        txt = ppPTpair->XmlReadValue("me:units", optional);
-      if (txt)
-        this_units = txt;
-
-      double this_P, this_T;
-      this_P = ppPTpair->XmlReadDouble("me:P", optional);
-      this_T = ppPTpair->XmlReadDouble("me:T", optional);
-      if(IsNan(this_P))
-        this_P = ppPTpair->XmlReadDouble("P", true); //preferred forms
-      if(IsNan(this_T))
-        this_T = ppPTpair->XmlReadDouble("T", true);
-
-      m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, this_T);
-
-      Precision this_precision(UNDEFINED_PRECISION);
-      txt = ppPTpair->XmlReadValue("me:precision", optional); //an element
-      if(!txt)
-        txt = ppPTpair->XmlReadValue("precision"); //an attribute
-
-      // Can specify abbreviation
-      if (txt) {
-        this_precision = txtToPrecision(txt) ;
+        ppPTset = ppPTset->XmlMoveTo("me:PTset");
       }
 
-      // Bath gas specific to this PT 
-      const char* bathGasName = ppPTpair->XmlReadValue("me:bathGas", optional);
-      if(!bathGasName) // if not specified use the general bath gas molecule name
-        bathGasName = getMoleculeManager()->get_BathGasName().c_str();
-      CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision , bathGasName);
-      cinfo << this_P << this_units << ", " << this_T << "K at " << txt 
-        << " precision" << " with " << bathGasName << endl; 
+      //These attributes can be on <me:PTs> and apply to its child elements (to shorten them).
+      const char* common_precision = pp->XmlReadValue("precision", optional);
+      const char* common_units = pp->XmlReadValue("units", optional);
+      const char* common_bathgas = pp->XmlReadValue("bathGas", optional);
+      const char* common_ref1 = pp->XmlReadValue("ref1", optional);
+      const char* common_ref2 = pp->XmlReadValue("ref2", optional);
+      const char* common_ref = pp->XmlReadValue("ref", optional);
+      const char* common_reaction = pp->XmlReadValue("refReaction", optional);
 
-      // Extract experimental rate coefficient values for chiSquare calculation.
-      PersistPtr ppExpRate = ppPTpair->XmlMoveTo("me:experimentalRate");
-      while (ppExpRate){
-        double rateValue(0.0), errorValue(0.0); 
-        string refReaction;
-        txt = ppExpRate->XmlRead();
-        stringstream s1(txt); s1 >> rateValue;
-        string ref1(ppExpRate->XmlReadValue("ref1")) ;
-        string ref2(ppExpRate->XmlReadValue("ref2")) ;
-        txt = ppExpRate->XmlReadValue("refReaction", false);
+      // Check for individually specified concentration/temperature points.
+      //
+      PersistPtr ppPTpair = pp->XmlMoveTo("me:PTpair");
+      while (ppPTpair){
+        string this_units;
+        txt = ppPTpair->XmlReadValue("units", optional);
+        if(!txt)
+          //use default only if there are no common units specified
+          txt = ppPTpair->XmlReadValue("me:units", !common_units);
+        if (txt)
+          this_units = txt;
+        else if(common_units)
+        {
+          this_units = common_units;
+          ppPTpair->XmlWriteAttribute("units",common_units);
+        }
+
+        double this_P, this_T;
+        this_P = ppPTpair->XmlReadDouble("me:P", optional);
+        this_T = ppPTpair->XmlReadDouble("me:T", optional);
+        if(IsNan(this_P))
+          this_P = ppPTpair->XmlReadDouble("P", true); //preferred forms
+        if(IsNan(this_T))
+          this_T = ppPTpair->XmlReadDouble("T", true);
+
+        m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, this_T);
+
+        Precision this_precision(UNDEFINED_PRECISION);
+        txt = ppPTpair->XmlReadValue("me:precision", optional); //an element
+        if(!txt) 
+          //use default only if there is no common precision specified
+          txt = ppPTpair->XmlReadValue("precision", !common_precision); //an attribute
+        if(!txt)
+        {
+          txt = common_precision;
+          ppPTpair->XmlWriteAttribute("precision",common_precision);
+        }
         if (txt) {
-          stringstream s3(txt); s3 >> refReaction ;
+          this_precision = txtToPrecision(txt) ;
         }
-        stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
-        thisPair.set_experimentalRates(ppExpRate, ref1, ref2, refReaction, rateValue, errorValue);
-        ppExpRate = ppExpRate->XmlMoveTo("me:experimentalRate");
-      }
 
-      // Extract experimental yield values for chiSquare calculation.
-      ppExpRate = ppPTpair->XmlMoveTo("me:experimentalYield");
-      while (ppExpRate){
-        double yield(0.0), errorValue(0.0); 
-        txt = ppExpRate->XmlRead();
-        stringstream s1(txt); s1 >> yield;
-        string ref(ppExpRate->XmlReadValue("ref")) ;
-        txt = ppExpRate->XmlReadValue("yieldTime", false);
-        string yieldTime ;
-        if (txt) {
-          stringstream s3(txt); s3 >> yieldTime ;
-        } else {
-          yieldTime = "-1.0" ;
+        // Bath gas specific to this PT 
+        const char* bathGasName = ppPTpair->XmlReadValue("me:bathGas", optional);
+        if(!bathGasName)
+          bathGasName = ppPTpair->XmlReadValue("bathGas", optional); //attribute
+        if(!bathGasName)
+          bathGasName = common_bathgas;
+        if(!bathGasName)// if not specified use the general bath gas molecule name
+          bathGasName = getMoleculeManager()->get_BathGasName().c_str();
+        ppPTpair->XmlWriteAttribute("bathGas",bathGasName);
+
+        CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision , bathGasName);
+        cinfo << this_P << this_units << ", " << this_T << "K at " << txt 
+          << " precision" << " with " << bathGasName << endl; 
+
+        // Extract experimental rate coefficient values for chiSquare calculation.
+        PersistPtr ppExpRate = ppPTpair->XmlMoveTo("me:experimentalRate");
+        while (ppExpRate){
+          double rateValue(0.0), errorValue(0.0); 
+          string refReaction;
+          txt = ppExpRate->XmlRead();
+          stringstream s1(txt); s1 >> rateValue;
+          txt = ppExpRate->XmlReadValue("ref1", optional);
+          if(!txt)
+          {
+            txt = common_ref1;
+            ppExpRate->XmlWriteAttribute("ref1",txt);
+          }
+          string ref1(txt);
+
+          txt = ppExpRate->XmlReadValue("ref2", optional);
+          if(!txt)
+          {
+            txt = common_ref2;
+            ppExpRate->XmlWriteAttribute("ref2",txt);
+          }
+          string ref2(txt);
+
+          txt = ppExpRate->XmlReadValue("refReaction", optional);
+          if(!txt)
+            txt=common_reaction;
+          if (txt) {
+            stringstream s3(txt); s3 >> refReaction ;
+          }
+          stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
+          thisPair.set_experimentalRates(ppExpRate, ref1, ref2, refReaction, rateValue, errorValue);
+          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalRate"); //***do we need to loop here?
         }
-        stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
-        thisPair.set_experimentalYields(ppExpRate, ref, yieldTime, yield, errorValue);
-        ppExpRate = ppExpRate->XmlMoveTo("me:experimentalYield");
-      }
 
-      // Extract experimental eigenvalues for chiSquare calculation.
-      ppExpRate = ppPTpair->XmlMoveTo("me:experimentalEigenvalue");
-      while (ppExpRate){
-        double eigenValue(0.0), errorValue(0.0); 
-        txt = ppExpRate->XmlRead();
-        stringstream s1(txt); s1 >> eigenValue;
-        string EigenvalueID(ppExpRate->XmlReadValue("EigenvalueID")) ;
-        stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
-        thisPair.set_experimentalEigenvalues(ppExpRate, EigenvalueID, eigenValue, errorValue);
-        ppExpRate = ppExpRate->XmlMoveTo("me:experimentalEigenvalue");
-      }
+        // Extract experimental yield values for chiSquare calculation.
+        ppExpRate = ppPTpair->XmlMoveTo("me:experimentalYield");
+        while (ppExpRate){
+          double yield(0.0), errorValue(0.0); 
+          txt = ppExpRate->XmlRead();
+          stringstream s1(txt); s1 >> yield;
+          txt = ppExpRate->XmlReadValue("ref", optional);
+          string ref(txt ? txt : common_ref);
+          txt = ppExpRate->XmlReadValue("yieldTime", false);
+          string yieldTime ;
+          if (txt) {
+            stringstream s3(txt); s3 >> yieldTime ;
+          } else {
+            yieldTime = "-1.0" ;
+          }
+          stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
+          thisPair.set_experimentalYields(ppExpRate, ref, yieldTime, yield, errorValue);
+          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalYield"); //***do we need to loop here?
+        }
 
-      PandTs.push_back(thisPair);
-      ppPTpair = ppPTpair->XmlMoveTo("me:PTpair");
+        // Extract experimental eigenvalues for chiSquare calculation.
+        ppExpRate = ppPTpair->XmlMoveTo("me:experimentalEigenvalue");
+        while (ppExpRate){
+          double eigenValue(0.0), errorValue(0.0); 
+          txt = ppExpRate->XmlRead();
+          stringstream s1(txt); s1 >> eigenValue;
+          string EigenvalueID(ppExpRate->XmlReadValue("EigenvalueID")) ;
+          stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
+          thisPair.set_experimentalEigenvalues(ppExpRate, EigenvalueID, eigenValue, errorValue);
+          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalEigenvalue"); //***do we need to loop here?
+        }
+
+        PandTs.push_back(thisPair);
+        ppPTpair = ppPTpair->XmlMoveTo("me:PTpair");
+      }
     }
   }
 

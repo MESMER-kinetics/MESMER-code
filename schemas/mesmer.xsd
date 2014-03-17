@@ -17,9 +17,9 @@
         
         <xs:element name="conditions" minOccurs="0">
           <xs:complexType>
-            <xs:all>
+            <xs:sequence>
               <xs:element name="bathGas" type="cml:moleculeIDType" minOccurs="0"/>
-              <xs:element name="PTs" minOccurs="0">
+              <xs:element name="PTs" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                   <xs:documentation>
                     The attributes me:P me:T and me:units on &lt;me:PTPair> are still parsed
@@ -44,11 +44,13 @@
                           </xs:element>
                         </xs:all>
                         <xs:attribute name="units" type="me:concUnitsType"/>
+                        <xs:attribute name="precision" type="me:precisionType" use="optional"/>
+                        <xs:attribute name="default" type="me:ynboolean" use="optional"/>
                       </xs:complexType>
                     </xs:element>
                             
                     <xs:element name="PTpair" minOccurs="0" maxOccurs="unbounded" >
-                          <xs:complexType>
+                      <xs:complexType>
                         <xs:sequence>
                           <xs:element name="bathGas" type="cml:refType" minOccurs="0"/>
                           <xs:element name="precision" minOccurs="0">
@@ -64,8 +66,8 @@
                             <xs:complexType>
                               <xs:simpleContent>
                                 <xs:extension base="xs:float">
-                                  <xs:attribute name="ref1" type="cml:moleculeIDType" use="required" />
-                                  <xs:attribute name="ref2" type="cml:moleculeIDType" use="required" />
+                                  <xs:attribute name="ref1" type="cml:moleculeIDType"/>
+                                  <xs:attribute name="ref2" type="cml:moleculeIDType"/>
                                   <xs:attribute name="refReaction" type="cml:idType"/>
                                   <xs:attribute name="error" type="xs:float"/>
                                   <xs:attribute name="calculated" type="xs:string"/>
@@ -96,8 +98,8 @@
                             </xs:complexType>
                           </xs:element>
                         </xs:sequence>
-                        <xs:attribute name="units" type="me:concUnitsType" use="required" />
-                        <!--Current usage is me:units, but don't know how to specify this-->
+                        <xs:attribute name="units" type="me:concUnitsType" />
+                        <xs:attribute name="bathGas" type="cml:refType"/>
                         <xs:attribute name="P" type="xs:float" use="required" />
                         <xs:attribute name="T" type="xs:float" use="required" />
                         <xs:attribute name="precision" type="me:precisionType" use="optional"/>
@@ -105,6 +107,13 @@
                       </xs:complexType>
                     </xs:element>
                   </xs:sequence>
+                  <!--common attributes-->
+                  <xs:attribute name="precision" type="me:precisionType" use="optional"/>
+                  <xs:attribute name="units" type="me:concUnitsType" />
+                  <xs:attribute name="ref1" type="cml:moleculeIDType"/>
+                  <xs:attribute name="ref2" type="cml:moleculeIDType"/>
+                  <xs:attribute name="refReaction" type="cml:idType"/>
+                  <xs:attribute name="bathGas" type="cml:idType"/>
                 </xs:complexType>
               </xs:element>
               <xs:element name="InitialPopulation" minOccurs="0">
@@ -114,7 +123,7 @@
                   </xs:sequence>
                 </xs:complexType>
               </xs:element>
-            </xs:all>
+            </xs:sequence>
           </xs:complexType>
         </xs:element>
         

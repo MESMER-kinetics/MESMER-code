@@ -55,7 +55,8 @@
   <me:DistributionCalcMethod default="true" name="Boltzmann"/>
   <me:excessReactantConc default="NEEDS TO BE CHECKED**">2.25e+16</me:excessReactantConc>
   <!--<me:precision default="true">double</me:precision>-->
-  <me:PTpair precision="d" P="1.01E17" T="299" default="true"/>
+  <me:PTpair units="PPCC" precision="d" P="1.01E17" T="299" default="true"/>
+  <me:PTset units="PPCC" precision="d" default="true"/>
   <me:bathgas default="true">He</me:bathgas>
   <me:TInfinity default="true">298</me:TInfinity>
   <me:eigenvalues default="true">0</me:eigenvalues>

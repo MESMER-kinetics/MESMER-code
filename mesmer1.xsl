@@ -588,7 +588,7 @@
       <tr style="text-align:center">
         <td> <xsl:value-of select="../@T|@me:T"/></td>
         <td> <xsl:value-of select="../@P|@me:P"/></td>
-        <td> <xsl:value-of select="../me:bathGas"/></td>
+        <td> <xsl:value-of select="../@bathGas"/></td>
         <td> <xsl:value-of select="."/></td>
         <td> <xsl:value-of select="@calcVal"/></td>
       </tr>
