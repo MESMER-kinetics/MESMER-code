@@ -5,6 +5,9 @@
            xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <me:title> Acetyl O2 association</me:title>
+  <me:description>
+    Demonstrates how to initialise a prior distribution of internal energy.
+  </me:description>
   <!--Data from Carr et al, J. Phys. Chem. A 2011, 115, 1069 1085-->
   <moleculeList>
     <molecule id="acetyl" description="CH_3CO">
@@ -58,7 +61,7 @@
           <scalar units="cm-1">200.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>Classical rotors</me:DOSCMethod>
+      <me:DOSCMethod name="ClassicalRotors"/>
       <me:DistributionCalcMethod xsi:type="me:Prior">
         <me:CoFragment>AceticAcid</me:CoFragment>
         <me:EnergyExcess units="kJ/mol"> 120</me:EnergyExcess>
@@ -187,7 +190,7 @@
           <scalar>3</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod name="ClassicalRotors"/>
     </molecule>
     <molecule id="Int1" description="peroxy acetyl O2 adduct">
       <atomArray>
@@ -245,7 +248,7 @@
           <scalar units="cm-1">130.0</scalar>
         </property>
       </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+      <me:DOSCMethod name="ClassicalRotors"/>
     </molecule>
   </moleculeList>
   <reactionList>

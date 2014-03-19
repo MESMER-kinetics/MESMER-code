@@ -1,3 +1,10 @@
+2014-March-19 Chris Morley
+
+	* src/plugins/PriorDistribution.cpp: make co-fragment molecule during parse
+	rather than during calculation - earlier error reporting.
+
+	* MesmerQA/AcetylPrior/AcetylPrior.xml: minor format changes.
+
 2014-March-17 Chris Morley
 
 	* src/System.cpp: Allow attributes of <me:PTPair> and its sub-elements
