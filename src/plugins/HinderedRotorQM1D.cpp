@@ -50,6 +50,7 @@ namespace mesmer
       m_bondID(),
       m_periodicity(1),
       m_kineticCosCoeff(),
+      m_kineticSinCoeff(),
       m_energyLevels(),
       m_ZPE(0.0),
       m_plotStates(false),
@@ -80,6 +81,7 @@ namespace mesmer
     int    m_periodicity;
 
     vector<double> m_kineticCosCoeff ;   // The cosine coefficients of the internal rotor inertia term.
+    vector<double> m_kineticSinCoeff ;   // The sine coefficients of the internal rotor inertia term.
 
     vector<double> m_energyLevels ;	     // The energies of the hindered rotor states.
     double m_ZPE ;                       // Zero point energy. 
@@ -327,10 +329,12 @@ namespace mesmer
     const vector<double>&  potentialSinCoeff = get_PotentialSinCoeff() ;
     const bool useSinTerms = get_UseSinTerms() ;
 
-    // Find maximum quantum No. for rotor.
+    // Find maximum quantum No. for rotor. To ensure convergence basis functions 
+	// that span a range twice that request are used with a minimum of 100000
+	// wavenumbers which appears in the definition of root below. 
 
     double bint    = m_kineticCosCoeff[0] ;
-    double root    = sqrt(double(MaximumCell)/bint) ;
+    double root    = sqrt(double(max(2*MaximumCell,size_t(100000)))/bint) ;
     int kmax       = int(root + 1.0) ;
     size_t nstates = 2*kmax +1 ;
 
@@ -415,7 +419,7 @@ namespace mesmer
 
       // Add off-diagonal sine kinetic terms.
 
-      if (m_kineticCosCoeff.size() > 1) {
+      if (m_kineticSinCoeff.size() > 1) {
         // Hmmm... Do these occur? Are they large? 
       }
     }
@@ -436,7 +440,6 @@ namespace mesmer
     } else {
       m_energyLevels = eigenvalues ;
     }
-
 
     // Shift eigenvalues by the zero point energy and convolve with the 
     // density of states for the other degrees of freedom.
@@ -571,11 +574,12 @@ namespace mesmer
     // Calculate the Moment of inertia at a set of points.
 
     const size_t nAngle(360) ;
+	const double dAngle(2.0*M_PI/double(nAngle)) ;
 
     vector<double> MoI(nAngle, 0.0) ;
     vector<double> angle(nAngle, 0.0) ;
     for (size_t i(0); i < nAngle; ++i) {
-      angle[i] = double(i)*M_PI/180.0 ;
+      angle[i] = double(i)*dAngle ;
       double sum(0.0) ;
       for (size_t j(0); j < ndata; ++j) {
         double nTheta = double(j) * angle[i];

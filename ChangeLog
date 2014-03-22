@@ -1,3 +1,9 @@
+2014-March-06 Struan Robertson
+
+	* HinderedRotorQM1D.cpp: Minor changes in order to improve convergence.
+
+	* MESMER manual.docx: Condition specification section (7.3.3) updated.
+
 2014-March-19 Chris Morley
 
 	* src/plugins/PriorDistribution.cpp: make co-fragment molecule during parse
