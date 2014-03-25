@@ -145,7 +145,7 @@
               </xs:simpleContent>
             </xs:complexType>
           </xs:element>
-          <xs:element name="nInfinity">
+          <xs:element name="nInfinity" minOccurs="0">
             <xs:annotation>
               <xs:documentation>
                 The temperature exponent of (T/Tinf)
@@ -166,6 +166,8 @@
                 TInfinity is the reference temperature and cannot have a range
               </xs:documentation>
             </xs:annotation>
+          </xs:element>
+          <xs:element name="excessReactantConc" type="xs:float" minOccurs="0">
           </xs:element>
         </xs:all>
         <xs:attribute name="name" type="xs:string" use="optional" />

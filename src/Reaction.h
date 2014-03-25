@@ -203,7 +203,8 @@ namespace mesmer
     virtual void updateSourceMap(molMapType& sourcemap) { /* For reactions without source terms this is a NULL operation. */} ;
 
     // Get the concentration of the excess reactant. 
-    double get_concExcessReactant() const { return m_ERConc ; } ;
+    double get_concExcessReactant() const { return m_ERConc ; }
+    void   set_concExcessReactant(double conc) { m_ERConc = conc; }
 
     void setUsesProductProperties(bool b = true);
     bool UsesProductProperties() const{ return m_UsesProductProperties; } 

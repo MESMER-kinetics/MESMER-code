@@ -33,7 +33,7 @@ namespace mesmer
     m_GrainFlux(),
     m_GrainKfmc(),
     m_MtxGrnKf(),
-	m_ERConc(0.0),
+    m_ERConc(0.0),
     m_fwdGrnCanonicalRate(0.0),
     m_rvsGrnCanonicalRate(0.0),
     m_fwdCellCanonicalRate(0.0),
@@ -261,7 +261,11 @@ namespace mesmer
     if(!m_pCrossingCalculator)
       cinfo << "No crossing method used for " << getName() << endl;
 
-    if (getReactionType() == ASSOCIATION || getReactionType() == IRREVERSIBLE_EXCHANGE || getReactionType() == BIMOLECULAR_SINK  || getReactionType() == PSEUDOISOMERIZATION){
+    if ((getReactionType() == ASSOCIATION || getReactionType() == IRREVERSIBLE_EXCHANGE 
+      || getReactionType() == BIMOLECULAR_SINK  || getReactionType() == PSEUDOISOMERIZATION)
+      && (m_ERConc==0.0 || IsNan(m_ERConc)))
+    {
+      // If not already read in the MicroRateCalculator
       cinfo << "Not a unimolecular reaction: look for excess reactant concentration." << endl;
       if (!ReadExcessReactantConcentration(ppReac)) return false;
     }

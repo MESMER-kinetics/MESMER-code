@@ -1,3 +1,13 @@
+2014-March-25 Chris Morley
+
+	* src/plugins/MesmerILT.cpp,src/Reaction.cpp,src/Reaction.h,
+	schemas/mesmerPlugins.xsd: Allow <me:ExcessReactantConcentration>
+	to be read as a child of MesmerILT as well as a child of Reaction to
+	be consistent with old and new XML styles.
+
+	* schemas/CMLforMesmer.xsd: ref and id attributes to have the same
+	required regex (brackets in molecule names are acceptable).
+
 2014-March-06 Struan Robertson
 
 	* HinderedRotorQM1D.cpp: Minor changes in order to improve convergence.

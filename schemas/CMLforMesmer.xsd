@@ -2722,6 +2722,7 @@ Relaxed in MESMER to allow also<h:tt>)(</h:tt> because chemical formula are comm
           normally be a reference to another Node, so that if the target node is modified
           a the dereferenced content is modified. At present there are no deep copy
           semantics hardcoded into the schema.
+          MESMER: '(' and ')' allowed.
         </h:div>
         <h:div class="description">
           The semantic of reference are normally identical to
@@ -2732,7 +2733,7 @@ Relaxed in MESMER to allow also<h:tt>)(</h:tt> because chemical formula are comm
       </xsd:documentation>
     </xsd:annotation>
     <xsd:restriction base="xsd:string">
-      <xsd:pattern value="([A-Za-z_][A-Za-z0-9_\.\-]*:)?[A-Za-z_][A-Za-z0-9_\.\-]*"/>
+      <xsd:pattern value="([A-Za-z_][A-Za-z0-9_\(\)\.\-]*:)?[A-Za-z_][A-Za-z0-9_\(\)\.\-]*"/>
     </xsd:restriction>
   </xsd:simpleType>
   <xsd:simpleType id="st.relatedEntryTypeType" name="relatedEntryTypeType">

@@ -244,6 +244,12 @@ namespace mesmer
       // that even irreversible reactions may use these.
       pReact->setUsesProductProperties();
 
+    // Read <me:excessReactantConc> as a child of <me:MCRCMethod>.
+    // If it is not found m_ERConc is set to NaN. This causes
+    // <me:excessReactantConc> to be read a child of <Reaction> in Reaction.cpp.
+    // A default value from defaults.xml will be used if still not found.
+    pReact->set_concExcessReactant(pp->XmlReadDouble("me:excessReactantConc",optional));
+
     return ILTCheck(pReact, ppReac) ; 
   }
 
