@@ -116,6 +116,7 @@ namespace mesmer
   bool System::initialize(void) {
     m_pMoleculeManager = new MoleculeManager() ;
     m_pReactionManager = new ReactionManager(m_pMoleculeManager) ;
+    m_pConditionsManager = new ConditionsManager(this) ;
     return m_collisionOperator.initialize(m_pMoleculeManager, m_pReactionManager);
   }
 
@@ -201,13 +202,10 @@ namespace mesmer
       cerr << "No conditions specified";
       return false;
     }
-    string Bgtxt = ppConditions->XmlReadValue("me:bathGas");
-    if(!m_pMoleculeManager->addmol(Bgtxt, "bathGas", m_Env, m_Flags))
-      return false;
-    m_pMoleculeManager->set_BathGasMolecule(Bgtxt) ;
-    //The rest of the me:conditions are read after the reactions and molecules
 
-    //-------------
+    if(!m_pConditionsManager->ParseBathGas(ppConditions))
+      return false;;
+
     //Reaction List
     PersistPtr ppReacList = ppIOPtr->XmlMoveTo("reactionList");
     if(!ppReacList)
@@ -215,7 +213,8 @@ namespace mesmer
       cerr << "No reactions have been specified";
       return false;
     }
-    if(!m_pReactionManager->addreactions(ppReacList, m_Env, m_Flags)) return false;
+    if(!m_pReactionManager->addreactions(ppReacList, m_Env, m_Flags))
+      return false;
 
     //Check that the energy baseline is the same for all the modelled molecules
     string energyConvention = m_pMoleculeManager->checkEnergyConventions();
@@ -227,69 +226,9 @@ namespace mesmer
     else
       cinfo << "All molecules are on the same energy basis: " << energyConvention << endl;
     cinfo.flush();
-    //-------------
 
-    /* Move reading of bath gas to before reading of reactions and molecules
-    //Reaction Conditions
-    PersistPtr ppConditions = ppIOPtr->XmlMoveTo("me:conditions");
-    if(!ppConditions)
-    {
-    cerr << "No conditions specified";
-    return false;
-    }
-    string Bgtxt = ppConditions->XmlReadValue("me:bathGas");
-    if(!m_pMoleculeManager->addmol(Bgtxt, "bathGas", m_Env, m_Flags))
-    return false;
-    m_pMoleculeManager->set_BathGasMolecule(Bgtxt) ;
-    */
-
-    //--------------
-    //  The concentration/pressure units are of following formats:
-    //  units:
-    //   PPCC: particles per cubic centimeter
-    //   Torr: Torr
-    //
-    //  Allowed input formats are shown below (example units in particles per cubic centimeter).
-    //
-    //  <me:PTs>
-    //    <me:PTset me:units="Torr">
-    //      <me:Prange initial="1e8" increment="2e7" final="2e8" />
-    //      <me:Trange initial="100" increment="20" final="200" />
-    //    </me:PTset>
-    //  </me:PTs>
-    //
-    //  The above example creates a matrix of concentration/temperature points of the size:
-    //      (number of P points) x (number of T points)
-    //
-    //  Another example of specifying small numbers of PT points (example units in Torr):
-    //
-    //  <me:PTs>
-    //    <me:PTpair me:units="Torr" me:P="100" me:T="200" />
-    //    <me:PTpair me:units="PPCC" me:P="1e18" me:T="298" />
-    //  </me:PTs>
-    //
-    //  The looping of the PT points are easy, they are first parsed and all the points are stored in pairs in
-    //  vector PandTs, and Mesmer simply loop through all its members.
-    //
-    //  Or, if someone wants a higher precision on some condition they are interested, they can specify additional
-    //  precision flag with small numbers of PT points.
-    //
-    //  <me:PTs>
-    //    <me:PTpair me:units="Torr" me:P="100" me:T="200" me:precision="double-double" />
-    //    <me:PTpair me:units="PPCC" me:P="1e18" me:T="298" me:precision="quad-double" />
-    //  </me:PTs>
-    //
-    //  The description above will do first a double-double precision calculation and a quad-double calculation.
-    //--------------
-
-    readPTs(ppConditions);
-    if (!PandTs.size())
-      cerr << "No pressure and temperature specified." << endl;
-
-    // read initial isomer populations (need to be normalized later if their sum's not equal to 1.0)
-    PersistPtr ppInitialPopulation = ppConditions->XmlMoveTo("me:InitialPopulation");
-    if (ppInitialPopulation)
-      m_pReactionManager->setInitialPopulation(ppInitialPopulation);
+    if(!m_pConditionsManager->ParseConditions())
+      return false;
 
     if(ppControl)
     {
@@ -386,190 +325,6 @@ namespace mesmer
     m_CalcMethod->DoCalculation(this);
   }
 
-  // pop the P and T points into PandTs
-  // This is a function for reading concentration/pressure and temperature conditions.
-  void System::readPTs(PersistPtr anchor)
-  {
-    PersistPtr pp= anchor;
-    while(pp = pp->XmlMoveTo("me:PTs")) //can have multiple <me:PTs>
-    {
-      const char* txt;
-
-      //default unit, pressure and temperature //now in defaults.xml
-      //const string default_unit = "PPCC";
-      //const double default_P = 1e17;
-      //const double default_T = 298.;
-
-      // check for grid values of temperatures and concentrations
-      PersistPtr ppPTset = pp->XmlMoveTo("me:PTset");
-      while (ppPTset)
-      {
-        string this_units;
-        txt = ppPTset->XmlReadValue("me:units", optional);
-        if(!txt)
-          txt = ppPTset->XmlReadValue("units");
-        if (txt)
-          this_units = txt;
-
-
-        Precision this_precision ;
-        txt = ppPTset->XmlReadValue("me:precision", optional);
-        if(!txt)
-          txt = ppPTset->XmlReadValue("precision");
-        if (txt)
-          this_precision = txtToPrecision(txt) ;
-
-        std::vector<double> Pvals, Tvals;
-        if(!ReadRange("me:Prange", Pvals, ppPTset) || !ReadRange("me:Trange", Tvals, ppPTset))
-          return;
-
-        const char* bathGasName = getMoleculeManager()->get_BathGasName().c_str();
-        for (size_t i(0) ; i < Pvals.size(); ++i){
-          for (size_t j(0) ; j < Tvals.size(); ++j){
-            CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j], this_precision, bathGasName);
-            PandTs.push_back(thisPair);
-            m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, thisPair.get_temperature());
-          }
-        }
-        ppPTset = ppPTset->XmlMoveTo("me:PTset");
-      }
-
-      //These attributes can be on <me:PTs> and apply to its child elements (to shorten them).
-      const char* common_precision = pp->XmlReadValue("precision", optional);
-      const char* common_units = pp->XmlReadValue("units", optional);
-      const char* common_bathgas = pp->XmlReadValue("bathGas", optional);
-      const char* common_ref1 = pp->XmlReadValue("ref1", optional);
-      const char* common_ref2 = pp->XmlReadValue("ref2", optional);
-      const char* common_ref = pp->XmlReadValue("ref", optional);
-      const char* common_reaction = pp->XmlReadValue("refReaction", optional);
-
-      // Check for individually specified concentration/temperature points.
-      //
-      PersistPtr ppPTpair = pp->XmlMoveTo("me:PTpair");
-      while (ppPTpair){
-        string this_units;
-        txt = ppPTpair->XmlReadValue("units", optional);
-        if(!txt)
-          //use default only if there are no common units specified
-          txt = ppPTpair->XmlReadValue("me:units", !common_units);
-        if (txt)
-          this_units = txt;
-        else if(common_units)
-        {
-          this_units = common_units;
-          ppPTpair->XmlWriteAttribute("units",common_units);
-        }
-
-        double this_P, this_T;
-        this_P = ppPTpair->XmlReadDouble("me:P", optional);
-        this_T = ppPTpair->XmlReadDouble("me:T", optional);
-        if(IsNan(this_P))
-          this_P = ppPTpair->XmlReadDouble("P", true); //preferred forms
-        if(IsNan(this_T))
-          this_T = ppPTpair->XmlReadDouble("T", true);
-
-        m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, this_T);
-
-        Precision this_precision(UNDEFINED_PRECISION);
-        txt = ppPTpair->XmlReadValue("me:precision", optional); //an element
-        if(!txt) 
-          //use default only if there is no common precision specified
-          txt = ppPTpair->XmlReadValue("precision", !common_precision); //an attribute
-        if(!txt)
-        {
-          txt = common_precision;
-          ppPTpair->XmlWriteAttribute("precision",common_precision);
-        }
-        if (txt) {
-          this_precision = txtToPrecision(txt) ;
-        }
-
-        // Bath gas specific to this PT 
-        const char* bathGasName = ppPTpair->XmlReadValue("me:bathGas", optional);
-        if(!bathGasName)
-          bathGasName = ppPTpair->XmlReadValue("bathGas", optional); //attribute
-        if(!bathGasName)
-          bathGasName = common_bathgas;
-        if(!bathGasName)// if not specified use the general bath gas molecule name
-          bathGasName = getMoleculeManager()->get_BathGasName().c_str();
-        ppPTpair->XmlWriteAttribute("bathGas",bathGasName);
-
-        CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision , bathGasName);
-        cinfo << this_P << this_units << ", " << this_T << "K at " << txt 
-          << " precision" << " with " << bathGasName << endl; 
-
-        // Extract experimental rate coefficient values for chiSquare calculation.
-        PersistPtr ppExpRate = ppPTpair->XmlMoveTo("me:experimentalRate");
-        while (ppExpRate){
-          double rateValue(0.0), errorValue(0.0); 
-          string refReaction;
-          txt = ppExpRate->XmlRead();
-          stringstream s1(txt); s1 >> rateValue;
-          txt = ppExpRate->XmlReadValue("ref1", optional);
-          if(!txt)
-          {
-            txt = common_ref1;
-            ppExpRate->XmlWriteAttribute("ref1",txt);
-          }
-          string ref1(txt);
-
-          txt = ppExpRate->XmlReadValue("ref2", optional);
-          if(!txt)
-          {
-            txt = common_ref2;
-            ppExpRate->XmlWriteAttribute("ref2",txt);
-          }
-          string ref2(txt);
-
-          txt = ppExpRate->XmlReadValue("refReaction", optional);
-          if(!txt)
-            txt=common_reaction;
-          if (txt) {
-            stringstream s3(txt); s3 >> refReaction ;
-          }
-          stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
-          thisPair.set_experimentalRates(ppExpRate, ref1, ref2, refReaction, rateValue, errorValue);
-          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalRate"); //***do we need to loop here?
-        }
-
-        // Extract experimental yield values for chiSquare calculation.
-        ppExpRate = ppPTpair->XmlMoveTo("me:experimentalYield");
-        while (ppExpRate){
-          double yield(0.0), errorValue(0.0); 
-          txt = ppExpRate->XmlRead();
-          stringstream s1(txt); s1 >> yield;
-          txt = ppExpRate->XmlReadValue("ref", optional);
-          string ref(txt ? txt : common_ref);
-          txt = ppExpRate->XmlReadValue("yieldTime", false);
-          string yieldTime ;
-          if (txt) {
-            stringstream s3(txt); s3 >> yieldTime ;
-          } else {
-            yieldTime = "-1.0" ;
-          }
-          stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
-          thisPair.set_experimentalYields(ppExpRate, ref, yieldTime, yield, errorValue);
-          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalYield"); //***do we need to loop here?
-        }
-
-        // Extract experimental eigenvalues for chiSquare calculation.
-        ppExpRate = ppPTpair->XmlMoveTo("me:experimentalEigenvalue");
-        while (ppExpRate){
-          double eigenValue(0.0), errorValue(0.0); 
-          txt = ppExpRate->XmlRead();
-          stringstream s1(txt); s1 >> eigenValue;
-          string EigenvalueID(ppExpRate->XmlReadValue("EigenvalueID")) ;
-          stringstream s4(ppExpRate->XmlReadValue("error")); s4 >> errorValue;
-          thisPair.set_experimentalEigenvalues(ppExpRate, EigenvalueID, eigenValue, errorValue);
-          ppExpRate = ppExpRate->XmlMoveTo("me:experimentalEigenvalue"); //***do we need to loop here?
-        }
-
-        PandTs.push_back(thisPair);
-        ppPTpair = ppPTpair->XmlMoveTo("me:PTpair");
-      }
-    }
-  }
-
   //
   // Begin calculation.
   // over all PT values, constant parameters
@@ -591,9 +346,8 @@ namespace mesmer
     }
 
     // Find the highest temperature
-    for (size_t i(0) ; i < PandTs.size(); ++i){
-      m_Env.MaximumTemperature = max(m_Env.MaximumTemperature, PandTs[i].get_temperature());
-    }
+    m_Env.MaximumTemperature = m_pConditionsManager->getMaxTemperature();
+    
 
     //---------------------------------------------
     // looping over temperatures and concentrations
@@ -635,15 +389,16 @@ namespace mesmer
     chiSquare = 0.0; // reset the value to zero
     residuals.clear() ;
 
-    for (calPoint = 0; calPoint < PandTs.size(); ++calPoint) {
+    for (calPoint = 0; calPoint < m_pConditionsManager->getNumPTPoints(); ++calPoint) {
 
-      m_Env.beta = 1.0 / (boltzmann_RCpK * PandTs[calPoint].get_temperature()) ; 
-      m_Env.conc = PandTs[calPoint].get_concentration(); // unit of conc: particles per cubic centimeter
-      m_Env.bathGasName = PandTs[calPoint].getBathGasName();
+      m_Env.beta = 1.0 / (boltzmann_RCpK * m_pConditionsManager->PTPointTemp(calPoint)) ; 
+      m_Env.conc = m_pConditionsManager->PTPointConc(calPoint); // unit of conc: particles per cubic centimeter
+      m_Env.bathGasName = m_pConditionsManager->PTPointBathGas(calPoint);
 
       if (writeReport) {cinfo << "PT Grid " << calPoint << endl;}
-      Precision precision = PandTs[calPoint].get_precision();
-      ctest << "PT Grid " << calPoint << " Condition: conc = " << m_Env.conc << ", temp = " << PandTs[calPoint].get_temperature();
+      Precision precision = m_pConditionsManager->PTPointPrecision(calPoint);
+      ctest << "PT Grid " << calPoint << " Condition: conc = " << m_Env.conc << ", temp = " 
+            << m_pConditionsManager->PTPointTemp(calPoint);
 
       switch (precision) {
       case DOUBLE_DOUBLE:
@@ -691,7 +446,7 @@ namespace mesmer
           if(m_Flags.speciesProfileEnabled)
           {
             ppPopList  = ppAnalysis->XmlWriteElement("me:populationList");
-            ppPopList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
+            ppPopList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
             ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
           }
 
@@ -699,7 +454,7 @@ namespace mesmer
           if(m_Flags.grainedProfileEnabled)
           {
             ppAvEList = ppAnalysis->XmlWriteElement("me:avEnergyList");
-            ppAvEList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
+            ppAvEList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
             ppAvEList->XmlWriteAttribute("conc", toString(m_Env.conc));
             ppAvEList->XmlWriteAttribute("energyUnits", "kJ/mol");
           }
@@ -709,7 +464,7 @@ namespace mesmer
           if(m_collisionOperator.hasGrainProfileData())
           {
             PersistPtr ppGrainList  = ppAnalysis->XmlWriteElement("me:grainPopulationList");
-            ppGrainList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
+            ppGrainList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
             ppGrainList->XmlWriteAttribute("conc", toString(m_Env.conc));
             m_collisionOperator.printGrainProfileAtTime(ppGrainList);
           }
@@ -717,7 +472,7 @@ namespace mesmer
 
           // Calculate rate coefficients. 
           PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
-          ppList->XmlWriteAttribute("T", toString(PandTs[calPoint].get_temperature()));
+          ppList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
           ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
           ppList->XmlWriteAttribute("bathGas", m_Env.bathGasName);
           ppList->XmlWriteAttribute("me:units", "s-1");
@@ -725,17 +480,17 @@ namespace mesmer
           qdMatrix lossRates(1);
           m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, ppList);
 
-          rateCoeffTable << formatFloat(PandTs[calPoint].get_temperature(), 6, 15) ;
-          rateCoeffTable << formatFloat(PandTs[calPoint].get_concentration(), 6, 15) ;
+          rateCoeffTable << formatFloat(m_pConditionsManager->PTPointTemp(calPoint), 6, 15) ;
+          rateCoeffTable << formatFloat(m_pConditionsManager->PTPointConc(calPoint), 6, 15) ;
 
           // For these conditions calculate the contribution to the chi^2 merit function
           // for any of the experimentally observable data types. 
 
-          chiSquare += calcChiSqRateCoefficients(mesmerRates, PandTs[calPoint], rateCoeffTable, residuals);
+          chiSquare += calcChiSqRateCoefficients(mesmerRates, calPoint, rateCoeffTable, residuals);
 
-          chiSquare += calcChiSqYields(PandTs[calPoint], rateCoeffTable, residuals);
+          chiSquare += calcChiSqYields(calPoint, rateCoeffTable, residuals);
 
-          chiSquare += calcChiSqEigenvalues(PandTs[calPoint], rateCoeffTable, residuals);
+          chiSquare += calcChiSqEigenvalues(calPoint, rateCoeffTable, residuals);
 
           ctest << "}\n";
 
@@ -783,13 +538,13 @@ namespace mesmer
 
     m_Flags.printEigenValuesNum = 0 ;
 
-    double temp = PandTs[nConds].get_temperature() ; 
+    double temp = m_pConditionsManager->PTPointTemp(nConds) ; 
     m_Env.beta = 1.0 / (boltzmann_RCpK * temp) ;
 
     // unit of conc: particles per cubic centimetre
-    m_Env.conc = PandTs[nConds].get_concentration();
+    m_Env.conc = m_pConditionsManager->PTPointConc(nConds);
 
-    m_Env.bathGasName = PandTs[nConds].getBathGasName();
+    m_Env.bathGasName = m_pConditionsManager->PTPointBathGas(nConds);
 
     // Build collison matrix for system.
     if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags))
@@ -799,7 +554,7 @@ namespace mesmer
       throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
 
     // Diagonalise the collision operator.
-    Precision precision = PandTs[nConds].get_precision();
+    Precision precision = m_pConditionsManager->PTPointPrecision(nConds);
     m_collisionOperator.diagReactionOperator(m_Flags, m_Env, precision) ;
 
     // Calculate rate coefficients.
@@ -811,11 +566,11 @@ namespace mesmer
 
     stringstream rateCoeffTable ;
     vector<double> residuals ;
-    calcChiSqRateCoefficients(mesmerRates, PandTs[nConds], rateCoeffTable, residuals);
+    calcChiSqRateCoefficients(mesmerRates, nConds, rateCoeffTable, residuals);
 
-    calcChiSqYields(PandTs[nConds], rateCoeffTable, residuals);
+    calcChiSqYields(nConds, rateCoeffTable, residuals);
 
-    calcChiSqEigenvalues(PandTs[nConds], rateCoeffTable, residuals);
+    calcChiSqEigenvalues(nConds, rateCoeffTable, residuals);
 
     double data(0.0) ;
     while (rateCoeffTable >> data) {
@@ -857,15 +612,15 @@ namespace mesmer
     m_collisionOperator.BartisWidomPhenomenologicalRates(BWrates, lossRates, m_Flags);
     m_collisionOperator.get_phenRates(phenRates);
 
-    return true ;	   
+    return true ;
   }
 
-  double System::calcChiSqRateCoefficients(const qdMatrix& mesmerRates,  const CandTpair& expData, stringstream &rateCoeffTable, vector<double> &residuals){
+  double System::calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals){
 
     double chiSquare(0.0) ;
 
     vector<conditionSet> expRates;
-    expData.get_experimentalRates(expRates);
+    m_pConditionsManager->get_experimentalRates(calPoint, expRates);
     for (size_t i(0); i < expRates.size(); ++i){
 
       string ref1, ref2, refReaction; 
@@ -908,17 +663,17 @@ namespace mesmer
       chiSquare +=  diff * diff ;
 
       rateCoeffTable << formatFloat(expRate, 6, 15) << formatFloat(rateCoeff, 6, 15) << endl ;
-      AddCalcValToXml(expData, i, rateCoeff);
+      AddCalcValToXml(calPoint, i, rateCoeff);
 
     }
     return chiSquare;
   }
 
-  double System::calcChiSqYields(const CandTpair& expData, stringstream &rateCoeffTable, vector<double> &residuals) {
+  double System::calcChiSqYields(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals) {
 
     double chiSquare(0.0) ;
     vector<conditionSet> expYields;
-    expData.get_experimentalYields(expYields);
+    m_pConditionsManager->get_experimentalYields(calPoint, expYields);
     if (expYields.size() == 0)
       return chiSquare ;
 
@@ -966,18 +721,18 @@ namespace mesmer
       chiSquare += (diff * diff);
 
       rateCoeffTable << formatFloat(expYield, 6, 15) << formatFloat(yield, 6, 15) << endl ;
-      AddCalcValToXml(expData, i, yield);
+      AddCalcValToXml(calPoint, i, yield);
     }
 
     return chiSquare;
   }
 
-  double System::calcChiSqEigenvalues(const CandTpair& expData, stringstream &rateCoeffTable, vector<double> &residuals) {
+  double System::calcChiSqEigenvalues(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals) {
 
     double chiSquare(0.0) ;
 
     vector<conditionSet> expEigenvalues;
-    expData.get_experimentalEigenvalues(expEigenvalues);
+    m_pConditionsManager->get_experimentalEigenvalues(calPoint, expEigenvalues);
     for (size_t i(0); i < expEigenvalues.size(); ++i){
 
       string ref1, ref2, strIdEigenvalue; 
@@ -1000,16 +755,16 @@ namespace mesmer
       chiSquare += (diff * diff); 
 
       rateCoeffTable << formatFloat(expEigenvalue, 6, 15) << formatFloat(eigenvalue, 6, 15) << endl ;
-      AddCalcValToXml(expData, i, eigenvalue);
+      AddCalcValToXml(calPoint, i, eigenvalue);
     }
 
     return chiSquare;
   }
 
-  void System::AddCalcValToXml(const CandTpair& expData, size_t i, double val) const
+  void System::AddCalcValToXml(const unsigned calPoint, size_t i, double val) const
   {
     // Add extra attribute(s) containing calculated value and timestamp to <me:experimentalRate> (or similar element).
-    PersistPtr pp = expData.get_experimentalDataPtr(i);
+    PersistPtr pp = m_pConditionsManager->get_experimentalDataPtr(calPoint, i);
     TimeCount events;
     string timeString;
     pp->XmlWriteAttribute("calculated", events.setTimeStamp(timeString));
@@ -1017,41 +772,6 @@ namespace mesmer
     ss << val;
     pp->XmlWriteAttribute("calcVal", ss.str());
     pp->XmlReadDouble("calcVal",false);
-  }
-
-  bool System::ReadRange(const string& name, vector<double>& vals, PersistPtr ppbase, bool MustBeThere)
-  {
-    PersistPtr pp=ppbase;
-    for(;;)
-    {
-      const char* txt;
-      pp = pp->XmlMoveTo(name);
-      if(pp)
-        txt = pp->XmlRead(); //element may have a value
-      else //no more elements
-        break;
-      if(!txt)
-        txt = pp->XmlReadValue("initial"); //or use value of "initial" attribute
-      if(!txt)
-        return false;
-      vals.push_back(atof(txt));
-
-      if((txt=pp->XmlReadValue("increment",false)))//optional attribute
-      {
-        double incr = atof(txt);
-        txt = pp->XmlReadValue("final"); //if have "increment" must have "final"
-        if(!txt)
-          return false;
-        for(double val=vals.back()+incr; val<=atof(txt); val+=incr)
-          vals.push_back(val);
-      }
-    }
-    if(MustBeThere && vals.size()==0)
-    {
-      cerr << "Must specify at least one value of " << name;
-      return false;
-    }
-    return true;
   }
 
   void System::WriteMetadata(const string& infilename)
@@ -1106,25 +826,6 @@ namespace mesmer
     clog << "long double min == " << numeric_limits<long double>::min() << endl;
     clog << "dd_real min == " << numeric_limits<dd_real>::min() << endl;
     clog << "qd_real min == " << numeric_limits<qd_real>::min() << endl;
-  }
-
-  // An accessor method to get conditions and related properties for
-  // use with plugins classes etc.
-  bool System::getConditions (vector<double> &Temperature, vector<double> &Concentration) {
-
-    bool status(true) ;
-
-    for (size_t calPoint = 0; calPoint < PandTs.size(); ++calPoint) {
-
-      double temp = PandTs[calPoint].get_temperature() ; 
-      Temperature.push_back(temp) ;
-
-      m_Env.conc = PandTs[calPoint].get_concentration(); // unit of conc: particles per cubic centimeter
-      Concentration.push_back(m_Env.conc) ;
-
-    }
-
-    return status ;
   }
 
 } //namespace

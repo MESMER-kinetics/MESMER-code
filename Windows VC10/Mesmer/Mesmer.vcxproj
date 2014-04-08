@@ -94,6 +94,7 @@
     <ClCompile Include="..\..\src\AssignMolTypes.cpp" />
     <ClCompile Include="..\..\src\AssociationReaction.cpp" />
     <ClCompile Include="..\..\src\BimolecularSinkReaction.cpp" />
+    <ClCompile Include="..\..\src\ConditionsManager.cpp" />
     <ClCompile Include="..\..\src\error.cpp" />
     <ClCompile Include="..\..\src\plugins\AnalyticalRepresentation.cpp" />
     <ClCompile Include="..\..\src\plugins\BeyerSwinehart.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="..\..\src\BimolecularSinkReaction.h" />
     <ClInclude Include="..\..\src\calcmethod.h" />
     <ClInclude Include="..\..\src\CollisionOperator.h" />
+    <ClInclude Include="..\..\src\ConditionsManager.h" />
     <ClInclude Include="..\..\src\Constants.h" />
     <ClInclude Include="..\..\src\Crossing.h" />
     <ClInclude Include="..\..\src\DensityOfStates.h" />

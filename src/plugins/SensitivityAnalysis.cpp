@@ -104,7 +104,7 @@ namespace mesmer
 
     vector<double> Temperature ;
     vector<double> Concentration ;
-    pSys->getConditions (Temperature, Concentration) ;
+    pSys->getConditionsManager()->getConditions (Temperature, Concentration) ;
 
 	// Instantiate a random vector generator.
     Sobol sobol ;

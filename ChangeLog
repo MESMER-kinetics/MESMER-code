@@ -1,3 +1,15 @@
+2014-April-08 Chris Morley
+
+	* src/ConditionsManager.cpp, src/ConditionsManager.h: 
+	Windows VC10/Mesmer/Mesmer.vcxprojAdd ConditionsManager class to
+	reduce size of System class.
+
+	* src/System.cpp, src/System.h, src/unitsConversion.h: Move conditionSet
+	struct and CandTpair. Make CandTpair a struct since now accessed only
+	from ConditionsManager.
+
+	* src/plugins/SensitivityAnalysis.cpp: only external change.
+
 2014-March-25 Chris Morley
 
 	* src/plugins/MesmerILT.cpp,src/Reaction.cpp,src/Reaction.h,

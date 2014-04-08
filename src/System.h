@@ -18,6 +18,7 @@
 #include "ReactionManager.h"
 #include "calcmethod.h"
 #include "CollisionOperator.h"
+#include "ConditionsManager.h"
 
 #define MESMER_VERSION "4.0"
 
@@ -73,14 +74,9 @@ namespace mesmer
     PersistPtr getPersistPtr() { return m_ppIOPtr; }
     PersistPtr getAnalysisPtr() { return m_ppAnalysis; }
 
-    MoleculeManager* getMoleculeManager() { return m_pMoleculeManager; } ;
-    ReactionManager* getReactionManager() { return m_pReactionManager; } ;
-
-	// An accessor method to get conditions and related properties for
-	// use with plugins classes etc.
-	bool getConditions (vector<double> &Temperature, vector<double> &Concentration) ;
-
-	size_t getNumConditions() const { return PandTs.size() ; } ;
+    MoleculeManager*   getMoleculeManager()  { return m_pMoleculeManager; } ;
+    ReactionManager*   getReactionManager()  { return m_pReactionManager; } ;
+    ConditionsManager* getConditionsManager(){ return m_pConditionsManager; } ;
 
     // Mesmer control flags.
     MesmerFlags m_Flags;
@@ -89,28 +85,21 @@ namespace mesmer
 
   private:
 
-    void readPTs(PersistPtr);
+//    void readPTs(PersistPtr);
 
-    bool ReadRange(const std::string&    name,
-      std::vector<double>&  vals,
-      PersistPtr            ppbase,
-      bool                  MustBeThere=true);
-
-    double calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const CandTpair& expData, stringstream &rateCoeffTable, vector<double> &residuals) ;
-    double calcChiSqYields(const CandTpair& expData,  stringstream &rateCoeffTable, vector<double> &residuals);
-    double calcChiSqEigenvalues(const CandTpair& expData,  stringstream &rateCoeffTable, vector<double> &residuals);
+    double calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals) ;
+    double calcChiSqYields(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals);
+    double calcChiSqEigenvalues(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals);
 
     //Add extra attributes) containing calculated value and timestamp to <me:experimentalRate> (or similar element)
-    void AddCalcValToXml(const CandTpair& expData, size_t i, double val) const;
+    void AddCalcValToXml(const unsigned calPoint, size_t i, double val) const;
 
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;
 
     // Location of the reaction mananger.
     ReactionManager *m_pReactionManager ;
-
-    // Paired concentration and pressure points.
-    std::vector<CandTpair> PandTs;
+    ConditionsManager* m_pConditionsManager;
 
     // Physical variables. Reference to this are passed to all Molecule and Reaction constructors.
     MesmerEnv m_Env;

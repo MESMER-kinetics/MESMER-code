@@ -507,6 +507,8 @@ src/BimolecularSinkReaction.cpp -text
 src/BimolecularSinkReaction.h -text
 src/CollisionOperator.cpp -text
 src/CollisionOperator.h -text
+src/ConditionsManager.cpp -text
+src/ConditionsManager.h -text
 src/Constants.h -text
 src/Crossing.h -text
 src/DensityOfStates.cpp -text
