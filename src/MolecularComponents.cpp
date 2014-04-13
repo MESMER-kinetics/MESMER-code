@@ -9,6 +9,7 @@
 #include "Molecule.h"
 #include "System.h"
 #include "ParseForPlugin.h"
+#include "HinderedRotorUtils.h"
 
 using namespace std;
 using namespace Constants;
@@ -557,9 +558,13 @@ namespace mesmer
     if (sizeOfVector && vectorSizeConstant && !recalc)
       return true;
 
+    // If required, calculate the generalized rotational inertia tensor.
+
+    calculateGRIT() ;
+
     // Calculate density of states.
     bool ret(true) ; 
-    for(unsigned i=0; ret && i<m_DOSCalculators.size(); ++i)
+    for(size_t i(0); ret && i<m_DOSCalculators.size(); ++i)
       ret = ret && m_DOSCalculators[i]->countCellDOS(this, MaximumCell);
     if(!ret)
       return false;
@@ -1071,7 +1076,7 @@ namespace mesmer
       mode[i] *= NormFctr ;
     }
 
-    // Add mode to exisitng set.
+    // Add mode to existing set.
 
     for (i = 0  ; i < m_Modes->size() ; i++) 
       (*m_Modes)[i][m_nModes] = mode[i] ;
@@ -1098,6 +1103,39 @@ namespace mesmer
     for (i = 0 ; i < mode.size() ; i++) {
       mode[i] *= massWeights[i] ;
     }
+
+  }
+
+  // Method to calculate the combined external and internal rotor kinetic energy tensor.
+  bool gDensityOfStates::calculateGRIT() {
+
+    // Find the number of internal rotors.
+    vector<DensityOfStatesCalculator*> HIRDOSCalculators;
+    for(size_t i(0); i<m_DOSCalculators.size(); ++i) {
+      string type = m_DOSCalculators[i]->getID() ;
+      if (type == "HinderedRotorQM1D" || type == "HinderedRotorCM1D") 
+        HIRDOSCalculators.push_back(m_DOSCalculators[i]) ;
+    }
+
+    // If there are no hindered rotors there is nothing to be done.
+    if (HIRDOSCalculators.size() < 1) 
+      return true ;
+
+    // Find the IDs for those bonds about which hindered rotation occurs.
+    vector<string> bondIDs ;
+    for (size_t i(0); i<HIRDOSCalculators.size(); ++i) {
+      string bondID = (dynamic_cast<HinderedRotorUtils*>(HIRDOSCalculators[i]))->get_BondID() ;
+      bondIDs.push_back(bondID) ;
+    }
+
+    // Reserve space for the GRIT.
+    size_t msize(HIRDOSCalculators.size() + 3) ;
+    dMatrix GRIT(msize, 0.0) ;
+
+    gStructure& gs = m_host->getStruc() ;
+    gs.getGRIT(GRIT, bondIDs);
+
+    return true ;
 
   }
 
@@ -1284,7 +1322,7 @@ namespace mesmer
   }
 
   void gWellProperties::set_colloptrsize(int ncolloptrsize) {
-	m_ncolloptrsize = ncolloptrsize ;
+    m_ncolloptrsize = ncolloptrsize ;
   } ;
 
   const int gWellProperties::get_grnZPE(){
@@ -2250,16 +2288,40 @@ namespace mesmer
     return true ;
   }
 
+  // Calculates the GRIT for the current set of coodinates.
+  void gStructure::getGRIT(dMatrix &GRIT, vector<string>& bondIDs) {
+
+    // Move coordinates to centre of mass and align with (instantaneous) principal axes.
+
+    AlignCoords() ;
+
+    GRIT[0][0] = m_PrincipalMI[0] ;
+    GRIT[1][1] = m_PrincipalMI[1] ;
+    GRIT[2][2] = m_PrincipalMI[2] ;
+
+    // Calculate the unit velocity vectors (based on the Sharma, Raman and Green vector).
+
+    for (size_t i(0) ; i < bondIDs.size() ; i++) {
+      pair<string,string> bondats = GetAtomsOfBond(bondIDs[i]);
+
+      vector3 coords1 = GetAtomCoords(bondats.first);
+      vector3 coords2 = GetAtomCoords(bondats.second);
+
+    }
+
+    // Calculate the internal kinetic energy terms.
+
+    // Calculate the Coriolis terms.
+  }
+
   // Returns the rotational constants (in cm-1) in a vector.
   vector<double> gStructure::CalcRotConsts()
   {
     vector<double> RotConsts(m_PrincipalMI.size(), 0.0); //cm-1
     if (NumAtoms()<2)
       return RotConsts; //empty
-    const double amuA2TOgcm2 = 1.0E-16/AvogadroC;
     for (size_t i=0 ; i<m_PrincipalMI.size()  ; ++i) {
       RotConsts[i] = (m_PrincipalMI[i]==0.0) ? 0.0 : conMntInt2RotCnt/m_PrincipalMI[i];
-      m_PrincipalMI[i] *= amuA2TOgcm2;
     }
 
     return RotConsts;

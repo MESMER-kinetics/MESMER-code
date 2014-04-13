@@ -19,7 +19,7 @@ using namespace Constants;
 
 namespace mesmer
 {
-  class HinderedRotorCM1D : public DensityOfStatesCalculator, protected HinderedRotorUtils
+  class HinderedRotorCM1D : public HinderedRotorUtils
   {
   public:
     //Read data from XML. 
@@ -37,23 +37,19 @@ namespace mesmer
     // Constructor which registers with the list of DensityOfStatesCalculators in the base class
     // This class is an extra DOS class: a non-extra DensityOfStatesCalculator class also
     // needs to be specified.
-    HinderedRotorCM1D(const char* id) : m_id(id),
-      m_bondID(),
+    HinderedRotorCM1D(const char* id) : 
+      HinderedRotorUtils(id),
       m_reducedMomentInertia(0.0),
       m_periodicity(1),
       m_energyLevels()
-    { Register(); }
+    { }
 
     virtual ~HinderedRotorCM1D() {}
-    virtual const char* getID()  { return m_id; }
     virtual HinderedRotorCM1D* Clone() { return new HinderedRotorCM1D(*this); }
 
   private:
-    const char* m_id;
 
-    std::string m_bondID;
-
-    double m_reducedMomentInertia;
+	double m_reducedMomentInertia;
     int    m_periodicity;
 
     vector<double> m_energyLevels ;	     // The energies of the hindered rotor states.
@@ -95,8 +91,8 @@ namespace mesmer
       cerr << "Unknown bond reference " << bondID << endl;
       return false;
     }
-    m_bondID = bondID;
-    cinfo << "Hindered rotor " << m_bondID << endl;  
+    set_BondID(string(bondID)) ;
+    cinfo << "Hindered rotor " << get_BondID() ;  
 
     //Remove the vibrational frequency that this hindered rotation replaces
     const char* vibFreq = ppDOSC->XmlReadValue("me:replaceVibFreq",optional);

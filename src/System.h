@@ -98,7 +98,9 @@ namespace mesmer
     MoleculeManager *m_pMoleculeManager;
 
     // Location of the reaction mananger.
-    ReactionManager *m_pReactionManager ;
+    ReactionManager *m_pReactionManager;
+
+    // Location of the conditions mananger.
     ConditionsManager* m_pConditionsManager;
 
     // Physical variables. Reference to this are passed to all Molecule and Reaction constructors.

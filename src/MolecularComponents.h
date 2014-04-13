@@ -243,8 +243,12 @@ namespace mesmer
     // Function to calculate the vibrational frequencies from a projected Hessian matrix.
     bool calculateFreqs(vector<double> &freqs, bool projectTransStateMode = false) ;
 
-    // This method is used to orthogonalize a mode against existing projected modes and then add it to the projected set.
+    // This method is used to orthogonalize a mode against existing projected modes
+	// and then add it to the projected set.
     bool orthogonalizeMode(vector<double> &mode) ;
+
+	// Method to calculate the combined external and internal rotor kinetic energy tensor.
+	bool calculateGRIT() ;
 
   };
 
@@ -422,14 +426,13 @@ namespace mesmer
 
   class gStructure:public MolecularComponent
   {
-
     //-------------------------------------------------------------------------------------------------
     // Chemical Structure related properties
     //-------------------------------------------------------------------------------------------------
 
   private:
     double m_MolecularWeight ;
-    vector<double> m_PrincipalMI ; //initially amuAng2, eventually gcm2
+    vector<double> m_PrincipalMI ; // amuAng2
 	dMatrix *m_AxisAlignment ;
     struct atom
     {
@@ -530,6 +533,10 @@ namespace mesmer
 	  if (m_AxisAlignment) 
 		rAlignmentMatrix = *m_AxisAlignment ;
 	} ;
+
+	// Calculates the GRIT for the current set of coodinates.
+	void getGRIT(dMatrix &GRIT, vector<string>& bondIDs) ;
+
   };
 
 

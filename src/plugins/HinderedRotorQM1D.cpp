@@ -23,7 +23,7 @@ using namespace Constants;
 
 namespace mesmer
 {
-  class HinderedRotorQM1D : public DensityOfStatesCalculator, protected HinderedRotorUtils
+  class HinderedRotorQM1D : public HinderedRotorUtils
   {
   public:
     //Read data from XML. 
@@ -44,10 +44,8 @@ namespace mesmer
     // Constructor which registers with the list of DensityOfStatesCalculators in the base class
     // This class is an extra DOS class: a non-extra DensityOfStatesCalculator class also
     // needs to be specified.
-    HinderedRotorQM1D(const char* id) : DensityOfStatesCalculator(),
-      HinderedRotorUtils(),
-      m_id(id),
-      m_bondID(),
+    HinderedRotorQM1D(const char* id) : 
+      HinderedRotorUtils(id),
       m_periodicity(1),
       m_kineticCosCoeff(),
       m_kineticSinCoeff(),
@@ -55,16 +53,14 @@ namespace mesmer
       m_ZPE(0.0),
       m_plotStates(false),
       m_writeStates(false)
-    { Register(); }
+    { }
 
     virtual ~HinderedRotorQM1D() {}
-    virtual const char* getID()  { return m_id; }
     virtual HinderedRotorQM1D* Clone() { return new HinderedRotorQM1D(*this); }
 
   private:
-    const char* m_id;
 
-    // Shift potential to origin.
+	// Shift potential to origin.
     void ShiftPotential() ;
 
     // Provide data for plotting states against potential.
@@ -75,8 +71,6 @@ namespace mesmer
 
     // Determine the Fourier components of the reciprocal moment of inertia.
     void MoIFourierCoeffs() ;
-
-    std::string m_bondID;
 
     int    m_periodicity;
 
@@ -126,8 +120,8 @@ namespace mesmer
       cerr << "Unknown bond reference " << bondID << endl;
       return false;
     }
-    m_bondID = bondID;
-    cinfo << "Hindered rotor " << m_bondID ;  
+    set_BondID(string(bondID)) ;
+    cinfo << "Hindered rotor " << get_BondID() ;  
 
     //Remove the vibrational frequency that this hindered rotation replaces
     const char* vibFreq = ppDOSC->XmlReadValue("me:replaceVibFreq",optional);

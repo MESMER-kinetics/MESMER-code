@@ -66,7 +66,6 @@ namespace mesmer
   private:
     const Molecule* m_parent;
 
-  private:
     static const char* typeID() { return "Cell Density of States Calculators"; }
   };
 

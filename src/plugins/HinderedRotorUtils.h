@@ -19,15 +19,22 @@ namespace mesmer
 {
   class gStructure ;
 
-  class HinderedRotorUtils
+  class HinderedRotorUtils: public DensityOfStatesCalculator
   {
   public:
 
-	HinderedRotorUtils() :  m_potentialCosCoeff(),
+	HinderedRotorUtils(const char* id) : DensityOfStatesCalculator(),
+      m_id(id),
+      m_bondID(),
+	  m_potentialCosCoeff(),
 	  m_potentialSinCoeff(),
 	  m_expansion(4),
-	  m_useSinTerms(false) {} ; 
+	  m_useSinTerms(false) { Register(); } ; 
 	~HinderedRotorUtils() {} ; 
+
+    virtual const char* getID()  { return m_id; }
+	void set_BondID(string& BondID) {m_bondID = BondID ; } ;
+	string get_BondID () const { return m_bondID ; } ;
 
   protected:
 
@@ -51,6 +58,10 @@ namespace mesmer
 	double CalculateGradient(double angle) const ;
 
   private:
+
+    const char* m_id;
+
+    std::string m_bondID;
 
 	std::vector<double> m_potentialCosCoeff ; // The cosine coefficients of the hindered rotor potential.
 	std::vector<double> m_potentialSinCoeff ; // The sine coefficients of the hindered rotor potential.

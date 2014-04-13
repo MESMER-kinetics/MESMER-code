@@ -100,7 +100,8 @@ namespace mesmer
 
 
   System::System(const std::string& libraryfilename) : m_pMoleculeManager(0), 
-    m_pReactionManager(0), 
+    m_pReactionManager(0),
+	m_pConditionsManager(0),
     m_pTitle(NULL),
     m_pDescription(NULL)
   {
@@ -110,6 +111,7 @@ namespace mesmer
   System::~System() {
     delete m_pReactionManager;
     delete m_pMoleculeManager;
+    delete m_pConditionsManager;
   }
 
   // Initialize the System object.
