@@ -9,7 +9,7 @@
 #include "Molecule.h"
 #include "System.h"
 #include "ParseForPlugin.h"
-#include "HinderedRotorUtils.h"
+#include "plugins/HinderedRotorUtils.h"
 
 using namespace std;
 using namespace Constants;

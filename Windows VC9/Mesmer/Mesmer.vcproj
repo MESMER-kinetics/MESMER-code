@@ -213,6 +213,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ConditionsManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\plugins\DefinedStatesRotor.cpp"
 				>
 			</File>
@@ -444,6 +448,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\CollisionOperator.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ConditionsManager.h"
 				>
 			</File>
 			<File

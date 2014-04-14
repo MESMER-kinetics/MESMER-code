@@ -120,7 +120,8 @@ namespace mesmer
       cerr << "Unknown bond reference " << bondID << endl;
       return false;
     }
-    set_BondID(string(bondID)) ;
+    string strBondID(bondID) ;
+    set_BondID(strBondID) ;
     cinfo << "Hindered rotor " << get_BondID() ;  
 
     //Remove the vibrational frequency that this hindered rotation replaces

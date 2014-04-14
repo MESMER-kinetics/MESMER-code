@@ -141,6 +141,7 @@ SRCS := \
 	AssociationReaction.cpp	\
 	BimolecularSinkReaction.cpp \
 	CollisionOperator.cpp \
+	ConditionsManager.cpp \
 	DensityOfStates.cpp \
 	error.cpp \
 	formatfloat.cpp \
