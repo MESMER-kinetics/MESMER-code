@@ -1,3 +1,15 @@
+
+2014-April-21 Struan Robertson
+
+	* HinderedRotorQM1D.cpp, HinderedRotorCM1D.cpp, MolecularComponents.cpp/.h, 
+	DensityOfStates.h: Initial implementation of GRIT.
+
+2014-April-14 Struan Robertson
+
+	* HinderedRotorQM1D.cpp, HinderedRotorCM1D.cpp, MolecularComponents.cpp/.h: 
+	Altered in preparation for the addition the generalized rotational inertia
+	tensor.
+
 2014-April-08 Chris Morley
 
 	* src/ConditionsManager.cpp, src/ConditionsManager.h: 

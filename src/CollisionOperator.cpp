@@ -1141,8 +1141,8 @@ namespace mesmer
   {
     // Constants.
     const size_t smsize   = m_eigenvectors->size() ;
-    const size_t nchem    = m_isomers.size() + m_sources.size() ;  // number of isomers+pseudoisomers
-    const size_t nchemIdx = smsize - nchem ;       // Location of chemically significant eigenvalues & vectors
+    const size_t nchem    = m_isomers.size() + m_sources.size() ;  // Number of isomers+pseudoisomers.
+    const size_t nchemIdx = smsize - nchem ;       // Location of chemically significant eigenvalues & vectors.
     const size_t nsinks   = m_sinkRxns.size() ;    // Number of Sinks.
 
     ctest << "\nBartis Widom eigenvalue/eigenvector analysis\n" << endl ;
@@ -1168,10 +1168,9 @@ namespace mesmer
       }
     }
 
-    //
-    // Construct assymmetric eigenvectors required for the z matrix.
-    //
-    qdMatrix assymInvEigenVec(smsize);   // U^(-1)
+	// Construct assymmetric eigenvectors required for the z matrix.
+
+	qdMatrix assymInvEigenVec(smsize);   // U^(-1)
     qdMatrix assymEigenVec(smsize);      // U
     for(size_t i(0) ; i<smsize ; ++i){
       qd_real tmp = m_eqVector[i];
@@ -1183,8 +1182,10 @@ namespace mesmer
       }
     }
 
-    //------------------------- TEST block ----------------------------------------
-    for(size_t i(nchemIdx) ; i<smsize ; ++i){         // multiply U*U^(-1) for testing
+    // Check that the inverse matrix is correctly calcualated by multiplying U*U^(-1) 
+	// for CSE vectors.
+
+    for(size_t i(nchemIdx) ; i<smsize ; ++i){ 
       qd_real test = 0.0;
       for(size_t j(nchemIdx) ; j<smsize ; ++j){
         qd_real sm = 0.0;
@@ -1193,35 +1194,44 @@ namespace mesmer
         }
         test += sm;
       }
-      if( test < 0.999 || test > 1.001)      // test that U*U^(-1) = 1
+      if( fabs(test - 1.0) > 0.001)      // test that U*U^(-1) = 1
         ctest << "row " << i << " of the U*U^(-1) matrix does not equal unity. It sums to " << test << endl;
     }
-    //------------------------- TEST block ----------------------------------------
-    if (!mFlags.rateCoefficientsOnly){
+
+	if (!mFlags.rateCoefficientsOnly){
       qdMatrix Z_matrix(nchem);  // definitions of Y_matrix and Z_matrix taken from PCCP 2007(9), p.4085
       qdMatrix Y_matrix(max(nchem, nsinks));
-      Reaction::molMapType::iterator ipos;  // set up an iterator through the isomer map
-      Reaction::molMapType::iterator spos;  // set up an iterator through the source map
-      sinkMap::iterator sinkpos;           // set up an iterator through the irreversible rxn map
+      Reaction::molMapType::iterator ipos;  // Set up an iterator through the isomer map.
+      Reaction::molMapType::iterator spos;  // Set up an iterator through the source map.
+      sinkMap::iterator sinkpos;            // Set up an iterator through the irreversible rxn map.
 
-      // check the separation between chemically significant eigenvalues (CSEs)
-      // and internal energy relaxation eigenvalues (IEREs); if it's not good, print a warning
+      // Check the separation between chemically significant eigenvalues (CSEs) and
+      // internal energy relaxation eigenvalues (IEREs); if it's not good, print a warning.
 
-      const double last_CSE   = (to_double(m_eigenvalues[nchemIdx]))* m_meanOmega;
-      const double first_IERE = (to_double(m_eigenvalues[nchemIdx-1]))* m_meanOmega;
-      const double CSE_IERE_separation = to_double(m_eigenvalues[nchemIdx]/m_eigenvalues[nchemIdx-1]);
-      if(CSE_IERE_separation > 0.1){
+	  int adsorbedCSE(0) ;
+	  const double adsorbedCSETol = 0.1 ;
+	  const double last_CSE       = (to_double(m_eigenvalues[nchemIdx]));
+      const double first_IERE     = (to_double(m_eigenvalues[nchemIdx-1]));
+      const double CSE_IERE_ratio = last_CSE/first_IERE ;
+      if(CSE_IERE_ratio > adsorbedCSETol){
         stringstream ss1 ;
         ss1 << "\nWARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs)." << endl;
-        ss1 << "\nThe last CSE = " << last_CSE << " and the first IERE = " << first_IERE << endl;
-        ss1 << "(last CSE)/(first IERE) ratio = " << CSE_IERE_separation << ", which is less than an order of magnitude" << endl;
+        ss1 << "\nThe last CSE = " << last_CSE*m_meanOmega << " and the first IERE = " << first_IERE*m_meanOmega << endl;
+        ss1 << "(last CSE)/(first IERE) ratio = " << CSE_IERE_ratio << ", which is less than an order of magnitude" << endl;
         ss1 << "\nResults obtained from Bartis Widom eigenvalue-vector analysis may be unreliable" << endl;
         string s(ss1.str());
         ctest << s ; clog << s ;
-        //replace tabs and line feeds (bad for XML) by spaces
+
+		// Replace tabs and line feeds (bad for XML) by spaces.
         replace(s.begin(), s.end(), '\t', ' ');
         replace(s.begin(), s.end(), '\n', ' ');
         if (ppList) ppList->XmlWriteValueElement("me:warning", s);
+
+		// Determine the number of adsorbed eigenvalues.
+		adsorbedCSE++ ; 
+		for (size_t i(1) ; to_double(m_eigenvalues[nchemIdx+i])/first_IERE > adsorbedCSETol && i < nchem ; i++) {
+		  adsorbedCSE++ ; 
+		}
       }
 
       for(size_t i(0); i<nchem; ++i){
@@ -1360,7 +1370,7 @@ namespace mesmer
       qdMatrix Kr = Z_matrix * Egv * Zinv ;
 
       ctest << "\nKr matrix:" << endl;
-      Kr.showFinalBits(nchem, true);       // print out Kr_matrix
+      Kr.showFinalBits(nchem, true);       // Print out Kr_matrix
 
       // Construct loss matrix.
 
@@ -1381,6 +1391,10 @@ namespace mesmer
 
       // Write out phenomenological rate coefficients.
       PrintPhenomenologicalRates(Kr, Kp, mFlags, ppList) ;
+
+	  // If eigenvalues adsorbed calculate an effective set of rate equations.
+	  if (adsorbedCSE > 0) {
+	  }
 
       mesmerRates = Kr;
 	  lossRates = Kp;

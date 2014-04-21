@@ -33,7 +33,7 @@ namespace mesmer
 	~HinderedRotorUtils() {} ; 
 
     virtual const char* getID()  { return m_id; }
-	void set_BondID(string& BondID) {m_bondID = BondID ; } ;
+	void set_BondID(const char *BondID) {m_bondID = string(BondID) ; } ;
 	string get_BondID () const { return m_bondID ; } ;
 
   protected:

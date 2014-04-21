@@ -58,6 +58,15 @@ namespace mesmer
     virtual ~HinderedRotorQM1D() {}
     virtual HinderedRotorQM1D* Clone() { return new HinderedRotorQM1D(*this); }
 
+	// Override string property utility function.
+	virtual std::string getStrProperty(std::string label) const {
+	  if (label == "BondID") {
+		return get_BondID() ;
+	  } else {
+	    return string("") ;
+	  }
+	} ;
+
   private:
 
 	// Shift potential to origin.
@@ -120,8 +129,7 @@ namespace mesmer
       cerr << "Unknown bond reference " << bondID << endl;
       return false;
     }
-    string strBondID(bondID) ;
-    set_BondID(strBondID) ;
+    set_BondID(bondID) ;
     cinfo << "Hindered rotor " << get_BondID() ;  
 
     //Remove the vibrational frequency that this hindered rotation replaces
