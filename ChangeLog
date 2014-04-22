@@ -1,4 +1,9 @@
 
+2014-April-22 Struan Robertson
+
+	* MolecularComponents.cpp: Fix for bug no. 13 "Internal rotation projection 
+	vector incorrect".
+
 2014-April-21 Struan Robertson
 
 	* HinderedRotorQM1D.cpp, HinderedRotorCM1D.cpp, MolecularComponents.cpp/.h, 

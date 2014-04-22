@@ -2274,8 +2274,7 @@ namespace mesmer
       vector3 b = cross(a, diff) ;
       int atomicOrder = getAtomicOrder(*iter) ;
       if (atomicOrder >= 0) {
-        size_t location = 3*size_t(atomicOrder) ;
-        for (size_t i(location), j(0) ; i < location + 2 ; i++, j++) {
+        for (size_t i = 3*size_t(atomicOrder), j(0) ; j < 3 ; i++, j++) {
           mode[i] = b[j] ;
         }
       } else {
