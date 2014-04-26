@@ -9,7 +9,7 @@
   
   <xs:element name="mesmer">
     <xs:complexType>
-      <xs:all>
+      <xs:sequence>
         <xs:element name="title" type="xs:string" minOccurs="0" />
         <xs:element name="description" minOccurs="0"/>
         <xs:element ref="cml:moleculeList" />
@@ -171,7 +171,7 @@
           </xs:complexType>
         </xs:element>
 
-        <xs:element name="control" minOccurs="1">
+        <xs:element name="control" maxOccurs="unbounded">
           <xs:complexType>
             <xs:all>
               <xs:element name="allowSmallerDeltaEDown" minOccurs="0"/>
@@ -239,6 +239,7 @@
               <xs:element name="testRateConstants" minOccurs="0"/>
               <xs:element name="useTheSameCellNumberForAllConditions" minOccurs="0"/>
           </xs:all>
+            <xs:attribute name="active" type="me:ynboolean" use="optional"/>
           </xs:complexType>
         </xs:element>
 
@@ -259,7 +260,7 @@
             </xs:documentation>
           </xs:annotation>  
         </xs:element>
-      </xs:all>
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
 

@@ -100,8 +100,7 @@ namespace mesmer
 
 
   System::System(const std::string& libraryfilename) : m_pMoleculeManager(0), 
-    m_pReactionManager(0),
-	m_pConditionsManager(0),
+    m_pReactionManager(0), 
     m_pTitle(NULL),
     m_pDescription(NULL)
   {
@@ -111,7 +110,6 @@ namespace mesmer
   System::~System() {
     delete m_pReactionManager;
     delete m_pMoleculeManager;
-    delete m_pConditionsManager;
   }
 
   // Initialize the System object.
@@ -122,115 +120,124 @@ namespace mesmer
     return m_collisionOperator.initialize(m_pMoleculeManager, m_pReactionManager);
   }
 
-  //
-  // Parse an input data file.
-  //
-  bool System::parse(PersistPtr ppIOPtr)
+//
+// Parse an input data file.
+//
+bool System::parse(PersistPtr ppIOPtr)
+{
+  initializeConversionMaps();
+  m_ppIOPtr = ppIOPtr;
+
+  m_pTitle       = ppIOPtr->XmlReadValue("title", false);
+  if(!m_pTitle)
+    m_pTitle = ppIOPtr->XmlReadValue("me:title", false);
+  m_pDescription = ppIOPtr->XmlReadValue("description", false);
+  if(!m_pDescription)
+    m_pDescription = ppIOPtr->XmlReadValue("me:description", false);
+
+  // What are we going to do?
+
+  PersistPtr ppControl = ppIOPtr;//first time at top, then gets next block
+  while(ppControl = ppControl->XmlMoveTo("me:control"))
   {
-    initializeConversionMaps();
-    m_ppIOPtr = ppIOPtr;
-
-    m_pTitle       = ppIOPtr->XmlReadValue("title", false);
-    if(!m_pTitle)
-      m_pTitle = ppIOPtr->XmlReadValue("me:title", false);
-    m_pDescription = ppIOPtr->XmlReadValue("description", false);
-    if(!m_pDescription)
-      m_pDescription = ppIOPtr->XmlReadValue("me:description", false);
-
-    // What are we going to do?
-    PersistPtr ppControl = ppIOPtr->XmlMoveTo("me:control");
-
-    if (!ppControl) {
-      cerr << "No control section specified";
-      return false;
-    }
+    //Ignore a <control> that has an attribute  active="false","no" or "0"
+    const char* txt = ppControl->XmlReadValue("active",optional);
+    if(txt && !ppControl->XmlReadBoolean("active"))
+      continue;
 
     m_CalcMethod = ParseForPlugin<CalcMethod>(this, "me:calcMethod", ppControl);
     if(!m_CalcMethod)
       return false;
+    m_CalcMethodsForEachControl.push_back(m_CalcMethod); //for each <control> block
 
-    //Molecule List (parse this part as required ...)
-    PersistPtr ppMolList = ppIOPtr->XmlMoveTo("moleculeList");
-    m_pMoleculeManager->set_PersistPtr(ppMolList);
+    // Parse molecules, reactions, parameters and conditions only
+    // in conjunction with the first control block.
+    if(m_CalcMethodsForEachControl.size()==1)
+    {
+      //Molecule List (parse this part as required ...)
+      PersistPtr ppMolList = ppIOPtr->XmlMoveTo("moleculeList");
+      m_pMoleculeManager->set_PersistPtr(ppMolList);
 
-    if (m_CalcMethod->DoesOwnParsing()) {
-      // Thermodynamic table, UnitTests,etc. do their own file parsing.
-      return true ;
-    }
+      if (m_CalcMethod->DoesOwnParsing()) {
+        // Thermodynamic table, UnitTests,etc. do their own file parsing.
+        m_FlagsForEachControl.push_back(m_Flags);
+        return true ;
+      }
 
-    //-------------
-    //Model Parameters 
-    PersistPtr ppParams;
-    //Add this section if it does not exist, to contain defaults
-    while(!(ppParams = ppIOPtr->XmlMoveTo("me:modelParameters")))
-      ppIOPtr->XmlWriteElement("me:modelParameters");
+      //-------------
+      //Model Parameters 
+      PersistPtr ppParams;
+      //Add this section if it does not exist, to contain defaults
+      while(!(ppParams = ppIOPtr->XmlMoveTo("me:modelParameters")))
+        ppIOPtr->XmlWriteElement("me:modelParameters");
 
-    // The grain size and grain number are linked via the total maximum energy,
-    // so only on of then is independent. Look for grain size first and if that
-    // fails look for the Max. number of grains.
+      // The grain size and grain number are linked via the total maximum energy,
+      // so only on of then is independent. Look for grain size first and if that
+      // fails look for the Max. number of grains.
 
-    m_Env.GrainSize = ppParams->XmlReadInteger("me:grainSize", optional);
-    if (m_Env.GrainSize==0) {      
-      m_Env.MaxGrn = ppParams->XmlReadInteger("me:numberOfGrains",optional);
-      if (IsNan(m_Env.MaxGrn))
-        m_Env.MaxGrn=0;
-    }
+      m_Env.GrainSize = ppParams->XmlReadInteger("me:grainSize", optional);
+      if (m_Env.GrainSize==0) {      
+        m_Env.MaxGrn = ppParams->XmlReadInteger("me:numberOfGrains",optional);
+        if (IsNan(m_Env.MaxGrn))
+          m_Env.MaxGrn=0;
+      }
 
-    m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
-    if(IsNan(m_Env.MaximumTemperature))
-      m_Env.MaximumTemperature = 0.0;
-    m_Env.EAboveHill         = ppParams->XmlReadDouble("me:energyAboveTheTopHill");
-    m_Env.useBasisSetMethod  = ppParams->XmlReadBoolean("me:runBasisSetMethodroutines");
-    if (m_Env.useBasisSetMethod) {
-      PersistPtr ppBasisSet = ppParams->XmlMoveTo("me:runBasisSetMethodroutines");
-      if(ppBasisSet) {
-        m_Env.nBasisSet = ppBasisSet->XmlReadInteger("me:numberBasisFunctions");
-      } else {
-        cerr << "Basis set method requested but number of basis functions unspecified.";
+      m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
+      if(IsNan(m_Env.MaximumTemperature))
+        m_Env.MaximumTemperature = 0.0;
+      m_Env.EAboveHill         = ppParams->XmlReadDouble("me:energyAboveTheTopHill");
+      m_Env.useBasisSetMethod  = ppParams->XmlReadBoolean("me:runBasisSetMethodroutines");
+      if (m_Env.useBasisSetMethod) {
+        PersistPtr ppBasisSet = ppParams->XmlMoveTo("me:runBasisSetMethodroutines");
+        if(ppBasisSet) {
+          m_Env.nBasisSet = ppBasisSet->XmlReadInteger("me:numberBasisFunctions");
+        } else {
+          cerr << "Basis set method requested but number of basis functions unspecified.";
+          return false;
+        }
+      }
+      PersistPtr pp = ppParams->XmlMoveTo("me:automaticallySetMaxEne");
+      if (pp) {
+        m_Flags.autoSetMaxEne = true;
+        m_Flags.popThreshold = ppParams->XmlReadDouble("me:automaticallySetMaxEne");
+      }
+      cinfo.flush();
+
+      //Reaction Conditions
+      PersistPtr ppConditions = ppIOPtr->XmlMoveTo("me:conditions");
+      if(!ppConditions)
+      {
+        cerr << "No conditions specified";
         return false;
       }
-    }
-    PersistPtr pp = ppParams->XmlMoveTo("me:automaticallySetMaxEne");
-    if (pp) {
-      m_Flags.autoSetMaxEne = true;
-      m_Flags.popThreshold = ppParams->XmlReadDouble("me:automaticallySetMaxEne");
-    }
-    cinfo.flush();
 
-    //Reaction Conditions
-    PersistPtr ppConditions = ppIOPtr->XmlMoveTo("me:conditions");
-    if(!ppConditions)
-    {
-      cerr << "No conditions specified";
-      return false;
+      if(!m_pConditionsManager->ParseBathGas(ppConditions))
+        return false;;
+
+      //Reaction List
+      PersistPtr ppReacList = ppIOPtr->XmlMoveTo("reactionList");
+      if(!ppReacList)
+      {
+        cerr << "No reactions have been specified";
+        return false;
+      }
+      if(!m_pReactionManager->addreactions(ppReacList, m_Env, m_Flags))
+        return false;
+
+      //Check that the energy baseline is the same for all the modelled molecules
+      string energyConvention = m_pMoleculeManager->checkEnergyConventions();
+      if(energyConvention.empty())
+      {
+        cerr << "The zero point energy convention is not the same for all species.\n";
+        return false;
+      }
+      else
+        cinfo << "All molecules are on the same energy basis: " << energyConvention << endl;
+      cinfo.flush();
+
+      if(!m_pConditionsManager->ParseConditions())
+        return false;
     }
-
-    if(!m_pConditionsManager->ParseBathGas(ppConditions))
-      return false;;
-
-    //Reaction List
-    PersistPtr ppReacList = ppIOPtr->XmlMoveTo("reactionList");
-    if(!ppReacList)
-    {
-      cerr << "No reactions have been specified";
-      return false;
-    }
-    if(!m_pReactionManager->addreactions(ppReacList, m_Env, m_Flags))
-      return false;
-
-    //Check that the energy baseline is the same for all the modelled molecules
-    string energyConvention = m_pMoleculeManager->checkEnergyConventions();
-    if(energyConvention.empty())
-    {
-      cerr << "The zero point energy convention is not the same for all species.\n";
-      return false;
-    }
-    else
-      cinfo << "All molecules are on the same energy basis: " << energyConvention << endl;
-    cinfo.flush();
-
-    if(!m_pConditionsManager->ParseConditions())
-      return false;
 
     if(ppControl)
     {
@@ -310,21 +317,31 @@ namespace mesmer
       if (pp)
         if(!m_collisionOperator.parseDataForGrainProfileAtTime(pp))
           return false;
+
+      //Copy flags to vectore and make a fresh m_Flags
+      m_FlagsForEachControl.push_back(m_Flags);
+      m_Flags = MesmerFlags();
     } 
-
-    if(!Rdouble::SetUpLinkedVars())
-      return false;
-
-    return true;
   }
+  if(!Rdouble::SetUpLinkedVars())
+    return false;
+
+  return true;
+}
 
   //
   // Main calculation method.
   //
   void System::executeCalculation()
   {
-    assert(m_CalcMethod);
-    m_CalcMethod->DoCalculation(this);
+    for(unsigned i=0; i<m_CalcMethodsForEachControl.size();++i)
+    {
+      m_CalcMethod = m_CalcMethodsForEachControl[i];
+      m_Flags = m_FlagsForEachControl[i];
+      assert(m_CalcMethod);
+      cinfo << "Execute calcMethod " << m_CalcMethod->getID() << endl;
+      m_CalcMethod->DoCalculation(this);
+    }
   }
 
   //
@@ -830,5 +847,15 @@ namespace mesmer
     clog << "qd_real min == " << numeric_limits<qd_real>::min() << endl;
   }
 
+/* 
+System::parse() loops to read all <control> blocks.
+CalcMethod is pushed to a vector<CalcMethod> calcMethods
+Make a MesmerFlags, populate it, push to vector<MesmerFlags> flags
+
+System::executeCalculation()
+for loop over size of calcMethods
+m_CalcMethod set to current member
+copy from flags vector to m_Flags
+*/
 } //namespace
 

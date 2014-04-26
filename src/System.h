@@ -80,12 +80,14 @@ namespace mesmer
 
     // Mesmer control flags.
     MesmerFlags m_Flags;
+    
+    // for each <control> block
+    std::vector<MesmerFlags> m_FlagsForEachControl;
+    std::vector<CalcMethod*> m_CalcMethodsForEachControl;
 
     MesmerEnv& getEnv() { return m_Env; } ;
 
   private:
-
-//    void readPTs(PersistPtr);
 
     double calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals) ;
     double calcChiSqYields(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals);
@@ -98,9 +100,7 @@ namespace mesmer
     MoleculeManager *m_pMoleculeManager;
 
     // Location of the reaction mananger.
-    ReactionManager *m_pReactionManager;
-
-    // Location of the conditions mananger.
+    ReactionManager *m_pReactionManager ;
     ConditionsManager* m_pConditionsManager;
 
     // Physical variables. Reference to this are passed to all Molecule and Reaction constructors.
