@@ -829,7 +829,8 @@ namespace mesmer
 
   // Calculate vibrational frequencies from molecular Hessian. This method 
   // projects out the overall translation and rotation vectors as defined 
-  // in Wilson, Decius and Cross. Molecular Vibrations, Dover 1980.
+  // in Wilson, Decius and Cross. Molecular Vibrations, Dover 1980. See
+  // also Miller, Handy and Adams JCP, Vol, 72, 99 (1980).
   bool gDensityOfStates::FrqsFromHessian() {
 
     const size_t msize = m_Hessian->size() ;
@@ -2186,15 +2187,12 @@ namespace mesmer
     if(NumAtoms()==2)
       m_PrincipalMI[0] = szz;
     else {
-      MI[0][0] = syy+szz;
-      MI[0][1] = -sxy;
-      MI[0][2] = -sxz; 
-      MI[1][0] = -sxy;
-      MI[1][1] = sxx+szz;
-      MI[0][2] = -syz; 
-      MI[2][0] = -sxz;
-      MI[2][1] = -syz; 
+      MI[0][0] = syy + szz;
+      MI[1][1] = sxx + szz;
       MI[2][2] = sxx + syy;
+      MI[0][1] = MI[1][0] = -sxy;
+      MI[0][2] = MI[2][0] = -sxz;      
+      MI[1][2] = MI[2][1] = -syz; 
 
       MI.diagonalize(&m_PrincipalMI[0]);
 
@@ -2263,19 +2261,21 @@ namespace mesmer
   }
 
   // Calculates internal rotation eigenvector about an axis define by at1 and at2.
-  bool gStructure::CalcInternalRotVec(vector<string> atomset, vector3 at1, vector3 at2, vector<double> &mode)
+  bool gStructure::CalcInternalRotVec(vector<string> atomset, vector3 at1, vector3 at2, vector<double> &mode, bool ApplyMWeight)
   {
     vector3 diff = at1 - at2 ;
     diff.normalize() ;
     vector<string>::iterator iter;
     for(iter=atomset.begin(); iter!=atomset.end(); ++iter)
     {
+      double massWeight = (ApplyMWeight) ? sqrt(atomMass( Atoms[*iter].element )) : 1.0 ;
       vector3 a = Atoms[*iter].coords - at1 ;
       vector3 b = cross(a, diff) ;
       int atomicOrder = getAtomicOrder(*iter) ;
       if (atomicOrder >= 0) {
-        for (size_t i = 3*size_t(atomicOrder), j(0) ; j < 3 ; i++, j++) {
-          mode[i] = b[j] ;
+        size_t location = 3*size_t(atomicOrder) ;
+        for (size_t i(location), j(0) ; j < 3 ; i++, j++) {
+          mode[i] = massWeight*b[j] ;
         }
       } else {
         string errorMsg = "Problem with calculation of internal rotation eigenvector. Atomic order is not correactly defined.";
@@ -2301,6 +2301,8 @@ namespace mesmer
     }
     centreOfMass /= sm ;
 
+	// Determine ther inertial tensor for overall rotation.
+
     dMatrix MI(3, 0.0);
     double sxx = 0.0, syy = 0.0, szz = 0.0, sxy = 0.0, sxz = 0.0, syz = 0.0;
     for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter) {
@@ -2315,15 +2317,12 @@ namespace mesmer
       syz += m * c.y() * c.z();
     }
 
-    GRIT[0][0] = syy+szz;
-    GRIT[0][1] = -sxy;
-    GRIT[0][2] = -sxz; 
-    GRIT[1][0] = -sxy;
-    GRIT[1][1] = sxx+szz;
-    GRIT[0][2] = -syz; 
-    GRIT[2][0] = -sxz;
-    GRIT[2][1] = -syz; 
+    GRIT[0][0] = syy + szz;
+    GRIT[1][1] = sxx + szz;
     GRIT[2][2] = sxx + syy;
+    GRIT[0][1] = GRIT[1][0] = -sxy;
+    GRIT[0][2] = GRIT[2][0] = -sxz;  
+    GRIT[1][2] = GRIT[2][1] = -syz; 
 
     // Calculate the velocity vectors (based on the Sharma, Raman and Green vector).
 
@@ -2337,36 +2336,41 @@ namespace mesmer
       vector<double> velocity(3*NumAtoms(), 0.0);
 
       // Calculate the velocity vector for rotation about bond axis of atoms on one side of bond...
-      vector<string> atomset;
-      atomset.push_back(bondats.second); // Will not look beyond this atom on the other side of the bond.
-      GetAttachedAtoms(atomset, bondats.first);
-      atomset.erase(atomset.begin()); // The other side of the bond is not in this set.
-      CalcInternalRotVec(atomset, coords1, coords2, velocity) ;
+      vector<string> atomset1;
+      atomset1.push_back(bondats.second); // Will not look beyond this atom on the other side of the bond.
+      GetAttachedAtoms(atomset1, bondats.first);
+      atomset1.erase(atomset1.begin()); // The other side of the bond is not in this set.
+      double mm1 = CalcMomentAboutAxis(atomset1, coords1, coords2);
+      CalcInternalRotVec(atomset1, coords1, coords2, velocity, false) ;
 
       //...and the other side of the bond
-      atomset.clear();
-      atomset.push_back(bondats.first);
-      GetAttachedAtoms(atomset, bondats.second);
-      atomset.erase(atomset.begin());
-      CalcInternalRotVec(atomset, coords2, coords1, velocity) ;
+      vector<string> atomset2;
+      atomset2.push_back(bondats.first);
+      GetAttachedAtoms(atomset2, bondats.second);
+      atomset2.erase(atomset2.begin());
+      double mm2 = CalcMomentAboutAxis(atomset2, coords2, coords1);
+      CalcInternalRotVec(atomset2, coords2, coords1, velocity, false) ;
 
-      // Remove centre of mass velocity.
-      double smvx(0.0), smvy(0.0), smvz(0.0) ; 
+	  double fctr1 = mm2/(mm1 + mm2) ;
+	  ApplyInertiaWeighting(atomset1, velocity, fctr1) ;
+
+	  double fctr2 = mm1/(mm1 + mm2) ;
+	  ApplyInertiaWeighting(atomset2, velocity, fctr2) ;
+
+	  // Remove centre of mass velocity.
+      vector3 centreOfMassVelocity; 
       for (size_t j(0) ; j < m_atomicOrder.size() ; j++ ){
-        size_t location = 3*size_t(j) ;
         double mass = atomMass( (Atoms.find(m_atomicOrder[j]))->second.element ) ;
-        smvx += mass*velocity[location++] ;
-        smvy += mass*velocity[location++] ;
-        smvz += mass*velocity[location++] ;
+		vector3 vtmp ;
+		vtmp.Set(&velocity[3*j]) ;
+		centreOfMassVelocity += mass*vtmp ;
       }
-      smvx /= sm ;
-      smvy /= sm ;
-      smvz /= sm ;
+      centreOfMassVelocity /= sm ;
 
       for (size_t j(0), idx(0) ; j < m_atomicOrder.size() ; j++ ){
-        velocity[idx++] -= smvx ;
-        velocity[idx++] -= smvy ;
-        velocity[idx++] -= smvz ;
+		for (size_t n(0) ; n < 3 ; idx++, n++) {
+		  velocity[idx] -= centreOfMassVelocity[n] ;
+		}
       }
 
       velocities[i] = velocity ;
@@ -2375,8 +2379,8 @@ namespace mesmer
     // Calculate the internal kinetic energy terms.
 
     for (size_t i(0), ii(3) ; i < bondIDs.size() ; i++, ii++) {
-      for (size_t j(i), jj(3) ; j < bondIDs.size() ; j++, jj++) {
-        vector<double> &vi = velocities[i] ;
+      vector<double> &vi = velocities[i] ;
+      for (size_t j(i), jj(ii) ; j < bondIDs.size() ; j++, jj++) {
         vector<double> &vj = velocities[j] ;
         double smk(0.0) ;
         for (size_t m(0), idx(0) ; m < m_atomicOrder.size() ; m++ ){
@@ -2399,22 +2403,38 @@ namespace mesmer
       for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter) {
 		size_t ll = 3*getAtomicOrder(iter->first) ;
         vector3 r = iter->second.coords ;
-        vector3 v(vi[ll],vi[++ll],vi[++ll]) ;
+		vector3 vtmp ;
+		vtmp.Set(&vi[ll]) ;
         double mass = atomMass( iter->second.element ) ;
-		coriolis += mass*cross(r, v) ;
+		coriolis += mass*cross(r, vtmp) ;
       }
-      GRIT[ii][0] = coriolis.x() ;
-      GRIT[0][ii] = GRIT[ii][0] ;
-      GRIT[ii][1] = coriolis.y() ;
-      GRIT[1][ii] = GRIT[ii][1] ;
-      GRIT[ii][2] = coriolis.z() ;
-      GRIT[2][ii] = GRIT[ii][2] ;
+      GRIT[0][ii] = GRIT[ii][0] = coriolis.x() ;
+      GRIT[1][ii] = GRIT[ii][1] = coriolis.y() ;
+      GRIT[2][ii] = GRIT[ii][2] = coriolis.z() ;
     }
 
-    //string MatrixTitle("Generalized rotation inertia tensor:") ;
-    //GRIT.print(MatrixTitle, ctest);
+ //   string MatrixTitle("Generalized rotation inertia tensor:") ;
+ //   GRIT.print(MatrixTitle, ctest);
+	//ctest << endl ;
+
+	//dMatrix invGRIT(GRIT) ;
+ //	invGRIT.invertGaussianJordan() ;
+ //   MatrixTitle = "Inverse of Generalized rotation inertia tensor:" ;
+ //   invGRIT.print(MatrixTitle, ctest);
 
 	return ;
+  }
+
+  // Apply inertia weighting to the raw internal rotation velocity vector.
+  void gStructure::ApplyInertiaWeighting(vector<string> &atomset, vector<double> &velocity, double fctr) const
+  {
+	  for(size_t j(0) ; j < atomset.size() ; j++ )
+	  {
+		size_t i = 3*size_t(getAtomicOrder(atomset[j])) ;
+		for (size_t n(0) ; n < 3 ; i++, n++) {
+		  velocity[i] *=fctr ;
+		}
+	  }
   }
 
   // Returns the rotational constants (in cm-1) in a vector.

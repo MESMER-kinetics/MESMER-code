@@ -494,7 +494,7 @@ namespace mesmer
     double CalcMomentAboutAxis(std::vector<std::string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2);
 
     // Calculates internal rotation eigenvector about an axis define by at1 and at2.
-    bool CalcInternalRotVec(std::vector<string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2, vector<double> &mode) ;
+    bool CalcInternalRotVec(std::vector<string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2, vector<double> &mode, bool ApplyMWeight = true) ;
 
     // Read librarymols.xml to obtain the ab initio energy and enthalpy at zero K
     // for an isolated atom of each atom type in the molecule.
@@ -536,6 +536,9 @@ namespace mesmer
 
 	// Calculates the GRIT for the current set of coodinates.
 	void getGRIT(dMatrix &GRIT, vector<string>& bondIDs) ;
+
+    // Apply inertia weighting to the raw internal rotation velocity vector.
+    void ApplyInertiaWeighting(vector<string> &atomset, vector<double> &velocity, double fctr) const ;
 
   };
 
