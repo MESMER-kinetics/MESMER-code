@@ -14,6 +14,7 @@
 //-------------------------------------------------------------------------------------------
 #include "Matrix.h"
 #include <string>
+#include <cstring>
 #include <cmath>
 #include <climits>
 #include <stdio.h>

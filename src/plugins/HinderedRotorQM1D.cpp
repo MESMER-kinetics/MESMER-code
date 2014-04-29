@@ -246,11 +246,7 @@ namespace mesmer
         set_Expansion(pp->XmlReadInteger("expansionSize",optional));
 
         // Check if sine terms are to be used.
-
-        const char *pUseSineTerms(pp->XmlReadValue("useSineTerms",optional)) ;
-        if (pUseSineTerms && string(pUseSineTerms) == "yes") {
-          set_UseSinTerms(true) ;
-        }
+        set_UseSinTerms(pp->XmlReadBoolean("useSineTerms") || pp->XmlReadBoolean("UseSineTerms"));
 
         while(pp = pp->XmlMoveTo("me:PotentialPoint"))
         {
