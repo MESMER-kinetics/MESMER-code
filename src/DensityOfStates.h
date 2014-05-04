@@ -63,9 +63,6 @@ namespace mesmer
     const Molecule* getParent() const {return m_parent;} ;
     void setParent(const Molecule* parent) { m_parent = parent;} ;
 
-	// Utility function to get properties on density of states calculators for use elsewhere.
-	virtual std::string getStrProperty(std::string label) const { return std::string("") ; } ;
-
   private:
     const Molecule* m_parent;
 

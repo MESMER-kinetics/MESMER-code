@@ -45,7 +45,7 @@ namespace mesmer
     // This class is an extra DOS class: a non-extra DensityOfStatesCalculator class also
     // needs to be specified.
     HinderedRotorQM1D(const char* id) : 
-      HinderedRotorUtils(id),
+    HinderedRotorUtils(id),
       m_periodicity(1),
       m_kineticCosCoeff(),
       m_kineticSinCoeff(),
@@ -58,18 +58,9 @@ namespace mesmer
     virtual ~HinderedRotorQM1D() {}
     virtual HinderedRotorQM1D* Clone() { return new HinderedRotorQM1D(*this); }
 
-	// Override string property utility function.
-	virtual std::string getStrProperty(std::string label) const {
-	  if (label == "BondID") {
-		return get_BondID() ;
-	  } else {
-	    return string("") ;
-	  }
-	} ;
-
   private:
 
-	// Shift potential to origin.
+    // Shift potential to origin.
     void ShiftPotential() ;
 
     // Provide data for plotting states against potential.
@@ -110,10 +101,6 @@ namespace mesmer
       return false;
     }
 
-    // The following vector, "mode", will be used to hold the internal rotation 
-    // mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010). 
-    vector<double> mode(3*gs.NumAtoms(), 0.0);
-
     const char* bondID = ppDOSC->XmlReadValue("bondRef",optional);
     if(!bondID)
       bondID = ppDOSC->XmlReadValue("me:bondRef",optional);
@@ -122,6 +109,9 @@ namespace mesmer
       cerr << "No <bondRef> specified for the hindered rotating bond" <<endl;
       return false;
     }
+
+    // Save rotatable bond ID for calculation of GRIT.
+    gs.addRotBondID(string(bondID)) ;
 
     pair<string,string> bondats = gs.GetAtomsOfBond(bondID);
     if(bondats.first.empty())
@@ -182,10 +172,16 @@ namespace mesmer
 
     } else {
 
-      // Calculate reduced moment of inertia.
+      pp = ppDOSC->XmlMoveTo("me:CalculateInternalRotorInertia") ;
+      if (pp) {
+        set_CalIntrlIrt(true) ;
+      } else {
 
-      double reducedMoI(reducedMomentInertia(gs, bondats, mode)) ;  //units a.u.*Angstrom*Angstrom
-      m_kineticCosCoeff.push_back(conMntInt2RotCnt/reducedMoI) ;
+        // Calculate reduced moment of inertia.
+
+        double reducedMoI(gs.reducedMomentInertia(bondats)) ;  // Units a.u.*Angstrom*Angstrom.
+        m_kineticCosCoeff.push_back(conMntInt2RotCnt/reducedMoI) ;
+      }
     }
 
     // Read in potential information.
@@ -288,6 +284,10 @@ namespace mesmer
     // associated with this internal rotation.
 
     if (gdos->hasHessian()) {
+      // The following vector, "mode", will be used to hold the internal rotation 
+      // mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010). 
+      vector<double> mode(3*gs.NumAtoms(), 0.0);
+      gs.internalRotationVector(get_BondID(), mode) ;
       if(!gdos->projectMode(mode)) {
         cerr << "Failed to project out internal rotation." <<endl;
         return false;
@@ -327,10 +327,22 @@ namespace mesmer
     const vector<double>&  potentialCosCoeff = get_PotentialCosCoeff() ;
     const vector<double>&  potentialSinCoeff = get_PotentialSinCoeff() ;
     const bool useSinTerms = get_UseSinTerms() ;
+    const bool calIntrlIrt = get_CalIntrlIrt() ;
+
+	// Calculate the (angle dependent) internal moment of inertia. This
+	// has to be done at the point in order to capture any interaction
+	// with other internal rotors.
+
+	if (calIntrlIrt) {
+	  gStructure& gs = pDOS->getHost()->getStruc();
+	  pair<string,string> bondats = gs.GetAtomsOfBond(get_BondID());
+	  double reducedMoI(gs.reducedMomentInertia(bondats)) ;  // Units a.u.*Angstrom*Angstrom.
+	  m_kineticCosCoeff.push_back(conMntInt2RotCnt/reducedMoI) ;
+	}
 
     // Find maximum quantum No. for rotor. To ensure convergence basis functions 
-	// that span a range twice that request are used with a minimum of 100000
-	// wavenumbers which appears in the definition of root below. 
+    // that span a range twice that request are used with a minimum of 100000
+    // wavenumbers which appears in the definition of root below. 
 
     double bint    = m_kineticCosCoeff[0] ;
     double root    = sqrt(double(max(2*MaximumCell,size_t(100000)))/bint) ;
@@ -573,7 +585,7 @@ namespace mesmer
     // Calculate the Moment of inertia at a set of points.
 
     const size_t nAngle(360) ;
-	const double dAngle(2.0*M_PI/double(nAngle)) ;
+    const double dAngle(2.0*M_PI/double(nAngle)) ;
 
     vector<double> MoI(nAngle, 0.0) ;
     vector<double> angle(nAngle, 0.0) ;

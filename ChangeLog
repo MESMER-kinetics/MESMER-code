@@ -1,10 +1,15 @@
+2014-May-04 Struan Robertson
+
+	* HinderedRotorQM1D.cpp, HinderedRotorCM1D.cpp, MolecularComponents.cpp/.h: 
+	Refactoring of code between class gstructure and the hindered rotor classes 
+	in order to simplify the calculation of an angle dependent GRIT.
+
 2014-April-29 Chris Morley
 	* src/plugins/HinderedRotorQM1D.cpp, src/plugins/HinderedRotorCM1D.cpp:
 	accept both "useSineTerms" and "UseSineTerms" and "yes", "true", "1" for
 	the positive value.
 
 	* src/TMatrix.h: extra #include <cstring> which might help Linux build.
-
 
 2014-April-27 Struan Robertson
 

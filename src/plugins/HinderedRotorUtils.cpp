@@ -18,43 +18,6 @@ namespace mesmer
   using OpenBabel::vector3;
 
   //
-  // Calculate the reduced moment of inertia.
-  //
-  double HinderedRotorUtils::reducedMomentInertia(gStructure& gs, pair<string,string>& bondats, vector<double>& mode) {
-
-    vector3 coords1 = gs.GetAtomCoords(bondats.first);
-    vector3 coords2 = gs.GetAtomCoords(bondats.second);
-
-    // Calculate moment of inertia about bond axis of atoms on one side of bond...
-    vector<string> atomset;
-    atomset.push_back(bondats.second); //will not look beyond this atom on the other side of the bond
-    gs.GetAttachedAtoms(atomset, bondats.first);
-    atomset.erase(atomset.begin()); //the other side of the bond is not in this set
-    double mm1 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);
-    gs.CalcInternalRotVec(atomset, coords1, coords2, mode) ;
-
-    //...and the other side of the bond
-    atomset.clear();
-    atomset.push_back(bondats.first);
-    gs.GetAttachedAtoms(atomset, bondats.second);
-    atomset.erase(atomset.begin());
-    double mm2 = gs.CalcMomentAboutAxis(atomset, coords1, coords2);
-    gs.CalcInternalRotVec(atomset, coords2, coords1, mode) ;
-
-    /*
-    Is the reduced moment of inertia needed about the bond axis or, separately for the set of
-    atoms on each side of the bond, about a parallel axis through their centre of mass?
-    See:
-    http://www.ccl.net/chemistry/resources/messages/2001/03/21.005-dir/index.html
-    http://www.ccl.net/chemistry/resources/messages/2001/03/31.002-dir/index.html
-    The bond axis is used here.
-    */
-
-    return mm1 * mm2 / ( mm1 + mm2 ); //units a.u.*Angstrom*Angstrom
-
-  }
-
-  //
   // Calculate cosine coefficients from potential data points.
   //
   void HinderedRotorUtils::FourierCoeffs(vector<double> &angle, vector<double> &potential)

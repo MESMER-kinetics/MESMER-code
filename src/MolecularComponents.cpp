@@ -1109,31 +1109,8 @@ namespace mesmer
   // Method to calculate the combined external and internal rotor kinetic energy tensor.
   bool gDensityOfStates::calculateGRIT() {
 
-    // Find the number of internal rotors.
-    vector<DensityOfStatesCalculator*> HIRDOSCalculators;
-    for(size_t i(0); i<m_DOSCalculators.size(); ++i) {
-      string type = m_DOSCalculators[i]->getID() ;
-      if (type == "HinderedRotorQM1D" || type == "HinderedRotorCM1D") 
-        HIRDOSCalculators.push_back(m_DOSCalculators[i]) ;
-    }
-
-    // If there are no hindered rotors there is nothing to be done.
-    if (HIRDOSCalculators.size() < 1) 
-      return true ;
-
-    // Find the IDs for those bonds about which hindered rotation occurs.
-    vector<string> bondIDs ;
-    for (size_t i(0); i<HIRDOSCalculators.size(); ++i) {
-      string bondID = HIRDOSCalculators[i]->getStrProperty("BondID") ;
-      bondIDs.push_back(bondID) ;
-    }
-
-    // Reserve space for the GRIT.
-    size_t msize(HIRDOSCalculators.size() + 3) ;
-    dMatrix GRIT(msize, 0.0) ;
-
     gStructure& gs = m_host->getStruc() ;
-    gs.getGRIT(GRIT, bondIDs);
+    gs.getGRIT() ;
 
     return true ;
 
@@ -2035,7 +2012,8 @@ namespace mesmer
     Atoms(),
     Bonds(),
     m_atomicOrder(),
-    m_HasCoords(false) 
+    m_HasCoords(false),
+    m_RotBondIDs()
   {
     ErrorContext c(pMol->getName());
     m_host = pMol;
@@ -2217,7 +2195,6 @@ namespace mesmer
     return status ;
   }
 
-
   double gStructure::CalcMW()
   {
     map<string, atom>::iterator iter;
@@ -2230,7 +2207,7 @@ namespace mesmer
   // Returns in atomset the IDs of all the atoms attached to atomID via bonds,
   // but does not include any atoms already in atomset or atoms beyond them.
   // Handles rings. (Recursive function) 
-  void gStructure::GetAttachedAtoms(vector<string>& atomset, const string& atomID)
+  void gStructure::GetAttachedAtoms(vector<string>& atomset, const string& atomID) 
   {
     atomset.push_back(atomID);
     vector<string>::iterator coniter;
@@ -2286,8 +2263,73 @@ namespace mesmer
     return true ;
   }
 
+  // For a bond between atom at1 and atom at2 find all the atoms connected to at1
+  // excluding those connect via at2.
+  void gStructure::findRotorConnectedAtoms(vector<string> &atomset, const string at1, const string at2) {
+    atomset.push_back(at2); // Will not look beyond this atom on the other side of the bond.
+    GetAttachedAtoms(atomset, at1);
+    atomset.erase(atomset.begin()); // The other side of the bond is not in this set.
+  }
+
+  // Calculate the reduce moment of inertia about axis defined by specifed atoms.
+  double gStructure::reducedMomentInertia(pair<string,string>& bondats) {
+
+    vector3 coords1 = GetAtomCoords(bondats.first);
+    vector3 coords2 = GetAtomCoords(bondats.second);
+
+    // Calculate moment of inertia about bond axis of atoms on one side of bond...
+    vector<string> atomset;
+    findRotorConnectedAtoms(atomset, bondats.first, bondats.second) ;
+    double mm1 = CalcMomentAboutAxis(atomset, coords1, coords2) ;
+ 
+    //...and the other side of the bond
+    atomset.clear();
+    findRotorConnectedAtoms(atomset, bondats.second, bondats.first) ;
+    double mm2 = CalcMomentAboutAxis(atomset, coords1, coords2);
+ 
+    /*
+    Is the reduced moment of inertia needed about the bond axis or, separately for the set of
+    atoms on each side of the bond, about a parallel axis through their centre of mass?
+    See:
+    http://www.ccl.net/chemistry/resources/messages/2001/03/21.005-dir/index.html
+    http://www.ccl.net/chemistry/resources/messages/2001/03/31.002-dir/index.html
+    The bond axis is used here.
+    */
+
+    return mm1 * mm2 / ( mm1 + mm2 ); //units a.u.*Angstrom*Angstrom
+
+  }
+
+  // Calculate the internal rotation eigenvector. Based on the internal rotation 
+  // mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010).
+  // Typically this vector is used to project out an internal rotational mode
+  // from a Hessian.
+  void gStructure::internalRotationVector(string bondID, vector<double>& mode) {
+
+	pair<string,string> bondats = GetAtomsOfBond(bondID);
+
+    vector3 coords1 = GetAtomCoords(bondats.first);
+    vector3 coords2 = GetAtomCoords(bondats.second);
+
+    // Calculate moment of inertia about bond axis of atoms on one side of bond...
+    vector<string> atomset;
+    findRotorConnectedAtoms(atomset, bondats.first, bondats.second) ;
+    double mm1 = CalcMomentAboutAxis(atomset, coords1, coords2) ;
+    CalcInternalRotVec(atomset, coords1, coords2, mode) ;
+
+    //...and the other side of the bond
+    atomset.clear();
+    findRotorConnectedAtoms(atomset, bondats.second, bondats.first) ;
+    double mm2 = CalcMomentAboutAxis(atomset, coords1, coords2);
+    CalcInternalRotVec(atomset, coords2, coords1, mode) ;
+
+  }
+
   // Calculates the GRIT for the current set of coodinates.
-  void gStructure::getGRIT(dMatrix &GRIT, vector<string>& bondIDs) {
+  void gStructure::getGRIT() {
+
+    size_t msize(m_RotBondIDs.size()+ 3) ;
+    dMatrix GRIT(msize, 0.0) ;
 
     // Determine centre of mass.
 
@@ -2301,7 +2343,7 @@ namespace mesmer
     }
     centreOfMass /= sm ;
 
-	// Determine ther inertial tensor for overall rotation.
+    // Determine ther inertial tensor for overall rotation.
 
     dMatrix MI(3, 0.0);
     double sxx = 0.0, syy = 0.0, szz = 0.0, sxy = 0.0, sxz = 0.0, syz = 0.0;
@@ -2326,9 +2368,9 @@ namespace mesmer
 
     // Calculate the velocity vectors (based on the Sharma, Raman and Green vector).
 
-    vector<vector<double> > velocities(bondIDs.size(), vector<double>(3*NumAtoms(), 0.0)) ;
-    for (size_t i(0) ; i < bondIDs.size() ; i++) {
-      pair<string,string> bondats = GetAtomsOfBond(bondIDs[i]);
+    vector<vector<double> > velocities(m_RotBondIDs.size(), vector<double>(3*NumAtoms(), 0.0)) ;
+    for (size_t i(0) ; i < m_RotBondIDs.size() ; i++) {
+      pair<string,string> bondats = GetAtomsOfBond(m_RotBondIDs[i]);
 
       vector3 coords1 = GetAtomCoords(bondats.first);
       vector3 coords2 = GetAtomCoords(bondats.second);
@@ -2337,40 +2379,41 @@ namespace mesmer
 
       // Calculate the velocity vector for rotation about bond axis of atoms on one side of bond...
       vector<string> atomset1;
-      atomset1.push_back(bondats.second); // Will not look beyond this atom on the other side of the bond.
-      GetAttachedAtoms(atomset1, bondats.first);
-      atomset1.erase(atomset1.begin()); // The other side of the bond is not in this set.
+      findRotorConnectedAtoms(atomset1, bondats.first, bondats.second) ;
       double mm1 = CalcMomentAboutAxis(atomset1, coords1, coords2);
       CalcInternalRotVec(atomset1, coords1, coords2, velocity, false) ;
 
       //...and the other side of the bond
       vector<string> atomset2;
-      atomset2.push_back(bondats.first);
-      GetAttachedAtoms(atomset2, bondats.second);
-      atomset2.erase(atomset2.begin());
+      findRotorConnectedAtoms(atomset2, bondats.second, bondats.first) ;
       double mm2 = CalcMomentAboutAxis(atomset2, coords2, coords1);
       CalcInternalRotVec(atomset2, coords2, coords1, velocity, false) ;
 
-	  double fctr1 = mm2/(mm1 + mm2) ;
-	  ApplyInertiaWeighting(atomset1, velocity, fctr1) ;
+      // In the following weights are applied to relative rotation of each 
+      // fragment with respect to each other. IN the limit that one fragment
+      // is infinitely massive the rotation will be confined to the other 
+      // fragment. 
 
-	  double fctr2 = mm1/(mm1 + mm2) ;
-	  ApplyInertiaWeighting(atomset2, velocity, fctr2) ;
+      double fctr1 = mm2/(mm1 + mm2) ;
+      ApplyInertiaWeighting(atomset1, velocity, fctr1) ;
 
-	  // Remove centre of mass velocity.
+      double fctr2 = mm1/(mm1 + mm2) ;
+      ApplyInertiaWeighting(atomset2, velocity, fctr2) ;
+
+      // Remove centre of mass velocity.
       vector3 centreOfMassVelocity; 
       for (size_t j(0) ; j < m_atomicOrder.size() ; j++ ){
         double mass = atomMass( (Atoms.find(m_atomicOrder[j]))->second.element ) ;
-		vector3 vtmp ;
-		vtmp.Set(&velocity[3*j]) ;
-		centreOfMassVelocity += mass*vtmp ;
+        vector3 vtmp ;
+        vtmp.Set(&velocity[3*j]) ;
+        centreOfMassVelocity += mass*vtmp ;
       }
       centreOfMassVelocity /= sm ;
 
       for (size_t j(0), idx(0) ; j < m_atomicOrder.size() ; j++ ){
-		for (size_t n(0) ; n < 3 ; idx++, n++) {
-		  velocity[idx] -= centreOfMassVelocity[n] ;
-		}
+        for (size_t n(0) ; n < 3 ; idx++, n++) {
+          velocity[idx] -= centreOfMassVelocity[n] ;
+        }
       }
 
       velocities[i] = velocity ;
@@ -2378,9 +2421,9 @@ namespace mesmer
 
     // Calculate the internal kinetic energy terms.
 
-    for (size_t i(0), ii(3) ; i < bondIDs.size() ; i++, ii++) {
+    for (size_t i(0), ii(3) ; i < m_RotBondIDs.size() ; i++, ii++) {
       vector<double> &vi = velocities[i] ;
-      for (size_t j(i), jj(ii) ; j < bondIDs.size() ; j++, jj++) {
+      for (size_t j(i), jj(ii) ; j < m_RotBondIDs.size() ; j++, jj++) {
         vector<double> &vj = velocities[j] ;
         double smk(0.0) ;
         for (size_t m(0), idx(0) ; m < m_atomicOrder.size() ; m++ ){
@@ -2397,44 +2440,44 @@ namespace mesmer
 
     // Calculate the Coriolis terms.
 
-    for (size_t i(0), ii(3) ; i < bondIDs.size() ; i++, ii++) {
+    for (size_t i(0), ii(3) ; i < m_RotBondIDs.size() ; i++, ii++) {
       vector<double> &vi = velocities[i] ;
       vector3 coriolis ;
       for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter) {
-		size_t ll = 3*getAtomicOrder(iter->first) ;
+        size_t ll = 3*getAtomicOrder(iter->first) ;
         vector3 r = iter->second.coords ;
-		vector3 vtmp ;
-		vtmp.Set(&vi[ll]) ;
+        vector3 vtmp ;
+        vtmp.Set(&vi[ll]) ;
         double mass = atomMass( iter->second.element ) ;
-		coriolis += mass*cross(r, vtmp) ;
+        coriolis += mass*cross(r, vtmp) ;
       }
       GRIT[0][ii] = GRIT[ii][0] = coriolis.x() ;
       GRIT[1][ii] = GRIT[ii][1] = coriolis.y() ;
       GRIT[2][ii] = GRIT[ii][2] = coriolis.z() ;
     }
 
- //   string MatrixTitle("Generalized rotation inertia tensor:") ;
- //   GRIT.print(MatrixTitle, ctest);
-	//ctest << endl ;
+    //string MatrixTitle("Generalized rotation inertia tensor:") ;
+    //GRIT.print(MatrixTitle, ctest);
+    //ctest << endl ;
 
-	//dMatrix invGRIT(GRIT) ;
- //	invGRIT.invertGaussianJordan() ;
- //   MatrixTitle = "Inverse of Generalized rotation inertia tensor:" ;
- //   invGRIT.print(MatrixTitle, ctest);
+    //dMatrix invGRIT(GRIT) ;
+    //invGRIT.invertGaussianJordan() ;
+    //MatrixTitle = "Inverse of Generalized rotation inertia tensor:" ;
+    //invGRIT.print(MatrixTitle, ctest);
 
-	return ;
+    return ;
   }
 
   // Apply inertia weighting to the raw internal rotation velocity vector.
   void gStructure::ApplyInertiaWeighting(vector<string> &atomset, vector<double> &velocity, double fctr) const
   {
-	  for(size_t j(0) ; j < atomset.size() ; j++ )
-	  {
-		size_t i = 3*size_t(getAtomicOrder(atomset[j])) ;
-		for (size_t n(0) ; n < 3 ; i++, n++) {
-		  velocity[i] *=fctr ;
-		}
-	  }
+    for(size_t j(0) ; j < atomset.size() ; j++ )
+    {
+      size_t i = 3*size_t(getAtomicOrder(atomset[j])) ;
+      for (size_t n(0) ; n < 3 ; i++, n++) {
+        velocity[i] *=fctr ;
+      }
+    }
   }
 
   // Returns the rotational constants (in cm-1) in a vector.

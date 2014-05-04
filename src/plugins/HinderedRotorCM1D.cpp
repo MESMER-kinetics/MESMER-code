@@ -47,15 +47,6 @@ namespace mesmer
     virtual ~HinderedRotorCM1D() {}
     virtual HinderedRotorCM1D* Clone() { return new HinderedRotorCM1D(*this); }
 
-	// Override string property utility function.
-	virtual std::string getStrProperty(std::string label) const {
-	  if (label == "BondID") {
-		return get_BondID() ;
-	  } else {
-	    return string("") ;
-	  }
-	} ;
-
   private:
 
 	double m_reducedMomentInertia;
@@ -81,10 +72,6 @@ namespace mesmer
       return false;
     }
 
-    // The following vector, "mode", will be used to hold the internal rotation 
-    // mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010). 
-    vector<double> mode(3*gs.NumAtoms(), 0.0);
-
     const char* bondID = ppDOSC->XmlReadValue("bondRef",optional);
     if(!bondID)
       bondID = ppDOSC->XmlReadValue("me:bondRef",optional);
@@ -93,6 +80,9 @@ namespace mesmer
       cerr << "No <bondRef> specified for the hindered rotating bond" <<endl;
       return false;
     }
+
+	// Save rotatable bond ID for calculation of GRIT.
+	gs.addRotBondID(string(bondID)) ;
 
     pair<string,string> bondats = gs.GetAtomsOfBond(bondID);
     if(bondats.first.empty())
@@ -118,7 +108,7 @@ namespace mesmer
 
     // Calculate reduced moment of inertia.
 
-    m_reducedMomentInertia = reducedMomentInertia(gs, bondats, mode);  //units a.u.*Angstrom*Angstrom
+    m_reducedMomentInertia = gs.reducedMomentInertia(bondats);  //units a.u.*Angstrom*Angstrom
 
     // Read in potential information.
 
