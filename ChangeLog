@@ -1,3 +1,8 @@
+2014-May-11 Struan Robertson
+
+	* MolecularComponents.cpp/.h: Angle dependent GRIT calculated for a fixed 
+	number of configurations.
+
 2014-May-04 Struan Robertson
 
 	* HinderedRotorQM1D.cpp, HinderedRotorCM1D.cpp, MolecularComponents.cpp/.h: 

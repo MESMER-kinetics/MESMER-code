@@ -247,9 +247,6 @@ namespace mesmer
 	// and then add it to the projected set.
     bool orthogonalizeMode(vector<double> &mode) ;
 
-	// Method to calculate the combined external and internal rotor kinetic energy tensor.
-	bool calculateGRIT() ;
-
   };
 
   class gTransitionState:public MolecularComponent
@@ -479,6 +476,9 @@ namespace mesmer
     // Apply inertia weighting to the raw internal rotation velocity vector.
     void ApplyInertiaWeighting(vector<string> &atomset, vector<double> &velocity, double fctr) const ;
 
+	// Calculates the GRIT for the current set of coordinates.
+	double getGRIT(std::string bondID) ;
+
   public:
 
     gStructure(Molecule* pMol);
@@ -490,8 +490,7 @@ namespace mesmer
 
     int NumAtoms() { return Atoms.size(); }
 
-    bool IsAtom()
-    {
+    bool IsAtom() {
       if(Atoms.empty())
         ReadStructure();
       return Atoms.size()==1;
@@ -510,6 +509,9 @@ namespace mesmer
 
     // Calculate the reduce moment of inertia about axis defined by specifed atoms.
     double reducedMomentInertia(pair<string,string>& bondats) ;
+
+    // Calculate the angular dependent reduce moment of inertia about axis defined by specifed atoms.
+    double reducedMomentInertiaAngular(string bondID) ;
 
 	// Calculate the internal rotation eigenvector. Based on the internal rotation 
 	// mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010).
@@ -558,8 +560,8 @@ namespace mesmer
 	// Add rotatable bond ID (needed to calculate GRIT).
 	void addRotBondID(std::string id) { m_RotBondIDs.push_back(id) ; } ;
 
-	// Calculates the GRIT for the current set of coodinates.
-	void getGRIT() ;
+	// Export to xmol format.
+	void exportToXYZ() const ;
 
   };
 

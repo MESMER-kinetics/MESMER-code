@@ -557,10 +557,6 @@ namespace mesmer
     if (sizeOfVector && vectorSizeConstant && !recalc)
       return true;
 
-    // If required, calculate the generalized rotational inertia tensor.
-
-    calculateGRIT() ;
-
     // Calculate density of states.
     bool ret(true) ; 
     for(size_t i(0); ret && i<m_DOSCalculators.size(); ++i)
@@ -1103,16 +1099,6 @@ namespace mesmer
     for (i = 0 ; i < mode.size() ; i++) {
       mode[i] *= massWeights[i] ;
     }
-
-  }
-
-  // Method to calculate the combined external and internal rotor kinetic energy tensor.
-  bool gDensityOfStates::calculateGRIT() {
-
-    gStructure& gs = m_host->getStruc() ;
-    gs.getGRIT() ;
-
-    return true ;
 
   }
 
@@ -2281,12 +2267,12 @@ namespace mesmer
     vector<string> atomset;
     findRotorConnectedAtoms(atomset, bondats.first, bondats.second) ;
     double mm1 = CalcMomentAboutAxis(atomset, coords1, coords2) ;
- 
+
     //...and the other side of the bond
     atomset.clear();
     findRotorConnectedAtoms(atomset, bondats.second, bondats.first) ;
     double mm2 = CalcMomentAboutAxis(atomset, coords1, coords2);
- 
+
     /*
     Is the reduced moment of inertia needed about the bond axis or, separately for the set of
     atoms on each side of the bond, about a parallel axis through their centre of mass?
@@ -2300,13 +2286,120 @@ namespace mesmer
 
   }
 
+  // Calculate the reduce moment of inertia about axis defined by specifed atoms.
+  double gStructure::reducedMomentInertiaAngular(string bondID) {
+
+    // Save coordinates.
+
+	exportToXYZ() ;
+
+    map<string, atom>::iterator iter;
+    vector<vector3> coordinates ;
+    for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter) {
+      vector3 c = iter->second.coords ;
+      coordinates.push_back(c) ;
+    }
+
+    pair<string,string> bondats = GetAtomsOfBond(bondID);
+    atom &at1 = Atoms[bondats.first] ;
+    atom &at2 = Atoms[bondats.second] ;
+
+    // Move fragment so that at1 is at origin.
+
+    vector3 origin = at1.coords ;
+    for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter) {
+      vector3 c = iter->second.coords - origin ;
+      iter->second.coords.Set(c.x(), c.y(), c.z());
+    }
+
+	exportToXYZ() ;
+
+	// Rotate molecule so that the at1-at2 bond is along z -axis.
+
+    vector3 bond = at2.coords ;
+    dMatrix rotY(3,0.0);
+    double cosTheta = bond.z()/bond.length() ; 
+    double sinTheta = sqrt(1.0 - min(1.0, cosTheta*cosTheta)) ;
+    rotY[0][0] = rotY[2][2] = cosTheta ;
+    rotY[1][1] = 1.0 ;
+    rotY[0][2] = sinTheta ;
+    rotY[2][0] = -rotY[0][2] ;
+
+    dMatrix rotZ(3,0.0) ;
+    double radius = sqrt(bond.x()*bond.x() + bond.y()*bond.y()) ;
+    double cosPhi(0.0) ;
+    double sinPhi(0.0) ;
+    if (radius > 0.0) {
+      cosPhi = bond.x()/radius ;
+      sinPhi = bond.y()/radius ;
+    }
+    rotZ[0][0] = rotZ[1][1] = cosPhi ;
+    rotZ[2][2] = 1.0 ;
+    rotZ[0][1] = sinPhi ;
+    rotZ[1][0] = -rotZ[0][1] ;
+
+    dMatrix rotA = rotY*rotZ ;
+
+    for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter) {
+      vector3 c = iter->second.coords ;
+      vector<double> r(3, 0.0) ;
+      c.Get(&r[0]) ;
+      r *= rotA ;
+      iter->second.coords.Set(&r[0]);
+    }
+
+	exportToXYZ() ;
+
+	// Rotate one fragment relative to the other.
+
+    vector<double> redMOI ; 
+    redMOI.push_back( 1.0/getGRIT(bondID) ) ;
+
+    vector<string> atomset;
+    findRotorConnectedAtoms(atomset, bondats.first, bondats.second) ;
+    const size_t nAngle(36) ;
+    const double dAngle = 2.0*M_PI/double(nAngle) ;
+    for (size_t i(1) ; i < nAngle ; i++) {
+	  dMatrix rot(3,0.0) ;
+	  rot[0][0] = rot[1][1] = cos(dAngle) ;
+	  rot[2][2] = 1.0 ;
+	  rot[0][1] = sin(dAngle) ;
+	  rot[1][0] = -rot[0][1] ;
+
+      for(size_t j(0) ; j < atomset.size() ; j++) {
+        atom &at = Atoms[atomset[j]] ;
+        vector<double> r(3, 0.0) ;
+        at.coords.Get(&r[0]) ;
+        r *= rot ;
+        at.coords.Set(&r[0]);
+      }
+      exportToXYZ() ;
+      redMOI.push_back( 1.0/getGRIT(bondID) ) ;
+    }
+
+    // Restore original coordinates.
+
+    int i(0) ;
+    for(iter=Atoms.begin() ; iter!=Atoms.end(); ++iter, i++) {
+      vector3 c = coordinates[i] ;
+      iter->second.coords.Set(c.x(), c.y(), c.z());
+    }
+
+	exportToXYZ() ;
+
+	getGRIT(bondID) ;
+
+    return redMOI.back() ; // Units a.u.*Angstrom*Angstrom.
+
+  }
+
   // Calculate the internal rotation eigenvector. Based on the internal rotation 
   // mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010).
   // Typically this vector is used to project out an internal rotational mode
   // from a Hessian.
   void gStructure::internalRotationVector(string bondID, vector<double>& mode) {
 
-	pair<string,string> bondats = GetAtomsOfBond(bondID);
+    pair<string,string> bondats = GetAtomsOfBond(bondID);
 
     vector3 coords1 = GetAtomCoords(bondats.first);
     vector3 coords2 = GetAtomCoords(bondats.second);
@@ -2326,15 +2419,23 @@ namespace mesmer
   }
 
   // Calculates the GRIT for the current set of coodinates.
-  void gStructure::getGRIT() {
+  double gStructure::getGRIT(string bondID) {
 
-    size_t msize(m_RotBondIDs.size()+ 3) ;
+    size_t msize(m_RotBondIDs.size() + 3) ;
     dMatrix GRIT(msize, 0.0) ;
+
+	// Save coordinates.
+
+    map<string, atom>::iterator iter;
+    vector<vector3> coordinates ;
+    for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter) {
+      vector3 c = iter->second.coords ;
+      coordinates.push_back(c) ;
+    }
 
     // Determine centre of mass.
 
     vector3 centreOfMass; 
-    map<string, atom>::iterator iter;
     double sm(0.0) ;
     for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter) {
       double mass   = atomMass( iter->second.element ) ;
@@ -2456,16 +2557,27 @@ namespace mesmer
       GRIT[2][ii] = GRIT[ii][2] = coriolis.z() ;
     }
 
+    // Restore original coordinates.
+
+    int i(0) ;
+    for(iter=Atoms.begin() ; iter!=Atoms.end(); ++iter, i++) {
+      vector3 c = coordinates[i] ;
+      iter->second.coords.Set(c.x(), c.y(), c.z());
+    }
+
     //string MatrixTitle("Generalized rotation inertia tensor:") ;
     //GRIT.print(MatrixTitle, ctest);
     //ctest << endl ;
 
-    //dMatrix invGRIT(GRIT) ;
-    //invGRIT.invertGaussianJordan() ;
+    dMatrix invGRIT(GRIT) ;
+    invGRIT.invertGaussianJordan() ;
     //MatrixTitle = "Inverse of Generalized rotation inertia tensor:" ;
     //invGRIT.print(MatrixTitle, ctest);
 
-    return ;
+    size_t idx(3) ;
+    for (size_t i(0) ; i < m_RotBondIDs.size() && m_RotBondIDs[i] != bondID; i++, idx++) ;
+
+    return invGRIT[idx][idx] ;
   }
 
   // Apply inertia weighting to the raw internal rotation velocity vector.
@@ -2571,5 +2683,20 @@ namespace mesmer
   void gStructure::getZCoords(vector<double> &coords) const { 
     getAtomicCoords(coords, Z) ;
   }
+
+  // Export to xmol format.
+  void gStructure::exportToXYZ() const {
+    cinfo << Atoms.size() << endl ;
+    cinfo << "#" << endl ;
+    map<string, atom>::const_iterator iter;
+    for (iter=Atoms.begin(); iter!=Atoms.end(); ++iter) {
+      const atom &at = iter->second ;
+      cinfo << setw(10) << at.element ;
+	  cinfo << formatFloat(at.coords.x(), 6, 15)  
+		    << formatFloat(at.coords.y(), 6, 15) 
+		    << formatFloat(at.coords.z(), 6, 15) << endl ;
+    }
+  }
+
 
 }//namespace

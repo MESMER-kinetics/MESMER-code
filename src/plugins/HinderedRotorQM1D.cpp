@@ -335,8 +335,7 @@ namespace mesmer
 
 	if (calIntrlIrt) {
 	  gStructure& gs = pDOS->getHost()->getStruc();
-	  pair<string,string> bondats = gs.GetAtomsOfBond(get_BondID());
-	  double reducedMoI(gs.reducedMomentInertia(bondats)) ;  // Units a.u.*Angstrom*Angstrom.
+	  double reducedMoI(gs.reducedMomentInertiaAngular(get_BondID())) ;  // Units a.u.*Angstrom*Angstrom.
 	  m_kineticCosCoeff.push_back(conMntInt2RotCnt/reducedMoI) ;
 	}
 
