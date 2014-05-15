@@ -41,7 +41,7 @@ namespace mesmer
 
     const char* m_id;
     Molecule* m_CoFragment;
-    int m_XsEne;
+    Rdouble m_XsEne;
   };
 
   //************************************************************
@@ -58,20 +58,30 @@ namespace mesmer
       return false;
     }
 
-    double Xs = pp->XmlReadDouble("me:EnergyExcess");
-    const char* p = pp->XmlReadValue("units", optional);
+    PersistPtr ppXsEne = pp->XmlMoveTo("me:EnergyExcess");
+    if(!ppXsEne)
+    {
+      cerr << "No Co-fragment excessEnergy specified in Prior distribution." << endl;
+      return false;
+    }
+    const char* p = ppXsEne->XmlReadValue("units", optional);
     string units = p ? p : "cm-1";
-    m_XsEne = static_cast<int> (getConvertedEnergy(units, Xs));
+    m_XsEne = getConvertedEnergy(units, pp->XmlReadDouble("me:EnergyExcess"));
+    bool rangeSet;
+    ReadRdoubleRange("Prior:ExcessEnergy", ppXsEne, m_XsEne, rangeSet, getConvertedEnergy(units, 1.0));
 
     Molecule* host = getParent();
     MesmerFlags& Flags = const_cast<MesmerFlags&>(host->getFlags());
     m_CoFragment = 
       host->getMoleculeManager()->addmol(CoFragmentName, "PriorCoFragment", host->getEnv(), Flags) ;
-    m_CoFragment->getDOS();
+//    m_CoFragment->getDOS();
+
     return true;
   }
 
   bool PriorDistribution::calculateDistribution(Molecule* m_host, std::vector<double>& dist) {
+    
+    int XsEne = static_cast<int>(m_XsEne);
 
     // Get the rovibrational Density of states for the primary species in the prior distribution
     vector<double> DOS1;
@@ -86,43 +96,43 @@ namespace mesmer
     const int MaximumCell  = m_host->getEnv().MaxCell;
 
     // Make sure Excess energy is not larger that the energy of the highest cell.
-    if (m_XsEne > MaximumCell) {
+    if (XsEne > MaximumCell) {
       cwarn << "Excess energy in prior distribution greater that highest cell energy in master equation";
-      m_XsEne = MaximumCell;
+      XsEne = MaximumCell;
     }
 
     // The (classical) translational density of states. Prefactors are not included 
     // because they cancel on normalization.
 
     vector<double> Trans_DOS ;
-    getCellEnergies(m_XsEne, Trans_DOS) ;
-    for (int i(0) ; i < m_XsEne ; i++) {
+    getCellEnergies(XsEne, Trans_DOS) ;
+    for (int i(0) ; i < XsEne ; i++) {
       Trans_DOS[i] = sqrt(Trans_DOS[i]) ;
     }
 
     // Resize rovibrational DOS vectors so densities so energies greater than the XsEne are not considered.
 
-    DOS1.resize(m_XsEne);
-    DOS2.resize(m_XsEne);
+    DOS1.resize(XsEne);
+    DOS2.resize(XsEne);
 
     // Get cell prior distribution for Reactant.
 
-    vector<double> ReactCellDist(m_XsEne, 0.0) ;
+    vector<double> ReactCellDist(XsEne, 0.0) ;
     GetNormalisedDist(DOS1, DOS2, Trans_DOS, ReactCellDist);
 
     // Print cell distribution if Flag present
 
     if (m_host->getFlags().InitialDistEnabled){
 
-      vector<double> CoReactCellDist(m_XsEne, 0.0) ;
+      vector<double> CoReactCellDist(XsEne, 0.0) ;
       GetNormalisedDist(DOS2, DOS1, Trans_DOS, CoReactCellDist);
 
-      vector<double> TransCellDist(m_XsEne, 0.0) ;
+      vector<double> TransCellDist(XsEne, 0.0) ;
       GetNormalisedDist(Trans_DOS, DOS2, DOS1, TransCellDist);
 
       ctest << "\nInitial distribution vector" << endl ;
       ctest << "\nReactant\tCoProduct\tTranslational" << endl ;
-      for (int i=0; i < m_XsEne; i++){
+      for (int i=0; i < XsEne; i++){
         formatFloat(ctest, ReactCellDist[i],    6, 15) ;
         formatFloat(ctest,  CoReactCellDist[i], 6, 15) ;
         formatFloat(ctest, TransCellDist[i],    6, 15) ;

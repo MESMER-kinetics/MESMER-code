@@ -64,7 +64,7 @@
       <me:DOSCMethod name="ClassicalRotors"/>
       <me:DistributionCalcMethod xsi:type="me:Prior">
         <me:CoFragment>AceticAcid</me:CoFragment>
-        <me:EnergyExcess units="kJ/mol"> 120</me:EnergyExcess>
+        <me:EnergyExcess units="kJ/mol" lower="100" upper="130" stepsize="10"> 120</me:EnergyExcess>
       </me:DistributionCalcMethod>
     </molecule>
     <molecule id="TSdecomp">
@@ -97,14 +97,14 @@
       </propertyList>
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
     </molecule>
-    <molecule id="CO" description="oxygen">
+    <molecule id="CO">
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">177.44888</scalar>
         </property>
       </propertyList>
     </molecule>
-    <molecule id="CH3" description="oxygen">
+    <molecule id="CH3">
       <propertyList>
         <property dictRef="me:ZPE">
           <scalar units="kJ/mol">0.0</scalar>
@@ -150,9 +150,12 @@
         <property dictRef="me:symmetryNumber">
           <scalar>3</scalar>
         </property>
-        <property dictRef="me:MW">
+        <!--<property dictRef="me:MW">
           <scalar units="amu">60</scalar>
-        </property>
+        </property>-->
+        <!--<property dictRef="me:ZPE">--><!--Not used but avoids error message--><!--
+          <scalar units="kJ/mol">0</scalar>
+        </property>-->
         <property dictRef="me:spinMultiplicity">
           <scalar>1</scalar>
         </property>
@@ -296,26 +299,14 @@
   </me:conditions>
 
   <me:modelParameters>
-    <!--Specify grain size directly...-->
     <me:grainSize units="cm-1">100</me:grainSize>
-    <!--...or by the total number of grains
-<me:numberOfGrains> 50 </me:numberOfGrains>-->
-    <!--Specify increased energy range
-<me:maxTemperature>6000</me:maxTemperature>-->
     <me:energyAboveTheTopHill>100</me:energyAboveTheTopHill>
   </me:modelParameters>
   <me:control>
+    <me:calcMethod name="simpleCalc"/>
     <me:shortestTimeOfInterest>10e-19</me:shortestTimeOfInterest>
     <me:printInitialDistribution/>
     <me:printSpeciesProfile/>
-    <!--<me:testMicroRates />
-<me:testRateConstants />
-<me:printGrainDOS /> -->
-    <!--<me:printCellDOS />-->
-    <!--<me:printReactionOperatorColumnSums />-->
-    <!--<me:printTunnellingCoefficients />-->
-    <!--<me:printGrainBoltzmann />
-<me:printGrainkbE />-->
     <me:eigenvalues>6</me:eigenvalues>
   </me:control>
 </me:mesmer>

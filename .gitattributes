@@ -199,11 +199,6 @@ MesmerQA/Acetyl[!!-~]O2[!!-~]association/baselines/Linux64/mesmer.test -text
 MesmerQA/Acetyl[!!-~]O2[!!-~]association/baselines/Win32/mesmer.log -text
 MesmerQA/Acetyl[!!-~]O2[!!-~]association/baselines/Win32/mesmer.test -text
 MesmerQA/Acetyl[!!-~]O2[!!-~]association/baselines/Win32/readme.txt -text
-MesmerQA/AcetylPrior/AcetylPrior.xml -text
-MesmerQA/AcetylPrior/Baselines/Linux64/mesmer.log -text
-MesmerQA/AcetylPrior/Baselines/Linux64/mesmer.test -text
-MesmerQA/AcetylPrior/Baselines/Win32/mesmer.log -text
-MesmerQA/AcetylPrior/Baselines/Win32/mesmer.test -text
 MesmerQA/HSO2/HSO2.xml -text
 MesmerQA/HSO2/HSO2_test.xml -text
 MesmerQA/HSO2/baselines/Linux64/mesmer.log -text
@@ -293,6 +288,11 @@ examples/AcetylO2/acetylO2.ck -text
 examples/AcetylO2/baselines/Linux64/mesmer.test -text
 examples/AcetylO2/baselines/Win32/mesmer.test -text
 examples/AcetylO2/lactone.log -text
+examples/AcetylPrior/AcetylPrior.xml -text
+examples/AcetylPrior/Baselines/Linux64/mesmer.log -text
+examples/AcetylPrior/Baselines/Linux64/mesmer.test -text
+examples/AcetylPrior/Baselines/Win32/mesmer.log -text
+examples/AcetylPrior/Baselines/Win32/mesmer.test -text
 examples/Butyl_H_to_Butane/Butyl_H_to_Butane.xml -text
 examples/Butyl_H_to_Butane/baselines/Linux64/mesmer.log -text
 examples/Butyl_H_to_Butane/baselines/Linux64/mesmer.test -text

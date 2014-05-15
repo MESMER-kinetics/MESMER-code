@@ -452,6 +452,7 @@
               <xs:simpleContent>
                 <xs:extension base="xs:float">
                   <xs:attribute name="units" type="me:energyUnitsType" use="required"/>
+                  <xs:attributeGroup ref="rangeAttributes"/>
                 </xs:extension>
               </xs:simpleContent>
             </xs:complexType>
