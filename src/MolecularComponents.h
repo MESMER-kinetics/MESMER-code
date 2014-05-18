@@ -463,7 +463,7 @@ namespace mesmer
     double CalcMomentAboutAxis(std::vector<std::string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2);
 
     // Calculates internal rotation eigenvector about an axis define by at1 and at2.
-    bool CalcInternalRotVec(std::vector<string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2, vector<double> &mode, bool ApplyMWeight = true) ;
+    bool CalcInternalRotVec(std::vector<string> atomset, OpenBabel::vector3 at1, OpenBabel::vector3 at2, vector<double> &mode, bool ApplyMWeight) ;
 
     // Returns in atomset the IDs of all the atoms attached to atomID via bonds, but
     // does not include any atoms already in atomset or atoms beyond them.
@@ -517,7 +517,7 @@ namespace mesmer
 	// mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010).
 	// Typically this vector is used to project out an internal rotational mode
 	// from a Hessian.
-	void internalRotationVector(string bondID, vector<double>& mode) ;
+	void internalRotationVector(string bondID, vector<double>& mode, bool ApplyMWeight = true) ;
 
     // Read librarymols.xml to obtain the ab initio energy and enthalpy at zero K
     // for an isolated atom of each atom type in the molecule.

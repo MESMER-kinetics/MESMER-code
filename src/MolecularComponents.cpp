@@ -2167,15 +2167,12 @@ namespace mesmer
       // Rotate coordinates to principal axis frame.
 
       MI.Transpose() ;
-      for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter) {
-        vector3 c = iter->second.coords ;
-        vector<double> r(3,0.0) ;
-        r[0] = c.x() ;
-        r[1] = c.y() ;
-        r[2] = c.z() ;
-        r   *= MI ;
-        iter->second.coords.Set(r[0], r[1], r[2]);
-      }
+	  for(iter=Atoms.begin(); iter!=Atoms.end(); ++iter) {
+		vector<double> r(3, 0.0) ;
+		iter->second.coords.Get(&r[0]) ;
+		r *= MI ;
+		iter->second.coords.Set(&r[0]);
+	  }
     }
 
     return status ;
@@ -2391,7 +2388,7 @@ namespace mesmer
   // mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010).
   // Typically this vector is used to project out an internal rotational mode
   // from a Hessian.
-  void gStructure::internalRotationVector(string bondID, vector<double>& mode) {
+  void gStructure::internalRotationVector(string bondID, vector<double>& mode, bool ApplyMWeight) {
 
     pair<string,string> bondats = GetAtomsOfBond(bondID);
 
@@ -2399,16 +2396,29 @@ namespace mesmer
     vector3 coords2 = GetAtomCoords(bondats.second);
 
     // Calculate moment of inertia about bond axis of atoms on one side of bond...
-    vector<string> atomset;
-    findRotorConnectedAtoms(atomset, bondats.first, bondats.second) ;
-    double mm1 = CalcMomentAboutAxis(atomset, coords1, coords2) ;
-    CalcInternalRotVec(atomset, coords1, coords2, mode) ;
+    vector<string> atomset1;
+    findRotorConnectedAtoms(atomset1, bondats.first, bondats.second) ;
+    double mm1 = CalcMomentAboutAxis(atomset1, coords1, coords2) ;
+    CalcInternalRotVec(atomset1, coords1, coords2, mode, ApplyMWeight) ;
 
     //...and the other side of the bond
-    atomset.clear();
-    findRotorConnectedAtoms(atomset, bondats.second, bondats.first) ;
-    double mm2 = CalcMomentAboutAxis(atomset, coords1, coords2);
-    CalcInternalRotVec(atomset, coords2, coords1, mode) ;
+    vector<string> atomset2;
+    findRotorConnectedAtoms(atomset2, bondats.second, bondats.first) ;
+    double mm2 = CalcMomentAboutAxis(atomset2, coords1, coords2);
+    CalcInternalRotVec(atomset2, coords2, coords1, mode, ApplyMWeight) ;
+
+    // In the following weights are applied to relative rotation of each 
+    // fragment with respect to each other. In the limit that one fragment
+    // is infinitely massive the rotation will be confined to the other 
+    // fragment. 
+
+	if (!ApplyMWeight) {
+	  double fctr1 = mm2/(mm1 + mm2) ;
+	  ApplyInertiaWeighting(atomset1, mode, fctr1) ;
+
+	  double fctr2 = mm1/(mm1 + mm2) ;
+	  ApplyInertiaWeighting(atomset2, mode, fctr2) ;
+	}
 
   }
 
@@ -2463,35 +2473,10 @@ namespace mesmer
 
     vector<vector<double> > velocities(m_RotBondIDs.size(), vector<double>(3*NumAtoms(), 0.0)) ;
     for (size_t i(0) ; i < m_RotBondIDs.size() ; i++) {
-      pair<string,string> bondats = GetAtomsOfBond(m_RotBondIDs[i]);
-
-      vector3 coords1 = GetAtomCoords(bondats.first);
-      vector3 coords2 = GetAtomCoords(bondats.second);
 
       vector<double> velocity(3*NumAtoms(), 0.0);
 
-      // Calculate the velocity vector for rotation about bond axis of atoms on one side of bond...
-      vector<string> atomset1;
-      findRotorConnectedAtoms(atomset1, bondats.first, bondats.second) ;
-      double mm1 = CalcMomentAboutAxis(atomset1, coords1, coords2);
-      CalcInternalRotVec(atomset1, coords1, coords2, velocity, false) ;
-
-      //...and the other side of the bond
-      vector<string> atomset2;
-      findRotorConnectedAtoms(atomset2, bondats.second, bondats.first) ;
-      double mm2 = CalcMomentAboutAxis(atomset2, coords2, coords1);
-      CalcInternalRotVec(atomset2, coords2, coords1, velocity, false) ;
-
-      // In the following weights are applied to relative rotation of each 
-      // fragment with respect to each other. IN the limit that one fragment
-      // is infinitely massive the rotation will be confined to the other 
-      // fragment. 
-
-      double fctr1 = mm2/(mm1 + mm2) ;
-      ApplyInertiaWeighting(atomset1, velocity, fctr1) ;
-
-      double fctr2 = mm1/(mm1 + mm2) ;
-      ApplyInertiaWeighting(atomset2, velocity, fctr2) ;
+	  internalRotationVector(m_RotBondIDs[i], velocity, false) ;
 
       // Remove centre of mass velocity.
       vector3 centreOfMassVelocity; 
