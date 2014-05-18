@@ -511,7 +511,7 @@ namespace mesmer
     double reducedMomentInertia(pair<string,string>& bondats) ;
 
     // Calculate the angular dependent reduce moment of inertia about axis defined by specifed atoms.
-    double reducedMomentInertiaAngular(string bondID) ;
+   void reducedMomentInertiaAngular(string bondID, vector<double>& angles, vector<double>& redInvMOI) ;
 
 	// Calculate the internal rotation eigenvector. Based on the internal rotation 
 	// mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010).

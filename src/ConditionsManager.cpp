@@ -279,3 +279,4 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
 
 }//namespace
 
+

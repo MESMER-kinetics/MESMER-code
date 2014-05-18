@@ -1,3 +1,10 @@
+2014-May-18 Struan Robertson
+
+	* HinderedRotorQM1D.cpp, HinderedRotorCM1D.cpp, MolecularComponents.cpp/.h, 
+	MesmerMaths.cpp/.h: Altered to calculate the cosine Fourier coefficients of 
+	the reciprocal internal moment of inertia and make them available to the 
+	hindered rotor method.
+
 2014-May-11 Struan Robertson
 
 	* MolecularComponents.cpp/.h: Angle dependent GRIT calculated for a fixed 

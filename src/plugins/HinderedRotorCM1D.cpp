@@ -177,7 +177,7 @@ namespace mesmer
           potential.push_back(potentialPoint) ;
         }
 
-		FourierCoeffs(angle, potential) ;
+		PotentialFourierCoeffs(angle, potential) ;
 
       } else {
 

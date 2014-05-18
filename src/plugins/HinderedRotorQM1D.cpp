@@ -258,7 +258,7 @@ namespace mesmer
           potential.push_back(potentialPoint) ;
         }
 
-        FourierCoeffs(angle, potential) ;
+        PotentialFourierCoeffs(angle, potential) ;
 
       } else {
 
@@ -319,7 +319,7 @@ namespace mesmer
   {
 
     vector<double> cellDOS;
-    if(!pDOS->getCellDensityOfStates(cellDOS, 0, false)) // retrieve the DOS vector without recalculating
+    if(!pDOS->getCellDensityOfStates(cellDOS, 0, false)) // Retrieve the DOS vector without re-calculating.
       return false;
 
     vector<double> tmpCellDOS(cellDOS) ;
@@ -335,8 +335,10 @@ namespace mesmer
 
 	if (calIntrlIrt) {
 	  gStructure& gs = pDOS->getHost()->getStruc();
-	  double reducedMoI(gs.reducedMomentInertiaAngular(get_BondID())) ;  // Units a.u.*Angstrom*Angstrom.
-	  m_kineticCosCoeff.push_back(conMntInt2RotCnt/reducedMoI) ;
+	  size_t nAngle(36) ;
+	  vector<double> angle(nAngle,0.0), redInvMOI ;
+	  gs.reducedMomentInertiaAngular(get_BondID(), angle, redInvMOI) ;  // Units a.u.*Angstrom*Angstrom.
+	  FourierCosCoeffs(angle, redInvMOI, m_kineticCosCoeff, get_Expansion()) ;
 	}
 
     // Find maximum quantum No. for rotor. To ensure convergence basis functions 

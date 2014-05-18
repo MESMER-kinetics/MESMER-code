@@ -49,7 +49,7 @@ namespace mesmer
 	bool get_CalIntrlIrt() const {return m_calIntrlIrt ; } ;
 
 	// Calculate the Fourier coefficients from potential data points.
-	void FourierCoeffs(vector<double> &angle, vector<double> &potential) ;
+	void PotentialFourierCoeffs(vector<double> &angle, vector<double> &potential) ;
 
 	// Calculate potential.
 	double CalculatePotential(double angle) const ;

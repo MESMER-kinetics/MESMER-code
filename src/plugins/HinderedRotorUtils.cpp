@@ -20,7 +20,7 @@ namespace mesmer
   //
   // Calculate cosine coefficients from potential data points.
   //
-  void HinderedRotorUtils::FourierCoeffs(vector<double> &angle, vector<double> &potential)
+  void HinderedRotorUtils::PotentialFourierCoeffs(vector<double> &angle, vector<double> &potential)
   {
 	size_t ndata = potential.size() ;
 
@@ -40,30 +40,9 @@ namespace mesmer
 	  angle[i]     *= M_PI/180. ;
 	}
 
-	// Determine the cosine coefficients.
-
-	for(size_t k(0); k < m_expansion; ++k) {
-	  double sum(0.0) ;
-	  for(size_t i(0); i < ndata; ++i) {
-		double nTheta = double(k) * angle[i];
-		sum += potential[i] * cos(nTheta);
-	  }
-	  m_potentialCosCoeff.push_back(2.0*sum/double(ndata)) ;
-	}
-	m_potentialCosCoeff[0] /= 2.0 ;
-
-	// Determine the sine coefficients.
-
+    FourierCosCoeffs(angle, potential, m_potentialCosCoeff, m_expansion) ;
 	if (m_useSinTerms) {
-	  for(size_t k(0); k < m_expansion; ++k) {
-		double sum(0.0) ;
-		for(size_t i(0); i < ndata; ++i) {
-		  double nTheta = double(k) * angle[i];
-		  sum += potential[i] * sin(nTheta);
-		}
-		m_potentialSinCoeff.push_back(2.0*sum/double(ndata)) ;
-	  }
-	  m_potentialSinCoeff[0] = 0.0 ;
+      FourierSinCoeffs(angle, potential, m_potentialSinCoeff, m_expansion) ;
 	} else {
 	  for(size_t k(0); k < m_expansion; ++k) {
 		m_potentialSinCoeff.push_back(0.0) ;
@@ -71,6 +50,7 @@ namespace mesmer
 	}
 
 	// Test potential
+
 	ctest << "          Angle         Potential          Series\n";
 	for (size_t i(0); i < ndata; ++i) {
 	  double clcPtnl = CalculatePotential(angle[i]) ;
