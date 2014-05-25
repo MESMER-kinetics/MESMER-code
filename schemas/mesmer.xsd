@@ -15,7 +15,7 @@
         <xs:element ref="cml:moleculeList" />
         <xs:element ref="cml:reactionList" minOccurs="0" />
         
-        <xs:element name="conditions" minOccurs="0">
+        <xs:element name="conditions" minOccurs="0" maxOccurs="unbounded">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="bathGas" type="cml:moleculeIDType" minOccurs="0"/>
@@ -242,7 +242,7 @@
             <xs:attribute name="active" type="me:ynboolean" use="optional"/>
           </xs:complexType>
         </xs:element>
-
+        
         <xs:element ref="cml:metadataList" minOccurs="0">
           <xs:annotation>
             <xs:documentation>
@@ -251,12 +251,11 @@
           </xs:annotation>  
         </xs:element>
 
-        <xs:element name="analysis" maxOccurs="1" minOccurs="0">
+        <xs:element name="analysis" maxOccurs="unbounded" minOccurs="0">
           <xs:annotation>
             <xs:documentation>
               The subelements of analysis elements, which are written by Mesmer,
               are not checked by the mesmer schema.
-              Multiple analysis elements are acceptable, even if the schema says otherwise.
             </xs:documentation>
           </xs:annotation>  
         </xs:element>

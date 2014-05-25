@@ -150,6 +150,7 @@ bool System::parse(PersistPtr ppIOPtr)
       return false;
     m_CalcMethodsForEachControl.push_back(m_CalcMethod); //for each <control> block
 
+    static PersistPtr ppConditions;
     // Parse molecules, reactions, parameters and conditions only
     // in conjunction with the first control block.
     if(m_CalcMethodsForEachControl.size()==1)
@@ -204,13 +205,14 @@ bool System::parse(PersistPtr ppIOPtr)
       cinfo.flush();
 
       //Reaction Conditions
-      PersistPtr ppConditions = ppIOPtr->XmlMoveTo("me:conditions");
+      ppConditions = ppIOPtr->XmlMoveTo("me:conditions");
       if(!ppConditions)
       {
         cerr << "No conditions specified";
         return false;
       }
 
+      m_ConditionsForEachControl.push_back(m_pConditionsManager);
       if(!m_pConditionsManager->ParseBathGas(ppConditions))
         return false;;
 
@@ -237,6 +239,23 @@ bool System::parse(PersistPtr ppIOPtr)
 
       if(!m_pConditionsManager->ParseConditions())
         return false;
+    }
+    else // second and subsequent <control> blocks
+    {
+      // If there is another <conditions> block parse it and save a pointer to it.
+      PersistPtr pp = ppConditions->XmlMoveTo("me:conditions");
+      if(pp)
+      {
+        m_pConditionsManager = new ConditionsManager(this);
+        ppConditions = pp;
+        if(!m_pConditionsManager->ParseBathGas(pp))
+          return false;
+        if(!m_pConditionsManager->ParseConditions())
+          return false;
+        m_ConditionsForEachControl.push_back(m_pConditionsManager);
+      }
+      else //no additional <control> block found
+        m_ConditionsForEachControl.push_back(NULL);
     }
 
     if(ppControl)
@@ -318,7 +337,7 @@ bool System::parse(PersistPtr ppIOPtr)
         if(!m_collisionOperator.parseDataForGrainProfileAtTime(pp))
           return false;
 
-      //Copy flags to vectore and make a fresh m_Flags
+      //Copy flags to vector and make a fresh m_Flags
       m_FlagsForEachControl.push_back(m_Flags);
       m_Flags = MesmerFlags();
     } 
@@ -334,12 +353,24 @@ bool System::parse(PersistPtr ppIOPtr)
   //
   void System::executeCalculation()
   {
+    unsigned nConditionBlocks = m_ConditionsForEachControl.size()
+      - count(m_ConditionsForEachControl.begin(),m_ConditionsForEachControl.end(), (ConditionsManager*)NULL);
     for(unsigned i=0; i<m_CalcMethodsForEachControl.size();++i)
     {
       m_CalcMethod = m_CalcMethodsForEachControl[i];
-      m_Flags = m_FlagsForEachControl[i];
       assert(m_CalcMethod);
-      cinfo << "Execute calcMethod " << m_CalcMethod->getID() << endl;
+      m_Flags = m_FlagsForEachControl[i];
+      cinfo << "Execute calcMethod " << m_CalcMethod->getID();
+
+      if(nConditionBlocks>1)
+      {
+        if(m_ConditionsForEachControl[i]) //update if non-NULL
+          m_pConditionsManager = m_ConditionsForEachControl[i];
+
+        const char a[4][7] = {"first","second","third","fourth"};
+        cinfo << " using " << a[min(i, nConditionBlocks)] << " conditions block ";
+      }
+      cinfo << endl;  
       m_CalcMethod->DoCalculation(this);
     }
   }

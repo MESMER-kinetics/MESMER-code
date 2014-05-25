@@ -12,11 +12,14 @@ bool ConditionsManager::ParseBathGas(PersistPtr ppConditions)
 {
 
   m_ppConditions = ppConditions;
-  string Bgtxt = m_ppConditions->XmlReadValue("me:bathGas");
-  if(!m_pSys->getMoleculeManager()->addmol(Bgtxt, "bathGas", m_pSys->getEnv(), m_pSys->m_Flags))
-    return false;
-  m_pSys->getMoleculeManager()->set_BathGasMolecule(Bgtxt) ;
-  
+  const char* txt = m_ppConditions->XmlReadValue("me:bathGas", optional);//bathgas may be specified in PTs
+  if(txt)
+  {
+    string Bgtxt(txt);
+    if(!m_pSys->getMoleculeManager()->addmol(Bgtxt, "bathGas", m_pSys->getEnv(), m_pSys->m_Flags))
+      return false;
+    m_pSys->getMoleculeManager()->set_BathGasMolecule(Bgtxt) ;
+  }
   return true;
 }
 

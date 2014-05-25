@@ -84,6 +84,7 @@ namespace mesmer
     // for each <control> block
     std::vector<MesmerFlags> m_FlagsForEachControl;
     std::vector<CalcMethod*> m_CalcMethodsForEachControl;
+    std::vector<ConditionsManager*> m_ConditionsForEachControl;
 
     MesmerEnv& getEnv() { return m_Env; } ;
 
