@@ -1,5 +1,9 @@
 2014-May-25 Chris Morley
 
+	* src/System.cpp,src/System.h:enable multiple conditions blocks 
+	* src/ConditionsManager.cpp: me:bathgas not essential in a conditions block.
+	* schemas/mesmer.xsd: updated
+
 2014-May-18 Struan Robertson
 
 	* MolecularComponents.cpp/.h: Refactoring of the internal rotation vector 
