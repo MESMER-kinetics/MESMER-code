@@ -1,4 +1,4 @@
-2014-May-18 Struan Robertson
+2014-May-31 Struan Robertson
 
 	* HinderedRotorQM1D.cpp, HinderedRotorUtils.cpp, MolecularComponents.cpp/.h:
 	Added member datum to account for the phase difference between the configuration 
