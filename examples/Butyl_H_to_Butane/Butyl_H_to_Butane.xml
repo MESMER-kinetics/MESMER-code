@@ -235,7 +235,8 @@
           <me:PotentialPoint angle="355"  potential="-105333.58336378"/>
          </me:HinderedRotorPotential>
         <me:PlotStates/>
-        <me:CalculateInternalRotorInertia/>
+        <me:CalculateInternalRotorInertia phaseDifference ="180.0"/>
+        <me:ConfigurationalData/>
       </me:ExtraDOSCMethod>
 
       <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">

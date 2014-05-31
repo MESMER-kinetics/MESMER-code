@@ -437,13 +437,15 @@ namespace mesmer
       std::string id;
       std::string element;
       OpenBabel::vector3 coords;
-      std::vector<std::string> connects; //other atom ids
+      std::vector<std::string> connects; // Other atom ids.
     };
     std::map<std::string, atom> Atoms;
 
 	std::map<std::string, std::pair<std::string, std::string> > Bonds;
     std::vector<std::string> m_atomicOrder ;
     bool m_HasCoords;
+
+	bool m_verbose ; // Controls debug output.
 
 	// Rotatable bonds
 	vector<string> m_RotBondIDs ;
@@ -485,6 +487,8 @@ namespace mesmer
 
 	~gStructure() { if(m_AxisAlignment) delete m_AxisAlignment ; } ;
 
+	void set_Verbose(bool verbose) { m_verbose = verbose ; } ;
+
 	//Returns true if atoms have coordinates
     bool ReadStructure();
 
@@ -511,7 +515,7 @@ namespace mesmer
     double reducedMomentInertia(pair<string,string>& bondats) ;
 
     // Calculate the angular dependent reduce moment of inertia about axis defined by specifed atoms.
-   void reducedMomentInertiaAngular(string bondID, vector<double>& angles, vector<double>& redInvMOI) ;
+   void reducedMomentInertiaAngular(string bondID, double phase, vector<double>& angles, vector<double>& redInvMOI) ;
 
 	// Calculate the internal rotation eigenvector. Based on the internal rotation 
 	// mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010).

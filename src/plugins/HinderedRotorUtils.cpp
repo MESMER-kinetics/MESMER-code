@@ -40,6 +40,10 @@ namespace mesmer
 	  angle[i]     *= M_PI/180. ;
 	}
 
+	// Update the potential and and configuration phase difference.
+
+	m_phase += amin ;
+
     FourierCosCoeffs(angle, potential, m_potentialCosCoeff, m_expansion) ;
 	if (m_useSinTerms) {
       FourierSinCoeffs(angle, potential, m_potentialSinCoeff, m_expansion) ;

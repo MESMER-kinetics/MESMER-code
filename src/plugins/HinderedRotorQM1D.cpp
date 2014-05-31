@@ -175,6 +175,9 @@ namespace mesmer
       pp = ppDOSC->XmlMoveTo("me:CalculateInternalRotorInertia") ;
       if (pp) {
         set_CalIntrlIrt(true) ;
+		double phase(0.0) ;
+		phase = pp->XmlReadDouble("phaseDifference", optional);
+		set_Phase(phase) ;
       } else {
 
         // Calculate reduced moment of inertia.
@@ -308,6 +311,13 @@ namespace mesmer
       m_writeStates = true ;
     }
 
+    // Check if configuration data are required.
+
+    pp = ppDOSC->XmlMoveTo("me:ConfigurationalData") ;
+    if (pp) {
+      gs.set_Verbose(true) ;
+    }
+
     return true;
   }
 
@@ -337,7 +347,7 @@ namespace mesmer
 	  gStructure& gs = pDOS->getHost()->getStruc();
 	  size_t nAngle(36) ;
 	  vector<double> angle(nAngle,0.0), redInvMOI ;
-	  gs.reducedMomentInertiaAngular(get_BondID(), angle, redInvMOI) ;  // Units a.u.*Angstrom*Angstrom.
+	  gs.reducedMomentInertiaAngular(get_BondID(), get_Phase(), angle, redInvMOI) ;  // Units a.u.*Angstrom*Angstrom.
 	  FourierCosCoeffs(angle, redInvMOI, m_kineticCosCoeff, get_Expansion()) ;
 	}
 

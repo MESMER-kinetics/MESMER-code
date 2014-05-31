@@ -1999,7 +1999,8 @@ namespace mesmer
     Bonds(),
     m_atomicOrder(),
     m_HasCoords(false),
-    m_RotBondIDs()
+	m_verbose(false),
+	m_RotBondIDs()
   {
     ErrorContext c(pMol->getName());
     m_host = pMol;
@@ -2284,7 +2285,7 @@ namespace mesmer
   }
 
   // Calculate the reduce moment of inertia about axis defined by specifed atoms.
-  void gStructure::reducedMomentInertiaAngular(string bondID, vector<double>& angles, vector<double>& redInvMOI) {
+  void gStructure::reducedMomentInertiaAngular(string bondID, double phase, vector<double>& angles, vector<double>& redInvMOI) {
 
     // Save coordinates.
 
@@ -2344,6 +2345,28 @@ namespace mesmer
 
 	exportToXYZ() ;
 
+	// Determine the content of one of the fragments so that it can moved relative to the other.
+
+    vector<string> atomset;
+    findRotorConnectedAtoms(atomset, bondats.first, bondats.second) ;
+
+	// Rotate fragments so that they are in phase with the potential.
+
+	const double Angle(fmod(phase, 360.0)*M_PI/180.) ;
+	dMatrix rot(3,0.0) ;
+	rot[0][0] = rot[1][1] = cos(Angle) ;
+	rot[2][2] = 1.0 ;
+	rot[0][1] = sin(Angle) ;
+	rot[1][0] = -rot[0][1] ;
+
+    for(size_t j(0) ; j < atomset.size() ; j++) {
+      atom &at = Atoms[atomset[j]] ;
+      vector<double> r(3, 0.0) ;
+      at.coords.Get(&r[0]) ;
+      r *= rot ;
+      at.coords.Set(&r[0]);
+    }
+
 	// Rotate one fragment relative to the other.
 
     redInvMOI.clear() ; 
@@ -2351,14 +2374,12 @@ namespace mesmer
     const size_t nAngle(angles.size()) ;
     const double dAngle = 2.0*M_PI/double(nAngle) ;
 	angles[0] = 0.0 ;
-	dMatrix rot(3,0.0) ;
+	rot.reset(rot.size()) ;
 	rot[0][0] = rot[1][1] = cos(dAngle) ;
 	rot[2][2] = 1.0 ;
 	rot[0][1] = sin(dAngle) ;
 	rot[1][0] = -rot[0][1] ;
 
-    vector<string> atomset;
-    findRotorConnectedAtoms(atomset, bondats.first, bondats.second) ;
     for (size_t i(1) ; i < nAngle ; i++) {
 
 	  angles[i] = angles[i-1] + dAngle ;
@@ -2664,6 +2685,11 @@ namespace mesmer
 
   // Export to xmol format.
   void gStructure::exportToXYZ() const {
+
+	// Only write something if the verbosity flag has been set.
+	if (!m_verbose) 
+	  return ;
+
     cinfo << Atoms.size() << endl ;
     cinfo << "#" << endl ;
     map<string, atom>::const_iterator iter;
