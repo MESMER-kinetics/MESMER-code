@@ -85,6 +85,12 @@ copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 cd ..
 
+cd AcetylPrior
+%executable% AcetylPrior.xml -o %outf% %directive%
+copy "./%tfn%" "./%bline%%otfn%"
+IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+cd ..
+
 cd Butyl_H_to_Butane
 %executable% Butyl_H_to_Butane.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
