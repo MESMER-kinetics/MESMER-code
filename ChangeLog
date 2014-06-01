@@ -1,3 +1,10 @@
+2014-June-01 Struan Robertson
+
+	* MolecularComponents.cpp: Code added to suppress the in writing of the general
+	inertia matrix. 
+	* Miscellaneous changes relating to VC12.
+	* Linux64 baseline updates.
+
 2014-May-31 Struan Robertson
 
 	* HinderedRotorQM1D.cpp, HinderedRotorUtils.cpp, MolecularComponents.cpp/.h:

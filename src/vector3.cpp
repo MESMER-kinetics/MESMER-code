@@ -22,6 +22,7 @@ GNU General Public License for more details.
 
 #include <iostream>
 #include <cmath>
+#include <algorithm> 
 #include "vector3.h"
 #include "MesmerConfig.h"
 //#include <openbabel/math/vector3.h>
