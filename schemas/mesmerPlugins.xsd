@@ -246,6 +246,12 @@
           <xs:element name="periodicity" type="xs:unsignedInt" minOccurs="0"/>
           <xs:element name="PlotStates" minOccurs="0" />
           <xs:element name="WriteStates" minOccurs="0" />
+          <xs:element name="CalculateInternalRotorInertia" minOccurs="0">
+            <xs:complexType>
+              <xs:attribute name="phaseDifference" use="required"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="ConfigurationalData" minOccurs="0" />
         </xs:sequence>
         <xs:attribute name="name" type="xs:string" use="optional" />
       </xs:extension>

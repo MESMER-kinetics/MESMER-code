@@ -1,3 +1,19 @@
+2014-June-05 Chris Morley
+
+	* src/MolecularComponents.cpp,src/MolecularComponents.h,
+	src/plugins/HinderedRotorQM1D.cpp: add gStructure::exportToCML(). Extra
+	parameters on various functions to pass in the PersistPtr where XML is written.
+	Add ids to conformer molecules.
+
+	* src/XMLPersist.h,src/Persistence.h,src/XMLPersist.cpp: add function to write
+	an attribute containing a formatted number. Correct XLMWrite to write text
+	when there is an empty element.
+
+	* examples/Butyl_H_to_Butane/Butyl_H_to_Butane.xml: remove unused He to avoid
+	error message.
+
+	* schemas/mesmerPlugins.xsd: update
+
 2014-June-01 Struan Robertson
 
 	* MolecularComponents.cpp: Code added to suppress the in writing of the general

@@ -344,8 +344,9 @@ namespace mesmer
   void XMLPersist::XmlWrite(const std::string& value)
   {
     TiXmlNode* val = pnNode->FirstChild();
-    if(val)
-      val->SetValue(value);
+    if(!val)
+      val = pnNode->InsertEndChild(TiXmlText(value));
+    val->SetValue(value);
   }
 
   PersistPtr XMLPersist::XmlWriteValueElement(const std::string& name,
@@ -385,6 +386,19 @@ namespace mesmer
   void XMLPersist::XmlWriteAttribute(const std::string& name, const std::string& value)
   {
     pnNode->SetAttribute(name, value);
+  }
+
+  void XMLPersist::XmlWriteAttribute(const std::string& name,
+    const double datum, const int precision, const bool fixedOnly)
+  {
+    ostringstream sstrdatum ;
+    if(precision>=0)
+      sstrdatum.precision(precision);
+    if(fixedOnly) //no scientific format
+      sstrdatum.setf(ios::fixed,ios::floatfield);
+    sstrdatum << datum ;
+
+    pnNode->SetAttribute(name, sstrdatum.str());
   }
 
   //e.g. <metadata name="dc:source" content="LibraryMols.xml" timestamp="20080705_104810" />

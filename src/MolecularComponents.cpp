@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <numeric>
 #include <cmath>
+#include <iomanip>
 #include "Molecule.h"
 #include "System.h"
 #include "ParseForPlugin.h"
@@ -2316,11 +2317,11 @@ namespace mesmer
   }
 
   // Calculate the reduce moment of inertia about axis defined by specifed atoms.
-  void gStructure::reducedMomentInertiaAngular(string bondID, double phase, vector<double>& angles, vector<double>& redInvMOI) {
+  void gStructure::reducedMomentInertiaAngular(string bondID, double phase, vector<double>& angles,
+                                               vector<double>& redInvMOI, PersistPtr ppConfigData) {
 
     // Save coordinates.
-
-    exportToXYZ();
+    exportToXYZ("orig_coords", NULL, ppConfigData) ;
 
     map<string, atom>::iterator iter;
     vector<vector3> coordinates;
@@ -2339,7 +2340,7 @@ namespace mesmer
       iter->second.coords -= origin;
     }
 
-    exportToXYZ();
+    exportToXYZ("origin_at_at1") ;
 
     // Rotate molecule so that the at1-at2 bond is along z -axis.
 
@@ -2374,7 +2375,7 @@ namespace mesmer
       iter->second.coords.Set(&r[0]);
     }
 
-    exportToXYZ();
+    exportToXYZ("z_axis=at1-at2") ;
 
     // Determine the content of one of the fragments so that it can moved relative to the other.
 
@@ -2422,8 +2423,9 @@ namespace mesmer
         r *= rot;
         at.coords.Set(&r[0]);
       }
-      exportToXYZ();
-      redInvMOI.push_back(conMntInt2RotCnt*getGRIT(bondID));
+
+      exportToXYZ(("rotate_fragment_" + toString(i)).c_str()) ;
+      redInvMOI.push_back(conMntInt2RotCnt*getGRIT(bondID)) ;
     }
 
     // Restore original coordinates.
@@ -2433,7 +2435,7 @@ namespace mesmer
       iter->second.coords = coordinates[i];
     }
 
-    exportToXYZ();
+    exportToXYZ("orig_coords", true) ;
   }
 
   // Calculate the internal rotation eigenvector. Based on the internal rotation 
@@ -2718,23 +2720,87 @@ namespace mesmer
   }
 
   // Export to xmol format.
-  void gStructure::exportToXYZ() const {
+  void gStructure::exportToXYZ(const char* txt, bool last, PersistPtr ppConfigData){
 
     // Only write something if the verbosity flag has been set.
     if (!m_verbose)
       return;
 
-    cinfo << Atoms.size() << endl;
-    cinfo << "#" << endl;
+    cinfo << Atoms.size() << endl ;
+    cinfo << getHost()->getName();
+    if(txt)
+      cinfo << "-" << txt;
+    cinfo << endl ;
     map<string, atom>::const_iterator iter;
-    for (iter = Atoms.begin(); iter != Atoms.end(); ++iter) {
-      const atom &at = iter->second;
-      cinfo << setw(10) << at.element;
-      cinfo << formatFloat(at.coords.x(), 6, 15)
-        << formatFloat(at.coords.y(), 6, 15)
-        << formatFloat(at.coords.z(), 6, 15) << endl;
+    for (iter=Atoms.begin(); iter!=Atoms.end(); ++iter) {
+      const atom &at = iter->second ;
+      cinfo << setw(10) << at.element ;
+      cinfo << formatFloat(at.coords.x(), 6, 15)  
+            << formatFloat(at.coords.y(), 6, 15) 
+            << formatFloat(at.coords.z(), 6, 15) << endl ;
     }
+    exportToCML(txt, last, ppConfigData);
   }
 
-
+  void gStructure::exportToCML(const char* txt, bool last, PersistPtr ppConfigData){
+    static PersistPtr pp;
+    if(ppConfigData)
+      pp = ppConfigData;
+    PersistPtr ppMol = pp->XmlWriteElement("molecule");
+    string id = getHost()->getName();
+    ppMol->XmlWriteAttribute("id", id);
+    PersistPtr ppAtList = ppMol->XmlWriteElement("atomArray");
+    map<string, atom>::const_iterator iter;
+    for (iter=Atoms.begin(); iter!=Atoms.end(); ++iter) {
+      const atom &at = iter->second ;
+      PersistPtr ppAt = ppAtList->XmlWriteElement("atom");
+      ppAt->XmlWriteAttribute("id", at.id);
+      ppAt->XmlWriteAttribute("elementType", at.element);
+      ppAt->XmlWriteAttribute("x3", at.coords.x(), 4, true);
+      ppAt->XmlWriteAttribute("y3", at.coords.y(), 4, true);
+      ppAt->XmlWriteAttribute("z3", at.coords.z(), 4, true);
+    }
+    PersistPtr ppBList = ppMol->XmlWriteElement("bondArray");
+    for (map<string, pair<string, string> >::const_iterator iter=Bonds.begin();
+            iter!=Bonds.end(); ++iter) {
+      PersistPtr ppB = ppBList->XmlWriteElement("bond");
+      ppB->XmlWriteAttribute("atomRefs2", iter->second.first + " " + iter->second.second);
+      ppB->XmlWriteAttribute("order", "1");
+    }
+  }
 }//namespace
+
+//XML written as text; not used.
+//void gStructure::exportToCML(const char* txt, bool last, PersistPtr pp){
+//  static stringstream ss;
+//  static PersistPtr ppConfigData;
+//  if(pp)
+//    ppConfigData = pp;
+//  ss << " <molecule id=\"" << getHost()->getName();
+//  if(txt)
+//    ss <<'-' << txt;
+//  ss << "\">\n" << "  <atomArray>\n";
+//  map<string, atom>::const_iterator iter;
+//  for (iter=Atoms.begin(); iter!=Atoms.end(); ++iter) {
+//    const atom &at = iter->second ;
+//    ss  << "   <atom id=" << at.id << " elementType=\"" << at.element << "\" ";
+//    ss << setprecision(4) << fixed
+//          << "x3=\"" << at.coords.x() <<"\" "
+//          << "y3=\"" << at.coords.y() <<"\" "
+//          << "z3=\"" << at.coords.z() <<"\"/>\n";
+//  }
+//  ss << "   </atomArray>\n   <bondArray>";
+//  int i(1);
+//  for (map<string, pair<string, string> >::const_iterator iter=Bonds.begin();
+//         iter!=Bonds.end(); ++iter, ++i) {
+//    if(i%2) ss << '\n';
+//    ss << "   <bond atomRefs2=\"" << iter->second.first
+//          <<' ' << iter->second.second << " order=\"1\"/>";
+//  }
+//  ss << "\n  </bondArray>\n </molecule>" << endl;
+//  if(last)
+//    // Written as text (rather than XML) because it is available.
+//    // Should be seen ok as valid XML.
+//    ppConfigData->XmlWrite(ss.str());
+//  ss.str()="";
+//}

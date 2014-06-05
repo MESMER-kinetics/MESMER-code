@@ -82,7 +82,7 @@ namespace mesmer
 
     bool m_plotStates ;                  // If true output data for plotting. 
     bool m_writeStates ;                 // If true energy levels written to output. 
-
+    PersistPtr m_ppConfigData;
   } ;
 
   //-------------------------------------------------------------
@@ -316,6 +316,7 @@ namespace mesmer
     pp = ppDOSC->XmlMoveTo("me:ConfigurationalData") ;
     if (pp) {
       gs.set_Verbose(true) ;
+      m_ppConfigData = pp;
     }
 
     return true;
@@ -347,7 +348,7 @@ namespace mesmer
 	  gStructure& gs = pDOS->getHost()->getStruc();
 	  size_t nAngle(36) ;
 	  vector<double> angle(nAngle,0.0), redInvMOI ;
-	  gs.reducedMomentInertiaAngular(get_BondID(), get_Phase(), angle, redInvMOI) ;  // Units a.u.*Angstrom*Angstrom.
+	  gs.reducedMomentInertiaAngular(get_BondID(), get_Phase(), angle, redInvMOI, m_ppConfigData) ;  // Units a.u.*Angstrom*Angstrom.
 	  FourierCosCoeffs(angle, redInvMOI, m_kineticCosCoeff, get_Expansion()) ;
 	}
 

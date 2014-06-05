@@ -24,6 +24,7 @@
 #include "EnergyTransferModel.h"
 #include "vector3.h"
 #include "dMatrix.h"
+#include "Persistence.h"
 
 using namespace std ;
 using namespace Constants ;
@@ -515,7 +516,8 @@ namespace mesmer
     double reducedMomentInertia(pair<string,string>& bondats) ;
 
     // Calculate the angular dependent reduce moment of inertia about axis defined by specifed atoms.
-   void reducedMomentInertiaAngular(string bondID, double phase, vector<double>& angles, vector<double>& redInvMOI) ;
+   void reducedMomentInertiaAngular(string bondID, double phase, vector<double>& angles,
+                                    vector<double>& redInvMOI, PersistPtr ppConfigData=NULL) ;
 
 	// Calculate the internal rotation eigenvector. Based on the internal rotation 
 	// mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010).
@@ -564,9 +566,9 @@ namespace mesmer
 	// Add rotatable bond ID (needed to calculate GRIT).
 	void addRotBondID(std::string id) { m_RotBondIDs.push_back(id) ; } ;
 
-	// Export to xmol format.
-	void exportToXYZ() const ;
-
+    // Export to xmol and CML format.
+    void exportToXYZ(const char* txt=NULL, bool last=false, PersistPtr ppConfigData=NULL) ;
+    void exportToCML(const char* txt=NULL, bool last=false, PersistPtr ppConfigData=NULL) ;
   };
 
 

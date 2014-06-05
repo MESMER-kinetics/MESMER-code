@@ -97,6 +97,10 @@ public:
   /// Adds an XML attribute (or equivalent)
   virtual void XmlWriteAttribute(const std::string& name, const std::string& value);
 
+  /// Adds an XML attribute containing a formatted number
+  virtual void XmlWriteAttribute(const std::string& name, const double datum,
+                      const int precision, const bool fixedOnly);
+
   /// Inserts into XML document meta data information
   ///like <metadata name="dc:source" content="LibraryMols.xml" timestamp="20080705_104810" />
   virtual PersistPtr XmlWriteMetadata(const std::string& name, const std::string& content);
