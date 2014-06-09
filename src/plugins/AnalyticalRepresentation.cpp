@@ -91,6 +91,7 @@ namespace mesmer
     const char* m_id;
     string m_format ;
     Precision m_precision ;
+    bool m_AllBathGases;
 
     double m_TMax ;
     double m_TMin ;
@@ -121,17 +122,6 @@ namespace mesmer
 
   bool AnalyticalRepresentation::ParseData(PersistPtr pp)
   {
-    /* Typical data
-    <me:control>
-    ...
-    <me:calcMethod xsi:type="me:analyticalRepresentation">
-    <me:fittingTolerance>0.1</me:fittingTolerance>
-    <me:fittingIterations>5</me:fittingIterations>
-    </me:calcMethod>
-    ...
-    </me:control>
-    */
-
     // Determine the required format, default to Cantera if not supplied.
 
     const char* txt = pp->XmlReadValue("me:format", optional) ;
@@ -196,6 +186,9 @@ namespace mesmer
     // Check expansion is consistent with grid:
     if (m_ExpanSizeT > m_NTpt || m_ExpanSizeC > m_NCpt )
       throw(std::runtime_error("Analytical Represention: Requested expansion coefficients exceed grid specificaton.")) ;
+    
+    // Generate a representation for each bath gas mentioned anywhere in data file
+    m_AllBathGases = pp->XmlMoveTo("me:chebDoForAllBathGases");
 
     return true;
   }
@@ -224,86 +217,95 @@ namespace mesmer
       CGrid[i] = cos(((2.0*(i+1.0))-1.0)*M_PI / (2.0 * double(m_NCpt)));
     }
 
-    // Create a grid of temperature and concentration (in ppcc) values.
-	// For temperature we must account for the fact that 1/Tmax < 1/Tmin.
-    vector<double> Temperature=Transform(TGrid, m_RpTMin, m_RpTMax);
-    for (size_t i(0); i < m_NTpt; ++i) {
-      Temperature[i] = 1/Temperature[i] ;
-    }
+    set<string> bathGases;
+    if(m_AllBathGases)
+      pSys->getAllBathGases(bathGases);
+    else // just the bath gas specified in <conditions>
+      bathGases.insert(pSys->getMoleculeManager()->get_BathGasName());
 
-    vector<double> Concentration=Transform(CGrid, m_lgCMax, m_lgCMin);
-    for (size_t i(0); i < m_NCpt; ++i) {
-      Concentration[i] = pow(10,(Concentration[i])) ;
-    }
+    for(set<string>::iterator iter = bathGases.begin(); iter!=bathGases.end(); ++iter)
+    {
+      cinfo << "\nBath gas is " << *iter << endl;
 
-    // Get rate coefficients.
-    bool moleUnits = (m_RateUnits=="cm3mole-1s-1");
-    m_reactions.clear() ;
-    m_ExcessConc.clear();
-    vector<CTpoint> CTGrid ;
-    bool flag(true);
-    vector<vector<double> > RCGrid;
-    for (size_t i(0); i < m_NTpt; ++i) {
-      double Temp = Temperature[i] ;
-      for (size_t j(0); j < m_NCpt; ++j) {
-        double Conc = getConvertedP(m_PUnits, Concentration[j], Temp) ;
-        CTGrid.push_back(CTpoint(TGrid[i],CGrid[j])) ;
-        map<string, double> phenRates ;
-        pSys->calculate(Temp, Conc, m_precision, phenRates, m_TMax);
-        vector<double> rate ; 
-        int ir=0;
-        map<string, double>::const_iterator itr;
-        for (itr = phenRates.begin() ; itr != phenRates.end(); ++itr, ++ir) {
-          double concExcessReactant(0);
-          if (flag) {
-            //Expand the string in phenRates to include all the reactants and products
-            pair<string,Reaction*> presult= pSys->getReactionManager()->getCompleteReactantsAndProducts
-              (itr->first);
-            Reaction*r = presult.second;
-            concExcessReactant = r ? r->get_concExcessReactant() : 0.0;
-            if(moleUnits)
-              concExcessReactant /= Constants::AvogadroC;
-            m_reactions.push_back(presult.first);
-            m_ExcessConc.push_back(concExcessReactant);
+      // Create a grid of temperature and concentration (in ppcc) values.
+      // For temperature we must account for the fact that 1/Tmax < 1/Tmin.
+      vector<double> Temperature=Transform(TGrid, m_RpTMin, m_RpTMax);
+      for (size_t i(0); i < m_NTpt; ++i) {
+        Temperature[i] = 1/Temperature[i] ;
+      }
+
+      vector<double> Concentration=Transform(CGrid, m_lgCMax, m_lgCMin);
+      for (size_t i(0); i < m_NCpt; ++i) {
+        Concentration[i] = pow(10,(Concentration[i])) ;
+      }
+
+      // Get rate coefficients.
+      bool moleUnits = (m_RateUnits=="cm3mole-1s-1");
+      m_reactions.clear() ;
+      m_ExcessConc.clear();
+      vector<CTpoint> CTGrid ;
+      bool flag(true);
+      vector<vector<double> > RCGrid;
+      for (size_t i(0); i < m_NTpt; ++i) {
+        double Temp = Temperature[i] ;
+        for (size_t j(0); j < m_NCpt; ++j) {
+          double Conc = getConvertedP(m_PUnits, Concentration[j], Temp) ;
+          CTGrid.push_back(CTpoint(TGrid[i],CGrid[j])) ;
+          map<string, double> phenRates ;
+          pSys->calculate(Temp, Conc, m_precision, phenRates, m_TMax, *iter);
+          vector<double> rate ; 
+          int ir=0;
+          map<string, double>::const_iterator itr;
+          for (itr = phenRates.begin() ; itr != phenRates.end(); ++itr, ++ir) {
+            double concExcessReactant(0);
+            if (flag) {
+              //Expand the string in phenRates to include all the reactants and products
+              pair<string,Reaction*> presult= pSys->getReactionManager()->getCompleteReactantsAndProducts
+                (itr->first);
+              Reaction*r = presult.second;
+              concExcessReactant = r ? r->get_concExcessReactant() : 0.0;
+              if(moleUnits)
+                concExcessReactant /= Constants::AvogadroC;
+              m_reactions.push_back(presult.first);
+              m_ExcessConc.push_back(concExcessReactant);
+            }
+
+            rate.push_back(m_ExcessConc[ir]>0 ? itr->second/m_ExcessConc[ir] : itr->second) ;
           }
-
-          rate.push_back(m_ExcessConc[ir]>0 ? itr->second/m_ExcessConc[ir] : itr->second) ;
+          flag = false ;
+          RCGrid.push_back(rate) ;
         }
-        flag = false ;
-        RCGrid.push_back(rate) ;
       }
-    }
 
-    // Calculate chebyshev coefficients. Three indicies are required in order 
-    // to calculate Chebyshev coefficients for each specified BW rate.
-    vector<vector<double> > v(m_ExpanSizeC, vector<double>(m_reactions.size(), 0.0));	
-    vector<vector<vector<double> > > ChebyshevCoeff(m_ExpanSizeT,v);
-    for (size_t i(0); i < m_ExpanSizeT ; ++i ) {
-      for (size_t j(0); j < m_ExpanSizeC ; ++j ) {
-        for (size_t k(0); k < m_reactions.size() ; ++k) {
-          for (size_t m(0); m < RCGrid.size() ; ++m ) {
-            // The absolute value is taken below as small rate coefficients occasionally computed to be negative.
-            ChebyshevCoeff[i][j][k] += log10(fabs(RCGrid[m][k]))*Cheb_poly(i, CTGrid[m].first)*Cheb_poly(j, CTGrid[m].second);
-          }				
-          ChebyshevCoeff[i][j][k] *= Coefficient(i, j) / (double(m_NTpt) * double(m_NCpt)) ;
-        }			
+      // Calculate chebyshev coefficients. Three indicies are required in order 
+      // to calculate Chebyshev coefficients for each specified BW rate.
+      vector<vector<double> > v(m_ExpanSizeC, vector<double>(m_reactions.size(), 0.0));	
+      vector<vector<vector<double> > > ChebyshevCoeff(m_ExpanSizeT,v);
+      for (size_t i(0); i < m_ExpanSizeT ; ++i ) {
+        for (size_t j(0); j < m_ExpanSizeC ; ++j ) {
+          for (size_t k(0); k < m_reactions.size() ; ++k) {
+            for (size_t m(0); m < RCGrid.size() ; ++m ) {
+              // The absolute value is taken below as small rate coefficients occasionally computed to be negative.
+              ChebyshevCoeff[i][j][k] += log10(fabs(RCGrid[m][k]))*Cheb_poly(i, CTGrid[m].first)*Cheb_poly(j, CTGrid[m].second);
+            }				
+            ChebyshevCoeff[i][j][k] *= Coefficient(i, j) / (double(m_NTpt) * double(m_NCpt)) ;
+          }			
+        }
       }
+
+      // Print out table of Chebyshev coefficients for each BW rate specified.
+      if (m_format == string("cantera")) {
+        writeCanteraFormat(ChebyshevCoeff, pSys) ;
+      } else if (m_format == string("chemkin")) {
+        writeChemkinFormat(ChebyshevCoeff, pSys) ;
+      } else {
+        writeCanteraFormat(ChebyshevCoeff, pSys) ;
+      }
+
+      // Test expansion.
+      ctest << "\nBath gas is " << *iter << endl;
+      testRepresentation(ChebyshevCoeff, RCGrid, Concentration, Temperature, CGrid, TGrid) ;
     }
-
-    // Print out table of Chebyshev coefficients for each BW rate specified.
-
-    if (m_format == string("cantera")) {
-      writeCanteraFormat(ChebyshevCoeff, pSys) ;
-    } else if (m_format == string("chemkin")) {
-      writeChemkinFormat(ChebyshevCoeff, pSys) ;
-    } else {
-      writeCanteraFormat(ChebyshevCoeff, pSys) ;
-    }
-
-    // Test expansion.
-
-    testRepresentation(ChebyshevCoeff, RCGrid, Concentration, Temperature, CGrid, TGrid) ;
-
     return true;
   }
 

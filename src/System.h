@@ -14,6 +14,7 @@
 // is stored in the molecule manager.
 //
 //-------------------------------------------------------------------------------------------
+#include <set>
 #include "plugin.h"
 #include "ReactionManager.h"
 #include "calcmethod.h"
@@ -61,7 +62,8 @@ namespace mesmer
     bool calculate(size_t nCond, vector<double> &Quantities, bool writeReport = false) ;
 
 	// Begin single calculation.
-    bool calculate(double &Temperature, double &Concentration, Precision precision, map<string, double> &phenRates, double &MaxT);
+    bool calculate(double &Temperature, double &Concentration, Precision precision,
+                   map<string, double> &phenRates, double &MaxT, const std::string& bathGas);
 
 	// Print system configuration
     void configuration(void);
@@ -87,6 +89,9 @@ namespace mesmer
     std::vector<ConditionsManager*> m_ConditionsForEachControl;
 
     MesmerEnv& getEnv() { return m_Env; } ;
+
+    //Visit each set of Conditions to collect bath gas names
+    void getAllBathGases(std::set<std::string>& bathGases);
 
   private:
 

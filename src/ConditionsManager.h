@@ -101,6 +101,9 @@ public:
   PersistPtr get_experimentalDataPtr(unsigned index, size_t i) const
   { return PandTs[index].m_expDataPtrs[i]; }
 
+  //Collect bath gas names from PandTs
+  void getAllBathGases(std::set<std::string>& bathGases);
+
 private:
   void readPTs();
 

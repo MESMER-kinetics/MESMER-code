@@ -279,6 +279,11 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
     return Tmax;
   }
 
+  void ConditionsManager::getAllBathGases(std::set<std::string>& bathGases)
+  {
+    for(int i=0; i!=PandTs.size(); ++i)
+      bathGases.insert(PandTs[i].m_pBathGasName);
+  }
 
 }//namespace
 

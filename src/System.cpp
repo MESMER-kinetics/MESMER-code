@@ -634,17 +634,16 @@ bool System::parse(PersistPtr ppIOPtr)
   // Calculate rate coefficients for conditions other than those 
   // supplied directly by user e.g. for analytical representation.
   //
-  bool System::calculate(double &Temperature, double &Concentration, Precision precision, map<string, double> &phenRates, double &MaxT)
+  bool System::calculate(double &Temperature, double &Concentration, Precision precision,
+                         map<string, double> &phenRates, double &MaxT, const string& bathGas)
   {
-
+    assert(!bathGas.empty());
+    m_Env.bathGasName = bathGas;
     m_Flags.printEigenValuesNum = 0 ;
 
     m_Env.beta = 1.0 / (boltzmann_RCpK * Temperature) ; //temporary statements
     m_Env.MaximumTemperature = MaxT;
-    m_Env.conc = Concentration;
-    // unit of conc: particles per cubic centimeter
-
-    m_Env.bathGasName = getMoleculeManager()->get_BathGasName().c_str();
+    m_Env.conc = Concentration;// unit of conc: particles per cubic centimeter
 
     // Build collison matrix for system.
     if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags))
@@ -849,6 +848,14 @@ bool System::parse(PersistPtr ppIOPtr)
       author = "unknown";
     ppList->XmlWriteValueElement("dc:contributor", author);
   }
+
+  void System::getAllBathGases(set<string>& bathGases)
+  {
+    for(int i=0;i!=m_ConditionsForEachControl.size();++i)
+      if(m_ConditionsForEachControl[i])
+        m_ConditionsForEachControl[i]->getAllBathGases(bathGases) ;
+  }
+
 
   void System::configuration(void){
     clog << "\nPrinting system precision configuration:" << endl;

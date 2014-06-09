@@ -1,3 +1,12 @@
+2014-June-09 Chris Morley
+
+	* src/ConditionsManager.cpp,src/ConditionsManager.h,src/System.cpp, src/System.h:
+	Allow one version of System::calculate() to loop for each bath gas mentioned
+	in any <conditions> block.
+	
+	* src/plugins/AnalyticalRepresentation.cpp, schemas/mesmerPlugins.xsd: extra 
+	keyword to do the above for Chebyshev fitting.
+
 2014-June-05 Chris Morley
 
 	* src/MolecularComponents.cpp,src/MolecularComponents.h,

@@ -399,6 +399,7 @@
           </xs:element>
             <xs:element name="chebTExSize" type="xs:integer" minOccurs="0"/>
           <xs:element name="chebPExSize" type="xs:integer" minOccurs="0"/>
+          <xs:element name="chebDoForAllBathGases" minOccurs="0"/>
           <xs:element name="fittingIterations" type="xs:integer" minOccurs="0"/>
           <xs:element name="fittingTolerance" type="xs:float" minOccurs="0"/>
         </xs:all>
