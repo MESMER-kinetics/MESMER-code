@@ -51,8 +51,15 @@ static const double NaN = NaN;
 // -------------------   Compiler specific configuration
 
 
-
+#if defined (_MSC_VER)  // MS Windows
 const std::string TestSubFolder("baselines\\Win32\\mesmer.test"); //relative to the data file
 const std::string TestFolder("baselines\\Win32\\"); //relative to the data file
+//#elif defined (SOMETHING)
+//const std::string TestSubFolder("baselines/Something/mesmer.test"); //relative to the data file
+//const std::string TestFolder("baselines/Something/"); //relative to the data file
+#else
+const std::string TestSubFolder("baselines/Linux64/mesmer.test"); //relative to the data file
+const std::string TestFolder("baselines/Linux64/"); //relative to the data file
+#endif
 
 #endif // GUARD_MesmerConfig_h
