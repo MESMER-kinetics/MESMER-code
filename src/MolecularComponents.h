@@ -116,13 +116,15 @@ namespace mesmer
     std::string m_EnergyConvention;
     //================================================
 
-    std::vector<double> m_eleExc  ;      // Electronic excitation (E.g. OH, NO, NS, otherwise no member).
+    std::vector<double> m_eleExc  ;      // Electronic excitation (E.g. OH, NO, NS).
     std::vector<double> m_VibFreq ;      // Values of vibrational frequencies.
     dMatrix            *m_Hessian ;      // Hessian matrix (If supplied, used to calculate vibrational frequncies).
     dMatrix            *m_Modes ;        // Vectors representing modes that are to be projected from Hessian.
 	size_t              m_nModes ;       // Number of projected modes.
 	std::string         m_HessianUnits ; // Hessian matrix units.
-    //------------------------
+	size_t              m_MaximumCell ;  // Number of cells used in DOS calculations.
+
+	//------------------------
     // Cell density of states
     //------------------------
     std::vector<double> m_cellDOS ;   // Cell density of states array.

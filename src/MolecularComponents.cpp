@@ -124,9 +124,11 @@ namespace mesmer
     m_Modes(NULL),
     m_nModes(0),
     m_HessianUnits(),
+    m_MaximumCell(0),
+    m_cellDOS(),
     m_grainEne(),
     m_grainDOS() {
-    m_host = pMol;
+      m_host = pMol;
   }
 
   bool gDensityOfStates::initialization() {
@@ -557,21 +559,21 @@ namespace mesmer
   //
   bool gDensityOfStates::calcDensityOfStates()
   {
-    const bool recalc(needReCalculateDOS());
-    const int MaximumCell = m_host->getEnv().MaxCell;
-    const bool vectorSizeConstant(m_cellDOS.size() == static_cast<unsigned int>(MaximumCell));
-    const size_t sizeOfVector(m_cellDOS.size());
+    bool recalc(false);
+    const size_t MaximumCell = m_host->getEnv().MaxCell;
+    if (MaximumCell > m_MaximumCell) {
+      recalc = true ;
+      m_MaximumCell = MaximumCell ;
+    }
 
-    if (sizeOfVector && vectorSizeConstant && !recalc)
-      return true;
-
-    // Calculate density of states.
-    bool ret(true);
-    for (size_t i(0); ret && i < m_DOSCalculators.size(); ++i)
-      ret = ret && m_DOSCalculators[i]->countCellDOS(this, MaximumCell);
-    if (!ret)
-      return false;
-    //-------------------------------------------------------------
+    if (recalc) {
+      // Calculate density of states.
+      bool ret(true);
+      for (size_t i(0); ret && i < m_DOSCalculators.size(); ++i)
+        ret = ret && m_DOSCalculators[i]->countCellDOS(this, MaximumCell);
+      if (!ret)
+        return false;
+    }
 
     std::vector<double> shiftedCellDOS;
     std::vector<double> shiftedCellEne;
@@ -582,10 +584,13 @@ namespace mesmer
 
     calcGrainAverages(m_host->getEnv().MaxGrn, m_host->getEnv().GrainSize, shiftedCellDOS, shiftedCellEne, m_grainDOS, m_grainEne);
 
-    testDensityOfStates();
+    if (recalc) {
+       testDensityOfStates();
+	}
 
     recalculateDOScompleted();
-    return true;
+
+	return true;
   }
 
   // Calculate classical energy
@@ -2054,21 +2059,21 @@ namespace mesmer
   // Provide a function to define particular counts of the convolved DOS of two molecules.
   bool countDimerCellDOS
     (gDensityOfStates& pDOS1, gDensityOfStates& pDOS2, std::vector<double>& rctsCellDOS){
-    std::vector<double> rct1CellDOS;
-    std::vector<double> rct2CellDOS;
-    if (!pDOS1.getCellDensityOfStates(rct1CellDOS) || !pDOS2.getCellDensityOfStates(rct2CellDOS))
-      return false;
-    std::vector<double> rotConsts;
-    if (pDOS1.get_rotConsts(rotConsts) == UNDEFINED_TOP){
-      rctsCellDOS = rct2CellDOS;
-    }
-    else if (pDOS2.get_rotConsts(rotConsts) == UNDEFINED_TOP){
-      rctsCellDOS = rct1CellDOS;
-    }
-    else{
-      FastLaplaceConvolution(rct1CellDOS, rct2CellDOS, rctsCellDOS);
-    }
-    return true;
+      std::vector<double> rct1CellDOS;
+      std::vector<double> rct2CellDOS;
+      if (!pDOS1.getCellDensityOfStates(rct1CellDOS) || !pDOS2.getCellDensityOfStates(rct2CellDOS))
+        return false;
+      std::vector<double> rotConsts;
+      if (pDOS1.get_rotConsts(rotConsts) == UNDEFINED_TOP){
+        rctsCellDOS = rct2CellDOS;
+      }
+      else if (pDOS2.get_rotConsts(rotConsts) == UNDEFINED_TOP){
+        rctsCellDOS = rct1CellDOS;
+      }
+      else{
+        FastLaplaceConvolution(rct1CellDOS, rct2CellDOS, rctsCellDOS);
+      }
+      return true;
   }
 
   //Returns true if atoms have coordinates
@@ -2318,103 +2323,78 @@ namespace mesmer
 
   // Calculate the reduce moment of inertia about axis defined by specifed atoms.
   void gStructure::reducedMomentInertiaAngular(string bondID, double phase, vector<double>& angles,
-                                               vector<double>& redInvMOI, PersistPtr ppConfigData) {
+    vector<double>& redInvMOI, PersistPtr ppConfigData) {
 
-    // Save coordinates.
-    exportToXYZ("orig_coords", NULL, ppConfigData) ;
+      // Save coordinates.
+      exportToXYZ("orig_coords", NULL, ppConfigData) ;
 
-    map<string, atom>::iterator iter;
-    vector<vector3> coordinates;
-    for (iter = Atoms.begin(); iter != Atoms.end(); ++iter) {
-      coordinates.push_back(iter->second.coords);
-    }
+      map<string, atom>::iterator iter;
+      vector<vector3> coordinates;
+      for (iter = Atoms.begin(); iter != Atoms.end(); ++iter) {
+        coordinates.push_back(iter->second.coords);
+      }
 
-    pair<string, string> bondats = GetAtomsOfBond(bondID);
-    atom &at1 = Atoms[bondats.first];
-    atom &at2 = Atoms[bondats.second];
+      pair<string, string> bondats = GetAtomsOfBond(bondID);
+      atom &at1 = Atoms[bondats.first];
+      atom &at2 = Atoms[bondats.second];
 
-    // Move fragment so that at1 is at origin.
+      // Move fragment so that at1 is at origin.
 
-    vector3 origin = at1.coords;
-    for (iter = Atoms.begin(); iter != Atoms.end(); ++iter) {
-      iter->second.coords -= origin;
-    }
+      vector3 origin = at1.coords;
+      for (iter = Atoms.begin(); iter != Atoms.end(); ++iter) {
+        iter->second.coords -= origin;
+      }
 
-    exportToXYZ("origin_at_at1") ;
+      exportToXYZ("origin_at_at1") ;
 
-    // Rotate molecule so that the at1-at2 bond is along z -axis.
+      // Rotate molecule so that the at1-at2 bond is along z -axis.
 
-    vector3 bond = at2.coords;
-    dMatrix rotY(3, 0.0);
-    double cosTheta = bond.z() / bond.length();
-    double sinTheta = sqrt(1.0 - min(1.0, cosTheta*cosTheta));
-    rotY[0][0] = rotY[2][2] = cosTheta;
-    rotY[1][1] = 1.0;
-    rotY[0][2] = sinTheta;
-    rotY[2][0] = -rotY[0][2];
+      vector3 bond = at2.coords;
+      dMatrix rotY(3, 0.0);
+      double cosTheta = bond.z() / bond.length();
+      double sinTheta = sqrt(1.0 - min(1.0, cosTheta*cosTheta));
+      rotY[0][0] = rotY[2][2] = cosTheta;
+      rotY[1][1] = 1.0;
+      rotY[0][2] = sinTheta;
+      rotY[2][0] = -rotY[0][2];
 
-    dMatrix rotZ(3, 0.0);
-    double radius = sqrt(bond.x()*bond.x() + bond.y()*bond.y());
-    double cosPhi(0.0);
-    double sinPhi(0.0);
-    if (radius > 0.0) {
-      cosPhi = bond.x() / radius;
-      sinPhi = bond.y() / radius;
-    }
-    rotZ[0][0] = rotZ[1][1] = cosPhi;
-    rotZ[2][2] = 1.0;
-    rotZ[0][1] = sinPhi;
-    rotZ[1][0] = -rotZ[0][1];
+      dMatrix rotZ(3, 0.0);
+      double radius = sqrt(bond.x()*bond.x() + bond.y()*bond.y());
+      double cosPhi(0.0);
+      double sinPhi(0.0);
+      if (radius > 0.0) {
+        cosPhi = bond.x() / radius;
+        sinPhi = bond.y() / radius;
+      }
+      rotZ[0][0] = rotZ[1][1] = cosPhi;
+      rotZ[2][2] = 1.0;
+      rotZ[0][1] = sinPhi;
+      rotZ[1][0] = -rotZ[0][1];
 
-    dMatrix rotA = rotY*rotZ;
+      dMatrix rotA = rotY*rotZ;
 
-    for (iter = Atoms.begin(); iter != Atoms.end(); ++iter) {
-      vector<double> r(3, 0.0);
-      iter->second.coords.Get(&r[0]);
-      r *= rotA;
-      iter->second.coords.Set(&r[0]);
-    }
+      for (iter = Atoms.begin(); iter != Atoms.end(); ++iter) {
+        vector<double> r(3, 0.0);
+        iter->second.coords.Get(&r[0]);
+        r *= rotA;
+        iter->second.coords.Set(&r[0]);
+      }
 
-    exportToXYZ("z_axis=at1-at2") ;
+      exportToXYZ("z_axis=at1-at2") ;
 
-    // Determine the content of one of the fragments so that it can moved relative to the other.
+      // Determine the content of one of the fragments so that it can moved relative to the other.
 
-    vector<string> atomset;
-    findRotorConnectedAtoms(atomset, bondats.first, bondats.second);
+      vector<string> atomset;
+      findRotorConnectedAtoms(atomset, bondats.first, bondats.second);
 
-    // Rotate fragments so that they are in phase with the potential.
+      // Rotate fragments so that they are in phase with the potential.
 
-    const double Angle(fmod(phase, 360.0)*M_PI / 180.);
-    dMatrix rot(3, 0.0);
-    rot[0][0] = rot[1][1] = cos(Angle);
-    rot[2][2] = 1.0;
-    rot[0][1] = sin(Angle);
-    rot[1][0] = -rot[0][1];
-
-    for (size_t j(0); j < atomset.size(); j++) {
-      atom &at = Atoms[atomset[j]];
-      vector<double> r(3, 0.0);
-      at.coords.Get(&r[0]);
-      r *= rot;
-      at.coords.Set(&r[0]);
-    }
-
-    // Rotate one fragment relative to the other.
-
-    redInvMOI.clear();
-    redInvMOI.push_back(conMntInt2RotCnt*getGRIT(bondID));
-    const size_t nAngle(angles.size());
-    const double dAngle = 2.0*M_PI / double(nAngle);
-    angles[0] = 0.0;
-    rot.reset(rot.size());
-    rot[0][0] = rot[1][1] = cos(dAngle);
-    rot[2][2] = 1.0;
-    rot[0][1] = sin(dAngle);
-    rot[1][0] = -rot[0][1];
-
-    for (size_t i(1); i < nAngle; i++) {
-
-      angles[i] = angles[i - 1] + dAngle;
+      const double Angle(fmod(phase, 360.0)*M_PI / 180.);
+      dMatrix rot(3, 0.0);
+      rot[0][0] = rot[1][1] = cos(Angle);
+      rot[2][2] = 1.0;
+      rot[0][1] = sin(Angle);
+      rot[1][0] = -rot[0][1];
 
       for (size_t j(0); j < atomset.size(); j++) {
         atom &at = Atoms[atomset[j]];
@@ -2424,18 +2404,43 @@ namespace mesmer
         at.coords.Set(&r[0]);
       }
 
-      exportToXYZ(("rotate_fragment_" + toString(i)).c_str()) ;
-      redInvMOI.push_back(conMntInt2RotCnt*getGRIT(bondID)) ;
-    }
+      // Rotate one fragment relative to the other.
 
-    // Restore original coordinates.
+      redInvMOI.clear();
+      redInvMOI.push_back(conMntInt2RotCnt*getGRIT(bondID));
+      const size_t nAngle(angles.size());
+      const double dAngle = 2.0*M_PI / double(nAngle);
+      angles[0] = 0.0;
+      rot.reset(rot.size());
+      rot[0][0] = rot[1][1] = cos(dAngle);
+      rot[2][2] = 1.0;
+      rot[0][1] = sin(dAngle);
+      rot[1][0] = -rot[0][1];
 
-    size_t i(0);
-    for (iter = Atoms.begin(); iter != Atoms.end(); ++iter, i++) {
-      iter->second.coords = coordinates[i];
-    }
+      for (size_t i(1); i < nAngle; i++) {
 
-    exportToXYZ("orig_coords", true) ;
+        angles[i] = angles[i - 1] + dAngle;
+
+        for (size_t j(0); j < atomset.size(); j++) {
+          atom &at = Atoms[atomset[j]];
+          vector<double> r(3, 0.0);
+          at.coords.Get(&r[0]);
+          r *= rot;
+          at.coords.Set(&r[0]);
+        }
+
+        exportToXYZ(("rotate_fragment_" + toString(i)).c_str()) ;
+        redInvMOI.push_back(conMntInt2RotCnt*getGRIT(bondID)) ;
+      }
+
+      // Restore original coordinates.
+
+      size_t i(0);
+      for (iter = Atoms.begin(); iter != Atoms.end(); ++iter, i++) {
+        iter->second.coords = coordinates[i];
+      }
+
+      exportToXYZ("orig_coords", true) ;
   }
 
   // Calculate the internal rotation eigenvector. Based on the internal rotation 
@@ -2736,8 +2741,8 @@ namespace mesmer
       const atom &at = iter->second ;
       cinfo << setw(10) << at.element ;
       cinfo << formatFloat(at.coords.x(), 6, 15)  
-            << formatFloat(at.coords.y(), 6, 15) 
-            << formatFloat(at.coords.z(), 6, 15) << endl ;
+        << formatFloat(at.coords.y(), 6, 15) 
+        << formatFloat(at.coords.z(), 6, 15) << endl ;
     }
     exportToCML(txt, last, ppConfigData);
   }
@@ -2762,10 +2767,10 @@ namespace mesmer
     }
     PersistPtr ppBList = ppMol->XmlWriteElement("bondArray");
     for (map<string, pair<string, string> >::const_iterator iter=Bonds.begin();
-            iter!=Bonds.end(); ++iter) {
-      PersistPtr ppB = ppBList->XmlWriteElement("bond");
-      ppB->XmlWriteAttribute("atomRefs2", iter->second.first + " " + iter->second.second);
-      ppB->XmlWriteAttribute("order", "1");
+      iter!=Bonds.end(); ++iter) {
+        PersistPtr ppB = ppBList->XmlWriteElement("bond");
+        ppB->XmlWriteAttribute("atomRefs2", iter->second.first + " " + iter->second.second);
+        ppB->XmlWriteAttribute("order", "1");
     }
   }
 }//namespace

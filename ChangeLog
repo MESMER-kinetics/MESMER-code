@@ -1,3 +1,7 @@
+2014-June-12 Struan Robertson
+
+	* MolecularComponents.cpp/.h: Alterations to reduce the amount of DOS re-calculation.
+
 2014-June-09 Chris Morley
 
 	* src/ConditionsManager.cpp,src/ConditionsManager.h,src/System.cpp, src/System.h:
