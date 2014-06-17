@@ -1,3 +1,8 @@
+2014-June-17 Struan Robertson
+
+	* SimpleILT.cpp: Altered the simple ILT method to allow flux to be calculated from 
+	the product side.
+
 2014-June-12 Struan Robertson
 
 	* MolecularComponents.cpp/.h: Alterations to reduce the amount of DOS re-calculation.
