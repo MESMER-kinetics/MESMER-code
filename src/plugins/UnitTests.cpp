@@ -418,13 +418,13 @@ namespace mesmer
     // Equilibrium matrix.
 
     TMatrix<T> Mtx1(3,0.0) ;
-    Mtx1[0][0] = -3.0/2.0 ;
-    Mtx1[0][1] = 1.0 ;
-    Mtx1[1][1] = -10.0/6.0 ;
-    Mtx1[1][2] = 1.0 ;
-    Mtx1[2][0] = 1.0 ;
-    Mtx1[2][1] = 1.0 ;
-    Mtx1[2][2] = 1.0 ;
+    Mtx1[0][0] = T(-3.0)/T(2.0) ;
+    Mtx1[0][1] = T(1.0) ;
+    Mtx1[1][1] = T(-10.0)/T(6.0) ;
+    Mtx1[1][2] = T(1.0) ;
+    Mtx1[2][0] = T(1.0) ;
+    Mtx1[2][1] = T(1.0) ;
+    Mtx1[2][2] = T(1.0) ;
 
     string Heading("Test matrix 1") ;
     Mtx1.print(Heading, ctest) ;
@@ -439,22 +439,22 @@ namespace mesmer
 
     size_t msize = Mtx1.size() ;
     vector<T> rhs(msize,0.0) ;
-    rhs[2] = 1.0 ;
+    rhs[2] = T(1.0) ;
     rhs *= Mtx1 ;
 
     // Rate coefficient matrix.
 
     TMatrix<T> Mtx2(msize,0.0) ;
 
-    Mtx2[0][0] = -13.0 ;
-    Mtx2[0][1] =   2.0 ;
-    Mtx2[0][2] =   4.0 ;
-    Mtx2[1][0] =   3.0 ;
-    Mtx2[1][1] = -12.0 ;
-    Mtx2[1][2] =   6.0 ;
-    Mtx2[2][0] =  10.0 ;
-    Mtx2[2][1] =  10.0 ;
-    Mtx2[2][2] = -10.0 ;
+    Mtx2[0][0] = T(-13.0) ;
+    Mtx2[0][1] = T(  2.0) ;
+    Mtx2[0][2] = T(  4.0) ;
+    Mtx2[1][0] = T(  3.0) ;
+    Mtx2[1][1] = T(-12.0) ;
+    Mtx2[1][2] = T(  6.0) ;
+    Mtx2[2][0] = T( 10.0) ;
+    Mtx2[2][1] = T( 10.0) ;
+    Mtx2[2][2] = T(-10.0) ;
 
     Heading.clear() ;
     Heading = "Test matrix 2" ;
@@ -466,8 +466,8 @@ namespace mesmer
     TMatrix<T> Mtx4(Mtx3) ;
     for (size_t i(0) ; i < msize ; i++) {
       Mtx3[i][i] = sqrt(rhs[i]) ;
-      Mtx4[i][i] = 1.0/Mtx3[i][i] ;
-      rhs[i] = 0.0 ;
+      Mtx4[i][i] = T(1.0)/Mtx3[i][i] ;
+      rhs[i] = T(0.0) ;
     }
 
     TMatrix<T> Mtx5 = Mtx4*Mtx2*Mtx3 ;
