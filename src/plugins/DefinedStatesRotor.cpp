@@ -28,7 +28,7 @@ namespace mesmer
     virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC=NULL);
 
     // Function to define particular counts of the DOS of a molecule.
-    virtual bool countCellDOS(gDensityOfStates* mol, size_t MaximumCell);
+    virtual bool countCellDOS(gDensityOfStates* mol,  const MesmerEnv& env);
 
     // Function to calculate contribution to canonical partition function.
     virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
@@ -97,8 +97,9 @@ namespace mesmer
   // Calculate quantum mechanical 1D rotor densities of states of a free 
   // rotor and convolve them with the main density of states.
   //
-  bool DefinedStatesRotor::countCellDOS(gDensityOfStates* pDOS, size_t MaximumCell)
+  bool DefinedStatesRotor::countCellDOS(gDensityOfStates* pDOS, const MesmerEnv& env)
   {
+	const size_t MaximumCell = env.MaxCell ;
 
     vector<double> cellDOS(MaximumCell, 0.0) ;
 

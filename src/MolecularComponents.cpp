@@ -570,7 +570,7 @@ namespace mesmer
       // Calculate density of states.
       bool ret(true);
       for (size_t i(0); ret && i < m_DOSCalculators.size(); ++i)
-        ret = ret && m_DOSCalculators[i]->countCellDOS(this, MaximumCell);
+        ret = ret && m_DOSCalculators[i]->countCellDOS(this, m_host->getEnv());
       if (!ret)
         return false;
     }

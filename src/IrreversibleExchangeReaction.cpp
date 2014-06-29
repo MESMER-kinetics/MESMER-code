@@ -176,7 +176,7 @@ namespace mesmer
 
     if (getFlags().cyclePrintGrainDOS){
       ctest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;
-      for (int i = 0; i < getEnv().MaxGrn; ++i){
+      for (size_t i(0); i < getEnv().MaxGrn; ++i){
         formatFloat(ctest, grainEne[i],  6,  15) ;
         formatFloat(ctest, grainDOS[i],  6,  15) ;
         ctest << endl ;
@@ -221,7 +221,7 @@ namespace mesmer
 
     if (getFlags().cyclePrintGrainDOS){
       ctest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;
-      for (int i = 0; i < getEnv().MaxGrn; ++i){
+      for (size_t i(0); i < getEnv().MaxGrn; ++i){
         formatFloat(ctest, grainEne[i],  6,  15) ;
         formatFloat(ctest, grainDOS[i],  6,  15) ;
         ctest << endl ;

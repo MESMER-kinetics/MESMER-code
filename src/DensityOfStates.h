@@ -11,6 +11,7 @@ namespace mesmer
 {
   class Molecule;
   class gDensityOfStates;
+  struct MesmerEnv;
 
   // Abstract base class for cell Density Of States (DOS) calculators. The
   // derived concrete classes are plugin classes, so that new classes can be 
@@ -49,9 +50,9 @@ namespace mesmer
     virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC=NULL){ return true; };
 
     // Provide a function to define particular counts of the DOS of a molecule
-    virtual bool countCellDOS(gDensityOfStates* mol, size_t MaximumCell)=0;
+    virtual bool countCellDOS(gDensityOfStates* mol, const MesmerEnv& env)=0;
 
-    // Provide a function to calculate contribution to canonical partition function.
+    // Provide a function to calculate contribution to canonical partition function.const Mesmer
     virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta)=0;
 
     // Provide a function to return the number of degrees of freedom associated with this count.

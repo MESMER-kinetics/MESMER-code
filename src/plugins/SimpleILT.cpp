@@ -143,7 +143,7 @@ namespace mesmer
     }
     Molecule *pMol = Isomers[0];
 
-    const int MaximumCell = pReact->getEnv().MaxCell;
+    const size_t MaximumCell = pReact->getEnv().MaxCell;
 
     // Allocate space to hold transition state flux and initialize elements to zero.
     vector<double>& rxnFlux = pReact->get_CellFlux();

@@ -1,5 +1,9 @@
 2014-June-29 Struan Robertson
 
+	* DensityOfStates.h and all derived classes: Initial plumbing for variable cell sizes.
+
+2014-June-29 Struan Robertson
+
 	* UnitTests.cpp: For the linear algebra test, initialized data within the correct 
 	template type constructor to correct errors in the smallest eigenvalue for the 
 	dd and qd types, which should both be much closer to zero than 1.e-15.

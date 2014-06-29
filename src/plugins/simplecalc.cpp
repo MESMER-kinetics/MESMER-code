@@ -29,7 +29,7 @@ SimpleCalc theSimpleCalc("simpleCalc");
 bool SimpleCalc::DoCalculation(System* pSys)
 {
   double chiSquare(1000.0);
-  return pSys->calculate(chiSquare) ;
+  return pSys->calculate(chiSquare, true) ;
 }
 
 }//namespace

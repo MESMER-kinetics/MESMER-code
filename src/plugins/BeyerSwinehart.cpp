@@ -9,7 +9,7 @@ namespace mesmer
   public:
 
     // Function to define particular counts of the DOS of a molecule.
-    virtual bool countCellDOS(gDensityOfStates* mol, size_t MaximumCell);
+    virtual bool countCellDOS(gDensityOfStates* mol, const MesmerEnv& env);
 
     // Function to calculate contribution to canonical partition function.
     virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
@@ -39,8 +39,10 @@ namespace mesmer
 
 
   // Provide a function to define particular counts of the DOS of a molecule.
-  bool BeyerSwinehart::countCellDOS(gDensityOfStates* pDOS, size_t MaximumCell)
+  bool BeyerSwinehart::countCellDOS(gDensityOfStates* pDOS, const MesmerEnv& env)
   {
+	const size_t MaximumCell = env.MaxCell ;
+
     vector<double> VibFreq ;
     pDOS->get_VibFreq(VibFreq) ;
 
