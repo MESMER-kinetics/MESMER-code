@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- May 31 2014 -- 17:07:13
+     Mesmer v4.0 compiled: -- Jun  1 2014 -- 14:03:37
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -31,7 +31,7 @@ defaults.xml, librarymols.xml are in ../..
 Parsing input xml file...
 Butyl_H_to_Butane.xml
 
-Write metadata 20140531_171223
+Write metadata 20140602_182326
 
 File: "Butyl_H_to_Butane.xml" successfully parsed.
 Main Calculation begins
@@ -686,6 +686,6 @@ m_ZPE was not defined but requested in He. Default value 0 is given.
 Number of grains produced is not equal to that requested
 Number of grains requested: 1000
 Number of grains produced : 1
- -- Total time elapsed: 25 seconds.
+ -- Total time elapsed: 19 seconds.
 
-System saved to mesmer_out.xml
+System saved to out.xml
