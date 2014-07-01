@@ -407,8 +407,9 @@ namespace mesmer
 
     double get_collisionFrequency() const {return m_collisionFrequency ; } ;
 
-    void set_colloptrsize(int ncolloptrsize) ;
-    size_t get_colloptrsize() const {return m_ncolloptrsize ; } ;
+    void set_colloptrsize(int ncolloptrsize) { m_ncolloptrsize = ncolloptrsize; };
+
+	size_t get_colloptrsize() const {return m_ncolloptrsize ; } ;
 
     size_t get_nbasis() const ;
 
@@ -419,7 +420,7 @@ namespace mesmer
     const double getLowestBarrier() { return m_lowestBarrier;}
     void setLowestBarrier(double value){ m_lowestBarrier = value;}
 
-    const int reservoirShift() {return m_numGroupedGrains == 0 ? 0 : m_numGroupedGrains - 1; }
+    const size_t reservoirShift() {return m_numGroupedGrains == 0 ? 0 : m_numGroupedGrains - 1; }
 
   };
 

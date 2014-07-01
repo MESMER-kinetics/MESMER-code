@@ -585,12 +585,12 @@ namespace mesmer
     calcGrainAverages(m_host->getEnv().MaxGrn, m_host->getEnv().GrainSize, shiftedCellDOS, shiftedCellEne, m_grainDOS, m_grainEne);
 
     if (recalc) {
-       testDensityOfStates();
-	}
+      testDensityOfStates();
+    }
 
     recalculateDOScompleted();
 
-	return true;
+    return true;
   }
 
   // Calculate classical energy
@@ -1244,29 +1244,10 @@ namespace mesmer
     if (!m_pDistributionCalculator)
       return false;
 
-    //PersistPtr pp = m_host->get_PersistentPointer();
-    //const char* pDistCalcMethodtxt = pp->XmlReadValue("me:DistributionCalcMethod") ;
-    //if(pDistCalcMethodtxt)
-    //{
-    //  m_pDistributionCalculator = DistributionCalculator::Find(pDistCalcMethodtxt);
-    //  if(!m_pDistributionCalculator) // if the provided method cannot be found,
-    //  {
-    //    cinfo << "Unknown method " << pDistCalcMethodtxt
-    //      << " for the calculation of distribution fraction. Please check spelling error. Default method <Boltzmann> is used." << endl;
-    //    pDistCalcMethodtxt = "Boltzmann";
-    //    m_pDistributionCalculator = DistributionCalculator::Find(pDistCalcMethodtxt);
-    //  }
-    //}
-    //else{ // if no method is provided.
-    //  cinfo << "No method for the calculation of distribution fraction is provided in " << m_host->getName() << ". Default method <Boltzmann> is used." << endl;
-    //  pDistCalcMethodtxt = "Boltzmann"; // must exist
-    //  m_pDistributionCalculator = DistributionCalculator::Find(pDistCalcMethodtxt);
-    //}
 
     // Specify the energy transfer probability model.
     // The default value is specified in defaults.xml:
     //  <me:energyTransferModel xsi:type="ExponentialDown" default=true;/>
-    //New format
     EnergyTransferModel* pModel = ParseForPlugin<EnergyTransferModel>
       (m_host, "me:energyTransferModel", pp, true); //
     if (!pModel)
@@ -1274,20 +1255,6 @@ namespace mesmer
     pModel->setParent(m_host);
     return true;
 
-    //Old format
-    //const char* pETPModeltxt = pp->XmlReadValue("me:energyTransferModel") ;
-    //if(!pETPModeltxt)
-    //  return false;
-
-    //EnergyTransferModel* pModel = EnergyTransferModel::Find(pETPModeltxt);//new instance, deleted in destructor
-    //if(!pModel)
-    //{
-    //  cerr << "Unknown energy transfer model" << pETPModeltxt << " for species" << m_host->getName() << endl;
-    //  return false;
-    //}
-
-    //// Initialize energy transfer model.
-    //return pModel->ReadParameters(getHost());
 
   }
 
@@ -1310,10 +1277,6 @@ namespace mesmer
     return pETModel;
   }
 
-  void gWellProperties::set_colloptrsize(int ncolloptrsize) {
-    m_ncolloptrsize = ncolloptrsize;
-  };
-
   const int gWellProperties::get_grnZPE(){
     double grnZpe = (m_host->getDOS().get_zpe() - m_host->getEnv().EMin) / m_host->getEnv().GrainSize; //convert to grain
     if (grnZpe < 0.0)
@@ -1327,99 +1290,85 @@ namespace mesmer
   //
   bool gWellProperties::initCollisionOperator(MesmerEnv& env, Molecule *pBathGasMolecule)
   {
-    // If density of states have not already been calcualted then do so.
-    if (!m_host->getDOS().calcDensityOfStates()){
-      cerr << "Failed calculating DOS";
-      return false;
-    }
-
     // Calculate the collision frequency.
     m_collisionFrequency = collisionFrequency(env, pBathGasMolecule);
 
-    // Calculate the collision operator.
-    {
-      //-----------------------------------------
-      // Treat reservoir grains as a source grain (anything going into this grain will behave Boltzmann)
-      // First need to find out the lowest barrier associated with the current well
+    // Treat reservoir grains as a source grain (anything going into this grain will behave Boltzmann)
+    // First need to find out the lowest barrier associated with the current well
+    // Determine the energy of the reservoir grain
+    PersistPtr pp = m_host->get_PersistentPointer();
+    PersistPtr ppReservoirSize = pp->XmlMoveTo("me:reservoirSize");
+
+    m_numGroupedGrains = 0; // Reset the number of grains grouped into a reservoir grain to zero.
+
+    if (ppReservoirSize){
+
+      // Check the size of the reservoir.
+      double tmpvalue = pp->XmlReadDouble("me:reservoirSize");
+
+      const char* unitsTxt = ppReservoirSize->XmlReadValue("units", false);
+      string unitsInput("kJ/mol");
+      if (unitsTxt){
+        unitsInput = unitsTxt;
+      }
+      else {
+        ctest << "No unit for reservoir size has been supplied, use kJ/mol." << endl;
+      }
+
+      const double value(getConvertedEnergy(unitsInput, tmpvalue));
+      int grainLoc(int(value / double(m_host->getEnv().GrainSize)));
+      int lowestBarrier = int(getLowestBarrier() / double(m_host->getEnv().GrainSize));
+
+      if (grainLoc > 0){
+        if (grainLoc > lowestBarrier){
+          ctest << "The reservoir size provided is too high, corrected according to the lowest barrier height." << endl;
+          grainLoc = lowestBarrier;
+        }
+      }
+      else {
+        if (abs(grainLoc) > lowestBarrier){
+          ctest << "The reservoir size provided is too low, corrected to zero." << endl;
+          grainLoc = 0;
+        }
+        else {
+          grainLoc += lowestBarrier;
+        }
+      }
+      ctest << "The reservoir is set to " << grainLoc << " grains, which is about " << grainLoc * m_host->getEnv().GrainSize
+        << " cm-1 from the well bottom." << endl;
+
+      // Calculate the fraction of active states at the current temperature.
       vector<double> gEne;
       vector<double> gDOS;
       m_host->getDOS().getGrainEnergies(gEne);
       m_host->getDOS().getGrainDensityOfStates(gDOS);
-
-      // Determine the energy of the reservoir grain
-      PersistPtr pp = m_host->get_PersistentPointer();
-      PersistPtr ppReservoirSize = pp->XmlMoveTo("me:reservoirSize");
-
-      m_numGroupedGrains = 0; // Reset the number of grains grouped into a reservoir grain to zero.
-
-      while (ppReservoirSize){
-
-        // Check the size of the reservoir.
-        const char* pChunkSizeTxt = pp->XmlReadValue("me:reservoirSize");
-        double tmpvalue(0.0); stringstream s2(pChunkSizeTxt); s2 >> tmpvalue;
-
-        const char* unitsTxt = ppReservoirSize->XmlReadValue("units", false);
-        string unitsInput;
-        if (unitsTxt){
-          unitsInput = unitsTxt;
-        }
-        else {
-          ctest << "No unit for reservoir size has been supplied, use kJ/mol." << endl;
-          unitsInput = "kJ/mol";
-        }
-
-        const double value(getConvertedEnergy(unitsInput, tmpvalue));
-        int grainLoc(int(value / double(m_host->getEnv().GrainSize)));
-        int lowestBarrier = int(getLowestBarrier() / double(m_host->getEnv().GrainSize));
-
-        if (grainLoc > 0){
-          if (grainLoc > lowestBarrier){
-            ctest << "The reservoir size provided is too high, corrected according to the lowest barrier height." << endl;
-            grainLoc = lowestBarrier;
-          }
-        }
-        else {
-          if (abs(grainLoc) > lowestBarrier){
-            ctest << "The reservoir size provided is too low, corrected to zero." << endl;
-            grainLoc = 0;
-            break;
-          }
-          else {
-            grainLoc = lowestBarrier + grainLoc;
-          }
-        }
-        ctest << "The reservoir is set to " << grainLoc << " grains, which is about " << grainLoc * m_host->getEnv().GrainSize
-          << " cm-1 from the well bottom." << endl;
-
-        // Second find out the partition fraction of active states in the current temperature
-        double popAbove(0.0), totalPartition(0.0);
-        for (size_t i(0); i < m_ncolloptrsize; ++i){
-          const double ptfn(sqrt(exp(log(gDOS[i]) - env.beta * gEne[i] + 10.0)));
-          totalPartition += ptfn;
-          if (int(i) >= grainLoc)
-            popAbove += ptfn;
-        }
-
-        popAbove /= totalPartition;
-
-        m_numGroupedGrains = grainLoc;
-        ctest << popAbove << " of the " << m_host->getName() << " population is in the active states. "
-          << "The reservoir size = " << m_numGroupedGrains * m_host->getEnv().GrainSize
-          << " cm-1, which is " << m_numGroupedGrains * m_host->getEnv().GrainSize / 83.593 << " kJ/mol." << endl;
-        break;
+      double popAbove(0.0), totalPartition(0.0);
+      for (size_t i(0); i < m_ncolloptrsize; ++i){
+        const double ptfn(sqrt(exp(log(gDOS[i]) - env.beta * gEne[i] + 10.0)));
+        totalPartition += ptfn;
+        if (int(i) >= grainLoc)
+          popAbove += ptfn;
       }
 
-      if (m_numGroupedGrains){
-        if (!collisionOperatorWithReservoirState(env)){
-          cerr << "Failed building collision operator with reservoir state.";
-          return false;
-        }
+      popAbove /= totalPartition;
+
+      m_numGroupedGrains = grainLoc;
+      ctest << popAbove << " of the " << m_host->getName() << " population is in the active states. "
+        << "The reservoir size = " << m_numGroupedGrains * m_host->getEnv().GrainSize
+        << " cm-1, which is " << m_numGroupedGrains * m_host->getEnv().GrainSize / 83.593 << " kJ/mol." << endl;
+    }
+
+    // Calculate the collision operator.
+    if (m_numGroupedGrains){
+      if (!collisionOperatorWithReservoirState(env)){
+        cerr << "Failed building collision operator with reservoir state.";
+        return false;
       }
-      else{
-        if (!collisionOperator(env)){
-          cerr << "Failed building collision operator." << endl;
-          return false;
-        }
+    }
+    else{
+      if (!collisionOperator(env)){
+        cerr << "Failed building collision operator." << endl;
+        return false;
       }
     }
 
@@ -1485,7 +1434,7 @@ namespace mesmer
     m_host->getDOS().getGrainEnergies(gEne);
     m_host->getDOS().getGrainDensityOfStates(gDOS);
 
-    const size_t reducedCollOptrSize = m_ncolloptrsize - m_numGroupedGrains + 1;
+    const size_t reducedCollOptrSize = m_ncolloptrsize - reservoirShift();
 
     // Initialisation and error checking.
     for (size_t i(0); i < m_ncolloptrsize; ++i) {
