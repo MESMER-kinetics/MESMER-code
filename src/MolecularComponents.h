@@ -366,10 +366,7 @@ namespace mesmer
     // Calculate raw transition matrix.
     bool rawTransitionMatrix(MesmerEnv& env, vector<double> &gEne,  vector<double> &gDOS, dMatrix *egme) ;
 
-    // Calculate collision operator with reservoir state.
-    bool collisionOperatorWithReservoirState(MesmerEnv& env) ;
-
-    double getBoltzmannWeightedEnergy(int numberOfGrains, const vector<double>& gEne, const vector<double>& gDos, double beta, double& totalDOS);
+	double getBoltzmannWeightedEnergy(int numberOfGrains, const vector<double>& gEne, const vector<double>& gDos, double beta, double& totalDOS);
 
     // Diagonalize collision operator before adding reaction terms to get eigenvectors and eigenvalues.
     void diagonalizeCollisionOperator();

@@ -96,9 +96,9 @@ namespace mesmer
     // Issue warning if number of grains produced is less that requested.
 
     if ( idx2 != MaximumGrain ) {
-      cinfo << "Number of grains produced is not equal to that requested" << endl
-        << "Number of grains requested: " << MaximumGrain << endl
-        << "Number of grains produced : " << idx2 << endl;
+      cinfo << "Number of grains produced is not equal to that requested" << once << endl
+        << "Number of grains requested: " << MaximumGrain << once << endl
+        << "Number of grains produced : " << idx2 << once << endl;
     }
   }
 

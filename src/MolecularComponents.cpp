@@ -1359,17 +1359,9 @@ namespace mesmer
     }
 
     // Calculate the collision operator.
-    if (m_numGroupedGrains){
-      if (!collisionOperatorWithReservoirState(env)){
-        cerr << "Failed building collision operator with reservoir state.";
-        return false;
-      }
-    }
-    else{
-      if (!collisionOperator(env)){
-        cerr << "Failed building collision operator." << endl;
-        return false;
-      }
+    if (!collisionOperator(env)){
+      cerr << "Failed building collision operator." << endl;
+      return false;
     }
 
     //
@@ -1420,9 +1412,8 @@ namespace mesmer
   //
   // Calculate collision operator
   //
-  bool gWellProperties::collisionOperatorWithReservoirState(MesmerEnv& env)
+  bool gWellProperties::collisionOperator(MesmerEnv& env)
   {
-    if (m_host->getDOS().test_rotConsts() == UNDEFINED_TOP) return true;
     //
     //     i) Determine Probabilities of Energy Transfer.
     //    ii) Normalisation of Probability matrix.
@@ -1436,13 +1427,7 @@ namespace mesmer
 
     const size_t reducedCollOptrSize = m_ncolloptrsize - reservoirShift();
 
-    // Initialisation and error checking.
-    for (size_t i(0); i < m_ncolloptrsize; ++i) {
-      if (gDOS[i] <= 0.0) {
-        cerr << "Data indicates that grain " << i << " of the current colliding molecule has no states.";
-        cerr << "Usually for small GrainSize DOSs calculated by QM rotor method some grain may have no states.";
-      }
-    }
+    // Initialisation.
 
     // Allocate memory.
     if (m_egme) delete m_egme;                       // Delete any existing matrix.
@@ -1473,56 +1458,77 @@ namespace mesmer
 
     // print out of column sums to check normalization results
     if (m_host->getFlags().reactionOCSEnabled){
-      ctest << endl << "Collision operator column Sums" << endl << "{" << endl;
+      ctest << endl << "Collision operator column sums and energy transfer parameters" << endl << "{" << endl;
+      ctest << " Column Sums           E   <Delta E>  <Delta E>d  <Delta E>u" << endl;
       for (size_t i(0); i < m_ncolloptrsize; ++i) {
         double columnSum(0.0);
+        double meanEnergyTransfer(0.0);
+        double meanEnergyTransferDown(0.0);
+        double meanEnergyTransferUp(0.0);
         for (size_t j(0); j < m_ncolloptrsize; ++j){
           columnSum += to_double((*tempEGME)[j][i]);
+          meanEnergyTransfer += (gEne[j] - gEne[i])*to_double((*tempEGME)[j][i]);
+          if (gEne[j] < gEne[i]) {
+            meanEnergyTransferDown += (gEne[j] - gEne[i])*to_double((*tempEGME)[j][i]);
+          }
+          else {
+            meanEnergyTransferUp += (gEne[j] - gEne[i])*to_double((*tempEGME)[j][i]);
+          }
         }
-        ctest << columnSum << endl;
+        ctest << formatFloat(columnSum, 3, 12)
+          << formatFloat(gEne[i], 3, 12)
+          << formatFloat(meanEnergyTransfer, 3, 12)
+          << formatFloat(meanEnergyTransferDown, 3, 12)
+          << formatFloat(meanEnergyTransferUp, 3, 12)
+          << endl;
       }
       ctest << "}" << endl;
     }
 
-    //--------------------------------
-    // COPY, SUMMATION AND SUBSTITUTE
-    // Need to copy things over, the active states first.
-    for (size_t i(m_numGroupedGrains); i < m_ncolloptrsize; ++i) {
-      for (size_t j(m_numGroupedGrains); j < m_ncolloptrsize; ++j) {
-        (*m_egme)[i - m_numGroupedGrains + 1][j - m_numGroupedGrains + 1] = (*tempEGME)[i][j];
-      }
-    }
+    if (m_numGroupedGrains > 1) {
 
-    // Sum up the downward transition terms for the reservoir grain
-    double sumOfDeactivation(0.0), ptfReservoir(0.0);
-    for (size_t j(0); j < m_ncolloptrsize; ++j) {
-      if (j < m_numGroupedGrains){
-        // summing up the partition function of reservoir state
-        ptfReservoir += exp(log(gDOS[j]) - env.beta * gEne[j] + 10.0);
-      }
-      else {
-        double downwardSum(0.0);
-        for (size_t i(0); i < m_numGroupedGrains; ++i) {
-          downwardSum += (*tempEGME)[i][j]; // sum of the normalized downward prob.
+      //--------------------------------
+      // COPY, SUMMATION AND SUBSTITUTE
+      // Need to copy things over, the active states first.
+      for (size_t i(m_numGroupedGrains); i < m_ncolloptrsize; ++i) {
+        for (size_t j(m_numGroupedGrains); j < m_ncolloptrsize; ++j) {
+          (*m_egme)[i - m_numGroupedGrains + 1][j - m_numGroupedGrains + 1] = (*tempEGME)[i][j];
         }
-        double ptfj = exp(log(gDOS[j]) - env.beta * gEne[j] + 10.0);
-        sumOfDeactivation += downwardSum * ptfj;
-
-        (*m_egme)[0][j - m_numGroupedGrains + 1] = downwardSum;
       }
-    }
-    sumOfDeactivation /= ptfReservoir; // k_a * x_r = k_d(E) * f(E) / Q_a * x_a
-    // where Q_a is equal to x_a and cancelled out.
-    // So, k_a = k_d(E) * f(E) / x_r;
 
-    (*m_egme)[0][0] = -sumOfDeactivation;
+      // Sum up the downward transition terms for the reservoir grain
+      double sumOfDeactivation(0.0), ptfReservoir(0.0);
+      for (size_t j(0); j < m_ncolloptrsize; ++j) {
+        if (j < m_numGroupedGrains){
+          // summing up the partition function of reservoir state
+          ptfReservoir += exp(log(gDOS[j]) - env.beta * gEne[j] + 10.0);
+        }
+        else {
+          double downwardSum(0.0);
+          for (size_t i(0); i < m_numGroupedGrains; ++i) {
+            downwardSum += (*tempEGME)[i][j]; // sum of the normalized downward prob.
+          }
+          double ptfj = exp(log(gDOS[j]) - env.beta * gEne[j] + 10.0);
+          sumOfDeactivation += downwardSum * ptfj;
+
+          (*m_egme)[0][j - m_numGroupedGrains + 1] = downwardSum;
+        }
+      }
+      sumOfDeactivation /= ptfReservoir; // k_a * x_r = k_d(E) * f(E) / Q_a * x_a
+      // where Q_a is equal to x_a and cancelled out.
+      // So, k_a = k_d(E) * f(E) / x_r;
+
+      (*m_egme)[0][0] = -sumOfDeactivation;
+
+    } else {
+      *m_egme = *tempEGME ;
+    }
 
     // Symmetrization of the collision matrix.
     vector<double> popDist; // grained population distribution
-    const double firstPop = exp(log(gDOS[0]) - env.beta * gEne[0] + 10.0);
-    popDist.push_back(firstPop);
-    for (size_t idx(1); idx < m_ncolloptrsize; ++idx){
-      if (idx < m_numGroupedGrains){
+    popDist.push_back(0.0);
+    for (size_t idx(0); idx < m_ncolloptrsize; ++idx){
+      if (idx < std::max(m_numGroupedGrains,size_t(1))){
         popDist[0] += exp(log(gDOS[idx]) - env.beta * gEne[idx] + 10.0);
       }
       else {
@@ -1539,7 +1545,7 @@ namespace mesmer
     }
 
     // Account for collisional loss by subrtacting unity from the leading diagonal.
-    for (size_t i(1); i < reducedCollOptrSize; ++i) {
+    for (size_t i((m_numGroupedGrains > 1) ? 1 : 0); i < reducedCollOptrSize; ++i) {
       (*m_egme)[i][i] -= 1.0;
     }
 
@@ -1565,108 +1571,6 @@ namespace mesmer
       totalDOS += gDos[i];
     }
     return (totalEP / totalP);
-  }
-
-  //
-  // Calculate collision operator
-  //
-  bool gWellProperties::collisionOperator(MesmerEnv& env)
-  {
-    if (m_host->getDOS().test_rotConsts() == UNDEFINED_TOP){   // davidglo, requirement for the diamond work.
-      cinfo << "For " << m_host->getName() << ", there no rotational states are defined... only vibrations will be used to construct the molecular DOS" << endl;
-    }
-    //
-    //     i) Determine Probabilities of Energy Transfer.
-    //    ii) Normalisation of Probability matrix.
-    //   iii) Symmetrise Collision Matrix.
-    //
-
-    vector<double> gEne;
-    vector<double> gDOS;
-    m_host->getDOS().getGrainEnergies(gEne);
-    m_host->getDOS().getGrainDensityOfStates(gDOS);
-
-    // Initialisation and error checking.
-    size_t i, j;
-    for (i = 0; i < m_ncolloptrsize; ++i) {
-      if (gDOS[i] <= 0.0) {
-        cerr << "Data indicates that grain " << i << " of the current colliding molecule has no states.";
-        cerr << "Usually for small GrainSize DOSs calculated by QM rotor method some grain may have no states.";
-      }
-    }
-
-    // Allocate memory.
-    if (m_egme) delete m_egme;                       // Delete any existing matrix.
-    m_egme = new dMatrix(m_ncolloptrsize);           // Collision operator matrix.
-
-    // Calculate raw transition matrix.
-    if (!rawTransitionMatrix(env, gEne, gDOS, m_egme)) return false;
-
-    if (m_host->getFlags().showCollisionOperator != 0){
-      ctest << "\nCollision operator of " << m_host->getName() << " before normalization:\n";
-      m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
-    }
-
-    //Normalisation
-    m_egme->normalizeProbabilityMatrix();
-
-    if (m_host->getFlags().showCollisionOperator >= 1){
-      ctest << "\nCollision operator of " << m_host->getName() << " after normalization:\n";
-      m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
-    }
-
-    // print out of column sums to check normalization results
-    if (m_host->getFlags().reactionOCSEnabled){
-      ctest << endl << "Collision operator column sums and energy transfer parameters" << endl << "{" << endl;
-      ctest << " Column Sums           E   <Delta E>  <Delta E>d  <Delta E>u" << endl;
-      for (i = 0; i < m_ncolloptrsize; ++i) {
-        double columnSum(0.0);
-        double meanEnergyTransfer(0.0);
-        double meanEnergyTransferDown(0.0);
-        double meanEnergyTransferUp(0.0);
-        for (j = 0; j < m_ncolloptrsize; ++j){
-          columnSum += to_double((*m_egme)[j][i]);
-          meanEnergyTransfer += (gEne[j] - gEne[i])*to_double((*m_egme)[j][i]);
-          if (gEne[j] < gEne[i]) {
-            meanEnergyTransferDown += (gEne[j] - gEne[i])*to_double((*m_egme)[j][i]);
-          }
-          else {
-            meanEnergyTransferUp += (gEne[j] - gEne[i])*to_double((*m_egme)[j][i]);
-          }
-        }
-        ctest << formatFloat(columnSum, 3, 12)
-          << formatFloat(gEne[i], 3, 12)
-          << formatFloat(meanEnergyTransfer, 3, 12)
-          << formatFloat(meanEnergyTransferDown, 3, 12)
-          << formatFloat(meanEnergyTransferUp, 3, 12)
-          << endl;
-      }
-      ctest << "}" << endl;
-    }
-
-    // Symmetrization of the collision matrix.
-    vector<double> popDist; // grained population distribution
-    for (size_t idx(0); idx < m_ncolloptrsize; ++idx){
-      popDist.push_back(sqrt(exp(log(gDOS[idx]) - env.beta * gEne[idx] + 10.0)));
-    }
-    for (i = 1; i < m_ncolloptrsize; ++i) {
-      for (j = 0; j < i; ++j) {
-        (*m_egme)[j][i] *= popDist[i] / popDist[j];
-        (*m_egme)[i][j] = (*m_egme)[j][i];
-      }
-    }
-
-    //account for collisional loss by subrtacting unity from the leading diagonal.
-    for (i = 0; i < m_ncolloptrsize; ++i) {
-      (*m_egme)[i][i] -= 1.0;
-    }
-
-    if (m_host->getFlags().showCollisionOperator >= 2){
-      ctest << "Collision operator of " << m_host->getName() << " after :\n";
-      m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
-    }
-
-    return true;
   }
 
   //

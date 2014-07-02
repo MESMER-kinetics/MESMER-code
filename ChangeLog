@@ -1,5 +1,9 @@
 2014-July-01 Struan Robertson
 
+	* MolecularComponents.cpp/.h: More tidying/reduction of gWellProperties methods.
+
+2014-July-01 Struan Robertson
+
 	* MolecularComponents.cpp/.h: Minor tidying of some gWellProperties methods.
 
 2014-June-29 Struan Robertson
