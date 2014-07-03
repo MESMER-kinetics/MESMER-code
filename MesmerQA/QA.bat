@@ -6,16 +6,12 @@ set starttime=%time%
 SET directive=
 SET otfn=mesmer.test
 
+IF EXIST "../Windows VC12/Mesmer/Mesmer.exe" GOTO VC12
 IF EXIST "../Windows VC10/Mesmer/Mesmer.exe" GOTO VC10
 IF EXIST "../Windows VC9/Mesmer/Mesmer.exe" GOTO VC9
-IF EXIST "../Windows VC8/Mesmer/Mesmer.exe" GOTO VC8
 
 ::For installed version
 SET executable="../../Mesmer.exe"
-GOTO SETTINGS
-
-:VC8
-SET executable="../../Windows VC8/Mesmer/Mesmer.exe"
 GOTO SETTINGS
 
 :VC9
@@ -24,6 +20,10 @@ GOTO SETTINGS
 
 :VC10
 SET executable="../../Windows VC10/Mesmer/Mesmer.exe"
+GOTO SETTINGS
+
+:VC12
+SET executable="../../Windows VC12/Mesmer/Mesmer.exe"
 GOTO SETTINGS
 
 :SETTINGS
