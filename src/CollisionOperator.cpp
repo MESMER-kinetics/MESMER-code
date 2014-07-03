@@ -222,13 +222,9 @@ namespace mesmer
           return false;
         }
 
-        msize += isomer->getColl().get_colloptrsize() ;
-
         m_meanOmega += isomer->getColl().get_collisionFrequency() ;
       }
       m_meanOmega /= double(m_isomers.size());
-
-      m_eqVecSize = msize ;
 
       // Build reaction operator.
       //
@@ -377,18 +373,19 @@ namespace mesmer
 
   // This method constructs a transition matrix based on energy grains.
   //
-  void CollisionOperator::constructGrainMatrix(int msize){
+  void CollisionOperator::constructGrainMatrix(){
 
     // Determine the size and location of various blocks.
 
     // 1. Isomers.
 
-    //size_t msize(0) ;
-    //Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
-    //for (; isomeritr != m_isomers.end() ; ++isomeritr) {
-    //  Molecule *isomer = isomeritr->first ;
-    //  isomeritr->second = static_cast<int>(msize) ; //set location
-    //}
+    size_t msize(0) ;
+    Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
+    for (; isomeritr != m_isomers.end() ; ++isomeritr) {
+      Molecule *isomer = isomeritr->first ;
+      isomeritr->second = static_cast<int>(msize) ; //set location
+      msize += isomer->getColl().get_colloptrsize() ;
+    }
 
     // 2. Pseudoisomers.
 
@@ -396,15 +393,16 @@ namespace mesmer
     for (; pseudoIsomeritr != m_sources.end() ; ++pseudoIsomeritr) {
       pseudoIsomeritr->second = static_cast<int>(msize) ; //set location
       msize++ ;
-      m_eqVecSize++ ;
     }
+
+	m_eqVecSize = msize ;
 
     // Allocate space for the full system collision operator.
     if (m_reactionOperator) delete m_reactionOperator;
     m_reactionOperator = new qdMatrix(msize, 0.0) ;
 
     // Insert collision operators to reaction operator from individual wells.
-    Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
+    isomeritr = m_isomers.begin() ;
     for (isomeritr = m_isomers.begin() ; isomeritr != m_isomers.end() ; ++isomeritr) {
 
       Molecule *isomer = isomeritr->first ;
@@ -440,7 +438,7 @@ namespace mesmer
   // One then needs to decide how many members of this basis matrix to include in the reduced basis matrix for
   // diagonalization.
   //
-  void CollisionOperator::constructBasisMatrix(void){
+  void CollisionOperator::constructBasisMatrix(){
 
     // Determine the size and location of various blocks.
 

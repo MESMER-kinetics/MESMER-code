@@ -84,10 +84,10 @@ namespace mesmer
     void SetMaximumCellEnergy(MesmerEnv &mEnv, const MesmerFlags& mFlags);
 
     // Construct a transition matrix based on grains.
-    void constructGrainMatrix(int msize);
+    void constructGrainMatrix();
 
     // Construct a transition matrix based on collision operator eigenfunctions.
-    void constructBasisMatrix(void);
+    void constructBasisMatrix();
 
     // Locate all sinks in the relevant isomer or source map. 
     void locateSinks() ;

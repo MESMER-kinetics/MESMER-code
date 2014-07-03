@@ -1427,14 +1427,10 @@ namespace mesmer
 
     const size_t reducedCollOptrSize = m_ncolloptrsize - reservoirShift();
 
-    // Initialisation.
-
     // Allocate memory.
     if (m_egme) delete m_egme;                       // Delete any existing matrix.
     m_egme = new dMatrix(reducedCollOptrSize);
 
-    //---------------------------------------------------------------------------------------------------
-    //-------------------- The part doing the same jobs as making a whole collision operator ------------
     dMatrix* tempEGME = new dMatrix(m_ncolloptrsize);
 
     // Calculate raw transition matrix.
@@ -1447,9 +1443,6 @@ namespace mesmer
 
     //Normalisation
     tempEGME->normalizeProbabilityMatrix();
-
-    //-------------------- The part doing the same jobs as making a whole collision operator ------------
-    //---------------------------------------------------------------------------------------------------
 
     if (m_host->getFlags().showCollisionOperator >= 1){
       ctest << "\nCollision operator of " << m_host->getName() << " after normalization:\n";
@@ -1545,6 +1538,8 @@ namespace mesmer
     }
 
     // Account for collisional loss by subrtacting unity from the leading diagonal.
+	// SHR: note the slightly complex lower limit below improves accuracy at lower 
+	// temperatures where reservoir states are used.
     for (size_t i((m_numGroupedGrains > 1) ? 1 : 0); i < reducedCollOptrSize; ++i) {
       (*m_egme)[i][i] -= 1.0;
     }

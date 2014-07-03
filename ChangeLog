@@ -1,4 +1,9 @@
-2014-July-01 Struan Robertson
+2014-July-03 Struan Robertson
+
+	* CollisionOperator.cpp/.h: Minor changes in preparation for the movement of collision
+	matrix construction.
+
+2014-July-03 Struan Robertson
 
 	* MolecularComponents.cpp/.h: More tidying/reduction of gWellProperties methods.
 
