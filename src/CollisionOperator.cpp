@@ -237,7 +237,7 @@ namespace mesmer
       if (!mEnv.useBasisSetMethod) {
 
         // Full energy grained reaction operator.
-        constructGrainMatrix(msize);
+        constructGrainMatrix();
 
       } else {
 
