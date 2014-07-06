@@ -1217,7 +1217,6 @@ namespace mesmer
     m_numGroupedGrains(0),
     m_pDistributionCalculator(NULL),
     m_grainDist(),
-    m_egme(NULL),
     m_egvec(NULL),
     m_egval()
   {
@@ -1227,7 +1226,6 @@ namespace mesmer
 
   gWellProperties::~gWellProperties()
   {
-    if (m_egme != NULL) delete m_egme;
     if (m_grainDist.size()) m_grainDist.clear();
     //delete m_pEnergyTransferModel;
     for (std::map<string, EnergyTransferModel*>::iterator it = m_EnergyTransferModels.begin();
@@ -1358,20 +1356,13 @@ namespace mesmer
   //
   // Diagonalize collision operator
   //
-  void gWellProperties::diagonalizeCollisionOperator()
+  void gWellProperties::diagonalizeCollisionOperator(qdMatrix *egme)
   {
     // Allocate memory.
     m_egval.clear();
     m_egval.resize(m_ncolloptrsize, 0.0);
-    if (m_egvec) delete m_egvec;                      // Delete the existing matrix.
-    m_egvec = new dMatrix(m_ncolloptrsize);
-
-    // copy the values over
-    for (size_t i(0); i < m_ncolloptrsize; ++i){
-      for (size_t j(0); j < m_ncolloptrsize; ++j){
-        (*m_egvec)[i][j] = (*m_egme)[i][j];
-      }
-    }
+    if (m_egvec) delete m_egvec;
+    *m_egvec = *egme ;
 
     m_egvec->diagonalize(&m_egval[0]);
 
@@ -1393,7 +1384,7 @@ namespace mesmer
   //
   // Calculate collision operator
   //
-  bool gWellProperties::collisionOperator(MesmerEnv& env)
+  bool gWellProperties::collisionOperator(MesmerEnv& env, qdMatrix **CollOp)
   {
     //
     //     i) Determine Probabilities of Energy Transfer.
@@ -1409,37 +1400,33 @@ namespace mesmer
     const size_t reducedCollOptrSize = m_ncolloptrsize - reservoirShift();
 
     // Allocate memory.
-    if (m_egme) delete m_egme;                       // Delete any existing matrix.
-    m_egme = new dMatrix(reducedCollOptrSize);
-
-    dMatrix* tempEGME = new dMatrix(m_ncolloptrsize);
+    dMatrix* egme = new dMatrix(m_ncolloptrsize);
 
     // Calculate raw transition matrix.
-    if (!rawTransitionMatrix(env, gEne, gDOS, tempEGME)) return false;
+    if (!rawTransitionMatrix(env, gEne, gDOS, egme)) return false;
 
     if (m_host->getFlags().showCollisionOperator != 0){
       ctest << "\nCollision operator of " << m_host->getName() << " before normalization:\n";
-      tempEGME->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+      egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
     }
 
     //Normalisation
-    tempEGME->normalizeProbabilityMatrix();
+    egme->normalizeProbabilityMatrix();
 
     if (m_host->getFlags().showCollisionOperator >= 1){
       ctest << "\nCollision operator of " << m_host->getName() << " after normalization:\n";
-      tempEGME->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+      egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
     }
 
     // If requested write out column sums etc. to check normalization results.
     if (m_host->getFlags().reactionOCSEnabled){
-      writeCollOpProps(gEne, tempEGME) ;
+      writeCollOpProps(gEne, egme) ;
     }
 
+	// Construct reservoir state if specifed.
     if (m_numGroupedGrains > 1) {
-      constructReservoir(env, gEne, gDOS, tempEGME) ;
-    } else {
-      *m_egme = *tempEGME ;
-    }
+      constructReservoir(env, gEne, gDOS, egme) ;
+	}
 
     vector<double> popDist; // Grained population distribution.
     popDist.push_back(0.0);
@@ -1454,14 +1441,13 @@ namespace mesmer
         popDist.push_back(sqrt(tmp));
       }
     }
-    const double fractionAboveRsvr((prtnFn - popDist[0])/prtnFn) ;
     popDist[0] = sqrt(popDist[0]); // This is the square root of partition function in the reservoir grain
 
     // Symmetrization of the collision matrix.
     for (size_t i(1); i < reducedCollOptrSize; ++i) {
       for (size_t j(0); j < i; ++j){
-        (*m_egme)[j][i] *= popDist[i] / popDist[j];
-        (*m_egme)[i][j] = (*m_egme)[j][i];
+        (*egme)[j][i] *= popDist[i] / popDist[j];
+        (*egme)[i][j] = (*egme)[j][i];
       }
     }
 
@@ -1469,17 +1455,24 @@ namespace mesmer
     // SHR: note the slightly complex lower limit below improves accuracy at lower 
     // temperatures where reservoir states are used.
     for (size_t i((m_numGroupedGrains > 1) ? 1 : 0); i < reducedCollOptrSize; ++i) {
-      (*m_egme)[i][i] -= 1.0;
+      (*egme)[i][i] -= 1.0;
     }
 
     if (m_host->getFlags().showCollisionOperator >= 2){
       ctest << "Collision operator of " << m_host->getName() << " after :\n";
-      m_egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
+      egme->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
     }
 
     m_ncolloptrsize = reducedCollOptrSize;
 
-    delete tempEGME;
+    if (*CollOp) delete *CollOp;  // Delete any existing matrix.
+    (*CollOp) = new qdMatrix(reducedCollOptrSize);
+    for (size_t i(0) ; i < reducedCollOptrSize; ++i) {
+      for (size_t j(0) ; j < reducedCollOptrSize; ++j) {
+        (**CollOp)[i][j] = (*egme)[i][j];
+      }
+    }
+    delete egme;
 
     return true;
   }
@@ -1582,14 +1575,9 @@ namespace mesmer
   // So, k_a = k_d(E) * f(E) / x_r;
   // Communication between regular grains is effected using the related ME block from 
   // the full grain solution, which is simply copied. 
+  // Note upward transitions are determined as part of symmetrization.
   //
   void gWellProperties::constructReservoir(MesmerEnv& env, vector<double> &gEne, vector<double> &gDOS, dMatrix *egme) {
-
-	for (size_t i(m_numGroupedGrains), ii(1); i < m_ncolloptrsize; ++i, ++ii) {
-      for (size_t j(m_numGroupedGrains), jj(1); j < m_ncolloptrsize; ++j, ++jj) {
-        (*m_egme)[ii][jj] = (*egme)[i][j];
-      }
-    }
 
     // Sum up the downward transition probabilities into the reservoir grain.
     double sumOfDeactivation(0.0), ptfReservoir(0.0);
@@ -1605,11 +1593,19 @@ namespace mesmer
         }
         double ptfj = exp(log(gDOS[j]) - env.beta * gEne[j] + 10.0);
         sumOfDeactivation += downwardSum * ptfj;
-        (*m_egme)[0][j - m_numGroupedGrains + 1] = downwardSum;
+        (*egme)[0][j - m_numGroupedGrains + 1] = downwardSum;
       }
     }
     sumOfDeactivation /= ptfReservoir; 
-    (*m_egme)[0][0] = -sumOfDeactivation;
+    (*egme)[0][0] = -sumOfDeactivation;
+
+	// Shift active state block.
+	for (size_t i(m_numGroupedGrains), ii(1); i < m_ncolloptrsize; ++i, ++ii) {
+      for (size_t j(m_numGroupedGrains), jj(1); j < m_ncolloptrsize; ++j, ++jj) {
+        (*egme)[ii][jj] = (*egme)[i][j];
+      }
+    }
+
   }
 
   //
@@ -1693,25 +1689,23 @@ namespace mesmer
   //
   // Copy collision operator to diagonal block of system matrix.
   //
-  void gWellProperties::copyCollisionOperator(qdMatrix *CollOptr, const int locate, const double RducdOmega) const
+  void gWellProperties::copyCollisionOperator(qdMatrix *CollOptr, qdMatrix *egme, const size_t locate, const double RducdOmega) const
   {
     // Find size of system matrix.
 
-    size_t smsize = CollOptr->size();
+    const size_t smsize = CollOptr->size();
 
     // Check there is enough space in system matrix.
 
-    if (size_t(locate) + m_ncolloptrsize > smsize)
+    if (locate + m_ncolloptrsize > smsize)
       throw (std::runtime_error("Error in the size of the system matrix."));
 
     // Copy collision operator to the diagonal block indicated by "locate"
     // and multiply by the reduced collision frequencey.
 
-    for (size_t i(0); i < m_ncolloptrsize; ++i) {
-      int ii(locate + i);
-      for (size_t j(0); j < m_ncolloptrsize; ++j) {
-        int jj(locate + j);
-        (*CollOptr)[ii][jj] = RducdOmega * (*m_egme)[i][j];
+    for (size_t i(0), ii(locate) ; i < m_ncolloptrsize; ++i, ++ii) {
+      for (size_t j(0), jj(locate) ; j < m_ncolloptrsize; ++j, ++jj) {
+        (*CollOptr)[ii][jj] = RducdOmega * (*egme)[i][j];
       }
     }
   }
@@ -1721,7 +1715,7 @@ namespace mesmer
   // matrix in the contracted basis representation.
   //
   void gWellProperties::copyCollisionOperatorEigenValues(qdMatrix *CollOptr,
-    const int locate,
+    const size_t locate,
     const double Omega) const
   {
     // Check that the contracted basis method has been specifed.
@@ -1731,8 +1725,8 @@ namespace mesmer
 
     // Find size of system matrix.
 
-    int smsize = static_cast<int>(CollOptr->size());
-    int nbasis = static_cast<int>(get_nbasis());
+    size_t smsize = CollOptr->size();
+    size_t nbasis = get_nbasis();
 
     // Check there is enough space in system matrix.
 
@@ -1742,7 +1736,7 @@ namespace mesmer
     // Copy collision operator eigenvalues to the diagonal elements indicated
     // by "locate" and multiply by the reduced collision frequencey.
 
-    for (int i(0); i < nbasis; ++i) {
+    for (size_t i(0); i < nbasis; ++i) {
       int ii(locate + i);
       (*CollOptr)[ii][ii] = Omega * m_egval[m_ncolloptrsize - i - 1];
     }

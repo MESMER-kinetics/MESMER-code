@@ -402,13 +402,15 @@ namespace mesmer
 
       Molecule *isomer = isomeritr->first ;
       double omega = isomer->getColl().get_collisionFrequency();
-      int idx = isomeritr->second ;
+      size_t idx = isomeritr->second ;
 
-      if (!isomer->getColl().collisionOperator(mEnv)) {
+      qdMatrix *egme(NULL) ;
+	  if (!isomer->getColl().collisionOperator(mEnv, &egme)) {
         string errorMsg = "Failed building collision operator for " + isomer->getName() + ".";
 		throw(std::runtime_error(errorMsg)) ;
 	  }
-      isomer->getColl().copyCollisionOperator(m_reactionOperator, idx, omega/m_meanOmega) ;
+      isomer->getColl().copyCollisionOperator(m_reactionOperator, egme, idx, omega/m_meanOmega) ;
+      delete egme;
 
     }
 
@@ -471,11 +473,13 @@ namespace mesmer
 
       Molecule *isomer = isomeritr->first ;
       double omega = isomer->getColl().get_collisionFrequency() ;
-      int idx = isomeritr->second ;
+      size_t idx = isomeritr->second ;
 
-      isomer->getColl().collisionOperator(mEnv) ;
-      isomer->getColl().diagonalizeCollisionOperator() ;
+      qdMatrix *egme(NULL) ;
+      isomer->getColl().collisionOperator(mEnv, &egme) ;
+      isomer->getColl().diagonalizeCollisionOperator(egme) ;
       isomer->getColl().copyCollisionOperatorEigenValues(m_reactionOperator, idx, omega) ;
+	  delete egme ;
     }
 
     // Add rate coefficients.

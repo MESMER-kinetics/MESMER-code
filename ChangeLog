@@ -1,5 +1,10 @@
 2014-July-06 Struan Robertson
 
+	* CollisionOperator.cpp/.h, MolecularComponents.cpp/.h: gWellProperties methods altered
+	so as to work with qdMatrix type.
+
+2014-July-06 Struan Robertson
+
 	* CollisionOperator.cpp/.h, MolecularComponents.cpp/.h: Further tidying/reduction 
 	of gWellProperties methods.
 

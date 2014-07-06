@@ -351,10 +351,9 @@ namespace mesmer
     
     std::map<std::string, EnergyTransferModel*> m_EnergyTransferModels; //with different bath gases
 
-    std::vector<double> m_grainDist ;          // Grain distribution (not normalized)
-    dMatrix             *m_egme ;              // Matrix containing the energy grained collision operator.
-    dMatrix             *m_egvec ;             // Eigenvectors used to diagonalize (P - I) matrix.
-    std::vector<double>  m_egval;
+    std::vector<double>  m_grainDist ; // Grain distribution (not normalized)
+    qdMatrix            *m_egvec ;     // Eigenvectors used to diagonalize (P - I) matrix.
+    std::vector<qd_real> m_egval;
 
     // Calculate collision frequency.
     double collisionFrequency(MesmerEnv env, Molecule *pBathGasMolecule) ;
@@ -390,14 +389,14 @@ namespace mesmer
     void eigenVector(int eigveci, std::vector<double> &evec) const ;
 
     // Calculate collision operator.
-    bool collisionOperator (MesmerEnv& env) ;
+    bool collisionOperator (MesmerEnv& env, qdMatrix **egme) ;
 
     // Diagonalize collision operator before adding reaction terms to get eigenvectors and eigenvalues.
-    void diagonalizeCollisionOperator();
+    void diagonalizeCollisionOperator(qdMatrix *egme);
 
-	void copyCollisionOperator(qdMatrix *CollOptr, const int locate, const double RducdOmega) const ;
+	void copyCollisionOperator(qdMatrix *CollOptr, qdMatrix *egme, const size_t locate, const double RducdOmega) const ;
 
-    void copyCollisionOperatorEigenValues(qdMatrix *CollOptr, const int locate, const double RducdOmega) const ;
+    void copyCollisionOperatorEigenValues(qdMatrix *CollOptr, const size_t locate, const double RducdOmega) const ;
 
     void normalizedInitialDistribution(vector<double> &grainFrac) ;
     void normalizedGrnBoltzmannDistribution(vector<double> &grainFrac);
@@ -415,10 +414,9 @@ namespace mesmer
 
     const int get_grnZPE();
 
-    const dMatrix* getEigenVectors(){ return m_egvec; }
-
     const double getLowestBarrier() { return m_lowestBarrier;}
-    void setLowestBarrier(double value){ m_lowestBarrier = value;}
+
+	void setLowestBarrier(double value){ m_lowestBarrier = value;}
 
     const size_t reservoirShift() {return m_numGroupedGrains == 0 ? 0 : m_numGroupedGrains - 1; }
 
