@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Mar 22 2014 -- 21:55:44
+     Mesmer v4.0 compiled: -- Jul  6 2014 -- 12:51:09
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -52,21 +52,35 @@ The default value of the attribute precision was used.
 3e+017PPCC, 720K at d precision with He
 The default value of the attribute precision was used.
 3.01e+017PPCC, 730K at d precision with He
-Write metadata 20140322_215640
+Write metadata 20140706_133335
 
 File: "ipropyl_reservoir.xml" successfully parsed.
 Main Calculation begins
+Execute calcMethod simpleCalc
+PT Grid 0
+Number of cells = 18600, Number of grains = 186
 Number of grains produced is not equal to that requested
 Number of grains requested: 186
 Number of grains produced : 1
 In FastLaplaceConvolution: 80 values in the FFT convolution routine were replaced by standard convolution
 Unimolecular ILT calculation completed
-Number of grains produced is not equal to that requested
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 1
+Number of cells = 18700, Number of grains = 187
 Number of grains requested: 187
-Number of grains produced : 1
 In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
 Unimolecular ILT calculation completed
+Build Collison Operator
+Diagonalize the Reaction Operator
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+            720         3e+017           41.5        45.0074
+            730      3.01e+017           51.1        61.3582
+
 Finish Calculation of P-T case
- -- Total time elapsed: 0 seconds.
+2 temperature/concentration-pressure points calculated.
+ -- Total time elapsed: 1 seconds.
 
 System saved to mesmer_out.xml

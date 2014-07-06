@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Mar  1 2014 -- 11:57:14
+     Mesmer v4.0 compiled: -- Jul  6 2014 -- 12:51:09
 
-     Copyright (C) 2009-2013 by
+     Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -26,22 +26,24 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
 ThermodynamicTable.xml
 
-Write metadata 20140301_115856
+Write metadata 20140706_133336
 
 File: "ThermodynamicTable.xml" successfully parsed.
 Main Calculation begins
+Execute calcMethod ThermodynamicTable
 The default units of kJ/mol will be used for thermodynamics tables.
 In HNO2: The default value of me:frequenciesScaleFactor was used.
-In HNO2: The default value of spinMultiplicity (or one of its attributes) was used.
+In HNO2: The default value of the attribute spinMultiplicity was used.
 In HNO2: The default value of me:DOSCMethod was used.
 In HNO2: New me:ZPE element written with data from me:Hf298
 In He: The default value of me:frequenciesScaleFactor was used.
 In He: The default value of me:symmetryNumber was used.
-In He: The default value of spinMultiplicity (or one of its attributes) was used.
+In He: The default value of the attribute spinMultiplicity was used.
 In He: The default value of me:DOSCMethod was used.
 Number of grains produced is not equal to that requested
 Number of grains requested: 1000
@@ -54,8 +56,6 @@ In OH: Number of grains produced is not equal to that requested
 In OH: Number of grains requested: 1000
 In OH: Number of grains produced : 577
 In OH: New me:ZPE element written with data from me:Hf298
-Number of grains produced is not equal to that requested
-Number of grains requested: 1000
 Number of grains produced : 577
  -- Total time elapsed: 1 seconds.
 

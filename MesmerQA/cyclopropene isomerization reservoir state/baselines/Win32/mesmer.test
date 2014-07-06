@@ -1721,12 +1721,12 @@ Canonical rate coefficients for R2, calculated from microcanonical rates
     800        102.627
     900        2145.18
 }
-The reservoir is set to 120 grains, which is about 24000 cm-1 from the well bottom.
-6.07176e-006 of the allene population is in the active states. The reservoir size = 24000 cm-1, which is 287.105 kJ/mol.
-The reservoir is set to 73 grains, which is about 14600 cm-1 from the well bottom.
-0.00234099 of the cyclopropene population is in the active states. The reservoir size = 14600 cm-1, which is 174.656 kJ/mol.
-The reservoir is set to 111 grains, which is about 22200 cm-1 from the well bottom.
-1.84563e-005 of the propyne population is in the active states. The reservoir size = 22200 cm-1, which is 265.572 kJ/mol.
+The reservoir for allene is 120 grains,which is 24000 cm-1 (or 287.104 kJ/mol) from the well bottom.
+At equilibrium 1.05093e-010 of the allene population is in the active states. 
+The reservoir for cyclopropene is 73 grains,which is 14600 cm-1 (or 174.655 kJ/mol) from the well bottom.
+At equilibrium 1.35658e-005 of the cyclopropene population is in the active states. 
+The reservoir for propyne is 111 grains,which is 22200 cm-1 (or 265.571 kJ/mol) from the well bottom.
+At equilibrium 9.47843e-010 of the propyne population is in the active states. 
 
 Eq fraction matrix:
 {
@@ -4020,12 +4020,12 @@ Canonical rate coefficients for R2, calculated from microcanonical rates
    1000        24552.8
    1100         181201
 }
-The reservoir is set to 120 grains, which is about 24000 cm-1 from the well bottom.
-0.000254125 of the allene population is in the active states. The reservoir size = 24000 cm-1, which is 287.105 kJ/mol.
-The reservoir is set to 73 grains, which is about 14600 cm-1 from the well bottom.
-0.0192226 of the cyclopropene population is in the active states. The reservoir size = 14600 cm-1, which is 174.656 kJ/mol.
-The reservoir is set to 111 grains, which is about 22200 cm-1 from the well bottom.
-0.000573229 of the propyne population is in the active states. The reservoir size = 22200 cm-1, which is 265.572 kJ/mol.
+The reservoir for allene is 120 grains,which is 24000 cm-1 (or 287.104 kJ/mol) from the well bottom.
+At equilibrium 1.84264e-007 of the allene population is in the active states. 
+The reservoir for cyclopropene is 73 grains,which is 14600 cm-1 (or 174.655 kJ/mol) from the well bottom.
+At equilibrium 0.00089498 of the cyclopropene population is in the active states. 
+The reservoir for propyne is 111 grains,which is 22200 cm-1 (or 265.571 kJ/mol) from the well bottom.
+At equilibrium 9.12713e-007 of the propyne population is in the active states. 
 
 Eq fraction matrix:
 {

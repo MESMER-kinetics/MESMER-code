@@ -1334,42 +1334,23 @@ namespace mesmer
           grainLoc += lowestBarrier;
         }
       }
-      ctest << "The reservoir is set to " << grainLoc << " grains, which is about " << grainLoc * m_host->getEnv().GrainSize
-        << " cm-1 from the well bottom." << endl;
 
-      // Calculate the fraction of active states at the current temperature.
-      vector<double> gEne;
-      vector<double> gDOS;
-      m_host->getDOS().getGrainEnergies(gEne);
-      m_host->getDOS().getGrainDensityOfStates(gDOS);
-      double popAbove(0.0), totalPartition(0.0);
-      for (size_t i(0); i < m_ncolloptrsize; ++i){
-        const double ptfn(sqrt(exp(log(gDOS[i]) - env.beta * gEne[i] + 10.0)));
-        totalPartition += ptfn;
-        if (int(i) >= grainLoc)
-          popAbove += ptfn;
+      vector<double> popDist; // Grained population distribution.
+      normalizedGrnBoltzmannDistribution(popDist) ;
+      double fracInRsvr(0.0) ;
+      for (size_t i(0); i < size_t(grainLoc) ; ++i) {
+        fracInRsvr += popDist[i] ;
       }
 
-      popAbove /= totalPartition;
-
       m_numGroupedGrains = grainLoc;
-      ctest << popAbove << " of the " << m_host->getName() << " population is in the active states. "
-        << "The reservoir size = " << m_numGroupedGrains * m_host->getEnv().GrainSize
-        << " cm-1, which is " << m_numGroupedGrains * m_host->getEnv().GrainSize / 83.593 << " kJ/mol." << endl;
-    }
+      if (m_numGroupedGrains > 1) {
+        double reservoirEnergy(m_numGroupedGrains * m_host->getEnv().GrainSize) ;
+        ctest << "The reservoir for " << m_host->getName() << " is " << m_numGroupedGrains << " grains," ;
+        ctest << "which is " << reservoirEnergy << " cm-1 (or " << reservoirEnergy / getConvertedEnergy("kJ/mol", 1.0) << " kJ/mol) from the well bottom." << endl;
+        ctest << "At equilibrium " << 1.0 - fracInRsvr << " of the " << m_host->getName() << " population is in the active states. " << endl ;
+      }
 
-    // Calculate the collision operator.
-    if (!collisionOperator(env)){
-      cerr << "Failed building collision operator." << endl;
-      return false;
     }
-
-    //
-    // For the basis set method diagonalize the collision operator to obtain
-    // the contracted basis set.
-    //
-    if (m_host->getEnv().useBasisSetMethod)
-      diagonalizeCollisionOperator();
 
     return true;
   }
@@ -1449,87 +1430,34 @@ namespace mesmer
       tempEGME->showFinalBits(0, m_host->getFlags().print_TabbedMatrices);
     }
 
-    // print out of column sums to check normalization results
+    // If requested write out column sums etc. to check normalization results.
     if (m_host->getFlags().reactionOCSEnabled){
-      ctest << endl << "Collision operator column sums and energy transfer parameters" << endl << "{" << endl;
-      ctest << " Column Sums           E   <Delta E>  <Delta E>d  <Delta E>u" << endl;
-      for (size_t i(0); i < m_ncolloptrsize; ++i) {
-        double columnSum(0.0);
-        double meanEnergyTransfer(0.0);
-        double meanEnergyTransferDown(0.0);
-        double meanEnergyTransferUp(0.0);
-        for (size_t j(0); j < m_ncolloptrsize; ++j){
-          columnSum += to_double((*tempEGME)[j][i]);
-          meanEnergyTransfer += (gEne[j] - gEne[i])*to_double((*tempEGME)[j][i]);
-          if (gEne[j] < gEne[i]) {
-            meanEnergyTransferDown += (gEne[j] - gEne[i])*to_double((*tempEGME)[j][i]);
-          }
-          else {
-            meanEnergyTransferUp += (gEne[j] - gEne[i])*to_double((*tempEGME)[j][i]);
-          }
-        }
-        ctest << formatFloat(columnSum, 3, 12)
-          << formatFloat(gEne[i], 3, 12)
-          << formatFloat(meanEnergyTransfer, 3, 12)
-          << formatFloat(meanEnergyTransferDown, 3, 12)
-          << formatFloat(meanEnergyTransferUp, 3, 12)
-          << endl;
-      }
-      ctest << "}" << endl;
+      writeCollOpProps(gEne, tempEGME) ;
     }
 
     if (m_numGroupedGrains > 1) {
-
-      //--------------------------------
-      // COPY, SUMMATION AND SUBSTITUTE
-      // Need to copy things over, the active states first.
-      for (size_t i(m_numGroupedGrains); i < m_ncolloptrsize; ++i) {
-        for (size_t j(m_numGroupedGrains); j < m_ncolloptrsize; ++j) {
-          (*m_egme)[i - m_numGroupedGrains + 1][j - m_numGroupedGrains + 1] = (*tempEGME)[i][j];
-        }
-      }
-
-      // Sum up the downward transition terms for the reservoir grain
-      double sumOfDeactivation(0.0), ptfReservoir(0.0);
-      for (size_t j(0); j < m_ncolloptrsize; ++j) {
-        if (j < m_numGroupedGrains){
-          // summing up the partition function of reservoir state
-          ptfReservoir += exp(log(gDOS[j]) - env.beta * gEne[j] + 10.0);
-        }
-        else {
-          double downwardSum(0.0);
-          for (size_t i(0); i < m_numGroupedGrains; ++i) {
-            downwardSum += (*tempEGME)[i][j]; // sum of the normalized downward prob.
-          }
-          double ptfj = exp(log(gDOS[j]) - env.beta * gEne[j] + 10.0);
-          sumOfDeactivation += downwardSum * ptfj;
-
-          (*m_egme)[0][j - m_numGroupedGrains + 1] = downwardSum;
-        }
-      }
-      sumOfDeactivation /= ptfReservoir; // k_a * x_r = k_d(E) * f(E) / Q_a * x_a
-      // where Q_a is equal to x_a and cancelled out.
-      // So, k_a = k_d(E) * f(E) / x_r;
-
-      (*m_egme)[0][0] = -sumOfDeactivation;
-
+      constructReservoir(env, gEne, gDOS, tempEGME) ;
     } else {
       *m_egme = *tempEGME ;
     }
 
-    // Symmetrization of the collision matrix.
-    vector<double> popDist; // grained population distribution
+    vector<double> popDist; // Grained population distribution.
     popDist.push_back(0.0);
+    double prtnFn(0.0);
     for (size_t idx(0); idx < m_ncolloptrsize; ++idx){
+      const double tmp(exp(log(gDOS[idx]) - env.beta * gEne[idx] + 10.0));
+      prtnFn += tmp ;
       if (idx < std::max(m_numGroupedGrains,size_t(1))){
-        popDist[0] += exp(log(gDOS[idx]) - env.beta * gEne[idx] + 10.0);
+        popDist[0] += tmp;
       }
       else {
-        popDist.push_back(sqrt(exp(log(gDOS[idx]) - env.beta * gEne[idx] + 10.0)));
+        popDist.push_back(sqrt(tmp));
       }
     }
+    const double fractionAboveRsvr((prtnFn - popDist[0])/prtnFn) ;
     popDist[0] = sqrt(popDist[0]); // This is the square root of partition function in the reservoir grain
 
+    // Symmetrization of the collision matrix.
     for (size_t i(1); i < reducedCollOptrSize; ++i) {
       for (size_t j(0); j < i; ++j){
         (*m_egme)[j][i] *= popDist[i] / popDist[j];
@@ -1538,8 +1466,8 @@ namespace mesmer
     }
 
     // Account for collisional loss by subrtacting unity from the leading diagonal.
-	// SHR: note the slightly complex lower limit below improves accuracy at lower 
-	// temperatures where reservoir states are used.
+    // SHR: note the slightly complex lower limit below improves accuracy at lower 
+    // temperatures where reservoir states are used.
     for (size_t i((m_numGroupedGrains > 1) ? 1 : 0); i < reducedCollOptrSize; ++i) {
       (*m_egme)[i][i] -= 1.0;
     }
@@ -1554,18 +1482,6 @@ namespace mesmer
     delete tempEGME;
 
     return true;
-  }
-
-  double gWellProperties::getBoltzmannWeightedEnergy(int numberOfGrains, const vector<double>& gEne, const vector<double>& gDos, double beta, double& totalDOS)
-  {
-    double totalEP(0.0), totalP(0.0);
-    totalDOS = 0.0;
-    for (int i(0); i < numberOfGrains; ++i) {
-      totalEP += gEne[i] * exp(log(gDos[i]) - beta * gEne[i] + 10.0);
-      totalP += exp(log(gDos[i]) - beta * gEne[i] + 10.0);
-      totalDOS += gDos[i];
-    }
-    return (totalEP / totalP);
   }
 
   //
@@ -1621,6 +1537,79 @@ namespace mesmer
 
     return true;
 
+  }
+
+  //
+  // Write out collision operator diaganostics.
+  //
+  void gWellProperties::writeCollOpProps(vector<double>& ene, dMatrix* egme) const {
+    ctest << endl << "Collision operator column sums and energy transfer parameters" << endl << "{" << endl;
+    ctest << " Column Sums           E   <Delta E>  <Delta E>d  <Delta E>u" << endl;
+    for (size_t i(0); i < m_ncolloptrsize; ++i) {
+      double columnSum(0.0);
+      double meanEnergyTransfer(0.0);
+      double meanEnergyTransferDown(0.0);
+      double meanEnergyTransferUp(0.0);
+      for (size_t j(0); j < m_ncolloptrsize; ++j){
+        double trnsPrb = to_double((*egme)[j][i]) ;
+        double eneMom  = (ene[j] - ene[i])*trnsPrb ;
+        columnSum += trnsPrb ;
+        meanEnergyTransfer += eneMom ;
+        if (ene[j] < ene[i]) {
+          meanEnergyTransferDown += eneMom ;
+        }
+        else {
+          meanEnergyTransferUp += eneMom ;
+        }
+      }
+      ctest << formatFloat(columnSum, 3, 12)
+        << formatFloat(ene[i], 3, 12)
+        << formatFloat(meanEnergyTransfer, 3, 12)
+        << formatFloat(meanEnergyTransferDown, 3, 12)
+        << formatFloat(meanEnergyTransferUp, 3, 12)
+        << endl;
+    }
+    ctest << "}" << endl;
+  }
+
+
+  //
+  // Construct reservoir state. This method calculates the total transition probability 
+  // into the reservoir and then uses detailed balance to construct the probability of
+  // excitiation from the the reservoir: 
+  // k_a * x_r = k_d(E) * f(E) / Q_a * x_a
+  // where Q_a is equal to x_a and cancelled out.
+  // So, k_a = k_d(E) * f(E) / x_r;
+  // Communication between regular grains is effected using the related ME block from 
+  // the full grain solution, which is simply copied. 
+  //
+  void gWellProperties::constructReservoir(MesmerEnv& env, vector<double> &gEne, vector<double> &gDOS, dMatrix *egme) {
+
+	for (size_t i(m_numGroupedGrains), ii(1); i < m_ncolloptrsize; ++i, ++ii) {
+      for (size_t j(m_numGroupedGrains), jj(1); j < m_ncolloptrsize; ++j, ++jj) {
+        (*m_egme)[ii][jj] = (*egme)[i][j];
+      }
+    }
+
+    // Sum up the downward transition probabilities into the reservoir grain.
+    double sumOfDeactivation(0.0), ptfReservoir(0.0);
+    for (size_t j(0); j < m_ncolloptrsize; ++j) {
+      if (j < m_numGroupedGrains){
+        // Summing up the partition function of reservoir state.
+        ptfReservoir += exp(log(gDOS[j]) - env.beta * gEne[j] + 10.0);
+      }
+      else {
+        double downwardSum(0.0);
+        for (size_t i(0); i < m_numGroupedGrains; ++i) {
+          downwardSum += (*egme)[i][j]; // Sum of the normalized downward prob.
+        }
+        double ptfj = exp(log(gDOS[j]) - env.beta * gEne[j] + 10.0);
+        sumOfDeactivation += downwardSum * ptfj;
+        (*m_egme)[0][j - m_numGroupedGrains + 1] = downwardSum;
+      }
+    }
+    sumOfDeactivation /= ptfReservoir; 
+    (*m_egme)[0][0] = -sumOfDeactivation;
   }
 
   //
@@ -1873,7 +1862,6 @@ namespace mesmer
   // Accessor for number of basis functions to be used in contracted basis set method.
   //
   size_t gWellProperties::get_nbasis() const { return m_host->getEnv().nBasisSet; }
-
 
   gStructure::gStructure(mesmer::Molecule *pMol) : m_MolecularWeight(-1),
     m_PrincipalMI(3, 0.0),

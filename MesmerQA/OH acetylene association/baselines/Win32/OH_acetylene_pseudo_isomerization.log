@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Mar  1 2014 -- 11:57:14
+     Mesmer v4.0 compiled: -- Jul  6 2014 -- 12:51:09
 
-     Copyright (C) 2009-2013 by
+     Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -26,6 +26,7 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
 OH_acetylene_pseudo_isomerization.xml
@@ -48,16 +49,26 @@ In R2: No tunneling method used for R2
 In R2: No crossing method used for R2
 All molecules are on the same energy basis: arbitary
 1000torr, 298K at double precision with N2
-Write metadata 20140301_115853
+Write metadata 20140706_133332
 
 File: "OH_acetylene_pseudo_isomerization.xml" successfully parsed.
 Main Calculation begins
+Execute calcMethod simpleCalc
+PT Grid 0
+Number of cells = 16000, Number of grains = 320
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 In mesmer::CollisionOperator::timeEvolution: No population was assigned, and there is no source term.
 In mesmer::CollisionOperator::timeEvolution: Initial poupulation set to 1.0  in the first isomer.
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+            298   3.24043e+019
 Finish Calculation of P-T case
+1 temperature/concentration-pressure points calculated.
  -- Total time elapsed: 1 seconds.
 
 System saved to mesmer_out.xml

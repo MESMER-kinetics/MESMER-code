@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Mar  1 2014 -- 11:57:14
+     Mesmer v4.0 compiled: -- Jul  6 2014 -- 12:51:09
 
-     Copyright (C) 2009-2013 by
+     Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -26,6 +26,7 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
 pentyl_isomerization_test.xml
@@ -44,15 +45,25 @@ In 1-pentyl=TS=2-pentyl: The default value of me:DOSCMethod was used.
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
 All molecules are on the same energy basis: arbitary
-The default value of precision (or one of its attributes) was used.
+The default value of the attribute precision was used.
 1e+008PPCC, 500K at d precision with Ar
-Write metadata 20140301_115844
+Write metadata 20140706_133323
 
 File: "pentyl_isomerization_test.xml" successfully parsed.
 Main Calculation begins
+Execute calcMethod simpleCalc
+PT Grid 0
+Number of cells = 16050, Number of grains = 107
+Build Collison Operator
+Diagonalize the Reaction Operator
 In mesmer::CollisionOperator::timeEvolution: No population was assigned, and there is no source term.
 In mesmer::CollisionOperator::timeEvolution: Initial poupulation set to 1.0  in the first isomer.
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+            500         1e+008
 Finish Calculation of P-T case
- -- Total time elapsed: 0 seconds.
+1 temperature/concentration-pressure points calculated.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml

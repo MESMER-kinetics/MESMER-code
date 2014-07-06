@@ -349,7 +349,6 @@ namespace mesmer
 
     DistributionCalculator* m_pDistributionCalculator;
     
-    //EnergyTransferModel* m_pEnergyTransferModel ; //loaded for each PT condition
     std::map<std::string, EnergyTransferModel*> m_EnergyTransferModels; //with different bath gases
 
     std::vector<double> m_grainDist ;          // Grain distribution (not normalized)
@@ -360,16 +359,14 @@ namespace mesmer
     // Calculate collision frequency.
     double collisionFrequency(MesmerEnv env, Molecule *pBathGasMolecule) ;
 
-    // Calculate collision operator.
-    bool collisionOperator (MesmerEnv& env) ;
-
     // Calculate raw transition matrix.
     bool rawTransitionMatrix(MesmerEnv& env, vector<double> &gEne,  vector<double> &gDOS, dMatrix *egme) ;
 
-	double getBoltzmannWeightedEnergy(int numberOfGrains, const vector<double>& gEne, const vector<double>& gDos, double beta, double& totalDOS);
+	// Write out collision operator diaganostics.
+    void gWellProperties::writeCollOpProps(vector<double>& ene, dMatrix* egme) const;
 
-    // Diagonalize collision operator before adding reaction terms to get eigenvectors and eigenvalues.
-    void diagonalizeCollisionOperator();
+    // Construct reservoir state.
+    void gWellProperties::constructReservoir(MesmerEnv& env, vector<double> &gEne, vector<double> &gDOS, dMatrix *egme) ;
 
   public:
 
@@ -392,7 +389,13 @@ namespace mesmer
     // Accessor a collision operator eigenvector.
     void eigenVector(int eigveci, std::vector<double> &evec) const ;
 
-    void copyCollisionOperator(qdMatrix *CollOptr, const int locate, const double RducdOmega) const ;
+    // Calculate collision operator.
+    bool collisionOperator (MesmerEnv& env) ;
+
+    // Diagonalize collision operator before adding reaction terms to get eigenvectors and eigenvalues.
+    void diagonalizeCollisionOperator();
+
+	void copyCollisionOperator(qdMatrix *CollOptr, const int locate, const double RducdOmega) const ;
 
     void copyCollisionOperatorEigenValues(qdMatrix *CollOptr, const int locate, const double RducdOmega) const ;
 

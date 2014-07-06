@@ -202,19 +202,14 @@ namespace mesmer
       //
       // Shift all wells to the same origin, calculate the size of the reaction operator,
       // calculate the mean collision frequency and initialize all collision operators.
+      // Set grain ZPE (with respect to the minimum of all wells)
       //
-      int msize(0) ; // size of the collision matrix
       m_meanOmega = 0.0;
-
       Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
       for (; isomeritr != m_isomers.end() ; ++isomeritr) {
 
         Molecule *isomer = isomeritr->first ;
-        isomeritr->second = msize ; //set location
-
-        int grnZpe = isomer->getColl().get_grnZPE() ; //set grain ZPE (with respect to the minimum of all wells)
-
-        int colloptrsize = mEnv.MaxGrn - grnZpe ;
+        int colloptrsize = mEnv.MaxGrn - isomer->getColl().get_grnZPE() ;
         isomer->getColl().set_colloptrsize(colloptrsize) ;
 
         if(!isomer->getColl().initCollisionOperator(mEnv, pBathGasMolecule)){
@@ -237,12 +232,12 @@ namespace mesmer
       if (!mEnv.useBasisSetMethod) {
 
         // Full energy grained reaction operator.
-        constructGrainMatrix();
+        constructGrainMatrix(mEnv);
 
       } else {
 
         // Contracted basis set reaction operator.
-        constructBasisMatrix();
+        constructBasisMatrix(mEnv);
 
       }
 
@@ -373,7 +368,7 @@ namespace mesmer
 
   // This method constructs a transition matrix based on energy grains.
   //
-  void CollisionOperator::constructGrainMatrix(){
+  void CollisionOperator::constructGrainMatrix(MesmerEnv &mEnv){
 
     // Determine the size and location of various blocks.
 
@@ -384,7 +379,7 @@ namespace mesmer
     for (; isomeritr != m_isomers.end() ; ++isomeritr) {
       Molecule *isomer = isomeritr->first ;
       isomeritr->second = static_cast<int>(msize) ; //set location
-      msize += isomer->getColl().get_colloptrsize() ;
+      msize += isomer->getColl().get_colloptrsize() - isomer->getColl().reservoirShift() ;
     }
 
     // 2. Pseudoisomers.
@@ -409,6 +404,10 @@ namespace mesmer
       double omega = isomer->getColl().get_collisionFrequency();
       int idx = isomeritr->second ;
 
+      if (!isomer->getColl().collisionOperator(mEnv)) {
+        string errorMsg = "Failed building collision operator for " + isomer->getName() + ".";
+		throw(std::runtime_error(errorMsg)) ;
+	  }
       isomer->getColl().copyCollisionOperator(m_reactionOperator, idx, omega/m_meanOmega) ;
 
     }
@@ -438,7 +437,7 @@ namespace mesmer
   // One then needs to decide how many members of this basis matrix to include in the reduced basis matrix for
   // diagonalization.
   //
-  void CollisionOperator::constructBasisMatrix(){
+  void CollisionOperator::constructBasisMatrix(MesmerEnv &mEnv) {
 
     // Determine the size and location of various blocks.
 
@@ -474,6 +473,8 @@ namespace mesmer
       double omega = isomer->getColl().get_collisionFrequency() ;
       int idx = isomeritr->second ;
 
+      isomer->getColl().collisionOperator(mEnv) ;
+      isomer->getColl().diagonalizeCollisionOperator() ;
       isomer->getColl().copyCollisionOperatorEigenValues(m_reactionOperator, idx, omega) ;
     }
 
