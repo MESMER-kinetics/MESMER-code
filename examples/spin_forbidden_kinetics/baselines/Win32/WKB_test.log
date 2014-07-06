@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- Jan 26 2014 -- 22:37:32
+     Mesmer v4.0 compiled: -- Jul  6 2014 -- 17:13:55
 
-     Copyright (C) 2009-2013 by
+     Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -26,30 +26,45 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
 WKB_test.xml
 
 The default value of me:calcMethod was used.
 In R1: Parsing reaction...
-In cyclopropene: The default value of spinMultiplicity (or one of its attributes) was used.
+In cyclopropene: The default value of the attribute spinMultiplicity was used.
 In cyclopropene: The default value of me:DistributionCalcMethod was used.
-In triplet: The default value of spinMultiplicity (or one of its attributes) was used.
+In triplet: The default value of the attribute spinMultiplicity was used.
 In triplet: The default value of me:DistributionCalcMethod was used.
 In R1: No imaginary vibrational frequency. Check if there is tunneling.
 No tunneling method used for R1
 All molecules are on the same energy basis: arbitary
-The default value of precision (or one of its attributes) was used.
+The default value of the attribute precision was used.
 200.72Torr, 800K at d precision with He
-The default value of precision (or one of its attributes) was used.
+The default value of the attribute precision was used.
 250Torr, 1000K at d precision with He
-Write metadata 20140127_223029
+Write metadata 20140706_195745
 
 File: "WKB_test.xml" successfully parsed.
 Main Calculation begins
+Execute calcMethod simpleCalc
+PT Grid 0
+Number of cells = 24000, Number of grains = 120
 In FastLaplaceConvolution: 11880 values in the FFT convolution routine were replaced by standard convolution
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 1
+Number of cells = 26800, Number of grains = 134
 In FastLaplaceConvolution: 12040 values in the FFT convolution routine were replaced by standard convolution
-Finish Calculation of P-T case
- -- Total time elapsed: 0 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+            800   2.42281e+018           1000   2.41412e+018
+Finish Calculation of P-T case -- Time elapsed: 1 seconds.
+2 temperature/concentration-pressure points calculated.
+ -- Total time elapsed: 1 seconds.
 
 System saved to mesmer_out.xml

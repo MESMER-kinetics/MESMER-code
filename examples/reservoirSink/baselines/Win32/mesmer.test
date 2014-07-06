@@ -707,10 +707,10 @@ k_f(e) grains for R4:
 }
 
 Canonical pseudo first order forward rate constant of irreversible reaction R4 = 3.10092e-019 s-1 (250 K)
-The reservoir is set to 97 grains, which is about 9700 cm-1 from the well bottom.
-4.98463e-009 of the Int1 population is in the active states. The reservoir size = 9700 cm-1, which is 116.038 kJ/mol.
-The reservoir is set to 75 grains, which is about 7500 cm-1 from the well bottom.
-9.39496e-007 of the Int2 population is in the active states. The reservoir size = 7500 cm-1, which is 89.7204 kJ/mol.
+The reservoir for Int1 is 97 grains,which is 9700 cm-1 (or 116.038 kJ/mol) from the well bottom.
+At equilibrium -6.66134e-016 of the Int1 population is in the active states. 
+The reservoir for Int2 is 75 grains,which is 7500 cm-1 (or 89.7198 kJ/mol) from the well bottom.
+At equilibrium 1.94678e-012 of the Int2 population is in the active states. 
 
 Eq fraction matrix:
 {

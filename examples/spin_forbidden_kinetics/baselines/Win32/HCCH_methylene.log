@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- Jan 26 2014 -- 22:37:32
+     Mesmer v4.0 compiled: -- Jul  6 2014 -- 17:13:55
 
-     Copyright (C) 2009-2013 by
+     Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -26,6 +26,7 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
 HCCH_methylene.xml
@@ -42,19 +43,31 @@ In R1: me:GradientDifferenceMagnitude = 0.079742 a.u./Bohr
 In R1: me:GradientReducedMass = 8.2323 a.m.u.
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 All molecules are on the same energy basis: arbitary
-The default value of precision (or one of its attributes) was used.
+The default value of the attribute precision was used.
 1Torr, 195K at d precision with He
-The default value of precision (or one of its attributes) was used.
+The default value of the attribute precision was used.
 1Torr, 298K at d precision with He
 The default value of me:eigenvalues was used.
-Write metadata 20140127_223025
+Write metadata 20140706_195741
 
 File: "HCCH_methylene.xml" successfully parsed.
 Main Calculation begins
+Execute calcMethod simpleCalc
+PT Grid 0
+Number of cells = 27120, Number of grains = 1356
 In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
+Build Collison Operator
+PT Grid 1
+Number of cells = 41440, Number of grains = 2072
 In FastLaplaceConvolution: 960 values in the FFT convolution routine were replaced by standard convolution
+Build Collison Operator -- Time elapsed: 2 seconds.
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+
 Finish Calculation of P-T case
+2 temperature/concentration-pressure points calculated.
  -- Total time elapsed: 3 seconds.
 
 System saved to mesmer_out.xml
