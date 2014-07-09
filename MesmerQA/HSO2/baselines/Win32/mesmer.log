@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Jul  6 2014 -- 12:51:09
+     Mesmer v4.0 compiled: -- Jul  9 2014 -- 22:57:32
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -51,7 +51,7 @@ All molecules are on the same energy basis: arbitary
 1e+008Torr, 200K at double precision with Ar
 1e+008Torr, 200K at dd precision with Ar
 1e+008Torr, 200K at qd precision with Ar
-Write metadata 20140706_133325
+Write metadata 20140709_232030
 
 File: "HSO2_test.xml" successfully parsed.
 Main Calculation begins
@@ -64,7 +64,7 @@ Number of grains produced : 1
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 1
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
 PT Grid 2
 Build Collison Operator

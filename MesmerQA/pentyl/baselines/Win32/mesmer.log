@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Jul  6 2014 -- 12:51:09
+     Mesmer v4.0 compiled: -- Jul  9 2014 -- 22:57:32
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -47,7 +47,7 @@ In R1: No crossing method used for R1
 All molecules are on the same energy basis: arbitary
 The default value of the attribute precision was used.
 1e+008PPCC, 500K at d precision with Ar
-Write metadata 20140706_133323
+Write metadata 20140709_232027
 
 File: "pentyl_isomerization_test.xml" successfully parsed.
 Main Calculation begins

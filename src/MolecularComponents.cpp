@@ -1400,7 +1400,7 @@ namespace mesmer
     const size_t reducedCollOptrSize = m_ncolloptrsize - reservoirShift();
 
     // Allocate memory.
-    dMatrix* egme = new dMatrix(m_ncolloptrsize);
+    qdMatrix* egme = new qdMatrix(m_ncolloptrsize);
 
     // Calculate raw transition matrix.
     if (!rawTransitionMatrix(env, gEne, gDOS, egme)) return false;
@@ -1428,25 +1428,25 @@ namespace mesmer
       constructReservoir(env, gEne, gDOS, egme) ;
 	}
 
-    vector<double> popDist; // Grained population distribution.
+    vector<qd_real> popDist; // Grained population distribution.
     popDist.push_back(0.0);
-    double prtnFn(0.0);
-    for (size_t idx(0); idx < m_ncolloptrsize; ++idx){
-      const double tmp(exp(log(gDOS[idx]) - env.beta * gEne[idx] + 10.0));
+    qd_real prtnFn(0.0), beta(env.beta) ;
+    for (size_t idx(0); idx < m_ncolloptrsize; ++idx) {
+      const qd_real tmp(qd_real(gDOS[idx])*exp(-beta*qd_real(gEne[idx])));
       prtnFn += tmp ;
       if (idx < std::max(m_numGroupedGrains,size_t(1))){
         popDist[0] += tmp;
       }
       else {
-        popDist.push_back(sqrt(tmp));
+        popDist.push_back(tmp);
       }
     }
-    popDist[0] = sqrt(popDist[0]); // This is the square root of partition function in the reservoir grain
+    // popDist[0] = sqrt(popDist[0]); // This is the square root of partition function in the reservoir grain
 
     // Symmetrization of the collision matrix.
     for (size_t i(1); i < reducedCollOptrSize; ++i) {
       for (size_t j(0); j < i; ++j){
-        (*egme)[j][i] *= popDist[i] / popDist[j];
+        (*egme)[j][i] *= sqrt(popDist[i] / popDist[j]) ;
         (*egme)[i][j] = (*egme)[j][i];
       }
     }
@@ -1480,7 +1480,8 @@ namespace mesmer
   //
   // Calculate raw transition matrix.
   //
-  bool gWellProperties::rawTransitionMatrix(MesmerEnv& env, vector<double> &gEne, vector<double> &gDOS, dMatrix *egme)
+  template<class T> 
+  bool gWellProperties::rawTransitionMatrix(MesmerEnv& env, vector<double> &gEne, vector<double> &gDOS, TMatrix<T>* egme)
   {
     EnergyTransferModel* pEnergyTransferModel = m_EnergyTransferModels[env.bathGasName];
     if (!pEnergyTransferModel)
@@ -1488,64 +1489,67 @@ namespace mesmer
       cerr << "No energyTransferModel for " << m_host->getName() << " with " << env.bathGasName << endl;
       return false;
     }
+
+	T beta = T(env.beta) ;
+
     // Use number of states to weight the downward transition
     if (m_host->getFlags().useDOSweightedDT){
       // The collision operator.
       for (size_t i = 0; i < m_ncolloptrsize; ++i) {
-        double ei = gEne[i];
-        double ni = gDOS[i];
+        T ei = T(gEne[i]);
+        T ni = T(gDOS[i]);
         for (size_t j = i; j < m_ncolloptrsize; ++j) {
-          double ej = gEne[j];
-          double nj = gDOS[j];
+          T ej = T(gEne[j]);
+          T nj = T(gDOS[j]);
           // Transfer to lower Energy -
           // double transferDown = exp(-alpha*(ej - ei)) * (ni/nj);
           // (*m_egme)[i][j] = transferDown;
-          double transferDown = pEnergyTransferModel->calculateTransitionProbability(ej, ei);
+          T transferDown = T(pEnergyTransferModel->calculateTransitionProbability(to_double(ej), to_double(ei)));
           (*egme)[i][j] = transferDown * (ni / nj);
 
           // Transfer to higher Energy (via detailed balance) -
           // double transferUp = exp(-(alpha + beta)*(ej - ei));
           // (*m_egme)[j][i] = transferUp;
-          (*egme)[j][i] = transferDown * exp(-env.beta*(ej - ei));
+          (*egme)[j][i] = transferDown * exp(-beta*(ej - ei));
         }
       }
     }
     else {
       // The collision operator.
       for (size_t i = 0; i < m_ncolloptrsize; ++i) {
-        double ei = gEne[i];
-        double ni = gDOS[i];
+        T ei = T(gEne[i]);
+        T ni = T(gDOS[i]);
         for (size_t j = i; j < m_ncolloptrsize; ++j) {
-          double ej = gEne[j];
-          double nj = gDOS[j];
+          T ej = T(gEne[j]);
+          T nj = T(gDOS[j]);
           // Transfer to lower Energy -
-          double transferDown = pEnergyTransferModel->calculateTransitionProbability(ej, ei);
+          T transferDown = T(pEnergyTransferModel->calculateTransitionProbability(to_double(ej), to_double(ei))) ;
           (*egme)[i][j] = transferDown;
 
           // Transfer to higher Energy (via detailed balance) -
-          (*egme)[j][i] = transferDown * (nj / ni) * exp(-env.beta*(ej - ei));
+          (*egme)[j][i] = transferDown * (nj / ni) * exp(-beta*(ej - ei));
         }
       }
     }
 
     return true;
-
   }
 
   //
   // Write out collision operator diaganostics.
   //
-  void gWellProperties::writeCollOpProps(vector<double>& ene, dMatrix* egme) const {
+  template<class T> 
+  void gWellProperties::writeCollOpProps(vector<double>& ene, TMatrix<T>* egme) const {
     ctest << endl << "Collision operator column sums and energy transfer parameters" << endl << "{" << endl;
     ctest << " Column Sums           E   <Delta E>  <Delta E>d  <Delta E>u" << endl;
     for (size_t i(0); i < m_ncolloptrsize; ++i) {
-      double columnSum(0.0);
-      double meanEnergyTransfer(0.0);
-      double meanEnergyTransferDown(0.0);
-      double meanEnergyTransferUp(0.0);
+      T columnSum(0.0);
+      T meanEnergyTransfer(0.0);
+      T meanEnergyTransferDown(0.0);
+      T meanEnergyTransferUp(0.0);
       for (size_t j(0); j < m_ncolloptrsize; ++j){
-        double trnsPrb = to_double((*egme)[j][i]) ;
-        double eneMom  = (ene[j] - ene[i])*trnsPrb ;
+        T trnsPrb = (*egme)[j][i] ;
+        T eneMom  = (ene[j] - ene[i])*trnsPrb ;
         columnSum += trnsPrb ;
         meanEnergyTransfer += eneMom ;
         if (ene[j] < ene[i]) {
@@ -1577,17 +1581,17 @@ namespace mesmer
   // the full grain solution, which is simply copied. 
   // Note upward transitions are determined as part of symmetrization.
   //
-  void gWellProperties::constructReservoir(MesmerEnv& env, vector<double> &gEne, vector<double> &gDOS, dMatrix *egme) {
+  void gWellProperties::constructReservoir(MesmerEnv& env, vector<double> &gEne, vector<double> &gDOS, qdMatrix *egme) {
 
     // Sum up the downward transition probabilities into the reservoir grain.
-    double sumOfDeactivation(0.0), ptfReservoir(0.0);
+    qd_real sumOfDeactivation(0.0), ptfReservoir(0.0);
     for (size_t j(0); j < m_ncolloptrsize; ++j) {
       if (j < m_numGroupedGrains){
         // Summing up the partition function of reservoir state.
         ptfReservoir += exp(log(gDOS[j]) - env.beta * gEne[j] + 10.0);
       }
       else {
-        double downwardSum(0.0);
+        qd_real downwardSum(0.0);
         for (size_t i(0); i < m_numGroupedGrains; ++i) {
           downwardSum += (*egme)[i][j]; // Sum of the normalized downward prob.
         }

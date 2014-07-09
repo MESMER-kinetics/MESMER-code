@@ -296,6 +296,7 @@
     <me:testDOS />
     <me:testMicroRates />
     <me:printGrainDOS />
+    <me:printReactionOperatorColumnSums />
     <!--<me:printCellTransitionStateFlux />-->
     <!--<me:printGrainTransitionStateFlux />-->
     <!--<me:printCellDOS />-->

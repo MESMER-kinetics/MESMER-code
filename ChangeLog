@@ -1,3 +1,8 @@
+2014-July-09 Struan Robertson
+
+	* MolecularComponents.cpp/.h: Further qd_real changes to gWellProperties methods in
+	order to improve precision of eigenvalues.
+
 2014-July-06 Struan Robertson
 
 	* CollisionOperator.cpp/.h, MolecularComponents.cpp/.h: gWellProperties methods altered
