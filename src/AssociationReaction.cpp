@@ -85,18 +85,18 @@ namespace mesmer
     m_pdt1->getDOS().getGrainDensityOfStates(pdtDOS) ;
 
     // Locate isomers in system matrix.
-    const int pdtLoc =      isomermap[m_pdt1] ;
+    const int pdtLoc = isomermap[m_pdt1] ;
     const int jj     = (*m_sourceMap)[get_pseudoIsomer()] ;
 
     // Get equilibrium constant.
-    const double Keq = calcEquilibriumConstant() ;
+    const qd_real Keq = qd_real(calcEquilibriumConstant()) ;
 
     // Get Boltzmann distribution for detailed balance.
     vector<double> adductPopFrac ; // Population fraction of the adduct
     const int pShiftedGrains(m_pdt1->getColl().reservoirShift());
     m_pdt1->getColl().normalizedGrnBoltzmannDistribution(adductPopFrac) ;
 
-    qd_real DissRateCoeff(0.0) ;
+    qd_real DissRateCoeff(0.0), qdMeanOmega(rMeanOmega) ;
 
     const int pdtRxnOptPos(pdtLoc - pShiftedGrains);
     const int colloptrsize = m_pdt1->getColl().get_colloptrsize() + pShiftedGrains ;
@@ -108,14 +108,14 @@ namespace mesmer
     for ( int i = reverseThreshE, j = fluxStartIdx; i < colloptrsize; ++i, ++j) {
       int ii(pdtRxnOptPos + i) ;
       int kk (i - pShiftedGrains);
-      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[j] / pdtDOS[i]);                                // Loss of the adduct to the source
-      (*CollOptr)[jj][ii]  = qd_real(rMeanOmega * m_GrainFlux[j] * sqrt(adductPopFrac[kk] * Keq) / pdtDOS[i]);// Reactive gain of the source
-      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                                                      // Reactive gain (symmetrization)
-      DissRateCoeff       += qd_real(m_GrainFlux[j] * adductPopFrac[kk] / pdtDOS[i]);
+	  qd_real Flux(m_GrainFlux[j]), dos(pdtDOS[i]), addPop(adductPopFrac[kk]) ;
+      (*CollOptr)[ii][ii] -= qdMeanOmega * Flux / dos ;                  // Loss of the adduct to the source
+      (*CollOptr)[jj][ii]  = qdMeanOmega * Flux * sqrt(Keq*addPop)/dos ; // Reactive gain of the source
+      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                       // Reactive gain (symmetrization)
+      DissRateCoeff       += Flux * addPop / dos;
     }
-    (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * DissRateCoeff * Keq);       // Loss of the source from detailed balance.
+    (*CollOptr)[jj][jj] -= qdMeanOmega * DissRateCoeff * Keq ;           // Loss of the source from detailed balance.
   }
-
 
   //
   // Add isomer reaction terms to contracted basis reaction matrix.

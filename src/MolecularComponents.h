@@ -367,7 +367,8 @@ namespace mesmer
     void writeCollOpProps(vector<double>& ene, TMatrix<T>* egme) const;
 
     // Construct reservoir state.
-    void constructReservoir(MesmerEnv& env, vector<double> &gEne, vector<double> &gDOS, qdMatrix *egme) ;
+    template<class T> 
+    void constructReservoir(MesmerEnv& env, vector<double> &gEne, vector<double> &gDOS, TMatrix<T>* egme) ;
 
   public:
 

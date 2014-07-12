@@ -1,3 +1,8 @@
+2014-July-12 Struan Robertson
+
+	* MolecularComponents.cpp/.h, Associtation.cpp, IrreversibleUnimolecularReaction.cpp:
+	Changes to reaction classes to improve precision.
+
 2014-July-09 Struan Robertson
 
 	* MolecularComponents.cpp/.h: Further qd_real changes to gWellProperties methods in

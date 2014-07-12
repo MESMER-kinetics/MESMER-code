@@ -1441,7 +1441,6 @@ namespace mesmer
         popDist.push_back(tmp);
       }
     }
-    // popDist[0] = sqrt(popDist[0]); // This is the square root of partition function in the reservoir grain
 
     // Symmetrization of the collision matrix.
     for (size_t i(1); i < reducedCollOptrSize; ++i) {
@@ -1581,21 +1580,23 @@ namespace mesmer
   // the full grain solution, which is simply copied. 
   // Note upward transitions are determined as part of symmetrization.
   //
-  void gWellProperties::constructReservoir(MesmerEnv& env, vector<double> &gEne, vector<double> &gDOS, qdMatrix *egme) {
+  template<class T> 
+  void gWellProperties::constructReservoir(MesmerEnv& env, vector<double> &gEne, vector<double> &gDOS, TMatrix<T>* egme) {
 
     // Sum up the downward transition probabilities into the reservoir grain.
-    qd_real sumOfDeactivation(0.0), ptfReservoir(0.0);
+    T sumOfDeactivation(0.0), ptfReservoir(0.0);
+	const T beta(env.beta) ;
     for (size_t j(0); j < m_ncolloptrsize; ++j) {
       if (j < m_numGroupedGrains){
         // Summing up the partition function of reservoir state.
-        ptfReservoir += exp(log(gDOS[j]) - env.beta * gEne[j] + 10.0);
+        ptfReservoir += T(gDOS[j])*exp(-beta*T(gEne[j])) ;
       }
       else {
-        qd_real downwardSum(0.0);
+        T downwardSum(0.0);
         for (size_t i(0); i < m_numGroupedGrains; ++i) {
           downwardSum += (*egme)[i][j]; // Sum of the normalized downward prob.
         }
-        double ptfj = exp(log(gDOS[j]) - env.beta * gEne[j] + 10.0);
+        T ptfj = T(gDOS[j])*exp(-beta*T(gEne[j])) ;
         sumOfDeactivation += downwardSum * ptfj;
         (*egme)[0][j - m_numGroupedGrains + 1] = downwardSum;
       }
