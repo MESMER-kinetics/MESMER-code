@@ -35,7 +35,7 @@ namespace mesmer
     const size_t pShiftedGrains(m_pdt1->getColl().reservoirShift());
 
     // Get equilibrium constant.
-    const double Keq = calcEquilibriumConstant() ;
+    const qd_real Keq = qd_real(calcEquilibriumConstant()) ;
 
     const size_t pColloptrsize  = m_pdt1->getColl().get_colloptrsize() + pShiftedGrains ;
     const size_t rColloptrsize  = m_rct1->getColl().get_colloptrsize() + rShiftedGrains ;
@@ -53,7 +53,7 @@ namespace mesmer
     m_fragDist->initialize(this) ;
     for ( size_t i = reverseThreshE, j = fluxStartIdx; i < pColloptrsize; ++i, ++j) {
       size_t ii(pdtLocation + i - pShiftedGrains) ;
-      qd_real disMicroRateCoeff = qd_real(rMeanOmega * m_GrainFlux[j] / pdtDOS[i]) ;
+      qd_real disMicroRateCoeff = qd_real(rMeanOmega) * qd_real(m_GrainFlux[j]) / qd_real(pdtDOS[i]) ;
       (*CollOptr)[ii][ii] -= disMicroRateCoeff ;   // Loss from adduct to pseudoisomer.
 
       vector<double> fragDist ;
@@ -64,7 +64,7 @@ namespace mesmer
 
       for (size_t k = 0; k < rColloptrsize; ++k) {
         size_t jj(rctLocation + k - rShiftedGrains) ;
-        double eqmRatio      = Keq*pdtEq[i]/rctEq[k] ;
+        qd_real eqmRatio     = Keq*qd_real(pdtEq[i])/qd_real(rctEq[k]) ;
         (*CollOptr)[jj][ii]  = disMicroRateCoeff*qd_real(fragDist[k]) ; // Gain of pseudoisomer from adduct.
         (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii]*eqmRatio ;           // Gain of adduct from pseudoisomer.
         (*CollOptr)[jj][jj] -= (*CollOptr)[ii][jj] ;                    // Loss from pseudoisomer to adduct.

@@ -1291,9 +1291,9 @@ namespace mesmer
     // Calculate the collision frequency.
     m_collisionFrequency = collisionFrequency(env, pBathGasMolecule);
 
-    // Treat reservoir grains as a source grain (anything going into this grain will behave Boltzmann)
-    // First need to find out the lowest barrier associated with the current well
-    // Determine the energy of the reservoir grain
+    // Determine the energy of the reservoir grain, first find the lowest barrier 
+	// associated with the current well
+    // 
     PersistPtr pp = m_host->get_PersistentPointer();
     PersistPtr ppReservoirSize = pp->XmlMoveTo("me:reservoirSize");
 
@@ -1464,14 +1464,12 @@ namespace mesmer
 
     m_ncolloptrsize = reducedCollOptrSize;
 
-    if (*CollOp) delete *CollOp;  // Delete any existing matrix.
+    if (*CollOp) 
+      delete *CollOp;  // Delete any existing matrix.
     (*CollOp) = new qdMatrix(reducedCollOptrSize);
-    for (size_t i(0) ; i < reducedCollOptrSize; ++i) {
-      for (size_t j(0) ; j < reducedCollOptrSize; ++j) {
-        (**CollOp)[i][j] = (*egme)[i][j];
-      }
-    }
-    delete egme;
+    (**CollOp) = (*egme) ;
+
+	delete egme;
 
     return true;
   }

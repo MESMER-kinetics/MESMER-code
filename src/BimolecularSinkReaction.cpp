@@ -1,4 +1,4 @@
- //-------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------
 //
 // BimolecularSinkReaction.cpp
 //
@@ -127,9 +127,9 @@ namespace mesmer
 
     for ( int i=fluxStartIdx, j = forwardThreshE; j < colloptrsize + rShiftedGrains; ++i, ++j) {
       int ii(rctLocation + j - rShiftedGrains) ;
-	  double rtcf = m_GrainFlux[i] / rctDOS[j] ;
-      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * rtcf);  // Forward loss reaction.
-	  m_MtxGrnKf[j - rShiftedGrains] = rtcf ;
+	  qd_real rtcf = qd_real(m_GrainFlux[i]) / qd_real(rctDOS[j]) ;
+      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega) * rtcf;  // Forward loss reaction.
+	  m_MtxGrnKf[j - rShiftedGrains] = to_double(rtcf) ;
     }
   }
 

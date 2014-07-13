@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Jul  9 2014 -- 22:57:32
+     Mesmer v4.0 compiled: -- Jul 10 2014 -- 20:55:48
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -31,7 +31,7 @@ defaults.xml, librarymols.xml are in ../..
 Parsing input xml file...
 ThermodynamicTable.xml
 
-Write metadata 20140709_232047
+Write metadata 20140713_071519
 
 File: "ThermodynamicTable.xml" successfully parsed.
 Main Calculation begins

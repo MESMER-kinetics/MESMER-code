@@ -49,7 +49,7 @@ In R2: No tunneling method used for R2
 In R2: No crossing method used for R2
 All molecules are on the same energy basis: arbitary
 1000torr, 298K at double precision with N2
-Write metadata 20140712_112128
+Write metadata 20140713_071512
 
 File: "OH_acetylene_pseudo_isomerization.xml" successfully parsed.
 Main Calculation begins
@@ -60,14 +60,14 @@ In FastLaplaceConvolution: 20 values in the FFT convolution routine were replace
 Association ILT calculation completed
 In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 In mesmer::CollisionOperator::timeEvolution: No population was assigned, and there is no source term.
 In mesmer::CollisionOperator::timeEvolution: Initial poupulation set to 1.0  in the first isomer.
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
             298   3.24043e+019
-Finish Calculation of P-T case
+Finish Calculation of P-T case -- Time elapsed: 1 seconds.
 1 temperature/concentration-pressure points calculated.
  -- Total time elapsed: 2 seconds.
 

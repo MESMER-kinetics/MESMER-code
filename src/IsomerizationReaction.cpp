@@ -131,10 +131,11 @@ namespace mesmer
     for ( int i=fluxStartIdx, j = reverseThreshE, k = forwardThreshE; j < colloptrsize; ++i, ++j, ++k) {
       int ii(rctLocation + k - rShiftedGrains) ;
       int jj(pdtLocation + j - pShiftedGrains) ;
-      (*CollOptr)[ii][ii] -= qd_real(rMeanOmega * m_GrainFlux[i] / rctDOS[k]);                    // Forward loss reaction.
-      (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * m_GrainFlux[i] / pdtDOS[j]) ;                   // Backward loss reaction from detailed balance.
-      (*CollOptr)[ii][jj]  = qd_real(rMeanOmega * m_GrainFlux[i] / sqrt(rctDOS[k] * pdtDOS[j])) ; // Reactive gain.
-      (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                                                // Reactive gain.
+	  qd_real Flux(m_GrainFlux[i]), qMeanOmega(rMeanOmega), rDos(rctDOS[k]), pDos(pdtDOS[j]) ;
+      (*CollOptr)[ii][ii] -= qMeanOmega * Flux / rDos;               // Forward loss reaction.
+      (*CollOptr)[jj][jj] -= qMeanOmega * Flux / pDos ;              // Backward loss reaction from detailed balance.
+      (*CollOptr)[ii][jj]  = qMeanOmega * Flux / sqrt(rDos * pDos) ; // Reactive gain.
+      (*CollOptr)[jj][ii]  = (*CollOptr)[ii][jj] ;                   // Reactive gain.
     }
 
   }

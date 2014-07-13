@@ -142,7 +142,7 @@ namespace mesmer
   {
 	m_MtxGrnKf.clear();
     const int jj     = (*m_sourceMap)[get_pseudoIsomer()] ;
-    (*CollOptr)[jj][jj] -= qd_real(rMeanOmega * get_fwdGrnCanonicalRate());
+    (*CollOptr)[jj][jj] -= qd_real(rMeanOmega) * qd_real(get_fwdGrnCanonicalRate());
 	m_MtxGrnKf.push_back(get_fwdGrnCanonicalRate()) ;
   }
 
