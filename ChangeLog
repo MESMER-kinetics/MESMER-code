@@ -2,7 +2,7 @@
 
 	* src/ConditionsManager.cpp,src/ConditionsManager.h,src/Reaction.cpp,
 	  src/Reaction.h,src/ReactionManager.cpp,src/ReactionManager.h,src/System.cpp:
-	  Option to specify excess reactant concentration individually on
+	  Option to specify excess reactant concentrations individually on
 	  <PTPair>. Data structures are appropriate for the general case of specifying
 	  excess reactant concs of different molecules for multiple reactions,
 	  but the XML parsing using attributes on <PTPair> allows only a single
