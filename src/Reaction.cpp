@@ -34,6 +34,7 @@ namespace mesmer
     m_GrainKfmc(),
     m_MtxGrnKf(),
     m_ERConc(0.0),
+    m_ExcessReactant(NULL),
     m_fwdGrnCanonicalRate(0.0),
     m_rvsGrnCanonicalRate(0.0),
     m_fwdCellCanonicalRate(0.0),
@@ -90,6 +91,8 @@ namespace mesmer
           return NULL;
         }
         pMol = m_pMoleculeManager->addmol(string(reftxt), string(typetxt), getEnv(), getFlags());
+        if(typetxt=="excessReactant")
+          m_ExcessReactant = pMol;
       }
     }
 

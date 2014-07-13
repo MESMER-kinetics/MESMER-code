@@ -103,6 +103,8 @@
                         <xs:attribute name="P" type="xs:float" use="required" />
                         <xs:attribute name="T" type="xs:float" use="required" />
                         <xs:attribute name="precision" type="me:precisionType" use="optional"/>
+                        <xs:attribute name="excessReactantConc" type="xs:float" use="optional"/>
+                        <xs:attribute name="refReaction" type="cml:idType" use="optional"/>
                         <xs:attribute name="default" type="me:ynboolean" use="optional"/>
                       </xs:complexType>
                     </xs:element>

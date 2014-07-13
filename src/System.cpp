@@ -444,6 +444,10 @@ bool System::parse(PersistPtr ppIOPtr)
       m_Env.beta = 1.0 / (boltzmann_RCpK * m_pConditionsManager->PTPointTemp(calPoint)) ; 
       m_Env.conc = m_pConditionsManager->PTPointConc(calPoint); // unit of conc: particles per cubic centimeter
       m_Env.bathGasName = m_pConditionsManager->PTPointBathGas(calPoint);
+      map<Reaction*,double> excessConcs = m_pConditionsManager->PTPointExcessConcs(calPoint);
+      //Set excess Concentrations for all reactions
+      for(map<Reaction*,double>::iterator it=excessConcs.begin();it!=excessConcs.end();++it)
+        it->first->set_concExcessReactant(it->second);
 
       if (writeReport) {cinfo << "PT Grid " << calPoint << endl;}
       Precision precision = m_pConditionsManager->PTPointPrecision(calPoint);

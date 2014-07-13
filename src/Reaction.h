@@ -205,6 +205,7 @@ namespace mesmer
     // Get the concentration of the excess reactant. 
     double get_concExcessReactant() const { return m_ERConc ; }
     void   set_concExcessReactant(double conc) { m_ERConc = conc; }
+    Molecule* getExcessReactant(){ return m_ExcessReactant; }
 
     void setUsesProductProperties(bool b = true);
     bool UsesProductProperties() const{ return m_UsesProductProperties; } 
@@ -231,8 +232,8 @@ namespace mesmer
     // Reaction composition.
     //
 
-    Molecule     *m_TransitionState;       // Transition State
-
+    Molecule            *m_TransitionState;       // Transition State
+    Molecule            *m_ExcessReactant;
     MoleculeManager     *m_pMoleculeManager ;     // Pointer to molecule manager.
     MicroRateCalculator *m_pMicroRateCalculator ; // Pointer to microcanoical rate coeff. calculator.
     TunnelingCalculator *m_pTunnelingCalculator ; // Pointer to Tunneling Calculator

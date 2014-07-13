@@ -1,3 +1,16 @@
+2014-July-13 Chris Morley
+
+	* src/ConditionsManager.cpp,src/ConditionsManager.h,src/Reaction.cpp,
+	  src/Reaction.h,src/ReactionManager.cpp,src/ReactionManager.h,src/System.cpp:
+	  Option to specify excess reactant concentration individually on
+	  <PTPair>. Data structures are appropriate for the general case of specifying
+	  excess reactant concs of different molecules for multiple reactions,
+	  but the XML parsing using attributes on <PTPair> allows only a single
+	  excess reactant, optionally restricted to specified reaction rather than
+	  being applied to all reactions it is the excess reactant. The general case,
+	  should it ever be necessary, will require sub-elements, rather than
+	  attributes , on <PTPair>.
+
 2014-July-13 Struan Robertson
 
 	* PseudoIsomerizationReaction.cpp, IrreversibleExchangeReaction.cpp, 

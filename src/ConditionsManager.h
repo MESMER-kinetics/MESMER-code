@@ -38,14 +38,17 @@ struct CandTpair{
   double    m_temperature; // Kelvin
   Precision m_precision;
   const char* m_pBathGasName;
+  std::map<Reaction*, double> m_excessConcs; // Reaction, conc in ppcc
 
   std::vector<conditionSet> m_rates;
   std::vector<conditionSet> m_yields;
   std::vector<conditionSet> m_eigenvalues;
   std::vector<PersistPtr> m_expDataPtrs;
 
-  CandTpair(double cp_, double t_, Precision _pre, const char* _bathGas)
-    : m_concentration(cp_), m_temperature(t_), m_precision(_pre), m_pBathGasName(_bathGas){}
+  CandTpair(double cp_, double t_, Precision _pre, const char* _bathGas,
+            const map<Reaction*,double>& _excessConcs)
+            : m_concentration(cp_), m_temperature(t_), m_precision(_pre),
+              m_pBathGasName(_bathGas), m_excessConcs(_excessConcs) {}
 
   void set_experimentalRates(PersistPtr ppData, std::string ref1, std::string ref2,
                              std::string refReaction, double value, double error) {
@@ -82,6 +85,7 @@ public:
   double      PTPointConc(int index){ return PandTs[index].m_concentration;}
   const char* PTPointBathGas(int index)      {return PandTs[index].m_pBathGasName;}
   Precision   PTPointPrecision(int index)    {return PandTs[index].m_precision;}
+  map<Reaction*,double> PTPointExcessConcs(int index)  {return PandTs[index].m_excessConcs; }
 
   // An accessor method to get conditions and related properties for
   // use with plugins classes etc.
@@ -114,6 +118,11 @@ private:
 
   System* m_pSys; //parent System
   PersistPtr m_ppConditions;
+
+  // The excess reactant concentrations as specified in <Reaction>.
+  // Provides unchanging base data when excess concs are individually
+  // specified in <PTPair>
+  std::map<Reaction*, double> baseExcessConcs; // Reaction, conc in ppcc
 
   // Paired concentration and pressure points.
   std::vector<CandTpair> PandTs;

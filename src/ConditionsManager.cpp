@@ -25,6 +25,11 @@ bool ConditionsManager::ParseBathGas(PersistPtr ppConditions)
 
 bool ConditionsManager::ParseConditions()
 {
+  //Save excess concs as specified in <Reaction>s
+  vector<Reaction*> pReacts = m_pSys->getReactionManager()->getReactionsWithExcessReactant();
+  for(vector<Reaction*>::iterator it=pReacts.begin();it!=pReacts.end();++it)
+    baseExcessConcs[*it] = (*it)->get_concExcessReactant();
+
   readPTs();
   if (!PandTs.size())
     cerr << "No pressure and temperature specified." << endl;
@@ -91,7 +96,8 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
         const char* bathGasName = m_pSys->getMoleculeManager()->get_BathGasName().c_str();
         for (size_t i(0) ; i < Pvals.size(); ++i){
           for (size_t j(0) ; j < Tvals.size(); ++j){
-            CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j], this_precision, bathGasName);
+            CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j],
+                                             this_precision, bathGasName, baseExcessConcs);
             PandTs.push_back(thisPair);
             m_pSys->getEnv().MaximumTemperature = max(m_pSys->getEnv().MaximumTemperature, thisPair.m_temperature);
           }
@@ -159,9 +165,61 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
           bathGasName = m_pSys->getMoleculeManager()->get_BathGasName().c_str();
         ppPTpair->XmlWriteAttribute("bathGas",bathGasName);
 
-        CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T, this_precision , bathGasName);
+        // Excess Reactant Concentration for this PT.
+        // If there is more than one reaction with an excessReactant specified, 
+        // either they all have to be the same molecule, whose concentration is set here,
+        // or a refReaction attribute is needed to specify the reaction to which
+        // this excessConc is applied.
+        // If it is necessary to specify more than one excessReactantConc for a PTPair,
+        // this attribute-based method cannot be used and an alternative element-based
+        // form (not yet coded) is needed.
+
+        map<Reaction*,double> thisExcessConcs(baseExcessConcs);
+        double excessConc = ppPTpair->XmlReadDouble("excessReactantConc", optional);
+        if(!IsNan(excessConc))
+        {
+          const char* idtxt = ppPTpair->XmlReadValue("refReaction", optional);
+          if(idtxt)
+          {
+            Reaction* pReact = m_pSys->getReactionManager()->find(idtxt);
+            if(!pReact)
+              cerr << "Unknown refReaction" << endl;
+            else
+              thisExcessConcs[pReact] = excessConc;
+          }
+          else
+          {
+            //check that all excessReactants are the same molecule
+            vector<Reaction*> pReacts = m_pSys->getReactionManager()->getReactionsWithExcessReactant();
+            vector<Reaction*>::iterator it=pReacts.begin();
+            if(pReacts.size()>1)
+            {
+              Molecule* pMol = (*it)->getExcessReactant();
+              assert(pMol);
+              for(;it!=pReacts.end();++it)
+              {
+                if(pMol != (*it)->getExcessReactant())
+                {
+                  cerr << "The attribute excessReactantConc on PTPair can be used only "
+                       << "if every excess Reactant is the same molecule."
+                       << endl;
+                  throw std::runtime_error("Erroneous excessReactantConc attribute in PTPair");
+                }
+              }
+            }
+            //set all excess reactant concentions to the specified value
+            for(it=pReacts.begin(); it!=pReacts.end();++it)
+              thisExcessConcs[*it] = excessConc;
+          }
+        }
+
+        CandTpair thisPair(getConvertedP(this_units, this_P, this_T), this_T,
+          this_precision, bathGasName, thisExcessConcs);
         cinfo << this_P << this_units << ", " << this_T << "K at " << txt 
-          << " precision" << " with " << bathGasName << endl; 
+          << " precision" << " with " << bathGasName;
+        if(!IsNan(excessConc))
+         cinfo << ". Excess Reactant Conc = " << excessConc << " particles per cc";
+        cinfo << endl; 
 
         // Extract experimental rate coefficient values for chiSquare calculation.
         PersistPtr ppExpRate = ppPTpair->XmlMoveTo("me:experimentalRate");

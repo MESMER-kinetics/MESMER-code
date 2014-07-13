@@ -72,6 +72,9 @@ namespace mesmer
     // Set Initial population for individual grains and/or species
     void setInitialPopulation(PersistPtr);
 
+    //Return a vector with the IDs of all molecules which are excessReactants
+    std::vector<Reaction*> getReactionsWithExcessReactant();
+
   private:
 
     std::vector<Reaction *> m_reactions ;
