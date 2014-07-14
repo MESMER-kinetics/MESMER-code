@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v3.0 compiled: -- Jan 28 2014 -- 12:44:47
+     Mesmer v4.0 compiled: -- Jul 14 2014 -- 11:09:27
 
-     Copyright (C) 2009-2013 by
+     Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -26,6 +26,7 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
 Methyl_H_to_Methane.xml
@@ -35,7 +36,7 @@ In R1: Parsing reaction...
 In Methyl: The default value of me:frequenciesScaleFactor was used.
 In H: The default value of me:frequenciesScaleFactor was used.
 In H: The default value of me:symmetryNumber was used.
-In H: The default value of spinMultiplicity (or one of its attributes) was used.
+In H: The default value of the attribute spinMultiplicity was used.
 In H: The default value of me:DOSCMethod was used.
 In Methane: The default value of me:frequenciesScaleFactor was used.
 In Methane: The default value of me:DistributionCalcMethod was used.
@@ -84,10 +85,11 @@ All molecules are on the same energy basis: arbitary
 515Torr, 601K at dd precision with He
 614.5Torr, 601K at dd precision with He
 711Torr, 601K at dd precision with He
-Write metadata 20140128_124943
+Write metadata 20140714_112958
 
 File: "Methyl_H_to_Methane.xml" successfully parsed.
 Main Calculation begins
+Execute calcMethod fitting
 Number of grains produced is not equal to that requested
 Number of grains requested: 204
 Number of grains produced : 1
@@ -153,167 +155,147 @@ Finish Calculation of P-T case
    1.59798e-020   1.59116e-020   1.58035e-020
 Association ILT calculation completed
 Finish Calculation of P-T case
-   1.59116e-020   1.58035e-020   1.56355e-020
+   1.59116e-020   1.58035e-020            nan
+Association ILT calculation completed
+Finish Calculation of P-T case
+   1.59116e-020   1.58035e-020   1.57384e-020            nan
+Association ILT calculation completed
+Finish Calculation of P-T case
+   1.58035e-020   1.57384e-020   1.56988e-020            nan
+
+Chi^2 = 1.56988e-20
+R1:preExponential=1.46738e-10  R1:nInfinity=0.77382  
+Direction sweep:1 of fitting. chiSquare = 1.56988e-20
+
+Begin line search
+
+Chi^2 = 1.56988e-20
+R1:preExponential=1.46738e-10  R1:nInfinity=0.77382  
+
+Begin line search
+
+Chi^2 = 1.56988e-20
+R1:preExponential=1.46738e-10  R1:nInfinity=0.77382  
+
+Direction Matrix Reset.
+Iteration: 3 of fitting. chiSquare = 1.56988e-20
+Direction sweep:0 of fitting. chiSquare = 1.56988e-20
+
+Begin line search
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Finish Calculation of P-T case
+   1.56988e-020   1.37682e-020   1.25514e-020
+Association ILT calculation completed
+Finish Calculation of P-T case
+   1.37682e-020   1.25514e-020   1.49511e-020
+Association ILT calculation completed
+Finish Calculation of P-T case
+   1.37682e-020   1.25514e-020   1.28713e-020   1.49511e-020
+Association ILT calculation completed
+Finish Calculation of P-T case
+   1.37682e-020   1.27526e-020   1.25514e-020   1.28713e-020
+
+Chi^2 = 1.25514e-20
+R1:preExponential=1.72918e-10  R1:nInfinity=0.77382  
+Direction sweep:1 of fitting. chiSquare = 1.25514e-20
+
+Begin line search
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Finish Calculation of P-T case
+   1.25551e-020   1.25514e-020   1.25483e-020
 In FastLaplaceConvolution: 60 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 Finish Calculation of P-T case
-   1.58035e-020   1.56355e-020   1.53805e-020
+   1.25514e-020   1.25483e-020   1.25511e-020
 Association ILT calculation completed
 Finish Calculation of P-T case
-   1.56355e-020   1.53805e-020   1.50133e-020
+   1.25514e-020   1.25483e-020   1.25483e-020   1.25511e-020
 Association ILT calculation completed
 Finish Calculation of P-T case
-   1.53805e-020   1.50133e-020    1.4538e-020
+   1.25483e-020   1.25483e-020   1.25489e-020   1.25511e-020
 
-Bound check failed in bracket search.
-
-Chi^2 = 1.50133e-20
-R1:preExponential=1.46738e-10  R1:nInfinity=0.542016  
-Direction sweep:1 of fitting. chiSquare = 1.50133e-20
+Chi^2 = 1.25483e-20
+R1:preExponential=1.72918e-10  R1:nInfinity=0.747639  
 
 Begin line search
 
-Chi^2 = 1.50133e-20
-R1:preExponential=1.46738e-10  R1:nInfinity=0.542016  
+Chi^2 = 1.25483e-20
+R1:preExponential=1.72918e-10  R1:nInfinity=0.747639  
+Iteration: 4 of fitting. chiSquare = 1.25483e-20
+Direction sweep:0 of fitting. chiSquare = 1.25483e-20
+
+Begin line search
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Finish Calculation of P-T case
+   1.25483e-020   1.25483e-020   1.25511e-020
+Association ILT calculation completed
+Finish Calculation of P-T case
+   1.25483e-020   1.25483e-020   1.25489e-020   1.25511e-020
+Association ILT calculation completed
+Finish Calculation of P-T case
+   1.25483e-020   1.25481e-020   1.25483e-020   1.25489e-020
+
+Chi^2 = 1.25481e-20
+R1:preExponential=1.72918e-10  R1:nInfinity=0.751459  
+Direction sweep:1 of fitting. chiSquare = 1.25481e-20
 
 Begin line search
 
-Chi^2 = 1.50133e-20
-R1:preExponential=1.46738e-10  R1:nInfinity=0.542016  
+Chi^2 = 1.25481e-20
+R1:preExponential=1.72918e-10  R1:nInfinity=0.751459  
+
+Begin line search
+
+Chi^2 = 1.25481e-20
+R1:preExponential=1.72918e-10  R1:nInfinity=0.751459  
 
 Direction Matrix Reset.
-Iteration: 3 of fitting. chiSquare = 1.50133e-20
-Direction sweep:0 of fitting. chiSquare = 1.50133e-20
+Iteration: 5 of fitting. chiSquare = 1.25481e-20
+Direction sweep:0 of fitting. chiSquare = 1.25481e-20
 
 Begin line search
 Association ILT calculation completed
 Finish Calculation of P-T case
 Association ILT calculation completed
 Finish Calculation of P-T case
-   1.50133e-020   1.30957e-020   1.28535e-020
+   1.29343e-020   1.25481e-020    1.3674e-020
 Association ILT calculation completed
 Finish Calculation of P-T case
-   1.30957e-020   1.28535e-020   1.72793e-020
+   1.29343e-020   1.25481e-020   1.27121e-020    1.3674e-020
 Association ILT calculation completed
 Finish Calculation of P-T case
-   1.30957e-020   1.28535e-020   1.38842e-020   1.72793e-020
-Association ILT calculation completed
-Finish Calculation of P-T case
-   1.30957e-020   1.26563e-020   1.28535e-020   1.38842e-020
+   1.29343e-020    1.2603e-020   1.25481e-020   1.27121e-020
 
-Chi^2 = 1.26563e-20
-R1:preExponential=1.66738e-10  R1:nInfinity=0.542016  
-Direction sweep:1 of fitting. chiSquare = 1.26563e-20
+Chi^2 = 1.25481e-20
+R1:preExponential=1.72918e-10  R1:nInfinity=0.751459  
+Direction sweep:1 of fitting. chiSquare = 1.25481e-20
 
 Begin line search
 Association ILT calculation completed
 Finish Calculation of P-T case
 Association ILT calculation completed
 Finish Calculation of P-T case
-   1.26563e-020   1.26457e-020   1.26314e-020
+   1.25487e-020   1.25481e-020   1.25501e-020
 Association ILT calculation completed
 Finish Calculation of P-T case
-   1.26457e-020   1.26314e-020   1.26156e-020
+   1.25487e-020   1.25481e-020   1.25485e-020   1.25501e-020
 Association ILT calculation completed
 Finish Calculation of P-T case
-   1.26314e-020   1.26156e-020   1.26094e-020
-Association ILT calculation completed
-Finish Calculation of P-T case
-   1.26156e-020   1.26094e-020   1.26497e-020
-Association ILT calculation completed
-Finish Calculation of P-T case
-   1.26156e-020   1.26094e-020   1.26174e-020   1.26497e-020
-Association ILT calculation completed
-Finish Calculation of P-T case
-   1.26156e-020    1.2609e-020   1.26094e-020   1.26174e-020
+   1.25487e-020   1.25482e-020   1.25481e-020   1.25485e-020
 
-Chi^2 = 1.2609e-20
-R1:preExponential=1.66738e-10  R1:nInfinity=0.620557  
+Chi^2 = 1.25481e-20
+R1:preExponential=1.72918e-10  R1:nInfinity=0.751459  
 
 Begin line search
 
-Chi^2 = 1.2609e-20
-R1:preExponential=1.66738e-10  R1:nInfinity=0.620557  
-Iteration: 4 of fitting. chiSquare = 1.2609e-20
-Direction sweep:0 of fitting. chiSquare = 1.2609e-20
-
-Begin line search
-Association ILT calculation completed
-Finish Calculation of P-T case
-Association ILT calculation completed
-Finish Calculation of P-T case
-    1.2609e-020   1.26088e-020   1.26114e-020
-Association ILT calculation completed
-Finish Calculation of P-T case
-    1.2609e-020   1.26088e-020   1.26094e-020   1.26114e-020
-Association ILT calculation completed
-Finish Calculation of P-T case
-    1.2609e-020   1.26087e-020   1.26088e-020   1.26094e-020
-
-Chi^2 = 1.26087e-20
-R1:preExponential=1.66738e-10  R1:nInfinity=0.626738  
-Direction sweep:1 of fitting. chiSquare = 1.26087e-20
-
-Begin line search
-
-Chi^2 = 1.26087e-20
-R1:preExponential=1.66738e-10  R1:nInfinity=0.626738  
-
-Begin line search
-
-Chi^2 = 1.26087e-20
-R1:preExponential=1.66738e-10  R1:nInfinity=0.626738  
-
-Direction Matrix Reset.
-Iteration: 5 of fitting. chiSquare = 1.26087e-20
-Direction sweep:0 of fitting. chiSquare = 1.26087e-20
-
-Begin line search
-Association ILT calculation completed
-Finish Calculation of P-T case
-Association ILT calculation completed
-Finish Calculation of P-T case
-   1.28515e-020   1.26087e-020   1.41478e-020
-Association ILT calculation completed
-Finish Calculation of P-T case
-   1.28515e-020   1.26087e-020    1.2903e-020   1.41478e-020
-Association ILT calculation completed
-Finish Calculation of P-T case
-   1.28515e-020   1.25992e-020   1.26087e-020    1.2903e-020
-
-Chi^2 = 1.25992e-20
-R1:preExponential=1.70557e-10  R1:nInfinity=0.626738  
-Direction sweep:1 of fitting. chiSquare = 1.25992e-20
-
-Begin line search
-Association ILT calculation completed
-Finish Calculation of P-T case
-Association ILT calculation completed
-Finish Calculation of P-T case
-   1.25992e-020   1.25893e-020   1.25762e-020
-Association ILT calculation completed
-Finish Calculation of P-T case
-   1.25893e-020   1.25762e-020   1.25625e-020
-Association ILT calculation completed
-Finish Calculation of P-T case
-   1.25762e-020   1.25625e-020   1.25602e-020
-Association ILT calculation completed
-Finish Calculation of P-T case
-   1.25625e-020   1.25602e-020   1.26083e-020
-Association ILT calculation completed
-Finish Calculation of P-T case
-   1.25625e-020   1.25602e-020    1.2571e-020   1.26083e-020
-Association ILT calculation completed
-Finish Calculation of P-T case
-   1.25625e-020   1.25582e-020   1.25602e-020    1.2571e-020
-
-Chi^2 = 1.25582e-20
-R1:preExponential=1.70557e-10  R1:nInfinity=0.705279  
-
-Begin line search
-
-Chi^2 = 1.25582e-20
-R1:preExponential=1.70557e-10  R1:nInfinity=0.705279  
+Chi^2 = 1.25481e-20
+R1:preExponential=1.72918e-10  R1:nInfinity=0.751459  
 Association ILT calculation completed
 Finish Calculation of P-T case
 Association ILT calculation completed
@@ -329,20 +311,20 @@ PT Grid 1
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 2
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 3
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 4
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 5
-Build Collison Operator
-Diagonalize the Reaction Operator
-PT Grid 6
 Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
+PT Grid 3
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
+PT Grid 4
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
+PT Grid 5
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+PT Grid 6
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 7
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
@@ -359,13 +341,13 @@ PT Grid 11
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 12
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
 PT Grid 13
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 14
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 15
 Build Collison Operator
@@ -384,7 +366,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 20
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 21
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
@@ -392,20 +374,20 @@ PT Grid 22
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 23
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 24
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 25
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 26
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 27
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 28
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
@@ -425,74 +407,74 @@ PT Grid 33
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 34
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
 PT Grid 35
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 36
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            301   8.05242e+017      1.26e-011   5.09398e-011
-            301   1.62973e+018      3.52e-011   6.93716e-011
-            301   3.24984e+018      6.36e-011   8.95001e-011
-            301    4.8892e+018      9.37e-011   1.01795e-010
-            301   6.59272e+018      1.05e-010   1.10719e-010
-            301   8.20641e+018      1.34e-010   1.17122e-010
-            301   9.83294e+018       1.4e-010   1.22281e-010
-            301    1.1437e+019       1.4e-010   1.26481e-010
-            301   1.30988e+019      1.61e-010   1.30151e-010
-            301   1.63455e+019      1.82e-010   1.35911e-010
-            401   6.06842e+017      2.35e-011   3.13461e-011
-            401   1.20887e+018      2.52e-011   4.56919e-011
-            401   2.41292e+018      4.44e-011   6.39142e-011
-            401   3.68199e+018      6.06e-011   7.67857e-011
-            401   4.82102e+018      7.56e-011   8.55602e-011
-            401    6.1214e+018         9e-011    9.3625e-011
-            401   8.42836e+018      1.01e-010   1.04729e-010
-            401   1.09785e+019      1.21e-010   1.14051e-010
-            401   1.22452e+019      1.31e-010   1.17911e-010
-            401   1.47015e+019      1.44e-010   1.24355e-010
-            504   4.82825e+017      1.14e-011   1.90753e-011
-            504   9.61817e+017      1.66e-011   2.93368e-011
-            504   1.92555e+018      3.44e-011   4.36044e-011
-            504   2.94101e+018      4.68e-011   5.44551e-011
-            504   3.84727e+018      5.31e-011   6.21939e-011
-            504   4.90105e+018      5.78e-011   6.97221e-011
-            504   6.83618e+018      6.82e-011   8.08747e-011
-            504   7.66771e+018      7.75e-011   8.49208e-011
-            504   9.75229e+018      8.32e-011   9.36923e-011
-            504     1.172e+019      9.69e-011   1.00634e-010
-            601   1.69189e+018      2.11e-011   3.08658e-011
-            601   3.35005e+018      3.35e-011   4.57365e-011
-            601   4.89251e+018      3.78e-011   5.59613e-011
-            601   6.60369e+018       4.5e-011   6.50926e-011
-            601    8.2747e+018      4.84e-011   7.25536e-011
-            601    9.8734e+018      5.75e-011   7.87399e-011
-            601   1.14239e+019      6.18e-011   8.40661e-011
+            301   8.05242e+017      1.26e-011    5.0513e-011
+            301   1.62973e+018      3.52e-011   6.89366e-011
+            301   3.24984e+018      6.36e-011   8.91621e-011
+            301    4.8892e+018      9.37e-011   1.01577e-010
+            301   6.59272e+018      1.05e-010    1.1062e-010
+            301   8.20641e+018      1.34e-010   1.17127e-010
+            301   9.83294e+018       1.4e-010   1.22382e-010
+            301    1.1437e+019       1.4e-010   1.26668e-010
+            301   1.30988e+019      1.61e-010    1.3042e-010
+            301   1.63455e+019      1.82e-010   1.36321e-010
+            401   6.06842e+017      2.35e-011   3.11822e-011
+            401   1.20887e+018      2.52e-011   4.55456e-011
+            401   2.41292e+018      4.44e-011   6.38713e-011
+            401   3.68199e+018      6.06e-011   7.68715e-011
+            401   4.82102e+018      7.56e-011    8.5761e-011
+            401    6.1214e+018         9e-011   9.39516e-011
+            401   8.42836e+018      1.01e-010   1.05262e-010
+            401   1.09785e+019      1.21e-010   1.14788e-010
+            401   1.22452e+019      1.31e-010   1.18741e-010
+            401   1.47015e+019      1.44e-010   1.25352e-010
+            504   4.82825e+017      1.14e-011   1.90078e-011
+            504   9.61817e+017      1.66e-011    2.9288e-011
+            504   1.92555e+018      3.44e-011   4.36363e-011
+            504   2.94101e+018      4.68e-011   5.45889e-011
+            504   3.84727e+018      5.31e-011   6.24211e-011
+            504   4.90105e+018      5.78e-011   7.00568e-011
+            504   6.83618e+018      6.82e-011   8.13988e-011
+            504   7.66771e+018      7.75e-011   8.55226e-011
+            504   9.75229e+018      8.32e-011    9.4479e-011
+            504     1.172e+019      9.69e-011   1.01583e-010
+            601   1.69189e+018      2.11e-011   3.09122e-011
+            601   3.35005e+018      3.35e-011   4.59305e-011
+            601   4.89251e+018      3.78e-011   5.62968e-011
+            601   6.60369e+018       4.5e-011   6.55807e-011
+            601    8.2747e+018      4.84e-011   7.31848e-011
+            601    9.8734e+018      5.75e-011   7.95019e-011
+            601   1.14239e+019      6.18e-011   8.49498e-011
 
 Finish Calculation of P-T case
 37 temperature/concentration-pressure points calculated.
 
-Chi^2 = 1.25582e-20
+Chi^2 = 1.25481e-20
 
 Best fit parameters:
 
-R1:preExponential = 1.70557e-10 +/- 0.814602
-R1:nInfinity = 0.705279 +/- 2.04884e+10
+R1:preExponential = 1.72918e-10 +/- 0.849663
+R1:nInfinity = 0.751459 +/- 2.08667e+10
 
 Correlation coefficients:
 
-R1:nInfinity , R1:preExponential = 0.808079
+R1:nInfinity , R1:preExponential = 0.81837
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 35
 Chi^2 probability = 1
 
- -- Total time elapsed: 1514 seconds.
+ -- Total time elapsed: 1666 seconds.
 
 System saved to out.xml
