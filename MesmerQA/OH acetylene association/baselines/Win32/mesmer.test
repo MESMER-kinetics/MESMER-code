@@ -1009,13 +1009,13 @@ Canonical rate coefficients for R2, calculated from microcanonical rates
 
 Eq fraction matrix:
 {
- -2.0979e+015            1
-            1            1
+-2.09787e+015 1.00000e+000
+ 1.00000e+000 1.00000e+000
 }
 inverse of Eq fraction matrix:
 {
- -4.7667e-016  4.7667e-016
-  4.7667e-016            1
+-4.76673e-016 4.76673e-016
+ 4.76673e-016 1.00000e+000
 }
 Equilibrium Fraction for OH = 4.76673e-016
 Equilibrium Fraction for OH_acetylene_adduct = 1
@@ -1536,7 +1536,7 @@ Z_matrix^(-1):
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	1.686752e-80	
+1.000000e+00	0.000000e+00	
 -1.519291e-64	1.000000e+00	
 }
 

@@ -134,7 +134,7 @@ namespace mesmer
         invHessian[iVar][iVar] *= (1.0 + lambda) ;
       }
 
-      invHessian.invertGaussianJordan() ;
+      invHessian.invertLUdecomposition() ;
 
       deltaLocation *= invHessian ; 
 

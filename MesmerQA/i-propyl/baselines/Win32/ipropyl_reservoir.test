@@ -1822,11 +1822,11 @@ At equilibrium 0.972262 of the i-propyl population is in the active states.
 
 Eq fraction matrix:
 {
-            1
+ 1.00000e+000
 }
 inverse of Eq fraction matrix:
 {
-            1
+ 1.00000e+000
 }
 Equilibrium Fraction for i-propyl = 1
 
@@ -3710,11 +3710,11 @@ At equilibrium 0.974648 of the i-propyl population is in the active states.
 
 Eq fraction matrix:
 {
-            1
+ 1.00000e+000
 }
 inverse of Eq fraction matrix:
 {
-            1
+ 1.00000e+000
 }
 Equilibrium Fraction for i-propyl = 1
 

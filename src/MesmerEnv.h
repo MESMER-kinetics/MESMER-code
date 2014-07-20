@@ -17,7 +17,7 @@ namespace mesmer
 
     // granularity of the system
     size_t GrainSize;           // Grain size in cm-1
-    size_t CellSize;            // Cell size in cm-1
+    double CellSize;            // Cell size in cm-1
     size_t MaxGrn;              // The number of grains
     size_t MaxCell;             // The number of cells
     double MaximumTemperature;  // Maximum temperature for the purposes of setting the energy range

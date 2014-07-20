@@ -46,9 +46,10 @@ namespace mesmer
   bool QMRotor::countCellDOS(gDensityOfStates* pDOS, const MesmerEnv& env)
   {
 	const size_t MaximumCell = env.MaxCell ;
+	const double cellSize = env.CellSize ;
 
     vector<double> cellEne;
-    getCellEnergies(MaximumCell, cellEne);
+    getCellEnergies(MaximumCell, cellSize, cellEne);
     vector<double> cellDOS(MaximumCell, 0.0) ;
 
     //
@@ -75,7 +76,7 @@ namespace mesmer
 
       rcA = (rcA + rcB + rcC) / 3.0;
       for (int j(0);; ++j ){
-        i_e = nint(rcA * double(j * (j + 1)));
+        i_e = nint(rcA * double(j * (j + 1))/cellSize);
         if (i_e > MaximumCell) break;
         int sqrdg(2 * j + 1);
         cellDOS[i_e] = qele * double(sqrdg * sqrdg) / sym;
@@ -117,7 +118,7 @@ namespace mesmer
         for (int j(0); j <= maxJ; ++j ){
           double d_ei = rcB * double(j * (j + 1)); // B J (J + 1)
           for (int k(-j) ; k <= j; ++k ){
-            i_e = nint(d_ei + rcDiff * double(k * k)); 
+            i_e = nint((d_ei + rcDiff * double(k * k))/cellSize) ; 
             if (i_e < MaximumCell)
               cellDOS[i_e] += qele * double(2 * j + 1) / sym;
           }
@@ -131,7 +132,7 @@ namespace mesmer
           asymmetricRotor(rcA, rcB, rcC, j, Kappa, Er) ;
           withInRange = false ;
           for (size_t k(0); k < Er.size() ; ++k ){
-            i_e = nint(Er[k]) ;
+            i_e = nint(Er[k]/cellSize) ;
             if (i_e < MaximumCell) {
               withInRange = true ;
               cellDOS[i_e] += qele * double(2 * j + 1) / sym;
@@ -144,7 +145,7 @@ namespace mesmer
     break;
   case LINEAR: //2-D linear
     for (int j(0);; ++j ){
-      i_e = nint(rcA * double(j * (j + 1)));
+      i_e = nint(rcA * double(j * (j + 1))/cellSize);
       if (i_e > MaximumCell){
         break;
       }
@@ -161,7 +162,7 @@ namespace mesmer
     pDOS->getEleExcitation(eleExc);
     vector<double> tmpCellDOS(cellDOS);
     for (size_t j(0) ; j < eleExc.size() ; ++j){
-      size_t nr = nint(eleExc[j]) ;
+      size_t nr = nint(eleExc[j]/cellSize) ;
       if (nr < MaximumCell) {
         for (size_t i(0) ; i < MaximumCell - nr ; i++ ) {
           tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + cellDOS[i] ;

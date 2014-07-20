@@ -45,7 +45,7 @@ namespace mesmer
 	const size_t MaximumCell = env.MaxCell ;
 
     vector<double> cellEne;
-    getCellEnergies(MaximumCell, cellEne);
+    getCellEnergies(MaximumCell, env.CellSize,  cellEne);
     vector<double> cellDOS(MaximumCell, 0.0) ;
 
     //
@@ -79,7 +79,7 @@ namespace mesmer
     pDOS->getEleExcitation(eleExc);
 	vector<double> tmpCellDOS(cellDOS);
     for (size_t j(0) ; j < eleExc.size() ; ++j){
-      size_t nr = int(eleExc[j]) ;
+      size_t nr = size_t(eleExc[j]) ;
       if (nr < MaximumCell) {
         for (size_t i(0) ; i < MaximumCell - nr ; i++ ) {
           tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + cellDOS[i] ;

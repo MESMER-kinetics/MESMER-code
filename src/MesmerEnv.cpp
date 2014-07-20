@@ -6,7 +6,7 @@ namespace mesmer{
 	conc(0.0),
 	bathGasName(),
     GrainSize(0),
-	CellSize(1),
+	CellSize(1.0),
     MaxGrn(0),
     MaxCell(10000L), // Initialized to allow parsing of <me:Hf298>. Overridden for real calculation.
     MaximumTemperature(0.0),

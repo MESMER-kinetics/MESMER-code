@@ -122,7 +122,7 @@ namespace mesmer
 
     // Calculate covaraince matrix.
 
-    hessian.invertGaussianJordan() ;
+    hessian.invertLUdecomposition() ;
 
     cinfo << endl << "Chi^2 = " << chiSquare << endl << endl << "Best fit parameters:" << endl << endl ;
 

@@ -18,8 +18,6 @@ inline int nint(double x) { return (x>0)? int(x+0.5):int(x-0.5) ; } ;
 template<class T>
 inline const T SQR(const T a) {return a*a;}
 
-
-
 // This routine is copied from the following source and modified for purpose to used as a template:
 //  ggm.cpp -- computation of ggm function.
 //      Algorithms and coefficient values from "Computation of Special
@@ -114,7 +112,7 @@ void Convolution(const std::vector<double> &f1,
 //convolutes rovibrational DOSs
 void FastLaplaceConvolution(const std::vector<double> &data, const std::vector<double> &respns, std::vector<double> &convolution);
 
-void getCellEnergies(int cellNumber, std::vector<double>& cellEne);
+void getCellEnergies(const size_t &cellNumber, const double &cellSize, std::vector<double>& cellEne);
 
 bool convertToFourierCoefficients(const size_t expansion, vector<double>& ak, vector<double>& bk, double& a0, vector<double> pesEnes);
 

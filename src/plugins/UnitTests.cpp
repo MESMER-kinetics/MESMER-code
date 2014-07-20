@@ -429,7 +429,7 @@ namespace mesmer
     string Heading("Test matrix 1") ;
     Mtx1.print(Heading, ctest) ;
 
-    Mtx1.invertGaussianJordan() ;
+    Mtx1.invertLUdecomposition() ;
 
     Heading.clear() ;
     Heading = "Inverse of Test matrix 1" ;

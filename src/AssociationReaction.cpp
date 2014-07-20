@@ -327,7 +327,7 @@ namespace mesmer
     m_pdt1->getDOS().getGrainDensityOfStates(pdtGrainDOS) ;
     m_pdt1->getDOS().getCellDensityOfStates(pdtCellDOS);
     m_pdt1->getDOS().getGrainEnergies(pdtGrainEne);
-    getCellEnergies(MaximumCell, pdtCellEne);
+    getCellEnergies(MaximumCell, getEnv().CellSize, pdtCellEne);
 
 
     // dissociation k(E) calculated in grains.
@@ -396,7 +396,7 @@ namespace mesmer
     //------------------------------------------------
 
     std::vector<double> rctsCellEne;
-    getCellEnergies(MaximumCell, rctsCellEne);
+    getCellEnergies(MaximumCell, getEnv().CellSize, rctsCellEne);
     shiftCells(MaximumCell, cellOffset, rctsCellDOS, rctsCellEne, shiftedCellDOS, shiftedCellEne);
 
     const string catName = m_rct1->getName() + " + " + m_rct2->getName();

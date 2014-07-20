@@ -105,7 +105,7 @@ namespace mesmer
     // because they cancel on normalization.
 
     vector<double> Trans_DOS ;
-    getCellEnergies(XsEne, Trans_DOS) ;
+    getCellEnergies(XsEne, m_host->getEnv().CellSize, Trans_DOS) ;
     for (int i(0) ; i < XsEne ; i++) {
       Trans_DOS[i] = sqrt(Trans_DOS[i]) ;
     }

@@ -223,11 +223,11 @@ void FastLaplaceConvolution(const vector<double> &data1original,
 }
 
 
-void getCellEnergies(int cellNumber, std::vector<double>& cellEne)
+void getCellEnergies(const size_t &cellNumber, const double &cellSize, std::vector<double>& cellEne)
 {
   cellEne.clear();
-  for (int i = 0 ; i < cellNumber ; ++i ) {
-    cellEne.push_back(double(i) + 0.5);
+  for (size_t i(0) ; i < cellNumber ; ++i ) {
+    cellEne.push_back(cellSize*(double(i) + 0.5));
   }
 }
 

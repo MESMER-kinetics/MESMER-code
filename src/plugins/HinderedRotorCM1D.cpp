@@ -215,7 +215,7 @@ namespace mesmer
       return false;
 
     vector<double> cellEne;
-    getCellEnergies(MaximumCell, cellEne);
+    getCellEnergies(MaximumCell, env.CellSize, cellEne);
 
     // Calculate the one dimensional rotor constant and adjust for symmetry.
     double bint = sqrt(m_reducedMomentInertia/conMntInt2RotCnt)/double(m_periodicity) ;

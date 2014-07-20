@@ -575,14 +575,10 @@ namespace mesmer
         return false;
     }
 
-    std::vector<double> shiftedCellDOS;
-    std::vector<double> shiftedCellEne;
     const int cellOffset = get_cellOffset();
     std::vector<double> cellEne;
-    getCellEnergies(MaximumCell, cellEne);
-    shiftCells(MaximumCell, cellOffset, m_cellDOS, cellEne, shiftedCellDOS, shiftedCellEne);
-
-    calcGrainAverages(m_host->getEnv().MaxGrn, m_host->getEnv().GrainSize, shiftedCellDOS, shiftedCellEne, m_grainDOS, m_grainEne);
+    getCellEnergies(MaximumCell, m_host->getEnv().CellSize, cellEne);
+    calcGrainAverages2(m_host->getEnv().MaxGrn, m_host->getEnv().GrainSize, cellOffset, m_cellDOS, cellEne, m_grainDOS, m_grainEne);
 
     if (recalc) {
       testDensityOfStates();
@@ -611,7 +607,7 @@ namespace mesmer
     const int MaximumGrain = m_host->getEnv().MaxGrn;
     const int MaximumCell = m_host->getEnv().MaxCell;
     std::vector<double> cellEne;
-    getCellEnergies(MaximumCell, cellEne);
+    getCellEnergies(MaximumCell, m_host->getEnv().CellSize, cellEne);
 
     // Partition functions that are higher than the current simulation temperature will not be output.
     const double temperature = 1. / (boltzmann_RCpK * m_host->getEnv().beta);
@@ -749,10 +745,8 @@ namespace mesmer
   }
 
   int gDensityOfStates::get_cellOffset(void) {
-    double modulus = fmod(get_zpe() - m_host->getEnv().EMin, m_host->getEnv().GrainSize);
-    if (modulus < 0.0)  // presently modulus is only less than 0 for the excess reactant in an association rxn
-      modulus = 0.0;   // however, this problem should become obsolete once supermolecule DOS is calculated on the fly
-    return int(modulus);
+    double modulus = fmod(get_zpe() - m_host->getEnv().EMin, double(m_host->getEnv().GrainSize))/m_host->getEnv().CellSize ;
+    return int(max(modulus,0.0));
   };
 
   //
@@ -814,7 +808,7 @@ namespace mesmer
   bool gDensityOfStates::thermodynamicsFunctions(double temp, double unitFctr, double& enthalpy, double& entropy, double& gibbsFreeEnergy) {
 
     std::vector<double> cellEne;
-    getCellEnergies(m_host->getEnv().MaxCell, cellEne);
+    getCellEnergies(m_host->getEnv().MaxCell, m_host->getEnv().CellSize, cellEne);
 
     calcDensityOfStates();
 
@@ -1831,7 +1825,7 @@ namespace mesmer
 
     vector<double> gEne;
     vector<double> gDOS;
-    getCellEnergies(totalCellNumber, gEne);
+    getCellEnergies(totalCellNumber, m_host->getEnv().CellSize, gEne);
     m_host->getDOS().getCellDensityOfStates(gDOS);
 
     double prtfn(0.0);
@@ -2440,7 +2434,7 @@ namespace mesmer
     }
 
     dMatrix invGRIT(GRIT);
-    invGRIT.invertGaussianJordan();
+    invGRIT.invertLUdecomposition();
     if (m_verbose) {
       string MatrixTitle = "Inverse of Generalized rotation inertia tensor:";
       invGRIT.print(MatrixTitle, ctest);

@@ -29,6 +29,9 @@ namespace mesmer
   void calcGrainAverages(const int MaximumGrain, const int GrainSize, const std::vector<double>& shiftedCellDOS,
     const std::vector<double>& shiftedCellEne, vector<double>& grainDOS, vector<double>& grainEne) ;
 
+  void calcGrainAverages2(const size_t &MaximumGrain, const size_t &cellPerGrain, const size_t &cellOffset, const std::vector<double>& shiftedCellDOS,
+    const std::vector<double>& shiftedCellEne, vector<double>& grainDOS, vector<double>& grainEne) ;
+
   template<class T>
   void quickSort(vector<T> &v, vector<size_t> &index, size_t lo0, size_t hi0)
   {

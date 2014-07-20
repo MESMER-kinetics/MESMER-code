@@ -99,7 +99,7 @@ namespace mesmer
 
     size_t Size = xsDOS.size();
     vector<double> Trans_DOS ;
-    getCellEnergies(Size, Trans_DOS) ;
+    getCellEnergies(Size, pRct->getEnv().CellSize, Trans_DOS) ;
     for (size_t i(0) ; i < Trans_DOS.size() ; i++) {
       Trans_DOS[i] = sqrt(Trans_DOS[i]) ;
     }

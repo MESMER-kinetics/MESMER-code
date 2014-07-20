@@ -1,3 +1,11 @@
+2014-July-20 Struan Robertson
+
+	* MolecularComponent.ccp/.h and DOS classes: More preparatory work for 
+	variable cell size implementation.
+
+	* TMatrix.h: Altered so that the LU decomposition is the principal matrix 
+	inversion method.
+
 2014-July-13 Chris Morley
 
 	* src/ConditionsManager.cpp,src/ConditionsManager.h,src/Reaction.cpp,

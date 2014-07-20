@@ -306,7 +306,7 @@ namespace mesmer
       bcalGrainNum = true ;
     }
 
-    mEnv.MaxCell = mEnv.GrainSize * mEnv.MaxGrn;
+    mEnv.MaxCell = mEnv.MaxGrn * size_t(double(mEnv.GrainSize) / mEnv.CellSize) ;
 
     if (writeReport) cinfo << "Number of cells = " << mEnv.MaxCell << ", Number of grains = " << mEnv.MaxGrn << once << endl;
 
@@ -510,11 +510,9 @@ namespace mesmer
     obtained by inverting the matrix shown above, and taking the elements in the final column of the inverse.
     Any system, with an arbitrary number of wells and connections, may be described by such a Matrix */
 
-    // determine the total number of isomers + sources from the m_isomers and m_sources maps
-    int eqMatrixSize = int(m_isomers.size() + m_sources.size());
-
-    // intialize the matrix which holds the system of equations that describe the equilibrium distribution
-    dMatrix  eqMatrix(eqMatrixSize);
+    // Determine the total number of isomers + sources from the m_isomers and m_sources maps and
+    // intialize the matrix which holds the system of equations that describe the equilibrium distribution.
+    qdMatrix eqMatrix(m_isomers.size() + m_sources.size(), qd_real(0.0));
 
     // initialize a map of equilibrium fractions
     m_SpeciesSequence.clear();
@@ -548,25 +546,25 @@ namespace mesmer
           m_SpeciesSequence[rct] = counter;            // update the eqMatrix elements
           counter++ ;
           m_SpeciesSequence[pdt] = counter;
-          eqMatrix[counter-1][counter-1] -= Keq;
-          eqMatrix[counter-1][counter] += 1.0;
+          eqMatrix[counter-1][counter-1] -= qd_real(Keq);
+          eqMatrix[counter-1][counter] += qd_real(1.0) ;
           counter++ ;
         }
         else if(!rval && pval){        // if reactant isnt in m_SpeciesSequence map & product is
           m_SpeciesSequence[rct] = counter;            // update the eqMatrix matrix elements
-          eqMatrix[counter-1][ploc] += 1.0;
-          eqMatrix[counter-1][counter] -= Keq;
+          eqMatrix[counter-1][ploc] += qd_real(1.0) ;
+          eqMatrix[counter-1][counter] -= qd_real(Keq);
           counter++ ;
         }
         else if(rval && !pval){        // if reactant is in m_SpeciesSequence map & product isnt
           m_SpeciesSequence[pdt] = counter;            // update the eqMatrix matrix elements
-          eqMatrix[counter-1][rloc] -= Keq;
-          eqMatrix[counter-1][counter] += 1.0 ;
+          eqMatrix[counter-1][rloc] -= qd_real(Keq);
+          eqMatrix[counter-1][counter] += qd_real(1.0) ;
           counter++ ;
         }
         else if(rval && pval){        // if both reactant & product are in m_SpeciesSequence map
 
-          double pdtRowSum(0.0), rctRowSum(0.0);
+          qd_real pdtRowSum(0.0), rctRowSum(0.0);
 
           for(int j(0);j<counter;++j){           // calculate pdt & rct rowSums of EqMatrix to see if the rxn is redundant
             pdtRowSum += eqMatrix[ploc][j];
@@ -574,16 +572,16 @@ namespace mesmer
           }
 
           if(pdtRowSum!=0.0 && rctRowSum!=0.0){ // connection is redundant
-            eqMatrix[counter-1][ploc] += 1.0 ;
-            eqMatrix[counter-1][rloc] -= Keq ;
+            eqMatrix[counter-1][ploc] += qd_real(1.0) ;
+            eqMatrix[counter-1][rloc] -= qd_real(Keq) ;
           }
           else if(rctRowSum==0.0){              // connection is not redundant, pdts lack specification
-            eqMatrix[rloc][ploc] += 1.0 ;
-            eqMatrix[rloc][rloc] -= Keq ;
+            eqMatrix[rloc][ploc] += qd_real(1.0) ;
+            eqMatrix[rloc][rloc] -= qd_real(Keq) ;
           }
           else if(pdtRowSum==0.0){
-            eqMatrix[ploc][ploc] += 1.0 ;        // connection is not redundant, rcts lack specification
-            eqMatrix[ploc][rloc] -= Keq ;
+            eqMatrix[ploc][ploc] += qd_real(1.0) ;        // connection is not redundant, rcts lack specification
+            eqMatrix[ploc][rloc] -= qd_real(Keq) ;
           }
         }
       }
@@ -608,18 +606,18 @@ namespace mesmer
     }
 
     for(int i=0; i < counter; ++i){         // add ones to the final row of the matrix
-      eqMatrix[counter-1][i]= 1.0;
+      eqMatrix[counter-1][i]= qd_real(1.0);
     }
 
     //    ctest << "matrix elements for calculating isomer equilibrium fractions:" << endl;
     //    eqMatrix.showFinalBits(counter);
 
-    dMatrix backup(eqMatrix);  //backup EqMatrix for error reporting
+    qdMatrix backup(eqMatrix);  //backup EqMatrix for error reporting
 
     ctest << endl << "Eq fraction matrix:" << endl;
     backup.showFinalBits(counter);
 
-    if(eqMatrix.invertGaussianJordan()){
+    if(eqMatrix.invertLUdecomposition()){
       cerr << "Inversion of matrix for calculating Eq fractions failed.  Matrix before inversion is: ";
       backup.showFinalBits(counter);
     }
@@ -632,7 +630,7 @@ namespace mesmer
     for(itr1= m_SpeciesSequence.begin(); itr1!=m_SpeciesSequence.end(); ++itr1){  //assign Eq fraction to appropriate Molecule
       int seqMatrixLoc = itr1->second;                          //in the Eq frac map
       Molecule* key = itr1->first;
-      key->getPop().setEqFraction(eqMatrix[seqMatrixLoc][counter-1]);    //set Eq fraction to last column in eqMatrix
+      key->getPop().setEqFraction(to_double(eqMatrix[seqMatrixLoc][counter-1]));    //set Eq fraction to last column in eqMatrix
       string speciesName = key->getName();
       ctest << "Equilibrium Fraction for " << speciesName << " = " << key->getPop().getEqFraction() << endl;
     }
@@ -1291,7 +1289,7 @@ namespace mesmer
 
         // Apply standard inversion method.
 
-        if(Zinv.invertGaussianJordan()){
+        if(Zinv.invertLUdecomposition()){
           cerr << "Inversion of Z_matrix failed.  Matrix before inversion is: ";
           Z_matrix.showFinalBits(nchem);
         }

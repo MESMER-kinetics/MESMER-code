@@ -5,86 +5,12 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <moleculeList>
 
-    <!--<molecule id="NO" description="NO radical">
-      <atomArray>
-        <atom id="a1" elementType="O"/>
-        <atom id="a2" elementType="N"/>
-      </atomArray>
-      <bondArray>
-        <bond atomRefs2="a1 a2" order="2"/>
-      </bondArray>
-      <propertyList>
-        <property dictRef="me:ZPE">
-          <scalar units="kJ/mol">90.54</scalar>
-        </property>
-        <property dictRef="me:rotConsts">
-          <array units="cm-1">1.67195</array>
-        </property>
-        <property dictRef="me:symmetryNumber">
-          <scalar>2</scalar>
-        </property>
-        <property dictRef="me:frequenciesScaleFactor">
-          <scalar>1.0</scalar>
-        </property>
-        <property dictRef="me:vibFreqs">
-          <array units="cm-1">1904</array>
-        </property>
-        <property dictRef="me:MW">
-          <scalar units="amu">30</scalar>
-        </property>
-        <property dictRef="me:spinMultiplicity">
-          <scalar>2</scalar>
-        </property>
-        <property dictRef="me:eletronicExcitation">
-          <array units="cm-1">119.8</array>
-        </property>
-      </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
-
-    </molecule>-->
-    <!--<molecule id="OH" description="OH">
-      <atomArray>
-        <atom id="a1" elementType="O"/>
-        <atom id="a2" elementType="H"/>
-      </atomArray>
-      <bondArray>
-        <bond atomRefs2="a1 a2" order="1"/>
-      </bondArray>
-      <propertyList>
-        <property dictRef="me:ZPE">
-          <scalar units="kJ/mol">37.11</scalar>
-        </property>
-        <property dictRef="me:rotConsts">
-          <array units="cm-1">18.91</array>
-        </property>
-        <property dictRef="me:symmetryNumber">
-          <scalar>1</scalar>
-        </property>
-        <property dictRef="me:frequenciesScaleFactor">
-          <scalar>1.0</scalar>
-        </property>
-        <property dictRef="me:vibFreqs">
-          <array units="cm-1">3738.0</array>
-        </property>
-        <property dictRef="me:MW">
-          <scalar units="amu">17</scalar>
-        </property>
-        <property dictRef="me:spinMultiplicity">
-          <scalar>2</scalar>
-        </property>
-        <property dictRef="me:eletronicExcitation">
-          <array units="cm-1">139.21</array>
-        </property>
-      </propertyList>
-      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>-->
-
-    <!--</molecule>-->
     <molecule id="HONO" description="HONO radical">
       <atomArray>
-        <atom id="a1"  elementType="H" x3="1.7545" y3="-0.1823" z3=" 0.0000"/>
-        <atom id="a2"  elementType="O" x3="0.8942" y3="-0.6061" z3=" 0.0000"/>
-        <atom id="a3"  elementType="N" x3="0.000" y3="0.5252" z3="0.0000"/>
-        <atom id="a4"  elementType="O" x3="-1.1135" y3="0.1693" z3=" 0.0000"/>
+        <atom id="a1"  elementType="H" x3="1.7545"  y3="-0.1823" z3="0.0000"/>
+        <atom id="a2"  elementType="O" x3="0.8942"  y3="-0.6061" z3="0.0000"/>
+        <atom id="a3"  elementType="N" x3="0.000"   y3="0.5252"  z3="0.0000"/>
+        <atom id="a4"  elementType="O" x3="-1.1135" y3="0.1693"  z3="0.0000"/>
       </atomArray>
       <bondArray>
         <bond id="b1" atomRefs2="a1 a2" order="1"/>
@@ -98,7 +24,9 @@
         </property>
         <!--<property dictRef="me:ZPE">
           <scalar units="kJ/mol">-72.8</scalar>
-          --><!--scalar units="kcal/mol" lower="-35.8" upper="-28.0" stepsize="0.2">-30.6</scalar--><!--
+          -->
+        <!--scalar units="kcal/mol" lower="-35.8" upper="-28.0" stepsize="0.2">-30.6</scalar-->
+        <!--
         </property>-->
         <property dictRef="me:rotConsts">
           <array units="cm-1">3.09855 0.41778 0.36749</array>
@@ -144,7 +72,8 @@
         <me:bondRef>
           b2
         </me:bondRef>
-        <me:replaceVibFreq>543</me:replaceVibFreq> <!--see comment above-->
+        <me:replaceVibFreq>543</me:replaceVibFreq>
+        <!--see comment above-->
         <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7">
           <me:PotentialPoint	angle=	"0"	  potential=	"0"	/>
           <me:PotentialPoint	angle=	"15"	potential=	"359.8"	/>
@@ -175,7 +104,7 @@
         <me:periodicity>1</me:periodicity>
       </me:ExtraDOSCMethod>
     </molecule>
-    
+
     <molecule id="N2">
       <atomArray>
         <atom id="a1" elementType="N"/>
@@ -379,7 +308,7 @@
 
   <me:modelParameters>
     <!--Specify grain size directly...-->
-    <me:grainSize units="cm-1">25</me:grainSize>
+    <me:grainSize units="cm-1">50</me:grainSize>
     <!--...or by the total number of grains
         <me:numberOfGrains> 500 </me:numberOfGrains>-->
     <!--Specify increased energy range
@@ -389,16 +318,12 @@
 
   <me:control>
     <me:calcMethod xsi:type="me:marquardt">
-      <me:MarquardtIterations>20</me:MarquardtIterations>
+      <me:MarquardtIterations>10</me:MarquardtIterations>
       <me:MarquardtTolerance>1e-6</me:MarquardtTolerance>
       <me:MarquardtDerivDelta>0.025</me:MarquardtDerivDelta>
     </me:calcMethod>
-    <me:printSpeciesProfile/>
     <me:eigenvalues>6</me:eigenvalues>
   </me:control>
-
-
-
 
 </me:mesmer>
 

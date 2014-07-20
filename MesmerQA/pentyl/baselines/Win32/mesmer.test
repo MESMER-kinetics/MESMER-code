@@ -598,13 +598,13 @@ Canonical rate coefficients for R1, calculated from microcanonical rates
 
 Eq fraction matrix:
 {
-      -7.6721            1
-            1            1
+-7.67212e+000 1.00000e+000
+ 1.00000e+000 1.00000e+000
 }
 inverse of Eq fraction matrix:
 {
-     -0.11531      0.11531
-      0.11531      0.88469
+-1.15312e-001 1.15312e-001
+ 1.15312e-001 8.84688e-001
 }
 Equilibrium Fraction for 1-pentyl = 0.115312
 Equilibrium Fraction for 2-pentyl = 0.884688

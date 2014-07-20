@@ -8,7 +8,7 @@
 // Author: Struan Robertson
 // Date:   30/Mar/2003
 //
-// This header file contains the declaration of the TMatrix class.  This class inherits from
+// This header file contains the declaration of the TMatrix class. This class inherits from
 // Matrix and wraps calls to EISPACK functions.
 //
 //-------------------------------------------------------------------------------------------
@@ -78,18 +78,16 @@ namespace mesmer
     //
     void solveLinearEquationSet(T *rr) {
 
-      size_t size = this->size() ;
+      const size_t size = this->size() ;
 
       //  Allocate memory for work array
-      int *indx = new int[size] ;
+      vector<size_t> indx(size, 0) ;
 
       if (ludcmp(this->m_matrix, size, indx)){
         exit(1);
       }
 
       lubksb(this->m_matrix, size, indx, rr) ;
-
-      delete [] indx ;
 
     };
 
@@ -98,9 +96,6 @@ namespace mesmer
 
     // Matrix inversion method by LU decomposition
     int invertLUdecomposition();
-
-    // Matrix inversion method by adjoint cofactors
-    int invertAdjointCofactors();
 
     void normalizeProbabilityMatrix();
 
@@ -142,8 +137,8 @@ namespace mesmer
     //
     // NR LU methods for linear equation solving.
     //
-    int ludcmp(T **a,  size_t n, int *indx) ;
-    void lubksb(T **a,  size_t n, int *indx, T* b) ;
+    int  ludcmp(T **a, const size_t &n, vector<size_t> &indx) ;
+    void lubksb(T **a, const size_t &n, vector<size_t> &indx, T* b) ;
 
     //
     // Calculate the inverse of the matrix by finding the adjoint of the cofactors matrix
@@ -631,27 +626,27 @@ namespace mesmer
   * invert a matrix. Return code is 1, if matrix is singular.   *
   **************************************************************/
   template<class T>
-  int TMatrix<T>::ludcmp(T **a,  size_t n, int *indx) {
+  int TMatrix<T>::ludcmp(T **a,  const size_t &n, vector<size_t> &indx) {
 
-    int imax;
+    size_t imax;
 
     T big, dum, sum, temp ;
     T tiny = numeric_limits<T>::epsilon();
 
-    T *work = new T[n] ;
+    vector<T> work(n,T(0.0)) ;
 
     for (size_t i(0); i < n ; ++i) {
-      big = 0.0 ;
+      big = T(0.0) ;
       for (size_t j(0); j < n ; ++j) {
         if ((temp = fabs(a[i][j])) > big){
           big = temp ;
         }
       }
-      if (big == 0.0) {
+      if (big == T(0.0)) {
         cerr << "Singular Matrix in routine ludcmp";
         return 1;
       }
-      work[i] = 1.0/big ;
+      work[i] = T(1.0)/big ;
     }
 
     for (size_t j(0); j < n ; ++j) {
@@ -662,7 +657,7 @@ namespace mesmer
         }
         a[i][j] = sum ;
       }
-      big = 0.0 ;
+      big = T(0.0) ;
       for (size_t i(j); i < n; ++i) {
         sum = a[i][j] ;
         for (size_t k(0); k < j ; ++k)
@@ -681,7 +676,6 @@ namespace mesmer
           a[imax][k] = a[j][k] ;
           a[j][k] = dum ;
         }
-
         work[imax] = work[j] ;
       }
       indx[j] = imax ;
@@ -690,14 +684,13 @@ namespace mesmer
       }
 
       if (j != n-1) {
-        dum = 1.0/(a[j][j]) ;
+        dum = T(1.0)/(a[j][j]) ;
         for (size_t i(j+1); i < n; ++i)
           a[i][j] *= dum ;
       }
 
     }
 
-    delete [] work ;
     return 0;
   }
 
@@ -712,9 +705,9 @@ namespace mesmer
   * also efficient for plain matrix inversion.                     *
   *****************************************************************/
   template<class T>
-  void TMatrix<T>::lubksb(T **a,  size_t n, int *indx, T* b) {
+  void TMatrix<T>::lubksb(T **a,  const size_t &n,  vector<size_t> &indx, T* b) {
 
-    int ii = 0, ip;
+    size_t ii(0), ip;
     T sum ;
 
     for (size_t i(0); i < n; ++i) {
@@ -725,18 +718,16 @@ namespace mesmer
         for (size_t j(ii); j < i; ++j)
           sum -= a[i][j]*b[j] ;
       }
-      else if (sum != 0.0){
+      else if (sum != T(0.0)){
         ii = i ;
       }
       b[i] = sum ;
     }
-    for (size_t i(n-1); i >= 0; --i) {
-
+    for (int i(n-1); i >= 0; --i) {
       sum = b[i] ;
-      if (i < n-1){
+      if (size_t(i) < n-1){
         for (size_t j(i+1); j < n; ++j)
           sum -= a[i][j]*b[j] ;
-
       }
       b[i] = sum/a[i][i] ;
     }
@@ -744,43 +735,38 @@ namespace mesmer
 
   template<class T>
   int TMatrix<T>::invertLUdecomposition(){
-    int size = static_cast<int>(this->size()) ;
 
-    //  Allocate memory for work array
-    int *indx = new int[size] ;
+	const size_t size = this->size() ;
 
-    Matrix<T> invM(size); // an identity matrix as a primer for the inverse
-    for (int i(0); i < size; ++i){
-      for (int j(0); j < size; ++j){
-        invM[i][j] = 0.0;
-      }
+    // Allocate memory for work array.
+    vector<size_t> indx(size, 0) ;
+
+    // Construct an identity matrix as a primer for the inverse.
+    Matrix<T> invM(size, T(0.0)) ; 
+    for (size_t i(0); i < size; ++i){
       invM[i][i] = 1.0;
     }
 
     int rc = ludcmp(this->m_matrix, size, indx) ;
 
-    ctest << "After ludcmp:";
-    this->showFinalBits(size, true);
-    //call solver if previous return code is ok
-    //to obtain inverse of A one column at a time
+    // Call solver, if previous return code is ok,
+    // to obtain inverse of A one column at a time.
     if (rc == 0) {
       T *temp = new T[size] ;
-      for (int j(0); j < size; ++j) {
-        for (int i(0); i < size; ++i) temp[i] = invM[i][j];
+      for (size_t j(0); j < size; ++j) {
+        for (size_t i(0); i < size; ++i) temp[i] = invM[i][j];
         lubksb(this->m_matrix, size, indx, temp);
-        for (int i(0); i < size; ++i) invM[i][j] = temp[i];
+        for (size_t i(0); i < size; ++i) invM[i][j] = temp[i];
       }
-      for (int j(0); j < size; ++j) {
-        for (int i(0); i < size; ++i){
+      for (size_t j(0); j < size; ++j) {
+        for (size_t i(0); i < size; ++i){
           this->m_matrix[i][j] = invM[i][j];
         }
       }
       delete [] temp;
-      delete [] indx ;
       return 0;
     }
-    else{
-      delete [] indx;
+    else {
       return 1;
     }
 
@@ -801,33 +787,30 @@ namespace mesmer
     B. Matrix with determinant zero does not have an inverse, of course this include
     the one above.)
     ######################################################################*/
-    int n = static_cast<int>(this->size()) ;
+    size_t n = this->size() ;
     if (n > INT_MAX) return 2; // The matrix size is too large to process.
     T divide, ratio;
 
     //-------------------------------
     //produce a unit vector of size n, and copy the incoming matrix
-    Matrix<T> m1(n);
-    Matrix<T> m2(n);
-    for (int i = 0; i < n; ++i){
-      for (int j = 0; j < n; ++j){
-        m1[i][j] = this->m_matrix[i][j];
-        m2[i][j] = (i == j) ? 1.0 : 0.0;
-      }
+    Matrix<T> m1(*this);
+    Matrix<T> m2(n, T(0.0));
+    for (size_t i(0) ; i < n; ++i){
+      m2[i][i] = T(1.0) ;
     }
     //-------------------------------
-    int* zeroCount = new int[n];
+    vector<size_t> zeroCount(n, 0) ;
 
-    for(int j = 0; j < n; ++j){
-      for (int i = 0; i < n; ++i){
-        if (m1[i][j] == 0.0){
+    for(size_t j(0) ; j < n; ++j){
+      for (size_t i(0) ; i < n; ++i){
+        if (m1[i][j] == T(0.0)){
           zeroCount[j]++; if (zeroCount[j] == n) return 1;
           /* If there is a zero column, the matrix has no inverse.*/
         }
         else{
           if (i < j){
-            if (m1[j][j] == 0.0){ /* Add the former row to the j'th row if the main row is empty.*/
-              for (int col = 0; col < n; ++col){
+            if (m1[j][j] == T(0.0)){ /* Add the former row to the j'th row if the main row is empty.*/
+              for (size_t col(0); col < n; ++col){
                 m1[i][col] = m1[j][col];
                 m2[i][col] = m2[j][col];
               }
@@ -835,12 +818,12 @@ namespace mesmer
           }
           else if (i > j){ // Add the later row to the j'th row.
             if (zeroCount[j] == i){
-              for (int col = j; col < 3; ++col) swap(m1[i][col], m1[j][col]);
-              for (int col = 0; col < 3; ++col) swap(m2[i][col], m2[j][col]);
+              for (size_t col(j); col < 3; ++col) swap(m1[i][col], m1[j][col]);
+              for (size_t col(0); col < 3; ++col) swap(m2[i][col], m2[j][col]);
               i = j - 1; zeroCount[j] = 0;
             }
             else{
-              for (int col = 0; col < n; ++col){
+              for (size_t col(0); col < n; ++col){
                 m1[i][col] = m1[j][col];
                 m2[i][col] = m2[j][col];
               }
@@ -848,26 +831,25 @@ namespace mesmer
           }
           //i = j;
           else{ // in this case i = j
-            if (m1[i][j] != 1.0){
+            if (m1[i][j] != T(1.0)){
               divide = m1[i][j];
-              for (int col = i; col < n; ++col) m1[i][col] /= divide; // normalise i'th row.
-              for (int col = 0; col < n; ++col) m2[i][col] /= divide;
+              for (size_t col(i); col < n; ++col) m1[i][col] /= divide; // normalise i'th row.
+              for (size_t col(0); col < n; ++col) m2[i][col] /= divide;
             }
-            for (int row = 0; row < n; ++row){
+            for (size_t row(0); row < n; ++row){
               if (row == i) continue;
               ratio = m1[row][j] / m1[i][j];
-              for (int col = i; col < n; ++col) m1[row][col] -= m1[i][col] * ratio;
+              for (size_t col(i); col < n; ++col) m1[row][col] -= m1[i][col] * ratio;
               /* Only alterations after the i'th indice are necessary*/
-              for (int col = 0; col < n; ++col) m2[row][col] -= m2[i][col] * ratio;
+              for (size_t col(0); col < n; ++col) m2[row][col] -= m2[i][col] * ratio;
             }
           }
         }
       }
     }
-    delete [] zeroCount;
 
-    for(int i = 0; i < n; ++i){
-      for (int j = 0; j < n; ++j){
+    for(size_t i(0) ; i < n; ++i){
+      for (size_t j(0) ; j < n; ++j){
         this->m_matrix[i][j] = m2[i][j];
       }
     }
@@ -875,40 +857,6 @@ namespace mesmer
     return 0;
   }
 
-  template<class T>
-  int TMatrix<T>::invertAdjointCofactors(){
-    // get the determinant of m_matrix
-    int order = static_cast<int>(this->size()) ;
-    T det = 1.0/CalcDeterminant(this->m_matrix,order);
-    Matrix<T> Y(order);
-
-    // memory allocation
-    T *temp = new T[(order-1)*(order-1)];
-    T **minor = new T*[order-1];
-    for(int i=0;i<order-1;++i)
-      minor[i] = temp+(i*(order-1));
-
-    for(int j=0;j<order;++j){
-      for(int i=0;i<order;++i){
-        // get the co-factor (matrix) of m_matrix(j,i)
-        GetMinor(this->m_matrix,minor,j,i,order);
-        Y[i][j] = det*CalcDeterminant(minor,order-1);
-        if( (i+j)%2 == 1)
-          Y[i][j] = -Y[i][j];
-      }
-    }
-
-    for(int j=0;j<order;++j){
-      for(int i=0;i<order;++i){
-        this->m_matrix[i][j] = Y[i][j];
-      }
-    }
-
-    // release memory
-    delete [] minor[0];
-    delete [] minor;
-    return 0;
-  }
 
   // calculate the cofactor of element (row,col)
   template<class T>
