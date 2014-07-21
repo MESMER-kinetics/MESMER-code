@@ -598,13 +598,13 @@ Canonical rate coefficients for R1, calculated from microcanonical rates
 
 Eq fraction matrix:
 {
-      -7.6721            1
-            1            1
+-7.67212e+000 1.00000e+000
+ 1.00000e+000 1.00000e+000
 }
 inverse of Eq fraction matrix:
 {
-     -0.11531      0.11531
-      0.11531      0.88469
+-1.15312e-001 1.15312e-001
+ 1.15312e-001 8.84688e-001
 }
 Equilibrium Fraction for 1-pentyl = 0.115312
 Equilibrium Fraction for 2-pentyl = 0.884688
@@ -829,7 +829,7 @@ Print time dependent species and product profiles
       Timestep/s        1-pentyl        2-pentyl  totalIsomerPop     totalPdtPop
            1e-11               1     6.00867e-10               1               0
      1.25893e-11               1     7.56445e-10               1               0
-     1.58489e-11               1     9.52306e-10               1               0
+     1.58489e-11               1     9.52305e-10               1               0
      1.99526e-11               1     1.19888e-09               1               0
      2.51189e-11               1     1.50929e-09               1               0
      3.16228e-11               1     1.90008e-09               1               0

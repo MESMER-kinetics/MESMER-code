@@ -4,11 +4,11 @@ PT Grid 0 Condition: conc = 2.59235e+18, temp = 298, diagonalization precision: 
 
 Eq fraction matrix:
 {
-            1
+ 1.00000e+000
 }
 inverse of Eq fraction matrix:
 {
-            1
+ 1.00000e+000
 }
 Equilibrium Fraction for acetyl = 1
 

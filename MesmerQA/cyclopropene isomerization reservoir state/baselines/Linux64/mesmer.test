@@ -2239,15 +2239,15 @@ Collision operator column sums and energy transfer parameters
 
 Eq fraction matrix:
 {
- -1.5862e-006            1            0
-            0 -1.3993e+006            1
-            1            1            1
+-1.58616e-006 1.00000e+000 0.00000e+000
+ 0.00000e+000-1.39931e+006 1.00000e+000
+ 1.00000e+000 1.00000e+000 1.00000e+000
 }
 inverse of Eq fraction matrix:
 {
- -4.3463e+005      -0.3106       0.3106
-       0.3106 -4.9267e-007  4.9267e-007
-  4.3463e+005       0.3106       0.6894
+-4.34631e+005-3.10604e-001 3.10604e-001
+ 3.10604e-001-4.92668e-007 4.92668e-007
+ 4.34631e+005 3.10604e-001 6.89396e-001
 }
 Equilibrium Fraction for allene = 0.310604
 Equilibrium Fraction for cyclopropene = 4.92668e-07
@@ -5089,15 +5089,15 @@ Collision operator column sums and energy transfer parameters
 
 Eq fraction matrix:
 {
- -2.1582e-005            1            0
-            0       -98526            1
-            1            1            1
+-2.15816e-005 1.00000e+000 0.00000e+000
+ 0.00000e+000-9.85261e+004 1.00000e+000
+ 1.00000e+000 1.00000e+000 1.00000e+000
 }
 inverse of Eq fraction matrix:
 {
-       -31515     -0.31986      0.31986
-      0.31986 -6.9031e-006  6.9031e-006
-        31515      0.31987      0.68013
+-3.15148e+004-3.19860e-001 3.19860e-001
+ 3.19860e-001-6.90308e-006 6.90308e-006
+ 3.15145e+004 3.19867e-001 6.80133e-001
 }
 Equilibrium Fraction for allene = 0.31986
 Equilibrium Fraction for cyclopropene = 6.90308e-06

@@ -49,13 +49,13 @@ Test rovibronic density of states for: Ethane
 
 Eq fraction matrix:
 {
- -1.2802e+068            1
-            1            1
+-1.28018e+068 1.00000e+000
+ 1.00000e+000 1.00000e+000
 }
 inverse of Eq fraction matrix:
 {
- -7.8114e-069  7.8114e-069
-  7.8114e-069            1
+-7.81139e-069 7.81139e-069
+ 7.81139e-069 1.00000e+000
 }
 Equilibrium Fraction for Ethane = 1
 Equilibrium Fraction for Ethyl = 7.81139e-69

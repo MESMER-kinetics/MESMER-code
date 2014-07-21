@@ -1820,11 +1820,11 @@ Canonical rate coefficients for R1, calculated from microcanonical rates
 
 Eq fraction matrix:
 {
-            1
+ 1.00000e+000
 }
 inverse of Eq fraction matrix:
 {
-            1
+ 1.00000e+000
 }
 Equilibrium Fraction for i-propyl = 1
 
@@ -3706,11 +3706,11 @@ Canonical rate coefficients for R1, calculated from microcanonical rates
 
 Eq fraction matrix:
 {
-            1
+ 1.00000e+000
 }
 inverse of Eq fraction matrix:
 {
-            1
+ 1.00000e+000
 }
 Equilibrium Fraction for i-propyl = 1
 

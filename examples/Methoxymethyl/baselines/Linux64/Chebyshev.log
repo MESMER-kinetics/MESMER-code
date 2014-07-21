@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Jul 14 2014 -- 11:09:27
+     Mesmer v4.0 compiled: -- Jul 21 2014 -- 10:26:46
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -68,7 +68,7 @@ In R5: No tunneling method used for R5
 In R5: No crossing method used for R5
 All molecules are on the same energy basis: arbitary
 No pressure and temperature specified.
-Write metadata 20140714_164102
+Write metadata 20140721_113042
 
 File: "Chebyshev.xml" successfully parsed.
 Main Calculation begins
@@ -230,6 +230,6 @@ chebyshev_reaction('IM2 => OH-3 + cycCH2OCH2O',
                            [     -0.102629,     0.0630482,     0.0167999,      -0.05346],
                            [      0.027995,  -0.000899639,    -0.0650979,     0.0475905]])
 
- -- Total time elapsed: 926 seconds.
+ -- Total time elapsed: 938 seconds.
 
 System saved to mesmer_out.xml
