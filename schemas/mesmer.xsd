@@ -22,9 +22,9 @@
               <xs:element name="PTs" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                   <xs:documentation>
-                    The attributes me:P me:T and me:units on &lt;me:PTPair> are still parsed
-                    but are not validated by the schema.
-                    Use the unprefixed P T and units instead.
+                    The attributes on a &lt;PTs> are applied to all its child &lt;PTPair>
+                    elements (but not to its &lt;PTSet> elements). There can be multiple
+                    &lt;PTs> elements.
                   </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
@@ -115,7 +115,9 @@
                   <xs:attribute name="ref1" type="cml:moleculeIDType"/>
                   <xs:attribute name="ref2" type="cml:moleculeIDType"/>
                   <xs:attribute name="refReaction" type="cml:idType"/>
+                  <xs:attribute name="refReactionExcess" type="cml:idType"/>
                   <xs:attribute name="bathGas" type="cml:idType"/>
+                  <xs:attribute name="excessReactantConc" type="xs:float"/>
                 </xs:complexType>
               </xs:element>
               <xs:element name="InitialPopulation" minOccurs="0">

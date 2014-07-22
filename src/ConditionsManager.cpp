@@ -113,6 +113,8 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
       const char* common_ref2 = pp->XmlReadValue("ref2", optional);
       const char* common_ref = pp->XmlReadValue("ref", optional);
       const char* common_reaction = pp->XmlReadValue("refReaction", optional);
+      const char* common_reaction_excess = pp->XmlReadValue("refReactionExcess", optional);
+      double common_excessReactantConc = pp->XmlReadDouble("excessReactantConc", optional);
 
       // Check for individually specified concentration/temperature points.
       //
@@ -176,14 +178,21 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
 
         map<Reaction*,double> thisExcessConcs(baseExcessConcs);
         double excessConc = ppPTpair->XmlReadDouble("excessReactantConc", optional);
+
+        // If no excessCReactantConc here, use the one on PTs (if present).
+        if(IsNan(excessConc) && !IsNan(common_excessReactantConc))
+          excessConc = common_excessReactantConc;
+
         if(!IsNan(excessConc))
         {
-          const char* idtxt = ppPTpair->XmlReadValue("refReaction", optional);
+          const char* idtxt = ppPTpair->XmlReadValue("refReactionExcess", optional);
+          if(!idtxt && common_reaction_excess) // If no refReactionExcess here use the one on PTs.
+            idtxt=common_reaction_excess;
           if(idtxt)
           {
             Reaction* pReact = m_pSys->getReactionManager()->find(idtxt);
             if(!pReact)
-              cerr << "Unknown refReaction" << endl;
+              cerr << "Unknown refReactionExcess (for excess reactant concentration)" << endl;
             else
               thisExcessConcs[pReact] = excessConc;
           }
@@ -200,8 +209,8 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
               {
                 if(pMol != (*it)->getExcessReactant())
                 {
-                  cerr << "The attribute excessReactantConc on PTPair can be used only "
-                       << "if every excess Reactant is the same molecule."
+                  cerr << "The attribute excessReactantConc on PTs or PTPair can be used only "
+                       << "if every excess Reactant is the same molecule or if refReactionExcess is specified."
                        << endl;
                   throw std::runtime_error("Erroneous excessReactantConc attribute in PTPair");
                 }
