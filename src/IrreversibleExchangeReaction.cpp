@@ -151,13 +151,10 @@ namespace mesmer
     std::vector<double> rctsCellDOS;
     getRctsCellDensityOfStates(rctsCellDOS);
 
-    std::vector<double> shiftedCellDOS;
-    std::vector<double> shiftedCellEne;
     const int MaximumCell = getEnv().MaxCell;
     const int cellOffset = get_pseudoIsomer()->getDOS().get_cellOffset();
     std::vector<double> rctsCellEne;
     getCellEnergies(MaximumCell, getEnv().CellSize, rctsCellEne);
-    shiftCells(MaximumCell, cellOffset, rctsCellDOS, rctsCellEne, shiftedCellDOS, shiftedCellEne);
 
     string catName = m_rct1->getName() + " + " + m_rct2->getName();
 
@@ -172,7 +169,7 @@ namespace mesmer
       getFlags().cyclePrintCellDOS = false;
     }
 
-    calcGrainAverages(getEnv().MaxGrn, getEnv().GrainSize, shiftedCellDOS, shiftedCellEne, grainDOS, grainEne);
+    calcGrainAverages(getEnv().MaxGrn, getEnv().cellPerGrain(), cellOffset, rctsCellDOS, rctsCellEne, grainDOS, grainEne) ;
 
     if (getFlags().cyclePrintGrainDOS){
       ctest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;
@@ -196,13 +193,10 @@ namespace mesmer
     std::vector<double> pdtsCellDOS;
     getPdtsCellDensityOfStates(pdtsCellDOS);
 
-    std::vector<double> shiftedCellDOS;
-    std::vector<double> shiftedCellEne;
     const int MaximumCell = getEnv().MaxCell;
     const int cellOffset = m_pdt1->getDOS().get_cellOffset(); // ** temporary statement to get cellOffset from one of the molecules.
     std::vector<double> pdtsCellEne;
     getCellEnergies(MaximumCell, getEnv().CellSize, pdtsCellEne);
-    shiftCells(MaximumCell, cellOffset, pdtsCellDOS, pdtsCellEne, shiftedCellDOS, shiftedCellEne);
 
     const string catName = m_pdt1->getName() + " + " + m_pdt2->getName();
 
@@ -217,7 +211,7 @@ namespace mesmer
       getFlags().cyclePrintCellDOS = false;
     }
 
-    calcGrainAverages(getEnv().MaxGrn, getEnv().GrainSize, shiftedCellDOS, shiftedCellEne, grainDOS, grainEne);
+    calcGrainAverages(getEnv().MaxGrn, getEnv().cellPerGrain(), cellOffset, pdtsCellDOS, pdtsCellEne, grainDOS, grainEne) ;
 
     if (getFlags().cyclePrintGrainDOS){
       ctest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;

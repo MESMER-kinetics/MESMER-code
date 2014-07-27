@@ -380,8 +380,6 @@ namespace mesmer
     std::vector<double> rctsCellDOS;
     getRctsCellDensityOfStates(rctsCellDOS);
 
-    std::vector<double> shiftedCellDOS;
-    std::vector<double> shiftedCellEne;
     const int MaximumCell = getEnv().MaxCell;
 
     //------------------------------------------------
@@ -392,12 +390,10 @@ namespace mesmer
     double modulus = fmod(zpePseudoisomer + zpeExcessReactant - EMin, getEnv().GrainSize);
     if(modulus < 0.0)  // presently modulus is only less than 0 for the excess reactant in an association rxn
       modulus = 0.0;   // however, this problem should become obsolete once supermolecule DOS is calculated on the fly
-    const int cellOffset = int(modulus);
-    //------------------------------------------------
+    const size_t cellOffset = size_t(modulus);
 
     std::vector<double> rctsCellEne;
     getCellEnergies(MaximumCell, getEnv().CellSize, rctsCellEne);
-    shiftCells(MaximumCell, cellOffset, rctsCellDOS, rctsCellEne, shiftedCellDOS, shiftedCellEne);
 
     const string catName = m_rct1->getName() + " + " + m_rct2->getName();
 
@@ -412,7 +408,7 @@ namespace mesmer
       getFlags().cyclePrintCellDOS = false;
     }
 
-    calcGrainAverages(getEnv().MaxGrn, getEnv().GrainSize, shiftedCellDOS, shiftedCellEne, grainDOS, grainEne);
+    calcGrainAverages(getEnv().MaxGrn, getEnv().cellPerGrain(), cellOffset, rctsCellDOS, rctsCellEne, grainDOS, grainEne) ;
 
     if (getFlags().cyclePrintGrainDOS){
       ctest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;

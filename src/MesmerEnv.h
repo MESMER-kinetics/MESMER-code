@@ -25,6 +25,10 @@ namespace mesmer
     double EAboveHill;          // Max energy above the highest Hill [in kT]
     bool   useBasisSetMethod;   // Use the contracted basis set method.
     size_t nBasisSet;           // Number of basis set functions to use.
+
+public:
+
+    const size_t cellPerGrain() const { return size_t(double(GrainSize)/CellSize) ; } ;
   };
 
 }//namespace

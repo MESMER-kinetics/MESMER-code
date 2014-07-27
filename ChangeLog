@@ -1,3 +1,8 @@
+2014-July-27 Struan Robertson
+
+	* MesmerTools.ccp/.h, MesmerEnv.cpp and the association reaction clasess: 
+	Variable cell sizes introduced.
+
 2014-July-20 Struan Robertson
 
 	* MolecularComponent.ccp/.h and DOS classes: More preparatory work for 

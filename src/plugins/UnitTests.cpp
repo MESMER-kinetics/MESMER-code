@@ -64,6 +64,8 @@ namespace mesmer
     template<class T> 
     bool Test_LinearAlgebra(string precision) const ;
 
+	bool Test_cellSize(Molecule* pMol) const;
+
     // MEIC tests:
 
     bool Test_MEIC_1(Molecule* pMol) const ;
@@ -76,7 +78,7 @@ namespace mesmer
 
     // Support methods:
 
-    bool Test_MEIC_formGrainSOS(vector<double> &cellDOS) const ;
+    bool Test_MEIC_formGrainSOS(vector<double> &cellDOS, const MesmerEnv &env) const ;
 
     bool parseInput(System* pSys) const ;
 
@@ -184,7 +186,13 @@ namespace mesmer
 
     delete testqd ;
 
-    ctest << endl ;
+	// Test cellSize.
+    pMol = pSys->getMoleculeManager()->find("Test_Molecule");
+    if(!pMol)
+      pMol = pSys->getMoleculeManager()->find("Test Molecule");
+    status = ( status && Test_cellSize(pMol)) ;
+
+	ctest << endl ;
     if (status) {
       ctest << "  All tests pass." ;
     } else {
@@ -529,7 +537,7 @@ namespace mesmer
 
     underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Harmonic oscillators + rotors.") ) ;
 
-    status = status && Test_MEIC_formGrainSOS(totalCellDOS) ;
+    status = status && Test_MEIC_formGrainSOS(totalCellDOS, pMol->getEnv()) ;
 
     ctest << endl ;
 
@@ -552,7 +560,7 @@ namespace mesmer
 
     pMol->getDOS().getCellDensityOfStates(cellDOS, 0, false) ;
 
-    return (status && Test_MEIC_formGrainSOS(cellDOS)) ;
+    return (status && Test_MEIC_formGrainSOS(cellDOS,  pMol->getEnv())) ;
 
   }
 
@@ -569,7 +577,7 @@ namespace mesmer
 
     underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Anharmonic oscillators + rotors.") ) ;
 
-    status = status && Test_MEIC_formGrainSOS(totalCellDOS) ;
+    status = status && Test_MEIC_formGrainSOS(totalCellDOS, pMol->getEnv()) ;
 
     ctest << endl ;
     underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Anharmonic oscillators only.") ) ;
@@ -592,7 +600,7 @@ namespace mesmer
 
     pMol->getDOS().getCellDensityOfStates(cellDOS, 0, false) ;
 
-    return Test_MEIC_formGrainSOS(cellDOS) ;
+    return Test_MEIC_formGrainSOS(cellDOS, pMol->getEnv()) ;
 
   }
 
@@ -619,7 +627,7 @@ namespace mesmer
 
     pMol->getDOS().getCellDensityOfStates(cellDOS, 0, false) ;
 
-    return Test_MEIC_formGrainSOS(cellDOS) ;
+    return Test_MEIC_formGrainSOS(cellDOS, pMol->getEnv()) ;
 
   }
 
@@ -650,34 +658,119 @@ namespace mesmer
 
   }
 
+  bool UnitTests::Test_cellSize(Molecule *pMol) const {
+
+    bool status(true) ; 
+
+    ctest << endl ;
+    underlineText(string("Cell size Test: \"") + pMol->getName() + string("\" Harmonic oscillators only.") ) ;
+
+    DensityOfStatesCalculator* pDOSCalculator = DensityOfStatesCalculator::Find("BeyerSwinehart");
+
+    // Calculate vibrational densities of states.
+
+    size_t MaximumCell(5000) ;
+	MesmerEnv &env = const_cast<MesmerEnv &>(pMol->getEnv()) ;
+	env.MaxCell  = MaximumCell ;
+	env.CellSize = 10.0 ;
+	env.MaxGrn   = size_t(env.CellSize*env.MaxCell/double(env.GrainSize)) ;
+    vector<double> cellDOS(MaximumCell, 0.0) ;
+    vector<double> cellEne(MaximumCell, 0.0) ; 
+    vector<double> grainDOS(env.MaxGrn, 0.0) ;
+    vector<double> grainEne(env.MaxGrn, 0.0) ;
+	getCellEnergies(MaximumCell, env.CellSize, cellEne);
+	cellDOS[0] = 1.0 ;
+    pMol->getDOS().setCellDensityOfStates(cellDOS) ; 
+
+    status = status && pDOSCalculator->countCellDOS(&(pMol->getDOS()), pMol->getEnv()) ;
+
+    // Retrieve the DOS vector without recalculating.
+
+    pMol->getDOS().getCellDensityOfStates(cellDOS, 0, false) ;
+
+	calcGrainAverages(env.MaxGrn, env.cellPerGrain(), 0, cellDOS, cellEne, grainDOS, grainEne) ;
+
+    // Calculate cell and grain sums of states.
+
+    for (size_t i(1) ; i < cellDOS.size() ; i++) {
+      cellDOS[i] += cellDOS[i-1] ;
+    }
+
+    for (size_t i(1) ; i < grainDOS.size() ; i++) {
+      grainDOS[i] += grainDOS[i-1] ;
+    }
+
+    // Now write out results. The selected energies are those defined by the MEIC test.
+
+    ctest << endl ;
+    underlineText("   Energy/cm-1                  SoS Cell                 SoS Grain") ;
+
+    ctest << formatFloat(cellEne[0],   5, 15) << "," ;
+    ctest << formatFloat(cellDOS[0],  13, 25) << "," ;
+    ctest << formatFloat(grainDOS[0], 13, 25) ;
+    ctest << endl ;
+
+	const double tolerance = 0.07 ;
+    size_t idx(0), jdx(0) ;
+    for (size_t i(1) ; i < 40 ; i++) {
+      idx += (idx < 100) ? 10 : 100  ;
+      const double tcDOS = cellDOS[idx] ;
+      double tgDOS(0.0) ;
+      const double energy = cellEne[idx] ;
+
+      // Because grains with no content are elimated there is no simply
+      // mapping between cells and grains. Consequently the grain whose 
+      // mean energy does not exceed that of the specified energy is used.
+      // The following loop searches for that grain.
+
+      while (grainEne[jdx] <= energy ) {
+        tgDOS = grainDOS[jdx] ;
+        jdx++ ;
+      }
+      ctest << formatFloat(energy, 5, 15) << "," ;
+      ctest << formatFloat(tcDOS, 13, 25) << "," ;
+      ctest << formatFloat(tgDOS, 13, 25) ;
+      if (abs(tcDOS - tgDOS)/tcDOS > tolerance) {
+        status = false ;
+        ctest << "*";
+      }
+      ctest << endl ;
+    }
+
+    return status ;
+
+  }
+
+
   // Support methods.
   //----------------------------------------------------------
 
-  bool UnitTests::Test_MEIC_formGrainSOS(vector<double> &cellDOS) const {
+  bool UnitTests::Test_MEIC_formGrainSOS(vector<double> &cellDOS, const MesmerEnv &env) const {
 
     bool status(true) ; 
 
     // Calculate grain numbers and averages.
 
-    const int GrainSize    = 10 ;
-    const int MaximumGrain = cellDOS.size()/GrainSize ;
+    const size_t GrainSize    = 10 ;
+    const size_t cellPerGrain = GrainSize ;
+    const size_t cellOffset   = 0 ;
+    const size_t MaximumGrain = cellDOS.size()/GrainSize ;
     vector<double> cellEne(cellDOS.size(), 0.0) ; 
     vector<double> grainDOS(MaximumGrain, 0.0) ;
     vector<double> grainEne(MaximumGrain, 0.0) ;
-    size_t i(0) ;
-    for (i = 0 ; i < cellDOS.size() ; i++) {
+    for (size_t i(0) ; i < cellDOS.size() ; i++) {
       cellEne[i] += double(i) ;
     }
 
-    calcGrainAverages(MaximumGrain, GrainSize, cellDOS, cellEne, grainDOS, grainEne) ;
+    calcGrainAverages(MaximumGrain, cellPerGrain, cellOffset, cellDOS, cellEne, grainDOS, grainEne) ;
 
     // Calculate cell and grain sums of states.
 
-    for (i = 1 ; i < cellDOS.size() ; i++) {
+    for (size_t i(1) ; i < cellDOS.size() ; i++) {
       cellDOS[i] += cellDOS[i-1] ;
     }
 
-    for (i = 1 ; i < grainDOS.size() ; i++) {
+    for (size_t i(1) ; i < grainDOS.size() ; i++) {
       grainDOS[i] += grainDOS[i-1] ;
     }
 
@@ -693,7 +786,7 @@ namespace mesmer
 
     const double tolerance = 0.05 ;
     size_t idx(0), jdx(0) ;
-    for (i = 1 ; i < 40 ; i++) {
+    for (size_t i(1) ; i < 40 ; i++) {
       idx += (idx < 1000) ? 100 : 1000  ;
       const double tcDOS = cellDOS[idx] ;
       double tgDOS(0.0) ;

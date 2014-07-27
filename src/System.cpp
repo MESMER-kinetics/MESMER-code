@@ -165,10 +165,9 @@ bool System::parse(PersistPtr ppIOPtr)
         return true ;
       }
 
-      //-------------
-      //Model Parameters 
+      // Model Parameters 
       PersistPtr ppParams;
-      //Add this section if it does not exist, to contain defaults
+      // Add this section if it does not exist, to contain defaults
       while(!(ppParams = ppIOPtr->XmlMoveTo("me:modelParameters")))
         ppIOPtr->XmlWriteElement("me:modelParameters");
 
@@ -183,7 +182,12 @@ bool System::parse(PersistPtr ppIOPtr)
           m_Env.MaxGrn=0;
       }
 
-      m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
+      m_Env.CellSize = ppParams->XmlReadDouble("me:cellSize", optional);
+      if (IsNan(m_Env.CellSize)) {
+		m_Env.CellSize = 1.0 ; // Default cell size in cm-1.
+      }
+
+	  m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
       if(IsNan(m_Env.MaximumTemperature))
         m_Env.MaximumTemperature = 0.0;
       m_Env.EAboveHill         = ppParams->XmlReadDouble("me:energyAboveTheTopHill");

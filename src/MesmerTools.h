@@ -21,15 +21,8 @@ namespace mesmer
 
   double canonicalMeanEnergy(const vector<double>& DOS, const vector<double>& Ene, const double beta);
 
-  // shift cell DOS and energy vectors according to cellOffset
-  void shiftCells(int MaximumCell, int cellOffset, const vector<double>& cellDOS, const vector<double>& cellEne,
-    std::vector<double>& shiftedCellDOS, std::vector<double>& shiftedCellEne);
-
   // Calculate the average grain energy and then number of states per grain.
-  void calcGrainAverages(const int MaximumGrain, const int GrainSize, const std::vector<double>& shiftedCellDOS,
-    const std::vector<double>& shiftedCellEne, vector<double>& grainDOS, vector<double>& grainEne) ;
-
-  void calcGrainAverages2(const size_t &MaximumGrain, const size_t &cellPerGrain, const size_t &cellOffset, const std::vector<double>& shiftedCellDOS,
+  void calcGrainAverages(const size_t &MaximumGrain, const size_t &cellPerGrain, const size_t &cellOffset, const std::vector<double>& shiftedCellDOS,
     const std::vector<double>& shiftedCellEne, vector<double>& grainDOS, vector<double>& grainEne) ;
 
   template<class T>
