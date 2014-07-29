@@ -1223,16 +1223,16 @@ namespace mesmer
         string s(ss1.str());
         ctest << s ; clog << s ;
 
-		// Replace tabs and line feeds (bad for XML) by spaces.
+	// Replace tabs and line feeds (bad for XML) by spaces.
         replace(s.begin(), s.end(), '\t', ' ');
         replace(s.begin(), s.end(), '\n', ' ');
         if (ppList) ppList->XmlWriteValueElement("me:warning", s);
 
-		// Determine the number of adsorbed eigenvalues.
-		adsorbedCSE++ ; 
-		for (size_t i(1) ; to_double(m_eigenvalues[nchemIdx+i])/first_IERE > adsorbedCSETol && i < nchem ; i++) {
-		  adsorbedCSE++ ; 
-		}
+	// Determine the number of adsorbed eigenvalues.
+	adsorbedCSE++ ; 
+	for (size_t i(1) ; (i < nchem) && (to_double(m_eigenvalues[nchemIdx+i])/first_IERE > adsorbedCSETol) ; i++) {
+	  adsorbedCSE++ ; 
+	}
       }
 
       for(size_t i(0); i<nchem; ++i){

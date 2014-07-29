@@ -64,7 +64,7 @@ namespace mesmer
   // the 1/2 of the hessian as it these quantities can be used directly in the 
   // Marquardt algorithm to determine the next best guess of the the minimum.
   //
-  void FittingUtils::NumericalDerivatives(System* pSys, vector<double> &residuals, double delta, vector<double> &gradient, dMatrix &hessian) const {
+  void FittingUtils::NumericalDerivatives(System* pSys, vector<double> &residuals, double delta, vector<double> &gradient, qdMatrix &hessian) const {
 
     size_t nVar = gradient.size() ;
     vector<double> location(nVar,0.0), update(nVar,0.0) ;
@@ -100,7 +100,7 @@ namespace mesmer
         for (size_t i(0),ii(iVar*sizeRes),jj(jVar*sizeRes) ; i < sizeRes ; i++, ii++, jj++) {
           hess += derivatives[ii]*derivatives[jj] ;
         }
-        hessian[iVar][jVar] = hessian[jVar][iVar] = hess ;
+        hessian[iVar][jVar] = hessian[jVar][iVar] = qd_real(hess) ;
       }
 
     }
@@ -112,7 +112,7 @@ namespace mesmer
   //
   // Write out the results and statistics of the fit. 
   //
-  void FittingUtils::ResultsAndStatistics(System* pSys, dMatrix &hessian) const {
+  void FittingUtils::ResultsAndStatistics(System* pSys, qdMatrix &hessian) const {
 
     // Calculate model values with optimum parameters.
 
@@ -131,7 +131,7 @@ namespace mesmer
     for(size_t iVar(0) ; iVar < hessian.size() ; iVar++) {
 
       Rdouble var = *Rdouble::withRange()[iVar] ;
-      double sigma = sqrt(hessian[iVar][iVar]) ;
+      double sigma = to_double(sqrt(hessian[iVar][iVar])) ;
       cinfo << var.get_varname() << " = " << setprecision(6) << var.originalUnits() << " +/- " << var.originalUnits(sigma) << endl; 
 
     }
@@ -143,9 +143,9 @@ namespace mesmer
     for(size_t iVar(0) ; iVar < hessian.size() ; iVar++) {
 
       Rdouble vara = *Rdouble::withRange()[iVar] ;
-      double sigma = sqrt(hessian[iVar][iVar]) ;
+      double sigma = to_double(sqrt(hessian[iVar][iVar])) ;
       for(size_t jVar(0) ; jVar < iVar ; jVar++) {
-        double corrlCoeff = hessian[iVar][jVar]/(sigma*sqrt(hessian[jVar][jVar])) ;
+        double corrlCoeff = to_double(hessian[iVar][jVar]/(sigma*sqrt(hessian[jVar][jVar]))) ;
         Rdouble varb = *Rdouble::withRange()[jVar] ;
         cinfo << vara.get_varname() << " , " << varb.get_varname() << " = " << setprecision(6) << corrlCoeff << endl; 
       }

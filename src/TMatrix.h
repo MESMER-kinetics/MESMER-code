@@ -91,9 +91,6 @@ namespace mesmer
 
     };
 
-    // Matrix inversion method by Gaussian elimination
-    int invertGaussianJordan();
-
     // Matrix inversion method by LU decomposition
     int invertLUdecomposition();
 
@@ -139,11 +136,6 @@ namespace mesmer
     //
     int  ludcmp(T **a, const size_t &n, vector<size_t> &indx) ;
     void lubksb(T **a, const size_t &n, vector<size_t> &indx, T* b) ;
-
-    //
-    // Calculate the inverse of the matrix by finding the adjoint of the cofactors matrix
-    int GetMinor(T **src, T **dest, int row, int col, int order);
-    T CalcDeterminant( T **mat, int order);
 
   } ;
 
@@ -772,154 +764,6 @@ namespace mesmer
 
   }
 
-  template<class T>
-  int TMatrix<T>::invertGaussianJordan(){
-    /*######################################################################
-    Author: Chi-Hsiu Liang
-    Matrix  inversion, real symmetric a of order n.
-    Gaussian elimination with interchanges.
-    Sometimes this routine can cause problem, there is no disgnostic functions
-    inside this routine. Users have to find it out by themselves
-    To see what's the input matrix one should uncomments the section which
-    can print out the matrix.
-    (Useful checklist of whether a matrix has an inverse or not is below.
-    A. Matrix with two columns/rows completely the same does not have an inverse
-    B. Matrix with determinant zero does not have an inverse, of course this include
-    the one above.)
-    ######################################################################*/
-    size_t n = this->size() ;
-    if (n > INT_MAX) return 2; // The matrix size is too large to process.
-    T divide, ratio;
-
-    //-------------------------------
-    //produce a unit vector of size n, and copy the incoming matrix
-    Matrix<T> m1(*this);
-    Matrix<T> m2(n, T(0.0));
-    for (size_t i(0) ; i < n; ++i){
-      m2[i][i] = T(1.0) ;
-    }
-    //-------------------------------
-    vector<size_t> zeroCount(n, 0) ;
-
-    for(size_t j(0) ; j < n; ++j){
-      for (size_t i(0) ; i < n; ++i){
-        if (m1[i][j] == T(0.0)){
-          zeroCount[j]++; if (zeroCount[j] == n) return 1;
-          /* If there is a zero column, the matrix has no inverse.*/
-        }
-        else{
-          if (i < j){
-            if (m1[j][j] == T(0.0)){ /* Add the former row to the j'th row if the main row is empty.*/
-              for (size_t col(0); col < n; ++col){
-                m1[i][col] = m1[j][col];
-                m2[i][col] = m2[j][col];
-              }
-            }
-          }
-          else if (i > j){ // Add the later row to the j'th row.
-            if (zeroCount[j] == i){
-              for (size_t col(j); col < 3; ++col) swap(m1[i][col], m1[j][col]);
-              for (size_t col(0); col < 3; ++col) swap(m2[i][col], m2[j][col]);
-              i = j - 1; zeroCount[j] = 0;
-            }
-            else{
-              for (size_t col(0); col < n; ++col){
-                m1[i][col] = m1[j][col];
-                m2[i][col] = m2[j][col];
-              }
-            }
-          }
-          //i = j;
-          else{ // in this case i = j
-            if (m1[i][j] != T(1.0)){
-              divide = m1[i][j];
-              for (size_t col(i); col < n; ++col) m1[i][col] /= divide; // normalise i'th row.
-              for (size_t col(0); col < n; ++col) m2[i][col] /= divide;
-            }
-            for (size_t row(0); row < n; ++row){
-              if (row == i) continue;
-              ratio = m1[row][j] / m1[i][j];
-              for (size_t col(i); col < n; ++col) m1[row][col] -= m1[i][col] * ratio;
-              /* Only alterations after the i'th indice are necessary*/
-              for (size_t col(0); col < n; ++col) m2[row][col] -= m2[i][col] * ratio;
-            }
-          }
-        }
-      }
-    }
-
-    for(size_t i(0) ; i < n; ++i){
-      for (size_t j(0) ; j < n; ++j){
-        this->m_matrix[i][j] = m2[i][j];
-      }
-    }
-
-    return 0;
-  }
-
-
-  // calculate the cofactor of element (row,col)
-  template<class T>
-  int TMatrix<T>::GetMinor(T **src, T **dest, int row, int col, int order)
-  {
-    // indicate which col and row is being copied to dest
-    int colCount=0,rowCount=0;
-
-    for(int i = 0; i < order; ++i )
-    {
-      if( i != row )
-      {
-        colCount = 0;
-        for(int j = 0; j < order; ++j )
-        {
-          // when j is not the element
-          if( j != col )
-          {
-            dest[rowCount][colCount] = src[i][j];
-            colCount++;
-          }
-        }
-        rowCount++;
-      }
-    }
-
-    return 1;
-  }
-
-  // Calculate the determinant recursively.
-  template<class T>
-  T TMatrix<T>::CalcDeterminant( T **mat, int order)
-  {
-    // order must be >= 0
-    // stop the recursion when matrix is a single element
-    if( order == 1 )
-      return mat[0][0];
-
-    // the determinant value
-    T det = 0;
-
-    // allocate the cofactor matrix
-    T **minor;
-    minor = new T*[order-1];
-    for(int i=0;i<order-1;++i)
-      minor[i] = new T[order-1];
-
-    for(int i = 0; i < order; ++i )
-    {
-      // get minor of element (0,i)
-      GetMinor( mat, minor, 0, i , order);
-      // the recusion is here!
-      det += pow( -1.0, i ) * mat[0][i] * CalcDeterminant( minor,order-1 );
-    }
-
-    // release memory
-    for(int i=0;i<order-1;++i)
-      delete [] minor[i];
-    delete [] minor;
-
-    return det;
-  }
-
   //
   // Normalize collision operator
   //
@@ -1066,7 +910,7 @@ namespace mesmer
     stringstream ss;
     for(size_t i(0) ; i < this->size() ; i++) {
       for(size_t j(0) ; j <= i ; j++)
-        ss << double((*this)[i][j]) << ' ';
+        ss << to_double((*this)[i][j]) << ' ';
       ss << '\n'; 
     }
     PersistPtr ppmatrix = pp->XmlWriteValueElement("matrix", ss.str(),true);

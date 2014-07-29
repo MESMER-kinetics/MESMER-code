@@ -33,10 +33,10 @@ namespace mesmer
 	bool CheckBounds(const vector<double> &A) const ;
 
 	// Numerical derivatives.
-	void NumericalDerivatives(System* pSys, vector<double> &residuals, double delta, vector<double> &gradient, dMatrix &hessian) const ;
+	void NumericalDerivatives(System* pSys, vector<double> &residuals, double delta, vector<double> &gradient, qdMatrix &hessian) const ;
 
 	// Write out the results and statistics of the fit. 
-	void ResultsAndStatistics(System* pSys, dMatrix &hessian) const ;
+	void ResultsAndStatistics(System* pSys, qdMatrix &hessian) const ;
 
   } ;
 

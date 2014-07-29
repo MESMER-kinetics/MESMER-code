@@ -120,26 +120,25 @@ namespace mesmer
     //
 
     vector<double> gradient(m_nVar,0.0) ;
-    dMatrix hessian(m_nVar,0.0); 
+    qdMatrix hessian(m_nVar,0.0); 
     NumericalDerivatives(pSys, residuals, m_delta, gradient, hessian) ;
 
     bool converged(false) ;
     for (size_t itr(1) ; itr <= m_maxIterations && !converged ; itr++) {
 
       newLocation = currentLocation ;
-      vector<double> deltaLocation = gradient;
-      dMatrix invHessian = hessian ;
+      vector<qd_real> deltaLocation(m_nVar,0.0) ;
+      qdMatrix invHessian = hessian ;
 
       for (size_t iVar(0) ; iVar < m_nVar ; iVar++) {
-        invHessian[iVar][iVar] *= (1.0 + lambda) ;
+        invHessian[iVar][iVar] *= qd_real(1.0 + lambda) ;
+		deltaLocation[iVar] = qd_real(gradient[iVar]) ;
       }
 
-      invHessian.invertLUdecomposition() ;
-
-      deltaLocation *= invHessian ; 
+      invHessian.solveLinearEquationSet(&deltaLocation[0]) ;
 
       for (size_t iVar(0) ; iVar < m_nVar ; iVar++) {
-        newLocation[iVar] += deltaLocation[iVar] ;
+        newLocation[iVar] += to_double(deltaLocation[iVar]) ;
       }
 
       // Check bounds.    

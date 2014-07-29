@@ -246,7 +246,7 @@ namespace mesmer
     pSys->calculate(chiSquare, residuals) ;
 
     vector<double> gradient(m_nVar,0.0) ;
-    dMatrix hessian(m_nVar,0.0); 
+    qdMatrix hessian(m_nVar,0.0); 
     double delta(0.001) ;
     NumericalDerivatives(pSys, residuals, delta, gradient, hessian) ;
 

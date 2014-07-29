@@ -1,6 +1,14 @@
+2014-July-29 Struan Robertson
+
+	* Marquardt.cpp. FittingUtil.cpp/.h, TMatrix.h: Fix Methy + H FTST
+	example failure and removal of redundant linear algebra code.
+
+	* CollisionOperator.cpp: Bug fix for incorrect counting of absorbed 
+	eigenvalues.
+
 2014-July-27 Struan Robertson
 
-	* MesmerTools.ccp/.h, MesmerEnv.cpp and the association reaction clasess: 
+	* MesmerTools.ccp/.h, MesmerEnv.cpp and the association reaction classes: 
 	Variable cell sizes introduced.
 
 2014-July-20 Struan Robertson
