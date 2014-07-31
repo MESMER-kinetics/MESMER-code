@@ -306,7 +306,7 @@ namespace mesmer
       bcalGrainNum = true ;
     }
 
-    mEnv.MaxCell = mEnv.MaxGrn * size_t(double(mEnv.GrainSize) / mEnv.CellSize) ;
+    mEnv.MaxCell = max(mEnv.MaxCell, (mEnv.MaxGrn * size_t(double(mEnv.GrainSize) / mEnv.CellSize))) ;
 
     if (writeReport) cinfo << "Number of cells = " << mEnv.MaxCell << ", Number of grains = " << mEnv.MaxGrn << once << endl;
 
