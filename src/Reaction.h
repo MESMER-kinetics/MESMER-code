@@ -117,10 +117,7 @@ namespace mesmer
     // End Spin Forbidden Crossing interface
 
     // calculate flux in grains
-    void fluxCellToGrain(const std::vector<double>& shiftedCellFlux);
-
-    // shift transitions state cell flux
-    void shiftCellFlux(std::vector<double>& shiftedCellFlux);
+    void fluxCellToGrain();
 
     // returns the flux in cells for foreign modifications
     std::vector<double>& get_CellFlux(void) {return m_CellFlux; };
@@ -173,7 +170,7 @@ namespace mesmer
     double get_rvsCellCanonicalRate(void){return m_rvsCellCanonicalRate;};
 
     // get the bottom cell offset of m_CellFlux
-    const int getFluxCellOffset(void){return m_FluxCellOffset;};
+    const size_t getFluxCellOffset(void){return m_FluxCellOffset;};
 
     // Wrapper function to calculate and grain average microcanoincal rate coeffcients.
     bool calcGrnAvrgMicroRateCoeffs() ;
@@ -251,15 +248,15 @@ namespace mesmer
     //
 
     // _2008_04_24__12_35_40_  <- Please search for this string in the current file for further description.
-    double m_FluxCellZPE;                        // cell ZPE of m_GrainFlux
-    double m_FluxGrainZPE;                       // grain ZPE of m_GrainFlux
-    int m_FluxCellOffset;                        // cell Offset when converting m_CellFlux to m_GrainFlux
+    double m_FluxCellZPE;              // cell ZPE of m_GrainFlux
+    double m_FluxGrainZPE;             // grain ZPE of m_GrainFlux
+    size_t m_FluxCellOffset;           // cell Offset when converting m_CellFlux to m_GrainFlux
 
-    std::vector<double>  m_CellFlux ;          // Microcanonical transition state fluxes. (QM or classical)
-    std::vector<double>  m_GrainFlux ;         // Grain summed microcanonical transition state fluxes..
+    std::vector<double>  m_CellFlux ;  // Microcanonical transition state fluxes. (QM or classical)
+    std::vector<double>  m_GrainFlux ; // Grain summed microcanonical transition state fluxes..
 
-    std::vector<double>  m_GrainKfmc ;           // Grained averaged forward  microcanonical rates.
-    std::vector<double>  m_MtxGrnKf ;            // Grained averaged forward  microcanonical rates as used in collision operator.
+    std::vector<double>  m_GrainKfmc ; // Grained averaged forward  microcanonical rates.
+    std::vector<double>  m_MtxGrnKf ;  // Grained averaged forward  microcanonical rates as used in collision operator.
 
     // Read parameters requires to determine reaction heats and rates.
     bool ReadRateCoeffParameters(PersistPtr ppReac);
@@ -276,7 +273,7 @@ namespace mesmer
     //   Reaction& operator=(const Reaction& reaction) ;
 
     // Grain average microcanonical rate coefficients.
-    bool grnAvrgMicroRateCoeffs();
+    bool grnAvrgMicroFluxCoeffs();
 
     // Read excess reactant concentration
     bool ReadExcessReactantConcentration(PersistPtr ppReac);

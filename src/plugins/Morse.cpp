@@ -120,7 +120,7 @@ namespace mesmer
 
       vector<double> tmpCellDOS(cellDOS) ;
       for (size_t k(1) ; k < energyLevels.size() ; k++ ) {
-        size_t nr = nint(energyLevels[k]) ;
+        size_t nr = nint(energyLevels[k]/env.CellSize) ;
         if (nr < MaximumCell) {
           for (size_t i(0) ; i < MaximumCell - nr ; i++ ) {
             tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + cellDOS[i] ;

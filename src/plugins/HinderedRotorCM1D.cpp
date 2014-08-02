@@ -209,13 +209,14 @@ namespace mesmer
   bool HinderedRotorCM1D::countCellDOS(gDensityOfStates* pDOS, const MesmerEnv& env)
   {
 	const size_t MaximumCell = env.MaxCell ;
+	const double cellSize = env.CellSize ;
 
     vector<double> cellDOS;
     if(!pDOS->getCellDensityOfStates(cellDOS, 0, false)) // retrieve the DOS vector without recalculating
       return false;
 
     vector<double> cellEne;
-    getCellEnergies(MaximumCell, env.CellSize, cellEne);
+    getCellEnergies(MaximumCell, cellSize, cellEne);
 
     // Calculate the one dimensional rotor constant and adjust for symmetry.
     double bint = sqrt(m_reducedMomentInertia/conMntInt2RotCnt)/double(m_periodicity) ;
@@ -228,8 +229,8 @@ namespace mesmer
     //
     vector<double> freeRtrDOS(MaximumCell,0.0) ;
     for (size_t i(0) ; i < MaximumCell ; i++ ) {
-      const double ene = cellEne[i] - 0.5 ;
-      freeRtrDOS[i] = 2.0*bint*(sqrt(ene+1.0)-sqrt(ene)) ;
+      const double ene = cellEne[i] - 0.5*cellSize ;
+      freeRtrDOS[i] = 2.0*bint*(sqrt(ene + cellSize)-sqrt(ene)) ;
     }
 
     //
@@ -245,7 +246,7 @@ namespace mesmer
     //      by bracketing and interpolating the energy and related functions.
     //   3) The cell (note cell not grain) values are determined by integration.
     //
-    // Step 3) seems to be require as mid cell energies tend under estimate the 
+    // Step 3) seems to be require as mid cell energies tend to under estimate the 
     // the configuration integral contribution.
     //
 
@@ -266,10 +267,9 @@ namespace mesmer
     }
 
     // 2) Locate roots via bracketing and interpolate the potential gradient.
-    const int    nintvl   = 10 ;
-    const double cellsize = 1.0 ;
-    const double dene     = cellsize/double(nintvl) ;
-    size_t       emax     = 2*nintvl*(int(potentialCosCoeff[0]) + 1) + 1 ;
+    const int    nintvl = 10 ;
+    const double dene   = cellSize/double(nintvl) ;
+    size_t       emax   = 2*nintvl*(int(potentialCosCoeff[0]) + 1) + 1 ;
     vector<double> cfgHdr(emax,0.0) ;
     for (size_t i(0); i < emax ; ++i) {
       const double ene = dene*double(i) ;
@@ -283,7 +283,7 @@ namespace mesmer
       cfgHdr[i] /= 2.0*M_PI ;
     }
 
-    // 3) Integrate using the trapezium rule to get an averages across a cells.
+    // 3) Integrate using the trapezium rule to get an average across each cell.
     vector<double> tmpCellDOS(MaximumCell,0.0) ;
     emax = 2*(int(potentialCosCoeff[0]) + 1) ;
     for (size_t i(0), idx(0); i < emax ; ++i) {

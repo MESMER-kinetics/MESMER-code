@@ -578,7 +578,7 @@ namespace mesmer
     const int cellOffset = get_cellOffset();
     std::vector<double> cellEne;
     getCellEnergies(MaximumCell, m_host->getEnv().CellSize, cellEne);
-    calcGrainAverages(m_host->getEnv().MaxGrn, m_host->getEnv().GrainSize, cellOffset, m_cellDOS, cellEne, m_grainDOS, m_grainEne);
+    calcGrainAverages(m_host->getEnv().MaxGrn, m_host->getEnv().cellPerGrain(), cellOffset, m_cellDOS, cellEne, m_grainDOS, m_grainEne);
 
     if (recalc) {
       testDensityOfStates();

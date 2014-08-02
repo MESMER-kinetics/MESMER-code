@@ -107,13 +107,13 @@ namespace mesmer
 
     double zeroPointEnergy(m_energyLevels[0]) ;
     for (size_t i(0) ; i < m_energyLevels.size() ; i++ ) {
-      size_t nr = int(m_energyLevels[i] - zeroPointEnergy) ;
+      size_t nr = nint((m_energyLevels[i] - zeroPointEnergy)/env.CellSize) ;
       if (nr < MaximumCell) {
         cellDOS[nr] = double(m_degeneracies[i]) ;
       }
     }
 
-    // Initialise denisty of states.   
+    // Initialise density of states.   
 
     pDOS->setCellDensityOfStates(cellDOS) ;
 

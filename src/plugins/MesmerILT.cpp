@@ -64,7 +64,7 @@ namespace mesmer
     bool calculateUnimolecularMicroRates(Reaction* pReact);
     
     bool UnimolecularConvolution(Reaction* pReact);
-    bool BimolecularConvolution(Reaction* pReact, vector<double>& ConvolvedCellDOS, double ma, double mb, double mc);
+    bool BimolecularConvolution(Reaction* pReact, vector<double>& ConvolvedCellDOS, double ma, double mb, double mc) const ;
     
   private:
     const char* m_id;
@@ -359,7 +359,7 @@ namespace mesmer
     const double Ainf = m_PreExp ;
 
     Molecule* p_rct = pReact->get_reactant();
-    int MaximumCell = pReact->getEnv().MaxCell;
+    size_t MaximumCell = pReact->getEnv().MaxCell;
 
     // Allocate some work space for density of states and extract densities of states from reactant.
     vector<double> rctCellDOS; 
@@ -385,63 +385,60 @@ namespace mesmer
       // upper energy limits of the cell respectively.
       //
       vector<double> work(MaximumCell, 0.0);
-
-      for (int i = 0; i < MaximumCell; ++i){
-        work[i] = (pow(i+1,Ninf)-pow(i,Ninf))/Ninf;
+      double cellSize = pReact->getEnv().CellSize ;
+      for (size_t i(0); i < MaximumCell; ++i){
+		double ene = double(i)*cellSize ;
+        work[i] = (pow((ene+cellSize),Ninf)-pow(ene,Ninf))/Ninf;
       }
       FastLaplaceConvolution(work, rctCellDOS, conv);    // FFT convolution replaces the standard convolution
     } else {
-			cerr << "nInfinity for unimolecular ILT must be greater than zero... if you want zero, respecify as a small number, e.g., 0.0001" << endl;
-			exit(1);
+		cerr << "nInfinity for unimolecular ILT must be greater than zero... if you want zero, respecify as a small number, e.g., 0.0001" << endl;
+		exit(1);
     }
 
-    for (int i = 0; i < MaximumCell; ++i)
+    for (size_t i(0); i < MaximumCell; ++i)
       rxnFlux[i] = constant * conv[i];
 
     return true;
   }
 
-  bool MesmerILT::BimolecularConvolution(Reaction* pReact, vector<double>& ConvolvedCellDOS, double ma, double mb, double mc)
+  bool MesmerILT::BimolecularConvolution(Reaction* pReact, vector<double>& ConvolvedCellDOS, double ma, double mb, double mc) const
   {
-    //
-    // Obtain Arrhenius parameters. Note constraint: Ninf > -1.5
-    //
-    const double Ninf = m_NInf ; 
-    const double Tinf = m_TInf ;
-    const double Ainf = m_PreExp ;
-
     //
     // Initialize reaction flux vector.
     //
-    int MaximumCell = pReact->getEnv().MaxCell;
+    size_t MaximumCell = pReact->getEnv().MaxCell;
     vector<double>& rxnFlux = pReact->get_CellFlux();
     rxnFlux.clear();
     rxnFlux.resize(MaximumCell, 0.0);
 
-    const double gammaValue = MesmerGamma(Ninf + 1.5);
+    const double gammaValue = MesmerGamma(m_NInf + 1.5);
 
     // Note electronic degeneracies were already accounted for in DOS calculations.
     // tp_C = 3.24331e+20: defined in Constant.h, constant used in the translational
     // partition function.
 
-    double _ant = Ainf * tp_C * pow( ( ma * mb / mc), 1.5 ) / gammaValue;
-    _ant /= (pow((Tinf * boltzmann_RCpK), Ninf));
+    double _ant = m_PreExp * tp_C * pow( ( ma * mb / mc), 1.5 ) / gammaValue;
+    _ant /= (pow((m_TInf * boltzmann_RCpK), m_NInf));
 
     //
     // The expression held in the elements of the vector work has been altered from the
-    // simple power of the mean value to analytic integral_x_to_y{E^(Ninf-1)dE}, where
-    // x and y are lower and upper energy limits of the cell respectively.
+    // simple power of the mean value to analytic integral_x_to_y{E^(Ninf-1)dE}, where x and y
+    // are lower and upper energy limits of the cell respectively. Note constraint: Ninf > -1.5
     //
-    vector<double> work(MaximumCell);
-    for (int i = 0; i < MaximumCell; ++i){
-      work[i] = (pow(i+1,Ninf+1.5)-pow(i,Ninf+1.5))/(Ninf+1.5);
+    const double NinfTrans = m_NInf + 1.5; 
+    vector<double> work(MaximumCell, 0.0);
+    double cellSize = pReact->getEnv().CellSize ;
+    for (size_t i(0); i < MaximumCell; ++i){
+	  double ene = double(i)*cellSize ;
+      work[i] = (pow((ene+cellSize),NinfTrans)-pow(ene,NinfTrans))/NinfTrans ;
     }
 
     vector<double> conv;
     FastLaplaceConvolution(work, ConvolvedCellDOS, conv);    // FFT convolution replaces the standard convolution
     //    Convolution(work, rctsCellDOS, conv);  // standard convolution
 
-    for (int i = 0; i < MaximumCell; ++i)
+    for (size_t i(0); i < MaximumCell; ++i)
       rxnFlux[i] = _ant * conv[i];
 
     return true;

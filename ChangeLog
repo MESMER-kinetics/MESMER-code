@@ -1,3 +1,9 @@
+2014-August-02 Struan Robertson
+
+	* MesmerILT.cpp, HinderedRotorCM1D.cpp, HinderedRotorQM1D.cpp, ClassicalRotor.cpp,
+	DefinedStatesRotor.cpp, Morse.cpp Reaction.cpp/.h: Implementation of variable cell
+	size facility to remaining DOS calculators and some micro-flux calculators.
+
 2014-July-29 Struan Robertson
 
 	* Marquardt.cpp. FittingUtil.cpp/.h, TMatrix.h: Fix Methy + H FTST
@@ -8,12 +14,12 @@
 
 2014-July-27 Struan Robertson
 
-	* MesmerTools.ccp/.h, MesmerEnv.cpp and the association reaction classes: 
+	* MesmerTools.cpp/.h, MesmerEnv.cpp and the association reaction classes: 
 	Variable cell sizes introduced.
 
 2014-July-20 Struan Robertson
 
-	* MolecularComponent.ccp/.h and DOS classes: More preparatory work for 
+	* MolecularComponent.cpp/.h and DOS classes: More preparatory work for 
 	variable cell size implementation.
 
 	* TMatrix.h: Altered so that the LU decomposition is the principal matrix 

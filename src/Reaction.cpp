@@ -125,8 +125,8 @@ namespace mesmer
         ctest << "}\n";
       }
 
-      // Calculate Grain-averaged microcanonical rate coefficients.
-      if (!grnAvrgMicroRateCoeffs())
+      // Calculate Grain-averaged microcanonical flux coefficients.
+      if (!grnAvrgMicroFluxCoeffs())
         return false;
 
       // test grained microcanonical rate coefficients
@@ -138,20 +138,13 @@ namespace mesmer
   }
 
   //
-  // Access microcanonical rate coefficients - cell values are averaged
-  // to give grain values. This code is similar to that in Molecule.cpp
-  // and this averaging should be done there. SHR 19/Sep/2004.
+  // Access microcanonical flux coefficients - cell values are averaged
+  // to give grain values. 
   //
-  bool Reaction::grnAvrgMicroRateCoeffs() {
-    // This grain averaging of the microcanonical rate coefficients is
-    // based on the view from the species that is
-    // moving in the current reaction toward the opposite species.
-
-    std::vector<double> shiftedCellFlux;
-    shiftCellFlux(shiftedCellFlux);
+  bool Reaction::grnAvrgMicroFluxCoeffs() {
 
     // convert flux from cells to grains
-    fluxCellToGrain(shiftedCellFlux);
+    fluxCellToGrain();
 
     // Calculate forward and backward grained microcanonical rate coefficients
     calcGrainRateCoeffs();
@@ -163,42 +156,31 @@ namespace mesmer
   void Reaction::setCellFluxBottom(const double fluxBottomZPE){
     m_FluxCellZPE = fluxBottomZPE;
     m_FluxGrainZPE = fluxBottomZPE / getEnv().GrainSize ; //convert to grain
-    m_FluxCellOffset = int(fmod(fluxBottomZPE, getEnv().GrainSize));
+    m_FluxCellOffset = size_t(fmod(fluxBottomZPE, double(getEnv().GrainSize))/getEnv().CellSize) ;
   }
 
-  // shift transition state cell flux
-  void Reaction::shiftCellFlux(std::vector<double>& shiftedCellFlux){
-    int cellOffset = getFluxCellOffset();
-    const int MaximumCell  = getEnv().MaxCell;
-    for(int i = 0; i < cellOffset; ++i){
-      shiftedCellFlux.push_back(0.0);
-    }
-    for(int i = cellOffset, j = 0; i < MaximumCell; ++i, ++j){
-      shiftedCellFlux.push_back(m_CellFlux[j]);
-    }
-  }
+  // Calculate grain flux by summing over cells belong to each grain 
+  // taking account of the cell offset against PES grid by altering
+  // the range of first grain average.
+  void Reaction::fluxCellToGrain() {
 
-  // calculate flux in grains
-  void Reaction::fluxCellToGrain(const std::vector<double>& shiftedCellFlux)
-  {
-    const int maxGrn = getEnv().MaxGrn;
-    const int grnSiz = getEnv().GrainSize;
+    const size_t maxGrn       = getEnv().MaxGrn;
+    const size_t cellPerGrain = getEnv().cellPerGrain() ;
+    const size_t cellOffset   = getFluxCellOffset();
 
-    // resize m_GrainFlux to maxGrn and initialize all members to zero
     m_GrainFlux.clear();
     m_GrainFlux.resize(maxGrn, 0.0);
 
-    int cIdx = 0; // cell iterator
-
-    for (int i = 0; i < maxGrn ; ++i) {
-      for (int j = 0; j < grnSiz; ++j, ++cIdx) {
-        m_GrainFlux[i] += shiftedCellFlux[cIdx];
+    for (size_t i(0), cIdx(0) ; i < maxGrn ; ++i) {
+	  const size_t cellRange = (i == 0) ? cellPerGrain - cellOffset : cellPerGrain ; 
+      for (size_t j(0) ; j < cellRange; ++j, ++cIdx) {
+        m_GrainFlux[i] += m_CellFlux[cIdx];
       }
     }
 
     if (getFlags().grainFluxEnabled){
       ctest << "\nFlux(e) grains for " << getName() << ":\n{\n";
-      for (int i = 0; i < maxGrn; ++i){
+      for (size_t i(0) ; i < maxGrn; ++i){
         ctest << m_GrainFlux[i] << endl;
       }
       ctest << "}\n";

@@ -61,13 +61,18 @@ namespace mesmer
     switch (rotorType){
       case NONLINEAR: //3-D symmetric/asymmetric/spherical top
         cnt = qele * sqrt(4./(rotConst[0] * rotConst[1] * rotConst[2]))/sym ;
-        for (size_t i(0) ; i < MaximumCell ; ++i )
-          cellDOS[i] = cnt*sqrt(cellEne[i]) ;
+        for (size_t i(0) ; i < MaximumCell ; ++i ) {
+		  double Elower = cellEne[i] - 0.5*env.CellSize ;
+		  double Eupper = cellEne[i] + 0.5*env.CellSize ;
+		  Elower *= sqrt(Elower) ;
+		  Eupper *= sqrt(Eupper) ;
+          cellDOS[i] = 2.0*cnt*(Eupper - Elower)/3.0 ;
+		}
         break;
       case LINEAR: //2-D linear
         cnt = qele / (rotConst[0] * sym);
         for (size_t i(0) ; i < MaximumCell ; ++i )
-          cellDOS[i] = cnt ;
+          cellDOS[i] = cnt*env.CellSize ;
         break;
       default: // Assume atom.
         cellDOS[0] = qele  ;
@@ -79,7 +84,7 @@ namespace mesmer
     pDOS->getEleExcitation(eleExc);
 	vector<double> tmpCellDOS(cellDOS);
     for (size_t j(0) ; j < eleExc.size() ; ++j){
-      size_t nr = size_t(eleExc[j]) ;
+      size_t nr = nint(eleExc[j]/env.CellSize) ;
       if (nr < MaximumCell) {
         for (size_t i(0) ; i < MaximumCell - nr ; i++ ) {
           tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + cellDOS[i] ;

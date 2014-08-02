@@ -470,7 +470,7 @@ namespace mesmer
 
     m_ZPE = m_energyLevels[0] ;
     for (size_t k(1) ; k < nstates ; k++ ) {
-      size_t nr = int(m_energyLevels[k] - m_ZPE) ;
+      size_t nr = nint((m_energyLevels[k] - m_ZPE)/env.CellSize) ;
       if (nr < MaximumCell) {
         for (size_t i(0) ; i < MaximumCell - nr ; i++ ) {
           tmpCellDOS[i + nr] = tmpCellDOS[i + nr] + cellDOS[i] ;
