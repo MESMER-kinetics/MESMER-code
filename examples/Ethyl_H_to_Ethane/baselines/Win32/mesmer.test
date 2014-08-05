@@ -42,32 +42,32 @@ PT Grid 0 Condition: conc = 8.05242e+017, temp = 301, diagonalization precision:
 Test rovibronic density of states for: Ethane
 {
       T           qtot           sumc           sumg
-    200        1075.97        1074.69        990.288
-    300         2989.3        2987.93        2879.44
-    400        6764.95        6763.69        6622.84
+    200        1075.97        1073.98        989.643
+    300         2989.3        2985.59        2877.18
+    400        6764.95        6758.49        6617.73
 }
 
 Eq fraction matrix:
 {
--1.28018e+068 1.00000e+000
+-1.28015e+068 1.00000e+000
  1.00000e+000 1.00000e+000
 }
 inverse of Eq fraction matrix:
 {
--7.81139e-069 7.81139e-069
- 7.81139e-069 1.00000e+000
+-7.81159e-069 7.81159e-069
+ 7.81159e-069 1.00000e+000
 }
 Equilibrium Fraction for Ethane = 1
-Equilibrium Fraction for Ethyl = 7.81139e-069
+Equilibrium Fraction for Ethyl = 7.81159e-069
 
 Total number of eigenvalues = 195
 Eigenvalues
 {
- -2.256242e+007
- -2.099554e+007
- -1.792575e+007
- -7.112424e+006
-  2.087022e-022
+ -2.256220e+007
+ -2.099520e+007
+ -1.792521e+007
+ -7.112315e+006
+  2.090640e-022
 }
 
 Bartis Widom eigenvalue/eigenvector analysis
@@ -78,43 +78,43 @@ There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemic
 
 WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
-The last CSE = -7.11242e+006 and the first IERE = -1.79258e+007
-(last CSE)/(first IERE) ratio = 0.396771, which is less than an order of magnitude
+The last CSE = -7.11231e+006 and the first IERE = -1.79252e+007
+(last CSE)/(first IERE) ratio = 0.396777, which is less than an order of magnitude
 
 Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
 
 Z_matrix: {
--1.049902e-34	1.102294e-68	
-1.049902e-34	1.000000e+00	
+1.552146e-34	2.409158e-68	
+-1.552146e-34	1.000000e+00	
 }
 
 Z_matrix^(-1):
 {
--9.524699e+33	1.049902e-34	
+6.442692e+33	-1.552146e-34	
 1.000000e+00	1.000000e+00	
 }
 
 Z_matrix * Z_matrix^(-1) [Identity matrix]:
 {
-1.000000e+00	3.522102e-133	
-3.369208e-66	1.000000e+00	
+1.000000e+00	4.226522e-132	
+1.864006e-64	1.000000e+00	
 }
 
 Kr matrix:
 {
--7.112424e+06	7.839983e-62	
-7.112424e+06	-7.839983e-62	
+-7.112315e+06	1.713469e-61	
+7.112315e+06	-1.713469e-61	
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
 {
-Ethane loss = -7.839983e-62
-Ethyl loss = -7.112424e+06
+Ethane loss = -1.713469e-61
+Ethyl loss = -7.112315e+06
 }
 
 First order & pseudo first order rate coefficients for isomerization rxns:
 {
-Ethane -> Ethyl = 7.839983e-62
-Ethyl -> Ethane = 7.112424e+06
+Ethane -> Ethyl = 1.713469e-61
+Ethyl -> Ethane = 7.112315e+06
 }
 }
