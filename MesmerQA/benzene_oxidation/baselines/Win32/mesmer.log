@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Jul 20 2014 -- 19:20:13
+     Mesmer v4.0 compiled: -- Aug  4 2014 -- 16:30:39
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -58,7 +58,7 @@ In R_2_6c: No crossing method used for R_2_6c
 All molecules are on the same energy basis: arbitary
 The default value of the attribute precision was used.
 760Torr, 298K at d precision with N2
-Write metadata 20140720_230950
+Write metadata 20140804_164335
 
 File: "benzene_oxidation_test.xml" successfully parsed.
 Main Calculation begins
@@ -68,7 +68,7 @@ The default value of me:DistributionCalcMethod was used.
 The default value of me:energyTransferModel was used.
 No value of me:deltaEDown was supplied and the default value NEEDS TO BE CHECKED**
 Number of cells = 11400, Number of grains = 228
-In FastLaplaceConvolution: 140 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 
