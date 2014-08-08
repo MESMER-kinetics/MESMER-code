@@ -5,6 +5,7 @@
   xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
   xmlns:dc="http://purl.org/dc/elements/1.1/">
 
+  <xsl:include href="chemStrucEL.xsl"/>
   <xsl:include href="mesmerDiag.xsl"/>
   <xsl:include href="switchcontent.xsl"/>
   <xsl:include href="popDiag.xsl"/>
@@ -147,6 +148,19 @@
           <xsl:apply-templates select="cml:moleculeList"/>
         </table>
       </div>
+
+      <!--Get molecule structure names in a variable so section heading
+      can be hidden if there are none. Drawing structure twice is very inefficient!-->
+      <xsl:variable name="structText">
+        <xsl:apply-templates select="//cml:molecule" mode="chemStructure"/>
+      </xsl:variable>
+      <xsl:if test="string-length($structText)>0">
+        <h3 id="structs-title" class="handcursor">Chemical Structures</h3>
+        <div id="structs" class="switchgroup12">
+         <xsl:apply-templates select="//cml:molecule" mode="chemStructure"/>
+        </div>
+      </xsl:if>
+      
       <h3 id="reactions-title" class="handcursor">Reactions</h3>
       <table id="reactions" class="switchgroup4">
       <xsl:apply-templates select="cml:reactionList"/>

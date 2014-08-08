@@ -277,6 +277,7 @@ Windows[!!-~]VC9/Mesmer/Mesmer.vcproj -text
 Windows[!!-~]VC9/TinyXML/TinyXML.vcproj -text
 Windows[!!-~]VC9/distribution/NSISScriptToCreateInstaller.nsi -text
 Windows[!!-~]VC9/qd/qd.vcproj -text
+/chemStrucEL.xsl -text
 /defaults.xml -text
 examples/AcetylO2/Acetyl_O2_associationEx.xml -text
 examples/AcetylO2/Int1.log -text

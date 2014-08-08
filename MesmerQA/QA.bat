@@ -123,7 +123,7 @@ copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 
 set testName="OH_acetylene_pseudo_isomerization"
-%executable% -N %testName%.xml
+%executable% -N %testName%.xml %directive%
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
@@ -142,7 +142,7 @@ copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
 
 set testName="ipropyl_reservoir"
-%executable% -N %testName%.xml
+%executable% -N %testName%.xml %directive%
 copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..

@@ -95,17 +95,6 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <!--<xs:simpleType name="MCRCMethodName">
-    <xs:restriction base="xs:string">
-      --><!--Only those with no data--><!--
-      <xs:enumeration value="SimpleRRKM"/>
-      <xs:enumeration value="DefinedSumOfStates"/>
-      --><!--<xs:enumeration value="MesmerILT"/>
-      <xs:enumeration value="SimpleILT"/>
-      <xs:enumeration value="SimpleBimolecularSink"/>--><!--
-    </xs:restriction>
-  </xs:simpleType>-->
-
   <xs:simpleType name="MCRCMethodName">
     <xs:restriction base="xs:string">
       <!--Only those with no data-->
@@ -224,6 +213,19 @@
         <xs:sequence>
           <xs:element name="bondRef" type="bondRefType"/>
           <xs:element name="replaceVibFreq" type="xs:decimal" minOccurs="0"/>
+          <xs:element name="InternalRotorInertia" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="InertiaPoint">
+                  <xs:complexType>
+                    <xs:attribute name="index" type="xs:positiveInteger" use="required"/>
+                    <xs:attribute name="coefficient" type="xs:float" use="required"/>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="units" type="HinderedRotorInertiaType" use="optional"/>
+            </xs:complexType>
+          </xs:element>
           <xs:element name="HinderedRotorPotential">
             <xs:complexType>
               <xs:sequence>
@@ -248,7 +250,7 @@
           <xs:element name="WriteStates" minOccurs="0" />
           <xs:element name="CalculateInternalRotorInertia" minOccurs="0">
             <xs:complexType>
-              <xs:attribute name="phaseDifference" use="required"/>
+              <xs:attribute name="phaseDifference" type="xs:float" use="required"/>
             </xs:complexType>
           </xs:element>
           <xs:element name="ConfigurationalData" minOccurs="0" />
@@ -293,7 +295,14 @@
       <xs:enumeration value="analytical"/>  
     </xs:restriction>
   </xs:simpleType>
-
+  
+  <xs:simpleType name="HinderedRotorInertiaType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="cm-1"/>
+      <xs:enumeration value="amuA^2"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
   <xs:complexType name="Morse">
     <xs:complexContent>
       <xs:extension base="ExtraDOSCt">
@@ -322,33 +331,6 @@
       <xs:enumeration value="DefinedStatesRotors"/>
     </xs:restriction>
   </xs:simpleType>
-  
-  <!--<xs:simpleType name="calcMethodName">
-    <xs:annotation>
-      <xs:documentation>
-        The default is simpleCalc
-      </xs:documentation>
-    </xs:annotation>
-    <xs:restriction  base="xs:string">
-      <xs:enumeration value="simpleCalc"/>
-      --><!--<xs:enumeration value="fitting"/>--><!--
-      <xs:enumeration value="gridSearch"/>
-      --><!--<xs:enumeration value="marquardt"/>--><!--
-      <xs:enumeration value="ThermodynamicTable"/>
-      <xs:enumeration value="UnitTests"/>
-    </xs:restriction>
-  </xs:simpleType>-->
-
-  <!--mixed="true" is an attempt to validate
-  <me:calcMethod>simpleCalc</me:calcMethod>,
-  which is provided as the default. However the text name is not checked,
-  and the validation of any data is over-lax.
-  <xs:complexType name="calcMethodct">
-    <xs:sequence></xs:sequence>
-    <xs:attribute name="name"  type="xs:string" use="optional" />
-    <xs:attribute name="units" type="energyUnitsType"/>
-    <xs:attribute name="default"  type="me:ynboolean" use="optional" />
-  </xs:complexType>-->
 
   <xs:complexType name="fitting">
     <xs:complexContent>
