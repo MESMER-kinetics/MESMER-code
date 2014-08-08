@@ -19,8 +19,9 @@ namespace mesmer
 	class CrossingCalculator : public TopPlugin
 	{
 	public:
+    static const char* typeID(){ return "Crossing Calculators"; }
     ~CrossingCalculator(){}
-  virtual const char* getTypeID(){return typeID();}
+    virtual const char* getTypeID(){return typeID();}
 
 
 		//Get a pointer to a derived class by providing its id.
@@ -37,7 +38,6 @@ namespace mesmer
 
 private:
   Reaction* m_parent;
-  static const char* typeID(){ return "Crossing Calculators"; }
 
 	};
 

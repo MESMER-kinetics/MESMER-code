@@ -31,7 +31,7 @@ T* ParseForPlugin(U* pParent, const char* elTypeName, PersistPtr ppTop, bool Mus
     if(!ptxt)
     {
       //Plugin name in text element or use value from defaults.xml
-      ptxt = ppTop->XmlReadValue(elTypeName, MustBeThere) ; //older style
+      ptxt = ppTop->XmlReadValue(elTypeName, MustBeThere,T::typeID()) ; //older style
       if(ptxt && !*ptxt) //newer style
         ptxt = (ppTop->XmlMoveTo(elTypeName))->XmlReadValue("name",optional);
     }

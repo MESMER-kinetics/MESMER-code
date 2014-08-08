@@ -15,6 +15,7 @@ namespace mesmer
   class CalcMethod : public TopPlugin
   {
   public:
+    static const char* typeID(){ return "Calculation methods"; }
     virtual ~CalcMethod(){}
     virtual const char* getTypeID(){return typeID();}
 
@@ -45,8 +46,6 @@ namespace mesmer
     }
   private:
     System* m_parent;
-    static const char* typeID(){ return "Calculation methods"; }
-
   };
 
 }//namespace

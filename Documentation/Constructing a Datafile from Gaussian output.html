@@ -35,24 +35,25 @@
 
 <p>Install Mesmer with the Windows Installer.</p>
 
-<p>Install OpenBabel from its Windows Installer at <a href="http://sourceforge.net/projects/openbabel/files/">here</a>. You will need version 2.3.0 or later.</p>
+<p>Install OpenBabel from its Windows Installer at <a href="http://sourceforge.net/projects/openbabel/files/">here</a>. You will need version 2.3.1 or later.</p>
 
   <p>
     Although XML can be edited by a basic text editor, it is easier with one that
     has syntax colouring and that can compress and expand elements.  A versatile editor
     that can do this is <a href="http://notepad-plus.sourceforge.net/uk/download.php">
-    Notepad++</a>.
-    The editor in Visual Studio XML editor is an alternative.
+    Notepad++</a>. Better still are XML editors that can validate the XML text against a
+    <em>schema</em>. Some commercial XML editors can do this, among them being the editor in
+    Visual Studio (including its free Express version).
   </p>
 <p>Firefox 3 can display Mesmer datafiles in a more friendly format, and show
-an energy level diagram of the system. But Firefox 3 has a (unique) security feature
+an energy level diagram of the system. But Firefox has a security feature
  that needs to be worked around. (It allows xsl files to be in a folder higher than the xml file.)<br />
 1) type <code>about:config</code> in the address bar<br />
 2) accept the warning about dragons <br />
 2) double click <code>security.fileuri.strict_origin_policy</code>
 to change it to <code>false</code><br />
 You only need to do this once. <br />
-Most other browsers, including Internet Explorer and Firefox 2, will not be able to display the diagram.
+Most other browsers, including Internet Explorer,Chrome and Opera, will not be able to display the diagram.
 </p>
 <h2>Making a datafile from Gaussian output files</h2>
 <h4>Preparing the input</h4>
@@ -82,9 +83,10 @@ R4  Int1 =&gt; ketene + HO2
 
 <p>The TS is a keyword meaning Transition State of the reaction in the line above.</p>
 
-<p>The other names refer to the chemical species, and can also be anything starting with a letter. A Gaussian file for a species needs to have the species name as the filename and have an extension .g03 or .out or .log . So <code>acetyl_radical.log</code> contains the information on the species in the mechanism above.</p>
+<p>The other names refer to the chemical species, and should start with a letter, contain only letters (case is significant), digits and '_' , '-' , '(' or ')'. For good formatting of tables and diagrams
+the names should be not too long. A Gaussian file for a species needs to have the species name as the filename and have an extension .g03 or .out or .log . So <code>acetyl.log</code> contains the information on the acetyl species in the mechanism above.</p>
 
-<p>Some of the species which Mesmer models (acetyl, Int1 and Int2 in the mechanism above) need extensive data, such as provided by Gaussian. Others (O2 and OH ) can be provided by Mesmer from a library of simple molecules if not otherwise supplied. The rest (HO2, lactone and ketene) do not need any data at this stage, but may benefit from some being added later, if it is available. </p>
+<p>Some of the species which Mesmer models (acetyl, Int1 and Int2 in the mechanism above) need extensive data, such as provided by Gaussian. Others (O2 and OH) can be provided by Mesmer from a library of simple molecules if not otherwise supplied. The rest (HO2, lactone and ketene) do not need any data at this stage, but may benefit from some being added later, if it is available. </p>
 
 <p>The first reaction will be modelled by Inverse Lapace Transform(ILT) and needs the rate constant, which is entered as shown. The parameters are A(cm<sup>3</sup>molecule<sup>-1</sup>s<sup>-1</sup>), n, and E(kJ/mol) and k = a T^n exp(-E/RT), but currently n must be 0. If this data is not provided here, you will be prompted for it later in the process. This also applies for other data which may be missing.</p>
 
@@ -93,21 +95,23 @@ R4  Int1 =&gt; ketene + HO2
 <h4>Coverting to a basic data file using OpenBabel</h4>
 <p>The Mesmer datafile is based on CML, Chemical Markup Language. OpenBabel reads and writes a large number of chemical formats, including CML and Gaussian output format and will be used to prepare a basic Mesmer datafile.</p>
 
-  <p>The OpenBabel command needed is:</p>
+  <p>Open a command window with \examples\AcetylO2\ as its current directory. The OpenBabel command needed is:</p>
 <pre>
-  babel ..\mesmerTemplate.text *.log acetylO2.ck -ocmlr acetylO2.xml -aL -e -xp -xx --add MW
+  obabel ..\mesmerTemplate.text *.log acetylO2.ck -ocmlr -O acetylO2.xml -aL -e -xp -xx
 </pre>
-<p>
-  mesmerTemplate.text contains some boilerplate text for Mesmer datafiles, and is provided in the examples folder.
-  All the Gaussian .log files in the current folder are used (OpenBabel deduces the format), together with the acetylO2.ck prepared above. The resulting Mesmer datafile is acetylO2.xml. The meaning of the options are: -ocmlr the output format (CML reaction); -aL read reaction labels; -e continue after any errors; -xp include CML properties; -xx omit the XML header; --add MW include the species molecular weights.
+  <p>
+    mesmerTemplate.text contains some boilerplate text for Mesmer datafiles, and is provided in the examples folder.
+    All the Gaussian .log files in the current folder are used (OpenBabel deduces the format), together with the acetylO2.ck prepared above. The resulting Mesmer datafile is acetylO2.xml.
+  </p>
+  <p>The meaning of the options are: -ocmlr the output format (CML reaction); -aL read reaction labels; -e continue after any errors; -xp include CML properties; -xx omit the XML header.
  (If you have Gaussian files with a .out extension rather than .log, change the OpenBabel command   appropriately.)
 </p>
 
-<p>To save typing, a batch file to do run the OpenBabel command for any system is provided in the examples folder. With the folder with the Gaussian files as the currrent directory, typing the following will prepare the Mesmer datafile acetylO2.xml. (Note the backslash.)</p>
+<p>To save typing, a batch file to do run the OpenBabel command for any system is provided in the examples folder. With the folder with the Gaussian files as the currrent directory, typing the following will prepare the Mesmer datafile mySystem.xml. (Note the backslash.)</p>
 <pre>
-  ..\makedata acetylO2
+  ..\makedata mySystem
 </pre>
-<p><em>(If you get an error message "Problems reading an output file...", it may be due to mesmer.log, being read. This is not a Gaussian file and is produced whenever Mesmer is run. The message can be ignored. If necessay, the *.log in the babel command can be replaced by a list of the filenames that are to be included.)</em></p>
+<p><em>(If you get an error message "Problems reading an output file...", it may be due to mesmer.log, being read. This is not a Gaussian file and is produced whenever Mesmer is run. The message can be ignored. If necessary, the *.log in the babel command can be replaced by a list of the filenames that are to be included.)</em></p>
 
 <h4>Adding Mesmer features</h4>
 
@@ -117,7 +121,7 @@ R4  Int1 =&gt; ketene + HO2
 <pre>
   mesmer acetylO2.xml -p -n
 </pre>
-  <p>The -p means just parse, i.e. do no calculation but add some basic Mesmer features (molecule types) to the data file. The -n option, together with no output file specified, means that the input file will be overwritten. Don't worry about this: if necessary, the first version can be regenerated again using the makedata command.
+  <p>The -p means just parse, i.e. do no calculation but add some basic Mesmer features (molecule types) to the data file. The -n option, together with no output file specified, means that the input file will be overwritten. Don't worry about this: if necessary, the first version can be regenerated again using a <code>..\makedata acetylO2 </code>command.
 </p>
   <p>The command window will show several error messages, including "System parse failed". (The file mesmer.log also contains these messages, together with notice of the acceptance of the default values for several properties.)</p>
 
@@ -125,7 +129,7 @@ R4  Int1 =&gt; ketene + HO2
 
   <p>The data file now needs to be edited to correct the errors. Open the newly made acetylO2\acetylO2.xml file your XML editor. We assume here that this is Notepad++.</p>
   <p> You can replace "Project name" in line 5 of acetylO2.xml by something more meaningful.</p>
-  <p>From the Run menu in Notepad++ try clicking Launch in Firefox to see the data formatted in a more friendly way and and with an energy diagram. <em>(If Firefox gives an error see the note above on its preparation.)</em></p>
+  <p>From the Run menu in Notepad++ try clicking Launch in Firefox to see the data formatted in a more friendly way and and with an energy diagram and 3D represenations of the chemical structures. <em>(If Firefox gives an error see the note above on its preparation.)</em></p>
 
 <p>Close the &lt;moleculeList&gt; element and then check in &lt;reactionList&gt;, which is now visible, that the reactants and the products in each reaction have the correct me:type attribute. The possibilities are <code>"deficientReactant", "excessReactant", "modelled", "transitionState" and "sink"</code>. Mesmer will have added the correct values in the acetylO2 example, but it might not work perfectly in another system. Edit the file if necessary.</p>
 

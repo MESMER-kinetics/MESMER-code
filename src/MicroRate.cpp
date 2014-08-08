@@ -55,12 +55,14 @@ namespace mesmer
       sm1 /= sm2 ;
       formatFloat(ctest, Temperature, 6,  7) ;
       formatFloat(ctest, sm1,         6, 15) ;
+      //formatFloat(ctest, sm3,         6, 15) ;
       ctest << endl ;
 
       //Add to XML document
-      PersistPtr ppItem = ppList->XmlWriteElement("me:microRate");
+      PersistPtr ppItem = ppList->XmlWriteElement("me:kinf");
       ppItem->XmlWriteValueElement("me:T",   Temperature, 6) ;
       ppItem->XmlWriteValueElement("me:val", sm1,         6) ;
+      //ppItem->XmlWriteValueElement("me:rev", sm3,         6) ;
 
 			++num_temps;
     }

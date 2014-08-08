@@ -24,6 +24,7 @@ namespace mesmer
   public:
     DensityOfStatesCalculator(){}
     virtual ~DensityOfStatesCalculator(){}
+    static const char* typeID() { return "Cell Density of States Calculators"; }
     virtual const char* getTypeID()  {return typeID();}
     virtual const char* typeDescription() { return
       "Normally it necessary to specify a density of states calculator that\n"
@@ -67,7 +68,6 @@ namespace mesmer
   private:
     const Molecule* m_parent;
 
-    static const char* typeID() { return "Cell Density of States Calculators"; }
   };
 
 }//namespace

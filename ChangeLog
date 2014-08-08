@@ -1,3 +1,18 @@
+2014-Aug-08 Chris Morley
+
+	* Documentation/Constructing a Datafile from Gaussian output.html,
+	  examples/makedata.bat, examples/MesmerTemplate.text:
+      update with some (but not all) of new datafile format.
+
+	* src/calcmethod.h,src/Crossing.h,src/DensityOfStates.h,src/Distribution.h,
+	  src/EnergyTransferModel.h,src/MicroRate.cpp,src/MicroRate.h,
+	  src/ParseForPlugin.h,src/Tunneling.h: make typeID public(!) to
+	  facilate reinstatement of list of possibilities in doubtful default entry.
+
+	* schemas/mesmer.xsd,schemas/mesmerPlugins.xsd:update and tidy schemas
+
+	* MesmerQA/QA.bat: add -q option in newer cases, for greater reassurance.
+
 2014-August-02 Struan Robertson
 
 	* MesmerILT.cpp, HinderedRotorCM1D.cpp, HinderedRotorQM1D.cpp, ClassicalRotor.cpp,

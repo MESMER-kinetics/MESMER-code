@@ -40,6 +40,12 @@ class EnergyTransferModel : public TopPlugin
 public:
 
   virtual ~EnergyTransferModel(){}
+  /*************************************************************
+  The name for this plugin type that will appear in a listing of
+  plugins, obtained by
+     mesmer -t    or    mesmer -T  
+  **************************************************************/
+  static const char* typeID(){ return "Energy transfer models"; }
 
   virtual const char* getTypeID()  {return typeID();}
 
@@ -86,12 +92,6 @@ public:
   void setParent(Molecule* parent) { m_parent = parent;} ;
 
 private:
-  /*************************************************************
-  The name for this plugin type that will appear in a listing of
-  plugins, obtained by
-     mesmer -t    or    mesmer -T  
-  **************************************************************/
-  static const char* typeID(){ return "Energy transfer models"; }
 
 protected:
   Molecule* m_parent;

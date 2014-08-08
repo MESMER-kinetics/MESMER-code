@@ -27,6 +27,7 @@ namespace mesmer
   class DistributionCalculator : public TopPlugin
   {
   public:
+    static const char* typeID(){ return "Distribution Calculators"; }
     virtual const char* getTypeID(){return typeID();}
 
     //Get a pointer to a derived class by providing its id.
@@ -42,7 +43,6 @@ namespace mesmer
 
 private:
     Molecule* m_parent;
-    static const char* typeID(){ return "Distribution Calculators"; }
   };
 
 }//namespace

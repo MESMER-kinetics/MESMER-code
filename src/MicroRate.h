@@ -56,10 +56,10 @@ instance of the plugin class.
     virtual ~MicroRateCalculator() {}
     virtual const char* getTypeID(){return typeID();}
 
-/*****************************************************************************
-The name of the plugin type that appears in the list on the command line.
-*****************************************************************************/
-static const char* typeID(){ return "Microcanonical Rate Calculators"; }
+    /*****************************************************************************
+    The name of the plugin type that appears in the list on the command line.
+    *****************************************************************************/
+    static const char* typeID(){ return "Microcanonical Rate Calculators"; }
 
     // Get a pointer to a derived class by providing its id.
     static MicroRateCalculator* Find(const std::string& name)
