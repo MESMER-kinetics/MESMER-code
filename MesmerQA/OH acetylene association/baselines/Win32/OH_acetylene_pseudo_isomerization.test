@@ -669,7 +669,7 @@ Canonical first order rate constant for the reverse of reaction R1 = 3.83369e-01
 
 Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
-   T(K)         kf/s-1 kb/cm3mlc-1s-1   Keq/mlc cm-3
+    T/K kf/cm3mlc-1s-1         kb/s-1  Keq/cm3mlc-1
     100   2.69219e+010   5.81417e-035    4.6304e+044
     200    3.4023e+012        450.197   7.55736e+009
     300   2.39997e+013   1.64265e+015      0.0146104

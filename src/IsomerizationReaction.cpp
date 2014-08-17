@@ -351,10 +351,4 @@ namespace mesmer
     }
   }
 
-  //
-  // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
-  //
-  double IsomerizationReaction::rctsRovibronicGrnCanPrtnFn() { return m_rct1->getDOS().rovibronicGrnCanPrtnFn();}
-  double IsomerizationReaction::pdtsRovibronicGrnCanPrtnFn() { return m_pdt1->getDOS().rovibronicGrnCanPrtnFn();}
-
 }//namespace

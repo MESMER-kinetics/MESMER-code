@@ -498,7 +498,7 @@ k_b(e) grains for R1:
 
 Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
-   T(K)         kf/s-1 kb/cm3mlc-1s-1   Keq/mlc cm-3
+    T/K kf/cm3mlc-1s-1         kb/s-1  Keq/cm3mlc-1
     100         974043    4.4452e-005   2.19122e+010
     200     1.727e+010   6.13786e+016   2.81369e-007
     300   8.18317e+011   1.53595e+024   5.32777e-013
@@ -1019,7 +1019,7 @@ k_b(e) grains for R1:
 
 Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
-   T(K)         kf/s-1 kb/cm3mlc-1s-1   Keq/mlc cm-3
+    T/K kf/cm3mlc-1s-1         kb/s-1  Keq/cm3mlc-1
     100         974043    4.4452e-005   2.19122e+010
     200     1.727e+010   6.13786e+016   2.81369e-007
     300   8.18317e+011   1.53595e+024   5.32777e-013
@@ -1540,7 +1540,7 @@ k_b(e) grains for R1:
 
 Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
-   T(K)         kf/s-1 kb/cm3mlc-1s-1   Keq/mlc cm-3
+    T/K kf/cm3mlc-1s-1         kb/s-1  Keq/cm3mlc-1
     100         974043    4.4452e-005   2.19122e+010
     200     1.727e+010   6.13786e+016   2.81369e-007
     300   8.18317e+011   1.53595e+024   5.32777e-013

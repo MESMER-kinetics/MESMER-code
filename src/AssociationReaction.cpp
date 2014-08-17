@@ -212,8 +212,6 @@ namespace mesmer
     return canonicalPartitionFunction(rctGrainDOS, rctGrainEne, getEnv().beta) ;
   }
   
-  double AssociationReaction::pdtsRovibronicGrnCanPrtnFn() { return m_pdt1->getDOS().rovibronicGrnCanPrtnFn();}
-
   // Is reaction equilibrating and therefore contributes
   // to the calculation of equilibrium fractions.
   bool AssociationReaction::isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) {

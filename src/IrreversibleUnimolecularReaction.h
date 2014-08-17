@@ -99,10 +99,6 @@ namespace mesmer
 
 //X    bool calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
 
-    // Calculate rovibronic canonical partition function in the grain level for product or reactant
-    virtual double rctsRovibronicGrnCanPrtnFn();
-    virtual double pdtsRovibronicGrnCanPrtnFn() { return m_pdt1->getDOS().rovibronicGrnCanPrtnFn();}
-
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;
 

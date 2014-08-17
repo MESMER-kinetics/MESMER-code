@@ -99,10 +99,11 @@ namespace mesmer
     const double beta = getEnv().beta ;
 
     // partition function for each products
-    double Qpdts = pdtsRovibronicGrnCanPrtnFn();
+    double Qpdts = m_pdt1->getDOS().rovibronicGrnCanPrtnFn() ;
 
     // rovibronic partition function for products multiplied by translation contribution
     if (m_pdt2){
+      Qpdts *= m_pdt2->getDOS().rovibronicGrnCanPrtnFn();
       Qpdts *= translationalContribution(m_pdt1->getStruc().getMass(), m_pdt2->getStruc().getMass(), beta);
     }
 
@@ -113,8 +114,7 @@ namespace mesmer
 
     // Heat of reaction: use heat of reaction to calculate the zpe weighing of different wells
     const double HeatOfReaction = getHeatOfReaction() ;
-    const double _expon = -beta * HeatOfReaction;
-    Keq *= exp(_expon) ;
+    Keq *= exp(-beta * HeatOfReaction) ;
 
     return Keq ;
   }
@@ -285,10 +285,5 @@ namespace mesmer
 
     return int(grnZpe);
   }
-
-  //
-  // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
-  //
-  double IrreversibleUnimolecularReaction::rctsRovibronicGrnCanPrtnFn() { return m_rct1->getDOS().rovibronicGrnCanPrtnFn();}
 
 }//namespace

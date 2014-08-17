@@ -100,8 +100,6 @@ namespace mesmer
     bool calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
     void getRctsCellDensityOfStates(vector<double> &cellDOS);
     void getPdtsCellDensityOfStates(vector<double> &cellDOS);
-    virtual double pdtsRovibronicGrnCanPrtnFn();
-    virtual double rctsRovibronicGrnCanPrtnFn();
 
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;
@@ -117,6 +115,8 @@ namespace mesmer
 
     // Test k(T)
     virtual void testRateConstant();
+    double pdtsRovibronicGrnCanPrtnFn();
+    double rctsRovibronicGrnCanPrtnFn();
 
     molMapType *m_sourceMap ;
 

@@ -86,7 +86,7 @@ namespace mesmer
     virtual double get_relative_TSZPE(void) const { return m_TransitionState->getDOS().get_zpe() - getEnv().EMin; };
 
 	// Returns header needed by reaction rate test method.
-	virtual std::string TestRateCoeffHeader() const {return string("   T(K)         kf/s-1 kb/cm3mlc-1s-1   Keq/mlc cm-3") ; } ; 
+	virtual std::string TestRateCoeffHeader() const {return string("    T/K kf/cm3mlc-1s-1         kb/s-1  Keq/cm3mlc-1") ; } ; 
 
 	// Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
@@ -116,10 +116,6 @@ namespace mesmer
 
     bool calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
 
-    // Calculate rovibronic canonical partition function in the grain level for product or reactant
-    virtual double rctsRovibronicGrnCanPrtnFn();
-    virtual double pdtsRovibronicGrnCanPrtnFn();
-
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;
 
@@ -136,7 +132,10 @@ namespace mesmer
 
     molMapType *m_sourceMap ;
 
-  private:
+    // Calculate rovibronic canonical partition function in the grain level for reactants.
+    double rctsRovibronicGrnCanPrtnFn();
+
+private:
 
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs();

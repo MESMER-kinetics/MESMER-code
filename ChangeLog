@@ -1,5 +1,10 @@
 2014-August-17 Struan Robertson
 
+	* Reaction.h and derived classes: Removed redundant abstract methods from 
+	reaction classes.
+
+2014-August-17 Struan Robertson
+
 	* MicroRate.cpp and all classes derived from reaction: Output altered to 
 	report reverse high pressure reaction rate coefficients calculated using 
 	the equilibrium constant.

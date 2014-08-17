@@ -194,11 +194,6 @@ namespace mesmer
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() = 0 ;
 
-    // Calculate rovibronic canonical partition function in the grain level for product(s) or reactant(s)
-    virtual double pdtsRovibronicGrnCanPrtnFn() = 0 ; // { return 0.0; } // For irreversible reactions.
-    
-    virtual double rctsRovibronicGrnCanPrtnFn() = 0;
-
     // For reactions involving a source update pseudoisomer map.
     virtual void updateSourceMap(molMapType& sourcemap) { /* For reactions without source terms this is a NULL operation. */} ;
 

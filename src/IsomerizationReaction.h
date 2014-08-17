@@ -80,15 +80,11 @@ namespace mesmer
     // get the reactant, which reacts in a first order or pseudo first order process
     virtual Molecule *get_reactant(void) const {return m_rct1;};
 
-    // Calculate rovibronic canonical partition function in the grain level for product or reactant
-    virtual double pdtsRovibronicGrnCanPrtnFn();
-    virtual double rctsRovibronicGrnCanPrtnFn();
-
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;
 
     // Add contracted basis set reaction terms to the reaction matrix.
-		virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) ;
+	virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) ;
 
   private:
 
