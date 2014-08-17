@@ -79,7 +79,10 @@ namespace mesmer
     virtual double get_relative_pdtZPE() const {return m_pdt1->getDOS().get_zpe() + m_pdt2->getDOS().get_zpe() - getEnv().EMin;}
     virtual double get_relative_TSZPE(void) const {return m_TransitionState->getDOS().get_zpe() - getEnv().EMin;};
     
-    // Calculate reaction equilibrium constant.
+	// Returns header needed by reaction rate test method.
+	virtual std::string TestRateCoeffHeader() const {return string("   T(K) kf/cm3mlc-1s-1 kb/cm3mlc-1s-1            Keq") ; } ; 
+
+	// Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
 
     // returns the reaction type
@@ -117,10 +120,10 @@ namespace mesmer
 
     molMapType *m_sourceMap ;
 
-    Molecule    *m_rct1 ;                 // Reactant Molecule.
-    Molecule    *m_rct2 ;                 // Subsidiary reactant molecule. 
-    Molecule    *m_pdt1 ;                 // Product Molecule.
-    Molecule    *m_pdt2 ;                 // Subsidiary product molecule.
+    Molecule    *m_rct1 ; // Reactant Molecule.
+    Molecule    *m_rct2 ; // Subsidiary reactant molecule. 
+    Molecule    *m_pdt1 ; // Product Molecule.
+    Molecule    *m_pdt2 ; // Subsidiary product molecule.
 
     bool deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
   } ;

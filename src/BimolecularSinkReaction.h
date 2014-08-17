@@ -77,7 +77,10 @@ namespace mesmer
 
     const int get_pdtsGrnZPE();
 
-    // Calculate reaction equilibrium constant.
+	// Returns header needed by reaction rate test method.
+	virtual std::string TestRateCoeffHeader() const {return string("   T(K)         kf/s-1 kb/cm3mlc-1s-1   Keq/mlc cm-3") ; } ; 
+
+	// Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
 
     // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
@@ -93,6 +96,7 @@ namespace mesmer
     virtual Molecule *get_reactant(void) const {return m_rct1;};
 
     virtual double rctsRovibronicGrnCanPrtnFn();
+    virtual double pdtsRovibronicGrnCanPrtnFn() { return m_pdt1->getDOS().rovibronicGrnCanPrtnFn();}
 
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;

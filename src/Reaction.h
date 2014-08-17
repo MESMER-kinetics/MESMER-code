@@ -188,11 +188,14 @@ namespace mesmer
     // returns the reaction type
     virtual ReactionType getReactionType() = 0 ; 
 
+	// Returns header needed by reaction rate test method.
+	virtual std::string TestRateCoeffHeader() const = 0 ; 
+
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() = 0 ;
 
     // Calculate rovibronic canonical partition function in the grain level for product(s) or reactant(s)
-    virtual double pdtsRovibronicGrnCanPrtnFn() { return 0.0; } // For irreversible reactions.
+    virtual double pdtsRovibronicGrnCanPrtnFn() = 0 ; // { return 0.0; } // For irreversible reactions.
     
     virtual double rctsRovibronicGrnCanPrtnFn() = 0;
 

@@ -55,6 +55,9 @@ namespace mesmer
 
     const int get_pdtsGrnZPE();
 
+	// Returns header needed by reaction rate test method.
+	virtual std::string TestRateCoeffHeader() const {return string("   T(K)         kf/s-1 kb/cm3mlc-1s-1   Keq/mlc cm-3") ; } ; 
+
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
 
@@ -97,8 +100,8 @@ namespace mesmer
 //X    bool calcPdtsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
 
     // Calculate rovibronic canonical partition function in the grain level for product or reactant
-//X    virtual double pdtsRovibronicGrnCanPrtnFn();
     virtual double rctsRovibronicGrnCanPrtnFn();
+    virtual double pdtsRovibronicGrnCanPrtnFn() { return m_pdt1->getDOS().rovibronicGrnCanPrtnFn();}
 
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;

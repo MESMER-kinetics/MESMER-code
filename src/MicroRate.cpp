@@ -8,9 +8,7 @@ using namespace Constants ;
 namespace mesmer
 {
 
-  bool MicroRateCalculator::testMicroRateCoeffs(
-    Reaction*  pReact,
-    PersistPtr ppbase) const
+  bool MicroRateCalculator::testMicroRateCoeffs(Reaction* pReact, PersistPtr ppbase) const
   {
     vector<Molecule *> unimolecularspecies;
     pReact->get_unimolecularspecies(unimolecularspecies);
@@ -22,7 +20,7 @@ namespace mesmer
 
     string comment("Microcanonical rate coefficients");
     PersistPtr ppList = ppbase->XmlWriteMainElement("me:microRateList", comment );
-    int MaximumGrain = (pReact->getEnv().MaxGrn - pReact->get_fluxFirstNonZeroIdx());
+    size_t MaximumGrain = (pReact->getEnv().MaxGrn - pReact->get_fluxFirstNonZeroIdx());
 
     // Allocate some work space for density of states.
 
@@ -32,45 +30,62 @@ namespace mesmer
     pReactant->getDOS().getGrainEnergies(grainEne) ;
     pReactant->getDOS().getGrainDensityOfStates(grainDOS) ;
 
-    ctest << "\nCanonical rate coefficients for " << pReact->getName() << ", calculated from microcanonical rates\n{\n";
-    
-		// get the Temperature from the MemserEnv beta value
-		double MaxTemp = 1.0e+0/((pReact->getEnv().beta)*boltzmann_RCpK);
-		double Temperature(0.0e+0);
-		int num_temps(0);
+    ctest << "\nCanonical (high pressure) rate coefficients for " << pReact->getName() << ", calculated from microcanonical rates\n{\n";
+	ctest << pReact->TestRateCoeffHeader() << endl ;
 
-		// calculate Canonical rate coefficients up to the Temperature of a particular MesmerEnv
-		while(Temperature <= MaxTemp)
+	// Save the current value of excess concentration and set it to unity
+	// to prevent division by zero for assocaiation type reactions.
+
+	const double current_conc = pReact->get_concExcessReactant() ;
+	pReact->set_concExcessReactant(1.0) ;
+
+	// Save current value of beta.
+	const double current_beta = pReact->getEnv().beta ;
+
+    // Calculate Canonical rate coefficients up to the max. temperature givn by MesmerEnv.
+	MesmerEnv &env = const_cast<MesmerEnv&>(pReact->getEnv()) ;
+	double dTemp(100.0) ; // 100 K intervals.
+    double Temp(0.0);
+    size_t nTemp(size_t(pReact->getEnv().MaximumTemperature/dTemp)+1);
+    for(size_t i(0) ; i < nTemp ; i++)
     {
-      Temperature = double(num_temps+1)*100.0 ;
-      double beta = 1.0/(boltzmann_RCpK*Temperature) ;
+      Temp += dTemp ;
+      const double beta = 1.0/(boltzmann_RCpK*Temp) ;
+      env.beta = beta ;
 
-      double sm1 = 0.0, sm2 = 0.0, tmp = 0.0;
-
-      for ( int i = 0 ; i < MaximumGrain ; ++i ) {
-        tmp  = grainDOS[i] * exp(-beta * grainEne[i]) ;
-        sm1 += grainKfmc[i] * tmp ;
-        sm2 += tmp ;
+      double kf(0.0), qtot(0.0);
+      for ( size_t i(0) ; i < MaximumGrain ; ++i ) {
+        double tmp  = grainDOS[i] * exp(-beta * grainEne[i]) ;
+        kf += grainKfmc[i] * tmp ;
+        qtot += tmp ;
       }
-      sm1 /= sm2 ;
-      formatFloat(ctest, Temperature, 6,  7) ;
-      formatFloat(ctest, sm1,         6, 15) ;
-      //formatFloat(ctest, sm3,         6, 15) ;
+      kf /= qtot ;
+	  const double Keq = pReact->calcEquilibriumConstant() ;
+	  const double kb  = kf/Keq ;
+      formatFloat(ctest, Temp, 6,  7) ;
+      formatFloat(ctest, kf,   6, 15) ;
+      formatFloat(ctest, kb,   6, 15) ;
+      formatFloat(ctest, Keq,  6, 15) ;
       ctest << endl ;
 
       //Add to XML document
       PersistPtr ppItem = ppList->XmlWriteElement("me:kinf");
-      ppItem->XmlWriteValueElement("me:T",   Temperature, 6) ;
-      ppItem->XmlWriteValueElement("me:val", sm1,         6) ;
-      //ppItem->XmlWriteValueElement("me:rev", sm3,         6) ;
-
-			++num_temps;
+      ppItem->XmlWriteValueElement("me:T",   Temp, 6) ;
+      ppItem->XmlWriteValueElement("me:val", kf,   6) ;
+      ppItem->XmlWriteValueElement("me:rev", kb,   6) ;
+      ppItem->XmlWriteValueElement("me:Keq", Keq,  6) ;
     }
     ctest << "}\n";
 
+	// Restore excess concentration value.
+	pReact->set_concExcessReactant(current_conc) ;
+
+	// Restore current value of beta.
+	env.beta = current_beta ;
+
     return true;
   }
-  
+
   //
   // This function retrieves the activation/threshold energy for an association reaction.
   //
@@ -84,10 +99,10 @@ namespace mesmer
     return (pReac->get_relative_TSZPE() - pReac->get_relative_rctZPE());
   }
 
-//-----------------------------------------------------------------------------------------------
-//
-// ILT Utility methods
-//
+  //-----------------------------------------------------------------------------------------------
+  //
+  // ILT Utility methods
+  //
 
   //
   // Utility function to check for inconsistencies. 
@@ -95,7 +110,7 @@ namespace mesmer
   bool MicroRateCalculator::ILTCheck(Reaction* pReac, PersistPtr ppReac)
   {
     // A few checks on features not allowed in ILT methods.
-    
+
     if (pReac->get_TransitionState())
     {
       cerr << "Reaction " << pReac->getName() 
@@ -115,7 +130,7 @@ namespace mesmer
       cerr << "Crossing parameter in Reaction " << pReac->getName() << " is invalid in ILT."<<endl;
       return false;
     }
-    
+
     return true ;
 
   }

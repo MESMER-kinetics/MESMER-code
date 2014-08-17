@@ -1,3 +1,9 @@
+2014-August-17 Struan Robertson
+
+	* MicroRate.cpp and all classes derived from reaction: Output altered to 
+	report reverse high pressure reaction rate coefficients calculated using 
+	the equilibrium constant.
+
 2014-Aug-08 Chris Morley
 
 	* Documentation/Constructing a Datafile from Gaussian output.html,

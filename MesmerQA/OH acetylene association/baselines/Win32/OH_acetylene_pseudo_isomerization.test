@@ -667,11 +667,12 @@ Canonical pseudo first order rate constant of association reaction R1 = 80555.5 
 Canonical bimolecular rate constant of association reaction R1 = 8.05555e-013 cm^3/mol/s (298 K)
 Canonical first order rate constant for the reverse of reaction R1 = 3.83369e-011 s-1 (298 K)
 
-Canonical rate coefficients for R1, calculated from microcanonical rates
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
-    100   2.69219e+010
-    200    3.4023e+012
-    300   2.39997e+013
+   T(K)         kf/s-1 kb/cm3mlc-1s-1   Keq/mlc cm-3
+    100   2.69219e+010   5.81417e-035    4.6304e+044
+    200    3.4023e+012        450.197   7.55736e+009
+    300   2.39997e+013   1.64265e+015      0.0146104
 }
 
 Test rovibronic density of states for: TS_1a
@@ -1007,11 +1008,12 @@ k_f(e) grains for R2:
 
 Canonical pseudo first order forward rate constant of irreversible reaction R2 = 1.03781e-012 s-1 (298 K)
 
-Canonical rate coefficients for R2, calculated from microcanonical rates
+Canonical (high pressure) rate coefficients for R2, calculated from microcanonical rates
 {
-    100   3.27202e-062
-    200   5.38329e-025
-    300   1.52542e-012
+   T(K)         kf/s-1 kb/cm3mlc-1s-1   Keq/mlc cm-3
+    100   3.27202e-062   5.96676e-120   5.48375e+057
+    200   5.38329e-025   7.22814e-054   7.44769e+028
+    300   1.52542e-012    9.0027e-032    1.6944e+019
 }
 
 Eq fraction matrix:

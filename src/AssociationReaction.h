@@ -85,7 +85,10 @@ namespace mesmer
     virtual double get_relative_pdtZPE() const { return m_pdt1->getDOS().get_zpe() - getEnv().EMin; }
     virtual double get_relative_TSZPE(void) const { return m_TransitionState->getDOS().get_zpe() - getEnv().EMin; };
 
-    // Calculate reaction equilibrium constant.
+	// Returns header needed by reaction rate test method.
+	virtual std::string TestRateCoeffHeader() const {return string("   T(K)         kf/s-1 kb/cm3mlc-1s-1   Keq/mlc cm-3") ; } ; 
+
+	// Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
 
     // Is reaction equilibrating and therefore contributes

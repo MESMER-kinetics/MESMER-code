@@ -71,6 +71,9 @@ namespace mesmer
     // with a negative threshold energy
     void calcEffGrnThresholds(void);
 
+	// Returns header needed by reaction rate test method.
+	virtual std::string TestRateCoeffHeader() const {return string("   T(K)         kf/s-1         kb/s-1            Keq") ; } ; 
+
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
 
