@@ -1,3 +1,12 @@
+2014-August-19 Struan Robertson
+
+	* MicroRate.cpp, Reaction.h and derived classes: Replaced incorrect high
+	pressure rate coefficient calculators in MicroRate.cpp with reaction 
+	specific calculators.
+
+	* AssociationRaction.cpp: Corrected cell offset method to account for 
+	different cell sizes. 
+
 2014-August-17 Struan Robertson
 
 	* Reaction.h and derived classes: Removed redundant abstract methods from 
@@ -5,7 +14,7 @@
 
 2014-August-17 Struan Robertson
 
-	* MicroRate.cpp and all classes derived from reaction: Output altered to 
+	* MicroRate.cpp and all classes derived from Reaction.h: Output altered to 
 	report reverse high pressure reaction rate coefficients calculated using 
 	the equilibrium constant.
 

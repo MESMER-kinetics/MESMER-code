@@ -135,14 +135,14 @@ namespace mesmer
     const int forwardThreshE = get_EffGrnFwdThreshold();
     const int fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
-	m_MtxGrnKf.clear();
+    m_MtxGrnKf.clear();
     m_MtxGrnKf.resize(colloptrsize , 0.0);
 
     for ( int i=fluxStartIdx, j = forwardThreshE; j < colloptrsize + rShiftedGrains; ++i, ++j) {
       int ii(rctLocation + j - rShiftedGrains) ;
-	  qd_real rtcf = qd_real(m_GrainFlux[i]) / qd_real(rctDOS[j]) ;
+      qd_real rtcf = qd_real(m_GrainFlux[i]) / qd_real(rctDOS[j]) ;
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega) * rtcf ;  // Forward loss reaction.
-	  m_MtxGrnKf[j - rShiftedGrains] = to_double(rtcf) ;
+      m_MtxGrnKf[j - rShiftedGrains] = to_double(rtcf) ;
     }
   }
 
@@ -217,35 +217,42 @@ namespace mesmer
       ctest << "}\n";
     }
     if (getFlags().testRateConstantEnabled)
-      testRateConstant();
+      HighPresRateCoeffs(NULL);
   }
 
   void IrreversibleUnimolecularReaction::calcFluxFirstNonZeroIdx(void) {
-		  double thresh = get_ThresholdEnergy();
-			if(thresh<0.0){m_GrnFluxFirstNonZeroIdx = int(-thresh/getEnv().GrainSize);}
-			else{m_GrnFluxFirstNonZeroIdx = 0;}
+    double thresh = get_ThresholdEnergy();
+    if(thresh<0.0){m_GrnFluxFirstNonZeroIdx = int(-thresh/getEnv().GrainSize);}
+    else{m_GrnFluxFirstNonZeroIdx = 0;}
   }
 
-  // Test k(T)
-  void IrreversibleUnimolecularReaction::testRateConstant() {
+  // Calculate high pressure rate coefficients at current T.
+  void IrreversibleUnimolecularReaction::HighPresRateCoeffs(vector<double> *pCoeffs) {
 
-    double k_forward(0.0);
     vector<double> rctGrainDOS, rctGrainEne;
     m_rct1->getDOS().getGrainDensityOfStates(rctGrainDOS);
     m_rct1->getDOS().getGrainEnergies(rctGrainEne);
-    const int MaximumGrain = (getEnv().MaxGrn-get_fluxFirstNonZeroIdx());
+    const size_t MaximumGrain = (getEnv().MaxGrn-get_fluxFirstNonZeroIdx());
     const double beta = getEnv().beta;
-    const double temperature = 1. / (boltzmann_RCpK * beta);
 
-    for(int i(0); i < MaximumGrain; ++i)
-      k_forward += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
+    double kf(0.0);
+    for(size_t i(0); i < MaximumGrain; ++i)
+      kf += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
 
     const double rctprtfn = canonicalPartitionFunction(rctGrainDOS, rctGrainEne, beta);
-    k_forward /= rctprtfn;
-    set_fwdGrnCanonicalRate(k_forward);
+    kf /= rctprtfn;
+    set_fwdGrnCanonicalRate(kf);
 
-    ctest << endl << "Canonical pseudo first order forward rate constant of irreversible reaction "
-      << getName() << " = " << get_fwdGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
+    if (pCoeffs) {
+      const double Keq = calcEquilibriumConstant() ;
+      pCoeffs->push_back(kf) ;
+      pCoeffs->push_back(kf/Keq) ;
+      pCoeffs->push_back(Keq) ;
+    } else {
+      const double temperature = 1./(boltzmann_RCpK * beta);
+      ctest << endl << "Canonical pseudo first order forward rate constant of irreversible reaction "
+        << getName() << " = " << get_fwdGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
+    }
   }
 
   void IrreversibleUnimolecularReaction::calcEffGrnThresholds(void){       

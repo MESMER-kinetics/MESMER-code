@@ -16,26 +16,16 @@ namespace mesmer
       ctest << "\nNo microcanonical rate coefficients for " << pReact->getName() << endl;
       return true;
     }
-    Molecule * pReactant = unimolecularspecies[0];
 
     string comment("Microcanonical rate coefficients");
     PersistPtr ppList = ppbase->XmlWriteMainElement("me:microRateList", comment );
     size_t MaximumGrain = (pReact->getEnv().MaxGrn - pReact->get_fluxFirstNonZeroIdx());
-
-    // Allocate some work space for density of states.
-
-    vector<double> grainEne;
-    vector<double> grainDOS;
-    const vector<double>& grainKfmc = pReact->get_GrainKfmc();
-    pReactant->getDOS().getGrainEnergies(grainEne) ;
-    pReactant->getDOS().getGrainDensityOfStates(grainDOS) ;
 
     ctest << "\nCanonical (high pressure) rate coefficients for " << pReact->getName() << ", calculated from microcanonical rates\n{\n";
 	ctest << pReact->TestRateCoeffHeader() << endl ;
 
 	// Save the current value of excess concentration and set it to unity
 	// to prevent division by zero for assocaiation type reactions.
-
 	const double current_conc = pReact->get_concExcessReactant() ;
 	pReact->set_concExcessReactant(1.0) ;
 
@@ -46,34 +36,27 @@ namespace mesmer
 	MesmerEnv &env = const_cast<MesmerEnv&>(pReact->getEnv()) ;
 	double dTemp(100.0) ; // 100 K intervals.
     double Temp(0.0);
+	vector<double> Coeffs ;
     size_t nTemp(size_t(pReact->getEnv().MaximumTemperature/dTemp)+1);
-    for(size_t i(0) ; i < nTemp ; i++)
-    {
-      Temp += dTemp ;
-      const double beta = 1.0/(boltzmann_RCpK*Temp) ;
-      env.beta = beta ;
+    for(size_t i(0) ; i < nTemp ; i++) {
+      Temp    += dTemp ;
+      env.beta = 1.0/(boltzmann_RCpK*Temp) ;
 
-      double kf(0.0), qtot(0.0);
-      for ( size_t i(0) ; i < MaximumGrain ; ++i ) {
-        double tmp  = grainDOS[i] * exp(-beta * grainEne[i]) ;
-        kf += grainKfmc[i] * tmp ;
-        qtot += tmp ;
-      }
-      kf /= qtot ;
-	  const double Keq = pReact->calcEquilibriumConstant() ;
-	  const double kb  = kf/Keq ;
-      formatFloat(ctest, Temp, 6,  7) ;
-      formatFloat(ctest, kf,   6, 15) ;
-      formatFloat(ctest, kb,   6, 15) ;
-      formatFloat(ctest, Keq,  6, 15) ;
+	  Coeffs.clear() ;
+	  pReact->HighPresRateCoeffs(&Coeffs) ;
+
+      formatFloat(ctest, Temp,      6,  7) ;
+      formatFloat(ctest, Coeffs[0], 6, 15) ;
+      formatFloat(ctest, Coeffs[1], 6, 15) ;
+      formatFloat(ctest, Coeffs[2], 6, 15) ;
       ctest << endl ;
 
-      //Add to XML document
+      // Add to XML document.
       PersistPtr ppItem = ppList->XmlWriteElement("me:kinf");
-      ppItem->XmlWriteValueElement("me:T",   Temp, 6) ;
-      ppItem->XmlWriteValueElement("me:val", kf,   6) ;
-      ppItem->XmlWriteValueElement("me:rev", kb,   6) ;
-      ppItem->XmlWriteValueElement("me:Keq", Keq,  6) ;
+      ppItem->XmlWriteValueElement("me:T",   Temp,      6) ;
+      ppItem->XmlWriteValueElement("me:val", Coeffs[0], 6) ;
+      ppItem->XmlWriteValueElement("me:rev", Coeffs[2], 6) ;
+      ppItem->XmlWriteValueElement("me:Keq", Coeffs[2], 6) ;
     }
     ctest << "}\n";
 

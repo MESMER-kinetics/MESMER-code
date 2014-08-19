@@ -101,14 +101,14 @@ namespace mesmer
     }
 
     return ReadRateCoeffParameters(ppReac) ;       // Read heat of reaction and rate parameters.
-	}
+  }
 
-  
-	double BimolecularSinkReaction::rctsRovibronicGrnCanPrtnFn() { return m_rct1->getDOS().rovibronicGrnCanPrtnFn();}
+
+  double BimolecularSinkReaction::rctsRovibronicGrnCanPrtnFn() { return m_rct1->getDOS().rovibronicGrnCanPrtnFn();}
 
   void BimolecularSinkReaction::AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) {
 
-		cinfo << "adding reaction terms to the collision matrix " << endl;
+    cinfo << "adding reaction terms to the collision matrix " << endl;
 
     // Get densities of states for detailed balance.
     vector<double> rctDOS;
@@ -122,19 +122,19 @@ namespace mesmer
     const int forwardThreshE = get_EffGrnFwdThreshold();
     const int fluxStartIdx   = get_fluxFirstNonZeroIdx();
 
-	m_MtxGrnKf.clear();
+    m_MtxGrnKf.clear();
     m_MtxGrnKf.resize(colloptrsize , 0.0);
 
     for ( int i=fluxStartIdx, j = forwardThreshE; j < colloptrsize + rShiftedGrains; ++i, ++j) {
       int ii(rctLocation + j - rShiftedGrains) ;
-	  qd_real rtcf = qd_real(m_GrainFlux[i]) / qd_real(rctDOS[j]) ;
+      qd_real rtcf = qd_real(m_GrainFlux[i]) / qd_real(rctDOS[j]) ;
       (*CollOptr)[ii][ii] -= qd_real(rMeanOmega) * rtcf;  // Forward loss reaction.
-	  m_MtxGrnKf[j - rShiftedGrains] = to_double(rtcf) ;
+      m_MtxGrnKf[j - rShiftedGrains] = to_double(rtcf) ;
     }
   }
 
   void BimolecularSinkReaction::AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) {
-		cinfo << "adding reaction terms to the contracted basis matrix " << endl;
+    cinfo << "adding reaction terms to the contracted basis matrix " << endl;
   }
 
 
@@ -166,20 +166,18 @@ namespace mesmer
       ctest << "}\n";
     }
     if (getFlags().testRateConstantEnabled)
-      testRateConstant();
+      HighPresRateCoeffs(NULL);
   }
 
-  
-	void BimolecularSinkReaction::calcFluxFirstNonZeroIdx(void) {
-		  double thresh = get_ThresholdEnergy();
-			if(thresh<0.0){m_GrnFluxFirstNonZeroIdx = int(-thresh/getEnv().GrainSize);}
-			else{m_GrnFluxFirstNonZeroIdx = 0;}
+
+  void BimolecularSinkReaction::calcFluxFirstNonZeroIdx(void) {
+    double thresh = get_ThresholdEnergy();
+    if(thresh<0.0){m_GrnFluxFirstNonZeroIdx = int(-thresh/getEnv().GrainSize);}
+    else{m_GrnFluxFirstNonZeroIdx = 0;}
   }
 
-  // Test k(T)
-  void BimolecularSinkReaction::testRateConstant() {
-
-		cinfo << "testing rate coefficient for bimolecular sink reaction " << endl;
+  // Calculate high pressure rate coefficients at current T.
+  void BimolecularSinkReaction::HighPresRateCoeffs(vector<double> *pCoeffs) {
 
     double k_forward(0.0);
     vector<double> rctGrainDOS, rctGrainEne;
@@ -196,8 +194,15 @@ namespace mesmer
     k_forward /= rctprtfn;
     set_fwdGrnCanonicalRate(k_forward);
 
-    ctest << endl << "Canonical pseudo first order forward rate constant of irreversible reaction "
-      << getName() << " = " << get_fwdGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
+    if (pCoeffs) {
+      const double Keq = calcEquilibriumConstant() ;
+      pCoeffs->push_back(k_forward) ;
+      pCoeffs->push_back(k_forward/Keq) ;
+      pCoeffs->push_back(Keq) ;
+    } else {
+      ctest << endl << "Canonical pseudo first order forward rate constant of irreversible reaction "
+        << getName() << " = " << get_fwdGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
+    }
   }
 
   const int BimolecularSinkReaction::get_pdtsGrnZPE(){
@@ -210,8 +215,8 @@ namespace mesmer
     return int(grnZpe);
   }
 
-// calculate Keq, copied from IrreversibleExchangeReaction
-	double BimolecularSinkReaction::calcEquilibriumConstant() {   // Calculate reaction equilibrium constant.
+  // calculate Keq, copied from IrreversibleExchangeReaction
+  double BimolecularSinkReaction::calcEquilibriumConstant() {   // Calculate reaction equilibrium constant.
     // equilibrium constant:
     double Keq(0.0) ;
     const double beta = getEnv().beta ;
@@ -228,15 +233,14 @@ namespace mesmer
 
     // Heat of reaction: use heat of reaction to calculate the zpe weighing of different wells
     const double HeatOfReaction = getHeatOfReaction() ;
-    const double _expon = -beta * HeatOfReaction;
-    Keq *= exp(_expon);
+    Keq *= exp(-beta * HeatOfReaction);
 
     return Keq ;
-	}
+  }
 
-// calculate grain threshold, presently set simply to zero
+  // calculate grain threshold, presently set simply to zero
   void BimolecularSinkReaction::calcEffGrnThresholds(void){           
-		set_EffGrnFwdThreshold(0);
+    set_EffGrnFwdThreshold(0);
   }
 
 }//namespace

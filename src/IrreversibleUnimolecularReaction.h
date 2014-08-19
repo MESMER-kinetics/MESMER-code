@@ -58,7 +58,10 @@ namespace mesmer
 	// Returns header needed by reaction rate test method.
 	virtual std::string TestRateCoeffHeader() const {return string("   T(K)         kf/s-1 kb/cm3mlc-1s-1   Keq/mlc cm-3") ; } ; 
 
-    // Calculate reaction equilibrium constant.
+    // Calculate high pressure rate coefficients at current T.
+    virtual void HighPresRateCoeffs(vector<double> *pCoeffs) ;
+
+	// Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
 
     // Get products cell density of states.
@@ -112,13 +115,10 @@ namespace mesmer
 
     void calcFluxFirstNonZeroIdx(void);
 
-    // Test k(T)
-    virtual void testRateConstant();
-
-    Molecule    *m_rct1 ;                 // Reactant Molecule.
-    Molecule    *m_pdt1 ;                 // Product Molecule.
-    Molecule    *m_pdt2 ;                 // Subsidiary product molecule.
-    Molecule    *m_pdt3 ;                 // Subsidiary product molecule.
+    Molecule    *m_rct1 ; // Reactant Molecule.
+    Molecule    *m_pdt1 ; // Product Molecule.
+    Molecule    *m_pdt2 ; // Subsidiary product molecule.
+    Molecule    *m_pdt3 ; // Subsidiary product molecule.
 
   } ;
 

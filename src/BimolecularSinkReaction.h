@@ -78,7 +78,10 @@ namespace mesmer
     const int get_pdtsGrnZPE();
 
 	// Returns header needed by reaction rate test method.
-	virtual std::string TestRateCoeffHeader() const {return string("   T(K)         kf/s-1 kb/cm3mlc-1s-1   Keq/mlc cm-3") ; } ; 
+	virtual std::string TestRateCoeffHeader() const {return string("   T(K) kb/cm3mlc-1s-1         kf/s-1   Keq/mlc cm-3") ; } ; 
+
+    // Calculate high pressure rate coefficients at current T.
+    virtual void HighPresRateCoeffs(vector<double> *pCoeffs) ;
 
 	// Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
@@ -111,16 +114,13 @@ namespace mesmer
 
     void calcFluxFirstNonZeroIdx(void);
 
-    // Test k(T)
-    virtual void testRateConstant();
+    Molecule    *m_rct1 ;  // Reactant Molecule.
+    Molecule    *m_rct2 ;  // Reactant Molecule.
+    Molecule    *m_pdt1 ;  // Product Molecule.
+    Molecule    *m_pdt2 ;  // Subsidiary product molecule.
+    Molecule    *m_pdt3 ;  // Subsidiary product molecule.
 
-    Molecule    *m_rct1 ;                 // Reactant Molecule.
-    Molecule    *m_rct2 ;                 // Reactant Molecule.
-    Molecule    *m_pdt1 ;                 // Product Molecule.
-    Molecule    *m_pdt2 ;                 // Subsidiary product molecule.
-    Molecule    *m_pdt3 ;                 // Subsidiary product molecule.
-
-    bool excessReactantLocation;				// true if 1st rct in XML file is deficient false if 2nd reactant is deficient
+    bool excessReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
 
 	};
 

@@ -88,6 +88,9 @@ namespace mesmer
 	// Returns header needed by reaction rate test method.
 	virtual std::string TestRateCoeffHeader() const {return string("    T/K kf/cm3mlc-1s-1         kb/s-1  Keq/cm3mlc-1") ; } ; 
 
+    // Calculate high pressure rate coefficients at current T.
+    virtual void HighPresRateCoeffs(vector<double> *pCoeffs) ;
+
 	// Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
 
@@ -104,14 +107,14 @@ namespace mesmer
     // Get reactants grain ZPE
     const int get_rctsGrnZPE(void);
 
-    // calculate the effective threshold energy for utilizing in k(E) calculations, necessary for cases
-    // with a negative threshold energy
+    // Calculate the effective threshold energy for utilizing in k(E)
+    // calculations, necessary for cases with a negative threshold energy.
     void calcEffGrnThresholds(void);
 
-    // Get cell offset for the reactants
-    int get_cellOffset(void) {
-      double modulus = fmod(m_rct1->getDOS().get_zpe() + m_rct2->getDOS().get_zpe() - getEnv().EMin, getEnv().GrainSize);
-      return int(modulus) ;
+    // Get cell offset for the reactants.
+    size_t get_cellOffset(void) {
+      double modulus = fmod(m_rct1->getDOS().get_zpe() + m_rct2->getDOS().get_zpe() - getEnv().EMin, double(getEnv().GrainSize))/getEnv().CellSize ;
+      return size_t(modulus) ;
     } ;
 
     bool calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
@@ -140,12 +143,9 @@ private:
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs();
 
-    // Test k(T)
-    virtual void testRateConstant();
-
     bool m_deficientReactantLocation; // true if 1st rct in XML file is deficient false if 2nd reactant is deficient
 
-    std::vector<double>  m_GrainKbmc ;           // Grained averaged backward microcanonical rates.
+    std::vector<double>  m_GrainKbmc ; // Grained averaged backward microcanonical rates.
 
   } ;
 

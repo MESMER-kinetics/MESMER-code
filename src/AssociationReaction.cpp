@@ -47,7 +47,7 @@ namespace mesmer
     if (m_deficientReactantLocation) {
       Molecule *tmp = m_rct1 ;
       m_rct1 = m_rct2;
-	  m_rct2 = tmp ;
+      m_rct2 = tmp ;
     }
 
     if(!m_rct1){
@@ -108,7 +108,7 @@ namespace mesmer
     for ( int i = reverseThreshE, j = fluxStartIdx; i < colloptrsize; ++i, ++j) {
       int ii(pdtRxnOptPos + i) ;
       int kk (i - pShiftedGrains);
-	  qd_real Flux(m_GrainFlux[j]), dos(pdtDOS[i]), addPop(adductPopFrac[kk]) ;
+      qd_real Flux(m_GrainFlux[j]), dos(pdtDOS[i]), addPop(adductPopFrac[kk]) ;
       (*CollOptr)[ii][ii] -= qdMeanOmega * Flux / dos ;                  // Loss of the adduct to the source
       (*CollOptr)[jj][ii]  = qdMeanOmega * Flux * sqrt(Keq*addPop)/dos ; // Reactive gain of the source
       (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                       // Reactive gain (symmetrization)
@@ -211,7 +211,7 @@ namespace mesmer
     // Calculate the rovibronic partition function based on the grain DOS
     return canonicalPartitionFunction(rctGrainDOS, rctGrainEne, getEnv().beta) ;
   }
-  
+
   // Is reaction equilibrating and therefore contributes
   // to the calculation of equilibrium fractions.
   bool AssociationReaction::isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) {
@@ -304,69 +304,53 @@ namespace mesmer
       }
       ctest << "}\n";
     }
-	  if (getFlags().grainTSsosEnabled){
-			ctest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_pseudoIsomer())->getName() << " energy):\n{\n";
+    if (getFlags().grainTSsosEnabled){
+      ctest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_pseudoIsomer())->getName() << " energy):\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
         ctest << m_GrainKfmc[i]*rctGrainDOS[i]/SpeedOfLight_in_cm << endl;
       }
       ctest << "}\n";
     }
     if (getFlags().testRateConstantEnabled)
-      testRateConstant();
+      HighPresRateCoeffs(NULL);
   }
 
-  void AssociationReaction::testRateConstant() {
-    double k_f_grained(0.0), k_b_grained(0.0), k_f_cell(0.0), k_b_cell(0.0);
-    vector<double> pdtGrainDOS, pdtGrainEne, pdtCellDOS, pdtCellEne;
+  // Calculate high pressure rate coefficients at current T.
+  void AssociationReaction::HighPresRateCoeffs(vector<double> *pCoeffs) {
 
-    const int MaximumCell = (getEnv().MaxCell);
     const int MaximumGrain = (getEnv().MaxGrn-get_fluxFirstNonZeroIdx());
-
+    vector<double> pdtGrainDOS, pdtGrainEne;
     m_pdt1->getDOS().getGrainDensityOfStates(pdtGrainDOS) ;
-    m_pdt1->getDOS().getCellDensityOfStates(pdtCellDOS);
     m_pdt1->getDOS().getGrainEnergies(pdtGrainEne);
-    getCellEnergies(MaximumCell, getEnv().CellSize, pdtCellEne);
-
 
     // dissociation k(E) calculated in grains.
+    double k_f_grained(0.0), k_b_grained(0.0);
     const double beta = getEnv().beta;
     for (int i = 0; i < MaximumGrain; ++i){
       k_b_grained += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i] ) ;
     }
 
-    // dissociation k(E) calculated in cells.
-    const vector<double>& cellFlux = get_CellFlux();
-    const int fluxCellZPE = int(get_fluxZPE());
-    const int pdtZPE = int(get_relative_pdtZPE());
-    const int rev_threshold = fluxCellZPE - pdtZPE;
-    for (int i = 0; i < MaximumCell - rev_threshold; ++i){
-      k_b_cell += cellFlux[i] * exp( -beta * pdtCellEne[i + rev_threshold] ) ;
-    }
-
-    // if the partition function calculated in grain level does not differ too much to the cell level, the cell level
-    // calculation can be removed.
     const double prtfn_grained = canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, beta);
-    const double prtfn_cell = canonicalPartitionFunction(pdtCellDOS, pdtCellEne, beta);
     k_b_grained /= prtfn_grained;
-    k_b_cell /= prtfn_cell;
-
     set_rvsGrnCanonicalRate(k_b_grained);
-    set_rvsCellCanonicalRate(k_b_cell);
 
     double Keq = calcEquilibriumConstant();
-    k_f_grained = get_rvsGrnCanonicalRate() * Keq;
-    k_f_cell = get_rvsCellCanonicalRate() * Keq;
-
+    k_f_grained = k_b_grained * Keq;
     set_fwdGrnCanonicalRate(k_f_grained);
-    set_fwdCellCanonicalRate(k_f_cell);
 
-    const double temperature = 1. / (boltzmann_RCpK * beta);
-    ctest << endl << "Canonical pseudo first order rate constant of association reaction "
-      << getName() << " = " << get_fwdCellCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
-    ctest << "Canonical bimolecular rate constant of association reaction "
-      << getName() << " = " << get_fwdCellCanonicalRate()/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
-    ctest << "Canonical first order rate constant for the reverse of reaction "
-      << getName() << " = " << get_rvsCellCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
+    if (pCoeffs) {
+      pCoeffs->push_back(k_f_grained) ;
+      pCoeffs->push_back(k_b_grained) ;
+      pCoeffs->push_back(Keq) ;
+    } else {
+      const double temperature = 1. / (boltzmann_RCpK * beta);
+      ctest << endl << "Canonical pseudo first order rate constant of association reaction "
+        << getName() << " = " << k_f_grained << " s-1 (" << temperature << " K)" << endl;
+      ctest << "Canonical bimolecular rate constant of association reaction "
+        << getName() << " = " << k_f_grained/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
+      ctest << "Canonical first order rate constant for the reverse of reaction "
+        << getName() << " = " << k_b_grained << " s-1 (" << temperature << " K)" << endl;
+    }
   }
 
 
@@ -380,15 +364,8 @@ namespace mesmer
 
     const int MaximumCell = getEnv().MaxCell;
 
-    //------------------------------------------------
-    // Calculating the cell offset for the source term
-    const double zpeExcessReactant = get_excessReactant()->getDOS().get_zpe();
-    const double zpePseudoisomer   = get_pseudoIsomer()->getDOS().get_zpe();
-    const double EMin = getEnv().EMin;
-    double modulus = fmod(zpePseudoisomer + zpeExcessReactant - EMin, getEnv().GrainSize);
-    if(modulus < 0.0)  // presently modulus is only less than 0 for the excess reactant in an association rxn
-      modulus = 0.0;   // however, this problem should become obsolete once supermolecule DOS is calculated on the fly
-    const size_t cellOffset = size_t(modulus);
+    // Get the cell offset for the source term.
+    const size_t cellOffset = get_cellOffset() ;
 
     std::vector<double> rctsCellEne;
     getCellEnergies(MaximumCell, getEnv().CellSize, rctsCellEne);

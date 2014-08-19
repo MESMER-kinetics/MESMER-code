@@ -160,14 +160,10 @@ namespace mesmer
     // set the forward and backward canonical rate coefficients
     void set_fwdGrnCanonicalRate(double k){m_fwdGrnCanonicalRate = k;};
     void set_rvsGrnCanonicalRate(double k){m_rvsGrnCanonicalRate = k;};
-    void set_fwdCellCanonicalRate(double k){m_fwdCellCanonicalRate = k;};
-    void set_rvsCellCanonicalRate(double k){m_rvsCellCanonicalRate = k;};
 
     // get the forward and backward canonical rate coefficients
     double get_fwdGrnCanonicalRate(void){return m_fwdGrnCanonicalRate;};
     double get_rvsGrnCanonicalRate(void){return m_rvsGrnCanonicalRate;};
-    double get_fwdCellCanonicalRate(void){return m_fwdCellCanonicalRate;};
-    double get_rvsCellCanonicalRate(void){return m_rvsCellCanonicalRate;};
 
     // get the bottom cell offset of m_CellFlux
     const size_t getFluxCellOffset(void){return m_FluxCellOffset;};
@@ -190,6 +186,9 @@ namespace mesmer
 
 	// Returns header needed by reaction rate test method.
 	virtual std::string TestRateCoeffHeader() const = 0 ; 
+
+    // Calculate high pressure rate coefficients at current T.
+    virtual void HighPresRateCoeffs(vector<double> *pCoeffs) = 0;
 
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() = 0 ;
@@ -216,9 +215,6 @@ namespace mesmer
 
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs() = 0;
-
-    // Test k(T)
-    virtual void testRateConstant() = 0;
 
     // I/O and control
     PersistPtr           m_ppPersist;            // Conduit for I/O
@@ -278,8 +274,6 @@ namespace mesmer
 
     double m_fwdGrnCanonicalRate;
     double m_rvsGrnCanonicalRate;
-    double m_fwdCellCanonicalRate;
-    double m_rvsCellCanonicalRate;
 
     const MesmerEnv& m_Env;
     MesmerFlags& m_Flags;

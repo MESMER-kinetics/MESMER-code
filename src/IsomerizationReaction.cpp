@@ -131,7 +131,7 @@ namespace mesmer
     for ( int i=fluxStartIdx, j = reverseThreshE, k = forwardThreshE; j < colloptrsize; ++i, ++j, ++k) {
       int ii(rctLocation + k - rShiftedGrains) ;
       int jj(pdtLocation + j - pShiftedGrains) ;
-	  qd_real Flux(m_GrainFlux[i]), qMeanOmega(rMeanOmega), rDos(rctDOS[k]), pDos(pdtDOS[j]) ;
+      qd_real Flux(m_GrainFlux[i]), qMeanOmega(rMeanOmega), rDos(rctDOS[k]), pDos(pdtDOS[j]) ;
       (*CollOptr)[ii][ii] -= qMeanOmega * Flux / rDos;               // Forward loss reaction.
       (*CollOptr)[jj][jj] -= qMeanOmega * Flux / pDos ;              // Backward loss reaction from detailed balance.
       (*CollOptr)[ii][jj]  = qMeanOmega * Flux / sqrt(rDos * pDos) ; // Reactive gain.
@@ -209,7 +209,7 @@ namespace mesmer
       for (int j=0, pdtEgv(pdtColloptrsize-1)  ; j < pdtBasisSize ; j++, --pdtEgv) {
         int jj(pdtLocation + j) ;
         qd_real tmp(0.0) ;
-               
+
         if (i==0 && j==0 ) {
 
           // Special case for equilibrium eigenvectors which obey a detailed balance relation.
@@ -218,11 +218,11 @@ namespace mesmer
           qd_real elmti = (*CollOptr)[ii][ii] ;
           qd_real elmtj = (*CollOptr)[jj][jj] ;
           tmp = sqrt(elmti*elmtj) ;
- 
+
         } else {
-        
+
           // General case.
-          
+
           m_pdt1->getColl().eigenVector(pdtEgv, pdtBasisVector) ;
           double sum = 0.0 ;
           for (int k(rctColloptrsize-reverseThreshE), m(rctColloptrsize-1), n(pdtColloptrsize-1); k >=0 ; --m, --n, --k) {
@@ -231,14 +231,14 @@ namespace mesmer
             // tmp += rctBasisVector[m]*pdtBasisVector[n]*RvsMicroRateCoef[n]*sqrt(pdtDOS[n]/rctDOS[m]);
             sum += rctBasisVector[m]*pdtBasisVector[n]*CrsMicroRateCoef[n];
           }
-          
+
           tmp = qd_real(sum) ;
         }
         (*CollOptr)[ii][jj] += tmp ;
         (*CollOptr)[jj][ii] += tmp ;
       }
     }
-    
+
   }
 
   //
@@ -284,19 +284,19 @@ namespace mesmer
       }
       ctest << "}\n";
     }
-	  if (getFlags().grainTSsosEnabled){
-			ctest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_reactant())->getName() << " energy):\n{\n";
+    if (getFlags().grainTSsosEnabled){
+      ctest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_reactant())->getName() << " energy):\n{\n";
       for (int i = 0; i < MaximumGrain; ++i){
         ctest << m_GrainKfmc[i]*rctGrainDOS[i]/SpeedOfLight_in_cm << endl;
       }
       ctest << "}\n";
     }
     if (getFlags().testRateConstantEnabled)
-      testRateConstant();
+      HighPresRateCoeffs(NULL);
   }
 
-  // Test k(T)
-  void IsomerizationReaction::testRateConstant() {
+  // Calculate high pressure rate coefficients at current T.
+  void IsomerizationReaction::HighPresRateCoeffs(vector<double> *pCoeffs) {
 
     double k_forward(0.0), k_backward(0.0);
     vector<double> rctGrainDOS, rctGrainEne, pdtGrainDOS, pdtGrainEne ;
@@ -320,10 +320,17 @@ namespace mesmer
     set_fwdGrnCanonicalRate(k_forward);
     set_rvsGrnCanonicalRate(k_backward);
 
-    ctest << endl << "Canonical first order forward rate constant of isomerization reaction " 
-      << getName() << " = " << get_fwdGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
-    ctest << "Canonical first order backward rate constant of isomerization reaction " 
-      << getName() << " = " << get_rvsGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
+    if (pCoeffs) {
+      const double Keq = calcEquilibriumConstant() ;
+      pCoeffs->push_back(k_forward) ;
+      pCoeffs->push_back(k_backward) ;
+      pCoeffs->push_back(Keq) ;
+    } else {
+      ctest << endl << "Canonical first order forward rate constant of isomerization reaction " 
+        << getName() << " = " << get_fwdGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
+      ctest << "Canonical first order backward rate constant of isomerization reaction " 
+        << getName() << " = " << get_rvsGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
+    }
   }
 
   void IsomerizationReaction::calcEffGrnThresholds(void){  // see the comments in

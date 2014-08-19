@@ -74,6 +74,9 @@ namespace mesmer
 	// Returns header needed by reaction rate test method.
 	virtual std::string TestRateCoeffHeader() const {return string("   T(K)         kf/s-1         kb/s-1            Keq") ; } ; 
 
+    // Calculate high pressure rate coefficients at current T.
+    virtual void HighPresRateCoeffs(vector<double> *pCoeffs) ;
+
     // Calculate reaction equilibrium constant.
     virtual double calcEquilibriumConstant() ;
 
@@ -91,13 +94,10 @@ namespace mesmer
     // Grain averaged microcanonical rate coefficients.
     virtual void calcGrainRateCoeffs();
 
-    // Test k(T)
-    virtual void testRateConstant();
-
     Molecule   *m_rct1 ;                 // Reactant Molecule.
     Molecule   *m_pdt1 ;                 // Product Molecule.
 
-    std::vector<double>  m_GrainKbmc ;           // Grained averaged backward microcanonical rates.
+    std::vector<double>  m_GrainKbmc ;   // Grained averaged backward microcanonical rates.
   } ;
 
 }//namespace

@@ -277,11 +277,13 @@ namespace mesmer
       ctest << "}\n";
     }
 
-    testRateConstant();  // always execute this routine for irreversible exchange reactions in order to derive
-    // the irreversible collision matrix element
+	// Always execute this routine for irreversible exchange reactions
+    // in order to derive the irreversible collision matrix element.
+    HighPresRateCoeffs(NULL);  
   }
 
-  void IrreversibleExchangeReaction::testRateConstant() {    // Test k(T)
+  // Calculate high pressure rate coefficients at current T.
+  void IrreversibleExchangeReaction::HighPresRateCoeffs(vector<double> *pCoeffs) {
 
     const int MaximumGrain = (getEnv().MaxGrn-get_fluxFirstNonZeroIdx());
     const double beta = getEnv().beta;
@@ -297,10 +299,14 @@ namespace mesmer
     const double trans = translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
     k_forward /= prtfn;
     k_forward /= trans;
-    k_forward *= m_ERConc;
-    set_fwdGrnCanonicalRate(k_forward);
+    set_fwdGrnCanonicalRate(k_forward*m_ERConc);
 
-    if (getFlags().testRateConstantEnabled){
+    if (pCoeffs) {
+      const double Keq = calcEquilibriumConstant() ;
+      pCoeffs->push_back(k_forward) ;
+      pCoeffs->push_back(k_forward/Keq) ;
+      pCoeffs->push_back(Keq) ;
+    } else if (getFlags().testRateConstantEnabled) {
       const double temperature = 1. / (boltzmann_RCpK * beta);
       ctest << endl << "Canonical pseudo first order rate constant of irreversible reaction " 
         << getName() << " = " << get_fwdGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
