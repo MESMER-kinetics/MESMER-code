@@ -318,7 +318,6 @@ namespace mesmer
     k_forward /= rctprtfn;
     k_backward /= pdtprtfn;
     set_fwdGrnCanonicalRate(k_forward);
-    set_rvsGrnCanonicalRate(k_backward);
 
     if (pCoeffs) {
       const double Keq = calcEquilibriumConstant() ;
@@ -327,9 +326,9 @@ namespace mesmer
       pCoeffs->push_back(Keq) ;
     } else {
       ctest << endl << "Canonical first order forward rate constant of isomerization reaction " 
-        << getName() << " = " << get_fwdGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
+				<< getName() << " = " << k_forward << " s-1 (" << temperature << " K)" << endl;
       ctest << "Canonical first order backward rate constant of isomerization reaction " 
-        << getName() << " = " << get_rvsGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
+				<< getName() << " = " << k_backward << " s-1 (" << temperature << " K)" << endl;
     }
   }
 

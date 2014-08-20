@@ -496,11 +496,12 @@ k_b(e) grains for R1:
 2.35987e+12
 }
 
-Canonical rate coefficients for R1, calculated from microcanonical rates
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
-    100         974043
-    200     1.727e+010
-    300   8.18317e+011
+    T/K kf/cm3mlc-1s-1         kb/s-1  Keq/cm3mlc-1
+    100   7.41266e-018   3.38289e-028   2.19122e+010
+    200   2.72839e-014   9.69683e-008   2.81369e-007
+    300   5.55411e-013        1.04248   5.32777e-013
 }
 
 Eq fraction matrix:
@@ -1016,11 +1017,12 @@ k_b(e) grains for R1:
 2.35987e+12
 }
 
-Canonical rate coefficients for R1, calculated from microcanonical rates
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
-    100         974043
-    200     1.727e+010
-    300   8.18317e+011
+    T/K kf/cm3mlc-1s-1         kb/s-1  Keq/cm3mlc-1
+    100   7.41266e-018   3.38289e-028   2.19122e+010
+    200   2.72839e-014   9.69683e-008   2.81369e-007
+    300   5.55411e-013        1.04248   5.32777e-013
 }
 
 Eq fraction matrix:
@@ -1536,11 +1538,12 @@ k_b(e) grains for R1:
 2.35987e+12
 }
 
-Canonical rate coefficients for R1, calculated from microcanonical rates
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
-    100         974043
-    200     1.727e+010
-    300   8.18317e+011
+    T/K kf/cm3mlc-1s-1         kb/s-1  Keq/cm3mlc-1
+    100   7.41266e-018   3.38289e-028   2.19122e+010
+    200   2.72839e-014   9.69683e-008   2.81369e-007
+    300   5.55411e-013        1.04248   5.32777e-013
 }
 
 Eq fraction matrix:

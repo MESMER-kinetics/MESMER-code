@@ -49,9 +49,9 @@ namespace mesmer
     virtual bool InitializeReaction(PersistPtr ppReac) ;
 
     // return relative reactant, product and transition state zero-point energy
-    virtual double get_relative_rctZPE() const { return m_rct1->getDOS().get_zpe() - getEnv().EMin; }   // copied from Association Reaction
-    virtual double get_relative_pdtZPE() const {return m_pdt1->getDOS().get_zpe() + m_pdt2->getDOS().get_zpe() - getEnv().EMin;} // copied from Irreversible Exchange Reaction
-    virtual double get_relative_TSZPE(void) const { return m_TransitionState->getDOS().get_zpe() - getEnv().EMin; };  // copied from Association Reaction
+    virtual double get_relative_rctZPE() const { return m_rct1->getDOS().get_zpe() - getEnv().EMin; } 
+		virtual double get_relative_pdtZPE() const { return m_pdt1->getDOS().get_zpe() - getEnv().EMin + ((m_pdt2) ? m_pdt2->getDOS().get_zpe() : 0.0); }
+    virtual double get_relative_TSZPE()  const { return m_TransitionState->getDOS().get_zpe() - getEnv().EMin; }
 
     // Return products - copied from IrreversibleUnimolecular rxn
     virtual int get_products(std::vector<Molecule *> &product) const
@@ -78,7 +78,7 @@ namespace mesmer
     const int get_pdtsGrnZPE();
 
 	// Returns header needed by reaction rate test method.
-	virtual std::string TestRateCoeffHeader() const {return string("   T(K) kb/cm3mlc-1s-1         kf/s-1   Keq/mlc cm-3") ; } ; 
+	virtual std::string TestRateCoeffHeader() const {return string("    T/K kb/cm3mlc-1s-1         kf/s-1   Keq/mlc cm-3") ; } ; 
 
     // Calculate high pressure rate coefficients at current T.
     virtual void HighPresRateCoeffs(vector<double> *pCoeffs) ;
@@ -90,10 +90,8 @@ namespace mesmer
     // with a negative threshold energy
     void calcEffGrnThresholds(void);
 
-    // returns the reaction type
-    virtual ReactionType getReactionType(){
-      return BIMOLECULAR_SINK;
-    };
+    // Returns the reaction type.
+    virtual ReactionType getReactionType(){ return BIMOLECULAR_SINK; } ;
 
     // get the reactant, which reacts in a first order or pseudo first order process
     virtual Molecule *get_reactant(void) const {return m_rct1;};

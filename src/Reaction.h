@@ -159,11 +159,9 @@ namespace mesmer
 
     // set the forward and backward canonical rate coefficients
     void set_fwdGrnCanonicalRate(double k){m_fwdGrnCanonicalRate = k;};
-    void set_rvsGrnCanonicalRate(double k){m_rvsGrnCanonicalRate = k;};
 
     // get the forward and backward canonical rate coefficients
     double get_fwdGrnCanonicalRate(void){return m_fwdGrnCanonicalRate;};
-    double get_rvsGrnCanonicalRate(void){return m_rvsGrnCanonicalRate;};
 
     // get the bottom cell offset of m_CellFlux
     const size_t getFluxCellOffset(void){return m_FluxCellOffset;};
@@ -273,7 +271,6 @@ namespace mesmer
     bool ReadExcessReactantConcentration(PersistPtr ppReac);
 
     double m_fwdGrnCanonicalRate;
-    double m_rvsGrnCanonicalRate;
 
     const MesmerEnv& m_Env;
     MesmerFlags& m_Flags;

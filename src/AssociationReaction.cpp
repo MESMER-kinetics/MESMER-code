@@ -332,7 +332,6 @@ namespace mesmer
 
     const double prtfn_grained = canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, beta);
     k_b_grained /= prtfn_grained;
-    set_rvsGrnCanonicalRate(k_b_grained);
 
     double Keq = calcEquilibriumConstant();
     k_f_grained = k_b_grained * Keq;

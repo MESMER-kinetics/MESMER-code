@@ -201,7 +201,7 @@ namespace mesmer
       pCoeffs->push_back(Keq) ;
     } else {
       ctest << endl << "Canonical pseudo first order forward rate constant of irreversible reaction "
-        << getName() << " = " << get_fwdGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
+				<< getName() << " = " << k_forward << " s-1 (" << temperature << " K)" << endl;
     }
   }
 
@@ -215,9 +215,8 @@ namespace mesmer
     return int(grnZpe);
   }
 
-  // calculate Keq, copied from IrreversibleExchangeReaction
-  double BimolecularSinkReaction::calcEquilibriumConstant() {   // Calculate reaction equilibrium constant.
-    // equilibrium constant:
+	// Calculate reaction equilibrium constant (copied from IrreversibleExchangeReaction).
+  double BimolecularSinkReaction::calcEquilibriumConstant() {   
     double Keq(0.0) ;
     const double beta = getEnv().beta ;
 
@@ -227,7 +226,9 @@ namespace mesmer
 
     // rovibronic partition function for reactants/products multiplied by translation contribution
     Qrcts *= translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
-    Qpdts *= translationalContribution(m_pdt1->getStruc().getMass(), m_pdt2->getStruc().getMass(), beta);
+		if (m_pdt2) {
+			Qpdts *= translationalContribution(m_pdt1->getStruc().getMass(), m_pdt2->getStruc().getMass(), beta);
+		}
 
     Keq = Qpdts / Qrcts;
 

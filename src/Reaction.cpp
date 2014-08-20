@@ -36,7 +36,6 @@ namespace mesmer
     m_ERConc(0.0),
     m_ExcessReactant(NULL),
     m_fwdGrnCanonicalRate(0.0),
-    m_rvsGrnCanonicalRate(0.0),
     m_Env(Env),
     m_Flags(Flags),
     m_Name(id),

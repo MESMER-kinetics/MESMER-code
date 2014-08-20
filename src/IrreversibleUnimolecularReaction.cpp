@@ -251,7 +251,7 @@ namespace mesmer
     } else {
       const double temperature = 1./(boltzmann_RCpK * beta);
       ctest << endl << "Canonical pseudo first order forward rate constant of irreversible reaction "
-        << getName() << " = " << get_fwdGrnCanonicalRate() << " s-1 (" << temperature << " K)" << endl;
+				<< getName() << " = " << kf << " s-1 (" << temperature << " K)" << endl;
     }
   }
 
