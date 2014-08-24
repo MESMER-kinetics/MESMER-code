@@ -317,7 +317,6 @@ namespace mesmer
     const double pdtprtfn = canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, beta);
     k_forward /= rctprtfn;
     k_backward /= pdtprtfn;
-    set_fwdGrnCanonicalRate(k_forward);
 
     if (pCoeffs) {
       const double Keq = calcEquilibriumConstant() ;

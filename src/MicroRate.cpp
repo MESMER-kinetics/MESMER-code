@@ -17,8 +17,8 @@ namespace mesmer
       return true;
     }
 
-    string comment("Microcanonical rate coefficients");
-    PersistPtr ppList = ppbase->XmlWriteMainElement("me:microRateList", comment );
+    string comment("Canonical rate coefficients (calculated from microcanonical rate coefficients)");
+    PersistPtr ppList = ppbase->XmlWriteMainElement("me:CanonicalRateList", comment );
     size_t MaximumGrain = (pReact->getEnv().MaxGrn - pReact->get_fluxFirstNonZeroIdx());
 
     ctest << "\nCanonical (high pressure) rate coefficients for " << pReact->getName() << ", calculated from microcanonical rates\n{\n";

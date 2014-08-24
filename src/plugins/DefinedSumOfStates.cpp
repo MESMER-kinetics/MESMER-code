@@ -110,12 +110,13 @@ namespace mesmer
     Spline spline ;
     spline.Initialize(m_E, m_WE) ;
 
-    size_t maxEnergy = size_t(m_E[m_E.size()-1]) ;
+    double cellSize  = pReact->getEnv().CellSize ;
+    double maxEnergy = m_E[m_E.size()-1] ;
 
     // Calculate the cell reaction flux from the spline.
 
     for (size_t i(0) ; i < MaximumCell ; ++i ) {
-      double SumOfStates = spline.Calculate(double(min(i,maxEnergy))) ;
+      double SumOfStates = spline.Calculate(min(double(i)*cellSize,maxEnergy)) ;
       if (m_logSpline) SumOfStates = exp(SumOfStates) ;
       rxnFlux[i] = SumOfStates * SpeedOfLight_in_cm;
     }

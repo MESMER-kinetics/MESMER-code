@@ -27,6 +27,7 @@ namespace mesmer
     IRREVERSIBLE_EXCHANGE,
     BIMOLECULAR_SINK,
     PSEUDOISOMERIZATION,
+	SECONDORDERASSOCIATION,
     UNDEFINED_REACTION
   };
 
@@ -157,12 +158,6 @@ namespace mesmer
     // with a negative threshold energy
     virtual void calcEffGrnThresholds(void) = 0;
 
-    // set the forward and backward canonical rate coefficients
-    void set_fwdGrnCanonicalRate(double k){m_fwdGrnCanonicalRate = k;};
-
-    // get the forward and backward canonical rate coefficients
-    double get_fwdGrnCanonicalRate(void){return m_fwdGrnCanonicalRate;};
-
     // get the bottom cell offset of m_CellFlux
     const size_t getFluxCellOffset(void){return m_FluxCellOffset;};
 
@@ -269,8 +264,6 @@ namespace mesmer
 
     // Read excess reactant concentration
     bool ReadExcessReactantConcentration(PersistPtr ppReac);
-
-    double m_fwdGrnCanonicalRate;
 
     const MesmerEnv& m_Env;
     MesmerFlags& m_Flags;

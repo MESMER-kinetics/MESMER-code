@@ -526,7 +526,10 @@ namespace mesmer
 	// Calculate the internal rotation eigenvector. Based on the internal rotation 
 	// mode vector as defined by Sharma, Raman and Green, J. Phys. Chem. (2010).
 	// Typically this vector is used to project out an internal rotational mode
-	// from a Hessian.
+	// from a Hessian - in this situation mass weighting is required and this is
+    // governed by the "ApplyWeight" flag. This vector is more recently been used 
+    // in the calculation of internal rotation moments of inertia and in this 
+    // case "ApplyWeight" should be false.
 	void internalRotationVector(string bondID, vector<double>& mode, bool ApplyMWeight = true) ;
 
     // Read librarymols.xml to obtain the ab initio energy and enthalpy at zero K

@@ -36,7 +36,7 @@ namespace mesmer
     {
       unimolecularspecies.push_back(m_rct1) ;
       unimolecularspecies.push_back(m_pdt1) ;
-      return 2 ;
+      return unimolecularspecies.size() ;
     } ;
 
     // Return products

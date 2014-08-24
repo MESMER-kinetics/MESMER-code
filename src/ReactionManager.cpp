@@ -11,6 +11,7 @@
 #include "ReactionManager.h"
 
 #include "AssociationReaction.h"
+#include "SecondOrderAssocReaction.h"
 #include "IrreversibleUnimolecularReaction.h"
 #include "IsomerizationReaction.h"
 #include "IrreversibleExchangeReaction.h"
@@ -93,7 +94,7 @@ namespace mesmer
       }
       //
       // Create a new Reaction.  For association & exchange reactions, if rct1Type == reactant,
-      // bool is true and rct1 is the pseudoisomer.  if not, bool is false, and rct1 is the excess
+      // bool is true and rct1 is the pseudoisomer. If not, bool is false, and rct1 is the excess
       //
       Reaction *preaction ;
       if     (!bRct2 && bPdt1 && pdt1Type == "modelled" && !bPdt2){
@@ -103,7 +104,11 @@ namespace mesmer
         preaction = new BimolecularSinkReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type == "excessReactant")) ;
       }
       else if( bRct2 && (rct1Type == "deficientReactant" || rct2Type == "deficientReactant" ) && bPdt1 && !bPdt2){
-        preaction = new AssociationReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type != "deficientReactant")) ;
+		if (rct1Name == rct2Name) {
+		  preaction = new SecondOrderAssocReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type != "deficientReactant")) ;
+		} else {
+          preaction = new AssociationReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type != "deficientReactant")) ;
+		}
       }
       else if( bRct2 && (rct1Type == "modelled" || rct2Type == "modelled" ) && bPdt1 && (pdt1Type == "modelled") && !bPdt2){
         preaction = new PseudoIsomerizationReaction(m_pMoleculeManager, mEnv, mFlags, id, (rct1Type != "modelled")) ;

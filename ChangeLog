@@ -1,3 +1,12 @@
+2014-August-24 Struan Robertson
+
+	* SecondOrderAssocReaction.h/.cpp: New class added to support second order
+	reactions.
+
+	* DefinedSumOfStates.cpp: Altered to allow for a variable cellsixe.
+
+	* All reaction class tidied. 
+
 2014-August-19 Struan Robertson
 
 	* MicroRate.cpp, Reaction.h and derived classes: Replaced incorrect high

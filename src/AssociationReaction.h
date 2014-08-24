@@ -55,7 +55,7 @@ namespace mesmer
     virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const
     {
       unimolecularspecies.push_back(m_pdt1) ;
-      return 1;
+      return unimolecularspecies.size() ;
     } ;
 
     // Get product information:

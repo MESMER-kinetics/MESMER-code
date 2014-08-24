@@ -1,15 +1,15 @@
 //-------------------------------------------------------------------------------------------
 //
-// AssociationReaction.cpp
+// SecondOrderAssocReaction.cpp
 //
 // Author: Struan Robertson
-// Date:   30/Dec/2007
+// Date:   24/Aug/2014
 //
-// This file contains the implementation of the AssociationReaction class.
+// This file contains the implementation of the SecondOrderAssocReaction class.
 //
 //-------------------------------------------------------------------------------------------
 #include <limits>
-#include "AssociationReaction.h"
+#include "SecondOrderAssocReaction.h"
 #include <math.h>
 
 using namespace Constants ;
@@ -18,17 +18,11 @@ using namespace std;
 namespace mesmer
 {
   //
-  // Read the Molecular for association reaction data from input stream.
-  // Note: the convention adopted here is that there are two reactants
+  // Read molecular data for second order association reaction from input stream.
+  // Note: the convention adopted here is that there are two (one repeated) reactants
   // and one product (adduct).
-  //
-  // One fact to know is that whatever happens in the reaction operator in this routine is in the unit of 
-  // "per collision". In addition, the expression of every entry has to be first similarly transformed to the 
-  // symmetrized matrix corrdinates using detailed balance just like the way of constructing collision operator.
-  // The flux has to be divided by omega before putting into the entry because flux is calculated in the unit of
-  // second, we need to convert the flux into the unit of per collision.
   // 
-  bool AssociationReaction::InitializeReaction(PersistPtr ppReac)
+  bool SecondOrderAssocReaction::InitializeReaction(PersistPtr ppReac)
   {
     m_ppPersist = ppReac;
 
@@ -39,23 +33,10 @@ namespace mesmer
 
     PersistPtr ppReactant1  = ppReactantList->XmlMoveTo("reactant");
     m_rct1 = GetMolRef(ppReactant1);
-    PersistPtr ppReactant2  = ppReactant1->XmlMoveTo("reactant");
-    m_rct2 = GetMolRef(ppReactant2);
-
-    // If deficientReactantLocation=true, then swap the reactant roles.
-
-    if (m_deficientReactantLocation) {
-      Molecule *tmp = m_rct1 ;
-      m_rct1 = m_rct2;
-      m_rct2 = tmp ;
-    }
+    m_rct2 = m_rct1;
 
     if(!m_rct1){
       cerr << "The deficient reactant in the association reaction " << getName() << " is undefined." << endl;
-      return false;
-    }
-    if(!m_rct2){
-      cerr << "The excess reactant in the association reaction " << getName() << " is undefined." << endl;
       return false;
     }
 
@@ -76,7 +57,7 @@ namespace mesmer
 
   }
 
-  void AssociationReaction::AddReactionTerms(qdMatrix      *CollOptr,
+  void SecondOrderAssocReaction::AddReactionTerms(qdMatrix      *CollOptr,
     molMapType    &isomermap,
     const double rMeanOmega)
   {
@@ -120,7 +101,7 @@ namespace mesmer
   //
   // Add isomer reaction terms to contracted basis reaction matrix.
   //
-  void AssociationReaction::AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap)
+  void SecondOrderAssocReaction::AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap)
   {
     // Get densities of states for detailed balance.
     vector<double> pdtDOS;
@@ -200,21 +181,9 @@ namespace mesmer
 
   }
 
-  //
-  // Get Grain canonical partition function for rotational, vibrational, and electronic contributions.
-  //
-  double AssociationReaction::rctsRovibronicGrnCanPrtnFn() {
-    vector<double> rctGrainDOS;
-    vector<double> rctGrainEne;
-    calcRctsGrainDensityOfStates(rctGrainDOS, rctGrainEne);
-
-    // Calculate the rovibronic partition function based on the grain DOS
-    return canonicalPartitionFunction(rctGrainDOS, rctGrainEne, getEnv().beta) ;
-  }
-
   // Is reaction equilibrating and therefore contributes
   // to the calculation of equilibrium fractions.
-  bool AssociationReaction::isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) {
+  bool SecondOrderAssocReaction::isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) {
 
     Keq = calcEquilibriumConstant() ;
 
@@ -225,137 +194,9 @@ namespace mesmer
   }
 
   //
-  // Calculate reaction equilibrium constant for the general reaction
-  //        A + B  <===> C
-  //
-  double AssociationReaction::calcEquilibriumConstant() {
-
-    // equilibrium constant:
-    double Keq(0.0) ;
-    const double beta = getEnv().beta ;
-
-    // partition function for each reactant
-    double Qrcts = rctsRovibronicGrnCanPrtnFn();
-
-    // rovibronic partition function for reactants multiplied by translation contribution
-    Qrcts *= translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
-
-    // rovibronic partition function for product
-    const double Qpdt1 = m_pdt1->getDOS().rovibronicGrnCanPrtnFn() ;
-
-    Keq = Qpdt1 / Qrcts;
-
-    // Heat of reaction: use heat of reaction to calculate the zpe weighing of different wells
-    const double HeatOfReaction = getHeatOfReaction();
-    Keq *= exp(-beta * HeatOfReaction) ;
-
-    Keq *= m_ERConc ;
-    //
-    // K_eq = ( [C]/[A][B] ) * [A] = [C]/[B]
-    //
-    // where [A] is the reactant what is in excess (seen as constant).
-    // Therefore, the K_eq here is essentially the pseudo-first-order equilibrium constant.
-
-    return Keq ;
-  }
-
-  //
-  // Calculate grained forward and reverse k(E)s from transition state flux
-  //
-  void AssociationReaction::calcGrainRateCoeffs(){
-
-    vector<double> rctGrainDOS;
-    vector<double> rctGrainEne;
-    vector<double> pdtGrainDOS;
-    m_pdt1->getDOS().getGrainDensityOfStates(pdtGrainDOS) ;
-    calcRctsGrainDensityOfStates(rctGrainDOS, rctGrainEne);
-
-    calcEffGrnThresholds();
-    const int fwdThreshold = get_EffGrnFwdThreshold();
-    const int rvsThreshold = get_EffGrnRvsThreshold();
-    calcFluxFirstNonZeroIdx();
-    const int fluxFirstNonZeroIdx = get_fluxFirstNonZeroIdx();
-
-    const int MaximumGrain = (getEnv().MaxGrn-fluxFirstNonZeroIdx);
-    m_GrainKfmc.clear();
-    m_GrainKfmc.resize(MaximumGrain , 0.0);
-    m_GrainKbmc.clear();
-    m_GrainKbmc.resize(MaximumGrain , 0.0);
-
-    for (int i = rvsThreshold, j = fluxFirstNonZeroIdx; i < MaximumGrain; ++i, ++j){
-      m_GrainKbmc[i] = m_GrainFlux[j] / pdtGrainDOS[i];
-    }
-    for (int i = fwdThreshold, j = fluxFirstNonZeroIdx; i < MaximumGrain; ++i, ++j){
-      m_GrainKfmc[i] = m_GrainFlux[j] / rctGrainDOS[i];
-    }
-
-    // the code that follows is for printing of the f & r k(E)s
-    if (getFlags().kfEGrainsEnabled){
-      ctest << "\nk_f(e) grains for " << getName() << ":\n{\n";
-      for (int i = 0; i < MaximumGrain; ++i){
-        ctest << m_GrainKfmc[i] << endl;
-      }
-      ctest << "}\n";
-    }
-    if (getFlags().kbEGrainsEnabled){
-      ctest << "\nk_b(e) grains for " << getName() << ":\n{\n";
-      for (int i = 0; i < MaximumGrain; ++i){
-        ctest << m_GrainKbmc[i] << endl;
-      }
-      ctest << "}\n";
-    }
-    if (getFlags().grainTSsosEnabled){
-      ctest << "\nN(e) for TS of " << getName() << " (referenced to " << (this->get_pseudoIsomer())->getName() << " energy):\n{\n";
-      for (int i = 0; i < MaximumGrain; ++i){
-        ctest << m_GrainKfmc[i]*rctGrainDOS[i]/SpeedOfLight_in_cm << endl;
-      }
-      ctest << "}\n";
-    }
-    if (getFlags().testRateConstantEnabled)
-      HighPresRateCoeffs(NULL);
-  }
-
-  // Calculate high pressure rate coefficients at current T.
-  void AssociationReaction::HighPresRateCoeffs(vector<double> *pCoeffs) {
-
-    const int MaximumGrain = (getEnv().MaxGrn-get_fluxFirstNonZeroIdx());
-    vector<double> pdtGrainDOS, pdtGrainEne;
-    m_pdt1->getDOS().getGrainDensityOfStates(pdtGrainDOS) ;
-    m_pdt1->getDOS().getGrainEnergies(pdtGrainEne);
-
-    // dissociation k(E) calculated in grains.
-    double k_f_grained(0.0), k_b_grained(0.0);
-    const double beta = getEnv().beta;
-    for (int i = 0; i < MaximumGrain; ++i){
-      k_b_grained += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i] ) ;
-    }
-
-    const double prtfn_grained = canonicalPartitionFunction(pdtGrainDOS, pdtGrainEne, beta);
-    k_b_grained /= prtfn_grained;
-
-    double Keq = calcEquilibriumConstant();
-    k_f_grained = k_b_grained * Keq;
-
-    if (pCoeffs) {
-      pCoeffs->push_back(k_f_grained) ;
-      pCoeffs->push_back(k_b_grained) ;
-      pCoeffs->push_back(Keq) ;
-    } else {
-      const double temperature = 1. / (boltzmann_RCpK * beta);
-      ctest << endl << "Canonical pseudo first order rate constant of association reaction "
-        << getName() << " = " << k_f_grained << " s-1 (" << temperature << " K)" << endl;
-      ctest << "Canonical bimolecular rate constant of association reaction "
-        << getName() << " = " << k_f_grained/m_ERConc << " cm^3/mol/s (" << temperature << " K)" << endl;
-      ctest << "Canonical first order rate constant for the reverse of reaction "
-        << getName() << " = " << k_b_grained << " s-1 (" << temperature << " K)" << endl;
-    }
-  }
-
-
-  //
   // Calculate the rovibrational density of states of reactants.
   //
-  bool AssociationReaction::calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne)
+  bool SecondOrderAssocReaction::calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne)
   {
     std::vector<double> rctsCellDOS;
     getRctsCellDensityOfStates(rctsCellDOS);
@@ -400,11 +241,11 @@ namespace mesmer
   //
   // Get reactants cell density of states.
   //
-  void AssociationReaction::getRctsCellDensityOfStates(vector<double> &cellDOS) {
+  void SecondOrderAssocReaction::getRctsCellDensityOfStates(vector<double> &cellDOS) {
     countDimerCellDOS(m_rct1->getDOS(), m_rct2->getDOS(), cellDOS);
   }
 
-  const int AssociationReaction::get_rctsGrnZPE(){
+  const int SecondOrderAssocReaction::get_rctsGrnZPE(){
     double grnZpe = (m_rct1->getDOS().get_zpe()+m_rct2->getDOS().get_zpe()-getEnv().EMin) / getEnv().GrainSize ; //convert to grain
     if (grnZpe < 0.0)
       cerr << "Grain zero point energy has to be a non-negative value.";
@@ -412,7 +253,7 @@ namespace mesmer
     return int(grnZpe);
   }
 
-  void AssociationReaction::calcEffGrnThresholds(void){  // calculate the effective forward and reverse
+  void SecondOrderAssocReaction::calcEffGrnThresholds(void){  // calculate the effective forward and reverse
     double threshold = get_ThresholdEnergy();            // threshold energy for an association reaction
     double RxnHeat   = getHeatOfReaction(); 
 

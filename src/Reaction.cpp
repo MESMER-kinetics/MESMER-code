@@ -35,7 +35,6 @@ namespace mesmer
     m_MtxGrnKf(),
     m_ERConc(0.0),
     m_ExcessReactant(NULL),
-    m_fwdGrnCanonicalRate(0.0),
     m_Env(Env),
     m_Flags(Flags),
     m_Name(id),
@@ -244,7 +243,8 @@ namespace mesmer
       cinfo << "No crossing method used for " << getName() << endl;
 
     if ((getReactionType() == ASSOCIATION || getReactionType() == IRREVERSIBLE_EXCHANGE 
-      || getReactionType() == BIMOLECULAR_SINK  || getReactionType() == PSEUDOISOMERIZATION)
+      || getReactionType() == BIMOLECULAR_SINK || getReactionType() == PSEUDOISOMERIZATION
+	  || getReactionType() == SECONDORDERASSOCIATION)
       && (m_ERConc==0.0 || IsNan(m_ERConc)))
     {
       // If not already read in the MicroRateCalculator

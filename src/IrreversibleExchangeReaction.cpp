@@ -143,10 +143,8 @@ namespace mesmer
 	// Add exchange reaction terms to collision matrix.
 	void IrreversibleExchangeReaction::AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega)
 	{
-		m_MtxGrnKf.clear();
 		const int jj = (*m_sourceMap)[get_pseudoIsomer()];
-		(*CollOptr)[jj][jj] -= qd_real(rMeanOmega) * qd_real(get_fwdGrnCanonicalRate());
-		m_MtxGrnKf.push_back(get_fwdGrnCanonicalRate());
+		(*CollOptr)[jj][jj] -= qd_real(rMeanOmega) * qd_real(m_MtxGrnKf[0]);
 	}
 
 	bool IrreversibleExchangeReaction::calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne)    // Calculate rovibrational reactant DOS
@@ -302,7 +300,10 @@ namespace mesmer
 		const double trans = translationalContribution(m_rct1->getStruc().getMass(), m_rct2->getStruc().getMass(), beta);
 		k_forward /= prtfn;
 		k_forward /= trans;
-		set_fwdGrnCanonicalRate(k_forward*m_ERConc);
+
+		// Save high pressure rate coefficient for use in the construction of the collision operator.
+		m_MtxGrnKf.clear();
+		m_MtxGrnKf.push_back(k_forward*m_ERConc);
 
 		if (pCoeffs) {
 			const double Keq = calcEquilibriumConstant();

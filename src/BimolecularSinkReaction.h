@@ -42,7 +42,7 @@ namespace mesmer
     virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const
     {
       unimolecularspecies.push_back(m_rct1) ;
-      return 1;
+      return unimolecularspecies.size() ;
     } ;
 
     // Initialize reaction.
