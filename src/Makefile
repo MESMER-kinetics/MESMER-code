@@ -161,6 +161,7 @@ SRCS := \
 	Rdouble.cpp \
 	Reaction.cpp \
 	ReactionManager.cpp \
+	SecondOrderAssocReaction.cpp \
 	Spline.cpp \
 	Sobol.cpp \
 	System.cpp \

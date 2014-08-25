@@ -38,50 +38,27 @@ namespace mesmer
     // Destructor.
     virtual ~SecondOrderAssocReaction(){}
 
-    virtual void updateSourceMap(molMapType& sourcemap) {
-      if (m_rct1 && sourcemap.find(m_rct1) == sourcemap.end()){ // Reaction includes a new pseudoisomer.
-        sourcemap[m_rct1] = 0 ;
-      }
-      m_sourceMap = &sourcemap ; 
-    } ;
-
     // Initialize reaction.
     virtual bool InitializeReaction(PersistPtr ppReac) ;
 
-    // Get the principal source reactant (i.e. reactant not in excess).
-    virtual Molecule *get_pseudoIsomer(void) const {return m_rct1 ; } ;
-    virtual Molecule *get_reactant(void) const {return m_rct1;};
-    virtual Molecule *get_excessReactant(void) const {return m_rct2 ; } ;
-
     // return relative reactant, product and transition state zero-point energy
-    virtual double get_relative_rctZPE() const { return m_rct1->getDOS().get_zpe() + m_rct2->getDOS().get_zpe() - getEnv().EMin; }
-    virtual double get_relative_pdtZPE() const { return m_pdt1->getDOS().get_zpe() - getEnv().EMin; }
-    virtual double get_relative_TSZPE(void) const { return m_TransitionState->getDOS().get_zpe() - getEnv().EMin; };
+    virtual double get_relative_rctZPE() const { return m_rct1->getDOS().get_zpe() - getEnv().EMin; }
 
-    // Is reaction equilibrating and therefore contributes
-    // to the calculation of equilibrium fractions.
-    virtual bool isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) ;
+	// Reset zero point energy locations of the reactants such that
+	// location of the pair is entirely on the pseudoisomer.
+	virtual double resetZPEofReactants() ;
 
     // returns the reaction type
     virtual ReactionType getReactionType(){return SECONDORDERASSOCIATION;};
 
-    // Get reactants cell density of states.
-    void getRctsCellDensityOfStates(std::vector<double> &cellDOS) ;
-
     // Get reactants grain ZPE
-    const int get_rctsGrnZPE(void);
-
-    // Calculate the effective threshold energy for utilizing in k(E)
-    // calculations, necessary for cases with a negative threshold energy.
-    void calcEffGrnThresholds(void);
+    virtual const int get_rctsGrnZPE(void);
 
     // Get cell offset for the reactants.
-    size_t get_cellOffset(void) {
-      double modulus = fmod(m_rct1->getDOS().get_zpe() + m_rct2->getDOS().get_zpe() - getEnv().EMin, double(getEnv().GrainSize))/getEnv().CellSize ;
+    virtual size_t get_cellOffset(void) {
+      double modulus = fmod(m_rct1->getDOS().get_zpe() - getEnv().EMin, double(getEnv().GrainSize))/getEnv().CellSize ;
       return size_t(modulus) ;
     } ;
-
-    bool calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne);
 
     // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;

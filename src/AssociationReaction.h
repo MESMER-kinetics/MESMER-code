@@ -85,6 +85,10 @@ namespace mesmer
     virtual double get_relative_pdtZPE() const { return m_pdt1->getDOS().get_zpe() - getEnv().EMin; }
     virtual double get_relative_TSZPE(void) const { return m_TransitionState->getDOS().get_zpe() - getEnv().EMin; };
 
+	// Reset zero point energy locations of the reactants such that
+	// location of the pair is entirely on the pseudoisomer.
+	virtual double resetZPEofReactants() ;
+
 	// Returns header needed by reaction rate test method.
 	virtual std::string TestRateCoeffHeader() const {return string("    T/K kf/cm3mlc-1s-1         kb/s-1  Keq/cm3mlc-1") ; } ; 
 
@@ -105,14 +109,14 @@ namespace mesmer
     void getRctsCellDensityOfStates(std::vector<double> &cellDOS) ;
 
     // Get reactants grain ZPE
-    const int get_rctsGrnZPE(void);
+    virtual const int get_rctsGrnZPE(void);
 
     // Calculate the effective threshold energy for utilizing in k(E)
     // calculations, necessary for cases with a negative threshold energy.
     void calcEffGrnThresholds(void);
 
     // Get cell offset for the reactants.
-    size_t get_cellOffset(void) {
+    virtual size_t get_cellOffset(void) {
       double modulus = fmod(m_rct1->getDOS().get_zpe() + m_rct2->getDOS().get_zpe() - getEnv().EMin, double(getEnv().GrainSize))/getEnv().CellSize ;
       return size_t(modulus) ;
     } ;

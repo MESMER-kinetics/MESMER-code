@@ -57,6 +57,14 @@ namespace mesmer
 
   }
 
+  // Reset zero point energy locations of the reactants such that
+  // location of the pair is entirely on the pseudoisomer - in the
+  // second order case this redundant and so we simply return the 
+  // ZPE of the reactant.
+  double SecondOrderAssocReaction::resetZPEofReactants() {
+	return get_pseudoIsomer()->getDOS().get_zpe();
+  }
+
   void SecondOrderAssocReaction::AddReactionTerms(qdMatrix      *CollOptr,
     molMapType    &isomermap,
     const double rMeanOmega)
@@ -86,16 +94,19 @@ namespace mesmer
 
     // Note: reverseThreshE will always be greater than pShiftedGrains here.
 
+	// In following factors 2.0 and 4.0 appear. These arise from the the Taylor
+	// expansion of the non-linear term about the the equilibrium point. 
+
     for ( int i = reverseThreshE, j = fluxStartIdx; i < colloptrsize; ++i, ++j) {
       int ii(pdtRxnOptPos + i) ;
       int kk (i - pShiftedGrains);
       qd_real Flux(m_GrainFlux[j]), dos(pdtDOS[i]), addPop(adductPopFrac[kk]) ;
-      (*CollOptr)[ii][ii] -= qdMeanOmega * Flux / dos ;                  // Loss of the adduct to the source
-      (*CollOptr)[jj][ii]  = qdMeanOmega * Flux * sqrt(Keq*addPop)/dos ; // Reactive gain of the source
-      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                       // Reactive gain (symmetrization)
+      (*CollOptr)[ii][ii] -= qdMeanOmega * Flux / dos ;                                 // Loss of the adduct to the source
+      (*CollOptr)[jj][ii]  = qdMeanOmega * Flux * qd_real(2.0) * sqrt(Keq*addPop)/dos ; // Reactive gain of the source
+      (*CollOptr)[ii][jj]  = (*CollOptr)[jj][ii] ;                                      // Reactive gain (symmetrization)
       DissRateCoeff       += Flux * addPop / dos;
     }
-    (*CollOptr)[jj][jj] -= qdMeanOmega * DissRateCoeff * Keq ;           // Loss of the source from detailed balance.
+    (*CollOptr)[jj][jj] -= qd_real(4.0) * qdMeanOmega * DissRateCoeff * Keq ;           // Loss of the source from detailed balance.
   }
 
   //
@@ -181,101 +192,12 @@ namespace mesmer
 
   }
 
-  // Is reaction equilibrating and therefore contributes
-  // to the calculation of equilibrium fractions.
-  bool SecondOrderAssocReaction::isEquilibratingReaction(double &Keq, Molecule **rct, Molecule **pdt) {
-
-    Keq = calcEquilibriumConstant() ;
-
-    *rct = m_rct1 ;
-    *pdt = m_pdt1 ;
-
-    return true ;
-  }
-
-  //
-  // Calculate the rovibrational density of states of reactants.
-  //
-  bool SecondOrderAssocReaction::calcRctsGrainDensityOfStates(std::vector<double>& grainDOS, std::vector<double>& grainEne)
-  {
-    std::vector<double> rctsCellDOS;
-    getRctsCellDensityOfStates(rctsCellDOS);
-
-    const int MaximumCell = getEnv().MaxCell;
-
-    // Get the cell offset for the source term.
-    const size_t cellOffset = get_cellOffset() ;
-
-    std::vector<double> rctsCellEne;
-    getCellEnergies(MaximumCell, getEnv().CellSize, rctsCellEne);
-
-    const string catName = m_rct1->getName() + " + " + m_rct2->getName();
-
-    if (getFlags().cyclePrintCellDOS){
-      ctest << endl << "Cell rovibronic density of states of " << catName << endl << "{" << endl;
-      for (int i = 0; i < MaximumCell; ++i){
-        formatFloat(ctest, rctsCellEne[i],  6,  15) ;
-        formatFloat(ctest, rctsCellDOS[i],  6,  15) ;
-        ctest << endl ;
-      }
-      ctest << "}" << endl;
-      getFlags().cyclePrintCellDOS = false;
-    }
-
-    calcGrainAverages(getEnv().MaxGrn, getEnv().cellPerGrain(), cellOffset, rctsCellDOS, rctsCellEne, grainDOS, grainEne) ;
-
-    if (getFlags().cyclePrintGrainDOS){
-      ctest << endl << "Grain rovibronic density of states of " << catName << endl << "{" << endl;
-      for (size_t i(0); i < getEnv().MaxGrn; ++i){
-        formatFloat(ctest, grainEne[i],  6,  15) ;
-        formatFloat(ctest, grainDOS[i],  6,  15) ;
-        ctest << endl ;
-      }
-      ctest << "}" << endl;
-      getFlags().cyclePrintGrainDOS = false;
-    }
-
-    return true;
-  }
-
-  //
-  // Get reactants cell density of states.
-  //
-  void SecondOrderAssocReaction::getRctsCellDensityOfStates(vector<double> &cellDOS) {
-    countDimerCellDOS(m_rct1->getDOS(), m_rct2->getDOS(), cellDOS);
-  }
-
   const int SecondOrderAssocReaction::get_rctsGrnZPE(){
-    double grnZpe = (m_rct1->getDOS().get_zpe()+m_rct2->getDOS().get_zpe()-getEnv().EMin) / getEnv().GrainSize ; //convert to grain
+    double grnZpe = (m_rct1->getDOS().get_zpe() - getEnv().EMin) / getEnv().GrainSize ; //convert to grain
     if (grnZpe < 0.0)
       cerr << "Grain zero point energy has to be a non-negative value.";
 
     return int(grnZpe);
-  }
-
-  void SecondOrderAssocReaction::calcEffGrnThresholds(void){  // calculate the effective forward and reverse
-    double threshold = get_ThresholdEnergy();            // threshold energy for an association reaction
-    double RxnHeat   = getHeatOfReaction(); 
-
-    int fluxGrnBottom   = get_fluxGrnZPE();
-    int pdtGrnZPE       = m_pdt1->getColl().get_grnZPE();
-    int rctsGrnZPE      = get_rctsGrnZPE();
-    int GrainedRxnHeat  = pdtGrnZPE - rctsGrnZPE;
-
-    if(threshold<0.0){                          // if the forward threshold energy is negative
-      set_EffGrnFwdThreshold(0);                // forward grained flux threshold energy = 0
-      set_EffGrnRvsThreshold(-GrainedRxnHeat);  // reverse grained flux threshold energy = heat of reaction
-    }
-    else if(threshold>0.0 && threshold<RxnHeat){// if the reverse threshold energy is negative
-      set_EffGrnFwdThreshold( GrainedRxnHeat);  // forward grained flux threshold energy = heat of reaction
-      set_EffGrnRvsThreshold(0);                // reverse grained flux threshold energy = 0
-    }
-    else{
-      // forward grained flux threshold energy = TS energy - rct energy
-      set_EffGrnFwdThreshold(fluxGrnBottom - rctsGrnZPE);
-      // reverse grained flux threshold energy = TS energy - pdt energy
-      set_EffGrnRvsThreshold(fluxGrnBottom - pdtGrnZPE);
-    }
   }
 
 }//namespace
