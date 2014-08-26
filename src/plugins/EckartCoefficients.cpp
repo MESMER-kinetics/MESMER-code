@@ -50,6 +50,7 @@ namespace mesmer
       rctClassicalEnergy += asso->get_excessReactant()->getDOS().getClassicalEnergy();
     }
 
+    pReact->setUsesProductProperties();
     std::vector<Molecule *> pdt_temp;
     pReact->get_products(pdt_temp);
     const double pdtClassicalEnergy(pdt_temp.size() == 1

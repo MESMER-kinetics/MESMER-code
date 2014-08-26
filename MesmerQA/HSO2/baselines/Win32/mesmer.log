@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Aug 19 2014 -- 21:09:38
+     Mesmer v4.0 compiled: -- Aug 25 2014 -- 13:55:22
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -32,7 +32,7 @@ Parsing input xml file...
 HSO2_test.xml
 
 The default value of me:calcMethod was used.
-In R1: Parsing reaction...
+In R1: Parsing reaction...Association reaction
 In H: The default value of me:frequenciesScaleFactor was used.
 In H: The default value of me:symmetryNumber was used.
 In H: The default value of me:DOSCMethod was used.
@@ -51,7 +51,7 @@ All molecules are on the same energy basis: arbitary
 1e+008Torr, 200K at double precision with Ar
 1e+008Torr, 200K at dd precision with Ar
 1e+008Torr, 200K at qd precision with Ar
-Write metadata 20140819_230250
+Write metadata 20140826_122439
 
 File: "HSO2_test.xml" successfully parsed.
 Main Calculation begins
@@ -68,13 +68,13 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 2
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
             200   4.82825e+024            200   4.82825e+024            200   4.82825e+024
 Finish Calculation of P-T case
 3 temperature/concentration-pressure points calculated.
- -- Total time elapsed: 2 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml

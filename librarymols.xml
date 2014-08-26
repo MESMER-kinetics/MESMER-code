@@ -453,7 +453,7 @@
       <property title="Hf298">
         <scalar units="kJ/mol">277.17</scalar>
       </property>
-      <property title="H0-H298" dicRef="me:H0-H298">
+      <property title="H0-H298" dictRef="me:H0-H298">
         <scalar units="kJ/mol">6.66</scalar>
       </property>
       <property title="Energy" dictRef="me:ZPE">

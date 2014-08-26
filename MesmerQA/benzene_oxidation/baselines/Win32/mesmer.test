@@ -1204,10 +1204,10 @@ Canonical first order rate constant for the reverse of reaction R_I1_I2c = 25994
 
 Canonical (high pressure) rate coefficients for R_I1_I2c, calculated from microcanonical rates
 {
-    T/K kf/cm3mlc-1s-1         kb/s-1  Keq/cm3mlc-1
-    100   2.99675e-015   1.05098e-013       0.028514
-    200   3.03793e-015        1.11226   2.73132e-015
-    300   3.83546e-015        29843.8   1.28518e-019
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100        2.99675e-015        1.05098e-013          0.028514
+    200        3.03793e-015             1.11226      2.73132e-015
+    300        3.83546e-015             29843.8      1.28518e-019
 }
 
 Test rovibronic density of states for: TS1_t
@@ -2158,10 +2158,10 @@ Canonical first order rate constant for the reverse of reaction R_I1_I2t = 392.5
 
 Canonical (high pressure) rate coefficients for R_I1_I2t, calculated from microcanonical rates
 {
-    T/K kf/cm3mlc-1s-1         kb/s-1  Keq/cm3mlc-1
-    100   2.70892e-018   1.74941e-019        15.4848
-    200   1.30807e-016     0.00165212   7.91754e-014
-    300   6.43262e-016        465.394   1.38219e-018
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100        2.70892e-018        1.74941e-019           15.4848
+    200        1.30807e-016          0.00165212      7.91754e-014
+    300        6.43262e-016             465.394      1.38219e-018
 }
 
 Test rovibronic density of states for: TS1_HO2
@@ -3115,10 +3115,10 @@ Canonical pseudo first order forward rate constant of irreversible reaction R3_H
 
 Canonical (high pressure) rate coefficients for R3_HO2, calculated from microcanonical rates
 {
-   T(K)         kf/s-1 kb/cm3mlc-1s-1   Keq/mlc cm-3
-    100    1.4733e-021    1.2721e-078   1.15816e+057
-    200    0.000119404   4.57503e-047   2.60991e+042
-    300        63.7408   2.00066e-036   3.18598e+037
+    T/K              kf/s-1 kb/cm3molecule-1s-1  Keq/moleculecm-3
+    100         1.4733e-021         1.2721e-078      1.15816e+057
+    200         0.000119404        4.57503e-047      2.60991e+042
+    300             63.7408        2.00066e-036      3.18598e+037
 }
 
 Test rovibronic density of states for: TS3_t_ax_2_6
@@ -3596,10 +3596,10 @@ Canonical pseudo first order forward rate constant of irreversible reaction R_2_
 
 Canonical (high pressure) rate coefficients for R_2_6t, calculated from microcanonical rates
 {
-   T(K)         kf/s-1 kb/cm3mlc-1s-1   Keq/mlc cm-3
-    100   1.96832e-027   1.84579e-042   1.06639e+015
-    200    4.4981e-008   3.86741e-015   1.16308e+007
-    300       0.127856   5.82878e-006        21935.3
+    T/K              kf/s-1              kb/s-1            Keq   
+    100        1.96832e-027        1.84579e-042      1.06639e+015
+    200         4.4981e-008        3.86741e-015      1.16308e+007
+    300            0.127856        5.82878e-006           21935.3
 }
 
 Test rovibronic density of states for: TS3_c_ax_2_6
@@ -4077,10 +4077,10 @@ Canonical pseudo first order forward rate constant of irreversible reaction R_2_
 
 Canonical (high pressure) rate coefficients for R_2_6c, calculated from microcanonical rates
 {
-   T(K)         kf/s-1 kb/cm3mlc-1s-1   Keq/mlc cm-3
-    100   5.24445e-014    2.8202e-039    1.8596e+025
-    200       0.282124   1.39049e-013   2.02895e+012
-    300         4876.5    6.0708e-005   8.03272e+007
+    T/K              kf/s-1              kb/s-1            Keq   
+    100        5.24445e-014         2.8202e-039       1.8596e+025
+    200            0.282124        1.39049e-013      2.02895e+012
+    300              4876.5         6.0708e-005      8.03272e+007
 }
 
 Eq fraction matrix:

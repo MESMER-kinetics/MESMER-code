@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Aug 19 2014 -- 21:09:38
+     Mesmer v4.0 compiled: -- Aug 25 2014 -- 13:55:22
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -32,7 +32,7 @@ Parsing input xml file...
 Cyclopropene_isomerization_reservoir_state_test.xml
 
 The default value of me:calcMethod was used.
-In R1: Parsing reaction...
+In R1: Parsing reaction...Isomerization reaction
 In allene: The default value of the attribute spinMultiplicity was used.
 In allene: The default value of me:DistributionCalcMethod was used.
 In cyclopropene: The default value of the attribute spinMultiplicity was used.
@@ -40,7 +40,7 @@ In cyclopropene: The default value of me:DistributionCalcMethod was used.
 In R1: No imaginary vibrational frequency. Check if there is tunneling.
 No tunneling method used for R1
 In R1: No crossing method used for R1
-In R2: Parsing reaction...
+In R2: Parsing reaction...Isomerization reaction
 In propyne: The default value of me:DistributionCalcMethod was used.
 In R2: No imaginary vibrational frequency. Check if there is tunneling.
 No tunneling method used for R2
@@ -50,7 +50,7 @@ The default value of the attribute precision was used.
 200.72Torr, 800K at d precision with He
 The default value of the attribute precision was used.
 250Torr, 1000K at d precision with He
-Write metadata 20140819_230257
+Write metadata 20140826_122445
 
 File: "Cyclopropene_isomerization_reservoir_state_test.xml" successfully parsed.
 Main Calculation begins
@@ -61,7 +61,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 1
 Number of cells = 38200, Number of grains = 191
-Build Collison Operator -- Time elapsed: 2 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.

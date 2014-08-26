@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Aug 19 2014 -- 21:09:38
+     Mesmer v4.0 compiled: -- Aug 25 2014 -- 13:55:22
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -32,33 +32,33 @@ Parsing input xml file...
 benzene_oxidation_test.xml
 
 The default value of me:calcMethod was used.
-In R_I1_I2c: Parsing reaction...
+In R_I1_I2c: Parsing reaction...Association reaction
 In I2_c_ax: The default value of me:DistributionCalcMethod was used.
 In R_I1_I2c: No tunneling method used for R_I1_I2c
 In R_I1_I2c: No crossing method used for R_I1_I2c
 In R_I1_I2c: Not a unimolecular reaction: look for excess reactant concentration.
-In R_I1_I2t: Parsing reaction...
+In R_I1_I2t: Parsing reaction...Association reaction
 In I2_t_eq: The default value of me:DistributionCalcMethod was used.
 In R_I1_I2t: No tunneling method used for R_I1_I2t
 In R_I1_I2t: No crossing method used for R_I1_I2t
 In R_I1_I2t: Not a unimolecular reaction: look for excess reactant concentration.
-In R1_HO2: Parsing reaction...
+In R1_HO2: Parsing reaction...Irreversible exchange reaction
 In R1_HO2: No tunneling method used for R1_HO2
 In R1_HO2: No crossing method used for R1_HO2
 In R1_HO2: Not a unimolecular reaction: look for excess reactant concentration.
-In R3_HO2: Parsing reaction...
+In R3_HO2: Parsing reaction...Irreversible unimolecular reaction
 In R3_HO2: No tunneling method used for R3_HO2
 In R3_HO2: No crossing method used for R3_HO2
-In R_2_6t: Parsing reaction...
+In R_2_6t: Parsing reaction...Irreversible unimolecular reaction
 In R_2_6t: No tunneling method used for R_2_6t
 In R_2_6t: No crossing method used for R_2_6t
-In R_2_6c: Parsing reaction...
+In R_2_6c: Parsing reaction...Irreversible unimolecular reaction
 In R_2_6c: No tunneling method used for R_2_6c
 In R_2_6c: No crossing method used for R_2_6c
 All molecules are on the same energy basis: arbitary
 The default value of the attribute precision was used.
 760Torr, 298K at d precision with N2
-Write metadata 20140819_230248
+Write metadata 20140826_122436
 
 File: "benzene_oxidation_test.xml" successfully parsed.
 Main Calculation begins
@@ -75,7 +75,7 @@ Diagonalize the Reaction Operator
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
             298   2.46273e+019
-Finish Calculation of P-T case -- Time elapsed: 1 seconds.
+Finish Calculation of P-T case
 1 temperature/concentration-pressure points calculated.
  -- Total time elapsed: 2 seconds.
 

@@ -320,7 +320,7 @@
 
   <me:control>
     <me:testDOS />
-    <!--<me:testMicroRates />
+    <me:testMicroRates />
     <me:printGrainDOS />
     <me:printCellDOS />
     <me:printReactionOperatorColumnSums />

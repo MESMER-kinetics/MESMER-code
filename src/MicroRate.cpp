@@ -1,3 +1,4 @@
+#include <iomanip>
 #include "Reaction.h"
 //
 // Test the forward microcanonical rate coefficients.
@@ -18,11 +19,19 @@ namespace mesmer
     }
 
     string comment("Canonical rate coefficients (calculated from microcanonical rate coefficients)");
-    PersistPtr ppList = ppbase->XmlWriteMainElement("me:CanonicalRateList", comment );
+    PersistPtr ppList = ppbase->XmlWriteMainElement("me:canonicalRateList", comment );
     size_t MaximumGrain = (pReact->getEnv().MaxGrn - pReact->get_fluxFirstNonZeroIdx());
 
     ctest << "\nCanonical (high pressure) rate coefficients for " << pReact->getName() << ", calculated from microcanonical rates\n{\n";
-	ctest << pReact->TestRateCoeffHeader() << endl ;
+    //Number of reactants and products to set kf,kb and Keq units
+    vector<Molecule*> vec;
+    int nr = pReact->get_reactants(vec);
+    int np = pReact->get_products(vec);
+    ctest << right << setw(7) << "T/K" 
+          << setw(20) << (nr==2 ? "kf/cm3molecule-1s-1": "kf/s-1")
+          << setw(20)  << (np==2 ? "kb/cm3molecule-1s-1": "kb/s-1")
+          << setw(18)  << ((np-nr)==0 ? "Keq   " : ((np-nr)>0 ? "Keq/moleculecm-3" : "Keq/cm3molecule-1"))
+          << endl;
 
 	// Save the current value of excess concentration and set it to unity
 	// to prevent division by zero for assocaiation type reactions.
@@ -38,25 +47,32 @@ namespace mesmer
     double Temp(0.0);
 	vector<double> Coeffs ;
     size_t nTemp(size_t(pReact->getEnv().MaximumTemperature/dTemp)+1);
-    for(size_t i(0) ; i < nTemp ; i++) {
+    for(size_t j(0) ; j < nTemp ; j++) {
       Temp    += dTemp ;
       env.beta = 1.0/(boltzmann_RCpK*Temp) ;
 
-	  Coeffs.clear() ;
-	  pReact->HighPresRateCoeffs(&Coeffs) ;
+      Coeffs.clear() ;
+      pReact->HighPresRateCoeffs(&Coeffs) ;
 
       formatFloat(ctest, Temp,      6,  7) ;
-      formatFloat(ctest, Coeffs[0], 6, 15) ;
-      formatFloat(ctest, Coeffs[1], 6, 15) ;
-      formatFloat(ctest, Coeffs[2], 6, 15) ;
+      formatFloat(ctest, Coeffs[0], 6, 20) ;
+      formatFloat(ctest, Coeffs[1], 6, 20) ;
+      formatFloat(ctest, Coeffs[2], 6, 18) ;
       ctest << endl ;
 
       // Add to XML document.
+      vector<Molecule*> vec;
+      int nr = pReact->get_reactants(vec);
+      int np = pReact->get_products(vec);
       PersistPtr ppItem = ppList->XmlWriteElement("me:kinf");
-      ppItem->XmlWriteValueElement("me:T",   Temp,      6) ;
-      ppItem->XmlWriteValueElement("me:val", Coeffs[0], 6) ;
-      ppItem->XmlWriteValueElement("me:rev", Coeffs[2], 6) ;
-      ppItem->XmlWriteValueElement("me:Keq", Coeffs[2], 6) ;
+      PersistPtr pp = ppItem->XmlWriteValueElement("me:T",   Temp,      6) ;
+      if(j==0) pp->XmlWriteAttribute("units", "K");
+      pp = ppItem->XmlWriteValueElement("me:val", Coeffs[0], 6) ;
+      if(j==0) pp->XmlWriteAttribute("units", nr==2 ? "cm3molecule-1s-1": "s-1");
+      pp = ppItem->XmlWriteValueElement("me:rev", Coeffs[1], 6) ;
+      if(j==0) pp->XmlWriteAttribute("units", np==2 ? "cm3molecule-1s-1": "s-1");
+      pp = ppItem->XmlWriteValueElement("me:Keq", Coeffs[2], 6) ;
+      if(j==0) pp->XmlWriteAttribute("units", ((np-nr)==0 ? "" : ((np-nr)>0 ? "moleculecm-3" : "cm3molecule-1")));
     }
     ctest << "}\n";
 

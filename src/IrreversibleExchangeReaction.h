@@ -79,7 +79,8 @@ namespace mesmer
     virtual double get_relative_TSZPE(void) const {return m_TransitionState->getDOS().get_zpe() - getEnv().EMin;};
     
 	// Returns header needed by reaction rate test method.
-	virtual std::string TestRateCoeffHeader() const {return string("   T(K) kf/cm3mlc-1s-1 kb/cm3mlc-1s-1            Keq") ; } ; 
+	//virtual std::string TestRateCoeffHeader() const 
+  //{return string("  T(K)  kf/cm3molecule-1s-1 kb/cm3molecule-1s-1            Keq") ; } ; 
 
     // Calculate high pressure rate coefficients at current T.
     virtual void HighPresRateCoeffs(vector<double> *pCoeffs) ;

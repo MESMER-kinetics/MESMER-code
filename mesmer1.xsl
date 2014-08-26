@@ -183,10 +183,10 @@
       </div>
     </xsl:if>
 
-    <xsl:if test="//me:microRateList">
-      <h3 id="microRates-title" class="handcursor">Microcanonical Rate Coefficients</h3>
+    <xsl:if test="//me:microRateList | //me:canonicalRateList">
+      <h3 id="microRates-title" class="handcursor">Canonical Rate Coefficients</h3>
       <div id="microRates" class="switchgroup2">
-        <xsl:apply-templates select="//me:microRateList"/>
+        <xsl:apply-templates select="//me:microRateList | //me:canonicalRateList"/>
       </div>
     </xsl:if>
 
@@ -381,12 +381,12 @@
     </table>
   </xsl:template>
 
-    <xsl:template match="me:microRateList">
+    <xsl:template match="me:microRateList | me:canonicalRateList">
     <h4>
-      Canonical rate coefficients for
+      Canonical (high pressure) rate coefficients for
       <xsl:value-of select="../@id"/>
       <span class="normal">
-        (Calculated 
+        (calculated from microcanonical rates 
         <xsl:value-of select="@calculated"/>
         )
       </span>
@@ -394,15 +394,29 @@
     <table>
       <tr class="tableheader">
         <td>T/K</td>
-        <td>Rate/s-1</td>
+        <td>
+          <xsl:value-of select="concat('kf/', me:kinf/me:val/@units)"/>
+        </td>
+        <td>
+          <xsl:value-of select="concat('krev/', me:kinf/me:rev/@units)"/>
+        </td>
+        <td>
+          <xsl:value-of select="concat('Keq/', me:kinf/me:Keq/@units)"/>
+        </td>
       </tr>
-      <xsl:for-each select="me:microRate">
+      <xsl:for-each select="me:kinf">
         <tr>
           <td>
             <xsl:value-of select="me:T"/>
           </td>
           <td>
             <xsl:value-of select="me:val"/>
+          </td>
+          <td>
+            <xsl:value-of select="me:rev"/>
+          </td>
+          <td>
+            <xsl:value-of select="me:Keq"/>
           </td>
         </tr>
       </xsl:for-each>

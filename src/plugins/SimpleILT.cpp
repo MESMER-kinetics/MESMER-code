@@ -134,6 +134,7 @@ namespace mesmer
     double relative_ZPE(0.0);
     vector<Molecule *> Isomers;
     if (m_isRvsILTpara) {
+      pReact->setUsesProductProperties();
       pReact->get_products(Isomers);
       relative_ZPE = pReact->get_relative_pdtZPE();
     }

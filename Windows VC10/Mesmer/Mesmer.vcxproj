@@ -209,6 +209,26 @@
     <None Include="..\..\defaults.xml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="..\..\examples\AcetylO2\Acetyl_O2_associationEx.xml" />
+    <None Include="..\..\examples\Butyl_H_to_Butane\Butyl_H_to_Butane.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\..\examples\DefinedTunellingCoefficients\OH+methanol.xml" />
+    <None Include="..\..\examples\Ethyl_H_to_Ethane\Ethyl_H_to_Ethane.xml" />
+    <None Include="..\..\examples\H2Ominimal\H2Ominimal.xml" />
+    <None Include="..\..\examples\i-propyl\ipropyl_2ContrBlks.xml" />
+    <None Include="..\..\examples\i-propyl\ipropyl_LM.xml" />
+    <None Include="..\..\examples\Methoxymethyl\Chebyshev.xml" />
+    <None Include="..\..\examples\Methoxymethyl\ChebyshevCK.xml" />
+    <None Include="..\..\examples\Methyl_H_to_Methane\Methyl_H_to_Methane.xml" />
+    <None Include="..\..\examples\Methyl_H_to_Methane\Methyl_H_to_Methane_FTST.xml" />
+    <None Include="..\..\examples\OH-acetylene\OH_HCCH-irreversibleBim-ci-TC-start.xml" />
+    <None Include="..\..\examples\OH-acetylene\OH_HCCH-irreversibleBim-publish.xml" />
+    <None Include="..\..\examples\OH_NO_to HONO\OH_NO_HONO.xml" />
+    <None Include="..\..\examples\spin_forbidden_kinetics\HCCH_methylene.xml" />
+    <None Include="..\..\examples\spin_forbidden_kinetics\LZ_test.xml" />
+    <None Include="..\..\examples\spin_forbidden_kinetics\WKB_test.xml" />
+    <None Include="..\..\examples\Tunnelling\H+H2,T+T2.xml" />
     <None Include="..\..\librarymols.xml">
       <SubType>Designer</SubType>
     </None>
@@ -218,6 +238,32 @@
     <None Include="..\..\mesmerDiag.xsl">
       <SubType>Designer</SubType>
     </None>
+    <None Include="..\..\MesmerQA\Acetyl O2 association\Acetyl_O2minimal.xml" />
+    <None Include="..\..\MesmerQA\Acetyl O2 association\Acetyl_O2_association.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\..\MesmerQA\Acetyl O2 association\Acetyl_O2_associationGrain.xml" />
+    <None Include="..\..\MesmerQA\Acetyl O2 association\Acetyl_O2_association_mytest.xml" />
+    <None Include="..\..\MesmerQA\Acetyl O2 association\Acetyl_O2_Eoffset.xml" />
+    <None Include="..\..\MesmerQA\AcetylPrior\AcetylPrior.xml" />
+    <None Include="..\..\MesmerQA\benzene_oxidation\benzene_oxidation_test.xml" />
+    <None Include="..\..\MesmerQA\cyclopropene isomerization reservoir state\Cyclopropene_isomerization_reservoir_state_test.xml" />
+    <None Include="..\..\MesmerQA\cyclopropene isomerization\Cyclopropene_isomerization_test.xml" />
+    <None Include="..\..\MesmerQA\HSO2\HSO2.xml" />
+    <None Include="..\..\MesmerQA\HSO2\HSO2_test.xml" />
+    <None Include="..\..\MesmerQA\i-propyl\ipropyl_reservoir.xml" />
+    <None Include="..\..\MesmerQA\i-propyl\ipropyl_test.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\..\MesmerQA\OH acetylene association\OH_acetylene_association_test.xml" />
+    <None Include="..\..\MesmerQA\OH acetylene association\OH_acetylene_pseudo_isomerization.xml" />
+    <None Include="..\..\MesmerQA\pentyl\pentyl_isomerization_basisset_test.xml" />
+    <None Include="..\..\MesmerQA\pentyl\pentyl_isomerization_test.xml" />
+    <None Include="..\..\MesmerQA\pentyl\pentyl_isomerize_dissocn.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\..\MesmerQA\ThermodynamicTable\ThermodynamicTable.xml" />
+    <None Include="..\..\MesmerQA\UnitTests\UnitTests.xml" />
     <None Include="..\..\popDiag.xsl">
       <SubType>Designer</SubType>
     </None>

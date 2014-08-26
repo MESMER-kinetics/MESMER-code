@@ -1,3 +1,18 @@
+2014-August-26 Chris Morley
+
+	* src/MicroRate.cpp: added XML output for me:canonicalRateList (changed
+	from me:CanonicalRateList). Units (names also edited) calculated from
+	number of reactants and products. Replaces virtual TestRateCoeffHeader().
+	Using the reverse rate requires the energy of even sink products to
+	be completely specified, which needs consideration.
+
+	* mesmer1.xsl: updated for above
+
+	* src/ReactionManager.cpp, src/Reaction.h: add reaction type names to log
+	file.
+
+	* Update Win32 baselines
+
 2014-August-25 Struan Robertson
 
 	* SecondOrderAssocReaction.h/.cpp: Implementation of second order association 

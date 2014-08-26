@@ -53,7 +53,7 @@ namespace mesmer
         return false;
       }
       ErrorContext c(id);
-      cinfo << "Parsing reaction..." << endl;
+      cinfo << "Parsing reaction..." ;//<< endl;
       cinfo.flush();
 
       // Read reactant and product types.
@@ -123,6 +123,11 @@ namespace mesmer
         cinfo << "Unknown reaction type.\n";
         return false ;
       }
+      
+      const char* rtypes[] = {"Isomerization","Association", "Dissociation",
+        "Irreversible unimolecular","Irreversible exchange",
+        "Bimolecular sink","Pseudoisomerization","Second Order Association" "Undefined"};
+      cinfo << rtypes[preaction->getReactionType()] << " reaction" << endl;
 
       // The information of the products of a dissociation reaction is necessary, as in
       // the xml output, Mesmer needs to know the products to draw the potential energy

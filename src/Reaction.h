@@ -27,7 +27,7 @@ namespace mesmer
     IRREVERSIBLE_EXCHANGE,
     BIMOLECULAR_SINK,
     PSEUDOISOMERIZATION,
-	SECONDORDERASSOCIATION,
+    SECONDORDERASSOCIATION,
     UNDEFINED_REACTION
   };
 
@@ -178,7 +178,7 @@ namespace mesmer
     virtual ReactionType getReactionType() = 0 ; 
 
 	// Returns header needed by reaction rate test method.
-	virtual std::string TestRateCoeffHeader() const = 0 ; 
+	//virtual std::string TestRateCoeffHeader() const = 0 ; 
 
     // Calculate high pressure rate coefficients at current T.
     virtual void HighPresRateCoeffs(vector<double> *pCoeffs) = 0;
