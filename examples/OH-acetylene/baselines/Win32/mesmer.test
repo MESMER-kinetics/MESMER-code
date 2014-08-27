@@ -325,10 +325,10 @@ Canonical first order rate constant for the reverse of reaction R1 = 1.44074e-01
 
 Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
-    T/K kf/cm3mlc-1s-1         kb/s-1  Keq/cm3mlc-1
-    100   1.29868e-014   1.76538e-057   7.35635e+042
-    200   2.92925e-013   2.89721e-022   1.01106e+009
-    300   8.40148e-013   2.08107e-010      0.0040371
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100        1.29868e-014        1.76538e-057      7.35635e+042
+    200        2.92925e-013        2.89721e-022      1.01106e+009
+    300        8.40148e-013        2.08107e-010         0.0040371
 }
 
 Test rovibronic density of states for: TS_CC_TC
@@ -660,10 +660,10 @@ Canonical first order backward rate constant of isomerization reaction R2 = 1.58
 
 Canonical (high pressure) rate coefficients for R2, calculated from microcanonical rates
 {
-   T(K)         kf/s-1         kb/s-1            Keq
-    100         846184   5.21277e+007      0.0159851
-    200   2.59116e+009   1.93237e+010       0.133246
-    300   4.48154e+010   1.63493e+011       0.273072
+    T/K              kf/s-1              kb/s-1            Keq   
+    100              846184        5.21277e+007         0.0159851
+    200        2.59116e+009        1.93237e+010          0.133246
+    300        4.48154e+010        1.63493e+011          0.273072
 }
 
 k_f(e) grains for R3a:
@@ -825,10 +825,10 @@ Canonical pseudo first order forward rate constant of irreversible reaction R3a 
 
 Canonical (high pressure) rate coefficients for R3a, calculated from microcanonical rates
 {
-    T/K kb/cm3mlc-1s-1         kf/s-1   Keq/mlc cm-3
-    100         833028   4.58224e-067   1.81795e+072
-    200         833028   1.29589e-015   6.42822e+020
-    300         833028        384.443        2166.85
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100              833028        4.58224e-067      1.81795e+072
+    200              833028        1.29589e-015      6.42822e+020
+    300              833028             384.443           2166.85
 }
 
 k_f(e) grains for R3b:
@@ -990,10 +990,10 @@ Canonical pseudo first order forward rate constant of irreversible reaction R3b 
 
 Canonical (high pressure) rate coefficients for R3b, calculated from microcanonical rates
 {
-    T/K kb/cm3mlc-1s-1         kf/s-1   Keq/mlc cm-3
-    100   1.02113e+006   2.34257e-054   4.35903e+059
-    200   1.02113e+006   3.41886e-009   2.98676e+014
-    300   1.02113e+006   8.22285e+006       0.124182
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100        1.02113e+006        2.34257e-054      4.35903e+059
+    200        1.02113e+006        3.41886e-009      2.98676e+014
+    300        1.02113e+006        8.22285e+006          0.124182
 }
 
 Eq fraction matrix:

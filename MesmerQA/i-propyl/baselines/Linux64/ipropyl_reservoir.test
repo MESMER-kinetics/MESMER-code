@@ -1808,15 +1808,15 @@ Test rovibronic density of states for: i-propyl
 
 Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
-   T(K)         kf/s-1 kb/cm3mlc-1s-1   Keq/mlc cm-3
-    100     8.589e-072   2.73751e-015   3.13752e-057
-    200   3.42241e-029   1.23349e-013   2.77458e-016
-    300   5.69441e-015   4.46322e-013      0.0127585
-    400   7.34921e-008   8.50846e-013        86375.4
-    500     0.00133406   1.23491e-012   1.08029e+009
-    600       0.864186   1.48871e-012   5.80494e+011
-    700        78.2289    1.5158e-012   5.16091e+013
-    800        1979.04   1.32861e-012   1.48956e+015
+    T/K              kf/s-1 kb/cm3molecule-1s-1  Keq/moleculecm-3
+    100          8.589e-072        2.73751e-015      3.13752e-057
+    200        3.42241e-029        1.23349e-013      2.77458e-016
+    300        5.69441e-015        4.46322e-013         0.0127585
+    400        7.34921e-008        8.50846e-013           86375.4
+    500          0.00133406        1.23491e-012      1.08029e+009
+    600            0.864186        1.48871e-012      5.80494e+011
+    700             78.2289         1.5158e-012      5.16091e+013
+    800             1979.04        1.32861e-012      1.48956e+015
 }
 The reservoir for i-propyl is 10 grains,which is 1000 cm-1 (or 11.9626 kJ/mol) from the well bottom.
 At equilibrium 0.972252 of the i-propyl population is in the active states. 
@@ -3697,15 +3697,15 @@ Test rovibronic density of states for: i-propyl
 
 Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
-   T(K)         kf/s-1 kb/cm3mlc-1s-1   Keq/mlc cm-3
-    100   8.58941e-072   2.73764e-015   3.13752e-057
-    200   3.42239e-029   1.23348e-013   2.77458e-016
-    300   5.69438e-015    4.4632e-013      0.0127585
-    400   7.35068e-008   8.51015e-013        86375.4
-    500     0.00133709   1.23772e-012   1.08029e+009
-    600       0.871531   1.50136e-012   5.80494e+011
-    700         79.661   1.54355e-012   5.16091e+013
-    800        2037.58   1.36791e-012   1.48956e+015
+    T/K              kf/s-1 kb/cm3molecule-1s-1  Keq/moleculecm-3
+    100        8.58941e-072        2.73764e-015      3.13752e-057
+    200        3.42239e-029        1.23348e-013      2.77458e-016
+    300        5.69438e-015         4.4632e-013         0.0127585
+    400        7.35068e-008        8.51015e-013           86375.4
+    500          0.00133709        1.23772e-012      1.08029e+009
+    600            0.871531        1.50136e-012      5.80494e+011
+    700              79.661        1.54355e-012      5.16091e+013
+    800             2037.58        1.36791e-012      1.48956e+015
 }
 The reservoir for i-propyl is 10 grains,which is 1000 cm-1 (or 11.9626 kJ/mol) from the well bottom.
 At equilibrium 0.974639 of the i-propyl population is in the active states. 
