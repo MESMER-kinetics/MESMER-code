@@ -55,10 +55,6 @@ namespace mesmer
 
     const int get_pdtsGrnZPE();
 
-	// Returns header needed by reaction rate test method.
-	//virtual std::string TestRateCoeffHeader() const 
-  //{return string("   T(K)    kf/s-1 kb/cm3molecule-1s-1  Keq/moleculecm-3") ; } ; //should be kb/s-1...Keq
-
     // Calculate high pressure rate coefficients at current T.
     virtual void HighPresRateCoeffs(vector<double> *pCoeffs) ;
 

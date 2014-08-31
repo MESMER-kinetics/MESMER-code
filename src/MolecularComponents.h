@@ -152,7 +152,7 @@ namespace mesmer
     void setCellDensityOfStates(std::vector<double> &cellDOS) { m_cellDOS = cellDOS ; } ;
 
     // Get Electronic excitations
-    void getEleExcitation(vector<double> &elecExci);
+    void getEleExcitation(vector<double> &elecExci) { elecExci = m_eleExc ; } ;
 
     // Calculate Density of states
     bool calcDensityOfStates();

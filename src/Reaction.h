@@ -177,9 +177,6 @@ namespace mesmer
     // returns the reaction type
     virtual ReactionType getReactionType() = 0 ; 
 
-	// Returns header needed by reaction rate test method.
-	//virtual std::string TestRateCoeffHeader() const = 0 ; 
-
     // Calculate high pressure rate coefficients at current T.
     virtual void HighPresRateCoeffs(vector<double> *pCoeffs) = 0;
 

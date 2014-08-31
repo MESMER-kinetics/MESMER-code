@@ -78,10 +78,6 @@ namespace mesmer
     virtual double get_relative_pdtZPE() const {return m_pdt1->getDOS().get_zpe() + m_pdt2->getDOS().get_zpe() - getEnv().EMin;}
     virtual double get_relative_TSZPE(void) const {return m_TransitionState->getDOS().get_zpe() - getEnv().EMin;};
     
-	// Returns header needed by reaction rate test method.
-	//virtual std::string TestRateCoeffHeader() const 
-  //{return string("  T(K)  kf/cm3molecule-1s-1 kb/cm3molecule-1s-1            Keq") ; } ; 
-
     // Calculate high pressure rate coefficients at current T.
     virtual void HighPresRateCoeffs(vector<double> *pCoeffs) ;
 

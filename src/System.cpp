@@ -703,7 +703,10 @@ bool System::parse(PersistPtr ppIOPtr)
       // Is a bimolecular rate coefficient required?
 
       Reaction *reaction = m_pReactionManager->find(refReaction) ;
-      if (reaction && (reaction->getReactionType() == ASSOCIATION || reaction->getReactionType() == PSEUDOISOMERIZATION)) {
+	  ReactionType reactionType = UNDEFINED_REACTION ;
+	  if (reaction)
+		reactionType = reaction->getReactionType() ;
+      if (reactionType == ASSOCIATION || reactionType == PSEUDOISOMERIZATION || reactionType == SECONDORDERASSOCIATION) {
         double concExcessReactant = reaction->get_concExcessReactant() ;
 
         // Test concentration and reaction sense.
@@ -711,6 +714,13 @@ bool System::parse(PersistPtr ppIOPtr)
         if (concExcessReactant > 0.0 && (reaction->get_reactant()->getName() == ref1)) {
           rateCoeff /= concExcessReactant ;
         }
+
+		// Second order reactions need to account for a geometric factor
+
+		if (reactionType == SECONDORDERASSOCIATION) {
+		  rateCoeff /= 4.0 ;
+		}
+
       } else {
         // No reference reaction. Assume reaction is unimolecular.
       }

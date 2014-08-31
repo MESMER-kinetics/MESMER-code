@@ -89,10 +89,6 @@ namespace mesmer
 	// location of the pair is entirely on the pseudoisomer.
 	virtual double resetZPEofReactants() ;
 
-	// Returns header needed by reaction rate test method.
-	//virtual std::string TestRateCoeffHeader() const 
-  //{return string("    T/K  kf/cm3molecule-1s-1             kb/s-1  Keq/cm3molecule-1") ; } ; 
-
     // Calculate high pressure rate coefficients at current T.
     virtual void HighPresRateCoeffs(vector<double> *pCoeffs) ;
 

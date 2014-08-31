@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Aug 25 2014 -- 13:55:22
+     Mesmer v4.0 compiled: -- Aug 31 2014 -- 16:49:40
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -31,7 +31,7 @@ defaults.xml, librarymols.xml are in ../..
 Parsing input xml file...
 ThermodynamicTable.xml
 
-Write metadata 20140826_122455
+Write metadata 20140831_165840
 
 File: "ThermodynamicTable.xml" successfully parsed.
 Main Calculation begins
@@ -57,6 +57,6 @@ In OH: Number of grains requested: 1000
 In OH: Number of grains produced : 580
 In OH: New me:ZPE element written with data from me:Hf298
 Number of grains produced : 580
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml

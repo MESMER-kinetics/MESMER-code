@@ -510,16 +510,6 @@ namespace mesmer
     return NULL;
   }
 
-  //
-  // Get Electronic excitations
-  //
-  void gDensityOfStates::getEleExcitation(vector<double> &elecExci){
-    elecExci.clear();
-    for (vector<double>::size_type i = 0; i < m_eleExc.size(); ++i){
-      elecExci.push_back(m_eleExc[i]);
-    }
-  }
-
   RotationalTop gDensityOfStates::test_rotConsts()
   {
     std::vector<double> mmtsInt;

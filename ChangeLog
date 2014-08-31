@@ -1,3 +1,14 @@
+
+2014-August-31 Struan Robertson
+
+	* System.cpp: Altered chi-squared method to account for second order stoichiometry
+	factors.
+
+	* QMRotor.cpp, ClassicalRotor.cpp: Corrected calculation of electronic partition
+	functions.
+
+	* Reaction classes: Removed commented TestRateCoeffHeader() code.
+
 2014-August-26 Chris Morley
 
 	* src/MicroRate.cpp: added XML output for me:canonicalRateList (changed

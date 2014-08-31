@@ -121,11 +121,12 @@ namespace mesmer
     // Electronic excited states.
     vector<double> eleExc;
     gdos->getEleExcitation(eleExc);
+	double qelec(1.0) ;
     for (size_t j(0) ; j < eleExc.size() ; ++j){
-	  qtot += qtot*exp(-beta*eleExc[j]) ;
+      qelec += exp(-beta*eleExc[j]) ;
     }
 
-	return qtot ;
+    return qtot*qelec ;
   }
   
   // Function to return the number of degrees of freedom associated with this count.
