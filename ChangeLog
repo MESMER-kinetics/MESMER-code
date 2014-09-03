@@ -1,11 +1,16 @@
 
+2014-September-3 Struan Robertson
+
+	* MolecularComponents.cpp: Corrected the volume factor in translational 
+	partition function to give agreement with entropy in JANAF tables.
+
 2014-August-31 Struan Robertson
 
-	* System.cpp: Altered chi-squared method to account for second order stoichiometry
-	factors.
+	* System.cpp: Altered chi-squared method to account for second order 
+	stoichiometry factors.
 
-	* QMRotor.cpp, ClassicalRotor.cpp: Corrected calculation of electronic partition
-	functions.
+	* QMRotor.cpp, ClassicalRotor.cpp: Corrected calculation of electronic 
+	partition functions.
 
 	* Reaction classes: Removed commented TestRateCoeffHeader() code.
 
