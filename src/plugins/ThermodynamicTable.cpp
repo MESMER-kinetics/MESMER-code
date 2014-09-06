@@ -185,7 +185,7 @@ namespace mesmer
 	ostringstream sstrunit ;
 	sstrunit << "(" << unit << ")" ;
 	ostringstream sstrunitk ;
-	sstrunitk << "(" << unit << "/K)" ;
+	sstrunitk << "(" << unit.substr(1,unit.length()) << "/K)" ;
 
 	ostringstream sstrdatum2 ;
 	sstrdatum2 << setw(10) << "(K)" ;
@@ -208,8 +208,8 @@ namespace mesmer
 	  ctest << header ;
 	  header.clear() ;
 	}
-	ctest << formatFloat(temp,    6, 11) << formatFloat(enthalpy,        6, 15) 
-	  << formatFloat(entropy, 6, 15) << formatFloat(gibbsFreeEnergy, 6, 15) << endl ;
+	ctest << formatFloat(temp, 6, 11) << formatFloat(enthalpy, 6, 15) 
+	  << formatFloat(entropy*1000.0, 6, 15) << formatFloat(gibbsFreeEnergy, 6, 15) << endl ;
   }
 
   bool ThermodynamicTable::ReadParameters(PersistPtr ppControl) {

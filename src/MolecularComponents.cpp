@@ -818,8 +818,9 @@ namespace mesmer
 
     // The rovibronic partition function must be corrected for translation 
     // and (assuming an ideal gas) molecular indistinguishability.
+	double molarVol = 1.e+06*idealGasC/(boltzmann_RCpK*beta*atm_in_pascal) ;  // cm3
     gibbsFreeEnergy = unitFctr*(-log(cellCanPrtnFn) 
-	                - log(tp_C * pow((m_host->getStruc().getMass() / beta), 1.5)*(1.e+06*idealGasC/(boltzmann_RCpK*beta*atm_in_pascal))) 
+	                - log(tp_C * pow((m_host->getStruc().getMass() / beta), 1.5)*molarVol) 
 					+ log(AvogadroC)) / beta;
 
     // The enthalpy must be corrected for translation by an additional 3kT/2.

@@ -1,4 +1,8 @@
 
+2014-September-6 Struan Robertson
+
+	* ThermodynamicTable.cpp: Minor change to thermodynamic table presentation.
+
 2014-September-3 Struan Robertson
 
 	* MolecularComponents.cpp: Corrected the volume factor in translational 
