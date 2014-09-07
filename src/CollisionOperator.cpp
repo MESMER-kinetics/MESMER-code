@@ -26,6 +26,7 @@ namespace mesmer
     m_sources(),
     m_sinkRxns(),
     m_meanOmega(0.0),
+	m_precision(DOUBLE),
     m_reactionOperator(0),
     m_eigenvectors(0),
     m_eigenvalues(),
@@ -228,8 +229,16 @@ namespace mesmer
       if (!mEnv.useBasisSetMethod) {
 
         // Full energy grained reaction operator.
-        constructGrainMatrix(mEnv);
-
+		switch (m_precision) {
+		case DOUBLE_DOUBLE:
+		  constructGrainMatrix<dd_real>(mEnv); 
+		  break;
+		case QUAD_DOUBLE: 
+		  constructGrainMatrix<qd_real>(mEnv); 
+		  break;
+		default: 
+		  constructGrainMatrix<double>(mEnv); 
+		}
       } else {
 
         // Contracted basis set reaction operator.
@@ -364,6 +373,7 @@ namespace mesmer
 
   // This method constructs a transition matrix based on energy grains.
   //
+  template<class T> 
   void CollisionOperator::constructGrainMatrix(MesmerEnv &mEnv){
 
     // Determine the size and location of various blocks.
@@ -400,7 +410,7 @@ namespace mesmer
       double omega = isomer->getColl().get_collisionFrequency();
       size_t idx = isomeritr->second ;
 
-      qdMatrix *egme(NULL) ;
+      TMatrix<T> *egme(NULL) ;
 	  if (!isomer->getColl().collisionOperator(mEnv, &egme)) {
         string errorMsg = "Failed building collision operator for " + isomer->getName() + ".";
 		throw(std::runtime_error(errorMsg)) ;
@@ -641,7 +651,7 @@ namespace mesmer
   }
 
   void CollisionOperator::diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv,
-    Precision precision, PersistPtr ppAnalysis)
+    PersistPtr ppAnalysis)
   {
     // Allocate space for eigenvalues.
     const size_t smsize = m_reactionOperator->size() ;
@@ -658,7 +668,7 @@ namespace mesmer
 
     //-------------------------------------------------------------
     // diagonalize the whole matrix
-    switch (precision){
+    switch (m_precision){
     case DOUBLE: 
       {
         dMatrix dDiagM(smsize);

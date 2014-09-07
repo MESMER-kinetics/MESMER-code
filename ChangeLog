@@ -1,4 +1,9 @@
 
+2014-September-7 Struan Robertson
+
+	* MolecularComponents.cpp/.h, CollisionOperator.cpp/.h, System.cpp: Changes 
+	to allow matrix construction to be done at the specified precision.
+
 2014-September-6 Struan Robertson
 
 	* ThermodynamicTable.cpp: Minor change to thermodynamic table presentation.

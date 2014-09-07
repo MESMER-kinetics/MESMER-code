@@ -34,6 +34,8 @@ namespace mesmer
     // Initialize the collision operator object.
     bool initialize(MoleculeManager *pMoleculeManager, ReactionManager *pReactionManager) ;
 
+	void setPrecision(Precision precision) { m_precision = precision ; }
+
     // Calculate the equilibrium fraction of each species in the system.
     bool calculateEquilibriumFractions() ;
 
@@ -42,7 +44,7 @@ namespace mesmer
 
     // Diagonalize the reaction operator.
     void diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv,
-      Precision precision, PersistPtr ppAnalysis = NULL) ;
+      PersistPtr ppAnalysis = NULL) ;
 
     // Calculate the time evolution of the system
     bool timeEvolution(MesmerFlags& mFlags,PersistPtr ppAnalysis, PersistPtr ppPopList, PersistPtr ppAvEList);
@@ -84,6 +86,7 @@ namespace mesmer
     void SetMaximumCellEnergy(MesmerEnv &mEnv, const MesmerFlags& mFlags);
 
     // Construct a transition matrix based on grains.
+    template<class T> 
     void constructGrainMatrix(MesmerEnv &mEnv);
 
     // Construct a transition matrix based on collision operator eigenfunctions.
@@ -118,6 +121,7 @@ namespace mesmer
     double                  m_meanOmega;
 
     // The system transition matrix and associated eigenvalues and eigenvectors.
+	Precision               m_precision ;
     qdMatrix               *m_reactionOperator ;
     qdMatrix               *m_eigenvectors;
     std::vector<qd_real>    m_eigenvalues;

@@ -455,7 +455,9 @@ bool System::parse(PersistPtr ppIOPtr)
 
       if (writeReport) {cinfo << "PT Grid " << calPoint << endl;}
       Precision precision = m_pConditionsManager->PTPointPrecision(calPoint);
-      ctest << "PT Grid " << calPoint << " Condition: conc = " << m_Env.conc << ", temp = " 
+	  m_collisionOperator.setPrecision(precision) ;
+	  
+	  ctest << "PT Grid " << calPoint << " Condition: conc = " << m_Env.conc << ", temp = " 
             << m_pConditionsManager->PTPointTemp(calPoint);
 
       switch (precision) {
@@ -487,7 +489,7 @@ bool System::parse(PersistPtr ppIOPtr)
           throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
 
         // Diagonalise the collision operator.
-        m_collisionOperator.diagReactionOperator(m_Flags, m_Env, precision, ppAnalysis) ;
+        m_collisionOperator.diagReactionOperator(m_Flags, m_Env, ppAnalysis) ;
 
         if (writeReport) {
           string thisEvent = "Diagonalize the Reaction Operator" ;
@@ -604,6 +606,9 @@ bool System::parse(PersistPtr ppIOPtr)
 
     m_Env.bathGasName = m_pConditionsManager->PTPointBathGas(nConds);
 
+    Precision precision = m_pConditionsManager->PTPointPrecision(nConds);
+	m_collisionOperator.setPrecision(precision) ;
+
     // Build collison matrix for system.
     if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags))
       throw (std::runtime_error("Failed building system collison operator.")); 
@@ -612,8 +617,7 @@ bool System::parse(PersistPtr ppIOPtr)
       throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
 
     // Diagonalise the collision operator.
-    Precision precision = m_pConditionsManager->PTPointPrecision(nConds);
-    m_collisionOperator.diagReactionOperator(m_Flags, m_Env, precision) ;
+    m_collisionOperator.diagReactionOperator(m_Flags, m_Env) ;
 
     // Calculate rate coefficients.
     qdMatrix  mesmerRates(1) ;
@@ -649,11 +653,13 @@ bool System::parse(PersistPtr ppIOPtr)
     m_Env.bathGasName = bathGas;
     m_Flags.printEigenValuesNum = 0 ;
 
-    m_Env.beta = 1.0 / (boltzmann_RCpK * Temperature) ; //temporary statements
+    m_Env.beta = 1.0 / (boltzmann_RCpK * Temperature) ;
     m_Env.MaximumTemperature = MaxT;
-    m_Env.conc = Concentration;// unit of conc: particles per cubic centimeter
+    m_Env.conc = Concentration; // Unit of conc: particles per cubic centimeter.
 
-    // Build collison matrix for system.
+	m_collisionOperator.setPrecision(precision) ;
+
+	// Build collison matrix for system.
     if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags))
       throw (std::runtime_error("Failed building system collison operator.")); 
 
@@ -661,7 +667,7 @@ bool System::parse(PersistPtr ppIOPtr)
       throw (std::runtime_error("Failed calculating equilibrium fractions.")); 
 
     // Diagonalise the collision operator.
-    m_collisionOperator.diagReactionOperator(m_Flags, m_Env, precision) ;
+    m_collisionOperator.diagReactionOperator(m_Flags, m_Env) ;
 
     // Calculate rate coefficients.
     qdMatrix BWrates(1);
