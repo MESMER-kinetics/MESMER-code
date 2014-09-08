@@ -16,6 +16,7 @@
 #include "IsomerizationReaction.h"
 #include "IrreversibleExchangeReaction.h"
 #include "BimolecularSinkReaction.h"
+#include "gWellProperties.h"
 
 namespace mesmer
 {

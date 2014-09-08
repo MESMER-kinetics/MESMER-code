@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Aug  4 2014 -- 12:55:04
+     Mesmer v4.0 compiled: -- Sep  8 2014 -- 11:21:07
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -31,7 +31,7 @@ defaults.xml, librarymols.xml are in ../..
 Parsing input xml file...
 Butyl_H_to_Butane.xml
 
-Write metadata 20140804_125839
+Write metadata 20140908_114047
 
 File: "Butyl_H_to_Butane.xml" successfully parsed.
 Main Calculation begins
@@ -677,6 +677,6 @@ In H: The default value of me:DOSCMethod was used.
 Number of grains produced is not equal to that requested
 Number of grains requested: 1000
 Number of grains produced : 1
- -- Total time elapsed: 30 seconds.
+ -- Total time elapsed: 31 seconds.
 
 System saved to out.xml

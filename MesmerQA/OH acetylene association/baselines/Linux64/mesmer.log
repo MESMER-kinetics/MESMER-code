@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Mar  6 2014 -- 13:02:36
+     Mesmer v4.0 compiled: -- Sep  8 2014 -- 11:21:07
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -26,12 +26,13 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
 OH_acetylene_association_test.xml
 
 The default value of me:calcMethod was used.
-In R1: Parsing reaction...
+In R1: Parsing reaction...Association reaction
 In OH: The default value of me:frequenciesScaleFactor was used.
 In acetylene: The default value of me:frequenciesScaleFactor was used.
 In OH_acetylene_adduct: The default value of me:frequenciesScaleFactor was used.
@@ -40,22 +41,34 @@ In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
-In R2: Parsing reaction...
+In R2: Parsing reaction...Irreversible unimolecular reaction
 In TS_1a: No imaginary vibrational frequency. Check if there is tunneling.
 The default value of me:frequenciesScaleFactor was used.
 In R2: No tunneling method used for R2
 In R2: No crossing method used for R2
 All molecules are on the same energy basis: arbitary
-The default value of precision (or one of its attributes) was used.
+The default value of the attribute precision was used.
 1000torr, 298K at d precision with N2
-Write metadata 20140306_130813
+Write metadata 20140908_113403
 
 File: "OH_acetylene_association_test.xml" successfully parsed.
 Main Calculation begins
+Execute calcMethod simpleCalc
+PT Grid 0
+Number of cells = 16000, Number of grains = 320
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
+In OCHCH2: The default value of me:frequenciesScaleFactor was used.
+In OCHCH2: The default value of me:DOSCMethod was used.
+Build Collison Operator
+Diagonalize the Reaction Operator
 In timeEvolution: No population was assigned. Initialize the first source term to 1.0.
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+            298   3.24043e+019
 Finish Calculation of P-T case
- -- Total time elapsed: 1 seconds.
+1 temperature/concentration-pressure points calculated.
+ -- Total time elapsed: 0 seconds.
 
 System saved to out.xml

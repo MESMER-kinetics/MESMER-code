@@ -145,6 +145,7 @@ SRCS := \
 	DensityOfStates.cpp \
 	error.cpp \
 	formatfloat.cpp \
+	gWellProperties.cpp \
 	IrreversibleExchangeReaction.cpp \
 	IrreversibleUnimolecularReaction.cpp \
 	IsomerizationReaction.cpp \

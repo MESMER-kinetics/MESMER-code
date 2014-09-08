@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Aug  4 2014 -- 12:55:04
+     Mesmer v4.0 compiled: -- Sep  8 2014 -- 11:21:07
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -32,21 +32,21 @@ Parsing input xml file...
 AcetylPrior.xml
 
 In He: He copied from ../../librarymols.xml
-In R1: Parsing reaction...
+In R1: Parsing reaction...Irreversible unimolecular reaction
 In acetyl: Prior:ExcessEnergy was given a range with 4 steps 
 In AceticAcid: No value of me:ZPE was supplied and the default value NEEDS TO BE CHECKED**
 In acetyl: The default value of me:energyTransferModel was used.
 In TSdecomp: The default value of the attribute spinMultiplicity was used.
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
-In R2: Parsing reaction...
+In R2: Parsing reaction...Bimolecular sink reaction
 In R2: Reading parameters for Reaction R2 which uses the SimpleBimolecularSink method
 In R2: No tunneling method used for R2
 In R2: No crossing method used for R2
 In R2: Not a unimolecular reaction: look for excess reactant concentration.
 All molecules are on the same energy basis: arbitary
 80Torr, 298K at d precision with He
-Write metadata 20140804_143809
+Write metadata 20140908_130900
 
 File: "AcetylPrior.xml" successfully parsed.
 Main Calculation begins

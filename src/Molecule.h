@@ -18,6 +18,7 @@ namespace mesmer
 {
 
   class MoleculeManager ;
+	class gWellProperties ;
 
   //**************************************************
   /// Basic molecule: has name and some collision parameters.

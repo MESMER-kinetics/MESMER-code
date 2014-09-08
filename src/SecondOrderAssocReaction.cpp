@@ -10,6 +10,7 @@
 //-------------------------------------------------------------------------------------------
 #include <limits>
 #include "SecondOrderAssocReaction.h"
+#include "gWellProperties.h"
 #include <math.h>
 
 using namespace Constants ;

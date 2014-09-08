@@ -10,6 +10,7 @@
 //-------------------------------------------------------------------------------------------
 #include <limits>
 #include "IrreversibleUnimolecularReaction.h"
+#include "gWellProperties.h"
 
 using namespace Constants ;
 using namespace std;

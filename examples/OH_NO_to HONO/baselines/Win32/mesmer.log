@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Sep  6 2014 -- 21:58:20
+     Mesmer v4.0 compiled: -- Sep  8 2014 -- 11:29:11
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -66,7 +66,7 @@ All molecules are on the same energy basis: computational
 1.64e+017PPCC, 294K at d precision with He
 2.63e+017PPCC, 294K at d precision with He
 3.28e+017PPCC, 294K at d precision with He
-Write metadata 20140907_112254
+Write metadata 20140908_131722
 
 File: "OH_NO_HONO.xml" successfully parsed.
 Main Calculation begins
@@ -171,9 +171,9 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 1
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 2
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
 PT Grid 3
 Build Collison Operator
@@ -183,16 +183,16 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 5
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 6
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 7
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 8
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 9
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
@@ -209,13 +209,13 @@ PT Grid 13
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 14
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 15
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 16
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -238,7 +238,7 @@ Diagonalize the Reaction Operator
             294      2.63e+017           1078        921.011
             294      3.28e+017           1345        1118.35
 
-Finish Calculation of P-T case
+Finish Calculation of P-T case -- Time elapsed: 1 seconds.
 17 temperature/concentration-pressure points calculated.
 
 Chi^2 = 51.7393
@@ -257,6 +257,6 @@ Goodness of Fit:
 Number of degrees of Freedom = 15
 Chi^2 probability = 6.23735e-006
 
- -- Total time elapsed: 264 seconds.
+ -- Total time elapsed: 310 seconds.
 
 System saved to out.xml

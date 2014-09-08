@@ -10,6 +10,7 @@
 //-------------------------------------------------------------------------------------------
 #include <limits>
 #include "BimolecularSinkReaction.h"
+#include "gWellProperties.h"
 
 using namespace Constants ;
 using namespace std;

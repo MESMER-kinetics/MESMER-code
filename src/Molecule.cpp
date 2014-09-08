@@ -5,6 +5,7 @@
 // Date:   5/Jan/2003
 //-------------------------------------------------------------------------------------------
 #include "Molecule.h"
+#include "gWellProperties.h"
 
 using namespace std ;
 using namespace Constants ;

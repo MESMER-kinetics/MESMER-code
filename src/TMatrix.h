@@ -620,7 +620,7 @@ namespace mesmer
   template<class T>
   int TMatrix<T>::ludcmp(T **a,  const size_t &n, vector<size_t> &indx) {
 
-    size_t imax;
+    size_t imax(0);
 
     T big, dum, sum, temp ;
     T tiny = numeric_limits<T>::epsilon();

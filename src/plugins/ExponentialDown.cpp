@@ -21,6 +21,7 @@ all in one file, as here.
 #include "../Rdouble.h"
 #include "../MolecularComponents.h"
 #include "../Molecule.h"
+#include "../gWellProperties.h"
 #include <cmath>
 
 using namespace std ;

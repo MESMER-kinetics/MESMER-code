@@ -1,6 +1,15 @@
 
 2014-September-7 Struan Robertson
 
+	* MolecularComponents.cpp/.h, CollisionOperator.cpp/.h, Reaction classes
+	and the addition of gWellProperties.h/.cpp: Moved well properties out to
+	own set of files as	the template structure was causing build problems on 
+	Linux.
+
+	* Updated Linux64 baselines.
+
+2014-September-7 Struan Robertson
+
 	* MolecularComponents.cpp/.h, CollisionOperator.cpp/.h, System.cpp: Changes 
 	to allow matrix construction to be done at the specified precision.
 

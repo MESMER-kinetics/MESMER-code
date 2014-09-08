@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Sep  6 2014 -- 21:58:20
+     Mesmer v4.0 compiled: -- Sep  8 2014 -- 11:29:11
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -190,7 +190,7 @@ The default value of the attribute precision was used.
 3.01e+016PPCC, 870K at d precision with He
 The default value of the attribute precision was used.
 3e+016PPCC, 880K at d precision with He
-Write metadata 20140907_092442
+Write metadata 20140908_114238
 
 File: "ipropyl_LM.xml" successfully parsed.
 Main Calculation begins
@@ -299,7 +299,7 @@ PT Grid 7
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 8
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 9
 Build Collison Operator
@@ -308,7 +308,7 @@ PT Grid 10
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 11
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
 PT Grid 12
 Build Collison Operator
@@ -333,7 +333,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 19
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 20
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -342,7 +342,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 22
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 23
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -368,7 +368,7 @@ PT Grid 30
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 31
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 32
 Build Collison Operator
@@ -377,7 +377,7 @@ PT Grid 33
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 34
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
 PT Grid 35
 Build Collison Operator
@@ -402,7 +402,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 42
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 43
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -413,7 +413,7 @@ PT Grid 45
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 46
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
 PT Grid 47
 Build Collison Operator
@@ -435,7 +435,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 53
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 54
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -449,7 +449,7 @@ PT Grid 57
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 58
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
 PT Grid 59
 Build Collison Operator
@@ -468,7 +468,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 64
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 65
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -485,7 +485,7 @@ PT Grid 69
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 70
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -581,6 +581,6 @@ Goodness of Fit:
 Number of degrees of Freedom = 69
 Chi^2 probability = 1
 
- -- Total time elapsed: 131 seconds.
+ -- Total time elapsed: 135 seconds.
 
 System saved to out.xml
