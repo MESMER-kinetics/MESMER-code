@@ -109,7 +109,7 @@ namespace mesmer
     m_RotCstB(0.0),
     m_RotCstC(0.0),
     m_Sym(1.0),
-    m_ZPE(0.0),
+    m_ZPE(NaN),
     m_scaleFactor(1.0),
     m_SpinMultiplicity(1),
     m_RC_chk(-1),
@@ -165,7 +165,7 @@ namespace mesmer
     else {
       hasVibFreq = false;
       if (!pMol->getStruc().IsAtom())
-        cinfo << "Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion." << endl;
+        cinfo << "Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule." << endl;
     }
 
     m_scaleFactor = ppPropList->XmlReadPropertyDouble("me:frequenciesScaleFactor");
@@ -215,7 +215,7 @@ namespace mesmer
     }
     else if (!pMol->getStruc().IsAtom()){
       cinfo << "No rotational constants from <me:rotConsts> or structure. "
-        "Assumed to be an atom or atomic ion." << endl;
+        "Assuming an atom or a sink molecule." << endl;
     }
     else
       m_RC_chk = 0;
@@ -310,13 +310,14 @@ namespace mesmer
       double Hf0 = ppPropList->XmlReadPropertyDouble("me:Hf0", optional);
       double HfAT0 = ppPropList->XmlReadPropertyDouble("me:HfAT0", optional);
       double Hf298 = ppPropList->XmlReadPropertyDouble("me:Hf298", optional);
-      if (IsNan(Hf0) && IsNan(HfAT0) && IsNan(Hf298))
-      {
-        //None of me:ZPE, me:Hf0, me:HAT0 and meHf298 are present; use a default ZPE.
-        tempzpe = ppPropList->XmlReadPropertyDouble("me:ZPE", true);
-      }
-      else
-      {
+      //Do not provide a default ZPE
+      //if (IsNan(Hf0) && IsNan(HfAT0) && IsNan(Hf298))
+      //{
+      //  //None of me:ZPE, me:Hf0, me:HAT0 and meHf298 are present; use a default ZPE.
+      //  tempzpe = ppPropList->XmlReadPropertyDouble("me:ZPE", true);
+      //}
+      //else
+      //{
         // If there is not a convention="thermodynamic" attribute on Hf298,
         // convert Hf0,etc. and write back a me:ZPE property which will be used in future
         // Currently, Hf0,etc. cannot be used as a range variables
@@ -345,27 +346,35 @@ namespace mesmer
         }
         else
         {
-          //Use Hf298
+          if(!IsNan(Hf0))
+          {
+            //Use Hf298
           const char* convention = ppPropList->XmlReadPropertyAttribute(origElement, "convention", optional);
           if (convention && strcmp(convention, "thermodynamic") == 0)
-          {
-            m_EnergyConvention = convention;
-            tempzpe = getConvertedEnergy(utxt, Hf298); //Raw Hf298 to cm-1
-            return calcDensityOfStates(); //necessary here for Unit Tests but I don't know why.
+            {
+              m_EnergyConvention = convention;
+              tempzpe = getConvertedEnergy(utxt, Hf298); //Raw Hf298 to cm-1
+              return calcDensityOfStates(); //necessary here for Unit Tests but I don't know why.
+            }
+            /*Atomize species X at 298K
+            deltaH  = Sum over atoms(Hf298)) - Hf298(X)
+            = Sum(E + Sum(H(298K)) - (E(X) + H(298K))
+            E(X) = (Hf298 - H(298K))(X) + Sum over atoms(E - Hf298 + H(298K))
+            */
+            // H is the enthalpy in cm-1 and 298K calculated with m_ZPE=0.
+            // Hf0 is the real enthalpy of formation at 0K in cm-1.
+            double H, S, G;
+            set_zpe(0.0);
+            thermodynamicsFunctions(298, 1.0, H, S, G);
+            //Hf298 = getConvertedEnergy(utxt, Hf298) + H; //cm-1 sign changed
+            tempzpe = getConvertedEnergy(utxt, Hf298) - H
+              + getConvertedEnergy("kJ/mol", getHost()->getStruc().CalcSumEMinusHf0(false, true));//cm-1        
           }
-          /*Atomize species X at 298K
-          deltaH  = Sum over atoms(Hf298)) - Hf298(X)
-          = Sum(E + Sum(H(298K)) - (E(X) + H(298K))
-          E(X) = (Hf298 - H(298K))(X) + Sum over atoms(E - Hf298 + H(298K))
-          */
-          // H is the enthalpy in cm-1 and 298K calculated with m_ZPE=0.
-          // Hf0 is the real enthalpy of formation at 0K in cm-1.
-          double H, S, G;
-          set_zpe(0.0);
-          thermodynamicsFunctions(298, 1.0, H, S, G);
-          //Hf298 = getConvertedEnergy(utxt, Hf298) + H; //cm-1 sign changed
-          tempzpe = getConvertedEnergy(utxt, Hf298) - H
-            + getConvertedEnergy("kJ/mol", getHost()->getStruc().CalcSumEMinusHf0(false, true));//cm-1
+        }
+        if(IsNan(tempzpe))
+        {
+          cinfo << "No ZPE (or an alternative) was provided." << endl;
+          return true;
         }
         set_zpe(tempzpe);
         m_ZPE_chk = 0;
@@ -378,7 +387,7 @@ namespace mesmer
         ppScalar->XmlWriteAttribute("convention", "computational");//orig units
         m_EnergyConvention = "computational";
         cinfo << "New me:ZPE element written with data from " << origElement << endl;
-      }
+      //}
     }
     return true;
   }
@@ -521,7 +530,7 @@ namespace mesmer
     if (m_RC_chk <= -1){
       ErrorContext e(this->getHost()->getName());
       if (m_RC_chk == -1)
-        cinfo << "Rotational constants were not defined but requested." << endl;
+//        cinfo << "Rotational constants were not defined but requested." << endl;
       --m_RC_chk;
       return UNDEFINED_TOP; // treat as a non-rotor
     }
@@ -565,10 +574,17 @@ namespace mesmer
         return false;
     }
 
-    const int cellOffset = get_cellOffset();
-    std::vector<double> cellEne;
-    getCellEnergies(MaximumCell, m_host->getEnv().CellSize, cellEne);
-    calcGrainAverages(m_host->getEnv().MaxGrn, m_host->getEnv().cellPerGrain(), cellOffset, m_cellDOS, cellEne, m_grainDOS, m_grainEne);
+    if(IsNan(m_ZPE))
+    {
+      //cinfo << "calculation of DOS cutailed because no ZPE" << endl;
+    }
+    else
+    {
+      const int cellOffset = get_cellOffset();
+      std::vector<double> cellEne;
+      getCellEnergies(MaximumCell, m_host->getEnv().CellSize, cellEne);
+      calcGrainAverages(m_host->getEnv().MaxGrn, m_host->getEnv().cellPerGrain(), cellOffset, m_cellDOS, cellEne, m_grainDOS, m_grainEne);
+    }
 
     if (recalc) {
       testDensityOfStates();
@@ -670,7 +686,7 @@ namespace mesmer
 
   double gDensityOfStates::get_zpe() {
     if (m_ZPE_chk == -1) {
-      cinfo << "m_ZPE was not defined but requested in " << m_host->getName() << ". Default value " << m_ZPE << " is given." << endl;
+//      cinfo << "m_ZPE was not defined but requested in " << m_host->getName() << ". Default value " << m_ZPE << " is given." << endl;
       --m_ZPE_chk;
     }
     else if (m_ZPE_chk < -1) {
@@ -1211,8 +1227,8 @@ namespace mesmer
     {
       ReadStructure();
       if (Atoms.empty())
-        cerr << "If no chemical structure is provided,"
-        "Molecular Weight must be input as an XML property." << endl;
+        cinfo << "Neither chemical structure nor "
+        "Molecular Weight as an XML property were provided." << endl;
       else
         MW = CalcMW();
     }

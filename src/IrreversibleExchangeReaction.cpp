@@ -306,10 +306,12 @@ namespace mesmer
 		m_MtxGrnKf.push_back(k_forward*m_ERConc);
 
 		if (pCoeffs) {
-			const double Keq = calcEquilibriumConstant();
 			pCoeffs->push_back(k_forward);
-			pCoeffs->push_back(k_forward / Keq);
-			pCoeffs->push_back(Keq);
+			const double Keq = calcEquilibriumConstant();
+      if(!IsNan(Keq)) {
+				pCoeffs->push_back(k_forward / Keq);
+				pCoeffs->push_back(Keq);
+      }
 		}
 		else if (getFlags().testRateConstantEnabled) {
 			const double temperature = 1. / (boltzmann_RCpK * beta);

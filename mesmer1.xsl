@@ -397,12 +397,14 @@
         <td>
           <xsl:value-of select="concat('kf/', me:kinf/me:val/@units)"/>
         </td>
-        <td>
-          <xsl:value-of select="concat('krev/', me:kinf/me:rev/@units)"/>
-        </td>
-        <td>
-          <xsl:value-of select="concat('Keq/', me:kinf/me:Keq/@units)"/>
-        </td>
+        <xsl:if test="me:kinf/me:rev">
+          <td>
+            <xsl:value-of select="concat('krev/', me:kinf/me:rev/@units)"/>
+          </td>
+          <td>
+            <xsl:value-of select="concat('Keq/', me:kinf/me:Keq/@units)"/>
+          </td>
+        </xsl:if>
       </tr>
       <xsl:for-each select="me:kinf">
         <tr>

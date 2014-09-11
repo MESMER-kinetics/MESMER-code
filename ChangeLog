@@ -1,3 +1,15 @@
+2014-September-11 Chris Morley
+
+	* src/MolecularComponents.cpp, defaults.xml: remove default ZPE and do
+	not require sink products to have a value of ZPE and some other
+	properties (unless ILT or some tunnelling).
+
+	* src/BimolecularSinkReaction.cpp,src/IrreversibleExchangeReaction.cpp,
+	src/IrreversibleUnimolecularReaction.cpp, src/MicroRate.cpp,mesmer1.xsd:
+	No output of reverse canonical rates and Keq if no product energy.
+
+	src/plugins/UnitTests.cpp: ensure DOS is actually calculated when
+	calling getCellDensityOfStates().
 
 2014-September-7 Struan Robertson
 

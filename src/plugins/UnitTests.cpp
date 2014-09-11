@@ -533,7 +533,7 @@ namespace mesmer
     ctest << endl ;
 
     vector<double> totalCellDOS ;
-    pMol->getDOS().getCellDensityOfStates(totalCellDOS, 0, false) ;
+    pMol->getDOS().getCellDensityOfStates(totalCellDOS, 0, true) ; //was false until ZPE made optional
 
     underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Harmonic oscillators + rotors.") ) ;
 
@@ -573,7 +573,7 @@ namespace mesmer
     ctest << endl ;
 
     vector<double> totalCellDOS ;
-    pMol->getDOS().getCellDensityOfStates(totalCellDOS, 0, false) ;
+    pMol->getDOS().getCellDensityOfStates(totalCellDOS, 0, true) ;//was false until ZPE made optional
 
     underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Anharmonic oscillators + rotors.") ) ;
 

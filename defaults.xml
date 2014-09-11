@@ -12,9 +12,6 @@
    <property dictRef="me:frequenciesScaleFactor" default="true">
     <scalar>1</scalar>
   </property>
-   <property dictRef="me:ZPE" default="NEEDS TO BE CHECKED**">
-    <scalar units="kJ/mol">0</scalar>
-  </property>
   <property dictRef="me:RMS_SOC_element" default="NEEDS TO BE CHECKED**">
     <scalar units="cm-1">10.0</scalar>
   </property>
@@ -23,9 +20,6 @@
   </property>
   <property dictRef="me:GradientReducedMass" default="NEEDS TO BE CHECKED**">
     <scalar units="a.m.u.">16.0</scalar>
-  </property>
-  <property dictRef="me:Hf0" default="true">
-    <scalar units="kJ/mol">0</scalar>
   </property>
   <property dictRef="me:epsilon" default="true">
     <scalar>50.0</scalar>

@@ -56,8 +56,11 @@ namespace mesmer
 
       formatFloat(ctest, Temp,      6,  7) ;
       formatFloat(ctest, Coeffs[0], 6, 20) ;
-      formatFloat(ctest, Coeffs[1], 6, 20) ;
-      formatFloat(ctest, Coeffs[2], 6, 18) ;
+      if(Coeffs.size()>1) //output only forward rate if no ZPE has been provided
+      {
+        formatFloat(ctest, Coeffs[1], 6, 20) ;
+        formatFloat(ctest, Coeffs[2], 6, 18) ;
+      }
       ctest << endl ;
 
       // Add to XML document.
@@ -69,11 +72,14 @@ namespace mesmer
       if(j==0) pp->XmlWriteAttribute("units", "K");
       pp = ppItem->XmlWriteValueElement("me:val", Coeffs[0], 6) ;
       if(j==0) pp->XmlWriteAttribute("units", nr==2 ? "cm3molecule-1s-1": "s-1");
-      pp = ppItem->XmlWriteValueElement("me:rev", Coeffs[1], 6) ;
-      if(j==0) pp->XmlWriteAttribute("units", np==2 ? "cm3molecule-1s-1": "s-1");
-      pp = ppItem->XmlWriteValueElement("me:Keq", Coeffs[2], 6) ;
-      if(j==0) pp->XmlWriteAttribute("units", ((np-nr)==0 ? "" : ((np-nr)>0 ? "moleculecm-3" : "cm3molecule-1")));
-    }
+      if(Coeffs.size()>1)
+      {
+        pp = ppItem->XmlWriteValueElement("me:rev", Coeffs[1], 6) ;
+        if(j==0) pp->XmlWriteAttribute("units", np==2 ? "cm3molecule-1s-1": "s-1");
+        pp = ppItem->XmlWriteValueElement("me:Keq", Coeffs[2], 6) ;
+        if(j==0) pp->XmlWriteAttribute("units", ((np-nr)==0 ? "" : ((np-nr)>0 ? "moleculecm-3" : "cm3molecule-1")));
+      }
+      }
     ctest << "}\n";
 
 	// Restore excess concentration value.

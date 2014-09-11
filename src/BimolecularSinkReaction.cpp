@@ -195,10 +195,12 @@ namespace mesmer
     k_forward /= rctprtfn;
 
     if (pCoeffs) {
-      const double Keq = calcEquilibriumConstant() ;
       pCoeffs->push_back(k_forward) ;
-      pCoeffs->push_back(k_forward/Keq) ;
-      pCoeffs->push_back(Keq) ;
+      const double Keq = calcEquilibriumConstant() ;
+      if(!IsNan(Keq)) {
+        pCoeffs->push_back(k_forward/Keq) ;
+        pCoeffs->push_back(Keq) ;
+      }
     } else {
       ctest << endl << "Canonical pseudo first order forward rate constant of irreversible reaction "
 				<< getName() << " = " << k_forward << " s-1 (" << temperature << " K)" << endl;
