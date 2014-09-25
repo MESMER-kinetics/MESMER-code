@@ -1,3 +1,10 @@
+2014-September-25 Robin Shannon
+	* src/MesmerMath.cpp, MesmerMath.cpp, TMatrix.h: Addition of cholesky 
+	decomposition and inverse cumulative distribution methods.
+
+	* src/plugins/FittingUtils.cpp, FittingUtils.h, Marquardt.cpp: Printing 
+	correlated distribution from fitting marquardt fitting in xml output. 
+
 2014-September-11 Chris Morley
 
 	* src/MolecularComponents.cpp, defaults.xml: remove default ZPE and do

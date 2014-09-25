@@ -150,4 +150,9 @@ void FourierCosCoeffs(vector<double> &angle, vector<double> &value, vector<doubl
 // Calculate the Sine Fourier coefficients for general data.
 void FourierSinCoeffs(vector<double> &angle, vector<double> &value, vector<double> &sinCoeff, size_t expansion) ;
 
+// cumulative distribution function and its inverse
+double RationalApproximation(double t) ;
+
+double NormalCDFInverse(double p) ;
+
 #endif // GUARD_MesmerMath_h
