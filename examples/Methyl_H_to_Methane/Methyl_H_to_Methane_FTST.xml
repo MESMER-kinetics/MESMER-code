@@ -695,7 +695,7 @@
       </me:PTpair>
       <me:PTpair units="Torr" P="515.0" T="601." precision="dd">
         <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">4.84e-11</me:experimentalRate>
-      </me:PTpair>-->
+      </me:PTpair>
       <me:PTpair units="Torr" P="614.5" T="601." precision="dd">
         <me:experimentalRate ref1="Methyl" ref2="Methane" refReaction="R1"  error="1.0">5.75e-11</me:experimentalRate>
       </me:PTpair>
@@ -716,7 +716,6 @@
       <me:MarquardtIterations>30</me:MarquardtIterations>
       <me:MarquardtTolerance>0.01</me:MarquardtTolerance>
       <me:MarquardtDerivDelta>1.e-03</me:MarquardtDerivDelta>
-      <me:SequenceSize>20</me:SequenceSize>
     </me:calcMethod>
     <me:testDOS />
     <me:eigenvalues>5</me:eigenvalues>

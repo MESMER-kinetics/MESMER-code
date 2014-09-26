@@ -1,4 +1,10 @@
+2014-September-26 Robin Shannon
+
+	* examples/Methyl_H_to_Methane/Methyl_H_to_Methane_ftst.xml: Restore previous 
+	version of file
+
 2014-September-25 Robin Shannon
+
 	* src/MesmerMath.cpp, MesmerMath.cpp, TMatrix.h: Addition of cholesky 
 	decomposition and inverse cumulative distribution methods.
 
