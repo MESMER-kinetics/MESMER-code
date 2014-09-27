@@ -1,3 +1,8 @@
+2014-September-27 Struan Robertson
+
+	* examples/Methyl_H_to_Methane: Added two test files (used in the 
+	investigation of back reaction effects). 
+
 2014-September-26 Robin Shannon
 
 	* examples/Methyl_H_to_Methane/Methyl_H_to_Methane_ftst.xml: Restore previous 
