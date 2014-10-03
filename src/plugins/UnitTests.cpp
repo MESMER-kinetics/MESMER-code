@@ -16,6 +16,7 @@
 #include "../dMatrix.h"
 #include "../Sobol.h"
 #include "../qd_test.h"
+#include "../gDensityOfStates.h"
 
 namespace mesmer
 {

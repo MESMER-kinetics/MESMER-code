@@ -14,6 +14,8 @@
 #include "../System.h"
 #include "../AssociationReaction.h"
 #include "../IrreversibleExchangeReaction.h"
+#include "../gDensityOfStates.h"
+
 using namespace Constants;
 
 namespace mesmer

@@ -1,5 +1,6 @@
 #include "../DensityOfStates.h"
 #include "../MolecularComponents.h"
+#include "../gDensityOfStates.h"
 
 using namespace std;
 namespace mesmer

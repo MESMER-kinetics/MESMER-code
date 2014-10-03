@@ -12,6 +12,7 @@
 
 #include "../System.h"
 #include "../calcmethod.h"
+#include "../gDensityOfStates.h"
 
 namespace mesmer
 {

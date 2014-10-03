@@ -12,9 +12,10 @@
 #include <cmath>
 #include <string>
 #include "../Distribution.h"
-#include "../MolecularComponents.h"
+//#include "../MolecularComponents.h"
 #include "../Molecule.h"
 #include "../MesmerFlags.h"
+#include "../gDensityOfStates.h"
 
 namespace mesmer
 {

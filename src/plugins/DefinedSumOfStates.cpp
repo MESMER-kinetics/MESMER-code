@@ -13,6 +13,7 @@
 #include <string>
 #include "../System.h"
 #include "../Spline.h"
+#include "../gDensityOfStates.h"
 
 using namespace std;
 using namespace Constants;

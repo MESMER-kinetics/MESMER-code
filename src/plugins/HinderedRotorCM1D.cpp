@@ -13,6 +13,8 @@
 #include "../Molecule.h"
 #include "../Constants.h"
 #include "HinderedRotorUtils.h"
+#include "../gDensityOfStates.h"
+#include "../gStructure.h"
 
 using namespace std;
 using namespace Constants;

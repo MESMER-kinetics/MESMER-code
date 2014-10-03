@@ -15,6 +15,8 @@
 #include "MoleculeManager.h"
 #include "Tunneling.h"
 #include "Crossing.h"
+#include "gTransitionState.h"
+#include "dMatrix.h"
 
 namespace mesmer
 {

@@ -96,6 +96,11 @@
     <ClCompile Include="..\..\src\BimolecularSinkReaction.cpp" />
     <ClCompile Include="..\..\src\ConditionsManager.cpp" />
     <ClCompile Include="..\..\src\error.cpp" />
+    <ClCompile Include="..\..\src\gBathProperties.cpp" />
+    <ClCompile Include="..\..\src\gDensityOfStates.cpp" />
+    <ClCompile Include="..\..\src\gPopulation.cpp" />
+    <ClCompile Include="..\..\src\gStructure.cpp" />
+    <ClCompile Include="..\..\src\gTransitionState.cpp" />
     <ClCompile Include="..\..\src\gWellProperties.cpp" />
     <ClCompile Include="..\..\src\plugins\AnalyticalRepresentation.cpp" />
     <ClCompile Include="..\..\src\plugins\BeyerSwinehart.cpp" />
@@ -127,7 +132,6 @@
     <ClCompile Include="..\..\src\MesmerMath.cpp" />
     <ClCompile Include="..\..\src\MesmerTools.cpp" />
     <ClCompile Include="..\..\src\MicroRate.cpp" />
-    <ClCompile Include="..\..\src\MolecularComponents.cpp" />
     <ClCompile Include="..\..\src\Molecule.cpp" />
     <ClCompile Include="..\..\src\MoleculeManager.cpp" />
     <ClCompile Include="..\..\src\plugins\Morse.cpp" />
@@ -169,6 +173,11 @@
     <ClInclude Include="..\..\src\dMatrix.h" />
     <ClInclude Include="..\..\src\EnergyTransferModel.h" />
     <ClInclude Include="..\..\src\error.h" />
+    <ClInclude Include="..\..\src\gBathProperties.h" />
+    <ClInclude Include="..\..\src\gDensityOfStates.h" />
+    <ClInclude Include="..\..\src\gPopulation.h" />
+    <ClInclude Include="..\..\src\gStructure.h" />
+    <ClInclude Include="..\..\src\gTransitionState.h" />
     <ClInclude Include="..\..\src\gWellProperties.h" />
     <ClInclude Include="..\..\src\ParseForPlugin.h" />
     <ClInclude Include="..\..\src\plugin.h" />

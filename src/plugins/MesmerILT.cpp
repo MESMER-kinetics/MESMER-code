@@ -1,5 +1,6 @@
 
 #include "../AssociationReaction.h"
+#include "../gStructure.h"
 
 using namespace std;
 using namespace Constants;

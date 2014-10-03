@@ -6,6 +6,11 @@
 //-------------------------------------------------------------------------------------------
 #include "Molecule.h"
 #include "gWellProperties.h"
+#include "gDensityOfStates.h"
+#include "gStructure.h"
+#include "gBathProperties.h"
+#include "gPopulation.h"
+#include "gTransitionState.h"
 
 using namespace std ;
 using namespace Constants ;

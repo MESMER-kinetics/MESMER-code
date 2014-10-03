@@ -16,9 +16,16 @@
 
 namespace mesmer
 {
-
   class MoleculeManager ;
+
+  // Because many Molecule properties are not needed in all molecules, they are
+  // handled in the following classes, which are derived from MolecularComponent.
 	class gWellProperties ;
+  class gBathProperties ;
+  class gTransitionState;
+  class gDensityOfStates;
+  class gPopulation;
+  class gStructure;
 
   //**************************************************
   /// Basic molecule: has name and some collision parameters.

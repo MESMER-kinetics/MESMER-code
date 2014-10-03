@@ -12,6 +12,7 @@
 #include <vector>
 #include <string>
 #include "../System.h"
+#include "../gDensityOfStates.h"
 
 using namespace std;
 using namespace Constants;

@@ -17,6 +17,7 @@
 #include "IrreversibleExchangeReaction.h"
 #include "BimolecularSinkReaction.h"
 #include "gWellProperties.h"
+#include "gPopulation.h"
 
 namespace mesmer
 {

@@ -9,6 +9,7 @@
 //
 //-------------------------------------------------------------------------------------------
 #include "ReactionManager.h"
+#include "gPopulation.h"
 
 #include "AssociationReaction.h"
 #include "SecondOrderAssocReaction.h"

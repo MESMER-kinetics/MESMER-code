@@ -457,17 +457,19 @@ FunctionEnd
 ;General
 
   ;Mesmer version
-  !define MesmerVersion 0.2
+  !define MesmerVersion 3.0
 
   ;Name and file
   Name "Mesmer ${MESMERVERSION}"
   OutFile "Mesmer${MESMERVERSION}_Windows_Installer.exe"
 
+  RequestExecutionLevel admin
+  
   ;Default installation folder. Tutorials etc assume it to be writable by the user
   InstallDir "C:\Mesmer-${MESMERVERSION}"
   
   ;Get installation folder from registry if available
-  InstallDirRegKey HKCU "Software\OpenBabel ${MESMERVERSION}" ""
+  InstallDirRegKey HKCU "Software\Mesmer ${MESMERVERSION}" ""
 
 ;--------------------------------
 ;Variables
@@ -478,13 +480,8 @@ FunctionEnd
 ;--------------------------------
 ;Interface Settings
 
-  ;!define MUI_ICON "babel.ico"
-  ;!define MUI_UNICON "babel.ico"
   !define MUI_ABORTWARNING
   !define MUI_HEADERIMAGE
-  ;!define MUI_HEADERIMAGE_BITMAP "logo_small.bmp"
-  ;!define MUI_WELCOMEFINISHPAGE_BITMAP "logo_big.bmp"
-  ;!define MUI_FINISHPAGE_RUN "$INSTDIR/Mesmer.exe -?"
   !define MUI_FINISHPAGE_SHOWREADME "$INSTDIR/ReadMe.txt"
 
 ;--------------------------------
@@ -520,14 +517,19 @@ Section "Dummy Section" SecDummy
   
   SetOutPath "$INSTDIR\Documentation"
   File  "..\..\Documentation\Constructing a Datafile from Gaussian output.html"
-  File  "..\..\Documentation\MESMER manual.doc"
+  File  "..\..\Documentation\Adding a molecule to the library.html"
+  File  "..\..\Documentation\MESMER manual.pdf"
 
   SetOutPath "$INSTDIR\examples"
-  File /r /x .svn ..\..\examples\*.*
+  File /r /x .svn /x test.test /x *_prev.* /x *_out.xml /x *.sh /x Linux32 /x Linux64 /x MacOSX ..\..\examples\*.*
 
   SetOutPath "$INSTDIR\MesmerQA"
-  File /r /x .svn /x test.test /x *_prev.* /x *_out.xml /x *.sh ..\..\MesmerQA\*.*
+  File /r /x .svn /x test.test /x *_prev.* /x *_out.xml /x *.sh /x Linux32 /x Linux64 /x MacOSX ..\..\MesmerQA\*.*
 
+  SetOutPath "$INSTDIR\schemas"
+  File ..\..\schemas\*.xsd
+  File ..\..\schemas\schemaNotes.txt
+  
   SetOutPath "$INSTDIR" 
   File ..\..\License.txt
   File ..\Mesmer\Mesmer.exe
@@ -546,31 +548,38 @@ Section "Dummy Section" SecDummy
   ;Store installation folder
   WriteRegStr HKCU "Software\Mesmer ${MESMERVERSION}" "" $INSTDIR
   
-  ;Install VC++ 2008 redistributable
+  ;Install VC++ 2010 redistributable
   ExecWait '"$INSTDIR/vcredist_x86.exe" /q:a'
 
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
   ;Add to Add and Remove Programs
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}" "DisplayName" "Mesmer-${MESMERVERSION}"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}" "DisplayName" "Mesmer ${MESMERVERSION}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}" "UninstallString" "$INSTDIR\Uninstall.exe"
+
+  ;Put item in context menu
+  WriteRegStr HKCR "xmlfile\shell\Open with Mesmer\command" "" "$INSTDIR\Mesmer.exe %1"
+
+  SetShellVarContext all
 
   ;Create shortcuts
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     SetOutPath "$DESKTOP" ;side-effect is to set working dir for shortcuts
     CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
 
-    ;CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Wiki (on SourceForge).lnk" "http://mesmer.wiki.sourceforge.net/"
+    ;CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Wiki (on SourceForge).lnk" "https://sourceforge.net/projects/mesmer/"
        ; "" "$SYSDIR\winhlp32.exe" 
 
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Mesmer Manual.lnk" "$INSTDIR\Documentation\MESMER manual.doc"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Mesmer Manual.lnk" "$INSTDIR\Documentation\MESMER manual.pdf"
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Make datafile from Gaussian output.lnk" "$INSTDIR\Documentation\Constructing a Datafile from Gaussian output.html"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Adding a molecule to the library.lnk" "$INSTDIR\Documentation\Adding a molecule to the library.html"
 
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Mesmer Folder.lnk" "$INSTDIR"
 
   !insertmacro MUI_STARTMENU_WRITE_END
 
+  SetShellVarContext current
   ;Add to PATH
   Push $INSTDIR
   Call AddToPath
@@ -597,6 +606,7 @@ SectionEnd
 ;Uninstaller Section
 
 Section "Uninstall"
+  SetShellVarContext current
 
   ;ADD YOUR OWN FILES HERE...
   Delete "$INSTDIR\License.txt"
@@ -616,38 +626,31 @@ Section "Uninstall"
   RMDir /r "$INSTDIR\Documentation"
   RMDir /r "$INSTDIR\examples"
   RMDir /r "$INSTDIR\MesmerQA"
+  RMDir /r "$INSTDIR\schemas"
 
   RMDir "$INSTDIR"
+  DeleteRegValue        HKCU "Environment" "MESMER_DIR"
+  DeleteRegValue        HKCU "Environment" "MESMER_AUTHOR"
   
-  !insertmacro MUI_STARTMENU_GETFOLDER Application $MUI_TEMP
-  RMDir /r "$SMPROGRAMS\$MUI_TEMP"
-    
   ;Remove from PATH
   push $INSTDIR
   Call un.RemoveFromPath
     
-  ;Delete empty start menu parent diretories
-  StrCpy $MUI_TEMP "$SMPROGRAMS\$MUI_TEMP"
- 
-  startMenuDeleteLoop:
-	ClearErrors
-    RMDir $MUI_TEMP
-    GetFullPathName $MUI_TEMP "$MUI_TEMP\.."
-    
-    IfErrors startMenuDeleteLoopDone
-  
-    StrCmp $MUI_TEMP $SMPROGRAMS startMenuDeleteLoopDone startMenuDeleteLoop
-  startMenuDeleteLoopDone:
-
   DeleteRegKey /ifempty HKCU "Software\Mesmer ${MESMERVERSION}"
   DeleteRegKey          HKCU "Software\Mesmer"
-  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}"
-  
-  ; Remove env vars 
-  push "MESMER_DIR"
-  push $INSTDIR
-  Call un.RemoveFromEnvVar
-  ;DeleteRegValue        HKCU "Environment" "MESMER_DIR" Old value still there
-  DeleteRegValue        HKCU "Environment" "MESMER_AUTHOR"
 
+  SetShellVarContext all
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}"
+
+  ;Delete context menu item
+  DeleteRegKey HKCR "xmlfile\shell\Open with Mesmer"
+
+  !insertmacro MUI_STARTMENU_GETFOLDER Application $MUI_TEMP
+  Delete "$SMPROGRAMS\$MUI_TEMP\Uninstall.lnk"
+  Delete "$SMPROGRAMS\$MUI_TEMP\Mesmer Manual.lnk"
+  Delete "$SMPROGRAMS\$MUI_TEMP\Adding a molecule to the library.lnk"
+  Delete "$SMPROGRAMS\$MUI_TEMP\Make datafile from Gaussian output.lnk"
+  Delete "$SMPROGRAMS\$MUI_TEMP\Mesmer Folder.lnk"
+  RMDir  "$SMPROGRAMS\$MUI_TEMP"
+      
 SectionEnd

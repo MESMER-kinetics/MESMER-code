@@ -16,6 +16,8 @@
 #include "../MolecularComponents.h"
 #include "../Molecule.h"
 #include "../Constants.h"
+#include "../gDensityOfStates.h"
+#include "../gStructure.h"
 #include "HinderedRotorUtils.h"
 
 using namespace std;

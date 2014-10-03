@@ -10,6 +10,7 @@
 //-------------------------------------------------------------------------------------------
 #include <limits>
 #include "IrreversibleExchangeReaction.h"
+#include "../gStructure.h"
 
 using namespace Constants;
 using namespace std;

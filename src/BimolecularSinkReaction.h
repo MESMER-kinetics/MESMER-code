@@ -13,6 +13,8 @@
 //-------------------------------------------------------------------------------------------
 
 #include "Reaction.h"
+#include "gDensityOfStates.h"
+#include "gStructure.h"
 
 using namespace Constants ;
 using namespace std;

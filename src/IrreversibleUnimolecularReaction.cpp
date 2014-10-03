@@ -11,6 +11,7 @@
 #include <limits>
 #include "IrreversibleUnimolecularReaction.h"
 #include "gWellProperties.h"
+#include "gStructure.h"
 
 using namespace Constants ;
 using namespace std;

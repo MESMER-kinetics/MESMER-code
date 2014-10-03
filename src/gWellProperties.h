@@ -17,7 +17,6 @@
 #include <vector> 
 #include "MolecularComponents.h"
 
-
 namespace mesmer
 {
 
