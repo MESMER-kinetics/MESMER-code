@@ -576,6 +576,7 @@ src/formatfloat.h -text
 src/gBathProperties.cpp -text
 src/gBathProperties.h -text
 src/gDensityOfStates.cpp -text
+src/gDensityOfStates.h -text
 src/gPopulation.cpp -text
 src/gPopulation.h -text
 src/gStructure.cpp -text
