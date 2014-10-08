@@ -13,7 +13,6 @@
 #include "gWellProperties.h"
 #include "gBathProperties.h"
 #include "gStructure.h"
-#include "gDensityOfStates.h"
 
 using namespace std;
 using namespace Constants;

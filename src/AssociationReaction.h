@@ -19,7 +19,7 @@
 //
 //-------------------------------------------------------------------------------------------
 #include "Reaction.h"
-#include "../gDensityOfStates.h"
+#include "gDensityOfStates.h"
 
 using namespace Constants ;
 using namespace std;

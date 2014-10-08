@@ -12,7 +12,6 @@
 #include "AssociationReaction.h"
 #include "gWellProperties.h"
 #include "gStructure.h"
-#include "gStructure.h"
 #include <math.h>
 
 using namespace Constants ;

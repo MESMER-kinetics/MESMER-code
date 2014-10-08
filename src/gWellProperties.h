@@ -16,6 +16,7 @@
 
 #include <vector> 
 #include "MolecularComponents.h"
+#include "gDensityOfStates.h"
 
 namespace mesmer
 {

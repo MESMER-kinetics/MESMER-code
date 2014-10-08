@@ -145,6 +145,11 @@ SRCS := \
 	DensityOfStates.cpp \
 	error.cpp \
 	formatfloat.cpp \
+	gBathProperties.cpp \
+	gDensityOfStates.cpp \
+	gPopulation.cpp \
+	gStructure.cpp \
+	gTransitionState.cpp \
 	gWellProperties.cpp \
 	IrreversibleExchangeReaction.cpp \
 	IrreversibleUnimolecularReaction.cpp \
@@ -155,7 +160,6 @@ SRCS := \
 	MesmerMath.cpp \
 	MesmerTools.cpp \
 	MicroRate.cpp \
-	MolecularComponents.cpp \
 	Molecule.cpp \
 	MoleculeManager.cpp \
 	PseudoIsomerizationReaction.cpp \

@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include "System.h"
 #include "MoleculeManager.h"
-#include "../gDensityOfStates.h"
+#include "gDensityOfStates.h"
 
 using namespace std ;
 namespace mesmer

@@ -13,7 +13,7 @@
 //-------------------------------------------------------------------------------------------
 
 #include "Reaction.h"
-#include "../gDensityOfStates.h"
+#include "gDensityOfStates.h"
 
 namespace mesmer
 {
