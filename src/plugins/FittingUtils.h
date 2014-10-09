@@ -15,34 +15,33 @@
 namespace mesmer
 {
 
-  class FittingUtils
-  {
-  public:
+	class FittingUtils
+	{
+	public:
 
-	~FittingUtils() {} ; 
+		~FittingUtils() {};
 
-  protected:
+	protected:
 
-	// Get the current location.
-	void GetLocation(vector<double> &loc) const ;
+		// Get the current location.
+		void GetLocation(vector<double> &loc) const;
 
-	// Set the current location.
-	void SetLocation(vector<double> &loc) const ;
+		// Set the current location.
+		void SetLocation(vector<double> &loc) const;
 
-	// Check that the a point falls within the limits defined by the user.
-	bool CheckBounds(const vector<double> &A) const ;
+		// Check that the a point falls within the limits defined by the user.
+		bool CheckBounds(const vector<double> &A) const;
 
-	// Numerical derivatives.
-	void NumericalDerivatives(System* pSys, vector<double> &residuals, double delta, vector<double> &gradient, qdMatrix &hessian) const ;
+		// Numerical derivatives.
+		void NumericalDerivatives(System* pSys, vector<double> &residuals, double delta, vector<double> &gradient, qdMatrix &hessian) const;
 
-	// Write out the results and statistics of the fit. 
-	void ResultsAndStatistics(System* pSys, qdMatrix &hessian) const ;
+		// Write out the results and statistics of the fit. 
+		void ResultsAndStatistics(System* pSys, qdMatrix &hessian) const;
 
-	// Get correlated distribution from fitting hessian matrix
-	void FittingUtils::CorellatedDistribution(System* pSys, qdMatrix hessian, size_t &seqSize);
+		// Get correlated distribution from fitting hessian matrix
+		void CorellatedDistribution(System* pSys, qdMatrix hessian, size_t &seqSize);
 
-
-  } ;
+	};
 
 }  //namespace
 

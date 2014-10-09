@@ -179,3 +179,4 @@ namespace mesmer
   }//namespace
 
 #endif //GUARD_gDensityOfStates_h
+
