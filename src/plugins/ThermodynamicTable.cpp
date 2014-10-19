@@ -23,13 +23,16 @@ namespace mesmer
 	ThermodynamicTable(const char* id) : m_id(id),
 	  m_nTemp(20),
 	  m_TempInterval(50.0),
-	  m_Unit("kJ/mol") 
-  { Register(); }
+	  m_Unit("kJ/mol"),
+	  m_H298(0.0),
+	  m_S298(0.0),
+	  M_G298(0.0)
+	{ Register(); }
 
 	virtual ~ThermodynamicTable() {}
-  virtual const char* getID()  { return m_id; }
-  
-  virtual bool DoesOwnParsing() { return true; }
+	virtual const char* getID()  { return m_id; }
+
+	virtual bool DoesOwnParsing() { return true; }
 
 	// Function to do the work
 	virtual bool DoCalculation(System* pSys);
@@ -45,11 +48,13 @@ namespace mesmer
 
 	void writeTableEntry(Molecule *pmol, double temp, double unitFctr, string & header) const ;
 
-    const char* m_id;
+	const char* m_id;
 
 	int m_nTemp ;
 	double m_TempInterval ;
 	string m_Unit ;
+
+	double m_H298, m_S298, M_G298 ;
 
   } ;
 
@@ -71,7 +76,7 @@ namespace mesmer
 	  unitFctr = 1.0/kCalPerMol_in_RC ;
 
 	MesmerEnv& Env = pSys->getEnv() ;
-    Env.GrainSize  = 100 ; 
+	Env.GrainSize  = 100 ; 
 	Env.MaxGrn     = 1000 ;
 	Env.MaxCell    = Env.GrainSize * Env.MaxGrn ;
 
@@ -108,7 +113,7 @@ namespace mesmer
 	  // Get the name of the molcule.
 	  const char* reftxt = ppmol->XmlReadValue("id");
 	  if (reftxt) {
-      //Try molType="" rather than "modelled". Avoid deltaEdown being required.
+		//Try molType="" rather than "modelled". Avoid deltaEdown being required.
 		pMoleculeManager->addmol(string(reftxt), string(""), pSys->getEnv(), pSys->m_Flags);
 	  }
 	}
@@ -123,6 +128,9 @@ namespace mesmer
 
 	  ctest << endl ;
 	  ctest << underlineText(pmol->getName()) ;
+
+	  // Get the values for thermodynamic functions at 298.
+	  pmol->getDOS().thermodynamicsFunctions(temp289, unitFctr, m_H298, m_S298, M_G298) ;
 
 	  string header = writeTableHeader(m_Unit) ;
 	  tempLessThan298 = true ;
@@ -209,7 +217,7 @@ namespace mesmer
 	  ctest << header ;
 	  header.clear() ;
 	}
-	ctest << formatFloat(temp, 6, 11) << formatFloat(enthalpy, 6, 15) 
+	ctest << formatFloat(temp, 6, 11) << formatFloat(enthalpy - m_H298, 6, 15) 
 	  << formatFloat(entropy*1000.0, 6, 15) << formatFloat(gibbsFreeEnergy, 6, 15) << endl ;
   }
 

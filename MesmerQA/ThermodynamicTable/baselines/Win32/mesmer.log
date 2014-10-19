@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Sep  6 2014 -- 19:32:32
+     Mesmer v4.0 compiled: -- Oct 19 2014 -- 15:56:41
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -31,7 +31,7 @@ defaults.xml, librarymols.xml are in ../..
 Parsing input xml file...
 ThermodynamicTable.xml
 
-Write metadata 20140906_214625
+Write metadata 20141019_172801
 
 File: "ThermodynamicTable.xml" successfully parsed.
 Main Calculation begins
@@ -40,7 +40,7 @@ The default units of kJ/mol will be used for thermodynamics tables.
 In HNO2: The default value of me:frequenciesScaleFactor was used.
 In HNO2: The default value of the attribute spinMultiplicity was used.
 In HNO2: The default value of me:DOSCMethod was used.
-In HNO2: New me:ZPE element written with data from me:Hf298
+In HNO2: No ZPE (or an alternative) was provided.
 In He: The default value of me:frequenciesScaleFactor was used.
 In He: The default value of me:symmetryNumber was used.
 In He: The default value of the attribute spinMultiplicity was used.
@@ -50,13 +50,9 @@ Number of grains requested: 1000
 Number of grains produced : 1
 In NO: The default value of me:frequenciesScaleFactor was used.
 In NO: The default value of me:DOSCMethod was used.
-In NO: New me:ZPE element written with data from me:Hf298
+In NO: No ZPE (or an alternative) was provided.
 In OH: The default value of me:frequenciesScaleFactor was used.
-In OH: Number of grains produced is not equal to that requested
-In OH: Number of grains requested: 1000
-In OH: Number of grains produced : 580
-In OH: New me:ZPE element written with data from me:Hf298
-Number of grains produced : 580
+In OH: No ZPE (or an alternative) was provided.
  -- Total time elapsed: 1 seconds.
 
 System saved to out.xml

@@ -103,6 +103,10 @@ namespace mesmer
 
     bool projectedInitialDistrbtn(vector<double>& initDist) const ;
 
+	// Calculate the equilibrium fraction for systems with second order terms
+	// using an iterative approach.
+    bool iterativeEquiSln(qdMatrix &eqMatrix, vector<qd_real> &eqFraction, size_t idxr, size_t idxs) ;
+
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;
 

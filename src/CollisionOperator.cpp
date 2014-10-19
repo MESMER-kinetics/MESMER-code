@@ -28,7 +28,7 @@ namespace mesmer
     m_sources(),
     m_sinkRxns(),
     m_meanOmega(0.0),
-	m_precision(DOUBLE),
+    m_precision(DOUBLE),
     m_reactionOperator(0),
     m_eigenvectors(0),
     m_eigenvalues(),
@@ -185,7 +185,7 @@ namespace mesmer
       //
       pReaction->updateSourceMap(m_sources) ;
 
-	}
+    }
 
     // Set grain parameters for the current Temperature/pressure condition.
     if(!SetGrainParams(mEnv, mFlags, minEnergy, maxEnergy, writeReport))
@@ -231,16 +231,16 @@ namespace mesmer
       if (!mEnv.useBasisSetMethod) {
 
         // Full energy grained reaction operator.
-		switch (m_precision) {
-		case DOUBLE_DOUBLE:
-		  constructGrainMatrix<dd_real>(mEnv); 
-		  break;
-		case QUAD_DOUBLE: 
-		  constructGrainMatrix<qd_real>(mEnv); 
-		  break;
-		default: 
-		  constructGrainMatrix<double>(mEnv); 
-		}
+        switch (m_precision) {
+        case DOUBLE_DOUBLE:
+          constructGrainMatrix<dd_real>(mEnv); 
+          break;
+        case QUAD_DOUBLE: 
+          constructGrainMatrix<qd_real>(mEnv); 
+          break;
+        default: 
+          constructGrainMatrix<double>(mEnv); 
+        }
       } else {
 
         // Contracted basis set reaction operator.
@@ -248,7 +248,7 @@ namespace mesmer
 
       }
 
-	  // Locate all sink terms.
+      // Locate all sink terms.
       locateSinks() ;
 
     }
@@ -281,19 +281,19 @@ namespace mesmer
     mEnv.EMax = maxEne;
 
     // For testing purposes, set the maxGrn based on the highest temperature we use in all calculations.
-	const double MaximumTemperature = mEnv.MaximumTemperature;
+    const double MaximumTemperature = mEnv.MaximumTemperature;
 
-	// Calculate the maximum energy cut-off based on temperature.
-	const double thermalEnergy = (mFlags.useTheSameCellNumber) ? MaximumTemperature * boltzmann_RCpK : 1.0/mEnv.beta ;
-	mEnv.EMax += mEnv.EAboveHill * thermalEnergy;
+    // Calculate the maximum energy cut-off based on temperature.
+    const double thermalEnergy = (mFlags.useTheSameCellNumber) ? MaximumTemperature * boltzmann_RCpK : 1.0/mEnv.beta ;
+    mEnv.EMax += mEnv.EAboveHill * thermalEnergy;
 
-	// Check cut-off against population.
-	if (mFlags.autoSetMaxEne) {
-	  SetMaximumCellEnergy(mEnv, mFlags);
-	} 
+    // Check cut-off against population.
+    if (mFlags.autoSetMaxEne) {
+      SetMaximumCellEnergy(mEnv, mFlags);
+    } 
 
-	//Reset max grain and grain size unless they have been specified in the conditions section.
-	if (bcalGrainNum)  mEnv.MaxGrn=0 ;
+    //Reset max grain and grain size unless they have been specified in the conditions section.
+    if (bcalGrainNum)  mEnv.MaxGrn=0 ;
     if (bcalGrainSize) mEnv.GrainSize=0;
 
     if (mEnv.MaxGrn>0 && mEnv.GrainSize<=0){
@@ -325,51 +325,51 @@ namespace mesmer
   // find a new upper limit of the energy cut-off based on population.
   void  CollisionOperator::SetMaximumCellEnergy(MesmerEnv &mEnv, const MesmerFlags& mFlags)
   {	
-	// Locate the principal species: Iterate through all isomers.
-	vector<Molecule *> species ;
-	Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
-	for (; isomeritr != m_isomers.end() ; ++isomeritr) {
-	  species.push_back(isomeritr->first) ;
-	}
+    // Locate the principal species: Iterate through all isomers.
+    vector<Molecule *> species ;
+    Reaction::molMapType::iterator isomeritr = m_isomers.begin() ;
+    for (; isomeritr != m_isomers.end() ; ++isomeritr) {
+      species.push_back(isomeritr->first) ;
+    }
 
-	// Then through all pseudoIsomers.
-	Reaction::molMapType::iterator pseudoIsomeritr = m_sources.begin() ;
-	for (; pseudoIsomeritr != m_sources.end() ; ++pseudoIsomeritr) {
-	  species.push_back(pseudoIsomeritr->first) ;
-	}
+    // Then through all pseudoIsomers.
+    Reaction::molMapType::iterator pseudoIsomeritr = m_sources.begin() ;
+    for (; pseudoIsomeritr != m_sources.end() ; ++pseudoIsomeritr) {
+      species.push_back(pseudoIsomeritr->first) ;
+    }
 
-	mEnv.MaxCell = int(mEnv.EMax - mEnv.EMin) ;
-	const double populationThreshold(mFlags.popThreshold) ;
-	double HighCell(0.0) ;
-	for (size_t i(0) ; i < species.size() ; ++i) {
-	  Molecule *pmol = species[i] ;
-	  vector<double> cellFrac(mEnv.MaxCell, 0.0);
-	  pmol->getColl().normalizedCellBoltzmannDistribution(cellFrac, mEnv.MaxCell);
+    mEnv.MaxCell = int(mEnv.EMax - mEnv.EMin) ;
+    const double populationThreshold(mFlags.popThreshold) ;
+    double HighCell(0.0) ;
+    for (size_t i(0) ; i < species.size() ; ++i) {
+      Molecule *pmol = species[i] ;
+      vector<double> cellFrac(mEnv.MaxCell, 0.0);
+      pmol->getColl().normalizedCellBoltzmannDistribution(cellFrac, mEnv.MaxCell);
 
-	  // Offset cell size by relative energy of species.
-	  double Rel_ZPE(pmol->getDOS().get_zpe() - mEnv.EMin);
-	  size_t cutoffCell = mEnv.MaxCell - 1 - size_t(Rel_ZPE) ;
-	  if (cellFrac[cutoffCell] > populationThreshold) {
+      // Offset cell size by relative energy of species.
+      double Rel_ZPE(pmol->getDOS().get_zpe() - mEnv.EMin);
+      size_t cutoffCell = mEnv.MaxCell - 1 - size_t(Rel_ZPE) ;
+      if (cellFrac[cutoffCell] > populationThreshold) {
 
-		// Find cell at which population threshold is reached.
-		bool flag(true) ;
-		size_t maxcell(0) ;
-		for (size_t i(1) ; i < cellFrac.size() && flag ; i++) {
-		  if (cellFrac[i] < populationThreshold && cellFrac[i] < cellFrac[i-1] ) {
-			maxcell = i;
-			flag = false ;
-		  }
-		}
-		if (flag) {
-		  maxcell = cellFrac.size() ;
-		  cerr << "Warning: The equilbrum population of species " << pmol->getName() 
-			   << " is greater than the specefied cutt-off " << populationThreshold << endl ;
-		}
+        // Find cell at which population threshold is reached.
+        bool flag(true) ;
+        size_t maxcell(0) ;
+        for (size_t i(1) ; i < cellFrac.size() && flag ; i++) {
+          if (cellFrac[i] < populationThreshold && cellFrac[i] < cellFrac[i-1] ) {
+            maxcell = i;
+            flag = false ;
+          }
+        }
+        if (flag) {
+          maxcell = cellFrac.size() ;
+          cerr << "Warning: The equilbrum population of species " << pmol->getName() 
+            << " is greater than the specefied cutt-off " << populationThreshold << endl ;
+        }
 
-		HighCell = max(HighCell, double(maxcell));
-	  }
-	}
-	mEnv.EMax += HighCell ;
+        HighCell = max(HighCell, double(maxcell));
+      }
+    }
+    mEnv.EMax += HighCell ;
 
   }
 
@@ -398,7 +398,7 @@ namespace mesmer
       msize++ ;
     }
 
-	m_eqVecSize = msize ;
+    m_eqVecSize = msize ;
 
     // Allocate space for the full system collision operator.
     if (m_reactionOperator) delete m_reactionOperator;
@@ -413,10 +413,10 @@ namespace mesmer
       size_t idx = isomeritr->second ;
 
       TMatrix<T> *egme(NULL) ;
-	  if (!isomer->getColl().collisionOperator(mEnv, &egme)) {
+      if (!isomer->getColl().collisionOperator(mEnv, &egme)) {
         string errorMsg = "Failed building collision operator for " + isomer->getName() + ".";
-		throw(std::runtime_error(errorMsg)) ;
-	  }
+        throw(std::runtime_error(errorMsg)) ;
+      }
       isomer->getColl().copyCollisionOperator(m_reactionOperator, egme, idx, omega/m_meanOmega) ;
       delete egme;
 
@@ -487,7 +487,7 @@ namespace mesmer
       isomer->getColl().collisionOperator(mEnv, &egme) ;
       isomer->getColl().diagonalizeCollisionOperator(egme) ;
       isomer->getColl().copyCollisionOperatorEigenValues(m_reactionOperator, idx, omega) ;
-	  delete egme ;
+      delete egme ;
     }
 
     // Add rate coefficients.
@@ -518,116 +518,113 @@ namespace mesmer
     obtained by inverting the matrix shown above, and taking the elements in the final column of the inverse.
     Any system, with an arbitrary number of wells and connections, may be described by such a Matrix */
 
-    // Determine the total number of isomers + sources from the m_isomers and m_sources maps and
-    // intialize the matrix which holds the system of equations that describe the equilibrium distribution.
-    qdMatrix eqMatrix(m_isomers.size() + m_sources.size(), qd_real(0.0));
+    // Determine the total number of isomers + sources from the m_isomers and m_sources
+    // maps and intialize the matrix which holds the system of equations that describe
+    // the equilibrium distribution.
+    size_t nTotalNumSpecies(m_isomers.size() + m_sources.size()) ;
+    qdMatrix eqMatrix(nTotalNumSpecies, qd_real(0.0));
+    for(size_t i(0) ; i < nTotalNumSpecies ; ++i) {
+      eqMatrix[nTotalNumSpecies-1][i]= qd_real(1.0);
+    }
 
-    // initialize a map of equilibrium fractions
+    // Initialize a map of equilibrium fractions.
     m_SpeciesSequence.clear();
 
-    // loop over the number of reactions in order to assign elements to the m_SpeciesSequence map
-    // and then update the corresponding matrix elements in eqMatrix
+    // The flag checks for a second order source and if present will invoke an
+    // iterative solution. It will also cause an error to be thrown if there is 
+    // more than one second order source. SHR 19/Oct/2014: I am not sure that 
+    // this latter restricition is necessary but has been adopted for temporary
+    // conveniance.
+    bool bSecondOrderFlag(false) ;
+	size_t idxr(0), idxs(0);
 
-    int counter(0);   //counter keeps track of how may elements are in the m_SpeciesSequence map
+    // loop over the number of reactions in order to assign elements to the m_SpeciesSequence map
+    // and then update the corresponding matrix elements in eqMatrix.
+    size_t reactionCount(0) ;
+    size_t counter(0);   // Counter keeps track of how may elements are in the m_SpeciesSequence map.
     for (size_t i(0) ; i < m_pReactionManager->size() ; ++i) {  //iterate through m_reactions
 
       Molecule* rct;
       Molecule* pdt;
       double Keq(0.0);
 
-      //only need eq fracs for species in isom & assoc rxns
-      if ((*m_pReactionManager)[i]->isEquilibratingReaction(Keq, &rct, &pdt)){
+      // Only need eq fracs for species in isom & assoc rxns.
+      if ((*m_pReactionManager)[i]->isEquilibratingReaction(Keq, &rct, &pdt)) {
 
         int ploc(0), rloc(0) ;
 
-        Reaction::molMapType::iterator rctitr = m_SpeciesSequence.find(rct);   //check if the reactant is in the map
-        bool rval = (rctitr != m_SpeciesSequence.end()) ;       //if the reactant isnt in the map
-        if (rval)
-          rloc = rctitr->second ;        //if the reactant is in the map, get the location
-
-        Reaction::molMapType::iterator pdtitr = m_SpeciesSequence.find(pdt);   //check if the product is in the map
-        bool pval = (pdtitr != m_SpeciesSequence.end()) ;       //if the product isnt in the map
-        if (pval)
-          ploc = pdtitr->second;        //if the product is in the map, get the location
-
-        if(!rval && !pval){             // if neither reactant nor product are in the m_SpeciesSequence map
-          m_SpeciesSequence[rct] = counter;            // update the eqMatrix elements
+        Reaction::molMapType::iterator rctitr = m_SpeciesSequence.find(rct);
+        if (rctitr != m_SpeciesSequence.end()) {
+          rloc = rctitr->second ;
+        } else {
+          m_SpeciesSequence[rct] = counter;
+          rloc = counter ;
           counter++ ;
+        }
+
+        Reaction::molMapType::iterator pdtitr = m_SpeciesSequence.find(pdt);
+        if (pdtitr != m_SpeciesSequence.end()) {
+          ploc = pdtitr->second;
+        } else {
           m_SpeciesSequence[pdt] = counter;
-          eqMatrix[counter-1][counter-1] -= qd_real(Keq);
-          eqMatrix[counter-1][counter] += qd_real(1.0) ;
+          ploc = counter ;
           counter++ ;
         }
-        else if(!rval && pval){        // if reactant isnt in m_SpeciesSequence map & product is
-          m_SpeciesSequence[rct] = counter;            // update the eqMatrix matrix elements
-          eqMatrix[counter-1][ploc] += qd_real(1.0) ;
-          eqMatrix[counter-1][counter] -= qd_real(Keq);
-          counter++ ;
-        }
-        else if(rval && !pval){        // if reactant is in m_SpeciesSequence map & product isnt
-          m_SpeciesSequence[pdt] = counter;            // update the eqMatrix matrix elements
-          eqMatrix[counter-1][rloc] -= qd_real(Keq);
-          eqMatrix[counter-1][counter] += qd_real(1.0) ;
-          counter++ ;
-        }
-        else if(rval && pval){        // if both reactant & product are in m_SpeciesSequence map
 
-          qd_real pdtRowSum(0.0), rctRowSum(0.0);
-
-          for(int j(0);j<counter;++j){           // calculate pdt & rct rowSums of EqMatrix to see if the rxn is redundant
-            pdtRowSum += eqMatrix[ploc][j];
-            rctRowSum += eqMatrix[rloc][j];
+        if ((*m_pReactionManager)[i]->getReactionType() == SECONDORDERASSOCIATION) {
+          if (bSecondOrderFlag) {
+            throw(std::runtime_error("__FUNCTION__:  Multiple second order sources defined.")) ;
+          } else {
+            bSecondOrderFlag = true ;
+			idxr = reactionCount ;
+			idxs = rloc ;
+            eqMatrix[reactionCount][ploc] += qd_real(1.0) ;
+            eqMatrix[reactionCount][rloc] -= qd_real(2.0*Keq) ;
+            eqMatrix[nTotalNumSpecies-1][reactionCount] = qd_real(2.0);
           }
-
-          if(pdtRowSum!=0.0 && rctRowSum!=0.0){ // connection is redundant
-            eqMatrix[counter-1][ploc] += qd_real(1.0) ;
-            eqMatrix[counter-1][rloc] -= qd_real(Keq) ;
-          }
-          else if(rctRowSum==0.0){              // connection is not redundant, pdts lack specification
-            eqMatrix[rloc][ploc] += qd_real(1.0) ;
-            eqMatrix[rloc][rloc] -= qd_real(Keq) ;
-          }
-          else if(pdtRowSum==0.0){
-            eqMatrix[ploc][ploc] += qd_real(1.0) ;        // connection is not redundant, rcts lack specification
-            eqMatrix[ploc][rloc] -= qd_real(Keq) ;
-          }
+        } else {
+          eqMatrix[reactionCount][ploc] += qd_real(1.0) ;
+          eqMatrix[reactionCount][rloc] -= qd_real(Keq) ;
         }
+
+        reactionCount++ ;
+        if (reactionCount >= nTotalNumSpecies) 
+          throw(std::runtime_error("__FUNCTION__: The number of reactions equals or exceeds number of species - system over specified.")) ;
       }
     }
 
-    // if counter==0 after the for loop above, then there are no equilibrating reactions (i.e., all the reactions
-    // are irreversible).  In that case, the lone isomer has an equilibrium fraction of 1.  Thus, we increment
-    // counter so that the 1 is added to the eqMatrix in the for loop immediately following
+    if (++reactionCount != nTotalNumSpecies) 
+      throw(std::runtime_error("__FUNCTION__: The total number of species found does not match the number of reactions - system over specified.")) ;
+
+    // If counter==0 after the for loop above, then there are no equilibrating reactions
+    // (i.e., all the reactions are irreversible).  In that case, the lone isomer has an
+    // equilibrium fraction of 1. Thus, we increment counter so that the 1 is added to
+    // the eqMatrix in the for loop immediately following.
     if (counter==0){
       if (m_isomers.size()){
         Molecule* rct=(m_isomers.begin())->first;
         m_SpeciesSequence[rct] = counter;
-      }
-      else if (m_sources.size()){
+      } else if (m_sources.size()){
         Molecule* rct=(m_sources.begin())->first;
         m_SpeciesSequence[rct] = counter;
-      }
-      else{
+      } else {
         return false;
       }
       ++counter;
     }
-
-    for(int i=0; i < counter; ++i){         // add ones to the final row of the matrix
-      eqMatrix[counter-1][i]= qd_real(1.0);
-    }
-
-    //    ctest << "matrix elements for calculating isomer equilibrium fractions:" << endl;
-    //    eqMatrix.showFinalBits(counter);
 
     qdMatrix backup(eqMatrix);  //backup EqMatrix for error reporting
 
     ctest << endl << "Eq fraction matrix:" << endl;
     backup.showFinalBits(counter);
 
-    if(eqMatrix.invertLUdecomposition()){
-      cerr << "Inversion of matrix for calculating Eq fractions failed.  Matrix before inversion is: ";
-      backup.showFinalBits(counter);
+	vector<qd_real> eqFraction(eqMatrix.size(), 0.0) ;
+    if (bSecondOrderFlag) {
+      iterativeEquiSln(eqMatrix, eqFraction, idxr, idxs) ;
+    } else {
+	  eqFraction.back() = qd_real(1.0) ;
+	  eqMatrix.invertLUdecomposition() ;
+	  eqFraction *= eqMatrix ;
     }
 
     ctest << "inverse of Eq fraction matrix:" << endl;
@@ -635,10 +632,11 @@ namespace mesmer
 
     Reaction::molMapType::iterator itr1;
 
-    for(itr1= m_SpeciesSequence.begin(); itr1!=m_SpeciesSequence.end(); ++itr1){  //assign Eq fraction to appropriate Molecule
-      int seqMatrixLoc = itr1->second;                          //in the Eq frac map
+	// Assign Eq fraction to appropriate Molecule in the Eq. frac map.
+    for(itr1= m_SpeciesSequence.begin(); itr1!=m_SpeciesSequence.end(); ++itr1) {
+      int seqMatrixLoc = itr1->second;
       Molecule* key = itr1->first;
-      key->getPop().setEqFraction(to_double(eqMatrix[seqMatrixLoc][counter-1]));    //set Eq fraction to last column in eqMatrix
+      key->getPop().setEqFraction(to_double(eqFraction[seqMatrixLoc])); 
       string speciesName = key->getName();
       ctest << "Equilibrium Fraction for " << speciesName << " = " << key->getPop().getEqFraction() << endl;
     }
@@ -650,6 +648,59 @@ namespace mesmer
     }
 
     return true;
+  }
+
+  // Calculate the equilibrium fraction for systems with second order terms
+  // using an iterative approach - a Newton-Raphson root finding algorithm 
+  // is used. 
+  bool CollisionOperator::iterativeEquiSln(qdMatrix &eqMatrix, vector<qd_real> &eqFraction, size_t idxr, size_t idxs) {
+
+	size_t niterations(100) ;
+	vector<qd_real> delta ;
+	eqFraction[idxs] = qd_real(1.0) ;
+	const qd_real tol(1.0e-05) ;
+	qdMatrix jacobian(eqMatrix.size()) ;
+	bool converged(false) ;
+    for(size_t i(0) ; i < niterations && !converged ; ++i) {
+
+	  // Construct the latest estimate of the Jacobian.
+	  jacobian = eqMatrix ;
+	  jacobian[idxr][idxs] *= eqFraction[idxs];
+
+	  // Construct the latest estimate of the difference vector.
+	  // For this the value of the vector function at the current
+	  // iteration point is required. The profuct of the Jacobian
+	  // and the current best estimate is already very close to 
+	  // this and manipulations below correct for factors of
+	  // two that happen during differenitation.
+	  qdMatrix fn(jacobian) ;
+	  fn[idxr][idxs] *= qd_real(0.5) ;
+	  delta  = eqFraction ;
+	  delta *= fn ;
+	  delta.back() -= qd_real(2.0) ;
+	  jacobian.solveLinearEquationSet(&delta[0]) ;
+
+	  // Update estimate of equilibrium distribution and test for convergence.
+	  bool testConvergence(true) ;
+	  for (size_t j(0) ; j < eqFraction.size() ; ++j) {
+		testConvergence = ((delta[j]/eqFraction[j] < tol) && testConvergence ) ;
+ 	  	eqFraction[j] -= delta[j] ;
+	  }
+	  converged = testConvergence ;
+	}
+
+	// Normalize equilbrium vector.
+    for(size_t j(0) ; j < eqFraction.size() ; ++j) {
+  	  eqFraction[j] *= qd_real(0.5) ;
+    }
+
+	// Calculat the effect inverse, this is for reporting purposes only.
+	jacobian = eqMatrix ;
+	jacobian[idxr][idxs] *= eqFraction[idxs] ;
+	jacobian.invertLUdecomposition() ;
+	eqMatrix = jacobian ;
+
+	return true ;
   }
 
   void CollisionOperator::diagReactionOperator(const MesmerFlags &mFlags, const MesmerEnv &mEnv,
@@ -852,7 +903,7 @@ namespace mesmer
     if (mFlags.grainedProfileEnabled) {
       ctest << "\nGrained species profile:(first row is the time point in units of second & first column is the grain index)\n{\n";
       Reaction::molMapType::iterator ipos;
-	  // Iterate through isomer map to print out which grains are spanned by which isomers.
+      // Iterate through isomer map to print out which grains are spanned by which isomers.
       for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos){  
         Molecule* isomer = ipos->first;
         ctest << " isomer " << isomer->getName() << " spans grains " << ipos->second << " to " 
@@ -1177,9 +1228,9 @@ namespace mesmer
       }
     }
 
-	// Construct assymmetric eigenvectors required for the z matrix.
+    // Construct assymmetric eigenvectors required for the z matrix.
 
-	qdMatrix assymInvEigenVec(smsize);   // U^(-1)
+    qdMatrix assymInvEigenVec(smsize);   // U^(-1)
     qdMatrix assymEigenVec(smsize);      // U
     for(size_t i(0) ; i<smsize ; ++i){
       qd_real tmp = m_eqVector[i];
@@ -1192,7 +1243,7 @@ namespace mesmer
     }
 
     // Check that the inverse matrix is correctly calcualated by multiplying U*U^(-1) 
-	// for CSE vectors.
+    // for CSE vectors.
 
     for(size_t i(nchemIdx) ; i<smsize ; ++i){ 
       qd_real test = 0.0;
@@ -1207,7 +1258,7 @@ namespace mesmer
         ctest << "row " << i << " of the U*U^(-1) matrix does not equal unity. It sums to " << test << endl;
     }
 
-	if (!mFlags.rateCoefficientsOnly){
+    if (!mFlags.rateCoefficientsOnly){
       qdMatrix Z_matrix(nchem);  // definitions of Y_matrix and Z_matrix taken from PCCP 2007(9), p.4085
       qdMatrix Y_matrix(max(nchem, nsinks));
       Reaction::molMapType::iterator ipos;  // Set up an iterator through the isomer map.
@@ -1217,9 +1268,9 @@ namespace mesmer
       // Check the separation between chemically significant eigenvalues (CSEs) and
       // internal energy relaxation eigenvalues (IEREs); if it's not good, print a warning.
 
-	  int adsorbedCSE(0) ;
-	  const double adsorbedCSETol = 0.1 ;
-	  const double last_CSE       = (to_double(m_eigenvalues[nchemIdx]));
+      int adsorbedCSE(0) ;
+      const double adsorbedCSETol = 0.1 ;
+      const double last_CSE       = (to_double(m_eigenvalues[nchemIdx]));
       const double first_IERE     = (to_double(m_eigenvalues[nchemIdx-1]));
       const double CSE_IERE_ratio = last_CSE/first_IERE ;
       if(CSE_IERE_ratio > adsorbedCSETol){
@@ -1231,16 +1282,16 @@ namespace mesmer
         string s(ss1.str());
         ctest << s ; clog << s ;
 
-	// Replace tabs and line feeds (bad for XML) by spaces.
+        // Replace tabs and line feeds (bad for XML) by spaces.
         replace(s.begin(), s.end(), '\t', ' ');
         replace(s.begin(), s.end(), '\n', ' ');
         if (ppList) ppList->XmlWriteValueElement("me:warning", s);
 
-	// Determine the number of adsorbed eigenvalues.
-	adsorbedCSE++ ; 
-	for (size_t i(1) ; (i < nchem) && (to_double(m_eigenvalues[nchemIdx+i])/first_IERE > adsorbedCSETol) ; i++) {
-	  adsorbedCSE++ ; 
-	}
+        // Determine the number of adsorbed eigenvalues.
+        adsorbedCSE++ ; 
+        for (size_t i(1) ; (i < nchem) && (to_double(m_eigenvalues[nchemIdx+i])/first_IERE > adsorbedCSETol) ; i++) {
+          adsorbedCSE++ ; 
+        }
       }
 
       for(size_t i(0); i<nchem; ++i){
@@ -1292,7 +1343,7 @@ namespace mesmer
         Y_matrix.print(MatrixTitle, ctest, int(nsinks), int(m_SpeciesSequence.size())); 
       }
 
-	  qdMatrix Zinv(Z_matrix) ;
+      qdMatrix Zinv(Z_matrix) ;
       if (nsinks && !mFlags.bForceMacroDetailedBalance) {
 
         // Apply standard inversion method.
@@ -1310,37 +1361,37 @@ namespace mesmer
         // SHR 25/Apr/2010 : It remains unclear that this is correct at the time
         // of writting, however for some systems it is difficult to realize mass
         // conservation without it.
-		//
-		// SHR 25/Aug/2013 : The above comment refers to conservative systems.
-		// The method has been extended to non-conservative systems by using the
-		// equilibrium distribution calculated previously. It is even less clear
-		// that this is appropriate, as microscopic reversibility is explicitly
-		// broken. However, in situations where -ve rate coefficients are observed,
-		// this method can rectify the problem.
+        //
+        // SHR 25/Aug/2013 : The above comment refers to conservative systems.
+        // The method has been extended to non-conservative systems by using the
+        // equilibrium distribution calculated previously. It is even less clear
+        // that this is appropriate, as microscopic reversibility is explicitly
+        // broken. However, in situations where -ve rate coefficients are observed,
+        // this method can rectify the problem.
 
         // Decompose the reduced eigenvector matrix.
 
-		qdMatrix Fr(nchem), Fr_inv(nchem) ;
+        qdMatrix Fr(nchem), Fr_inv(nchem) ;
 
-		if (nsinks && mFlags.bForceMacroDetailedBalance) { 
+        if (nsinks && mFlags.bForceMacroDetailedBalance) { 
 
-		  // Non-conservative case.
+          // Non-conservative case.
 
-		  Reaction::molMapType::iterator spcitr = m_SpeciesSequence.begin();
-		  for (; spcitr != m_SpeciesSequence.end(); ++spcitr) {
-			size_t i     = spcitr->second ;
-			Fr[i][i]     = sqrt((spcitr->first)->getPop().getEqFraction()) ;
-			Fr_inv[i][i] = 1.0/Fr[i][i] ;
-		  }
-		} else {
+          Reaction::molMapType::iterator spcitr = m_SpeciesSequence.begin();
+          for (; spcitr != m_SpeciesSequence.end(); ++spcitr) {
+            size_t i     = spcitr->second ;
+            Fr[i][i]     = sqrt((spcitr->first)->getPop().getEqFraction()) ;
+            Fr_inv[i][i] = 1.0/Fr[i][i] ;
+          }
+        } else {
 
-		  // Conservative case.
+          // Conservative case.
 
-		  for(size_t i(0) ; i<nchem ; ++i) {
-			Fr[i][i]     = sqrt(Z_matrix[i][nchem-1]) ;
-			Fr_inv[i][i] = 1.0/Fr[i][i] ;
-		  }
-		}
+          for(size_t i(0) ; i<nchem ; ++i) {
+            Fr[i][i]     = sqrt(Z_matrix[i][nchem-1]) ;
+            Fr_inv[i][i] = 1.0/Fr[i][i] ;
+          }
+        }
 
 
         qdMatrix Er = Fr_inv * Z_matrix ;
@@ -1401,12 +1452,12 @@ namespace mesmer
       // Write out phenomenological rate coefficients.
       PrintPhenomenologicalRates(Kr, Kp, mFlags, ppList) ;
 
-	  // If eigenvalues adsorbed calculate an effective set of rate equations.
-	  if (adsorbedCSE > 0) {
-	  }
+      // If eigenvalues adsorbed calculate an effective set of rate equations.
+      if (adsorbedCSE > 0) {
+      }
 
       mesmerRates = Kr;
-	  lossRates = Kp;
+      lossRates = Kp;
     }
     return true;    
 
@@ -1452,11 +1503,11 @@ namespace mesmer
           if(rctpos != pdtpos){
             ctest << rctName << " -> " << pdtName << " = " << Kr[pdtpos][rctpos] << endl;
 
-			ostringstream reaction ;
-			reaction << rctName << " => " << pdtName ;
-			m_phenomenlogicalRates[reaction.str()] = to_double(Kr[pdtpos][rctpos]) ;
- 
-			if (ppList) {
+            ostringstream reaction ;
+            reaction << rctName << " => " << pdtName ;
+            m_phenomenlogicalRates[reaction.str()] = to_double(Kr[pdtpos][rctpos]) ;
+
+            if (ppList) {
               PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kr[pdtpos][rctpos]));
               ppItem->XmlWriteAttribute("fromRef", rctName);
               ppItem->XmlWriteAttribute("toRef",   pdtName);
@@ -1491,10 +1542,10 @@ namespace mesmer
           if (sinkReaction->getReactionType() == IRREVERSIBLE_EXCHANGE) {
             ctest << rctName << " -> "  << pdtsName << "(bim) = " << Kp[sinkpos][rctpos] << endl;
 
-			ostringstream reaction ;
-			reaction << rctName << " => " << pdtsName ;
-			m_phenomenlogicalRates[reaction.str()] = to_double(Kp[sinkpos][rctpos]) ;
- 
+            ostringstream reaction ;
+            reaction << rctName << " => " << pdtsName ;
+            m_phenomenlogicalRates[reaction.str()] = to_double(Kp[sinkpos][rctpos]) ;
+
             puNumbers << Kp[sinkpos][rctpos] << "\t";
             if (!m_punchSymbolGathered) {
               puSymbols << rcts->getName() << " -> " << pdtsName << "(bim)\t";
@@ -1502,10 +1553,10 @@ namespace mesmer
           } else {
             ctest << rctName << " -> "  << pdtsName << " = " << Kp[sinkpos][rctpos] << endl;
 
-			ostringstream reaction ;
-			reaction << rctName << " => " << pdtsName ;
-			m_phenomenlogicalRates[reaction.str()] = to_double(Kp[sinkpos][rctpos]) ;
- 
+            ostringstream reaction ;
+            reaction << rctName << " => " << pdtsName ;
+            m_phenomenlogicalRates[reaction.str()] = to_double(Kp[sinkpos][rctpos]) ;
+
             if (ppList) {
               PersistPtr ppItem = ppList->XmlWriteValueElement("me:firstOrderRate", to_double(Kp[sinkpos][rctpos]));
               ppItem->XmlWriteAttribute("fromRef", rctName);

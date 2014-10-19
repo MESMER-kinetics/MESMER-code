@@ -1,3 +1,13 @@
+2014-October-19 Struan Robertson
+
+	* CollisionOperator.cpp/.h: Added implementation of method to calculate
+	equilibrium fractions for systems with a second order reaction.
+	
+	* ThermodynamicTable.cpp: ALtered so that enthalpy is measured relative to 
+	298.15 K value, to allow comparison with JANAF tables.	 
+
+	* Documentation: Content added regarding refReaction keyword.
+
 2014-September-27 Struan Robertson
 
 	* examples/Methyl_H_to_Methane: Added two test files (used in the 
