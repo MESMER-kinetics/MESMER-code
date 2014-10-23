@@ -56,7 +56,7 @@ namespace mesmer
     m_cellDOS(),
     m_grainEne(),
     m_grainDOS() {
-      m_host = pMol;
+    m_host = pMol;
   }
 
   bool gDensityOfStates::initialization() {
@@ -246,75 +246,72 @@ namespace mesmer
       //}
       //else
       //{
-        // If there is not a convention="thermodynamic" attribute on Hf298,
-        // convert Hf0,etc. and write back a me:ZPE property which will be used in future
-        // Currently, Hf0,etc. cannot be used as a range variables
-        /*
-        Atomize species X into atoms (at 0K)
-        delta H  = Sum(Hf0(atom i)) - Hf0(X)
-        = Sum(E(atom i)) - E(X) where E is a compchem energy
-        =                - HAT0 (enthalpy of atomization at 0K)
-        We have E and Hf0 for each element as gas phase atom in librarymols.xml,
-        so E(X) = Hf0(X) + Sum over all atoms( E - Hf0 )
+      // If there is not a convention="thermodynamic" attribute on Hf298,
+      // convert Hf0,etc. and write back a me:ZPE property which will be used in future
+      // Currently, Hf0,etc. cannot be used as a range variables
+      /*
+      Atomize species X into atoms (at 0K)
+      delta H  = Sum(Hf0(atom i)) - Hf0(X)
+      = Sum(E(atom i)) - E(X) where E is a compchem energy
+      =                - HAT0 (enthalpy of atomization at 0K)
+      We have E and Hf0 for each element as gas phase atom in librarymols.xml,
+      so E(X) = Hf0(X) + Sum over all atoms( E - Hf0 )
+      */
+      string origElement = !IsNan(Hf0) ? "me:Hf0" : (!IsNan(HfAT0) ? "me:HfAT0" : "me:Hf298");
+      const char* utxt = ppPropList->XmlReadPropertyAttribute(origElement, "units", optional);
+      utxt = utxt ? utxt : "kJ/mol";
+      if (!IsNan(Hf0))
+      {
+        //Use Hf0 if provided
+        Hf0 = getConvertedEnergy(utxt, Hf0); //cm-1
+        tempzpe = Hf0 + getConvertedEnergy("kJ/mol", getHost()->getStruc().CalcSumEMinusHf0(false, false));//cm-1
+      }
+      else if (!IsNan(HfAT0))
+      {
+        //Use HfAT0 (atom-based thermochemistry, see DOI: 10.1002/chem.200903252)
+        HfAT0 = getConvertedEnergy(utxt, HfAT0); //cm-1
+        tempzpe = HfAT0 + getConvertedEnergy("kJ/mol", getHost()->getStruc().CalcSumEMinusHf0(true, false));//cm-1
+      }
+      else if (!IsNan(Hf298))
+      {
+        //Use Hf298
+        const char* convention = ppPropList->XmlReadPropertyAttribute(origElement, "convention", optional);
+        if (convention && strcmp(convention, "thermodynamic") == 0)
+        {
+          m_EnergyConvention = convention;
+          tempzpe = getConvertedEnergy(utxt, Hf298); //Raw Hf298 to cm-1
+          return calcDensityOfStates(); //necessary here for Unit Tests but I don't know why.
+        }
+        /*Atomize species X at 298K
+        deltaH  = Sum over atoms(Hf298)) - Hf298(X)
+        = Sum(E + Sum(H(298K)) - (E(X) + H(298K))
+        E(X) = (Hf298 - H(298K))(X) + Sum over atoms(E - Hf298 + H(298K))
         */
-        string origElement = !IsNan(Hf0) ? "me:Hf0" : (!IsNan(HfAT0) ? "me:HfAT0" : "me:Hf298");
-        const char* utxt = ppPropList->XmlReadPropertyAttribute(origElement, "units", optional);
-        utxt = utxt ? utxt : "kJ/mol";
-        if (!IsNan(Hf0))
-        {
-          //Use Hf0 if provided
-          Hf0 = getConvertedEnergy(utxt, Hf0); //cm-1
-          tempzpe = Hf0 + getConvertedEnergy("kJ/mol", getHost()->getStruc().CalcSumEMinusHf0(false, false));//cm-1
-        }
-        else if (!IsNan(HfAT0))
-        {
-          //Use HfAT0 (atom-based thermochemistry, see DOI: 10.1002/chem.200903252)
-          HfAT0 = getConvertedEnergy(utxt, HfAT0); //cm-1
-          tempzpe = HfAT0 + getConvertedEnergy("kJ/mol", getHost()->getStruc().CalcSumEMinusHf0(true, false));//cm-1
-        }
-        else
-        {
-          if(!IsNan(Hf0))
-          {
-            //Use Hf298
-          const char* convention = ppPropList->XmlReadPropertyAttribute(origElement, "convention", optional);
-          if (convention && strcmp(convention, "thermodynamic") == 0)
-            {
-              m_EnergyConvention = convention;
-              tempzpe = getConvertedEnergy(utxt, Hf298); //Raw Hf298 to cm-1
-              return calcDensityOfStates(); //necessary here for Unit Tests but I don't know why.
-            }
-            /*Atomize species X at 298K
-            deltaH  = Sum over atoms(Hf298)) - Hf298(X)
-            = Sum(E + Sum(H(298K)) - (E(X) + H(298K))
-            E(X) = (Hf298 - H(298K))(X) + Sum over atoms(E - Hf298 + H(298K))
-            */
-            // H is the enthalpy in cm-1 and 298K calculated with m_ZPE=0.
-            // Hf0 is the real enthalpy of formation at 0K in cm-1.
-            double H, S, G;
-            set_zpe(0.0);
-            thermodynamicsFunctions(298, 1.0, H, S, G);
-            //Hf298 = getConvertedEnergy(utxt, Hf298) + H; //cm-1 sign changed
-            tempzpe = getConvertedEnergy(utxt, Hf298) - H
-              + getConvertedEnergy("kJ/mol", getHost()->getStruc().CalcSumEMinusHf0(false, true));//cm-1        
-          }
-        }
-        if(IsNan(tempzpe))
-        {
-          cinfo << "No ZPE (or an alternative) was provided." << endl;
-          return true;
-        }
-        set_zpe(tempzpe);
-        m_ZPE_chk = 0;
-        //Write the converted value back to a me:ZPE element in the XML file
-        stringstream ss;
-        ss.precision(9);
-        ss << ConvertFromWavenumbers(utxt, tempzpe);
-        PersistPtr ppScalar = ppPropList->XmlWriteProperty("me:ZPE", ss.str(), utxt);
-        ppScalar->XmlWriteAttribute("source", origElement);
-        ppScalar->XmlWriteAttribute("convention", "computational");//orig units
-        m_EnergyConvention = "computational";
-        cinfo << "New me:ZPE element written with data from " << origElement << endl;
+        // H is the enthalpy in cm-1 and 298K calculated with m_ZPE=0.
+        // Hf0 is the real enthalpy of formation at 0K in cm-1.
+        double H, S, G;
+        set_zpe(0.0);
+        thermodynamicsFunctions(298, 1.0, H, S, G);
+        //Hf298 = getConvertedEnergy(utxt, Hf298) + H; //cm-1 sign changed
+        tempzpe = getConvertedEnergy(utxt, Hf298) - H
+          + getConvertedEnergy("kJ/mol", getHost()->getStruc().CalcSumEMinusHf0(false, true));//cm-1        
+      }
+      if (IsNan(tempzpe))
+      {
+        cinfo << "No ZPE (or an alternative) was provided." << endl;
+        return true;
+      }
+      set_zpe(tempzpe);
+      m_ZPE_chk = 0;
+      //Write the converted value back to a me:ZPE element in the XML file
+      stringstream ss;
+      ss.precision(9);
+      ss << ConvertFromWavenumbers(utxt, tempzpe);
+      PersistPtr ppScalar = ppPropList->XmlWriteProperty("me:ZPE", ss.str(), utxt);
+      ppScalar->XmlWriteAttribute("source", origElement);
+      ppScalar->XmlWriteAttribute("convention", "computational");//orig units
+      m_EnergyConvention = "computational";
+      cinfo << "New me:ZPE element written with data from " << origElement << endl;
       //}
     }
     return true;
@@ -458,8 +455,8 @@ namespace mesmer
     if (m_RC_chk <= -1){
       ErrorContext e(this->getHost()->getName());
       if (m_RC_chk == -1)
-//        cinfo << "Rotational constants were not defined but requested." << endl;
-      --m_RC_chk;
+        //        cinfo << "Rotational constants were not defined but requested." << endl;
+        --m_RC_chk;
       return UNDEFINED_TOP; // treat as a non-rotor
     }
 
@@ -489,8 +486,8 @@ namespace mesmer
     bool recalc(false);
     const size_t MaximumCell = m_host->getEnv().MaxCell;
     if (MaximumCell > m_MaximumCell) {
-      recalc = true ;
-      m_MaximumCell = MaximumCell ;
+      recalc = true;
+      m_MaximumCell = MaximumCell;
     }
 
     if (recalc) {
@@ -502,7 +499,7 @@ namespace mesmer
         return false;
     }
 
-    if(IsNan(m_ZPE))
+    if (IsNan(m_ZPE))
     {
       //cinfo << "calculation of DOS cutailed because no ZPE" << endl;
     }
@@ -614,7 +611,7 @@ namespace mesmer
 
   double gDensityOfStates::get_zpe() {
     if (m_ZPE_chk == -1) {
-//      cinfo << "m_ZPE was not defined but requested in " << m_host->getName() << ". Default value " << m_ZPE << " is given." << endl;
+      //      cinfo << "m_ZPE was not defined but requested in " << m_host->getName() << ". Default value " << m_ZPE << " is given." << endl;
       --m_ZPE_chk;
     }
     else if (m_ZPE_chk < -1) {
@@ -679,8 +676,8 @@ namespace mesmer
   }
 
   int gDensityOfStates::get_cellOffset(void) {
-    double modulus = fmod(get_zpe() - m_host->getEnv().EMin, double(m_host->getEnv().GrainSize))/m_host->getEnv().CellSize ;
-    return int(max(modulus,0.0));
+    double modulus = fmod(get_zpe() - m_host->getEnv().EMin, double(m_host->getEnv().GrainSize)) / m_host->getEnv().CellSize;
+    return int(max(modulus, 0.0));
   };
 
   //
@@ -762,10 +759,10 @@ namespace mesmer
 
     // The rovibronic partition function must be corrected for translation 
     // and (assuming an ideal gas) molecular indistinguishability.
-	double molarVol = 1.e+06*idealGasC/(boltzmann_RCpK*beta*atm_in_pascal) ;  // cm3
-    gibbsFreeEnergy = unitFctr*(-log(cellCanPrtnFn) 
-	                - log(tp_C * pow((m_host->getStruc().getMass() / beta), 1.5)*molarVol) 
-					+ log(AvogadroC)) / beta;
+    double molarVol = 1.e+06*idealGasC / (boltzmann_RCpK*beta*atm_in_pascal);  // cm3
+    gibbsFreeEnergy = unitFctr*(-log(cellCanPrtnFn)
+      - log(tp_C * pow((m_host->getStruc().getMass() / beta), 1.5)*molarVol)
+      + log(AvogadroC)) / beta;
 
     // The enthalpy must be corrected for translation by an additional 3kT/2.
     enthalpy = unitFctr*(internalEnergy + 5.0 / (2.0*beta));
