@@ -1,0 +1,18 @@
+<div class="table-like pull-left p70">
+    <input type="text" class="form-control table-cell p45" placeholder="pressure" target = "P" value = "<%= P %>">
+    <input type="text" class="form-control table-cell p45" placeholder="temperature(K)" target = "T" value = "<%= T %>">
+    <button class = "btn btn-default table-cell p10" action = "delete">&times;</button>
+</div>
+
+<div class="input-group pull-right" style="width:29%;">
+    <span class="input-group-addon" style="width:75px">Precision</span>
+    <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><%= precision %>  <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu" target = 'precision'>
+        <li><a href="#" val="double">double</a></li>
+        <li><a href="#" val="double-double">double-double</a></li>
+        <li><a href="#" val="quad-double">quad-double</a></li>
+      </ul>
+    </div>
+</div>

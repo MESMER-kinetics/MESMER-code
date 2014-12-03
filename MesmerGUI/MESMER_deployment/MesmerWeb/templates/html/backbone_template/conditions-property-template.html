@@ -1,0 +1,54 @@
+<div class="list-group" id = 'conditions-property' >
+    <div class="list-group-item group-head">
+        <span>Conditions</span>
+        <button type="button" class="btn btn-primary pull-right">Add Pressure & Temperature</button>
+    </div>
+    <div class="list-group-item">
+        <div class='row'>
+        <div class = 'col-xs-6'>
+            <div class="input-group">
+                <span class="input-group-addon">Bath Gas</span>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><%= bathGas %> <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu" target = 'bathGas' type = "bathGas">
+                  </ul>
+                </div>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">InitialPopulation</span>
+                <input type="text" class="form-control" placeholder="" target = 'initialPopulation' value='<%= initialPopulation%>'>
+                <div class="btn-group" style="display:table-cell; width:30%">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <%= initialPopulationRef %>  <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu" target = 'initialPopulationRef' >
+                  </ul>
+                </div>
+            </div>
+        </div>
+        <div class = 'col-xs-6'>
+            <div class="input-group">
+                <span class="input-group-addon">Units</span>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><%= units %>  <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu" target = 'units'>
+                    <li><a href="#" val="PPCC">PPCC</a></li>
+                    <li><a href="#" val="Torr">Torr</a></li>
+                    <li><a href="#" val="mbar">mbar</a></li>
+                    <li><a href="#" val="atm">atm</a></li>
+                    <li><a href="#" val="psi">psi</a></li>
+                    <li><a href="#" val="moles/cc">moles/cc</a></li>
+                  </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-xs-12">
+
+            </div>
+        </div>
+    </div>
+</div>

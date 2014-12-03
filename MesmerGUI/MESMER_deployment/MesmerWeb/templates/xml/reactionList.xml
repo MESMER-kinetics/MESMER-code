@@ -1,0 +1,38 @@
+<reactionList>
+    {% for reaction in reactionList %}
+    <reaction id="{{ reaction.id }}">
+        <reactant>
+            <molecule ref="{{reaction.R1Ref}}" me:type="{{reaction.R1Type}}" />
+        </reactant>
+        {% if reaction.type == 'A + B -> C' or reaction.type == 'A + B -> C + D' %}
+        <reactant>
+            <molecule ref="{{reaction.R2Ref}}" me:type="{{reaction.R2Type}}" />
+        </reactant>
+        {% endif %}
+
+        <product>
+            <molecule ref="{{reaction.P1Ref}}" me:type="{{reaction.P1Type}}" />
+        </product>
+        {% if reaction.type == 'A -> B + C' or reaction.type == 'A + B -> C + D' %}
+        <product>
+            <molecule ref="{{reaction.P2Ref}}" me:type="{{reaction.P2Type}}" />
+        </product>
+        {% endif %}
+        {% if reaction.excessReactantConc %}
+        <me:excessReactantConc>{{ reaction.excessReactantConc }}</me:excessReactantConc>
+        {% endif %}
+
+        <me:MCRCMethod name="{{ reaction.MCRCMethod }}"/>
+        {% if reaction.MCRCMethod == 'SimpleRRKM' %}
+        <me:transitionState>
+            <molecule ref="{{reaction.TRef}}" me:type="{{reaction.TType}}" />
+        </me:transitionState>
+        {% endif %}
+        {% if reaction.MCRCMethod == 'MesmerILT' %}
+        <me:preExponential units="{{ reaction.preExponential_unit }}">{{ reaction.preExponential }}</me:preExponential>
+        <me:activationEnergy units="{{ reaction.activationEnergy_unit }}">{{ reaction.activationEnergy }}</me:activationEnergy>
+        <me:nInfinity>{{ reaction.nInfinity }}</me:nInfinity>
+        {% endif %}
+    </reaction>
+    {% endfor %}
+</reactionList>

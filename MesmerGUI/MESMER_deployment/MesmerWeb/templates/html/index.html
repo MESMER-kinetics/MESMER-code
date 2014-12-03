@@ -1,0 +1,98 @@
+{% extends "html/base.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/css/mesmer.css">
+{% endblock %}
+
+
+{% block title %}
+MESMER
+{% endblock %}
+
+
+{% block head %}
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">MESMER</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">index</a></li>
+      </ul>
+      <div class="pull-right">
+      <div class='btn-group margin-sm'>
+        <div class="btn btn-default" id="open"> open
+          <form name='openxml'>
+            <input class="btn btn-default"  id='openfile' name="openfile" type="file" />
+          </form>
+        </div>
+        <button class="btn btn-default" id="save">save</button>
+{#        <button class="btn btn-default" id="calculate">calculate</button>#}
+        <a class="btn btn-default" id="new" target="_blank">new</a>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block content %}
+
+{% endblock %}
+
+
+{% block footer %}
+<iframe id="invisible" style="display:none;"></iframe>
+{% endblock %}
+
+{% block template %}
+    <script type="text/template" id="overview-template">
+        {% include 'html/backbone_template/overview-template.html' %}
+    </script>
+    <script type="text/template" id="molecule-property-template">
+        {% include 'html/backbone_template/molecule-property-template.html' %}
+    </script>
+    <script type="text/template" id="molecule-list-property-template">
+        {% include 'html/backbone_template/molecule-list-property-template.html' %}
+    </script>
+    <script type="text/template" id="molecule-item-template">
+        {% include 'html/backbone_template/molecule-item-template.html' %}
+    </script>
+    <script type="text/template" id="reaction-list-property-template">
+        {% include 'html/backbone_template/reaction-list-property-template.html' %}
+    </script>
+    <script type="text/template" id="reaction-property-template">
+        {% include 'html/backbone_template/reaction-property-template.html' %}
+    </script>
+    <script type="text/template" id="reaction-item-template">
+        {% include 'html/backbone_template/reaction-item-template.html' %}
+    </script>
+    <script type="text/template" id="control-property-template">
+        {% include 'html/backbone_template/control-property-template.html' %}
+    </script>
+    <script type="text/template" id="conditions-property-template">
+        {% include 'html/backbone_template/conditions-property-template.html' %}
+    </script>
+    <script type="text/template" id="modelParameters-property-template">
+        {% include 'html/backbone_template/modelParameters-property-template.html' %}
+    </script>
+    <script type="text/template" id="pt-template">
+        {% include 'html/backbone_template/pt-template.html' %}
+    </script>
+{% endblock %}
+
+{% block script %}
+<script src="/static/js/data.js"></script>
+<script src="/static/js/BaseView.js"></script>
+<script src="/static/js/view.js"></script>
+<script src="/static/js/app.js"></script>
+<script src="/static/js/ajaxfileupload.js"></script>
+{% endblock %}

@@ -1,0 +1,84 @@
+<moleculeList>
+    {% for molecule in moleculeList %}
+    <molecule id="{{ molecule.id }}">
+        <propertyList>
+            {% if molecule.ZPE %}
+            <property dictRef="me:ZPE">
+                <scalar units="{{ molecule.ZPE_unit }}">{{ molecule.ZPE }}</scalar>
+            </property>
+            {% endif %}
+
+            {% if molecule.rotConsts %}
+            <property dictRef="me:rotConsts">
+                <array units="cm-1">{{ molecule.rotConsts }}</array>
+            </property>
+            {% endif %}
+
+            {% if molecule.vibFreqs %}
+            <property dictRef="me:vibFreqs">
+                <array units="cm-1">{{ molecule.vibFreqs }}</array>
+            </property>
+            {% endif %}
+
+            {% if molecule.frequenciesScaleFactor %}
+            <property dictRef="me:frequenciesScaleFactor">
+               <scalar>{{ molecule.frequenciesScaleFactor }}</scalar>
+            </property>
+            {% endif %}
+
+            {% if molecule.symmetryNumber %}
+            <property dictRef="me:symmetryNumber">
+                <scalar>{{ molecule.symmetryNumber }}</scalar>
+            </property>
+            {% endif %}
+
+            {% if molecule.MW %}
+            <property dictRef="me:MW">
+                <scalar units="amu">{{ molecule.MW }}</scalar>
+            </property>
+            {% endif %}
+
+            {% if molecule.spinMultiplicity %}
+            <property dictRef="me:spinMultiplicity">
+                <scalar>{{ molecule.spinMultiplicity }}</scalar>
+            </property>
+            {% endif %}
+
+            {% if molecule.epsilon %}
+            <property dictRef="me:epsilon">
+                <scalar>{{ molecule.epsilon }}</scalar>
+            </property>
+            {% endif %}
+
+            {% if molecule.sigma %}
+            <property dictRef="me:sigma">
+                <scalar>{{ molecule.sigma }}</scalar>
+            </property>
+            {% endif %}
+
+{#            {% if molecule.deltaEDown %}#}
+{#            <property dictRef="me:deltaEDown">#}
+{#                <scalar units="cm-1">{{ molecule.deltaEDown }}</scalar>#}
+{#            </property>#}
+{#            {% endif %}#}
+
+{#            {% if molecule.deltaEDownTExponent %}#}
+{#            <property dictRef="me:deltaEDownTExponent" >#}
+{#                <scalar units="cm-1">{{ molecule.deltaEDownTExponent }}</scalar>#}
+{#            </property>#}
+{#            {% endif %}#}
+        </propertyList>
+        {% if molecule.DOSCMethod %}
+        <me:DOSCMethod name="{{ molecule.DOSCMethod }}"/>
+        {% endif %}
+        {% if molecule.deltaEDown%}
+        <me:energyTransferModel xsi:type="me:ExponentialDown">
+            <me:deltaEDown units="cm-1">{{ molecule.deltaEDown }}</me:deltaEDown>
+            {% if molecule.deltaEDownTExponent %}
+            <me:deltaEDownTExponent referenceTemperature="{{ molecule.referenceTemperature }}">{{ molecule.deltaEDownTExponent }}</me:deltaEDownTExponent>
+            {% endif %}
+        </me:energyTransferModel>
+        {% endif %}
+    </molecule>
+    {% endfor %}
+</moleculeList>

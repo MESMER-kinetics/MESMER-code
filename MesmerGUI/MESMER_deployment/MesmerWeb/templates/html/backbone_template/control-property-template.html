@@ -1,0 +1,220 @@
+<div class="list-group" id = 'control-property'>
+    <div class="list-group-item group-head">Control    </div>
+    <div class="list-group-item">
+    <div class='row'>
+        <div class = 'col-xs-6'>
+            <div class="input-group">
+                <span class="input-group-addon">eigenvalues</span>
+                <input type="text" class="form-control" placeholder="" target = 'eigenvalues' value = '<%= eigenvalues %>'>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default" disabled = 'disabled'>
+                  <span class="glyphicon <%= options.printCellDOS ? 'glyphicon-ok' : '' %>"></span>
+                  </button>
+                  <button type="button" class="btn btn-default">
+                    printCellDOS
+                  </button>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default" disabled = 'disabled'>
+                  <span class="glyphicon <%= options.printCellTransitionStateFlux ? 'glyphicon-ok' : '' %>"></span>
+                  </button>
+                  <button type="button" class="btn btn-default">
+                    printCellTransitionStateFlux
+                  </button>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default" disabled = 'disabled'>
+                  <span class="glyphicon <%= options.printGrainBoltzmann ? 'glyphicon-ok' : '' %>"></span>
+                  </button>
+                  <button type="button" class="btn btn-default">
+                    printGrainBoltzmann
+                  </button>
+                  </div>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default" disabled = 'disabled'>
+                  <span class="glyphicon <%= options.printGrainDOS ? 'glyphicon-ok' : '' %>"></span>
+                  </button>
+                  <button type="button" class="btn btn-default">
+                    printGrainDOS
+                  </button>
+                  </div>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default" disabled = 'disabled'>
+                  <span class="glyphicon <%= options.printGrainkbE ? 'glyphicon-ok' : '' %>"></span>
+                  </button>
+                  <button type="button" class="btn btn-default">
+                    printGrainkbE
+                  </button>
+              </div>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+              <button type="button" class="btn btn-default" disabled = 'disabled'>
+              <span class="glyphicon <%= options.printGrainkfE ? 'glyphicon-ok' : '' %>"></span>
+              </button>
+              <button type="button" class="btn btn-default">
+                printGrainkfE
+              </button>
+            </div>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+              <button type="button" class="btn btn-default" disabled = 'disabled'>
+              <span class="glyphicon <%= options.printTSsos ? 'glyphicon-ok' : '' %>"></span>
+              </button>
+              <button type="button" class="btn btn-default">
+                printTSsos
+              </button>
+              </div>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default" disabled = 'disabled'>
+                  <span class="glyphicon <%= options.printReactionOperatorColumnSums ? 'glyphicon-ok' : '' %>"></span>
+                  </button>
+                  <button type="button" class="btn btn-default">
+                    printReactionOperatorColumnSums
+                  </button>
+                </div>
+            </div>
+            <div class="input-group">
+              <div class="btn-group">
+              <button type="button" class="btn btn-default" disabled = 'disabled'>
+              <span class="glyphicon <%= options.printGrainedSpeciesProfile ? 'glyphicon-ok' : '' %>"></span>
+              </button>
+              <button type="button" class="btn btn-default">
+                printGrainedSpeciesProfile
+              </button>
+                </div>
+            </div>
+        </div>
+        <div class = 'col-xs-6'>
+            <div class="input-group">
+                <span class="input-group-addon">calcMethod</span>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  <%= calcMethod%>  <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu" target = "calcMethod">
+                    <li><a href="#" val = "simpleCalc">simpleCalc</a></li>
+                    <li><a href="#" val = "gridSearch">gridSearch</a></li>
+                    <li><a href="#" val = "fitting">fitting</a></li>
+                    <li><a href="#" val = "marquardt">marquardt</a></li>
+                    <li><a href="#" val = "ThermodynamicTable">ThermodynamicTable</a></li>
+                  </ul>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default" disabled = 'disabled'>
+                  <span class="glyphicon <%= options.printGrainTransitionStateFlux ? 'glyphicon-ok' : '' %>"></span>
+                  </button>
+                  <button type="button" class="btn btn-default">
+                    printGrainTransitionStateFlux
+                  </button>
+                 </div>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+              <button type="button" class="btn btn-default" disabled = 'disabled'>
+              <span class="glyphicon <%= options.printReactionOperatorSizematrix ? 'glyphicon-ok' : '' %>"></span>
+              </button>
+              <button type="button" class="btn btn-default">
+                printReactionOperatorSizematrix
+              </button>
+              </div>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default" disabled = 'disabled'>
+                  <span class="glyphicon <%= options.printSpeciesProfile ? 'glyphicon-ok' : '' %>"></span>
+                  </button>
+                  <button type="button" class="btn btn-default">
+                    printSpeciesProfile
+                  </button>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+              <button type="button" class="btn btn-default" disabled = 'disabled'>
+              <span class="glyphicon <%= options.printTunnellingCoefficients ? 'glyphicon-ok' : '' %>"></span>
+              </button>
+              <button type="button" class="btn btn-default">
+                printTunnellingCoefficients
+              </button>
+              </div>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+              <button type="button" class="btn btn-default" disabled = 'disabled'>
+              <span class="glyphicon <%= options.printCrossingCoefficients ? 'glyphicon-ok' : '' %>"></span>
+              </button>
+              <button type="button" class="btn btn-default">
+                printCrossingCoefficients
+              </button>
+              </div>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default" disabled = 'disabled'>
+                  <span class="glyphicon <%= options.testDOS ? 'glyphicon-ok' : '' %>"></span>
+                  </button>
+                  <button type="button" class="btn btn-default">
+                    testDOS
+                  </button>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default" disabled = 'disabled'>
+                  <span class="glyphicon <%= options.testMicroRates ? 'glyphicon-ok' : '' %>"></span>
+                  </button>
+                  <button type="button" class="btn btn-default">
+                    testMicroRates
+                  </button>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default" disabled = 'disabled'>
+                  <span class="glyphicon <%= options.testRateConstants ? 'glyphicon-ok' : '' %>"></span>
+                  </button>
+                  <button type="button" class="btn btn-default">
+                    testRateConstants
+                  </button>
+                  </div>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default" disabled = 'disabled'>
+                  <span class="glyphicon <%= options.useTheSameCellNumberForAllConditions ? 'glyphicon-ok' : '' %>"></span>
+                  </button>
+                  <button type="button" class="btn btn-default">
+                    useTheSameCellNumberForAllConditions
+                  </button>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="btn-group">
+                  <button type="button" disabled = 'disabled'class="btn btn-default">
+                  <span class="glyphicon <%= options.hideInactive ? 'glyphicon-ok' : '' %>"></span>
+                  </button>
+                  <button type="button" class="btn btn-default">
+                    hideInactive
+                  </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

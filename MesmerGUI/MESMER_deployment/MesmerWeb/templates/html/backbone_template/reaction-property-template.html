@@ -1,0 +1,189 @@
+<div class="list-group" id = 'reaction-property'>
+    <div class="list-group-item">
+  	<div class = "row">
+  		<div class = "col-xs-6">
+	        <div class="input-group" id = "reaction-id">
+	            <span class="input-group-addon">id</span>
+	            <input type="text" class="form-control" placeholder="identify the reaction" target = 'id' value = "<%= id %>">
+	        </div>
+
+	        <div class="input-group">
+	            <span class="input-group-addon">reaction type</span>
+	            <div class="btn-group">
+	                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+	                <%= type %>  <span class="caret"></span>
+	                </button>
+	                <ul class="dropdown-menu" role="menu" target = "type">
+	                    <li><a href="#" val = "A -> B">A -> B</a></li>
+	                    <li><a href="#" val = "A -> B + C">A -> B + C</a></li>
+	                    <li><a href="#" val = "A + B -> C">A + B -> C</a></li>
+	                    <li><a href="#" val = "A + B -> C + D">A + B -> C + D</a></li>
+	                </ul>
+	            </div>
+	        </div>
+	        
+	        <div class="input-group" id = "reactant1">
+	            <span class="input-group-addon">reactant 1</span>
+	            <div class = "btn-group">
+		            <div class="btn-group half">
+		              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+		                <%= R1Ref %>  <span class="caret"></span>
+		              </button>
+		              <ul class="dropdown-menu" role="menu" target = 'R1Ref' type = "<%= R1Type%>">
+		              </ul>
+		            </div>
+		            
+		            <div class="btn-group half">
+		              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+		                <%= R1Type %>  <span class="caret"></span>
+		              </button>
+		              <ul class="dropdown-menu" role="menu" target = "R1Type">
+		                <li><a href="#" val="modelled">modelled</a></li>
+		                <li><a href="#" val="deficientReactant">deficientReactant</a></li>
+		                <li><a href="#" val="excessReactant">excessReactant</a></li>
+		              </ul>
+		            </div>
+	            </div>
+	        </div>
+
+	        <% if (type === 'A + B -> C' || type === 'A + B -> C + D') { %>
+	        <div class="input-group" id = "reactant2">
+	            <span class="input-group-addon">reactant 2</span>
+	            <div class = "btn-group">
+		            <div class="btn-group half">
+		              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+		                <%= R2Ref %>  <span class="caret"></span>
+		              </button>
+		              <ul class="dropdown-menu" role="menu" target = 'R2Ref' type = "<%= R2Type%>">
+		              </ul>
+		            </div>
+
+		            <div class="btn-group half">
+		              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+		                <%= R2Type %>  <span class="caret"></span>
+		              </button>
+		              <ul class="dropdown-menu" role="menu" target = 'R2Type' >
+		                <li><a href="#" val="modelled">modelled</a></li>
+		                <li><a href="#" val="deficientReactant">deficientReactant</a></li>
+		                <li><a href="#" val="excessReactant">excessReactant</a></li>
+		              </ul>
+		            </div>
+	           	</div>
+	        </div>
+	        <% } %>
+
+	        <div class="input-group" id = "product1">
+	            <span class="input-group-addon">product 1</span>
+	            <div class="btn-group">
+		            <div class="btn-group half">
+		              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+		                <%= P1Ref %>  <span class="caret"></span>
+		              </button>
+		              <ul class="dropdown-menu" role="menu" target = 'P1Ref' type = "<%= P1Type%>">
+		              </ul>
+		            </div>
+
+		            <div class="btn-group half">
+		              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+		                <%= P1Type %>  <span class="caret"></span>
+		              </button>
+		              <ul class="dropdown-menu" role="menu" target = 'P1Type' >
+		                <li><a href="#" val="modelled">modelled</a></li>
+		                <li><a href="#" val="sink">sink</a></li>
+		              </ul>
+		            </div>
+		        </div>
+	        </div>
+
+	        <% if (type === 'A + B -> C + D' || type === 'A -> B + C') {%>
+	        <div class="input-group" id = "product2">
+	            <span class="input-group-addon">product 2</span>
+	            <div class="btn-group">
+		            <div class="btn-group half">
+		              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+		                <%= P2Ref %>  <span class="caret"></span>
+		              </button>
+		              <ul class="dropdown-menu" role="menu" target = 'P2Ref' type = "<%= P2Type%>">
+		              </ul>
+		            </div>
+
+		            <div class="btn-group half">
+		              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+		                <%= P2Type %>  <span class="caret"></span>
+		              </button>
+		              <ul class="dropdown-menu" role="menu" target = 'P2Type' >
+		                <li><a href="#" val="modelled">modelled</a></li>
+		                <li><a href="#" val="sink">sink</a></li>
+		              </ul>
+		            </div>
+	            </div>
+	        </div>
+	        <% } %>
+		</div>
+        <div class = 'col-xs-6'>
+	        <div class="input-group">
+	            <span class="input-group-addon" >MCRCMethod</span>
+	            <div class="btn-group" >
+	              <button type="button" data-button = "data-button" class="btn btn-default half <%= MCRCMethod === 'MesmerILT'? 'active' : ''%>" val = "MesmerILT" target = "MCRCMethod">ILT</button>
+	              <button type="button" data-button = "data-button" class="btn btn-default half <%= MCRCMethod === 'SimpleRRKM'? 'active' : ''%>" val = "SimpleRRKM" target = "MCRCMethod">RRKM</button>
+	            </div>
+	        </div>
+
+	        <% if (MCRCMethod === 'SimpleRRKM') {%>
+	        <div class="input-group" id = "transitionState" data = 'molecule'>
+	            <span class="input-group-addon">Transition State</span>
+	            <div class="btn-group">
+	              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+	              <%=  TRef %>  <span class="caret"></span>
+	              </button>
+	              <ul class="dropdown-menu" role="menu" target = 'TRef' type = "transitionState">
+	              </ul>
+	            </div>
+	        </div>
+	        <% } %>
+
+	        <% if (MCRCMethod === 'MesmerILT') {%>
+	        <div class="input-group" id = "preExponential">
+	            <span class="input-group-addon">PreExponential</span>
+	            <input type="text" class="form-control" placeholder="preExponential" target = 'preExponential' value = '<%= preExponential%>'>
+                <div class="btn-group" style="display:table-cell; width:120px">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="font-size:7px;font-style:italic;height:34px;padding:0">
+                    <%= preExponential_unit %>  <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu" target = 'preExponential_unit'>
+                      <li><a href = "#" val = "cm3molecule-1s-1">cm3molecule-1s-1</a></li>
+                      <li><a href = "#" val = "cm3mole-1s-1">cm3mole-1s-1</a></li>
+                  </ul>
+                </div>
+	        </div>
+
+	        <div class="input-group" id = "activationEnergy">
+	            <span class="input-group-addon">ActivationEnergy</span>
+	            <input type="text" class="form-control" placeholder="activationEnergy" target = 'activationEnergy' value = '<%= activationEnergy%>'>
+                <div class="btn-group" style="display:table-cell; width:120px">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="font-size:7px;font-style:italic;height:34px;padding:0">
+                    <%= activationEnergy_unit %>  <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu" target = 'activationEnergy_unit' >
+                      <li><a href = "#" val = "kJ/mol">kJ/mol</a></li>
+                      <li><a href = "#" val = "kcal/mol">kcal/mol</a></li>
+                  </ul>
+                </div>
+	        </div>
+
+	        <div class="input-group" id = "nInfinity">
+	            <span class="input-group-addon">NInfinity</span>
+	            <input type="text" class="form-control" placeholder="nInfinity" target = 'nInfinity' value = '<%= nInfinity%>'>
+	        </div>
+	        <% } %>
+
+	        <% if (R1Type === 'excessReactant' || (R2Type === 'excessReactant' && (type === 'A + B -> C' || type === 'A + B -> C + D'))) {%>
+	        <div class="input-group" id = "excess-option">
+	            <span class="input-group-addon">Excess Concentration</span>
+	            <input type="text" class="form-control" placeholder="excess reactant concentration" target = 'excessReactantConc' value = '<%= excessReactantConc%>'>
+	        </div>
+	        <% } %>
+	    </div>
+	</div>
+    </div>
+</div>

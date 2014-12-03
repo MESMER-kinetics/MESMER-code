@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+	<link rel="stylesheet" href="/static/css/bootstrap.css">
+	<link rel="stylesheet" href="/static/css/non-responsive.css">
+    {% block css %}{% endblock %}
+	<title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    {% block head %}{% endblock %}
+    {% block content %}{% endblock %}
+    {% block footer %}{% endblock %}
+    {% block template %}{% endblock %}
+    <script src="/static/js/jquery-1.10.2.min.js"></script>
+	<script src="/static/js/bootstrap.js"></script>
+	<script src="/static/js/underscore.js"></script>
+	<script src="/static/js/backbone-min.js"></script>
+    {% block script %}{% endblock %}
+</body>
+</html>

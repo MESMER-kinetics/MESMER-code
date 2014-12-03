@@ -1,0 +1,8 @@
+<me:modelParameters>
+    {% if modelParameters.grainSize %}
+    <me:grainSize units="cm-1">{{ modelParameters.grainSize }}</me:grainSize>
+    {% endif %}
+    {% if modelParameters.energyAboveTheTopHill %}
+    <me:energyAboveTheTopHill>{{ modelParameters.energyAboveTheTopHill }}</me:energyAboveTheTopHill>
+    {% endif %}
+</me:modelParameters>

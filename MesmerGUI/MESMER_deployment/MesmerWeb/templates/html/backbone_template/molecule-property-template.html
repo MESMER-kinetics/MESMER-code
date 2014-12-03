@@ -1,0 +1,113 @@
+<div class="list-group" id = 'molecule-property'>
+    <div class="list-group-item">
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon">ID</span>
+                <input type="text" class="form-control" placeholder="" target = 'id' value = '<%= id%>'>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Type</span>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <%= type %>  <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu" target = 'type' >
+                  	  <li><a href = "#" val = "bathGas">bathGas</a></li>
+                      <li><a href = "#" val = "transitionState">transitionState</a></li>
+                      <li><a href = "#" val = "excessReactant">excessReactant</a></li>
+                      <li><a href = "#" val = "deficientReactant">deficientReactant</a></li>
+                      <li><a href = "#" val = "sink">sink</a></li>
+                      <li><a href = "#" val = "modelled">modelled</a></li>
+                  </ul>
+                </div>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">MW(amu)</span>
+                <input type="text" class="form-control" placeholder="molecular weight(amu)" target = 'MW' value = '<%= MW%>'>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Scaling Factor</span>
+                <input type="text" class="form-control" placeholder="frequencies scale factor" target = 'frequenciesScaleFactor' value = '<%= frequenciesScaleFactor%>'>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Symmetry</span>
+                <input type="text" class="form-control" placeholder="symmetry number" target = 'symmetryNumber' value = '<%= symmetryNumber%>'>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Delta EDown(cm-1)</span>
+                <input type="text" class="form-control" placeholder="Average energy transfer per collision" target="deltaEDown" value="<%= deltaEDown %>">
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon">DOSCMethod</span>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <%= DOSCMethod %>  <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu" target = 'DOSCMethod' >
+                      <li><a href = "#" val = "ClassicalRotors">ClassicalRotors</a></li>
+                      <li><a href = "#" val = "QMRotors">QMRotors</a></li>
+                  </ul>
+                </div>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">ZPE</span>
+                <input type="text" class="form-control" placeholder="zero-point engergy(cm-1)" target = 'ZPE' value = '<%= ZPE%>'>
+                <div class="btn-group" style="display:table-cell; width:100px">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <%= ZPE_unit %>  <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu" target = 'ZPE_unit' >
+                      <li><a href = "#" val = "cm-1">cm-1</a></li>
+                      <li><a href = "#" val = "kJ/mol">kJ/mol</a></li>
+                      <li><a href = "#" val = "kcal/mol">kcal/mol</a></li>
+                  </ul>
+                </div>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">SpinMultiplicity</span>
+                <input type="text" class="form-control" placeholder="spin multiplicity" target = 'spinMultiplicity' value = '<%= spinMultiplicity%>'>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Epsilon(K)</span>
+                <input type="text" class="form-control" placeholder="epsilon(K)" target = 'epsilon' value = '<%= epsilon%>'>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">Sigma(Angstroms)</span>
+                <input type="text" class="form-control" placeholder="sigma(Angstroms)" target = 'sigma' value = '<%= sigma%>'>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">deltaEDownTExponent</span>
+                <input type="text" class="form-control" placeholder="Exponential down temperature exponent" target="deltaEDownTExponent" value="<%= deltaEDownTExponent %>">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">referenceTemperature</span>
+                <input type="text" class="form-control" placeholder="Reference Temperature (K)" target="referenceTemperature" value="<%= referenceTemperature %>">
+            </div>
+        </div>
+        </div>
+    <div class="row">
+            <div class="col-xs-12">
+                <div class="input-group">
+                    <span class="input-group-addon">RotConsts</span>
+                    <input type="text" class="form-control" placeholder="rotational constans, array" target = 'rotConsts' value = '<%= rotConsts%>'>
+                    <div class="btn-group" style="display:table-cell; width:100px">
+                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <%= rotConsts_unit %>  <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu" target = 'rotConsts_unit' >
+                          <li><a href = "#" val = "cm-1">cm-1</a></li>
+                          <li><a href = "#" val = "GHz">GHz</a></li>
+                      </ul>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">VibFreqs(cm-1)</span>
+                    <input type="text" class="form-control" placeholder="vibration frequencies(cm-1), array" target = 'vibFreqs' value = '<%= vibFreqs%>'>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

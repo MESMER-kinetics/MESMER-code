@@ -1,0 +1,15 @@
+<me:conditions>
+    {% if conditions.bathGas %}
+    <me:bathGas>{{ conditions.bathGas }}</me:bathGas>
+    {% endif %}
+    <me:PTs>
+    {% for pt in conditions.PTs %}
+        <me:PTpair me:units="{{ conditions.units }}" me:P="{{ pt.P }}" me:T="{{ pt.T }}" me:precision= "{{ pt.precision }}" />
+    {% endfor %}
+    </me:PTs>
+    {% if conditions.initialPopulationRef and conditions.initialPopulation %}
+    <me:InitialPopulation>
+        <molecule ref="{{ conditions.initialPopulationRef }}" me:population="{{ conditions.initialPopulation }}"/>
+    </me:InitialPopulation>
+    {% endif %}
+</me:conditions>

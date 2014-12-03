@@ -1,0 +1,21 @@
+<me:control>
+    {%  if control.eigenvalues %}
+    <me:eigenvalues>{{ control.eigenvalues }}</me:eigenvalues>
+    {%  endif %}
+    <me:calcMethod>{{ control.calcMethod }}</me:calcMethod>
+    {% for key, value in control.options.items %}
+        {% if value %}
+    <me:{{ key }}/>
+        {% endif %}
+    {% endfor %}
+
+    {% if control.automaticallySetMaxEne %}
+        <me:automaticallySetMaxEne>{{ control.automaticallySetMaxEne }}</me:automaticallySetMaxEne>
+    {% endif %}
+    {% if control.shortestTimeOfInterest %}
+        <me:shortestTimeOfInterest>{{ control.shortestTimeOfInterest }}</me:shortestTimeOfInterest>
+    {% endif %}
+    {% if control.diagramEnergyOffset %}
+        <me:diagramEnergyOffset>{{ control.diagramEnergyOffset }}</me:diagramEnergyOffset>
+    {% endif %}
+</me:control>

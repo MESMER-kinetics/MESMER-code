@@ -1,0 +1,25 @@
+<div class = "list-group" id = "molecule-items">
+    <div class="list-group-item group-head">
+        <span>Molecule List</span>
+        <div class="btn-group pull-right">
+            <button class = "btn btn-primary btn-sm " action = 'new-molecule'>
+                Add Molecule
+            </button>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                Add From Library <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" target = 'library' ></ul>
+            </div>
+        </div>
+    </div>
+    <div class = "list-group-item" style = "display: none" id = "no-molecule-message">
+        <h3>There is no molecule now!</h3>
+        <p>You can click the new button to make one.</p>
+    </div>
+    <div class = "list-group-item clearfix no-padding" id = 'molecule-list-area'>
+    </div>
+</div>
+<div class = "list-group" id = "molecule-property">
+    
+</div>
