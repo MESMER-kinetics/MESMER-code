@@ -138,6 +138,12 @@ namespace mesmer
 
     bool projectMode(std::vector<double> &mode) ;
 
+    // This method tests if a rotor is heavy. It is a helper method
+	// used to assess if a QM method will be expensive for calculating
+	// the energy levels of an asymmetic top.
+
+	bool IsHeavyTop(size_t n) ;
+
   private:
 
     bool initialization() ;

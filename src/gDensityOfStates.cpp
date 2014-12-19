@@ -1055,4 +1055,22 @@ namespace mesmer
 
   }
 
+  // This method tests if a rotor is heavy. It is a helper method
+  // used to assess if a QM method will be expensive for calculating
+  // the energy levels of an asymmetic top.
+  bool gDensityOfStates::IsHeavyTop(size_t n) {
+
+    gStructure& gs = m_host->getStruc();
+    vector<double> atomicMasses;
+    gs.getAtomicMasses(atomicMasses);
+
+    size_t nHeavyAtoms(0) ;
+    for (size_t j(0); j < atomicMasses.size(); j++) {
+      if (atomicMasses[j] > atomMass("H")) {
+	     nHeavyAtoms++ ;
+	  }
+    }
+    return (nHeavyAtoms > n) ;
+  }
+
 }//namespace

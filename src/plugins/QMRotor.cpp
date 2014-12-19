@@ -1,5 +1,5 @@
 #include "../DensityOfStates.h"
-//#include "../MolecularComponents.h"
+#include "../Molecule.h"
 #include "../gDensityOfStates.h"
 
 using namespace std;
@@ -126,6 +126,14 @@ namespace mesmer
         }          
 
       } else { // General asymmetric top.
+
+		// This method can be expensive. Issue a warning if there is more than four non-Hydrogen atoms.
+		if (pDOS->IsHeavyTop(4)) {
+		  string name(pDOS->getHost()->getName()) ;
+          cinfo << "Warning: " << name << " is an asymmetric top containing five or more non-hydrogen" << endl ;
+          cinfo << "atoms. The asymmetric top rotation states may be expensive to calculate. You may " << endl ;
+          cinfo << "wish to consider using a classical treatment." << endl ;
+		}
 
         bool withInRange(true) ;
         for (int j(0); withInRange ; ++j ) {

@@ -1,3 +1,9 @@
+
+2014-December-19 Struan Robertson
+
+	* gDensityOfStates.cpp/.h, QMRotors.cpp: Added warning that heavy 
+	asymmetric top states are expensive to calculated using QM methods.
+	
 2014-October-19 Struan Robertson
 
 	* CollisionOperator.cpp/.h: Added implementation of method to calculate
