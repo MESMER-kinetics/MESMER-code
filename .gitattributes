@@ -10042,8 +10042,6 @@ MesmerGUI/MESMER_deployment/MesmerWeb/templates/xml/modelParameters.xml -text
 MesmerGUI/MESMER_deployment/MesmerWeb/templates/xml/moleculeList.xml -text
 MesmerGUI/MESMER_deployment/MesmerWeb/templates/xml/reactionList.xml -text
 MesmerGUI/MESMER_deployment/MesmerWeb/tmp/tmp.txt -text
-MesmerGUI/MESMER_deployment/lxml-3.4.1.win-amd64-py2.7.exe -text
-MesmerGUI/MESMER_deployment/python-2.7.6.amd64.msi -text
 MesmerQA/Acetyl[!!-~]O2[!!-~]association/Acetyl_O2_Eoffset.xml -text
 MesmerQA/Acetyl[!!-~]O2[!!-~]association/Acetyl_O2_association.xml -text
 MesmerQA/Acetyl[!!-~]O2[!!-~]association/Acetyl_O2_associationGrain.xml -text
