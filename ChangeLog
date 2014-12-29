@@ -1,4 +1,9 @@
 
+2014-December-29 Struan Robertson
+
+	* SensitivityAnalysis.cpp: Added Legendre polynomials for the 
+	RS-HDMR sensitivity analysis algorithm.
+	
 2014-December-19 Struan Robertson
 
 	* gDensityOfStates.cpp/.h, QMRotors.cpp: Added warning that heavy 
