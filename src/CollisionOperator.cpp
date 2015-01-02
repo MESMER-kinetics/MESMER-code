@@ -742,40 +742,40 @@ namespace mesmer
     // diagonalize the whole matrix
     switch (m_precision){
     case DOUBLE:
-    {
-      dMatrix dDiagM(smsize);
-      for (size_t i = 0; i < smsize; ++i)
-        for (size_t j = 0; j < smsize; ++j)
-          dDiagM[i][j] = to_double((*m_reactionOperator)[i][j]);
-      vector<double>  dEigenValue(smsize, 0.0);
-      dDiagM.diagonalize(&dEigenValue[0]);
-      for (size_t i = 0; i < smsize; ++i)
-        m_eigenvalues[i] = dEigenValue[i];
-      for (size_t i = 0; i < smsize; ++i)
-        for (size_t j = 0; j < smsize; ++j)
-          (*m_eigenvectors)[i][j] = dDiagM[i][j];
-      break;
-    }
+      {
+        dMatrix dDiagM(smsize);
+        for (size_t i = 0; i < smsize; ++i)
+          for (size_t j = 0; j < smsize; ++j)
+            dDiagM[i][j] = to_double((*m_reactionOperator)[i][j]);
+        vector<double>  dEigenValue(smsize, 0.0);
+        dDiagM.diagonalize(&dEigenValue[0]);
+        for (size_t i = 0; i < smsize; ++i)
+          m_eigenvalues[i] = dEigenValue[i];
+        for (size_t i = 0; i < smsize; ++i)
+          for (size_t j = 0; j < smsize; ++j)
+            (*m_eigenvectors)[i][j] = dDiagM[i][j];
+        break;
+      }
     case DOUBLE_DOUBLE:
-    {
-      ddMatrix ddDiagM(smsize);
-      for (size_t i = 0; i < smsize; ++i)
-        for (size_t j = 0; j < smsize; ++j)
-          ddDiagM[i][j] = to_dd_real((*m_reactionOperator)[i][j]);
-      vector<dd_real> ddEigenValue(smsize, 0.0);
-      ddDiagM.diagonalize(&ddEigenValue[0]);
-      for (size_t i = 0; i < smsize; ++i)
-        m_eigenvalues[i] = ddEigenValue[i];
-      for (size_t i = 0; i < smsize; ++i)
-        for (size_t j = 0; j < smsize; ++j)
-          (*m_eigenvectors)[i][j] = ddDiagM[i][j];
-      break;
-    }
+      {
+        ddMatrix ddDiagM(smsize);
+        for (size_t i = 0; i < smsize; ++i)
+          for (size_t j = 0; j < smsize; ++j)
+            ddDiagM[i][j] = to_dd_real((*m_reactionOperator)[i][j]);
+        vector<dd_real> ddEigenValue(smsize, 0.0);
+        ddDiagM.diagonalize(&ddEigenValue[0]);
+        for (size_t i = 0; i < smsize; ++i)
+          m_eigenvalues[i] = ddEigenValue[i];
+        for (size_t i = 0; i < smsize; ++i)
+          for (size_t j = 0; j < smsize; ++j)
+            (*m_eigenvectors)[i][j] = ddDiagM[i][j];
+        break;
+      }
     default: // diagonalize in quad double
-    {
-      (*m_eigenvectors) = (*m_reactionOperator);
-      m_eigenvectors->diagonalize(&m_eigenvalues[0]);
-    }
+      {
+        (*m_eigenvectors) = (*m_reactionOperator);
+        m_eigenvectors->diagonalize(&m_eigenvalues[0]);
+      }
 
     }
     // diagonalize the whole matrix
@@ -861,28 +861,9 @@ namespace mesmer
       return false;
     }
 
-    double shortestTime = 0.;
-    // set the default maximum evolution time
-    if (mFlags.shortestTimeOfInterest < 1.0e-20 || mFlags.shortestTimeOfInterest > 1.0)
-      shortestTime = 1.0e-11;
-    else
-      shortestTime = mFlags.shortestTimeOfInterest;
-
-    double maxEvoTime = 0.;
-    // set the default maximum evolution time
-    if (mFlags.maxEvolutionTime <= 0.001 || mFlags.maxEvolutionTime > 1.0e8)
-      maxEvoTime = 1.2e5;
-    else
-      maxEvoTime = mFlags.maxEvolutionTime;
-
-    // Calculates the time points
-    vector<double> timePoints;
-    for (int i = 0; i <= 300; ++i){
-      double thetime = pow(10., static_cast<double>(i) / 10. - 20.);
-      if (thetime < shortestTime) continue;
-      if (thetime > maxEvoTime) break;
-      timePoints.push_back(thetime);
-    }
+    // Calculate time points of interest.
+    vector<double> timePoints ;
+    timeAxisPoints(mFlags, timePoints) ;
 
     //Initialises dt vector for calculating product yields
     vector<double> dt(timePoints.size() - 1, 0.0);
@@ -1044,9 +1025,9 @@ namespace mesmer
       }
 
       vector<vector<double> > sinkFluxProfile(m_sinkRxns.size(), vector<double>(maxTimeStep));
-	  
-	  int pdtProfileStartIdx = speciesProfileidx;
-	  size_t fluxIdx(0) ;
+
+      int pdtProfileStartIdx = speciesProfileidx;
+      size_t fluxIdx(0) ;
 
       sinkMap::iterator pos;      // Iterate through sink map to get product profile vs t.
       for (pos = m_sinkRxns.begin(); pos != m_sinkRxns.end(); ++pos){
@@ -1072,7 +1053,7 @@ namespace mesmer
           speciesProfile[speciesProfileidx][timestep] = TimeIntegratedProductPop;
         }
         ++speciesProfileidx;
-		++fluxIdx;
+        ++fluxIdx;
       }
 
       if (pdtProfileStartIdx < speciesProfileidx){
@@ -1089,7 +1070,7 @@ namespace mesmer
         }
       }
 
-      //Write to ctest and XML
+      // Write to ctest and XML
       ctest << setw(16) << "totalIsomerPop" << setw(16) << "totalPdtPop" << endl;
       for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
         ctest << setw(16) << timePoints[timestep];
@@ -1102,16 +1083,43 @@ namespace mesmer
           ppVal->XmlWriteAttribute("ref", speciesNames[i]);
         }
         ctest << setw(16) << totalIsomerPop[timestep] << setw(16) << totalPdtPop[timestep] ;
-		if (mFlags.printSinkFluxes) {
-		  for (size_t i(0); i < m_sinkRxns.size(); ++i){
-			ctest << setw(16) << sinkFluxProfile[i][timestep];
-		  }
-		}
+        if (mFlags.printSinkFluxes) {
+          for (size_t i(0); i < m_sinkRxns.size(); ++i){
+            ctest << setw(16) << sinkFluxProfile[i][timestep];
+          }
+        }
         ctest << endl;
       }
       ctest << "}" << endl;
     }
     return true;
+  }
+
+  // Method to calculate points of interest on the time axis.
+  bool CollisionOperator::timeAxisPoints(MesmerFlags& mFlags, vector<double>& timePoints ) {
+    double shortestTime = 0.;
+    // set the default maximum evolution time
+    if (mFlags.shortestTimeOfInterest < 1.0e-20 || mFlags.shortestTimeOfInterest > 1.0)
+      shortestTime = 1.0e-11;
+    else
+      shortestTime = mFlags.shortestTimeOfInterest;
+
+    double maxEvoTime = 0.;
+    // set the default maximum evolution time
+    if (mFlags.maxEvolutionTime <= 0.001 || mFlags.maxEvolutionTime > 1.0e8)
+      maxEvoTime = 1.2e5;
+    else
+      maxEvoTime = mFlags.maxEvolutionTime;
+
+    // Calculates the time points
+    for (int i = 0; i <= 300; ++i){
+      double thetime = pow(10., static_cast<double>(i) / 10. - 20.);
+      if (thetime < shortestTime) continue;
+      if (thetime > maxEvoTime) break;
+      timePoints.push_back(thetime);
+    }
+
+    return true ;
   }
 
   bool CollisionOperator::produceEquilibriumVector()
@@ -1276,7 +1284,7 @@ namespace mesmer
       }
     }
 
-    // Check that the inverse matrix is correctly calcualated by multiplying U*U^(-1) 
+    // Check that the inverse matrix is correctly calculated by multiplying U*U^(-1) 
     // for CSE vectors.
 
     for (size_t i(nchemIdx); i < smsize; ++i){
@@ -1337,7 +1345,7 @@ namespace mesmer
           Molecule* isomer = ipos->first;
           size_t colloptrsize = isomer->getColl().get_colloptrsize(); // get colloptrsize for isomer
           int rxnMatrixLoc = ipos->second + colloptrsize - 1;         // get location for isomer in the rxn matrix
-          int seqMatrixLoc = m_SpeciesSequence[isomer];                // get sequence position for isomer
+          int seqMatrixLoc = m_SpeciesSequence[isomer];               // get sequence position for isomer
           for (size_t j(0); j < colloptrsize; ++j){
             sm += assymEigenVec[rxnMatrixLoc - j][nchemIdx + i];
           }
@@ -1483,6 +1491,37 @@ namespace mesmer
         }
         string MatrixTitle("Kp matrix:");
         Kp.print(MatrixTitle, ctest, nsinks, m_SpeciesSequence.size());
+      }
+
+      // If requested, write out phenomenological evolution.
+      if (mFlags.printPhenomenologicalEvolution) {
+        ctest << endl << "Phenomenological species profiles" << endl << "{" << endl;
+        ctest << setw(16) << "Timestep/s";
+        vector<qd_real> c0(Z_matrix.size(), 0.0) ;
+        for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos) {
+          Molecule* isomer = ipos->first;
+          ctest << setw(16) << isomer->getName();
+          int seqMatrixLoc = m_SpeciesSequence[isomer]; 
+          c0[seqMatrixLoc] = isomer->getPop().getInitPopulation();
+        }
+        ctest << endl;
+        c0 *= Zinv ;
+        vector<double> timePoints ;
+        timeAxisPoints(mFlags, timePoints ) ;
+        for (size_t i(0); i < timePoints.size() ; ++i) {
+          qd_real time = timePoints[i] ;
+          vector<qd_real> p(Z_matrix.size(), 0.0) ;
+          for (size_t j(0); j < p.size() ; ++j) {
+            p[j] = exp(Egv[j][j]*time)*c0[j] ;
+          }
+          p *= Z_matrix ;
+          ctest << setw(16) << time;
+          for (size_t j(0); j < p.size() ; ++j) {
+            ctest << setw(16) << p[j] ;
+          }
+          ctest << endl;
+        }
+        ctest << "}" << endl;
       }
 
       // Write out phenomenological rate coefficients.

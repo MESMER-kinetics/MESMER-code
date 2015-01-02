@@ -21,6 +21,7 @@ namespace mesmer{
     useTheSameCellNumber(false),
     grainedProfileEnabled(false),
     speciesProfileEnabled(false),
+	printPhenomenologicalEvolution(false),
     viewEvents(false),
     shortestTimeOfInterest(1.0e100),
     maxEvolutionTime(0.),

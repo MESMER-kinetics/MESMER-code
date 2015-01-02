@@ -107,6 +107,9 @@ namespace mesmer
 	// using an iterative approach.
     bool iterativeEquiSln(qdMatrix &eqMatrix, vector<qd_real> &eqFraction, size_t idxr, size_t idxs) ;
 
+    // Method to calculate points of interest on the time axis.
+	bool timeAxisPoints(MesmerFlags& mFlags, vector<double>& timePoints ) ;
+
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;
 

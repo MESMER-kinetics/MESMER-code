@@ -264,34 +264,35 @@ bool System::parse(PersistPtr ppIOPtr)
 
     if(ppControl)
     {
-      m_Flags.testDOSEnabled              = ppControl->XmlReadBoolean("me:testDOS");
-      m_Flags.testRateConstantEnabled     = ppControl->XmlReadBoolean("me:testRateConstants");
-      m_Flags.microRateEnabled            = ppControl->XmlReadBoolean("me:testMicroRates");
-      m_Flags.grainBoltzmannEnabled       = ppControl->XmlReadBoolean("me:printGrainBoltzmann");
-      m_Flags.grainDOSEnabled             = ppControl->XmlReadBoolean("me:printGrainDOS");
-      m_Flags.grainTSsosEnabled           = ppControl->XmlReadBoolean("me:printTSsos");
-      m_Flags.cellDOSEnabled              = ppControl->XmlReadBoolean("me:printCellDOS");
-      m_Flags.reactionOCSEnabled          = ppControl->XmlReadBoolean("me:printReactionOperatorColumnSums");
-      m_Flags.kfEGrainsEnabled            = ppControl->XmlReadBoolean("me:printGrainkfE");
-      m_Flags.kbEGrainsEnabled            = ppControl->XmlReadBoolean("me:printGrainkbE");
+      m_Flags.testDOSEnabled                 = ppControl->XmlReadBoolean("me:testDOS");
+      m_Flags.testRateConstantEnabled        = ppControl->XmlReadBoolean("me:testRateConstants");
+      m_Flags.microRateEnabled               = ppControl->XmlReadBoolean("me:testMicroRates");
+      m_Flags.grainBoltzmannEnabled          = ppControl->XmlReadBoolean("me:printGrainBoltzmann");
+      m_Flags.grainDOSEnabled                = ppControl->XmlReadBoolean("me:printGrainDOS");
+      m_Flags.grainTSsosEnabled              = ppControl->XmlReadBoolean("me:printTSsos");
+      m_Flags.cellDOSEnabled                 = ppControl->XmlReadBoolean("me:printCellDOS");
+      m_Flags.reactionOCSEnabled             = ppControl->XmlReadBoolean("me:printReactionOperatorColumnSums");
+      m_Flags.kfEGrainsEnabled               = ppControl->XmlReadBoolean("me:printGrainkfE");
+      m_Flags.kbEGrainsEnabled               = ppControl->XmlReadBoolean("me:printGrainkbE");
       // Both Tunnelling and Tunneling will work
-      m_Flags.TunnellingCoeffEnabled      = ppControl->XmlReadBoolean("me:printTunnellingCoefficients");
+      m_Flags.TunnellingCoeffEnabled         = ppControl->XmlReadBoolean("me:printTunnellingCoefficients");
       if (!m_Flags.TunnellingCoeffEnabled)
-        m_Flags.TunnellingCoeffEnabled    = ppControl->XmlReadBoolean("me:printTunnelingCoefficients");
-      m_Flags.CrossingCoeffEnabled        = ppControl->XmlReadBoolean("me:printCrossingCoefficients");
-      m_Flags.cellFluxEnabled             = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
-      m_Flags.grainFluxEnabled            = ppControl->XmlReadBoolean("me:printGrainTransitionStateFlux");
-      m_Flags.rateCoefficientsOnly        = ppControl->XmlReadBoolean("me:calculateRateCoefficientsOnly");
-      m_Flags.useTheSameCellNumber        = ppControl->XmlReadBoolean("me:useTheSameCellNumberForAllConditions");
-      m_Flags.grainedProfileEnabled       = ppControl->XmlReadBoolean("me:printGrainedSpeciesProfile");
-      m_Flags.speciesProfileEnabled       = ppControl->XmlReadBoolean("me:printSpeciesProfile");
-      m_Flags.printSinkFluxes             = ppControl->XmlReadBoolean("me:printSinkFluxes");
-      m_Flags.InitialDistEnabled          = ppControl->XmlReadBoolean("me:printInitialDistribution");
-      m_Flags.viewEvents                  = ppControl->XmlReadBoolean("me:printEventsTimeStamps");
-      m_Flags.allowSmallerDEDown          = ppControl->XmlReadBoolean("me:allowSmallerDeltaEDown");
-      m_Flags.print_TabbedMatrices        = ppControl->XmlReadBoolean("me:printTabbedMatrices");
-      m_Flags.useDOSweightedDT            = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
-      m_Flags.bForceMacroDetailedBalance  = ppControl->XmlReadBoolean("me:ForceMacroDetailedBalance");
+        m_Flags.TunnellingCoeffEnabled       = ppControl->XmlReadBoolean("me:printTunnelingCoefficients");
+      m_Flags.CrossingCoeffEnabled           = ppControl->XmlReadBoolean("me:printCrossingCoefficients");
+      m_Flags.cellFluxEnabled                = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
+      m_Flags.grainFluxEnabled               = ppControl->XmlReadBoolean("me:printGrainTransitionStateFlux");
+      m_Flags.rateCoefficientsOnly           = ppControl->XmlReadBoolean("me:calculateRateCoefficientsOnly");
+      m_Flags.useTheSameCellNumber           = ppControl->XmlReadBoolean("me:useTheSameCellNumberForAllConditions");
+      m_Flags.grainedProfileEnabled          = ppControl->XmlReadBoolean("me:printGrainedSpeciesProfile");
+      m_Flags.speciesProfileEnabled          = ppControl->XmlReadBoolean("me:printSpeciesProfile");
+      m_Flags.printPhenomenologicalEvolution = ppControl->XmlReadBoolean("me:printPhenomenologicalEvolution");
+      m_Flags.printSinkFluxes                = ppControl->XmlReadBoolean("me:printSinkFluxes");
+      m_Flags.InitialDistEnabled             = ppControl->XmlReadBoolean("me:printInitialDistribution");
+      m_Flags.viewEvents                     = ppControl->XmlReadBoolean("me:printEventsTimeStamps");
+      m_Flags.allowSmallerDEDown             = ppControl->XmlReadBoolean("me:allowSmallerDeltaEDown");
+      m_Flags.print_TabbedMatrices           = ppControl->XmlReadBoolean("me:printTabbedMatrices");
+      m_Flags.useDOSweightedDT               = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
+      m_Flags.bForceMacroDetailedBalance     = ppControl->XmlReadBoolean("me:ForceMacroDetailedBalance");
 
       // System configuration information
       if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();

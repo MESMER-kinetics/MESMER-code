@@ -1,5 +1,10 @@
 
-2015-January-07 Struan Robertson
+2015-January-02 Struan Robertson
+
+	* CollisionOperator.cpp: Initial implementation of phenomenological 
+	rate equation integration method.
+ 	
+2015-January-02 Struan Robertson
 
 	* BoltzmannDistribution.cpp: Altered initial distribution method to 
 	allow Boltzmann distribution to use a prescribed temperature. If 
