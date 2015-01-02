@@ -27,6 +27,7 @@ namespace mesmer{
     printEigenValuesNum(0),
 	printEigenVectors(false),
     printReactionOperatorNum(0),
+	printSinkFluxes(false),
     allowSmallerDEDown(false),
     print_TabbedMatrices(true),
     showCollisionOperator(0),

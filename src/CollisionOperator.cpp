@@ -1043,7 +1043,10 @@ namespace mesmer
         ++speciesProfileidx;
       }
 
-      int pdtProfileStartIdx = speciesProfileidx;
+      vector<vector<double> > sinkFluxProfile(m_sinkRxns.size(), vector<double>(maxTimeStep));
+	  
+	  int pdtProfileStartIdx = speciesProfileidx;
+	  size_t fluxIdx(0) ;
 
       sinkMap::iterator pos;      // Iterate through sink map to get product profile vs t.
       for (pos = m_sinkRxns.begin(); pos != m_sinkRxns.end(); ++pos){
@@ -1057,17 +1060,19 @@ namespace mesmer
         }
         ctest << setw(16) << pdtName;
         speciesNames.push_back(pdtName);
-        int rxnMatrixLoc = pos->second;                                   // Get sink location.
+        int rxnMatrixLoc = pos->second;  // Get sink location.
         double TimeIntegratedProductPop(0.0);
 
         for (size_t timestep(0); timestep < maxTimeStep; ++timestep) {
           for (size_t i(0); i < KofEs.size(); ++i) {
-            speciesProfile[speciesProfileidx][timestep] += KofEs[i] * grnProfile[i + rxnMatrixLoc][timestep] * dt[timestep];
+            speciesProfile[speciesProfileidx][timestep]  += KofEs[i] * grnProfile[i + rxnMatrixLoc][timestep] * dt[timestep];
+            sinkFluxProfile[fluxIdx][timestep] += KofEs[i] * grnProfile[i + rxnMatrixLoc][timestep] ;
           }
           TimeIntegratedProductPop += speciesProfile[speciesProfileidx][timestep];
           speciesProfile[speciesProfileidx][timestep] = TimeIntegratedProductPop;
         }
         ++speciesProfileidx;
+		++fluxIdx;
       }
 
       if (pdtProfileStartIdx < speciesProfileidx){
@@ -1096,7 +1101,13 @@ namespace mesmer
           PersistPtr ppVal = ppPop->XmlWriteValueElement("me:pop", speciesProfile[i][timestep]);
           ppVal->XmlWriteAttribute("ref", speciesNames[i]);
         }
-        ctest << setw(16) << totalIsomerPop[timestep] << setw(16) << totalPdtPop[timestep] << endl;
+        ctest << setw(16) << totalIsomerPop[timestep] << setw(16) << totalPdtPop[timestep] ;
+		if (mFlags.printSinkFluxes) {
+		  for (size_t i(0); i < m_sinkRxns.size(); ++i){
+			ctest << setw(16) << sinkFluxProfile[i][timestep];
+		  }
+		}
+        ctest << endl;
       }
       ctest << "}" << endl;
     }

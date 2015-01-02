@@ -12,7 +12,6 @@
 #include <cmath>
 #include <string>
 #include "../Distribution.h"
-//#include "../MolecularComponents.h"
 #include "../Molecule.h"
 #include "../MesmerFlags.h"
 #include "../gDensityOfStates.h"
@@ -24,21 +23,35 @@ namespace mesmer
   public:
 
     ///Constructor which registers with the list of DistributionCalculators in the base class
-    BoltzmannDistribution(const char* id) :m_id(id){ Register(); }
+    BoltzmannDistribution(const char* id) :m_id(id), m_temp(-1.0) { Register(); }
 
     virtual ~BoltzmannDistribution() {}
     virtual const char* getID()  { return m_id; }
+
+	virtual bool ParseData(PersistPtr pp) ;
 
     virtual bool calculateDistribution(Molecule* m_host, std::vector<double>& dist);
 
   private:
     const char* m_id;
+
+	double m_temp ;
   };
 
   //************************************************************
   //Global instance, defining its id (usually the only instance)
   BoltzmannDistribution theBoltzmannDistribution("Boltzmann");
   //************************************************************
+
+  // Read in in optional temperature (Mostly used for shock tube simulations).
+  bool BoltzmannDistribution::ParseData(PersistPtr pp) {
+	const char* ptxt = pp->XmlReadValue("me:Temperature",optional); 
+    if (ptxt) {
+	  stringstream ss(ptxt);
+      ss >> m_temp;
+	}
+	return true ;
+  }
 
   bool BoltzmannDistribution::calculateDistribution(Molecule* m_host,
     std::vector<double>& dist)
@@ -53,9 +66,9 @@ namespace mesmer
     vector<double> DOS;
     m_host->getDOS().getGrainDensityOfStates(DOS);
 
-    // Get the value of beta
+    // Get the value of beta. 
 
-    const double& beta = m_host->getEnv().beta;;
+	const double beta = (m_temp > 0.0) ? 1.0 / (boltzmann_RCpK*m_temp) : m_host->getEnv().beta ;
 
     // Calculate unnormalized Boltzmann dist.
     // Note the extra 10.0 is to prevent underflow, it is removed during normalization.

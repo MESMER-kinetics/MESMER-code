@@ -285,6 +285,7 @@ bool System::parse(PersistPtr ppIOPtr)
       m_Flags.useTheSameCellNumber        = ppControl->XmlReadBoolean("me:useTheSameCellNumberForAllConditions");
       m_Flags.grainedProfileEnabled       = ppControl->XmlReadBoolean("me:printGrainedSpeciesProfile");
       m_Flags.speciesProfileEnabled       = ppControl->XmlReadBoolean("me:printSpeciesProfile");
+      m_Flags.printSinkFluxes             = ppControl->XmlReadBoolean("me:printSinkFluxes");
       m_Flags.InitialDistEnabled          = ppControl->XmlReadBoolean("me:printInitialDistribution");
       m_Flags.viewEvents                  = ppControl->XmlReadBoolean("me:printEventsTimeStamps");
       m_Flags.allowSmallerDEDown          = ppControl->XmlReadBoolean("me:allowSmallerDeltaEDown");

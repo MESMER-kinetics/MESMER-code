@@ -1,4 +1,11 @@
 
+2015-January-07 Struan Robertson
+
+	* BoltzmannDistribution.cpp: Altered initial distribution method to 
+	allow Boltzmann distribution to use a prescribed temperature. If 
+	temperature not specified, the temperature specified by the condition 
+	manager will be used.
+ 	
 2014-December-29 Struan Robertson
 
 	* SensitivityAnalysis.cpp: Added Legendre polynomials for the 
