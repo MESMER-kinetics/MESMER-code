@@ -1,4 +1,9 @@
 
+2015-January-04 Struan Robertson
+
+	* CollisionOperator.cpp: Extenion of phenomenological rate equation
+	integration method to include sources.
+ 	
 2015-January-02 Struan Robertson
 
 	* CollisionOperator.cpp: Initial implementation of phenomenological 

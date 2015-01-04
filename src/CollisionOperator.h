@@ -110,6 +110,9 @@ namespace mesmer
     // Method to calculate points of interest on the time axis.
 	bool timeAxisPoints(MesmerFlags& mFlags, vector<double>& timePoints ) ;
 
+	// Method to integrate the phenomenological rate equations using BW coefficients.
+	bool PhenomenologicalIntegration(qdMatrix& Z_matrix, qdMatrix& Zinv, qdMatrix& Egv, MesmerFlags& mFlags) ;
+
     // Location of the molecule manager.
     MoleculeManager *m_pMoleculeManager;
 

@@ -1024,6 +1024,9 @@ namespace mesmer
         ++speciesProfileidx;
       }
 
+	  // SHR 2/Jan/2015: The following vector holds the flux into each sink.
+	  // I am not sure how useful this quantity is and my wish to remove it 
+	  // at a later stage.
       vector<vector<double> > sinkFluxProfile(m_sinkRxns.size(), vector<double>(maxTimeStep));
 
       int pdtProfileStartIdx = speciesProfileidx;
@@ -1495,33 +1498,7 @@ namespace mesmer
 
       // If requested, write out phenomenological evolution.
       if (mFlags.printPhenomenologicalEvolution) {
-        ctest << endl << "Phenomenological species profiles" << endl << "{" << endl;
-        ctest << setw(16) << "Timestep/s";
-        vector<qd_real> c0(Z_matrix.size(), 0.0) ;
-        for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos) {
-          Molecule* isomer = ipos->first;
-          ctest << setw(16) << isomer->getName();
-          int seqMatrixLoc = m_SpeciesSequence[isomer]; 
-          c0[seqMatrixLoc] = isomer->getPop().getInitPopulation();
-        }
-        ctest << endl;
-        c0 *= Zinv ;
-        vector<double> timePoints ;
-        timeAxisPoints(mFlags, timePoints ) ;
-        for (size_t i(0); i < timePoints.size() ; ++i) {
-          qd_real time = timePoints[i] ;
-          vector<qd_real> p(Z_matrix.size(), 0.0) ;
-          for (size_t j(0); j < p.size() ; ++j) {
-            p[j] = exp(Egv[j][j]*time)*c0[j] ;
-          }
-          p *= Z_matrix ;
-          ctest << setw(16) << time;
-          for (size_t j(0); j < p.size() ; ++j) {
-            ctest << setw(16) << p[j] ;
-          }
-          ctest << endl;
-        }
-        ctest << "}" << endl;
+        PhenomenologicalIntegration(Z_matrix, Zinv, Egv, mFlags) ;
       }
 
       // Write out phenomenological rate coefficients.
@@ -1536,6 +1513,61 @@ namespace mesmer
     }
     return true;
 
+  }
+
+  // Method to integrate the phenomenological rate equations using BW coefficients.
+  bool CollisionOperator::PhenomenologicalIntegration(qdMatrix& Z_matrix, qdMatrix& Zinv, qdMatrix& Egv, MesmerFlags& mFlags) {
+ 
+	// Write header section and setup initial concentration vector. 
+
+	ctest << endl << "Phenomenological species profiles" << endl << "{" << endl;
+    ctest << setw(16) << "Timestep/s";
+
+	size_t nchem = Z_matrix.size() ;
+    vector<qd_real> c0(nchem, 0.0) ;
+	vector<size_t> speciesOrder ;
+	
+	// Loop over isomers then sources.
+
+    Reaction::molMapType::iterator ipos;
+    for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos) {
+      Molecule* isomer = ipos->first;
+	  ctest << setw(16) <<  isomer->getName();
+      int seqMatrixLoc = m_SpeciesSequence[isomer];
+	  speciesOrder.push_back(size_t(seqMatrixLoc)) ;
+      c0[seqMatrixLoc] = isomer->getPop().getInitPopulation();
+    }
+
+	for (ipos = m_sources.begin(); ipos != m_sources.end(); ++ipos) {
+      Molecule* pseudoisomer = ipos->first;
+	  ctest << setw(16) <<  pseudoisomer->getName();
+      int seqMatrixLoc = m_SpeciesSequence[pseudoisomer];
+	  speciesOrder.push_back(size_t(seqMatrixLoc)) ;
+      c0[seqMatrixLoc] = pseudoisomer->getPop().getInitPopulation();
+    }
+    ctest << endl;
+
+	// Calculate time points, calculate and write populations. 
+
+    c0 *= Zinv ;
+    vector<double> timePoints ;
+    timeAxisPoints(mFlags, timePoints ) ;
+    for (size_t i(0); i < timePoints.size() ; ++i) {
+      qd_real time = timePoints[i] ;
+      vector<qd_real> p(Z_matrix.size(), 0.0) ;
+      for (size_t j(0); j < p.size() ; ++j) {
+        p[j] = exp(Egv[j][j]*time)*c0[j] ;
+      }
+      p *= Z_matrix ;
+      ctest << setw(16) << time;
+      for (size_t j(0); j < p.size() ; ++j) {
+        ctest << setw(16) << p[speciesOrder[j]] ;
+      }
+      ctest << endl;
+    }
+    ctest << "}" << endl;
+
+	return true ;
   }
 
   // Write out phenomenological rate coefficients.
