@@ -52,6 +52,7 @@ namespace mesmer
     const char* get_varname(){ return varname.c_str(); }
 	double get_lower(){ return lower; }
 	double get_upper(){ return upper; }
+	double get_stepsize(){ return stepsize; }
 
     void set_varname(const std::string& name) { varname = name; }
 

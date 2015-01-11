@@ -1,8 +1,8 @@
 
-2015-January-04 Struan Robertson
+2015-January-11 Struan Robertson
 
-	* CollisionOperator.cpp: Extenion of phenomenological rate equation
-	integration method to include sources.
+	* SensitivityAnalysis.cpp, examples/ipropyk - SA: Initial revision of 
+	sensitivity analysis added example.
  	
 2015-January-02 Struan Robertson
 

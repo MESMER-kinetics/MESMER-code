@@ -1,0 +1,69 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v4.0 compiled: -- Jan 11 2015 -- 18:32:38
+
+     Copyright (C) 2009-2015 by
+     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
+     Chris Morley, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+ipropyl_SA.xml
+
+In R1: Parsing reaction...Irreversible unimolecular reaction
+In i-propyl: Hindered rotor b1
+In i-propyl: Hindered rotor b2
+In i-propyl: i-propyl:deltaEDown was given a range with 3 steps 
+In i-propyl: i-propyl:deltaEDownTExponent was given a range with 401 steps 
+In propene: Hindered rotor b1
+In propene: propene:ZPE was given a range with 401 steps 
+In R1: No tunneling method used for R1
+In R1: No crossing method used for R1
+All molecules are on the same energy basis: arbitary
+3e+017PPCC, 720K at d precision with He
+3e+016PPCC, 880K at d precision with He
+Write metadata 20150111_224016
+
+File: "ipropyl_SA.xml" successfully parsed.
+Main Calculation begins
+Execute calcMethod SensitivityAnalysis
+Number of grains produced is not equal to that requested
+Number of grains requested: 200
+Number of grains produced : 1
+In FastLaplaceConvolution: 120 values in the FFT convolution routine were replaced by standard convolution
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+
+Sensitivity Analysis: Temperature =      720, Concentration = 3e+017
+
+Mean = 41.5
+Mean = 35.7523

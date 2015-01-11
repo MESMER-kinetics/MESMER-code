@@ -184,7 +184,7 @@ namespace mesmer
   {
   public:
 
-	SensitivityAnalysis(const char* id) : m_id(id), m_nVar(0), m_maxIterations(0), m_delta(0) { 
+	SensitivityAnalysis(const char* id) : m_id(id), m_nVar(0), m_maxIterations(0), m_bGenerateData(true), m_delta(0) { 
 	  Register();
 
 	  m_slpMap[1]  = ortho_poly_1  ;
@@ -211,9 +211,16 @@ namespace mesmer
 	//Function to do the work
 	virtual bool DoCalculation(System* pSys);
 
-    virtual bool DoCalculationNew(System* pSys); 
-
   private:
+
+	// This method does a complete sensitivity analysis.
+    bool DoCalculationNew(System* pSys); 
+
+	// This method generates data for external analysis.
+    bool DoCalculationOld(System* pSys); 
+
+	// This method generates data for external analysis.
+    bool WriteOutAnalysis(const vector<double> &f0, double Temperature, double Concentration); 
 
 	// Methods for generating values of shifted Legendre polynomials.
 	typedef double (*slp)(const double &x) ;
@@ -225,6 +232,7 @@ namespace mesmer
 	size_t m_nVar ;          // Dimension of analysis.
 
 	size_t m_maxIterations ;
+	bool   m_bGenerateData ;
 
 	vector<double> m_delta ;
 
@@ -238,12 +246,17 @@ namespace mesmer
   bool SensitivityAnalysis::ParseData(PersistPtr pp)
   {
 	// Read in sensitivity analysis parameters, or use values from defaults.xml.
-	m_maxIterations= pp->XmlReadInteger("me:SensitivityAnalysisIterations");
-	/*m_delta = pp->XmlReadDouble("me:SensitivityAnalysisDelta");*/
+	m_maxIterations = pp->XmlReadInteger("me:SensitivityAnalysisIterations");
+	m_bGenerateData = pp->XmlReadBoolean("me:SensitivityGenerateData");
+
 	return true;
   }
 
-  bool SensitivityAnalysis::DoCalculation(System* pSys)
+  bool SensitivityAnalysis::DoCalculation(System* pSys) {
+	return (m_bGenerateData) ? DoCalculationOld(pSys) :	DoCalculationNew(pSys) ;
+  }
+
+  bool SensitivityAnalysis::DoCalculationOld(System* pSys)
   {
 
 	m_nVar = Rdouble::withRange().size() ;
@@ -367,8 +380,8 @@ namespace mesmer
 	//Read variable uncertainties from range
 	for (size_t iVar(0) ; iVar < m_nVar ; iVar++) {
 	  Rdouble var = *Rdouble::withRange()[iVar] ;
-	  double lower = var.get_lower();
-	  double upper = var.get_upper();
+	  double lower = var - var.get_stepsize() ;
+	  double upper = var + var.get_stepsize() ;
 	  double middle = upper-((upper - lower) / 2.0);
 	  m_delta.push_back(abs((middle - lower) / middle));
 	}
@@ -440,9 +453,26 @@ namespace mesmer
 	  }
       for (size_t i(0) ; i < f0.size() ; i++) 
         f0[i] /= double(m_maxIterations) ;
+	  
+	  WriteOutAnalysis(f0, Temperature[nCnd], Concentration[nCnd]) ;
 	}
 
 	return true;
+
+  }
+
+  // This method generates data for external analysis.
+  bool SensitivityAnalysis::WriteOutAnalysis(const vector<double> &f0, double Temperature, double Concentration) {
+	
+	cinfo << endl << "Sensitivity Analysis: Temperature = " << setw(8) << setprecision(4) << Temperature << ", Concentration = " << Concentration << endl << endl;
+
+	// Mean value of function.
+
+	for (size_t i(0) ; i  < f0.size() ; i++) {
+	  cinfo << "Mean = " << setprecision(6) << f0[i] << endl;
+	}
+
+	return true ;
 
   }
 

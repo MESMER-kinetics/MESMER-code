@@ -10189,6 +10189,9 @@ examples/Tunnelling/H+H2,T+T2.xml -text
 examples/Tunnelling/baselines/Win32/mesmer.test -text
 examples/diamond/diamond-expDown.xml -text
 examples/diamond/diamond-gaussianModel.xml -text
+examples/i-propyl[!!-~]-[!!-~]SA/baselines/Linux64/ipropyl_SA.log -text
+examples/i-propyl[!!-~]-[!!-~]SA/baselines/Win32/ipropyl_SA.log -text
+examples/i-propyl[!!-~]-[!!-~]SA/ipropyl_SA.xml -text
 examples/i-propyl/baselines/Linux64/mesmer.log -text
 examples/i-propyl/baselines/Win32/mesmer.log -text
 examples/i-propyl/ipropyl_2ContrBlks.xml -text
