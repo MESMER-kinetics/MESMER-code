@@ -1,8 +1,15 @@
 
+2015-January-25 Struan Robertson
+
+	* AnalyticalRepresentation.cpp, Reaction.h, Association.h, 
+	SecondOrderAssocReaction.h: Methods added to adjust pseudo first order
+	rate coefficients to obtain second order coefficients and applied to 
+	the analytical representation method.
+ 	
 2015-January-11 Struan Robertson
 
 	* SensitivityAnalysis.cpp, examples/ipropyk - SA: Initial revision of 
-	sensitivity analysis added example.
+	sensitivity analysis example added.
  	
 2015-January-02 Struan Robertson
 

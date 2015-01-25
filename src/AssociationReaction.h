@@ -127,6 +127,11 @@ namespace mesmer
     // Add contracted basis set reaction terms to the reaction matrix.
     virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) ;
 
+	// The following method takes an effective unimolecular rate 
+	// coefficient and normalizes it by concentration to obtain
+	// a second order rate coefficient.
+	virtual double normalizeRateCoefficient(const double rateCoefficient) const {return rateCoefficient/m_ERConc ; }  ;
+
   protected:
 
     // Reaction composition:

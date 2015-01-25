@@ -193,6 +193,12 @@ namespace mesmer
     void   set_concExcessReactant(double conc) { m_ERConc = conc; }
     Molecule* getExcessReactant(){ return m_ExcessReactant; }
 
+	// The following method takes an effective unimolecular rate 
+	// coefficient and normalizes it by, say, concentration and/or 
+	// any other factors in order to obtain a second order rate
+	// coefficient.
+	virtual double normalizeRateCoefficient(const double rateCoefficient) const {return rateCoefficient ; }  ;
+
     void setUsesProductProperties(bool b = true);
     bool UsesProductProperties() const{ return m_UsesProductProperties; } 
     

@@ -112,7 +112,6 @@ namespace mesmer
     size_t m_ExpanSizeC;
 
     vector<string> m_reactions ;
-    vector<double> m_ExcessConc;
   };
 
   ////////////////////////////////////////////////
@@ -240,11 +239,10 @@ namespace mesmer
       }
 
       // Get rate coefficients.
-      bool moleUnits = (m_RateUnits=="cm3mole-1s-1");
+	  double fctr = (m_RateUnits == "cm3mole-1s-1") ? Constants::AvogadroC : 1.0 ;
       m_reactions.clear() ;
-      m_ExcessConc.clear();
       vector<CTpoint> CTGrid ;
-      bool flag(true);
+      bool flag(true) ; // First pass flag used to get reaction details.
       vector<vector<double> > RCGrid;
       for (size_t i(0); i < m_NTpt; ++i) {
         double Temp = Temperature[i] ;
@@ -254,23 +252,17 @@ namespace mesmer
           map<string, double> phenRates ;
           pSys->calculate(Temp, Conc, m_precision, phenRates, m_TMax, *iter);
           vector<double> rate ; 
-          int ir=0;
           map<string, double>::const_iterator itr;
-          for (itr = phenRates.begin() ; itr != phenRates.end(); ++itr, ++ir) {
-            double concExcessReactant(0);
+          for (itr = phenRates.begin() ; itr != phenRates.end(); ++itr) {
+            // Expand the string in phenRates to include all the reactants and products.
+            pair<string,Reaction*> presult= pSys->getReactionManager()->getCompleteReactantsAndProducts(itr->first);
             if (flag) {
-              //Expand the string in phenRates to include all the reactants and products
-              pair<string,Reaction*> presult= pSys->getReactionManager()->getCompleteReactantsAndProducts
-                (itr->first);
-              Reaction*r = presult.second;
-              concExcessReactant = r ? r->get_concExcessReactant() : 0.0;
-              if(moleUnits)
-                concExcessReactant /= Constants::AvogadroC;
               m_reactions.push_back(presult.first);
-              m_ExcessConc.push_back(concExcessReactant);
             }
-
-            rate.push_back(m_ExcessConc[ir]>0 ? itr->second/m_ExcessConc[ir] : itr->second) ;
+            Reaction *r = presult.second;
+            double concExcessReactant = r ? r->get_concExcessReactant() : 0.0 ;
+			double rateCoefficient    = r ? r->normalizeRateCoefficient(itr->second) : itr->second ;
+            rate.push_back(concExcessReactant>0 ? rateCoefficient*fctr : rateCoefficient) ;
           }
           flag = false ;
           RCGrid.push_back(rate) ;
