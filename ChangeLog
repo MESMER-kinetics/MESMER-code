@@ -1,4 +1,9 @@
+	
+2015-February-02 Struan Robertson
 
+	* SensitivityAnalysis.cpp, examples/ipropyk - SA: Initial revision of
+	code to calculate alpha coefficients.
+ 	
 2015-January-25 Struan Robertson
 
 	* AnalyticalRepresentation.cpp, Reaction.h, Association.h, 

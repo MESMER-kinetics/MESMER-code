@@ -465,6 +465,7 @@
         <me:calcMethod>SensitivityAnalysis</me:calcMethod>
         <me:SensitivityAnalysisIterations>10</me:SensitivityAnalysisIterations>
         <me:SensitivityGenerateData>false</me:SensitivityGenerateData>
+        <me:SensitivityAnalysisOrder>3</me:SensitivityAnalysisOrder>
         <me:testDOS />
         <me:eigenvalues>1</me:eigenvalues>
     </me:control>

@@ -184,24 +184,29 @@ namespace mesmer
   {
   public:
 
-	SensitivityAnalysis(const char* id) : m_id(id), m_nVar(0), m_maxIterations(0), m_bGenerateData(true), m_delta(0) { 
-	  Register();
+	SensitivityAnalysis(const char* id) : m_id(id), 
+	  m_nVar(0), 
+	  m_maxIterations(0), 
+	  m_bGenerateData(true), 
+	  m_delta(0),
+	  m_order(1) { 
+		Register();
 
-	  m_slpMap[1]  = ortho_poly_1  ;
-	  m_slpMap[2]  = ortho_poly_2  ;
-	  m_slpMap[3]  = ortho_poly_3  ;
-	  m_slpMap[4]  = ortho_poly_4  ;
-	  m_slpMap[5]  = ortho_poly_5  ;
-	  m_slpMap[6]  = ortho_poly_6  ;
-	  m_slpMap[7]  = ortho_poly_7  ;
-	  m_slpMap[8]  = ortho_poly_8  ;
-	  m_slpMap[9]  = ortho_poly_9  ;
-	  m_slpMap[10] = ortho_poly_10 ;
-	  m_slpMap[11] = ortho_poly_11 ;
-	  m_slpMap[12] = ortho_poly_12 ;
-	  m_slpMap[13] = ortho_poly_13 ;
-	  m_slpMap[14] = ortho_poly_14 ;
-	  m_slpMap[15] = ortho_poly_15 ;
+		m_slpMap[1]  = ortho_poly_1  ;
+		m_slpMap[2]  = ortho_poly_2  ;
+		m_slpMap[3]  = ortho_poly_3  ;
+		m_slpMap[4]  = ortho_poly_4  ;
+		m_slpMap[5]  = ortho_poly_5  ;
+		m_slpMap[6]  = ortho_poly_6  ;
+		m_slpMap[7]  = ortho_poly_7  ;
+		m_slpMap[8]  = ortho_poly_8  ;
+		m_slpMap[9]  = ortho_poly_9  ;
+		m_slpMap[10] = ortho_poly_10 ;
+		m_slpMap[11] = ortho_poly_11 ;
+		m_slpMap[12] = ortho_poly_12 ;
+		m_slpMap[13] = ortho_poly_13 ;
+		m_slpMap[14] = ortho_poly_14 ;
+		m_slpMap[15] = ortho_poly_15 ;
 	}
 
 	virtual ~SensitivityAnalysis() {}
@@ -220,7 +225,7 @@ namespace mesmer
     bool DoCalculationOld(System* pSys); 
 
 	// This method generates data for external analysis.
-    bool WriteOutAnalysis(const vector<double> &f0, double Temperature, double Concentration); 
+    bool WriteOutAnalysis(const vector<double> &f0, const vector<double> &alpha, double Temperature, double Concentration); 
 
 	// Methods for generating values of shifted Legendre polynomials.
 	typedef double (*slp)(const double &x) ;
@@ -236,6 +241,8 @@ namespace mesmer
 
 	vector<double> m_delta ;
 
+	size_t m_order ; // The order of the HDMR analysis to use.
+
   };
 
   ////////////////////////////////////////////////
@@ -248,6 +255,7 @@ namespace mesmer
 	// Read in sensitivity analysis parameters, or use values from defaults.xml.
 	m_maxIterations = pp->XmlReadInteger("me:SensitivityAnalysisIterations");
 	m_bGenerateData = pp->XmlReadBoolean("me:SensitivityGenerateData");
+	m_order         = pp->XmlReadInteger("me:SensitivityAnalysisOrder");
 
 	return true;
   }
@@ -347,8 +355,8 @@ namespace mesmer
 		pSys->calculate(nCnd, Quantities, false) ;
 
 		// Write perturbed parameters and values calculated from them.
-		// SHR: Note the loop over the calculated values is two so as to
-		// miss out the expt. values.
+		// SHR: Note the loop over the calculated values is two so as
+		// to miss out the expt. values.
 
 		for (size_t j(0) ; j < newLocation.size() ; j++) {
 		  sensitivityTable << formatFloat(rndmd[j], 5, 15) ;
@@ -422,11 +430,16 @@ namespace mesmer
 	size_t nConditions = Temperature.size() ;
 	for (size_t nCnd(0) ; nCnd < nConditions ; nCnd++) {
 
+	  // The following is based on the matlab methods sub_alpha_1st.m and 
+	  // developed by Tilo Ziehn.
+
 	  vector<double> f0 ;
+	  vector<double> alpha ;
 	  bool f0Initialized(false) ;
 
 	  // Loop over perturbed parameter values.
 
+	  double nrmlFctr(1.0/double(m_maxIterations)) ;
 	  long long seed(0) ;
 	  for (size_t itr(1) ; itr <= m_maxIterations ; itr++) {
 		vector<double> rndmd(m_nVar,0.0) ;
@@ -443,18 +456,39 @@ namespace mesmer
 		SetLocation(newLocation) ;
 		vector<double> Quantities ;
 		pSys->calculate(nCnd, Quantities, false) ;
-		if (f0Initialized) {
-		  for (size_t i(0) ; i < Quantities.size() ; i++) 
-			f0[i] += Quantities[i] ;
-		} else {
-		  f0 = Quantities ;
+
+		if (!f0Initialized) {
+		  f0.resize(Quantities.size(), 0.0) ;
+		  alpha.resize(Quantities.size()*rndmd.size()*m_order, 0.0) ;
 		  f0Initialized = true ;
 		}
+
+		// Calculate alpha values.
+		for (size_t i(0), idx(0) ; i < Quantities.size() ; i++) {
+
+		  double output = Quantities[i] ;
+		  f0[i] += output ;
+
+		  for (size_t j(0) ; j < rndmd.size() ; j++) {
+
+			double input = rndmd[j] ;
+
+			// Calculate all alpha coefficients for the up to m_order order polynomials.
+			for (size_t k(1) ; k <= m_order ; k++, idx++) {
+			 alpha[idx] += output * ShiftedLegendre(k, input) ;
+			}
+		  }
+		}
 	  }
-      for (size_t i(0) ; i < f0.size() ; i++) 
-        f0[i] /= double(m_maxIterations) ;
+
+	  for (size_t i(0) ; i < alpha.size() ; i++) 
+		alpha[i] *= nrmlFctr ;
+
+	  // Calculate mean values of the outputs.
+	  for (size_t i(0) ; i < f0.size() ; i++) 
+		f0[i] *= nrmlFctr ;
 	  
-	  WriteOutAnalysis(f0, Temperature[nCnd], Concentration[nCnd]) ;
+	  WriteOutAnalysis(f0, alpha, Temperature[nCnd], Concentration[nCnd]) ;
 	}
 
 	return true;
@@ -462,7 +496,7 @@ namespace mesmer
   }
 
   // This method generates data for external analysis.
-  bool SensitivityAnalysis::WriteOutAnalysis(const vector<double> &f0, double Temperature, double Concentration) {
+  bool SensitivityAnalysis::WriteOutAnalysis(const vector<double> &f0, const vector<double> &alpha, double Temperature, double Concentration) {
 	
 	cinfo << endl << "Sensitivity Analysis: Temperature = " << setw(8) << setprecision(4) << Temperature << ", Concentration = " << Concentration << endl << endl;
 
@@ -471,9 +505,15 @@ namespace mesmer
 	for (size_t i(0) ; i  < f0.size() ; i++) {
 	  cinfo << "Mean = " << setprecision(6) << f0[i] << endl;
 	}
+	cinfo << endl; 
 
+	// Alpha values.
+
+	for (size_t i(0) ; i  < alpha.size() ; i++) {
+	  cinfo << "Alpha = " << setprecision(6) << alpha[i] << endl;
+	}
+ 
 	return true ;
-
   }
 
 } //namespace
