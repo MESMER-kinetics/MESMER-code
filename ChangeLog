@@ -1,8 +1,14 @@
-2015-February-05 Chris Morley
+
+2015-February-04 Struan Robertson
+
+	* SensitivityAnalysis.cpp, examples/ipropyk - SA: Implementation added
+	toward the calculation of sensitivity indicies.	
+	
+2015-February-04 Chris Morley
 
     * MesmerGUI/MESMER_deployment: remove Apache files from our SVN files
 
-2015-February-05 Chris Morley
+2015-February-04 Chris Morley
 
     * MesmerGUI/MESMER_deployment: remove Django files from our SVN files
 

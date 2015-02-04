@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Jan 11 2015 -- 18:32:38
+     Mesmer v4.0 compiled: -- Jan 25 2015 -- 12:15:36
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -43,7 +43,7 @@ In R1: No crossing method used for R1
 All molecules are on the same energy basis: arbitary
 3e+017PPCC, 720K at d precision with He
 3e+016PPCC, 880K at d precision with He
-Write metadata 20150111_224016
+Write metadata 20150204_223809
 
 File: "ipropyl_SA.xml" successfully parsed.
 Main Calculation begins
@@ -67,3 +67,67 @@ Sensitivity Analysis: Temperature =      720, Concentration = 3e+017
 
 Mean = 41.5
 Mean = 35.7523
+
+Alpha = -8.98501
+Alpha = -93.5218
+Alpha = -182.819
+Alpha = -5.39101
+Alpha = -93.5218
+Alpha = -186.036
+Alpha = -5.39101
+Alpha = -93.5218
+Alpha = -186.036
+Alpha = -7.29017
+Alpha = -80.7272
+Alpha = -158.534
+Alpha = -4.44863
+Alpha = -80.5004
+Alpha = -160.263
+Alpha = -4.69598
+Alpha = -80.6713
+Alpha = -160.27
+
+ Sensitivity Indicies:           42250          43385          43385
+ Sensitivity Indicies:           31703          32184          32216
+
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+Unimolecular ILT calculation completed
+
+Sensitivity Analysis: Temperature =      880, Concentration = 3e+016
+
+Mean = 535
+Mean = 503.758
+
+Alpha = -115.831
+Alpha = -1205.64
+Alpha = -2356.82
+Alpha = -69.4985
+Alpha = -1205.64
+Alpha = -2398.29
+Alpha = -69.4985
+Alpha = -1205.64
+Alpha = -2398.29
+Alpha = -97.7735
+Alpha = -1140.16
+Alpha = -2246.5
+Alpha = -59.8887
+Alpha = -1135.18
+Alpha = -2261.66
+Alpha = -64.256
+Alpha = -1138.4
+Alpha = -2263.56
+
+ Sensitivity Indicies:           42250          43385          43385
+ Sensitivity Indicies:           31703          32184          32216
+
+ -- Total time elapsed: 3 seconds.
+
+System saved to mesmer_out.xml
