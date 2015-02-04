@@ -1,3 +1,9 @@
+2015-February-05 Chris Morley
+
+    * MesmerGUI/MESMER_deployment: remove Django files from our SVN files
+
+    * tinyxml/tinyxml.cpp: change default indent when writing from 
+      4 to 2 spaces.
 	
 2015-February-02 Struan Robertson
 
