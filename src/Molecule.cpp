@@ -151,9 +151,9 @@ namespace mesmer
 
   gDensityOfStates&       Molecule::getDOS()  {
     if (!g_dos) {
-      g_dos = new gDensityOfStates(this);
+       g_dos = new gDensityOfStates(this);
       if (!g_dos->initialization()) {
-        cerr << "gDensityOfStates initialization failed." << endl;
+        cinfo << "gDensityOfStates initialization failed." << endl;
       }
     }
     return *g_dos;

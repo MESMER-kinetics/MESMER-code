@@ -39,6 +39,7 @@ namespace mesmer
   double getConvertedP(const string& unitInput, const double concentrationInput, const double temperatureInp);
   double getConvertedEnergy(const string& unitInput, const double energyInput);
   double ConvertFromWavenumbers(const string& unitInput, const double energyInput);
+  double ConvertEnergy(const string& unitInput, const string& unitOutput, const double energyInput);
 
 }//namespace
 

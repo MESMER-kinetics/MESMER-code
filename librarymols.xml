@@ -81,10 +81,6 @@
       <property title="Symmetry Number" dictRef="me:symmetryNumber">
         <scalar>2</scalar>
       </property>
-      <property dictRef="me:electronicExcitation" default="true">
-        <scalar>1.0</scalar>
-        <!--is this right?-->
-      </property>
       <property dictRef="me:frequenciesScaleFactor" default="true">
         <scalar>1</scalar>
       </property>
@@ -130,9 +126,6 @@
       <property title="Electronic Excitation" dictRef="me:electronicExcitation">
         <scalar units="cm-1">139.21</scalar>
       </property>
-      <!--<property dictRef="me:ZPE">
-          <scalar calculated="20110602_152731" units="kJ/mol" source="me:Hf0" convention="computational">-198662.84</scalar>
-        </property>-->
     </propertyList>
     <me:DOSCMethod>DefinedStatesRotors</me:DOSCMethod>
     <me:States units="cm-1">
@@ -216,9 +209,6 @@
       <property title="Electronic Excitation" dictRef="me:electronicExcitation">
         <scalar units="cm-1">119.8</scalar>
       </property>
-      <!--<property dictRef="me:ZPE">
-          <scalar calculated="20110602_152733" units="kJ/mol" source="me:Hf0" convention="computational">-340720.04</scalar>
-        </property>-->
     </propertyList>
   </molecule>
   <molecule id="H2O">
@@ -261,14 +251,13 @@
   </molecule>
   <molecule id="C">
     <metadataList>
-      <metadata name="dc:description" content="Gaussian 03 #PBEPBE/cc-pVTZ"/>
+      <metadata name="dc:description" content="CCSD(T)=FULL/aug-cc-pVTZ"/>
       <metadata name="dc:source" content="http://cccbdb.nist.gov"/>
-      <metadata name="dc:creator" content="OpenBabel version 2.3.0"/>
       <metadata name="dc:contributor" content="Chris Morley"/>
-      <metadata name="dc:date" content="Thu Jan 13 09:35:55 GMT Standard Time 2011"/>
+      <metadata name="dc:date" content="29 Nov 2014"/>
     </metadataList>
     <atomArray>
-      <atom id="a1" elementType="C" spinMultiplicity="5" x3="0.000000" y3="0.000000" z3="0.000000"/>
+      <atom id="a1" elementType="C" spinMultiplicity="3" x3="0.000000" y3="0.000000" z3="0.000000"/>
     </atomArray>
     <propertyList>
       <property title="Hf0">
@@ -280,9 +269,12 @@
       <property title="H0-H298" dictRef="me:H0-H298">
         <scalar units="kJ/mol">6.54</scalar>
       </property>
-
+      <property title="StdStateIntegratedHeatCapacity" dictRef="me:stdH0-H298">
+        <scalar units="kJ/mol">1.050</scalar>
+      </property>
       <property title="Energy" dictRef="me:ZPE">
-        <scalar units="kJ/mol" convention="computational">-99230.53 </scalar>
+        <!--<scalar units="Hartree" convention="computational">-37.791070 </scalar>-->
+        <scalar units="kJ/mol" convention="computational">-99219.622 </scalar>
       </property>
       <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
         <scalar>3.00 </scalar>
@@ -309,6 +301,9 @@
       </property>
       <property title="H0-H298" dictRef="me:H0-H298">
         <scalar units="kJ/mol">6.27</scalar>
+      </property>
+      <property title="StdStateIntegratedHeatCapacity" dictRef="me:stdH0-H298">
+        <scalar units="kJ/mol">4.5905</scalar>
       </property>
       <property title="Energy" dictRef="me:ZPE">
         <scalar units="kJ/mol" convention="computational">-1207639.02 </scalar>
@@ -339,7 +334,9 @@
     <property title="H0-H298" dictRef="me:H0-H298">
       <scalar units="kJ/mol">6.52</scalar>
     </property>
-
+      <property title="StdStateIntegratedHeatCapacity" dictRef="me:stdH0-H298">
+        <scalar units="kJ/mol">4.413</scalar>
+      </property>
       <property title="Energy" dictRef="me:ZPE">
         <scalar units="kJ/mol" convention="computational">-261660.78 </scalar>
       </property>
@@ -350,11 +347,10 @@
   </molecule>
   <molecule id="H">
     <metadataList>
-      <metadata name="dc:description" content="Gaussian 03 #PBEPBE/cc-pVTZ"/>
+      <metadata name="dc:description" content="CCSD(T)=FULL/aug-cc-pVTZ "/>
       <metadata name="dc:source" content="http://cccbdb.nist.gov"/>
-      <metadata name="dc:creator" content="OpenBabel version 2.3.0"/>
       <metadata name="dc:contributor" content="Chris Morley"/>
-      <metadata name="dc:date" content="Thu Jan 13 09:35:55 GMT Standard Time 2011"/>
+      <metadata name="dc:date" content="29 Nov 2014"/>
     </metadataList>
     <atomArray>
       <atom id="a1" elementType="H" spinMultiplicity="2" x3="0.000000" y3="0.000000" z3="0.000000"/>
@@ -369,8 +365,12 @@
       <property title="H0-H298" dictRef="me:H0-H298">
         <scalar units="kJ/mol">6.20</scalar>
       </property>
+      <property title="StdStateIntegratedHeatCapacity" dictRef="me:stdH0-H298">
+        <scalar units="kJ/mol">4.234</scalar>
+      </property>
       <property title="Energy" dictRef="me:ZPE">
-        <scalar units="kJ/mol" convention="computational">-1311.75 </scalar>
+        <!--<scalar units="Hartree" convention="computational">-0.499821 	</scalar>-->
+        <scalar units="kJ/mol" convention="computational">-1312.269 	</scalar>
       </property>
       <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
         <scalar>2.00 </scalar>
@@ -398,6 +398,9 @@
       <property title="H0-H298" dictRef="me:H0-H298">
         <scalar units="kJ/mol">6.20</scalar>
       </property>
+      <property title="StdStateIntegratedHeatCapacity" dictRef="me:stdH0-H298">
+        <scalar units="kJ/mol">4.335</scalar>
+      </property>
       <property title="Energy" dictRef="me:ZPE">
         <scalar units="kJ/mol" convention="computational">-143167.60 </scalar>
       </property>
@@ -406,13 +409,12 @@
       </property>
     </propertyList>
   </molecule>
-  <molecule id="O">
+  <molecule id="O" spinMultiplicity="3">
     <metadataList>
-      <metadata name="dc:description" content="Gaussian 03 #PBEPBE/cc-pVTZ"/>
+      <metadata name="dc:description" content="CCSD(T)=FULL/aug-cc-pVTZ"/>
       <metadata name="dc:source" content="http://cccbdb.nist.gov"/>
-      <metadata name="dc:creator" content="OpenBabel version 2.3.0"/>
       <metadata name="dc:contributor" content="Chris Morley"/>
-      <metadata name="dc:date" content="Thu Jan 13 09:35:55 GMT Standard Time 2011"/>
+      <metadata name="dc:date" content="29 Nov 2014"/>
     </metadataList>
     <atomArray>
       <atom id="a1" elementType="O" spinMultiplicity="3" x3="0.000000" y3="0.000000" z3="0.000000"/>
@@ -427,8 +429,12 @@
       <property title="H0-H298" dictRef="me:H0-H298">
         <scalar units="kJ/mol">6.72</scalar>
       </property>
+      <property title="StdStateIntegratedHeatCapacity" dictRef="me:stdH0-H298">
+        <scalar units="kJ/mol">4.340</scalar>
+      </property>
       <property title="Energy" dictRef="me:ZPE">
-        <scalar units="kJ/mol" convention="computational">-196925.32 </scalar>
+        <!--<scalar units="Hartree" convention="computational">-74.990351 </scalar>-->
+        <scalar units="kJ/mol" convention="computational">-196885.552 </scalar>
       </property>
       <property title="SpinMultiplicity" dictRef="me:spinMultiplicity">
         <scalar>3.00 </scalar>
@@ -456,6 +462,9 @@
       <property title="H0-H298" dictRef="me:H0-H298">
         <scalar units="kJ/mol">6.66</scalar>
       </property>
+      <property title="StdStateIntegratedHeatCapacity" dictRef="me:stdH0-H298">
+        <scalar units="kJ/mol">4.412</scalar>
+      </property>
       <property title="Energy" dictRef="me:ZPE">
         <scalar units="kJ/mol" convention="computational">-1044801.89 </scalar>
       </property>
@@ -466,3 +475,11 @@
   </molecule>
 </moleculeList>
 
+<!--//Integrated heat capacities from 0K to 298.15K
+//per atom of elements in standard states in kJ/mol.
+map<string, double=""> std0Kto298K = { { "H", 4.234 },
+  { "D", 4.285 }, { "Li", 4.632 }, { "Be", 1.950 }, { "B", 1.222 },
+  { "C", 1.050 }, { "N", 4.335 }, { "O", 4.340 }, { "F", 4.413 },
+  { "Na", 6.460 }, { "Mg", 4.998 }, { "Al", 4.540 },
+  { "Si", 3.217 }, { "P", 5.36 }, { "S", 4.412 }, { "Cl", 4.5905 },
+  { "Ti", 4.824 }, { "Cu", 5.004 }, { "Br", 12.26 } };-->

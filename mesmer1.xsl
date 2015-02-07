@@ -3,7 +3,9 @@
 <xsl:stylesheet version="1.0"  xmlns:cml="http://www.xml-cml.org/schema"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
-  xmlns:dc="http://purl.org/dc/elements/1.1/">
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:str="http://exslt.org/strings"
+  xmlns:set="http://exslt.org/sets">
 
   <xsl:include href="chemStrucEL.xsl"/>
   <xsl:include href="mesmerDiag.xsl"/>
@@ -75,6 +77,10 @@
 		.warn{color:red;}
         .tablehead2{text-decoration:underline;padding-top:10px;}
         .tablehead3{font-weight:bold;padding-top:10px;text-align:center}
+        .tablehead4{
+          padding-top:10px;text-align:center;
+          
+          border-bottom-width:2;}
         .paramheader{
           font-family: Arial, Helvetica, sans-serif;
           color:black;
@@ -83,9 +89,14 @@
         }
         .poplabel{color:black; font-weight:bold;} 
 
+        thead{border-style:solid;border-width:2;}
         table{background-color:#e0f8f8; margin-bottom:12px;}
+        table.thermo{ text-align:center;width:450px;}
+        .highlight{background-color:#f8f8f8;}
+
         td{padding:0px 4px;}
-        h3{color:teal;font-family: Arial, Helvetica, sans-serif;}
+        th{font-size:smaller;border-bottom:1px dashed black;}
+        h3{color:teal;font-family: Arial, Helvetica, sans-serif;font-weight:bold;}
         hh5{color:black;font-family: Arial, Helvetica, sans-serif;font-weight:bold;font-size:smaller;}
         .normal{color:black; font-size:smaller;}
         .normal2{color:black; background-color:#e0f8f8}
@@ -122,26 +133,36 @@
         <p id="description">
           <xsl:value-of select="/me:mesmer/cml:description|me:description"/>
         </p>
-        <xsl:apply-templates select="//cml:metadataList"/>
+        <xsl:if test="cml:metadataList">
+          <xsl:apply-templates select="cml:metadataList"/>
+        </xsl:if>
       </div>
+      
+      <xsl:variable name ="Econventions" select="//cml:property/cml:scalar/@convention"/>
+      <xsl:if test="$Econventions[1] != $Econventions">
+        <div class="error">Not all the Energy Conventions on molecules are the same:
+        <xsl:for-each select="$Econventions">
+          <xsl:value-of select="concat(.,' ')"/>
+        </xsl:for-each>
+      </div>
+      </xsl:if>
+      <xsl:variable name ="Etext">
+        <xsl:choose>
+          <xsl:when test="$Econventions[1]='thermodynamic298K'">Hf298</xsl:when>
+          <xsl:when test="$Econventions[1]='thermodynamic0K'">Hf0</xsl:when>
+          <xsl:otherwise>Energy</xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+      
       <xsl:variable name ="Eunits">
         <xsl:call-template name="ZPEunits"/>
       </xsl:variable>
-      <xsl:for-each select=
-         "//cml:property[@dictRef='me:ZPE']/cml:scalar/@units | //me:activationEnergy/@units">
-        <xsl:if test=".!=$Eunits">
-          <div class="error">
-            <xsl:value-of select=
-             "concat(.,' is different energy unit. All energy units need to be the same.')"/>
-          </div>
-        </xsl:if>
-      </xsl:for-each>
       <h3 id="mols-title" class="handcursor">Molecules</h3>
       <div id="mols" class="switchgroup3">
         <table class="mol">
           <tr class="tableheader">
             <td>Name</td>
-            <td>Energy<br /><xsl:value-of select="$Eunits"/></td>
+            <td><xsl:value-of select="$Etext"/><br /><xsl:value-of select="$Eunits"/></td>
             <td>Rotational constants<br />cm<sup>-1</sup></td>
             <td>Vibrational frequencies<br />cm<sup>-1</sup></td>
           </tr>
@@ -156,17 +177,19 @@
       </xsl:variable>
       <xsl:if test="string-length($structText)>0">
         <h3 id="structs-title" class="handcursor">Chemical Structures</h3>
-        <div id="structs" class="switchgroup12">
+        <div id="structs" class="switchgroup10">
          <xsl:apply-templates select="//cml:molecule" mode="chemStructure"/>
         </div>
       </xsl:if>
-      
-      <h3 id="reactions-title" class="handcursor">Reactions</h3>
-      <table id="reactions" class="switchgroup4">
-      <xsl:apply-templates select="cml:reactionList"/>
-    </table>
 
-    <!--Show the "results"-->
+      <xsl:if test="//cml:reactionList">
+        <h3 id="reactions-title" class="handcursor">Reactions</h3>
+        <table id="reactions" class="switchgroup4">
+          <xsl:apply-templates select="cml:reactionList"/>
+        </table>
+      </xsl:if>
+
+      <!--Show the "results"-->
     <xsl:if test="//me:densityOfStatesList">
       <h3 id="densityOfStates-title" class="handcursor">Partition Functions</h3>
       <div id="densityOfStates" class="switchgroup1">
@@ -235,14 +258,76 @@
       </div>
     </xsl:if>
 
-      <xsl:if test="//me:experimentalRate | //me:experimentalYield | //experimentalEigenvalue">
+      <xsl:if test="//me:representation">
+        <h3 id="ChebyshevRepresentation-title" class="handcursor">Chebyshev representation of rates</h3>
+        <div id="ChebyshevRepresentation" class="switchgroup14">
+          <xsl:apply-templates select="//me:representation"/>
+        </div>
+      </xsl:if>
+      
+      <xsl:if test="//me:thermoTable">
+        <h3 id="ThermodynamicData-title" class="handcursor">Thermodynamics for molecules</h3>
+        <div id="ThermodynamicData" class="switchgroup12">
+          <xsl:apply-templates select="//me:thermoTable"/>
+            <pre> <!--Fixed format NASA polynomials-->
+              <xsl:for-each select="//cml:scalar[@dictRef='NasaPolynomial']">
+                <xsl:value-of select="."/>
+              </xsl:for-each>
+            </pre>
+          <!--Cantera form of NASA polynomials
+          species(name = "O2", atoms = " O:2 ",
+          thermo = (
+            NASA( [ 200.00, 1000.00], [ 3.782456360E+00, -2.996734160E-03,
+                    9.847302010E-06, -9.681295090E-09, 3.243728370E-12,
+                    -1.063943560E+03, 3.657675730E+00] ),
+            NASA( [ 1000.00, 3500.00], [ 3.282537840E+00, 1.483087540E-03,
+                    -7.579666690E-07, 2.094705550E-10, -2.167177940E-14,
+                    -1.088457720E+03, 5.453231290E+00] ) ) )
+      Indentation is significant in the following block.-->
+      <xsl:for-each select="//cml:property[@dictRef='NasaPolynomial']">
+        <pre>
+          <div>
+            <xsl:value-of select="concat('name = &quot;',ancestor::cml:molecule/@id,'&quot;, ',
+                          'atoms = &quot; ')"/>
+            <xsl:variable name="atoms" select="ancestor::cml:molecule//cml:atom"/>
+            <xsl:variable name="elements" select="set:distinct($atoms/@elementType)"/>
+            <xsl:for-each select="$elements">
+              <xsl:value-of select="concat(., ':', count($atoms[@elementType=current()]),' ')"/>
+            </xsl:for-each>
+            <xsl:text>&quot;, </xsl:text>
+          </div>
+          <xsl:variable name="coeffs" select="str:tokenize(cml:array[@dictRef='NasaCoeffs'])"/>
+          <xsl:variable name="lowercoeffs" select="$coeffs[position()&lt;=7]"/>
+          <xsl:variable name="uppercoeffs" select="$coeffs[position()>7 and position()!=15]"/>
+          <xsl:value-of select="concat('thermo = (',
+          'NASA([',format-number(cml:scalar[@dictRef='NasaLowT'], '#.##'),',',
+                    format-number(cml:scalar[@dictRef='NasaMidT'], '#.##'),'],[')"/>
+          <xsl:for-each select="$lowercoeffs">
+            <xsl:value-of select="."/>
+            <xsl:if test="position() != last()">,</xsl:if>
+          </xsl:for-each>]),
+          <xsl:value-of select="concat(
+          'NASA([',format-number(cml:scalar[@dictRef='NasaMidT'], '#.##'),',',
+                    format-number(cml:scalar[@dictRef='NasaHighT'], '#.##'),'],[')"/>
+          <xsl:for-each select="$uppercoeffs">
+            <xsl:value-of select="."/>
+            <xsl:if test="position() != last()">,</xsl:if>
+          </xsl:for-each>]))
+        </pre>
+      </xsl:for-each>
+          
+    </div> 
+      </xsl:if>
+      
+    <xsl:if test="//me:experimentalRate | //me:experimentalYield | //experimentalEigenvalue">
       <h3 id="ExperimentalData-title" class="handcursor">Comparison with Experimental Data</h3>
-      <div id="ExperimentalData" class="switchgroup12">
-    <xsl:apply-templates select="//me:PTs"/>
+      <div id="ExperimentalData" class="switchgroup13">
+        <xsl:apply-templates select="//me:PTs"/>
       </div>
     </xsl:if>
+
   
-      <!--Show toggle for inactive display if the file contains any-->
+    <!--Show toggle for inactive display if the file contains any-->
     <xsl:if test="//*[@active='false']">
       <p id="hide" onclick="toggle()">Hide/show inactive</p>
     </xsl:if>
@@ -250,7 +335,7 @@
     <!--Script for expanding an contracting sections-->
     <script type="text/javascript">
       <![CDATA[
-        for(var i=1; i <=13; i++)
+        for(var i=1; i <=14; i++)
         {
           var mc=new switchcontent("switchgroup" + i)
           mc.setStatus('- ','+ ')
@@ -624,9 +709,40 @@
       </tr>
     </xsl:for-each>
       </table>
-  </xsl:template>	  
+  </xsl:template>
 
+  <xsl:template match="//me:representation">
+    <pre><xsl:value-of select="."/></pre>
+  </xsl:template>
 
+  <xsl:template match="//me:thermoTable">
+    <h4><xsl:value-of select="../@id"/></h4>
+    <table class="thermo">
+        <tr>
+          <td>Temp</td> <td>H(T)</td> <td>S(T)</td> <td>G(T)</td>
+          <xsl:if test="@unitsHf"><td>&#916;Hf</td></xsl:if>
+        </tr>
+        <tr>
+        <th><xsl:value-of select="@unitsT"/></th>
+        <th><xsl:value-of select="@unitsH"/></th>
+        <th><xsl:value-of select="@unitsS"/></th>
+        <th><xsl:value-of select="@unitsG"/></th>
+        <th><xsl:value-of select="@unitsHf"/></th>
+        </tr>
+      <xsl:for-each select="me:thermoValue">
+        <tr>
+          <xsl:if test="@T=298.15">
+            <xsl:attribute name="class">highlight</xsl:attribute>
+          </xsl:if> 
+          <td> <xsl:value-of select="@T"/></td>
+          <td> <xsl:value-of select="@H"/></td>
+          <td> <xsl:value-of select="@S"/></td>
+          <td> <xsl:value-of select="@G"/></td>
+          <td> <xsl:value-of select="@Hf"/></td>
+        </tr>
+    </xsl:for-each>
+    </table>
+  </xsl:template>
 
     <xsl:template match="cml:metadataList">
     <div id="metadata">

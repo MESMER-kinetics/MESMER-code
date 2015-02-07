@@ -53,7 +53,7 @@
   <me:PTset units="PPCC" precision="d" default="true"/>
   <me:bathgas default="true">He</me:bathgas>
   <me:TInfinity default="true">298</me:TInfinity>
-  <me:eigenvalues default="true">0</me:eigenvalues>
+  <!--<me:eigenvalues default="true">0</me:eigenvalues>-->
   <me:grainSize units="cm-1" default="true">100</me:grainSize>
   <me:energyAboveTheTopHill units="kT" default="true">25</me:energyAboveTheTopHill>
   <me:calcMethod default="true" name="simpleCalc"/>
@@ -65,8 +65,13 @@
   <me:MarquardtTolerance default="true">1.e-03</me:MarquardtTolerance>
   <me:ConstraintFactor default="true">1.0</me:ConstraintFactor>
   <me:ConstraintAddand default="true">0.0</me:ConstraintAddand>
-  <me:SensitivityAnalysisIterations>10</me:SensitivityAnalysisIterations>
-  <me:SensitivityAnalysisDelta>2</me:SensitivityAnalysisDelta>
-  <me:chebMinConc units="particles per cubic centimeter"/>
+  <me:SensitivityAnalysisIterations default="true">10</me:SensitivityAnalysisIterations>
+  <me:SensitivityAnalysisDelta default="true">2</me:SensitivityAnalysisDelta>
+  <me:chebMinConc units="particles per cubic centimeter" default="true"/>
+  <me:calcMethod units="kJ/mol" default="true"/>
+  <me:Tmin default="true">200</me:Tmin>
+  <me:Tmax default="true">1500</me:Tmax>
+  <me:Tstep default="true">50</me:Tstep>
+  <me:Tmid default="true">1000</me:Tmid>
 </defaults>
 

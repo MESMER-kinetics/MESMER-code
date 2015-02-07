@@ -25,8 +25,7 @@ namespace mesmer
     double m_RotCstC ;          // Moment of inertia C.
     double m_Sym ;              // Rotational symmetry number.
 
-    Rdouble m_ZPE ;             // Zero Point Energy. (kJ/mol)
-
+    Rdouble m_ZPE ;             // Zero Point Energy. //wavenumbers
     double m_scaleFactor ;      // scale factor for input real/imaginary vibrational frequencies
     int    m_SpinMultiplicity ; // spin multiplicity
 
@@ -37,7 +36,6 @@ namespace mesmer
     int m_ZPE_chk;
     int m_scaleFactor_chk;
     int m_SpinMultiplicity_chk;
-    std::string m_EnergyConvention;
     //================================================
 
     std::vector<double> m_eleExc  ;      // Electronic excitation (E.g. OH, NO, NS).
@@ -85,16 +83,14 @@ namespace mesmer
     double getClassicalEnergy();
 
     // Accessors.
-    double get_zpe();
+    double get_zpe(); //cm-1
     void set_zpe(const double value){ m_ZPE = value; m_ZPE_chk = 0;};
     void set_zpe(const double valueL, const double valueU, const double stepsize){
       m_ZPE.set_range(valueL, valueU, stepsize, "ZPE");
       m_ZPE_chk = 0;
     }
 
-    std::string getEnergyConvention()const {
-      return m_EnergyConvention.empty() ? "arbitary" : m_EnergyConvention;
-    }
+    double get_Hf298Thermo(); //kJ/mol
 
     double get_Sym(void);
     RotationalTop test_rotConsts(void);
@@ -151,6 +147,13 @@ namespace mesmer
     bool ReadDOSMethods();
 
     bool ReadZeroPointEnergy(PersistPtr &ppPropList) ;
+
+    double ConvertEnergyConvention(
+      const std::string& fromConvention, const std::string& toConvention, double fromValue);
+
+    //Read <me:ZPE>, <me:Hf0>, <me:Hf298> or <me:HfAT0> from XML as specified by elName.
+    //Returns true if found. Converts energy convention if the XML and nativeConvention are different .
+    bool ReadEnergy(PersistPtr ppPropList, std::string elName, std::string nativeConvention);
 
     // This function checks if any of the DPoint values is different then a DOS recalculation will take place
     bool needReCalculateDOS(void){ return !m_ZPE.isUnchanged() ; }

@@ -275,7 +275,9 @@
     <None Include="..\..\MesmerQA\pentyl\pentyl_isomerize_dissocn.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="..\..\MesmerQA\ThermodynamicTable\ThermodynamicTable.xml" />
+    <None Include="..\..\MesmerQA\ThermodynamicTable\ThermodynamicTable.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\MesmerQA\UnitTests\UnitTests.xml" />
     <None Include="..\..\popDiag.xsl">
       <SubType>Designer</SubType>

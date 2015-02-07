@@ -50,10 +50,13 @@ namespace mesmer
   public:
     Molecule* getHost() { return m_host; }
     const Molecule* getHost() const { return m_host; }
+    static void setEnergyConvention(const std::string& convention){m_energyConvention=convention;}
+    static string getEnergyConvention(){ return m_energyConvention; }
 
   protected:
     Molecule* m_host;
     //MolecularComponent():m_host(NULL){}
+    static std::string m_energyConvention; //for all molecules
   };
 
   //-------------------------------------------------------------------------------------------------

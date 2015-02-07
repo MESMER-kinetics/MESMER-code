@@ -115,7 +115,7 @@
         <xsl:apply-templates select="exsl:node-set($bbonds)/object | exsl:node-set($aatoms)/object">
           <xsl:sort select="@z" data-type="number"/>
         </xsl:apply-templates>
-        <svg:text x="-15%" y="47%" stroke-width=".005" font-size="0.6" >
+        <svg:text x="-15%" y="47%" stroke-width=".005" font-size="0.5" >
           <xsl:value-of select="@id"/>
         </svg:text>
       </svg:svg>
@@ -142,11 +142,21 @@
     <xsl:variable name="rref2" select="substring-after(@atomRefs2,' ')"/>
     <xsl:variable name="firstatom" select="$ats/object[@id=$rref1]"/>
     <xsl:variable name="secondatom" select="$ats/object[@id=$rref2]"/>
+    <xsl:variable name="bondcolor">
+      <xsl:choose>
+        <xsl:when test="@color">
+          <xsl:value-of select="@color"/>
+        </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="'darkslategray'"/>
+      </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
 
     <object x1="{$firstatom/@x}"  y1="{$firstatom/@y}"
             x2="{$secondatom/@x}" y2="{$secondatom/@y}"
             z ="{($firstatom/@z + $secondatom/@z) div 2}"
-            order="{@order}"/>
+            order="{@order}" color="{$bondcolor}" id="{@id}"/>
   </xsl:template>
 
   <!--Second stage template to draw atoms-->
@@ -159,7 +169,7 @@
 
   <!--Second stage template to draw bonds-->
   <xsl:template match="*[@x1]">
-    <svg:line x1="{@x1}" x2="{@x2}" y1="{@y1}" y2="{@y2}" z="{@z}"
-              stroke="darkslategray"/>
+    <svg:line x1="{@x1}" x2="{@x2}" y1="{@y1}" y2="{@y2}" z="{@z}" id="{@id}"
+              stroke="{@color}"/>
   </xsl:template>
 </xsl:stylesheet>

@@ -75,6 +75,13 @@ namespace mesmer
     //Return a vector with the IDs of all molecules which are excessReactants
     std::vector<Reaction*> getReactionsWithExcessReactant();
 
+    void finish()
+    {
+      vector<Reaction*>::iterator iter;
+      for (iter = m_reactions.begin(); iter != m_reactions.end(); ++iter)
+        (*iter)->Finish();
+    }
+
   private:
 
     std::vector<Reaction *> m_reactions ;

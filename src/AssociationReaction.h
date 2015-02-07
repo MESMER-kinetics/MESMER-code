@@ -45,6 +45,14 @@ namespace mesmer
     // Destructor.
     virtual ~AssociationReaction(){}
 
+    virtual void Finish()
+    {
+      // Restores m_ZPEs of reactants which have been modified (pseudoisomer)
+      // in case there are extra tasks like Thermodynamic Table
+      m_rct1->getDOS().set_zpe(m_SavedZPE1);
+      m_rct2->getDOS().set_zpe(m_SavedZPE2);
+   }
+
     virtual void updateSourceMap(molMapType& sourcemap) {
       if (m_rct1 && sourcemap.find(m_rct1) == sourcemap.end()){ // Reaction includes a new pseudoisomer.
         sourcemap[m_rct1] = 0 ;
@@ -139,7 +147,7 @@ namespace mesmer
     Molecule *m_rct1 ;   // Reactant Molecule.
     Molecule *m_rct2 ;   // Subsidiary reactant molecule.
     Molecule *m_pdt1 ;   // Product Molecule.
-
+    double m_SavedZPE1, m_SavedZPE2; //ZPE of reactants before pseudo isomers
     molMapType *m_sourceMap ;
 
     // Calculate rovibronic canonical partition function in the grain level for reactants.

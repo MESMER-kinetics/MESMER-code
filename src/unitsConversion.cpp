@@ -162,7 +162,13 @@ namespace mesmer
   double ConvertFromWavenumbers(const string& unitInput, const double energyInput)
   {
     return energyInput / energyMap[unitInput];
-  }    
+  }
+
+  //Converts the units of energyInput from unitInput to unitOutput
+  double ConvertEnergy(const string& unitInput, const string& unitOutput, const double energyInput)
+  {
+    return energyInput * energyMap[unitInput]/ energyMap[unitOutput];
+  }
 
   Precision txtToPrecision (const char *txt) {
 	string strPrcsn(txt) ;

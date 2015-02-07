@@ -61,6 +61,10 @@ namespace mesmer
 	  return false;
 	}
 
+  //Save reactant ZPEs before psudoisomer use. Restore in Finish().
+  m_SavedZPE1 = m_rct1->getDOS().get_zpe();
+  m_SavedZPE2 = m_rct2->getDOS().get_zpe();
+
 	//Read product details.
 	PersistPtr ppProductList = ppReac->XmlMoveTo("productList");
 	if(!ppProductList)
@@ -81,13 +85,14 @@ namespace mesmer
   // Reset zero point energy locations of the reactants such that
   // location of the pair is entirely on the pseudoisomer.
   double AssociationReaction::resetZPEofReactants() {
-	const double pseudoIsomerZPE = get_pseudoIsomer()->getDOS().get_zpe();
-	const double excessReactantZPE = get_excessReactant()->getDOS().get_zpe();
-	double sourceTermZPE = pseudoIsomerZPE + excessReactantZPE;
-	get_pseudoIsomer()->getDOS().set_zpe(sourceTermZPE);
-	get_excessReactant()->getDOS().set_zpe(0.0);
 
-	return sourceTermZPE ;
+    const double pseudoIsomerZPE = get_pseudoIsomer()->getDOS().get_zpe();
+    const double excessReactantZPE = get_excessReactant()->getDOS().get_zpe();
+    double sourceTermZPE = pseudoIsomerZPE + excessReactantZPE;
+    get_pseudoIsomer()->getDOS().set_zpe(sourceTermZPE);
+    get_excessReactant()->getDOS().set_zpe(0.0);
+
+    return sourceTermZPE;
   }
 
   void AssociationReaction::AddReactionTerms(qdMatrix      *CollOptr,

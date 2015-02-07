@@ -10,9 +10,11 @@
 //
 //-------------------------------------------------------------------------------------------
 
+#include <functional>
 #include "../System.h"
 #include "../calcmethod.h"
 #include "../gDensityOfStates.h"
+#include "../gStructure.h"
 
 namespace mesmer
 {
@@ -36,11 +38,14 @@ namespace mesmer
 
 	// Function to do the work
 	virtual bool DoCalculation(System* pSys);
+  
+  double SdivR(vector<double>::iterator i, double T)const;
 
   private:
 
 	// Read any data from XML and store in this instance. 
 	bool ReadParameters(PersistPtr ppControl) ;
+  virtual bool ParseData(PersistPtr pp); //preferred method
 
 	string underlineText(const string& text) const ;
 
@@ -50,10 +55,20 @@ namespace mesmer
 
 	const char* m_id;
 
-	int m_nTemp ;
-	double m_TempInterval ;
-	string m_Unit ;
+  string WriteNASAPoly(Molecule* pmol, vector<double> coeffs, double TLo, double TMid, double THi);
 
+  // TODO This would be better (with T, U random-access iterators) as
+  // U FitPoly(unsigned order, T xstart, T xend, U ystart);
+  // so that it is more like STL algorithms and can be used with arrays, vectors, etc.
+  vector<double> FitPoly(unsigned order, 
+                         vector<double>::const_iterator xstart,
+                         vector<double>::const_iterator xend,
+                         vector<double>::const_iterator ystart )const;
+
+	int m_nTemp ;
+	double m_TempInterval, m_Tmin, m_Tmax, m_Tmid;
+	string m_Unit ;
+  double m_unitFctr;
 	double m_H298, m_S298, M_G298 ;
 
   } ;
@@ -63,195 +78,314 @@ namespace mesmer
   ThermodynamicTable theThermodynamicTable("ThermodynamicTable");
   ///////////////////////////////////////////////
 
+  bool ThermodynamicTable::ParseData(PersistPtr pp)
+  {
+    ErrorContext("ThermodynamicTable");
+    //Read in parameters in child elements of CalcMethod or use defaults.xml
+    //called from ParseForPlugin in System::Parse()
+    m_Unit = pp->XmlReadValue("units");
+    m_Tmin = pp->XmlReadDouble("me:Tmin");
+    m_Tmax = pp->XmlReadDouble("me:Tmax");
+    m_TempInterval = pp->XmlReadDouble("me:Tstep");
+
+    // If Tmid is non-zero the NASA polynomial has two temperature ranges.
+    m_Tmid = pp->XmlReadDouble("me:Tmid");
+    m_unitFctr = 1.0 / kJPerMol_in_RC;
+    if (m_Unit == "kcal/mol")
+      m_unitFctr = 1.0 / kCalPerMol_in_RC;
+    return true;
+  }
+
   bool ThermodynamicTable::DoCalculation(System* pSys)
   {
+    MoleculeManager* pMoleculeManager = pSys->getMoleculeManager();
+    if (pSys->getReactionManager()->size() == 0)
+    {
+      //No reactions specified, so read in all the molecules here.
+      PersistPtr ppmol = pMoleculeManager->get_PersistPtr();
+      while (ppmol = ppmol->XmlMoveTo("molecule"))
+      {
+        // Get the name of the molecule.
+        const char* reftxt = ppmol->XmlReadValue("id");
+        if (reftxt) {
+          //Use molType="" to avoid deltaEdown being required.
+          pMoleculeManager->addmol(string(reftxt), string(""), pSys->getEnv(), pSys->m_Flags);
+        }
+      }
 
-	//Read in fitting parameters, or use values from defaults.xml.
-	PersistPtr ppControl = pSys->getPersistPtr()->XmlMoveTo("me:control");
+      MesmerEnv& Env = pSys->getEnv();
+      Env.GrainSize = 100;
+      Env.MaxGrn = 1000;
+      Env.MaxCell = Env.GrainSize * Env.MaxGrn;
 
-	ReadParameters(ppControl) ;
+      // Determine if DOS test information is to appear.
+      PersistPtr ppControl = pSys->getPersistPtr()->XmlMoveTo("me:control");
+      pSys->m_Flags.testDOSEnabled = ppControl->XmlReadBoolean("me:testDOS");
+      if (pSys->m_Flags.testDOSEnabled)
+        pSys->getEnv().beta = 1.0 / (boltzmann_RCpK*double(m_nTemp)*m_TempInterval);
+    }
 
-	double unitFctr(1.0/kJPerMol_in_RC) ;
-	if (m_Unit == "kcal/mol") 
-	  unitFctr = 1.0/kCalPerMol_in_RC ;
+    if (pMoleculeManager->size() == 0)
+    {
+      cerr << "No molecules have been specified." << endl;
+      return false;
+    }
 
-	MesmerEnv& Env = pSys->getEnv() ;
-	Env.GrainSize  = 100 ; 
-	Env.MaxGrn     = 1000 ;
-	Env.MaxCell    = Env.GrainSize * Env.MaxGrn ;
+    MesmerEnv& Env = pSys->getEnv();
+    Env.GrainSize = 100;
+    Env.MaxGrn = 1000;
+    Env.MaxCell = Env.GrainSize * Env.MaxGrn;
 
-	// Make provision for the special case of T = 298.15.
+    // Make provision for the special case of T = 298.15.
+    bool   tempLessThan298;
+    double temp289(298.15);
 
-	bool   tempLessThan298(true) ;
-	double temp289(298.15) ;
+    // Loop over all molecules producing a table for each molecule that
+    // has an energy specified.
+    // A NASA polynomial will also be produced if 6 or more temperatures
+    // have been requested, or both upper and lower polynomials if Tmid
+    // is specified and 12 temperatures.
 
-	// Determine if DOS test information is to appear.
+    int nTemps = static_cast<int>(std::ceil((m_Tmax - m_Tmin) / m_TempInterval));
+    bool bmakeNasaPoly = !m_Tmid && nTemps > 6 || m_Tmid && nTemps >= 12;
+    if (!bmakeNasaPoly)
+    cinfo << "Too few data points to fit NASA polynomials." << endl;
 
-	pSys->m_Flags.testDOSEnabled = ppControl->XmlReadBoolean("me:testDOS");
-	if (pSys->m_Flags.testDOSEnabled) {
-	  pSys->getEnv().beta = 1.0/(boltzmann_RCpK*double(m_nTemp)*m_TempInterval) ;
-	}
+    double R = boltzmann_C * AvogadroC;
+    if (m_Unit == "kcal/mol") R *= Calorie_in_Joule;
 
-	// Begin table.
+    MoleculeManager::constMolIter molItr = pMoleculeManager->begin();
+    MoleculeManager::constMolIter molItrEnd = pMoleculeManager->end();
+    for (; molItr != molItrEnd; molItr++)
+    {
+      vector<double> temperature, Hf /*absolute enthalpy / R*/;
+      Molecule *pmol = molItr->second;
+      // Restrict output for molecules without a specified energy.
+      double Hf298local = pmol->getDOS().get_Hf298Thermo();
+      if (IsNan(Hf298local))
+      {
+        cinfo << "Restricted thermo output for " << pmol->getName()
+              << " because it has no non-arbitrary energy data." << endl;
+      }
+      PersistPtr pp = pmol->get_PersistentPointer();
+      pp = pp->XmlWriteMainElement("me:thermoTable", "", true); //will replace an existing element
+      //pp = pp->XmlWriteElement("me:thermoTable");
+      pp->XmlWriteAttribute("unitsT", "K");
+      pp->XmlWriteAttribute("unitsH", m_Unit);
+      pp->XmlWriteAttribute("unitsS", m_Unit.substr(1, m_Unit.length()) + "/K");
+      pp->XmlWriteAttribute("unitsG", m_Unit);
+      if (!IsNan(Hf298local))
+        pp->XmlWriteAttribute("unitsHf", m_Unit);
 
-	ctest << endl ;
-	ctest << underlineText(string("Thermodynamic Tables")) ; 
+      double S298;//Always calculated. NOTE kJ/mol/K
 
-	// Parse molecule data. 
+      double enthalpy298, dummy;
+      pmol->getDOS().thermodynamicsFunctions(298.15, m_unitFctr,
+        enthalpy298, S298, dummy);
+      tempLessThan298 = true;
+      for (double temp = m_Tmin; temp <= m_Tmax; temp += m_TempInterval)
+      {
+        double T = temp;
+        if (tempLessThan298 && temp > temp289)
+        {
+          // Special case of T = 289.15
+          tempLessThan298 = false;
+          T = temp289;
+          temp -= m_TempInterval;
+        }
+        temperature.push_back(T);
 
-	MoleculeManager* pMoleculeManager = pSys->getMoleculeManager() ;
+        double enthalpy(0.0), entropy(0.0), gibbsFreeEnergy(0.0);
+        pmol->getDOS().thermodynamicsFunctions(T, m_unitFctr,
+          enthalpy, entropy, gibbsFreeEnergy);
+        PersistPtr ppVal = pp->XmlWriteElement("me:thermoValue");
+        ppVal->XmlWriteAttribute("T", T, 2, true);
+        ppVal->XmlWriteAttribute("H", enthalpy - enthalpy298, 4, true);
+        ppVal->XmlWriteAttribute("S", entropy*1000, 4, true);
+        ppVal->XmlWriteAttribute("G", gibbsFreeEnergy, 4, true);
+        if (!IsNan(Hf298local))
+        {
+          Hf.push_back((enthalpy - enthalpy298 + Hf298local) * 1000 / R); //e.g. J/mol
+          ppVal->XmlWriteAttribute("Hf", Hf.back()*R / 1000, 4, true); //back to kJ/mol
+        }
+      }
 
-	PersistPtr ppMolList = pMoleculeManager->get_PersistPtr();
-	if (!ppMolList) {
-	  cerr << "No molecules have been specified." << endl;
-	  return false;
-	}
+      if (bmakeNasaPoly && !IsNan(Hf298local))
+      {
+        //Fit NASA polynomial to enthalpy data
+        //H/R =a6 + T*a1 + T^2*a2/2 + a3*T^3/3 + a4*T^4/4 + a5*T^5/5
+        vector<double> fits1, fits2; //a1, a2/2, a3/3, etc
+        if (m_Tmid == 0) // single range (duplicated)
+        {
+          fits1 = FitPoly(6, temperature.begin(), temperature.end(), Hf.begin());
+          fits1[2] *= 2; fits1[3] *= 3; fits1[4] *= 4; fits1[5] *= 5;
+          fits2 = fits1;
+        }
+        else //two ranges
+        {
+          vector<double>::iterator itermid = find(temperature.begin(), temperature.end(), m_Tmid);
+          if (itermid == temperature.end())
+          {
+            cerr << "In NASA polynomial fits the middle temperature"
+              "must be one of the specified temperatures." << endl;
+            return false;
+          }
+          int nlowerrange = itermid - temperature.begin();
+          fits1 = FitPoly(6, itermid, temperature.end(), Hf.begin() + nlowerrange); //upper range
+          fits2 = FitPoly(6, temperature.begin(), itermid+1, Hf.begin()); //lower range
+          fits1[2] *= 2; fits1[3] *= 3; fits1[4] *= 4; fits1[5] *= 5;
+          fits2[2] *= 2; fits2[3] *= 3; fits2[4] *= 4; fits2[5] *= 5;
+        }
+        vector<double> coeffs(15);
+        copy(fits1.begin() + 1, fits1.end(), coeffs.begin());
+        copy(fits2.begin() + 1, fits2.end(), coeffs.begin() + 7);
 
-	PersistPtr ppmol = ppMolList ;
-	while(ppmol = ppmol->XmlMoveTo("molecule")) {
+        coeffs[5] = fits1[0];
+        coeffs[12] = fits2[0];
+        coeffs[14] = Hf298local/R;
 
-	  // Get the name of the molcule.
-	  const char* reftxt = ppmol->XmlReadValue("id");
-	  if (reftxt) {
-		//Try molType="" rather than "modelled". Avoid deltaEdown being required.
-		pMoleculeManager->addmol(string(reftxt), string(""), pSys->getEnv(), pSys->m_Flags);
-	  }
-	}
+        //Set a14 to match S at 298.15K
+        coeffs[13] = 0.0;
+        coeffs[13] = S298*1000/R - SdivR(coeffs.begin()+7, 298.15);
+ 
+        //Set a7 to match a) S at 298K for one range; b) S at Tmid for two range;
+        if(m_Tmid==0)
+          coeffs[6] = coeffs[13];
+        else
+        {
+          double Smid(0.0), dummy1(0.0), dummy2(0.0); //dummys must be diffferent variables!
+          pmol->getDOS().thermodynamicsFunctions(m_Tmid, m_unitFctr,
+            dummy1, Smid, dummy2);
+          coeffs[6] = 0.0;
+          coeffs[6] = Smid*1000/R - SdivR(coeffs.begin(), m_Tmid);
+        }
 
-	// Loop over all molecules producing a table for each molecule.
+        // Output to XML using a CML property for Nasa Polynomials
+        // previously used in OpenBabel.
+        PersistPtr pp = pmol->get_PersistentPointer();
+        PersistPtr ppProp = pp->XmlMoveTo("propertyList");
+        ppProp = (ppProp ? ppProp : pp)->XmlWriteMainElement("property","",true);
+        //ppProp = (ppProp ? ppProp : pp)->XmlWriteElement("property");
+        ppProp->XmlWriteAttribute("dictRef", "NasaPolynomial");
 
-	MoleculeManager::constMolIter molItr = pMoleculeManager->begin() ;
-	MoleculeManager::constMolIter molItrEnd = pMoleculeManager->end() ;
-	for (; molItr != molItrEnd ; molItr++) {
+        PersistPtr ppScalar = ppProp->XmlWriteValueElement("scalar", to_string(temperature[0]));
+        ppScalar->XmlWriteAttribute("dictRef", "NasaLowT");
 
-	  Molecule *pmol = molItr->second;
+        ppScalar = ppProp->XmlWriteValueElement("scalar", to_string(temperature.back()));
+        ppScalar->XmlWriteAttribute("dictRef", "NasaHighT");
 
-	  ctest << endl ;
-	  ctest << underlineText(pmol->getName()) ;
+        ppScalar = ppProp->XmlWriteValueElement("scalar", to_string(m_Tmid ? m_Tmid : temperature.back()));
+        ppScalar->XmlWriteAttribute("dictRef", "NasaMidT");
 
-	  // Get the values for thermodynamic functions at 298.
-	  pmol->getDOS().thermodynamicsFunctions(temp289, unitFctr, m_H298, m_S298, M_G298) ;
+        ppScalar = ppProp->XmlWriteValueElement("scalar", "G");
+        ppScalar->XmlWriteAttribute("dictRef", "Phase");
 
-	  string header = writeTableHeader(m_Unit) ;
-	  tempLessThan298 = true ;
-	  for (int i(1); i < m_nTemp ; i++) {
-		double temp(m_TempInterval*double(i)) ;
-		if (tempLessThan298 && temp > temp289) {
+        stringstream vals;
+        std::copy(coeffs.begin(), coeffs.end(), ostream_iterator<double>(vals, " "));
+        ppScalar = ppProp->XmlWriteValueElement("array", vals.str());
+        ppScalar->XmlWriteAttribute("dictRef", "NasaCoeffs");
+        ppScalar->XmlWriteAttribute("size", "15");
 
-		  // Special case of T = 289.15
+        string poly = WriteNASAPoly(pmol, coeffs, temperature[0],
+          m_Tmid ? m_Tmid : temperature.back(), temperature.back());
+        ppScalar = ppProp->XmlWriteValueElement(
+          "scalar", poly, true); //Output polynomial as CDATA
+        ppScalar->XmlWriteAttribute("dictRef", "NasaPolynomial");
+        ctest << poly << endl; // for QA test
+      }
+    }
 
-		  tempLessThan298 = false ;
-		  ctest << endl ;
-		  writeTableEntry(pmol, temp289, unitFctr, header) ;
-		  ctest << endl ;
-		}
-		writeTableEntry(pmol, temp, unitFctr, header) ;
-		if (!(i % 5)) 
-		  ctest << endl ;
-	  }
-	  if (tempLessThan298) {
+    ////TEST FitPoly
+    //vector<double> xdata = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    //vector<double> ydata = { 1, 6, 17, 34, 57, 86, 121, 162, 209, 262, 321 };
+    ////Solution is 3 x2 + 2 x + 1 //ok
 
-		// Special case of T = 289.15
+    //vector<double> xdata = { 1000, 1050, 1100, 1150, 1200, 1250, 1300, 1350, 1400, 2450, 1500 };
+    //vector<double> ydata = { 22.69882061, 24.44133150, 26.19332847, 27.95387862, 29.72215460,
+    //  31.49742271, 33.27903189, 35.06640374, 36.85902371, 38.65643325, 40.45822296 };
+    //vector<double> result = FitPoly(6, xdata.begin(), xdata.end(), ydata.begin());
+    //double t = xdata[10];
+    //double val(0);
+    //for (int i = result.size()-1; i >= 0; --i)
+    //  val = (val*t + result[i]); //ok
 
-		tempLessThan298 = false ;
-		ctest << endl ;
-		writeTableEntry(pmol, temp289, unitFctr, header) ;
-		ctest << endl ;
-	  }
-
-	}
-
-	return true ;
-
+     return true;
   }
 
-  string ThermodynamicTable::underlineText(const string& text) const {
-
-	ostringstream sstrdatum ;
-	sstrdatum << " " << text << endl ;
-	sstrdatum << " " ;
-	for (size_t i(0) ; i < text.size() ; i++ ) 
-	  sstrdatum << "-" ;
-	sstrdatum << endl ;
-
-	return sstrdatum.str() ;
-
+  //Return coefficients of x in a polynomial x^0 to x^order calculated
+  //using a least squares fit data points (xdata,ydata).
+  //Matrix elements from http://www.codecogs.com/library/maths/approximation/regression/discrete.php
+  vector<double> ThermodynamicTable::FitPoly(unsigned order,
+    vector<double>::const_iterator xstart,
+    vector<double>::const_iterator xend,
+    vector<double>::const_iterator ystart)const
+  {
+    TMatrix<double> matrix(order);
+    unsigned n = xend - xstart;
+    vector<double> rhs(order);
+    if (!(order!=0 && n!=0)) //size of ystart not checked
+      return rhs; //empty on error
+    double sum;
+    for (unsigned ir = 0; ir != order; ++ir) //each row
+    {
+      for (unsigned ic = 0; ic != order; ++ic) //each column
+      {
+        sum = 0.0;
+        for (unsigned j = 0; j != n; ++j)
+          sum += pow(*(xstart+j), ir+ic);
+        matrix[ir][ic] = sum;
+      }
+      sum=0.0;
+      for (unsigned j = 0; j != n; ++j)
+        sum += pow(*(xstart+j), ir) * *(ystart+j);
+      rhs[ir] = sum;
+    }
+    matrix.solveLinearEquationSet(&rhs[0]);
+    return rhs;
   }
 
-  string ThermodynamicTable::writeTableHeader(const string& unit) const {
-
-	ostringstream sstrdatum ;
-
-	sstrdatum.setf(ios::right, ios::adjustfield) ;
-
-	sstrdatum << " " ;
-	sstrdatum << setw(10) << "Temp" ;
-	sstrdatum << setw(15) << "H(T)" ;
-	sstrdatum << setw(15) << "S(T)" ;
-	sstrdatum << setw(15) << "G(T)" ;
-	sstrdatum << endl ;
-
-	ostringstream sstrunit ;
-	sstrunit << "(" << unit << ")" ;
-	ostringstream sstrunitk ;
-	sstrunitk << "(" << unit.substr(1,unit.length()) << "/K)" ;
-
-	ostringstream sstrdatum2 ;
-	sstrdatum2 << setw(10) << "(K)" ;
-	sstrdatum2 << setw(15) << sstrunit.str()  ;
-	sstrdatum2 << setw(15) << sstrunitk.str() ;
-	sstrdatum2 << setw(15) << sstrunit.str()  ;
-
-	sstrdatum << underlineText(sstrdatum2.str()) ;
-
-	return sstrdatum.str() ;
+  double ThermodynamicTable::SdivR(vector<double>::iterator i, double T) const
+  {
+    //S/R  = a1 lnT + a2 T + a3 T^2 /2 + a4 T^3 /3 + a5 T^4 /4 + a7
+    //return *i*log(T) + *(i+1)*T + *(i+2)*T*T / 2 + *(i+3)*T*T*T / 3 + *(i+4)*T*T*T*T / 4 + *(i+6);
+    return *i*log(T) +T*(*(i+1) + T*(*(i+2)/2 + T*(*(i+3)/3 + T*(*(i+4)/4)))) + *(i+6);
   }
 
-  void ThermodynamicTable::writeTableEntry(Molecule *pmol, double temp, double unitFctr, string& header) const {
+  string ThermodynamicTable::WriteNASAPoly(Molecule* pmol, vector<double> coeffs,
+                                           double TLo, double TMid, double THi)
+  {
+    stringstream ss;
+    unsigned int i;
+#ifdef _MSC_VER
+    unsigned oldf = _set_output_format(_TWO_DIGIT_EXPONENT);
+#endif
+    ss << '\n';
+    ss << left << setw(24) << pmol->getName().substr(0, 24);
+    map<string, int> Comp = pmol->getStruc().GetElementalComposition();
+    int npad = 4 - Comp.size();
+    for (auto c : Comp)
+      ss << left << setw(2) << c.first << right << setw(3) << to_string(c.second);
+    for (; npad; --npad)
+      ss << "     ";
+    ss << right << 'G' << fixed << setprecision(3) << setw(10) << TLo;
+    ss << setw(10) << THi << setw(9) << TMid << "    01" << '\n';
 
-	double enthalpy(0.0), entropy(0.0), gibbsFreeEnergy(0.0) ;
-	pmol->getDOS().thermodynamicsFunctions(temp, unitFctr, enthalpy, entropy, gibbsFreeEnergy) ;
+    ss << scientific << setprecision(7);
+    for (i = 0; i<5; ++i)
+      ss << setw(15) << coeffs[i];
+    ss << "    2\n";
+    for (i = 5; i<10; ++i)
+      ss << setw(15) << coeffs[i];
+    ss << "    3\n";
+    for (i = 10; i<15; ++i)
+      ss << setw(15) << coeffs[i];
+    ss << "    4" << endl;
 
-	if (header.length() > 0) {
-	  ctest << endl ;
-	  ctest << header ;
-	  header.clear() ;
-	}
-	ctest << formatFloat(temp, 6, 11) << formatFloat(enthalpy - m_H298, 6, 15) 
-	  << formatFloat(entropy*1000.0, 6, 15) << formatFloat(gibbsFreeEnergy, 6, 15) << endl ;
+#ifdef _MSC_VER
+    _set_output_format(oldf);
+#endif
+
+    return ss.str();
   }
-
-  bool ThermodynamicTable::ReadParameters(PersistPtr ppControl) {
-
-	PersistPtr ppProp = ppControl->XmlMoveTo("me:calcMethod") ;
-
-	const char* utxt= ppProp->XmlReadValue("me:units", false);
-	if (utxt) {
-	  string unit(utxt) ;
-	  for (size_t i(0) ; i < unit.size(); i++)
-		unit[i] = tolower(unit[i]) ;
-
-	  if (unit == "kcal/mol"){ 
-		m_Unit = unit ;
-	  } else if (unit == "kj/mol") {
-		m_Unit = "kJ/mol" ;
-	  } else {
-		cwarn << "Un-supported unit, the default units of kJ/mol will be used for thermodynamics tables." << endl;
-	  } 
-
-	} else {
-	  cinfo << "The default units of kJ/mol will be used for thermodynamics tables." << endl;
-	}
-
-	int nTemp = ppProp->XmlReadInteger("me:NumberOfTemp", false) ;
-	if (nTemp > 0) m_nTemp = nTemp ;
-
-	double TempInterval = ppProp->XmlReadDouble("me:TempInterval", false) ;
-	if (TempInterval > 0.0) m_TempInterval = TempInterval ;
-
-	return true ;
-
-  }
-
 }//namespace
 

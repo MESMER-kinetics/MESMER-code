@@ -86,6 +86,8 @@ namespace mesmer
 
     double CalcMW();
 
+    std::map<std::string, int> GetElementalComposition() const;
+
     std::pair<std::string,std::string> GetAtomsOfBond(const std::string& bondID) {
       return Bonds[bondID];
     }
@@ -111,12 +113,15 @@ namespace mesmer
     // case "ApplyWeight" should be false.
 	void internalRotationVector(string bondID, vector<double>& mode, bool ApplyMWeight = true) ;
 
-    // Read librarymols.xml to obtain the ab initio energy and enthalpy at zero K
-    // for an isolated atom of each atom type in the molecule.
-    // Return the sums of (E - Hf0) over the molecule in kJ/mol.
-    // First parameter is true when atom-based thermochemistry is used, see DOI: 10.1002/chem.200903252
-    // If useHf298 is true, calculates sum over (E - Hf298 + H0-H298)
-    double CalcSumEMinusHf0(bool UsingAtomBasedThermo, bool useHf298);
+    // Read librarymols.xml to obtain:
+    //  the ab initio energy of the molecule, 
+    //  the sums over the constituent atoms of:
+    //  their enthalpy of formation at 0K and at 298K, 
+    //  their enthalpy difference between 0K and 298K and
+    //  their integrated Heat capacity between 0K and 298K.
+    // All in kJ/mol. Return false on error.
+    bool GetConstituentAtomThermo
+      (double& ZPE, double& Hf0, double& Hf298, double& dH298, double& dStdH298);
 
     //Calculate moment of inertia matrix
     vector<double> CalcRotConsts(); 

@@ -58,6 +58,7 @@ namespace mesmer
 
     // Destructor.
     virtual ~Reaction();
+    virtual void Finish(){} // Mostly does nothing except AssociationReaction restores m_ZPEs of reactants
 
     // Initialize reaction.
     virtual bool InitializeReaction(PersistPtr ppReac) = 0 ;

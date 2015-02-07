@@ -49,7 +49,10 @@
       <xs:element name="deltaEDownTExponent" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
-            "Attributes bathGas and ref are alternatives.
+            "Adds a temperature dependence: multiplies deltaEDown
+            by (T / refTemp)^deltaEDownTExponent. The parameter defaults to 0,
+            and refTemp defaults to 298K.
+            Attributes bathGas and ref are alternatives.
             Omit both if the bathGas is the one specified in the
             &lt;me:conditions> section"
           </xs:documentation>
@@ -60,6 +63,27 @@
               <xs:attribute name="bathGas" use="optional" />
               <xs:attribute name="ref" use="optional" />
               <xs:attribute name="referenceTemperature" type="xs:decimal" use="optional" />
+              <xs:attributeGroup ref="rangeAttributes"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="deltaEDownActivationParam" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            "Adds a temperature dependence: multiplies deltaEDown
+            by exp(-deltaEDownActivationParam/T). The parameter defaults to 0.
+            Attributes bathGas and ref are alternatives.
+            Omit both if the bathGas is the one specified in the
+            &lt;me:conditions> section"
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:float">
+              <xs:attribute name="units" use="optional" />
+              <xs:attribute name="bathGas" use="optional" />
+              <xs:attribute name="ref" use="optional" />
               <xs:attributeGroup ref="rangeAttributes"/>
             </xs:extension>
           </xs:simpleContent>
@@ -384,6 +408,7 @@
           <xs:element name="chebDoForAllBathGases" minOccurs="0"/>
           <xs:element name="fittingIterations" type="xs:integer" minOccurs="0"/>
           <xs:element name="fittingTolerance" type="xs:float" minOccurs="0"/>
+          <xs:element name="representation" type="xs:string" minOccurs="0"/>
         </xs:all>
       </xs:extension>
     </xs:complexContent>
@@ -418,14 +443,26 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  
-  <xs:complexType name="ThermodynamicTable">
+
+  <xs:complexType name="ThermoParamType">
+    <xs:simpleContent>
+    <xs:extension base="xs:float">
+      <xs:attribute name="default" type="me:ynboolean" use="optional"/>
+    </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+    <xs:complexType name="ThermodynamicTable">
     <xs:complexContent>
       <xs:extension base="calcMethodct">
         <xs:all>
           <xs:element name="units" type="me:energyUnitsType" minOccurs="0"/>
-          <xs:element name="NumberOfTemp" type="xs:positiveInteger" minOccurs="0"/>
-          <xs:element name="TempInterval" type="xs:float" minOccurs="0"/>
+          <!--<xs:element name="NumberOfTemp" type="xs:positiveInteger" minOccurs="0"/>
+          <xs:element name="TempInterval" type="xs:float" minOccurs="0"/>-->
+          <xs:element name="Tmin" type="ThermoParamType" minOccurs="0"/>
+          <xs:element name="Tmax" type="ThermoParamType" minOccurs="0"/>
+          <xs:element name="Tstep" type="ThermoParamType" minOccurs="0"/>
+          <xs:element name="Tmid" type="ThermoParamType" minOccurs="0"/>
         </xs:all>
       </xs:extension>
     </xs:complexContent>

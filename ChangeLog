@@ -1,3 +1,44 @@
+2015-February-07 Chris Morley
+
+    * src/plugins/ThermodynamicTable.cpp: now can output molecular thermo data
+    after a normal calculation. Table now written to XML, not .test, file and
+    includes enthalpy of formation when available.
+    Generate NASA polynomials (from Hf) and the Cantera form of these; output to XML.
+    Parse wider range of parameters and a no option default.
+    
+    * src/gDensityOfStates.cpp,src/gDensityOfStates.h: make mixed thermodynamic
+    and computational energy inputs possible. Provide automatic conversion by
+    new method. (Hopefully the reference states now correct, but needs checking.)
+    Rationalize energy conventions but try not unnecessarybother the user with them.
+
+    * src/gStructure.cpp,src/gStructure.h: rationalize by replacing CalcSumEMinusHf0()
+    by GetElementalComposition() and GetConstituentAtomThermo(). Now uses enthalpies
+    of formation of constituent atoms.
+
+    * src/MolecularComponents.h,src/Molecule.cpp: static variable and method to
+    store energyconvention.
+
+    * src/MoleculeManager.h,src/MoleculeManager.cpp,src/System.cpp: read in
+    convention attribute on <moleculeList>. Remove unnecessary check on each
+    molecule's convention.
+
+    * src/AssociationReaction.h,src/AssociationReaction.cpp,src/Reaction.h,
+    src/ReactionManager.h: work around AssociationReaction changing the values
+    of theZPEs of its reactants. Needs a virtual ReactionManager::finish()
+    function.
+
+    * src/unitsConversion.h, src/unitsConversion.cpp: add a general
+    ConvertEnergy() function.
+
+    * MesmerQA/ThermodynamicTable/ThermodynamicTable.xml,
+    MesmerQA/ThermodynamicTable/baselines/Win32/mesmer.test,
+    examples/OH_NO_to HONO/OH_NO_HONO_3Blks.xml: examples for NASA polys etc.
+    The mesmer.test file for ThermodynamicTable.xml has been changed to 
+    some NASA polynomials - the end of the calculation chain. 
+
+    * defaults.xml,librarymols.xml,mesmer1.xsl,mesmerDiag.xsl,
+    schemas/mesmer.xsd,schemas/mesmerPlugins.xsd,schemas/CMLforMesmer.xsd:
+    support for above.
 
 2015-February-04 Struan Robertson
 

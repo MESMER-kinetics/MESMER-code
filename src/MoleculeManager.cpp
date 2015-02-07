@@ -46,6 +46,15 @@ namespace mesmer
         cerr << "Failed to initialize some molecular properties";
         return NULL;
       }
+
+      // If the energy convention has not been set,
+      // use attribute on <molecularList> to do so.
+      if (MolecularComponent::getEnergyConvention().empty())
+      {
+        const char* conv = m_ppPersist->XmlReadValue("convention");
+        if(conv)
+          MolecularComponent::setEnergyConvention(conv);
+      }
       return it->second;
     }
 
@@ -105,28 +114,5 @@ namespace mesmer
 
     return it->second ;
   }
-
-  //Return the Energy convention if all  molecules with _gDOS components have the same,
-  //and an empty string otherwise
-  string MoleculeManager::checkEnergyConventions()
-  {
-    constMolIter iter;
-    string firstConvention;
-    for(iter=m_molmap.begin();iter!=m_molmap.end();++iter)
-    {
-      if((iter->second)->hasDOSProperties())//only "modelled" molecules
-      {
-        string thisConvention = iter->second->getDOS().getEnergyConvention();
-        if(firstConvention.empty())
-          firstConvention = thisConvention;
-        if(firstConvention!=thisConvention){
-          cerr << "cannot find an energy convention for molecule " << iter->second->getName() << endl;
-          return string();
-        }
-      }
-    }
-    return firstConvention;
-  }
-
 
 }//namespace

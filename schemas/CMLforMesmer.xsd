@@ -3294,7 +3294,9 @@ Relaxed in MESMER to allow also<h:tt>)(</h:tt> because chemical formula are comm
         <h:div class="example" href="unit2.xml"/>
       </xsd:documentation>
     </xsd:annotation>
-    <xsd:restriction base="namespaceRefType"/>
+    <!--For MESMER the value does not have to have a namespace
+    <xsd:restriction base="namespaceRefType"/>-->
+    <xsd:restriction base="xsd:string"/>
   </xsd:simpleType>
   <xsd:simpleType name="vector3Type" id="st.vector3Type">
     <xsd:annotation>

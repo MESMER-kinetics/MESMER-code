@@ -37,6 +37,15 @@ namespace mesmer
     setMass(MW);
   }
 
+  map<string, int> gStructure::GetElementalComposition() const
+  {
+    map<string, int> Composition;
+    if (!Atoms.empty())
+     for (map<string, atom>::const_iterator it = Atoms.begin(); it != Atoms.end(); ++it)
+        ++Composition[it->second.element];
+    return Composition;
+  }
+
   // Provide a function to define particular counts of the convolved DOS of two molecules.
   bool countDimerCellDOS
     (gDensityOfStates& pDOS1, gDensityOfStates& pDOS2, std::vector<double>& rctsCellDOS){
@@ -77,7 +86,14 @@ namespace mesmer
       }
       at.element = el;
       const char* pId = ppAtom->XmlReadValue("id", optional);
-      at.id = (pId) ? pId : at.element;
+      if (pId)
+        at.id = pId;
+      else
+      {
+        //Atom has no id so give it one.
+        at.id = "a" + to_string(Atoms.size()+1);
+        ppAtom->XmlWriteAttribute("id", at.id);
+      }
       double x3, y3, z3;
       x3 = ppAtom->XmlReadDouble("x3", optional);
       y3 = ppAtom->XmlReadDouble("y3", optional);
@@ -626,50 +642,39 @@ namespace mesmer
     return RotConsts;
   }
 
-  double gStructure::CalcSumEMinusHf0(bool UsingAtomBasedThermo, bool useHf298)
+  bool gStructure::GetConstituentAtomThermo
+    (double& ZPE, double&Hf0, double& Hf298, double& dH298, double& dStdH298)
   {
-    //calculate for each atom (ab initio E - Hf0) and return sum
-    if (!ReadStructure())
+    map<string, int> Comp = GetElementalComposition();
+    if (Comp.empty())
     {
-      cerr << "To use me::Hf0 or Hf298 the molecule needs chemical structure (an atomList at least)" << endl;
+      cerr << "To mixed thermodynamic and computational energies"
+              "the molecule needs chemical structure (an atomList at least)" << endl;
       return false;
     }
-    double sum = 0.0;
-    map<string, double> atomdiffs; //el symbol, diff
-    map<string, atom>::iterator iter;
-    for (iter = Atoms.begin(); iter != Atoms.end(); ++iter)
-    {
-      string el = iter->second.element;
-      if (atomdiffs.find(el) == atomdiffs.end())
+    ZPE = Hf298 = dH298 = dStdH298 = 0.0;
+    // for (auto c : Comp)   C++11!
+    for (map<string, int>::iterator it = Comp.begin(); it != Comp.end(); ++it)
+    { 
+
+      //get values from librarymols.xml
+      PersistPtr ppMol = GetFromLibrary(it->first, PersistPtr());
+      if (ppMol)
       {
-        //get vals from librarymols.xml
-        PersistPtr ppMol = GetFromLibrary(el, PersistPtr());
-        double diff(0.0);
-        if (ppMol)
-        {
-          diff = ppMol->XmlReadPropertyDouble("me:ZPE", optional);
-          if (useHf298)
-          {
-            diff -= ppMol->XmlReadPropertyDouble("me:Hf298", optional);
-            diff += ppMol->XmlReadPropertyDouble("me:H0-H298", optional);
-          }
-          else if (!UsingAtomBasedThermo)
-            diff -= ppMol->XmlReadPropertyDouble("me:Hf0", optional);
-        }
-        if (!ppMol || IsNan(diff))
-        {
-          cerr << "The value of Hf0 for " << getHost()->getName()
-            << " will be incorrect because one or more of its elements"
-            << " was not in the library, or lacked me:ZPE and me:Hf0 or me:Hf298 properties" << endl;
-          return 0.0;
-        }
-        atomdiffs[el] = diff; //save diff for this el in atomdiffs
-        sum += diff;
+        //All must be in kJ/mol - not checked
+        ZPE      += it->second * ppMol->XmlReadPropertyDouble("me:ZPE", optional);
+        Hf0    += it->second * ppMol->XmlReadPropertyDouble("me:Hf0", optional);
+        Hf298    += it->second * ppMol->XmlReadPropertyDouble("me:Hf298", optional);
+        dH298    += it->second * ppMol->XmlReadPropertyDouble("me:H0-H298", optional);
+        dStdH298 += it->second * ppMol->XmlReadPropertyDouble("me:stdH0-H298", optional);
       }
-      else // diff for this el already known
-        sum += atomdiffs[el];
+      else
+      {
+        cerr << "librarymols.xml does not have an entry for the atom " << it->first << endl;
+        return false;
+      }
     }
-    return sum;
+    return !(IsNan(ZPE) || IsNan(Hf298) || IsNan(dH298));
   }
 
   // Returns an ordered array of masses.

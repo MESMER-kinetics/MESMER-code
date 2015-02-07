@@ -40,6 +40,7 @@ namespace mesmer
     PersistPtr ppLibMolList   = ppLib->XmlMoveTo("moleculeList");
     if(!ppLibMolList)
       ppLibMolList = ppLib; //Can do without <moleculeList>
+
     PersistPtr ppMol = ppLibMolList->XmlMoveTo("molecule");
     string tmolName(molName);
     const char* libId = NULL;
@@ -230,16 +231,16 @@ bool System::parse(PersistPtr ppIOPtr)
       if(!m_pReactionManager->addreactions(ppReacList, m_Env, m_Flags))
         return false;
 
-      //Check that the energy baseline is the same for all the modelled molecules
-      string energyConvention = m_pMoleculeManager->checkEnergyConventions();
-      if(energyConvention.empty())
-      {
-        cerr << "The zero point energy convention is not the same for all species.\n";
-        return false;
-      }
-      else
-        cinfo << "All molecules are on the same energy basis: " << energyConvention << endl;
-      cinfo.flush();
+      ////Check that the energy baseline is the same for all the modelled molecules
+      //string energyConvention = m_pMoleculeManager->checkEnergyConventions();
+      //if(energyConvention.empty())
+      //{
+      //  cerr << "All modelled species should use the same energy convention." << endl;
+      //  return false;
+      //}
+      //else
+      //  cinfo << "All molecules are on the same energy basis: " << energyConvention << endl;
+      //cinfo.flush();
 
       if(!m_pConditionsManager->ParseConditions())
         return false;
@@ -309,13 +310,14 @@ bool System::parse(PersistPtr ppIOPtr)
         ss >> m_Flags.showCollisionOperator;
       }
 
-      if(strcmp(ppControl->XmlReadValue("me:eigenvalues"), "all")==0)
+      const char* txt = ppControl->XmlReadValue("me:eigenvalues", optional);
+      if(txt && strcmp(txt, "all")==0)
         m_Flags.printEigenValuesNum = -1;
       else
-        //now uses defaults.xml
-        m_Flags.printEigenValuesNum = ppControl->XmlReadInteger("me:eigenvalues");
+        //no longer uses defaults.xml
+        m_Flags.printEigenValuesNum = ppControl->XmlReadInteger("me:eigenvalues",optional);
 
-      // Should eienvectors be printed?
+      // Should eigenvectors be printed?
       if (m_Flags.printEigenValuesNum!=0) {
         m_Flags.printEigenVectors = ppControl->XmlReadBoolean("me:printEigenVectors");
       }
@@ -357,29 +359,32 @@ bool System::parse(PersistPtr ppIOPtr)
   //
   // Main calculation method.
   //
-  void System::executeCalculation()
+void System::executeCalculation()
+{
+  unsigned nConditionBlocks = m_ConditionsForEachControl.size()
+    - count(m_ConditionsForEachControl.begin(), m_ConditionsForEachControl.end(), (ConditionsManager*)NULL);
+  for (unsigned i = 0; i<m_CalcMethodsForEachControl.size(); ++i)
   {
-    unsigned nConditionBlocks = m_ConditionsForEachControl.size()
-      - count(m_ConditionsForEachControl.begin(),m_ConditionsForEachControl.end(), (ConditionsManager*)NULL);
-    for(unsigned i=0; i<m_CalcMethodsForEachControl.size();++i)
+    m_CalcMethod = m_CalcMethodsForEachControl[i];
+    assert(m_CalcMethod);
+    m_Flags = m_FlagsForEachControl[i];
+    cinfo << "Execute calcMethod " << m_CalcMethod->getID();
+
+    if (nConditionBlocks>1)
     {
-      m_CalcMethod = m_CalcMethodsForEachControl[i];
-      assert(m_CalcMethod);
-      m_Flags = m_FlagsForEachControl[i];
-      cinfo << "Execute calcMethod " << m_CalcMethod->getID();
+      if (m_ConditionsForEachControl[i]) //update if non-NULL
+        m_pConditionsManager = m_ConditionsForEachControl[i];
 
-      if(nConditionBlocks>1)
-      {
-        if(m_ConditionsForEachControl[i]) //update if non-NULL
-          m_pConditionsManager = m_ConditionsForEachControl[i];
-
-        const char a[4][7] = {"first","second","third","fourth"};
-        cinfo << " using " << a[min(i, nConditionBlocks)] << " conditions block ";
-      }
-      cinfo << endl;  
-      m_CalcMethod->DoCalculation(this);
+      const char a[4][7] = { "first", "second", "third", "fourth" };
+      cinfo << " using " << a[min(i, nConditionBlocks)] << " conditions block ";
     }
+    cinfo << endl;
+    m_CalcMethod->DoCalculation(this);
+
+    //Calls Finish() for each Reaction. Usually does nothing except in AssociationReaction
+    m_pReactionManager->finish();
   }
+}
 
   //
   // Begin calculation.
