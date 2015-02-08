@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Jan 25 2015 -- 12:15:36
+     Mesmer v4.0 compiled: -- Feb  8 2015 -- 13:39:25
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -43,91 +43,61 @@ In R1: No crossing method used for R1
 All molecules are on the same energy basis: arbitary
 3e+017PPCC, 720K at d precision with He
 3e+016PPCC, 880K at d precision with He
-Write metadata 20150204_223809
+Write metadata 20150208_223425
 
 File: "ipropyl_SA.xml" successfully parsed.
 Main Calculation begins
 Execute calcMethod SensitivityAnalysis
 Number of grains produced is not equal to that requested
-Number of grains requested: 200
+Number of grains requested: 229
 Number of grains produced : 1
-In FastLaplaceConvolution: 120 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 300 values in the FFT convolution routine were replaced by standard convolution
 Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
+In i-propyl: Delta E down is smaller than grain size: the solution may not converge.
 
 Sensitivity Analysis: Temperature =      720, Concentration = 3e+017
 
-Mean = 41.5
-Mean = 35.7523
+Mean = 177.071
 
-Alpha = -8.98501
-Alpha = -93.5218
-Alpha = -182.819
-Alpha = -5.39101
-Alpha = -93.5218
-Alpha = -186.036
-Alpha = -5.39101
-Alpha = -93.5218
-Alpha = -186.036
-Alpha = -7.29017
-Alpha = -80.7272
-Alpha = -158.534
-Alpha = -4.44863
-Alpha = -80.5004
-Alpha = -160.263
-Alpha = -4.69598
-Alpha = -80.6713
-Alpha = -160.27
+Alpha = -9.95514
+Alpha = -408.915
+Alpha = -811.186
+Alpha = 51.0205
+Alpha = -416.359
+Alpha = -951.275
+Alpha = -10.8034
+Alpha = -396.499
+Alpha = -780.325
 
- Sensitivity Indicies:           42250          43385          43385
- Sensitivity Indicies:           31703          32184          32216
+ i-propyl => propene+H:          143.89         188.44         133.59
 
-Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
-Unimolecular ILT calculation completed
+ i-propyl => propene+H:          22.756         983.08         5102.7
+         56.166         1217.9         7232.9
+         24.418         842.88         4335.6
+
+
 
 Sensitivity Analysis: Temperature =      880, Concentration = 3e+016
 
-Mean = 535
-Mean = 503.758
+Mean = 1593.68
 
-Alpha = -115.831
-Alpha = -1205.64
-Alpha = -2356.82
-Alpha = -69.4985
-Alpha = -1205.64
-Alpha = -2398.29
-Alpha = -69.4985
-Alpha = -1205.64
-Alpha = -2398.29
-Alpha = -97.7735
-Alpha = -1140.16
-Alpha = -2246.5
-Alpha = -59.8887
-Alpha = -1135.18
-Alpha = -2261.66
-Alpha = -64.256
-Alpha = -1138.4
-Alpha = -2263.56
+Alpha = 135.363
+Alpha = -3633.74
+Alpha = -7493.24
+Alpha = 919.902
+Alpha = -3674.99
+Alpha = -9297.46
+Alpha = -140.739
+Alpha = -3424.8
+Alpha = -6571.53
 
- Sensitivity Indicies:           42250          43385          43385
- Sensitivity Indicies:           31703          32184          32216
+ i-propyl => propene+H:          48.848         70.975         38.682
 
- -- Total time elapsed: 3 seconds.
+ i-propyl => propene+H:          10.969         308.15           1709
+         34.757         416.48         2853.8
+         8.7676         219.56         1169.4
+
+
+ -- Total time elapsed: 1218 seconds.
 
 System saved to mesmer_out.xml

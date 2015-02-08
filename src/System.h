@@ -65,6 +65,16 @@ namespace mesmer
     bool calculate(double &Temperature, double &Concentration, Precision precision,
                    map<string, double> &phenRates, double &MaxT, const std::string& bathGas);
 
+	// Wrapper for single calculation.
+    bool calculate(size_t nCond, map<string, double> &phenRates) {
+      double temp = m_pConditionsManager->PTPointTemp(nCond) ; 
+      double conc = m_pConditionsManager->PTPointConc(nCond);
+	  Precision precision = m_pConditionsManager->PTPointPrecision(nCond) ;
+      string bathGas = m_pConditionsManager->PTPointBathGas(nCond);
+	  double MaxT(2.0*temp) ;
+      return calculate(temp, conc, precision, phenRates, MaxT, bathGas);
+	} ;
+
 	// Print system configuration
     void configuration(void);
 

@@ -1,3 +1,8 @@
+2015-February-04 Struan Robertson
+
+	* SensitivityAnalysis.cpp, examples/ipropyk - SA: Implementation added
+	to calculate second order sensitivity indices.	
+	
 2015-February-07 Chris Morley
 
     * src/plugins/ThermodynamicTable.cpp: now can output molecular thermo data
@@ -43,7 +48,7 @@
 2015-February-04 Struan Robertson
 
 	* SensitivityAnalysis.cpp, examples/ipropyk - SA: Implementation added
-	toward the calculation of sensitivity indicies.	
+	toward the calculation of sensitivity indices.	
 	
 2015-February-04 Chris Morley
 
