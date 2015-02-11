@@ -91,7 +91,9 @@ namespace mesmer
       else
       {
         //Atom has no id so give it one.
-        at.id = "a" + to_string(Atoms.size()+1);
+        stringstream ss;
+        ss << "a" << (Atoms.size()+1) ;
+        at.id = ss.str();
         ppAtom->XmlWriteAttribute("id", at.id);
       }
       double x3, y3, z3;

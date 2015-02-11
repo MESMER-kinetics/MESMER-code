@@ -1,6 +1,7 @@
 #include <cmath>
 #include <iomanip>
 #include <numeric>
+#include <string>
 #include "Molecule.h"
 #include "System.h"
 #include "ParseForPlugin.h"
@@ -402,8 +403,9 @@ namespace mesmer
       // XML file, mainly so it can be displayed in the Firefox energy level diagram
       // and to allow energy to be range variables. (<me:Hf0 and <me:Hf298> cannot
       // have range attributes.)
-      PersistPtr ppScalar = ppPropList->XmlWriteProperty("me:ZPE",
-        to_string(ConvertFromWavenumbers(unitsInput, m_ZPE)), unitsInput);
+	  stringstream ss;
+      ss << ConvertFromWavenumbers(unitsInput, m_ZPE) ;
+      PersistPtr ppScalar = ppPropList->XmlWriteProperty("me:ZPE", ss.str(), unitsInput);
       ppScalar->XmlWriteAttribute("source", elName);
       //assert(m_energyConvention != "arbitrary");
       //ppScalar->XmlWriteAttribute("convention", m_energyConvention);

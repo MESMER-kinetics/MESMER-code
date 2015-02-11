@@ -268,13 +268,13 @@ namespace mesmer
         //ppProp = (ppProp ? ppProp : pp)->XmlWriteElement("property");
         ppProp->XmlWriteAttribute("dictRef", "NasaPolynomial");
 
-        PersistPtr ppScalar = ppProp->XmlWriteValueElement("scalar", to_string(temperature[0]));
+        PersistPtr ppScalar = ppProp->XmlWriteValueElement("scalar", temperature[0], 0, true);
         ppScalar->XmlWriteAttribute("dictRef", "NasaLowT");
 
-        ppScalar = ppProp->XmlWriteValueElement("scalar", to_string(temperature.back()));
+        ppScalar = ppProp->XmlWriteValueElement("scalar", temperature.back(), 0, true);
         ppScalar->XmlWriteAttribute("dictRef", "NasaHighT");
 
-        ppScalar = ppProp->XmlWriteValueElement("scalar", to_string(m_Tmid ? m_Tmid : temperature.back()));
+        ppScalar = ppProp->XmlWriteValueElement("scalar", m_Tmid ? m_Tmid : temperature.back(), 0, true);
         ppScalar->XmlWriteAttribute("dictRef", "NasaMidT");
 
         ppScalar = ppProp->XmlWriteValueElement("scalar", "G");
@@ -332,12 +332,12 @@ namespace mesmer
       {
         sum = 0.0;
         for (unsigned j = 0; j != n; ++j)
-          sum += pow(*(xstart+j), ir+ic);
+          sum += pow(*(xstart+j), int(ir+ic));
         matrix[ir][ic] = sum;
       }
       sum=0.0;
       for (unsigned j = 0; j != n; ++j)
-        sum += pow(*(xstart+j), ir) * *(ystart+j);
+        sum += pow(*(xstart+j), int(ir)) * *(ystart+j);
       rhs[ir] = sum;
     }
     matrix.solveLinearEquationSet(&rhs[0]);
@@ -363,8 +363,8 @@ namespace mesmer
     ss << left << setw(24) << pmol->getName().substr(0, 24);
     map<string, int> Comp = pmol->getStruc().GetElementalComposition();
     int npad = 4 - Comp.size();
-    for (auto c : Comp)
-      ss << left << setw(2) << c.first << right << setw(3) << to_string(c.second);
+    for (auto c(Comp.begin()) ; c != Comp.end() ; c++)
+      ss << left << setw(2) << c->first << right << setw(3) << c->second ;
     for (; npad; --npad)
       ss << "     ";
     ss << right << 'G' << fixed << setprecision(3) << setw(10) << TLo;
