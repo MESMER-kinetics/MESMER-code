@@ -7,6 +7,22 @@
 	
 2015-February-15 Chris Morley
 
+    * src/plugins/ThermodynamicTable.cpp: do more in parse phase. Better info
+    on why when NASA Polynomials are not produced.
+
+    * src/gDensityOfStates.cpp,src/gDensityOfStates.h,
+    src/MoleculeManager.cpp,src/MoleculeManager.h:rationalize energy
+    convention by using Hf0 as intermediate. Emphasise a convention attribute
+    on <moleculeList> as preferred way to specify.
+
+    * src/System.cpp: set MoleculeManger's PersistPtr earier and handle the
+    case when no moleculeList.
+
+    *examples/Butyl_H_to_Butane/Butyl_H_to_Butane.xml,
+    examples/i-propyl - SA/ipropyl_SA.xml,examples/i-propyl/ipropyl_LM.xml
+    examples/Methoxymethyl/Chebyshev.xml,examples/OH_NO_to HONO/OH_NO_HONO_3Blks.xml
+    MesmerQA/i-propyl/ipropyl_reservoir.xml: format and other minor changes
+
 2015-February-08 Struan Robertson
 
 	* SensitivityAnalysis.cpp, examples/ipropyl - SA: Implementation added
