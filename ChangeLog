@@ -1,8 +1,15 @@
+
+2015-February-15 Struan Robertson
+
+	* SensitivityAnalysis.cpp, examples/ipropyl - SA: Improved output text.
+	
+	* ThermodynamicTable.cpp: Fixed build breaks.	
+	
 2015-February-15 Chris Morley
 
-2015-February-04 Struan Robertson
+2015-February-08 Struan Robertson
 
-	* SensitivityAnalysis.cpp, examples/ipropyk - SA: Implementation added
+	* SensitivityAnalysis.cpp, examples/ipropyl - SA: Implementation added
 	to calculate second order sensitivity indices.	
 	
 2015-February-07 Chris Morley
@@ -52,7 +59,7 @@
 
 2015-February-04 Struan Robertson
 
-	* SensitivityAnalysis.cpp, examples/ipropyk - SA: Implementation added
+	* SensitivityAnalysis.cpp, examples/ipropyl - SA: Implementation added
 	toward the calculation of sensitivity indices.	
 	
 2015-February-04 Chris Morley

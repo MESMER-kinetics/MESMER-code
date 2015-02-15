@@ -273,13 +273,19 @@ namespace mesmer
         ppProp = (ppProp ? ppProp : pp)->XmlWriteElement("property");
         ppProp->XmlWriteAttribute("dictRef", "NasaPolynomial");
 
-        PersistPtr ppScalar = ppProp->XmlWriteValueElement("scalar", to_string(temperature[0]));
+		stringstream ss ;
+		ss << temperature[0] ;
+        PersistPtr ppScalar = ppProp->XmlWriteValueElement("scalar", ss.str());
         ppScalar->XmlWriteAttribute("dictRef", "NasaLowT");
 
-        ppScalar = ppProp->XmlWriteValueElement("scalar", to_string(temperature.back()));
+		ss.clear() ;
+		ss << temperature.back() ;
+        ppScalar = ppProp->XmlWriteValueElement("scalar", ss.str());
         ppScalar->XmlWriteAttribute("dictRef", "NasaHighT");
 
-        ppScalar = ppProp->XmlWriteValueElement("scalar", to_string(m_Tmid ? m_Tmid : temperature.back()));
+		ss.clear() ;
+		ss << m_Tmid ? m_Tmid : temperature.back() ;
+        ppScalar = ppProp->XmlWriteValueElement("scalar", ss.str());
         ppScalar->XmlWriteAttribute("dictRef", "NasaMidT");
 
         ppScalar = ppProp->XmlWriteValueElement("scalar", "G");
@@ -337,12 +343,12 @@ namespace mesmer
       {
         sum = 0.0;
         for (unsigned j = 0; j != n; ++j)
-          sum += pow(*(xstart+j), ir+ic);
+          sum += pow(*(xstart+j), int(ir+ic));
         matrix[ir][ic] = sum;
       }
       sum=0.0;
       for (unsigned j = 0; j != n; ++j)
-        sum += pow(*(xstart+j), ir) * *(ystart+j);
+        sum += pow(*(xstart+j), int(ir)) * *(ystart+j);
       rhs[ir] = sum;
     }
     matrix.solveLinearEquationSet(&rhs[0]);
@@ -368,8 +374,9 @@ namespace mesmer
     ss << left << setw(24) << pmol->getName().substr(0, 24);
     map<string, int> Comp = pmol->getStruc().GetElementalComposition();
     int npad = 4 - Comp.size();
-    for (auto c : Comp)
-      ss << left << setw(2) << c.first << right << setw(3) << to_string(c.second);
+	map<string, int>::const_iterator itr = Comp.begin() ;
+    for (;  itr != Comp.begin() ; itr++ )
+      ss << left << setw(2) << itr->first << right << setw(3) << itr->second ;
     for (; npad; --npad)
       ss << "     ";
     ss << right << 'G' << fixed << setprecision(3) << setw(10) << TLo;

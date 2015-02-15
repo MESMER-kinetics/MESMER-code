@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Feb  8 2015 -- 13:39:25
+     Mesmer v4.0 compiled: -- Feb 15 2015 -- 18:55:35
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -40,10 +40,9 @@ In propene: Hindered rotor b1
 In propene: propene:ZPE was given a range with 401 steps 
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
-All molecules are on the same energy basis: arbitary
 3e+017PPCC, 720K at d precision with He
 3e+016PPCC, 880K at d precision with He
-Write metadata 20150208_223425
+Write metadata 20150215_191201
 
 File: "ipropyl_SA.xml" successfully parsed.
 Main Calculation begins
@@ -55,49 +54,46 @@ In FastLaplaceConvolution: 300 values in the FFT convolution routine were replac
 Unimolecular ILT calculation completed
 In i-propyl: Delta E down is smaller than grain size: the solution may not converge.
 
-Sensitivity Analysis: Temperature =      720, Concentration = 3e+017
+Sensitivity Analysis: Temperature =   720, Concentration = 3e+017
 
-Mean = 177.071
+Input variable key:
 
-Alpha = -9.95514
-Alpha = -408.915
-Alpha = -811.186
-Alpha = 51.0205
-Alpha = -416.359
-Alpha = -951.275
-Alpha = -10.8034
-Alpha = -396.499
-Alpha = -780.325
+  i-propyl:deltaEDown           : (1)
+  i-propyl:deltaEDownTExponent  : (2)
+  propene:ZPE                   : (3)
 
- i-propyl => propene+H:          143.89         188.44         133.59
+ First order indices for i-propyl => propene+H: 
+                (1)            (2)            (3)
+         0.00041133        0.95948       0.014218
 
- i-propyl => propene+H:          22.756         983.08         5102.7
-         56.166         1217.9         7232.9
-         24.418         842.88         4335.6
+ Second order indices for i-propyl => propene+H: 
+                (1)            (2)            (3)
+(1)          17.216        0.22104        0.10025
+(2)         0.22104         19.759        0.10313
+(3)         0.10025        0.10313         17.428
 
 
 
-Sensitivity Analysis: Temperature =      880, Concentration = 3e+016
+Sensitivity Analysis: Temperature = 880  , Concentration = 3e+016
 
-Mean = 1593.68
+Input variable key:
 
-Alpha = 135.363
-Alpha = -3633.74
-Alpha = -7493.24
-Alpha = 919.902
-Alpha = -3674.99
-Alpha = -9297.46
-Alpha = -140.739
-Alpha = -3424.8
-Alpha = -6571.53
+  i-propyl:deltaEDown           : (1)
+  i-propyl:deltaEDownTExponent  : (2)
+  propene:ZPE                   : (3)
 
- i-propyl => propene+H:          48.848         70.975         38.682
+ First order indices for i-propyl => propene+H: 
+                (1)            (2)            (3)
+          0.0012897        0.94496      0.0090084
 
- i-propyl => propene+H:          10.969         308.15           1709
-         34.757         416.48         2853.8
-         8.7676         219.56         1169.4
+ Second order indices for i-propyl => propene+H: 
+                (1)            (2)            (3)
+(1)          4.9025       0.047239        0.10806
+(2)        0.047239         9.1886       0.054593
+(3)         0.10806       0.054593         5.8501
 
 
- -- Total time elapsed: 1218 seconds.
+Energy convention "arbitrary" written to <moleculeList>
+ -- Total time elapsed: 30 seconds.
 
 System saved to mesmer_out.xml
