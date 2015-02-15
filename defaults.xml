@@ -67,6 +67,7 @@
   <me:ConstraintAddand default="true">0.0</me:ConstraintAddand>
   <me:SensitivityAnalysisIterations default="true">10</me:SensitivityAnalysisIterations>
   <me:SensitivityAnalysisDelta default="true">2</me:SensitivityAnalysisDelta>
+  <me:SensitivityAnalysisOrder default="true">3</me:SensitivityAnalysisOrder>
   <me:chebMinConc units="particles per cubic centimeter" default="true"/>
   <me:calcMethod units="kJ/mol" default="true"/>
   <me:Tmin default="true">200</me:Tmin>

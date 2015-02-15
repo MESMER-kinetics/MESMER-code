@@ -51,7 +51,7 @@ namespace mesmer
       // use attribute on <molecularList> to do so.
       if (MolecularComponent::getEnergyConvention().empty())
       {
-        const char* conv = m_ppPersist->XmlReadValue("convention");
+        const char* conv = m_ppPersist->XmlReadValue("convention", false);
         if(conv)
           MolecularComponent::setEnergyConvention(conv);
       }
@@ -114,5 +114,16 @@ namespace mesmer
 
     return it->second ;
   }
+
+  void MoleculeManager::WriteEnergyConvention()
+  {
+    if (m_ppPersist)
+    {
+      string conv = gDensityOfStates::getEnergyConvention();
+      m_ppPersist->XmlWriteAttribute("convention", conv);
+      cinfo << "Energy convention \"" << conv << "\" written to <moleculeList>" << endl;
+    }
+  }
+
 
 }//namespace

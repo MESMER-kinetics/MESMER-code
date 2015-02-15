@@ -1,3 +1,5 @@
+2015-February-15 Chris Morley
+
 2015-February-04 Struan Robertson
 
 	* SensitivityAnalysis.cpp, examples/ipropyk - SA: Implementation added
@@ -34,6 +36,9 @@
 
     * src/unitsConversion.h, src/unitsConversion.cpp: add a general
     ConvertEnergy() function.
+
+    * src/plugins/AnalyticalRepresentation.cpp: output result to both XML and
+    log file.
 
     * MesmerQA/ThermodynamicTable/ThermodynamicTable.xml,
     MesmerQA/ThermodynamicTable/baselines/Win32/mesmer.test,

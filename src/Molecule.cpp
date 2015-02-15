@@ -128,7 +128,8 @@ namespace mesmer
       getTS();
 
     if (molType == "modelled" || molType == "deficientReactant" //|| molType == "sink"   CM g_dos to be added later if needed for reverse ILT
-      || molType == "transitionState" || molType == "excessReactant" || molType == "PriorCoFragment"  )
+      || molType == "transitionState" || molType == "excessReactant"
+      || molType == "PriorCoFragment" || molType == "forThermo" )
       getDOS();
 
     if (molType == "modelled" || molType == "deficientReactant" || molType == "sink")

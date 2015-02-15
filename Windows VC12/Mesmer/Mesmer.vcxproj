@@ -263,8 +263,12 @@
     <None Include="..\..\MesmerQA\cyclopropene isomerization reservoir state\Cyclopropene_isomerization_reservoir_state_test.xml" />
     <None Include="..\..\MesmerQA\cyclopropene isomerization\Cyclopropene_isomerization_test.xml" />
     <None Include="..\..\MesmerQA\HSO2\HSO2.xml" />
-    <None Include="..\..\MesmerQA\HSO2\HSO2_test.xml" />
-    <None Include="..\..\MesmerQA\i-propyl\ipropyl_reservoir.xml" />
+    <None Include="..\..\MesmerQA\HSO2\HSO2_test.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\..\MesmerQA\i-propyl\ipropyl_reservoir.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\MesmerQA\i-propyl\ipropyl_test.xml">
       <SubType>Designer</SubType>
     </None>

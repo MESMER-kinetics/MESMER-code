@@ -433,10 +433,11 @@
   </me:modelParameters>
 
   <me:control>
-    <me:calcMethod>marquardt</me:calcMethod>
-    <me:MarquardtIterations>10</me:MarquardtIterations>
-    <me:MarquardtTolerance>0.01</me:MarquardtTolerance>
-    <me:MarquardtDerivDelta>1.e-03</me:MarquardtDerivDelta>
+    <me:calcMethod xsi:type="me:marquardt">
+      <me:MarquardtIterations>10</me:MarquardtIterations>
+      <me:MarquardtTolerance>0.01</me:MarquardtTolerance>
+      <me:MarquardtDerivDelta>1.e-03</me:MarquardtDerivDelta>
+    </me:calcMethod>
     <me:testDOS />
     <me:eigenvalues>1</me:eigenvalues>
   </me:control>

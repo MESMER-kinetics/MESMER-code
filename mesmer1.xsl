@@ -138,7 +138,8 @@
         </xsl:if>
       </div>
       
-      <xsl:variable name ="Econventions" select="//cml:property/cml:scalar/@convention"/>
+      <xsl:variable name ="Econventions" select="//cml:property/cml:scalar/@convention
+      | //cml:moleculeList/@convention"/>
       <xsl:if test="$Econventions[1] != $Econventions">
         <div class="error">Not all the Energy Conventions on molecules are the same:
         <xsl:for-each select="$Econventions">
@@ -159,6 +160,9 @@
       </xsl:variable>
       <h3 id="mols-title" class="handcursor">Molecules</h3>
       <div id="mols" class="switchgroup3">
+        <xsl:if test="$Econventions[1]">
+          <xsl:value-of select="concat('Energy convention is ', $Econventions[1])"/>
+        </xsl:if>
         <table class="mol">
           <tr class="tableheader">
             <td>Name</td>

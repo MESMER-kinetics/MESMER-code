@@ -146,14 +146,14 @@ namespace mesmer
 
     bool ReadDOSMethods();
 
-    bool ReadZeroPointEnergy(PersistPtr &ppPropList) ;
+    bool ReadZeroPointEnergy(PersistPtr ppPropList) ;
 
     double ConvertEnergyConvention(
       const std::string& fromConvention, const std::string& toConvention, double fromValue);
 
     //Read <me:ZPE>, <me:Hf0>, <me:Hf298> or <me:HfAT0> from XML as specified by elName.
     //Returns true if found. Converts energy convention if the XML and nativeConvention are different .
-    bool ReadEnergy(PersistPtr ppPropList, std::string elName, std::string nativeConvention);
+    bool ReadEnergy(std::string elName, std::string nativeConvention);
 
     // This function checks if any of the DPoint values is different then a DOS recalculation will take place
     bool needReCalculateDOS(void){ return !m_ZPE.isUnchanged() ; }

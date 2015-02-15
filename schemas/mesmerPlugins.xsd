@@ -439,6 +439,8 @@
         <xs:all>
           <xs:element name="SensitivityAnalysisIterations" type="xs:integer" minOccurs="0"/>
           <xs:element name="SensitivityAnalysisDelta" type="xs:float" minOccurs="0"/>
+          <xs:element name="SensitivityGenerateData" type="ynboolean" minOccurs="0"/>
+          <xs:element name="SensitivityAnalysisOrder" type="xs:integer" minOccurs="0"/>
         </xs:all>
       </xs:extension>
     </xs:complexContent>

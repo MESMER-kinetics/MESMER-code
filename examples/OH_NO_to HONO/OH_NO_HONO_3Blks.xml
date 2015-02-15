@@ -5,11 +5,12 @@
   <me:title>OH_NO_HONO</me:title>
   <me:description>Fits some molecular properties to match experimental rates
     for the association of OH and NO. Also illustrated:
-    OH and NO are taken from librarymols.xml; HONO has a different energy convention;
+    OH and NO are taken from librarymols.xml; the energy of HONO is supplied
+    with a different energy convention and will be converted;
     an additional control block outputs the fitted rate constant in
     Chebyshev form suitable for Cantera;
-    an additional control block (with default parameters) outputs the thermochemistry
-    of the species as NASA polynomials and in a Cantera form.
+    a third control block (with default parameters) outputs a thermochemical table
+    for all the species as well as NASA polynomials and their Cantera form.
   </me:description>
   <moleculeList>
     <molecule id="HONO" description="nitrous acid">
@@ -28,7 +29,7 @@
         <!--<property title="Hf298">
           <scalar>-78.94</scalar>
         </property>-->
-        <property title="Hf0"><!--Energy convention will be converted-->
+        <property title="Hf0"><!--will be converted-->
           <scalar>-72.8</scalar>
         </property>
         <property dictRef="me:rotConsts">
@@ -107,7 +108,6 @@
         <me:periodicity>1</me:periodicity>
       </me:ExtraDOSCMethod>
     </molecule>
-
     <molecule id="He">
       <atom elementType="He"/>
       <propertyList>

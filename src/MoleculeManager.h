@@ -48,10 +48,8 @@ public:
 
   constMolIter end() const { return m_molmap.end() ; } ;
 
-  //Return the Energy convention if all  molecules with _gDOS components have the same,
-  //and an empty string otherwise
-  std::string checkEnergyConventions();
-  
+  void WriteEnergyConvention(); //to convention attribute on <moleculeList>
+
   /*Give the molecular name returns pointer*/
   bool GetThisMolecule(std::string& id, Molecule*& pmol)
   {

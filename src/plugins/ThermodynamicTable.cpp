@@ -22,55 +22,54 @@ namespace mesmer
   {
   public:
 
-	ThermodynamicTable(const char* id) : m_id(id),
-	  m_nTemp(20),
-	  m_TempInterval(50.0),
-	  m_Unit("kJ/mol"),
-	  m_H298(0.0),
-	  m_S298(0.0),
-	  M_G298(0.0)
-	{ Register(); }
+    ThermodynamicTable(const char* id) : m_id(id),
+      m_nTemp(20),
+      m_TempInterval(50.0),
+      m_Unit("kJ/mol"),
+      m_makeNasaPoly(true)
+    {
+      Register();
+    }
 
-	virtual ~ThermodynamicTable() {}
-	virtual const char* getID()  { return m_id; }
+    virtual ~ThermodynamicTable() {}
+    virtual const char* getID()  { return m_id; }
 
-	virtual bool DoesOwnParsing() { return true; }
+    virtual bool DoesOwnParsing() { return true; }
 
-	// Function to do the work
-	virtual bool DoCalculation(System* pSys);
-  
-  double SdivR(vector<double>::iterator i, double T)const;
+    // Function to do the work
+    virtual bool DoCalculation(System* pSys);
+
+    double SdivR(vector<double>::iterator i, double T)const;
 
   private:
 
-	// Read any data from XML and store in this instance. 
-	bool ReadParameters(PersistPtr ppControl) ;
-  virtual bool ParseData(PersistPtr pp); //preferred method
+    // Read any data from XML and store in this instance. 
+    bool ReadParameters(PersistPtr ppControl);
+    virtual bool ParseData(PersistPtr pp); //preferred method
 
-	string underlineText(const string& text) const ;
+    string underlineText(const string& text) const;
 
-	string writeTableHeader(const string& unit) const ;
+    string writeTableHeader(const string& unit) const;
 
-	void writeTableEntry(Molecule *pmol, double temp, double unitFctr, string & header) const ;
+    void writeTableEntry(Molecule *pmol, double temp, double unitFctr, string & header) const;
 
-	const char* m_id;
+    const char* m_id;
 
-  string WriteNASAPoly(Molecule* pmol, vector<double> coeffs, double TLo, double TMid, double THi);
+    string WriteNASAPoly(Molecule* pmol, vector<double> coeffs, double TLo, double TMid, double THi);
 
-  // TODO This would be better (with T, U random-access iterators) as
-  // U FitPoly(unsigned order, T xstart, T xend, U ystart);
-  // so that it is more like STL algorithms and can be used with arrays, vectors, etc.
-  vector<double> FitPoly(unsigned order, 
-                         vector<double>::const_iterator xstart,
-                         vector<double>::const_iterator xend,
-                         vector<double>::const_iterator ystart )const;
+    // TODO This would be better (with T, U random-access iterators) as
+    // U FitPoly(unsigned order, T xstart, T xend, U ystart);
+    // so that it is more like STL algorithms and can be used with arrays, vectors, etc.
+    vector<double> FitPoly(unsigned order,
+      vector<double>::const_iterator xstart,
+      vector<double>::const_iterator xend,
+      vector<double>::const_iterator ystart)const;
 
-	int m_nTemp ;
-	double m_TempInterval, m_Tmin, m_Tmax, m_Tmid;
-	string m_Unit ;
-  double m_unitFctr;
-	double m_H298, m_S298, M_G298 ;
-
+    int m_nTemp;
+    double m_TempInterval, m_Tmin, m_Tmax, m_Tmid;
+    string m_Unit;
+    double m_unitFctr;
+    bool m_makeNasaPoly;
   } ;
 
   ////////////////////////////////////////////////
@@ -87,17 +86,13 @@ namespace mesmer
     m_Tmin = pp->XmlReadDouble("me:Tmin");
     m_Tmax = pp->XmlReadDouble("me:Tmax");
     m_TempInterval = pp->XmlReadDouble("me:Tstep");
-
     // If Tmid is non-zero the NASA polynomial has two temperature ranges.
     m_Tmid = pp->XmlReadDouble("me:Tmid");
     m_unitFctr = 1.0 / kJPerMol_in_RC;
     if (m_Unit == "kcal/mol")
       m_unitFctr = 1.0 / kCalPerMol_in_RC;
-    return true;
-  }
 
-  bool ThermodynamicTable::DoCalculation(System* pSys)
-  {
+    System* pSys = getParent();
     MoleculeManager* pMoleculeManager = pSys->getMoleculeManager();
     if (pSys->getReactionManager()->size() == 0)
     {
@@ -108,8 +103,8 @@ namespace mesmer
         // Get the name of the molecule.
         const char* reftxt = ppmol->XmlReadValue("id");
         if (reftxt) {
-          //Use molType="" to avoid deltaEdown being required.
-          pMoleculeManager->addmol(string(reftxt), string(""), pSys->getEnv(), pSys->m_Flags);
+          //Use molType="forThermo" to activate DOS properties.
+          pMoleculeManager->addmol(string(reftxt), string("forThermo"), pSys->getEnv(), pSys->m_Flags);
         }
       }
 
@@ -124,18 +119,19 @@ namespace mesmer
       if (pSys->m_Flags.testDOSEnabled)
         pSys->getEnv().beta = 1.0 / (boltzmann_RCpK*double(m_nTemp)*m_TempInterval);
     }
+    if (MolecularComponent::getEnergyConvention() == "arbitrary")
+      m_makeNasaPoly = false;
 
-    if (pMoleculeManager->size() == 0)
+    if (pMoleculeManager->size() == 0 || MolecularComponent::getEnergyConvention().empty())
     {
-      cerr << "No molecules have been specified." << endl;
+      cerr << "No suitable molecules have been specified." << endl;
       return false;
     }
+    return true;
+  }
 
-    MesmerEnv& Env = pSys->getEnv();
-    Env.GrainSize = 100;
-    Env.MaxGrn = 1000;
-    Env.MaxCell = Env.GrainSize * Env.MaxGrn;
-
+  bool ThermodynamicTable::DoCalculation(System* pSys)
+  {
     // Make provision for the special case of T = 298.15.
     bool   tempLessThan298;
     double temp289(298.15);
@@ -147,25 +143,31 @@ namespace mesmer
     // is specified and 12 temperatures.
 
     int nTemps = static_cast<int>(std::ceil((m_Tmax - m_Tmin) / m_TempInterval));
-    bool bmakeNasaPoly = !m_Tmid && nTemps > 6 || m_Tmid && nTemps >= 12;
-    if (!bmakeNasaPoly)
-    cinfo << "Too few data points to fit NASA polynomials." << endl;
-
+    bool enoughPoints =  !m_Tmid && nTemps > 6 || m_Tmid && nTemps >= 12;
+    if (!enoughPoints)
+    {
+      cinfo << "Too few data points to fit NASA polynomials." << endl;
+      m_makeNasaPoly = false;
+    }
     double R = boltzmann_C * AvogadroC;
     if (m_Unit == "kcal/mol") R *= Calorie_in_Joule;
 
+    MoleculeManager* pMoleculeManager = pSys->getMoleculeManager();
     MoleculeManager::constMolIter molItr = pMoleculeManager->begin();
     MoleculeManager::constMolIter molItrEnd = pMoleculeManager->end();
     for (; molItr != molItrEnd; molItr++)
     {
-      vector<double> temperature, Hf /*absolute enthalpy / R*/;
+      vector<double> temperature, Hf /* enthalpy of formation / R */;
       Molecule *pmol = molItr->second;
+
       // Restrict output for molecules without a specified energy.
-      double Hf298local = pmol->getDOS().get_Hf298Thermo();
-      if (IsNan(Hf298local))
+      double Hf298local = NaN;
+      if (m_makeNasaPoly)
       {
-        cinfo << "Restricted thermo output for " << pmol->getName()
-              << " because it has no non-arbitrary energy data." << endl;
+        Hf298local = pmol->getDOS().get_Hf298Thermo();
+        if (IsNan(Hf298local))
+          cinfo << "Restricted thermo output for " << pmol->getName()
+          << " because it has no non-arbitrary energy data." << endl;
       }
       PersistPtr pp = pmol->get_PersistentPointer();
       pp = pp->XmlWriteMainElement("me:thermoTable", "", true); //will replace an existing element
@@ -176,6 +178,9 @@ namespace mesmer
       pp->XmlWriteAttribute("unitsG", m_Unit);
       if (!IsNan(Hf298local))
         pp->XmlWriteAttribute("unitsHf", m_Unit);
+
+      double tempzpe = pp->XmlReadPropertyDouble("Hf0", optional);//DEBUG
+
 
       double S298;//Always calculated. NOTE kJ/mol/K
 
@@ -210,7 +215,7 @@ namespace mesmer
         }
       }
 
-      if (bmakeNasaPoly && !IsNan(Hf298local))
+      if (m_makeNasaPoly && !IsNan(Hf298local))
       {
         //Fit NASA polynomial to enthalpy data
         //H/R =a6 + T*a1 + T^2*a2/2 + a3*T^3/3 + a4*T^4/4 + a5*T^5/5
@@ -264,17 +269,17 @@ namespace mesmer
         // previously used in OpenBabel.
         PersistPtr pp = pmol->get_PersistentPointer();
         PersistPtr ppProp = pp->XmlMoveTo("propertyList");
-        ppProp = (ppProp ? ppProp : pp)->XmlWriteMainElement("property","",true);
-        //ppProp = (ppProp ? ppProp : pp)->XmlWriteElement("property");
+        //ppProp = (ppProp ? ppProp : pp)->XmlWriteMainElement("property","",true);
+        ppProp = (ppProp ? ppProp : pp)->XmlWriteElement("property");
         ppProp->XmlWriteAttribute("dictRef", "NasaPolynomial");
 
-        PersistPtr ppScalar = ppProp->XmlWriteValueElement("scalar", temperature[0], 0, true);
+        PersistPtr ppScalar = ppProp->XmlWriteValueElement("scalar", to_string(temperature[0]));
         ppScalar->XmlWriteAttribute("dictRef", "NasaLowT");
 
-        ppScalar = ppProp->XmlWriteValueElement("scalar", temperature.back(), 0, true);
+        ppScalar = ppProp->XmlWriteValueElement("scalar", to_string(temperature.back()));
         ppScalar->XmlWriteAttribute("dictRef", "NasaHighT");
 
-        ppScalar = ppProp->XmlWriteValueElement("scalar", m_Tmid ? m_Tmid : temperature.back(), 0, true);
+        ppScalar = ppProp->XmlWriteValueElement("scalar", to_string(m_Tmid ? m_Tmid : temperature.back()));
         ppScalar->XmlWriteAttribute("dictRef", "NasaMidT");
 
         ppScalar = ppProp->XmlWriteValueElement("scalar", "G");
@@ -332,12 +337,12 @@ namespace mesmer
       {
         sum = 0.0;
         for (unsigned j = 0; j != n; ++j)
-          sum += pow(*(xstart+j), int(ir+ic));
+          sum += pow(*(xstart+j), ir+ic);
         matrix[ir][ic] = sum;
       }
       sum=0.0;
       for (unsigned j = 0; j != n; ++j)
-        sum += pow(*(xstart+j), int(ir)) * *(ystart+j);
+        sum += pow(*(xstart+j), ir) * *(ystart+j);
       rhs[ir] = sum;
     }
     matrix.solveLinearEquationSet(&rhs[0]);
@@ -363,8 +368,8 @@ namespace mesmer
     ss << left << setw(24) << pmol->getName().substr(0, 24);
     map<string, int> Comp = pmol->getStruc().GetElementalComposition();
     int npad = 4 - Comp.size();
-    for (auto c(Comp.begin()) ; c != Comp.end() ; c++)
-      ss << left << setw(2) << c->first << right << setw(3) << c->second ;
+    for (auto c : Comp)
+      ss << left << setw(2) << c.first << right << setw(3) << to_string(c.second);
     for (; npad; --npad)
       ss << "     ";
     ss << right << 'G' << fixed << setprecision(3) << setw(10) << TLo;

@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <me:title>isopropyl decomposition</me:title>
@@ -462,10 +461,11 @@
         <me:energyAboveTheTopHill>10.</me:energyAboveTheTopHill>
     </me:modelParameters>
     <me:control>
-        <me:calcMethod>SensitivityAnalysis</me:calcMethod>
+      <me:calcMethod xsi:type="me:SensitivityAnalysis">
         <me:SensitivityAnalysisIterations>10</me:SensitivityAnalysisIterations>
         <me:SensitivityGenerateData>false</me:SensitivityGenerateData>
         <me:SensitivityAnalysisOrder>3</me:SensitivityAnalysisOrder>
+      </me:calcMethod>
         <me:testDOS />
         <me:eigenvalues>1</me:eigenvalues>
     </me:control>

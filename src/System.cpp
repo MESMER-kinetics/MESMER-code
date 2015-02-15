@@ -136,6 +136,10 @@ bool System::parse(PersistPtr ppIOPtr)
   if(!m_pDescription)
     m_pDescription = ppIOPtr->XmlReadValue("me:description", false);
 
+  //Molecule List
+  PersistPtr ppMolList = ppIOPtr->XmlMoveTo("moleculeList");
+  m_pMoleculeManager->set_PersistPtr(ppMolList ? ppMolList : ppIOPtr);
+
   // What are we going to do?
 
   PersistPtr ppControl = ppIOPtr;//first time at top, then gets next block
@@ -156,11 +160,7 @@ bool System::parse(PersistPtr ppIOPtr)
     // in conjunction with the first control block.
     if(m_CalcMethodsForEachControl.size()==1)
     {
-      //Molecule List (parse this part as required ...)
-      PersistPtr ppMolList = ppIOPtr->XmlMoveTo("moleculeList");
-      m_pMoleculeManager->set_PersistPtr(ppMolList);
-
-      if (m_CalcMethod->DoesOwnParsing()) {
+       if (m_CalcMethod->DoesOwnParsing()) {
         // Thermodynamic table, UnitTests,etc. do their own file parsing.
         m_FlagsForEachControl.push_back(m_Flags);
         return true ;
@@ -185,10 +185,10 @@ bool System::parse(PersistPtr ppIOPtr)
 
       m_Env.CellSize = ppParams->XmlReadDouble("me:cellSize", optional);
       if (IsNan(m_Env.CellSize)) {
-		m_Env.CellSize = 1.0 ; // Default cell size in cm-1.
+        m_Env.CellSize = 1.0 ; // Default cell size in cm-1.
       }
 
-	  m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
+      m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
       if(IsNan(m_Env.MaximumTemperature))
         m_Env.MaximumTemperature = 0.0;
       m_Env.EAboveHill         = ppParams->XmlReadDouble("me:energyAboveTheTopHill");
@@ -230,17 +230,6 @@ bool System::parse(PersistPtr ppIOPtr)
       }
       if(!m_pReactionManager->addreactions(ppReacList, m_Env, m_Flags))
         return false;
-
-      ////Check that the energy baseline is the same for all the modelled molecules
-      //string energyConvention = m_pMoleculeManager->checkEnergyConventions();
-      //if(energyConvention.empty())
-      //{
-      //  cerr << "All modelled species should use the same energy convention." << endl;
-      //  return false;
-      //}
-      //else
-      //  cinfo << "All molecules are on the same energy basis: " << energyConvention << endl;
-      //cinfo.flush();
 
       if(!m_pConditionsManager->ParseConditions())
         return false;
@@ -384,6 +373,8 @@ void System::executeCalculation()
     //Calls Finish() for each Reaction. Usually does nothing except in AssociationReaction
     m_pReactionManager->finish();
   }
+  //Write the energy convention as an attribute on <moleculeList>
+  m_pMoleculeManager->WriteEnergyConvention();
 }
 
   //

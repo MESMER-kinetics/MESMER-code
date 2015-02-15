@@ -224,7 +224,7 @@
   </me:modelParameters>
 
   <me:control>
-    <me:calcMethod>simpleCalc</me:calcMethod>
+    <me:calcMethod name="simpleCalc"/>
     <me:testDOS />
     <me:testMicroRates />
     <me:eigenvalues>5</me:eigenvalues>

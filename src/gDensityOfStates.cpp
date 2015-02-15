@@ -185,7 +185,7 @@ namespace mesmer
     return ReadZeroPointEnergy(ppPropList);
   }
 
-  bool gDensityOfStates::ReadZeroPointEnergy(PersistPtr &ppPropList)
+  bool gDensityOfStates::ReadZeroPointEnergy(PersistPtr ppPropList)
   {
     /* 
     The convention attribute on a <me:ZPE> element of a molecule describes
@@ -203,10 +203,11 @@ namespace mesmer
     [thermodynamicAT0K-energy zero is the energy of atomisation at 0K; not implemented]
 
     All molecules taking part in the reactions must have the same convention,
-    which is set by the first molecule in the data file that has an energy
+    which is set either by a convention attribute in <moleculeList> or 
+    by the first molecule in the data file that has an energy
     specified. (Bath gas molecules and sink molecules may not have a
-    specified energy.) It is stored (as a static variable in
-    gDensityOfStates::m_energyConvention.
+    specified energy.) It is stored (as a static variable) in
+    MolecularComponent::m_energyConvention.
     
     When reading a datafile the energy of a molecule is looked for 
     first in <me:ZPE>, and if not found, successively in <me:Hf0>
@@ -220,15 +221,13 @@ namespace mesmer
 
     When the energy for a molecule comes from <me:Hf0> or <me:Hf298>, the
     output XML file will have a new <me:ZPE> element with the energy in the set
-    convention (possibly converted) and an appropriate convention attribute.
-    together with and an attribute giving the original element.This means that
-    if this file is subsequently used as an input, all the energies are read
-    from the <me:ZPE> elements with no conversion being necessary.
-
-    TODO The energy convention can be set with a convention attribute on
-    <moleculeList>.
+    convention (possibly converted) and an attribute giving the original element.
+    This means that if this file is subsequently used as an input, all the
+    energies are read from the <me:ZPE> elements, with no conversion being necessary.
 
     All this sounds complicated but is straightforward to use.
+    
+    Adding a convention attribute on <moleculeList> is the safest way.
 
     If the energies of all the molecules are of the same type there is no
     need for any convention attributes. The commonest case is when they are
@@ -249,14 +248,12 @@ namespace mesmer
     */
 
     // Look successively for alternative molecular energy inputs
-    return ReadEnergy(ppPropList, "me:ZPE", "computational") ||
-      ReadEnergy(ppPropList, "me:Hf0", "thermodynamic0K") ||
-      ReadEnergy(ppPropList, "me:Hf298", "thermodynamic298K") ||
-      ReadEnergy(ppPropList, "me:HfAT0", "thermodynamicAT0K");
+    return ReadEnergy("me:ZPE", "computational") ||
+      ReadEnergy("me:Hf0", "thermodynamic0K") ||
+      ReadEnergy("me:Hf298", "thermodynamic298K") ||
+      ReadEnergy("me:HfAT0", "thermodynamicAT0K");
    }
 
-
-  
   double gDensityOfStates::ConvertEnergyConvention(
     const std::string& fromConvention, const std::string& toConvention, double fromValue)
   {
@@ -264,11 +261,8 @@ namespace mesmer
       return fromValue;
     if (fromConvention == toConvention)
       return fromValue;
-    if (fromConvention == "arbitrary")
-    {
-      cinfo << "The Energy Convention could not be conveted from \"arbitrary\"" << endl;
-      return NaN;
-    }
+
+    ErrorContext c(getHost()->getName());
     double H, S, G;
     thermodynamicsFunctions(298, 1.0 / kJPerMol_in_RC, H, S, G); //kJ/mol
     double atomZPE, atomHf0, atomHf298, atomdH298, stddH298;
@@ -287,56 +281,48 @@ namespace mesmer
          Hf(298K) + H298els - Hf(0K) - H298 = 0     
            compE  -  Hf(0K) +  Hfatoms(0K)  = 0   */
 
-    if (fromConvention == "thermodynamic298K" && toConvention == "thermodynamic0K")
-      return fromValue + stddH298 - H; //all in kJ/mol
+    //Use Hf0 as intermediate
+    double val = fromValue;
+    if (fromConvention == "thermodynamic298K")
+      val += stddH298 - H; //all in kJ/mol
+    else if (fromConvention == "computational")
+      val -= atomHf0;
+    else if (fromConvention != "thermodynamic0K")
+      val = NaN;
 
-    else if(fromConvention == "thermodynamic0K" && toConvention == "thermodynamic298K")
-      return fromValue + H - stddH298; //all in kJ/mol
+    if (toConvention == "thermodynamic298K")
+      val += H - stddH298; //all in kJ/mol
+    else if (toConvention == "computational")
+      val += atomHf0;
+    else if (toConvention != "thermodynamic0K")
+      val = NaN;
 
-    else if (fromConvention == "computational" && toConvention == "thermodynamic298K")
-    {
-      double Hf298, atomization = (atomZPE - fromValue);
-      Hf298 = H - atomization - atomdH298 + atomHf298;
-      return Hf298; //all in kJ/mol
-    }
-
-    else if (fromConvention == "thermodynamic298K" && toConvention == "computational")
-    {
-      double atomization = H - fromValue - atomdH298 + atomHf298; //kJ/mol
-      return atomZPE - atomization;
-    }
-
-    else if (fromConvention == "computational" && toConvention == "thermodynamic0K")
-    {
-      return fromValue - atomHf0;
-    }
-
-    else if (fromConvention == "thermodynamic0K" && toConvention == "computational")
-    {
-      return fromValue + atomHf0;
-    }
-
-    else
-    {
-      cerr << "In " << getHost()->getName() << " unsupported energy convention conversion: "
+    if (IsNan(val))
+      cerr << "energy cannot be converted from "
            << fromConvention << " to " << toConvention << endl;
-      return NaN;
-    }
+    else
+      cinfo <<"energy converted from "
+            << fromConvention << " to " << toConvention << endl;
+
+    return val;
+
   }
 
-  bool gDensityOfStates::ReadEnergy(PersistPtr ppPropList, std::string elName, std::string nativeConvention)
+  bool gDensityOfStates::ReadEnergy(std::string elName, std::string nativeConvention)
   {
     string unitsInput;
-
-    double tempzpe = ppPropList->XmlReadPropertyDouble(elName, optional);
+    PersistPtr ppMol = getHost()->get_PersistentPointer();
+    PersistPtr ppPropList = ppMol->XmlMoveTo("propertyList");
+    if (!ppPropList) //do without <propertyList>
+      ppPropList = ppMol;
+    double tempzpe = ppMol->XmlReadPropertyDouble(elName, optional);
     if (IsNan(tempzpe))
       return false; //element elName not found
 
     const char* txt = ppPropList->XmlReadPropertyAttribute(elName, "units", optional); //default kJ/mol
     unitsInput = txt ? txt : "kJ/mol";
 
-    
-    if (elName != "ZPE")
+    if (elName != "me:ZPE")
     {
       //If not set already, set the energy convention for all molecules
       if (m_energyConvention.empty())
@@ -348,7 +334,7 @@ namespace mesmer
       //If not set already, set the energy convention for all molecules
       if (m_energyConvention.empty())
         m_energyConvention = txt ? txt : "arbitrary";
-      else if (m_energyConvention != txt)
+      else if (txt && m_energyConvention != txt)
       {
         cerr << "The energy convention " << txt << " is not the same as "
           << m_energyConvention << " which was set previously.\n"
@@ -380,14 +366,14 @@ namespace mesmer
             zpCorrection *= 0.5;
           }
           //Write back a corrected value and change attribute to zeroPointVibEnergyAdded="true"
-          PersistPtr ppScalar = ppPropList->XmlMoveToProperty(elName);
+          PersistPtr ppScalar = ppMol->XmlMoveToProperty(elName);
           ppScalar->XmlWrite(toString(tempzpe + ConvertFromWavenumbers(unitsInput, zpCorrection)));
           ppScalar->XmlWriteAttribute(zpAttName, "true");
           cinfo << "Zero point correction made by adding " << zpCorrection << " cm-1" << endl;
         }
       }
       bool rangeSet;
-      PersistPtr ppProp = ppPropList->XmlMoveToProperty(elName);
+      PersistPtr ppProp = ppMol->XmlMoveToProperty(elName);
       ReadRdoubleRange(m_host->getName() + elName.substr(2), ppProp, m_ZPE, rangeSet,
         getConvertedEnergy(unitsInput, 1.0), zpCorrection);
     }
@@ -397,7 +383,7 @@ namespace mesmer
 
     m_ZPE = getConvertedEnergy(unitsInput, tempzpe);
 
-    if (elName != "ZPE")
+    if (elName != "me:ZPE")
     {
       // Write the value converted from Hf0 or Hf298 back to a me:ZPE element in the
       // XML file, mainly so it can be displayed in the Firefox energy level diagram
@@ -407,8 +393,6 @@ namespace mesmer
       ss << ConvertFromWavenumbers(unitsInput, m_ZPE) ;
       PersistPtr ppScalar = ppPropList->XmlWriteProperty("me:ZPE", ss.str(), unitsInput);
       ppScalar->XmlWriteAttribute("source", elName);
-      //assert(m_energyConvention != "arbitrary");
-      //ppScalar->XmlWriteAttribute("convention", m_energyConvention);
       cinfo << "New me:ZPE element written with data from " << elName << endl;
     }
     return true;
