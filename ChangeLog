@@ -1,4 +1,10 @@
 
+2015-February-16 Struan Robertson
+
+	* SensitivityAnalysis.cpp: Further changes to output format.
+	
+	* ThermodynamicTable.cpp, examples/Butyl_H_to_Butane: Fix for units and baseline update.	
+	
 2015-February-15 Struan Robertson
 
 	* SensitivityAnalysis.cpp, examples/ipropyl - SA: Improved output text.

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Sep  8 2014 -- 11:21:07
+     Mesmer v4.0 compiled: -- Feb 13 2015 -- 17:48:14
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -31,17 +31,28 @@ defaults.xml, librarymols.xml are in ../..
 Parsing input xml file...
 Butyl_H_to_Butane.xml
 
-Write metadata 20140908_114047
-
-File: "Butyl_H_to_Butane.xml" successfully parsed.
-Main Calculation begins
-Execute calcMethod ThermodynamicTable
-The default units of kJ/mol will be used for thermodynamics tables.
+The default value of me:Tmin was used.
+The default value of me:Tmax was used.
+The default value of me:Tstep was used.
+The default value of me:Tmid was used.
 In Butane: The default value of me:frequenciesScaleFactor was used.
 In Butane: Rotational constants were calculated from atom coordinates: 0.113192 0.120421 0.790797 cm-1
 In Butane: Hindered rotor b6
 In Butane: Hindered rotor b2
 In Butane: Hindered rotor b8
+In Butyl: The default value of me:frequenciesScaleFactor was used.
+In Butyl: Rotational constants were calculated from atom coordinates: 0.122254 0.129376 0.816406 cm-1
+In Butyl: The default value of me:DOSCMethod was used.
+In Butyl: Hindered rotor b6
+In H: The default value of me:frequenciesScaleFactor was used.
+In H: The default value of me:symmetryNumber was used.
+In H: The default value of the attribute spinMultiplicity was used.
+In H: The default value of me:DOSCMethod was used.
+Write metadata 20150216_210718
+
+File: "Butyl_H_to_Butane.xml" successfully parsed.
+Main Calculation begins
+Execute calcMethod ThermodynamicTable
 14
 Butane-orig_coords
          C        1.95884      -0.129992   1.49831e-006
@@ -666,17 +677,10 @@ Butane-orig_coords
          H        2.10131      -0.762706      -0.879091
          H       0.470231        1.15894      -0.873117
          H       0.470226        1.15899       0.873094
-In Butyl: The default value of me:frequenciesScaleFactor was used.
-In Butyl: Rotational constants were calculated from atom coordinates: 0.122254 0.129376 0.816406 cm-1
-In Butyl: The default value of me:DOSCMethod was used.
-In Butyl: Hindered rotor b6
-In H: The default value of me:frequenciesScaleFactor was used.
-In H: The default value of me:symmetryNumber was used.
-In H: The default value of the attribute spinMultiplicity was used.
-In H: The default value of me:DOSCMethod was used.
 Number of grains produced is not equal to that requested
 Number of grains requested: 1000
 Number of grains produced : 1
- -- Total time elapsed: 31 seconds.
+Energy convention "arbitrary" written to <moleculeList>
+ -- Total time elapsed: 63 seconds.
 
-System saved to out.xml
+System saved to mesmer_out.xml

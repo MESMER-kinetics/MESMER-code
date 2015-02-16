@@ -438,7 +438,7 @@ namespace mesmer
 
     // Instantiate a random vector generator.
     Sobol sobol ;
-    long long seed(0) ;
+    long long seed(17) ;
 
     // Loop over conditions. 
     size_t nConditions = Temperature.size() ;
@@ -611,8 +611,11 @@ namespace mesmer
         ss << "(" << j+1 << ")" ;
         cinfo << setw(4)  << left << ss.str() ;
         vector<double> &tmp = m_Dij[idx] ;
-        for (size_t k(0) ; k < m_nVar ; k++) {
+        for (size_t k(0) ; k < j ; k++) {
           cinfo << formatFloat(tmp[k], 5, 15) ;
+        }
+        for (size_t k(j) ; k < m_nVar ; k++) {
+          cinfo << setw(15) << right << "--" ;
         }
         cinfo << endl;
       }

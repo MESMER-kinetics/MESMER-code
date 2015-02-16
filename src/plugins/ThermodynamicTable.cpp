@@ -82,7 +82,8 @@ namespace mesmer
     ErrorContext("ThermodynamicTable");
     //Read in parameters in child elements of CalcMethod or use defaults.xml
     //called from ParseForPlugin in System::Parse()
-    m_Unit = pp->XmlReadValue("units");
+    const char *txt = pp->XmlReadValue("units", optional);
+	m_Unit = txt ? txt : "kJ/mol" ;
     m_Tmin = pp->XmlReadDouble("me:Tmin");
     m_Tmax = pp->XmlReadDouble("me:Tmax");
     m_TempInterval = pp->XmlReadDouble("me:Tstep");
