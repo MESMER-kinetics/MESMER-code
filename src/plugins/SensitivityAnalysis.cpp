@@ -240,7 +240,7 @@ namespace mesmer
     return f ; } ;
 
     // This method generates the column header for the output tables.
-    string SensitivityAnalysis::columnHeader() const ;
+    string columnHeader() const ;
 
     const char* m_id;
 
