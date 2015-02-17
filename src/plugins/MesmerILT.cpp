@@ -310,7 +310,6 @@ namespace mesmer
     }
     pReact->setCellFluxBottom(relative_ZPE + m_EInf);
 
-    cinfo << "Unimolecular ILT calculation completed" << endl;
     return true;
   }
 

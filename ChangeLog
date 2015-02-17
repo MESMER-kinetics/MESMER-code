@@ -1,6 +1,10 @@
 
 2015-February-17 Struan Robertson
 
+	* SensitivityAnalysis.cpp: Fix for old SA table generation method.
+	
+2015-February-17 Struan Robertson
+
 	* SensitivityAnalysis.cpp, examples/ipropyl - SA: Baseline update.
 	
 	* UnitTest.cpp: Fix for multiple output of hindered rotor state values.	
