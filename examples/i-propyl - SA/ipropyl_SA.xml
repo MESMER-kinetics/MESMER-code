@@ -462,7 +462,7 @@
     </me:modelParameters>
     <me:control>
       <me:calcMethod xsi:type="me:SensitivityAnalysis">
-        <me:SensitivityAnalysisIterations>100</me:SensitivityAnalysisIterations>
+        <me:SensitivityAnalysisIterations>200</me:SensitivityAnalysisIterations>
         <me:SensitivityGenerateData>false</me:SensitivityGenerateData>
         <me:SensitivityAnalysisOrder>3</me:SensitivityAnalysisOrder>
       </me:calcMethod>

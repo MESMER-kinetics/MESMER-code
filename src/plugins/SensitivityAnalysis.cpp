@@ -438,7 +438,7 @@ namespace mesmer
 
     // Instantiate a random vector generator.
     Sobol sobol ;
-    long long seed(17) ;
+    long long seed(0) ;
 
     // Loop over conditions. 
     size_t nConditions = Temperature.size() ;

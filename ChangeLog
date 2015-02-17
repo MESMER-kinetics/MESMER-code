@@ -1,9 +1,9 @@
 
-2015-February-16 Struan Robertson
+2015-February-17 Struan Robertson
 
-	* SensitivityAnalysis.cpp: Further changes to output format.
+	* SensitivityAnalysis.cpp, examples/ipropyl - SA: Baseline update.
 	
-	* ThermodynamicTable.cpp, examples/Butyl_H_to_Butane: Fix for units and baseline update.	
+	* UnitTest.cpp: Fix for multiple output of hindered rotor state values.	
 	
 2015-February-15 Struan Robertson
 

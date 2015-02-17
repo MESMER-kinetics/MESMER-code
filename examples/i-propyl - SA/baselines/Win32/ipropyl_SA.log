@@ -42,7 +42,7 @@ In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
 3e+017PPCC, 720K at d precision with He
 3e+016PPCC, 880K at d precision with He
-Write metadata 20150215_191201
+Write metadata 20150217_195949
 
 File: "ipropyl_SA.xml" successfully parsed.
 Main Calculation begins
@@ -64,17 +64,17 @@ Input variable key:
 
  First order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
-         0.00041133        0.95948       0.014218
+         0.00042942        0.94387     0.00021568
 
  Second order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
-(1)          17.216        0.22104        0.10025
-(2)         0.22104         19.759        0.10313
-(3)         0.10025        0.10313         17.428
+(1)              --             --             --
+(2)        0.053018             --             --
+(3)        0.037497       0.027695             --
 
 
 
-Sensitivity Analysis: Temperature = 880  , Concentration = 3e+016
+Sensitivity Analysis: Temperature =   880, Concentration = 3e+016
 
 Input variable key:
 
@@ -84,16 +84,16 @@ Input variable key:
 
  First order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
-          0.0012897        0.94496      0.0090084
+          0.0034511         1.0393     0.00025482
 
  Second order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
-(1)          4.9025       0.047239        0.10806
-(2)        0.047239         9.1886       0.054593
-(3)         0.10806       0.054593         5.8501
+(1)              --             --             --
+(2)        0.056976             --             --
+(3)        0.019297      0.0075523             --
 
 
 Energy convention "arbitrary" written to <moleculeList>
- -- Total time elapsed: 30 seconds.
+ -- Total time elapsed: 59 seconds.
 
 System saved to mesmer_out.xml

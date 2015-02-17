@@ -646,17 +646,9 @@ namespace mesmer
     size_t MaximumCell(100000) ;
 	MesmerEnv &env = const_cast<MesmerEnv &>(pMol->getEnv()) ;
 	env.MaxCell = MaximumCell ;
-    vector<double> cellDOS(MaximumCell, 0.0) ;
-	cellDOS[0] = 1.0 ;
-    pMol->getDOS().setCellDensityOfStates(cellDOS) ;
-
-    PersistPtr ppMol = pMol->get_PersistentPointer() ;
-	ppMol = ppMol->XmlMoveTo("me:ExtraDOSCMethod") ;
-    status = status && pDOSCalculator->ReadParameters(&(pMol->getDOS()), ppMol) ;
-    status = status && pDOSCalculator->countCellDOS(&(pMol->getDOS()), pMol->getEnv()) ;
+    pMol->getDOS() ;
 
     return status ;
-
   }
 
   bool UnitTests::Test_cellSize(Molecule *pMol) const {
