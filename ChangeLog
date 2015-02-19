@@ -1,4 +1,9 @@
 
+2015-February-19 Struan Robertson
+
+	* System.h: Set micro properties re-calculation flag for sensitivity
+	analysis.
+	
 2015-February-17 Struan Robertson
 
 	* SensitivityAnalysis.cpp: Fix for old SA table generation method.

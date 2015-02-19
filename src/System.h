@@ -49,33 +49,43 @@ namespace mesmer
     // Begin calculation.
     void executeCalculation() ;
 
-	// Begin single calculation.
+    // Begin single calculation.
     bool calculate(double& chiSquare, vector<double> &residuals, bool writeReport = false) ;
 
-	// Begin single calculation - wrapper function.
-	bool calculate(double& chiSquare, bool writeReport = false) {
+    // Begin single calculation - wrapper function.
+    bool calculate(double& chiSquare, bool writeReport = false) {
       vector<double> residuals ;
       return calculate(chiSquare, residuals, writeReport) ;
-	} ;
+    } ;
 
     // Calculate rate coefficients etc. for a specific condition.
     bool calculate(size_t nCond, vector<double> &Quantities, bool writeReport = false) ;
 
-	// Begin single calculation.
+    // Begin single calculation.
     bool calculate(double &Temperature, double &Concentration, Precision precision,
-                   map<string, double> &phenRates, double &MaxT, const std::string& bathGas);
+      map<string, double> &phenRates, double &MaxT, const std::string& bathGas);
 
-	// Wrapper for single calculation.
+    // Wrapper for single calculation.
     bool calculate(size_t nCond, map<string, double> &phenRates) {
+
+      //
+      // Reset microcanonical rate re-calculation flag as parameters, such
+      // as reaction threshold may have been altered between invocations of
+      // this method.
+      //
+      for (size_t i(0) ; i < m_pReactionManager->size() ; ++i) {
+        (*m_pReactionManager)[i]->resetCalcFlag();
+      }
+
       double temp = m_pConditionsManager->PTPointTemp(nCond) ; 
       double conc = m_pConditionsManager->PTPointConc(nCond);
-	  Precision precision = m_pConditionsManager->PTPointPrecision(nCond) ;
-      string bathGas = m_pConditionsManager->PTPointBathGas(nCond);
-	  double MaxT(2.0*temp) ;
+      Precision precision = m_pConditionsManager->PTPointPrecision(nCond) ;
+      string bathGas(m_pConditionsManager->PTPointBathGas(nCond)) ;
+      double MaxT(2.0*temp) ;
       return calculate(temp, conc, precision, phenRates, MaxT, bathGas);
-	} ;
+    } ;
 
-	// Print system configuration
+    // Print system configuration
     void configuration(void);
 
     // Deduce the role of each molecule and add it to the XML file 
@@ -92,7 +102,7 @@ namespace mesmer
 
     // Mesmer control flags.
     MesmerFlags m_Flags;
-    
+
     // for each <control> block
     std::vector<MesmerFlags> m_FlagsForEachControl;
     std::vector<CalcMethod*> m_CalcMethodsForEachControl;
