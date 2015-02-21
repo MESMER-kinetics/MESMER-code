@@ -282,7 +282,9 @@
     <None Include="..\..\MesmerQA\ThermodynamicTable\ThermodynamicTable.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="..\..\MesmerQA\UnitTests\UnitTests.xml" />
+    <None Include="..\..\MesmerQA\UnitTests\UnitTests.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\popDiag.xsl">
       <SubType>Designer</SubType>
     </None>

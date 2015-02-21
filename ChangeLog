@@ -1,3 +1,19 @@
+2015-February-21 Chris Morley
+
+    * src/gDensityOfStates.cpp: Modify handling of energy conventions;
+    thermodynamic298K now used only internally to aid conversion.
+
+    * src/XMLPersist.cpp,src/XMLPersist.h: a default property attribute is
+    now achieved by copying attributes; a slightly different entry in
+    defaults.xml still allows copying a whole missing property.
+
+    * MesmerQA/UnitTests/UnitTests.xml: Removed specification of the
+    molecule energies in the datafile, which are unused. Baseline is
+    unchanged.
+
+    * src/gStructure.cpp,src/MoleculeManager.cpp: messages and formatting.
+
+src/plugins/ThermodynamicTable.cpp
 
 2015-February-19 Struan Robertson
 

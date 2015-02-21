@@ -52,8 +52,11 @@ namespace mesmer
       if (MolecularComponent::getEnergyConvention().empty())
       {
         const char* conv = m_ppPersist->XmlReadValue("convention", false);
-        if(conv)
+        if (conv)
+        {
           MolecularComponent::setEnergyConvention(conv);
+          cinfo << "The energy convention is " << conv << " set in <moleculeList" << endl;
+        }
       }
       return it->second;
     }

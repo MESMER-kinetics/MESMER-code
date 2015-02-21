@@ -82,8 +82,7 @@ namespace mesmer
     ErrorContext("ThermodynamicTable");
     //Read in parameters in child elements of CalcMethod or use defaults.xml
     //called from ParseForPlugin in System::Parse()
-    const char *txt = pp->XmlReadValue("units", optional);
-	m_Unit = txt ? txt : "kJ/mol" ;
+    m_Unit = pp->XmlReadValue("units");
     m_Tmin = pp->XmlReadDouble("me:Tmin");
     m_Tmax = pp->XmlReadDouble("me:Tmax");
     m_TempInterval = pp->XmlReadDouble("me:Tstep");
@@ -274,18 +273,18 @@ namespace mesmer
         ppProp = (ppProp ? ppProp : pp)->XmlWriteElement("property");
         ppProp->XmlWriteAttribute("dictRef", "NasaPolynomial");
 
-		stringstream ss ;
-		ss << temperature[0] ;
+        stringstream ss;
+        ss << temperature[0];
         PersistPtr ppScalar = ppProp->XmlWriteValueElement("scalar", ss.str());
         ppScalar->XmlWriteAttribute("dictRef", "NasaLowT");
 
-		ss.clear() ;
-		ss << temperature.back() ;
+        ss.clear();
+        ss << temperature.back();
         ppScalar = ppProp->XmlWriteValueElement("scalar", ss.str());
         ppScalar->XmlWriteAttribute("dictRef", "NasaHighT");
 
-		ss.clear() ;
-		ss << m_Tmid ? m_Tmid : temperature.back() ;
+        ss.clear();
+        ss << m_Tmid ? m_Tmid : temperature.back();
         ppScalar = ppProp->XmlWriteValueElement("scalar", ss.str());
         ppScalar->XmlWriteAttribute("dictRef", "NasaMidT");
 
@@ -375,8 +374,8 @@ namespace mesmer
     ss << left << setw(24) << pmol->getName().substr(0, 24);
     map<string, int> Comp = pmol->getStruc().GetElementalComposition();
     int npad = 4 - Comp.size();
-	map<string, int>::const_iterator itr = Comp.begin() ;
-    for (;  itr != Comp.begin() ; itr++ )
+    map<string, int>::const_iterator itr = Comp.begin() ;
+    for (;  itr != Comp.end() ; itr++ )
       ss << left << setw(2) << itr->first << right << setw(3) << itr->second ;
     for (; npad; --npad)
       ss << "     ";

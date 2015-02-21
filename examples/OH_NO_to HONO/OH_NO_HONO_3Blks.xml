@@ -29,7 +29,7 @@
         <!--<property title="Hf298">
           <scalar>-78.94</scalar>
         </property>-->
-        <property title="Hf0"><!--will be converted-->
+        <property title="Hf0">
           <scalar>-72.8</scalar>
         </property>
         <property dictRef="me:rotConsts">

@@ -309,6 +309,8 @@ namespace mesmer
         TiXmlElement* pnChild = pnProp->FirstChildElement(); //could be <array> or <scalar> or <string>
         if(pnChild){
           const char* attrtxt = pnChild->Attribute(attName.c_str());
+          if (!attrtxt && MustBeThere) //added 17Feb2015
+            break;
           //if(attrtxt) Changed CM 13/3/2013 do NOT look on next sibling property if attribute is not present
             return attrtxt;//return if the attribute is on this element; otherwise look on next sibling element
         }
@@ -320,7 +322,7 @@ namespace mesmer
     if(pDefaults && MustBeThere  && InsertDefault("property", name))
     {
       //Try again (recursively). Should succeed.
-      const char* ret = XmlReadPropertyAttribute(name, attName, MustBeThere); 
+      const char* ret = XmlReadPropertyAttribute(name, attName); 
       assert(ret);
       return ret;
     }  
@@ -500,114 +502,111 @@ namespace mesmer
       return pnNode->GetDocument()->SaveFile(outfilename);
   }
 
-  /*/////////////////////////////////////////////////////////////////
-  Inserts a default value found by searching defaults.xml
-  Handles elements, atrributes and cml properties.
-  Call as follows:
-  For element                                   : InsertDefault(elname)
-  For property with dictref == propname         : InsertDefault("property", propname,)
-  For attribute of an element...................: InsertDefault(attname, elname)
-   (there must be no element in defaults.xml with a name the same as attname)
-
-  If the default attribute in defaults file is "true" an entry is made in the log file.
-  If it is anything else (usually meaning that manual editing is required)
-  an error message is displayed in the console.
-  The "title" alternative and namespace subtlties not used in defaults.
-  */
   bool XMLPersist::InsertDefault(const string& elName, const string& dictRefName, const char* pluginTypeID)
-  {    
-//    string name = dictRefName.empty() ? elName : dictRefName;
-    bool isProperty = elName=="property";
+  {
+    bool isProperty = elName == "property";
     string name = !isProperty ? elName : dictRefName;
 
     //Find the default element in defaults.xml
-    if(!pDefaults)
+    if (!pDefaults)
     {
       //Open defaults.xml (once only)
       static TiXmlDocument def;
-      if(def.LoadFile(m_defaultsfilename))
+      if (def.LoadFile(m_defaultsfilename))
         pDefaults = &def;
       else
       {
         //Should really terminate, but it's not easy to do from here
         string s("Could not open the defaults file: " + m_defaultsfilename + xtraerr);
-        throw (std::runtime_error(s)); 
+        throw (std::runtime_error(s));
       }
     }
 
     string possibles;
-    if(pluginTypeID)
-      possibles = TopPlugin::List(pluginTypeID,TopPlugin::comma);
-    
-    // look for a matching element or the first
-    TiXmlElement* pnDefProp = pDefaults->RootElement()->FirstChildElement(elName);
+    const char* pattr;
+    if (pluginTypeID)
+      possibles = TopPlugin::List(pluginTypeID, TopPlugin::comma);
 
-    if(!pnDefProp)//no matching elements: the name must refer to an attribute 
+    TiXmlElement* pnDefProp = pDefaults->RootElement()->FirstChildElement(elName);
+    // look for a matching element
+    if (!isProperty)
     {
+      //TiXmlElement* pnDefProp = pDefaults->RootElement()->FirstChildElement(elName);
+      if (!isProperty && pnDefProp)
+      {
+        TiXmlNode* reInserted;
+        if (reInserted = pnNode->InsertEndChild(*pnDefProp))
+        {
+          pattr = pnDefProp->Attribute("default");
+          string attrtext = pattr;
+          if (attrtext == "true")
+            cinfo << "The default value of " << name << " was used." << endl;
+          else
+          {
+            if (pluginTypeID) //write back default attribute with the possible values
+              reInserted->ToElement()->SetAttribute("default", attrtext + possibles);
+            cerr << "No value of " << name << " was supplied and the default value "
+              << attrtext << possibles << endl;
+          }
+          return true;
+        }
+      }
+      //element not found
       //look for an element dictRefName with attribute elName
       pnDefProp = pDefaults->RootElement()->FirstChildElement(dictRefName);
-      while(pnDefProp)
+      while (pnDefProp)
       {
         const char* txt = pnDefProp->Attribute(name.c_str());
-        if(txt)
+        if (txt)
         {
           pnNode->SetAttribute(name, txt);
-          const char* pattr = pnDefProp->Attribute("default");
-          if(!pattr)
-          {
-            cerr << "The entry for " << name << " in defaults.xml does not have a default attribute."
-              << "\n THIS NEEDS TO BE CORRECTED.\n";
-            return true;
-          }
+          pattr = pnDefProp->Attribute("default"); 
           string attrtext(pattr);
           pnNode->SetAttribute("default", attrtext);
-          if(attrtext=="true")
+          if (attrtext == "true")
             cinfo << "The default value of the attribute " << name << " was used." << endl;
           else
             cerr << "No value of " << name << " was supplied and the default value " << attrtext << endl;
-          return true;       
+          return true;
         }
         pnDefProp = pnDefProp->NextSiblingElement(dictRefName);
       }
-
     }
-    else
+    // look for property
+    while (pnDefProp)
     {
-      while(pnDefProp)
+      const char* dictRefText = pnDefProp->Attribute("dictRef");
+      if (dictRefText && dictRefName == dictRefText)
       {
-        const char* dictRefText = pnDefProp->Attribute("dictRef");
-        if(!isProperty || (dictRefText && dictRefName==dictRefText))
+        pattr = pnDefProp->Attribute("default");
+        if (pattr)
         {
-          //copy property from defaults.xml to main tree
-          TiXmlNode* reInserted;
-          if(reInserted = pnNode->InsertEndChild(*pnDefProp))
-          {
-            const char* pattr = pnDefProp->Attribute("default");
-            if(!pattr)
-            {
-              cerr << "The entry for " << name << " in defaults.xml does not have a default attribute."
-                << "\n THIS NEEDS TO BE CORRECTED.\n";
-              return true;
-            }
-            string attrtext = pattr;
-            if(attrtext=="true")
-              cinfo << "The default value of " << name << " was used." <<endl;
-            else
-            {
-              if(pluginTypeID) //write back default attribute with the possible values
-                reInserted->ToElement()->SetAttribute("default", attrtext+possibles);
-              cerr << "No value of " << name << " was supplied and the default value "
-                   << attrtext << possibles << endl;
-            }return true;
-          }
+          //default on <property> so copy whole element
+          pnNode->InsertEndChild(*pnDefProp);
+          return true;
         }
-        pnDefProp = pnDefProp->NextSiblingElement();
+        //There is no default attribute on <property> element in defaults.xml,
+        //so copy only the attributes on the child element (probably scalar)
+
+        //Find property in datatafile
+        TiXmlElement* pnScalar =
+          dynamic_cast<XMLPersist*>(XmlMoveToProperty(dictRefName).get())->pnNode;
+
+        TiXmlAttribute* pAttrib = pnDefProp->FirstChildElement()->FirstAttribute();
+        while (pAttrib)
+        {
+          pnScalar->SetAttribute(pAttrib->Name(), pAttrib->Value());
+          pAttrib = pAttrib->Next();
+        }
+        cinfo << "The default attribute(s) were added to the the property " << dictRefName << endl;
+        return true;
       }
+      pnDefProp = pnDefProp->NextSiblingElement("property");
     }
-  
-    cerr << "No element, attribute or dictRef of a property, = " << name << " was found in defaults.xml or it could not be copied."
+    cerr << "No element, attribute or dictRef of a property, " << name << ", was found in defaults.xml or it could not be copied."
       << "\nTHIS NEEDS TO BE CORRECTED.\n";
     return false;
+
   }
 
 }//namespacer mesmer

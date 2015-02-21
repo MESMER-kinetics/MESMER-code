@@ -6,9 +6,9 @@
 
     <molecule id="Test_Molecule">
       <propertyList>
-        <property title="Hf298">
-          <scalar convention="thermodynamic">0.0</scalar>
-        </property>
+        <!--<property title="Hf298">
+          <scalar>0.0</scalar>
+        </property>-->
         <!-- Frequencies taken from: Baer & Hase, Unimolecular Reaction Dynamics.
 	          Theory and Experiments [Oxford U. Press, 1996], p. 186.-->
         <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
@@ -30,9 +30,9 @@
     <!-- Details supplied by John Barker for MEIC tests.-->
     <molecule id="AcO2_Harmonic">
       <propertyList>
-        <property title="Hf298">
-          <scalar convention="thermodynamic">0.0</scalar>
-        </property>
+        <!--<property title="Hf298">
+          <scalar>0.0</scalar>
+        </property>-->
         <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
           <array units="cm-1">
             141.8453            163.6481            3161.925            3062.283
@@ -55,9 +55,9 @@
     <!-- Details supplied by John Barker for MEIC tests.-->
     <molecule id="AcO2_Anharmonic">
       <propertyList>
-        <property title="Hf298">
-          <scalar convention="thermodynamic">0.0</scalar>
-        </property>
+        <!--<property title="Hf298">
+          <scalar>0.0</scalar>
+        </property>-->
         <property title="Rotational Constants" dictRef="me:rotConsts">
           <array units="amuA^2"> 54.2219 127.6029 127.6029 </array>
         </property>
@@ -101,9 +101,9 @@
     <!-- Details supplied by John Barker for MEIC tests, except rotational constants.-->
     <molecule id="AcO2_Asymmetric_Top">
       <propertyList>
-        <property title="Hf298">
-          <scalar convention="thermodynamic">0.0</scalar>
-        </property>
+        <!--<property title="Hf298">
+          <scalar>0.0</scalar>
+        </property>-->
         <property title="Vibrational Frequencies" dictRef="me:vibFreqs">
           <array units="cm-1">
             141.8453            163.6481            3161.925            3062.283
@@ -145,9 +145,9 @@
         <bond id="b7" atomRefs2="a2 a8" order="1"/>
       </bondArray>
       <propertyList>
-        <property dictRef="me:ZPE">
+        <!--<property dictRef="me:ZPE">
           <scalar units="cm-1">0.0</scalar>
-        </property>
+        </property>-->
         <property dictRef="me:rotConsts">
           <array units="cm-1"> 2.6710 0.6631 0.6631 </array>
         </property>
@@ -209,9 +209,9 @@
         <bond id="b3" atomRefs2="a2 a4" order="1"/>
       </bondArray>
       <propertyList>
-        <property dictRef="me:ZPE">
+        <!--<property dictRef="me:ZPE">
           <scalar units="cm-1">0.0</scalar>
-        </property>
+        </property>-->
         <property dictRef="me:rotConsts">
           <array units="cm-1"> 2.6710 0.6631 0.6631 </array>
         </property>
@@ -277,9 +277,9 @@
         <bond id="b3" atomRefs2="a2 a4" order="1"/>
       </bondArray>
       <propertyList>
-        <property dictRef="me:ZPE">
+        <!--<property dictRef="me:ZPE">
           <scalar units="cm-1">0.0</scalar>
-        </property>
+        </property>-->
         <property dictRef="me:rotConsts">
           <array units="cm-1"> 2.6710 0.6631 0.6631 </array>
         </property>

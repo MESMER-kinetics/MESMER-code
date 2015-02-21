@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <defaults  xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
+  <!--All entries should have a default attribute. With <property> entries,
+  if there is a default attribute on the <property> element (as in the
+  property with dictRef="me:symmetryNumber", then the whole entry is copied
+  to the datafile. If there is no default attribute on <property> (as with
+  the property with dictRef="me:Hf0"), then all the attributes from the
+  child element of <property> (probably scalar are copied to the datafile.-->
+  
   <me:activationEnergy units="kJ/mol" default="NEEDS TO BE CHECKED**">0.0</me:activationEnergy>
   <me:preExponential default="NEEDS TO BE CHECKED**">6.00e-12</me:preExponential>
   <A default="NEEDS TO BE CHECKED**">6.00e-12</A>
@@ -74,5 +81,11 @@
   <me:Tmax default="true">1500</me:Tmax>
   <me:Tstep default="true">50</me:Tstep>
   <me:Tmid default="true">1000</me:Tmid>
+  <property dictRef="me:Hf298">
+    <scalar units="kJ/mol" default="true"/>
+  </property>
+  <property dictRef="me:Hf0">
+    <scalar units="kJ/mol" default="true"/>
+  </property>
 </defaults>
 

@@ -196,14 +196,11 @@ namespace mesmer
                       convention attribute of me:ZPE.
     computational   - energy zero is separated nuclei and electrons from computational 
                       chemistry programs (but see below for ZPE correction).
-    thermodynamic0K - energy zero is the heat of formation at 0K
+    thermodynamic   - energy zero is the heat of formation at 0K
                       (with a 0K reference temperature).
-    thermodynamic298K-energy zero is the heat of formation at 298.15K
-                      (with a 298.15K reference temperature);
-    [thermodynamicAT0K-energy zero is the energy of atomisation at 0K; not implemented]
 
     All molecules taking part in the reactions must have the same convention,
-    which is set either by a convention attribute in <moleculeList> or 
+    which is set either by a convention attribute on <moleculeList> or 
     by the first molecule in the data file that has an energy
     specified. (Bath gas molecules and sink molecules may not have a
     specified energy.) It is stored (as a static variable) in
@@ -211,13 +208,13 @@ namespace mesmer
     
     When reading a datafile the energy of a molecule is looked for 
     first in <me:ZPE>, and if not found, successively in <me:Hf0>
-    and <me:Hf298>. For the first molecule, if <me:ZPE> is present its
-    convention attribute sets the energy convention. If there is no <me:ZPE>,
-    the convention is implicitly set to thermodynamic0K or thermodynamic298K
-    when <me:Hf0> or <me:Hf298> respectively are present. Once the convention
-    is set, the value of any <me:ZPE> with a convention attribute and any
-    <me:Hf0> or <me:Hf298> is converted by Mesmer to the previously set
-    energy convention.
+    and <me:Hf298>. If the convention has not been set in <moleculeList>,
+    it is set by the convention on <me:ZPE>, if there is one, and to arbitrary
+    otherwise. If there is a <me:Hf0> 0r <me:Hf298> rather than <me:ZPE> the
+    convention is set to thermodynamic. Once the convention is set, the value
+    of any <me:ZPE> with a convention attribute and any <me:Hf0> or <me:Hf298>
+    is converted by Mesmer to the previously set energy convention. A convention
+    thermodynamic298K is used in this process but is for internal use only.
 
     When the energy for a molecule comes from <me:Hf0> or <me:Hf298>, the
     output XML file will have a new <me:ZPE> element with the energy in the set
@@ -225,33 +222,29 @@ namespace mesmer
     This means that if this file is subsequently used as an input, all the
     energies are read from the <me:ZPE> elements, with no conversion being necessary.
 
-    All this sounds complicated but is straightforward to use.
-    
-    Adding a convention attribute on <moleculeList> is the safest way.
+    The safest practice is to add a convention attribute to <moleculeList>.
 
-    If the energies of all the molecules are of the same type there is no
+    But if the energies of all the molecules are of the same type there is no
     need for any convention attributes. The commonest case is when they are
     all provided in <me:ZPE> elements, when the convention is arbitrary. 
-    If they are all in <me:Hf0> or all in <me:Hf298> the convention is
-    thermodynamic0K or thermodynamic298K respectively.
-    
-    If energies of molecules are from mixed <me:Hf0> and <me:Hf298> elements,
-    convention attributes are not necessary either. 
-    
+    If they are all in either <me:Hf0> or <me:Hf298> the convention is
+    thermodynamic.
+
     Only if there are both computational and thermodynamic energies is
     an attribute, convention="computational", necessary on each <me:ZPE>.
 
-    Note that the conversion to and from computational is done via the
+    The conversion to and from computational is done via the
     properties of the dissociated atoms of the molecule and may not be
     as accurate as alternative calculation methods via molecules with
-    similar bonding. 
+    similar bonding.
+
+    me:HfAT0 is no longer supported.
     */
 
     // Look successively for alternative molecular energy inputs
     return ReadEnergy("me:ZPE", "computational") ||
-      ReadEnergy("me:Hf0", "thermodynamic0K") ||
-      ReadEnergy("me:Hf298", "thermodynamic298K") ||
-      ReadEnergy("me:HfAT0", "thermodynamicAT0K");
+      ReadEnergy("me:Hf0", "thermodynamic") ||
+      ReadEnergy("me:Hf298", "thermodynamic298K");
    }
 
   double gDensityOfStates::ConvertEnergyConvention(
@@ -276,7 +269,7 @@ namespace mesmer
          H298 for X                    H298 for elems
              X(0K)    =>    ElemsStdStates(0K)        Hf(0K)
          compE   \         /   Hf0 for atoms
-                    atoms
+                nuclei,electrons
 
          Hf(298K) + H298els - Hf(0K) - H298 = 0     
            compE  -  Hf(0K) +  Hfatoms(0K)  = 0   */
@@ -287,14 +280,14 @@ namespace mesmer
       val += stddH298 - H; //all in kJ/mol
     else if (fromConvention == "computational")
       val -= atomHf0;
-    else if (fromConvention != "thermodynamic0K")
+    else if (fromConvention != "thermodynamic")
       val = NaN;
 
     if (toConvention == "thermodynamic298K")
       val += H - stddH298; //all in kJ/mol
     else if (toConvention == "computational")
       val += atomHf0;
-    else if (toConvention != "thermodynamic0K")
+    else if (toConvention != "thermodynamic")
       val = NaN;
 
     if (IsNan(val))
@@ -305,7 +298,6 @@ namespace mesmer
             << fromConvention << " to " << toConvention << endl;
 
     return val;
-
   }
 
   bool gDensityOfStates::ReadEnergy(std::string elName, std::string nativeConvention)
@@ -319,18 +311,21 @@ namespace mesmer
     if (IsNan(tempzpe))
       return false; //element elName not found
 
-    const char* txt = ppPropList->XmlReadPropertyAttribute(elName, "units", optional); //default kJ/mol
-    unitsInput = txt ? txt : "kJ/mol";
+    unitsInput = ppPropList->XmlReadPropertyAttribute(elName, "units"); //default kJ/mol
 
     if (elName != "me:ZPE")
     {
       //If not set already, set the energy convention for all molecules
       if (m_energyConvention.empty())
-        m_energyConvention = nativeConvention;
+      {
+        m_energyConvention = "thermodynamic";
+        cinfo << "The energy convention is " << m_energyConvention
+              << ", derived from " << elName << endl;
+      }
     }
     else //<me:ZPE>
     {
-      txt = ppPropList->XmlReadPropertyAttribute(elName, "convention", optional);
+      const char* txt = ppPropList->XmlReadPropertyAttribute(elName, "convention", optional);
       //If not set already, set the energy convention for all molecules
       if (m_energyConvention.empty())
         m_energyConvention = txt ? txt : "arbitrary";

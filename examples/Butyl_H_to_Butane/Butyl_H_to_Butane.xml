@@ -497,7 +497,7 @@
   </me:modelParameters>
 
   <me:control>
-    <me:calcMethod name="ThermodynamicTable"/>
+    <me:calcMethod xsi:type="me:ThermodynamicTable"/>
     <me:testDOS />
   </me:control>
 

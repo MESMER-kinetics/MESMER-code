@@ -650,7 +650,7 @@ namespace mesmer
     map<string, int> Comp = GetElementalComposition();
     if (Comp.empty())
     {
-      cerr << "To mixed thermodynamic and computational energies"
+      cerr << "To mix thermodynamic and computational energies "
               "the molecule needs chemical structure (an atomList at least)" << endl;
       return false;
     }

@@ -240,9 +240,9 @@
           <xs:element name="InternalRotorInertia" minOccurs="0">
             <xs:complexType>
               <xs:sequence>
-                <xs:element name="InertiaPoint">
+                <xs:element name="InertiaPoint" maxOccurs="unbounded">
                   <xs:complexType>
-                    <xs:attribute name="index" type="xs:positiveInteger" use="required"/>
+                    <xs:attribute name="index" type="xs:nonNegativeInteger" use="required"/>
                     <xs:attribute name="coefficient" type="xs:float" use="required"/>
                   </xs:complexType>
                 </xs:element>

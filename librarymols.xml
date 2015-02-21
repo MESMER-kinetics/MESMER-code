@@ -106,7 +106,7 @@
     </bondArray>
     <propertyList>
       <property title="Hf298">
-        <scalar>37.36</scalar>
+        <scalar units="kJ/mol">37.36</scalar>
       </property>
       <!--<property title="Hf0">
           <scalar>37.11</scalar>
@@ -189,7 +189,7 @@
     </bondArray>
     <propertyList>
       <property title="Hf298">
-        <scalar>91.04</scalar>
+        <scalar units="kJ/mol">91.04</scalar>
       </property>
       <!--<property title="Hf0">
           <scalar>90.54</scalar>

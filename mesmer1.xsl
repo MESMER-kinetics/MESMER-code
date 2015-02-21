@@ -149,8 +149,7 @@
       </xsl:if>
       <xsl:variable name ="Etext">
         <xsl:choose>
-          <xsl:when test="$Econventions[1]='thermodynamic298K'">Hf298</xsl:when>
-          <xsl:when test="$Econventions[1]='thermodynamic0K'">Hf0</xsl:when>
+          <xsl:when test="$Econventions[1]='thermodynamic'">&#916;Hf at 0K</xsl:when>
           <xsl:otherwise>Energy</xsl:otherwise>
         </xsl:choose>
       </xsl:variable>
