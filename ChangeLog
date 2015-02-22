@@ -1,3 +1,10 @@
+2015-February-22 Chris Morley
+
+    * Windows VC12/Mesmer/Mesmer.vcxproj: Debug mesmer.exe now in
+    \Windows VC12\Debug\  Release exe still in \Windows VC12\Mesmer\
+
+    * src/plugins/HinderedRotorQM1D.cpp: use only one endl;
+
 2015-February-21 Chris Morley
 
     * src/gDensityOfStates.cpp: Modify handling of energy conventions;
