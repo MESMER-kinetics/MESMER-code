@@ -34,10 +34,10 @@ struct conditionSet
 // To make sure if there is a concentration or pressure definition, there is a temperature definition.
 struct CandTpair{
 
-  double    m_concentration; // particles per cubic centimeter
-  double    m_temperature; // Kelvin
-  Precision m_precision;
-  const char* m_pBathGasName;
+  double      m_concentration; // particles per cubic centimeter
+  double      m_temperature; // Kelvin
+  Precision   m_precision;
+  std::string m_pBathGasName;
   std::map<Reaction*, double> m_excessConcs; // Reaction, conc in ppcc
 
   std::vector<conditionSet> m_rates;
@@ -83,7 +83,7 @@ public:
   size_t      getNumPTPoints() const            { return PandTs.size(); }
   double      PTPointTemp(int index)  { return PandTs[index].m_temperature; }
   double      PTPointConc(int index){ return PandTs[index].m_concentration;}
-  const char* PTPointBathGas(int index)      {return PandTs[index].m_pBathGasName;}
+  const char* PTPointBathGas(int index)      {return PandTs[index].m_pBathGasName.c_str();}
   Precision   PTPointPrecision(int index)    {return PandTs[index].m_precision;}
   map<Reaction*,double> PTPointExcessConcs(int index)  {return PandTs[index].m_excessConcs; }
 
