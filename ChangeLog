@@ -1,3 +1,7 @@
+2015-February-27 Struan Robertson
+
+	* System.cpp: Fix for Chebyshev test break.
+	
 2015-February-22 Chris Morley
 
     * Windows VC12/Mesmer/Mesmer.vcxproj: Debug mesmer.exe now in

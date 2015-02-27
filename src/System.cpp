@@ -876,6 +876,8 @@ void System::executeCalculation()
     for(int i=0;i!=m_ConditionsForEachControl.size();++i)
       if(m_ConditionsForEachControl[i])
         m_ConditionsForEachControl[i]->getAllBathGases(bathGases) ;
+
+		bathGases.insert(getMoleculeManager()->get_BathGasName());
   }
 
 
