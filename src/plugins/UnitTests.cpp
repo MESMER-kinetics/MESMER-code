@@ -46,7 +46,7 @@ namespace mesmer
     UnitTests(const char* id) : m_id(id) { Register(); }
     virtual ~UnitTests() {}
     virtual const char* getID()  { return m_id; }
-    
+
     virtual bool DoesOwnParsing() { return true; }
 
     //Function to do the work
@@ -65,7 +65,7 @@ namespace mesmer
     template<class T> 
     bool Test_LinearAlgebra(string precision) const ;
 
-	bool Test_cellSize(Molecule* pMol) const;
+    bool Test_cellSize(Molecule* pMol) const;
 
     // MEIC tests:
 
@@ -157,7 +157,7 @@ namespace mesmer
     ctest << "  Ethane state values should be compared with:" << endl ;
     ctest << "  Waage & Rabinovitch, IJCK, 3, 105 (1971)" << endl ;
     ctest << endl ;
-	
+
     pMol = pSys->getMoleculeManager()->find("HOOH");
     status = ( status && Test_MEIC_HinderedRotor(pMol)) ;
 
@@ -187,13 +187,13 @@ namespace mesmer
 
     delete testqd ;
 
-	// Test cellSize.
+    // Test cellSize.
     pMol = pSys->getMoleculeManager()->find("Test_Molecule");
     if(!pMol)
       pMol = pSys->getMoleculeManager()->find("Test Molecule");
     status = ( status && Test_cellSize(pMol)) ;
 
-	ctest << endl ;
+    ctest << endl ;
     if (status) {
       ctest << "  All tests pass." ;
     } else {
@@ -364,52 +364,52 @@ namespace mesmer
     ctest << endl ;
     underlineText("Test: Sobol random number class.") ;
 
-	Sobol sobol ;
-	const size_t rnsize(3) ;
+    Sobol sobol ;
+    const size_t rnsize(3) ;
 
-	ctest << endl ;
+    ctest << endl ;
     underlineText("Sobol: single precision") ;
 
-	vector<float> rndmf(rnsize,0.0) ;
-	int seed(0) ;
+    vector<float> rndmf(rnsize,0.0) ;
+    int seed(0) ;
     for (size_t i(0) ; i < 20 ; i++) {
       sobol.sobol(rndmf.size(), &seed, rndmf) ;
       for (size_t j(0) ; j < rndmf.size() ; j++) {
-	    ctest << formatFloat(rndmf[j], 5, 15) ;
-	  }
-	  ctest << endl ;
-	}
+        ctest << formatFloat(rndmf[j], 5, 15) ;
+      }
+      ctest << endl ;
+    }
 
-	ctest << endl ;
+    ctest << endl ;
     underlineText("Uniform: single precision") ;
 
-	seed = 1;
+    seed = 1;
     for (size_t i(0) ; i < 20 ; i++) {
       ctest << "   " << sobol.i4_uniform(0, 1000000, &seed) << endl ;
-	}
+    }
 
-	ctest << endl ;
+    ctest << endl ;
     underlineText("Sobol: double precision") ;
 
-	vector<double> rndmd(rnsize,0.0) ;
-	long long seed2(0) ;
+    vector<double> rndmd(rnsize,0.0) ;
+    long long seed2(0) ;
     for (size_t i(0) ; i < 20 ; i++) {
       sobol.sobol(rndmd.size(), &seed2, rndmd) ;
       for (size_t j(0) ; j < rndmd.size() ; j++) {
-	    ctest << formatFloat(rndmd[j], 5, 15) ;
-	  }
-	  ctest << endl ;
-	}
+        ctest << formatFloat(rndmd[j], 5, 15) ;
+      }
+      ctest << endl ;
+    }
 
-	ctest << endl ;
+    ctest << endl ;
     underlineText("Uniform: double precision") ;
 
-	seed = 1;
+    seed = 1;
     for (size_t i(0) ; i < 20 ; i++) {
       ctest << "   " << sobol.i8_uniform(0, 1000000, &seed) << endl ;
-	}
+    }
 
-	ctest << endl ;
+    ctest << endl ;
 
     return status ;
 
@@ -549,8 +549,8 @@ namespace mesmer
     // Calculate vibrational densities of states.
 
     size_t MaximumCell(50000) ;
-	MesmerEnv &env = const_cast<MesmerEnv &>(pMol->getEnv()) ;
-	env.MaxCell = MaximumCell ;
+    MesmerEnv &env = const_cast<MesmerEnv &>(pMol->getEnv()) ;
+    env.MaxCell = MaximumCell ;
     vector<double> cellDOS(MaximumCell, 0.0) ;
     cellDOS[0] = 1.0 ;
     pMol->getDOS().setCellDensityOfStates(cellDOS) ; 
@@ -584,8 +584,8 @@ namespace mesmer
     underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Anharmonic oscillators only.") ) ;
 
     size_t MaximumCell(50000) ;
-	MesmerEnv &env = const_cast<MesmerEnv &>(pMol->getEnv()) ;
-	env.MaxCell = MaximumCell ;
+    MesmerEnv &env = const_cast<MesmerEnv &>(pMol->getEnv()) ;
+    env.MaxCell = MaximumCell ;
     vector<double> cellDOS(MaximumCell, 0.0) ;
     cellDOS[0] = 1.0 ;
     pMol->getDOS().setCellDensityOfStates(cellDOS) ;
@@ -617,8 +617,8 @@ namespace mesmer
     // Calculate rotational densities of states.
 
     size_t MaximumCell(50000) ;
-	MesmerEnv &env = const_cast<MesmerEnv &>(pMol->getEnv()) ;
-	env.MaxCell = MaximumCell ;
+    MesmerEnv &env = const_cast<MesmerEnv &>(pMol->getEnv()) ;
+    env.MaxCell = MaximumCell ;
     vector<double> cellDOS(MaximumCell, 0.0) ;
     pMol->getDOS().setCellDensityOfStates(cellDOS) ;
 
@@ -644,9 +644,16 @@ namespace mesmer
     // Calculate internal rotational densities of states.
 
     size_t MaximumCell(100000) ;
-	MesmerEnv &env = const_cast<MesmerEnv &>(pMol->getEnv()) ;
-	env.MaxCell = MaximumCell ;
-    pMol->getDOS() ;
+    MesmerEnv &env = const_cast<MesmerEnv &>(pMol->getEnv()) ;
+    env.MaxCell = MaximumCell ;
+    vector<double> cellDOS(MaximumCell, 0.0) ;
+    cellDOS[0] = 1.0 ;
+    pMol->getDOS().setCellDensityOfStates(cellDOS) ;
+
+    PersistPtr ppMol = pMol->get_PersistentPointer() ;
+    ppMol = ppMol->XmlMoveTo("me:ExtraDOSCMethod") ;
+    status = status && pDOSCalculator->ReadParameters(&(pMol->getDOS()), ppMol) ;
+    status = status && pDOSCalculator->countCellDOS(&(pMol->getDOS()), pMol->getEnv()) ;
 
     return status ;
   }
@@ -663,16 +670,16 @@ namespace mesmer
     // Calculate vibrational densities of states.
 
     size_t MaximumCell(5000) ;
-	MesmerEnv &env = const_cast<MesmerEnv &>(pMol->getEnv()) ;
-	env.MaxCell  = MaximumCell ;
-	env.CellSize = 10.0 ;
-	env.MaxGrn   = size_t(env.CellSize*env.MaxCell/double(env.GrainSize)) ;
+    MesmerEnv &env = const_cast<MesmerEnv &>(pMol->getEnv()) ;
+    env.MaxCell  = MaximumCell ;
+    env.CellSize = 10.0 ;
+    env.MaxGrn   = size_t(env.CellSize*env.MaxCell/double(env.GrainSize)) ;
     vector<double> cellDOS(MaximumCell, 0.0) ;
     vector<double> cellEne(MaximumCell, 0.0) ; 
     vector<double> grainDOS(env.MaxGrn, 0.0) ;
     vector<double> grainEne(env.MaxGrn, 0.0) ;
-	getCellEnergies(MaximumCell, env.CellSize, cellEne);
-	cellDOS[0] = 1.0 ;
+    getCellEnergies(MaximumCell, env.CellSize, cellEne);
+    cellDOS[0] = 1.0 ;
     pMol->getDOS().setCellDensityOfStates(cellDOS) ; 
 
     status = status && pDOSCalculator->countCellDOS(&(pMol->getDOS()), pMol->getEnv()) ;
@@ -681,7 +688,7 @@ namespace mesmer
 
     pMol->getDOS().getCellDensityOfStates(cellDOS, 0, false) ;
 
-	calcGrainAverages(env.MaxGrn, env.cellPerGrain(), 0, cellDOS, cellEne, grainDOS, grainEne) ;
+    calcGrainAverages(env.MaxGrn, env.cellPerGrain(), 0, cellDOS, cellEne, grainDOS, grainEne) ;
 
     // Calculate cell and grain sums of states.
 
@@ -703,7 +710,7 @@ namespace mesmer
     ctest << formatFloat(grainDOS[0], 13, 25) ;
     ctest << endl ;
 
-	const double tolerance = 0.07 ;
+    const double tolerance = 0.07 ;
     size_t idx(0), jdx(0) ;
     for (size_t i(1) ; i < 40 ; i++) {
       idx += (idx < 100) ? 10 : 100  ;

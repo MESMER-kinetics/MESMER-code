@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Feb 15 2015 -- 18:55:35
+     Mesmer v4.0 compiled: -- Feb 28 2015 -- 14:59:03
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -42,7 +42,7 @@ In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
 3e+017PPCC, 720K at d precision with He
 3e+016PPCC, 880K at d precision with He
-Write metadata 20150217_195949
+Write metadata 20150228_213852
 
 File: "ipropyl_SA.xml" successfully parsed.
 Main Calculation begins
@@ -51,8 +51,30 @@ Number of grains produced is not equal to that requested
 Number of grains requested: 229
 Number of grains produced : 1
 In FastLaplaceConvolution: 300 values in the FFT convolution routine were replaced by standard convolution
-Unimolecular ILT calculation completed
 In i-propyl: Delta E down is smaller than grain size: the solution may not converge.
+Number of grains requested: 239
+In FastLaplaceConvolution: 340 values in the FFT convolution routine were replaced by standard convolution
+Number of grains requested: 244
+In FastLaplaceConvolution: 460 values in the FFT convolution routine were replaced by standard convolution
+Number of grains requested: 234
+Number of grains requested: 241
+Number of grains requested: 231
+Number of grains requested: 236
+Number of grains requested: 246
+In FastLaplaceConvolution: 480 values in the FFT convolution routine were replaced by standard convolution
+Number of grains requested: 235
+Number of grains requested: 245
+Number of grains requested: 240
+Number of grains requested: 230
+Number of grains requested: 247
+Number of grains requested: 237
+Number of grains requested: 232
+Number of grains requested: 242
+Number of grains requested: 238
+Number of grains requested: 248
+In FastLaplaceConvolution: 440 values in the FFT convolution routine were replaced by standard convolution
+Number of grains requested: 243
+Number of grains requested: 233
 
 Sensitivity Analysis: Temperature =   720, Concentration = 3e+017
 
@@ -64,15 +86,40 @@ Input variable key:
 
  First order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
-         0.00042942        0.94387     0.00021568
+          0.0026476        0.13136        0.74515
 
  Second order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
 (1)              --             --             --
-(2)        0.053018             --             --
-(3)        0.037497       0.027695             --
+(2)        0.021724             --             --
+(3)        0.031541        0.15526             --
 
+R-Squared statistic: 0.9206
 
+Number of grains requested: 269
+In FastLaplaceConvolution: 680 values in the FFT convolution routine were replaced by standard convolution
+Number of grains requested: 259
+Number of grains requested: 254
+Number of grains requested: 264
+Number of grains requested: 257
+Number of grains requested: 267
+Number of grains requested: 262
+Number of grains requested: 252
+Number of grains requested: 266
+Number of grains requested: 256
+Number of grains requested: 251
+Number of grains requested: 261
+Number of grains requested: 255
+Number of grains requested: 265
+Number of grains requested: 270
+In FastLaplaceConvolution: 720 values in the FFT convolution routine were replaced by standard convolution
+Number of grains requested: 260
+Number of grains requested: 268
+Number of grains requested: 258
+Number of grains requested: 253
+Number of grains requested: 263
+Number of grains requested: 271
+In FastLaplaceConvolution: 760 values in the FFT convolution routine were replaced by standard convolution
 
 Sensitivity Analysis: Temperature =   880, Concentration = 3e+016
 
@@ -84,16 +131,17 @@ Input variable key:
 
  First order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
-          0.0034511         1.0393     0.00025482
+          0.0039454        0.51226        0.31371
 
  Second order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
 (1)              --             --             --
-(2)        0.056976             --             --
-(3)        0.019297      0.0075523             --
+(2)        0.043334             --             --
+(3)        0.013639        0.20313             --
 
+R-Squared statistic: 0.8991
 
 Energy convention "arbitrary" written to <moleculeList>
- -- Total time elapsed: 59 seconds.
+ -- Total time elapsed: 71 seconds.
 
 System saved to mesmer_out.xml
