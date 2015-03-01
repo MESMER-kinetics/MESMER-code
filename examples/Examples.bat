@@ -167,6 +167,13 @@ copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
+cd "i-propyl - SA"
+set testName="ipropyl_SA"
+%executable% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+cd ..
+
 echo Start Time=%starttime% - End Time=%time%
 
 :: This line below makes DOS to create a system Beep (err yup)

@@ -1,5 +1,9 @@
 
-2015-February-28 Struan Robertson
+2015-March-01 Struan Robertson
+
+	* Documentation: Updated "What's New".
+
+2015-March-01 Struan Robertson
 
 	* SensitivityAnalysis.cpp: Added implementation to write indices to
 	output .xml.
