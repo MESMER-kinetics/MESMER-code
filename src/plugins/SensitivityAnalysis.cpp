@@ -6,9 +6,9 @@
 // Date:   25/Nov/2012
 //
 // This class implements sensitivity analysis algorithm used to identify this most important
-// parameters from a fit. It is based on the Li et al, Chem. Eng. Sci. Vol. 57, 4445 (2002) and 
-// guided by the matlab implementation of Tilo Ziehn, particularly the methods sub_alpha_1st.m,
-// sub_beta_2nd.m and sub_sensitivity_indices.m.
+// parameters from a fit. It is based on the Li et al, Chem. Eng. Sci. Vol. 57, 4445 (2002)
+// and guided by the matlab implementation of Tilo Ziehn, particularly the methods
+// sub_alpha_1st.m, sub_beta_2nd.m and sub_sensitivity_indices.m.
 //
 //-------------------------------------------------------------------------------------------
 
@@ -227,8 +227,11 @@ namespace mesmer
     // This method generates data for external analysis.
     bool DoCalculationOld(System* pSys); 
 
-    // This methods writes out the results of a sensitivity analysis.
-    bool WriteOutAnalysis(const vector<string> &rxnId, const vector<double> &f0, const vector<double> &alpha, double Temperature, double Concentration) ;
+    // This method writes out the results of a sensitivity analysis to test file.
+    bool WriteOutAnalysisToTest(const vector<string> &rxnId, const vector<double> &f0, const vector<double> &alpha, double Temperature, double Concentration) ;
+
+    // This method writes out the results of a sensitivity analysis.
+    bool WriteOutAnalysis(const vector<string> &rxnId, double Temperature, double Concentration) ;
 
     // This method calculates sensitivity indicies.
     bool sensitivityIndicies(const vector<double> &f0, const vector<double> &alpha, const vector<double> &beta); 
@@ -245,6 +248,8 @@ namespace mesmer
     string columnHeader() const ;
 
     const char* m_id;
+
+    PersistPtr m_pSA ;
 
     size_t m_nVar ;                 // Dimension of analysis - number of inputs.
     size_t m_nOut ;                 // Dimension of analysis - number of outputs.
@@ -274,6 +279,9 @@ namespace mesmer
     m_maxIterations = pp->XmlReadInteger("me:SensitivityAnalysisIterations");
     m_bGenerateData = pp->XmlReadBoolean("me:SensitivityGenerateData");
     m_order         = pp->XmlReadInteger("me:SensitivityAnalysisOrder");
+
+    // Store pointer for output.
+    m_pSA = pp ;
 
     return true;
   }
@@ -402,7 +410,10 @@ namespace mesmer
       return false ;
     }
 
-    //Read variable uncertainties from range
+    // Prepare output.
+    m_pSA = m_pSA->XmlWriteMainElement("me:senitivityAnalysisTables", "", true); // Will replace an existing element.
+
+    // Read variable uncertainties from range.
     for (size_t iVar(0) ; iVar < m_nVar ; iVar++) {
       Rdouble var  = *Rdouble::withRange()[iVar] ;
       double lower = var.get_lower();
@@ -544,11 +555,11 @@ namespace mesmer
         varf[i]  = f02[i] - f0[i]*f0[i] ;
       }
 
-	  // Calculate the R^2 statistic. 
+      // Calculate the R^2 statistic. 
 
       vector<double> sumOfRes(m_nOut, 0.0) ;
       for (size_t itr(0) ; itr < m_maxIterations ; itr++) {
-		vector<double> rndmd = locationData[itr] ;
+        vector<double> rndmd = locationData[itr] ;
 
         for (size_t nOut(0), ida(0), idb(0) ; nOut < f0.size() ; nOut++) {
           double output = outputData[itr][nOut] ;
@@ -590,7 +601,9 @@ namespace mesmer
 
       sensitivityIndicies(varf, alpha, beta) ;
 
-      WriteOutAnalysis(rxnId, f0, alpha, Temperature[nCnd], Concentration[nCnd]) ;
+      WriteOutAnalysisToTest(rxnId, f0, alpha, Temperature[nCnd], Concentration[nCnd]) ;
+
+      WriteOutAnalysis(rxnId, Temperature[nCnd], Concentration[nCnd]) ;
 
     } // End of conditions loop. 
 
@@ -631,8 +644,55 @@ namespace mesmer
     return true ;
   }
 
+  // This method writes out the results of a sensitivity analysis.
+  bool SensitivityAnalysis::WriteOutAnalysis(const vector<string> &rxnId, double Temperature, double Concentration) {
+
+    // Begin table.
+
+    PersistPtr pp = m_pSA->XmlWriteElement("me:sensitivityAnalysisTable"); 
+
+    // Write out conditions
+
+    pp->XmlWriteAttribute("Temperature", Temperature, 2, true);
+    pp->XmlWriteAttribute("Concentration", Concentration, 2, true);
+
+    for (size_t i(0), idx(0) ; i < m_nOut ; i++) {
+
+      PersistPtr ppFirstOrder = pp->XmlWriteElement("SensitivityIndices");
+      ppFirstOrder->XmlWriteAttribute("Reaction", rxnId[i]);
+
+      // Write out first order sensitivities.
+
+      vector<double> &FrtOdr = m_Di[i] ;
+      for (size_t j(0) ; j < FrtOdr.size() ; j++) {
+        stringstream ss ;
+        ss << FrtOdr[j] ;
+        PersistPtr pp1stOrdVal = ppFirstOrder->XmlWriteValueElement("FirstOrderIndex", ss.str());
+        Rdouble var = *Rdouble::withRange()[j] ;
+        pp1stOrdVal->XmlWriteAttribute("Key", var.get_varname());
+      }
+
+      // Write out second order sensitivities.
+
+      for (size_t j(0) ; j < m_nVar ; j++, idx++) {
+        Rdouble var1 = *Rdouble::withRange()[j] ;
+        vector<double> &SndOdr = m_Dij[idx] ;
+        for (size_t k(0) ; k < j ; k++) {
+          stringstream ss ;
+          ss << SndOdr[k] ;
+          PersistPtr pp1stOrdVal = ppFirstOrder->XmlWriteValueElement("SecondOrderIndex", ss.str());
+          Rdouble var2 = *Rdouble::withRange()[k] ;
+          pp1stOrdVal->XmlWriteAttribute("Key1", var1.get_varname());
+          pp1stOrdVal->XmlWriteAttribute("Key2", var2.get_varname());
+        }
+      }
+    }
+
+    return true ;
+  }
+
   // This method generates data for external analysis.
-  bool SensitivityAnalysis::WriteOutAnalysis(const vector<string> &rxnId, const vector<double> &f0, const vector<double> &alpha, double Temperature, double Concentration) {
+  bool SensitivityAnalysis::WriteOutAnalysisToTest(const vector<string> &rxnId, const vector<double> &f0, const vector<double> &alpha, double Temperature, double Concentration) {
 
     cinfo << endl << "Sensitivity Analysis: Temperature = " << setw(5) << setprecision(4) << Temperature << ", Concentration = " << Concentration << endl << endl;
 
