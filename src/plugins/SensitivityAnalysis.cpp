@@ -228,13 +228,16 @@ namespace mesmer
     bool DoCalculationOld(System* pSys); 
 
     // This method writes out the results of a sensitivity analysis to test file.
-    bool WriteOutAnalysisToTest(const vector<string> &rxnId, const vector<double> &f0, const vector<double> &alpha, double Temperature, double Concentration) ;
+    bool WriteOutAnalysisToTest(const vector<string> &rxnId, const vector<double> &f0, double Temperature, double Concentration) ;
 
     // This method writes out the results of a sensitivity analysis.
     bool WriteOutAnalysis(const vector<string> &rxnId, double Temperature, double Concentration) ;
 
     // This method calculates sensitivity indicies.
-    bool sensitivityIndicies(const vector<double> &f0, const vector<double> &alpha, const vector<double> &beta); 
+    bool sensitivityIndicies(const vector<double> &f0, const vector<vector<double> > &alphas, const vector<vector<double> > &betas); 
+
+    // This method returns the legendre expansion estimate of the output value.
+    double legendreExpansion(vector<double> &x, const double &f0, const vector<double> &alpha, const vector<double> &beta) ;
 
     // Methods for generating values of shifted Legendre polynomials.
     typedef double (*slp)(const double &x) ;
@@ -462,7 +465,6 @@ namespace mesmer
       m_Dij.clear() ;
 
       vector<double> f0, f02, varf ;
-      vector<double> alpha, beta ;
       vector<string> rxnId ;
       vector<vector<double> > locationData(m_maxIterations,vector<double>(m_nVar,0.0)) ;
       vector<vector<double> > outputData ;
@@ -470,7 +472,6 @@ namespace mesmer
 
       // Loop over perturbed parameter values.
 
-      double nrmlFctr(1.0/double(m_maxIterations)) ;
       for (size_t itr(0) ; itr < m_maxIterations ; itr++) {
         vector<double> rndmd(m_nVar,0.0) ;
         sobol.sobol(m_nVar, &seed, rndmd) ;
@@ -492,11 +493,7 @@ namespace mesmer
           m_nOut = phenRates.size() ;
           f0.resize(m_nOut, 0.0) ;
           f02.resize(m_nOut, 0.0) ;
-          m_RSquared.resize(m_nOut, 0.0) ;
-          varf.resize(m_nOut, 0.0) ;
           outputData.resize(m_maxIterations, vector<double>(m_nOut, 0.0)) ;
-          alpha.resize(m_nOut*m_nVar*m_order, 0.0) ;
-          beta.resize(m_nOut*m_nVar*m_nVar*m_order*m_order, 0.0) ;
           map<string, double>::const_iterator irxn = phenRates.begin();
           for (; irxn != phenRates.end(); irxn++) {
             rxnId.push_back(irxn->first) ;
@@ -504,18 +501,27 @@ namespace mesmer
           f0Initialized = true ;
         }
 
-        // Calculate alpha values.		
         map<string, double>::const_iterator irxn = phenRates.begin();
-        for (size_t nOut(0), ida(0), idb(0) ; irxn != phenRates.end() ; irxn++, nOut++) {
-
+        for (size_t nOut(0) ; irxn != phenRates.end() ; irxn++, nOut++) {
           double output = irxn->second ;
           outputData[itr][nOut] = output ;
           f0[nOut]  += output ;
           f02[nOut] += output*output ;
+		}
+	  }
 
-          // Calculate all alpha and beta coefficients for the up to m_order polynomials.
+      // Calculate all alpha and beta coefficients for the up to m_order polynomials.
 
-          for (size_t i(0) ; i < rndmd.size() ; i++) {
+	  vector<vector<double> > alphas(m_nOut, vector<double>(m_nVar*m_order, 0.0) ) ;
+      vector<vector<double> > betas(m_nOut,  vector<double>(m_nVar*m_nVar*m_order*m_order, 0.0) ) ;
+      for (size_t itr(0) ; itr < m_maxIterations ; itr++) {
+        vector<double> rndmd = locationData[itr] ;
+        for (size_t nOut(0) ; nOut < m_nOut ; nOut++) {
+          double output = outputData[itr][nOut] ;
+		  vector<double> &alpha = alphas[nOut] ;
+		  vector<double> &beta = betas[nOut] ;
+
+          for (size_t i(0), ida(0), idb(0) ; i < rndmd.size() ; i++) {
 
             // alpha coefficients.
 
@@ -537,18 +543,27 @@ namespace mesmer
 
           }
 
-        } // End of Ouputs loop.
+        } // End of Outputs loop.
 
       } // End of Iteration loop.
 
-      for (size_t i(0) ; i < alpha.size() ; i++) 
-        alpha[i] *= nrmlFctr ;
+      double nrmlFctr(1.0/double(m_maxIterations)) ;
+      for (size_t i(0) ; i < alphas.size() ; i++) {
+		for (size_t j(0) ; j < alphas[i].size() ; j++) {
+		  alphas[i][j] *= nrmlFctr ;
+	    }
+	  }
 
-      for (size_t i(0) ; i < beta.size() ; i++) 
-        beta[i] *= nrmlFctr ;
+      for (size_t i(0) ; i < betas.size() ; i++) {
+ 		for (size_t j(0) ; j < betas[i].size() ; j++) {
+		  betas[i][j] *= nrmlFctr ;
+	    }
+	  }
 
       // Calculate the variance of the outputs.
 
+      m_RSquared.resize(m_nOut, 0.0) ;
+      varf.resize(m_nOut, 0.0) ;
       for (size_t i(0) ; i < f0.size() ; i++) {
         f0[i]   *= nrmlFctr ;
         f02[i]  *= nrmlFctr ;
@@ -561,35 +576,14 @@ namespace mesmer
       for (size_t itr(0) ; itr < m_maxIterations ; itr++) {
         vector<double> rndmd = locationData[itr] ;
 
-        for (size_t nOut(0), ida(0), idb(0) ; nOut < f0.size() ; nOut++) {
+        for (size_t nOut(0), idb(0) ; nOut < f0.size() ; nOut++) {
           double output = outputData[itr][nOut] ;
 
           // Calculate fitted value.
 
-          double sum(f0[nOut]) ;
+		  double h0 = legendreExpansion(rndmd, f0[nOut], alphas[nOut], betas[nOut]);
 
-          for (size_t i(0) ; i < m_nVar ; i++) {
-
-            // alpha coefficients.
-
-            double input_i = rndmd[i] ;
-            for (size_t k(1) ; k <= m_order ; k++, ida++) {
-              sum += alpha[ida]*ShiftedLegendre(k, input_i) ;
-            }
-
-            // beta coefficients.
-
-            for (size_t j(0) ; j < i ; j++) {
-              double input_j = rndmd[j] ;
-              for (size_t k(1) ; k <= m_order ; k++) {
-                for (size_t l(1) ; l <= m_order ; l++, idb++) {
-                  sum += beta[idb] * ShiftedLegendre(k, input_i) * ShiftedLegendre(l, input_j) ; 
-                }
-              }
-            }
-          }
-
-          double residue = output - sum ;
+          double residue = output - h0 ;
           sumOfRes[nOut] += residue*residue ;
         }
       }
@@ -599,9 +593,9 @@ namespace mesmer
         m_RSquared[i] = 1.0 - (sumOfRes[i]/varf[i]) ;
       }
 
-      sensitivityIndicies(varf, alpha, beta) ;
+      sensitivityIndicies(varf, alphas, betas) ;
 
-      WriteOutAnalysisToTest(rxnId, f0, alpha, Temperature[nCnd], Concentration[nCnd]) ;
+      WriteOutAnalysisToTest(rxnId, f0, Temperature[nCnd], Concentration[nCnd]) ;
 
       WriteOutAnalysis(rxnId, Temperature[nCnd], Concentration[nCnd]) ;
 
@@ -610,13 +604,45 @@ namespace mesmer
     return true;
   }
 
-  // This method calculates sensitivity indicies.
-  bool SensitivityAnalysis::sensitivityIndicies(const vector<double> &varf, const vector<double> &alpha, const vector<double> &beta) {
+  // This method returns the legendre expansion estimate of the output value.
+  double SensitivityAnalysis::legendreExpansion(vector<double> &x, const double &f0, const vector<double> &alpha, const vector<double> &beta) {
+    
+	// Initialize sum with the mean of the function.
+	double sum(f0) ;
 
-    for (size_t nOut(0), ida(0), idb(0) ; nOut < m_nOut ; nOut++) {
+    for (size_t i(0), ida(0), idb(0) ; i < m_nVar ; i++) {
+
+      // alpha coefficients.
+
+      double input_i = x[i] ;
+      for (size_t k(1) ; k <= m_order ; k++, ida++) {
+        sum += alpha[ida]*ShiftedLegendre(k, input_i) ;
+      }
+
+      // beta coefficients.
+
+      for (size_t j(0) ; j < i ; j++) {
+        double input_j = x[j] ;
+        for (size_t k(1) ; k <= m_order ; k++) {
+          for (size_t l(1) ; l <= m_order ; l++, idb++) {
+            sum += beta[idb] * ShiftedLegendre(k, input_i) * ShiftedLegendre(l, input_j) ; 
+          }
+        }
+      }
+    }
+
+	return sum ;
+  }
+
+  // This method calculates sensitivity indicies.
+  bool SensitivityAnalysis::sensitivityIndicies(const vector<double> &varf, const vector<vector<double> > &alphas, const vector<vector<double> > &betas) {
+
+    for (size_t nOut(0), idb(0) ; nOut < m_nOut ; nOut++) {
       double rvar(1.0/varf[nOut]) ;
+	  const vector<double> &alpha = alphas[nOut] ;
+	  const vector<double> &beta  = betas[nOut] ;
       vector<double> tma ;
-      for (size_t i(0) ; i < m_nVar ; i++) {
+      for (size_t i(0), ida(0), idb(0) ; i < m_nVar ; i++) {
 
         // First order indicies.
         double sma(0.0) ;
@@ -692,7 +718,7 @@ namespace mesmer
   }
 
   // This method generates data for external analysis.
-  bool SensitivityAnalysis::WriteOutAnalysisToTest(const vector<string> &rxnId, const vector<double> &f0, const vector<double> &alpha, double Temperature, double Concentration) {
+  bool SensitivityAnalysis::WriteOutAnalysisToTest(const vector<string> &rxnId, const vector<double> &f0, double Temperature, double Concentration) {
 
     cinfo << endl << "Sensitivity Analysis: Temperature = " << setw(5) << setprecision(4) << Temperature << ", Concentration = " << Concentration << endl << endl;
 

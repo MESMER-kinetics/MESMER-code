@@ -1,4 +1,8 @@
 
+2015-March-03 Struan Robertson
+
+	* SensitivityAnalysis.cpp: Refactoring of main sensitivity analysis method.
+
 2015-March-01 Struan Robertson
 
 	* Documentation: Updated "What's New".
