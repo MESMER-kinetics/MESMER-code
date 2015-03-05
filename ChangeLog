@@ -1,4 +1,10 @@
 
+
+2015-March-04 Struan Robertson
+
+	* SensitivityAnalysis.cpp: Initial implemetation of correlation method for
+	variance reduction.
+
 2015-March-03 Struan Robertson
 
 	* SensitivityAnalysis.cpp: Refactoring of main sensitivity analysis method.
