@@ -1,9 +1,13 @@
 
+2015-March-07 Struan Robertson
+
+	* SensitivityAnalysis.cpp: Implementation of both additive and ration control
+	variate methods for	variance reduction.
 
 2015-March-04 Struan Robertson
 
-	* SensitivityAnalysis.cpp: Initial implemetation of correlation method for
-	variance reduction.
+	* SensitivityAnalysis.cpp: Initial implementation of additive control variate 
+	method for variance reduction.
 
 2015-March-03 Struan Robertson
 

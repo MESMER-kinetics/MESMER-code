@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Feb 28 2015 -- 14:59:03
+     Mesmer v4.0 compiled: -- Mar  7 2015 -- 15:39:06
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -42,7 +42,7 @@ In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
 3e+017PPCC, 720K at d precision with He
 3e+016PPCC, 880K at d precision with He
-Write metadata 20150228_213852
+Write metadata 20150307_160923
 
 File: "ipropyl_SA.xml" successfully parsed.
 Main Calculation begins
@@ -75,6 +75,7 @@ Number of grains requested: 248
 In FastLaplaceConvolution: 440 values in the FFT convolution routine were replaced by standard convolution
 Number of grains requested: 243
 Number of grains requested: 233
+Number of grains requested: 249
 
 Sensitivity Analysis: Temperature =   720, Concentration = 3e+017
 
@@ -86,40 +87,40 @@ Input variable key:
 
  First order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
-          0.0026476        0.13136        0.74515
+         0.00020257        0.14234         0.7299
 
  Second order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
 (1)              --             --             --
-(2)        0.021724             --             --
-(3)        0.031541        0.15526             --
+(2)     5.9958e-005             --             --
+(3)      0.00028439         0.1273             --
 
-R-Squared statistic: 0.9206
+R-Squared statistic: 0.9996
 
+Number of grains requested: 267
+In FastLaplaceConvolution: 760 values in the FFT convolution routine were replaced by standard convolution
+Number of grains requested: 257
+Number of grains requested: 252
+Number of grains requested: 262
 Number of grains requested: 269
 In FastLaplaceConvolution: 680 values in the FFT convolution routine were replaced by standard convolution
 Number of grains requested: 259
 Number of grains requested: 254
 Number of grains requested: 264
-Number of grains requested: 257
-Number of grains requested: 267
-Number of grains requested: 262
-Number of grains requested: 252
-Number of grains requested: 266
 Number of grains requested: 256
-Number of grains requested: 251
+Number of grains requested: 266
 Number of grains requested: 261
-Number of grains requested: 255
+Number of grains requested: 251
 Number of grains requested: 265
+Number of grains requested: 255
+Number of grains requested: 260
 Number of grains requested: 270
 In FastLaplaceConvolution: 720 values in the FFT convolution routine were replaced by standard convolution
-Number of grains requested: 260
 Number of grains requested: 268
 Number of grains requested: 258
 Number of grains requested: 253
 Number of grains requested: 263
 Number of grains requested: 271
-In FastLaplaceConvolution: 760 values in the FFT convolution routine were replaced by standard convolution
 
 Sensitivity Analysis: Temperature =   880, Concentration = 3e+016
 
@@ -131,17 +132,17 @@ Input variable key:
 
  First order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
-          0.0039454        0.51226        0.31371
+        2.1026e-005         0.4679        0.32261
 
  Second order indices for i-propyl => propene+H: 
                 (1)            (2)            (3)
 (1)              --             --             --
-(2)        0.043334             --             --
-(3)        0.013639        0.20313             --
+(2)      0.00017129             --             --
+(3)      0.00025469        0.18203             --
 
-R-Squared statistic: 0.8991
+R-Squared statistic: 0.9986
 
 Energy convention "arbitrary" written to <moleculeList>
- -- Total time elapsed: 71 seconds.
+ -- Total time elapsed: 118 seconds.
 
 System saved to mesmer_out.xml

@@ -462,9 +462,11 @@
     </me:modelParameters>
     <me:control>
       <me:calcMethod xsi:type="me:SensitivityAnalysis">
-        <me:SensitivityAnalysisIterations>200</me:SensitivityAnalysisIterations>
+        <me:SensitivityAnalysisSamples>300</me:SensitivityAnalysisSamples>
         <me:SensitivityGenerateData>false</me:SensitivityGenerateData>
         <me:SensitivityAnalysisOrder>3</me:SensitivityAnalysisOrder>
+        <me:SensitivityNumVarRedIters>10</me:SensitivityNumVarRedIters>
+        <me:SensitivityVarRedMethod>RatioControl</me:SensitivityVarRedMethod>
       </me:calcMethod>
         <me:testDOS />
         <me:eigenvalues>1</me:eigenvalues>

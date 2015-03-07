@@ -1,6 +1,7 @@
 //MesmerTools.cpp
 #include "MesmerTools.h"
 
+using namespace Constants;
 
 namespace mesmer
 {
