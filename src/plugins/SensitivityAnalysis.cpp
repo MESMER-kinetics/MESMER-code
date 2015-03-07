@@ -902,7 +902,7 @@ namespace mesmer
 
       stringstream ss ;
       ss << m_RSquared[i] ;
-      PersistPtr ppRSquared = m_pSA->XmlWriteValueElement("SecondOrderIndex", ss.str());
+      PersistPtr ppRSquared = m_pSA->XmlWriteValueElement("R_Squared", ss.str());
     }
 
     return true ;
