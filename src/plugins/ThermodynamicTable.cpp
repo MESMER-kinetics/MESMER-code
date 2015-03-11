@@ -278,12 +278,12 @@ namespace mesmer
         PersistPtr ppScalar = ppProp->XmlWriteValueElement("scalar", ss.str());
         ppScalar->XmlWriteAttribute("dictRef", "NasaLowT");
 
-        ss.clear();
+        ss.str("");
         ss << temperature.back();
         ppScalar = ppProp->XmlWriteValueElement("scalar", ss.str());
         ppScalar->XmlWriteAttribute("dictRef", "NasaHighT");
 
-        ss.clear();
+        ss.str("");
         ss << m_Tmid ? m_Tmid : temperature.back();
         ppScalar = ppProp->XmlWriteValueElement("scalar", ss.str());
         ppScalar->XmlWriteAttribute("dictRef", "NasaMidT");

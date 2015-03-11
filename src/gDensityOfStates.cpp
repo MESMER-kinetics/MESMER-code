@@ -311,7 +311,8 @@ namespace mesmer
     if (IsNan(tempzpe))
       return false; //element elName not found
 
-    unitsInput = ppPropList->XmlReadPropertyAttribute(elName, "units"); //default kJ/mol
+    //Read units; default from defaults.xml, probably kJ/mol.
+    unitsInput = ppPropList->XmlReadPropertyAttribute(elName, "units");
 
     if (elName != "me:ZPE")
     {
@@ -329,16 +330,9 @@ namespace mesmer
       //If not set already, set the energy convention for all molecules
       if (m_energyConvention.empty())
         m_energyConvention = txt ? txt : "arbitrary";
-      else if (txt && m_energyConvention != txt)
-      {
-        cerr << "The energy convention " << txt << " is not the same as "
-          << m_energyConvention << " which was set previously.\n"
-          "All energy conventions must be the same." << endl;
-          return false;
-      }
 
       double zpCorrection = 0.0; //cm-1
-      if (m_energyConvention == "computational")
+      if (m_energyConvention == "computational" || (txt && strcmp(txt, "computational")==0))
       {
         // Mesmer assumes that the ZPE is the true zero point energy, unless
         // an attribute zeroPointVibEnergyAdded="false" 
@@ -397,6 +391,7 @@ namespace mesmer
   {
     if (IsNan(m_ZPE))
       return NaN;
+    cinfo << "enthalpy of formation at 298K:";
     return ConvertEnergyConvention(m_energyConvention, "thermodynamic298K",
                                    ConvertFromWavenumbers("kJ/mol", m_ZPE));
   }

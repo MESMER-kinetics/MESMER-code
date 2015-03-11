@@ -647,6 +647,7 @@ namespace mesmer
   bool gStructure::GetConstituentAtomThermo
     (double& ZPE, double&Hf0, double& Hf298, double& dH298, double& dStdH298)
   {
+    //TODO check non-initialized var?
     map<string, int> Comp = GetElementalComposition();
     if (Comp.empty())
     {
@@ -654,7 +655,7 @@ namespace mesmer
               "the molecule needs chemical structure (an atomList at least)" << endl;
       return false;
     }
-    ZPE = Hf298 = dH298 = dStdH298 = 0.0;
+    ZPE = Hf0 = Hf298 = dH298 = dStdH298 = 0.0;
     // for (auto c : Comp)   C++11!
     for (map<string, int>::iterator it = Comp.begin(); it != Comp.end(); ++it)
     { 
@@ -665,7 +666,7 @@ namespace mesmer
       {
         //All must be in kJ/mol - not checked
         ZPE      += it->second * ppMol->XmlReadPropertyDouble("me:ZPE", optional);
-        Hf0    += it->second * ppMol->XmlReadPropertyDouble("me:Hf0", optional);
+        Hf0      += it->second * ppMol->XmlReadPropertyDouble("me:Hf0", optional);
         Hf298    += it->second * ppMol->XmlReadPropertyDouble("me:Hf298", optional);
         dH298    += it->second * ppMol->XmlReadPropertyDouble("me:H0-H298", optional);
         dStdH298 += it->second * ppMol->XmlReadPropertyDouble("me:stdH0-H298", optional);

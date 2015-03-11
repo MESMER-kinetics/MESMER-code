@@ -87,5 +87,8 @@
   <property dictRef="me:Hf0">
     <scalar units="kJ/mol" default="true"/>
   </property>
+  <property dictRef="me:ZPE">
+    <scalar units="kJ/mol" default="true"/>
+  </property>
 </defaults>
 

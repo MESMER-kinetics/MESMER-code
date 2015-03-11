@@ -1,3 +1,13 @@
+2015-March-11 Chris Morley
+
+    * src/gDensityOfStates.cpp: add missing NULL test.  
+    
+    * src/plugins/ThermodynamicTable.cpp: clear does not empty stringstreams!
+
+    * defaults.xml: add missing default for me:ZPE
+
+    * src/gStructure.cpp: bug in gStructure::GetConstituentAtomThermo()
+      NOT YET FIXED 
 
 2015-March-07 Struan Robertson
 
