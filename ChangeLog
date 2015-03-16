@@ -1,3 +1,11 @@
+2015-March-16 Chris Morley
+
+    * src/gDensityOfStates.cpp,src/gDensityOfStates.h: correct algorithm for
+    conversion between computational and thermodynamic. Correct units handling
+    in ConvertEnergyConvention().
+
+    * mesmer1.xsl: display for Sensitivity Analysis (unfinished)
+
 2015-March-11 Chris Morley
 
     * src/gDensityOfStates.cpp: add missing NULL test.  

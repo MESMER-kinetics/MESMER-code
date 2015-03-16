@@ -248,8 +248,10 @@ namespace mesmer
    }
 
   double gDensityOfStates::ConvertEnergyConvention(
-    const std::string& fromConvention, const std::string& toConvention, double fromValue)
+    const std::string& fromConvention, const std::string& toConvention, double fromValue, const string& units)
   {
+    // Converts between "computational", "thermodynamic"  and "thermodynamic298K" conventions
+    // The last parameter specifies the units of the input and returned values.
     if (IsNan(fromValue))
       return fromValue;
     if (fromConvention == toConvention)
@@ -266,27 +268,27 @@ namespace mesmer
     }
 
       /*     X(298K)  =>    ElemsStdStates(298K)      Hf(298K)
-         H298 for X                    H298 for elems
+      H298(X)  |                  |    H298 for elems
              X(0K)    =>    ElemsStdStates(0K)        Hf(0K)
-         compE   \         /   Hf0 for atoms
-                nuclei,electrons
+      compE    |                  |    Hf0 for atoms
+         nuclei,electrons =>  Atoms(0K)               compEatoms
 
-         Hf(298K) + H298els - Hf(0K) - H298 = 0     
-           compE  -  Hf(0K) +  Hfatoms(0K)  = 0   */
+       Hf(298K)  +  H298els  -  Hf(0K)  -  H298 = 0     
+       compE -compEatoms - Hf(0K) + Hfatoms(0K) = 0   */
 
     //Use Hf0 as intermediate
-    double val = fromValue;
+    double val = ConvertEnergy(units, "kJ/mol", fromValue);
     if (fromConvention == "thermodynamic298K")
       val += stddH298 - H; //all in kJ/mol
     else if (fromConvention == "computational")
-      val -= atomHf0;
+      val += atomHf0 - atomZPE ;
     else if (fromConvention != "thermodynamic")
       val = NaN;
 
     if (toConvention == "thermodynamic298K")
       val += H - stddH298; //all in kJ/mol
     else if (toConvention == "computational")
-      val += atomHf0;
+      val += atomZPE - atomHf0;
     else if (toConvention != "thermodynamic")
       val = NaN;
 
@@ -297,7 +299,7 @@ namespace mesmer
       cinfo <<"energy converted from "
             << fromConvention << " to " << toConvention << endl;
 
-    return val;
+    return ConvertEnergy("kJ/mol", units, val);
   }
 
   bool gDensityOfStates::ReadEnergy(std::string elName, std::string nativeConvention)
@@ -354,9 +356,10 @@ namespace mesmer
             zpCorrection = accumulate(m_VibFreq.begin(), m_VibFreq.end(), 0.0);
             zpCorrection *= 0.5;
           }
+          tempzpe += ConvertFromWavenumbers(unitsInput, zpCorrection);
           //Write back a corrected value and change attribute to zeroPointVibEnergyAdded="true"
           PersistPtr ppScalar = ppMol->XmlMoveToProperty(elName);
-          ppScalar->XmlWrite(toString(tempzpe + ConvertFromWavenumbers(unitsInput, zpCorrection)));
+          ppScalar->XmlWrite(toString(tempzpe)); //in original units
           ppScalar->XmlWriteAttribute(zpAttName, "true");
           cinfo << "Zero point correction made by adding " << zpCorrection << " cm-1" << endl;
         }
@@ -368,7 +371,7 @@ namespace mesmer
     }
 
     if (m_energyConvention != "arbitrary")
-      tempzpe = ConvertEnergyConvention(nativeConvention, m_energyConvention, tempzpe);
+      tempzpe = ConvertEnergyConvention(nativeConvention, m_energyConvention, tempzpe, unitsInput);
 
     m_ZPE = getConvertedEnergy(unitsInput, tempzpe);
 
@@ -376,9 +379,9 @@ namespace mesmer
     {
       // Write the value converted from Hf0 or Hf298 back to a me:ZPE element in the
       // XML file, mainly so it can be displayed in the Firefox energy level diagram
-      // and to allow energy to be range variables. (<me:Hf0 and <me:Hf298> cannot
-      // have range attributes.)
-	  stringstream ss;
+      // and to allow the energy to be a range variable. 
+      // <me:Hf0 and <me:Hf298> cannot have range attributes.
+      stringstream ss;
       ss << ConvertFromWavenumbers(unitsInput, m_ZPE) ;
       PersistPtr ppScalar = ppPropList->XmlWriteProperty("me:ZPE", ss.str(), unitsInput);
       ppScalar->XmlWriteAttribute("source", elName);
@@ -393,7 +396,7 @@ namespace mesmer
       return NaN;
     cinfo << "enthalpy of formation at 298K:";
     return ConvertEnergyConvention(m_energyConvention, "thermodynamic298K",
-                                   ConvertFromWavenumbers("kJ/mol", m_ZPE));
+                                   ConvertFromWavenumbers("kJ/mol", m_ZPE),"kJ/mol");
   }
 
   //

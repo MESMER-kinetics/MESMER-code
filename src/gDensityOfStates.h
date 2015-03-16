@@ -148,8 +148,10 @@ namespace mesmer
 
     bool ReadZeroPointEnergy(PersistPtr ppPropList) ;
 
+    // Converts between "computational", "thermodynamic"  and "thermodynamic298K" conventions
+    // The last parameter specifies the units of the input and returned values.
     double ConvertEnergyConvention(
-      const std::string& fromConvention, const std::string& toConvention, double fromValue);
+      const std::string& fromConvention, const std::string& toConvention, double fromValue, const string& units);
 
     //Read <me:ZPE>, <me:Hf0>, <me:Hf298> or <me:HfAT0> from XML as specified by elName.
     //Returns true if found. Converts energy convention if the XML and nativeConvention are different .

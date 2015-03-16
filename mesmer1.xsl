@@ -138,18 +138,10 @@
         </xsl:if>
       </div>
       
-      <xsl:variable name ="Econventions" select="//cml:property/cml:scalar/@convention
-      | //cml:moleculeList/@convention"/>
-      <xsl:if test="$Econventions[1] != $Econventions">
-        <div class="error">Not all the Energy Conventions on molecules are the same:
-        <xsl:for-each select="$Econventions">
-          <xsl:value-of select="concat(.,' ')"/>
-        </xsl:for-each>
-      </div>
-      </xsl:if>
+      <xsl:variable name ="Econvention" select="//cml:moleculeList/@convention"/>
       <xsl:variable name ="Etext">
         <xsl:choose>
-          <xsl:when test="$Econventions[1]='thermodynamic'">&#916;Hf at 0K</xsl:when>
+          <xsl:when test="$Econvention='thermodynamic'">&#916;Hf at 0K</xsl:when>
           <xsl:otherwise>Energy</xsl:otherwise>
         </xsl:choose>
       </xsl:variable>
@@ -159,8 +151,8 @@
       </xsl:variable>
       <h3 id="mols-title" class="handcursor">Molecules</h3>
       <div id="mols" class="switchgroup3">
-        <xsl:if test="$Econventions[1]">
-          <xsl:value-of select="concat('Energy convention is ', $Econventions[1])"/>
+        <xsl:if test="$Econvention">
+          <xsl:value-of select="concat('Energy convention is ', $Econvention)"/>
         </xsl:if>
         <table class="mol">
           <tr class="tableheader">
@@ -220,8 +212,8 @@
       <h3 id="BWrates-title" class="handcursor">Bartis-Widom Phenomenological Rate Coefficients</h3>
       <div id="BWrates" class="switchgroup5">
         <div class="warn">
-		  <xsl:value-of select="//me:rateList/me:warning"/>
-		</div>
+          <xsl:value-of select="//me:rateList/me:warning"/>
+        </div>
         <hh5 id="Punchout-title" class="handcursor">Copy and paste for spreadsheets, etc.</hh5>
         <div id="Punchout" class="switchgroup8">
           <xsl:call-template name="punchheader"/>
@@ -329,8 +321,14 @@
       </div>
     </xsl:if>
 
-  
-    <!--Show toggle for inactive display if the file contains any-->
+    <xsl:if test="//me:sensitivityAnalysisTables">
+      <h3 id="sensitivityAnalysis-title" class="handcursor">Sensitivity Analysis</h3>
+      <div id="sensitivityAnalysis" class="switchgroup15">
+        <xsl:apply-templates select="//me:sensitivityAnalysisTables/me:sensitivityAnalysisTable"/>
+      </div>
+    </xsl:if>
+
+      <!--Show toggle for inactive display if the file contains any-->
     <xsl:if test="//*[@active='false']">
       <p id="hide" onclick="toggle()">Hide/show inactive</p>
     </xsl:if>
@@ -338,7 +336,7 @@
     <!--Script for expanding an contracting sections-->
     <script type="text/javascript">
       <![CDATA[
-        for(var i=1; i <=14; i++)
+        for(var i=1; i <=15; i++)
         {
           var mc=new switchcontent("switchgroup" + i)
           mc.setStatus('- ','+ ')
@@ -747,6 +745,49 @@
     </table>
   </xsl:template>
 
+  <xsl:template match="//me:sensitivityAnalysisTables/me:sensitivityAnalysisTable">
+    <xsl:variable name="params" select="me:SensitivityIndices/me:FirstOrderIndex/@Key"/>
+    At <xsl:value-of select="concat(@Temperature,' K, ', @Concentration, ' molecules cm')"/><sup>-3</sup>
+    <h4>
+      <xsl:value-of select="concat('First order indices for ',me:SensitivityIndices/@Reaction)"/>
+    </h4>
+    <table>
+      <xsl:for-each select="me:SensitivityIndices/me:FirstOrderIndex">
+        <tr>
+          <td><xsl:value-of select="concat('(',position(),')')"/></td>
+          <td> <xsl:value-of select="@Key"/> </td>
+          <td> <xsl:value-of select="."/> </td>
+        </tr>
+      </xsl:for-each>
+    </table>
+      <xsl:variable name="secondorders" select="me:SensitivityIndices/me:SecondOrderIndex"/>
+      <h4><xsl:value-of select="concat('Second order indices for ',me:SensitivityIndices/@Reaction)"/></h4>
+    <table>
+      <tr><!--top row-->
+        <td>-----</td>
+        <xsl:for-each select="$params">
+        <td><!--top row-->
+          <xsl:value-of select="concat('(',position(),')')"/>
+        </td>
+      </xsl:for-each>
+      </tr>
+
+      <xsl:for-each select="$params">
+        <xsl:variable name="curparam" select="."/>
+        <tr>
+          <td><!--first col-->
+            <xsl:value-of select="concat('(',position(),')')"/>
+          </td>
+          <xsl:for-each select="$params">
+            <td>
+              <xsl:value-of select="$secondorders[(@Key1=$curparam)and(@Key2=current())]"/>
+            </td>
+          </xsl:for-each>
+        </tr>
+      </xsl:for-each>
+    </table>
+  </xsl:template>
+  
     <xsl:template match="cml:metadataList">
     <div id="metadata">
         <xsl:value-of select="dc:creator"/>:

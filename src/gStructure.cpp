@@ -665,7 +665,7 @@ namespace mesmer
       if (ppMol)
       {
         //All must be in kJ/mol - not checked
-        ZPE      += it->second * ppMol->XmlReadPropertyDouble("me:ZPE", optional);
+        ZPE      += it->second * ppMol->XmlReadPropertyDouble("me:ZPE", optional);//computational
         Hf0      += it->second * ppMol->XmlReadPropertyDouble("me:Hf0", optional);
         Hf298    += it->second * ppMol->XmlReadPropertyDouble("me:Hf298", optional);
         dH298    += it->second * ppMol->XmlReadPropertyDouble("me:H0-H298", optional);
