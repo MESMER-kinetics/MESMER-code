@@ -461,12 +461,12 @@
         <me:energyAboveTheTopHill>10.</me:energyAboveTheTopHill>
     </me:modelParameters>
     <me:control>
-      <me:calcMethod xsi:type="me:SensitivityAnalysis">
-        <me:SensitivityAnalysisSamples>300</me:SensitivityAnalysisSamples>
-        <me:SensitivityGenerateData>false</me:SensitivityGenerateData>
-        <me:SensitivityAnalysisOrder>3</me:SensitivityAnalysisOrder>
-        <me:SensitivityNumVarRedIters>10</me:SensitivityNumVarRedIters>
-        <me:SensitivityVarRedMethod>RatioControl</me:SensitivityVarRedMethod>
+      <me:calcMethod xsi:type="me:sensitivityAnalysis">
+        <me:sensitivityAnalysisSamples>300</me:sensitivityAnalysisSamples>
+        <me:sensitivityGenerateData>false</me:sensitivityGenerateData>
+        <me:sensitivityAnalysisOrder>3</me:sensitivityAnalysisOrder>
+        <me:sensitivityNumVarRedIters>10</me:sensitivityNumVarRedIters>
+        <me:sensitivityVarRedMethod>RatioControl</me:sensitivityVarRedMethod>
       </me:calcMethod>
         <me:testDOS />
         <me:eigenvalues>1</me:eigenvalues>

@@ -433,14 +433,15 @@
     </xs:complexContent>
   </xs:complexType>
   
-  <xs:complexType name="SensitivityAnalysis">
+  <xs:complexType name="sensitivityAnalysis">
     <xs:complexContent>
       <xs:extension base="calcMethodct">
         <xs:all>
-          <xs:element name="SensitivityAnalysisIterations" type="xs:integer" minOccurs="0"/>
-          <xs:element name="SensitivityAnalysisDelta" type="xs:float" minOccurs="0"/>
-          <xs:element name="SensitivityGenerateData" type="ynboolean" minOccurs="0"/>
-          <xs:element name="SensitivityAnalysisOrder" type="xs:integer" minOccurs="0"/>
+          <xs:element name="sensitivityAnalysisSamples" type="xs:integer" minOccurs="0"/>
+          <xs:element name="sensitivityGenerateData" type="ynboolean" minOccurs="0"/>
+          <xs:element name="sensitivityAnalysisOrder" type="xs:integer" minOccurs="0"/>
+          <xs:element name="sensitivityNumVarRedIters" type="xs:integer" minOccurs="0"/>
+          <xs:element name="sensitivityVarRedMethod" type="xs:string" minOccurs="0"/>
         </xs:all>
       </xs:extension>
     </xs:complexContent>

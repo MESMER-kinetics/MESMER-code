@@ -1,3 +1,21 @@
+2015-March-18 Chris Morley
+
+    * src/plugins/SensitivityAnalysis.cpp: 
+    
+      changed XML names to initial lc, e.g. me:sensitivityAnalysisSamples
+      (but not R_Squared) and gave all the elements me: prefixes.
+    
+      made <me:sensitivityVarRedMethod> an optional input with a hard-wired
+      default = RATIOCONTROL.
+    
+      moved output <me:R_Squared> to be child of <me:sensitivityAnalysisTable>
+
+    * examples\i-propyl - SA\ipropyl_SA.xml, schemas\mesmerPlugins.xsd: update
+
+    * defaults.xml: added defaults need checking
+
+    * mesmer1.xsl: improved formatting for Sensitivity Analysis output.
+
 2015-March-16 Chris Morley
 
     * src/gDensityOfStates.cpp,src/gDensityOfStates.h: correct algorithm for

@@ -58,6 +58,7 @@
       <style>
         <![CDATA[
         body{margin:20px;padding:0;}
+        caption{font-weight:bold;}
         table.mol{border-spacing:10px;}
         .name{font-weight:bold;}
         .tableheader
@@ -81,6 +82,7 @@
           padding-top:10px;text-align:center;
           
           border-bottom-width:2;}
+         .tablehead5{font-weight:bold;}
         .paramheader{
           font-family: Arial, Helvetica, sans-serif;
           color:black;
@@ -95,6 +97,7 @@
         .highlight{background-color:#f8f8f8;}
 
         td{padding:0px 4px;}
+        td.SAid{font-size:smaller;font-weight:bold;}
         th{font-size:smaller;border-bottom:1px dashed black;}
         h3{color:teal;font-family: Arial, Helvetica, sans-serif;font-weight:bold;}
         hh5{color:black;font-family: Arial, Helvetica, sans-serif;font-weight:bold;font-size:smaller;}
@@ -746,41 +749,44 @@
   </xsl:template>
 
   <xsl:template match="//me:sensitivityAnalysisTables/me:sensitivityAnalysisTable">
-    <xsl:variable name="params" select="me:SensitivityIndices/me:FirstOrderIndex/@Key"/>
-    At <xsl:value-of select="concat(@Temperature,' K, ', @Concentration, ' molecules cm')"/><sup>-3</sup>
-    <h4>
-      <xsl:value-of select="concat('First order indices for ',me:SensitivityIndices/@Reaction)"/>
-    </h4>
+    <xsl:variable name="params" select="me:sensitivityIndices/me:firstOrderIndex/@key"/>
+    <p class="tablehead1">
+      At <xsl:value-of select="concat(@temperature,' K, ', @concentration, ' molecules cm')"/><sup>-3</sup>
+    </p>
+    <div class="tablehead5">
+      <xsl:value-of select="concat('First order indices for ',me:sensitivityIndices/@reaction)"/>
+    </div>
     <table>
-      <xsl:for-each select="me:SensitivityIndices/me:FirstOrderIndex">
+      <tr><th>ID</th><th>Variable</th><th>First order index</th></tr>
+      <xsl:for-each select="me:sensitivityIndices/me:firstOrderIndex">
         <tr>
-          <td><xsl:value-of select="concat('(',position(),')')"/></td>
-          <td> <xsl:value-of select="@Key"/> </td>
+          <td class="SAid"><xsl:value-of select="concat('(',position(),')')"/></td>
+          <td> <xsl:value-of select="@key"/> </td>
           <td> <xsl:value-of select="."/> </td>
         </tr>
       </xsl:for-each>
     </table>
-      <xsl:variable name="secondorders" select="me:SensitivityIndices/me:SecondOrderIndex"/>
-      <h4><xsl:value-of select="concat('Second order indices for ',me:SensitivityIndices/@Reaction)"/></h4>
+    <xsl:variable name="secondorders" select="me:sensitivityIndices/me:secondOrderIndex"/>
+    <div class="tablehead5"><xsl:value-of select="concat('Second order indices for ',me:sensitivityIndices/@reaction)"/></div>
     <table>
-      <tr><!--top row-->
-        <td>-----</td>
+      <tr>
+        <th> IDs </th>
         <xsl:for-each select="$params">
-        <td><!--top row-->
+        <th><!--top row-->
           <xsl:value-of select="concat('(',position(),')')"/>
-        </td>
+        </th>
       </xsl:for-each>
       </tr>
 
       <xsl:for-each select="$params">
         <xsl:variable name="curparam" select="."/>
         <tr>
-          <td><!--first col-->
+          <td class="SAid"><!--first col-->
             <xsl:value-of select="concat('(',position(),')')"/>
           </td>
           <xsl:for-each select="$params">
             <td>
-              <xsl:value-of select="$secondorders[(@Key1=$curparam)and(@Key2=current())]"/>
+              <xsl:value-of select="$secondorders[(@key1=$curparam)and(@key2=current())]"/>
             </td>
           </xsl:for-each>
         </tr>

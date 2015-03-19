@@ -313,15 +313,15 @@ namespace mesmer
   bool SensitivityAnalysis::ParseData(PersistPtr pp)
   {
     // Read in sensitivity analysis parameters, or use values from defaults.xml.
-    m_nSample       = pp->XmlReadInteger("me:SensitivityAnalysisSamples");
-    m_bGenerateData = pp->XmlReadBoolean("me:SensitivityGenerateData");
-    size_t order    = pp->XmlReadInteger("me:SensitivityAnalysisOrder", optional);
+    m_nSample       = pp->XmlReadInteger("me:sensitivityAnalysisSamples");
+    m_bGenerateData = pp->XmlReadBoolean("me:sensitivityGenerateData");
+    size_t order    = pp->XmlReadInteger("me:sensitivityAnalysisOrder", optional);
     if (!IsNan(order)) 
       m_order = order ;
-    size_t nVred    = pp->XmlReadInteger("me:SensitivityNumVarRedIters", optional);
+    size_t nVred    = pp->XmlReadInteger("me:sensitivityNumVarRedIters", optional);
     if (!IsNan(nVred)) 
       m_nVred = nVred ;
-    const char* txt = pp->XmlReadValue("me:SensitivityVarRedMethod");
+    const char* txt = pp->XmlReadValue("me:sensitivityVarRedMethod", optional); //hard-wired default is RATIOCONTROL
     if (txt) {
       string str(txt) ;
       ToUpper(str) ;
@@ -460,7 +460,7 @@ namespace mesmer
     }
 
     // Prepare output.
-    m_pSA = m_pSA->XmlWriteMainElement("me:senitivityAnalysisTables", "", true); // Will replace an existing element.
+    m_pSA = m_pSA->XmlWriteMainElement("me:sensitivityAnalysisTables", "", true); // Will replace an existing element.
 
     // Read variable uncertainties from range.
     for (size_t iVar(0) ; iVar < m_nVar ; iVar++) {
@@ -864,13 +864,13 @@ namespace mesmer
 
     // Write out conditions
 
-    pp->XmlWriteAttribute("Temperature", Temperature, 2, true);
-    pp->XmlWriteAttribute("Concentration", Concentration, 2, true);
+    pp->XmlWriteAttribute("temperature", Temperature, 2, true);
+    pp->XmlWriteAttribute("concentration", Concentration, 2, true);
 
     for (size_t i(0), idx(0) ; i < m_nOut ; i++) {
 
-      PersistPtr ppFirstOrder = pp->XmlWriteElement("SensitivityIndices");
-      ppFirstOrder->XmlWriteAttribute("Reaction", rxnId[i]);
+      PersistPtr ppFirstOrder = pp->XmlWriteElement("me:sensitivityIndices");
+      ppFirstOrder->XmlWriteAttribute("reaction", rxnId[i]);
 
       // Write out first order sensitivities.
 
@@ -878,9 +878,9 @@ namespace mesmer
       for (size_t j(0) ; j < FrtOdr.size() ; j++) {
         stringstream ss ;
         ss << FrtOdr[j] ;
-        PersistPtr pp1stOrdVal = ppFirstOrder->XmlWriteValueElement("FirstOrderIndex", ss.str());
+        PersistPtr pp1stOrdVal = ppFirstOrder->XmlWriteValueElement("me:firstOrderIndex", ss.str());
         Rdouble var = *Rdouble::withRange()[j] ;
-        pp1stOrdVal->XmlWriteAttribute("Key", var.get_varname());
+        pp1stOrdVal->XmlWriteAttribute("key", var.get_varname());
       }
 
       // Write out second order sensitivities.
@@ -891,10 +891,10 @@ namespace mesmer
         for (size_t k(0) ; k < j ; k++) {
           stringstream ss ;
           ss << SndOdr[k] ;
-          PersistPtr pp1stOrdVal = ppFirstOrder->XmlWriteValueElement("SecondOrderIndex", ss.str());
+          PersistPtr pp1stOrdVal = ppFirstOrder->XmlWriteValueElement("me:secondOrderIndex", ss.str());
           Rdouble var2 = *Rdouble::withRange()[k] ;
-          pp1stOrdVal->XmlWriteAttribute("Key1", var1.get_varname());
-          pp1stOrdVal->XmlWriteAttribute("Key2", var2.get_varname());
+          pp1stOrdVal->XmlWriteAttribute("key1", var1.get_varname());
+          pp1stOrdVal->XmlWriteAttribute("key2", var2.get_varname());
         }
       }
 
@@ -902,7 +902,7 @@ namespace mesmer
 
       stringstream ss ;
       ss << m_RSquared[i] ;
-      PersistPtr ppRSquared = m_pSA->XmlWriteValueElement("R_Squared", ss.str());
+      PersistPtr ppRSquared = pp->XmlWriteValueElement("me:R_Squared", ss.str());
     }
 
     return true ;
