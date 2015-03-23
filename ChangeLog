@@ -1,3 +1,11 @@
+2015-March-23 Struan Robertson
+
+	* SensitivityAnalysis.cpp: Minor change to write out standard deviation
+	of predicted quantity.
+
+	* ...\examples\i-propyl - SA\pentyl_isomerization_SA.xml: New example
+	added.
+
 2015-March-18 Chris Morley
 
     * src/plugins/SensitivityAnalysis.cpp: 

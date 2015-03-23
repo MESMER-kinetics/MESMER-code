@@ -251,10 +251,10 @@ namespace mesmer
     bool DoCalculationOld(System* pSys); 
 
     // This method writes out the results of a sensitivity analysis to test file.
-    bool WriteOutAnalysisToTest(const vector<string> &rxnId, const vector<double> &f0, double Temperature, double Concentration) ;
+    bool WriteOutAnalysisToTest(const vector<string> &rxnId, const vector<double> &f0, const vector<double> &varf, double Temperature, double Concentration) ;
 
     // This method writes out the results of a sensitivity analysis.
-    bool WriteOutAnalysis(const vector<string> &rxnId, double Temperature, double Concentration) ;
+    bool WriteOutAnalysis(const vector<string> &rxnId, const vector<double> &varf, double Temperature, double Concentration) ;
 
     // This method calculates the legendre expansion coefficients by MC integration and
     // applies the ratio control variate variance reduction method to improve convergence.
@@ -364,10 +364,7 @@ namespace mesmer
     // temperature (i.e. reduce the number of times micro-rates are calculated).
     pSys->m_Flags.useTheSameCellNumber = true;
 
-    // Uncomment to enable ctest output during fitting. Or use -w5 option in command.
-    //ChangeErrorLevel e(obDebug); 
-
-    //Default is to disable ctest during fitting. Restored when leaving this function.
+    //Default is to disable ctest during analysis. Restored when leaving this function.
     StopCTestOutput stop(true) ;
 
     //
@@ -477,12 +474,6 @@ namespace mesmer
     // temperature (i.e. reduce the number of times micro-rates are calculated).
     pSys->m_Flags.useTheSameCellNumber = true;
 
-    // Uncomment to enable ctest output during fitting. Or use -w5 option in command.
-    //ChangeErrorLevel e(obDebug); 
-
-    //Default is to disable ctest during fitting. Restored when leaving this function.
-    StopCTestOutput stop(true) ;
-
     //
     // Begin by finding the starting point chi-squared value.
     //
@@ -507,6 +498,9 @@ namespace mesmer
     size_t nConditions = Temperature.size() ;
     for (size_t nCnd(0) ; nCnd < nConditions ; nCnd++) {
 
+	  // Suppress output to .test.
+	  ctest.clear(std::ios::failbit);
+
       m_Di.clear() ;
       m_Dij.clear() ;
 
@@ -519,6 +513,7 @@ namespace mesmer
       // Loop over perturbed parameter values.
 
       for (size_t itr(0) ; itr < m_nSample ; itr++) {
+
         vector<double> rndmd(m_nVar,0.0) ;
         sobol.sobol(m_nVar, &seed, rndmd) ;
         locationData[itr] = rndmd ;
@@ -608,9 +603,11 @@ namespace mesmer
 
       sensitivityIndicies(varf, alphas, betas) ;
 
-      WriteOutAnalysisToTest(rxnId, f0, Temperature[nCnd], Concentration[nCnd]) ;
+	  ctest.clear() ;
 
-      WriteOutAnalysis(rxnId, Temperature[nCnd], Concentration[nCnd]) ;
+      WriteOutAnalysisToTest(rxnId, f0, varf, Temperature[nCnd], Concentration[nCnd]) ;
+
+      WriteOutAnalysis(rxnId, varf, Temperature[nCnd], Concentration[nCnd]) ;
 
     } // End of conditions loop. 
 
@@ -856,7 +853,7 @@ namespace mesmer
   }
 
   // This method writes out the results of a sensitivity analysis.
-  bool SensitivityAnalysis::WriteOutAnalysis(const vector<string> &rxnId, double Temperature, double Concentration) {
+  bool SensitivityAnalysis::WriteOutAnalysis(const vector<string> &rxnId, const vector<double> &varf, double Temperature, double Concentration) {
 
     // Begin table.
 
@@ -869,7 +866,7 @@ namespace mesmer
 
     for (size_t i(0), idx(0) ; i < m_nOut ; i++) {
 
-      PersistPtr ppFirstOrder = pp->XmlWriteElement("me:sensitivityIndices");
+	  PersistPtr ppFirstOrder = pp->XmlWriteElement("me:sensitivityIndices");
       ppFirstOrder->XmlWriteAttribute("reaction", rxnId[i]);
 
       // Write out first order sensitivities.
@@ -898,62 +895,66 @@ namespace mesmer
         }
       }
 
-      // Write out R^2 statistic.
+      // Write out R^2 statistic and Standard deviation.
 
       stringstream ss ;
       ss << m_RSquared[i] ;
-      PersistPtr ppRSquared = pp->XmlWriteValueElement("me:R_Squared", ss.str());
+      pp->XmlWriteValueElement("me:R_Squared", ss.str());
+      ss.str("") ;
+      ss << sqrt(varf[i]) ;
+      pp->XmlWriteValueElement("me:standardDeviation", ss.str());
     }
 
     return true ;
   }
 
   // This method generates data for external analysis.
-  bool SensitivityAnalysis::WriteOutAnalysisToTest(const vector<string> &rxnId, const vector<double> &f0, double Temperature, double Concentration) {
+  bool SensitivityAnalysis::WriteOutAnalysisToTest(const vector<string> &rxnId, const vector<double> &f0, const vector<double> &varf, double Temperature, double Concentration) {
 
-    cinfo << endl << "Sensitivity Analysis: Temperature = " << setw(5) << setprecision(4) << Temperature << ", Concentration = " << Concentration << endl << endl;
+    ctest << endl << "Sensitivity Analysis: Temperature = " << setw(5) << setprecision(4) << Temperature << ", Concentration = " << Concentration << endl << endl;
 
-    cinfo << "Input variable key:"  << endl << endl;
+    ctest << "Input variable key:"  << endl << endl;
     for (size_t iVar(0), idx(1) ; iVar < m_nVar ; iVar++, idx++) {
       Rdouble var = *Rdouble::withRange()[iVar] ;
-      cinfo << "  " << setw(30) << left << var.get_varname() << ": (" << idx << ")" << endl ;
+      ctest << "  " << setw(30) << left << var.get_varname() << ": (" << idx << ")" << endl ;
     }
-    cinfo << endl;
+    ctest << endl;
 
     for (size_t i(0), idx(0) ; i < m_nOut ; i++) {
+
+	  ctest << " Standard deviation for " << rxnId[i] << ": " << sqrt(varf[i]) << endl << endl ;
 
       // First order sensistivity indices.
 
       vector<double> &tmp = m_Di[i] ;
-      cinfo << " First order indices for " << rxnId[i] << ": " << endl ;
-      cinfo << columnHeader() << endl;
-      cinfo << "    " ;
+      ctest << " First order indices for " << rxnId[i] << ": " << endl ;
+      ctest << columnHeader() << endl;
+      ctest << "    " ;
       for (size_t j(0) ; j < m_nVar ; j++) {
-        cinfo << formatFloat(tmp[j], 5, 15) ;
+        ctest << formatFloat(tmp[j], 5, 15) ;
       }
-      cinfo << endl << endl;
+      ctest << endl << endl;
 
       // Second order sensistivity indicies.
 
-      cinfo << " Second order indices for "  << rxnId[i] << ": "  << endl ;
-      cinfo << columnHeader() << endl;
+      ctest << " Second order indices for "  << rxnId[i] << ": "  << endl ;
+      ctest << columnHeader() << endl;
       for (size_t j(0) ; j < m_nVar ; j++, idx++) {
         stringstream ss ;
         ss << "(" << j+1 << ")" ;
-        cinfo << setw(4)  << left << ss.str() ;
+        ctest << setw(4)  << left << ss.str() ;
         vector<double> &tmp = m_Dij[idx] ;
         for (size_t k(0) ; k < j ; k++) {
-          cinfo << formatFloat(tmp[k], 5, 15) ;
+          ctest << formatFloat(tmp[k], 5, 15) ;
         }
         for (size_t k(j) ; k < m_nVar ; k++) {
-          cinfo << setw(15) << right << "--" ;
+          ctest << setw(15) << right << "--" ;
         }
-        cinfo << endl;
+        ctest << endl;
       }
-      cinfo << endl;
-      cinfo << "R-Squared statistic: " << m_RSquared[i] << endl ;
+      ctest << endl;
+      ctest << " R-Squared statistic: " << m_RSquared[i] << endl << endl ;
     }
-    cinfo << endl;
 
     return true ;
   }
