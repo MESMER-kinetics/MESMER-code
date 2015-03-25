@@ -26,36 +26,36 @@ namespace {
 
   void ToUpper(std::string &str) {
     for (size_t i(0) ; i < str.size() ; i++) {
-	  char c = std::toupper(str[i]) ;
-	  str[i] = c ;
+      char c = std::toupper(str[i]) ;
+      str[i] = c ;
     }
   }
 
   // The first 15 shifted Legendre polynomials
 
-  double ortho_poly_1  (const double &x) {return sqrt(3.0)*(2.0*x - 1.0); } 
+  double Legendre_1  (const double &x) {return sqrt(3.0)*(2.0*x - 1.0); } 
 
-  double ortho_poly_2  (const double &x) {return sqrt(5.0)*(6.0*x*x - 6.0*x + 1.0); }
+  double Legendre_2  (const double &x) {return sqrt(5.0)*(6.0*x*x - 6.0*x + 1.0); }
 
-  double ortho_poly_3  (const double &x) { 
+  double Legendre_3  (const double &x) { 
     double x2 =  x*x ;
     double x3 = x2*x ;
     return sqrt(7.)*(20.0*x3 - 30.0*x2 + 12.0*x - 1.); } 
 
-  double ortho_poly_4  (const double &x) {
+  double Legendre_4  (const double &x) {
     double x2 =  x*x;
     double x3 = x2*x ;
     double x4 = x3*x ;
     return 3.0*(70.*x4 - 140.*x3 + 90.0*x2 - 20.0*x + 1.); }
 
-  double ortho_poly_5  (const double &x) {
+  double Legendre_5  (const double &x) {
     double x2 =  x*x ;
     double x3 = x2*x ;
     double x4 = x3*x ;
     double x5 = x4*x ;
     return 630.*sqrt(11.)*((2./5.)*x5-x4+(8./9.)*x3-(1./3.)*x2+(1./21.)*x-(1./630.)); }
 
-  double ortho_poly_6  (const double &x) {
+  double Legendre_6  (const double &x) {
     double x2 =  x*x ;
     double x3 = x2*x ;
     double x4 = x3*x ;
@@ -63,7 +63,7 @@ namespace {
     double x6 = x5*x ;
     return 3150.*sqrt(13.)*((22./75.)*x6-(22./25.)*x5+x4-(8./15.)*x3+(2./15.)*x2-(1./75.)*x+(1./3150.)); }
 
-  double ortho_poly_7  (const double &x) {
+  double Legendre_7  (const double &x) {
     double x2 =  x*x ;
     double x3 = x2*x ;
     double x4 = x3*x ;
@@ -72,7 +72,7 @@ namespace {
     double x7 = x6*x ;
     return 16632.*sqrt(15.)*((13./63.)*x7-(13./18.)*x6+x5-(25./36.)*x4+(25./99.)*x3-(1./22.)*x2+(1./297.)*x-(1./16632.)); } 
 
-  double ortho_poly_8  (const double &x) {
+  double Legendre_8  (const double &x) {
     double x2 =  x*x ;
     double x3 = x2*x ;
     double x4 = x3*x ;
@@ -83,7 +83,7 @@ namespace {
     return 84084.*sqrt(17.)*((15./98.)*x8 - (30./49.)*x7 + x6 - (6./7.)*x5 + (75./182.)*x4 
       - (10./91.)*x3 + (15./1001.)*x2 - (6./7007.)*x + (1./84084.)); } 
 
-  double ortho_poly_9  (const double &x) {
+  double Legendre_9  (const double &x) {
     double x2 =  x*x ;
     double x3 = x2*x ;
     double x4 = x3*x ;
@@ -95,7 +95,7 @@ namespace {
     return 420420.*sqrt(19.)*((17./147.)*x9 - (51./98.)*x8 + (48./49.)*x7 - x6 + (3./5.)*x5 - (3./14.)*x4 
       +(4./91.)*x3 - (3./637.)*x2 + (3./14014.)*x - (1./420420.)); } 
 
-  double ortho_poly_10 (const double &x) {
+  double Legendre_10 (const double &x) {
     double x2  =  x*x ;
     double x3  = x2*x ;
     double x4  = x3*x ;
@@ -108,7 +108,7 @@ namespace {
     return sqrt(21.)*(184756.*x10 - 923780.*x9 + 1969110.*x8 - 2333760.*x7 + 
       1681680.*x6 - 756756.*x5 + 210210.*x4 - 34320.*x3 + 2970.*x2 - 110.*x + 1.); } 
 
-  double ortho_poly_11 (const double &x) {
+  double Legendre_11 (const double &x) {
     double x2  =   x*x ;
     double x3  =  x2*x ;
     double x4  =  x3*x ;
@@ -122,7 +122,7 @@ namespace {
     return sqrt(23.)*(705432.*x11 - 3879876.*x10 + 9237800.*x9 - 12471030.*x8 + 10501920.*x7 - 5717712.*x6 + 
       2018016.*x5 - 450450.*x4 + 60060.*x3 - 4290.*x2 + 132.*x - 1.); } 
 
-  double ortho_poly_12 (const double &x) {
+  double Legendre_12 (const double &x) {
     double x2  =   x*x ;
     double x3  =  x2*x ;
     double x4  =  x3*x ;
@@ -137,7 +137,7 @@ namespace {
     return 5.*(2704156.*x12 - 16224936.*x11 + 42678636.*x10 -64664600.*x9 + 62355150.*x8 - 39907296.*x7 + 
       17153136.*x6 - 4900896.*x5 + 900900.*x4 - 100100.*x3 + 6006.*x2 - 156.*x + 1.); }
 
-  double ortho_poly_13 (const double &x) {
+  double Legendre_13 (const double &x) {
     double x2  =   x*x ;
     double x3  =  x2*x ;
     double x4  =  x3*x ;
@@ -153,7 +153,7 @@ namespace {
     return sqrt(27.)*(10400600.*x13 - 67603900.*x12 + 194699232.*x11 - 327202876.*x10 + 355655300.*x9 - 261891630.*x8 + 
       133024320.*x7 - 46558512.*x6 + 11027016.*x5 - 1701700.*x4 + 160160.*x3 - 8190.*x2 + 182.*x - 1.); } 
 
-  double ortho_poly_14 (const double &x) {
+  double Legendre_14 (const double &x) {
     double x2  =   x*x ;
     double x3  =  x2*x ;
     double x4  =  x3*x ;
@@ -170,7 +170,7 @@ namespace {
     return sqrt(29.)*(40116600.*x14 - 280816200.*x13 + 878850700.*x12 - 1622493600.*x11 + 1963217256.*x10 - 1636014380.*x9 +
       960269310.*x8 - 399072960.*x7 + 116396280.*x6 - 23279256.*x5 + 3063060.*x4 - 247520.*x3 + 10920.*x2 - 210.*x + 1.); }
 
-  double ortho_poly_15 (const double &x) {
+  double Legendre_15 (const double &x) {
     double x2  =   x*x ;
     double x3  =  x2*x ;
     double x4  =  x3*x ;
@@ -187,6 +187,60 @@ namespace {
     double x15 = x14*x ;
     return sqrt(32.)*(155117520.*x15 - 1163381400.*x14 + 3931426800.*x13 - 7909656300.*x12 + 10546208400.*x11 - 9816086280.*x10 +
       6544057520.*x9 - 3155170590.*x8 + 1097450640.*x7 - 271591320.*x6 + 46558512.*x5 - 5290740.*x4 + 371280.*x3 - 14280.*x2 + 240.*x - 1.); }
+
+  // The first 10 Hermite functions.
+
+  static const double rrPi = sqrt(sqrt(M_PI)) ;
+
+  double Hermite_1  (const double &x) {return 1.0/rrPi ; } 
+
+  double Hermite_2  (const double &x) {return sqrt(2.0)*x/rrPi ; }
+
+  double Hermite_3  (const double &x) {return (2.0*x*x -1.0)/rrPi/sqrt(2.0) ; } 
+
+  double Hermite_4  (const double &x) {
+	double x2 =  x*x ;
+	double x3 = x2*x ;
+	return (2.0*x3 - 3.0*x)/rrPi/sqrt(3.0) ; } 
+
+  double Hermite_5  (const double &x) {
+	double x2 =  x*x ;
+	double x4 = x2*x2 ;
+	return (4.0*x4 - 12.0*x2 + 3.0)/(rrPi*2.0*sqrt(6.0)) ; } 
+
+  double Hermite_6  (const double &x) {
+	double x2 =  x*x ;
+	double x3 = x2*x ;
+	double x5 = x3*x2 ;
+	return (4.0*x5 - 20.0*x3 + 15.0*x)/(rrPi*2.0*sqrt(15.0)) ; } 
+
+  double Hermite_7  (const double &x) {
+	double x2 =  x*x ;
+	double x4 = x2*x2 ;
+	double x6 = x4*x2 ;
+	return (4.0*x6 - 30.0*x4 + 45.0*x2 - 15.0)/(rrPi*6.0*sqrt(5.0)) ; } 
+
+  double Hermite_8  (const double &x) {
+	double x2 =  x*x ;
+	double x3 = x2*x ;
+	double x5 = x2*x3 ;
+	double x7 = x2*x5 ;
+	return (8.0*x7 - 84.0*x5 + 210.0*x3 - 105.0*x)/(rrPi*6.0*sqrt(70.0)) ; } 
+
+  double Hermite_9  (const double &x) {
+	double x2 =  x*x ;
+	double x4 = x2*x2 ;
+	double x6 = x4*x2 ;
+	double x8 = x6*x2 ;
+	return (2.*x8 - 28.*x6 + 105.*x4 - 105.*x2 + 13.125)/(rrPi*3.0*sqrt(210.0)) ; }
+
+  double Hermite_10 (const double &x) {
+	double x2 =  x*x ;
+	double x3 = x2*x ;
+	double x5 = x2*x3 ;
+	double x7 = x2*x5 ;
+	double x9 = x2*x7 ;
+	return (16.*x9 - 288.*x7 + 1512.*x5 - 2520.*x3 + 945.*x)/(rrPi*72.*sqrt(105.)) ; } 
 }
 
 namespace mesmer
@@ -202,7 +256,8 @@ namespace mesmer
       m_nOut(0), 
       m_nVred(5), 
       m_nSample(0), 
-      m_bGenerateData(true), 
+      m_bGenerateData(true),
+	  m_bCorrelatedData(false),
       m_delta(0),
       m_order(1),
       m_Di(),
@@ -210,22 +265,33 @@ namespace mesmer
       m_RSquared(){ 
         Register();
 
-        m_slpMap[1]  = ortho_poly_1  ;
-        m_slpMap[2]  = ortho_poly_2  ;
-        m_slpMap[3]  = ortho_poly_3  ;
-        m_slpMap[4]  = ortho_poly_4  ;
-        m_slpMap[5]  = ortho_poly_5  ;
-        m_slpMap[6]  = ortho_poly_6  ;
-        m_slpMap[7]  = ortho_poly_7  ;
-        m_slpMap[8]  = ortho_poly_8  ;
-        m_slpMap[9]  = ortho_poly_9  ;
-        m_slpMap[10] = ortho_poly_10 ;
-        m_slpMap[11] = ortho_poly_11 ;
-        m_slpMap[12] = ortho_poly_12 ;
-        m_slpMap[13] = ortho_poly_13 ;
-        m_slpMap[14] = ortho_poly_14 ;
-        m_slpMap[15] = ortho_poly_15 ;
-    }
+        m_slpMap[1]  = Legendre_1  ;
+        m_slpMap[2]  = Legendre_2  ;
+        m_slpMap[3]  = Legendre_3  ;
+        m_slpMap[4]  = Legendre_4  ;
+        m_slpMap[5]  = Legendre_5  ;
+        m_slpMap[6]  = Legendre_6  ;
+        m_slpMap[7]  = Legendre_7  ;
+        m_slpMap[8]  = Legendre_8  ;
+        m_slpMap[9]  = Legendre_9  ;
+        m_slpMap[10] = Legendre_10 ;
+        m_slpMap[11] = Legendre_11 ;
+        m_slpMap[12] = Legendre_12 ;
+        m_slpMap[13] = Legendre_13 ;
+        m_slpMap[14] = Legendre_14 ;
+        m_slpMap[15] = Legendre_15 ;
+
+        m_hfMap[1]  = Hermite_1  ;
+        m_hfMap[2]  = Hermite_2  ;
+        m_hfMap[3]  = Hermite_3  ;
+        m_hfMap[4]  = Hermite_4  ;
+        m_hfMap[5]  = Hermite_5  ;
+        m_hfMap[6]  = Hermite_6  ;
+        m_hfMap[7]  = Hermite_7  ;
+        m_hfMap[8]  = Hermite_8  ;
+        m_hfMap[9]  = Hermite_9  ;
+        m_hfMap[10] = Hermite_10 ;
+	}
 
     virtual ~SensitivityAnalysis() {}
     virtual const char* getID()  { return m_id; }
@@ -270,11 +336,19 @@ namespace mesmer
     // This method returns the legendre expansion estimate of the output value.
     double legendreExpansion(vector<double> &x, const double &f0, const vector<double> &alpha, const vector<double> &beta) ;
 
-    // Methods for generating values of shifted Legendre polynomials.
-    typedef double (*slp)(const double &x) ;
-    map<size_t, slp> m_slpMap ;
+    typedef double (*ofn)(const double &x) ;
+
+	// Methods for generating values of shifted Legendre polynomials.
+    map<size_t, ofn> m_slpMap ;
     double ShiftedLegendre(size_t order, const double x) {
       double f = m_slpMap[order](x) ; 
+      return f ; 
+    } ;
+
+    // Methods for generating values of Hermite functions.
+    map<size_t, ofn> m_hfMap ;
+    double Hermite(size_t order, const double x) {
+      double f = exp(-x*x/2.0)*m_hfMap[order](x) ; 
       return f ; 
     } ;
 
@@ -293,6 +367,7 @@ namespace mesmer
 
     size_t m_nSample ;
     bool   m_bGenerateData ;
+    bool   m_bCorrelatedData ;
 
     vector<double> m_delta ;
 
@@ -315,6 +390,7 @@ namespace mesmer
     // Read in sensitivity analysis parameters, or use values from defaults.xml.
     m_nSample       = pp->XmlReadInteger("me:sensitivityAnalysisSamples");
     m_bGenerateData = pp->XmlReadBoolean("me:sensitivityGenerateData");
+    m_bGenerateData = pp->XmlReadBoolean("me:sensitivityCorrelatedData");
     size_t order    = pp->XmlReadInteger("me:sensitivityAnalysisOrder", optional);
     if (!IsNan(order)) 
       m_order = order ;
@@ -498,8 +574,8 @@ namespace mesmer
     size_t nConditions = Temperature.size() ;
     for (size_t nCnd(0) ; nCnd < nConditions ; nCnd++) {
 
-	  // Suppress output to .test.
-	  ctest.clear(std::ios::failbit);
+      // Suppress output to .test.
+      ctest.clear(std::ios::failbit);
 
       m_Di.clear() ;
       m_Dij.clear() ;
@@ -533,7 +609,7 @@ namespace mesmer
         if (!f0Initialized) {
           m_nOut = phenRates.size() ;
           f0.resize(m_nOut, 0.0) ;
-          f02.resize(m_nOut, 0.0) ;
+          varf.resize(m_nOut, 0.0) ;
           outputData.resize(m_nOut, vector<double>(m_nSample, 0.0)) ;
           map<string, double>::const_iterator irxn = phenRates.begin();
           for (; irxn != phenRates.end(); irxn++) {
@@ -546,8 +622,9 @@ namespace mesmer
         for (size_t nOut(0) ; irxn != phenRates.end() ; irxn++, nOut++) {
           double output = irxn->second ;
           outputData[nOut][itr] = output ;
-          f0[nOut]  += output ;
-          f02[nOut] += output*output ;
+          double tmp = f0[nOut] - output ;
+          varf[nOut] = double(itr)*(varf[nOut] + tmp*tmp/double(itr + 1))/double(itr + 1) ;
+          f0[nOut]   = (double(itr)*f0[nOut] + output)/double(itr + 1) ;
         }
       }
 
@@ -567,19 +644,9 @@ namespace mesmer
         break ;
       }
 
-      // Calculate the variance of the outputs.
-
-      double nrmlFctr(1.0/double(m_nSample)) ;
-      m_RSquared.resize(m_nOut, 0.0) ;
-      varf.resize(m_nOut, 0.0) ;
-      for (size_t i(0) ; i < f0.size() ; i++) {
-        f0[i]  *= nrmlFctr ;
-        f02[i] *= nrmlFctr ;
-        varf[i] = f02[i] - f0[i]*f0[i] ;
-      }
-
       // Calculate the R^2 statistic. 
 
+      m_RSquared.resize(m_nOut, 0.0) ;
       vector<double> sumOfRes(m_nOut, 0.0) ;
       for (size_t nOut(0), idb(0) ; nOut < f0.size() ; nOut++) {
 
@@ -597,13 +664,13 @@ namespace mesmer
       }
 
       for (size_t i(0) ; i < f0.size() ; i++) {
-        sumOfRes[i]  *= nrmlFctr ;
+        sumOfRes[i]  /= double(m_nSample) ;
         m_RSquared[i] = 1.0 - (sumOfRes[i]/varf[i]) ;
       }
 
       sensitivityIndicies(varf, alphas, betas) ;
 
-	  ctest.clear() ;
+      ctest.clear() ;
 
       WriteOutAnalysisToTest(rxnId, f0, varf, Temperature[nCnd], Concentration[nCnd]) ;
 
@@ -922,7 +989,7 @@ namespace mesmer
 
     for (size_t i(0), idx(0) ; i < m_nOut ; i++) {
 
-	  ctest << " Standard deviation for " << rxnId[i] << ": " << sqrt(varf[i]) << endl << endl ;
+      ctest << " Standard deviation for " << rxnId[i] << ": " << sqrt(varf[i]) << endl << endl ;
 
       // First order sensistivity indices.
 

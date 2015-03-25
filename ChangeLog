@@ -1,4 +1,11 @@
-2015-March-18 Chris Morley
+
+2015-March-35 Struan Robertson
+
+	* SensitivityAnalysis.cpp: Addition of Hermite functions.
+
+	* MESMER manual.docx: Updates added on behalf of Chris.
+
+2015-March-25 Chris Morley
 
     * SensitivityAnalysis.cpp: moved standardDeviation and R_squared in output
       XMLtree. Allow scientific formatting for concentration XML output.
