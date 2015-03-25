@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
-<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema"
            xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -258,17 +257,17 @@
 
     <reaction id="R1">
       <reactant>
-        <molecule ref="1-pentyl"  me:type="modelled" />
+        <molecule ref="1-pentyl"  role="modelled" />
       </reactant>
 
       <product>
-        <molecule ref="2-pentyl"  me:type="modelled" />
+        <molecule ref="2-pentyl"  role="modelled" />
       </product>
 
       <me:MCRCMethod name="SimpleRRKM"/>
 
       <me:transitionState>
-        <molecule ref="1-pentyl=TS=2-pentyl" me:type="transitionState" />
+        <molecule ref="1-pentyl=TS=2-pentyl" role="transitionState" />
       </me:transitionState>
 
     </reaction>

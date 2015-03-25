@@ -98,6 +98,7 @@
 
         td{padding:0px 4px;}
         td.SAid{font-size:smaller;font-weight:bold;}
+        .SA2{text-align:center;}
         th{font-size:smaller;border-bottom:1px dashed black;}
         h3{color:teal;font-family: Arial, Helvetica, sans-serif;font-weight:bold;}
         hh5{color:black;font-family: Arial, Helvetica, sans-serif;font-weight:bold;font-size:smaller;}
@@ -749,52 +750,75 @@
   </xsl:template>
 
   <xsl:template match="//me:sensitivityAnalysisTables/me:sensitivityAnalysisTable">
-    <xsl:variable name="params" select="me:sensitivityIndices/me:firstOrderIndex/@key"/>
     <p class="tablehead1">
       At <xsl:value-of select="concat(@temperature,' K, ', @concentration, ' molecules cm')"/><sup>-3</sup>
     </p>
-    <div class="tablehead5">
-      <xsl:value-of select="concat('First order indices for ',me:sensitivityIndices/@reaction)"/>
-    </div>
-    <table>
-      <tr><th>ID</th><th>Variable</th><th>First order index</th></tr>
-      <xsl:for-each select="me:sensitivityIndices/me:firstOrderIndex">
+    <xsl:for-each select="me:sensitivityIndices">
+      <xsl:variable name="params" select="me:firstOrderIndex/@key"/>
+      <div class="tablehead1">
+        <xsl:value-of select="concat('For ',@reaction)"/>
+      </div>
+      <div>
+        <xsl:value-of select="concat('Standard deviation: ', me:standardDeviation)"/>
+        <br/>
+        <xsl:value-of select="concat('R-Squared statistic: ', me:R_Squared)"/>
+      </div>
+      <table>
+        <caption class="tablehead5">First order indices</caption>
         <tr>
-          <td class="SAid"><xsl:value-of select="concat('(',position(),')')"/></td>
-          <td> <xsl:value-of select="@key"/> </td>
-          <td> <xsl:value-of select="."/> </td>
+          <th>ID</th><th>Input variable</th><th>First order index</th>
         </tr>
-      </xsl:for-each>
-    </table>
-    <xsl:variable name="secondorders" select="me:sensitivityIndices/me:secondOrderIndex"/>
-    <div class="tablehead5"><xsl:value-of select="concat('Second order indices for ',me:sensitivityIndices/@reaction)"/></div>
-    <table>
-      <tr>
-        <th> IDs </th>
-        <xsl:for-each select="$params">
-        <th><!--top row-->
-          <xsl:value-of select="concat('(',position(),')')"/>
-        </th>
-      </xsl:for-each>
-      </tr>
-
-      <xsl:for-each select="$params">
-        <xsl:variable name="curparam" select="."/>
-        <tr>
-          <td class="SAid"><!--first col-->
-            <xsl:value-of select="concat('(',position(),')')"/>
-          </td>
-          <xsl:for-each select="$params">
-            <td>
-              <xsl:value-of select="$secondorders[(@key1=$curparam)and(@key2=current())]"/>
+        <xsl:for-each select="me:firstOrderIndex">
+          <tr>
+            <td class="SAid">
+              <xsl:value-of select="concat('(',position(),')')"/>
             </td>
+            <td>
+              <xsl:value-of select="@key"/>
+            </td>
+            <td>
+              <xsl:value-of select="."/>
+            </td>
+          </tr>
+        </xsl:for-each>
+      </table>
+      <xsl:variable name="secondorders" select="me:secondOrderIndex"/>
+      <table>
+        <caption class="tablehead5">Second order indices</caption>
+        <tr>
+          <th> IDs </th>
+          <xsl:for-each select="$params">
+            <th>
+              <xsl:value-of select="concat('(',position(),')')"/>
+            </th>
           </xsl:for-each>
         </tr>
-      </xsl:for-each>
-    </table>
+
+        <xsl:for-each select="$params">
+          <xsl:variable name="curparam" select="."/>
+          <tr>
+            <td class="SAid">
+              <xsl:value-of select="concat('(',position(),')')"/>
+            </td>
+            <xsl:for-each select="$params">
+              <xsl:variable name="val2" select="$secondorders[(@key1=$curparam)and(@key2=current())]"/>
+              <td class="SA2">
+                <xsl:choose>
+                  <xsl:when test ="$val2">
+                    <xsl:value-of select="$val2"/>
+                  </xsl:when>
+                  <xsl:otherwise>----</xsl:otherwise>
+                </xsl:choose>
+              </td>
+            </xsl:for-each>
+          </tr>
+        </xsl:for-each>
+      </table>
+      <br/>
+    </xsl:for-each>
   </xsl:template>
-  
-    <xsl:template match="cml:metadataList">
+
+  <xsl:template match="cml:metadataList">
     <div id="metadata">
         <xsl:value-of select="dc:creator"/>:
         <xsl:value-of select="dc:date"/>,

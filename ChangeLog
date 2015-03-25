@@ -1,3 +1,13 @@
+2015-March-18 Chris Morley
+
+    * SensitivityAnalysis.cpp: moved standardDeviation and R_squared in output
+      XMLtree. Allow scientific formatting for concentration XML output.
+
+    * examples\i-propyl - SA\pentyl_isomerization_SA.xml: cosmetic changes.
+      (Still has a warning message.)
+
+    * mesmer1.xsl: improved Sensitivity Analysis output.
+
 2015-March-23 Struan Robertson
 
 	* SensitivityAnalysis.cpp: Minor change to write out standard deviation

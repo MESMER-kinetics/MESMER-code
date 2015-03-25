@@ -862,12 +862,12 @@ namespace mesmer
     // Write out conditions
 
     pp->XmlWriteAttribute("temperature", Temperature, 2, true);
-    pp->XmlWriteAttribute("concentration", Concentration, 2, true);
+    pp->XmlWriteAttribute("concentration", Concentration, 2, false);
 
     for (size_t i(0), idx(0) ; i < m_nOut ; i++) {
 
-	  PersistPtr ppFirstOrder = pp->XmlWriteElement("me:sensitivityIndices");
-      ppFirstOrder->XmlWriteAttribute("reaction", rxnId[i]);
+      PersistPtr ppSensInd = pp->XmlWriteElement("me:sensitivityIndices");
+      ppSensInd->XmlWriteAttribute("reaction", rxnId[i]);
 
       // Write out first order sensitivities.
 
@@ -875,7 +875,7 @@ namespace mesmer
       for (size_t j(0) ; j < FrtOdr.size() ; j++) {
         stringstream ss ;
         ss << FrtOdr[j] ;
-        PersistPtr pp1stOrdVal = ppFirstOrder->XmlWriteValueElement("me:firstOrderIndex", ss.str());
+        PersistPtr pp1stOrdVal = ppSensInd->XmlWriteValueElement("me:firstOrderIndex", ss.str());
         Rdouble var = *Rdouble::withRange()[j] ;
         pp1stOrdVal->XmlWriteAttribute("key", var.get_varname());
       }
@@ -888,7 +888,7 @@ namespace mesmer
         for (size_t k(0) ; k < j ; k++) {
           stringstream ss ;
           ss << SndOdr[k] ;
-          PersistPtr pp1stOrdVal = ppFirstOrder->XmlWriteValueElement("me:secondOrderIndex", ss.str());
+          PersistPtr pp1stOrdVal = ppSensInd->XmlWriteValueElement("me:secondOrderIndex", ss.str());
           Rdouble var2 = *Rdouble::withRange()[k] ;
           pp1stOrdVal->XmlWriteAttribute("key1", var1.get_varname());
           pp1stOrdVal->XmlWriteAttribute("key2", var2.get_varname());
@@ -899,10 +899,10 @@ namespace mesmer
 
       stringstream ss ;
       ss << m_RSquared[i] ;
-      pp->XmlWriteValueElement("me:R_Squared", ss.str());
+      ppSensInd->XmlWriteValueElement("me:R_Squared", ss.str());
       ss.str("") ;
       ss << sqrt(varf[i]) ;
-      pp->XmlWriteValueElement("me:standardDeviation", ss.str());
+      ppSensInd->XmlWriteValueElement("me:standardDeviation", ss.str());
     }
 
     return true ;
