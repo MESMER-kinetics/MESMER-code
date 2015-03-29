@@ -190,49 +190,49 @@ namespace {
 
   // The first 10 Hermite functions.
 
-  static const double rrPi = sqrt(sqrt(M_PI)) ;
+  static const double sqrsqrPi = sqrt(sqrt(M_PI)) ;
 
-  double Hermite_1  (const double &x) {return 1.0/rrPi ; } 
+  double Hermite_1  (const double &x) {return 1.0/sqrsqrPi ; } 
 
-  double Hermite_2  (const double &x) {return sqrt(2.0)*x/rrPi ; }
+  double Hermite_2  (const double &x) {return sqrt(2.0)*x/sqrsqrPi ; }
 
-  double Hermite_3  (const double &x) {return (2.0*x*x -1.0)/rrPi/sqrt(2.0) ; } 
+  double Hermite_3  (const double &x) {return (2.0*x*x -1.0)/sqrsqrPi/sqrt(2.0) ; } 
 
   double Hermite_4  (const double &x) {
     double x2 =  x*x ;
     double x3 = x2*x ;
-    return (2.0*x3 - 3.0*x)/rrPi/sqrt(3.0) ; } 
+    return (2.0*x3 - 3.0*x)/sqrsqrPi/sqrt(3.0) ; } 
 
   double Hermite_5  (const double &x) {
     double x2 =  x*x ;
     double x4 = x2*x2 ;
-    return (4.0*x4 - 12.0*x2 + 3.0)/(rrPi*2.0*sqrt(6.0)) ; } 
+    return (4.0*x4 - 12.0*x2 + 3.0)/(sqrsqrPi*2.0*sqrt(6.0)) ; } 
 
   double Hermite_6  (const double &x) {
     double x2 =  x*x ;
     double x3 = x2*x ;
     double x5 = x3*x2 ;
-    return (4.0*x5 - 20.0*x3 + 15.0*x)/(rrPi*2.0*sqrt(15.0)) ; } 
+    return (4.0*x5 - 20.0*x3 + 15.0*x)/(sqrsqrPi*2.0*sqrt(15.0)) ; } 
 
   double Hermite_7  (const double &x) {
     double x2 =  x*x ;
     double x4 = x2*x2 ;
     double x6 = x4*x2 ;
-    return (4.0*x6 - 30.0*x4 + 45.0*x2 - 15.0)/(rrPi*6.0*sqrt(5.0)) ; } 
+    return (4.0*x6 - 30.0*x4 + 45.0*x2 - 15.0)/(sqrsqrPi*6.0*sqrt(5.0)) ; } 
 
   double Hermite_8  (const double &x) {
     double x2 =  x*x ;
     double x3 = x2*x ;
     double x5 = x2*x3 ;
     double x7 = x2*x5 ;
-    return (8.0*x7 - 84.0*x5 + 210.0*x3 - 105.0*x)/(rrPi*6.0*sqrt(70.0)) ; } 
+    return (8.0*x7 - 84.0*x5 + 210.0*x3 - 105.0*x)/(sqrsqrPi*6.0*sqrt(70.0)) ; } 
 
   double Hermite_9  (const double &x) {
     double x2 =  x*x ;
     double x4 = x2*x2 ;
     double x6 = x4*x2 ;
     double x8 = x6*x2 ;
-    return (2.*x8 - 28.*x6 + 105.*x4 - 105.*x2 + 13.125)/(rrPi*3.0*sqrt(210.0)) ; }
+    return (2.*x8 - 28.*x6 + 105.*x4 - 105.*x2 + 13.125)/(sqrsqrPi*3.0*sqrt(210.0)) ; }
 
   double Hermite_10 (const double &x) {
     double x2 =  x*x ;
@@ -240,7 +240,7 @@ namespace {
     double x5 = x2*x3 ;
     double x7 = x2*x5 ;
     double x9 = x2*x7 ;
-    return (16.*x9 - 288.*x7 + 1512.*x5 - 2520.*x3 + 945.*x)/(rrPi*72.*sqrt(105.)) ; } 
+    return (16.*x9 - 288.*x7 + 1512.*x5 - 2520.*x3 + 945.*x)/(sqrsqrPi*72.*sqrt(105.)) ; } 
 }
 
 namespace mesmer
@@ -249,7 +249,7 @@ namespace mesmer
   {
   public:
 
-    SensitivityAnalysis(const char* id) : m_orthogonalFunctions(NULL),
+    SensitivityAnalysis(const char* id) : m_probDensity(NULL),
       m_id(id), 
       m_pSA(),
       m_VarRedMthd(RATIOCONTROL),
@@ -259,7 +259,6 @@ namespace mesmer
       m_nSample(0), 
       m_bGenerateData(true),
       m_bCorrelatedData(false),
-      m_delta(0),
       m_order(1),
       m_Di(),
       m_Dij(),
@@ -267,7 +266,7 @@ namespace mesmer
         Register();
     }
 
-    virtual ~SensitivityAnalysis() {delete m_orthogonalFunctions ;}
+    virtual ~SensitivityAnalysis() {delete m_probDensity ;}
     virtual const char* getID()  { return m_id; }
     virtual bool ParseData(PersistPtr pp);
 
@@ -312,19 +311,21 @@ namespace mesmer
 
     typedef double (*ofn)(const double &x) ;
 
-    class orthogonalFunctions {
+    class probDensity {
     public:
-	  orthogonalFunctions() {} ;
-	  virtual ~orthogonalFunctions() {} ;
-      virtual double calculate(size_t order, const double x) = 0 ;
+      probDensity() {} ;
+      virtual ~probDensity() {} ;
+      virtual void initializeDist() = 0 ;
+      virtual void rndLocation(const vector<double> &rndmd, const vector<double> &currentLoc, vector<double> &newLoc) = 0 ;
+      virtual double orthFn(size_t order, const double x) = 0 ;
     } ;
 
     // Set of orthogonal functions to be used in calculation.
-    orthogonalFunctions *m_orthogonalFunctions ;
+    probDensity *m_probDensity ;
 
     // Methods for generating values of shifted Legendre polynomials.
 
-    class ShiftedLegendre : public orthogonalFunctions {
+    class ShiftedLegendre : public probDensity {
     public:
       ShiftedLegendre() {
         m_slpMap[1]  = Legendre_1  ;
@@ -343,17 +344,33 @@ namespace mesmer
         m_slpMap[14] = Legendre_14 ;
         m_slpMap[15] = Legendre_15 ;
       }
-	  ~ShiftedLegendre() { } ;
-      double calculate(size_t order, const double x) {
+      ~ShiftedLegendre() { } ;
+      double orthFn(size_t order, const double x) {
         double f = m_slpMap[order](x) ; 
         return f ; 
       } ;
+	  void initializeDist() {
+		// Read variable uncertainties from range.
+        size_t m_nVar = Rdouble::withRange().size() ;
+		for (size_t iVar(0) ; iVar < m_nVar ; iVar++) {
+		  Rdouble var  = *Rdouble::withRange()[iVar] ;
+	   	  double lower = var.get_lower();
+		  double upper = var.get_upper();
+		  m_delta.push_back(abs((upper - lower)/2.0 ));
+		}
+	  }
+      virtual void rndLocation(const vector<double> &rndmd, const vector<double> &currentLoc, vector<double> &newLoc) {
+        for (size_t j(0) ; j < rndmd.size() ; j++) {
+          newLoc[j] = currentLoc[j] + m_delta[j]*(rndmd[j] - 0.5) ;
+        }
+	  }
     private:
       map<size_t, ofn> m_slpMap ;
+      vector<double>   m_delta ;
     } ;
 
     // Methods for generating values of Hermite functions.
-    class Hermite : public orthogonalFunctions {
+    class Hermite : public probDensity  {
     public:
       Hermite() {
         m_hfMap[1]  = Hermite_1  ;
@@ -367,11 +384,31 @@ namespace mesmer
         m_hfMap[9]  = Hermite_9  ;
         m_hfMap[10] = Hermite_10 ;
       }
-	  ~Hermite() { } ;
-      double calculate(size_t order, const double x) {
+      ~Hermite() { } ;
+      double orthFn(size_t order, const double x) {
         double f = exp(-x*x/2.0)*m_hfMap[order](x) ; 
         return f ; 
       } ;
+	  void initializeDist(){ 
+		// 	hessian.cholesky();
+      } ;
+	  void rndLocation(const vector<double> &rndmd, const vector<double> &currentLoc, vector<double> &newLoc) {
+		size_t nVar = rndmd.size() ;
+		//Take inverse cumulative distribution of each sobol element
+        for (size_t j(0); j < nVar ; j++){
+		  newLoc[j] = NormalCDFInverse(rndmd[j]);
+		}
+        // Multiply the InvNorm with the cholesky decompostion.
+		for (size_t i(0); i < nVar; i++) {
+		  for (size_t j(0); j < nVar; j++) {
+			double sm(0.0);
+			for (size_t k(0); k < nVar; k++) {
+//			  sm += hessian[i][k] * sobolSeq[k][j];
+			}
+//			CorrelatedSample[i][j] = sm;
+		  }
+		}
+	  }
     private:
       map<size_t, ofn> m_hfMap ;
     } ;
@@ -392,8 +429,6 @@ namespace mesmer
     size_t m_nSample ;
     bool   m_bGenerateData ;
     bool   m_bCorrelatedData ;
-
-    vector<double> m_delta ;
 
     size_t m_order ;            // The order of the HDMR analysis to use.
 
@@ -428,11 +463,11 @@ namespace mesmer
       m_VarRedMthd = (str == "RATIOCONTROL") ? RATIOCONTROL : 
         (str == "ADDITIVECONTROL") ? ADDITIVECONTROL : UNDEFINED  ;
 
-	  if (m_bCorrelatedData) {
-         m_orthogonalFunctions = new Hermite() ;
-	  } else {
-		m_orthogonalFunctions =  new ShiftedLegendre() ;
-	  }
+      if (m_bCorrelatedData) {
+        m_probDensity = new Hermite() ;
+      } else {
+        m_probDensity = new ShiftedLegendre() ;
+      }
     }
 
     // Store pointer for output.
@@ -450,18 +485,12 @@ namespace mesmer
 
     m_nVar = Rdouble::withRange().size() ;
 
-    if (m_nVar < 1) { 
-      cerr << "Sensitivity analysis requries at least one range variable to be set." << endl;
+    if (m_nVar < 2) { 
+      cerr << "Sensitivity analysis requries at least two range variables to be set." << endl;
       return false ;
     }
 
-    //Read variable uncertainties from range
-    for (size_t iVar(0) ; iVar < m_nVar ; iVar++) {
-      Rdouble var  = *Rdouble::withRange()[iVar] ;
-      double lower = var.get_lower();
-      double upper = var.get_upper();
-      m_delta.push_back(abs((upper - lower)/2.0 ));
-    }
+	m_probDensity->initializeDist() ;
 
     //Do not output all the intermediate results to XML
     pSys->m_Flags.overwriteXmlAnalysis = true;
@@ -521,9 +550,7 @@ namespace mesmer
 
         // Use random vector generated by sobol method to perturb parameter values.
 
-        for (size_t j(0) ; j < rndmd.size() ; j++) {
-          newLocation[j] = currentLocation[j] + m_delta[j]*(rndmd[j] - 0.5) ;
-        }
+	    m_probDensity->rndLocation(rndmd, currentLocation, newLocation) ;
 
         // Set perturbed parameters and calculate new quantities.
 
@@ -565,13 +592,7 @@ namespace mesmer
     // Prepare output.
     m_pSA = m_pSA->XmlWriteMainElement("me:sensitivityAnalysisTables", "", true); // Will replace an existing element.
 
-    // Read variable uncertainties from range.
-    for (size_t iVar(0) ; iVar < m_nVar ; iVar++) {
-      Rdouble var  = *Rdouble::withRange()[iVar] ;
-      double lower = var.get_lower();
-      double upper = var.get_upper();
-      m_delta.push_back(abs((upper - lower)/2.0 ));
-    }
+	m_probDensity->initializeDist() ;
 
     //Do not output all the intermediate results to XML
     pSys->m_Flags.overwriteXmlAnalysis = true;
@@ -626,9 +647,7 @@ namespace mesmer
 
         // Use random vector generated by sobol method to perturb parameter values.
 
-        for (size_t j(0) ; j < rndmd.size() ; j++) {
-          newLocation[j] = originalLocation[j] + m_delta[j]*(rndmd[j] - 0.5) ;
-        }
+	    m_probDensity->rndLocation(rndmd, originalLocation, newLocation) ;
 
         // Set perturbed parameters and calculate new quantities.
 
@@ -733,7 +752,7 @@ namespace mesmer
 
           double input_i = rndmd[i] ;
           for (size_t k(1) ; k <= m_order ; k++, ida++) {
-            alpha[ida] += output * m_orthogonalFunctions->calculate(k, input_i) ;
+            alpha[ida] += output * m_probDensity->orthFn(k, input_i) ;
           }
 
           // beta coefficients.
@@ -742,8 +761,8 @@ namespace mesmer
             double input_j = rndmd[j] ;
             for (size_t k(1) ; k <= m_order ; k++) {
               for (size_t l(1) ; l <= m_order ; l++, idb++) {
-                beta[idb] += output * m_orthogonalFunctions->calculate(k, input_i) 
-				                    * m_orthogonalFunctions->calculate(l, input_j); 
+                beta[idb] += output * m_probDensity->orthFn(k, input_i) 
+                                    * m_probDensity->orthFn(l, input_j); 
               }
             }
           }
@@ -784,7 +803,7 @@ namespace mesmer
 
             double input_i = rndmd[i] ;
             for (size_t k(1) ; k <= m_order ; k++, ida++) {
-              alpha1[ida] += h0 * m_orthogonalFunctions->calculate(k, input_i) ;
+              alpha1[ida] += h0 * m_probDensity->orthFn(k, input_i) ;
             }
 
             // beta coefficients.
@@ -793,8 +812,8 @@ namespace mesmer
               double input_j = rndmd[j] ;
               for (size_t k(1) ; k <= m_order ; k++) {
                 for (size_t l(1) ; l <= m_order ; l++, idb++) {
-                  beta1[idb] += h0 * m_orthogonalFunctions->calculate(k, input_i) 
-					               * m_orthogonalFunctions->calculate(l, input_j); 
+                  beta1[idb] += h0 * m_probDensity->orthFn(k, input_i) 
+                                   * m_probDensity->orthFn(l, input_j); 
                 }
               }
             }
@@ -847,7 +866,7 @@ namespace mesmer
 
             double input_i = rndmd[i] ;
             for (size_t k(1) ; k <= m_order ; k++, ida++) {
-              alpha0[ida] += output * m_orthogonalFunctions->calculate(k, input_i) ;
+              alpha0[ida] += output * m_probDensity->orthFn(k, input_i) ;
             }
 
             // beta coefficients.
@@ -856,8 +875,8 @@ namespace mesmer
               double input_j = rndmd[j] ;
               for (size_t k(1) ; k <= m_order ; k++) {
                 for (size_t l(1) ; l <= m_order ; l++, idb++) {
-                  beta0[idb] += output * m_orthogonalFunctions->calculate(k, input_i) 
-					                   * m_orthogonalFunctions->calculate(l, input_j); 
+                  beta0[idb] += output * m_probDensity->orthFn(k, input_i) 
+                                       * m_probDensity->orthFn(l, input_j); 
                 }
               }
             }
@@ -898,7 +917,7 @@ namespace mesmer
 
       double input_i = x[i] ;
       for (size_t k(1) ; k <= m_order ; k++, ida++) {
-        sum += alpha[ida]*m_orthogonalFunctions->calculate(k, input_i) ;
+        sum += alpha[ida]*m_probDensity->orthFn(k, input_i) ;
       }
 
       // beta coefficients.
@@ -907,8 +926,8 @@ namespace mesmer
         double input_j = x[j] ;
         for (size_t k(1) ; k <= m_order ; k++) {
           for (size_t l(1) ; l <= m_order ; l++, idb++) {
-            sum += beta[idb] * m_orthogonalFunctions->calculate(k, input_i) 
-			                 * m_orthogonalFunctions->calculate(l, input_j) ; 
+            sum += beta[idb] * m_probDensity->orthFn(k, input_i) 
+                             * m_probDensity->orthFn(l, input_j) ; 
           }
         }
       }
