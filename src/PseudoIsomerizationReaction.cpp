@@ -118,22 +118,11 @@ namespace mesmer
     // Get the difference in zero point energies between the well and the adduct.
     const double DeltaH  = m_pReaction->getHeatOfReaction();
 
-    // If the association is formed correctly this should be negative, otherwise throw error.
-    if (DeltaH > 0) {
-      string error = "Adduct is higher in energy than pseudo isomer, for pseudo isomerisation reaction" +  m_pReaction->getName();    
-      throw std::runtime_error(error);
-    }
-
     // Calcualte threshold for reverse reaction.
     const double rvsThreshold = m_pReaction->get_ThresholdEnergy() - DeltaH ;
 
     // Get the excess energy available for redistribution among bimolecular species. 
-    double XsE = Energy - rvsThreshold ;
-
-    if (XsE < 0){
-      cwarn << "Negative excess energy for fragment distribution in reaction" +  m_pReaction->getName();
-      XsE = 0 ;
-    }
+    double XsE = max((Energy - rvsThreshold), 0.0) ;
 
     const size_t excessEnergy = static_cast<size_t>(XsE);
 

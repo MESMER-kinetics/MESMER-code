@@ -1,5 +1,13 @@
 
-2015-March-35 Struan Robertson
+
+2015-March-29 Struan Robertson
+
+	* SensitivityAnalysis.cpp: Private class definitions added to help
+	with the manipulation of orthogonal functions.
+
+	* PseudoIsomerizationReaction.cpp: Altered to remove unnecessary warning.
+
+2015-March-25 Struan Robertson
 
 	* SensitivityAnalysis.cpp: Addition of Hermite functions.
 

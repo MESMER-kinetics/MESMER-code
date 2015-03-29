@@ -199,48 +199,48 @@ namespace {
   double Hermite_3  (const double &x) {return (2.0*x*x -1.0)/rrPi/sqrt(2.0) ; } 
 
   double Hermite_4  (const double &x) {
-	double x2 =  x*x ;
-	double x3 = x2*x ;
-	return (2.0*x3 - 3.0*x)/rrPi/sqrt(3.0) ; } 
+    double x2 =  x*x ;
+    double x3 = x2*x ;
+    return (2.0*x3 - 3.0*x)/rrPi/sqrt(3.0) ; } 
 
   double Hermite_5  (const double &x) {
-	double x2 =  x*x ;
-	double x4 = x2*x2 ;
-	return (4.0*x4 - 12.0*x2 + 3.0)/(rrPi*2.0*sqrt(6.0)) ; } 
+    double x2 =  x*x ;
+    double x4 = x2*x2 ;
+    return (4.0*x4 - 12.0*x2 + 3.0)/(rrPi*2.0*sqrt(6.0)) ; } 
 
   double Hermite_6  (const double &x) {
-	double x2 =  x*x ;
-	double x3 = x2*x ;
-	double x5 = x3*x2 ;
-	return (4.0*x5 - 20.0*x3 + 15.0*x)/(rrPi*2.0*sqrt(15.0)) ; } 
+    double x2 =  x*x ;
+    double x3 = x2*x ;
+    double x5 = x3*x2 ;
+    return (4.0*x5 - 20.0*x3 + 15.0*x)/(rrPi*2.0*sqrt(15.0)) ; } 
 
   double Hermite_7  (const double &x) {
-	double x2 =  x*x ;
-	double x4 = x2*x2 ;
-	double x6 = x4*x2 ;
-	return (4.0*x6 - 30.0*x4 + 45.0*x2 - 15.0)/(rrPi*6.0*sqrt(5.0)) ; } 
+    double x2 =  x*x ;
+    double x4 = x2*x2 ;
+    double x6 = x4*x2 ;
+    return (4.0*x6 - 30.0*x4 + 45.0*x2 - 15.0)/(rrPi*6.0*sqrt(5.0)) ; } 
 
   double Hermite_8  (const double &x) {
-	double x2 =  x*x ;
-	double x3 = x2*x ;
-	double x5 = x2*x3 ;
-	double x7 = x2*x5 ;
-	return (8.0*x7 - 84.0*x5 + 210.0*x3 - 105.0*x)/(rrPi*6.0*sqrt(70.0)) ; } 
+    double x2 =  x*x ;
+    double x3 = x2*x ;
+    double x5 = x2*x3 ;
+    double x7 = x2*x5 ;
+    return (8.0*x7 - 84.0*x5 + 210.0*x3 - 105.0*x)/(rrPi*6.0*sqrt(70.0)) ; } 
 
   double Hermite_9  (const double &x) {
-	double x2 =  x*x ;
-	double x4 = x2*x2 ;
-	double x6 = x4*x2 ;
-	double x8 = x6*x2 ;
-	return (2.*x8 - 28.*x6 + 105.*x4 - 105.*x2 + 13.125)/(rrPi*3.0*sqrt(210.0)) ; }
+    double x2 =  x*x ;
+    double x4 = x2*x2 ;
+    double x6 = x4*x2 ;
+    double x8 = x6*x2 ;
+    return (2.*x8 - 28.*x6 + 105.*x4 - 105.*x2 + 13.125)/(rrPi*3.0*sqrt(210.0)) ; }
 
   double Hermite_10 (const double &x) {
-	double x2 =  x*x ;
-	double x3 = x2*x ;
-	double x5 = x2*x3 ;
-	double x7 = x2*x5 ;
-	double x9 = x2*x7 ;
-	return (16.*x9 - 288.*x7 + 1512.*x5 - 2520.*x3 + 945.*x)/(rrPi*72.*sqrt(105.)) ; } 
+    double x2 =  x*x ;
+    double x3 = x2*x ;
+    double x5 = x2*x3 ;
+    double x7 = x2*x5 ;
+    double x9 = x2*x7 ;
+    return (16.*x9 - 288.*x7 + 1512.*x5 - 2520.*x3 + 945.*x)/(rrPi*72.*sqrt(105.)) ; } 
 }
 
 namespace mesmer
@@ -249,7 +249,8 @@ namespace mesmer
   {
   public:
 
-    SensitivityAnalysis(const char* id) : m_id(id), 
+    SensitivityAnalysis(const char* id) : m_orthogonalFunctions(NULL),
+      m_id(id), 
       m_pSA(),
       m_VarRedMthd(RATIOCONTROL),
       m_nVar(0), 
@@ -257,43 +258,16 @@ namespace mesmer
       m_nVred(5), 
       m_nSample(0), 
       m_bGenerateData(true),
-	  m_bCorrelatedData(false),
+      m_bCorrelatedData(false),
       m_delta(0),
       m_order(1),
       m_Di(),
       m_Dij(),
       m_RSquared(){ 
         Register();
+    }
 
-        m_slpMap[1]  = Legendre_1  ;
-        m_slpMap[2]  = Legendre_2  ;
-        m_slpMap[3]  = Legendre_3  ;
-        m_slpMap[4]  = Legendre_4  ;
-        m_slpMap[5]  = Legendre_5  ;
-        m_slpMap[6]  = Legendre_6  ;
-        m_slpMap[7]  = Legendre_7  ;
-        m_slpMap[8]  = Legendre_8  ;
-        m_slpMap[9]  = Legendre_9  ;
-        m_slpMap[10] = Legendre_10 ;
-        m_slpMap[11] = Legendre_11 ;
-        m_slpMap[12] = Legendre_12 ;
-        m_slpMap[13] = Legendre_13 ;
-        m_slpMap[14] = Legendre_14 ;
-        m_slpMap[15] = Legendre_15 ;
-
-        m_hfMap[1]  = Hermite_1  ;
-        m_hfMap[2]  = Hermite_2  ;
-        m_hfMap[3]  = Hermite_3  ;
-        m_hfMap[4]  = Hermite_4  ;
-        m_hfMap[5]  = Hermite_5  ;
-        m_hfMap[6]  = Hermite_6  ;
-        m_hfMap[7]  = Hermite_7  ;
-        m_hfMap[8]  = Hermite_8  ;
-        m_hfMap[9]  = Hermite_9  ;
-        m_hfMap[10] = Hermite_10 ;
-	}
-
-    virtual ~SensitivityAnalysis() {}
+    virtual ~SensitivityAnalysis() {delete m_orthogonalFunctions ;}
     virtual const char* getID()  { return m_id; }
     virtual bool ParseData(PersistPtr pp);
 
@@ -338,18 +312,68 @@ namespace mesmer
 
     typedef double (*ofn)(const double &x) ;
 
-	// Methods for generating values of shifted Legendre polynomials.
-    map<size_t, ofn> m_slpMap ;
-    double ShiftedLegendre(size_t order, const double x) {
-      double f = m_slpMap[order](x) ; 
-      return f ; 
+    class orthogonalFunctions {
+    public:
+	  orthogonalFunctions() {} ;
+	  virtual ~orthogonalFunctions() {} ;
+      virtual double calculate(size_t order, const double x) = 0 ;
+    } ;
+
+    // Set of orthogonal functions to be used in calculation.
+    orthogonalFunctions *m_orthogonalFunctions ;
+
+    // Methods for generating values of shifted Legendre polynomials.
+
+    class ShiftedLegendre : public orthogonalFunctions {
+    public:
+      ShiftedLegendre() {
+        m_slpMap[1]  = Legendre_1  ;
+        m_slpMap[2]  = Legendre_2  ;
+        m_slpMap[3]  = Legendre_3  ;
+        m_slpMap[4]  = Legendre_4  ;
+        m_slpMap[5]  = Legendre_5  ;
+        m_slpMap[6]  = Legendre_6  ;
+        m_slpMap[7]  = Legendre_7  ;
+        m_slpMap[8]  = Legendre_8  ;
+        m_slpMap[9]  = Legendre_9  ;
+        m_slpMap[10] = Legendre_10 ;
+        m_slpMap[11] = Legendre_11 ;
+        m_slpMap[12] = Legendre_12 ;
+        m_slpMap[13] = Legendre_13 ;
+        m_slpMap[14] = Legendre_14 ;
+        m_slpMap[15] = Legendre_15 ;
+      }
+	  ~ShiftedLegendre() { } ;
+      double calculate(size_t order, const double x) {
+        double f = m_slpMap[order](x) ; 
+        return f ; 
+      } ;
+    private:
+      map<size_t, ofn> m_slpMap ;
     } ;
 
     // Methods for generating values of Hermite functions.
-    map<size_t, ofn> m_hfMap ;
-    double Hermite(size_t order, const double x) {
-      double f = exp(-x*x/2.0)*m_hfMap[order](x) ; 
-      return f ; 
+    class Hermite : public orthogonalFunctions {
+    public:
+      Hermite() {
+        m_hfMap[1]  = Hermite_1  ;
+        m_hfMap[2]  = Hermite_2  ;
+        m_hfMap[3]  = Hermite_3  ;
+        m_hfMap[4]  = Hermite_4  ;
+        m_hfMap[5]  = Hermite_5  ;
+        m_hfMap[6]  = Hermite_6  ;
+        m_hfMap[7]  = Hermite_7  ;
+        m_hfMap[8]  = Hermite_8  ;
+        m_hfMap[9]  = Hermite_9  ;
+        m_hfMap[10] = Hermite_10 ;
+      }
+	  ~Hermite() { } ;
+      double calculate(size_t order, const double x) {
+        double f = exp(-x*x/2.0)*m_hfMap[order](x) ; 
+        return f ; 
+      } ;
+    private:
+      map<size_t, ofn> m_hfMap ;
     } ;
 
     // This method generates the column header for the output tables.
@@ -388,21 +412,27 @@ namespace mesmer
   bool SensitivityAnalysis::ParseData(PersistPtr pp)
   {
     // Read in sensitivity analysis parameters, or use values from defaults.xml.
-    m_nSample       = pp->XmlReadInteger("me:sensitivityAnalysisSamples");
-    m_bGenerateData = pp->XmlReadBoolean("me:sensitivityGenerateData");
-    m_bGenerateData = pp->XmlReadBoolean("me:sensitivityCorrelatedData");
-    size_t order    = pp->XmlReadInteger("me:sensitivityAnalysisOrder", optional);
+    m_nSample         = pp->XmlReadInteger("me:sensitivityAnalysisSamples");
+    m_bGenerateData   = pp->XmlReadBoolean("me:sensitivityGenerateData");
+    m_bCorrelatedData = pp->XmlReadBoolean("me:sensitivityCorrelatedData");
+    size_t order      = pp->XmlReadInteger("me:sensitivityAnalysisOrder", optional);
     if (!IsNan(order)) 
       m_order = order ;
-    size_t nVred    = pp->XmlReadInteger("me:sensitivityNumVarRedIters", optional);
+    size_t nVred      = pp->XmlReadInteger("me:sensitivityNumVarRedIters", optional);
     if (!IsNan(nVred)) 
       m_nVred = nVred ;
-    const char* txt = pp->XmlReadValue("me:sensitivityVarRedMethod", optional); //hard-wired default is RATIOCONTROL
+    const char* txt   = pp->XmlReadValue("me:sensitivityVarRedMethod", optional); //hard-wired default is RATIOCONTROL
     if (txt) {
       string str(txt) ;
       ToUpper(str) ;
       m_VarRedMthd = (str == "RATIOCONTROL") ? RATIOCONTROL : 
         (str == "ADDITIVECONTROL") ? ADDITIVECONTROL : UNDEFINED  ;
+
+	  if (m_bCorrelatedData) {
+         m_orthogonalFunctions = new Hermite() ;
+	  } else {
+		m_orthogonalFunctions =  new ShiftedLegendre() ;
+	  }
     }
 
     // Store pointer for output.
@@ -703,7 +733,7 @@ namespace mesmer
 
           double input_i = rndmd[i] ;
           for (size_t k(1) ; k <= m_order ; k++, ida++) {
-            alpha[ida] += output * ShiftedLegendre(k, input_i) ;
+            alpha[ida] += output * m_orthogonalFunctions->calculate(k, input_i) ;
           }
 
           // beta coefficients.
@@ -712,7 +742,8 @@ namespace mesmer
             double input_j = rndmd[j] ;
             for (size_t k(1) ; k <= m_order ; k++) {
               for (size_t l(1) ; l <= m_order ; l++, idb++) {
-                beta[idb] += output * ShiftedLegendre(k, input_i) * ShiftedLegendre(l, input_j); 
+                beta[idb] += output * m_orthogonalFunctions->calculate(k, input_i) 
+				                    * m_orthogonalFunctions->calculate(l, input_j); 
               }
             }
           }
@@ -753,7 +784,7 @@ namespace mesmer
 
             double input_i = rndmd[i] ;
             for (size_t k(1) ; k <= m_order ; k++, ida++) {
-              alpha1[ida] += h0 * ShiftedLegendre(k, input_i) ;
+              alpha1[ida] += h0 * m_orthogonalFunctions->calculate(k, input_i) ;
             }
 
             // beta coefficients.
@@ -762,7 +793,8 @@ namespace mesmer
               double input_j = rndmd[j] ;
               for (size_t k(1) ; k <= m_order ; k++) {
                 for (size_t l(1) ; l <= m_order ; l++, idb++) {
-                  beta1[idb] += h0 * ShiftedLegendre(k, input_i) * ShiftedLegendre(l, input_j); 
+                  beta1[idb] += h0 * m_orthogonalFunctions->calculate(k, input_i) 
+					               * m_orthogonalFunctions->calculate(l, input_j); 
                 }
               }
             }
@@ -815,7 +847,7 @@ namespace mesmer
 
             double input_i = rndmd[i] ;
             for (size_t k(1) ; k <= m_order ; k++, ida++) {
-              alpha0[ida] += output * ShiftedLegendre(k, input_i) ;
+              alpha0[ida] += output * m_orthogonalFunctions->calculate(k, input_i) ;
             }
 
             // beta coefficients.
@@ -824,7 +856,8 @@ namespace mesmer
               double input_j = rndmd[j] ;
               for (size_t k(1) ; k <= m_order ; k++) {
                 for (size_t l(1) ; l <= m_order ; l++, idb++) {
-                  beta0[idb] += output * ShiftedLegendre(k, input_i) * ShiftedLegendre(l, input_j); 
+                  beta0[idb] += output * m_orthogonalFunctions->calculate(k, input_i) 
+					                   * m_orthogonalFunctions->calculate(l, input_j); 
                 }
               }
             }
@@ -865,7 +898,7 @@ namespace mesmer
 
       double input_i = x[i] ;
       for (size_t k(1) ; k <= m_order ; k++, ida++) {
-        sum += alpha[ida]*ShiftedLegendre(k, input_i) ;
+        sum += alpha[ida]*m_orthogonalFunctions->calculate(k, input_i) ;
       }
 
       // beta coefficients.
@@ -874,7 +907,8 @@ namespace mesmer
         double input_j = x[j] ;
         for (size_t k(1) ; k <= m_order ; k++) {
           for (size_t l(1) ; l <= m_order ; l++, idb++) {
-            sum += beta[idb] * ShiftedLegendre(k, input_i) * ShiftedLegendre(l, input_j) ; 
+            sum += beta[idb] * m_orthogonalFunctions->calculate(k, input_i) 
+			                 * m_orthogonalFunctions->calculate(l, input_j) ; 
           }
         }
       }
