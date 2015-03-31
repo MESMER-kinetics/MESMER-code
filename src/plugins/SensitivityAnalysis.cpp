@@ -7,8 +7,7 @@
 //
 // This class implements sensitivity analysis algorithm used to identify this most important
 // parameters from a fit. It is based on the Li et al, Chem. Eng. Sci. Vol. 57, 4445 (2002)
-// and guided by the matlab implementation of Tilo Ziehn, particularly the methods
-// sub_alpha_1st.m, sub_beta_2nd.m and sub_sensitivity_indices.m.
+// and guided by the matlab implementation of Tilo Ziehn.
 //
 //-------------------------------------------------------------------------------------------
 
@@ -241,6 +240,119 @@ namespace {
     double x7 = x2*x5 ;
     double x9 = x2*x7 ;
     return (16.*x9 - 288.*x7 + 1512.*x5 - 2520.*x3 + 945.*x)/(sqrsqrPi*72.*sqrt(105.)) ; } 
+
+  // Some utility classes used to generate probability densities and calculate related 
+  // orthogonal functions.
+
+  // Abstract base class.
+
+  class probDensity {
+  public:
+    typedef double (*ofn)(const double &x) ;
+    probDensity() {} ;
+    virtual ~probDensity() {} ;
+    virtual bool initializeDist(System* pSys, string &err) = 0 ;
+    virtual void rndLocation(const vector<double> &rndmd, const vector<double> &currentLoc, vector<double> &newLoc) = 0 ;
+    virtual double orthFn(size_t order, const double x) = 0 ;
+  } ;
+
+  // Class for calculating a shifted uniform desnity and shifted Legendre polynomials.
+
+  class ShiftedLegendre : public probDensity {
+  public:
+    ShiftedLegendre() {
+      m_slpMap[1]  = Legendre_1  ;
+      m_slpMap[2]  = Legendre_2  ;
+      m_slpMap[3]  = Legendre_3  ;
+      m_slpMap[4]  = Legendre_4  ;
+      m_slpMap[5]  = Legendre_5  ;
+      m_slpMap[6]  = Legendre_6  ;
+      m_slpMap[7]  = Legendre_7  ;
+      m_slpMap[8]  = Legendre_8  ;
+      m_slpMap[9]  = Legendre_9  ;
+      m_slpMap[10] = Legendre_10 ;
+      m_slpMap[11] = Legendre_11 ;
+      m_slpMap[12] = Legendre_12 ;
+      m_slpMap[13] = Legendre_13 ;
+      m_slpMap[14] = Legendre_14 ;
+      m_slpMap[15] = Legendre_15 ;
+    }
+    ~ShiftedLegendre() { } ;
+    double orthFn(size_t order, const double x) {
+      double f = m_slpMap[order](x) ; 
+      return f ; 
+    } ;
+    bool initializeDist(System* pSys, string &err) {
+      // Read variable uncertainties from range.
+      size_t m_nVar = Rdouble::withRange().size() ;
+      for (size_t iVar(0) ; iVar < m_nVar ; iVar++) {
+        Rdouble var  = *Rdouble::withRange()[iVar] ;
+        double lower = var.get_lower();
+        double upper = var.get_upper();
+        m_delta.push_back(abs((upper - lower)/2.0 ));
+      }
+      return true ;
+    }
+    virtual void rndLocation(const vector<double> &rndmd, const vector<double> &currentLoc, vector<double> &newLoc) {
+      for (size_t j(0) ; j < rndmd.size() ; j++) {
+        newLoc[j] = currentLoc[j] + m_delta[j]*(rndmd[j] - 0.5) ;
+      }
+    }
+  private:
+    map<size_t, ofn> m_slpMap ;
+    vector<double>   m_delta ;
+  } ;
+
+  // Class for generating a Gaussian density and Hermite functions.
+
+  class Hermite : public probDensity  {
+  public:
+    Hermite() {
+      m_hfMap[1]  = Hermite_1  ;
+      m_hfMap[2]  = Hermite_2  ;
+      m_hfMap[3]  = Hermite_3  ;
+      m_hfMap[4]  = Hermite_4  ;
+      m_hfMap[5]  = Hermite_5  ;
+      m_hfMap[6]  = Hermite_6  ;
+      m_hfMap[7]  = Hermite_7  ;
+      m_hfMap[8]  = Hermite_8  ;
+      m_hfMap[9]  = Hermite_9  ;
+      m_hfMap[10] = Hermite_10 ;
+    }
+    ~Hermite() { } ;
+    double orthFn(size_t order, const double x) {
+      double f = exp(-x*x/2.0)*m_hfMap[order](x) ; 
+      return f ; 
+    } ;
+    bool initializeDist(System* pSys, string &err) {
+	  PersistPtr pp = pSys->getPersistPtr()->XmlMoveTo("me:analysis") ;
+	  pp = pp->XmlMoveTo("me:hessian") ;
+	  pp = pp->XmlMoveTo("matrix") ;
+      if (m_CorrelMtx = ReadMatrix<double>(pp)) { ;
+        m_CorrelMtx->cholesky() ;
+      } else {
+		err = "Correlation Matrix not found" ;
+        return false ;
+      }
+      return true ;
+    } ;
+    void rndLocation(const vector<double> &rndmd, const vector<double> &currentLoc, vector<double> &newLoc) {
+      size_t nVar = rndmd.size() ;
+      // Take inverse cumulative distribution of each sobol element.
+      for (size_t j(0); j < nVar ; j++){
+        newLoc[j] = NormalCDFInverse(rndmd[j]);
+      }
+      // Multiply the InvNorm with the cholesky decompostion.
+	  newLoc *= (*m_CorrelMtx) ;
+      for (size_t j(0); j < nVar ; j++){
+        newLoc[j] += currentLoc[j] ;
+      }
+    }
+  private:
+    map<size_t, ofn> m_hfMap ;
+    dMatrix *m_CorrelMtx ;
+  } ;
+
 }
 
 namespace mesmer
@@ -309,109 +421,8 @@ namespace mesmer
     // This method returns the legendre expansion estimate of the output value.
     double legendreExpansion(vector<double> &x, const double &f0, const vector<double> &alpha, const vector<double> &beta) ;
 
-    typedef double (*ofn)(const double &x) ;
-
-    class probDensity {
-    public:
-      probDensity() {} ;
-      virtual ~probDensity() {} ;
-      virtual void initializeDist() = 0 ;
-      virtual void rndLocation(const vector<double> &rndmd, const vector<double> &currentLoc, vector<double> &newLoc) = 0 ;
-      virtual double orthFn(size_t order, const double x) = 0 ;
-    } ;
-
     // Set of orthogonal functions to be used in calculation.
     probDensity *m_probDensity ;
-
-    // Methods for generating values of shifted Legendre polynomials.
-
-    class ShiftedLegendre : public probDensity {
-    public:
-      ShiftedLegendre() {
-        m_slpMap[1]  = Legendre_1  ;
-        m_slpMap[2]  = Legendre_2  ;
-        m_slpMap[3]  = Legendre_3  ;
-        m_slpMap[4]  = Legendre_4  ;
-        m_slpMap[5]  = Legendre_5  ;
-        m_slpMap[6]  = Legendre_6  ;
-        m_slpMap[7]  = Legendre_7  ;
-        m_slpMap[8]  = Legendre_8  ;
-        m_slpMap[9]  = Legendre_9  ;
-        m_slpMap[10] = Legendre_10 ;
-        m_slpMap[11] = Legendre_11 ;
-        m_slpMap[12] = Legendre_12 ;
-        m_slpMap[13] = Legendre_13 ;
-        m_slpMap[14] = Legendre_14 ;
-        m_slpMap[15] = Legendre_15 ;
-      }
-      ~ShiftedLegendre() { } ;
-      double orthFn(size_t order, const double x) {
-        double f = m_slpMap[order](x) ; 
-        return f ; 
-      } ;
-	  void initializeDist() {
-		// Read variable uncertainties from range.
-        size_t m_nVar = Rdouble::withRange().size() ;
-		for (size_t iVar(0) ; iVar < m_nVar ; iVar++) {
-		  Rdouble var  = *Rdouble::withRange()[iVar] ;
-	   	  double lower = var.get_lower();
-		  double upper = var.get_upper();
-		  m_delta.push_back(abs((upper - lower)/2.0 ));
-		}
-	  }
-      virtual void rndLocation(const vector<double> &rndmd, const vector<double> &currentLoc, vector<double> &newLoc) {
-        for (size_t j(0) ; j < rndmd.size() ; j++) {
-          newLoc[j] = currentLoc[j] + m_delta[j]*(rndmd[j] - 0.5) ;
-        }
-	  }
-    private:
-      map<size_t, ofn> m_slpMap ;
-      vector<double>   m_delta ;
-    } ;
-
-    // Methods for generating values of Hermite functions.
-    class Hermite : public probDensity  {
-    public:
-      Hermite() {
-        m_hfMap[1]  = Hermite_1  ;
-        m_hfMap[2]  = Hermite_2  ;
-        m_hfMap[3]  = Hermite_3  ;
-        m_hfMap[4]  = Hermite_4  ;
-        m_hfMap[5]  = Hermite_5  ;
-        m_hfMap[6]  = Hermite_6  ;
-        m_hfMap[7]  = Hermite_7  ;
-        m_hfMap[8]  = Hermite_8  ;
-        m_hfMap[9]  = Hermite_9  ;
-        m_hfMap[10] = Hermite_10 ;
-      }
-      ~Hermite() { } ;
-      double orthFn(size_t order, const double x) {
-        double f = exp(-x*x/2.0)*m_hfMap[order](x) ; 
-        return f ; 
-      } ;
-	  void initializeDist(){ 
-		// 	hessian.cholesky();
-      } ;
-	  void rndLocation(const vector<double> &rndmd, const vector<double> &currentLoc, vector<double> &newLoc) {
-		size_t nVar = rndmd.size() ;
-		//Take inverse cumulative distribution of each sobol element
-        for (size_t j(0); j < nVar ; j++){
-		  newLoc[j] = NormalCDFInverse(rndmd[j]);
-		}
-        // Multiply the InvNorm with the cholesky decompostion.
-		for (size_t i(0); i < nVar; i++) {
-		  for (size_t j(0); j < nVar; j++) {
-			double sm(0.0);
-			for (size_t k(0); k < nVar; k++) {
-//			  sm += hessian[i][k] * sobolSeq[k][j];
-			}
-//			CorrelatedSample[i][j] = sm;
-		  }
-		}
-	  }
-    private:
-      map<size_t, ofn> m_hfMap ;
-    } ;
 
     // This method generates the column header for the output tables.
     string columnHeader() const ;
@@ -490,7 +501,11 @@ namespace mesmer
       return false ;
     }
 
-	m_probDensity->initializeDist() ;
+	string err("") ;
+    if(!m_probDensity->initializeDist(pSys, err)) { 
+      cerr << err << endl;
+      return false ;
+	}
 
     //Do not output all the intermediate results to XML
     pSys->m_Flags.overwriteXmlAnalysis = true;
@@ -550,7 +565,7 @@ namespace mesmer
 
         // Use random vector generated by sobol method to perturb parameter values.
 
-	    m_probDensity->rndLocation(rndmd, currentLocation, newLocation) ;
+        m_probDensity->rndLocation(rndmd, currentLocation, newLocation) ;
 
         // Set perturbed parameters and calculate new quantities.
 
@@ -592,9 +607,13 @@ namespace mesmer
     // Prepare output.
     m_pSA = m_pSA->XmlWriteMainElement("me:sensitivityAnalysisTables", "", true); // Will replace an existing element.
 
-	m_probDensity->initializeDist() ;
+	string err("") ;
+    if(!m_probDensity->initializeDist(pSys, err)) { 
+      cerr << err << endl;
+      return false ;
+	}
 
-    //Do not output all the intermediate results to XML
+    // Do not output all the intermediate results to XML.
     pSys->m_Flags.overwriteXmlAnalysis = true;
 
     // Use the same grain numbers for for all calcuations regardless of 
@@ -647,7 +666,7 @@ namespace mesmer
 
         // Use random vector generated by sobol method to perturb parameter values.
 
-	    m_probDensity->rndLocation(rndmd, originalLocation, newLocation) ;
+        m_probDensity->rndLocation(rndmd, originalLocation, newLocation) ;
 
         // Set perturbed parameters and calculate new quantities.
 
@@ -762,7 +781,7 @@ namespace mesmer
             for (size_t k(1) ; k <= m_order ; k++) {
               for (size_t l(1) ; l <= m_order ; l++, idb++) {
                 beta[idb] += output * m_probDensity->orthFn(k, input_i) 
-                                    * m_probDensity->orthFn(l, input_j); 
+                  * m_probDensity->orthFn(l, input_j); 
               }
             }
           }
@@ -813,7 +832,7 @@ namespace mesmer
               for (size_t k(1) ; k <= m_order ; k++) {
                 for (size_t l(1) ; l <= m_order ; l++, idb++) {
                   beta1[idb] += h0 * m_probDensity->orthFn(k, input_i) 
-                                   * m_probDensity->orthFn(l, input_j); 
+                    * m_probDensity->orthFn(l, input_j); 
                 }
               }
             }
@@ -876,7 +895,7 @@ namespace mesmer
               for (size_t k(1) ; k <= m_order ; k++) {
                 for (size_t l(1) ; l <= m_order ; l++, idb++) {
                   beta0[idb] += output * m_probDensity->orthFn(k, input_i) 
-                                       * m_probDensity->orthFn(l, input_j); 
+                    * m_probDensity->orthFn(l, input_j); 
                 }
               }
             }
@@ -927,7 +946,7 @@ namespace mesmer
         for (size_t k(1) ; k <= m_order ; k++) {
           for (size_t l(1) ; l <= m_order ; l++, idb++) {
             sum += beta[idb] * m_probDensity->orthFn(k, input_i) 
-                             * m_probDensity->orthFn(l, input_j) ; 
+              * m_probDensity->orthFn(l, input_j) ; 
           }
         }
       }
