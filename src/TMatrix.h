@@ -91,7 +91,29 @@ namespace mesmer
 
     };
 
-    // Code adapted from C acording to the algorithm given at rosettacode.org/wiki/Cholesky_decomposition
+	// Determinant of Matrix.
+	T Determinant() {
+
+      const size_t size = this->size() ;
+
+      //  Allocate memory for work array
+      TMatrix<T> work = *this ;
+	  
+	  //  Allocate memory for work array
+      vector<size_t> indx(size, 0) ;
+
+      if (ludcmp(work.m_matrix, size, indx)) {
+        exit(1);
+      }
+	  T det(T(1.0)) ;
+      for (size_t i = 0; i < size ; i++) {
+		det *= work[i][i] ;
+	  }
+
+	  return det ;
+	}
+
+    // Code adapted from C acording to the algorithm given at rosettacode.org/wiki/Cholesky_decomposition.
     void cholesky() {
 
       size_t size = this->size() ;
@@ -101,7 +123,7 @@ namespace mesmer
 
       for (size_t i = 0; i < size; i++){
         for (size_t j = 0; j < (i+1); j++){
-          T sum = 0;
+          T sum = T(0.0) ;
           for (size_t k = 0; k < j; k++){
             sum += work[i][k]*work[j][k];
           }
@@ -112,7 +134,7 @@ namespace mesmer
           }
         }
       }
-      //copy work matrix back to orignal matrix
+      // Copy work matrix back to orignal matrix.
       *this = work;
     };
 

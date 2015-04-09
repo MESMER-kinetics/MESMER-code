@@ -1034,13 +1034,16 @@ double RationalApproximation(double t)
 
 double NormalCDFInverse(double p)
 {
-	if (p <= 0.0 || p >= 1.0)
-	{
-		std::stringstream os;
-		os << "Invalid input argument (" << p 
-			<< "); must be larger than 0 but less than 1.";
-		throw std::invalid_argument( os.str() );
-	}
+	//if (p <= 0.0 || p >= 1.0)
+	//{
+	//	std::stringstream os;
+	//	os << "Invalid input argument (" << p 
+	//		<< "); must be larger than 0 but less than 1.";
+	//	throw std::invalid_argument( os.str() );
+	//}
+
+    p = max(1.e-15, p) ;
+	p = min(1-1.e-15, p) ;
 
 	// See article above for explanation of this section.
 	if (p < 0.5)

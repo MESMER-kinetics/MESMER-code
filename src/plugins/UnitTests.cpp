@@ -438,6 +438,8 @@ namespace mesmer
     string Heading("Test matrix 1") ;
     Mtx1.print(Heading, ctest) ;
 
+	ctest << endl << "Determinant of Test matrix 1 = " << Mtx1.Determinant() << endl ;
+
     Mtx1.invertLUdecomposition() ;
 
     Heading.clear() ;

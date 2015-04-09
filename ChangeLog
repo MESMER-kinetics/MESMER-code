@@ -1,4 +1,9 @@
 
+2015-April-09 Struan Robertson
+
+	* SensitivityAnalysis.cpp, TMatrix.h, UnitTests.cpp: Methods added to generate
+	correlated sample data.
+
 2015-March-31 Struan Robertson
 
 	* SensitivityAnalysis.cpp: Reading in correlation matrix.
