@@ -208,6 +208,8 @@ Test matrix 1
               1              1              1
 }
 
+Determinant of Test matrix 1 = 5
+
 Inverse of Test matrix 1
 {
       -0.533333           -0.2            0.2
@@ -272,6 +274,8 @@ Test matrix 1
               0       -1.66667              1
               1              1              1
 }
+
+Determinant of Test matrix 1 = 5
 
 Inverse of Test matrix 1
 {
@@ -338,6 +342,8 @@ Test matrix 1
   1.000000e+000  1.000000e+000  1.000000e+000
 }
 
+Determinant of Test matrix 1 = 5.000000e+00
+
 Inverse of Test matrix 1
 {
  -5.333333e-001 -2.000000e-001  2.000000e-001
@@ -402,6 +408,8 @@ Test matrix 1
   0.000000e+000 -1.666667e+000  1.000000e+000
   1.000000e+000  1.000000e+000  1.000000e+000
 }
+
+Determinant of Test matrix 1 = 5.000000e+00
 
 Inverse of Test matrix 1
 {

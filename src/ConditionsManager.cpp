@@ -82,7 +82,7 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
           this_units = txt;
 
 
-        Precision this_precision ;
+				Precision this_precision(UNDEFINED_PRECISION);
         txt = ppPTset->XmlReadValue("me:precision", optional);
         if(!txt)
           txt = ppPTset->XmlReadValue("precision");
@@ -348,7 +348,7 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
 
   void ConditionsManager::getAllBathGases(std::set<std::string>& bathGases)
   {
-    for(int i=0; i!=PandTs.size(); ++i)
+    for(size_t i(0) ; i!=PandTs.size(); ++i)
       bathGases.insert(PandTs[i].m_pBathGasName);
   }
 

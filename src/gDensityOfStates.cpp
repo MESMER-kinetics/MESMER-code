@@ -85,7 +85,7 @@ namespace mesmer
       m_HessianUnits = (txt) ? string(txt) : "kJ/mol/amu/Ang^2";
       FrqsFromHessian();
     }
-    else if (txt = ppPropList->XmlReadProperty("me:vibFreqs", optional)) {
+    else if ((txt = ppPropList->XmlReadProperty("me:vibFreqs", optional))) {
       istringstream idata(txt);
       double x;
       while (idata >> x)

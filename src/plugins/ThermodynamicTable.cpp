@@ -179,9 +179,6 @@ namespace mesmer
       if (!IsNan(Hf298local))
         pp->XmlWriteAttribute("unitsHf", m_Unit);
 
-      double tempzpe = pp->XmlReadPropertyDouble("Hf0", optional);//DEBUG
-
-
       double S298;//Always calculated. NOTE kJ/mol/K
 
       double enthalpy298, dummy;

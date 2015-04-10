@@ -325,7 +325,7 @@ namespace mesmer
     vector<double>& redInvMOI, PersistPtr ppConfigData) {
 
       // Save coordinates.
-      exportToXYZ("orig_coords", NULL, ppConfigData) ;
+      exportToXYZ("orig_coords", false, ppConfigData) ;
 
       map<string, atom>::iterator iter;
       vector<vector3> coordinates;

@@ -1,4 +1,8 @@
 
+2015-April-10 Struan Robertson
+
+	* Various: Minor changes to reduce Linux compiler warnings.
+
 2015-April-09 Struan Robertson
 
 	* SensitivityAnalysis.cpp, TMatrix.h, UnitTests.cpp: Methods added to generate

@@ -873,7 +873,7 @@ void System::executeCalculation()
 
   void System::getAllBathGases(set<string>& bathGases)
   {
-    for(int i=0;i!=m_ConditionsForEachControl.size();++i)
+    for(size_t i(0) ; i!=m_ConditionsForEachControl.size() ; ++i)
       if(m_ConditionsForEachControl[i])
         m_ConditionsForEachControl[i]->getAllBathGases(bathGases) ;
 
