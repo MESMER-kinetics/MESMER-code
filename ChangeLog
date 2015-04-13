@@ -1,3 +1,17 @@
+2015-April-13 Chris Morley
+
+	* src/main.cpp: add -t and T to online documentation.
+
+	* src/plugins/ExponentialDown.cpp: add "me:deltaEDownTActivation" as a second
+
+	  temperature dependent parameter for deltaEDown.
+
+	* Windows VC12/distribution/NSISScriptToCreateInstaller.nsi: update for v4
+
+	* Windows VC12/distribution/ReadMe.txt: minor text changes
+
+	* src/gDensityOfStates.cpp: add some XML elements used for enthalpy in 
+      Openbabel.
 
 2015-April-10 Struan Robertson
 
