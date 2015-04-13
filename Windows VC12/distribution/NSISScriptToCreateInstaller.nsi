@@ -457,7 +457,7 @@ FunctionEnd
 ;General
 
   ;Mesmer version
-  !define MesmerVersion 3.0
+  !define MesmerVersion 4.0
 
   ;Name and file
   Name "Mesmer ${MESMERVERSION}"
@@ -519,6 +519,8 @@ Section "Dummy Section" SecDummy
   File  "..\..\Documentation\Constructing a Datafile from Gaussian output.html"
   File  "..\..\Documentation\Adding a molecule to the library.html"
   File  "..\..\Documentation\MESMER manual.pdf"
+  File  "..\..\Documentation\MESMER GUI tutorial.pdf"
+  File  "..\..\Documentation\MESMER examples.pdf"
 
   SetOutPath "$INSTDIR\examples"
   File /r /x .svn /x test.test /x *_prev.* /x *_out.xml /x *.sh /x Linux32 /x Linux64 /x MacOSX ..\..\examples\*.*
@@ -535,9 +537,9 @@ Section "Dummy Section" SecDummy
   File ..\Mesmer\Mesmer.exe
   File vcredist_x86.exe
   File ..\..\mesmer1.xsl
-  File ..\..\mesmer2.xsl
   File ..\..\mesmerDiag.xsl
   File ..\..\popDiag.xsl
+  File ..\..\chemStrucEL.xsl
   File ..\..\punch.xsl
   File ..\..\switchcontent.xsl
   File ..\..\librarymols.xml
@@ -548,7 +550,7 @@ Section "Dummy Section" SecDummy
   ;Store installation folder
   WriteRegStr HKCU "Software\Mesmer ${MESMERVERSION}" "" $INSTDIR
   
-  ;Install VC++ 2010 redistributable
+  ;Install VC++ 2013 redistributable
   ExecWait '"$INSTDIR/vcredist_x86.exe" /q:a'
 
   ;Create uninstaller
@@ -572,8 +574,8 @@ Section "Dummy Section" SecDummy
 
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Mesmer Manual.lnk" "$INSTDIR\Documentation\MESMER manual.pdf"
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Make datafile from Gaussian output.lnk" "$INSTDIR\Documentation\Constructing a Datafile from Gaussian output.html"
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Adding a molecule to the library.lnk" "$INSTDIR\Documentation\Adding a molecule to the library.html"
+    ;CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Make datafile from Gaussian output.lnk" "$INSTDIR\Documentation\Constructing a Datafile from Gaussian output.html"
+    ;CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Adding a molecule to the library.lnk" "$INSTDIR\Documentation\Adding a molecule to the library.html"
 
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Mesmer Folder.lnk" "$INSTDIR"
 
@@ -613,10 +615,10 @@ Section "Uninstall"
   Delete "$INSTDIR\Mesmer.exe"
   Delete "$INSTDIR\vcredist_x86.exe"
   Delete $INSTDIR\mesmer1.xsl
-  Delete $INSTDIR\mesmer2.xsl
   Delete $INSTDIR\mesmerDiag.xsl
   Delete $INSTDIR\popDiag.xsl
   Delete $INSTDIR\punch.xsl
+  Delete $INSTDIR\chemStrucEL.xsl
   Delete $INSTDIR\switchcontent.xsl
   Delete $INSTDIR\librarymols.xml
   Delete $INSTDIR\defaults.xml
@@ -648,8 +650,8 @@ Section "Uninstall"
   !insertmacro MUI_STARTMENU_GETFOLDER Application $MUI_TEMP
   Delete "$SMPROGRAMS\$MUI_TEMP\Uninstall.lnk"
   Delete "$SMPROGRAMS\$MUI_TEMP\Mesmer Manual.lnk"
-  Delete "$SMPROGRAMS\$MUI_TEMP\Adding a molecule to the library.lnk"
-  Delete "$SMPROGRAMS\$MUI_TEMP\Make datafile from Gaussian output.lnk"
+  ;Delete "$SMPROGRAMS\$MUI_TEMP\Adding a molecule to the library.lnk"
+  ;Delete "$SMPROGRAMS\$MUI_TEMP\Make datafile from Gaussian output.lnk"
   Delete "$SMPROGRAMS\$MUI_TEMP\Mesmer Folder.lnk"
   RMDir  "$SMPROGRAMS\$MUI_TEMP"
       

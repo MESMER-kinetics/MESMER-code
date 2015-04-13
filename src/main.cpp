@@ -308,7 +308,7 @@ int main(int argc,char *argv[])
       return -5;
     }
     else
-      cerr << "QA test successful" << endl;
+      cerr << "QA test successful" << endl; 
   }
 
   //
@@ -392,7 +392,9 @@ void usage()
     "       2 Warnings\n"
     "       3 Information\n"
     " -?  Display this help text\n"
-    " -V  Output Mesmer version.\n\n"
+    " -V  Output Mesmer version.\n"
+    " -t  Output a table of available plugins.\n"
+    " -T  As -t but with descriptions, if available.\n\n"
     << endl;
 }
 string version()

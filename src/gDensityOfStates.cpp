@@ -245,6 +245,8 @@ namespace mesmer
     return ReadEnergy("me:ZPE", "computational") ||
       ReadEnergy("me:Hf0", "thermodynamic") ||
       ReadEnergy("me:Hf298", "thermodynamic298K");
+      ReadEnergy("DHf(0K)", "thermodynamic") || /*OpenBabel styles*/
+      ReadEnergy("DHf(298.15K)", "thermodynamic298K");
    }
 
   double gDensityOfStates::ConvertEnergyConvention(

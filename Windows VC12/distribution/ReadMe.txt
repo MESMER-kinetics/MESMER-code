@@ -19,7 +19,7 @@ A Start Menu Programs item contains links to:
 
  - MESMER manual.pdf
 
- - two tutorials, on using Gaussian output and add library molecules.
+ - a tutorial on using the MESMER GUI (a web program) to construct simple data files.
 
 To check that the program is working properly, open a DOS window in the Mesmer folder,
 move to its MesmerQA sub-folder, and type QA.bat.

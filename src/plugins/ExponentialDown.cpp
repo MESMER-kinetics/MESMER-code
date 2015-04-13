@@ -79,6 +79,7 @@ public:
   Rdouble m_deltaEDown ;
   double m_refTemp;
   Rdouble m_dEdExp ;
+  Rdouble m_dEdAct;
 };
 
   /******************************************************************************
@@ -170,17 +171,12 @@ bool ExponentialDown::ParseData(PersistPtr ppModel)
   /******************************************************************************
   Read the temperature coefficients for all bath gases.
   The temperature dependence of <delta_E_down> is accounted for as:
-     <delta_E_down>(T) = <delta_E_down>_ref * (T / refTemp)^dEdExp
-  The default is hardwired at dEdExp = 0, so delta_E_down does not depend on temperature.
-  Reference temperature of <DeltaEDown>, refTemp, also hardwired, has default 298K.
+     <delta_E_down>(T) = <delta_E_down>_ref * (T / refTemp)^dEdExp * exp(-dEdAct/T)
+  The default is hardwired at dEdExp = 0, dEdAct=0, so delta_E_down does not depend
+  on temperature. The reference temperature of <DeltaEDown>, refTemp, also hardwired,
+  has a default of 298K. Both of the temperature parameters can be range variables.
   ******************************************************************************/
-  double m_dEdExp = dataInProperty ?
-    ppTop->XmlReadPropertyDouble("me:deltaEDownTExponent",optional) :
-    ppModel->XmlReadDouble("me:deltaEDownTExponent",optional);
-  if(IsNan(m_dEdExp))
-      m_dEdExp = 0.0;
   PersistPtr ppPropExp = dataInProperty ? ppTop : ppModel;
-
   while(ppPropExp = dataInProperty ?
            ppPropExp->XmlMoveToProperty("me:deltaEDownTExponent", true) :
            ppPropExp->XmlMoveTo("me:deltaEDownTExponent"))
@@ -204,6 +200,27 @@ bool ExponentialDown::ParseData(PersistPtr ppModel)
     ReadRdoubleRange(varid, ppPropExp, pModel->m_dEdExp, rangeSet) ;
   }
 
+  PersistPtr ppPropAct = dataInProperty ? ppTop : ppModel;
+  while (ppPropAct = dataInProperty ?
+    ppPropAct->XmlMoveToProperty("me:deltaEDownTActivation", true) :
+    ppPropAct->XmlMoveTo("me:deltaEDownTActivation"))
+  {
+    const char* bathGasName = ppPropAct->XmlReadValue("ref", optional);
+    if (!bathGasName)
+      bathGasName = ppPropAct->XmlReadValue("bathGas", optional);
+    ExponentialDown* pModel
+      = static_cast<ExponentialDown*>(m_parent->getColl().addBathGas(bathGasName, this));
+
+    istringstream ss(ppPropAct->XmlRead());
+    ss >> pModel->m_dEdAct;
+
+    bool rangeSet;
+    string varid = m_parent->getName() + ":deltaEDownTActivation";
+    if (bathGasName)
+      varid += string(":") += bathGasName;
+    ReadRdoubleRange(varid, ppPropAct, pModel->m_dEdAct, rangeSet);
+  }
+
   return true;
 }
 
@@ -211,13 +228,12 @@ bool ExponentialDown::ParseData(PersistPtr ppModel)
   This is the function which does the real work of the plugin
   ******************************************************************************/
   double ExponentialDown::calculateTransitionProbability(double Ei, double Ej) {
-  // return exp(-(Ei -Ej)/m_deltaEdown) ;
-
-  double deltaEDown = m_deltaEDown;
-  if(m_dEdExp!=0.0) {
+    double deltaEDown = m_deltaEDown;
     const double temperature = 1.0/(boltzmann_RCpK * getParent()->getEnv().beta);
-    deltaEDown = deltaEDown * pow((temperature/m_refTemp),m_dEdExp);
-  }
+    if(m_dEdExp!=0.0)
+      deltaEDown = deltaEDown * pow((temperature/m_refTemp),m_dEdExp);
+    if (m_dEdAct != 0)
+      deltaEDown = deltaEDown * exp(m_dEdAct * temperature);
 
   /******************************************************************************
   Issue a warning message if delta_E_down is smaller than grain size.
@@ -230,11 +246,11 @@ bool ExponentialDown::ParseData(PersistPtr ppModel)
   repeated (as this one would be). The message includes the context, so that if more
   than one molecule has an over-small delta_E_down there is a message for each molecule.
   ******************************************************************************/
-  if (deltaEDown < double(getParent()->getEnv().GrainSize) && !getParent()->getFlags().allowSmallerDEDown){
-    ErrorContext e(getParent()->getName());
-    cerr << "Delta E down is smaller than grain size: the solution may not converge." << once << endl;
-  }
-  return exp(-(Ei -Ej)/deltaEDown) ;
+    if (deltaEDown < double(getParent()->getEnv().GrainSize) && !getParent()->getFlags().allowSmallerDEDown){
+      ErrorContext e(getParent()->getName());
+      cerr << "Delta E down is smaller than grain size: the solution may not converge." << once << endl;
+    }
+    return exp(-(Ei -Ej)/deltaEDown) ;
   }
 
   /******************************************************************************
@@ -259,6 +275,7 @@ Format for unified parsing
   <me:energyTransferModel xsi:type="me:ExponentialDown">
     <me:deltaEDown units="cm-1" lower="160" upper="300" stepsize="10">190</me:deltaEDown>
     <me:deltaEDownTExponent referenceTemperature="300">1.0</me:deltaEDownTExponent>
+    <me:deltaEDownActivationParam units="K-1">1.2</me:deltaEDownActivationParam> <!--new-->
     <me:deltaEDown units="cm-1" bathGas="Ar">144.0</me:deltaEDown>
     <me:deltaEDownTExponent ref="Ar" lower="0.8" upper="1.2" stepsize="0.1">1.0</me:deltaEDownTExponent>
   </me:energyTransferModel>
