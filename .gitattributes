@@ -331,11 +331,14 @@ Windows[!!-~]VC10/distribution/ReadMe.txt -text
 Windows[!!-~]VC10/qd/config.h -text
 Windows[!!-~]VC10/qd/qd.vcxproj -text
 Windows[!!-~]VC10/qd/qd_config.h -text
+Windows[!!-~]VC12/MESMER.sln -text
 Windows[!!-~]VC12/Mesmer/Mesmer.vcxproj -text
 Windows[!!-~]VC12/TinyXML/TinyXML.vcxproj -text
 Windows[!!-~]VC12/distribution/NSISScriptToCreateInstaller.nsi -text
 Windows[!!-~]VC12/distribution/ReadMe.txt -text
+Windows[!!-~]VC12/qd/config.h -text
 Windows[!!-~]VC12/qd/qd.vcxproj -text
+Windows[!!-~]VC12/qd/qd_config.h -text
 /chemStrucEL.xsl -text
 /defaults.xml -text
 examples/AcetylO2/Acetyl_O2_associationEx.xml -text

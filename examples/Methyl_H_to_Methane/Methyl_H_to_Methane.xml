@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
-<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl'?>
 <me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <me:title>Methy + H association</me:title>
+  <me:title>Methyl + H association</me:title>
   <moleculeList>
     <molecule id="Methane">
       <atomArray>
@@ -134,15 +133,15 @@
 
     <reaction id="R1" reversible="true">
       <reactant>
-        <molecule ref="Methyl"  me:type="deficientReactant" />
+        <molecule ref="Methyl"  role="deficientReactant" />
       </reactant>
 
       <reactant>
-        <molecule ref="H"  me:type="excessReactant" />
+        <molecule ref="H"  role="excessReactant" />
       </reactant>
 
       <product>
-        <molecule ref="Methane"  me:type="modelled" />
+        <molecule ref="Methane"  role="modelled" />
       </product>
 
       <me:MCRCMethod xsi:type="me:MesmerILT">

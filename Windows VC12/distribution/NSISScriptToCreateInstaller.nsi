@@ -551,7 +551,7 @@ Section "Dummy Section" SecDummy
   WriteRegStr HKCU "Software\Mesmer ${MESMERVERSION}" "" $INSTDIR
   
   ;Install VC++ 2013 redistributable
-  ExecWait '"$INSTDIR/vcredist_x86.exe" /q:a'
+  ExecWait '"$INSTDIR/vcredist_x86.exe" /q'
 
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
@@ -560,7 +560,7 @@ Section "Dummy Section" SecDummy
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mesmer-${MESMERVERSION}" "UninstallString" "$INSTDIR\Uninstall.exe"
 
   ;Put item in context menu
-  WriteRegStr HKCR "xmlfile\shell\Open with Mesmer\command" "" "$INSTDIR\Mesmer.exe %1"
+  WriteRegStr HKCR "xmlfile\shell\Open with Mesmer\command" "" '$INSTDIR\Mesmer.exe "%1"'
 
   SetShellVarContext all
 

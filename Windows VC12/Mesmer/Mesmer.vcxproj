@@ -233,7 +233,9 @@
     <None Include="..\..\examples\i-propyl\ipropyl_LM.xml" />
     <None Include="..\..\examples\Methoxymethyl\Chebyshev.xml" />
     <None Include="..\..\examples\Methoxymethyl\ChebyshevCK.xml" />
-    <None Include="..\..\examples\Methyl_H_to_Methane\Methyl_H_to_Methane.xml" />
+    <None Include="..\..\examples\Methyl_H_to_Methane\Methyl_H_to_Methane.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\examples\Methyl_H_to_Methane\Methyl_H_to_Methane_FTST.xml" />
     <None Include="..\..\examples\OH-acetylene\OH_HCCH-irreversibleBim-ci-TC-start.xml" />
     <None Include="..\..\examples\OH-acetylene\OH_HCCH-irreversibleBim-publish.xml" />
