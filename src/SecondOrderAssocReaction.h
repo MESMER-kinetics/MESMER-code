@@ -33,7 +33,7 @@ namespace mesmer
 
     // Constructors.
     SecondOrderAssocReaction(MoleculeManager *pMoleculeManager, const MesmerEnv& Env, MesmerFlags& Flags, const char *id, bool isReactant)
-      :AssociationReaction(pMoleculeManager, Env, Flags, id, isReactant) {} ;
+      :AssociationReaction(pMoleculeManager, Env, Flags, id, isReactant) { Flags.bIsSystemSecondOrder = true; } ;
 
     // Destructor.
     virtual ~SecondOrderAssocReaction(){}

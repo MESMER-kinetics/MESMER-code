@@ -53,7 +53,6 @@ namespace mesmer
 
 		unsigned m_maxIterations ;
 		double m_tol ;
-		size_t m_seq;
 	};
 
 	////////////////////////////////////////////////
@@ -67,7 +66,6 @@ namespace mesmer
 		m_delta = pp->XmlReadDouble("me:MarquardtDerivDelta");
 		m_maxIterations= pp->XmlReadInteger("me:MarquardtIterations");
 		m_tol = pp->XmlReadDouble("me:MarquardtTolerance");
-		m_seq = pp->XmlReadInteger("me:SequenceSize",optional);
 		return true;
 	}
 
@@ -184,10 +182,6 @@ namespace mesmer
 		ResultsAndStatistics(pSys, hessian) ;
 		PersistPtr ppHessian = pSys->getAnalysisPtr()->XmlWriteMainElement("me:hessian","");
 		hessian.WriteToXML(ppHessian) ;
-
-		//Get correlated distribution
-		if (m_seq)
-			CorellatedDistribution(pSys,  hessian, m_seq);
 
 		return true;
 	}

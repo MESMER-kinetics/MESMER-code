@@ -53,6 +53,11 @@ namespace mesmer
       return false;
     }
 
+	// Adjust the zero point energy to reflect second order.
+	const double pseudoIsomerZPE = get_pseudoIsomer()->getDOS().get_zpe();
+    double sourceTermZPE = 2.0*pseudoIsomerZPE ;
+    get_pseudoIsomer()->getDOS().set_zpe(sourceTermZPE);
+
     // Read heat of reaction and rate parameters.
     return ReadRateCoeffParameters(ppReac) ;
 

@@ -1498,7 +1498,11 @@ namespace mesmer
 
       // If requested, write out phenomenological evolution.
       if (mFlags.printPhenomenologicalEvolution) {
-        PhenomenologicalIntegration(Z_matrix, Zinv, Egv, mFlags) ;
+		if (mFlags.bIsSystemSecondOrder) {
+		  cinfo << "At present it is not possible to phenomenological profiles for systems with a second order term." << endl ;
+		} else {
+          PhenomenologicalIntegration(Z_matrix, Zinv, Egv, mFlags) ;
+		}
       }
 
       // Write out phenomenological rate coefficients.

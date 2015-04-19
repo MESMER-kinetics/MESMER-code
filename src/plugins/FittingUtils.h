@@ -37,10 +37,6 @@ namespace mesmer
 
 		// Write out the results and statistics of the fit. 
 		void ResultsAndStatistics(System* pSys, qdMatrix &hessian) const;
-
-		// Get correlated distribution from fitting hessian matrix
-		void CorellatedDistribution(System* pSys, qdMatrix hessian, size_t &seqSize);
-
 	};
 
 }  //namespace

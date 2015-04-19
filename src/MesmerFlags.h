@@ -56,6 +56,8 @@ namespace mesmer
     bool   autoSetMaxEne;                 // Check equilibrium population of all species is less than popThreshold at energy cut-off. 
 	double popThreshold;                  // Equilibrium population criteria used in cutt-off check.
     bool   bForceMacroDetailedBalance;    // Impose detailed balance at the macroscopic level for non-conservative systems.
+    bool   bIsSystemSecondOrder;          // This flag is set if there is a second order reaction in the system and is
+	                                      // used to suspend an attempt to calculate species concentrations etc.
   };
 }//namespace
 

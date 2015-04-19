@@ -121,261 +121,261 @@ namespace mesmer
     return m_collisionOperator.initialize(m_pMoleculeManager, m_pReactionManager);
   }
 
-//
-// Parse an input data file.
-//
-bool System::parse(PersistPtr ppIOPtr)
-{
-  initializeConversionMaps();
-  m_ppIOPtr = ppIOPtr;
-
-  m_pTitle       = ppIOPtr->XmlReadValue("title", false);
-  if(!m_pTitle)
-    m_pTitle = ppIOPtr->XmlReadValue("me:title", false);
-  m_pDescription = ppIOPtr->XmlReadValue("description", false);
-  if(!m_pDescription)
-    m_pDescription = ppIOPtr->XmlReadValue("me:description", false);
-
-  //Molecule List
-  PersistPtr ppMolList = ppIOPtr->XmlMoveTo("moleculeList");
-  m_pMoleculeManager->set_PersistPtr(ppMolList ? ppMolList : ppIOPtr);
-
-  // What are we going to do?
-
-  PersistPtr ppControl = ppIOPtr;//first time at top, then gets next block
-  while(ppControl = ppControl->XmlMoveTo("me:control"))
+  //
+  // Parse an input data file.
+  //
+  bool System::parse(PersistPtr ppIOPtr)
   {
-    //Ignore a <control> that has an attribute  active="false","no" or "0"
-    const char* txt = ppControl->XmlReadValue("active",optional);
-    if(txt && !ppControl->XmlReadBoolean("active"))
-      continue;
+    initializeConversionMaps();
+    m_ppIOPtr = ppIOPtr;
 
-    m_CalcMethod = ParseForPlugin<CalcMethod>(this, "me:calcMethod", ppControl);
-    if(!m_CalcMethod)
-      return false;
-    m_CalcMethodsForEachControl.push_back(m_CalcMethod); //for each <control> block
+    m_pTitle       = ppIOPtr->XmlReadValue("title", false);
+    if(!m_pTitle)
+      m_pTitle = ppIOPtr->XmlReadValue("me:title", false);
+    m_pDescription = ppIOPtr->XmlReadValue("description", false);
+    if(!m_pDescription)
+      m_pDescription = ppIOPtr->XmlReadValue("me:description", false);
 
-    static PersistPtr ppConditions;
-    // Parse molecules, reactions, parameters and conditions only
-    // in conjunction with the first control block.
-    if(m_CalcMethodsForEachControl.size()==1)
+    //Molecule List
+    PersistPtr ppMolList = ppIOPtr->XmlMoveTo("moleculeList");
+    m_pMoleculeManager->set_PersistPtr(ppMolList ? ppMolList : ppIOPtr);
+
+    // What are we going to do?
+
+    PersistPtr ppControl = ppIOPtr;//first time at top, then gets next block
+    while(ppControl = ppControl->XmlMoveTo("me:control"))
     {
-       if (m_CalcMethod->DoesOwnParsing()) {
-        // Thermodynamic table, UnitTests,etc. do their own file parsing.
-        m_FlagsForEachControl.push_back(m_Flags);
-        return true ;
-      }
+      //Ignore a <control> that has an attribute  active="false","no" or "0"
+      const char* txt = ppControl->XmlReadValue("active",optional);
+      if(txt && !ppControl->XmlReadBoolean("active"))
+        continue;
 
-      // Model Parameters 
-      PersistPtr ppParams;
-      // Add this section if it does not exist, to contain defaults
-      while(!(ppParams = ppIOPtr->XmlMoveTo("me:modelParameters")))
-        ppIOPtr->XmlWriteElement("me:modelParameters");
+      m_CalcMethod = ParseForPlugin<CalcMethod>(this, "me:calcMethod", ppControl);
+      if(!m_CalcMethod)
+        return false;
+      m_CalcMethodsForEachControl.push_back(m_CalcMethod); //for each <control> block
 
-      // The grain size and grain number are linked via the total maximum energy,
-      // so only on of then is independent. Look for grain size first and if that
-      // fails look for the Max. number of grains.
+      static PersistPtr ppConditions;
+      // Parse molecules, reactions, parameters and conditions only
+      // in conjunction with the first control block.
+      if(m_CalcMethodsForEachControl.size()==1)
+      {
+        if (m_CalcMethod->DoesOwnParsing()) {
+          // Thermodynamic table, UnitTests,etc. do their own file parsing.
+          m_FlagsForEachControl.push_back(m_Flags);
+          return true ;
+        }
 
-      m_Env.GrainSize = ppParams->XmlReadInteger("me:grainSize", optional);
-      if (m_Env.GrainSize==0) {      
-        m_Env.MaxGrn = ppParams->XmlReadInteger("me:numberOfGrains",optional);
-        if (IsNan(m_Env.MaxGrn))
-          m_Env.MaxGrn=0;
-      }
+        // Model Parameters 
+        PersistPtr ppParams;
+        // Add this section if it does not exist, to contain defaults
+        while(!(ppParams = ppIOPtr->XmlMoveTo("me:modelParameters")))
+          ppIOPtr->XmlWriteElement("me:modelParameters");
 
-      m_Env.CellSize = ppParams->XmlReadDouble("me:cellSize", optional);
-      if (IsNan(m_Env.CellSize)) {
-        m_Env.CellSize = 1.0 ; // Default cell size in cm-1.
-      }
+        // The grain size and grain number are linked via the total maximum energy,
+        // so only on of then is independent. Look for grain size first and if that
+        // fails look for the Max. number of grains.
 
-      m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
-      if(IsNan(m_Env.MaximumTemperature))
-        m_Env.MaximumTemperature = 0.0;
-      m_Env.EAboveHill         = ppParams->XmlReadDouble("me:energyAboveTheTopHill");
-      m_Env.useBasisSetMethod  = ppParams->XmlReadBoolean("me:runBasisSetMethodroutines");
-      if (m_Env.useBasisSetMethod) {
-        PersistPtr ppBasisSet = ppParams->XmlMoveTo("me:runBasisSetMethodroutines");
-        if(ppBasisSet) {
-          m_Env.nBasisSet = ppBasisSet->XmlReadInteger("me:numberBasisFunctions");
-        } else {
-          cerr << "Basis set method requested but number of basis functions unspecified.";
+        m_Env.GrainSize = ppParams->XmlReadInteger("me:grainSize", optional);
+        if (m_Env.GrainSize==0) {      
+          m_Env.MaxGrn = ppParams->XmlReadInteger("me:numberOfGrains",optional);
+          if (IsNan(m_Env.MaxGrn))
+            m_Env.MaxGrn=0;
+        }
+
+        m_Env.CellSize = ppParams->XmlReadDouble("me:cellSize", optional);
+        if (IsNan(m_Env.CellSize)) {
+          m_Env.CellSize = 1.0 ; // Default cell size in cm-1.
+        }
+
+        m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
+        if(IsNan(m_Env.MaximumTemperature))
+          m_Env.MaximumTemperature = 0.0;
+        m_Env.EAboveHill         = ppParams->XmlReadDouble("me:energyAboveTheTopHill");
+        m_Env.useBasisSetMethod  = ppParams->XmlReadBoolean("me:runBasisSetMethodroutines");
+        if (m_Env.useBasisSetMethod) {
+          PersistPtr ppBasisSet = ppParams->XmlMoveTo("me:runBasisSetMethodroutines");
+          if(ppBasisSet) {
+            m_Env.nBasisSet = ppBasisSet->XmlReadInteger("me:numberBasisFunctions");
+          } else {
+            cerr << "Basis set method requested but number of basis functions unspecified.";
+            return false;
+          }
+        }
+        PersistPtr pp = ppParams->XmlMoveTo("me:automaticallySetMaxEne");
+        if (pp) {
+          m_Flags.autoSetMaxEne = true;
+          m_Flags.popThreshold = ppParams->XmlReadDouble("me:automaticallySetMaxEne");
+        }
+        cinfo.flush();
+
+        //Reaction Conditions
+        ppConditions = ppIOPtr->XmlMoveTo("me:conditions");
+        if(!ppConditions)
+        {
+          cerr << "No conditions specified";
           return false;
         }
-      }
-      PersistPtr pp = ppParams->XmlMoveTo("me:automaticallySetMaxEne");
-      if (pp) {
-        m_Flags.autoSetMaxEne = true;
-        m_Flags.popThreshold = ppParams->XmlReadDouble("me:automaticallySetMaxEne");
-      }
-      cinfo.flush();
 
-      //Reaction Conditions
-      ppConditions = ppIOPtr->XmlMoveTo("me:conditions");
-      if(!ppConditions)
-      {
-        cerr << "No conditions specified";
-        return false;
-      }
+        m_ConditionsForEachControl.push_back(m_pConditionsManager);
+        if(!m_pConditionsManager->ParseBathGas(ppConditions))
+          return false;;
 
-      m_ConditionsForEachControl.push_back(m_pConditionsManager);
-      if(!m_pConditionsManager->ParseBathGas(ppConditions))
-        return false;;
-
-      //Reaction List
-      PersistPtr ppReacList = ppIOPtr->XmlMoveTo("reactionList");
-      if(!ppReacList)
-      {
-        cerr << "No reactions have been specified";
-        return false;
-      }
-      if(!m_pReactionManager->addreactions(ppReacList, m_Env, m_Flags))
-        return false;
-
-      if(!m_pConditionsManager->ParseConditions())
-        return false;
-    }
-    else // second and subsequent <control> blocks
-    {
-      // If there is another <conditions> block parse it and save a pointer to it.
-      PersistPtr pp = ppConditions->XmlMoveTo("me:conditions");
-      if(pp)
-      {
-        m_pConditionsManager = new ConditionsManager(this);
-        ppConditions = pp;
-        if(!m_pConditionsManager->ParseBathGas(pp))
+        //Reaction List
+        PersistPtr ppReacList = ppIOPtr->XmlMoveTo("reactionList");
+        if(!ppReacList)
+        {
+          cerr << "No reactions have been specified";
           return false;
+        }
+        if(!m_pReactionManager->addreactions(ppReacList, m_Env, m_Flags))
+          return false;
+
         if(!m_pConditionsManager->ParseConditions())
           return false;
-        m_ConditionsForEachControl.push_back(m_pConditionsManager);
       }
-      else //no additional <control> block found
-        m_ConditionsForEachControl.push_back(NULL);
+      else // second and subsequent <control> blocks
+      {
+        // If there is another <conditions> block parse it and save a pointer to it.
+        PersistPtr pp = ppConditions->XmlMoveTo("me:conditions");
+        if(pp)
+        {
+          m_pConditionsManager = new ConditionsManager(this);
+          ppConditions = pp;
+          if(!m_pConditionsManager->ParseBathGas(pp))
+            return false;
+          if(!m_pConditionsManager->ParseConditions())
+            return false;
+          m_ConditionsForEachControl.push_back(m_pConditionsManager);
+        }
+        else //no additional <control> block found
+          m_ConditionsForEachControl.push_back(NULL);
+      }
+
+      if(ppControl)
+      {
+        m_Flags.testDOSEnabled                 = ppControl->XmlReadBoolean("me:testDOS");
+        m_Flags.testRateConstantEnabled        = ppControl->XmlReadBoolean("me:testRateConstants");
+        m_Flags.microRateEnabled               = ppControl->XmlReadBoolean("me:testMicroRates");
+        m_Flags.grainBoltzmannEnabled          = ppControl->XmlReadBoolean("me:printGrainBoltzmann");
+        m_Flags.grainDOSEnabled                = ppControl->XmlReadBoolean("me:printGrainDOS");
+        m_Flags.grainTSsosEnabled              = ppControl->XmlReadBoolean("me:printTSsos");
+        m_Flags.cellDOSEnabled                 = ppControl->XmlReadBoolean("me:printCellDOS");
+        m_Flags.reactionOCSEnabled             = ppControl->XmlReadBoolean("me:printReactionOperatorColumnSums");
+        m_Flags.kfEGrainsEnabled               = ppControl->XmlReadBoolean("me:printGrainkfE");
+        m_Flags.kbEGrainsEnabled               = ppControl->XmlReadBoolean("me:printGrainkbE");
+        // Both Tunnelling and Tunneling will work
+        m_Flags.TunnellingCoeffEnabled         = ppControl->XmlReadBoolean("me:printTunnellingCoefficients");
+        if (!m_Flags.TunnellingCoeffEnabled)
+          m_Flags.TunnellingCoeffEnabled       = ppControl->XmlReadBoolean("me:printTunnelingCoefficients");
+        m_Flags.CrossingCoeffEnabled           = ppControl->XmlReadBoolean("me:printCrossingCoefficients");
+        m_Flags.cellFluxEnabled                = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
+        m_Flags.grainFluxEnabled               = ppControl->XmlReadBoolean("me:printGrainTransitionStateFlux");
+        m_Flags.rateCoefficientsOnly           = ppControl->XmlReadBoolean("me:calculateRateCoefficientsOnly");
+        m_Flags.useTheSameCellNumber           = ppControl->XmlReadBoolean("me:useTheSameCellNumberForAllConditions");
+        m_Flags.grainedProfileEnabled          = ppControl->XmlReadBoolean("me:printGrainedSpeciesProfile");
+        m_Flags.speciesProfileEnabled          = ppControl->XmlReadBoolean("me:printSpeciesProfile");
+        m_Flags.printPhenomenologicalEvolution = ppControl->XmlReadBoolean("me:printPhenomenologicalEvolution");
+        m_Flags.printSinkFluxes                = ppControl->XmlReadBoolean("me:printSinkFluxes");
+        m_Flags.InitialDistEnabled             = ppControl->XmlReadBoolean("me:printInitialDistribution");
+        m_Flags.viewEvents                     = ppControl->XmlReadBoolean("me:printEventsTimeStamps");
+        m_Flags.allowSmallerDEDown             = ppControl->XmlReadBoolean("me:allowSmallerDeltaEDown");
+        m_Flags.print_TabbedMatrices           = ppControl->XmlReadBoolean("me:printTabbedMatrices");
+        m_Flags.useDOSweightedDT               = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
+        m_Flags.bForceMacroDetailedBalance     = ppControl->XmlReadBoolean("me:ForceMacroDetailedBalance");
+
+        // System configuration information
+        if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();
+
+
+        //if (m_Flags.grainedProfileEnabled && (m_Flags.speciesProfileEnabled)){
+        //  cinfo << "Turn off grained species profile to prevent disk flooding." << endl;
+        //  m_Flags.grainedProfileEnabled = false;
+        //}
+
+        const char* txtPCOP = ppControl->XmlReadValue("me:printCollisionOperatorLevel",false);
+        if(txtPCOP) {
+          istringstream ss(txtPCOP);
+          ss >> m_Flags.showCollisionOperator;
+        }
+
+        const char* txt = ppControl->XmlReadValue("me:eigenvalues", optional);
+        if(txt && strcmp(txt, "all")==0)
+          m_Flags.printEigenValuesNum = -1;
+        else
+          //no longer uses defaults.xml
+          m_Flags.printEigenValuesNum = ppControl->XmlReadInteger("me:eigenvalues",optional);
+
+        // Should eigenvectors be printed?
+        if (m_Flags.printEigenValuesNum!=0) {
+          m_Flags.printEigenVectors = ppControl->XmlReadBoolean("me:printEigenVectors");
+        }
+
+        const char* txtROS = ppControl->XmlReadValue("me:printReactionOperatorSize",optional);
+        if(txtROS) {
+          istringstream sROS(txtROS);
+          sROS >> m_Flags.printReactionOperatorNum;
+        }
+
+        const char* txtSTI = ppControl->XmlReadValue("me:shortestTimeOfInterest", optional);
+        if (txtSTI){
+          istringstream ss(txtSTI);
+          ss >> m_Flags.shortestTimeOfInterest;
+        }
+
+        const char* txtMET = ppControl->XmlReadValue("me:MaximumEvolutionTime", optional);
+        if (txtMET){
+          istringstream ss(txtMET);
+          ss >> m_Flags.maxEvolutionTime;
+        }
+
+        PersistPtr pp = ppControl->XmlMoveTo("me:printGrainProfileAtTime");
+        if (pp)
+          if(!m_collisionOperator.parseDataForGrainProfileAtTime(pp))
+            return false;
+
+        //Copy flags to vector and make a fresh m_Flags
+        m_FlagsForEachControl.push_back(m_Flags);
+        m_Flags = MesmerFlags();
+      } 
     }
+    if(!Rdouble::SetUpLinkedVars())
+      return false;
 
-    if(ppControl)
-    {
-      m_Flags.testDOSEnabled                 = ppControl->XmlReadBoolean("me:testDOS");
-      m_Flags.testRateConstantEnabled        = ppControl->XmlReadBoolean("me:testRateConstants");
-      m_Flags.microRateEnabled               = ppControl->XmlReadBoolean("me:testMicroRates");
-      m_Flags.grainBoltzmannEnabled          = ppControl->XmlReadBoolean("me:printGrainBoltzmann");
-      m_Flags.grainDOSEnabled                = ppControl->XmlReadBoolean("me:printGrainDOS");
-      m_Flags.grainTSsosEnabled              = ppControl->XmlReadBoolean("me:printTSsos");
-      m_Flags.cellDOSEnabled                 = ppControl->XmlReadBoolean("me:printCellDOS");
-      m_Flags.reactionOCSEnabled             = ppControl->XmlReadBoolean("me:printReactionOperatorColumnSums");
-      m_Flags.kfEGrainsEnabled               = ppControl->XmlReadBoolean("me:printGrainkfE");
-      m_Flags.kbEGrainsEnabled               = ppControl->XmlReadBoolean("me:printGrainkbE");
-      // Both Tunnelling and Tunneling will work
-      m_Flags.TunnellingCoeffEnabled         = ppControl->XmlReadBoolean("me:printTunnellingCoefficients");
-      if (!m_Flags.TunnellingCoeffEnabled)
-        m_Flags.TunnellingCoeffEnabled       = ppControl->XmlReadBoolean("me:printTunnelingCoefficients");
-      m_Flags.CrossingCoeffEnabled           = ppControl->XmlReadBoolean("me:printCrossingCoefficients");
-      m_Flags.cellFluxEnabled                = ppControl->XmlReadBoolean("me:printCellTransitionStateFlux");
-      m_Flags.grainFluxEnabled               = ppControl->XmlReadBoolean("me:printGrainTransitionStateFlux");
-      m_Flags.rateCoefficientsOnly           = ppControl->XmlReadBoolean("me:calculateRateCoefficientsOnly");
-      m_Flags.useTheSameCellNumber           = ppControl->XmlReadBoolean("me:useTheSameCellNumberForAllConditions");
-      m_Flags.grainedProfileEnabled          = ppControl->XmlReadBoolean("me:printGrainedSpeciesProfile");
-      m_Flags.speciesProfileEnabled          = ppControl->XmlReadBoolean("me:printSpeciesProfile");
-      m_Flags.printPhenomenologicalEvolution = ppControl->XmlReadBoolean("me:printPhenomenologicalEvolution");
-      m_Flags.printSinkFluxes                = ppControl->XmlReadBoolean("me:printSinkFluxes");
-      m_Flags.InitialDistEnabled             = ppControl->XmlReadBoolean("me:printInitialDistribution");
-      m_Flags.viewEvents                     = ppControl->XmlReadBoolean("me:printEventsTimeStamps");
-      m_Flags.allowSmallerDEDown             = ppControl->XmlReadBoolean("me:allowSmallerDeltaEDown");
-      m_Flags.print_TabbedMatrices           = ppControl->XmlReadBoolean("me:printTabbedMatrices");
-      m_Flags.useDOSweightedDT               = ppControl->XmlReadBoolean("me:useDOSweighedDownWardTransition");
-      m_Flags.bForceMacroDetailedBalance     = ppControl->XmlReadBoolean("me:ForceMacroDetailedBalance");
-
-      // System configuration information
-      if (ppControl->XmlReadBoolean("me:runPlatformDependentPrecisionCheck")) configuration();
-
-
-      //if (m_Flags.grainedProfileEnabled && (m_Flags.speciesProfileEnabled)){
-      //  cinfo << "Turn off grained species profile to prevent disk flooding." << endl;
-      //  m_Flags.grainedProfileEnabled = false;
-      //}
-
-      const char* txtPCOP = ppControl->XmlReadValue("me:printCollisionOperatorLevel",false);
-      if(txtPCOP) {
-        istringstream ss(txtPCOP);
-        ss >> m_Flags.showCollisionOperator;
-      }
-
-      const char* txt = ppControl->XmlReadValue("me:eigenvalues", optional);
-      if(txt && strcmp(txt, "all")==0)
-        m_Flags.printEigenValuesNum = -1;
-      else
-        //no longer uses defaults.xml
-        m_Flags.printEigenValuesNum = ppControl->XmlReadInteger("me:eigenvalues",optional);
-
-      // Should eigenvectors be printed?
-      if (m_Flags.printEigenValuesNum!=0) {
-        m_Flags.printEigenVectors = ppControl->XmlReadBoolean("me:printEigenVectors");
-      }
-
-      const char* txtROS = ppControl->XmlReadValue("me:printReactionOperatorSize",optional);
-      if(txtROS) {
-        istringstream sROS(txtROS);
-        sROS >> m_Flags.printReactionOperatorNum;
-      }
-
-      const char* txtSTI = ppControl->XmlReadValue("me:shortestTimeOfInterest", optional);
-      if (txtSTI){
-        istringstream ss(txtSTI);
-        ss >> m_Flags.shortestTimeOfInterest;
-      }
-
-      const char* txtMET = ppControl->XmlReadValue("me:MaximumEvolutionTime", optional);
-      if (txtMET){
-        istringstream ss(txtMET);
-        ss >> m_Flags.maxEvolutionTime;
-      }
-
-      PersistPtr pp = ppControl->XmlMoveTo("me:printGrainProfileAtTime");
-      if (pp)
-        if(!m_collisionOperator.parseDataForGrainProfileAtTime(pp))
-          return false;
-
-      //Copy flags to vector and make a fresh m_Flags
-      m_FlagsForEachControl.push_back(m_Flags);
-      m_Flags = MesmerFlags();
-    } 
+    return true;
   }
-  if(!Rdouble::SetUpLinkedVars())
-    return false;
-
-  return true;
-}
 
   //
   // Main calculation method.
   //
-void System::executeCalculation()
-{
-  unsigned nConditionBlocks = m_ConditionsForEachControl.size()
-    - count(m_ConditionsForEachControl.begin(), m_ConditionsForEachControl.end(), (ConditionsManager*)NULL);
-  for (unsigned i = 0; i<m_CalcMethodsForEachControl.size(); ++i)
+  void System::executeCalculation()
   {
-    m_CalcMethod = m_CalcMethodsForEachControl[i];
-    assert(m_CalcMethod);
-    m_Flags = m_FlagsForEachControl[i];
-    cinfo << "Execute calcMethod " << m_CalcMethod->getID();
-
-    if (nConditionBlocks>1)
+    unsigned nConditionBlocks = m_ConditionsForEachControl.size()
+      - count(m_ConditionsForEachControl.begin(), m_ConditionsForEachControl.end(), (ConditionsManager*)NULL);
+    for (unsigned i = 0; i<m_CalcMethodsForEachControl.size(); ++i)
     {
-      if (m_ConditionsForEachControl[i]) //update if non-NULL
-        m_pConditionsManager = m_ConditionsForEachControl[i];
+      m_CalcMethod = m_CalcMethodsForEachControl[i];
+      assert(m_CalcMethod);
+      m_Flags = m_FlagsForEachControl[i];
+      cinfo << "Execute calcMethod " << m_CalcMethod->getID();
 
-      const char a[4][7] = { "first", "second", "third", "fourth" };
-      cinfo << " using " << a[min(i, nConditionBlocks)] << " conditions block ";
+      if (nConditionBlocks>1)
+      {
+        if (m_ConditionsForEachControl[i]) //update if non-NULL
+          m_pConditionsManager = m_ConditionsForEachControl[i];
+
+        const char a[4][7] = { "first", "second", "third", "fourth" };
+        cinfo << " using " << a[min(i, nConditionBlocks)] << " conditions block ";
+      }
+      cinfo << endl;
+      m_CalcMethod->DoCalculation(this);
+
+      //Calls Finish() for each Reaction. Usually does nothing except in AssociationReaction
+      m_pReactionManager->finish();
     }
-    cinfo << endl;
-    m_CalcMethod->DoCalculation(this);
-
-    //Calls Finish() for each Reaction. Usually does nothing except in AssociationReaction
-    m_pReactionManager->finish();
+    //Write the energy convention as an attribute on <moleculeList>
+    m_pMoleculeManager->WriteEnergyConvention();
   }
-  //Write the energy convention as an attribute on <moleculeList>
-  m_pMoleculeManager->WriteEnergyConvention();
-}
 
   //
   // Begin calculation.
@@ -399,7 +399,7 @@ void System::executeCalculation()
 
     // Find the highest temperature
     m_Env.MaximumTemperature = m_pConditionsManager->getMaxTemperature();
-    
+
 
     //---------------------------------------------
     // looping over temperatures and concentrations
@@ -453,10 +453,10 @@ void System::executeCalculation()
 
       if (writeReport) {cinfo << "PT Grid " << calPoint << endl;}
       Precision precision = m_pConditionsManager->PTPointPrecision(calPoint);
-	  m_collisionOperator.setPrecision(precision) ;
-	  
-	  ctest << "PT Grid " << calPoint << " Condition: conc = " << m_Env.conc << ", temp = " 
-            << m_pConditionsManager->PTPointTemp(calPoint);
+      m_collisionOperator.setPrecision(precision) ;
+
+      ctest << "PT Grid " << calPoint << " Condition: conc = " << m_Env.conc << ", temp = " 
+        << m_pConditionsManager->PTPointTemp(calPoint);
 
       switch (precision) {
       case DOUBLE_DOUBLE:
@@ -500,32 +500,36 @@ void System::executeCalculation()
 
         if (!m_Env.useBasisSetMethod) {
 
-          PersistPtr ppPopList;
-          if(m_Flags.speciesProfileEnabled)
-          {
-            ppPopList  = ppAnalysis->XmlWriteElement("me:populationList");
-            ppPopList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
-            ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
-          }
+          if (!m_Flags.bIsSystemSecondOrder) {
+            PersistPtr ppPopList;
+            if(m_Flags.speciesProfileEnabled)
+            {
+              ppPopList  = ppAnalysis->XmlWriteElement("me:populationList");
+              ppPopList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
+              ppPopList->XmlWriteAttribute("conc", toString(m_Env.conc));
+            }
 
-          PersistPtr ppAvEList;
-          if(m_Flags.grainedProfileEnabled)
-          {
-            ppAvEList = ppAnalysis->XmlWriteElement("me:avEnergyList");
-            ppAvEList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
-            ppAvEList->XmlWriteAttribute("conc", toString(m_Env.conc));
-            ppAvEList->XmlWriteAttribute("energyUnits", "kJ/mol");
-          }
+            PersistPtr ppAvEList;
+            if(m_Flags.grainedProfileEnabled)
+            {
+              ppAvEList = ppAnalysis->XmlWriteElement("me:avEnergyList");
+              ppAvEList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
+              ppAvEList->XmlWriteAttribute("conc", toString(m_Env.conc));
+              ppAvEList->XmlWriteAttribute("energyUnits", "kJ/mol");
+            }
 
-          // Calculate time-dependent properties.
-          m_collisionOperator.timeEvolution(m_Flags, ppAnalysis, ppPopList, ppAvEList);
-          if(m_collisionOperator.hasGrainProfileData())
-          {
-            PersistPtr ppGrainList  = ppAnalysis->XmlWriteElement("me:grainPopulationList");
-            ppGrainList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
-            ppGrainList->XmlWriteAttribute("conc", toString(m_Env.conc));
-            m_collisionOperator.printGrainProfileAtTime(ppGrainList);
-          }
+            // Calculate time-dependent properties.
+            m_collisionOperator.timeEvolution(m_Flags, ppAnalysis, ppPopList, ppAvEList);
+            if(m_collisionOperator.hasGrainProfileData())
+            {
+              PersistPtr ppGrainList  = ppAnalysis->XmlWriteElement("me:grainPopulationList");
+              ppGrainList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
+              ppGrainList->XmlWriteAttribute("conc", toString(m_Env.conc));
+              m_collisionOperator.printGrainProfileAtTime(ppGrainList);
+            }
+          } else {
+			cinfo << "At present it is not possible to print profiles for systems with a second order term." << endl ;
+		  }
 
 
           // Calculate rate coefficients. 
@@ -605,7 +609,7 @@ void System::executeCalculation()
     m_Env.bathGasName = m_pConditionsManager->PTPointBathGas(nConds);
 
     Precision precision = m_pConditionsManager->PTPointPrecision(nConds);
-	m_collisionOperator.setPrecision(precision) ;
+    m_collisionOperator.setPrecision(precision) ;
 
     // Build collison matrix for system.
     if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags))
@@ -645,7 +649,7 @@ void System::executeCalculation()
   // supplied directly by user e.g. for analytical representation.
   //
   bool System::calculate(double &Temperature, double &Concentration, Precision precision,
-                         map<string, double> &phenRates, double &MaxT, const string& bathGas)
+    map<string, double> &phenRates, double &MaxT, const string& bathGas)
   {
     assert(!bathGas.empty());
     m_Env.bathGasName = bathGas;
@@ -655,9 +659,9 @@ void System::executeCalculation()
     m_Env.MaximumTemperature = MaxT;
     m_Env.conc = Concentration; // Unit of conc: particles per cubic centimeter.
 
-	m_collisionOperator.setPrecision(precision) ;
+    m_collisionOperator.setPrecision(precision) ;
 
-	// Build collison matrix for system.
+    // Build collison matrix for system.
     if (!m_collisionOperator.BuildReactionOperator(m_Env, m_Flags))
       throw (std::runtime_error("Failed building system collison operator.")); 
 
@@ -707,9 +711,9 @@ void System::executeCalculation()
       // Is a bimolecular rate coefficient required?
 
       Reaction *reaction = m_pReactionManager->find(refReaction) ;
-	  ReactionType reactionType = UNDEFINED_REACTION ;
-	  if (reaction)
-		reactionType = reaction->getReactionType() ;
+      ReactionType reactionType = UNDEFINED_REACTION ;
+      if (reaction)
+        reactionType = reaction->getReactionType() ;
       if (reactionType == ASSOCIATION || reactionType == PSEUDOISOMERIZATION || reactionType == SECONDORDERASSOCIATION) {
         double concExcessReactant = reaction->get_concExcessReactant() ;
 
@@ -719,11 +723,11 @@ void System::executeCalculation()
           rateCoeff /= concExcessReactant ;
         }
 
-		// Second order reactions need to account for a geometric factor
+        // Second order reactions need to account for a geometric factor
 
-		if (reactionType == SECONDORDERASSOCIATION) {
-		  rateCoeff /= 4.0 ;
-		}
+        if (reactionType == SECONDORDERASSOCIATION) {
+          rateCoeff /= 4.0 ;
+        }
 
       } else {
         // No reference reaction. Assume reaction is unimolecular.
@@ -877,7 +881,7 @@ void System::executeCalculation()
       if(m_ConditionsForEachControl[i])
         m_ConditionsForEachControl[i]->getAllBathGases(bathGases) ;
 
-		bathGases.insert(getMoleculeManager()->get_BathGasName());
+    bathGases.insert(getMoleculeManager()->get_BathGasName());
   }
 
 
@@ -909,15 +913,15 @@ void System::executeCalculation()
     clog << "qd_real min == " << numeric_limits<qd_real>::min() << endl;
   }
 
-/* 
-System::parse() loops to read all <control> blocks.
-CalcMethod is pushed to a vector<CalcMethod> calcMethods
-Make a MesmerFlags, populate it, push to vector<MesmerFlags> flags
+  /* 
+  System::parse() loops to read all <control> blocks.
+  CalcMethod is pushed to a vector<CalcMethod> calcMethods
+  Make a MesmerFlags, populate it, push to vector<MesmerFlags> flags
 
-System::executeCalculation()
-for loop over size of calcMethods
-m_CalcMethod set to current member
-copy from flags vector to m_Flags
-*/
+  System::executeCalculation()
+  for loop over size of calcMethods
+  m_CalcMethod set to current member
+  copy from flags vector to m_Flags
+  */
 } //namespace
 

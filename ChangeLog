@@ -1,5 +1,16 @@
 
-2015-April-10 Struan Robertson
+2015-April-19 Struan Robertson
+
+	* Marquardt.cpp, FittingUtils.cpp/.h: Removed duplicate related to gaussian 
+	parameter set distribution.
+
+	* SecondOrderAssocReaction.cpp: Altered input so that it now adjusts zero
+	point energy of dissociation fragment to refect second order kineitcs.
+
+	* SecondOrderAssocReaction.cpp, MesmerFlags.h/.cpp, CollisionOperator.cpp:
+	Added flag to prevent profile calcuations for non-linear systems.
+
+2015-April-19 Struan Robertson
 
 	* SensitivityAnalysis.cpp, TMatrix.h: Implementation add to analysis correlated
 	parameter input.
