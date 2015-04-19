@@ -84,7 +84,7 @@ namespace mesmer
       vector<size_t> indx(size, 0) ;
 
       if (ludcmp(this->m_matrix, size, indx)){
-        exit(1);
+        throw(std::runtime_error("Error encountered in LU decompostion invoked from solveLinearEquationSet."));
       }
 
       lubksb(this->m_matrix, size, indx, rr) ;
@@ -103,7 +103,7 @@ namespace mesmer
       vector<size_t> indx(size, 0) ;
 
       if (ludcmp(work.m_matrix, size, indx)) {
-        exit(1);
+        throw(std::runtime_error("Error encountered in LU decompostion invoked from Determinant."));
       }
 	  T det(T(1.0)) ;
       for (size_t i = 0; i < size ; i++) {
@@ -367,7 +367,7 @@ namespace mesmer
           // if (iter++ == 30) fprintf(stderr, "Too many iterations in TQLI");
           if (iter++ == 60) { 
             fprintf(stderr, "Too many iterations in TQLI");
-            exit(1) ;
+            throw(std::runtime_error("Too many iterations in TQLI."));
           }
           /* CHL
           Source: http://www.nr.com/forum/showthread.php?t=592
@@ -484,7 +484,7 @@ namespace mesmer
           // if (iter++ == 30) fprintf(stderr, "Too many iterations in tqlev");
           if (iter++ == 60) {
             fprintf(stderr, "Too many iterations in tqlev");
-            exit(1) ;
+            throw(std::runtime_error("Too many iterations in tqlev.")); ;
           }
           /* CHL
           Source: http://www.nr.com/forum/showthread.php?t=592
