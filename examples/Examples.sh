@@ -192,11 +192,12 @@ if [ "$1" == "-o" ] ; then
 fi
 cd ..
 
-cd AcetylPrior
-$executable AcetylPrior.xml -o $outf $directive
-cp ./$tfn ./$bline$otfn
+cd SensitivityAnalysis
+testName=ipropyl_SA
+$executable -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
 if [ "$1" == "-o" ] ; then
-  cp ./$lfn ./$bline$lfn 
+  cp ./$testName.log ./$bline$testName.log
 fi
 cd ..
 
