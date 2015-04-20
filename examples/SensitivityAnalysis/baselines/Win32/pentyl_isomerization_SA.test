@@ -1,0 +1,34 @@
+
+Sensitivity Analysis: Temperature =   500, Concentration = 1e+008
+
+Input variable key:
+
+  1-pentyl:deltaEDown           : (1)
+  1-pentyl=TS=2-pentyl:ZPE      : (2)
+
+ Standard deviation for 1-pentyl => 2-pentyl: 2.527e-006
+
+ First order indices for 1-pentyl => 2-pentyl: 
+                (1)            (2)
+           0.013989        0.96226
+
+ Second order indices for 1-pentyl => 2-pentyl: 
+                (1)            (2)
+(1)              --             --
+(2)       0.0014914             --
+
+ R-Squared statistic: 0.9765
+
+ Standard deviation for 2-pentyl => 1-pentyl: 3.3e-007
+
+ First order indices for 2-pentyl => 1-pentyl: 
+                (1)            (2)
+           0.013987        0.96226
+
+ Second order indices for 2-pentyl => 1-pentyl: 
+                (1)            (2)
+(1)              --             --
+(2)        0.001491             --
+
+ R-Squared statistic: 0.9765
+

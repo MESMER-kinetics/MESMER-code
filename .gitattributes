@@ -398,6 +398,16 @@ examples/OH_NO_to[!!-~]HONO/OH_NO_HONO.xml -text
 examples/OH_NO_to[!!-~]HONO/OH_NO_HONO_3Blks.xml -text
 examples/OH_NO_to[!!-~]HONO/baselines/Linux64/mesmer.log -text
 examples/OH_NO_to[!!-~]HONO/baselines/Win32/mesmer.log -text
+examples/SensitivityAnalysis/baselines/Linux64/ipropyl_SA.log -text
+examples/SensitivityAnalysis/baselines/Linux64/ipropyl_SA.test -text
+examples/SensitivityAnalysis/baselines/Linux64/pentyl_isomerization_SA.log -text
+examples/SensitivityAnalysis/baselines/Linux64/pentyl_isomerization_SA.test -text
+examples/SensitivityAnalysis/baselines/Win32/ipropyl_SA.log -text
+examples/SensitivityAnalysis/baselines/Win32/ipropyl_SA.test -text
+examples/SensitivityAnalysis/baselines/Win32/pentyl_isomerization_SA.log -text
+examples/SensitivityAnalysis/baselines/Win32/pentyl_isomerization_SA.test -text
+examples/SensitivityAnalysis/ipropyl_SA.xml -text
+examples/SensitivityAnalysis/pentyl_isomerization_SA.xml -text
 examples/Tunnelling/H+H2,T+T2.xml -text
 examples/Tunnelling/baselines/Win32/mesmer.test -text
 examples/diamond/diamond-expDown.xml -text

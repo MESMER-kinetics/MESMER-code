@@ -1,0 +1,990 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <me:title>isopropyl decomposition</me:title>
+    <moleculeList>
+        <molecule id="i-propyl" spinMultiplicity="2">
+            <atomArray>
+                <atom id="a1" elementType="C" x3=" 0.128860529" y3="-0.022026773" z3="-1.305772159" />
+                <atom id="a2" elementType="C" x3="-0.601095636" y3="-0.048676979" z3=" 0.000000000" spinMultiplicity="2" />
+                <atom id="a3" elementType="C" x3=" 0.128860529" y3="-0.022026773" z3=" 1.305772159" />
+                <atom id="a4" elementType="H" x3=" 0.988539511" y3="-0.709839764" z3="-1.304715599" />
+                <atom id="a5" elementType="H" x3=" 0.543790894" y3=" 0.980514186" z3="-1.532163133" />
+                <atom id="a6" elementType="H" x3="-0.523177009" y3="-0.290316406" z3="-2.146336256" />
+                <atom id="a7" elementType="H" x3="-1.674932213" y3=" 0.132014494" z3=" 0.000000000" />
+                <atom id="a8" elementType="H" x3=" 0.543790894" y3=" 0.980514186" z3=" 1.532163133" />
+                <atom id="a9" elementType="H" x3=" 0.988539511" y3="-0.709839764" z3=" 1.304715599" />
+                <atom id="a10" elementType="H" x3="-0.523177009" y3="-0.290316406" z3=" 2.146336256" />
+            </atomArray>
+            <bondArray>
+                <bond id="b1" atomRefs2="a1 a2" order="1" />
+                <bond id="b2" atomRefs2="a2 a3" order="1" />
+                <bond id="b3" atomRefs2="a1 a4" order="1" />
+                <bond id="b4" atomRefs2="a1 a5" order="1" />
+                <bond id="b5" atomRefs2="a1 a6" order="1" />
+                <bond id="b6" atomRefs2="a2 a7" order="1" />
+                <bond id="b7" atomRefs2="a3 a8" order="1" />
+                <bond id="b8" atomRefs2="a3 a9" order="1" />
+                <bond id="b9" atomRefs2="a3 a10" order="1" />
+            </bondArray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="cm-1">0.0</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">1.528 0.2645 0.2645</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>18</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <!-- The last two frequencies removed and replaced by hindered rotors.-->
+                    <array units="cm-1">3052.0 2968.2 2968.2 2967.7 2920.0 2887.0 2850.0 1468.0 1464.0 1462.0 1440.0 1378.0 1338.0 1292.0 1200.0 1165.0 1053.8 921.7 879.0 748.1 369.2 364.0</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar>43</scalar>
+                </property>
+                <property dictRef="me:epsilon">
+                    <scalar>275.0</scalar>
+                </property>
+                <property dictRef="me:sigma">
+                    <scalar>4.94</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor" default="true">
+                    <scalar>1</scalar>
+                </property>
+            </propertyList>
+            <me:energyTransferModel xsi:type="me:ExponentialDown">
+                <me:deltaEDown units="cm-1" lower="150" upper="170" stepsize="10" fitted="20141001_004837" chiSquared="10.9266">159.914</me:deltaEDown>
+                <me:deltaEDownTExponent lower="-2.0" upper="2.0" stepsize="0.01" fitted="20141001_004837" chiSquared="10.9266">0.453685</me:deltaEDownTExponent>
+            </me:energyTransferModel>
+            <me:DOSCMethod>QMRotors</me:DOSCMethod>
+            <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
+                <me:bondRef>b1</me:bondRef>
+                <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+                    <me:PotentialPoint index="0" coefficient="6.2" />
+                    <me:PotentialPoint index="3" coefficient="-6.2" />
+                </me:HinderedRotorPotential>
+                <me:periodicity>3</me:periodicity>
+            </me:ExtraDOSCMethod>
+            <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
+                <me:bondRef>b2</me:bondRef>
+                <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+                    <me:PotentialPoint index="0" coefficient="6.2" />
+                    <me:PotentialPoint index="3" coefficient="-6.2" />
+                </me:HinderedRotorPotential>
+                <me:periodicity>3</me:periodicity>
+            </me:ExtraDOSCMethod>
+            <me:DistributionCalcMethod default="true" name="Boltzmann" />
+            <me:densityOfStatesList calculated="20141001_004754">
+                <me:description>Rovibronic partition function calculation at various temperatures. qtot : product of QM partition functions for vibrations (1-D harmonic oscillator) and classical partition functions for rotations.  sumc : cell based partition function. sumg : grain based partition function </me:description>
+                <me:densityOfStates>
+                    <me:T>200</me:T>
+                    <me:qtot>1865.43</me:qtot>
+                    <me:sumc>1861.17</me:sumc>
+                    <me:sumg>1823.05</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>300</me:T>
+                    <me:qtot>7146.05</me:qtot>
+                    <me:sumc>7136.33</me:sumc>
+                    <me:sumg>7069.37</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>400</me:T>
+                    <me:qtot>24838.2</me:qtot>
+                    <me:sumc>24814.5</me:sumc>
+                    <me:sumg>24682</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>500</me:T>
+                    <me:qtot>81816.4</me:qtot>
+                    <me:sumc>81756.7</me:sumc>
+                    <me:sumg>81476.2</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>600</me:T>
+                    <me:qtot>258867</me:qtot>
+                    <me:sumc>258716</me:sumc>
+                    <me:sumg>258098</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>700</me:T>
+                    <me:qtot>789813</me:qtot>
+                    <me:sumc>789435</me:sumc>
+                    <me:sumg>788049</me:sumg>
+                </me:densityOfStates>
+                <me:densityOfStates>
+                    <me:T>800</me:T>
+                    <me:qtot>2.32737e+006</me:qtot>
+                    <me:sumc>2.32644e+006</me:sumc>
+                    <me:sumg>2.32331e+006</me:sumg>
+                </me:densityOfStates>
+            </me:densityOfStatesList>
+        </molecule>
+        <molecule id="propene">
+            <atomArray>
+                <atom id="a1" elementType="C" x3="-3.685984850" y3=" 0.077483728" z3="-0.197902983" />
+                <atom id="a2" elementType="C" x3="-2.443578324" y3=" 0.892515657" z3=" 0.054873334" />
+                <atom id="a3" elementType="C" x3="-1.208794483" y3=" 0.399619435" z3=" 0.200015818" />
+                <atom id="a4" elementType="H" x3="-3.463850215" y3="-0.994502084" z3="-0.251852635" />
+                <atom id="a5" elementType="H" x3="-4.169920341" y3=" 0.376202859" z3="-1.139333182" />
+                <atom id="a6" elementType="H" x3="-4.430353413" y3=" 0.234884390" z3=" 0.596362697" />
+                <atom id="a7" elementType="H" x3="-2.589968192" y3=" 1.973004378" z3=" 0.120880432" />
+                <atom id="a8" elementType="H" x3="-1.008576389" y3="-0.670142974" z3=" 0.142958719" />
+                <atom id="a9" elementType="H" x3="-0.352902075" y3=" 1.046439080" z3=" 0.381101833" />
+            </atomArray>
+            <bondArray>
+                <bond id="b1" atomRefs2="a1 a2" order="1" />
+                <bond id="b2" atomRefs2="a2 a3" order="2" />
+                <bond id="b3" atomRefs2="a1 a4" order="1" />
+                <bond id="b4" atomRefs2="a1 a5" order="1" />
+                <bond id="b5" atomRefs2="a1 a6" order="1" />
+                <bond id="b6" atomRefs2="a2 a7" order="1" />
+                <bond id="b7" atomRefs2="a3 a8" order="1" />
+                <bond id="b7" atomRefs2="a3 a9" order="1" />
+            </bondArray>
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="cm-1" lower="10000" upper="14000" stepsize="10" fitted="20141001_004837" chiSquared="10.9266">13254.2</scalar>
+                </property>
+                <property dictRef="me:rotConsts">
+                    <array units="cm-1">0.3690 0.0808 0.0737</array>
+                </property>
+                <property dictRef="me:symmetryNumber">
+                    <scalar>2</scalar>
+                </property>
+                <property dictRef="me:vibFreqs">
+                    <!-- The last frequency removed and replaced by a hindered rotor.-->
+                    <array units="cm-1">3091.0 3022.0 2991.0 2973.0 2952.8 2931.0 1652.8 1458.5 1442.5 1414.0 1378.0 1298.0 1177.5 1044.7 990.0 934.5 919.0 912.0 575.2 428.0</array>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar>42</scalar>
+                </property>
+                <property dictRef="me:spinMultiplicity">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor" default="true">
+                    <scalar>1</scalar>
+                </property>
+            </propertyList>
+            <me:DOSCMethod>QMRotors</me:DOSCMethod>
+            <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
+                <me:bondRef>b1</me:bondRef>
+                <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+                    <me:PotentialPoint index="0" coefficient="6.2" />
+                    <me:PotentialPoint index="3" coefficient="-6.2" />
+                </me:HinderedRotorPotential>
+                <me:periodicity>3</me:periodicity>
+            </me:ExtraDOSCMethod>
+        </molecule>
+        <molecule id="H" spinMultiplicity="1" default="true">
+            <atom elementType="H" />
+            <propertyList>
+                <property dictRef="me:ZPE">
+                    <scalar units="cm-1">0.0</scalar>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar>1.0</scalar>
+                </property>
+                <property dictRef="me:frequenciesScaleFactor" default="true">
+                    <scalar>1</scalar>
+                </property>
+                <property dictRef="me:symmetryNumber" default="true">
+                    <scalar>1</scalar>
+                </property>
+            </propertyList>
+            <property dictRef="me:spinMultiplicity">
+                <scalar>2</scalar>
+            </property>
+            <me:DOSCMethod default="true" name="ClassicalRotors" />
+        </molecule>
+        <molecule id="He">
+            <atom elementType="He" />
+            <propertyList>
+                <property dictRef="me:epsilon">
+                    <scalar>10.0</scalar>
+                </property>
+                <property dictRef="me:sigma">
+                    <scalar>2.55</scalar>
+                </property>
+                <property dictRef="me:MW">
+                    <scalar>4.0</scalar>
+                </property>
+            </propertyList>
+        </molecule>
+    </moleculeList>
+    <reactionList>
+        <reaction id="R1">
+            <reactant>
+                <molecule ref="i-propyl" role="modelled" />
+            </reactant>
+            <product>
+                <molecule ref="propene" role="sink" />
+            </product>
+            <product>
+                <molecule ref="H" role="sink" />
+            </product>
+            <me:MCRCMethod xsi:type="MesmerILT">
+                <me:preExponential>6.00e-12</me:preExponential>
+                <me:activationEnergy units="cm-1" reverse="true">546.0</me:activationEnergy>
+                <me:TInfinity>1.0</me:TInfinity>
+                <me:nInfinity>0.0</me:nInfinity>
+            </me:MCRCMethod>
+            <me:TInfinity default="true">298</me:TInfinity>
+        </reaction>
+    </reactionList>
+    <!-- Data taken from Seakins et al, J. Phys. Chem. Vol. 97, p. 4450 (1993). -->
+    <me:conditions>
+        <me:bathGas>He</me:bathGas>
+        <me:PTs>
+            <me:PTpair units="PPCC" P="30.0e16" T="720." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004837" calcVal="35.8283">41.5</me:experimentalRate>
+            </me:PTpair>
+            <!--<me:PTpair units="PPCC" P="30.1e16" T="730." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004837" calcVal="49.7629">51.1</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="18.0e16" T="740." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004837" calcVal="53.8389">55.5</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="24.0e16" T="740." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004837" calcVal="61.6281">70.1</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="30.0e16" T="740." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004837" calcVal="68.1567">71.1</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="12.0e16" T="750." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004837" calcVal="59.2938">55.3</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="18.0e16" T="750." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004837" calcVal="72.7154">67.2</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="24.1e16" T="750." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004837" calcVal="83.6198">86.4</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="30.0e16" T="750." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="10.2" calculated="20141001_004837" calcVal="92.4915">102.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="6.02e16" T="760." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004838" calcVal="54.09">51.9</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="9.02e16" T="760." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004838" calcVal="67.7864">65.7</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="12.0e16" T="760." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004838" calcVal="78.9834">76.5</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="18.1e16" T="760." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004838" calcVal="97.4806">95.0</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="24.0e16" T="760." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="12.3" calculated="20141001_004838" calcVal="111.866">123.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="30.0e16" T="760." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="12.8" calculated="20141001_004838" calcVal="124.233">128.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="6.01e16" T="770." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004838" calcVal="70.8708">68.9</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="9.00e16" T="770." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004838" calcVal="89.09">89.2</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="12.0e16" T="770." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004838" calcVal="104.187">99.0</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="18.0e16" T="770." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="12.1" calculated="20141001_004838" calcVal="128.691">121.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="24.1e16" T="770." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="15.9" calculated="20141001_004838" calcVal="148.776">159.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="30.0e16" T="770." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="16.4" calculated="20141001_004838" calcVal="165.227">164.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="3.00e16" T="780." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004838" calcVal="60.3345">65.5</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="6.01e16" T="780." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004839" calcVal="92.0827">89.1</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="9.00e16" T="780." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="11.4" calculated="20141001_004839" calcVal="116.136">114.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="12.0e16" T="780." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="12.5" calculated="20141001_004839" calcVal="136.146">125.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="18.0e16" T="780." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="16.5" calculated="20141001_004839" calcVal="168.759">165.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="24.0e16" T="780." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.3" calculated="20141001_004839" calcVal="195.204">203.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="30.0e16" T="780." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="21.3" calculated="20141001_004839" calcVal="217.67">213.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="3.00e16" T="790." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004839" calcVal="77.2849">77.0</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="6.01e16" T="790." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="11.9" calculated="20141001_004839" calcVal="118.574">119.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="9.00e16" T="790." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="15.4" calculated="20141001_004839" calcVal="150.034">154.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="12.0e16" T="790." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="17.0" calculated="20141001_004839" calcVal="176.305">170.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="18.0e16" T="790." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="21.9" calculated="20141001_004839" calcVal="219.299">219.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="24.0e16" T="790." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="25.8" calculated="20141001_004839" calcVal="254.307">258.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="30.0e16" T="790." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="28.8" calculated="20141001_004839" calcVal="284.145">288.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="3.00e16" T="800." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="20.0" calculated="20141001_004839" calcVal="98.1537">96.1</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="6.01e16" T="800." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="14.7" calculated="20141001_004840" calcVal="151.373">147.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="9.00e16" T="800." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="19.9" calculated="20141001_004840" calcVal="192.148">199.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="12.1e16" T="800." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="22.4" calculated="20141001_004840" calcVal="227.381">223.5</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="18.0e16" T="800." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="30.2" calculated="20141001_004840" calcVal="282.487">302.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="24.0e16" T="800." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="34.1" calculated="20141001_004840" calcVal="328.405">341.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="30.0e16" T="800." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="35.0" calculated="20141001_004840" calcVal="367.665">350.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="3.00e16" T="810." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="12.4" calculated="20141001_004840" calcVal="123.635">124.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="6.00e16" T="810." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="18.5" calculated="20141001_004840" calcVal="191.45">185.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="9.00e16" T="810." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="24.8" calculated="20141001_004840" calcVal="244.035">248.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="12.1e16" T="810." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="27.4" calculated="20141001_004840" calcVal="289.473">274.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="18.1e16" T="810." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="37.9" calculated="20141001_004840" calcVal="361.907">379.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="24.0e16" T="810." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="40.2" calculated="20141001_004840" calcVal="420.516">402.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="30.0e16" T="810." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="49.2" calculated="20141001_004841" calcVal="471.711">492.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="3.00e16" T="820." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="16.0" calculated="20141001_004841" calcVal="154.502">160.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="6.01e16" T="820." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="23.9" calculated="20141001_004841" calcVal="240.695">239.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="9.01e16" T="820." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="32.0" calculated="20141001_004841" calcVal="307.649">320.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="12.1e16" T="820." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="36.3" calculated="20141001_004841" calcVal="365.553">363.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="18.0e16" T="820." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="44.7" calculated="20141001_004841" calcVal="457.15">447.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="24.0e16" T="820." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="55.4" calculated="20141001_004841" calcVal="534.082">554.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="30.0e16" T="820." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="54.9" calculated="20141001_004841" calcVal="600.265">549.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="3.00e16" T="830." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="18.9" calculated="20141001_004841" calcVal="191.609">189.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="6.00e16" T="830." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="28.7" calculated="20141001_004841" calcVal="299.665">287.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="9.00e16" T="830." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="37.5" calculated="20141001_004841" calcVal="384.341">375.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="12.0e16" T="830." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="44.7" calculated="20141001_004841" calcVal="455.83">447.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="18.0e16" T="830." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="57.0" calculated="20141001_004841" calcVal="574.669">570.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="3.01e16" T="840." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="25.2" calculated="20141001_004842" calcVal="236.415">252.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="6.00e16" T="840." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="34.9" calculated="20141001_004842" calcVal="370.703">349.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="9.00e16" T="840." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="47.1" calculated="20141001_004842" calcVal="476.89">471.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="12.0e16" T="840." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="55.9" calculated="20141001_004842" calcVal="566.853">559.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="3.00e16" T="850." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="31.4" calculated="20141001_004842" calcVal="288.353">314.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="6.00e16" T="850." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="44.4" calculated="20141001_004842" calcVal="455.313">444.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="3.01e16" T="860." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="37.8" calculated="20141001_004842" calcVal="350.894">378.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="6.03e16" T="860." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="53.5" calculated="20141001_004842" calcVal="557.188">535.</me:experimentalRate>
+            </me:PTpair>
+            <me:PTpair units="PPCC" P="3.01e16" T="870." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="43.6" calculated="20141001_004842" calcVal="423.256">436.</me:experimentalRate>
+            </me:PTpair>-->
+            <me:PTpair units="PPCC" P="3.00e16" T="880." precision="d" default="true" bathGas="He">
+                <me:experimentalRate ref1="i-propyl" ref2="i-propyl" error="53.5" calculated="20141001_004842" calcVal="506.155">535.</me:experimentalRate>
+            </me:PTpair>
+        </me:PTs>
+    </me:conditions>
+    <me:modelParameters>
+        <me:grainSize units="cm-1">100</me:grainSize>
+        <me:energyAboveTheTopHill>10.</me:energyAboveTheTopHill>
+    </me:modelParameters>
+    <me:control>
+      <me:calcMethod xsi:type="me:sensitivityAnalysis">
+        <me:sensitivityAnalysisSamples>300</me:sensitivityAnalysisSamples>
+        <me:sensitivityGenerateData>false</me:sensitivityGenerateData>
+        <me:sensitivityAnalysisOrder>3</me:sensitivityAnalysisOrder>
+        <me:sensitivityNumVarRedIters>10</me:sensitivityNumVarRedIters>
+        <me:sensitivityVarRedMethod>RatioControl</me:sensitivityVarRedMethod>
+      </me:calcMethod>
+        <me:testDOS />
+        <me:eigenvalues>1</me:eigenvalues>
+    </me:control>
+    <metadataList xmlns:dc="http://purl.org/dc/elements/1.1/">
+        <dc:title>isopropyl decomposition</dc:title>
+        <dc:source>mesmer_out.xml</dc:source>
+        <dc:creator>Mesmer v4.0</dc:creator>
+        <dc:date>20141001_004754</dc:date>
+        <dc:contributor>Struan</dc:contributor>
+    </metadataList>
+    <me:analysis calculated="20141001_004837">
+        <me:description>Only selected calculations shown here</me:description>
+        <me:parameters i-propyl-deltaEDown="159.914" i-propyl-deltaEDownTExponent="0.453685" propene-ZPE="13254.2" />
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-35.8283</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="720" conc="3e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-35.8283</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">35.8283</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-49.7629</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="730" conc="3.01e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-49.7629</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">49.7629</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-53.8389</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="740" conc="1.8e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-53.8389</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">53.8389</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-61.6281</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="740" conc="2.4e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-61.6281</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">61.6281</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-68.1567</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="740" conc="3e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-68.1567</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">68.1567</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-59.2938</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="750" conc="1.2e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-59.2938</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">59.2938</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-72.7154</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="750" conc="1.8e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-72.7154</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">72.7154</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-83.6198</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="750" conc="2.41e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-83.6198</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">83.6198</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-92.4915</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="750" conc="3e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-92.4915</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">92.4915</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-54.09</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="760" conc="6.02e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-54.09</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">54.09</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-67.7864</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="760" conc="9.02e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-67.7864</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">67.7864</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-78.9834</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="760" conc="1.2e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-78.9834</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">78.9834</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-97.4806</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="760" conc="1.81e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-97.4806</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">97.4806</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-111.866</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="760" conc="2.4e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-111.866</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">111.866</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-124.233</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="760" conc="3e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-124.233</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">124.233</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-70.8708</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="770" conc="6.01e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-70.8708</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">70.8708</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-89.09</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="770" conc="9e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-89.09</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">89.09</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-104.187</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="770" conc="1.2e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-104.187</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">104.187</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-128.691</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="770" conc="1.8e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-128.691</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">128.691</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-148.776</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="770" conc="2.41e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-148.776</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">148.776</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-165.227</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="770" conc="3e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-165.227</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">165.227</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-60.3345</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="780" conc="3e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-60.3345</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">60.3345</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-92.0827</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="780" conc="6.01e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-92.0827</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">92.0827</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-116.136</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="780" conc="9e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-116.136</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">116.136</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-136.146</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="780" conc="1.2e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-136.146</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">136.146</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-168.759</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="780" conc="1.8e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-168.759</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">168.759</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-195.204</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="780" conc="2.4e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-195.204</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">195.204</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-217.67</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="780" conc="3e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-217.67</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">217.67</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-77.2849</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="790" conc="3e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-77.2849</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">77.2849</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-118.574</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="790" conc="6.01e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-118.574</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">118.574</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-150.034</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="790" conc="9e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-150.034</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">150.034</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-176.305</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="790" conc="1.2e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-176.305</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">176.305</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-219.299</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="790" conc="1.8e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-219.299</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">219.299</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-254.307</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="790" conc="2.4e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-254.307</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">254.307</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-284.145</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="790" conc="3e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-284.145</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">284.145</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-98.1537</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="800" conc="3e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-98.1537</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">98.1537</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-151.373</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="800" conc="6.01e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-151.373</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">151.373</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-192.148</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="800" conc="9e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-192.148</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">192.148</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-227.381</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="800" conc="1.21e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-227.381</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">227.381</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-282.487</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="800" conc="1.8e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-282.487</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">282.487</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-328.405</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="800" conc="2.4e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-328.405</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">328.405</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-367.665</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="800" conc="3e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-367.665</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">367.665</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-123.635</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="810" conc="3e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-123.635</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">123.635</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-191.45</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="810" conc="6e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-191.45</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">191.45</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-244.035</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="810" conc="9e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-244.035</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">244.035</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-289.473</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="810" conc="1.21e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-289.473</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">289.473</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-361.907</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="810" conc="1.81e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-361.907</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">361.907</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-420.516</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="810" conc="2.4e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-420.516</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">420.516</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-471.711</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="810" conc="3e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-471.711</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">471.711</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-154.502</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="820" conc="3e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-154.502</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">154.502</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-240.695</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="820" conc="6.01e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-240.695</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">240.695</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-307.649</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="820" conc="9.01e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-307.649</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">307.649</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-365.553</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="820" conc="1.21e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-365.553</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">365.553</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-457.15</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="820" conc="1.8e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-457.15</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">457.15</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-534.082</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="820" conc="2.4e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-534.082</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">534.082</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-600.265</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="820" conc="3e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-600.265</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">600.265</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-191.609</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="830" conc="3e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-191.609</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">191.609</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-299.665</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="830" conc="6e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-299.665</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">299.665</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-384.341</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="830" conc="9e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-384.341</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">384.341</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-455.83</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="830" conc="1.2e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-455.83</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">455.83</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-574.669</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="830" conc="1.8e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-574.669</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">574.669</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-236.415</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="840" conc="3.01e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-236.415</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">236.415</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-370.703</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="840" conc="6e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-370.703</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">370.703</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-476.89</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="840" conc="9e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-476.89</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">476.89</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-566.853</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="840" conc="1.2e+017" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-566.853</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">566.853</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-288.353</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="850" conc="3e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-288.353</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">288.353</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-455.313</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="850" conc="6e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-455.313</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">455.313</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-350.894</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="860" conc="3.01e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-350.894</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">350.894</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-557.188</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="860" conc="6.03e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-557.188</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">557.188</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-423.256</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="870" conc="3.01e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-423.256</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">423.256</me:firstOrderRate>
+        </me:rateList>
+        <me:eigenvalueList number="200" selection="1">
+            <me:eigenvalue>-506.155</me:eigenvalue>
+        </me:eigenvalueList>
+        <me:rateList T="880" conc="3e+016" bathGas="He" me:units="s-1">
+            <me:firstOrderLoss ref="i-propyl">-506.155</me:firstOrderLoss>
+            <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">506.155</me:firstOrderRate>
+        </me:rateList>
+        <me:hessian>
+            <matrix matrixType="squareSymmetricLT" rows="3">
+                <![CDATA[20419.5 
+-109.503 0.59031 
+14605.5 -75.8986 12469.4 
+]]>
+</matrix>
+        </me:hessian>
+    </me:analysis>
+</me:mesmer>
