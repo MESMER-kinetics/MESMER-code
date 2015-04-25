@@ -50,7 +50,7 @@
     <sin>-0.500</sin><cos>0.866</cos><sin>-0.259</sin><cos>0.966</cos>
   </xsl:variable>
   
-  <!--Rotation about y-axis-->
+  <!--Rotation about y-axis. Rotate molecule by using different values of $nsc.-->
   <xsl:variable name="nsc" select="2"/>
   <xsl:variable name="cos" select="exsl:node-set($sincos)/cos[$nsc]"/>
   <xsl:variable name="sin" select="exsl:node-set($sincos)/sin[$nsc]"/>

@@ -185,6 +185,8 @@ Client/src/ViewAllRecordJpanel.form -text
 Client/src/ViewAllRecordJpanel.java -text
 Documentation/Adding[!!-~]a[!!-~]molecule[!!-~]to[!!-~]the[!!-~]library.html -text
 Documentation/Constructing[!!-~]a[!!-~]Datafile[!!-~]from[!!-~]Gaussian[!!-~]output.html -text
+Documentation/MESMER[!!-~]GUI[!!-~]tutorial.pdf -text
+Documentation/MESMER[!!-~]examples.pdf -text
 Documentation/MESMER[!!-~]manual.docx -text
 Documentation/MESMER[!!-~]manual.pdf -text
 Documentation/Procedure_to_configure_MESMER_under_XCode.doc -text
