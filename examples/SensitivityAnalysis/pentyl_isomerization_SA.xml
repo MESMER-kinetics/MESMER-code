@@ -295,7 +295,6 @@
       <me:sensitivityVarRedMethod>RatioControl</me:sensitivityVarRedMethod>
     </me:calcMethod>
     <me:testDOS />
-    <me:eigenvalues>1</me:eigenvalues>
   </me:control>
 
 </me:mesmer>

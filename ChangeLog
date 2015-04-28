@@ -1,14 +1,19 @@
 
+2015-April-28 Struan Robertson
+
+	* Examples.bat/.sh: Update of test shell scripts to include sensitivity analysis
+	tests.
+
 2015-April-19 Struan Robertson
 
-	* Marquardt.cpp, FittingUtils.cpp/.h: Removed duplicate related to gaussian 
+	* Marquardt.cpp, FittingUtils.cpp/.h: Removed code duplicate related to gaussian 
 	parameter set distribution.
 
 	* SecondOrderAssocReaction.cpp: Altered input so that it now adjusts zero
-	point energy of dissociation fragment to refect second order kineitcs.
+	point energy of dissociation fragment to reflect second order kinetics.
 
 	* SecondOrderAssocReaction.cpp, MesmerFlags.h/.cpp, CollisionOperator.cpp:
-	Added flag to prevent profile calcuations for non-linear systems.
+	Added flag to prevent profile calculations for non-linear systems.
 
 2015-April-19 Struan Robertson
 
