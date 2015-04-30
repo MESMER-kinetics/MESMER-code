@@ -298,13 +298,15 @@
           <xsl:variable name="coeffs" select="str:tokenize(cml:array[@dictRef='NasaCoeffs'])"/>
           <xsl:variable name="lowercoeffs" select="$coeffs[position()&lt;=7]"/>
           <xsl:variable name="uppercoeffs" select="$coeffs[position()>7 and position()!=15]"/>
-          <xsl:value-of select="concat('thermo = (',
-          'NASA([',format-number(cml:scalar[@dictRef='NasaLowT'], '#.##'),',',
-                    format-number(cml:scalar[@dictRef='NasaMidT'], '#.##'),'],[')"/>
-          <xsl:for-each select="$lowercoeffs">
-            <xsl:value-of select="."/>
-            <xsl:if test="position() != last()">,</xsl:if>
-          </xsl:for-each>]),
+          <xsl:choose>
+            <xsl:when test="cml:scalar[@dictRef='NasaMidT']!=0"> 
+              <xsl:value-of select="concat('thermo = (',
+              'NASA([',format-number(cml:scalar[@dictRef='NasaLowT'], '#.##'),',',
+                        format-number(cml:scalar[@dictRef='NasaMidT'], '#.##'),'],[')"/>
+              <xsl:for-each select="$lowercoeffs">
+                <xsl:value-of select="."/>
+                <xsl:if test="position() != last()">,</xsl:if>
+              </xsl:for-each>]),
           <xsl:value-of select="concat(
           'NASA([',format-number(cml:scalar[@dictRef='NasaMidT'], '#.##'),',',
                     format-number(cml:scalar[@dictRef='NasaHighT'], '#.##'),'],[')"/>
@@ -312,6 +314,17 @@
             <xsl:value-of select="."/>
             <xsl:if test="position() != last()">,</xsl:if>
           </xsl:for-each>]))
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="concat('thermo = (',
+              'NASA([',format-number(cml:scalar[@dictRef='NasaLowT'], '#.##'),',',
+                        format-number(cml:scalar[@dictRef='NasaHighT'], '#.##'),'],[')"/>
+              <xsl:for-each select="$lowercoeffs">
+                <xsl:value-of select="."/>
+                <xsl:if test="position() != last()">,</xsl:if>
+              </xsl:for-each>]))
+            </xsl:otherwise>
+          </xsl:choose>
         </pre>
       </xsl:for-each>
           

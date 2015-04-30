@@ -138,12 +138,14 @@ namespace mesmer
 
     // Loop over all molecules producing a table for each molecule that
     // has an energy specified.
-    // A NASA polynomial will also be produced if 6 or more temperatures
-    // have been requested, or both upper and lower polynomials if Tmid
-    // is specified and 12 temperatures.
+    // A NASA polynomial will also be produced if 7 or more temperatures
+    // have been requested in both the upper and lower polynomials 
+    // or, if Tmid=0, the single polynomial.
 
-    int nTemps = static_cast<int>(std::ceil((m_Tmax - m_Tmin) / m_TempInterval));
-    bool enoughPoints =  !m_Tmid && nTemps > 6 || m_Tmid && nTemps >= 12;
+    int nTemps = static_cast<int>(std::floor((m_Tmax - m_Tmin) / m_TempInterval))+1;
+    int nTempsLower = static_cast<int>(std::floor((m_Tmid - m_Tmin) / m_TempInterval)+1);
+    bool enoughPoints =  !m_Tmid && nTemps > 6 
+         || m_Tmid && nTempsLower> 6 && (nTemps-nTempsLower)>=6;
     if (!enoughPoints)
     {
       cinfo << "Too few data points to fit NASA polynomials." << endl;

@@ -1,4 +1,12 @@
 
+2015-April-30 Chris Morley
+
+    * src/plugins/ThermodynamicTable.cpp: correct the check for there being
+      enough temperature points to fit NASA polynomials.
+      
+    * mesmer1.xsl: format Cantera thermo in Firefox output for the case
+      when there is only one fitted polynomial.
+
 2015-April-28 Struan Robertson
 
 	* Examples.bat/.sh: Update of test shell scripts to include sensitivity analysis
