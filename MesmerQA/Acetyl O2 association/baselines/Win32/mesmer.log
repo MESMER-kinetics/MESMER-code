@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Sep  6 2014 -- 19:32:32
+     Mesmer v4.0 compiled: -- May  2 2015 -- 18:06:25
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -47,10 +47,9 @@ In R3: No crossing method used for R3
 In R4: Parsing reaction...Irreversible unimolecular reaction
 In R4: No tunneling method used for R4
 In R4: No crossing method used for R4
-All molecules are on the same energy basis: arbitary
 The default value of the attribute precision was used.
 200.72Torr, 298K at d precision with He
-Write metadata 20140906_214622
+Write metadata 20150503_195838
 
 File: "Acetyl_O2_association.xml" successfully parsed.
 Main Calculation begins
@@ -71,6 +70,7 @@ No population was assigned. Initialize the first source term to 1.0.
             298    6.5042e+018
 Finish Calculation of P-T case -- Time elapsed: 1 seconds.
 1 temperature/concentration-pressure points calculated.
+Energy convention "arbitrary" written to <moleculeList>
  -- Total time elapsed: 1 seconds.
 
 System saved to out.xml

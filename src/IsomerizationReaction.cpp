@@ -309,9 +309,13 @@ namespace mesmer
     const double beta = getEnv().beta;
     const double temperature = 1. / (boltzmann_RCpK * beta);
 
-    for(int i(0); i < MaximumGrain; ++i){
-      k_forward  += m_GrainKfmc[i] * exp( log(rctGrainDOS[i]) - beta * rctGrainEne[i]);
-      k_backward += m_GrainKbmc[i] * exp( log(pdtGrainDOS[i]) - beta * pdtGrainEne[i]);
+    const int forwardTE = get_EffGrnFwdThreshold();
+    const int reverseTE = get_EffGrnRvsThreshold();
+    calcFluxFirstNonZeroIdx();
+    const int fluxStartIdx = get_fluxFirstNonZeroIdx();
+    for ( int i=fluxStartIdx, j = reverseTE, k = forwardTE; max(j,k) < MaximumGrain ; ++i, ++j, ++k) {
+      k_forward  += m_GrainFlux[i] * exp(-beta * rctGrainEne[k]);
+      k_backward += m_GrainFlux[i] * exp(-beta * pdtGrainEne[j]);
     }
 
     const double rctprtfn = canonicalPartitionFunction(rctGrainDOS, rctGrainEne, beta);

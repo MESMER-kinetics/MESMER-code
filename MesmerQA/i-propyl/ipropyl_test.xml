@@ -16,7 +16,7 @@
         <atom id="a7"  elementType="H" x3="-1.674932213"  y3=" 0.132014494" z3=" 0.000000000"/>
         <atom id="a8"  elementType="H" x3=" 0.543790894"  y3=" 0.980514186" z3=" 1.532163133"/>
         <atom id="a9"  elementType="H" x3=" 0.988539511"  y3="-0.709839764" z3=" 1.304715599"/>
-        <atom id="a10" elementType="H" x3="-0.523177009"  y3="-0.290316406" z3=" 2.146336256"/> 
+        <atom id="a10" elementType="H" x3="-0.523177009"  y3="-0.290316406" z3=" 2.146336256"/>
       </atomArray>
       <bondArray>
         <bond id="b1"  atomRefs2="a1 a2" order="1"/>
@@ -44,7 +44,7 @@
           <array units="cm-1">
             3052.0 2968.2 2968.2 2967.7 2920.0 2887.0 2850.0 1468.0 1464.0 1462.0
             1440.0 1378.0 1338.0 1292.0 1200.0 1165.0 1053.8  921.7  879.0  748.1
-             369.2  364.0
+            369.2  364.0
           </array>
         </property>
         <property dictRef="me:MW">
@@ -76,12 +76,12 @@
       </me:ExtraDOSCMethod>
 
       <me:ExtraDOSCMethod name="HinderedRotorQM1D"  xsi:type="me:HinderedRotorQM1D">
-          <me:bondRef>b2</me:bondRef>
-          <me:HinderedRotorPotential format="analytical" units="kJ/mol">
-            <me:PotentialPoint index="0"  coefficient="6.2"/>
-            <me:PotentialPoint index="3"  coefficient="-6.2"/>
-          </me:HinderedRotorPotential>
-          <me:periodicity>3</me:periodicity>
+        <me:bondRef>b2</me:bondRef>
+        <me:HinderedRotorPotential format="analytical" units="kJ/mol">
+          <me:PotentialPoint index="0"  coefficient="6.2"/>
+          <me:PotentialPoint index="3"  coefficient="-6.2"/>
+        </me:HinderedRotorPotential>
+        <me:periodicity>3</me:periodicity>
       </me:ExtraDOSCMethod>
 
     </molecule>
@@ -165,6 +165,9 @@
     <molecule id="He">
       <atom elementType="He"/>
       <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">0.0</scalar>
+        </property>
         <property dictRef="me:epsilon">
           <scalar>10.0</scalar>
         </property>
@@ -223,10 +226,18 @@
   </me:modelParameters>
 
   <me:control>
-    <me:calcMethod name="simpleCalc"/>
+    <me:calcMethod xsi:type="me:simpleCalc"/>
     <me:testDOS />
     <me:testMicroRates />
     <me:eigenvalues>5</me:eigenvalues>
+  </me:control>
+
+  <me:control>
+    <me:calcMethod xsi:type="me:ThermodynamicTable">
+      <me:units>kcal/mol</me:units>
+      <me:NumberOfTemp>20</me:NumberOfTemp>
+      <me:TempInterval>100.0</me:TempInterval>
+    </me:calcMethod>
   </me:control>
 
 </me:mesmer>

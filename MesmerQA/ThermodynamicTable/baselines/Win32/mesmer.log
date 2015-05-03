@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Oct 19 2014 -- 15:56:41
+     Mesmer v4.0 compiled: -- May  2 2015 -- 18:06:25
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -31,28 +31,35 @@ defaults.xml, librarymols.xml are in ../..
 Parsing input xml file...
 ThermodynamicTable.xml
 
-Write metadata 20141019_172801
+In HNO2: The default value of the attribute spinMultiplicity was used.
+In HNO2: The default value of me:DOSCMethod was used.
+In HNO2: The default attribute(s) were added to the the property me:Hf0
+In HNO2: The energy convention is thermodynamic, derived from me:Hf0
+In HNO2: New me:ZPE element written with data from me:Hf0
+In OH: energy converted from thermodynamic298K to thermodynamic
+In OH: New me:ZPE element written with data from me:Hf298
+In NO: The default value of me:DOSCMethod was used.
+In NO: energy converted from thermodynamic298K to thermodynamic
+In NO: New me:ZPE element written with data from me:Hf298
+In He: The default value of the attribute spinMultiplicity was used.
+In He: The default value of me:DOSCMethod was used.
+In He: gDensityOfStates initialization failed.
+Write metadata 20150503_195842
 
 File: "ThermodynamicTable.xml" successfully parsed.
 Main Calculation begins
 Execute calcMethod ThermodynamicTable
-The default units of kJ/mol will be used for thermodynamics tables.
-In HNO2: The default value of me:frequenciesScaleFactor was used.
-In HNO2: The default value of the attribute spinMultiplicity was used.
-In HNO2: The default value of me:DOSCMethod was used.
-In HNO2: No ZPE (or an alternative) was provided.
-In He: The default value of me:frequenciesScaleFactor was used.
-In He: The default value of me:symmetryNumber was used.
-In He: The default value of the attribute spinMultiplicity was used.
-In He: The default value of me:DOSCMethod was used.
+In HNO2: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
+Restricted thermo output for He because it has no non-arbitrary energy data.
+In NO: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
+In OH: enthalpy of formation at 298K:Number of grains produced is not equal to that requested
+In OH: Number of grains requested: 1000
+In OH: Number of grains produced : 576
+In OH: energy converted from thermodynamic to thermodynamic298K
 Number of grains produced is not equal to that requested
 Number of grains requested: 1000
-Number of grains produced : 1
-In NO: The default value of me:frequenciesScaleFactor was used.
-In NO: The default value of me:DOSCMethod was used.
-In NO: No ZPE (or an alternative) was provided.
-In OH: The default value of me:frequenciesScaleFactor was used.
-In OH: No ZPE (or an alternative) was provided.
- -- Total time elapsed: 1 seconds.
+Number of grains produced : 576
+Energy convention "thermodynamic" written to <moleculeList>
+ -- Total time elapsed: 0 seconds.
 
 System saved to out.xml

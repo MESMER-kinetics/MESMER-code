@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Sep  6 2014 -- 19:32:32
+     Mesmer v4.0 compiled: -- May  2 2015 -- 18:06:25
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -45,12 +45,11 @@ In propyne: The default value of me:DistributionCalcMethod was used.
 In R2: No imaginary vibrational frequency. Check if there is tunneling.
 No tunneling method used for R2
 In R2: No crossing method used for R2
-All molecules are on the same energy basis: arbitary
 The default value of the attribute precision was used.
 200.72Torr, 800K at d precision with He
 The default value of the attribute precision was used.
 250Torr, 1000K at d precision with He
-Write metadata 20140906_214619
+Write metadata 20150503_195834
 
 File: "Cyclopropene_isomerization_reservoir_state_test.xml" successfully parsed.
 Main Calculation begins
@@ -69,6 +68,7 @@ Diagonalize the Reaction Operator
             800   2.42281e+018           1000   2.41412e+018
 Finish Calculation of P-T case
 2 temperature/concentration-pressure points calculated.
+Energy convention "arbitrary" written to <moleculeList>
  -- Total time elapsed: 1 seconds.
 
 System saved to out.xml

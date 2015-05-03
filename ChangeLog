@@ -1,4 +1,16 @@
 
+2015-May-03 Struan Robertson
+
+	* SensitivityAnalysis.cpp: Fixed incorrect vector allocation that was causing
+	a crash.
+
+	* IsomerizationReaction.cpp: Altered calculation of high pressure rate 
+	coefficients to improve accuracy.
+
+	* CollisionOperator.cpp: Minor change to data output.
+	
+	* Update of Win32 QA baselines.	
+
 2015-April-30 Chris Morley
 
     * src/plugins/ThermodynamicTable.cpp: correct the check for there being

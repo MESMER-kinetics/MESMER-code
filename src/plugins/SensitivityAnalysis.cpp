@@ -662,7 +662,7 @@ namespace mesmer
       // Calculate all alpha and beta coefficients for the up to m_order polynomials.
 
       Table alphas(m_nOut, vector<double>(m_nVar*m_order, 0.0));
-      Table betas(m_nOut, vector<double>(m_nVar*m_nVar*m_order*(m_order - 1) / 2, 0.0));
+      Table betas(m_nOut, vector<double>(m_nVar*(m_nVar-1)*m_order*m_order/2, 0.0));
 
       switch (m_VarRedMthd) {
       case RATIOCONTROL:

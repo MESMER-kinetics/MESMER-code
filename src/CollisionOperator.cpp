@@ -919,12 +919,14 @@ namespace mesmer
       ctest << "\n\t";
       for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
         formatFloat(ctest, timePoints[timestep], 6, 15);
+		ctest << ",";
       }
       ctest << endl;
       for (size_t j(0); j < smsize; ++j) {
-        ctest << j << "\t";
+        ctest << j << "," ; // << "\t";
         for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
           formatFloat(ctest, grnProfile[j][timestep], 6, 15);
+		  ctest << ",";
         }
         ctest << endl;
       }
