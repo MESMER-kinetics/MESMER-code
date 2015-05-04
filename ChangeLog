@@ -1,4 +1,9 @@
 
+2015-May-04 Struan Robertson
+
+	* SensitivityAnalysis.cpp: Improved appearence of data generated for external
+	analysis.
+
 2015-May-03 Struan Robertson
 
 	* SensitivityAnalysis.cpp: Fixed incorrect vector allocation that was causing
