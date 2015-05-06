@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Apr 28 2015 -- 22:46:47
+     Mesmer v4.0 compiled: -- May  5 2015 -- 17:51:32
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -44,12 +44,12 @@ In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
 The default value of the attribute precision was used.
 1e+008PPCC, 500K at d precision with Ar
-Write metadata 20150428_231105
+Write metadata 20150505_204042
 
 File: "pentyl_isomerization_SA.xml" successfully parsed.
 Main Calculation begins
 Execute calcMethod SensitivityAnalysis
 Energy convention "arbitrary" written to <moleculeList>
- -- Total time elapsed: 60 seconds.
+ -- Total time elapsed: 68 seconds.
 
 System saved to mesmer_out.xml

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Sep  8 2014 -- 11:21:07
+     Mesmer v4.0 compiled: -- Feb 25 2015 -- 18:41:37
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -33,13 +33,16 @@ OH_NO_HONO.xml
 
 In R1: Parsing reaction...Association reaction
 In OH: OH copied from ../../librarymols.xml
-In OH: The default value of me:frequenciesScaleFactor was used.
+In OH: The energy convention is thermodynamic, derived from me:Hf298
+In OH: energy converted from thermodynamic298K to thermodynamic
 In OH: New me:ZPE element written with data from me:Hf298
 In NO: NO copied from ../../librarymols.xml
-In NO: The default value of me:frequenciesScaleFactor was used.
 In NO: The default value of me:DOSCMethod was used.
+In NO: energy converted from thermodynamic298K to thermodynamic
 In NO: New me:ZPE element written with data from me:Hf298
 In HONO: Hindered rotor b2 replacing vib freq 543
+In HONO: The default attribute(s) were added to the the property me:Hf298
+In HONO: energy converted from thermodynamic298K to thermodynamic
 In HONO: New me:ZPE element written with data from me:Hf298
 In HONO: The default value of me:DistributionCalcMethod was used.
 In HONO: HONO:deltaEDown was given a range with 451 steps 
@@ -48,7 +51,6 @@ In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
-All molecules are on the same energy basis: computational
 3.2e+21PPCC, 295K at d precision with He
 2.3e+21PPCC, 295K at d precision with He
 1.6e+21PPCC, 295K at d precision with He
@@ -66,7 +68,7 @@ All molecules are on the same energy basis: computational
 1.64e+17PPCC, 294K at d precision with He
 2.63e+17PPCC, 294K at d precision with He
 3.28e+17PPCC, 294K at d precision with He
-Write metadata 20140908_124125
+Write metadata 20150225_191738
 
 File: "OH_NO_HONO.xml" successfully parsed.
 Main Calculation begins
@@ -78,7 +80,7 @@ In FastLaplaceConvolution: 20 values in the FFT convolution routine were replace
 Association ILT calculation completed
 Finish Calculation of P-T case
 
-Chi^2 = 219.344 Lambda = 1
+Chi^2 = 219.346 Lambda = 1
 HONO:deltaEDown=58  R1:preExponential=6.78e-11  
 Association ILT calculation completed
 Finish Calculation of P-T case
@@ -91,9 +93,9 @@ Finish Calculation of P-T case
 Association ILT calculation completed
 Finish Calculation of P-T case
 
-Chi^2 = 92.0564 Lambda = 0.1
-HONO:deltaEDown=69.0082  R1:preExponential=7.62938e-11  
-Iteration: 1 of Marquardt. ChiSquare = 92.0564, Lambda = 0.1
+Chi^2 = 92.0768 Lambda = 0.1
+HONO:deltaEDown=69.0048  R1:preExponential=7.63015e-11  
+Iteration: 1 of Marquardt. ChiSquare = 92.0768, Lambda = 0.1
 Association ILT calculation completed
 Finish Calculation of P-T case
 Association ILT calculation completed
@@ -101,9 +103,9 @@ Finish Calculation of P-T case
 Association ILT calculation completed
 Finish Calculation of P-T case
 
-Chi^2 = 52.4622 Lambda = 0.01
-HONO:deltaEDown=79.8345  R1:preExponential=6.41336e-11  
-Iteration: 2 of Marquardt. ChiSquare = 52.4622, Lambda = 0.01
+Chi^2 = 52.4631 Lambda = 0.01
+HONO:deltaEDown=79.8318  R1:preExponential=6.41428e-11  
+Iteration: 2 of Marquardt. ChiSquare = 52.4631, Lambda = 0.01
 Association ILT calculation completed
 Finish Calculation of P-T case
 Association ILT calculation completed
@@ -111,9 +113,15 @@ Finish Calculation of P-T case
 Association ILT calculation completed
 Finish Calculation of P-T case
 
-Chi^2 = 51.741 Lambda = 0.001
-HONO:deltaEDown=81.1609  R1:preExponential=6.49312e-11  
-Iteration: 3 of Marquardt. ChiSquare = 51.741, Lambda = 0.001
+Chi^2 = 51.7403 Lambda = 0.001
+HONO:deltaEDown=81.1615  R1:preExponential=6.49323e-11  
+Iteration: 3 of Marquardt. ChiSquare = 51.7403, Lambda = 0.001
+Association ILT calculation completed
+Finish Calculation of P-T case
+
+Chi^2 = 51.7403 Lambda = 0.01
+HONO:deltaEDown=81.1615  R1:preExponential=6.49323e-11  
+Iteration: 4 of Marquardt. ChiSquare = 51.7403, Lambda = 0.01
 Association ILT calculation completed
 Finish Calculation of P-T case
 Association ILT calculation completed
@@ -121,73 +129,59 @@ Finish Calculation of P-T case
 Association ILT calculation completed
 Finish Calculation of P-T case
 
-Chi^2 = 51.7399 Lambda = 0.0001
-HONO:deltaEDown=81.1649  R1:preExponential=6.49641e-11  
-Iteration: 4 of Marquardt. ChiSquare = 51.7399, Lambda = 0.0001
+Chi^2 = 51.7398 Lambda = 0.001
+HONO:deltaEDown=81.1657  R1:preExponential=6.49539e-11  
+Iteration: 5 of Marquardt. ChiSquare = 51.7398, Lambda = 0.001
 Association ILT calculation completed
 Finish Calculation of P-T case
 
-Chi^2 = 51.7399 Lambda = 0.001
-HONO:deltaEDown=81.1649  R1:preExponential=6.49641e-11  
-Iteration: 5 of Marquardt. ChiSquare = 51.7399, Lambda = 0.001
+Chi^2 = 51.7398 Lambda = 0.01
+HONO:deltaEDown=81.1657  R1:preExponential=6.49539e-11  
+Iteration: 6 of Marquardt. ChiSquare = 51.7398, Lambda = 0.01
 Association ILT calculation completed
 Finish Calculation of P-T case
 
-Chi^2 = 51.7399 Lambda = 0.01
-HONO:deltaEDown=81.1649  R1:preExponential=6.49641e-11  
-Iteration: 6 of Marquardt. ChiSquare = 51.7399, Lambda = 0.01
-Association ILT calculation completed
-Finish Calculation of P-T case
-Association ILT calculation completed
-Finish Calculation of P-T case
+Chi^2 = 51.7398 Lambda = 0.1
+HONO:deltaEDown=81.1657  R1:preExponential=6.49539e-11  
+Iteration: 7 of Marquardt. ChiSquare = 51.7398, Lambda = 0.1
 Association ILT calculation completed
 Finish Calculation of P-T case
 
-Chi^2 = 51.7396 Lambda = 0.001
-HONO:deltaEDown=81.1661  R1:preExponential=6.49521e-11  
-Iteration: 7 of Marquardt. ChiSquare = 51.7396, Lambda = 0.001
+Chi^2 = 51.7398 Lambda = 1
+HONO:deltaEDown=81.1657  R1:preExponential=6.49539e-11  
+Iteration: 8 of Marquardt. ChiSquare = 51.7398, Lambda = 1
 Association ILT calculation completed
 Finish Calculation of P-T case
 
-Chi^2 = 51.7396 Lambda = 0.01
-HONO:deltaEDown=81.1661  R1:preExponential=6.49521e-11  
-Iteration: 8 of Marquardt. ChiSquare = 51.7396, Lambda = 0.01
-Association ILT calculation completed
-Finish Calculation of P-T case
-Association ILT calculation completed
-Finish Calculation of P-T case
+Chi^2 = 51.7398 Lambda = 10
+HONO:deltaEDown=81.1657  R1:preExponential=6.49539e-11  
+Iteration: 9 of Marquardt. ChiSquare = 51.7398, Lambda = 10
 Association ILT calculation completed
 Finish Calculation of P-T case
 
-Chi^2 = 51.7394 Lambda = 0.001
-HONO:deltaEDown=81.1674  R1:preExponential=6.49453e-11  
-Iteration: 9 of Marquardt. ChiSquare = 51.7394, Lambda = 0.001
-Association ILT calculation completed
-Finish Calculation of P-T case
-
-Chi^2 = 51.7394 Lambda = 0.01
-HONO:deltaEDown=81.1674  R1:preExponential=6.49453e-11  
-Iteration: 10 of Marquardt. ChiSquare = 51.7394, Lambda = 0.01
+Chi^2 = 51.7398 Lambda = 100
+HONO:deltaEDown=81.1657  R1:preExponential=6.49539e-11  
+Iteration: 10 of Marquardt. ChiSquare = 51.7398, Lambda = 100
 PT Grid 0
 Number of cells = 21450, Number of grains = 429
 Association ILT calculation completed
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 1
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 2
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 3
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
-PT Grid 4
-Build Collison Operator
 Diagonalize the Reaction Operator
-PT Grid 5
+PT Grid 3
 Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
+PT Grid 4
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+PT Grid 5
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 6
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
@@ -195,8 +189,8 @@ PT Grid 7
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 8
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 9
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
@@ -213,54 +207,55 @@ PT Grid 13
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 14
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 15
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 16
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            295       3.2e+021         310000         398352
-            295       2.3e+021         320000         361402
-            295       1.6e+021         290000         320547
-            295       1.2e+021         290000         288672
-            295       7.6e+020         290000         240268
-            295       3.4e+020         250000         165538
-            295       1.7e+020         200000         114590
-            295       9.6e+019         170000          82158
-            294      6.57e+016            217        262.175
-            294      1.64e+017            542        604.809
-            294      2.63e+017            867        921.023
-            294      3.28e+017           1084        1118.37
-            296       8.5e+017           2700        2474.33
-            294      6.57e+016            257        262.175
-            294      1.64e+017            672        604.809
-            294      2.63e+017           1078        921.023
-            294      3.28e+017           1345        1118.37
+            295       3.2e+021         310000         398386
+            295       2.3e+021         320000         361431
+            295       1.6e+021         290000         320571
+            295       1.2e+021         290000         288692
+            295       7.6e+020         290000         240282
+            295       3.4e+020         250000         165546
+            295       1.7e+020         200000         114594
+            295       9.6e+019         170000        82160.6
+            294      6.57e+016            217        262.171
+            294      1.64e+017            542        604.802
+            294      2.63e+017            867        921.007
+            294      3.28e+017           1084        1118.35
+            296       8.5e+017           2700        2474.31
+            294      6.57e+016            257        262.171
+            294      1.64e+017            672        604.802
+            294      2.63e+017           1078        921.007
+            294      3.28e+017           1345        1118.35
 
-Finish Calculation of P-T case
+Finish Calculation of P-T case -- Time elapsed: 1 seconds.
 17 temperature/concentration-pressure points calculated.
 
-Chi^2 = 51.7394
+Chi^2 = 51.7398
 
 Best fit parameters:
 
-HONO:deltaEDown = 81.1674 +/- 2.00137
-R1:preExponential = 6.49453e-11 +/- 6.06815e-12
+HONO:deltaEDown = 81.1657 +/- 2.00092
+R1:preExponential = 6.49539e-11 +/- 6.06793e-12
 
 Correlation coefficients:
 
-R1:preExponential , HONO:deltaEDown = -0.486203
+R1:preExponential , HONO:deltaEDown = -0.485899
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 15
-Chi^2 probability = 6.23724e-06
+Chi^2 probability = 6.23618e-06
 
- -- Total time elapsed: 300 seconds.
+Energy convention "thermodynamic" written to <moleculeList>
+ -- Total time elapsed: 272 seconds.
 
 System saved to out.xml

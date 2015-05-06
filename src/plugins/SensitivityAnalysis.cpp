@@ -283,9 +283,8 @@ namespace {
       PersistPtr pp = pSys->getPersistPtr()->XmlMoveTo("me:analysis");
       pp = pp->XmlMoveTo("me:hessian");
       pp = pp->XmlMoveTo("matrix");
-      if (m_CorrelMtx = ReadMatrix<double>(pp)) {
+      if ( (m_CorrelMtx = ReadMatrix<double>(pp)) ) {
         m_CorrelMtx->cholesky();
-        size_t nVar = m_CorrelMtx->size();
       } else {
         err = "Correlation Matrix not found";
         return false;

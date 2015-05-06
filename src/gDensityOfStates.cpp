@@ -79,7 +79,7 @@ namespace mesmer
 
     bool hasVibFreq(true);
     const char *txt;
-    if (m_Hessian = ReadPropertyMatrix<double>("me:hessian", ppPropList)) {
+    if ( (m_Hessian = ReadPropertyMatrix<double>("me:hessian", ppPropList)) ){
       PersistPtr pMtrx = ppPropList->XmlMoveToProperty("me:hessian");
       txt = pMtrx->XmlReadValue("units", false);
       m_HessianUnits = (txt) ? string(txt) : "kJ/mol/amu/Ang^2";

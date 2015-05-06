@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Sep  8 2014 -- 11:29:11
+     Mesmer v4.0 compiled: -- May  5 2015 -- 17:51:32
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -32,28 +32,21 @@ Parsing input xml file...
 Methyl_H_to_Methane_FTST.xml
 
 In R1: Parsing reaction...Association reaction
-In Methyl: The default value of me:frequenciesScaleFactor was used.
 In Methyl: Methyl:ZPE was given a range with 3 steps 
-In H: The default value of me:frequenciesScaleFactor was used.
-In H: The default value of me:symmetryNumber was used.
 In H: The default value of the attribute spinMultiplicity was used.
 In H: The default value of me:DOSCMethod was used.
-In Methane: The default value of me:frequenciesScaleFactor was used.
 In Methane: The default value of me:DistributionCalcMethod was used.
 In Methane: Methane:deltaEDown was given a range with 15 steps 
 In TS1: No imaginary vibrational frequency. Check if there is tunneling.
-Cannot find argument me:vibFreqs. Assumes that it is an atom or atomic ion.
-In TS1: The default value of me:frequenciesScaleFactor was used.
-In TS1: No rotational constants from <me:rotConsts> or structure. Assumed to be an atom or atomic ion.
+Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
+In TS1: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
 In TS1: The default value of me:DOSCMethod was used.
-In TS1: No energy units specified
+In TS1: The default attribute(s) were added to the the property me:ZPE
 In TS1: TS1:ZPE will be derived from Methyl:ZPE. Check below that this has been found.
-In TS1: No energy units specified
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
-All molecules are on the same energy basis: arbitary
 25.1Torr, 301K at dd precision with He
 50.8Torr, 301K at dd precision with He
 101.3Torr, 301K at dd precision with He
@@ -93,7 +86,7 @@ All molecules are on the same energy basis: arbitary
 711Torr, 601K at dd precision with He
 TS1:ZPE is derived from Methyl:ZPE
 TS1:ZPE = 36175.2
-Write metadata 20140908_123023
+Write metadata 20150505_193115
 
 File: "Methyl_H_to_Methane_FTST.xml" successfully parsed.
 Main Calculation begins
@@ -195,13 +188,13 @@ Number of cells = 40500, Number of grains = 263
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 1
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 2
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 3
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 4
 Build Collison Operator
@@ -210,17 +203,17 @@ PT Grid 5
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 6
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 7
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 8
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 9
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 10
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
@@ -228,7 +221,7 @@ PT Grid 11
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 12
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 13
 Build Collison Operator
@@ -237,17 +230,17 @@ PT Grid 14
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 15
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 16
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 17
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 18
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 19
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
@@ -259,24 +252,24 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 22
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 23
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 24
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 25
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 26
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 27
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 28
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 29
 Build Collison Operator
@@ -285,11 +278,11 @@ PT Grid 30
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 31
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 32
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 33
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
@@ -300,8 +293,8 @@ PT Grid 35
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 36
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
@@ -362,6 +355,7 @@ Goodness of Fit:
 Number of degrees of Freedom = 35
 Chi^2 probability = 1
 
- -- Total time elapsed: 2816 seconds.
+Energy convention "arbitrary" written to <moleculeList>
+ -- Total time elapsed: 2831 seconds.
 
 System saved to mesmer_out.xml
