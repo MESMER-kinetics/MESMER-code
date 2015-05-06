@@ -1,3 +1,15 @@
+2015-May-06 Chris Morley
+
+    Fix the use of the internal units (cm-1) when derivedFrom used
+    in association with a units= attribute, as reported by Robin.
+
+    * src/Rdouble.cpp,src/Rdouble.h:Add a m_units member to hold the internal units and convert 
+    addand in Rdouble::SetUpLinkedVars() (when the value of both m_units is known.)
+
+    * src/gDensityOfStates.cpp: initialize the m_units for ZPE.
+
+    * src/plugins/ExponentialDown.cpp: initialize m_units for m_deltaEDown,
+    although cm-1 is currently assumed and is unchecked.
 
 2015-May-04 Struan Robertson
 

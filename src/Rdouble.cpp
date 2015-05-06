@@ -1,5 +1,6 @@
 #include <map>
 #include <stdexcept>
+#include "unitsConversion.h"
 #include "Rdouble.h"
 
 using namespace std;
@@ -110,7 +111,13 @@ namespace mesmer
           depvar->link = pos->second; //pointer to independent variable
           cinfo << it->first << " is derived from " << depvar->linkedname << endl;
           //Debug:
-          cinfo << it->first << " = " << *(it->second) << endl;
+          //cinfo << it->first << " = " << *(it->second) << endl;
+
+          // Convert addand of dependent variable to the units of the independent variable
+          // Currently this works only with energy units (ZPE, deltaEDown),
+          // but could be generalised.
+          if (!depvar->m_units.empty() && !depvar->link->m_units.empty())
+            depvar->set_addand(ConvertEnergy(depvar->m_units, depvar->link->m_units, depvar->addand));
         }
         else
         {
@@ -168,7 +175,8 @@ namespace mesmer
       rdouble.set_link_params(
         pDerivedtxt,
         pp->XmlReadDouble("factor", optional),
-        pp->XmlReadDouble("addand", optional));
+        pp->XmlReadDouble("addand", optional),
+        pp->XmlReadValue("units", optional));
 
       cinfo << name << " will be derived from " << pDerivedtxt
             << ". Check below that this has been found." << endl;

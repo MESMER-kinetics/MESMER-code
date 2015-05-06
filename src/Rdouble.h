@@ -14,8 +14,9 @@ namespace mesmer
   class Rdouble
   {
   private:
+    std::string m_units;
     double value, lower, upper, stepsize, prev;
-	double m_unitConversion ;
+    double m_unitConversion ;
     std::string varname ;
     PersistPtr m_XMLPtr ;
     //linked variable
@@ -26,14 +27,16 @@ namespace mesmer
     static Rdouble* pendingVar;
     static const double eps;
   public:
-    Rdouble(double val=0.0):value(val), lower(NaN), upper(NaN), stepsize(NaN), prev(NaN), m_unitConversion(1.0),
-      varname(), m_XMLPtr(NULL), linkedname(NULL), link(NULL), factor(1.0), addand(0.0){}
+    Rdouble(double val = 0.0, const std::string units = "")
+      : m_units(units), value(val), lower(NaN), upper(NaN),
+        stepsize(NaN), prev(NaN), m_unitConversion(1.0), varname(),
+        m_XMLPtr(NULL), linkedname(NULL), link(NULL), factor(1.0), addand(0.0){}
 
     operator double() const;
     Rdouble& operator = (const double& val);
 
     double set_to_lower() { return value = lower; }
-    void test(){return;}
+    
 
     // Vector of Rdoubles that have a range. 
     // A function, rather than static member variable, for proper initialization.   
@@ -50,13 +53,15 @@ namespace mesmer
     bool get_range(double& lower_, double& upper_, double& stepsize_)const;
 
     const char* get_varname(){ return varname.c_str(); }
-	double get_lower(){ return lower; }
-	double get_upper(){ return upper; }
-	double get_stepsize(){ return stepsize; }
+    double get_lower(){ return lower; }
+    double get_upper(){ return upper; }
+    double get_stepsize(){ return stepsize; }
 
     void set_varname(const std::string& name) { varname = name; }
 
     int get_numsteps(){ return (int)(1 + eps + (upper - lower) / stepsize); } 
+
+    const std::string& get_default_units(){ return m_units; }
 
     // Map of Rdouble names
     // c.f. withRange above. 
@@ -67,14 +72,17 @@ namespace mesmer
       return lr;
     }
 
+    void set_addand(double val){ addand = val; }
     void set_label(const std::string& label) ;
-    void set_link_params(const char* name, double fac, double add)
+    void set_link_params(const char* name, double fac, double add, const char* units)
     {
       linkedname = name;
       if(!IsNan(fac))
         factor = fac;
       if(!IsNan(add))
         addand = add;
+      if (units)
+        m_units = std::string(units);
     }
 
     static bool SetUpLinkedVars();
@@ -87,13 +95,13 @@ namespace mesmer
       m_XMLPtr->XmlWrite(s.str());
     }
 
-	void store_conversion(double conversion_factor) { m_unitConversion = conversion_factor ; }
+    void store_conversion(double conversion_factor) { m_unitConversion = conversion_factor; }
 
-	double originalUnits() const { return value/((m_unitConversion > 0.0) ? m_unitConversion : 1.0) ; } ;
+    double originalUnits() const { return value / ((m_unitConversion > 0.0) ? m_unitConversion : 1.0); };
 
-	double originalUnits(double quantity) const { return quantity/((m_unitConversion > 0.0) ? m_unitConversion : 1.0) ; } ;
+    double originalUnits(double quantity) const { return quantity / ((m_unitConversion > 0.0) ? m_unitConversion : 1.0); };
 
-	void XmlWriteAttribute(const std::string& name, const std::string& value) 
+    void XmlWriteAttribute(const std::string& name, const std::string& value)
     {
       m_XMLPtr->XmlWriteAttribute(name, value) ;
     }

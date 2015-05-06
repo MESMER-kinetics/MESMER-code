@@ -39,7 +39,7 @@ namespace mesmer
     m_RotCstB(0.0),
     m_RotCstC(0.0),
     m_Sym(1.0),
-    m_ZPE(NaN),
+    m_ZPE(NaN,"cm-1"),
     m_scaleFactor(1.0),
     m_SpinMultiplicity(1),
     m_RC_chk(-1),

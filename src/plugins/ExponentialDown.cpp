@@ -38,7 +38,7 @@ public:
   and also does some initialization specific to this class.
   ********************************************************************************/
   ExponentialDown(const char* id) : m_id(id),
-    m_deltaEDown(0.0), m_refTemp(298), m_dEdExp(0.0)
+    m_deltaEDown(0.0,"cm-1"), m_refTemp(298), m_dEdExp(0.0)
   { Register(); }
 
   virtual const char* getID()  { return m_id; } //always required
