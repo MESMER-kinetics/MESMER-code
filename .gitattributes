@@ -324,7 +324,6 @@ MesmerQA/pentyl/pentyl_isomerization_basisset_test.xml -text
 MesmerQA/pentyl/pentyl_isomerization_test.xml -text
 MesmerQA/pentyl/pentyl_isomerize_dissocn.xml -text
 /README -text
-/ToDo -text
 Windows[!!-~]VC10/MESMER.sln -text
 Windows[!!-~]VC10/Mesmer/Mesmer.vcxproj -text
 Windows[!!-~]VC10/TinyXML/TinyXML.vcxproj -text

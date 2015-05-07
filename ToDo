@@ -1,9 +1,0 @@
-//---------------- ToDo list and ideas -----------------
-// Add or remove whenever you think it is proper
-
-Need to think about condition where the pressure is very low. As in Mesmer, the current setting is that the excess reactant 
-concentration is fixed in all pressure and temperature, there should be cases where the total pressure is lower than the
-excess reactant concentration, which runs into an error.
-
-Moved countDimerCellDOS() to MesmerMath. The idea is to clean this DOSC method class to an extent that it can be 
-called repeatedly. Therofore, all unrelated internal methods should be isolated out from this class.
