@@ -737,7 +737,7 @@
     <h4><xsl:value-of select="../@id"/></h4>
     <table class="thermo">
         <tr>
-          <td>Temp</td> <td>H(T)</td> <td>S(T)</td> <td>G(T)</td>
+          <td>Temp</td> <td>H(T)-H(0)</td> <td>S(T)-S(0)</td> <td>G(T)-G(0)</td>
           <xsl:if test="@unitsHf"><td>&#916;Hf</td></xsl:if>
         </tr>
         <tr>

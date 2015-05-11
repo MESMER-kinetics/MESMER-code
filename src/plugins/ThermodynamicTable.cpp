@@ -204,7 +204,7 @@ namespace mesmer
           enthalpy, entropy, gibbsFreeEnergy);
         PersistPtr ppVal = pp->XmlWriteElement("me:thermoValue");
         ppVal->XmlWriteAttribute("T", T, 2, true);
-        ppVal->XmlWriteAttribute("H", enthalpy - enthalpy298, 4, true);
+        ppVal->XmlWriteAttribute("H", enthalpy, 4, true);
         ppVal->XmlWriteAttribute("S", entropy*1000, 4, true);
         ppVal->XmlWriteAttribute("G", gibbsFreeEnergy, 4, true);
         if (!IsNan(Hf298local))
