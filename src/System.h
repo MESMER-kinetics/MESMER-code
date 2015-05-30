@@ -21,7 +21,7 @@
 #include "CollisionOperator.h"
 #include "ConditionsManager.h"
 
-#define MESMER_VERSION "4.0"
+#define MESMER_VERSION "5.0"
 
 namespace mesmer
 {

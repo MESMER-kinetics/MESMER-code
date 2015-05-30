@@ -1,3 +1,10 @@
+2015-May-30 Struan Robertson
+
+    * System.h, Documentation: Version changes.
+
+    * HinderedRotorQM1D.cpp: Added sine kinetic energy terms for angle dependent internal
+	moment of rotation.
+
 2015-May-06 Chris Morley
 
     Fix the use of the internal units (cm-1) when derivedFrom used

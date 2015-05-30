@@ -72,7 +72,7 @@ namespace mesmer
     void outputStateData() const ;
 
     // Determine the Fourier components of the reciprocal moment of inertia.
-    void MoIFourierCoeffs() ;
+    void RMoIFourierCoeffs() ;
 
     int    m_periodicity;
 
@@ -141,6 +141,7 @@ namespace mesmer
     // be read in or calculated if the coordinates are available.
 
     m_kineticCosCoeff.clear() ;
+    m_kineticSinCoeff.clear() ;
     PersistPtr pp = ppDOSC->XmlMoveTo("me:InternalRotorInertia") ;
 
     if (pp) {
@@ -169,20 +170,24 @@ namespace mesmer
       }
 
       if (units == "amuA^2") {
-        MoIFourierCoeffs() ;
+        RMoIFourierCoeffs() ;
       }
 
     } else {
 
+	  // No inertia terms red in so let us see if they are to be calculated.
+	  // If so, set the appropriate flags.
+
       pp = ppDOSC->XmlMoveTo("me:CalculateInternalRotorInertia") ;
       if (pp) {
         set_CalIntrlIrt(true) ;
-		double phase(0.0) ;
-		phase = pp->XmlReadDouble("phaseDifference", optional);
-		set_Phase(phase) ;
+        double phase(0.0) ;
+        phase = pp->XmlReadDouble("phaseDifference", optional);
+        set_Phase(phase) ;
       } else {
 
-        // Calculate reduced moment of inertia.
+        // No information supplied, so simply calculate reduced moment of inertia
+		// for current configuration.
 
         double reducedMoI(gs.reducedMomentInertia(bondats)) ;  // Units a.u.*Angstrom*Angstrom.
         m_kineticCosCoeff.push_back(conMntInt2RotCnt/reducedMoI) ;
@@ -330,7 +335,7 @@ namespace mesmer
   //
   bool HinderedRotorQM1D::countCellDOS(gDensityOfStates* pDOS, const MesmerEnv& env)
   {
-	const size_t MaximumCell = env.MaxCell ;
+    const size_t MaximumCell = env.MaxCell ;
 
     vector<double> cellDOS;
     if(!pDOS->getCellDensityOfStates(cellDOS, 0, false)) // Retrieve the DOS vector without re-calculating.
@@ -343,17 +348,18 @@ namespace mesmer
     const bool useSinTerms = get_UseSinTerms() ;
     const bool calIntrlIrt = get_CalIntrlIrt() ;
 
-	// Calculate the (angle dependent) internal moment of inertia. This
-	// has to be done at the point in order to capture any interaction
-	// with other internal rotors.
+    // Calculate the (angle dependent) internal moment of inertia. This
+    // has to be done at this point in order to capture any interaction
+    // with other internal rotors.
 
-	if (calIntrlIrt) {
-	  gStructure& gs = pDOS->getHost()->getStruc();
-	  size_t nAngle(36) ;
-	  vector<double> angle(nAngle,0.0), redInvMOI ;
-	  gs.reducedMomentInertiaAngular(get_BondID(), get_Phase(), angle, redInvMOI, m_ppConfigData) ;  // Units a.u.*Angstrom*Angstrom.
-	  FourierCosCoeffs(angle, redInvMOI, m_kineticCosCoeff, get_Expansion()) ;
-	}
+    if (calIntrlIrt) {
+      gStructure& gs = pDOS->getHost()->getStruc();
+      size_t nAngle(36) ;
+      vector<double> angle(nAngle,0.0), redInvMOI ;
+      gs.reducedMomentInertiaAngular(get_BondID(), get_Phase(), angle, redInvMOI, m_ppConfigData) ;  // Units a.u.*Angstrom*Angstrom.
+      FourierCosCoeffs(angle, redInvMOI, m_kineticCosCoeff, get_Expansion()) ;
+      FourierSinCoeffs(angle, redInvMOI, m_kineticSinCoeff, get_Expansion()) ;
+    }
 
     // Find maximum quantum No. for rotor. To ensure convergence basis functions 
     // that span a range twice that request are used with a minimum of 100000
@@ -405,7 +411,8 @@ namespace mesmer
           int k = stateIndicies[i] ;
           for (size_t j(0) ; j < nstates; j++) {
             int jj = stateIndicies[j] ;
-            hamiltonian[i][j] += matrixElement*( (((k - jj + m) == 0) ? double(k*(k + m)) : 0.0) +
+            hamiltonian[i][j] += matrixElement*( 
+			  (((k - jj + m) == 0) ? double(k*(k + m)) : 0.0) +
               (((k - jj - m) == 0) ? double(k*(k - m)) : 0.0) ) ;
           }
         }
@@ -422,7 +429,8 @@ namespace mesmer
         }
       }
 
-      // Now, construct the off-diagonal sine potential terms, placing result in the lower left off-diagoanl block.
+      // Now, construct the off-diagonal sine potential terms,
+	  // placing result in the lower left off-diagoanl block.
 
       for (int n(1); n < int(potentialSinCoeff.size()) && n <= kmax ; n++) {
         double matrixElement = potentialSinCoeff[n]/2.0 ; 
@@ -430,12 +438,30 @@ namespace mesmer
           for (size_t j(0) ; j < nstates; j++) {
             hamiltonian[nstates + i][j] += matrixElement*( 
               (((stateIndicies[j] - stateIndicies[i] - n) == 0) ? 1.0 : 0.0)
-              -	(((stateIndicies[j] - stateIndicies[i] + n) == 0) ? 1.0 : 0.0) ) ;
+            - (((stateIndicies[j] - stateIndicies[i] + n) == 0) ? 1.0 : 0.0) ) ;
           }
         }
       }
 
-      // Now, copy the negated off-diagonal sine potential terms to the upper right off-diagonal block.
+      // Add off-diagonal sine kinetic terms.
+
+      if (m_kineticSinCoeff.size() > 1) {
+		for (int m(1); m < int(m_kineticSinCoeff.size()) && m <= kmax ; m++) {
+		  double matrixElement = -m_kineticSinCoeff[m]/2.0 ; 
+		  for (size_t i(0) ; i < nstates; i++) {
+			int k = stateIndicies[i] ;
+			for (size_t j(0) ; j < nstates; j++) {
+			  int jj = stateIndicies[j] ;
+			  hamiltonian[nstates + i][j] += matrixElement*( 
+				(((k - jj + m) == 0) ? double(k*(k + m)) : 0.0) -
+				(((k - jj - m) == 0) ? double(k*(k - m)) : 0.0) ) ;
+			}
+		  }
+		}
+      }
+
+	  // Now, copy the negated off-diagonal sine potential and kinetic terms
+	  // to the upper right off-diagonal block.
 
       for (size_t i(0), ii(nstates); i < nstates; i++, ii++) {
         for (size_t j(0), jj(nstates); j < nstates; j++, jj++) {
@@ -443,11 +469,6 @@ namespace mesmer
         }
       }
 
-      // Add off-diagonal sine kinetic terms.
-
-      if (m_kineticSinCoeff.size() > 1) {
-        // Hmmm... Do these occur? Are they large? 
-      }
     }
 
     // Now diagonalize hamiltonian matrix to determine energy levels.
@@ -593,7 +614,7 @@ namespace mesmer
   }
 
   // Determine the Fourier components of the reciprocal moment of inertia.
-  void HinderedRotorQM1D::MoIFourierCoeffs() {
+  void HinderedRotorQM1D::RMoIFourierCoeffs() {
 
     size_t ndata = m_kineticCosCoeff.size() ;
 
