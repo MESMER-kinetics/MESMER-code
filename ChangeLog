@@ -1,3 +1,11 @@
+2015-June-07 Struan Robertson
+
+    * PseudoIsomerization.cpp/.h: Added modified prior distribution to account for non-
+	excitation of spectator modes.
+
+    * AnalyticalRepresentation.cpp: Set Max temperature in order to prevent unnecessary 
+	re-calculation of densities of state.
+
 2015-May-30 Struan Robertson
 
     * System.h, Documentation: Version changes.

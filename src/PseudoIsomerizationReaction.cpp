@@ -161,4 +161,37 @@ namespace mesmer
     }
     return ;
   }
+
+  void modPriorDist::initialize(PseudoIsomerizationReaction *pReaction) {
+
+    m_pReaction = pReaction ; 
+
+    Molecule* pXsRct = m_pReaction->get_excessReactant() ;
+    Molecule* pRct   = m_pReaction->get_reactant() ;
+
+    vector<double> xsDOS;
+    pXsRct->getDOS().getCellDensityOfStates(xsDOS);
+
+    pRct->getDOS().getCellDensityOfStates(m_rctDOS);
+
+    // The (classical) translational density of states. Prefactors are not included 
+    // because they cancel on normalization.
+
+    size_t Size = xsDOS.size();
+    vector<double> Trans_DOS ;
+    getCellEnergies(Size, pRct->getEnv().CellSize, Trans_DOS) ;
+    for (size_t i(0) ; i < Trans_DOS.size() ; i++) {
+      Trans_DOS[i] = sqrt(Trans_DOS[i]) ;
+    }
+
+    for (size_t i(0) ; i < m_rctDOS.size() ; i++) {
+      m_rctDOS[i] = pow(m_rctDOS[i], 0.25) ;
+    }
+
+    FastLaplaceConvolution(xsDOS, Trans_DOS, m_upperConv);
+
+    FastLaplaceConvolution(m_upperConv, m_rctDOS, m_lowerConv);
+
+  } ;
+
 }//namespace

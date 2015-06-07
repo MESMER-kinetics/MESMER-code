@@ -84,7 +84,7 @@ namespace mesmer
 	  m_lowerConv.clear() ;
 	};
 
-  private: 
+  protected: 
 
 	PseudoIsomerizationReaction *m_pReaction ;
 
@@ -93,6 +93,21 @@ namespace mesmer
 	vector<double> m_upperConv;
     
 	vector<double> m_lowerConv;
+
+  } ;
+
+  class modPriorDist : public priorDist 
+  {
+  public: 
+
+	// Constructors.
+	modPriorDist(){} ;
+
+    // Destructor.
+    virtual ~modPriorDist(){} ;
+
+	// Initialize the fragment distribution.
+	virtual void initialize(PseudoIsomerizationReaction *pReaction) ;
 
   } ;
 
@@ -120,7 +135,19 @@ namespace mesmer
 
 	// Initialize reaction.
     virtual bool InitializeReaction(PersistPtr ppReac) {
-	  m_fragDist = new priorDist() ;
+	 
+	  // Determine fragmentation model.
+	  PersistPtr ppDistribution = ppReac->XmlMoveTo("me:FragmentDist");
+	  if (!ppDistribution)
+		 m_fragDist = new priorDist() ;
+	  else {
+		const char* txt = ppReac->XmlReadValue("me:FragmentDist") ;
+		string fragMod(txt) ;
+		if (fragMod == "modPrior") 
+		  m_fragDist = new modPriorDist() ;
+		else 
+		  m_fragDist = new priorDist() ;
+	  }
 	  return AssociationReaction::InitializeReaction(ppReac) ;
 	};
 

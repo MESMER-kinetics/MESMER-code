@@ -211,6 +211,8 @@ namespace mesmer
 		// Warnings and less not sent to console.
 		ChangeErrorLevel e(obError);
 
+		pSys->getEnv().MaximumTemperature = m_TMax ;
+
 		// First gets some points. Need to get chebyshev grid points and transform back to (T,P) condition set.
 
 		vector<double> TGrid(m_NTpt);
