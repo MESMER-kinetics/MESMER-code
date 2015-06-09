@@ -1,3 +1,8 @@
+2015-June-09 Struan Robertson
+
+    * PseudoIsomerization.cpp/.h: Altered modified prior distribution allow for fitting
+	of order parameter.
+
 2015-June-07 Struan Robertson
 
     * PseudoIsomerization.cpp/.h: Added modified prior distribution to account for non-

@@ -101,13 +101,22 @@ namespace mesmer
   public: 
 
 	// Constructors.
-	modPriorDist(){} ;
+	modPriorDist(PersistPtr ppFragDist) : priorDist() {
+	  m_order = ppFragDist->XmlReadDouble("me:order") ;
+	  bool rangeSet(false) ;
+	  PersistPtr ppOrder = ppFragDist->XmlMoveTo("me:order") ;
+      ReadRdoubleRange(string(":modPriorOrder"), ppOrder, m_order, rangeSet) ;  
+	} ;
 
     // Destructor.
     virtual ~modPriorDist(){} ;
 
 	// Initialize the fragment distribution.
 	virtual void initialize(PseudoIsomerizationReaction *pReaction) ;
+
+  private:
+
+	Rdouble m_order ;
 
   } ;
 
@@ -135,18 +144,18 @@ namespace mesmer
 
 	// Initialize reaction.
     virtual bool InitializeReaction(PersistPtr ppReac) {
-	 
+
 	  // Determine fragmentation model.
-	  PersistPtr ppDistribution = ppReac->XmlMoveTo("me:FragmentDist");
-	  if (!ppDistribution)
-		 m_fragDist = new priorDist() ;
-	  else {
-		const char* txt = ppReac->XmlReadValue("me:FragmentDist") ;
-		string fragMod(txt) ;
-		if (fragMod == "modPrior") 
-		  m_fragDist = new modPriorDist() ;
+	  PersistPtr ppDstbn = ppReac->XmlMoveTo("me:FragmentDist");
+	  if (ppDstbn) {
+		const char* ptxt = ppDstbn->XmlReadValue("xsi:type",optional); ;
+		string fragMod(ptxt) ;
+		if (fragMod == "me:modPrior") 
+		  m_fragDist = new modPriorDist(ppDstbn) ;
 		else 
 		  m_fragDist = new priorDist() ;
+	  } else {
+		m_fragDist = new priorDist() ;
 	  }
 	  return AssociationReaction::InitializeReaction(ppReac) ;
 	};

@@ -185,7 +185,7 @@ namespace mesmer
     }
 
     for (size_t i(0) ; i < m_rctDOS.size() ; i++) {
-      m_rctDOS[i] = pow(m_rctDOS[i], 0.25) ;
+      m_rctDOS[i] = pow(m_rctDOS[i], m_order) ;
     }
 
     FastLaplaceConvolution(xsDOS, Trans_DOS, m_upperConv);
