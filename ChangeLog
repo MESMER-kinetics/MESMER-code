@@ -1,3 +1,7 @@
+2015-June-22 Struan Robertson
+
+    * gstructure.cpp: Fix for internal rotation alignment bug.
+
 2015-June-09 Struan Robertson
 
     * PseudoIsomerization.cpp/.h: Altered modified prior distribution allow for fitting

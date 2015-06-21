@@ -8,7 +8,7 @@ using namespace OpenBabel;
 
 namespace mesmer
 {
-	gStructure::gStructure(mesmer::Molecule *pMol) : m_MolecularWeight(-1),
+  gStructure::gStructure(mesmer::Molecule *pMol) : m_MolecularWeight(-1),
     m_PrincipalMI(3, 0.0),
     m_AxisAlignment(NULL),
     Atoms(),
@@ -41,7 +41,7 @@ namespace mesmer
   {
     map<string, int> Composition;
     if (!Atoms.empty())
-     for (map<string, atom>::const_iterator it = Atoms.begin(); it != Atoms.end(); ++it)
+      for (map<string, atom>::const_iterator it = Atoms.begin(); it != Atoms.end(); ++it)
         ++Composition[it->second.element];
     return Composition;
   }
@@ -349,33 +349,43 @@ namespace mesmer
       // Rotate molecule so that the at1-at2 bond is along z -axis.
 
       vector3 bond = at2.coords;
-      dMatrix rotY(3, 0.0);
-      double cosTheta = bond.z() / bond.length();
-      double sinTheta = sqrt(1.0 - min(1.0, cosTheta*cosTheta));
-      rotY[0][0] = rotY[2][2] = cosTheta;
-      rotY[1][1] = 1.0;
-      rotY[0][2] = sinTheta;
-      rotY[2][0] = -rotY[0][2];
-
       dMatrix rotZ(3, 0.0);
       double radius = sqrt(bond.x()*bond.x() + bond.y()*bond.y());
+      double sgn = (bond.x()*bond.y() > 0.0) ? 1.0 : -1.0 ;
       double cosPhi(0.0);
       double sinPhi(0.0);
       if (radius > 0.0) {
-        cosPhi = bond.x() / radius;
-        sinPhi = bond.y() / radius;
+        cosPhi =     fabs(bond.x() / radius) ;
+        sinPhi = sgn*fabs(bond.y() / radius) ;
       }
       rotZ[0][0] = rotZ[1][1] = cosPhi;
       rotZ[2][2] = 1.0;
       rotZ[0][1] = sinPhi;
       rotZ[1][0] = -rotZ[0][1];
 
-      dMatrix rotA = rotY*rotZ;
+      for (iter = Atoms.begin(); iter != Atoms.end(); ++iter) {
+        vector<double> r(3, 0.0);
+        iter->second.coords.Get(&r[0]);
+        r *= rotZ;
+        iter->second.coords.Set(&r[0]);
+      }
+	  bond = at2.coords;
+
+      exportToXYZ("at2_inXZ");
+
+      dMatrix rotY(3, 0.0);
+      sgn = (bond.z()*bond.x() > 0.0) ? 1.0 : -1.0 ;
+      double cosTheta =     fabs(bond.z() / bond.length()) ;			
+      double sinTheta = sgn*fabs(bond.x() / bond.length());
+      rotY[0][0] = rotY[2][2] = cosTheta;
+      rotY[1][1] = 1.0;
+      rotY[0][2] = -sinTheta ;
+      rotY[2][0] = sinTheta ;
 
       for (iter = Atoms.begin(); iter != Atoms.end(); ++iter) {
         vector<double> r(3, 0.0);
         iter->second.coords.Get(&r[0]);
-        r *= rotA;
+        r *= rotY;
         iter->second.coords.Set(&r[0]);
       }
 
@@ -652,7 +662,7 @@ namespace mesmer
     if (Comp.empty())
     {
       cerr << "To mix thermodynamic and computational energies "
-              "the molecule needs chemical structure (an atomList at least)" << endl;
+        "the molecule needs chemical structure (an atomList at least)" << endl;
       return false;
     }
     ZPE = Hf0 = Hf298 = dH298 = dStdH298 = 0.0;
