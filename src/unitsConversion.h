@@ -35,12 +35,15 @@ namespace mesmer
   // mapping the conversion of energy
   static std::map<std::string, double> energyMap;
 
+  // mapping the conversion of time
+  static std::map<std::string, double> timeMap;
+
   void initializeConversionMaps();
   double getConvertedP(const string& unitInput, const double concentrationInput, const double temperatureInp);
   double getConvertedEnergy(const string& unitInput, const double energyInput);
   double ConvertFromWavenumbers(const string& unitInput, const double energyInput);
   double ConvertEnergy(const string& unitInput, const string& unitOutput, const double energyInput);
-
+  double getConvertedTime(const string& unitInput, const double timeInput);
 }//namespace
 
 #endif // GUARD_unitsConversion_h

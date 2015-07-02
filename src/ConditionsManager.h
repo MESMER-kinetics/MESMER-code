@@ -30,6 +30,12 @@ struct conditionSet
   double m_error;
 };
 
+struct RawDataSet
+{
+  std::vector<std::pair<double, double>> data;
+  const char* m_Name;
+  double m_StartTime;           //sec
+};
 
 // To make sure if there is a concentration or pressure definition, there is a temperature definition.
 struct CandTpair{
@@ -44,6 +50,7 @@ struct CandTpair{
   std::vector<conditionSet> m_yields;
   std::vector<conditionSet> m_eigenvalues;
   std::vector<PersistPtr> m_expDataPtrs;
+  std::vector<RawDataSet> m_rawDataSets;
 
   CandTpair(double cp_, double t_, Precision _pre, const char* _bathGas,
             const map<Reaction*,double>& _excessConcs)
@@ -65,8 +72,8 @@ struct CandTpair{
     m_eigenvalues.push_back(conditionSet(std::string(""), std::string(""), eigenvalueID, value, error)) ;
     m_expDataPtrs.push_back(ppData);
   }
-
 };
+
 
 //****************************************************************************************************
 class ConditionsManager
@@ -108,8 +115,11 @@ public:
   //Collect bath gas names from PandTs
   void getAllBathGases(std::set<std::string>& bathGases);
 
+  void AddRawDataSet(RawDataSet ds){ RawDataSets.push_back(ds); }
+  RawDataSet GetRawDataSet(const unsigned index) const { return RawDataSets[index]; }
+
 private:
-  void readPTs();
+  bool readPTs();
 
   bool ReadRange(const std::string&    name,
     std::vector<double>&  vals,
@@ -126,6 +136,9 @@ private:
 
   // Paired concentration and pressure points.
   std::vector<CandTpair> PandTs;
+
+  // All the raw data sets in this conditions block
+  std::vector < RawDataSet > RawDataSets;
 
 };
 

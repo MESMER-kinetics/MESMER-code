@@ -132,27 +132,53 @@
                       </xs:simpleContent>
                     </xs:complexType>
                   </xs:element>
+                  <xs:element name="rawData" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="times">
+                          <xs:complexType>
+                            <xs:simpleContent>
+                              <xs:extension base="xs:string">
+                                <xs:attribute name="name" type="xs:string" use="optional"/>
+                                <xs:attribute name="startTime" type="xs:float" use="optional"/>
+                              </xs:extension>
+                            </xs:simpleContent>
+                          </xs:complexType>
+                        </xs:element>
+                        <xs:element name="signals">
+                          <xs:complexType>
+                            <xs:simpleContent>
+                              <xs:extension base="xs:string">
+                              </xs:extension>
+                            </xs:simpleContent>
+                          </xs:complexType>
+                        </xs:element>
+                      </xs:sequence>
+                      <xs:attribute name="name" type="xs:string" />
+                      <xs:attribute name="startTime" type="xs:float" />
+                    </xs:complexType>
+                  </xs:element>
                 </xs:sequence>
+                <!--attributes on PTpair-->
+                <xs:attribute name="P" type="xs:float" use="optional" />
+                <xs:attribute name="T" type="xs:float" use="optional" />
                 <xs:attribute name="units" type="me:concUnitsType" />
+                <xs:attribute name="timeUnits" type="me:timeUnitsType" />
                 <xs:attribute name="bathGas" type="cml:refType"/>
-                <xs:attribute name="P" type="xs:float" use="required" />
-                <xs:attribute name="T" type="xs:float" use="required" />
-                <xs:attribute name="precision" type="me:precisionType" use="optional"/>
                 <xs:attribute name="excessReactantConc" type="xs:float" use="optional"/>
-                <xs:attribute name="refReaction" type="cml:idType" use="optional"/>
-                <xs:attribute name="default" type="me:ynboolean" use="optional"/>
+                <xs:attribute name="startTime" type="xs:float" />
               </xs:complexType>
             </xs:element>
           </xs:sequence>
-          <!--common attributes-->
-          <xs:attribute name="precision" type="me:precisionType" use="optional"/>
+          <!--common attributes on  <me:PTs>-->
           <xs:attribute name="units" type="me:concUnitsType" />
-          <xs:attribute name="ref1" type="cml:moleculeIDType"/>
-          <xs:attribute name="ref2" type="cml:moleculeIDType"/>
-          <xs:attribute name="refReaction" type="cml:idType"/>
-          <xs:attribute name="refReactionExcess" type="cml:idType"/>
-          <xs:attribute name="bathGas" type="cml:idType"/>
-          <xs:attribute name="excessReactantConc" type="xs:float"/>
+          <xs:attribute name="bathGas" type="cml:refType"/>
+          <xs:attribute name="precision" type="me:precisionType" use="optional"/>
+          <xs:attribute name="excessReactantConc" type="xs:float" use="optional"/>
+          <xs:attribute name="refReaction" type="cml:idType" use="optional"/>
+          <xs:attribute name="default" type="me:ynboolean" use="optional"/>
+          <xs:attribute name="timeUnits" type="me:timeUnitsType" />
+          <xs:attribute name="startTime" type="xs:float" />
         </xs:complexType>
       </xs:element>
       <xs:element name="InitialPopulation" minOccurs="0">
@@ -164,7 +190,7 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-  
+
   <xs:complexType name="modelParametersType">
     <xs:sequence>
       <xs:element name="cellSize" type="xs:float" minOccurs="0">
@@ -289,7 +315,20 @@
       <xs:enumeration value="all"/>
     </xs:restriction>
   </xs:simpleType>
-  
+
+  <xs:simpleType name="timeUnitsType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="sec"/>
+      <xs:enumeration value="s"/>
+      <xs:enumeration value="millisec"/>
+      <xs:enumeration value="msec"/>
+      <xs:enumeration value="ms"/>
+      <xs:enumeration value="microsec"/>
+      <xs:enumeration value="usec"/>
+      <xs:enumeration value="us"/>
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="energyUnitsType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="cm-1"/>

@@ -1,3 +1,4 @@
+#include <functional>
 #include "Persistence.h"
 #include "System.h"
 #include "ConditionsManager.h"
@@ -30,7 +31,7 @@ bool ConditionsManager::ParseConditions()
   for(vector<Reaction*>::iterator it=pReacts.begin();it!=pReacts.end();++it)
     baseExcessConcs[*it] = (*it)->get_concExcessReactant();
 
-  readPTs();
+  if(!readPTs()) return false;
   if (!PandTs.size())
     cerr << "No pressure and temperature specified." << endl;
 
@@ -56,9 +57,8 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
   return status ;
 }
 
-  // pop the P and T points into PandTs
   // This is a function for reading concentration/pressure and temperature conditions.
-  void ConditionsManager::readPTs()
+  bool ConditionsManager::readPTs()
   {
     PersistPtr pp = m_ppConditions;
     while(pp = pp->XmlMoveTo("me:PTs")) //can have multiple <me:PTs>
@@ -91,7 +91,7 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
 
         std::vector<double> Pvals, Tvals;
         if(!ReadRange("me:Prange", Pvals, ppPTset) || !ReadRange("me:Trange", Tvals, ppPTset))
-          return;
+          return false;
 
         const char* bathGasName = m_pSys->getMoleculeManager()->get_BathGasName().c_str();
         for (size_t i(0) ; i < Pvals.size(); ++i){
@@ -121,10 +121,10 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
       PersistPtr ppPTpair = pp->XmlMoveTo("me:PTpair");
       while (ppPTpair){
         string this_units;
-        txt = ppPTpair->XmlReadValue("units", optional);
+         //use default only if there are no common units specified
+        txt = ppPTpair->XmlReadValue("units", !common_units);
         if(!txt)
-          //use default only if there are no common units specified
-          txt = ppPTpair->XmlReadValue("me:units", !common_units);
+          txt = ppPTpair->XmlReadValue("me:units", optional);
         if (txt)
           this_units = txt;
         else if(common_units)
@@ -296,10 +296,59 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
           ppExpRate = ppExpRate->XmlMoveTo("me:experimentalEigenvalue"); //***do we need to loop here?
         }
 
+        //Read in all experimental time-series data for analysis
+
+        double startTime = ppPTpair->XmlReadDouble("startTime", optional); //attribute on PTPair
+        string timeUnits = ppPTpair->XmlReadValue("timeUnits");
+        bool rawDataOK = true;
+        PersistPtr ppRawData;
+        while (ppRawData = ppPTpair->XmlMoveTo("me:rawData"))
+        {
+          RawDataSet ds;
+          ds.m_Name = ppRawData->XmlReadValue("name", optional);
+          ds.m_StartTime = ppRawData->XmlReadDouble("startTime", optional);//attribute on rawData
+          if(IsNan(ds.m_StartTime))
+            ds.m_StartTime = startTime;//attribute on PTPair
+          startTime = ds.m_StartTime;
+
+          if (!(ppRawData->XmlMoveTo("me:times") && ppRawData->XmlMoveTo("me:signals")))
+          {
+            cerr << "Missing me:times or me:signals element" << endl;
+            return false;
+          }
+          stringstream times(ppRawData->XmlReadValue("me:times", optional));
+          stringstream signals(ppRawData->XmlReadValue("me:signals", optional));
+          double t, val;
+          while (times && signals)
+          {
+            times >> t;
+            signals >> val;
+            ds.data.push_back(make_pair(getConvertedTime(timeUnits, t), val));
+          }
+
+          if (times || signals)
+          {
+            cerr << "In the rawData set " << ds.m_Name
+              << " the number of times is not equal to the number of signals.";
+            rawDataOK = false; //but check other rawData sets first
+          }
+
+          //If startTime has been specified, remove data before startTime 
+          if (!IsNan(startTime))
+            ds.data.erase(remove_if(ds.data.begin(), ds.data.end(),
+              [startTime](pair<double,double> pr){return pr.first < startTime;})); //C++11 - rewrite?
+
+          thisPair.m_rawDataSets.push_back(ds);
+        }
+
+        if (!rawDataOK) return false;
+
         PandTs.push_back(thisPair);
         ppPTpair = ppPTpair->XmlMoveTo("me:PTpair");
       }
+
     }
+    return true;
   }
 
   bool ConditionsManager::ReadRange(const string& name, vector<double>& vals, PersistPtr ppbase, bool MustBeThere)

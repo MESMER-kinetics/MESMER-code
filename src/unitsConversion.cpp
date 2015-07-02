@@ -100,6 +100,14 @@ namespace mesmer
     energyMap["kcal per mol"] = kCalPerMol_in_RC;
     energyMap["Hartree"]      = Hartree_In_kJperMol * kJPerMol_in_RC;
     energyMap["au"]           = Hartree_In_kJperMol * kJPerMol_in_RC;
+
+    timeMap["sec"]      = 1.0; //internal time units
+    timeMap["msec"]     = 1.0e-3;
+    timeMap["millisec"] = 1.0e-3;
+    timeMap["usec"]     = 1.0e-6;
+    timeMap["microsec"] = 1.0e-6;
+    timeMap["nsec"]     = 1.0e-9;
+    timeMap["nanosec"]  = 1.0e-9;
   }
 
   // Returns particles per cubic centimeter no matter what unit the user has provided.
@@ -137,12 +145,29 @@ namespace mesmer
       cinfo << "No energy units specified" << endl;
       return energyInput;
     }
-    else if(energyMap.count(unitInput)==0) {
+    else if(energyMap.count(unitInput)==0) 
+    {
       cerr << "Unrecognized energy unit: " + unitInput << endl;
       return 0.;
     }
     return energyInput * energyMap[unitInput];
-    
+  }
+
+  double getConvertedTime(const string& unitInput, const double timeInput)
+  {
+    if (unitInput.empty())
+    {
+      cinfo << "No time units specified" << endl;
+      return timeInput;
+    }
+    else if (timeMap.count(unitInput) == 0)
+    {
+      cerr << "Unrecognized time unit: " + unitInput << endl;
+      return 0.;
+    }
+    return timeInput * timeMap[unitInput];
+  }
+
 /*    // switch
     switch (energyMap[unitInput])
     {
@@ -157,7 +182,7 @@ namespace mesmer
     }
     return 0.;
 */
-  }
+  
   //Given energyInput in cm-1 returns value in specified units (no check on units validity)
   double ConvertFromWavenumbers(const string& unitInput, const double energyInput)
   {
