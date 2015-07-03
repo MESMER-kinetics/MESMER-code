@@ -301,15 +301,23 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
         double startTime = ppPTpair->XmlReadDouble("startTime", optional); //attribute on PTPair
         string timeUnits = ppPTpair->XmlReadValue("timeUnits");
         bool rawDataOK = true;
-        PersistPtr ppRawData;
-        while (ppRawData = ppPTpair->XmlMoveTo("me:rawData"))
+        PersistPtr ppRawData = ppPTpair;
+        while (ppRawData = ppRawData->XmlMoveTo("me:rawData"))
         {
           RawDataSet ds;
           ds.m_Name = ppRawData->XmlReadValue("name", optional);
-          ds.m_StartTime = ppRawData->XmlReadDouble("startTime", optional);//attribute on rawData
-          if(IsNan(ds.m_StartTime))
-            ds.m_StartTime = startTime;//attribute on PTPair
-          startTime = ds.m_StartTime;
+          double startTime2 = ppRawData->XmlReadDouble("startTime", optional);//attribute on rawData
+          if (!IsNan(startTime2))
+            startTime = startTime2;
+
+          ds.m_excessConc = ppRawData->XmlReadDouble("excessReactantConc", optional);
+          if (IsNan(ds.m_excessConc))
+            ds.m_excessConc = excessConc; //from PTPair
+          if (IsNan(ds.m_excessConc))
+          {
+            cerr << "Missing excessReactantConc on rawData (and not on PTPair)" << endl;
+            return false;
+          }
 
           if (!(ppRawData->XmlMoveTo("me:times") && ppRawData->XmlMoveTo("me:signals")))
           {

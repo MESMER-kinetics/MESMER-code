@@ -34,7 +34,7 @@ struct RawDataSet
 {
   std::vector<std::pair<double, double>> data;
   const char* m_Name;
-  double m_StartTime;           //sec
+  double m_excessConc;
 };
 
 // To make sure if there is a concentration or pressure definition, there is a temperature definition.
@@ -115,8 +115,7 @@ public:
   //Collect bath gas names from PandTs
   void getAllBathGases(std::set<std::string>& bathGases);
 
-  void AddRawDataSet(RawDataSet ds){ RawDataSets.push_back(ds); }
-  RawDataSet GetRawDataSet(const unsigned index) const { return RawDataSets[index]; }
+  RawDataSet get_rawDataSet(const unsigned index) const { return RawDataSets[index]; }
 
 private:
   bool readPTs();
