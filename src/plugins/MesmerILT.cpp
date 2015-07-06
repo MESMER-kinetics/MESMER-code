@@ -65,7 +65,7 @@ namespace mesmer
     bool calculateUnimolecularMicroRates(Reaction* pReact);
     
     bool UnimolecularConvolution(Reaction* pReact);
-    bool BimolecularConvolution(Reaction* pReact, vector<double>& ConvolvedCellDOS, double ma, double mb, double mc) const ;
+    bool BimolecularConvolution(Reaction* pReact, vector<double>& ConvolvedCellDOS, double ma, double mb) const ;
     
   private:
     const char* m_id;
@@ -289,15 +289,14 @@ namespace mesmer
 
       const double ma = p_pdt1->getStruc().getMass();
       const double mb = p_pdt2->getStruc().getMass();
-      const double mc = p_rct1->getStruc().getMass();
-
+ 
       // Allocate some work space for density of states and extract densities of states from molecules.
       vector<double> pdtsCellDOS; // Convoluted cell density of states of reactants.
       
       if(!countDimerCellDOS(p_pdt1->getDOS(), p_pdt2->getDOS(), pdtsCellDOS))
         return false;
 
-      BimolecularConvolution(pReact, pdtsCellDOS, ma, mb, mc) ;
+      BimolecularConvolution(pReact, pdtsCellDOS, ma, mb) ;
 
       relative_ZPE = pReact->get_relative_pdtZPE();
 
@@ -330,7 +329,7 @@ namespace mesmer
 
     const double ma = p_rct1->getStruc().getMass();
     const double mb = p_rct2->getStruc().getMass();
-    const double mc = p_pdt1->getStruc().getMass();
+    const double mc = ma + mb ;
 
     // Allocate some work space for density of states and extract densities of states from molecules.
     vector<double> rctsCellDOS; // Convoluted cell density of states of reactants.
@@ -339,7 +338,7 @@ namespace mesmer
 
     // Perform convolution.
 
-    BimolecularConvolution(pReact, rctsCellDOS, ma, mb, mc) ;
+    BimolecularConvolution(pReact, rctsCellDOS, ma, mb) ;
 
     // the flux bottom energy is equal to the well bottom of the reactant
     pAssocReaction->setCellFluxBottom(pReact->get_relative_rctZPE() + m_EInf);
@@ -402,7 +401,7 @@ namespace mesmer
     return true;
   }
 
-  bool MesmerILT::BimolecularConvolution(Reaction* pReact, vector<double>& ConvolvedCellDOS, double ma, double mb, double mc) const
+  bool MesmerILT::BimolecularConvolution(Reaction* pReact, vector<double>& ConvolvedCellDOS, double ma, double mb) const
   {
     //
     // Initialize reaction flux vector.
@@ -418,13 +417,14 @@ namespace mesmer
     // tp_C = 3.24331e+20: defined in Constant.h, constant used in the translational
     // partition function.
 
-    double _ant = m_PreExp * tp_C * pow( ( ma * mb / mc), 1.5 ) / gammaValue;
+    double _ant = m_PreExp * tp_C * pow( ( ma * mb / (ma + mb)), 1.5 ) / gammaValue;
     _ant /= (pow((m_TInf * boltzmann_RCpK), m_NInf));
 
     //
-    // The expression held in the elements of the vector work has been altered from the
-    // simple power of the mean value to analytic integral_x_to_y{E^(Ninf-1)dE}, where x and y
-    // are lower and upper energy limits of the cell respectively. Note constraint: Ninf > -1.5
+    // The expression held in the elements of the vector work has been altered from
+	// the simple power of the mean value to analytic integral_x_to_y{E^(Ninf+0.5)dE},
+	// where x and y are lower and upper energy limits of the cell respectively. Note
+    // constraint: Ninf > -1.5
     //
     const double NinfTrans = m_NInf + 1.5; 
     vector<double> work(MaximumCell, 0.0);
@@ -435,8 +435,7 @@ namespace mesmer
     }
 
     vector<double> conv;
-    FastLaplaceConvolution(work, ConvolvedCellDOS, conv);    // FFT convolution replaces the standard convolution
-    //    Convolution(work, rctsCellDOS, conv);  // standard convolution
+    FastLaplaceConvolution(work, ConvolvedCellDOS, conv);
 
     for (size_t i(0); i < MaximumCell; ++i)
       rxnFlux[i] = _ant * conv[i];

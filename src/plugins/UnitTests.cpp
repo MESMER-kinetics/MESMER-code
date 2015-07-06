@@ -58,7 +58,9 @@ namespace mesmer
 
     bool Test_Chi2SignificanceTest() const;
 
-    bool Test_Spline() const ;
+    bool Test_GammaFunction() const;
+
+	bool Test_Spline() const ;
 
     bool Test_Sobol() const ;
 
@@ -109,6 +111,9 @@ namespace mesmer
 
     // Test Chi-squared test function.
     status = ( status && Test_Chi2SignificanceTest()) ;
+
+    // Test Chi-squared test function.
+    status = ( status && Test_GammaFunction()) ;
 
     // Test Spline class.
     status = ( status && Test_Spline()) ;
@@ -298,6 +303,34 @@ namespace mesmer
         status = false ;
         ctest << "*";
       }
+      ctest << endl ;
+    }
+
+    return status ;
+
+  }
+
+  bool UnitTests::Test_GammaFunction() const {
+
+    ctest << endl ;
+    underlineText("Test: Gamma Function.") ;
+
+    //ctest << endl ;
+    //ctest << "  Values for the incomplete Gamma function taken from" << endl ;
+    //ctest << "  M. Abramowitz and I.A. Stegun, Handbook of Mathematical" << endl ;
+    //ctest << "  Functions, Dover, 1972, pp. 978-983." << endl ;
+    //ctest << endl ;
+
+    ctest << endl ;
+    underlineText("       x       Gamma(x)") ;
+    ctest << endl ;
+
+    bool status(true) ;
+    for (size_t i(1) ; i < 51 ; i++ ) {
+      double x     = double(i)*0.1 ;
+      double Gamma = MesmerGamma(x) ;
+      ctest << formatFloat(x, 2, 10) ;
+      ctest << formatFloat(Gamma, 5, 15) ;
       ctest << endl ;
     }
 

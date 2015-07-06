@@ -1,3 +1,11 @@
+2015-July-06 Struan Robertson
+
+    * MesmerILT.cpp: Minor change to reduce inconsistency from incorrect mass assignment.
+
+	* UnitTest.cpp: Added test of Gamma function.
+
+	* Dafaults.xml: Added default time units for experimental trace input.
+
 2015-June-22 Struan Robertson
 
     * gstructure.cpp: Fix for internal rotation alignment bug.
