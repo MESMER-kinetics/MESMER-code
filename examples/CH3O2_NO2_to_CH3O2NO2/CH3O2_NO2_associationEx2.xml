@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema"
+           xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <me:title> CH3O2 NO2 association</me:title>
+  <moleculeList>
+
+    <molecule xmlns="http://www.xml-cml.org/schema" id="CH3OONO2">
+      <atomArray>
+        <atom id="a1" elementType="N" x3="1.040821" y3="0.096566" z3="0.009267"/>
+        <atom id="a2" elementType="O" x3="-0.105314" y3="-0.867498" z3="-0.188306"/>
+        <atom id="a3" elementType="O" x3="-1.242945" y3="-0.167919" z3="-0.635169"/>
+        <atom id="a4" elementType="O" x3="0.809060" y3="1.261393" z3="-0.155252"/>
+        <atom id="a5" elementType="O" x3="2.036496" y3="-0.502788" z3="0.312728"/>
+        <atom id="a6" elementType="C" x3="-2.067199" y3="0.142251" z3="0.501165"/>
+        <atom id="a7" elementType="H" x3="-2.956694" y3="0.595526" z3="0.057333"/>
+        <atom id="a8" elementType="H" x3="-2.333858" y3="-0.770995" z3="1.039395"/>
+        <atom id="a9" elementType="H" x3="-1.570379" y3="0.860500" z3="1.159415"/>
+      </atomArray>
+      <bondArray>
+        <bond id="b1" atomRefs2="a3 a2" order="1"/>
+        <bond id="b2" atomRefs2="a3 a6" order="1"/>
+        <bond id="b3" atomRefs2="a2 a1" order="1"/>
+        <bond id="b4" atomRefs2="a4 a1" order="2"/>
+        <bond id="b5" atomRefs2="a1 a5" order="1"/>
+        <bond id="b6" atomRefs2="a7 a6" order="1"/>
+        <bond id="b7" atomRefs2="a6 a8" order="1"/>
+        <bond id="b8" atomRefs2="a6 a9" order="1"/>
+      </bondArray>
+
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <!--scalar units="kJ/mol">-46.23</scalar-->
+          <scalar units="kJ/mol" lower="-70" upper="-20.0" stepsize="0.1">-44.91</scalar>
+
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            0.289 0.085 0.074
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>0.964</scalar>
+        </property>
+        <property title="Hessian" dictRef="me:hessian">
+          <matrix rows="27" matrixType="squareSymmetricLT" units="Hartree/Bohr2">
+            1.18737399 -0.06986289 0.21481989 -0.04146426 0.00049728 0.44782274 -0.09308882 0.00509453 0.03444099
+            0.35629534 0.00207752 -0.04837773 0.00314683 -0.02677019 0.06366611 0.05318167 0.00362108 -0.01584998 -0.00653133 -0.01389138 0.14926365 -0.01548106 -0.00414346 -0.03946781
+            -0.20556258 -0.02691987 -0.02165433 0.28257795 0.00037764 -0.00761725 -0.00800779 0.00420210 -0.05309404 0.01082121 -0.01197632 0.33423058 -0.03810966 -0.00933939 -0.02335936
+            -0.01537937 -0.00502672 -0.04642963 0.08112569 -0.03128697 0.13552290 -0.51871003 0.03250320 0.20851640 -0.01617170 0.00157287 0.02809608 0.01191168 -0.00125357 -0.00714985
+            0.63736662 0.02852991 -0.07936715 -0.01235248 0.00103586 0.02049736 -0.00492838 0.00065159 -0.00039146 0.00165495 -0.04241387 0.03356856 0.19757175 -0.01560268 -0.22709878
+            0.05020727 -0.00297365 -0.05465768 0.00288058 0.00190089 0.00238340 -0.25198364 0.01779374 0.24308889 -0.55781537 0.03389910 -0.16587262 -0.01064635 0.00277824 -0.03256179
+            -0.00064447 0.00277477 -0.00702658 -0.11503837 0.01163973 0.00154464 0.68351057 0.03582299 -0.08063687 0.01210692 0.00160669 0.01278156 0.00126699 0.00173692 0.00584552
+            0.00360051 0.00975057 0.02676472 0.00024617 -0.04745780 0.03515359 -0.16551817 0.01181245 -0.18326652 -0.05342068 0.00416676 -0.02499053 -0.00542310 0.00302420 -0.01326057
+            0.02147067 -0.00174160 0.03704553 0.20329172 -0.01458643 0.18551323 -0.00225636 0.00210100 0.00423808 -0.03983297 0.04467588 -0.02377543 -0.06374954 -0.01975716 -0.00139262
+            0.00069459 0.00049259 0.00004357 0.00065185 -0.00147855 -0.00052993 0.59823596 -0.00294296 0.00216066 0.01240561 0.01616150 0.00585181 0.00015795 0.01598951 -0.21040189
+            0.02383851 0.00364430 -0.00233963 -0.00405472 -0.00421646 0.00033842 -0.00622991 0.06835447 0.45575420 -0.00645675 0.00936435 0.00249495 -0.01280662 0.01321233 -0.01014845
+            -0.00567655 0.00591207 -0.06240205 0.00143663 -0.00189100 -0.00055973 0.00066875 -0.00207455 -0.00102396 -0.00479177 0.04013181 0.58658825 -0.00012140 0.00046552 0.00167558
+            0.00220375 0.00288178 -0.00052342 -0.01365110 0.00193037 -0.00603131 0.00035607 -0.00012996 -0.00034988 -0.00015236 -0.00012304 -0.00027062 -0.27329876 -0.02670139 -0.09991621
+            0.29519285 0.00204476 -0.00134007 -0.00443392 0.00635378 -0.00663168 0.00586453 0.03180546 0.00139033 0.01405016 -0.00124249 0.00032063 0.00100421 0.00052933 0.00034275
+            0.00166444 -0.03806069 -0.05353954 -0.01675714 0.02413012 0.05852827 0.00007086 -0.00025388 0.00071032 0.00102951 0.00204060 0.00004605 -0.00889405 0.00092756 -0.00373424
+            0.00004498 0.00022114 -0.00012067 -0.00009035 -0.00015098 -0.00022051 -0.09915087 -0.01184348 -0.09372114 0.11187088 0.01022834 0.09525148 -0.00063633 -0.00039185 -0.00092589
+            0.00520348 0.00031834 -0.00006764 0.00647950 0.01043886 -0.00980527 -0.00032820 0.00006662 0.00029168 0.00015463 0.00009184 0.00007257 -0.16652321 -0.07200054 0.11634897
+            -0.01467532 -0.01022249 0.01944933 0.16946630 0.00062420 -0.00015504 -0.00072659 -0.00410273 0.00284994 -0.00268011 -0.01460098 -0.03324957 0.02597656 -0.00033292 0.00043756
+            0.00020542 0.00034861 -0.00008940 0.00075398 -0.06261270 -0.08520571 0.06296361 -0.00192999 0.00042617 0.00089363 0.07231647 0.10536022 0.00105354 -0.00018965 -0.00142589
+            0.00243787 -0.00081739 0.00120645 -0.00227552 0.01021449 -0.00089708 -0.00063846 0.00046306 0.00037535 -0.00061383 -0.00006536 -0.00019693 0.11451954 0.06417628 -0.16854099
+            -0.00851970 -0.00681530 0.01055435 -0.12412609 -0.07720488 0.17371011 0.00073537 0.00033483 -0.00114047 0.00159985 -0.00061457 0.00383620 -0.00188037 0.01326332 0.00376898
+            -0.00008066 0.00012753 -0.00020596 -0.00002013 0.00005038 0.00032754 -0.05392157 0.00171157 0.01119355 0.00414626 -0.01533778 -0.02433030 0.00085915 0.01029004 0.01816265
+            0.04856210 0.00332883 0.00051354 -0.00263585 -0.00358154 0.00245667 -0.00023190 0.00745716 -0.03671222 -0.02346761 -0.00222810 0.00050942 0.00148060 -0.00029552 -0.00050028
+            0.00113610 0.00628514 -0.11261832 -0.11086149 -0.00052341 0.00050314 -0.00206293 -0.00061723 0.00962583 0.01023876 -0.00982532 0.13622222 -0.00032899 0.00009043 -0.00002746
+            0.00002236 0.00014261 0.00156012 -0.00061489 0.00649433 0.01217662 0.00020720 0.00078057 -0.00045631 0.00066005 -0.00034326 0.00040027 0.01083942 -0.11858205 -0.25268688
+            0.00206468 -0.00480531 -0.00876565 -0.00123765 -0.01018163 -0.01478536 -0.01161218 0.12640431 0.26258467
+          </matrix>
+        </property>
+
+        <!--property dictRef="me:vibFreqs"-->
+        <!-- 101.83 124.97 187.57 330.27 405.86 506.15 631.55 718.04 792.31 929.52 999.86 1167.38 1207.51
+		  1355.32 1451.99 1474.68 1503.59 1794.61 3050.38 3140.40 3156.95-->
+        <!--array units="cm-1">101.83 124.97 187.57 330.27 405.86 506.15 631.55 718.04 792.31 929.52 999.86 1167.38 1207.51
+		  1355.32 1451.99 1474.68 1503.59 1794.61 3050.38 3140.40 3156.95
+		  </array>
+        </property-->
+        <property dictRef="me:MW">
+          <scalar units="amu">94</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+      </propertyList>
+
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+
+      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
+        <bondRef>b3</bondRef>
+        <me:HinderedRotorPotential format="numerical" expansionSize="15" units="kJ/mol" UseSineTerms="yes" scale="1">
+          <me:PotentialPoint angle= "0" potential = "0.0" />
+          <me:PotentialPoint angle= "36" potential = "18.4081182655" />
+          <me:PotentialPoint angle= "72" potential = "52.035377863" />
+          <me:PotentialPoint angle= "108" potential = "58.5422936645" />
+          <me:PotentialPoint angle= "144" potential = "29.3501126831" />
+          <me:PotentialPoint angle= "180" potential = "1.64317705143" />
+          <me:PotentialPoint angle= "216" potential = "4.79151649591" />
+          <me:PotentialPoint angle= "252" potential = "13.1529909794" />
+          <me:PotentialPoint angle= "288" potential = "14.1430145195" />
+          <me:PotentialPoint angle= "324" potential = "8.01712178003" />
+          <me:PotentialPoint angle= "360" potential = "0.000937303437638" />
+        </me:HinderedRotorPotential>
+        <!--me:periodicity>2</me:periodicity-->
+      </me:ExtraDOSCMethod>
+
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown bathGas="N2" units="cm-1" lower="125" upper="800" stepsize="10">419</me:deltaEDown>
+        <!--me:deltaEDown bathGas="N2" units="cm-1" >500</me:deltaEDown-->
+        <me:deltaEDownTExponent bathGas="N2" referenceTemperature="298" lower="-0.1" upper="1.0" stepsize="0.01">0.339</me:deltaEDownTExponent>
+      </me:energyTransferModel>
+
+    </molecule>
+
+    <molecule xmlns="http://www.xml-cml.org/schema" id="CH3OO">
+      <atomArray>
+        <atom id="a1" elementType="O" spinMultiplicity="2" x3="1.191101" y3="-0.278541" z3="-0.000029"/>
+        <atom id="a2" elementType="O" x3="0.155425" y3="0.545204" z3="0.000039"/>
+        <atom id="a3" elementType="C" x3="-1.098899" y3="-0.184940" z3="0.000004"/>
+        <atom id="a4" elementType="H" x3="-1.876991" y3="0.580186" z3="-0.001431"/>
+        <atom id="a5" elementType="H" x3="-1.150405" y3="-0.802847" z3="-0.898760"/>
+        <atom id="a6" elementType="H" x3="-1.151417" y3="-0.800997" z3="0.900086"/>
+      </atomArray>
+      <bondArray>
+        <bond id="b1" atomRefs2="a5 a3" order="1"/>
+        <bond id="b2" atomRefs2="a4 a3" order="1"/>
+        <bond id="b3" atomRefs2="a1 a2" order="1"/>
+        <bond id="b4" tomRefs2="a3 a2" order="1"/>
+        <bond id="b5" atomRefs2="a3 a6" order="1"/>
+      </bondArray>
+
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">9.0</scalar>
+          <!--scalar units="kJ/mol" lower="-70" upper="-20.0" stepsize="0.1">9.00</scalar-->
+
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            1.749  0.374  0.327
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>0.964</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            134.51 490.34 915.66 1127.91 1155.97 1219.83 1445.20 1475.80 1486.71 3062.83 3161.03 3173.52
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">47</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+
+    </molecule>
+
+    <molecule xmlns="http://www.xml-cml.org/schema" id="NO2">
+      <atomArray>
+        <atom id="a1" elementType="N" x2="0.000000" y2="0.000000"/>
+        <atom id="a2" elementType="O" x2="0.000000" y2="1.104700"/>
+        <atom id="a3" elementType="O" x2="0.000000" y2="-1.104700"/>
+      </atomArray>
+      <bondArray>
+        <bond atomRefs2="a1 a2" order="1"/>
+        <bond atomRefs2="a1 a3" order="1"/>
+      </bondArray>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">36.78</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">
+            8.00120  0.43364	0.41040
+          </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:frequenciesScaleFactor">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">1318	750	1618</array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">46</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+      <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
+    </molecule>
+
+    <molecule id="N2">
+      <atom elementType="N"/>
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>48.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.90</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar units="amu">28.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+    <molecule id="He">
+      <atom elementType="He"/>
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>10.22</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>2.511</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>4.04</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+    <molecule id="SF6">
+      <atom elementType="SF6"/>
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>212</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>512</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>146</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+  </moleculeList>
+  <reactionList>
+
+    <reaction id="R1">
+      <reactant>
+        <molecule ref="CH3OO" role="deficientReactant" />
+      </reactant>
+      <reactant>
+        <molecule ref="NO2" role="excessReactant" />
+      </reactant>
+      <product>
+        <molecule ref="CH3OONO2" role="modelled" />
+      </product>
+      <me:MCRCMethod xsi:type="me:MesmerILT">
+
+        <me:preExponential lower="1e-13" upper="9e-11" stepsize="1e-13">8.84e-12</me:preExponential>
+        <!--me:preExponential units="cm3molecule-1s-1">5.00e-12</me:preExponential-->
+        <me:activationEnergy units="kJ/mol">0.0</me:activationEnergy>
+        <me:TInfinity>298.0</me:TInfinity>
+        <me:nInfinity lower="-1.0" upper="1.0" stepsize="0.005">-0.87</me:nInfinity>
+        <!--me:nInfinity>-0.35</me:nInfinity-->
+      </me:MCRCMethod>
+      <me:excessReactantConc>1e15</me:excessReactantConc>
+    </reaction>
+
+  </reactionList>
+  <me:conditions>
+    <me:bathGas>N2</me:bathGas>
+    <me:PTs>
+
+      <!--Stan-->
+      <me:PTpair units="Torr" P= "50" T= "296" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.22E-12">1.19E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "100" T= "296" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.12E-12">1.58E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "225" T= "296" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.38E-12">1.80E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "350" T= "296" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.38E-12">3.11E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "500" T= "296" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.20E-12">3.13E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "700" T= "296" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.20E-12">3.94E-12 </me:experimentalRate>
+      </me:PTpair>
+
+
+      <!--Carl-->
+      <me:PTpair units="Torr" P= "75" T= "298" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.20E-12">1.50E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "100" T= "298" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.24E-12">1.77E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "200" T= "298" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.22E-12">2.42E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "300" T= "298" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.28E-12">2.96E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "250" T= "298" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.1E-12">2.76E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "400" T= "298" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.48E-12">3.36E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "500" T= "298" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.44E-12">3.61E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "700" T= "298" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.50E-12">3.99E-12 </me:experimentalRate>
+      </me:PTpair>
+
+      <me:PTpair units="Torr" P= "75" T= "223" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.59E-12">4.1E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "100" T= "223" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.80E-12">4.31E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "200" T= "223" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.48E-12">6.35E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "300" T= "223" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.55E-12">6.50E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "400" T= "223" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.77E-12">7.60E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "500" T= "223" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.69E-12">8.25E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "600" T= "223" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.80E-12">8.28E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "700" T= "223" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.58E-12">8.80E-12 </me:experimentalRate>
+      </me:PTpair>
+
+      <!-- Ravi-->
+
+      <me:PTpair units="Torr" P= "76" T= "298" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.23E-12">1.36E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "157" T= "298" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.32E-12">1.90E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "258" T= "298" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.56E-12">2.60E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "352" T= "298" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.28E-12">2.82E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "519" T= "298" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.32E-12">3.36E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "722" T= "298" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.38E-12">4.12E-12 </me:experimentalRate>
+      </me:PTpair>
+
+      <me:PTpair units="Torr" P= "109" T= "253" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.34E-12">2.50E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "250" T= "253" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.30E-12">3.85E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "503" T= "253" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.50E-12">5.10E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "519" T= "253" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="1.0E-12">5.80E-12 </me:experimentalRate>
+      </me:PTpair>
+
+      <me:PTpair units="Torr" P= "26" T= "295" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.16E-12">0.82E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "51" T= "295" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.24E-12">1.15E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "99" T= "295" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.30E-12">1.50E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "230" T= "295" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.48E-12">2.26E-12 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "399" T= "295" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OO" ref2="CH3OO" refReaction="R1" error="0.62E-12">3.05E-12 </me:experimentalRate>
+      </me:PTpair>
+
+      <me:PTpair units="Torr" P= "400" T= "353" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="19">175.7</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "400" T= "343" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="7">72.5</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "400" T= "363" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="42">418</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "400" T= "333" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="3">24.0</me:experimentalRate>
+      </me:PTpair>
+
+      <!--Lesclaux-->
+      <me:PTpair units="Torr" P= "760" T= "333" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="26.4">52.3</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "760" T= "353" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="68">297</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "760" T= "368" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="152">977</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="Torr" P= "760" T= "373" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="566">1328</me:experimentalRate>
+      </me:PTpair>
+
+      <!--Zabel-->
+      <me:PTpair units="mbar" P= "800" T= "253" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="4.3e-4">34e-4</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="mbar" P= "300" T= "253" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="3.5e-4">23.8E-4 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="mbar" P= "100" T= "253" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="1.4e-4">13.9e-4</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="mbar" P= "30" T= "253" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="1.95e-4">6.84e-4</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="mbar" P= "10" T= "253" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="0.54E-4">2.71e-4</me:experimentalRate>
+      </me:PTpair>
+
+      <me:PTpair units="mbar" P= "800" T= "258" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="11.3e-4">73.9e-4</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="mbar" P= "300" T= "258" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="4.3e-4">50.0E-4 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="mbar" P= "100" T= "258" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="3.2e-4">30.4e-4</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="mbar" P= "30" T= "258" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="2.1e-4">13.3e-4</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="mbar" P= "10" T= "258" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="0.94E-4">6.31e-4</me:experimentalRate>
+      </me:PTpair>
+
+
+      <me:PTpair units="mbar" P= "800" T= "266" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="57e-4">267e-4</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="mbar" P= "300" T= "266" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="48e-4">155E-4 </me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="mbar" P= "100" T= "266" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="21e-4">110e-4</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="mbar" P= "30" T= "266" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="9.7e-4">52.7e-4</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="mbar" P= "10" T= "266" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="2.0E-4">21.4e-4</me:experimentalRate>
+      </me:PTpair>
+
+      <me:PTpair units="mbar" P= "100" T= "272" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="76e-4">258e-4</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="mbar" P= "30" T= "272" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="36e-4">117e-4</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair units="mbar" P= "10" T= "272" precision="d">
+        <me:bathGas>N2</me:bathGas>
+        <me:experimentalRate ref1="CH3OONO2" ref2="CH3OONO2" refReaction="R1" error="4.3E-4">53.8e-4</me:experimentalRate>
+      </me:PTpair>
+
+    </me:PTs>
+  </me:conditions>
+  <me:modelParameters>
+    <me:grainSize units="cm-1">55</me:grainSize>
+    <me:energyAboveTheTopHill>50.0</me:energyAboveTheTopHill>
+  </me:modelParameters>
+  <me:control>
+    <me:calcMethod xsi:type="me:marquardt">
+      <me:MarquardtIterations>5</me:MarquardtIterations>
+      <me:MarquardtTolerance>1e-7</me:MarquardtTolerance>
+      <me:MarquardtDerivDelta>0.025</me:MarquardtDerivDelta>
+    </me:calcMethod>
+    <me:testDOS />
+    <me:testRateConstant />
+    <me:eigenvalues>1</me:eigenvalues>
+  </me:control>
+
+  <me:control>
+    <me:calcMethod units="kJ/mol" xsi:type="me:ThermodynamicTable">
+      <me:Tmin>0</me:Tmin>
+      <me:Tmid>250</me:Tmid>
+      <me:Tmax>500</me:Tmax>
+      <me:Tstep>20</me:Tstep>
+    </me:calcMethod>
+  </me:control>
+
+</me:mesmer>
