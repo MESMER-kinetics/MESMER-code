@@ -1,3 +1,8 @@
+2015-July-09 Struan Robertson
+
+    * PseudoIsomerization.cpp/.h: Altered modified prior distribution allow for fitting
+	of the temperature dependence of the order parameter.
+
 2015-July-06 Struan Robertson
 
     * MesmerILT.cpp: Minor change to reduce inconsistency from incorrect mass assignment.

@@ -39,21 +39,21 @@ namespace mesmer
   {
   public: 
 
-	// Constructors.
-	FragDist(){} ;
+    // Constructors.
+    FragDist(){} ;
 
     // Destructor.
     virtual ~FragDist(){} ;
 
-	// Initialize the fragment distribution.
-	virtual void initialize(PseudoIsomerizationReaction *pReaction) = 0 ;
+    // Initialize the fragment distribution.
+    virtual void initialize(PseudoIsomerizationReaction *pReaction) = 0 ;
 
-	// Calculate distribution.
-	virtual void calculate(double excessEnergy, std::vector<double>& dist, size_t size) = 0 ;
+    // Calculate distribution.
+    virtual void calculate(double excessEnergy, std::vector<double>& dist, size_t size) = 0 ;
 
-	// Return resources
-	virtual void clear() = 0 ;
-	
+    // Return resources
+    virtual void clear() = 0 ;
+
   } ;
 
   //
@@ -65,34 +65,34 @@ namespace mesmer
   {
   public: 
 
-	// Constructors.
-	priorDist(){} ;
+    // Constructors.
+    priorDist(){} ;
 
     // Destructor.
     virtual ~priorDist(){} ;
 
-	// Initialize the fragment distribution.
-	virtual void initialize(PseudoIsomerizationReaction *pReaction) ;
+    // Initialize the fragment distribution.
+    virtual void initialize(PseudoIsomerizationReaction *pReaction) ;
 
-	// Calculate distribution
-	virtual void calculate(double excessEnergy, std::vector<double>& dist, size_t size) ;
+    // Calculate distribution
+    virtual void calculate(double excessEnergy, std::vector<double>& dist, size_t size) ;
 
-	// Return resources
-	virtual void clear() {
-	  m_rctDOS.clear() ;
-	  m_upperConv.clear() ;
-	  m_lowerConv.clear() ;
-	};
+    // Return resources
+    virtual void clear() {
+      m_rctDOS.clear() ;
+      m_upperConv.clear() ;
+      m_lowerConv.clear() ;
+    };
 
   protected: 
 
-	PseudoIsomerizationReaction *m_pReaction ;
+    PseudoIsomerizationReaction *m_pReaction ;
 
-	vector<double> m_rctDOS;
+    vector<double> m_rctDOS;
 
-	vector<double> m_upperConv;
-    
-	vector<double> m_lowerConv;
+    vector<double> m_upperConv;
+
+    vector<double> m_lowerConv;
 
   } ;
 
@@ -100,23 +100,29 @@ namespace mesmer
   {
   public: 
 
-	// Constructors.
-	modPriorDist(PersistPtr ppFragDist) : priorDist() {
-	  m_order = ppFragDist->XmlReadDouble("me:order") ;
-	  bool rangeSet(false) ;
-	  PersistPtr ppOrder = ppFragDist->XmlMoveTo("me:order") ;
-      ReadRdoubleRange(string(":modPriorOrder"), ppOrder, m_order, rangeSet) ;  
-	} ;
+    // Constructors.
+    modPriorDist(PersistPtr ppFragDist, std::string name) : priorDist() {
+      m_order = ppFragDist->XmlReadDouble("me:modPriorOrder") ;
+      m_nexp  = ppFragDist->XmlReadDouble("me:modPriorNexp") ;
+      m_Tref  = ppFragDist->XmlReadDouble("me:modPriorTref") ;
+      bool rangeSet(false) ;
+      PersistPtr ppOrder = ppFragDist->XmlMoveTo("me:modPriorOrder") ;
+      ReadRdoubleRange(name+std::string(":modPriorOrder"), ppOrder, m_order, rangeSet) ;  
+      PersistPtr ppNexp = ppFragDist->XmlMoveTo("me:modPriorNexp") ;
+      ReadRdoubleRange(name+std::string(":modPriorNexp"), ppNexp, m_nexp, rangeSet) ;  
+    } ;
 
     // Destructor.
     virtual ~modPriorDist(){} ;
 
-	// Initialize the fragment distribution.
-	virtual void initialize(PseudoIsomerizationReaction *pReaction) ;
+    // Initialize the fragment distribution.
+    virtual void initialize(PseudoIsomerizationReaction *pReaction) ;
 
   private:
 
-	Rdouble m_order ;
+    Rdouble m_order ;
+    Rdouble m_nexp ;
+    double m_Tref ;
 
   } ;
 
@@ -132,9 +138,9 @@ namespace mesmer
     // Destructor.
     virtual ~PseudoIsomerizationReaction(){}
 
-	virtual void updateSourceMap(molMapType& sourcemap) {/* This is NULL operation as source is treated as an isomer. */ } ;
+    virtual void updateSourceMap(molMapType& sourcemap) {/* This is NULL operation as source is treated as an isomer. */ } ;
 
-	  // Get unimolecular species information:
+    // Get unimolecular species information:
     virtual int get_unimolecularspecies(std::vector<Molecule *> &unimolecularspecies) const
     {
       unimolecularspecies.push_back(m_pdt1) ;
@@ -142,38 +148,38 @@ namespace mesmer
       return unimolecularspecies.size() ;
     } ;
 
-	// Initialize reaction.
+    // Initialize reaction.
     virtual bool InitializeReaction(PersistPtr ppReac) {
 
-	  // Determine fragmentation model.
-	  PersistPtr ppDstbn = ppReac->XmlMoveTo("me:FragmentDist");
-	  if (ppDstbn) {
-		const char* ptxt = ppDstbn->XmlReadValue("xsi:type",optional); ;
-		string fragMod(ptxt) ;
-		if (fragMod == "me:modPrior") 
-		  m_fragDist = new modPriorDist(ppDstbn) ;
-		else 
-		  m_fragDist = new priorDist() ;
-	  } else {
-		m_fragDist = new priorDist() ;
-	  }
-	  return AssociationReaction::InitializeReaction(ppReac) ;
-	};
+      // Determine fragmentation model.
+      PersistPtr ppDstbn = ppReac->XmlMoveTo("me:FragmentDist");
+      if (ppDstbn) {
+        const char* ptxt = ppDstbn->XmlReadValue("xsi:type",optional); ;
+        string fragMod(ptxt) ;
+        if (fragMod == "me:modPrior") 
+          m_fragDist = new modPriorDist(ppDstbn, this->getName()) ;
+        else 
+          m_fragDist = new priorDist() ;
+      } else {
+        m_fragDist = new priorDist() ;
+      }
+      return AssociationReaction::InitializeReaction(ppReac) ;
+    };
 
-	// returns the reaction type
-	virtual ReactionType getReactionType(){return PSEUDOISOMERIZATION;};
+    // returns the reaction type
+    virtual ReactionType getReactionType(){return PSEUDOISOMERIZATION;};
 
-	// Add reaction terms to the reaction matrix.
+    // Add reaction terms to the reaction matrix.
     virtual void AddReactionTerms(qdMatrix *CollOptr, molMapType &isomermap, const double rMeanOmega) ;
 
     // Add contracted basis set reaction terms to the reaction matrix.
     virtual void AddContractedBasisReactionTerms(qdMatrix *CollOptr, molMapType &isomermap) {
-	  throw std::runtime_error("Contracted basis Set not yet implemeneted for pseudoisomerization.");
-	};
+      throw std::runtime_error("Contracted basis Set not yet implemeneted for pseudoisomerization.");
+    };
 
   private:
 
-	FragDist *m_fragDist ;
+    FragDist *m_fragDist ;
 
   } ;
 
