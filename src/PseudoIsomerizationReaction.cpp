@@ -184,8 +184,10 @@ namespace mesmer
       Trans_DOS[i] = sqrt(Trans_DOS[i]) ;
     }
 
+		const double beta = m_pReaction->getEnv().beta ;
+		double order = m_order*pow((1.0/(beta*m_Tref*boltzmann_RCpK)), m_nexp);
     for (size_t i(0) ; i < m_rctDOS.size() ; i++) {
-      m_rctDOS[i] = pow(m_rctDOS[i], m_order) ;
+			m_rctDOS[i] = pow(m_rctDOS[i], order);
     }
 
     FastLaplaceConvolution(xsDOS, Trans_DOS, m_upperConv);

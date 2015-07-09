@@ -1,5 +1,12 @@
 2015-July-09 Struan Robertson
 
+    * PseudoIsomerization.cpp: Further changes to the modified prior distribution to allow
+     for fitting of the temperature dependence of the order parameter.
+
+    * Unittests.cpp: baseline update.
+
+2015-July-09 Struan Robertson
+
     * PseudoIsomerization.cpp/.h: Altered modified prior distribution allow for fitting
 	of the temperature dependence of the order parameter.
 

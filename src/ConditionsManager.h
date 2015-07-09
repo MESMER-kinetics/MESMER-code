@@ -32,7 +32,7 @@ struct conditionSet
 
 struct RawDataSet
 {
-  std::vector<std::pair<double, double>> data;
+  std::vector<std::pair<double, double> > data;
   const char* m_Name;
   double m_excessConc;
 };
