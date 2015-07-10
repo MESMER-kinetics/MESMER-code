@@ -37,6 +37,16 @@ struct RawDataSet
   double m_excessConc;
 };
 
+//Functor to compare times in RawDataSet
+class Before
+{
+private:
+  double startT;
+public:
+  Before(double start) :startT(start){}
+  bool operator()(std::pair<double,double> val) { return val.first < startT; }
+};
+
 // To make sure if there is a concentration or pressure definition, there is a temperature definition.
 struct CandTpair{
 

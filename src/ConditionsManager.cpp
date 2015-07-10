@@ -327,14 +327,14 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
           stringstream times(ppRawData->XmlReadValue("me:times", optional));
           stringstream signals(ppRawData->XmlReadValue("me:signals", optional));
           double t, val;
-          while (times && signals)
+          while (times.good() && signals.good())
           {
             times >> t;
             signals >> val;
             ds.data.push_back(make_pair(getConvertedTime(timeUnits, t), val));
           }
 
-          if (times || signals)
+          if (times.good() || signals.good())
           {
             cerr << "In the rawData set " << ds.m_Name
               << " the number of times is not equal to the number of signals.";
@@ -343,8 +343,10 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
 
           //If startTime has been specified, remove data before startTime 
           if (!IsNan(startTime))
-            ds.data.erase(remove_if(ds.data.begin(), ds.data.end(),
-              [startTime](pair<double,double> pr){return pr.first < startTime;})); //C++11 - rewrite?
+            ds.data.erase(remove_if(ds.data.begin(), ds.data.end(), Before(startTime)), ds.data.end());
+
+            //ds.data.erase(remove_if(ds.data.begin(), ds.data.end(),
+            //  [startTime](pair<double,double> pr){return pr.first < startTime;}), ds.data.end()); //C++11
 
           thisPair.m_rawDataSets.push_back(ds);
         }
