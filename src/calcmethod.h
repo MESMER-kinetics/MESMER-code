@@ -32,18 +32,6 @@ namespace mesmer
     //Function to do the work
     virtual bool DoCalculation(System* pSys)=0;
 
-    //Parses the <me:control> section of the XML input file to find the specified method
-    //For instance: <calcMethod>simpleCalc</calcMethod>
-    //If there is no <calcMethod> element, the simpleCalc, set in defaults.xml, is used.
-    //If there is an unrecognized method, the acceptable method are listed in an error message
-    //and returns false.
-    static CalcMethod* GetCalcMethod(PersistPtr ppControl, std::string& name)
-    {
-      const char* type = ppControl->XmlReadValue("me:calcMethod"); //or uses default
-      name = std::string(type) ;
-      CalcMethod* method = Find(type);
-      return method;
-    }
   private:
     System* m_parent;
   };

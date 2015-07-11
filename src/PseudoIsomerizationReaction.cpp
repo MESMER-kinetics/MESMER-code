@@ -126,14 +126,14 @@ namespace mesmer
 
     const size_t excessEnergy = static_cast<size_t>(XsE);
 
-	const size_t cellOffSet = m_pReaction->getFluxCellOffset() ;
+    const size_t cellOffSet = m_pReaction->getFluxCellOffset() ;
 
     dist.clear() ;
     dist.resize(size,0.0) ;
     if (excessEnergy > 0) {
 
       // Calculate cell distribution vector. The distribution is shifted by the cell-to-grain
-	  // off set so as to match the shift applied to the reaction flux above.
+      // off set so as to match the shift applied to the reaction flux above.
 
       vector<double> mDist(m_rctDOS.size(), 0.0) ;
       for (size_t i(0), j(cellOffSet) ; i < excessEnergy && j < mDist.size() ; i++, j++ ) {
@@ -152,11 +152,11 @@ namespace mesmer
         sum += dist[i] ;
       }
 
-	  // Normalize fragment distribution.
-	  double rSum = 1.0/sum ;
+      // Normalize fragment distribution.
+      double rSum = 1.0/sum ;
       for (size_t i(0) ; i < dist.size() ; i++) {       
         dist[i] *= rSum;
-	  }
+      }
 
     }
     return ;
@@ -184,10 +184,10 @@ namespace mesmer
       Trans_DOS[i] = sqrt(Trans_DOS[i]) ;
     }
 
-		const double beta = m_pReaction->getEnv().beta ;
-		double order = m_order*pow((1.0/(beta*m_Tref*boltzmann_RCpK)), m_nexp);
+    const double beta = m_pReaction->getEnv().beta ;
+    double order = m_order*pow((1.0/(beta*m_Tref*boltzmann_RCpK)), m_nexp);
     for (size_t i(0) ; i < m_rctDOS.size() ; i++) {
-			m_rctDOS[i] = pow(m_rctDOS[i], order);
+      m_rctDOS[i] = pow(m_rctDOS[i], order);
     }
 
     FastLaplaceConvolution(xsDOS, Trans_DOS, m_upperConv);

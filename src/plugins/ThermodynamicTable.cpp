@@ -103,8 +103,11 @@ namespace mesmer
         // Get the name of the molecule.
         const char* reftxt = ppmol->XmlReadValue("id");
         if (reftxt) {
-          //Use molType="forThermo" to activate DOS properties.
-          pMoleculeManager->addmol(string(reftxt), string("forThermo"), pSys->getEnv(), pSys->m_Flags);
+          // Check to see if species is a transition state. If not
+          // use molType="forThermo" to activate DOS properties.
+          const char* tstxt = ppmol->XmlReadValue("role", optional);
+          string role = (tstxt && string(tstxt) == "transitionState") ? string(tstxt) : string("forThermo") ;
+          Molecule* pMol = pMoleculeManager->addmol(string(reftxt), role , pSys->getEnv(), pSys->m_Flags);
         }
       }
 
@@ -145,7 +148,7 @@ namespace mesmer
     int nTemps = static_cast<int>(std::floor((m_Tmax - m_Tmin) / m_TempInterval))+1;
     int nTempsLower = static_cast<int>(std::floor((m_Tmid - m_Tmin) / m_TempInterval)+1);
     bool enoughPoints =  !m_Tmid && nTemps > 6 
-         || m_Tmid && nTempsLower> 6 && (nTemps-nTempsLower)>=6;
+      || m_Tmid && nTempsLower> 6 && (nTemps-nTempsLower)>=6;
     if (!enoughPoints)
     {
       cinfo << "Too few data points to fit NASA polynomials." << endl;
@@ -251,7 +254,7 @@ namespace mesmer
         //Set a14 to match S at 298.15K
         coeffs[13] = 0.0;
         coeffs[13] = S298*1000/R - SdivR(coeffs.begin()+7, 298.15);
- 
+
         //Set a7 to match a) S at 298K for one range; b) S at Tmid for two range;
         if(m_Tmid==0)
           coeffs[6] = coeffs[13];
@@ -319,7 +322,7 @@ namespace mesmer
     //for (int i = result.size()-1; i >= 0; --i)
     //  val = (val*t + result[i]); //ok
 
-     return true;
+    return true;
   }
 
   //Return coefficients of x in a polynomial x^0 to x^order calculated
@@ -362,7 +365,7 @@ namespace mesmer
   }
 
   string ThermodynamicTable::WriteNASAPoly(Molecule* pmol, vector<double> coeffs,
-                                           double TLo, double TMid, double THi)
+    double TLo, double TMid, double THi)
   {
     stringstream ss;
     unsigned int i;

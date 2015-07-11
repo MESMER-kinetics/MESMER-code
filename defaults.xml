@@ -43,9 +43,9 @@
   </property>
   <molecule spinMultiplicity="1" default="true"/>
   <molecule me:type="deficientReactant excessReactant modelled transitionState sink"
-            default="IS UNSATISFACTORY. CHOOSE ONE FROM LIST**"></molecule>
+            default="is unsatisfactory. Choose one from list: "></molecule>
   <molecule role="deficientReactant excessReactant modelled transitionState sink"
-            default="IS UNSATISFACTORY. CHOOSE ONE FROM LIST**"></molecule>
+            default="is unsatisfactory. Choose one from list: "></molecule>
   <property dictRef="me:MW" default="IS UNSATISFACTORY. A VALUE NEEDS TO BE PROVIDED**">
     <scalar>0.0</scalar>
   </property>

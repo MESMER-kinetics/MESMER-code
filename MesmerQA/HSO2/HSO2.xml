@@ -1,14 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
 <?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
-<me:mesmer xmlns="http://www.xml-cml.org/schema" xmlns:me="http://www.chem.leeds.ac.uk/mesmer">
-  <!--Note that the thermodata is not real-->
+<me:mesmer xmlns="http://www.xml-cml.org/schema"
+           xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <me:title>H + SO2 system</me:title>
   <moleculeList>
     <molecule id="H">
       <atom id="a1" elementType="H"/>
       <property dictRef="me:ZPE">
-        <scalar units="kJmol-1">165</scalar>
+        <scalar units="kJ/mol">165.01696</scalar>
+      </property>
+      <property dictRef="me:MW">
+        <scalar>1</scalar>
+      </property>
+      <property dictRef="me:spinMultiplicity">
+        <scalar>2</scalar>
       </property>
     </molecule>
     <molecule id="SO2" role="modelled">
@@ -16,22 +23,31 @@
         <atom id="a1" elementType="O"/>
         <atom id="a2" elementType="S"/>
         <atom id="a3" elementType="O"/>
-        <property dictRef="me:ZPE">
-          <scalar units="kJmol-1">0</scalar>
-        </property>
       </atomArray>
       <bondArray>
         <bond atomRefs2="a1 a2" order="2"/>
         <bond atomRefs2="a2 a3" order="2"/>
       </bondArray>
-      <property dictRef="me:rotConsts">
-        <array units="cm-1">2.016 0.345 0.295</array>
-      </property>
-      <property dictRef="me:vibFreqs">
-        <array units="cm-1">
-          518 1151 1362
-        </array>
-      </property>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">0</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>64</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">2.016 0.345 0.295</array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>2</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            518 1151 1362
+          </array>
+        </property>
+      </propertyList>
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
     </molecule>
     <molecule id="HSO2" role="modelled">
       <atomArray>
@@ -45,19 +61,37 @@
         <bond atomRefs2="a1 a3" order="2"/>
         <bond atomRefs2="a1 a4" order="2"/>
       </bondArray>
-      <property dictRef="me:ZPE">
-        <scalar units="kJmol-1">102</scalar>
-      </property>
-      <property dictRef="me:rotConsts">
-        <array units="cm-1">1.703 0.3 0.263</array>
-      </property>
-      <property dictRef="me:vibFreqs">
-        <array units="cm-1">
-         411 777 1027 1094 1578 2284
-        </array>
-      </property>
+      <propertyList>
+        <property dictRef="me:MW">
+          <scalar>65</scalar>
+        </property>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">102.00592</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">1.703 0.3 0.263</array>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>380</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>4.3</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            411 777 1027 1094 1578 2284
+          </array>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">230.0</me:deltaEDown>
+      </me:energyTransferModel>
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
     </molecule>
-    <molecule id="HOSO" role="modelled">
+    <molecule id="HOSO">
       <atomArray>
         <atom id="a1" elementType="O"/>
         <atom id="a2" elementType="H"/>
@@ -69,17 +103,26 @@
         <bond atomRefs2="a1 a3" order="1"/>
         <bond atomRefs2="a3 a4" order="2"/>
       </bondArray>
-      <property dictRef="me:ZPE">
-        <scalar units="kJmol-1">0</scalar>
-      </property>
-      <property dictRef="me:rotConsts">
-        <array units="cm-1">1.14 0.309 0.243</array>
-      </property>
-      <property dictRef="me:vibFreqs">
-        <array units="cm-1">
-          183 336 722 991 1283 3493
-        </array>
-      </property>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="kJ/mol">0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1">1.14 0.309 0.243</array>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            183 336 722 991 1283 3493
+          </array>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>2</scalar>
+        </property>
+      </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">230.0</me:deltaEDown>
+      </me:energyTransferModel>
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
     </molecule>
     <molecule id="OH">
       <atomArray>
@@ -90,7 +133,7 @@
         <bond atomRefs2="a1 a2" order="1"/>
       </bondArray>
       <property dictRef="me:ZPE">
-        <scalar units="kJmol-1">150</scalar>
+        <scalar units="kJ/mol">150</scalar>
       </property>
       <property dictRef="me:rotConsts">
         <array units="cm-1">18.87</array>
@@ -99,6 +142,9 @@
         <array units="cm-1">
           3725
         </array>
+      </property>
+      <property dictRef="me:spinMultiplicity">
+        <scalar>2</scalar>
       </property>
     </molecule>
     <molecule id="SO" role="modelled">
@@ -110,15 +156,16 @@
         <bond atomRefs2="a1 a2" order="2"/>
       </bondArray>
       <property dictRef="me:ZPE">
-        <scalar units="kJmol-1">139</scalar>
+        <scalar units="kJ/mol">139</scalar>
       </property>
       <property dictRef="me:rotConsts">
         <array units="cm-1">0.95</array>
       </property>
       <property dictRef="me:vibFreqs">
-        <array units="cm-1">
-          1396
-        </array>
+        <array units="cm-1">1396</array>
+      </property>
+      <property dictRef="me:spinMultiplicity">
+        <scalar>2</scalar>
       </property>
     </molecule>
     <molecule id="TS1" role="transitionState">
@@ -133,8 +180,11 @@
         <bond atomRefs2="a1 a3" order="2"/>
         <bond atomRefs2="a1 a4" order="2"/>
       </bondArray>
+      <property dictRef="me:MW">
+        <scalar>65</scalar>
+      </property>
       <property dictRef="me:ZPE">
-        <scalar units="kJmol-1">178.6</scalar>
+        <scalar units="kJ/mol">178.6</scalar>
       </property>
       <property dictRef="me:rotConsts">
         <array units="cm-1">1.22 0.321 0.275</array>
@@ -143,6 +193,9 @@
         <array units="cm-1">
           347 358 517 117 1381
         </array>
+      </property>
+      <property dictRef="me:spinMultiplicity">
+        <scalar>2</scalar>
       </property>
     </molecule>
     <molecule id="TS2" role="transitionState">
@@ -158,7 +211,7 @@
         <bond atomRefs2="a3 a4" order="2"/>
       </bondArray>
       <property dictRef="me:ZPE">
-        <scalar units="kJmol-1">199.9</scalar>
+        <scalar units="kJ/mol">199.9</scalar>
       </property>
       <property dictRef="me:rotConsts">
         <array units="cm-1">1.506 0.295 0.256</array>
@@ -167,6 +220,9 @@
         <array units="cm-1">
           407 639 854 1216 2191
         </array>
+      </property>
+      <property dictRef="me:spinMultiplicity">
+        <scalar>2</scalar>
       </property>
     </molecule>
     <molecule id="TS4" role="transitionState">
@@ -182,7 +238,7 @@
         <bond atomRefs2="a3 a4" order="2"/>
       </bondArray>
       <property dictRef="me:ZPE">
-        <scalar units="kJmol-1">213.6</scalar>
+        <scalar units="kJ/mol">213.6</scalar>
       </property>
       <property dictRef="me:rotConsts">
         <array units="cm-1">1.486 0.299 0.261</array>
@@ -192,8 +248,11 @@
           298 500 609 1218 1527
         </array>
       </property>
+      <property dictRef="me:spinMultiplicity">
+        <scalar>2</scalar>
+      </property>
     </molecule>
-    <molecule id="TS6" role="transitionState">
+    <!--<molecule id="TS6" role="transitionState">
       <atomArray>
         <atom id="a1" elementType="O"/>
         <atom id="a2" elementType="H"/>
@@ -205,62 +264,103 @@
         <bond atomRefs2="a1 a3" order="1"/>
         <bond atomRefs2="a3 a4" order="2"/>
       </bondArray>
-    </molecule>
+      <property dictRef="me:spinMultiplicity">
+        <scalar>2</scalar>
+      </property>
+    </molecule>-->
   </moleculeList>
+
   <reactionList>
     <reaction id="R1" reversible="true">
       <reactant>
-        <molecule ref="H" />
+        <molecule ref="H" role="deficientReactant" />
       </reactant>
       <reactant>
-        <molecule ref="SO2" />
+        <molecule ref="SO2" role="excessReactant" />
       </reactant>
       <product>
-        <molecule ref="HSO2" />
+        <molecule ref="HSO2" role="modelled" />
       </product>
       <me:transitionState>
-        <molecule ref="TS1" />
+        <molecule ref="TS1" role="transitionState" />
       </me:transitionState>
+      <me:excessReactantConc>1e14</me:excessReactantConc>
+      <me:MCRCMethod name="SimpleRRKM"/>
     </reaction>
     <reaction id="R2" reversible="true">
       <reactant>
-        <molecule ref="H" />
+        <molecule ref="H" role="deficientReactant"  />
       </reactant>
       <reactant>
-        <molecule ref="SO2" />
+        <molecule ref="SO2" role="excessReactant"  />
       </reactant>
       <product>
-        <molecule ref="HOSO" />
+        <molecule ref="HOSO" role="modelled"  />
       </product>
       <me:transitionState>
-        <molecule ref="TS2" />
+        <molecule ref="TS2" role="transitionState" />
       </me:transitionState>
+      <me:MCRCMethod name="SimpleRRKM"/>
     </reaction>
     <reaction id="R4" reversible="true">
       <reactant>
-        <molecule ref="HSO2" />
+        <molecule ref="HSO2" role="modelled"   />
       </reactant>
       <product>
-        <molecule ref="HOSO" />
+        <molecule ref="HOSO" role="modelled"   />
       </product>
       <me:transitionState>
-        <molecule ref="TS4" />
+        <molecule ref="TS4" role="transitionState" />
       </me:transitionState>
+      <me:MCRCMethod name="SimpleRRKM"/>
     </reaction>
     <reaction id="R6">
       <reactant>
-        <molecule ref="HOSO" />
+        <molecule ref="HOSO" role="modelled"/>
       </reactant>
       <product>
-        <molecule ref="OH" />
+        <molecule ref="OH" role="sink"/>
       </product>
       <product>
-        <molecule ref="SO" />
+        <molecule ref="SO" role="sink" />
       </product>
-      <me:transitionState>
-        <molecule ref="TS6" />
-      </me:transitionState>
+      <me:MCRCMethod xsi:type="me:MesmerILT">
+        <me:preExponential units="cm3molecule-1s-1">52.40e-11</me:preExponential>
+        <me:activationEnergy  units="cm-1" reverse="true">0.0</me:activationEnergy>
+        <me:TInfinity>300.0</me:TInfinity>
+        <me:nInfinity>0.4</me:nInfinity>
+      </me:MCRCMethod>
     </reaction>
   </reactionList>
+
+  <me:conditions>
+    <me:bathGas>Ar</me:bathGas>
+    <me:PTs>
+      <me:PTpair units="Torr" P="100000000" T="200" precision ="double" />
+    </me:PTs>
+    <me:InitialPopulation>
+      <me:molecule ref="H" population="1.0" />
+    </me:InitialPopulation>
+  </me:conditions>
+
+  <me:modelParameters>
+    <me:grainSize units="cm-1"> 100 </me:grainSize>
+    <me:energyAboveTheTopHill>20.</me:energyAboveTheTopHill>
+  </me:modelParameters>
+
+  <me:control>
+    <me:testDOS />
+    <me:testMicroRates />
+    <me:eigenvalues>5</me:eigenvalues>
+  </me:control>
+
+  <me:control>
+    <me:calcMethod units="kJ/mol" xsi:type="ThermodynamicTable">
+      <me:Tmin>75</me:Tmin>
+      <me:Tmid>600</me:Tmid>
+      <me:Tmax>1050</me:Tmax>
+      <me:Tstep>75</me:Tstep>
+    </me:calcMethod>
+  </me:control>
 
 </me:mesmer>

@@ -566,7 +566,7 @@ namespace mesmer
           if (attrtext == "true")
             cinfo << "The default value of the attribute " << name << " was used." << endl;
           else
-            cerr << "No value of " << name << " was supplied and the default value " << attrtext << endl;
+            cerr << "No value of " << name << " was supplied and the default value " << attrtext + string(txt) << endl;
           return true;
         }
         pnDefProp = pnDefProp->NextSiblingElement(dictRefName);

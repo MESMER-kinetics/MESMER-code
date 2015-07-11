@@ -605,12 +605,12 @@ namespace mesmer
 
         reactionCount++;
         if (reactionCount >= nTotalNumSpecies)
-          throw(std::runtime_error("__FUNCTION__: The number of reactions equals or exceeds number of species - system over specified."));
+          throw(std::runtime_error(string(__FUNCTION__)+string(": The number of reactions equals or exceeds number of species - system over specified.")));
       }
     }
 
     if (++reactionCount != nTotalNumSpecies)
-      throw(std::runtime_error("__FUNCTION__: The total number of species found does not match the number of reactions - system over specified."));
+      throw(std::runtime_error(string(__FUNCTION__)+string(": The total number of species found does not match the number of reactions - system over specified.")));
 
     // If counter==0 after the for loop above, then there are no equilibrating reactions
     // (i.e., all the reactions are irreversible).  In that case, the lone isomer has an

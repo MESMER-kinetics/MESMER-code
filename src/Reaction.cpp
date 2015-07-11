@@ -221,7 +221,10 @@ namespace mesmer
     if (ppTransitionState)
     {
       Molecule* pTrans = GetMolRef(ppTransitionState,"transitionState");
-      if(pTrans) m_TransitionState = pTrans;
+      if(pTrans) {
+        m_TransitionState = pTrans ;
+        m_TransitionState->activateRole(string("transitionState"));
+      }
     }
 
     // Determine the method of MC rate coefficient calculation.
