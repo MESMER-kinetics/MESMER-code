@@ -13,7 +13,7 @@ namespace mesmer
     virtual bool countCellDOS(gDensityOfStates* mol, const MesmerEnv& env);
 
     // Function to calculate contribution to canonical partition function.
-    virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
+    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne) ;
 
     // Function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
@@ -70,16 +70,20 @@ namespace mesmer
   }
 
   // Calculate contribution to canonical partition function.
-  double BeyerSwinehart::canPrtnFnCntrb(gDensityOfStates* gdos, double beta) {
+  void BeyerSwinehart::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne) {
 
-    double qtot(1.0) ; 
+    double qtot(1.0), ene(0.0) ; 
     vector<double> vibFreq; 
     gdos->get_VibFreq(vibFreq);
     for (size_t j(0) ; j < vibFreq.size() ; ++j ) {
-      qtot /= (1.0 - exp(-beta*vibFreq[j])) ;
+      double etmp = vibFreq[j] ;
+      double dtmp = (1.0 - exp(-beta*etmp)) ;
+      qtot /= dtmp ;
+      ene  += etmp*exp(-beta*etmp)/dtmp ;
     }
 
-    return qtot ;
+    PrtnFn   *= qtot ;
+    IntrlEne += ene ;
   }
 
   // Function to return the number of degrees of freedom associated with this count.

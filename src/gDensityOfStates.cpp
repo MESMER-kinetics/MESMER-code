@@ -649,9 +649,9 @@ namespace mesmer
         double grainCanPrtnFn = canonicalPartitionFunction(m_grainDOS, m_grainEne, beta);
 
         // Calculate rovibronic partition functions, using analytical formula where possible.
-        double qtot(1.0);
+        double qtot(1.0), ene(0.0) ;
         for (vector<DensityOfStatesCalculator*>::size_type j = 0; j < m_DOSCalculators.size(); ++j) {
-          qtot *= m_DOSCalculators[j]->canPrtnFnCntrb(this, beta);
+          m_DOSCalculators[j]->canPrtnFnCntrb(this, beta, qtot, ene);
         }
 
         if (m_host->getFlags().testDOSEnabled) {
@@ -820,7 +820,7 @@ namespace mesmer
   // Calculate standard thermodynamic quantities as a function of temperature.
   // The calculation is based on cell densities of states.
   //
-  bool gDensityOfStates::thermodynamicsFunctions(double temp, double unitFctr, double& enthalpy, double& entropy, double& gibbsFreeEnergy) {
+  bool gDensityOfStates::thermodynamicsFunctions(double temp, double unitFctr, thermoDynFns &thermos) {
 
     std::vector<double> cellEne;
     getCellEnergies(m_host->getEnv().MaxCell, m_host->getEnv().CellSize, cellEne);
@@ -839,19 +839,27 @@ namespace mesmer
     double cellCanPrtnFn = canonicalPartitionFunction(m_cellDOS, cellEne, beta);
 
     // The following calculates the mean internal molecular energy.
-    double internalEnergy = canonicalMeanEnergy(m_cellDOS, cellEne, beta);
+    double cellIntlEnergy = canonicalMeanEnergy(m_cellDOS, cellEne, beta);
+
+    // Calculate rovibronic partition functions, using analytical formula where possible.
+    double CanPrtnFn(1.0), internalEnergy(0.0) ;
+    for (vector<DensityOfStatesCalculator*>::size_type j = 0; j < m_DOSCalculators.size(); ++j) {
+      m_DOSCalculators[j]->canPrtnFnCntrb(this, beta, CanPrtnFn, internalEnergy);
+    }
 
     // The rovibronic partition function must be corrected for translation 
     // and (assuming an ideal gas) molecular indistinguishability.
     double molarVol = 1.e+06*idealGasC / (boltzmann_RCpK*beta*atm_in_pascal);  // cm3
-    gibbsFreeEnergy = unitFctr*(-log(cellCanPrtnFn)
-      - log(tp_C * pow((m_host->getStruc().getMass() / beta), 1.5)*molarVol)
-      + log(AvogadroC)) / beta;
+    double qtrans   = - log(tp_C * pow((m_host->getStruc().getMass() / beta), 1.5)*molarVol) + log(AvogadroC) ;
+    thermos.gibbsFreeEnergy     = unitFctr*(-log(CanPrtnFn) + qtrans) / beta;
+    thermos.cellGibbsFreeEnergy = unitFctr*(-log(cellCanPrtnFn) + qtrans) / beta;
 
     // The enthalpy must be corrected for translation by an additional 3kT/2.
-    enthalpy = unitFctr*(internalEnergy + 5.0 / (2.0*beta));
+    thermos.enthalpy     = unitFctr*(cellIntlEnergy + 5.0 / (2.0*beta));
+    thermos.cellEnthalpy = unitFctr*(internalEnergy + 5.0 / (2.0*beta));
 
-    entropy = (enthalpy - gibbsFreeEnergy) / temp;
+    thermos.entropy     = (thermos.enthalpy     - thermos.gibbsFreeEnergy) / temp;
+    thermos.cellEntropy = (thermos.cellEnthalpy - thermos.cellGibbsFreeEnergy) / temp;
 
     return true;
   }

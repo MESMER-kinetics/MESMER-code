@@ -9,6 +9,28 @@ using namespace Constants ;
 
 namespace mesmer
 {
+  struct thermoDynFns
+  {
+  public:
+    thermoDynFns() : enthalpy(0.0), 
+      entropy(0.0),
+      gibbsFreeEnergy(0.0),
+      cellEnthalpy(0.0),
+      cellEntropy(0.0),
+      cellGibbsFreeEnergy(0.0) {} ;
+
+    ~thermoDynFns() {} ;
+
+    // Functions derived from analytical expressions:
+    double enthalpy; 
+    double entropy;
+    double gibbsFreeEnergy ;
+
+    // Functions derived from cell averages:
+    double cellEnthalpy; 
+    double cellEntropy;
+    double cellGibbsFreeEnergy ;
+  } ;
 
   class gDensityOfStates: public MolecularComponent
   {
@@ -116,7 +138,7 @@ namespace mesmer
     double rovibronicGrnCanPrtnFn() ;
 
     // Calculate standard thermodynamic quantities as a function of temperature.
-    bool thermodynamicsFunctions(double temp, double unitFctr, double& enthalpy, double& entropy, double& gibssFreeEnergy) ;
+    bool thermodynamicsFunctions(double temp, double unitFctr, thermoDynFns &thermos) ;
 
     bool RemoveDOSCalculator(const string& id);
     bool AddDOSCalculator(const string& id);
@@ -135,10 +157,10 @@ namespace mesmer
     bool projectMode(std::vector<double> &mode) ;
 
     // This method tests if a rotor is heavy. It is a helper method
-	// used to assess if a QM method will be expensive for calculating
-	// the energy levels of an asymmetic top.
+    // used to assess if a QM method will be expensive for calculating
+    // the energy levels of an asymmetic top.
 
-	bool IsHeavyTop(size_t n) ;
+    bool IsHeavyTop(size_t n) ;
 
   private:
 
@@ -169,7 +191,7 @@ namespace mesmer
     // Calculate vibrational frequencies from molecular Hessian.
     bool FrqsFromHessian() ;
 
-	// Helper function to create projector.
+    // Helper function to create projector.
     void UpdateProjector(vector<double> &eigenvector) ;
 
     // Helper function to shift translation projection vector.
@@ -182,12 +204,12 @@ namespace mesmer
     bool calculateFreqs(vector<double> &freqs, bool projectTransStateMode = false) ;
 
     // This method is used to orthogonalize a mode against existing projected modes
-	// and then add it to the projected set.
+    // and then add it to the projected set.
     bool orthogonalizeMode(vector<double> &mode) ;
 
   };
 
-  }//namespace
+}//namespace
 
 #endif //GUARD_gDensityOfStates_h
 

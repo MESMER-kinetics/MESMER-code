@@ -53,8 +53,8 @@ namespace mesmer
     // Provide a function to define particular counts of the DOS of a molecule
     virtual bool countCellDOS(gDensityOfStates* mol, const MesmerEnv& env)=0;
 
-    // Provide a function to calculate contribution to canonical partition function.const Mesmer
-    virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta)=0;
+    // Provide a function to calculate contribution to canonical partition function.
+    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne)=0;
 
     // Provide a function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos)=0;

@@ -28,7 +28,7 @@ namespace mesmer
     virtual bool countCellDOS(gDensityOfStates* mol, const MesmerEnv& env);
 
     // Function to calculate contribution to canonical partition function.
-    virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
+    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne) ;
 
     // Function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
@@ -140,9 +140,9 @@ namespace mesmer
   }
 
   // Calculate contribution to canonical partition function.
-  double Morse::canPrtnFnCntrb(gDensityOfStates* gdos, double beta) {
+  void Morse::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne) {
 
-    double qtot(1.0) ; 
+    double qtot(1.0), ene(0.0) ; 
     for (size_t nFrq(0) ; nFrq < m_vibFreq.size() ; nFrq++ )
     {
       double vibFreq  = m_vibFreq[nFrq];
@@ -159,17 +159,19 @@ namespace mesmer
 
       // Calculate canonical partition function.
 
-      double qtmp(0.0) ;
+      double qtmp(0.0),etmp(0.0) ;
       for (int n(0) ; n <= nmax ; n++ ) {
         double nu = double(n) ;
         double energy = nu*vibFreq + nu*(nu + 1)*anharmty ;
         qtmp += exp(-beta*energy) ;
+        etmp += energy*exp(-beta*energy) ;
       }
-
       qtot *= qtmp ;
+      ene  += etmp/qtmp ;
     }
 
-    return qtot ;
+    PrtnFn   *= qtot ;
+    IntrlEne += ene ;
   }
 
   // Function to return the number of degrees of freedom associated with this count.

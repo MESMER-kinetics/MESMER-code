@@ -1,4 +1,11 @@
-2015-July-09 Struan Robertson
+2015-July-12 Struan Robertson
+
+    * ThermodynamicTable.cpp, gDensityOfStates.cpp/.h and all DoS classes: Density
+    of states classes altered so as to return both the partition function and 
+    internal energy as calculated using analytic methods, where available. This will
+    allow a comparison between cell and analytic functions. 
+
+2015-July-11 Struan Robertson
 
     * XMLPersist.cpp: Altered so that a range of possibilities is give for missing but 
     required attribute.
@@ -9,7 +16,7 @@
 
     * CollisionOperator.cpp: Improved error reporting.
 
-    * Reaction.cpp: Transitionstate role added on parsing.
+    * Reaction.cpp: TransitionState role added on parsing.
 
     * HSO2.xml: Updated test (more still required).
 

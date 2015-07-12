@@ -185,10 +185,11 @@ namespace mesmer
         pp->XmlWriteAttribute("unitsHf", m_Unit);
 
       double S298;//Always calculated. NOTE kJ/mol/K
-
-      double enthalpy298, dummy;
-      pmol->getDOS().thermodynamicsFunctions(298.15, m_unitFctr,
-        enthalpy298, S298, dummy);
+      double enthalpy298 ;
+      thermoDynFns thermos;
+      pmol->getDOS().thermodynamicsFunctions(298.15, m_unitFctr, thermos);
+      enthalpy298 = thermos.enthalpy ;
+      S298        = thermos.entropy ;
       tempLessThan298 = true;
       for (double temp = m_Tmin; temp <= m_Tmax; temp += m_TempInterval)
       {
@@ -202,17 +203,16 @@ namespace mesmer
         }
         temperature.push_back(T);
 
-        double enthalpy(0.0), entropy(0.0), gibbsFreeEnergy(0.0);
-        pmol->getDOS().thermodynamicsFunctions(T, m_unitFctr,
-          enthalpy, entropy, gibbsFreeEnergy);
+        pmol->getDOS().thermodynamicsFunctions(T, m_unitFctr, thermos);
+
         PersistPtr ppVal = pp->XmlWriteElement("me:thermoValue");
         ppVal->XmlWriteAttribute("T", T, 2, true);
-        ppVal->XmlWriteAttribute("H", enthalpy, 4, true);
-        ppVal->XmlWriteAttribute("S", entropy*1000, 4, true);
-        ppVal->XmlWriteAttribute("G", gibbsFreeEnergy, 4, true);
+        ppVal->XmlWriteAttribute("H", thermos.enthalpy, 4, true);
+        ppVal->XmlWriteAttribute("S", thermos.entropy*1000, 4, true);
+        ppVal->XmlWriteAttribute("G", thermos.gibbsFreeEnergy, 4, true);
         if (!IsNan(Hf298local))
         {
-          Hf.push_back((enthalpy - enthalpy298 + Hf298local) * 1000 / R); //e.g. J/mol
+          Hf.push_back((thermos.enthalpy - enthalpy298 + Hf298local) * 1000 / R); //e.g. J/mol
           ppVal->XmlWriteAttribute("Hf", Hf.back()*R / 1000, 4, true); //back to kJ/mol
         }
       }
@@ -260,11 +260,10 @@ namespace mesmer
           coeffs[6] = coeffs[13];
         else
         {
-          double Smid(0.0), dummy1(0.0), dummy2(0.0); //dummys must be diffferent variables!
-          pmol->getDOS().thermodynamicsFunctions(m_Tmid, m_unitFctr,
-            dummy1, Smid, dummy2);
+          double Smid(0.0) ;
+          pmol->getDOS().thermodynamicsFunctions(m_Tmid, m_unitFctr, thermos);
           coeffs[6] = 0.0;
-          coeffs[6] = Smid*1000/R - SdivR(coeffs.begin(), m_Tmid);
+          coeffs[6] = thermos.entropy*1000/R - SdivR(coeffs.begin(), m_Tmid);
         }
 
         // Output to XML using a CML property for Nasa Polynomials

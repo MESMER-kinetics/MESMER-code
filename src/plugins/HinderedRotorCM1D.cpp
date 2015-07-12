@@ -31,7 +31,7 @@ namespace mesmer
     virtual bool countCellDOS(gDensityOfStates* mol, const MesmerEnv& env);
 
     // Provide a function to calculate contribution to canonical partition function.
-    virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
+    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne) ;
 
     // Function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) {return 1 ; } ;
@@ -40,7 +40,7 @@ namespace mesmer
     // This class is an extra DOS class: a non-extra DensityOfStatesCalculator class also
     // needs to be specified.
     HinderedRotorCM1D(const char* id) : 
-      HinderedRotorUtils(id),
+    HinderedRotorUtils(id),
       m_reducedMomentInertia(0.0),
       m_periodicity(1),
       m_energyLevels()
@@ -51,7 +51,7 @@ namespace mesmer
 
   private:
 
-	double m_reducedMomentInertia;
+    double m_reducedMomentInertia;
     int    m_periodicity;
 
     vector<double> m_energyLevels ;	     // The energies of the hindered rotor states.
@@ -83,8 +83,8 @@ namespace mesmer
       return false;
     }
 
-	// Save rotatable bond ID for calculation of GRIT.
-	gs.addRotBondID(string(bondID)) ;
+    // Save rotatable bond ID for calculation of GRIT.
+    gs.addRotBondID(string(bondID)) ;
 
     pair<string,string> bondats = gs.GetAtomsOfBond(bondID);
     if(bondats.first.empty())
@@ -114,7 +114,7 @@ namespace mesmer
 
     // Read in potential information.
 
-	vector<double>&  potentialCosCoeff = get_PotentialCosCoeff() ;
+    vector<double>&  potentialCosCoeff = get_PotentialCosCoeff() ;
 
     m_periodicity = max(m_periodicity, ppDOSC->XmlReadInteger("me:periodicity",optional));
 
@@ -179,7 +179,7 @@ namespace mesmer
           potential.push_back(potentialPoint) ;
         }
 
-		PotentialFourierCoeffs(angle, potential) ;
+        PotentialFourierCoeffs(angle, potential) ;
 
       } else {
 
@@ -210,8 +210,8 @@ namespace mesmer
   //
   bool HinderedRotorCM1D::countCellDOS(gDensityOfStates* pDOS, const MesmerEnv& env)
   {
-	const size_t MaximumCell = env.MaxCell ;
-	const double cellSize = env.CellSize ;
+    const size_t MaximumCell = env.MaxCell ;
+    const double cellSize = env.CellSize ;
 
     vector<double> cellDOS;
     if(!pDOS->getCellDensityOfStates(cellDOS, 0, false)) // retrieve the DOS vector without recalculating
@@ -252,7 +252,7 @@ namespace mesmer
     // the configuration integral contribution.
     //
 
-	const vector<double>&  potentialCosCoeff = get_PotentialCosCoeff() ;
+    const vector<double>&  potentialCosCoeff = get_PotentialCosCoeff() ;
 
     // 1) Set-up array of potential points.
     const size_t npnts(2000) ;
@@ -319,8 +319,8 @@ namespace mesmer
   // Provide a function to calculate contribution to canonical partition function.
   // (Mostly for testing purposes.)
   //
-  double HinderedRotorCM1D::canPrtnFnCntrb(gDensityOfStates* gdos, double beta)
-  {
+  void HinderedRotorCM1D::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne) {
+
     //
     // Calculate the free rotor term first.
     //
@@ -329,11 +329,11 @@ namespace mesmer
     //
     // Calculate the hindering potential correction via numerical integration.
     //
-	const vector<double>&  potentialCosCoeff = get_PotentialCosCoeff() ;
+    const vector<double>&  potentialCosCoeff = get_PotentialCosCoeff() ;
 
     const size_t npnts(1000) ;
     const double intvl(2*M_PI/double(npnts)) ;
-    double Qhdr(0.0) ;
+    double Qhdr(0.0), Ehdr(0.0)  ;
     for (size_t i(0); i < npnts; ++i) {
       double ptnl(0.0) ;
       double angle(double(i)*intvl) ;
@@ -342,9 +342,12 @@ namespace mesmer
         ptnl += potentialCosCoeff[k] * cos(nTheta);
       }
       Qhdr += exp(-beta*ptnl);
+      Ehdr += ptnl*exp(-beta*ptnl);
     }
+    Ehdr /= Qhdr ;
 
-    return Qintrot*Qhdr/double(npnts) ;
+    PrtnFn   *= Qintrot*Qhdr/double(npnts) ;
+    IntrlEne += 1.0/(2*beta) + Ehdr ;
   }
 
 }//namespace

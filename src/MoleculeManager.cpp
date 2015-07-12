@@ -39,9 +39,9 @@ namespace mesmer
     //check if the molecule exists in m_molmap
     constMolIter it = m_molmap.find(molName) ;
     if (it != m_molmap.end()) { 
-	  // found a molecule with the same name --> should check its type as well later.
+      // found a molecule with the same name --> should check its type as well later.
       // Check if the related properties specified by molType is activated to allow
-	  // the molecule to play the specific role. If they are not activated, activate them.
+      // the molecule to play the specific role. If they are not activated, activate them.
       if (!((it->second)->activateRole(molType))){
         cerr << "Failed to initialize some molecular properties";
         return NULL;

@@ -35,7 +35,7 @@ namespace mesmer
     virtual bool countCellDOS(gDensityOfStates* mol,  const MesmerEnv& env);
 
     // Provide a function to calculate contribution to canonical partition function.
-    virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
+    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne) ;
 
     // Function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) {return 1 ; } ;
@@ -527,16 +527,21 @@ namespace mesmer
   // Provide a function to calculate contribution to canonical partition function.
   // (Mostly for testing purposes.)
   //
-  double HinderedRotorQM1D::canPrtnFnCntrb(gDensityOfStates* gdos, double beta)
+  void HinderedRotorQM1D::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne)
   {
-    double Qintrot(0.0) ;
+    double Qintrot(0.0), Eintrot(0.0) ;
 
     double zeroPointEnergy(m_energyLevels[0]) ; 
     for (size_t i(0) ; i < m_energyLevels.size() ; i++ ) {
-      Qintrot += exp(-beta*(m_energyLevels[i] - zeroPointEnergy)) ;
+      double ene = m_energyLevels[i] - zeroPointEnergy ;
+      Qintrot += exp(-beta*ene) ;
+      Eintrot += ene*exp(-beta*ene) ;
     }
+    Qintrot /= double(m_periodicity) ;
+    Eintrot /= Qintrot ;
 
-    return Qintrot/double(m_periodicity) ;
+    PrtnFn   *= Qintrot ;
+    IntrlEne += Eintrot ;
   }
 
   // Shift potential to origin.

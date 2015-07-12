@@ -13,7 +13,7 @@ namespace mesmer
     virtual bool countCellDOS(gDensityOfStates* mol, const MesmerEnv& env);
 
     // Function to calculate contribution to canonical partition function.
-    virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
+    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne) ;
 
     // Function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
@@ -46,8 +46,8 @@ namespace mesmer
   // Provide a function to define particular counts of the DOS of a molecule.
   bool QMRotor::countCellDOS(gDensityOfStates* pDOS, const MesmerEnv& env)
   {
-	const size_t MaximumCell = env.MaxCell ;
-	const double cellSize = env.CellSize ;
+    const size_t MaximumCell = env.MaxCell ;
+    const double cellSize = env.CellSize ;
 
     vector<double> cellEne;
     getCellEnergies(MaximumCell, cellSize, cellEne);
@@ -68,102 +68,101 @@ namespace mesmer
 
     switch (rotorType) {
 
-  case NONLINEAR: //3-D symmetric/asymmetric/spherical top
+    case NONLINEAR: //3-D symmetric/asymmetric/spherical top
 
-    // The following code tests for the type of top and, where possible, uses an analytic 
-    // solution for the energy levels.
+      // The following code tests for the type of top and, where possible, uses an analytic 
+      // solution for the energy levels.
 
-    if (rcA == rcC || ((rcA - rcC)/rcC < .01)) { // spherical top
+      if (rcA == rcC || ((rcA - rcC)/rcC < .01)) { // spherical top
 
-      rcA = (rcA + rcB + rcC) / 3.0;
-      for (int j(0);; ++j ){
-        i_e = nint(rcA * double(j * (j + 1))/cellSize);
-        if (i_e > MaximumCell) break;
-        int sqrdg(2 * j + 1);
-        cellDOS[i_e] = qele * double(sqrdg * sqrdg) / sym;
-      }
-
-    } else {
-
-      // Asymmetry parameter Kappa varies from -1 for a prolate symmetric top to 1 for an oblate symmetric top.
-      double Kappa = (2. * rcB - rcA - rcC)/(rcA - rcC);
-
-      // if (0) { // Near symmetric top.
-      if (abs(Kappa) > 0.95) { // Near symmetric top.
-
-        double rcDiff(0.0) ;
-        int maxJ(0) ;
-
-        if (Kappa > 0.95) { // Near oblate symmetric top.
-
-          // A true oblate symmetric top has rotational constants A = B > C.
-          // Energy given by: E = B J (J + 1) + (C - B) K^2
-          // The closer Kappa is to 1, the closer it is an oblate rotor.
-          rcB    = (rcB + rcA) / 2.0 ;
-          rcDiff = rcC - rcB ;
-          // Determine the maximum J possible for MaximumCell.
-          maxJ = int((-rcB + sqrt(rcB*rcB + 4.0*rcC * double(MaximumCell)))/(2.0*rcC)); 
-
-        } else { // Near prolate symmetric top.
-
-          // A true prolate symmetric top has rotational constants A > B = C.
-          // Energy given by: E = B J (J + 1) + (A - B) K^2
-          // The closer Kappa is to -1, the closer it is an prolate rotor.
-          rcB    = (rcB + rcC) / 2.0 ;
-          rcDiff = rcA - rcB ;
-          // Determine the maximum J possible for MaximumCell.
-          maxJ = int((-rcB + sqrt(rcB*rcB + 4.0*rcB * double(MaximumCell)))/(2.0*rcB)); 
-
+        rcA = (rcA + rcB + rcC) / 3.0;
+        for (int j(0);; ++j ){
+          i_e = nint(rcA * double(j * (j + 1))/cellSize);
+          if (i_e > MaximumCell) break;
+          int sqrdg(2 * j + 1);
+          cellDOS[i_e] = qele * double(sqrdg * sqrdg) / sym;
         }
 
-        for (int j(0); j <= maxJ; ++j ){
-          double d_ei = rcB * double(j * (j + 1)); // B J (J + 1)
-          for (int k(-j) ; k <= j; ++k ){
-            i_e = nint((d_ei + rcDiff * double(k * k))/cellSize) ; 
-            if (i_e < MaximumCell)
-              cellDOS[i_e] += qele * double(2 * j + 1) / sym;
+      } else {
+
+        // Asymmetry parameter Kappa varies from -1 for a prolate symmetric top to 1 for an oblate symmetric top.
+        double Kappa = (2. * rcB - rcA - rcC)/(rcA - rcC);
+
+        // if (0) { // Near symmetric top.
+        if (abs(Kappa) > 0.95) { // Near symmetric top.
+
+          double rcDiff(0.0) ;
+          int maxJ(0) ;
+
+          if (Kappa > 0.95) { // Near oblate symmetric top.
+
+            // A true oblate symmetric top has rotational constants A = B > C.
+            // Energy given by: E = B J (J + 1) + (C - B) K^2
+            // The closer Kappa is to 1, the closer it is an oblate rotor.
+            rcB    = (rcB + rcA) / 2.0 ;
+            rcDiff = rcC - rcB ;
+            // Determine the maximum J possible for MaximumCell.
+            maxJ = int((-rcB + sqrt(rcB*rcB + 4.0*rcC * double(MaximumCell)))/(2.0*rcC)); 
+
+          } else { // Near prolate symmetric top.
+
+            // A true prolate symmetric top has rotational constants A > B = C.
+            // Energy given by: E = B J (J + 1) + (A - B) K^2
+            // The closer Kappa is to -1, the closer it is an prolate rotor.
+            rcB    = (rcB + rcC) / 2.0 ;
+            rcDiff = rcA - rcB ;
+            // Determine the maximum J possible for MaximumCell.
+            maxJ = int((-rcB + sqrt(rcB*rcB + 4.0*rcB * double(MaximumCell)))/(2.0*rcB)); 
+
           }
-        }          
 
-      } else { // General asymmetric top.
+          for (int j(0); j <= maxJ; ++j ){
+            double d_ei = rcB * double(j * (j + 1)); // B J (J + 1)
+            for (int k(-j) ; k <= j; ++k ){
+              i_e = nint((d_ei + rcDiff * double(k * k))/cellSize) ; 
+              if (i_e < MaximumCell)
+                cellDOS[i_e] += qele * double(2 * j + 1) / sym;
+            }
+          }          
 
-		// This method can be expensive. Issue a warning if there is more than four non-Hydrogen atoms.
-		if (pDOS->IsHeavyTop(4)) {
-		  string name(pDOS->getHost()->getName()) ;
-          cinfo << "Warning: " << name << " is an asymmetric top containing five or more non-hydrogen" << endl ;
-          cinfo << "atoms. The asymmetric top rotation states may be expensive to calculate. You may " << endl ;
-          cinfo << "wish to consider using a classical treatment." << endl ;
-		}
+        } else { // General asymmetric top.
 
-        bool withInRange(true) ;
-        for (int j(0); withInRange ; ++j ) {
-          vector<double> Er ;
-          asymmetricRotor(rcA, rcB, rcC, j, Kappa, Er) ;
-          withInRange = false ;
-          for (size_t k(0); k < Er.size() ; ++k ){
-            i_e = nint(Er[k]/cellSize) ;
-            if (i_e < MaximumCell) {
-              withInRange = true ;
-              cellDOS[i_e] += qele * double(2 * j + 1) / sym;
+          // This method can be expensive. Issue a warning if there is more than four non-Hydrogen atoms.
+          if (pDOS->IsHeavyTop(4)) {
+            string name(pDOS->getHost()->getName()) ;
+            cinfo << "Warning: " << name << " is an asymmetric top containing five or more non-hydrogen" << endl ;
+            cinfo << "atoms. The asymmetric top rotation states may be expensive to calculate. You may " << endl ;
+            cinfo << "wish to consider using a classical treatment." << endl ;
+          }
+
+          bool withInRange(true) ;
+          for (int j(0); withInRange ; ++j ) {
+            vector<double> Er ;
+            asymmetricRotor(rcA, rcB, rcC, j, Kappa, Er) ;
+            withInRange = false ;
+            for (size_t k(0); k < Er.size() ; ++k ){
+              i_e = nint(Er[k]/cellSize) ;
+              if (i_e < MaximumCell) {
+                withInRange = true ;
+                cellDOS[i_e] += qele * double(2 * j + 1) / sym;
+              }
             }
           }
         }
-
       }
-    }
-    break;
-  case LINEAR: //2-D linear
-    for (int j(0);; ++j ){
-      i_e = nint(rcA * double(j * (j + 1))/cellSize);
-      if (i_e > MaximumCell){
-        break;
+      break;
+    case LINEAR: //2-D linear
+      for (int j(0);; ++j ){
+        i_e = nint(rcA * double(j * (j + 1))/cellSize);
+        if (i_e > MaximumCell){
+          break;
+        }
+        cellDOS[i_e] += qele * double(2 * j + 1) / sym;
       }
-      cellDOS[i_e] += qele * double(2 * j + 1) / sym;
-    }
-    break;
-  default: // Assume atom.
-    cellDOS[0] = qele ;
-    break;
+      break;
+    default: // Assume atom.
+      cellDOS[0] = qele ;
+      break;
     }
 
     // Electronic excited states.
@@ -291,35 +290,44 @@ namespace mesmer
   }
 
   // Calculate contribution to canonical partition function.
-  double QMRotor::canPrtnFnCntrb(gDensityOfStates* gdos, double beta) {
+  void QMRotor::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne) {
 
     vector<double> rotConst;
     RotationalTop rotorType = gdos->get_rotConsts(rotConst);
     double sym = gdos->get_Sym();
 
-    double qtot(1.0) ; 
+    double qtot(1.0), ene(0.0) ; 
     qtot *= double(gdos->getSpinMultiplicity());
 
+    // Classical approximations are used here for convenience. These will
+    // break down at low temperature, in this case the cell based solution
+    // is probably more accurate, though the use of symmetry numbers will
+    // also be incorrect under such condiditons.
     switch(rotorType){
-      case NONLINEAR://3-D symmetric/asymmetric/spherical top
-        qtot *= (sqrt(M_PI/(rotConst[0] * rotConst[1] * rotConst[2]))*(pow(beta,-1.5))/sym) ;
-        break;
-      case LINEAR://2-D linear
-        qtot /= (rotConst[0]*sym*beta) ;
-        break;
-      default:
-        break; // Assume atom.
+    case NONLINEAR://3-D symmetric/asymmetric/spherical top
+      qtot *= (sqrt(M_PI/(rotConst[0] * rotConst[1] * rotConst[2]))*(pow(beta,-1.5))/sym) ;
+      ene   = 3.0/(2.0*beta) ;
+      break;
+    case LINEAR://2-D linear
+      qtot /= (rotConst[0]*sym*beta) ;
+      ene   = 1.0/beta ;
+      break;
+    default:
+      break; // Assume atom.
     }
 
     // Electronic excited states.
     vector<double> eleExc;
     gdos->getEleExcitation(eleExc);
-	double qelec(1.0) ;
+    double qelec(1.0), Eelec(0.0) ;
     for (size_t j(0) ; j < eleExc.size() ; ++j){
       qelec += exp(-beta*eleExc[j]) ;
+      Eelec += eleExc[j]*exp(-beta*eleExc[j]) ;
     }
+    Eelec /= qelec ;
 
-    return qtot*qelec ;
+    PrtnFn   *= qtot*qelec ;
+    IntrlEne += ene + Eelec ;
   }  
 
   // Function to return the number of degrees of freedom associated with this count.
@@ -330,15 +338,15 @@ namespace mesmer
 
     unsigned int nDOF(0) ;
     switch(rotorType){
-      case NONLINEAR:
-        nDOF = 3 ;
-        break;
-      case LINEAR:
-        nDOF = 2 ;
-        break;
-      default:
-        // Assume atom.
-        break; 
+    case NONLINEAR:
+      nDOF = 3 ;
+      break;
+    case LINEAR:
+      nDOF = 2 ;
+      break;
+    default:
+      // Assume atom.
+      break; 
     }
 
     return nDOF ;

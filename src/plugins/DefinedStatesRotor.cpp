@@ -32,7 +32,7 @@ namespace mesmer
     virtual bool countCellDOS(gDensityOfStates* mol,  const MesmerEnv& env);
 
     // Function to calculate contribution to canonical partition function.
-    virtual double canPrtnFnCntrb(gDensityOfStates* gdos, double beta) ;
+    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne) ;
 
     // Function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
@@ -125,16 +125,20 @@ namespace mesmer
   //
   // Provide a function to calculate contribution to canonical partition function.
   //
-  double DefinedStatesRotor::canPrtnFnCntrb(gDensityOfStates* gdos, double beta)
+  void DefinedStatesRotor::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne)
   {
-    double Qrot(0.0) ;
+    double Qrot(0.0), Erot(0.0) ;
 
     double zeroPointEnergy(m_energyLevels[0]) ; 
     for (size_t i(0) ; i < m_energyLevels.size() ; i++ ) {
-      Qrot += double(m_degeneracies[i])*exp(-beta*(m_energyLevels[i] - zeroPointEnergy)) ;
+      double ene = m_energyLevels[i] - zeroPointEnergy ;
+      Qrot += double(m_degeneracies[i])*exp(-beta*ene) ;
+      Erot += ene*double(m_degeneracies[i])*exp(-beta*ene) ;
     }
+    Erot /= Qrot ;
 
-    return Qrot ;
+    PrtnFn   *= Qrot ;
+    IntrlEne += Erot ;
   }
 
   // Function to return the number of degrees of freedom associated with this count.
