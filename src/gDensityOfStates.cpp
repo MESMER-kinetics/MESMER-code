@@ -260,8 +260,10 @@ namespace mesmer
       return fromValue;
 
     ErrorContext c(getHost()->getName());
-    double H, S, G;
-    thermodynamicsFunctions(298, 1.0 / kJPerMol_in_RC, H, S, G); //kJ/mol
+    // double H, S, G;
+    // thermodynamicsFunctions(298, 1.0 / kJPerMol_in_RC, H, S, G); //kJ/mol
+    thermoDynFns thermos;
+    thermodynamicsFunctions(298.15, 1.0 / kJPerMol_in_RC, thermos);
     double atomZPE, atomHf0, atomHf298, atomdH298, stddH298;
     if (!(getHost()->getStruc()).GetConstituentAtomThermo(atomZPE, atomHf0, atomHf298, atomdH298,stddH298))
     {
@@ -281,14 +283,14 @@ namespace mesmer
     //Use Hf0 as intermediate
     double val = ConvertEnergy(units, "kJ/mol", fromValue);
     if (fromConvention == "thermodynamic298K")
-      val += stddH298 - H; //all in kJ/mol
+      val += stddH298 - thermos.enthalpy ; //all in kJ/mol
     else if (fromConvention == "computational")
       val += atomHf0 - atomZPE ;
     else if (fromConvention != "thermodynamic")
       val = NaN;
 
     if (toConvention == "thermodynamic298K")
-      val += H - stddH298; //all in kJ/mol
+      val += thermos.enthalpy - stddH298; //all in kJ/mol
     else if (toConvention == "computational")
       val += atomZPE - atomHf0;
     else if (toConvention != "thermodynamic")
