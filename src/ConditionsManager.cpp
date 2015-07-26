@@ -7,55 +7,55 @@ using namespace std;
 namespace mesmer
 {
 
-ConditionsManager::ConditionsManager(System* pSys) : m_pSys(pSys) {}
+  ConditionsManager::ConditionsManager(System* pSys) : m_pSys(pSys) {}
 
-bool ConditionsManager::ParseBathGas(PersistPtr ppConditions)
-{
-
-  m_ppConditions = ppConditions;
-  const char* txt = m_ppConditions->XmlReadValue("me:bathGas", optional);//bathgas may be specified in PTs
-  if(txt)
+  bool ConditionsManager::ParseBathGas(PersistPtr ppConditions)
   {
-    string Bgtxt(txt);
-    if(!m_pSys->getMoleculeManager()->addmol(Bgtxt, "bathGas", m_pSys->getEnv(), m_pSys->m_Flags))
-      return false;
-    m_pSys->getMoleculeManager()->set_BathGasMolecule(Bgtxt) ;
+
+    m_ppConditions = ppConditions;
+    const char* txt = m_ppConditions->XmlReadValue("me:bathGas", optional);//bathgas may be specified in PTs
+    if(txt)
+    {
+      string Bgtxt(txt);
+      if(!m_pSys->getMoleculeManager()->addmol(Bgtxt, "bathGas", m_pSys->getEnv(), m_pSys->m_Flags))
+        return false;
+      m_pSys->getMoleculeManager()->set_BathGasMolecule(Bgtxt) ;
+    }
+    return true;
   }
-  return true;
-}
 
-bool ConditionsManager::ParseConditions()
-{
-  //Save excess concs as specified in <Reaction>s
-  vector<Reaction*> pReacts = m_pSys->getReactionManager()->getReactionsWithExcessReactant();
-  for(vector<Reaction*>::iterator it=pReacts.begin();it!=pReacts.end();++it)
-    baseExcessConcs[*it] = (*it)->get_concExcessReactant();
-
-  if(!readPTs()) return false;
-  if (!PandTs.size())
-    cerr << "No pressure and temperature specified." << endl;
-
-  // read initial isomer populations (need to be normalized later if their sum's not equal to 1.0)
-  PersistPtr ppInitialPopulation = m_ppConditions->XmlMoveTo("me:InitialPopulation");
-  if (ppInitialPopulation)
-    m_pSys->getReactionManager()->setInitialPopulation(ppInitialPopulation);
-  return true;
-}
-
-bool ConditionsManager::getConditions (vector<double> &Temperature, vector<double> &Concentration)
-{
-  bool status(true) ;
-
-  for (size_t calPoint = 0; calPoint < PandTs.size(); ++calPoint)
+  bool ConditionsManager::ParseConditions()
   {
-    double temp = PandTs[calPoint].m_temperature ; 
-    Temperature.push_back(temp) ;
+    //Save excess concs as specified in <Reaction>s
+    vector<Reaction*> pReacts = m_pSys->getReactionManager()->getReactionsWithExcessReactant();
+    for(vector<Reaction*>::iterator it=pReacts.begin();it!=pReacts.end();++it)
+      baseExcessConcs[*it] = (*it)->get_concExcessReactant();
 
-    m_pSys->getEnv().conc = PandTs[calPoint].m_concentration; // unit of conc: particles per cubic centimeter
-    Concentration.push_back(m_pSys->getEnv().conc) ;
+    if(!readPTs()) return false;
+    if (!PandTs.size())
+      cerr << "No pressure and temperature specified." << endl;
+
+    // read initial isomer populations (need to be normalized later if their sum's not equal to 1.0)
+    PersistPtr ppInitialPopulation = m_ppConditions->XmlMoveTo("me:InitialPopulation");
+    if (ppInitialPopulation)
+      m_pSys->getReactionManager()->setInitialPopulation(ppInitialPopulation);
+    return true;
   }
-  return status ;
-}
+
+  bool ConditionsManager::getConditions (vector<double> &Temperature, vector<double> &Concentration)
+  {
+    bool status(true) ;
+
+    for (size_t calPoint = 0; calPoint < PandTs.size(); ++calPoint)
+    {
+      double temp = PandTs[calPoint].m_temperature ; 
+      Temperature.push_back(temp) ;
+
+      m_pSys->getEnv().conc = PandTs[calPoint].m_concentration; // unit of conc: particles per cubic centimeter
+      Concentration.push_back(m_pSys->getEnv().conc) ;
+    }
+    return status ;
+  }
 
   // This is a function for reading concentration/pressure and temperature conditions.
   bool ConditionsManager::readPTs()
@@ -81,8 +81,7 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
         if (txt)
           this_units = txt;
 
-
-				Precision this_precision(UNDEFINED_PRECISION);
+        Precision this_precision(UNDEFINED_PRECISION);
         txt = ppPTset->XmlReadValue("me:precision", optional);
         if(!txt)
           txt = ppPTset->XmlReadValue("precision");
@@ -97,7 +96,7 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
         for (size_t i(0) ; i < Pvals.size(); ++i){
           for (size_t j(0) ; j < Tvals.size(); ++j){
             CandTpair thisPair(getConvertedP(this_units, Pvals[i], Tvals[j]), Tvals[j],
-                                             this_precision, bathGasName, baseExcessConcs);
+              this_precision, bathGasName, baseExcessConcs);
             PandTs.push_back(thisPair);
             m_pSys->getEnv().MaximumTemperature = max(m_pSys->getEnv().MaximumTemperature, thisPair.m_temperature);
           }
@@ -121,10 +120,11 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
       PersistPtr ppPTpair = pp->XmlMoveTo("me:PTpair");
       while (ppPTpair){
         string this_units;
-         //use default only if there are no common units specified
-        txt = ppPTpair->XmlReadValue("units", !common_units);
+        // Use default only if there are no common units specified.
+        txt = ppPTpair->XmlReadValue("units", common_units);
         if(!txt)
-          txt = ppPTpair->XmlReadValue("me:units", optional);
+          txt = ppPTpair->XmlReadValue("me:units", common_units);
+
         if (txt)
           this_units = txt;
         else if(common_units)
@@ -210,8 +210,8 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
                 if(pMol != (*it)->getExcessReactant())
                 {
                   cerr << "The attribute excessReactantConc on PTs or PTPair can be used only "
-                       << "if every excess Reactant is the same molecule or if refReactionExcess is specified."
-                       << endl;
+                    << "if every excess Reactant is the same molecule or if refReactionExcess is specified."
+                    << endl;
                   throw std::runtime_error("Erroneous excessReactantConc attribute in PTPair");
                 }
               }
@@ -227,7 +227,7 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
         cinfo << this_P << this_units << ", " << this_T << "K at " << txt 
           << " precision" << " with " << bathGasName;
         if(!IsNan(excessConc))
-         cinfo << ". Excess Reactant Conc = " << excessConc << " particles per cc";
+          cinfo << ". Excess Reactant Conc = " << excessConc << " particles per cc";
         cinfo << endl; 
 
         // Extract experimental rate coefficient values for chiSquare calculation.
@@ -345,8 +345,8 @@ bool ConditionsManager::getConditions (vector<double> &Temperature, vector<doubl
           if (!IsNan(startTime))
             ds.data.erase(remove_if(ds.data.begin(), ds.data.end(), Before(startTime)), ds.data.end());
 
-            //ds.data.erase(remove_if(ds.data.begin(), ds.data.end(),
-            //  [startTime](pair<double,double> pr){return pr.first < startTime;}), ds.data.end()); //C++11
+          //ds.data.erase(remove_if(ds.data.begin(), ds.data.end(),
+          //  [startTime](pair<double,double> pr){return pr.first < startTime;}), ds.data.end()); //C++11
 
           thisPair.m_rawDataSets.push_back(ds);
         }

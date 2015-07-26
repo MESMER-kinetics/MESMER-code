@@ -1,7 +1,11 @@
 2015-July-26 Struan Robertson
 
-    * System.cpp/.h: Inital plumbing of methods related to direct analysis of 
-    experimental data added.
+    * ConditionsManager.cpp: Fix for concentration bug.
+
+2015-July-26 Struan Robertson
+
+    * System.cpp/.h: Initial plumbing of methods related to direct analysis of 
+    experimental data.
 
     * CollisionOperator.cpp: Altered to reduce the amount of chatter being produced.
     
