@@ -118,6 +118,7 @@ namespace mesmer
     double calcChiSqRateCoefficients(const qdMatrix& mesmerRates, const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals) ;
     double calcChiSqYields(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals);
     double calcChiSqEigenvalues(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals);
+    double calcChiSqRawData(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals);
 
     //Add extra attributes) containing calculated value and timestamp to <me:experimentalRate> (or similar element)
     void AddCalcValToXml(const unsigned calPoint, size_t i, double val) const;

@@ -1,3 +1,10 @@
+2015-July-26 Struan Robertson
+
+    * System.cpp/.h: Inital plumbing of methods related to direct analysis of 
+    experimental data added.
+
+    * CollisionOperator.cpp: Altered to reduce the amount of chatter being produced.
+    
 2015-July-12 Struan Robertson
 
     * ThermodynamicTable.cpp, gDensityOfStates.cpp/.h and all DoS classes: Density

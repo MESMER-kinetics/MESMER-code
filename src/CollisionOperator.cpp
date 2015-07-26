@@ -1231,7 +1231,7 @@ namespace mesmer
       Molecule* source = spos->first;
       int rxnMatrixLoc = spos->second;
       if (populationSum == 0. && spos == m_sources.begin()){
-        cinfo << "No population was assigned. Initialize the first source term to 1.0." << endl;
+        cinfo << "No population was assigned. Initialize the first source term to 1.0." << once << endl;
         n_0[rxnMatrixLoc] = 1.0;
       }
       else{
@@ -1320,7 +1320,9 @@ namespace mesmer
       const double last_CSE = (to_double(m_eigenvalues[nchemIdx]));
       const double first_IERE = (to_double(m_eigenvalues[nchemIdx - 1]));
       const double CSE_IERE_ratio = last_CSE / first_IERE;
-      if (CSE_IERE_ratio > adsorbedCSETol){
+      static bool bCSE_IERE_ratio_WARN = true ;
+      if (CSE_IERE_ratio > adsorbedCSETol && bCSE_IERE_ratio_WARN){
+        bCSE_IERE_ratio_WARN = false ; // Only issue this warning once.
         stringstream ss1;
         ss1 << "\nWARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs)." << endl;
         ss1 << "\nThe last CSE = " << last_CSE*m_meanOmega << " and the first IERE = " << first_IERE*m_meanOmega << endl;

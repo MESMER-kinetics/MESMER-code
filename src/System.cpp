@@ -528,9 +528,8 @@ namespace mesmer
               m_collisionOperator.printGrainProfileAtTime(ppGrainList);
             }
           } else {
-			cinfo << "At present it is not possible to print profiles for systems with a second order term." << endl ;
-		  }
-
+            cinfo << "At present it is not possible to print profiles for systems with a second order term." << endl ;
+          }
 
           // Calculate rate coefficients. 
           PersistPtr ppList = ppAnalysis->XmlWriteElement("me:rateList");
@@ -553,6 +552,8 @@ namespace mesmer
           chiSquare += calcChiSqYields(calPoint, rateCoeffTable, residuals);
 
           chiSquare += calcChiSqEigenvalues(calPoint, rateCoeffTable, residuals);
+
+          chiSquare += calcChiSqRawData(calPoint, rateCoeffTable, residuals);
 
           ctest << "}\n";
 
@@ -588,7 +589,6 @@ namespace mesmer
   //
   bool System::calculate(size_t nConds, vector<double> &Quantities, bool writeReport )
   {
-
     //
     // Reset microcanonical rate re-calculation flag as parameters, such
     // as reaction threshold may have been altered between invocations of
@@ -832,6 +832,13 @@ namespace mesmer
       rateCoeffTable << formatFloat(expEigenvalue, 6, 15) << formatFloat(eigenvalue, 6, 15) << endl ;
       AddCalcValToXml(calPoint, i, eigenvalue);
     }
+
+    return chiSquare;
+  }
+
+  double System::calcChiSqRawData(const unsigned calPoint, stringstream &rateCoeffTable, vector<double> &residuals) {
+
+    double chiSquare(0.0) ;
 
     return chiSquare;
   }
