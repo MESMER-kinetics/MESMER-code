@@ -51,6 +51,7 @@ T* ParseForPlugin(U* pParent, const char* elTypeName, PersistPtr ppTop, bool Mus
   if(pPlugin)
   {
     pPlugin->setParent(pParent);
+    cinfo << "--Parse data for " << pPlugin->getID() << endl;
     dataOK = pPlugin->ParseData(pp);//use plugin's virtual function
     if(!dataOK)
     {

@@ -448,6 +448,28 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="simpleCalc">
+    <xs:complexContent>
+      <xs:extension base="calcMethodct">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="gridSearch">
+    <xs:complexContent>
+      <xs:extension base="calcMethodct">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="UnitTests">
+    <xs:complexContent>
+      <xs:extension base="calcMethodct">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+
   <xs:complexType name="ThermoParamType">
     <xs:simpleContent>
     <xs:extension base="xs:float">
@@ -467,6 +489,7 @@
           <xs:element name="Tmax" type="ThermoParamType" minOccurs="0"/>
           <xs:element name="Tstep" type="ThermoParamType" minOccurs="0"/>
           <xs:element name="Tmid" type="ThermoParamType" minOccurs="0"/>
+          <xs:element name="withCellDOSCalc" minOccurs="0"/>
         </xs:all>
       </xs:extension>
     </xs:complexContent>

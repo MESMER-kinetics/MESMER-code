@@ -161,60 +161,74 @@ namespace mesmer
       if(m_CalcMethodsForEachControl.size()==1)
       {
         if (m_CalcMethod->DoesOwnParsing()) {
-          // Thermodynamic table, UnitTests,etc. do their own file parsing.
+          // UnitTests,etc. does its own file parsing.
           m_FlagsForEachControl.push_back(m_Flags);
-          return true ;
+          continue; //return true ;
         }
 
         // Model Parameters 
-        PersistPtr ppParams;
-        // Add this section if it does not exist, to contain defaults
-        while(!(ppParams = ppIOPtr->XmlMoveTo("me:modelParameters")))
-          ppIOPtr->XmlWriteElement("me:modelParameters");
-
-        // The grain size and grain number are linked via the total maximum energy,
-        // so only on of then is independent. Look for grain size first and if that
-        // fails look for the Max. number of grains.
-
-        m_Env.GrainSize = ppParams->XmlReadInteger("me:grainSize", optional);
-        if (m_Env.GrainSize==0) {      
-          m_Env.MaxGrn = ppParams->XmlReadInteger("me:numberOfGrains",optional);
-          if (IsNan(m_Env.MaxGrn))
-            m_Env.MaxGrn=0;
+        bool readModelParams(true);
+        if (!ppIOPtr->XmlMoveTo("me:modelParameters"))
+        {
+          // No <me:modelParameters> found so give calcMethod the opportunity
+          // to provide defaults. If it does it returns true.
+          // Most calcMethods will return false.
+          readModelParams = !m_CalcMethod->DoesOwnParsing(CalcMethod::MODELPARAMS);
         }
+        if (readModelParams)
+        {
+          PersistPtr ppParams;
+          // Add this section if it does not exist, to contain defaults
+          while (!(ppParams = ppIOPtr->XmlMoveTo("me:modelParameters")))
+            ppIOPtr->XmlWriteElement("me:modelParameters");
 
-        m_Env.CellSize = ppParams->XmlReadDouble("me:cellSize", optional);
-        if (IsNan(m_Env.CellSize)) {
-          m_Env.CellSize = 1.0 ; // Default cell size in cm-1.
-        }
+          // The grain size and grain number are linked via the total maximum energy,
+          // so only on of then is independent. Look for grain size first and if that
+          // fails look for the Max. number of grains.
 
-        m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature",optional);
-        if(IsNan(m_Env.MaximumTemperature))
-          m_Env.MaximumTemperature = 0.0;
-        m_Env.EAboveHill         = ppParams->XmlReadDouble("me:energyAboveTheTopHill");
-        m_Env.useBasisSetMethod  = ppParams->XmlReadBoolean("me:runBasisSetMethodroutines");
-        if (m_Env.useBasisSetMethod) {
-          PersistPtr ppBasisSet = ppParams->XmlMoveTo("me:runBasisSetMethodroutines");
-          if(ppBasisSet) {
-            m_Env.nBasisSet = ppBasisSet->XmlReadInteger("me:numberBasisFunctions");
-          } else {
-            cerr << "Basis set method requested but number of basis functions unspecified.";
-            return false;
+          m_Env.GrainSize = ppParams->XmlReadInteger("me:grainSize", optional);
+          if (m_Env.GrainSize == 0) {
+            m_Env.MaxGrn = ppParams->XmlReadInteger("me:numberOfGrains", optional);
+            if (IsNan(m_Env.MaxGrn))
+              m_Env.MaxGrn = 0;
+          }
+
+          m_Env.CellSize = ppParams->XmlReadDouble("me:cellSize", optional);
+          if (IsNan(m_Env.CellSize)) {
+            m_Env.CellSize = 1.0; // Default cell size in cm-1.
+          }
+
+          m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature", optional);
+          if (IsNan(m_Env.MaximumTemperature))
+            m_Env.MaximumTemperature = 0.0;
+          m_Env.EAboveHill = ppParams->XmlReadDouble("me:energyAboveTheTopHill");
+          m_Env.useBasisSetMethod = ppParams->XmlReadBoolean("me:runBasisSetMethodroutines");
+          if (m_Env.useBasisSetMethod) {
+            PersistPtr ppBasisSet = ppParams->XmlMoveTo("me:runBasisSetMethodroutines");
+            if (ppBasisSet) {
+              m_Env.nBasisSet = ppBasisSet->XmlReadInteger("me:numberBasisFunctions");
+            }
+            else {
+              cerr << "Basis set method requested but number of basis functions unspecified.";
+              return false;
+            }
+          }
+          PersistPtr pp = ppParams->XmlMoveTo("me:automaticallySetMaxEne");
+          if (pp) {
+            m_Flags.autoSetMaxEne = true;
+            m_Flags.popThreshold = ppParams->XmlReadDouble("me:automaticallySetMaxEne");
           }
         }
-        PersistPtr pp = ppParams->XmlMoveTo("me:automaticallySetMaxEne");
-        if (pp) {
-          m_Flags.autoSetMaxEne = true;
-          m_Flags.popThreshold = ppParams->XmlReadDouble("me:automaticallySetMaxEne");
-        }
+
         cinfo.flush();
 
         //Reaction Conditions
         ppConditions = ppIOPtr->XmlMoveTo("me:conditions");
         if(!ppConditions)
         {
-          cerr << "No conditions specified";
-          return false;
+          cerr << "No conditions specified" << endl;
+          //Except with ThermodynamicTable and UnitTests returns false to abort
+          return m_CalcMethod->DoesOwnParsing(CalcMethod::NOCONDITIONSOK);
         }
 
         m_ConditionsForEachControl.push_back(m_pConditionsManager);
@@ -350,29 +364,33 @@ namespace mesmer
   //
   void System::executeCalculation()
   {
-    unsigned nConditionBlocks = m_ConditionsForEachControl.size()
-      - count(m_ConditionsForEachControl.begin(), m_ConditionsForEachControl.end(), (ConditionsManager*)NULL);
-    for (unsigned i = 0; i<m_CalcMethodsForEachControl.size(); ++i)
+    if (!m_ConditionsForEachControl.empty())
     {
-      m_CalcMethod = m_CalcMethodsForEachControl[i];
-      assert(m_CalcMethod);
-      m_Flags = m_FlagsForEachControl[i];
-      cinfo << "Execute calcMethod " << m_CalcMethod->getID();
-
-      if (nConditionBlocks>1)
+      unsigned nConditionBlocks = m_ConditionsForEachControl.size()
+        - count(m_ConditionsForEachControl.begin(), m_ConditionsForEachControl.end(), (ConditionsManager*)NULL);
+      for (unsigned i = 0; i < m_CalcMethodsForEachControl.size(); ++i)
       {
-        if (m_ConditionsForEachControl[i]) //update if non-NULL
-          m_pConditionsManager = m_ConditionsForEachControl[i];
+        m_CalcMethod = m_CalcMethodsForEachControl[i];
+        assert(m_CalcMethod);
+        m_Flags = m_FlagsForEachControl[i];
+        cinfo << "\n--Execute calcMethod " << m_CalcMethod->getID();
 
-        const char a[4][7] = { "first", "second", "third", "fourth" };
-        cinfo << " using " << a[min(i, nConditionBlocks)] << " conditions block ";
+        if (nConditionBlocks > 1)
+        {
+          if (m_ConditionsForEachControl[i]) //update if non-NULL
+            m_pConditionsManager = m_ConditionsForEachControl[i];
+
+          const char a[4][7] = { "first", "second", "third", "fourth" };
+          cinfo << " using " << a[min(i, nConditionBlocks)] << " conditions block ";
+        }
       }
-      cinfo << endl;
-      m_CalcMethod->DoCalculation(this);
-
-      //Calls Finish() for each Reaction. Usually does nothing except in AssociationReaction
-      m_pReactionManager->finish();
     }
+    cinfo << endl;
+    m_CalcMethod->DoCalculation(this);
+
+    //Calls Finish() for each Reaction. Usually does nothing except in AssociationReaction
+    m_pReactionManager->finish();
+    
     //Write the energy convention as an attribute on <moleculeList>
     m_pMoleculeManager->WriteEnergyConvention();
   }

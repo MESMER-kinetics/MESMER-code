@@ -15,11 +15,13 @@ namespace mesmer
   class CalcMethod : public TopPlugin
   {
   public:
+    enum parseQuery { ALL, NOCONDITIONSOK, MODELPARAMS };
     static const char* typeID(){ return "Calculation methods"; }
     virtual ~CalcMethod(){}
     virtual const char* getTypeID(){return typeID();}
 
-    virtual bool DoesOwnParsing() { return false; }
+    //Most methods always return false to all questions
+    virtual bool DoesOwnParsing(parseQuery q=ALL) { return false; }
 
     //Get a pointer to a derived class by providing its id.
     static CalcMethod* Find(const std::string& id)

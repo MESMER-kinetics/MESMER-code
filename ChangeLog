@@ -1,3 +1,27 @@
+2015-August-01 Chris Morley
+
+	* src/ConditionsManager.cpp: tidy up and correct parsing of
+	  <PTPair>, etc.
+
+	* src/calcmethod.h, src/System.cpp: Expand DoesOwnParsing() to allow
+	calcMethods more choice in what they parse themselves.
+
+	* src/plugins/ThermodynamicTable.cpp: Write both analytical and cell
+	versions if	<me:withCellDOSCalc> specified, else just analytical.
+	Allows normal parsing for <modelParameters> but has its own defaults if
+	the section is not present.
+
+	* mesmer1.xsl: formatting of expanded thermo table.
+
+	* MesmerQA/ThermodynamicTable/ThermodynamicTable.xml:
+	add <me:withCellDOSCalc> but baselines not yet updated. 
+
+	* src/ParseForPlugin.h: put extra info in log file.
+
+	* schemas/mesmer.xsd,schemas/mesmerPlugins.xsd: update schemas.
+
+	* MesmerQA/HSO2/HSO2.xml: Make schema compliant.
+
 2015-July-26 Struan Robertson
 
     * ConditionsManager.cpp: Fix for concentration bug.
@@ -33,7 +57,6 @@
 
     * PseudoIsomerization.cpp: Code formatting.
 
-2015-July-10 Chris Morley
 
   * src/ConditionsManager.cpp, src/ConditionsManager.h: Replace C++11 lambda by functor.
   Corrections to avoid an extra number input. With a stringstream times,

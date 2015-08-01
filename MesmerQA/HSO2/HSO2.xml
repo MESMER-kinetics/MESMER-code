@@ -355,7 +355,7 @@
   </me:control>
 
   <me:control>
-    <me:calcMethod units="kJ/mol" xsi:type="ThermodynamicTable">
+    <me:calcMethod units="kJ/mol" xsi:type="me:ThermodynamicTable">
       <me:Tmin>75</me:Tmin>
       <me:Tmid>600</me:Tmid>
       <me:Tmax>1050</me:Tmax>

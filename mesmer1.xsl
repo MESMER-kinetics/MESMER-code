@@ -57,7 +57,7 @@
       </script>
       <style>
         <![CDATA[
-        body{margin:20px;padding:0;}
+        body{margin:20px;padding:4;}
         caption{font-weight:bold;}
         table.mol{border-spacing:10px;}
         .name{font-weight:bold;}
@@ -96,7 +96,7 @@
         table.thermo{ text-align:center;width:450px;}
         .highlight{background-color:#f8f8f8;}
 
-        td{padding:0px 4px;}
+        td{padding:0px 2px;}
         td.SAid{font-size:smaller;font-weight:bold;}
         .SA2{text-align:center;}
         th{font-size:smaller;border-bottom:1px dashed black;}
@@ -113,6 +113,8 @@
         #metadata{color:teal;font-size:60%;}
         #hide{font-size:small;text-decoration:underline;color:blue;cursor:pointer;}
         #Punchout{font-size:12px;color:gray;}
+        .thermo tr td:nth-of-type(odd){ border-right:1px dashed;padding-right:10px;}
+        .thermo tr th:nth-of-type(odd){ border-right:1px dashed;padding-right:10px;}
         ]]>
       </style>
       <xsl:variable name="inactval">
@@ -735,31 +737,85 @@
 
   <xsl:template match="//me:thermoTable">
     <h4><xsl:value-of select="../@id"/></h4>
-    <table class="thermo">
-        <tr>
-          <td>Temp</td> <td>H(T)-H(0)</td> <td>S(T)-S(0)</td> <td>G(T)-G(0)</td>
-          <xsl:if test="@unitsHf"><td>&#916;Hf</td></xsl:if>
+    <xsl:choose>
+      <xsl:when test="me:thermoValue/@cellH">
+      <p>Data is derived in two ways: from analytical expressions and from cell averages</p>
+      <table class="thermo">
+        <tr class="tablehead1">
+          <td>T</td> <td colspan="2">H(T)-H(0)</td>
+          <td colspan="2">S(T)</td>
+          <td colspan="2">G(T)</td>
+          <xsl:if test="@unitsHf">
+            <td>&#916;Hf</td>
+          </xsl:if>
         </tr>
         <tr>
-        <th><xsl:value-of select="@unitsT"/></th>
-        <th><xsl:value-of select="@unitsH"/></th>
-        <th><xsl:value-of select="@unitsS"/></th>
-        <th><xsl:value-of select="@unitsG"/></th>
-        <th><xsl:value-of select="@unitsHf"/></th>
+          <td></td>
+          <td>analytic</td><td>cell</td>
+          <td>analytic</td><td>cell</td>
+          <td>analytic</td><td>cell</td>
         </tr>
-      <xsl:for-each select="me:thermoValue">
-        <tr>
-          <xsl:if test="@T=298.15">
-            <xsl:attribute name="class">highlight</xsl:attribute>
-          </xsl:if> 
-          <td> <xsl:value-of select="@T"/></td>
-          <td> <xsl:value-of select="@H"/></td>
-          <td> <xsl:value-of select="@S"/></td>
-          <td> <xsl:value-of select="@G"/></td>
-          <td> <xsl:value-of select="@Hf"/></td>
-        </tr>
-    </xsl:for-each>
-    </table>
+          <tr>
+          <th><xsl:value-of select="@unitsT"/></th>
+          <th><xsl:value-of select="@unitsH"/></th>
+          <th><xsl:value-of select="@unitsH"/></th>
+          <th><xsl:value-of select="@unitsS"/></th>
+          <th><xsl:value-of select="@unitsS"/></th>
+          <th><xsl:value-of select="@unitsG"/></th>
+          <th><xsl:value-of select="@unitsG"/></th>
+          <th><xsl:value-of select="@unitsHf"/></th>
+          </tr>
+        <xsl:for-each select="me:thermoValue">
+          <tr>
+            <xsl:if test="@T=298.15">
+              <xsl:attribute name="class">highlight</xsl:attribute>
+            </xsl:if> 
+            <td> <xsl:value-of select="@T"/></td>
+            <td> <xsl:value-of select="@H"/></td>
+            <td> <xsl:value-of select="@cellH"/></td>
+            <td> <xsl:value-of select="@S"/></td>
+            <td> <xsl:value-of select="@cellS"/></td>
+            <td> <xsl:value-of select="@G"/></td>
+            <td> <xsl:value-of select="@cellG"/></td>
+            <td> <xsl:value-of select="@Hf"/></td>
+          </tr>
+        </xsl:for-each>
+      </table>
+    </xsl:when>
+      <xsl:otherwise>
+        <!--Values only from analytical version-->
+        <table>
+          <tr class="tablehead3">
+            <td>T</td>
+            <td> &#160;H(T)-H(0)  &#160; </td>
+            <td> &#160;S(T)  &#160; </td>
+            <td> &#160;G(T)  &#160; </td>
+            <xsl:if test="@unitsHf">
+              <td>&#916;Hf</td>
+            </xsl:if>
+          </tr>
+          <tr>
+            <th><xsl:value-of select="@unitsT"/></th>
+            <th><xsl:value-of select="@unitsH"/></th>
+            <th><xsl:value-of select="@unitsS"/></th>
+            <th><xsl:value-of select="@unitsG"/></th>
+            <th><xsl:value-of select="@unitsHf"/></th>
+          </tr>
+          <xsl:for-each select="me:thermoValue">
+            <tr>
+              <xsl:if test="@T=298.15">
+                <xsl:attribute name="class">highlight</xsl:attribute>
+              </xsl:if>
+              <td><xsl:value-of select="@T"/></td>
+              <td><xsl:value-of select="@H"/></td>
+              <td><xsl:value-of select="@S"/></td>
+              <td><xsl:value-of select="@G"/></td>
+              <td><xsl:value-of select="@Hf"/></td>
+            </tr>
+          </xsl:for-each>
+        </table>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="//me:sensitivityAnalysisTables/me:sensitivityAnalysisTable">

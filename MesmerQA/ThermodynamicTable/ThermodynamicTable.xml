@@ -199,6 +199,7 @@
       <me:Tmid>600</me:Tmid>
       <me:Tmax>1050</me:Tmax>
       <me:Tstep>75</me:Tstep>
+      <me:withCellDOSCalc/>
     </me:calcMethod>
   </me:control>
 

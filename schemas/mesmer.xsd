@@ -161,25 +161,15 @@
                   </xs:element>
                 </xs:sequence>
                 <!--attributes on PTpair-->
+                <xs:attributeGroup ref="me:PTcommonAttributes"/>
                 <xs:attribute name="P" type="xs:float" use="optional" />
                 <xs:attribute name="T" type="xs:float" use="optional" />
-                <xs:attribute name="units" type="me:concUnitsType" />
-                <xs:attribute name="timeUnits" type="me:timeUnitsType" />
-                <xs:attribute name="bathGas" type="cml:refType"/>
-                <xs:attribute name="excessReactantConc" type="xs:float" use="optional"/>
-                <xs:attribute name="startTime" type="xs:float" />
               </xs:complexType>
             </xs:element>
           </xs:sequence>
           <!--common attributes on  <me:PTs>-->
-          <xs:attribute name="units" type="me:concUnitsType" />
-          <xs:attribute name="bathGas" type="cml:refType"/>
-          <xs:attribute name="precision" type="me:precisionType" use="optional"/>
-          <xs:attribute name="excessReactantConc" type="xs:float" use="optional"/>
+          <xs:attributeGroup ref="me:PTcommonAttributes"/>
           <xs:attribute name="refReaction" type="cml:idType" use="optional"/>
-          <xs:attribute name="default" type="me:ynboolean" use="optional"/>
-          <xs:attribute name="timeUnits" type="me:timeUnitsType" />
-          <xs:attribute name="startTime" type="xs:float" />
         </xs:complexType>
       </xs:element>
       <xs:element name="InitialPopulation" minOccurs="0">
@@ -399,7 +389,18 @@
     <xs:attribute name="final" type="xs:float" use="required" />
     <xs:attribute name="increment" type="xs:float" use="required" />
   </xs:attributeGroup>
-  
+
+  <xs:attributeGroup name="PTcommonAttributes">
+    <xs:attribute name="bathGas" type="cml:moleculeRefType"/>
+    <xs:attribute name="precision" type="me:precisionType"/>
+    <xs:attribute name="default" type="me:ynboolean" />
+    <xs:attribute name="units" type="me:concUnitsType" />
+    <xs:attribute name="timeUnits" type="me:timeUnitsType" />
+    <xs:attribute name="startTime" type="xs:float" />
+    <xs:attribute name="excessReactantConc" type="xs:float" use="optional"/>
+    <xs:attribute name="refReactionExcess" type="cml:moleculeRefType" use="optional"/>
+  </xs:attributeGroup>
+
   <xs:attribute name="default" type="xs:string"/>
 
   <xs:element name="DistributionCalcMethod" type="me:distributionMethodct"/>

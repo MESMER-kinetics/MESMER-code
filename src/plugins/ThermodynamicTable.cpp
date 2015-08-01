@@ -34,7 +34,10 @@ namespace mesmer
     virtual ~ThermodynamicTable() {}
     virtual const char* getID()  { return m_id; }
 
-    virtual bool DoesOwnParsing() { return true; }
+    //Does not do own parsing (returns false with default call),
+    //returns true when asked if NOCONDITIONSOK
+    //and provides defaults for GrainSize, etc. with MODELPARAMS.
+    virtual bool DoesOwnParsing(parseQuery q);
 
     // Function to do the work
     virtual bool DoCalculation(System* pSys);
@@ -43,9 +46,7 @@ namespace mesmer
 
   private:
 
-    // Read any data from XML and store in this instance. 
-    bool ReadParameters(PersistPtr ppControl);
-    virtual bool ParseData(PersistPtr pp); //preferred method
+    virtual bool ParseData(PersistPtr pp);
 
     string underlineText(const string& text) const;
 
@@ -70,6 +71,7 @@ namespace mesmer
     string m_Unit;
     double m_unitFctr;
     bool m_makeNasaPoly;
+    bool m_outputCellVersion;
   } ;
 
   ////////////////////////////////////////////////
@@ -79,7 +81,7 @@ namespace mesmer
 
   bool ThermodynamicTable::ParseData(PersistPtr pp)
   {
-    ErrorContext("ThermodynamicTable");
+    ErrorContext c("ThermodynamicTable");
     //Read in parameters in child elements of CalcMethod or use defaults.xml
     //called from ParseForPlugin in System::Parse()
     m_Unit = pp->XmlReadValue("units");
@@ -91,6 +93,7 @@ namespace mesmer
     m_unitFctr = 1.0 / kJPerMol_in_RC;
     if (m_Unit == "kcal/mol")
       m_unitFctr = 1.0 / kCalPerMol_in_RC;
+    m_outputCellVersion = pp->XmlReadBoolean("me:withCellDOSCalc");
 
     System* pSys = getParent();
     MoleculeManager* pMoleculeManager = pSys->getMoleculeManager();
@@ -111,11 +114,6 @@ namespace mesmer
         }
       }
 
-      MesmerEnv& Env = pSys->getEnv();
-      Env.GrainSize = 100;
-      Env.MaxGrn = 1000;
-      Env.MaxCell = Env.GrainSize * Env.MaxGrn;
-
       // Determine if DOS test information is to appear.
       PersistPtr ppControl = pSys->getPersistPtr()->XmlMoveTo("me:control");
       pSys->m_Flags.testDOSEnabled = ppControl->XmlReadBoolean("me:testDOS");
@@ -132,6 +130,22 @@ namespace mesmer
     }
     return true;
   }
+
+  bool ThermodynamicTable::DoesOwnParsing(parseQuery q)
+  {
+    if (q == CalcMethod::MODELPARAMS)
+    {
+      //Use own defaults for GrainSize etc
+      System* pSys = getParent();
+      MesmerEnv& Env = pSys->getEnv();
+      Env.GrainSize = 100;
+      Env.MaxGrn = 1000;
+      Env.MaxCell = Env.GrainSize * Env.MaxGrn;
+      return true;
+    }
+    return q != ALL;
+  }
+
 
   bool ThermodynamicTable::DoCalculation(System* pSys)
   {
@@ -210,6 +224,12 @@ namespace mesmer
         ppVal->XmlWriteAttribute("H", thermos.enthalpy, 4, true);
         ppVal->XmlWriteAttribute("S", thermos.entropy*1000, 4, true);
         ppVal->XmlWriteAttribute("G", thermos.gibbsFreeEnergy, 4, true);
+        if (m_outputCellVersion)
+        {
+          ppVal->XmlWriteAttribute("cellS", thermos.cellEntropy * 1000, 4, true);
+          ppVal->XmlWriteAttribute("cellH", thermos.cellEnthalpy, 4, true);
+          ppVal->XmlWriteAttribute("cellG", thermos.cellGibbsFreeEnergy, 4, true);
+        }
         if (!IsNan(Hf298local))
         {
           Hf.push_back((thermos.enthalpy - enthalpy298 + Hf298local) * 1000 / R); //e.g. J/mol
@@ -368,7 +388,8 @@ namespace mesmer
   {
     stringstream ss;
     unsigned int i;
-#ifdef _MSC_VER
+
+#if _MSC_VER && _MSC_VER<1900
     unsigned oldf = _set_output_format(_TWO_DIGIT_EXPONENT);
 #endif
     ss << '\n';
@@ -394,7 +415,7 @@ namespace mesmer
       ss << setw(15) << coeffs[i];
     ss << "    4" << endl;
 
-#ifdef _MSC_VER
+#if _MSC_VER && _MSC_VER<1900
     _set_output_format(oldf);
 #endif
 

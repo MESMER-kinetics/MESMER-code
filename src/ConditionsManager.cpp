@@ -65,11 +65,8 @@ namespace mesmer
     {
       const char* txt;
 
-      //default unit, pressure and temperature //now in defaults.xml
-      //const string default_unit = "PPCC";
-      //const double default_P = 1e17;
-      //const double default_T = 298.;
-
+      //default unit, pressure and temperature are in defaults.xml
+ 
       // check for grid values of temperatures and concentrations
       PersistPtr ppPTset = pp->XmlMoveTo("me:PTset");
       while (ppPTset)
@@ -116,22 +113,16 @@ namespace mesmer
       double common_excessReactantConc = pp->XmlReadDouble("excessReactantConc", optional);
 
       // Check for individually specified concentration/temperature points.
-      //
       PersistPtr ppPTpair = pp->XmlMoveTo("me:PTpair");
-      while (ppPTpair){
-        string this_units;
+      while (ppPTpair)
+      {
         // Use default only if there are no common units specified.
-        txt = ppPTpair->XmlReadValue("units", common_units);
+        txt = ppPTpair->XmlReadValue("me:units", optional);//deprecated
         if(!txt)
-          txt = ppPTpair->XmlReadValue("me:units", common_units);
-
-        if (txt)
-          this_units = txt;
-        else if(common_units)
-        {
-          this_units = common_units;
-          ppPTpair->XmlWriteAttribute("units",common_units);
-        }
+        txt = ppPTpair->XmlReadValue("units", !common_units);
+        if (!txt)
+          txt = common_units;
+        string this_units(txt);
 
         double this_P, this_T;
         this_P = ppPTpair->XmlReadDouble("me:P", optional);
@@ -297,13 +288,15 @@ namespace mesmer
         }
 
         //Read in all experimental time-series data for analysis
-
-        double startTime = ppPTpair->XmlReadDouble("startTime", optional); //attribute on PTPair
-        string timeUnits = ppPTpair->XmlReadValue("timeUnits");
         bool rawDataOK = true;
         PersistPtr ppRawData = ppPTpair;
         while (ppRawData = ppRawData->XmlMoveTo("me:rawData"))
         {
+          // These vars read more than once: startTime may have been overwritten;
+          // avoids irrelevant default log message when timeUnits is outside loop.
+          double startTime = ppPTpair->XmlReadDouble("startTime", optional); //attribute on PTPair
+          string timeUnits = ppPTpair->XmlReadValue("timeUnits");
+
           RawDataSet ds;
           ds.m_Name = ppRawData->XmlReadValue("name", optional);
           double startTime2 = ppRawData->XmlReadDouble("startTime", optional);//attribute on rawData
