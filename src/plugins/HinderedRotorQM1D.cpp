@@ -537,8 +537,8 @@ namespace mesmer
       Qintrot += exp(-beta*ene) ;
       Eintrot += ene*exp(-beta*ene) ;
     }
-    Qintrot /= double(m_periodicity) ;
     Eintrot /= Qintrot ;
+    Qintrot /= double(m_periodicity) ;
 
     PrtnFn   *= Qintrot ;
     IntrlEne += Eintrot ;

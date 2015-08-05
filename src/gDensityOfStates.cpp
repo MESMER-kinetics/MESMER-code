@@ -857,8 +857,8 @@ namespace mesmer
     thermos.cellGibbsFreeEnergy = unitFctr*(-log(cellCanPrtnFn) + qtrans) / beta;
 
     // The enthalpy must be corrected for translation by an additional 3kT/2.
-    thermos.enthalpy     = unitFctr*(cellIntlEnergy + 5.0 / (2.0*beta));
-    thermos.cellEnthalpy = unitFctr*(internalEnergy + 5.0 / (2.0*beta));
+    thermos.enthalpy     = unitFctr*(internalEnergy + 5.0 / (2.0*beta));
+    thermos.cellEnthalpy = unitFctr*(cellIntlEnergy + 5.0 / (2.0*beta));
 
     thermos.entropy     = (thermos.enthalpy     - thermos.gibbsFreeEnergy) / temp;
     thermos.cellEntropy = (thermos.cellEnthalpy - thermos.cellGibbsFreeEnergy) / temp;

@@ -441,7 +441,7 @@
       </property>
     </molecule>
 
-    <!--<molecule id="He">
+    <molecule id="He">
       <atom elementType="He"/>
       <propertyList>
         <property dictRef="me:epsilon">
@@ -454,7 +454,7 @@
           <scalar>4.04</scalar>
         </property>
       </propertyList>
-    </molecule>-->
+    </molecule>
 
   </moleculeList>
 
@@ -497,7 +497,9 @@
   </me:modelParameters>
 
   <me:control>
-    <me:calcMethod xsi:type="me:ThermodynamicTable"/>
+    <me:calcMethod xsi:type="me:ThermodynamicTable">
+      <me:withCellDOSCalc/>
+    </me:calcMethod>
     <me:testDOS />
   </me:control>
 
