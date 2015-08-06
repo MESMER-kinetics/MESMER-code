@@ -47,7 +47,7 @@ namespace mesmer
     virtual ~UnitTests() {}
     virtual const char* getID()  { return m_id; }
 
-    virtual bool DoesOwnParsing() { return true; }
+    virtual bool DoesOwnParsing(parseQuery q = ALL) { return true; }
 
     //Function to do the work
     virtual bool DoCalculation(System* pSys);
