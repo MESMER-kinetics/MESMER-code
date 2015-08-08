@@ -32,7 +32,7 @@ namespace mesmer
     virtual bool countCellDOS(gDensityOfStates* mol,  const MesmerEnv& env);
 
     // Function to calculate contribution to canonical partition function.
-    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne) ;
+    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne, double &varEne) ;
 
     // Function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
@@ -125,20 +125,23 @@ namespace mesmer
   //
   // Provide a function to calculate contribution to canonical partition function.
   //
-  void DefinedStatesRotor::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne)
+  void DefinedStatesRotor::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne, double &varEne)
   {
-    double Qrot(0.0), Erot(0.0) ;
+    double Qrot(0.0), Erot(0.0), vErot(0.0) ;
 
     double zeroPointEnergy(m_energyLevels[0]) ; 
     for (size_t i(0) ; i < m_energyLevels.size() ; i++ ) {
       double ene = m_energyLevels[i] - zeroPointEnergy ;
-      Qrot += double(m_degeneracies[i])*exp(-beta*ene) ;
-      Erot += ene*double(m_degeneracies[i])*exp(-beta*ene) ;
+      Qrot  += double(m_degeneracies[i])*exp(-beta*ene) ;
+      Erot  += ene*double(m_degeneracies[i])*exp(-beta*ene) ;
+      vErot += ene*ene*double(m_degeneracies[i])*exp(-beta*ene) ;
     }
     Erot /= Qrot ;
+    vErot = vErot/Qrot - Erot*Erot ;
 
     PrtnFn   *= Qrot ;
     IntrlEne += Erot ;
+    varEne   += vErot ;
   }
 
   // Function to return the number of degrees of freedom associated with this count.

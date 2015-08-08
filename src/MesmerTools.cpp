@@ -26,18 +26,25 @@ namespace mesmer
 
   }
 
-  double canonicalMeanEnergy(const vector<double>& DOS, const vector<double>& Ene, const double beta){
+  // Calculate the mean and variance of a boltzmann distribution.
+  void canonicalMeanEnergy(const vector<double>& DOS, const vector<double>& Ene, const double beta, double& meanEnergy, double& varEnergy){
 
-    double meanEnergy(0.0), CanPrtnFn(0.0) ;
+    double meanEnergySqr(0.0), CanPrtnFn(0.0) ;
+    meanEnergy = 0.0 ;
     for (size_t i(0), j(DOS.size()-1); i < DOS.size(); i++, j--) {
       if (DOS[j] > 0.0) {
-        double tmp  = exp( log(DOS[j]) - beta*Ene[j] ) ;
-        CanPrtnFn  += tmp ;
-        meanEnergy += Ene[j]*tmp ;
+        double ene     = Ene[j] ; 
+        double tmp     = exp( log(DOS[j]) - beta*ene ) ;
+        CanPrtnFn     += tmp ;
+        meanEnergy    += ene*tmp ;
+        meanEnergySqr += ene*ene*tmp ;
       }
     }
-    return meanEnergy/CanPrtnFn ;
+  
+    meanEnergy /= CanPrtnFn ;
+    varEnergy   = meanEnergySqr/CanPrtnFn - meanEnergy*meanEnergy ;
 
+    return ;
   }
 
   //

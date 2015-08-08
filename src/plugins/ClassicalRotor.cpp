@@ -13,7 +13,7 @@ namespace mesmer
     virtual bool countCellDOS(gDensityOfStates* mol,  const MesmerEnv& env);
 
     // Function to calculate contribution to canonical partition function.
-    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne);
+    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne, double &varEne);
 
     // Function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
@@ -99,23 +99,25 @@ namespace mesmer
   }
 
   // Calculate contribution to canonical partition function.
-  void  ClassicalRotor::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne) {
+  void  ClassicalRotor::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne, double &varEne) {
 
     vector<double> rotConst;
     RotationalTop rotorType = gdos->get_rotConsts(rotConst);
     double sym = gdos->get_Sym();
 
-    double qtot(1.0), ene(0.0) ; 
+    double qtot(1.0), ene(0.0), var(0.0) ; 
     qtot *= double(gdos->getSpinMultiplicity());
 
     switch(rotorType) {
     case NONLINEAR://3-D symmetric/asymmetric/spherical top
       qtot *= (sqrt(M_PI/(rotConst[0] * rotConst[1] * rotConst[2]))*(pow(beta,-1.5))/sym) ;
       ene   = 3.0/(2.0*beta) ;
+      var   = 3.0*boltzmann_RCpK/2.0 ;
       break;
     case LINEAR://2-D linear
       qtot /= (rotConst[0]*sym*beta) ;
       ene   = 1.0/beta ;
+      var   = boltzmann_RCpK ;
       break;
     default:
       break; // Assume atom.
@@ -124,15 +126,18 @@ namespace mesmer
     // Electronic excited states.
     vector<double> eleExc;
     gdos->getEleExcitation(eleExc);
-    double qelec(1.0), Eelec(0.0) ;
+    double qelec(1.0), Eelec(0.0), varEelec(0.0)  ;
     for (size_t j(0) ; j < eleExc.size() ; ++j){
-      qelec += exp(-beta*eleExc[j]) ;
-      Eelec += eleExc[j]*exp(-beta*eleExc[j]) ;
+      qelec    += exp(-beta*eleExc[j]) ;
+      Eelec    += eleExc[j]*exp(-beta*eleExc[j]) ;
+      varEelec += eleExc[j]*eleExc[j]*exp(-beta*eleExc[j]) ;
     }
-    Eelec /= qelec ;
+    Eelec   /= qelec ;
+    varEelec = varEelec/qelec - Eelec*Eelec ;
 
     PrtnFn   *= qtot*qelec ;
     IntrlEne += ene + Eelec ;
+    varEne   += var + varEelec ;
   }
 
   // Function to return the number of degrees of freedom associated with this count.

@@ -31,7 +31,7 @@ namespace mesmer
     virtual bool countCellDOS(gDensityOfStates* mol, const MesmerEnv& env);
 
     // Provide a function to calculate contribution to canonical partition function.
-    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne) ;
+    virtual void canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne, double &varEne) ;
 
     // Function to return the number of degrees of freedom associated with this count.
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) {return 1 ; } ;
@@ -319,7 +319,7 @@ namespace mesmer
   // Provide a function to calculate contribution to canonical partition function.
   // (Mostly for testing purposes.)
   //
-  void HinderedRotorCM1D::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne) {
+  void HinderedRotorCM1D::canPrtnFnCntrb(gDensityOfStates* gdos, double beta, double &PrtnFn, double &IntrlEne, double &varEne) {
 
     //
     // Calculate the free rotor term first.
@@ -333,7 +333,7 @@ namespace mesmer
 
     const size_t npnts(1000) ;
     const double intvl(2*M_PI/double(npnts)) ;
-    double Qhdr(0.0), Ehdr(0.0)  ;
+    double Qhdr(0.0), Ehdr(0.0), varEhdr(0.0) ;
     for (size_t i(0); i < npnts; ++i) {
       double ptnl(0.0) ;
       double angle(double(i)*intvl) ;
@@ -341,13 +341,16 @@ namespace mesmer
         double nTheta = double(k) * angle;
         ptnl += potentialCosCoeff[k] * cos(nTheta);
       }
-      Qhdr += exp(-beta*ptnl);
-      Ehdr += ptnl*exp(-beta*ptnl);
+      Qhdr    += exp(-beta*ptnl);
+      Ehdr    += ptnl*exp(-beta*ptnl);
+      varEhdr += ptnl*ptnl*exp(-beta*ptnl);
     }
-    Ehdr /= Qhdr ;
+    Ehdr    /= Qhdr ;
+    varEhdr  = varEhdr/Qhdr - Ehdr*Ehdr ;
 
     PrtnFn   *= Qintrot*Qhdr/double(npnts) ;
-    IntrlEne += 1.0/(2*beta) + Ehdr ;
+    IntrlEne += 1.0/(2.0*beta) + Ehdr ;
+    varEne   += boltzmann_RCpK/2.0 + varEhdr ;
   }
 
 }//namespace

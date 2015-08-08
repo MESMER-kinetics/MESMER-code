@@ -1,4 +1,10 @@
-2015-July-26 Struan Robertson
+2015-August-08 Struan Robertson
+
+    * MesmerTools.h/.cpp, gDensityOfStates.cpp/.h and all DoS classes: Density
+    of states classes altered so as to return the variance of the energy in order
+    to calculate heat capacity.
+
+2015-August-05 Struan Robertson
 
     * gDensityOfStates.cpp, HinderedRotorQM1D.cpp: Fix for enthalpy bug in
     the ThermodynamicTable method.

@@ -15,9 +15,11 @@ namespace mesmer
     thermoDynFns() : enthalpy(0.0), 
       entropy(0.0),
       gibbsFreeEnergy(0.0),
+      heatCapacity(0.0),
       cellEnthalpy(0.0),
       cellEntropy(0.0),
-      cellGibbsFreeEnergy(0.0) {} ;
+      cellGibbsFreeEnergy(0.0),
+      cellHeatCapacity(0.0) {} ;
 
     ~thermoDynFns() {} ;
 
@@ -25,11 +27,13 @@ namespace mesmer
     double enthalpy; 
     double entropy;
     double gibbsFreeEnergy ;
+    double heatCapacity ;
 
     // Functions derived from cell averages:
     double cellEnthalpy; 
     double cellEntropy;
     double cellGibbsFreeEnergy ;
+    double cellHeatCapacity ;
   } ;
 
   class gDensityOfStates: public MolecularComponent

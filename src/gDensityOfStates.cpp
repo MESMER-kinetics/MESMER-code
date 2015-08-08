@@ -651,9 +651,9 @@ namespace mesmer
         double grainCanPrtnFn = canonicalPartitionFunction(m_grainDOS, m_grainEne, beta);
 
         // Calculate rovibronic partition functions, using analytical formula where possible.
-        double qtot(1.0), ene(0.0) ;
+        double qtot(1.0), ene(0.0), varEne(0.0);
         for (vector<DensityOfStatesCalculator*>::size_type j = 0; j < m_DOSCalculators.size(); ++j) {
-          m_DOSCalculators[j]->canPrtnFnCntrb(this, beta, qtot, ene);
+          m_DOSCalculators[j]->canPrtnFnCntrb(this, beta, qtot, ene, varEne);
         }
 
         if (m_host->getFlags().testDOSEnabled) {
@@ -841,12 +841,13 @@ namespace mesmer
     double cellCanPrtnFn = canonicalPartitionFunction(m_cellDOS, cellEne, beta);
 
     // The following calculates the mean internal molecular energy.
-    double cellIntlEnergy = canonicalMeanEnergy(m_cellDOS, cellEne, beta);
+    double cellIntlEnergy(0.0), cellvarEnergy(0.0) ;
+    canonicalMeanEnergy(m_cellDOS, cellEne, beta, cellIntlEnergy, cellvarEnergy);
 
     // Calculate rovibronic partition functions, using analytical formula where possible.
-    double CanPrtnFn(1.0), internalEnergy(0.0) ;
+    double CanPrtnFn(1.0), internalEnergy(0.0), varEnergy(0.0) ;
     for (vector<DensityOfStatesCalculator*>::size_type j = 0; j < m_DOSCalculators.size(); ++j) {
-      m_DOSCalculators[j]->canPrtnFnCntrb(this, beta, CanPrtnFn, internalEnergy);
+      m_DOSCalculators[j]->canPrtnFnCntrb(this, beta, CanPrtnFn, internalEnergy, varEnergy);
     }
 
     // The rovibronic partition function must be corrected for translation 
@@ -856,12 +857,16 @@ namespace mesmer
     thermos.gibbsFreeEnergy     = unitFctr*(-log(CanPrtnFn) + qtrans) / beta;
     thermos.cellGibbsFreeEnergy = unitFctr*(-log(cellCanPrtnFn) + qtrans) / beta;
 
-    // The enthalpy must be corrected for translation by an additional 3kT/2.
-    thermos.enthalpy     = unitFctr*(internalEnergy + 5.0 / (2.0*beta));
-    thermos.cellEnthalpy = unitFctr*(cellIntlEnergy + 5.0 / (2.0*beta));
+    // The enthalpy must be adjusted for translation by an additional 3kT/2.
+    thermos.enthalpy         = unitFctr*(internalEnergy + 5.0 / (2.0*beta));
+    thermos.cellEnthalpy     = unitFctr*(cellIntlEnergy + 5.0 / (2.0*beta));
 
-    thermos.entropy     = (thermos.enthalpy     - thermos.gibbsFreeEnergy) / temp;
-    thermos.cellEntropy = (thermos.cellEnthalpy - thermos.cellGibbsFreeEnergy) / temp;
+    thermos.entropy          = (thermos.enthalpy     - thermos.gibbsFreeEnergy) / temp;
+    thermos.cellEntropy      = (thermos.cellEnthalpy - thermos.cellGibbsFreeEnergy) / temp;
+
+    // The heat capacity must be adjusted for translation by an additional 3k/2.
+    thermos.heatCapacity     = unitFctr*boltzmann_RCpK*(beta*beta*varEnergy     + 5.0/2.0);
+    thermos.cellHeatCapacity = unitFctr*boltzmann_RCpK*(beta*beta*cellvarEnergy + 5.0/2.0);
 
     return true;
   }
