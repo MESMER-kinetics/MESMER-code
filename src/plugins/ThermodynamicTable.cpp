@@ -135,12 +135,14 @@ namespace mesmer
   {
     if (q == CalcMethod::MODELPARAMS)
     {
-      //Use own defaults for GrainSize etc
+      //Use own default Number of Cells ***NEEDS EDITING***
+      ErrorContext c("ThermodynamicTable. Own default");
       System* pSys = getParent();
       MesmerEnv& Env = pSys->getEnv();
-      Env.GrainSize = 100;
-      Env.MaxGrn = 1000;
-      Env.MaxCell = Env.GrainSize * Env.MaxGrn;
+      Env.CellSize = 1.0;
+      cinfo << "Cell size " << Env.CellSize << " cm-1" << endl;
+      Env.MaxCell = 100000;
+      cinfo << "Number of cells " << Env.MaxCell << endl;
       return true;
     }
     return q != ALL;

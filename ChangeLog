@@ -1,3 +1,8 @@
+2015-August-09 Chris Morley
+    
+	* ThermodynamicTable.cpp: Illustrate how a calcMethod can set its own
+	modelParameters. Needs editing for proper values.
+	 
 2015-August-08 Struan Robertson
 
     * MesmerTools.h/.cpp, gDensityOfStates.cpp/.h and all DoS classes: Density
