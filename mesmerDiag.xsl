@@ -84,7 +84,24 @@
   <xsl:variable name="energyOffset">
     <xsl:choose>
       <xsl:when test="//me:diagramEnergyOffset">
-        <xsl:value-of select="$Emin + //me:diagramEnergyOffset"/>       
+        <xsl:choose>
+          <!--An enhancement to set aspecified reaction's reactants
+          as zero energy is not yet working-->
+          <xsl:when test="//me:diagramEnergyOffset/@ref">
+            <xsl:variable name="posn">
+              <xsl:for-each select="//cml:reaction">
+                <xsl:if test="@id=//me:diagramEnergyOffset/@ref">
+                  <xsl:value-of select="position()"/>
+                </xsl:if>
+              </xsl:for-each>
+            </xsl:variable>
+            <xsl:value-of select=" //me:diagramEnergyOffset  
+                          + exsl:node-set($RandPEnergies)/Energy[number($posn)]"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$Emin + //me:diagramEnergyOffset"/>
+          </xsl:otherwise>
+        </xsl:choose>       
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="0"/>

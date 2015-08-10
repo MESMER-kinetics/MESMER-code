@@ -246,7 +246,15 @@
         </xs:annotation>
       </xs:element>
       <xs:element name="calculateRateCoefficientsOnly" minOccurs="0"/>
-      <xs:element name="diagramEnergyOffset" type="xs:float" minOccurs="0"/>
+      <xs:element name="diagramEnergyOffset" minOccurs="0">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:float">
+              <xs:attribute name="ref" type ="cml:refType" use="optional"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="eigenvalues" minOccurs="0">
         <xs:simpleType>
           <xs:union memberTypes="xs:integer me:allType"/>
