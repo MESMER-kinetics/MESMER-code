@@ -383,10 +383,12 @@ namespace mesmer
           const char a[4][7] = { "first", "second", "third", "fourth" };
           cinfo << " using " << a[min(i, nConditionBlocks)] << " conditions block ";
         }
+        cinfo << endl;
+        m_CalcMethod->DoCalculation(this);
       }
     }
-    cinfo << endl;
-    m_CalcMethod->DoCalculation(this);
+    else
+      m_CalcMethod->DoCalculation(this);
 
     //Calls Finish() for each Reaction. Usually does nothing except in AssociationReaction
     m_pReactionManager->finish();

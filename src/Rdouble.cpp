@@ -14,7 +14,7 @@ namespace mesmer
 
   Rdouble::operator double() const
   {
-    return link ? *link * factor + addand : value;
+    return value;
   }
 
   Rdouble& Rdouble::operator = (const double& val)
@@ -84,13 +84,22 @@ namespace mesmer
     }
   }
 
+  // Calculate the current value of a derivedFrom variable in cm-1
+  void Rdouble::update_value()
+  {
+    value = *link * factor + addand * m_unitConversion;
+  }
 
-  // This method updates the value of a labelled variable in an XML file
-  // with its current Rdouble value.
-  void Rdouble::UpdateXMLLabelVariables() {
+  // This static method updates the value of all the derivedFrom variables in an XML file
+  // with their current Rdouble value.
+  void Rdouble::UpdateXMLDerivedVariables() {
     labelmap::iterator itrlabel = withLabel().begin() ;
     for ( ;itrlabel != withLabel().end() ; itrlabel++) {
-      itrlabel->second->XmlWriteValue() ;
+      if (itrlabel->second->link)
+      {
+        itrlabel->second->update_value();
+        itrlabel->second->XmlWriteValue();
+      }
     }
   }
 
@@ -110,8 +119,22 @@ namespace mesmer
         {
           depvar->link = pos->second; //pointer to independent variable
           cinfo << it->first << " is derived from " << depvar->linkedname << endl;
-          //Debug:
-          //cinfo << it->first << " = " << *(it->second) << endl;
+          
+          //The units and conversion factor must be the same for both variables; checked below.
+          depvar->m_unitConversion = depvar->link->m_unitConversion;
+
+          string depunits = depvar->m_units;
+          if (depunits.empty())
+            depvar->m_units = depvar->link->m_units;
+          else
+            //check units are the same
+            if (depvar->m_units != depvar->link->m_units)
+            {
+              cerr << "The units of " << depvar->varname
+                   << " must be absent or be the same as those of "
+                   << depvar->linkedname << ", which it is derivedFrom." << endl;
+              return false;
+            }
 
           // Convert addand of dependent variable to the units of the independent variable
           // Currently this works only with energy units (ZPE, deltaEDown),
@@ -130,6 +153,17 @@ namespace mesmer
     return ok;
   }
 
+  bool Rdouble::set_link_params(const char* name, double fac, double add, const char* units)
+  {
+    linkedname = name;
+    if (!IsNan(fac))
+      factor = fac;
+    if (!IsNan(add))
+      addand = add;
+    if (units)
+      m_units = std::string(units);
+    return true;
+  }
 
   // Utility function to read parameter range. 
   //   The parameter cnvrsnFctr applies any conversion factor that is required.
@@ -156,17 +190,18 @@ namespace mesmer
       strStepSize >> stepsize;
       valueL   = cnvrsnFctr*valueL   + shift; 
       valueU   = cnvrsnFctr*valueU   + shift; 
-      stepsize = cnvrsnFctr*stepsize + shift; 
+      stepsize = cnvrsnFctr*stepsize + shift;
+
 
       rdouble.set_range(valueL, valueU, stepsize, name.c_str());	  
       rdouble.store_conversion(cnvrsnFctr);
+      rdouble.set_units(pp->XmlReadValue("units", optional));
 	 
     } else {
       rangeSet = false ;
     }
 
     // If there is a derivedFrom attribute, a pointer to its value is put in
-    // 
     const char* pDerivedtxt = pp->XmlReadValue("me:derivedFrom", optional);
     if(!pDerivedtxt)
       pDerivedtxt = pp->XmlReadValue("derivedFrom", optional);
@@ -183,8 +218,6 @@ namespace mesmer
     }
 
     // Save a pointer to XML location for result update.
-    if(pp->XmlMoveTo("scalar")) //***DEBUG
-      cinfo << pp << "on property element" << endl;
     rdouble.set_XMLPtr(pp) ;
 
     return true;

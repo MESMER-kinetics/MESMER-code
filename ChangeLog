@@ -1,3 +1,14 @@
+2015-August-28 Chris Morley
+
+	* src/Rdouble.cpp,src/Rdouble.h: ensure that a ZPE specified by a
+	  derivedFrom attribute is updated at the end, after any fitting, etc.,
+	  and the new value appears (with the correct units) in the Firefox output.
+	  As requested by Mark Blitz.	   
+
+	* src/System.cpp: correct bug which sometimes caused first of two control
+	  blocks to be inactive.
+
+
 2015-August-09 Chris Morley
     
 	* ThermodynamicTable.cpp: Illustrate how a calcMethod can set its own
