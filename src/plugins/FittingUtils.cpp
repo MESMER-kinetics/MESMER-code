@@ -33,7 +33,7 @@ namespace mesmer
 
 	for (size_t iVar(0); iVar < loc.size(); iVar++) {
 	  *Rdouble::withRange()[iVar] = loc[iVar];
-	  Rdouble::withRange()[iVar]->XmlWriteValue();
+//	  Rdouble::withRange()[iVar]->XmlWriteValue();  CM leave writing XML to the end of calculation
 	}
 
   }
@@ -134,8 +134,9 @@ namespace mesmer
 	  Rdouble var = *Rdouble::withRange()[iVar];
 	  double sigma = to_double(sqrt(hessian[iVar][iVar]));
 	  cinfo << var.get_varname() << " = " << setprecision(6) << var.originalUnits() << " +/- " << var.originalUnits(sigma) << endl;
-
+    var.XmlWriteValue();
 	}
+  Rdouble::UpdateXMLDerivedVariables(); //properties specified with derivedFrom attribute
 
 	// Correlation coefficients.
 

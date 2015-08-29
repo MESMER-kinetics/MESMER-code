@@ -241,7 +241,7 @@ namespace mesmer
       Rdouble::withRange()[i]->XmlWriteAttribute("chiSquared", cs.str());
     }
 
-    // Write out the results and the statisitics of the fit.
+    // Write out the results and the statistics of the fit.
     vector<double> residuals ;
     pSys->calculate(chiSquare, residuals) ;
 
