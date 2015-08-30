@@ -43,6 +43,18 @@ int main(int argc,char *argv[])
   unsigned int old_cw;
   fpu_fix_start(&old_cw);
 
+  // Visual C++ for Windows has used 3 digit exponent when outputting
+  // scientific format numbers even when it was not necessary. From
+  // Visual Studio 2015 it uses the more standard 2-digit exponent
+  // and the following code sets this for earlier Visual C++ compilers.
+  // The QA baselines for Windows in Mesmer 4 and earlier are
+  // consequently different from those for Mesmer 5 after Aug 2015.
+  // To get original behaviour with older compilers define
+  // USE_OLD_EXPONENT before compiling. 
+  #if !USE_OLD_EXPONENT && __MSC_VER && _MSC_VER<1900
+     _set_output_format(_TWO_DIGIT_EXPONENT);
+  #endif
+
   if(argc<2)
   {
     usage();
@@ -285,6 +297,7 @@ int main(int argc,char *argv[])
     if(!outfilename.empty())
     {
       cerr << "System saved to " << outfilename << endl;
+	  cerr << "Total time elapsed: " << timeElapsed << " seconds." << endl;
 
       if(!usecout)
       {

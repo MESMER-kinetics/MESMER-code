@@ -24,6 +24,7 @@ namespace mesmer
 
     sstrdatum.clear();
 
+#ifdef USE_OLD_EXPONENT //(see in main())
     // insert a '0' if there is only one zero after the +/- sign
     string::size_type position = thisString.find('e', 0);
     if (position != string::npos){
@@ -32,6 +33,7 @@ namespace mesmer
         thisString.insert(position + 2, 1, '0');
       }
     }
+#endif
 
     ostringstream sstrdatum1 ;
     sstrdatum1 << thisString;
@@ -56,6 +58,7 @@ namespace mesmer
 
     sstrdatum.clear();
 
+#ifdef USE_OLD_EXPONENT
     // insert a '0' if there is only one zero after the +/- sign
     string::size_type position = thisString.find('e', 0);
     if (position != string::npos){
@@ -64,6 +67,7 @@ namespace mesmer
         thisString.insert(position + 2, 1, '0');
       }
     }
+#endif
 
     ostringstream sstrdatum1 ;
     sstrdatum1.setf(ios::right, ios::adjustfield) ;

@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- May  2 2015 -- 18:06:25
+     Mesmer v5.0 compiled: -- Aug 26 2015 -- 10:49:37
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -31,11 +31,11 @@ defaults.xml, librarymols.xml are in ../..
 Parsing input xml file...
 UnitTests.xml
 
-Write metadata 20150503_195843
+--Parse data for UnitTests
+Write metadata 20150829_165441
 
 File: "UnitTests.xml" successfully parsed.
 Main Calculation begins
-Execute calcMethod UnitTests
 In Test_Molecule: The default value of the attribute spinMultiplicity was used.
 In Test_Molecule: The default value of me:DOSCMethod was used.
 gDensityOfStates initialization failed.
@@ -61,6 +61,7 @@ In ClOOCl: Hindered rotor b1
 gDensityOfStates initialization failed.
 Hindered rotor b1
 Energy convention "" written to <moleculeList>
- -- Total time elapsed: 8 seconds.
+ -- Total time elapsed: 4 seconds.
 
 System saved to out.xml
+Total time elapsed: 4 seconds.

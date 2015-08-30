@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- May  2 2015 -- 18:06:25
+     Mesmer v5.0 compiled: -- Aug 26 2015 -- 10:49:37
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -31,6 +31,7 @@ defaults.xml, librarymols.xml are in ../..
 Parsing input xml file...
 ThermodynamicTable.xml
 
+--Parse data for ThermodynamicTable
 In HNO2: The default value of the attribute spinMultiplicity was used.
 In HNO2: The default value of me:DOSCMethod was used.
 In HNO2: The default attribute(s) were added to the the property me:Hf0
@@ -44,22 +45,19 @@ In NO: New me:ZPE element written with data from me:Hf298
 In He: The default value of the attribute spinMultiplicity was used.
 In He: The default value of me:DOSCMethod was used.
 In He: gDensityOfStates initialization failed.
-Write metadata 20150503_195842
+In ThermodynamicTable. Own default: Cell size 1 cm-1
+In ThermodynamicTable. Own default: Number of cells 100000
+No conditions specified
+Write metadata 20150829_165441
 
 File: "ThermodynamicTable.xml" successfully parsed.
 Main Calculation begins
-Execute calcMethod ThermodynamicTable
 In HNO2: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
 Restricted thermo output for He because it has no non-arbitrary energy data.
 In NO: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
-In OH: enthalpy of formation at 298K:Number of grains produced is not equal to that requested
-In OH: Number of grains requested: 1000
-In OH: Number of grains produced : 576
-In OH: energy converted from thermodynamic to thermodynamic298K
-Number of grains produced is not equal to that requested
-Number of grains requested: 1000
-Number of grains produced : 576
+In OH: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
 Energy convention "thermodynamic" written to <moleculeList>
  -- Total time elapsed: 0 seconds.
 
 System saved to out.xml
+Total time elapsed: 0 seconds.

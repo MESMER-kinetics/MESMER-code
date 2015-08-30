@@ -5036,7 +5036,7 @@ Relaxed in MESMER to allow also<h:tt>)(</h:tt> because chemical formula are comm
         <xsd:documentation>
           <h:div class="summary">A reference to an element of given type.</h:div>
           <h:div class="description">
-            <h:tt>ref</h:tt> modifies an element into a reference to an existing element of that type within the document. This is similar to a pointer and it can be thought of a strongly typed hyperlink. It may also be used for "subclassing" or "overriding" elements.<br xmlns=""/>
+            <h:tt>ref</h:tt> modifies an element into a reference to an existing element of that type within the document. This is similar to a pointer and it can be thought of a strongly typed hyperlink. It may also be used for "subclassing" or "overriding" elements./>
             When referring to an element most of the "data" such as attribute values and element content will be on the full instantiated element.  Therefore ref (and possibly id) will normally be the only attributes on the pointing element. However there may be some attributes (title, count, etc.) which have useful semantics, but these are element-specific
           </h:div>
           <h:div class="example" href="refGroup1.xml"/>
@@ -6209,7 +6209,7 @@ Relaxed in MESMER to allow also<h:tt>)(</h:tt> because chemical formula are comm
     <xsd:annotation>
       <xsd:documentation>
         <h:div class="summary">An atom.</h:div>
-        <h:div documentation="general">Atoms can only be chosen from the periodic table and superatoms such as "Phe" or "Tyr" are not allowed. The elementType of an atom is identified by that attribute. There are two additional elementTypes, "Du" (for an object which does not have an identifiable nucleus but is useful in calculations and definitions (such as a centroid); and "R" which describes a generic fragment. Although atoms have an elementType, they do not, by default, support arbitrary atomTypes for which the &lt;atomType&gt; element should be used.</h:div>
+        <h:div>Atoms can only be chosen from the periodic table and superatoms such as "Phe" or "Tyr" are not allowed. The elementType of an atom is identified by that attribute. There are two additional elementTypes, "Du" (for an object which does not have an identifiable nucleus but is useful in calculations and definitions (such as a centroid); and "R" which describes a generic fragment. Although atoms have an elementType, they do not, by default, support arbitrary atomTypes for which the &lt;atomType&gt; element should be used.</h:div>
         <h:div class="example" href="atom1.xml"/>
         <h:div class="curation">
           2006-01-12: PMR. Added vector3 child to support
@@ -7117,7 +7117,7 @@ Relaxed in MESMER to allow also<h:tt>)(</h:tt> because chemical formula are comm
           Normally dimensions will be aggregated and cancelled algebraically, but the 'preserve'
           attribute can be used to prevent this. Thus a velocity gradient over length can be
           defined as:
-          <h:pre>
+          <!--<h:pre>
             <unitType id="a1" preserve="true" xmlns="">
               <dimension name="length" power="1"/>
               <dimension name="time" power="-1"/>
@@ -7129,7 +7129,7 @@ Relaxed in MESMER to allow also<h:tt>)(</h:tt> because chemical formula are comm
             <unitType id="a1" preserve="true" xmlns="">
               <dimension name="time" power="-1"/>
             </unitType>
-          </h:pre>
+          </h:pre>-->
         </h:div>
         <h:div class="example" href="dimension1.xml"/>
         <h:div class="example" href="dimension2.xml"/>
@@ -7426,9 +7426,9 @@ Relaxed in MESMER to allow also<h:tt>)(</h:tt> because chemical formula are comm
           <h:p>
             <h:tt>fragmentList</h:tt> can contain several fragments and joins.
             The normal content model is
-            <h:pre>
+            <!--<h:pre>-->
               join fragment join fragment...
-            </h:pre>
+            <!--</h:pre>-->
           </h:p>
         </h:div>
         <h:div class="example" href="fragmentList1.xml"/>
@@ -7813,13 +7813,13 @@ Relaxed in MESMER to allow also<h:tt>)(</h:tt> because chemical formula are comm
                 <h:li>
                   <h:b>locator</h:b>. This points to a single target and must carry either a <h:tt>ref</h:tt> or <h:tt>href</h:tt> attribute.
                   <h:tt>locator</h:tt> links are usually children of an extended link.
-                  <h:li>
+                  <!--<h:li>-->
                     <h:b>arc</h:b>. This is a 1:1 link with both ends (<h:tt>from</h:tt> and <h:tt>to</h:tt>) defined.
-                  </h:li>
-                  <h:li>
+                  <!--</h:li>-->
+                  <!--<h:li>-->
                     <h:b>extended</h:b>. This is usually a parent of several locator links and serves
                     to create a grouping of link ends (i.e. a list of references in documents).
-                  </h:li>
+                  <!--</h:li>-->
                   Many-many links can be built up from arcs linking extended elements
                 </h:li>
               </h:ul>
@@ -8126,7 +8126,7 @@ Relaxed in MESMER to allow also<h:tt>)(</h:tt> because chemical formula are comm
         <h:div class="description">
           <h:p>
             IUPAC Compendium of Chemical Terminology 2nd Edition (1997) describes a mechanism as:
-            <h:blockquote>
+            <!--<h:blockquote>-->
               A detailed description of the process leading from the reactants to the
               products of a reaction, including a characterization as complete as possible
               of the composition, structure, energy and other properties of reaction
@@ -8143,7 +8143,7 @@ Relaxed in MESMER to allow also<h:tt>)(</h:tt> because chemical formula are comm
               data. It is not appropriate to use the term mechanism to describe a
               statement of the probable sequence in a set of stepwise reactions. That
               should be referred to as a reaction sequence, and not a mechanism.
-            </h:blockquote>
+            <!--</h:blockquote>-->
           </h:p>
           <h:p>
             CMLReact provides reactionScheme and annotions to describe the reaction sequence and both it and <h:tt>mechanism</h:tt> could co-occur within a reactionScheme container.

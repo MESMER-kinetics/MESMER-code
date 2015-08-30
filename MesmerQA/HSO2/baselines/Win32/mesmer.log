@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- May  2 2015 -- 18:06:25
+     Mesmer v5.0 compiled: -- Aug 26 2015 -- 10:49:37
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -32,22 +32,27 @@ Parsing input xml file...
 HSO2_test.xml
 
 The default value of me:calcMethod was used.
+--Parse data for simpleCalc
 In R1: Parsing reaction...Association reaction
 In H: The default value of me:DOSCMethod was used.
 In SO2: The default value of the attribute spinMultiplicity was used.
 In HSO2: The default value of me:DistributionCalcMethod was used.
+In HSO2: --Parse data for Boltzmann
+In HSO2: --Parse data for ExponentialDown
 In R1: No imaginary vibrational frequency. Check if there is tunneling.
-No tunneling method used for R1
+--Parse data for SimpleRRKM
+In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
-1e+008Torr, 200K at double precision with Ar
-1e+008Torr, 200K at dd precision with Ar
-1e+008Torr, 200K at qd precision with Ar
-Write metadata 20150503_195828
+1e+08Torr, 200K at double precision with Ar
+1e+08Torr, 200K at dd precision with Ar
+1e+08Torr, 200K at qd precision with Ar
+Write metadata 20150829_165434
 
 File: "HSO2_test.xml" successfully parsed.
 Main Calculation begins
-Execute calcMethod simpleCalc
+
+--Execute calcMethod simpleCalc
 PT Grid 0
 Number of cells = 10000, Number of grains = 92
 Number of grains produced is not equal to that requested
@@ -60,14 +65,15 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 2
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 2 seconds.
+Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            200   4.82825e+024            200   4.82825e+024            200   4.82825e+024
+            200    4.82825e+24            200    4.82825e+24            200    4.82825e+24
 Finish Calculation of P-T case
 3 temperature/concentration-pressure points calculated.
 Energy convention "arbitrary" written to <moleculeList>
- -- Total time elapsed: 3 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml
+Total time elapsed: 1 seconds.

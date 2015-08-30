@@ -232,6 +232,12 @@ namespace mesmer
           if(!txt)
           {
             txt = common_ref1;
+            if (!txt)
+            {
+              cerr << "An <experimental Rate> has a missing ref1 attribute,"
+                   << " which alternatively can be on its parent <PTs> element." << endl;
+              return false;
+            }
             ppExpRate->XmlWriteAttribute("ref1",txt);
           }
           string ref1(txt);

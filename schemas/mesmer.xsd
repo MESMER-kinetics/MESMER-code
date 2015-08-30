@@ -169,7 +169,6 @@
           </xs:sequence>
           <!--common attributes on  <me:PTs>-->
           <xs:attributeGroup ref="me:PTcommonAttributes"/>
-          <xs:attribute name="refReaction" type="cml:idType" use="optional"/>
         </xs:complexType>
       </xs:element>
       <xs:element name="InitialPopulation" minOccurs="0">
@@ -407,6 +406,9 @@
     <xs:attribute name="startTime" type="xs:float" />
     <xs:attribute name="excessReactantConc" type="xs:float" use="optional"/>
     <xs:attribute name="refReactionExcess" type="cml:moleculeRefType" use="optional"/>
+    <xs:attribute name="ref1" type="cml:moleculeIDType"/>
+    <xs:attribute name="ref2" type="cml:moleculeIDType"/>
+    <xs:attribute name="refReaction" type="cml:idType"/>
   </xs:attributeGroup>
 
   <xs:attribute name="default" type="xs:string"/>

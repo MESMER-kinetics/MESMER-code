@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- May  2 2015 -- 18:06:25
+     Mesmer v5.0 compiled: -- Aug 26 2015 -- 10:49:37
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -31,11 +31,15 @@ defaults.xml, librarymols.xml are in ../..
 Parsing input xml file...
 ipropyl_reservoir.xml
 
+--Parse data for simpleCalc
 In R1: Parsing reaction...Irreversible unimolecular reaction
 In i-propyl: Hindered rotor b1
 In i-propyl: Hindered rotor b2
 In i-propyl: The default value of me:DistributionCalcMethod was used.
+In i-propyl: --Parse data for Boltzmann
+In i-propyl: --Parse data for ExponentialDown
 In i-propyl: i-propyl:deltaEDown was given a range with 15 steps 
+In R1: --Parse data for MesmerILT
 In R1: The default value of me:TInfinity was used.
 In propene: Hindered rotor b1
 In propene: propene:ZPE was given a range with 401 steps 
@@ -44,14 +48,15 @@ In H: The default value of me:DOSCMethod was used.
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
 The default value of the attribute precision was used.
-3e+017PPCC, 720K at d precision with He
+3e+17PPCC, 720K at d precision with He
 The default value of the attribute precision was used.
-3.01e+017PPCC, 730K at d precision with He
-Write metadata 20150503_195840
+3.01e+17PPCC, 730K at d precision with He
+Write metadata 20150829_165440
 
 File: "ipropyl_reservoir.xml" successfully parsed.
 Main Calculation begins
-Execute calcMethod simpleCalc
+
+--Execute calcMethod simpleCalc
 PT Grid 0
 Number of cells = 18600, Number of grains = 186
 Number of grains produced is not equal to that requested
@@ -63,13 +68,13 @@ Diagonalize the Reaction Operator
 PT Grid 1
 Number of cells = 18700, Number of grains = 187
 Number of grains requested: 187
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            720         3e+017           41.5        45.0265
-            730      3.01e+017           51.1        61.3841
+            720          3e+17           41.5        45.0265
+            730       3.01e+17           51.1        61.3841
 
 Finish Calculation of P-T case
 2 temperature/concentration-pressure points calculated.
@@ -77,3 +82,4 @@ Energy convention "arbitrary" written to <moleculeList>
  -- Total time elapsed: 1 seconds.
 
 System saved to mesmer_out.xml
+Total time elapsed: 1 seconds.
