@@ -48,11 +48,9 @@ namespace mesmer
 
     virtual bool ParseData(PersistPtr pp);
 
-    string underlineText(const string& text) const;
-
-    string writeTableHeader(const string& unit) const;
-
-    void writeTableEntry(Molecule *pmol, double temp, double unitFctr, string & header) const;
+    //string underlineText(const string& text) const;
+    //string writeTableHeader(const string& unit) const;
+    //void writeTableEntry(Molecule *pmol, double temp, double unitFctr, string & header) const;
 
     const char* m_id;
 
@@ -197,6 +195,7 @@ namespace mesmer
       pp->XmlWriteAttribute("unitsH", m_Unit);
       pp->XmlWriteAttribute("unitsS", m_Unit.substr(1, m_Unit.length()) + "/K");
       pp->XmlWriteAttribute("unitsG", m_Unit);
+      pp->XmlWriteAttribute("unitsCp", m_Unit.substr(1, m_Unit.length()) + "/K");
       if (!IsNan(Hf298local))
         pp->XmlWriteAttribute("unitsHf", m_Unit);
 
@@ -226,11 +225,13 @@ namespace mesmer
         ppVal->XmlWriteAttribute("H", thermos.enthalpy, 4, true);
         ppVal->XmlWriteAttribute("S", thermos.entropy*1000, 4, true);
         ppVal->XmlWriteAttribute("G", thermos.gibbsFreeEnergy, 4, true);
+        ppVal->XmlWriteAttribute("Cp", thermos.heatCapacity, 4, true);
         if (m_outputCellVersion)
         {
           ppVal->XmlWriteAttribute("cellS", thermos.cellEntropy * 1000, 4, true);
           ppVal->XmlWriteAttribute("cellH", thermos.cellEnthalpy, 4, true);
           ppVal->XmlWriteAttribute("cellG", thermos.cellGibbsFreeEnergy, 4, true);
+          ppVal->XmlWriteAttribute("cellCp", thermos.cellHeatCapacity, 4, true);
         }
         if (!IsNan(Hf298local))
         {

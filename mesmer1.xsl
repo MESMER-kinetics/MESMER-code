@@ -745,12 +745,14 @@
           <td>T</td> <td colspan="2">H(T)-H(0)</td>
           <td colspan="2">S(T)</td>
           <td colspan="2">G(T)</td>
+          <td colspan="2">Cp(T)</td>
           <xsl:if test="@unitsHf">
             <td>&#916;Hf</td>
           </xsl:if>
         </tr>
         <tr>
           <td></td>
+          <td>analytic</td><td>cell</td>
           <td>analytic</td><td>cell</td>
           <td>analytic</td><td>cell</td>
           <td>analytic</td><td>cell</td>
@@ -763,6 +765,8 @@
           <th><xsl:value-of select="@unitsS"/></th>
           <th><xsl:value-of select="@unitsG"/></th>
           <th><xsl:value-of select="@unitsG"/></th>
+          <th><xsl:value-of select="@unitsCp"/></th>
+          <th><xsl:value-of select="@unitsCp"/></th>
           <th><xsl:value-of select="@unitsHf"/></th>
           </tr>
         <xsl:for-each select="me:thermoValue">
@@ -777,6 +781,8 @@
             <td> <xsl:value-of select="@cellS"/></td>
             <td> <xsl:value-of select="@G"/></td>
             <td> <xsl:value-of select="@cellG"/></td>
+            <td> <xsl:value-of select="@Cp"/></td>
+            <td> <xsl:value-of select="@cellCp"/></td>
             <td> <xsl:value-of select="@Hf"/></td>
           </tr>
         </xsl:for-each>
@@ -790,6 +796,7 @@
             <td> &#160;H(T)-H(0)  &#160; </td>
             <td> &#160;S(T)  &#160; </td>
             <td> &#160;G(T)  &#160; </td>
+            <td> &#160;Cp(T)  &#160; </td>
             <xsl:if test="@unitsHf">
               <td>&#916;Hf</td>
             </xsl:if>
@@ -799,6 +806,7 @@
             <th><xsl:value-of select="@unitsH"/></th>
             <th><xsl:value-of select="@unitsS"/></th>
             <th><xsl:value-of select="@unitsG"/></th>
+            <th><xsl:value-of select="@unitsCp"/></th>
             <th><xsl:value-of select="@unitsHf"/></th>
           </tr>
           <xsl:for-each select="me:thermoValue">
@@ -810,6 +818,7 @@
               <td><xsl:value-of select="@H"/></td>
               <td><xsl:value-of select="@S"/></td>
               <td><xsl:value-of select="@G"/></td>
+              <td><xsl:value-of select="@Cp"/></td>
               <td><xsl:value-of select="@Hf"/></td>
             </tr>
           </xsl:for-each>
