@@ -1,3 +1,8 @@
+2015-September-03 Struan Robertson
+
+    * ThermodynamicTable.cpp, QMRotor.cpp, ClassicalRotor.cpp, BeyerSwinhart.cpp: 
+    Fixes for heat capacity methods.
+
 2015-August-28 Chris Morley
 
 	* src/Rdouble.cpp,src/Rdouble.h: ensure that a ZPE specified by a
@@ -7,7 +12,6 @@
 
 	* src/System.cpp: correct bug which sometimes caused first of two control
 	  blocks to be inactive.
-
 
 2015-August-09 Chris Morley
     

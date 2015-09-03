@@ -81,7 +81,7 @@ namespace mesmer
       double mene = etmp*exp(-beta*etmp)/dtmp ;
       qtot /= dtmp ;
       ene  += mene ;
-      var  += etmp*etmp*exp(-beta*etmp)/dtmp - mene*mene ;
+      var  += etmp*mene/dtmp ;
     }
 
     PrtnFn   *= qtot ;

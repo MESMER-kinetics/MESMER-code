@@ -131,7 +131,7 @@ namespace mesmer
 
   bool ThermodynamicTable::DoesOwnParsing(parseQuery q)
   {
-    if (q == CalcMethod::MODELPARAMS)
+    if (q == CalcMethod::ALL)
     {
       //Use own default Number of Cells ***NEEDS EDITING***
       ErrorContext c("ThermodynamicTable. Own default");
@@ -199,7 +199,7 @@ namespace mesmer
       if (!IsNan(Hf298local))
         pp->XmlWriteAttribute("unitsHf", m_Unit);
 
-      double S298;//Always calculated. NOTE kJ/mol/K
+      double S298; // Always calculated. NOTE kJ/mol/K.
       double enthalpy298 ;
       thermoDynFns thermos;
       pmol->getDOS().thermodynamicsFunctions(298.15, m_unitFctr, thermos);
@@ -211,7 +211,7 @@ namespace mesmer
         double T = temp;
         if (tempLessThan298 && temp > temp289)
         {
-          // Special case of T = 289.15
+          // Special case of T = 289.15.
           tempLessThan298 = false;
           T = temp289;
           temp -= m_TempInterval;
@@ -221,17 +221,17 @@ namespace mesmer
         pmol->getDOS().thermodynamicsFunctions(T, m_unitFctr, thermos);
 
         PersistPtr ppVal = pp->XmlWriteElement("me:thermoValue");
-        ppVal->XmlWriteAttribute("T", T, 2, true);
-        ppVal->XmlWriteAttribute("H", thermos.enthalpy, 4, true);
-        ppVal->XmlWriteAttribute("S", thermos.entropy*1000, 4, true);
-        ppVal->XmlWriteAttribute("G", thermos.gibbsFreeEnergy, 4, true);
-        ppVal->XmlWriteAttribute("Cp", thermos.heatCapacity, 4, true);
+        ppVal->XmlWriteAttribute("T",  T, 2, true);
+        ppVal->XmlWriteAttribute("H",  thermos.enthalpy, 4, true);
+        ppVal->XmlWriteAttribute("S",  thermos.entropy*1000, 4, true);
+        ppVal->XmlWriteAttribute("G",  thermos.gibbsFreeEnergy, 4, true);
+        ppVal->XmlWriteAttribute("Cp", thermos.heatCapacity*1000, 4, true);
         if (m_outputCellVersion)
         {
-          ppVal->XmlWriteAttribute("cellS", thermos.cellEntropy * 1000, 4, true);
-          ppVal->XmlWriteAttribute("cellH", thermos.cellEnthalpy, 4, true);
-          ppVal->XmlWriteAttribute("cellG", thermos.cellGibbsFreeEnergy, 4, true);
-          ppVal->XmlWriteAttribute("cellCp", thermos.cellHeatCapacity, 4, true);
+          ppVal->XmlWriteAttribute("cellS",  thermos.cellEntropy*1000, 4, true);
+          ppVal->XmlWriteAttribute("cellH",  thermos.cellEnthalpy, 4, true);
+          ppVal->XmlWriteAttribute("cellG",  thermos.cellGibbsFreeEnergy, 4, true);
+          ppVal->XmlWriteAttribute("cellCp", thermos.cellHeatCapacity*1000, 4, true);
         }
         if (!IsNan(Hf298local))
         {

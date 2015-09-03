@@ -111,13 +111,13 @@ namespace mesmer
     switch(rotorType) {
     case NONLINEAR://3-D symmetric/asymmetric/spherical top
       qtot *= (sqrt(M_PI/(rotConst[0] * rotConst[1] * rotConst[2]))*(pow(beta,-1.5))/sym) ;
-      ene   = 3.0/(2.0*beta) ;
-      var   = 3.0*boltzmann_RCpK/2.0 ;
+      ene   = 1.5/beta ;
+      var   = 1.5/(beta*beta) ;
       break;
     case LINEAR://2-D linear
       qtot /= (rotConst[0]*sym*beta) ;
       ene   = 1.0/beta ;
-      var   = boltzmann_RCpK ;
+      var   = 1.0/(beta*beta) ;
       break;
     default:
       break; // Assume atom.
