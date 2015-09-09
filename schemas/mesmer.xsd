@@ -183,12 +183,30 @@
 
   <xs:complexType name="modelParametersType">
     <xs:sequence>
-      <xs:element name="cellSize" type="xs:float" minOccurs="0">
+      <xs:element name="cellSize" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
             The cell size in cm-1. The default (hard-wired) is 1.0 cm-1.
           </xs:documentation>
         </xs:annotation>
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:float">
+              <xs:attribute name="units" type="me:energyUnitsType" use="optional"/>
+              <xs:attribute name="default" type="me:ynboolean" use="optional"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="numberOfCells" minOccurs="0">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:positiveInteger">
+              <xs:attribute name="default" type="me:ynboolean" use="optional"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+
       </xs:element>
       <xs:choice>
         <xs:element name="grainSize" minOccurs="0">
@@ -206,7 +224,7 @@
             </xs:simpleContent>
           </xs:complexType>
         </xs:element>
-        <xs:element name="numberOfGrains" type="xs:integer" minOccurs="0"/>
+        <xs:element name="numberOfGrains" type="xs:positiveInteger" minOccurs="0"/>
       </xs:choice>
       <xs:element name="energyAboveTheTopHill" minOccurs="0">
         <xs:complexType>

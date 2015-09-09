@@ -167,21 +167,21 @@ namespace mesmer
         }
 
         // Model Parameters 
+        PersistPtr ppParams = ppIOPtr->XmlMoveTo("me:modelParameters");
         bool readModelParams(true);
-        if (!ppIOPtr->XmlMoveTo("me:modelParameters"))
+        if (!ppParams)
         {
+          // Add this section if it does not exist, to contain defaults
+          ppParams = ppIOPtr->XmlWriteElement("me:modelParameters", "me:control");
+          
           // No <me:modelParameters> found so give calcMethod the opportunity
           // to provide defaults. If it does it returns true.
           // Most calcMethods will return false.
           readModelParams = !m_CalcMethod->DoesOwnParsing(CalcMethod::MODELPARAMS);
         }
+
         if (readModelParams)
         {
-          PersistPtr ppParams;
-          // Add this section if it does not exist, to contain defaults
-          while (!(ppParams = ppIOPtr->XmlMoveTo("me:modelParameters")))
-            ppIOPtr->XmlWriteElement("me:modelParameters");
-
           // The grain size and grain number are linked via the total maximum energy,
           // so only on of then is independent. Look for grain size first and if that
           // fails look for the Max. number of grains.
@@ -197,6 +197,7 @@ namespace mesmer
           if (IsNan(m_Env.CellSize)) {
             m_Env.CellSize = 1.0; // Default cell size in cm-1.
           }
+          m_Env.MaxCell = ppParams->XmlReadInteger("me:numberOfCells", optional);
 
           m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature", optional);
           if (IsNan(m_Env.MaximumTemperature))

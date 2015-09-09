@@ -1,9 +1,19 @@
+2015-September-09 Chris Morley
+
+	* src/plugins/ThermodynamicTable.cpp, src/System.cpp: extend the
+	  calcMethod-specific model parameters including writing defaults to XML.
+    
+	* examples/Butyl_H_to_Butane/Butyl_H_to_Butane.xml remove <modelParams>
+
+	* src/Persistence.h, src/XMLPersist.cpp, src/XMLPersist.h: extra optional
+	  parameter on XmlWriteElement() to write to before a specified element.
+	  (Keeps schema-complient by writing modelParams in the right place.)
+
 2015-September-03 Struan Robertson
 
     * ThermodynamicTable.cpp, QMRotor.cpp, ClassicalRotor.cpp, BeyerSwinhart.cpp: 
     Fixes for heat capacity methods.
 
-2015-August-28 Chris Morley
 
 	* src/Rdouble.cpp,src/Rdouble.h: ensure that a ZPE specified by a
 	  derivedFrom attribute is updated at the end, after any fitting, etc.,

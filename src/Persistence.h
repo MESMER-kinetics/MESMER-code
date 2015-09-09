@@ -87,8 +87,8 @@ namespace mesmer
     /// Writes a value to the element
     virtual void XmlWrite(const std::string& value)=0;
 
-    /// Inserts into XML document a new element
-    virtual PersistPtr XmlWriteElement(const std::string& name)=0;
+    /// Inserts into XML document a new element, optionally before one with specified name
+    virtual PersistPtr XmlWriteElement(const std::string& name, const std::string& before = "")=0;
 
     /// Adds an XML attribute (or equivalent)
     virtual void XmlWriteAttribute(const std::string& name, const std::string& value)=0;

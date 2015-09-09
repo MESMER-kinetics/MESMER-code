@@ -378,10 +378,13 @@ namespace mesmer
     return PersistPtr(new XMLPersist(item));
   }
 
-  PersistPtr XMLPersist::XmlWriteElement(const std::string& name)
+  PersistPtr XMLPersist::XmlWriteElement(const std::string& name, const std::string& before)
   {
     TiXmlElement* item = new TiXmlElement( name );
-    pnNode->LinkEndChild(item);
+    if (before == "")
+      pnNode->LinkEndChild(item);
+    else
+      pnNode->InsertBeforeChild(pnNode->FirstChild(before), *item);
     return PersistPtr(new XMLPersist(item));
   }
 

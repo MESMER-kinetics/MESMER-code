@@ -491,11 +491,6 @@
     </me:PTs>
   </me:conditions>
 
-  <me:modelParameters>
-    <me:grainSize units="cm-1">200</me:grainSize>
-    <me:energyAboveTheTopHill>10.</me:energyAboveTheTopHill>
-  </me:modelParameters>
-
   <me:control>
     <me:calcMethod xsi:type="me:ThermodynamicTable">
       <me:withCellDOSCalc/>

@@ -129,18 +129,36 @@ namespace mesmer
     return true;
   }
 
+  // Called with ALL (the default) returns false.
+  // Called with MODELPARAMS       sets parameters here and returns true.
+  // Called with anything else     returns true.
   bool ThermodynamicTable::DoesOwnParsing(parseQuery q)
   {
-    if (q == CalcMethod::ALL)
+    if (q == CalcMethod::MODELPARAMS)
     {
-      //Use own default Number of Cells ***NEEDS EDITING***
+      //Use own default model parameters
       ErrorContext c("ThermodynamicTable. Own default");
       System* pSys = getParent();
+
+      PersistPtr ppParams = pSys->getPersistPtr()->XmlMoveTo("me:modelParameters");
+      assert(ppParams);
+
       MesmerEnv& Env = pSys->getEnv();
       Env.CellSize = 1.0;
       cinfo << "Cell size " << Env.CellSize << " cm-1" << endl;
+      PersistPtr pp = ppParams->XmlWriteValueElement("me:cellSize", Env.CellSize);
+      pp->XmlWriteAttribute("units", "cm-1");
+      pp->XmlWriteAttribute("default", "true");
+
       Env.MaxCell = 100000;
       cinfo << "Number of cells " << Env.MaxCell << endl;
+      pp = ppParams->XmlWriteValueElement("me:numberOfCells", Env.MaxCell);
+      pp->XmlWriteAttribute("default", "true");
+
+      //Get the grain parameters from defaults.xml (The reads will always fail.)
+      Env.GrainSize  = ppParams->XmlReadInteger("me:grainSize");
+      //Env.EAboveHill = ppModelParams->XmlReadDouble("me:energyAboveTheTopHill");
+ 
       return true;
     }
     return q != ALL;

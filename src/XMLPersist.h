@@ -91,8 +91,8 @@ public:
   /// Writes a value to the element
   virtual void XmlWrite(const std::string& value);
 
-  /// Inserts into XML document a new element
-  virtual PersistPtr XmlWriteElement(const std::string& name);
+  /// Inserts into XML document a new element, optionally before one with a specified name
+  virtual PersistPtr XmlWriteElement(const std::string& name, const std::string& before = "");
 
   /// Adds an XML attribute (or equivalent)
   virtual void XmlWriteAttribute(const std::string& name, const std::string& value);
