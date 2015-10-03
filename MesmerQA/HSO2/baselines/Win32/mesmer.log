@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Aug 26 2015 -- 10:49:37
+     Mesmer v5.0 compiled: -- Oct  3 2015 -- 13:28:14
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -44,10 +44,10 @@ In R1: No imaginary vibrational frequency. Check if there is tunneling.
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
-1e+08Torr, 200K at double precision with Ar
-1e+08Torr, 200K at dd precision with Ar
-1e+08Torr, 200K at qd precision with Ar
-Write metadata 20150829_165434
+1e+008Torr, 200K at double precision with Ar
+1e+008Torr, 200K at dd precision with Ar
+1e+008Torr, 200K at qd precision with Ar
+Write metadata 20151003_132955
 
 File: "HSO2_test.xml" successfully parsed.
 Main Calculation begins
@@ -62,18 +62,18 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 1
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 2
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            200    4.82825e+24            200    4.82825e+24            200    4.82825e+24
+            200   4.82825e+024            200   4.82825e+024            200   4.82825e+024
 Finish Calculation of P-T case
 3 temperature/concentration-pressure points calculated.
 Energy convention "arbitrary" written to <moleculeList>
- -- Total time elapsed: 1 seconds.
+ -- Total time elapsed: 2 seconds.
 
 System saved to out.xml
-Total time elapsed: 1 seconds.
+Total time elapsed: 2 seconds.

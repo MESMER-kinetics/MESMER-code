@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Aug 26 2015 -- 10:49:37
+     Mesmer v5.0 compiled: -- Oct  3 2015 -- 13:28:14
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -68,7 +68,7 @@ In R_2_6c: No tunneling method used for R_2_6c
 In R_2_6c: No crossing method used for R_2_6c
 The default value of the attribute precision was used.
 760Torr, 298K at d precision with N2
-Write metadata 20150829_165434
+Write metadata 20151003_132953
 
 File: "benzene_oxidation_test.xml" successfully parsed.
 Main Calculation begins
@@ -87,11 +87,11 @@ Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            298    2.46273e+19
-Finish Calculation of P-T case
+            298   2.46273e+019
+Finish Calculation of P-T case -- Time elapsed: 1 seconds.
 1 temperature/concentration-pressure points calculated.
 Energy convention "arbitrary" written to <moleculeList>
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 2 seconds.
 
 System saved to out.xml
-Total time elapsed: 0 seconds.
+Total time elapsed: 2 seconds.

@@ -336,7 +336,7 @@
   <me:conditions>
     <me:bathGas>Ar</me:bathGas>
     <me:PTs>
-      <me:PTpair units="Torr" P="100000000" T="200" precision ="double" />
+      <me:PTpair units="Torr" P="100000000" T="200" precision ="dd" />
     </me:PTs>
     <me:InitialPopulation>
       <me:molecule ref="H" population="1.0" />
@@ -352,6 +352,7 @@
     <me:testDOS />
     <me:testMicroRates />
     <me:eigenvalues>5</me:eigenvalues>
+    <me:ForceMacroDetailedBalance />
   </me:control>
 
   <me:control>

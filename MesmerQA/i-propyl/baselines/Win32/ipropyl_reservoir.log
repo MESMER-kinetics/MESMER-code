@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Aug 26 2015 -- 10:49:37
+     Mesmer v5.0 compiled: -- Oct  3 2015 -- 13:28:14
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -48,10 +48,10 @@ In H: The default value of me:DOSCMethod was used.
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
 The default value of the attribute precision was used.
-3e+17PPCC, 720K at d precision with He
+3e+017PPCC, 720K at d precision with He
 The default value of the attribute precision was used.
-3.01e+17PPCC, 730K at d precision with He
-Write metadata 20150829_165440
+3.01e+017PPCC, 730K at d precision with He
+Write metadata 20151003_133007
 
 File: "ipropyl_reservoir.xml" successfully parsed.
 Main Calculation begins
@@ -68,13 +68,13 @@ Diagonalize the Reaction Operator
 PT Grid 1
 Number of cells = 18700, Number of grains = 187
 Number of grains requested: 187
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            720          3e+17           41.5        45.0265
-            730       3.01e+17           51.1        61.3841
+            720         3e+017           41.5        45.0265
+            730      3.01e+017           51.1        61.3841
 
 Finish Calculation of P-T case
 2 temperature/concentration-pressure points calculated.
