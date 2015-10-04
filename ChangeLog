@@ -1,3 +1,8 @@
+2015-October-04 Struan Robertson
+
+    * CollisonOperator.cpp: Altered equilibrium fraction method to account for 
+    redundant reactions properly. Added HSP2.xml test to MesmerQA to check this.
+
 2015-September-09 Chris Morley
 
 	* src/plugins/ThermodynamicTable.cpp, src/System.cpp: extend the
