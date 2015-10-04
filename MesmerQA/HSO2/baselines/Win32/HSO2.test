@@ -1,0 +1,165 @@
+Initial population of H = 1
+PT Grid 0 Condition: conc = 3.37e+018, temp = 295, diagonalization precision: double-double
+{
+
+Test rovibronic density of states for: TS1
+{
+      T           qtot           sumc           sumg
+    200          37614        37614.1        36858.1
+    300         124461         124461         123300
+}
+
+Test rovibronic density of states for: HSO2
+{
+      T           qtot           sumc           sumg
+    200        16798.4        16749.2        16432.6
+    300        35121.6        35053.5        34740.3
+}
+
+Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100        7.56674e-018        3.37424e-028       2.2425e+010
+    200        2.73859e-014        9.71139e-008      2.81998e-007
+    300        5.58063e-013             1.04694      5.33044e-013
+}
+
+Test rovibronic density of states for: TS2
+{
+      T           qtot           sumc           sumg
+    200        18429.1        18429.1        18070.2
+    300        39463.9          39464          39106
+}
+
+Test rovibronic density of states for: HOSO
+{
+      T           qtot           sumc           sumg
+    200        29980.2        29887.6        29268.4
+    300          81411        81243.5          80480
+}
+
+Canonical (high pressure) rate coefficients for R2, calculated from microcanonical rates
+{
+    T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
+    100        4.42845e-029        7.73259e-093        5.727e+063
+    200        3.66975e-020        1.67114e-040      2.19596e+020
+    300        3.45947e-017        4.86336e-023            711334
+}
+
+Test rovibronic density of states for: TS4
+{
+      T           qtot           sumc           sumg
+    200        20125.7        20125.7        19733.1
+    300        48087.9          48088        47646.1
+}
+
+Canonical (high pressure) rate coefficients for R4, calculated from microcanonical rates
+{
+    T/K              kf/s-1              kb/s-1            Keq   
+    100        1.36954e-046        5.37922e-100      2.55384e+053
+    200        3.75086e-017        4.82384e-044      7.78715e+026
+    300        3.25604e-007        2.44224e-025      1.33448e+018
+}
+
+Canonical (high pressure) rate coefficients for R6, calculated from microcanonical rates
+{
+    T/K              kf/s-1 kb/cm3molecule-1s-1  Keq/moleculecm-3
+    100        5.35745e-137         4.2246e-010      1.26816e-127
+    200        5.06546e-061         4.5227e-010      1.12001e-051
+    300        1.01244e-035        4.08741e-010      2.47696e-026
+}
+
+Eq fraction matrix:
+{
+ -8.35763e+01  1.00000e+00  0.00000e+00
+ -2.20399e+20  0.00000e+00  1.00000e+00
+  1.00000e+00  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -4.53723e-21 -4.53723e-21  4.53723e-21
+  1.00000e+00 -3.79205e-19  3.79205e-19
+ -1.00000e+00  3.83742e-19  1.00000e+00
+}
+Equilibrium Fraction for H = 4.53723e-021
+Equilibrium Fraction for HOSO = 1
+Equilibrium Fraction for HSO2 = 3.79205e-019
+
+Total number of eigenvalues = 420
+Eigenvalues
+{
+  -1.390025e+08
+  -1.388425e+08
+  -1.203707e+00
+  -2.993611e-05
+   9.284089e-22
+}
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 1
+
+There should be 3 chemically significant eigenvalues (CSEs)
+
+Y_matrix:
+{
+  -1.960561e-26   2.140042e-27   1.328459e-36
+}
+
+Z_matrix: {
+-6.696120e-11	7.309124e-12	4.537231e-21	
+6.682006e-11	6.121598e-10	3.792050e-19	
+1.411408e-13	-6.194697e-10	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-1.475818e+10	1.762111e+08	1.411408e-13	
+1.610924e+09	1.614326e+09	-6.194697e-10	
+1.000001e+00	1.000001e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	9.944656e-67	6.595308e-85	
+-7.295270e-65	1.000000e+00	4.118046e-83	
+-5.163215e-65	4.925826e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.189534e+00	1.420256e-02	1.151173e-23	
+1.186997e+00	-1.420256e-02	4.402457e-32	
+2.537173e-03	1.160972e-13	9.168971e-22	
+}
+
+Kp matrix:
+{
+   2.927906e-16   6.569162e-27   1.810036e-47
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+H loss = -1.189534e+00
+HOSO loss = 9.168971e-22
+HSO2 loss = -1.420256e-02
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+H -> HOSO = 2.537173e-03
+H -> HSO2 = 1.186997e+00
+HOSO -> H = 1.151173e-23
+HOSO -> HSO2 = 4.402457e-32
+HSO2 -> H = 1.420256e-02
+HSO2 -> HOSO = 1.160972e-13
+}
+
+First order & pseudo first order rate coefficients for irreversible rxns:
+{
+H -> OH+SO = 2.927906e-16
+HOSO -> OH+SO = 1.810036e-47
+HSO2 -> OH+SO = 6.569162e-27
+}
+
+}

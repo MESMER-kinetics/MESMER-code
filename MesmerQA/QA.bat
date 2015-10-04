@@ -95,6 +95,11 @@ cd HSO2
 %executable% HSO2_test.xml -o %outf% %directive%
 copy "./%tfn%" "./%bline%%otfn%"
 IF "%1"=="-o" copy "./%lfn%" "./%bline%%lfn%"
+
+set testName="HSO2"
+%executable% -N %testName%.xml %directive%
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 echo --------------------------------------------------------------------
 

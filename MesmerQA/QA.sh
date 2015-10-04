@@ -100,6 +100,13 @@ cp ./$tfn ./$bline$otfn
 if [ "$1" == "-o" ] ; then
   cp ./$lfn ./$bline$lfn 
 fi
+
+testName=HSO2
+$executable -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log 
+fi
 cd ..
 
 cd "cyclopropene isomerization"

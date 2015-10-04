@@ -252,22 +252,6 @@
         <scalar>2</scalar>
       </property>
     </molecule>
-    <!--<molecule id="TS6" role="transitionState">
-      <atomArray>
-        <atom id="a1" elementType="O"/>
-        <atom id="a2" elementType="H"/>
-        <atom id="a3" elementType="S"/>
-        <atom id="a4" elementType="O"/>
-      </atomArray>
-      <bondArray>
-        <bond atomRefs2="a1 a2" order="1"/>
-        <bond atomRefs2="a1 a3" order="1"/>
-        <bond atomRefs2="a3 a4" order="2"/>
-      </bondArray>
-      <property dictRef="me:spinMultiplicity">
-        <scalar>2</scalar>
-      </property>
-    </molecule>-->
   </moleculeList>
 
   <reactionList>
@@ -301,6 +285,7 @@
         <molecule ref="TS2" role="transitionState" />
       </me:transitionState>
       <me:MCRCMethod name="SimpleRRKM"/>
+      <me:excessReactantConc>1e14</me:excessReactantConc>
     </reaction>
     <reaction id="R4" reversible="true">
       <reactant>
@@ -334,9 +319,9 @@
   </reactionList>
 
   <me:conditions>
-    <me:bathGas>Ar</me:bathGas>
+    <me:bathGas>He</me:bathGas>
     <me:PTs>
-      <me:PTpair units="Torr" P="100000000" T="200" precision ="dd" />
+      <me:PTpair units="PPCC" P="3.37e18" T="295" precision ="dd" />
     </me:PTs>
     <me:InitialPopulation>
       <me:molecule ref="H" population="1.0" />
@@ -344,8 +329,8 @@
   </me:conditions>
 
   <me:modelParameters>
-    <me:grainSize units="cm-1"> 100 </me:grainSize>
-    <me:energyAboveTheTopHill>20.</me:energyAboveTheTopHill>
+    <me:grainSize units="cm-1">100</me:grainSize>
+    <me:energyAboveTheTopHill>5.</me:energyAboveTheTopHill>
   </me:modelParameters>
 
   <me:control>

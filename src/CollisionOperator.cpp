@@ -9,6 +9,7 @@
 //
 //-------------------------------------------------------------------------------------------
 #include <numeric>
+#include <set>
 #include "CollisionOperator.h"
 
 #include "AssociationReaction.h"
@@ -531,9 +532,11 @@ namespace mesmer
     Any system, with an arbitrary number of wells and connections, may be described by such a Matrix */
 
     // Determine the total number of isomers + sources from the m_isomers and m_sources
-    // maps and intialize the matrix which holds the system of equations that describe
-    // the equilibrium distribution.
+    // maps, the number of independent reactions needed to specify equilibrium and
+    // intialize the matrix which holds the system of equations that describe the
+    // equilibrium distribution.
     size_t nTotalNumSpecies(m_isomers.size() + m_sources.size());
+    size_t nIndependRxns(nTotalNumSpecies-1) ;
     qdMatrix eqMatrix(nTotalNumSpecies, qd_real(0.0));
     for (size_t i(0); i < nTotalNumSpecies; ++i) {
       eqMatrix[nTotalNumSpecies - 1][i] = qd_real(1.0);
@@ -550,11 +553,21 @@ namespace mesmer
     bool bSecondOrderFlag(false);
     size_t idxr(0), idxs(0);
 
-    // loop over the number of reactions in order to assign elements to the m_SpeciesSequence map
-    // and then update the corresponding matrix elements in eqMatrix.
-    size_t reactionCount(0);
-    size_t counter(0);   // Counter keeps track of how may elements are in the m_SpeciesSequence map.
-    for (size_t i(0); i < m_pReactionManager->size(); ++i) {  //iterate through m_reactions
+    // Counters to keep track of how many elements are in m_SpeciesSequence and reactions examined.
+    size_t reactionCount(0), counter(0);
+
+    // The followong vector keeps track of how isomers/pseudoisomers are connected. The
+    // ordering of the vector is the same as m_SpeciesSequence and each set contains the
+    // isomers a give isomer is connected to, either direactly or indireactly. This object
+    // is used to determine if a reaction is redundant or not.
+    vector<set<Molecule*> > Connections(nTotalNumSpecies) ;
+
+    // Loop over the number of reactions in order to assign elements to the m_SpeciesSequence
+    // map and then update the corresponding matrix elements in eqMatrix. The iteration through
+    // reactions continues until enough information has been gathered to establish the unique
+    // equilibrium values for all species. Note: the system may be over determined so not all
+    // reactions need to be inspected to obtain the required information.
+    for (size_t i(0); i < m_pReactionManager->size() && reactionCount < nIndependRxns; ++i) {
 
       Molecule* rct;
       Molecule* pdt;
@@ -563,7 +576,8 @@ namespace mesmer
       // Only need eq fracs for species in isom & assoc rxns.
       if ((*m_pReactionManager)[i]->isEquilibratingReaction(Keq, &rct, &pdt)) {
 
-        int ploc(0), rloc(0);
+        size_t ploc(0), rloc(0);
+        bool bNewRec(false), bNewPdt(false);
 
         Reaction::molMapType::iterator rctitr = m_SpeciesSequence.find(rct);
         if (rctitr != m_SpeciesSequence.end()) {
@@ -573,7 +587,10 @@ namespace mesmer
           m_SpeciesSequence[rct] = counter;
           rloc = counter;
           counter++;
+          bNewRec = true ;
         }
+        set<Molecule*> &rSet = Connections[rloc] ;
+        rSet.insert(pdt) ;
 
         Reaction::molMapType::iterator pdtitr = m_SpeciesSequence.find(pdt);
         if (pdtitr != m_SpeciesSequence.end()) {
@@ -583,6 +600,25 @@ namespace mesmer
           m_SpeciesSequence[pdt] = counter;
           ploc = counter;
           counter++;
+          bNewPdt = true ;
+        }
+        set<Molecule*> &pSet = Connections[ploc] ;
+        pSet.insert(rct) ;
+
+        // Determine if reaction is redundant.
+        if (bNewRec || bNewPdt) {
+          // Any reaction with a species not in the m_SpeciesSequence list is added.
+          // Also any conections either reactant or product have should be shared.
+          for (set<Molecule*>::const_iterator itr = rSet.begin() ; itr != rSet.end() ; itr++) {
+            pSet.insert(*itr) ;
+          }
+          rSet = pSet ;
+        }
+        else {
+          // Both species are already in the list, but this does not mean reaction is redundant.
+          if (pSet.find(rct) != pSet.end() || rSet.find(pdt) != rSet.end()) { 
+            continue ;
+          }
         }
 
         if ((*m_pReactionManager)[i]->getReactionType() == SECONDORDERASSOCIATION) {
@@ -604,13 +640,11 @@ namespace mesmer
         }
 
         reactionCount++;
-        if (reactionCount >= nTotalNumSpecies)
-          throw(std::runtime_error(string(__FUNCTION__)+string(": The number of reactions equals or exceeds number of species - system over specified.")));
       }
     }
 
-    if (++reactionCount != nTotalNumSpecies)
-      throw(std::runtime_error(string(__FUNCTION__)+string(": The total number of species found does not match the number of reactions - system over specified.")));
+    if (reactionCount < nIndependRxns)
+      throw(std::runtime_error(string(__FUNCTION__)+string(": The total number of species found does not match the number of reactions - system under specified.")));
 
     // If counter==0 after the for loop above, then there are no equilibrating reactions
     // (i.e., all the reactions are irreversible).  In that case, the lone isomer has an
@@ -621,7 +655,7 @@ namespace mesmer
         Molecule* rct = (m_isomers.begin())->first;
         m_SpeciesSequence[rct] = counter;
       }
-      else if (m_sources.size()){
+      else if (m_sources.size()) {
         Molecule* rct = (m_sources.begin())->first;
         m_SpeciesSequence[rct] = counter;
       }
@@ -919,14 +953,14 @@ namespace mesmer
       ctest << "\n\t";
       for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
         formatFloat(ctest, timePoints[timestep], 6, 15);
-		ctest << ",";
+        ctest << ",";
       }
       ctest << endl;
       for (size_t j(0); j < smsize; ++j) {
         ctest << j << "," ; // << "\t";
         for (size_t timestep(0); timestep < maxTimeStep; ++timestep){
           formatFloat(ctest, grnProfile[j][timestep], 6, 15);
-		  ctest << ",";
+          ctest << ",";
         }
         ctest << endl;
       }
@@ -1026,9 +1060,9 @@ namespace mesmer
         ++speciesProfileidx;
       }
 
-	  // SHR 2/Jan/2015: The following vector holds the flux into each sink.
-	  // I am not sure how useful this quantity is and my wish to remove it 
-	  // at a later stage.
+      // SHR 2/Jan/2015: The following vector holds the flux into each sink.
+      // I am not sure how useful this quantity is and my wish to remove it 
+      // at a later stage.
       vector<vector<double> > sinkFluxProfile(m_sinkRxns.size(), vector<double>(maxTimeStep));
 
       int pdtProfileStartIdx = speciesProfileidx;
@@ -1502,11 +1536,11 @@ namespace mesmer
 
       // If requested, write out phenomenological evolution.
       if (mFlags.printPhenomenologicalEvolution) {
-		if (mFlags.bIsSystemSecondOrder) {
-		  cinfo << "At present it is not possible to phenomenological profiles for systems with a second order term." << endl ;
-		} else {
+        if (mFlags.bIsSystemSecondOrder) {
+          cinfo << "At present it is not possible to phenomenological profiles for systems with a second order term." << endl ;
+        } else {
           PhenomenologicalIntegration(Z_matrix, Zinv, Egv, mFlags) ;
-		}
+        }
       }
 
       // Write out phenomenological rate coefficients.
@@ -1525,37 +1559,37 @@ namespace mesmer
 
   // Method to integrate the phenomenological rate equations using BW coefficients.
   bool CollisionOperator::PhenomenologicalIntegration(qdMatrix& Z_matrix, qdMatrix& Zinv, qdMatrix& Egv, MesmerFlags& mFlags) {
- 
-	// Write header section and setup initial concentration vector. 
 
-	ctest << endl << "Phenomenological species profiles" << endl << "{" << endl;
+    // Write header section and setup initial concentration vector. 
+
+    ctest << endl << "Phenomenological species profiles" << endl << "{" << endl;
     ctest << setw(16) << "Timestep/s";
 
-	size_t nchem = Z_matrix.size() ;
+    size_t nchem = Z_matrix.size() ;
     vector<qd_real> c0(nchem, 0.0) ;
-	vector<size_t> speciesOrder ;
-	
-	// Loop over isomers then sources.
+    vector<size_t> speciesOrder ;
+
+    // Loop over isomers then sources.
 
     Reaction::molMapType::iterator ipos;
     for (ipos = m_isomers.begin(); ipos != m_isomers.end(); ++ipos) {
       Molecule* isomer = ipos->first;
-	  ctest << setw(16) <<  isomer->getName();
+      ctest << setw(16) <<  isomer->getName();
       int seqMatrixLoc = m_SpeciesSequence[isomer];
-	  speciesOrder.push_back(size_t(seqMatrixLoc)) ;
+      speciesOrder.push_back(size_t(seqMatrixLoc)) ;
       c0[seqMatrixLoc] = isomer->getPop().getInitPopulation();
     }
 
-	for (ipos = m_sources.begin(); ipos != m_sources.end(); ++ipos) {
+    for (ipos = m_sources.begin(); ipos != m_sources.end(); ++ipos) {
       Molecule* pseudoisomer = ipos->first;
-	  ctest << setw(16) <<  pseudoisomer->getName();
+      ctest << setw(16) <<  pseudoisomer->getName();
       int seqMatrixLoc = m_SpeciesSequence[pseudoisomer];
-	  speciesOrder.push_back(size_t(seqMatrixLoc)) ;
+      speciesOrder.push_back(size_t(seqMatrixLoc)) ;
       c0[seqMatrixLoc] = pseudoisomer->getPop().getInitPopulation();
     }
     ctest << endl;
 
-	// Calculate time points, calculate and write populations. 
+    // Calculate time points, calculate and write populations. 
 
     c0 *= Zinv ;
     vector<double> timePoints ;
@@ -1575,7 +1609,7 @@ namespace mesmer
     }
     ctest << "}" << endl;
 
-	return true ;
+    return true ;
   }
 
   // Write out phenomenological rate coefficients.

@@ -265,8 +265,12 @@ MesmerQA/Acetyl[!!-~]O2[!!-~]association/baselines/Win32/mesmer.test -text
 MesmerQA/Acetyl[!!-~]O2[!!-~]association/baselines/Win32/readme.txt -text
 MesmerQA/HSO2/HSO2.xml -text
 MesmerQA/HSO2/HSO2_test.xml -text
+MesmerQA/HSO2/baselines/Linux64/HSO2.log -text
+MesmerQA/HSO2/baselines/Linux64/HSO2.test -text
 MesmerQA/HSO2/baselines/Linux64/mesmer.log -text
 MesmerQA/HSO2/baselines/Linux64/mesmer.test -text
+MesmerQA/HSO2/baselines/Win32/HSO2.log -text
+MesmerQA/HSO2/baselines/Win32/HSO2.test -text
 MesmerQA/HSO2/baselines/Win32/mesmer.log -text
 MesmerQA/HSO2/baselines/Win32/mesmer.test -text
 MesmerQA/OH[!!-~]acetylene[!!-~]association/OH_acetylene_association_test.xml -text
