@@ -78,7 +78,7 @@ namespace mesmer
     bool set_link_params(const char* name, double fac, double add, const char* units);
 
     // Calculate the current value of a derivedFrom variable
-    void Rdouble::update_value();
+    void update_value();
 
     static bool SetUpLinkedVars();
 
