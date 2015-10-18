@@ -4,23 +4,23 @@ PT Grid 0 Condition: conc = 2.59235e+018, temp = 298, diagonalization precision:
 
 Eq fraction matrix:
 {
- 1.00000e+000
+  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
- 1.00000e+000
+  1.00000e+00
 }
 Equilibrium Fraction for acetyl = 1
 
 Total number of eigenvalues = 268
 Eigenvalues
 {
- -1.871886e+008
- -1.550682e+008
- -1.272516e+008
- -1.057275e+008
- -9.023044e+007
- -3.596000e+007
+  -1.871886e+08
+  -1.550682e+08
+  -1.272516e+08
+  -1.057275e+08
+  -9.023044e+07
+  -3.596000e+07
 }
 
 Initial distribution vector
@@ -10309,8 +10309,8 @@ Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
 
 Y_matrix:
 {
- -2.189960e-001
- -3.596000e+007
+  -2.189960e-01
+  -3.596000e+07
 }
 
 Z_matrix: {
@@ -10334,8 +10334,8 @@ Kr matrix:
 
 Kp matrix:
 {
-  2.189960e-001
-  3.596000e+007
+   2.189960e-01
+   3.596000e+07
 }
 
 First order & pseudo first order rate coefficients for loss rxns:

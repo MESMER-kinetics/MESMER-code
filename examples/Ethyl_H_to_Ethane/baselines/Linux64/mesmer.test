@@ -49,13 +49,13 @@ Test rovibronic density of states for: Ethane
 
 Eq fraction matrix:
 {
--1.28015e+068 1.00000e+000
- 1.00000e+000 1.00000e+000
+ -1.28015e+68  1.00000e+00
+  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
--7.81159e-069 7.81159e-069
- 7.81159e-069 1.00000e+000
+ -7.81159e-69  7.81159e-69
+  7.81159e-69  1.00000e+00
 }
 Equilibrium Fraction for Ethane = 1
 Equilibrium Fraction for Ethyl = 7.81159e-69
@@ -63,11 +63,11 @@ Equilibrium Fraction for Ethyl = 7.81159e-69
 Total number of eigenvalues = 195
 Eigenvalues
 {
- -2.256220e+007
- -2.099520e+007
- -1.792521e+007
- -7.112240e+006
-  3.079199e-022
+  -2.256220e+07
+  -2.099520e+07
+  -1.792521e+07
+  -7.112240e+06
+   3.079199e-22
 }
 
 Bartis Widom eigenvalue/eigenvector analysis

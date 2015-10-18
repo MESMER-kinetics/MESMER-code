@@ -679,13 +679,13 @@ Canonical (high pressure) rate coefficients for R1, calculated from microcanonic
 
 Eq fraction matrix:
 {
--3.91021e-007 1.00000e+000
- 1.00000e+000 1.00000e+000
+ -3.91021e-07  1.00000e+00
+  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
--1.00000e+000 1.00000e+000
- 1.00000e+000 3.91020e-007
+ -1.00000e+00  1.00000e+00
+  1.00000e+00  3.91020e-07
 }
 Equilibrium Fraction for cyclopropene = 1
 Equilibrium Fraction for triplet = 3.9102e-007
@@ -1653,13 +1653,13 @@ Canonical (high pressure) rate coefficients for R1, calculated from microcanonic
 
 Eq fraction matrix:
 {
--1.07424e-005 1.00000e+000
- 1.00000e+000 1.00000e+000
+ -1.07424e-05  1.00000e+00
+  1.00000e+00  1.00000e+00
 }
 inverse of Eq fraction matrix:
 {
--9.99989e-001 9.99989e-001
- 9.99989e-001 1.07423e-005
+ -9.99989e-01  9.99989e-01
+  9.99989e-01  1.07423e-05
 }
 Equilibrium Fraction for cyclopropene = 0.999989
 Equilibrium Fraction for triplet = 1.07423e-005
