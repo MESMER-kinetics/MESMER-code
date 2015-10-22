@@ -5,7 +5,7 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <moleculeList>
 
-    <molecule id="HONO" description="HONO radical">
+    <molecule id="HONO">
       <atomArray>
         <atom id="a1"  elementType="H" x3="1.7545"  y3="-0.1823" z3="0.0000"/>
         <atom id="a2"  elementType="O" x3="0.8942"  y3="-0.6061" z3="0.0000"/>
@@ -60,7 +60,8 @@
       </propertyList>
 
       <me:energyTransferModel xsi:type="me:ExponentialDown">
-        <me:deltaEDown units="cm-1" lower="25" upper="250" stepsize="0.5" exponent="1.0">58</me:deltaEDown>
+        <me:deltaEDown units="cm-1" lower="25" upper="250" stepsize="0.5">58</me:deltaEDown>
+        <me:deltaEDownTExponent>1.0</me:deltaEDownTExponent>
       </me:energyTransferModel>
 
       <!--me:reservoirSize units="kcal/mol">-2.0</me:reservoirSize> -->

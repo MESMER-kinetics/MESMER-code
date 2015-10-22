@@ -223,6 +223,9 @@ namespace mesmer
 
         cinfo.flush();
 
+        //Write the energy convention as an attribute on <moleculeList>
+        m_pMoleculeManager->WriteEnergyConvention();
+
         //Reaction Conditions
         ppConditions = ppIOPtr->XmlMoveTo("me:conditions");
         if(!ppConditions)
@@ -354,6 +357,7 @@ namespace mesmer
         m_Flags = MesmerFlags();
       } 
     }
+
     if(!Rdouble::SetUpLinkedVars())
       return false;
 
@@ -393,9 +397,6 @@ namespace mesmer
 
     //Calls Finish() for each Reaction. Usually does nothing except in AssociationReaction
     m_pReactionManager->finish();
-    
-    //Write the energy convention as an attribute on <moleculeList>
-    m_pMoleculeManager->WriteEnergyConvention();
   }
 
   //

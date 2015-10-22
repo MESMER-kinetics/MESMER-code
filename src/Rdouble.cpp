@@ -81,6 +81,7 @@ namespace mesmer
       cerr << "Error: Parameter label " << label << " redefined." << endl;
     } else {
       withLabel()[label] = this ;
+      varname = label;
     }
   }
 
@@ -131,8 +132,8 @@ namespace mesmer
             if (depvar->m_units != depvar->link->m_units)
             {
               cerr << "The units of " << depvar->varname
-                   << " must be absent or be the same as those of "
-                   << depvar->linkedname << ", which it is derivedFrom." << endl;
+                   << " must be the same as those of " << depvar->linkedname 
+                   << ", which it is derivedFrom, or both must have no units attribute." << endl;
               return false;
             }
 

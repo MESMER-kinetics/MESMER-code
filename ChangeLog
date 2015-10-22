@@ -1,3 +1,14 @@
+2015-October-22 Chris Morley
+
+	* examples/Methyl_H_to_Methane/Methyl_H_to_Methane_FTST.xml: add missing units.
+	
+	* examples/OH_NO_to HONO/OH_NO_HONO.xml: make schema-compliant.
+
+	* src/Rdouble.cpp: ensure name of Rdouble available for error messages.
+
+	* src/System.cpp: Write the energy attribute to <moleculeList> earlier,
+	  during parsing. 
+
 2015-October-04 Struan Robertson
 
     * CollisonOperator.cpp: Altered equilibrium fraction method to account for 
@@ -19,6 +30,7 @@
     * ThermodynamicTable.cpp, QMRotor.cpp, ClassicalRotor.cpp, BeyerSwinhart.cpp: 
     Fixes for heat capacity methods.
 
+2015-September-   Chris Morley
 
 	* src/Rdouble.cpp,src/Rdouble.h: ensure that a ZPE specified by a
 	  derivedFrom attribute is updated at the end, after any fitting, etc.,
