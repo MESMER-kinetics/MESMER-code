@@ -197,7 +197,8 @@ namespace mesmer
           if (IsNan(m_Env.CellSize)) {
             m_Env.CellSize = 1.0; // Default cell size in cm-1.
           }
-          m_Env.MaxCell = ppParams->XmlReadInteger("me:numberOfCells", optional);
+          size_t nCells = ppParams->XmlReadInteger("me:numberOfCells", optional) ;
+          if (nCells) m_Env.MaxCell = nCells ;
 
           m_Env.MaximumTemperature = ppParams->XmlReadDouble("me:maxTemperature", optional);
           if (IsNan(m_Env.MaximumTemperature))

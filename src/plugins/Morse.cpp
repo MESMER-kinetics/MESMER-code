@@ -90,7 +90,7 @@ namespace mesmer
 	const size_t MaximumCell = env.MaxCell ;
 
     vector<double> cellDOS;
-    if(!pDOS->getCellDensityOfStates(cellDOS, 0, false)) // retrieve the DOS vector without recalculating
+    if(!pDOS->getCellDensityOfStates(cellDOS, false)) // retrieve the DOS vector without recalculating
       return false;
 
     for (size_t nFrq(0) ; nFrq < m_vibFreq.size() ; nFrq++ )

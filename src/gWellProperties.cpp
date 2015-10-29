@@ -309,8 +309,6 @@ namespace mesmer
   //
   void gWellProperties::normalizedInitialDistribution(vector<double> &grainFrac)
   {
-    if (!m_host->getDOS().calcDensityOfStates())
-      cerr << "Failed calculating DOS";
 
     m_pDistributionCalculator->calculateDistribution(m_host, m_grainDist);
 
@@ -344,18 +342,13 @@ namespace mesmer
   //
   void gWellProperties::normalizedGrnBoltzmannDistribution(vector<double> &grainFrac)
   {
-    // If density of states have not already been calcualted then do so.
-    if (!m_host->getDOS().calcDensityOfStates())
-      cerr << "Failed calculating DOS";
-
-    vector<double> tempGrnFrac;
-    grainFrac.clear();
-
-    vector<double> gEne;
     vector<double> gDOS;
-    m_host->getDOS().getGrainEnergies(gEne);
     m_host->getDOS().getGrainDensityOfStates(gDOS);
 
+    vector<double> gEne;
+    m_host->getDOS().getGrainEnergies(gEne);
+
+    vector<double> tempGrnFrac;
     // Calculate unnormalized Boltzmann dist.
     // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
     double prtfn = exp(log(gDOS[0]) - m_host->getEnv().beta * gEne[0] + 10.0);
@@ -379,39 +372,29 @@ namespace mesmer
 
   }
 
-  void gWellProperties::normalizedCellBoltzmannDistribution(vector<double> &CellFrac, const int totalCellNumber)
+  void gWellProperties::normalizedCellBoltzmannDistribution(vector<double> &CellFrac)
   {
-    // If density of states have not already been calcualted then do so.
-    if (!m_host->getDOS().calcDensityOfStates())
-      cerr << "Failed calculating DOS";
-
-    vector<double> tempCellFrac;
-    CellFrac.clear();
-
-    vector<double> gEne;
     vector<double> gDOS;
-    getCellEnergies(totalCellNumber, m_host->getEnv().CellSize, gEne);
     m_host->getDOS().getCellDensityOfStates(gDOS);
 
+    vector<double> gEne;
+    getCellEnergies(gDOS.size(), m_host->getEnv().CellSize, gEne);
+
+    vector<double> tempCellFrac(gDOS.size(), 0.0);
     double prtfn(0.0);
     // Calculate unnormalized Boltzmann dist.
     // Note the extra 10.0 is to prevent underflow, it is removed during normalization.
-    const double firstPartition = exp(log(gDOS[0]) - m_host->getEnv().beta * gEne[0] + 10.0);
-    tempCellFrac.push_back(firstPartition);
-    prtfn = firstPartition;
-    for (int i = 1; i < totalCellNumber; ++i) {
-      const double thisPartition = exp(log(gDOS[i]) - m_host->getEnv().beta * gEne[i] + 10.0);
+    for (size_t i(0); i < tempCellFrac.size(); ++i) {
+      const double thisPartition = (gDOS[i] > 0.0) ? exp(log(gDOS[i]) - m_host->getEnv().beta * gEne[i] + 10.0) : 0.0 ;
       prtfn += thisPartition;
-      tempCellFrac.push_back(thisPartition);
+      tempCellFrac[i] = thisPartition ;
     }
 
-    const int tempCellFracSize = int(tempCellFrac.size());
-    for (int i = 0; i < tempCellFracSize; ++i){
+    for (size_t i(0); i < tempCellFrac.size(); ++i){
       tempCellFrac[i] /= prtfn;
     }
 
     CellFrac = tempCellFrac;
-
   }
 
   //

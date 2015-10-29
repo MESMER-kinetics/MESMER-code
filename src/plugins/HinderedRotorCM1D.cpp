@@ -214,7 +214,7 @@ namespace mesmer
     const double cellSize = env.CellSize ;
 
     vector<double> cellDOS;
-    if(!pDOS->getCellDensityOfStates(cellDOS, 0, false)) // retrieve the DOS vector without recalculating
+    if(!pDOS->getCellDensityOfStates(cellDOS, false)) // retrieve the DOS vector without recalculating
       return false;
 
     vector<double> cellEne;

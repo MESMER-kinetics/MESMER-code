@@ -1,3 +1,13 @@
+2015-October-29 Struan Robertson
+
+    * gDensityOfStates.h/.cpp, System.cpp: Rearranged methods in order to allow 
+    for an early call of the cell density of states calculation need in order to
+    extract PES values from 298 K data. Fix for break of OH_NO_to HONO example.
+
+    * MesmerEnv.cpp, gWellProperties.cpp/.h, CollisionOperator.cpp, UnitTests.cpp,
+    BeyerSwinehart.cpp, HinderedRotorCM1D.cpp, HinderedRotorQM1D.cpp, Morse.cpp: 
+    General tidy-up and the removal of redundant code.
+
 2015-October-22 Chris Morley
 
 	* examples/Methyl_H_to_Methane/Methyl_H_to_Methane_FTST.xml: add missing units.

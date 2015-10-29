@@ -569,7 +569,7 @@ namespace mesmer
     ctest << endl ;
 
     vector<double> totalCellDOS ;
-    pMol->getDOS().getCellDensityOfStates(totalCellDOS, 0, true) ; //was false until ZPE made optional
+    pMol->getDOS().getCellDensityOfStates(totalCellDOS, true) ; //was false until ZPE made optional
 
     underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Harmonic oscillators + rotors.") ) ;
 
@@ -594,7 +594,7 @@ namespace mesmer
 
     // Retrieve the DOS vector without recalculating.
 
-    pMol->getDOS().getCellDensityOfStates(cellDOS, 0, false) ;
+    pMol->getDOS().getCellDensityOfStates(cellDOS, false) ;
 
     return (status && Test_MEIC_formGrainSOS(cellDOS,  pMol->getEnv())) ;
 
@@ -609,7 +609,7 @@ namespace mesmer
     ctest << endl ;
 
     vector<double> totalCellDOS ;
-    pMol->getDOS().getCellDensityOfStates(totalCellDOS, 0, true) ;//was false until ZPE made optional
+    pMol->getDOS().getCellDensityOfStates(totalCellDOS, true) ;//was false until ZPE made optional
 
     underlineText(string("MEIC Test: \"") + pMol->getName() + string("\" Anharmonic oscillators + rotors.") ) ;
 
@@ -634,7 +634,7 @@ namespace mesmer
 
     // Retrieve the DOS vector without recalculating.
 
-    pMol->getDOS().getCellDensityOfStates(cellDOS, 0, false) ;
+    pMol->getDOS().getCellDensityOfStates(cellDOS, false) ;
 
     return Test_MEIC_formGrainSOS(cellDOS, pMol->getEnv()) ;
 
@@ -661,7 +661,7 @@ namespace mesmer
 
     // Retrieve the DOS vector without recalculating.
 
-    pMol->getDOS().getCellDensityOfStates(cellDOS, 0, false) ;
+    pMol->getDOS().getCellDensityOfStates(cellDOS, false) ;
 
     return Test_MEIC_formGrainSOS(cellDOS, pMol->getEnv()) ;
 
@@ -721,7 +721,7 @@ namespace mesmer
 
     // Retrieve the DOS vector without recalculating.
 
-    pMol->getDOS().getCellDensityOfStates(cellDOS, 0, false) ;
+    pMol->getDOS().getCellDensityOfStates(cellDOS, false) ;
 
     calcGrainAverages(env.MaxGrn, env.cellPerGrain(), 0, cellDOS, cellEne, grainDOS, grainEne) ;
 

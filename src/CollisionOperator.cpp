@@ -356,8 +356,8 @@ namespace mesmer
     double HighCell(0.0);
     for (size_t i(0); i < species.size(); ++i) {
       Molecule *pmol = species[i];
-      vector<double> cellFrac(mEnv.MaxCell, 0.0);
-      pmol->getColl().normalizedCellBoltzmannDistribution(cellFrac, mEnv.MaxCell);
+      vector<double> cellFrac ;
+      pmol->getColl().normalizedCellBoltzmannDistribution(cellFrac);
 
       // Offset cell size by relative energy of species.
       double Rel_ZPE(pmol->getDOS().get_zpe() - mEnv.EMin);

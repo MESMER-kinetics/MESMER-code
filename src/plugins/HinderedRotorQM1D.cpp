@@ -338,7 +338,7 @@ namespace mesmer
     const size_t MaximumCell = env.MaxCell ;
 
     vector<double> cellDOS;
-    if(!pDOS->getCellDensityOfStates(cellDOS, 0, false)) // Retrieve the DOS vector without re-calculating.
+    if(!pDOS->getCellDensityOfStates(cellDOS, false)) // Retrieve the DOS vector without re-calculating.
       return false;
 
     vector<double> tmpCellDOS(cellDOS) ;

@@ -94,16 +94,13 @@ namespace mesmer
     unsigned int getNoOfDegOfFreeedom() ;
 
     // Get cell density of states. No recalculation if bcalc==false.
-    bool getCellDensityOfStates(std::vector<double> &cellDOS, int startingCell = 0, bool bcalc=true) ;
+    bool getCellDensityOfStates(std::vector<double> &cellDOS, bool bcalc=true) ;
 
     // Set cell  density of states.
     void setCellDensityOfStates(std::vector<double> &cellDOS) { m_cellDOS = cellDOS ; } ;
 
     // Get Electronic excitations
     void getEleExcitation(vector<double> &elecExci) { elecExci = m_eleExc ; } ;
-
-    // Calculate Density of states
-    bool calcDensityOfStates();
 
     // Calculate classical energy
     double getClassicalEnergy();
@@ -133,7 +130,7 @@ namespace mesmer
     //----------------------------------
 
     // Get grain density of states.
-    void getGrainDensityOfStates(std::vector<double> &grainDOS, const int startGrnIdx = 0, const int ignoreCellNumber = 0) ;
+    void getGrainDensityOfStates(std::vector<double> &grainDOS) ;
 
     // Get grain energies.
     void getGrainEnergies(std::vector<double> &grainEne) ;
@@ -173,6 +170,12 @@ namespace mesmer
     bool ReadDOSMethods();
 
     bool ReadZeroPointEnergy(PersistPtr ppPropList) ;
+
+    // Calculate Cell Density of states.
+    bool calcCellDensityOfStates();
+
+    // Calculate Density of states.
+    bool calcDensityOfStates();
 
     // Converts between "computational", "thermodynamic"  and "thermodynamic298K" conventions
     // The last parameter specifies the units of the input and returned values.

@@ -35,7 +35,7 @@ namespace mesmer
     size_t m_numGroupedGrains;    // Number of grains grouped into a reservoir grain.
 
     DistributionCalculator* m_pDistributionCalculator;
-    
+
     std::map<std::string, EnergyTransferModel*> m_EnergyTransferModels; //with different bath gases
 
     std::vector<double>  m_grainDist ; // Grain distribution (not normalized)
@@ -49,7 +49,7 @@ namespace mesmer
     template<class T> 
     bool rawTransitionMatrix(MesmerEnv& env, vector<double> &gEne,  vector<double> &gDOS, TMatrix<T>* egme) ;
 
-	// Write out collision operator diaganostics.
+    // Write out collision operator diaganostics.
     template<class T> 
     void writeCollOpProps(vector<double>& ene, TMatrix<T>* egme) const;
 
@@ -86,13 +86,13 @@ namespace mesmer
     void diagonalizeCollisionOperator(qdMatrix *egme);
 
     template<class T> 
-	void copyCollisionOperator(qdMatrix *CollOptr, TMatrix<T> *egme, const size_t locate, const double RducdOmega) const ;
+    void copyCollisionOperator(qdMatrix *CollOptr, TMatrix<T> *egme, const size_t locate, const double RducdOmega) const ;
 
     void copyCollisionOperatorEigenValues(qdMatrix *CollOptr, const size_t locate, const double RducdOmega) const ;
 
     void normalizedInitialDistribution(vector<double> &grainFrac) ;
     void normalizedGrnBoltzmannDistribution(vector<double> &grainFrac);
-	void normalizedCellBoltzmannDistribution(vector<double> &grainFrac, const int totalCellNumber);
+    void normalizedCellBoltzmannDistribution(vector<double> &grainFrac);
 
     // Accessors.
 
@@ -100,7 +100,7 @@ namespace mesmer
 
     void set_colloptrsize(int ncolloptrsize) { m_ncolloptrsize = ncolloptrsize; };
 
-	size_t get_colloptrsize() const {return m_ncolloptrsize ; } ;
+    size_t get_colloptrsize() const {return m_ncolloptrsize ; } ;
 
     size_t get_nbasis() const ;
 
@@ -108,7 +108,7 @@ namespace mesmer
 
     const double getLowestBarrier() { return m_lowestBarrier;}
 
-	void setLowestBarrier(double value){ m_lowestBarrier = value;}
+    void setLowestBarrier(double value){ m_lowestBarrier = value;}
 
     const size_t reservoirShift() {return m_numGroupedGrains == 0 ? 0 : m_numGroupedGrains - 1; }
 
@@ -157,10 +157,10 @@ namespace mesmer
       writeCollOpProps(gEne, egme) ;
     }
 
-	// Construct reservoir state if specifed.
+    // Construct reservoir state if specifed.
     if (m_numGroupedGrains > 1) {
       constructReservoir(env, gEne, gDOS, egme) ;
-	}
+    }
 
     vector<T> popDist; // Grained population distribution.
     popDist.push_back(0.0);
@@ -203,7 +203,7 @@ namespace mesmer
     (*CollOp) = new TMatrix<T>(reducedCollOptrSize);
     (**CollOp) = (*egme) ;
 
-	delete egme;
+    delete egme;
 
     return true;
   }
@@ -221,7 +221,7 @@ namespace mesmer
       return false;
     }
 
-	T beta = T(env.beta) ;
+    T beta = T(env.beta) ;
 
     // Use number of states to weight the downward transition
     if (m_host->getFlags().useDOSweightedDT){
@@ -317,7 +317,7 @@ namespace mesmer
 
     // Sum up the downward transition probabilities into the reservoir grain.
     T sumOfDeactivation(0.0), ptfReservoir(0.0);
-	const T beta(env.beta) ;
+    const T beta(env.beta) ;
     for (size_t j(0); j < m_ncolloptrsize; ++j) {
       if (j < m_numGroupedGrains){
         // Summing up the partition function of reservoir state.
@@ -336,8 +336,8 @@ namespace mesmer
     sumOfDeactivation /= ptfReservoir; 
     (*egme)[0][0] = -sumOfDeactivation;
 
-	// Shift active state block.
-	for (size_t i(m_numGroupedGrains), ii(1); i < m_ncolloptrsize; ++i, ++ii) {
+    // Shift active state block.
+    for (size_t i(m_numGroupedGrains), ii(1); i < m_ncolloptrsize; ++i, ++ii) {
       for (size_t j(m_numGroupedGrains), jj(1); j < m_ncolloptrsize; ++j, ++jj) {
         (*egme)[ii][jj] = (*egme)[i][j];
       }

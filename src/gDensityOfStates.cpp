@@ -35,7 +35,7 @@ namespace mesmer
   }
 
   gDensityOfStates::gDensityOfStates(Molecule* pMol)
-    :m_RotCstA(0.0),
+   :m_RotCstA(0.0),
     m_RotCstB(0.0),
     m_RotCstC(0.0),
     m_Sym(1.0),
@@ -57,7 +57,7 @@ namespace mesmer
     m_cellDOS(),
     m_grainEne(),
     m_grainDOS() {
-    m_host = pMol;
+      m_host = pMol;
   }
 
   bool gDensityOfStates::initialization() {
@@ -192,12 +192,12 @@ namespace mesmer
     what zero energy means. Any string can be used for a convention but the
     built-in ones are:
     arbitrary       - energy zero is chosen by the user, often the ZPE of the
-                      lowest species. This is the default if there is no
-                      convention attribute of me:ZPE.
+    lowest species. This is the default if there is no
+    convention attribute of me:ZPE.
     computational   - energy zero is separated nuclei and electrons from computational 
-                      chemistry programs (but see below for ZPE correction).
+    chemistry programs (but see below for ZPE correction).
     thermodynamic   - energy zero is the heat of formation at 0K
-                      (with a 0K reference temperature).
+    (with a 0K reference temperature).
 
     All molecules taking part in the reactions must have the same convention,
     which is set either by a convention attribute on <moleculeList> or 
@@ -205,7 +205,7 @@ namespace mesmer
     specified. (Bath gas molecules and sink molecules may not have a
     specified energy.) It is stored (as a static variable) in
     MolecularComponent::m_energyConvention.
-    
+
     When reading a datafile the energy of a molecule is looked for 
     first in <me:ZPE>, and if not found, successively in <me:Hf0>
     and <me:Hf298>. If the convention has not been set in <moleculeList>,
@@ -245,9 +245,9 @@ namespace mesmer
     return ReadEnergy("me:ZPE", "computational") ||
       ReadEnergy("me:Hf0", "thermodynamic") ||
       ReadEnergy("me:Hf298", "thermodynamic298K");
-      ReadEnergy("DHf(0K)", "thermodynamic") || /*OpenBabel styles*/
+    ReadEnergy("DHf(0K)", "thermodynamic") || /*OpenBabel styles*/
       ReadEnergy("DHf(298.15K)", "thermodynamic298K");
-   }
+  }
 
   double gDensityOfStates::ConvertEnergyConvention(
     const std::string& fromConvention, const std::string& toConvention, double fromValue, const string& units)
@@ -260,8 +260,11 @@ namespace mesmer
       return fromValue;
 
     ErrorContext c(getHost()->getName());
-    // double H, S, G;
-    // thermodynamicsFunctions(298, 1.0 / kJPerMol_in_RC, H, S, G); //kJ/mol
+
+    // Calculate density of states.
+    if (!calcCellDensityOfStates())
+       throw(std::runtime_error("__FUNCTION__: Failed to calculate density of states."));
+
     thermoDynFns thermos;
     thermodynamicsFunctions(298.15, 1.0 / kJPerMol_in_RC, thermos);
     double atomZPE, atomHf0, atomHf298, atomdH298, stddH298;
@@ -271,14 +274,14 @@ namespace mesmer
       return false;
     }
 
-      /*     X(298K)  =>    ElemsStdStates(298K)      Hf(298K)
-      H298(X)  |                  |    H298 for elems
-             X(0K)    =>    ElemsStdStates(0K)        Hf(0K)
-      compE    |                  |    Hf0 for atoms
-         nuclei,electrons =>  Atoms(0K)               compEatoms
+    /*     X(298K)  =>    ElemsStdStates(298K)      Hf(298K)
+    H298(X)  |                  |    H298 for elems
+    X(0K)    =>    ElemsStdStates(0K)        Hf(0K)
+    compE    |                  |    Hf0 for atoms
+    nuclei,electrons =>  Atoms(0K)               compEatoms
 
-       Hf(298K)  +  H298els  -  Hf(0K)  -  H298 = 0     
-       compE -compEatoms - Hf(0K) + Hfatoms(0K) = 0   */
+    Hf(298K)  +  H298els  -  Hf(0K)  -  H298 = 0     
+    compE -compEatoms - Hf(0K) + Hfatoms(0K) = 0   */
 
     //Use Hf0 as intermediate
     double val = ConvertEnergy(units, "kJ/mol", fromValue);
@@ -298,10 +301,10 @@ namespace mesmer
 
     if (IsNan(val))
       cerr << "energy cannot be converted from "
-           << fromConvention << " to " << toConvention << endl;
+      << fromConvention << " to " << toConvention << endl;
     else
       cinfo <<"energy converted from "
-            << fromConvention << " to " << toConvention << endl;
+      << fromConvention << " to " << toConvention << endl;
 
     return ConvertEnergy("kJ/mol", units, val);
   }
@@ -327,7 +330,7 @@ namespace mesmer
       {
         m_energyConvention = "thermodynamic";
         cinfo << "The energy convention is " << m_energyConvention
-              << ", derived from " << elName << endl;
+          << ", derived from " << elName << endl;
       }
     }
     else //<me:ZPE>
@@ -400,7 +403,7 @@ namespace mesmer
       return NaN;
     cinfo << "enthalpy of formation at 298K:";
     return ConvertEnergyConvention(m_energyConvention, "thermodynamic298K",
-                                   ConvertFromWavenumbers("kJ/mol", m_ZPE),"kJ/mol");
+      ConvertFromWavenumbers("kJ/mol", m_ZPE),"kJ/mol");
   }
 
   //
@@ -417,21 +420,16 @@ namespace mesmer
   //
   // Get cell density of states.
   //
-  bool gDensityOfStates::getCellDensityOfStates(vector<double> &cellDOS, int startingCell, bool bcalc) {
+  bool gDensityOfStates::getCellDensityOfStates(vector<double> &cellDOS, bool bcalc) {
     // If density of states have not already been calcualted then do so.
     if (bcalc && !calcDensityOfStates())
     {
       cerr << "Failed calculating DOS" << endl;
       return false;
     }
-    if (startingCell == 0)
-      cellDOS = m_cellDOS;
-    else{
-      int MaximumCell = m_host->getEnv().MaxCell;
-      for (int i(startingCell); i < MaximumCell; ++i){
-        cellDOS.push_back(m_cellDOS[i]);
-      }
-    }
+
+    cellDOS = m_cellDOS;
+
     return true;
   }
 
@@ -542,7 +540,7 @@ namespace mesmer
       ErrorContext e(this->getHost()->getName());
       if (m_RC_chk == -1)
         //        cinfo << "Rotational constants were not defined but requested." << endl;
-      --m_RC_chk;
+        --m_RC_chk;
       return UNDEFINED_TOP; // treat as a non-rotor
     }
 
@@ -578,10 +576,7 @@ namespace mesmer
 
     if (recalc) {
       // Calculate density of states.
-      bool ret(true);
-      for (size_t i(0); ret && i < m_DOSCalculators.size(); ++i)
-        ret = ret && m_DOSCalculators[i]->countCellDOS(this, m_host->getEnv());
-      if (!ret)
+      if (!calcCellDensityOfStates())
         return false;
     }
 
@@ -604,6 +599,15 @@ namespace mesmer
     recalculateDOScompleted();
 
     return true;
+  }
+
+  // Calculate Cell Density of states.
+  bool gDensityOfStates::calcCellDensityOfStates() {
+    bool ret(true);
+    for (size_t i(0); ret && i < m_DOSCalculators.size(); ++i)
+      ret = ret && m_DOSCalculators[i]->countCellDOS(this, m_host->getEnv());
+
+    return ret ;
   }
 
   // Calculate classical energy
@@ -769,30 +773,13 @@ namespace mesmer
   //
   // Get grain density of states.
   //
-  void gDensityOfStates::getGrainDensityOfStates(vector<double> &grainDOS, const int startGrnIdx, const int ignoreCellNumber) {
-    // If density of states have not already been calcualted then do so.
+  void gDensityOfStates::getGrainDensityOfStates(vector<double> &grainDOS) {
+    // If density of states have not already been calculated then do so.
     if (!calcDensityOfStates()){
       throw (std::runtime_error("Failed calculating DOS."));
     }
-    if (ignoreCellNumber == 0){ // If there is no cells ignored in this grain, the grain DOS dose not need to be recalculated.
-      grainDOS = m_grainDOS;
-    }
-    else{ // Some cells are ignored in this grain, as they do not occur in this part of reaction.
-      // first deal with the first grain.
-      // const int MaximumCell = m_host->getEnv().MaxCell;
-      const int gsz = m_host->getEnv().GrainSize;
-      const int cellOffset = get_cellOffset();
-      const int grnStartCell = startGrnIdx * gsz - cellOffset;
-      double partialDOS(0.0);
-      for (int i(ignoreCellNumber); i < gsz; ++i){
-        partialDOS += m_cellDOS[i + grnStartCell];
-      }
-      grainDOS.clear();
-      grainDOS.push_back(partialDOS);
-      for (int i(startGrnIdx + 1); i < int(m_grainDOS.size()); ++i){
-        grainDOS.push_back(m_grainDOS[i]);
-      }
-    }
+
+    grainDOS = m_grainDOS;
   }
 
   //
@@ -1166,8 +1153,8 @@ namespace mesmer
     size_t nHeavyAtoms(0) ;
     for (size_t j(0); j < atomicMasses.size(); j++) {
       if (atomicMasses[j] > atomMass("H")) {
-	     nHeavyAtoms++ ;
-	  }
+        nHeavyAtoms++ ;
+      }
     }
     return (nHeavyAtoms > n) ;
   }
