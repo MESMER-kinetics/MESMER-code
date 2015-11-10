@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- May  5 2015 -- 17:51:32
+     Mesmer v5.0 compiled: -- Nov  9 2015 -- 19:01:19
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -31,18 +31,22 @@ defaults.xml, librarymols.xml are in ../..
 Parsing input xml file...
 Methyl_H_to_Methane_FTST.xml
 
+--Parse data for marquardt
+Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
 In Methyl: Methyl:ZPE was given a range with 3 steps 
 In H: The default value of the attribute spinMultiplicity was used.
 In H: The default value of me:DOSCMethod was used.
 In Methane: The default value of me:DistributionCalcMethod was used.
+In Methane: --Parse data for Boltzmann
+In Methane: --Parse data for ExponentialDown
 In Methane: Methane:deltaEDown was given a range with 15 steps 
 In TS1: No imaginary vibrational frequency. Check if there is tunneling.
 Cannot find me:vibFreqs or me:hessian. Assuming an atom or a sink molecule.
 In TS1: No rotational constants from <me:rotConsts> or structure. Assuming an atom or a sink molecule.
 In TS1: The default value of me:DOSCMethod was used.
-In TS1: The default attribute(s) were added to the the property me:ZPE
 In TS1: TS1:ZPE will be derived from Methyl:ZPE. Check below that this has been found.
+In R1: --Parse data for DefinedSumOfStates
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
@@ -85,12 +89,12 @@ In R1: No value of me:excessReactantConc was supplied and the default value NEED
 614.5Torr, 601K at dd precision with He
 711Torr, 601K at dd precision with He
 TS1:ZPE is derived from Methyl:ZPE
-TS1:ZPE = 36175.2
-Write metadata 20150505_193115
+Write metadata 20151109_195110
 
 File: "Methyl_H_to_Methane_FTST.xml" successfully parsed.
 Main Calculation begins
-Execute calcMethod marquardt
+
+--Execute calcMethod marquardt
 Number of grains produced is not equal to that requested
 Number of grains requested: 270
 Number of grains produced : 1
@@ -104,95 +108,90 @@ Finish Calculation of P-T case
 Chi^2 = 1.52137e-019 Lambda = 10
 Methyl:ZPE=103.43  Methane:deltaEDown=190  
 Iteration: 1 of Marquardt. ChiSquare = 1.52137e-019, Lambda = 10
-Number of grains requested: 268
 Finish Calculation of P-T case
 Finish Calculation of P-T case
 Finish Calculation of P-T case
 
-Chi^2 = 1.21725e-019 Lambda = 1
-Methyl:ZPE=102.884  Methane:deltaEDown=180.504  
-Iteration: 2 of Marquardt. ChiSquare = 1.21725e-019, Lambda = 1
+Chi^2 = 1.11827e-019 Lambda = 1
+Methyl:ZPE=103.408  Methane:deltaEDown=180.461  
+Iteration: 2 of Marquardt. ChiSquare = 1.11827e-019, Lambda = 1
 
-Chi^2 = 1.21725e-019 Lambda = 10
-Methyl:ZPE=102.884  Methane:deltaEDown=180.504  
-Iteration: 3 of Marquardt. ChiSquare = 1.21725e-019, Lambda = 10
-Number of grains requested: 266
-Finish Calculation of P-T case
-Finish Calculation of P-T case
-Finish Calculation of P-T case
-
-Chi^2 = 9.22293e-020 Lambda = 1
-Methyl:ZPE=101.918  Methane:deltaEDown=172.451  
-Iteration: 4 of Marquardt. ChiSquare = 9.22293e-020, Lambda = 1
-
-Chi^2 = 9.22293e-020 Lambda = 10
-Methyl:ZPE=101.918  Methane:deltaEDown=172.451  
-Iteration: 5 of Marquardt. ChiSquare = 9.22293e-020, Lambda = 10
-Number of grains requested: 265
+Chi^2 = 1.11827e-019 Lambda = 10
+Methyl:ZPE=103.408  Methane:deltaEDown=180.461  
+Iteration: 3 of Marquardt. ChiSquare = 1.11827e-019, Lambda = 10
 Finish Calculation of P-T case
 Finish Calculation of P-T case
 Finish Calculation of P-T case
 
-Chi^2 = 7.30772e-020 Lambda = 1
-Methyl:ZPE=101.296  Methane:deltaEDown=165.755  
-Iteration: 6 of Marquardt. ChiSquare = 7.30772e-020, Lambda = 1
+Chi^2 = 8.24787e-020 Lambda = 1
+Methyl:ZPE=103.387  Methane:deltaEDown=172.568  
+Iteration: 4 of Marquardt. ChiSquare = 8.24787e-020, Lambda = 1
 
-Chi^2 = 7.30772e-020 Lambda = 10
-Methyl:ZPE=101.296  Methane:deltaEDown=165.755  
-Iteration: 7 of Marquardt. ChiSquare = 7.30772e-020, Lambda = 10
-Number of grains requested: 263
-Finish Calculation of P-T case
-Finish Calculation of P-T case
-Finish Calculation of P-T case
-
-Chi^2 = 5.79429e-020 Lambda = 1
-Methyl:ZPE=100.638  Methane:deltaEDown=160.129  
-Iteration: 8 of Marquardt. ChiSquare = 5.79429e-020, Lambda = 1
-
-Chi^2 = 5.79429e-020 Lambda = 10
-Methyl:ZPE=100.638  Methane:deltaEDown=160.129  
-Iteration: 9 of Marquardt. ChiSquare = 5.79429e-020, Lambda = 10
-
-Chi^2 = 5.79429e-020 Lambda = 100
-Methyl:ZPE=100.638  Methane:deltaEDown=160.129  
-Iteration: 10 of Marquardt. ChiSquare = 5.79429e-020, Lambda = 100
-
-Chi^2 = 5.79429e-020 Lambda = 1000
-Methyl:ZPE=100.638  Methane:deltaEDown=160.129  
-Iteration: 11 of Marquardt. ChiSquare = 5.79429e-020, Lambda = 1000
+Chi^2 = 8.24787e-020 Lambda = 10
+Methyl:ZPE=103.387  Methane:deltaEDown=172.568  
+Iteration: 5 of Marquardt. ChiSquare = 8.24787e-020, Lambda = 10
 Finish Calculation of P-T case
 Finish Calculation of P-T case
 Finish Calculation of P-T case
 
-Chi^2 = 5.69247e-020 Lambda = 100
-Methyl:ZPE=100.631  Methane:deltaEDown=160.072  
-Iteration: 12 of Marquardt. ChiSquare = 5.69247e-020, Lambda = 100
+Chi^2 = 6.12788e-020 Lambda = 1
+Methyl:ZPE=103.369  Methane:deltaEDown=166.019  
+Iteration: 6 of Marquardt. ChiSquare = 6.12788e-020, Lambda = 1
 
-Chi^2 = 5.69247e-020 Lambda = 1000
-Methyl:ZPE=100.631  Methane:deltaEDown=160.072  
-Iteration: 13 of Marquardt. ChiSquare = 5.69247e-020, Lambda = 1000
-Finish Calculation of P-T case
-
-Chi^2 = 5.69247e-020 Lambda = 10000
-Methyl:ZPE=100.631  Methane:deltaEDown=160.072  
-Iteration: 14 of Marquardt. ChiSquare = 5.69247e-020, Lambda = 10000
+Chi^2 = 6.12788e-020 Lambda = 10
+Methyl:ZPE=103.369  Methane:deltaEDown=166.019  
+Iteration: 7 of Marquardt. ChiSquare = 6.12788e-020, Lambda = 10
 Finish Calculation of P-T case
 Finish Calculation of P-T case
 Finish Calculation of P-T case
 
-Chi^2 = 5.6503e-020 Lambda = 1000
-Methyl:ZPE=100.631  Methane:deltaEDown=160.066  
-Iteration: 15 of Marquardt. ChiSquare = 5.6503e-020, Lambda = 1000
+Chi^2 = 4.60412e-020 Lambda = 1
+Methyl:ZPE=103.352  Methane:deltaEDown=160.572  
+Iteration: 8 of Marquardt. ChiSquare = 4.60412e-020, Lambda = 1
+
+Chi^2 = 4.60412e-020 Lambda = 10
+Methyl:ZPE=103.352  Methane:deltaEDown=160.572  
+Iteration: 9 of Marquardt. ChiSquare = 4.60412e-020, Lambda = 10
+
+Chi^2 = 4.60412e-020 Lambda = 100
+Methyl:ZPE=103.352  Methane:deltaEDown=160.572  
+Iteration: 10 of Marquardt. ChiSquare = 4.60412e-020, Lambda = 100
+Finish Calculation of P-T case
+Finish Calculation of P-T case
+Finish Calculation of P-T case
+
+Chi^2 = 4.46307e-020 Lambda = 10
+Methyl:ZPE=103.35  Methane:deltaEDown=160.036  
+Iteration: 11 of Marquardt. ChiSquare = 4.46307e-020, Lambda = 10
+
+Chi^2 = 4.46307e-020 Lambda = 100
+Methyl:ZPE=103.35  Methane:deltaEDown=160.036  
+Iteration: 12 of Marquardt. ChiSquare = 4.46307e-020, Lambda = 100
+
+Chi^2 = 4.46307e-020 Lambda = 1000
+Methyl:ZPE=103.35  Methane:deltaEDown=160.036  
+Iteration: 13 of Marquardt. ChiSquare = 4.46307e-020, Lambda = 1000
+
+Chi^2 = 4.46307e-020 Lambda = 10000
+Methyl:ZPE=103.35  Methane:deltaEDown=160.036  
+Iteration: 14 of Marquardt. ChiSquare = 4.46307e-020, Lambda = 10000
+Finish Calculation of P-T case
+Finish Calculation of P-T case
+Finish Calculation of P-T case
+
+Chi^2 = 4.46167e-020 Lambda = 1000
+Methyl:ZPE=103.35  Methane:deltaEDown=160.031  
+Iteration: 15 of Marquardt. ChiSquare = 4.46167e-020, Lambda = 1000
 PT Grid 0
-Number of cells = 40500, Number of grains = 263
+Number of cells = 40500, Number of grains = 270
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 1
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 2
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 3
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
@@ -201,24 +200,24 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 5
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 6
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 7
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 8
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 9
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 10
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 11
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 12
 Build Collison Operator
@@ -228,22 +227,22 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 14
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 15
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 16
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 17
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 18
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 19
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 20
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
@@ -252,16 +251,16 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 22
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 23
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 24
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 25
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 26
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
@@ -269,93 +268,93 @@ PT Grid 27
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 28
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 29
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 30
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 31
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 32
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 33
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 34
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 PT Grid 35
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
 PT Grid 36
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            301   8.05242e+017      1.26e-011   5.83861e-011
-            301   1.62973e+018      3.52e-011   8.95686e-011
-            301   3.24984e+018      6.36e-011   1.30481e-010
-            301    4.8892e+018      9.37e-011   1.59499e-010
-            301   6.59272e+018      1.05e-010   1.82747e-010
-            301   8.20641e+018      1.34e-010   2.00682e-010
-            301   9.83294e+018       1.4e-010   2.15967e-010
-            301    1.1437e+019       1.4e-010   2.29002e-010
-            301   1.30988e+019      1.61e-010   2.40859e-010
-            301   1.63455e+019      1.82e-010    2.6041e-010
-            401   6.06842e+017      2.35e-011    2.5104e-011
-            401   1.20887e+018      2.52e-011   4.08178e-011
-            401   2.41292e+018      4.44e-011      6.43e-011
-            401   3.68199e+018      6.06e-011   8.33459e-011
-            401   4.82102e+018      7.56e-011   9.75599e-011
-            401    6.1214e+018         9e-011   1.11551e-010
-            401   8.42836e+018      1.01e-010   1.32359e-010
-            401   1.09785e+019      1.21e-010   1.51309e-010
-            401   1.22452e+019      1.31e-010   1.59579e-010
-            401   1.47015e+019      1.44e-010   1.73974e-010
-            504   4.82825e+017      1.14e-011   1.11865e-011
-            504   9.61817e+017      1.66e-011    1.9001e-011
-            504   1.92555e+018      3.44e-011   3.15508e-011
-            504   2.94101e+018      4.68e-011   4.23537e-011
-            504   3.84727e+018      5.31e-011   5.07182e-011
-            504   4.90105e+018      5.78e-011   5.93877e-011
-            504   6.83618e+018      6.82e-011   7.32175e-011
-            504   7.66771e+018      7.75e-011   7.85337e-011
-            504   9.75229e+018      8.32e-011   9.06234e-011
-            504     1.172e+019      9.69e-011   1.00757e-010
-            601   1.69189e+018      2.11e-011    1.7197e-011
-            601   3.35005e+018      3.35e-011   2.84752e-011
-            601   4.89251e+018      3.78e-011   3.71917e-011
-            601   6.60369e+018       4.5e-011   4.56303e-011
-            601    8.2747e+018      4.84e-011   5.29871e-011
-            601    9.8734e+018      5.75e-011   5.94064e-011
-            601   1.14239e+019      6.18e-011   6.51694e-011
+            301   8.05242e+017      1.26e-011   5.75978e-011
+            301   1.62973e+018      3.52e-011   8.76248e-011
+            301   3.24984e+018      6.36e-011   1.26222e-010
+            301    4.8892e+018      9.37e-011   1.53108e-010
+            301   6.59272e+018      1.05e-010   1.74371e-010
+            301   8.20641e+018      1.34e-010   1.90611e-010
+            301   9.83294e+018       1.4e-010   2.04341e-010
+            301    1.1437e+019       1.4e-010   2.15972e-010
+            301   1.30988e+019      1.61e-010    2.2649e-010
+            301   1.63455e+019      1.82e-010   2.43706e-010
+            401   6.06842e+017      2.35e-011   2.61253e-011
+            401   1.20887e+018      2.52e-011   4.22105e-011
+            401   2.41292e+018      4.44e-011   6.58953e-011
+            401   3.68199e+018      6.06e-011   8.48486e-011
+            401   4.82102e+018      7.56e-011     9.886e-011
+            401    6.1214e+018         9e-011   1.12549e-010
+            401   8.42836e+018      1.01e-010   1.32729e-010
+            401   1.09785e+019      1.21e-010   1.50934e-010
+            401   1.22452e+019      1.31e-010    1.5883e-010
+            401   1.47015e+019      1.44e-010   1.72506e-010
+            504   4.82825e+017      1.14e-011   1.20456e-011
+            504   9.61817e+017      1.66e-011   2.03575e-011
+            504   1.92555e+018      3.44e-011   3.35543e-011
+            504   2.94101e+018      4.68e-011    4.4797e-011
+            504   3.84727e+018      5.31e-011   5.34381e-011
+            504   4.90105e+018      5.78e-011   6.23416e-011
+            504   6.83618e+018      6.82e-011   7.64438e-011
+            504   7.66771e+018      7.75e-011   8.18341e-011
+            504   9.75229e+018      8.32e-011   9.40342e-011
+            504     1.172e+019      9.69e-011   1.04202e-010
+            601   1.69189e+018      2.11e-011   1.87253e-011
+            601   3.35005e+018      3.35e-011   3.07614e-011
+            601   4.89251e+018      3.78e-011   3.99741e-011
+            601   6.60369e+018       4.5e-011    4.8831e-011
+            601    8.2747e+018      4.84e-011   5.65085e-011
+            601    9.8734e+018      5.75e-011   6.31772e-011
+            601   1.14239e+019      6.18e-011   6.91417e-011
 
 Finish Calculation of P-T case
 37 temperature/concentration-pressure points calculated.
 
-Chi^2 = 5.6503e-020
+Chi^2 = 4.46167e-020
 
 Best fit parameters:
 
-Methyl:ZPE = 100.631 +/- 1.32029e+011
-Methane:deltaEDown = 160.066 +/- 7.99965e+011
+Methyl:ZPE = 103.35 +/- 2.12802e+009
+Methane:deltaEDown = 160.031 +/- 7.28418e+011
 
 Correlation coefficients:
 
-Methane:deltaEDown , Methyl:ZPE = -0.934207
+Methane:deltaEDown , Methyl:ZPE = -0.911287
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 35
 Chi^2 probability = 1
 
-Energy convention "arbitrary" written to <moleculeList>
- -- Total time elapsed: 2831 seconds.
+ -- Total time elapsed: 2711 seconds.
 
 System saved to mesmer_out.xml
+Total time elapsed: 2711 seconds.
