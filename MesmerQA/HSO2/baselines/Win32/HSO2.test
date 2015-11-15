@@ -1,5 +1,5 @@
 Initial population of H = 1
-PT Grid 0 Condition: conc = 3.37e+018, temp = 295, diagonalization precision: double-double
+PT Grid 0 Condition: conc = 3.37e+18, temp = 295, diagonalization precision: double-double
 {
 
 Test rovibronic density of states for: TS1
@@ -19,9 +19,9 @@ Test rovibronic density of states for: HSO2
 Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
     T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
-    100        7.56674e-018        3.37424e-028       2.2425e+010
-    200        2.73859e-014        9.71139e-008      2.81998e-007
-    300        5.58063e-013             1.04694      5.33044e-013
+    100         7.56674e-18         3.37424e-28        2.2425e+10
+    200         2.73859e-14         9.71139e-08       2.81998e-07
+    300         5.58063e-13             1.04694       5.33044e-13
 }
 
 Test rovibronic density of states for: TS2
@@ -41,9 +41,9 @@ Test rovibronic density of states for: HOSO
 Canonical (high pressure) rate coefficients for R2, calculated from microcanonical rates
 {
     T/K kf/cm3molecule-1s-1              kb/s-1 Keq/cm3molecule-1
-    100        4.42845e-029        7.73259e-093        5.727e+063
-    200        3.66975e-020        1.67114e-040      2.19596e+020
-    300        3.45947e-017        4.86336e-023            711334
+    100         4.42845e-29         7.73259e-93         5.727e+63
+    200         3.66975e-20         1.67114e-40       2.19596e+20
+    300         3.45947e-17         4.86336e-23            711334
 }
 
 Test rovibronic density of states for: TS4
@@ -56,17 +56,17 @@ Test rovibronic density of states for: TS4
 Canonical (high pressure) rate coefficients for R4, calculated from microcanonical rates
 {
     T/K              kf/s-1              kb/s-1            Keq   
-    100        1.36954e-046        5.37922e-100      2.55384e+053
-    200        3.75086e-017        4.82384e-044      7.78715e+026
-    300        3.25604e-007        2.44224e-025      1.33448e+018
+    100         1.36954e-46        5.37922e-100       2.55384e+53
+    200         3.75086e-17         4.82384e-44       7.78715e+26
+    300         3.25604e-07         2.44224e-25       1.33448e+18
 }
 
 Canonical (high pressure) rate coefficients for R6, calculated from microcanonical rates
 {
     T/K              kf/s-1 kb/cm3molecule-1s-1  Keq/moleculecm-3
-    100        5.35745e-137         4.2246e-010      1.26816e-127
-    200        5.06546e-061         4.5227e-010      1.12001e-051
-    300        1.01244e-035        4.08741e-010      2.47696e-026
+    100        5.35745e-137          4.2246e-10      1.26816e-127
+    200         5.06546e-61          4.5227e-10       1.12001e-51
+    300         1.01244e-35         4.08741e-10       2.47696e-26
 }
 
 Eq fraction matrix:
@@ -81,9 +81,9 @@ inverse of Eq fraction matrix:
   1.00000e+00 -3.79205e-19  3.79205e-19
  -1.00000e+00  3.83742e-19  1.00000e+00
 }
-Equilibrium Fraction for H = 4.53723e-021
+Equilibrium Fraction for H = 4.53723e-21
 Equilibrium Fraction for HOSO = 1
-Equilibrium Fraction for HSO2 = 3.79205e-019
+Equilibrium Fraction for HSO2 = 3.79205e-19
 
 Total number of eigenvalues = 420
 Eigenvalues

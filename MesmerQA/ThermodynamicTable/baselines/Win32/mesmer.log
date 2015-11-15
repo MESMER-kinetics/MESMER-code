@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Oct  3 2015 -- 13:28:14
+     Mesmer v5.0 compiled: -- Nov 15 2015 -- 14:38:58
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -47,7 +47,10 @@ In He: The default value of me:DOSCMethod was used.
 In He: gDensityOfStates initialization failed.
 In ThermodynamicTable. Own default: Cell size 1 cm-1
 In ThermodynamicTable. Own default: Number of cells 100000
-Write metadata 20151003_133009
+In ThermodynamicTable. Own default: The default value of me:grainSize was used.
+Energy convention "thermodynamic" written to <moleculeList>
+No conditions specified
+Write metadata 20151115_171110
 
 File: "ThermodynamicTable.xml" successfully parsed.
 Main Calculation begins
@@ -55,8 +58,7 @@ In HNO2: enthalpy of formation at 298K:energy converted from thermodynamic to th
 Restricted thermo output for He because it has no non-arbitrary energy data.
 In NO: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
 In OH: enthalpy of formation at 298K:energy converted from thermodynamic to thermodynamic298K
-Energy convention "thermodynamic" written to <moleculeList>
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml
-Total time elapsed: 0 seconds.
+Total time elapsed: 1 seconds.

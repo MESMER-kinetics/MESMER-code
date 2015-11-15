@@ -1,4 +1,4 @@
-PT Grid 0 Condition: conc = 3e+017, temp = 720, diagonalization precision: double
+PT Grid 0 Condition: conc = 3e+17, temp = 720, diagonalization precision: double
 {
 
 Hindered rotor data for plotting.
@@ -1803,20 +1803,20 @@ Test rovibronic density of states for: i-propyl
     500        81816.4        81756.7        81476.2
     600         258867         258716         258098
     700         789813         789435         788049
-    800   2.32737e+006   2.32643e+006   2.32331e+006
+    800    2.32737e+06    2.32643e+06    2.32331e+06
 }
 
 Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
     T/K              kf/s-1 kb/cm3molecule-1s-1  Keq/moleculecm-3
-    100        8.59001e-072        2.73783e-015      3.13752e-057
-    200        3.42255e-029        1.23354e-013      2.77458e-016
-    300        5.69449e-015        4.46329e-013         0.0127585
-    400        7.34925e-008         8.5085e-013           86375.4
-    500          0.00133406        1.23491e-012      1.08029e+009
-    600            0.864187        1.48871e-012      5.80494e+011
-    700              78.229         1.5158e-012      5.16091e+013
-    800             1979.04        1.32861e-012      1.48956e+015
+    100         8.59001e-72         2.73783e-15       3.13752e-57
+    200         3.42255e-29         1.23354e-13       2.77458e-16
+    300         5.69449e-15         4.46329e-13         0.0127585
+    400         7.34925e-08          8.5085e-13           86375.4
+    500          0.00133406         1.23491e-12       1.08029e+09
+    600            0.864187         1.48871e-12       5.80494e+11
+    700              78.229          1.5158e-12       5.16091e+13
+    800             1979.04         1.32861e-12       1.48956e+15
 }
 
 Eq fraction matrix:
@@ -1885,7 +1885,7 @@ i-propyl -> propene+H = 4.502654e+01
 }
 
 }
-PT Grid 1 Condition: conc = 3.01e+017, temp = 730, diagonalization precision: double
+PT Grid 1 Condition: conc = 3.01e+17, temp = 730, diagonalization precision: double
 {
 
 Hindered rotor data for plotting.
@@ -3690,20 +3690,20 @@ Test rovibronic density of states for: i-propyl
     500        81816.4        81756.7        81476.2
     600         258867         258716         258098
     700         789813         789435         788049
-    800   2.32737e+006   2.32644e+006   2.32331e+006
+    800    2.32737e+06    2.32644e+06    2.32331e+06
 }
 
 Canonical (high pressure) rate coefficients for R1, calculated from microcanonical rates
 {
     T/K              kf/s-1 kb/cm3molecule-1s-1  Keq/moleculecm-3
-    100        8.58928e-072         2.7376e-015      3.13752e-057
-    200        3.42246e-029         1.2335e-013      2.77458e-016
-    300        5.69445e-015        4.46325e-013         0.0127585
-    400        7.35072e-008         8.5102e-013           86375.4
-    500          0.00133709        1.23772e-012      1.08029e+009
-    600            0.871532        1.50136e-012      5.80494e+011
-    700              79.661        1.54355e-012      5.16091e+013
-    800             2037.58        1.36791e-012      1.48956e+015
+    100         8.58928e-72          2.7376e-15       3.13752e-57
+    200         3.42246e-29          1.2335e-13       2.77458e-16
+    300         5.69445e-15         4.46325e-13         0.0127585
+    400         7.35072e-08          8.5102e-13           86375.4
+    500          0.00133709         1.23772e-12       1.08029e+09
+    600            0.871532         1.50136e-12       5.80494e+11
+    700              79.661         1.54355e-12       5.16091e+13
+    800             2037.58         1.36791e-12       1.48956e+15
 }
 
 Eq fraction matrix:

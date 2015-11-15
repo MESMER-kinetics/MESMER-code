@@ -1,3 +1,8 @@
+2015-November-15 Struan Robertson
+
+    * VC14: Addition of Visual Studio 2015 build environment together with a 
+	baseline update. 
+
 2015-October-29 Struan Robertson
 
     * gDensityOfStates.h/.cpp, System.cpp: Rearranged methods in order to allow 
