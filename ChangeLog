@@ -1,3 +1,10 @@
+2015-November-17 Chris Morley
+
+	* Windows VC14/Mesmer/Mesmer.vcxproj,Windows VC14/qd/qd.vcxproj,
+      Windows VC14/TinyXML/TinyXML.vcxproj: Specify "Program Database" rather than 
+	  "Edit and Continue" which was not being used because of \SAFESEH option
+	  and caused a warning. 
+
 2015-November-15 Struan Robertson
 
     * VC14: Addition of Visual Studio 2015 build environment together with a 
