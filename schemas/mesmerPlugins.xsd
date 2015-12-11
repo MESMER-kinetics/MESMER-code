@@ -143,6 +143,7 @@
                 <xs:extension base="xs:float">
                   <xs:attribute name="units" type="rateConstUnits" use="required" />
                   <xs:attributeGroup ref="rangeAttributes"/>
+                  <xs:attributeGroup ref="linkAttributes"/>
                 </xs:extension>
               </xs:simpleContent>
             </xs:complexType>
@@ -154,6 +155,7 @@
                   <xs:attribute name="units" type="energyUnitsType" use="required" />
                   <xs:attribute name="reverse" type="me:ynboolean" use="optional" />
                   <xs:attributeGroup ref="rangeAttributes"/>
+                  <xs:attributeGroup ref="linkAttributes"/>
                 </xs:extension>
               </xs:simpleContent>
             </xs:complexType>
@@ -168,6 +170,7 @@
               <xs:simpleContent>
                 <xs:extension base="xs:float">
                   <xs:attributeGroup ref="rangeAttributes"/>
+                  <xs:attributeGroup ref="linkAttributes"/>
                 </xs:extension>
               </xs:simpleContent>
             </xs:complexType>

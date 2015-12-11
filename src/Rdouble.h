@@ -7,6 +7,7 @@
 #include "MesmerConfig.h"
 #include "error.h"
 #include "Persistence.h"
+#include <functional>
 
 namespace mesmer
 {
@@ -14,6 +15,8 @@ namespace mesmer
   class Rdouble
   {
   private:
+    // value, addand, lower, upper, stepsize, prev are stored
+    // as internal units, e.g. cm-1 for ZPE
     std::string m_units;
     double value, lower, upper, stepsize, prev;
     double m_unitConversion ;
@@ -26,6 +29,7 @@ namespace mesmer
 
     static Rdouble* pendingVar;
     static const double eps;
+
   public:
     Rdouble(double val = 0.0, const std::string units = "")
       : m_units(units), value(val), lower(NaN), upper(NaN),
@@ -73,10 +77,10 @@ namespace mesmer
       return lr;
     }
 
-    void set_addand(double val){ addand = val; }
+    void set_addand(double val) { addand = val; }
     void set_label(const std::string& label) ;
     bool set_link_params(const char* name, double fac, double add, const char* units);
-
+    void set_value() { value = atof(m_XMLPtr->XmlRead()) * m_unitConversion; }
     // Calculate the current value of a derivedFrom variable
     void update_value();
 
@@ -90,11 +94,14 @@ namespace mesmer
       m_XMLPtr->XmlWrite(s.str());
     }
 
-    void store_conversion(double conversion_factor) { m_unitConversion = conversion_factor; }
+    void store_conversion(double conversion_factor) 
+    { m_unitConversion = conversion_factor; }
 
-    double originalUnits() const { return value / ((m_unitConversion > 0.0) ? m_unitConversion : 1.0); };
+    double originalUnits() const 
+    { return value / ((m_unitConversion > 0.0) ? m_unitConversion : 1.0); };
 
-    double originalUnits(double quantity) const { return quantity / ((m_unitConversion > 0.0) ? m_unitConversion : 1.0); };
+    double originalUnits(double quantity) const 
+    { return quantity / ((m_unitConversion > 0.0) ? m_unitConversion : 1.0); };
 
     void XmlWriteAttribute(const std::string& name, const std::string& value)
     {
@@ -127,6 +134,10 @@ namespace mesmer
       value = upper;
       return NaN;
     }
+
+    //return true when lower has a value
+    static bool hasRange(Rdouble* rdp) { return !IsNan(rdp->lower); }
+
   };
 
   /*
@@ -169,7 +180,7 @@ namespace mesmer
   IM2:DeltaEDown will always have the same value as IM1:DeltaEDown (the 161 value
   is ignored but must be present). Optionally a factor and addand attribute can
   be included: 
-   <scalar derivedFrom="IM1:DeltaEDown" factor="1.0 addand="0.0>161</scalar>
+   <scalar derivedFrom="IM1:DeltaEDown" factor="1.0" addand="0.0">161</scalar>
   when (in this case)
    IM2:DeltaEDown = IM1:DeltaEDown * factor  +  (addand)
 

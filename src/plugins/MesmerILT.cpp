@@ -159,7 +159,7 @@ namespace mesmer
       double value(getConvertedEnergy(unitsInput, tmpvalue));
       
       // The output streams cerr, cwarn and cinfo are for progressively less
-      // important messages. cerr and cwarn probably appear monthe command line
+      // important messages. cerr and cwarn probably appear on the command line
       // and all arewritten to the log file (usually mesmer.log).
       // All messages should have a std::endl.
       if (value<0.0) {

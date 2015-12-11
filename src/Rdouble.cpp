@@ -1,4 +1,6 @@
 #include <map>
+#include <algorithm>
+#include <vector>
 #include <stdexcept>
 #include "unitsConversion.h"
 #include "Rdouble.h"
@@ -8,7 +10,7 @@ using namespace Constants;
 
 namespace mesmer
 {
-  //static variable
+  //static variables
   Rdouble*  Rdouble::pendingVar;
   const double Rdouble::eps = 1e-7;
 
@@ -35,14 +37,18 @@ namespace mesmer
       return;
     }
 
-    //Push on to the vector of Rdouble objects which have a range
-    withRange().push_back(this);
+    //On a ReadRdoubleRange() call, set_label always adds to withLabel.
+    //If there is a range specified (lower, upper, etc.), set_range adds to withRange.
     //value is NOT set
     lower    = valueL; 
     upper    = valueU;
     stepsize = valueS;
     varname  = txt;
     prev     = NaN;
+
+    if(!IsNan(lower))
+      //Push on to the vector of Rdouble objects with a valid range
+      withRange().push_back(this);
 
     if (get_numsteps() <= 1)
       cwarn << "There is only one point for the range variable " << txt << endl;
@@ -88,7 +94,7 @@ namespace mesmer
   // Calculate the current value of a derivedFrom variable in cm-1
   void Rdouble::update_value()
   {
-    value = *link * factor + addand * m_unitConversion;
+    value = *link * factor + addand;
   }
 
   // This static method updates the value of all the derivedFrom variables in an XML file
@@ -104,8 +110,7 @@ namespace mesmer
     }
   }
 
-  // Called after all the xml data has been read
-  // Look up the linked variable names
+   // Called after all the xml data has been read
   bool Rdouble::SetUpLinkedVars()
   {
     bool ok=true;
@@ -119,8 +124,16 @@ namespace mesmer
         if(pos!=withLabel().end())
         {
           depvar->link = pos->second; //pointer to independent variable
-          cinfo << it->first << " is derived from " << depvar->linkedname << endl;
-          
+          cinfo << it->first << " is derived from " << depvar->linkedname;
+          if (depvar->link && IsNan(depvar->link->lower)) //i.e. NOT a range variable
+          {
+            depvar->m_unitConversion = depvar->link->m_unitConversion;
+            depvar->update_value();
+            cinfo << ", and has a fixed value = " << depvar->value/ depvar->m_unitConversion
+                  << " " << depvar->m_units;
+          }
+          cinfo << endl;
+         
           //The units and conversion factor must be the same for both variables; checked below.
           depvar->m_unitConversion = depvar->link->m_unitConversion;
 
@@ -131,9 +144,8 @@ namespace mesmer
             //check units are the same
             if (depvar->m_units != depvar->link->m_units)
             {
-              cerr << "The units of " << depvar->varname
-                   << " must be the same as those of " << depvar->linkedname 
-                   << ", which it is derivedFrom, or both must have no units attribute." << endl;
+              cerr << depvar->varname << " and " << depvar->linkedname
+                << " must have the same units, or both must have no units." << endl;
               return false;
             }
 
@@ -160,7 +172,7 @@ namespace mesmer
     if (!IsNan(fac))
       factor = fac;
     if (!IsNan(add))
-      addand = add;
+      addand = add * m_unitConversion;
     if (units)
       m_units = std::string(units);
     return true;
@@ -174,9 +186,14 @@ namespace mesmer
   bool ReadRdoubleRange(const std::string& name, PersistPtr pp, Rdouble& rdouble, 
     bool& rangeSet, double cnvrsnFctr, double shift)
   {
-    // Store the names of all the potential range variables in case they are referred to
-    // in a derivedFrom attribute of another linked variable
+    // Store the names of all the potential range variables, their units and values,
+    // in case they are referred to in a derivedFrom attribute of another linked variable.
     rdouble.set_label(name);
+    rdouble.set_units(pp->XmlReadValue("units", optional));
+
+    // Save a pointer to XML location for result update.
+    rdouble.set_XMLPtr(pp) ;
+    rdouble.store_conversion(cnvrsnFctr);
 
     const char* pLowertxt = pp->XmlReadValue("lower", optional);
     const char* pUppertxt = pp->XmlReadValue("upper", optional);
@@ -195,10 +212,9 @@ namespace mesmer
 
 
       rdouble.set_range(valueL, valueU, stepsize, name.c_str());	  
-      rdouble.store_conversion(cnvrsnFctr);
-      rdouble.set_units(pp->XmlReadValue("units", optional));
 	 
     } else {
+      rdouble.set_value(); //reads and stores converted value
       rangeSet = false ;
     }
 
@@ -217,10 +233,6 @@ namespace mesmer
       cinfo << name << " will be derived from " << pDerivedtxt
             << ". Check below that this has been found." << endl;
     }
-
-    // Save a pointer to XML location for result update.
-    rdouble.set_XMLPtr(pp) ;
-
     return true;
   }
 

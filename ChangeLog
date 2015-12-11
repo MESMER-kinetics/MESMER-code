@@ -1,3 +1,16 @@
+2015-December-11 Chris Morley
+
+	* src/Rdouble.cpp, src/Rdouble.h:when using derivedFrom, allow the independent
+	  variable to be a non-range variable. Units of Rdoubles are now have the
+	  internal units (often cm-1).
+
+	* src/calcmethod.h: more explanation of DoesOwnParsing().
+
+	* Windows VC14/distribution, Windows VC14/distribution/NSISScriptToCreateInstaller.nsi,
+	  Windows VC14/distribution/ReadMe.txt: next installer will use VS2015.
+
+	* schemas/mesmerPlugins.xsd: additions for some ILT parameters with range.
+
 2015-November-17 Chris Morley
 
 	* Windows VC14/Mesmer/Mesmer.vcxproj,Windows VC14/qd/qd.vcxproj,
