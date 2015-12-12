@@ -1,5 +1,10 @@
 2015-December-12 Struan Robertson
 
+    * gDensityOfStates.h/.cpp, QMRotor.cpp, ClassicalRotor.cpp: Moved the reading of
+	spin multiplicity to the classes which use it.
+	
+2015-December-12 Struan Robertson
+
     * CollisonOperator.cpp: Altered Bartis-Widom method following profiling review.
 	
 	* TMatrix.h: Format of matrix printing altered to allow for .csv manipulation.

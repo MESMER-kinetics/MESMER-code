@@ -578,6 +578,8 @@ namespace mesmer
 
           chiSquare += calcChiSqRawData(calPoint, rateCoeffTable, residuals);
 
+		  rateCoeffTable << endl;
+
           ctest << "}\n";
 
         } else {
@@ -760,7 +762,7 @@ namespace mesmer
       residuals.push_back(diff) ;
       chiSquare +=  diff * diff ;
 
-      rateCoeffTable << formatFloat(expRate, 6, 15) << formatFloat(rateCoeff, 6, 15) << endl ;
+      rateCoeffTable << formatFloat(expRate, 6, 15) << formatFloat(rateCoeff, 6, 15) ;
       AddCalcValToXml(calPoint, i, rateCoeff);
 
     }
@@ -818,7 +820,7 @@ namespace mesmer
       residuals.push_back(diff) ;
       chiSquare += (diff * diff);
 
-      rateCoeffTable << formatFloat(expYield, 6, 15) << formatFloat(yield, 6, 15) << endl ;
+      rateCoeffTable << formatFloat(expYield, 6, 15) << formatFloat(yield, 6, 15) ;
       AddCalcValToXml(calPoint, i, yield);
     }
 
@@ -852,7 +854,7 @@ namespace mesmer
       residuals.push_back(diff) ;
       chiSquare += (diff * diff); 
 
-      rateCoeffTable << formatFloat(expEigenvalue, 6, 15) << formatFloat(eigenvalue, 6, 15) << endl ;
+      rateCoeffTable << formatFloat(expEigenvalue, 6, 15) << formatFloat(eigenvalue, 6, 15) ;
       AddCalcValToXml(calPoint, i, eigenvalue);
     }
 

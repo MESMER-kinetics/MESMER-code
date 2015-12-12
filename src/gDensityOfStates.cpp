@@ -41,12 +41,10 @@ namespace mesmer
     m_Sym(1.0),
     m_ZPE(NaN,"cm-1"),
     m_scaleFactor(1.0),
-    m_SpinMultiplicity(1),
     m_RC_chk(-1),
     m_Sym_chk(-1),
     m_ZPE_chk(-1),
     m_scaleFactor_chk(-1),
-    m_SpinMultiplicity_chk(-1),
     m_eleExc(),
     m_VibFreq(),
     m_Hessian(NULL),
@@ -165,13 +163,6 @@ namespace mesmer
       double _iele;
       while (idata >> _iele) m_eleExc.push_back(_iele);
     }
-
-    // Spin multiplicity.
-
-    m_SpinMultiplicity = ppPropList->XmlReadPropertyInteger("me:spinMultiplicity", optional);
-    if (m_SpinMultiplicity == 0)
-      m_SpinMultiplicity = pp->XmlReadInteger("spinMultiplicity");
-    m_SpinMultiplicity_chk = 0;
 
     if (!ReadDOSMethods())
       throw(std::runtime_error(""));
@@ -753,16 +744,6 @@ namespace mesmer
       return false;
     m_VibFreq.erase(pos);
     return true;
-  }
-
-  int gDensityOfStates::getSpinMultiplicity(){
-    if (m_SpinMultiplicity_chk >= 0) {
-      ++m_SpinMultiplicity_chk;
-    }
-    else {
-      cinfo << "m_SpinMultiplicity was not defined but requested in " << m_host->getName() << ". Default value " << m_SpinMultiplicity << " is given." << endl;
-    }
-    return m_SpinMultiplicity;
   }
 
   int gDensityOfStates::get_cellOffset(void) {

@@ -53,7 +53,6 @@ namespace mesmer
 
     Rdouble m_ZPE ;             // Zero Point Energy. //wavenumbers
     double m_scaleFactor ;      // scale factor for input real/imaginary vibrational frequencies
-    int    m_SpinMultiplicity ; // spin multiplicity
 
     //================================================
     // CHECK FOR INPUTFILE PARAMETERS
@@ -61,7 +60,6 @@ namespace mesmer
     int m_Sym_chk;
     int m_ZPE_chk;
     int m_scaleFactor_chk;
-    int m_SpinMultiplicity_chk;
     //================================================
 
     std::vector<double> m_eleExc  ;      // Electronic excitation (E.g. OH, NO, NS).
@@ -120,8 +118,6 @@ namespace mesmer
     RotationalTop get_rotConsts(std::vector<double> &mmtsInt);
     void get_VibFreq(std::vector<double>& vibFreq);
     bool removeVibFreq(double freq); 
-
-    int getSpinMultiplicity();
 
     int get_cellOffset(void);
 

@@ -1311,28 +1311,23 @@ namespace mesmer
 
     // Construct assymmetric eigenvectors required for the z matrix.
 
-    qdMatrix assymInvEigenVec(smsize);   // U^(-1)
-    qdMatrix assymEigenVec(smsize);      // U
-    for (size_t i(0); i < smsize; ++i){
-      qd_real tmp = m_eqVector[i];
-      qd_real sm(0);
+	vector<vector<qd_real> > assymEigenVec(nchem, vector<qd_real>(smsize, 0.0)) ; // U
+    for (size_t i(0), ii(nchemIdx); i < nchem; ++i, ++ii) {
       for (size_t j(0); j < smsize; ++j){
-        assymInvEigenVec[j][i] = (*m_eigenvectors)[i][j] / tmp;          //calculation of U^(-1) = (FV)^-1 = V^T * F^-1
-        assymEigenVec[j][i] = m_eqVector[j] * (*m_eigenvectors)[j][i]; //calculation of U = FV
-        sm += assymEigenVec[j][i];
+        assymEigenVec[i][j]    = m_eqVector[j] * (*m_eigenvectors)[j][ii] ; // Calculation of U = FV
       }
     }
 
     // Check that the inverse matrix is correctly calculated by multiplying U*U^(-1) 
     // for CSE vectors.
 
-    for (size_t i(nchemIdx); i < smsize; ++i){
+    for (size_t i(0); i < nchem; ++i){
       qd_real test = 0.0;
       for (size_t j(nchemIdx); j < smsize; ++j){
         qd_real sm = 0.0;
-        for (size_t k(0); k<smsize; ++k){
-          sm += assymEigenVec[i][k] * assymInvEigenVec[k][j];
-        }
+        for (size_t k(0); k < smsize; ++k){
+          sm += assymEigenVec[i][k] * (*m_eigenvectors)[k][j] / m_eqVector[k]; // Calculation of U^(-1) = (FV)^-1 = V^T * F^-1
+		}
         test += sm;
       }
       if (fabs(test - 1.0) > 0.001)      // test that U*U^(-1) = 1
@@ -1388,7 +1383,7 @@ namespace mesmer
           int rxnMatrixLoc = ipos->second + colloptrsize - 1;         // get location for isomer in the rxn matrix
           int seqMatrixLoc = m_SpeciesSequence[isomer];               // get sequence position for isomer
           for (size_t j(0); j < colloptrsize; ++j){
-            sm += assymEigenVec[rxnMatrixLoc - j][nchemIdx + i];
+            sm += assymEigenVec[i][rxnMatrixLoc - j];
           }
           Z_matrix[seqMatrixLoc][i] = sm;
         }
@@ -1399,7 +1394,7 @@ namespace mesmer
           Molecule* pPseudoIsomer = spos->first;
           const int rxnMatrixLoc = spos->second;
           const int seqMatrixLoc = m_SpeciesSequence[pPseudoIsomer];
-          Z_matrix[seqMatrixLoc][i] = assymEigenVec[rxnMatrixLoc][nchemIdx + i];
+          Z_matrix[seqMatrixLoc][i] = assymEigenVec[i][rxnMatrixLoc];
         }
 
         // Calculate Y_matrix elements for sinks.
@@ -1412,7 +1407,7 @@ namespace mesmer
             int rxnMatrixLoc = sinkpos->second;                         // Get sink location.
             qd_real sm(0.0);
             for (size_t j(0); j < KofEs.size(); ++j) {
-              sm += assymEigenVec[rxnMatrixLoc + j][nchemIdx + i] * KofEs[j];
+              sm += assymEigenVec[i][rxnMatrixLoc + j] * KofEs[j];
             }
             Y_matrix[seqMatrixLoc][i] = sm;
           }

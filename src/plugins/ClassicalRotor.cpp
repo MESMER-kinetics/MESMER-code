@@ -9,7 +9,10 @@ namespace mesmer
   {
   public:
 
-    // Function to define particular counts of the DOS of a molecule.
+	//Read data from XML. 
+	virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC = NULL);
+
+	// Function to define particular counts of the DOS of a molecule.
     virtual bool countCellDOS(gDensityOfStates* mol,  const MesmerEnv& env);
 
     // Function to calculate contribution to canonical partition function.
@@ -20,7 +23,7 @@ namespace mesmer
 
     // Constructor which registers with the list of DensityOfStatesCalculators in TopPlugin
     // This class calculates a complete DOS: it is not an extra class. 
-    ClassicalRotor(const char* id) : m_id(id){ Register(); }
+    ClassicalRotor(const char* id) : m_id(id), m_SpinMultiplicity(1) { Register(); }
 
     virtual ~ClassicalRotor() {}
     virtual const char* getID()  { return m_id; }
@@ -31,7 +34,11 @@ namespace mesmer
 
     virtual ClassicalRotor* Clone() { return new ClassicalRotor(*this); }
   private:
+
     const char* m_id;
+
+	int m_SpinMultiplicity; // spin multiplicity
+
   } ;
 
   //************************************************************
@@ -39,6 +46,19 @@ namespace mesmer
   ClassicalRotor theClassicalRotor("ClassicalRotors");
   //************************************************************
 
+  //Read data from XML and store in this instance.
+  bool ClassicalRotor::ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC)
+  {
+	  // Spin multiplicity.
+	  PersistPtr ppPropList = ppDOSC->XmlMoveTo("propertyList");
+	  if (!ppPropList)
+		  ppPropList = ppDOSC; // A propertyList element is not essential.
+	  m_SpinMultiplicity = ppPropList->XmlReadPropertyInteger("me:spinMultiplicity", optional);
+	  if (m_SpinMultiplicity == 0)
+		  m_SpinMultiplicity = ppDOSC->XmlReadInteger("spinMultiplicity");
+
+	  return true;
+  }
 
   // Provide a function to define particular counts of the DOS of a molecule.
   bool ClassicalRotor::countCellDOS(gDensityOfStates* pDOS, const MesmerEnv& env)
@@ -55,9 +75,9 @@ namespace mesmer
     //
     vector<double> rotConst;
     RotationalTop rotorType = pDOS->get_rotConsts(rotConst);
-    double sym = pDOS->get_Sym();
-    double qele = pDOS->getSpinMultiplicity();
-    double cnt = 0.;
+    double sym  = pDOS->get_Sym() ;
+    double qele = m_SpinMultiplicity ;
+    double cnt  = 0. ;
 
     switch (rotorType){
     case NONLINEAR: //3-D symmetric/asymmetric/spherical top
@@ -106,7 +126,7 @@ namespace mesmer
     double sym = gdos->get_Sym();
 
     double qtot(1.0), ene(0.0), var(0.0) ; 
-    qtot *= double(gdos->getSpinMultiplicity());
+	qtot *= double(m_SpinMultiplicity);
 
     switch(rotorType) {
     case NONLINEAR://3-D symmetric/asymmetric/spherical top

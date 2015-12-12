@@ -878,6 +878,7 @@ namespace mesmer
     for (size_t i(frow) ; i < nrows ; ++i) {
       for (size_t j(fclm) ; j < nclms ; ++j) {
         formatFloat(output_stream, (*this)[i][j],  6,  15) ;
+		output_stream << "," ;
       }
       output_stream << endl ;
     }
