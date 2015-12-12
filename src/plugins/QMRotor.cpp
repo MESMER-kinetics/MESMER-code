@@ -9,6 +9,9 @@ namespace mesmer
   {
   public:
 
+    //Read data from XML. 
+    virtual bool ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC=NULL);
+
     // Function to define particular counts of the DOS of a molecule.
     virtual bool countCellDOS(gDensityOfStates* mol, const MesmerEnv& env);
 
@@ -19,7 +22,7 @@ namespace mesmer
     virtual unsigned int NoDegOfFreedom(gDensityOfStates* gdos) ;
 
     // Constructor which registers with the list of DensityOfStatesCalculators in the base class
-    QMRotor(const char* id) : m_id(id) { Register(); }
+    QMRotor(const char* id) : m_id(id), m_SpinMultiplicity(1) { Register(); }
 
     virtual const char* getID()  { return m_id; }
     virtual bool includesRotations(){return true;}
@@ -29,12 +32,12 @@ namespace mesmer
     virtual ~QMRotor() {}
 
   private:
+
     const char* m_id;
 
-  private:
+    int m_SpinMultiplicity ; // spin multiplicity
 
     void asymmetricRotor(double A, double B, double C, int J, double kpp, vector<double> &Er) ;
-
   } ;
 
   //************************************************************
@@ -42,6 +45,20 @@ namespace mesmer
   QMRotor theQMRotor("QMRotors");
 
   //************************************************************
+
+  //Read data from XML and store in this instance.
+  bool QMRotor::ReadParameters(gDensityOfStates* gdos, PersistPtr ppDOSC)
+  {
+    // Spin multiplicity.
+    PersistPtr ppPropList = ppDOSC->XmlMoveTo("propertyList");
+    if (!ppPropList)
+      ppPropList = ppDOSC; // A propertyList element is not essential.
+    m_SpinMultiplicity = ppPropList->XmlReadPropertyInteger("me:spinMultiplicity", optional);
+    if (m_SpinMultiplicity == 0)
+      m_SpinMultiplicity = ppDOSC->XmlReadInteger("spinMultiplicity");
+
+    return true;
+  }
 
   // Provide a function to define particular counts of the DOS of a molecule.
   bool QMRotor::countCellDOS(gDensityOfStates* pDOS, const MesmerEnv& env)
@@ -60,7 +77,7 @@ namespace mesmer
     vector<double> rotConst; 
     RotationalTop rotorType = pDOS->get_rotConsts(rotConst);
     double sym = pDOS->get_Sym();
-    double qele = pDOS->getSpinMultiplicity();
+    double qele = m_SpinMultiplicity;
     size_t i_e(0);
 
     // Note: rotConst[0] (A) >= rotConst[1] (B) >= rotConst[2] (C)
@@ -297,7 +314,7 @@ namespace mesmer
     double sym = gdos->get_Sym();
 
     double qtot(1.0), ene(0.0), var(0.0) ; 
-    qtot *= double(gdos->getSpinMultiplicity());
+    qtot *= double(m_SpinMultiplicity);
 
     // Classical approximations are used here for convenience. These will
     // break down at low temperature, in this case the cell based solution

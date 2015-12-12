@@ -1,3 +1,11 @@
+2015-December-12 Struan Robertson
+
+    * CollisonOperator.cpp: Altered Bartis-Widom method following profiling review.
+	
+	* TMatrix.h: Format of matrix printing altered to allow for .csv manipulation.
+	
+	* System.cpp: .log Rate coefficient output altered to account for no expt. data. 
+
 2015-December-11 Chris Morley
 
 	* src/Rdouble.cpp, src/Rdouble.h:when using derivedFrom, allow the independent
