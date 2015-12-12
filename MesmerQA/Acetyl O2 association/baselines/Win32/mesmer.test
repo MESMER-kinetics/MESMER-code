@@ -3473,8 +3473,8 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   1.146194e-03   6.405137e-05  -1.302311e-06
-   2.820486e-07   2.527840e-15  -3.967192e-14
+   1.146194e-03,   6.405137e-05,  -1.302311e-06,
+   2.820486e-07,   2.527840e-15,  -3.967192e-14,
 }
 
 Z_matrix: {
@@ -3506,8 +3506,8 @@ Kr matrix:
 
 Kp matrix:
 {
-   8.077696e+03   2.171685e-08   1.055735e-03
-   1.987712e+00   3.620710e-15   5.032800e-15
+   8.077696e+03,   2.171685e-08,   1.055735e-03,
+   1.987712e+00,   3.620710e-15,   5.032800e-15,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
