@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Mar  6 2014 -- 13:02:36
+     Mesmer v5.0 compiled: -- Dec 15 2015 -- 11:53:31
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -26,45 +26,71 @@
     You should have received a copy of the GNU Public License
     along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
 
+defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
 ipropyl_test.xml
 
-In R1: Parsing reaction...
-In i-propyl: The default value of me:frequenciesScaleFactor was used.
+--Parse data for simpleCalc
+Energy convention "" written to <moleculeList>
+In R1: Parsing reaction...Irreversible unimolecular reaction
 In i-propyl: Hindered rotor b1
 In i-propyl: Hindered rotor b2
 In i-propyl: The default value of me:DistributionCalcMethod was used.
+In i-propyl: --Parse data for Boltzmann
+In i-propyl: --Parse data for ExponentialDown
 In i-propyl: i-propyl:deltaEDown was given a range with 15 steps 
+In R1: --Parse data for MesmerILT
 In R1: The default value of me:TInfinity was used.
-In propene: The default value of me:frequenciesScaleFactor was used.
 In propene: Hindered rotor b1
 In propene: propene:ZPE was given a range with 401 steps 
-In H: The default value of me:frequenciesScaleFactor was used.
-In H: The default value of me:symmetryNumber was used.
-In H: The default value of spinMultiplicity (or one of its attributes) was used.
 In H: The default value of me:DOSCMethod was used.
+In H: The default value of the attribute spinMultiplicity was used.
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
-All molecules are on the same energy basis: arbitary
-The default value of precision (or one of its attributes) was used.
+The default value of the attribute precision was used.
 3e+17PPCC, 720K at d precision with He
-The default value of precision (or one of its attributes) was used.
+The default value of the attribute precision was used.
 3.01e+17PPCC, 730K at d precision with He
-Write metadata 20140306_130815
+--Parse data for ThermodynamicTable
+In ThermodynamicTable: The default value of the attribute units was used.
+In ThermodynamicTable: The default value of me:Tmin was used.
+In ThermodynamicTable: The default value of me:Tmax was used.
+In ThermodynamicTable: The default value of me:Tstep was used.
+In ThermodynamicTable: The default value of me:Tmid was used.
+Write metadata 20151215_121241
 
 File: "ipropyl_test.xml" successfully parsed.
 Main Calculation begins
+
+--Execute calcMethod simpleCalc
+PT Grid 0
+Number of cells = 18600, Number of grains = 186
 Number of grains produced is not equal to that requested
 Number of grains requested: 186
 Number of grains produced : 1
-In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
-Unimolecular ILT calculation completed
-Number of grains produced is not equal to that requested
+In FastLaplaceConvolution: 80 values in the FFT convolution routine were replaced by standard convolution
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 1
+Number of cells = 18700, Number of grains = 187
 Number of grains requested: 187
-Number of grains produced : 1
-Unimolecular ILT calculation completed
+In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+            720          3e+17           41.5        45.0265
+            730       3.01e+17           51.1        61.3841
+
 Finish Calculation of P-T case
+2 temperature/concentration-pressure points calculated.
+
+--Execute calcMethod ThermodynamicTable
+In He: The default value of me:DOSCMethod was used.
+In He: The default value of the attribute spinMultiplicity was used.
  -- Total time elapsed: 1 seconds.
 
 System saved to out.xml
+Total time elapsed: 1 seconds.

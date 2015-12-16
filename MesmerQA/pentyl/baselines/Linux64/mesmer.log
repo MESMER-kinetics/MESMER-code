@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Sep  8 2014 -- 11:21:07
+     Mesmer v5.0 compiled: -- Dec 15 2015 -- 11:53:31
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -32,26 +32,30 @@ Parsing input xml file...
 pentyl_isomerization_test.xml
 
 The default value of me:calcMethod was used.
+--Parse data for simpleCalc
+Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Isomerization reaction
-In 1-pentyl: The default value of me:frequenciesScaleFactor was used.
 In 1-pentyl: The default value of me:DOSCMethod was used.
 In 1-pentyl: The default value of me:DistributionCalcMethod was used.
-In 2-pentyl: The default value of me:frequenciesScaleFactor was used.
+In 1-pentyl: --Parse data for Boltzmann
+In 1-pentyl: --Parse data for ExponentialDown
 In 2-pentyl: The default value of me:DOSCMethod was used.
 In 2-pentyl: The default value of me:DistributionCalcMethod was used.
+In 2-pentyl: --Parse data for Boltzmann
+In 2-pentyl: --Parse data for ExponentialDown
 In 1-pentyl=TS=2-pentyl: No imaginary vibrational frequency. Check if there is tunneling.
-The default value of me:frequenciesScaleFactor was used.
-In 1-pentyl=TS=2-pentyl: The default value of me:DOSCMethod was used.
+The default value of me:DOSCMethod was used.
+In R1: --Parse data for SimpleRRKM
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
-All molecules are on the same energy basis: arbitary
 The default value of the attribute precision was used.
 1e+08PPCC, 500K at d precision with Ar
-Write metadata 20140908_113355
+Write metadata 20151215_121223
 
 File: "pentyl_isomerization_test.xml" successfully parsed.
 Main Calculation begins
-Execute calcMethod simpleCalc
+
+--Execute calcMethod simpleCalc
 PT Grid 0
 Number of cells = 16050, Number of grains = 107
 Build Collison Operator
@@ -61,9 +65,11 @@ In timeEvolution: Initial poupulation set to 1.0  in the first isomer.
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            500         1e+008
+            500          1e+08
+
 Finish Calculation of P-T case
 1 temperature/concentration-pressure points calculated.
  -- Total time elapsed: 0 seconds.
 
 System saved to out.xml
+Total time elapsed: 0 seconds.
