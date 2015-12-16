@@ -380,13 +380,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to -2.172056e+09
 
 Y_matrix:
 {
-  -2.707005e-13   2.318534e-11   1.299344e-16
-  -2.066117e-19   2.486943e-22   3.060394e-27
-  -3.555099e-20   2.257217e-23   3.329963e-28
+  -2.707005e-13,   2.318534e-11,   1.299344e-16,
+  -2.066117e-19,   2.486943e-22,   3.060394e-27,
+  -3.555099e-20,   2.257217e-23,   3.329963e-28,
 }
 
 Z_matrix: {
@@ -418,9 +417,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   1.344185e+01   1.187338e-18   4.211589e-06
-   1.025946e-05   1.679402e-27   4.517503e-17
-   1.765312e-06   2.076534e-28   4.100207e-18
+   1.344185e+01,   1.187338e-18,   4.211589e-06,
+   1.025946e-05,   1.679402e-27,   4.517503e-17,
+   1.765312e-06,   2.076534e-28,   4.100207e-18,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -475,13 +474,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to 5.078737e+08
 
 Y_matrix:
 {
-  -6.275918e-12   2.227441e-11  -1.297420e-16
-  -4.013498e-18   1.605290e-22  -1.479259e-27
-  -6.637607e-19   1.310217e-23  -1.242775e-28
+  -6.275918e-12,   2.227441e-11,  -1.297420e-16,
+  -4.013498e-18,   1.605290e-22,  -1.479259e-27,
+  -6.637607e-19,   1.310217e-23,  -1.242775e-28,
 }
 
 Z_matrix: {
@@ -513,9 +511,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   3.116356e+02   6.053319e-18   4.046120e-06
-   1.992934e-04   5.877704e-28   2.915984e-17
-   3.295956e-05   5.150877e-29   2.379983e-18
+   3.116356e+02,   6.053319e-18,   4.046120e-06,
+   1.992934e-04,   5.877704e-28,   2.915984e-17,
+   3.295956e-05,   5.150877e-29,   2.379983e-18,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -570,13 +568,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to 2.181843e+08
 
 Y_matrix:
 {
-  -3.448825e-10  -1.199212e-11   1.281896e-16
-  -1.313441e-16  -4.722552e-24   1.043050e-27
-  -1.926451e-17  -2.585753e-25   1.884663e-28
+  -3.448825e-10,  -1.199212e-11,   1.281896e-16,
+  -1.313441e-16,  -4.722552e-24,   1.043050e-27,
+  -1.926451e-17,  -2.585753e-25,   1.884663e-28,
 }
 
 Z_matrix: {
@@ -608,9 +605,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   1.712541e+04   6.159746e-17   2.178355e-06
-   6.521993e-03   1.014695e-27   8.513141e-19
-   9.565945e-04   1.867180e-28   4.601186e-20
+   1.712541e+04,   6.159746e-17,   2.178355e-06,
+   6.521993e-03,   1.014695e-27,   8.513141e-19,
+   9.565945e-04,   1.867180e-28,   4.601186e-20,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -665,13 +662,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to 2.031505e+08
 
 Y_matrix:
 {
-  -2.320245e-09   3.905022e-13   1.237524e-16
-  -6.826504e-16   6.253364e-26   8.552221e-30
-  -8.788670e-17   3.579695e-27   2.761953e-31
+  -2.320245e-09,   3.905022e-13,   1.237524e-16,
+  -6.826504e-16,   6.253364e-26,   8.552221e-30,
+  -8.788670e-17,   3.579695e-27,   2.761953e-31,
 }
 
 Z_matrix: {
@@ -703,9 +699,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   1.152136e+05   1.215838e-16   7.093427e-08
-   3.389754e-02   5.807713e-30   9.542831e-21
-   4.364083e-03  -5.231208e-32   4.164068e-22
+   1.152136e+05,   1.215838e-16,   7.093427e-08,
+   3.389754e-02,   5.807713e-30,   9.542831e-21,
+   4.364083e-03,  -5.231208e-32,   4.164068e-22,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -760,13 +756,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to -9.134038e+07
 
 Y_matrix:
 {
-  -2.775746e-09  -1.114258e-13  -1.178161e-16
-  -8.924227e-16  -4.948633e-28  -8.162568e-30
-  -1.096373e-16  -6.733826e-30  -4.434137e-31
+  -2.775746e-09,  -1.114258e-13,  -1.178161e-16,
+  -8.924227e-16,  -4.948633e-28,  -8.162568e-30,
+  -1.096373e-16,  -6.733826e-30,  -4.434137e-31,
 }
 
 Z_matrix: {
@@ -798,9 +793,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   1.378318e+05   1.171972e-16   2.024037e-08
-   4.431395e-02   8.042898e-30   6.038918e-23
-   5.444128e-03   4.290121e-31  -2.401256e-24
+   1.378318e+05,   1.171972e-16,   2.024037e-08,
+   4.431395e-02,   8.042898e-30,   6.038918e-23,
+   5.444128e-03,   4.290121e-31,  -2.401256e-24,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -855,13 +850,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to 9.997364e+05
 
 Y_matrix:
 {
-   1.215362e-11  -1.640006e-09  -2.429848e-14
-   1.450201e-17  -1.006345e-19  -1.526246e-24
-   2.684744e-18  -1.042620e-20  -1.580713e-25
+   1.215362e-11,  -1.640006e-09,  -2.429848e-14,
+   1.450201e-17,  -1.006345e-19,  -1.526246e-24,
+   2.684744e-18,  -1.042620e-20,  -1.580713e-25,
 }
 
 Z_matrix: {
@@ -893,9 +887,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   1.993564e+01   2.660486e-16   1.127656e-04
-   2.378771e-05   5.155133e-26   6.919556e-15
-   4.403796e-06   5.285523e-27   7.168976e-16
+   1.993564e+01,   2.660486e-16,   1.127656e-04,
+   2.378771e-05,   5.155133e-26,   6.919556e-15,
+   4.403796e-06,   5.285523e-27,   7.168976e-16,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -950,13 +944,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to -5.221950e+06
 
 Y_matrix:
 {
-  -2.655510e-10  -1.561255e-09  -2.425370e-14
-  -2.551426e-16  -5.958727e-20  -1.046510e-24
-  -4.528536e-17  -5.477651e-21  -9.699673e-26
+  -2.655510e-10,  -1.561255e-09,  -2.425370e-14,
+  -2.551426e-16,  -5.958727e-20,  -1.046510e-24,
+  -4.528536e-17,  -5.477651e-21,  -9.699673e-26,
 }
 
 Z_matrix: {
@@ -988,9 +981,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   4.355843e+02   1.375235e-15   1.073507e-04
-   4.185115e-04   1.731771e-25   4.097141e-15
-   7.428176e-05   1.670163e-26   3.766330e-16
+   4.355843e+02,   1.375235e-15,   1.073507e-04,
+   4.185115e-04,   1.731771e-25,   4.097141e-15,
+   7.428176e-05,   1.670163e-26,   3.766330e-16,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -1045,13 +1038,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to -1.725290e+06
 
 Y_matrix:
 {
-   1.211898e-08   7.493008e-10  -2.376566e-14
-   6.718905e-15   1.421673e-21  -2.007408e-25
-   1.064972e-15   9.353039e-23  -1.286466e-26
+   1.211898e-08,   7.493008e-10,  -2.376566e-14,
+   6.718905e-15,   1.421673e-21,  -2.007408e-25,
+   1.064972e-15,   9.353039e-23,  -1.286466e-26,
 }
 
 Z_matrix: {
@@ -1083,9 +1075,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   1.987881e+04   1.278537e-14   5.152137e-05
-   1.102105e-02   1.768971e-25   9.551710e-17
-   1.746878e-03   1.101688e-26   6.076652e-18
+   1.987881e+04,   1.278537e-14,   5.152137e-05,
+   1.102105e-02,   1.768971e-25,   9.551710e-17,
+   1.746878e-03,   1.101688e-26,   6.076652e-18,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -1140,13 +1132,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to -3.636555e+06
 
 Y_matrix:
 {
-   6.782001e-08   2.361155e-11   2.254302e-14
-   2.898651e-14   1.983952e-23   1.736096e-26
-   4.076588e-15   1.473840e-24   1.118844e-27
+   6.782001e-08,   2.361155e-11,   2.254302e-14,
+   2.898651e-14,   1.983952e-23,   1.736096e-26,
+   4.076588e-15,   1.473840e-24,   1.118844e-27,
 }
 
 Z_matrix: {
@@ -1178,9 +1169,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   1.112454e+05   2.219697e-14   1.623512e-06
-   4.754669e-02   1.466685e-26   9.803555e-19
-   6.686844e-03   7.592432e-28   4.736420e-20
+   1.112454e+05,   2.219697e-14,   1.623512e-06,
+   4.754669e-02,   1.466685e-26,   9.803555e-19,
+   6.686844e-03,   7.592432e-28,   4.736420e-20,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -1235,13 +1226,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to -1.410660e+06
 
 Y_matrix:
 {
-   7.762158e-08   7.437718e-12   2.088243e-14
-   3.604190e-14   1.432666e-25  -1.834463e-29
-   4.878809e-15   1.166019e-26  -5.866350e-30
+   7.762158e-08,   7.437718e-12,   2.088243e-14,
+   3.604190e-14,   1.432666e-25,  -1.834463e-29,
+   4.878809e-15,   1.166019e-26,  -5.866350e-30,
 }
 
 Z_matrix: {
@@ -1273,9 +1263,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   1.273230e+05   2.077339e-14   5.114120e-07
-   5.911967e-02  -1.158266e-28   5.183269e-21
-   8.002730e-03  -1.894863e-29   1.699123e-22
+   1.273230e+05,   2.077339e-14,   5.114120e-07,
+   5.911967e-02,  -1.158266e-28,   5.183269e-21,
+   8.002730e-03,  -1.894863e-29,   1.699123e-22,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -1330,13 +1320,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to -1.068098e+03
 
 Y_matrix:
 {
-   3.695276e-06  -1.362062e-08  -3.230163e-10
-   4.838780e-15  -3.757617e-14  -4.385814e-19
-   6.289257e-16  -7.820606e-15  -5.724114e-20
+   3.695276e-06,  -1.362062e-08,  -3.230163e-10,
+   4.838780e-15,  -3.757617e-14,  -4.385814e-19,
+   6.289257e-16,  -7.820606e-15,  -5.724114e-20,
 }
 
 Z_matrix: {
@@ -1368,9 +1357,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   4.773495e+01   5.431892e-12   4.324193e-02
-   1.316907e-04   2.270962e-20   5.662317e-11
-   2.740837e-05   3.186917e-21   7.359658e-12
+   4.773495e+01,   5.431892e-12,   4.324193e-02,
+   1.316907e-04,   2.270962e-20,   5.662317e-11,
+   2.740837e-05,   3.186917e-21,   7.359658e-12,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -1425,13 +1414,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to -8.421568e+02
 
 Y_matrix:
 {
-   3.413940e-06   2.503769e-07  -3.206282e-10
-   2.272198e-15   5.113618e-13  -2.590388e-19
-   2.548700e-16   1.017997e-13  -2.987818e-20
+   3.413940e-06,   2.503769e-07,  -3.206282e-10,
+   2.272198e-15,   5.113618e-13,  -2.590388e-19,
+   2.548700e-16,   1.017997e-13,  -2.987818e-20,
 }
 
 Z_matrix: {
@@ -1463,9 +1451,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   8.774783e+02   2.722224e-11   3.994975e-02
-   1.792136e-03   6.360879e-20   2.658977e-11
-   3.567707e-04   7.944035e-21   2.982598e-12
+   8.774783e+02,   2.722224e-11,   3.994975e-02,
+   1.792136e-03,   6.360879e-20,   2.658977e-11,
+   3.567707e-04,   7.944035e-21,   2.982598e-12,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -1520,13 +1508,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to 7.967742e+02
 
 Y_matrix:
 {
-   1.197785e-06   7.494629e-06  -3.031305e-10
-   3.501401e-17   8.413499e-12  -4.675080e-20
-   2.888269e-18   1.516747e-12  -4.636050e-21
+   1.197785e-06,   7.494629e-06,  -3.031305e-10,
+   3.501401e-17,   8.413499e-12,  -4.675080e-20,
+   2.888269e-18,   1.516747e-12,  -4.636050e-21,
 }
 
 Z_matrix: {
@@ -1558,9 +1545,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   2.626594e+04   2.001844e-10   1.401643e-02
-   2.948624e-02   4.176857e-20   4.261748e-13
-   5.315644e-03   4.032146e-21   3.676258e-14
+   2.626594e+04,   2.001844e-10,   1.401643e-02,
+   2.948624e-02,   4.176857e-20,   4.261748e-13,
+   5.315644e-03,   4.032146e-21,   3.676258e-14,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -1615,13 +1602,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to 1.038083e+03
 
 Y_matrix:
 {
-   4.062679e-08  -2.858504e-05  -2.697570e-10
-   1.554469e-19  -2.502265e-11  -2.513382e-21
-  -5.813338e-21  -4.098538e-12  -2.058499e-22
+   4.062679e-08,  -2.858504e-05,  -2.697570e-10,
+   1.554469e-19,  -2.502265e-11,  -2.513382e-21,
+  -5.813338e-21,  -4.098538e-12,  -2.058499e-22,
 }
 
 Z_matrix: {
@@ -1653,9 +1639,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   1.001801e+05   2.662640e-10   4.754154e-04
-   8.769525e-02   1.914270e-21   3.971026e-15
-   1.436388e-02   1.104080e-22   2.844541e-16
+   1.001801e+05,   2.662640e-10,   4.754154e-04,
+   8.769525e-02,   1.914270e-21,   3.971026e-15,
+   1.436388e-02,   1.104080e-22,   2.844541e-16,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -1710,7 +1696,6 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to -1.343217e+02
 
 WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
@@ -1721,9 +1706,9 @@ Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
 
 Y_matrix:
 {
-   1.654117e-08   3.056464e-05  -2.283802e-10
-  -4.803870e-21   2.867401e-11  -3.423569e-23
-  -9.645424e-22   4.586220e-12  -2.981752e-24
+   1.654117e-08,   3.056464e-05,  -2.283802e-10,
+  -4.803870e-21,   2.867401e-11,  -3.423569e-23,
+  -9.645424e-22,   4.586220e-12,  -2.981752e-24,
 }
 
 Z_matrix: {
@@ -1755,9 +1740,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   1.071179e+05   2.269578e-10   1.935645e-04
-   1.004919e-01   1.758910e-23   3.003627e-16
-   1.607303e-02   3.361102e-25   4.574517e-17
+   1.071179e+05,   2.269578e-10,   1.935645e-04,
+   1.004919e-01,   1.758910e-23,   3.003627e-16,
+   1.607303e-02,   3.361102e-25,   4.574517e-17,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -1812,13 +1797,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to 9.785832e-01
 
 Y_matrix:
 {
-   6.273730e-02  -1.260799e-04  -5.361790e-05
-   2.806737e-09  -1.017156e-09  -2.539279e-12
-   4.670165e-10  -2.382067e-10  -4.252300e-13
+   6.273730e-02,  -1.260799e-04,  -5.361790e-05,
+   2.806737e-09,  -1.017156e-09,  -2.539279e-12,
+   4.670165e-10,  -2.382067e-10,  -4.252300e-13,
 }
 
 Z_matrix: {
@@ -1850,9 +1834,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   2.056009e+02   1.864771e-06   7.632232e+01
-   1.659475e-03   2.233316e-13   3.414503e-06
-   3.886309e-04   3.983430e-14   5.681437e-07
+   2.056009e+02,   1.864771e-06,   7.632232e+01,
+   1.659475e-03,   2.233316e-13,   3.414503e-06,
+   3.886309e-04,   3.983430e-14,   5.681437e-07,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -1907,13 +1891,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to 1.005062e+00
 
 Y_matrix:
 {
-  -5.172479e-02   1.534567e-03  -5.095394e-05
-  -7.862648e-10   8.323436e-09  -1.054886e-12
-  -1.090803e-10   1.870501e-09  -1.540363e-13
+  -5.172479e-02,   1.534567e-03,  -5.095394e-05,
+  -7.862648e-10,   8.323436e-09,  -1.054886e-12,
+  -1.090803e-10,   1.870501e-09,  -1.540363e-13,
 }
 
 Z_matrix: {
@@ -1945,9 +1928,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   2.503389e+03   8.283554e-06   6.292519e+01
-   1.357959e-02   4.012833e-13   9.565501e-07
-   3.051701e-03   6.293160e-14   1.327068e-07
+   2.503389e+03,   8.283554e-06,   6.292519e+01,
+   1.357959e-02,   4.012833e-13,   9.565501e-07,
+   3.051701e-03,   6.293160e-14,   1.327068e-07,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -2002,13 +1985,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to 1.001934e+00
 
 Y_matrix:
 {
-   8.990583e-03   2.185639e-02  -4.166259e-05
-   9.314178e-12   6.277468e-08  -1.753118e-13
-   1.121714e-12   1.301802e-08  -2.390460e-14
+   8.990583e-03,   2.185639e-02,  -4.166259e-05,
+   9.314178e-12,   6.277468e-08,  -1.753118e-13,
+   1.121714e-12,   1.301802e-08,  -2.390460e-14,
 }
 
 Z_matrix: {
@@ -2040,9 +2022,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   3.565841e+04   3.423706e-05   1.093749e+01
-   1.024162e-01   1.446957e-13   1.152508e-08
-   2.123876e-02   1.822367e-14   1.404833e-09
+   3.565841e+04,   3.423706e-05,   1.093749e+01,
+   1.024162e-01,   1.446957e-13,   1.152508e-08,
+   2.123876e-02,   1.822367e-14,   1.404833e-09,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -2097,13 +2079,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to 9.978760e-01
 
 Y_matrix:
 {
-   5.691474e-04   4.759859e-02   3.016447e-05
-   5.269753e-14   1.138154e-07   4.714427e-15
-   2.869132e-15   2.226444e-08   5.662774e-16
+   5.691474e-04,   4.759859e-02,   3.016447e-05,
+   5.269753e-14,   1.138154e-07,   4.714427e-15,
+   2.869132e-15,   2.226444e-08,   5.662774e-16,
 }
 
 Z_matrix: {
@@ -2135,9 +2116,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   7.765657e+04   2.969397e-05   6.924328e-01
-   1.856886e-01   2.789261e-15   9.656664e-11
-   3.632419e-02   1.958186e-16   9.839473e-12
+   7.765657e+04,   2.969397e-05,   6.924328e-01,
+   1.856886e-01,   2.789261e-15,   9.656664e-11,
+   3.632419e-02,   1.958186e-16,   9.839473e-12,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -2192,13 +2173,12 @@ Bartis Widom eigenvalue/eigenvector analysis
 Number of sinks in this system: 3
 
 There should be 3 chemically significant eigenvalues (CSEs)
-row 572 of the U*U^(-1) matrix does not equal unity. It sums to 1.013457e+00
 
 Y_matrix:
 {
-   6.444578e-04   4.817490e-02   2.025566e-05
-   3.371314e-16   1.206354e-07   4.666028e-17
-  -4.331446e-17   2.336766e-08   6.110331e-18
+   6.444578e-04,   4.817490e-02,   2.025566e-05,
+   3.371314e-16,   1.206354e-07,   4.666028e-17,
+  -4.331446e-17,   2.336766e-08,   6.110331e-18,
 }
 
 Z_matrix: {
@@ -2230,9 +2210,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   7.859682e+04   1.972361e-05   7.840326e-01
-   1.968154e-01   9.879767e-18   1.380858e-11
-   3.812407e-02  -9.245574e-19   2.542647e-12
+   7.859682e+04,   1.972361e-05,   7.840326e-01,
+   1.968154e-01,   9.879767e-18,   1.380858e-11,
+   3.812407e-02,  -9.245574e-19,   2.542647e-12,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -2290,9 +2270,9 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   1.073920e+03  -1.725817e+00  -1.020311e+01
-   8.074811e-04  -3.956946e-05  -8.661466e-06
-   1.613567e-04  -1.014210e-05  -1.758109e-06
+   1.073920e+03,  -1.725817e+00,  -1.020311e+01,
+   8.074811e-04,  -3.956946e-05,  -8.661466e-06,
+   1.613567e-04,  -1.014210e-05,  -1.758109e-06,
 }
 
 Z_matrix: {
@@ -2324,9 +2304,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   1.306037e+03   9.586839e-01   1.223970e+05
-   3.038692e-02   1.661672e-06   9.203146e-02
-   7.789326e-03   3.565036e-07   1.839043e-02
+   1.306037e+03,   9.586839e-01,   1.223970e+05,
+   3.038692e-02,   1.661672e-06,   9.203146e-02,
+   7.789326e-03,   3.565036e-07,   1.839043e-02,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -2384,9 +2364,9 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -5.779273e+02   9.859394e+00   7.680147e+00
-  -9.380737e-05   1.471074e-04   2.437694e-06
-  -1.545269e-05   3.648161e-05   4.554471e-07
+  -5.779273e+02,   9.859394e+00,   7.680147e+00,
+  -9.380737e-05,   1.471074e-04,   2.437694e-06,
+  -1.545269e-05,   3.648161e-05,   4.554471e-07,
 }
 
 Z_matrix: {
@@ -2418,9 +2398,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   7.550681e+03   2.649706e+00   6.586987e+04
-   1.130186e-01   1.453687e-06   1.069396e-02
-   2.802811e-02   2.792548e-07   1.761732e-03
+   7.550681e+03,   2.649706e+00,   6.586987e+04,
+   1.130186e-01,   1.453687e-06,   1.069396e-02,
+   2.802811e-02,   2.792548e-07,   1.761732e-03,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -2478,9 +2458,9 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -4.500552e+01  -4.635352e+01   4.410162e+00
-  -1.670874e-06  -3.953876e-04   3.882992e-07
-  -2.592411e-07  -9.306167e-05   7.241894e-08
+  -4.500552e+01,  -4.635352e+01,   4.410162e+00,
+  -1.670874e-06,  -3.953876e-04,   3.882992e-07,
+  -2.592411e-07,  -9.306167e-05,   7.241894e-08,
 }
 
 Z_matrix: {
@@ -2512,9 +2492,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   3.561279e+04   3.997598e+00   5.133583e+03
-   3.037735e-01   2.222680e-07   1.927167e-04
-   7.149862e-02   3.451626e-08   3.006606e-05
+   3.561279e+04,   3.997598e+00,   5.133583e+03,
+   3.037735e-01,   2.222680e-07,   1.927167e-04,
+   7.149862e-02,   3.451626e-08,   3.006606e-05,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -2572,9 +2552,9 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   8.938174e+01  -5.873939e+01  -1.883681e+00
-   7.086883e-08  -4.754095e-04  -3.764340e-09
-   5.104619e-09  -1.096313e-04  -6.724396e-10
+   8.938174e+01,  -5.873939e+01,  -1.883681e+00,
+   7.086883e-08,  -4.754095e-04,  -3.764340e-09,
+   5.104619e-09,  -1.096313e-04,  -6.724396e-10,
 }
 
 Z_matrix: {
@@ -2606,9 +2586,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   4.512840e+04   1.099810e+00   1.018813e+04
-   3.652537e-01   6.799624e-10   8.598492e-06
-   8.422892e-02   5.968848e-11   7.019366e-07
+   4.512840e+04,   1.099810e+00,   1.018813e+04,
+   3.652537e-01,   6.799624e-10,   8.598492e-06,
+   8.422892e-02,   5.968848e-11,   7.019366e-07,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -2666,9 +2646,9 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   3.197573e+01   5.837028e+01  -8.397561e-01
-  -1.103592e-11   4.822147e-04  -2.726831e-11
-  -4.732600e-11   1.109511e-04  -5.193318e-12
+   3.197573e+01,   5.837028e+01,  -8.397561e-01,
+  -1.103592e-11,   4.822147e-04,  -2.726831e-11,
+  -4.732600e-11,   1.109511e-04,  -5.193318e-12,
 }
 
 Z_matrix: {
@@ -2700,9 +2680,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   4.484533e+04   5.601176e-01   3.644917e+03
-   3.704821e-01  -1.798071e-11   3.138652e-07
-   8.524292e-02  -4.826201e-12   6.711103e-08
+   4.484533e+04,   5.601176e-01,   3.644917e+03,
+   3.704821e-01,  -1.798071e-11,   3.138652e-07,
+   8.524292e-02,  -4.826201e-12,   6.711103e-08,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -2760,9 +2740,9 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   9.209704e+05   4.823888e+04  -2.283125e+04
-   2.929541e+00   1.941753e-01  -2.189989e-01
-   6.429524e-01   4.296889e-02  -5.543024e-02
+   9.209704e+05,   4.823888e+04,  -2.283125e+04,
+   2.929541e+00,   1.941753e-01,  -2.189989e-01,
+   6.429524e-01,   4.296889e-02,  -5.543024e-02,
 }
 
 Z_matrix: {
@@ -2794,9 +2774,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   4.570640e+03   1.882887e+04   1.596647e+07
-   2.560430e-01   1.682477e-01   5.085394e+01
-   6.967366e-02   4.057552e-02   1.116324e+01
+   4.570640e+03,   1.882887e+04,   1.596647e+07,
+   2.560430e-01,   1.682477e-01,   5.085394e+01,
+   6.967366e-02,   4.057552e-02,   1.116324e+01,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -2854,9 +2834,9 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -2.726510e+05  -3.009203e+04   1.722229e+04
-  -2.120669e-01   7.342013e-03   2.131594e-01
-  -4.161115e-02   5.190765e-03   5.563868e-02
+  -2.726510e+05,  -3.009203e+04,   1.722229e+04,
+  -2.120669e-01,   7.342013e-03,   2.131594e-01,
+  -4.161115e-02,   5.190765e-03,   5.563868e-02,
 }
 
 Z_matrix: {
@@ -2888,9 +2868,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   1.051326e+04   2.337747e+04   4.743859e+06
-   4.079865e-01   6.757056e-02   3.728942e+00
-   1.088782e-01   1.492821e-02   7.330537e-01
+   1.051326e+04,   2.337747e+04,   4.743859e+06,
+   4.079865e-01,   6.757056e-02,   3.728942e+00,
+   1.088782e-01,   1.492821e-02,   7.330537e-01,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -2948,9 +2928,9 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   7.484445e+04  -6.435168e+03  -1.313564e+04
-   2.263625e-02  -2.482827e-01  -4.118406e-02
-   3.960082e-03  -6.520023e-02  -1.053906e-02
+   7.484445e+04,  -6.435168e+03,  -1.313564e+04,
+   2.263625e-02,  -2.482827e-01,  -4.118406e-02,
+   3.960082e-03,  -6.520023e-02,  -1.053906e-02,
 }
 
 Z_matrix: {
@@ -2982,9 +2962,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   1.686915e+04   8.970747e+03   1.305252e+06
-   5.094042e-01   2.054288e-03   3.952983e-01
-   1.336883e-01   3.539725e-04   6.924693e-02
+   1.686915e+04,   8.970747e+03,   1.305252e+06,
+   5.094042e-01,   2.054288e-03,   3.952983e-01,
+   1.336883e-01,   3.539725e-04,   6.924693e-02,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -3042,9 +3022,9 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   1.102570e+04  -8.368892e+03   2.279999e+03
-   2.039001e-05  -2.580916e-01   4.226228e-05
-   8.273418e-07  -6.752763e-02   1.018959e-05
+   1.102570e+04,  -8.368892e+03,   2.279999e+03,
+   2.039001e-05,  -2.580916e-01,   4.226228e-05,
+   8.273418e-07,  -6.752763e-02,   1.018959e-05,
 }
 
 Z_matrix: {
@@ -3076,9 +3056,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   1.694000e+04   1.968707e+03   1.926454e+05
-   5.224418e-01   3.758712e-06   6.343992e-04
-   1.366928e-01   2.518116e-07   8.728833e-05
+   1.694000e+04,   1.968707e+03,   1.926454e+05,
+   5.224418e-01,   3.758712e-06,   6.343992e-04,
+   1.366928e-01,   2.518116e-07,   8.728833e-05,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -3136,9 +3116,9 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -2.830583e+03  -8.336112e+03   6.515362e+02
-   1.272163e-07  -2.585370e-01   2.155226e-07
-   4.943344e-08  -6.762685e-02   5.276684e-08
+  -2.830583e+03,  -8.336112e+03,   6.515362e+02,
+   1.272163e-07,  -2.585370e-01,   2.155226e-07,
+   4.943344e-08,  -6.762685e-02,   5.276684e-08,
 }
 
 Z_matrix: {
@@ -3170,9 +3150,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   1.687408e+04   5.943532e+02   4.948818e+04
-   5.233433e-01  -6.961895e-07   2.251000e-04
-   1.368936e-01  -1.853715e-07   5.859824e-05
+   1.687408e+04,   5.943532e+02,   4.948818e+04,
+   5.233433e-01,  -6.961895e-07,   2.251000e-04,
+   1.368936e-01,  -1.853715e-07,   5.859824e-05,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -3230,9 +3210,9 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -1.043360e+06  -1.445738e+05   8.157142e+03
-  -5.960482e+00  -1.901732e+00   5.315631e-01
-  -1.371243e+00  -4.730331e-01   1.486614e-01
+  -1.043360e+06,  -1.445738e+05,   8.157142e+03,
+  -5.960482e+00,  -1.901732e+00,   5.315631e-01,
+  -1.371243e+00,  -4.730331e-01,   1.486614e-01,
 }
 
 Z_matrix: {
@@ -3264,9 +3244,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   4.155863e+03   1.371324e+06   7.350221e+07
-   4.807214e-01   2.465819e+01   4.239928e+02
-   1.360599e-01   6.232661e+00   9.767819e+01
+   4.155863e+03,   1.371324e+06,   7.350221e+07,
+   4.807214e-01,   2.465819e+01,   4.239928e+02,
+   1.360599e-01,   6.232661e+00,   9.767819e+01,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -3324,9 +3304,9 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-   2.838954e+05   8.075357e+04  -6.848284e+03
-   1.247756e+00   3.875969e-01  -5.348247e-01
-   2.883037e-01   8.914302e-02  -1.501069e-01
+   2.838954e+05,   8.075357e+04,  -6.848284e+03,
+   1.247756e+00,   3.875969e-01,  -5.348247e-01,
+   2.883037e-01,   8.914302e-02,  -1.501069e-01,
 }
 
 Z_matrix: {
@@ -3358,9 +3338,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   5.491192e+03   9.011382e+05   2.026515e+07
-   5.293700e-01   4.591115e+00   8.930058e+01
-   1.489081e-01   1.061062e+00   2.063406e+01
+   5.491192e+03,   9.011382e+05,   2.026515e+07,
+   5.293700e-01,   4.591115e+00,   8.930058e+01,
+   1.489081e-01,   1.061062e+00,   2.063406e+01,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -3418,9 +3398,9 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -4.595255e+04   1.709586e+04  -6.020147e+03
-  -2.373324e-02   6.398016e-03  -5.446810e-01
-  -4.304277e-03   1.019199e-03  -1.527777e-01
+  -4.595255e+04,   1.709586e+04,  -6.020147e+03,
+  -2.373324e-02,   6.398016e-03,  -5.446810e-01,
+  -4.304277e-03,   1.019199e-03,  -1.527777e-01,
 }
 
 Z_matrix: {
@@ -3452,9 +3432,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   5.968979e+03   2.027018e+05   3.309273e+06
-   5.458490e-01   9.649716e-02   1.709333e+00
-   1.531083e-01   1.824578e-02   3.106350e-01
+   5.968979e+03,   2.027018e+05,   3.309273e+06,
+   5.458490e-01,   9.649716e-02,   1.709333e+00,
+   1.531083e-01,   1.824578e-02,   3.106350e-01,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -3512,9 +3492,9 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -4.720245e+03   1.956272e+03  -5.903231e+03
-  -1.309516e-05  -1.927960e-05  -5.462212e-01
-  -4.783175e-07  -6.657149e-06  -1.531586e-01
+  -4.720245e+03,   1.956272e+03,  -5.903231e+03,
+  -1.309516e-05,  -1.927960e-05,  -5.462212e-01,
+  -4.783175e-07,  -6.657149e-06,  -1.531586e-01,
 }
 
 Z_matrix: {
@@ -3546,9 +3526,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   5.914226e+03   2.525825e+04   3.392427e+05
-   5.474203e-01   7.763571e-03   4.037340e-03
-   1.534948e-01   2.160966e-03   9.029120e-04
+   5.914226e+03,   2.525825e+04,   3.392427e+05,
+   5.474203e-01,   7.763571e-03,   4.037340e-03,
+   1.534948e-01,   2.160966e-03,   9.029120e-04,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:
@@ -3606,9 +3586,9 @@ There should be 3 chemically significant eigenvalues (CSEs)
 
 Y_matrix:
 {
-  -1.034083e+03  -4.471369e+02   5.895328e+03
-   6.269955e-08   2.171866e-06   5.463254e-01
-   2.899849e-08   6.137920e-07   1.531836e-01
+  -1.034083e+03,  -4.471369e+02,   5.895328e+03,
+   6.269955e-08,   2.171866e-06,   5.463254e-01,
+   2.899849e-08,   6.137920e-07,   1.531836e-01,
 }
 
 Z_matrix: {
@@ -3640,9 +3620,9 @@ Kr matrix:
 
 Kp matrix:
 {
-   5.907841e+03   6.048484e+03   7.416500e+04
-   5.475248e-01   7.590032e-03   2.902637e-03
-   1.535199e-01   2.128097e-03   8.130494e-04
+   5.907841e+03,   6.048484e+03,   7.416500e+04,
+   5.475248e-01,   7.590032e-03,   2.902637e-03,
+   1.535199e-01,   2.128097e-03,   8.130494e-04,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:

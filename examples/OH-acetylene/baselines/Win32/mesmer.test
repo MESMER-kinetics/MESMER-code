@@ -2137,8 +2137,8 @@ Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
 
 Y_matrix:
 {
-   2.986022e+05   6.554698e+05  -1.245344e-03
-  -3.654596e+05   2.176514e+05  -4.173754e-04
+   2.986022e+05,   6.554698e+05,  -1.245344e-03,
+  -3.654596e+05,   2.176514e+05,  -4.173754e-04,
 }
 
 Z_matrix: {
@@ -2170,8 +2170,8 @@ Kr matrix:
 
 Kp matrix:
 {
-   2.729305e-14   2.416612e-11   8.330278e+05
-   1.198037e-14   1.021131e+06  -2.665138e-12
+   2.729305e-14,   2.416612e-11,   8.330278e+05,
+   1.198037e-14,   1.021131e+06,  -2.665138e-12,
 }
 
 First order & pseudo first order rate coefficients for loss rxns:

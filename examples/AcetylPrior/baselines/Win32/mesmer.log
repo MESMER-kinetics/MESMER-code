@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Oct 17 2015 -- 15:25:41
+     Mesmer v5.0 compiled: -- Dec 15 2015 -- 18:24:54
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -32,6 +32,7 @@ Parsing input xml file...
 AcetylPrior.xml
 
 --Parse data for simpleCalc
+Energy convention "" written to <moleculeList>
 In He: He copied from ../../librarymols.xml
 In R1: Parsing reaction...Irreversible unimolecular reaction
 In acetyl: --Parse data for Prior
@@ -50,7 +51,7 @@ In R2: No tunneling method used for R2
 In R2: No crossing method used for R2
 In R2: Not a unimolecular reaction: look for excess reactant concentration.
 80Torr, 298K at d precision with He
-Write metadata 20151017_162451
+Write metadata 20151215_182719
 
 File: "AcetylPrior.xml" successfully parsed.
 Main Calculation begins
@@ -69,10 +70,10 @@ In FastLaplaceConvolution: 280 values in the FFT convolution routine were replac
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
             298   2.59235e+018
-Finish Calculation of P-T case
+
+Finish Calculation of P-T case -- Time elapsed: 1 seconds.
 1 temperature/concentration-pressure points calculated.
-Energy convention "arbitrary" written to <moleculeList>
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml
-Total time elapsed: 0 seconds.
+Total time elapsed: 1 seconds.

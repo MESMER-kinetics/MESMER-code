@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- May  5 2015 -- 17:43:21
+     Mesmer v5.0 compiled: -- Dec 15 2015 -- 11:53:31
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -31,22 +31,28 @@ defaults.xml, librarymols.xml are in ../..
 Parsing input xml file...
 ipropyl_SA.xml
 
+--Parse data for SensitivityAnalysis
+Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Irreversible unimolecular reaction
 In i-propyl: Hindered rotor b1
 In i-propyl: Hindered rotor b2
+In i-propyl: --Parse data for Boltzmann
+In i-propyl: --Parse data for ExponentialDown
 In i-propyl: i-propyl:deltaEDown was given a range with 3 steps 
 In i-propyl: i-propyl:deltaEDownTExponent was given a range with 401 steps 
+In R1: --Parse data for MesmerILT
 In propene: Hindered rotor b1
 In propene: propene:ZPE was given a range with 401 steps 
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
 3e+17PPCC, 720K at d precision with He
 3e+16PPCC, 880K at d precision with He
-Write metadata 20150505_203144
+Write metadata 20151215_133642
 
 File: "ipropyl_SA.xml" successfully parsed.
 Main Calculation begins
-Execute calcMethod SensitivityAnalysis
+
+--Execute calcMethod SensitivityAnalysis
 Number of grains produced is not equal to that requested
 Number of grains requested: 239
 Number of grains produced : 1
@@ -72,7 +78,7 @@ Number of grains requested: 263
 In FastLaplaceConvolution: 600 values in the FFT convolution routine were replaced by standard convolution
 Number of grains requested: 264
 In FastLaplaceConvolution: 620 values in the FFT convolution routine were replaced by standard convolution
-Energy convention "arbitrary" written to <moleculeList>
- -- Total time elapsed: 118 seconds.
+ -- Total time elapsed: 91 seconds.
 
 System saved to mesmer_out.xml
+Total time elapsed: 91 seconds.

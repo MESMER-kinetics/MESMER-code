@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Oct 17 2015 -- 15:25:41
+     Mesmer v5.0 compiled: -- Dec 15 2015 -- 18:24:54
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -32,6 +32,7 @@ Parsing input xml file...
 Chebyshev.xml
 
 --Parse data for analyticalRepresentation
+Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
 In CH3OCH2: The default value of me:DOSCMethod was used.
 In CH3OCH2: Hindered rotor b5
@@ -77,7 +78,7 @@ In R5: --Parse data for SimpleRRKM
 In R5: No tunneling method used for R5
 In R5: No crossing method used for R5
 No pressure and temperature specified.
-Write metadata 20151018_105148
+Write metadata 20151215_200130
 
 File: "Chebyshev.xml" successfully parsed.
 Main Calculation begins
@@ -241,8 +242,7 @@ chebyshev_reaction('IM2 => OH-3 + cycCH2OCH2O',
                            [      0.027871,  -0.000595818,    -0.0654352,     0.0476021]])
 
 
-Energy convention "arbitrary" written to <moleculeList>
- -- Total time elapsed: 450 seconds.
+ -- Total time elapsed: 432 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 450 seconds.
+Total time elapsed: 432 seconds.

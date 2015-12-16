@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Oct 17 2015 -- 15:25:41
+     Mesmer v5.0 compiled: -- Dec 15 2015 -- 18:24:54
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -33,6 +33,7 @@ WKB_test.xml
 
 The default value of me:calcMethod was used.
 --Parse data for simpleCalc
+Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Isomerization reaction
 In cyclopropene: The default value of the attribute spinMultiplicity was used.
 In cyclopropene: The default value of me:DistributionCalcMethod was used.
@@ -50,7 +51,7 @@ The default value of the attribute precision was used.
 200.72Torr, 800K at d precision with He
 The default value of the attribute precision was used.
 250Torr, 1000K at d precision with He
-Write metadata 20151017_171214
+Write metadata 20151215_195721
 
 File: "WKB_test.xml" successfully parsed.
 Main Calculation begins
@@ -69,10 +70,11 @@ Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            800   2.42281e+018           1000   2.41412e+018
-Finish Calculation of P-T case -- Time elapsed: 1 seconds.
+            800   2.42281e+018
+           1000   2.41412e+018
+
+Finish Calculation of P-T case
 2 temperature/concentration-pressure points calculated.
-Energy convention "arbitrary" written to <moleculeList>
  -- Total time elapsed: 1 seconds.
 
 System saved to mesmer_out.xml

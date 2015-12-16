@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.0 compiled: -- Sep  8 2014 -- 11:21:07
+     Mesmer v5.0 compiled: -- Dec 15 2015 -- 11:53:31
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -31,42 +31,49 @@ defaults.xml, librarymols.xml are in ../..
 Parsing input xml file...
 AcetylPrior.xml
 
+--Parse data for simpleCalc
+Energy convention "" written to <moleculeList>
 In He: He copied from ../../librarymols.xml
 In R1: Parsing reaction...Irreversible unimolecular reaction
+In acetyl: --Parse data for Prior
 In acetyl: Prior:ExcessEnergy was given a range with 4 steps 
-In AceticAcid: No value of me:ZPE was supplied and the default value NEEDS TO BE CHECKED**
+In AceticAcid: gDensityOfStates initialization failed.
 In acetyl: The default value of me:energyTransferModel was used.
+In acetyl: --Parse data for ExponentialDown
 In TSdecomp: The default value of the attribute spinMultiplicity was used.
+In R1: --Parse data for SimpleRRKM
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
 In R2: Parsing reaction...Bimolecular sink reaction
+In R2: --Parse data for SimpleBimolecularSink
 In R2: Reading parameters for Reaction R2 which uses the SimpleBimolecularSink method
 In R2: No tunneling method used for R2
 In R2: No crossing method used for R2
 In R2: Not a unimolecular reaction: look for excess reactant concentration.
-All molecules are on the same energy basis: arbitary
 80Torr, 298K at d precision with He
-Write metadata 20140908_130900
+Write metadata 20151215_121401
 
 File: "AcetylPrior.xml" successfully parsed.
 Main Calculation begins
-Execute calcMethod simpleCalc
+
+--Execute calcMethod simpleCalc
 PT Grid 0
 Number of cells = 26800, Number of grains = 268
 calculating cell flux for reaction R2 which is a SimpleBimolecularSink method
 adding reaction terms to the collision matrix 
 Build Collison Operator
 Diagonalize the Reaction Operator
-In timeEvolution: m_ZPE was not defined but requested in AceticAcid. Default value 0 is given.
 In FastLaplaceConvolution: 40 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 20 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 280 values in the FFT convolution routine were replaced by standard convolution
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            298   2.59235e+018
-Finish Calculation of P-T case
+            298    2.59235e+18
+
+Finish Calculation of P-T case -- Time elapsed: 1 seconds.
 1 temperature/concentration-pressure points calculated.
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml
+Total time elapsed: 1 seconds.
