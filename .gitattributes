@@ -352,6 +352,7 @@ Windows[!!-~]VC14/distribution/ReadMe.txt -text
 Windows[!!-~]VC14/qd/qd.vcxproj -text
 /chemStrucEL.xsl -text
 /defaults.xml -text
+examples/2Methyl_to_Ethane/CH3_CH3_to_C2H6.xml -text
 examples/AcetylO2/Acetyl_O2_associationEx.xml -text
 examples/AcetylO2/Int1.log -text
 examples/AcetylO2/Int2.log -text
@@ -375,6 +376,7 @@ examples/Butyl_H_to_Butane/baselines/Linux64/mesmer.log -text
 examples/Butyl_H_to_Butane/baselines/Linux64/mesmer.test -text
 examples/Butyl_H_to_Butane/baselines/Win32/mesmer.log -text
 examples/Butyl_H_to_Butane/baselines/Win32/mesmer.test -text
+examples/C4H9O2_NO2_to_C4H9O2NO2/C4H9O2_NO2_association.xml -text
 examples/CH3O2_NO2_to_CH3O2NO2/CH3O2_NO2_associationEx2.xml -text
 examples/CH3O2_NO2_to_CH3O2NO2/baselines/Linux64/CH3O2_NO2_associationEx2.log -text
 examples/CH3O2_NO2_to_CH3O2NO2/baselines/Win32/CH3O2_NO2_associationEx2.log -text
