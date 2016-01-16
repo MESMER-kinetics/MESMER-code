@@ -694,7 +694,6 @@ src/plugins/DefinedStatesRotor.cpp -text
 src/plugins/DefinedSumOfStates.cpp -text
 src/plugins/DefinedTunnelingCoefficients.cpp -text
 src/plugins/EckartCoefficients.cpp -text
-src/plugins/ErrorAnalysis.cpp -text
 src/plugins/ErrorPropagation.cpp -text
 src/plugins/ExponentialDown.cpp -text
 src/plugins/FittingUtils.cpp -text
