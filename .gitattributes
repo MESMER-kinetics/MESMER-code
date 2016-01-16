@@ -427,6 +427,11 @@ examples/SensitivityAnalysis/ipropyl_SA.xml -text
 examples/SensitivityAnalysis/pentyl_isomerization_SA.xml -text
 examples/Tunnelling/H+H2,T+T2.xml -text
 examples/Tunnelling/baselines/Win32/mesmer.test -text
+examples/cis_to_trans_But-2-ene/baselines/Linux64/cis_to_trans_But-2-ene.log -text
+examples/cis_to_trans_But-2-ene/baselines/Linux64/cis_to_trans_But-2-ene.test -text
+examples/cis_to_trans_But-2-ene/baselines/Win32/cis_to_trans_But-2-ene.log -text
+examples/cis_to_trans_But-2-ene/baselines/Win32/cis_to_trans_But-2-ene.test -text
+examples/cis_to_trans_But-2-ene/cis_to_trans_But-2-ene.xml -text
 examples/diamond/diamond-expDown.xml -text
 examples/diamond/diamond-gaussianModel.xml -text
 examples/i-propyl/baselines/Linux64/mesmer.log -text

@@ -38,11 +38,9 @@ namespace mesmer
    :m_RotCstA(0.0),
     m_RotCstB(0.0),
     m_RotCstC(0.0),
-    m_Sym(1.0),
     m_ZPE(NaN,"cm-1"),
     m_scaleFactor(1.0),
     m_RC_chk(-1),
-    m_Sym_chk(-1),
     m_ZPE_chk(-1),
     m_scaleFactor_chk(-1),
     m_eleExc(),
@@ -146,9 +144,6 @@ namespace mesmer
     }
     else
       m_RC_chk = 0;
-
-    m_Sym = ppPropList->XmlReadPropertyDouble("me:symmetryNumber");
-    m_Sym_chk = 0;
 
     if (hasVibFreq != hasRotConst){
       cerr << "Improper setting on vibrational frequencies or rotational constants." << endl;
@@ -716,20 +711,6 @@ namespace mesmer
       ++m_scaleFactor_chk;
     }
     return m_scaleFactor;
-  }
-
-  double gDensityOfStates::get_Sym(void){
-    if (m_Sym_chk == -1){
-      cinfo << "m_Sym was not defined but requested in " << m_host->getName() << ". Default value " << m_Sym << " is given." << endl;
-      --m_Sym_chk;
-    }
-    else if (m_Sym_chk < -1) {
-      --m_Sym_chk;
-    }
-    else {
-      ++m_Sym_chk;
-    }
-    return m_Sym;
   }
 
   void gDensityOfStates::get_VibFreq(std::vector<double>& vibFreq){

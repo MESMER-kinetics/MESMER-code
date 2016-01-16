@@ -1,11 +1,24 @@
-2015-December-12 Struan Robertson
+2016-January-16 Struan Robertson
 
-    * gDensityOfStates.h/.cpp, QMRotor.cpp, ClassicalRotor.cpp: Moved the reading of
-	spin multiplicity to the classes which use it.
+    * gDensityOfStates.h/.cpp, QMRotor.cpp, ClassicalRotor.cpp, DefinedSumOfStates.cpp: 
+		Moved the reading of symmetry number to the classes which use it.
+
+		* ErrorPropagation.cpp: Initial revision of error progagation methods.
+
+		* System.h: Reversioning to MESMER 4.1.
+
+		* cis_to_trans_But-2-ene.xml: Initial Revision of Cis to Trans but-2-ene example.
+
+		* Baseline updates.
 	
 2015-December-12 Struan Robertson
 
-    * CollisonOperator.cpp: Altered Bartis-Widom method following profiling review.
+    * gDensityOfStates.h/.cpp, QMRotor.cpp, ClassicalRotor.cpp: Moved the reading of
+	  spin multiplicity to the classes which use it.
+	
+2015-December-12 Struan Robertson
+
+  * CollisonOperator.cpp: Altered Bartis-Widom method following profiling review.
 	
 	* TMatrix.h: Format of matrix printing altered to allow for .csv manipulation.
 	

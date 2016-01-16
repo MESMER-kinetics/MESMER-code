@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Dec 12 2015 -- 12:22:50
+     Mesmer v4.1 compiled: -- Jan 16 2016 -- 20:42:36
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -32,8 +32,8 @@ Parsing input xml file...
 ThermodynamicTable.xml
 
 --Parse data for ThermodynamicTable
-In HNO2: The default value of the attribute spinMultiplicity was used.
 In HNO2: The default value of me:DOSCMethod was used.
+In HNO2: The default value of the attribute spinMultiplicity was used.
 In HNO2: The default attribute(s) were added to the the property me:Hf0
 In HNO2: The energy convention is thermodynamic, derived from me:Hf0
 In HNO2: New me:ZPE element written with data from me:Hf0
@@ -42,15 +42,15 @@ In OH: New me:ZPE element written with data from me:Hf298
 In NO: The default value of me:DOSCMethod was used.
 In NO: energy converted from thermodynamic298K to thermodynamic
 In NO: New me:ZPE element written with data from me:Hf298
-In He: The default value of the attribute spinMultiplicity was used.
 In He: The default value of me:DOSCMethod was used.
+In He: The default value of the attribute spinMultiplicity was used.
 In He: gDensityOfStates initialization failed.
 In ThermodynamicTable. Own default: Cell size 1 cm-1
 In ThermodynamicTable. Own default: Number of cells 100000
 In ThermodynamicTable. Own default: The default value of me:grainSize was used.
 Energy convention "thermodynamic" written to <moleculeList>
 No conditions specified
-Write metadata 20151212_122929
+Write metadata 20160116_205204
 
 File: "ThermodynamicTable.xml" successfully parsed.
 Main Calculation begins

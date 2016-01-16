@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer2.xsl' media='other'?>
+<?xml-stylesheet type='text/xsl' href='../../mesmer1.xsl' media='screen'?>
+<me:mesmer xmlns="http://www.xml-cml.org/schema"
+           xmlns:me="http://www.chem.leeds.ac.uk/mesmer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <me:title>cis-But-2-ene->trans-But-2-ene</me:title>
+  <me:description>
+    This example is based the cis to trans isomerization of But-2-ene with dissoctiation to Butadiene
+    as described by Bedanov, V. M.; Tsang, W.; Zachariah, M. R., J. Phys. Chem. 1995, 99 (29), 11452−11457,
+    and subsequently modelled by Barker, J. R.; Frenklach, M.; Golden, D. M., J. Phys. Chem. A 2015, 119 (28), 7451−7461.
+  </me:description>
+
+  <moleculeList>
+    <molecule id="cis-But-2-ene">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">0.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1"> 0.548 0.170 0.136 </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            3050 3036 2988 2988 2988 2950
+            2935 2878 1670 1464 1464 1464
+            1464 1408 1387 1380 1261 1134
+            1050 1037 1009  970  950  873
+            673  575  396  290  290  258
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>56.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.79</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>153.0</scalar>
+        </property>
+      </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">2000.0</me:deltaEDown>
+      </me:energyTransferModel>
+
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+
+      <me:DistributionCalcMethod xsi:type="me:Boltzmann">
+        <me:Temperature>600.0</me:Temperature>
+      </me:DistributionCalcMethod>
+    
+    </molecule>
+
+    <molecule id="trans-But-2-ene" spinMultiplicity="2">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">-349.757</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1"> 1.170 0.124 0.117 </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            3050 3011 2954 2950 2950 2950
+            2950 2930 1680 1457 1457 1449
+            1449 1385 1380 1309 1302 1146
+            1065 1039 1030  973  964  866
+            750  501  290  240  210  210
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>56.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>3.79</scalar>
+        </property>
+        <property dictRef="me:epsilon">
+          <scalar>153.0</scalar>
+        </property>
+      </propertyList>
+      <me:energyTransferModel xsi:type="me:ExponentialDown">
+        <me:deltaEDown units="cm-1">2000.0</me:deltaEDown>
+      </me:energyTransferModel>
+
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+
+    </molecule>
+
+    <molecule id="TS-cistrans">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">21884.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1"> 0.548 0.152 0.152 </array>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            2976 2976 2976 2976 2976 2976
+            2976 2976 1672 1452 1452 1452
+            1452 1452 1340 1340 1340 1000
+            1000 1000 1000 1000 1000 1000
+            304  304  304  131  131
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>56.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+      </propertyList>
+
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+
+    </molecule>
+
+    <molecule id="TS-decomp">
+      <atom elementType="He"/>
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">22685.0</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1"> 1.170 0.124 0.117 </array>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            3100 3000 3000 3000 3000 3000
+            3000 1455 1455 1300 1300 1300
+            1150 1150 2200 1000 1000 1000
+            900  900  900  900  700  700
+            450  450  400  400  100
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>56.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+      </propertyList>
+
+      <me:DOSCMethod>QMRotors</me:DOSCMethod>
+
+    </molecule>
+
+    <molecule id="Butadiene">
+      <propertyList>
+        <property dictRef="me:ZPE">
+          <scalar units="cm-1">-3497.6</scalar>
+        </property>
+        <property dictRef="me:rotConsts">
+          <array units="cm-1"> 0.548 0.170 0.136 </array>
+        </property>
+        <property dictRef="me:symmetryNumber">
+          <scalar>1</scalar>
+        </property>
+        <property dictRef="me:vibFreqs">
+          <array units="cm-1">
+            3050 3036 2988 2988 2988 2950
+            2935 2878 1670 1464 1464 1464
+            1050 1037 1009  970  950  873
+            673  575  396  290  290  258
+          </array>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>54.0</scalar>
+        </property>
+        <property dictRef="me:spinMultiplicity">
+          <scalar>1</scalar>
+        </property>
+      </propertyList>
+
+    </molecule>
+
+    <molecule id="H2">
+      <propertyList>
+        <property dictRef="me:MW">
+          <scalar>2.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+    <molecule id="He">
+      <atom elementType="He"/>
+      <propertyList>
+        <property dictRef="me:epsilon">
+          <scalar>10.0</scalar>
+        </property>
+        <property dictRef="me:sigma">
+          <scalar>2.55</scalar>
+        </property>
+        <property dictRef="me:MW">
+          <scalar>4.0</scalar>
+        </property>
+      </propertyList>
+    </molecule>
+
+  </moleculeList>
+
+  <reactionList>
+
+    <reaction id="R1">
+      <reactant>
+        <molecule ref="trans-But-2-ene"  me:type="modelled" />
+      </reactant>
+
+      <product>
+        <molecule ref="cis-But-2-ene"  me:type="modelled" />
+      </product>
+
+      <me:MCRCMethod name="SimpleRRKM"/>
+
+      <me:transitionState>
+        <molecule ref="TS-cistrans" me:type="transitionState" />
+      </me:transitionState>
+
+    </reaction>
+    
+    <reaction id="R2">
+      <reactant>
+        <molecule ref="cis-But-2-ene"  me:type="modelled" />
+      </reactant>
+
+      <product>
+        <molecule ref="Butadiene" me:type="sink" />
+      </product>
+
+      <product>
+        <molecule ref="H2" me:type="sink" />
+      </product>
+
+      <me:MCRCMethod name="SimpleRRKM"/>
+
+      <me:transitionState>
+        <molecule ref="TS-decomp" me:type="transitionState" />
+      </me:transitionState>
+
+    </reaction>
+
+  </reactionList>
+
+  <me:conditions>
+    <me:bathGas>He</me:bathGas>
+    <me:PTs>
+      <me:PTpair units="mbar" P="4.0e-03" T="1200.0" precision="d">
+      </me:PTpair>
+    </me:PTs>
+  </me:conditions>
+
+  <me:modelParameters>
+    <me:grainSize units="cm-1">200</me:grainSize>
+    <me:energyAboveTheTopHill>10.8</me:energyAboveTheTopHill>
+  </me:modelParameters>
+
+  <me:control>
+    <me:calcMethod name="simpleCalc"/>
+    <me:testDOS/>
+    <me:printSpeciesProfile/>
+    <me:printGrainedSpeciesProfile/>
+    <me:printGrainkfE/>
+    <me:printGrainkbE/>
+    <me:testMicroRates/>
+    <me:printSinkFluxes/>
+    <me:printPhenomenologicalEvolution/>
+    <me:eigenvalues>5</me:eigenvalues>
+  </me:control>
+
+</me:mesmer>

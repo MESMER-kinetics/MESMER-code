@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Dec 12 2015 -- 12:22:50
+     Mesmer v4.1 compiled: -- Jan 16 2016 -- 20:42:36
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -44,8 +44,8 @@ In R1: --Parse data for MesmerILT
 In R1: The default value of me:TInfinity was used.
 In propene: Hindered rotor b1
 In propene: propene:ZPE was given a range with 401 steps 
-In H: The default value of the attribute spinMultiplicity was used.
 In H: The default value of me:DOSCMethod was used.
+In H: The default value of the attribute spinMultiplicity was used.
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
 The default value of the attribute precision was used.
@@ -58,7 +58,7 @@ In ThermodynamicTable: The default value of me:Tmin was used.
 In ThermodynamicTable: The default value of me:Tmax was used.
 In ThermodynamicTable: The default value of me:Tstep was used.
 In ThermodynamicTable: The default value of me:Tmid was used.
-Write metadata 20151212_122922
+Write metadata 20160116_205202
 
 File: "ipropyl_test.xml" successfully parsed.
 Main Calculation begins
@@ -75,7 +75,7 @@ Diagonalize the Reaction Operator
 PT Grid 1
 Number of cells = 18700, Number of grains = 187
 Number of grains requested: 187
-Build Collison Operator -- Time elapsed: 2 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -87,9 +87,9 @@ Finish Calculation of P-T case
 2 temperature/concentration-pressure points calculated.
 
 --Execute calcMethod ThermodynamicTable
-In He: The default value of the attribute spinMultiplicity was used.
 In He: The default value of me:DOSCMethod was used.
- -- Total time elapsed: 3 seconds.
+In He: The default value of the attribute spinMultiplicity was used.
+ -- Total time elapsed: 1 seconds.
 
 System saved to out.xml
-Total time elapsed: 3 seconds.
+Total time elapsed: 1 seconds.

@@ -86,9 +86,11 @@ namespace mesmer
 
     // Apply symmetry number.
 
-    double symmetryNumber = pTransitionState->getDOS().get_Sym() ;
+		PersistPtr ppTS = pTransitionState->get_PersistentPointer();
+		double Sym = ppTS->XmlReadPropertyDouble("me:symmetryNumber");
+
     for (size_t i(0) ; i < m_WE.size() ; i++) {
-      m_WE[i] /= symmetryNumber ;
+      m_WE[i] /= Sym ;
       if (m_logSpline) 
         m_WE[i] = log(m_WE[i]) ;
     }
