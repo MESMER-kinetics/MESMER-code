@@ -1,0 +1,65 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v4.1 compiled: -- Jan 16 2016 -- 20:42:36
+
+     Copyright (C) 2009-2015 by
+     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
+     Chris Morley, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+ipropyl_EA.xml
+
+--Parse data for ErrorPropagation
+Energy convention "" written to <moleculeList>
+In R1: Parsing reaction...Irreversible unimolecular reaction
+In i-propyl: Hindered rotor b1
+In i-propyl: Hindered rotor b2
+In i-propyl: --Parse data for Boltzmann
+In i-propyl: --Parse data for ExponentialDown
+In i-propyl: i-propyl:deltaEDown was given a range with 15 steps 
+In R1: --Parse data for MesmerILT
+In propene: Hindered rotor b1
+In propene: propene:ZPE was given a range with 401 steps 
+In R1: No tunneling method used for R1
+In R1: No crossing method used for R1
+3e+17PPCC, 1000K at d precision with He
+3e+16PPCC, 1000K at d precision with He
+Write metadata 20160116_214353
+
+File: "ipropyl_EA.xml" successfully parsed.
+Main Calculation begins
+
+--Execute calcMethod ErrorPropagation
+Number of grains produced is not equal to that requested
+Number of grains requested: 278
+Number of grains produced : 1
+In FastLaplaceConvolution: 840 values in the FFT convolution routine were replaced by standard convolution
+Number of grains requested: 279
+In FastLaplaceConvolution: 820 values in the FFT convolution routine were replaced by standard convolution
+Number of grains requested: 277
+ -- Total time elapsed: 107 seconds.
+
+System saved to mesmer_out.xml
+Total time elapsed: 107 seconds.

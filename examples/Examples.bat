@@ -178,6 +178,41 @@ copy "./%testName%.test" "./%bline%%testName%.test"
 IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
 cd ..
 
+cd "cis_to_trans_But-2-ene"
+set testName="cis_to_trans_But-2-ene"
+%executable% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+cd ..
+
+cd "C4H9O2_NO2_to_C4H9O2NO2"
+set testName="C4H9O2_NO2_association"
+%executable% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+cd ..
+
+cd "CH3O2_NO2_to_CH3O2NO2"
+set testName="CH3O2_NO2_associationEx2"
+%executable% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+cd ..
+
+cd "ErrorPropagation"
+set testName="ipropyl_EP"
+%executable% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+cd ..
+
+cd "2Methyl_to_Ethane"
+set testName="CH3_CH3_to_C2H6"
+%executable% -N %testName%.xml
+copy "./%testName%.test" "./%bline%%testName%.test"
+IF "%1"=="-o" copy "./%testName%.log" "./%bline%%testName%.log"
+cd ..
+
 echo Start Time=%starttime% - End Time=%time%
 
 :: This line below makes DOS to create a system Beep (err yup)

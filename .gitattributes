@@ -381,6 +381,11 @@ examples/CH3O2_NO2_to_CH3O2NO2/CH3O2_NO2_associationEx2.xml -text
 examples/CH3O2_NO2_to_CH3O2NO2/baselines/Linux64/CH3O2_NO2_associationEx2.log -text
 examples/CH3O2_NO2_to_CH3O2NO2/baselines/Win32/CH3O2_NO2_associationEx2.log -text
 examples/DefinedTunellingCoefficients/OH+methanol.xml -text
+examples/ErrorPropagation/baselines/Linux64/ipropyl_EP.log -text
+examples/ErrorPropagation/baselines/Linux64/ipropyl_EP.test -text
+examples/ErrorPropagation/baselines/Win32/ipropyl_EP.log -text
+examples/ErrorPropagation/baselines/Win32/ipropyl_EP.test -text
+examples/ErrorPropagation/ipropyl_EP.xml -text
 examples/Ethyl_H_to_Ethane/Ethyl_H_to_Ethane.xml -text
 examples/Ethyl_H_to_Ethane/baselines/Linux64/mesmer.test -text
 examples/Ethyl_H_to_Ethane/baselines/Win32/mesmer.test -text

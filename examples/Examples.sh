@@ -207,5 +207,50 @@ if [ "$1" == "-o" ] ; then
 fi
 cd ..
 
+cd "cis_to_trans_But-2-ene"
+testName=cis_to_trans_But-2-ene
+$executable -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+cd ..
+
+cd "C4H9O2_NO2_to_C4H9O2NO2"
+testName=C4H9O2_NO2_association
+$executable -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+cd ..
+
+cd "CH3O2_NO2_to_CH3O2NO2"
+testName=CH3O2_NO2_associationEx2
+$executable -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+cd ..
+
+cd "ErrorPropagation"
+testName=ipropyl_EP
+$executable -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+cd ..
+
+cd "2Methyl_to_Ethane"
+testName=CH3_CH3_to_C2H6
+$executable -N $testName.xml
+cp ./$testName.test ./$bline$testName.test
+if [ "$1" == "-o" ] ; then
+  cp ./$testName.log ./$bline$testName.log
+fi
+cd ..
+
 echo Start Time=$starttime - End Time=`date`
 
