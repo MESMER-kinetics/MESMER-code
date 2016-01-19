@@ -61,7 +61,7 @@
       <!--Rotation about CH2-O bond.-->
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b5</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" UseSineTerms="yes"  scale="1">
+        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" useSineTerms="yes"  scale="1">
           <me:PotentialPoint angle="0" potential="0"/>
           <me:PotentialPoint angle="15" potential="126.0585286"/>
           <me:PotentialPoint angle="30" potential="352.5176883"/>
@@ -96,7 +96,7 @@
         <me:bondRef>
           b4
         </me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" UseSineTerms="yes" scale="1">
+        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" useSineTerms="yes" scale="1">
           <me:PotentialPoint angle="0" potential="0"/>
           <me:PotentialPoint angle="15" potential="146.0864638"/>
           <me:PotentialPoint angle="30" potential="437.95081"/>
@@ -225,7 +225,7 @@
       <!--Rotation about CH2-O bond.-->
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b5</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" UseSineTerms="yes"  scale="1">
+        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" useSineTerms="yes"  scale="1">
           <me:PotentialPoint angle="0" potential="0"/>
           <me:PotentialPoint angle="15" potential="360.6051078"/>
           <me:PotentialPoint angle="30" potential="1194.334464"/>
@@ -256,7 +256,7 @@
       <!--Rotation about CH3-O bond.-->
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b4</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" UseSineTerms="yes"  scale="1">
+        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" useSineTerms="yes"  scale="1">
           <me:PotentialPoint angle="0" potential="0"/>
           <me:PotentialPoint angle="15" potential="81.30941348"/>
           <me:PotentialPoint angle="30" potential="272.2933572"/>
@@ -288,7 +288,7 @@
       <!--Rotation about CH2-O2 bond.-->
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b8</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" UseSineTerms="yes"  scale="1">
+        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" useSineTerms="yes"  scale="1">
           <me:PotentialPoint angle="0" potential="0"/>
           <me:PotentialPoint angle="15" potential="39.26137225"/>
           <me:PotentialPoint angle="30" potential="127.7693331"/>
@@ -451,7 +451,7 @@
       <!--Rotation about CH2-O bond.-->
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" UseSineTerms="yes"  scale="1">
+        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" useSineTerms="yes"  scale="1">
           <me:PotentialPoint angle=" 0  " potential=" 0 "/>
           <me:PotentialPoint angle=" 10  " potential=" 53.92535555 "/>
           <me:PotentialPoint angle=" 20  " potential=" 206.4323501 "/>
@@ -493,7 +493,7 @@
       </me:ExtraDOSCMethod>
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b2</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" UseSineTerms="yes"  scale="1">
+        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" useSineTerms="yes"  scale="1">
           <me:PotentialPoint angle=" 0  " potential=" 0 "/>
           <me:PotentialPoint angle=" 10  " potential=" 0 "/>
           <me:PotentialPoint angle=" 20  " potential=" 56.33255328 "/>
@@ -536,7 +536,7 @@
 
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b3</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" UseSineTerms="yes" scale="1">
+        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" useSineTerms="yes" scale="1">
           <me:PotentialPoint angle="0" potential="0"/>
           <me:PotentialPoint angle="15" potential="207.9012654"/>
           <me:PotentialPoint angle="30" potential="718.8284773"/>
@@ -567,7 +567,7 @@
 
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b4</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" UseSineTerms="yes"  scale="1">
+        <me:HinderedRotorPotential format="numerical" units="cm-1" expansionSize="7" useSineTerms="yes"  scale="1">
           <me:PotentialPoint angle="0" potential=" 0 "/>
           <me:PotentialPoint angle="15" potential=" 94.73840583 "/>
           <me:PotentialPoint angle="30" potential=" 428.6084347 "/>
@@ -656,7 +656,7 @@
       </propertyList>
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b1</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7" UseSineTerms="yes" scale="1">
+        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7" useSineTerms="yes" scale="1">
           <me:PotentialPoint angle=" 0  " potential=" 0 "/>
           <me:PotentialPoint angle=" 10  " potential=" 0.456840151 "/>
           <me:PotentialPoint angle=" 20  " potential=" 1.85971596 "/>
@@ -699,7 +699,7 @@
       </me:ExtraDOSCMethod>
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b2</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7" UseSineTerms="yes" scale="1">
+        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7" useSineTerms="yes" scale="1">
           <me:PotentialPoint angle=" 0  " potential=" 0 "/>
           <me:PotentialPoint angle=" 10  " potential=" 1.324607227 "/>
           <me:PotentialPoint angle=" 20  " potential=" 6.355449305 "/>
@@ -743,7 +743,7 @@
 
       <me:ExtraDOSCMethod xsi:type="HinderedRotorQM1D">
         <me:bondRef>b3</me:bondRef>
-        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7" UseSineTerms="yes" scale="1">
+        <me:HinderedRotorPotential format="numerical" units="kJ/mol" expansionSize="7" useSineTerms="yes" scale="1">
           <me:PotentialPoint angle=" 0  " potential=" 3.456629861 "/>
           <me:PotentialPoint angle=" 30  " potential=" 5.565866262 "/>
           <me:PotentialPoint angle=" 60  " potential=" 6.288776134 "/>

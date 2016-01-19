@@ -201,9 +201,9 @@
 
       <me:DOSCMethod>ClassicalRotors</me:DOSCMethod>
 
-      <me:ExtraDOSCMethod name="HinderedRotorQM1D">
-        <bondRef>b12</bondRef>
-        <me:HinderedRotorPotential format="numerical" expansionSize="15" units="kJ/mol" UseSineTerms="yes" scale="1">
+      <me:ExtraDOSCMethod xsi:type="me:HinderedRotorQM1D">
+        <me:bondRef>b12</me:bondRef>
+        <me:HinderedRotorPotential format="numerical" expansionSize="15" units="kJ/mol" useSineTerms="yes" scale="1">
           <me:PotentialPoint angle= "0"   potential = "0.0" />
           <me:PotentialPoint angle= "36"  potential = "12.9103265163" />
           <me:PotentialPoint angle= "72"  potential = "33.2861546375" />
@@ -332,7 +332,6 @@
     </molecule>
 
     <molecule id="N2">
-      <atom elementType="N2"/>
       <propertyList>
         <property dictRef="me:epsilon">
           <scalar>48.0</scalar>
@@ -376,7 +375,7 @@
         <molecule ref="C4H9OONO2" role="modelled" />
       </product>
       <me:MCRCMethod xsi:type="me:MesmerILT">
-        <me:preExponential lower="1e-13" upper="9e-11" stepsize="1e-13">10.61e-12</me:preExponential>
+        <me:preExponential units="cm3molecule-1s-1" lower="1e-13" upper="9e-11" stepsize="1e-13">10.61e-12</me:preExponential>
         <me:activationEnergy units="kJ/mol">0.0</me:activationEnergy>
         <me:TInfinity>298.0</me:TInfinity>
         <me:nInfinity lower="-1.0" upper="1.0" stepsize="0.005">-0.6</me:nInfinity>

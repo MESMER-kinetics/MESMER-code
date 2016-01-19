@@ -8,14 +8,14 @@
 >
   <xs:import namespace="http://www.xml-cml.org/schema" schemaLocation="CMLforMesmer.xsd"/>
   <xs:include schemaLocation="mesmer.xsd"/>
-  
+
   <xs:simpleType name="distribCalcName">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Boltzmann"/>
       <xs:enumeration value="Prior"/>
     </xs:restriction>
   </xs:simpleType>
-  
+
   <xs:complexType name="ExponentialDown">
     <xs:complexContent>
       <xs:extension base="energyTransferct">
@@ -57,7 +57,7 @@
             &lt;me:conditions> section"
           </xs:documentation>
         </xs:annotation>
-          <xs:complexType>
+        <xs:complexType>
           <xs:simpleContent>
             <xs:extension base="xs:float">
               <xs:attribute name="bathGas" use="optional" />
@@ -127,7 +127,7 @@
     </xs:restriction>
   </xs:simpleType>
 
- 
+
   <xs:complexType name="MCRCMethodct">
     <xs:sequence></xs:sequence>
     <xs:attribute name="name"  type="xs:string" use="optional" />
@@ -319,17 +319,17 @@
   <xs:simpleType name="hinderedRotorFormatType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="numerical"/>
-      <xs:enumeration value="analytical"/>  
+      <xs:enumeration value="analytical"/>
     </xs:restriction>
   </xs:simpleType>
-  
+
   <xs:simpleType name="HinderedRotorInertiaType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="cm-1"/>
       <xs:enumeration value="amuA^2"/>
     </xs:restriction>
   </xs:simpleType>
-  
+
   <xs:complexType name="Morse">
     <xs:complexContent>
       <xs:extension base="ExtraDOSCt">
@@ -369,7 +369,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  
+
   <xs:complexType name="analyticalRepresentation">
     <xs:complexContent>
       <xs:extension base="calcMethodct">
@@ -381,11 +381,11 @@
                   <xs:attribute name="rateUnits" type="rateConstUnits" use="optional"/>
                 </xs:extension>
               </xs:simpleContent>
-           </xs:complexType>
+            </xs:complexType>
           </xs:element>
           <xs:element name="precision" type="me:precisionType" minOccurs="0"/>
-          <xs:element name="chebNumTemp" type="xs:integer" minOccurs="0"/> 
-          <xs:element name="chebNumConc" type="xs:integer" minOccurs="0"/> 
+          <xs:element name="chebNumTemp" type="xs:integer" minOccurs="0"/>
+          <xs:element name="chebNumConc" type="xs:integer" minOccurs="0"/>
           <xs:element name="chebMinTemp" type="xs:decimal" minOccurs="0"/>
           <xs:element name="chebMaxTemp" type="xs:decimal" minOccurs="0"/>
           <xs:element name="chebMinConc" minOccurs="0">
@@ -406,7 +406,7 @@
               </xs:simpleContent>
             </xs:complexType>
           </xs:element>
-            <xs:element name="chebTExSize" type="xs:integer" minOccurs="0"/>
+          <xs:element name="chebTExSize" type="xs:integer" minOccurs="0"/>
           <xs:element name="chebPExSize" type="xs:integer" minOccurs="0"/>
           <xs:element name="chebDoForAllBathGases" minOccurs="0"/>
           <xs:element name="fittingIterations" type="xs:integer" minOccurs="0"/>
@@ -435,13 +435,14 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  
+
   <xs:complexType name="sensitivityAnalysis">
     <xs:complexContent>
       <xs:extension base="calcMethodct">
         <xs:all>
           <xs:element name="sensitivityAnalysisSamples" type="xs:integer" minOccurs="0"/>
           <xs:element name="sensitivityGenerateData" type="ynboolean" minOccurs="0"/>
+          <xs:element name="sensitivityCorrelatedData" type="ynboolean" minOccurs="0"/>
           <xs:element name="sensitivityAnalysisOrder" type="xs:integer" minOccurs="0"/>
           <xs:element name="sensitivityNumVarRedIters" type="xs:integer" minOccurs="0"/>
           <xs:element name="sensitivityVarRedMethod" type="xs:string" minOccurs="0"/>
@@ -457,14 +458,14 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  
+
   <xs:complexType name="gridSearch">
     <xs:complexContent>
       <xs:extension base="calcMethodct">
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  
+
   <xs:complexType name="UnitTests">
     <xs:complexContent>
       <xs:extension base="calcMethodct">
@@ -475,13 +476,13 @@
 
   <xs:complexType name="ThermoParamType">
     <xs:simpleContent>
-    <xs:extension base="xs:float">
-      <xs:attribute name="default" type="me:ynboolean" use="optional"/>
-    </xs:extension>
+      <xs:extension base="xs:float">
+        <xs:attribute name="default" type="me:ynboolean" use="optional"/>
+      </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
 
-    <xs:complexType name="ThermodynamicTable">
+  <xs:complexType name="ThermodynamicTable">
     <xs:complexContent>
       <xs:extension base="calcMethodct">
         <xs:all>
@@ -497,6 +498,32 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+
+  <xs:complexType name="ErrorPropagation">
+    <xs:complexContent>
+      <xs:extension base="calcMethodct">
+        <xs:sequence>
+          <xs:element name="errorPropagationSamples" type="xs:integer" />
+          <xs:element name="errorPropagationTable" minOccurs="0" maxOccurs="unbounded" >
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="propagatedErrors" >
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="standardDeviation" type="xs:float" />
+                    </xs:sequence>
+                    <xs:attribute name="reaction" type="xs:string" use="required" />
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="temperature" type="xs:decimal" use="required" />
+              <xs:attribute name="concentration" type="xs:float" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        </xs:extension>    
+  </xs:complexContent>
+   </xs:complexType>
 
   <xs:complexType name="Prior">
     <xs:complexContent>
@@ -577,9 +604,9 @@
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
-    </xs:complexType>
+  </xs:complexType>
 
-  
+
   <xs:complexType name="LZCrossing">
     <xs:complexContent>
       <xs:extension base="crossingt">
@@ -611,7 +638,7 @@
               </xs:simpleContent>
             </xs:complexType>
           </xs:element>
-            </xs:sequence>
+        </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

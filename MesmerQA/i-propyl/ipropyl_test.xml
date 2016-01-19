@@ -235,8 +235,8 @@
   <me:control>
     <me:calcMethod xsi:type="me:ThermodynamicTable">
       <me:units>kcal/mol</me:units>
-      <me:NumberOfTemp>20</me:NumberOfTemp>
-      <me:TempInterval>100.0</me:TempInterval>
+      <me:withCellDOSCalc/>
+      <me:Tstep>100.0</me:Tstep>
     </me:calcMethod>
   </me:control>
 
