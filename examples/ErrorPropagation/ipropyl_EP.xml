@@ -767,12 +767,12 @@
       <me:firstOrderLoss ref="i-propyl">-498.736</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">498.736</me:firstOrderRate>
     </me:rateList>
-    <me:hessian>
+    <me:covariance>
       <matrix matrixType="squareSymmetricLT" rows="2">
         <![CDATA[295.011 
 829.703 2445.2 
 ]]>
 </matrix>
-    </me:hessian>
+    </me:covariance>
   </me:analysis>
 </me:mesmer>

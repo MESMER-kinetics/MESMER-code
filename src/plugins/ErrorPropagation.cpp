@@ -126,10 +126,12 @@ namespace mesmer
 
 		// Read in correlation matrix.
 
-		PersistPtr pcm = pSys->getPersistPtr()->XmlMoveTo("me:analysis") ;
-		pcm = pcm->XmlMoveTo("me:hessian");
+		PersistPtr pca = pSys->getPersistPtr()->XmlMoveTo("me:analysis") ;
+		PersistPtr pcm = pca->XmlMoveTo("me:covariance");
+    if(!pcm)
+      pcm = pca->XmlMoveTo("me:hessian");
 		pcm = pcm->XmlMoveTo("matrix");
-		if ((m_CorrelMtx = ReadMatrix<double>(pcm))) {
+    if ((m_CorrelMtx = ReadMatrix<double>(pcm))) {
 			m_CorrelMtx->cholesky();
 		}
 		else {

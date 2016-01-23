@@ -251,7 +251,8 @@ namespace mesmer
     NumericalDerivatives(pSys, residuals, delta, gradient, hessian) ;
 
     ResultsAndStatistics(pSys, hessian) ;
-    PersistPtr ppHessian = pSys->getAnalysisPtr()->XmlWriteMainElement("me:hessian","");
+    PersistPtr ppHessian = pSys->getAnalysisPtr()->XmlWriteMainElement("me:covariance","");
+//    PersistPtr ppHessian = pSys->getAnalysisPtr()->XmlWriteMainElement("me:hessian", "");
     hessian.WriteToXML(ppHessian) ;
 
     return true;

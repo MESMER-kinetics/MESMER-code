@@ -280,8 +280,10 @@ namespace {
 		~CorrelatedLegendre() { };
 
 		bool initializeDist(System* pSys, string &err) {
-			PersistPtr pp = pSys->getPersistPtr()->XmlMoveTo("me:analysis");
-			pp = pp->XmlMoveTo("me:hessian");
+			PersistPtr ppa = pSys->getPersistPtr()->XmlMoveTo("me:analysis");
+      PersistPtr pp = ppa->XmlMoveTo("me:covariance");
+      if(!pp)
+        pp = ppa->XmlMoveTo("me:hessian");
 			pp = pp->XmlMoveTo("matrix");
 			if ((m_CorrelMtx = ReadMatrix<double>(pp))) {
 				m_CorrelMtx->cholesky();
