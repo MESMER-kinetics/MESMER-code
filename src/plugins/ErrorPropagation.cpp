@@ -68,7 +68,7 @@ namespace mesmer
 		bool WriteOutAnalysisToTest(const vector<string> &rxnId, const vector<double> &f0, const vector<double> &varf, double Temperature, double Concentration);
 
 		// This method writes out the results of a sensitivity analysis.
-		bool WriteOutAnalysis(const vector<string> &rxnId, const vector<double> &varf, double Temperature, double Concentration);
+		bool WriteOutAnalysis(const vector<string> &rxnId, const vector<double> &f0, const vector<double> &varf, double Temperature, double Concentration);
 
 		// This method writes the input variable key.
 		void WriteInputVariableKey(stringstream &Key) const;
@@ -135,7 +135,7 @@ namespace mesmer
 			m_CorrelMtx->cholesky();
 		}
 		else {
-			cerr << "A correlation matrix is required for error propagation but was not found" << endl;
+			cerr << "A correlation matrix (me:covariance or me:hessian) is required for error propagation but was not found" << endl;
 			return false;
 		}
 
@@ -223,7 +223,7 @@ namespace mesmer
 			// Write out results. 
 			WriteOutAnalysisToTest(rxnId, f0, varf, Temperature[nCnd], Concentration[nCnd]);
 
-			WriteOutAnalysis(rxnId, varf, Temperature[nCnd], Concentration[nCnd]);
+			WriteOutAnalysis(rxnId, f0, varf, Temperature[nCnd], Concentration[nCnd]);
 
 		} // End of conditions loop.
 
@@ -231,7 +231,7 @@ namespace mesmer
 	}
 
 	// This method writes out the results of a sensitivity analysis.
-	bool ErrorPropagation::WriteOutAnalysis(const vector<string> &rxnId, const vector<double> &varf, double Temperature, double Concentration) {
+	bool ErrorPropagation::WriteOutAnalysis(const vector<string> &rxnId, const vector<double> &f0, const vector<double> &varf, double Temperature, double Concentration) {
 
 		// Begin table.
 
@@ -254,6 +254,9 @@ namespace mesmer
 			ss.str("");
 			ss << sqrt(varf[i]);
 			ppSensInd->XmlWriteValueElement("me:standardDeviation", ss.str());
+      ss.str("");
+      ss << f0[i];
+			ppSensInd->XmlWriteValueElement("me:rateCoefficient", ss.str());
 		}
 
 		return true;

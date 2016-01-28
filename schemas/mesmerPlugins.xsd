@@ -515,6 +515,7 @@
                     <xs:attribute name="reaction" type="xs:string" use="required" />
                   </xs:complexType>
                 </xs:element>
+                <xs:element name="rateCoefficient" type="xs:float"/>
               </xs:sequence>
               <xs:attribute name="temperature" type="xs:decimal" use="required" />
               <xs:attribute name="concentration" type="xs:float" use="required" />

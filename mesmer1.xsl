@@ -256,6 +256,12 @@
         <table>
           <xsl:apply-templates select="//@fitted"/>
         </table>
+        <xsl:if test="//me:errorPropagationTable">
+          <table>
+            <tr><td class="tablehead1" colspan="4">Rate error estimates (2 standard deviations)</td></tr>
+            <xsl:apply-templates select="//me:errorPropagationTable"/>
+          </table>
+        </xsl:if>
       </div>
     </xsl:if>
 
@@ -687,6 +693,22 @@
     <td> <xsl:value-of select="concat('ChiSquared=',../@chiSquared)"/> </td>
       <td> <xsl:value-of select="concat('(fitted ', ., ')')"/></td>
     </tr>
+  </xsl:template>
+
+  <xsl:template match ="//me:errorPropagationTable">
+      <tr class="tablehead2">
+        <td><xsl:value-of select="concat('At ', @temperature,'K , ', @concentration, ' molecule cm-3')"/></td>
+        <td colspan="2" align="center">Rate coeff, s-1</td>
+      </tr>
+      <tr>
+        <td> <xsl:value-of select="me:propagatedErrors/@reaction"/></td>
+        <td>
+          <xsl:value-of select="me:propagatedErrors/me:rateCoefficient"></xsl:value-of>
+        </td>
+        <td>
+          <xsl:value-of select="concat('&#177;', number(me:propagatedErrors/me:standardDeviation)*2)"></xsl:value-of>
+        </td>
+      </tr>
   </xsl:template>
   
   <xsl:template match="//me:PTs">

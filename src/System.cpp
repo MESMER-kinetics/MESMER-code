@@ -559,7 +559,7 @@ namespace mesmer
           ppList->XmlWriteAttribute("T", toString(m_pConditionsManager->PTPointTemp(calPoint)));
           ppList->XmlWriteAttribute("conc", toString(m_Env.conc));
           ppList->XmlWriteAttribute("bathGas", m_Env.bathGasName);
-          ppList->XmlWriteAttribute("me:units", "s-1");
+          ppList->XmlWriteAttribute("units", "s-1");
           qdMatrix mesmerRates(1);
           qdMatrix lossRates(1);
           m_collisionOperator.BartisWidomPhenomenologicalRates(mesmerRates, lossRates, m_Flags, ppList);

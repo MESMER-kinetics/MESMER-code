@@ -1,3 +1,21 @@
+2016-January-28 Chris Morley
+
+	* mesmer1.xsl:Error propagation data added to Fiited Parameters section of
+	  Firefox output. Hardwired cm3 molecule s-1  units because other 
+	  concentration units converted to molecile cm-3 during input.
+	  Should the original units be restored?
+
+	* src/plugins/ErrorPropagation.cpp(WriteOutAnalysis): rate coefficient
+	  added to parameters and to XML output.
+	    
+	* schemas/mesmerPlugins.xsd: schema update
+
+	* examples/ErrorPropagation/ipropyl_EP.xml, src/System.cpp: remove
+	deprecated attribute "me:units"." 
+
+src/System.cpp
+	* examples/ErrorPropagation/ipropyl_EP.xml
+
 2016-January-17 Struan Robertson
 
     * Documentation update.

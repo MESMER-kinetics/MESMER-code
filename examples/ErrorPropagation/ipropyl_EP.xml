@@ -273,497 +273,497 @@
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-35.8354</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="720" conc="3e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="720" conc="3e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-35.8354</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">35.8354</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-49.7544</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="730" conc="3.01e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="730" conc="3.01e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-49.7544</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">49.7544</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-54.2964</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="740" conc="1.8e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="740" conc="1.8e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-54.2964</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">54.2964</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-61.8358</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="740" conc="2.4e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="740" conc="2.4e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-61.8358</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">61.8358</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-68.1125</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="740" conc="3e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="740" conc="3e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-68.1125</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">68.1125</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-60.1259</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="750" conc="1.2e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="750" conc="1.2e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-60.1259</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">60.1259</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-73.2448</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="750" conc="1.8e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="750" conc="1.8e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-73.2448</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">73.2448</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-83.815</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="750" conc="2.41e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="750" conc="2.41e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-83.815</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">83.815</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-92.3604</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="750" conc="3e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="750" conc="3e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-92.3604</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">92.3604</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-55.3208</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="760" conc="6.02e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="760" conc="6.02e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-55.3208</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">55.3208</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-68.9151</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="760" conc="9.02e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="760" conc="9.02e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-68.9151</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">68.9151</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-79.9503</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="760" conc="1.2e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="760" conc="1.2e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-79.9503</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">79.9503</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-98.042</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="760" conc="1.81e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="760" conc="1.81e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-98.042</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">98.042</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-112.003</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="760" conc="2.4e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="760" conc="2.4e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-112.003</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">112.003</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-123.934</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="760" conc="3e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="760" conc="3e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-123.934</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">123.934</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-72.3015</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="770" conc="6.01e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="770" conc="6.01e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-72.3015</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">72.3015</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-90.3766</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="770" conc="9e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="770" conc="9e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-90.3766</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">90.3766</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-105.255</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="770" conc="1.2e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="770" conc="1.2e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-105.255</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">105.255</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-129.232</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="770" conc="1.8e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="770" conc="1.8e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-129.232</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">129.232</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-148.741</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="770" conc="2.41e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="770" conc="2.41e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-148.741</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">148.741</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-164.631</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="770" conc="3e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="770" conc="3e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-164.631</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">164.631</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-61.9228</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="780" conc="3e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="780" conc="3e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-61.9228</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">61.9228</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-93.6862</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="780" conc="6.01e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="780" conc="6.01e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-93.6862</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">93.6862</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-117.531</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="780" conc="9e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="780" conc="9e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-117.531</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">117.531</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-137.244</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="780" conc="1.2e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="780" conc="1.2e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-137.244</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">137.244</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-169.158</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="780" conc="1.8e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="780" conc="1.8e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-169.158</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">169.158</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-194.858</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="780" conc="2.4e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="780" conc="2.4e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-194.858</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">194.858</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-216.577</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="780" conc="3e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="780" conc="3e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-216.577</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">216.577</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-79.0484</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="790" conc="3e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="790" conc="3e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-79.0484</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">79.0484</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-120.289</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="790" conc="6.01e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="790" conc="6.01e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-120.289</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">120.289</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-151.443</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="790" conc="9e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="790" conc="9e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-151.443</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">151.443</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-177.307</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="790" conc="1.2e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="790" conc="1.2e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-177.307</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">177.307</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-219.369</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="790" conc="1.8e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="790" conc="1.8e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-219.369</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">219.369</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-253.399</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="790" conc="2.4e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="790" conc="2.4e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-253.399</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">253.399</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-282.259</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="790" conc="3e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="790" conc="3e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-282.259</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">282.259</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-100.034</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="800" conc="3e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="800" conc="3e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-100.034</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">100.034</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-153.092</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="800" conc="6.01e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="800" conc="6.01e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-153.092</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">153.092</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-193.417</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="800" conc="9e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="800" conc="9e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-193.417</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">193.417</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-228.068</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="800" conc="1.21e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="800" conc="1.21e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-228.068</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">228.068</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-281.948</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="800" conc="1.8e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="800" conc="1.8e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-281.948</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">281.948</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-326.579</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="800" conc="2.4e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="800" conc="2.4e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-326.579</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">326.579</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-364.56</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="800" conc="3e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="800" conc="3e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-364.56</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">364.56</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-125.534</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="810" conc="3e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="810" conc="3e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-125.534</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">125.534</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-193.001</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="810" conc="6e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="810" conc="6e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-193.001</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">193.001</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-244.925</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="810" conc="9e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="810" conc="9e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-244.925</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">244.925</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-289.56</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="810" conc="1.21e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="810" conc="1.21e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-289.56</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">289.56</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-360.322</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="810" conc="1.81e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="810" conc="1.81e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-360.322</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">360.322</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-417.26</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="810" conc="2.4e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="810" conc="2.4e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-417.26</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">417.26</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-466.784</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="810" conc="3e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="810" conc="3e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-466.784</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">466.784</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-156.268</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="820" conc="3e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="820" conc="3e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-156.268</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">156.268</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-241.816</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="820" conc="6.01e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="820" conc="6.01e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-241.816</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">241.816</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-307.808</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="820" conc="9.01e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="820" conc="9.01e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-307.808</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">307.808</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-364.605</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="820" conc="1.21e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="820" conc="1.21e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-364.605</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">364.605</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-453.996</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="820" conc="1.8e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="820" conc="1.8e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-453.996</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">453.996</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-528.689</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="820" conc="2.4e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="820" conc="2.4e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-528.689</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">528.689</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-592.685</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="820" conc="3e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="820" conc="3e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-592.685</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">592.685</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-193.02</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="830" conc="3e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="830" conc="3e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-193.02</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">193.02</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-299.996</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="830" conc="6e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="830" conc="6e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-299.996</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">299.996</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-383.286</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="830" conc="9e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="830" conc="9e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-383.286</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">383.286</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-453.295</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="830" conc="1.2e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="830" conc="1.2e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-453.295</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">453.295</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-569.124</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="830" conc="1.8e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="830" conc="1.8e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-569.124</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">569.124</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-237.16</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="840" conc="3.01e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="840" conc="3.01e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-237.16</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">237.16</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-369.738</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="840" conc="6e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="840" conc="6e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-369.738</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">369.738</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-473.949</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="840" conc="9e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="840" conc="9e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-473.949</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">473.949</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-561.879</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="840" conc="1.2e+17" bathGas="He" me:units="s-1">
+    <me:rateList T="840" conc="1.2e+17" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-561.879</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">561.879</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-288.03</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="850" conc="3e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="850" conc="3e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-288.03</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">288.03</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-452.378</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="850" conc="6e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="850" conc="6e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-452.378</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">452.378</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-348.945</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="860" conc="3.01e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="860" conc="3.01e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-348.945</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">348.945</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-551.366</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="860" conc="6.03e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="860" conc="6.03e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-551.366</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">551.366</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-418.995</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="870" conc="3.01e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="870" conc="3.01e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-418.995</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">418.995</me:firstOrderRate>
     </me:rateList>
     <me:eigenvalueList number="200" selection="1">
       <me:eigenvalue>-498.736</me:eigenvalue>
     </me:eigenvalueList>
-    <me:rateList T="880" conc="3e+16" bathGas="He" me:units="s-1">
+    <me:rateList T="880" conc="3e+16" bathGas="He" units="s-1">
       <me:firstOrderLoss ref="i-propyl">-498.736</me:firstOrderLoss>
       <me:firstOrderRate fromRef="i-propyl" toRef="propene+H" reactionType="irreversible">498.736</me:firstOrderRate>
     </me:rateList>
