@@ -25,17 +25,6 @@
 #include <string>
 #include <cctype>
 
-namespace {
-
-	void ToUpper(std::string &str) {
-		for (size_t i(0); i < str.size(); i++) {
-			char c = std::toupper(str[i]);
-			str[i] = c;
-		}
-	}
-
-}
-
 namespace mesmer
 {
 	class ErrorPropagation : public CalcMethod, private FittingUtils
@@ -247,8 +236,7 @@ namespace mesmer
 			PersistPtr ppSensInd = pp->XmlWriteElement("me:propagatedErrors");
 			ppSensInd->XmlWriteAttribute("reaction", rxnId[i]);
 
-
-			// Write out R^2 statistic and Standard deviation.
+			// Write out Standard deviation.
 
 			stringstream ss;
 			ss.str("");

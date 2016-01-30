@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Jan 16 2016 -- 20:42:36
+     Mesmer v4.1 compiled: -- Jan 30 2016 -- 17:06:13
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -29,37 +29,549 @@
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
-ipropyl_EA.xml
+ipropyl_LM.xml
 
---Parse data for ErrorPropagation
+--Parse data for marquardt
 Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Irreversible unimolecular reaction
 In i-propyl: Hindered rotor b1
 In i-propyl: Hindered rotor b2
+In i-propyl: The default value of me:DistributionCalcMethod was used.
 In i-propyl: --Parse data for Boltzmann
 In i-propyl: --Parse data for ExponentialDown
 In i-propyl: i-propyl:deltaEDown was given a range with 15 steps 
 In R1: --Parse data for MesmerILT
+In R1: The default value of me:TInfinity was used.
 In propene: Hindered rotor b1
 In propene: propene:ZPE was given a range with 401 steps 
+In H: The default value of me:DOSCMethod was used.
+In H: The default value of the attribute spinMultiplicity was used.
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
+The default value of the attribute precision was used.
+3e+17PPCC, 720K at d precision with He
+The default value of the attribute precision was used.
+3.01e+17PPCC, 730K at d precision with He
+The default value of the attribute precision was used.
+1.8e+17PPCC, 740K at d precision with He
+The default value of the attribute precision was used.
+2.4e+17PPCC, 740K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 740K at d precision with He
+The default value of the attribute precision was used.
+1.2e+17PPCC, 750K at d precision with He
+The default value of the attribute precision was used.
+1.8e+17PPCC, 750K at d precision with He
+The default value of the attribute precision was used.
+2.41e+17PPCC, 750K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 750K at d precision with He
+The default value of the attribute precision was used.
+6.02e+16PPCC, 760K at d precision with He
+The default value of the attribute precision was used.
+9.02e+16PPCC, 760K at d precision with He
+The default value of the attribute precision was used.
+1.2e+17PPCC, 760K at d precision with He
+The default value of the attribute precision was used.
+1.81e+17PPCC, 760K at d precision with He
+The default value of the attribute precision was used.
+2.4e+17PPCC, 760K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 760K at d precision with He
+The default value of the attribute precision was used.
+6.01e+16PPCC, 770K at d precision with He
+The default value of the attribute precision was used.
+9e+16PPCC, 770K at d precision with He
+The default value of the attribute precision was used.
+1.2e+17PPCC, 770K at d precision with He
+The default value of the attribute precision was used.
+1.8e+17PPCC, 770K at d precision with He
+The default value of the attribute precision was used.
+2.41e+17PPCC, 770K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 770K at d precision with He
+The default value of the attribute precision was used.
+3e+16PPCC, 780K at d precision with He
+The default value of the attribute precision was used.
+6.01e+16PPCC, 780K at d precision with He
+The default value of the attribute precision was used.
+9e+16PPCC, 780K at d precision with He
+The default value of the attribute precision was used.
+1.2e+17PPCC, 780K at d precision with He
+The default value of the attribute precision was used.
+1.8e+17PPCC, 780K at d precision with He
+The default value of the attribute precision was used.
+2.4e+17PPCC, 780K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 780K at d precision with He
+The default value of the attribute precision was used.
+3e+16PPCC, 790K at d precision with He
+The default value of the attribute precision was used.
+6.01e+16PPCC, 790K at d precision with He
+The default value of the attribute precision was used.
+9e+16PPCC, 790K at d precision with He
+The default value of the attribute precision was used.
+1.2e+17PPCC, 790K at d precision with He
+The default value of the attribute precision was used.
+1.8e+17PPCC, 790K at d precision with He
+The default value of the attribute precision was used.
+2.4e+17PPCC, 790K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 790K at d precision with He
+The default value of the attribute precision was used.
+3e+16PPCC, 800K at d precision with He
+The default value of the attribute precision was used.
+6.01e+16PPCC, 800K at d precision with He
+The default value of the attribute precision was used.
+9e+16PPCC, 800K at d precision with He
+The default value of the attribute precision was used.
+1.21e+17PPCC, 800K at d precision with He
+The default value of the attribute precision was used.
+1.8e+17PPCC, 800K at d precision with He
+The default value of the attribute precision was used.
+2.4e+17PPCC, 800K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 800K at d precision with He
+The default value of the attribute precision was used.
+3e+16PPCC, 810K at d precision with He
+The default value of the attribute precision was used.
+6e+16PPCC, 810K at d precision with He
+The default value of the attribute precision was used.
+9e+16PPCC, 810K at d precision with He
+The default value of the attribute precision was used.
+1.21e+17PPCC, 810K at d precision with He
+The default value of the attribute precision was used.
+1.81e+17PPCC, 810K at d precision with He
+The default value of the attribute precision was used.
+2.4e+17PPCC, 810K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 810K at d precision with He
+The default value of the attribute precision was used.
+3e+16PPCC, 820K at d precision with He
+The default value of the attribute precision was used.
+6.01e+16PPCC, 820K at d precision with He
+The default value of the attribute precision was used.
+9.01e+16PPCC, 820K at d precision with He
+The default value of the attribute precision was used.
+1.21e+17PPCC, 820K at d precision with He
+The default value of the attribute precision was used.
+1.8e+17PPCC, 820K at d precision with He
+The default value of the attribute precision was used.
+2.4e+17PPCC, 820K at d precision with He
+The default value of the attribute precision was used.
+3e+17PPCC, 820K at d precision with He
+The default value of the attribute precision was used.
+3e+16PPCC, 830K at d precision with He
+The default value of the attribute precision was used.
+6e+16PPCC, 830K at d precision with He
+The default value of the attribute precision was used.
+9e+16PPCC, 830K at d precision with He
+The default value of the attribute precision was used.
+1.2e+17PPCC, 830K at d precision with He
+The default value of the attribute precision was used.
+1.8e+17PPCC, 830K at d precision with He
+The default value of the attribute precision was used.
+3.01e+16PPCC, 840K at d precision with He
+The default value of the attribute precision was used.
+6e+16PPCC, 840K at d precision with He
+The default value of the attribute precision was used.
+9e+16PPCC, 840K at d precision with He
+The default value of the attribute precision was used.
+1.2e+17PPCC, 840K at d precision with He
+The default value of the attribute precision was used.
+3e+16PPCC, 850K at d precision with He
+The default value of the attribute precision was used.
+6e+16PPCC, 850K at d precision with He
+The default value of the attribute precision was used.
+3.01e+16PPCC, 860K at d precision with He
+The default value of the attribute precision was used.
+6.03e+16PPCC, 860K at d precision with He
+The default value of the attribute precision was used.
+3.01e+16PPCC, 870K at d precision with He
+The default value of the attribute precision was used.
+3e+16PPCC, 880K at d precision with He
+--Parse data for ErrorPropagation
 3e+17PPCC, 1000K at d precision with He
 3e+16PPCC, 1000K at d precision with He
-Write metadata 20160116_214353
+Write metadata 20160130_173644
 
-File: "ipropyl_EA.xml" successfully parsed.
+File: "ipropyl_LM.xml" successfully parsed.
 Main Calculation begins
 
---Execute calcMethod ErrorPropagation
+--Execute calcMethod marquardt using first conditions block 
 Number of grains produced is not equal to that requested
-Number of grains requested: 278
+Number of grains requested: 205
 Number of grains produced : 1
+In FastLaplaceConvolution: 140 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
+
+Chi^2 = 49.0564 Lambda = 1
+i-propyl:deltaEDown=190  propene:ZPE=13000  
+Finish Calculation of P-T case
+Number of grains requested: 206
+In FastLaplaceConvolution: 160 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
+Finish Calculation of P-T case
+Finish Calculation of P-T case
+Finish Calculation of P-T case
+
+Chi^2 = 43.7222 Lambda = 0.1
+i-propyl:deltaEDown=189.638  propene:ZPE=13014  
+Iteration: 1 of Marquardt. ChiSquare = 43.7222, Lambda = 0.1
+Finish Calculation of P-T case
+Finish Calculation of P-T case
+Finish Calculation of P-T case
+
+Chi^2 = 34.4739 Lambda = 0.01
+i-propyl:deltaEDown=199.154  propene:ZPE=13065.3  
+Iteration: 2 of Marquardt. ChiSquare = 34.4739, Lambda = 0.01
+Number of grains requested: 208
+In FastLaplaceConvolution: 180 values in the FFT convolution routine were replaced by standard convolution
+Finish Calculation of P-T case
+Finish Calculation of P-T case
+Finish Calculation of P-T case
+
+Chi^2 = 19.7344 Lambda = 0.001
+i-propyl:deltaEDown=237.72  propene:ZPE=13233.9  
+Iteration: 3 of Marquardt. ChiSquare = 19.7344, Lambda = 0.001
+Number of grains requested: 209
+Finish Calculation of P-T case
+Finish Calculation of P-T case
+Finish Calculation of P-T case
+
+Chi^2 = 11.6815 Lambda = 0.0001
+i-propyl:deltaEDown=266.824  propene:ZPE=13303.9  
+Iteration: 4 of Marquardt. ChiSquare = 11.6815, Lambda = 0.0001
+Finish Calculation of P-T case
+Finish Calculation of P-T case
+Finish Calculation of P-T case
+
+Chi^2 = 11.496 Lambda = 1e-05
+i-propyl:deltaEDown=269.979  propene:ZPE=13308.5  
+Iteration: 5 of Marquardt. ChiSquare = 11.496, Lambda = 1e-05
+Finish Calculation of P-T case
+Finish Calculation of P-T case
+Finish Calculation of P-T case
+
+Chi^2 = 11.4951 Lambda = 1e-06
+i-propyl:deltaEDown=270.063  propene:ZPE=13308.4  
+Iteration: 6 of Marquardt. ChiSquare = 11.4951, Lambda = 1e-06
+PT Grid 0
+Number of cells = 20900, Number of grains = 209
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 1
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 2
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 3
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 4
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 5
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+PT Grid 6
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 7
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 8
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 9
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 10
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 11
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 12
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 13
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 14
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 15
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 16
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 17
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 18
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 19
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 20
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 21
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 22
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 23
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 24
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 25
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 26
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 27
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 28
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 29
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+PT Grid 30
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 31
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 32
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 33
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 34
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 35
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 36
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 37
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 38
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 39
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 40
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 41
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 42
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 43
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 44
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 45
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 46
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 47
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 48
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 49
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 50
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 51
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 52
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+PT Grid 53
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 54
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 55
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 56
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 57
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 58
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 59
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 60
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 61
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 62
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 63
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 64
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 65
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 66
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 67
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 68
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 69
+Build Collison Operator
+Diagonalize the Reaction Operator
+PT Grid 70
+Build Collison Operator
+Diagonalize the Reaction Operator
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+            720          3e+17           41.5        35.8354
+            730       3.01e+17           51.1        49.7544
+            740        1.8e+17           55.5        54.2964
+            740        2.4e+17           70.1        61.8358
+            740          3e+17           71.1        68.1125
+            750        1.2e+17           55.3        60.1259
+            750        1.8e+17           67.2        73.2448
+            750       2.41e+17           86.4        83.8151
+            750          3e+17            102        92.3604
+            760       6.02e+16           51.9        55.3207
+            760       9.02e+16           65.7        68.9151
+            760        1.2e+17           76.5        79.9503
+            760       1.81e+17             95         98.042
+            760        2.4e+17            123        112.003
+            760          3e+17            128        123.934
+            770       6.01e+16           68.9        72.3015
+            770          9e+16           89.2        90.3766
+            770        1.2e+17             99        105.255
+            770        1.8e+17            121        129.232
+            770       2.41e+17            159        148.741
+            770          3e+17            164        164.631
+            780          3e+16           65.5        61.9228
+            780       6.01e+16           89.1        93.6862
+            780          9e+16            114        117.531
+            780        1.2e+17            125        137.244
+            780        1.8e+17            165        169.158
+            780        2.4e+17            203        194.858
+            780          3e+17            213        216.577
+            790          3e+16             77        79.0484
+            790       6.01e+16            119         120.29
+            790          9e+16            154        151.443
+            790        1.2e+17            170        177.307
+            790        1.8e+17            219        219.369
+            790        2.4e+17            258          253.4
+            790          3e+17            288         282.26
+            800          3e+16           96.1        100.034
+            800       6.01e+16            147        153.092
+            800          9e+16            199        193.417
+            800       1.21e+17          223.5        228.068
+            800        1.8e+17            302        281.949
+            800        2.4e+17            341        326.579
+            800          3e+17            350        364.561
+            810          3e+16            124        125.535
+            810          6e+16            185        193.001
+            810          9e+16            248        244.925
+            810       1.21e+17            274         289.56
+            810       1.81e+17            379        360.323
+            810        2.4e+17            402        417.261
+            810          3e+17            492        466.785
+            820          3e+16            160        156.268
+            820       6.01e+16            239        241.817
+            820       9.01e+16            320        307.808
+            820       1.21e+17            363        364.606
+            820        1.8e+17            447        453.997
+            820        2.4e+17            554         528.69
+            820          3e+17            549        592.687
+            830          3e+16            189         193.02
+            830          6e+16            287        299.996
+            830          9e+16            375        383.286
+            830        1.2e+17            447        453.296
+            830        1.8e+17            570        569.125
+            840       3.01e+16            252         237.16
+            840          6e+16            349        369.738
+            840          9e+16            471         473.95
+            840        1.2e+17            559         561.88
+            850          3e+16            314         288.03
+            850          6e+16            444        452.378
+            860       3.01e+16            378        348.946
+            860       6.03e+16            535        551.367
+            870       3.01e+16            436        418.996
+            880          3e+16            535        498.737
+
+Finish Calculation of P-T case
+71 temperature/concentration-pressure points calculated.
+
+Chi^2 = 11.4951
+
+Best fit parameters:
+
+i-propyl:deltaEDown = 270.063 +/- 17.1763
+propene:ZPE = 13308.4 +/- 49.4499
+
+Correlation coefficients:
+
+propene:ZPE , i-propyl:deltaEDown = 0.976891
+
+Goodness of Fit:
+
+Number of degrees of Freedom = 69
+Chi^2 probability = 1
+
+
+--Execute calcMethod ErrorPropagation using second conditions block 
+Number of grains requested: 278
 In FastLaplaceConvolution: 840 values in the FFT convolution routine were replaced by standard convolution
 Number of grains requested: 279
 In FastLaplaceConvolution: 820 values in the FFT convolution routine were replaced by standard convolution
 Number of grains requested: 277
- -- Total time elapsed: 107 seconds.
+ -- Total time elapsed: 149 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 107 seconds.
+Total time elapsed: 149 seconds.
