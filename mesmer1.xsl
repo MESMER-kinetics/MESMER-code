@@ -696,9 +696,23 @@
   </xsl:template>
 
   <xsl:template match ="//me:errorPropagationTable">
+    <xsl:variable name="reactants" 
+                  select="substring-before(me:propagatedErrors/@reaction, '=>')"/>
+    <!--Count number of '+' in the reactants to determine the reaction order-->
+    <xsl:variable name="coeffunits">
+      <xsl:choose>
+        <xsl:when 
+          test="string-length($reactants) - string-length(translate($reactants,'+',''))=0">
+          s⁻¹
+        </xsl:when>
+        <xsl:otherwise>cm³ molecule⁻¹ s⁻¹</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>      
       <tr class="tablehead2">
-        <td><xsl:value-of select="concat('At ', @temperature,'K , ', @concentration, ' molecule cm-3')"/></td>
-        <td colspan="2" align="center">Rate coeff, s-1</td>
+        <td><xsl:value-of select="concat('At ', @temperature,'K , ', @concentration, ' molecule cm⁻³')"/></td>
+        <td colspan="2" align="center">
+          <xsl:value-of select="concat('Rate  coeff, ', $coeffunits)"/>
+        </td>
       </tr>
       <tr>
         <td> <xsl:value-of select="me:propagatedErrors/@reaction"/></td>
@@ -709,6 +723,7 @@
           <xsl:value-of select="concat('&#177;', number(me:propagatedErrors/me:standardDeviation)*2)"></xsl:value-of>
         </td>
       </tr>
+
   </xsl:template>
   
   <xsl:template match="//me:PTs">
