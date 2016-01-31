@@ -36,7 +36,7 @@
         2.96706,         1546.05,         1552.29
         3.14159,         1593.54,          1599.6
 
-PT Grid 0 Condition: conc = 8.05242e+017, temp = 301, diagonalization precision: double-double
+PT Grid 0 Condition: conc = 8.05242e+17, temp = 301, diagonalization precision: double-double
 {
 
 Test rovibronic density of states for: Ethane
@@ -58,7 +58,7 @@ inverse of Eq fraction matrix:
   7.81159e-69  1.00000e+00
 }
 Equilibrium Fraction for Ethane = 1
-Equilibrium Fraction for Ethyl = 7.81159e-069
+Equilibrium Fraction for Ethyl = 7.81159e-69
 
 Total number of eigenvalues = 195
 Eigenvalues
@@ -78,7 +78,7 @@ There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemic
 
 WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
 
-The last CSE = -7.11231e+006 and the first IERE = -1.79252e+007
+The last CSE = -7.11231e+06 and the first IERE = -1.79252e+07
 (last CSE)/(first IERE) ratio = 0.396777, which is less than an order of magnitude
 
 Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable

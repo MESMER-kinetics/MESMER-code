@@ -2,6 +2,12 @@
 
     * Documentation update.
 
+		* examples/: baseline updates.
+
+2016-January-30 Struan Robertson
+
+    * Documentation update.
+
 		* examples/ErrorPropagation/ipropyl_EP.xml. Extended to have multiple stages.
 
 		* System.cpp. Changes to copyright.

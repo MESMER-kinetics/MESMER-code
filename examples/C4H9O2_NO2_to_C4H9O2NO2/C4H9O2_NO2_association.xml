@@ -440,9 +440,9 @@
 
   <me:control>
     <me:calcMethod xsi:type="me:marquardt">
-      <me:MarquardtIterations>50</me:MarquardtIterations>
+      <me:MarquardtIterations>20</me:MarquardtIterations>
       <me:MarquardtTolerance>1e-7</me:MarquardtTolerance>
-      <me:MarquardtDerivDelta>0.025</me:MarquardtDerivDelta>
+      <me:MarquardtDerivDelta>0.01</me:MarquardtDerivDelta>
     </me:calcMethod>
     <me:testDOS />
     <me:printSpeciesProfile />

@@ -29,7 +29,7 @@
 defaults.xml, librarymols.xml are in ../..
 
 Parsing input xml file...
-ipropyl_LM.xml
+ipropyl_EP.xml
 
 --Parse data for marquardt
 Energy convention "" written to <moleculeList>
@@ -191,11 +191,12 @@ The default value of the attribute precision was used.
 The default value of the attribute precision was used.
 3e+16PPCC, 880K at d precision with He
 --Parse data for ErrorPropagation
+The default value of me:errorPropagationSamples was used.
 3e+17PPCC, 1000K at d precision with He
 3e+16PPCC, 1000K at d precision with He
-Write metadata 20160130_173644
+Write metadata 20160130_221751
 
-File: "ipropyl_LM.xml" successfully parsed.
+File: "ipropyl_EP.xml" successfully parsed.
 Main Calculation begins
 
 --Execute calcMethod marquardt using first conditions block 
@@ -274,7 +275,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 5
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 6
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -295,7 +296,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 12
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 13
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -346,7 +347,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 29
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 30
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -373,7 +374,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 38
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 39
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -415,7 +416,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 52
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 53
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -448,7 +449,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 63
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 64
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -571,7 +572,7 @@ In FastLaplaceConvolution: 840 values in the FFT convolution routine were replac
 Number of grains requested: 279
 In FastLaplaceConvolution: 820 values in the FFT convolution routine were replaced by standard convolution
 Number of grains requested: 277
- -- Total time elapsed: 149 seconds.
+ -- Total time elapsed: 135 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 149 seconds.
+Total time elapsed: 135 seconds.

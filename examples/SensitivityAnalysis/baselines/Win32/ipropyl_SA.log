@@ -8,7 +8,7 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Dec 15 2015 -- 18:24:54
+     Mesmer v4.1 compiled: -- Jan 30 2016 -- 17:06:13
 
      Copyright (C) 2009-2015 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
@@ -45,9 +45,9 @@ In propene: Hindered rotor b1
 In propene: propene:ZPE was given a range with 401 steps 
 In R1: No tunneling method used for R1
 In R1: No crossing method used for R1
-3e+017PPCC, 720K at d precision with He
-3e+016PPCC, 880K at d precision with He
-Write metadata 20151215_201557
+3e+17PPCC, 720K at d precision with He
+3e+16PPCC, 880K at d precision with He
+Write metadata 20160130_213720
 
 File: "ipropyl_SA.xml" successfully parsed.
 Main Calculation begins
@@ -76,7 +76,7 @@ In FastLaplaceConvolution: 680 values in the FFT convolution routine were replac
 Number of grains requested: 258
 Number of grains requested: 263
 Number of grains requested: 264
- -- Total time elapsed: 94 seconds.
+ -- Total time elapsed: 67 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 94 seconds.
+Total time elapsed: 67 seconds.

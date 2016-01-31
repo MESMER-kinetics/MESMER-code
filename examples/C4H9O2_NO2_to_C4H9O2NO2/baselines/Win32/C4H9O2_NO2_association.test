@@ -1,0 +1,6535 @@
+          Angle         Potential          Series
+       -3.14159,       0.0316044,         8.10379
+       -2.51327,         1079.25,         2935.61
+       -1.88496,         2782.54,         7596.55
+       -1.25664,         2780.47,         7575.31
+      -0.628319,         970.425,         2654.42
+              0,               0,         -7.8057
+       0.628319,         997.145,         2727.29
+        1.25664,         2740.14,         7465.31
+        1.88496,         2842.11,         7759.02
+        2.51327,         1078.33,         2933.09
+        3.14159,       0.0776941,         8.10379
+
+CTest output disabled
+
+Eq fraction matrix:
+{
+ -2.35696e+14  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -4.24276e-15  4.24276e-15
+  4.24276e-15  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 4.24276e-15
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-6.513644e-08	4.242756e-15	
+6.513644e-08	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-1.535239e+07	6.513644e-08	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	0.000000e+00	
+-4.747784e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.754647e+04	7.444539e-11	
+1.754647e+04	-7.444539e-11	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.754647e+04
+C4H9OONO2 loss = -7.444539e-11
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.754647e+04
+C4H9OONO2 -> C4H9OO = 7.444539e-11
+}
+
+Eq fraction matrix:
+{
+ -2.35696e+14  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -4.24276e-15  4.24276e-15
+  4.24276e-15  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 4.24276e-15
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-6.513644e-08	4.242756e-15	
+6.513644e-08	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-1.535239e+07	6.513644e-08	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	5.397605e-79	
+-4.747784e-66	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.754647e+04	7.444539e-11	
+1.754647e+04	-7.444539e-11	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.754647e+04
+C4H9OONO2 loss = -7.444539e-11
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.754647e+04
+C4H9OONO2 -> C4H9OO = 7.444539e-11
+}
+
+Eq fraction matrix:
+{
+ -2.35696e+14  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -4.24276e-15  4.24276e-15
+  4.24276e-15  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 4.24276e-15
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-6.513644e-08	4.242756e-15	
+6.513644e-08	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-1.535239e+07	6.513644e-08	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-6.747007e-80	
+-1.614247e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.754647e+04	7.444538e-11	
+1.754647e+04	-7.444538e-11	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.754647e+04
+C4H9OONO2 loss = -7.444538e-11
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.754647e+04
+C4H9OONO2 -> C4H9OO = 7.444538e-11
+}
+
+Eq fraction matrix:
+{
+ -2.35696e+14  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -4.24276e-15  4.24276e-15
+  4.24276e-15  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 4.24276e-15
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-6.513644e-08	4.242756e-15	
+6.513644e-08	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-1.535239e+07	6.513644e-08	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	8.096408e-79	
+1.234424e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.754639e+04	7.444504e-11	
+1.754639e+04	-7.444504e-11	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.754639e+04
+C4H9OONO2 loss = -7.444504e-11
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.754639e+04
+C4H9OONO2 -> C4H9OO = 7.444504e-11
+}
+
+Eq fraction matrix:
+{
+ -2.35696e+14  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -4.24276e-15  4.24276e-15
+  4.24276e-15  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 4.24276e-15
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-6.513644e-08	4.242756e-15	
+6.513644e-08	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-1.535239e+07	6.513644e-08	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-8.939784e-79	
+-9.020789e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.754287e+04	7.443013e-11	
+1.754287e+04	-7.443013e-11	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.754287e+04
+C4H9OONO2 loss = -7.443013e-11
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.754287e+04
+C4H9OONO2 -> C4H9OO = 7.443013e-11
+}
+
+Eq fraction matrix:
+{
+ -2.35696e+14  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -4.24276e-15  4.24276e-15
+  4.24276e-15  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 4.24276e-15
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-6.513644e-08	4.242756e-15	
+6.513644e-08	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-1.535239e+07	6.513644e-08	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-7.421707e-79	
+-9.020789e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.737251e+04	7.370734e-11	
+1.737251e+04	-7.370734e-11	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.737251e+04
+C4H9OONO2 loss = -7.370734e-11
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.737251e+04
+C4H9OONO2 -> C4H9OO = 7.370734e-11
+}
+
+Eq fraction matrix:
+{
+ -2.35696e+14  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -4.24276e-15  4.24276e-15
+  4.24276e-15  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 4.24276e-15
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+6.513644e-08	4.242756e-15	
+-6.513644e-08	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+1.535239e+07	-6.513644e-08	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-6.747007e-80	
+-7.596454e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.437244e+04	6.097876e-11	
+1.437244e+04	-6.097876e-11	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.437244e+04
+C4H9OONO2 loss = -6.097876e-11
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.437244e+04
+C4H9OONO2 -> C4H9OO = 6.097876e-11
+}
+
+Eq fraction matrix:
+{
+ -2.35696e+14  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -4.24276e-15  4.24276e-15
+  4.24276e-15  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 4.24276e-15
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-6.513644e-08	4.242756e-15	
+6.513644e-08	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-1.535239e+07	6.513644e-08	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	2.698803e-79	
+9.495568e-66	1.000000e+00	
+}
+
+Kr matrix:
+{
+-6.705019e+03	2.844776e-11	
+6.705019e+03	-2.844776e-11	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -6.705019e+03
+C4H9OONO2 loss = -2.844776e-11
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 6.705019e+03
+C4H9OONO2 -> C4H9OO = 2.844776e-11
+}
+
+Eq fraction matrix:
+{
+ -2.35696e+14  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -4.24276e-15  4.24276e-15
+  4.24276e-15  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 4.24276e-15
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-6.513644e-08	4.242756e-15	
+6.513644e-08	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-1.535239e+07	6.513644e-08	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	7.759058e-79	
+3.798227e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-2.314375e+03	9.819330e-12	
+2.314375e+03	-9.819330e-12	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -2.314375e+03
+C4H9OONO2 loss = -9.819330e-12
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 2.314375e+03
+C4H9OONO2 -> C4H9OO = 9.819330e-12
+}
+
+Eq fraction matrix:
+{
+ -2.35696e+14  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -4.24276e-15  4.24276e-15
+  4.24276e-15  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 4.24276e-15
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+WARNING: Chemically significant eigenvalues (CSE) not well separated from internal energy relaxation eigenvals (IEREs).
+
+The last CSE = -1118.51 and the first IERE = -8486.19
+(last CSE)/(first IERE) ratio = 0.131803, which is less than an order of magnitude
+
+Results obtained from Bartis Widom eigenvalue-vector analysis may be unreliable
+
+Z_matrix: {
+-6.513644e-08	4.242756e-15	
+6.513644e-08	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-1.535239e+07	6.513644e-08	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-1.686752e-80	
+-1.899114e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.118506e+03	4.745547e-12	
+1.118506e+03	-4.745547e-12	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.118506e+03
+C4H9OONO2 loss = -4.745547e-12
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.118506e+03
+C4H9OONO2 -> C4H9OO = 4.745547e-12
+}
+
+Eq fraction matrix:
+{
+ -7.08598e+13  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.41124e-14  1.41124e-14
+  1.41124e-14  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.41124e-14
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.187955e-07	1.411237e-14	
+1.187955e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-8.417826e+06	1.187955e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	6.747007e-79	
+1.543030e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.724716e+04	2.433984e-10	
+1.724716e+04	-2.433984e-10	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.724716e+04
+C4H9OONO2 loss = -2.433984e-10
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.724716e+04
+C4H9OONO2 -> C4H9OO = 2.433984e-10
+}
+
+Eq fraction matrix:
+{
+ -7.08598e+13  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.41124e-14  1.41124e-14
+  1.41124e-14  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.41124e-14
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.187955e-07	1.411237e-14	
+1.187955e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-8.417826e+06	1.187955e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-1.686752e-79	
+1.709202e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.724716e+04	2.433984e-10	
+1.724716e+04	-2.433984e-10	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.724716e+04
+C4H9OONO2 loss = -2.433984e-10
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.724716e+04
+C4H9OONO2 -> C4H9OO = 2.433984e-10
+}
+
+Eq fraction matrix:
+{
+ -7.08598e+13  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.41124e-14  1.41124e-14
+  1.41124e-14  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.41124e-14
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.187955e-07	1.411237e-14	
+1.187955e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-8.417826e+06	1.187955e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	3.508443e-78	
+1.851636e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.724716e+04	2.433983e-10	
+1.724716e+04	-2.433983e-10	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.724716e+04
+C4H9OONO2 loss = -2.433983e-10
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.724716e+04
+C4H9OONO2 -> C4H9OO = 2.433983e-10
+}
+
+Eq fraction matrix:
+{
+ -7.08598e+13  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.41124e-14  1.41124e-14
+  1.41124e-14  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.41124e-14
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.187955e-07	1.411237e-14	
+1.187955e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-8.417826e+06	1.187955e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-1.214461e-78	
+0.000000e+00	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.724707e+04	2.433971e-10	
+1.724707e+04	-2.433971e-10	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.724707e+04
+C4H9OONO2 loss = -2.433971e-10
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.724707e+04
+C4H9OONO2 -> C4H9OO = 2.433971e-10
+}
+
+Eq fraction matrix:
+{
+ -7.08598e+13  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.41124e-14  1.41124e-14
+  1.41124e-14  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.41124e-14
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.187955e-07	1.411237e-14	
+1.187955e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-8.417826e+06	1.187955e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.079521e-78	
+-1.329379e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.724314e+04	2.433416e-10	
+1.724314e+04	-2.433416e-10	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.724314e+04
+C4H9OONO2 loss = -2.433416e-10
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.724314e+04
+C4H9OONO2 -> C4H9OO = 2.433416e-10
+}
+
+Eq fraction matrix:
+{
+ -7.08598e+13  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.41124e-14  1.41124e-14
+  1.41124e-14  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.41124e-14
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.187955e-07	1.411237e-14	
+1.187955e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-8.417826e+06	1.187955e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	5.397605e-79	
+-1.922852e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.705448e+04	2.406792e-10	
+1.705448e+04	-2.406792e-10	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.705448e+04
+C4H9OONO2 loss = -2.406792e-10
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.705448e+04
+C4H9OONO2 -> C4H9OO = 2.406792e-10
+}
+
+Eq fraction matrix:
+{
+ -7.08598e+13  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.41124e-14  1.41124e-14
+  1.41124e-14  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.41124e-14
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.187955e-07	1.411237e-14	
+1.187955e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-8.417826e+06	1.187955e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	8.096408e-79	
+1.899114e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.389227e+04	1.960529e-10	
+1.389227e+04	-1.960529e-10	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.389227e+04
+C4H9OONO2 loss = -1.960529e-10
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.389227e+04
+C4H9OONO2 -> C4H9OO = 1.960529e-10
+}
+
+Eq fraction matrix:
+{
+ -7.08598e+13  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.41124e-14  1.41124e-14
+  1.41124e-14  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.41124e-14
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.187955e-07	1.411237e-14	
+1.187955e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-8.417826e+06	1.187955e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	2.159042e-78	
+1.091990e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-6.281787e+03	8.865093e-11	
+6.281787e+03	-8.865093e-11	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -6.281787e+03
+C4H9OONO2 loss = -8.865093e-11
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 6.281787e+03
+C4H9OONO2 -> C4H9OO = 8.865093e-11
+}
+
+Eq fraction matrix:
+{
+ -7.08598e+13  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.41124e-14  1.41124e-14
+  1.41124e-14  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.41124e-14
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+1.187955e-07	1.411237e-14	
+-1.187955e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+8.417826e+06	-1.187955e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	3.373503e-79	
+0.000000e+00	1.000000e+00	
+}
+
+Kr matrix:
+{
+-2.122219e+03	2.994954e-11	
+2.122219e+03	-2.994954e-11	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -2.122219e+03
+C4H9OONO2 loss = -2.994954e-11
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 2.122219e+03
+C4H9OONO2 -> C4H9OO = 2.994954e-11
+}
+
+Eq fraction matrix:
+{
+ -7.08598e+13  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.41124e-14  1.41124e-14
+  1.41124e-14  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.41124e-14
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+1.187955e-07	1.411237e-14	
+-1.187955e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+8.417826e+06	-1.187955e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-8.096408e-79	
+-2.017808e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.017360e+03	1.435737e-11	
+1.017360e+03	-1.435737e-11	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.017360e+03
+C4H9OONO2 loss = -1.435737e-11
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.017360e+03
+C4H9OONO2 -> C4H9OO = 1.435737e-11
+}
+
+Eq fraction matrix:
+{
+ -6.95446e+12  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.43793e-13  1.43793e-13
+  1.43793e-13  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.43793e-13
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-3.791999e-07	1.437925e-13	
+3.791999e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-2.637132e+06	3.791999e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	9.985570e-78	
+2.421370e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.666824e+04	2.396769e-09	
+1.666824e+04	-2.396769e-09	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.666824e+04
+C4H9OONO2 loss = -2.396769e-09
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.666824e+04
+C4H9OONO2 -> C4H9OO = 2.396769e-09
+}
+
+Eq fraction matrix:
+{
+ -6.95446e+12  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.43793e-13  1.43793e-13
+  1.43793e-13  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.43793e-13
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+3.791999e-07	1.437925e-13	
+-3.791999e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+2.637132e+06	-3.791999e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-1.619282e-78	
+7.596454e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.666824e+04	2.396769e-09	
+1.666824e+04	-2.396769e-09	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.666824e+04
+C4H9OONO2 loss = -2.396769e-09
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.666824e+04
+C4H9OONO2 -> C4H9OO = 2.396769e-09
+}
+
+Eq fraction matrix:
+{
+ -6.95446e+12  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.43793e-13  1.43793e-13
+  1.43793e-13  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.43793e-13
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-3.791999e-07	1.437925e-13	
+3.791999e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-2.637132e+06	3.791999e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.241449e-77	
+-1.566769e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.666824e+04	2.396768e-09	
+1.666824e+04	-2.396768e-09	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.666824e+04
+C4H9OONO2 loss = -2.396768e-09
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.666824e+04
+C4H9OONO2 -> C4H9OO = 2.396768e-09
+}
+
+Eq fraction matrix:
+{
+ -6.95446e+12  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.43793e-13  1.43793e-13
+  1.43793e-13  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.43793e-13
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-3.791999e-07	1.437925e-13	
+3.791999e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-2.637132e+06	3.791999e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	0.000000e+00	
+-8.071233e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.666812e+04	2.396752e-09	
+1.666812e+04	-2.396752e-09	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.666812e+04
+C4H9OONO2 loss = -2.396752e-09
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.666812e+04
+C4H9OONO2 -> C4H9OO = 2.396752e-09
+}
+
+Eq fraction matrix:
+{
+ -6.95446e+12  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.43793e-13  1.43793e-13
+  1.43793e-13  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.43793e-13
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+3.791999e-07	1.437925e-13	
+-3.791999e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+2.637132e+06	-3.791999e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.403377e-77	
+1.768549e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.666321e+04	2.396046e-09	
+1.666321e+04	-2.396046e-09	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.666321e+04
+C4H9OONO2 loss = -2.396046e-09
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.666321e+04
+C4H9OONO2 -> C4H9OO = 2.396046e-09
+}
+
+Eq fraction matrix:
+{
+ -6.95446e+12  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.43793e-13  1.43793e-13
+  1.43793e-13  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.43793e-13
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-3.791999e-07	1.437925e-13	
+3.791999e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-2.637132e+06	3.791999e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	0.000000e+00	
+1.234424e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.643228e+04	2.362840e-09	
+1.643228e+04	-2.362840e-09	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.643228e+04
+C4H9OONO2 loss = -2.362840e-09
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.643228e+04
+C4H9OONO2 -> C4H9OO = 2.362840e-09
+}
+
+Eq fraction matrix:
+{
+ -6.95446e+12  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.43793e-13  1.43793e-13
+  1.43793e-13  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.43793e-13
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-3.791999e-07	1.437925e-13	
+3.791999e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-2.637132e+06	3.791999e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-6.342186e-78	
+9.495568e-66	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.294032e+04	1.860721e-09	
+1.294032e+04	-1.860721e-09	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.294032e+04
+C4H9OONO2 loss = -1.860721e-09
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.294032e+04
+C4H9OONO2 -> C4H9OO = 1.860721e-09
+}
+
+Eq fraction matrix:
+{
+ -6.95446e+12  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.43793e-13  1.43793e-13
+  1.43793e-13  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.43793e-13
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-3.791999e-07	1.437925e-13	
+3.791999e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-2.637132e+06	3.791999e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	8.636169e-78	
+6.884287e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-5.490319e+03	7.894669e-10	
+5.490319e+03	-7.894669e-10	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -5.490319e+03
+C4H9OONO2 loss = -7.894669e-10
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 5.490319e+03
+C4H9OONO2 -> C4H9OO = 7.894669e-10
+}
+
+Eq fraction matrix:
+{
+ -6.95446e+12  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.43793e-13  1.43793e-13
+  1.43793e-13  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.43793e-13
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+3.791999e-07	1.437925e-13	
+-3.791999e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+2.637132e+06	-3.791999e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-8.636169e-78	
+-1.519291e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.777067e+03	2.555290e-10	
+1.777067e+03	-2.555290e-10	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.777067e+03
+C4H9OONO2 loss = -2.555290e-10
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.777067e+03
+C4H9OONO2 -> C4H9OO = 2.555290e-10
+}
+
+Eq fraction matrix:
+{
+ -6.95446e+12  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.43793e-13  1.43793e-13
+  1.43793e-13  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.43793e-13
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+3.791999e-07	1.437925e-13	
+-3.791999e-07	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+2.637132e+06	-3.791999e-07	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	8.636169e-78	
+-2.848670e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-8.380644e+02	1.205074e-10	
+8.380644e+02	-1.205074e-10	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -8.380644e+02
+C4H9OONO2 loss = -1.205074e-10
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 8.380644e+02
+C4H9OONO2 -> C4H9OO = 1.205074e-10
+}
+
+Eq fraction matrix:
+{
+ -2.61298e+11  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -3.82704e-12  3.82704e-12
+  3.82704e-12  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 3.82704e-12
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.956283e-06	3.827043e-12	
+1.956283e-06	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-5.111735e+05	1.956283e-06	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	5.527148e-76	
+8.071233e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.584762e+04	6.064953e-08	
+1.584762e+04	-6.064953e-08	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.584762e+04
+C4H9OONO2 loss = -6.064953e-08
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.584762e+04
+C4H9OONO2 -> C4H9OO = 6.064953e-08
+}
+
+Eq fraction matrix:
+{
+ -2.61298e+11  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -3.82704e-12  3.82704e-12
+  3.82704e-12  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 3.82704e-12
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.956283e-06	3.827043e-12	
+1.956283e-06	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-5.111735e+05	1.956283e-06	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-3.454467e-77	
+-3.418404e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.584762e+04	6.064953e-08	
+1.584762e+04	-6.064953e-08	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.584762e+04
+C4H9OONO2 loss = -6.064953e-08
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.584762e+04
+C4H9OONO2 -> C4H9OO = 6.064953e-08
+}
+
+Eq fraction matrix:
+{
+ -2.61298e+11  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -3.82704e-12  3.82704e-12
+  3.82704e-12  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 3.82704e-12
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.956283e-06	3.827043e-12	
+1.956283e-06	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-5.111735e+05	1.956283e-06	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-1.105430e-75	
+-1.186946e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.584762e+04	6.064950e-08	
+1.584762e+04	-6.064950e-08	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.584762e+04
+C4H9OONO2 loss = -6.064950e-08
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.584762e+04
+C4H9OONO2 -> C4H9OO = 6.064950e-08
+}
+
+Eq fraction matrix:
+{
+ -2.61298e+11  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -3.82704e-12  3.82704e-12
+  3.82704e-12  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 3.82704e-12
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.956283e-06	3.827043e-12	
+1.956283e-06	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-5.111735e+05	1.956283e-06	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.105430e-75	
+1.899114e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.584746e+04	6.064890e-08	
+1.584746e+04	-6.064890e-08	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.584746e+04
+C4H9OONO2 loss = -6.064890e-08
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.584746e+04
+C4H9OONO2 -> C4H9OO = 6.064890e-08
+}
+
+Eq fraction matrix:
+{
+ -2.61298e+11  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -3.82704e-12  3.82704e-12
+  3.82704e-12  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 3.82704e-12
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.956283e-06	3.827043e-12	
+1.956283e-06	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-5.111735e+05	1.956283e-06	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	4.145361e-76	
+6.765592e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.584059e+04	6.062260e-08	
+1.584059e+04	-6.062260e-08	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.584059e+04
+C4H9OONO2 loss = -6.062260e-08
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.584059e+04
+C4H9OONO2 -> C4H9OO = 6.062260e-08
+}
+
+Eq fraction matrix:
+{
+ -2.61298e+11  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -3.82704e-12  3.82704e-12
+  3.82704e-12  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 3.82704e-12
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.956283e-06	3.827043e-12	
+1.956283e-06	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-5.111735e+05	1.956283e-06	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-1.658144e-75	
+-2.089025e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.552969e+04	5.943279e-08	
+1.552969e+04	-5.943279e-08	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.552969e+04
+C4H9OONO2 loss = -5.943279e-08
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.552969e+04
+C4H9OONO2 -> C4H9OO = 5.943279e-08
+}
+
+Eq fraction matrix:
+{
+ -2.61298e+11  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -3.82704e-12  3.82704e-12
+  3.82704e-12  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 3.82704e-12
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.956283e-06	3.827043e-12	
+1.956283e-06	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-5.111735e+05	1.956283e-06	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	4.879435e-76	
+1.851636e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.154038e+04	4.416551e-08	
+1.154038e+04	-4.416551e-08	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.154038e+04
+C4H9OONO2 loss = -4.416551e-08
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.154038e+04
+C4H9OONO2 -> C4H9OO = 4.416551e-08
+}
+
+Eq fraction matrix:
+{
+ -2.61298e+11  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -3.82704e-12  3.82704e-12
+  3.82704e-12  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 3.82704e-12
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+1.956283e-06	3.827043e-12	
+-1.956283e-06	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+5.111735e+05	-1.956283e-06	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	0.000000e+00	
+1.234424e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-4.439049e+03	1.698843e-08	
+4.439049e+03	-1.698843e-08	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -4.439049e+03
+C4H9OONO2 loss = -1.698843e-08
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 4.439049e+03
+C4H9OONO2 -> C4H9OO = 1.698843e-08
+}
+
+Eq fraction matrix:
+{
+ -2.61298e+11  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -3.82704e-12  3.82704e-12
+  3.82704e-12  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 3.82704e-12
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+1.956283e-06	3.827043e-12	
+-1.956283e-06	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+5.111735e+05	-1.956283e-06	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	0.000000e+00	
+6.172119e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.348132e+03	5.159359e-09	
+1.348132e+03	-5.159359e-09	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.348132e+03
+C4H9OONO2 loss = -5.159359e-09
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.348132e+03
+C4H9OONO2 -> C4H9OO = 5.159359e-09
+}
+
+Eq fraction matrix:
+{
+ -2.61298e+11  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -3.82704e-12  3.82704e-12
+  3.82704e-12  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 3.82704e-12
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+1.956283e-06	3.827043e-12	
+-1.956283e-06	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+5.111735e+05	-1.956283e-06	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-6.908935e-77	
+9.020789e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-6.202163e+02	2.373594e-09	
+6.202163e+02	-2.373594e-09	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -6.202163e+02
+C4H9OONO2 loss = -2.373594e-09
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 6.202163e+02
+C4H9OONO2 -> C4H9OO = 2.373594e-09
+}
+
+Eq fraction matrix:
+{
+ -4.71083e+09  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -2.12277e-10  2.12277e-10
+  2.12277e-10  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 2.12277e-10
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.456972e-05	2.122767e-10	
+1.456972e-05	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-6.863550e+04	1.456972e-05	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	9.050705e-75	
+-4.985173e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.483873e+04	3.149918e-06	
+1.483873e+04	-3.149918e-06	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.483873e+04
+C4H9OONO2 loss = -3.149918e-06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.483873e+04
+C4H9OONO2 -> C4H9OO = 3.149918e-06
+}
+
+Eq fraction matrix:
+{
+ -4.71083e+09  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -2.12277e-10  2.12277e-10
+  2.12277e-10  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 2.12277e-10
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.456972e-05	2.122767e-10	
+1.456972e-05	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-6.863550e+04	1.456972e-05	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	2.210859e-74	
+3.798227e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.483873e+04	3.149918e-06	
+1.483873e+04	-3.149918e-06	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.483873e+04
+C4H9OONO2 loss = -3.149918e-06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.483873e+04
+C4H9OONO2 -> C4H9OO = 3.149918e-06
+}
+
+Eq fraction matrix:
+{
+ -4.71083e+09  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -2.12277e-10  2.12277e-10
+  2.12277e-10  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 2.12277e-10
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.456972e-05	2.122767e-10	
+1.456972e-05	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-6.863550e+04	1.456972e-05	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	6.632577e-75	
+6.646897e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.483872e+04	3.149916e-06	
+1.483872e+04	-3.149916e-06	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.483872e+04
+C4H9OONO2 loss = -3.149916e-06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.483872e+04
+C4H9OONO2 -> C4H9OO = 3.149916e-06
+}
+
+Eq fraction matrix:
+{
+ -4.71083e+09  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -2.12277e-10  2.12277e-10
+  2.12277e-10  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 2.12277e-10
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.456972e-05	2.122767e-10	
+1.456972e-05	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-6.863550e+04	1.456972e-05	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	2.763574e-74	
+1.709202e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.483848e+04	3.149863e-06	
+1.483848e+04	-3.149863e-06	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.483848e+04
+C4H9OONO2 loss = -3.149863e-06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.483848e+04
+C4H9OONO2 -> C4H9OO = 3.149863e-06
+}
+
+Eq fraction matrix:
+{
+ -4.71083e+09  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -2.12277e-10  2.12277e-10
+  2.12277e-10  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 2.12277e-10
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.456972e-05	2.122767e-10	
+1.456972e-05	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-6.863550e+04	1.456972e-05	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	7.738007e-75	
+-9.495568e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.482770e+04	3.147576e-06	
+1.482770e+04	-3.147576e-06	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.482770e+04
+C4H9OONO2 loss = -3.147576e-06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.482770e+04
+C4H9OONO2 -> C4H9OO = 3.147576e-06
+}
+
+Eq fraction matrix:
+{
+ -4.71083e+09  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -2.12277e-10  2.12277e-10
+  2.12277e-10  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 2.12277e-10
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.456972e-05	2.122767e-10	
+1.456972e-05	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-6.863550e+04	1.456972e-05	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	8.912526e-75	
+-1.115729e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.437232e+04	3.050910e-06	
+1.437232e+04	-3.050910e-06	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.437232e+04
+C4H9OONO2 loss = -3.050910e-06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.437232e+04
+C4H9OONO2 -> C4H9OO = 3.050910e-06
+}
+
+Eq fraction matrix:
+{
+ -4.71083e+09  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -2.12277e-10  2.12277e-10
+  2.12277e-10  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 2.12277e-10
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.456972e-05	2.122767e-10	
+1.456972e-05	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-6.863550e+04	1.456972e-05	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	2.210859e-74	
+3.323449e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-9.749277e+03	2.069545e-06	
+9.749277e+03	-2.069545e-06	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -9.749277e+03
+C4H9OONO2 loss = -2.069545e-06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 9.749277e+03
+C4H9OONO2 -> C4H9OO = 2.069545e-06
+}
+
+Eq fraction matrix:
+{
+ -4.71083e+09  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -2.12277e-10  2.12277e-10
+  2.12277e-10  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 2.12277e-10
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.456972e-05	2.122767e-10	
+1.456972e-05	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-6.863550e+04	1.456972e-05	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	2.431945e-74	
+1.756680e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-3.280513e+03	6.963767e-07	
+3.280513e+03	-6.963767e-07	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -3.280513e+03
+C4H9OONO2 loss = -6.963767e-07
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 3.280513e+03
+C4H9OONO2 -> C4H9OO = 6.963767e-07
+}
+
+Eq fraction matrix:
+{
+ -4.71083e+09  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -2.12277e-10  2.12277e-10
+  2.12277e-10  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 2.12277e-10
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+1.456972e-05	2.122767e-10	
+-1.456972e-05	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+6.863550e+04	-1.456972e-05	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-2.210859e-75	
+1.899114e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-9.166989e+02	1.945939e-07	
+9.166989e+02	-1.945939e-07	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -9.166989e+02
+C4H9OONO2 loss = -1.945939e-07
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 9.166989e+02
+C4H9OONO2 -> C4H9OO = 1.945939e-07
+}
+
+Eq fraction matrix:
+{
+ -4.71083e+09  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -2.12277e-10  2.12277e-10
+  2.12277e-10  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 2.12277e-10
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+1.456972e-05	2.122767e-10	
+-1.456972e-05	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+6.863550e+04	-1.456972e-05	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.989773e-74	
+9.495568e-66	1.000000e+00	
+}
+
+Kr matrix:
+{
+-4.080588e+02	8.662139e-08	
+4.080588e+02	-8.662139e-08	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -4.080588e+02
+C4H9OONO2 loss = -8.662139e-08
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 4.080588e+02
+C4H9OONO2 -> C4H9OO = 8.662139e-08
+}
+
+Eq fraction matrix:
+{
+ -5.37800e+07  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.85943e-08  1.85943e-08
+  1.85943e-08  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.85943e-08
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.363609e-04	1.859429e-08	
+1.363609e-04	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-7.333482e+03	1.363609e-04	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	5.659799e-73	
+0.000000e+00	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.370700e+04	2.548719e-04	
+1.370700e+04	-2.548719e-04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.370700e+04
+C4H9OONO2 loss = -2.548719e-04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.370700e+04
+C4H9OONO2 -> C4H9OO = 2.548719e-04
+}
+
+Eq fraction matrix:
+{
+ -5.37800e+07  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.85943e-08  1.85943e-08
+  1.85943e-08  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.85943e-08
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.363609e-04	1.859429e-08	
+1.363609e-04	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-7.333482e+03	1.363609e-04	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	5.659799e-73	
+-2.468848e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.370700e+04	2.548719e-04	
+1.370700e+04	-2.548719e-04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.370700e+04
+C4H9OONO2 loss = -2.548719e-04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.370700e+04
+C4H9OONO2 -> C4H9OO = 2.548719e-04
+}
+
+Eq fraction matrix:
+{
+ -5.37800e+07  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.85943e-08  1.85943e-08
+  1.85943e-08  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.85943e-08
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.363609e-04	1.859429e-08	
+1.363609e-04	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-7.333482e+03	1.363609e-04	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	0.000000e+00	
+-1.091990e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.370698e+04	2.548716e-04	
+1.370698e+04	-2.548716e-04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.370698e+04
+C4H9OONO2 loss = -2.548716e-04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.370698e+04
+C4H9OONO2 -> C4H9OO = 2.548716e-04
+}
+
+Eq fraction matrix:
+{
+ -5.37800e+07  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.85943e-08  1.85943e-08
+  1.85943e-08  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.85943e-08
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.363609e-04	1.859429e-08	
+1.363609e-04	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-7.333482e+03	1.363609e-04	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-4.527840e-72	
+-2.563803e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.370655e+04	2.548635e-04	
+1.370655e+04	-2.548635e-04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.370655e+04
+C4H9OONO2 loss = -2.548635e-04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.370655e+04
+C4H9OONO2 -> C4H9OO = 2.548635e-04
+}
+
+Eq fraction matrix:
+{
+ -5.37800e+07  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.85943e-08  1.85943e-08
+  1.85943e-08  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.85943e-08
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.363609e-04	1.859429e-08	
+1.363609e-04	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-7.333482e+03	1.363609e-04	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-8.489699e-73	
+-1.519291e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.368769e+04	2.545128e-04	
+1.368769e+04	-2.545128e-04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.368769e+04
+C4H9OONO2 loss = -2.545128e-04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.368769e+04
+C4H9OONO2 -> C4H9OO = 2.545128e-04
+}
+
+Eq fraction matrix:
+{
+ -5.37800e+07  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.85943e-08  1.85943e-08
+  1.85943e-08  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.85943e-08
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+1.363609e-04	1.859429e-08	
+-1.363609e-04	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+7.333482e+03	-1.363609e-04	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	0.000000e+00	
+3.798227e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.297681e+04	2.412946e-04	
+1.297681e+04	-2.412946e-04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.297681e+04
+C4H9OONO2 loss = -2.412946e-04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.297681e+04
+C4H9OONO2 -> C4H9OO = 2.412946e-04
+}
+
+Eq fraction matrix:
+{
+ -5.37800e+07  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.85943e-08  1.85943e-08
+  1.85943e-08  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.85943e-08
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+1.363609e-04	1.859429e-08	
+-1.363609e-04	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+7.333482e+03	-1.363609e-04	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	0.000000e+00	
+4.747784e-66	1.000000e+00	
+}
+
+Kr matrix:
+{
+-7.686316e+03	1.429216e-04	
+7.686316e+03	-1.429216e-04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -7.686316e+03
+C4H9OONO2 loss = -1.429216e-04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 7.686316e+03
+C4H9OONO2 -> C4H9OO = 1.429216e-04
+}
+
+Eq fraction matrix:
+{
+ -5.37800e+07  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.85943e-08  1.85943e-08
+  1.85943e-08  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.85943e-08
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.363609e-04	1.859429e-08	
+1.363609e-04	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+-7.333482e+03	1.363609e-04	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	8.489699e-73	
+1.899114e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-2.185204e+03	4.063231e-05	
+2.185204e+03	-4.063231e-05	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -2.185204e+03
+C4H9OONO2 loss = -4.063231e-05
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 2.185204e+03
+C4H9OONO2 -> C4H9OO = 4.063231e-05
+}
+
+Eq fraction matrix:
+{
+ -5.37800e+07  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.85943e-08  1.85943e-08
+  1.85943e-08  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.85943e-08
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+1.363609e-04	1.859429e-08	
+-1.363609e-04	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+7.333482e+03	-1.363609e-04	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-1.131960e-72	
+-1.139468e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-5.524812e+02	1.027299e-05	
+5.524812e+02	-1.027299e-05	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -5.524812e+02
+C4H9OONO2 loss = -1.027299e-05
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 5.524812e+02
+C4H9OONO2 -> C4H9OO = 1.027299e-05
+}
+
+Eq fraction matrix:
+{
+ -5.37800e+07  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.85943e-08  1.85943e-08
+  1.85943e-08  1.00000e+00
+}
+Equilibrium Fraction for C4H9OO = 1.85943e-08
+Equilibrium Fraction for C4H9OONO2 = 1
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+1.363609e-04	1.859429e-08	
+-1.363609e-04	1.000000e+00	
+}
+
+Z_matrix^(-1):
+{
+7.333482e+03	-1.363609e-04	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-2.263920e-72	
+6.646897e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-2.362543e+02	4.392981e-06	
+2.362543e+02	-4.392981e-06	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -2.362543e+02
+C4H9OONO2 loss = -4.392981e-06
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 2.362543e+02
+C4H9OONO2 -> C4H9OO = 4.392981e-06
+}
+
+Eq fraction matrix:
+{
+ -5.30183e+05  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.88614e-06  1.88614e-06
+  1.88614e-06  9.99998e-01
+}
+Equilibrium Fraction for C4H9OO = 1.88614e-06
+Equilibrium Fraction for C4H9OONO2 = 0.999998
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.373366e-03	1.886137e-06	
+1.373366e-03	9.999981e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.281367e+02	1.373368e-03	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-1.584744e-71	
+0.000000e+00	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.252607e+04	2.362592e-02	
+1.252607e+04	-2.362592e-02	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.252607e+04
+C4H9OONO2 loss = -2.362592e-02
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.252607e+04
+C4H9OONO2 -> C4H9OO = 2.362592e-02
+}
+
+Eq fraction matrix:
+{
+ -5.30183e+05  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.88614e-06  1.88614e-06
+  1.88614e-06  9.99998e-01
+}
+Equilibrium Fraction for C4H9OO = 1.88614e-06
+Equilibrium Fraction for C4H9OONO2 = 0.999998
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.373366e-03	1.886137e-06	
+1.373366e-03	9.999981e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.281367e+02	1.373368e-03	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-4.527840e-71	
+0.000000e+00	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.252606e+04	2.362592e-02	
+1.252606e+04	-2.362592e-02	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.252606e+04
+C4H9OONO2 loss = -2.362592e-02
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.252606e+04
+C4H9OONO2 -> C4H9OO = 2.362592e-02
+}
+
+Eq fraction matrix:
+{
+ -5.30183e+05  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.88614e-06  1.88614e-06
+  1.88614e-06  9.99998e-01
+}
+Equilibrium Fraction for C4H9OO = 1.88614e-06
+Equilibrium Fraction for C4H9OONO2 = 0.999998
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.373366e-03	1.886137e-06	
+1.373366e-03	9.999981e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.281367e+02	1.373368e-03	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	2.173363e-70	
+0.000000e+00	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.252603e+04	2.362586e-02	
+1.252603e+04	-2.362586e-02	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.252603e+04
+C4H9OONO2 loss = -2.362586e-02
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.252603e+04
+C4H9OONO2 -> C4H9OO = 2.362586e-02
+}
+
+Eq fraction matrix:
+{
+ -5.30183e+05  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.88614e-06  1.88614e-06
+  1.88614e-06  9.99998e-01
+}
+Equilibrium Fraction for C4H9OO = 1.88614e-06
+Equilibrium Fraction for C4H9OONO2 = 0.999998
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.373366e-03	1.886137e-06	
+1.373366e-03	9.999981e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.281367e+02	1.373368e-03	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	6.248419e-70	
+1.899114e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.252518e+04	2.362426e-02	
+1.252518e+04	-2.362426e-02	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.252518e+04
+C4H9OONO2 loss = -2.362426e-02
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.252518e+04
+C4H9OONO2 -> C4H9OO = 2.362426e-02
+}
+
+Eq fraction matrix:
+{
+ -5.30183e+05  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.88614e-06  1.88614e-06
+  1.88614e-06  9.99998e-01
+}
+Equilibrium Fraction for C4H9OO = 1.88614e-06
+Equilibrium Fraction for C4H9OONO2 = 0.999998
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+1.373366e-03	1.886137e-06	
+-1.373366e-03	9.999981e-01	
+}
+
+Z_matrix^(-1):
+{
+7.281367e+02	-1.373368e-03	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-1.267795e-70	
+-3.798227e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.248878e+04	2.355559e-02	
+1.248878e+04	-2.355559e-02	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.248878e+04
+C4H9OONO2 loss = -2.355559e-02
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.248878e+04
+C4H9OONO2 -> C4H9OO = 2.355559e-02
+}
+
+Eq fraction matrix:
+{
+ -5.30183e+05  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.88614e-06  1.88614e-06
+  1.88614e-06  9.99998e-01
+}
+Equilibrium Fraction for C4H9OO = 1.88614e-06
+Equilibrium Fraction for C4H9OONO2 = 0.999998
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.373366e-03	1.886137e-06	
+1.373366e-03	9.999981e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.281367e+02	1.373368e-03	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	0.000000e+00	
+3.798227e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.134612e+04	2.140038e-02	
+1.134612e+04	-2.140038e-02	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.134612e+04
+C4H9OONO2 loss = -2.140038e-02
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.134612e+04
+C4H9OONO2 -> C4H9OO = 2.140038e-02
+}
+
+Eq fraction matrix:
+{
+ -5.30183e+05  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.88614e-06  1.88614e-06
+  1.88614e-06  9.99998e-01
+}
+Equilibrium Fraction for C4H9OO = 1.88614e-06
+Equilibrium Fraction for C4H9OONO2 = 0.999998
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.373366e-03	1.886137e-06	
+1.373366e-03	9.999981e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.281367e+02	1.373368e-03	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	6.338975e-71	
+-3.798227e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-5.558694e+03	1.048448e-02	
+5.558694e+03	-1.048448e-02	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -5.558694e+03
+C4H9OONO2 loss = -1.048448e-02
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 5.558694e+03
+C4H9OONO2 -> C4H9OO = 1.048448e-02
+}
+
+Eq fraction matrix:
+{
+ -5.30183e+05  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.88614e-06  1.88614e-06
+  1.88614e-06  9.99998e-01
+}
+Equilibrium Fraction for C4H9OO = 1.88614e-06
+Equilibrium Fraction for C4H9OONO2 = 0.999998
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.373366e-03	1.886137e-06	
+1.373366e-03	9.999981e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.281367e+02	1.373368e-03	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-3.622272e-71	
+0.000000e+00	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.296532e+03	2.445442e-03	
+1.296532e+03	-2.445442e-03	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.296532e+03
+C4H9OONO2 loss = -2.445442e-03
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.296532e+03
+C4H9OONO2 -> C4H9OO = 2.445442e-03
+}
+
+Eq fraction matrix:
+{
+ -5.30183e+05  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.88614e-06  1.88614e-06
+  1.88614e-06  9.99998e-01
+}
+Equilibrium Fraction for C4H9OO = 1.88614e-06
+Equilibrium Fraction for C4H9OONO2 = 0.999998
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.373366e-03	1.886137e-06	
+1.373366e-03	9.999981e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.281367e+02	1.373368e-03	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.448909e-70	
+-8.546011e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-2.930306e+02	5.526969e-04	
+2.930306e+02	-5.526969e-04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -2.930306e+02
+C4H9OONO2 loss = -5.526969e-04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 2.930306e+02
+C4H9OONO2 -> C4H9OO = 5.526969e-04
+}
+
+Eq fraction matrix:
+{
+ -5.30183e+05  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.88614e-06  1.88614e-06
+  1.88614e-06  9.99998e-01
+}
+Equilibrium Fraction for C4H9OO = 1.88614e-06
+Equilibrium Fraction for C4H9OONO2 = 0.999998
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.373366e-03	1.886137e-06	
+1.373366e-03	9.999981e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.281367e+02	1.373368e-03	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	7.244543e-71	
+9.495568e-66	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.197598e+02	2.258839e-04	
+1.197598e+02	-2.258839e-04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.197598e+02
+C4H9OONO2 loss = -2.258839e-04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.197598e+02
+C4H9OONO2 -> C4H9OO = 2.258839e-04
+}
+
+Eq fraction matrix:
+{
+ -6.22198e+03  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.60695e-04  1.60695e-04
+  1.60695e-04  9.99839e-01
+}
+Equilibrium Fraction for C4H9OO = 0.000160695
+Equilibrium Fraction for C4H9OONO2 = 0.999839
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.267553e-02	1.606948e-04	
+1.267553e-02	9.998393e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.887952e+01	1.267756e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	3.709206e-68	
+1.899114e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.137412e+04	1.828056e+00	
+1.137412e+04	-1.828056e+00	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.137412e+04
+C4H9OONO2 loss = -1.828056e+00
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.137412e+04
+C4H9OONO2 -> C4H9OO = 1.828056e+00
+}
+
+Eq fraction matrix:
+{
+ -6.22198e+03  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.60695e-04  1.60695e-04
+  1.60695e-04  9.99839e-01
+}
+Equilibrium Fraction for C4H9OO = 0.000160695
+Equilibrium Fraction for C4H9OONO2 = 0.999839
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+1.267553e-02	1.606948e-04	
+-1.267553e-02	9.998393e-01	
+}
+
+Z_matrix^(-1):
+{
+7.887952e+01	-1.267756e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-1.854603e-68	
+-1.281902e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.137412e+04	1.828055e+00	
+1.137412e+04	-1.828055e+00	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.137412e+04
+C4H9OONO2 loss = -1.828055e+00
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.137412e+04
+C4H9OONO2 -> C4H9OO = 1.828055e+00
+}
+
+Eq fraction matrix:
+{
+ -6.22198e+03  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.60695e-04  1.60695e-04
+  1.60695e-04  9.99839e-01
+}
+Equilibrium Fraction for C4H9OO = 0.000160695
+Equilibrium Fraction for C4H9OONO2 = 0.999839
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.267553e-02	1.606948e-04	
+1.267553e-02	9.998393e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.887952e+01	1.267756e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-1.854603e-68	
+-9.495568e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.137405e+04	1.828044e+00	
+1.137405e+04	-1.828044e+00	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.137405e+04
+C4H9OONO2 loss = -1.828044e+00
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.137405e+04
+C4H9OONO2 -> C4H9OO = 1.828044e+00
+}
+
+Eq fraction matrix:
+{
+ -6.22198e+03  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.60695e-04  1.60695e-04
+  1.60695e-04  9.99839e-01
+}
+Equilibrium Fraction for C4H9OO = 0.000160695
+Equilibrium Fraction for C4H9OONO2 = 0.999839
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.267553e-02	1.606948e-04	
+1.267553e-02	9.998393e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.887952e+01	1.267756e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	2.781905e-68	
+1.899114e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.137226e+04	1.827756e+00	
+1.137226e+04	-1.827756e+00	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.137226e+04
+C4H9OONO2 loss = -1.827756e+00
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.137226e+04
+C4H9OONO2 -> C4H9OO = 1.827756e+00
+}
+
+Eq fraction matrix:
+{
+ -6.22198e+03  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.60695e-04  1.60695e-04
+  1.60695e-04  9.99839e-01
+}
+Equilibrium Fraction for C4H9OO = 0.000160695
+Equilibrium Fraction for C4H9OONO2 = 0.999839
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.267553e-02	1.606948e-04	
+1.267553e-02	9.998393e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.887952e+01	1.267756e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-9.273015e-69	
+1.899114e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.129708e+04	1.815674e+00	
+1.129708e+04	-1.815674e+00	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.129708e+04
+C4H9OONO2 loss = -1.815674e+00
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.129708e+04
+C4H9OONO2 -> C4H9OO = 1.815674e+00
+}
+
+Eq fraction matrix:
+{
+ -6.22198e+03  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.60695e-04  1.60695e-04
+  1.60695e-04  9.99839e-01
+}
+Equilibrium Fraction for C4H9OO = 0.000160695
+Equilibrium Fraction for C4H9OONO2 = 0.999839
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.267553e-02	1.606948e-04	
+1.267553e-02	9.998393e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.887952e+01	1.267756e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	0.000000e+00	
+0.000000e+00	1.000000e+00	
+}
+
+Kr matrix:
+{
+-9.495594e+03	1.526137e+00	
+9.495594e+03	-1.526137e+00	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -9.495594e+03
+C4H9OONO2 loss = -1.526137e+00
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 9.495594e+03
+C4H9OONO2 -> C4H9OO = 1.526137e+00
+}
+
+Eq fraction matrix:
+{
+ -6.22198e+03  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.60695e-04  1.60695e-04
+  1.60695e-04  9.99839e-01
+}
+Equilibrium Fraction for C4H9OO = 0.000160695
+Equilibrium Fraction for C4H9OONO2 = 0.999839
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+1.267553e-02	1.606948e-04	
+-1.267553e-02	9.998393e-01	
+}
+
+Z_matrix^(-1):
+{
+7.887952e+01	-1.267756e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	2.781905e-68	
+-3.798227e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-3.640615e+03	5.851217e-01	
+3.640615e+03	-5.851217e-01	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -3.640615e+03
+C4H9OONO2 loss = -5.851217e-01
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 3.640615e+03
+C4H9OONO2 -> C4H9OO = 5.851217e-01
+}
+
+Eq fraction matrix:
+{
+ -6.22198e+03  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.60695e-04  1.60695e-04
+  1.60695e-04  9.99839e-01
+}
+Equilibrium Fraction for C4H9OO = 0.000160695
+Equilibrium Fraction for C4H9OONO2 = 0.999839
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.267553e-02	1.606948e-04	
+1.267553e-02	9.998393e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.887952e+01	1.267756e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	4.636508e-68	
+3.038582e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-6.841720e+02	1.099605e-01	
+6.841720e+02	-1.099605e-01	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -6.841720e+02
+C4H9OONO2 loss = -1.099605e-01
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 6.841720e+02
+C4H9OONO2 -> C4H9OO = 1.099605e-01
+}
+
+Eq fraction matrix:
+{
+ -6.22198e+03  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.60695e-04  1.60695e-04
+  1.60695e-04  9.99839e-01
+}
+Equilibrium Fraction for C4H9OO = 0.000160695
+Equilibrium Fraction for C4H9OONO2 = 0.999839
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.267553e-02	1.606948e-04	
+1.267553e-02	9.998393e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.887952e+01	1.267756e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-4.868333e-68	
+-1.899114e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.375348e+02	2.210468e-02	
+1.375348e+02	-2.210468e-02	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.375348e+02
+C4H9OONO2 loss = -2.210468e-02
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.375348e+02
+C4H9OONO2 -> C4H9OO = 2.210468e-02
+}
+
+Eq fraction matrix:
+{
+ -6.22198e+03  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.60695e-04  1.60695e-04
+  1.60695e-04  9.99839e-01
+}
+Equilibrium Fraction for C4H9OO = 0.000160695
+Equilibrium Fraction for C4H9OONO2 = 0.999839
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-1.267553e-02	1.606948e-04	
+1.267553e-02	9.998393e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.887952e+01	1.267756e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	0.000000e+00	
+-1.899114e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-5.361191e+01	8.616537e-03	
+5.361191e+01	-8.616537e-03	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -5.361191e+01
+C4H9OONO2 loss = -8.616537e-03
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 5.361191e+01
+C4H9OONO2 -> C4H9OO = 8.616537e-03
+}
+
+Eq fraction matrix:
+{
+ -1.18193e+02  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.38974e-03  8.38974e-03
+  8.38974e-03  9.91610e-01
+}
+Equilibrium Fraction for C4H9OO = 0.00838974
+Equilibrium Fraction for C4H9OONO2 = 0.99161
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-9.121050e-02	8.389742e-03	
+9.121050e-02	9.916103e-01	
+}
+
+Z_matrix^(-1):
+{
+-1.087167e+01	9.198220e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-5.934730e-67	
+3.798227e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.033018e+04	8.740081e+01	
+1.033018e+04	-8.740081e+01	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.033018e+04
+C4H9OONO2 loss = -8.740081e+01
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.033018e+04
+C4H9OONO2 -> C4H9OO = 8.740081e+01
+}
+
+Eq fraction matrix:
+{
+ -1.18193e+02  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.38974e-03  8.38974e-03
+  8.38974e-03  9.91610e-01
+}
+Equilibrium Fraction for C4H9OO = 0.00838974
+Equilibrium Fraction for C4H9OONO2 = 0.99161
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+9.121050e-02	8.389742e-03	
+-9.121050e-02	9.916103e-01	
+}
+
+Z_matrix^(-1):
+{
+1.087167e+01	-9.198220e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-2.967365e-67	
+1.329379e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.033017e+04	8.740071e+01	
+1.033017e+04	-8.740071e+01	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.033017e+04
+C4H9OONO2 loss = -8.740071e+01
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.033017e+04
+C4H9OONO2 -> C4H9OO = 8.740071e+01
+}
+
+Eq fraction matrix:
+{
+ -1.18193e+02  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.38974e-03  8.38974e-03
+  8.38974e-03  9.91610e-01
+}
+Equilibrium Fraction for C4H9OO = 0.00838974
+Equilibrium Fraction for C4H9OONO2 = 0.99161
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+9.121050e-02	8.389742e-03	
+-9.121050e-02	9.916103e-01	
+}
+
+Z_matrix^(-1):
+{
+1.087167e+01	-9.198220e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	2.967365e-67	
+4.747784e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.033002e+04	8.739944e+01	
+1.033002e+04	-8.739944e+01	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.033002e+04
+C4H9OONO2 loss = -8.739944e+01
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.033002e+04
+C4H9OONO2 -> C4H9OO = 8.739944e+01
+}
+
+Eq fraction matrix:
+{
+ -1.18193e+02  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.38974e-03  8.38974e-03
+  8.38974e-03  9.91610e-01
+}
+Equilibrium Fraction for C4H9OO = 0.00838974
+Equilibrium Fraction for C4H9OONO2 = 0.99161
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-9.121050e-02	8.389742e-03	
+9.121050e-02	9.916103e-01	
+}
+
+Z_matrix^(-1):
+{
+-1.087167e+01	9.198220e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.149854e-66	
+1.519291e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.032609e+04	8.736619e+01	
+1.032609e+04	-8.736619e+01	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.032609e+04
+C4H9OONO2 loss = -8.736619e+01
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.032609e+04
+C4H9OONO2 -> C4H9OO = 8.736619e+01
+}
+
+Eq fraction matrix:
+{
+ -1.18193e+02  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.38974e-03  8.38974e-03
+  8.38974e-03  9.91610e-01
+}
+Equilibrium Fraction for C4H9OO = 0.00838974
+Equilibrium Fraction for C4H9OONO2 = 0.99161
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+9.121050e-02	8.389742e-03	
+-9.121050e-02	9.916103e-01	
+}
+
+Z_matrix^(-1):
+{
+1.087167e+01	-9.198220e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	5.934730e-67	
+5.697341e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.016959e+04	8.604210e+01	
+1.016959e+04	-8.604210e+01	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.016959e+04
+C4H9OONO2 loss = -8.604210e+01
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.016959e+04
+C4H9OONO2 -> C4H9OO = 8.604210e+01
+}
+
+Eq fraction matrix:
+{
+ -1.18193e+02  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.38974e-03  8.38974e-03
+  8.38974e-03  9.91610e-01
+}
+Equilibrium Fraction for C4H9OO = 0.00838974
+Equilibrium Fraction for C4H9OONO2 = 0.99161
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+9.121050e-02	8.389742e-03	
+-9.121050e-02	9.916103e-01	
+}
+
+Z_matrix^(-1):
+{
+1.087167e+01	-9.198220e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-5.934730e-67	
+0.000000e+00	1.000000e+00	
+}
+
+Kr matrix:
+{
+-7.530938e+03	6.371720e+01	
+7.530938e+03	-6.371720e+01	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -7.530938e+03
+C4H9OONO2 loss = -6.371720e+01
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 7.530938e+03
+C4H9OONO2 -> C4H9OO = 6.371720e+01
+}
+
+Eq fraction matrix:
+{
+ -1.18193e+02  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.38974e-03  8.38974e-03
+  8.38974e-03  9.91610e-01
+}
+Equilibrium Fraction for C4H9OO = 0.00838974
+Equilibrium Fraction for C4H9OONO2 = 0.99161
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+9.121050e-02	8.389742e-03	
+-9.121050e-02	9.916103e-01	
+}
+
+Z_matrix^(-1):
+{
+1.087167e+01	-9.198220e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-4.599416e-66	
+1.519291e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-2.172377e+03	1.837988e+01	
+2.172377e+03	-1.837988e+01	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -2.172377e+03
+C4H9OONO2 loss = -1.837988e+01
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 2.172377e+03
+C4H9OONO2 -> C4H9OO = 1.837988e+01
+}
+
+Eq fraction matrix:
+{
+ -1.18193e+02  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.38974e-03  8.38974e-03
+  8.38974e-03  9.91610e-01
+}
+Equilibrium Fraction for C4H9OO = 0.00838974
+Equilibrium Fraction for C4H9OONO2 = 0.99161
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+9.121050e-02	8.389742e-03	
+-9.121050e-02	9.916103e-01	
+}
+
+Z_matrix^(-1):
+{
+1.087167e+01	-9.198220e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-9.643936e-67	
+1.899114e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-3.287359e+02	2.781345e+00	
+3.287359e+02	-2.781345e+00	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -3.287359e+02
+C4H9OONO2 loss = -2.781345e+00
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 3.287359e+02
+C4H9OONO2 -> C4H9OO = 2.781345e+00
+}
+
+Eq fraction matrix:
+{
+ -1.18193e+02  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.38974e-03  8.38974e-03
+  8.38974e-03  9.91610e-01
+}
+Equilibrium Fraction for C4H9OO = 0.00838974
+Equilibrium Fraction for C4H9OONO2 = 0.99161
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+9.121050e-02	8.389742e-03	
+-9.121050e-02	9.916103e-01	
+}
+
+Z_matrix^(-1):
+{
+1.087167e+01	-9.198220e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.409498e-66	
+4.273005e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-5.901295e+01	4.992923e-01	
+5.901295e+01	-4.992923e-01	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -5.901295e+01
+C4H9OONO2 loss = -4.992923e-01
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 5.901295e+01
+C4H9OONO2 -> C4H9OO = 4.992923e-01
+}
+
+Eq fraction matrix:
+{
+ -1.18193e+02  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.38974e-03  8.38974e-03
+  8.38974e-03  9.91610e-01
+}
+Equilibrium Fraction for C4H9OO = 0.00838974
+Equilibrium Fraction for C4H9OONO2 = 0.99161
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-9.121050e-02	8.389742e-03	
+9.121050e-02	9.916103e-01	
+}
+
+Z_matrix^(-1):
+{
+-1.087167e+01	9.198220e-02	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	8.902095e-67	
+1.329379e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-2.198026e+01	1.859690e-01	
+2.198026e+01	-1.859690e-01	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -2.198026e+01
+C4H9OONO2 loss = -1.859690e-01
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 2.198026e+01
+C4H9OONO2 -> C4H9OO = 1.859690e-01
+}
+
+Eq fraction matrix:
+{
+ -4.75341e+00  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.73810e-01  1.73810e-01
+  1.73810e-01  8.26190e-01
+}
+Equilibrium Fraction for C4H9OO = 0.17381
+Equilibrium Fraction for C4H9OONO2 = 0.82619
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-3.789461e-01	1.738101e-01	
+3.789461e-01	8.261899e-01	
+}
+
+Z_matrix^(-1):
+{
+-2.180231e+00	4.586670e-01	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-1.424335e-65	
+0.000000e+00	1.000000e+00	
+}
+
+Kr matrix:
+{
+-9.469061e+03	1.992058e+03	
+9.469061e+03	-1.992058e+03	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -9.469061e+03
+C4H9OONO2 loss = -1.992058e+03
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 9.469061e+03
+C4H9OONO2 -> C4H9OO = 1.992058e+03
+}
+
+Eq fraction matrix:
+{
+ -4.75341e+00  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.73810e-01  1.73810e-01
+  1.73810e-01  8.26190e-01
+}
+Equilibrium Fraction for C4H9OO = 0.17381
+Equilibrium Fraction for C4H9OONO2 = 0.82619
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-3.789461e-01	1.738101e-01	
+3.789461e-01	8.261899e-01	
+}
+
+Z_matrix^(-1):
+{
+-2.180231e+00	4.586670e-01	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.661724e-65	
+7.596454e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-9.469037e+03	1.992053e+03	
+9.469037e+03	-1.992053e+03	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -9.469037e+03
+C4H9OONO2 loss = -1.992053e+03
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 9.469037e+03
+C4H9OONO2 -> C4H9OO = 1.992053e+03
+}
+
+Eq fraction matrix:
+{
+ -4.75341e+00  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.73810e-01  1.73810e-01
+  1.73810e-01  8.26190e-01
+}
+Equilibrium Fraction for C4H9OO = 0.17381
+Equilibrium Fraction for C4H9OONO2 = 0.82619
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+3.789461e-01	1.738101e-01	
+-3.789461e-01	8.261899e-01	
+}
+
+Z_matrix^(-1):
+{
+2.180231e+00	-4.586670e-01	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-1.899114e-65	
+1.139468e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-9.468723e+03	1.991986e+03	
+9.468723e+03	-1.991986e+03	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -9.468723e+03
+C4H9OONO2 loss = -1.991986e+03
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 9.468723e+03
+C4H9OONO2 -> C4H9OO = 1.991986e+03
+}
+
+Eq fraction matrix:
+{
+ -4.75341e+00  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.73810e-01  1.73810e-01
+  1.73810e-01  8.26190e-01
+}
+Equilibrium Fraction for C4H9OO = 0.17381
+Equilibrium Fraction for C4H9OONO2 = 0.82619
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+3.789461e-01	1.738101e-01	
+-3.789461e-01	8.261899e-01	
+}
+
+Z_matrix^(-1):
+{
+2.180231e+00	-4.586670e-01	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.899114e-65	
+7.596454e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-9.460526e+03	1.990262e+03	
+9.460526e+03	-1.990262e+03	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -9.460526e+03
+C4H9OONO2 loss = -1.990262e+03
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 9.460526e+03
+C4H9OONO2 -> C4H9OO = 1.990262e+03
+}
+
+Eq fraction matrix:
+{
+ -4.75341e+00  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.73810e-01  1.73810e-01
+  1.73810e-01  8.26190e-01
+}
+Equilibrium Fraction for C4H9OO = 0.17381
+Equilibrium Fraction for C4H9OONO2 = 0.82619
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+3.789461e-01	1.738101e-01	
+-3.789461e-01	8.261899e-01	
+}
+
+Z_matrix^(-1):
+{
+2.180231e+00	-4.586670e-01	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.424335e-65	
+-9.495568e-66	1.000000e+00	
+}
+
+Kr matrix:
+{
+-9.159200e+03	1.926871e+03	
+9.159200e+03	-1.926871e+03	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -9.159200e+03
+C4H9OONO2 loss = -1.926871e+03
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 9.159200e+03
+C4H9OONO2 -> C4H9OO = 1.926871e+03
+}
+
+Eq fraction matrix:
+{
+ -4.75341e+00  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.73810e-01  1.73810e-01
+  1.73810e-01  8.26190e-01
+}
+Equilibrium Fraction for C4H9OO = 0.17381
+Equilibrium Fraction for C4H9OONO2 = 0.82619
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-3.789461e-01	1.738101e-01	
+3.789461e-01	8.261899e-01	
+}
+
+Z_matrix^(-1):
+{
+-2.180231e+00	4.586670e-01	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.958461e-65	
+7.596454e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-5.712402e+03	1.201749e+03	
+5.712402e+03	-1.201749e+03	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -5.712402e+03
+C4H9OONO2 loss = -1.201749e+03
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 5.712402e+03
+C4H9OONO2 -> C4H9OO = 1.201749e+03
+}
+
+Eq fraction matrix:
+{
+ -4.75341e+00  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.73810e-01  1.73810e-01
+  1.73810e-01  8.26190e-01
+}
+Equilibrium Fraction for C4H9OO = 0.17381
+Equilibrium Fraction for C4H9OONO2 = 0.82619
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-3.789461e-01	1.738101e-01	
+3.789461e-01	8.261899e-01	
+}
+
+Z_matrix^(-1):
+{
+-2.180231e+00	4.586670e-01	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-9.495568e-66	
+6.172119e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.237129e+03	2.602616e+02	
+1.237129e+03	-2.602616e+02	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.237129e+03
+C4H9OONO2 loss = -2.602616e+02
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.237129e+03
+C4H9OONO2 -> C4H9OO = 2.602616e+02
+}
+
+Eq fraction matrix:
+{
+ -4.75341e+00  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.73810e-01  1.73810e-01
+  1.73810e-01  8.26190e-01
+}
+Equilibrium Fraction for C4H9OO = 0.17381
+Equilibrium Fraction for C4H9OONO2 = 0.82619
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-3.789461e-01	1.738101e-01	
+3.789461e-01	8.261899e-01	
+}
+
+Z_matrix^(-1):
+{
+-2.180231e+00	4.586670e-01	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-2.373892e-66	
+4.747784e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.540905e+02	3.241685e+01	
+1.540905e+02	-3.241685e+01	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.540905e+02
+C4H9OONO2 loss = -3.241685e+01
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.540905e+02
+C4H9OONO2 -> C4H9OO = 3.241685e+01
+}
+
+Eq fraction matrix:
+{
+ -4.75341e+00  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.73810e-01  1.73810e-01
+  1.73810e-01  8.26190e-01
+}
+Equilibrium Fraction for C4H9OO = 0.17381
+Equilibrium Fraction for C4H9OONO2 = 0.82619
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+3.789461e-01	1.738101e-01	
+-3.789461e-01	8.261899e-01	
+}
+
+Z_matrix^(-1):
+{
+2.180231e+00	-4.586670e-01	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-1.899114e-65	
+-1.139468e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-2.506410e+01	5.272870e+00	
+2.506410e+01	-5.272870e+00	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -2.506410e+01
+C4H9OONO2 loss = -5.272870e+00
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 2.506410e+01
+C4H9OONO2 -> C4H9OO = 5.272870e+00
+}
+
+Eq fraction matrix:
+{
+ -4.75341e+00  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -1.73810e-01  1.73810e-01
+  1.73810e-01  8.26190e-01
+}
+Equilibrium Fraction for C4H9OO = 0.17381
+Equilibrium Fraction for C4H9OONO2 = 0.82619
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+3.789461e-01	1.738101e-01	
+-3.789461e-01	8.261899e-01	
+}
+
+Z_matrix^(-1):
+{
+2.180231e+00	-4.586670e-01	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-3.442143e-65	
+-1.899114e-64	1.000000e+00	
+}
+
+Kr matrix:
+{
+-8.975075e+00	1.888135e+00	
+8.975075e+00	-1.888135e+00	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -8.975075e+00
+C4H9OONO2 loss = -1.888135e+00
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 8.975075e+00
+C4H9OONO2 -> C4H9OO = 1.888135e+00
+}
+
+Eq fraction matrix:
+{
+ -4.98421e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -6.67369e-01  6.67369e-01
+  6.67369e-01  3.32631e-01
+}
+Equilibrium Fraction for C4H9OO = 0.667369
+Equilibrium Fraction for C4H9OONO2 = 0.332631
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+4.711556e-01	6.673691e-01	
+-4.711556e-01	3.326309e-01	
+}
+
+Z_matrix^(-1):
+{
+7.059894e-01	-1.416452e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.329379e-64	
+7.596454e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-8.854964e+03	1.776603e+04	
+8.854964e+03	-1.776603e+04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -8.854964e+03
+C4H9OONO2 loss = -1.776603e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 8.854964e+03
+C4H9OONO2 -> C4H9OO = 1.776603e+04
+}
+
+Eq fraction matrix:
+{
+ -4.98421e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -6.67369e-01  6.67369e-01
+  6.67369e-01  3.32631e-01
+}
+Equilibrium Fraction for C4H9OO = 0.667369
+Equilibrium Fraction for C4H9OONO2 = 0.332631
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-4.711556e-01	6.673691e-01	
+4.711556e-01	3.326309e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.059894e-01	1.416452e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	5.222562e-65	
+-2.373892e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-8.854921e+03	1.776594e+04	
+8.854921e+03	-1.776594e+04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -8.854921e+03
+C4H9OONO2 loss = -1.776594e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 8.854921e+03
+C4H9OONO2 -> C4H9OO = 1.776594e+04
+}
+
+Eq fraction matrix:
+{
+ -4.98421e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -6.67369e-01  6.67369e-01
+  6.67369e-01  3.32631e-01
+}
+Equilibrium Fraction for C4H9OO = 0.667369
+Equilibrium Fraction for C4H9OONO2 = 0.332631
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+4.711556e-01	6.673691e-01	
+-4.711556e-01	3.326309e-01	
+}
+
+Z_matrix^(-1):
+{
+7.059894e-01	-1.416452e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	4.273005e-65	
+-5.697341e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-8.854356e+03	1.776481e+04	
+8.854356e+03	-1.776481e+04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -8.854356e+03
+C4H9OONO2 loss = -1.776481e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 8.854356e+03
+C4H9OONO2 -> C4H9OO = 1.776481e+04
+}
+
+Eq fraction matrix:
+{
+ -4.98421e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -6.67369e-01  6.67369e-01
+  6.67369e-01  3.32631e-01
+}
+Equilibrium Fraction for C4H9OO = 0.667369
+Equilibrium Fraction for C4H9OONO2 = 0.332631
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+4.711556e-01	6.673691e-01	
+-4.711556e-01	3.326309e-01	
+}
+
+Z_matrix^(-1):
+{
+7.059894e-01	-1.416452e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-6.409508e-65	
+-9.495568e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-8.839702e+03	1.773541e+04	
+8.839702e+03	-1.773541e+04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -8.839702e+03
+C4H9OONO2 loss = -1.773541e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 8.839702e+03
+C4H9OONO2 -> C4H9OO = 1.773541e+04
+}
+
+Eq fraction matrix:
+{
+ -4.98421e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -6.67369e-01  6.67369e-01
+  6.67369e-01  3.32631e-01
+}
+Equilibrium Fraction for C4H9OO = 0.667369
+Equilibrium Fraction for C4H9OONO2 = 0.332631
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-4.711556e-01	6.673691e-01	
+4.711556e-01	3.326309e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.059894e-01	1.416452e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	5.697341e-65	
+6.172119e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-8.349415e+03	1.675173e+04	
+8.349415e+03	-1.675173e+04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -8.349415e+03
+C4H9OONO2 loss = -1.675173e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 8.349415e+03
+C4H9OONO2 -> C4H9OO = 1.675173e+04
+}
+
+Eq fraction matrix:
+{
+ -4.98421e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -6.67369e-01  6.67369e-01
+  6.67369e-01  3.32631e-01
+}
+Equilibrium Fraction for C4H9OO = 0.667369
+Equilibrium Fraction for C4H9OONO2 = 0.332631
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-4.711556e-01	6.673691e-01	
+4.711556e-01	3.326309e-01	
+}
+
+Z_matrix^(-1):
+{
+-7.059894e-01	1.416452e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.899114e-65	
+-1.899114e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-4.360682e+03	8.748993e+03	
+4.360682e+03	-8.748993e+03	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -4.360682e+03
+C4H9OONO2 loss = -8.748993e+03
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 4.360682e+03
+C4H9OONO2 -> C4H9OO = 8.748993e+03
+}
+
+Eq fraction matrix:
+{
+ -4.98421e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -6.67369e-01  6.67369e-01
+  6.67369e-01  3.32631e-01
+}
+Equilibrium Fraction for C4H9OO = 0.667369
+Equilibrium Fraction for C4H9OONO2 = 0.332631
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+4.711556e-01	6.673691e-01	
+-4.711556e-01	3.326309e-01	
+}
+
+Z_matrix^(-1):
+{
+7.059894e-01	-1.416452e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-3.798227e-65	
+-1.468846e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-7.459038e+02	1.496533e+03	
+7.459038e+02	-1.496533e+03	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -7.459038e+02
+C4H9OONO2 loss = -1.496533e+03
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 7.459038e+02
+C4H9OONO2 -> C4H9OO = 1.496533e+03
+}
+
+Eq fraction matrix:
+{
+ -4.98421e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -6.67369e-01  6.67369e-01
+  6.67369e-01  3.32631e-01
+}
+Equilibrium Fraction for C4H9OO = 0.667369
+Equilibrium Fraction for C4H9OONO2 = 0.332631
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+4.711556e-01	6.673691e-01	
+-4.711556e-01	3.326309e-01	
+}
+
+Z_matrix^(-1):
+{
+7.059894e-01	-1.416452e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	2.089025e-64	
+7.596454e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-8.017179e+01	1.608515e+02	
+8.017179e+01	-1.608515e+02	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -8.017179e+01
+C4H9OONO2 loss = -1.608515e+02
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 8.017179e+01
+C4H9OONO2 -> C4H9OO = 1.608515e+02
+}
+
+Eq fraction matrix:
+{
+ -4.98421e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -6.67369e-01  6.67369e-01
+  6.67369e-01  3.32631e-01
+}
+Equilibrium Fraction for C4H9OO = 0.667369
+Equilibrium Fraction for C4H9OONO2 = 0.332631
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+4.711556e-01	6.673691e-01	
+-4.711556e-01	3.326309e-01	
+}
+
+Z_matrix^(-1):
+{
+7.059894e-01	-1.416452e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	9.495568e-66	
+4.273005e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-1.212691e+01	2.433065e+01	
+1.212691e+01	-2.433065e+01	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -1.212691e+01
+C4H9OONO2 loss = -2.433065e+01
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 1.212691e+01
+C4H9OONO2 -> C4H9OO = 2.433065e+01
+}
+
+Eq fraction matrix:
+{
+ -4.98421e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -6.67369e-01  6.67369e-01
+  6.67369e-01  3.32631e-01
+}
+Equilibrium Fraction for C4H9OO = 0.667369
+Equilibrium Fraction for C4H9OONO2 = 0.332631
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+4.711556e-01	6.673691e-01	
+-4.711556e-01	3.326309e-01	
+}
+
+Z_matrix^(-1):
+{
+7.059894e-01	-1.416452e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-1.899114e-65	
+3.323449e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-4.219470e+00	8.465673e+00	
+4.219470e+00	-8.465673e+00	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -4.219470e+00
+C4H9OONO2 loss = -8.465673e+00
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 4.219470e+00
+C4H9OONO2 -> C4H9OO = 8.465673e+00
+}
+
+Eq fraction matrix:
+{
+ -1.56195e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.64906e-01  8.64906e-01
+  8.64906e-01  1.35094e-01
+}
+Equilibrium Fraction for C4H9OO = 0.864906
+Equilibrium Fraction for C4H9OONO2 = 0.135094
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+3.418241e-01	8.649059e-01	
+-3.418241e-01	1.350941e-01	
+}
+
+Z_matrix^(-1):
+{
+3.952153e-01	-2.530266e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-7.596454e-65	
+-1.780419e-66	1.000000e+00	
+}
+
+Kr matrix:
+{
+-8.535224e+03	5.464462e+04	
+8.535224e+03	-5.464462e+04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -8.535224e+03
+C4H9OONO2 loss = -5.464462e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 8.535224e+03
+C4H9OONO2 -> C4H9OO = 5.464462e+04
+}
+
+Eq fraction matrix:
+{
+ -1.56195e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.64906e-01  8.64906e-01
+  8.64906e-01  1.35094e-01
+}
+Equilibrium Fraction for C4H9OO = 0.864906
+Equilibrium Fraction for C4H9OONO2 = 0.135094
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-3.418241e-01	8.649059e-01	
+3.418241e-01	1.350941e-01	
+}
+
+Z_matrix^(-1):
+{
+-3.952153e-01	2.530266e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.044512e-64	
+2.225524e-66	1.000000e+00	
+}
+
+Kr matrix:
+{
+-8.535164e+03	5.464423e+04	
+8.535164e+03	-5.464423e+04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -8.535164e+03
+C4H9OONO2 loss = -5.464423e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 8.535164e+03
+C4H9OONO2 -> C4H9OO = 5.464423e+04
+}
+
+Eq fraction matrix:
+{
+ -1.56195e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.64906e-01  8.64906e-01
+  8.64906e-01  1.35094e-01
+}
+Equilibrium Fraction for C4H9OO = 0.864906
+Equilibrium Fraction for C4H9OONO2 = 0.135094
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+3.418241e-01	8.649059e-01	
+-3.418241e-01	1.350941e-01	
+}
+
+Z_matrix^(-1):
+{
+3.952153e-01	-2.530266e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.899114e-65	
+-6.305650e-67	1.000000e+00	
+}
+
+Kr matrix:
+{
+-8.534382e+03	5.463922e+04	
+8.534382e+03	-5.463922e+04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -8.534382e+03
+C4H9OONO2 loss = -5.463922e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 8.534382e+03
+C4H9OONO2 -> C4H9OO = 5.463922e+04
+}
+
+Eq fraction matrix:
+{
+ -1.56195e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.64906e-01  8.64906e-01
+  8.64906e-01  1.35094e-01
+}
+Equilibrium Fraction for C4H9OO = 0.864906
+Equilibrium Fraction for C4H9OONO2 = 0.135094
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+3.418241e-01	8.649059e-01	
+-3.418241e-01	1.350941e-01	
+}
+
+Z_matrix^(-1):
+{
+3.952153e-01	-2.530266e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-1.899114e-65	
+-3.145407e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-8.514143e+03	5.450965e+04	
+8.514143e+03	-5.450965e+04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -8.514143e+03
+C4H9OONO2 loss = -5.450965e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 8.514143e+03
+C4H9OONO2 -> C4H9OO = 5.450965e+04
+}
+
+Eq fraction matrix:
+{
+ -1.56195e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.64906e-01  8.64906e-01
+  8.64906e-01  1.35094e-01
+}
+Equilibrium Fraction for C4H9OO = 0.864906
+Equilibrium Fraction for C4H9OONO2 = 0.135094
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-3.418241e-01	8.649059e-01	
+3.418241e-01	1.350941e-01	
+}
+
+Z_matrix^(-1):
+{
+-3.952153e-01	2.530266e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	0.000000e+00	
+7.594600e-66	1.000000e+00	
+}
+
+Kr matrix:
+{
+-7.880803e+03	5.045485e+04	
+7.880803e+03	-5.045485e+04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -7.880803e+03
+C4H9OONO2 loss = -5.045485e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 7.880803e+03
+C4H9OONO2 -> C4H9OO = 5.045485e+04
+}
+
+Eq fraction matrix:
+{
+ -1.56195e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.64906e-01  8.64906e-01
+  8.64906e-01  1.35094e-01
+}
+Equilibrium Fraction for C4H9OO = 0.864906
+Equilibrium Fraction for C4H9OONO2 = 0.135094
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+3.418241e-01	8.649059e-01	
+-3.418241e-01	1.350941e-01	
+}
+
+Z_matrix^(-1):
+{
+3.952153e-01	-2.530266e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-5.697341e-65	
+1.186946e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-3.666388e+03	2.347312e+04	
+3.666388e+03	-2.347312e+04	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -3.666388e+03
+C4H9OONO2 loss = -2.347312e+04
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 3.666388e+03
+C4H9OONO2 -> C4H9OO = 2.347312e+04
+}
+
+Eq fraction matrix:
+{
+ -1.56195e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.64906e-01  8.64906e-01
+  8.64906e-01  1.35094e-01
+}
+Equilibrium Fraction for C4H9OO = 0.864906
+Equilibrium Fraction for C4H9OONO2 = 0.135094
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+3.418241e-01	8.649059e-01	
+-3.418241e-01	1.350941e-01	
+}
+
+Z_matrix^(-1):
+{
+3.952153e-01	-2.530266e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	1.519291e-64	
+2.848670e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-5.489241e+02	3.514348e+03	
+5.489241e+02	-3.514348e+03	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -5.489241e+02
+C4H9OONO2 loss = -3.514348e+03
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 5.489241e+02
+C4H9OONO2 -> C4H9OO = 3.514348e+03
+}
+
+Eq fraction matrix:
+{
+ -1.56195e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.64906e-01  8.64906e-01
+  8.64906e-01  1.35094e-01
+}
+Equilibrium Fraction for C4H9OO = 0.864906
+Equilibrium Fraction for C4H9OONO2 = 0.135094
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+-3.418241e-01	8.649059e-01	
+3.418241e-01	1.350941e-01	
+}
+
+Z_matrix^(-1):
+{
+-3.952153e-01	2.530266e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	3.798227e-65	
+-1.780419e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-5.453392e+01	3.491397e+02	
+5.453392e+01	-3.491397e+02	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -5.453392e+01
+C4H9OONO2 loss = -3.491397e+02
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 5.453392e+01
+C4H9OONO2 -> C4H9OO = 3.491397e+02
+}
+
+Eq fraction matrix:
+{
+ -1.56195e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.64906e-01  8.64906e-01
+  8.64906e-01  1.35094e-01
+}
+Equilibrium Fraction for C4H9OO = 0.864906
+Equilibrium Fraction for C4H9OONO2 = 0.135094
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+3.418241e-01	8.649059e-01	
+-3.418241e-01	1.350941e-01	
+}
+
+Z_matrix^(-1):
+{
+3.952153e-01	-2.530266e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	6.172119e-65	
+1.899114e-65	1.000000e+00	
+}
+
+Kr matrix:
+{
+-7.941939e+00	5.084626e+01	
+7.941939e+00	-5.084626e+01	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -7.941939e+00
+C4H9OONO2 loss = -5.084626e+01
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 7.941939e+00
+C4H9OONO2 -> C4H9OO = 5.084626e+01
+}
+
+Eq fraction matrix:
+{
+ -1.56195e-01  1.00000e+00
+  1.00000e+00  1.00000e+00
+}
+inverse of Eq fraction matrix:
+{
+ -8.64906e-01  8.64906e-01
+  8.64906e-01  1.35094e-01
+}
+Equilibrium Fraction for C4H9OO = 0.864906
+Equilibrium Fraction for C4H9OONO2 = 0.135094
+
+Bartis Widom eigenvalue/eigenvector analysis
+
+Number of sinks in this system: 0
+
+There should be 1 zero eigenvalue (zero within numerical precision) and 1 chemically significant eigenvalues (CSEs)
+
+Z_matrix: {
+3.418241e-01	8.649059e-01	
+-3.418241e-01	1.350941e-01	
+}
+
+Z_matrix^(-1):
+{
+3.952153e-01	-2.530266e+00	
+1.000000e+00	1.000000e+00	
+}
+
+Z_matrix * Z_matrix^(-1) [Identity matrix]:
+{
+1.000000e+00	-9.495568e-66	
+4.747784e-66	1.000000e+00	
+}
+
+Kr matrix:
+{
+-2.722577e+00	1.743061e+01	
+2.722577e+00	-1.743061e+01	
+}
+
+First order & pseudo first order rate coefficients for loss rxns:
+{
+C4H9OO loss = -2.722577e+00
+C4H9OONO2 loss = -1.743061e+01
+}
+
+First order & pseudo first order rate coefficients for isomerization rxns:
+{
+C4H9OO -> C4H9OONO2 = 2.722577e+00
+C4H9OONO2 -> C4H9OO = 1.743061e+01
+}
+
+Bath gas is N2
+Comparison of fitted rate coefficients for reaction C4H9OO + NO2 => C4H9OONO2
+           |             8.5563e+24           2.51499e+24           2.44956e+23           9.92997e+21           2.29292e+20           4.36124e+18           1.00705e+17           4.08237e+15           3.97616e+14           1.16873e+14
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   175.422 |    1.75507e-11/1.75465e-11   1.75391e-11/1.75465e-11   1.75438e-11/1.75465e-11   1.75744e-11/1.75464e-11   1.74799e-11/1.75429e-11   1.74686e-11/1.73725e-11   1.42775e-11/1.43724e-11   6.74784e-12/6.70502e-12   2.30371e-12/2.31438e-12   1.12038e-12/1.11851e-12
+   178.829 |    1.72536e-11/1.72472e-11   1.72339e-11/1.72472e-11   1.72515e-11/1.72472e-11   1.72699e-11/1.72471e-11   1.71812e-11/1.72431e-11   1.71544e-11/1.70545e-11   1.37928e-11/1.38923e-11   6.32606e-12/6.28179e-12   2.11145e-12/2.12222e-12   1.01928e-12/1.01736e-12
+   185.798 |    1.66791e-11/1.66682e-11   1.66435e-11/1.66682e-11   1.66867e-11/1.66682e-11   1.66797e-11/1.66681e-11   1.66051e-11/1.66632e-11   1.65372e-11/1.64323e-11   1.28344e-11/1.29403e-11   5.53524e-12/5.49032e-12   1.76636e-12/1.77707e-12   8.39901e-13/8.38064e-13
+   196.637 |    1.58648e-11/1.58476e-11   1.58064e-11/1.58476e-11   1.58871e-11/1.58476e-11   1.58408e-11/1.58475e-11   1.57918e-11/1.58406e-11   1.56358e-11/1.55297e-11   1.14332e-11/1.15404e-11   4.48182e-12/4.43905e-12   1.33856e-12/1.34813e-12   6.21875e-13/6.20216e-13
+   211.767 |     1.4863e-11/1.48387e-11   1.47783e-11/1.48387e-11   1.49042e-11/1.48387e-11   1.48064e-11/1.48385e-11    1.4798e-11/1.48277e-11   1.44681e-11/1.43723e-11    9.6525e-12/9.74928e-12   3.31543e-12/3.28051e-12   9.09331e-13/9.16699e-13    4.0928e-13/4.08059e-13
+   231.647 |    1.37374e-11/1.3707e-11   1.36294e-11/1.3707e-11   1.37983e-11/1.3707e-11   1.36445e-11/1.37065e-11   1.36883e-11/1.36877e-11   1.30444e-11/1.29768e-11   7.61599e-12/7.68632e-12   2.20789e-12/2.1852e-12   5.48051e-13/5.52481e-13   2.36971e-13/2.36254e-13
+   256.583 |     1.2559e-11/1.25261e-11   1.24399e-11/1.25261e-11   1.26343e-11/1.2526e-11   1.24361e-11/1.25252e-11   1.25272e-11/1.24888e-11    1.1369e-11/1.13461e-11   5.52453e-12/5.55869e-12   1.30677e-12/1.29653e-12   2.91163e-13/2.93031e-13   1.20057e-13/1.1976e-13
+   286.359 |    1.14035e-11/1.13741e-11   1.12954e-11/1.13741e-11   1.14796e-11/1.13741e-11   1.12717e-11/1.13723e-11    1.1368e-11/1.12971e-11   9.47206e-12/9.49559e-12    3.6369e-12/3.64061e-12   6.86194e-13/6.84172e-13   1.37128e-13/1.37535e-13   5.36743e-14/5.36119e-14
+   319.614 |    1.03491e-11/1.03302e-11   1.02774e-11/1.03302e-11   1.04068e-11/1.033e-11   1.02403e-11/1.03261e-11   1.02508e-11/1.01696e-11   7.48137e-12/7.53094e-12   2.18287e-12/2.17238e-12   3.27756e-13/3.28736e-13   5.91082e-14/5.90129e-14   2.19707e-14/2.19803e-14
+   353.094 |    9.47351e-12/9.46906e-12   9.45408e-12/9.46904e-12   9.49817e-12/9.46872e-12    9.4131e-12/9.46053e-12   9.22381e-12/9.1592e-12   5.66374e-12/5.7124e-12   1.24832e-12/1.23713e-12    1.5285e-13/1.54091e-13   2.52034e-14/2.50641e-14   8.95683e-15/8.97508e-15
+   381.339 |    8.84632e-12/8.85496e-12   8.87509e-12/8.85492e-12   8.83762e-12/8.85436e-12   8.83546e-12/8.8397e-12   8.38506e-12/8.34941e-12   4.32513e-12/4.36068e-12   7.53979e-13/7.45904e-13    7.9312e-14/8.01718e-14   1.22246e-14/1.21269e-14   4.20716e-15/4.21947e-15
+   397.812 |    8.51929e-12/8.53522e-12   8.57524e-12/8.53516e-12   8.49087e-12/8.53438e-12   8.53674e-12/8.51414e-12   7.89661e-12/7.8808e-12    3.6401e-12/3.66639e-12   5.54963e-13/5.48924e-13   5.38993e-14/5.45339e-14   8.01296e-15/7.94194e-15   2.71351e-15/2.72258e-15
+
+Comparison of fitted rate coefficients for reaction  => C4H9OO + NO2
+           |             8.5563e+24           2.51499e+24           2.44956e+23           9.92997e+21           2.29292e+20           4.36124e+18           1.00705e+17           4.08237e+15           3.97616e+14           1.16873e+14
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   175.422 |    7.44632e-11/7.44454e-11   7.44141e-11/7.44454e-11    7.4434e-11/7.44454e-11    7.4564e-11/7.4445e-11    7.4163e-11/7.44301e-11   7.41152e-11/7.37073e-11   6.05758e-11/6.09788e-11   2.86294e-11/2.84478e-11   9.77409e-12/9.81933e-12   4.75351e-12/4.74555e-12
+   178.829 |    2.43489e-10/2.43398e-10   2.43212e-10/2.43398e-10   2.43459e-10/2.43398e-10   2.43719e-10/2.43397e-10   2.42467e-10/2.43342e-10   2.42089e-10/2.40679e-10    1.9465e-10/1.96053e-10   8.92757e-11/8.86509e-11   2.97976e-11/2.99495e-11   1.43845e-11/1.43574e-11
+   185.798 |    2.39833e-09/2.39677e-09   2.39321e-09/2.39677e-09   2.39943e-09/2.39677e-09   2.39842e-09/2.39675e-09   2.38769e-09/2.39605e-09   2.37793e-09/2.36284e-09    1.8455e-09/1.86072e-09   7.95927e-10/7.89467e-10   2.53989e-10/2.55529e-10   1.20772e-10/1.20507e-10
+   196.637 |    6.07151e-08/6.06495e-08   6.04917e-08/6.06495e-08   6.08008e-08/6.06495e-08   6.06235e-08/6.06489e-08   6.04359e-08/6.06226e-08   5.98387e-08/5.94328e-08   4.37555e-08/4.41655e-08   1.71521e-08/1.69884e-08   5.12271e-09/5.15936e-09   2.37994e-09/2.37359e-09
+   211.767 |    3.15506e-06/3.14992e-06    3.1371e-06/3.14992e-06   3.16381e-06/3.14992e-06   3.14306e-06/3.14986e-06   3.14126e-06/3.14758e-06   3.07125e-06/3.05091e-06     2.049e-06/2.06954e-06   7.03789e-07/6.96377e-07    1.9303e-07/1.94594e-07   8.68807e-08/8.66214e-08
+   231.647 |    0.000255437/0.000254872   0.000253428/0.000254872    0.00025657/0.000254872   0.000253709/0.000254863   0.000254524/0.000254513   0.000242552/0.000241295   0.000141614/0.000142922   4.10541e-05/4.06323e-05   1.01906e-05/1.0273e-05   4.40631e-06/4.39298e-06
+   256.583 |      0.0236881/0.0236259     0.0234635/0.0236259     0.0238301/0.0236259     0.0234563/0.0236243     0.0236281/0.0235556     0.0214435/0.0214004       0.01042/0.0104845    0.00246475/0.00244544   0.000549175/0.000552697   0.000226444/0.000225884
+   286.359 |        1.83278/1.82806        1.8154/1.82806         1.845/1.82804        1.8116/1.82776       1.82707/1.81567       1.52236/1.52614      0.584525/0.585122      0.110286/0.109961     0.0220392/0.0221047    0.00862657/0.00861654
+   319.614 |         87.561/87.4008       86.9541/87.4007       88.0493/87.3994         86.64/87.3662       86.7295/86.0421       63.2978/63.7172       18.4687/18.3799       2.77305/2.78134      0.500098/0.499292      0.185888/0.185969
+   353.094 |        1992.99/1992.06       1988.91/1992.05       1998.18/1991.99       1980.28/1990.26       1940.46/1926.87       1191.51/1201.75       262.616/260.262        32.156/32.4169       5.30218/5.27287        1.8843/1.88814
+   381.339 |        17748.7/17766       17806.4/17765.9       17731.2/17764.8       17726.9/17735.4       16823.2/16751.7       8677.66/8748.99       1512.73/1496.53       159.126/160.852       24.5267/24.3306       8.44098/8.46567
+   397.812 |        54542.6/54644.6       54900.8/54644.2       54360.7/54639.2       54654.3/54509.6         50556/50454.9       23304.8/23473.1       3553.01/3514.35       345.077/349.14        51.301/50.8463       17.3726/17.4306
+

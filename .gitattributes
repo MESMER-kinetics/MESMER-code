@@ -377,6 +377,10 @@ examples/Butyl_H_to_Butane/baselines/Linux64/mesmer.test -text
 examples/Butyl_H_to_Butane/baselines/Win32/mesmer.log -text
 examples/Butyl_H_to_Butane/baselines/Win32/mesmer.test -text
 examples/C4H9O2_NO2_to_C4H9O2NO2/C4H9O2_NO2_association.xml -text
+examples/C4H9O2_NO2_to_C4H9O2NO2/baselines/Linux64/C4H9O2_NO2_association.log -text
+examples/C4H9O2_NO2_to_C4H9O2NO2/baselines/Linux64/C4H9O2_NO2_association.test -text
+examples/C4H9O2_NO2_to_C4H9O2NO2/baselines/Win32/C4H9O2_NO2_association.log -text
+examples/C4H9O2_NO2_to_C4H9O2NO2/baselines/Win32/C4H9O2_NO2_association.test -text
 examples/CH3O2_NO2_to_CH3O2NO2/CH3O2_NO2_associationEx2.xml -text
 examples/CH3O2_NO2_to_CH3O2NO2/baselines/Linux64/CH3O2_NO2_associationEx2.log -text
 examples/CH3O2_NO2_to_CH3O2NO2/baselines/Win32/CH3O2_NO2_associationEx2.log -text
