@@ -131,8 +131,9 @@
 
       <me:energyTransferModel xsi:type="me:ExponentialDown">
         <me:deltaEDown bathGas="Ar" units="cm-1" lower="50" upper="700" stepsize="10">302</me:deltaEDown>
-        <me:deltaEDownTExponent bathGas="Ar" referenceTemperature="298" lower="-2.0" upper="2.0" stepsize="0.01">1.57</me:deltaEDownTExponent>
-        <me:deltaEDownActivationParam units="K-1" lower="-1.0" upper="1.0" stepsize="1e-5" >-0.00124</me:deltaEDownActivationParam>
+        <!--<me:deltaEDownTExponent bathGas="Ar" referenceTemperature="298" lower="-2.0" upper="2.0" stepsize="0.01">1.57</me:deltaEDownTExponent>-->
+        <me:deltaEDown bathGas="He" units="cm-1" lower="50" upper="700" stepsize="10">230</me:deltaEDown>
+        <!--<me:deltaEDownTExponent bathGas="He" referenceTemperature="298" lower="-2.0" upper="2.0" stepsize="0.01">1.57</me:deltaEDownTExponent>-->
       </me:energyTransferModel>
       <me:reservoirSize units="kJ/mol">-250.0</me:reservoirSize>
     </molecule>
@@ -227,7 +228,7 @@
     <me:PTs>
 
       <!-- Slagle et al. J. Phys. Chem. 1988, 92, 2455-2462 (Part I)-->
-      <me:PTpair 	 units="Torr" P= "	5.39E+00	" T= "	296	" precision="d">
+      <!--<me:PTpair 	 units="Torr" P= "	5.39E+00	" T= "	296	" precision="d">
         <me:bathGas>Ar</me:bathGas>
         <me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.20E-12	">	5.14E-11	</me:experimentalRate>
       </me:PTpair>
@@ -634,112 +635,7 @@
       <me:PTpair 	 units="Torr" P= "	5.99E+02	" T= "	906	" precision="d">
         <me:bathGas>Ar</me:bathGas>
         <me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.20E-12	">	2.78E-11	</me:experimentalRate>
-      </me:PTpair>
-
-      <!-- Slagle et al. J. Phys. Chem. 1988, 92, 2455-2462 noNU4 -->
-
-      <!--me:PTpair 	 units="Torr" P= "	5.39E+00	" T= "	296	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.20E-12	">	5.14E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.43E+01	" T= "	296	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.20E-12	">	5.32E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	4.11E+01	" T= "	296	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.10E-12	">	5.61E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.01E+02	" T= "	296	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.10E-12	">	5.78E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.44E+02	" T= "	296	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.20E-12	">	5.90E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	4.93E+02	" T= "	296	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.20E-12	">	5.92E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	6.05E+00	" T= "	407	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.02E-12	">	4.13E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	9.61E+00	" T= "	407	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.92E-12	">	4.33E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.41E+01	" T= "	407	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.82E-12	">	4.33E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.56E+01	" T= "	407	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.02E-12	">	4.72E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	5.12E+01	" T= "	407	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.82E-12	">	4.97E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.94E+02	" T= "	407	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.12E-12	">	5.26E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	4.11E+02	" T= "	407	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.82E-12	">	5.13E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	7.66E+00	" T= "	474	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.04E-12	">	3.28E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	7.97E+00	" T= "	474	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.04E-12	">	3.20E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	8.96E+00	" T= "	474	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.63E-12	">	3.54E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	9.97E+00	" T= "	474	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.63E-12	">	3.36E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.20E+01	" T= "	474	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.24E-12	">	3.32E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.74E+01	" T= "	474	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.53E-12	">	3.40E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.03E+01	" T= "	474	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.73E-12	">	4.00E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.40E+01	" T= "	474	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.53E-12	">	3.59E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	3.16E+01	" T= "	474	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.73E-12	">	3.95E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	4.39E+01	" T= "	474	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.73E-12	">	4.03E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	6.66E+01	" T= "	474	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.73E-12	">	4.10E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	9.15E+01	" T= "	474	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.55E-12	">	4.51E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	9.20E+01	" T= "	474	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.84E-12	">	4.31E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.52E+02	" T= "	474	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.04E-12	">	4.80E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	3.90E+02	" T= "	474	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.35E-12	">	5.27E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.13E+01	" T= "	513	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.09E-12	">	3.05E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.88E+01	" T= "	513	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.30E-12	">	3.21E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.77E+01	" T= "	513	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.99E-12	">	3.58E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	4.10E+01	" T= "	513	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.30E-12	">	3.85E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	5.80E+01	" T= "	513	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.99E-12	">	3.81E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	8.00E+01	" T= "	513	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.99E-12	">	4.07E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.26E+02	" T= "	513	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.19E-12	">	4.18E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	7.15E+00	" T= "	539	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.50E-12	">	2.62E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	9.07E+00	" T= "	539	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.23E-12	">	2.68E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.28E+01	" T= "	539	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.91E-12	">	2.97E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.67E+01	" T= "	539	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.12E-12	">	3.01E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.08E+01	" T= "	539	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.12E-12	">	3.31E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.54E+01	" T= "	539	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.91E-12	">	3.29E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	3.09E+01	" T= "	539	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.12E-12	">	3.34E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	4.13E+01	" T= "	539	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.23E-12	">	3.51E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	6.22E+01	" T= "	539	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.44E-12	">	3.70E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	9.07E+01	" T= "	539	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.23E-12	">	3.96E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.30E+02	" T= "	539	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.44E-12	">	4.25E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.80E+02	" T= "	539	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.54E-12	">	4.31E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.73E+02	" T= "	539	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.65E-12	">	4.35E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	4.30E+02	" T= "	539	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.54E-12	">	4.49E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	5.12E+00	" T= "	577	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.51E-12	">	1.88E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	6.87E+00	" T= "	577	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.62E-12	">	2.02E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	9.48E+00	" T= "	577	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.51E-12	">	2.20E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.24E+01	" T= "	577	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.27E-12	">	2.51E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.70E+01	" T= "	577	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.05E-12	">	2.80E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.46E+01	" T= "	577	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.05E-12	">	2.98E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.94E+01	" T= "	577	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.38E-12	">	2.96E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	4.34E+01	" T= "	577	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.27E-12	">	3.20E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	6.56E+01	" T= "	577	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.48E-12	">	3.43E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	9.52E+01	" T= "	577	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.48E-12	">	3.63E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.30E+02	" T= "	577	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.70E-12	">	3.81E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.22E+02	" T= "	577	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.24E-12	">	3.90E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	3.94E+02	" T= "	577	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.02E-12	">	4.07E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.51E+01	" T= "	700	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.32E-12	">	2.11E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	3.56E+01	" T= "	700	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.22E-12	">	2.05E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	5.04E+01	" T= "	700	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.42E-12	">	2.21E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	7.52E+01	" T= "	700	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.63E-12	">	2.43E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.02E+02	" T= "	700	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.93E-12	">	2.80E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.56E+02	" T= "	700	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.33E-12	">	3.11E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.03E+02	" T= "	700	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.64E-12	">	3.32E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.57E+02	" T= "	700	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.84E-12	">	3.45E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	3.02E+02	" T= "	700	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.43E-12	">	3.27E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	3.53E+02	" T= "	700	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.33E-12	">	3.27E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	3.95E+02	" T= "	700	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.64E-12	">	3.48E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	4.49E+02	" T= "	700	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.64E-12	">	3.51E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	5.00E+02	" T= "	700	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.64E-12	">	3.43E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	5.54E+02	" T= "	700	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.74E-12	">	3.60E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	5.91E+02	" T= "	700	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.64E-12	">	3.56E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	5.21E+01	" T= "	810	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.03E-12	">	1.52E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	7.44E+01	" T= "	810	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.21E-12	">	1.71E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.09E+02	" T= "	810	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.03E-12	">	1.67E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.52E+02	" T= "	810	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.40E-12	">	2.05E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.01E+02	" T= "	810	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.49E-12	">	2.18E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.52E+02	" T= "	810	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.40E-12	">	2.23E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	3.00E+02	" T= "	810	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.86E-12	">	2.38E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	3.49E+02	" T= "	810	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.58E-12	">	2.47E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	4.02E+02	" T= "	810	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.58E-12	">	2.44E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	4.53E+02	" T= "	810	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.95E-12	">	2.76E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	5.01E+02	" T= "	810	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.13E-12	">	2.82E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	5.49E+02	" T= "	810	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.13E-12	">	2.86E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	5.98E+02	" T= "	810	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.95E-12	">	2.80E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	7.43E+01	" T= "	906	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.06E-12	">	1.17E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.01E+02	" T= "	906	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.90E-12	">	1.21E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.54E+02	" T= "	906	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.06E-12	">	1.42E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.01E+02	" T= "	906	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.90E-12	">	1.62E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	2.51E+02	" T= "	906	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.98E-12	">	1.74E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	3.03E+02	" T= "	906	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.98E-12	">	1.80E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	3.51E+02	" T= "	906	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.90E-12	">	1.74E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	3.98E+02	" T= "	906	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.14E-12	">	1.98E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	4.50E+02	" T= "	906	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.06E-12	">	1.90E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	5.01E+02	" T= "	906	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.14E-12	">	2.04E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	5.50E+02	" T= "	906	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.54E-12	">	2.20E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	5.99E+02	" T= "	906	" precision="d">		<me:bathGas>Ar</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.62E-12	">	2.28E-11	</me:experimentalRate>			</me:PTpair-->
+      </me:PTpair>-->
 
       <!--Slagle et al.  J. Phys. Chem. 1988, 92, 2455-2462 Table. I-->
 
@@ -865,17 +761,50 @@
 
       <!-- Wang et al J. Phys. Chem. A 2003, 107, 11414-11426 -->
 
-<me:PTpair 	 units="Torr" P= "	3.10E+00	" T= "	305	" precision="d">	<me:bathGas>He</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	5.20E-12	">	4.81E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	6.10E+00	" T= "	305	" precision="d">	<me:bathGas>He</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	5.00E-12	">	5.12E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.01E+01	" T= "	305	" precision="d">	<me:bathGas>He</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	4.60E-12	">	5.27E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.15E+00	" T= "	515	" precision="d">	<me:bathGas>He</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.00E-12	">	1.29E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	3.15E+00	" T= "	515	" precision="d">	<me:bathGas>He</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.20E-12	">	1.99E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	6.15E+00	" T= "	515	" precision="d">	<me:bathGas>He</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.00E-12	">	2.40E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.02E+01	" T= "	515	" precision="d">	<me:bathGas>He</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.60E-12	">	2.64E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.70E+00	" T= "	715	" precision="d">	<me:bathGas>He</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.00E-12	">	5.80E-12	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	3.20E+00	" T= "	715	" precision="d">	<me:bathGas>He</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.00E-12	">	8.20E-12	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	6.20E+00	" T= "	715	" precision="d">	<me:bathGas>He</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.40E-12	">	1.02E-11	</me:experimentalRate>			</me:PTpair>	
-<me:PTpair 	 units="Torr" P= "	1.02E+01	" T= "	715	" precision="d">	<me:bathGas>He</me:bathGas>	<me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.40E-12	">	1.28E-11	</me:experimentalRate>			</me:PTpair>
+      <me:PTpair 	 units="Torr" P= "	3.10E+00	" T= "	305	" precision="d">
+        <me:bathGas>He</me:bathGas>
+        <me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	5.20E-12	">	4.81E-11	</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair 	 units="Torr" P= "	6.10E+00	" T= "	305	" precision="d">
+        <me:bathGas>He</me:bathGas>
+        <me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	5.00E-12	">	5.12E-11	</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair 	 units="Torr" P= "	1.01E+01	" T= "	305	" precision="d">
+        <me:bathGas>He</me:bathGas>
+        <me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	4.60E-12	">	5.27E-11	</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair 	 units="Torr" P= "	1.15E+00	" T= "	515	" precision="d">
+        <me:bathGas>He</me:bathGas>
+        <me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.00E-12	">	1.29E-11	</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair 	 units="Torr" P= "	3.15E+00	" T= "	515	" precision="d">
+        <me:bathGas>He</me:bathGas>
+        <me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.20E-12	">	1.99E-11	</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair 	 units="Torr" P= "	6.15E+00	" T= "	515	" precision="d">
+        <me:bathGas>He</me:bathGas>
+        <me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	3.00E-12	">	2.40E-11	</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair 	 units="Torr" P= "	1.02E+01	" T= "	515	" precision="d">
+        <me:bathGas>He</me:bathGas>
+        <me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	2.60E-12	">	2.64E-11	</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair 	 units="Torr" P= "	1.70E+00	" T= "	715	" precision="d">
+        <me:bathGas>He</me:bathGas>
+        <me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.00E-12	">	5.80E-12	</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair 	 units="Torr" P= "	3.20E+00	" T= "	715	" precision="d">
+        <me:bathGas>He</me:bathGas>
+        <me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.00E-12	">	8.20E-12	</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair 	 units="Torr" P= "	6.20E+00	" T= "	715	" precision="d">
+        <me:bathGas>He</me:bathGas>
+        <me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.40E-12	">	1.02E-11	</me:experimentalRate>
+      </me:PTpair>
+      <me:PTpair 	 units="Torr" P= "	1.02E+01	" T= "	715	" precision="d">
+        <me:bathGas>He</me:bathGas>
+        <me:experimentalRate	ref1=	"CH3"	ref2=	"CH3"	refReaction="R1" 	error="	1.40E-12	">	1.28E-11	</me:experimentalRate>
+      </me:PTpair>
 
 
       <!-- Pereira et al.  J. Phys. Chem. A 1997, 101, 9681-9693  - -->
@@ -1150,7 +1079,6 @@
     <me:testMicroRates/>
     <me:printGrainkfE/>
     <me:printGrainkbE/>
-    <me:printSpeciesProfile/>
     <me:testRateConstants/>
     <me:eigenvalues>1</me:eigenvalues>
   </me:control>
