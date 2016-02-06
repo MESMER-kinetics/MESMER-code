@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v4.1 compiled: -- Jan 30 2016 -- 17:06:13
+     Mesmer v4.1 compiled: -- Feb  6 2016 -- 14:13:24
 
-     Copyright (C) 2009-2015 by
+     Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -44,14 +44,14 @@ In triplet: The default value of me:DistributionCalcMethod was used.
 In triplet: --Parse data for Boltzmann
 In triplet: --Parse data for ExponentialDown
 In R1: No imaginary vibrational frequency. Check if there is tunneling.
---Parse data for SimpleRRKM
+--Parse data for LandauZenerCrossing
 In R1: No tunneling method used for R1
-In R1: --Parse data for LZ
+In R1: No crossing method used for R1
 The default value of the attribute precision was used.
 200.72Torr, 800K at d precision with He
 The default value of the attribute precision was used.
 250Torr, 1000K at d precision with He
-Write metadata 20160130_212148
+Write metadata 20160206_141450
 
 File: "LZ_test.xml" successfully parsed.
 Main Calculation begins
@@ -64,7 +64,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 1
 Number of cells = 26800, Number of grains = 134
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -74,7 +74,7 @@ Diagonalize the Reaction Operator
 
 Finish Calculation of P-T case
 2 temperature/concentration-pressure points calculated.
- -- Total time elapsed: 0 seconds.
+ -- Total time elapsed: 1 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 0 seconds.
+Total time elapsed: 1 seconds.

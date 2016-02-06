@@ -185,13 +185,12 @@
       <me:transitionState>
         <molecule ref="MECP1" role="transitionState" />
       </me:transitionState>
-      <me:crossing xsi:type="me:WKB">
+      <me:MCRCMethod name="WKBCrossing" xsi:type="WKBCrossing">
         <me:RMS_SOC_element units="cm-1">5.08</me:RMS_SOC_element>
         <me:GradientDifferenceMagnitude units="a.u./Bohr">0.09327305</me:GradientDifferenceMagnitude>
         <me:GradientReducedMass units="a.m.u.">10.4098</me:GradientReducedMass>
         <me:AverageSlope units="a.u./Bohr">0.03525806</me:AverageSlope>
-      </me:crossing>
-      <me:MCRCMethod name="SimpleRRKM"/>
+      </me:MCRCMethod>
     </reaction>
   </reactionList>
   <me:conditions>

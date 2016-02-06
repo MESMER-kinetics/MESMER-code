@@ -1,3 +1,10 @@
+2016-February-05 Struan Robertson
+
+    * WKBCrossing.cpp, LandauZenerCrossing.cpp: Added revised version of system crossing
+		classes, now deriving from MicroRateCalculator base class.
+
+		*examples/spin_forbidden_kinetics: Updated to reflect new syntax.
+
 2016-January-30 Struan Robertson
 
     * Documentation update.
@@ -8,9 +15,9 @@
 
     * Documentation update.
 
-		* examples/ErrorPropagation/ipropyl_EP.xml. Extended to have multiple stages.
+		* examples/ErrorPropagation/ipropyl_EP.xml: Extended to have multiple stages.
 
-		* System.cpp. Changes to copyright.
+		* System.cpp: Changes to copyright.
 
 		* ErrorPropagation: Minor tidy.
 

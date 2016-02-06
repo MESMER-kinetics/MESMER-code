@@ -711,7 +711,7 @@ src/plugins/GaussianModel.cpp -text
 src/plugins/HinderedRotorCM1D.cpp -text
 src/plugins/HinderedRotorUtils.cpp -text
 src/plugins/HinderedRotorUtils.h -text
-src/plugins/LandauZenerCrossingCoeff.cpp -text
+src/plugins/LandauZenerCrossing.cpp -text
 src/plugins/Marquardt.cpp -text
 src/plugins/MesmerILT.cpp -text
 src/plugins/Morse.cpp -text
@@ -723,7 +723,7 @@ src/plugins/SimpleILT.cpp -text
 src/plugins/SimpleRRKM.cpp -text
 src/plugins/ThermodynamicTable.cpp -text
 src/plugins/UnitTests.cpp -text
-src/plugins/WKBCrossingCoeff.cpp -text
+src/plugins/WKBCrossing.cpp -text
 src/plugins/WKBTunnellingCoefficients.cpp -text
 src/qd_test.h -text
 src/source.ps -text

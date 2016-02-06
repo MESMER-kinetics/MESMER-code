@@ -19,15 +19,6 @@
    <property dictRef="me:frequenciesScaleFactor" default="true">
     <scalar>1</scalar>
   </property>
-  <property dictRef="me:RMS_SOC_element" default="NEEDS TO BE CHECKED**">
-    <scalar units="cm-1">10.0</scalar>
-  </property>
-  <property dictRef="me:GradientDifferenceMagnitude" default="NEEDS TO BE CHECKED**">
-    <scalar units="a.u./Bohr">0.1</scalar>
-  </property>
-  <property dictRef="me:GradientReducedMass" default="NEEDS TO BE CHECKED**">
-    <scalar units="a.m.u.">16.0</scalar>
-  </property>
   <property dictRef="me:epsilon" default="true">
     <scalar>50.0</scalar>
   </property>
@@ -90,5 +81,11 @@
   <property dictRef="me:ZPE">
     <scalar units="kJ/mol" default="true"/>
   </property>
+  <!--System crossing parameters-->
+  <me:RMS_SOC_element units="cm-1" default="true">10.0</me:RMS_SOC_element>
+  <me:GradientDifferenceMagnitude units="a.u./Bohr" default="true">0.1</me:GradientDifferenceMagnitude>
+  <me:GradientReducedMass units="a.m.u." default="true">16.0</me:GradientReducedMass>
+  <me:AverageSlope units="a.u./Bohr" default="true">0.1</me:AverageSlope>
+
 </defaults>
 
