@@ -551,7 +551,7 @@ namespace mesmer
               m_collisionOperator.printGrainProfileAtTime(ppGrainList);
             }
           } else {
-            cinfo << "At present it is not possible to print profiles for systems with a second order term." << endl ;
+            cinfo << "At present it is not possible to print profiles for systems with a second order term." << once << endl ;
           }
 
           // Calculate rate coefficients. 

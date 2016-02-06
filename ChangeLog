@@ -1,5 +1,13 @@
 2016-February-06 Struan Robertson
 
+    * examples/2Methyl_to_Ethane: Added baselines.
+		
+		* System.cpp, CollisionOperator.cpp: Minor change to reduce redundant messages to output. 
+
+		* Documentation update.
+
+2016-February-06 Struan Robertson
+
     * Reaction.h/.cpp, Crossing.h, SimpleRRKM.cpp: Removal of crossing plugin base class.
 
 2016-February-06 Struan Robertson

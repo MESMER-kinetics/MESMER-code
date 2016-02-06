@@ -1532,7 +1532,7 @@ namespace mesmer
       // If requested, write out phenomenological evolution.
       if (mFlags.printPhenomenologicalEvolution) {
         if (mFlags.bIsSystemSecondOrder) {
-          cinfo << "At present it is not possible to phenomenological profiles for systems with a second order term." << endl ;
+          cinfo << "At present it is not possible to phenomenological profiles for systems with a second order term." << once << endl ;
         } else {
           PhenomenologicalIntegration(Z_matrix, Zinv, Egv, mFlags) ;
         }

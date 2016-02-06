@@ -1,0 +1,283 @@
+
+            /|      /|                        \   
+           / |     / | ________________________\  
+          /  |    /  |  _   _             _   _   
+         /   |   /   | / \ / \ |\     /| / \ / \  
+        /    |  /    | \_/ \_  | \   / | \_/ |_/  
+       /     | /     | /     \ |  \ /  | /   | \  
+    \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
+
+     Mesmer: Master Equation Solver for Multi-Energy well Reactions
+     Mesmer v4.1 compiled: -- Feb  6 2016 -- 14:36:09
+
+     Copyright (C) 2009-2016 by
+     Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
+     Chris Morley, Michael J. Pilling and contributors
+
+     Mesmer is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Public License as published by
+     the Free Software Foundation, either version 2 of the License,
+     or (at your option) any later version.
+
+     But WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Public License for more details.
+
+    You should have received a copy of the GNU Public License
+    along with Mesmer.  If not, see <http://www.gnu.org/licenses/>.
+
+defaults.xml, librarymols.xml are in ../..
+
+Parsing input xml file...
+CH3_CH3_to_C2H6.xml
+
+--Parse data for marquardt
+Energy convention "" written to <moleculeList>
+In R1: Parsing reaction...Second Order AssociationUndefined reaction
+In C2H6: Hindered rotor b1
+In C2H6: The default value of me:DistributionCalcMethod was used.
+In C2H6: --Parse data for Boltzmann
+In C2H6: --Parse data for ExponentialDown
+In C2H6: C2H6:deltaEDown:Ar was given a range with 66 steps 
+In C2H6: C2H6:deltaEDown:He was given a range with 66 steps 
+In R1: --Parse data for MesmerILT
+In R1: R1:preExponential was given a range with 701 steps 
+In R1: R1:nInfinity was given a range with 361 steps 
+In R1: The default value of me:TInfinity was used.
+In R1: No tunneling method used for R1
+In R1: Not a unimolecular reaction: look for excess reactant concentration.
+1090Torr, 1177K at d precision with Ar
+1790Torr, 1366K at d precision with Ar
+1850Torr, 1403K at d precision with Ar
+1740Torr, 1412K at d precision with Ar
+1670Torr, 1426K at d precision with Ar
+1310Torr, 1724K at d precision with Ar
+1310Torr, 1734K at d precision with Ar
+1330Torr, 1742K at d precision with Ar
+1090Torr, 1298K at d precision with Ar
+1020Torr, 1306K at d precision with Ar
+985Torr, 1345K at d precision with Ar
+1190Torr, 1175K at d precision with Ar
+1100Torr, 1215K at d precision with Ar
+1040Torr, 1321K at d precision with Ar
+1060Torr, 1357K at d precision with Ar
+931Torr, 1394K at d precision with Ar
+857Torr, 1513K at d precision with Ar
+1600Torr, 1537K at d precision with Ar
+3.1Torr, 305K at d precision with He
+6.1Torr, 305K at d precision with He
+10.1Torr, 305K at d precision with He
+1.15Torr, 515K at d precision with He
+3.15Torr, 515K at d precision with He
+6.15Torr, 515K at d precision with He
+10.2Torr, 515K at d precision with He
+1.7Torr, 715K at d precision with He
+3.2Torr, 715K at d precision with He
+6.2Torr, 715K at d precision with He
+10.2Torr, 715K at d precision with He
+Write metadata 20160206_195354
+
+File: "CH3_CH3_to_C2H6.xml" successfully parsed.
+Main Calculation begins
+
+--Execute calcMethod marquardt
+In FastLaplaceConvolution: 1840 values in the FFT convolution routine were replaced by standard convolution
+In FastLaplaceConvolution: 1300 values in the FFT convolution routine were replaced by standard convolution
+Association ILT calculation completed
+At present it is not possible to print profiles for systems with a second order term.
+Finish Calculation of P-T case
+
+Chi^2 = 52.5173 Lambda = 1
+C2H6:deltaEDown:Ar=302  C2H6:deltaEDown:He=230  R1:preExponential=5.73e-11  R1:nInfinity=-0.26  
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Finish Calculation of P-T case
+In FastLaplaceConvolution: 1220 values in the FFT convolution routine were replaced by standard convolution
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Finish Calculation of P-T case
+In FastLaplaceConvolution: 1200 values in the FFT convolution routine were replaced by standard convolution
+Association ILT calculation completed
+Finish Calculation of P-T case
+
+Chi^2 = 41.8202 Lambda = 0.1
+C2H6:deltaEDown:Ar=303.324  C2H6:deltaEDown:He=263.472  R1:preExponential=5.64855e-11  R1:nInfinity=-0.320978  
+Iteration: 1 of Marquardt. ChiSquare = 41.8202, Lambda = 0.1
+In FastLaplaceConvolution: 920 values in the FFT convolution routine were replaced by standard convolution
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Finish Calculation of P-T case
+Association ILT calculation completed
+Finish Calculation of P-T case
+In FastLaplaceConvolution: 880 values in the FFT convolution routine were replaced by standard convolution
+Association ILT calculation completed
+Finish Calculation of P-T case
+
+Chi^2 = 31.4022 Lambda = 0.01
+C2H6:deltaEDown:Ar=342.978  C2H6:deltaEDown:He=334.649  R1:preExponential=5.24834e-11  R1:nInfinity=-0.570652  
+Iteration: 2 of Marquardt. ChiSquare = 31.4022, Lambda = 0.01
+PT Grid 0
+Number of cells = 55020, Number of grains = 786
+Association ILT calculation completed
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 1
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 2
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 3
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 4
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 5
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 6
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+PT Grid 7
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 8
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 9
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 10
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 11
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 12
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+PT Grid 13
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 14
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 15
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 16
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 17
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 18
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 19
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 20
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 21
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 22
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+PT Grid 23
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+PT Grid 24
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 25
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 26
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 3 seconds.
+PT Grid 27
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+PT Grid 28
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 4 seconds.
+
+    Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
+
+           1177    8.94271e+18        7.5e-12    8.35722e-12
+           1366    1.26538e+19        6.7e-12    5.14497e-12
+           1403    1.27331e+19        6.8e-12    4.54447e-12
+           1412    1.18996e+19        6.1e-12     4.2667e-12
+           1426    1.13088e+19        6.2e-12    3.96332e-12
+           1724    7.33759e+18       1.16e-12    9.96877e-13
+           1734    7.29527e+18        8.6e-13    9.53958e-13
+           1742    7.37264e+18        8.8e-13    9.29906e-13
+           1298    8.10907e+18        5.3e-12    5.33912e-12
+           1306    7.54182e+18        6.2e-12    5.02399e-12
+           1345    7.07185e+18        5.9e-12    4.23531e-12
+           1175    9.77977e+18        5.2e-12    8.69222e-12
+           1215     8.7425e+18        7.2e-12    7.31711e-12
+           1321    7.60238e+18        7.2e-12    4.77919e-12
+           1357    7.54302e+18        4.2e-12    4.18066e-12
+           1394    6.44921e+18        5.2e-12     3.3738e-12
+           1513    5.46967e+18       2.09e-12     1.9455e-12
+           1537    1.00523e+19          4e-12    2.48765e-12
+            305    9.81479e+16       4.81e-11    4.80771e-11
+            305     1.9313e+17       5.12e-11    4.98857e-11
+            305    3.19772e+17       5.27e-11    5.07725e-11
+            515     2.1563e+16       1.29e-11    1.44719e-11
+            515     5.9064e+16       1.99e-11    2.04013e-11
+            515    1.15315e+17        2.4e-11    2.43295e-11
+            515    1.91255e+17       2.64e-11    2.71052e-11
+            715    2.29595e+16        5.8e-12     4.9281e-12
+            715    4.32179e+16        8.2e-12    6.77719e-12
+            715    8.37346e+16       1.02e-11    9.13047e-12
+            715    1.37757e+17       1.28e-11    1.11566e-11
+
+Finish Calculation of P-T case
+29 temperature/concentration-pressure points calculated.
+
+Chi^2 = 31.4022
+
+Best fit parameters:
+
+C2H6:deltaEDown:Ar = 342.978 +/- 41.1796
+C2H6:deltaEDown:He = 334.649 +/- 42.5759
+R1:preExponential = 5.24834e-11 +/- 3.0182e-12
+R1:nInfinity = -0.570652 +/- 0.204626
+
+Correlation coefficients:
+
+C2H6:deltaEDown:He , C2H6:deltaEDown:Ar = 0.480535
+R1:preExponential , C2H6:deltaEDown:Ar = -0.0515204
+R1:preExponential , C2H6:deltaEDown:He = -0.474882
+R1:nInfinity , C2H6:deltaEDown:Ar = -0.845766
+R1:nInfinity , C2H6:deltaEDown:He = -0.409282
+R1:nInfinity , R1:preExponential = -0.209917
+
+Goodness of Fit:
+
+Number of degrees of Freedom = 25
+Chi^2 probability = 0.176044
+
+ -- Total time elapsed: 2047 seconds.
+
+System saved to mesmer_out.xml
+Total time elapsed: 2047 seconds.
