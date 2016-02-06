@@ -126,7 +126,7 @@
     <ClCompile Include="..\..\src\IrreversibleUnimolecularReaction.cpp" />
     <ClCompile Include="..\..\src\IsomerizationReaction.cpp" />
     <ClCompile Include="..\..\src\plugins\HinderedRotorUtils.cpp" />
-    <ClCompile Include="..\..\src\plugins\LandauZenerCrossingCoeff.cpp" />
+    <ClCompile Include="..\..\src\plugins\LandauZenerCrossing.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\plugins\Marquardt.cpp" />
     <ClCompile Include="..\..\src\MesmerEnv.cpp" />
@@ -159,7 +159,7 @@
     <ClCompile Include="..\..\src\TMatrix.cpp" />
     <ClCompile Include="..\..\src\unitsConversion.cpp" />
     <ClCompile Include="..\..\src\vector3.cpp" />
-    <ClCompile Include="..\..\src\plugins\WKBCrossingCoeff.cpp" />
+    <ClCompile Include="..\..\src\plugins\WKBCrossing.cpp" />
     <ClCompile Include="..\..\src\plugins\WKBTunnellingCoefficients.cpp" />
     <ClCompile Include="..\..\src\XMLPersist.cpp" />
   </ItemGroup>
@@ -170,7 +170,6 @@
     <ClInclude Include="..\..\src\CollisionOperator.h" />
     <ClInclude Include="..\..\src\ConditionsManager.h" />
     <ClInclude Include="..\..\src\Constants.h" />
-    <ClInclude Include="..\..\src\Crossing.h" />
     <ClInclude Include="..\..\src\DensityOfStates.h" />
     <ClInclude Include="..\..\src\Distribution.h" />
     <ClInclude Include="..\..\src\dMatrix.h" />
@@ -263,8 +262,12 @@
     <None Include="..\..\MesmerQA\benzene_oxidation\benzene_oxidation_test.xml" />
     <None Include="..\..\MesmerQA\cyclopropene isomerization reservoir state\Cyclopropene_isomerization_reservoir_state_test.xml" />
     <None Include="..\..\MesmerQA\cyclopropene isomerization\Cyclopropene_isomerization_test.xml" />
-    <None Include="..\..\MesmerQA\HSO2\HSO2.xml" />
-    <None Include="..\..\MesmerQA\HSO2\HSO2_test.xml" />
+    <None Include="..\..\MesmerQA\HSO2\HSO2.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\..\MesmerQA\HSO2\HSO2_test.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\MesmerQA\i-propyl\ipropyl_reservoir.xml" />
     <None Include="..\..\MesmerQA\i-propyl\ipropyl_test.xml">
       <SubType>Designer</SubType>

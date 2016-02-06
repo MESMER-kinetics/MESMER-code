@@ -14,7 +14,6 @@
 
 #include "MoleculeManager.h"
 #include "Tunneling.h"
-#include "Crossing.h"
 #include "gTransitionState.h"
 #include "dMatrix.h"
 
@@ -110,16 +109,6 @@ namespace mesmer
 
     void calculateCellTunnelingCoeffs(std::vector<double>& TunnelingProbability) {m_pTunnelingCalculator->calculateCellTunnelingCoeffs(this, TunnelingProbability); } ;
     
-    // Spin Forbidden Crossing interface
-
-    bool thereIsCrossing (void) const {return (m_pCrossingCalculator) ? true : false ; } ;
-
-	bool thereIsCrossingWithTunnelling(void) {return(m_pCrossingCalculator->ThereIsTunnellingWithCrossing()); };
-
-    void calculateCellCrossingCoeffs(std::vector<double>& CrossingProbability) {m_pCrossingCalculator->calculateCellCrossingCoeffs(this, CrossingProbability); } ;
-
-    // End Spin Forbidden Crossing interface
-
     // calculate flux in grains
     void fluxCellToGrain();
 
@@ -227,7 +216,6 @@ namespace mesmer
     MoleculeManager     *m_pMoleculeManager ;     // Pointer to molecule manager.
     MicroRateCalculator *m_pMicroRateCalculator ; // Pointer to microcanoical rate coeff. calculator.
     TunnelingCalculator *m_pTunnelingCalculator ; // Pointer to Tunneling Calculator
-    CrossingCalculator  *m_pCrossingCalculator ;  // Pointer to Crossing Calculator
 
     /*
     Each of the backward/forward microcanonical rate coefficients are based on

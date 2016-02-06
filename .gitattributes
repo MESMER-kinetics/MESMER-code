@@ -621,7 +621,6 @@ src/CollisionOperator.h -text
 src/ConditionsManager.cpp -text
 src/ConditionsManager.h -text
 src/Constants.h -text
-src/Crossing.h -text
 src/DensityOfStates.cpp -text
 src/DensityOfStates.h -text
 src/Distribution.h -text

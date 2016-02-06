@@ -26,7 +26,6 @@ namespace mesmer
 		m_pMoleculeManager(pMoleculeManager),
     m_pMicroRateCalculator(NULL),
     m_pTunnelingCalculator(NULL),
-    m_pCrossingCalculator(NULL),
     m_FluxCellZPE(0.0),
     m_FluxGrainZPE(0.0),
     m_FluxCellOffset(0),
@@ -238,12 +237,6 @@ namespace mesmer
           optional); //data may be in TS
     if(!m_pTunnelingCalculator)
       cinfo << "No tunneling method used for " << getName() << endl;
-
-    // Determine the method of estimating crossing coefficients.
-    m_pCrossingCalculator = ParseForPlugin<CrossingCalculator>(this, "me:crossing", ppReac,
-      optional); //data may be in TS)
-    if(!m_pCrossingCalculator)
-      cinfo << "No crossing method used for " << getName() << endl;
 
     if ((getReactionType() == ASSOCIATION || getReactionType() == IRREVERSIBLE_EXCHANGE 
       || getReactionType() == BIMOLECULAR_SINK || getReactionType() == PSEUDOISOMERIZATION

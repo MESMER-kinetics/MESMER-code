@@ -1,4 +1,8 @@
-2016-February-05 Struan Robertson
+2016-February-06 Struan Robertson
+
+    * Reaction.h/.cpp, Crossing.h, SimpleRRKM.cpp: Removal of crossing plugin base class.
+
+2016-February-06 Struan Robertson
 
     * WKBCrossing.cpp, LandauZenerCrossing.cpp: Added revised version of system crossing
 		classes, now deriving from MicroRateCalculator base class.
