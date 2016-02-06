@@ -190,7 +190,7 @@ SRCS := \
 	plugins/HinderedRotorUtils.cpp \
 	plugins/HinderedRotorQM1D.cpp \
 	plugins/HinderedRotorCM1D.cpp \
-	plugins/LandauZenerCrossingCoeff.cpp \
+	plugins/LandauZenerCrossing.cpp \
 	plugins/Marquardt.cpp \
 	plugins/MesmerILT.cpp \
 	plugins/Morse.cpp \
@@ -203,7 +203,7 @@ SRCS := \
 	plugins/SimpleRRKM.cpp \
 	plugins/ThermodynamicTable.cpp \
 	plugins/UnitTests.cpp \
-	plugins/WKBCrossingCoeff.cpp \
+	plugins/WKBCrossing.cpp \
 	plugins/WKBTunnellingCoefficients.cpp \
 	plugins/DefinedTunnelingCoefficients.cpp    
 
