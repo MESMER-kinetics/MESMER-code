@@ -34,7 +34,7 @@ namespace mesmer
   } ;
 
   //************************************************************
-  //Global instance, defining its id (usually the only instance) but here with an alternative name
+  //Global instance, defining its id but here with an alternative name
   BeyerSwinehart theBeyerSwinehart("BeyerSwinehart");
   //************************************************************
 

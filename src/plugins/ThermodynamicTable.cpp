@@ -33,6 +33,7 @@ namespace mesmer
 
     virtual ~ThermodynamicTable() {}
     virtual const char* getID()  { return m_id; }
+    virtual ThermodynamicTable* Clone() { return new ThermodynamicTable(*this); }
 
     //Does not do own parsing (returns false with default call),
     //returns true when asked if NOCONDITIONSOK

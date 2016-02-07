@@ -43,7 +43,8 @@ namespace mesmer
 
 		virtual ~ErrorPropagation() { }
 		virtual const char* getID() { return m_id; }
-		virtual bool ParseData(PersistPtr pp);
+    virtual ErrorPropagation* Clone() { return new ErrorPropagation(*this); }
+    virtual bool ParseData(PersistPtr pp);
 
 		// Function to do the work.
 		virtual bool DoCalculation(System* pSys);

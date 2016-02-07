@@ -46,6 +46,7 @@ namespace mesmer
     UnitTests(const char* id) : m_id(id) { Register(); }
     virtual ~UnitTests() {}
     virtual const char* getID()  { return m_id; }
+    virtual UnitTests* Clone() { return new UnitTests(*this); }
 
     virtual bool DoesOwnParsing(parseQuery q = ALL) { return true; }
 

@@ -30,7 +30,8 @@ namespace mesmer
 
 		virtual ~Marquardt() {}
 		virtual const char* getID()  { return m_id; }
-		virtual bool ParseData(PersistPtr pp);
+    virtual Marquardt* Clone() { return new Marquardt(*this); }
+    virtual bool ParseData(PersistPtr pp);
 
 		//Function to do the work
 		virtual bool DoCalculation(System* pSys);

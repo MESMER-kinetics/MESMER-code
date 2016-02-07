@@ -29,6 +29,7 @@ namespace mesmer
 
     virtual ~Fitting() {}
     virtual const char* getID()  { return m_id; }
+    virtual Fitting* Clone() { return new Fitting(*this); }
 
     virtual bool ParseData(PersistPtr pp);
 

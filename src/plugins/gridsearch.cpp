@@ -13,6 +13,7 @@ namespace mesmer
     GridSearch(const char* id) : m_id(id) { Register();}
     virtual ~GridSearch() {}
     virtual const char* getID()  { return m_id; }
+    virtual GridSearch* Clone() { return new GridSearch(*this); }
     virtual bool DoCalculation(System* pSys);
 
   private:

@@ -339,7 +339,8 @@ namespace mesmer
 
 		virtual ~SensitivityAnalysis() { delete m_probDensity; }
 		virtual const char* getID() { return m_id; }
-		virtual bool ParseData(PersistPtr pp);
+    virtual SensitivityAnalysis* Clone() { return new SensitivityAnalysis(*this); }
+    virtual bool ParseData(PersistPtr pp);
 
 		// Function to do the work.
 		virtual bool DoCalculation(System* pSys);

@@ -28,12 +28,14 @@ namespace mesmer
 
     virtual ~DefinedTunnelingCoefficients() {}
     virtual const char* getID()  { return m_id; }
+    virtual DefinedTunnelingCoefficients* Clone() { return new DefinedTunnelingCoefficients(*this); }
+
 
     virtual bool calculateCellTunnelingCoeffs(Reaction* pReact, std::vector<double>& TunnelingProbability);
 
   private:
     // Read potential barrier details. Called from Reaction.cpp ~line 274 via ParseForPlugin
-    // and store in member variables.
+    // and store in member variables. 
     virtual bool ParseData(PersistPtr pp);
 
     const char* m_id;

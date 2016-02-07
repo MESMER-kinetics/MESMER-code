@@ -29,13 +29,11 @@ namespace mesmer
 
     virtual ~WKBTunnellingCoefficients() {}
     virtual const char* getID()  { return m_id; }
+    virtual WKBTunnellingCoefficients* Clone() { return new WKBTunnellingCoefficients(*this); }
     virtual bool ParseData(PersistPtr ppr);
     virtual bool calculateCellTunnelingCoeffs(Reaction* pReact, std::vector<double>& TunnelingProbability);
 
   private:
-
-    // Read potential barrier details
-    bool ReadPotential(Reaction* pReact, vector<double> &potential, vector<double> &distance, double &mu) ;
 
     //Integration quadrature to obtain theta
     double Theta(const vector<double> &pot , const vector<double> &MEP , int Ene , double mu);
@@ -49,7 +47,7 @@ namespace mesmer
   };
 
   //************************************************************
-  //Global instance, defining its id (usually the only instance)
+  //Global instance, defining its id
   WKBTunnellingCoefficients theWKBTunnellingCoefficients("WKB");
   //************************************************************
 

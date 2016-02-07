@@ -1,3 +1,15 @@
+2016-February-07 Chris Morley
+
+	* src/plugins/AnalyticalRepresentation.cpp,src/plugins/BeyerSwinehart.cpp,
+	src/plugins/BoltzmannDistribution.cpp,src/plugins/ClassicalRotor.cpp
+	src/plugins/DefinedTunnelingCoefficients.cpp,src/plugins/EckartCoefficients.cpp
+	src/plugins/ErrorPropagation.cpp,src/plugins/fitting.cpp,src/plugins/gridsearch.cpp
+	src/plugins/Marquardt.cpp,src/plugins/PriorDistribution.cpp
+	src/plugins/SensitivityAnalysis.cpp,src/plugins/simplecalc.cpp
+	src/plugins/ThermodynamicTable.cpp,	src/plugins/UnitTests.cpp
+	src/plugins/WKBTunnellingCoefficients.cpp: Give all plugins a Clone() method,
+	  allowing them to have multiple instances. Remove inconsistent comments.
+
 2016-February-06 Struan Robertson
 
     * examples/2Methyl_to_Ethane: Added baselines.

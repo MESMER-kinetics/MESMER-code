@@ -13,6 +13,7 @@ public:
   SimpleCalc(const char* id) : m_id(id) { Register(); }
   virtual ~SimpleCalc() {}
   virtual const char* getID()  { return m_id; }
+  virtual SimpleCalc* Clone() { return new SimpleCalc(*this); }
 
     //Function to do the work
   virtual bool DoCalculation(System* pSys)  ;

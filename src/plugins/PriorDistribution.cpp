@@ -30,6 +30,7 @@ namespace mesmer
 
     virtual ~PriorDistribution() {}
     virtual const char* getID()  { return m_id; }
+    virtual PriorDistribution* Clone() { return new PriorDistribution(*this); }
 
     virtual bool ParseData(PersistPtr pp);
     virtual bool calculateDistribution( Molecule* m_host, std::vector<double>& distribution);

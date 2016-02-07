@@ -27,8 +27,9 @@ namespace mesmer
 
     virtual ~BoltzmannDistribution() {}
     virtual const char* getID()  { return m_id; }
+    virtual BoltzmannDistribution* Clone() { return new BoltzmannDistribution(*this); }
 
-	virtual bool ParseData(PersistPtr pp) ;
+	  virtual bool ParseData(PersistPtr pp) ;
 
     virtual bool calculateDistribution(Molecule* m_host, std::vector<double>& dist);
 
@@ -39,7 +40,7 @@ namespace mesmer
   };
 
   //************************************************************
-  //Global instance, defining its id (usually the only instance)
+  //Global instance, defining its id
   BoltzmannDistribution theBoltzmannDistribution("Boltzmann");
   //************************************************************
 

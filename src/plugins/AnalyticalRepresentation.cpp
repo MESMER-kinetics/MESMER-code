@@ -49,6 +49,7 @@ namespace mesmer
 
 		virtual ~AnalyticalRepresentation() {}
 		virtual const char* getID()  { return m_id; }
+    virtual AnalyticalRepresentation* Clone() { return new AnalyticalRepresentation(*this); }
 
 		//Read in data for this method from XML
 		virtual bool ParseData(PersistPtr pp);

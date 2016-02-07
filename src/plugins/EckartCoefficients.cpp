@@ -29,14 +29,15 @@ namespace mesmer
   
     virtual ~EckartCoefficients() {}
     virtual const char* getID()  { return m_id; }
-  
+    virtual EckartCoefficients* Clone() { return new EckartCoefficients(*this); }
+
     virtual bool calculateCellTunnelingCoeffs(Reaction* pReact, std::vector<double>& TunnelingProbability);
   private:
     const char* m_id;
   };
 
   //************************************************************
-  //Global instance, defining its id (usually the only instance)
+  //Global instance, defining its id
   EckartCoefficients theEckartCoefficients("Eckart");
   //************************************************************
 

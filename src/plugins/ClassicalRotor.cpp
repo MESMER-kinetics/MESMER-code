@@ -44,7 +44,7 @@ namespace mesmer
   };
 
   //************************************************************
-  //Global instance, defining its id (usually the only instance)
+  //Global instance, defining its id
   ClassicalRotor theClassicalRotor("ClassicalRotors");
   //************************************************************
 
