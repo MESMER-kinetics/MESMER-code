@@ -63,7 +63,7 @@
   <me:MarquardtTolerance default="true">1.e-03</me:MarquardtTolerance>
   <me:ConstraintFactor default="true">1.0</me:ConstraintFactor>
   <me:ConstraintAddand default="true">0.0</me:ConstraintAddand>
-  <me:sensitivityAnalysisSamples default="true">10</me:sensitivityAnalysisSamples>
+  <me:sensitivityAnalysisSamples default="true">256</me:sensitivityAnalysisSamples>
   <me:sensitivityGenerateData default="true">true</me:sensitivityGenerateData>
   <me:chebMinConc units="particles per cubic centimeter" default="true"/>
   <me:calcMethod units="kJ/mol" default="true"/>
