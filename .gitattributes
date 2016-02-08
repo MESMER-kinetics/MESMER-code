@@ -349,7 +349,9 @@ Windows[!!-~]VC14/Mesmer/Mesmer.vcxproj -text
 Windows[!!-~]VC14/TinyXML/TinyXML.vcxproj -text
 Windows[!!-~]VC14/distribution/NSISScriptToCreateInstaller.nsi -text
 Windows[!!-~]VC14/distribution/ReadMe.txt -text
+Windows[!!-~]VC14/qd/config.h -text
 Windows[!!-~]VC14/qd/qd.vcxproj -text
+Windows[!!-~]VC14/qd/qd_config.h -text
 /chemStrucEL.xsl -text
 /defaults.xml -text
 examples/2Methyl_to_Ethane/CH3_CH3_to_C2H6.xml -text
