@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Dec 15 2015 -- 11:53:31
+     Mesmer v4.1 compiled: -- Feb  8 2016 -- 18:05:50
 
-     Copyright (C) 2009-2015 by
+     Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -46,7 +46,6 @@ In IM1: --Parse data for ExponentialDown
 In R1: --Parse data for MesmerILT
 In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
-In R1: No crossing method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R2: Parsing reaction...Isomerization reaction
 In IM2: Hindered rotor b1
@@ -58,7 +57,6 @@ In IM2: --Parse data for Boltzmann
 In IM2: --Parse data for ExponentialDown
 In R2: --Parse data for SimpleRRKM
 In R2: --Parse data for Eckart
-In R2: No crossing method used for R2
 In R3: Parsing reaction...Irreversible unimolecular reaction
 In CH2O: Could not find CH2O in ../../librarymols.xml
 In TS5: The default value of me:DOSCMethod was used.
@@ -67,18 +65,15 @@ In TS5: Hindered rotor b2
 In TS5: Hindered rotor b3
 In R3: --Parse data for SimpleRRKM
 In R3: No tunneling method used for R3
-In R3: No crossing method used for R3
 In R4: Parsing reaction...Irreversible unimolecular reaction
 In R4: --Parse data for SimpleRRKM
 In R4: No tunneling method used for R4
-In R4: No crossing method used for R4
 In R5: Parsing reaction...Irreversible unimolecular reaction
 In cycCH2OCH2O: Could not find cycCH2OCH2O in ../../librarymols.xml
 In R5: --Parse data for SimpleRRKM
 In R5: No tunneling method used for R5
-In R5: No crossing method used for R5
 No pressure and temperature specified.
-Write metadata 20151215_131004
+Write metadata 20160209_102952
 
 File: "Chebyshev.xml" successfully parsed.
 Main Calculation begins
@@ -243,7 +238,7 @@ chebyshev_reaction('IM2 => OH-3 + cycCH2OCH2O',
                            [     0.0290908,   -0.00285626,     -0.063572,     0.0462276]])
 
 
- -- Total time elapsed: 789 seconds.
+ -- Total time elapsed: 1031 seconds.
 
 System saved to mesmer_out.xml
-Total time elapsed: 789 seconds.
+Total time elapsed: 1031 seconds.

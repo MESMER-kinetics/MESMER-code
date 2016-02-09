@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Dec 15 2015 -- 11:53:31
+     Mesmer v4.1 compiled: -- Feb  8 2016 -- 18:05:50
 
-     Copyright (C) 2009-2015 by
+     Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -47,7 +47,6 @@ In propene: propene:ZPE was given a range with 401 steps
 In H: The default value of me:DOSCMethod was used.
 In H: The default value of the attribute spinMultiplicity was used.
 In R1: No tunneling method used for R1
-In R1: No crossing method used for R1
 The default value of the attribute precision was used.
 3e+17PPCC, 720K at d precision with He
 The default value of the attribute precision was used.
@@ -56,9 +55,8 @@ The default value of the attribute precision was used.
 In ThermodynamicTable: The default value of the attribute units was used.
 In ThermodynamicTable: The default value of me:Tmin was used.
 In ThermodynamicTable: The default value of me:Tmax was used.
-In ThermodynamicTable: The default value of me:Tstep was used.
 In ThermodynamicTable: The default value of me:Tmid was used.
-Write metadata 20151215_121241
+Write metadata 20160208_181109
 
 File: "ipropyl_test.xml" successfully parsed.
 Main Calculation begins
@@ -76,7 +74,7 @@ PT Grid 1
 Number of cells = 18700, Number of grains = 187
 Number of grains requested: 187
 In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
@@ -88,9 +86,10 @@ Finish Calculation of P-T case
 2 temperature/concentration-pressure points calculated.
 
 --Execute calcMethod ThermodynamicTable
+Too few data points to fit NASA polynomials.
 In He: The default value of me:DOSCMethod was used.
 In He: The default value of the attribute spinMultiplicity was used.
- -- Total time elapsed: 1 seconds.
+ -- Total time elapsed: 2 seconds.
 
 System saved to out.xml
-Total time elapsed: 1 seconds.
+Total time elapsed: 2 seconds.

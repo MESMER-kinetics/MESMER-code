@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Dec 15 2015 -- 11:53:31
+     Mesmer v4.1 compiled: -- Feb  8 2016 -- 18:05:50
 
-     Copyright (C) 2009-2015 by
+     Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -45,7 +45,6 @@ In R1: R1:preExponential was given a range with 41 steps
 In R1: R1:nInfinity was given a range with 81 steps 
 In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
-In R1: No crossing method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 In R1: No value of me:excessReactantConc was supplied and the default value NEEDS TO BE CHECKED**
 25.1Torr, 301K at dd precision with He
@@ -85,7 +84,7 @@ In R1: No value of me:excessReactantConc was supplied and the default value NEED
 515Torr, 601K at dd precision with He
 614.5Torr, 601K at dd precision with He
 711Torr, 601K at dd precision with He
-Write metadata 20151215_121603
+Write metadata 20160209_093540
 
 File: "Methyl_H_to_Methane.xml" successfully parsed.
 Main Calculation begins
@@ -330,13 +329,13 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 1
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 2
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 3
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 4
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
@@ -357,16 +356,16 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 10
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 11
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 12
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 13
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 14
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
@@ -375,7 +374,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 16
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 17
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
@@ -417,10 +416,10 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 30
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 31
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 32
 Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
@@ -435,7 +434,7 @@ Build Collison Operator
 Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 36
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
@@ -496,7 +495,7 @@ Goodness of Fit:
 Number of degrees of Freedom = 35
 Chi^2 probability = 1
 
- -- Total time elapsed: 1490 seconds.
+ -- Total time elapsed: 1496 seconds.
 
 System saved to out.xml
-Total time elapsed: 1490 seconds.
+Total time elapsed: 1496 seconds.

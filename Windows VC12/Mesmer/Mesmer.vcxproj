@@ -125,8 +125,8 @@
     <ClCompile Include="..\..\src\IrreversibleUnimolecularReaction.cpp" />
     <ClCompile Include="..\..\src\IsomerizationReaction.cpp" />
     <ClCompile Include="..\..\src\plugins\HinderedRotorUtils.cpp" />
-    <ClCompile Include="..\..\src\plugins\LandauZenerCrossingCoeff.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\plugins\LandauZenerCrossing.cpp" />
     <ClCompile Include="..\..\src\plugins\Marquardt.cpp" />
     <ClCompile Include="..\..\src\MesmerEnv.cpp" />
     <ClCompile Include="..\..\src\MesmerFlags.cpp" />
@@ -142,6 +142,8 @@
     <ClCompile Include="..\..\src\plugins\SensitivityAnalysis.cpp" />
     <ClCompile Include="..\..\src\plugins\SimpleBimolecularSink.cpp" />
     <ClCompile Include="..\..\src\plugins\UnitTests.cpp" />
+    <ClCompile Include="..\..\src\plugins\WKBCrossing.cpp" />
+    <ClCompile Include="..\..\src\plugins\WKBTunnellingCoefficients.cpp" />
     <ClCompile Include="..\..\src\PseudoIsomerizationReaction.cpp" />
     <ClCompile Include="..\..\src\Rdouble.cpp" />
     <ClCompile Include="..\..\src\Reaction.cpp" />
@@ -158,8 +160,6 @@
     <ClCompile Include="..\..\src\TMatrix.cpp" />
     <ClCompile Include="..\..\src\unitsConversion.cpp" />
     <ClCompile Include="..\..\src\vector3.cpp" />
-    <ClCompile Include="..\..\src\plugins\WKBCrossingCoeff.cpp" />
-    <ClCompile Include="..\..\src\plugins\WKBTunnellingCoefficients.cpp" />
     <ClCompile Include="..\..\src\XMLPersist.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -169,7 +169,6 @@
     <ClInclude Include="..\..\src\CollisionOperator.h" />
     <ClInclude Include="..\..\src\ConditionsManager.h" />
     <ClInclude Include="..\..\src\Constants.h" />
-    <ClInclude Include="..\..\src\Crossing.h" />
     <ClInclude Include="..\..\src\DensityOfStates.h" />
     <ClInclude Include="..\..\src\Distribution.h" />
     <ClInclude Include="..\..\src\dMatrix.h" />
@@ -239,7 +238,9 @@
     <None Include="..\..\examples\Methyl_H_to_Methane\Methyl_H_to_Methane_FTST.xml" />
     <None Include="..\..\examples\OH-acetylene\OH_HCCH-irreversibleBim-ci-TC-start.xml" />
     <None Include="..\..\examples\OH-acetylene\OH_HCCH-irreversibleBim-publish.xml" />
-    <None Include="..\..\examples\OH_NO_to HONO\OH_NO_HONO.xml" />
+    <None Include="..\..\examples\OH_NO_to HONO\OH_NO_HONO.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\..\examples\spin_forbidden_kinetics\HCCH_methylene.xml" />
     <None Include="..\..\examples\spin_forbidden_kinetics\LZ_test.xml" />
     <None Include="..\..\examples\spin_forbidden_kinetics\WKB_test.xml" />

@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Jul  5 2015 -- 16:48:53
+     Mesmer v4.1 compiled: -- Feb  8 2016 -- 18:05:50
 
-     Copyright (C) 2009-2015 by
+     Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -31,172 +31,115 @@ defaults.xml, librarymols.xml are in ../..
 Parsing input xml file...
 CH3O2_NO2_associationEx2.xml
 
+--Parse data for marquardt
+Energy convention "" written to <moleculeList>
 In R1: Parsing reaction...Association reaction
 In CH3OONO2: Hindered rotor b3
 In CH3OONO2: CH3OONO2:ZPE was given a range with 501 steps 
 In CH3OONO2: The default value of me:DistributionCalcMethod was used.
+In CH3OONO2: --Parse data for Boltzmann
+In CH3OONO2: --Parse data for ExponentialDown
 In CH3OONO2: CH3OONO2:deltaEDown:N2 was given a range with 68 steps 
 In CH3OONO2: CH3OONO2:deltaEDownTExponent:N2 was given a range with 111 steps 
+In R1: --Parse data for MesmerILT
 In R1: R1:preExponential was given a range with 900 steps 
 In R1: R1:nInfinity was given a range with 401 steps 
 In R1: The default value of me:TInfinity was used.
 In R1: No tunneling method used for R1
-In R1: No crossing method used for R1
 In R1: Not a unimolecular reaction: look for excess reactant concentration.
 50Torr, 296K at d precision with N2
-The default value of the attribute timeUnits was used.
 100Torr, 296K at d precision with N2
-The default value of the attribute timeUnits was used.
 225Torr, 296K at d precision with N2
-The default value of the attribute timeUnits was used.
 350Torr, 296K at d precision with N2
-The default value of the attribute timeUnits was used.
 500Torr, 296K at d precision with N2
-The default value of the attribute timeUnits was used.
 700Torr, 296K at d precision with N2
-The default value of the attribute timeUnits was used.
 75Torr, 298K at d precision with N2
-The default value of the attribute timeUnits was used.
 100Torr, 298K at d precision with N2
-The default value of the attribute timeUnits was used.
 200Torr, 298K at d precision with N2
-The default value of the attribute timeUnits was used.
 300Torr, 298K at d precision with N2
-The default value of the attribute timeUnits was used.
 250Torr, 298K at d precision with N2
-The default value of the attribute timeUnits was used.
 400Torr, 298K at d precision with N2
-The default value of the attribute timeUnits was used.
 500Torr, 298K at d precision with N2
-The default value of the attribute timeUnits was used.
 700Torr, 298K at d precision with N2
-The default value of the attribute timeUnits was used.
 75Torr, 223K at d precision with N2
-The default value of the attribute timeUnits was used.
 100Torr, 223K at d precision with N2
-The default value of the attribute timeUnits was used.
 200Torr, 223K at d precision with N2
-The default value of the attribute timeUnits was used.
 300Torr, 223K at d precision with N2
-The default value of the attribute timeUnits was used.
 400Torr, 223K at d precision with N2
-The default value of the attribute timeUnits was used.
 500Torr, 223K at d precision with N2
-The default value of the attribute timeUnits was used.
 600Torr, 223K at d precision with N2
-The default value of the attribute timeUnits was used.
 700Torr, 223K at d precision with N2
-The default value of the attribute timeUnits was used.
 76Torr, 298K at d precision with N2
-The default value of the attribute timeUnits was used.
 157Torr, 298K at d precision with N2
-The default value of the attribute timeUnits was used.
 258Torr, 298K at d precision with N2
-The default value of the attribute timeUnits was used.
 352Torr, 298K at d precision with N2
-The default value of the attribute timeUnits was used.
 519Torr, 298K at d precision with N2
-The default value of the attribute timeUnits was used.
 722Torr, 298K at d precision with N2
-The default value of the attribute timeUnits was used.
 109Torr, 253K at d precision with N2
-The default value of the attribute timeUnits was used.
 250Torr, 253K at d precision with N2
-The default value of the attribute timeUnits was used.
 503Torr, 253K at d precision with N2
-The default value of the attribute timeUnits was used.
 519Torr, 253K at d precision with N2
-The default value of the attribute timeUnits was used.
 26Torr, 295K at d precision with N2
-The default value of the attribute timeUnits was used.
 51Torr, 295K at d precision with N2
-The default value of the attribute timeUnits was used.
 99Torr, 295K at d precision with N2
-The default value of the attribute timeUnits was used.
 230Torr, 295K at d precision with N2
-The default value of the attribute timeUnits was used.
 399Torr, 295K at d precision with N2
-The default value of the attribute timeUnits was used.
 400Torr, 353K at d precision with N2
-The default value of the attribute timeUnits was used.
 400Torr, 343K at d precision with N2
-The default value of the attribute timeUnits was used.
 400Torr, 363K at d precision with N2
-The default value of the attribute timeUnits was used.
 400Torr, 333K at d precision with N2
-The default value of the attribute timeUnits was used.
 760Torr, 333K at d precision with N2
-The default value of the attribute timeUnits was used.
 760Torr, 353K at d precision with N2
-The default value of the attribute timeUnits was used.
 760Torr, 368K at d precision with N2
-The default value of the attribute timeUnits was used.
 760Torr, 373K at d precision with N2
-The default value of the attribute timeUnits was used.
 800mbar, 253K at d precision with N2
-The default value of the attribute timeUnits was used.
 300mbar, 253K at d precision with N2
-The default value of the attribute timeUnits was used.
 100mbar, 253K at d precision with N2
-The default value of the attribute timeUnits was used.
 30mbar, 253K at d precision with N2
-The default value of the attribute timeUnits was used.
 10mbar, 253K at d precision with N2
-The default value of the attribute timeUnits was used.
 800mbar, 258K at d precision with N2
-The default value of the attribute timeUnits was used.
 300mbar, 258K at d precision with N2
-The default value of the attribute timeUnits was used.
 100mbar, 258K at d precision with N2
-The default value of the attribute timeUnits was used.
 30mbar, 258K at d precision with N2
-The default value of the attribute timeUnits was used.
 10mbar, 258K at d precision with N2
-The default value of the attribute timeUnits was used.
 800mbar, 266K at d precision with N2
-The default value of the attribute timeUnits was used.
 300mbar, 266K at d precision with N2
-The default value of the attribute timeUnits was used.
 100mbar, 266K at d precision with N2
-The default value of the attribute timeUnits was used.
 30mbar, 266K at d precision with N2
-The default value of the attribute timeUnits was used.
 10mbar, 266K at d precision with N2
-The default value of the attribute timeUnits was used.
 100mbar, 272K at d precision with N2
-The default value of the attribute timeUnits was used.
 30mbar, 272K at d precision with N2
-The default value of the attribute timeUnits was used.
 10mbar, 272K at d precision with N2
-The default value of the attribute timeUnits was used.
-Write metadata 20150706_210353
+--Parse data for ThermodynamicTable
+Write metadata 20160209_115156
 
 File: "CH3O2_NO2_associationEx2.xml" successfully parsed.
 Main Calculation begins
-Execute calcMethod marquardt
-In FastLaplaceConvolution: 160 values in the FFT convolution routine were replaced by standard convolution
-In FastLaplaceConvolution: 80 values in the FFT convolution routine were replaced by standard convolution
-Association ILT calculation completed
-Warning: CH3OONO2 is an asymmetric top containing five or more non-hydrogen
-atoms. The asymmetric top rotation states may be expensive to calculate. You may 
-wish to consider using a classical treatment.
-Finish Calculation of P-T case
 
-Chi^2 = 114.638 Lambda = 1
-CH3OONO2:ZPE=-44.91  CH3OONO2:deltaEDown:N2=419  CH3OONO2:deltaEDownTExponent:N2=0.339  R1:preExponential=8.84e-012  R1:nInfinity=-0.87  
-In FastLaplaceConvolution: 200 values in the FFT convolution routine were replaced by standard convolution
+--Execute calcMethod marquardt
+In FastLaplaceConvolution: 160 values in the FFT convolution routine were replaced by standard convolution
 In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 Warning: CH3OONO2 is an asymmetric top containing five or more non-hydrogen
 atoms. The asymmetric top rotation states may be expensive to calculate. You may 
 wish to consider using a classical treatment.
 Finish Calculation of P-T case
+
+Chi^2 = 114.642 Lambda = 1
+CH3OONO2:ZPE=-44.91  CH3OONO2:deltaEDown:N2=419  CH3OONO2:deltaEDownTExponent:N2=0.339  R1:preExponential=8.84e-12  R1:nInfinity=-0.87  
+In FastLaplaceConvolution: 200 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
+Warning: CH3OONO2 is an asymmetric top containing five or more non-hydrogen
+atoms. The asymmetric top rotation states may be expensive to calculate. You may 
+wish to consider using a classical treatment.
 Finish Calculation of P-T case
 Association ILT calculation completed
 Finish Calculation of P-T case
 Association ILT calculation completed
 Finish Calculation of P-T case
+Association ILT calculation completed
+Finish Calculation of P-T case
+In FastLaplaceConvolution: 80 values in the FFT convolution routine were replaced by standard convolution
 Association ILT calculation completed
 Finish Calculation of P-T case
 Association ILT calculation completed
@@ -212,17 +155,17 @@ Finish Calculation of P-T case
 Association ILT calculation completed
 Finish Calculation of P-T case
 
-Chi^2 = 70.5586 Lambda = 0.1
-CH3OONO2:ZPE=-44.9415  CH3OONO2:deltaEDown:N2=393.851  CH3OONO2:deltaEDownTExponent:N2=-0.0239603  R1:preExponential=8.50291e-012  R1:nInfinity=-0.823582  
-Iteration: 1 of Marquardt. ChiSquare = 70.5586, Lambda = 0.1
+Chi^2 = 70.5799 Lambda = 0.1
+CH3OONO2:ZPE=-44.9418  CH3OONO2:deltaEDown:N2=393.844  CH3OONO2:deltaEDownTExponent:N2=-0.023979  R1:preExponential=8.50357e-12  R1:nInfinity=-0.823434  
+Iteration: 1 of Marquardt. ChiSquare = 70.5799, Lambda = 0.1
 
-Chi^2 = 70.5586 Lambda = 1
-CH3OONO2:ZPE=-44.9415  CH3OONO2:deltaEDown:N2=393.851  CH3OONO2:deltaEDownTExponent:N2=-0.0239603  R1:preExponential=8.50291e-012  R1:nInfinity=-0.823582  
-Iteration: 2 of Marquardt. ChiSquare = 70.5586, Lambda = 1
+Chi^2 = 70.5799 Lambda = 1
+CH3OONO2:ZPE=-44.9418  CH3OONO2:deltaEDown:N2=393.844  CH3OONO2:deltaEDownTExponent:N2=-0.023979  R1:preExponential=8.50357e-12  R1:nInfinity=-0.823434  
+Iteration: 2 of Marquardt. ChiSquare = 70.5799, Lambda = 1
 
-Chi^2 = 70.5586 Lambda = 10
-CH3OONO2:ZPE=-44.9415  CH3OONO2:deltaEDown:N2=393.851  CH3OONO2:deltaEDownTExponent:N2=-0.0239603  R1:preExponential=8.50291e-012  R1:nInfinity=-0.823582  
-Iteration: 3 of Marquardt. ChiSquare = 70.5586, Lambda = 10
+Chi^2 = 70.5799 Lambda = 10
+CH3OONO2:ZPE=-44.9418  CH3OONO2:deltaEDown:N2=393.844  CH3OONO2:deltaEDownTExponent:N2=-0.023979  R1:preExponential=8.50357e-12  R1:nInfinity=-0.823434  
+Iteration: 3 of Marquardt. ChiSquare = 70.5799, Lambda = 10
 Association ILT calculation completed
 Finish Calculation of P-T case
 Association ILT calculation completed
@@ -236,13 +179,13 @@ Finish Calculation of P-T case
 Association ILT calculation completed
 Finish Calculation of P-T case
 
-Chi^2 = 68.6814 Lambda = 1
-CH3OONO2:ZPE=-44.9418  CH3OONO2:deltaEDown:N2=391.847  CH3OONO2:deltaEDownTExponent:N2=-0.069424  R1:preExponential=8.47746e-012  R1:nInfinity=-0.820259  
-Iteration: 4 of Marquardt. ChiSquare = 68.6814, Lambda = 1
+Chi^2 = 68.6961 Lambda = 1
+CH3OONO2:ZPE=-44.942  CH3OONO2:deltaEDown:N2=391.836  CH3OONO2:deltaEDownTExponent:N2=-0.0693068  R1:preExponential=8.47801e-12  R1:nInfinity=-0.820094  
+Iteration: 4 of Marquardt. ChiSquare = 68.6961, Lambda = 1
 
-Chi^2 = 68.6814 Lambda = 10
-CH3OONO2:ZPE=-44.9418  CH3OONO2:deltaEDown:N2=391.847  CH3OONO2:deltaEDownTExponent:N2=-0.069424  R1:preExponential=8.47746e-012  R1:nInfinity=-0.820259  
-Iteration: 5 of Marquardt. ChiSquare = 68.6814, Lambda = 10
+Chi^2 = 68.6961 Lambda = 10
+CH3OONO2:ZPE=-44.942  CH3OONO2:deltaEDown:N2=391.836  CH3OONO2:deltaEDownTExponent:N2=-0.0693068  R1:preExponential=8.47801e-12  R1:nInfinity=-0.820094  
+Iteration: 5 of Marquardt. ChiSquare = 68.6961, Lambda = 10
 PT Grid 0
 Number of cells = 20680, Number of grains = 374
 Association ILT calculation completed
@@ -250,16 +193,16 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 1
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 2
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 3
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 4
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 5
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -270,25 +213,25 @@ PT Grid 7
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 8
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 9
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 10
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 11
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 12
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 13
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 14
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 15
 Build Collison Operator
@@ -304,25 +247,25 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 19
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 20
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 21
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 22
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 23
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 24
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 25
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 26
 Build Collison Operator
 Diagonalize the Reaction Operator
@@ -340,48 +283,48 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 31
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 32
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
 PT Grid 33
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 34
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 35
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 36
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 37
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 38
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 39
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 40
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 41
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 42
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 43
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 44
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 45
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 46
 Build Collison Operator
@@ -391,9 +334,9 @@ Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 48
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 49
-Build Collison Operator -- Time elapsed: 1 seconds.
+Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 50
 Build Collison Operator
@@ -405,138 +348,139 @@ PT Grid 52
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 53
-Build Collison Operator -- Time elapsed: 1 seconds.
-Diagonalize the Reaction Operator
+Build Collison Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 54
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 55
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 56
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
 PT Grid 57
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 58
 Build Collison Operator
-Diagonalize the Reaction Operator
+Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
 PT Grid 59
 Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 60
 Build Collison Operator
 Diagonalize the Reaction Operator
 PT Grid 61
-Build Collison Operator
-Diagonalize the Reaction Operator -- Time elapsed: 1 seconds.
+Build Collison Operator -- Time elapsed: 1 seconds.
+Diagonalize the Reaction Operator
 PT Grid 62
 Build Collison Operator
 Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.
 
-            296   1.63116e+018      1.19e-012   1.10877e-012
-            296   3.26233e+018      1.58e-012   1.67801e-012
-            296   7.34024e+018       1.8e-012   2.57027e-012
-            296   1.14181e+019      3.11e-012   3.15078e-012
-            296   1.63116e+019      3.13e-012   3.65676e-012
-            296   2.28363e+019      3.94e-012   4.15437e-012
-            298   2.43032e+018       1.5e-012   1.38104e-012
-            298   3.24043e+018      1.77e-012   1.63317e-012
-            298   6.48087e+018      2.42e-012   2.36725e-012
-            298    9.7213e+018      2.96e-012   2.87512e-012
-            298   8.10108e+018      2.76e-012   2.64017e-012
-            298   1.29617e+019      3.36e-012   3.26522e-012
-            298   1.62022e+019      3.61e-012    3.5815e-012
-            298    2.2683e+019      3.99e-012   4.07458e-012
-            223    3.2477e+018       4.1e-012   3.92579e-012
-            223   4.33026e+018      4.31e-012   4.43848e-012
-            223   8.66053e+018      6.35e-012   5.74607e-012
-            223   1.29908e+019       6.5e-012   6.51992e-012
-            223   1.73211e+019       7.6e-012   7.05433e-012
-            223   2.16513e+019      8.25e-012   7.45362e-012
-            223   2.59816e+019      8.28e-012   7.76696e-012
-            223   3.03119e+019       8.8e-012   8.02131e-012
-            298   2.46273e+018      1.36e-012   1.39198e-012
-            298   5.08748e+018       1.9e-012   2.09078e-012
-            298   8.36032e+018       2.6e-012   2.68002e-012
-            298   1.14063e+019      2.82e-012   3.08916e-012
-            298   1.68178e+019      3.36e-012   3.63533e-012
-            298   2.33959e+019      4.12e-012   4.12059e-012
-            253   4.16031e+018       2.5e-012   3.11411e-012
-            253   9.54199e+018      3.85e-012   4.43776e-012
-            253   1.91985e+019       5.1e-012     5.637e-012
-            253   1.98092e+019       5.8e-012   5.69051e-012
-            295   8.51081e+017       8.2e-013   7.33713e-013
-            295   1.66943e+018      1.15e-012   1.13925e-012
-            295   3.24065e+018       1.5e-012   1.69125e-012
-            295   7.52879e+018      2.26e-012   2.62896e-012
-            295   1.30608e+019      3.05e-012   3.36971e-012
-            353   1.09422e+019          175.7        189.921
-            343   1.12612e+019           72.5        86.9376
-            363   1.06408e+019            418        393.783
-            333   1.15994e+019             24        37.5964
-            333   2.20388e+019           52.3        50.5268
-            353   2.07902e+019            297         261.33
-            368   1.99428e+019            977         779.06
-            373   1.96754e+019           1328        1094.78
-            253   2.29027e+019         0.0034     0.00303327
-            253   8.58849e+018        0.00238     0.00217686
-            253   2.86283e+018        0.00139     0.00132417
-            253   8.58849e+017       0.000684    0.000667409
-            253   2.86283e+017       0.000271    0.000320204
-            258   2.24588e+019        0.00739     0.00673389
-            258   8.42205e+018          0.005     0.00477908
-            258   2.80735e+018        0.00304     0.00287221
-            258   8.42205e+017        0.00133     0.00143093
-            258   2.80735e+017       0.000631    0.000680521
-            266   2.17833e+019         0.0267      0.0225382
-            266   8.16876e+018         0.0155      0.0157168
-            266   2.72292e+018          0.011     0.00926985
-            266   8.16876e+017        0.00527     0.00453605
-            266   2.72292e+017        0.00214     0.00212839
-            272   2.66285e+018         0.0258      0.0212219
-            272   7.98856e+017         0.0117      0.0102509
-            272   2.66285e+017        0.00538     0.00476361
+            296    1.63116e+18       1.19e-12    1.10885e-12
+            296    3.26233e+18       1.58e-12    1.67813e-12
+            296    7.34024e+18        1.8e-12    2.57048e-12
+            296    1.14181e+19       3.11e-12    3.15107e-12
+            296    1.63116e+19       3.13e-12    3.65711e-12
+            296    2.28363e+19       3.94e-12    4.15479e-12
+            298    2.43032e+18        1.5e-12    1.38114e-12
+            298    3.24043e+18       1.77e-12    1.63329e-12
+            298    6.48087e+18       2.42e-12    2.36744e-12
+            298     9.7213e+18       2.96e-12    2.87537e-12
+            298    8.10108e+18       2.76e-12     2.6404e-12
+            298    1.29617e+19       3.36e-12    3.26551e-12
+            298    1.62022e+19       3.61e-12    3.58184e-12
+            298     2.2683e+19       3.99e-12    4.07499e-12
+            223     3.2477e+18        4.1e-12    3.92614e-12
+            223    4.33026e+18       4.31e-12    4.43889e-12
+            223    8.66053e+18       6.35e-12    5.74666e-12
+            223    1.29908e+19        6.5e-12    6.52064e-12
+            223    1.73211e+19        7.6e-12    7.05514e-12
+            223    2.16513e+19       8.25e-12    7.45451e-12
+            223    2.59816e+19       8.28e-12    7.76791e-12
+            223    3.03119e+19        8.8e-12    8.02231e-12
+            298    2.46273e+18       1.36e-12    1.39207e-12
+            298    5.08748e+18        1.9e-12    2.09094e-12
+            298    8.36032e+18        2.6e-12    2.68025e-12
+            298    1.14063e+19       2.82e-12    3.08944e-12
+            298    1.68178e+19       3.36e-12    3.63567e-12
+            298    2.33959e+19       4.12e-12    4.12101e-12
+            253    4.16031e+18        2.5e-12    3.11436e-12
+            253    9.54199e+18       3.85e-12    4.43818e-12
+            253    1.91985e+19        5.1e-12    5.63761e-12
+            253    1.98092e+19        5.8e-12    5.69112e-12
+            295    8.51081e+17        8.2e-13    7.33759e-13
+            295    1.66943e+18       1.15e-12    1.13932e-12
+            295    3.24065e+18        1.5e-12    1.69137e-12
+            295    7.52879e+18       2.26e-12    2.62918e-12
+            295    1.30608e+19       3.05e-12    3.37002e-12
+            353    1.09422e+19          175.7         189.92
+            343    1.12612e+19           72.5         86.937
+            363    1.06408e+19            418        393.781
+            333    1.15994e+19             24         37.596
+            333    2.20388e+19           52.3        50.5269
+            353    2.07902e+19            297        261.331
+            368    1.99428e+19            977        779.066
+            373    1.96754e+19           1328        1094.79
+            253    2.29027e+19         0.0034     0.00303322
+            253    8.58849e+18        0.00238     0.00217679
+            253    2.86283e+18        0.00139      0.0013241
+            253    8.58849e+17       0.000684    0.000667371
+            253    2.86283e+17       0.000271    0.000320184
+            258    2.24588e+19        0.00739      0.0067338
+            258    8.42205e+18          0.005     0.00477893
+            258    2.80735e+18        0.00304     0.00287208
+            258    8.42205e+17        0.00133     0.00143085
+            258    2.80735e+17       0.000631    0.000680482
+            266    2.17833e+19         0.0267      0.0225379
+            266    8.16876e+18         0.0155      0.0157163
+            266    2.72292e+18          0.011     0.00926945
+            266    8.16876e+17        0.00527     0.00453582
+            266    2.72292e+17        0.00214     0.00212828
+            272    2.66285e+18         0.0258       0.021221
+            272    7.98856e+17         0.0117      0.0102504
+            272    2.66285e+17        0.00538     0.00476334
 
 Finish Calculation of P-T case
 63 temperature/concentration-pressure points calculated.
 
-Chi^2 = 68.6814
+Chi^2 = 68.6961
 
 Best fit parameters:
 
-CH3OONO2:ZPE = -44.9418 +/- 0.0983695
-CH3OONO2:deltaEDown:N2 = 391.847 +/- 50.0491
-CH3OONO2:deltaEDownTExponent:N2 = -0.069424 +/- 0.668878
-R1:preExponential = 8.47746e-012 +/- 1.23097e-012
-R1:nInfinity = -0.820259 +/- 0.443625
+CH3OONO2:ZPE = -44.942 +/- 0.098383
+CH3OONO2:deltaEDown:N2 = 391.836 +/- 49.9173
+CH3OONO2:deltaEDownTExponent:N2 = -0.0693068 +/- 0.667897
+R1:preExponential = 8.47801e-12 +/- 1.23334e-12
+R1:nInfinity = -0.820094 +/- 0.443222
 
 Correlation coefficients:
 
-CH3OONO2:deltaEDown:N2 , CH3OONO2:ZPE = -0.108363
-CH3OONO2:deltaEDownTExponent:N2 , CH3OONO2:ZPE = -0.0703048
-CH3OONO2:deltaEDownTExponent:N2 , CH3OONO2:deltaEDown:N2 = -0.833663
-R1:preExponential , CH3OONO2:ZPE = 0.267861
-R1:preExponential , CH3OONO2:deltaEDown:N2 = 0.580678
-R1:preExponential , CH3OONO2:deltaEDownTExponent:N2 = -0.75619
-R1:nInfinity , CH3OONO2:ZPE = 0.148628
-R1:nInfinity , CH3OONO2:deltaEDown:N2 = 0.841585
-R1:nInfinity , CH3OONO2:deltaEDownTExponent:N2 = -0.903923
-R1:nInfinity , R1:preExponential = 0.918121
+CH3OONO2:deltaEDown:N2 , CH3OONO2:ZPE = -0.107633
+CH3OONO2:deltaEDownTExponent:N2 , CH3OONO2:ZPE = -0.0715957
+CH3OONO2:deltaEDownTExponent:N2 , CH3OONO2:deltaEDown:N2 = -0.83271
+R1:preExponential , CH3OONO2:ZPE = 0.268515
+R1:preExponential , CH3OONO2:deltaEDown:N2 = 0.581215
+R1:preExponential , CH3OONO2:deltaEDownTExponent:N2 = -0.757838
+R1:nInfinity , CH3OONO2:ZPE = 0.149806
+R1:nInfinity , CH3OONO2:deltaEDown:N2 = 0.841121
+R1:nInfinity , CH3OONO2:deltaEDownTExponent:N2 = -0.904208
+R1:nInfinity , R1:preExponential = 0.91871
 
 Goodness of Fit:
 
 Number of degrees of Freedom = 58
-Chi^2 probability = 0.159207
+Chi^2 probability = 0.158913
 
-Execute calcMethod ThermodynamicTable
-In N2: The default value of the attribute spinMultiplicity was used.
+
+--Execute calcMethod ThermodynamicTable
 In N2: The default value of me:DOSCMethod was used.
+In N2: The default value of the attribute spinMultiplicity was used.
 gDensityOfStates initialization failed.
-Energy convention "arbitrary" written to <moleculeList>
- -- Total time elapsed: 769 seconds.
+ -- Total time elapsed: 1037 seconds.
 
 System saved to mesmer_out.xml
+Total time elapsed: 1037 seconds.

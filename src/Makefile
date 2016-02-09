@@ -182,6 +182,7 @@ SRCS := \
 	plugins/DefinedStatesRotor.cpp \
 	plugins/DefinedSumOfStates.cpp \
 	plugins/EckartCoefficients.cpp \
+	plugins/ErrorPropagation.cpp \
 	plugins/ExponentialDown.cpp \
 	plugins/fitting.cpp \
 	plugins/FittingUtils.cpp \

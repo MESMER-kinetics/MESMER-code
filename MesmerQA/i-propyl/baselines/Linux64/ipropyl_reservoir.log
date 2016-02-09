@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Dec 15 2015 -- 11:53:31
+     Mesmer v4.1 compiled: -- Feb  8 2016 -- 18:05:50
 
-     Copyright (C) 2009-2015 by
+     Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -47,12 +47,11 @@ In propene: propene:ZPE was given a range with 401 steps
 In H: The default value of me:DOSCMethod was used.
 In H: The default value of the attribute spinMultiplicity was used.
 In R1: No tunneling method used for R1
-In R1: No crossing method used for R1
 The default value of the attribute precision was used.
 3e+17PPCC, 720K at d precision with He
 The default value of the attribute precision was used.
 3.01e+17PPCC, 730K at d precision with He
-Write metadata 20151215_121242
+Write metadata 20160208_181111
 
 File: "ipropyl_reservoir.xml" successfully parsed.
 Main Calculation begins
@@ -70,7 +69,7 @@ PT Grid 1
 Number of cells = 18700, Number of grains = 187
 Number of grains requested: 187
 In FastLaplaceConvolution: 100 values in the FFT convolution routine were replaced by standard convolution
-Build Collison Operator
+Build Collison Operator -- Time elapsed: 1 seconds.
 Diagonalize the Reaction Operator
 
     Temperature  Concentration    Exp. Coeff.    Cal. Coeff.

@@ -8,9 +8,9 @@
     \_/      |/      | \_/ \_/ |   V   | \_/ |  \ 
 
      Mesmer: Master Equation Solver for Multi-Energy well Reactions
-     Mesmer v5.0 compiled: -- Dec 15 2015 -- 11:53:31
+     Mesmer v4.1 compiled: -- Feb  8 2016 -- 18:05:50
 
-     Copyright (C) 2009-2015 by
+     Copyright (C) 2009-2016 by
      Struan H. Robertson, David R. Glowacki, Chi-Hsiu Liang,
      Chris Morley, Michael J. Pilling and contributors
 
@@ -47,10 +47,9 @@ In 1-pentyl=TS=2-pentyl: No imaginary vibrational frequency. Check if there is t
 The default value of me:DOSCMethod was used.
 In R1: --Parse data for SimpleRRKM
 In R1: No tunneling method used for R1
-In R1: No crossing method used for R1
 The default value of the attribute precision was used.
 1e+08PPCC, 500K at d precision with Ar
-Write metadata 20151215_121223
+Write metadata 20160208_181046
 
 File: "pentyl_isomerization_test.xml" successfully parsed.
 Main Calculation begins
