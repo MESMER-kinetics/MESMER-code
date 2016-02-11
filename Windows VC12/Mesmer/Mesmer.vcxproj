@@ -113,6 +113,7 @@
     <ClCompile Include="..\..\src\plugins\DefinedSumOfStates.cpp" />
     <ClCompile Include="..\..\src\plugins\DefinedTunnelingCoefficients.cpp" />
     <ClCompile Include="..\..\src\plugins\EckartCoefficients.cpp" />
+    <ClCompile Include="..\..\src\plugins\ErrorPropagation.cpp" />
     <ClCompile Include="..\..\src\plugins\ExponentialDown.cpp" />
     <ClCompile Include="..\..\src\plugins\fitting.cpp" />
     <ClCompile Include="..\..\src\plugins\FittingUtils.cpp" />
