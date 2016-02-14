@@ -1,3 +1,8 @@
+2016-February-14 Struan Robertson
+
+		* AnalyticalRepresentation.cpp: Inverted the max and min temperature ranges to be
+		consistent with Chemkin and Cantera formalism. 
+
 2016-February-08 Struan Robertson
 
 		* Documentation corrections.

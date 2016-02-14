@@ -218,12 +218,12 @@ namespace mesmer
 
 		vector<double> TGrid(m_NTpt);
 		for (size_t i(0); i < m_NTpt; ++i){
-			TGrid[i] = cos(((2.0*(i + 1.0)) - 1.0)*M_PI / (2.0 * double(m_NTpt)));
+			TGrid[i] = cos((2.0*i + 1.0)*M_PI / (2.0 * double(m_NTpt)));
 		}
 
 		vector<double> CGrid(m_NCpt);
 		for (size_t i(0); i < m_NCpt; ++i){
-			CGrid[i] = cos(((2.0*(i + 1.0)) - 1.0)*M_PI / (2.0 * double(m_NCpt)));
+			CGrid[i] = cos((2.0*i + 1.0)*M_PI / (2.0 * double(m_NCpt)));
 		}
 
 		set<string> bathGases;
@@ -238,7 +238,7 @@ namespace mesmer
 
 			// Create a grid of temperature and concentration (in ppcc) values.
 			// For temperature we must account for the fact that 1/Tmax < 1/Tmin.
-			vector<double> Temperature = Transform(TGrid, m_RpTMin, m_RpTMax);
+			vector<double> Temperature = Transform(TGrid, m_RpTMax, m_RpTMin);
 			for (size_t i(0); i < m_NTpt; ++i) {
 				Temperature[i] = 1.0 / Temperature[i];
 			}
