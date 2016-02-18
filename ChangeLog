@@ -1,3 +1,13 @@
+2016-February-18 Struan Robertson
+
+		* Constants.h: Altered standard pressure to one bar.
+		
+		* MesmerEnv.cpp: Altered default value of cell number to 50000.
+
+		* Documentation updates.
+		
+		* Baselines updates. 
+
 2016-February-14 Struan Robertson
 
 		* AnalyticalRepresentation.cpp: Inverted the max and min temperature ranges to be

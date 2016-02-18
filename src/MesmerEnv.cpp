@@ -8,7 +8,7 @@ namespace mesmer{
     GrainSize(0),
     CellSize(1.0),
     MaxGrn(0),
-    MaxCell(10000L), // Initialized to allow parsing of <me:Hf298>. Overridden for real calculation.
+    MaxCell(50000L), // Initialized to allow parsing of <me:Hf298>. Overridden for real calculation.
     MaximumTemperature(0.0),
     EMin(0.0),
     EMax(0.0),
